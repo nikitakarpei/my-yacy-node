@@ -1,0 +1,2338 @@
+{
+  "query": "what is the difference between http and https",
+  "recordedAt": "2026-09-12T00:25:20Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      },
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      },
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "the news moves fast\nThe Banned 2001 Fox News Segment Suggesting\nIsrael’s Mossad Is Involved In The 9/11 Attacks\nALL Candidates For House And Senate Should\nHave To Sign ‘Contract With America’\nCIA and FBI KNEW about the 9/11 terrorist\nattacks being prepared in the US\nTruth check - Trump makes",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 20,
+            "textWords": 85916
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 104,
+            "textWords": 85916
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 85916
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 1870,
+            "textWords": 85916
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 660,
+            "textWords": 85916
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 1012,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 24
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "what I wanted for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512",
+        "matchedWords": {
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "SiAo7OrF4fTS": {
+            "hits": 10,
+            "textWords": 8109
+          },
+          "XgVsUAocS2px": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "gHkbOucALLiM": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "j8Qsbd-ZZts7": {
+            "hits": 367,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "oqVRpkWKjeIk": {
+            "hits": 93,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.13.5 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.7 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "8.1. datetime — Basic date and time types — Python 3.6.5 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.6 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "snippet": "and mostly stayed in rural hotels on the way. I expected the internet in rural areas too sparse to have cable internet to be slow, but I was still surprised that a large fraction of the web was inaccessible. Some blogs with lightweight styling were readable, as were pages by academics who hadn’t",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 10,
+          "textWords": 4102
+        },
+        "XgVsUAocS2px": {
+          "hits": 5,
+          "textWords": 4102
+        },
+        "gHkbOucALLiM": {
+          "hits": 8,
+          "textWords": 4102
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 189,
+          "textWords": 4102
+        },
+        "lUVudQaoycBO": {
+          "hits": 3,
+          "textWords": 4102
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 46,
+          "textWords": 4102
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 67,
+          "textWords": 4102
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "gHkbOucALLiM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.14.0 documentation",
+      "snippet": "The datetime module supplies classes for manipulating dates and times.\nWhile date and time arithmetic is supported, the focus of the implementation is on efficient attribute extraction for output formatting and manipulation.\nTip\nSkip to the format codes.\nSee also\nModule calendar\nGeneral calendar",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 34,
+          "textWords": 13307
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "XgVsUAocS2px": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "gHkbOucALLiM": {
+          "hits": 1,
+          "textWords": 13307
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 645,
+          "textWords": 13307
+        },
+        "lUVudQaoycBO": {
+          "hits": 9,
+          "textWords": 13307
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 322,
+          "textWords": 13307
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 286,
+          "textWords": 13307
+        }
+      },
+      "queryPhraseHits": 31
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "snippet": "and is not actively updated. While it remains a good guide for using the core language, it does not cover significant changes to the language (generics), ecosystem (modules), or libraries added since. See issue 28782 for context. For a complete list of changes, see the release notes.\nIntroduction",
+      "matchedWords": {
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 14983
+        },
+        "SiAo7OrF4fTS": {
+          "hits": 16,
+          "textWords": 14983
+        },
+        "XgVsUAocS2px": {
+          "hits": 0,
+          "textWords": 14983
+        },
+        "gHkbOucALLiM": {
+          "hits": 38,
+          "textWords": 14983
+        },
+        "j8Qsbd-ZZts7": {
+          "hits": 1002,
+          "textWords": 14983
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 14983
+        },
+        "oqVRpkWKjeIk": {
+          "hits": 259,
+          "textWords": 14983
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 244,
+          "textWords": 14983
+        }
+      },
+      "queryPhraseHits": 18
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "KULEZq6YXE_i": 364368,
+    "SiAo7OrF4fTS": 775070,
+    "XgVsUAocS2px": 1051416,
+    "gHkbOucALLiM": 1087956,
+    "j8Qsbd-ZZts7": 114817,
+    "lUVudQaoycBO": 146956,
+    "oqVRpkWKjeIk": 44800,
+    "vl1dN1Qtdfk6": 78125
+  }
+}

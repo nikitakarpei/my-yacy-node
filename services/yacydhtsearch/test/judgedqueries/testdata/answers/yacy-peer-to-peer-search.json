@@ -1,7 +1,384 @@
 {
   "query": "yacy peer to peer search",
-  "recordedAt": "2026-09-11T22:14:23Z",
-  "itemsInTheOrderOfEachAnswer": [],
+  "recordedAt": "2026-09-12T00:21:01Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "TJnRLsc7o6d4",
+        "address": "https://yacy.space/submit-url.php",
+        "title": "Submit a URL to YaCy (Single Page)",
+        "snippet": "yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.\nThe local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 111
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 3,
+            "textWords": 111
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 2,
+            "textWords": 111
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 111
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "TJnRLsc7o6d4",
+        "address": "https://yacy.space/submit-url.php",
+        "title": "Submit a URL to YaCy (Single Page)",
+        "snippet": "yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.\nThe local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 111
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 3,
+            "textWords": 111
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 2,
+            "textWords": 111
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 111
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "TJnRLsc7o6d4",
+        "address": "https://yacy.space/submit-url.php",
+        "title": "Submit a URL to YaCy (Single Page)",
+        "snippet": "yacy.space peer and the decentralized YaCy search network.\nPage URL\nHow URL submission works\nyacy.space validates that the address resolves to a public HTTP or HTTPS page.\nThe local YaCy peer queues that exact URL with crawl depth zero, so linked pages are not automatically followed.\nAfter",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 111
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 3,
+            "textWords": 111
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 2,
+            "textWords": 111
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 111
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "cw0xkbg2aLVh",
+        "address": "https://community.searchlab.eu/",
+        "title": "Searchlab Community - Search Engine Technology Laboratory",
+        "snippet": "",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "pIBmMGNtuISD": {
+            "hits": 2,
+            "textWords": 724
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does DCS need a",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 162,
+            "textWords": 8109
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 19,
+            "textWords": 8109
+          },
+          "pIBmMGNtuISD": {
+            "hits": 0,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does DCS need a",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 162,
+            "textWords": 8109
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 19,
+            "textWords": 8109
+          },
+          "pIBmMGNtuISD": {
+            "hits": 0,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "dq1cqsc7o6d4",
+        "address": "https://yacy.space/",
+        "title": "YaCy Instances",
+        "snippet": "YaCy peer\nSearch globally through yacy.space. Results are fetched remotely; local-only mode is reserved for administration.\nSearch the decentralized web\nSafe search\nWeb searchImage search\nYaCy instancesSubmit a URLAdd YaCy to your browser\nRemote by default\nPublic searches use global federation,",
+        "matchedWords": {
+          "-P5otMTLoZfv": {
+            "hits": 2,
+            "textWords": 83
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 1,
+            "textWords": 83
+          },
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 83
+          },
+          "pIBmMGNtuISD": {
+            "hits": 6,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ]
+  ],
   "itemsInNoOrder": [
     {
       "hash": "AeOqws55Qxow",
@@ -29,29 +406,29 @@
       "queryPhraseHits": 3
     },
     {
-      "hash": "AeOqws55Qxow",
-      "address": "https://yacy.net/.",
-      "title": "Home - YaCy",
-      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
       "matchedWords": {
         "-P5otMTLoZfv": {
-          "hits": 6,
-          "textWords": 154
+          "hits": 12,
+          "textWords": 318
         },
         "AbbiA0S2iDXF": {
-          "hits": 5,
-          "textWords": 154
+          "hits": 11,
+          "textWords": 318
         },
         "BqlDxZ8zo0u1": {
-          "hits": 13,
-          "textWords": 154
+          "hits": 9,
+          "textWords": 318
         },
         "pIBmMGNtuISD": {
-          "hits": 7,
-          "textWords": 154
+          "hits": 19,
+          "textWords": 318
         }
       },
-      "queryPhraseHits": 3
+      "queryPhraseHits": 6
     },
     {
       "hash": "AeOqws55Qxow",
@@ -79,6 +456,31 @@
       "queryPhraseHits": 3
     },
     {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
@@ -102,12 +504,612 @@
         }
       },
       "queryPhraseHits": 3
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "VVkiYmS6MKD4",
+      "address": "https://github.com/pluja/awesome-privacy",
+      "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
+      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 14,
+          "textWords": 13433
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 344,
+          "textWords": 13433
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 12,
+          "textWords": 13433
+        },
+        "pIBmMGNtuISD": {
+          "hits": 1,
+          "textWords": 13433
+        }
+      },
+      "queryPhraseHits": 8
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines — SearXNG Documentation (2024.8.2+e76a4f72e)",
+      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2,
+          "textWords": 138
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 138
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines - SearXNG Documentation (2026.8.3+aa059419f)",
+      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2,
+          "textWords": 138
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 138
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines — SearXNG Documentation (2025.7.29+6b9e12e4c)",
+      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2,
+          "textWords": 138
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 138
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "VVkiYmS6MKD4",
+      "address": "https://github.com/pluja/awesome-privacy",
+      "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
+      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 14,
+          "textWords": 13433
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 344,
+          "textWords": 13433
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 12,
+          "textWords": 13433
+        },
+        "pIBmMGNtuISD": {
+          "hits": 1,
+          "textWords": 13433
+        }
+      },
+      "queryPhraseHits": 8
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines — SearXNG Documentation (2026.3.28+e58516daf)",
+      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2,
+          "textWords": 138
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 138
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "VVkiYmS6MKD4",
+      "address": "https://github.com/pluja/awesome-privacy",
+      "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
+      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 14,
+          "textWords": 13433
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 344,
+          "textWords": 13433
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 12,
+          "textWords": 13433
+        },
+        "pIBmMGNtuISD": {
+          "hits": 1,
+          "textWords": 13433
+        }
+      },
+      "queryPhraseHits": 8
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines - SearXNG Documentation (2026.7.12+c19d86faa)",
+      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2,
+          "textWords": 138
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 138
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines - SearXNG Documentation (2026.8.3+aa059419f)",
+      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2,
+          "textWords": 138
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 138
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nChoose how you want to use YaCy\nRun YaCy locally, build a search portal for your organization, or join the",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 154
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 154
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 13,
+          "textWords": 154
+        },
+        "pIBmMGNtuISD": {
+          "hits": 7,
+          "textWords": 154
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "snippet": "YaCy Demonstration\nSee what YaCy looks like in practice: search results, crawling, configuration, monitoring, and a public demo instance.\nTry Demo Download YaCy\nScreenshots\nThe screenshots below follow the main YaCy workflows: search, crawl, analyze, configure, and monitor the peer-to-peer network.",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 12,
+          "textWords": 318
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 11,
+          "textWords": 318
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 9,
+          "textWords": 318
+        },
+        "pIBmMGNtuISD": {
+          "hits": 19,
+          "textWords": 318
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines - SearXNG Documentation (2026.8.4+c63835bd2)",
+      "snippet": "to top Peertube Video¶\nPeertube and SepiaSearch do share (more or less) the same REST API and the schema of the JSON result is identical.\nsearx.engines.peertube.base_url = 'https://peer.tube'¶\nBase URL of the Peertube instance. A list of instances is available at:",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2,
+          "textWords": 138
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 138
+        },
+        "pIBmMGNtuISD": {
+          "hits": 0,
+          "textWords": 138
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VVkiYmS6MKD4",
+      "address": "https://github.com/pluja/awesome-privacy",
+      "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS. · GitHub",
+      "snippet": "to privative services.\nAbout | Contributing | Quotes | Discussions\nImportant\nAnonymity, Privacy, and Security are often used interchangeably, but they actually represent distinct concepts. It is important to understand the differences between them. Read more in this section below.\nThe primary focus",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 14,
+          "textWords": 13433
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 344,
+          "textWords": 13433
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 12,
+          "textWords": 13433
+        },
+        "pIBmMGNtuISD": {
+          "hits": 1,
+          "textWords": 13433
+        }
+      },
+      "queryPhraseHits": 8
     }
   ],
   "documentsHeldPerQueryWord": {
-    "-P5otMTLoZfv": 38226,
-    "AbbiA0S2iDXF": 69016,
-    "BqlDxZ8zo0u1": 1174738,
-    "pIBmMGNtuISD": 9672
+    "-P5otMTLoZfv": 157821,
+    "AbbiA0S2iDXF": 1395163,
+    "BqlDxZ8zo0u1": 1421579,
+    "pIBmMGNtuISD": 16132
   }
 }

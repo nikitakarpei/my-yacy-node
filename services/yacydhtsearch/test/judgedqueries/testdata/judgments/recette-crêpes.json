@@ -2,6 +2,282 @@
   "query": "recette crêpes",
   "judgedDocuments": [
     {
+      "hash": "05P_mCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/nems-crevettes-221206-5867",
+      "title": "Nems aux crevettes faciles",
+      "grade": 0
+    },
+    {
+      "hash": "PDErLCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ingredients/beurre-0",
+      "title": "Beurre recettes traditionnelles : sublimez vos plats",
+      "grade": 1
+    },
+    {
+      "hash": "9_VEXsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/nutrition",
+      "title": "Conseils diététiques et astuces pour bien manger",
+      "grade": 0
+    },
+    {
+      "hash": "l8sIEloySBog",
+      "address": "https://www.tf1info.fr/nutrition/",
+      "title": "Actualités Dans mon assiette : l'info en direct | TF1 INFO",
+      "grade": 0
+    },
+    {
+      "hash": "12oGL2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/gainage",
+      "title": "Gainage",
+      "grade": 0
+    },
+    {
+      "hash": "Lg_KaCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/pate-crepes-sucree-171000-198865",
+      "title": "Pâte à crêpes sucrée facile et rapide",
+      "grade": 2
+    },
+    {
+      "hash": "UDv4zCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ingredients/huitre-0",
+      "title": "Huître recettes traditionnelles : sublimez vos plats",
+      "grade": 0
+    },
+    {
+      "hash": "xe5-a3ipqV44",
+      "address": "https://www.la-croix.com/art-de-vivre/idee-recette-cuisine-facile-rapide-menu-repas",
+      "title": "Idées de recettes de cuisine faciles et rapides à faire",
+      "grade": 1
+    },
+    {
+      "hash": "Wk2hT2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/judi-dench",
+      "title": "Judi Dench",
+      "grade": 0
+    },
+    {
+      "hash": "tk0fmCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ingredients/encornet",
+      "title": "Encornet recettes traditionnelles : sublimez vos plats",
+      "grade": 0
+    },
+    {
+      "hash": "K2WdICKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ceviche-de-bar-a-la-forestiere-20230503",
+      "title": "Ceviche de bar à la forestière",
+      "grade": 0
+    },
+    {
+      "hash": "etgHsCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ingredients/ble",
+      "title": "Blé recettes traditionnelles : sublimez vos plats",
+      "grade": 0
+    },
+    {
+      "hash": "Ss7MJ2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/amanda-seyfried",
+      "title": "Amanda Seyfried",
+      "grade": 0
+    },
+    {
+      "hash": "pRl9CHqMmHqh",
+      "address": "https://www.lindependant.fr/articles/2019/01/31/",
+      "title": "Articles du 31/01/2019 - lindependant.fr",
+      "grade": 1
+    },
+    {
+      "hash": "DHdLtCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/terrine-de-foie-gras-de-canard-au-vin-des-dieux-20221212",
+      "title": "Terrine de foie gras de canard au vin des dieux",
+      "grade": 0
+    },
+    {
+      "hash": "XdkO_mKCIhSg",
+      "address": "https://madame.lefigaro.fr/le-petit-club/madamelove-tentez-de-gagner-une-bague-tityaravy-20240208",
+      "title": "#MadameLove : tentez de gagner une bague Tityaravy",
+      "grade": 0
+    },
+    {
+      "hash": "l7WpW2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
+      "title": "Meghan Markle",
+      "grade": 0
+    },
+    {
+      "hash": "ntMeYdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/jennifer-lawrence-muse-de-hollywood-151113-630012",
+      "title": "Jennifer Lawrence, la muse de Hollywood",
+      "grade": 0
+    },
+    {
+      "hash": "AGn43dKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/soirees/nicolas-mathieu-rima-abdul-malak-anne-berest-en-photos-le-diner-des-primo-romanciers-2023-du-cnl-20231120",
+      "title": "Nicolas Mathieu, Rima Abdul-Malak, Anne Berest... En photos, le dîner des primo-romanciers 2023 du Centre national du livre (CNL)",
+      "grade": 0
+    },
+    {
+      "hash": "B7jLHCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-sur-tarte-fine-261111-186543",
+      "title": "Carpaccio de Saint-Jacques sur tarte fine",
+      "grade": 0
+    },
+    {
+      "hash": "B-xbKYKCIhSg",
+      "address": "https://madame.lefigaro.fr/cuisine/le-tour-de-france-gourmand-de-plats-regionaux-en-boissons-typique-290617-133046",
+      "title": "Tour de France gourmand : une région, une spécialité",
+      "grade": 0
+    },
+    {
+      "hash": "CMWLQCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-curry-240101-200348",
+      "title": "Coquilles Saint-Jacques au curry",
+      "grade": 0
+    },
+    {
+      "hash": "DgVdfmKCIhSg",
+      "address": "https://madame.lefigaro.fr/le-petit-club/le-grand-palais-rouvre-ses-portes-pour-art-basel-paris-participez-a-une-visite-exclusive-20240925",
+      "title": "Plus que quelques jours pour réserver votre Visite Exclusive avec Madame Figaro !",
+      "grade": 0
+    },
+    {
+      "hash": "EVF3ImKCIhSg",
+      "address": "https://madame.lefigaro.fr/le-petit-club/cinq-mondes-vous-offre-son-onguent-de-jeunesse-pour-hydrater-votre-peau-et-prevenir-les-rides-de-deshydratation-20231211",
+      "title": "Dernière surprise de l'année : un soin révolutionnaire Cinq Mondes à gagner",
+      "grade": 0
+    },
+    {
+      "hash": "FQPmQiKCIhSg",
+      "address": "https://madame.lefigaro.fr/deco-design/fauteuil-doudou-le-nouveau-cool-20250413",
+      "title": "Fauteuil doudou : on fond pour les formes rondes et enveloppantes, dehors comme dedans",
+      "grade": 0
+    },
+    {
+      "hash": "FokeUdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/en-photos-la-soiree-de-recompenses-du-grand-prix-de-l-heroine-madame-figaro-2025-20250613",
+      "title": "En photos : la soirée de récompenses du Grand Prix de l’Héroïne Madame Figaro 2025",
+      "grade": 0
+    },
+    {
+      "hash": "GuOBHCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/tatin-de-saint-jacques-deric-guerin-151213-634624",
+      "title": "Tatin de Saint-Jacques",
+      "grade": 0
+    },
+    {
+      "hash": "KtqtjCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-mandarine-210807-6606",
+      "title": "Carpaccio de Saint-Jacques à la mandarine",
+      "grade": 0
+    },
+    {
+      "hash": "MukKRCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/carpaccio-de-saint-jacques-jus-de-mangue-epices-281211-207011",
+      "title": "Carpaccio de Saint-Jacques au jus de mangue et épices",
+      "grade": 0
+    },
+    {
+      "hash": "SoZ9oCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ravioles-de-saint-jacques-030107-6060",
+      "title": "Ravioles de Saint-Jacques",
+      "grade": 0
+    },
+    {
+      "hash": "S9VUp2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/francois-henri-pinault",
+      "title": "François-Henri Pinault",
+      "grade": 0
+    },
+    {
+      "hash": "Vy07QdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/retour-sur-une-soiree-exceptionnelle-autour-du-droit-des-femmes-171121-199177",
+      "title": "Retour sur une soirée exceptionnelle autour du droit des femmes",
+      "grade": 0
+    },
+    {
+      "hash": "XCaFRmKCIhSg",
+      "address": "https://madame.lefigaro.fr/le-petit-club/devenez-juree-du-prix-des-lectrices-feel-good-madame-figaro-2024-20240723",
+      "title": "Devenez jurée du Prix des lectrices Feel Good Madame Figaro 2024",
+      "grade": 0
+    },
+    {
+      "hash": "YfylidKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/culture/quelles-sont-les-images-qui-nous-ont-marques-lors-de-la-premiere-semaine-des-rencontres-photographiques-d-arles-20260813",
+      "title": "Quelles sont les images qui nous ont marqués lors de la première semaine des Rencontres photographiques d’Arles ?",
+      "grade": 0
+    },
+    {
+      "hash": "ZJyIlCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/gratin-dhuitres-saint-jacques-magret-fume-170609-202186",
+      "title": "Gratin d'huîtres et Saint-Jacques au magret fumé",
+      "grade": 0
+    },
+    {
+      "hash": "0e61_dKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/meghan-markle-pourrait-faire-son-retour-en-tant-qu-actrice-dans-une-serie-d-action-sur-netflix-20260822",
+      "title": "Meghan Markle pourrait faire son retour en tant qu’actrice dans une série d’action sur Netflix",
+      "grade": 0
+    },
+    {
+      "hash": "6ZpNwCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-au-the-fume-111210-112190",
+      "title": "Coquilles Saint-Jacques au thé fumé",
+      "grade": 0
+    },
+    {
+      "hash": "6l4R4mKCIhSg",
+      "address": "https://madame.lefigaro.fr/le-petit-club/mid-season-sale-la-veste-en-cuir-claudie-pierlot-le-bestseller-de-la-marque-est-remisee-20240517",
+      "title": "Mid Season Sale : La veste en cuir Claudie Pierlot, le bestseller de la marque, est remisée",
+      "grade": 0
+    },
+    {
+      "hash": "6p8FNCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/saint-jacques-lemulsion-de-mache-030107-6064",
+      "title": "Saint-Jacques à l'émulsion de mâche",
+      "grade": 0
+    },
+    {
+      "hash": "6s-3imKCIhSg",
+      "address": "https://madame.lefigaro.fr/le-petit-club/deux-attentions-beaute-a-decouvrir-avec-votre-nouveau-numero-madame-figaro-20260529",
+      "title": "Deux attentions beauté à découvrir avec votre nouveau numéro Madame Figaro",
+      "grade": 0
+    },
+    {
+      "hash": "8qCPUCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/coquilles-saint-jacques-gratinees-four-260808-200824",
+      "title": "Coquilles Saint-Jacques gratinées au four",
+      "grade": 0
+    },
+    {
+      "hash": "-uC6FdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/soirees/happy-mandarin-oriental-lutetia-20251217",
+      "title": "Les 115 ans du Mandarin Oriental Lutetia : une nuit rive gauche avec les stars de l’art et du cinéma",
+      "grade": 0
+    },
+    {
+      "hash": "Zj6fIsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/comment-muscler-et-dessiner-ses-bras-sans-poids-ni-halteres-20220426",
+      "title": "Comment muscler et dessiner ses bras sans poids ni haltères",
+      "grade": 0
+    },
+    {
+      "hash": "ThzD9lzvQPgh",
+      "address": "https://www.radiofrance.fr/",
+      "title": "Radio France | Écoutez en ligne vos radios",
+      "grade": 0
+    },
+    {
+      "hash": "JbsvwdKCIhSg",
+      "address": "https://madame.lefigaro.fr/celebrites/actu-people/ian-wace-ce-mysterieux-milliardaire-qui-aurait-aide-meghan-markle-et-le-prince-harry-a-financer-leur-demenagement-au-royaume-uni-20260829",
+      "title": "Ian Wace, ce mystérieux milliardaire qui aurait aidé Meghan Markle et le prince Harry à financer leur déménagement au Royaume-Uni",
+      "grade": 0
+    },
+    {
+      "hash": "smyaiTKCIhSg",
+      "address": "https://madame.lefigaro.fr/",
+      "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
+      "grade": 0
+    },
+    {
       "hash": "Sw5E4jKCIhSg",
       "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
       "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
@@ -11,6 +287,18 @@
       "hash": "16j4fTKCIhSg",
       "address": "https://madame.lefigaro.fr/style",
       "title": "Les Tendances de la mode au féminin et défilés",
+      "grade": 0
+    },
+    {
+      "hash": "A6PjT2KCIhSg",
+      "address": "https://madame.lefigaro.fr/tag/brigitte-macron",
+      "title": "Brigitte Macron : Dernières infos et biographie",
+      "grade": 0
+    },
+    {
+      "hash": "Bn6FoTKCIhSg",
+      "address": "https://madame.lefigaro.fr/mariage",
+      "title": "Guide du mariage : tout pour un mariage de rêve",
       "grade": 0
     }
   ]

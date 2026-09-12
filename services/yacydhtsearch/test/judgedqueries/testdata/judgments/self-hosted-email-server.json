@@ -2,15 +2,249 @@
   "query": "self hosted email server",
   "judgedDocuments": [
     {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "hash": "9Gfi7KsrSOQw",
+      "address": "https://arxiv.org/list/cs/new",
+      "title": "Computer Science",
+      "grade": 0
+    },
+    {
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
+      "grade": 0
+    },
+    {
+      "hash": "nxDmxsVAXty7",
+      "address": "https://trendingpoliticsnews.com/sitemap/",
+      "title": "Sitemap",
+      "grade": 0
+    },
+    {
+      "hash": "5VLLBs6GdY-4",
+      "address": "https://danluu.com/hn-comments/",
+      "title": "HN: comments are underrated",
+      "grade": 0
+    },
+    {
+      "hash": "Ppfmwa4tY0i5",
+      "address": "https://talukadapoli.com/travel/listing/aadimaa/",
+      "title": "Aadimaa - Taluka Dapoli Travel",
+      "grade": 0
+    },
+    {
+      "hash": "yJuijsCG40j4",
+      "address": "https://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "grade": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "grade": 0
+    },
+    {
+      "hash": "9PdxLzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/legal/modern-slavery-act-transparency-statement/",
+      "title": "GitLab's Modern Slavery Act Transparency Statement | The GitLab Handbook",
       "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "YZDSAsdTeyA4",
+      "address": "https://github.blog/changelog/",
+      "title": "GitHub Changelog",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "grade": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": 0
+    },
+    {
+      "hash": "xIkDby3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
+      "title": "Domains - OVHcloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "zPdIps8BaC94",
+      "address": "https://brave.com/podcast/",
+      "title": "The Brave Technologist | Brave",
+      "grade": 0
+    },
+    {
+      "hash": "2BUdOKKwilRR",
+      "address": "http://microformats.org/wiki/microformats2",
+      "title": "microformats2 - Microformats Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "f0SNutRe8955",
+      "address": "https://blog.krtraining.com/",
+      "title": "Notes from KR - this time, it's personal",
+      "grade": 0
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "grade": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "IF33ltWGQgu4",
+      "address": "https://nymag.com/newyork/privacy.html",
+      "title": "New York Media Privacy Notice",
+      "grade": 0
+    },
+    {
+      "hash": "qqIgmqWU7_zx",
+      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "jh1R77XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc6125/",
+      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
+      "grade": 0
+    },
+    {
+      "hash": "2MFHBtYEKFwx",
+      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
+      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+      "grade": 0
+    },
+    {
+      "hash": "azENEsgbSIuz",
+      "address": "https://geoengineeringwatch.org/flaming-arrow-package/",
+      "title": "Climate Engineering Introduction Letter - Geoengineering Watch",
+      "grade": 0
+    },
+    {
+      "hash": "cbaVasmZ_3U4",
+      "address": "https://discord.com/safety-news",
+      "title": "Safety News Hub | Discord",
+      "grade": 0
+    },
+    {
+      "hash": "5yRkjupSnYMg",
+      "address": "https://www.medom.pl/meble/apartamenty/medom-apartament-01-2/",
+      "title": "Medom - Producent mebli Kuchennych - Medom - Kuchnie i Wnętrza",
+      "grade": 0
+    },
+    {
+      "hash": "ClTOilptNsG4",
+      "address": "https://www.akdart.com/obama11.html",
+      "title": "The Obama Presidency : Narcissism and Bad Decisions",
+      "grade": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "FMD4sitD2jQw",
+      "address": "https://docs.python.org/3/library/typing.html",
+      "title": "26.1. typing — Support for type hints \u0026mdash; Python 3.5.0 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "Commons:Village pump - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "8CJLrjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+      "grade": 0
+    },
+    {
+      "hash": "bvZ6nIG-ATF4",
+      "address": "https://podcasts.apple.com/bs/new",
+      "title": "Apple Podcasts (BS) - Web Player",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
       "grade": 0
     }
   ]

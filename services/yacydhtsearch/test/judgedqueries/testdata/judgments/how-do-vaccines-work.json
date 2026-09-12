@@ -1,0 +1,275 @@
+{
+  "query": "how do vaccines work",
+  "judgedDocuments": [
+    {
+      "hash": "wlOjtE1ze3b4",
+      "address": "https://patient.info/travel-and-vaccinations/india",
+      "title": "Travel health advice for India – vaccines and risks",
+      "grade": 1
+    },
+    {
+      "hash": "CCo19JDZkUL4",
+      "address": "https://www.cnet.com/science/coronavirus-timeline-how-the-disease-spread-across-the-globe-december-2019-into-march-2020/",
+      "title": "Coronavirus timeline: How the disease spread across the globe from Dec. 2019 into March 2020 - CNET",
+      "grade": 0
+    },
+    {
+      "hash": "ERrwMBjtJZH4",
+      "address": "https://news.gallup.com/poll/648308/far-fewer-regard-childhood-vaccinations-important.aspx",
+      "title": "Far Fewer in U.S. Regard Childhood Vaccinations as Important",
+      "grade": 1
+    },
+    {
+      "hash": "WXBfWE1ze3b4",
+      "address": "https://patient.info/travel-and-vaccinations/egypt",
+      "title": "Travel health advice for Egypt – vaccines and risks",
+      "grade": 1
+    },
+    {
+      "hash": "giQQfl1ze3b4",
+      "address": "https://patient.info/features/oral-dental-care/how-long-mouth-ulcer-heal",
+      "title": "How long do mouth ulcers take to heal?",
+      "grade": 0
+    },
+    {
+      "hash": "FczEQQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate-change-mind.shtml",
+      "title": "what-if-man-made-climate-change-is-all-in-the-mind-daily-stirrer-dailystirrer",
+      "grade": 1
+    },
+    {
+      "hash": "FVqhobiOAOJ5",
+      "address": "https://community.whattoexpect.com/forums/",
+      "title": "Pregnancy, Parenting and Baby Community \u0026 Forums",
+      "grade": 0
+    },
+    {
+      "hash": "OofqGpwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/2021/04/11/study-reveals-mrna-covid-vaccines-link-to-prion-disease-brain-degeneration/",
+      "title": "Study Reveals mRNA COVID Vaccines Link To Prion Disease \u0026 Brain Degeneration | The Original Boggart Blog",
+      "grade": 1
+    },
+    {
+      "hash": "qIsFZO05rw04",
+      "address": "https://www.unz.com/book/john_beaty__the-iron-curtain-over-america/",
+      "title": "THE IRON CURTAIN OVER AMERICA, by John Beaty - The Unz Review",
+      "grade": 0
+    },
+    {
+      "hash": "2UwcpQZchFfZ",
+      "address": "http://www.greenteethmm.com/vaccine-outbreak.shtml",
+      "title": "measles-outbreak-traced-to-fully-vaccinated-patient-for-first-time-vaccine-big-pharma-doctors-propaganda-health-news",
+      "grade": 0
+    },
+    {
+      "hash": "-59VQsKlvN85",
+      "address": "https://arstechnica.com/ai/",
+      "title": "Category: AI - Ars Technica",
+      "grade": 0
+    },
+    {
+      "hash": "D5Sm4fpyxNCY",
+      "address": "http://dailymessenger.blogspot.com/2018/07/nasa-space-walks-use-fake-scuba-diving.html",
+      "title": "The Daily Messenger: NASA Space Walks Use Fake Scuba Diving AstroNOTS",
+      "grade": 0
+    },
+    {
+      "hash": "HU-zHUHrhW15",
+      "address": "https://www.whattoexpect.com/first-year/child-immunizations/",
+      "title": "Infant and Childhood Vaccines: List and Schedule by Age",
+      "grade": 1
+    },
+    {
+      "hash": "q_yYI2WPPAm6",
+      "address": "https://kirschsubstack.com/p/new-study-shows-vaccines-must-be",
+      "title": "New studies show that the COVID vaccines damage your immune system, likely permanently",
+      "grade": 1
+    },
+    {
+      "hash": "71ZHN6DuT774",
+      "address": "https://edbutt.blogspot.com/2024/09/governments-are-still-lying-about.html",
+      "title": "Boggart Abroad: Governments are still lying about the deaths and serious health problems caused by COVID vaccines",
+      "grade": 1
+    },
+    {
+      "hash": "THPLFiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
+      "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "5jQJLQZchFfZ",
+      "address": "http://www.greenteethmm.com/immigration-boat-people.shtml",
+      "title": "how-does-europe-deal-with-the mediterranean-migrant-boat-people-crisis-news-daily-stirrer",
+      "grade": 0
+    },
+    {
+      "hash": "CpKCjE1ze3b4",
+      "address": "https://patient.info/travel-and-vaccinations/japan",
+      "title": "Travel health advice for Japan – vaccines and risks",
+      "grade": 1
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": 1
+    },
+    {
+      "hash": "8o94QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Patent",
+      "title": "Patent - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "a-z2eQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
+      "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
+      "grade": 0
+    },
+    {
+      "hash": "V97ecqwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/tag/death/",
+      "title": "death | The Original Boggart Blog",
+      "grade": 0
+    },
+    {
+      "hash": "w4BkfQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-july.shtml",
+      "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
+      "grade": 1
+    },
+    {
+      "hash": "bdKA42Tv_Dj5",
+      "address": "https://university.careers360.com/exams/cpget",
+      "title": "TS CPGET Exam 2026: Counselling (Soon), Cutoff, Result (Out) \u0026 Latest Updates",
+      "grade": 0
+    },
+    {
+      "hash": "1RtzzzT6fUdA",
+      "address": "http://www.greenteethmm.co.uk/age-timebomb.shtml",
+      "title": "life-expectancy-increases-by-44-days-health-science-age-ageing-longevity",
+      "grade": 0
+    },
+    {
+      "hash": "5DGFbQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-december.shtml",
+      "title": "dailystirrer-2021-december-news-comment-opinion-controversy-contrarianism",
+      "grade": 0
+    },
+    {
+      "hash": "DuszJs0aIdT4",
+      "address": "https://garynull.com/do-vaccines-cause-autism/",
+      "title": "Do Vaccines Cause Autism? - GaryNull.com",
+      "grade": 1
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "-NlS_sVUrQm6",
+      "address": "https://earthnewspaper.com/Music/",
+      "title": "Featured Music – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "U6C1vQZchFfZ",
+      "address": "http://www.greenteethmm.com/syria-index.shtml",
+      "title": "syria-conflict-all-our-posts-on-syria-kurdistan-and-regional-conflict",
+      "grade": 0
+    },
+    {
+      "hash": "I5RxgQZchFfZ",
+      "address": "http://www.greenteethmm.com/facebook-evil-empire.shtml",
+      "title": "facebook-evil-empire-fourth-reigh-privacy-data-internet-security",
+      "grade": 1
+    },
+    {
+      "hash": "ot2p7qwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/tag/usa/",
+      "title": "usa | The Original Boggart Blog",
+      "grade": 0
+    },
+    {
+      "hash": "-d63GQZchFfZ",
+      "address": "http://www.greenteethmm.com/science-time-disapppearing.shtml",
+      "title": "science-time-disappearing-from-our-universe",
+      "grade": 0
+    },
+    {
+      "hash": "KIwbxzT6fUdA",
+      "address": "http://www.greenteethmm.co.uk/jobs-employment.shtml",
+      "title": "jobs-work-employment-menu-daily-stirrer-dailystirrrer-greenteethmm-greenteethmm",
+      "grade": 1
+    },
+    {
+      "hash": "89Pocs6GdY-4",
+      "address": "https://danluu.com/diseconomies-scale/",
+      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
+      "grade": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": 0
+    },
+    {
+      "hash": "Q4SEOs3rpWVz",
+      "address": "https://inconvenienttruths.net/",
+      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
+      "grade": 1
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "grade": 1
+    },
+    {
+      "hash": "z0zNUs709vxy",
+      "address": "https://plutocracycartel.net/",
+      "title": "PLUTOCRACY CARTEL - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, FINANCIAL ELITE, DYNASTIC ELITE, DRUG TRAFFICKING, MONEY LAUNDERING, GLOBALISM, DEEP STATE, CORPORATOCRACY,",
+      "grade": 0
+    },
+    {
+      "hash": "r5LmqFDuT774",
+      "address": "https://edbutt.blogspot.com/",
+      "title": "Boggart Abroad",
+      "grade": 1
+    },
+    {
+      "hash": "BiYCIWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=392880%3Futm_source=akdart",
+      "title": "The Morning Report — 9/ 2 /26Daily Tech News 2 September 2026Tuesday Overnight Open Thread - September 1, 2026Cats \u0026 Dogs CafeIranian-Descended Loudmouth Communist Moron Mark",
+      "grade": 0
+    },
+    {
+      "hash": "vR1W9jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/London",
+      "title": "London - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Tm8vbiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
+      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "AWq9VQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-october.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "grade": 0
+    },
+    {
+      "hash": "ELIe2QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-may.shtml",
+      "title": "2021",
+      "grade": 0
+    }
+  ]
+}

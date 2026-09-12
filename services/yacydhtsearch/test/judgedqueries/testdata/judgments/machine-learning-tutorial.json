@@ -2,75 +2,93 @@
   "query": "machine learning tutorial",
   "judgedDocuments": [
     {
-      "hash": "A3q5IzS6MKD4",
-      "address": "https://github.com/topics/python",
-      "title": "python · GitHub Topics · GitHub",
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
       "grade": 0
     },
     {
-      "hash": "UBNlzsYlAY74",
-      "address": "https://ubuntu.com/navigation",
-      "title": "Navigation | Ubuntu",
-      "grade": 0
-    },
-    {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal",
-      "grade": 0
-    },
-    {
-      "hash": "DKApesRMLT-5",
-      "address": "https://canonical.com/careers",
-      "title": "Canonical Careers",
-      "grade": 0
-    },
-    {
-      "hash": "Bq57jjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/BASIC",
-      "title": "BASIC - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Ce2W90S6MKD4",
-      "address": "https://github.com/resources/articles/what-is-vibe-coding",
-      "title": "What Is Vibe Coding? · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "CcQGBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Unix",
-      "title": "Unix - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "grade": 0
-    },
-    {
-      "hash": "SXE97sI0z6T7",
-      "address": "https://towardsdatascience.com/",
-      "title": "Towards Data Science",
+      "hash": "Poobl5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/machine-learning/",
+      "title": "Azure Machine Learning - ML as a Service | Microsoft Azure",
       "grade": 1
     },
     {
-      "hash": "H6Zz4sS6MKD4",
-      "address": "https://github.com/trending",
-      "title": "Trending repositories on GitHub today · GitHub",
+      "hash": "z052jDmBOjBY",
+      "address": "http://alfin2100.blogspot.com/",
+      "title": "Al Fin",
+      "grade": 0
+    },
+    {
+      "hash": "hIjKNwgOlJX5",
+      "address": "https://www.codecademy.com/article/nano-banana-pro-tutorial",
+      "title": "Nano Banana Pro Tutorial: Create \u0026 Edit Images | Codecademy",
+      "grade": 0
+    },
+    {
+      "hash": "lfLZNsHRh3Y6",
+      "address": "https://texasgirlreads.com/",
+      "title": "texasgirlreadscom",
+      "grade": 0
+    },
+    {
+      "hash": "VWPgq5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/machine-learning",
+      "title": "Azure Machine Learning - ML as a Service | Microsoft Azure",
+      "grade": 1
+    },
+    {
+      "hash": "ordCau2QeiUy",
+      "address": "https://www.geeksforgeeks.org/machine-learning/ai-ml-and-data-science-tutorial-learn-ai-ml-and-data-science/",
+      "title": "AI, ML and Data Science Tutorial - GeeksforGeeks",
+      "grade": 2
+    },
+    {
+      "hash": "uy06Jl8bqxA4",
+      "address": "https://www.sparkfun.com/sparkfun-micromod-machine-learning-carrier-board.html",
+      "title": "SparkFun MicroMod Machine Learning Carrier Board - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "3iXGeD52F4m7",
+      "address": "https://industrialmonitordirect.com/blogs/knowledgebase/honeywell-dcs-training-resources-and-learning-path-guide",
+      "title": "Honeywell DCS Training Resources and Learning Path Guide – Industrial Monitor Direct",
+      "grade": 0
+    },
+    {
+      "hash": "9bqIip2QeiUy",
+      "address": "https://www.geeksforgeeks.org/gate/gate-exam-tutorial/",
+      "title": "GATE Exam Tutorial - GeeksforGeeks",
+      "grade": 0
+    },
+    {
+      "hash": "CsepD3S6MKD4",
+      "address": "https://github.com/ChristosChristofidis/awesome-deep-learning",
+      "title": "GitHub - ChristosChristofidis/awesome-deep-learning: A curated list of awesome Deep Learning tutorials, projects and communities.",
+      "grade": 2
+    },
+    {
+      "hash": "vk6Af49Ojva4",
+      "address": "https://docs.docker.com/build/policies/intro/",
+      "title": "Introduction to build policies | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "1Nn18Q3MeyZ4",
+      "address": "https://www0.assets.heroku.com/python/",
+      "title": "Deploy and Scale Python \u0026 Django in the Cloud | Heroku",
+      "grade": 0
+    },
+    {
+      "hash": "XaMn12Q2YKr4",
+      "address": "https://grafana.com/docs/writers-toolkit/structure/topic-types/tutorial/",
+      "title": "Tutorial topic | Writers' Toolkit documentation",
+      "grade": 0
+    },
+    {
+      "hash": "8ytWdoBB0JD5",
+      "address": "https://siloandsage.com/2011/03/14/maternity-pants-tutorial/",
+      "title": "Maternity Pants Tutorial - Silo \u0026 Sage",
       "grade": 0
     },
     {
@@ -80,52 +98,94 @@
       "grade": 0
     },
     {
-      "hash": "Fu_x-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
-      "title": "Outline of the JavaScript programming language - Wikipedia",
+      "hash": "yt8oeB5Bil5y",
+      "address": "https://patshaughnessy.net/2009/8/23/tutorial-how-to-write-a-rails-generator",
+      "title": "Tutorial: How to write a Rails generator - Pat Shaughnessy",
       "grade": 0
     },
     {
-      "hash": "EYCuSddTeyA4",
-      "address": "https://github.blog/developer-skills/github/",
-      "title": "Improve how you use GitHub at work - The GitHub Blog",
+      "hash": "1NslGKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/python/tutorial-fastapi",
+      "title": "Python and FastAPI tutorial in Visual Studio Code",
       "grade": 0
     },
     {
-      "hash": "FIRH00oB9UFw",
-      "address": "https://docs-archive.freebsd.org/44doc/",
-      "title": "4.4BSD Documents",
+      "hash": "6Kcbls6GdY-4",
+      "address": "https://danluu.com/metrics-analytics/",
+      "title": "A simple way to get more value from metrics",
       "grade": 0
     },
     {
-      "hash": "JPvmes1_lPN6",
-      "address": "https://dasilvaboards.com/",
-      "title": "dasilvaboards -",
+      "hash": "UBNlzsYlAY74",
+      "address": "https://ubuntu.com/navigation",
+      "title": "Navigation | Ubuntu",
       "grade": 0
     },
     {
-      "hash": "ao4Jts5jvZx6",
-      "address": "https://badlydrawntoy.com/",
-      "title": "badlydrawntoy -",
+      "hash": "2dQPwsnHFMh6",
+      "address": "https://lustforlovefilm.com/",
+      "title": "Lustforlovefilm.com -",
       "grade": 0
     },
     {
-      "hash": "YA5jls9w8XV5",
-      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
-      "title": "Front-End Development: The Complete Guide",
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
       "grade": 0
     },
     {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
+      "hash": "qVnLHGgPoROy",
+      "address": "https://www.simonsfoundation.org/flatiron/center-for-computational-astrophysics/machine-learning-x-astrophysics/",
+      "title": "Machine Learning X Astrophysics",
+      "grade": 1
+    },
+    {
+      "hash": "kmD2akndz9ox",
+      "address": "https://www.cambridge.org/core/journals/cambridge-materials-circularity/article/extending-graphbased-lattice-kinetic-monte-carlo-simulations-to-polymer-transformations-a-tutorial-perspective/2CEE4DD6FF50D84855B4AE1CCD8C43BA",
+      "title": "Extending graph-based lattice kinetic Monte Carlo simulations to polymer transformations: A tutorial perspective | Cambridge Materials: Circularity | Cambridge Core",
       "grade": 0
     },
     {
-      "hash": "TY6SLbS6MKD4",
-      "address": "https://github.com/rohitg00/ai-engineering-from-scratch",
-      "title": "GitHub - rohitg00/ai-engineering-from-scratch: Learn it. Build it. Ship it for others. · GitHub",
-      "grade": 2
+      "hash": "t__fgsvO9Uox",
+      "address": "https://prada-outlet.net/",
+      "title": "prada-outlet.net - Situs Slot Online Terpercaya dengan Server PKV Games Terkini",
+      "grade": 0
+    },
+    {
+      "hash": "uwk80jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Markov_chain",
+      "title": "Markov chain - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "v3JgSzH2Pyiw",
+      "address": "https://ocw.mit.edu/",
+      "title": "MIT OpenCourseWare | Free Online Course Materials",
+      "grade": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "grade": 0
+    },
+    {
+      "hash": "BiYCIWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=392880%3Futm_source=akdart",
+      "title": "The Morning Report — 9/ 2 /26Daily Tech News 2 September 2026Tuesday Overnight Open Thread - September 1, 2026Cats \u0026 Dogs CafeIranian-Descended Loudmouth Communist Moron Mark",
+      "grade": 0
+    },
+    {
+      "hash": "wz9hqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Programming_language",
+      "title": "Programming language - Wikipedia",
+      "grade": 0
     },
     {
       "hash": "Mb7ip0SWekJ4",
@@ -140,93 +200,21 @@
       "grade": 0
     },
     {
-      "hash": "RWqiYzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/product/product-principles/",
-      "title": "Product Principles | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "grade": 0
-    },
-    {
-      "hash": "SVkhqsMAuxi4",
-      "address": "https://www.linkedin.com/top-content/technology/",
-      "title": "Top Technology Content from LinkedIn Members",
-      "grade": 0
-    },
-    {
-      "hash": "BF23V5RMLT-5",
-      "address": "https://canonical.com/careers/commercial-operations",
-      "title": "Commercial Operations | Careers",
-      "grade": 0
-    },
-    {
-      "hash": "AX7xBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
-      "title": "Wikipedia:Help desk - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "RE-m0jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Java_(programming_language)",
-      "title": "Java (programming language) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "ZTANnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Lua",
-      "title": "Lua - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "SjIAEzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/security/security-shadow-security-assurance/",
-      "title": "Security Shadow: Security Assurance | The GitLab Handbook",
-      "grade": 0
-    },
-    {
-      "hash": "TDl0hzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/company/working-groups/simplify-groups-and-projects/",
-      "title": "Simplify Groups \u0026 Projects Working Group | The GitLab Handbook",
-      "grade": 0
-    },
-    {
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
       "grade": 0
     },
     {
-      "hash": "3hsDOlluK2rw",
-      "address": "https://www.qt.io/blog",
-      "title": "Qt Blog",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "grade": 0
-    },
-    {
-      "hash": "TA880jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
-      "title": "Generative adversarial network - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "Hp25lWawk-F5",
-      "address": "https://theintactone.com/tag/titles/",
-      "title": "Read MBA, BBA, B.COM Notes",
-      "grade": 0
-    },
-    {
-      "hash": "Qy5lgspN1dF5",
-      "address": "https://cirosantilli.com/china-dictatorship/",
-      "title": "China Dictatorship 中国独裁统治",
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
       "grade": 0
     }
   ]

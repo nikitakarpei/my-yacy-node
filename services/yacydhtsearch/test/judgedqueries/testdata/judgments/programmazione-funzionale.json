@@ -2,9 +2,9 @@
   "query": "programmazione funzionale",
   "judgedDocuments": [
     {
-      "hash": "ZttM8hXQbwqg",
-      "address": "https://documenti.camera.it/Leg16/dossier/Testi/BI0350.htm",
-      "title": "Camera dei deputati Dossier BI0350",
+      "hash": "Oliy_OnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/linguaggio/",
+      "title": "Linguaggio - Enciclopedia - Treccani",
       "grade": 0
     },
     {
@@ -14,9 +14,9 @@
       "grade": 0
     },
     {
-      "hash": "Oliy_OnsHw9g",
-      "address": "https://www.treccani.it/enciclopedia/linguaggio/",
-      "title": "Linguaggio - Enciclopedia - Treccani",
+      "hash": "OJwy3wUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/632378/le-primavere-arabe-10-anni-dopo-dalle-speranze-alla-disillusione",
+      "title": "Le primavere arabe 10 anni dopo: dalle speranze alla disillusione (24.03.2021)",
       "grade": 0
     },
     {
@@ -26,21 +26,27 @@
       "grade": 0
     },
     {
+      "hash": "8ZfIQwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/218946/lunione-europea-radici-storiche-ed-economiche",
+      "title": "L'Unione europea: radici storiche ed economiche (27.02.2007)",
+      "grade": 0
+    },
+    {
+      "hash": "_Z_vk7FUV6Kb",
+      "address": "http://therenegadegoddess.com/",
+      "title": "",
+      "grade": 0
+    },
+    {
       "hash": "NNO_NwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
       "title": "Processo Alfredo Bono (1.03.1991)",
       "grade": 0
     },
     {
-      "hash": "ZImYYwUl8GVi",
-      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
-      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
-      "grade": 0
-    },
-    {
-      "hash": "6KgxngHGY7xx",
-      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
-      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
+      "hash": "s0im2v7fOGSg",
+      "address": "https://www.regione.veneto.it/",
+      "title": "Home - Regione del Veneto",
       "grade": 0
     },
     {
@@ -56,6 +62,18 @@
       "grade": 0
     },
     {
+      "hash": "-3-OagM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Apple",
+      "title": "Apple - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "6KgxngHGY7xx",
+      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
+      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
+      "grade": 0
+    },
+    {
       "hash": "_cKrZgM-i-mx",
       "address": "https://it.wikipedia.org/wiki/Intelligenza_artificiale",
       "title": "Intelligenza artificiale - Wikipedia",
@@ -68,141 +86,87 @@
       "grade": 0
     },
     {
-      "hash": "s0im2v7fOGSg",
-      "address": "https://www.regione.veneto.it/",
-      "title": "Home - Regione del Veneto",
+      "hash": "7a1GH--zFb6h",
+      "address": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-12-28;549~art3-com130=",
+      "title": "LEGGE 28 dicembre 1995, n. 549 - Normattiva",
       "grade": 0
     },
     {
-      "hash": "-3-OagM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Apple",
-      "title": "Apple - Wikipedia",
+      "hash": "ZImYYwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
+      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
       "grade": 0
     },
     {
-      "hash": "d5G1fu7o3wtx",
-      "address": "https://vec.wikipedia.org/wiki/JavaScript",
-      "title": "JavaScript - Wikipèdia Vèneta, ła ensiclopedia łìbara",
+      "hash": "lv9LfwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/461302/processo-dappello-per-il-crac-parmalat",
+      "title": "Processo d'appello per il crac Parmalat (14.12.2015)",
+      "grade": 0
+    },
+    {
+      "hash": "4VEprwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/17250/torino-lo-scandalo-delle-tangenti",
+      "title": "Torino: lo \"scandalo delle tangenti\" (30.01.1985)",
+      "grade": 0
+    },
+    {
+      "hash": "5rLJUwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/795228/xxi-edizione-del-premio-nazionale-di-cultura-benedetto-croce-terza-giornata-primo",
+      "title": "XXI edizione del Premio nazionale di cultura Benedetto Croce (Terza giornata - Primo pomeriggio) (24.07.2026)",
+      "grade": 0
+    },
+    {
+      "hash": "J9mios1Nvqow",
+      "address": "https://ocaml.org/books",
+      "title": "OCaml Books",
       "grade": 1
     },
     {
-      "hash": "BxrargM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Governo_Draghi",
-      "title": "Governo Draghi - Wikipedia",
+      "hash": "ioA26i5DCs35",
+      "address": "https://wordpress.com/it/costruttore-di-siti-ia/",
+      "title": "Costruttore di siti web con IA | Crea un sito WordPress.com in pochi minuti",
       "grade": 0
     },
     {
-      "hash": "F-4n_gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Sito_web",
-      "title": "Sito web - Wikipedia",
+      "hash": "ofsSoRCW9XLA",
+      "address": "http://www.pluto.it/ildp/doc-it",
+      "title": "Altri documenti | PLUTO Project",
       "grade": 0
     },
     {
-      "hash": "GldsEgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Python",
-      "title": "Python - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "HREakgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Teoria_dei_giochi",
-      "title": "Teoria dei giochi - Wikipedia",
+      "hash": "1N3TURCW9XLA",
+      "address": "http://www.pluto.it/ildp/howto.html?page=2",
+      "title": "HOWTO | PLUTO Project",
       "grade": 0
     },
     {
-      "hash": "H4WgLgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Piattaforma_(informatica)",
-      "title": "Piattaforma (informatica) - Wikipedia",
+      "hash": "-nsijhCW9XLA",
+      "address": "http://www.pluto.it/journal/rubriche",
+      "title": "Rubriche del PLUTO Journal | PLUTO Project",
       "grade": 0
     },
     {
-      "hash": "Jj9Z8gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Android",
-      "title": "Android - Wikipedia",
+      "hash": "s8F_ola5eoug",
+      "address": "https://www.wikihow.it/Esperti",
+      "title": "Esperti wikiHow",
       "grade": 0
     },
     {
-      "hash": "Jprm6gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Lugano",
-      "title": "Lugano - Wikipedia",
+      "hash": "xbdtygkABAWx",
+      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio9",
+      "title": "Wikibooks:Bar/Archivio9 - Wikibooks, manuali e libri di testo liberi",
       "grade": 0
     },
     {
-      "hash": "J_Lm7gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Posta_elettronica",
-      "title": "Posta elettronica - Wikipedia",
+      "hash": "-UvQngkABAWx",
+      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio6",
+      "title": "Wikibooks:Bar/Archivio6 - Wikibooks, manuali e libri di testo liberi",
       "grade": 0
     },
     {
-      "hash": "LasKHgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Sistema_operativo",
-      "title": "Sistema operativo - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "UXal2gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/American_Beauty",
-      "title": "American Beauty - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "homhZgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Distribuzione_Linux",
-      "title": "Distribuzione Linux - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "lQe8hgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Ente_locale_(Italia)",
-      "title": "Ente locale (Italia) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "mXzRPgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Matematica",
-      "title": "Matematica - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "rO8ErgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Urbanistica",
-      "title": "Urbanistica - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "tfG0EgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Metodo_scientifico",
-      "title": "Metodo scientifico - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "0utszgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Comune_(ordinamento_italiano)",
-      "title": "Comune (ordinamento italiano) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "7_uA0gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Firenze",
-      "title": "Firenze - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "qh7RKOnG_Txx",
-      "address": "https://eml.wikipedia.org/wiki/Discussione:PP",
-      "title": "Discussione:PP - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "ffXdOsnNxxyj",
-      "address": "https://operacarlofelicegenova.it/teatro-della-gioventu/",
-      "title": "Teatro della Gioventù | Teatro Carlo Felice",
-      "grade": 0
-    },
-    {
-      "hash": "SHRf1ezpMIig",
-      "address": "https://www.comune.palermo.it/",
-      "title": "Sito Istituzionale - Comune di Palermo",
+      "hash": "2j7WUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/francia/",
+      "title": "Francia nell'Enciclopedia Treccani",
       "grade": 0
     }
   ]

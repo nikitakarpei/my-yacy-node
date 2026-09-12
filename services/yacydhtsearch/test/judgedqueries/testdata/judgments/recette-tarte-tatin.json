@@ -1,0 +1,293 @@
+{
+  "query": "recette tarte tatin",
+  "judgedDocuments": [
+    {
+      "hash": "6yuMua7ddyzg",
+      "address": "https://video.lefigaro.fr/figaro/la-recette-de-la-tarte-tatin-aux-pommes-et-son-caramel-maison-20251027",
+      "title": "La recette de la tarte tatin aux pommes et son caramel maison",
+      "grade": 2
+    },
+    {
+      "hash": "jAiI3CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ingredients/ananas-0",
+      "title": "Ananas recettes traditionnelles : sublimez vos plats",
+      "grade": 0
+    },
+    {
+      "hash": "EoHInvKCIhSg",
+      "address": "https://madame.lefigaro.fr/shopping/lifestyle/l-art-du-matcha-a-la-maison-les-secrets-d-une-preparation-parfaite-20260902",
+      "title": "L’art du matcha à la maison : les secrets d’une préparation parfaite",
+      "grade": 0
+    },
+    {
+      "hash": "b_HN9CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/salade-papillon-epinards-frais-basilic-030701-201092",
+      "title": "Salade papillon aux épinards frais et basilic",
+      "grade": 0
+    },
+    {
+      "hash": "f7EzzcKIzUTx",
+      "address": "https://fr.wikibooks.org/wiki/Accueil",
+      "title": "Wikilivres",
+      "grade": 0
+    },
+    {
+      "hash": "vNDoJcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Pomme",
+      "title": "Pomme — Wikipédia",
+      "grade": 1
+    },
+    {
+      "hash": "xOm_uxzvQPgh",
+      "address": "https://www.radiofrance.fr/vie-quotidienne/cuisine?p=9",
+      "title": "Cuisine : Tous les podcasts et l'actualité des passionnés de cuisine | Page 9 | Radio France",
+      "grade": 1
+    },
+    {
+      "hash": "IWSO0uH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/01/tarte-aux-poires-frangipane.html",
+      "title": "A SLICE OF CAKE: TARTE AUX POIRES FRANGIPANE",
+      "grade": 0
+    },
+    {
+      "hash": "GuOBHCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/tatin-de-saint-jacques-deric-guerin-151213-634624",
+      "title": "Tatin de Saint-Jacques",
+      "grade": 1
+    },
+    {
+      "hash": "cCdvbCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/tartelette-fromage-frais-herbes-radis-rose-060412-227975",
+      "title": "Tartelette au fromage frais, herbes et radis rose",
+      "grade": 0
+    },
+    {
+      "hash": "64NrRCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/idees-menus/fruit",
+      "title": "Recettes Recettes à base de fruits : faciles et originales",
+      "grade": 1
+    },
+    {
+      "hash": "Du3AHYzvQPgh",
+      "address": "https://www.radiofrance.fr/franceculture/podcasts/les-bonnes-choses/l-ete-des-tomates-9615538",
+      "title": "L'été des tomates | France Culture",
+      "grade": 1
+    },
+    {
+      "hash": "6PQUelvtr8Z5",
+      "address": "https://www.doitinparis.com/en/oreiller-belle-aurore-verot-25480",
+      "title": "The Belle Aurore pillow from Maison Vérot",
+      "grade": 0
+    },
+    {
+      "hash": "Ksld5eMcq6Ew",
+      "address": "https://web.archive.org/web/20101128133831/http:/www.cuisine.tv/cid40056/marmite-dieppoise-de-laurent-mariotte.html",
+      "title": "Marmite Dieppoise de Laurent Mariotte - CUISINE TV",
+      "grade": 0
+    },
+    {
+      "hash": "6hBTkuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2017/01/broccoli-and-stilton-soup.html",
+      "title": "A SLICE OF CAKE: BROCCOLI AND STILTON SOUP",
+      "grade": 0
+    },
+    {
+      "hash": "OB3reEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/11/war-cake.html",
+      "title": "A SLICE OF CAKE: WAR CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "CimVTsH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2014/08/pear-and-chocolate-puddings.html",
+      "title": "A SLICE OF CAKE: PEAR AND CHOCOLATE PUDDINGS",
+      "grade": 0
+    },
+    {
+      "hash": "V-z9HPH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2016/01/forgotten-cakes-and-bakes-of-2015-3.html",
+      "title": "A SLICE OF CAKE: PRESERVED ROAST TOMATOES (forgotten cakes and bakes of 2015)",
+      "grade": 0
+    },
+    {
+      "hash": "5toBRoiyKphw",
+      "address": "https://www.kochwiki.org/wiki/Kategorie:Vegetarische_Backwaren",
+      "title": "Kategorie:Vegetarische Backwaren – Koch-Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "o7WntEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/10/caraway-seed-cake.html",
+      "title": "A SLICE OF CAKE: CARAWAY SEED CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "1wB2eEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/12/triple-chocolate-christmas-cupcake-kit.html",
+      "title": "A SLICE OF CAKE: TRIPLE CHOCOLATE CHRISTMAS CUPCAKE KIT",
+      "grade": 0
+    },
+    {
+      "hash": "Eefa2CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
+      "title": "Recettes Apéro dînatoire : faciles et originales",
+      "grade": 1
+    },
+    {
+      "hash": "9gLDqCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/plats/dessert",
+      "title": "Dessert : recettes faciles et rapides",
+      "grade": 1
+    },
+    {
+      "hash": "H-Q8DuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/06/venetian-peas-and-rice.html",
+      "title": "A SLICE OF CAKE: PEA RISOTTO",
+      "grade": 0
+    },
+    {
+      "hash": "L-EncsH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2014/01/chocolate-and-ginger-puddle-pudding.html",
+      "title": "A SLICE OF CAKE: CHOCOLATE AND GINGER PUDDLE PUDDING",
+      "grade": 0
+    },
+    {
+      "hash": "MGGRFEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/02/eighteenth-century-tart.html",
+      "title": "A SLICE OF CAKE: EIGHTEENTH CENTURY TART",
+      "grade": 0
+    },
+    {
+      "hash": "RIa1CuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/03/fish-pie.html",
+      "title": "A SLICE OF CAKE: SWEET POTATO AND SMOKED FISH PIE",
+      "grade": 0
+    },
+    {
+      "hash": "U4wxzsH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2014/11/hazelnut-plum-and-chocolate-cake.html",
+      "title": "A SLICE OF CAKE: HAZELNUT, PLUM AND CHOCOLATE CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "WXdA8sH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2014/05/parsnip-and-lemon-cake.html?showComment=1400698912879",
+      "title": "A SLICE OF CAKE: PARSNIP AND LEMON CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "W_QCTuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/04/birds-nest-cake.html",
+      "title": "A SLICE OF CAKE: BIRDS NEST CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "Yr-qxEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/09/milk-chocolate-and-toffee-cake.html",
+      "title": "A SLICE OF CAKE: MILK CHOCOLATE AND TOFFEE CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "Z0tDwXH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2011/06/cranberry-blondies.html",
+      "title": "A SLICE OF CAKE: CRANBERRY BLONDIES",
+      "grade": 0
+    },
+    {
+      "hash": "cJ5prEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/11/riesling-wine-cake-and-strange-case-of.html",
+      "title": "A SLICE OF CAKE: RIESLING WINE CAKE, and the strange case of “whose recipe is it anyway?”",
+      "grade": 0
+    },
+    {
+      "hash": "ccAdCuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/12/poulet-basquaise.html",
+      "title": "A SLICE OF CAKE: POULET BASQUAISE",
+      "grade": 0
+    },
+    {
+      "hash": "gZYHXuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/09/chocolate-margarita-cake.html",
+      "title": "A SLICE OF CAKE: CHOCOLATE MARGARITA CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "hglDyuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/12/apple-and-strawberry-betty.html",
+      "title": "A SLICE OF CAKE: STRAWBERRY AND APPLE BETTY",
+      "grade": 0
+    },
+    {
+      "hash": "h-gLguH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/07/chocolate-and-blackcurrant-cake.html",
+      "title": "A SLICE OF CAKE: CHOCOLATE AND BLACKCURRANT CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "niSMeEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/02/chocolate-and-ginger-buns.html",
+      "title": "A SLICE OF CAKE: CHOCOLATE AND GINGER BUNS",
+      "grade": 0
+    },
+    {
+      "hash": "prBVREH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/11/orange-and-banana-yoghurt-cake.html",
+      "title": "A SLICE OF CAKE: ORANGE AND BANANA YOGHURT CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "t2N7csH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2014/03/lemon-drizzle-birthday-bundt-cake.html",
+      "title": "A SLICE OF CAKE: LEMON DRIZZLE BIRTHDAY BUNDT CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "0ZDCQuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/05/gluten-free-orange-and-polenta-biscuits.html",
+      "title": "A SLICE OF CAKE: GLUTEN FREE ORANGE AND POLENTA BISCUITS",
+      "grade": 0
+    },
+    {
+      "hash": "0ygfguH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/02/camp-coffee_08.html",
+      "title": "A SLICE OF CAKE: COFFEE AND WALNUT CAKE using Camp coffee essence",
+      "grade": 0
+    },
+    {
+      "hash": "2SYwNEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/07/chicken-with-lemon-rosemary-and-honey.html",
+      "title": "A SLICE OF CAKE: CHICKEN WITH LEMON, ROSEMARY AND HONEY",
+      "grade": 0
+    },
+    {
+      "hash": "4-bhZuH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2012/09/berry-and-almond-cake.html",
+      "title": "A SLICE OF CAKE: BERRY BAKEWELL CAKE",
+      "grade": 0
+    },
+    {
+      "hash": "7f44vEH9hPwY",
+      "address": "http://bakinginfranglais.blogspot.com/2013/07/smoked-haddock-prawn-and-spinach-tart.html",
+      "title": "A SLICE OF CAKE: SMOKED HADDOCK, PRAWN AND SPINACH TART",
+      "grade": 0
+    },
+    {
+      "hash": "TsMEXCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/potage-lentilles-301000-198857",
+      "title": "Potage aux lentilles",
+      "grade": 0
+    },
+    {
+      "hash": "bYLCCCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/milkshake-banane-040602-202002",
+      "title": "Milkshake banane",
+      "grade": 0
+    },
+    {
+      "hash": "_CQdACKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/comment-clarifier-un-oeuf-2-20240430",
+      "title": "Comment clarifier un œuf ?",
+      "grade": 0
+    }
+  ]
+}

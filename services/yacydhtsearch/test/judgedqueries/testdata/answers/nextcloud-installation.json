@@ -1,7 +1,136 @@
 {
   "query": "nextcloud installation",
-  "recordedAt": "2026-09-11T22:14:22Z",
+  "recordedAt": "2026-09-12T00:16:12Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "S9YMJzCJVaIz",
+        "address": "https://planet.documentfoundation.org/",
+        "title": "The Document Foundation Planet",
+        "snippet": "Nextcloud Deck. Later that day, I also attended a talk on Collabora. At lunch, I found the egg white salad quite tasty.\nDione giving her presentation. Photo by Ravi Dwivedi, released under CC-BY-SA 4.0.\nEgg white salad. Photo by Ravi Dwivedi, released under CC-BY-SA 4.0.\nAfter the lunch break, we",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 13459
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 2,
+            "textWords": 13459
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "zTCfkxtQ-zSx",
+        "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+        "title": "List of applications/Internet - ArchWiki",
+        "snippet": "Nextcloud — A cloud server to store your files centrally on a hardware controlled by you.\nhttps://nextcloud.com || nextcloud\nPydio — Mature open source web application for file sharing and synchronization.\nhttps://pydio.com/ || pydioAUR\nSeafile — An online file storage and collaboration tool with",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 3,
+            "textWords": 12598
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 24,
+            "textWords": 12598
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PBHGklNdxz8x",
+        "address": "https://www.freshports.org/",
+        "title": "FreshPorts -- The Place For Ports - Most recent commits",
+        "snippet": "100 most recent commits (all timestamps are UTC)\nFreshPorts has everything you want to know about FreeBSD software, ports, packages, applications, whatever term you want to use.\nYesterday's Commits | Quarterly Branch\nFriday, 11 Sep 2026\n23:26 Alexey Dokuchaev (danfe)\ndeskutils/notes 2.3.1 Beautiful",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 4737
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 4737
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "NcBQIBSLTmwg",
+        "address": "https://blog.entek.org.uk/",
+        "title": "Laurence’s Blog | Possibly the most boring blog on the web… The random musings, technical notes, life events, etc. of a lapsed *nix sysadmin.",
+        "snippet": "(re)installation playbooks.\nDec 2, 2025 Computing Insight United Kingdom (CIUK) 2025\nCIUK 2025 is now upon us, beginning with day-zero tomorrow. I cannot remember exactly when I first went to the Machine Evaluation Workshop (MEW), as this High Performance Computing event was formerly known from",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 6,
+            "textWords": 16094
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 5,
+            "textWords": 16094
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1U9VNkPMN02h",
+        "address": "https://www.mardi4nfdi.de/community/newsletter",
+        "title": "Newsletter - MaRDI",
+        "snippet": "installation, has its own GitHub repository, and has a small team of maintainers that ensures that the proof compiles successfully with new releases of the Coq engine (see the interview with Yves Bertot in this newsletter).\nThe four-color theorem proofs have had some direct continuation in other",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 1,
+            "textWords": 4651
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 4651
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ygPLQCuhQ8C4",
+        "address": "https://trisquel.info/en/taxonomy/term/700/0",
+        "title": "Release announcements | Trisquel GNU/Linux - Run free!",
+        "snippet": "Trisquel 8.0, codename \"Flidas\" is finally here! This release will be supported with security updates until April 2021. The first thing to acknowledge is that this arrival has been severely delayed, to the point where the next upstream release (Ubuntu 18.04 LTS) will soon be published. The good",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 518
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 518
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xIkDby3WSkX4",
+        "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
+        "title": "Domains - OVHcloud Documentation",
+        "snippet": "Documentation\nAPI Reference\nProduct changelog\nE-Learning \u0026 certifications\nMigration\nBare Metal Cloud\nDedicated Servers\nOverview\nKey Concepts\nGetting Started\nConfiguration\nSystem\nStorage\nNetwork\nvRack\nDeployments\nMigration\nTutorials\nSecurity\nHardening\nBackup\nNetwork\nTroubleshooting\nVirtual Private",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 1111
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 1111
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "9M9MAls8l0-4",
@@ -54,6 +183,279 @@
         },
         "queryPhraseHits": 0
       }
+    ],
+    [
+      {
+        "hash": "SOAt4sWMnAPx",
+        "address": "https://fedoraplanet.org/",
+        "title": "Fedora People",
+        "snippet": "",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 2,
+            "textWords": 54105
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "OdWaBD7AHFOw",
+        "address": "https://apps.kde.org/lt/tokodon/",
+        "title": "Tokodon - KDE programos",
+        "snippet": "Nextcloud social\nAdd support for cards\nSupport desktop notifications and notifications view\n22.04 2022-04-26\nTokodon profile view received many improvements. It's now possible to interact with other accounts directly from it (subscribe, mute, ban, ...), leave a note about an account and view all",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 1,
+            "textWords": 1028
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 1,
+            "textWords": 1028
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "myKVgl2uAu0w",
+        "address": "https://www.linux.org/",
+        "title": "Linux.org",
+        "snippet": "installation like Linux. There are special drivers...\nAug 22\n2,102\n0\nThe device we will cover in this article is a newer version of the PocketBeagle, which is covered here.\nWe can...\nAug 21\n1,825\n0\nIn this article, we will look at the Orange Pi 6 Plus and then we will go over the instructions to",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 1,
+            "textWords": 276
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 276
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "bPT5aq7AHFOw",
+        "address": "https://apps.kde.org/tokodon/",
+        "title": "Tokodon - KDE Applications",
+        "snippet": "Nextcloud social\nAdd support for cards\nSupport desktop notifications and notifications view\n22.04 2022-04-26\nTokodon profile view received many improvements. It's now possible to interact with other accounts directly from it (subscribe, mute, ban, ...), leave a note about an account and view all",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 1,
+            "textWords": 1028
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 1,
+            "textWords": 1028
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bzwX8z_hTtNw",
+        "address": "https://planet.kde.org/",
+        "title": "English - Planet KDE",
+        "snippet": "Two weeks ago, I released AppStream 1.2.0. This release contains a lot of great changes, but one of the most important ones concerns how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 2681
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 2681
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "vVCyygM0PWDh",
+        "address": "https://www.rrz.uni-hamburg.de/services/kollaboration/uhhcloud/nextcloud-anleitungen/nextcloud-office.html",
+        "title": "Dokumente bearbeiten : RRZ : Universität Hamburg",
+        "snippet": "Installation eines Office-Pakets. Die Anwendung erlaubt auch die gemeinsame und gleichzeitige Arbeit mehrerer Personen in dem selben Dokument. Das ist besonders hilfreich für Teams, die auf mehrere Standorte oder Organisationen verteilt sind.\nZum Öffnen eines Dokuments reicht ein Klick auf die",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 1,
+            "textWords": 78
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 78
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gCVBNZ3WSkX4",
+        "address": "https://docs.ovhcloud.com/en/",
+        "title": "OVHcloud Documentation",
+        "snippet": "For AI agents: the complete documentation index is available at https://docs.ovhcloud.com/en/llms.txt, the full documentation bundle is available at https://docs.ovhcloud.com/en/llms-full.txt, and this page is available as Markdown at https://docs.ovhcloud.com/en/index.md.\nWebmail\nMy account",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 301
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 301
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PCpNBzxXGmlz",
+        "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
+        "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
+        "snippet": "installation is required.\nExperimental features\nThese features are not finalized, yet can be tried by early adopters. They can be enabled in ▸ ▸ ▸ ▸ .\nToolbars\nFour toolbar modes have been added to make it easy for users to switch the visible toolbars, which can be done in ▸ . tdf#101249 (Szymon",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 1,
+            "textWords": 4438
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 0,
+            "textWords": 4438
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-5yL9xtQ-zSx",
+        "address": "https://wiki.archlinux.org/title/User:Steffo/Nextcloud",
+        "title": "User:Steffo/Nextcloud - ArchWiki",
+        "snippet": "Wikipedia:Nextcloud:\nNextcloud is a suite of client-server software for creating and using file hosting services. It is functionally similar to Dropbox, although Nextcloud is free and open-source, allowing anyone to install and operate it on a private server. In contrast to proprietary services",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 4,
+            "textWords": 1499
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 104,
+            "textWords": 1499
+          }
+        },
+        "queryPhraseHits": 1
+      },
+      {
+        "hash": "ZMCfuxtQ-zSx",
+        "address": "https://wiki.archlinux.org/title/User:Bai-Chiang/Podman_setup_for_nextcloud",
+        "title": "User:Bai-Chiang/Podman setup for nextcloud - ArchWiki",
+        "snippet": "Installation\nInstall the podman and aardvark-dns packages.\nIf using linux-hardened kernel, create\n/etc/sysctl.d/unprivileged_user_namespace.conf\nkernel.unprivileged_userns_clone=1\nto enable kernel.unprivileged_userns_clone then reboot machine to apply the change.\nNextcloud\nCreate a separate user",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 1,
+            "textWords": 495
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 44,
+            "textWords": 495
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uygpPmUGDmy5",
+        "address": "https://serverfault.com/questions/tagged/nextcloud",
+        "title": "Newest 'nextcloud' Questions - Server Fault",
+        "snippet": "",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 77,
+            "textWords": 2731
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "wZPUHjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/KDE_neon",
+        "title": "KDE neon - Wikipedia",
+        "snippet": "installation images began being built in January 2016.[28] These images were based on Ubuntu 15.10, but in April 2016, upgrades to Ubuntu 16.04, which would eventually become the base for the first general release, happened on 8 June 2016.[29][2]\nKDE neon announced in January 2017 that the",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 2,
+            "textWords": 2142
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 1,
+            "textWords": 2142
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "X_Gb0yfAodxw",
+        "address": "https://docs.freebsd.org/en/books/porters-handbook/uses/",
+        "title": "Chapter 17. Using USES Macros | FreeBSD Documentation Portal",
+        "snippet": "installation of a port that is a Drupal theme or module. Use with the version of Drupal that the port is expecting. For example, USES=drupal:7,module says that this port creates a Drupal 7 module. A Drupal 7 theme can be specified with USES=drupal:7,theme.\n17.25. ebur128\nPossible arguments: (none),",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 11,
+            "textWords": 12260
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 3,
+            "textWords": 12260
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "faU-Olx2yOxg",
+        "address": "https://www.radiotux.de/",
+        "title": "RadioTux",
+        "snippet": "Nextcloud\nNextcloud Talk\nownCloud\nOpenCloud\nSeafile\nONLYOFFICE\nCollabora Online\nCollabora – Michael Meeks / Team\nMattermost\nDigitale Souveränität \u0026 BuyFromEU\nBuyFromEU auf Mastodon\nBuyFromEU via jit.social\nBuyFromEU-Post zur Abhängigkeit von US-Tech\nEuropean Alternatives\nEuropean Alternatives –",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 2,
+            "textWords": 4122
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 48,
+            "textWords": 4122
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4WV0-TivP6Rw",
+        "address": "https://weekly.nixos.org/2020/07-nixos-weekly-2020-07.html",
+        "title": "NixOS Weekly",
+        "snippet": "Installation and First Impressions\nWhy IHP is Using The Nix Package Manager\nCachix Blog: Documentation and More Documentation\nCachix Blog: Upstream caches: avoiding pushing paths in cache.nixos.org\nRedox added to Nixpkgs\nNixpkgs now supports cross-compiling to the Redox operating system. The",
+        "matchedWords": {
+          "6gm7Nk7xv_2I": {
+            "hits": 2,
+            "textWords": 345
+          },
+          "xZz3-jnU7Sza": {
+            "hits": 1,
+            "textWords": 345
+          }
+        },
+        "queryPhraseHits": 0
+      }
     ]
   ],
   "itemsInNoOrder": [
@@ -70,6 +472,567 @@
         "xZz3-jnU7Sza": {
           "hits": 0,
           "textWords": 578
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wkx1aJr2pvE4",
+      "address": "https://www.asustor.com/service/downloads?product_id=77",
+      "title": "Downloads | ASUSTOR NAS",
+      "snippet": "Nextcloud Nextcloud - a safe home for all your ...\n34.0.2.r01 2026-08-07\n181\nNextPVR NextPVR is a personal video recorder ...\n7.0.1.241229.r05 2025-03-28\n182\nNginx Nginx is an open source web server an...\n1.30.1.r22 2026-06-24\n183\nNginx Nginx is an open source web server an...\n1.24.0.r40 2025-02-26",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 4686
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 2,
+          "textWords": 4686
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "dH4aGswUSuo5",
+      "address": "https://nextcloud.com/instant-trial/",
+      "title": "Request an instant trial - Nextcloud",
+      "snippet": "Nextcloud for a 1-hour test drive\nGet access to your own Nextcloud installation\nTest our core applications – Nextcloud Files, Nextcloud Talk, Nextcloud Groupware and Nextcloud Office\nGet a feeling of the collaboration platform that helps thousands of modern organizations to secure their data.\nHow",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 1,
+          "textWords": 291
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 14,
+          "textWords": 291
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "lnvzkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cross-platform",
+      "title": "Cross-platform software - Wikipedia",
+      "snippet": "installation of different versions on the same machine. There are several approaches used to target multiple platforms, but all of them result in software that requires substantial manual effort for testing and maintenance.[7] Techniques such as full virtualization are sometimes used as a",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 2,
+          "textWords": 4275
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 1,
+          "textWords": 4275
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wzmiPtS6MKD4",
+      "address": "https://github.com/trending/php?since=daily",
+      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "snippet": "nextcloud / server\n☁️ Nextcloud server, a safe home for all your data\npterodactyl / panel\nPterodactyl® is a free, open-source game server management panel built with PHP, React, and Go. Designed with security in mind, Pterodactyl runs all game servers in isolated Docker containers while exposing a",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 365
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 2,
+          "textWords": 365
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0A8sWmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/thin-provisioning",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0Bmh3mUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/df?tab=Trending",
+      "title": "Trending 'df' questions - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0Bm1vmUGDmy5",
+      "address": "https://serverfault.com/questions/1146924/kube-upgrade-v1-23-to-v1-27-cause-chart-helm-build-problems?answertab=scoredesc",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0Uvi0mUGDmy5",
+      "address": "https://serverfault.com/questions/1146924/kube-upgrade-v1-23-to-v1-27-cause-chart-helm-build-problems",
+      "title": "Kube: Upgrade V1.23 To V1.27 cause chart helm build problems",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0nH_PmUGDmy5",
+      "address": "https://serverfault.com/questions/938175/store-data-with-an-ad-user-in-ldap",
+      "title": "active directory - Store data with an AD user in LDAP - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0vGKumUGDmy5",
+      "address": "https://serverfault.com/questions/940011/helm-install-a-chart-and-give-parameters-to-the-depencie-chart",
+      "title": "docker - helm install a chart and give parameters to the depencie chart - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0wNDNmUGDmy5",
+      "address": "https://serverfault.com/questions/1030525/can-all-docker-volumes-be-into-a-partition-and-would-it-be-good-for-backup-clon",
+      "title": "Can all docker volumes be into a partition and would it be good for backup -cloning- purposes? (ex:/var/lib/docker/volumes/ in /dev/sdb1 @fstab)",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "064KOmUGDmy5",
+      "address": "https://serverfault.com/questions/1141617/cannot-start-apache2-httpd-bound-to-port-80",
+      "title": "Cannot Start Apache2 - httpd bound to port 80",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1O8cKmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/token",
+      "title": "Newest 'token' Questions - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1icDomUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/zfs?tab=Active\u0026page=2",
+      "title": "Recently Active 'zfs' Questions - Page 2 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1lTAVmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/arch-linux?tab=Trending",
+      "title": "Trending 'arch-linux' questions - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1rxRnmUGDmy5",
+      "address": "https://serverfault.com/questions/1094877/nginx-forward-all-traffic-on-all-ports-except-port-80",
+      "title": "reverse proxy - Nginx Forward All Traffic on All Ports Except Port 80 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "14bm6mUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/docker-swarm?tab=Votes",
+      "title": "Highest scored 'docker-swarm' questions - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "19xlFmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/nextcloud?tab=Newest\u0026page=3",
+      "title": "Newest 'nextcloud' Questions - Page 3 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1_pUOmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/raid1?tab=newest\u0026page=2",
+      "title": "Newest 'raid1' Questions - Page 2 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-OeQmmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/docker-compose?tab=newest\u0026page=4",
+      "title": "Newest 'docker-compose' Questions - Page 4 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-WvG8mUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/clonezilla?tab=Trending",
+      "title": "Trending 'clonezilla' questions - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-dl7_mUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/fedora?tab=unanswered\u0026page=3",
+      "title": "Unanswered 'fedora' Questions - Page 3 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-gWCymUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/elasticsearch?tab=newest\u0026page=2",
+      "title": "Newest 'elasticsearch' Questions - Page 2 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-pl6BmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/samba4?tab=Newest\u0026page=3",
+      "title": "Newest 'samba4' Questions - Page 3 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-sxTesUGDmy5",
+      "address": "https://serverfault.com/search?q=user:579170%20%5Bscripting%5D",
+      "title": "Posts matching 'user:579170 [scripting]' - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-2holmUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/pfsense?tab=Trending\u0026page=4",
+      "title": "Trending 'pfsense' questions - Page 4 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-7IFPsUGDmy5",
+      "address": "https://serverfault.com/questions?tab=active\u0026days=30\u0026pagesize=30",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "--xQ6mUGDmy5",
+      "address": "https://serverfault.com/questions/tagged/docker?tab=active\u0026page=5",
+      "title": "Recently Active 'docker' Questions - Page 5 - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-_z4ysUGDmy5",
+      "address": "https://serverfault.com/search?tab=Relevance\u0026pagesize=30\u0026q=user%3a454227%20%5bkubernetes%5d\u0026searchOn=3",
+      "title": "Posts matching 'user:454227 [kubernetes]' - Server Fault",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1VLEOxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Nextcloud",
+      "title": "Nextcloud - ArchWiki",
+      "snippet": "Nextcloud is a suite of client-server-software that (by means of so-called apps) allows all kinds of sharing, collaboration and communication, e.g.:\nfile sharing\npersonal information manager (contacts, calendar, tasks)\nmessaging (mail, chat, video conferencing)\ncollaborative editing of documents",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 18,
+          "textWords": 6993
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 281,
+          "textWords": 6993
+        }
+      },
+      "queryPhraseHits": 11
+    },
+    {
+      "hash": "1jjUDxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/ArchWiki:Translation_Team_(Espa%C3%B1ol)/Board_(Espa%C3%B1ol)/Untranslated_(Espa%C3%B1ol)",
+      "title": "ArchWiki:Translation Team (Español)/Board (Español)/Untranslated (Español) - ArchWiki",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RAz7ZPKXKxA4",
+      "address": "https://cloud.ionos.com/network/application-load-balancer",
+      "title": "Application Load Balancer as Managed Service | IONOS CLOUD",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xEH-i5KXKxA4",
+      "address": "https://cloud.ionos.com/managed/private-container-registry",
+      "title": "Private Container Registry Service| IONOS CLOUD",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -95,22 +1058,719 @@
       "hash": "tptsBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
       "title": "Lumen Technologies - Wikipedia",
-      "snippet": "installation\". South Dakota Searchlight. Retrieved August 22, 2024.\n↑ NOTICE OF APPARENT LIABILITY FOR FORFEITURE (PDF) (Report). Federal Communications Commission. October 12, 2023.\n↑ \"FCC PROPOSES $867,000 FINE AGAINST LUMEN FOR APPARENTLY VIOLATING 911 RULES\" (PDF). fcc.gov. Retrieved August 22,",
+      "snippet": "",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
-          "hits": 1,
-          "textWords": 6303
+          "hits": 0,
+          "textWords": 0
         },
         "xZz3-jnU7Sza": {
           "hits": 0,
-          "textWords": 6303
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QbsIIlO2J9s6",
+      "address": "https://www.collaboraonline.com/code/",
+      "title": "Collabora Online Development Edition - Collabora Online and Collabora Office",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xEH-i5KXKxA4",
+      "address": "https://cloud.ionos.com/managed/private-container-registry",
+      "title": "Private Container Registry Service| IONOS Cloud",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xyJgPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Atom_(Web_standard)",
+      "title": "Atom (web standard) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wzmiPtS6MKD4",
+      "address": "https://github.com/trending/php?since=daily",
+      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "snippet": "nextcloud / server\n☁️ Nextcloud server, a safe home for all your data\npterodactyl / panel\nPterodactyl® is a free, open-source game server management panel built with PHP, React, and Go. Designed with security in mind, Pterodactyl runs all game servers in isolated Docker containers while exposing a",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 365
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 2,
+          "textWords": 365
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-FE5DyfAodxw",
+      "address": "https://docs.freebsd.org/en/books/porters-handbook/versions/",
+      "title": "Chapter 18. __FreeBSD_version Values | FreeBSD Documentation Portal",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8RkbQy3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/dns-dnssec",
+      "title": "Securing your domain name with DNSSEC - OVHcloud Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3TFWwl8hA1s6",
+      "address": "https://www.mythic-beasts.com/",
+      "title": "Mythic Beasts - Mythic Beasts",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FZ9QOswUSuo5",
+      "address": "https://nextcloud.com/trademarks/",
+      "title": "Nextcloud trademark guidelines",
+      "snippet": "Nextcloud trademarks by the Nextcloud community while managing that use to protect the distinctive value of the trademarks and avoid confusion on the part of Nextcloud users and the general public.\nThe Nextcloud marks\nNextcloud and the Nextcloud logo is a registered trademark of Nextcloud GmbH in",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 3,
+          "textWords": 1910
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 114,
+          "textWords": 1910
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lnvzkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cross-platform",
+      "title": "Cross-platform software - Wikipedia",
+      "snippet": "installation of different versions on the same machine. There are several approaches used to target multiple platforms, but all of them result in software that requires substantial manual effort for testing and maintenance.[7] Techniques such as full virtualization are sometimes used as a",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 2,
+          "textWords": 4275
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 1,
+          "textWords": 4275
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mOq1qspm6R-5",
+      "address": "https://linuxhint.com/",
+      "title": "Linux Hint – Linux Hint",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8RkbQy3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/dns-dnssec",
+      "title": "Securing your domain name with DNSSEC - OVHcloud Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TqIcor7AHFOw",
+      "address": "https://apps.kde.org/gl/tokodon/",
+      "title": "Tokodon - KDE Applications",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tptsBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
+      "title": "Lumen Technologies - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xEH-i5KXKxA4",
+      "address": "https://cloud.ionos.com/managed/private-container-registry",
+      "title": "Private Container Registry Service| IONOS CLOUD",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xyJgPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Atom_(Web_standard)",
+      "title": "Atom (web standard) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wzmiPtS6MKD4",
+      "address": "https://github.com/trending/php?since=daily",
+      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "snippet": "nextcloud / server\n☁️ Nextcloud server, a safe home for all your data\npterodactyl / panel\nPterodactyl® is a free, open-source game server management panel built with PHP, React, and Go. Designed with security in mind, Pterodactyl runs all game servers in isolated Docker containers while exposing a",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 365
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 2,
+          "textWords": 365
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SFhF_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/OpenOffice.org",
+      "title": "OpenOffice.org - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8PnKysS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=en",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TqIcor7AHFOw",
+      "address": "https://apps.kde.org/gl/tokodon/",
+      "title": "Tokodon - KDE Applications",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8PnKysS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=en",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "C9IcLyS6MKD4",
+      "address": "https://github.com/openclaw/openclaw",
+      "title": "GitHub - openclaw/openclaw: Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞 · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "S4xY7l3Oo3xh",
+      "address": "https://www.bloggerei.de/",
+      "title": "Blogverzeichnis Bloggerei.de » für Blogs und Blogger",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "RAz7ZPKXKxA4",
+      "address": "https://cloud.ionos.com/network/application-load-balancer",
+      "title": "Application Load Balancer as Managed Service | IONOS Cloud",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QbsIIlO2J9s6",
+      "address": "https://www.collaboraonline.com/code/",
+      "title": "Collabora Online Development Edition - Collabora Online and Collabora Office",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TdRNksqGot6w",
+      "address": "https://yunohost.org/",
+      "title": "YunoHost: garden your own piece of the Internet!",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3TFWwl8hA1s6",
+      "address": "https://www.mythic-beasts.com/",
+      "title": "Mythic Beasts - Mythic Beasts",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mOq1qspm6R-5",
+      "address": "https://linuxhint.com/",
+      "title": "Linux Hint – Linux Hint",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TdRNksqGot6w",
+      "address": "https://yunohost.org/",
+      "title": "YunoHost: garden your own piece of the Internet!",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wkx1aJr2pvE4",
+      "address": "https://www.asustor.com/service/downloads?product_id=77",
+      "title": "Downloads | ASUSTOR NAS",
+      "snippet": "Nextcloud Nextcloud - a safe home for all your ...\n34.0.2.r01 2026-08-07\n181\nNextPVR NextPVR is a personal video recorder ...\n7.0.1.241229.r05 2025-03-28\n182\nNginx Nginx is an open source web server an...\n1.30.1.r22 2026-06-24\n183\nNginx Nginx is an open source web server an...\n1.24.0.r40 2025-02-26",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 4686
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 2,
+          "textWords": 4686
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "6gm7Nk7xv_2I": 57985,
-    "xZz3-jnU7Sza": 1104
+    "6gm7Nk7xv_2I": 131057,
+    "xZz3-jnU7Sza": 6495
   }
 }

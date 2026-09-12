@@ -1,0 +1,1881 @@
+{
+  "query": "how does dns resolution work",
+  "recordedAt": "2026-09-12T00:23:37Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "F1n0LluI8hnw",
+        "address": "https://www.eff.org/deeplinks/2015/12/how-tpp-will-affect-you-and-your-digital-rights",
+        "title": "How the TPP Will Affect You and Your Digital Rights | Electronic Frontier Foundation",
+        "snippet": "how insignificant that copyrighted content is to the whole of the video. Their account may also be suspended or restricted permanently or for a prolonged amount of time. If it happens to go viral they may be held criminally liable because it's arguably available at a \"commercial scale.\"\nThose who",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 2,
+            "textWords": 2716
+          },
+          "VEDnDEPMAqup": {
+            "hits": 2,
+            "textWords": 2716
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 7,
+            "textWords": 2716
+          },
+          "s79guFHrrrJ2": {
+            "hits": 3,
+            "textWords": 2716
+          },
+          "t-Fks0_3axza": {
+            "hits": 1,
+            "textWords": 2716
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "7T32t2jw1Zlx",
+        "address": "https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/how-dra-works/",
+        "title": "How DRA Works | Kubernetes",
+        "snippet": "how Kubernetes allocates devices to workloads with dynamic resource allocation (DRA), and how pre-scheduled Pods interact with the process.\nHow resource allocation with DRA works\nThe following sections describe the workflow for the various types of DRA users and for the Kubernetes system during",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 6,
+            "textWords": 1976
+          },
+          "VEDnDEPMAqup": {
+            "hits": 2,
+            "textWords": 1976
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 0,
+            "textWords": 1976
+          },
+          "s79guFHrrrJ2": {
+            "hits": 0,
+            "textWords": 1976
+          },
+          "t-Fks0_3axza": {
+            "hits": 0,
+            "textWords": 1976
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "2CAHw8uKjjbw",
+        "address": "https://wiki.gentoo.org/wiki/FAQ",
+        "title": "FAQ - Gentoo wiki",
+        "snippet": "how to use Gentoo, and GNU/Linux more broadly. The main Gentoo documentation is on the wiki, and in the Handbook. More information may be found in man pages, info pages, /usr/share/doc/, upstream, etc. Many commands also support the --help or -h switches.\nThese questions are often collected from",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 17,
+            "textWords": 4280
+          },
+          "VEDnDEPMAqup": {
+            "hits": 11,
+            "textWords": 4280
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 5,
+            "textWords": 4280
+          },
+          "s79guFHrrrJ2": {
+            "hits": 1,
+            "textWords": 4280
+          },
+          "t-Fks0_3axza": {
+            "hits": 1,
+            "textWords": 4280
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "vo6A9AK-xyJ4",
+        "address": "https://go.dev/doc/go1.7",
+        "title": "Go 1.7 Release Notes - The Go Programming Language",
+        "snippet": "work correctly on Sierra.\nGo 1.7 adds an experimental port to Linux on z Systems (linux/s390x) and the beginning of a port to Plan 9 on ARM (plan9/arm).\nThe experimental ports to Linux on 64-bit MIPS (linux/mips64 and linux/mips64le) added in Go 1.6 now have full support for cgo and external",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 4221
+          },
+          "VEDnDEPMAqup": {
+            "hits": 3,
+            "textWords": 4221
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 2,
+            "textWords": 4221
+          },
+          "s79guFHrrrJ2": {
+            "hits": 1,
+            "textWords": 4221
+          },
+          "t-Fks0_3axza": {
+            "hits": 3,
+            "textWords": 4221
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "W-eXqzF3--Qw",
+        "address": "https://planet.mozilla.org/",
+        "title": "Planet Mozilla",
+        "snippet": "work: Replaced the “more themes” button in the themes list view footer with a promo element when Nova is enabled – Bug 2057200\nRemoved the testing XPI base url pref from ThemesList.sys.mjs – Bug 2053220\nFixed a mismatch between the popup panel border radius applied by Nova and the border radius",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 148,
+            "textWords": 66162
+          },
+          "VEDnDEPMAqup": {
+            "hits": 39,
+            "textWords": 66162
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 130,
+            "textWords": 66162
+          },
+          "s79guFHrrrJ2": {
+            "hits": 1,
+            "textWords": 66162
+          },
+          "t-Fks0_3axza": {
+            "hits": 2,
+            "textWords": 66162
+          }
+        },
+        "queryPhraseHits": 4
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "FDbC6B-c6vHw",
+      "address": "https://nixos.org/manual/nixpkgs/stable/",
+      "title": "Nixpkgs 23.05 manual | Nix \u0026 NixOS",
+      "snippet": "work differently:\nA built-in fetcher will download and cache files at evaluation time and produce a store path. A Nixpkgs fetcher will create a (fixed-output) derivation, and files are downloaded at build time.\nBuilt-in fetchers will invalidate their cache after tarball-ttl expires, and will",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 133,
+          "textWords": 109514
+        },
+        "VEDnDEPMAqup": {
+          "hits": 101,
+          "textWords": 109514
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 98,
+          "textWords": 109514
+        },
+        "s79guFHrrrJ2": {
+          "hits": 2,
+          "textWords": 109514
+        },
+        "t-Fks0_3axza": {
+          "hits": 11,
+          "textWords": 109514
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "az8RMs5DCs35",
+      "address": "https://wordpress.com/hosting/",
+      "title": "Managed WordPress Hosting | Super Fast. Ultra Secure | WordPress.com",
+      "snippet": "Run an online store and keep more of what you earn.\nStorage\n50 GB\n50 GB\nIncluded in plan\n50 GB + 50 GB\n50 GB + 100 GB\n50 GB + 150 GB\n50 GB + 200 GB\n50 GB + 250 GB\n50 GB + 300 GB\n50 GB + 350 GB\n50 GB storage\n50 GB\n50 GB\nIncluded in plan\n50 GB + 50 GB\n50 GB + 100 GB\n50 GB + 150 GB\n50 GB + 200 GB\n50",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 493
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 493
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 493
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 493
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 493
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eODiks5DCs35",
+      "address": "https://wordpress.com/pricing/",
+      "title": "WordPress.com Pricing and Plans | Start Building Today",
+      "snippet": "DNS with SSL Fast, reliable domain management with secure SSL.\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nExtremely fast DNS with SSL\nHigh-burst capacity Lean on integrated resource management and instant scaling.\nHigh-burst",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 4623
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 4623
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 4623
+        },
+        "s79guFHrrrJ2": {
+          "hits": 6,
+          "textWords": 4623
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 4623
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fRk_vs5DCs35",
+      "address": "https://wordpress.com/features/",
+      "title": "Explore WordPress.com Features | WordPress.com",
+      "snippet": "resolution, picture-in-picture, chapters, subtitles, and different playback speeds.\nPre-Built Block Patterns\nCreate great-looking layouts simply by inserting elegant pre-built block patterns into your pages and posts.\nAdvanced Design Tools\nCustomize your blog’s design with extended color schemes,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 4,
+          "textWords": 1218
+        },
+        "VEDnDEPMAqup": {
+          "hits": 3,
+          "textWords": 1218
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 1218
+        },
+        "s79guFHrrrJ2": {
+          "hits": 2,
+          "textWords": 1218
+        },
+        "t-Fks0_3axza": {
+          "hits": 1,
+          "textWords": 1218
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "snippet": "work expanded over 46 years.\nThe multimedia collective has produced more than 30 albums and EPs, as well as fine art, books, radio and live performances that mix found and original material. The band came up with the phrase “culture jamming” to describe its approach to layering art from various",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 5347
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 33,
+          "textWords": 5347
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 5347
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 695
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 695
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 695
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "h6qKJHS6MKD4",
+      "address": "https://github.com/mcp/microsoft/playwright-mcp",
+      "title": "MCP Registry | Playwright · GitHub",
+      "snippet": "does not serve as a security boundary and does not affect redirects.\nenv PLAYWRIGHT_MCP_ALLOWED_ORIGINS\n--allow-unrestricted-file-access\nallow access to files outside of the workspace roots. Also allows unrestricted access to file:// URLs. By default access to file system is restricted to workspace",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 6683
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 6683
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 6683
+        },
+        "s79guFHrrrJ2": {
+          "hits": 1,
+          "textWords": 6683
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 6683
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MFZemWSMo4M4",
+      "address": "https://www.zdnet.com/home-and-office/home-entertainment/roku-tv-vs-fire-stick/",
+      "title": "Roku TV vs. Fire Stick: Why I'm looking beyond streaming resolution when comparing the two - ZDNET",
+      "snippet": "resolution, Dolby Vision, HDR10, HDR10+\n4K resolution, HDR10, HDR10+\nFrame rate\n60 FPS\n60 FPS\nWi-Fi\nWi-Fi 6 Dual-band\nWi-Fi 5 Dual-band\nPorts\nHDMI 2.1 output with ARC support, Micro-USB for power\nHDMI 2.0b\nRemote batteries\nTwo AAA batteries\nTwo AAA batteries\nYou should buy a Fire TV Stick 4K Plus",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 1597
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 1597
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 1597
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 1597
+        },
+        "t-Fks0_3axza": {
+          "hits": 3,
+          "textWords": 1597
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4-p3KlSMo4M4",
+      "address": "https://www.zdnet.com/",
+      "title": "News and Advice on the World's Latest Innovations | ZDNET - ZDNET",
+      "snippet": "iPhone Duo is more proof that Microsoft’s brilliant ideas make great Apple products\nMicrosoft spent more than a decade trying to build the perfect foldable phone device and failed. Apple just delivered on that vision with the iPhone Duo. It's one more episode in a long-running series.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 46
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UARcS7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc9110/",
+      "title": "RFC 9110: HTTP Semantics | RFC Editor",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XwuSSjXxSRFx",
+      "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "title": "RFC 9110: HTTP Semantics",
+      "snippet": "how to provide feedback on it may be obtained at https://www.rfc-editor.org/info/rfc9110.¶\nCopyright Notice\nCopyright (c) 2022 IETF Trust and the persons identified as the document authors. All rights reserved.¶\nThis document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 38,
+          "textWords": 58186
+        },
+        "VEDnDEPMAqup": {
+          "hits": 88,
+          "textWords": 58186
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 8,
+          "textWords": 58186
+        },
+        "s79guFHrrrJ2": {
+          "hits": 7,
+          "textWords": 58186
+        },
+        "t-Fks0_3axza": {
+          "hits": 7,
+          "textWords": 58186
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hWuQZ7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc3986/",
+      "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
+      "snippet": "does not define a generative grammar for URIs; that task is performed by the individual specifications of each URI scheme. Berners-Lee, et al. Standards Track [Page 1]\nRFC 3986 URI Generic Syntax January 2005 Table of Contents 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 4 1.1.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 13,
+          "textWords": 17773
+        },
+        "VEDnDEPMAqup": {
+          "hits": 25,
+          "textWords": 17773
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 17773
+        },
+        "s79guFHrrrJ2": {
+          "hits": 13,
+          "textWords": 17773
+        },
+        "t-Fks0_3axza": {
+          "hits": 26,
+          "textWords": 17773
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jh1R77XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc6125/",
+      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
+      "snippet": "how to provide feedback on it may be obtained at http://www.rfc-editor.org/info/rfc6125. Copyright Notice Copyright (c) 2011 IETF Trust and the persons identified as the document authors. All rights reserved. This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 7,
+          "textWords": 17272
+        },
+        "VEDnDEPMAqup": {
+          "hits": 29,
+          "textWords": 17272
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 17272
+        },
+        "s79guFHrrrJ2": {
+          "hits": 159,
+          "textWords": 17272
+        },
+        "t-Fks0_3axza": {
+          "hits": 5,
+          "textWords": 17272
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "sjywP7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc2616/",
+      "title": "RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1 | RFC Editor",
+      "snippet": "DNS Spoofing ...............................................154 15.4 Location Headers and Spoofing ..............................154 15.5 Content-Disposition Issues .................................154 15.6 Authentication Credentials and Idle Clients ................155 15.7 Proxies and Caching",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 13,
+          "textWords": 57101
+        },
+        "VEDnDEPMAqup": {
+          "hits": 128,
+          "textWords": 57101
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 8,
+          "textWords": 57101
+        },
+        "s79guFHrrrJ2": {
+          "hits": 10,
+          "textWords": 57101
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 57101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "work hard to find numbers to support their claims; this page provides a useful antidote of hard figures to aid in comparing proprietary products to FLOSS. Others have come to the same conclusions, for example, Forrester Research concluded in September 2006 that “Firms should consider open source",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 87,
+          "textWords": 92275
+        },
+        "VEDnDEPMAqup": {
+          "hits": 76,
+          "textWords": 92275
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 78,
+          "textWords": 92275
+        },
+        "s79guFHrrrJ2": {
+          "hits": 19,
+          "textWords": 92275
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 92275
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "snippet": "work and is now pushing for mandatory U.S. AI safety requirements. Anthropic has also signaled interest in coordinating on the pace of new releases. Here are some of the details Bloomberg reported, as summarized by Reuters: - Altman told employees in a company-wide meeting that the ChatGPT maker",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 8,
+          "textWords": 4681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 4681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 9,
+          "textWords": 4681
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 4681
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 4681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 10,
+          "textWords": 2681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lTVMLsgJoQyx",
+      "address": "https://grapheneos.org/faq",
+      "title": "Frequently Asked Questions | GrapheneOS",
+      "snippet": "How long will GrapheneOS support my device?\nSecurity and privacyHow is disk encryption implemented?\nCan apps spy on the clipboard in the background or inject content into it?\nCan apps access hardware identifiers?\nWhat about non-hardware identifiers?\nWhat does GrapheneOS do about cellular tracking,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 30,
+          "textWords": 15793
+        },
+        "VEDnDEPMAqup": {
+          "hits": 27,
+          "textWords": 15793
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 20,
+          "textWords": 15793
+        },
+        "s79guFHrrrJ2": {
+          "hits": 105,
+          "textWords": 15793
+        },
+        "t-Fks0_3axza": {
+          "hits": 5,
+          "textWords": 15793
+        }
+      },
+      "queryPhraseHits": 8
+    },
+    {
+      "hash": "_QujqCjVeYyw",
+      "address": "https://w3c.github.io/network-error-logging/",
+      "title": "Network Error Logging",
+      "snippet": "how to improve their web applications. The worst case scenario is the failure to load the application, or a particular resource, due to a network error, and to address such failures the developer requires assistance from the user agent to identify when, where, and why such failures are occurring.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 6032
+        },
+        "VEDnDEPMAqup": {
+          "hits": 3,
+          "textWords": 6032
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 6032
+        },
+        "s79guFHrrrJ2": {
+          "hits": 52,
+          "textWords": 6032
+        },
+        "t-Fks0_3axza": {
+          "hits": 11,
+          "textWords": 6032
+        }
+      },
+      "queryPhraseHits": 11
+    },
+    {
+      "hash": "-Qqp72jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/workloads/pods/disruptions/",
+      "title": "Disruptions | Kubernetes",
+      "snippet": "how many it is intended to have. For example, a Deployment which has a .spec.replicas: 5 is supposed to have 5 pods at any given time. If its PDB allows for there to be 4 at a time, then the Eviction API will allow voluntary disruption of one (but not two) pods at a time.\nThe group of pods that",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 1989
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 1989
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 1989
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 1989
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 1989
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "snippet": "how to setup a development environment for it. If that's not the case, read The Perfect Setup and Using Guix interactively.\nA Goimapnotify configuration is written in YAML. Therefore, we will need to serialize the different Guile Scheme fields to this format. Let's take the example configuration",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 10,
+          "textWords": 4834
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 4834
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 4834
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 4834
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 4834
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-xpxEitD2jQw",
+      "address": "https://docs.python.org/3/contents.html",
+      "title": "Python Documentation contents — Python 3.14.7 documentation",
+      "snippet": "How should I write my code to utilize these speedups?\nWill CPython 3.11 use more memory?\nI don’t see any speedups in my workload. Why?\nIs there a JIT compiler?\nAbout\nCPython bytecode changes New opcodes\nReplaced opcodes\nChanged/removed opcodes\nDeprecated Language/Builtins\nModules\nStandard Library",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 49,
+          "textWords": 15755
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 15755
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 4,
+          "textWords": 15755
+        },
+        "s79guFHrrrJ2": {
+          "hits": 1,
+          "textWords": 15755
+        },
+        "t-Fks0_3axza": {
+          "hits": 3,
+          "textWords": 15755
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "UobyTsuI8hnw",
+      "address": "https://www.eff.org/about/staff",
+      "title": "EFF's Staff and Contributors | Electronic Frontier Foundation",
+      "snippet": "work together to reinforce the defense of digital and human rights. Veridiana has been involved with telecommunications, media, Internet and human rights issues since 2009. She has been a member of Brazilian Internet Steering Committee (CGI.br) as one of the civil society representatives",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 7,
+          "textWords": 10674
+        },
+        "VEDnDEPMAqup": {
+          "hits": 2,
+          "textWords": 10674
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 55,
+          "textWords": 10674
+        },
+        "s79guFHrrrJ2": {
+          "hits": 1,
+          "textWords": 10674
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 10674
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2iDM-swQPNL4",
+      "address": "https://auth0.com/changelog",
+      "title": "Auth0 Changelog",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "snippet": "how to create a save shortcut for the Internet Archive Wayback Machine:\n1. open Firefox Preferences (\"Firefox\" menu, \"Preferences\" item)\n2. select \"🔍 Search\" from the left column\n3. click the [ + Add search engine ] button\n4. enter \"Internet Archive Save\" into the Search engine name field (without",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 25,
+          "textWords": 10682
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 10682
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 3,
+          "textWords": 10682
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 10682
+        },
+        "t-Fks0_3axza": {
+          "hits": 1,
+          "textWords": 10682
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FDbC6B-c6vHw",
+      "address": "https://nixos.org/manual/nixpkgs/stable/",
+      "title": "Nixpkgs Reference Manual",
+      "snippet": "work differently:\nA built-in fetcher will download and cache files at evaluation time and produce a store path. A Nixpkgs fetcher will create a (fixed-output) derivation, and files are downloaded at build time.\nBuilt-in fetchers will invalidate their cache after tarball-ttl expires, and will",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 133,
+          "textWords": 109514
+        },
+        "VEDnDEPMAqup": {
+          "hits": 101,
+          "textWords": 109514
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 98,
+          "textWords": 109514
+        },
+        "s79guFHrrrJ2": {
+          "hits": 2,
+          "textWords": 109514
+        },
+        "t-Fks0_3axza": {
+          "hits": 11,
+          "textWords": 109514
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8-yf-WRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc3261",
+      "title": "RFC 3261 - SIP: Session Initiation Protocol",
+      "snippet": "Does Not Exist ................. 188 21.4.20 482 Loop Detected ................................... 188 21.4.21 483 Too Many Hops ................................... 189 21.4.22 484 Address Incomplete .............................. 189 Rosenberg, et. al. Standards Track [Page 6]\nRFC 3261 SIP:",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 40,
+          "textWords": 87299
+        },
+        "VEDnDEPMAqup": {
+          "hits": 147,
+          "textWords": 87299
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 8,
+          "textWords": 87299
+        },
+        "s79guFHrrrJ2": {
+          "hits": 13,
+          "textWords": 87299
+        },
+        "t-Fks0_3axza": {
+          "hits": 1,
+          "textWords": 87299
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Cpc5fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia",
+      "snippet": "work in history.[2][3]\nInitially available only in English, Wikipedia has grown to over 300 languages and is one of the world's most visited websites as of 2026. The English Wikipedia, with over 7 million articles, remains the largest of the editions, which together comprise more than 68 million",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 21,
+          "textWords": 28639
+        },
+        "VEDnDEPMAqup": {
+          "hits": 5,
+          "textWords": 28639
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 15,
+          "textWords": 28639
+        },
+        "s79guFHrrrJ2": {
+          "hits": 1,
+          "textWords": 28639
+        },
+        "t-Fks0_3axza": {
+          "hits": 8,
+          "textWords": 28639
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PbwP7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
+      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
+      "snippet": "does not consider this page to be a communication venue.\nDiscussions of proposals which do not require significant foundation attention or involvement belong at Village pump (proposals)\nDiscussions of bugs and routine technical issues belong at Village pump (technical).\nConsider developing new",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 152,
+          "textWords": 58285
+        },
+        "VEDnDEPMAqup": {
+          "hits": 67,
+          "textWords": 58285
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 112,
+          "textWords": 58285
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 58285
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 58285
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "hWuQZ7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc3986/",
+      "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
+      "snippet": "does not define a generative grammar for URIs; that task is performed by the individual specifications of each URI scheme. Berners-Lee, et al. Standards Track [Page 1]\nRFC 3986 URI Generic Syntax January 2005 Table of Contents 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 4 1.1.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 13,
+          "textWords": 17773
+        },
+        "VEDnDEPMAqup": {
+          "hits": 25,
+          "textWords": 17773
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 17773
+        },
+        "s79guFHrrrJ2": {
+          "hits": 13,
+          "textWords": 17773
+        },
+        "t-Fks0_3axza": {
+          "hits": 26,
+          "textWords": 17773
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jh1R77XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc6125/",
+      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.",
+      "snippet": "how to provide feedback on it may be obtained at http://www.rfc-editor.org/info/rfc6125. Copyright Notice Copyright (c) 2011 IETF Trust and the persons identified as the document authors. All rights reserved. This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 7,
+          "textWords": 17272
+        },
+        "VEDnDEPMAqup": {
+          "hits": 29,
+          "textWords": 17272
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 17272
+        },
+        "s79guFHrrrJ2": {
+          "hits": 159,
+          "textWords": 17272
+        },
+        "t-Fks0_3axza": {
+          "hits": 5,
+          "textWords": 17272
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "x7mY27XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc5661/",
+      "title": "RFC 5661: Network File System (NFS) Version 4 Minor Version 1 Protocol | RFC Editor",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 18,
+          "textWords": 8109
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 8109
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 7,
+          "textWords": 8109
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 10,
+          "textWords": 2681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FxC5-KsrSOQw",
+      "address": "https://arxiv.org/list/cs.LG/new",
+      "title": "Machine Learning",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 268 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 73 of 73 entries)\n[1] arXiv:2609.10559 [pdf, html, other]\n[2] arXiv:2609.10589 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 2505
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mpTuJKsrSOQw",
+      "address": "https://arxiv.org/list/physics/new",
+      "title": "Physics",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 149 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 76 of 76 entries)\n[1] arXiv:2609.10558 [pdf, html, other]\n[2] arXiv:2609.10560 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 1259
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 1259
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 1259
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 1259
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 1259
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2iDM-swQPNL4",
+      "address": "https://auth0.com/changelog",
+      "title": "Auth0 Changelog",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "snippet": "work expanded over 46 years.\nThe multimedia collective has produced more than 30 albums and EPs, as well as fine art, books, radio and live performances that mix found and original material. The band came up with the phrase “culture jamming” to describe its approach to layering art from various",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 5347
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 33,
+          "textWords": 5347
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 5347
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ma72KjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ChromeOS",
+      "title": "ChromeOS - Wikipedia",
+      "snippet": "work to reduce.[19][23][24][25] Additionally, Chris Kenyon, vice president of OEM services at Canonical Ltd, announced that Canonical was under contract to contribute engineering resources to the project with the intent to build on existing open-source components and tools where feasible.[26]",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 11960
+        },
+        "VEDnDEPMAqup": {
+          "hits": 2,
+          "textWords": 11960
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 5,
+          "textWords": 11960
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 11960
+        },
+        "t-Fks0_3axza": {
+          "hits": 3,
+          "textWords": 11960
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PbwP7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
+      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
+      "snippet": "does not consider this page to be a communication venue.\nDiscussions of proposals which do not require significant foundation attention or involvement belong at Village pump (proposals)\nDiscussions of bugs and routine technical issues belong at Village pump (technical).\nConsider developing new",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 152,
+          "textWords": 58285
+        },
+        "VEDnDEPMAqup": {
+          "hits": 67,
+          "textWords": 58285
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 112,
+          "textWords": 58285
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 58285
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 58285
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "h6qKJHS6MKD4",
+      "address": "https://github.com/mcp/microsoft/playwright-mcp",
+      "title": "MCP Registry | Playwright · GitHub",
+      "snippet": "does not serve as a security boundary and does not affect redirects.\nenv PLAYWRIGHT_MCP_ALLOWED_ORIGINS\n--allow-unrestricted-file-access\nallow access to files outside of the workspace roots. Also allows unrestricted access to file:// URLs. By default access to file system is restricted to workspace",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 6683
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 6683
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 6683
+        },
+        "s79guFHrrrJ2": {
+          "hits": 1,
+          "textWords": 6683
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 6683
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VI9YzkSKkctx",
+      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
+      "title": "Toxic Managers",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hWuQZ7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc3986/",
+      "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
+      "snippet": "does not define a generative grammar for URIs; that task is performed by the individual specifications of each URI scheme. Berners-Lee, et al. Standards Track [Page 1]\nRFC 3986 URI Generic Syntax January 2005 Table of Contents 1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 4 1.1.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 13,
+          "textWords": 17773
+        },
+        "VEDnDEPMAqup": {
+          "hits": 25,
+          "textWords": 17773
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 17773
+        },
+        "s79guFHrrrJ2": {
+          "hits": 13,
+          "textWords": 17773
+        },
+        "t-Fks0_3axza": {
+          "hits": 26,
+          "textWords": 17773
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jh1R77XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc6125/",
+      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.",
+      "snippet": "how to provide feedback on it may be obtained at http://www.rfc-editor.org/info/rfc6125. Copyright Notice Copyright (c) 2011 IETF Trust and the persons identified as the document authors. All rights reserved. This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 7,
+          "textWords": 17272
+        },
+        "VEDnDEPMAqup": {
+          "hits": 29,
+          "textWords": 17272
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 17272
+        },
+        "s79guFHrrrJ2": {
+          "hits": 159,
+          "textWords": 17272
+        },
+        "t-Fks0_3axza": {
+          "hits": 5,
+          "textWords": 17272
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jNEVesgJoQyx",
+      "address": "https://grapheneos.org/releases",
+      "title": "Releases | GrapheneOS",
+      "snippet": "work profiles)\nenable multiuser-unaware API usage warnings for Bluetooth processes\nContact Scopes: use identity of the calling app for the filtered query since the query validation, projection mapping, etc. depend on the target SDK version of the calling app (this is a proper solution to the",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 12,
+          "textWords": 112219
+        },
+        "VEDnDEPMAqup": {
+          "hits": 13,
+          "textWords": 112219
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 90,
+          "textWords": 112219
+        },
+        "s79guFHrrrJ2": {
+          "hits": 25,
+          "textWords": 112219
+        },
+        "t-Fks0_3axza": {
+          "hits": 7,
+          "textWords": 112219
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "fRk_vs5DCs35",
+      "address": "https://wordpress.com/features/",
+      "title": "Explore WordPress.com Features | WordPress.com",
+      "snippet": "resolution, picture-in-picture, chapters, subtitles, and different playback speeds.\nPre-Built Block Patterns\nCreate great-looking layouts simply by inserting elegant pre-built block patterns into your pages and posts.\nAdvanced Design Tools\nCustomize your blog’s design with extended color schemes,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 4,
+          "textWords": 1218
+        },
+        "VEDnDEPMAqup": {
+          "hits": 3,
+          "textWords": 1218
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 1218
+        },
+        "s79guFHrrrJ2": {
+          "hits": 2,
+          "textWords": 1218
+        },
+        "t-Fks0_3axza": {
+          "hits": 1,
+          "textWords": 1218
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "4-p3KlSMo4M4",
+      "address": "https://www.zdnet.com/",
+      "title": "News and Advice on the World's Latest Innovations | ZDNET",
+      "snippet": "iPhone Duo is more proof that Microsoft’s brilliant ideas make great Apple products\nMicrosoft spent more than a decade trying to build the perfect foldable phone device and failed. Apple just delivered on that vision with the iPhone Duo. It's one more episode in a long-running series.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 46
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 46
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "snippet": "work expanded over 46 years.\nThe multimedia collective has produced more than 30 albums and EPs, as well as fine art, books, radio and live performances that mix found and original material. The band came up with the phrase “culture jamming” to describe its approach to layering art from various",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 5347
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 33,
+          "textWords": 5347
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 5347
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 5347
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "89Pocs6GdY-4",
+      "address": "https://danluu.com/diseconomies-scale/",
+      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
+      "snippet": "how will Little Mr. 5% Market Share do it?\nAnd a thought leader responded\nlike 95% of the time, when someone claims that some small, independent company can do something hard better than the market leader can, it’s just cope. economies of scale work pretty well!\nBut when we looked at the actual",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 105,
+          "textWords": 54155
+        },
+        "VEDnDEPMAqup": {
+          "hits": 46,
+          "textWords": 54155
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 99,
+          "textWords": 54155
+        },
+        "s79guFHrrrJ2": {
+          "hits": 1,
+          "textWords": 54155
+        },
+        "t-Fks0_3axza": {
+          "hits": 2,
+          "textWords": 54155
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ma72KjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ChromeOS",
+      "title": "ChromeOS - Wikipedia",
+      "snippet": "work to reduce.[19][23][24][25] Additionally, Chris Kenyon, vice president of OEM services at Canonical Ltd, announced that Canonical was under contract to contribute engineering resources to the project with the intent to build on existing open-source components and tools where feasible.[26]",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 11960
+        },
+        "VEDnDEPMAqup": {
+          "hits": 2,
+          "textWords": 11960
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 5,
+          "textWords": 11960
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 11960
+        },
+        "t-Fks0_3axza": {
+          "hits": 3,
+          "textWords": 11960
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XCqnWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Computer_security",
+      "title": "Computer security - Wikipedia",
+      "snippet": "does not completely align with the security convergence schema.\nVulnerabilities and attacks\n[edit]\nA vulnerability refers to a flaw in the structure, execution, functioning, or internal oversight of a computer or system that compromises its security. Most of the vulnerabilities that have been",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 22,
+          "textWords": 22169
+        },
+        "VEDnDEPMAqup": {
+          "hits": 3,
+          "textWords": 22169
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 7,
+          "textWords": 22169
+        },
+        "s79guFHrrrJ2": {
+          "hits": 2,
+          "textWords": 22169
+        },
+        "t-Fks0_3axza": {
+          "hits": 3,
+          "textWords": 22169
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "b-x4NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Domain_name",
+      "title": "Domain name - Wikipedia",
+      "snippet": "(DNS). Any name registered in the DNS is a domain name. Domain names are organized in subordinate levels (subdomains) of the DNS root domain, which is nameless. The first-level set of domain names are the top-level domains (TLDs), including the generic top-level domains (gTLDs), such as the",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 6417
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 6417
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 5,
+          "textWords": 6417
+        },
+        "s79guFHrrrJ2": {
+          "hits": 29,
+          "textWords": 6417
+        },
+        "t-Fks0_3axza": {
+          "hits": 4,
+          "textWords": 6417
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "wYESGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Windows",
+      "title": "Microsoft Windows - Wikipedia",
+      "snippet": "work on a program called \"Interface Manager\". The name \"Windows\" comes from the fact that the system was one of the first to use graphical boxes to represent programs; in the industry, at the time, these were called \"windows\" and the underlying software was called \"windowing software\".[16] It was",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 8,
+          "textWords": 9681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 2,
+          "textWords": 9681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 5,
+          "textWords": 9681
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 9681
+        },
+        "t-Fks0_3axza": {
+          "hits": 1,
+          "textWords": 9681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 18,
+          "textWords": 8109
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 8109
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 7,
+          "textWords": 8109
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "snippet": "work and is now pushing for mandatory U.S. AI safety requirements. Anthropic has also signaled interest in coordinating on the pace of new releases. Here are some of the details Bloomberg reported, as summarized by Reuters: - Altman told employees in a company-wide meeting that the ChatGPT maker",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 8,
+          "textWords": 4681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 4681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 9,
+          "textWords": 4681
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 4681
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 4681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "how the company should be run. I spent a lot of time and energy trying to nudge things in what I think would have been the right direction, but that didn’t lead to anything but burnout on my part. In the end, it seemed best to just part ways.\nBut also, one thing that I always disliked while working",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 153,
+          "textWords": 71870
+        },
+        "VEDnDEPMAqup": {
+          "hits": 80,
+          "textWords": 71870
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 226,
+          "textWords": 71870
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 71870
+        },
+        "t-Fks0_3axza": {
+          "hits": 5,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "s79guFHrrrJ2": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "t-Fks0_3axza": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "24igJXwiDb_d": 716512,
+    "VEDnDEPMAqup": 3853152,
+    "Z-ksh2WpvH-y": 702824,
+    "s79guFHrrrJ2": 149641,
+    "t-Fks0_3axza": 860300
+  }
+}

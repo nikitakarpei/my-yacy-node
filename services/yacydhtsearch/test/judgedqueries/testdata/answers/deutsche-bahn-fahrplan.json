@@ -1,12 +1,166 @@
 {
   "query": "deutsche bahn fahrplan",
-  "recordedAt": "2026-09-11T22:14:21Z",
-  "itemsInTheOrderOfEachAnswer": [],
+  "recordedAt": "2026-09-12T00:19:48Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "NbA0slHjdLqg",
+        "address": "https://www.focus.de/",
+        "title": "FOCUS online - Aktuelle Nachrichten",
+        "snippet": "",
+        "matchedWords": {
+          "0tW-J_MdAY_e": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Ke38EJ9aZo5A": {
+            "hits": 3,
+            "textWords": 13113
+          },
+          "u0VTueRa_hwL": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "7bXOR3jxcqD4",
+        "address": "https://de.rt.com/inland/191621-leserbriefe-an-rt-de/amp/",
+        "title": "Leserbriefe an RT DE: \"Die Erde ist tendenziell eher keine Kugel\"",
+        "snippet": "",
+        "matchedWords": {
+          "0tW-J_MdAY_e": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Ke38EJ9aZo5A": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "u0VTueRa_hwL": {
+            "hits": 1,
+            "textWords": 52016
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NbA0slHjdLqg",
+        "address": "https://www.focus.de/",
+        "title": "FOCUS online - Aktuelle Nachrichten",
+        "snippet": "",
+        "matchedWords": {
+          "0tW-J_MdAY_e": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Ke38EJ9aZo5A": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "u0VTueRa_hwL": {
+            "hits": 1,
+            "textWords": 12927
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "DvDpjdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Athen",
+        "title": "Athen – Wikipedia",
+        "snippet": "S-Bahn-Netz und Athener-Spangenautobahn u. a.) Wirkungen. Smog und typisches Verkehrschaos sind selten geworden. Trotzdem ist eine Abwanderung in andere Städte Griechenlands zu verzeichnen. Ein Grund dafür sind die hohen Immobilienpreise. Gleichzeitig ziehen viele Ausländer nach Griechenland, die",
+        "matchedWords": {
+          "0tW-J_MdAY_e": {
+            "hits": 11,
+            "textWords": 7069
+          },
+          "Ke38EJ9aZo5A": {
+            "hits": 5,
+            "textWords": 7069
+          },
+          "u0VTueRa_hwL": {
+            "hits": 1,
+            "textWords": 7069
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
   "itemsInNoOrder": [
     {
-      "hash": "NbA0slHjdLqg",
-      "address": "https://www.focus.de/",
-      "title": "FOCUS online - Aktuelle Nachrichten",
+      "hash": "jQG4ujj5gZJ5",
+      "address": "https://wissenschaft3000.wordpress.com/category/ernst-nolte/",
+      "title": "Ernst Nolte | Wissenschaft3000 ~ science3000",
+      "snippet": "deutsche Eingreifen, damit die Bolschewisten als Anstifter der Niederlage nach Rußland gelangten sind doch offensichtlich.\nKuz.: Ob das richtig oder falsch ist, gehört nicht zur Sache.\nRak.: Nein, erlauben Sie mir, dies abzuschließen. Steht nicht fest, daß Lenins Handlungsweise dem deutschen Staate",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 1,
+          "textWords": 36632
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 19,
+          "textWords": 36632
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 36632
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pvRMKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Westfalen",
+      "title": "Westfalen",
+      "snippet": "Deutsche Fußballmuseum beheimatet.\nDas Heinz Nixdorf MuseumsForum in Paderborn ist das größte Computermuseum der Welt mit zusätzlich wechselnden Ausstellungen in den Bereichen Technik und IT.\nDas Schauspielhaus Bochum ist eine der wichtigsten deutschsprachigen Bühnen.\nIn Westfalen ist mit dem",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 2,
+          "textWords": 10997
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 3,
+          "textWords": 10997
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 10997
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "qvp3KdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Leverkusen",
+      "title": "Leverkusen – Wikipedia",
+      "snippet": "deutsche Flieger einen Luftkampf über Leverkusen lieferten. In der Nacht des 5. Juni 1940 gab es den ersten Luftangriff, bei dem unter anderem die Siedlung Niederblecher getroffen wurde. Schon wenige Tage später fielen Bomben auf die Farbenfabriken und verursachten große Zerstörungen. Gleichzeitig",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 4,
+          "textWords": 12889
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 5,
+          "textWords": 12889
+        },
+        "u0VTueRa_hwL": {
+          "hits": 3,
+          "textWords": 12889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wEtxBltNQfKh",
+      "address": "https://www.derstandard.at/",
+      "title": "derStandard.at | Nachrichten, Kommentare \u0026 Community",
       "snippet": "",
       "matchedWords": {
         "0tW-J_MdAY_e": {
@@ -25,9 +179,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "NbA0slHjdLqg",
-      "address": "https://www.focus.de/",
-      "title": "FOCUS online - Aktuelle Nachrichten",
+      "hash": "wEtxBltNQfKh",
+      "address": "https://www.derstandard.at/",
+      "title": "derStandard.at | Nachrichten, Kommentare \u0026 Community",
       "snippet": "",
       "matchedWords": {
         "0tW-J_MdAY_e": {
@@ -46,9 +200,240 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "NbA0slHjdLqg",
-      "address": "https://www.focus.de/",
-      "title": "FOCUS online - Aktuelle Nachrichten",
+      "hash": "qvp3KdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Leverkusen",
+      "title": "Leverkusen – Wikipedia",
+      "snippet": "deutsche Flieger einen Luftkampf über Leverkusen lieferten. In der Nacht des 5. Juni 1940 gab es den ersten Luftangriff, bei dem unter anderem die Siedlung Niederblecher getroffen wurde. Schon wenige Tage später fielen Bomben auf die Farbenfabriken und verursachten große Zerstörungen. Gleichzeitig",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 4,
+          "textWords": 12889
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 5,
+          "textWords": 12889
+        },
+        "u0VTueRa_hwL": {
+          "hits": 3,
+          "textWords": 12889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pvRMKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Westfalen",
+      "title": "Westfalen – Wikipedia",
+      "snippet": "Deutsche Fußballmuseum beheimatet.\nDas Heinz Nixdorf MuseumsForum in Paderborn ist das größte Computermuseum der Welt mit zusätzlich wechselnden Ausstellungen in den Bereichen Technik und IT.\nDas Schauspielhaus Bochum ist eine der wichtigsten deutschsprachigen Bühnen.\nIn Westfalen ist mit dem",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 2,
+          "textWords": 10997
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 3,
+          "textWords": 10997
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 10997
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "qvp3KdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Leverkusen",
+      "title": "Leverkusen – Wikipedia",
+      "snippet": "deutsche Flieger einen Luftkampf über Leverkusen lieferten. In der Nacht des 5. Juni 1940 gab es den ersten Luftangriff, bei dem unter anderem die Siedlung Niederblecher getroffen wurde. Schon wenige Tage später fielen Bomben auf die Farbenfabriken und verursachten große Zerstörungen. Gleichzeitig",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 4,
+          "textWords": 12889
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 5,
+          "textWords": 12889
+        },
+        "u0VTueRa_hwL": {
+          "hits": 3,
+          "textWords": 12889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jQG4ujj5gZJ5",
+      "address": "https://wissenschaft3000.wordpress.com/category/ernst-nolte/",
+      "title": "Ernst Nolte | Wissenschaft3000 ~ science3000",
+      "snippet": "deutsche Eingreifen, damit die Bolschewisten als Anstifter der Niederlage nach Rußland gelangten sind doch offensichtlich.\nKuz.: Ob das richtig oder falsch ist, gehört nicht zur Sache.\nRak.: Nein, erlauben Sie mir, dies abzuschließen. Steht nicht fest, daß Lenins Handlungsweise dem deutschen Staate",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 1,
+          "textWords": 36632
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 19,
+          "textWords": 36632
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 36632
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wEtxBltNQfKh",
+      "address": "https://www.derstandard.at/",
+      "title": "derStandard.at | Nachrichten, Kommentare \u0026 Community",
+      "snippet": "",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "u0VTueRa_hwL": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wEtxBltNQfKh",
+      "address": "https://www.derstandard.at/",
+      "title": "derStandard.at | Nachrichten, Kommentare \u0026 Community",
+      "snippet": "",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "u0VTueRa_hwL": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pvRMKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Westfalen",
+      "title": "Westfalen – Wikipedia",
+      "snippet": "Deutsche Fußballmuseum beheimatet.\nDas Heinz Nixdorf MuseumsForum in Paderborn ist das größte Computermuseum der Welt mit zusätzlich wechselnden Ausstellungen in den Bereichen Technik und IT.\nDas Schauspielhaus Bochum ist eine der wichtigsten deutschsprachigen Bühnen.\nIn Westfalen ist mit dem",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 2,
+          "textWords": 10997
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 3,
+          "textWords": 10997
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 10997
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "pvRMKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Westfalen",
+      "title": "Westfalen – Wikipedia",
+      "snippet": "Deutsche Fußballmuseum beheimatet.\nDas Heinz Nixdorf MuseumsForum in Paderborn ist das größte Computermuseum der Welt mit zusätzlich wechselnden Ausstellungen in den Bereichen Technik und IT.\nDas Schauspielhaus Bochum ist eine der wichtigsten deutschsprachigen Bühnen.\nIn Westfalen ist mit dem",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 2,
+          "textWords": 10997
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 3,
+          "textWords": 10997
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 10997
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "qvp3KdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Leverkusen",
+      "title": "Leverkusen – Wikipedia",
+      "snippet": "deutsche Flieger einen Luftkampf über Leverkusen lieferten. In der Nacht des 5. Juni 1940 gab es den ersten Luftangriff, bei dem unter anderem die Siedlung Niederblecher getroffen wurde. Schon wenige Tage später fielen Bomben auf die Farbenfabriken und verursachten große Zerstörungen. Gleichzeitig",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 4,
+          "textWords": 12889
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 5,
+          "textWords": 12889
+        },
+        "u0VTueRa_hwL": {
+          "hits": 3,
+          "textWords": 12889
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jQG4ujj5gZJ5",
+      "address": "https://wissenschaft3000.wordpress.com/category/ernst-nolte/",
+      "title": "Ernst Nolte | Wissenschaft3000 ~ science3000",
+      "snippet": "deutsche Eingreifen, damit die Bolschewisten als Anstifter der Niederlage nach Rußland gelangten sind doch offensichtlich.\nKuz.: Ob das richtig oder falsch ist, gehört nicht zur Sache.\nRak.: Nein, erlauben Sie mir, dies abzuschließen. Steht nicht fest, daß Lenins Handlungsweise dem deutschen Staate",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 1,
+          "textWords": 36632
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 19,
+          "textWords": 36632
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 36632
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jQG4ujj5gZJ5",
+      "address": "https://wissenschaft3000.wordpress.com/category/ernst-nolte/",
+      "title": "Ernst Nolte | Wissenschaft3000 ~ science3000",
+      "snippet": "deutsche Eingreifen, damit die Bolschewisten als Anstifter der Niederlage nach Rußland gelangten sind doch offensichtlich.\nKuz.: Ob das richtig oder falsch ist, gehört nicht zur Sache.\nRak.: Nein, erlauben Sie mir, dies abzuschließen. Steht nicht fest, daß Lenins Handlungsweise dem deutschen Staate",
+      "matchedWords": {
+        "0tW-J_MdAY_e": {
+          "hits": 1,
+          "textWords": 36632
+        },
+        "Ke38EJ9aZo5A": {
+          "hits": 19,
+          "textWords": 36632
+        },
+        "u0VTueRa_hwL": {
+          "hits": 1,
+          "textWords": 36632
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wEtxBltNQfKh",
+      "address": "https://www.derstandard.at/",
+      "title": "derStandard.at | Nachrichten, Kommentare \u0026 Community",
       "snippet": "",
       "matchedWords": {
         "0tW-J_MdAY_e": {
@@ -68,8 +453,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "0tW-J_MdAY_e": 4166,
-    "Ke38EJ9aZo5A": 26482,
-    "u0VTueRa_hwL": 185
+    "0tW-J_MdAY_e": 149511,
+    "Ke38EJ9aZo5A": 305698,
+    "u0VTueRa_hwL": 8039
   }
 }

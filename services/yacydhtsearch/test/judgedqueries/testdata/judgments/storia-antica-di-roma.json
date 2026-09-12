@@ -1,0 +1,65 @@
+{
+  "query": "storia antica di roma",
+  "judgedDocuments": [
+    {
+      "hash": "LSZQb4XlMkDx",
+      "address": "https://scn.wikipedia.org/wiki/P%C3%A0ggina_principali",
+      "title": "Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DMqpejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Roman_Empire",
+      "title": "Roman Empire - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "cowocQ6AOKEx",
+      "address": "https://co.wikipedia.org/wiki/Pagina_maestra",
+      "title": "Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "u51StlKaKudg",
+      "address": "https://www.corriere.it/",
+      "title": "Corriere della Sera: News e Ultime notizie in tempo reale da Italia e Mondo",
+      "grade": 0
+    },
+    {
+      "hash": "78UBwCUBTaLg",
+      "address": "https://corrieredelveneto.corriere.it/padova/",
+      "title": "Padova: le ultime news dalla città | Corriere del Veneto",
+      "grade": 0
+    },
+    {
+      "hash": "-exk2lgMr6jg",
+      "address": "https://www.vogue.it/",
+      "title": "Vogue Italia: Moda, Bellezza, Lifestyle, News - Vogue | Vogue Italia",
+      "grade": 0
+    },
+    {
+      "hash": "rJHmYlsozXdh",
+      "address": "https://www.repubblica.it/il-gusto/",
+      "title": "Il Gusto",
+      "grade": 0
+    },
+    {
+      "hash": "3nG7Jlw17w8x",
+      "address": "https://www.quotidiano.net/",
+      "title": "Quotidiano Nazionale: news e ultime notizie di oggi dall'Italia e dal Mondo",
+      "grade": 0
+    },
+    {
+      "hash": "8y2yzlkeJYej",
+      "address": "https://www.museiincomuneroma.it/",
+      "title": "| Portale dei Musei in Comune",
+      "grade": 1
+    },
+    {
+      "hash": "oDA_QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Rome",
+      "title": "Rome - Wikipedia",
+      "grade": 1
+    }
+  ]
+}

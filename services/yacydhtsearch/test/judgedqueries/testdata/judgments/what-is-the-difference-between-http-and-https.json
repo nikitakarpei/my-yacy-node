@@ -1,0 +1,41 @@
+{
+  "query": "what is the difference between http and https",
+  "judgedDocuments": [
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "grade": 0
+    },
+    {
+      "hash": "Oxa0g_nMM_j5",
+      "address": "https://grokipedia.com/page/Data_validation",
+      "title": "Data validation — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "WJpREitD2jQw",
+      "address": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types — Python 3.13.5 documentation",
+      "grade": 0
+    }
+  ]
+}

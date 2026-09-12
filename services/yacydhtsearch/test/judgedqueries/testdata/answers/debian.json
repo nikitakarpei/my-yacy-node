@@ -1,6 +1,6 @@
 {
   "query": "debian",
-  "recordedAt": "2026-09-11T22:14:21Z",
+  "recordedAt": "2026-09-12T00:11:19Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -121,14 +121,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "AU4LiKf4Pib5",
-        "address": "https://code.visualstudio.com/docs/remote/troubleshooting",
-        "title": "Remote Development Tips and Tricks",
+        "hash": "D-mWWKf4Pib5",
+        "address": "https://code.visualstudio.com/docs/devcontainers/tips-and-tricks",
+        "title": "Dev Containers Tips and Tricks",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 4024
+            "hits": 10,
+            "textWords": 2604
           }
         },
         "queryPhraseHits": 0
@@ -201,27 +201,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "ye8_B5CV-K44",
-        "address": "https://virtualmachinery.weebly.com/debian-linux.html",
-        "title": "Debian Linux Tutorial - Virtual Machinery",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 28,
-            "textWords": 1398
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "S6BIcp65jyZQ",
         "address": "http://neuro.debian.net/",
         "title": "The Ultimate Neuroscience Software Platform — Debian Neuroscience Package Repository",
-        "snippet": "Debian operating system as well as Ubuntu and other derivatives. Popular packages include AFNI, FSL, PyMVPA and many others. While we do strive to maintain a high level of quality, we make no guarantee that a given package works as expected, so use them at your own risk. If you do encounter",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 6,
-            "textWords": 496
+            "hits": 14,
+            "textWords": 862
           }
         },
         "queryPhraseHits": 0
@@ -240,14 +227,27 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "ye8_B5CV-K44",
+        "address": "https://virtualmachinery.weebly.com/debian-linux.html",
+        "title": "Debian Linux Tutorial - Virtual Machinery",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 28,
+            "textWords": 1398
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "wcFQZHSmdGb5",
         "address": "https://smurf-debian.livejournal.com/",
         "title": "Debian Ramblings — LiveJournal",
-        "snippet": "Debian Ramblings\n26th June, 2007. 2:06 pm. Be prepared!\n\u003e\u003e Thank you for your message to the Adaptec Customer Service department.\n\u003e\u003e Your case # is 000000000005432. (NB: not the real number.)\n*ROTFL* Exactly how many customer requests do they expect to handle?\nIf the answer is \"about 100/day\",",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 1006
+            "hits": 6,
+            "textWords": 1572
           }
         },
         "queryPhraseHits": 0
@@ -268,14 +268,14 @@
     ],
     [
       {
-        "hash": "LphQq3piq92w",
-        "address": "https://packages.debian.org/squeeze/system-config-lvm",
-        "title": "Debian -- Error",
-        "snippet": "two or more packages specified (system-config-lvm squeeze)",
+        "hash": "8L6LJtpiq92w",
+        "address": "https://packages.debian.org/source/stable/zxcvbn-c",
+        "title": "Debian -- Details of source package zxcvbn-c in trixie",
+        "snippet": "debian/rules\nadep: dh-exec (\u003e= 0.3)\nScripts to help with executable debhelper files",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 9
+            "hits": 1,
+            "textWords": 55
           }
         },
         "queryPhraseHits": 0
@@ -297,11 +297,11 @@
         "hash": "t5P9HWYgUcBw",
         "address": "https://salsa.debian.org/qa/distro-tracker",
         "title": "Debian QA / distro-tracker · GitLab",
-        "snippet": "Debian based distribution. Powers https://tracker.debian.org",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 12
+            "hits": 3,
+            "textWords": 122
           }
         },
         "queryPhraseHits": 0
@@ -336,11 +336,11 @@
         "hash": "cXBpyn8Iy73w",
         "address": "https://sources.debian.org/src/zxcvbn-c/2.6%2Bdfsg-1",
         "title": "Folder: 2.6+dfsg-1 | Debian Sources",
-        "snippet": "debian\nd\nrwxr-xr-x\n35\nrpm\n-\nrw-r--r--\n215\n.gitignore\n-\nrw-r--r--\n3,867\nCMakeLists.txt\n-\nrw-r--r--\n1,077\nLICENSE.txt\n-\nrw-r--r--\n3,152\nREADME.md\n-\nrw-r--r--\n56,701\ndict-generate.cpp\n-\nrw-r--r--\n4,489\nmakefile\n-\nrw-r--r--\n4,842\ntest-internals.c\n-\nrw-r--r--\n10,233\ntest.c\n-\nrw-r--r--\n6,529",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 124
+            "hits": 3,
+            "textWords": 265
           }
         },
         "queryPhraseHits": 0
@@ -349,11 +349,11 @@
         "hash": "owTl3Df-yVAQ",
         "address": "http://ftp.debian.org/debian/pool/main/z/zxcvbn-c/",
         "title": "Index of /debian/pool/main/z/zxcvbn-c",
-        "snippet": "zxcvbn-c_2.4+dfsg-2.debian.tar.xz2018-09-09 15:37 424K\nzxcvbn-c_2.4+dfsg-2.dsc2018-09-09 15:37 2.0K\nzxcvbn-c_2.4+dfsg.orig.tar.xz2018-09-08 19:04 917K\nzxcvbn-c_2.5+dfsg-1.debian.tar.xz2022-04-10 20:58 418K\nzxcvbn-c_2.5+dfsg-1.dsc2022-04-10 20:58 2.0K\nzxcvbn-c_2.5+dfsg-2.debian.tar.xz2024-02-26",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 4,
-            "textWords": 689
+            "hits": 7,
+            "textWords": 1533
           }
         },
         "queryPhraseHits": 0
@@ -362,11 +362,11 @@
         "hash": "vlYrC9Ie_Z8Q",
         "address": "http://crossqa.debian.net/src/zxcvbn-c",
         "title": "zxcvbn-c - Debian cross build",
-        "snippet": "zxcvbn-c\nCross build dependency satisfiability\nstate\narchitectures\nok\nany → any\nCross builds\nstarted\nversion\nbuild architecture\nhost architecture\nresult log\n215 d\n2.6+dfsg-1\namd64\nppc64el\nok xz\n357 d\n2.6+dfsg-1\narm64\namd64\nok xz\n382 d\n2.6+dfsg-1\namd64\nppc64el\nok xz\n382 d\n2.6+dfsg-1\narm64\ni386\nok xz",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 439
+            "hits": 2,
+            "textWords": 644
           }
         },
         "queryPhraseHits": 0
@@ -388,11 +388,11 @@
         "hash": "I7mxoopg4UCw",
         "address": "https://www.wikidata.org/wiki/Property:P3442",
         "title": "Debian stable package - Wikidata",
-        "snippet": "Debian stable package\nDebian package\npackage, Debian stable\nDebian binary package\nLanguage\nLabel\nDescription\nAlso known as\ndefault for all languages\nNo label defined\nEnglish\nDebian stable package\nname of the official Debian stable package\nDebian package\npackage, Debian stable\nDebian binary package",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 12,
-            "textWords": 108
+            "hits": 20,
+            "textWords": 620
           }
         },
         "queryPhraseHits": 0
@@ -403,11 +403,11 @@
         "hash": "MbU-Lppiq92w",
         "address": "https://packages.debian.org/unstable/utils/jigdo-file.html",
         "title": "Debian -- Error",
-        "snippet": "Debian is a trademark of SPI Inc. Learn more about this site.",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 28
+            "hits": 4,
+            "textWords": 78
           }
         },
         "queryPhraseHits": 0
@@ -494,11 +494,11 @@
         "hash": "NPH9YUkwFFcw",
         "address": "https://db.debian.org/machines.cgi?host=dinis",
         "title": "Debian Project -- debian.org Developer Machines",
-        "snippet": "dinis.debian.org\nHost name: dinis.debian.org\nAdmin contact: debian-admin@lists.debian.org\nArchitecture: amd64\nDistribution: Debian GNU/Linux\nAccess: restricted\nSponsor: individual Debian supporters (hardware)\nLenovo (hardware)\nUniversity of British Columbia (UBC) (hosting)\nLocation: Vancouver, BC,",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 12,
-            "textWords": 146
+            "hits": 17,
+            "textWords": 455
           }
         },
         "queryPhraseHits": 0
@@ -520,11 +520,11 @@
         "hash": "OfRi4Df-yVAQ",
         "address": "http://ftp.debian.org/debian/dists/proposed-updates/",
         "title": "Index of /debian/dists/proposed-updates",
-        "snippet": "debian-edu-config_2.13.2~deb13u1_all-buildd.changes2026-09-09 05:56 2.0K\ndebian-edu-config_2.13.2~deb13u1_source.changes2026-09-07 11:42 2.2K\ndebian-edu-install_2.12.11+deb13u1_all-buildd.changes2026-09-04 10:15 3.0K\ndebian-edu-install_2.12.11+deb13u1_source.changes2026-08-25 18:57 2.4K",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 13,
-            "textWords": 18686
+            "hits": 3,
+            "textWords": 4235
           }
         },
         "queryPhraseHits": 0
@@ -613,11 +613,11 @@
         "hash": "f2gAZmwYpnl5",
         "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
         "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
-        "snippet": "Debian version and the latest stable Ubuntu version running the GNOME desktop environment. They should also work with most distributions based on Debian or Ubuntu (not Ubuntu Server or Raspbian), but these are not officially supported.\nOther ways to use Proton VPN on Linux\nHow to use the Proton VPN",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 9,
-            "textWords": 947
+            "hits": 10,
+            "textWords": 2433
           }
         },
         "queryPhraseHits": 0
@@ -652,11 +652,1376 @@
         "hash": "XVu8Lm0h8sSw",
         "address": "https://tracker.debian.org/pkg/osmalchemy",
         "title": "osmalchemy - Debian Package Tracker",
-        "snippet": "Debian distribution. Thus you won't find much information here. The package is either very new and hasn't appeared on mirrors yet, or it's an old package that eventually got removed. The old news are kept for historic purpose only.",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 17,
+            "textWords": 343
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-32vwSSLTmwg",
+        "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+        "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 17,
+            "textWords": 6935
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "H6Zz4sS6MKD4",
+        "address": "https://github.com/trending",
+        "title": "Trending repositories on GitHub today · GitHub",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 49
+            "textWords": 2490
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Fi8Mcs46hOL5",
+        "address": "https://mailinabox.email/setup.sh",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 405
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "kzhqNRwwZMe4",
+        "address": "https://www.daniweb.com/tags/debian",
+        "title": "'debian' Forum Topics | DaniWeb",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 95,
+            "textWords": 4543
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "m1-2Wtpiq92w",
+        "address": "https://packages.debian.org/source/sid/libsidplay",
+        "title": "Debian -- Details of source package libsidplay in sid",
+        "snippet": "Source Package: libsidplay (1.36.60-3)\nThe following binary packages are built from this source package:\nlibsidplay1-dev\nSID (MOS 6581) emulation library (development files)\nlibsidplay1v5\nSID (MOS 6581) emulation library\nOther Packages Related to libsidplay\nbuild-depends\nbuild-depends-indep\nadep:",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 47
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ldzk0N1nrxbw",
+        "address": "https://www.debian.org/women/participate",
+        "title": "Debian -- How to get involved in Debian Women",
+        "snippet": "Debian Women project and help shape the future of the project by participating in discussion on our mailing list. The debian-women list page includes a form for subscribing and unsubscribing, as well as list archives. (This is true for all the Debian list links in this document).\nIn addition,",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 9,
+            "textWords": 254
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mfvaRlPN-Az4",
+        "address": "https://www.hellotux.com/debian13_barrelbag?image=1",
+        "title": "Debian Trixie barrel bag - HELLOTUX",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 507
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "niatK1UPWbf4",
+        "address": "https://jfrog.com/integrations/artifactory-debian-repository/",
+        "title": "Using a Debian repository? - JFrog Artifactory",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 29,
+            "textWords": 3382
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nIXyutpiq92w",
+        "address": "https://packages.debian.org/source/bullseye/simplesamlphp",
+        "title": "Debian -- Details of source package simplesamlphp in bullseye",
+        "snippet": "debian/rules",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 42
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mt1vvE1nrxbw",
+        "address": "https://www.debian.org/users/edu/harvard-physics",
+        "title": "Debian -- Department of Physics, Harvard University, USA",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 14,
+            "textWords": 264
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "koKXBkS6MKD4",
+        "address": "https://github.com/rdmark/Netatalk-2.x/blob/branch-netatalk-2-x/contrib/shell_utils/debian_install.sh",
+        "title": "netatalk-2.x/contrib/shell_utils/debian_install.sh at branch-netatalk-2-x · rdmark/netatalk-2.x · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 1913
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nOXnc-cLWfM6",
+        "address": "https://linuxsecurity.com/advisories/debian/debian-dsa-6159-1-imagemagick",
+        "title": "Debian DSA-6159-1 Imagemagick Important Info Leak Denial of Service",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 18,
+            "textWords": 1012
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "loRDLRLPB-C6",
+        "address": "https://www.linux-magazine.com/tags/view/Operating+Systems/Linux/DEBIAN/Debian+7",
+        "title": "Debian%207 » DEBIAN » Linux » Operating%20Systems » Linux Magazine",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 9,
+            "textWords": 764
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "6Zkk9jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Debian_GNU/Hurd",
+        "title": "Debian - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 16,
+            "textWords": 15474
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qeWxK_AJN7b6",
+        "address": "https://optimizedbyotto.com/post/debian-packaging-from-git/",
+        "title": "Creating Debian packages from upstream Git",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 8694
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pszZbUqZWFe4",
+        "address": "https://gyptazy.com/blog/kanidm-with-proxmox-and-oidc-the-full-setup/",
+        "title": "Kanidm OIDC with Proxmox VE – Configuration Guide",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 93
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EcW7eOs1diex",
+        "address": "https://forums.virtualbox.org/viewtopic.php?p=15769",
+        "title": "MacOS X beta 3 released! - virtualbox.org",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1229
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pcNM-o75cLRw",
+        "address": "https://www.apalrd.net/posts/2022/raspi_spice_vdi/",
+        "title": "PVE-VDIClient - A Python Graphical VDI Client for Proxmox",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 108
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eAAUvFRQd9Yw",
+        "address": "https://about.ruds.io/",
+        "title": "Rudra Saraswat – Just another tech nerd's about page",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1421
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PC2FfvS6MKD4",
+        "address": "https://github.com/ArchiveTeam/quizlet-grab",
+        "title": "GitHub - ArchiveTeam/quizlet-grab · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 1470
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HHu8ZtIQw8px",
+        "address": "https://blog.andresgomez.org/",
+        "title": "frozen mumblings | tanty's lumber room: free software, life, art and so on …",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 7910
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8CJLrjAL9Tgx",
+        "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+        "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 12145
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6IL4IjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Template_talk:Timeline_Debian_GNU/Linux",
+        "title": "Template talk:Timeline Debian GNU/Linux - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 698
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [
+      {
+        "hash": "wRV4m5piq92w",
+        "address": "https://packages.debian.org/.internal/challenge.html?original=%2fsource%2funstable%2fasterisk",
+        "title": "Debian -- Error",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 89
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wXumBqp4ogvw",
+        "address": "https://qa.debian.org/cgi-bin/watch?pkg=plexus-velocity",
+        "title": "Watch -- Debian Quality Assurance",
+        "snippet": "debian_mangled_uversion: 1.2\ndebian_uversion: 1.2\ndistribution: debian\nlast_check: 2026-09-11 22:20:08.651399\nrelease: sid\nsource: plexus-velocity\nstatus: newer package available\nupstream_url: https://github.com/codehaus-plexus/plexus-velocity/archive/refs/tags/plexus-velocity-2.4.0.tar.gz",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 64
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xCnp1G1nrxbw",
+        "address": "https://www.debian.org/vote/2007/vote_003",
+        "title": "General Resolution: Endorse the concept of Debian Maintainers",
+        "snippet": "[ajt@debian.org] [\u003c20070627114135.GA25831@azure.humbug.org.au\u003e]\nSeconds\nMartin F. Krafft [madduck@debian.org]\nNeil McGovern [neilm@debian.org]\nMoritz Muehlenhoff [jmm@debian.org]\nSteve Langasek [vorlon@debian.org]\nRaphael Hertzog [hertzog@debian.org]\nAntti-Juhani Kaijanaho [ajk@debian.org]",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 50,
+            "textWords": 1291
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z3R1oo8zaRUY",
+        "address": "http://www.hungry.com/~pere/blog/How_to_transform_a_Debian_based_system_to_a_Debian_Edu_installation.html",
+        "title": "How to transform a Debian based system to a Debian Edu installation",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 23,
+            "textWords": 786
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xpAXms9r_z8g",
+        "address": "https://gnulinux.ch/ciw050-podcast",
+        "title": "CIW050 - 30 Jahre Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 20
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yd7F2QhABXNw",
+        "address": "https://security-tracker.debian.org/tracker/CVE-2019-19062",
+        "title": "CVE-2019-19062",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 185
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yUzfC5ZwBp64",
+        "address": "https://feed.jupiter.zone/allshows",
+        "title": "Linux Action News 45",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 42
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xF2NUewYMOkg",
+        "address": "https://www.indymedia.org.uk/",
+        "title": "UK Indymedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 4367
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ztgcOsl7qQay",
+        "address": "https://jonathancarter.org/",
+        "title": "Jonathan Carter",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 29,
+            "textWords": 1022
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xQJRCWKUaNi4",
+        "address": "https://nerds.xyz/tag/apache/",
+        "title": "Apache - NERDS.xyz",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 183
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "EL9VMtpiq92w",
+        "address": "https://packages.debian.org/source/oldstable/avian",
+        "title": "Debian -- Error",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 75
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0EpDBk1nrxbw",
+        "address": "https://www.debian.org/consultants/philiphands",
+        "title": "Debian -- List of Consultants",
+        "snippet": "Debian GNU/Linux in particular since 1993. It is owned and run by Philip Hands, who has been a Debian developer since 1996, and has a wide knowledge of Free Software, with particular specialisation in communications and interconnection of systems, having been the Debian maintainer for packages",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 114
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sRbYz79o2yYx",
+        "address": "https://code.launchpad.net/~debian-users",
+        "title": "Code : “Debian GNU/Linux Users” team",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 97
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iFbcNGpGFoNw",
+        "address": "https://manpages.debian.org/trixie/apt/index.html",
+        "title": "Manpages of apt in Debian trixie — Debian Manpages",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 314
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dbbzLv7JARt4",
+        "address": "https://www.infoq.com/news/2026/09/cern-debian-infra/",
+        "title": "CERN Renounces RHEL in Favor of Debian for Its Accelerator Controls Infrastructure - InfoQ",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 11,
+            "textWords": 2609
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "f2gAZmwYpnl5",
+        "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
+        "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 10,
+            "textWords": 2433
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Kl1KmBYgUcBw",
+        "address": "https://salsa.debian.org/java-team/filius",
+        "title": "Debian Java Maintainers / filius · GitLab",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C-M7A2IUABrg",
+        "address": "https://blog.root.cz/petrkrcmar/proc-se-instalacni-cd-debian-netinst-zvetsilo-o-350-mb/1118427/odpovedet/",
+        "title": "Odpověď na názor ke článku Proč se instalační CD Debian netinst zvětšilo o 350 MB? - Root.cz",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 12,
+            "textWords": 454
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "98Gadm0h8sSw",
+        "address": "https://tracker.debian.org/pkg/lua-torch-trepl",
+        "title": "lua-torch-trepl - Debian Package Tracker",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 11,
+            "textWords": 420
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_Fvh4KEVkqKw",
+        "address": "https://udd.debian.org/duck/?llama.cpp=",
+        "title": "UDD - Debian URL Checker",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 292
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [
+      {
+        "hash": "iaso0m0h8sSw",
+        "address": "https://tracker.debian.org/pkg/debian-installer",
+        "title": "debian-installer - Debian Package Tracker",
+        "snippet": "salsa.debian.org in the project's general settings with the \"Default Branch\" field). Alternatively the Vcs-Git field in debian/control can contain a \"-b \u003cbranch-name\u003e\" suffix to indicate what branch is used for the Debian packaging.",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 345
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XFmAGZIOYuRw",
+        "address": "https://chronicles.debian.org/www/News/2022/",
+        "title": "Debian -- News from 2022",
+        "snippet": "Debian is a registered trademark of Software in the Public Interest, Inc.",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 53
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9ZYostpiq92w",
+        "address": "https://packages.debian.org/source/unstable/pflogsumm",
+        "title": "Debian -- Details of source package pflogsumm in sid",
+        "snippet": "The following binary packages are built from this source package:\npflogsumm\nPostfix log entry summarizer\nOther Packages Related to pflogsumm\nbuild-depends\nbuild-depends-indep\nadep: debhelper-compat (= 13)\nPackage not available",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 32
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NieByss_WHN4",
+        "address": "https://www.freexian.com/about/debian-contributions/",
+        "title": "Debian Contributions | Freexian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 23,
+            "textWords": 479
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_NH8h31nrxbw",
+        "address": "https://www.debian.org/News/2026/2026011002",
+        "title": "Debian -- News -- Updated Debian 12: 12.13 released",
+        "snippet": "Debian project is pleased to announce the thirteenth update of its oldstable distribution Debian 12 (codename bookworm). This point release mainly adds corrections for security issues, along with a few adjustments for serious problems. Security advisories have already been published separately and",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 16,
+            "textWords": 1781
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2FWApvieFWRw",
+        "address": "https://paste.debian.net/",
+        "title": "Debian Pastezone",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 836
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "x-SMS15DSsfw",
+        "address": "https://forum.rvspace.org/t/risc-v-is-now-an-official-debian-architecture/3244",
+        "title": "RISC-V Is Now An Official Debian Architecture - VisionFive 2 (EN) - RVspace Forum",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 13,
+            "textWords": 532
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-32vwSSLTmwg",
+        "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+        "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 17,
+            "textWords": 6935
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_BwQ1GNQlu2w",
+        "address": "https://bits.debian.org/",
+        "title": "Bits from Debian - Blog from the Debian Project",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 44,
+            "textWords": 2093
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-ieBCR9oEcsw",
+        "address": "https://micronews.debian.org/",
+        "title": "Debian micronews",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 23,
+            "textWords": 897
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "AbsN3l1nrxbw",
+        "address": "https://www.debian.org/contact",
+        "title": "Debian -- How to contact us",
+        "snippet": "Debian\nPublicity \u0026 Press\nEvents \u0026 Conferences\nHelping Debian\nReporting Problems in Debian Packages\nDebian Development\nProblems with the Debian Infrastructure\nHarassment Issues\nDebian is a large organization and there are several ways to get in touch with project members and other Debian users. This",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 54,
+            "textWords": 772
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 26,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A5ezftS6MKD4",
+        "address": "https://github.com/trending/debian-package-control-file?since=daily",
+        "title": "Trending Debian Package Control File repositories on GitHub today · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 1828
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A_j0MlTeQuPw",
+        "address": "https://codeberg.org/9001/copyparty",
+        "title": "9001/copyparty: Portable file server with accelerated resumable uploads, dedup, WebDAV, FTP, TFTP, zeroconf, media indexer, thumbnails++ all in one file, no deps - Codeberg.org",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 27623
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CRermB-c6vHw",
+        "address": "https://nixos.org/manual/nixos/stable/",
+        "title": "NixOS Manual",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 25138
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AXJnk2bypRQw",
+        "address": "https://forgejo.org/docs/latest/contributor/dco/",
+        "title": "Developer Certificate of Origin (DCO) | Forgejo – Beyond coding. We forge.",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 714
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A2QNUs_A2byx",
+        "address": "https://nuetzlich.net/gocryptfs/",
+        "title": "gocryptfs",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 542
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Cg2bFWKUaNi4",
+        "address": "https://nerds.xyz/tag/cybersecurity/",
+        "title": "cybersecurity - NERDS.xyz",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 1082
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CjgsxsIyoLTx",
+        "address": "https://planetpython.org/",
+        "title": "Planet Python",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 18982
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AbY6mss9H12w",
+        "address": "https://jrs-s.net/",
+        "title": "JRS Systems: the blog – technomancy made simple",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 6527
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8UgLpm0h8sSw",
+        "address": "https://tracker.debian.org/pkg/gasnet",
+        "title": "gasnet - Debian Package Tracker",
+        "snippet": "debian/watch no matching files for watch source https://bitbucket.org/berkeleylab/gasnet/downloads?tab=downloads\nCreated: 2026-03-10 Last update: 2026-09-11 22:31\n1 bug tagged patch in the BTS normal\nCreated: 2026-09-02 Last update: 2026-09-11 23:30\nlintian reports 7 warnings normal\nLintian reports",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 160
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bZbFuPQGph7w",
+        "address": "https://i18n.debian.org/",
+        "title": "i18n.debian.org/l10n.debian.org",
+        "snippet": "Debian Internationalization (i18n) and localization (l10n)\nThese are the Debian Internationalisation (i18n) and localization (l10n) servers. These servers, administered by Debian system admins, provide several services related to internationalization and localization of Debian.\nThis page documents",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 13,
+            "textWords": 171
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ggk3Jtpiq92w",
+        "address": "https://packages.debian.org/source/stable/icedtea-web",
+        "title": "Debian -- Details of source package icedtea-web in trixie",
+        "snippet": "The following binary packages are built from this source package:\nicedtea-netx\nImplementation of the Java Network Launching Protocol (JNLP)\nOther Packages Related to icedtea-web\nbuild-depends\nbuild-depends-indep\nadep: debhelper-compat (= 12)\nPackage not available\nadep: default-jdk\nStandard Java or",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 95
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Xgv3h_07-TG5",
+        "address": "https://www.itechtics.com/eol/debian/",
+        "title": "Debian Lifecycle: End Of Life And Support Status",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 18,
+            "textWords": 1037
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "E4Z92E1nrxbw",
+        "address": "https://www.debian.org/users/com/biodec",
+        "title": "Debian -- BioDec, Italy",
+        "snippet": "Debian on almost all of our servers: We use it for both infrastructure, like e-mail, web services, firewall, etcetera, and for bioinformatics clusters (which is one of our business).\nWe have slightly less than 20 Debian servers (both virtualized and physical) in our offices and manage less than a",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 117
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8npIRRwYpnl5",
+        "address": "https://protonvpn.com/th/support/linux-vpn-debian-ubuntu",
+        "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 10,
+            "textWords": 2557
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "E_LiReYgUcBw",
+        "address": "https://salsa.debian.org/webmaster-team/webwml",
+        "title": "Debian Webmaster Team / webwml · GitLab",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 120
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lPAzTHOwONZ6",
+        "address": "https://www.gamingonlinux.com/articles/category/debian/",
+        "title": "News about Debian Linux | GamingOnLinux",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 17,
+            "textWords": 1338
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EPrRVobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/Category:Extensions_available_as_Debian_packages",
+        "title": "Category:Extensions available as Debian packages - MediaWiki",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 509
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HpCyvVSLTmwg",
+        "address": "https://blog.entek.org.uk/technical/2020/05/28/debian-system-updates.html",
+        "title": "Debian system updates | Laurence’s Blog",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 1264
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "It5EdL1nrxbw",
+        "address": "https://www.debian.org/intro/about",
+        "title": "Debian -- About Debian",
+        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 50,
+            "textWords": 1618
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LphQq3piq92w",
+        "address": "https://packages.debian.org/squeeze/system-config-lvm",
+        "title": "Debian -- Error",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 85
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KZ3knTp4ogvw",
+        "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
+        "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
+        "snippet": "Co-maintained\n(\u0026comaint=)\nyes\nno\nonly\nDescription\n(\u0026description=)\nIn separate column\nAs source mouseover only\nBugs\n(\u0026bugs=)\nShow (1)\nHide (0)\nSum. (2)\nSum.\u0026RC (3)\nVersion\n(\u0026version=)\noldoldstable and newer\noldstable and newer\nstable and newer\ntesting and newer\nunstable only\nexperimental and",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 104
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JkJrbl8eoF54",
+        "address": "https://www.tecmint.com/install-redis-server-in-centos-ubuntu-debian/",
+        "title": "How to Install Redis Server in CentOS and Debian Based Systems",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 2505
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A5ezftS6MKD4",
+        "address": "https://github.com/trending/debian-package-control-file?since=daily",
+        "title": "Trending Debian Package Control File repositories on GitHub today · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 1828
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KPZ7Fug2aLVh",
+        "address": "https://community.searchlab.eu/t/install-konfig-yacy-mit-debian/2574",
+        "title": "Install / konfig yacy mit debian - YaCy - Searchlab Community",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 844
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "I7mxoopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Property:P3442",
+        "title": "Debian stable package - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 20,
+            "textWords": 620
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IxFPmjuRqMy4",
+        "address": "https://deb.freexian.com/extended-lts/tracker/CVE-2026-49975",
+        "title": "CVE-2026-49975",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 334
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "K2W2aQCcX-qx",
+        "address": "https://cloudsmith.io/~caddy/repos/",
+        "title": "Cloudsmith - Repositories - Caddy (caddy) - List Repositories",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 748
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LMqSmnmovRs5",
+        "address": "https://mirror.nl.cdn-perfprod.com/kali/pool/main/w/wput/",
+        "title": "Index of /kali/pool/main/w/wput/",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 235
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "4SIJYl1nrxbw",
+        "address": "https://www.debian.org/distrib/",
+        "title": "Download Debian",
+        "snippet": "Debian 13.6.0, the stable release.\nDownload mirrors of installation images\nInstallation Manual with detailed installation instructions\nRelease notes\nISO images for Debian testing\nVerifying authenticity of Debian images\nDownload an installation image\nA small installation image: can be downloaded",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 10,
+            "textWords": 305
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pMlVvE1nrxbw",
+        "address": "https://www.debian.org/users/gov/sjhc",
+        "title": "Debian -- St. Joseph's Health Care London, Ontario, Canada",
+        "snippet": "Debian Linux servers for all of our Linux based servers that don't have commercial vendor requirements. Including but not limited to web servers, DNS servers, DHCP servers, Samba file servers and java application servers.\nThe reason we use Debian over competing Linux distributions is due to the",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 92
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Sa7GrsTY5ZN5",
+        "address": "https://linuxcapable.com/how-to-install-timeshift-on-debian-linux/",
+        "title": "How to Install Timeshift on Debian (13, 12, 11) - LinuxCapable",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 58,
+            "textWords": 2926
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QRrf8oa_7uS5",
+        "address": "https://www.theregister.com/os-platforms/2026/07/15/a-moment-of-silence-please-for-the-final-release-of-debian-on-x86-32/5271198",
+        "title": "A moment of silence, please, for the final release of Debian on x86-32",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 21,
+            "textWords": 1824
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RECWXCeuM-zw",
+        "address": "https://ftp.debian.org/debian/dists/trixie/",
+        "title": "Index of /debian/dists/trixie",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 107
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T2EF52bypRQw",
+        "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+        "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 18,
+            "textWords": 1083
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DEpGs83hOgDx",
+        "address": "https://blog.snow-crash.org/tags/debian/",
+        "title": "a place called home - debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 140
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TGYmw1LafmQx",
+        "address": "https://launchpad.net/debian/sid/+source/python-installer",
+        "title": "Sid (98) : python-installer package : Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 375
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "S8BtnLNQlu2w",
+        "address": "https://bits.debian.org/2016/05/what-does-it-mean-that-zfs-is-in-debian.html",
+        "title": "What does it mean that ZFS is included in Debian? - Bits from Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 20,
+            "textWords": 633
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SdERuQhABXNw",
+        "address": "https://security-tracker.debian.org/tracker/DLA-4638-1",
+        "title": "DLA-4638-1",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 108
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "WT6Pnl1nrxbw",
+        "address": "https://www.debian.org/security/",
+        "title": "Debian -- Security Information",
+        "snippet": "Debian System secure\nRecent Advisories\nSources of Security Information\nExperience has shown that security through obscurity never works. Therefore, public disclosure allows for quicker and better solutions of security problems. In that respect, this page addresses Debian's status regarding various",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 22,
+            "textWords": 3245
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WMBbkk4eGBC5",
+        "address": "https://www.digitalocean.com/community/tutorials/initial-server-setup-with-debian-9?comment=80717",
+        "title": "Initial Server Setup with Debian 9 | DigitalOcean",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 19,
+            "textWords": 3355
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "V3SRZX48Xf45",
+        "address": "https://forum.parallels.com/threads/parallels-17-issues-on-m1-mac-with-debian-linux-11-and-xfce.354761/",
+        "title": "Parallels 17 issues on M1 Mac with Debian Linux 11 and XFCE | Parallels Forums",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 964
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UlngeV1nrxbw",
+        "address": "https://www.debian.org/doc/manuals/debian-faq/index.de.html",
+        "title": "Die Debian GNU/Linux-FAQ",
+        "snippet": "Debian GNU/Linux.",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 128
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Xg2H2ZPqQlSw",
+        "address": "https://pip.pypa.io/en/stable/news/",
+        "title": "Changelog - pip documentation v21.1",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 30070
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Uq-EXWKUaNi4",
+        "address": "https://nerds.xyz/tag/openssh/",
+        "title": "OpenSSH - NERDS.xyz",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 262
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ue0-NsSS7wZw",
+        "address": "https://openlp.org/",
+        "title": "Free Open Source Church Worship Presentation Software | OpenLP",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 1700
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "U4ziv-Pv3riw",
+        "address": "https://tech.slashdot.org/story/00/02/25/107204/making-linux-beautiful?sdsrc=prev",
+        "title": "Making Linux Beautiful - Slashdot",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 20475
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UjirKskwXJ3x",
+        "address": "https://dustycloud.org/blog/",
+        "title": "Recent Posts -- Dustycloud Brainstorms",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 30656
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UynE9Oha0dzw",
+        "address": "https://aspire.loyola.edu/products?completion_hours__gte=0\u0026category__contains=Manufacturing",
+        "title": "Loyola | Product Listing Page",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 65178
           }
         },
         "queryPhraseHits": 0
@@ -667,11 +2032,11 @@
         "hash": "StjW1Spiq92w",
         "address": "https://packages.debian.org/sid/cups-pk-helper,",
         "title": "Debian -- Error",
-        "snippet": "package not valid or not specified",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 6
+            "hits": 4,
+            "textWords": 85
           }
         },
         "queryPhraseHits": 0
@@ -703,19 +2068,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "6RJcitQ87fDA",
-        "address": "http://www.netcad.cnet.pl/",
-        "title": "Apache2 Debian Default Page: It works",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 70
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "fpiTEk9xSLDY",
         "address": "http://search.osakos.com/cache.php?key=c0792b69d674164f3134f6a4d8b0fd4b\u0026uri=http%3A%2F%2Fpenzu.com%2Fp%2F9114926c6b6601e3",
         "title": "LDAP/NSS - Debian Wiki",
@@ -724,6 +2076,19 @@
           "bpVSyb2OYcjy": {
             "hits": 5,
             "textWords": 1529
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6RJcitQ87fDA",
+        "address": "http://www.netcad.cnet.pl/",
+        "title": "Apache2 Debian Default Page: It works",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 70
           }
         },
         "queryPhraseHits": 0
@@ -796,57 +2161,147 @@
     ],
     [
       {
-        "hash": "-32vwSSLTmwg",
-        "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
-        "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+        "hash": "YEUOHqNKpOCw",
+        "address": "https://linux.slashdot.org/story/26/08/29/2223248/debian-decides-contributors-can-use-generative-ai-responsibly?sdsrc=prevbtmprev",
+        "title": "Debian Decides: Contributors Can Use Generative AI 'Responsibly' - Slashdot",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 17,
-            "textWords": 6935
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "H6Zz4sS6MKD4",
-        "address": "https://github.com/trending",
-        "title": "Trending repositories on GitHub today · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 2490
+            "hits": 41,
+            "textWords": 3407
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Fi8Mcs46hOL5",
-        "address": "https://mailinabox.email/setup.sh",
-        "title": "",
+        "hash": "4lLIDk1nrxbw",
+        "address": "https://www.debian.org/consultants/boguslawski",
+        "title": "Debian -- List of Consultants",
+        "snippet": "Informatyka Boguslawski\nInformatyka Boguslawski sp. z o.o. sp.k. carries out business activity in the IT market. The Company's offer is addressed to individual clients, small and medium businesses, corporations and public-sector institutions. The Company's object of activity is above all the",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 62
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "e0hrdtlTdLA5",
+        "address": "https://blog.mmakowski.com/technology/debian-unattended-upgrades/",
+        "title": "Debian Unattended Upgrades | The Eternal Beginner",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 792
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hVb5ObYgUcBw",
+        "address": "https://salsa.debian.org/grub-team/grub/-/merge_requests/46",
+        "title": "Draft: update-grub: Use triggers (!46) · Merge requests · Debian GRUB Maintainers / grub · GitLab",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 405
+            "textWords": 101
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "onwec33wopR4",
+        "address": "https://www.zabbix.com/documentation/6.2/en/manual/installation/upgrade/packages/debian_ubuntu",
+        "title": "2 Debian/Ubuntu",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 3944
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aASKTpXHmKFw",
+        "address": "https://www.fsf.org/events/john-sullivan-20140824-portland-debconf-debian-and-the-fsf-working-together-to-advance-free-software",
+        "title": "John Sullivan - \"Debian and the FSF Working Together to Advance Free Software\" (Portland, OR) — Free Software Foundation — Working together for free software",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 908
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "--7DuUZ5FD3x",
+        "address": "https://bugs.launchpad.net/~pkg-java-maintainers/+subscribedbugs",
+        "title": "Subscribed bugs : Bugs : “Debian Java Maintainers” team",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 125
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EBB_WcF4xklx",
+        "address": "https://blueprints.launchpad.net/ubuntu/+spec/community-o-debian-healthcheck/+subscribe/+login",
+        "title": "OpenID transaction in progress",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 18
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4YXZba_IRdqx",
+        "address": "https://phabricator.wikimedia.org/T416707",
+        "title": "⚓ T416707 Sunsetting mirrors.wikimedia.org",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 37,
+            "textWords": 4356
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "40cHHWLafmQx",
+        "address": "https://launchpad.net/ubuntu/lunar/+package/dpkg-dev",
+        "title": "dpkg-dev : Lunar (23.04) : Ubuntu",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 263
           }
         },
         "queryPhraseHits": 0
       }
     ],
+    [],
     [
       {
-        "hash": "ldzk0N1nrxbw",
-        "address": "https://www.debian.org/women/participate",
-        "title": "Debian -- How to get involved in Debian Women",
-        "snippet": "Debian Women project and help shape the future of the project by participating in discussion on our mailing list. The debian-women list page includes a form for subscribing and unsubscribing, as well as list archives. (This is true for all the Debian list links in this document).\nIn addition,",
+        "hash": "l20c0tpiq92w",
+        "address": "https://packages.debian.org/source/oldoldstable/android-platform-external-nist-sip",
+        "title": "Debian -- Details of source package android-platform-external-nist-sip in bullseye",
+        "snippet": "Debian Resources:\nBug Reports\nDeveloper Information\nDebian Changelog\nCopyright File\nDebian Source Repository (Git)\nDebian Patch Tracker\nMaintainers:\nAndroid Tools Maintainers (QA Page, Mail Archive)\nKaterina (QA Page)\nExternal Resources:\nHomepage [android.googlesource.com]\nThe following binary",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 9,
-            "textWords": 254
+            "hits": 10,
+            "textWords": 186
           }
         },
         "queryPhraseHits": 0
@@ -865,105 +2320,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "m0r9Utpiq92w",
-        "address": "https://packages.debian.org/source/buster/golang-github-atotto-clipboard",
-        "title": "Debian -- Details of source package golang-github-atotto-clipboard in buster",
-        "snippet": "two or more packages specified (golang-github-atotto-clipboard buster)",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 10
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "niatK1UPWbf4",
-        "address": "https://jfrog.com/integrations/artifactory-debian-repository/",
-        "title": "Using a Debian repository? - JFrog Artifactory",
+        "hash": "m6iylja6Vv8g",
+        "address": "https://www.root.cz/clanky/debian-synove/",
+        "title": "Debian \u0026 synové - Root.cz",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 29,
-            "textWords": 3382
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "mfvaRlPN-Az4",
-        "address": "https://www.hellotux.com/debian13_barrelbag?image=1",
-        "title": "Debian Trixie barrel bag - HELLOTUX",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 6,
-            "textWords": 507
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "l_4L2X2Yfep5",
-        "address": "https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest",
-        "title": "How to install the Azure CLI | Microsoft Learn",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 17,
-            "textWords": 753
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "koKXBkS6MKD4",
-        "address": "https://github.com/rdmark/Netatalk-2.x/blob/branch-netatalk-2-x/contrib/shell_utils/debian_install.sh",
-        "title": "netatalk-2.x/contrib/shell_utils/debian_install.sh at branch-netatalk-2-x · rdmark/netatalk-2.x · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 6,
-            "textWords": 1913
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "nOXnc-cLWfM6",
-        "address": "https://linuxsecurity.com/advisories/debian/debian-dsa-6159-1-imagemagick",
-        "title": "Debian DSA-6159-1 Imagemagick Important Info Leak Denial of Service",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 18,
-            "textWords": 1012
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "mt1vvE1nrxbw",
-        "address": "https://www.debian.org/users/edu/harvard-physics",
-        "title": "Debian -- Department of Physics, Harvard University, USA",
-        "snippet": "Debian including mail server, web server, file server, backup server, terminal servers... The terminal servers are running 60+ thin terminal stations.\nDebian is very reliable, secure and easy to maintain using its original package management system.",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 42
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "loRDLRLPB-C6",
-        "address": "https://www.linux-magazine.com/tags/view/Operating+Systems/Linux/DEBIAN/Debian+7",
-        "title": "Debian%207 » DEBIAN » Linux » Operating%20Systems » Linux Magazine",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 9,
-            "textWords": 764
+            "hits": 27,
+            "textWords": 1775
           }
         },
         "queryPhraseHits": 0
@@ -971,60 +2335,710 @@
     ],
     [
       {
-        "hash": "6IL4IjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Template_talk:Timeline_Debian_GNU/Linux",
-        "title": "Template talk:Timeline Debian GNU/Linux - Wikipedia",
+        "hash": "iOuUul5Y2le4",
+        "address": "https://www.imagefap.com/devops_needed",
+        "title": "DevOps / SysAdmin Needed | Imagefap.com",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 373
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aubm0VRiTcm5",
+        "address": "https://www.theinsaneapp.com/2025/02/how-to-run-deepseek-r1-locally.html",
+        "title": "How To Run DeepSeek-R1 Locally For Free On Mac, Windows, And Linux",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 4325
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XjpmDX4pEk26",
+        "address": "https://sexosintabues30.com/relatos-eroticos/incestos-en-familia/vivo-con-mi-abuela-en-la-pequena-villa/",
+        "title": "vivo con mi abuela en la pequeña villa - Sexo Sin Tabues 3.0",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 11713
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "sMum8sTY5ZN5",
+        "address": "https://linuxcapable.com/how-to-configure-unattended-upgrades-on-debian-linux/",
+        "title": "How to Configure Unattended Upgrades on Debian - LinuxCapable",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 33,
+            "textWords": 3022
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "v9wDRC_X7yxw",
+        "address": "https://oskuro.net/en/posts/debian-openssl-elpais/",
+        "title": "I still don't have a title · Interview in El País on Debian's OpenSSL incident",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 321
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uYdNoG1nrxbw",
+        "address": "https://www.debian.org/vote/1999/vote_0000",
+        "title": "Debian -- Constitution",
+        "snippet": "[maor@debian.org]\nSeconds\nSteve McIntyre [stevem@chiark.greenend.org.uk]\nJames A. Treacy [treacy@debian.org]\nStephen Zander [gibreel@pobox.com]\nDarren Benham [gecko@benham.net]\nEnrique Zanardi [ezanardi@ull.es]\nText\nhttps://lists.debian.org/debian-devel-9809/msg00509.html\nThe text of the",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 178
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "upjhUqp4ogvw",
+        "address": "https://qa.debian.org/cgi-bin/vcswatch?package=maven-filtering",
+        "title": "maven-filtering vcswatch -- Debian Quality Assurance",
+        "snippet": "https://salsa.debian.org/java-team/maven-filtering.git\nBranch: master\nPath: debian/changelog\nRepo size: 3678208\nBrowser: https://salsa.debian.org/java-team/maven-filtering\nLast scan: 2026-09-04 16:42:02+00\nError: https://salsa.debian.org/api/v4/projects/java-team%2Fmaven-filtering API request",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 132
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xdT-Xm0h8sSw",
+        "address": "https://tracker.debian.org/pkg/ecbuild",
+        "title": "ecbuild - Debian Package Tracker",
+        "snippet": "debian/patches: 5 patches to forward upstream low\nAmong the 7 debian patches available in version 3.15.2-1 of the package, we noticed the following issues:\n5 patches where the metadata indicates that the patch has not yet been forwarded upstream. You should either forward the patch upstream or",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 96
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uIT-kBYgUcBw",
+        "address": "https://salsa.debian.org/java-team/jverein",
+        "title": "Debian Java Maintainers / jverein · GitLab",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 113
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uHwztKEVkqKw",
+        "address": "https://udd.debian.org/patches.cgi?src=scip\u0026version=10.0.3%2Bds-1",
+        "title": "UDD - Patches",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 9,
+            "textWords": 260
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YdH5IQhABXNw",
+        "address": "https://security-tracker.debian.org/tracker/DLA-4637-1",
+        "title": "DLA-4637-1",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 97
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vcVgQDTY5ZN5",
+        "address": "https://linuxcapable.com/category/debian/",
+        "title": "Debian Archives - LinuxCapable",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 37,
+            "textWords": 506
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vbTm58bIDBOw",
+        "address": "https://pypi.org/project/copyparty/",
+        "title": "copyparty · PyPI",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 30986
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [
+      {
+        "hash": "nSbd-5E1ETA5",
+        "address": "https://www.handelsblatt.com/adv/firmen/ki-gestuetzte-fahrgastzaehlung.html",
+        "title": "KI-gestützte Fahrgastzählung im ÖPNV",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1913
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8_5XsMpiq92w",
+        "address": "https://packages.debian.org/bookworm/s390x/unbound/download",
+        "title": "Debian -- Package Download Selection -- unbound_1.17.1-2+deb12u3_s390x.deb",
+        "snippet": "Debian, it is strongly suggested to use a package manager like aptitude or synaptic to download and install packages, instead of doing so manually via this website.\nYou should be able to use any of the listed mirrors by adding a line to your /etc/apt/sources.list like this:\ndeb",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 61,
+            "textWords": 322
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7cQwZL1nrxbw",
+        "address": "https://www.debian.org/intro/help.zh-hk.html",
+        "title": "Debian -- 你如何協助 Debian？",
+        "snippet": "Debian\n您的組織如何支持 Debian\nDebian 不僅僅是一個操作系統，它也是一個社區。許多擁有不同技能的人對這個項目作出貢獻： 我們的軟件、美工、維基，以及其他文件正是許多人齊心協力的成果。不是所有人都是開發者，所以，您想要參與進來的話，當然 不需要先學習如何編程。有很多不同的方式可以使 Debian 變得更好。如果您想加入進來的話，以下建議對有經驗和沒有經驗的用户 都很合適：\n編程和維護套件\n也許您想要從頭編寫一個新的應用程序，也許您想在一個現有的程序中實現一個新功能。如果您是一名 開發者，且想要對 Debian 作出貢獻，您也可以幫助我們為 Debian",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 57,
+            "textWords": 329
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5cyvW7S6MKD4",
+        "address": "https://github.com/sindresorhus/file-type",
+        "title": "GitHub - sindresorhus/file-type: Detect the file type of a file, stream, or data",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 143,
+            "textWords": 3815
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "67bnC55exHdw",
+        "address": "https://blends.debian.org/multimedia/tasks/recording",
+        "title": "Debian Multimedia Recording packages",
+        "snippet": "Debian package, each head row has a color code according to this scheme:\nOfficial Debian packages with high relevance\nOfficial Debian packages with lower relevance\nUnofficial packages built by somebody else\nNo known packages available but some record of interest (WNPP bug)\nIf you discover a project",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 137,
+            "textWords": 6592
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "174DQPMW35a4",
+        "address": "https://hub.docker.com/_/debian",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 38,
+            "textWords": 1280
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4QHpCVfe8rHw",
+        "address": "https://focusonlinux.podigee.io/64-30-jahre-debian-gnulinux",
+        "title": "30 Jahre Debian GNU/Linux - FOCUS ON: Linux - Podcast",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 41,
+            "textWords": 690
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4Unrp-SNLkuY",
+        "address": "http://mydebianblog.blogspot.com/2006/08/in-true-debian-way.html?showComment=1203948660000",
+        "title": "Правильная установка Дебиан, In A True Debian Way - Записки дебианщика",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 139,
+            "textWords": 17678
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0pr5FswDvzb5",
+        "address": "https://distrowatch.com/table.php?distribution=debian",
+        "title": "DistroWatch.com: Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 76,
+            "textWords": 4083
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "79gUnMpiq92w",
+        "address": "https://packages.debian.org/bookworm/amd64/unbound/download",
+        "title": "Debian -- Package Download Selection -- unbound_1.17.1-2+deb12u3_amd64.deb",
+        "snippet": "Debian, it is strongly suggested to use a package manager like aptitude or synaptic to download and install packages, instead of doing so manually via this website.\nYou should be able to use any of the listed mirrors by adding a line to your /etc/apt/sources.list like this:\ndeb",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 61,
+            "textWords": 321
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2rI2ods_WHN4",
+        "address": "https://www.freexian.com/lts/debian/",
+        "title": "Debian Long Term Support | Freexian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 30,
+            "textWords": 1870
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gHw88jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Debian_Pure_Blend",
+        "title": "Debian Pure Blend - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 58,
+            "textWords": 1388
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9ZYostpiq92w",
+        "address": "https://packages.debian.org/source/unstable/pflogsumm",
+        "title": "Debian -- Details of source package pflogsumm in sid",
+        "snippet": "The following binary packages are built from this source package:\npflogsumm\nPostfix log entry summarizer\nOther Packages Related to pflogsumm\nbuild-depends\nbuild-depends-indep\nadep: debhelper-compat (= 13)\nPackage not available",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 32
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wY-rcqNKpOCw",
+        "address": "https://linux.slashdot.org/story/26/08/29/2223248/debian-decides-contributors-can-use-generative-ai-responsibly?sdsrc=nextbtmprev",
+        "title": "Debian Decides: Contributors Can Use Generative AI 'Responsibly' - Slashdot",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 41,
+            "textWords": 3411
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ov3DY9OwONZ6",
+        "address": "https://www.gamingonlinux.com/2026/08/debian-linux-developers-vote-to-allow-responsible-use-of-generative-ai/page=1/",
+        "title": "Debian Linux developers vote to allow \"Responsible Use of Generative AI\" | GamingOnLinux",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 29,
+            "textWords": 5892
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-32vwSSLTmwg",
+        "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+        "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 17,
+            "textWords": 6935
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8HqcmKEVkqKw",
+        "address": "https://udd.debian.org/duck/?libiscwt-java=",
+        "title": "UDD - Debian URL Checker",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 292
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8t5Ped1nrxbw",
+        "address": "https://www.debian.org/lts/security/",
+        "title": "Debian -- LTS Security Information",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 26,
+            "textWords": 2908
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YnyknmZ5FD3x",
+        "address": "https://bugs.launchpad.net/debian/+source/ntp/+bug/1129696",
+        "title": "Bug #1129696 “Cannot set config file in /etc/default/ntp” : Bugs : ntp package : Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 19,
+            "textWords": 2045
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qO3lG8F4xklx",
+        "address": "https://blueprints.launchpad.net/~pkg-java-maintainers/+specs?role=approver",
+        "title": "Blueprints : “Debian Java Maintainers” team",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 237
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8jcyUbBsgjA5",
+        "address": "https://www.researchut.com/post/69/",
+        "title": "NetworkManager Debian Network Interfaces - RESEARCHUT",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 600
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "91xXaiUYpAnx",
+        "address": "https://www.electromaker.io/tutorial/blog/getting-started-with-debian-on-orange-pi-prime",
+        "title": "Getting Started with Debian on Orange Pi Prime: Orange Pi Prime Debian Review",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 25,
+            "textWords": 2587
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eF4bhDOMezx5",
+        "address": "https://pimylifeup.com/category/linux/debian/",
+        "title": "Debian Tutorials - Pi My Life Up",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 13,
+            "textWords": 428
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ry84zlLF9yvg",
+        "address": "https://www.it-zeugs.de/bluetooth-bei-debian-13.html",
+        "title": "BLUETOOTH bei DEBIAN 13 nach Update plötzlich weg! [Kernel-Fehler in 6.12.88]",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 905
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Cd4WQfs7j0L4",
+        "address": "https://dietpi.com/forum/t/is-upgrade-to-debian-13-trixie-possibile-on-existing-debian-12-x86-machine/20054",
+        "title": "Is upgrade to Debian 13 Trixie possibile on existing Debian 12 X86 machine - Requests - DietPi Community Forum",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 40,
+            "textWords": 791
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_xamgfC6nCRj",
+        "address": "https://forum-raspberrypi.de/forum/thread/44798-raspberry-pi-64-bit-debian/",
+        "title": "Raspberry Pi 64-Bit Debian - Raspberry Pi OS - Deutsches Raspberry Pi Forum",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 6,
-            "textWords": 698
+            "textWords": 2133
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "qeWxK_AJN7b6",
-        "address": "https://optimizedbyotto.com/post/debian-packaging-from-git/",
-        "title": "Creating Debian packages from upstream Git",
+        "hash": "DOumo8UYpAnx",
+        "address": "https://www.electromaker.io/project/view/steps-for-upgrade-debian-10-buster-to-debian-11-bullseye",
+        "title": "Steps For Upgrade - Debian 10 Buster To Debian 11 Bullseye",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 60,
+            "textWords": 2253
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vj92Ql7onIZh",
+        "address": "https://www.bastelgarage.ch/m5stack-coremp135-stm32mp135d-core-development-kit-debian-12",
+        "title": "M5Stack CoreMP135 STM32MP135D Core Development Kit Debian 12 - Bastelgarage Electronics Online Store",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 9,
+            "textWords": 1886
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TwwHUfs7j0L4",
+        "address": "https://dietpi.com/forum/t/debian-13-trixie/23809?page=2",
+        "title": "Debian 13 \"Trixie\" - Page 2 - General Discussion - DietPi Community Forum",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 18,
+            "textWords": 1138
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KcM4gfs7j0L4",
+        "address": "https://dietpi.com/forum/t/debian-13-trixie/23809",
+        "title": "Debian 13 \"Trixie\" - General Discussion - DietPi Community Forum",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 13,
+            "textWords": 888
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BXcj3fs7j0L4",
+        "address": "https://dietpi.com/forum/t/debian-13-trixie/23809/35",
+        "title": "Debian 13 \"Trixie\"",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 8694
+            "textWords": 32
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "wwL-vl1nrxbw",
+        "address": "https://www.debian.org/donations",
+        "title": "Debian -- How to donate to the Debian Project",
+        "snippet": "Debian France\ndebian.ch\nDebian\nDonations are managed by the Debian Project Leader (DPL) and allow Debian to have machines, other hardware, domains, cryptographic certificates, the Debian conference, Debian mini-conferences, development sprints, presence at other events, etc.\nVarious organizations",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 38,
+            "textWords": 601
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "pszZbUqZWFe4",
-        "address": "https://gyptazy.com/blog/kanidm-with-proxmox-and-oidc-the-full-setup/",
-        "title": "Kanidm OIDC with Proxmox VE – Configuration Guide",
+        "hash": "BrVGz5piq92w",
+        "address": "https://packages.debian.org/buster/",
+        "title": "Debian -- Error",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 95
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HMPzr_AJN7b6",
+        "address": "https://optimizedbyotto.com/post/debian-collaboration-on-git/",
+        "title": "DEP-18: A proposal for Git-based collaboration in Debian",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 93
+            "textWords": 2892
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "pcNM-o75cLRw",
-        "address": "https://www.apalrd.net/posts/2022/raspi_spice_vdi/",
-        "title": "PVE-VDIClient - A Python Graphical VDI Client for Proxmox",
+        "hash": "FlX1HUqZWFe4",
+        "address": "https://gyptazy.com/blog/debian-13-trixie-final-lxc-container-image-for-proxmox8-proxmox-9/",
+        "title": "Debian 13 (Trixie) LXC Template for Proxmox 8 and 9 – Download",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 108
+            "textWords": 104
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "0RXKfOs1diex",
-        "address": "https://forums.virtualbox.org/viewtopic.php?p=15641",
+        "hash": "HpCyvVSLTmwg",
+        "address": "https://blog.entek.org.uk/technical/2020/05/28/debian-system-updates.html",
+        "title": "Debian system updates | Laurence’s Blog",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 1264
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rq3g6QTDwvCw",
+        "address": "https://packages.gentoo.org/packages/app-crypt/debian-archive-keyring",
+        "title": "app-crypt/debian-archive-keyring – Gentoo Packages",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 198
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B-n9YjbCa2Ow",
+        "address": "https://man.freebsd.org/cgi/man.cgi?carp=",
+        "title": "Manual Pages Archive",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 14,
+            "textWords": 3247
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YAc7copg4UCw",
+        "address": "https://www.wikidata.org/wiki/Property_talk:P4162",
+        "title": "Property talk:P4162 - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 889
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EeSrUXqO2Dlg",
+        "address": "https://media.ccc.de/v/cosin2026-110716-container-betreiben-mit",
+        "title": "Container betreiben mit Podman Quadlets - media.ccc.de",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 382
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CR81xOs1diex",
+        "address": "https://forums.virtualbox.org/viewtopic.php?p=15519",
         "title": "MacOS X beta 3 released! - virtualbox.org",
         "snippet": "",
         "matchedWords": {
@@ -1034,110 +3048,1024 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "oS68c3PBIxVw",
-        "address": "https://www.getzola.org/documentation/getting-started/installation/",
-        "title": "Installation | Zola",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 785
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "8CJLrjAL9Tgx",
-        "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
-        "title": "Wikisource:Scriptorium - Wikisource, the free online library",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 4,
-            "textWords": 12145
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "PC2FfvS6MKD4",
-        "address": "https://github.com/ArchiveTeam/quizlet-grab",
-        "title": "GitHub - ArchiveTeam/quizlet-grab · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 1470
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "eAAUvFRQd9Yw",
-        "address": "https://about.ruds.io/",
-        "title": "Rudra Saraswat – Just another tech nerd's about page",
+        "hash": "FlX1HUqZWFe4",
+        "address": "https://gyptazy.com/blog/debian-13-trixie-final-lxc-container-image-for-proxmox8-proxmox-9/",
+        "title": "Debian 13 (Trixie) LXC Template for Proxmox 8 and 9 – Download",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 1421
+            "textWords": 104
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "oxU0-Kf4Pib5",
-        "address": "https://code.visualstudio.com/docs/remote/linux",
-        "title": "Linux Prerequisites for Visual Studio Code Remote Development",
+        "hash": "HMPzr_AJN7b6",
+        "address": "https://optimizedbyotto.com/post/debian-collaboration-on-git/",
+        "title": "DEP-18: A proposal for Git-based collaboration in Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 2892
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "90NSwvPnlBe5",
+        "address": "https://trstringer.com/tags/debian/",
+        "title": "debian | Thomas Stringer",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 184
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EeSrUXqO2Dlg",
+        "address": "https://media.ccc.de/v/cosin2026-110716-container-betreiben-mit",
+        "title": "Container betreiben mit Podman Quadlets - media.ccc.de",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 382
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7lhjJWtw4LJ5",
+        "address": "https://rodotasso.r-universe.dev/articles/ciecl/installation.html",
+        "title": "Installation and Configuration Guide - ciecl",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 167
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IuXCKszYT0Y6",
+        "address": "https://engineeringkiosk.dev/",
+        "title": "#01 Side Projects - Fluch oder Segen für die Karriere?",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 981
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5cNcC2nOnID4",
+        "address": "https://lists.zx2c4.com/pipermail/wireguard/2020-March/005206.html",
+        "title": "[ANNOUNCE] WireGuard 1.0.0 for Linux 5.6 Released",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 637
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HXHXOs7Yxvhx",
+        "address": "https://www.postgresql.org/about/servers/",
+        "title": "PostgreSQL: Server Sponsors",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 9,
+            "textWords": 336
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Jh0CDss7j0L4",
+        "address": "https://dietpi.com/",
+        "title": "DietPi - Lightweight justice for your SBC!",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 6,
-            "textWords": 1985
+            "textWords": 8985
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Y7q2TsiHhElw",
+        "address": "https://linmob.net/weekly-update-36-2026/",
+        "title": "LINMOB.net - Weekly GNU-like Mobile Linux Update (36/2026): Pixel 3 calling",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 2744
           }
         },
         "queryPhraseHits": 0
       }
     ],
-    [],
     [
       {
-        "hash": "wRV4m5piq92w",
-        "address": "https://packages.debian.org/.internal/challenge.html?original=%2fsource%2funstable%2fasterisk",
-        "title": "Debian -- Error",
-        "snippet": "two or more packages specified (challenge.html .internal)",
+        "hash": "vlCSfg1nrxbw",
+        "address": "https://www.debian.org/distrib/archive",
+        "title": "Debian -- Distribution Archives",
+        "snippet": "debian-archive\ndebian-non-US archive\ndebian-archive\nIf you need to access one of the old distributions of Debian, you can find them at the Debian Archives, https://archive.debian.org/debian/\n.\nReleases are stored by their codenames under the dists/ directory.\nbuster is Debian 10\nstretch is Debian 9",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 8
+            "hits": 63,
+            "textWords": 445
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "wXumBqp4ogvw",
-        "address": "https://qa.debian.org/cgi-bin/watch?pkg=plexus-velocity",
-        "title": "Watch -- Debian Quality Assurance",
-        "snippet": "debian_mangled_uversion: 1.2\ndebian_uversion: 1.2\ndistribution: debian\nlast_check: 2026-09-07 11:20:04.191382\nrelease: sid\nsource: plexus-velocity\nstatus: newer package available\nupstream_url: https://github.com/codehaus-plexus/plexus-velocity/archive/refs/tags/plexus-velocity-2.4.0.tar.gz",
+        "hash": "O8nK5BYgUcBw",
+        "address": "https://salsa.debian.org/java-team/svnkit",
+        "title": "Debian Java Maintainers / svnkit · GitLab",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 87
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "M9xEmsTY5ZN5",
+        "address": "https://linuxcapable.com/how-to-install-zsh-on-debian-linux/",
+        "title": "How to Install Zsh on Debian 13, 12 and 11",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 72
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ni1Jd_AJN7b6",
+        "address": "https://optimizedbyotto.com/post/xz-backdoor-debian-git-detection/",
+        "title": "Could the XZ backdoor have been detected with better Git and Debian packaging practices?",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 10483
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ov3DY9OwONZ6",
+        "address": "https://www.gamingonlinux.com/2026/08/debian-linux-developers-vote-to-allow-responsible-use-of-generative-ai/page=1/",
+        "title": "Debian Linux developers vote to allow \"Responsible Use of Generative AI\" | GamingOnLinux",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 29,
+            "textWords": 5884
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-2G3bmZ5FD3x",
+        "address": "https://bugs.launchpad.net/debian/+source/util-linux/+bug/1059872",
+        "title": "Bug #1059872 “Error formatting disk using disk utility” : Bugs : util-linux package : Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 77,
+            "textWords": 9830
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dwvDam0h8sSw",
+        "address": "https://tracker.debian.org/pkg/linux/news/",
+        "title": "Debian Package Tracker",
+        "snippet": "(Debian testing watch)\n[2026-09-08] Accepted linux 6.1.187-1 (source) into oldstable-security (Debian FTP Masters) (signed by: Salvatore Bonaccorso)\n[2026-09-06] Accepted linux 6.12.107-1 (source) into proposed-updates (Debian FTP Masters) (signed by: Salvatore Bonaccorso)\n[2026-09-06] Accepted",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 29,
+            "textWords": 460
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PXW_mn7vg5bw",
+        "address": "https://reproduce.debian.net/excuses.html?source_name=zxing",
+        "title": "reproduce.debian.net - Excuses",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 80
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PbDjUCeuM-zw",
+        "address": "https://ftp.debian.org/debian/dists/bookworm/",
+        "title": "Index of /debian/dists/bookworm",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 3,
-            "textWords": 64
+            "textWords": 107
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "xCnp1G1nrxbw",
-        "address": "https://www.debian.org/vote/2007/vote_003",
-        "title": "General Resolution: Endorse the concept of Debian Maintainers",
-        "snippet": "[ajt@debian.org] [\u003c20070627114135.GA25831@azure.humbug.org.au\u003e]\nSeconds\nMartin F. Krafft [madduck@debian.org]\nNeil McGovern [neilm@debian.org]\nMoritz Muehlenhoff [jmm@debian.org]\nSteve Langasek [vorlon@debian.org]\nRaphael Hertzog [hertzog@debian.org]\nAntti-Juhani Kaijanaho [ajk@debian.org]",
+        "hash": "OXxdumNQlu2w",
+        "address": "https://bits.debian.org/tag/debconf.html",
+        "title": "Bits from Debian - debconf tag",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 50,
-            "textWords": 1291
+            "hits": 11,
+            "textWords": 1123
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "AdGxxjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Debian_version_history",
+        "title": "Debian release version history - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 144,
+            "textWords": 13121
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T2EF52bypRQw",
+        "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+        "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 18,
+            "textWords": 1083
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SY-M4GVb5OAw",
+        "address": "https://btxx.org/posts/slabtop/",
+        "title": "Converting My X201 ThinkPad into a Slabtop",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 544
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SxvTi_AJN7b6",
+        "address": "https://optimizedbyotto.com/post/good-git-commit/",
+        "title": "How to make a good git commit",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 3743
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "216HsobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/Compatibility",
+        "title": "Compatibility - MediaWiki",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 3232
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "a9E5Ra_IRdqx",
+        "address": "https://phabricator.wikimedia.org/T422544",
+        "title": "⚓ T422544 Upgrade the MediaWiki servers to ICU 72 (no table swap)",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 2470
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "maITzysrSOQw",
+        "address": "https://arxiv.org/html/2502.01449v2",
+        "title": "PlaceIT: Placement-based Inter-ChipletInterconnect Topologies",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 9115
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TeebUKf4Pib5",
+        "address": "https://code.visualstudio.com/docs/getstarted/overview",
+        "title": "Get started with Visual Studio Code",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 2411
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "i36VJkRFf6Bx",
+        "address": "https://wikitech.wikimedia.org/wiki/Portal:Toolforge/Admin",
+        "title": "Portal:Toolforge/Admin - Wikitech",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 3814
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Re6bPg7Yxvhx",
+        "address": "https://www.postgresql.org/download/products/1/",
+        "title": "PostgreSQL: Software Catalogue - Administration/development tools",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 15420
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "VSk6vOvIBS5w",
+        "address": "https://hosted.weblate.org/projects/debian-handbook/-/nb_NO/",
+        "title": "Debian Handbook - Norwegian Bokmål @ Hosted Weblate",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 35,
+            "textWords": 1553
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "i56NsXqO2Dlg",
+        "address": "https://media.ccc.de/v/froscon2026-3646-von_ubuntu_zu_debian_ein_neuer_upstream_fur_tuxedo_os",
+        "title": "Von Ubuntu zu Debian: Ein neuer Upstream für TUXEDO OS - media.ccc.de",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 693
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-r3rBXXV7qMi",
+        "address": "https://www.mittelstandswiki.de/2007/02/hp-unterstutzt-debian-linux-anwender/",
+        "title": "HP unterstützt Anwender von Debian Linux",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 495
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AjzZFn7vg5bw",
+        "address": "https://reproduce.debian.net/",
+        "title": "reproduce.debian.net",
+        "snippet": "Debian binary package found in the distribution archive, using the .buildinfo file produced when the buildd originally built the package.\nFor each distributed package, rebuilderd calls debrebuild that calls debootsnap, mmdebstrap and finally sbuild to build that package within a user namespace.",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 12,
+            "textWords": 445
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 26,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NNK8wg7Yxvhx",
+        "address": "https://www.postgresql.org/download/linux/debian/",
+        "title": "PostgreSQL: Linux downloads (Debian)",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 452
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9bBlhjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Debian",
+        "title": "Debian - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 142,
+            "textWords": 15908
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lp940TlsIQEw",
+        "address": "https://people.debian.org/~nthykier/blog/",
+        "title": "Things that I work on in Debian -",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 21,
+            "textWords": 25790
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UrH_Z3aonPYw",
+        "address": "https://piuparts.debian.org/sid/source/f/fest-test.html",
+        "title": "Status of source package fest-test in sid",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 276
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZxC-zgF4yQrw",
+        "address": "https://sylvain.le-gall.net/blog/index.php?",
+        "title": "Blog of Sylvain Le Gall",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 28,
+            "textWords": 10985
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "b1rfcVcTUCc6",
+        "address": "https://www.securityfocus.com/cve/CVE-2016-9776",
+        "title": "CVE-2016-9776 - PSIRT.COM",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 448
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "3VHCVsOEIUyr",
+        "address": "https://simerdupolresbatang.id/",
+        "title": "simerdupolresbatangid",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 15502
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HDyGbsE0EWs6",
+        "address": "https://guiltybunnies.com/",
+        "title": "guiltybunnies.com",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 3763
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "I8CU8CppYNKx",
+        "address": "https://adguard-dns.io/en/public-dns.html",
+        "title": "Connect to public AdGuard DNS server",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 5030
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "iwrFOp1nrxbw",
+        "address": "https://www.debian.org/partners/partners",
+        "title": "Debian -- Debian Partners Program - description",
+        "snippet": "Debian Partners Program - description\nWhat is the Debian Partners Program?\nThis program provides a way to recognize companies and projects that provide ongoing assistance to the Debian project. Since these partners are providing a service of some sort to Debian, we will officially recognize them",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 28,
+            "textWords": 458
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jGZWVppiq92w",
+        "address": "https://packages.debian.org/unstable/libeclipse-cdt-java",
+        "title": "Debian -- Details of package libeclipse-cdt-java in sid",
+        "snippet": "C/C++ Development Tools for Eclipse (Java libraries)\nThe CDT Project provides a fully functional C and C++ Integrated Development Environment based on the Eclipse platform. Features include: support for project creation and managed build for various toolchains, standard make build, source",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 111
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gZzFUHWhP36w",
+        "address": "https://matrix-team.pages.debian.net/blogue/",
+        "title": "Matrix on Debian blog",
+        "snippet": "Debian.\nSynapse\nUnfortunately, the recently published Synapse 1.0 didn’t make it into Debian Buster, which is due to be released next week, so if you install 0.99.2 from Buster, you need to update to a …",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 45
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jhc0hTB-MEAg",
+        "address": "https://tanguy.ortolo.eu/blog/categorie2/debian",
+        "title": "Tanguy Ortolo - Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 12,
+            "textWords": 887
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "h17jumZ5FD3x",
+        "address": "https://bugs.launchpad.net/debian/+source/snapd/+bug/2105766",
+        "title": "Bug #2105766 “recent fonts-cantarell with variable font breaks c...” : Bugs : snapd package : Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 18,
+            "textWords": 2172
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jmS6asTY5ZN5",
+        "address": "https://linuxcapable.com/install-nvidia-drivers-on-debian/",
+        "title": "How to Install Nvidia Drivers on Debian 12 or 11 - LinuxCapable",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 133,
+            "textWords": 8420
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vIg3mqNKpOCw",
+        "address": "https://linux.slashdot.org/story/26/08/03/0219205/massive-debian-13-linux-kernel-security-update-patches-68-vulnerabilities?sdsrc=nextbtmnext",
+        "title": "Massive Debian 13 Linux Kernel Security Update Patches 68 Vulnerabilities - Slashdot",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 14,
+            "textWords": 3229
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ov3DY9OwONZ6",
+        "address": "https://www.gamingonlinux.com/2026/08/debian-linux-developers-vote-to-allow-responsible-use-of-generative-ai/page=1/",
+        "title": "Debian Linux developers vote to allow \"Responsible Use of Generative AI\" | GamingOnLinux",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 29,
+            "textWords": 5877
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hvEMYO0h8sSw",
+        "address": "https://tracker.debian.org/news/271723/pleiades-140-dfsg-4-migrated-to-testing/",
+        "title": "Debian Package Tracker",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 7,
+            "textWords": 157
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gvRcTCeuM-zw",
+        "address": "https://ftp.debian.org/debian/dists/bookworm-proposed-updates/",
+        "title": "Index of /debian/dists/bookworm-proposed-updates",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 104
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "QOjI7lpcc_2y",
+        "address": "https://www.notebookcheck.net/Debian-APT-set-to-require-Rust-toolchain-from-May-2026-as-legacy-ports-face-sunset.1155038.0.html",
+        "title": "Debian APT set to require Rust toolchain from May 2026 as legacy ports face sunset - Notebookcheck News",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 12,
+            "textWords": 1956
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rUxSqGDMrHS4",
+        "address": "https://gist.github.com/stokito",
+        "title": "stokito’s gists · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 1131
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EyMJRvPnlBe5",
+        "address": "https://trstringer.com/tags/docker/",
+        "title": "docker | Thomas Stringer",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 174
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "i5m-v6S6MKD4",
+        "address": "https://github.com/danielmiessler/fabric",
+        "title": "GitHub - danielmiessler/Fabric: Fabric is an open-source framework for augmenting humans using AI.",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 6622
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UEDCHzbpbGvx",
+        "address": "https://species.wikimedia.org/wiki/Wikispecies:Tech_news",
+        "title": "Wikispecies:Tech news - Wikispecies",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 5,
+            "textWords": 12817
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OQDxhdTeQuPw",
+        "address": "https://codeberg.org/librewolf/issues/issues/2191",
+        "title": "#2191 - Black frame around all content in librewolf(15mm) - librewolf/issues - Codeberg.org",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 1365
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "plrZfitD2jQw",
+        "address": "https://docs.python.org/3/library/ftplib.html",
+        "title": "ftplib — FTP protocol client — Python 3.11.3 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 3021
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NNfgL520dH2R",
+        "address": "http://buildroot.org/downloads/manual/manual.html",
+        "title": "The Buildroot user manual",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 58418
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mztQfobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/Extension:SecureLinkFixer",
+        "title": "Extension:SecureLinkFixer - MediaWiki",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 904
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RoPE_kQEolng",
+        "address": "https://www.hwsw.hu/rovatarchivum/vallalati-it/2000/7",
+        "title": "Vállalati it archívum - 2000 július - HWSW",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 5029
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ujjeE8L0LIjw",
+        "address": "https://blog.sergiodj.net/tags/debian/",
+        "title": "Tag: debian -",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 24,
+            "textWords": 352
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uk_XYJs_WHN4",
+        "address": "https://www.freexian.com/blog/debian-lts-report-2026-02/",
+        "title": "Monthly report about Debian Long Term Support, February 2026 | Freexian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 33,
+            "textWords": 1325
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0-XIoUwrhNlw",
+        "address": "https://ci.rocm.debian.net/",
+        "title": "Debian Continuous Integration",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 71
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mXINO9piq92w",
+        "address": "https://packages.debian.org/stable/lynx-common",
+        "title": "Debian -- Details of package lynx-common in trixie",
+        "snippet": "Debian. Examples of such shared files are: manpages, locale and mimetype definitions, and configuration files.\nOther Packages Related to lynx-common\ndepends\nrecommends\nsuggests\nenhances\nrec: lynx\nclassic non-graphical (text-mode) web browser\nDownload lynx-common\nDownload for all available",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 94
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "psC6jmZ5FD3x",
+        "address": "https://bugs.launchpad.net/debian/+source/software-properties/+bug/878118",
+        "title": "Bug #878118 “please merge po files to upstream? source” : Bugs : software-properties package : Debian",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 29,
+            "textWords": 946
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tgTnRjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Debian_configuration_system",
+        "title": "Debian configuration system - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 17,
+            "textWords": 1207
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ov3DY9OwONZ6",
+        "address": "https://www.gamingonlinux.com/2026/08/debian-linux-developers-vote-to-allow-responsible-use-of-generative-ai/page=1/",
+        "title": "Debian Linux developers vote to allow \"Responsible Use of Generative AI\" | GamingOnLinux",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 28,
+            "textWords": 5892
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_iKvel6bFQy6",
+        "address": "https://www.notebookcheck.com/Debian-12-5-bringt-zahlreiche-Sicherheits-Updates-und-Bugfixes-fuer-die-beliebte-Linux-Distribution.803353.0.html",
+        "title": "Debian 12.5 bringt zahlreiche Sicherheits-Updates und Bugfixes für die beliebte Linux-Distribution - Notebookcheck News",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 15,
+            "textWords": 2306
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sMum8sTY5ZN5",
+        "address": "https://linuxcapable.com/how-to-configure-unattended-upgrades-on-debian-linux/",
+        "title": "How to Configure Unattended Upgrades on Debian - LinuxCapable",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 33,
+            "textWords": 3022
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tywHTG1nrxbw",
+        "address": "https://www.debian.org/vote/2021/vote_001",
+        "title": "Debian Project Leader Elections 2021",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 52,
+            "textWords": 1178
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xY0EdL1nrxbw",
+        "address": "https://www.debian.org/intro/help",
+        "title": "Debian -- Contribute: How you can help Debian",
+        "snippet": "Debian\nCoding and Maintaining Packages\nTesting and Bug Squashing\nWriting Documentation\nTranslating and Localizing\nHelping other Users\nOrganizing Events\nDonate Money, Hardware, or Bandwidth\nUse Debian\nHow your Organization can support Debian\nDebian is not just an operating system, it's a community.",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 53,
+            "textWords": 1205
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zLJrCWYgUcBw",
+        "address": "https://salsa.debian.org/qa/distro-tracker/-/work_items",
+        "title": "Work items · Debian QA / distro-tracker · GitLab",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 77
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wQi5sE1nrxbw",
+        "address": "https://www.debian.org/users/com/ngcommunications",
+        "title": "Debian -- IT Ops, NG Communications bvba, Kortenberg, Belgium",
+        "snippet": "Debian on our servers for almost 10 years, including servers that we manage for our customers. In total we manage over 30 servers, using the applications Apache, Nginx, Pure-FTPd, MySQL, PostgreSQL, Postfix and Dovecot on top of Debian.\nWe chose Debian for its advanced package management system,",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 67
           }
         },
         "queryPhraseHits": 0
@@ -1156,27 +4084,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "xpAXms9r_z8g",
-        "address": "https://gnulinux.ch/ciw050-podcast",
-        "title": "CIW050 - 30 Jahre Debian",
+        "hash": "yBMaQL1nrxbw",
+        "address": "https://www.debian.org/intro/free",
+        "title": "Debian -- What does free mean?",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 20
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "yd7F2QhABXNw",
-        "address": "https://security-tracker.debian.org/tracker/CVE-2019-19062",
-        "title": "CVE-2019-19062",
-        "snippet": "Debian ELTS, Red Hat, Ubuntu, Gentoo, SUSE bugzilla/CVE, GitHub advisories/code/issues, web search, more)\nReferences\nDLA-2068-1, DLA-2114-1\nVulnerable and fixed packages\nThe table below lists information on source packages.\nSource Package\nRelease\nVersion\nStatus\nlinux (PTS)\nbookworm\n6.1.176-1\nfixed",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 158
+            "hits": 6,
+            "textWords": 1018
           }
         },
         "queryPhraseHits": 0
@@ -1190,19 +4105,6 @@
           "bpVSyb2OYcjy": {
             "hits": 1,
             "textWords": 42
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xF2NUewYMOkg",
-        "address": "https://www.indymedia.org.uk/",
-        "title": "UK Indymedia",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 4367
           }
         },
         "queryPhraseHits": 0
@@ -1232,151 +4134,308 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "uaEnGzTwnifx",
+        "address": "https://planet.wordpress.org/",
+        "title": "Planet — WordPress.org",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 37137
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xF2NUewYMOkg",
+        "address": "https://www.indymedia.org.uk/",
+        "title": "UK Indymedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 4367
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "2vq9bppiq92w",
-        "address": "https://packages.debian.org/unstable/libaspectj-java",
-        "title": "Debian -- Details of package libaspectj-java in sid",
-        "snippet": "aspect-oriented extension for Java - library\nAspectJ enables the clean modularization of crosscutting concerns such as: error checking and handling, synchronization, context-sensitive behavior, performance optimizations, monitoring and logging, debugging support, multi-object protocols.\nThis",
+        "hash": "5Zcg0qCH4Pew",
+        "address": "https://savannah.gnu.org/news/?id=5163",
+        "title": "CVS merged with Debian sources",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 84
+            "hits": 1,
+            "textWords": 11
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "0EpDBk1nrxbw",
-        "address": "https://www.debian.org/consultants/philiphands",
-        "title": "Debian -- List of Consultants",
-        "snippet": "Debian GNU/Linux in particular since 1993. It is owned and run by Philip Hands, who has been a Debian developer since 1996, and has a wide knowledge of Free Software, with particular specialisation in communications and interconnection of systems, having been the Debian maintainer for packages",
+        "hash": "SYG9YlFtgzDw",
+        "address": "https://www.devuan.org/",
+        "title": "Welcome to devuan.org | Devuan GNU+Linux Free Operating System",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 5,
-            "textWords": 114
+            "hits": 4,
+            "textWords": 469
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "sRbYz79o2yYx",
-        "address": "https://code.launchpad.net/~debian-users",
-        "title": "Code : “Debian GNU/Linux Users” team",
+        "hash": "xhV6DlVT-eTw",
+        "address": "https://www.jemarch.net/poke.html",
+        "title": "GNU poke",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1038
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "razFOjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/NASA_Open_Source_Agreement",
+        "title": "NASA Open Source Agreement - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 2,
-            "textWords": 97
+            "textWords": 869
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "iFbcNGpGFoNw",
-        "address": "https://manpages.debian.org/trixie/apt/index.html",
-        "title": "Manpages of apt in Debian trixie — Debian Manpages",
-        "snippet": "github.com/Debian/debiman. Found a problem? See the FAQ.",
+        "hash": "3bGqXVcTUCc6",
+        "address": "https://www.securityfocus.com/cve/CVE-2016-9774",
+        "title": "CVE-2016-9774 - PSIRT.COM",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 13,
+            "textWords": 580
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IrlUU8iaMkRw",
+        "address": "https://archive.fosdem.org/2018/schedule/day/sunday/",
+        "title": "FOSDEM 2018 - Sunday",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
             "hits": 1,
-            "textWords": 20
+            "textWords": 4250
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "dbbzLv7JARt4",
-        "address": "https://www.infoq.com/news/2026/09/cern-debian-infra/",
-        "title": "CERN Renounces RHEL in Favor of Debian for Its Accelerator Controls Infrastructure - InfoQ",
+        "hash": "_xkiR670mtR4",
+        "address": "https://eoss2023.sched.com/list/descriptions",
+        "title": "Embedded Open Source Summit 2023: Full Schedule",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 11,
-            "textWords": 2609
+            "hits": 1,
+            "textWords": 42823
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "f2gAZmwYpnl5",
-        "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
-        "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
-        "snippet": "Debian version and the latest stable Ubuntu version running the GNOME desktop environment. They should also work with most distributions based on Debian or Ubuntu (not Ubuntu Server or Raspbian), but these are not officially supported.\nOther ways to use Proton VPN on Linux\nHow to use the Proton VPN",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 9,
-            "textWords": 947
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "r2ZeFBYgUcBw",
-        "address": "https://salsa.debian.org/java-team/stegosuite",
-        "title": "Debian Java Maintainers / stegosuite · GitLab",
-        "snippet": "Loading",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 1
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "C-M7A2IUABrg",
-        "address": "https://blog.root.cz/petrkrcmar/proc-se-instalacni-cd-debian-netinst-zvetsilo-o-350-mb/1118427/odpovedet/",
-        "title": "Odpověď na názor ke článku Proč se instalační CD Debian netinst zvětšilo o 350 MB? - Root.cz",
+        "hash": "A-343tS6MKD4",
+        "address": "https://github.com/trending/xslt?since=daily",
+        "title": "Trending XSLT repositories on GitHub today · GitHub",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 12,
-            "textWords": 454
+            "hits": 1,
+            "textWords": 1834
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "MJe0Mqp4ogvw",
-        "address": "https://qa.debian.org/cgi-bin/watch?pkg=jaxws",
-        "title": "Watch -- Debian Quality Assurance",
-        "snippet": "debian_mangled_uversion: 2.3.0.2\ndebian_uversion: 2.3.0.2\ndistribution: debian\nlast_check: 2026-09-10 06:50:09.656586\nrelease: sid\nsource: jaxws\nstatus: newer package available\nupstream_url: https://github.com/javaee/metro-jax-ws/archive/refs/tags/2.3.1.tar.gz\nupstream_version: 2.3.1\nversion:",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 3,
-            "textWords": 63
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "9_HWN8H0cnTi",
-        "address": "https://blog.puer-robustus.eu/tags/debian/",
-        "title": "Debian | puer robustus",
+        "hash": "3k9yRvKqlBA4",
+        "address": "https://www.phoronix.com/news/Linux-7.4-DRM-Misc-Next-1",
+        "title": "Nouveau Preparations For HDMI 2.1 DSC, AMD HDMI FreeSync Fixes For Linux 7.4 - Phoronix",
         "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 3,
-            "textWords": 55
+            "hits": 1,
+            "textWords": 906
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lCote8vxk7Ey",
+        "address": "https://wiki.creativecommons.org/wiki/Version_3",
+        "title": "Version 3 - Creative Commons",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 28,
+            "textWords": 5638
           }
         },
         "queryPhraseHits": 0
       }
     ],
-    [],
+    [
+      {
+        "hash": "ys943QEbVk8B",
+        "address": "http://www.lifetvmedia.hu/index.html",
+        "title": "Apache2 Debian Default Page: It works",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 10,
+            "textWords": 584
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lmRNDjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Linux_kernel",
+        "title": "Linux kernel - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 21827
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1D26wl4ngQAw",
+        "address": "https://www.ev3dev.org/",
+        "title": "ev3dev Home",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 414
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "O0QxzL_IRdqx",
+        "address": "https://phabricator.wikimedia.org/p/Zache/",
+        "title": "♟ Zache",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 4,
+            "textWords": 4083
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Xo22ThGZ4FKw",
+        "address": "https://www.kernel.org/pub/linux/kernel/v3.x/ChangeLog-3.10.59",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 7243
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0ltB4sd8wl_4",
+        "address": "https://dart.dev/get-dart",
+        "title": "Get the Dart SDK",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 6,
+            "textWords": 2266
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YzhHYFrC7Zxw",
+        "address": "https://www.gnu.org/distros/common-distros.lt.html",
+        "title": "Paaiškinimas kodėl mes neparemiame kitų sistemų - GNU projektas - Laisvos programinės įrangos fondas",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 11,
+            "textWords": 1905
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0giQUkQEolng",
+        "address": "https://www.hwsw.hu/rovatarchivum/biztonsag/2003/11",
+        "title": "Biztonság archívum - 2003 november - HWSW",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 8,
+            "textWords": 1895
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T-UKT0YBJ9j4",
+        "address": "https://social.librem.one/@purism",
+        "title": "Purism (@purism@librem.one) - Librem Social",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 2,
+            "textWords": 1679
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UayeUtS6MKD4",
+        "address": "https://github.com/trending/aleo?spoken_language_code=gl",
+        "title": "Trending Aleo repositories on GitHub today · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1747
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "9bBlhjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Debian",
         "title": "Debian - Wikipedia",
-        "snippet": "Debian\nDebian Open Use Logo\nScreenshot\nDebian 13 \"Trixie\" running GNOME 48\nDeveloper\nDebian Project\nOS family\nUnix-like\nWorking state\nCurrent\nSource model\nFree\nInitial release\n16 August 1993; 33 years ago\nLatest release\n13.6[1]\n\"Trixie\" / 11 July 2026; 2 months ago\nLatest preview\n14 \"Forky\"[2]",
+        "snippet": "",
         "matchedWords": {
           "bpVSyb2OYcjy": {
-            "hits": 551,
-            "textWords": 12300
+            "hits": 255,
+            "textWords": 12615
           }
         },
         "queryPhraseHits": 0
@@ -1468,591 +4527,6 @@
           "bpVSyb2OYcjy": {
             "hits": 21,
             "textWords": 1467
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "AbsN3l1nrxbw",
-        "address": "https://www.debian.org/contact",
-        "title": "Debian -- How to contact us",
-        "snippet": "Debian\nPublicity \u0026 Press\nEvents \u0026 Conferences\nHelping Debian\nReporting Problems in Debian Packages\nDebian Development\nProblems with the Debian Infrastructure\nHarassment Issues\nDebian is a large organization and there are several ways to get in touch with project members and other Debian users. This",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 54,
-            "textWords": 772
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 26,
-            "textWords": 8109
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "A5ezftS6MKD4",
-        "address": "https://github.com/trending/debian-package-control-file?since=daily",
-        "title": "Trending Debian Package Control File repositories on GitHub today · GitHub",
-        "snippet": "Debian Package Control File.",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 268
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "A_j0MlTeQuPw",
-        "address": "https://codeberg.org/9001/copyparty",
-        "title": "9001/copyparty: Portable file server with accelerated resumable uploads, dedup, WebDAV, FTP, TFTP, zeroconf, media indexer, thumbnails++ all in one file, no deps - Codeberg.org",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 27623
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CRermB-c6vHw",
-        "address": "https://nixos.org/manual/nixos/stable/",
-        "title": "NixOS Manual",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 8,
-            "textWords": 25138
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CRMnc2bypRQw",
-        "address": "https://forgejo.org/docs/latest/",
-        "title": "Forgejo v10.0 documentation | Forgejo – Beyond coding. We forge.",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 529
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "A2QNUs_A2byx",
-        "address": "https://nuetzlich.net/gocryptfs/",
-        "title": "gocryptfs",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 542
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Cg2bFWKUaNi4",
-        "address": "https://nerds.xyz/tag/cybersecurity/",
-        "title": "cybersecurity - NERDS.xyz",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 4,
-            "textWords": 1082
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CjgsxsIyoLTx",
-        "address": "https://planetpython.org/",
-        "title": "Planet Python",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 18982
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "AbY6mss9H12w",
-        "address": "https://jrs-s.net/",
-        "title": "JRS Systems: the blog – technomancy made simple",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 6527
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [],
-    [
-      {
-        "hash": "It5EdL1nrxbw",
-        "address": "https://www.debian.org/intro/about",
-        "title": "Debian -- About Debian",
-        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 50,
-            "textWords": 1618
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "LphQq3piq92w",
-        "address": "https://packages.debian.org/squeeze/system-config-lvm",
-        "title": "Debian -- Error",
-        "snippet": "two or more packages specified (system-config-lvm squeeze)",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 9
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "KZ3knTp4ogvw",
-        "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
-        "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
-        "snippet": "Co-maintained\n(\u0026comaint=)\nyes\nno\nonly\nDescription\n(\u0026description=)\nIn separate column\nAs source mouseover only\nBugs\n(\u0026bugs=)\nShow (1)\nHide (0)\nSum. (2)\nSum.\u0026RC (3)\nVersion\n(\u0026version=)\noldoldstable and newer\noldstable and newer\nstable and newer\ntesting and newer\nunstable only\nexperimental and",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 104
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "JkJrbl8eoF54",
-        "address": "https://www.tecmint.com/install-redis-server-in-centos-ubuntu-debian/",
-        "title": "How to Install Redis Server in CentOS and Debian Based Systems",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 7,
-            "textWords": 2505
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "A5ezftS6MKD4",
-        "address": "https://github.com/trending/debian-package-control-file?since=daily",
-        "title": "Trending Debian Package Control File repositories on GitHub today · GitHub",
-        "snippet": "Debian Package Control File.",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 268
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "KPZ7Fug2aLVh",
-        "address": "https://community.searchlab.eu/t/install-konfig-yacy-mit-debian/2574",
-        "title": "Install / konfig yacy mit debian - YaCy - Searchlab Community",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 844
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "I7mxoopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Property:P3442",
-        "title": "Debian stable package - Wikidata",
-        "snippet": "Debian stable package\nDebian package\npackage, Debian stable\nDebian binary package\nLanguage\nLabel\nDescription\nAlso known as\ndefault for all languages\nNo label defined\nEnglish\nDebian stable package\nname of the official Debian stable package\nDebian package\npackage, Debian stable\nDebian binary package",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 12,
-            "textWords": 108
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "IxFPmjuRqMy4",
-        "address": "https://deb.freexian.com/extended-lts/tracker/CVE-2026-49975",
-        "title": "CVE-2026-49975",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 4,
-            "textWords": 334
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "K2W2aQCcX-qx",
-        "address": "https://cloudsmith.io/~caddy/repos/",
-        "title": "Cloudsmith - Repositories - Caddy (caddy) - List Repositories",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 748
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "J5WlVlf4UL4w",
-        "address": "https://www.freewear.org/FW0048--Vim-T-shirt",
-        "title": "Vim t-shirt | FreeWear.org",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 638
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "4SIJYl1nrxbw",
-        "address": "https://www.debian.org/distrib/",
-        "title": "Download Debian",
-        "snippet": "Debian 13.6.0, the stable release.\nDownload mirrors of installation images\nInstallation Manual with detailed installation instructions\nRelease notes\nISO images for Debian testing\nVerifying authenticity of Debian images\nDownload an installation image\nA small installation image: can be downloaded",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 10,
-            "textWords": 305
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "pMlVvE1nrxbw",
-        "address": "https://www.debian.org/users/gov/sjhc",
-        "title": "Debian -- St. Joseph's Health Care London, Ontario, Canada",
-        "snippet": "Debian Linux servers for all of our Linux based servers that don't have commercial vendor requirements. Including but not limited to web servers, DNS servers, DHCP servers, Samba file servers and java application servers.\nThe reason we use Debian over competing Linux distributions is due to the",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 4,
-            "textWords": 92
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Sa7GrsTY5ZN5",
-        "address": "https://linuxcapable.com/how-to-install-timeshift-on-debian-linux/",
-        "title": "How to Install Timeshift on Debian (13, 12, 11) - LinuxCapable",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 58,
-            "textWords": 2926
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "QRrf8oa_7uS5",
-        "address": "https://www.theregister.com/os-platforms/2026/07/15/a-moment-of-silence-please-for-the-final-release-of-debian-on-x86-32/5271198",
-        "title": "A moment of silence, please, for the final release of Debian on x86-32",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 21,
-            "textWords": 1824
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "RECWXCeuM-zw",
-        "address": "https://ftp.debian.org/debian/dists/trixie/",
-        "title": "Index of /debian/dists/trixie",
-        "snippet": "ftp.debian.org Port 80",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 70
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "T2EF52bypRQw",
-        "address": "https://forgejo.org/docs/latest/user/packages/debian/",
-        "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 18,
-            "textWords": 1083
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "DEpGs83hOgDx",
-        "address": "https://blog.snow-crash.org/tags/debian/",
-        "title": "a place called home - debian",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 5,
-            "textWords": 140
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "TGYmw1LafmQx",
-        "address": "https://launchpad.net/debian/sid/+source/python-installer",
-        "title": "Sid (98) : python-installer package : Debian",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 5,
-            "textWords": 375
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "S8BtnLNQlu2w",
-        "address": "https://bits.debian.org/2016/05/what-does-it-mean-that-zfs-is-in-debian.html",
-        "title": "What does it mean that ZFS is included in Debian? - Bits from Debian",
-        "snippet": "Debian. Many people have worked hard on getting ZFS support available in Debian and we would like to thank everyone involved in getting to this point and explain what ZFS in Debian means.\nThe landing of ZFS in the Debian archive was blocked for years due to licensing problems. Finally, the",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 17,
-            "textWords": 540
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "SdERuQhABXNw",
-        "address": "https://security-tracker.debian.org/tracker/DLA-4638-1",
-        "title": "DLA-4638-1",
-        "snippet": "Debian LTS\nReferences\nCVE-2026-11526\nVulnerable and fixed packages\nThe table below lists information on source packages.\nSource Package\nRelease\nVersion\nStatus\nlibgd-perl (PTS)\nbookworm, bookworm (security)\n2.76-4+deb12u1\nfixed\nThe information below is based on the following data on fixed versions.",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 82
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "0hUVZ5piq92w",
-        "address": "https://packages.debian.org/search?lang=nl\u0026searchon=sourcenames\u0026keywords=apache2",
-        "title": "Debian -- Package Search Results -- apache2",
-        "snippet": "You have searched for bronpakketten that names contain apache2 in alle suites, alle secties, and alle platforms. Found 41 matching packages.\nExacte resultaten\nBronpakket apache2\nbullseye (httpd): 2.4.67-1~deb11u3 [security]\nBinaire pakketten: apache2, apache2-bin, apache2-data, apache2-dev,",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 0,
-            "textWords": 1925
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "0_gkUV3K_J6x",
-        "address": "https://www.linuxtopia.org/online_books/learning_debian_linux/ch01_02.html",
-        "title": "Linux for Beginners - Learning Debian GNU/Linux",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 5,
-            "textWords": 4513
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "1x5ZX4zldBuw",
-        "address": "https://clang.debian.net/status.php?version=3.8.1\u0026key=NO_CAT",
-        "title": "Not categorized - Rebuild of the Debian archive with clang",
-        "snippet": "debian/rules build-arch gave error exit status 2 Log bmusb 0.5.1-1bmusb.cpp:557:16: error: 'target' attribute takes one argument Log boinc 7.6.33+dfsg-1configure: error: in `/\u003c\u003e/boinc-7.6.33+dfsg'\nLog brotli 0.4.0+dfsg-1Undetected errorLog bup 0.27.1-1Tests failures Log cernlib",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 39,
-            "textWords": 3663
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "0HfMPD1nrxbw",
-        "address": "https://www.debian.org/devel/website/stats/ru.ru.html",
-        "title": "Debian -- Русский",
-        "snippet": "Debian является зарегистрированным товарным знаком компании Software in the Public Interest, Inc. (Программное обеспечение в интересах общества)",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 57
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "RwHkRYpGFoNw",
-        "address": "https://manpages.debian.org/testing/manpages-de/portablectl.1.de.html",
-        "title": "portablectl(1) — manpages-de — Debian testing — Debian Manpages",
-        "snippet": "\u003cdebian@helgefjell.de\u003e erstellt.\nDiese Übersetzung ist Freie Dokumentation; lesen Sie die GNU General Public License Version 3 oder neuer bezüglich der Copyright-Bedingungen. Es wird KEINE HAFTUNG übernommen.\nWenn Sie Fehler in der Übersetzung dieser Handbuchseite finden, schicken Sie bitte eine",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 4086
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "0Wqeq0DII4yw",
-        "address": "https://forum.pine64.org/showthread.php?tid=8665\u0026pid=56318",
-        "title": "Games compilation howto on the Pinebook-pro (Manjaro Linux and Debian native)",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 2,
-            "textWords": 553
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "2o_Na40JupZg",
-        "address": "https://www.keyweb.de/de/keyhelp/entwicklung/keyhelp-neuigkeiten/keyhelp-19-2",
-        "title": "KeyHelp® 19.2 – Quality-Of-Life-Update mit Debian 10 Support | Keyweb AG",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 8,
-            "textWords": 1660
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "xmANlslMBdA4",
-        "address": "https://manjaro.site/how-to-set-up-static-ip-address-on-debian-11-server/",
-        "title": "manjaro.site",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 56
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "3PBfHfYgfDRw",
-        "address": "https://xcp-ng.org/forum/topic/7323/xo-web-build-from-source-fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed?",
-        "title": "xo-web build from source, FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed | XCP-ng and XO forum",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 702
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "3WhVMOxyFvIw",
-        "address": "https://forums.gentoo.org/viewtopic-p-8450312.html",
-        "title": "mod_auth_kerb fails to load in ~amd64 apache - Gentoo Forums",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 15,
-            "textWords": 4979
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "b1rfcVcTUCc6",
-        "address": "https://www.securityfocus.com/cve/CVE-2016-9776",
-        "title": "CVE-2016-9776 - PSIRT.COM",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 4,
-            "textWords": 448
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "3VHCVsOEIUyr",
-        "address": "https://simerdupolresbatang.id/",
-        "title": "simerdupolresbatangid",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 3,
-            "textWords": 15502
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "I8CU8CppYNKx",
-        "address": "https://adguard-dns.io/en/public-dns.html",
-        "title": "Connect to public AdGuard DNS server",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 5030
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "HDyGbsE0EWs6",
-        "address": "https://guiltybunnies.com/",
-        "title": "guiltybunnies.com",
-        "snippet": "",
-        "matchedWords": {
-          "bpVSyb2OYcjy": {
-            "hits": 1,
-            "textWords": 3763
           }
         },
         "queryPhraseHits": 0

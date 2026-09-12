@@ -38,21 +38,21 @@
       "grade": 1
     },
     {
-      "hash": "QptPQSMAuxi4",
-      "address": "https://www.linkedin.com/learning/topics/devops?trk=homepage-basic_learning-cta",
-      "title": "DevOps Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+      "hash": "SVkhqsMAuxi4",
+      "address": "https://www.linkedin.com/top-content/technology/",
+      "title": "Top Technology Content from LinkedIn Members",
       "grade": 0
     },
     {
-      "hash": "Tm_2BMS6MKD4",
-      "address": "https://github.com/kubernetes-client/python",
-      "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
+      "hash": "5BSi0enQajO4",
+      "address": "https://cn.ubuntu.com/kubernetes",
+      "title": "适用于多云运营的企业级 Kubernetes | Ubuntu",
       "grade": 1
     },
     {
-      "hash": "J1x-W-j-Xnjg",
-      "address": "https://www.lemagit.fr/etude/Kubernetes-LANSR-reste-fidele-a-loffre-managee-dOVHcloud",
-      "title": "Kubernetes : l’ANSR reste fidèle à l’offre managée d’OVHcloud | LeMagIT",
+      "hash": "dZkbOdUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/cli-ref.html",
+      "title": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation",
       "grade": 1
     },
     {
@@ -68,27 +68,15 @@
       "grade": 1
     },
     {
-      "hash": "sIGvK5c9duY5",
-      "address": "https://azure.microsoft.com/en-us/products/kubernetes-service/",
-      "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
+      "hash": "yy8YSGYlAY74",
+      "address": "https://ubuntu.com/kubernetes/managed",
+      "title": "Managed Kubernetes | Kubernetes | Ubuntu",
       "grade": 1
     },
     {
-      "hash": "LrlbTLo7vSm6",
-      "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-cluster-security?ts=markdown",
-      "title": "Securing Your Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks",
-      "grade": 1
-    },
-    {
-      "hash": "CdjdcQS6MKD4",
-      "address": "https://github.com/kubernetes-sigs/external-dns",
-      "title": "GitHub - kubernetes-sigs/external-dns: Configure external DNS servers dynamically from Kubernetes resources · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "f0AIjdUhjm5w",
-      "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_modules/tests/system/cncf/kubernetes/example_kubernetes.html",
-      "title": "tests.system.cncf.kubernetes.example_kubernetes — apache-airflow-providers-cncf-kubernetes Documentation",
+      "hash": "PbrXWGS6MKD4",
+      "address": "https://github.com/kubernetes/kubernetes",
+      "title": "GitHub - kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub",
       "grade": 1
     },
     {
@@ -98,9 +86,9 @@
       "grade": 1
     },
     {
-      "hash": "7msW9dUhjm5w",
-      "address": "https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/kubernetes.html",
-      "title": "Kubernetes — Airflow 3.3.1 Documentation",
+      "hash": "DpOP6dUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/pod/index.html",
+      "title": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation",
       "grade": 1
     },
     {
@@ -122,51 +110,81 @@
       "grade": 1
     },
     {
-      "hash": "AIy_nGS6MKD4",
-      "address": "https://github.com/kubernetes/kompose",
-      "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes",
+      "hash": "o0eYctS6MKD4",
+      "address": "https://github.com/kubernetes-el/kubernetes-el",
+      "title": "GitHub - kubernetes-el/kubernetes-el: Manage Kubernetes clusters with Emacs.",
       "grade": 1
     },
     {
-      "hash": "jrBUgOjw1Zlx",
-      "address": "https://kubernetes.io/zh-cn/blog/2015/03/28/weekly-kubernetes-community-hangout/",
-      "title": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes",
+      "hash": "2YmsATjw1Zlx",
+      "address": "https://kubernetes.io/es/training/",
+      "title": "Capacitación | Kubernetes",
       "grade": 1
     },
     {
-      "hash": "SGpSAlyJVbc5",
-      "address": "https://www.vpsserver.com/managing-kubernetes/",
-      "title": "Kubernetes | Simplifying Multi-Cloud and Hybrid Deployments",
+      "hash": "HE7OYvhTaKi5",
+      "address": "https://www.datadoghq.com/solutions/kubernetes/",
+      "title": "Kubernetes Monitoring | Datadog",
       "grade": 1
     },
     {
-      "hash": "C2SN3wn-yhj5",
-      "address": "https://www.infoworld.com/article/2266945/what-is-kubernetes-scalable-cloud-native-applications.html",
-      "title": "What is Kubernetes? Scalable cloud-native applications | InfoWorld",
+      "hash": "x0-1Uba9G8Cw",
+      "address": "https://doc.traefik.io/traefik/getting-started/kubernetes/",
+      "title": "Kubernetes and Traefik Quick Start - Traefik",
       "grade": 1
     },
     {
-      "hash": "qjEAgsjw1Zlx",
-      "address": "https://kubernetes.io/zh-cn/",
-      "title": "Kubernetes",
-      "grade": 2
-    },
-    {
-      "hash": "9GlFHsdTeyA4",
-      "address": "https://github.blog/engineering/infrastructure/kubernetes-at-github/",
-      "title": "Kubernetes at GitHub - The GitHub Blog",
+      "hash": "Sw99fdUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/tests/system/google/cloud/kubernetes_engine/example_kubernetes_engine/index.html",
+      "title": "tests.system.google.cloud.kubernetes_engine.example_kubernetes_engine — apache-airflow-providers-google Documentation",
       "grade": 1
     },
     {
-      "hash": "c9QXzSMAuxi4",
-      "address": "https://www.linkedin.com/learning/learning-kubernetes-16086900",
-      "title": "Learning Kubernetes Online Class | LinkedIn Learning, formerly Lynda.com",
+      "hash": "sIGvK5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/kubernetes-service/",
+      "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
       "grade": 1
     },
     {
-      "hash": "GGuDG09moDe4",
-      "address": "https://www.linux.com/topic/cloud/fluent-bit-flexible-logging-kubernetes/",
-      "title": "Fluent Bit: Flexible Logging in Kubernetes - Linux.com",
+      "hash": "xA481bhzG1b4",
+      "address": "https://documentation.ubuntu.com/canonical-kubernetes/release-1.35/",
+      "title": "Canonical Kubernetes documentation",
+      "grade": 1
+    },
+    {
+      "hash": "P75USsYlAY74",
+      "address": "https://ubuntu.com/kubernetes",
+      "title": "Trusted Kubernetes for production at scale | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "_0mDl2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/",
+      "title": "Managing Kubernetes Objects Using Imperative Commands | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "Tm_2BMS6MKD4",
+      "address": "https://github.com/kubernetes-client/python",
+      "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "LrlbTLo7vSm6",
+      "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-cluster-security?ts=markdown",
+      "title": "Securing Your Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks",
+      "grade": 1
+    },
+    {
+      "hash": "rhegtsjw1Zlx",
+      "address": "https://kubernetes.io/training/",
+      "title": "Training | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "hlp8hzS6MKD4",
+      "address": "https://github.com/topics/kubernetes",
+      "title": "kubernetes · GitHub Topics · GitHub",
       "grade": 1
     },
     {
@@ -176,124 +194,40 @@
       "grade": 1
     },
     {
-      "hash": "-I3smVPMwjH4",
-      "address": "https://docs.aws.amazon.com/zh_tw/sagemaker/latest/dg/kubernetes-sagemaker-operators.html",
-      "title": "SageMaker AI Operators for Kubernetes - Amazon SageMaker AI",
+      "hash": "-YhdyVPMwjH4",
+      "address": "https://docs.aws.amazon.com/zh_tw/eks/latest/userguide/kubernetes-concepts.html",
+      "title": "Kubernetes 概念 - Amazon EKS",
       "grade": 1
     },
     {
-      "hash": "XKCcq6tZl1y5",
-      "address": "https://kube101.jeffgeerling.com/",
-      "title": "Kubernetes 101 | A YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.",
+      "hash": "qjo2Ci-VnHQw",
+      "address": "https://kubernetes-csi.github.io/docs/drivers.html",
+      "title": "Drivers - Kubernetes CSI Developer Documentation",
       "grade": 1
     },
     {
-      "hash": "5BSi0enQajO4",
-      "address": "https://cn.ubuntu.com/kubernetes",
-      "title": "适用于多云运营的企业级 Kubernetes | Ubuntu",
+      "hash": "zKPVoUtgnJ_5",
+      "address": "https://vivekdhami.com/blog/kubernetes-working-with-multiple-contexts/",
+      "title": "Kubernetes: Working with multiple contexts | Vivek Dhami",
       "grade": 1
     },
     {
-      "hash": "n3XoxFCmq5v4",
-      "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
-      "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
+      "hash": "5bTKg9Uv6uQ4",
+      "address": "https://bsky.app/profile/kubernetes.io",
+      "title": "@kubernetes.io on Bluesky",
       "grade": 1
     },
     {
-      "hash": "BK1hxXyvgfs5",
-      "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/access_cluster/",
-      "title": "kubernetes:access_cluster | DigitalOcean Documentation",
+      "hash": "5IcgvXqO2Dlg",
+      "address": "https://media.ccc.de/v/voxconf2026-110727-openvox-operator-pupp",
+      "title": "OpenVox Operator - Puppet Infrastructure as Kubernetes CRDs - media.ccc.de",
       "grade": 1
     },
     {
-      "hash": "rzRs5sS6MKD4",
-      "address": "https://github.com/kubernetes",
-      "title": "Kubernetes · GitHub",
+      "hash": "XFYQiBjw1Zlx",
+      "address": "https://kubernetes.io/vi/docs/concepts/",
+      "title": "Các khái niệm | Kubernetes",
       "grade": 2
-    },
-    {
-      "hash": "irJVd1c9duY5",
-      "address": "https://azure.microsoft.com/en-in/products/kubernetes-service/",
-      "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
-      "grade": 1
-    },
-    {
-      "hash": "WvWPIsjw1Zlx",
-      "address": "https://kubernetes.io/",
-      "title": "Kubernetes",
-      "grade": 2
-    },
-    {
-      "hash": "hbZPoyRO6Xx4",
-      "address": "https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_security_for_kubernetes/3.74/html-single/about/index",
-      "title": "About | Red Hat Advanced Cluster Security for Kubernetes | 3.74 | Red Hat Documentation",
-      "grade": 1
-    },
-    {
-      "hash": "HYRbGlAE-CX4",
-      "address": "https://www.pulumi.com/kubernetes/",
-      "title": "Kubernetes with Pulumi | Pulumi",
-      "grade": 1
-    },
-    {
-      "hash": "XQQxLWDdo7f4",
-      "address": "https://komodor.com/solutions/kubernetes-migration/",
-      "title": "Simplify and Accelerate Kubernetes Migration with Komodor",
-      "grade": 1
-    },
-    {
-      "hash": "_vIWyKf4Pib5",
-      "address": "https://code.visualstudio.com/docs/azure/kubernetes",
-      "title": "Working with Kubernetes in VS Code",
-      "grade": 1
-    },
-    {
-      "hash": "jqcf66PMwjH4",
-      "address": "https://docs.aws.amazon.com/ja_jp/sagemaker/latest/dg/kubernetes-sagemaker-operators.html",
-      "title": "SageMaker AI Operators for Kubernetes - Amazon SageMaker AI",
-      "grade": 1
-    },
-    {
-      "hash": "dyyUMlSCNQa4",
-      "address": "https://www.redhat.com/en/topics/containers/what-is-kubernetes",
-      "title": "What is Kubernetes?",
-      "grade": 1
-    },
-    {
-      "hash": "40kVHo_IRdqx",
-      "address": "https://phabricator.wikimedia.org/tag/kubernetes/",
-      "title": "Kubernetes",
-      "grade": 1
-    },
-    {
-      "hash": "L0PizM-VnHQw",
-      "address": "https://kubernetes-csi.github.io/docs/",
-      "title": "Introduction - Kubernetes CSI Developer Documentation",
-      "grade": 1
-    },
-    {
-      "hash": "0y2lWOjw1Zlx",
-      "address": "https://kubernetes.io/zh-cn/docs/concepts/",
-      "title": "概念 | Kubernetes",
-      "grade": 2
-    },
-    {
-      "hash": "_jMAllSCNQa4",
-      "address": "https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator",
-      "title": "What is a Kubernetes operator?",
-      "grade": 1
-    },
-    {
-      "hash": "Bc3md2jw1Zlx",
-      "address": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
-      "title": "Horizontal Pod Autoscaling | Kubernetes",
-      "grade": 1
-    },
-    {
-      "hash": "P75USsYlAY74",
-      "address": "https://ubuntu.com/kubernetes",
-      "title": "Enterprise Kubernetes for multi-cloud operations | Ubuntu",
-      "grade": 1
     },
     {
       "hash": "_O-0BOjw1Zlx",
@@ -302,16 +236,82 @@
       "grade": 1
     },
     {
-      "hash": "_TYuOOjw1Zlx",
-      "address": "https://kubernetes.io/zh-cn/blog/2025/02/28/nftables-kube-proxy/",
-      "title": "kube-proxy 的 NFTables 模式 | Kubernetes",
+      "hash": "dmb_HXqO2Dlg",
+      "address": "https://media.ccc.de/v/ASG2017-137-what_if_component_xxx_dies_introducing_self-healing_kubernetes",
+      "title": "What If Component xxx Dies? Introducing Self-Healing Kubernetes - media.ccc.de",
       "grade": 1
     },
     {
-      "hash": "_6qj_po58Nix",
-      "address": "https://discuss.kubernetes.io/u/xiao_wang",
-      "title": "Profile - xiao_wang - Discuss Kubernetes",
-      "grade": 0
+      "hash": "po9CHqb8iyg4",
+      "address": "https://cloud.google.com/blog/products/containers-kubernetes",
+      "title": "Containers \u0026 Kubernetes | Google Cloud Blog",
+      "grade": 1
+    },
+    {
+      "hash": "x1IvB2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/",
+      "title": "Ephemeral Containers | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "xoVoOlaFvW05",
+      "address": "https://www.kubernetes.dev/resources/",
+      "title": "Resources | Kubernetes Contributors",
+      "grade": 1
+    },
+    {
+      "hash": "oXW2HsL2-9j4",
+      "address": "https://bobcares.com/kubernetes-consulting/",
+      "title": "Kubernetes Consulting Services | K8s Partners | Bobcares",
+      "grade": 1
+    },
+    {
+      "hash": "2JDQhQRul9D4",
+      "address": "https://aws.amazon.com/kubernetes/",
+      "title": "Kubernetes on AWS | Amazon Web Services",
+      "grade": 1
+    },
+    {
+      "hash": "_myUkUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2021/04/13/kube-state-metrics-v-2-0/",
+      "title": "kube-state-metrics goes v2.0 | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "9-wFc2jw1Zlx",
+      "address": "https://kubernetes.io/docs/contribute/style/page-content-types/",
+      "title": "Page content types | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "ptx-Gj_oppU4",
+      "address": "https://www.ibm.com/products/kubernetes-service",
+      "title": "IBM Cloud Kubernetes Service",
+      "grade": 1
+    },
+    {
+      "hash": "1ht2tOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/docs/contribute/blog/",
+      "title": "为 Kubernetes 博客做贡献 | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "xAReydxoOQQg",
+      "address": "https://www.nluug.nl/evenementen/nluug/voorjaarsconferentie-2019/talks/amir-jerbi-keeping-your-kubernetes-secured-using-kube-hunter-kube-bench-and-microscanner-github/",
+      "title": "Amir Jerbi - Keeping your Kubernetes secured using kube-hunter, kube-bench and microscanner GitHub | NLUUG",
+      "grade": 1
+    },
+    {
+      "hash": "-n9aNOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/blog/2024/08/21/cri-cgroup-driver-lookup-now-beta/",
+      "title": "Kubernetes 1.31: 节点 Cgroup 驱动程序的自动配置 (beta) | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "2pS_lOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/docs/concepts/overview/components/",
+      "title": "Kubernetes 组件 | Kubernetes",
+      "grade": 2
     }
   ]
 }

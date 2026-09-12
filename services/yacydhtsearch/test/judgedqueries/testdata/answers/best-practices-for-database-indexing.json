@@ -1,0 +1,1949 @@
+{
+  "query": "best practices for database indexing",
+  "recordedAt": "2026-09-12T00:23:19Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "tqphPlx-PVw5",
+        "address": "https://www.githubstatus.com/",
+        "title": "GitHub Status",
+        "snippet": "for the affected models, and coordinated with the provider. Service returned to normal after the provider implemented a mitigation.\nSep 3, 17:11 UTC\nUpdate - The issues with our upstream model provider have been resolved, and Grok models are once again available in Copilot products and IDE",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 3,
+            "textWords": 204
+          },
+          "24Igax1JBC0a": {
+            "hits": 0,
+            "textWords": 204
+          },
+          "4fq6esdgf645": {
+            "hits": 0,
+            "textWords": 204
+          },
+          "EeDu2NNpbApj": {
+            "hits": 0,
+            "textWords": 204
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 0,
+            "textWords": 204
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "XEyWzL8hxo35",
+        "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+        "title": "Microsoft Privacy Statement – Microsoft privacy",
+        "snippet": "for adjusting user preferences, configuring the operating system, and managing connected devices so that you can manage user accounts, adjust network settings, and personalize various aspects of Windows. Windows Settings also allows you to manage which apps can access various device capabilities",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 88,
+            "textWords": 9755
+          },
+          "24Igax1JBC0a": {
+            "hits": 0,
+            "textWords": 9755
+          },
+          "4fq6esdgf645": {
+            "hits": 0,
+            "textWords": 9755
+          },
+          "EeDu2NNpbApj": {
+            "hits": 0,
+            "textWords": 9755
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 0,
+            "textWords": 9755
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "a7Urh_nMM_j5",
+        "address": "https://grokipedia.com/page/PostgreSQL",
+        "title": "PostgreSQL — Grokipedia",
+        "snippet": "database management system (ORDBMS) that uses and extends the SQL language combined with many features that safely store and scale complex data workloads.[1] It originated in 1986 as the POSTGRES project at the University of California, Berkeley, led by Michael Stonebraker and sponsored by",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 465,
+            "textWords": 18311
+          },
+          "24Igax1JBC0a": {
+            "hits": 5,
+            "textWords": 18311
+          },
+          "4fq6esdgf645": {
+            "hits": 11,
+            "textWords": 18311
+          },
+          "EeDu2NNpbApj": {
+            "hits": 84,
+            "textWords": 18311
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 4,
+            "textWords": 18311
+          }
+        },
+        "queryPhraseHits": 8
+      }
+    ],
+    [
+      {
+        "hash": "vrmcS_nMM_j5",
+        "address": "https://grokipedia.com/page/NoSQL",
+        "title": "NoSQL — Grokipedia",
+        "snippet": "for \"not only SQL,\" refers to a broad class of database management systems designed to store and retrieve data using non-relational data models, diverging from the traditional tabular structures and SQL query language of relational databases.[1] These systems prioritize horizontal scalability,",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 198,
+            "textWords": 8789
+          },
+          "24Igax1JBC0a": {
+            "hits": 1,
+            "textWords": 8789
+          },
+          "4fq6esdgf645": {
+            "hits": 8,
+            "textWords": 8789
+          },
+          "EeDu2NNpbApj": {
+            "hits": 32,
+            "textWords": 8789
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 4,
+            "textWords": 8789
+          }
+        },
+        "queryPhraseHits": 3
+      }
+    ],
+    [
+      {
+        "hash": "a7Urh_nMM_j5",
+        "address": "https://grokipedia.com/page/PostgreSQL",
+        "title": "PostgreSQL — Grokipedia",
+        "snippet": "database management system (ORDBMS) that uses and extends the SQL language combined with many features that safely store and scale complex data workloads.[1] It originated in 1986 as the POSTGRES project at the University of California, Berkeley, led by Michael Stonebraker and sponsored by",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 465,
+            "textWords": 18311
+          },
+          "24Igax1JBC0a": {
+            "hits": 5,
+            "textWords": 18311
+          },
+          "4fq6esdgf645": {
+            "hits": 11,
+            "textWords": 18311
+          },
+          "EeDu2NNpbApj": {
+            "hits": 84,
+            "textWords": 18311
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 4,
+            "textWords": 18311
+          }
+        },
+        "queryPhraseHits": 8
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 117,
+            "textWords": 8109
+          },
+          "24Igax1JBC0a": {
+            "hits": 6,
+            "textWords": 8109
+          },
+          "4fq6esdgf645": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "EeDu2NNpbApj": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 0,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "g4p8j_nMM_j5",
+        "address": "https://grokipedia.com/page/MongoDB",
+        "title": "MongoDB — Grokipedia",
+        "snippet": "database designed for ease of application development and horizontal scaling across distributed systems.[1] It stores data records as BSON documents, which resemble JSON objects but include binary encoding for enhanced efficiency, enabling flexible schemas that accommodate varying data structures",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 261,
+            "textWords": 11255
+          },
+          "24Igax1JBC0a": {
+            "hits": 3,
+            "textWords": 11255
+          },
+          "4fq6esdgf645": {
+            "hits": 12,
+            "textWords": 11255
+          },
+          "EeDu2NNpbApj": {
+            "hits": 25,
+            "textWords": 11255
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 2,
+            "textWords": 11255
+          }
+        },
+        "queryPhraseHits": 3
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "for many years: I deleted the last cgo dependency in Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 117,
+            "textWords": 8109
+          },
+          "24Igax1JBC0a": {
+            "hits": 6,
+            "textWords": 8109
+          },
+          "4fq6esdgf645": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "EeDu2NNpbApj": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 0,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "vrmcS_nMM_j5",
+        "address": "https://grokipedia.com/page/NoSQL",
+        "title": "NoSQL — Grokipedia",
+        "snippet": "for \"not only SQL,\" refers to a broad class of database management systems designed to store and retrieve data using non-relational data models, diverging from the traditional tabular structures and SQL query language of relational databases.[1] These systems prioritize horizontal scalability,",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 198,
+            "textWords": 8789
+          },
+          "24Igax1JBC0a": {
+            "hits": 1,
+            "textWords": 8789
+          },
+          "4fq6esdgf645": {
+            "hits": 8,
+            "textWords": 8789
+          },
+          "EeDu2NNpbApj": {
+            "hits": 32,
+            "textWords": 8789
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 4,
+            "textWords": 8789
+          }
+        },
+        "queryPhraseHits": 3
+      }
+    ],
+    [
+      {
+        "hash": "00fzG1tSpg04",
+        "address": "https://xmlns.com/foaf/spec/",
+        "title": "FOAF Vocabulary Specification",
+        "snippet": "For example, the IM chat ID properties such as jabberID are typically associated with people, but sometimes belong to software bots.\n[#] [back to top]\nClass: foaf:Document\nDocument - A document.\nStatus:\nstable\nProperties include:\ntopic primaryTopic sha1\nUsed with:\nworkInfoHomepage workplaceHomepage",
+        "matchedWords": {
+          "1VZpgi8ajPcu": {
+            "hits": 176,
+            "textWords": 10421
+          },
+          "24Igax1JBC0a": {
+            "hits": 1,
+            "textWords": 10421
+          },
+          "4fq6esdgf645": {
+            "hits": 1,
+            "textWords": 10421
+          },
+          "EeDu2NNpbApj": {
+            "hits": 2,
+            "textWords": 10421
+          },
+          "hoHrl7sL-sIs": {
+            "hits": 0,
+            "textWords": 10421
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "snippet": "for discussing issues with Wikisource, and the place to ask for help. Use the language(s) you know, and translate what you like.\neo: Ĉi tio estas la centra loko por diskuti problemojn pri Vikifontaro, kaj la loko por serĉi helpon. Uzu la lingvo(j)n kiu(j)n vi konas, kaj traduku kion vi volas.\nes:",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 295,
+          "textWords": 18265
+        },
+        "24Igax1JBC0a": {
+          "hits": 6,
+          "textWords": 18265
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 18265
+        },
+        "EeDu2NNpbApj": {
+          "hits": 1,
+          "textWords": 18265
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 3,
+          "textWords": 18265
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "ZLCPGlRhEzc4",
+      "address": "https://www.amazon.science/",
+      "title": "Amazon Science homepage",
+      "snippet": "for User Ad Activity Sequences. AdKDD 2023.](https://assets.amazon.science/b7/42/03be071743d5a57cb1656e6caa34/scaling-generative-pre-training-for-user-ad-activity-sequences.pdf) 2/ [SLIDR: Real-time Robot Detection On Online Ads, IAAI 2023, Deployed Highly Innovative Applications of AI Track (AAAI",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 47,
+          "textWords": 4040
+        },
+        "24Igax1JBC0a": {
+          "hits": 2,
+          "textWords": 4040
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 4040
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 4040
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 4040
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "snippet": "For other types of questions, use the search box, see the reference desk or Help:Contents. If you have comments about a specific article, use that article's talk page.\nDo not provide your email address or any other contact information. Answers will be provided on this page only.\nIf your question is",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 150,
+          "textWords": 14224
+        },
+        "24Igax1JBC0a": {
+          "hits": 11,
+          "textWords": 14224
+        },
+        "4fq6esdgf645": {
+          "hits": 6,
+          "textWords": 14224
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 14224
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 14224
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ccuJ8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Map",
+      "title": "Map - Wikipedia",
+      "snippet": "for a wide range of purposes, including navigation, scientific research, governance, and warfare. A common use is route planning, which enables users to find their way to their destination. Specialized maps, called charts, are used for nautical navigation (nautical charts) and aviation",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 146,
+          "textWords": 18623
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 18623
+        },
+        "4fq6esdgf645": {
+          "hits": 1,
+          "textWords": 18623
+        },
+        "EeDu2NNpbApj": {
+          "hits": 19,
+          "textWords": 18623
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 1,
+          "textWords": 18623
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ipGFbjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wiley_(publisher)",
+      "title": "Wiley (publisher) - Wikipedia",
+      "snippet": "for undergraduate, graduate, and continuing education students.[4]\nThe Hoboken, New Jersey, headquarters of Wiley\nThe company was established in 1807 when Charles Wiley opened a print shop in Manhattan. The company was the publisher of 19th century American literary figures like James Fenimore",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 72,
+          "textWords": 6492
+        },
+        "24Igax1JBC0a": {
+          "hits": 7,
+          "textWords": 6492
+        },
+        "4fq6esdgf645": {
+          "hits": 1,
+          "textWords": 6492
+        },
+        "EeDu2NNpbApj": {
+          "hits": 1,
+          "textWords": 6492
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 2,
+          "textWords": 6492
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zugI_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Metadata",
+      "title": "Metadata - Wikipedia",
+      "snippet": "For example, the title, author, and publication date of a book are metadata about the book. But, while a data asset is finite, its metadata is infinite.\nAs such, efforts to define, classify types, or structure metadata are expressed as examples in the context of its use. The term \"metadata\" has a",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 138,
+          "textWords": 12196
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 12196
+        },
+        "4fq6esdgf645": {
+          "hits": 2,
+          "textWords": 12196
+        },
+        "EeDu2NNpbApj": {
+          "hits": 29,
+          "textWords": 12196
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 4,
+          "textWords": 12196
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "75kEMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/International_Organization_for_Standardization",
+      "title": "International Organization for Standardization - Wikipedia",
+      "snippet": "for Standardization\nOrganisation internationale de normalisation (French)\nМеждународная организация по стандартизации (Russian)\nAbbreviation\nISO\nPredecessor\nInternational Federation of the National Standardizing Associations (ISA)\nFormation\n23 February 1947; 79 years ago\nType\nNon-governmental",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 84,
+          "textWords": 4588
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 4588
+        },
+        "4fq6esdgf645": {
+          "hits": 1,
+          "textWords": 4588
+        },
+        "EeDu2NNpbApj": {
+          "hits": 1,
+          "textWords": 4588
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 1,
+          "textWords": 4588
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
+      "snippet": "Discussions\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nYou must be logged in to vote\nApp.js\nBug GitHub or a GitHub feature is not working as intended\nIssues Repository issues let you track",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 323
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 323
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 323
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 323
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 323
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0uT1BzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/customer-experience/cx-journey/",
+      "title": "Customer Experience Journey Research | The GitLab Handbook",
+      "snippet": "for success.\nGitLab Teams: Understanding the experience of the GitLab team collaborating as a team in service of helping customers move through their purchasing and adoption journey with us, and where there are areas of friction inhibiting us from providing our best service to customers.\nCustomer +",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 13,
+          "textWords": 728
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 728
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 728
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 728
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 728
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0xiwzzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/security/corporate/systems/aws/cells-prod/",
+      "title": "AWS Cells Prod Org | The GitLab Handbook",
+      "snippet": "for any child pages that exist.\nLast modified July 8, 2025: Update AWS Orgs list (7aedf0dc)\nView page source - Edit this page - please contribute.",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 1,
+          "textWords": 32
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 32
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 32
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 32
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 32
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1s9OizW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/company/culture/exec-connect/",
+      "title": "Executive Connect events | The GitLab Handbook",
+      "snippet": "for open conversation as a way to continually improve our culture.\nWe heard through engagement surveys and direct feedback that team members want more opportunities to connect with leaders face-to-face.\nOverview\nExec Connect events are 60-minute, in-person gatherings held in locations where leaders",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 4,
+          "textWords": 350
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 350
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 350
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 350
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 350
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4X6v9zW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/gitlab-delivery/distribution/triage/",
+      "title": "Distribution Team Triage | The GitLab Handbook",
+      "snippet": "for scheduling or awaiting feedback labels.\nFully Triaged issues: Issues are fully triaged when they have been assigned a Milestone, even if it is Backlog. They should have appropriate group, priority and product category labels applied.\nNote: An issue that has been assigned to a user, but has no",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 56,
+          "textWords": 2768
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 2768
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 2768
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 2768
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 2768
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4YxmRzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/about/contributing/",
+      "title": "Contributing to the Handbook | The GitLab Handbook",
+      "snippet": "for your interest and help!\nWe don’t mind people inside and outside the company making suggestions to change significant things. Feel free to make a proposal, we can discuss anything. If we don’t agree, we’ll feel free not to merge it, and we’ll thank you for caring about it.\nWe want to create a",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 3,
+          "textWords": 109
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 109
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 109
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 109
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4fXgyzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/sales/shadow-program/",
+      "title": "The Customer-Ready Shadow Program | The GitLab Handbook",
+      "snippet": "for Account Executives at GitLab, including learning objectives, manager and buddy expectations, shadow program guidance, and graduation requirements.\nOverview of Role Based Account Executive (AE) Onboarding\nOnboarding for Account Executives at GitLab is a guided, multi-layered experience designed",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 20,
+          "textWords": 2437
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 2437
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 2437
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 2437
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 1,
+          "textWords": 2437
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "-OnNvzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/legal/subscription-agreement/",
+      "title": "GitLab Subscription Agreement | The GitLab Handbook",
+      "snippet": "for purchase, as set forth here: https://about.gitlab.com/terms/.\n“Add-On User(s)” are additional Users in excess of those that have been purchased under a Subscription via an executed Order Form or web-portal purchase.\n“Affiliate” means any entity(ies) controlling, controlled by, and/or under",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 113,
+          "textWords": 11292
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 11292
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 11292
+        },
+        "EeDu2NNpbApj": {
+          "hits": 2,
+          "textWords": 11292
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 11292
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XiJz_qXcJ7vx",
+      "address": "https://abstract.wikipedia.org/wiki/Abstract_Wikipedia:Project_chat",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B0aD4yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/concepts/agents/github-copilot-app",
+      "title": "About the GitHub Copilot app - GitHub Docs",
+      "snippet": "for agent-driven development that brings parallel workstreams, GitHub integration, and PR lifecycle management into one place.\nWho can use this feature?\nIntroduction\nThe GitHub Copilot app is a desktop application purpose-built for agent-driven development. It gives you a single place to direct AI",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 18,
+          "textWords": 883
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 883
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 883
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 883
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 1,
+          "textWords": 883
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DFzdbyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access",
+      "title": "Managing access to GitHub Copilot in your organization - GitHub Docs",
+      "snippet": "for organization\nManage access\nGrant access\nManage requests for access\nRevoke access\nManage network access\nManage policies\nAdd Copilot cloud agent\nConfigure agent runners\nPrepare for custom agents\nManage default models\nEnable custom models\nDownload activity report\nView usage and adoption\nView code",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 10,
+          "textWords": 174
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 174
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 174
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 174
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 174
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "G5ifEyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/configure-personal-settings/authenticate-to-ghecom",
+      "title": "Using GitHub Copilot with an account on GHE.com - GitHub Docs",
+      "snippet": "for an account on GHE.com.\nTo use GitHub Copilot in an IDE or the command line, you must authenticate to an account on GitHub that has a Copilot license.\nIf you receive access to Copilot through a managed user account owned by an enterprise on GHE.com, you may need to adjust some settings in your",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 13,
+          "textWords": 523
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 523
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 523
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 523
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 523
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JTegTyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/responsible-use/chat",
+      "title": "Application card: GitHub Copilot Chat - GitHub Docs",
+      "snippet": "for AI applications and platform cards are created for AI platform services. These resources can support the development or deployment of your own applications and can be shared with users or stakeholders impacted by them.\nAs part of its commitment to responsible AI, GitHub adheres to Microsoft's",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 73,
+          "textWords": 5274
+        },
+        "24Igax1JBC0a": {
+          "hits": 5,
+          "textWords": 5274
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 5274
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 5274
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 5,
+          "textWords": 5274
+        }
+      },
+      "queryPhraseHits": 7
+    },
+    {
+      "hash": "RMUETyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review",
+      "title": "Using GitHub Copilot code review - GitHub Docs",
+      "snippet": "For a full introduction to GitHub Copilot code review, see About GitHub Copilot code review.\nCopilot code review uses GitHub Actions to run agentic capabilities. For more information, see Agentic capabilities for Copilot code review.\nCopilot code review is also available for organization members",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 58,
+          "textWords": 3335
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 3335
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 3335
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 3335
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 4,
+          "textWords": 3335
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ua5YKyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app",
+      "title": "Customizing the GitHub Copilot app - GitHub Docs",
+      "snippet": "for you to use in the Installed view.\nSetting global and repository instructions\nYou can add instructions that apply globally or only to a specific repository.\nSetting global instructions\nGlobal instructions apply to every session across all projects.\nOpen the app settings.\nClick Sessions.\nUnder",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 15,
+          "textWords": 671
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 671
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 671
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 671
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 671
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "UetwYyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot",
+      "title": "GitHub Copilot documentation - GitHub Docs",
+      "snippet": "for GitHub Copilot\nCloud and local sandboxes provide isolated execution environments that let Copilot safely interact with code, tools, filesystem, and network resources securely on your local machine or in fully isolated cloud environments.\nLearn about Copilot\nAbout Copilot automations\nAutomations",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 1,
+          "textWords": 173
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 173
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 173
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 173
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 173
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rXFU9yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations",
+      "title": "Using automations in the GitHub Copilot app - GitHub Docs",
+      "snippet": "For example, you can create an automation that triages new issues daily or checks your open pull requests for review status each morning.\nYou can create and manage automations from:\nThe Agents tab in a repository on GitHub, in the Automations pane.\nThe Automations tab in the GitHub Copilot app.\nFor",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 12,
+          "textWords": 634
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 634
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 634
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 634
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 634
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sW1fHyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/concepts/models/auto-model-selection",
+      "title": "About Copilot auto model selection - GitHub Docs",
+      "snippet": "best model for each task.\nWho can use this feature?\nAuto model selection is available with all GitHub Copilot plans.\nOverview\nMore than just a model picker, auto model selection is an intelligent system delivering high quality results, better reliability, and one less decision to make as the model",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 16,
+          "textWords": 711
+        },
+        "24Igax1JBC0a": {
+          "hits": 2,
+          "textWords": 711
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 711
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 711
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 711
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tqy9_yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions",
+      "title": "Working with agent sessions in the GitHub Copilot app - GitHub Docs",
+      "snippet": "for repositories hosted outside GitHub (for example, on Azure DevOps) or for private repositories without app access.\nFrom the dropdown under the prompt box, choose where the session should run: in a new working tree, in your local repository, or in a cloud sandbox. Cloud sandboxes for Copilot",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 22,
+          "textWords": 1099
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 1099
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 1099
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 1099
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 1099
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wEWc3yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials/spark/build-apps-with-spark",
+      "title": "Building and deploying AI-powered apps with GitHub Spark - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yv0qxyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests",
+      "title": "Managing issues and pull requests with the GitHub Copilot app - GitHub Docs",
+      "snippet": "field—for example, Plan to have the agent propose a plan first, or Interactive to work collaboratively with the agent.\nPrompt the agent with what you want it to do. If you chose Plan mode, the agent proposes a plan for you to review first; otherwise, the agent will start working on the issue and",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 3,
+          "textWords": 506
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 506
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 506
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 506
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 506
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zczfLyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials/customization-library",
+      "title": "Customization library - GitHub Docs",
+      "snippet": "for any programming language.\nExplore 19 examples\nYour first custom instructions\nCreate and test your first custom instruction with this simple example.\nCustom instructionsGetting startedConfigure CopilotScale institutional knowledgeSimple\nConcept explainer\nInstructions for breaking down complex",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 10,
+          "textWords": 387
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 387
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 387
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 387
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 387
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0zCYHyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials/copilot-cookbook",
+      "title": "GitHub Copilot Cookbook - GitHub Docs",
+      "snippet": "for implementing a single feature.\nFunctionality analysisAuthor and optimize with CopilotScale institutional knowledgeChat\nAnalyzing and incorporating user feedback\nCopilot Chat can enhance the process of incorporating user feedback into your project.\nFunctionality analysisAuthor and optimize with",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 3,
+          "textWords": 804
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 804
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 804
+        },
+        "EeDu2NNpbApj": {
+          "hits": 2,
+          "textWords": 804
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 804
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1uElyyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/concepts/agents/enterprise-management",
+      "title": "Agent management for enterprises - GitHub Docs",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3E6rJyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials",
+      "title": "Tutorials for GitHub Copilot - GitHub Docs",
+      "snippet": "for comprehensive web accessibility testing and compliance.\nScale institutional knowledge\nBug fix teammate\nA custom agent that identifies critical bugs in your project and implements targeted fixes.\nShowing 1-9 of 104",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 1,
+          "textWords": 70
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 70
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 70
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 70
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 70
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "for how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 150,
+          "textWords": 16720
+        },
+        "24Igax1JBC0a": {
+          "hits": 6,
+          "textWords": 16720
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "EeDu2NNpbApj": {
+          "hits": 2,
+          "textWords": 16720
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 2,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "0thoeJcvw7Vx",
+      "address": "https://wordpress.org/plugins/wordpress-seo/",
+      "title": "Yoast SEO – Advanced SEO with real-time guidance and built-in AI – WordPress plugin | WordPress.org",
+      "snippet": "for everyone. You should not need a specialist, a big budget, or a technical background to give your content a fair chance of being discovered.\nYoast SEO gives you everything you need to manage your on-site SEO. The Yoast SEO Premium plugin and its extensions unlock more advanced and AI-powered",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 49,
+          "textWords": 1779
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 1779
+        },
+        "4fq6esdgf645": {
+          "hits": 1,
+          "textWords": 1779
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 1779
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 1779
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HDs2NMhTaKi5",
+      "address": "https://www.datadoghq.com/product/ai/agent-directory/",
+      "title": "AI Agent Directory | Datadog",
+      "snippet": "for other regions).\n/plugin install datadog@claude-plugins-official\n3\nStart coding\nLaunch Claude Code and use Datadog tools directly in your terminal.\nclaude\nExample prompts\n\"Triage this monitor alert using logs, traces, and deploys\"\n\"Find idle services with only health check traffic\"\n\"Show me",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 25,
+          "textWords": 1464
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 1464
+        },
+        "4fq6esdgf645": {
+          "hits": 2,
+          "textWords": 1464
+        },
+        "EeDu2NNpbApj": {
+          "hits": 2,
+          "textWords": 1464
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 1,
+          "textWords": 1464
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "RdyC6lhTaKi5",
+      "address": "https://www.datadoghq.com/pricing/",
+      "title": "Pricing | Datadog",
+      "snippet": "for your stack.\nStarting At\n$ 500\nPer 500 credits,\nper month*\nExplore telemetry and take action faster with Bits Chat\nReduce MTTR with automated investigations from Bits Investigation\nFix and deploy code autonomously with Bits Code\nCreate custom AI agents for your operational workflows with Bits",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 580,
+          "textWords": 32662
+        },
+        "24Igax1JBC0a": {
+          "hits": 9,
+          "textWords": 32662
+        },
+        "4fq6esdgf645": {
+          "hits": 12,
+          "textWords": 32662
+        },
+        "EeDu2NNpbApj": {
+          "hits": 22,
+          "textWords": 32662
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 4,
+          "textWords": 32662
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "ku8ESjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/Wiktionary:Beer_parlour",
+      "title": "Wiktionary:Beer parlour - Wiktionary, the free dictionary",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YJVGomoWtInx",
+      "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
+      "title": "Wikimedia Forum - Meta-Wiki",
+      "snippet": "for example; its source code (also known as wikitext) reads:\n'''欢迎来到[[$1|元维基]]'''——为[[$2|维基媒体基金会]]的[[$3|-{zh-hans:项目;zh-hant:專案;}-]]及其相关-{zh-hans:项目;zh-hant:專案;}-进行从协调、文件化到企划及分析的全域社群网站。\nWhen the converter is set to 繁體, 为 is rendered as 為 and so on. The -{zh-hans:项目;zh-hant:專案;}- syntax is for",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 4,
+          "textWords": 1141
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 1141
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 1141
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 1141
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 1141
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
+      "snippet": "for Jorge Rodríguez ; Caracciolo and Phillip Island were recently created on the it.Wiki; is it possible to link them to Wikidata? I don't know the procedure could someone with more experience do it? Thanks in advance for the help. ~2026-47511-02 (talk) 09:50, 1 September 2026 (UTC)Reply\nJorge",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 146,
+          "textWords": 12053
+        },
+        "24Igax1JBC0a": {
+          "hits": 5,
+          "textWords": 12053
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 12053
+        },
+        "EeDu2NNpbApj": {
+          "hits": 15,
+          "textWords": 12053
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 12053
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oj5Q5sy0k2Zg",
+      "address": "https://tc39.es/ecma262/",
+      "title": "ECMAScript® 2027 Language Specification",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "Commons:Village pump - Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "snippet": "For other types of questions, use the search box, see the reference desk or Help:Contents. If you have comments about a specific article, use that article's talk page.\nDo not provide your email address or any other contact information. Answers will be provided on this page only.\nIf your question is",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 150,
+          "textWords": 14224
+        },
+        "24Igax1JBC0a": {
+          "hits": 11,
+          "textWords": 14224
+        },
+        "4fq6esdgf645": {
+          "hits": 6,
+          "textWords": 14224
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 14224
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 14224
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "BsustjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/PowerShell",
+      "title": "PowerShell - Wikipedia",
+      "snippet": "for task automation and configuration management. As is typical for a shell, it provides a command-line interpreter for interactive use and a script interpreter for automation via a language defined for it. Originally only for Windows, known as Windows PowerShell, it was made open-source and",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 99,
+          "textWords": 8784
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 8784
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 8784
+        },
+        "EeDu2NNpbApj": {
+          "hits": 1,
+          "textWords": 8784
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 1,
+          "textWords": 8784
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "COUi-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Internet_of_things",
+      "title": "Internet of things - Wikipedia",
+      "snippet": "for 22% of the total market, driven by the need to monitor mobile assets like vehicles and shipping containers.[10] The largest asset tracking sub-segments in transport \u0026 logistics are trailer and intermodal container tracking, reaching 5.8 million and 5.3 million active devices globally at the end",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 208,
+          "textWords": 22020
+        },
+        "24Igax1JBC0a": {
+          "hits": 6,
+          "textWords": 22020
+        },
+        "4fq6esdgf645": {
+          "hits": 1,
+          "textWords": 22020
+        },
+        "EeDu2NNpbApj": {
+          "hits": 5,
+          "textWords": 22020
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 6,
+          "textWords": 22020
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "SD9B1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Store",
+      "title": "Microsoft Store - Wikipedia",
+      "snippet": "For the former retail chain, see Microsoft Store (retail). For the former Xbox Live arcade marketplace, see Xbox Live Arcade. For the defunct Xbox 360, Xbox One marketplace, see Xbox Games Store.\nMicrosoft Store\nMicrosoft Store running on Windows 11. Xbox PC Game Pass can be seen in the picture.",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 46,
+          "textWords": 4176
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 4176
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 4176
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 4176
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 2,
+          "textWords": 4176
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZtxqojRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Open_access",
+      "title": "Open access - Wikipedia",
+      "snippet": "practices through which nominally copyrightable publications are delivered to readers free of access charges or other barriers.[1] With open access strictly defined (according to the 2001 definition), or libre open access, barriers to copying or reuse are also reduced or removed by applying an open",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 146,
+          "textWords": 17837
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 17837
+        },
+        "4fq6esdgf645": {
+          "hits": 1,
+          "textWords": 17837
+        },
+        "EeDu2NNpbApj": {
+          "hits": 7,
+          "textWords": 17837
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 13,
+          "textWords": 17837
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "bi9ppjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Editor's_index_to_Wikipedia",
+      "title": "Wikipedia:Editor's index to Wikipedia - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zugI_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Metadata",
+      "title": "Metadata - Wikipedia",
+      "snippet": "For example, the title, author, and publication date of a book are metadata about the book. But, while a data asset is finite, its metadata is infinite.\nAs such, efforts to define, classify types, or structure metadata are expressed as examples in the context of its use. The term \"metadata\" has a",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 138,
+          "textWords": 12196
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 12196
+        },
+        "4fq6esdgf645": {
+          "hits": 2,
+          "textWords": 12196
+        },
+        "EeDu2NNpbApj": {
+          "hits": 29,
+          "textWords": 12196
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 4,
+          "textWords": 12196
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "3mlWOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Amazon.com",
+      "title": "Amazon (company) - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4tnSFjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Skype",
+      "title": "Skype - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "for how to make Wikimania even better and are inspired to bring many of those ideas to life in 2027.\nAnd now for a closer look at what the movement and the media are saying.\nMovement News\nThrough the eyes of first timers\nOne of the most-read articles about a first-timer attending Wikimania, is",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 150,
+          "textWords": 16720
+        },
+        "24Igax1JBC0a": {
+          "hits": 6,
+          "textWords": 16720
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "EeDu2NNpbApj": {
+          "hits": 2,
+          "textWords": 16720
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 2,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YJVGomoWtInx",
+      "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
+      "title": "Wikimedia Forum - Meta-Wiki",
+      "snippet": "for example; its source code (also known as wikitext) reads:\n'''欢迎来到[[$1|元维基]]'''——为[[$2|维基媒体基金会]]的[[$3|-{zh-hans:项目;zh-hant:專案;}-]]及其相关-{zh-hans:项目;zh-hant:專案;}-进行从协调、文件化到企划及分析的全域社群网站。\nWhen the converter is set to 繁體, 为 is rendered as 為 and so on. The -{zh-hans:项目;zh-hant:專案;}- syntax is for",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 4,
+          "textWords": 1141
+        },
+        "24Igax1JBC0a": {
+          "hits": 0,
+          "textWords": 1141
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 1141
+        },
+        "EeDu2NNpbApj": {
+          "hits": 0,
+          "textWords": 1141
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 1141
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ccuJ8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Map",
+      "title": "Map - Wikipedia",
+      "snippet": "for a wide range of purposes, including navigation, scientific research, governance, and warfare. A common use is route planning, which enables users to find their way to their destination. Specialized maps, called charts, are used for nautical navigation (nautical charts) and aviation",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 146,
+          "textWords": 18623
+        },
+        "24Igax1JBC0a": {
+          "hits": 1,
+          "textWords": 18623
+        },
+        "4fq6esdgf645": {
+          "hits": 1,
+          "textWords": 18623
+        },
+        "EeDu2NNpbApj": {
+          "hits": 19,
+          "textWords": 18623
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 1,
+          "textWords": 18623
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
+      "snippet": "for Jorge Rodríguez ; Caracciolo and Phillip Island were recently created on the it.Wiki; is it possible to link them to Wikidata? I don't know the procedure could someone with more experience do it? Thanks in advance for the help. ~2026-47511-02 (talk) 09:50, 1 September 2026 (UTC)Reply\nJorge",
+      "matchedWords": {
+        "1VZpgi8ajPcu": {
+          "hits": 146,
+          "textWords": 12053
+        },
+        "24Igax1JBC0a": {
+          "hits": 5,
+          "textWords": 12053
+        },
+        "4fq6esdgf645": {
+          "hits": 0,
+          "textWords": 12053
+        },
+        "EeDu2NNpbApj": {
+          "hits": 15,
+          "textWords": 12053
+        },
+        "hoHrl7sL-sIs": {
+          "hits": 0,
+          "textWords": 12053
+        }
+      },
+      "queryPhraseHits": 0
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "1VZpgi8ajPcu": 906549,
+    "24Igax1JBC0a": 693244,
+    "4fq6esdgf645": 44199,
+    "EeDu2NNpbApj": 662025,
+    "hoHrl7sL-sIs": 286445
+  }
+}

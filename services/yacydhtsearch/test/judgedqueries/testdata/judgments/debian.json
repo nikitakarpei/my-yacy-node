@@ -14,9 +14,9 @@
       "grade": 2
     },
     {
-      "hash": "LphQq3piq92w",
-      "address": "https://packages.debian.org/squeeze/system-config-lvm",
-      "title": "Debian -- Error",
+      "hash": "8L6LJtpiq92w",
+      "address": "https://packages.debian.org/source/stable/zxcvbn-c",
+      "title": "Debian -- Details of source package zxcvbn-c in trixie",
       "grade": 1
     },
     {
@@ -32,12 +32,6 @@
       "grade": 1
     },
     {
-      "hash": "StjW1Spiq92w",
-      "address": "https://packages.debian.org/sid/cups-pk-helper,",
-      "title": "Debian -- Error",
-      "grade": 0
-    },
-    {
       "hash": "-32vwSSLTmwg",
       "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
       "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
@@ -50,39 +44,39 @@
       "grade": 0
     },
     {
-      "hash": "ldzk0N1nrxbw",
-      "address": "https://www.debian.org/women/participate",
-      "title": "Debian -- How to get involved in Debian Women",
+      "hash": "kzhqNRwwZMe4",
+      "address": "https://www.daniweb.com/tags/debian",
+      "title": "'debian' Forum Topics | DaniWeb",
       "grade": 1
     },
     {
-      "hash": "6IL4IjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Template_talk:Timeline_Debian_GNU/Linux",
-      "title": "Template talk:Timeline Debian GNU/Linux - Wikipedia",
+      "hash": "6Zkk9jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Debian_GNU/Hurd",
+      "title": "Debian - Wikipedia",
       "grade": 1
     },
     {
       "hash": "wRV4m5piq92w",
       "address": "https://packages.debian.org/.internal/challenge.html?original=%2fsource%2funstable%2fasterisk",
       "title": "Debian -- Error",
-      "grade": 0
-    },
-    {
-      "hash": "2vq9bppiq92w",
-      "address": "https://packages.debian.org/unstable/libaspectj-java",
-      "title": "Debian -- Details of package libaspectj-java in sid",
       "grade": 1
     },
     {
-      "hash": "9bBlhjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Debian",
-      "title": "Debian - Wikipedia",
-      "grade": 2
+      "hash": "iaso0m0h8sSw",
+      "address": "https://tracker.debian.org/pkg/debian-installer",
+      "title": "debian-installer - Debian Package Tracker",
+      "grade": 1
     },
     {
       "hash": "AbsN3l1nrxbw",
       "address": "https://www.debian.org/contact",
       "title": "Debian -- How to contact us",
+      "grade": 1
+    },
+    {
+      "hash": "8UgLpm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/gasnet",
+      "title": "gasnet - Debian Package Tracker",
       "grade": 1
     },
     {
@@ -98,9 +92,45 @@
       "grade": 2
     },
     {
-      "hash": "0hUVZ5piq92w",
-      "address": "https://packages.debian.org/search?lang=nl\u0026searchon=sourcenames\u0026keywords=apache2",
-      "title": "Debian -- Package Search Results -- apache2",
+      "hash": "WT6Pnl1nrxbw",
+      "address": "https://www.debian.org/security/",
+      "title": "Debian -- Security Information",
+      "grade": 2
+    },
+    {
+      "hash": "l20c0tpiq92w",
+      "address": "https://packages.debian.org/source/oldoldstable/android-platform-external-nist-sip",
+      "title": "Debian -- Details of source package android-platform-external-nist-sip in bullseye",
+      "grade": 1
+    },
+    {
+      "hash": "8_5XsMpiq92w",
+      "address": "https://packages.debian.org/bookworm/s390x/unbound/download",
+      "title": "Debian -- Package Download Selection -- unbound_1.17.1-2+deb12u3_s390x.deb",
+      "grade": 1
+    },
+    {
+      "hash": "wwL-vl1nrxbw",
+      "address": "https://www.debian.org/donations",
+      "title": "Debian -- How to donate to the Debian Project",
+      "grade": 1
+    },
+    {
+      "hash": "vlCSfg1nrxbw",
+      "address": "https://www.debian.org/distrib/archive",
+      "title": "Debian -- Distribution Archives",
+      "grade": 1
+    },
+    {
+      "hash": "iwrFOp1nrxbw",
+      "address": "https://www.debian.org/partners/partners",
+      "title": "Debian -- Debian Partners Program - description",
+      "grade": 1
+    },
+    {
+      "hash": "xY0EdL1nrxbw",
+      "address": "https://www.debian.org/intro/help",
+      "title": "Debian -- Contribute: How you can help Debian",
       "grade": 1
     },
     {
@@ -108,6 +138,12 @@
       "address": "https://www.debian.org/social_contract",
       "title": "Debian Social Contract",
       "grade": 2
+    },
+    {
+      "hash": "m1-2Wtpiq92w",
+      "address": "https://packages.debian.org/source/sid/libsidplay",
+      "title": "Debian -- Details of source package libsidplay in sid",
+      "grade": 1
     },
     {
       "hash": "wXumBqp4ogvw",
@@ -122,9 +158,9 @@
       "grade": 1
     },
     {
-      "hash": "-120uSpiq92w",
-      "address": "https://packages.debian.org/sid/arm64/ebtables/download",
-      "title": "Debian -- Package Download Selection -- ebtables_2.0.11-6+b3_arm64.deb",
+      "hash": "XFmAGZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2022/",
+      "title": "Debian -- News from 2022",
       "grade": 1
     },
     {
@@ -134,27 +170,87 @@
       "grade": 1
     },
     {
+      "hash": "bZbFuPQGph7w",
+      "address": "https://i18n.debian.org/",
+      "title": "i18n.debian.org/l10n.debian.org",
+      "grade": 1
+    },
+    {
       "hash": "pMlVvE1nrxbw",
       "address": "https://www.debian.org/users/gov/sjhc",
       "title": "Debian -- St. Joseph's Health Care London, Ontario, Canada",
       "grade": 1
     },
     {
-      "hash": "t5P9HWYgUcBw",
-      "address": "https://salsa.debian.org/qa/distro-tracker",
-      "title": "Debian QA / distro-tracker · GitLab",
+      "hash": "4lLIDk1nrxbw",
+      "address": "https://www.debian.org/consultants/boguslawski",
+      "title": "Debian -- List of Consultants",
       "grade": 1
     },
     {
-      "hash": "m0r9Utpiq92w",
-      "address": "https://packages.debian.org/source/buster/golang-github-atotto-clipboard",
-      "title": "Debian -- Details of source package golang-github-atotto-clipboard in buster",
-      "grade": 0
+      "hash": "7cQwZL1nrxbw",
+      "address": "https://www.debian.org/intro/help.zh-hk.html",
+      "title": "Debian -- 你如何協助 Debian？",
+      "grade": 1
+    },
+    {
+      "hash": "9ZYostpiq92w",
+      "address": "https://packages.debian.org/source/unstable/pflogsumm",
+      "title": "Debian -- Details of source package pflogsumm in sid",
+      "grade": 1
+    },
+    {
+      "hash": "jGZWVppiq92w",
+      "address": "https://packages.debian.org/unstable/libeclipse-cdt-java",
+      "title": "Debian -- Details of package libeclipse-cdt-java in sid",
+      "grade": 1
+    },
+    {
+      "hash": "-120uSpiq92w",
+      "address": "https://packages.debian.org/sid/arm64/ebtables/download",
+      "title": "Debian -- Package Download Selection -- ebtables_2.0.11-6+b3_arm64.deb",
+      "grade": 1
+    },
+    {
+      "hash": "ldzk0N1nrxbw",
+      "address": "https://www.debian.org/women/participate",
+      "title": "Debian -- How to get involved in Debian Women",
+      "grade": 1
     },
     {
       "hash": "xCnp1G1nrxbw",
       "address": "https://www.debian.org/vote/2007/vote_003",
       "title": "General Resolution: Endorse the concept of Debian Maintainers",
+      "grade": 1
+    },
+    {
+      "hash": "Ggk3Jtpiq92w",
+      "address": "https://packages.debian.org/source/stable/icedtea-web",
+      "title": "Debian -- Details of source package icedtea-web in trixie",
+      "grade": 1
+    },
+    {
+      "hash": "KZ3knTp4ogvw",
+      "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
+      "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
+      "grade": 1
+    },
+    {
+      "hash": "uYdNoG1nrxbw",
+      "address": "https://www.debian.org/vote/1999/vote_0000",
+      "title": "Debian -- Constitution",
+      "grade": 1
+    },
+    {
+      "hash": "gZzFUHWhP36w",
+      "address": "https://matrix-team.pages.debian.net/blogue/",
+      "title": "Matrix on Debian blog",
+      "grade": 1
+    },
+    {
+      "hash": "wQi5sE1nrxbw",
+      "address": "https://www.debian.org/users/com/ngcommunications",
+      "title": "Debian -- IT Ops, NG Communications bvba, Kortenberg, Belgium",
       "grade": 1
     },
     {
@@ -164,27 +260,33 @@
       "grade": 1
     },
     {
-      "hash": "A5ezftS6MKD4",
-      "address": "https://github.com/trending/debian-package-control-file?since=daily",
-      "title": "Trending Debian Package Control File repositories on GitHub today · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "KZ3knTp4ogvw",
-      "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
-      "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
+      "hash": "UlngeV1nrxbw",
+      "address": "https://www.debian.org/doc/manuals/debian-faq/index.de.html",
+      "title": "Die Debian GNU/Linux-FAQ",
       "grade": 1
     },
     {
-      "hash": "1x5ZX4zldBuw",
-      "address": "https://clang.debian.net/status.php?version=3.8.1\u0026key=NO_CAT",
-      "title": "Not categorized - Rebuild of the Debian archive with clang",
+      "hash": "upjhUqp4ogvw",
+      "address": "https://qa.debian.org/cgi-bin/vcswatch?package=maven-filtering",
+      "title": "maven-filtering vcswatch -- Debian Quality Assurance",
       "grade": 1
     },
     {
-      "hash": "iFbcNGpGFoNw",
-      "address": "https://manpages.debian.org/trixie/apt/index.html",
-      "title": "Manpages of apt in Debian trixie — Debian Manpages",
+      "hash": "67bnC55exHdw",
+      "address": "https://blends.debian.org/multimedia/tasks/recording",
+      "title": "Debian Multimedia Recording packages",
+      "grade": 1
+    },
+    {
+      "hash": "AjzZFn7vg5bw",
+      "address": "https://reproduce.debian.net/",
+      "title": "reproduce.debian.net",
+      "grade": 1
+    },
+    {
+      "hash": "mXINO9piq92w",
+      "address": "https://packages.debian.org/stable/lynx-common",
+      "title": "Debian -- Details of package lynx-common in trixie",
       "grade": 1
     },
     {
@@ -194,15 +296,27 @@
       "grade": 1
     },
     {
-      "hash": "0HfMPD1nrxbw",
-      "address": "https://www.debian.org/devel/website/stats/ru.ru.html",
-      "title": "Debian -- Русский",
-      "grade": 1
-    },
-    {
       "hash": "uuzH__nUgebw",
       "address": "https://alioth-lists.debian.net/",
       "title": "alioth-lists.debian.net",
+      "grade": 1
+    },
+    {
+      "hash": "_NH8h31nrxbw",
+      "address": "https://www.debian.org/News/2026/2026011002",
+      "title": "Debian -- News -- Updated Debian 12: 12.13 released",
+      "grade": 1
+    },
+    {
+      "hash": "E4Z92E1nrxbw",
+      "address": "https://www.debian.org/users/com/biodec",
+      "title": "Debian -- BioDec, Italy",
+      "grade": 1
+    },
+    {
+      "hash": "xdT-Xm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/ecbuild",
+      "title": "ecbuild - Debian Package Tracker",
       "grade": 1
     },
     {
@@ -212,111 +326,21 @@
       "grade": 1
     },
     {
-      "hash": "RECWXCeuM-zw",
-      "address": "https://ftp.debian.org/debian/dists/trixie/",
-      "title": "Index of /debian/dists/trixie",
+      "hash": "nIXyutpiq92w",
+      "address": "https://packages.debian.org/source/bullseye/simplesamlphp",
+      "title": "Debian -- Details of source package simplesamlphp in bullseye",
       "grade": 1
     },
     {
-      "hash": "RwHkRYpGFoNw",
-      "address": "https://manpages.debian.org/testing/manpages-de/portablectl.1.de.html",
-      "title": "portablectl(1) — manpages-de — Debian testing — Debian Manpages",
+      "hash": "dwvDam0h8sSw",
+      "address": "https://tracker.debian.org/pkg/linux/news/",
+      "title": "Debian Package Tracker",
       "grade": 1
     },
     {
-      "hash": "cXBpyn8Iy73w",
-      "address": "https://sources.debian.org/src/zxcvbn-c/2.6%2Bdfsg-1",
-      "title": "Folder: 2.6+dfsg-1 | Debian Sources",
-      "grade": 1
-    },
-    {
-      "hash": "yd7F2QhABXNw",
-      "address": "https://security-tracker.debian.org/tracker/CVE-2019-19062",
-      "title": "CVE-2019-19062",
-      "grade": 1
-    },
-    {
-      "hash": "f2gAZmwYpnl5",
-      "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
-      "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
-      "grade": 1
-    },
-    {
-      "hash": "S6BIcp65jyZQ",
-      "address": "http://neuro.debian.net/",
-      "title": "The Ultimate Neuroscience Software Platform — Debian Neuroscience Package Repository",
-      "grade": 1
-    },
-    {
-      "hash": "owTl3Df-yVAQ",
-      "address": "http://ftp.debian.org/debian/pool/main/z/zxcvbn-c/",
-      "title": "Index of /debian/pool/main/z/zxcvbn-c",
-      "grade": 1
-    },
-    {
-      "hash": "r2ZeFBYgUcBw",
-      "address": "https://salsa.debian.org/java-team/stegosuite",
-      "title": "Debian Java Maintainers / stegosuite · GitLab",
-      "grade": 1
-    },
-    {
-      "hash": "I7mxoopg4UCw",
-      "address": "https://www.wikidata.org/wiki/Property:P3442",
-      "title": "Debian stable package - Wikidata",
-      "grade": 1
-    },
-    {
-      "hash": "vlYrC9Ie_Z8Q",
-      "address": "http://crossqa.debian.net/src/zxcvbn-c",
-      "title": "zxcvbn-c - Debian cross build",
-      "grade": 1
-    },
-    {
-      "hash": "NPH9YUkwFFcw",
-      "address": "https://db.debian.org/machines.cgi?host=dinis",
-      "title": "Debian Project -- debian.org Developer Machines",
-      "grade": 1
-    },
-    {
-      "hash": "wcFQZHSmdGb5",
-      "address": "https://smurf-debian.livejournal.com/",
-      "title": "Debian Ramblings — LiveJournal",
-      "grade": 0
-    },
-    {
-      "hash": "mt1vvE1nrxbw",
-      "address": "https://www.debian.org/users/edu/harvard-physics",
-      "title": "Debian -- Department of Physics, Harvard University, USA",
-      "grade": 1
-    },
-    {
-      "hash": "MJe0Mqp4ogvw",
-      "address": "https://qa.debian.org/cgi-bin/watch?pkg=jaxws",
-      "title": "Watch -- Debian Quality Assurance",
-      "grade": 1
-    },
-    {
-      "hash": "S8BtnLNQlu2w",
-      "address": "https://bits.debian.org/2016/05/what-does-it-mean-that-zfs-is-in-debian.html",
-      "title": "What does it mean that ZFS is included in Debian? - Bits from Debian",
-      "grade": 1
-    },
-    {
-      "hash": "OfRi4Df-yVAQ",
-      "address": "http://ftp.debian.org/debian/dists/proposed-updates/",
-      "title": "Index of /debian/dists/proposed-updates",
-      "grade": 1
-    },
-    {
-      "hash": "XVu8Lm0h8sSw",
-      "address": "https://tracker.debian.org/pkg/osmalchemy",
-      "title": "osmalchemy - Debian Package Tracker",
-      "grade": 1
-    },
-    {
-      "hash": "SdERuQhABXNw",
-      "address": "https://security-tracker.debian.org/tracker/DLA-4638-1",
-      "title": "DLA-4638-1",
+      "hash": "79gUnMpiq92w",
+      "address": "https://packages.debian.org/bookworm/amd64/unbound/download",
+      "title": "Debian -- Package Download Selection -- unbound_1.17.1-2+deb12u3_amd64.deb",
       "grade": 1
     }
   ]

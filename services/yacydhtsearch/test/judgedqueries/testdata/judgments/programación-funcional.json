@@ -2,9 +2,39 @@
   "query": "programación funcional",
   "judgedDocuments": [
     {
+      "hash": "yPla3l3xyXO7",
+      "address": "https://www.elperiodicoextremadura.com/",
+      "title": "El Periódico Extremadura. Noticias de Hoy Extremadura, Cáceres, Badajoz. - El Periódico Extremadura",
+      "grade": 0
+    },
+    {
+      "hash": "g8feIsiwa444",
+      "address": "https://apps.apple.com/do/iphone/story/id1878691462",
+      "title": "‎Crea herramientas con Claude - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "vZx9GLiwa444",
+      "address": "https://apps.apple.com/hn/iphone/story/id1887119604",
+      "title": "‎Formas rápidas de aprender IA - App Store",
+      "grade": 0
+    },
+    {
       "hash": "wj21NCSt_F9g",
       "address": "https://www.abc.es/motor/novedades/",
       "title": "Novedades en motor - ABC.es",
+      "grade": 0
+    },
+    {
+      "hash": "1HFZZcS6MKD4",
+      "address": "https://github.com/ayr-ton/awesome-geek-podcasts",
+      "title": "GitHub - ayr-ton/awesome-geek-podcasts: A curated list of podcasts we like to listen to. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "70o3ZZSt_F9g",
+      "address": "https://www.abc.es/noticias/marcas/",
+      "title": "Marcas, últimas noticias - ABC",
       "grade": 0
     },
     {
@@ -14,81 +44,189 @@
       "grade": 0
     },
     {
-      "hash": "QACewIgEMcog",
-      "address": "https://www.larazon.es/economia/cajeros-reponedores-tendran-que-limpiar-banos-supermercados-asi-establece-supremo_202609076a9efbb13bfe5d1eff47001f.html",
-      "title": "Los cajeros y reponedores ya no tendrán que limpiar los baños de los supermercados: así lo establece el Supremo",
+      "hash": "vZFVnaI8elA4",
+      "address": "https://www.genbeta.com/tag/tipografias",
+      "title": "tipografías - Genbeta",
       "grade": 0
     },
     {
-      "hash": "WbWN3OgEMcog",
-      "address": "https://www.larazon.es/espana/achaca-practicas-esquirolaje-metro-sevilla-utilizar-trenes-dobles-huelga_2026031269b2a586e1ff634075e5a8c9.html",
-      "title": "El TC achaca prácticas de \"esquirolaje\" a Metro de Sevilla por utilizar trenes dobles durante una huelga",
+      "hash": "Q0aY8CjMl7g4",
+      "address": "https://www.elcorreo.com/motor/novedades/",
+      "title": "Novedades del Motor | El Correo",
       "grade": 0
     },
     {
-      "hash": "nGkx8OgEMcog",
-      "address": "https://www.larazon.es/espana/13-anos-despues-accidente-angrois-caso-sigue-abierto-indulto-maquinista-recursos-constitucional_202607186a5b5cf00500ab412c9cc5df.html",
-      "title": "13 años después del accidente de Angrois: el caso sigue abierto con el indulto al maquinista y recursos al Constitucional",
+      "hash": "3yZ5v_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Linguaxe_de_programaci%C3%B3n_D",
+      "title": "D (linguaxe de programación) - Wikipedia, a enciclopedia libre",
       "grade": 0
     },
     {
-      "hash": "EbuDACjMl7g4",
-      "address": "https://www.elcorreo.com/de-tiendas/estilo-de-vida/mucho-simple-cabecero-pierdas-estos-modelos-soluciones-almacenaje-20260820094701-ntrc.html",
-      "title": "¡Mucho más que un simple cabecero! No te pierdas estos modelos con soluciones de almacenaje | El Correo",
+      "hash": "2BqRw6St_F9g",
+      "address": "https://www.abc.es/favorito/cartera-dodensha-hombre-guarda-tarjetas-hueco-airtag-20260811111110-nt.html",
+      "title": "La cartera DODENSHA para hombre que guarda hasta 10 tarjetas, tiene hueco para AirTag y está rebajada",
       "grade": 0
     },
     {
-      "hash": "AhT55znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
-      "title": "BOE-A-1992-28740 Ley 37/1992, de 28 de diciembre, del Impuesto sobre el Valor Añadido.",
+      "hash": "2fH6hgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Lenguaje_de_programaci%C3%B3n",
+      "title": "Lenguaje de programación - Wikipedia, la enciclopedia libre",
+      "grade": 2
+    },
+    {
+      "hash": "41QFvFfvsbp4",
+      "address": "https://villafotoblogg.blogspot.com/",
+      "title": "Villa Fotoblogg",
       "grade": 0
     },
     {
-      "hash": "C2m1MznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-1991-28106",
-      "title": "BOE-A-1991-28106 Real Decreto 1652/1991, de 11 de octubre, por el que se modifica parcialmente el Real Decreto 1558/1986, de 28 de junio, por el que se establecen las bases",
+      "hash": "xQREoznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?lang=eu\u0026id=BOE-A-2015-10566\u0026tn=1\u0026p=",
+      "title": "BOE-A-2015-10566 Ley 40/2015, de 1 de octubre, de Régimen Jurídico del Sector Público.",
       "grade": 0
     },
     {
-      "hash": "C3u1AznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2008-20744\u0026tn=1\u0026p=20090331",
-      "title": "BOE-A-2008-20744 Ley 2/2008, de 23 de diciembre, de Presupuestos Generales del Estado para el año 2009.",
+      "hash": "hCahosaR8lU4",
+      "address": "https://andros.dev/blog/",
+      "title": "Blog | Andros Fenollosa",
       "grade": 0
     },
     {
-      "hash": "Ey9a_znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026tn=1\u0026p=20230509",
-      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
+      "hash": "TNmrGU3So1Rk",
+      "address": "https://www.juridicas.unam.mx/legislacion/ordenamiento/constitucion-politica-de-los-estados-unidos-mexicanos",
+      "title": "Constitución Política de los Estados Unidos Mexicanos - Ordenamiento - Legislación",
       "grade": 0
     },
     {
-      "hash": "V41FQznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026p=20220908\u0026tn=0",
-      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "hash": "yHkVVYVFEEow",
+      "address": "https://guix.gnu.org/es/",
+      "title": "GNU Guix gestor transaccional de paquetes y distribución — GNU Guix",
       "grade": 0
     },
     {
-      "hash": "pY_MRznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?lang=ca\u0026id=BOE-A-2015-11430\u0026tn=1\u0026p=20220908",
-      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "hash": "g4mMGv7raSJ4",
+      "address": "https://www.shopify.com/co/website/builder?country=co\u0026lang=es",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
       "grade": 0
     },
     {
-      "hash": "puVJ1znCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-2021-21788",
-      "title": "BOE-A-2021-21788 Real Decreto-ley 32/2021, de 28 de diciembre, de medidas urgentes para la reforma laboral, la garantía de la estabilidad en el empleo y la transformación del",
+      "hash": "EXrNyv_9bPhw",
+      "address": "https://www.derechos.org/nizkor/corru/doc/colcoca4.html",
+      "title": "Equipo Nizkor - UNODC - Colombia: Monitoreo de territorios afectados por cultivos ilícitos 2016.",
       "grade": 0
     },
     {
-      "hash": "qHhk9znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?lang=eu\u0026id=BOE-A-2015-11430\u0026tn=1\u0026p=20220908",
-      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "hash": "SadvfD09qPgk",
+      "address": "https://www.scielo.br/j/reeusp/i/2013.v47n1/?ilang=pt_BR",
+      "title": "Revista da Escola de Enfermagem da USP, Volume: 47, Número: 1, Publicado: 2013",
       "grade": 0
     },
     {
-      "hash": "x4f8sznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?lang=fr\u0026id=BOE-A-1980-16523",
-      "title": "BOE-A-1980-16523 Real Decreto 1601/1980, de 18 de julio, por el que se aprueban las normas orgánicas del Ministerio de Cultura.",
+      "hash": "em42fNg2z915",
+      "address": "https://www.thoughtworks.com/es-es/insights/podcasts",
+      "title": "Thoughtworks Podcasts | Thoughtworks Spain",
+      "grade": 1
+    },
+    {
+      "hash": "K97T40Iq6BFg",
+      "address": "https://proton.me/es-419/blog/whatsapp-alternatives",
+      "title": "Las mejores alternativas a WhatsApp para la privacidad | Proton Mail | Proton",
+      "grade": 0
+    },
+    {
+      "hash": "RuCr7-1-KQh5",
+      "address": "https://www.revistagq.com/articulo/los-mejores-ejercicios-de-agilidad-segun-los-expertos",
+      "title": "Los mejores ejercicios de agilidad, según los expertos | GQ España",
+      "grade": 0
+    },
+    {
+      "hash": "X-os6ljNm-ak",
+      "address": "https://www.gob.pe/conadis",
+      "title": "Consejo Nacional para la Integración de la Persona con Discapacidad - CONADIS - Plataforma del Estado Peruano",
+      "grade": 0
+    },
+    {
+      "hash": "9wGSm5ETZZex",
+      "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
+      "title": "Honduras: Constitución de 1982",
+      "grade": 0
+    },
+    {
+      "hash": "0lcfw_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Java_(linguaxe_de_programaci%C3%B3n)",
+      "title": "Java (linguaxe de programación) - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "yOa9M0isAPNY",
+      "address": "http://juegosliberados.blogspot.com/search/label/Otros",
+      "title": "JUEGOS LIBERADOS: Otros",
+      "grade": 0
+    },
+    {
+      "hash": "3-ExJlJB3nQg",
+      "address": "https://www.epe.es/es/",
+      "title": "El Periódico de España | epe.es",
+      "grade": 0
+    },
+    {
+      "hash": "vV8_p4JYLG1g",
+      "address": "https://www.lne.es/llanera/2026/09/07/llanera-celebra-torneo-baloncesto-silla-134010162.amp.html",
+      "title": "Llanera celebra un torneo de baloncesto en silla de ruedas",
+      "grade": 0
+    },
+    {
+      "hash": "LGZs0_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "AE8T94FTAOPg",
+      "address": "https://www.upo.es/formacionpermanente/titulos-propios/oferta-academica-2022-2023/?gad_source=1\u0026gad_campaignid=20471047809\u0026gbraid=0AAAAAonvk0hJ03JY2QSzGNsxaKTXUW0mU\u0026gclid=CjwKCAjwi-DBBhA5EiwAXOHsGbFGS7zeEk9dwNEJ1mJ7ejWVfwwArqZZFvqEtB730ZtOSQgHmN3XgRoCZRsQAvD_BwE",
+      "title": "Oferta académica 2022/2023 - Formación Permanente UPO",
+      "grade": 0
+    },
+    {
+      "hash": "YyqkegJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "8O3OBaUTgGPx",
+      "address": "https://ast.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "LRfNwzmvZD7w",
+      "address": "https://planet.opensuse.org/",
+      "title": "Global - openSUSE Planet",
+      "grade": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "grade": 0
+    },
+    {
+      "hash": "_TfV3lFZc5Lg",
+      "address": "https://www.elmundo.es/",
+      "title": "EL MUNDO - Diario online líder de información en español",
+      "grade": 0
+    },
+    {
+      "hash": "qlCfKlLjcC4h",
+      "address": "https://www.elcomercio.es/",
+      "title": "EL COMERCIO de Asturias - Últimas noticias y actualidad",
+      "grade": 0
+    },
+    {
+      "hash": "StIUFOk_hDHh",
+      "address": "https://computerhoy.20minutos.es/",
+      "title": "Computer Hoy: Todo sobre tecnología, gadgets y novedades",
       "grade": 0
     },
     {
@@ -104,81 +242,45 @@
       "grade": 0
     },
     {
-      "hash": "_e-KkSHKIdig",
-      "address": "https://www.eeas.europa.eu/delegations/nicaragua/nicaragua-vive-europa-en-el-cine_es",
-      "title": "Nicaragua ¡Vive Europa en el Cine! | EEAS",
+      "hash": "ISxsyloVqyIh",
+      "address": "https://www.elcorreoweb.es/",
+      "title": "El Correo de Andalucía - Noticias de Sevilla, Andalucía y España.",
       "grade": 0
     },
     {
-      "hash": "OGxqvsOrtPy6",
-      "address": "https://mutuamadridopen.com/entradas/",
-      "title": "Entradas 2026 - Mutua Madrid Open",
+      "hash": "d7ZMNp7raSJ4",
+      "address": "https://www.shopify.com/cl/website/builder?country=cl\u0026lang=en",
+      "title": "Creador de sitios web de ecommerce | Crea una tienda gratis en minutos - Shopify",
       "grade": 0
     },
     {
-      "hash": "i4cmUrSt_F9g",
-      "address": "https://www.abc.es/recreo/prueba-comida-sirve-geo-policia-nacional-opina-cada-plato-20250409153748-nt.html",
-      "title": "Prueba la comida que se sirve a los GEO de la Policía Nacional y opina sin filtro sobre cada plato: «Sabe demasiado a...»",
+      "hash": "cy0QdlSt_F9g",
+      "address": "https://www.abc.es/salud/",
+      "title": "Canal Salud | Noticias, especialistas médicos, patologías | abc.es - ABC.es",
       "grade": 0
     },
     {
-      "hash": "DPpovznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-1994-22958",
-      "title": "BOE-A-1994-22958 Real Decreto 2045/1994, de 14 de octubre, por el que se establece la estructura orgánica básica del Ministerio de Cultura.",
+      "hash": "3WSVKznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-13645",
+      "title": "BOE-A-2013-13645 Ley 24/2013, de 26 de diciembre, del Sector Eléctrico.",
       "grade": 0
     },
     {
-      "hash": "GQGe0znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026tn=1\u0026p=20190625",
-      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
+      "hash": "TfCmKdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Kuba",
+      "title": "Kuba – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "PC4W8znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026p=20211230\u0026tn=0",
-      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "hash": "75neNMZeKV3g",
+      "address": "https://www.eldiario.es/autores/nicolas_ribas/",
+      "title": "Nicolás Ribas",
       "grade": 0
     },
     {
-      "hash": "23ADzznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?lang=gl\u0026id=BOE-A-2012-9364",
-      "title": "BOE-A-2012-9364 Real Decreto-ley 20/2012, de 13 de julio, de medidas para garantizar la estabilidad presupuestaria y de fomento de la competitividad.",
-      "grade": 0
-    },
-    {
-      "hash": "28RE1znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673\u0026p=20251227\u0026tn=0",
-      "title": "BOE-A-2018-16673 Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
-      "grade": 0
-    },
-    {
-      "hash": "4w7waznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-2010-9542",
-      "title": "BOE-A-2010-9542 Real Decreto-ley 10/2010, de 16 de junio, de medidas urgentes para la reforma del mercado de trabajo.",
-      "grade": 0
-    },
-    {
-      "hash": "7v42xznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?lang=en\u0026id=BOE-A-2015-11430\u0026tn=1\u0026p=20250402",
-      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
-      "grade": 0
-    },
-    {
-      "hash": "78VBcznCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430\u0026tn=0\u0026p=20241224",
-      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
-      "grade": 0
-    },
-    {
-      "hash": "Cp4lg97T12qg",
-      "address": "https://dialnet.unirioja.es/servlet/autor?codigo=89066",
-      "title": "Tomás Escudero Escorza - Dialnet",
-      "grade": 0
-    },
-    {
-      "hash": "F6BougJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Netflix",
-      "title": "Netflix - Wikipedia, la enciclopedia libre",
+      "hash": "9RVa1T5DCs35",
+      "address": "https://wordpress.com/es/creador-webs-ia/",
+      "title": "Creador de webs con IA | Crea un sitio de WordPress.com en cuestión de minutos",
       "grade": 0
     }
   ]

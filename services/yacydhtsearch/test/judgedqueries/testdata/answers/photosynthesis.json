@@ -1,6 +1,6 @@
 {
   "query": "photosynthesis",
-  "recordedAt": "2026-09-11T22:14:22Z",
+  "recordedAt": "2026-09-12T00:12:14Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -33,11 +33,24 @@
         "hash": "C1lucjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Food",
         "title": "Food - Wikipedia",
-        "snippet": "photosynthesis to make some of their own nutrients.[5] Water is found in nearly all foods and has been defined as food by itself.[6] Water has no food energy, and fibers have low energy densities, or food energy relative to volume, some providing none, while fat is the most energy-dense",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 9,
-            "textWords": 5410
+            "hits": 10,
+            "textWords": 8706
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CBV5zLkCAQb4",
+        "address": "https://tysknews.com/News/news.html",
+        "title": "TYSK — NEWS \u0026 EDITORIALS",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 20798
           }
         },
         "queryPhraseHits": 0
@@ -95,27 +108,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "Dh3sQZkKPUc5",
-        "address": "https://projectrho.com/public_html/rocket/usefultables.php",
-        "title": "Useful Tables - Atomic Rockets",
+        "hash": "DWLz3Z05rw04",
+        "address": "https://www.unz.com/akarlin/open-thread-220/",
+        "title": "Open Thread 220, by Karlin Community - The Unz Review",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 10537
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "D3UrJITj4Eh4",
-        "address": "https://www.answers.com/t/google",
-        "title": "Answers about Google",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 2251
+            "hits": 2,
+            "textWords": 51811
           }
         },
         "queryPhraseHits": 0
@@ -201,14 +201,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "rIhZc2y4xSV4",
-        "address": "https://blankbanshee.bandcamp.com/album/blank-banshee-0?from=footer-cc-a1563087744",
+        "hash": "LuZ9T2y4xSV4",
+        "address": "https://blankbanshee.bandcamp.com/album/blank-banshee-0?from=footer-cc-a4197328259",
         "title": "Blank Banshee 0 | Blank Banshee",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 1745
+            "textWords": 1747
           }
         },
         "queryPhraseHits": 0
@@ -227,32 +227,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "wsINMBym5yY4",
-        "address": "https://podcasters.spotify.com/pod/show/susd/episodes/70-Trading-Shady-Trees-e1bluiq",
-        "title": "#70: Trading Shady Trees",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 237
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_lMMXlEdhU-5",
-        "address": "https://www.naturalnews.com/2021-11-10-decarbonization-terraforming-of-planet-earth-is-now-under-way-giant-machines-to-be-installed-in-iowa-to-suck-life-molecules-out-of-the-atmosphere-and-cause-global-crops-to-fail.html",
-        "title": "Decarbonization TERRAFORMING of planet Earth is now under way… giant machines to be installed in Iowa to suck “life molecules” out of the atmosphere and cause global crops to FAIL – NaturalNews.com",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 7,
-            "textWords": 2985
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "15LYZsGvPSi7",
         "address": "https://gothicarchgreenhouses.com/aluminized-shade-fabric",
         "title": "Aluminized Shade Fabric |Gothic Arch Greenhouses",
@@ -261,6 +235,32 @@
           "D4ZlInN2g3i_": {
             "hits": 3,
             "textWords": 1886
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "h9Ao-nuAbj3Z",
+        "address": "http://www.sciencedaily.com/news/matter_energy/organic_chemistry/",
+        "title": "Organic Chemistry News -- ScienceDaily",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 4375
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wsINMBym5yY4",
+        "address": "https://podcasters.spotify.com/pod/show/susd/episodes/70-Trading-Shady-Trees-e1bluiq",
+        "title": "#70: Trading Shady Trees",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 237
           }
         },
         "queryPhraseHits": 0
@@ -310,11 +310,11 @@
         "hash": "JJRHGFyfkZD5",
         "address": "https://aphalo.r-universe.dev/photobiologyWavebands",
         "title": "photobiologyWavebands: Waveband Definitions for UV, VIS, and IR Radiation",
-        "snippet": "photosynthesis\nSetlowTUV.spct - Setlow's action spectrum for DNA damage\nOn CRAN:\nConda:\n5.43 score 1 stars 3 packages 295 downloads 79 exports 32 dependencies\nLast updated from:5be5cd9195. Checks:9 OK. Indexed: yes.\nA new build is currently in progress.\nTarget\nResult\nTime\nFiles\nSyslog\nlinux-devel",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 2,
-            "textWords": 950
+            "textWords": 1361
           }
         },
         "queryPhraseHits": 0
@@ -362,11 +362,11 @@
         "hash": "KAuyix0PKx84",
         "address": "https://www.vedantu.com/biology/aerobe",
         "title": "Aerobe Definition Types and Examples in Biology",
-        "snippet": "Aerobic organisms or aerobes meaning can grow in an oxygenated environment. The organism which can survive in the absence of oxygen is known as anaerobes. Anaerobes can grow only in the absence of oxygen are either obligate anaerobes or strict anaerobes. As per the research of marine biologists in",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 0,
-            "textWords": 980
+            "hits": 1,
+            "textWords": 3327
           }
         },
         "queryPhraseHits": 0
@@ -535,11 +535,11 @@
         "hash": "THAWw_YJ934w",
         "address": "https://phys.org/news/2026-01-protein-network-cooperatively-iron.html",
         "title": "How protein network cooperatively regulates iron balance in plants",
-        "snippet": "photosynthesis and enzyme activity. Plants must carefully manage iron levels to maintain health and productivity. They activate iron uptake genes when deficient and suppress them when iron is excessive to prevent toxicity. This careful balance is known as iron homeostasis.\nTwo main strategies have",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 437
+            "textWords": 2017
           }
         },
         "queryPhraseHits": 0
@@ -571,6 +571,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "C1lucjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Food",
+        "title": "Food - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 10,
+            "textWords": 8911
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "9eEdJswvoTD5",
         "address": "https://r-universe.dev/sysdeps",
         "title": "R-universe - system libraries",
@@ -579,19 +592,6 @@
           "D4ZlInN2g3i_": {
             "hits": 1,
             "textWords": 6996
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "C1lucjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Food",
-        "title": "Food - Wikipedia",
-        "snippet": "photosynthesis to make some of their own nutrients.[5] Water is found in nearly all foods and has been defined as food by itself.[6] Water has no food energy, and fibers have low energy densities, or food energy relative to volume, some providing none, while fat is the most energy-dense",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 9,
-            "textWords": 5410
           }
         },
         "queryPhraseHits": 0
@@ -610,53 +610,53 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "khKlLsVUrQm6",
-        "address": "https://earthnewspaper.com/Links/",
-        "title": "Links – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "hash": "7pIaKsVUrQm6",
+        "address": "https://earthnewspaper.com/Videos/",
+        "title": "Featured Videos 2025 / 2026 – EarthNewspaper.com – All The Honest News Fit To Publish",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 21212
+            "textWords": 19442
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Wfq3FswvoTD5",
-        "address": "https://r-universe.dev/articles",
-        "title": "R-universe - browse articles",
+        "hash": "bEkGVQZchFfZ",
+        "address": "http://www.greenteethmm.com/hydrogen-car-future.shtml",
+        "title": "will-hydrogen-fuel-cells-power-the cars-we-drive-in-the-future-technology-oil-environment",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 14,
-            "textWords": 13038
+            "hits": 1,
+            "textWords": 22022
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "S-sdq0DPAg74",
-        "address": "https://nostarch.com/taxonomy/term/3",
-        "title": "Manga | No Starch Press",
+        "hash": "R7llSlLLcfP4",
+        "address": "https://www.noemamag.com/forced-out-by-forests/",
+        "title": "Finally Seeing The Forest For The Trees - NOEMA",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 1378
+            "textWords": 1266
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "IPPn8QZchFfZ",
-        "address": "http://www.greenteethmm.com/iceberg-alley-blues.shtml",
-        "title": "icberg-alley-oil-arctic-energy-technology",
+        "hash": "iZLFlaLMHcrg",
+        "address": "https://www.southampton.ac.uk/people/5x7gb2/mr-david-newman",
+        "title": "Mr David Newman | University of Southampton",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 25112
+            "hits": 2,
+            "textWords": 3565
           }
         },
         "queryPhraseHits": 0
@@ -664,131 +664,53 @@
     ],
     [
       {
-        "hash": "U5cjd3ph0Po5",
-        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-respiration.html",
-        "title": "Fit models to estimate light respiration - photosynthesis",
-        "snippet": "Authored by:Joseph R. Stinziano and Christopher D. Muir inphotosynthesis 2.1.5.\nSource:light-respiration.Rmd, Vignette:light-respiration.html. Last updated:2022-11-19.\nLoading article...",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 0,
-            "textWords": 23
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "PnhNO289FcHg",
-        "address": "https://doi.pangaea.de/10.1594/PANGAEA.119128",
-        "title": "Balch, WM (2003): Suspended calcite, calcification and photosynthesis at station TT049_33-1",
-        "snippet": "PANGAEA is hosted by\nAlfred Wegener Institute, Helmholtz Center for Polar and Marine Research (AWI)\nCenter for Marine Environmental Sciences, University of Bremen (MARUM)\nThe System is supported by\nThe European Commission, Research\nFederal Ministry of Research, Technology and Space (BMFTR)\nDeutsche",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 0,
-            "textWords": 79
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "1QyBOYrorAZx",
-        "address": "https://www.eurekalert.org/news-releases/542157",
-        "title": "University of Toronto-led study provides new insight into photosynthesis | EurekAlert!",
-        "snippet": "photosynthesis.\nCarotenoids, the same pigments which give orange color to carrots and red to tomatoes, are often found together in plants with chlorophyll pigments that harvest solar energy. Their main function is photoprotection when rays of light from the sun are the most intense. However, a new",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 647
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "GllOfKO4354w",
-        "address": "https://ntrs.nasa.gov/citations/19800005501",
-        "title": "Photosynthetic carbon reduction by seagrasses exposed to ultraviolet A radiation - NASA Technical Reports Server (NTRS)",
+        "hash": "WAwRqsDejl5y",
+        "address": "https://withouthotair.org/chapD",
+        "title": "D Solar II | Sustainable Energy — Without the Hot Air (Community Edition)",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 467
+            "textWords": 2659
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "PPMQ1PH0Awfw",
-        "address": "https://irl.umsl.edu/thesis/10/",
-        "title": "\"Anatomical variation in Cactaceae sensu lato \" by R. Matthew Ogburn",
+        "hash": "XE_yyjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Respiratory_system",
+        "title": "Respiratory system - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 866
+            "hits": 7,
+            "textWords": 14415
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "ia4FXwPsG18w",
-        "address": "https://knowledge.e.southern.edu/grundset/26/",
-        "title": "\"David Cowles - The Triumphs and Trials of a Photosynthetic Animal\" by Southern Adventist University",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 468
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "lIQzWfkazkww",
-        "address": "https://scholars.unh.edu/day24/30/",
-        "title": "\"24.2.3 Chemistry reaction energy: Hands-on exploration Classroom View\" by Christopher F. Bauer",
+        "hash": "VMznNJxSD0j4",
+        "address": "https://www.bbc.com/travel/article/20220126-is-the-pilbara-the-oldest-place-on-earth",
+        "title": "Is the Pilbara the oldest place on Earth?",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 444
+            "textWords": 3861
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "xSKQ9kb8OHYw",
-        "address": "https://digitalcommons.usu.edu/wild_facpub/1850/",
-        "title": "\"Iron Chlorosis of Trees and Shrubs\" by D. S. Wysong, M. O. Harrell et al.",
+        "hash": "UESZWONVKedx",
+        "address": "https://sd.wikipedia.org/wiki/%D8%AD%D9%8A%D8%A7%D8%AA%D9%8A%D8%A7%D8%AA",
+        "title": "حياتيات - وڪيپيڊيا",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 501
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Ol8xyuEgQVew",
-        "address": "https://digitalcommons.mtu.edu/michigantech-p/5840/",
-        "title": "\"Chloroplasts\" by R. Finkeldey and O. Gailing",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 572
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "NWsivjdMdHox",
-        "address": "https://dc.engconfintl.org/biochar_ii/73/",
-        "title": "\"Biochar beyond carbon sequestration: Life-cycle emission reductions, n\" by Johannes Lehmann",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 822
+            "textWords": 3288
           }
         },
         "queryPhraseHits": 0
@@ -799,11 +721,11 @@
         "hash": "hDPCBjldhbwx",
         "address": "https://en.wikibooks.org/wiki/Cell_Biology/Plants/Photosynthesis",
         "title": "Cell Biology/Plants/Photosynthesis",
-        "snippet": "Photosynthesis (from photo- (light) and synthesis (composition)) is the process by which plants and certain other organisms obtain and convert solar (or light) energy into chemical energy.\nFireflies need energy to produce light\nGrass is an example of plants that start the food chain cycles\nAll",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 14,
-            "textWords": 1204
+            "hits": 1,
+            "textWords": 17
           }
         },
         "queryPhraseHits": 0
@@ -825,11 +747,11 @@
         "hash": "yNPRpjldhbwx",
         "address": "https://en.wikibooks.org/wiki/High_School_Biology/Photosynthesis",
         "title": "High School Biology/Photosynthesis",
-        "snippet": "Photosynthesis\nAn Overview of Photosynthesis\nHow Photosynthesis Works\nThis material was adapted from the original CK-12 book that can be found here. This work is licensed under the Creative Commons Attribution-Share Alike 3.0 United States License",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 3,
-            "textWords": 45
+            "hits": 1,
+            "textWords": 25
           }
         },
         "queryPhraseHits": 0
@@ -861,19 +783,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "d6CN1d9XkmOg",
-        "address": "https://books.google.pl/books?id=0_3XqlcKPpwC\u0026pg=PA725\u0026redir_esc=y",
-        "title": "Handbook of Photosynthesis - Google Książki",
-        "snippet": "photosynthesis has achieved massive amounts of attention in recent years. Aside from being the most spectacular physiological process in plant growth, it is actually the key to our dealing with the potentially cataclysmic accumulation of carbon dioxide in the earth’s atmosphere.\nUnfortunately,",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 4,
-            "textWords": 207
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "S2dKveMcq6Ew",
         "address": "https://web.archive.org/web/20120209225717/http:/bioenergy.asu.edu/photosyn/study.html",
         "title": "Why Study Photosynthesis",
@@ -882,6 +791,19 @@
           "D4ZlInN2g3i_": {
             "hits": 59,
             "textWords": 2634
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "d6CN1d9XkmOg",
+        "address": "https://books.google.pl/books?id=0_3XqlcKPpwC\u0026pg=PA725\u0026redir_esc=y",
+        "title": "Handbook of Photosynthesis - Google Książki",
+        "snippet": "photosynthesis has achieved massive amounts of attention in recent years. Aside from being the most spectacular physiological process in plant growth, it is actually the key to our dealing with the potentially cataclysmic accumulation of carbon dioxide in the earth’s atmosphere.\nUnfortunately,",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 207
           }
         },
         "queryPhraseHits": 0
@@ -900,19 +822,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "kKFGeHT_VPS4",
-        "address": "https://www.nature.com/articles/s41563-022-01205-5?error=cookies_not_supported\u0026code=0b4360ba-c657-46d1-afd3-f61e66e3b7ee",
-        "title": "3D-printed hierarchical pillar array electrodes for high-performance semi-artificial photosynthesis | Nature Materials",
-        "snippet": "photosynthesis. Nat. Nanotechnol. 13, 890–899 (2018).\nArticle CAS Google Scholar\nZhang, J. Z. \u0026 Reisner, E. Advancing photosystem II photoelectrochemistry for semi-artificial photosynthesis. Nat. Rev. Chem. 4, 6–21 (2020).\nArticle CAS Google Scholar\nKing, P. W. Semi-synthetic strategy. Nat. Energy",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 5,
-            "textWords": 1072
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "WRhZ_iIkLb7b",
         "address": "http://site.humanphotosynthesis.com/",
         "title": "Medical Modulation of Human Photosynthesis - Home",
@@ -924,9 +833,153 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "kKFGeHT_VPS4",
+        "address": "https://www.nature.com/articles/s41563-022-01205-5?error=cookies_not_supported\u0026code=0b4360ba-c657-46d1-afd3-f61e66e3b7ee",
+        "title": "3D-printed hierarchical pillar array electrodes for high-performance semi-artificial photosynthesis | Nature Materials",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 9,
+            "textWords": 3331
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
-    [],
+    [
+      {
+        "hash": "84Gca0Q4zxY5",
+        "address": "https://www.metacritic.com/game/pokemon-brilliant-diamond/",
+        "title": "Pokemon Brilliant Diamond Reviews - Metacritic",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3604
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dEZM4_YJ934w",
+        "address": "https://phys.org/news/2026-01-scientists-illuminate-ancient-fungus-partnership.html",
+        "title": "Scientists illuminate ancient plant-fungus partnership at molecular level",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2330
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8QjOzlyPjrsj",
+        "address": "https://www.berlin-university-alliance.de/en/impressions/20180622-sense-carbon/index.html",
+        "title": "Satellite Data to Monitor Deforestation • Berlin University Alliance",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1329
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fN8C2WpBE0tg",
+        "address": "https://www.epfl.ch/labs/eceo/",
+        "title": "Environmental Computational Science and Earth Observation Laboratory ‐ EPFL",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 744
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "N2i6Hx0PKx84",
+        "address": "https://www.vedantu.com/biology/plant-kingdom-plantae",
+        "title": "Plant Kingdom Plantae Definition Classification and Features",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 7,
+            "textWords": 3450
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cvpiJ_RMd2Bg",
+        "address": "https://eldar.cz/news/source/@comp/",
+        "title": "well... news @comp - čerstvé zprávy co 15 minut",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2651
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D9L3Jmiwa444",
+        "address": "https://apps.apple.com/qa/iphone/story/id1831017883",
+        "title": "‎Improve your class with AI - App Store",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1264
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WFI25jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Fungus",
+        "title": "Fungus - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 23673
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RHXg-a2-YG1g",
+        "address": "https://www.mpg.de/11830658/sand-bacteria?c=12641139",
+        "title": "Every grain of sand is a met­ro­polis for bac­teria | Max-Planck-Gesellschaft",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1601
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1akPysVUrQm6",
+        "address": "https://earthnewspaper.com/Writers/",
+        "title": "Writers – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 19515
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [],
     [
       {
@@ -967,97 +1020,6 @@
           }
         },
         "queryPhraseHits": 0
-      },
-      {
-        "hash": "FerVIedufF3h",
-        "address": "https://tu-dresden.de/mn/der-bereich/news/tobias-erb-continues-the-frontiers-in-science-lecture-series?set_language=en",
-        "title": "Tobias Erb continues the Frontiers in Science Lecture Series — School of Science — TU Dresden",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 3,
-            "textWords": 732
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_FPDt6dufF3h",
-        "address": "https://tu-dresden.de/bu/umwelt/forst/ww/waldwachstum/die-professur/news/beech-and-pine-meet-drought-and-winter-climate-change",
-        "title": "Beech and pine meet drought and winter climate change — Chair of Forest Growth and Woody Biomass Production — TU Dresden",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 491
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "OjoZV6dufF3h",
-        "address": "https://tu-dresden.de/bu/umwelt/forst/ww/waldwachstum/die-professur/news/beech-and-pine-meet-drought-and-winter-climate-change?set_language=de",
-        "title": "Beech and pine meet drought and winter climate change — Professur für Waldwachstum und Produktion von Holzbiomasse — TU Dresden",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 455
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "a-r9redufF3h",
-        "address": "https://tu-dresden.de/mn/der-bereich/news/tobias-erb-continues-the-frontiers-in-science-lecture-series?set_language=de",
-        "title": "Tobias Erb zu Gast im Rahmen der Frontiers in Science-Lecture Series — Bereich Mathematik und Naturwissenschaften — TU Dresden",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 687
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "B4xuM6dufF3h",
-        "address": "https://tu-dresden.de/bu/umwelt/forst/ww/waldwachstum/die-professur/news/beech-and-pine-meet-drought-and-winter-climate-change?set_language=en",
-        "title": "Beech and pine meet drought and winter climate change — Chair of Forest Growth and Woody Biomass Production — TU Dresden",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 494
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "2GVuSNpg7ax4",
-        "address": "https://de.wikipedia.org./wiki/Charles_Reid_Barnes",
-        "title": "Charles Reid Barnes – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 3,
-            "textWords": 703
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "HXZXdNpg7ax4",
-        "address": "https://de.wikipedia.org./wiki/C4-Pflanze",
-        "title": "C4-Pflanze – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 33,
-            "textWords": 11383
-          }
-        },
-        "queryPhraseHits": 0
       }
     ],
     [],
@@ -1067,11 +1029,11 @@
         "hash": "y8TSo2wcfRow",
         "address": "https://www.pbs.org/video/fast-forward-teachable-moment-photosynthesis-and-nitrogen-cycle/",
         "title": "Fast Forward | Teachable Moment: Photosynthesis and Nitrogen Cycle | PBS",
-        "snippet": "Photosynthesis and Nitrogen Cycle\nClip | 1m 22s\nFrom the Fast Forward episode:Georgia Mountain Research and Education Center\n12/10/2012 | Rating NR\nFast Forward\nClip | 1m 22s\nFrom the Fast Forward episode:Georgia Mountain Research and Education Center\nLearn more about the definition and explanation",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 4,
-            "textWords": 148
+            "hits": 5,
+            "textWords": 2907
           }
         },
         "queryPhraseHits": 0
@@ -1116,32 +1078,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "wKZMolvyYK25",
-        "address": "https://www.zmescience.com/",
-        "title": "ZME Science: not exactly rocket science",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 4996
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "wF5NsZqG-9s5",
-        "address": "https://www.worldatlas.com/oceans/the-difference-between-the-deep-sea-and-the-abyss.html",
-        "title": "The Difference Between The Deep Sea And The Abyss",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 2069
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "zNSAlswvoTD5",
         "address": "https://r-universe.dev/builds",
         "title": "R-universe - recent builds",
@@ -1181,6 +1117,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "wJYbNsYJ934w",
+        "address": "https://phys.org/latest-news/",
+        "title": "Science News",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2065
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "ysLcTlDFvldg",
         "address": "https://www.ufz.de/index.php?en=20939\u0026pub_id=18872",
         "title": "UFZ - Publication Index - Helmholtz-Centre for Environmental Research",
@@ -1189,6 +1138,19 @@
           "D4ZlInN2g3i_": {
             "hits": 3,
             "textWords": 1074
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yItEelyInQnx",
+        "address": "https://www.co2science.org/index.php",
+        "title": "CO2 Science",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 518
           }
         },
         "queryPhraseHits": 0
@@ -1225,11 +1187,11 @@
         "hash": "2zwJS-YG32-5",
         "address": "https://www.livescience.com/planet-earth/plants/tropical-rainforests-could-get-too-hot-for-photosynthesis-and-die-if-climate-crisis-continues-scientists-warn",
         "title": "Tropical rainforests could get too hot for photosynthesis and die if climate crisis continues, scientists warn | Live Science",
-        "snippet": "photosynthesis to occur, and it may eventually trigger their collapse, a new study has warned.\nUsing data collected from the International Space Station (ISS), scientists found that a small yet growing percentage of tree leaves in tropical forests are approaching the maximum temperature threshold",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 79
+            "hits": 5,
+            "textWords": 1674
           }
         },
         "queryPhraseHits": 0
@@ -1243,19 +1205,6 @@
           "D4ZlInN2g3i_": {
             "hits": 3,
             "textWords": 654
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "3AZizFw5aEs5",
-        "address": "https://www.britannica.com/question/What-is-the-basic-formula-for-photosynthesis",
-        "title": "What is the basic formula for photosynthesis? | Britannica",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 10,
-            "textWords": 540
           }
         },
         "queryPhraseHits": 0
@@ -1287,6 +1236,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "0OQ0l9N7dKu5",
+        "address": "https://pecanproject.r-universe.dev/articles/PEcAn.priors/priors_demo.html",
+        "title": "Generating Priors based on Data and / or Expert knowledge - PEcAn.priors",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 269
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "22StG4q6kQx4",
         "address": "https://plantsvszombies.fandom.com/wiki/List_of_plants",
         "title": "List of plants | Plants vs. Zombies Wiki | Fandom",
@@ -1300,14 +1262,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "0OQ0l9N7dKu5",
-        "address": "https://pecanproject.r-universe.dev/articles/PEcAn.priors/priors_demo.html",
-        "title": "Generating Priors based on Data and / or Expert knowledge - PEcAn.priors",
+        "hash": "4ZSv3gA1i8V5",
+        "address": "https://stbarbebaker.wordpress.com/tag/invasive-species-soil-impact/",
+        "title": "invasive species soil impact – Forests of Memory. Forests of Learning. Forests for Life.",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 269
+            "hits": 3,
+            "textWords": 6500
           }
         },
         "queryPhraseHits": 0
@@ -1329,32 +1291,6 @@
     [],
     [
       {
-        "hash": "4rc4VKBAZ7Y4",
-        "address": "https://www.scribd.com/document/699690461/Ngorima-Bio-Notes",
-        "title": "Biology Safety and Chemical Basics | PDF | Enzyme | Stoma",
-        "snippet": "0% found this document useful (0 votes)\n283 views189 pages\nBiology Safety and Chemical Basics\nThis document discusses biology topics related to safety, careers, and chemicals of life. It outlines causes of accidents in the laboratory including fires, fumes, burns, and improper handling of",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 0,
-            "textWords": 138
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "YdfoOjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/C4_plant",
-        "title": "C4 carbon fixation - Wikipedia",
-        "snippet": "photosynthesis is called RuBisCO, which catalyses two distinct reactions using either CO2 (carboxylation) or oxygen (oxygenation) as a substrate. RuBisCO oxygenation gives rise to phosphoglycolate, which is toxic and requires the expenditure of energy to recycle through photorespiration. C4",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 33,
-            "textWords": 4879
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "8hMAdnWShwPz",
         "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
         "title": "Photosynthesis",
@@ -1368,186 +1304,265 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "qYAzVssqzCN5",
-        "address": "https://microbenotes.com/photosynthetic-pigments/",
-        "title": "Photosynthetic Pigments: Types and Functions",
-        "snippet": "photosynthesis. Located in the thylakoid membranes of chloroplasts, the pigments have two functions: they trap the sunlight energy and transfer the excitation energy to reaction centres, where the photochemical reactions get started.\nPhotosynthetic pigments\nThe different pigments have different",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 16,
-            "textWords": 1978
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "qnTXSW5zLm04",
-        "address": "https://claude.com/solutions/teachers",
-        "title": "Claude for K-12 Teachers | Claude by Anthropic",
-        "snippet": "Photosynthesis Check-In\nFormative Assessment · 8th Grade Science\nStandard: NGSS MS-LS1-6\n‍\nAbout this check-in\nWhat this checks (NGSS MS-LS1-6): Can you explain, using evidence, how photosynthesis moves matter (atoms) and energy into and out of living things?\nHow it works: Part A covers the core",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 13,
-            "textWords": 834
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "CqM_kEmUv-3x",
-        "address": "https://bio4climate.org/featured-creature/featured-creature-eastern-emerald-elysia/",
-        "title": "Featured Creature: Eastern Emerald Elysia - Biodiversity for a Livable Climate",
-        "snippet": "photosynthesis, can go a year without eating, and blurs the animal-plant boundary?\nThe Eastern Emerald Elysia (Elysia chlorotica)!\nImage Credit: Patrick J. Krugg\n“It’s a leaf,” my friend said when I showed her the photograph.\n“Look closely. It’s not a leaf,” I replied.\n“What is it then? Some insect",
+        "hash": "_182FkRzAb95",
+        "address": "https://www.daviddarling.info/encyclopedia/P/photosynthesis.html",
+        "title": "photosynthesis",
+        "snippet": "photosynthesis.\nCarbon dioxide and water are the inorganic raw materials of photosynthesis. They arrive at a leaf's photosynthesizing cells by different routes: CO2 gas simply diffuses in via pores in the leaf stomata (1) and through the air spaces between the loosely packed cells of the leaf",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 14,
-            "textWords": 2434
+            "textWords": 993
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "djC_JjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Night",
-        "title": "Night",
+        "hash": "9EVEIoLMHcrg",
+        "address": "https://www.southampton.ac.uk/study/postgraduate-research/projects/new-perspectives-on-ocean-photosynthesis",
+        "title": "New perspectives on ocean photosynthesis | University of Southampton",
+        "snippet": "photosynthesis\nEntry requirements\nA 2:1 honours degree, or its international equivalent, in one of these subjects:\nbiology\nchemistry\nmathematics\noceanography or marine science\nFees and funding\nINSPIRE studentships are funded by the Natural Environment Research Council (NERC, part of UK Research and",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 369
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8wWTqF-hBhnQ",
+        "address": "http://www.3ders.org/articles/20171207-pioneering-russian-scientists-create-pef-3d-printing-material-with-water-co2-photosynthesis.html",
+        "title": "3ders.org - Pioneering Russian scientists create PEF 3D printing material with water, CO2 \u0026 photosynthesis | 3D Printer News \u0026 3D Printing News",
+        "snippet": "photosynthesis to create a carbon-neutral PEF 3D printing material. The polymer, made from synthesized cellulose, is stable, resistant to oxidation and chemical solvents, and durable.\nPhotosynthesis is one of those scientific processes you learn about at a very young age, but—unless you become a",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 687
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8EtddrYG32-5",
+        "address": "https://www.livescience.com/health/scientists-got-mouse-eyes-to-perform-photosynthesis-and-no-they-didnt-turn-green",
+        "title": "Scientists got mouse eyes to perform photosynthesis ‪—‬ and no, they didn't turn green | Live Science",
+        "snippet": "photosynthesis.\nThe drops, which contain photosynthetic machinery extracted from spinach leaves, use light-driven reactions to improve symptoms of dry eye disease, according to a study published May 15 in the journal Cell. Although the researchers tested the drops in mice, the hope is that with",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 81
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_REif_YJ934w",
+        "address": "https://phys.org/news/2026-08-underground-fungal-networks-3d-view.html",
+        "title": "Underground fungal networks come into 3D view without disturbing plant roots",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 9,
-            "textWords": 8347
+            "hits": 2,
+            "textWords": 2145
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CIKdgvOpC_C5",
+        "address": "https://www.sciencedaily.com/news/matter_energy/organic_chemistry/",
+        "title": "Organic Chemistry News -- ScienceDaily",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 4348
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UCTSrwSqho3w",
+        "address": "https://ib.bioninja.com.au/interaction-and-interdependence/",
+        "title": "Interaction and Interdependence",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 126
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-vQ5vlDFvldg",
+        "address": "https://www.ufz.de/index.php?en=20939\u0026pub_id=29358",
+        "title": "UFZ - Publication Index - Helmholtz-Centre for Environmental Research",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1039
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iRF01WDn1BO4",
+        "address": "https://file770.com/tag/ray-harryhausen/",
+        "title": "Ray Harryhausen | File 770",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 34160
           }
         },
         "queryPhraseHits": 0
       }
     ],
-    [],
     [
       {
-        "hash": "KD2683ph0Po5",
-        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-response.html",
-        "title": "Fitting light response curves - photosynthesis",
-        "snippet": "Authored by:Joseph R. Stinziano and Christopher D. Muir inphotosynthesis 2.1.5.\nSource:light-response.Rmd, Vignette:light-response.html. Last updated:2024-11-23.\nLoading article...",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 0,
-            "textWords": 23
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "d0IBErhiAR-5",
-        "address": "https://sylvainschmitt.r-universe.dev/articles/rcontroll/troll.html",
-        "title": "The TROLL model - rcontroll",
+        "hash": "FqOJ28UYpAnx",
+        "address": "https://www.electromaker.io/project/view/new-era-farming-with-tensorflow-on-lowest-power-consumption",
+        "title": "New Era Farming with TensorFlow on Lowest Power Consumption",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 114
+            "textWords": 7213
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "yN10r08CAV45",
-        "address": "https://www.encyclopedia.com/science-and-technology/chemistry/organic-chemistry/glucose",
-        "title": "Glucose | Encyclopedia.com",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 5139
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "EOhuJStcmhsx",
-        "address": "https://public-pages-files-2025.frontiersin.org/journals/science/articles/10.3389/fsci.2024.1411644/text",
-        "title": "Text",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 554
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "jUPw_jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Coral",
-        "title": "Coral - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 15362
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "6fNcgsVUrQm6",
-        "address": "https://earthnewspaper.com/music/",
-        "title": "Featured Music – EarthNewspaper.com – All The Honest News Fit To Publish",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 18367
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "bEkGVQZchFfZ",
-        "address": "http://www.greenteethmm.com/hydrogen-car-future.shtml",
-        "title": "will-hydrogen-fuel-cells-power-the cars-we-drive-in-the-future-technology-oil-environment",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 17,
-            "textWords": 22022
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "SyTY5cwVyE75",
-        "address": "https://medicine.careers360.com/exams/neet",
-        "title": "Re-NEET Exam 2026: Dates, Result OUT, Scorecard, Cutoff, Counselling Process",
-        "snippet": "",
+        "hash": "EBN4gNBg07g5",
+        "address": "https://www.straitstimes.com/singapore/health/nus-study-finds-photosynthesis-could-treat-dry-eye-disease",
+        "title": "NUS scientists use photosynthesis to treat dry eye | The Straits Times",
+        "snippet": "photosynthesis converts light energy into chemical energy in the form of sugars.\nNational University of Singapore (NUS) researchers are now tapping the process to treat dry eye disease.\nAlso known as keratoconjunctivitis sicca, dry eye disease is a common eye condition that affects more than 1.5",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 7,
-            "textWords": 16845
+            "textWords": 712
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "RTF4YM1Lq4Ox",
-        "address": "https://acp.copernicus.org/articles/25/13053/2025/",
-        "title": "ACP - The role of the tropical carbon balance in determining the large atmospheric CO2 growth rate in 2023",
-        "snippet": "",
+        "hash": "KzGrV3ph0Po5",
+        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/photosynthesis-introduction.html",
+        "title": "Introduction to the photosynthesis package - photosynthesis",
+        "snippet": "Source:photosynthesis-introduction.Rmd, Vignette:photosynthesis-introduction.html. Last updated:2022-11-08.\nLoading article...",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 20
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Gs5I9JkVpUp6",
+        "address": "https://www.popularmechanics.com/science/energy/a43620030/artificial-photosynthesis-turns-solar-power-into-hydrogen-fuel/",
+        "title": "Artificial Photosynthesis Turns Solar Power Into Hydrogen Fuel",
+        "snippet": "photosynthesis system, according to a new study by the Swiss Federal Institute of Technology (EPFL) published in Nature Energy. It also produces useful byproducts of oxygen and heat.\n“This is the first system-level demonstration of solar hydrogen generation,” Sophia Haussener, head of the",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 3,
-            "textWords": 12215
+            "textWords": 638
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "KZojtpxz2NUw",
-        "address": "https://drawdown.org/explorer/improve-diets",
-        "title": "Improve Diets | Project Drawdown®",
+        "hash": "H9Ixdz0xT8s5",
+        "address": "https://astrobiology.com/2026/06/26/an-agnostic-machine-learning-model-of-photosynthetic-habitability/",
+        "title": "An Agnostic Machine Learning Model of Photosynthetic Habitability - Astrobiology",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 4,
-            "textWords": 17378
+            "hits": 14,
+            "textWords": 1184
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IAlDxdoUQNjx",
+        "address": "https://www.commondreams.org/organization/regeneration-international",
+        "title": "Regeneration International | Organization | Common Dreams",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1481
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "COr0MkRzAb95",
+        "address": "https://www.daviddarling.info/encyclopedia/C/carotenoid.html",
+        "title": "carotenoids",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 552
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GBtU5yOpC_C5",
+        "address": "https://www.sciencedaily.com/releases/2023/02/230206130626.htm",
+        "title": "Why microbes in the deep ocean live without sunlight | ScienceDaily",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 8,
+            "textWords": 1729
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "49GjDqH1Rf7w",
+        "address": "https://dblp.org/pid/158/3909.html",
+        "title": "dblp: Mahmoud Afifi",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 9225
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FhqXKjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Geology",
+        "title": "Geology - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 15887
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FxQ2Ed05rw04",
+        "address": "https://www.unz.com/announcement/open-thread-9/",
+        "title": "Announcement: Open Thread #9, by Ron Unz - The Unz Review",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 23445
           }
         },
         "queryPhraseHits": 0
@@ -1623,11 +1638,11 @@
         "hash": "JJRHGFyfkZD5",
         "address": "https://aphalo.r-universe.dev/photobiologyWavebands",
         "title": "photobiologyWavebands: Waveband Definitions for UV, VIS, and IR Radiation",
-        "snippet": "photosynthesis\nSetlowTUV.spct - Setlow's action spectrum for DNA damage\nOn CRAN:\nConda:\n5.43 score 1 stars 3 packages 295 downloads 79 exports 32 dependencies\nLast updated from:5be5cd9195. Checks:9 OK. Indexed: yes.\nA new build is currently in progress.\nTarget\nResult\nTime\nFiles\nSyslog\nlinux-devel",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 2,
-            "textWords": 950
+            "textWords": 1361
           }
         },
         "queryPhraseHits": 0
@@ -1636,11 +1651,11 @@
         "hash": "Kvs2Flyl9Shw",
         "address": "https://www.grisda.org/origins-52007",
         "title": "Geoscience Research Institute | A Baraminological Analysis of Subtribe Flaveriinae (Asteraceae: Helenieae)",
-        "snippet": "photosynthesis. Some species use a system known as C3 photosynthesis, some use a system known as C4 photosynthesis, and others display characteristics intermediate between the two. The authors apply a creationist research method known as baraminology to determine whether the species might have been",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 37,
-            "textWords": 6084
+            "hits": 33,
+            "textWords": 6732
           }
         },
         "queryPhraseHits": 0
@@ -1675,11 +1690,11 @@
         "hash": "KAuyix0PKx84",
         "address": "https://www.vedantu.com/biology/aerobe",
         "title": "Aerobe Definition Types and Examples in Biology",
-        "snippet": "Aerobic organisms or aerobes meaning can grow in an oxygenated environment. The organism which can survive in the absence of oxygen is known as anaerobes. Anaerobes can grow only in the absence of oxygen are either obligate anaerobes or strict anaerobes. As per the research of marine biologists in",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 0,
-            "textWords": 980
+            "hits": 1,
+            "textWords": 3327
           }
         },
         "queryPhraseHits": 0
@@ -1687,131 +1702,131 @@
     ],
     [
       {
-        "hash": "ibekE3ph0Po5",
-        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/sensitivity-analysis.html",
-        "title": "Sensitivity analysis - photosynthesis",
-        "snippet": "Authored by:Joseph R. Stinziano and Christopher D. Muir inphotosynthesis 2.1.5.\nSource:sensitivity-analysis.Rmd, Vignette:sensitivity-analysis.html. Last updated:2022-11-08.\nLoading article...",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 0,
-            "textWords": 23
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "T-dNpv3VHIw6",
-        "address": "https://www.singaporestar.com/news/272944139/study-reveals-how-photosynthesis-adapted-to-the-rise-of-oxygen",
-        "title": "Study reveals how photosynthesis adapted to the rise of oxygen",
-        "snippet": "photosynthesis adapted to the rise of oxygen.\nPresent day life fully depends on photosynthetic organisms like plants and algae that capture and convert CO2. At the heart of these processes lies an enzyme called Rubisco that captures more than 400 billion tons CO2 annually. Organisms alive today",
+        "hash": "QA1GmkRzAb95",
+        "address": "https://www.daviddarling.info/encyclopedia/L/leaf.html",
+        "title": "leaf",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 5,
-            "textWords": 782
+            "textWords": 1345
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "x8kOgUu8QNRx",
-        "address": "https://gmd.copernicus.org/articles/11/2995/2018/gmd-11-2995-2018-relations.html",
-        "title": "GMD - Relations - A new version of the CABLE land surface model (Subversion revision r4601) incorporating land use and land cover change, woody vegetation demography, and a novel",
+        "hash": "G0jtvjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Plant",
+        "title": "Plant - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 10,
-            "textWords": 13680
+            "hits": 14,
+            "textWords": 13140
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "THAWw_YJ934w",
-        "address": "https://phys.org/news/2026-01-protein-network-cooperatively-iron.html",
-        "title": "How protein network cooperatively regulates iron balance in plants",
-        "snippet": "photosynthesis and enzyme activity. Plants must carefully manage iron levels to maintain health and productivity. They activate iron uptake genes when deficient and suppress them when iron is excessive to prevent toxicity. This careful balance is known as iron homeostasis.\nTwo main strategies have",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 437
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "IAlDxdoUQNjx",
-        "address": "https://www.commondreams.org/organization/regeneration-international",
-        "title": "Regeneration International | Organization | Common Dreams",
+        "hash": "Rk8QslADNpz4",
+        "address": "https://www.rifters.com/crawl/?p=1603",
+        "title": "No Moods, Ads or Cutesy Fucking Icons » Worth the Price",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 1546
+            "textWords": 17118
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "O2_P2HT_VPS4",
-        "address": "https://www.nature.com/articles/s41587-026-03046-y?error=cookies_not_supported\u0026code=1b4ee994-19c4-4d11-9eb9-f22a1093900d",
-        "title": "Mapping cis-regulatory mutations at scale in sorghum enables modulation of gene expression | Nature Biotechnology",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 15,
-            "textWords": 15499
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "SawJ6uWeDWe4",
-        "address": "https://www.popsci.com/technology/corn-crop-robot/",
-        "title": "A corn leaf measuring robot is more useful than you think | Popular Science",
+        "hash": "foS8Ws1ePOZ4",
+        "address": "https://testbook.com/rpsc-sso",
+        "title": "RPSC SSO Recruitment 2024: Apply for 14 Vacancies, Exam Dates Out",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 1970
+            "textWords": 6108
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "QlzLDwSqho3w",
-        "address": "https://ib.bioninja.com.au/metabolism/",
-        "title": "Metabolism",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 4,
-            "textWords": 109
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "7pIaKsVUrQm6",
-        "address": "https://earthnewspaper.com/Videos/",
-        "title": "Featured Videos 2025 / 2026 – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "hash": "TlDrCTUkxcN4",
+        "address": "https://research.com/u/ada-yonath",
+        "title": "2026 Ada Yonath: Biology and Biochemistry Researcher – H-Index, Publications \u0026 Awards | Research.com",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 19526
+            "textWords": 4110
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "MupZojRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Exoplanet",
-        "title": "Exoplanet - Wikipedia",
+        "hash": "9Z6SE7LMHcrg",
+        "address": "https://www.southampton.ac.uk/courses/2026-27/modules/hist2055",
+        "title": "Ancient Rome: the First Metropolis | HIST2055 | University of Southampton",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 4020
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0HEbUMmwuu8S",
+        "address": "http://www.science-com.concatenation.org/news/news25~26.html",
+        "title": "Jonathan Cowie - News 2025/26",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 19259
+            "textWords": 1298
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fsoHPyOpC_C5",
+        "address": "https://www.sciencedaily.com/releases/2026/08/260804034638.htm",
+        "title": "World’s most-used weedkiller disrupts honeybee brains | ScienceDaily",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1940
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wcDmh78CAV45",
+        "address": "https://www.encyclopedia.com/arts/educational-magazines/morton-oliver",
+        "title": "Morton, Oliver | Encyclopedia.com",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1735
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TvIYZCyr9J_6",
+        "address": "https://worldoceanreview.com/en/wor-4/how-the-sea-serves-us/",
+        "title": "How the sea serves us - World Ocean Review World Ocean Review",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1829
           }
         },
         "queryPhraseHits": 0
@@ -1819,131 +1834,14 @@
     ],
     [
       {
-        "hash": "VQunA_YJ934w",
-        "address": "https://phys.org/news/2026-05-stress-photosynthesis-protein-cleanup.html",
-        "title": "Plants under stress switch from photosynthesis to protein cleanup, researchers show",
-        "snippet": "photosynthesis. Their findings, published in Molecular Cell, could help make plants more robust.\nThousands of proteins have to be correctly produced, folded, and regulated in each cell. Under stress conditions, this balance (known as proteostasis) becomes unstable. Misfolded or damaged proteins",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 4,
-            "textWords": 604
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "9TEg8Uu8QNRx",
-        "address": "https://gmd.copernicus.org/articles/11/2995/2018/gmd-11-2995-2018.html",
-        "title": "GMD - A new version of the CABLE land surface model (Subversion revision r4601) incorporating land use and land cover change, woody vegetation demography, and a novel",
-        "snippet": "photosynthesis and stomatal conductance to rising [CO2]: mechanisms and environmental interactions, Plant, Cell Environ., 30, 258–270, 2007.\nAli, A. A., Xu, C., Rogers, A., Fisher, R. A., Wullschleger, S. D., Massoud, E. C., Vrugt, J. A., Muss, J. D., McDowell, N. G., Fisher, J. B., Reich, P. B.,",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 8,
-            "textWords": 3452
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "nkAFQyOpC_C5",
-        "address": "https://www.sciencedaily.com/releases/2025/09/250909031505.htm",
-        "title": "The ocean’s most abundant microbe is near its breaking point | ScienceDaily",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 2270
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "pIaOBKsrSOQw",
-        "address": "https://arxiv.org/list/physics/2011-07?skip=400",
-        "title": "Physics Jul 2011",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 2410
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fkhlpaLMHcrg",
-        "address": "https://www.southampton.ac.uk/people/668h9r/doctor-chen-yang",
-        "title": "Doctor Chen Yang | University of Southampton",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 3572
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "wPeOPkRzAb95",
-        "address": "https://www.daviddarling.info/encyclopedia/D/Desulfotomaculum.html",
-        "title": "Desulfotomaculum",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 347
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "9eEdJswvoTD5",
-        "address": "https://r-universe.dev/sysdeps",
-        "title": "R-universe - system libraries",
+        "hash": "FwnmusffeXJ5",
+        "address": "https://acalustra.com/rss.xml",
+        "title": "",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 1,
-            "textWords": 6988
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "llI92R1ePOZ4",
-        "address": "https://testbook.com/bis/cut-off",
-        "title": "BIS Cut Off 2024: Check Previous Years Cut Off Marks",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 2727
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "MS0BDWDUniK4",
-        "address": "https://reason.com/tag/paul-ehrlich/",
-        "title": "Paul Ehrlich Archives",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 2,
-            "textWords": 1506
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ed2K4h3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Category:Measurement",
-        "title": "Category:Measurement - Wikimedia Commons",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 12124
+            "textWords": 52833
           }
         },
         "queryPhraseHits": 0
@@ -2032,11 +1930,11 @@
         "hash": "aJofoz4nScL4",
         "address": "https://www.wired.com/story/plants-growing-in-darkness/",
         "title": "Scientists Are Trying to Grow Crops in the Dark | WIRED",
-        "snippet": "photosynthesis for. Our entire existence, for a start. About 3 billion years ago, a group of microbes called cyanobacteria evolved a way to turn light and water into energy, releasing oxygen in the process. These microbes would eventually flood our atmosphere with oxygen—turning it from a toxic",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 10,
-            "textWords": 1082
+            "textWords": 2422
           }
         },
         "queryPhraseHits": 0
@@ -2055,27 +1953,161 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "ZXkFsrcdtOi5",
-        "address": "https://www.theatlantic.com/magazine/archive/1948/01/fiasco-in-food/643666/",
-        "title": "Fiasco in Food - The Atlantic",
+        "hash": "azteSrcdtOi5",
+        "address": "https://www.theatlantic.com/magazine/archive/1955/09/the-control-of-energy/305024/",
+        "title": "The Control of Energy - The Atlantic",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 2107
+            "hits": 2,
+            "textWords": 6251
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "bdKA42Tv_Dj5",
-        "address": "https://university.careers360.com/exams/cpget",
-        "title": "TS CPGET Exam 2026: Admit Card (Out), Exam Date (Out), Syllabus, Pattern \u0026 Question Paper",
+        "hash": "YeZFrjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Ecological_light_pollution",
+        "title": "Ecological light pollution - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 3,
-            "textWords": 29111
+            "hits": 2,
+            "textWords": 8608
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "hash": "qmdOz6T1xk1j",
+        "address": "https://tieteentermipankki.fi/wiki/Ymp%C3%A4rist%C3%B6tieteet:afoottinen_vy%C3%B6hyke",
+        "title": "Ympäristötieteet:afoottinen vyöhyke – Tieteen termipankki",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 377
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ksDGDfSjwevw",
+        "address": "https://attheu.utah.edu/",
+        "title": "@theU",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 521
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pMr3JjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Limestone",
+        "title": "Limestone - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 11160
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "V6QZnNoc6Io4",
+        "address": "https://www.nndb.com/geo/422/000069215/",
+        "title": "Berkeley, CA",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 843
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "W9svgs1ePOZ4",
+        "address": "https://testbook.com/fssai-assistant",
+        "title": "FSSAI Assistant Recruitment 2026 Notification: Apply Online, Vacancy, Salary, Syllabus",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3497
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5k70WeVv6DMY",
+        "address": "http://newyorkintern.blogspot.com/",
+        "title": "I'm An Intern In New York",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 11573
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FwJszM1Lq4Ox",
+        "address": "https://acp.copernicus.org/articles/15/issue22.html",
+        "title": "ACP – Volume 15, issue 22",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 4183
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QK3o4wflt3w6",
+        "address": "https://engineering.stackexchange.com/tags/chemistry",
+        "title": "Newest 'chemistry' Questions - Engineering Stack Exchange",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 5409
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5txridIuEPnx",
+        "address": "https://bulbapedia.bulbagarden.net/wiki/Snivy_(Pok%C3%A9mon)",
+        "title": "Snivy (Pokémon) - Bulbapedia, the community-driven Pokémon encyclopedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 7967
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3XE4eH-b3Qxo",
+        "address": "https://scroll.in/article/908061/china-lands-on-the-far-side-of-moon-here-is-the-science-behind-the-mission",
+        "title": "China has become the first country to land on the far side of moon",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2424
           }
         },
         "queryPhraseHits": 0
@@ -2083,14 +2115,1533 @@
     ],
     [
       {
-        "hash": "gmWzrjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Photosynthesis",
-        "title": "Photosynthesis - Wikipedia",
-        "snippet": "photosynthesis in plants. The carbohydrates produced are stored in or used by the plant.\nComposite image showing the global distribution of photosynthesis, including both oceanic phytoplankton and terrestrial vegetation. Dark red and blue-green indicate regions of high photosynthetic activity in",
+        "hash": "LPHKOtTHOmSw",
+        "address": "https://dbg.org/research-conservation/research-conservation-staff/",
+        "title": "Research \u0026 Conservation Biologists at Desert Botanical Garden",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 154,
-            "textWords": 11636
+            "hits": 2,
+            "textWords": 1210
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8t41jDHMWkmx",
+        "address": "https://bg.copernicus.org/",
+        "title": "BG - Recent",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 6,
+            "textWords": 12020
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9pBjnw7fufB7",
+        "address": "https://www.scientificamerican.com/article/origin-of-oxygen-in-atmosphere/",
+        "title": "The Origin of Oxygen in Earth's Atmosphere | Scientific American",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1092
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0DBFzxuAbj3Z",
+        "address": "http://www.sciencedaily.com/releases/2026/02/260218031611.htm",
+        "title": "AI breakthrough could replace rare earth magnets in electric vehicles | ScienceDaily",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1739
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-GGWpx0PKx84",
+        "address": "https://www.vedantu.com/biology/durian-plant",
+        "title": "Durian Plant Definition Structure and Uses",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 3270
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MH5MGcw63Csx",
+        "address": "https://fr.wikipedia.org/wiki/Mars_(plan%C3%A8te)",
+        "title": "Mars (planète) — Wikipédia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 36789
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CBH4XaLMHcrg",
+        "address": "https://www.southampton.ac.uk/people/62kzlw/miss-aprillyana-utami",
+        "title": "Miss Aprillyana Utami | University of Southampton",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 3652
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2a-Ol-tjRE4w",
+        "address": "https://www.fao.org/newsroom/story/Cactus-pear-deserves-a-place-on-the-menu/en",
+        "title": "Cactus pear deserves a place on the menu",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1281
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kGqlFwIkVg04",
+        "address": "https://gemini.google/fj/release-notes/?hl=en-GB",
+        "title": "‎Gemini Apps' release updates and improvements",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 20563
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uMdh9vvihHm5",
+        "address": "https://naturallycuriouswithmaryholland.wordpress.com/tag/green-darner/",
+        "title": "Green Darner | Naturally Curious with Mary Holland",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 5111
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "LGggAOyG2Z6g",
+        "address": "https://eur-lex.europa.eu/eli/C/2024/4057/oj/eng",
+        "title": "EUR-Lex - 52023AE4844 - EN - EUR-Lex",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 5457
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Q3zLXEHKIdig",
+        "address": "https://www.eeas.europa.eu/japan/european-union-and-japan-science-and-technology-relations_en?s=169",
+        "title": "Science, Innovation and Digital Relations | EEAS",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1759
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2JV9Sv_w0LFh",
+        "address": "https://www.juraforum.de/news/wie-bei-den-kakteen-cam-photosynthese-bei-fleischfressenden-pflanzen-entdeckt-idw_270448",
+        "title": "Wie bei den Kakteen: CAM-Photosynthese bei fleischfressenden Pflanzen entdeckt",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 846
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rzZEoOyG2Z6g",
+        "address": "https://eur-lex.europa.eu/eli/C/2026/403/oj/eng",
+        "title": "EUR-Lex - 52026XC00403 - EN - EUR-Lex",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3314
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Ty4Pf12cloQB",
+        "address": "http://idw-online.de/en/news870860",
+        "title": "Better Living: Newly discovered myxobacterium in a cyanobacterial community performs photosynthesis",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 31
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nvw5xCmvEcxh",
+        "address": "https://idw-online.de/en/pdfnews869345",
+        "title": "(anonymous)",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 558
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AJ3cSBJzxOcj",
+        "address": "https://www.bundesverfassungsgericht.de/SharedDocs/Entscheidungen/EN/2021/03/rs20210324_1bvr265618en.html",
+        "title": "Bundesverfassungsgericht - Decisions search - Order of 24 March 2021",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 34465
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ysle_rOYFhaj",
+        "address": "https://www.schleswig-holstein.de/DE/fachinhalte/R/reaktorsicherheit/Downloads/radiologicalConsiderations25AC.pdf?__blob=publicationFile\u0026v=1",
+        "title": "\u003cTITLE\u003e",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 25738
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "l9bhxdXLN95g",
+        "address": "https://www.kfw.de/PDF/Download-Center/Konzernthemen/Nachhaltigkeit/bioSFer/KfW-Positionspapier-Biodiversit%C3%A4t-2025_EN.pdf",
+        "title": "bioSFer – Committed to Nature",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 6371
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lEFnB4mvEcxh",
+        "address": "https://idw-online.de/de/pdfnews869345",
+        "title": "(anonymous)",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 550
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vhpeICmvEcxh",
+        "address": "https://idw-online.de/en/news869345",
+        "title": "Izatt-Christensen Award 2026 for Frank Würthner",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1422
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6Q7d74mvEcxh",
+        "address": "https://idw-online.de/de/news869345",
+        "title": "Izatt-Christensen Award 2026 for Frank Würthner",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1309
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cPH-yCmvEcxh",
+        "address": "https://idw-online.de/en/news?print=1\u0026id=869345",
+        "title": "Izatt-Christensen Award 2026 for Frank Würthner",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1381
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TNhfj4mvEcxh",
+        "address": "https://idw-online.de/de/news?print=1\u0026id=869345",
+        "title": "Izatt-Christensen Award 2026 for Frank Würthner",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1270
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "6Er4Ggs4taKw",
+        "address": "https://wikipedia.ddns.net:51234/content/wikipedia_he_all_maxi_2024-05/A/Horses_(%D7%90%D7%9C%D7%91%D7%95%D7%9D)",
+        "title": "Horses_(אלבום)",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 15
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5FLR4vYJ934w",
+        "address": "https://phys.org/tags/photosynthesis/sort/liverank/1m/",
+        "title": "Photosynthesis - latest research news and features",
+        "snippet": "Photosynthesis[α] is a process that converts carbon dioxide into organic compounds, especially sugars, using the energy from sunlight. Photosynthesis occurs in plants, algae, and many species of Bacteria, but not in Archaea. Photosynthetic organisms are called photoautotrophs, since it allows them",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 9,
+            "textWords": 456
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8hMAdnWShwPz",
+        "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
+        "title": "Photosynthesis",
+        "snippet": "photosynthesis.The process is carried out by plants, algae, and some types of bacteria, which capture energy from sunlight to produce oxygen (O2) and chemical energy stored in glucose (a sugar). Herbivores then obtain this energy by eating plants, and carnivores obtain it by eating herbivores.\nThe",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 12,
+            "textWords": 477
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3sPHrvYJ934w",
+        "address": "https://phys.org/tags/photosynthesis/sort/date/1d/",
+        "title": "Photosynthesis - latest research news and features",
+        "snippet": "Photosynthesis[α] is a process that converts carbon dioxide into organic compounds, especially sugars, using the energy from sunlight. Photosynthesis occurs in plants, algae, and many species of Bacteria, but not in Archaea. Photosynthetic organisms are called photoautotrophs, since it allows them",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 9,
+            "textWords": 456
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7LaqYcZQOZP4",
+        "address": "https://finalfantasy.fandom.com/wiki/Photosynthesis",
+        "title": "Photosynthesis | Final Fantasy Wiki | Fandom",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 8,
+            "textWords": 1408
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pM78Ll-4JSLg",
+        "address": "https://sheffield.ac.uk/photosynthesis",
+        "title": "Photosynthesis | Photosynthesis | The University of Sheffield",
+        "snippet": "Photosynthesis\nWelcome to the Sheffield Photosynthesis Research group website. We utilise a range of molecular genetic, biochemical and biophysical approaches to study photosynthesis in plants, algae and bacteria.\nYou are here\nHome\nPhotosynthesis",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 32
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6vM2rYG-ATF4",
+        "address": "https://podcasts.apple.com/ng/podcast/photosynthesis/id1531338625",
+        "title": "Photosynthesis - Podcast - Apple Podcasts",
+        "snippet": "photosynthesis\nEpisodes\n07/09/2020\nPhotosynthesis\nIntroduction to photosynthesis.\n1 Episode\nAbout\nIntroduction to photosynthesis\nInformation\nCreator\nA K Anil\nEpisodes\n1\nRating\nClean\nCopyright\n© A K Anil\nShow Website\nPhotosynthesis",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 5,
+            "textWords": 30
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7-uQGJJVa3Ug",
+        "address": "https://www.independent.co.uk/climate-change/news/solar-power-artificial-photosynthesis-fuel-sunlight-b2814882.html",
+        "title": "Scientists hail major breakthrough in developing holy grail of renewable energy: artificial photosynthesis | The Independent",
+        "snippet": "photosynthesis – a technology long seen as a potential source of carbon-neutral fuels.\nUnlike conventional renewables, which generate electricity, artificial photosynthesis would make fuels that can be stored and used in ships, planes and heavy industry – sectors that are difficult to electrify.",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 6,
+            "textWords": 578
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eD9lC_nMM_j5",
+        "address": "https://grokipedia.com/page/Photosynthesis",
+        "title": "Photosynthesis",
+        "snippet": "Photosynthesis is the physico-chemical process by which plants, algae, and photosynthetic bacteria use light energy to drive the synthesis of organic compounds, primarily carbohydrates, from carbon dioxide and water, releasing oxygen as a byproduct.[1] The overall chemical equation for this",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 54,
+            "textWords": 8176
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BM2oUlYG32-5",
+        "address": "https://www.livescience.com/51720-photosynthesis.html",
+        "title": "What is photosynthesis? | Live Science",
+        "snippet": "Photosynthesis is the process used by plants, algae and some bacteria to turn sunlight into energy. The process chemically converts carbon dioxide (CO2) and water into food (sugars) and oxygen. The chemical reaction often relies on a pigment called chlorophyll, which gives plants their green color.",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 79
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8hMAdnWShwPz",
+        "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
+        "title": "Photosynthesis",
+        "snippet": "photosynthesis.The process is carried out by plants, algae, and some types of bacteria, which capture energy from sunlight to produce oxygen (O2) and chemical energy stored in glucose (a sugar). Herbivores then obtain this energy by eating plants, and carnivores obtain it by eating herbivores.\nThe",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 12,
+            "textWords": 477
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8wWTqF-hBhnQ",
+        "address": "http://www.3ders.org/articles/20171207-pioneering-russian-scientists-create-pef-3d-printing-material-with-water-co2-photosynthesis.html",
+        "title": "3ders.org - Pioneering Russian scientists create PEF 3D printing material with water, CO2 \u0026 photosynthesis | 3D Printer News \u0026 3D Printing News",
+        "snippet": "photosynthesis to create a carbon-neutral PEF 3D printing material. The polymer, made from synthesized cellulose, is stable, resistant to oxidation and chemical solvents, and durable.\nPhotosynthesis is one of those scientific processes you learn about at a very young age, but—unless you become a",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 687
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_182FkRzAb95",
+        "address": "https://www.daviddarling.info/encyclopedia/P/photosynthesis.html",
+        "title": "photosynthesis",
+        "snippet": "photosynthesis.\nCarbon dioxide and water are the inorganic raw materials of photosynthesis. They arrive at a leaf's photosynthesizing cells by different routes: CO2 gas simply diffuses in via pores in the leaf stomata (1) and through the air spaces between the loosely packed cells of the leaf",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 14,
+            "textWords": 993
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9EVEIoLMHcrg",
+        "address": "https://www.southampton.ac.uk/study/postgraduate-research/projects/new-perspectives-on-ocean-photosynthesis",
+        "title": "New perspectives on ocean photosynthesis | University of Southampton",
+        "snippet": "photosynthesis\nEntry requirements\nA 2:1 honours degree, or its international equivalent, in one of these subjects:\nbiology\nchemistry\nmathematics\noceanography or marine science\nFees and funding\nINSPIRE studentships are funded by the Natural Environment Research Council (NERC, part of UK Research and",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 369
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_1WC-lxFpoK6",
+        "address": "https://www.climatealarmism.news/2024-07-09-green-terrorism-co2-pipeline-terraforming-destruction-photosynthesis.html",
+        "title": "Green terrorists are stealing property in America’s heartland to build massive CO2 pipeline terraforming machines for destruction of photosynthesis on Earth",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 1736
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8EtddrYG32-5",
+        "address": "https://www.livescience.com/health/scientists-got-mouse-eyes-to-perform-photosynthesis-and-no-they-didnt-turn-green",
+        "title": "Scientists got mouse eyes to perform photosynthesis ‪—‬ and no, they didn't turn green | Live Science",
+        "snippet": "photosynthesis.\nThe drops, which contain photosynthetic machinery extracted from spinach leaves, use light-driven reactions to improve symptoms of dry eye disease, according to a study published May 15 in the journal Cell. Although the researchers tested the drops in mice, the hope is that with",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 81
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "84Gca0Q4zxY5",
+        "address": "https://www.metacritic.com/game/pokemon-brilliant-diamond/",
+        "title": "Pokemon Brilliant Diamond Reviews - Metacritic",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3600
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ryd2vGI8bfuw",
+        "address": "https://www.biorxiv.org/content/10.64898/2026.08.17.745281v1.supplementary-material",
+        "title": "Common excluder barley has more than one mechanism to remove Cd from chloroplasts | bioRxiv",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 859
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_REif_YJ934w",
+        "address": "https://phys.org/news/2026-08-underground-fungal-networks-3d-view.html",
+        "title": "Underground fungal networks come into 3D view without disturbing plant roots",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 2145
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zNSAlswvoTD5",
+        "address": "https://r-universe.dev/builds",
+        "title": "R-universe - recent builds",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 12106
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "AHcMH3ph0Po5",
+        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/pressure-volume.html",
+        "title": "Fitting pressure-volume curves - photosynthesis",
+        "snippet": "Authored by:Joseph R. Stinziano and Christopher D. Muir inphotosynthesis 2.1.5.\nSource:pressure-volume.Rmd, Vignette:pressure-volume.html. Last updated:2022-11-08.\nLoading article...",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 0,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dVewe-4J6sxx",
+        "address": "https://www.frontiersin.org/journals/plant-science/editors",
+        "title": "Frontiers in Plant Science | Editorial board",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 1387
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Y4dRrAiwa444",
+        "address": "https://apps.apple.com/ly/iphone/story/id1831017883",
+        "title": "‎Improve your class with AI - App Store",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1264
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "j6xFujRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Agronomy",
+        "title": "Agronomy - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2831
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jg13SD09qPgk",
+        "address": "https://www.scielo.br/j/rceres/i/2026.v73/?ilang=pt_BR",
+        "title": "Revista Ceres, Volume: 73, Publicado: 2026",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3738
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ayF1Ts1ePOZ4",
+        "address": "https://testbook.com/sail-fire-operator",
+        "title": "SAIL Fire Operator Recruitment 2022 - Apply For 25 Vacancies",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2871
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CSE4Ud75SICx",
+        "address": "https://dictionary.cambridge.org/dictionary/english/restriction",
+        "title": "RESTRICTION | English meaning - Cambridge Dictionary",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2241
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_f9UWMi89lNx",
+        "address": "https://egusphere.copernicus.org/preprints/2026/egusphere-2026-1673/",
+        "title": "EGUsphere - Land carbon response to positive, zero, and negative CO2 emissions across Earth system models",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 6,
+            "textWords": 8269
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7jdMF-l5W2aw",
+        "address": "https://plato.stanford.edu/archives/fall2018/entries/ecology/",
+        "title": "Ecology (Stanford Encyclopedia of Philosophy/Fall 2018 Edition)",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 12339
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "r7fn4ASGzN-z",
+        "address": "https://www.openaccessgovernment.org/category/special-reports/finance-reports/",
+        "title": "Finance Reports | Open Access Government",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1257
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "MRhUFlPZfiJg",
+        "address": "https://www.uni-bonn.de/en",
+        "title": "University of Bonn",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1229
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EERNv12-YG1g",
+        "address": "https://www.mpg.de/24923614/annual-meeting-2025",
+        "title": "Annual Meeting 2025 | Max-Planck-Gesellschaft",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1753
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uiIciLd7bLE6",
+        "address": "https://astronomy.stackexchange.com/tags/mars",
+        "title": "Newest 'mars' Questions - Astronomy Stack Exchange",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 5385
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FhqXKjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Geology",
+        "title": "Geology - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 15887
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XpfcWASGzN-z",
+        "address": "https://www.openaccessgovernment.org/category/open-access-news/sustainable-development-news/",
+        "title": "Sustainable Development | Open Access Government",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1463
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GJZSQaLMHcrg",
+        "address": "https://www.southampton.ac.uk/people/5xk5z6/doctor-sam-hornsey",
+        "title": "Doctor Sam Hornsey | University of Southampton",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 4307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "w1fAmYFDI-34",
+        "address": "https://paperpools.blogspot.com/",
+        "title": "paperpools",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 5717
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Hwdt_j-JVcyx",
+        "address": "https://en.wikiquote.org/wiki/Renewable_energy",
+        "title": "Renewable energy - Wikiquote",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 19750
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vaRSjvfDqQDw",
+        "address": "https://www.audubon.org/news/how-birds-survived-asteroid-impact-wiped-out-dinosaurs",
+        "title": "How Birds Survived the Asteroid Impact That Wiped Out the Dinosaurs | Audubon",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2346
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Xeqoz-YG32-5",
+        "address": "https://www.livescience.com/archive/2023/06",
+        "title": "All content Archive | June 2023 | Live Science",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 4275
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KD2683ph0Po5",
+        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-response.html",
+        "title": "Fitting light response curves - photosynthesis",
+        "snippet": "Authored by:Joseph R. Stinziano and Christopher D. Muir inphotosynthesis 2.1.5.\nSource:light-response.Rmd, Vignette:light-response.html. Last updated:2024-11-23.\nLoading article...",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 0,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LqCGBjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Animal",
+        "title": "Animal - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 14520
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uJ6yQbhiAR-5",
+        "address": "https://sylvainschmitt.r-universe.dev/rcontroll",
+        "title": "rcontroll: Individual-Based Forest Growth Simulator 'TROLL'",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1192
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CeGs1siT0yX5",
+        "address": "https://scitechdaily.com/",
+        "title": "SciTechDaily - Science, Space and Technology News 2026",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1090
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "swEUwvlWEUi5",
+        "address": "https://engineering.careers360.com/exams/viteee",
+        "title": "VITEEE Exam 2027: Date, Application Form, Eligibility, Syllabus, Pattern, Admit Card, Result",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 10489
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RAZnhlr3wrBg",
+        "address": "https://www.boell.de/en/tags/environmental-policy",
+        "title": "Environmental Policy | Heinrich Böll Stiftung",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 2882
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KLzrMF2-YG1g",
+        "address": "https://www.mpg.de/11197502/gaucher-gba2",
+        "title": "Sphingosine inhibits the enzyme GBA2 , thereby regulating the degradation of lipid-sugar compounds in cells | Max-Planck-Gesellschaft",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1694
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dO2-euM--U1x",
+        "address": "https://gchron.copernicus.org/articles/2/133/2020/",
+        "title": "GChron - Seasonal deposition processes and chronology of a varved Holocene lake sediment record from Chatyr Kol lake (Kyrgyz Republic)",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 13734
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fXR9fqYJ934w",
+        "address": "https://phys.org/biology-news/agriculture/",
+        "title": "Agriculture news",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3014
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rxkMnh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Chloroplasts?uselang=frr",
+        "title": "Category:Chloroplasts – Wikimedia Commons",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 5084
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "LLAOq4-Kg3By",
+        "address": "https://southafricatoday.net/environment/boosting-food-crops-capacity-for-photosynthesis-leads-to-higher-yields/",
+        "title": "Boosting food crops' capacity for photosynthesis leads to higher yields - South Africa Today",
+        "snippet": "photosynthesis.\nThe researchers altered several genes in soybean plants to increase their efficiency at converting sunlight into energy, which led to greater yields without any loss of seed quality in field trials, they report.\n“The number of people affected by food insufficiency continues to grow,",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 5,
+            "textWords": 578
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "O6XiqqaaTUr5",
+        "address": "https://www.techradar.com/pro/like-photosynthesis-in-plants-this-cpu-uses-solar-power-to-run-computations-without-the-need-for-batteries",
+        "title": "Like photosynthesis in plants: This CPU uses solar power to 'run computations' without the need for batteries | TechRadar",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1866
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-yRlrlYG32-5",
+        "address": "https://www.livescience.com/what-if-humans-had-green-skin-photosynthesis.html",
+        "title": "What if humans had photosynthetic skin? | Live Science",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 12,
+            "textWords": 2879
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "O0aokyOpC_C5",
+        "address": "https://www.sciencedaily.com/releases/2026/06/260611024601.htm",
+        "title": "Scientists built a battery-free device that turns sunlight into fuel | ScienceDaily",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 14,
+            "textWords": 1741
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OmaJBT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000196093",
+        "title": "Contributors to output uncertainty in prospective Life Cycle A...",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 720
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PVIZYleMIRQ4",
+        "address": "https://www.oncology.news/2023-09-15-coffee-tea-compound-prevents-liver-cancer-spreading.html",
+        "title": "STUDY: Compound in coffee and tea can prevent liver cancer cells from spreading",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2387
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kQasNHT_VPS4",
+        "address": "https://www.nature.com/articles/ncomms4610?error=cookies_not_supported\u0026code=e044e7e6-fece-491c-b8fd-2a5c326f624b",
+        "title": "Photonic effects on the Förster resonance energy transfer efficiency | Nature Communications",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 5963
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qnTXSW5zLm04",
+        "address": "https://claude.com/solutions/teachers",
+        "title": "Claude for K-12 Teachers | Claude by Anthropic",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 13,
+            "textWords": 4215
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Aw2sajRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Carbon_dioxide",
+        "title": "Carbon dioxide - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 15,
+            "textWords": 16877
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "q1v5_sVUrQm6",
+        "address": "https://earthnewspaper.com/Archive/",
+        "title": "Archive – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 19181
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "R0U1igs4taKw",
+        "address": "https://wikipedia.ddns.net:51234/content/wikipedia_de_all_maxi_2024-04/A/Photosynthesis",
+        "title": "Photosynthesis",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 15
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "p28MLRwV7R2w",
+        "address": "https://news.uchicago.edu/story/chemists-create-artificial-photosynthesis-system-10-times-more-efficient-existing-systems",
+        "title": "Chemists create an 'artificial photosynthesis' system that is 10 times more efficient than existing systems | University of Chicago News",
+        "snippet": "photosynthesis packed into a convenient, energy-dense substance. But that supply is finite, and fossil fuel consumption has tremendous negative impact on Earth’s climate.\n“The biggest challenge many people don’t realize is that even nature has no solution for the amount of energy we use,” said",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 12,
+            "textWords": 845
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4Y_4zaYG32-5",
+        "address": "https://www.livescience.com/tag/photosynthesis",
+        "title": "Photosynthesis | Live Science",
+        "snippet": "Photosynthesis allows plants, algae and certain bacteria to turn sunlight into chemical energy. The amazing feat is achieved because sunlight can fuel a reaction between water and carbon dioxide that, in turn, produces carbohydrates (simple sugars) and oxygen. Here is the latest news on",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 6,
+            "textWords": 482
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RdXL21WHNASw",
+        "address": "https://forum.trictrac.net/t/photosynthesis-petit-add-on/176099",
+        "title": "Photosynthesis - petit goodie - Discutons jeux - Forum de Trictrac",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 237
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "852wqZfdCq4Y",
+        "address": "http://benkrasnow.blogspot.com/2023/08/photosynthesis-photography-making.html",
+        "title": "Photosynthesis photography: Making images with living plant leaves",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 17
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "REppQjYJ75Zx",
+        "address": "https://en.citizendium.org/wiki/Photosynthesis/External_Links",
+        "title": "Photosynthesis/External Links - Citizendium",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 12,
+            "textWords": 458
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QDmZGlt15Ge6",
+        "address": "https://biology.stackexchange.com/tags/photosynthesis",
+        "title": "Newest 'photosynthesis' Questions - Biology Stack Exchange",
+        "snippet": "photosynthesis?\nWhile thermophilia can thrive in hot springs and, under higher water pressure, even in thermal water hotter than 100°C, those life forms usually don't get their energy from photosynthesis. Here I want ...\nreputation score 710\nasked Aug 16 at 20:44\nScore of 7\n1 answer\n891 views\nWhy",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 9,
+            "textWords": 642
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AJ0DA7U9YYfw",
+        "address": "https://earthsky.org/human-world/artificial-photosynthesis-breakthrough-could-bring-solar-fuels/",
+        "title": "Artificial photosynthesis breakthrough! Solar fuels to come?",
+        "snippet": "photosynthesis have made a breakthrough. They’ve produced a specially structured molecule that can hold 2 positive and 2 negative charges, bringing solar fuels a step closer. Illustration via University of Basel/ Deyanira Geisnaes Schaad.\nArtificial photosynthesis aims to provide clean energy by",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 15,
+            "textWords": 813
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3k3_GWt853Ax",
+        "address": "https://pluralistic.net/tag/photosynthesis/",
+        "title": "photosynthesis – Pluralistic: Daily links from Cory Doctorow",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 378
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jBqmwFsmgXDw",
+        "address": "https://news.mit.edu/2025/mit-chemists-boost-efficiency-key-enzyme-photosynthesis-0707",
+        "title": "MIT chemists boost the efficiency of a key enzyme in photosynthesis",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 40
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "U5cjd3ph0Po5",
+        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-respiration.html",
+        "title": "Fit models to estimate light respiration - photosynthesis",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 151
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PnhNO289FcHg",
+        "address": "https://doi.pangaea.de/10.1594/PANGAEA.119128",
+        "title": "Balch, WM (2003): Suspended calcite, calcification and photosynthesis at station TT049_33-1",
+        "snippet": "PANGAEA is hosted by\nAlfred Wegener Institute, Helmholtz Center for Polar and Marine Research (AWI)\nCenter for Marine Environmental Sciences, University of Bremen (MARUM)\nThe System is supported by\nThe European Commission, Research\nFederal Ministry of Research, Technology and Space (BMFTR)\nDeutsche",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 0,
+            "textWords": 79
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1QyBOYrorAZx",
+        "address": "https://www.eurekalert.org/news-releases/542157",
+        "title": "University of Toronto-led study provides new insight into photosynthesis | EurekAlert!",
+        "snippet": "photosynthesis.\nCarotenoids, the same pigments which give orange color to carrots and red to tomatoes, are often found together in plants with chlorophyll pigments that harvest solar energy. Their main function is photoprotection when rays of light from the sun are the most intense. However, a new",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 647
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ia4FXwPsG18w",
+        "address": "https://knowledge.e.southern.edu/grundset/26/",
+        "title": "\"David Cowles - The Triumphs and Trials of a Photosynthetic Animal\" by Southern Adventist University",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 468
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PPMQ1PH0Awfw",
+        "address": "https://irl.umsl.edu/thesis/10/",
+        "title": "\"Anatomical variation in Cactaceae sensu lato \" by R. Matthew Ogburn",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 866
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lIQzWfkazkww",
+        "address": "https://scholars.unh.edu/day24/30/",
+        "title": "\"24.2.3 Chemistry reaction energy: Hands-on exploration Classroom View\" by Christopher F. Bauer",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 444
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xSKQ9kb8OHYw",
+        "address": "https://digitalcommons.usu.edu/wild_facpub/1850/",
+        "title": "\"Iron Chlorosis of Trees and Shrubs\" by D. S. Wysong, M. O. Harrell et al.",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 501
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ol8xyuEgQVew",
+        "address": "https://digitalcommons.mtu.edu/michigantech-p/5840/",
+        "title": "\"Chloroplasts\" by R. Finkeldey and O. Gailing",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 572
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NWsivjdMdHox",
+        "address": "https://dc.engconfintl.org/biochar_ii/73/",
+        "title": "\"Biochar beyond carbon sequestration: Life-cycle emission reductions, n\" by Johannes Lehmann",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 822
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2aE7xskhndq4",
+        "address": "https://hal.science/hal-04251688",
+        "title": "Long‐term adaptation of Arabidopsis thaliana to far‐red light - Archive ouverte HAL",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 382
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ZDTXjz0xT8s5",
+        "address": "https://astrobiology.com/2026/07/16/discovery-oxygenic-photosynthesis-is-possible-with-only-one-photosystem/",
+        "title": "Discovery: Oxygenic Photosynthesis Is Possible With Only One Photosystem - Astrobiology",
+        "snippet": "photosynthesis can occur with only a single photosystem, overturning a fundamental principle of biology.\nA scientific team at LMU has demonstrated for the first time that oxygenic photosynthesis is possible using only one photosystem. Their findings challenge one of the most fundamental concepts in",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 10,
+            "textWords": 688
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "atV1QltNwpr4",
+        "address": "https://www.dw.com/en/can-you-replicate-photosynthesis/video-50970762",
+        "title": "Can you replicate photosynthesis?",
+        "snippet": "Science\nTo view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video\nOctober 24, 2019Just ask! This week’s question comes from Samuel Alemán in Tocoa, Honduras.\nhttps://p.dw.com/p/3Rrp4\nAdvertisement",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 0,
+            "textWords": 37
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bYtFGl6N3OQy",
+        "address": "https://www.quantamagazine.org/an-early-step-on-the-long-strange-road-to-photosynthesis-20260610/",
+        "title": "An Early Step on the Long, Strange Road to Photosynthesis | Quanta Magazine",
+        "snippet": "photosynthesis has bewitched and befuddled scientists for generations. It requires the coordination of dozens of proteins and hundreds of pigments that harvest photons, all embedded in a cellular structure less than one-thousandth the width of a human hair. Electrons pinball across membranes and",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 19,
+            "textWords": 2352
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bwl7Kl0vY5X7",
+        "address": "https://www.europeanscientist.com/en/agriculture/project-to-understand-the-dynamics-of-photosynthesis-and-improve-indoor-agriculture/",
+        "title": "Project to understand the dynamics of photosynthesis and improve indoor agriculture",
+        "snippet": "photosynthesis and how plants cope with various environmental factors, including temperature, drought, CO2 concentration, and light quality and quantity.\nOver the past few years, researchers have slowly changed how they view photosynthesis from a static and simplified version to a more complex and",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 422
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YHsgmyOpC_C5",
+        "address": "https://www.sciencedaily.com/releases/2023/05/230503121144.htm",
+        "title": "Researchers capture elusive missing step in the final act of photosynthesis | ScienceDaily",
+        "snippet": "Photosynthesis plays a crucial role in shaping and sustaining life on Earth, yet many aspects of the process remain a mystery. One such mystery is how Photosystem II, a protein complex in plants, algae and cyanobacteria, harvests energy from sunlight and uses it to split water, producing the oxygen",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 6,
+            "textWords": 953
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZxYVUpTj4Eh4",
+        "address": "https://www.answers.com/general-science/Do_plants_grow_better_in_sunlight_or_dark",
+        "title": "Do plants grow better in sunlight or dark? - Answers",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 1586
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "brE8_kQeSaC6",
+        "address": "https://www.smithsonianmag.com/science-nature/these-sea-slugs-can-eat-sunlight-but-theyre-no-astrophage-heres-how-the-project-hail-mary-antagonist-has-a-real-life-analog-in-earths-oceans-180988361/",
+        "title": "These Sea Slugs Can 'Eat' Sunlight—but They're No Astrophage. Here's How the 'Project Hail Mary' Antagonist Has a Real-Life Analogue in Earth's Oceans",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 2190
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Z1SyWlU4QI67",
+        "address": "https://www.supplementsreport.com/2024-01-10-studies-prove-benefits-chlorophyll-cancer-prevention-treatment.html",
+        "title": "Studies reveal potential benefits of chlorophyll in cancer prevention and treatment",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1733
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aJofoz4nScL4",
+        "address": "https://www.wired.com/story/plants-growing-in-darkness/",
+        "title": "Scientists Are Trying to Grow Crops in the Dark | WIRED",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 10,
+            "textWords": 2422
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YVlpJjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Sunlight",
+        "title": "Sunlight - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 9203
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "lVpolCOpC_C5",
+        "address": "https://www.sciencedaily.com/terms/photosynthesis.htm",
+        "title": "Photosynthesis",
+        "snippet": "Sep. 9, 2026  Volcanic rocks in Colombia are rewriting the timeline of the collision between Central and South America. Their magnetic signatures show that major ...\nSep. 3, 2026  Deep beneath Mars, scientists have found evidence of enormous magmatic systems once thought to require Earth-like",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 0,
+            "textWords": 306
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wYvdrlxhCd9g",
+        "address": "https://www.unibas.ch/en/News-Events/News/Uni-Research/Growth-before-photosynthesis-how-trees-regulate-their-water-balance.html",
+        "title": "Growth before photosynthesis: how trees regulate their water balance | University of Basel",
+        "snippet": "photosynthesis. At the same time, water evaporates through the open stomata; for a tree, this may be several hundred liters per day.\nWhen water is scarce, plants can close their stomata and thus prevent it from evaporating too much water. The fact that plants have this protective mechanism at their",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 8,
+            "textWords": 900
           }
         },
         "queryPhraseHits": 0
@@ -2099,24 +3650,24 @@
         "hash": "eox44KP37Zf4",
         "address": "https://www.euronews.com/2019/01/10/plant-scientists-have-found-way-hack-photosynthesis-here-s-why-ncna956706",
         "title": "Plant scientists have found a way to 'hack' photosynthesis. Here's why that's a big deal. | Euronews",
-        "snippet": "photosynthesis, the process by which green plants turn water and carbon dioxide into the food we eat and the air we breathe. But this 3.5-billion-year-old biochemical process is woefully inefficient — at least in its natural state.\nNow scientists have found a way to \"hack\" photosynthesis, using",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 4,
-            "textWords": 556
+            "hits": 5,
+            "textWords": 2545
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "Z-AYQJJVa3Ug",
-        "address": "https://www.independent.co.uk/climate-change/news/plants-global-warming-photosynthesis-co2-b1972507.html",
-        "title": "Plants helping to slow global warming by sucking up more carbon dioxide as levels of gas rise, study finds | The Independent",
-        "snippet": "photosynthesis reported by scientists this week – an estimated rise of 12 per cent between 1982 and 2020 – they stressed that this is “nowhere close to removing” the amount of carbon dioxide humans are putting into the atmosphere.\n“It’s not stopping climate change by any means, but it is helping us",
+        "hash": "rb4ih6fylmow",
+        "address": "https://today.ucsd.edu/story/diatom-surprise-could-rewrite-the-global-carbon-cycle",
+        "title": "Diatom Surprise Could Rewrite the Global Carbon Cycle",
+        "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 8,
-            "textWords": 726
+            "hits": 6,
+            "textWords": 1606
           }
         },
         "queryPhraseHits": 0
@@ -2135,14 +3686,53 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "nJlDgHT_VPS4",
-        "address": "https://www.nature.com/articles/nclimate2878?error=cookies_not_supported\u0026code=8da02a2d-a3eb-4ed4-8b1a-d9a93b262af9",
-        "title": "Foliar temperature acclimation reduces simulated carbon sensitivity to climate | Nature Climate Change",
+        "hash": "Aj6lLZ65Bilg",
+        "address": "https://www.jic.ac.uk/press-release/photosynthetic-secrets-come-to-light/",
+        "title": "Photosynthetic secrets come to light | John Innes Centre",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
-            "hits": 9,
-            "textWords": 2902
+            "hits": 5,
+            "textWords": 1050
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Dvqn6lg7powg",
+        "address": "https://www.sdu.dk/en/om-sdu/fakulteterne/naturvidenskab/nyheder-2024/arctic-sea-primary-production",
+        "title": "A larger area of Arctic seafloor is exposed to sunlight - SDU",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 2656
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WhB3lYtsR0M4",
+        "address": "https://weather.com/2024/07/23/science/nature/video/dark-oxygen-may-change-what-we-know-about-origins-of-life",
+        "title": "‘Dark Oxygen’ May Change What We Know About Origins Of Life",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1385
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "25nv5z4nScL4",
+        "address": "https://www.wired.com/story/how-does-life-happen-when-theres-barely-any-light/",
+        "title": "These Plants Photosynthesize Deep in the Arctic Even When There’s No Light | WIRED",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 16,
+            "textWords": 2929
           }
         },
         "queryPhraseHits": 0
@@ -2159,55 +3749,757 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "dxUA-w7fufB7",
-        "address": "https://www.scientificamerican.com/article/start-up-hopes-super-poplar-trees-will-suck-up-more-co2/",
-        "title": "Start-up Hopes 'Super' Poplar Trees Will Suck Up More CO2 | Scientific American",
+        "hash": "ibekE3ph0Po5",
+        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/sensitivity-analysis.html",
+        "title": "Sensitivity analysis - photosynthesis",
         "snippet": "",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 2,
-            "textWords": 1306
+            "textWords": 118
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "98dEOsqcszi5",
-        "address": "https://notrickszone.com/skeptic-papers-2023/",
-        "title": "Skeptic Papers 2023",
-        "snippet": "photosynthesis process.\nChen et al., 2023\nGlobal dryland areas are vulnerable to climate change and anthropogenic activities, making it essential to understand the primary drivers and quantify their effects on vegetation growth. In this study, we used the Time Series Segmented Residual Trends (TSS",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 18283
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "fGYbgrcdtOi5",
-        "address": "https://www.theatlantic.com/magazine/archive/1923/05/in-the-beginning-an-interpretation-of-sunlight-energy/647545/",
-        "title": "In the Beginning: An Interpretation of Sunlight Energy - The Atlantic",
-        "snippet": "",
-        "matchedWords": {
-          "D4ZlInN2g3i_": {
-            "hits": 1,
-            "textWords": 8185
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "dB_mt7Ffb3G5",
-        "address": "https://geco-bern.r-universe.dev/rsofun",
-        "title": "rsofun: The P-Model and BiomeE Modelling Framework",
-        "snippet": "",
+        "hash": "gBqOb_YJ934w",
+        "address": "https://phys.org/news/2026-07-tropical-forests-photosynthesis-limits-million.html",
+        "title": "Heat waves push tropical forests past photosynthesis limits across 57 million hectares",
+        "snippet": "photosynthesis, the process by which plants produce their own nutrients, release oxygen and absorb CO2 from the atmosphere, starts declining, reducing growth and increasing the risk of plant mortality.\nAccording to a new EPFL study, tropical forests are increasingly exposed to temperatures that",
         "matchedWords": {
           "D4ZlInN2g3i_": {
             "hits": 5,
-            "textWords": 1625
+            "textWords": 767
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gpDDIyOpC_C5",
+        "address": "https://www.sciencedaily.com/releases/2022/11/221115114103.htm",
+        "title": "From cell walls to photosynthesis: How does manganese get to where it needs to go in plants? | ScienceDaily",
+        "snippet": "photosynthesis,\" explains Professor Edgar Peiter, a plant researcher from MLU. For the study, his team investigated how manganese is supplied to the enzymes responsible for building cell walls.\nThe researchers conducted extensive experiments on the model plant Arabidopsis thaliana. The team was",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 472
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iZXWhleMIRQ4",
+        "address": "https://www.oncology.news/2024-01-10-studies-prove-benefits-chlorophyll-cancer-prevention-treatment.html",
+        "title": "Studies reveal potential benefits of chlorophyll in cancer prevention and treatment",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1754
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "grTGygBjoTr5",
+        "address": "https://techcrunch.com/2008/02/18/new-solar-cell-splits-water-molecules-produces-usable-hydrogen/",
+        "title": "New solar cell splits water molecules, produces usable hydrogen | TechCrunch",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 808
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qnTXSW5zLm04",
+        "address": "https://claude.com/solutions/teachers",
+        "title": "Claude for K-12 Teachers | Claude by Anthropic",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 13,
+            "textWords": 4215
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "u1TW5lMylZZ5",
+        "address": "https://www.slideserve.com/liluye",
+        "title": "Liluye Robinson Online Presentations Channel",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 415
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-Tn1taLMHcrg",
+        "address": "https://www.southampton.ac.uk/people/5x7bt2/doctor-ying-wang",
+        "title": "Doctor Ying Wang | University of Southampton",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 4003
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_P0VqjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Energy",
+        "title": "Energy - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 13603
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6mi4ge_7hlDw",
+        "address": "https://joannenova.com.au/",
+        "title": "JoNova",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 10876
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [
+      {
+        "hash": "tHDPHz0xT8s5",
+        "address": "https://astrobiology.com/2026/08/13/is-a-constitutive-red-shift-an-advantage-for-oxygenic-photosynthesis-under-m-dwarf-starlight-insights-from-acaryochloris-marina-sp-str-moss-beach/",
+        "title": "Is A Constitutive Red-shift An Advantage For Oxygenic Photosynthesis Under M Dwarf Starlight? Insights From Acaryochloris Marina sp. str. Moss Beach - Astrobiology",
+        "snippet": "photosynthesis, including atmospheric oxygen accumulation and the Vegetation Red-Edge in surface reflectance spectra.\nMany habitable rocky exoplanets orbit M dwarf stars, whose spectral energy distribution may condition the rise and evolution of oxygenic photosynthesis. M dwarf stars emit",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 367
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vUZkuyOpC_C5",
+        "address": "https://www.sciencedaily.com/releases/2022/12/221214092441.htm",
+        "title": "Shedding light on photosynthesis at sea | ScienceDaily",
+        "snippet": "photosynthesis. How, then, do algae photosynthesize in the deep sea, an environment where only a little light reaches them?\nLand plants mainly absorb red and blue light from the sun and use it for photosynthesis. However, only weak blue-green light reaches the ocean floor. Therefore, macroalgae",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 6,
+            "textWords": 412
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tkYxPuWeDWe4",
+        "address": "https://www.popsci.com/technology/ultrafast-spectroscopy-photosynthesis/",
+        "title": "Ultrafast lasers show photosynthesis, up close | Popular Science",
+        "snippet": "photosynthesis really work? This tool might help us figure it out Clay Banks / Unsplash\nGet the Popular Science daily newsletter💡\nBreakthroughs, discoveries, and DIY tips sent six days a week.\nBy signing up, you confirm you are 16+, will receive newsletters and promotional content and agree to our",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 6,
+            "textWords": 489
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vWLLajRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/List_of_extinction_events",
+        "title": "List of extinction events - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 4004
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sCBd5_YJ934w",
+        "address": "https://phys.org/news/2026-01-suppresses-virulence-antibiotic-resistant-pathogen.html",
+        "title": "How light suppresses virulence in an antibiotic-resistant pathogen",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2371
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "udTldvk_su15",
+        "address": "https://www.plenglish.com/news/2023/01/04/us-scientists-attain-cheap-sustainable-hydrogen-through-solar-panel/",
+        "title": "US scientists attain cheap, sustainable hydrogen through solar panel - Prensa Latina",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 639
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "r9qTxQ5jEENb",
+        "address": "http://www.theweatherprediction.com/urbanwx/",
+        "title": "URBAN WEATHER",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3556
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6mi4ge_7hlDw",
+        "address": "https://joannenova.com.au/",
+        "title": "JoNova",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 9271
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YneoxzbpbGvx",
+        "address": "https://species.wikimedia.org/wiki/Amaranthaceae",
+        "title": "Amaranthaceae - Wikispecies",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1950
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1akPysVUrQm6",
+        "address": "https://earthnewspaper.com/Writers/",
+        "title": "Writers – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 19515
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "wc3GulU1tMT5",
+        "address": "https://www.sciencealert.com/ethereal-new-plant-species-doesnt-use-photosynthesis-its-found-something-sneakier",
+        "title": "Ethereal New Plant Species Doesn't Use Photosynthesis - It's Found Something Sneakier : ScienceAlert",
+        "snippet": "photosynthesis in favor of an alternative source of nutrients on the forest floor, one stolen from fungi many other plants consider friends – the symbiotic mycorrhizae that connect most forest plants into a wood wide web.\nFound widely across East and Southeast Asia, from the Himalayas to Japan,",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 488
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xfDpRyOpC_C5",
+        "address": "https://www.sciencedaily.com/releases/2022/10/221014135643.htm",
+        "title": "Back to the future of photosynthesis | ScienceDaily",
+        "snippet": "photosynthesis, Rubisco, is the most abundant enzyme on earth. By reconstructing billion-year-old enzymes, a team of Max Planck researchers has deciphered one of the key adaptations of early photosynthesis. Their results not only provide insights into the evolution of modern photosynthesis but also",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 7,
+            "textWords": 847
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ytDxnpA4psi4",
+        "address": "https://www.theverge.com/2012/5/10/3011669/nocera-mit-first-low-cost-artificial-leaf",
+        "title": "Cheaper ‘artificial leaf’ mimics photosynthesis for more practical solar power | The Verge",
+        "snippet": "photosynthesis: copying plants to convert water and sunlight into energy. Artificial photosynthesis has the potential to produce storable fuel in a more ecologically-friendly way than traditional solar power generation, and generators can be built in self-contained units that make them useful in",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 256
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1p-xmhiwa444",
+        "address": "https://apps.apple.com/tn/iphone/story/id1831017883",
+        "title": "‎Improve your class with AI - App Store",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1273
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qnTXSW5zLm04",
+        "address": "https://claude.com/solutions/teachers",
+        "title": "Claude for K-12 Teachers | Claude by Anthropic",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 13,
+            "textWords": 4242
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OvDnojRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Information",
+        "title": "Information - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 8083
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zNSAlswvoTD5",
+        "address": "https://r-universe.dev/builds",
+        "title": "R-universe - recent builds",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 15002
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "juqKCym4JjyA",
+        "address": "http://blackpool.freeadsinuk.co.uk/",
+        "title": "Blackpool ads Blackpool, All categories classifieds Blackpool, All categories free ads Blackpool, ads for sale Blackpool, ads to buy Blackpool, FREEADS in UK Blackpool",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1828
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ysLcTlDFvldg",
+        "address": "https://www.ufz.de/index.php?en=20939\u0026pub_id=18872",
+        "title": "UFZ - Publication Index - Helmholtz-Centre for Environmental Research",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 1074
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "w_s0OvNVRnN4",
+        "address": "https://feeds.acast.com/public/shows/nature",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 12467
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "0OQ0l9N7dKu5",
+        "address": "https://pecanproject.r-universe.dev/articles/PEcAn.priors/priors_demo.html",
+        "title": "Generating Priors based on Data and / or Expert knowledge - PEcAn.priors",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 269
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qT86UUu8QNRx",
+        "address": "https://gmd.copernicus.org/articles/11/2995/2018/gmd-11-2995-2018-metrics.html",
+        "title": "GMD - Metrics - A new version of the CABLE land surface model (Subversion revision r4601) incorporating land use and land cover change, woody vegetation demography, and a novel",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 14,
+            "textWords": 11440
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AYrr-jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Aphid",
+        "title": "Aphid - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 14097
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rlTXiFM0cJtg",
+        "address": "https://biblio.ugent.be/publication?q=parent+exact+%22PLANT+CELL%22",
+        "title": "Ghent University Academic Bibliography",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1153
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KDpKEKsrSOQw",
+        "address": "https://arxiv.org/list/physics/2023-10",
+        "title": "Physics Oct 2023",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 2376
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3ebcPr_aQE54",
+        "address": "https://oilprice.com/Sitemap/news/2012/04",
+        "title": "Site Map: News and Articles April 2012 - Page 1",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3107
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TrCyrl2XW6w4",
+        "address": "https://www.donga.com/en/article/all/20260829/6365869/1",
+        "title": "Marine forests help protect seaweed from climate change | The DONG-A ILBO",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 934
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LaXgEs1ePOZ4",
+        "address": "https://testbook.com/vizag-steel-trade-apprentice",
+        "title": "Vizag Steel Trade Apprentice Recruitment 2024: Check Vacancies",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3247
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "a88e7mVUrQm6",
+        "address": "https://earthnewspaper.com/mark-r-elsis/eva-braun-films/",
+        "title": "Eva Braun Films by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 19476
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cWFkwKBnaOXw",
+        "address": "https://gfr.wri.org/biodiversity-ecological-services-indicators/greenhouse-gas-fluxes-forests",
+        "title": "Greenhouse Gas Fluxes from Forests | Global Forest Review",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 5285
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KD2683ph0Po5",
+        "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-response.html",
+        "title": "Fitting light response curves - photosynthesis",
+        "snippet": "Authored by:Joseph R. Stinziano and Christopher D. Muir inphotosynthesis 2.1.5.\nSource:light-response.Rmd, Vignette:light-response.html. Last updated:2024-11-23.\nLoading article...",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 0,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "y78RTJ8CAV45",
+        "address": "https://www.encyclopedia.com/science/news-wires-white-papers-and-books/plant-nutrition",
+        "title": "Plant Nutrition | Encyclopedia.com",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 1713
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "09AHxjjEZfvx",
+        "address": "https://en.wiktionary.org/wiki/unit",
+        "title": "unit - Wiktionary, the free dictionary",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 3954
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DFXVyzbpbGvx",
+        "address": "https://species.wikimedia.org/wiki/Chenopodiaceae",
+        "title": "Amaranthaceae - Wikispecies",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 1889
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rNtqajRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Oak",
+        "title": "Oak - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 12205
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OidF5DBzJzaw",
+        "address": "https://www.unsw.edu.au/staff/rose-amal",
+        "title": "Scientia Professor Rose Amal",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 2,
+            "textWords": 34345
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KZojtpxz2NUw",
+        "address": "https://drawdown.org/explorer/improve-diets",
+        "title": "Improve Diets | Project Drawdown®",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 17378
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PSWy7_5WQO5o",
+        "address": "https://ci.nii.ac.jp/author/DA07556301",
+        "title": "CiNii Books 著者 - 原美術館",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 1,
+            "textWords": 650
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3QVlwD09qPgk",
+        "address": "https://www.scielo.br/j/sa/i/2016.v73n3/?ilang=pt_BR",
+        "title": "Scientia Agricola, Volume: 73, Número: 3, Publicado: 2016",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 4,
+            "textWords": 3579
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LXQdynm_mTBS",
+        "address": "http://www.concatenation.org/news/news1~25.html",
+        "title": "Science Fiction news - Spring 2025",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 3,
+            "textWords": 24718
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "4rc4VKBAZ7Y4",
+        "address": "https://www.scribd.com/document/699690461/Ngorima-Bio-Notes",
+        "title": "Biology Safety and Chemical Basics | PDF | Enzyme | Stoma",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 30,
+            "textWords": 16122
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YdfoOjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/C4_plant",
+        "title": "C4 carbon fixation - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 28,
+            "textWords": 3990
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8hMAdnWShwPz",
+        "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
+        "title": "Photosynthesis",
+        "snippet": "photosynthesis.The process is carried out by plants, algae, and some types of bacteria, which capture energy from sunlight to produce oxygen (O2) and chemical energy stored in glucose (a sugar). Herbivores then obtain this energy by eating plants, and carnivores obtain it by eating herbivores.\nThe",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 12,
+            "textWords": 477
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qYAzVssqzCN5",
+        "address": "https://microbenotes.com/photosynthetic-pigments/",
+        "title": "Photosynthetic Pigments: Types and Functions",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 13,
+            "textWords": 1891
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qnTXSW5zLm04",
+        "address": "https://claude.com/solutions/teachers",
+        "title": "Claude for K-12 Teachers | Claude by Anthropic",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 13,
+            "textWords": 1875
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CqM_kEmUv-3x",
+        "address": "https://bio4climate.org/featured-creature/featured-creature-eastern-emerald-elysia/",
+        "title": "Featured Creature: Eastern Emerald Elysia - Biodiversity for a Livable Climate",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 12,
+            "textWords": 2276
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "djC_JjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Night",
+        "title": "Night",
+        "snippet": "",
+        "matchedWords": {
+          "D4ZlInN2g3i_": {
+            "hits": 9,
+            "textWords": 8347
           }
         },
         "queryPhraseHits": 0

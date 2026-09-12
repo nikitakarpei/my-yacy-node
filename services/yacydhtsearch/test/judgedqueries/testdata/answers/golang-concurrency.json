@@ -1,7 +1,155 @@
 {
   "query": "golang concurrency",
-  "recordedAt": "2026-09-11T22:14:21Z",
+  "recordedAt": "2026-09-12T00:14:28Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "r6W3km1dafs6",
+        "address": "https://stackoverflow.com/questions/tagged/concurrency",
+        "title": "Newest 'concurrency' Questions - Stack Overflow",
+        "snippet": "",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 63,
+            "textWords": 3967
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "sQDUoleq6ZL5",
+        "address": "https://www.gopherguides.com/",
+        "title": "Go (golang) Training By Community Leaders - Gopher Guides",
+        "snippet": "Golang. I'd honestly take this session again. He is engaging and able to cover topics pertinent to specific instances.\n- Workshop Attendee -\nGlobal Fortune 500 Company\nI had a basic understanding of Go coming into this session. After this training I am able to understand how to apply topics such as",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 890
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 4,
+            "textWords": 890
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YOcpwl7JARt4",
+        "address": "https://www.infoq.com/golang/",
+        "title": "Go Language - InfoQ",
+        "snippet": "Facilitating the Spread of Knowledge and Innovation in Professional Software Development\nWrite for InfoQ\nUnlock the full InfoQ experience\nUnlock the full InfoQ experience by logging in! Stay updated with your favorite authors and topics, engage with content, and download exclusive resources.\nLog In",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 94
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 94
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "mHFlJdUhjm5w",
+        "address": "https://airflow.apache.org/docs/apache-airflow/2.11.2/release_notes.html",
+        "title": "Release Notes — Airflow 2.11.2 Documentation",
+        "snippet": "concurrency label to max active tasks (#36691)\nRestore function scoped httpx import in file_task_handler for performance (#36753)\nAdd support of Pendulum 3 (#36281)\nStandardize airflow build process and switch to Hatchling build backend (#36537)\nGet rid of pyarrow-hotfix for CVE-2023-47248 (#36697)",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 42,
+            "textWords": 101483
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 101483
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Q2r-ms-UOu6x",
+        "address": "https://thenewstack.io/go/",
+        "title": "Go Programming Language Overview and News - The New Stack",
+        "snippet": "Cloud Native Ecosystem Containers Databases Edge Computing Infrastructure as Code Linux Microservices Open Source Networking Storage\nGreptile, Cursor, and Devin agree that agents should run their code. What they run it against matters. Jun 27th 2026 11:00am, by Arjun Iyer\nAgentic development hinges",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 3532
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 3532
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gxLAXsu0_jiy",
+        "address": "https://gopherconindia.org/",
+        "title": "GopherCon India 2026 | Go Conference in Hyderabad",
+        "snippet": "GopherCon India 2026\nNovember 22, 2026 Novotel Hyderabad Airport, INDIA\nJoin the premier gathering of Go developers at Novotel Hyderabad Airport, INDIA - in the heart of India's tech hub.\nBook Your Ticket\nGopherCon India 2026 | November 22 2026 | Novotel Hyderabad Airport, INDIA ✦ GopherCon India",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 302
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 302
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "V7zmBsK-xyJ4",
+        "address": "https://go.dev/doc/",
+        "title": "Documentation - The Go Programming Language",
+        "snippet": "concurrency mechanisms make it easy to write programs that get the most out of multicore and networked machines, while its novel type system enables flexible and modular program construction. Go compiles quickly to machine code yet has the convenience of garbage collection and the power of run-time",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 12,
+            "textWords": 1615
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 1615
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kKPAs3M9rDb4",
+        "address": "https://builtin.com/software-engineering-perspectives/golang-advantages",
+        "title": "Golang Advantages and Use Cases from 8 Software Engineers | Built In",
+        "snippet": "Golang Advantages\nOne of Golang’s biggest advantages is that it offers the clarity and ease-of-use that other languages lack. Golang’s advantages make it easy for new programmers to quickly understand the language and for seasoned veterans to easily read each other’s code.\nWe spoke with",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 6,
+            "textWords": 2451
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 22,
+            "textWords": 2451
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "D4lABzaS0qdw",
@@ -23,6 +171,42 @@
     ],
     [
       {
+        "hash": "8gsjosK-xyJ4",
+        "address": "https://go.dev/",
+        "title": "The Go Programming Language",
+        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 2,
+            "textWords": 607
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 607
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "tucm1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
+        "title": "Concurrent computing - Wikipedia",
+        "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 25,
+            "textWords": 2973
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 2973
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
@@ -35,6 +219,289 @@
           "IcwoQJcpVl_B": {
             "hits": 1,
             "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "wPbQLR1YIUaQ",
+        "address": "http://planet.haskell.org/",
+        "title": "Planet Haskell",
+        "snippet": "tl;dr: This is a fully commentated, from-scratch proof of the Fundamental Theorem of Arithmetic in Agda, intended for those who already know a bit of Agda but might benefit from reading and working through a larger example. See the Introduction and the Table of Contents below for more details.",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 8572
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 8572
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "u8KO6UlsMv8w",
+        "address": "https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/",
+        "title": "Notes on structured concurrency, or: Go statement considered harmful — njs blog",
+        "snippet": "concurrency API needs a way to run code concurrently. Here's some examples of what that looks like using different APIs:\ngo myfunc(); // Golang pthread_create(\u0026thread_id, NULL, \u0026myfunc); /* C with POSIX threads */ spawn(modulename, myfuncname, []) % Erlang threading.Thread(target=myfunc).start() #",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 19,
+            "textWords": 6196
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 10,
+            "textWords": 6196
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "kDoivJS6MKD4",
+        "address": "https://github.com/dariubs/GoBooks",
+        "title": "GitHub - dariubs/GoBooks: List of Golang books · GitHub",
+        "snippet": "concurrency, performance, and system design. One place to find the right learning resource.\nOther languages: Español · 中文 · Português · Русский · Deutsch · فارسی\nMost Popular Golang Books\nStarter Books\nAdvanced Books\nWeb Development\nResources\nContributing\nLicense\nMost Popular Go Books\nThe most",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 15,
+            "textWords": 7749
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 18,
+            "textWords": 7749
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like the Ryzen 9 9950X3D. TASKSET=taskset -c 1",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "6zCenzS6MKD4",
+        "address": "https://github.com/topics/workflows",
+        "title": "workflows · GitHub Topics · GitHub",
+        "snippet": "Here are 2,712 public repositories matching this topic...\nCode\nIssues\nPull requests\nPlatform to build admin panels, internal tools, and dashboards. Integrates with 25+ databases and any API.\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nDiscussions\nConductor is an event driven agentic",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 525
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 525
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8KnFwAK-xyJ4",
+        "address": "https://go.dev/doc/tutorial/",
+        "title": "Tutorials - The Go Programming Language",
+        "snippet": "concurrency primitives.",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 265
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 265
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gKBydWK-xyJ4",
+        "address": "https://go.dev/solutions/cloud",
+        "title": "Go for Cloud \u0026 Network Services - The Go Programming Language",
+        "snippet": "concurrency becomes a very big issue. Cloud computing systems, by their very nature, share and scale resources. Coordinating access to shared resources is an issue that impacts every application processing in the cloud, and requires programming languages “explicitly geared to develop highly",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 4,
+            "textWords": 886
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 886
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "DB7viAK-xyJ4",
+        "address": "https://go.dev/doc/faq",
+        "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
+        "snippet": "concurrency or parallelism. And to make resource management tractable in a large concurrent program, garbage collection, or at least some sort of safe automatic memory management was required.\nThese considerations led to a series of discussions from which Go arose, first as a set of ideas and",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 17,
+            "textWords": 13818
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 8,
+            "textWords": 13818
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "z5ncGsK-xyJ4",
+        "address": "https://go.dev/learn/",
+        "title": "Get Started - The Go Programming Language",
+        "snippet": "Documentation\nEverything there is to know about Go. Get started on a new project or brush up for your existing Go code.\nTour of Go\nAn interactive introduction to Go in four sections. Each section concludes with a few exercises so you can practice what you've learned.\nGo by example\nGo by Example is",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 314
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 314
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "QJfmDln-yhj5",
+        "address": "https://www.infoworld.com/software-development/",
+        "title": "Software Development | InfoWorld",
+        "snippet": "Latest from today\nResources\nVideo on demand\nWhy Software Developers Are “Token Maxxing” AI—and What It Means for Jobs\nSoftware developers are using AI at a level that other professions may never match—but what does that mean for the future of software engineering? In this episode, we look at why",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 282
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 282
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "oZQa-xNzCnSk",
+        "address": "https://www.elastic.co/docs/reference/integrations/golang",
+        "title": "Golang Integration | Elastic integrations",
+        "snippet": "Golang integration allows you to monitor a Golang application. Go is a statically typed, compiled programming language designed at Google. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency. It is often referred to as Golang.",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 1996
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 50,
+            "textWords": 1996
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "V7zmBsK-xyJ4",
+        "address": "https://go.dev/doc/",
+        "title": "Documentation - The Go Programming Language",
+        "snippet": "concurrency mechanisms make it easy to write programs that get the most out of multicore and networked machines, while its novel type system enables flexible and modular program construction. Go compiles quickly to machine code yet has the convenience of garbage collection and the power of run-time",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 12,
+            "textWords": 1615
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 1615
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "O0YH7sK-xyJ4",
+        "address": "https://go.dev/wiki/",
+        "title": "Go Wiki: Home - The Go Programming Language",
+        "snippet": "concurrency\nMore on error handling\nMore on testing\nMore on mobile - Android and iOS\nBooks - A list of Go books that have been published (ebook, paper).\nBlogs - Blogs about Go. Podcasts - Podcasts and episodes featuring Go.\nVideos, Talks, and Presentations GoTalks - A collection of talks from Go",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 2,
+            "textWords": 1430
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 12,
+            "textWords": 1430
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "lpBw6vmjFlt0",
+        "address": "https://devenv.sh/reference/options/",
+        "title": "Options reference | devenv",
+        "snippet": "golang formatter that fixes long lines\ngotest\nRun go tests\ngovet\nChecks correctness of Go programs.\ngptcommit\nGenerate a commit message using GPT3.\nhadolint\nDockerfile linter, validate inline bash.\nheadache\nLightweight tool for managing headers in source code files.\nhindent\nHaskell code prettifier.",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 51994
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 51994
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "rj3EHAK-xyJ4",
+        "address": "https://go.dev/doc/go1.4",
+        "title": "Go 1.4 Release Notes - The Go Programming Language",
+        "snippet": "concurrency support, interface management, maps, slices, strings, …) was mostly written in C, with some assembler support. In 1.4, much of the code has been translated to Go so that the garbage collector can scan the stacks of programs in the runtime and get accurate information about what",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 3883
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 6,
+            "textWords": 3883
           }
         },
         "queryPhraseHits": 0
@@ -58,10 +525,359 @@
         },
         "queryPhraseHits": 0
       }
+    ],
+    [
+      {
+        "hash": "8KnFwAK-xyJ4",
+        "address": "https://go.dev/doc/tutorial/",
+        "title": "Tutorials - The Go Programming Language",
+        "snippet": "concurrency primitives.",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 265
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 265
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "G2ygBVZyGij5",
+        "address": "https://technology.riotgames.com/news/leveraging-golang-game-development-and-operations",
+        "title": "Leveraging Golang for Game Development and Operations | Riot Games Technology",
+        "snippet": "",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 9,
+            "textWords": 2618
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PeV3jUK-xyJ4",
+        "address": "https://go.dev/blog/waza-talk",
+        "title": "Concurrency is not parallelism - The Go Programming Language",
+        "snippet": "concurrency. No introduction to Go is complete without a demonstration of its goroutines and channels.\nBut when people hear the word concurrency they often think of parallelism, a related but quite distinct concept. In programming, concurrency is the composition of independently executing",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 7,
+            "textWords": 145
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 145
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mN5ugsn-1n64",
+        "address": "https://namishh.com/",
+        "title": "index | namishh",
+        "snippet": "golang\npixie - wasm lightroom-esque editor in rust and nextjs\nnurture - basic ui library for widgets in löve2d\nplanet - semi-realistic planet simulator in odin\nyou can check out all of them here\nsome more links\nall the stuff that i consoom\ncool people and rings\nhere are some of my cool friends, do",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 110
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 110
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "V7zmBsK-xyJ4",
+        "address": "https://go.dev/doc/",
+        "title": "Documentation - The Go Programming Language",
+        "snippet": "concurrency mechanisms make it easy to write programs that get the most out of multicore and networked machines, while its novel type system enables flexible and modular program construction. Go compiles quickly to machine code yet has the convenience of garbage collection and the power of run-time",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 12,
+            "textWords": 1615
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 1615
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "V62bk6S6MKD4",
+        "address": "https://github.com/oxsecurity/megalinter",
+        "title": "GitHub - oxsecurity/megalinter: 🦙 MegaLinter analyzes 50 languages, 22 formats, 21 tooling formats, excessive copy-pastes, spelling mistakes and security issues in your repository sources with a GitHub Action, other CI tools or locally.",
+        "snippet": "About\n🦙 MegaLinter analyzes 50 languages, 22 formats, 21 tooling formats, excessive copy-pastes, spelling mistakes and security issues in your repository sources with a GitHub Action, other CI tools or locally.\nmegalinter.io/\nTopics",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 71
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 71
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8gsjosK-xyJ4",
+        "address": "https://go.dev/",
+        "title": "The Go Programming Language",
+        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 2,
+            "textWords": 607
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 607
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ioDB87f4Pib5",
+        "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
+        "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+        "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 1518
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 2,
+            "textWords": 1518
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "oZQa-xNzCnSk",
+        "address": "https://www.elastic.co/docs/reference/integrations/golang",
+        "title": "Golang Integration | Elastic integrations",
+        "snippet": "Golang integration allows you to monitor a Golang application. Go is a statically typed, compiled programming language designed at Google. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency. It is often referred to as Golang.",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 1,
+            "textWords": 1996
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 50,
+            "textWords": 1996
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ghU9qOG-3CG4",
+        "address": "https://www.oreilly.com/library/view/concurrency-in-go/9781491941294/",
+        "title": "Concurrency in Go [Book]",
+        "snippet": "",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 16,
+            "textWords": 1471
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "tucm1jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
+        "title": "Concurrent computing - Wikipedia",
+        "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 25,
+            "textWords": 2973
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 1,
+            "textWords": 2973
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "EC_sbq2-P-Rw",
+        "address": "https://dave.cheney.net/about",
+        "title": "About | Dave Cheney",
+        "snippet": "golang.io meetup, October 2016 (Paris, France)\nGopher Puzzlers, Sydney Go Users’ Group, November 2016 (Sydney, Australia)\nSimulating old computers using Arduino microcontrollers, builderscon.io, December 2016 (Tokyo, Japan)\n2017\nGo 1.8 Release Party, Sydney Go Users Group, February 2017 (Sydney,",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 2,
+            "textWords": 1112
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 2,
+            "textWords": 1112
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "05FPll_zR1L4",
+        "address": "https://www.meetup.com/Golang-Bangalore/",
+        "title": "Golang Bangalore (Bangalore, India) | Meetup",
+        "snippet": "",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 9,
+            "textWords": 1391
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1ojMPAK-xyJ4",
+        "address": "https://go.dev/doc/effective_go",
+        "title": "Effective Go - The Go Programming Language",
+        "snippet": "Concurrency\nShare by communicating\nConcurrent programming is a large topic and there is space only for some Go-specific highlights here.\nConcurrent programming in many environments is made difficult by the subtleties required to implement correct access to shared variables. Go encourages a",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 4,
+            "textWords": 14983
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 14983
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-zyAxuKtJDgx",
+        "address": "https://id.wikipedia.org/wiki/Go_(bahasa_pemrograman)",
+        "title": "Go (bahasa pemrograman) - Wikipedia bahasa Indonesia, ensiklopedia bebas",
+        "snippet": "Golang) adalah bahasa pemrograman yang dibuat di Google[13] pada tahun 2009 oleh Robert Griesemer, Rob Pike, dan Ken Thompson.[11] Go adalah bahasa pemrograman sumber terbuka yang mudah, sederhana, efisien. Selain itu, Go merupakan bahasa pemrograman yang dikompilasi, seperti Java, yaitu bahasa",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 7,
+            "textWords": 5516
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 23,
+            "textWords": 5516
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9EmqOSU39EL4",
+        "address": "https://pygolang.nexedi.com/",
+        "title": "Pygolang Home",
+        "snippet": "golang provides Go-like features for Python:\ngpython is Python interpreter with support for lightweight threads.\ngo spawns lightweight thread.\nchan and select provide channels with Go semantic.\nfunc allows to define methods separate from class.\ndefer allows to schedule a cleanup from the main",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 5,
+            "textWords": 2486
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 13,
+            "textWords": 2486
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8gsjosK-xyJ4",
+        "address": "https://go.dev/",
+        "title": "The Go Programming Language",
+        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
+        "matchedWords": {
+          "FyRSmQlWVTdS": {
+            "hits": 2,
+            "textWords": 607
+          },
+          "IcwoQJcpVl_B": {
+            "hits": 0,
+            "textWords": 607
+          }
+        },
+        "queryPhraseHits": 0
+      }
     ]
   ],
   "itemsInNoOrder": [
     {
+      "hash": "pPt46l5ooER5",
+      "address": "https://www.brendangregg.com/flamegraphs.html",
+      "title": "Flame Graphs",
+      "snippet": "golang and flame graphs.\nI wrote an article for ACMQ, The Flame Graph, which defines flame graphs, describes their origin, explains how to interpret them, and discusses possible future developments.\nDavid Mark Clements has developed 0x, a new interactive flame graph profiler for Node.js processes",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 1,
+          "textWords": 4449
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 2,
+          "textWords": 4449
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "u2SnisCRdREw",
+      "address": "https://jvns.ca/",
+      "title": "Julia Evans",
+      "snippet": "concurrency: trying out mutexes and atomics Oct 2014 How does SQLite work? Part 2: btrees! (or: disk seeks are slow don't do them!) Sep 2014 ★ How does SQLite work? Part 1: pages! Sep 2014 How is a binary executable organized? Let's explore it! Aug 2014 ★ What happens if you write a TCP stack in",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 1,
+          "textWords": 5305
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 1,
+          "textWords": 5305
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
@@ -79,35 +895,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "mHFlJdUhjm5w",
-      "address": "https://airflow.apache.org/docs/apache-airflow/2.11.2/release_notes.html",
-      "title": "Release Notes — Airflow 2.11.2 Documentation",
-      "snippet": "concurrency label to max active tasks (#36691)\nRestore function scoped httpx import in file_task_handler for performance (#36753)\nAdd support of Pendulum 3 (#36281)\nStandardize airflow build process and switch to Hatchling build backend (#36537)\nGet rid of pyarrow-hotfix for CVE-2023-47248 (#36697)",
+      "hash": "JlSlqWK-xyJ4",
+      "address": "https://go.dev/solutions/case-studies",
+      "title": "Case Studies - The Go Programming Language",
+      "snippet": "concurrency, garbage collection, and of course safety+speed.) that helped engage us during the build. Also, who can beat that cute mascot!\nView Case Study\nGraceful upgrades in Go\nCloudflare speeds up and protects millions of websites, APIs, SaaS services, and other properties connected to the",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 42,
-          "textWords": 101483
+          "hits": 4,
+          "textWords": 1251
         },
         "IcwoQJcpVl_B": {
-          "hits": 1,
-          "textWords": 101483
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "Concurrency Patterns: Timing out, moving on article (thanks Francisco Souza), add Go image/draw package article and convert code snippets to Go1, add Gobs of data article (thanks Francisco Souza), add Godoc: documenting Go code article (thanks Francisco Souza), add JSON and Go article (thanks",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 2,
-          "textWords": 43354
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 42,
-          "textWords": 43354
+          "hits": 7,
+          "textWords": 1251
         }
       },
       "queryPhraseHits": 0
@@ -147,40 +946,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "gefeHzS6MKD4",
-      "address": "https://github.com/topics/cross-platform",
-      "title": "cross-platform · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ioDB87f4Pib5",
-      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-      "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 1,
-          "textWords": 1518
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 2,
-          "textWords": 1518
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "r_C2TAK-xyJ4",
       "address": "https://go.dev/doc/go1.26",
       "title": "Go 1.26 Release Notes - The Go Programming Language",
@@ -198,35 +963,681 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
-      "snippet": "Concurrency Patterns: Timing out, moving on article (thanks Francisco Souza), add Go image/draw package article and convert code snippets to Go1, add Gobs of data article (thanks Francisco Souza), add Godoc: documenting Go code article (thanks Francisco Souza), add JSON and Go article (thanks",
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "Go (programming language) - Wikipedia",
+      "snippet": "Golang)[15]: 2 is a high-level, general-purpose programming language that is statically typed and compiled. Originally designed in 2007 by Robert Griesemer, Rob Pike, and Ken Thompson, Go was publicly announced in November 2009,[16][4] and is developed by Google[5] and community contributors. Go",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 2,
-          "textWords": 43354
+          "hits": 20,
+          "textWords": 8280
         },
         "IcwoQJcpVl_B": {
-          "hits": 42,
-          "textWords": 43354
+          "hits": 10,
+          "textWords": 8280
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "jDc0FAK-xyJ4",
-      "address": "https://go.dev/doc/go1.27",
-      "title": "Go 1.27 Release Notes - The Go Programming Language",
-      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
+      "hash": "C42pLzS6MKD4",
+      "address": "https://github.com/topics/command-line",
+      "title": "command-line · GitHub Topics · GitHub",
+      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell. A CLI may give a user more control over the computer and programs they wish to",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 3,
-          "textWords": 3222
+          "hits": 0,
+          "textWords": 401
         },
         "IcwoQJcpVl_B": {
           "hits": 0,
-          "textWords": 3222
+          "textWords": 401
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ES928zS6MKD4",
+      "address": "https://github.com/topics/assembly",
+      "title": "assembly · GitHub Topics · GitHub",
+      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions\nRun compilers interactively from",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 393
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 393
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ike4uzS6MKD4",
+      "address": "https://github.com/topics/workers",
+      "title": "workers · GitHub Topics · GitHub",
+      "snippet": "Here are 1,346 public repositories matching this topic...\nCode\nIssues\nPull requests\n✯ 可直连访问的电视/广播图标库与相关工具项目 ✯ 🔕 永久免费 直连访问 完整开源 不断完善的台标 支持IPv4/IPv6双栈访问 🔕\nUpdated Sep 11, 2026\nJavaScript\nCode\nIssues\nPull requests\nDiscussions\nSimple job queues for Python\nUpdated Sep 11, 2026\nPython\nCode\nIssues\nPull",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 389
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 389
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PLIQCzS6MKD4",
+      "address": "https://github.com/topics/crontab",
+      "title": "crontab · GitHub Topics · GitHub",
+      "snippet": "Here are 1,075 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions\n支持 Python3、JavaScript、Shell、Typescript 的定时任务管理平台（Timed task management platform supporting Python3, JavaScript, Shell, Typescript）\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nDiscussions",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 389
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 389
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TBKM_zS6MKD4",
+      "address": "https://github.com/topics/performance",
+      "title": "performance · GitHub Topics · GitHub",
+      "snippet": "GoLang framework for accelerated microservice development. Built in support for databases and observability.\nUpdated Sep 11, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nNode.js test runner that lets you develop with confidence 🚀\nUpdated Jun 17, 2026\nJavaScript\nCode\nIssues\nPull requests",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 465
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 1,
+          "textWords": 465
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WbmbAzS6MKD4",
+      "address": "https://github.com/topics/tui",
+      "title": "tui · GitHub Topics · GitHub",
+      "snippet": "In computing, text-based user interfaces (TUI) (alternately terminal user interfaces, to reflect a dependence upon the properties of computer terminals and not just text), is a retronym describing a type of user interface (UI) common as an early form of human–computer interaction, before the advent",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 97
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YiOTxzS6MKD4",
+      "address": "https://github.com/topics/tdd",
+      "title": "tdd · GitHub Topics · GitHub",
+      "snippet": "Test-driven development (TDD) is a software development process relying on software requirements being converted to test cases before software is fully developed, and tracking all software development by repeatedly testing the software against all test cases. This is as opposed to software being",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 108
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 108
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZZnqgzS6MKD4",
+      "address": "https://github.com/topics/http2",
+      "title": "http2 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "a7h-3zS6MKD4",
+      "address": "https://github.com/topics/testing",
+      "title": "testing · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gefeHzS6MKD4",
+      "address": "https://github.com/topics/cross-platform",
+      "title": "cross-platform · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hYNKYzS6MKD4",
+      "address": "https://github.com/topics/gui",
+      "title": "gui · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iH5E9zS6MKD4",
+      "address": "https://github.com/topics/networking",
+      "title": "networking · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qma45zS6MKD4",
+      "address": "https://github.com/topics/websocket",
+      "title": "websocket · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "vPt-kHS6MKD4",
+      "address": "https://github.com/codecrafters-io/build-your-own-x",
+      "title": "GitHub - codecrafters-io/build-your-own-x: Master programming by recreating your favorite technologies from scratch.",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "v80ZKzS6MKD4",
+      "address": "https://github.com/topics/library",
+      "title": "library · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xN14KsS6MKD4",
+      "address": "https://github.com/golang",
+      "title": "Go · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "x2vvuzS6MKD4",
+      "address": "https://github.com/topics/tasks",
+      "title": "tasks · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yjMcDzS6MKD4",
+      "address": "https://github.com/topics/observability",
+      "title": "observability · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0QPQMzS6MKD4",
+      "address": "https://github.com/topics/httpd",
+      "title": "httpd · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1k8vmzS6MKD4",
+      "address": "https://github.com/topics/event-driven",
+      "title": "event-driven · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "37rmVzS6MKD4",
+      "address": "https://github.com/topics/context",
+      "title": "context · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-muHzS6MKD4",
+      "address": "https://github.com/topics/workflow-engine",
+      "title": "workflow-engine · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5qG8l0S6MKD4",
+      "address": "https://github.com/trimstray/nginx-admins-handbook",
+      "title": "GitHub - trimstray/nginx-admins-handbook: How to improve NGINX performance, security, and other important things.",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7Ev84zS6MKD4",
+      "address": "https://github.com/topics/project",
+      "title": "project · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lYF1xUV4HSJ0",
+      "address": "https://formulae.brew.sh/formula/",
+      "title": "homebrew-core — Homebrew Formulae",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qOvmXfZsb036",
+      "address": "https://www.trackawesomelist.com/avelino/awesome-go/",
+      "title": "Track Awesome Go (avelino/awesome-go) Updates Daily - Track Awesome List",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eR_fN7f4Pib5",
+      "address": "https://code.visualstudio.com/",
+      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HPZ6W2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/cluster-administration/flow-control/",
+      "title": "API Priority and Fairness | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0ewhW2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/",
+      "title": "kube-apiserver | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8zWEK2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/using-api/server-side-apply/",
+      "title": "Server-Side Apply | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tBnT3ln-yhj5",
+      "address": "https://www.infoworld.com/",
+      "title": "InfoWorld",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0vD9hno6iJy4",
+      "address": "https://dropbox.tech/infrastructure/open-sourcing-our-go-libraries",
+      "title": "Open Sourcing Our Go Libraries - Dropbox",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1reqmvqO2Dlg",
+      "address": "https://media.ccc.de/podcast-lq.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4x07skxyfg74",
+      "address": "https://pkg.go.dev/golang.org/x",
+      "title": "Sub-repositories - Go Packages",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_vAEAfxyfg74",
+      "address": "https://pkg.go.dev/net/http",
+      "title": "http package - net/http - Go Packages",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pPt46l5ooER5",
+      "address": "https://www.brendangregg.com/flamegraphs.html",
+      "title": "Flame Graphs",
+      "snippet": "golang and flame graphs.\nI wrote an article for ACMQ, The Flame Graph, which defines flame graphs, describes their origin, explains how to interpret them, and discusses possible future developments.\nDavid Mark Clements has developed 0x, a new interactive flame graph profiler for Node.js processes",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 1,
+          "textWords": 4449
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 2,
+          "textWords": 4449
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "u2SnisCRdREw",
+      "address": "https://jvns.ca/",
+      "title": "Julia Evans",
+      "snippet": "concurrency: trying out mutexes and atomics Oct 2014 How does SQLite work? Part 2: btrees! (or: disk seeks are slow don't do them!) Sep 2014 ★ How does SQLite work? Part 1: pages! Sep 2014 How is a binary executable organized? Let's explore it! Aug 2014 ★ What happens if you write a TCP stack in",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 1,
+          "textWords": 5305
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 1,
+          "textWords": 5305
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "JlSlqWK-xyJ4",
+      "address": "https://go.dev/solutions/case-studies",
+      "title": "Case Studies - The Go Programming Language",
+      "snippet": "concurrency, garbage collection, and of course safety+speed.) that helped engage us during the build. Also, who can beat that cute mascot!\nView Case Study\nGraceful upgrades in Go\nCloudflare speeds up and protects millions of websites, APIs, SaaS services, and other properties connected to the",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 4,
+          "textWords": 1251
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 7,
+          "textWords": 1251
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -249,6 +1660,176 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "xp5LsAK-xyJ4",
+      "address": "https://go.dev/doc/codewalk/sharemem/",
+      "title": "Codewalk: Share Memory By Communicating - The Go Programming Language",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "",
+      "snippet": "Golang)[15]: 2 is a high-level, general-purpose programming language that is statically typed and compiled. Originally designed in 2007 by Robert Griesemer, Rob Pike, and Ken Thompson, Go was publicly announced in November 2009,[16][4] and is developed by Google[5] and community contributors. Go",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 20,
+          "textWords": 8280
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 10,
+          "textWords": 8280
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "C42pLzS6MKD4",
+      "address": "https://github.com/topics/command-line",
+      "title": "command-line · GitHub Topics · GitHub",
+      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell. A CLI may give a user more control over the computer and programs they wish to",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 401
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 401
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ES928zS6MKD4",
+      "address": "https://github.com/topics/assembly",
+      "title": "assembly · GitHub Topics · GitHub",
+      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions\nRun compilers interactively from",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 393
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 393
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Ike4uzS6MKD4",
+      "address": "https://github.com/topics/workers",
+      "title": "workers · GitHub Topics · GitHub",
+      "snippet": "Here are 1,346 public repositories matching this topic...\nCode\nIssues\nPull requests\n✯ 可直连访问的电视/广播图标库与相关工具项目 ✯ 🔕 永久免费 直连访问 完整开源 不断完善的台标 支持IPv4/IPv6双栈访问 🔕\nUpdated Sep 11, 2026\nJavaScript\nCode\nIssues\nPull requests\nDiscussions\nSimple job queues for Python\nUpdated Sep 11, 2026\nPython\nCode\nIssues\nPull",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 389
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 389
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TBKM_zS6MKD4",
+      "address": "https://github.com/topics/performance",
+      "title": "performance · GitHub Topics · GitHub",
+      "snippet": "GoLang framework for accelerated microservice development. Built in support for databases and observability.\nUpdated Sep 11, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nNode.js test runner that lets you develop with confidence 🚀\nUpdated Jun 17, 2026\nJavaScript\nCode\nIssues\nPull requests",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 465
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 1,
+          "textWords": 465
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WbmbAzS6MKD4",
+      "address": "https://github.com/topics/tui",
+      "title": "tui · GitHub Topics · GitHub",
+      "snippet": "In computing, text-based user interfaces (TUI) (alternately terminal user interfaces, to reflect a dependence upon the properties of computer terminals and not just text), is a retronym describing a type of user interface (UI) common as an early form of human–computer interaction, before the advent",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 97
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YiOTxzS6MKD4",
+      "address": "https://github.com/topics/tdd",
+      "title": "tdd · GitHub Topics · GitHub",
+      "snippet": "Test-driven development (TDD) is a software development process relying on software requirements being converted to test cases before software is fully developed, and tracking all software development by repeatedly testing the software against all test cases. This is as opposed to software being",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 108
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 108
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZZnqgzS6MKD4",
+      "address": "https://github.com/topics/http2",
+      "title": "http2 · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "a7h-3zS6MKD4",
+      "address": "https://github.com/topics/testing",
+      "title": "testing · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "gefeHzS6MKD4",
       "address": "https://github.com/topics/cross-platform",
       "title": "cross-platform · GitHub Topics · GitHub",
@@ -266,76 +1847,841 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "ioDB87f4Pib5",
-      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-      "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
+      "hash": "hYNKYzS6MKD4",
+      "address": "https://github.com/topics/gui",
+      "title": "gui · GitHub Topics · GitHub",
+      "snippet": "",
       "matchedWords": {
         "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iH5E9zS6MKD4",
+      "address": "https://github.com/topics/networking",
+      "title": "networking · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qma45zS6MKD4",
+      "address": "https://github.com/topics/websocket",
+      "title": "websocket · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "vPt-kHS6MKD4",
+      "address": "https://github.com/codecrafters-io/build-your-own-x",
+      "title": "GitHub - codecrafters-io/build-your-own-x: Master programming by recreating your favorite technologies from scratch.",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "v80ZKzS6MKD4",
+      "address": "https://github.com/topics/library",
+      "title": "library · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xN14KsS6MKD4",
+      "address": "https://github.com/golang",
+      "title": "Go · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "x2vvuzS6MKD4",
+      "address": "https://github.com/topics/tasks",
+      "title": "tasks · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yjMcDzS6MKD4",
+      "address": "https://github.com/topics/observability",
+      "title": "observability · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0QPQMzS6MKD4",
+      "address": "https://github.com/topics/httpd",
+      "title": "httpd · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1k8vmzS6MKD4",
+      "address": "https://github.com/topics/event-driven",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "37rmVzS6MKD4",
+      "address": "https://github.com/topics/context",
+      "title": "context · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-muHzS6MKD4",
+      "address": "https://github.com/topics/workflow-engine",
+      "title": "workflow-engine · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5qG8l0S6MKD4",
+      "address": "https://github.com/trimstray/nginx-admins-handbook",
+      "title": "GitHub - trimstray/nginx-admins-handbook: How to improve NGINX performance, security, and other important things.",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7Ev84zS6MKD4",
+      "address": "https://github.com/topics/project",
+      "title": "project · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lYF1xUV4HSJ0",
+      "address": "https://formulae.brew.sh/formula/",
+      "title": "homebrew-core — Homebrew Formulae",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qOvmXfZsb036",
+      "address": "https://www.trackawesomelist.com/avelino/awesome-go/",
+      "title": "Track Awesome Go (avelino/awesome-go) Updates Daily - Track Awesome List",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HPZ6W2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/cluster-administration/flow-control/",
+      "title": "API Priority and Fairness | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0ewhW2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/",
+      "title": "kube-apiserver | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8zWEK2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/using-api/server-side-apply/",
+      "title": "Server-Side Apply | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tBnT3ln-yhj5",
+      "address": "https://www.infoworld.com/",
+      "title": "InfoWorld | Technology insight for the enterprise",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1reqmvqO2Dlg",
+      "address": "https://media.ccc.de/podcast-lq.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iZh83itD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/changelog.html",
+      "title": "Changelog — Python 3.14.0 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4x07skxyfg74",
+      "address": "https://pkg.go.dev/golang.org/x",
+      "title": "Sub-repositories - Go Packages",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_vAEAfxyfg74",
+      "address": "https://pkg.go.dev/net/http",
+      "title": "http package - net/http - Go Packages",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0N-aIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Computer_programming",
+      "title": "Portal:Computer programming - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "C42pLzS6MKD4",
+      "address": "https://github.com/topics/command-line",
+      "title": "command-line · GitHub Topics · GitHub",
+      "snippet": "Before there were graphical user interfaces, command-line interfaces were used to issue commands to a computer. Programs that handle the user interface are called command language interpreters, often known as a shell. A CLI may give a user more control over the computer and programs they wish to",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 401
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 401
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ES928zS6MKD4",
+      "address": "https://github.com/topics/assembly",
+      "title": "assembly · GitHub Topics · GitHub",
+      "snippet": "Assembly is a low-level programming language in which there is a very strict correspondence between language instructions and architecture machine code instructions.\nHere are 10,501 public repositories matching this topic...\nCode\nIssues\nPull requests\nDiscussions\nRun compilers interactively from",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 393
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 393
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "TBKM_zS6MKD4",
+      "address": "https://github.com/topics/performance",
+      "title": "performance · GitHub Topics · GitHub",
+      "snippet": "GoLang framework for accelerated microservice development. Built in support for databases and observability.\nUpdated Sep 11, 2026\nGo\nCode\nIssues\nPull requests\nDiscussions\nNode.js test runner that lets you develop with confidence 🚀\nUpdated Jun 17, 2026\nJavaScript\nCode\nIssues\nPull requests",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 465
+        },
+        "IcwoQJcpVl_B": {
           "hits": 1,
-          "textWords": 1518
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 2,
-          "textWords": 1518
+          "textWords": 465
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "Last update: September 11, 2026 09:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
+      "hash": "ZZnqgzS6MKD4",
+      "address": "https://github.com/topics/http2",
+      "title": "http2 · GitHub Topics · GitHub",
+      "snippet": "",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 0,
-          "textWords": 30728
+          "textWords": 0
         },
         "IcwoQJcpVl_B": {
           "hits": 0,
-          "textWords": 30728
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "jDc0FAK-xyJ4",
-      "address": "https://go.dev/doc/go1.27",
-      "title": "Go 1.27 Release Notes - The Go Programming Language",
-      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
+      "hash": "a7h-3zS6MKD4",
+      "address": "https://github.com/topics/testing",
+      "title": "testing · GitHub Topics · GitHub",
+      "snippet": "",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 3,
-          "textWords": 3222
+          "hits": 0,
+          "textWords": 0
         },
         "IcwoQJcpVl_B": {
           "hits": 0,
-          "textWords": 3222
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "r_C2TAK-xyJ4",
-      "address": "https://go.dev/doc/go1.26",
-      "title": "Go 1.26 Release Notes - The Go Programming Language",
-      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
+      "hash": "hYNKYzS6MKD4",
+      "address": "https://github.com/topics/gui",
+      "title": "gui · GitHub Topics · GitHub",
+      "snippet": "",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 3,
-          "textWords": 4063
+          "hits": 0,
+          "textWords": 0
         },
         "IcwoQJcpVl_B": {
           "hits": 0,
-          "textWords": 4063
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iH5E9zS6MKD4",
+      "address": "https://github.com/topics/networking",
+      "title": "networking · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qQ00LfS6MKD4",
+      "address": "https://github.com/affaan-m/ECC",
+      "title": "GitHub - affaan-m/ECC: The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qma45zS6MKD4",
+      "address": "https://github.com/topics/websocket",
+      "title": "websocket · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "v80ZKzS6MKD4",
+      "address": "https://github.com/topics/library",
+      "title": "library · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yjMcDzS6MKD4",
+      "address": "https://github.com/topics/observability",
+      "title": "observability · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "37rmVzS6MKD4",
+      "address": "https://github.com/topics/context",
+      "title": "context · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3-muHzS6MKD4",
+      "address": "https://github.com/topics/workflow-engine",
+      "title": "workflow-engine · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5qG8l0S6MKD4",
+      "address": "https://github.com/trimstray/nginx-admins-handbook",
+      "title": "GitHub - trimstray/nginx-admins-handbook: How to improve NGINX performance, security, and other important things. · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7Ev84zS6MKD4",
+      "address": "https://github.com/topics/project",
+      "title": "project · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1LqlzCd6OB24",
+      "address": "https://habr.com/en/hubs/go/articles/",
+      "title": "Go — Compiled, multithreaded programming language / Habr",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "eR_fN7f4Pib5",
+      "address": "https://code.visualstudio.com/",
+      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "HPZ6W2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/cluster-administration/flow-control/",
+      "title": "API Priority and Fairness | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0ewhW2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/",
+      "title": "kube-apiserver | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8zWEK2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/using-api/server-side-apply/",
+      "title": "Server-Side Apply | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tBnT3ln-yhj5",
+      "address": "https://www.infoworld.com/",
+      "title": "InfoWorld | Technology insight for the enterprise",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1reqmvqO2Dlg",
+      "address": "https://media.ccc.de/podcast-lq.xml",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4x07skxyfg74",
+      "address": "https://pkg.go.dev/golang.org/x",
+      "title": "Sub-repositories - Go Packages",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "_vAEAfxyfg74",
+      "address": "https://pkg.go.dev/net/http",
+      "title": "http package - net/http - Go Packages",
+      "snippet": "",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "FyRSmQlWVTdS": 3452,
-    "IcwoQJcpVl_B": 2665
+    "FyRSmQlWVTdS": 64119,
+    "IcwoQJcpVl_B": 114761
   }
 }

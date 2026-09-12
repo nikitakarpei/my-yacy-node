@@ -1,0 +1,83 @@
+{
+  "query": "mejores playas de españa",
+  "judgedDocuments": [
+    {
+      "hash": "V2Hlal6Ke78h",
+      "address": "https://www.diariosur.es/",
+      "title": "SUR, diario de Málaga. Noticias de Malaga",
+      "grade": 0
+    },
+    {
+      "hash": "Q9ZGalD5B4Sj",
+      "address": "https://www.elnortedecastilla.es/",
+      "title": "El Norte de Castilla - Noticias de Castilla y León desde 1854",
+      "grade": 0
+    },
+    {
+      "hash": "MuorVQRAvAya",
+      "address": "http://www.euroresidentes.com/",
+      "title": "Euroresidentes",
+      "grade": 0
+    },
+    {
+      "hash": "uK5b6ljMl7g4",
+      "address": "https://www.elcorreo.com/",
+      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Bizkaia",
+      "grade": 0
+    },
+    {
+      "hash": "zCCs7lo7s48g",
+      "address": "https://www.ideal.es/",
+      "title": "IDEAL | Periódico de las noticias de Granada",
+      "grade": 0
+    },
+    {
+      "hash": "qX9MJlx36Xdi",
+      "address": "https://www.eldiariomontanes.es/",
+      "title": "El Diario Montañés: Noticias de Cantabria y Santander",
+      "grade": 0
+    },
+    {
+      "hash": "uHVM5lzD8ru5",
+      "address": "https://www.admagazine.com/",
+      "title": "Architectural Digest México y Latinoamérica | Architectural Digest",
+      "grade": 0
+    },
+    {
+      "hash": "wqCeqlFZc5Lg",
+      "address": "https://www.elmundo.es/viajes.html",
+      "title": "Viajes - Noticias y reportajes sobre viajes | EL MUNDO",
+      "grade": 1
+    },
+    {
+      "hash": "JHfiCljMl7g4",
+      "address": "https://www.elcorreo.com/alava/",
+      "title": "EL CORREO - Diario con las últimas noticias, fotos y vídeos de Álava - Araba",
+      "grade": 0
+    },
+    {
+      "hash": "7eonllZeKV3g",
+      "address": "https://www.eldiario.es/viajes/",
+      "title": "Noticias sobre rutas y escapadas - Viajes, en elDiario.es",
+      "grade": 1
+    },
+    {
+      "hash": "0Fb3UljMl7g4",
+      "address": "https://www.elcorreo.com/athletic/",
+      "title": "Athletic Club Bilbao | El Correo",
+      "grade": 0
+    },
+    {
+      "hash": "JALAPlFZc5Lg",
+      "address": "https://www.elmundo.es/andalucia.html",
+      "title": "Andalucía - Noticias de Andalucía | EL MUNDO",
+      "grade": 0
+    },
+    {
+      "hash": "Dhuszsj70uyi",
+      "address": "https://cncompetencia.es/",
+      "title": "ℹ Revista CNCompetencia | Noticias del mundo ✔️",
+      "grade": 0
+    }
+  ]
+}

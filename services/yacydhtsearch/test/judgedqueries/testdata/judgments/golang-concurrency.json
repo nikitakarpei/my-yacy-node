@@ -2,22 +2,16 @@
   "query": "golang concurrency",
   "judgedDocuments": [
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "tucm1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
-      "title": "Concurrent computing - Wikipedia",
+      "hash": "r6W3km1dafs6",
+      "address": "https://stackoverflow.com/questions/tagged/concurrency",
+      "title": "Newest 'concurrency' Questions - Stack Overflow",
       "grade": 1
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "grade": 0
+      "hash": "sQDUoleq6ZL5",
+      "address": "https://www.gopherguides.com/",
+      "title": "Go (golang) Training By Community Leaders - Gopher Guides",
+      "grade": 1
     },
     {
       "hash": "mHFlJdUhjm5w",
@@ -26,9 +20,201 @@
       "grade": 0
     },
     {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
+      "hash": "Q2r-ms-UOu6x",
+      "address": "https://thenewstack.io/go/",
+      "title": "Go Programming Language Overview and News - The New Stack",
+      "grade": 1
+    },
+    {
+      "hash": "gxLAXsu0_jiy",
+      "address": "https://gopherconindia.org/",
+      "title": "GopherCon India 2026 | Go Conference in Hyderabad",
+      "grade": 1
+    },
+    {
+      "hash": "V7zmBsK-xyJ4",
+      "address": "https://go.dev/doc/",
+      "title": "Documentation - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "8gsjosK-xyJ4",
+      "address": "https://go.dev/",
+      "title": "The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "tucm1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
+      "title": "Concurrent computing - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "wPbQLR1YIUaQ",
+      "address": "http://planet.haskell.org/",
+      "title": "Planet Haskell",
+      "grade": 0
+    },
+    {
+      "hash": "u8KO6UlsMv8w",
+      "address": "https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/",
+      "title": "Notes on structured concurrency, or: Go statement considered harmful — njs blog",
+      "grade": 2
+    },
+    {
+      "hash": "kDoivJS6MKD4",
+      "address": "https://github.com/dariubs/GoBooks",
+      "title": "GitHub - dariubs/GoBooks: List of Golang books · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "6zCenzS6MKD4",
+      "address": "https://github.com/topics/workflows",
+      "title": "workflows · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "8KnFwAK-xyJ4",
+      "address": "https://go.dev/doc/tutorial/",
+      "title": "Tutorials - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "gKBydWK-xyJ4",
+      "address": "https://go.dev/solutions/cloud",
+      "title": "Go for Cloud \u0026 Network Services - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "DB7viAK-xyJ4",
+      "address": "https://go.dev/doc/faq",
+      "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "z5ncGsK-xyJ4",
+      "address": "https://go.dev/learn/",
+      "title": "Get Started - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "QJfmDln-yhj5",
+      "address": "https://www.infoworld.com/software-development/",
+      "title": "Software Development | InfoWorld",
+      "grade": 0
+    },
+    {
+      "hash": "oZQa-xNzCnSk",
+      "address": "https://www.elastic.co/docs/reference/integrations/golang",
+      "title": "Golang Integration | Elastic integrations",
+      "grade": 1
+    },
+    {
+      "hash": "O0YH7sK-xyJ4",
+      "address": "https://go.dev/wiki/",
+      "title": "Go Wiki: Home - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "lpBw6vmjFlt0",
+      "address": "https://devenv.sh/reference/options/",
+      "title": "Options reference | devenv",
+      "grade": 0
+    },
+    {
+      "hash": "rj3EHAK-xyJ4",
+      "address": "https://go.dev/doc/go1.4",
+      "title": "Go 1.4 Release Notes - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "PeV3jUK-xyJ4",
+      "address": "https://go.dev/blog/waza-talk",
+      "title": "Concurrency is not parallelism - The Go Programming Language",
+      "grade": 2
+    },
+    {
+      "hash": "ioDB87f4Pib5",
+      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
+      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "grade": 0
+    },
+    {
+      "hash": "EC_sbq2-P-Rw",
+      "address": "https://dave.cheney.net/about",
+      "title": "About | Dave Cheney",
+      "grade": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "grade": 2
+    },
+    {
+      "hash": "-zyAxuKtJDgx",
+      "address": "https://id.wikipedia.org/wiki/Go_(bahasa_pemrograman)",
+      "title": "Go (bahasa pemrograman) - Wikipedia bahasa Indonesia, ensiklopedia bebas",
+      "grade": 1
+    },
+    {
+      "hash": "YOcpwl7JARt4",
+      "address": "https://www.infoq.com/golang/",
+      "title": "Go Language - InfoQ",
+      "grade": 1
+    },
+    {
+      "hash": "kKPAs3M9rDb4",
+      "address": "https://builtin.com/software-engineering-perspectives/golang-advantages",
+      "title": "Golang Advantages and Use Cases from 8 Software Engineers | Built In",
+      "grade": 1
+    },
+    {
+      "hash": "mN5ugsn-1n64",
+      "address": "https://namishh.com/",
+      "title": "index | namishh",
+      "grade": 0
+    },
+    {
+      "hash": "V62bk6S6MKD4",
+      "address": "https://github.com/oxsecurity/megalinter",
+      "title": "GitHub - oxsecurity/megalinter: 🦙 MegaLinter analyzes 50 languages, 22 formats, 21 tooling formats, excessive copy-pastes, spelling mistakes and security issues in your repository sources with a GitHub Action, other CI tools or locally.",
+      "grade": 0
+    },
+    {
+      "hash": "9EmqOSU39EL4",
+      "address": "https://pygolang.nexedi.com/",
+      "title": "Pygolang Home",
+      "grade": 1
+    },
+    {
+      "hash": "pPt46l5ooER5",
+      "address": "https://www.brendangregg.com/flamegraphs.html",
+      "title": "Flame Graphs",
+      "grade": 0
+    },
+    {
+      "hash": "u2SnisCRdREw",
+      "address": "https://jvns.ca/",
+      "title": "Julia Evans",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "JlSlqWK-xyJ4",
+      "address": "https://go.dev/solutions/case-studies",
+      "title": "Case Studies - The Go Programming Language",
       "grade": 1
     },
     {
@@ -44,22 +230,58 @@
       "grade": 1
     },
     {
-      "hash": "gefeHzS6MKD4",
-      "address": "https://github.com/topics/cross-platform",
-      "title": "cross-platform · GitHub Topics · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "ioDB87f4Pib5",
-      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-      "grade": 0
-    },
-    {
       "hash": "r_C2TAK-xyJ4",
       "address": "https://go.dev/doc/go1.26",
       "title": "Go 1.26 Release Notes - The Go Programming Language",
       "grade": 1
+    },
+    {
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "Go (programming language) - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "C42pLzS6MKD4",
+      "address": "https://github.com/topics/command-line",
+      "title": "command-line · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "ES928zS6MKD4",
+      "address": "https://github.com/topics/assembly",
+      "title": "assembly · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Ike4uzS6MKD4",
+      "address": "https://github.com/topics/workers",
+      "title": "workers · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "PLIQCzS6MKD4",
+      "address": "https://github.com/topics/crontab",
+      "title": "crontab · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "TBKM_zS6MKD4",
+      "address": "https://github.com/topics/performance",
+      "title": "performance · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "WbmbAzS6MKD4",
+      "address": "https://github.com/topics/tui",
+      "title": "tui · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "YiOTxzS6MKD4",
+      "address": "https://github.com/topics/tdd",
+      "title": "tdd · GitHub Topics · GitHub",
+      "grade": 0
     }
   ]
 }

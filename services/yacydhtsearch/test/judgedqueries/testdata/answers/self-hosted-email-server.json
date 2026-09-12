@@ -1,29 +1,1417 @@
 {
   "query": "self hosted email server",
-  "recordedAt": "2026-09-11T22:14:23Z",
-  "itemsInTheOrderOfEachAnswer": [],
+  "recordedAt": "2026-09-12T00:21:24Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "9Gfi7KsrSOQw",
+        "address": "https://arxiv.org/list/cs/new",
+        "title": "Computer Science",
+        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 1033 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 581 of 581 entries)\n[1] arXiv:2609.10542 [pdf, html, other]\n[2] arXiv:2609.10543",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 0,
+            "textWords": 7988
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 0,
+            "textWords": 7988
+          },
+          "c00wMP9yrY2W": {
+            "hits": 0,
+            "textWords": 7988
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 0,
+            "textWords": 7988
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1lGoBsyuNlT5",
+        "address": "https://alt-webring.com/",
+        "title": "alt-webring | The (former) alternative webring system",
+        "snippet": "Self Taught It is a website about unschooling and self learning. I also have recommended reading lists for various subjects and lots of links.\nAOAL/SDA Info Center A site I made that has some pretty epic stories. Most of them are about anti-school things that gives people a nice anti-school",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 6,
+            "textWords": 79601
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 25,
+            "textWords": 79601
+          },
+          "c00wMP9yrY2W": {
+            "hits": 2,
+            "textWords": 79601
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 1,
+            "textWords": 79601
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "nxDmxsVAXty7",
+        "address": "https://trendingpoliticsnews.com/sitemap/",
+        "title": "Sitemap",
+        "snippet": "",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 13,
+            "textWords": 6318
+          },
+          "c00wMP9yrY2W": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "5VLLBs6GdY-4",
+        "address": "https://danluu.com/hn-comments/",
+        "title": "HN: comments are underrated",
+        "snippet": "Self-destructing speakers from Dell\nAs the main developer of VLC, we know about this story since a long time, and this is just Dell putting crap components on their machine and blaming others. Any discussion was impossible with them. So let me explain a bit...\nIn this case, VLC just uses the",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 2,
+            "textWords": 17317
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 5,
+            "textWords": 17317
+          },
+          "c00wMP9yrY2W": {
+            "hits": 4,
+            "textWords": 17317
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 1,
+            "textWords": 17317
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Ppfmwa4tY0i5",
+        "address": "https://talukadapoli.com/travel/listing/aadimaa/",
+        "title": "Aadimaa - Taluka Dapoli Travel",
+        "snippet": "",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 23,
+            "textWords": 991
+          },
+          "c00wMP9yrY2W": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "yJuijsCG40j4",
+        "address": "https://tantek.com/",
+        "title": "Tantek Çelik",
+        "snippet": "server blocks access to [URL]. (HTTP status=403)\"\n(literally happened to me today)\nor some other HTTP status error code (5xx or 4xx), then you can try emailing the IT staff of the site you were trying to archive by emailing \"webmaster@\" the domain of that URL and perhaps CC: help@ that domain.\nE.g.",
+        "matchedWords": {
+          "DIP1fHhqC0o5": {
+            "hits": 2,
+            "textWords": 10682
+          },
+          "WQ9T6GmYF8b6": {
+            "hits": 5,
+            "textWords": 10682
+          },
+          "c00wMP9yrY2W": {
+            "hits": 1,
+            "textWords": 10682
+          },
+          "zx6MFOVFBfYK": {
+            "hits": 3,
+            "textWords": 10682
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
   "itemsInNoOrder": [
     {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "snippet": "email addresses\nVPS→\nScalable virtual servers on demand\nDedicated Servers→\nHigh-performance physical servers\nEnterprise File Storage→\nShared NFS and CIFS file storage\nCompute→\nCloud instances and virtual machines\nObject Storage→\nScalable object storage for your data\nAI \u0026 Machine Learning→\nTrain and",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 4,
+          "textWords": 301
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 301
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 301
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 301
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "snippet": "self-hosted git repo with a convenient collaboration plane! ↩︎\nAugust 26, 2026 04:04 AM\nAugust 15, 2026\nLinux Plumbers Conference: Linux Plumbers Conference 2026 is now SOLD OUT!\nIt has become a trend for us now. Linux Plumbers Conference 2026 that is to be held in Prague on October 5th through to",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 13,
+          "textWords": 36724
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 6,
+          "textWords": 36724
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 36724
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 9,
+          "textWords": 36724
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 71870
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 10,
+          "textWords": 71870
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 71870
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 16,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "self-suggestion!\nPlease submit your suggestions and votes for next week!\nCalls for Testing\nAn important step for RFC implementation is for people to experiment with the implementation and give feedback, especially before stabilization.\nIf you are a feature implementer and would like your RFC to",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 27,
+          "textWords": 66162
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 30,
+          "textWords": 66162
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 66162
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 8,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "4fG2R7NM0dIB",
+      "address": "http://cleanpart.ru/placeholder/",
+      "title": "placeholder | Cleanpart.RU",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "snippet": "email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]\nView all 15 community-submitted tasks that were resolved last week. For example, an issue where editing very large wiki",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 4,
+          "textWords": 18265
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 18265
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 18265
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 4,
+          "textWords": 18265
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rLCvt_RV1YYA",
+      "address": "http://old.t-sborki.ru/articles/sotsialnaya-realizatsiya-po-zhenski",
+      "title": "Социальная реализация по-женски - Точка Сборки",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9PdxLzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/legal/modern-slavery-act-transparency-statement/",
+      "title": "GitLab's Modern Slavery Act Transparency Statement | The GitLab Handbook",
+      "snippet": "This is the current Modern Slavery Act Transparency Statement\nGitLab’s Modern Slavery Act Transparency Statement\nLast modified April 15, 2026: Replace FY25 Modern Slavery Statement with FY26 Version (a1ab21a2)\nView page source - Edit this page - please contribute.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 37
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 8109
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 8109
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "YZDSAsdTeyA4",
+      "address": "https://github.blog/changelog/",
+      "title": "GitHub Changelog",
+      "snippet": "email*\nBy submitting, I agree to let GitHub and its affiliates use my information for personalized communications, targeted advertising, and campaign effectiveness. See the GitHub Privacy Statement for more details.",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 50
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 50
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 50
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 50
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "snippet": "!yop.email !yp !yri !yubnub !zabasearch !zapmeta !zetawiki !zetax !zivefirmy !zomato !ςγρ !ц !ш !шру !як\nSearch (DDG):\n!? !anyr !api !assist !bangs !blogspot !bttf !closebook !dark !day !dc !dde !ddg !ddgbr !ddgc !ddgee !ddghu !ddgi !ddgja !ddgm !ddgnl !ddgno !ddh10 !ddh2 !ddh3 !ddh4 !ddh5 !ddh6",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 3,
+          "textWords": 58551
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 58551
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 58551
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 5,
+          "textWords": 58551
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 11,
+          "textWords": 405419
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 88,
+          "textWords": 405419
+        },
+        "c00wMP9yrY2W": {
+          "hits": 15,
+          "textWords": 405419
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 405419
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "Email Security\nMoron Meet-Ups\nSeptember 11, 2026\nOmnibus Cafe\n—Disinformation Expert Ace\nA horse-drawn bus from the 1890s\nBuffaloRon @BuffaloRon Jul 14, 2025\nThere is no way a horse drew this.\nits a photograph.\nWhen I read Sherlock Holmes or history books (usually Jack the Ripper books), they refer",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 14271
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 5,
+          "textWords": 14271
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 14271
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 14271
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xIkDby3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
+      "title": "Domains - OVHcloud Documentation",
+      "snippet": "server\nCustomise your server\nPrivate Cloud\nPublic VCF as-a-Service\nOverview\nKey Concepts\nGetting started\nConfiguration\nMigration\nTutorials\nAdditional resources\nManaged VMware\nOverview\nKey Concepts\nGetting started\nConfiguration\nVirtual Machines\nStorage and Resources\nNetwork and Connectivity\nvSphere",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 16,
+          "textWords": 1111
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 1111
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 1111
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 1111
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zPdIps8BaC94",
+      "address": "https://brave.com/podcast/",
+      "title": "The Brave Technologist | Brave",
+      "snippet": "Hosted by Luke Mulks\nVP, Business Operations at Brave\nThe Brave Technologist podcast is hosted by Luke Mulks, VP of Business Operations at Brave Software - makers of the privacy-respecting Brave browser and Search engine, now powering AI with the Brave Search API. In this role Luke focuses on",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 13932
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 4,
+          "textWords": 13932
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 13932
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 13932
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2BUdOKKwilRR",
+      "address": "http://microformats.org/wiki/microformats2",
+      "title": "microformats2 - Microformats Wiki",
+      "snippet": "self-evident from context. However, any parsing prefix can be used with any property, especially if you find a good reason to do so!\nv2 vocabularies\nStatus: draft. Please review and provide feedback in IRC.\nh-adr\nh-card\nh-entry\nh-event\nh-feed\nh-geo\nh-item\nh-listing\nh-product\nh-recipe\nh-resume",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 3,
+          "textWords": 7443
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 6,
+          "textWords": 7443
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 7443
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 7443
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "f0SNutRe8955",
+      "address": "https://blog.krtraining.com/",
+      "title": "Notes from KR - this time, it's personal",
+      "snippet": "self-defense material: answering the questions “what is the right thing to do” in all the most common self defense situations. The most common mistakes armed citizens make in defensive incidents are failures of tactics – not shooting skills. There is more to defensive firearms training than just",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 48,
+          "textWords": 25226
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 46,
+          "textWords": 25226
+        },
+        "c00wMP9yrY2W": {
+          "hits": 5,
+          "textWords": 25226
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 25226
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "server to stay connected with your members. It offers a relaxed and informal channel for interacting with your followers and community.\nMemberships Email Relay\nCommunicate with your members at least once a week.\nUse the Memberships Email Relay to give your paid members updates on your projects,",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 53,
+          "textWords": 50875
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 3,
+          "textWords": 50875
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 50875
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 5,
+          "textWords": 50875
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "snippet": "server design/upkeep. He graduated in 2023 with a BA in Sociology and English from Tufts University.\nBess Ruff is a Scientist based in Sydney, Australia. Her research interests and previous scientific experience include environmental science, geography, biotechnology, mariculture, marine spatial",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 42393
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 24,
+          "textWords": 42393
+        },
+        "c00wMP9yrY2W": {
+          "hits": 7,
+          "textWords": 42393
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 42393
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "hosted on Pantheon, and use as an experiment both to learn about Next.js, but also to learn about how Claude works.\nAnd found out a whole bunch of things about like how to steer it in different directions. I want it to be, I want the code to be clean. I want the code to be tested. I want it to be",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 9047
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "IF33ltWGQgu4",
+      "address": "https://nymag.com/newyork/privacy.html",
+      "title": "New York Media Privacy Notice",
+      "snippet": "server on your computer.\nWe use pixel tags, either provided by us or by our third-party advertisers, service providers and ad networks, to collect information about your visit, including the pages you view, the links you click and other actions taken in connection with our sites and Services and",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 24,
+          "textWords": 11722
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 11722
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 11722
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 11722
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qqIgmqWU7_zx",
+      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "snippet": "hosted by a neutral third party. Referendum details, officials, voting requirements, and supporting materials will be posted at Meta:Image filter referendum shortly.\nSorry for delivering you a message in English. Please help translate the pages on the referendum on Meta and join the translators",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 20,
+          "textWords": 82796
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 4,
+          "textWords": 82796
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 82796
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 82796
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "jh1R77XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc6125/",
+      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
+      "snippet": "Server Identity . . . . . . . . . . . . . . . . . 18 4.1. Rules . . . . . . . . . . . . . . . . . . . . . . . . . . 18 4.2. Examples . . . . . . . . . . . . . . . . . . . . . . . . . 20 5. Requesting Server Certificates . . . . . . . . . . . . . . . . 21 6. Verifying Service Identity . . . . . . .",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 19,
+          "textWords": 17272
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 4,
+          "textWords": 17272
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 17272
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 151,
+          "textWords": 17272
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "2MFHBtYEKFwx",
+      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
+      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem. Apparently these researchers were paid by the FBI to attack hidden services users in a broad sweep, and then sift through their data to find people whom they could accuse of",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 444
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "azENEsgbSIuz",
+      "address": "https://geoengineeringwatch.org/flaming-arrow-package/",
+      "title": "Climate Engineering Introduction Letter - Geoengineering Watch",
+      "snippet": "self serving evil!\nJust learned about this spraying, in our skies! The are we breath us \"NOW\"; destroying our planet! Thank you, Dane\nDear Friends, I feel inspired by the movie The Martian, 2015. Astronaut accidentally left alone on Mars, \u0026 all of Earth needed to work together to rescue him. Like",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 7,
+          "textWords": 12820
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 12820
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 12820
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 12820
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cbaVasmZ_3U4",
+      "address": "https://discord.com/safety-news",
+      "title": "Safety News Hub | Discord",
+      "snippet": "hosted an intimate roundtable lunch with select NGO representatives and child safety organizations. Over sandwiches, we had honest, collaborative conversations about age assurance implementation. The consensus was clear,effective teen safety calls for a comprehensive approach, with age assurance",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 6,
+          "textWords": 25860
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 13,
+          "textWords": 25860
+        },
+        "c00wMP9yrY2W": {
+          "hits": 4,
+          "textWords": 25860
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 37,
+          "textWords": 25860
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5yRkjupSnYMg",
+      "address": "https://www.medom.pl/meble/apartamenty/medom-apartament-01-2/",
+      "title": "Medom - Producent mebli Kuchennych - Medom - Kuchnie i Wnętrza",
+      "snippet": "email and can look out for much more of\nyour respective exciting content. Make sure\nyou update this again soon.. Escape rooms hub\nI was reading some of your blog posts on this website and I conceive this internet site is\nvery informative! Keep on putting up.?\nYour style is unique compared to other",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 36,
+          "textWords": 202917
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 25,
+          "textWords": 202917
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 202917
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 202917
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ClTOilptNsG4",
+      "address": "https://www.akdart.com/obama11.html",
+      "title": "The Obama Presidency : Narcissism and Bad Decisions",
+      "snippet": "hosted by the city from Jan. 16 to Jan. 21. He also released a report on the city's handling of the inauguration.\nHow Big Was the Crowd? After the Million Man March in 1995, Congress restricted the National Park Service from even making estimates — a restriction that was maintained for 14 years and",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 11,
+          "textWords": 95784
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 17,
+          "textWords": 95784
+        },
+        "c00wMP9yrY2W": {
+          "hits": 5,
+          "textWords": 95784
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 95784
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert\nVorsicht, Kunde:",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
         },
         "c00wMP9yrY2W": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2MFHBtYEKFwx",
+      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
+      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+      "snippet": "The Tor Project has learned more about last year's attack by Carnegie Mellon researchers on the hidden service subsystem. Apparently these researchers were paid by the FBI to attack hidden services users in a broad sweep, and then sift through their data to find people whom they could accuse of",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 444
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FMD4sitD2jQw",
+      "address": "https://docs.python.org/3/library/typing.html",
+      "title": "26.1. typing — Support for type hints \u0026mdash; Python 3.5.0 documentation",
+      "snippet": "(hosted at the mypy docs)\nType System Reference section of the mypy docs\nThe Python typing system is standardised via PEPs, so this reference should broadly apply to most Python type checkers. (Some parts may still be specific to mypy.)\nStatic Typing with Python\nType-checker-agnostic documentation",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 16346
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 66,
+          "textWords": 16346
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 16346
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 16346
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "Commons:Village pump - Wikimedia Commons",
+      "snippet": "Server side error\n2\n2\nBawolff\n2026-09-04 16:54\n12\n1970 Yugoslav film poster with locally redrawn Disney characters\n1\n1\nBaronmilone\n2026-09-04 18:41\n13\nStreetcar image\n4\n2\nWobs100\n2026-09-05 12:44\n14\nPhoto challenge July 2026 results\n2\n2\nArlo Barnes\n2026-09-05 21:21\n15\nWikimedia Commons turned 22\n3",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 14,
+          "textWords": 20429
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 20429
+        },
+        "c00wMP9yrY2W": {
+          "hits": 2,
+          "textWords": 20429
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 6,
+          "textWords": 20429
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XhM90s4so94h",
+      "address": "https://microclimat.bg/blog?journal_blog_post_id=1",
+      "title": "Хладилен агент R32, климатици, Фреон ...",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ku8ESjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/Wiktionary:Beer_parlour",
+      "title": "Wiktionary:Beer parlour - Wiktionary, the free dictionary",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gK0yJsjsdFw4",
+      "address": "https://akdart.com/med21.html",
+      "title": "News Media Sensationalism and Dishonesty",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "cbaVasmZ_3U4",
+      "address": "https://discord.com/safety-news",
+      "title": "Safety News Hub | Discord",
+      "snippet": "hosted an intimate roundtable lunch with select NGO representatives and child safety organizations. Over sandwiches, we had honest, collaborative conversations about age assurance implementation. The consensus was clear,effective teen safety calls for a comprehensive approach, with age assurance",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 6,
+          "textWords": 25860
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 13,
+          "textWords": 25860
+        },
+        "c00wMP9yrY2W": {
+          "hits": 4,
+          "textWords": 25860
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 37,
+          "textWords": 25860
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "snippet": "self-inflicted oblivion. The antithesis of multicultural harmony, the year 2025 brings another pitiful surrender to the forces of Islamic extremism, a phenomenon chillingly encapsulated by Melanie Phillips in her prescient 2006 tome Londonistan. Phillips, a Cassandra of our age, warned of London's",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 11,
+          "textWords": 405419
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 88,
+          "textWords": 405419
+        },
+        "c00wMP9yrY2W": {
+          "hits": 15,
+          "textWords": 405419
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 405419
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "snippet": "server. This Public Preview feature allows you to expose your existing REST APIs to AI agents as tools, without requiring changes to your backend services. You can enable MCP by annotating your OpenAPI 3.x specification using custom Google extensions.\nFor more information, see Model Context",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 63,
+          "textWords": 93126
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 17,
+          "textWords": 93126
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 93126
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 77,
+          "textWords": 93126
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "snippet": "self-hosted git repo with a convenient collaboration plane! ↩︎\nAugust 26, 2026 04:04 AM\nAugust 15, 2026\nLinux Plumbers Conference: Linux Plumbers Conference 2026 is now SOLD OUT!\nIt has become a trend for us now. Linux Plumbers Conference 2026 that is to be held in Prague on October 5th through to",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 13,
+          "textWords": 36724
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 6,
+          "textWords": 36724
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 36724
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 9,
+          "textWords": 36724
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "8CJLrjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+      "snippet": "hosted or scans on c: as well as listing how different groups arrange their standard works. Does anyone have a perspective on what the best practice would be here? ―Justin (koavf)❤T☮C☺M☯ 20:50, 26 July 2026 (UTC)Reply\nBased on your explanation, I would concur with your suggestion of a Portal, but I",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 10932
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 10932
+        },
+        "c00wMP9yrY2W": {
+          "hits": 4,
+          "textWords": 10932
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 10932
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 71870
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 10,
+          "textWords": 71870
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 71870
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 16,
+          "textWords": 71870
         }
       },
       "queryPhraseHits": 0
@@ -32,23 +1420,323 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nImmer neue Projekte am Start!\nDann bist du bei uns genau richtig:\nÜber 1000 DIY-Ideen und Inspirationen\n2 Ausgaben mit 30 % Rabatt\nMit exklusiver Prämie z.B. Make: Tasse\nJetzt sichern!\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert\nVorsicht, Kunde:",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
         },
         "c00wMP9yrY2W": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 980
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "self-suggestion!\nPlease submit your suggestions and votes for next week!\nCalls for Testing\nAn important step for RFC implementation is for people to experiment with the implementation and give feedback, especially before stabilization.\nIf you are a feature implementer and would like your RFC to",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 27,
+          "textWords": 66162
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 30,
+          "textWords": 66162
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 66162
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 8,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "bvZ6nIG-ATF4",
+      "address": "https://podcasts.apple.com/bs/new",
+      "title": "Apple Podcasts (BS) - Web Player",
+      "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 19
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "self promotion. No reason to keep or print that. Plus, I don’t need all of the promotional images. Plus, sometimes my computer (or I) will fail to print the articles 4x/page, and the results are quite annoying.\nAlso? Why am I spending so much time on this, going through each message and printing",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 2,
+          "textWords": 30728
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 231,
+          "textWords": 30728
+        },
+        "c00wMP9yrY2W": {
+          "hits": 5,
+          "textWords": 30728
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 24,
+          "textWords": 30728
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2BUdOKKwilRR",
+      "address": "http://microformats.org/wiki/microformats2",
+      "title": "microformats2 - Microformats Wiki",
+      "snippet": "self-evident from context. However, any parsing prefix can be used with any property, especially if you find a good reason to do so!\nv2 vocabularies\nStatus: draft. Please review and provide feedback in IRC.\nh-adr\nh-card\nh-entry\nh-event\nh-feed\nh-geo\nh-item\nh-listing\nh-product\nh-recipe\nh-resume",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 3,
+          "textWords": 7443
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 6,
+          "textWords": 7443
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 7443
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 7443
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
+      "snippet": "self-explanatory. It explains what, exactly, is going to happen. It remains a marvel of clarity, especially when you consider the complexity of what it does.\nFunctionally, SuperDuper 4 is also much improved. SuperDuper has never been slow, but now some copy operations are over 2× faster. Scheduling",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 13247
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 3,
+          "textWords": 13247
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 13247
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 13247
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "snippet": "email addresses can now see a banner encouraging them to do so. Having the email address confirmed allows a user to restore access to the account if they lose it. Learn more. [12]\nView all 15 community-submitted tasks that were resolved last week. For example, an issue where editing very large wiki",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 4,
+          "textWords": 18265
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 1,
+          "textWords": 18265
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 18265
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 4,
+          "textWords": 18265
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rExjvjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Archive_of_Our_Own",
+      "title": "Archive of Our Own - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "hosted on Pantheon, and use as an experiment both to learn about Next.js, but also to learn about how Claude works.\nAnd found out a whole bunch of things about like how to steer it in different directions. I want it to be, I want the code to be clean. I want the code to be tested. I want it to be",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 9047
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "IF33ltWGQgu4",
+      "address": "https://nymag.com/newyork/privacy.html",
+      "title": "New York Media Privacy Notice",
+      "snippet": "server on your computer.\nWe use pixel tags, either provided by us or by our third-party advertisers, service providers and ad networks, to collect information about your visit, including the pages you view, the links you click and other actions taken in connection with our sites and Services and",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 24,
+          "textWords": 11722
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 11722
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 11722
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 11722
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qqIgmqWU7_zx",
+      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "snippet": "hosted by a neutral third party. Referendum details, officials, voting requirements, and supporting materials will be posted at Meta:Image filter referendum shortly.\nSorry for delivering you a message in English. Please help translate the pages on the referendum on Meta and join the translators",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 20,
+          "textWords": 82796
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 4,
+          "textWords": 82796
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 82796
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 82796
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J6LFIsYyzH0z",
+      "address": "https://awesome-selfhosted.net/",
+      "title": "awesome-selfhosted",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -79,6 +1767,306 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "server (which could be a privacy concern).\nTherefore, a common way to deploy an AppStream-enabled software repository is to ship all icons of all applications in the repository to the user as part of the repository metadata download. AppStream does support remote icon downloads nowadays, and for a",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "FMD4sitD2jQw",
+      "address": "https://docs.python.org/3/library/typing.html",
+      "title": "typing — Support for type hints — Python 3.14.7 documentation",
+      "snippet": "(hosted at the mypy docs)\nType System Reference section of the mypy docs\nThe Python typing system is standardised via PEPs, so this reference should broadly apply to most Python type checkers. (Some parts may still be specific to mypy.)\nStatic Typing with Python\nType-checker-agnostic documentation",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 1,
+          "textWords": 16346
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 66,
+          "textWords": 16346
+        },
+        "c00wMP9yrY2W": {
+          "hits": 1,
+          "textWords": 16346
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 2,
+          "textWords": 16346
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "snippet": "email addresses\nVPS→\nScalable virtual servers on demand\nDedicated Servers→\nHigh-performance physical servers\nEnterprise File Storage→\nShared NFS and CIFS file storage\nCompute→\nCloud instances and virtual machines\nObject Storage→\nScalable object storage for your data\nAI \u0026 Machine Learning→\nTrain and",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 4,
+          "textWords": 301
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 301
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 301
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 301
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "snippet": "server. This Public Preview feature allows you to expose your existing REST APIs to AI agents as tools, without requiring changes to your backend services. You can enable MCP by annotating your OpenAPI 3.x specification using custom Google extensions.\nFor more information, see Model Context",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 63,
+          "textWords": 93126
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 17,
+          "textWords": 93126
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 93126
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 77,
+          "textWords": 93126
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "snippet": "self-hosted git repo with a convenient collaboration plane! ↩︎\nAugust 26, 2026 04:04 AM\nAugust 15, 2026\nLinux Plumbers Conference: Linux Plumbers Conference 2026 is now SOLD OUT!\nIt has become a trend for us now. Linux Plumbers Conference 2026 that is to be held in Prague on October 5th through to",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 13,
+          "textWords": 36724
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 6,
+          "textWords": 36724
+        },
+        "c00wMP9yrY2W": {
+          "hits": 3,
+          "textWords": 36724
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 9,
+          "textWords": 36724
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "8CJLrjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+      "snippet": "hosted or scans on c: as well as listing how different groups arrange their standard works. Does anyone have a perspective on what the best practice would be here? ―Justin (koavf)❤T☮C☺M☯ 20:50, 26 July 2026 (UTC)Reply\nBased on your explanation, I would concur with your suggestion of a Portal, but I",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 10932
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 10932
+        },
+        "c00wMP9yrY2W": {
+          "hits": 4,
+          "textWords": 10932
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 10932
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "self-suggestion!\nPlease submit your suggestions and votes for next week!\nCalls for Testing\nAn important step for RFC implementation is for people to experiment with the implementation and give feedback, especially before stabilization.\nIf you are a feature implementer and would like your RFC to",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 27,
+          "textWords": 66162
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 30,
+          "textWords": 66162
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 66162
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 8,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "bvZ6nIG-ATF4",
+      "address": "https://podcasts.apple.com/bs/new",
+      "title": "Apple Podcasts (BS) - Web Player",
+      "snippet": "Copyright © 2026 Apple Inc. All rights reserved.\nInternet Service Terms\nApple Podcasts web player \u0026 Privacy\nCookie Warning\nSupport\nFeedback",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 19
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 19
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "snippet": "",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "c00wMP9yrY2W": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "f0SNutRe8955",
+      "address": "https://blog.krtraining.com/",
+      "title": "Notes from KR - this time, it's personal",
+      "snippet": "self-defense material: answering the questions “what is the right thing to do” in all the most common self defense situations. The most common mistakes armed citizens make in defensive incidents are failures of tactics – not shooting skills. There is more to defensive firearms training than just",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 48,
+          "textWords": 25226
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 46,
+          "textWords": 25226
+        },
+        "c00wMP9yrY2W": {
+          "hits": 5,
+          "textWords": 25226
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 1,
+          "textWords": 25226
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "qqIgmqWU7_zx",
+      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "snippet": "hosted by a neutral third party. Referendum details, officials, voting requirements, and supporting materials will be posted at Meta:Image filter referendum shortly.\nSorry for delivering you a message in English. Please help translate the pages on the referendum on Meta and join the translators",
+      "matchedWords": {
+        "DIP1fHhqC0o5": {
+          "hits": 20,
+          "textWords": 82796
+        },
+        "WQ9T6GmYF8b6": {
+          "hits": 4,
+          "textWords": 82796
+        },
+        "c00wMP9yrY2W": {
+          "hits": 11,
+          "textWords": 82796
+        },
+        "zx6MFOVFBfYK": {
+          "hits": 0,
+          "textWords": 82796
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
@@ -104,135 +2092,85 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 0
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 0
         },
         "c00wMP9yrY2W": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 0
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 967
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "hash": "ku8ESjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/Wiktionary:Beer_parlour",
+      "title": "Wiktionary:Beer parlour - Wiktionary, the free dictionary",
+      "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         },
         "c00wMP9yrY2W": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         },
         "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 8109
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
+      "hash": "zPzQLs6GdY-4",
+      "address": "https://danluu.com/ai-coding/",
+      "title": "Agentic test processes, LLM benchmarks, and other notes on agentic coding from Galapagos Island",
+      "snippet": "",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 8109
+          "textWords": 0
         },
         "c00wMP9yrY2W": {
           "hits": 0,
-          "textWords": 8109
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 8109
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nCyber Resilience Act in der Praxis\nLive-Classroom · 21.10. - 11.11.26\nCRA-Anforderungen verstehen und einordnen\nRisikoanalyse und Dokumentation aufbauen\nKonformitätsbewertung sicher planen\nClassroom entdecken\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 967
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 967
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 967
+          "textWords": 0
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 967
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "server, which I rent with two 1 TB SSD disks. The optimized decoder of the C TurboPFor library is what made decoding fast at query time.\nIf you want to dive deeper into the algorithm, see this blog post from February 2019:\nIf you want to learn more about the positional index, see this blog post",
-      "matchedWords": {
-        "DIP1fHhqC0o5": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "WQ9T6GmYF8b6": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 8109
-        },
-        "zx6MFOVFBfYK": {
-          "hits": 2,
-          "textWords": 8109
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "DIP1fHhqC0o5": 85788,
-    "WQ9T6GmYF8b6": 51344,
-    "c00wMP9yrY2W": 10505,
-    "zx6MFOVFBfYK": 33854
+    "DIP1fHhqC0o5": 2542660,
+    "WQ9T6GmYF8b6": 184139,
+    "c00wMP9yrY2W": 269654,
+    "zx6MFOVFBfYK": 371222
   }
 }

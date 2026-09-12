@@ -1,0 +1,5816 @@
+{
+  "query": "python",
+  "recordedAt": "2026-09-12T00:13:58Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "AusAYpdG5jPw",
+        "address": "https://www.python.org/events/python-user-group/137/",
+        "title": "Python Meeting Düsseldorf | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nDüsseldorf, Germany 22 Jan. from 5pm UTC to 7pm UTC, 2013",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 34
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CvxHgDxgB4dw",
+        "address": "https://codedocs.org/what-is/python-programming-language",
+        "title": "Python (programming language) - CodeDocs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 203,
+            "textWords": 10195
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DQYzKPMW35a4",
+        "address": "https://hub.docker.com/_/python/",
+        "title": "python - Official Image | Docker Hub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 47,
+            "textWords": 1844
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DAEvGzS6MKD4",
+        "address": "https://github.com/on-nix/python",
+        "title": "GitHub - on-nix/python: Extensive collection of Python projects from PyPI, for Nix!",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 108,
+            "textWords": 2502
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AeAtomtD2jQw",
+        "address": "https://docs.python.org/3.15/faq/index.html",
+        "title": "Python Frequently Asked Questions — Python 3.15.0b4 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 15,
+            "textWords": 260
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A-ncDlMAuxi4",
+        "address": "https://www.linkedin.com/jobs/python-developer-jobs",
+        "title": "17,000+ Python Developer jobs in United States",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 108,
+            "textWords": 1918
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ACIq1TCk19rw",
+        "address": "https://peps.python.org/pep-0401/",
+        "title": "PEP 401 – BDFL Retirement | peps.python.org",
+        "snippet": "Python development for 20 years, officially announces his retirement, effective immediately. Following a unanimous vote, his replacement is named.\nRationale\nGuido wrote the original implementation of Python in 1989, and after nearly 20 years of leading the community, has decided to step aside as",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 26,
+            "textWords": 551
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DEKXKM9Ojva4",
+        "address": "https://docs.docker.com/desktop/setup/install/linux/",
+        "title": "Linux | Docker Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 156,
+            "textWords": 3185
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AkNjlZBP-b24",
+        "address": "https://docs.vultr.com/install-docker-compose-on-ubuntu-20-04",
+        "title": "How to Install Docker Compose on Ubuntu 20.04 Tutorial | Vultr Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 26,
+            "textWords": 890
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AF6AOlBLxyZw",
+        "address": "https://bugs.python.org/issue36763",
+        "title": "Issue 36763: Implementation of the PEP 587 - Python tracker",
+        "snippet": "Python initiaization API.\nmsg341168 - (view)\nAuthor: STINNER Victor (vstinner) *\nDate: 2019-04-30 23:36\nNew changeset 463b82a3efe8a6a9f3924a5b37482e961dffe3b8 by Victor Stinner in branch 'master': bpo-36763: Fix Py_SetStandardStreamEncoding() (GH-13028)",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 59,
+            "textWords": 3788
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "HEQVMwS6MKD4",
+        "address": "https://github.com/ayushi7rawat/Ultimate-Python-Resource-Hub",
+        "title": "GitHub - ayushi7rawat/Ultimate-Python-Resource-Hub: The Ultimate resource hub of Python: All at one place · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 99,
+            "textWords": 1535
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HSk23ldG5jPw",
+        "address": "https://www.python.org/blogs/",
+        "title": "Our Blogs | Python.org",
+        "snippet": "Python Insider\nThe 2026 PSF Board Election is Open!\nSept. 1, 2026, 2:02 p.m.\nIt’s time to cast your vote! Voting for the 2026 PSF Board Election is open starting today Tuesday, September 1st, 2:00 pm UTC, through Tuesday, September 15th, 2:00 pm UTC. How to Vote If you are a voting member of the",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 66
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Hh9MvsZTlNQ4",
+        "address": "https://python.land/python-tutorial",
+        "title": "Welcome To The Python Tutorial",
+        "snippet": "Python with our free tutorial, suitable for beginners. It contains carefully crafted, logically ordered Python articles full of information, advice, and Python practice! Hence, it helps both complete beginners and those with prior programming experience get up to speed with Python.\nIf you want to",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 75,
+            "textWords": 1776
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EofYLWYTtSsx",
+        "address": "https://sourceware.org/gdb/current/onlinedocs/gdb.html/Python-API.html",
+        "title": "Python API (Debugging with GDB)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 71,
+            "textWords": 437
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "G76WTDENrbc6",
+        "address": "https://husking-studio.com/category/extending-python-with-c/",
+        "title": "Python 與 C 擴充 - 小哈的程式工作坊",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 175
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EjgkgiUVXhJ4",
+        "address": "https://www.tutlane.com/tutorial/python/python-string-encode-method",
+        "title": "Python String Encode Method - Tutlane",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 99,
+            "textWords": 801
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HbNZVyVA0BY5",
+        "address": "https://docs.snowflake.com/en/developer-guide/snowpark/python/index",
+        "title": "Snowpark Developer Guide for Python | Snowflake Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 28,
+            "textWords": 749
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Hqsy538qwGN4",
+        "address": "https://devcenter.heroku.com/categories/background-jobs-in-python",
+        "title": "Background Jobs in Python | Heroku Dev Center",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 12,
+            "textWords": 559
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "G3V5gYjJikl6",
+        "address": "https://www.tutorialsteacher.com/python/install-python",
+        "title": "Install Python on Windows, Mac, and Linux",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 73,
+            "textWords": 1073
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FqPoRb4Qown6",
+        "address": "https://www.tutorialspoint.com/dart_programming/index.htm",
+        "title": "Dart Programming Tutorial",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 44,
+            "textWords": 500
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Ugbc-tHWcaq4",
+        "address": "https://blog.finxter.com/free-python-books/",
+        "title": "101+ Free Python Books - Be on the Right Side of Change",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 172,
+            "textWords": 2650
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JfZEMitD2jQw",
+        "address": "https://docs.python.org/3/faq/",
+        "title": "Python Frequently Asked Questions — Python 3.14.6 documentation",
+        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 64
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "K2rpjkdG5jPw",
+        "address": "https://www.python.org/community/lists/",
+        "title": "Mailing Lists | Python.org",
+        "snippet": "Python mailing lists and newsgroups\nHere's an overview of the mail and news resources for python. For a complete listing of python.org's public mailing lists you can view them on Mailman 3.\nTo request a new list, send e-mail to postmaster @ python.org; please check first to make sure a similar list",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 60,
+            "textWords": 1062
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ks24ZvS6MKD4",
+        "address": "https://github.com/faroit/awesome-python-scientific-audio",
+        "title": "GitHub - faroit/awesome-python-scientific-audio: Curated list of python software and packages related to scientific research in audio · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 1706
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JV0vxTCk19rw",
+        "address": "https://peps.python.org/pep-0020/",
+        "title": "PEP 20 – The Zen of Python | peps.python.org",
+        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 239
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IiQfIjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Category:Subject:Python_programming_language/all_books",
+        "title": "Category:Subject:Python programming language/all books - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 33,
+            "textWords": 642
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AaMvcVDdGLy5",
+        "address": "https://marketplace.visualstudio.com/items?itemName=ms-python.python",
+        "title": "Python - Visual Studio Marketplace",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 52,
+            "textWords": 1256
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JungsjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Programming_paradigm",
+        "title": "Programming paradigm - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 126,
+            "textWords": 4616
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JZLSwsQ_UtE5",
+        "address": "https://realpython.com/python-parallel-processing/",
+        "title": "Bypassing the GIL for Parallel Processing in Python – Real Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 69,
+            "textWords": 17721
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HbNZVyVA0BY5",
+        "address": "https://docs.snowflake.com/en/developer-guide/snowpark/python/index",
+        "title": "Snowpark Developer Guide for Python | Snowflake Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 28,
+            "textWords": 749
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PJMkUsvmxro5",
+        "address": "https://techbeamers.com/python-tutorial-step-by-step/",
+        "title": "Free Python Course with 100+ Basic to Advanced Tutorials",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 246,
+            "textWords": 1589
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P-sn0jldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Category:Book:Python_Programming",
+        "title": "Category:Book:Python Programming - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 134,
+            "textWords": 975
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NI6PS33vtu2w",
+        "address": "https://blog.python.org/authors/jacob-coffee/",
+        "title": "Jacob Coffee | Python Insider",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 139
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Nh8yR1r4CjGw",
+        "address": "https://discuss.python.org/",
+        "title": "Discussions on Python.org",
+        "snippet": "Python Help\nGeneral help/discussion forum for the Python programming language. All welcome.\n11239\nCommitters\nThe “argument clinic” for Python committers (people with the commit bit on https://github.com/python/cpython and related projects). Open for all to view.\n468\nIdeas\nWould you like to change",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MzBjbZiAEraw",
+        "address": "https://azure.github.io/azure-sdk/releases/latest/mgmt/python.html",
+        "title": "Azure SDK for Python (Mgmt) | Azure SDKs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 3424
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OdvX_pdG5jPw",
+        "address": "https://www.python.org/events/python-user-group/past/",
+        "title": "Our Events | Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 31,
+            "textWords": 536
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MhcM4D1j27yh",
+        "address": "https://ibkrcampus.eu/campus/trading-course/python-tws-api/",
+        "title": "Python TWS API | Trading Course | Traders' Academy",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 4417
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MTNgHdS6MKD4",
+        "address": "https://github.com/arasgungore/awesome-python",
+        "title": "GitHub - arasgungore/awesome-python: A curated list of awesome Python frameworks, libraries, software and resources. · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 6797
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "M9iM53M9rDb4",
+        "address": "https://builtin.com/software-engineering-perspectives/python",
+        "title": "What Is Python? (Definition, Uses, Benefits) | Built In",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 53,
+            "textWords": 1508
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B4BuoSGYFcLw",
+        "address": "https://sentry.io/for/python/",
+        "title": "Python Error Monitoring \u0026 Performance Tracking | Sentry",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 41,
+            "textWords": 1982
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "SooFRitD2jQw",
+        "address": "https://docs.python.org/3/howto/pyporting.html",
+        "title": "How to port Python 2 Code to Python 3 — Python 3.14.6 documentation",
+        "snippet": "Python 2 reached its official end-of-life at the start of 2020. This means that no new bug reports, fixes, or changes will be made to Python 2 - it’s no longer supported: see PEP 373 and status of Python versions.\nIf you are looking to port an extension module instead of pure Python code, please",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 118
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ROGk4VdG5jPw",
+        "address": "https://www.python.org/doc/av/",
+        "title": "Audio/Video Instructional Materials for Python | Python.org",
+        "snippet": "Python community. This page collects some of the best.\nPodcast Repositories\ncore.py\nPablo Galindo and Łukasz Langa talk about Python internals, because they work on Python internals.\nPyPodcats\nHidden Figures of Python podcast series. Our goal is to highlight the contributions and accomplishments of",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 36,
+            "textWords": 571
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SEaby5n__psw",
+        "address": "https://policies.python.org/",
+        "title": "About - Python Software Foundation Policies",
+        "snippet": "Python Software Foundation.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 15
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SnLkfp6whQh4",
+        "address": "https://pythoninsider.blogspot.com/2024/06/python-3124-released.html",
+        "title": "Python 3.12.4 released",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 31,
+            "textWords": 977
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QSTWOKf4Pib5",
+        "address": "https://code.visualstudio.com/docs/python/run",
+        "title": "Running Python code in Visual Studio Code",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 56,
+            "textWords": 1388
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SNlGrxbhx54w",
+        "address": "https://packaging.python.org/en/latest/",
+        "title": "Python Packaging User Guide",
+        "snippet": "Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority. We happily accept contributions and feedback. 😊\nOverview and Flow¶\nNote\nBuilding your",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 301
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T00dXgYf_OZw",
+        "address": "https://mail.python.org/archives/list/python-announce-list@python.org/2005/3/",
+        "title": "Mailman 3 March 2005 - Python-announce-list - python.org",
+        "snippet": "Python newsgroup. Assume that we all have been brainwashed.\" -- Peter Otten \"[M]y experience porting Java to Jython is that it mostly involves deleting stuff :-)\" -- Kent Johnson \"[K]eep in mind, however, that not all problems in life can be solved with software.\" -- Roy Smith The Second Edition",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 63,
+            "textWords": 976
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RDC7iTCk19rw",
+        "address": "https://peps.python.org/pep-8015/",
+        "title": "PEP 8015 – Organization of the Python community | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 114,
+            "textWords": 3656
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "S9e-tcS6MKD4",
+        "address": "https://github.com/getsentry/sentry-python",
+        "title": "GitHub - getsentry/sentry-python: The official Python SDK for Sentry.io · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 8,
+            "textWords": 1474
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SqWHwDIZp8m4",
+        "address": "https://python.libhunt.com/tapioca-wrapper-alternatives",
+        "title": "Tapioca-Wrapper Alternatives - Python HTTP | LibHunt",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 1276
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "zpQ5YeMcq6Ew",
+        "address": "https://web.archive.org/web/20110702023520/http:/python.org.ar/pyar/Proyectos/CDPedia",
+        "title": "Proyectos/CDPedia - PyAr - Python Argentina",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 846
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eFgJeHKHlqqx",
+        "address": "https://ha.wikipedia.org/wiki/Python_programming_language",
+        "title": "Python programming language - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 60,
+            "textWords": 1902
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-HFtuEOypJzx",
+        "address": "https://hr.wikiquote.org/wiki/Monty_Python",
+        "title": "Monty Python – Wikicitat",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 459
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZWoEoFjEQm8x",
+        "address": "https://sq.wikipedia.org/wiki/Python",
+        "title": "Python - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 114,
+            "textWords": 10994
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xK_FyMI4RxOx",
+        "address": "https://eu.wikipedia.org/wiki/Monty_Python",
+        "title": "Monty Python - Wikipedia, entziklopedia askea.",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 20,
+            "textWords": 1509
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FSi32jAg8xXw",
+        "address": "https://en.wikinews.org/wiki/400_pound_python_seized_by_wildlife_officials_in_Florida",
+        "title": "400 pound python seized by wildlife officials in Florida - Wikinews, the free news source",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 1588
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QZ3vrsbIDBOw",
+        "address": "https://pypi.org/",
+        "title": "PyPI · The Python Package Index",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 1056
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P84m3bS6MKD4",
+        "address": "https://github.com/PEAK-Legacy/PEAK/",
+        "title": "GitHub - PEAK-Legacy/PEAK: Status: ARCHIVED; No plans for Python 3 support · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 983
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mRYh6uKtJDgx",
+        "address": "https://id.wikipedia.org/wiki/CPython",
+        "title": "Python (bahasa pemrograman) - Wikipedia bahasa Indonesia, ensiklopedia bebas",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 127,
+            "textWords": 4741
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EMXNtopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q28865?uselang=kab",
+        "title": "Python — Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 162,
+            "textWords": 22803
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "aHiSShdG5jPw",
+        "address": "https://www.python.org/downloads/ios/",
+        "title": "Python Releases for iOS | Python.org",
+        "snippet": "Python\u003e\u003e\u003e\nDownloads\u003e\u003e\u003e\niOS\nLatest Python 3 Release - Python 3.14.7\nPre-releases\nPython 3.15.0rc2 - Sept. 1, 2026 Download iOS XCframework\nPython 3.15.0rc1 - Aug. 4, 2026 Download iOS XCframework\nPython 3.15.0b4 - July 18, 2026 Download iOS XCframework\nPython 3.15.0b3 - June 23, 2026 Download iOS",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 83
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YtWC3WZRw6o5",
+        "address": "https://erlangforums.com/tag/python/949",
+        "title": "Topics tagged python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 152
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aebI2jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Time_t",
+        "title": "Unix time - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 237,
+            "textWords": 7173
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aUDQBxbhx54w",
+        "address": "https://packaging.python.org/en/latest/key_projects/",
+        "title": "Project Summaries - Python Packaging User Guide",
+        "snippet": "Python installation and packaging.\nPyPA Projects¶\nbandersnatch¶\nDocs | Issues | GitHub | PyPI\nbandersnatch is a PyPI mirroring client designed to efficiently create a complete mirror of the contents of PyPI. Organizations thus save bandwidth and latency on package downloads (especially in the",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 81,
+            "textWords": 2997
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "brpYmTCk19rw",
+        "address": "https://peps.python.org/pep-8107/",
+        "title": "PEP 8107 – 2026 Term Steering Council election | peps.python.org",
+        "snippet": "python.org\u003e\nSponsor:\nBarry Warsaw \u003cbarry at python.org\u003e\nStatus:\nFinal\nType:\nInformational\nTopic:\nGovernance\nCreated:\n21-Oct-2025\nTable of Contents\nAbstract\nElection Administration\nSchedule\nCandidates\nVoter Roll\nElection Implementation Configuration\nRaces\nVoters\nResults Tabulation Steps Winner 1",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 1122
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aD_YJEQT6N64",
+        "address": "https://developers.asana.com/docs/python",
+        "title": "Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 14,
+            "textWords": 846
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZbLea2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/auth-signinwithotp",
+        "title": "Python: Sign in a user through OTP | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 722
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KJXBATe43T_5",
+        "address": "https://campus.w3schools.com/collections/course-catalog/products/python-course",
+        "title": "Python Course + Certificate | W3Schools — W3Schools.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 84,
+            "textWords": 3763
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZXYXrYKSXCx5",
+        "address": "https://www.w3resource.com/python/thonny-python-ide.php",
+        "title": "Thonny Python IDE – Beginner-Friendly Python Editor with Debugger",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 61
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YiatWaLfGIY4",
+        "address": "https://www.manning.com/books/full-stack-python-security",
+        "title": "Full Stack Python Security - Dennis Byrne",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 23,
+            "textWords": 2212
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "f04VqsdvU0Yx",
+        "address": "https://pythongui.org/Python4Delphi/",
+        "title": "Python 4 Delphi",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 108,
+            "textWords": 1542
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fn6E3UVwT4Iw",
+        "address": "https://hackr.io/blog/how-to-create-a-python-madlibs-generator",
+        "title": "Build a Fun Mad Libs Generator in Python (Step-by-Step)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 2795
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "d5GMizBbCobw",
+        "address": "https://www.php.net/conferences/index.php",
+        "title": "PHP: PHP Conferences around the world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 31,
+            "textWords": 43657
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "f46fAlIJMSv6",
+        "address": "https://www.urbandictionary.com/define.php?term=Python",
+        "title": "Urban Dictionary: Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 26,
+            "textWords": 537
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fyZBIAYZNOa4",
+        "address": "https://wingware.com/doc/install/supported-python-versions",
+        "title": "Supported Python versions - Wing Python IDE",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 14,
+            "textWords": 407
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fkfk-2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/eq",
+        "title": "Python: Column is equal to a value | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 542
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "a9fkoldG5jPw",
+        "address": "https://www.python.org/",
+        "title": "Welcome to Python.org",
+        "snippet": "Python source code and installers are available for download for all versions!\nLatest: Python 3.14.7\nDocs\nDocumentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fzJ9n4QVa9A4",
+        "address": "https://www.tutkit.com/de/gesamtpakete/460-programmieren-lernen-mit-python-das-praxis-tutorial",
+        "title": "Python Tutorial – Programmieren lernen mit Übungen",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 211,
+            "textWords": 7839
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dl-tuYE9UdT0",
+        "address": "https://jumpingbean.co.za/w/we-build/python-development-services",
+        "title": "Python Development Services | Jumping Bean",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 837
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dIVOAIR2NVbw",
+        "address": "https://devguide.python.org/versions/",
+        "title": "Status of Python versions",
+        "snippet": "Python 3.16, and is the only branch that accepts new features. The latest release for each Python version can be found on the download page.\n'19\n'20\n'21\n'22\n'23\n'24\n'25\n'26\n'27\n'28\n'29\n'30\n'31\n'32\nend-of-life\nend-of-life\nPython 2.7\nend-of-life\nend-of-life\nPython 3.6\nend-of-life\nend-of-life\nPython",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 35,
+            "textWords": 702
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-QvMPAS6MKD4",
+        "address": "https://github.com/mithun035/Python-programming-exercises",
+        "title": "GitHub - mithun035/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 617
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "g3IUJldG5jPw",
+        "address": "https://www.python.org/shell/",
+        "title": "Welcome to Python.org",
+        "snippet": "Python source code and installers are available for download for all versions!\nLatest: Python 3.14.7\nDocs\nDocumentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lNYajPMW35a4",
+        "address": "https://hub.docker.com/_/python",
+        "title": "python - Official Image | Docker Hub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 47,
+            "textWords": 1666
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jKQKJldG5jPw",
+        "address": "https://www.python.org/psf-landing/",
+        "title": "Python Software Foundation",
+        "snippet": "Python Community through...\nGrants\nIn 2024, the PSF awarded $655,000 USD to 257 groups or individuals in 61 countries around the world.\nPyCon US\nWe produce and underwrite the PyCon US Conference, the largest annual gathering for the Python community. Support from sponsors, attendees, PyLadies, and",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 144
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gMt65TCk19rw",
+        "address": "https://peps.python.org/pep-0361/",
+        "title": "PEP 361 – Python 2.6 and 3.0 Release Schedule | peps.python.org",
+        "snippet": "Python-Version:\n2.6, 3.0\nPost-History:\n17-Mar-2008\nTable of Contents\nAbstract\nRelease Manager and Crew\nRelease Lifespan\nRelease Schedule\nCompleted features for 3.0\nCompleted features for 2.6\nPossible features for 2.6\nDeferred until 2.7\nOpen issues\nReferences\nCopyright\nAbstract\nThis document",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 56,
+            "textWords": 1054
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "s0-k3hS6MKD4",
+        "address": "https://github.com/zhiwehu/Python-programming-exercises",
+        "title": "GitHub - zhiwehu/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 613
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "h-bCDY4Qown6",
+        "address": "https://www.tutorialspoint.com/python/index.htm",
+        "title": "Python Tutorial",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 2537
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vmLdByS6MKD4",
+        "address": "https://github.com/qingwan12138/Python-programming-exercises",
+        "title": "GitHub - qingwan12138/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 655
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XmjB_sdG5jPw",
+        "address": "https://www.python.org/about/gettingstarted/",
+        "title": "Python For Beginners | Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 45,
+            "textWords": 826
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "i1xnWjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Python_Programming/Extending_with_C%2B%2B",
+        "title": "Python Programming/Extending with C++ - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 37,
+            "textWords": 1099
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "lNYajPMW35a4",
+        "address": "https://hub.docker.com/_/python",
+        "title": "python - Official Image | Docker Hub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 47,
+            "textWords": 1666
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kEYSoltD2jQw",
+        "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
+        "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
+        "snippet": "Python 3.6, compared to 3.5. Python 3.6 was released on December 23, 2016. See the changelog for a full list of changes.\nSee also\nPEP 494 - Python 3.6 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 498, formatted string literals.\nPEP 515, underscores in numeric literals.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 96,
+            "textWords": 11281
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "k6VJ2LS6MKD4",
+        "address": "https://github.com/mikechen66/Python-Programming-Exercises",
+        "title": "GitHub - mikechen66/Python-Programming-Exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 605
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kfMfijldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Category:Subject:Computer_programming/all_books",
+        "title": "Category:Subject:Computer programming/all books - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 63,
+            "textWords": 1146
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JV0vxTCk19rw",
+        "address": "https://peps.python.org/pep-0020/",
+        "title": "PEP 20 – The Zen of Python | peps.python.org",
+        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 239
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nWdI4IR2NVbw",
+        "address": "https://devguide.python.org/",
+        "title": "Python Developer’s Guide",
+        "snippet": "Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do. If you still have questions after reviewing the material in this guide, then the Core Python",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 39,
+            "textWords": 1491
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mf-p6MAgPYt4",
+        "address": "https://audrey.feldroy.com/tags/python",
+        "title": "Posts tagged \"python\" — audrey.feldroy.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 85,
+            "textWords": 2614
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "O3nHJAn__psw",
+        "address": "https://policies.python.org/python.org/code-of-conduct/",
+        "title": "Python Software Foundation Code of Conduct - Python Software Foundation Policies",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 42,
+            "textWords": 1704
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nelDPNaJVZ24",
+        "address": "https://python.en.uptodown.com/windows",
+        "title": "Python for Windows - Download it from Uptodown for free",
+        "snippet": "Python is a free and open interpretation programming language whose main strength is its great versatility, as it supports several paradigms, such as its object-oriented programming, with imperative syntax as well as functional, in line with languages such as Haskell.\nThere are certain analogies to",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 149
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kdqHV78qwGN4",
+        "address": "https://devcenter.heroku.com/articles/python-rq",
+        "title": "Background Tasks in Python with RQ | Heroku Dev Center",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 14,
+            "textWords": 979
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "qRaHnG-j6W54",
+        "address": "https://rpep.dev/posts/alpine-python-antipattern/",
+        "title": "Why using Alpine Docker images and Python is probably bad for your project (right now) | rpep.dev",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 1409
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ti4mlvOsCZKs",
+        "address": "https://gkv.ir/product/python/",
+        "title": "آموزش زبان پایتون پیشرفته | دوره برنامه نویسی python حرفه‌ای",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 24,
+            "textWords": 4429
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pE8c1Wvpfpbs",
+        "address": "https://melec.ir/tag/python/",
+        "title": "python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 2016
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rGfvhLWbyUjt",
+        "address": "https://downloadly.ir/software/programming/python/",
+        "title": "دانلود Python 3.6.4 Final x86/x64 - دانلود رایگان نرم افزار",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 29,
+            "textWords": 1531
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hmKP9v5R-QZs",
+        "address": "https://hajigame.ir/product/eureka-python-ii-red-gaming-chair/",
+        "title": "صندلی گیمینگ یوریکا Python II Red | حاجی گیم مرکز فروش نقد و اقساط انواع میز و صندلی 14",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 16,
+            "textWords": 2113
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "n5zVko8ZsLHt",
+        "address": "https://rahkarino.ir/shop/video/programming/python-fundamental/",
+        "title": "فیلم آموزشی مفاهیم مقدماتی پایتون [Python] - آکادمی راهکارینو",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 1259
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LJ5OS7YyigFM",
+        "address": "http://chessok.ir/prod-224618-%DA%A9%D8%AA%D8%A7%D8%A8+%D8%A7%D8%B1%D8%B2%D8%B4%D9%85%D9%86%D8%AF+%D8%B4%D8%B7%D8%B1%D9%86%D8%AC+%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%DA%98%DB%8C+%D9%BE%D8%A7%DB%8C%D8%AA%D9%88%D9%86+%D8%AA%D9%88%D8%B3%D8%B7+%D8%AA%DB%8C%DA%AF%D8%B1%D8%A7%D9%86+%D9%BE%D8%AA%D8%B1%D9%88%D8%B3%DB%8C%D8%A7%D9%86+%D8%8CPython+Strategy+by+Tigran+Petrosian.html",
+        "title": "کتاب ارزشمند شطرنج استراتژی پایتون توسط تیگران پتروسیان ،Python Strategy by Tigran Petrosian",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 5664
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "a71AbqerLj2t",
+        "address": "https://p30download.ir/fa/entry/36554/python",
+        "title": "Python 3.14.6+3.8.10 زبان برنامه نویسی پایتون",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 29,
+            "textWords": 4371
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Hze9zOajBFFt",
+        "address": "https://www.iranketab.ir/book/134581-python",
+        "title": "کتاب مرجع کامل پایتون python اثر پریسا زارعی | ایران کتاب",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 1186
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Nx1G-3D72nht",
+        "address": "https://ostadsalam.ir/lessons/programming-python",
+        "title": "تدریس خصوصی پایتون python | ارتباط مستقیم با معلم خصوصی پایتون python | استادسلام",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 32,
+            "textWords": 4048
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "t-S-sitD2jQw",
+        "address": "https://docs.python.org/3/faq/installed.html",
+        "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.0 documentation",
+        "snippet": "Python?¶\nPython is a programming language. It’s used for many different applications. It’s used in some high schools and colleges as an introductory programming language because Python is easy to learn, but it’s also used by professional software developers at places such as Google, NASA, and",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 323
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vU8vXQGohNrw",
+        "address": "https://wiki.qt.io/Qt_for_Python_Development_Notes",
+        "title": "Qt for Python Development Notes - Qt Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 102,
+            "textWords": 11751
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "v2UVcTCk19rw",
+        "address": "https://peps.python.org/pep-0007/",
+        "title": "PEP 7 – Style Guide for C Code | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 1234
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vaQzdpr4CjGw",
+        "address": "https://discuss.python.org/u/effigies",
+        "title": "Profile - effigies - Discussions on Python.org",
+        "snippet": "Python.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 12
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vfhHBEgOlJX5",
+        "address": "https://www.codecademy.com/projects/language/python",
+        "title": "Projects in Python | Codecademy",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 637
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "toTAtaLfGIY4",
+        "address": "https://www.manning.com/books/software-design-for-python-programmers",
+        "title": "Software Design for Python Programmers - Ronald Mak",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 23,
+            "textWords": 2417
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sU9kDKf4Pib5",
+        "address": "https://code.visualstudio.com/docs/python/python-on-azure",
+        "title": "Deploy Python Web Apps",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 23,
+            "textWords": 1632
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "thj5uSS6MKD4",
+        "address": "https://github.com/python/mypy/pull/1548",
+        "title": "Removed bare-string Error#report severity in favor of a Severity enum by wittekm · Pull Request #1548 · python/mypy · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 1209
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tqoIzYKSXCx5",
+        "address": "https://www.w3resource.com/python/module/calendar/month.php",
+        "title": "Python calendar module: month() method - w3resource",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 37
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vDPqNLgOlJX5",
+        "address": "https://www.codecademy.com/learn/learn-python-3",
+        "title": "Learn Python 3 | Codecademy",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 42,
+            "textWords": 2064
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "7w6YmldG5jPw",
+        "address": "https://www.python.org/about/",
+        "title": "About Python™ | Python.org",
+        "snippet": "Python can be easy to pick up whether you're a first time programmer or you're experienced with other languages. The following pages are a useful first step to get on your way writing programs with Python!\nBeginner's Guide, Programmers\nBeginner's Guide, Non-Programmers\nBeginner's Guide, Download \u0026",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 356
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "514kp5S6MKD4",
+        "address": "https://github.com/cassiobotaro/awesome-python-modules-as-script",
+        "title": "GitHub - cassiobotaro/awesome-python-modules-as-script: :neckbeard: Catalogue of useful python modules that run as script. · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 80,
+            "textWords": 1192
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0l0aFitD2jQw",
+        "address": "https://docs.python.org/3/library/distutils.html",
+        "title": "distutils — Building and installing Python modules — Python 3.14.7 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 317
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8iNYGYtl82z5",
+        "address": "https://www.w3schools.com/python/default.asp",
+        "title": "Python Tutorial",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 143,
+            "textWords": 2485
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Nh8yR1r4CjGw",
+        "address": "https://discuss.python.org/",
+        "title": "Discussions on Python.org",
+        "snippet": "Python Help\nGeneral help/discussion forum for the Python programming language. All welcome.\n11239\nCommitters\nThe “argument clinic” for Python committers (people with the commit bit on https://github.com/python/cpython and related projects). Open for all to view.\n468\nIdeas\nWould you like to change",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5COzjZT71Vl0",
+        "address": "https://docs.astral.sh/uv/concepts/python-versions/",
+        "title": "Python versions | uv",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 219,
+            "textWords": 2842
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FYqqzlS95KR5",
+        "address": "https://www.programiz.com/python-programming",
+        "title": "Learn Python: Programming Tutorials for Beginners",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 106,
+            "textWords": 1182
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lNYajPMW35a4",
+        "address": "https://hub.docker.com/_/python",
+        "title": "python - Official Image | Docker Hub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 47,
+            "textWords": 1846
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5jQ5JzdG5jPw",
+        "address": "https://www.python.org/success-stories/category/business/",
+        "title": "Business | Our Success Stories | Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 38,
+            "textWords": 486
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yE_iqldG5jPw",
+        "address": "https://www.python.org/doc/",
+        "title": "Our Documentation | Python.org",
+        "snippet": "Python's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 40
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gQlf6itD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/index.html",
+        "title": "What’s New in Python — Python 3.14.6 documentation",
+        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s new in Python 3.14 Summary – Release highlights\nNew features\nOther language changes\nNew modules\nImproved",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 209,
+            "textWords": 1827
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7w6YmldG5jPw",
+        "address": "https://www.python.org/about/",
+        "title": "About Python™ | Python.org",
+        "snippet": "Python can be easy to pick up whether you're a first time programmer or you're experienced with other languages. The following pages are a useful first step to get on your way writing programs with Python!\nBeginner's Guide, Programmers\nBeginner's Guide, Non-Programmers\nBeginner's Guide, Download \u0026",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 356
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9knMpTbZOl3w",
+        "address": "https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/python.html",
+        "title": "Python 3 vs Java - Which programs are fastest? (Benchmarks Game)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 46,
+            "textWords": 864
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_xHnXlPN-Az4",
+        "address": "https://www.hellotux.com/python",
+        "title": "Python t-shirts, polo shirts, sweatshirts - HELLOTUX",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 23,
+            "textWords": 763
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2mur52LtrFJw",
+        "address": "https://lmstudio.ai/docs/python",
+        "title": "lmstudio-python (Python SDK) | LM Studio",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 774
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dIVOAIR2NVbw",
+        "address": "https://devguide.python.org/versions/",
+        "title": "Status of Python versions",
+        "snippet": "Python 3.16, and is the only branch that accepts new features. The latest release for each Python version can be found on the download page.\n'19\n'20\n'21\n'22\n'23\n'24\n'25\n'26\n'27\n'28\n'29\n'30\n'31\n'32\nend-of-life\nend-of-life\nPython 2.7\nend-of-life\nend-of-life\nPython 3.6\nend-of-life\nend-of-life\nPython",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 35,
+            "textWords": 702
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "b619OZW0Noqx",
+        "address": "https://docs.python-guide.org/",
+        "title": "The Hitchhiker’s Guide to Python! — The Hitchhiker's Guide to Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 57,
+            "textWords": 999
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9Lt5OxZz-rkh",
+        "address": "https://www.samdjames.uk/docs/languages/python/",
+        "title": "Python Development - Sam James",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 228
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "L_BxPTCk19rw",
+        "address": "https://peps.python.org/pep-0373/",
+        "title": "PEP 373 – Python 2.7 Release Schedule | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 538
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JCw4wj5BB-V4",
+        "address": "https://www.egenix.com/products/python/mxODBC/",
+        "title": "eGenix.com: Products: Python: mxODBC - Python ODBC Database Interface",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 143,
+            "textWords": 5010
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "72XtLitD2jQw",
+        "address": "https://docs.python.org/3/faq/general.html",
+        "title": "General Python FAQ — Python 3.12.4 documentation",
+        "snippet": "Python FAQ\nGeneral Information\nWhat is Python?\nWhat is the Python Software Foundation?\nAre there copyright restrictions on the use of Python?\nWhy was Python created in the first place?\nWhat is Python good for?\nHow does the Python version numbering scheme work?\nHow do I obtain a copy of the Python",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 152,
+            "textWords": 2832
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "70Z9XERT-ZoZ",
+        "address": "http://www.w3schools.com/python/python_challenges_numbers.asp",
+        "title": "Python Numbers Code Challenge",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 115,
+            "textWords": 2004
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7h12hhdG5jPw",
+        "address": "https://www.python.org/downloads/release/python-2718rc1/",
+        "title": "Python Release Python 2.7.18rc1 | Python.org",
+        "snippet": "Python 2.7.18 reached end-of-life on 2020-01-01. It is no longer supported and does not receive security updates. We recommend upgrading to the latest Python release.\nRelease date: April 4, 2020\nPython 2.7.18 release candidate 1 is a testing release for Python 2.7.18, the last release of Python 2.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 194
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7zv2WpFH-Klg",
+        "address": "https://www.comarch.pl/szkolenia/programowanie/python/",
+        "title": "Szkolenia Programowania w Python (Różne Poziomy)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 46,
+            "textWords": 1094
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7_jUSWCpKsK4",
+        "address": "https://nypost.com/tag/monty-python/",
+        "title": "Monty Python | New York Post",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 2223
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7zMTFTCk19rw",
+        "address": "https://peps.python.org/pep-0681/",
+        "title": "PEP 681 – Data Class Transforms | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 3847
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7YRhfJ9Ojva4",
+        "address": "https://docs.docker.com/ai/model-runner/api-reference/",
+        "title": "DMR REST API | Docker Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 57,
+            "textWords": 4429
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7wK0mhsWTYKx",
+        "address": "https://sourceforge.net/directory/imap/python/",
+        "title": "Best Open Source Python IMAP Software",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 1621
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7rB4Egs4taKw",
+        "address": "https://wikipedia.ddns.net:51234/content/stackoverflow.com_en_all_2023-11/questions/43160641/employee-classes-python",
+        "title": "employee-classes-python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7fzSdUCRdREw",
+        "address": "https://jvns.ca/blog/2015/01/24/why-a-c-plus-plus-programmer-might-say-i-could-never-write-python/",
+        "title": "Why a C++ programmer might say \"I could never write Python\"",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 461
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Aqv6qpdG5jPw",
+        "address": "https://www.python.org/events/python-user-group/680/",
+        "title": "Ljubljana Python March 2018 meetup | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nLjubljana, Slovenia 15 March from 6pm UTC to 8pm UTC, 2018",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 34
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CvxHgDxgB4dw",
+        "address": "https://codedocs.org/what-is/python-programming-language",
+        "title": "Python (programming language) - CodeDocs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 203,
+            "textWords": 10195
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AKpJN1S6MKD4",
+        "address": "https://github.com/TomNicholas/Python-for-Scientists",
+        "title": "GitHub - TomNicholas/Python-for-Scientists: A list of recommended Python libraries, and resources, intended for scientific Python users.",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 72,
+            "textWords": 3307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ACIq1TCk19rw",
+        "address": "https://peps.python.org/pep-0401/",
+        "title": "PEP 401 – BDFL Retirement | peps.python.org",
+        "snippet": "Python development for 20 years, officially announces his retirement, effective immediately. Following a unanimous vote, his replacement is named.\nRationale\nGuido wrote the original implementation of Python in 1989, and after nearly 20 years of leading the community, has decided to step aside as",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 26,
+            "textWords": 551
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DuEPzitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/3.9.html",
+        "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+        "snippet": "Python 3.9, compared to 3.8. Python 3.9 was released on October 5, 2020. For full details, see the changelog.\nSee also\nPEP 596 - Python 3.9 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 584, union operators added to dict;\nPEP 585, type hinting generics in standard",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 101,
+            "textWords": 8358
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B8L6LZDlvx65",
+        "address": "https://docs.appsignal.com/python.html",
+        "title": "AppSignal for Python | AppSignal documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 700
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DSblfj5BB-V4",
+        "address": "https://www.egenix.com/products/python/mxODBC",
+        "title": "eGenix.com: Products: Python: mxODBC - Python ODBC Database Interface",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 143,
+            "textWords": 5010
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AaMvcVDdGLy5",
+        "address": "https://marketplace.visualstudio.com/items?itemName=ms-python.python",
+        "title": "Python - Visual Studio Marketplace",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 52,
+            "textWords": 1239
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ApBDvlAE-CX4",
+        "address": "https://www.pulumi.com/why-is-python-so-popular/",
+        "title": "Why is Python So Popular? | Pulumi",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 60,
+            "textWords": 1684
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B4BuoSGYFcLw",
+        "address": "https://sentry.io/for/python/",
+        "title": "Python Error Tracking and Performance Monitoring | Sentry",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 35,
+            "textWords": 2024
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-inB_Dr4UJf4",
+        "address": "https://we-do.wiki/books/python",
+        "title": "Python | we-do.wiki",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 8,
+            "textWords": 174
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zEhAeVcX8Rk5",
+        "address": "https://www.i-programmer.info/programming/mobile/1065-getting-started-with-windows-phone-7..",
+        "title": "Getting started with Windows Phone 7",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 905
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xr6iDzS6MKD4",
+        "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+        "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 162,
+            "textWords": 25449
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "r2wrajRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/WebDAV",
+        "title": "WebDAV - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 2772
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "S9YMJzCJVaIz",
+        "address": "https://planet.documentfoundation.org/",
+        "title": "The Document Foundation Planet",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 18406
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hIiAc5BKFJux",
+        "address": "https://extensions.libreoffice.org/",
+        "title": "Extensions » Extensions",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 986
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Mex80Kf4Pib5",
+        "address": "https://code.visualstudio.com/docs/getstarted/telemetry",
+        "title": "Visual Studio Code Telemetry",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 2837
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LYJ22oOmiIFg",
+        "address": "https://www.stefanux.de/wiki/doku.php/netzwerke/webdav",
+        "title": "netzwerke:webdav [Dokumentation für Linux-Admins [stefanux.de]]",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 1400
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WXNThjexSYb5",
+        "address": "https://www.codeproject.com/Articles/35159/WPF-Localization-Using-RESX-Files",
+        "title": "WPF Localization Using RESX Files - CodeProject",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 5649
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4l8X5m1dafs6",
+        "address": "https://stackoverflow.com/questions/40527541/c-sharp-library-for-net-core-and-net-framework",
+        "title": "C# library for .NET Core and .NET Framework - Stack Overflow",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 1375
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "IakIRpdG5jPw",
+        "address": "https://www.python.org/events/python-events/2175/",
+        "title": "Python Leiden User Group | Python.org",
+        "snippet": "Python Leiden User Group",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 39
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JfZEMitD2jQw",
+        "address": "https://docs.python.org/3/faq/",
+        "title": "Python Frequently Asked Questions — Python 3.14.7 documentation",
+        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 64
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ks24ZvS6MKD4",
+        "address": "https://github.com/faroit/awesome-python-scientific-audio",
+        "title": "GitHub - faroit/awesome-python-scientific-audio: Curated list of python software and packages related to scientific research in audio",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 1706
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IiQfIjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Category:Subject:Python_programming_language/all_books",
+        "title": "Category:Subject:Python programming language/all books - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 33,
+            "textWords": 642
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JV0vxTCk19rw",
+        "address": "https://peps.python.org/pep-0020/",
+        "title": "PEP 20 – The Zen of Python | peps.python.org",
+        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 239
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JungsjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Programming_paradigm",
+        "title": "Programming paradigm - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 126,
+            "textWords": 4616
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JZLSwsQ_UtE5",
+        "address": "https://realpython.com/python-parallel-processing/",
+        "title": "Bypassing the GIL for Parallel Processing in Python – Real Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 69,
+            "textWords": 17721
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IkrRp2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/ilike",
+        "title": "Python: Column matches a case-insensitive pattern | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 540
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KTvvUU3rjROw",
+        "address": "https://oxylabs.io/blog/python-parse-json",
+        "title": "Reading \u0026 Parsing JSON Data With Python: Tutorial",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 81,
+            "textWords": 5121
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Jy6UT71fg_y5",
+        "address": "https://rstudio.r-universe.dev/articles/reticulate/python_packages.html",
+        "title": "Installing Python Packages - reticulate",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 127
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Pn_O_612OQy4",
+        "address": "https://a-z-typing-test.softonic.com/",
+        "title": "A-Z Typing Test - Descargar",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 42,
+            "textWords": 1991
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P1bBYitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/3.5.html",
+        "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
+        "snippet": "Python 3.5, compared to 3.4. Python 3.5 was released on September 13, 2015. See the changelog for a full list of changes.\nSee also\nPEP 478 - Python 3.5 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 492, coroutines with async and await syntax.\nPEP 465, a new matrix",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 72,
+            "textWords": 10728
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MzBjbZiAEraw",
+        "address": "https://azure.github.io/azure-sdk/releases/latest/mgmt/python.html",
+        "title": "Azure SDK for Python (Mgmt) | Azure SDKs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 3424
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-VvXtYKSXCx5",
+        "address": "https://www.w3resource.com/python/module/calendar/weekheader.php",
+        "title": "Python calendar module: weekheader() method - w3resource",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 37
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-AjIzLgOlJX5",
+        "address": "https://www.codecademy.com/learn/learn-intermediate-python-3",
+        "title": "Learn Intermediate Python 3 | Codecademy",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 35,
+            "textWords": 1762
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JZLSwsQ_UtE5",
+        "address": "https://realpython.com/python-parallel-processing/",
+        "title": "Bypassing the GIL for Parallel Processing in Python – Real Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 69,
+            "textWords": 17721
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MTNgHdS6MKD4",
+        "address": "https://github.com/arasgungore/awesome-python",
+        "title": "GitHub - arasgungore/awesome-python: A curated list of awesome Python frameworks, libraries, software and resources. · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 6797
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MhcM4D1j27yh",
+        "address": "https://ibkrcampus.eu/campus/trading-course/python-tws-api/",
+        "title": "Python TWS API | Trading Course | Traders' Academy",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 4417
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MfBfP2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/not",
+        "title": "Python: Don't match the filter | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 547
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "37E1Qlke_Kex",
+        "address": "https://www.ruby-lang.org/en/documentation/ruby-from-other-languages/to-ruby-from-python/",
+        "title": "To Ruby From Python | Ruby",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 16,
+            "textWords": 819
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "R3GUgzdG5jPw",
+        "address": "https://www.python.org/success-stories/category/software-development/",
+        "title": "Software Development | Our Success Stories | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SooFRitD2jQw",
+        "address": "https://docs.python.org/3/howto/pyporting.html",
+        "title": "How to port Python 2 Code to Python 3 — Python 3.14.6 documentation",
+        "snippet": "Python 2 reached its official end-of-life at the start of 2020. This means that no new bug reports, fixes, or changes will be made to Python 2 - it’s no longer supported: see PEP 373 and status of Python versions.\nIf you are looking to port an extension module instead of pure Python code, please",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 118
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "T00dXgYf_OZw",
+        "address": "https://mail.python.org/archives/list/python-announce-list@python.org/2005/3/",
+        "title": "Mailman 3 March 2005 - Python-announce-list - python.org",
+        "snippet": "Python newsgroup. Assume that we all have been brainwashed.\" -- Peter Otten \"[M]y experience porting Java to Jython is that it mostly involves deleting stuff :-)\" -- Kent Johnson \"[K]eep in mind, however, that not all problems in life can be solved with software.\" -- Roy Smith The Second Edition",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 63,
+            "textWords": 976
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8MdpZTCk19rw",
+        "address": "https://peps.python.org/pep-3136/",
+        "title": "PEP 3136 – Labeled break and continue | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 18,
+            "textWords": 2162
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nWdI4IR2NVbw",
+        "address": "https://devguide.python.org/",
+        "title": "Python Developer’s Guide",
+        "snippet": "Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do. If you still have questions after reviewing the material in this guide, then the Core Python",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 39,
+            "textWords": 1491
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "S9e-tcS6MKD4",
+        "address": "https://github.com/getsentry/sentry-python",
+        "title": "GitHub - getsentry/sentry-python: The official Python SDK for Sentry.io · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 8,
+            "textWords": 1474
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SnLkfp6whQh4",
+        "address": "https://pythoninsider.blogspot.com/2024/06/python-3124-released.html",
+        "title": "Python 3.12.4 released",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 31,
+            "textWords": 977
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SEaby5n__psw",
+        "address": "https://policies.python.org/",
+        "title": "About - Python Software Foundation Policies",
+        "snippet": "Python Software Foundation.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 15
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SNlGrxbhx54w",
+        "address": "https://packaging.python.org/en/latest/",
+        "title": "Python Packaging User Guide",
+        "snippet": "Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority. We happily accept contributions and feedback. 😊\nOverview and Flow¶\nNote\nBuilding your",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 301
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RkmbesOMezx5",
+        "address": "https://pimylifeup.com/check-the-version-of-python/",
+        "title": "How to Check the Version of Python - Pi My Life Up",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 89,
+            "textWords": 1549
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "a9fkoldG5jPw",
+        "address": "https://www.python.org/",
+        "title": "Welcome to Python.org",
+        "snippet": "Python source code and installers are available for download for all versions!\nLatest: Python 3.14.7\nDocs\nDocumentation for Python's standard library, along with tutorials and guides, are available online.\ndocs.python.org\nJobs\nLooking for work or have a Python related position that you're trying to",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aUDQBxbhx54w",
+        "address": "https://packaging.python.org/en/latest/key_projects/",
+        "title": "Project Summaries - Python Packaging User Guide",
+        "snippet": "Python installation and packaging.\nPyPA Projects¶\nbandersnatch¶\nDocs | Issues | GitHub | PyPI\nbandersnatch is a PyPI mirroring client designed to efficiently create a complete mirror of the contents of PyPI. Organizations thus save bandwidth and latency on package downloads (especially in the",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 81,
+            "textWords": 2997
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "brpYmTCk19rw",
+        "address": "https://peps.python.org/pep-8107/",
+        "title": "PEP 8107 – 2026 Term Steering Council election | peps.python.org",
+        "snippet": "python.org\u003e\nSponsor:\nBarry Warsaw \u003cbarry at python.org\u003e\nStatus:\nFinal\nType:\nInformational\nTopic:\nGovernance\nCreated:\n21-Oct-2025\nTable of Contents\nAbstract\nElection Administration\nSchedule\nCandidates\nVoter Roll\nElection Implementation Configuration\nRaces\nVoters\nResults Tabulation Steps Winner 1",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 1122
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aD_YJEQT6N64",
+        "address": "https://developers.asana.com/docs/python",
+        "title": "Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 14,
+            "textWords": 846
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ya6-ySS6MKD4",
+        "address": "https://github.com/python/cpython/pulse",
+        "title": "Pulse · python/cpython · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 416
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZbLea2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/auth-signinwithotp",
+        "title": "Python: Sign in a user through OTP | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 722
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bGvXFYKSXCx5",
+        "address": "https://www.w3resource.com/python/module/calendar/setfirstweekday.php",
+        "title": "Python calendar module: setfirstweekday() method - w3resource",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 39
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZdSEgM3rjROw",
+        "address": "https://oxylabs.io/press-area/most-in-demand-programming-languages",
+        "title": "What Nearly 1 Million U.S. Job Postings Reveal About Today’s Most In-Demand Programming Languages",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 63,
+            "textWords": 6165
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aiSrSYe7r2M5",
+        "address": "https://www.appsignal.com/python/redis-monitoring",
+        "title": "Redis monitoring for Python | AppSignal",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 901
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ypzq11oc5Mvw",
+        "address": "https://forum.exercism.org/t/ejercicio-n-1-python/55046",
+        "title": "Ejercicio nº 1 Python - Exercism - Exercism",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 331
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PJMkUsvmxro5",
+        "address": "https://techbeamers.com/python-tutorial-step-by-step/",
+        "title": "Free Python Course with 100+ Basic to Advanced Tutorials",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 246,
+            "textWords": 1589
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HEQVMwS6MKD4",
+        "address": "https://github.com/ayushi7rawat/Ultimate-Python-Resource-Hub",
+        "title": "GitHub - ayushi7rawat/Ultimate-Python-Resource-Hub: The Ultimate resource hub of Python: All at one place · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 99,
+            "textWords": 1535
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iBpkgDr-_bZg",
+        "address": "https://python.softonic.se/",
+        "title": "Python - Download",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 58,
+            "textWords": 2812
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bWblnEzVoSUa",
+        "address": "http://www.tutorialspoint.com/python/python_strings.htm",
+        "title": "Python - Strings",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 229,
+            "textWords": 1379
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jR5h-pdG5jPw",
+        "address": "https://www.python.org/events/python-user-group/1518/",
+        "title": "Python Meeting Düsseldorf | Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 54,
+            "textWords": 486
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EofYLWYTtSsx",
+        "address": "https://sourceware.org/gdb/current/onlinedocs/gdb.html/Python-API.html",
+        "title": "Python API (Debugging with GDB)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 71,
+            "textWords": 437
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Uke2IjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Python_3",
+        "title": "History of Python - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 222,
+            "textWords": 5276
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jy-D0VgiqnOw",
+        "address": "https://python3statement.github.io/",
+        "title": "Sunsetting Python 2 support",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 54,
+            "textWords": 1111
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5yuqzsV82QYy",
+        "address": "https://pythonexamples.org/python-string-length-example/",
+        "title": "How to get Python String Length? Examples",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 219,
+            "textWords": 1556
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sfz7GlBLxyZw",
+        "address": "https://bugs.python.org/issue18408",
+        "title": "Issue 18408: Fixes crashes found by pyfailmalloc - Python tracker",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 6387
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gQlf6itD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/index.html",
+        "title": "What’s New in Python — Python 3.14.6 documentation",
+        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s new in Python 3.14 Summary – Release highlights\nNew features\nOther language changes\nNew modules\nImproved",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 209,
+            "textWords": 1827
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jKQKJldG5jPw",
+        "address": "https://www.python.org/psf-landing/",
+        "title": "Python Software Foundation",
+        "snippet": "Python Community through...\nGrants\nIn 2024, the PSF awarded $655,000 USD to 257 groups or individuals in 61 countries around the world.\nPyCon US\nWe produce and underwrite the PyCon US Conference, the largest annual gathering for the Python community. Support from sponsors, attendees, PyLadies, and",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 144
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jGX2hTCk19rw",
+        "address": "https://peps.python.org/pep-0331/",
+        "title": "PEP 331 – Locale-Independent Float/String Conversions | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 24,
+            "textWords": 1178
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "h-bCDY4Qown6",
+        "address": "https://www.tutorialspoint.com/python/index.htm",
+        "title": "Python Tutorial",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 2537
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gw_VOaLfGIY4",
+        "address": "https://www.manning.com/books/fast-python",
+        "title": "Fast Python - Tiago Rodrigues Antao",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 43,
+            "textWords": 2353
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jfl6IL4HVqG4",
+        "address": "https://www.twilio.com/en-us/products/email-api",
+        "title": "Twilio SendGrid Email API | Twilio",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 50,
+            "textWords": 5655
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jUyg0KTceIAw",
+        "address": "https://status.python.org/",
+        "title": "Python Infrastructure Status",
+        "snippet": "Fastly Asia/Pacific (HK) Operational\nFastly US East (IAD) Operational\nFastly US East (MIA) Operational\nFastly US Central (DEN) Operational\nFastly US Central (DFW) Operational\nFastly US West (SEA) Operational\nFastly US West (SJC) Operational\nFastly Europe (FRA) Operational\nFastly Europe (AMS)",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 412
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jWtlJsDPAg74",
+        "address": "https://nostarch.com/python-excel",
+        "title": "Python for Excel Users | No Starch Press",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 908
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hJON4Kf4Pib5",
+        "address": "https://code.visualstudio.com/docs/python/editing",
+        "title": "Editing Python in Visual Studio Code",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 45,
+            "textWords": 2993
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "i8lshjqYg_k4",
+        "address": "https://www.heroku.com/podcasts/codeish/82-processing-large-datasets-with-python/",
+        "title": "82. Processing Large Datasets with Python | Heroku",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 51,
+            "textWords": 6478
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "lNYajPMW35a4",
+        "address": "https://hub.docker.com/_/python",
+        "title": "python - Official Image | Docker Hub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 47,
+            "textWords": 1666
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "k6VJ2LS6MKD4",
+        "address": "https://github.com/mikechen66/Python-Programming-Exercises",
+        "title": "GitHub - mikechen66/Python-Programming-Exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 605
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nWdI4IR2NVbw",
+        "address": "https://devguide.python.org/",
+        "title": "Python Developer’s Guide",
+        "snippet": "Python – for both new and experienced contributors. It is maintained by the same community that maintains Python. We welcome your contributions!\nStart with the area that best matches what you want to do. If you still have questions after reviewing the material in this guide, then the Core Python",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 39,
+            "textWords": 1491
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mf-p6MAgPYt4",
+        "address": "https://audrey.feldroy.com/tags/python",
+        "title": "Posts tagged \"python\" — audrey.feldroy.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 85,
+            "textWords": 2614
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kEYSoltD2jQw",
+        "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
+        "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
+        "snippet": "Python 3.6, compared to 3.5. Python 3.6 was released on December 23, 2016. See the changelog for a full list of changes.\nSee also\nPEP 494 - Python 3.6 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 498, formatted string literals.\nPEP 515, underscores in numeric literals.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 96,
+            "textWords": 11281
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nelDPNaJVZ24",
+        "address": "https://python.en.uptodown.com/windows",
+        "title": "Python for Windows - Download it from Uptodown for free",
+        "snippet": "Python is a free and open interpretation programming language whose main strength is its great versatility, as it supports several paradigms, such as its object-oriented programming, with imperative syntax as well as functional, in line with languages such as Haskell.\nThere are certain analogies to",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 149
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lpzvljldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Python_Programming/Creating_Python_programs",
+        "title": "Python Programming/Creating Python Programs - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 37,
+            "textWords": 1389
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lncJ-pr4CjGw",
+        "address": "https://discuss.python.org/u/storchaka",
+        "title": "Profile - storchaka - Discussions on Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 67
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mT_bVUld1924",
+        "address": "https://zapier.com/blog/python-automation/",
+        "title": "Python automation: 9 scripts to automate workflows | Zapier",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 73,
+            "textWords": 6409
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nOcg6SMAuxi4",
+        "address": "https://www.linkedin.com/learning/topics/object-oriented-programming",
+        "title": "Object-Oriented Programming Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 26,
+            "textWords": 1129
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "pv6SAsdG5jPw",
+        "address": "https://www.python.org/about/help/",
+        "title": "Help | Python.org",
+        "snippet": "Python problem or question?\nFirst check the Python FAQs, with answers to many common, general Python questions.\nThe Python Help category of the discuss.python.org website hosts usage questions and answers from the Python community.\nThe tutor list offers interactive help.\nIf the tutor list isn't",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 322
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "r92moj-JVcyx",
+        "address": "https://en.wikiquote.org/wiki/Monty_python",
+        "title": "Monty python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 12
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rp5-g1S6MKD4",
+        "address": "https://github.com/qa1/Python-programming-exercises",
+        "title": "GitHub - qa1/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 612
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pt_hOltD2jQw",
+        "address": "https://docs.python.org/3.14/whatsnew/3.8.html",
+        "title": "What’s New In Python 3.8 — Python 3.14.2 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 12310
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "q-Z9cDIZp8m4",
+        "address": "https://python.libhunt.com/",
+        "title": "Awesome Python | LibHunt",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 1103
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "F9nzSWM9rDb4",
+        "address": "https://builtin.com/tag/python",
+        "title": "Python Articles | Built In",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 737
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cWZBgTCk19rw",
+        "address": "https://peps.python.org/pep-0514/",
+        "title": "PEP 514 – Python registration in the Windows registry | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 87,
+            "textWords": 3027
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "o_mbtl5kpS44",
+        "address": "https://www.oracle.com/developer/python-developers/",
+        "title": "Python | Oracle Developer",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 697
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qXsox2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/auth-resend",
+        "title": "Python: Resend an OTP | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 664
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qGQZrYLafmQx",
+        "address": "https://launchpad.net/python-ironic-inspector-client/mitaka",
+        "title": "Series mitaka : Python client for Ironic Inspector",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 314
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "sAB8RldG5jPw",
+        "address": "https://www.python.org/dev/",
+        "title": "Python Developer's Guide | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sv9hYjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Python_Programming/Python_2_vs._Python_3",
+        "title": "Python Programming/Python 2 vs. Python 3 - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 47,
+            "textWords": 615
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "t-S-sitD2jQw",
+        "address": "https://docs.python.org/3/faq/installed.html",
+        "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.6 documentation",
+        "snippet": "Python?¶\nPython is a programming language. It’s used for many different applications. It’s used in some high schools and colleges as an introductory programming language because Python is easy to learn, but it’s also used by professional software developers at places such as Google, NASA, and",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 323
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vpzSvjcl0ynx",
+        "address": "https://en.wikiversity.org/wiki/Python_Concepts/Objects",
+        "title": "Python Concepts/Objects",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 14
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sUtWNFE95tq5",
+        "address": "https://blog.appsignal.com/category/python.html",
+        "title": "Python | AppSignal Blog",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 56,
+            "textWords": 1729
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vmLdByS6MKD4",
+        "address": "https://github.com/qingwan12138/Python-programming-exercises",
+        "title": "GitHub - qingwan12138/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 655
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vpIu3gsjOPf5",
+        "address": "https://fuchsia.googlesource.com/third_party/github.com/python/",
+        "title": "third_party/github.com/python/ - Git at Google",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 139
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vaQzdpr4CjGw",
+        "address": "https://discuss.python.org/u/effigies",
+        "title": "Profile - effigies - Discussions on Python.org",
+        "snippet": "Python.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 12
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vq0-TdUhjm5w",
+        "address": "https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/_modules/airflow/providers/standard/example_dags/example_python_operator.html",
+        "title": "airflow.providers.standard.example_dags.example_python_operator — apache-airflow-providers-standard Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 42,
+            "textWords": 982
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vvPV7LgOlJX5",
+        "address": "https://www.codecademy.com/learn/python-for-programmers",
+        "title": "Python for Programmers | Codecademy",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 31,
+            "textWords": 1540
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ze3f2iUVXhJ4",
+        "address": "https://www.tutlane.com/tutorial/python",
+        "title": "Python Tutorial - Tutlane",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 122,
+            "textWords": 579
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zx9Gu78qwGN4",
+        "address": "https://devcenter.heroku.com/articles/python-runtimes",
+        "title": "Specifying a Python Version | Heroku Dev Center",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 791
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yNJxThVRUINg",
+        "address": "https://learn-python.softonic.ru/",
+        "title": "Learn Python — Скачать",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 45,
+            "textWords": 1483
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zh2qIGtD2jQw",
+        "address": "https://docs.python.org/3.16/bugs.html",
+        "title": "Dealing with Bugs — Python 3.16.0a0 documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 875
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yE_iqldG5jPw",
+        "address": "https://www.python.org/doc/",
+        "title": "Our Documentation | Python.org",
+        "snippet": "Python's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 40
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z02vKTCk19rw",
+        "address": "https://peps.python.org/",
+        "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+        "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 207,
+            "textWords": 10361
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "x84ZtsS6MKD4",
+        "address": "https://github.com/python/",
+        "title": "Python · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 43,
+            "textWords": 945
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "y5MEk2gzSVxA",
+        "address": "http://kuwsf.w.interia.pl/monty-python.html",
+        "title": "Monty python. Philosopher's song monty python and eric of monty python with lumberjack song by monty python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 251,
+            "textWords": 5540
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xxi8N2S95KR5",
+        "address": "https://www.programiz.com/python-programming/methods/built-in/dir",
+        "title": "Python dir()",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 122,
+            "textWords": 1532
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XY_O32RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/auth-exchangecodeforsession",
+        "title": "Python: Exchange an auth code for a session | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 566
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "6cSn8ahyNsEq",
+        "address": "https://www.freepressjournal.in/mumbai/watch-baby-python-found-inside-train-engine-at-csmt-rescued-safely",
+        "title": "Watch: Baby Python Found Inside Train Engine At CSMT, Rescued Safely",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 15,
+            "textWords": 777
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KWXdCvDOAHJg",
+        "address": "https://www.heise.de/news/VS-Code-Python-Environments-Extension-allgemein-verfuegbar-11181907.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Microsoft veröffentlicht VS Code Extension für Python-Umgebungen | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 24,
+            "textWords": 1494
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EXVVLl_NfFz6",
+        "address": "https://www.americaoutloud.news/is-life-really-a-game-faith-meaning-and-monty-python/",
+        "title": "Is life really a game? Faith, meaning, and Monty Python - America Out Loud News",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 13058
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lCgR3Pc_rKzh",
+        "address": "https://www.telepolis.de/features/Monty-Python-John-Cleese-erteilt-Aenderungen-an-Leben-des-Brian-eine-Absage-10421320.html?wt_mc=rss.red.tp.tp.atom.beitrag.beitrag",
+        "title": "Monty Python: John Cleese erteilt Änderungen an \"Leben des Brian\" eine Absage | Telepolis",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 1235
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6e3rgvDOAHJg",
+        "address": "https://www.heise.de/news/Machine-Learning-mit-Python-KI-und-Deep-Learning-in-5-Sessions-erklaert-11338919.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Machine Learning mit Python – KI und Deep Learning in 5 Sessions erklärt | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 1362
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "lWRiNvDOAHJg",
+        "address": "https://www.heise.de/news/Last-Call-Python-fuer-Umsteiger-Einstieg-in-die-KI-Sprache-fuer-Entwickler-11166304.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Last Call: Python für Umsteiger – Einstieg in die KI-Sprache für Entwickler | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 1470
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xC0uJe25lyrg",
+        "address": "https://golb.hplar.ch/2024/09/python_lambda.html",
+        "title": "AWS Lambda with Python, Poetry, and Pulumi",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 23,
+            "textWords": 2856
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "__FKExofqllg",
+        "address": "https://blog.rasc.ch/2024/09/python_lambda.html",
+        "title": "AWS Lambda with Python, Poetry, and Pulumi",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 23,
+            "textWords": 2866
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D9kxiTUZL4Nx",
+        "address": "https://www.preprints.org/manuscript/202510.1663",
+        "title": "Visual Python: Enhancing Beginner Programming Education through Real-Time Code Animation[v1] | Preprints.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 6,
+            "textWords": 679
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DGvE2vDOAHJg",
+        "address": "https://www.heise.de/news/Python-fuer-Umsteiger-Einstieg-in-die-KI-Sprache-fuer-Entwickler-in-5-Sessions-11148879.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Python für Umsteiger – Einstieg in die KI-Sprache für Entwickler in 5 Sessions | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 1419
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "_vR34jS6MKD4",
+        "address": "https://github.com/nguyenlethienlyy/Python-programming-exercises",
+        "title": "GitHub - nguyenlethienlyy/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 609
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_GF0VrYf_OZw",
+        "address": "https://mail.python.org/mailman3/lists/python-announce-list.python.org/",
+        "title": "Mailman 3 Info | python-announce-list@python.org - python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 199
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_OfvEhdG5jPw",
+        "address": "https://www.python.org/downloads/release/python-3110b2/",
+        "title": "Python Release Python 3.11.0b2 | Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 38,
+            "textWords": 1214
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_gJcIpr4CjGw",
+        "address": "https://discuss.python.org/u/thomas",
+        "title": "Profile - thomas - Discussions on Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 67
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-vjjfjcl0ynx",
+        "address": "https://en.wikiversity.org/wiki/Python",
+        "title": "Python - Wikiversity",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 29,
+            "textWords": 780
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_P0lSTCk19rw",
+        "address": "https://peps.python.org/pep-0711/",
+        "title": "PEP 711 – PyBI: a standard format for distributing Python Binaries | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 51,
+            "textWords": 3689
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9SCRvjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Python_Package_Index",
+        "title": "Python Package Index - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 44,
+            "textWords": 1210
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-CfQrUhjGEIw",
+        "address": "https://dbader.org/blog/how-to-make-command-line-commands-with-python",
+        "title": "How Do I Make My Own Command-Line Commands Using Python? – dbader.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 71,
+            "textWords": 1733
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_qpi_dKSXCx5",
+        "address": "https://www.w3resource.com/python-exercises/re/python-re-exercise-50.php",
+        "title": "Python Exercises: Remove the parenthesis area in a string - w3resource",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 36
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8CEPZjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Python_Programming",
+        "title": "Python Programming - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 24,
+            "textWords": 1123
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "CvxHgDxgB4dw",
+        "address": "https://codedocs.org/what-is/python-programming-language",
+        "title": "Python (programming language) - CodeDocs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 203,
+            "textWords": 10195
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DuEPzitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/3.9.html",
+        "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+        "snippet": "Python 3.9, compared to 3.8. Python 3.9 was released on October 5, 2020. For full details, see the changelog.\nSee also\nPEP 596 - Python 3.9 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 584, union operators added to dict;\nPEP 585, type hinting generics in standard",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 101,
+            "textWords": 8358
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DQYzKPMW35a4",
+        "address": "https://hub.docker.com/_/python/",
+        "title": "python - Official Image | Docker Hub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 47,
+            "textWords": 1844
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AusAYpdG5jPw",
+        "address": "https://www.python.org/events/python-user-group/137/",
+        "title": "Python Meeting Düsseldorf | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nDüsseldorf, Germany 22 Jan. from 5pm UTC to 7pm UTC, 2013",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 34
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AKpJN1S6MKD4",
+        "address": "https://github.com/TomNicholas/Python-for-Scientists",
+        "title": "GitHub - TomNicholas/Python-for-Scientists: A list of recommended Python libraries, and resources, intended for scientific Python users.",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 72,
+            "textWords": 3307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AF6AOlBLxyZw",
+        "address": "https://bugs.python.org/issue36763",
+        "title": "Issue 36763: Implementation of the PEP 587 - Python tracker",
+        "snippet": "Python initiaization API.\nmsg341168 - (view)\nAuthor: STINNER Victor (vstinner) *\nDate: 2019-04-30 23:36\nNew changeset 463b82a3efe8a6a9f3924a5b37482e961dffe3b8 by Victor Stinner in branch 'master': bpo-36763: Fix Py_SetStandardStreamEncoding() (GH-13028)",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 59,
+            "textWords": 3788
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B8L6LZDlvx65",
+        "address": "https://docs.appsignal.com/python.html",
+        "title": "AppSignal for Python | AppSignal documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 700
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BOzgk_uNWVxw",
+        "address": "https://linuxfr.org/news/l-installation-et-la-distribution-de-paquets-python-1-4",
+        "title": "L’installation et la distribution de paquets Python (1/4) - LinuxFr.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 13205
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A-ncDlMAuxi4",
+        "address": "https://www.linkedin.com/jobs/python-developer-jobs",
+        "title": "17,000+ Python Developer jobs in United States",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 108,
+            "textWords": 1918
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DSblfj5BB-V4",
+        "address": "https://www.egenix.com/products/python/mxODBC",
+        "title": "eGenix.com: Products: Python: mxODBC - Python ODBC Database Interface",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 143,
+            "textWords": 5010
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "HEQVMwS6MKD4",
+        "address": "https://github.com/ayushi7rawat/Ultimate-Python-Resource-Hub",
+        "title": "GitHub - ayushi7rawat/Ultimate-Python-Resource-Hub: The Ultimate resource hub of Python: All at one place · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 99,
+            "textWords": 1535
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Hh9MvsZTlNQ4",
+        "address": "https://python.land/python-tutorial",
+        "title": "Welcome To The Python Tutorial",
+        "snippet": "Python with our free tutorial, suitable for beginners. It contains carefully crafted, logically ordered Python articles full of information, advice, and Python practice! Hence, it helps both complete beginners and those with prior programming experience get up to speed with Python.\nIf you want to",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 75,
+            "textWords": 1776
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HSk23ldG5jPw",
+        "address": "https://www.python.org/blogs/",
+        "title": "Our Blogs | Python.org",
+        "snippet": "Python Insider\nThe 2026 PSF Board Election is Open!\nSept. 1, 2026, 2:02 p.m.\nIt’s time to cast your vote! Voting for the 2026 PSF Board Election is open starting today Tuesday, September 1st, 2:00 pm UTC, through Tuesday, September 15th, 2:00 pm UTC. How to Vote If you are a voting member of the",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 66
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HZikgtdIfum4",
+        "address": "https://www.runoob.com/flask/flask-tutorial.html",
+        "title": "Flask 教程 | 菜鸟教程",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 46,
+            "textWords": 747
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EofYLWYTtSsx",
+        "address": "https://sourceware.org/gdb/current/onlinedocs/gdb.html/Python-API.html",
+        "title": "Python API (Debugging with GDB)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 71,
+            "textWords": 437
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "G76WTDENrbc6",
+        "address": "https://husking-studio.com/category/extending-python-with-c/",
+        "title": "Python 與 C 擴充 - 小哈的程式工作坊",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 175
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EjgkgiUVXhJ4",
+        "address": "https://www.tutlane.com/tutorial/python/python-string-encode-method",
+        "title": "Python String Encode Method - Tutlane",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 99,
+            "textWords": 801
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Fn8KKjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Shelf:Computer_programming",
+        "title": "Shelf:Computer programming - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 143,
+            "textWords": 1897
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HbNZVyVA0BY5",
+        "address": "https://docs.snowflake.com/en/developer-guide/snowpark/python/index",
+        "title": "Snowpark Developer Guide for Python | Snowflake Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 28,
+            "textWords": 749
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "G3V5gYjJikl6",
+        "address": "https://www.tutorialsteacher.com/python/install-python",
+        "title": "Install Python on Windows, Mac, and Linux",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 73,
+            "textWords": 1073
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Ks24ZvS6MKD4",
+        "address": "https://github.com/faroit/awesome-python-scientific-audio",
+        "title": "GitHub - faroit/awesome-python-scientific-audio: Curated list of python software and packages related to scientific research in audio · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 1706
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JfZEMitD2jQw",
+        "address": "https://docs.python.org/3/faq/",
+        "title": "Python Frequently Asked Questions — Python 3.14.7 documentation",
+        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 64
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IakIRpdG5jPw",
+        "address": "https://www.python.org/events/python-events/2175/",
+        "title": "Python Leiden User Group | Python.org",
+        "snippet": "Python Leiden User Group",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 39
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JV0vxTCk19rw",
+        "address": "https://peps.python.org/pep-0020/",
+        "title": "PEP 20 – The Zen of Python | peps.python.org",
+        "snippet": "Python Enhancement Proposals\nPEP 20 – The Zen of Python Author:\nTim Peters \u003ctim.peters at gmail.com\u003e\nStatus:\nActive\nType:\nInformational\nCreated:\n19-Aug-2004\nPost-History:\n22-Aug-2004\nTable of Contents\nAbstract\nThe Zen of Python\nEaster Egg\nReferences\nCopyright\nAbstract\nLong time Pythoneer Tim Peters",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 239
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JZLSwsQ_UtE5",
+        "address": "https://realpython.com/python-parallel-processing/",
+        "title": "Bypassing the GIL for Parallel Processing in Python – Real Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 69,
+            "textWords": 17721
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IC1rt2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/auth-reauthentication",
+        "title": "Python: Send a password reauthentication nonce | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 618
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IiQfIjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Category:Subject:Python_programming_language/all_books",
+        "title": "Category:Subject:Python programming language/all books - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 33,
+            "textWords": 642
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DE00HyHvMhvw",
+        "address": "https://firefox-source-docs.mozilla.org/python/index.html",
+        "title": "Using third-party Python packages — Firefox Source Docs documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 67,
+            "textWords": 2310
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "KTvvUU3rjROw",
+        "address": "https://oxylabs.io/blog/python-parse-json",
+        "title": "Reading \u0026 Parsing JSON Data With Python: Tutorial",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 81,
+            "textWords": 5121
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "R0tFblBLxyZw",
+        "address": "https://bugs.python.org/issue17515",
+        "title": "Issue 17515: Add sys.setasthook() to allow to use a custom AST optimizer - Python tracker",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 14,
+            "textWords": 835
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "PJMkUsvmxro5",
+        "address": "https://techbeamers.com/python-tutorial-step-by-step/",
+        "title": "Free Python Course with 100+ Basic to Advanced Tutorials",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 246,
+            "textWords": 1589
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Pn_O_612OQy4",
+        "address": "https://a-z-typing-test.softonic.com/",
+        "title": "A-Z Typing Test - Descargar",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 42,
+            "textWords": 1991
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P1bBYitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/3.5.html",
+        "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
+        "snippet": "Python 3.5, compared to 3.4. Python 3.5 was released on September 13, 2015. See the changelog for a full list of changes.\nSee also\nPEP 478 - Python 3.5 Release Schedule\nSummary – Release highlights¶\nNew syntax features:\nPEP 492, coroutines with async and await syntax.\nPEP 465, a new matrix",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 72,
+            "textWords": 10728
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Nh8yR1r4CjGw",
+        "address": "https://discuss.python.org/",
+        "title": "Discussions on Python.org",
+        "snippet": "Python Help\nGeneral help/discussion forum for the Python programming language. All welcome.\n11239\nCommitters\nThe “argument clinic” for Python committers (people with the commit bit on https://github.com/python/cpython and related projects). Open for all to view.\n468\nIdeas\nWould you like to change",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "N1XuVsdG5jPw",
+        "address": "https://www.python.org/about/apps/",
+        "title": "Applications for Python | Python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 39,
+            "textWords": 765
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MzBjbZiAEraw",
+        "address": "https://azure.github.io/azure-sdk/releases/latest/mgmt/python.html",
+        "title": "Azure SDK for Python (Mgmt) | Azure SDKs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 3424
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MTNgHdS6MKD4",
+        "address": "https://github.com/arasgungore/awesome-python",
+        "title": "GitHub - arasgungore/awesome-python: A curated list of awesome Python frameworks, libraries, software and resources. · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 6797
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MhcM4D1j27yh",
+        "address": "https://ibkrcampus.eu/campus/trading-course/python-tws-api/",
+        "title": "Python TWS API | Trading Course | Traders' Academy",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 4417
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "M9iM53M9rDb4",
+        "address": "https://builtin.com/software-engineering-perspectives/python",
+        "title": "What Is Python? (Definition, Uses, Benefits) | Built In",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 53,
+            "textWords": 1508
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NkYTHTCk19rw",
+        "address": "https://peps.python.org/pep-0761/",
+        "title": "PEP 761 – Deprecating PGP signatures for CPython artifacts | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 28,
+            "textWords": 1838
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "rIKMo5LfGIY4",
+        "address": "https://www.manning.com/liveproject/deploy-a-forecasting-model",
+        "title": "Deploy a Forecasting Model - Jiahao Weng",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 6,
+            "textWords": 1550
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sSsUzljySmb6",
+        "address": "https://www.djangoproject.com/",
+        "title": "The web framework for perfectionists with deadlines | Django",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 646
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rOTrO-S6MKD4",
+        "address": "https://github.com/rothgar/awesome-tuis",
+        "title": "GitHub - rothgar/awesome-tuis: List of projects that provide terminal user interfaces · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 7291
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ruaPmWqO2Dlg",
+        "address": "https://media.ccc.de/c/35c3/podcast/mp4-lq.xml",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 47148
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qzRIZttj9NCo",
+        "address": "https://b.hatena.ne.jp/q/%E6%96%87%E5%AD%97%E3%82%B3%E3%83%BC%E3%83%89",
+        "title": "文字コードの人気記事 367件 - はてなブックマーク",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 6,
+            "textWords": 8241
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "r8SAR5LfGIY4",
+        "address": "https://www.manning.com/liveproject/preprocess-data-in-parallel?manning_source=marketplace\u0026manning_medium=productpage-related-titles",
+        "title": "Preprocess Data in Parallel - Delio D'Anna",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 8,
+            "textWords": 1760
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "q4WqsaLfGIY4",
+        "address": "https://www.manning.com/books/real-world-machine-learning?manning_source=marketplace\u0026manning_medium=productpage-related-titles",
+        "title": "Real-World Machine Learning - Henrik Brink, Joseph W. Richards, and Mark Fetherolf",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 2085
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "q3-eCzS6MKD4",
+        "address": "https://github.com/topics/xiaomi",
+        "title": "xiaomi · GitHub Topics · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 1244
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rqeyBxKAn6I5",
+        "address": "https://news.ycombinator.com/item?id=12969014",
+        "title": "Rust and the Future of Systems Programming [video] | Hacker News",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 38346
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xcRQT7G-YW25",
+        "address": "https://learndjango.com/courses/django-for-beginners/",
+        "title": "Django for Beginners | LearnDjango.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 756
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "WOyIQpdG5jPw",
+        "address": "https://www.python.org/events/python-events/locations/475/",
+        "title": "Our Events | Python.org",
+        "snippet": "Python Events Calendar\nUpcoming Events",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 30
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WY2aUHtD2jQw",
+        "address": "https://docs.python.org/3.12/whatsnew/index.html",
+        "title": "What’s New in Python — Python 3.12.0a6 documentation",
+        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s New In Python 3.12 Summary – Release highlights\nNew Features\nNew Features Related to Type Hints\nOther",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 196,
+            "textWords": 1748
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UY2LID2RqNWx",
+        "address": "https://techiefreak.org/category/detail/python",
+        "title": "Python - TechieFreak",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 84,
+            "textWords": 704
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "X449P8bIDBOw",
+        "address": "https://pypi.org/project/whisper-cpp-python/",
+        "title": "whisper-cpp-python · PyPI",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 37,
+            "textWords": 964
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Uke2IjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Python_3",
+        "title": "History of Python - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 222,
+            "textWords": 5276
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ugbc-tHWcaq4",
+        "address": "https://blog.finxter.com/free-python-books/",
+        "title": "101+ Free Python Books – Finxter",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 176,
+            "textWords": 2209
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Vawg-xbhx54w",
+        "address": "https://packaging.python.org/en/latest/specifications/virtual-environments/",
+        "title": "Python Virtual Environments - Python Packaging User Guide",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 29,
+            "textWords": 870
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WSe0d1wTCyQ4",
+        "address": "https://a-z-typing-test.de.softonic.com/",
+        "title": "A-Z Typing Test - Download",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 42,
+            "textWords": 2729
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Vqa3MNZTlNQ4",
+        "address": "https://python.land/data-processing/working-with-json",
+        "title": "JSON in Python: How To Read, Write, and Parse • Python Land Tutorial",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 168,
+            "textWords": 2253
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VvdDs2RnNlC4",
+        "address": "https://supabase.com/docs/reference/python/neq",
+        "title": "Python: Column is not equal to a value | Supabase Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 548
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "59fS3SMAuxi4",
+        "address": "https://www.linkedin.com/learning/topics/artificial-intelligence?trk=homepage-basic_learning-cta",
+        "title": "Artificial Intelligence (AI) Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 1450
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "K0gi9SMAuxi4",
+        "address": "https://www.linkedin.com/learning/topics/artificial-intelligence?trk=learning-serp_browsemap_link",
+        "title": "Artificial Intelligence (AI) Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 1450
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "I-D10SMAuxi4",
+        "address": "https://www.linkedin.com/learning/topics/software-development?trk=homepage-basic_learning-cta",
+        "title": "Software Development Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 1389
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "99bnESMAuxi4",
+        "address": "https://www.linkedin.com/learning/topics/software-development?trk=learning-serp_browsemap_link",
+        "title": "Software Development Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 1389
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VUN-oSMAuxi4",
+        "address": "https://www.linkedin.com/learning/topics/technology?trk=learning-serp_aside-topics",
+        "title": "Technology Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 1307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "V6-10SMAuxi4",
+        "address": "https://www.linkedin.com/learning/numpy-essential-training-1-foundations-of-numpy/take-advantage-of-the-power-of-numpy",
+        "title": "Take advantage of the power of NumPy - NumPy Essential Training: 1 Foundations of NumPy Video Tutorial | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 742
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "K9GSosMAuxi4",
+        "address": "https://www.linkedin.com/top-content/education/",
+        "title": "Top Education Content from LinkedIn Members",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 3880
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dBRqmSMAuxi4",
+        "address": "https://www.linkedin.com/learning/topics/technology?trk=learning-serp_browsemap_general-link",
+        "title": "Technology Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 1309
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sqhKhsMAuxi4",
+        "address": "https://www.linkedin.com/top-content/career/career-advancement-tips/",
+        "title": "Top LinkedIn Content on Career Advancement Tips",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 6464
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RMUH3sMAuxi4",
+        "address": "https://www.linkedin.com/top-content/project-management/",
+        "title": "Top Project Management Content from LinkedIn Members",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 4144
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "f04VqsdvU0Yx",
+        "address": "https://pythongui.org/Python4Delphi/",
+        "title": "Python 4 Delphi",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 108,
+            "textWords": 1542
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dzPvYltD2jQw",
+        "address": "https://docs.python.org/3.14/using/index.html",
+        "title": "Python Setup and Usage — Python 3.14.6 documentation",
+        "snippet": "Python Software Foundation.\nThis page is licensed under the Python Software Foundation License Version 2.\nExamples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.\nSee History and License for more information.\nThe Python Software Foundation",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 64
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "f46fAlIJMSv6",
+        "address": "https://www.urbandictionary.com/define.php?term=Python",
+        "title": "Urban Dictionary: Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 26,
+            "textWords": 537
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dIVOAIR2NVbw",
+        "address": "https://devguide.python.org/versions/",
+        "title": "Status of Python versions",
+        "snippet": "Python 3.16, and is the only branch that accepts new features. The latest release for each Python version can be found on the download page.\n'19\n'20\n'21\n'22\n'23\n'24\n'25\n'26\n'27\n'28\n'29\n'30\n'31\n'32\nend-of-life\nend-of-life\nPython 2.7\nend-of-life\nend-of-life\nPython 3.6\nend-of-life\nend-of-life\nPython",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 35,
+            "textWords": 702
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dDT4-t3vtu2w",
+        "address": "https://blog.python.org/",
+        "title": "Python Insider",
+        "snippet": "Python documentation is now available in Russian!\nStan Ulbrych·August 22, 2026\nAnnouncing the Packaging Council Election Candidates for 2026!\nPradyun Gedam·August 13, 2026\nAnnouncing the 17 nominees for the inaugural Python Packaging Council election, and how to vote in the election.\nPython",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 190
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fhHt35dG5jPw",
+        "address": "https://www.python.org/psf/sponsorship/",
+        "title": "Sponsor the PSF | Python Software Foundation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 38,
+            "textWords": 946
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fn6E3UVwT4Iw",
+        "address": "https://hackr.io/blog/how-to-create-a-python-madlibs-generator",
+        "title": "Build a Fun Mad Libs Generator in Python (Step-by-Step)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 138,
+            "textWords": 2795
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fOvZv38qwGN4",
+        "address": "https://devcenter.heroku.com/categories/python-support",
+        "title": "Python | Heroku Dev Center",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 675
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "f3mSGXS6MKD4",
+        "address": "https://github.com/nkbyrne/Python-programming-exercises",
+        "title": "GitHub - nkbyrne/Python-programming-exercises: 100+ Python challenging programming exercises · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 19,
+            "textWords": 611
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fYlrQxdXA2n4",
+        "address": "https://www.linode.com/docs/guides/lua-vs-python/",
+        "title": "How to Choose Between Lua vs Python | Linode Docs",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 124,
+            "textWords": 4666
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gMt65TCk19rw",
+        "address": "https://peps.python.org/pep-0361/",
+        "title": "PEP 361 – Python 2.6 and 3.0 Release Schedule | peps.python.org",
+        "snippet": "Python-Version:\n2.6, 3.0\nPost-History:\n17-Mar-2008\nTable of Contents\nAbstract\nRelease Manager and Crew\nRelease Lifespan\nRelease Schedule\nCompleted features for 3.0\nCompleted features for 2.6\nPossible features for 2.6\nDeferred until 2.7\nOpen issues\nReferences\nCopyright\nAbstract\nThis document",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 56,
+            "textWords": 1054
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "g--irzdG5jPw",
+        "address": "https://www.python.org/success-stories/category/engineering/",
+        "title": "Engineering | Our Success Stories | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "k8ePcDbK4AC4",
+        "address": "https://python.utils.com/",
+        "title": "Python Shell - utils.com",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 2854
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_OamuELc30Qw",
+        "address": "https://www.coursera.org/projects/python-for-data-analysis-numpy",
+        "title": "Python for Data Analysis: Pandas \u0026 NumPy (Short Course) | Coursera",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 18,
+            "textWords": 2566
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jfl6IL4HVqG4",
+        "address": "https://www.twilio.com/en-us/products/email-api",
+        "title": "Email API | Twilio",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 50,
+            "textWords": 5655
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CYSH5hM9rDb4",
+        "address": "https://builtin.com/data-science/python-libraries-data-science",
+        "title": "Top 20 Python Libraries for Data Science | Built In",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 21,
+            "textWords": 1444
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jfqkwYXBWSVg",
+        "address": "https://www.pvsm.ru/python/449997",
+        "title": "Интеграция Google Gemini API в асинхронный Telegram-бот на aiogram 3.x и Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 1856
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hjmovlBLxyZw",
+        "address": "https://bugs.python.org/issue4720",
+        "title": "Issue 4720: Extension function optional argument specification | causes RuntimeError - Python tracker",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 374
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jUyg0KTceIAw",
+        "address": "https://status.python.org/",
+        "title": "Python Infrastructure Status",
+        "snippet": "Fastly Asia/Pacific (HK) Operational\nFastly US East (IAD) Operational\nFastly US East (MIA) Operational\nFastly US Central (DEN) Operational\nFastly US Central (DFW) Operational\nFastly US West (SEA) Operational\nFastly US West (SJC) Operational\nFastly Europe (FRA) Operational\nFastly Europe (AMS)",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 412
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hmKP9v5R-QZs",
+        "address": "https://hajigame.ir/product/eureka-python-ii-red-gaming-chair/",
+        "title": "صندلی گیمینگ یوریکا Python II Red | حاجی گیم مرکز فروش نقد و اقساط انواع میز و صندلی 14",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 16,
+            "textWords": 2113
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "10VljROEYdj4",
+        "address": "https://www.laac.dev/tags/python/",
+        "title": "python | LAAC Technology",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 462
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dDT4-t3vtu2w",
+        "address": "https://blog.python.org/",
+        "title": "Python Insider",
+        "snippet": "Python documentation is now available in Russian!\nStan Ulbrych·August 22, 2026\nAnnouncing the Packaging Council Election Candidates for 2026!\nPradyun Gedam·August 13, 2026\nAnnouncing the 17 nominees for the inaugural Python Packaging Council election, and how to vote in the election.\nPython",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 190
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "w2rHSSS6MKD4",
+        "address": "https://github.com/python/cpython/issues",
+        "title": "Issues · python/cpython · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 22,
+            "textWords": 1194
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jKQKJldG5jPw",
+        "address": "https://www.python.org/psf-landing/",
+        "title": "Python Software Foundation",
+        "snippet": "Python Community through...\nGrants\nIn 2024, the PSF awarded $655,000 USD to 257 groups or individuals in 61 countries around the world.\nPyCon US\nWe produce and underwrite the PyCon US Conference, the largest annual gathering for the Python community. Support from sponsors, attendees, PyLadies, and",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 144
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eqMe8UOKqMn4",
+        "address": "https://mathspp.com/blog/tags/python",
+        "title": "Python blog articles | mathspp",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 38,
+            "textWords": 1176
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SNlGrxbhx54w",
+        "address": "https://packaging.python.org/en/latest/",
+        "title": "Python Packaging User Guide",
+        "snippet": "Python Packaging User Guide, a collection of tutorials and references to help you distribute and install Python packages with modern tools.\nThis guide is maintained on GitHub by the Python Packaging Authority. We happily accept contributions and feedback. 😊\nOverview and Flow¶\nNote\nBuilding your",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 11,
+            "textWords": 301
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6YfxoKf4Pib5",
+        "address": "https://code.visualstudio.com/docs/python/settings-reference",
+        "title": "Python settings reference",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 68,
+            "textWords": 3323
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YRjIITCk19rw",
+        "address": "https://peps.python.org/pep-0790/",
+        "title": "PEP 790 – Python 3.15 Release Schedule | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 377
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "l20c_wbTd3a4",
+        "address": "https://istanbul.python.pizza/",
+        "title": "Python Pizza Istanbul",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 1220
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VujVQv47kkmg",
+        "address": "https://wirtel.be/tags/python/",
+        "title": "Articles tagged Python | Stéphane Wirtel — Senior Python Consultant",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 428
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8KbCrvUGDmy5",
+        "address": "https://serverfault.com/tags/python/synonyms",
+        "title": "'python' Tag Synonyms - Server Fault",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 511
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vQ2i0yQ_UtE5",
+        "address": "https://realpython.com/tutorials/machine-learning/",
+        "title": "Python Machine Learning – Real Python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 89,
+            "textWords": 2616
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Yc9h-oS6MKD4",
+        "address": "https://github.com/jquast/wcwidth",
+        "title": "GitHub - jquast/wcwidth: Python library that measures the width of strings in a terminal · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 17,
+            "textWords": 4483
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "GNKptKO4354w",
+        "address": "https://ntrs.nasa.gov/citations/20230005458",
+        "title": "MLtool Python Code - NASA Technical Reports Server (NTRS)",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 727
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZUXNn2xyFvIw",
+        "address": "https://forums.gentoo.org/viewtopic.php/viewtopic-p-8724509.html?p=8724509",
+        "title": "Please clarify re Python versions - Gentoo Forums",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 71,
+            "textWords": 3412
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "XUnWAJb_paRx",
+        "address": "https://psfmember.org/civicrm/contribute/transact/?reset=1\u0026id=10",
+        "title": "Donation for PyMNtos – Python Software Foundation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 9,
+            "textWords": 990
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yEfbhZ9Ietny",
+        "address": "https://lists.fedoraproject.org/archives/list/devel-announce@lists.fedoraproject.org/thread/24UMFCUXDERAP5KAU3QMWQRKOVLSBSJR/",
+        "title": "[HEADS UP] Fedora 33 Python 3.9 rebuilds have started in a side tag - devel-announce - Fedora mailing-lists",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 8,
+            "textWords": 3886
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8K4UN11dafs6",
+        "address": "https://stackoverflow.com/users/76322/directedition",
+        "title": "User directedition - Stack Overflow",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 7,
+            "textWords": 760
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3tR8Itzyj0Fw",
+        "address": "https://blog.csdn.net/Tanqy1997",
+        "title": "Cosmos Tan-CSDN博客",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 8,
+            "textWords": 1896
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5ymbtEIHIDD6",
+        "address": "https://blender.stackexchange.com/unanswered/tagged?page=4\u0026tab=votes",
+        "title": "Highly scored unanswered questions - Page 4 - Blender Stack Exchange",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 1623
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ze3f2iUVXhJ4",
+        "address": "https://www.tutlane.com/tutorial/python",
+        "title": "Python Tutorial - Tutlane",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 122,
+            "textWords": 579
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "z02vKTCk19rw",
+        "address": "https://peps.python.org/",
+        "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
+        "snippet": "Python Enhancement Proposals (PEPs) PEP 0 – Index of Python Enhancement Proposals (PEPs)\nAuthor:\nThe PEP Editors\nStatus:\nActive\nType:\nInformational\nCreated:\n13-Jul-2000\nTable of Contents\nIntroduction\nTopics\nAPI\nNumerical Index\nIndex by Category Process and Meta-PEPs\nOther Informational PEPs",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 207,
+            "textWords": 10361
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yNJxThVRUINg",
+        "address": "https://learn-python.softonic.ru/",
+        "title": "Learn Python — Скачать",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 45,
+            "textWords": 1483
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yE_iqldG5jPw",
+        "address": "https://www.python.org/doc/",
+        "title": "Our Documentation | Python.org",
+        "snippet": "Python's documentation, tutorials, and guides are constantly evolving.\nGet started here, or scroll down for documentation broken out by type and subject.\nPython Docs\nSee also Documentation Releases by Version",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 2,
+            "textWords": 40
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "x84ZtsS6MKD4",
+        "address": "https://github.com/python/",
+        "title": "Python · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 43,
+            "textWords": 945
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "y5MEk2gzSVxA",
+        "address": "http://kuwsf.w.interia.pl/monty-python.html",
+        "title": "Monty python. Philosopher's song monty python and eric of monty python with lumberjack song by monty python",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 251,
+            "textWords": 5540
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xxi8N2S95KR5",
+        "address": "https://www.programiz.com/python-programming/methods/built-in/dir",
+        "title": "Python dir()",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 122,
+            "textWords": 1532
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zU6zmzDlvx65",
+        "address": "https://docs.appsignal.com/python/instrumentations",
+        "title": "Python Instrumentations | AppSignal documentation",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 665
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zx9Gu78qwGN4",
+        "address": "https://devcenter.heroku.com/articles/python-runtimes",
+        "title": "Specifying a Python Version | Heroku Dev Center",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 791
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zvyytpVXzQsy",
+        "address": "https://eric-ide.python-projects.org/index.html",
+        "title": "The Eric Python IDE",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 8,
+            "textWords": 430
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "34K-apdG5jPw",
+        "address": "https://www.python.org/events/python-user-group/139/",
+        "title": "Python Meeting Düsseldorf | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nDüsseldorf, Germany 23 Oct. from 4pm UTC to 6pm UTC, 2012",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 34
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2fxzxltD2jQw",
+        "address": "https://docs.python.org/3.14/whatsnew/index.html",
+        "title": "What’s New in Python — Python 3.14.2 documentation",
+        "snippet": "Python” series of essays takes tours through the most important changes between major Python versions. They are a “must read” for anyone wishing to stay up-to-date after a new release.\nWhat’s new in Python 3.14 Summary – Release highlights\nNew features\nOther language changes\nNew modules\nImproved",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 209,
+            "textWords": 1827
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2CZt-2S95KR5",
+        "address": "https://www.programiz.com/python-programming/methods/built-in/all",
+        "title": "Python all()",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 120,
+            "textWords": 1157
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2kC4uiUVXhJ4",
+        "address": "https://www.tutlane.com/tutorial/python/python-file-opening",
+        "title": "Python File Opening - Tutlane",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 106,
+            "textWords": 1078
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2A1OSfpNk_Ig",
+        "address": "https://python-para-todos.softonic.se/",
+        "title": "Python para todos - Download",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 31,
+            "textWords": 1601
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "39Gl0SS6MKD4",
+        "address": "https://github.com/python/cpython/issues/127604",
+        "title": "Add a way of printing a C backtrace to `faulthandler` · Issue #127604 · python/cpython · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 833
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2doNn6g7yvNw",
+        "address": "https://handwiki.org/wiki/Python_(programming_language)",
+        "title": "Python (programming language) - HandWiki",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 73,
+            "textWords": 13045
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3DZ7Vlh8ji95",
+        "address": "https://www.techbeamers.com/python-sort-lists-alphabetically/",
+        "title": "Sort Lists Alphabetically in Python Using Multiple Ways",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 205,
+            "textWords": 2493
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3fqknYtl82z5",
+        "address": "https://www.w3schools.com/python/python_challenges_math.asp",
+        "title": "Python Math Code Challenge",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 115,
+            "textWords": 2003
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2YvMdx3vtu2w",
+        "address": "https://blog.python.org/2024/09/python-3130rc2-3126-31110-31015-3920/",
+        "title": "Python 3.13.0RC2, 3.12.6, 3.11.10, 3.10.15, 3.9.20, and 3.8.20 are now available! | Python Insider",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 65,
+            "textWords": 1417
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "7N3vIpdG5jPw",
+        "address": "https://www.python.org/events/python-user-group/2039/",
+        "title": "Python Leiden User Group | Python.org",
+        "snippet": "Notice: This page displays a fallback because interactive scripts did not run. Possible causes include disabled JavaScript or failure to load scripts or stylesheets.\nLeiden, The Netherlands 10 July from 6pm UTC to 8pm UTC, 2025",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 0,
+            "textWords": 35
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "7iWm06S6MKD4",
+        "address": "https://github.com/googleapis/google-api-python-client",
+        "title": "GitHub - googleapis/google-api-python-client: 🐍 The official Python client library for Google's discovery based APIs. · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 16,
+            "textWords": 1247
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5V-pACAZAFI4",
+        "address": "https://anexia.com/en/software-development/web-development/python-development",
+        "title": "Python Development for almost every Problem - Anexia",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 1692
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NU9FB29WD4d4",
+        "address": "https://neo4j.com/docs/python-manual/current/",
+        "title": "Build applications with Neo4j and Python - Neo4j Python Driver Manual",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 12,
+            "textWords": 1313
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eWBJhGryGjK4",
+        "address": "https://www.yahooinc.com/paranoids/discovering-a-dangerous-pattern-in-a-popular-python-package-manager",
+        "title": "Discovering a Dangerous Pattern in a Popular Python Package Manager | Paranoids | Yahoo Inc.",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 1242
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8CEPZjldhbwx",
+        "address": "https://en.wikibooks.org/wiki/Python_Programming",
+        "title": "Python Programming - Wikibooks, open books for an open world",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 24,
+            "textWords": 711
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cYlr2_z5KGQw",
+        "address": "https://pagure.io/python-daemon/issue/66/",
+        "title": "Issue #66: PyPI release of version 2.3.1 does not specify required Python version - python-daemon - Pagure.io",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 20,
+            "textWords": 582
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wJk9qN4PD6W4",
+        "address": "https://engineering.fb.com/2026/06/30/open-source/10-years-of-metas-commitment-to-python/",
+        "title": "10 Years of Meta’s Commitment to Python - Engineering at Meta",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 32,
+            "textWords": 1485
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jnUuL8-O1G_4",
+        "address": "https://developers.google.com/youtube/v3/quickstart/python",
+        "title": "Python Quickstart | YouTube Data API | Google for Developers",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 16,
+            "textWords": 1626
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-u6Q0xbhx54w",
+        "address": "https://packaging.python.org/en/latest/specifications/",
+        "title": "PyPA specifications - Python Packaging User Guide",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 13,
+            "textWords": 595
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-FLP1l6SvBp7",
+        "address": "https://www.softwaretestinghelp.com/python/",
+        "title": "Python Tutorial For Beginners: Hands-on FREE Python Training",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 10,
+            "textWords": 4575
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9Zo1MTCk19rw",
+        "address": "https://peps.python.org/pep-0805/",
+        "title": "PEP 805 – Safe Parallel Python | peps.python.org",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 32,
+            "textWords": 6052
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8KbCrvUGDmy5",
+        "address": "https://serverfault.com/tags/python/synonyms",
+        "title": "'python' Tag Synonyms - Server Fault",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 5,
+            "textWords": 511
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "95I0YKsrSOQw",
+        "address": "https://arxiv.org/list/cs.PL/recent",
+        "title": "Programming Languages authors/titles recent submissions",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 31,
+            "textWords": 1306
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-jthvZT71Vl0",
+        "address": "https://docs.astral.sh/uv/reference/settings/",
+        "title": "Settings | uv",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 75,
+            "textWords": 11553
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9apEcsUUaiEw",
+        "address": "https://ctext.org/account.pl?if=en",
+        "title": "Chinese Text Project",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 1,
+            "textWords": 429
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "88snuOxyFvIw",
+        "address": "https://forums.gentoo.org/viewtopic-p-8573070.html",
+        "title": "Gentoo Forums :: View topic - Maxima with VTK needs python-3.6",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 25,
+            "textWords": 3001
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_uJm6Cu-sg8w",
+        "address": "https://april.org/en/derniers-contenus?page=76\u0026membre=neodiffusion",
+        "title": "Les derniers contenus publiés | April",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 3,
+            "textWords": 3378
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-aghGVsWTYKx",
+        "address": "https://sourceforge.net/projects/bleachbit/",
+        "title": "BleachBit download | SourceForge.net",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 1365
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8D8UrNS6MKD4",
+        "address": "https://github.com/baidu/QCompute",
+        "title": "GitHub - baidu/QCompute: QCompute is a Python-based quantum software development kit (SDK). It provides a full-stack programming experience for advanced users via hybrid quantum programming language features and a high-performance simulator.",
+        "snippet": "",
+        "matchedWords": {
+          "I-7rQ0e90mv8": {
+            "hits": 4,
+            "textWords": 2487
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
+  "itemsInNoOrder": [],
+  "documentsHeldPerQueryWord": null
+}

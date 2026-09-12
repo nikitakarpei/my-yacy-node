@@ -1,0 +1,287 @@
+{
+  "query": "best practices for database indexing",
+  "judgedDocuments": [
+    {
+      "hash": "tqphPlx-PVw5",
+      "address": "https://www.githubstatus.com/",
+      "title": "GitHub Status",
+      "grade": 0
+    },
+    {
+      "hash": "XEyWzL8hxo35",
+      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": 0
+    },
+    {
+      "hash": "a7Urh_nMM_j5",
+      "address": "https://grokipedia.com/page/PostgreSQL",
+      "title": "PostgreSQL — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "vrmcS_nMM_j5",
+      "address": "https://grokipedia.com/page/NoSQL",
+      "title": "NoSQL — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "g4p8j_nMM_j5",
+      "address": "https://grokipedia.com/page/MongoDB",
+      "title": "MongoDB — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "00fzG1tSpg04",
+      "address": "https://xmlns.com/foaf/spec/",
+      "title": "FOAF Vocabulary Specification",
+      "grade": 0
+    },
+    {
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "grade": 0
+    },
+    {
+      "hash": "ZLCPGlRhEzc4",
+      "address": "https://www.amazon.science/",
+      "title": "Amazon Science homepage",
+      "grade": 0
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ccuJ8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Map",
+      "title": "Map - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ipGFbjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wiley_(publisher)",
+      "title": "Wiley (publisher) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zugI_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Metadata",
+      "title": "Metadata - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "75kEMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/International_Organization_for_Standardization",
+      "title": "International Organization for Standardization - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "0uT1BzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/customer-experience/cx-journey/",
+      "title": "Customer Experience Journey Research | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "0xiwzzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/security/corporate/systems/aws/cells-prod/",
+      "title": "AWS Cells Prod Org | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "1s9OizW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/company/culture/exec-connect/",
+      "title": "Executive Connect events | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "4X6v9zW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/gitlab-delivery/distribution/triage/",
+      "title": "Distribution Team Triage | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "4YxmRzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/about/contributing/",
+      "title": "Contributing to the Handbook | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "4fXgyzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/sales/shadow-program/",
+      "title": "The Customer-Ready Shadow Program | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "-OnNvzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/legal/subscription-agreement/",
+      "title": "GitLab Subscription Agreement | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "B0aD4yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/concepts/agents/github-copilot-app",
+      "title": "About the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "DFzdbyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access",
+      "title": "Managing access to GitHub Copilot in your organization - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "G5ifEyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/configure-personal-settings/authenticate-to-ghecom",
+      "title": "Using GitHub Copilot with an account on GHE.com - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "JTegTyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/responsible-use/chat",
+      "title": "Application card: GitHub Copilot Chat - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "RMUETyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review",
+      "title": "Using GitHub Copilot code review - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "Ua5YKyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app",
+      "title": "Customizing the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "UetwYyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot",
+      "title": "GitHub Copilot documentation - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "rXFU9yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/using-automations",
+      "title": "Using automations in the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "sW1fHyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/concepts/models/auto-model-selection",
+      "title": "About Copilot auto model selection - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "tqy9_yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions",
+      "title": "Working with agent sessions in the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "yv0qxyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests",
+      "title": "Managing issues and pull requests with the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "zczfLyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials/customization-library",
+      "title": "Customization library - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "0zCYHyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials/copilot-cookbook",
+      "title": "GitHub Copilot Cookbook - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "3E6rJyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials",
+      "title": "Tutorials for GitHub Copilot - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "0thoeJcvw7Vx",
+      "address": "https://wordpress.org/plugins/wordpress-seo/",
+      "title": "Yoast SEO – Advanced SEO with real-time guidance and built-in AI – WordPress plugin | WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "HDs2NMhTaKi5",
+      "address": "https://www.datadoghq.com/product/ai/agent-directory/",
+      "title": "AI Agent Directory | Datadog",
+      "grade": 0
+    },
+    {
+      "hash": "RdyC6lhTaKi5",
+      "address": "https://www.datadoghq.com/pricing/",
+      "title": "Pricing | Datadog",
+      "grade": 0
+    },
+    {
+      "hash": "YJVGomoWtInx",
+      "address": "https://meta.wikimedia.org/wiki/Wikimedia_Forum",
+      "title": "Wikimedia Forum - Meta-Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
+      "grade": 0
+    },
+    {
+      "hash": "BsustjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/PowerShell",
+      "title": "PowerShell - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "COUi-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Internet_of_things",
+      "title": "Internet of things - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SD9B1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Store",
+      "title": "Microsoft Store - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ZtxqojRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Open_access",
+      "title": "Open access - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

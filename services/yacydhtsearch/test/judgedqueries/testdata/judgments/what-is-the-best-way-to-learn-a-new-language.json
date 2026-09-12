@@ -1,0 +1,197 @@
+{
+  "query": "what is the best way to learn a new language",
+  "judgedDocuments": [
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "XEyWzL8hxo35",
+      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": 0
+    },
+    {
+      "hash": "26dpylS6MKD4",
+      "address": "https://github.com/features/copilot",
+      "title": "GitHub Copilot · Your AI pair programmer · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "BXUMpjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/India",
+      "title": "India - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "qzV8sjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/YouTube",
+      "title": "YouTube - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "1yXEqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war_(2022%E2%80%93present)",
+      "title": "Russo-Ukrainian war (2022–present) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9EJmqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_States",
+      "title": "United States - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "JMrCglS6MKD4",
+      "address": "https://github.com/features/copilot/copilot-business",
+      "title": "GitHub Copilot Business · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "MijQL0S6MKD4",
+      "address": "https://github.com/resources/events",
+      "title": "Upcoming GitHub events, webinars \u0026 developer conferences · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "dwAr70S6MKD4",
+      "address": "https://github.com/resources/whitepapers",
+      "title": "Ebooks \u0026 Whitepapers · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "2kJyJ0S6MKD4",
+      "address": "https://github.com/resources/articles",
+      "title": "GitHub Articles • Technical Guides, Developer Insights \u0026 Best Practices · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "dENnoldA5r_4",
+      "address": "https://www.apple.com/iphone/",
+      "title": "iPhone - Apple",
+      "grade": 0
+    },
+    {
+      "hash": "DhmEc4iwa444",
+      "address": "https://apps.apple.com/al/iphone/today",
+      "title": "‎Today for iPhone - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "oZtYHFiwa444",
+      "address": "https://apps.apple.com/us/iphone/apps",
+      "title": "‎Apps for iPhone - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "t_P_aLiwa444",
+      "address": "https://apps.apple.com/mt/iphone/today",
+      "title": "‎Today for iPhone - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "zOn1gwiwa444",
+      "address": "https://apps.apple.com/nz/iphone/today",
+      "title": "‎Today for iPhone - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "4UN1Eziwa444",
+      "address": "https://apps.apple.com/xk/iphone/today",
+      "title": "‎Today for iPhone - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "_ob2G2iwa444",
+      "address": "https://apps.apple.com/sz/iphone/today",
+      "title": "‎Today for iPhone - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "11qsGs5MC3Rw",
+      "address": "https://telegram.org/faq",
+      "title": "Telegram FAQ",
+      "grade": 0
+    },
+    {
+      "hash": "KXby1s6GdY-4",
+      "address": "https://danluu.com/mit-stanford/",
+      "title": "How does Boston compare to SV and what do MIT and Stanford have to do with it?",
+      "grade": 0
+    },
+    {
+      "hash": "ydv6cs6GdY-4",
+      "address": "https://danluu.com/bitc-retrospective/",
+      "title": "Jonathan Shapiro's Retrospective Thoughts on BitC",
+      "grade": 0
+    },
+    {
+      "hash": "zPzQLs6GdY-4",
+      "address": "https://danluu.com/ai-coding/",
+      "title": "Agentic test processes, LLM benchmarks, and other notes on agentic coding from Galapagos Island",
+      "grade": 0
+    },
+    {
+      "hash": "yx7c9AK-xyJ4",
+      "address": "https://go.dev/doc/modules/developing",
+      "title": "Developing and publishing modules - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "VBuCRO05rw04",
+      "address": "https://www.unz.com/book/arthur_conan_doyle__danger-and-other-stories/",
+      "title": "DANGER! AND OTHER STORIES, by Arthur Conan Doyle - The Unz Review",
+      "grade": 0
+    },
+    {
+      "hash": "IlNp2itD2jQw",
+      "address": "https://docs.python.org/3/library/turtle.html",
+      "title": "turtle — Turtle graphics — Python 3.14.6 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "KQho5AK-xyJ4",
+      "address": "https://go.dev/doc/go1.6",
+      "title": "Go 1.6 Release Notes - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "-oQRzjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Singapore",
+      "title": "Singapore – Travel guide at Wikivoyage",
+      "grade": 0
+    },
+    {
+      "hash": "4DyIeg8xiSc4",
+      "address": "https://press.stripe.com/",
+      "title": "Stripe Press — Ideas for progress",
+      "grade": 0
+    },
+    {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "grade": 0
+    }
+  ]
+}

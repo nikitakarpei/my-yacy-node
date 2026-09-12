@@ -2,15 +2,33 @@
   "query": "static site generator",
   "judgedDocuments": [
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
       "grade": 0
     },
     {
-      "hash": "E3vPOld2TDD4",
-      "address": "https://www.psd-dude.com/glitch-text-generator/",
-      "title": "Glitch Text Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ",
+      "hash": "aR3Mq3WRlFM5",
+      "address": "https://ohdsi.r-universe.dev/PatientGenerator",
+      "title": "PatientGenerator: Generator of Synthetic Patient Data for the OMOP Common Data Model",
+      "grade": 0
+    },
+    {
+      "hash": "3DgxkZGR0Is4",
+      "address": "https://slug-generator.utils.com/",
+      "title": "Slug Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "WdJpkeIcnUqY",
+      "address": "http://yourshoppingkaki.blogspot.com/2009/07/launched-say-no-campaign.html",
+      "title": "Your Shopping Kaki - A Review Blog: Launched: \"Say No\" Campaign",
+      "grade": 0
+    },
+    {
+      "hash": "WGR29lBxf4j5",
+      "address": "https://www.education.com/",
+      "title": "Education.com | #1 Educational Site for Pre-K to 8th Grade",
       "grade": 0
     },
     {
@@ -20,237 +38,45 @@
       "grade": 0
     },
     {
-      "hash": "qcSF2cuStRZ4",
-      "address": "https://mock-data.utils.com/",
-      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+      "hash": "ps4tWNkxS534",
+      "address": "https://powerpoint-generator.utils.com/",
+      "title": "PowerPoint Generator - utils.com",
       "grade": 0
     },
     {
-      "hash": "NTKSIW8dlWJ4",
-      "address": "https://ics-generator.utils.com/",
-      "title": "ICS File Generator - utils.com",
+      "hash": "qg3blaMjkbX4",
+      "address": "https://password-generator.utils.com/",
+      "title": "Secure Password Generator - utils.com",
       "grade": 0
     },
     {
-      "hash": "3W4e5v5tsb14",
-      "address": "https://dice.utils.com/",
-      "title": "Dice Roller - utils.com",
+      "hash": "VMcRUXwA4J44",
+      "address": "https://team-generator.utils.com/",
+      "title": "Random Team Generator - utils.com",
       "grade": 0
     },
     {
-      "hash": "J5vXHJ6WgPx4",
-      "address": "https://photo-collage.utils.com/",
-      "title": "Photo Collage Maker - utils.com",
+      "hash": "22wd2Ij2CTW4",
+      "address": "https://invoice-generator.utils.com/",
+      "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
       "grade": 0
     },
     {
-      "hash": "3VSN_c78Gvl4",
-      "address": "https://screen-size.utils.com/",
-      "title": "Device Screen Size Reference - Screen Resolutions for Phones, Tablets, Laptops | utils.com",
+      "hash": "_bVAd0omXJt4",
+      "address": "https://ripemd160.utils.com/",
+      "title": "RIPEMD-160 Hasher - utils.com",
       "grade": 0
     },
     {
-      "hash": "1-QsU57a4V54",
-      "address": "https://title-extractor.utils.com/",
-      "title": "Title \u0026 Description Extractor - utils.com",
+      "hash": "Fc0AMlVE8Pt4",
+      "address": "https://token-generator.utils.com/",
+      "title": "Random Token Generator - utils.com",
       "grade": 0
     },
     {
-      "hash": "wZ76cwANgP24",
-      "address": "https://graphql.utils.com/",
-      "title": "GraphQL Query Formatter - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "Pnt3hXDST-C4",
-      "address": "https://name-meaning.utils.com/",
-      "title": "Name Meaning Lookup - Discover Your Name's Origin - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "grade": 0
-    },
-    {
-      "hash": "-TgwyzLgvhd4",
-      "address": "https://validate-iban.utils.com/",
-      "title": "IBAN Validator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "Ht7EIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Pathological_science",
-      "title": "Pathological science - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "PxWhyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Michael_Chabon",
-      "title": "Michael Chabon - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "1AhYvjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Software_tool",
-      "title": "Programming tool - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "8IbirxSUv9O4",
-      "address": "https://hangman.utils.com/",
-      "title": "Hangman - Word Guessing Game - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "90BnaIV5WAV4",
-      "address": "https://kanban-board.utils.com/",
-      "title": "Kanban Board - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "37rEhlXEa2U7",
-      "address": "https://www.waybackmachinedownloader.com/en/faq/",
-      "title": "Wayback Machine downloader - Frequently Asked Questions",
-      "grade": 0
-    },
-    {
-      "hash": "R8207vZN_n44",
-      "address": "https://prime-checker.utils.com/",
-      "title": "Prime Number Checker \u0026 Finder - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "0WNN-QZchFfZ",
-      "address": "http://www.greenteethmm.com/energy-diesel-fallacy.shtml",
-      "title": "we-were-bullied-into-buying-diesel-cars-to-help-the-environment-now-experts-admit-this-green-fuel-is-killing-thousands-of-us-daily-stirrer-dailystirrer",
-      "grade": 0
-    },
-    {
-      "hash": "2KRnL3_H_FE4",
-      "address": "https://sort-json.utils.com/",
-      "title": "JSON Sorter - Sort JSON Arrays - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "3pTHoFaJaYn4",
-      "address": "https://bandwidth-calculator.utils.com/",
-      "title": "Bandwidth Calculator - Transfer Time, File Size, Speed - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "2Ftqi-dt_Eq4",
-      "address": "https://ens-lookup.utils.com/",
-      "title": "ENS Name Lookup - Resolve ENS Names \u0026 Ethereum Addresses - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "XOrKy_fC8ci4",
-      "address": "https://address-change.utils.com/",
-      "title": "Address Change Checklist - Who to Notify When You Move - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "473ZV3j8ty25",
-      "address": "https://r4epi.r-universe.dev/epidict",
-      "title": "epidict: Epidemiology Data Dictionaries and Random Data Generators",
-      "grade": 0
-    },
-    {
-      "hash": "27YjU-l5W2aw",
-      "address": "https://plato.stanford.edu/archives/win2018/entries/epistemology-visual-thinking/",
-      "title": "The Epistemology of Visual Thinking in Mathematics (Stanford Encyclopedia of Philosophy/Winter 2018 Edition)",
-      "grade": 0
-    },
-    {
-      "hash": "3psEPsmm7zO4",
-      "address": "https://utils.com/",
-      "title": "Utils.com: 1039+ Free Online Tools \u0026 Utilities",
-      "grade": 0
-    },
-    {
-      "hash": "1NXJsso37LG5",
-      "address": "https://egesender.com/",
-      "title": "Egesender | Dunia Lokal, Cerita Global - Eksplorasi Komunitas, Budaya, dan Gaya Hidup Dunia Digital",
-      "grade": 0
-    },
-    {
-      "hash": "yACttgpAOyN4",
-      "address": "https://timelapse.utils.com/",
-      "title": "Time-Lapse Calculator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "SRhTBGsGtf35",
-      "address": "https://r-lib.r-universe.dev/R6",
-      "title": "R6: Encapsulated Classes with Reference Semantics",
-      "grade": 0
-    },
-    {
-      "hash": "NaTYVmt1TcC4",
-      "address": "https://seating-randomizer.utils.com/",
-      "title": "Seating Randomizer - Random Classroom Seating Chart - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "SyTY5cwVyE75",
-      "address": "https://medicine.careers360.com/exams/neet",
-      "title": "Re-NEET Exam 2026: Dates, Result OUT, Scorecard, Cutoff, Counselling Process",
-      "grade": 0
-    },
-    {
-      "hash": "2Cx8oXy0Nnu4",
-      "address": "https://text-diff.utils.com/",
-      "title": "Text Diff/Compare - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "3MpRl1yWZfW4",
-      "address": "https://length.utils.com/",
-      "title": "Length Converter - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "4BscpczPKxY5",
-      "address": "https://great-northern-diver.r-universe.dev/loon",
-      "title": "loon: Interactive Statistical Data Visualization",
-      "grade": 0
-    },
-    {
-      "hash": "CYZstjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
-      "title": "Go (programming language) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "48Ypy8KDigKy",
-      "address": "https://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services",
-      "title": "List of OSM-based services - OpenStreetMap Wiki",
-      "grade": 0
-    },
-    {
-      "hash": "RAz7ZPKXKxA4",
-      "address": "https://cloud.ionos.com/network/application-load-balancer",
-      "title": "Application Load Balancer as Managed Service | IONOS CLOUD",
-      "grade": 0
-    },
-    {
-      "hash": "HRFwejRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GitHub",
-      "title": "GitHub - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "I-LUQjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Fortran",
-      "title": "Fortran - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Zaf27sU3D8gh",
-      "address": "https://weeklyosm.eu/",
-      "title": "weekly – semanario – hebdo – 週刊 – týdeník – Wochennotiz – 주간 – tygodnik – A summary of things happening in the OpenStreetMap world",
+      "hash": "E3vPOld2TDD4",
+      "address": "https://www.psd-dude.com/glitch-text-generator/",
+      "title": "Glitch Text Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ",
       "grade": 0
     },
     {
@@ -260,27 +86,225 @@
       "grade": 2
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "jhXbDbLXFVYx",
+      "address": "https://petrapixel.neocities.org/coding/layout-generator",
+      "title": "layout generator | petrapixel",
+      "grade": 1
+    },
+    {
+      "hash": "m-OH2DS6MKD4",
+      "address": "https://github.com/godotengine/godot-website",
+      "title": "GitHub - godotengine/godot-website: The code for the official Godot Engine website. A static site built using Jekyll.",
+      "grade": 1
+    },
+    {
+      "hash": "vPMnw50j8oEw",
+      "address": "https://git.sr.ht/~sircmpwn/openring",
+      "title": "~sircmpwn/openring - A webring for static site generators - sourcehut git",
+      "grade": 1
+    },
+    {
+      "hash": "zX6v1aslIAV4",
+      "address": "https://cron.utils.com/",
+      "title": "Cron Expression Generator \u0026 Parser - utils.com",
       "grade": 0
     },
     {
-      "hash": "9ygFcssYtAxw",
-      "address": "https://nl.wikinews.org/wiki/2021_Weekberichten_Wikidata",
-      "title": "2021 Weekberichten Wikidata - Wikinieuws",
+      "hash": "vgOC8IkVtSQ4",
+      "address": "https://tv-signoff.utils.com/",
+      "title": "TV Sign-Off - Color Bars, Test Card \u0026 Analog Static - utils.com",
       "grade": 0
     },
     {
-      "hash": "S-QHJPKXKxA4",
-      "address": "https://cloud.ionos.com/network/network-loadbalancer",
-      "title": "Managed Network Load Balancer | A Service from the IONOS Cloud",
+      "hash": "AexFSrIsB8s4",
+      "address": "https://sitemap.utils.com/",
+      "title": "XML Sitemap Generator \u0026 Analyzer - utils.com",
       "grade": 0
     },
     {
-      "hash": "NkgclXyzSDzw",
-      "address": "https://httpd.apache.org/docs/current/mod/core.html",
-      "title": "core - Apache HTTP Server Version 2.4",
+      "hash": "2ekr_QZchFfZ",
+      "address": "http://www.greenteethmm.com/council-non-jobs.shtml",
+      "title": "council-non-jobs-coalition-government-labour-public-sector-deficit",
+      "grade": 0
+    },
+    {
+      "hash": "2gBdSK58I4M4",
+      "address": "https://placeholder.utils.com/",
+      "title": "Placeholder Image Editor - Create Custom Placeholder Images - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "iNzCnU5yy4Rk",
+      "address": "https://visme.co/blog/digital-magazine/",
+      "title": "How to Create Your Own Digital Magazine",
+      "grade": 0
+    },
+    {
+      "hash": "sZYJ9s4tw1tw",
+      "address": "https://jamstack.org/generators/",
+      "title": "Static Site Generators - Top Open Source SSGs | Jamstack",
+      "grade": 2
+    },
+    {
+      "hash": "lezxDvA4psi4",
+      "address": "https://www.theverge.com/news/718795/xai-grok-imagine-video-generator-spicy-mode",
+      "title": "xAI’s new Grok image and video generator has a ‘spicy’ mode | The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "4iKjkFS6MKD4",
+      "address": "https://github.com/cstate/cstate",
+      "title": "GitHub - cstate/cstate: 🔥 Open source static (serverless) status page. Uses hyperfast Go \u0026 Hugo, minimal HTML/CSS/JS, customizable, outstanding browser support (IE8+), preloaded CMS, read-only API, badges \u0026 more. · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "PbyU4KazhOa4",
+      "address": "https://contract-builder.utils.com/",
+      "title": "Contract Clause Builder - Freelance Contract Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "rtZi4U7V5mo4",
+      "address": "https://alt-text.utils.com/",
+      "title": "Alt Text Generator - Image Accessibility Tool - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "PTfRuhy01CE4",
+      "address": "https://phrasebook-generator.utils.com/",
+      "title": "Phrasebook Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "0GdGZGQYte34",
+      "address": "https://html-entities.utils.com/",
+      "title": "HTML Entity Encoder/Decoder - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "jMOthj7fawp4",
+      "address": "https://study-planner.utils.com/",
+      "title": "Study Planner - Spaced Repetition Schedule Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "pBA-MMLvf5f4",
+      "address": "https://data-retention.utils.com/",
+      "title": "Data Retention Policy Generator - Create Free Retention Policies - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "Y7f0rV3FRsG4",
+      "address": "https://fancy-text.utils.com/",
+      "title": "Fancy Text Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "Eno3yUXJd_Y4",
+      "address": "https://number-base.utils.com/",
+      "title": "Number Base Converter - Binary, Octal, Decimal, Hex \u0026 Custom Bases - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "_GFZkkgpBPX4",
+      "address": "https://robots.utils.com/",
+      "title": "Robots.txt Generator - Create SEO Robot Files - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "2wOFhqf8vxa4",
+      "address": "https://escape.utils.com/",
+      "title": "Escape/Unescape Strings - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "NTKSIW8dlWJ4",
+      "address": "https://ics-generator.utils.com/",
+      "title": "ICS File Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "vyCjVFs3IbY4",
+      "address": "https://watering-schedule.utils.com/",
+      "title": "Watering Schedule Generator - Plant Watering Plan by Climate \u0026 Soil - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "X_tpr4xbskn4",
+      "address": "https://barcode.utils.com/",
+      "title": "Barcode Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "GuV9GN1uwFW4",
+      "address": "https://pdf-numbers.utils.com/",
+      "title": "PDF Page Numbers - Add Page Numbers to PDF Online - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "2RDCjmm7hv04",
+      "address": "https://weight.utils.com/",
+      "title": "Weight Converter - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "FObfyIti3uS4",
+      "address": "https://rand.utils.com/",
+      "title": "Random Number Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "kuM1OIL5eZi4",
+      "address": "https://password-hash.utils.com/",
+      "title": "Password Hash Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "1gvAMXZ6K9W4",
+      "address": "https://angle.utils.com/",
+      "title": "Angle Converter - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "Fbg_1uRUkR54",
+      "address": "https://koch-snowflake.utils.com/",
+      "title": "Koch Snowflake Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "3LRJ3v0nJFf4",
+      "address": "https://schema.utils.com/",
+      "title": "Schema Markup - Analyze \u0026 Generate Structured Data - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "LfREZzJasZP4",
+      "address": "https://chat-screenshot.utils.com/",
+      "title": "Chat Screenshot Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "QkU46F9yt2X4",
+      "address": "https://table-cards.utils.com/",
+      "title": "Table Card Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "qcSF2cuStRZ4",
+      "address": "https://mock-data.utils.com/",
+      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "W7SPXNzbL8U4",
+      "address": "https://dragon-fractal.utils.com/",
+      "title": "Dragon Curve Generator - utils.com",
       "grade": 0
     }
   ]

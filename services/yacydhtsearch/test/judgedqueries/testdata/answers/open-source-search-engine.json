@@ -1,8 +1,87 @@
 {
   "query": "open source search engine",
-  "recordedAt": "2026-09-11T22:14:22Z",
+  "recordedAt": "2026-09-12T00:19:39Z",
   "itemsInTheOrderOfEachAnswer": [
     [
+      {
+        "hash": "9dnewsdTeyA4",
+        "address": "https://github.blog/",
+        "title": "Home - The GitHub Blog",
+        "snippet": "We do newsletters, too\nDiscover tips, technical guides, and best practices in our biweekly newsletter just for devs.\nYour email address\nThe world's largest developer platform\nDocs\nEverything you need to master GitHub, all in one place.\nGo to Docs\nGitHub\nBuild what’s next on GitHub, the place for",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 100
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 100
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 100
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 100
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "jp9IEwSMo4M4",
+        "address": "https://www.zdnet.com/article/github-builds-a-search-engine-for-code-from-scratch-in-rust/",
+        "title": "GitHub built a new search engine for code 'from scratch' in Rust - ZDNET",
+        "snippet": "search engine, Blackbird.\nInstead of perusing forums for answers, GitHub wants users to use its search engine, which is currently in beta.\nAlso: Memory safe programming languages are on the rise. Here’s how developers should respond\nRust is consistently the most loved (but not most widely used)",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 9,
+            "textWords": 545
+          },
+          "Ns049Jua-ggi": {
+            "hits": 3,
+            "textWords": 545
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 3,
+            "textWords": 545
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 5,
+            "textWords": 545
+          }
+        },
+        "queryPhraseHits": 8
+      }
+    ],
+    [
+      {
+        "hash": "jp9IEwSMo4M4",
+        "address": "https://www.zdnet.com/article/github-builds-a-search-engine-for-code-from-scratch-in-rust/",
+        "title": "GitHub built a new search engine for code 'from scratch' in Rust - ZDNET",
+        "snippet": "search engine, Blackbird.\nInstead of perusing forums for answers, GitHub wants users to use its search engine, which is currently in beta.\nAlso: Memory safe programming languages are on the rise. Here’s how developers should respond\nRust is consistently the most loved (but not most widely used)",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 9,
+            "textWords": 545
+          },
+          "Ns049Jua-ggi": {
+            "hits": 3,
+            "textWords": 545
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 3,
+            "textWords": 545
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 5,
+            "textWords": 545
+          }
+        },
+        "queryPhraseHits": 8
+      },
       {
         "hash": "T8ZB7sS6MKD4",
         "address": "https://github.com/yacy/yacy_search_server",
@@ -28,30 +107,859 @@
         },
         "queryPhraseHits": 3
       }
+    ],
+    [
+      {
+        "hash": "Vv81ls2xL7A6",
+        "address": "https://corbettreport.com/september-open-thread-2022/",
+        "title": "September Open Thread (2022) | The Corbett Report",
+        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 191
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Vv81ls2xL7A6",
+        "address": "https://corbettreport.com/september-open-thread-2022/",
+        "title": "September Open Thread (2022) | The Corbett Report",
+        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 191
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "y8tXOWRMLT-5",
+        "address": "https://canonical.com/solutions/open-source-security",
+        "title": "Open source security | Canonical",
+        "snippet": "open source software supply chain\nConsume open source that's got the same set of guarantees across the stack, from the same vendor. Let us manage the CVEs, so you can unlock developer productivity and simplify your compliance efforts.\nContact Canonical\nBenefit from our 20+ years in open source",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 659
+          },
+          "Ns049Jua-ggi": {
+            "hits": 13,
+            "textWords": 659
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 13,
+            "textWords": 659
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 659
+          }
+        },
+        "queryPhraseHits": 12
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 11,
+            "textWords": 85916
+          },
+          "Ns049Jua-ggi": {
+            "hits": 10,
+            "textWords": 85916
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 22,
+            "textWords": 85916
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 24,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "3yo3vyS6MKD4",
+        "address": "https://github.com/openclaw/lobster",
+        "title": "GitHub - openclaw/lobster: Lobster is a Openclaw-native workflow shell: a typed, local-first “macro engine” that turns skills/tools into composable pipelines and safe automations—and lets Openclaw call those workflows in one step. · GitHub",
+        "snippet": "engine and avoid re-planning every step — saving tokens while improving determinism and resumability.\nWatching a PR that hasn't had changes\nnode bin/lobster.js \"workflows.run --name github.pr.monitor --args-json '{\\\"repo\\\":\\\"openclaw/openclaw\\\",\\\"pr\\\":1152}'\" [ { \"kind\": \"github.pr.monitor\",",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 2490
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 2490
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 2,
+            "textWords": 2490
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 1,
+            "textWords": 2490
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "4-FDNSofUy-5",
+        "address": "https://duckduckgo.com/duckduckgo-help-pages/change-default-search-engine/safari",
+        "title": "How to change your default search engine in Safari - DuckDuckGo Help Pages",
+        "snippet": "Open the Safari browser on your Mac.\nSelect the magnifying glass on the left side of the address bar.\nFrom here, you can change your default search engine.\niOS\nOpen the Settings app on your iPhone or iPad.\nScroll down and open Safari \u003e Search Engine.\nFrom here, you can change your default search",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 3,
+            "textWords": 55
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 55
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 3,
+            "textWords": 55
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 3,
+            "textWords": 55
+          }
+        },
+        "queryPhraseHits": 3
+      }
+    ],
+    [
+      {
+        "hash": "ZtxqojRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Open_access",
+        "title": "Open access - Wikipedia",
+        "snippet": "Open access logo, originally designed by Public Library of Science\nA PhD Comics introduction to open access\nOpen access (OA) is a set of principles and a range of practices through which nominally copyrightable publications are delivered to readers free of access charges or other barriers.[1] With",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 17837
+          },
+          "Ns049Jua-ggi": {
+            "hits": 10,
+            "textWords": 17837
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 418,
+            "textWords": 17837
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 1,
+            "textWords": 17837
+          }
+        },
+        "queryPhraseHits": 7
+      }
+    ],
+    [
+      {
+        "hash": "D61ibopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Wikidata:Requests_for_comment/Source_items_and_supporting_Wikipedia_sources",
+        "title": "Wikidata:Requests for comment/Source items and supporting Wikipedia sources - Wikidata",
+        "snippet": "open a new discussion centered on the need (or not) of a new \"source entity\" (S items) and if Wikipedia sources (represented by the Template:Cite doi and others) should be imported into Wikidata.\nSource entity type\n[edit]\nLatest comment: 13 years ago31 comments15 people in discussion\nThe source",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 1,
+            "textWords": 5207
+          },
+          "Ns049Jua-ggi": {
+            "hits": 46,
+            "textWords": 5207
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 5207
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 2,
+            "textWords": 5207
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "epYXTjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Google_Compute_Engine",
+        "title": "Google Compute Engine - Wikipedia",
+        "snippet": "Engine\nOriginal authors\nGoogle, Inc.\nDeveloper\nGoogle\nRelease\nJune 28, 2012; 14 years ago[1]\nOperating system\nLinux\nFreeBSD\nNetBSD\nMicrosoft Windows\nAvailable in\nEnglish\nType\nVirtual private server\nLicense\nProprietary software\nWebsite\ncloud\n.google\n.com\n/compute\n/\nGoogle Compute Engine (GCE) is the",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 1,
+            "textWords": 2401
+          },
+          "Ns049Jua-ggi": {
+            "hits": 1,
+            "textWords": 2401
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 2401
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 36,
+            "textWords": 2401
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "tsBO3hsWTYKx",
+        "address": "https://sourceforge.net/directory/software-development/",
+        "title": "Best Open Source Software Development Software 2026",
+        "snippet": "open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nAwardco Employee Recognition\nFor companies looking to recognize and reward their",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 1,
+            "textWords": 4579
+          },
+          "Ns049Jua-ggi": {
+            "hits": 76,
+            "textWords": 4579
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 73,
+            "textWords": 4579
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 4579
+          }
+        },
+        "queryPhraseHits": 70
+      },
+      {
+        "hash": "h1WoVQuAbj3Z",
+        "address": "http://www.sciencedaily.com/",
+        "title": "ScienceDaily: Your source for the latest research news",
+        "snippet": "open the door to ...\nAug. 30, 2026  Scientists have cracked a long-standing chemistry problem, creating nanocrystals from tough metal nitrides that were previously extremely difficult to produce at this scale. The breakthrough could ...\nAug. 28, 2026  NASA’s Roman Space Telescope will combine",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 1,
+            "textWords": 5801
+          },
+          "Ns049Jua-ggi": {
+            "hits": 3,
+            "textWords": 5801
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 5801
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 1,
+            "textWords": 5801
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "0HlJrlIblX-y",
+        "address": "https://www.themarginalian.org/",
+        "title": "The Marginalian – Marginalia on our search for meaning.",
+        "snippet": "One November night in the 1870s, legendary Russian writer Fyodor Dostoyevsky (November 11, 1821–February 9, 1881) discovered the meaning of life in a dream — or, at least, the protagonist in his final short story did. The piece, which first appeared in the altogether revelatory A Writer’s Diary",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 2284
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 2284
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 2284
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 2284
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Vv81ls2xL7A6",
+        "address": "https://corbettreport.com/september-open-thread-2022/",
+        "title": "September Open Thread (2022) | The Corbett Report",
+        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 191
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "RRNM9k_MW7i4",
+        "address": "https://www.docker.com/community/open-source/",
+        "title": "Docker and Open Source | Docker",
+        "snippet": "Open Source\nOpen Source is in our DNA\nDocker is built for developers, by developers. We enable team collaboration, efficient packaging, and scalable distribution of open-source projects, all with a focus on trust and security.\nDocker Hub Empowers Open-Source Innovation\nThe Home for Open Source",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 327
+          },
+          "Ns049Jua-ggi": {
+            "hits": 17,
+            "textWords": 327
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 17,
+            "textWords": 327
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 327
+          }
+        },
+        "queryPhraseHits": 17
+      }
+    ],
+    [
+      {
+        "hash": "_wmsVE9Ojva4",
+        "address": "https://docs.docker.com/engine/release-notes/29/",
+        "title": "Engine v29 | Docker Docs",
+        "snippet": "Engine version 29.\nFor more information about:\nDeprecated and removed features, see Deprecated Engine Features.\nChanges to the Engine API, see Engine API version history.\n29.8.0\n2026-09-03For a full list of pull requests and changes in this release, refer to the relevant GitHub milestones:",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 11120
+          },
+          "Ns049Jua-ggi": {
+            "hits": 5,
+            "textWords": 11120
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 3,
+            "textWords": 11120
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 22,
+            "textWords": 11120
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PNBfzEWfERA4",
+        "address": "https://support.google.com/websearch",
+        "title": "Google Search Help",
+        "snippet": "Send feedback on...",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 3
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 3
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 3
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 3
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Vv81ls2xL7A6",
+        "address": "https://corbettreport.com/september-open-thread-2022/",
+        "title": "September Open Thread (2022) | The Corbett Report",
+        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 191
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "xkN7sCYdWlTh",
+        "address": "https://www.trestonline.cz/legislativa/aktualni-uplna-zneni/obeti-ochrana-svedka/",
+        "title": "Oběti, ochrana svědka - Trest Online",
+        "snippet": "",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 116,
+            "textWords": 1152
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Vv81ls2xL7A6",
+        "address": "https://corbettreport.com/september-open-thread-2022/",
+        "title": "September Open Thread (2022) | The Corbett Report",
+        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 191
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Hj5167hc6Db4",
+        "address": "https://search-queries.utils.com/",
+        "title": "Search Queries Tracker - Track Search Terms Leading to Your Tools - utils.com",
+        "snippet": "search engine queries bring visitors to each page or tool on your website. Parse referrer URLs, view query rankings per page, and generate a tracking snippet.\nHow It Works\nThis tool tracks which search engine queries bring visitors to specific pages on your website. It parses referrer URLs and UTM",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 7,
+            "textWords": 346
+          },
+          "Ns049Jua-ggi": {
+            "hits": 1,
+            "textWords": 346
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 346
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 5,
+            "textWords": 346
+          }
+        },
+        "queryPhraseHits": 3
+      }
+    ],
+    [
+      {
+        "hash": "Vv81ls2xL7A6",
+        "address": "https://corbettreport.com/september-open-thread-2022/",
+        "title": "September Open Thread (2022) | The Corbett Report",
+        "snippet": "Open Thread.\nAnd as a reminder, I’ll be doing a livestream watch along of all three parts of the documentary with Ryan Cristian of TheLastAmericanVagabond.com. The schedule is:\nSunday, August 28th @ 8:00 PM Eastern\nFalse Flags: A Secret History of Al Qaeda – Part 1 Watch along and Q\u0026A\nSunday,",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 191
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 191
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 191
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RRNM9k_MW7i4",
+        "address": "https://www.docker.com/community/open-source/",
+        "title": "Docker and Open Source | Docker",
+        "snippet": "Open Source\nOpen Source is in our DNA\nDocker is built for developers, by developers. We enable team collaboration, efficient packaging, and scalable distribution of open-source projects, all with a focus on trust and security.\nDocker Hub Empowers Open-Source Innovation\nThe Home for Open Source",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 327
+          },
+          "Ns049Jua-ggi": {
+            "hits": 17,
+            "textWords": 327
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 17,
+            "textWords": 327
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 327
+          }
+        },
+        "queryPhraseHits": 17
+      }
+    ],
+    [
+      {
+        "hash": "Y2pI4jc4UIAx",
+        "address": "https://en.wikivoyage.org/wiki/New_Zealand",
+        "title": "New Zealand – Travel guide at Wikivoyage",
+        "snippet": "open 24 hours, with most other manned petrol stations closing by 10PM. There are 24-hour unmanned petrol stations around the country, which accept national and international debit/credit cards with a PIN; very rarely do these sites accept cash. Petrol prices average $2.82/L for regular unleaded",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 26225
+          },
+          "Ns049Jua-ggi": {
+            "hits": 2,
+            "textWords": 26225
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 10,
+            "textWords": 26225
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 1,
+            "textWords": 26225
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "mtii5lQw_dt5",
+        "address": "https://www.cloudflare.com/website-terms/",
+        "title": "Terms of Use | Cloudflare",
+        "snippet": "source code or object code), products, software, services, and all other elements of the Websites and Online Services (the “Materials”) provided by Cloudflare are protected by all relevant intellectual property and proprietary rights and applicable laws. All Materials contained in the Websites and",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 1,
+            "textWords": 2312
+          },
+          "Ns049Jua-ggi": {
+            "hits": 1,
+            "textWords": 2312
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 2312
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 1,
+            "textWords": 2312
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "tsBO3hsWTYKx",
+        "address": "https://sourceforge.net/directory/software-development/",
+        "title": "Best Open Source Software Development Software 2026",
+        "snippet": "open source Software Development software and projects below. Use the toggles on the left to filter open source Software Development software by OS, license, language, programming language, and project status.\nAwardco Employee Recognition\nFor companies looking to recognize and reward their",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 1,
+            "textWords": 4579
+          },
+          "Ns049Jua-ggi": {
+            "hits": 76,
+            "textWords": 4579
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 73,
+            "textWords": 4579
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 4579
+          }
+        },
+        "queryPhraseHits": 70
+      }
+    ],
+    [
+      {
+        "hash": "kK5nNsS6MKD4",
+        "address": "https://github.com/godotengine",
+        "title": "Godot Engine · GitHub",
+        "snippet": "Engine – Multi-platform 2D and 3D game engine\ngodotengine/godot's past year of commit activity\ndoc-status Public\nOnline Godot class reference status\ngodotengine/doc-status's past year of commit activity\nJavaScript\n26 MIT 9 0 0 Updated Sep 11, 2026\ngodot-website Public\nThe code for the official",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 198
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 198
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 198
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 5,
+            "textWords": 198
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kxZXcE9Ojva4",
+        "address": "https://docs.docker.com/engine/network/drivers/bridge/",
+        "title": "Bridge network driver | Docker Docs",
+        "snippet": "source NAT. See Port publishing.\ncom.docker.network.bridge.gateway_mode_ipv4\ncom.docker.network.bridge.gateway_mode_ipv6\nnat\nControl external connectivity. See Port publishing.\ncom.docker.network.bridge.enable_icc\ntrue\nEnable or Disable inter-container connectivity.",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 3484
+          },
+          "Ns049Jua-ggi": {
+            "hits": 1,
+            "textWords": 3484
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 0,
+            "textWords": 3484
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 3484
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "oo73LMS6MKD4",
+        "address": "https://github.com/owasp-modsecurity/ModSecurity",
+        "title": "GitHub - owasp-modsecurity/ModSecurity: ModSecurity is an open source, cross platform web application firewall (WAF) engine for Apache, IIS and Nginx.",
+        "snippet": "engine (PCRE2 / PCRE)\nRegular expression processing in SecRules is implemented via the Regex utility (src/utils/regex.*).\nBy default, ModSecurity uses PCRE2 for regex handling.\nThis is used by operators such as @rx, @rxGlobal, and @verifyCC.\nBuild-time behavior:\nDefault: PCRE2 is detected and used.",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 2534
+          },
+          "Ns049Jua-ggi": {
+            "hits": 2,
+            "textWords": 2534
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 5,
+            "textWords": 2534
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 1,
+            "textWords": 2534
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "v2ZUg_nMM_j5",
+        "address": "https://grokipedia.com/page/IOS",
+        "title": "iOS — Grokipedia",
+        "snippet": "open-source UNIX-like base that encompasses XNU and foundational libraries, providing low-level services abstracted from higher application layers. The Core OS layer handles hardware interactions, including power management, security primitives like sandboxing and entitlements, and core utilities",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 1,
+            "textWords": 9769
+          },
+          "Ns049Jua-ggi": {
+            "hits": 4,
+            "textWords": 9769
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 5,
+            "textWords": 9769
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 5,
+            "textWords": 9769
+          }
+        },
+        "queryPhraseHits": 3
+      }
+    ],
+    [
+      {
+        "hash": "y8tXOWRMLT-5",
+        "address": "https://canonical.com/solutions/open-source-security",
+        "title": "open-source-security",
+        "snippet": "open source software supply chain\nConsume open source that's got the same set of guarantees across the stack, from the same vendor. Let us manage the CVEs, so you can unlock developer productivity and simplify your compliance efforts.\nContact Canonical\nBenefit from our 20+ years in open source",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 0,
+            "textWords": 659
+          },
+          "Ns049Jua-ggi": {
+            "hits": 13,
+            "textWords": 659
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 13,
+            "textWords": 659
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 0,
+            "textWords": 659
+          }
+        },
+        "queryPhraseHits": 12
+      }
+    ],
+    [
+      {
+        "hash": "uf2wPSofUy-5",
+        "address": "https://duckduckgo.com/duckduckgo-help-pages/change-default-search-engine/uc-browser",
+        "title": "How to change your default search engine in UC Browser - DuckDuckGo Help Pages",
+        "snippet": "Open UC Browser on your Android device.\nTap the URL bar at the top.\nTap the Search engine icon on the left of the URL bar.\nFrom here, you can change your default search engine.",
+        "matchedWords": {
+          "BqlDxZ8zo0u1": {
+            "hits": 2,
+            "textWords": 36
+          },
+          "Ns049Jua-ggi": {
+            "hits": 0,
+            "textWords": 36
+          },
+          "fO-Kc0hVd3wq": {
+            "hits": 1,
+            "textWords": 36
+          },
+          "rRlDqf1tPX7h": {
+            "hits": 2,
+            "textWords": 36
+          }
+        },
+        "queryPhraseHits": 2
+      }
     ]
   ],
   "itemsInNoOrder": [
     {
-      "hash": "snZ3UTtKr25k",
-      "address": "https://newsqr.com.mx/?p=23964",
-      "title": "Anuncia Mara Lezama inversión de 23 mdp para construir CAM en Cielo Nuevo Cancún",
-      "snippet": "",
+      "hash": "Q831Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/United_States",
+      "title": "United States - Wikiquote",
+      "snippet": "search of monsters to destroy. She is the well-wisher to the freedom and independence of all. She is the champion and vindicator only of her own. She will commend the general cause by the countenance of her voice, and the benignant sympathy of her example. She well knows that by once enlisting",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 85210
         },
         "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 85210
         },
         "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 85210
         },
         "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 85210
         }
       },
       "queryPhraseHits": 0
@@ -77,6 +985,56 @@
         "rRlDqf1tPX7h": {
           "hits": 0,
           "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "open-to-interpretation condemnation nonetheless set tongues wagging, particularly as Mamdani -- both the Big Apple's first socialist and first Muslim mayor -- leads the city through a politically fractious run-up to the terror attacks' quarter-century anniversary on Friday.\nSeveral lefties in",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 14271
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 14271
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 7,
+          "textWords": 14271
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 14271
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "e-T7cs5DCs35",
+      "address": "https://wordpress.com/",
+      "title": "WordPress.com: Everything You Need to Build Your Website",
+      "snippet": "open web.\nThink WordPress isn’t for the enterprise? Think again.\nWhat do Salesforce, Al Jazeera, Capgemini, and Facebook have in common?\nThey trust WordPress VIP—the enterprise platform built on WordPress—to deliver performance at scale while meeting the highest security standards. Starting at",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 361
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 361
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 1,
+          "textWords": 361
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 361
         }
       },
       "queryPhraseHits": 0
@@ -132,54 +1090,54 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "D1Hz8-DUniK4",
-      "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
-      "title": "Wikipedia and Beyond",
-      "snippet": "search of \"this really great Indian place that's part of a motel,\" and wind up cruising for hours—stopping at Starbucks, hitting the mall, and generally duplicating the average day of millions of suburban teenagers. Wal-Marts and Olive Gardens slip past as Wales, often taciturn and abrupt in public",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 10,
-          "textWords": 6565
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 6565
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 12,
-          "textWords": 6565
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 6565
-        }
-      },
-      "queryPhraseHits": 9
-    },
-    {
-      "hash": "fE4y5sGA_USx",
-      "address": "https://warracket.net/",
-      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
+      "hash": "anJsWsDBeN55",
+      "address": "https://henrymakow.com/",
+      "title": "henrymakow.com - Exposing Feminism and The New World Order",
+      "snippet": "search for that \"special someone\" who will make us \"feel good.\" Usually, this ends in disaster because we cannot depend on others for this and call it love.\nIn conclusion, women used to sacrifice for husband and family and were cherished in return. They have been reprogrammed to seek power instead",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 2,
-          "textWords": 63596
+          "textWords": 7527
         },
         "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 63596
+          "hits": 0,
+          "textWords": 7527
         },
         "fO-Kc0hVd3wq": {
-          "hits": 5,
-          "textWords": 63596
+          "hits": 0,
+          "textWords": 7527
         },
         "rRlDqf1tPX7h": {
-          "hits": 4,
-          "textWords": 63596
+          "hits": 0,
+          "textWords": 7527
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "devtools.debugger.file-search-* preferences\n🌟 Nathan Leuz: Remove unused legacy preference browser.translation.neverForLanguages\n🌟 Priyanshu[:0xanshu]: “Forget About This Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 67,
+          "textWords": 66162
+        },
+        "Ns049Jua-ggi": {
+          "hits": 51,
+          "textWords": 66162
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 84,
+          "textWords": 66162
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 12,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 28
     },
     {
       "hash": "TKYymjGG7ou5",
@@ -207,154 +1165,204 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "PSeufkIRcMkY",
-      "address": "http://rigorousintuition.blogspot.com/2006/04/body-eclectic-part-two.html",
-      "title": "Rigorous Intuition: The Body Eclectic (Part Two)",
-      "snippet": "source of light, like a laser.\" A laser, of course, is a useful tool for the creation of holograms.\nLight is a form of wave motion, as is sound. A formerly distinguishing characteristic of the two was thought to be that light can travel through empty space, while sound needs a medium, but zero",
+      "hash": "aEnpV6Gt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/",
+      "title": "Our World",
+      "snippet": "open articles via tags. Also opening the home page takes on several browsers too much time. Even reducing the home page to only 5 articles did not bring a solution.\nFrom 2021 September 25 I shall provide the articles which I would normally publish on \"Our Word\" on two platforms: The religious",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 1484
+          "textWords": 1405
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 1405
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 2,
+          "textWords": 1405
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 1405
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 574
+        },
+        "Ns049Jua-ggi": {
+          "hits": 10,
+          "textWords": 574
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 9,
+          "textWords": 574
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 574
+        }
+      },
+      "queryPhraseHits": 9
+    },
+    {
+      "hash": "m5Fe6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google",
+      "title": "Google - Wikipedia",
+      "snippet": "search engine provided by the company, see Google Search. For the parent company with the stock tickers GOOG and GOOGL, see Alphabet Inc. For the number, see Googol. For other uses, see Google (disambiguation).\nGoogle LLC\nGoogle logo used since 2026\nGoogle's headquarters, the Googleplex, in 2016",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 112,
+          "textWords": 22911
+        },
+        "Ns049Jua-ggi": {
+          "hits": 6,
+          "textWords": 22911
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 8,
+          "textWords": 22911
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 31,
+          "textWords": 22911
+        }
+      },
+      "queryPhraseHits": 36
+    },
+    {
+      "hash": "9P0qOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikimedia_Commons",
+      "title": "Wikimedia Commons - Wikipedia",
+      "snippet": "search results\nThe stated aim of Wikimedia Commons is to provide a media file repository \"that makes available public domain and freely-licensed educational media content to all, and that acts as a common repository for the various projects of the Wikimedia Foundation.\"[17]\nMost Wikimedia projects",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 1856
         },
         "Ns049Jua-ggi": {
           "hits": 1,
-          "textWords": 1484
+          "textWords": 1856
         },
         "fO-Kc0hVd3wq": {
           "hits": 0,
-          "textWords": 1484
+          "textWords": 1856
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 1484
+          "textWords": 1856
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "source code to those recipients under the same or equivalent license terms — there is no requirement to publish anything to the public at large.[7] The GPL was the first copyleft license available for general use. It was originally written by Richard Stallman, the founder of the Free Software",
+      "hash": "eKFjxsS6MKD4",
+      "address": "https://github.com/blinggnome",
+      "title": "blinggnome · GitHub",
+      "snippet": "Block user Prevent this user from interacting with your repositories and sending you notifications. Learn more about blocking users.\nYou must be logged in to block users.\nClose all issues, pull requests, and discussions opened by this user\nContent in all repositories owned by your account will be",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 15807
+          "textWords": 80
         },
         "Ns049Jua-ggi": {
-          "hits": 97,
-          "textWords": 15807
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 56,
-          "textWords": 15807
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 5,
-          "textWords": 15807
-        }
-      },
-      "queryPhraseHits": 55
-    },
-    {
-      "hash": "S4tXZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikisource",
-      "title": "Wikisource - Wikipedia",
-      "snippet": "source documents, not vanity products. Verification was initially made offline, or by trusting the reliability of other digital libraries. Now works are supported by online scans via the ProofreadPage extension, which ensures the reliability and accuracy of the project's texts.\nSome individual",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 3132
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 3132
+          "textWords": 80
         },
         "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 3132
+          "hits": 0,
+          "textWords": 80
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 3132
+          "textWords": 80
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "QEdRQsS6MKD4",
-      "address": "https://github.com/trending?spoken_language_code=bn",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Bengali\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian\nBengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QYijntS6MKD4",
-      "address": "https://github.com/trending/openrc-runscript?since=daily",
-      "title": "Trending OpenRC runscript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SOAt4sWMnAPx",
-      "address": "https://fedoraplanet.org/",
-      "title": "Fedora People",
-      "snippet": "search results that made me realise that a lot of people still think getting errors like ACPI Warning: SystemIO range 0x0000000000001828-0x000000000000182F conflicts with OpRegion 0x0000000000001800-0x000000000000187F indicate a firmware bug. This is generally untrue. We need to dive a little into",
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "open their storefront on Amazon. During peak season Luis and Tracy were selling around $1,000 a day — all because they got their start with a quirky cat butt cookie cutter.\n“People wanted the weird stuff we were coming up with, so we just kept creating.”\n‍\nSome of Tactical Kaoz' hyper realistic",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 12,
-          "textWords": 49580
+          "textWords": 50875
         },
         "Ns049Jua-ggi": {
-          "hits": 49,
-          "textWords": 49580
+          "hits": 1,
+          "textWords": 50875
         },
         "fO-Kc0hVd3wq": {
-          "hits": 53,
-          "textWords": 49580
+          "hits": 32,
+          "textWords": 50875
         },
         "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 49580
+          "hits": 5,
+          "textWords": 50875
         }
       },
-      "queryPhraseHits": 22
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "Transcript [00:00:19] Nathan Wrigley: Welcome to the Jukebox Podcast from WP Tavern. My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress. The people, the events, the plugins, the blocks, the themes, and in this case, building trust with project contracts for",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 9047
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 9047
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D1yl1bUmIDp5",
+      "address": "https://voiceofrestoration.wordpress.com/",
+      "title": "Voice of Restoration – Life is like a chameleon in a bag of skittles…",
+      "snippet": "open the door for all kinds of destruction. If we have enough patience and wait for the Lord to intervene, He will always provide a way for us to get through our troubles. To follow our own desires shows our hearts are far from Him.\nSide note: Since thoughts of suicide indicate a dip in mental",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 11,
+          "textWords": 74861
+        },
+        "Ns049Jua-ggi": {
+          "hits": 8,
+          "textWords": 74861
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 11,
+          "textWords": 74861
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 1,
+          "textWords": 74861
+        }
+      },
+      "queryPhraseHits": 1
     },
     {
       "hash": "AWq9VQXx1HRZ",
@@ -382,6 +1390,81 @@
       "queryPhraseHits": 0
     },
     {
+      "hash": "ELIe2QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-may.shtml",
+      "title": "2021",
+      "snippet": "open letter to authorities demanding the investigation of WHO for creating coronavirus infodemic faking the pandemic. The following letter has made an impact on public health authorities not only in Belgium but around the world. The text could pertain to any case ...\nNo Medical Justification For",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 3,
+          "textWords": 54675
+        },
+        "Ns049Jua-ggi": {
+          "hits": 9,
+          "textWords": 54675
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 16,
+          "textWords": 54675
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 1,
+          "textWords": 54675
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "NIR9mQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-november.shtml",
+      "title": "dailystirrer-2021-november-news-comment-opinion-controversy-contrarianism",
+      "snippet": "source of domestic heating is to be heat pumps. The Daily Stirrer counters the pseudo-scientific bollocks and reveals this 'new technology has been around for a hundred years.\nGreen dreams of Heat Pumps Continue reading \u003e\u003e\u003e\nWhen Boris Johnson revealed the UK Government plans for achieving 'net",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 1,
+          "textWords": 13514
+        },
+        "Ns049Jua-ggi": {
+          "hits": 4,
+          "textWords": 13514
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 1,
+          "textWords": 13514
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 13514
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "PSkz_QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-october.shtml",
+      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
+      "snippet": "Source: bloomberg\nPeople inoculated against Covid-19 are just as likely to spread the delta variant of the virus to contacts in their household as those who havenâ€™t had shots, according to new research.\nIn a yearlong study of 621 people in the U.K. with mild Covid-19, scientists found that their",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 4,
+          "textWords": 123511
+        },
+        "Ns049Jua-ggi": {
+          "hits": 17,
+          "textWords": 123511
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 17,
+          "textWords": 123511
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 4,
+          "textWords": 123511
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
       "hash": "t2h4nQXx1HRZ",
       "address": "http://www.dailystirrer.com/2013-november.shtml",
       "title": "dailystirrer curent month",
@@ -405,6 +1488,31 @@
         }
       },
       "queryPhraseHits": 2
+    },
+    {
+      "hash": "wrsAbQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-august.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "snippet": "Open Europe revisits in a briefing published yesterday.\nIn the view of the Daily Stirrer the answer is no. Many European nations are already close to social breakdown and even France is in deep trouble as President Hollande's socialist government is forced to abandon tax-and-spen promises and face",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 3,
+          "textWords": 24883
+        },
+        "Ns049Jua-ggi": {
+          "hits": 4,
+          "textWords": 24883
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 4,
+          "textWords": 24883
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 24883
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "CyUYvsY-tUi5",
@@ -432,104 +1540,429 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Qve1qQZchFfZ",
-      "address": "http://www.greenteethmm.com/energy-net-zero-fantasy.shtml",
-      "title": "greenteeth-digital-publishing-net-zero-is-dangerous-fantasy-but-scientists-believe-in-fairies-it-seems",
-      "snippet": "open his Starlink satellite network for the benefit of Ukrainian military leaders as they fantasise about attacking Crimea and driving out the Russian occupying force this past week showcases how completely unhinged and dangerous the Ukrainian government's desire to escalate the war has become.\nThe",
+      "hash": "seSMJsY-tUi5",
+      "address": "https://moralparty.com/warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 13922
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 13922
+          "hits": 0,
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 13922
+          "hits": 0,
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 13922
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "NbVspsgbSIuz",
-      "address": "https://geoengineeringwatch.org/irrefutable-film-footage-of-climate-engineering-aerosol-spraying/",
-      "title": "Irrefutable Film Footage Of Climate Engineering Aerosol Spraying - Geoengineering Watch",
-      "snippet": "search today lead me here at more truth and a chance to connect and be heard to like minded people instead of feeling crazy in my thoughts. After reading many comments and seeing a few videos I became sad-er and then angry because I know the truth and even in my challenges if I can find truth then",
+      "hash": "ex71NlZAriS4",
+      "address": "https://www.aol.com/",
+      "title": "News, Politics, Sports, Mail \u0026 Latest Headlines - AOL.com",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 22704
+          "hits": 0,
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
           "hits": 0,
-          "textWords": 22704
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 22704
+          "hits": 0,
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 22704
+          "hits": 0,
+          "textWords": 0
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
+      "hash": "MW69aQZchFfZ",
+      "address": "http://www.greenteethmm.com/2021-october.shtml",
+      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 11,
-          "textWords": 85901
+          "hits": 0,
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 85901
+          "hits": 0,
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
-          "hits": 22,
-          "textWords": 85901
+          "hits": 0,
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
-          "hits": 24,
-          "textWords": 85901
+          "hits": 0,
+          "textWords": 0
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SMdVHQZchFfZ",
+      "address": "http://www.greenteethmm.com/green-renewable-energy-delusion.shtml",
+      "title": "Debunked:-the-great-renewable-energy-green-delusion",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WbJD3QZchFfZ",
+      "address": "http://www.greenteethmm.com/russua-ukraine-crisis22.shtml",
+      "title": "current-ukraine-crisis-the-inevitable-onsequence-of-US-UK-and-EU-foreign-policy- aggression-politics-world-news-daily-stirrer",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rkE9tQZchFfZ",
+      "address": "http://www.greenteethmm.com/latestposts.shtml",
+      "title": "reality-on-employment-prospects-for-graduates",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "kaxjOD_7CIb5",
+      "address": "https://aretekitchen.com/2025/09/26/balloon-de-smartsoft-guia-esencial-para-jugar-y-descargar-en-chile/",
+      "title": "Balloon de SmartSoft: Guía Esencial para Jugar y Descargar en Chile – Arete Kitchen",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "60CsWocHOkWx",
+      "address": "https://www.gutenberg.org/browse/authors/b",
+      "title": "Browse By Author: B | Project Gutenberg",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "GMKmQscJYL54",
+      "address": "https://gizmodo.com/",
+      "title": "Gizmodo | The Future Is Here",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5m_o9sl9MDZ6",
+      "address": "https://colablosangeles.com/",
+      "title": "COLAB Los Angeles | Digital Marketing Agency \u0026 Video Production",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "XTPIBlptNsG4",
       "address": "https://www.akdart.com/hijrah.html",
       "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "open border for much of the last quarter century. The result is that the United States today houses upwards of 30 million illegal aliens, while in Europe, the number may be half that. In both cases, most of the immigrants crossing the borders come from countries with far higher crime rates, far",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 13,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
-          "hits": 29,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
-          "hits": 250,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 405419
+          "hits": 0,
+          "textWords": 0
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "U775WcsBuKK5",
+      "address": "https://templelijah.wordpress.com/",
+      "title": "templelijah – 8th King King North World Government completion triggers the Christ Arrival!",
+      "snippet": "",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ns049Jua-ggi": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
     },
     {
       "hash": "Wfq3FswvoTD5",
@@ -557,29 +1990,29 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "QvExj17t2YV4",
-      "address": "https://www.nvidia.com/en-au/data-center/dgx-platform/",
-      "title": "DGX Platform: Built for Enterprise AI | NVIDIA",
-      "snippet": "Engine of Innovation\nSony installed an NVIDIA DGX SuperPOD in its R\u0026D Center as part of a drive into machine learning, with the goal of providing computing resources to all Sony Group companies.\nBMW Revolutionizes Quality Assurance With SORDI Generative AI\nBMW has implemented a comprehensive deep",
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "snippet": "open-to-interpretation condemnation nonetheless set tongues wagging, particularly as Mamdani -- both the Big Apple's first socialist and first Muslim mayor -- leads the city through a politically fractious run-up to the terror attacks' quarter-century anniversary on Friday.\nSeveral lefties in",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 1173
+          "textWords": 14271
         },
         "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1173
+          "hits": 0,
+          "textWords": 14271
         },
         "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1173
+          "hits": 7,
+          "textWords": 14271
         },
         "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1173
+          "hits": 0,
+          "textWords": 14271
         }
       },
-      "queryPhraseHits": 1
+      "queryPhraseHits": 0
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -607,26 +2040,51 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "RVKYi2DZkUL4",
-      "address": "https://www.cnet.com/deals/best-streaming-service-deals/",
-      "title": "Every Streaming Service You Want Is on Sale Right Now. Here's How to Pay Less for All of Them - CNET",
-      "snippet": "Bundles, student discounts and annual plan savings can let you keep watching without overspending.\nOUR EXPERT\nAaron is a writer for the streaming entertainment team.… Read full bio\nArticle updated on August 31, 2026, 7:59 am EDT\nINSIDE CNET LABS\n25+\nYears of Experience\n23\nProduct Reviewers\n15k",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "devtools.debugger.file-search-* preferences\n🌟 Nathan Leuz: Remove unused legacy preference browser.translation.neverForLanguages\n🌟 Priyanshu[:0xanshu]: “Forget About This Site” dialog is cut off\n🌟 K: Disable breakpoints shortcut\n🌟 Shawn Zivontsis: Reorder moz_origins composite unique index to",
+      "matchedWords": {
+        "BqlDxZ8zo0u1": {
+          "hits": 67,
+          "textWords": 66162
+        },
+        "Ns049Jua-ggi": {
+          "hits": 51,
+          "textWords": 66162
+        },
+        "fO-Kc0hVd3wq": {
+          "hits": 84,
+          "textWords": 66162
+        },
+        "rRlDqf1tPX7h": {
+          "hits": 12,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 28
+    },
+    {
+      "hash": "aEnpV6Gt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/",
+      "title": "Our World",
+      "snippet": "open articles via tags. Also opening the home page takes on several browsers too much time. Even reducing the home page to only 5 articles did not bring a solution.\nFrom 2021 September 25 I shall provide the articles which I would normally publish on \"Our Word\" on two platforms: The religious",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 1293
+          "textWords": 1405
         },
         "Ns049Jua-ggi": {
           "hits": 0,
-          "textWords": 1293
+          "textWords": 1405
         },
         "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 1293
+          "hits": 2,
+          "textWords": 1405
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 1293
+          "textWords": 1405
         }
       },
       "queryPhraseHits": 0
@@ -635,123 +2093,23 @@
       "hash": "153XgsQ2H1F4",
       "address": "https://wpvip.com/",
       "title": "WordPress VIP | Enterprise Content Platform \u0026 Managed WordPress",
-      "snippet": "Search traffic\n99.99%\nuptime during election nights, Super Bowl, and NASA landings\nSOC 2\nType I platform and Type II data centers, certified annually\nFedRAMP\nModerate ATO, the standard for U.S. federal agencies and regulated industries\nAwards and recognition\nNamed Customers’ Choice in the Gartner",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 846
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 846
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 846
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 846
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MnvOKjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
-      "title": "Portal:Free and open-source software - Wikipedia",
-      "snippet": "open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or not — to everyone and provides the means to exercise those rights using the software's source code. FOSS is an inclusive umbrella term",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 2738
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
-          "hits": 38,
-          "textWords": 2738
+          "hits": 0,
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
-          "hits": 35,
-          "textWords": 2738
+          "hits": 0,
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 2738
-        }
-      },
-      "queryPhraseHits": 32
-    },
-    {
-      "hash": "MuMGwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bill_Joy",
-      "title": "Bill Joy - Wikipedia",
-      "snippet": "Open Sources: Voices from the Open Source Revolution. O'Reilly.\n↑ Ashlee Vance,\"Bill Joy's greatest gift to man – the vi editor\" Archived 2014-06-03 at the Wayback Machine, The Register, September 11, 2003.\n↑ \"Eric Schmidt: At Berkeley, Bill Joy written and rewritten the kernel over a weekend. No",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1898
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1898
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 1898
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1898
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Pgy2wjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Help:Multilingual_support_(Indic)",
-      "title": "Help:Multilingual support (Indic) - Wikipedia",
-      "snippet": "(search for \"Writing text in other languages\").\nMac OS 10.4 system software comes with two installable Keyboard input options for Tamil: Murasu Anjal and Tamilnet 99. One needs to do the following steps to activate them:\ni) Open \"international\" located within System Preferences and select",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 4709
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 4709
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 4,
-          "textWords": 4709
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 4709
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "Pi26bjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_emerging_technologies",
-      "title": "List of emerging technologies - Wikipedia",
-      "snippet": "open data, intelligent environment\nDigital scent technology\nDiffusion\nSmell-O-Vision, iSmell\nDNA digital data storage\nExperiments\nMass data storage\nElectronic nose\nResearch, limited commercialization[22][23]\nDetecting spoiled food, chemical weapons, and cancer\nEmerging memory technologies (T-RAM,",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 7342
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 7342
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 7342
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 3,
-          "textWords": 7342
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -760,23 +2118,23 @@
       "hash": "7IIFujRvmBbx",
       "address": "https://en.wikipedia.org/wiki/United_Kingdom",
       "title": "United Kingdom - Wikipedia",
-      "snippet": "engine manufacturing: 1.59 million engines were produced in 2024.[284] It was the world's third-largest exporter of engines by value in 2023.[286] The UK motorsport industry has an annual turnover of around £10 billion.[287] Seven of the eleven Formula One teams are based in the UK, with their",
+      "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
           "hits": 0,
-          "textWords": 31948
+          "textWords": 0
         },
         "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 31948
+          "hits": 0,
+          "textWords": 0
         },
         "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 31948
+          "hits": 0,
+          "textWords": 0
         },
         "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 31948
+          "hits": 0,
+          "textWords": 0
         }
       },
       "queryPhraseHits": 0
@@ -832,559 +2190,34 @@
       "queryPhraseHits": 2
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 11,
-          "textWords": 85901
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 85901
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 22,
-          "textWords": 85901
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 24,
-          "textWords": 85901
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "OVvAkg2Rr_dw",
-      "address": "https://docs.searxng.org/dev/searxng_extra/index.html",
-      "title": "Tooling box searxng_extra - SearXNG Documentation (2026.9.7+3e454637f)",
-      "snippet": "update_engine_descriptions.py\nupdate_external_bangs.py\nupdate_firefox_version.py\nupdate_engine_traits.py\nupdate_osm_keys_tags.py\nupdate_pygments.py\nupdate_locales.py\nupdate_wikidata.py",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 69
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NmKs9lJDjf05",
-      "address": "https://www.kdnuggets.com/5-real-world-applications-of-agentic-ai-in-enterprise-automation",
-      "title": "5 Real-World Applications of Agentic AI in Enterprise Automation - KDnuggets",
-      "snippet": "engine (e.g. Open Policy Agent) for static constraint checks before executing against Kubernetes or AWS APIs, pausing for explicit human-in-the-loop approval on high-blast-radius state changes.\nThe Catch: Non-idempotent runbook steps and cascading feedback loops break the system. If an agent tries",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1505
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1505
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1505
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1505
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Nd6lETPhOXO4",
-      "address": "https://www.adgully.com/date/02-09-2025",
-      "title": "Adgully.com: Latest Advertising, Marketing \u0026 Media News",
-      "snippet": "Open DialogueReiterating its commitment to constructive engagement, NBDA urged Prasar Bharati to publish the revised draft of the e-auction policy for stakeholder feedback and convene a meeting to discuss the proposed changes before final implementation.By aligning the e-auction framework with",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 27948
-        },
-        "Ns049Jua-ggi": {
-          "hits": 13,
-          "textWords": 27948
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 7,
-          "textWords": 27948
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 27948
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 574
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 574
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 574
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 574
-        }
-      },
-      "queryPhraseHits": 9
-    },
-    {
-      "hash": "Nq2X9JexqsOx",
-      "address": "https://docs.opensearch.org/latest/sql-and-ppl/ppl/functions/condition/",
-      "title": "Conditional functions | OpenSearch Documentation",
-      "snippet": "search capabilities of the OpenSearch engine but don’t execute directly within the OpenSearch plugin’s memory.\nISNULL\nUsage: isnull(field)\nReturns TRUE if the field is NULL, FALSE otherwise.\nThe isnull() function is commonly used:\nIn eval expressions to create conditional fields.\nWith the if()",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 2356
-        },
-        "Ns049Jua-ggi": {
-          "hits": 32,
-          "textWords": 2356
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 2356
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 2356
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NGPbppv-bf35",
-      "address": "https://docs.datadoghq.com/opentelemetry/getting_started/otel_demo_to_datadog/",
-      "title": "Sending Data from the OpenTelemetry Demo to Datadog",
-      "snippet": "https://github.com/open-telemetry/opentelemetry-demo.git\nConfiguring the OpenTelemetry Collector\nTo send the demo’s telemetry data to Datadog you need to add the following components to the OpenTelemetry Collector configuration:\nResource Processor is an optional but recommended component used to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1359
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 1359
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 8,
-          "textWords": 1359
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1359
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NV-ZlZv-bf35",
-      "address": "https://docs.datadoghq.com/reference_tables/",
-      "title": "Reference Tables",
-      "snippet": "source.\nYou can create monitors from the Monitors tab, or click on the Settings icon next to New Reference Table + to generate a pre-filled monitor.\nReference Table limits\nA reference table can have up to 200 columns\nA single row cannot be larger than 500KiB\nThe size of a reference table file",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1991
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 1991
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1991
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1991
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NhbP7Bv-bf35",
-      "address": "https://docs.datadoghq.com/feature_flags/concepts/flag_history/",
-      "title": "Feature Flag History",
-      "snippet": "Overview\nFlag History allows you to track changes and maintain an audit trail of your Datadog feature flags over time. Knowing who changed what can be useful for governance and troubleshooting unexpected behavior in your application. You can view the history of individual flags or access a global",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 173
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Pzkydzv-bf35",
-      "address": "https://docs.datadoghq.com/observability_pipelines/processors/generate_metrics/",
-      "title": "Generate Log-based Metrics Processor",
-      "snippet": "search bar to find a specific metric by its name, and then select the metric to edit or delete it. Click Add Metric to add another metric.\nAdd a metric\nThe Generate Metrics processor uses the timestamp field on a log to set the metric's timestamp. If the log timestamp field is a string value, the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 991
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 991
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 991
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 991
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "P-mMSgv-bf35",
-      "address": "https://docs.datadoghq.com/incident_response/work_management/settings/",
-      "title": "Settings",
-      "snippet": "Overview\nIn Project Settings, you can manage access control, configure automatic status transitions, set up third-party integrations like Jira and ServiceNow, and more.\nGranular Access Control\nBy default, access to projects and work items is unrestricted. Granular Access Control can be used to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 422
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OVvAkg2Rr_dw",
-      "address": "https://docs.searxng.org/dev/searxng_extra/index.html",
-      "title": "Tooling box searxng_extra - SearXNG Documentation (2026.9.7+3e454637f)",
-      "snippet": "update_engine_descriptions.py\nupdate_external_bangs.py\nupdate_firefox_version.py\nupdate_engine_traits.py\nupdate_osm_keys_tags.py\nupdate_pygments.py\nupdate_locales.py\nupdate_wikidata.py",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 69
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "sgghmlAUKsO5",
-      "address": "https://www.findarticles.com/news/",
-      "title": "News Articles - FindArticles",
-      "snippet": "Welcome to the News Articles, your gateway to thousands of insights, reports, and stories published across a wide range of topics. This section serves as the archive and central access point for all articles available on FindArticles.com.\nOur coverage spans multiple areas of interest, ensuring that",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 159
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 159
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 159
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 159
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S4iCtdDZkUL4",
-      "address": "https://www.cnet.com/home/kitchen-and-household/best-dishwasher/",
-      "title": "Best Dishwashers of 2026: Top Models Compared - CNET",
-      "snippet": "auto-open door and a flexible racking system. Auto-open dishwashers improve airflow and the drying experience, plus you’ll always know when the wash cycle is complete. The three racks come with markers to show you which attachments are adjustable. The G 7216 SCU is also very quiet at 42 dBa, though",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 6159
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 6159
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 6159
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 6159
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NmKs9lJDjf05",
-      "address": "https://www.kdnuggets.com/5-real-world-applications-of-agentic-ai-in-enterprise-automation",
-      "title": "5 Real-World Applications of Agentic AI in Enterprise Automation - KDnuggets",
-      "snippet": "engine (e.g. Open Policy Agent) for static constraint checks before executing against Kubernetes or AWS APIs, pausing for explicit human-in-the-loop approval on high-blast-radius state changes.\nThe Catch: Non-idempotent runbook steps and cascading feedback loops break the system. If an agent tries",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1505
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1505
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1505
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1505
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Nd6lETPhOXO4",
-      "address": "https://www.adgully.com/date/02-09-2025",
-      "title": "Adgully.com: Latest Advertising, Marketing \u0026 Media News",
-      "snippet": "Open DialogueReiterating its commitment to constructive engagement, NBDA urged Prasar Bharati to publish the revised draft of the e-auction policy for stakeholder feedback and convene a meeting to discuss the proposed changes before final implementation.By aligning the e-auction framework with",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 27948
-        },
-        "Ns049Jua-ggi": {
-          "hits": 13,
-          "textWords": 27948
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 7,
-          "textWords": 27948
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 27948
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 574
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 574
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 574
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 574
-        }
-      },
-      "queryPhraseHits": 9
-    },
-    {
-      "hash": "MijQL0S6MKD4",
-      "address": "https://github.com/resources/events",
-      "title": "Upcoming GitHub events, webinars \u0026 developer conferences · GitHub",
-      "snippet": "Discover upcoming GitHub events, webinars, and conferences. Connect with developers, explore new tools, and learn how to build, secure, and scale software with GitHub.\nSort by:Selecting a sort option will reload the page.\nGitHub Universe 2026\nGitHub Universe, our flagship developer event is back:",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 169
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QzjyllSCNQa4",
-      "address": "https://www.redhat.com/en/about",
-      "title": "About",
-      "snippet": "open source way\nWe work alongside a global community of contributors, customers, and partners to bring the best ideas to life. This process delivers flexible hybrid cloud solutions—like Linux®, AI, virtualization, and automation—giving critical organizations the consistency, choice, and control to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 604
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 604
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 604
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 604
-        }
-      },
-      "queryPhraseHits": 5
-    },
-    {
-      "hash": "AWq9VQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-october.shtml",
+      "hash": "wrsAbQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-august.shtml",
       "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "snippet": "(search the SR archives on \"quantum biology\"). www.schwartzreport.net is entirely consistent with the work already done in Quantum Entanglements.\nThough I am a cynic (A true cynic who questions everything, not a science pseud who sneers at everything that does not fit neatly into a mathematical",
+      "snippet": "Open Europe revisits in a briefing published yesterday.\nIn the view of the Daily Stirrer the answer is no. Many European nations are already close to social breakdown and even France is in deep trouble as President Hollande's socialist government is forced to abandon tax-and-spen promises and face",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
-          "hits": 5,
-          "textWords": 35334
+          "hits": 3,
+          "textWords": 24883
         },
         "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 35334
+          "hits": 4,
+          "textWords": 24883
         },
         "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 35334
+          "hits": 4,
+          "textWords": 24883
         },
         "rRlDqf1tPX7h": {
           "hits": 0,
-          "textWords": 35334
+          "textWords": 24883
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "Nq2X9JexqsOx",
-      "address": "https://docs.opensearch.org/latest/sql-and-ppl/ppl/functions/condition/",
-      "title": "Conditional functions | OpenSearch Documentation",
-      "snippet": "search capabilities of the OpenSearch engine but don’t execute directly within the OpenSearch plugin’s memory.\nISNULL\nUsage: isnull(field)\nReturns TRUE if the field is NULL, FALSE otherwise.\nThe isnull() function is commonly used:\nIn eval expressions to create conditional fields.\nWith the if()",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 2356
-        },
-        "Ns049Jua-ggi": {
-          "hits": 32,
-          "textWords": 2356
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 2356
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 2356
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 11,
-          "textWords": 85901
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 85901
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 22,
-          "textWords": 85901
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 24,
-          "textWords": 85901
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "snZ3UTtKr25k",
-      "address": "https://newsqr.com.mx/?p=23964",
-      "title": "Anuncia Mara Lezama inversión de 23 mdp para construir CAM en Cielo Nuevo Cancún",
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -1407,534 +2240,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "NGPbppv-bf35",
-      "address": "https://docs.datadoghq.com/opentelemetry/getting_started/otel_demo_to_datadog/",
-      "title": "Sending Data from the OpenTelemetry Demo to Datadog",
-      "snippet": "https://github.com/open-telemetry/opentelemetry-demo.git\nConfiguring the OpenTelemetry Collector\nTo send the demo’s telemetry data to Datadog you need to add the following components to the OpenTelemetry Collector configuration:\nResource Processor is an optional but recommended component used to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1359
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 1359
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 8,
-          "textWords": 1359
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1359
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NV-ZlZv-bf35",
-      "address": "https://docs.datadoghq.com/reference_tables/",
-      "title": "Reference Tables",
-      "snippet": "source.\nYou can create monitors from the Monitors tab, or click on the Settings icon next to New Reference Table + to generate a pre-filled monitor.\nReference Table limits\nA reference table can have up to 200 columns\nA single row cannot be larger than 500KiB\nThe size of a reference table file",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1991
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 1991
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1991
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1991
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NhbP7Bv-bf35",
-      "address": "https://docs.datadoghq.com/feature_flags/concepts/flag_history/",
-      "title": "Feature Flag History",
-      "snippet": "Overview\nFlag History allows you to track changes and maintain an audit trail of your Datadog feature flags over time. Knowing who changed what can be useful for governance and troubleshooting unexpected behavior in your application. You can view the history of individual flags or access a global",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 173
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Pzkydzv-bf35",
-      "address": "https://docs.datadoghq.com/observability_pipelines/processors/generate_metrics/",
-      "title": "Generate Log-based Metrics Processor",
-      "snippet": "search bar to find a specific metric by its name, and then select the metric to edit or delete it. Click Add Metric to add another metric.\nAdd a metric\nThe Generate Metrics processor uses the timestamp field on a log to set the metric's timestamp. If the log timestamp field is a string value, the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 991
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 991
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 991
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 991
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "P-mMSgv-bf35",
-      "address": "https://docs.datadoghq.com/incident_response/work_management/settings/",
-      "title": "Settings",
-      "snippet": "Overview\nIn Project Settings, you can manage access control, configure automatic status transitions, set up third-party integrations like Jira and ServiceNow, and more.\nGranular Access Control\nBy default, access to projects and work items is unrestricted. Granular Access Control can be used to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 422
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Ne3wpQZchFfZ",
-      "address": "http://www.greenteethmm.com/debt-krugman.shtml",
-      "title": "daily-stirrer-lmost-half-of-english-adults-are-poor-at-mathematics-maths-school-pupils-numeracy-dailystirrer",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 28965
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 28965
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 28965
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 28965
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
-      "snippet": "Open AI simply made up testimony.\nAOC and Mamdani show zero respect.\nWatch Live | Charlie Kirk show.\nSecret code hidden in Great Pyramids may reveal true purpose.\nLSU will not be punished.\nAI computer virus could (easily) hack one billion user accounts on WeChat.\nGutfeld loses friend to cold",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 11132
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 11132
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 18,
-          "textWords": 11132
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 11132
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QvExj17t2YV4",
-      "address": "https://www.nvidia.com/en-au/data-center/dgx-platform/",
-      "title": "DGX Platform: Built for Enterprise AI | NVIDIA",
-      "snippet": "Engine of Innovation\nSony installed an NVIDIA DGX SuperPOD in its R\u0026D Center as part of a drive into machine learning, with the goal of providing computing resources to all Sony Group companies.\nBMW Revolutionizes Quality Assurance With SORDI Generative AI\nBMW has implemented a comprehensive deep",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1173
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1173
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1173
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1173
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "B1eHQs8BaC94",
-      "address": "https://brave.com/",
-      "title": "The browser that puts you first | Brave",
-      "snippet": "search\nBetter results, AI answers, and zero profiling with Brave Search.\nPowerful VPN\nProtect every app, on your entire device.\nFirewall + VPN\nWhat does a user-first Web look like?\nBetter privacy. Faster webpages. Easier navigation. And experiences that put people over tech company profit.\nThe Web,",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 17,
-          "textWords": 1150
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 1150
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 4,
-          "textWords": 1150
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 4,
-          "textWords": 1150
-        }
-      },
-      "queryPhraseHits": 6
-    },
-    {
-      "hash": "QRovkb8CAV45",
-      "address": "https://www.encyclopedia.com/places/asia/syrian-political-geography/syria",
-      "title": "Syria | Encyclopedia.com",
-      "snippet": "source of legislation. Freedom of worship is guaranteed by the constitution but public proselytizing is strongly discouraged by the government. All religious groups must register with the government. Certain Orthodox Christian and Muslim holidays are officially observed.\nTRANSPORTATION\nThe Syrian",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 98823
-        },
-        "Ns049Jua-ggi": {
-          "hits": 27,
-          "textWords": 98823
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 21,
-          "textWords": 98823
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 98823
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "fE4y5sGA_USx",
-      "address": "https://warracket.net/",
-      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 63596
-        },
-        "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 63596
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 5,
-          "textWords": 63596
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 4,
-          "textWords": 63596
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5KkuiGKlvN85",
-      "address": "https://arstechnica.com/civis/threads/the-pixel-2-contains-a-custom-google-soc-the-%E2%80%9Cpixel-visual-core%E2%80%9D.1405265/",
-      "title": "The Pixel 2 contains a custom Google SoC: The “Pixel Visual Core” | Ars OpenForum",
-      "snippet": "source, they imply that it does work for the built-in camera already (so the hardware is functional and is used for taking pictures) - it's just cannot be used yet by third party apps (the API is not ready).\nhttps://www.androidcentral.com/pixel-2- ... isual-core\nUPDATE: nevermind, the linked",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 4699
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 4699
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 4699
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 4699
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "LPB4lvOpC_C5",
-      "address": "https://www.sciencedaily.com/news/matter_energy/quantum_physics/",
-      "title": "Quantum Physics News -- ScienceDaily",
-      "snippet": "search for new physics in the universe much faster, slashing the need for expensive simulations. Yet the approach can backfire when AI relies too ...\nJune 15, 2026  Oxford physicists have created an entirely new type of Schrödinger’s cat-like quantum state using components that are themselves",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 1968
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1968
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1968
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1968
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JY72vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Trusted_Platform_Module",
-      "title": "Trusted Platform Module - Wikipedia",
-      "snippet": "source code is available on GitHub.[46]\nIn 2018, Intel open-sourced its Trusted Platform Module 2.0 (TPM2) software stack with support for Linux and Microsoft Windows.[47] The source code is hosted on GitHub and licensed under BSD License.[48][49]\nInfineon funded the development of an open source",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 7442
-        },
-        "Ns049Jua-ggi": {
-          "hits": 13,
-          "textWords": 7442
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 7442
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 7442
-        }
-      },
-      "queryPhraseHits": 9
-    },
-    {
-      "hash": "7IIFujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
-      "title": "United Kingdom - Wikipedia",
-      "snippet": "engine manufacturing: 1.59 million engines were produced in 2024.[284] It was the world's third-largest exporter of engines by value in 2023.[286] The UK motorsport industry has an annual turnover of around £10 billion.[287] Seven of the eleven Formula One teams are based in the UK, with their",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 31948
-        },
-        "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 31948
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 31948
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 31948
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "t2h4nQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2013-november.shtml",
-      "title": "dailystirrer curent month",
-      "snippet": "open-ended occupation (colonization by another name) at the expense of the Afghan people. \"Occupation is not defined by how many occupiers are policing someplace,\" said Kimber Heinz of the War Resisters League in an interview with Common Dreams. “If you reduce the amount of occupation forces but",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 32476
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 32476
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 4,
-          "textWords": 32476
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 32476
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "CyUYvsY-tUi5",
-      "address": "https://moralparty.com/Warnings/",
-      "title": "Warnings – MoralParty.com",
-      "snippet": "open inspections so that AI does not advance any further. An international treaty that every country promptly signs on to, so if any rogue group or country starts to build even a secret, small data center, it would instantly be known and stopped.\nThis treaty would state that all new data center",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 49441
-        },
-        "Ns049Jua-ggi": {
-          "hits": 9,
-          "textWords": 49441
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 49441
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 49441
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 40231
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 40231
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 17,
-          "textWords": 40231
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 40231
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Ne3wpQZchFfZ",
-      "address": "http://www.greenteethmm.com/debt-krugman.shtml",
-      "title": "daily-stirrer-lmost-half-of-english-adults-are-poor-at-mathematics-maths-school-pupils-numeracy-dailystirrer",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 28965
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 28965
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 28965
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 28965
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 11,
-          "textWords": 85901
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 85901
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 22,
-          "textWords": 85901
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 24,
-          "textWords": 85901
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "open border for much of the last quarter century. The result is that the United States today houses upwards of 30 million illegal aliens, while in Europe, the number may be half that. In both cases, most of the immigrants crossing the borders come from countries with far higher crime rates, far",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 13,
-          "textWords": 405419
-        },
-        "Ns049Jua-ggi": {
-          "hits": 29,
-          "textWords": 405419
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 250,
-          "textWords": 405419
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 405419
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "snZ3UTtKr25k",
-      "address": "https://newsqr.com.mx/?p=23964",
-      "title": "Anuncia Mara Lezama inversión de 23 mdp para construir CAM en Cielo Nuevo Cancún",
+      "hash": "60CsWocHOkWx",
+      "address": "https://www.gutenberg.org/browse/authors/b",
+      "title": "Browse By Author: B | Project Gutenberg",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -1957,9 +2265,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
+      "hash": "GMKmQscJYL54",
+      "address": "https://gizmodo.com/",
+      "title": "Gizmodo | The Future Is Here",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -1982,9 +2290,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "TKYymjGG7ou5",
-      "address": "https://kingnorth.wordpress.com/",
-      "title": "kingnorth | King North is the 8th King World Government",
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -2007,434 +2315,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "SOAt4sWMnAPx",
-      "address": "https://fedoraplanet.org/",
-      "title": "Fedora People",
-      "snippet": "search results that made me realise that a lot of people still think getting errors like ACPI Warning: SystemIO range 0x0000000000001828-0x000000000000182F conflicts with OpRegion 0x0000000000001800-0x000000000000187F indicate a firmware bug. This is generally untrue. We need to dive a little into",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 12,
-          "textWords": 49580
-        },
-        "Ns049Jua-ggi": {
-          "hits": 49,
-          "textWords": 49580
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 53,
-          "textWords": 49580
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 49580
-        }
-      },
-      "queryPhraseHits": 22
-    },
-    {
-      "hash": "OVvAkg2Rr_dw",
-      "address": "https://docs.searxng.org/dev/searxng_extra/index.html",
-      "title": "Tooling box searxng_extra - SearXNG Documentation (2026.9.7+3e454637f)",
-      "snippet": "update_engine_descriptions.py\nupdate_external_bangs.py\nupdate_firefox_version.py\nupdate_engine_traits.py\nupdate_osm_keys_tags.py\nupdate_pygments.py\nupdate_locales.py\nupdate_wikidata.py",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 69
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 69
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
-      "snippet": "Open AI simply made up testimony.\nAOC and Mamdani show zero respect.\nWatch Live | Charlie Kirk show.\nSecret code hidden in Great Pyramids may reveal true purpose.\nLSU will not be punished.\nAI computer virus could (easily) hack one billion user accounts on WeChat.\nGutfeld loses friend to cold",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 11132
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 11132
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 18,
-          "textWords": 11132
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 11132
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QRovkb8CAV45",
-      "address": "https://www.encyclopedia.com/places/asia/syrian-political-geography/syria",
-      "title": "Syria | Encyclopedia.com",
-      "snippet": "source of legislation. Freedom of worship is guaranteed by the constitution but public proselytizing is strongly discouraged by the government. All religious groups must register with the government. Certain Orthodox Christian and Muslim holidays are officially observed.\nTRANSPORTATION\nThe Syrian",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 98823
-        },
-        "Ns049Jua-ggi": {
-          "hits": 27,
-          "textWords": 98823
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 21,
-          "textWords": 98823
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 98823
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "fE4y5sGA_USx",
-      "address": "https://warracket.net/",
-      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 63596
-        },
-        "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 63596
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 5,
-          "textWords": 63596
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 4,
-          "textWords": 63596
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NmKs9lJDjf05",
-      "address": "https://www.kdnuggets.com/5-real-world-applications-of-agentic-ai-in-enterprise-automation",
-      "title": "5 Real-World Applications of Agentic AI in Enterprise Automation - KDnuggets",
-      "snippet": "engine (e.g. Open Policy Agent) for static constraint checks before executing against Kubernetes or AWS APIs, pausing for explicit human-in-the-loop approval on high-blast-radius state changes.\nThe Catch: Non-idempotent runbook steps and cascading feedback loops break the system. If an agent tries",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1505
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1505
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1505
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1505
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Nd6lETPhOXO4",
-      "address": "https://www.adgully.com/date/02-09-2025",
-      "title": "Adgully.com: Latest Advertising, Marketing \u0026 Media News",
-      "snippet": "Open DialogueReiterating its commitment to constructive engagement, NBDA urged Prasar Bharati to publish the revised draft of the e-auction policy for stakeholder feedback and convene a meeting to discuss the proposed changes before final implementation.By aligning the e-auction framework with",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 27948
-        },
-        "Ns049Jua-ggi": {
-          "hits": 13,
-          "textWords": 27948
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 7,
-          "textWords": 27948
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 27948
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your infrastructure\nBuild apps at speed and stay secure\nGet an optimized stack for data and AI\nDeploy smart things at the edge\nStart with Ubuntu\nBuild with confidence on the world’s",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 574
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 574
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 574
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 574
-        }
-      },
-      "queryPhraseHits": 9
-    },
-    {
-      "hash": "MijQL0S6MKD4",
-      "address": "https://github.com/resources/events",
-      "title": "Upcoming GitHub events, webinars \u0026 developer conferences · GitHub",
-      "snippet": "Discover upcoming GitHub events, webinars, and conferences. Connect with developers, explore new tools, and learn how to build, secure, and scale software with GitHub.\nSort by:Selecting a sort option will reload the page.\nGitHub Universe 2026\nGitHub Universe, our flagship developer event is back:",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 169
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 40231
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 40231
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 17,
-          "textWords": 40231
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 40231
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Ne3wpQZchFfZ",
-      "address": "http://www.greenteethmm.com/debt-krugman.shtml",
-      "title": "daily-stirrer-lmost-half-of-english-adults-are-poor-at-mathematics-maths-school-pupils-numeracy-dailystirrer",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 28965
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 28965
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 28965
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 28965
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Nq2X9JexqsOx",
-      "address": "https://docs.opensearch.org/latest/sql-and-ppl/ppl/functions/condition/",
-      "title": "Conditional functions | OpenSearch Documentation",
-      "snippet": "search capabilities of the OpenSearch engine but don’t execute directly within the OpenSearch plugin’s memory.\nISNULL\nUsage: isnull(field)\nReturns TRUE if the field is NULL, FALSE otherwise.\nThe isnull() function is commonly used:\nIn eval expressions to create conditional fields.\nWith the if()",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 2356
-        },
-        "Ns049Jua-ggi": {
-          "hits": 32,
-          "textWords": 2356
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 2356
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 2356
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NGPbppv-bf35",
-      "address": "https://docs.datadoghq.com/opentelemetry/getting_started/otel_demo_to_datadog/",
-      "title": "Sending Data from the OpenTelemetry Demo to Datadog",
-      "snippet": "https://github.com/open-telemetry/opentelemetry-demo.git\nConfiguring the OpenTelemetry Collector\nTo send the demo’s telemetry data to Datadog you need to add the following components to the OpenTelemetry Collector configuration:\nResource Processor is an optional but recommended component used to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1359
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 1359
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 8,
-          "textWords": 1359
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1359
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NV-ZlZv-bf35",
-      "address": "https://docs.datadoghq.com/reference_tables/",
-      "title": "Reference Tables",
-      "snippet": "source.\nYou can create monitors from the Monitors tab, or click on the Settings icon next to New Reference Table + to generate a pre-filled monitor.\nReference Table limits\nA reference table can have up to 200 columns\nA single row cannot be larger than 500KiB\nThe size of a reference table file",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1991
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 1991
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1991
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1991
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NhbP7Bv-bf35",
-      "address": "https://docs.datadoghq.com/feature_flags/concepts/flag_history/",
-      "title": "Feature Flag History",
-      "snippet": "Overview\nFlag History allows you to track changes and maintain an audit trail of your Datadog feature flags over time. Knowing who changed what can be useful for governance and troubleshooting unexpected behavior in your application. You can view the history of individual flags or access a global",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 173
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 173
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Pzkydzv-bf35",
-      "address": "https://docs.datadoghq.com/observability_pipelines/processors/generate_metrics/",
-      "title": "Generate Log-based Metrics Processor",
-      "snippet": "search bar to find a specific metric by its name, and then select the metric to edit or delete it. Click Add Metric to add another metric.\nAdd a metric\nThe Generate Metrics processor uses the timestamp field on a log to set the metric's timestamp. If the log timestamp field is a string value, the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 991
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 991
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 991
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 991
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "P-mMSgv-bf35",
-      "address": "https://docs.datadoghq.com/incident_response/work_management/settings/",
-      "title": "Settings",
-      "snippet": "Overview\nIn Project Settings, you can manage access control, configure automatic status transitions, set up third-party integrations like Jira and ServiceNow, and more.\nGranular Access Control\nBy default, access to projects and work items is unrestricted. Granular Access Control can be used to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 422
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 422
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
+      "hash": "SMdVHQZchFfZ",
+      "address": "http://www.greenteethmm.com/green-renewable-energy-delusion.shtml",
+      "title": "Debunked:-the-great-renewable-energy-green-delusion",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -2457,134 +2340,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "PSeufkIRcMkY",
-      "address": "http://rigorousintuition.blogspot.com/2006/04/body-eclectic-part-two.html",
-      "title": "Rigorous Intuition: The Body Eclectic (Part Two)",
-      "snippet": "source of light, like a laser.\" A laser, of course, is a useful tool for the creation of holograms.\nLight is a form of wave motion, as is sound. A formerly distinguishing characteristic of the two was thought to be that light can travel through empty space, while sound needs a medium, but zero",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1484
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1484
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 1484
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1484
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MnvOKjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
-      "title": "Portal:Free and open-source software - Wikipedia",
-      "snippet": "open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or not — to everyone and provides the means to exercise those rights using the software's source code. FOSS is an inclusive umbrella term",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 2738
-        },
-        "Ns049Jua-ggi": {
-          "hits": 38,
-          "textWords": 2738
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 35,
-          "textWords": 2738
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 2738
-        }
-      },
-      "queryPhraseHits": 32
-    },
-    {
-      "hash": "MuMGwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bill_Joy",
-      "title": "Bill Joy - Wikipedia",
-      "snippet": "Open Sources: Voices from the Open Source Revolution. O'Reilly.\n↑ Ashlee Vance,\"Bill Joy's greatest gift to man – the vi editor\" Archived 2014-06-03 at the Wayback Machine, The Register, September 11, 2003.\n↑ \"Eric Schmidt: At Berkeley, Bill Joy written and rewritten the kernel over a weekend. No",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1898
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1898
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 1898
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1898
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Pgy2wjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Help:Multilingual_support_(Indic)",
-      "title": "Help:Multilingual support (Indic) - Wikipedia",
-      "snippet": "(search for \"Writing text in other languages\").\nMac OS 10.4 system software comes with two installable Keyboard input options for Tamil: Murasu Anjal and Tamilnet 99. One needs to do the following steps to activate them:\ni) Open \"international\" located within System Preferences and select",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 4709
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 4709
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 4,
-          "textWords": 4709
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 4709
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "Pi26bjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_emerging_technologies",
-      "title": "List of emerging technologies - Wikipedia",
-      "snippet": "open data, intelligent environment\nDigital scent technology\nDiffusion\nSmell-O-Vision, iSmell\nDNA digital data storage\nExperiments\nMass data storage\nElectronic nose\nResearch, limited commercialization[22][23]\nDetecting spoiled food, chemical weapons, and cancer\nEmerging memory technologies (T-RAM,",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 7342
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 7342
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 7342
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 3,
-          "textWords": 7342
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OIG5QtS6MKD4",
-      "address": "https://github.com/trending/aspectj?since=daily",
-      "title": "Trending AspectJ repositories on GitHub today · GitHub",
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -2607,34 +2365,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "NbVspsgbSIuz",
-      "address": "https://geoengineeringwatch.org/irrefutable-film-footage-of-climate-engineering-aerosol-spraying/",
-      "title": "Irrefutable Film Footage Of Climate Engineering Aerosol Spraying - Geoengineering Watch",
-      "snippet": "search today lead me here at more truth and a chance to connect and be heard to like minded people instead of feeling crazy in my thoughts. After reading many comments and seeing a few videos I became sad-er and then angry because I know the truth and even in my challenges if I can find truth then",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 22704
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 22704
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 22704
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 22704
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Qw0Oas-RJCSj",
-      "address": "https://wspomozycielka-lodz.pl/?p=747",
-      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
+      "hash": "pi_M5QZchFfZ",
+      "address": "http://www.greenteethmm.com/ukraine-putin-macron.shtml",
+      "title": "putin-macron-to-hold-urgent-talks-to-head-off-military-escalation-in- ukraine-news-daily-stirrer",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -2652,231 +2385,6 @@
         "rRlDqf1tPX7h": {
           "hits": 0,
           "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
-      "snippet": "Open AI simply made up testimony.\nAOC and Mamdani show zero respect.\nWatch Live | Charlie Kirk show.\nSecret code hidden in Great Pyramids may reveal true purpose.\nLSU will not be punished.\nAI computer virus could (easily) hack one billion user accounts on WeChat.\nGutfeld loses friend to cold",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 11132
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 11132
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 18,
-          "textWords": 11132
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 11132
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QvExj17t2YV4",
-      "address": "https://www.nvidia.com/en-au/data-center/dgx-platform/",
-      "title": "DGX Platform: Built for Enterprise AI | NVIDIA",
-      "snippet": "Engine of Innovation\nSony installed an NVIDIA DGX SuperPOD in its R\u0026D Center as part of a drive into machine learning, with the goal of providing computing resources to all Sony Group companies.\nBMW Revolutionizes Quality Assurance With SORDI Generative AI\nBMW has implemented a comprehensive deep",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1173
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1173
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1173
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 1173
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "D1Hz8-DUniK4",
-      "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
-      "title": "Wikipedia and Beyond",
-      "snippet": "search of \"this really great Indian place that's part of a motel,\" and wind up cruising for hours—stopping at Starbucks, hitting the mall, and generally duplicating the average day of millions of suburban teenagers. Wal-Marts and Olive Gardens slip past as Wales, often taciturn and abrupt in public",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 10,
-          "textWords": 6565
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 6565
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 12,
-          "textWords": 6565
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 6565
-        }
-      },
-      "queryPhraseHits": 9
-    },
-    {
-      "hash": "fE4y5sGA_USx",
-      "address": "https://warracket.net/",
-      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
-      "snippet": "engine of American foreign policy has been fueled not by a devotion to any kind of morality, but rather by the necessity to serve other imperatives, which can be summarized as follows: making the world safe for American corporations; enhancing the financial statements of defense contractors at home",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 63596
-        },
-        "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 63596
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 5,
-          "textWords": 63596
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 4,
-          "textWords": 63596
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TKYymjGG7ou5",
-      "address": "https://kingnorth.wordpress.com/",
-      "title": "kingnorth | King North is the 8th King World Government",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "PSeufkIRcMkY",
-      "address": "http://rigorousintuition.blogspot.com/2006/04/body-eclectic-part-two.html",
-      "title": "Rigorous Intuition: The Body Eclectic (Part Two)",
-      "snippet": "source of light, like a laser.\" A laser, of course, is a useful tool for the creation of holograms.\nLight is a form of wave motion, as is sound. A formerly distinguishing characteristic of the two was thought to be that light can travel through empty space, while sound needs a medium, but zero",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1484
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1484
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 1484
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1484
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5KkuiGKlvN85",
-      "address": "https://arstechnica.com/civis/threads/the-pixel-2-contains-a-custom-google-soc-the-%E2%80%9Cpixel-visual-core%E2%80%9D.1405265/",
-      "title": "The Pixel 2 contains a custom Google SoC: The “Pixel Visual Core” | Ars OpenForum",
-      "snippet": "source, they imply that it does work for the built-in camera already (so the hardware is functional and is used for taking pictures) - it's just cannot be used yet by third party apps (the API is not ready).\nhttps://www.androidcentral.com/pixel-2- ... isual-core\nUPDATE: nevermind, the linked",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 4699
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 4699
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 4699
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 4699
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "LPB4lvOpC_C5",
-      "address": "https://www.sciencedaily.com/news/matter_energy/quantum_physics/",
-      "title": "Quantum Physics News -- ScienceDaily",
-      "snippet": "search for new physics in the universe much faster, slashing the need for expensive simulations. Yet the approach can backfire when AI relies too ...\nJune 15, 2026  Oxford physicists have created an entirely new type of Schrödinger’s cat-like quantum state using components that are themselves",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 1968
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 1968
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 1968
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1968
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "153XgsQ2H1F4",
-      "address": "https://wpvip.com/",
-      "title": "WordPress VIP | Enterprise Content Platform \u0026 Managed WordPress",
-      "snippet": "Search traffic\n99.99%\nuptime during election nights, Super Bowl, and NASA landings\nSOC 2\nType I platform and Type II data centers, certified annually\nFedRAMP\nModerate ATO, the standard for U.S. federal agencies and regulated industries\nAwards and recognition\nNamed Customers’ Choice in the Gartner",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 2,
-          "textWords": 846
-        },
-        "Ns049Jua-ggi": {
-          "hits": 1,
-          "textWords": 846
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 846
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 846
         }
       },
       "queryPhraseHits": 0
@@ -2907,84 +2415,9 @@
       "queryPhraseHits": 9
     },
     {
-      "hash": "JY72vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Trusted_Platform_Module",
-      "title": "Trusted Platform Module - Wikipedia",
-      "snippet": "source code is available on GitHub.[46]\nIn 2018, Intel open-sourced its Trusted Platform Module 2.0 (TPM2) software stack with support for Linux and Microsoft Windows.[47] The source code is hosted on GitHub and licensed under BSD License.[48][49]\nInfineon funded the development of an open source",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 7442
-        },
-        "Ns049Jua-ggi": {
-          "hits": 13,
-          "textWords": 7442
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 7442
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 7442
-        }
-      },
-      "queryPhraseHits": 9
-    },
-    {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "source code to those recipients under the same or equivalent license terms — there is no requirement to publish anything to the public at large.[7] The GPL was the first copyleft license available for general use. It was originally written by Richard Stallman, the founder of the Free Software",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 15807
-        },
-        "Ns049Jua-ggi": {
-          "hits": 97,
-          "textWords": 15807
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 56,
-          "textWords": 15807
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 5,
-          "textWords": 15807
-        }
-      },
-      "queryPhraseHits": 55
-    },
-    {
-      "hash": "MijQL0S6MKD4",
-      "address": "https://github.com/resources/events",
-      "title": "Upcoming GitHub events, webinars \u0026 developer conferences · GitHub",
-      "snippet": "Discover upcoming GitHub events, webinars, and conferences. Connect with developers, explore new tools, and learn how to build, secure, and scale software with GitHub.\nSort by:Selecting a sort option will reload the page.\nGitHub Universe 2026\nGitHub Universe, our flagship developer event is back:",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 169
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 169
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OIG5QtS6MKD4",
-      "address": "https://github.com/trending/aspectj?since=daily",
-      "title": "Trending AspectJ repositories on GitHub today · GitHub",
+      "hash": "zG_etzSBCthw",
+      "address": "https://publishing.cdlib.org/ucpressebooks/public/book/before-the-nickelodeon-edwin-s-porter-and-the-edison-manufacturing-company.html",
+      "title": "Before the Nickelodeon: Edwin S. Porter and the Edison Manufacturing Company | UC Press E-Books Collection Archive, 1982-2004",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -3007,234 +2440,9 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "QEdRQsS6MKD4",
-      "address": "https://github.com/trending?spoken_language_code=bn",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Bengali\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian\nBengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QYijntS6MKD4",
-      "address": "https://github.com/trending/openrc-runscript?since=daily",
-      "title": "Trending OpenRC runscript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QzjyllSCNQa4",
-      "address": "https://www.redhat.com/en/about",
-      "title": "About",
-      "snippet": "open source way\nWe work alongside a global community of contributors, customers, and partners to bring the best ideas to life. This process delivers flexible hybrid cloud solutions—like Linux®, AI, virtualization, and automation—giving critical organizations the consistency, choice, and control to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 604
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 604
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 604
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 604
-        }
-      },
-      "queryPhraseHits": 5
-    },
-    {
-      "hash": "SOAt4sWMnAPx",
-      "address": "https://fedoraplanet.org/",
-      "title": "Fedora People",
-      "snippet": "search results that made me realise that a lot of people still think getting errors like ACPI Warning: SystemIO range 0x0000000000001828-0x000000000000182F conflicts with OpRegion 0x0000000000001800-0x000000000000187F indicate a firmware bug. This is generally untrue. We need to dive a little into",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 12,
-          "textWords": 49580
-        },
-        "Ns049Jua-ggi": {
-          "hits": 49,
-          "textWords": 49580
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 53,
-          "textWords": 49580
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 49580
-        }
-      },
-      "queryPhraseHits": 22
-    },
-    {
-      "hash": "t2h4nQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2013-november.shtml",
-      "title": "dailystirrer curent month",
-      "snippet": "open-ended occupation (colonization by another name) at the expense of the Afghan people. \"Occupation is not defined by how many occupiers are policing someplace,\" said Kimber Heinz of the War Resisters League in an interview with Common Dreams. “If you reduce the amount of occupation forces but",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 32476
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 32476
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 4,
-          "textWords": 32476
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 32476
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "CyUYvsY-tUi5",
-      "address": "https://moralparty.com/Warnings/",
-      "title": "Warnings – MoralParty.com",
-      "snippet": "open inspections so that AI does not advance any further. An international treaty that every country promptly signs on to, so if any rogue group or country starts to build even a secret, small data center, it would instantly be known and stopped.\nThis treaty would state that all new data center",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 49441
-        },
-        "Ns049Jua-ggi": {
-          "hits": 9,
-          "textWords": 49441
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 49441
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 49441
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 40231
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 40231
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 17,
-          "textWords": 40231
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 40231
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Qve1qQZchFfZ",
-      "address": "http://www.greenteethmm.com/energy-net-zero-fantasy.shtml",
-      "title": "greenteeth-digital-publishing-net-zero-is-dangerous-fantasy-but-scientists-believe-in-fairies-it-seems",
-      "snippet": "open his Starlink satellite network for the benefit of Ukrainian military leaders as they fantasise about attacking Crimea and driving out the Russian occupying force this past week showcases how completely unhinged and dangerous the Ukrainian government's desire to escalate the war has become.\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 13922
-        },
-        "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 13922
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 13922
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 13922
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NbVspsgbSIuz",
-      "address": "https://geoengineeringwatch.org/irrefutable-film-footage-of-climate-engineering-aerosol-spraying/",
-      "title": "Irrefutable Film Footage Of Climate Engineering Aerosol Spraying - Geoengineering Watch",
-      "snippet": "search today lead me here at more truth and a chance to connect and be heard to like minded people instead of feeling crazy in my thoughts. After reading many comments and seeing a few videos I became sad-er and then angry because I know the truth and even in my challenges if I can find truth then",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 3,
-          "textWords": 22704
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 22704
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 22704
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 22704
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "snZ3UTtKr25k",
-      "address": "https://newsqr.com.mx/?p=23964",
-      "title": "Anuncia Mara Lezama inversión de 23 mdp para construir CAM en Cielo Nuevo Cancún",
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
       "snippet": "",
       "matchedWords": {
         "BqlDxZ8zo0u1": {
@@ -3252,790 +2460,15 @@
         "rRlDqf1tPX7h": {
           "hits": 0,
           "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "B1eHQs8BaC94",
-      "address": "https://brave.com/",
-      "title": "The browser that puts you first | Brave",
-      "snippet": "search\nBetter results, AI answers, and zero profiling with Brave Search.\nPowerful VPN\nProtect every app, on your entire device.\nFirewall + VPN\nWhat does a user-first Web look like?\nBetter privacy. Faster webpages. Easier navigation. And experiences that put people over tech company profit.\nThe Web,",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 17,
-          "textWords": 1150
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 1150
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 4,
-          "textWords": 1150
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 4,
-          "textWords": 1150
-        }
-      },
-      "queryPhraseHits": 6
-    },
-    {
-      "hash": "sgghmlAUKsO5",
-      "address": "https://www.findarticles.com/news/",
-      "title": "News Articles - FindArticles",
-      "snippet": "Welcome to the News Articles, your gateway to thousands of insights, reports, and stories published across a wide range of topics. This section serves as the archive and central access point for all articles available on FindArticles.com.\nOur coverage spans multiple areas of interest, ensuring that",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 159
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 159
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 159
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 159
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "RVKYi2DZkUL4",
-      "address": "https://www.cnet.com/deals/best-streaming-service-deals/",
-      "title": "Every Streaming Service You Want Is on Sale Right Now. Here's How to Pay Less for All of Them - CNET",
-      "snippet": "Bundles, student discounts and annual plan savings can let you keep watching without overspending.\nOUR EXPERT\nAaron is a writer for the streaming entertainment team.… Read full bio\nArticle updated on August 31, 2026, 7:59 am EDT\nINSIDE CNET LABS\n25+\nYears of Experience\n23\nProduct Reviewers\n15k",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1293
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 1293
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 1293
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1293
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S4iCtdDZkUL4",
-      "address": "https://www.cnet.com/home/kitchen-and-household/best-dishwasher/",
-      "title": "Best Dishwashers of 2026: Top Models Compared - CNET",
-      "snippet": "auto-open door and a flexible racking system. Auto-open dishwashers improve airflow and the drying experience, plus you’ll always know when the wash cycle is complete. The three racks come with markers to show you which attachments are adjustable. The G 7216 SCU is also very quiet at 42 dBa, though",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 6159
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 6159
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 6159
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 6159
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MnvOKjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
-      "title": "Portal:Free and open-source software - Wikipedia",
-      "snippet": "open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or not — to everyone and provides the means to exercise those rights using the software's source code. FOSS is an inclusive umbrella term",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 2738
-        },
-        "Ns049Jua-ggi": {
-          "hits": 38,
-          "textWords": 2738
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 35,
-          "textWords": 2738
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 2738
-        }
-      },
-      "queryPhraseHits": 32
-    },
-    {
-      "hash": "S4tXZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikisource",
-      "title": "Wikisource - Wikipedia",
-      "snippet": "source documents, not vanity products. Verification was initially made offline, or by trusting the reliability of other digital libraries. Now works are supported by online scans via the ProofreadPage extension, which ensures the reliability and accuracy of the project's texts.\nSome individual",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 3132
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 3132
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 3132
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 3132
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7IIFujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
-      "title": "United Kingdom - Wikipedia",
-      "snippet": "engine manufacturing: 1.59 million engines were produced in 2024.[284] It was the world's third-largest exporter of engines by value in 2023.[286] The UK motorsport industry has an annual turnover of around £10 billion.[287] Seven of the eleven Formula One teams are based in the UK, with their",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 31948
-        },
-        "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 31948
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 31948
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 31948
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "AWq9VQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-october.shtml",
-      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "snippet": "(search the SR archives on \"quantum biology\"). www.schwartzreport.net is entirely consistent with the work already done in Quantum Entanglements.\nThough I am a cynic (A true cynic who questions everything, not a science pseud who sneers at everything that does not fit neatly into a mathematical",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 5,
-          "textWords": 35334
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 35334
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 35334
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 35334
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 11,
-          "textWords": 85901
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 85901
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 22,
-          "textWords": 85901
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 24,
-          "textWords": 85901
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "open border for much of the last quarter century. The result is that the United States today houses upwards of 30 million illegal aliens, while in Europe, the number may be half that. In both cases, most of the immigrants crossing the borders come from countries with far higher crime rates, far",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 13,
-          "textWords": 405419
-        },
-        "Ns049Jua-ggi": {
-          "hits": 29,
-          "textWords": 405419
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 250,
-          "textWords": 405419
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 405419
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "B1eHQs8BaC94",
-      "address": "https://brave.com/",
-      "title": "The browser that puts you first | Brave",
-      "snippet": "search\nBetter results, AI answers, and zero profiling with Brave Search.\nPowerful VPN\nProtect every app, on your entire device.\nFirewall + VPN\nWhat does a user-first Web look like?\nBetter privacy. Faster webpages. Easier navigation. And experiences that put people over tech company profit.\nThe Web,",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 17,
-          "textWords": 1150
-        },
-        "Ns049Jua-ggi": {
-          "hits": 4,
-          "textWords": 1150
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 4,
-          "textWords": 1150
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 4,
-          "textWords": 1150
-        }
-      },
-      "queryPhraseHits": 6
-    },
-    {
-      "hash": "5KkuiGKlvN85",
-      "address": "https://arstechnica.com/civis/threads/the-pixel-2-contains-a-custom-google-soc-the-%E2%80%9Cpixel-visual-core%E2%80%9D.1405265/",
-      "title": "The Pixel 2 contains a custom Google SoC: The “Pixel Visual Core” | Ars OpenForum",
-      "snippet": "source, they imply that it does work for the built-in camera already (so the hardware is functional and is used for taking pictures) - it's just cannot be used yet by third party apps (the API is not ready).\nhttps://www.androidcentral.com/pixel-2- ... isual-core\nUPDATE: nevermind, the linked",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 4699
-        },
-        "Ns049Jua-ggi": {
-          "hits": 2,
-          "textWords": 4699
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 11,
-          "textWords": 4699
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 4699
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "source code to those recipients under the same or equivalent license terms — there is no requirement to publish anything to the public at large.[7] The GPL was the first copyleft license available for general use. It was originally written by Richard Stallman, the founder of the Free Software",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 15807
-        },
-        "Ns049Jua-ggi": {
-          "hits": 97,
-          "textWords": 15807
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 56,
-          "textWords": 15807
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 5,
-          "textWords": 15807
-        }
-      },
-      "queryPhraseHits": 55
-    },
-    {
-      "hash": "AWq9VQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-october.shtml",
-      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "snippet": "(search the SR archives on \"quantum biology\"). www.schwartzreport.net is entirely consistent with the work already done in Quantum Entanglements.\nThough I am a cynic (A true cynic who questions everything, not a science pseud who sneers at everything that does not fit neatly into a mathematical",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 5,
-          "textWords": 35334
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 35334
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 35334
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 35334
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "Search Engine Operators, Social Media Networks and online marketplaces. So whatâ€™s the last thing we need corportions like Microsoft, Alphabel and Apple to do? Actually it is the very thing they are doing, which is to make the attacks easier,\nCan Bus Sized Lithium Ion Batteries Power Britain\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 4,
-          "textWords": 40231
-        },
-        "Ns049Jua-ggi": {
-          "hits": 6,
-          "textWords": 40231
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 17,
-          "textWords": 40231
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 40231
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "Open\nDoor Mid-Flight, Then Bites Flight Attendant\nRyanair CEO Denies Passenger Was Sucked Out\nOf Boeing 737 Window\nWashington Bound Lufthansa A340-600 Diverts\nSquawking 7700 (medical emergency)\n'Excessive Speed’ - Amazon 767 Pilots Got 7\nWarnings In 25 Seconds Before Miami Crash\nSwarming the",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 11,
-          "textWords": 85901
-        },
-        "Ns049Jua-ggi": {
-          "hits": 10,
-          "textWords": 85901
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 22,
-          "textWords": 85901
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 24,
-          "textWords": 85901
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "open border for much of the last quarter century. The result is that the United States today houses upwards of 30 million illegal aliens, while in Europe, the number may be half that. In both cases, most of the immigrants crossing the borders come from countries with far higher crime rates, far",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 13,
-          "textWords": 405419
-        },
-        "Ns049Jua-ggi": {
-          "hits": 29,
-          "textWords": 405419
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 250,
-          "textWords": 405419
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 405419
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Qw0Oas-RJCSj",
-      "address": "https://wspomozycielka-lodz.pl/?p=747",
-      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QRovkb8CAV45",
-      "address": "https://www.encyclopedia.com/places/asia/syrian-political-geography/syria",
-      "title": "Syria | Encyclopedia.com",
-      "snippet": "source of legislation. Freedom of worship is guaranteed by the constitution but public proselytizing is strongly discouraged by the government. All religious groups must register with the government. Certain Orthodox Christian and Muslim holidays are officially observed.\nTRANSPORTATION\nThe Syrian",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 1,
-          "textWords": 98823
-        },
-        "Ns049Jua-ggi": {
-          "hits": 27,
-          "textWords": 98823
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 21,
-          "textWords": 98823
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 1,
-          "textWords": 98823
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "RVKYi2DZkUL4",
-      "address": "https://www.cnet.com/deals/best-streaming-service-deals/",
-      "title": "Best Streaming Service Deals: Savings on Hulu, Disney Plus and More - CNET",
-      "snippet": "Bundles, student discounts and annual plan savings can let you keep watching without overspending.\nOUR EXPERT\nAaron is a writer for the streaming entertainment team.… Read full bio\nArticle updated on August 31, 2026, 7:59 am EDT\nINSIDE CNET LABS\n25+\nYears of Experience\n23\nProduct Reviewers\n15k",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 1293
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 1293
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 1293
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 1293
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "S4iCtdDZkUL4",
-      "address": "https://www.cnet.com/home/kitchen-and-household/best-dishwasher/",
-      "title": "Best Dishwashers of 2025 - CNET",
-      "snippet": "auto-open door and a flexible racking system. Auto-open dishwashers improve airflow and the drying experience, plus you’ll always know when the wash cycle is complete. The three racks come with markers to show you which attachments are adjustable. The G 7216 SCU is also very quiet at 42 dBa, though",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 6159
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 6159
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 2,
-          "textWords": 6159
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 6159
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "TKYymjGG7ou5",
-      "address": "https://kingnorth.wordpress.com/",
-      "title": "kingnorth | King North is the 8th King World Government",
-      "snippet": "",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
-      "snippet": "source code to those recipients under the same or equivalent license terms — there is no requirement to publish anything to the public at large.[7] The GPL was the first copyleft license available for general use. It was originally written by Richard Stallman, the founder of the Free Software",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 15807
-        },
-        "Ns049Jua-ggi": {
-          "hits": 97,
-          "textWords": 15807
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 56,
-          "textWords": 15807
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 5,
-          "textWords": 15807
-        }
-      },
-      "queryPhraseHits": 55
-    },
-    {
-      "hash": "S4tXZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikisource",
-      "title": "Wikisource - Wikipedia",
-      "snippet": "source documents, not vanity products. Verification was initially made offline, or by trusting the reliability of other digital libraries. Now works are supported by online scans via the ProofreadPage extension, which ensures the reliability and accuracy of the project's texts.\nSome individual",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 3132
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 3132
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 1,
-          "textWords": 3132
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 3132
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QEdRQsS6MKD4",
-      "address": "https://github.com/trending?spoken_language_code=bn",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Bengali\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian\nBengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QYijntS6MKD4",
-      "address": "https://github.com/trending/openrc-runscript?since=daily",
-      "title": "Trending OpenRC runscript repositories on GitHub today · GitHub",
-      "snippet": "Trending\nSee what the GitHub community is most excited about today.\nRepositories Developers\nSpoken Language: Any\nSelect a spoken language\nAbkhazian Afar Afrikaans Akan Albanian Amharic Arabic Aragonese Armenian Assamese Avaric Avestan Aymara Azerbaijani Bambara Bashkir Basque Belarusian Bengali",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "Ns049Jua-ggi": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 0,
-          "textWords": 266
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 266
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QzjyllSCNQa4",
-      "address": "https://www.redhat.com/en/about",
-      "title": "About",
-      "snippet": "open source way\nWe work alongside a global community of contributors, customers, and partners to bring the best ideas to life. This process delivers flexible hybrid cloud solutions—like Linux®, AI, virtualization, and automation—giving critical organizations the consistency, choice, and control to",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 604
-        },
-        "Ns049Jua-ggi": {
-          "hits": 5,
-          "textWords": 604
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 9,
-          "textWords": 604
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 604
-        }
-      },
-      "queryPhraseHits": 5
-    },
-    {
-      "hash": "SOAt4sWMnAPx",
-      "address": "https://fedoraplanet.org/",
-      "title": "Fedora People",
-      "snippet": "search results that made me realise that a lot of people still think getting errors like ACPI Warning: SystemIO range 0x0000000000001828-0x000000000000182F conflicts with OpRegion 0x0000000000001800-0x000000000000187F indicate a firmware bug. This is generally untrue. We need to dive a little into",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 12,
-          "textWords": 49580
-        },
-        "Ns049Jua-ggi": {
-          "hits": 49,
-          "textWords": 49580
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 53,
-          "textWords": 49580
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 2,
-          "textWords": 49580
-        }
-      },
-      "queryPhraseHits": 22
-    },
-    {
-      "hash": "Qve1qQZchFfZ",
-      "address": "http://www.greenteethmm.com/energy-net-zero-fantasy.shtml",
-      "title": "greenteeth-digital-publishing-net-zero-is-dangerous-fantasy-but-scientists-believe-in-fairies-it-seems",
-      "snippet": "open his Starlink satellite network for the benefit of Ukrainian military leaders as they fantasise about attacking Crimea and driving out the Russian occupying force this past week showcases how completely unhinged and dangerous the Ukrainian government's desire to escalate the war has become.\nThe",
-      "matchedWords": {
-        "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 13922
-        },
-        "Ns049Jua-ggi": {
-          "hits": 3,
-          "textWords": 13922
-        },
-        "fO-Kc0hVd3wq": {
-          "hits": 6,
-          "textWords": 13922
-        },
-        "rRlDqf1tPX7h": {
-          "hits": 0,
-          "textWords": 13922
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "BqlDxZ8zo0u1": 80475,
-    "Ns049Jua-ggi": 428731,
-    "fO-Kc0hVd3wq": 93614,
-    "rRlDqf1tPX7h": 20991
+    "BqlDxZ8zo0u1": 1251316,
+    "Ns049Jua-ggi": 1431480,
+    "fO-Kc0hVd3wq": 957768,
+    "rRlDqf1tPX7h": 116353
   }
 }

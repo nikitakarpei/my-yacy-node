@@ -1,45 +1,7 @@
 {
   "query": "programmazione funzionale",
-  "recordedAt": "2026-09-11T22:14:23Z",
+  "recordedAt": "2026-09-12T00:26:19Z",
   "itemsInTheOrderOfEachAnswer": [
-    [
-      {
-        "hash": "ZttM8hXQbwqg",
-        "address": "https://documenti.camera.it/Leg16/dossier/Testi/BI0350.htm",
-        "title": "Camera dei deputati Dossier BI0350",
-        "snippet": "programmazione e destinazione delle risorse finanziarie ordinarie.\nI soggetti che possono accedere alla ripartizione sono:\n§ pubbliche amministrazioni;\n§ persone giuridiche;\n§ enti pubblici e privati.\nSono escluse le persone fisiche e, in ogni caso, i soggetti che operano per fine di lucro",
-        "matchedWords": {
-          "LJfIul09S28e": {
-            "hits": 14,
-            "textWords": 12859
-          },
-          "NqMNRJUSyBn1": {
-            "hits": 1,
-            "textWords": 12859
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "W9B-bFtsxhzg",
-        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
-        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-        "snippet": "funzionale alla realizzazione di un obiettivo di crescita addizionale, che consenta di ridurre progressivamente e colmare il gap di crescita che ci separa dal resto dell'Europa. Per il prossimo anno si stima un effetto espansivo della manovra sulla crescita pari a 0,6 punti percentuali di PIL. È",
-        "matchedWords": {
-          "LJfIul09S28e": {
-            "hits": 4,
-            "textWords": 49658
-          },
-          "NqMNRJUSyBn1": {
-            "hits": 3,
-            "textWords": 49658
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
     [
       {
         "hash": "Oliy_OnsHw9g",
@@ -54,6 +16,44 @@
           "NqMNRJUSyBn1": {
             "hits": 14,
             "textWords": 4836
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "W9B-bFtsxhzg",
+        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
+        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
+        "snippet": "",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 3,
+            "textWords": 51285
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "OJwy3wUl8GVi",
+        "address": "https://www.radioradicale.it/scheda/632378/le-primavere-arabe-10-anni-dopo-dalle-speranze-alla-disillusione",
+        "title": "Le primavere arabe 10 anni dopo: dalle speranze alla disillusione (24.03.2021)",
+        "snippet": "Promosso nell'ambito del decimo anniversario delle Primavere arabe. Registrazione video del dibattito dal titolo \"Le primavere arabe 10 anni dopo: dalle speranze alla disillusione\", registrato a Facebook mercoledì 24 marzo 2021 alle 17:00.\nDibattito organizzato da Fondazione Corriere della Sera e",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 0,
+            "textWords": 149
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 0,
+            "textWords": 149
           }
         },
         "queryPhraseHits": 0
@@ -81,15 +81,91 @@
         "hash": "W9B-bFtsxhzg",
         "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
         "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-        "snippet": "funzionale alla realizzazione di un obiettivo di crescita addizionale, che consenta di ridurre progressivamente e colmare il gap di crescita che ci separa dal resto dell'Europa. Per il prossimo anno si stima un effetto espansivo della manovra sulla crescita pari a 0,6 punti percentuali di PIL. È",
+        "snippet": "",
         "matchedWords": {
           "LJfIul09S28e": {
             "hits": 4,
-            "textWords": 49658
+            "textWords": 51285
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Oliy_OnsHw9g",
+        "address": "https://www.treccani.it/enciclopedia/linguaggio/",
+        "title": "Linguaggio - Enciclopedia - Treccani",
+        "snippet": "funzionale fu denominato da Broca afemia, termine sostituito successivamente da quello di afasia (afasia motoria o di Broca).\nLe successive ricerche hanno portato a una migliore configurazione e definizione delle molteplici varianti di afasia e dei disturbi affini (agnosie, asimbolie), e a una",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 2,
+            "textWords": 4836
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 14,
+            "textWords": 4836
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "8ZfIQwUl8GVi",
+        "address": "https://www.radioradicale.it/scheda/218946/lunione-europea-radici-storiche-ed-economiche",
+        "title": "L'Unione europea: radici storiche ed economiche (27.02.2007)",
+        "snippet": "Promosso nell'ambito del ciclo dal titolo: \"Generazione Europa\". Registrazione audio del dibattito dal titolo \"L'Unione europea: radici storiche ed economiche\", registrato a Milano martedì 27 febbraio 2007 alle ore 18:10.\nDibattito organizzato da Fondazione Corriere della Sera.\nSono intervenuti:",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 0,
+            "textWords": 108
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 0,
+            "textWords": 108
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "_Z_vk7FUV6Kb",
+        "address": "http://therenegadegoddess.com/",
+        "title": "",
+        "snippet": "programmazione settimanale specifica.\nOgni giorno della settimana può essere settato in modo da posticipare o anticipare l’orario di attivazione del riscaldamento a seconda delle abitudini. Un’altra caratteristica che tiene in considerazione chi è spesso fuori casa, è la possibilità di preimpostare",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 1,
+            "textWords": 9223
+          },
+          "NqMNRJUSyBn1": {
+            "hits": 1,
+            "textWords": 9223
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "W9B-bFtsxhzg",
+        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
+        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
+        "snippet": "",
+        "matchedWords": {
+          "LJfIul09S28e": {
+            "hits": 0,
+            "textWords": 0
           },
           "NqMNRJUSyBn1": {
             "hits": 3,
-            "textWords": 49658
+            "textWords": 51285
           }
         },
         "queryPhraseHits": 0
@@ -110,125 +186,6 @@
         "NqMNRJUSyBn1": {
           "hits": 1,
           "textWords": 4005
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ZImYYwUl8GVi",
-      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
-      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
-      "snippet": "Trasmissione sul Congresso del Partito Radicale con Laura Arconti. Puntata di \"Partito Radicale: la parola agli iscritti\" di sabato 16 febbraio 2019 che in questa puntata ha ospitato Laura Arconti (presidente del Tribunale delle Libertà \"Marco Pannella\"), Elena Cascioli (iscritta al Partito",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 95
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 95
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "6KgxngHGY7xx",
-      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
-      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
-      "snippet": "funzionale). Viene introdotto però, e questo è una novità assoluta, l'obbligo da parte dei parlamentari al partecipare alle sedute dell'Assemblea e ai lavori delle Commissioni. È pensabile che una eventuale non partecipazione, non motivata, potrebbe essere suffragata da norme punitive di legge in",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 15892
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 4,
-          "textWords": 15892
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "STL-FgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Unione_europea",
-      "title": "Unione europea - Wikipedia",
-      "snippet": "funzionale o assistenza agli anziani sono competenze di supporto dell'Unione europea e possono essere finanziate dal Fondo sociale europeo.\nI fondi strutturali e i fondi di coesione stanno sostenendo lo sviluppo delle regioni sottosviluppate dell'UE. Tali regioni si trovano principalmente negli",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 30085
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 30085
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "q5NJjgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Trani",
-      "title": "Trani - Wikipedia",
-      "snippet": "funzionale[89]; nei viali di destra sono raccolte sei colonne miliari dell'antica via Traiana, provenienti dal tratto Ruvo-Canosa.\nAbitanti censiti[90]\nGli stranieri residenti a Trani al 31 dicembre 2023 erano 1804, pari al 3,28% della popolazione.[91] Di seguito sono riportati i gruppi più",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 17367
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 17367
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "_cKrZgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Intelligenza_artificiale",
-      "title": "Intelligenza artificiale - Wikipedia",
-      "snippet": "programmazione Lisp, che venne utilizzato ampiamente per la realizzazione dei sistemi di intelligenza artificiale. McCarthy scrisse inoltre un documento intitolato Programs with Common Sense,[13] nel quale descrive un programma ideale, chiamato Advice Taker, che può essere visto come il primo",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 14839
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 6,
-          "textWords": 14839
-        }
-      },
-      "queryPhraseHits": 1
-    },
-    {
-      "hash": "MDRIG-VGfHag",
-      "address": "https://www.vatican.va/archive/aas/documents/AAS-61-1969-ocr.pdf",
-      "title": "AAS-61-1969-ocr.pdf",
-      "snippet": "",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "pWyxHOnsHw9g",
-      "address": "https://www.treccani.it/enciclopedia/giappone_res-7d55b1cf-87e9-11dc-8e9d-0016357eee51_(Enciclopedia-Italiana)/",
-      "title": "Giappone - Enciclopedia - Treccani",
-      "snippet": "funzionale dei vari quartieri (da ricordare, per es., la Ginza, quartiere degli affari), ma ha aspetti originalissimi che le derivano dalla dimensione enorme dei suoi interessi culturali, commerciali, industriali e finanziari.\nTra le conurbazioni (Kyōto-Osaka-Kōbe; Nagoya-Gifu; Tokyo-Yokohama;",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 15480
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 15480
         }
       },
       "queryPhraseHits": 0
@@ -302,40 +259,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "d5G1fu7o3wtx",
-      "address": "https://vec.wikipedia.org/wiki/JavaScript",
-      "title": "JavaScript - Wikipèdia Vèneta, ła ensiclopedia łìbara",
-      "snippet": "programmazione funzionale (it)\n, linguaggio di programmazione ad eventi (it)\n, piataforma informàtega, linguaggio interpretato (it)\n, linguaggio di programmazione multi-paradigma (it)\n, lenguajo de programasion, strict programming language (en)\n, linguaggio di programmazione ad alto livello (it)\n,",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 461
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 9,
-          "textWords": 461
-        }
-      },
-      "queryPhraseHits": 2
-    },
-    {
-      "hash": "oIN40vH46C9g",
-      "address": "https://www1.interno.gov.it/mininterno/export/sites/default/it/assets/files/14/0900_rapporto_criminalita.pdf",
-      "title": "Microsoft Word - Cap I.doc",
-      "snippet": "",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "6KgxngHGY7xx",
       "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
       "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
@@ -348,159 +271,6 @@
         "NqMNRJUSyBn1": {
           "hits": 4,
           "textWords": 15892
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BxrargM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Governo_Draghi",
-      "title": "Governo Draghi - Wikipedia",
-      "snippet": "programmazione e coordinamento economico\nDelega alle politiche spaziali e aerospaziali (dal 19/03 al 05/08/2021)[N 22]\nFranco Gabrielli (Indipendente)\nAutorità delegata per la sicurezza della Repubblica con delega alla cybersicurezza[N 23]\nValentina Vezzali (Indipendente/FI[N 24])\nDelega allo sport",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 15657
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 2,
-          "textWords": 15657
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "F-4n_gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Sito_web",
-      "title": "Sito web - Wikipedia",
-      "snippet": "programmazione avanzata su misura di tecnologie web, tipo: html5, css3, js, jquery. Di solito queste tecnologie vengono progettate pensando alla risoluzione di specifici problemi permettendo di ottimizzare al meglio le risorse aziendali.\nMolto importante è capire che lo sviluppo web su misura è",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 6133
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 8,
-          "textWords": 6133
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GldsEgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Python",
-      "title": "Python - Wikipedia",
-      "snippet": "programmazione\nAutore\nPython Software Foundation e Guido van Rossum\nData di origine\n20 febbraio 1991\nUltima versione\n3.14.7 (5 agosto 2026) e 3.15.0rc1 (4 agosto 2026)\nUtilizzo\ngeneral-purpose, scripting\nParadigmi\nprogrammazione funzionale, programmazione orientata agli oggetti, dynamic",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 5,
-          "textWords": 5277
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 18,
-          "textWords": 5277
-        }
-      },
-      "queryPhraseHits": 3
-    },
-    {
-      "hash": "HREakgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Teoria_dei_giochi",
-      "title": "Teoria dei giochi - Wikipedia",
-      "snippet": "funzionale dalle\nvariabili esprime dunque sia la reciproca dipendenza dalle scelte compiute dagli\ngiocatori che dell’effetto casuale\n. Considerati coralmente gli\ngiocatori percepiscono all’unisono il seguente risultato:\n≡\nL’equazione a fondamento dei giochi a somma zero è la seguente identità\n≡\nche",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 6804
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 6804
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "H4WgLgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Piattaforma_(informatica)",
-      "title": "Piattaforma (informatica) - Wikipedia",
-      "snippet": "programmazione o di altro software sottostante, purché il programma informatico venga eseguito con esso.\nGli altri componenti del sistema informatico in cui opera non sono visibili alla piattaforma stessa. Grazie a questa astrazione, una piattaforma può essere trasferita a diversi sistemi",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 2369
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 4,
-          "textWords": 2369
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Jj9Z8gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Android",
-      "title": "Android - Wikipedia",
-      "snippet": "programmazione Java.\nNell'ottobre 2012 le applicazioni disponibili presenti sul market ufficiale Android (Google Play) hanno raggiunto le 700 000 unità.[70] Questi fattori hanno permesso ad Android di diventare il sistema operativo più utilizzato in ambito mobile, oltre a rappresentare, per le",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 26934
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 3,
-          "textWords": 26934
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Jprm6gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Lugano",
-      "title": "Lugano - Wikipedia",
-      "snippet": "funzionale (italiano-tedesco o italiano-inglese), favorito dalla presenza di università, istituti di ricerca e imprese internazionali. Il Politecnico di Zurigo e l'Università della Svizzera italiana promuovono la coesistenza linguistica nelle attività di insegnamento e ricerca.\nSecondo i dati",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 11533
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 11533
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "J_Lm7gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Posta_elettronica",
-      "title": "Posta elettronica - Wikipedia",
-      "snippet": "funzionale hanno la possibilità di configurare indirizzi POP/IMAP per ricevere le informazioni prescelte o indirizzi SMTP per inviarle, in maniera automatica o tramite intervento dell'utente.\nAlla ricezione dei messaggi di posta elettronica, le applicazioni client di posta salvano i messaggi nei",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 6531
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 6531
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "LasKHgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Sistema_operativo",
-      "title": "Sistema operativo - Wikipedia",
-      "snippet": "funzionale e gestibile dall'amministratore (che può ad esempio ripristinare la funzionalità del modulo stesso); lo svantaggio è invece l'interazione più complessa e costosa fra kernel e le altre componenti del SO stesso, che spesso rallenta il sistema e/o lo rende meno stabile.\nQuesto tipo di",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 5587
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 5587
         }
       },
       "queryPhraseHits": 0
@@ -523,137 +293,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "UXal2gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/American_Beauty",
-      "title": "American Beauty - Wikipedia",
-      "snippet": "funzionale al contrasto. Quando i due si spostarono sul divano, egli cercò di far persistere l'idea della pioggia nell'inquadratura, proiettando l'immagine di essa sul soffitto al di sopra di Lester grazie all'illuminazione dalla finestra[79]. In altre circostanze ancora si aiutò con dispositivi",
+      "hash": "q5NJjgM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Trani",
+      "title": "Trani - Wikipedia",
+      "snippet": "funzionale[89]; nei viali di destra sono raccolte sei colonne miliari dell'antica via Traiana, provenienti dal tratto Ruvo-Canosa.\nAbitanti censiti[90]\nGli stranieri residenti a Trani al 31 dicembre 2023 erano 1804, pari al 3,28% della popolazione.[91] Di seguito sono riportati i gruppi più",
       "matchedWords": {
         "LJfIul09S28e": {
           "hits": 1,
-          "textWords": 12933
+          "textWords": 17367
         },
         "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 12933
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "homhZgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Distribuzione_Linux",
-      "title": "Distribuzione Linux - Wikipedia",
-      "snippet": "programmazione e utilità di sistema, principalmente parte di GNU.\nstrumenti amministrazione della distribuzione, come il sistema di gestione dei pacchetti con relativi repository;\nle shell, cioè i software di interfaccia con l'utente: oltre al terminale a riga di comando può essere incluso",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 5076
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 5076
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "lQe8hgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Ente_locale_(Italia)",
-      "title": "Ente locale (Italia) - Wikipedia",
-      "snippet": "funzionale, amministrativa, finanziaria e normativa, nonché sono titolari di eventuali poteri attribuiti secondo i principi giuridici di sussidiarietà, differenziazione ed adeguatezza. Tutti gli enti disciplinano, con proprio regolamento, in conformità allo statuto, l'ordinamento generale degli",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 1213
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 1213
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "mXzRPgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Matematica",
-      "title": "Matematica - Wikipedia",
-      "snippet": "programmazione derivato e in larga parte compatibile con S. Venne scritto inizialmente da Robert Gentleman e Ross Ihaka.\nhttp://www.r-project.org/\nGNU Octave è un linguaggio di alto livello pensato principalmente per il calcolo numerico ed elaborato inizialmente da J.W. Eaton e altri (compatible",
-      "matchedWords": {
-        "LJfIul09S28e": {
           "hits": 2,
-          "textWords": 3921
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 3921
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rO8ErgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Urbanistica",
-      "title": "Urbanistica - Wikipedia",
-      "snippet": "programmazione di strumenti urbanistici e normative costruite \"ad hoc\" al fine ultimo di migliorarne le condizioni di sviluppo futuro, progettando uno spazio urbano \"vivibile\" nel tempo e nello spazio.[2] La pratica della pianificazione urbanistica si sostanzia nel delineare le grandi opzioni di",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 3583
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 3,
-          "textWords": 3583
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "tfG0EgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Metodo_scientifico",
-      "title": "Metodo scientifico - Wikipedia",
-      "snippet": "funzionale del mondo, fondata cioè su relazioni e strutture dialettico-ideali ritenute talora più importanti delle entità in se stesse.[7][8]\nAl metodo pitagorico-platonico viene contrapposto quello aristotelico basato viceversa su un approccio sperimentale, interessato maggiormente allo studio",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 8615
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 8615
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0utszgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Comune_(ordinamento_italiano)",
-      "title": "Comune (ordinamento italiano) - Wikipedia",
-      "snippet": "funzionale e finanziaria nei limiti fissati da Costituzione e TUEL, il comune è responsabile dell'amministrazione del territorio di comptetenza per quanto riguarda:\ndefinizione e rispetto del bilancio comunale annuale;\ndefinizione e rispetto del piano regolatore generale comunale;\nordine pubblico e",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 4569
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 4569
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "7_uA0gM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Firenze",
-      "title": "Firenze - Wikipedia",
-      "snippet": "funzionale[39].\nChiesa russa ortodossa della Natività\nUbicata in un quartiere formatosi tra il XIX e il XX secolo, riassume nella sua forma esotica le esperienze architettoniche compiute in Russia durante la seconda metà dell'Ottocento, improntate a un favolistico montaggio di elementi diversi a",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 20984
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 20984
+          "textWords": 17367
         }
       },
       "queryPhraseHits": 0
@@ -693,40 +344,6 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "qh7RKOnG_Txx",
-      "address": "https://eml.wikipedia.org/wiki/Discussione:PP",
-      "title": "Discussione:PP - Wikipedia",
-      "snippet": "programmazione di Lepida TV sul 118 del Digitale Terrestre?). Perlomeno vorrei che alla conservazione e alla salvaguardia della millenaria lingua locale venisse dedicato un decimo dell'interesse che viene dato al recupero di un coccio romano trovato nel parco Novi Sad. Nell'attesa di fare un passo",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 1,
-          "textWords": 11202
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 11202
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "ffXdOsnNxxyj",
-      "address": "https://operacarlofelicegenova.it/teatro-della-gioventu/",
-      "title": "Teatro della Gioventù | Teatro Carlo Felice",
-      "snippet": "funzionale del teatro, per restituirlo alla sua destinazione originaria. Tale recupero ha seguito criteri di risanamento e restauro conservativo rispettando rigorosamente le dimensioni del palcoscenico che è stato ripristinato e attrezzato secondo le moderne tecniche sceniche.\nLa sala Govi è stata",
-      "matchedWords": {
-        "LJfIul09S28e": {
-          "hits": 2,
-          "textWords": 389
-        },
-        "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 389
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "pWyxHOnsHw9g",
       "address": "https://www.treccani.it/enciclopedia/giappone_res-7d55b1cf-87e9-11dc-8e9d-0016357eee51_(Enciclopedia-Italiana)/",
       "title": "Giappone - Enciclopedia - Treccani",
@@ -744,18 +361,18 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "SHRf1ezpMIig",
-      "address": "https://www.comune.palermo.it/",
-      "title": "Sito Istituzionale - Comune di Palermo",
-      "snippet": "programmazione regionale FESR 2021-2027\".",
+      "hash": "7a1GH--zFb6h",
+      "address": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-12-28;549~art3-com130=",
+      "title": "LEGGE 28 dicembre 1995, n. 549 - Normattiva",
+      "snippet": "programmazione economico-finanziaria. (19)\n3. Per ogni anno a partire dal 1998, l'aumento percentuale della quota spettante a ciascuna regione è calcolato con riferimento alla differenza, calcolata sui valori per abitante, tra importo dei trasferimenti soppressi rilevato nella tabella C allegata",
       "matchedWords": {
         "LJfIul09S28e": {
           "hits": 0,
-          "textWords": 339
+          "textWords": 23835
         },
         "NqMNRJUSyBn1": {
-          "hits": 1,
-          "textWords": 339
+          "hits": 3,
+          "textWords": 23835
         }
       },
       "queryPhraseHits": 0
@@ -793,10 +410,367 @@
         }
       },
       "queryPhraseHits": 0
+    },
+    {
+      "hash": "lv9LfwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/461302/processo-dappello-per-il-crac-parmalat",
+      "title": "Processo d'appello per il crac Parmalat (14.12.2015)",
+      "snippet": "Appello bis filone Ciappazzi - Capitalia. Registrazione audio integrale dell'udienza di \"Processo d'appello per il crac Parmalat\" che si è tenuta lunedì 14 dicembre 2015 a Bologna.\nGli argomenti trattati nel processo sono: Appello, Banche, Bis, Capitalia, Ciappazzi, Finanza, Geronzi, Parmalat,",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 74
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 74
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4VEprwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/17250/torino-lo-scandalo-delle-tangenti",
+      "title": "Torino: lo \"scandalo delle tangenti\" (30.01.1985)",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 12884
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 12884
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5rLJUwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/795228/xxi-edizione-del-premio-nazionale-di-cultura-benedetto-croce-terza-giornata-primo",
+      "title": "XXI edizione del Premio nazionale di cultura Benedetto Croce (Terza giornata - Primo pomeriggio) (24.07.2026)",
+      "snippet": "funzionale. Questa schermata fa riferimento ai concetti di cittadinanza attiva e ospita il regolamento d'uso delle panchine letterarie che saranno realizzate dal Comune. L'intera sezione alterna spazi ed elementi grafici lineari che invitano a muoversi con naturalezza, senza perdersi proseguendo",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 7591
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 7591
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "s0im2v7fOGSg",
+      "address": "https://www.regione.veneto.it/",
+      "title": "Home - Regione del Veneto",
+      "snippet": "Programmazione regionale e comunitaria Programmazione generale, PRA, Programmazione negoziata, FSC (Fondo di Sviluppo e coesione), PSC, SNAI, FESR, CTE/Interreg (Cooperazione territoriale europea), Interreg V-A Italia-Croazia, FSE, PSR (Piano di Sviluppo Rurale), FEAMP.\nTutela ambientale e governo",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 86
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 4,
+          "textWords": 86
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7a1GH--zFb6h",
+      "address": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-12-28;549~art3-com130=",
+      "title": "LEGGE 28 dicembre 1995, n. 549 - Normattiva",
+      "snippet": "programmazione economico-finanziaria. (19)\n3. Per ogni anno a partire dal 1998, l'aumento percentuale della quota spettante a ciascuna regione è calcolato con riferimento alla differenza, calcolata sui valori per abitante, tra importo dei trasferimenti soppressi rilevato nella tabella C allegata",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 23835
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 3,
+          "textWords": 23835
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NNO_NwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
+      "title": "Processo Alfredo Bono (1.03.1991)",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 4005
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 4005
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "aaSEMBxYdD3g",
+      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2003it.pdf",
+      "title": "Rapporto annuale 2003",
+      "snippet": "",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3az_rBxYdD3g",
+      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2007it.pdf",
+      "title": "RAPPORTO ANNUALE 2007",
+      "snippet": "",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5Zz5OBxYdD3g",
+      "address": "https://www.ecb.europa.eu/pub/pdf/annrep/ar2010it.pdf",
+      "title": "RAPPORTO ANNUALE 2010",
+      "snippet": "",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "lv9LfwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/461302/processo-dappello-per-il-crac-parmalat",
+      "title": "Processo d'appello per il crac Parmalat (14.12.2015)",
+      "snippet": "Appello bis filone Ciappazzi - Capitalia. Registrazione audio integrale dell'udienza di \"Processo d'appello per il crac Parmalat\" che si è tenuta lunedì 14 dicembre 2015 a Bologna.\nGli argomenti trattati nel processo sono: Appello, Banche, Bis, Capitalia, Ciappazzi, Finanza, Geronzi, Parmalat,",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 74
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 74
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ZImYYwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
+      "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
+      "snippet": "Trasmissione sul Congresso del Partito Radicale con Laura Arconti. Puntata di \"Partito Radicale: la parola agli iscritti\" di sabato 16 febbraio 2019 che in questa puntata ha ospitato Laura Arconti (presidente del Tribunale delle Libertà \"Marco Pannella\"), Elena Cascioli (iscritta al Partito",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 95
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 95
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "J9mios1Nvqow",
+      "address": "https://ocaml.org/books",
+      "title": "OCaml Books",
+      "snippet": "programmazione funzionale\nCarla Limongelli, Marta Cialdea\nFREE\nIntermediate\nUsing, Understanding, and Unraveling The OCaml Language: From Practice to Theory and vice versa\nDidier Rémy\nThese course notes are addressed to a wide audience of people interested in modern programming languages in",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 2054
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 2054
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "ioA26i5DCs35",
+      "address": "https://wordpress.com/it/costruttore-di-siti-ia/",
+      "title": "Costruttore di siti web con IA | Crea un sito WordPress.com in pochi minuti",
+      "snippet": "programmazione o progettazione.\nQual è la differenza tra un costruttore di siti con IA e un normale costruttore di siti web?\nMentre i creatori di pagine web tradizionali spesso richiedono un lavoro di progettazione manuale, un creatore di siti web alimentato dall’IA genera un sito completo (layout,",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 1687
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 1687
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ofsSoRCW9XLA",
+      "address": "http://www.pluto.it/ildp/doc-it",
+      "title": "Altri documenti | PLUTO Project",
+      "snippet": "programmazione sotto GNU/Linux.\nAutore:\nSalvo Fresta\nVersione:\n1\nDescrizione:\nLa Senao Long Range 2511-CD-PLUS-EXT2 è una delle schede wifi PCMCIA più utilizzate al mondo, grazie alla sua compatibilità e dalla vasta gamma di driver supportati. È principalmente utilizzata nel campo della sicurezza",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 526
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 526
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "1N3TURCW9XLA",
+      "address": "http://www.pluto.it/ildp/howto.html?page=2",
+      "title": "HOWTO | PLUTO Project",
+      "snippet": "programmazione parallela, inclusi link a altri documenti più specifici.\nTraduttore:\nFederico Lucifredi\nRevisore:\nClaudio Cattazzo\nVersione:\nv36\nStato:\nda aggiornare\nDescrizione:\nQuesto testo raccoglie informazioni sui BogoMips provenienti da varie fonti come newsgroup ed e-mail.",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 418
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 418
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-nsijhCW9XLA",
+      "address": "http://www.pluto.it/journal/rubriche",
+      "title": "Rubriche del PLUTO Journal | PLUTO Project",
+      "snippet": "programmazione in generale (come un articolo sulla creazione di Makefile) oppure su un programma creato da voi. Per quest'ultimo punto, l'importante è che l'articolo non sia esclusivamente una recensione dell'applicazione, ma che spieghi anche come è stata creata, rimanendo quindi all'interno del",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 296
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 2,
+          "textWords": 296
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "6KgxngHGY7xx",
+      "address": "https://it.wikiversity.org/wiki/La_Riforma_Costituzionale_del_Governo_Renzi",
+      "title": "La Riforma Costituzionale del Governo Renzi - Wikiversità",
+      "snippet": "funzionale). Viene introdotto però, e questo è una novità assoluta, l'obbligo da parte dei parlamentari al partecipare alle sedute dell'Assemblea e ai lavori delle Commissioni. È pensabile che una eventuale non partecipazione, non motivata, potrebbe essere suffragata da norme punitive di legge in",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 2,
+          "textWords": 15892
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 4,
+          "textWords": 15892
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "s8F_ola5eoug",
+      "address": "https://www.wikihow.it/Esperti",
+      "title": "Esperti wikiHow",
+      "snippet": "Candace Gasper\nConsulente Specializzata in Social Media e Marketing Digitale\nCandace Gasper è una consulente esperta di social media e marketing digitale, titolare di Digital Candy, un'agenzia di social media. Con oltre 7 anni di esperienza, è specializzata in social media e creazione di contenuti,",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 0,
+          "textWords": 43271
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 0,
+          "textWords": 43271
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xbdtygkABAWx",
+      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio9",
+      "title": "Wikibooks:Bar/Archivio9 - Wikibooks, manuali e libri di testo liberi",
+      "snippet": "funzionale. Bene sembrerà strano, ma secondo me con le ultime rivoluzioni che abbiamo fatto, ormai siamo dotati di una solida struttura, ora però c'è bisogno di più contributi e un salto di qualità. Ovviamente questi dovranno essere, secondo me, i nostri obiettivi al ritorno dalle ferie, e credo",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 18360
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 18360
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "-UvQngkABAWx",
+      "address": "https://it.wikibooks.org/wiki/Wikibooks:Bar/Archivio6",
+      "title": "Wikibooks:Bar/Archivio6 - Wikibooks, manuali e libri di testo liberi",
+      "snippet": "funzionale il dotarsi di uno statuto autonomo differente da quello di Lettere. Vi sono poi altri motivi tra cui quella a carattere pratico, sono infatti due differenti arti umanistiche. Se non è possibile non importa, io sono nuovo del linguaggio wiki e quindi non riesco ancora a capacitarmi per",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 4,
+          "textWords": 15538
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 2,
+          "textWords": 15538
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2j7WUOnsHw9g",
+      "address": "https://www.treccani.it/enciclopedia/francia/",
+      "title": "Francia nell'Enciclopedia Treccani",
+      "snippet": "funzionale rispetto al resto del paese. La popolazione urbana è pari a circa il 77%. Tra le aree metropolitane, oltre a Parigi, superano il milione di abitanti Marsiglia, Lione e Lilla. La rete urbana è completata da una serie di metropoli regionali di media grandezza (oltre 40 aree urbane contano",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 20419
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 2,
+          "textWords": 20419
+        }
+      },
+      "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "LJfIul09S28e": 2062,
-    "NqMNRJUSyBn1": 1760
+    "LJfIul09S28e": 2385,
+    "NqMNRJUSyBn1": 11276
   }
 }

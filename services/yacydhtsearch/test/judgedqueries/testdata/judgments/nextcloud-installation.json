@@ -2,15 +2,135 @@
   "query": "nextcloud installation",
   "judgedDocuments": [
     {
+      "hash": "S9YMJzCJVaIz",
+      "address": "https://planet.documentfoundation.org/",
+      "title": "The Document Foundation Planet",
+      "grade": 0
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "PBHGklNdxz8x",
+      "address": "https://www.freshports.org/",
+      "title": "FreshPorts -- The Place For Ports - Most recent commits",
+      "grade": 0
+    },
+    {
+      "hash": "NcBQIBSLTmwg",
+      "address": "https://blog.entek.org.uk/",
+      "title": "Laurence’s Blog | Possibly the most boring blog on the web… The random musings, technical notes, life events, etc. of a lapsed *nix sysadmin.",
+      "grade": 0
+    },
+    {
+      "hash": "1U9VNkPMN02h",
+      "address": "https://www.mardi4nfdi.de/community/newsletter",
+      "title": "Newsletter - MaRDI",
+      "grade": 0
+    },
+    {
       "hash": "9M9MAls8l0-4",
       "address": "https://www.clubic.com/bons-plans-604852-o2switch-cloud-a-1-86-mois-l-hebergement-francais-qui-remplace-aussi-votre-abonnement-cloud-payant.html",
       "title": "o2switch Cloud à 1,86€/mois : l’hébergement français qui remplace aussi votre abonnement cloud payant",
       "grade": 1
     },
     {
+      "hash": "SOAt4sWMnAPx",
+      "address": "https://fedoraplanet.org/",
+      "title": "Fedora People",
+      "grade": 0
+    },
+    {
+      "hash": "OdWaBD7AHFOw",
+      "address": "https://apps.kde.org/lt/tokodon/",
+      "title": "Tokodon - KDE programos",
+      "grade": 0
+    },
+    {
+      "hash": "myKVgl2uAu0w",
+      "address": "https://www.linux.org/",
+      "title": "Linux.org",
+      "grade": 0
+    },
+    {
+      "hash": "bPT5aq7AHFOw",
+      "address": "https://apps.kde.org/tokodon/",
+      "title": "Tokodon - KDE Applications",
+      "grade": 0
+    },
+    {
+      "hash": "vVCyygM0PWDh",
+      "address": "https://www.rrz.uni-hamburg.de/services/kollaboration/uhhcloud/nextcloud-anleitungen/nextcloud-office.html",
+      "title": "Dokumente bearbeiten : RRZ : Universität Hamburg",
+      "grade": 0
+    },
+    {
+      "hash": "PCpNBzxXGmlz",
+      "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
+      "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "-5yL9xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/User:Steffo/Nextcloud",
+      "title": "User:Steffo/Nextcloud - ArchWiki",
+      "grade": 1
+    },
+    {
+      "hash": "wZPUHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/KDE_neon",
+      "title": "KDE neon - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "X_Gb0yfAodxw",
+      "address": "https://docs.freebsd.org/en/books/porters-handbook/uses/",
+      "title": "Chapter 17. Using USES Macros | FreeBSD Documentation Portal",
+      "grade": 0
+    },
+    {
+      "hash": "ygPLQCuhQ8C4",
+      "address": "https://trisquel.info/en/taxonomy/term/700/0",
+      "title": "Release announcements | Trisquel GNU/Linux - Run free!",
+      "grade": 0
+    },
+    {
       "hash": "lE0EBsqW6DOy",
       "address": "https://keepandroidopen.org/",
       "title": "Keep Android Open",
+      "grade": 0
+    },
+    {
+      "hash": "bzwX8z_hTtNw",
+      "address": "https://planet.kde.org/",
+      "title": "English - Planet KDE",
+      "grade": 0
+    },
+    {
+      "hash": "gCVBNZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/",
+      "title": "OVHcloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "ZMCfuxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/User:Bai-Chiang/Podman_setup_for_nextcloud",
+      "title": "User:Bai-Chiang/Podman setup for nextcloud - ArchWiki",
+      "grade": 2
+    },
+    {
+      "hash": "faU-Olx2yOxg",
+      "address": "https://www.radiotux.de/",
+      "title": "RadioTux",
+      "grade": 1
+    },
+    {
+      "hash": "xIkDby3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
+      "title": "Domains - OVHcloud Documentation",
       "grade": 0
     },
     {
@@ -20,16 +140,52 @@
       "grade": 0
     },
     {
+      "hash": "4WV0-TivP6Rw",
+      "address": "https://weekly.nixos.org/2020/07-nixos-weekly-2020-07.html",
+      "title": "NixOS Weekly",
+      "grade": 0
+    },
+    {
       "hash": "DkgJosH3-qPx",
       "address": "https://cyberduck.io/",
       "title": "Cyberduck | Libre server and cloud storage browser for Mac and Windows with support for FTP, SFTP, WebDAV, Amazon S3, OpenStack Swift, Backblaze B2, Microsoft Azure \u0026 OneDrive, Google Drive and Dropbox",
       "grade": 0
     },
     {
-      "hash": "tptsBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
-      "title": "Lumen Technologies - Wikipedia",
+      "hash": "Wkx1aJr2pvE4",
+      "address": "https://www.asustor.com/service/downloads?product_id=77",
+      "title": "Downloads | ASUSTOR NAS",
+      "grade": 1
+    },
+    {
+      "hash": "dH4aGswUSuo5",
+      "address": "https://nextcloud.com/instant-trial/",
+      "title": "Request an instant trial - Nextcloud",
+      "grade": 1
+    },
+    {
+      "hash": "lnvzkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cross-platform",
+      "title": "Cross-platform software - Wikipedia",
       "grade": 0
+    },
+    {
+      "hash": "wzmiPtS6MKD4",
+      "address": "https://github.com/trending/php?since=daily",
+      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "1VLEOxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Nextcloud",
+      "title": "Nextcloud - ArchWiki",
+      "grade": 2
+    },
+    {
+      "hash": "FZ9QOswUSuo5",
+      "address": "https://nextcloud.com/trademarks/",
+      "title": "Nextcloud trademark guidelines",
+      "grade": 1
     }
   ]
 }

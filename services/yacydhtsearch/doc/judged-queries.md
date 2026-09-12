@@ -1,7 +1,7 @@
 # Judged queries
 
 The judged query set measures how well the ordering of the service puts the
-documents that answer a query first. It holds 42 queries in six groups: one
+documents that answer a query first. It holds 72 queries in six groups: one
 word, two words, three or more words, navigational, other languages, and
 queries that no peer can answer.
 

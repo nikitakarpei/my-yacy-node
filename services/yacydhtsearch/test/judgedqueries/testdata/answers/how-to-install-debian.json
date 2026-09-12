@@ -1,12 +1,2284 @@
 {
   "query": "how to install debian",
-  "recordedAt": "2026-09-11T22:14:22Z",
-  "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [],
+  "recordedAt": "2026-09-12T00:16:50Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "It5EdL1nrxbw",
+        "address": "https://www.debian.org/intro/about",
+        "title": "Debian -- About Debian",
+        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 12,
+            "textWords": 1618
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 45,
+            "textWords": 1618
+          },
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 1618
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 50,
+            "textWords": 1618
+          }
+        },
+        "queryPhraseHits": 4
+      }
+    ],
+    [
+      {
+        "hash": "NweMal1nrxbw",
+        "address": "https://www.debian.org/social_contract",
+        "title": "Debian Social Contract",
+        "snippet": "Debian, the producers of the Debian system, have created the Debian Social Contract. The Debian Free Software Guidelines (DFSG) part of the contract, initially designed as a set of commitments that we agree to abide by, has been adopted by the free software community as the basis of the Open Source",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 1027
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 25,
+            "textWords": 1027
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 1027
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 32,
+            "textWords": 1027
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "my3jOE9Ojva4",
+        "address": "https://docs.docker.com/engine/install/ubuntu/",
+        "title": "Install Docker Engine on Ubuntu | Docker Docs",
+        "snippet": "Install using the apt repository\nUpgrade Docker Engine\nInstall from a package\nUpgrade Docker Engine\nInstall using the convenience script\nInstall pre-releases\nUpgrade Docker after using the convenience script\nUninstall Docker Engine\nNext steps\nTo get started with Docker Engine on Ubuntu, make sure",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 1900
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 72,
+            "textWords": 1900
+          },
+          "Ga2JvD48nX72": {
+            "hits": 42,
+            "textWords": 1900
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1900
+          }
+        },
+        "queryPhraseHits": 11
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 18,
+            "textWords": 8109
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 162,
+            "textWords": 8109
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 26,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "CjgsxsIyoLTx",
+        "address": "https://planetpython.org/",
+        "title": "Planet Python",
+        "snippet": "to my work.\nThe thing is, I don’t have time to read them during the week. And on Saturday, when I do have time, I don’t use my computer. So I have a funny way of reading them:\nWhen a newsletter arrives, a filter automatically moves it into my “toprint” folder.\nMy very favorite newsletters are not",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 64,
+            "textWords": 30728
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 520,
+            "textWords": 30728
+          },
+          "Ga2JvD48nX72": {
+            "hits": 3,
+            "textWords": 30728
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 30728
+          }
+        },
+        "queryPhraseHits": 9
+      }
+    ],
+    [
+      {
+        "hash": "It5EdL1nrxbw",
+        "address": "https://www.debian.org/intro/about",
+        "title": "Debian -- About Debian",
+        "snippet": "Debian anyway?\nIt's all free?\nYou say free, but the CDs/bandwidth cost money!\nMost software costs over a hundred dollars. How can you give it away?\nWhat hardware is supported?\nBefore I decide, I need more information.\nI'm still not convinced. What are some pros and cons of Debian?\nHow do I get",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 12,
+            "textWords": 1618
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 45,
+            "textWords": 1618
+          },
+          "Ga2JvD48nX72": {
+            "hits": 4,
+            "textWords": 1618
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 50,
+            "textWords": 1618
+          }
+        },
+        "queryPhraseHits": 4
+      }
+    ],
+    [
+      {
+        "hash": "my3jOE9Ojva4",
+        "address": "https://docs.docker.com/engine/install/ubuntu/",
+        "title": "Install Docker Engine on Ubuntu | Docker Docs",
+        "snippet": "Install using the apt repository\nUpgrade Docker Engine\nInstall from a package\nUpgrade Docker Engine\nInstall using the convenience script\nInstall pre-releases\nUpgrade Docker after using the convenience script\nUninstall Docker Engine\nNext steps\nTo get started with Docker Engine on Ubuntu, make sure",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 1900
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 72,
+            "textWords": 1900
+          },
+          "Ga2JvD48nX72": {
+            "hits": 42,
+            "textWords": 1900
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 1,
+            "textWords": 1900
+          }
+        },
+        "queryPhraseHits": 11
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 18,
+            "textWords": 8109
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 162,
+            "textWords": 8109
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 26,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 18,
+            "textWords": 8109
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 162,
+            "textWords": 8109
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 26,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "Debian Code Search! This was made possible by Go’s recently introduced SIMD support, because now we can implement the TurboPFor integer compression format as efficiently — more efficiently, in fact, by using the newer AVX512 instruction set! — as the reference implementation.\nBackground: Why does",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 18,
+            "textWords": 8109
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 162,
+            "textWords": 8109
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 26,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "xY0EdL1nrxbw",
+        "address": "https://www.debian.org/intro/help",
+        "title": "Debian -- Contribute: How you can help Debian",
+        "snippet": "How you can help Debian\nCoding and Maintaining Packages\nTesting and Bug Squashing\nWriting Documentation\nTranslating and Localizing\nHelping other Users\nOrganizing Events\nDonate Money, Hardware, or Bandwidth\nUse Debian\nHow your Organization can support Debian\nDebian is not just an operating system,",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 7,
+            "textWords": 1205
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 52,
+            "textWords": 1205
+          },
+          "Ga2JvD48nX72": {
+            "hits": 2,
+            "textWords": 1205
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 53,
+            "textWords": 1205
+          }
+        },
+        "queryPhraseHits": 6
+      },
+      {
+        "hash": "yBMaQL1nrxbw",
+        "address": "https://www.debian.org/intro/free",
+        "title": "Debian -- What does free mean?",
+        "snippet": "How to choose a License?\nFree as in...?\nMany people new to this subject are confused because of the word \"free\". It isn't used the way they expect – \"free\" means \"free of cost\" to them. If you look at an English dictionary, it lists almost twenty different meanings for \"free\", and only one of them",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 3,
+            "textWords": 776
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 31,
+            "textWords": 776
+          },
+          "Ga2JvD48nX72": {
+            "hits": 1,
+            "textWords": 776
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 3,
+            "textWords": 776
+          }
+        },
+        "queryPhraseHits": 2
+      },
+      {
+        "hash": "uaEnGzTwnifx",
+        "address": "https://planet.wordpress.org/",
+        "title": "Planet — WordPress.org",
+        "snippet": "to the Jukebox Podcast from WP Tavern. My name is Nathan Wrigley.\nJukebox is a podcast which is dedicated to all things WordPress. The people, the events, the plugins, the blocks, the themes, and in this case, building trust with project contracts for reliable AI development.\nIf you’d like to",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 47,
+            "textWords": 9047
+          },
+          "AbbiA0S2iDXF": {
+            "hits": 306,
+            "textWords": 9047
+          },
+          "Ga2JvD48nX72": {
+            "hits": 0,
+            "textWords": 9047
+          },
+          "bpVSyb2OYcjy": {
+            "hits": 0,
+            "textWords": 9047
+          }
+        },
+        "queryPhraseHits": 8
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "t2b3Ag1nrxbw",
+      "address": "https://www.debian.org/distrib/packages",
+      "title": "Debian -- Packages",
+      "snippet": "Debian distribution are free according to the Debian Free Software Guidelines. This assures free use and redistribution of the packages and their complete source code. The official Debian distribution is what is contained in the main section of the Debian archive.\nAs a service to our users, we also",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 485
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 9,
+          "textWords": 485
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 485
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 10,
+          "textWords": 485
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wGCbVt1nrxbw",
+      "address": "https://www.debian.org/CD/verify",
+      "title": "Verifying authenticity of Debian images",
+      "snippet": "Debian installation and live images come with signed checksum files; look for them alongside the images in the iso-cd, jigdo-dvd, iso-hybrid etc. directories. These files allow you to check that the images you download are correct. First of all, the checksum can be used to check that the images",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 336
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 15,
+          "textWords": 336
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 336
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 16,
+          "textWords": 336
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xOYgTl1nrxbw",
+      "address": "https://www.debian.org/events/",
+      "title": "Events related to Debian",
+      "snippet": "Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence. They can be reached via events@debian.org but ideally you should contact",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 1,
+          "textWords": 97
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 9,
+          "textWords": 97
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "941WA31nrxbw",
+      "address": "https://www.debian.org/News/weekly/",
+      "title": "Debian Project News - Index",
+      "snippet": "to Debian Project News, a newsletter for the Debian community. The current issue of DPN is also available as RSS feed.\nRecent issues of Debian Project News:\n05 Aug 2023 Welcome to the inaugural issue of Debian Project Bits!, Debian Day, DebConf23, News on Debian releases, Popular packages, Calls",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 68
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 4,
+          "textWords": 68
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 68
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 8,
+          "textWords": 68
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "snippet": "To get the latest product updates delivered to you, add the URL of this page to your feed reader, or add the feed URL directly.\nSeptember 11, 2026\nAPI Gateway Feature\nEnable Model Context Protocol (MCP)\nYou can now configure API Gateway to act as a remote Model Context Protocol (MCP) server. This",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 19,
+          "textWords": 93126
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2429,
+          "textWords": 93126
+        },
+        "Ga2JvD48nX72": {
+          "hits": 13,
+          "textWords": 93126
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 16,
+          "textWords": 93126
+        }
+      },
+      "queryPhraseHits": 11
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "to date, which is… something. I’m super grateful for the opportunities Collabora has given me, and I’m leaving a great team filled with lots of talented and passionate people. It’s been an honor.\nSimilarly, at the start of August I started working at Arm. The same company I left over 17 years ago.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 153,
+          "textWords": 71870
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2105,
+          "textWords": 71870
+        },
+        "Ga2JvD48nX72": {
+          "hits": 13,
+          "textWords": 71870
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 45,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "to hit release on September 1st! You can follow along at https://whattrainisitnow.com/\nAs part of the Nova redesign, a “Use Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 148,
+          "textWords": 66162
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 1667,
+          "textWords": 66162
+        },
+        "Ga2JvD48nX72": {
+          "hits": 14,
+          "textWords": 66162
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 3,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 26
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "to using their proprietary competition according to various measures. This paper’s goal is to show that you should consider using OSS/FS when acquiring software. This paper examines popularity, reliability, performance, scalability, security, and total cost of ownership. It also has sections on",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 87,
+          "textWords": 92275
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2325,
+          "textWords": 92275
+        },
+        "Ga2JvD48nX72": {
+          "hits": 11,
+          "textWords": 92275
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 23,
+          "textWords": 92275
+        }
+      },
+      "queryPhraseHits": 27
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "to participate in conference sessions, discuss collaboration around “Freedom, Equity, Reliability”, and celebrate the joy of contributing.\nTwo-thirds (66%) of those who attended Wikimania Paris in person came from outside the host region of Northern and Western Europe. According to this",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 47,
+          "textWords": 16720
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 446,
+          "textWords": 16720
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 12
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "snippet": "To download MediaWiki 1.46.0 in a terminal on a Linux machine using wget, do:\nwget https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nAlternatively, using cURL:\ncurl -O https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nSignature downloads\nGPG security",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 475
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 16,
+          "textWords": 475
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 475
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 475
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 73,
+          "textWords": 2681
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 8,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "cw0xkbg2aLVh",
+      "address": "https://community.searchlab.eu/",
+      "title": "Searchlab Community - Search Engine Technology Laboratory",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "MocmU2sEYJ15",
+      "address": "https://tailscale.com/docs/reference/tailscale-cli",
+      "title": "Tailscale CLI · Tailscale Docs",
+      "snippet": "to manage and troubleshoot your device within your Tailscale network (known as a tailnet).\nThe Tailscale CLI is available for all plans.\nUsing the Tailscale CLI\nThe location of the CLI varies depending on your platform:\nOn Linux, the CLI is your primary interface to Tailscale. The tailscale binary",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 6012
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 234,
+          "textWords": 6012
+        },
+        "Ga2JvD48nX72": {
+          "hits": 5,
+          "textWords": 6012
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 6012
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "ufEmuitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/2.0.html",
+      "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
+      "snippet": "to list them all would be impossible, but they’re certainly significant. Consult the publicly available CVS logs if you want to see the full list. This progress is due to the five developers working for PythonLabs are now getting paid to spend their days fixing bugs, and also due to the improved",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 8187
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 216,
+          "textWords": 8187
+        },
+        "Ga2JvD48nX72": {
+          "hits": 3,
+          "textWords": 8187
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 8187
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Q357ixtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
+      "title": "ArchWiki talk:Requests - ArchWiki",
+      "snippet": "how to detect a bad mirror. A mirror becoming faulty is not extremely uncommon so this topic should definitely be covered, including who to tell about the bad mirror so it can e.g be removed from the mirrorlist.\nThis topic is impacting enough people that it is worth putting it into here.\n--",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 25,
+          "textWords": 5201
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 149,
+          "textWords": 5201
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 5201
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 2,
+          "textWords": 5201
+        }
+      },
+      "queryPhraseHits": 12
+    },
+    {
+      "hash": "-8IONxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Arch_compared_to_other_distributions",
+      "title": "Arch compared to other distributions - ArchWiki",
+      "snippet": "to draw a comparison between Arch Linux and other notable GNU/Linux distributions and UNIX-like operating systems. The summaries that follow are brief descriptions that may help a person decide if Arch Linux will suit their needs. Although reviews and descriptions can be useful, first-hand",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2706
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 60,
+          "textWords": 2706
+        },
+        "Ga2JvD48nX72": {
+          "hits": 3,
+          "textWords": 2706
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 16,
+          "textWords": 2706
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "aEjYq2u0AVBw",
+      "address": "https://build.slashdot.org/",
+      "title": "Build News | Slashdot",
+      "snippet": "to 128GB of built-in memory. The Dev Box looks a little like a cartoon anvil or piano fell onto an Xbox Series X and flattened it. Its aluminum casing was designed \"to double as a heatsink,\" and its preloaded version of Windows 11 Pro will include a \"purposeful\" set of developer-centric default",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 5,
+          "textWords": 5532
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 161,
+          "textWords": 5532
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 5532
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 3,
+          "textWords": 5532
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "OYZdJl1nrxbw",
+      "address": "https://www.debian.org/support",
+      "title": "Debian -- User Support",
+      "snippet": "Debian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nIRC (real time Support)\nIRC (Internet Relay Chat) is a great way to chat with people from all over the world in real time. It's a text-based chat system for instant messaging. On IRC you can enter chat rooms",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 634
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 26,
+          "textWords": 634
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 634
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 24,
+          "textWords": 634
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Q6EQky1nrxbw",
+      "address": "https://www.debian.org/releases/trixie/installmanual",
+      "title": "Debian trixie -- Installation Guide",
+      "snippet": "to get the right HTML version automatically — see content negotiation. Otherwise, pick the exact architecture, language, and format you want from the table below.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 93
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 1,
+          "textWords": 93
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 93
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 93
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "R5pe_l1nrxbw",
+      "address": "https://www.debian.org/News/",
+      "title": "Debian -- Latest News",
+      "snippet": "Debian 11 Long Term Support reaches end-of-life\n[07 Aug 2026]\nDebConf26 closes in Santa Fe and DebConf27 announced\n[12 Jul 2026]\nSecurity support for Bookworm handed over to the LTS team\n[11 Jul 2026]\nUpdated Debian 13: 13.6 released\n[11 Jul 2026]\nUpdated Debian 12: 12.15 released\n[16 May 2026]",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 307
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 307
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 307
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 29,
+          "textWords": 307
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SL3yxl1nrxbw",
+      "address": "https://www.debian.org/blends/",
+      "title": "Debian Pure Blends",
+      "snippet": "Debian Pure Blends are a solution for groups of people with specific needs. Not only do they provide handy collections (meta-packages) of specific packages, but they also ease installation and configuration for the intended purpose. They cover the interests of different groups of people, who might",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 504
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 17,
+          "textWords": 504
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 504
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 34,
+          "textWords": 504
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gmhRVl1nrxbw",
+      "address": "https://www.debian.org/devel/",
+      "title": "Debian -- Debian Developers' Corner",
+      "snippet": "how to join the project, and links to the developers' database, the constitution, the voting process, releases, and architectures.\nDebian Organization\nOver one thousand volunteers are part of the Debian project. This page explains Debian's organizational structure, lists teams and their members as",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 5,
+          "textWords": 698
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 26,
+          "textWords": 698
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 698
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 38,
+          "textWords": 698
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "4SIJYl1nrxbw",
+      "address": "https://www.debian.org/distrib/",
+      "title": "Download Debian",
+      "snippet": "Debian 13.6.0, the stable release.\nDownload mirrors of installation images\nInstallation Manual with detailed installation instructions\nRelease notes\nISO images for Debian testing\nVerifying authenticity of Debian images\nDownload an installation image\nA small installation image: can be downloaded",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 305
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 5,
+          "textWords": 305
+        },
+        "Ga2JvD48nX72": {
+          "hits": 4,
+          "textWords": 305
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 10,
+          "textWords": 305
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "snippet": "To get the latest product updates delivered to you, add the URL of this page to your feed reader, or add the feed URL directly.\nSeptember 11, 2026\nAPI Gateway Feature\nEnable Model Context Protocol (MCP)\nYou can now configure API Gateway to act as a remote Model Context Protocol (MCP) server. This",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 19,
+          "textWords": 93126
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2429,
+          "textWords": 93126
+        },
+        "Ga2JvD48nX72": {
+          "hits": 13,
+          "textWords": 93126
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 16,
+          "textWords": 93126
+        }
+      },
+      "queryPhraseHits": 11
+    },
+    {
+      "hash": "QETWOeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
+      "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
+      "snippet": "to Kafka. This tutorial teaches the basics of building streaming applications and event-driven microservices on Confluent Platform through a sequence of exercises that use Kafka Streams and ksqlDB:\nExercise 1: Persist events\nExercise 2: Event-driven applications\nExercise 3: Enriching streams with",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 4,
+          "textWords": 3965
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 131,
+          "textWords": 3965
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 3965
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 3965
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "QLafoeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/write-streams.html",
+      "title": "Write a Kafka Streams Application for Confluent Platform | Confluent Documentation",
+      "snippet": "to Kafka Streams, and should cover many use cases and stream processing needs.\nProcessor API\nA low-level API that lets you add and connect processors as well as interact directly with state stores. The Processor API provides you with even more flexibility than the DSL but at the expense of",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 971
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 25,
+          "textWords": 971
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 971
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 971
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "SChoGeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
+      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
+      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nJava 1.8 or higher to run the demo application.\nKafka Cluster\nThe easiest way to follow this tutorial",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 968
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 49,
+          "textWords": 968
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 968
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 968
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 4,
+          "textWords": 4569
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 113,
+          "textWords": 4569
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 4569
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 4569
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "O2B7wWSMo4M4",
+      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
+      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
+      "snippet": "to tag, label, and search documents\nBecause I’m a writer, I keep a lot of documents. By a lot, I mean hundreds. I need a way to organize my documents and avoid chaos.\nI could organize the documents manually, but that would take a very long time. On top of that, searching by hand is a hit-or-miss",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 7,
+          "textWords": 1078
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 33,
+          "textWords": 1078
+        },
+        "Ga2JvD48nX72": {
+          "hits": 9,
+          "textWords": 1078
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 1078
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "to participate in conference sessions, discuss collaboration around “Freedom, Equity, Reliability”, and celebrate the joy of contributing.\nTwo-thirds (66%) of those who attended Wikimania Paris in person came from outside the host region of Northern and Western Europe. According to this",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 47,
+          "textWords": 16720
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 446,
+          "textWords": 16720
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 12
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "snippet": "To download MediaWiki 1.46.0 in a terminal on a Linux machine using wget, do:\nwget https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nAlternatively, using cURL:\ncurl -O https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nSignature downloads\nGPG security",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 475
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 16,
+          "textWords": 475
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 475
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 475
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "wGCbVt1nrxbw",
+      "address": "https://www.debian.org/CD/verify",
+      "title": "Verifying authenticity of Debian images",
+      "snippet": "Debian installation and live images come with signed checksum files; look for them alongside the images in the iso-cd, jigdo-dvd, iso-hybrid etc. directories. These files allow you to check that the images you download are correct. First of all, the checksum can be used to check that the images",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 336
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 15,
+          "textWords": 336
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 336
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 16,
+          "textWords": 336
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xOYgTl1nrxbw",
+      "address": "https://www.debian.org/events/",
+      "title": "Events related to Debian",
+      "snippet": "Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence. They can be reached via events@debian.org but ideally you should contact",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 1,
+          "textWords": 97
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 9,
+          "textWords": 97
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wJjmaeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
+      "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
+      "snippet": "to Confluent Platform and other Apache Kafka® clusters from inside IntelliJ IDEA and other JetBrains IDEs to browse clusters, create topics, and produce and consume messages without leaving your editor.\nThe Confluent Plugin for JetBrains IDEs enables you to work with Kafka directly from an",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 622
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 22,
+          "textWords": 622
+        },
+        "Ga2JvD48nX72": {
+          "hits": 3,
+          "textWords": 622
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 622
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "wTGvueFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
+      "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
+      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nRust client for Apache Kafka installed on your machine\nKafka Cluster\nThe easiest way to follow this",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 798
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 42,
+          "textWords": 798
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 798
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 798
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "xwlXNeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
+      "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
+      "snippet": "to optimize client performance based on your workload.\nRecommendations\nConsider the following client configuration recommendations:\nAlways use current, supported clients. Current clients contain bug fixes and default settings tuned to allow clients to gracefully handle warnings without disrupting",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 1756
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 49,
+          "textWords": 1756
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 1756
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 1756
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "yUw0FeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
+      "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
+      "snippet": "to use the MQTT 3.1.1 protocol to publish data directly to Apache Kafka®. These clients can publish MQTT messages in all three Quality-of-Service (QoS) levels defined by the MQTT protocol. The clients do this over encrypted and unencrypted connections. MQTT Proxy supports encryption and HTTP Basic",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 635
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 18,
+          "textWords": 635
+        },
+        "Ga2JvD48nX72": {
+          "hits": 7,
+          "textWords": 635
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 635
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "wAnYgnLU2GSx",
+      "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
+      "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
+      "snippet": "to be built manually.\nSo, I thought it would be fun to get this working, hence this project.\n10inch Server rack\nHere a list of the hardware i used for my Kubernetes cluster.\nGL.iNet GL-MT3000 Beryl AX Wifi 6 Travel Router\nRaspberry pi 3B+\nRaspberry pi 5\nStarFive VisionFive2 Lite\nIntel NUC (4th Gen",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 1690
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 14,
+          "textWords": 1690
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 1690
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 7,
+          "textWords": 1690
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "t2b3Ag1nrxbw",
+      "address": "https://www.debian.org/distrib/packages",
+      "title": "Debian -- Packages",
+      "snippet": "Debian distribution are free according to the Debian Free Software Guidelines. This assures free use and redistribution of the packages and their complete source code. The official Debian distribution is what is contained in the main section of the Debian archive.\nAs a service to our users, we also",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 485
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 9,
+          "textWords": 485
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 485
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 10,
+          "textWords": 485
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sPfvHeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples.html",
+      "title": "Kafka Client Examples for Confluent Platform | Confluent Documentation",
+      "snippet": "Terms \u0026 Conditions | Privacy Policy | Do Not Sell My Information | Modern Slavery Policy | Cookie Settings | Feedback\nCopyright © Confluent, Inc. 2014- Apache®, Apache Kafka®, Kafka®, Apache Flink®, Flink®, Apache Iceberg®, Iceberg® and associated open source project names are trademarks of the",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 42
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 42
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 42
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 42
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "tO5gNeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/groovy.html",
+      "title": "Create a Kafka Client App for Groovy for Use With Confluent Platform | Confluent Documentation",
+      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nJava 1.8 or higher to run the demo application.\nKafka Cluster\nThe easiest way to follow this tutorial",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 972
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 49,
+          "textWords": 972
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 972
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 972
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "tdfcWeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/interactive-queries.html",
+      "title": "Kafka Streams Interactive Queries for Confluent Platform | Confluent Documentation",
+      "snippet": "to use the state of your application from outside your application. The Kafka Streams API enables your applications to be queryable.\nThe full state of your application is typically split across many distributed instances of your application, and across many state stores that are managed locally by",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 12,
+          "textWords": 4400
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 111,
+          "textWords": 4400
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 4400
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 4400
+        }
+      },
+      "queryPhraseHits": 10
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "snippet": "to participate in conference sessions, discuss collaboration around “Freedom, Equity, Reliability”, and celebrate the joy of contributing.\nTwo-thirds (66%) of those who attended Wikimania Paris in person came from outside the host region of Northern and Western Europe. According to this",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 47,
+          "textWords": 16720
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 446,
+          "textWords": 16720
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 16720
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 16720
+        }
+      },
+      "queryPhraseHits": 12
+    },
+    {
+      "hash": "ufEmuitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/2.0.html",
+      "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
+      "snippet": "to list them all would be impossible, but they’re certainly significant. Consult the publicly available CVS logs if you want to see the full list. This progress is due to the five developers working for PythonLabs are now getting paid to spend their days fixing bugs, and also due to the improved",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 8187
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 216,
+          "textWords": 8187
+        },
+        "Ga2JvD48nX72": {
+          "hits": 3,
+          "textWords": 8187
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 8187
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "to date, which is… something. I’m super grateful for the opportunities Collabora has given me, and I’m leaving a great team filled with lots of talented and passionate people. It’s been an honor.\nSimilarly, at the start of August I started working at Arm. The same company I left over 17 years ago.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 153,
+          "textWords": 71870
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2105,
+          "textWords": 71870
+        },
+        "Ga2JvD48nX72": {
+          "hits": 13,
+          "textWords": 71870
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 45,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "_8ITH_nMM_j5",
+      "address": "https://grokipedia.com/page/Raspberry_Pi",
+      "title": "Raspberry Pi — Grokipedia",
+      "snippet": "to advance computer science education and enable accessible computing for hobbyists, educators, and industrial applications.[1][2] Founded in 2008 by Eben Upton and a small team at the University of Cambridge to address declining interest in computer programming among young people in the UK, the",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 14229
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 275,
+          "textWords": 14229
+        },
+        "Ga2JvD48nX72": {
+          "hits": 3,
+          "textWords": 14229
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 5,
+          "textWords": 14229
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gmhRVl1nrxbw",
+      "address": "https://www.debian.org/devel/",
+      "title": "Debian -- Debian Developers' Corner",
+      "snippet": "how to join the project, and links to the developers' database, the constitution, the voting process, releases, and architectures.\nDebian Organization\nOver one thousand volunteers are part of the Debian project. This page explains Debian's organizational structure, lists teams and their members as",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 5,
+          "textWords": 698
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 26,
+          "textWords": 698
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 698
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 38,
+          "textWords": 698
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "i98NBeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/producer.html",
+      "title": "Kafka Producer for Confluent Platform | Confluent Documentation",
+      "snippet": "to a Kafka cluster. This section gives an overview of the Kafka producer and an introduction to the configuration settings for tuning.\nThe Kafka producer is conceptually much simpler than the consumer since it does not need group coordination. A producer partitioner maps each message to a topic",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 5,
+          "textWords": 1195
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 50,
+          "textWords": 1195
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 1195
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 1195
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "jaHe6eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/installation/upgrade.html",
+      "title": "Upgrade Confluent Platform | Confluent Documentation",
+      "snippet": "to upgrade earlier versions of Confluent Platform to the latest Confluent Platform version.\nThe recommended upgrade order is to upgrade brokers, controllers, and Confluent Control Center before client applications. For prerequisites and detailed steps, see Preparation.\nThese steps apply only to",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 5035
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 149,
+          "textWords": 5035
+        },
+        "Ga2JvD48nX72": {
+          "hits": 36,
+          "textWords": 5035
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 12,
+          "textWords": 5035
+        }
+      },
+      "queryPhraseHits": 11
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "snippet": "to create the Blink engine;[18] every version of Chrome uses Blink as of 2017, except for the version on IOS.[19]\nAs of March 2026, StatCounter estimates that Chrome has a 75.23% worldwide browser market share on personal computers.[20] It is the most used browser on tablets having an estimated 48%",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 14,
+          "textWords": 19993
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 327,
+          "textWords": 19993
+        },
+        "Ga2JvD48nX72": {
+          "hits": 7,
+          "textWords": 19993
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 4,
+          "textWords": 19993
+        }
+      },
+      "queryPhraseHits": 7
+    },
+    {
+      "hash": "Df17UPS6MKD4",
+      "address": "https://github.com/koalaman/shellcheck",
+      "title": "GitHub - koalaman/shellcheck: ShellCheck, a static analysis tool for shell scripts · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8S_GoobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:Cite",
+      "title": "Extension:Cite - MediaWiki",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "gfCz2_nMM_j5",
+      "address": "https://grokipedia.com/page/Linux",
+      "title": "Linux — Grokipedia",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OYZdJl1nrxbw",
+      "address": "https://www.debian.org/support",
+      "title": "Debian -- User Support",
+      "snippet": "Debian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nIRC (real time Support)\nIRC (Internet Relay Chat) is a great way to chat with people from all over the world in real time. It's a text-based chat system for instant messaging. On IRC you can enter chat rooms",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 634
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 26,
+          "textWords": 634
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 634
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 24,
+          "textWords": 634
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "PTN14S79y8n4",
+      "address": "https://mm-dev.rocks/series/decapitating-macbook-an-odyssey/",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "O2B7wWSMo4M4",
+      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
+      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
+      "snippet": "to tag, label, and search documents\nBecause I’m a writer, I keep a lot of documents. By a lot, I mean hundreds. I need a way to organize my documents and avoid chaos.\nI could organize the documents manually, but that would take a very long time. On top of that, searching by hand is a hit-or-miss",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 7,
+          "textWords": 1078
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 33,
+          "textWords": 1078
+        },
+        "Ga2JvD48nX72": {
+          "hits": 9,
+          "textWords": 1078
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 1078
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "MocmU2sEYJ15",
+      "address": "https://tailscale.com/docs/reference/tailscale-cli",
+      "title": "Tailscale CLI · Tailscale Docs",
+      "snippet": "to manage and troubleshoot your device within your Tailscale network (known as a tailnet).\nThe Tailscale CLI is available for all plans.\nUsing the Tailscale CLI\nThe location of the CLI varies depending on your platform:\nOn Linux, the CLI is your primary interface to Tailscale. The tailscale binary",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 6012
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 234,
+          "textWords": 6012
+        },
+        "Ga2JvD48nX72": {
+          "hits": 5,
+          "textWords": 6012
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 6012
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "snippet": "To download MediaWiki 1.46.0 in a terminal on a Linux machine using wget, do:\nwget https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nAlternatively, using cURL:\ncurl -O https://releases.wikimedia.org/mediawiki/1.46/mediawiki-1.46.0.tar.gz\nSignature downloads\nGPG security",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 475
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 16,
+          "textWords": 475
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 475
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 475
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "FevfV2gYLBO5",
+      "address": "https://caddyserver.com/docs/install",
+      "title": "Install — Caddy Documentation",
+      "snippet": "Debian, Ubuntu, Raspbian packages\nFedora, RedHat, CentOS packages\nArch Linux, Manjaro, Parabola packages\nDocker image\nRailway template\nCommunity-maintained:\nGentoo\nHomebrew (Mac)\nChocolatey (Windows)\nScoop (Windows)\nWebi\nAnsible\nTermux\nNix/Nixpkgs/NixOS\nUnikraft\nOPNsense\nMise\nStatic binaries\nIf",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 894
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 12,
+          "textWords": 894
+        },
+        "Ga2JvD48nX72": {
+          "hits": 17,
+          "textWords": 894
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 8,
+          "textWords": 894
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "HYOfTitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.7.html",
+      "title": "What’s New In Python 3.7 — Python 3.14.7 documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "snippet": "to date, which is… something. I’m super grateful for the opportunities Collabora has given me, and I’m leaving a great team filled with lots of talented and passionate people. It’s been an honor.\nSimilarly, at the start of August I started working at Arm. The same company I left over 17 years ago.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 153,
+          "textWords": 71870
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 2105,
+          "textWords": 71870
+        },
+        "Ga2JvD48nX72": {
+          "hits": 13,
+          "textWords": 71870
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 45,
+          "textWords": 71870
+        }
+      },
+      "queryPhraseHits": 18
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 73,
+          "textWords": 2681
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 8,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "0L8HEsgJoQyx",
+      "address": "https://grapheneos.org/build",
+      "title": "Build | GrapheneOS",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wGCbVt1nrxbw",
+      "address": "https://www.debian.org/CD/verify",
+      "title": "Verifying authenticity of Debian images",
+      "snippet": "Debian installation and live images come with signed checksum files; look for them alongside the images in the iso-cd, jigdo-dvd, iso-hybrid etc. directories. These files allow you to check that the images you download are correct. First of all, the checksum can be used to check that the images",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 336
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 15,
+          "textWords": 336
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 336
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 16,
+          "textWords": 336
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "xOYgTl1nrxbw",
+      "address": "https://www.debian.org/events/",
+      "title": "Events related to Debian",
+      "snippet": "Debian is the annual Debian Conference called DebConf. There are also several MiniDebConfs which are local meetings organized by Debian project member.\nThe events Team gives out help and advice in organizing debian presence. They can be reached via events@debian.org but ideally you should contact",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 1,
+          "textWords": 97
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 97
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 9,
+          "textWords": 97
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "wJjmaeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
+      "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
+      "snippet": "to Confluent Platform and other Apache Kafka® clusters from inside IntelliJ IDEA and other JetBrains IDEs to browse clusters, create topics, and produce and consume messages without leaving your editor.\nThe Confluent Plugin for JetBrains IDEs enables you to work with Kafka directly from an",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 622
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 22,
+          "textWords": 622
+        },
+        "Ga2JvD48nX72": {
+          "hits": 3,
+          "textWords": 622
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 622
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "wTGvueFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
+      "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
+      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nRust client for Apache Kafka installed on your machine\nKafka Cluster\nThe easiest way to follow this",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 798
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 42,
+          "textWords": 798
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 798
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 798
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "xInASeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/installation/installing_cp/rhel-centos.html",
+      "title": "Install Confluent Platform using Systemd on RHEL, CentOS, and Fedora-based Linux | Confluent Documentation",
+      "snippet": "Install a production-ready Confluent Platform configuration in a multi-node RHEL, CentOS, Rocky, or Amazon Linux 2023 environment.\nPrerequisites\nYou must complete these steps for each node in your cluster.\nBefore installing Confluent Platform, your environment must meet the prerequisites as",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 1520
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 29,
+          "textWords": 1520
+        },
+        "Ga2JvD48nX72": {
+          "hits": 15,
+          "textWords": 1520
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 2,
+          "textWords": 1520
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "xwlXNeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
+      "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
+      "snippet": "to optimize client performance based on your workload.\nRecommendations\nConsider the following client configuration recommendations:\nAlways use current, supported clients. Current clients contain bug fixes and default settings tuned to allow clients to gracefully handle warnings without disrupting",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 1756
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 49,
+          "textWords": 1756
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 1756
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 1756
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "yUw0FeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
+      "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
+      "snippet": "to use the MQTT 3.1.1 protocol to publish data directly to Apache Kafka®. These clients can publish MQTT messages in all three Quality-of-Service (QoS) levels defined by the MQTT protocol. The clients do this over encrypted and unencrypted connections. MQTT Proxy supports encryption and HTTP Basic",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 635
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 18,
+          "textWords": 635
+        },
+        "Ga2JvD48nX72": {
+          "hits": 7,
+          "textWords": 635
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 635
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "wAnYgnLU2GSx",
+      "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
+      "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
+      "snippet": "to be built manually.\nSo, I thought it would be fun to get this working, hence this project.\n10inch Server rack\nHere a list of the hardware i used for my Kubernetes cluster.\nGL.iNet GL-MT3000 Beryl AX Wifi 6 Travel Router\nRaspberry pi 3B+\nRaspberry pi 5\nStarFive VisionFive2 Lite\nIntel NUC (4th Gen",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 1690
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 14,
+          "textWords": 1690
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 1690
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 7,
+          "textWords": 1690
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "8mnnr49Ojva4",
+      "address": "https://docs.docker.com/build/building/best-practices/",
+      "title": "Building best practices | Docker Docs",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "53OU7eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/app-reset-tool.html",
+      "title": "Reset Kafka Streams Applications in Confluent Platform | Confluent Documentation",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0L8HEsgJoQyx",
+      "address": "https://grapheneos.org/build",
+      "title": "Build | GrapheneOS",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Ga2JvD48nX72": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "to hit release on September 1st! You can follow along at https://whattrainisitnow.com/\nAs part of the Nova redesign, a “Use Linux system theme” checkbox is being shown on Linux builds for the about:addons theme picker, which will make Firefox’s Nova UI use the colours of the system theme.\nThanks to",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 148,
+          "textWords": 66162
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 1667,
+          "textWords": 66162
+        },
+        "Ga2JvD48nX72": {
+          "hits": 14,
+          "textWords": 66162
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 3,
+          "textWords": 66162
+        }
+      },
+      "queryPhraseHits": 26
+    },
+    {
+      "hash": "O2B7wWSMo4M4",
+      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
+      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
+      "snippet": "to tag, label, and search documents\nBecause I’m a writer, I keep a lot of documents. By a lot, I mean hundreds. I need a way to organize my documents and avoid chaos.\nI could organize the documents manually, but that would take a very long time. On top of that, searching by hand is a hit-or-miss",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 7,
+          "textWords": 1078
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 33,
+          "textWords": 1078
+        },
+        "Ga2JvD48nX72": {
+          "hits": 9,
+          "textWords": 1078
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 1,
+          "textWords": 1078
+        }
+      },
+      "queryPhraseHits": 5
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 73,
+          "textWords": 2681
+        },
+        "Ga2JvD48nX72": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "bpVSyb2OYcjy": {
+          "hits": 8,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 1
+    }
+  ],
   "documentsHeldPerQueryWord": {
-    "24igJXwiDb_d": 112324,
-    "AbbiA0S2iDXF": 30103,
-    "Ga2JvD48nX72": 24543,
-    "bpVSyb2OYcjy": 1682
+    "24igJXwiDb_d": 712725,
+    "AbbiA0S2iDXF": 1404025,
+    "Ga2JvD48nX72": 207797,
+    "bpVSyb2OYcjy": 88859
   }
 }

@@ -1,7 +1,45 @@
 {
   "query": "berlin wetter",
-  "recordedAt": "2026-09-11T22:14:21Z",
+  "recordedAt": "2026-09-12T00:15:26Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "Eyuo0l_5-JKg",
+        "address": "https://www.mtwetter.de/regionales_mittel.php?par=mo_nfx12\u0026datum=09",
+        "title": "Wetter- und Klimakarten",
+        "snippet": "Startseite\nHilfe zu den Zeitreihen\nPassende Monatskarte\nZeitreihen\nZeitreihen\nTageszeitreihen\nKarten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nZoom-Karten\n10-Minuten-Karten\nTageskarten\nMonatskarten\nMeteogramme\nTagesmeteogramme\nMeteogramme\nRekorde\nRekordlisten\nRekorde einer Station\nDaten \u0026",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 58
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 58
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KKZkifbyotA5",
+        "address": "https://lovesunpeace.com/102/ping/wuppertal",
+        "title": "Wuppertal – Micro -!- News",
+        "snippet": "",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "WdCRTATBnXV3": {
+            "hits": 5,
+            "textWords": 31660
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
     [
       {
         "hash": "xK_P97yX5Qug",
@@ -16,6 +54,366 @@
           "WdCRTATBnXV3": {
             "hits": 0,
             "textWords": 571
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "dzGMpl3MiEig",
+        "address": "https://www.ndr.de/",
+        "title": "NDR.de - Das Beste am Norden - Radio - Fernsehen - Nachrichten | ndr.de",
+        "snippet": "Berlin von Hepstedt lernen kann\nIn Hepstedt im Kreis Rotenburg spielt das Parteibuch keine Rolle. Und nach der Sitzung gibt es Currywurst mit Pommes.\n2. Bundesliga\nPleite in Nürnberg - Hannovers Krise immer schlimmer\nDie Niedersachsen verloren beim \"Club\" nach groben Abwehrfehlern. Jetzt wird die",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 2,
+            "textWords": 1297
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 1297
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ySJH8lvSGqr4",
+        "address": "https://einarschlereth.blogspot.com/",
+        "title": "einartysken",
+        "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 2698
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 2698
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "m4HF5WVhMz6w",
+        "address": "https://journalism.us.to/",
+        "title": "Journalism | Jornalismus | Journalism.us.to",
+        "snippet": "",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "WdCRTATBnXV3": {
+            "hits": 2,
+            "textWords": 3941
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Bhyw76Fs30aw",
+        "address": "https://www.gsd.harvard.edu/",
+        "title": "Home - Harvard Graduate School of Design",
+        "snippet": "Berlin’s Civic Realm,” explores issues around water […]\nAuthor: Rachel MayNov. 15, 2024\nFrom Bauhaus to Bathroom: Isabel Strauss Designs for the Gropius House\nA new visitor bathroom by at the Gropius House reflects a broader shift as studios at the Harvard GSD rethink sanitation and everyday life.",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 281
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 281
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "l0gZGlXXOSAg",
+        "address": "https://www.rbb24.de/wetter/",
+        "title": "Wetter in Berlin und Brandenburg",
+        "snippet": "Berlin und Brandenburg\nDer Sonnabend bringt neben etwas Sonne einige kompakte Wolken und im Verlauf sind lokal ein paar Tropfen oder leichte Schauer möglich. Daneben ist es länger bzw. durchweg trocken. Die Höchstwerte liegen bei 20°C in Prenzlau bis 23°C in Treuenbrietzen, in Berlin gibt es 21 bis",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 2,
+            "textWords": 120
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 120
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "EjISsl3kFhe4",
+        "address": "https://www.wetter.com/",
+        "title": "Wetter, Wettervorhersage \u0026 Wetterbericht | wetter.com",
+        "snippet": "(wetter.com) und unsere Partner Cookies und andere Technologien um Informationen auf Ihrem Nutzer-Endgerät zu speichern und auszulesen.\nIndem du Werbung \u0026 Cookies akzeptierst, können wir dir unser Angebot auf wetter.com weiterhin kostenlos anbieten. Wir erheben personenbezogene Daten (z.B. Cookies",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 133
+          },
+          "WdCRTATBnXV3": {
+            "hits": 3,
+            "textWords": 133
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6AeNnlyX5Qug",
+        "address": "https://www.t-online.de/video/",
+        "title": "Die besten Videos aus Web, TV, News und Sport",
+        "snippet": "Video\nNachrichtenInternethitsRatgeberNachrichtenInternethitsRatgeberSportUnterhaltungWetterKlima \u0026 NachhaltigkeitLifehacksRätselZeitgeschichte\nPanoramaPolitikZeitgeschichteAutoDigitalEssen \u0026 TrinkenFamilieGesundheitHeim \u0026 GartenLebenLifehacksRätselReisenWirtschaft \u0026",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 551
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 551
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "ySJH8lvSGqr4",
+        "address": "https://einarschlereth.blogspot.com/",
+        "title": "einartysken",
+        "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 2698
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 2698
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zqhYnX8moajg",
+        "address": "https://www.welt.de/politik/ausland/article185195188/Rex-Tillerson-Trump-attackiert-Ex-Minister-strohdumm-und-stinkfaul.html",
+        "title": "Rex Tillerson: Trump attackiert Ex-Minister – „strohdumm und stinkfaul“ - WELT",
+        "snippet": "Pfadnavigation\nHome\nPolitik\nAusland\nRex Tillerson\nTrump attackiert Ex-Minister – „strohdumm und stinkfaul“\nVeröffentlicht am 08.12.2018\nDie Beziehung zwischen den beiden galt schon lange als zerrüttet. Doch nun eskalierte der Streit. Der frühere US-Außenminister Tillerson und Trump haben sich einen",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 327
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 327
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KBS1M78moajg",
+        "address": "https://www.welt.de/themen/instagram/",
+        "title": "Instagram: Aktuelle News \u0026 Nachrichten zum sozialen Netzwerk - WELT",
+        "snippet": "Warum im September das wahre „Neujahr“ ist\nWarum bis Januar warten? Der September wird zum Monat der guten Vorsätze. Warum ausgerechnet jetzt der perfekte Zeitpunkt für einen Neustart sein kann und welche kleinen Veränderungen wirklich machbar sind.\nWeltplus Artikel\nMaßnahmen gegen Handy-Sucht\nDer",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 676
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 676
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-gSHXofjI1Dh",
+        "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
+        "title": "Wahlarchiv zur Landtagswahl Baden-Württemberg | tagesschau.de",
+        "snippet": "Wahlarchiv\nErgebnis Landtagswahl Baden-Württemberg 2021\nGrüne 32,6% - CDU 24,1% - AfD 9,7% - SPD 11,0% - FDP 10,5% - Die Linke 3,6% - FW 3,0% - Andere: 5,5%. mehr\nWahlarchiv\nErgebnis Landtagswahl Baden-Württemberg 2016\nCDU 27,0% - Grüne 30,3% - SPD 12,7% - FDP 8,3% - Die Linke 2,9% - AfD 15,1% -",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 341
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 341
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_eUMI50w__jw",
+        "address": "https://www.faz.net/aktuell/sport/fussball/",
+        "title": "Fußball: Aktuelle Nachrichten und Spielberichte | FAZ",
+        "snippet": "Berlin aufsteigen. Nicht jeder freut sich darüber.\nMerken\nStart der Königsklasse:\nDie Champions-League-Falle\nDer größte Fußball-Klubwettbewerb ist für die meisten Bundesligavereine auch der gefährlichste. Weil das Geld für die, die nicht damit rechnen können, keine Sicherheit darstellt. Sondern ein",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 467
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 467
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "pNr3KLfjI1Dh",
+        "address": "https://www.tagesschau.de/inland/innenpolitik/csd-berlin-anschlag-tatverdaechtiger-100.html",
+        "title": "Angriff auf CSD Berlin: Tatverdächtiger war polizeibekannter Islamist | tagesschau.de",
+        "snippet": "Berlin verüben? Nach dem Anschlag auf Teilnehmer des CSD in Berlin werden die Fragen an die Behörden lauter.\nVon Jörg Diehl, NDR/WDR, Florian Flade, Martin Kaul und Roman Lehberger, WDR\nNach dem Anschlag auf Teilnehmer des Christopher Street Days in Berlin mit einer Toten und 29 Verletzten und",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 6,
+            "textWords": 712
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 712
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "I-F3O0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_101360712/terroranschlag-auf-csd-berlin-ju-chef-spricht-von-kriegserklaerung-.html",
+        "title": "Terroranschlag auf CSD Berlin: JU-Chef spricht von \"Kriegserklärung\"",
+        "snippet": "Berlin\nVon reuters, afp, dpa, t-online, job\nAktualisiert am 26.07.2026Lesedauer: 3 Min.\nDas Tatauto des Anschlags auf den Berliner CSD: Aus der Politik kommen nun Forderungen nach einer härteren Gangart gegen Islamisten. (Quelle: Sebastian Gollnow/dpa/dpa-bilder)\nEin Terroranschlag – und dann doch",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 2,
+            "textWords": 376
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 376
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "S_sNkHyX5Qug",
+        "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
+        "title": "Wetter für Berlin | Vorhersage für heute",
+        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen\nIm Süden warnt der Deutsche",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 210
+          },
+          "WdCRTATBnXV3": {
+            "hits": 7,
+            "textWords": 210
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SMcXIlvmeA6g",
+        "address": "https://www.wetter.at/",
+        "title": "Wetter in Österreich - wetter.at",
+        "snippet": "Wetter-Storys des Tages\nDüstere Prognose Regenwalze! Erst dann wird's wieder schön\nBrutale Abkühlung Jetzt trifft uns die Kaltfront mit voller Wucht\nExtrem-Hitze, Dürre August 2026 war der heißeste Monat aller Zeiten\nMariä Geburt Heute entscheidet sich das Wetter für die nächsten vier Wochen\nIn",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 1307
+          },
+          "WdCRTATBnXV3": {
+            "hits": 15,
+            "textWords": 1307
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RA7PGPPVWAXw",
+        "address": "https://wetter.faz.net/",
+        "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
+        "snippet": "Berlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt\nSchleswig-Holstein\nThüringen\nIn Zusammenarbeit mit",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 312
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 312
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "KcN-yjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Kenya",
+        "title": "Kenya - Wikipedia",
+        "snippet": "wetter conditions. This provided an opportunity for the development of cultural traditions such as agriculture and herding in a more favourable environment.[36]\nNilotic-speaking pastoralists began migrating into Kenya from the Nile Valley and the Ethiopian Highlands as early as 2000 BC. The",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 20956
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 20956
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gbZQsl9B6zzh",
+        "address": "https://www.morgenpost.de/berlin/",
+        "title": "Berlin - Aktuelle Nachrichten",
+        "snippet": "Berlin. Prominente wie Jella Haase protestieren gegen Wohnungspläne für das Feld. Menschen, deren Innenhöfe bebaut werden sollen, sehen das anders.\nVon Johannes Vetter\nMorgenpost der Chefredaktion\nDie ersten News des Tages – direkt von der Chefredaktion. Montag bis Samstag um 6:30 Uhr.\nMorgenpost",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 198,
+            "textWords": 4558
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 4558
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sn5bqlXXOSAg",
+        "address": "https://www.rbb24.de/berlin/",
+        "title": "Berlin Nachrichten – Aktuelle News und Themen von rbb24.de",
+        "snippet": "Berlin verlieren Testspiel\nEisbären feiern ersten Sieg in der Champions Hockey League\nSpitzenkandidatin im rbb24-Interview: Brinker bekräftigt Punktesystem für Wohnungsvergabe\nVSG Altglienicke verliert zuhause, RSV Eintracht kassiert Packung\nHouse of Games in Berlin: Erste Mieter ziehen im Dezember",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 69,
+            "textWords": 1887
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 1887
           }
         },
         "queryPhraseHits": 0
@@ -42,18 +440,388 @@
     ],
     [
       {
-        "hash": "m4HF5WVhMz6w",
-        "address": "https://journalism.us.to/",
-        "title": "Journalism | Jornalismus | Journalism.us.to",
-        "snippet": "⌬ Information Management\n⌬ Journalismus: Was Ist Wie Funktioniert Pressemitteilung\n⌬ Journalismus: Nachrichten",
+        "hash": "n-pRzHfjI1Dh",
+        "address": "https://www.tagesschau.de/wetter/regenradar-deutschland/osten",
+        "title": "Regenradar Ostdeutschland: Aktueller Niederschlag | tagesschau.de",
+        "snippet": "",
         "matchedWords": {
           "01oC60kUlFD7": {
             "hits": 0,
-            "textWords": 10
+            "textWords": 0
+          },
+          "WdCRTATBnXV3": {
+            "hits": 8,
+            "textWords": 547
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-5YtplfjI1Dh",
+        "address": "https://www.tagesschau.de/wetter",
+        "title": "Das tagesschau.de-Wetter | tagesschau.de",
+        "snippet": "Wetter mit Sonne und Wolken. Im Süden ist es gebietsweise länger sonnig. Dem Nordwesten nähert sich am Samstagnachmittag ein neuer Tiefausläufer. Der Sonntag verläuft dann verbreitet unbeständig, nur im Süden ist es zunächst noch freundlicher. mehr",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 60
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 60
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "DcJqWlFc3viw",
+        "address": "https://www.wetter.net/",
+        "title": "wetter.net | Wetter, Wetter aktuell, Wettervorhersage",
+        "snippet": "Wetter — von Meteorologen für ganz Deutschland, Österreich und die Schweiz.\nApp herunterladen\n(öffnet in neuem Fenster)\n(öffnet in neuem Fenster)",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 27
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 27
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "kuiLcaiZ7fSg",
+        "address": "https://verband.hockey.de/",
+        "title": "Deutscher Hockey-Bund - verband.hockey.de",
+        "snippet": "Wetter und angenehmen Temperaturen standen zehn spannende Spiele, große Freude am Hockeysport und viele besondere Momente auf dem Programm.\nSOD-Kader-Lehrgang in Bonn\nVom 28. bis 30. August 2026 absolvierte der SOD-Kader einen gemeinsamen Lehrgang in Bonn. Untergebracht im Haus Venusberg erwartete",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 178
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 178
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "3-1XaUwm21Ng",
+        "address": "https://www.flixbus.ch/busverbindung/fernbus-berlin-stuttgart",
+        "title": "Bus Berlin nach Stuttgart - Günstig tickets buchen",
+        "snippet": "Berlin ↔ Stuttgart\nab CHF 26.00\nDie Welt wartet auf Dich\nUnendliche Möglichkeiten: Entdecke über 8\u0026#039;000 Reiseziele in mehr als 40 Ländern.\nUnterwegs mit Komfort\nGenieße kostenloses WLAN, Steckdosen und extra viel Beinfreiheit. Das gehört bei modernen Bussen einfach dazu.\nAuswählen, buchen,",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 39,
+            "textWords": 1071
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 1071
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "IsqY7XMCiH44",
+        "address": "https://www.xing.com/pages/gruenderzeit-zwickau",
+        "title": "GRÜNDERZEIT Zwickau: Information and Updates | XING",
+        "snippet": "Berlin, München, Köln, Frankfurt am Main, Essen, Düsseldorf, Mainz, Mannheim+ 1 mehr\nDeutschland\nEinstiegsjob Sales / Personalberatung (m/w/d)\nBerlin+ 1 mehr\nDeutschland\nSales Mitarbeiter (m/w/d) Quereinsteiger\nFrankfurt am Main+ 1 mehr\nDeutschland\nSales Mitarbeiter (m/w/d) Quereinsteiger\nFrankfurt",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 6,
+            "textWords": 155
           },
           "WdCRTATBnXV3": {
             "hits": 0,
-            "textWords": 10
+            "textWords": 155
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "LSS-floLWSig",
+        "address": "https://www.berlin.de/stadtplan/",
+        "title": "Stadtplan Berlin - Berlin.de",
+        "snippet": "Berlin.deDas offizielle Hauptstadtportal",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 4
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 4
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "S_sNkHyX5Qug",
+        "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
+        "title": "Wetter für Berlin | Vorhersage für heute",
+        "snippet": "Wetter News\nWetter-Vorhersage\nWochenendwetter bringt Sonne und Regen\nDer Samstag lockt mit Temperaturen bis 27 Grad nach draußen – doch am Sonntag wird es vielerorts nass und kühler.\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen\nIm Süden warnt der Deutsche",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 210
+          },
+          "WdCRTATBnXV3": {
+            "hits": 7,
+            "textWords": 210
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "r7SQ1PSEx1zg",
+        "address": "https://wetter.welt.de/europa/",
+        "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
+        "snippet": "Wetter Europa\n9\n17\n17\n32\n16\n29\n34\n25\n18\n23\n17\nheute 11.09.2026\n9\n17\n17\n32\n16\n29\n34\n25\n18\n23\n17\nmorgen 12.09.2026\n9\n16\n17\n33\n22\n30\n35\n25\n19\n23\n19\nSonntag 13.09.2026\n9\n15\n18\n34\n23\n30\n32\n26\n20\n24\n20\nMontag 14.09.2026\n11\n17\n19\n35\n22\n29\n30\n27\n18\n26\n19\nDienstag 15.09.2026\n9\n16\n17\n36\n25\n30\n29\n29\n18\n23\n21",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 86
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 86
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "cB7iXX8moajg",
+        "address": "https://www.welt.de/politik/deutschland/plus6a8d85a1d8b561d6189714ba/berlin-wahlkampf-abriss-und-neubau-kostet-sehr-viel-co-wie-die-gruenen-stattdessen-wohnraum-schaffen-wollen.html",
+        "title": "Berlin-Wahlkampf: „Abriss und Neubau kostet sehr viel CO₂“ – wie die Grünen stattdessen Wohnraum schaffen wollen - WELT",
+        "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 3,
+            "textWords": 350
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 350
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "h-LXAjyX5Qug",
+        "address": "https://www.t-online.de/mobilitaet/reifen/",
+        "title": "Reifen: Autoreifen und Reifentest für Sommerreifen und Winterreifen",
+        "snippet": "Reifen\nWinterreifen\nPro und Kontra im Check\nAllwetterreifen: Wie sicher sind sie im Winter?\nWichtige Regel bei Winterwetter\nDiese Reifen sind verboten\nAbnutzung als Risiko\nADAC-Test: Ab dann werden Winterreifen gefährlich\nAchtung, Betrüger\nWinterreifen: Vorsicht bei diesen Onlineshops",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 528
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 528
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hx8g6dFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/M%C3%BCnchen",
+        "title": "München – Wikipedia",
+        "snippet": "Wetter relativ wechselhaft. An durchschnittlich zehn Tagen im Jahr herrscht der Föhn, ein warmer, trockener Fallwind vom Alpenhauptkamm, der so gute Fernsicht bewirkt, dass vom Stadtgebiet die Bayerischen Alpen deutlich zu sehen sind. Häufiger kommt es zu sogenannten „föhnigen Effekten“, die sich",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 17,
+            "textWords": 28592
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 28592
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gqkBacw63Csx",
+        "address": "https://fr.wikipedia.org/wiki/Canicules_de_2026_en_Europe",
+        "title": "Canicules de 2026 en Europe — Wikipédia",
+        "snippet": "Berlin autorise les musiciens à ôter leurs vestes et à retrousser leurs manches par 41 °C[54].\nLe gouvernement envisage des mesures exceptionnelles pour sécuriser l’accès à l’eau potable[313].\nEn 2025, Oxfam dénonçait les atermoiements du gouvernement concernant MaPrimeRénov’ en rappelant : « Les",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 17884
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 17884
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "RA7PGPPVWAXw",
+        "address": "https://wetter.faz.net/",
+        "title": "Wetter und 5-Tage Wettervorhersage Deutschland | FAZ",
+        "snippet": "Berlin\nBremen\nBrandenburg\nHamburg\nHessen\nMecklenburg-Vorp.\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt\nSchleswig-Holstein\nThüringen\nIn Zusammenarbeit mit",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 312
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 312
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "qEpb6HfjI1Dh",
+        "address": "https://www.tagesschau.de/wetter/deutschland/wettervorhersage-deutschland-100.html",
+        "title": "Wetter Deutschland: Wolken, Temperaturen, Wind und Aussichten | tagesschau.de",
+        "snippet": "Stand: 11.09.2026 • 13:30 Uhr\nAm Samstag ist es im Süden sonnig. Sonst gibt es neben Sonnenschein dichtere Wolken, aber nur selten wird es nass. Im Nordwesten ziehen später dichte Wolken mit Regen auf. Die Höchstwerte liegen zwischen 18 Grad im Bayerischen Wald und 27 Grad am Oberrhein.\nIn der",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 320
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 320
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qrOEmeQdJjkg",
+        "address": "https://oesterreich.orf.at/",
+        "title": "oesterreich.ORF.at",
+        "snippet": "Lienz 11.9. 21.00 Uhr\nParagleiter prallte gegen Fahrradfahrerin\nEin 40-jähriger Italiener ist Freitagvormittag bei einem Trainingsflug vom Hochstein in Lienz gegen eine Fahrradfahrerin geflogen. Sie stand einige Meter unterhalb der Startbahn.\nAlt-Erlaa 11.9. 19.56 Uhr\nIkone des Wohnbaus feiert 50",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 514
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 514
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "q7UDNl3ESnng",
+        "address": "https://www.br.de/index.html",
+        "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
+        "snippet": "Wirtschaft Emirate investieren Milliarden in Bayern: Was geplant ist\nZehn Milliarden Euro: So viel Investitionskapital hatte Scheich Zayid Al Nahyan beim Deutsch-Emiratischen Wirtschaftsforum in München allein für Bayern im Gepäck. Was sich die Politik erhofft und welche Projekte dahinterstecken",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 42
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 42
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rtQ-JluG0-bg",
+        "address": "https://www.fr.de/",
+        "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+        "snippet": "Wetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport\nKultur\nTimes mager\nTimes mager\nStadt\nSchau, ein Dackel. Was macht der denn jetzt? Eine versöhnliche innerstädtische Szene.\nStadt\nAlle News\nMagazine\nProspekte und Beilagen\nMagazine\nProspekte und Beilagen",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 315
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 315
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-WvJtjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Singapore",
+        "title": "Singapore - Wikipedia",
+        "snippet": "wetter monsoon season from November to February.[152]\nFrom July to October, there is often haze caused by bush fires in neighbouring Indonesia, usually from the island of Sumatra.[153] Singapore follows the GMT+8 time zone, one hour ahead of the typical zone for its geographical location.[154] This",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 27838
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 27838
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "6BsM-HfjI1Dh",
+        "address": "https://www.tagesschau.de/wetter/regenradar-deutschland",
+        "title": "Regenradar Deutschland: Aktueller Niederschlag | tagesschau.de",
+        "snippet": "Live Prognose Regenradar für Deutschland\nDas Regenradar für Deutschland von tagesschau.de: Live-Werte zum Niederschlag und Prognose für die nächsten zwei Stunden.\nWas zeigt das Regenradar?\nDas Regenradar zeigt die Niederschlagsmenge. Gemessen wird sie mit Hilfe eines Radarechos. Je stärker das",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 93
+          },
+          "WdCRTATBnXV3": {
+            "hits": 0,
+            "textWords": 93
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "_VdxO_3sDtZg",
+        "address": "https://tini24.de/news/partytime-mit-culcha-candela-und-ueber-1-500-besuchern-beim-strandkonzert-in-niendorf-ostsee/",
+        "title": "Partytime mit Culcha Candela und über 1.500 Besuchern beim Strandkonzert in Niendorf/Ostsee - News | TiNi24",
+        "snippet": "Wetter mit fast 1.600 Gästen, die nicht nur aus der näheren Umgebung nach Niendorf/Ostsee gekommen sind.\nCulcha Candela begeisterte das Publikum beim StrandKonzert in Niendorf/Ostsee. (Foto: René Kleinschmidt)\nUnter den Konzertgästen wurde auch Anike Ekina gesichtet: Die 36-jährige DJane und",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 1,
+            "textWords": 875
+          },
+          "WdCRTATBnXV3": {
+            "hits": 1,
+            "textWords": 875
           }
         },
         "queryPhraseHits": 0
@@ -79,222 +847,52 @@
       "queryPhraseHits": 0
     },
     {
-      "hash": "Fru1hAHjdLqg",
-      "address": "https://www.focus.de/reisen/camping/",
-      "title": "Camping - Reisen - FOCUS Online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "IqqWBuHjdLqg",
-      "address": "https://www.focus.de/gesundheit/ratgeber/",
-      "title": "Ratgeber Gesundheit - Informationen rund um Ihre Vitalität",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hW_eDAHjdLqg",
-      "address": "https://www.focus.de/reisen/reise-inspiration/",
-      "title": "Reise-Inspiration",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SH2v_lfjI1Dh",
-      "address": "https://www.tagesschau.de/ausland",
-      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
-      "snippet": "Europa\nFrankreich Mehr als 40 Verletzte bei Zugunglück\nEin Teil eines Zugs in Nordfrankreich ist nach einer Kollision entgleist. Mehr als 40 Menschen wurden nach vorläufigen Angaben verletzt, darunter eine Frau schwer. An Bord des Verkehrsmittels waren rund 180 Passagiere. mehr\nMigration über",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 1395
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1395
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FHhKwln76Wxw",
-      "address": "https://www.gmx.net/",
-      "title": "GMX - kostenlose E-Mail, Cloud, Nachrichten \u0026 Freemail",
-      "snippet": "Wir haben aktuelle News für Sie\nSeite aktualisieren",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 8
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 8
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BKlEylyX5Qug",
-      "address": "https://www.t-online.de/",
-      "title": "News \u0026 E-Mail bei t-online | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "Dieses Karussell: \"nur_bei_t_online\" enthält 10 Artikel.\nTrump-Auftritt offenbart Problem\nIch, ich, ich\nEine Reportage von Bastian Brauns\nRegional\nVon Carla Gospodarek\nEin Interview von Claudia Zehrfeld\nVideo\nLoading...\nWirtschaft \u0026 Finanzen\n3 Weitere\nDAX\n25.568,56+0,82%\nGold\n4.348,36 USD-0,00%",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 88
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 88
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nDas digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei",
+      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nWebinar\nIT-Security für Nicht-Nerds\nSchutz vor Phishing Mails und Kontoklau verständlich erklärt\nSicher surfen und im Netz unterwegs sein\n22.09. + 24.09.2026\nMEHR ERFAHREN\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei Abonnenten\nmeistkommentiert\nVorsicht, Kunde: Der",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 971
+          "textWords": 961
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 971
+          "textWords": 961
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "GeX42sX5sgqx",
-      "address": "https://netzpolitik.org/",
-      "title": "netzpolitik.org",
-      "snippet": "Berlin.\nHeimlich filmen, mithören, sich zuflüstern lassen: Mit KI-Brillen bleibt das unauffällig. Andere Länder reagieren mit Verboten in Gerichtsgebäuden, Besucher*innen müssen die Brillen am Eingang abgeben. Die deutschen Justizministerien halten dagegen die bestehenden Regeln für ausreichend.",
+      "hash": "a9ooXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Berlin",
+      "title": "Berlin - Wikipedia",
+      "snippet": "Berlin (disambiguation).\nBerlin\nCapital city, state and municipality\nSpree river, Museum Island, Berlin TV Tower and Berlin Palace in Mitte\nSchloss Charlottenburg\nSiegessäule\nBerlin Palace\nBrandenburg Gate\nBerlin Cathedral\nReichstag\nGendarmenmarkt\nFlag\nCoat of arms\nInteractive map of Berlin\nBerlin",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 6,
-          "textWords": 2548
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 2548
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gt1Hms8_y8I6",
-      "address": "https://henrymakow-de.com/",
-      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 10335
-        },
-        "WdCRTATBnXV3": {
-          "hits": 4,
-          "textWords": 10335
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nDas digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 971
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 971
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "zc0K1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Montreal",
-      "title": "Montreal - Wikipedia",
-      "snippet": "wetter than the others in terms of total precipitation—mostly from thunderstorms.[97]\nClimate data for Montreal (Montréal–Trudeau International Airport)\nWMO ID: 71627; coordinates 45°28′N 73°45′W﻿ / ﻿45.467°N 73.750°W; elevation: 36 m (118 ft); 1991−2020 normals, extremes 1941−present\nMonth\nJan\nFeb",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 18671
+          "hits": 676,
+          "textWords": 19695
         },
         "WdCRTATBnXV3": {
           "hits": 1,
-          "textWords": 18671
+          "textWords": 19695
         }
       },
       "queryPhraseHits": 0
     },
     {
-      "hash": "-eJKllXXOSAg",
-      "address": "https://www.rbb24.de/thema/",
-      "title": "Themen von A - Z",
-      "snippet": "Berlin (M)\nA\nNachrichten zum Thema\nAusstellungen\nNachrichten zum Thema\nAlba Berlin\nB\nNachrichten zum Thema\nBaden\nNachrichten zum Thema\nBahn\nNachrichten zum Thema\nBauen\nNachrichten zum Thema\nBauern\nSerie\n\"Bau fällig\": Besondere Berliner Bauten\nNachrichten zum Thema\nBerlin-Abo\nAktuelle Umfragen und",
+      "hash": "5Y0vTPSEx1zg",
+      "address": "https://wetter.welt.de/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
+      "snippet": "BERLIN\nwolkig\n11 °C\nSO\n20° 15°\nMO\n21° 15°\nDeutschland heute\nAm Freitag überwiegen in Nieder- und Oberbayern die Wolken, und es kann dort im Tagesverlauf auch mal regnen. Im Westen und Nordwesten ziehen Wolkenfelder mit etwas Regen oder Nieselregen auf. In den anderen Gebieten scheint nach örtlichem",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 13,
-          "textWords": 539
+          "hits": 1,
+          "textWords": 146
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 539
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "K0nzzjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Europe",
-      "title": "Europe – Travel guide at Wikivoyage",
-      "snippet": "Berlin – scarred by four decades of division but experiencing an almost unprecedented boom, the capital of reunited Germany is one of Europe's most creative and innovative cities\n41.0128.9602784 Istanbul – Europe's largest city, the epic former capital of the great Byzantine and Ottoman empires, is",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 18478
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 18478
+          "textWords": 146
         }
       },
       "queryPhraseHits": 0
@@ -312,1832 +910,13 @@
         "WdCRTATBnXV3": {
           "hits": 0,
           "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NSGq8lptNsG4",
-      "address": "https://www.akdart.com/warming.html",
-      "title": "Global Warming",
-      "snippet": "wetter or drier conditions since 1901.\n• Storm and hurricane activity continues to fluctuate naturally, without any long-term increase in strength or frequency.\nInside Meta's fight to change climate reality — all so it can frantically expand a risky AI program. The \"Greenhouse gas protocol\" (GHGP)",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 148757
-        },
-        "WdCRTATBnXV3": {
-          "hits": 3,
-          "textWords": 148757
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BKlEylyX5Qug",
-      "address": "https://www.t-online.de/",
-      "title": "News \u0026 E-Mail bei t-online | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "Dieses Karussell: \"nur_bei_t_online\" enthält 10 Artikel.\nTrump-Auftritt offenbart Problem\nIch, ich, ich\nEine Reportage von Bastian Brauns\nRegional\nVon Carla Gospodarek\nEin Interview von Claudia Zehrfeld\nVideo\nLoading...\nWirtschaft \u0026 Finanzen\n3 Weitere\nDAX\n25.568,56+0,82%\nGold\n4.348,36 USD-0,00%",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 88
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 88
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "RGSGlC8moajg",
-      "address": "https://www.welt.de/regionales/hamburg/article174493626/Merkel-muss-weg-Proteste-gegen-rechte-Kundgebung-in-Hamburg.html",
-      "title": "„Merkel muss weg“: Proteste gegen rechte Kundgebung in Hamburg - WELT",
-      "snippet": "Pfadnavigation\nHome\nRegionales\nHamburg\n„Merkel muss weg“-Demo\nHunderte protestieren gegen rechte Kundgebung\nVeröffentlicht am 13.03.2018Lesedauer: 2 Minuten\nEtwa 250 Menschen nahmen am Montag an der Protestveranstaltung „Merkel muss weg“ teil\nQuelle: dpa\nAm Montag standen sich in Hamburg erneut",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 427
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 427
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WLeSrl5ARWyg",
-      "address": "https://www.spiegel.de/",
-      "title": "DER SPIEGEL | Online-Nachrichten",
-      "snippet": "4 Min\n4 Min\nThemen des Tages\n4 Min\n5 Min\nAlle Beiträge\nNachrichten\nSport\n5 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n7 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n3 Min\nUnsere Kolumnistinnen und Kolumnisten\nMeine",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 323
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 323
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FcrOSdR5Djcw",
-      "address": "https://de.wikinews.org/wiki/Hauptseite",
-      "title": "Wikinews, die freie Nachrichtenquelle",
-      "snippet": "Wetter\nStarke Unwetter in mehreren Regionen Italiens\nMehrere italienische Regionen wurden in der Nacht zum 10. September durch Starkregenfälle in Mitleidenschaft gezogen, die von einem atlantischen Tiefdruckgebiet herangeführt wurden, darunter die Lombardei, die Toskana, Friaul-Julisch Venetien,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 1414
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 1414
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "zc0K1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Montreal",
-      "title": "Montreal - Wikipedia",
-      "snippet": "wetter than the others in terms of total precipitation—mostly from thunderstorms.[97]\nClimate data for Montreal (Montréal–Trudeau International Airport)\nWMO ID: 71627; coordinates 45°28′N 73°45′W﻿ / ﻿45.467°N 73.750°W; elevation: 36 m (118 ft); 1991−2020 normals, extremes 1941−present\nMonth\nJan\nFeb",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 18671
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 18671
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0bQU8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Europe",
-      "title": "Europe - Wikipedia",
-      "snippet": "Berlin\nUN M49 codes\n150 – Europe\n001 – World\na. ^ Figures include only European portions of transcontinental countries.[n]\nb. ^ Includes Asian population. Istanbul is partly in Asia and partly in Europe.\nc. ^ \"Europe\" as defined by the International Monetary Fund\nEurope is a continent[t] located",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 16,
-          "textWords": 23487
-        },
-        "WdCRTATBnXV3": {
-          "hits": 2,
-          "textWords": 23487
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "K0nzzjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Europe",
-      "title": "Europe – Travel guide at Wikivoyage",
-      "snippet": "Berlin – scarred by four decades of division but experiencing an almost unprecedented boom, the capital of reunited Germany is one of Europe's most creative and innovative cities\n41.0128.9602784 Istanbul – Europe's largest city, the epic former capital of the great Byzantine and Ottoman empires, is",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 18478
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 18478
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "bthkIlgw84xh",
-      "address": "https://www.sueddeutsche.de/",
-      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": "Berlin“\n:Hier endet Monumentales\nSZ Plus\nTürkei\n:Sofort auf Platz eins: Die neue Oppositionspartei\nSZ Plus\nBully in München\n:Unverschämterweise ziemlich gut\nSZ Plus\nEssay zu KI\n:Todeswahrscheinlichkeit zehn Prozent? Guter Deal!\nSZ Plus\nDie wichtigsten Nachrichten\nNewsblog zu den Landtagswahlen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 3,
-          "textWords": 2590
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 2590
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4fj-VPu7iuKx",
-      "address": "https://ru.wikisource.org/wiki/%D0%93%D0%B5%D0%BD%D1%80%D0%B8%D1%85_%D0%93%D0%B5%D0%B9%D0%BD%D0%B5",
-      "title": "Автор:Генрих Гейне — Викитека",
-      "snippet": "Wetter…»\n«Снежная изморозь, ветер…» — перевод М. Л. Михайлова, опубл. в 1858\n«Ну, время! конца не дождёшься!..» — перевод А. Н. Майкова\n«Стоит погода злая!..» — перевод И. С. Тургенева, опубл. в 1871\n«Какая дурная погода…» — перевод С. Я. Маршака\n«Прескверная погода…» — перевод С. П. Свяцкого\n30.",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 4,
-          "textWords": 21197
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 21197
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rtQ-JluG0-bg",
-      "address": "https://www.fr.de/",
-      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "Wetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport\nKultur\nTimes mager\nTimes mager\nStadt\nSchau, ein Dackel. Was macht der denn jetzt? Eine versöhnliche innerstädtische Szene.\nStadt\nAlle News\nMagazine\nProspekte und Beilagen\nMagazine\nProspekte und Beilagen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 328
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 328
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2RTWrl8moajg",
-      "address": "https://www.welt.de/",
-      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
-      "snippet": "Berlin wird 14 Monate lang gebaut. Eine Ausweichroute wird nicht rechtzeitig fertig, die Fahrten dauern 80 Minuten länger. Jetzt werden die wahren Gründe für die erneute Blamage deutlich – und die negativen Folgen für viele Pendler.\nDie Spur der Sprechpuppen führt nach Moskau\nBoris Schumatsky weiß,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 3,
-          "textWords": 1433
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1433
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gt1Hms8_y8I6",
-      "address": "https://henrymakow-de.com/",
-      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 10335
-        },
-        "WdCRTATBnXV3": {
-          "hits": 4,
-          "textWords": 10335
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "c7dKXX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article208035007/BfV-Extremisten-nutzen-Corona-Proteste-wie-in-Fluechtlingskrise.html",
-      "title": "BfV: Extremisten nutzen Corona-Proteste wie in Flüchtlingskrise - WELT",
-      "snippet": "Pfadnavigation\nHome\nPolitik\nDeutschland\nVerfassungsschutz\nExtremisten nutzen Corona-Lage wie in der Flüchtlingskrise\nVeröffentlicht am 17.05.2020Lesedauer: 2 Minuten\nCorona-müde Bürger, Extremisten, Impfgegner und Verschwörungstheoretiker: Bundesweit demonstrierten Tausende Menschen gegen die",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 328
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 328
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2RTWrl8moajg",
-      "address": "https://www.welt.de/",
-      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
-      "snippet": "Berlin wird 14 Monate lang gebaut. Eine Ausweichroute wird nicht rechtzeitig fertig, die Fahrten dauern 80 Minuten länger. Jetzt werden die wahren Gründe für die erneute Blamage deutlich – und die negativen Folgen für viele Pendler.\nDie Spur der Sprechpuppen führt nach Moskau\nBoris Schumatsky weiß,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 3,
-          "textWords": 1433
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1433
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nDas digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 971
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 971
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "zc0K1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Montreal",
-      "title": "Montreal - Wikipedia",
-      "snippet": "wetter than the others in terms of total precipitation—mostly from thunderstorms.[97]\nClimate data for Montreal (Montréal–Trudeau International Airport)\nWMO ID: 71627; coordinates 45°28′N 73°45′W﻿ / ﻿45.467°N 73.750°W; elevation: 36 m (118 ft); 1991−2020 normals, extremes 1941−present\nMonth\nJan\nFeb",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 18671
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 18671
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GeX42sX5sgqx",
-      "address": "https://netzpolitik.org/",
-      "title": "netzpolitik.org - Medium für digitale Freiheitsrechte",
-      "snippet": "Berlin.\nHeimlich filmen, mithören, sich zuflüstern lassen: Mit KI-Brillen bleibt das unauffällig. Andere Länder reagieren mit Verboten in Gerichtsgebäuden, Besucher*innen müssen die Brillen am Eingang abgeben. Die deutschen Justizministerien halten dagegen die bestehenden Regeln für ausreichend.",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 6,
-          "textWords": 2548
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 2548
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "qym5qmXXOSAg",
-      "address": "https://www.rbb24.de/sport/eishockey/",
-      "title": "Eisbären Berlin - Aktuelle Nachrichten",
-      "snippet": "Berlin - Straubing Tigers\n-:-\n(-:- -:- -:-)\nFreitag, 18.09.26\n19:30 Uhr\nKölner Haie - Grizzlys Wolfsburg\n-:-\n(-:- -:- -:-)\nNürnberg Ice Tigers - Augsburger Panther\n-:-\n(-:- -:- -:-)\nKrefeld - Bremerhaven\n-:-\n(-:- -:- -:-)\nIserlohn Roosters - ERC Ingolstadt\n-:-\n(-:- -:- -:-)\nEHC Red Bull München -",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 11,
-          "textWords": 367
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 367
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JXWIlLfjI1Dh",
-      "address": "https://www.tagesschau.de/inland/innenpolitik",
-      "title": "Innenpolitik - aktuelle Nachrichten | tagesschau.de",
-      "snippet": "Berlin\" ++\n08.09.2026 • 23:01 Uhr\nEnde des Liveblogs\n08.09.2026 • 22:18 Uhr\nSöder gegen AfD-Verbot - aber für härtere Gangart\n08.09.2026 • 19:39 Uhr\nKlingbeil spricht von \"klarem Signal an Berlin\"\nAnalyse\nNach der Wahl in Sachsen-Anhalt Könnte die AfD ihre Migrationspolitik umsetzen?\nEine",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 1059
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1059
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "bthkIlgw84xh",
-      "address": "https://www.sueddeutsche.de/",
-      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": "Berlin“\n:Hier endet Monumentales\nSZ Plus\nTürkei\n:Sofort auf Platz eins: Die neue Oppositionspartei\nSZ Plus\nBully in München\n:Unverschämterweise ziemlich gut\nSZ Plus\nEssay zu KI\n:Todeswahrscheinlichkeit zehn Prozent? Guter Deal!\nSZ Plus\nDie wichtigsten Nachrichten\nNewsblog zu den Landtagswahlen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 3,
-          "textWords": 2590
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 2590
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "K3X4pstNzuRy",
-      "address": "https://magazinredaktion.tk/",
-      "title": "magazin",
-      "snippet": "Berlin-Neukölln • Mittwoch, 28. September 2022 • ab 19:00\n﻿\n﻿",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 1016
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1016
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "C-V-iTyX5Qug",
-      "address": "https://www.t-online.de/klima/handbuch/",
-      "title": "Klima \u0026 Nachhaltigkeit im Handbauch: Bedeutung, Strategien \u0026 Co.",
-      "snippet": "Handbuch\nVon Tim Blumenstein\nVon Till Oppermann\nVon Tim Blumenstein\nVon Sophie Loelke\nVon Sarah Thust\nVon Rebekka Wiese\nVon Sarah Thust\nVon Claudia Zehrfeld\nVon Svenja Dilcher\nVon Nathalie Rippich\nVon Charlotte Janus\nVon Till Oppermann\nVon Tim Blumenstein\nVon Nathalie Rippich\nVon Tim Blumenstein",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 76
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 76
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MqvP_XyX5Qug",
-      "address": "https://www.t-online.de/leben/liebe/",
-      "title": "Liebe und Partnerschaft",
-      "snippet": "Liebe\nBeziehungSexSinglesBeziehungSexSinglesHochzeit\nSex-Trend 2024\nWas Frauen im Bett wirklich wollen\nVon Jennifer Buchholz\nDas sagen die Gesetze\nWann das Anstarren verboten ist – und wann nicht\nVon Jennifer Buchholz\nRisiko für Beziehung oder Gesundheit\nSind getrennte Betten besser für Paare?\nVon",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 606
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 606
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Qr-JZhyX5Qug",
-      "address": "https://www.t-online.de/finanzen/ratgeber/banking/",
-      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "Zum Inhalt springen\nZum Hauptmenü springen\nZum Menü springen\nZur Suche springen\nZur Fußzeile springen\nHome\nWirtschaft \u0026 Finanzen\nRatgeber\nBanking",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 20
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 20
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gt1Hms8_y8I6",
-      "address": "https://henrymakow-de.com/",
-      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 10335
-        },
-        "WdCRTATBnXV3": {
-          "hits": 4,
-          "textWords": 10335
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Ff9n2l8moajg",
-      "address": "https://www.welt.de/sport/",
-      "title": "Sport - Aktuelle News \u0026 Sport-Nachrichten - WELT",
-      "snippet": "Berlin starten mit Kantersieg in die Champions League\n19:22Newsticker\n«Eistonne und Döner»: Basketballerinnen im WM-Rausch\n17:46Newsticker\nRoglic holt bei Vuelta auf, aber Mas verteidigt Führung\n16:43Newsticker\n«Alle Checks gut»: Leclerc nach heftigem Monza-Crash fit\n13:09Newsticker\nNach",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 1171
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1171
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JY4FoX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/",
-      "title": "Politik - Aktuelle Nachrichten \u0026 News - Deutschland - WELT",
-      "snippet": "Pfadnavigation\nHome\nPolitik\nWeltplus Artikel\nRekordzahlen in Deutschland\nEinbürgerung schafft Fakten, unwiderruflich\nNoch nie wurden so viele Menschen in Deutschland eingebürgert wie im vergangenen Jahr. Auf dem Papier gibt es dafür strenge Regeln. Die Praxis sieht leider anders aus.\nWeltplus",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 322
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 322
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Mbn1eZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/karriere/",
-      "title": "Karriere - News \u0026 Tipps zu Beruf, Bewerbung \u0026 Uni - WELT",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nKaum Wachstum\nDas KI-Paradox der deutschen Wirtschaft\nKünstliche Intelligenz soll die Wirtschaft effizienter machen. Doch viele Unternehmen sehen trotz KI-Einsatz keine messbaren Erfolge. Das liegt nicht nur an den Firmen.\nWeltplus Artikel\nMehr Geld,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 526
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 526
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OoovQl8moajg",
-      "address": "https://www.welt.de/reise/",
-      "title": "Reise - Aktuelle Informationen rund um Reise und Urlaub - WELT",
-      "snippet": "Berlin.\nFrüher Schiller, heute Clooney – Wie der Harz sich gewandelt hat\nWandern im Harz? Klingt für viele altmodisch, nach düsterem Nadelwald. Doch es geht auch anders: Bei einer Ranger-Tour im Ilsetal zeigt sich der Nationalpark von einer frischen, kaum bekannten Seite. Selbst die Baumleichen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 724
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "O1sJdW8moajg",
-      "address": "https://www.welt.de/reise/Kreuzfahrt/",
-      "title": "Kreuzfahrt: News zu Schriffen und Kreuzfahrten",
-      "snippet": "Wetter die Kreuzfahrt-Route\nSelbst bei Wind und Regen entfalten die zum weltbesten Abenteuerziel gekürten Azoren-Inseln einen einmaligen Zauber. Unsere Autorin hat das bei einer Kreuzfahrt erlebt, die nicht immer nach Plan verlief.\nDiese Kreuzfahrt entführt Sie in eine heile Traumwelt\nFreiwillig zu",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 1099
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 1099
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SrWob48moajg",
-      "address": "https://www.welt.de/weltplus/backstage/",
-      "title": "Backstage",
-      "snippet": "Pfadnavigation\nHome\nWeltplus\nWM-Debakel – und jetzt kommt Klopp\nAnfang Juni erschien ein Artikel von Julien Wolff und mir bei WELT. Seit 14 Jahren berichten wir gemeinsam über die deutsche Fußballnationalmannschaft.\nWas unser Wissen über Gesundheit wirklich verändert\nWie gesund sind Kreatin und",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 915
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 915
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0bQU8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Europe",
-      "title": "Europe - Wikipedia",
-      "snippet": "Berlin\nUN M49 codes\n150 – Europe\n001 – World\na. ^ Figures include only European portions of transcontinental countries.[n]\nb. ^ Includes Asian population. Istanbul is partly in Asia and partly in Europe.\nc. ^ \"Europe\" as defined by the International Monetary Fund\nEurope is a continent[t] located",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 16,
-          "textWords": 23487
-        },
-        "WdCRTATBnXV3": {
-          "hits": 2,
-          "textWords": 23487
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nDas digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 971
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 971
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MOqAihHjdLqg",
-      "address": "https://www.focus.de/finanzen/news/",
-      "title": "Wirtschaft - Nachrichten aus Deutschland, der EU \u0026 der Welt",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "kTTXYlHjdLqg",
-      "address": "https://www.focus.de/perspektiven/",
-      "title": "Perspektiven - FOCUS online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0d0TLuHjdLqg",
-      "address": "https://www.focus.de/gesundheit/ratgeber/krebs/",
-      "title": "Krebs - Ratgeber - Gesundheit - FOCUS Online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "qym5qmXXOSAg",
-      "address": "https://www.rbb24.de/sport/eishockey/",
-      "title": "Eisbären Berlin - Aktuelle Nachrichten",
-      "snippet": "Berlin - Straubing Tigers\n-:-\n(-:- -:- -:-)\nFreitag, 18.09.26\n19:30 Uhr\nKölner Haie - Grizzlys Wolfsburg\n-:-\n(-:- -:- -:-)\nNürnberg Ice Tigers - Augsburger Panther\n-:-\n(-:- -:- -:-)\nKrefeld - Bremerhaven\n-:-\n(-:- -:- -:-)\nIserlohn Roosters - ERC Ingolstadt\n-:-\n(-:- -:- -:-)\nEHC Red Bull München -",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 11,
-          "textWords": 367
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 367
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SH2v_lfjI1Dh",
-      "address": "https://www.tagesschau.de/ausland",
-      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
-      "snippet": "Europa\nFrankreich Mehr als 40 Verletzte bei Zugunglück\nEin Teil eines Zugs in Nordfrankreich ist nach einer Kollision entgleist. Mehr als 40 Menschen wurden nach vorläufigen Angaben verletzt, darunter eine Frau schwer. An Bord des Verkehrsmittels waren rund 180 Passagiere. mehr\nMigration über",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 1395
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1395
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QBDi6ltPGYUg",
-      "address": "https://brf.be/kultur/kino/",
-      "title": "Kino - BRF Nachrichten",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rtQ-JluG0-bg",
-      "address": "https://www.fr.de/",
-      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "Wetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport\nKultur\nTimes mager\nTimes mager\nStadt\nSchau, ein Dackel. Was macht der denn jetzt? Eine versöhnliche innerstädtische Szene.\nStadt\nAlle News\nMagazine\nProspekte und Beilagen\nMagazine\nProspekte und Beilagen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 328
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 328
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "01XG7hyX5Qug",
-      "address": "https://www.t-online.de/finanzen/ihr-weg-an-die-boerse/",
-      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "Kolumne\nDie Anleger\nGeldanlage, Börse, private AltersvorsorgeWöchentliche Artikel zu Geldanlage, Börse und private Altersvorsorge\nStartseite Wirtschaft \u0026 Finanzen\nDAX(+0,82%)\nGold(-0,00%)\nBTC(+0,03%)\nIhr Weg an die Börse\nIhr Weg an die Börse\nIhr Weg an die Börse: Folge 1\nWarum überhaupt Aktien?",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 537
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 537
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1bgQY0yX5Qug",
-      "address": "https://www.t-online.de/nachrichten/panorama/",
-      "title": "Panorama: News zu Menschen \u0026 Schicksale, Prozessen und Katastrophen",
-      "snippet": "Wetter\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen\nUnwetter im Süden von Deutschland\nStromausfall in deutscher Großstadt\n\"Lokal eng begrenzt\"\nUnwetter mit orkanartigen Böen möglich: DWD nennt Regionen\nGesellschaft\nWirbel um Gina H.s Portemonnaie\nMordfall Fabian:",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 429
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 429
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "K0nzzjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Europe",
-      "title": "Europe – Travel guide at Wikivoyage",
-      "snippet": "Berlin – scarred by four decades of division but experiencing an almost unprecedented boom, the capital of reunited Germany is one of Europe's most creative and innovative cities\n41.0128.9602784 Istanbul – Europe's largest city, the epic former capital of the great Byzantine and Ottoman empires, is",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 18478
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 18478
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rtQ-JluG0-bg",
-      "address": "https://www.fr.de/",
-      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "Wetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport\nKultur\nTimes mager\nTimes mager\nStadt\nSchau, ein Dackel. Was macht der denn jetzt? Eine versöhnliche innerstädtische Szene.\nStadt\nAlle News\nMagazine\nProspekte und Beilagen\nMagazine\nProspekte und Beilagen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 328
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 328
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WLeSrl5ARWyg",
-      "address": "https://www.spiegel.de/",
-      "title": "DER SPIEGEL | Online-Nachrichten",
-      "snippet": "4 Min\n4 Min\nThemen des Tages\n4 Min\n5 Min\nAlle Beiträge\nNachrichten\nSport\n5 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n7 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n3 Min\nUnsere Kolumnistinnen und Kolumnisten\nMeine",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 323
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 323
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "RGSGlC8moajg",
-      "address": "https://www.welt.de/regionales/hamburg/article174493626/Merkel-muss-weg-Proteste-gegen-rechte-Kundgebung-in-Hamburg.html",
-      "title": "„Merkel muss weg“: Proteste gegen rechte Kundgebung in Hamburg - WELT",
-      "snippet": "Pfadnavigation\nHome\nRegionales\nHamburg\n„Merkel muss weg“-Demo\nHunderte protestieren gegen rechte Kundgebung\nVeröffentlicht am 13.03.2018Lesedauer: 2 Minuten\nEtwa 250 Menschen nahmen am Montag an der Protestveranstaltung „Merkel muss weg“ teil\nQuelle: dpa\nAm Montag standen sich in Hamburg erneut",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 427
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 427
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "IqqWBuHjdLqg",
-      "address": "https://www.focus.de/gesundheit/ratgeber/",
-      "title": "Ratgeber Gesundheit - Informationen rund um Ihre Vitalität",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hW_eDAHjdLqg",
-      "address": "https://www.focus.de/reisen/reise-inspiration/",
-      "title": "Reise-Inspiration",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "kTTXYlHjdLqg",
-      "address": "https://www.focus.de/perspektiven/",
-      "title": "Perspektiven - FOCUS online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FcrOSdR5Djcw",
-      "address": "https://de.wikinews.org/wiki/Hauptseite",
-      "title": "Wikinews, die freie Nachrichtenquelle",
-      "snippet": "Wetter\nStarke Unwetter in mehreren Regionen Italiens\nMehrere italienische Regionen wurden in der Nacht zum 10. September durch Starkregenfälle in Mitleidenschaft gezogen, die von einem atlantischen Tiefdruckgebiet herangeführt wurden, darunter die Lombardei, die Toskana, Friaul-Julisch Venetien,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 1414
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 1414
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SH2v_lfjI1Dh",
-      "address": "https://www.tagesschau.de/ausland",
-      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
-      "snippet": "Europa\nFrankreich Mehr als 40 Verletzte bei Zugunglück\nEin Teil eines Zugs in Nordfrankreich ist nach einer Kollision entgleist. Mehr als 40 Menschen wurden nach vorläufigen Angaben verletzt, darunter eine Frau schwer. An Bord des Verkehrsmittels waren rund 180 Passagiere. mehr\nMigration über",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 1395
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1395
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "c7dKXX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article208035007/BfV-Extremisten-nutzen-Corona-Proteste-wie-in-Fluechtlingskrise.html",
-      "title": "BfV: Extremisten nutzen Corona-Proteste wie in Flüchtlingskrise - WELT",
-      "snippet": "Pfadnavigation\nHome\nPolitik\nDeutschland\nVerfassungsschutz\nExtremisten nutzen Corona-Lage wie in der Flüchtlingskrise\nVeröffentlicht am 17.05.2020Lesedauer: 2 Minuten\nCorona-müde Bürger, Extremisten, Impfgegner und Verschwörungstheoretiker: Bundesweit demonstrierten Tausende Menschen gegen die",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 328
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 328
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0bQU8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Europe",
-      "title": "Europe - Wikipedia",
-      "snippet": "Berlin\nUN M49 codes\n150 – Europe\n001 – World\na. ^ Figures include only European portions of transcontinental countries.[n]\nb. ^ Includes Asian population. Istanbul is partly in Asia and partly in Europe.\nc. ^ \"Europe\" as defined by the International Monetary Fund\nEurope is a continent[t] located",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 16,
-          "textWords": 23487
-        },
-        "WdCRTATBnXV3": {
-          "hits": 2,
-          "textWords": 23487
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "qym5qmXXOSAg",
-      "address": "https://www.rbb24.de/sport/eishockey/",
-      "title": "Eisbären Berlin - Aktuelle Nachrichten",
-      "snippet": "Berlin - Straubing Tigers\n-:-\n(-:- -:- -:-)\nFreitag, 18.09.26\n19:30 Uhr\nKölner Haie - Grizzlys Wolfsburg\n-:-\n(-:- -:- -:-)\nNürnberg Ice Tigers - Augsburger Panther\n-:-\n(-:- -:- -:-)\nKrefeld - Bremerhaven\n-:-\n(-:- -:- -:-)\nIserlohn Roosters - ERC Ingolstadt\n-:-\n(-:- -:- -:-)\nEHC Red Bull München -",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 11,
-          "textWords": 367
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 367
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "NSGq8lptNsG4",
-      "address": "https://www.akdart.com/warming.html",
-      "title": "Global Warming",
-      "snippet": "wetter or drier conditions since 1901.\n• Storm and hurricane activity continues to fluctuate naturally, without any long-term increase in strength or frequency.\nInside Meta's fight to change climate reality — all so it can frantically expand a risky AI program. The \"Greenhouse gas protocol\" (GHGP)",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 148757
-        },
-        "WdCRTATBnXV3": {
-          "hits": 3,
-          "textWords": 148757
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0bQU8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Europe",
-      "title": "Europe - Wikipedia",
-      "snippet": "Berlin\nUN M49 codes\n150 – Europe\n001 – World\na. ^ Figures include only European portions of transcontinental countries.[n]\nb. ^ Includes Asian population. Istanbul is partly in Asia and partly in Europe.\nc. ^ \"Europe\" as defined by the International Monetary Fund\nEurope is a continent[t] located",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 16,
-          "textWords": 23487
-        },
-        "WdCRTATBnXV3": {
-          "hits": 2,
-          "textWords": 23487
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "WLeSrl5ARWyg",
-      "address": "https://www.spiegel.de/",
-      "title": "DER SPIEGEL | Online-Nachrichten",
-      "snippet": "4 Min\n4 Min\nThemen des Tages\n4 Min\n5 Min\nAlle Beiträge\nNachrichten\nSport\n5 Min\nAlle Beiträge\nAlle Beiträge\n11FREUNDE mit SPIEGEL+ gratis lesen\n7 Min\nAktuelle Videos\nAlle Podcasts\nAlle Games\nTop bei SPIEGEL+\nMeistgelesene Artikel\nAlle Beiträge\n3 Min\nUnsere Kolumnistinnen und Kolumnisten\nMeine",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 323
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 323
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "gt1Hms8_y8I6",
-      "address": "https://henrymakow-de.com/",
-      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 10335
-        },
-        "WdCRTATBnXV3": {
-          "hits": 4,
-          "textWords": 10335
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "E0-FzQ8moajg",
-      "address": "https://www.welt.de/kultur/theater/",
-      "title": "Theater – Nachrichten und aktuelle Kritiken - WELT",
-      "snippet": "Berlin\n„Das neue Wunder von Mitte“\nIn Berlin kann man jetzt im temporären Freibad vor der Volksbühne umsonst schwimmen. Auch Politiker zogen bei der Eröffnung ihre Bahnen. Warum sich die eventorientierte Gegenwart mit solchen Aktionen letztlich selbst auffrisst.\nUnd dann erhebt sich das Publikum",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 613
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 613
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "E8-qFl8moajg",
-      "address": "https://www.welt.de/apps/",
-      "title": "Apps",
-      "snippet": "Pfadnavigation\nHome\nNutzen Sie die WELT News-App auf Ihrem Smartphone\nWELT bringt Journalismus und Technologie zusammen. Damit unsere App für Sie der ideale Begleiter durch den Nachrichtenalltag ist, arbeiten unsere Entwicklerteams kontinuierlich an neuen Features und Verbesserungen.\nNutzen Sie die",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 74
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 74
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Ff9n2l8moajg",
-      "address": "https://www.welt.de/sport/",
-      "title": "Sport - Aktuelle News \u0026 Sport-Nachrichten - WELT",
-      "snippet": "Berlin starten mit Kantersieg in die Champions League\n19:22Newsticker\n«Eistonne und Döner»: Basketballerinnen im WM-Rausch\n17:46Newsticker\nRoglic holt bei Vuelta auf, aber Mas verteidigt Führung\n16:43Newsticker\n«Alle Checks gut»: Leclerc nach heftigem Monza-Crash fit\n13:09Newsticker\nNach",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 1171
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1171
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JY4FoX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/",
-      "title": "Politik - Aktuelle Nachrichten \u0026 News - Deutschland - WELT",
-      "snippet": "Pfadnavigation\nHome\nPolitik\nWeltplus Artikel\nRekordzahlen in Deutschland\nEinbürgerung schafft Fakten, unwiderruflich\nNoch nie wurden so viele Menschen in Deutschland eingebürgert wie im vergangenen Jahr. Auf dem Papier gibt es dafür strenge Regeln. Die Praxis sieht leider anders aus.\nWeltplus",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 322
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 322
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "KjI3Ul8moajg",
-      "address": "https://www.welt.de/politik/",
-      "title": "Politik - Aktuelle Nachrichten \u0026 News - WELT",
-      "snippet": "Pfadnavigation\nHome\nWeltplus Artikel\nAfD im Dilemma\nDas große Zaudern nach dem Triumph\nDer Wahlsieg war eindeutig, die Machtfrage ist es nicht: In der AfD wird um Koalitionen in Sachsen-Anhalt und Überläufer aus der CDU gerungen sowie über Neuwahlen diskutiert. Und dann sind da Risiken in den",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 301
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 301
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Mbn1eZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/karriere/",
-      "title": "Karriere - News \u0026 Tipps zu Beruf, Bewerbung \u0026 Uni - WELT",
-      "snippet": "Pfadnavigation\nHome\nWirtschaft\nWeltplus Artikel\nKaum Wachstum\nDas KI-Paradox der deutschen Wirtschaft\nKünstliche Intelligenz soll die Wirtschaft effizienter machen. Doch viele Unternehmen sehen trotz KI-Einsatz keine messbaren Erfolge. Das liegt nicht nur an den Firmen.\nWeltplus Artikel\nMehr Geld,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 526
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 526
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "OoovQl8moajg",
-      "address": "https://www.welt.de/reise/",
-      "title": "Reise - Aktuelle Informationen rund um Reise und Urlaub - WELT",
-      "snippet": "Berlin.\nFrüher Schiller, heute Clooney – Wie der Harz sich gewandelt hat\nWandern im Harz? Klingt für viele altmodisch, nach düsterem Nadelwald. Doch es geht auch anders: Bei einer Ranger-Tour im Ilsetal zeigt sich der Nationalpark von einer frischen, kaum bekannten Seite. Selbst die Baumleichen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 724
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 724
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "O1sJdW8moajg",
-      "address": "https://www.welt.de/reise/Kreuzfahrt/",
-      "title": "Kreuzfahrt: News zu Schriffen und Kreuzfahrten",
-      "snippet": "Wetter die Kreuzfahrt-Route\nSelbst bei Wind und Regen entfalten die zum weltbesten Abenteuerziel gekürten Azoren-Inseln einen einmaligen Zauber. Unsere Autorin hat das bei einer Kreuzfahrt erlebt, die nicht immer nach Plan verlief.\nDiese Kreuzfahrt entführt Sie in eine heile Traumwelt\nFreiwillig zu",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 1099
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 1099
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SrWob48moajg",
-      "address": "https://www.welt.de/weltplus/backstage/",
-      "title": "Backstage",
-      "snippet": "Pfadnavigation\nHome\nWeltplus\nWM-Debakel – und jetzt kommt Klopp\nAnfang Juni erschien ein Artikel von Julien Wolff und mir bei WELT. Seit 14 Jahren berichten wir gemeinsam über die deutsche Fußballnationalmannschaft.\nWas unser Wissen über Gesundheit wirklich verändert\nWie gesund sind Kreatin und",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 915
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 915
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "2RTWrl8moajg",
-      "address": "https://www.welt.de/",
-      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
-      "snippet": "Berlin wird 14 Monate lang gebaut. Eine Ausweichroute wird nicht rechtzeitig fertig, die Fahrten dauern 80 Minuten länger. Jetzt werden die wahren Gründe für die erneute Blamage deutlich – und die negativen Folgen für viele Pendler.\nDie Spur der Sprechpuppen führt nach Moskau\nBoris Schumatsky weiß,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 3,
-          "textWords": 1433
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1433
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "5xyqlL8moajg",
-      "address": "https://www.welt.de/mediathek/dokumentation/",
-      "title": "Dokumentation - WELT",
-      "snippet": "Berlin: Von Hitlers Krieg zur deutschen Teilung – das vergessene Drama\nArtikel enthält Videos\nArtikeltyp:VideoLost Places - Folge 125\nHitlers legendärer Nazigoldzug: Verdächtige Hinweise unter Schloss Fürstenstein\nArtikel enthält Videos\nArtikeltyp:VideoLost Places - Folge 124\nFestung in Moldin: Wie",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 615
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 615
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "8UBl4l8moajg",
-      "address": "https://www.welt.de/boerse/",
-      "title": "Börse - Aktuelle Infos - WELT",
-      "snippet": "Pfadnavigation\nHome\nBörse\nWeltplus Artikel\nWohlstand im Alter\nPrivate Rente, Monat für Monat – mit diesen 3 ETFs und 6 Aktien schaffen Sie das\nDie gesetzliche Rente wird in Zukunft für die wenigsten ausreichen, um den Lebensstandard im Alter zu sichern. Anleger sollten deshalb privat vorsorgen –",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 341
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 341
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "9y76_X8moajg",
-      "address": "https://www.welt.de/sonderthemen/weinland-frankreich/",
-      "title": "Weinland Frankreich",
-      "snippet": "Pfadnavigation\nHome\nSonderthemen\nWeinland Frankreich\nWahre Lebensfreude braucht ihre Zeit\nMit ihrer Frische vermitteln Champagner den Eindruck von Jugendlichkeit. Dabei gehören sie zu den Weinen, die am besten zu altern vermögen. Reife Jahrgänge trinkt man eher im Sitzen als im Stehen.\nWundern über",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 506
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 506
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "Anzeige\nAnzeige\nEigenwerbung\nDas digitale Abo für IT und Technik\nheise+ Jahresabo\nDauerhaft 20 % Rabatt ggü. dem 4-Wochen-Abo\nAlle exklusiven Artikel auf heise online lesen\nOptional mit Zugriff auf alle heise-Magazine (digital \u0026 PDF)\nJetzt Rabatt sichern\nAnzeige\nAnzeige\nmeistgelesen\nbeliebt bei",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 971
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 971
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Fru1hAHjdLqg",
-      "address": "https://www.focus.de/reisen/camping/",
-      "title": "Camping - Reisen - FOCUS Online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "IqqWBuHjdLqg",
-      "address": "https://www.focus.de/gesundheit/ratgeber/",
-      "title": "Ratgeber Gesundheit - Informationen rund um Ihre Vitalität",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MOqAihHjdLqg",
-      "address": "https://www.focus.de/finanzen/news/",
-      "title": "Wirtschaft - Nachrichten aus Deutschland, der EU \u0026 der Welt",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "hW_eDAHjdLqg",
-      "address": "https://www.focus.de/reisen/reise-inspiration/",
-      "title": "Reise-Inspiration",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "kTTXYlHjdLqg",
-      "address": "https://www.focus.de/perspektiven/",
-      "title": "Perspektiven - FOCUS online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0d0TLuHjdLqg",
-      "address": "https://www.focus.de/gesundheit/ratgeber/krebs/",
-      "title": "Krebs - Ratgeber - Gesundheit - FOCUS Online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FcrOSdR5Djcw",
-      "address": "https://de.wikinews.org/wiki/Hauptseite",
-      "title": "Wikinews, die freie Nachrichtenquelle",
-      "snippet": "Wetter\nStarke Unwetter in mehreren Regionen Italiens\nMehrere italienische Regionen wurden in der Nacht zum 10. September durch Starkregenfälle in Mitleidenschaft gezogen, die von einem atlantischen Tiefdruckgebiet herangeführt wurden, darunter die Lombardei, die Toskana, Friaul-Julisch Venetien,",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 1414
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 1414
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GeX42sX5sgqx",
-      "address": "https://netzpolitik.org/",
-      "title": "netzpolitik.org - Medium für digitale Freiheitsrechte",
-      "snippet": "Berlin.\nHeimlich filmen, mithören, sich zuflüstern lassen: Mit KI-Brillen bleibt das unauffällig. Andere Länder reagieren mit Verboten in Gerichtsgebäuden, Besucher*innen müssen die Brillen am Eingang abgeben. Die deutschen Justizministerien halten dagegen die bestehenden Regeln für ausreichend.",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 6,
-          "textWords": 2548
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 2548
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "JXWIlLfjI1Dh",
-      "address": "https://www.tagesschau.de/inland/innenpolitik",
-      "title": "Innenpolitik - aktuelle Nachrichten | tagesschau.de",
-      "snippet": "Berlin\" ++\n08.09.2026 • 23:01 Uhr\nEnde des Liveblogs\n08.09.2026 • 22:18 Uhr\nSöder gegen AfD-Verbot - aber für härtere Gangart\n08.09.2026 • 19:39 Uhr\nKlingbeil spricht von \"klarem Signal an Berlin\"\nAnalyse\nNach der Wahl in Sachsen-Anhalt Könnte die AfD ihre Migrationspolitik umsetzen?\nEine",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 2,
-          "textWords": 1059
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1059
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "SH2v_lfjI1Dh",
-      "address": "https://www.tagesschau.de/ausland",
-      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
-      "snippet": "Europa\nFrankreich Mehr als 40 Verletzte bei Zugunglück\nEin Teil eines Zugs in Nordfrankreich ist nach einer Kollision entgleist. Mehr als 40 Menschen wurden nach vorläufigen Angaben verletzt, darunter eine Frau schwer. An Bord des Verkehrsmittels waren rund 180 Passagiere. mehr\nMigration über",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 1395
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1395
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "bthkIlgw84xh",
-      "address": "https://www.sueddeutsche.de/",
-      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
-      "snippet": "Berlin“\n:Hier endet Monumentales\nSZ Plus\nTürkei\n:Sofort auf Platz eins: Die neue Oppositionspartei\nSZ Plus\nBully in München\n:Unverschämterweise ziemlich gut\nSZ Plus\nEssay zu KI\n:Todeswahrscheinlichkeit zehn Prozent? Guter Deal!\nSZ Plus\nDie wichtigsten Nachrichten\nNewsblog zu den Landtagswahlen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 3,
-          "textWords": 2590
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 2590
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "CzG6bNlA2Rig",
-      "address": "https://www.n-tv.de/wissen/fundsache/",
-      "title": "Fundsache - ntv.de",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "F5nrHZlA2Rig",
-      "address": "https://www.n-tv.de/wirtschaft/wirtschaft_startup/",
-      "title": "Startup - ntv.de",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QS6XHllA2Rig",
-      "address": "https://www.n-tv.de/der_tag/",
-      "title": "Der Tag - ntv.de",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "FHhKwln76Wxw",
-      "address": "https://www.gmx.net/",
-      "title": "GMX - kostenlose E-Mail, Cloud, Nachrichten \u0026 Freemail",
-      "snippet": "Wir haben aktuelle News für Sie\nSeite aktualisieren",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 8
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 8
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "K3X4pstNzuRy",
-      "address": "https://magazinredaktion.tk/",
-      "title": "magazin",
-      "snippet": "Berlin-Neukölln • Mittwoch, 28. September 2022 • ab 19:00\n﻿\n﻿",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 1016
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 1016
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "QBDi6ltPGYUg",
-      "address": "https://brf.be/kultur/kino/",
-      "title": "Kino - BRF Nachrichten",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "4fj-VPu7iuKx",
-      "address": "https://ru.wikisource.org/wiki/%D0%93%D0%B5%D0%BD%D1%80%D0%B8%D1%85_%D0%93%D0%B5%D0%B9%D0%BD%D0%B5",
-      "title": "Автор:Генрих Гейне — Викитека",
-      "snippet": "Wetter…»\n«Снежная изморозь, ветер…» — перевод М. Л. Михайлова, опубл. в 1858\n«Ну, время! конца не дождёшься!..» — перевод А. Н. Майкова\n«Стоит погода злая!..» — перевод И. С. Тургенева, опубл. в 1871\n«Какая дурная погода…» — перевод С. Я. Маршака\n«Прескверная погода…» — перевод С. П. Свяцкого\n30.",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 4,
-          "textWords": 21197
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 21197
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "rtQ-JluG0-bg",
-      "address": "https://www.fr.de/",
-      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "Wetter\nPlaßmanns Welt\nFotostrecken des Tages\nSport\nKultur\nTimes mager\nTimes mager\nStadt\nSchau, ein Dackel. Was macht der denn jetzt? Eine versöhnliche innerstädtische Szene.\nStadt\nAlle News\nMagazine\nProspekte und Beilagen\nMagazine\nProspekte und Beilagen",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 328
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 328
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "BKlEylyX5Qug",
-      "address": "https://www.t-online.de/",
-      "title": "News \u0026 E-Mail bei t-online | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "Dieses Karussell: \"nur_bei_t_online\" enthält 10 Artikel.\nTrump-Auftritt offenbart Problem\nIch, ich, ich\nEine Reportage von Bastian Brauns\nRegional\nVon Carla Gospodarek\nEin Interview von Claudia Zehrfeld\nVideo\nLoading...\nWirtschaft \u0026 Finanzen\n3 Weitere\nDAX\n25.568,56+0,82%\nGold\n4.348,36 USD-0,00%",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 88
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 88
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "C-V-iTyX5Qug",
-      "address": "https://www.t-online.de/klima/handbuch/",
-      "title": "Klima \u0026 Nachhaltigkeit im Handbauch: Bedeutung, Strategien \u0026 Co.",
-      "snippet": "Handbuch\nVon Tim Blumenstein\nVon Till Oppermann\nVon Tim Blumenstein\nVon Sophie Loelke\nVon Sarah Thust\nVon Rebekka Wiese\nVon Sarah Thust\nVon Claudia Zehrfeld\nVon Svenja Dilcher\nVon Nathalie Rippich\nVon Charlotte Janus\nVon Till Oppermann\nVon Tim Blumenstein\nVon Nathalie Rippich\nVon Tim Blumenstein",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 76
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 76
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "MqvP_XyX5Qug",
-      "address": "https://www.t-online.de/leben/liebe/",
-      "title": "Liebe und Partnerschaft",
-      "snippet": "Liebe\nBeziehungSexSinglesBeziehungSexSinglesHochzeit\nSex-Trend 2024\nWas Frauen im Bett wirklich wollen\nVon Jennifer Buchholz\nDas sagen die Gesetze\nWann das Anstarren verboten ist – und wann nicht\nVon Jennifer Buchholz\nRisiko für Beziehung oder Gesundheit\nSind getrennte Betten besser für Paare?\nVon",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 606
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 606
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "Qr-JZhyX5Qug",
-      "address": "https://www.t-online.de/finanzen/ratgeber/banking/",
-      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "Zum Inhalt springen\nZum Hauptmenü springen\nZum Menü springen\nZur Suche springen\nZur Fußzeile springen\nHome\nWirtschaft \u0026 Finanzen\nRatgeber\nBanking",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 20
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 20
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "01XG7hyX5Qug",
-      "address": "https://www.t-online.de/finanzen/ihr-weg-an-die-boerse/",
-      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "Kolumne\nDie Anleger\nGeldanlage, Börse, private AltersvorsorgeWöchentliche Artikel zu Geldanlage, Börse und private Altersvorsorge\nStartseite Wirtschaft \u0026 Finanzen\nDAX(+0,82%)\nGold(-0,00%)\nBTC(+0,03%)\nIhr Weg an die Börse\nIhr Weg an die Börse\nIhr Weg an die Börse: Folge 1\nWarum überhaupt Aktien?",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 537
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 537
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "1bgQY0yX5Qug",
-      "address": "https://www.t-online.de/nachrichten/panorama/",
-      "title": "Panorama: News zu Menschen \u0026 Schicksale, Prozessen und Katastrophen",
-      "snippet": "Wetter\nWann kommt der Altweibersommer?\nWetterdienst warnt amtlich in Dutzenden Kreisen\nUnwetter im Süden von Deutschland\nStromausfall in deutscher Großstadt\n\"Lokal eng begrenzt\"\nUnwetter mit orkanartigen Böen möglich: DWD nennt Regionen\nGesellschaft\nWirbel um Gina H.s Portemonnaie\nMordfall Fabian:",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 429
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 429
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "c7dKXX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article208035007/BfV-Extremisten-nutzen-Corona-Proteste-wie-in-Fluechtlingskrise.html",
-      "title": "BfV: Extremisten nutzen Corona-Proteste wie in Flüchtlingskrise - WELT",
-      "snippet": "Pfadnavigation\nHome\nPolitik\nDeutschland\nVerfassungsschutz\nExtremisten nutzen Corona-Lage wie in der Flüchtlingskrise\nVeröffentlicht am 17.05.2020Lesedauer: 2 Minuten\nCorona-müde Bürger, Extremisten, Impfgegner und Verschwörungstheoretiker: Bundesweit demonstrierten Tausende Menschen gegen die",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 328
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 328
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "zc0K1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Montreal",
-      "title": "Montreal - Wikipedia",
-      "snippet": "wetter than the others in terms of total precipitation—mostly from thunderstorms.[97]\nClimate data for Montreal (Montréal–Trudeau International Airport)\nWMO ID: 71627; coordinates 45°28′N 73°45′W﻿ / ﻿45.467°N 73.750°W; elevation: 36 m (118 ft); 1991−2020 normals, extremes 1941−present\nMonth\nJan\nFeb",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 1,
-          "textWords": 18671
-        },
-        "WdCRTATBnXV3": {
-          "hits": 1,
-          "textWords": 18671
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "0bQU8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Europe",
-      "title": "Europe - Wikipedia",
-      "snippet": "Berlin\nUN M49 codes\n150 – Europe\n001 – World\na. ^ Figures include only European portions of transcontinental countries.[n]\nb. ^ Includes Asian population. Istanbul is partly in Asia and partly in Europe.\nc. ^ \"Europe\" as defined by the International Monetary Fund\nEurope is a continent[t] located",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 16,
-          "textWords": 23487
-        },
-        "WdCRTATBnXV3": {
-          "hits": 2,
-          "textWords": 23487
-        }
-      },
-      "queryPhraseHits": 0
-    },
-    {
-      "hash": "-eJKllXXOSAg",
-      "address": "https://www.rbb24.de/thema/",
-      "title": "Themen von A - Z",
-      "snippet": "Berlin (M)\nA\nNachrichten zum Thema\nAusstellungen\nNachrichten zum Thema\nAlba Berlin\nB\nNachrichten zum Thema\nBaden\nNachrichten zum Thema\nBahn\nNachrichten zum Thema\nBauen\nNachrichten zum Thema\nBauern\nSerie\n\"Bau fällig\": Besondere Berliner Bauten\nNachrichten zum Thema\nBerlin-Abo\nAktuelle Umfragen und",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 13,
-          "textWords": 539
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 539
         }
       },
       "queryPhraseHits": 0
     }
   ],
   "documentsHeldPerQueryWord": {
-    "01oC60kUlFD7": 45475,
-    "WdCRTATBnXV3": 168616
+    "01oC60kUlFD7": 1308670,
+    "WdCRTATBnXV3": 243151
   }
 }

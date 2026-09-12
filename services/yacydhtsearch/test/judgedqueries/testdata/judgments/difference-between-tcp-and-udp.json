@@ -1,0 +1,47 @@
+{
+  "query": "difference between tcp and udp",
+  "judgedDocuments": [
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "wRN6JitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/2.7.html",
+      "title": "What’s New in Python 2.7 — Python 3.13.2 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.12.3 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "grade": 0
+    },
+    {
+      "hash": "Wnr2gs6GdY-4",
+      "address": "https://danluu.com/google-sre-book/",
+      "title": "Google SRE book",
+      "grade": 0
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "socketserver — A framework for network servers — Python 3.14.6 documentation",
+      "grade": 1
+    },
+    {
+      "hash": "mt0JEs6GdY-4",
+      "address": "https://danluu.com/navigate-url/",
+      "title": "What happens when you load a URL?",
+      "grade": 1
+    }
+  ]
+}

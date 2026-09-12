@@ -1,0 +1,1276 @@
+{
+  "query": "difference between tcp and udp",
+  "recordedAt": "2026-09-12T00:23:02Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "matchedWords": {
+          "4guyArHVU3sU": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "hIZMH-CVNZvJ": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "matchedWords": {
+          "4guyArHVU3sU": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "hIZMH-CVNZvJ": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "wRN6JitD2jQw",
+        "address": "https://docs.python.org/3/whatsnew/2.7.html",
+        "title": "What’s New in Python 2.7 — Python 3.13.2 documentation",
+        "snippet": "and for the Decimal class. There are some useful additions to the standard library, such as a greatly enhanced unittest module, the argparse module for parsing command-line options, convenient OrderedDict and Counter classes in the collections module, and many other improvements.\nPython 2.7 is",
+        "matchedWords": {
+          "4guyArHVU3sU": {
+            "hits": 4,
+            "textWords": 15027
+          },
+          "KULEZq6YXE_i": {
+            "hits": 9,
+            "textWords": 15027
+          },
+          "hIZMH-CVNZvJ": {
+            "hits": 2,
+            "textWords": 15027
+          },
+          "lUVudQaoycBO": {
+            "hits": 2,
+            "textWords": 15027
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 349,
+            "textWords": 15027
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "matchedWords": {
+          "4guyArHVU3sU": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "hIZMH-CVNZvJ": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "matchedWords": {
+          "4guyArHVU3sU": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "hIZMH-CVNZvJ": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "matchedWords": {
+          "4guyArHVU3sU": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "hIZMH-CVNZvJ": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "and queries were fast because the index was kept entirely in RAM. In 2019, I implemented the new index format, which adds an on-disk positional index. For literal queries (78.2% of DCS queries), querying the positional index on disk is faster than querying the non-positional index in RAM.\nThe",
+        "matchedWords": {
+          "4guyArHVU3sU": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "KULEZq6YXE_i": {
+            "hits": 2,
+            "textWords": 8109
+          },
+          "hIZMH-CVNZvJ": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "lUVudQaoycBO": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "vl1dN1Qtdfk6": {
+            "hits": 82,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.12.3 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.12.3 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event loop — Python 3.14.6 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.12.3 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event loop — Python 3.14.7 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wnr2gs6GdY-4",
+      "address": "https://danluu.com/google-sre-book/",
+      "title": "Google SRE book",
+      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 6615
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 6615
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 100,
+          "textWords": 6615
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "socketserver — A framework for network servers — Python 3.14.6 documentation",
+      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 13,
+          "textWords": 3110
+        },
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 3110
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 3110
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 3110
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 51,
+          "textWords": 3110
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mt0JEs6GdY-4",
+      "address": "https://danluu.com/navigate-url/",
+      "title": "What happens when you load a URL?",
+      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 3,
+          "textWords": 1771
+        },
+        "KULEZq6YXE_i": {
+          "hits": 7,
+          "textWords": 1771
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 47,
+          "textWords": 1771
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "mt0JEs6GdY-4",
+      "address": "https://danluu.com/navigate-url/",
+      "title": "What happens when you load a URL?",
+      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 3,
+          "textWords": 1771
+        },
+        "KULEZq6YXE_i": {
+          "hits": 7,
+          "textWords": 1771
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 47,
+          "textWords": 1771
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "mt0JEs6GdY-4",
+      "address": "https://danluu.com/navigate-url/",
+      "title": "What happens when you load a URL?",
+      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 3,
+          "textWords": 1771
+        },
+        "KULEZq6YXE_i": {
+          "hits": 7,
+          "textWords": 1771
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 47,
+          "textWords": 1771
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event loop — Python 3.14.7 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "socketserver — A framework for network servers — Python 3.14.7 documentation",
+      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 13,
+          "textWords": 3110
+        },
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 3110
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 3110
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 3110
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 51,
+          "textWords": 3110
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "mt0JEs6GdY-4",
+      "address": "https://danluu.com/navigate-url/",
+      "title": "What happens when you load a URL?",
+      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 3,
+          "textWords": 1771
+        },
+        "KULEZq6YXE_i": {
+          "hits": 7,
+          "textWords": 1771
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 47,
+          "textWords": 1771
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.14.0 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "socketserver — A framework for network servers — Python 3.14.0 documentation",
+      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 13,
+          "textWords": 3110
+        },
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 3110
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 3110
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 3110
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 51,
+          "textWords": 3110
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "Wnr2gs6GdY-4",
+      "address": "https://danluu.com/google-sre-book/",
+      "title": "Google SRE book",
+      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 6615
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 6615
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 100,
+          "textWords": 6615
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event loop — Python 3.14.7 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event loop — Python 3.14.7 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.12.3 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Wnr2gs6GdY-4",
+      "address": "https://danluu.com/google-sre-book/",
+      "title": "Google SRE book",
+      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 6615
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 6615
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 100,
+          "textWords": 6615
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "socketserver — A framework for network servers — Python 3.14.6 documentation",
+      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 13,
+          "textWords": 3110
+        },
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 3110
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 3110
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 3110
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 51,
+          "textWords": 3110
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "Wnr2gs6GdY-4",
+      "address": "https://danluu.com/google-sre-book/",
+      "title": "Google SRE book",
+      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 6615
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 6615
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 100,
+          "textWords": 6615
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "P-tQgitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
+      "title": "Event Loop — Python 3.14.3 documentation",
+      "snippet": "and callbacks, perform network IO operations, and run subprocesses.\nApplication developers should typically use the high-level asyncio functions, such as asyncio.run(), and should rarely need to reference the loop object or call its methods. This section is intended mostly for authors of",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 8,
+          "textWords": 8854
+        },
+        "KULEZq6YXE_i": {
+          "hits": 2,
+          "textWords": 8854
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 8854
+        },
+        "lUVudQaoycBO": {
+          "hits": 1,
+          "textWords": 8854
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 140,
+          "textWords": 8854
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "socketserver — A framework for network servers — Python 3.14.5 documentation",
+      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 13,
+          "textWords": 3110
+        },
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 3110
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 3110
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 3110
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 51,
+          "textWords": 3110
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "Wnr2gs6GdY-4",
+      "address": "https://danluu.com/google-sre-book/",
+      "title": "Google SRE book",
+      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 6615
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 6615
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 100,
+          "textWords": 6615
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "21.21. socketserver — A framework for network servers \u0026mdash; Python 3.5.0 documentation",
+      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 13,
+          "textWords": 3110
+        },
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 3110
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 3110
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 3110
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 51,
+          "textWords": 3110
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "mt0JEs6GdY-4",
+      "address": "https://danluu.com/navigate-url/",
+      "title": "What happens when you load a URL?",
+      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 3,
+          "textWords": 1771
+        },
+        "KULEZq6YXE_i": {
+          "hits": 7,
+          "textWords": 1771
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 47,
+          "textWords": 1771
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "Wnr2gs6GdY-4",
+      "address": "https://danluu.com/google-sre-book/",
+      "title": "Google SRE book",
+      "snippet": "and a potentially fatal problem that could have been prevented with a trivial check took NASA’s engineers 9 hours to resolve.\nThis sounds familiar -- I’ve lost track of the number of dev post-mortems that have the same basic structure.\nThis is an experiment in note-taking for me in two ways. First,",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "KULEZq6YXE_i": {
+          "hits": 5,
+          "textWords": 6615
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 1,
+          "textWords": 6615
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 6615
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 100,
+          "textWords": 6615
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "VgxBBitD2jQw",
+      "address": "https://docs.python.org/3/library/socketserver.html",
+      "title": "socketserver — A framework for network servers — Python 3.14.6 documentation",
+      "snippet": "bind_and_activate=True)¶\nThis uses the internet TCP protocol, which provides for continuous streams of data between the client and server. If bind_and_activate is true, the constructor automatically attempts to invoke server_bind() and server_activate(). The other parameters are passed to the",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 13,
+          "textWords": 3110
+        },
+        "KULEZq6YXE_i": {
+          "hits": 3,
+          "textWords": 3110
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 4,
+          "textWords": 3110
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 3110
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 51,
+          "textWords": 3110
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "mt0JEs6GdY-4",
+      "address": "https://danluu.com/navigate-url/",
+      "title": "What happens when you load a URL?",
+      "snippet": "and when I do, it reminds me how much I don't know. Here are some questions this question brings to mind.\nHow does a keyboard work? Why can’t you press an arbitrary combination of three keys at once, except on fancy gaming keyboards? That implies something about how key presses are",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 3,
+          "textWords": 1771
+        },
+        "KULEZq6YXE_i": {
+          "hits": 7,
+          "textWords": 1771
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "lUVudQaoycBO": {
+          "hits": 2,
+          "textWords": 1771
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 47,
+          "textWords": 1771
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "P60DNWVFEEow",
+      "address": "https://guix.gnu.org/manual/devel/en/guix.html",
+      "title": "GNU Guix Reference Manual",
+      "snippet": "",
+      "matchedWords": {
+        "4guyArHVU3sU": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "KULEZq6YXE_i": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "hIZMH-CVNZvJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "lUVudQaoycBO": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "vl1dN1Qtdfk6": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "4guyArHVU3sU": 185060,
+    "KULEZq6YXE_i": 487207,
+    "hIZMH-CVNZvJ": 99859,
+    "lUVudQaoycBO": 308467,
+    "vl1dN1Qtdfk6": 237859
+  }
+}

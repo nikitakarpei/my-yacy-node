@@ -1,0 +1,3800 @@
+{
+  "query": "how does public key cryptography work",
+  "recordedAt": "2026-09-12T00:22:51Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 18,
+            "textWords": 8109
+          },
+          "4NALnzN9NXxv": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "PG4LipwVIkqC": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "TJGE83z_Abzc": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "VEDnDEPMAqup": {
+            "hits": 7,
+            "textWords": 8109
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 7,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "jtT-mSofUy-5",
+        "address": "https://duckduckgo.com/duckduckgo-help-pages/resources/vpn/what-does-a-vpn-do",
+        "title": "What Does a VPN Do? How Does a VPN Work? - DuckDuckGo Help Pages",
+        "snippet": "Does a VPN Do? How Does a VPN Work?\nWhen you use a VPN, you’re creating a secure and encrypted “tunnel” for internet traffic between your device and the wider internet — including the websites you visit and the apps you use. This prevents outsiders from intercepting and reading your data.\nUsing a",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 7,
+            "textWords": 538
+          },
+          "4NALnzN9NXxv": {
+            "hits": 1,
+            "textWords": 538
+          },
+          "PG4LipwVIkqC": {
+            "hits": 2,
+            "textWords": 538
+          },
+          "TJGE83z_Abzc": {
+            "hits": 1,
+            "textWords": 538
+          },
+          "VEDnDEPMAqup": {
+            "hits": 5,
+            "textWords": 538
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 4,
+            "textWords": 538
+          }
+        },
+        "queryPhraseHits": 4
+      }
+    ],
+    [
+      {
+        "hash": "4I8HnsgJoQyx",
+        "address": "https://grapheneos.org/features",
+        "title": "Features overview | GrapheneOS",
+        "snippet": "work on filling in gaps from not bundling Google apps and services into the OS. We aren't against users using Google services but it doesn't belong integrated into the OS in an invasive way. GrapheneOS won't take the shortcut of simply bundling a very incomplete and poorly secured third party",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 6,
+            "textWords": 10166
+          },
+          "4NALnzN9NXxv": {
+            "hits": 1,
+            "textWords": 10166
+          },
+          "PG4LipwVIkqC": {
+            "hits": 8,
+            "textWords": 10166
+          },
+          "TJGE83z_Abzc": {
+            "hits": 1,
+            "textWords": 10166
+          },
+          "VEDnDEPMAqup": {
+            "hits": 4,
+            "textWords": 10166
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 14,
+            "textWords": 10166
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "cF6iQswQPNL4",
+        "address": "https://auth0.com/changelog?version=v202533",
+        "title": "Auth0 Changelog",
+        "snippet": "",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "4NALnzN9NXxv": {
+            "hits": 3,
+            "textWords": 18321
+          },
+          "PG4LipwVIkqC": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "TJGE83z_Abzc": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "VEDnDEPMAqup": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 0,
+            "textWords": 0
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "how Iran destroyed US unmanned vessel\nin Hormuz\nRussia urges West to stop 'adding fuel to the\nfire’ over Iran\nUS Military Relocates Damaged Black Hawk\nHelicopters from Jordanian Base Following\nMissile Strikes\nIran says it captured a US sail drone near\nthe Strait of Hormuz\nPentagon admits Iran has",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 159,
+            "textWords": 85916
+          },
+          "4NALnzN9NXxv": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "PG4LipwVIkqC": {
+            "hits": 27,
+            "textWords": 85916
+          },
+          "TJGE83z_Abzc": {
+            "hits": 31,
+            "textWords": 85916
+          },
+          "VEDnDEPMAqup": {
+            "hits": 15,
+            "textWords": 85916
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 24,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "how Iran destroyed US unmanned vessel\nin Hormuz\nRussia urges West to stop 'adding fuel to the\nfire’ over Iran\nUS Military Relocates Damaged Black Hawk\nHelicopters from Jordanian Base Following\nMissile Strikes\nIran says it captured a US sail drone near\nthe Strait of Hormuz\nPentagon admits Iran has",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 159,
+            "textWords": 85916
+          },
+          "4NALnzN9NXxv": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "PG4LipwVIkqC": {
+            "hits": 27,
+            "textWords": 85916
+          },
+          "TJGE83z_Abzc": {
+            "hits": 31,
+            "textWords": 85916
+          },
+          "VEDnDEPMAqup": {
+            "hits": 15,
+            "textWords": 85916
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 24,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "siAIZpx-vfi7",
+        "address": "https://www.askamathematician.com/2012/09/q-what-is-a-fourier-transform-what-is-it-used-for/",
+        "title": "Q: What is a Fourier transform? What is it used for? | Ask a Mathematician / Ask a Physicist",
+        "snippet": "how much of each wave is needed, is the Fourier Transform.\nFourier transforms (FT) take a signal and express it in terms of the frequencies of the waves that make up that signal. Sound is probably the easiest thing to think about when talking about Fourier transforms. If you could see sound, it",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 3,
+            "textWords": 1283
+          },
+          "4NALnzN9NXxv": {
+            "hits": 0,
+            "textWords": 1283
+          },
+          "PG4LipwVIkqC": {
+            "hits": 0,
+            "textWords": 1283
+          },
+          "TJGE83z_Abzc": {
+            "hits": 0,
+            "textWords": 1283
+          },
+          "VEDnDEPMAqup": {
+            "hits": 0,
+            "textWords": 1283
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 0,
+            "textWords": 1283
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "W-eXqzF3--Qw",
+        "address": "https://planet.mozilla.org/",
+        "title": "Planet Mozilla",
+        "snippet": "work: Replaced the “more themes” button in the themes list view footer with a promo element when Nova is enabled – Bug 2057200\nRemoved the testing XPI base url pref from ThemesList.sys.mjs – Bug 2053220\nFixed a mismatch between the popup panel border radius applied by Nova and the border radius",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 148,
+            "textWords": 66162
+          },
+          "4NALnzN9NXxv": {
+            "hits": 3,
+            "textWords": 66162
+          },
+          "PG4LipwVIkqC": {
+            "hits": 58,
+            "textWords": 66162
+          },
+          "TJGE83z_Abzc": {
+            "hits": 26,
+            "textWords": 66162
+          },
+          "VEDnDEPMAqup": {
+            "hits": 39,
+            "textWords": 66162
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 130,
+            "textWords": 66162
+          }
+        },
+        "queryPhraseHits": 8
+      }
+    ],
+    [
+      {
+        "hash": "-b3sxspKNBr4",
+        "address": "https://rense.com/",
+        "title": "rense.com",
+        "snippet": "how Iran destroyed US unmanned vessel\nin Hormuz\nRussia urges West to stop 'adding fuel to the\nfire’ over Iran\nUS Military Relocates Damaged Black Hawk\nHelicopters from Jordanian Base Following\nMissile Strikes\nIran says it captured a US sail drone near\nthe Strait of Hormuz\nPentagon admits Iran has",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 159,
+            "textWords": 85916
+          },
+          "4NALnzN9NXxv": {
+            "hits": 1,
+            "textWords": 85916
+          },
+          "PG4LipwVIkqC": {
+            "hits": 27,
+            "textWords": 85916
+          },
+          "TJGE83z_Abzc": {
+            "hits": 31,
+            "textWords": 85916
+          },
+          "VEDnDEPMAqup": {
+            "hits": 15,
+            "textWords": 85916
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 24,
+            "textWords": 85916
+          }
+        },
+        "queryPhraseHits": 1
+      }
+    ],
+    [
+      {
+        "hash": "D4lABzaS0qdw",
+        "address": "https://planet.debian.org/",
+        "title": "Planet Debian",
+        "snippet": "does DCS need a fast Integer Codec?\nDebian Code Search (DCS) is a search engine that allows searching all the Open Source source code within Debian, with either literal search expressions or regular expression search queries.\nA search engine uses an inverted index: a map from term to documents",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 18,
+            "textWords": 8109
+          },
+          "4NALnzN9NXxv": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "PG4LipwVIkqC": {
+            "hits": 1,
+            "textWords": 8109
+          },
+          "TJGE83z_Abzc": {
+            "hits": 0,
+            "textWords": 8109
+          },
+          "VEDnDEPMAqup": {
+            "hits": 7,
+            "textWords": 8109
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 7,
+            "textWords": 8109
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kHtomjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Mao_Zedong",
+        "title": "Mao Zedong - Wikipedia",
+        "snippet": "work with manual labourers, setting up night schools and trade unions.[56] In December 1919, Mao helped organise a general strike in Hunan, securing some concessions, but Mao and other student leaders felt threatened by Zhang, and Mao returned to Beijing, visiting the terminally ill Yang",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 8,
+            "textWords": 21055
+          },
+          "4NALnzN9NXxv": {
+            "hits": 0,
+            "textWords": 21055
+          },
+          "PG4LipwVIkqC": {
+            "hits": 4,
+            "textWords": 21055
+          },
+          "TJGE83z_Abzc": {
+            "hits": 4,
+            "textWords": 21055
+          },
+          "VEDnDEPMAqup": {
+            "hits": 2,
+            "textWords": 21055
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 4,
+            "textWords": 21055
+          }
+        },
+        "queryPhraseHits": 2
+      }
+    ],
+    [
+      {
+        "hash": "atY_jKsrSOQw",
+        "address": "https://arxiv.org/list/cs.CR/new",
+        "title": "Cryptography and Security",
+        "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 72 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 43 of 43 entries)\n[1] arXiv:2609.10594 [pdf, html, other]\n[2] arXiv:2609.10601 [pdf,",
+        "matchedWords": {
+          "24igJXwiDb_d": {
+            "hits": 0,
+            "textWords": 649
+          },
+          "4NALnzN9NXxv": {
+            "hits": 0,
+            "textWords": 649
+          },
+          "PG4LipwVIkqC": {
+            "hits": 0,
+            "textWords": 649
+          },
+          "TJGE83z_Abzc": {
+            "hits": 0,
+            "textWords": 649
+          },
+          "VEDnDEPMAqup": {
+            "hits": 0,
+            "textWords": 649
+          },
+          "Z-ksh2WpvH-y": {
+            "hits": 0,
+            "textWords": 649
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "zjh_EiBbCobw",
+      "address": "https://www.php.net/manual/en/language.types.string.php",
+      "title": "PHP: Strings - Manual",
+      "snippet": "does not offer native Unicode support. See details of the string type.\nNote:\nOn 32-bit builds, a string can be up to 2GB (2147483647 bytes) in length.\nSyntax\nA string literal can be specified in four different ways:\nsingle quoted\ndouble quoted\nheredoc syntax\nnowdoc syntax\nSingle quoted\nThe simplest",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 4495
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 4495
+        },
+        "PG4LipwVIkqC": {
+          "hits": 11,
+          "textWords": 4495
+        },
+        "TJGE83z_Abzc": {
+          "hits": 17,
+          "textWords": 4495
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 4495
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 9,
+          "textWords": 4495
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 695
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 695
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 695
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 695
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hxeq6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
+      "title": "Gottfried Wilhelm Leibniz - Wikipedia",
+      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 9,
+          "textWords": 20779
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 20779
+        },
+        "PG4LipwVIkqC": {
+          "hits": 2,
+          "textWords": 20779
+        },
+        "TJGE83z_Abzc": {
+          "hits": 8,
+          "textWords": 20779
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 20779
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 21,
+          "textWords": 20779
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ptCCrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+      "title": "Massachusetts Institute of Technology - Wikipedia",
+      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 20296
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 20296
+        },
+        "PG4LipwVIkqC": {
+          "hits": 3,
+          "textWords": 20296
+        },
+        "TJGE83z_Abzc": {
+          "hits": 11,
+          "textWords": 20296
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 20296
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 14,
+          "textWords": 20296
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "t9RUcmVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
+      "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 7117
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "TJGE83z_Abzc": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 7117
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 123,
+          "textWords": 63075
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 63075
+        },
+        "PG4LipwVIkqC": {
+          "hits": 17,
+          "textWords": 63075
+        },
+        "TJGE83z_Abzc": {
+          "hits": 57,
+          "textWords": 63075
+        },
+        "VEDnDEPMAqup": {
+          "hits": 48,
+          "textWords": 63075
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 62,
+          "textWords": 63075
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "ww-gf8cZd9Fw",
+      "address": "https://hackage.haskell.org/packages/",
+      "title": "packages by category | Hackage",
+      "snippet": "Cryptography (238), CSharp (1), CSS (2), CsSyd (1), CSV (24), Culinary (1), CUR (1), Cursor (1), CustomerProfiles (1), CustomSetup (2), Data (2681), Data Conduit (1), Data Control (2), Data Flow (3), Data Mining (28), Data Network (1), Data Science (12), Data Structure (3), Data Structures (354),",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 22,
+          "textWords": 267877
+        },
+        "4NALnzN9NXxv": {
+          "hits": 32,
+          "textWords": 267877
+        },
+        "PG4LipwVIkqC": {
+          "hits": 75,
+          "textWords": 267877
+        },
+        "TJGE83z_Abzc": {
+          "hits": 14,
+          "textWords": 267877
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 267877
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 69,
+          "textWords": 267877
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 10,
+          "textWords": 2681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DhKFI-fvgwV4",
+      "address": "https://www.hp.com/us-en/newsroom.html",
+      "title": "Newsroom | HP® Official Site",
+      "snippet": "No results found.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VK6Z_Fs4EUS4",
+      "address": "https://roundingtheearth.substack.com/p/a-grand-unified-theory-of-the-ftx",
+      "title": "A Grand Unified Theory of the FTX Disaster",
+      "snippet": "work of many hundreds of people, distilled and organized in a way that hopefully brings the Bigger Picture to light—at least insofar as we all can research and interpret it better. Apologies to those participating whose work is not included in the scores of links provided.\nSo far as I can tell,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 10,
+          "textWords": 7086
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 7086
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 7086
+        },
+        "TJGE83z_Abzc": {
+          "hits": 6,
+          "textWords": 7086
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 7086
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 12,
+          "textWords": 7086
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8UUF7AIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/politics/",
+      "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
+      "snippet": "how's he going to keep it off of yours?\nA funny thing happened when I went to sign up for ObamaCare this morning. I couldn't! The official site at HealthCare.gov just referred me over to California's web site for their own Health Exchange. And it was so overloaded with traffic that it was",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 276,
+          "textWords": 153509
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 153509
+        },
+        "PG4LipwVIkqC": {
+          "hits": 13,
+          "textWords": 153509
+        },
+        "TJGE83z_Abzc": {
+          "hits": 89,
+          "textWords": 153509
+        },
+        "VEDnDEPMAqup": {
+          "hits": 92,
+          "textWords": 153509
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 138,
+          "textWords": 153509
+        }
+      },
+      "queryPhraseHits": 7
+    },
+    {
+      "hash": "OLTxn0MIE-Ix",
+      "address": "https://feeds.megaphone.fm/CNE6423132305",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4w4qosN9NeLw",
+      "address": "https://signal.org/blog/",
+      "title": "Signal Blog",
+      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 30,
+          "textWords": 14456
+        },
+        "4NALnzN9NXxv": {
+          "hits": 10,
+          "textWords": 14456
+        },
+        "PG4LipwVIkqC": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "TJGE83z_Abzc": {
+          "hits": 4,
+          "textWords": 14456
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 25,
+          "textWords": 14456
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "how much the agent prefers it. For each possible action, it can calculate the \"expected utility\": the utility of all possible outcomes of the action, weighted by the probability that the outcome will occur. It can then choose the action with the maximum expected utility.[35]\nIn classical planning,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 39,
+          "textWords": 27483
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 27483
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 27483
+        },
+        "TJGE83z_Abzc": {
+          "hits": 11,
+          "textWords": 27483
+        },
+        "VEDnDEPMAqup": {
+          "hits": 11,
+          "textWords": 27483
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 14,
+          "textWords": 27483
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "BKEmz7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc8422/",
+      "title": "RFC 8422: Elliptic Curve Cryptography (ECC) Cipher Suites for Transport Layer Security (TLS) Versions 1.2 and Earlier | RFC Editor",
+      "snippet": "Cryptography (ECC) Cipher Suites for Transport Layer Security (TLS) Versions 1.2 and Earlier Abstract This document describes key exchange algorithms based on Elliptic Curve Cryptography (ECC) for the Transport Layer Security (TLS) protocol. In particular, it specifies the use of Ephemeral Elliptic",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 4,
+          "textWords": 8528
+        },
+        "4NALnzN9NXxv": {
+          "hits": 8,
+          "textWords": 8528
+        },
+        "PG4LipwVIkqC": {
+          "hits": 118,
+          "textWords": 8528
+        },
+        "TJGE83z_Abzc": {
+          "hits": 57,
+          "textWords": 8528
+        },
+        "VEDnDEPMAqup": {
+          "hits": 11,
+          "textWords": 8528
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 8528
+        }
+      },
+      "queryPhraseHits": 48
+    },
+    {
+      "hash": "vcPgA7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc8446/",
+      "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3 | RFC Editor",
+      "snippet": "public review and has been approved for publication by the Internet Engineering Steering Group (IESG). Further information on Internet Standards is available in Section 2 of RFC 7841. Information about the current status of this document, any errata, and how to provide feedback on it may be",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 11,
+          "textWords": 40303
+        },
+        "4NALnzN9NXxv": {
+          "hits": 11,
+          "textWords": 40303
+        },
+        "PG4LipwVIkqC": {
+          "hits": 340,
+          "textWords": 40303
+        },
+        "TJGE83z_Abzc": {
+          "hits": 36,
+          "textWords": 40303
+        },
+        "VEDnDEPMAqup": {
+          "hits": 55,
+          "textWords": 40303
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 3,
+          "textWords": 40303
+        }
+      },
+      "queryPhraseHits": 25
+    },
+    {
+      "hash": "B9VWfKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CV/new",
+      "title": "Computer Vision and Pattern Recognition",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]\n[2] arXiv:2609.10723 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 1289
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 2520
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "v3ss6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bluetooth",
+      "title": "Bluetooth - Wikipedia",
+      "snippet": "Key finders\nTypically less than 10 m (33 ft), up to 100 m (330 ft).\nBluetooth 5.0: 40–400 m (100–1,000 ft)[1][2]\nWebsite\nbluetooth.com\nA Bluetooth earbud, an earphone and microphone that communicates with a cellphone using the Bluetooth protocol\nBluetooth is a short-range wireless technology",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 9,
+          "textWords": 14282
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 14282
+        },
+        "PG4LipwVIkqC": {
+          "hits": 24,
+          "textWords": 14282
+        },
+        "TJGE83z_Abzc": {
+          "hits": 4,
+          "textWords": 14282
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 14282
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 7,
+          "textWords": 14282
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "yUzfC5ZwBp64",
+      "address": "https://feed.jupiter.zone/allshows",
+      "title": "Linux Action News 45",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "zjh_EiBbCobw",
+      "address": "https://www.php.net/manual/en/language.types.string.php",
+      "title": "PHP: Strings - Manual",
+      "snippet": "does not offer native Unicode support. See details of the string type.\nNote:\nOn 32-bit builds, a string can be up to 2GB (2147483647 bytes) in length.\nSyntax\nA string literal can be specified in four different ways:\nsingle quoted\ndouble quoted\nheredoc syntax\nnowdoc syntax\nSingle quoted\nThe simplest",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 4495
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 4495
+        },
+        "PG4LipwVIkqC": {
+          "hits": 11,
+          "textWords": 4495
+        },
+        "TJGE83z_Abzc": {
+          "hits": 17,
+          "textWords": 4495
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 4495
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 9,
+          "textWords": 4495
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
+      "snippet": "how the tides seem to be changing.\nBuried in the Settings app on iOS 27, Apple has hidden an easter egg that hails back from classic Mac OS; Clarus the Dogcow. Here’s how to trigger it …\nVery fun. Alas, this easter egg isn’t present in MacOS 27, only iOS 27. But the MacOS 27 version of the Liquid",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 34,
+          "textWords": 13247
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 13247
+        },
+        "PG4LipwVIkqC": {
+          "hits": 2,
+          "textWords": 13247
+        },
+        "TJGE83z_Abzc": {
+          "hits": 3,
+          "textWords": 13247
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 13247
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 10,
+          "textWords": 13247
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "y9mkpsMAuxi4",
+      "address": "https://www.linkedin.com/top-content/technology/exploring-quantum-technology/",
+      "title": "Top LinkedIn Content on Exploring Quantum Technology",
+      "snippet": "key question: 𝗛𝗼𝘄? Through 𝗛𝘆𝗯𝗿𝗶𝗱 𝗖𝗹𝗼𝘂𝗱 𝗯𝘆 𝗱𝗲𝘀𝗶𝗴𝗻 – giving leaders the flexibility to run AI anywhere (on-prem, cloud or edge). The infrastructure decisions made today are what make tomorrow’s quantum advantage possible. As technology becomes more powerful, governance becomes non-negotiable. \u0026 we",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 5,
+          "textWords": 2738
+        },
+        "4NALnzN9NXxv": {
+          "hits": 6,
+          "textWords": 2738
+        },
+        "PG4LipwVIkqC": {
+          "hits": 7,
+          "textWords": 2738
+        },
+        "TJGE83z_Abzc": {
+          "hits": 1,
+          "textWords": 2738
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 2738
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 3,
+          "textWords": 2738
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OLTxn0MIE-Ix",
+      "address": "https://feeds.megaphone.fm/CNE6423132305",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "hxeq6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
+      "title": "Gottfried Wilhelm Leibniz - Wikipedia",
+      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 9,
+          "textWords": 20779
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 20779
+        },
+        "PG4LipwVIkqC": {
+          "hits": 2,
+          "textWords": 20779
+        },
+        "TJGE83z_Abzc": {
+          "hits": 8,
+          "textWords": 20779
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 20779
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 21,
+          "textWords": 20779
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3m8uWeVM3_EY",
+      "address": "http://bobagard.blogspot.com/2022/07/athena-thorne-predicts-biden-will-not.html",
+      "title": "Bob's Blog: Athena Thorne predicts Biden will not survive past the midterm elections",
+      "snippet": "She writes,\nAs the Hunter Biden story continues to explode in scandal and scope, it’s becoming impossible to hide. Even if Fake News and Big Tech keep up their efforts to suppress it, it’s so vast and egregious that it’s going to erupt into a campaign issue in the fall — and Democrats can’t have",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 85
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 123,
+          "textWords": 63075
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 63075
+        },
+        "PG4LipwVIkqC": {
+          "hits": 17,
+          "textWords": 63075
+        },
+        "TJGE83z_Abzc": {
+          "hits": 57,
+          "textWords": 63075
+        },
+        "VEDnDEPMAqup": {
+          "hits": 48,
+          "textWords": 63075
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 62,
+          "textWords": 63075
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "yUzfC5ZwBp64",
+      "address": "https://feed.jupiter.zone/allshows",
+      "title": "Linux Action News 45",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ww-gf8cZd9Fw",
+      "address": "https://hackage.haskell.org/packages/",
+      "title": "packages by category | Hackage",
+      "snippet": "Cryptography (238), CSharp (1), CSS (2), CsSyd (1), CSV (24), Culinary (1), CUR (1), Cursor (1), CustomerProfiles (1), CustomSetup (2), Data (2681), Data Conduit (1), Data Control (2), Data Flow (3), Data Mining (28), Data Network (1), Data Science (12), Data Structure (3), Data Structures (354),",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 22,
+          "textWords": 267877
+        },
+        "4NALnzN9NXxv": {
+          "hits": 32,
+          "textWords": 267877
+        },
+        "PG4LipwVIkqC": {
+          "hits": 75,
+          "textWords": 267877
+        },
+        "TJGE83z_Abzc": {
+          "hits": 14,
+          "textWords": 267877
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 267877
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 69,
+          "textWords": 267877
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 10,
+          "textWords": 2681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DhKFI-fvgwV4",
+      "address": "https://www.hp.com/us-en/newsroom.html",
+      "title": "Newsroom | HP® Official Site",
+      "snippet": "No results found.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
+      "snippet": "how to obtain, install, and configure NixOS for first-time use.\nObtaining NixOS\nNixOS ISO images can be downloaded from the NixOS download page. Follow the instructions in the section called “Booting from a USB flash drive” to create a bootable USB flash drive.\nIf you have a very old system that",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 65,
+          "textWords": 86420
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 86420
+        },
+        "PG4LipwVIkqC": {
+          "hits": 167,
+          "textWords": 86420
+        },
+        "TJGE83z_Abzc": {
+          "hits": 34,
+          "textWords": 86420
+        },
+        "VEDnDEPMAqup": {
+          "hits": 55,
+          "textWords": 86420
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 58,
+          "textWords": 86420
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "4TSBLkIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2006/02/grave-mysteries-part-one_21.html",
+      "title": "Rigorous Intuition: \"Grave mysteries\" (Part One)",
+      "snippet": "\"Aye! listen to the numbers \u0026 the words.\" - The Book of the Law\nI've given a lot of space here - some say too much - to Aleister Crowley, the occult and High Weirdness. I'm going to give some more now, because maybe it will help explain why.\nThe cipher, the Nine, the whole damn thing\nIn 1904",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 956
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 956
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 956
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 956
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 956
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 956
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8UUF7AIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/politics/",
+      "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
+      "snippet": "how's he going to keep it off of yours?\nA funny thing happened when I went to sign up for ObamaCare this morning. I couldn't! The official site at HealthCare.gov just referred me over to California's web site for their own Health Exchange. And it was so overloaded with traffic that it was",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 276,
+          "textWords": 153509
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 153509
+        },
+        "PG4LipwVIkqC": {
+          "hits": 13,
+          "textWords": 153509
+        },
+        "TJGE83z_Abzc": {
+          "hits": 89,
+          "textWords": 153509
+        },
+        "VEDnDEPMAqup": {
+          "hits": 92,
+          "textWords": 153509
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 138,
+          "textWords": 153509
+        }
+      },
+      "queryPhraseHits": 7
+    },
+    {
+      "hash": "4w4qosN9NeLw",
+      "address": "https://signal.org/blog/",
+      "title": "Signal Blog",
+      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 30,
+          "textWords": 14456
+        },
+        "4NALnzN9NXxv": {
+          "hits": 10,
+          "textWords": 14456
+        },
+        "PG4LipwVIkqC": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "TJGE83z_Abzc": {
+          "hits": 4,
+          "textWords": 14456
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 25,
+          "textWords": 14456
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "ptCCrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+      "title": "Massachusetts Institute of Technology - Wikipedia",
+      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 20296
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 20296
+        },
+        "PG4LipwVIkqC": {
+          "hits": 3,
+          "textWords": 20296
+        },
+        "TJGE83z_Abzc": {
+          "hits": 11,
+          "textWords": 20296
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 20296
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 14,
+          "textWords": 20296
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "zSc6gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/WhatsApp",
+      "title": "WhatsApp - Wikipedia",
+      "snippet": "work or on a call.[30]\nTheir discussions often took place at the home of Koum's Russian friend Alex Fishman in West San Jose. They realized that to take the idea further, they would need an iPhone developer. Fishman visited RentACoder.com, found Russian developer Igor Solomennikov, and introduced",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 30,
+          "textWords": 21445
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 21445
+        },
+        "PG4LipwVIkqC": {
+          "hits": 4,
+          "textWords": 21445
+        },
+        "TJGE83z_Abzc": {
+          "hits": 4,
+          "textWords": 21445
+        },
+        "VEDnDEPMAqup": {
+          "hits": 5,
+          "textWords": 21445
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 6,
+          "textWords": 21445
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "how much the agent prefers it. For each possible action, it can calculate the \"expected utility\": the utility of all possible outcomes of the action, weighted by the probability that the outcome will occur. It can then choose the action with the maximum expected utility.[35]\nIn classical planning,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 39,
+          "textWords": 27483
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 27483
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 27483
+        },
+        "TJGE83z_Abzc": {
+          "hits": 11,
+          "textWords": 27483
+        },
+        "VEDnDEPMAqup": {
+          "hits": 11,
+          "textWords": 27483
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 14,
+          "textWords": 27483
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "VK6Z_Fs4EUS4",
+      "address": "https://roundingtheearth.substack.com/p/a-grand-unified-theory-of-the-ftx",
+      "title": "A Grand Unified Theory of the FTX Disaster",
+      "snippet": "work of many hundreds of people, distilled and organized in a way that hopefully brings the Bigger Picture to light—at least insofar as we all can research and interpret it better. Apologies to those participating whose work is not included in the scores of links provided.\nSo far as I can tell,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 10,
+          "textWords": 7086
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 7086
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 7086
+        },
+        "TJGE83z_Abzc": {
+          "hits": 6,
+          "textWords": 7086
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 7086
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 12,
+          "textWords": 7086
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "FxC5-KsrSOQw",
+      "address": "https://arxiv.org/list/cs.LG/new",
+      "title": "Machine Learning",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 268 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 73 of 73 entries)\n[1] arXiv:2609.10559 [pdf, html, other]\n[2] arXiv:2609.10589 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 2505
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 2505
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "kiVj1l2e50v4",
+      "address": "https://labs.ovhcloud.com/en/end-to-end-encryption/",
+      "title": "End-to-End Encryption Platform",
+      "snippet": "cryptography expertise. It automatically handles cryptography, key exchanges, and private key recovery.\n📦 How is this solution different from traditional data protection methods?\nTraditional security methods (such as TLS, WAF, encryption at rest, etc.) protect the application or the network",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 431
+        },
+        "4NALnzN9NXxv": {
+          "hits": 4,
+          "textWords": 431
+        },
+        "PG4LipwVIkqC": {
+          "hits": 6,
+          "textWords": 431
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 431
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 431
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 431
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4DXm5sFbwuxx",
+      "address": "https://letsencrypt.org/blog/",
+      "title": "Blog - Let's Encrypt",
+      "snippet": "work this year in our 2025 Annual Report.\nLegal Address\n548 Market St, PMB 77519\nSan Francisco, CA 94104-5401\nUSA\nSend all mail or inquiries to:\nPO Box 18666\nMinneapolis, MN 55418-0666\nUSA\nSubscribe for email updates about Let's Encrypt and other ISRG projects",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 71
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 71
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 71
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 71
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 71
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 71
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4w4qosN9NeLw",
+      "address": "https://signal.org/blog/",
+      "title": "Signal Blog",
+      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 30,
+          "textWords": 14456
+        },
+        "4NALnzN9NXxv": {
+          "hits": 10,
+          "textWords": 14456
+        },
+        "PG4LipwVIkqC": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "TJGE83z_Abzc": {
+          "hits": 4,
+          "textWords": 14456
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 25,
+          "textWords": 14456
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "hxeq6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
+      "title": "Gottfried Wilhelm Leibniz - Wikipedia",
+      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 9,
+          "textWords": 20779
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 20779
+        },
+        "PG4LipwVIkqC": {
+          "hits": 2,
+          "textWords": 20779
+        },
+        "TJGE83z_Abzc": {
+          "hits": 8,
+          "textWords": 20779
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 20779
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 21,
+          "textWords": 20779
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3m8uWeVM3_EY",
+      "address": "http://bobagard.blogspot.com/2022/07/athena-thorne-predicts-biden-will-not.html",
+      "title": "Bob's Blog: Athena Thorne predicts Biden will not survive past the midterm elections",
+      "snippet": "She writes,\nAs the Hunter Biden story continues to explode in scandal and scope, it’s becoming impossible to hide. Even if Fake News and Big Tech keep up their efforts to suppress it, it’s so vast and egregious that it’s going to erupt into a campaign issue in the fall — and Democrats can’t have",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 85
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 85
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "t9RUcmVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
+      "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 7117
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "TJGE83z_Abzc": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 7117
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 123,
+          "textWords": 63075
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 63075
+        },
+        "PG4LipwVIkqC": {
+          "hits": 17,
+          "textWords": 63075
+        },
+        "TJGE83z_Abzc": {
+          "hits": 57,
+          "textWords": 63075
+        },
+        "VEDnDEPMAqup": {
+          "hits": 48,
+          "textWords": 63075
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 62,
+          "textWords": 63075
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "yUzfC5ZwBp64",
+      "address": "https://feed.jupiter.zone/allshows",
+      "title": "Linux Action News 45",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "DhKFI-fvgwV4",
+      "address": "https://www.hp.com/us-en/newsroom.html",
+      "title": "Newsroom | HP® Official Site",
+      "snippet": "No results found.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 3
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 3
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "B9VWfKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CV/new",
+      "title": "Computer Vision and Pattern Recognition",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]\n[2] arXiv:2609.10723 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 1289
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 2520
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "3zFnUKsrSOQw",
+      "address": "https://arxiv.org/list/math/new",
+      "title": "Mathematics",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 654 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 357 of 357 entries)\n[1] arXiv:2609.10551 [pdf, html, other]\n[2] arXiv:2609.10553",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 5141
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 5141
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 5141
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 5141
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 5141
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 5141
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "31RRrlv6IfH4",
+      "address": "https://www.schneier.com/",
+      "title": "Schneier on Security -",
+      "snippet": "public while crews work on a removal plan.\nAccording to salvage expert Ernie English of Parker Diving Service, the squid has deteriorated into a thick mass that will be difficult to remove.\n“It’s like concrete,” English said when asked about its consistency.\nAs usual, you can also use this squid",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 11,
+          "textWords": 2190
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 2190
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 2190
+        },
+        "TJGE83z_Abzc": {
+          "hits": 5,
+          "textWords": 2190
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 2190
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 2190
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "OLTxn0MIE-Ix",
+      "address": "https://feeds.megaphone.fm/CNE6423132305",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2MFHBtYEKFwx",
+      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
+      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+      "snippet": "work to universities. If academia uses \"research\" as a stalking horse for privacy invasion, the entire enterprise of security research will fall into disrepute. Legitimate privacy researchers study many online systems, including social networks — If this kind of FBI attack by university proxy is",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 444
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 444
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 444
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "how media are being handled, and AppStream’s default image export format.\nAppStream is a Freedesktop metadata standard to describe software components. That can be anything from system services over fonts to console and graphical applications. AppStream metadata is supposed to give users enough",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 2681
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 2681
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 2681
+        },
+        "VEDnDEPMAqup": {
+          "hits": 10,
+          "textWords": 2681
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 2681
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "2c26yxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Installation_guide",
+      "title": "Installation guide - ArchWiki",
+      "snippet": "how you want to boot, acquire the ISO file or a netboot image, and the respective PGP signature.\nVerify signature\nIt is recommended to verify the image signature before use, especially when downloading from an HTTP mirror, where downloads are generally prone to be intercepted to serve malicious",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 2660
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 2660
+        },
+        "PG4LipwVIkqC": {
+          "hits": 9,
+          "textWords": 2660
+        },
+        "TJGE83z_Abzc": {
+          "hits": 5,
+          "textWords": 2660
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 2660
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 1,
+          "textWords": 2660
+        }
+      },
+      "queryPhraseHits": 6
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 695
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 695
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 695
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 695
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
+      "snippet": "how the tides seem to be changing.\nBuried in the Settings app on iOS 27, Apple has hidden an easter egg that hails back from classic Mac OS; Clarus the Dogcow. Here’s how to trigger it …\nVery fun. Alas, this easter egg isn’t present in MacOS 27, only iOS 27. But the MacOS 27 version of the Liquid",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 34,
+          "textWords": 13247
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 13247
+        },
+        "PG4LipwVIkqC": {
+          "hits": 2,
+          "textWords": 13247
+        },
+        "TJGE83z_Abzc": {
+          "hits": 3,
+          "textWords": 13247
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 13247
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 10,
+          "textWords": 13247
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "OLTxn0MIE-Ix",
+      "address": "https://feeds.megaphone.fm/CNE6423132305",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "4w4qosN9NeLw",
+      "address": "https://signal.org/blog/",
+      "title": "Signal Blog",
+      "snippet": "key verification” which complements the existing safety number system. Signal is always end-to-end encrypted, and automatic key verification provides an additional, streamlined way to confirm that there’s no unexpected party between you and the other “end” of an end-to-end encrypted session.\nRead",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 30,
+          "textWords": 14456
+        },
+        "4NALnzN9NXxv": {
+          "hits": 10,
+          "textWords": 14456
+        },
+        "PG4LipwVIkqC": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "TJGE83z_Abzc": {
+          "hits": 4,
+          "textWords": 14456
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 14456
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 25,
+          "textWords": 14456
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "iTNcujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Charles_Babbage",
+      "title": "Charles Babbage - Wikipedia",
+      "snippet": "work, he also designed the first computer printers.[7] He had a broad range of interests in addition to his work on computers, covered in his 1832 book Economy of Manufactures and Machinery.[8] He was an important figure in the social scene in London, and is credited with importing the \"scientific",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 12197
+        },
+        "4NALnzN9NXxv": {
+          "hits": 3,
+          "textWords": 12197
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 12197
+        },
+        "TJGE83z_Abzc": {
+          "hits": 13,
+          "textWords": 12197
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 12197
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 24,
+          "textWords": 12197
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ptCCrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+      "title": "Massachusetts Institute of Technology - Wikipedia",
+      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 20296
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 20296
+        },
+        "PG4LipwVIkqC": {
+          "hits": 3,
+          "textWords": 20296
+        },
+        "TJGE83z_Abzc": {
+          "hits": 11,
+          "textWords": 20296
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 20296
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 14,
+          "textWords": 20296
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "t9RUcmVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
+      "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 7117
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "TJGE83z_Abzc": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 7117
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "vcPgA7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc8446/",
+      "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3 | RFC Editor",
+      "snippet": "public review and has been approved for publication by the Internet Engineering Steering Group (IESG). Further information on Internet Standards is available in Section 2 of RFC 7841. Information about the current status of this document, any errata, and how to provide feedback on it may be",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 11,
+          "textWords": 40303
+        },
+        "4NALnzN9NXxv": {
+          "hits": 11,
+          "textWords": 40303
+        },
+        "PG4LipwVIkqC": {
+          "hits": 340,
+          "textWords": 40303
+        },
+        "TJGE83z_Abzc": {
+          "hits": 36,
+          "textWords": 40303
+        },
+        "VEDnDEPMAqup": {
+          "hits": 55,
+          "textWords": 40303
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 3,
+          "textWords": 40303
+        }
+      },
+      "queryPhraseHits": 25
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 123,
+          "textWords": 63075
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 63075
+        },
+        "PG4LipwVIkqC": {
+          "hits": 17,
+          "textWords": 63075
+        },
+        "TJGE83z_Abzc": {
+          "hits": 57,
+          "textWords": 63075
+        },
+        "VEDnDEPMAqup": {
+          "hits": 48,
+          "textWords": 63075
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 62,
+          "textWords": 63075
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "work hard to find numbers to support their claims; this page provides a useful antidote of hard figures to aid in comparing proprietary products to FLOSS. Others have come to the same conclusions, for example, Forrester Research concluded in September 2006 that “Firms should consider open source",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 87,
+          "textWords": 92275
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 92275
+        },
+        "PG4LipwVIkqC": {
+          "hits": 20,
+          "textWords": 92275
+        },
+        "TJGE83z_Abzc": {
+          "hits": 95,
+          "textWords": 92275
+        },
+        "VEDnDEPMAqup": {
+          "hits": 76,
+          "textWords": 92275
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 78,
+          "textWords": 92275
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "8HJM8yiZhzY4",
+      "address": "https://www.grc.com/sn/sn-1062.htm",
+      "title": "Security Now! Transcript of Episode #1062",
+      "snippet": "does the emergence of AI-generated malware portend?\nHigh quality (64 kbps) mp3 audio file URL: http://media.GRC.com/sn/SN-1062.mp3\nQuarter size (16 kbps) mp3 audio file URL: http://media.GRC.com/sn/sn-1062-lq.mp3\nSHOW TEASE: It's time for Security Now!. Steve Gibson is here. He's worried. He's",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 40,
+          "textWords": 19207
+        },
+        "4NALnzN9NXxv": {
+          "hits": 3,
+          "textWords": 19207
+        },
+        "PG4LipwVIkqC": {
+          "hits": 32,
+          "textWords": 19207
+        },
+        "TJGE83z_Abzc": {
+          "hits": 7,
+          "textWords": 19207
+        },
+        "VEDnDEPMAqup": {
+          "hits": 15,
+          "textWords": 19207
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 10,
+          "textWords": 19207
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 2520
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "yUzfC5ZwBp64",
+      "address": "https://feed.jupiter.zone/allshows",
+      "title": "Linux Action News 45",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "v3ss6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bluetooth",
+      "title": "Bluetooth - Wikipedia",
+      "snippet": "Key finders\nTypically less than 10 m (33 ft), up to 100 m (330 ft).\nBluetooth 5.0: 40–400 m (100–1,000 ft)[1][2]\nWebsite\nbluetooth.com\nA Bluetooth earbud, an earphone and microphone that communicates with a cellphone using the Bluetooth protocol\nBluetooth is a short-range wireless technology",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 9,
+          "textWords": 14282
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 14282
+        },
+        "PG4LipwVIkqC": {
+          "hits": 24,
+          "textWords": 14282
+        },
+        "TJGE83z_Abzc": {
+          "hits": 4,
+          "textWords": 14282
+        },
+        "VEDnDEPMAqup": {
+          "hits": 4,
+          "textWords": 14282
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 7,
+          "textWords": 14282
+        }
+      },
+      "queryPhraseHits": 2
+    },
+    {
+      "hash": "-60L9j5sllYz",
+      "address": "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026",
+      "title": "International AI Safety Report 2026 | International AI Safety Report",
+      "snippet": "does not endorse any particular policy or regulatory approach.\nThe Panel comprises representatives nominated by over 30 countries and international organisation including from; Australia, Brazil, Canada, Chile, China, the European Union (EU), France, Germany, India, Indonesia, Ireland, Israel,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 231,
+          "textWords": 108580
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 108580
+        },
+        "PG4LipwVIkqC": {
+          "hits": 79,
+          "textWords": 108580
+        },
+        "TJGE83z_Abzc": {
+          "hits": 53,
+          "textWords": 108580
+        },
+        "VEDnDEPMAqup": {
+          "hits": 28,
+          "textWords": 108580
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 63,
+          "textWords": 108580
+        }
+      },
+      "queryPhraseHits": 4
+    },
+    {
+      "hash": "zjh_EiBbCobw",
+      "address": "https://www.php.net/manual/en/language.types.string.php",
+      "title": "PHP: Strings - Manual",
+      "snippet": "does not offer native Unicode support. See details of the string type.\nNote:\nOn 32-bit builds, a string can be up to 2GB (2147483647 bytes) in length.\nSyntax\nA string literal can be specified in four different ways:\nsingle quoted\ndouble quoted\nheredoc syntax\nnowdoc syntax\nSingle quoted\nThe simplest",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 3,
+          "textWords": 4495
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 4495
+        },
+        "PG4LipwVIkqC": {
+          "hits": 11,
+          "textWords": 4495
+        },
+        "TJGE83z_Abzc": {
+          "hits": 17,
+          "textWords": 4495
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 4495
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 9,
+          "textWords": 4495
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "snippet": "does not result in a total price under consumer law.\niPhone Duo: Apple managers explain display, operating concept, and price\nIn video interviews, Apple executives provide insights into the development of the iPhone Duo and explain the strategy behind the complex folding smartphone.\nSocial Media",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 2,
+          "textWords": 695
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 695
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 695
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 695
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 695
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "WZgveeFbwuxx",
+      "address": "https://letsencrypt.org/documents/isrg-cps-v2.5/",
+      "title": "ISRG CPS v2.5 - Let's Encrypt",
+      "snippet": "Public Key Infrastructure (\"ISRG PKI\").\nISRG PKI services include, but are not limited to, issuing, managing, validating, revoking, and renewing Certificates in accordance with the requirements of the ISRG Certificate Policy (CP). It is recommended that readers familiarize themselves with the ISRG",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 1,
+          "textWords": 10452
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 10452
+        },
+        "PG4LipwVIkqC": {
+          "hits": 97,
+          "textWords": 10452
+        },
+        "TJGE83z_Abzc": {
+          "hits": 29,
+          "textWords": 10452
+        },
+        "VEDnDEPMAqup": {
+          "hits": 28,
+          "textWords": 10452
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 10452
+        }
+      },
+      "queryPhraseHits": 17
+    },
+    {
+      "hash": "OLTxn0MIE-Ix",
+      "address": "https://feeds.megaphone.fm/CNE6423132305",
+      "title": "",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NNbrnsPZ2Wzx",
+      "address": "https://wikileaks.org/vault7/",
+      "title": "WikiLeaks - Vault 7: Projects",
+      "snippet": "does not work or is considered insufficient by the CIA, because ExpressLane is a covert information collection tool that is used by the CIA to secretly exfiltrate data collections from such systems provided to liaison services.\nExpressLane is installed and run with the cover of upgrading the",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 5,
+          "textWords": 5389
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 5389
+        },
+        "PG4LipwVIkqC": {
+          "hits": 3,
+          "textWords": 5389
+        },
+        "TJGE83z_Abzc": {
+          "hits": 7,
+          "textWords": 5389
+        },
+        "VEDnDEPMAqup": {
+          "hits": 5,
+          "textWords": 5389
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 5,
+          "textWords": 5389
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "hxeq6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
+      "title": "Gottfried Wilhelm Leibniz - Wikipedia",
+      "snippet": "work\nEra\n17th-/18th-century philosophy\nRegion\nWestern philosophy\nSchool\nRationalism\nPluralistic idealism[6]\nFoundationalism[7]\nConceptualism[8]\nOptimism\nIndirect realism[9]\nCorrespondence theory of truth[10]\nRelationalism\nNotable students\nJacob Bernoulli (epistolary correspondent)\nChristian Wolff",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 9,
+          "textWords": 20779
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 20779
+        },
+        "PG4LipwVIkqC": {
+          "hits": 2,
+          "textWords": 20779
+        },
+        "TJGE83z_Abzc": {
+          "hits": 8,
+          "textWords": 20779
+        },
+        "VEDnDEPMAqup": {
+          "hits": 6,
+          "textWords": 20779
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 21,
+          "textWords": 20779
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5Ryb-lXxSRFx",
+      "address": "https://www.rfc-editor.org/",
+      "title": "RFC Editor",
+      "snippet": "RFCs outline computer networking and Internet foundations, including Internet Standards and historical or informative content. They are published by the RFC Editor for the IETF\n, IRTF\n, IAB\n, and ISE\n, which collectively form the authoritative source for RFCs.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 37
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 123,
+          "textWords": 63075
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 63075
+        },
+        "PG4LipwVIkqC": {
+          "hits": 17,
+          "textWords": 63075
+        },
+        "TJGE83z_Abzc": {
+          "hits": 57,
+          "textWords": 63075
+        },
+        "VEDnDEPMAqup": {
+          "hits": 48,
+          "textWords": 63075
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 62,
+          "textWords": 63075
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "ww-gf8cZd9Fw",
+      "address": "https://hackage.haskell.org/packages/",
+      "title": "packages by category | Hackage",
+      "snippet": "Cryptography (238), CSharp (1), CSS (2), CsSyd (1), CSV (24), Culinary (1), CUR (1), Cursor (1), CustomerProfiles (1), CustomSetup (2), Data (2681), Data Conduit (1), Data Control (2), Data Flow (3), Data Mining (28), Data Network (1), Data Science (12), Data Structure (3), Data Structures (354),",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 22,
+          "textWords": 267877
+        },
+        "4NALnzN9NXxv": {
+          "hits": 32,
+          "textWords": 267877
+        },
+        "PG4LipwVIkqC": {
+          "hits": 75,
+          "textWords": 267877
+        },
+        "TJGE83z_Abzc": {
+          "hits": 14,
+          "textWords": 267877
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 267877
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 69,
+          "textWords": 267877
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "B9VWfKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CV/new",
+      "title": "Computer Vision and Pattern Recognition",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 158 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 75 of 75 entries)\n[1] arXiv:2609.10572 [pdf, html, other]\n[2] arXiv:2609.10723 [pdf,",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 1289
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 1289
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "NxFZKKsrSOQw",
+      "address": "https://arxiv.org/list/cs.SE/new",
+      "title": "Software Engineering",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "31RRrlv6IfH4",
+      "address": "https://www.schneier.com/",
+      "title": "Schneier on Security -",
+      "snippet": "public while crews work on a removal plan.\nAccording to salvage expert Ernie English of Parker Diving Service, the squid has deteriorated into a thick mass that will be difficult to remove.\n“It’s like concrete,” English said when asked about its consistency.\nAs usual, you can also use this squid",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 11,
+          "textWords": 2190
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 2190
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 2190
+        },
+        "TJGE83z_Abzc": {
+          "hits": 5,
+          "textWords": 2190
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 2190
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 2,
+          "textWords": 2190
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8L_aSlESuha4",
+      "address": "https://www.leagle.com/featureddecisions",
+      "title": "Featured Decisions | Leagle.com | The place to find U. S. Law, Lawyers and Opinions",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "VbzCh7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc4346/",
+      "title": "RFC 4346: The Transport Layer Security (TLS) Protocol Version 1.1 | RFC Editor",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ptCCrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+      "title": "Massachusetts Institute of Technology - Wikipedia",
+      "snippet": "work on industry problems limited basic research and diminished interest from foundations.[43][44] By the late 1920s MIT was regarded by elite universities as a \"mere engineering school servicing industry\".[45]\nVannevar Bush (l) and Karl Compton (r) led reforms to funding and curriculum\nA mandate",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 20296
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 20296
+        },
+        "PG4LipwVIkqC": {
+          "hits": 3,
+          "textWords": 20296
+        },
+        "TJGE83z_Abzc": {
+          "hits": 11,
+          "textWords": 20296
+        },
+        "VEDnDEPMAqup": {
+          "hits": 7,
+          "textWords": 20296
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 14,
+          "textWords": 20296
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "t9RUcmVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
+      "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "snippet": "Key, Florida (1997 – 2008), I had a wonderful conversation with an old navy man, Captain Ralph Emerson Styles, a graduate of the US Naval Academy in 1933. I had heard about him and that he did a sunset flag ceremony every evening from his home that was literally right across from beautiful Siesta",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 6,
+          "textWords": 7117
+        },
+        "4NALnzN9NXxv": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "PG4LipwVIkqC": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "TJGE83z_Abzc": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "VEDnDEPMAqup": {
+          "hits": 1,
+          "textWords": 7117
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 7117
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5Ryb-lXxSRFx",
+      "address": "https://www.rfc-editor.org/",
+      "title": "RFC Editor",
+      "snippet": "RFCs outline computer networking and Internet foundations, including Internet Standards and historical or informative content. They are published by the RFC Editor for the IETF\n, IRTF\n, IAB\n, and ISE\n, which collectively form the authoritative source for RFCs.",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 37
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 37
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
+      "snippet": "how the tides seem to be changing.\nBuried in the Settings app on iOS 27, Apple has hidden an easter egg that hails back from classic Mac OS; Clarus the Dogcow. Here’s how to trigger it …\nVery fun. Alas, this easter egg isn’t present in MacOS 27, only iOS 27. But the MacOS 27 version of the Liquid",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 34,
+          "textWords": 13247
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 13247
+        },
+        "PG4LipwVIkqC": {
+          "hits": 2,
+          "textWords": 13247
+        },
+        "TJGE83z_Abzc": {
+          "hits": 3,
+          "textWords": 13247
+        },
+        "VEDnDEPMAqup": {
+          "hits": 8,
+          "textWords": 13247
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 10,
+          "textWords": 13247
+        }
+      },
+      "queryPhraseHits": 1
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "snippet": "public in the last few years is about how phenomenally wonderful AI will soon be for us all. This is huge money front-running and gaming the system via propaganda to create the narrative they desperately want and need you to believe. There are dark-money campaigns paying influencers to push China",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 123,
+          "textWords": 63075
+        },
+        "4NALnzN9NXxv": {
+          "hits": 2,
+          "textWords": 63075
+        },
+        "PG4LipwVIkqC": {
+          "hits": 17,
+          "textWords": 63075
+        },
+        "TJGE83z_Abzc": {
+          "hits": 57,
+          "textWords": 63075
+        },
+        "VEDnDEPMAqup": {
+          "hits": 48,
+          "textWords": 63075
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 62,
+          "textWords": 63075
+        }
+      },
+      "queryPhraseHits": 3
+    },
+    {
+      "hash": "MQJwI5my_IVw",
+      "address": "https://wikipedialibrary.wmflabs.org/suggest/",
+      "title": "The Wikipedia Library",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "24igJXwiDb_d": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "4NALnzN9NXxv": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "PG4LipwVIkqC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "TJGE83z_Abzc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VEDnDEPMAqup": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Z-ksh2WpvH-y": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    }
+  ],
+  "documentsHeldPerQueryWord": {
+    "24igJXwiDb_d": 555863,
+    "4NALnzN9NXxv": 32390,
+    "PG4LipwVIkqC": 230828,
+    "TJGE83z_Abzc": 840233,
+    "VEDnDEPMAqup": 915048,
+    "Z-ksh2WpvH-y": 679862
+  }
+}

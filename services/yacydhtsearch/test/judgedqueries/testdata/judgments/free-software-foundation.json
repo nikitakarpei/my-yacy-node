@@ -2,153 +2,147 @@
   "query": "free software foundation",
   "judgedDocuments": [
     {
-      "hash": "ko6iFUb8iyg4",
-      "address": "https://cloud.google.com/free",
-      "title": "Free Trial and Free Tier Services and Products | Google Cloud",
-      "grade": 0
-    },
-    {
       "hash": "WdJ2qlDmGrO5",
       "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
       "title": "Another Blog Post",
       "grade": 0
     },
     {
-      "hash": "jKQKJldG5jPw",
-      "address": "https://www.python.org/psf-landing/",
-      "title": "Python Software Foundation",
+      "hash": "HKOF7sXHmKFw",
+      "address": "https://www.fsf.org/about/free-software-foundation-privacy-policy",
+      "title": "Free Software Foundation Privacy Policy — Free Software Foundation — Working together for free software",
+      "grade": 1
+    },
+    {
+      "hash": "KAs9AjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_content",
+      "title": "Free content - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
+      "hash": "mCpq5KS6MKD4",
+      "address": "https://github.com/johnjago/awesome-free-software",
+      "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
       "grade": 0
     },
     {
-      "hash": "aJD3bsakFVXw",
-      "address": "https://slashdot.org/",
-      "title": "Slashdot: News for nerds, stuff that matters",
+      "hash": "VcMfPgAk2Cty",
+      "address": "https://www.charitynavigator.org/ein/042888848",
+      "title": "Charity Navigator - Rating for Free Software Foundation",
+      "grade": 1
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "hash": "M7cV_s0hnfE5",
+      "address": "https://fullhousesa.com/",
+      "title": "fullhousesa.com",
       "grade": 0
     },
     {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
+      "hash": "tsBO3hsWTYKx",
+      "address": "https://sourceforge.net/directory/software-development/",
+      "title": "Best Open Source Software Development Software 2026",
       "grade": 0
     },
     {
-      "hash": "h-LMlkV-s05k",
-      "address": "https://alumni32.com.br/ato-no-02-2020-regimento-eleitoral/",
-      "title": "Ato Nº 02/2020 - Regimento Eleitoral - Alumni '32",
+      "hash": "zlsdajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software",
+      "title": "Software",
       "grade": 0
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "nBfsswrC7Zxw",
+      "address": "https://www.gnu.org/software/emacs/manual/html_mono/emacs.html",
+      "title": "GNU Emacs Manual",
+      "grade": 1
+    },
+    {
+      "hash": "7UdJ6vKqlBA4",
+      "address": "https://www.phoronix.com/news/Servo-0.5-Released",
+      "title": "Servo 0.5 Released: DuckDuckGo Properly Rendering, Up To 10x Faster Text Rendering - Phoronix",
       "grade": 0
     },
     {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
+      "hash": "9n1rhjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/free",
+      "title": "free - Wiktionary, the free dictionary",
       "grade": 0
     },
     {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
+      "hash": "8KdpCL8hxo35",
+      "address": "https://www.microsoft.com/en-us/software-development-companies",
+      "title": "AI \u0026 Tools for Software Companies | Software Development Companies",
       "grade": 0
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "gloktjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_software",
+      "title": "Free software - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "S9YMJzCJVaIz",
+      "address": "https://planet.documentfoundation.org/",
+      "title": "The Document Foundation Planet",
       "grade": 0
     },
     {
-      "hash": "UQwEcs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/ibm/",
-      "title": "IBM | The Daily Messenger (mirror)",
+      "hash": "Krz6_MaQF27w",
+      "address": "https://www.apache.org/foundation/marks/",
+      "title": "Apache Software Foundation Trademark Policy | Apache Software Foundation",
       "grade": 0
     },
     {
-      "hash": "CJGTwFMXd2kx",
-      "address": "https://simple.wikipedia.org/wiki/Main_Page",
-      "title": "Wikipedia",
+      "hash": "ko6iFUb8iyg4",
+      "address": "https://cloud.google.com/free",
+      "title": "Free Trial and Free Tier Services and Products | Google Cloud",
       "grade": 0
     },
     {
-      "hash": "iLQO1sN0ip-w",
-      "address": "https://m-reform.net/",
-      "title": "replica football shirts",
+      "hash": "SpCF1Kb8iyg4",
+      "address": "https://cloud.google.com/solutions/software-delivery",
+      "title": "Software Delivery | Google Cloud",
       "grade": 0
     },
     {
-      "hash": "rIs7VjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Main_Page",
-      "title": "Wikipedia, the free encyclopedia",
+      "hash": "rXvFw_YTtSsx",
+      "address": "https://sourceware.org/glibc/manual/",
+      "title": "The GNU C Library - GNU Project - Free Software Foundation (FSF)",
+      "grade": 1
+    },
+    {
+      "hash": "AeDSZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Graphics_software",
+      "title": "Graphics software - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "hash": "2X6yByhkKIQy",
+      "address": "https://www.linuxfoundation.org/legal/the-linux-mark",
+      "title": "Sublicense the Linux Mark | Linux Foundation",
       "grade": 0
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
+      "hash": "COw4R7QlWRhT",
+      "address": "http://express-press-release.net/free/",
+      "title": "Free Press Release Distribution (Submit Press Release)",
       "grade": 0
     },
     {
-      "hash": "1yd_7zbpbGvx",
-      "address": "https://species.wikimedia.org/wiki/Main_Page",
-      "title": "Wikispecies, free species directory",
-      "grade": 0
-    },
-    {
-      "hash": "I7b5hjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
-      "title": "Wikiversity",
-      "grade": 0
-    },
-    {
-      "hash": "Y8JVkjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "grade": 0
-    },
-    {
-      "hash": "djzHwjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "grade": 0
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "grade": 0
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "grade": 0
-    },
-    {
-      "hash": "nA0ugsw4UVk6",
-      "address": "https://paydayloansforus.com/",
-      "title": "Paydayloansforus -",
+      "hash": "M0ZJYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Blender_(software)",
+      "title": "Blender (software) - Wikipedia",
       "grade": 0
     },
     {
@@ -158,99 +152,117 @@
       "grade": 0
     },
     {
-      "hash": "PLFGnjAL9Tgx",
-      "address": "https://en.wikisource.org/wiki/Main_Page",
-      "title": "Wikisource, the free library",
+      "hash": "ELN5b-oHYeTw",
+      "address": "https://www.eclipse.org/org/foundation/directors/",
+      "title": "Eclipse Foundation AISBL Board of Directors | The Eclipse Foundation",
       "grade": 0
     },
     {
-      "hash": "Cpc5fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikipedia",
+      "hash": "MO942jXF4o7w",
+      "address": "https://xmpp.org/about/xmpp-standards-foundation/",
+      "title": "XMPP Standards Foundation (XSF) | XMPP - The universal messaging standard",
       "grade": 0
     },
     {
-      "hash": "CBV5zLkCAQb4",
-      "address": "https://tysknews.com/News/news.html",
-      "title": "TYSK — NEWS \u0026 EDITORIALS",
+      "hash": "dSQ7JMaQF27w",
+      "address": "https://www.apache.org/foundation/sponsorship.html",
+      "title": "ASF Sponsorship | Apache Software Foundation",
       "grade": 0
     },
     {
-      "hash": "BaG6oKsrSOQw",
-      "address": "https://arxiv.org/list/stat/new",
-      "title": "Statistics",
+      "hash": "lWSSlHWUVeV5",
+      "address": "https://opensource.com/article/22/7/meet-fsf-executive-director-zoe-kooyman",
+      "title": "Meet Free Software Foundation Executive Director Zoë Kooyman | Opensource.com",
+      "grade": 1
+    },
+    {
+      "hash": "feJyUjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_as_a_service",
+      "title": "Software as a service - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "URs94luI8hnw",
-      "address": "https://www.eff.org/updates?type=press_release",
-      "title": "Our Work | Electronic Frontier Foundation",
+      "hash": "PSrKH8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Foundation:Privacy_Policy",
+      "title": "Foundation:Privacy Policy - Gentoo wiki",
       "grade": 0
     },
     {
-      "hash": "chi-9y65czi5",
-      "address": "https://www.atlassian.com/legal/privacy-policy",
-      "title": "Privacy Policy | Atlassian",
+      "hash": "wJhf3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_developer",
+      "title": "Software development - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "TQFp0AAUFAfQ",
-      "address": "http://www.iana.org/domains/root/db",
-      "title": "Root Zone Database",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "grade": 0
     },
     {
-      "hash": "SOAt4sWMnAPx",
-      "address": "https://fedoraplanet.org/",
-      "title": "Fedora People",
+      "hash": "GDraRjjpmq6Q",
+      "address": "http://www.gnu.org/licenses/fdl-1.3.html",
+      "title": "GNU Free Documentation License v1.3 - GNU Project - Free Software Foundation",
+      "grade": 1
+    },
+    {
+      "hash": "V7rZ6j-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Free_software",
+      "title": "Free software - Wikiquote",
+      "grade": 1
+    },
+    {
+      "hash": "jKQKJldG5jPw",
+      "address": "https://www.python.org/psf-landing/",
+      "title": "Python Software Foundation",
       "grade": 0
     },
     {
-      "hash": "ThQTtsaDVLT7",
-      "address": "https://hotsalsainteractive.com/",
-      "title": "hotsalsainteractive -",
+      "hash": "3ZEiijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
+      "title": "Wikipedia:About - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "eV8_WladqZ_x",
-      "address": "https://www.wikipedia.org/",
-      "title": "Wikipedia",
+      "hash": "4AdwWNrC7Zxw",
+      "address": "https://www.gnu.org/philosophy/free-sw.en.html",
+      "title": "What is Free Software? - GNU Project - Free Software Foundation",
+      "grade": 2
+    },
+    {
+      "hash": "9c2EwvdTeyA4",
+      "address": "https://github.blog/open-source/social-impact/software-as-a-public-good/",
+      "title": "Software as a public good - The GitHub Blog",
       "grade": 0
     },
     {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
+      "hash": "X18gsL7t2YV4",
+      "address": "https://www.nvidia.com/en-us/networking/products/software/",
+      "title": "NVIDIA Networking Software for AI Performance",
       "grade": 0
     },
     {
-      "hash": "q2TQsobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/MediaWiki",
-      "title": "MediaWiki",
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
       "grade": 0
     },
     {
-      "hash": "Fn4lKjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Main_Page",
-      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters",
       "grade": 0
     },
     {
-      "hash": "LZjtbjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Wikivoyage:Help",
-      "title": "Wikivoyage:Help – Travel guide at Wikivoyage",
+      "hash": "BsRHNUC_VmZ4",
+      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
+      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
       "grade": 0
     },
     {
-      "hash": "R3n97SxWH45x",
-      "address": "https://vice-emu.sourceforge.io/",
-      "title": "VICE - the Versatile Commodore Emulator",
-      "grade": 0
-    },
-    {
-      "hash": "arAWlz1OWdFw",
-      "address": "https://www.mozilla.org/en-US/about/governance/policies/participation/",
-      "title": "Community Participation Guidelines — Mozilla",
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
       "grade": 0
     }
   ]

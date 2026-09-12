@@ -1,0 +1,77 @@
+{
+  "query": "how to negotiate a salary raise",
+  "judgedDocuments": [
+    {
+      "hash": "sqhKhsMAuxi4",
+      "address": "https://www.linkedin.com/top-content/career/career-advancement-tips/",
+      "title": "Top LinkedIn Content on Career Advancement Tips",
+      "grade": 1
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "atffDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
+      "title": "Template talk:Did you know - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "KEUuzs6GdY-4",
+      "address": "https://danluu.com/startup-tradeoffs/",
+      "title": "Big companies v. startups",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "6sZA7j-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Martin_Luther_King,_Jr.",
+      "title": "Martin Luther King Jr. - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "CuB1VHG-ATF4",
+      "address": "https://podcasts.apple.com/bm/new",
+      "title": "Apple Podcasts (BM) - Web Player",
+      "grade": 0
+    },
+    {
+      "hash": "Y2pI4jc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/New_Zealand",
+      "title": "New Zealand – Travel guide at Wikivoyage",
+      "grade": 0
+    },
+    {
+      "hash": "lG9TsDvXC2J5",
+      "address": "https://jessejarnow.com/category/hippiedom/",
+      "title": "hippiedom : Jesse Jarnow",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "tBmpiloCL284",
+      "address": "https://www.thetimes.com/",
+      "title": "Latest news \u0026 breaking headlines | The Times and The Sunday Times",
+      "grade": 0
+    },
+    {
+      "hash": "zXQZTsMAuxi4",
+      "address": "https://www.linkedin.com/top-content/fundraising/",
+      "title": "Top Fundraising Content from LinkedIn Members",
+      "grade": 0
+    }
+  ]
+}

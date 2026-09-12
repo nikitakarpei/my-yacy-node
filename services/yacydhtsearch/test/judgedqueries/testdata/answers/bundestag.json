@@ -1,6 +1,6 @@
 {
   "query": "bundestag",
-  "recordedAt": "2026-09-11T22:14:21Z",
+  "recordedAt": "2026-09-12T00:11:47Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
@@ -215,19 +215,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "k9jBdnWfNXKh",
-        "address": "https://epetitionen.bundestag.de/epet/nocookie.html",
-        "title": "Petitionen: Verwendung von Cookies nicht aktiviert",
-        "snippet": "https://epetitionen.bundestag.de.",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 46
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "MHA7mqZ-Q9gh",
         "address": "https://dserver.bundestag.de/btd/20/141/2014120.pdf",
         "title": "2014120.pdf",
@@ -249,6 +236,19 @@
           "EJWtfx_YPezd": {
             "hits": 1,
             "textWords": 23
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "k9jBdnWfNXKh",
+        "address": "https://epetitionen.bundestag.de/epet/nocookie.html",
+        "title": "Petitionen: Verwendung von Cookies nicht aktiviert",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 92
           }
         },
         "queryPhraseHits": 0
@@ -295,19 +295,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "NZgMBT23s4hw",
-        "address": "https://publikationen.bibliothek.kit.edu/1000134080",
-        "title": "Neue elektronische Medien und Suchtverhalten. Forschungsbefund...",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 427
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "CCeEX9oEZeWh",
         "address": "https://www.wiso.uni-hamburg.de/en/transfer.html",
         "title": "Knowledge Exchange : Faculty of Business, Economics and Social Sciences : University of Hamburg",
@@ -321,6 +308,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "NZgMBT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000134080",
+        "title": "Neue elektronische Medien und Suchtverhalten. Forschungsbefund...",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 427
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "ot41PjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/1999_German_presidential_election",
         "title": "1999 German presidential election - Wikipedia",
@@ -329,6 +329,32 @@
           "EJWtfx_YPezd": {
             "hits": 2,
             "textWords": 1025
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Vds-olS0dx-5",
+        "address": "https://de-academic.com/dic.nsf/dewiki/1512556",
+        "title": "Wilhelmshaven",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 21815
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RAZnhlr3wrBg",
+        "address": "https://www.boell.de/en/tags/environmental-policy",
+        "title": "Environmental Policy | Heinrich Böll Stiftung",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2882
           }
         },
         "queryPhraseHits": 0
@@ -360,40 +386,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "SHLgOYGRB-8h",
-        "address": "https://www.hausundgrund.de/verein/beckum/mietrechtspaket-ii-setzt-falsches-signal-fuer-den-wohnungsmarkt",
-        "title": "Mietrechtspaket II setzt falsches Signal für den Wohnungsmarkt",
+        "hash": "5SduAopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q23",
+        "title": "George Washington - Wikidata",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 458
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "UxUKOPJzxOcj",
-        "address": "https://www.bundesverfassungsgericht.de/entscheidungen/rs20140114_2bvr272813.html",
-        "title": "Bundesverfassungsgericht - Entscheidung finden - Beschluss vom 14. Januar 2014",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 37,
-            "textWords": 20000
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Vds-olS0dx-5",
-        "address": "https://de-academic.com/dic.nsf/dewiki/1512556",
-        "title": "Wilhelmshaven",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 21815
+            "textWords": 7912
           }
         },
         "queryPhraseHits": 0
@@ -440,14 +440,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "Y9KA5XlA2Rig",
-        "address": "https://www.n-tv.de/politik/Bundesverfassungsgericht-erlaubt-Abstimmungen-zu-Kassenreform-und-Heizungsgesetz-id31067548.html",
-        "title": "Linke und Grüne scheitern: Bundesverfassungsgericht erlaubt Abstimmungen zu Kassenreform und Heizungsgesetz - n-tv.de",
+        "hash": "qa5scXlA2Rig",
+        "address": "https://www.n-tv.de/politik/Der-Fall-Luigi-Pantisano-Die-Linke-verbarrikadiert-sich-in-der-Wagenburg-id31008994.html",
+        "title": "Der Fall Luigi Pantisano: Die Linke verbarrikadiert sich in der Wagenburg - n-tv.de",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 5,
-            "textWords": 1730
+            "hits": 7,
+            "textWords": 2599
           }
         },
         "queryPhraseHits": 0
@@ -492,6 +492,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "jDVzoXqeWpa5",
+        "address": "https://www.leverkusen.com/politik/index.php?view=00000061",
+        "title": "Parteien und Wahlen",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 943
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "8hukQjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/West_Germany",
         "title": "West Germany - Wikipedia",
@@ -505,27 +518,14 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "R6JPY_nMM_j5",
-        "address": "https://grokipedia.com/page/Ballot",
-        "title": "Ballot — Grokipedia",
+        "hash": "POJv6QZchFfZ",
+        "address": "http://www.greenteethmm.com/health-mental-odd.shtml",
+        "title": "reality-on-employment-prospects-for-graduates",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 11657
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "f5CvSQZchFfZ",
-        "address": "http://www.greenteethmm.com/american-evil.shtml",
-        "title": "the-world-is-falling-apart-and-nobody-has-a-clue-what-to-do-news-dailystirrer-daily-stirrer",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 31461
+            "textWords": 31237
           }
         },
         "queryPhraseHits": 0
@@ -546,14 +546,27 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "JnnVvd3MiEig",
+        "address": "https://www.ndr.de/fernsehen/sendungen/extra_3/rueckschau/neulich-im-bundestag-38-gauck-vereidigung,extra3967.html",
+        "title": "Neulich im Bundestag (38): Gauck-Vereidigung | ndr.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 1259
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "ZLmQfWHA3QJx",
         "address": "https://police-it.net/tag/deutscher-bundestag",
         "title": "Deutscher Bundestag Archive - Police-IT",
-        "snippet": "Bundestag die Bundesregierung auffordern, ein Programm aufzulegen: Das bei Bauprojekten des Bundes Maßnahmen zur Einhaltung des Zeit- und Kostenplanes vorsieht. Und auf ÖPP-Projekte ganz verzichtet.\nWir meinen: Das Programm sollte sogleich auch auf die aus dem Ruder laufenden IT-Projekte des Bundes",
+        "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 79
+            "hits": 3,
+            "textWords": 296
           }
         },
         "queryPhraseHits": 0
@@ -572,66 +585,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "9NjtflnyRoci",
-        "address": "https://www.christian-wulff.de/",
-        "title": "Webseite von Christian Wulff",
+        "hash": "E9fWKdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Sofacy_Group",
+        "title": "Sofacy Group – Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 2315
+            "hits": 5,
+            "textWords": 2834
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "uVfCGZpr109g",
-        "address": "https://www.mmnews.de/wirtschaft/181396-gas-kampagne-mit-promis",
-        "title": "Gas-Kampagne mit Promis",
+        "hash": "Xapr50C_JtIi",
+        "address": "https://sonja-eichwede.de/events/locations/",
+        "title": "Locations - Sonja Eichwede",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 1507
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_YOHcld6NDKi",
-        "address": "https://www.atomwaffenfrei.de/",
-        "title": "atomwaffenfrei - atomwaffenfrei.jetzt",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 1515
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "lOq8U03MiEig",
-        "address": "https://www.ndr.de/nachrichten/info",
-        "title": "NDR Info - Die Nachrichten für den Norden | ndr.de",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 6087
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "24rKClN3XBig",
-        "address": "https://www.cdu-nrw.de/erfolgreich-fuer-nrw",
-        "title": "Nordrhein-Westfalen-Koalition: Erfolgreich für unser Land | CDU Nordrhein-Westfalen",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 2,
-            "textWords": 424
+            "hits": 6,
+            "textWords": 572
           }
         },
         "queryPhraseHits": 0
@@ -650,14 +624,40 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "Q_jMY_C_JtIi",
-        "address": "https://sonja-eichwede.de/news/termin-i-bos-kirchmoeser/",
-        "title": "TERMIN I BOS Kirchmöser - Sonja Eichwede",
+        "hash": "HYBBes-cUg-l",
+        "address": "https://huggingface.co/przvl",
+        "title": "przvl (Maximilian Krupop)",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 6,
-            "textWords": 726
+            "hits": 2,
+            "textWords": 405
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "24rKClN3XBig",
+        "address": "https://www.cdu-nrw.de/erfolgreich-fuer-nrw",
+        "title": "Nordrhein-Westfalen-Koalition: Erfolgreich für unser Land | CDU Nordrhein-Westfalen",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 424
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PlYqDt7VFvBg",
+        "address": "https://www.dobszay.ch/page/2/",
+        "title": "DOBSZAYs Ansichten und Einsichten – Seite 2 – Gedanken und Kommentare zum Zeitgeschehen in der Informationsgesellschaft",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 3855
           }
         },
         "queryPhraseHits": 0
@@ -695,27 +695,27 @@
     [],
     [
       {
-        "hash": "oZ1HE0yX5Qug",
-        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_100593754/bundestag-befindet-sich-unter-dem-reichstagsgebaeude-ein-bunker-.html",
-        "title": "Bundestag: Befindet sich unter dem Reichstagsgebäude ein Bunker?",
-        "snippet": "Bundestag ein Bunker? Sieben Mythen und Fakten im Video.\nGibt es unter dem Reichstagsgebäude einen Bunker? Und was hat Odysseus mit dem Bundestag zu tun? Diese sieben Mythen kannten Sie sicher noch nicht.\nAm 23. Februar wählen die Deutschen einen neuen Bundestag. Dann wird entschieden, wer das Land",
+        "hash": "_OAfJXi-FMY4",
+        "address": "https://rtde.website/inland/129793-wagenknecht-zu-2g-plus-im-bundestag/",
+        "title": "Wagenknecht zu \"2G Plus\" im Bundestag: \"Epidemiologisch unsinnig und offenkundig verfassungswidrig\" — RT DE",
+        "snippet": "Bundestag als \"epidemiologisch unsinnig\" bezeichnet. Ungeimpften Abgeordneten den Zugang zum Plenarsaal zu verbieten, sei eine Aussperrung und \"offenkundig verfassungswidrig\".\nQuelle: www.globallookpress.com © Tom Weller\nAb Mittwoch gilt im Plenarsaal des Deutschen Bundestages, was an vielen Orten",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 5,
-            "textWords": 143
+            "hits": 7,
+            "textWords": 731
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "S1fyuXi-FMY4",
-        "address": "https://rtde.website/inland/189068-linken-fraktion-im-bundestag-ist/",
-        "title": "Um Mitternacht offiziell aufgelöst: Linken-Fraktion im Bundestag ist Geschichte — RT DE",
-        "snippet": "Bundestag zur Vergangenheit. Die verbliebenen Abgeordneten sind damit zunächst fraktionslos. Dies geschieht 18 Jahre nach der Gründung der Partei.\nQuelle: www.globallookpress.com © Melissa Erichsen\nIm Oktober erfolgte der lang angekündigte Ausstieg von Sahra Wagenknecht und neun Fraktionskollegen",
+        "hash": "_lDky0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_84868502/nachbesserungen-beschlossen-bundestag-verschaerft-mietpreisbremse.html",
+        "title": "Nachbesserungen beschlossen: Bundestag verschärft Mietpreisbremse",
+        "snippet": "Bundestag verschärft Mietpreisbremse\n29.11.2018Lesedauer: 1 Min.\nNeubau-Wohnungen in Kreuzberg: Der Bundestag hat heute eine Änderung der Mietpreisbremse beschlossen. (Quelle: dpa)\nDie Mieten in Deutschland explodieren, besonders in den Ballungsräumen. Nachdem die Mietpreisbremse weitgehend",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 6,
-            "textWords": 535
+            "hits": 5,
+            "textWords": 235
           }
         },
         "queryPhraseHits": 0
@@ -734,92 +734,53 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "Q-dJWKi-FMY4",
-        "address": "https://rtde.website/meinung/242675-bundestag-schande-politik-instrumentalisiert-gedenken/",
-        "title": "Bundestag der Schande: Politik instrumentalisiert das Gedenken ans Kriegsende — RT DE",
-        "snippet": "Bundestag eingeladen. Das ist eine Schande. Deutschland verdankt der Sowjetunion sowohl die Befreiung vom Faschismus als auch die Wiedervereinigung. Das historische Bewusstsein der deutschen Bevölkerung ist besser entwickelt als das ihrer Politiker.\nQuelle: www.globallookpress.com © Soeren Stache",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 1031
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_OAfJXi-FMY4",
-        "address": "https://rtde.website/inland/129793-wagenknecht-zu-2g-plus-im-bundestag/",
-        "title": "Wagenknecht zu \"2G Plus\" im Bundestag: \"Epidemiologisch unsinnig und offenkundig verfassungswidrig\" — RT DE",
-        "snippet": "Bundestag als \"epidemiologisch unsinnig\" bezeichnet. Ungeimpften Abgeordneten den Zugang zum Plenarsaal zu verbieten, sei eine Aussperrung und \"offenkundig verfassungswidrig\".\nQuelle: www.globallookpress.com © Tom Weller\nAb Mittwoch gilt im Plenarsaal des Deutschen Bundestages, was an vielen Orten",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 7,
-            "textWords": 731
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "jdD6aXi-FMY4",
-        "address": "https://rtde.website/inland/127324-bundestag-stimmt-fur-corona-massnahmen/",
-        "title": "Bundestag stimmt für Corona-Maßnahmen der Ampel — RT DE",
-        "snippet": "Bundestag hat am Donnerstag nach kontroverser Debatte neue Rechtsgrundlagen für die Corona-Politik in Deutschland beschlossen. Die Zustimmung vom Bundesrat ist noch fraglich.\nQuelle: www.globallookpress.com © © via www.imago-images.de\nDer Bundestag hat die von SPD, Grünen und FDP geplanten",
+        "hash": "9qsRJ0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/gesellschaft/id_83441664/bundestag-lehnt-aus-fuer-zeitumstellung-ab.html",
+        "title": "Blitz-Abstimmung in 60 Sekunden | Bundestag lehnt Aus für Zeitumstellung ab",
+        "snippet": "Bundestag lehnt Aus für Zeitumstellung ab\nAktualisiert am 23.03.2018Lesedauer: 2 Min.\nDie Zeiten ändern sich (nicht): Der Bundestag hat die Abschaffung der Zeitumstellung abgelehnt. Kanzlerin Merkel war bei der Abstimmung nicht dabei. (Archivbild) (Quelle: Fabrizio Bensch/reuters)\nKurz vor Beginn",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 6,
-            "textWords": 751
+            "textWords": 460
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "AtFxUMi-FMY4",
-        "address": "https://rtde.website/kurzclips/video/262967-angriff-auf-zukunft-bundestag-streitet/",
-        "title": "\"Angriff auf die Zukunft\" – Bundestag streitet über Klingbeils Milliarden-Haushalt — RT DE",
-        "snippet": "Bundestag hat am Dienstag in zweiter Beratung die Etats des Bundesministeriums der Finanzen sowie des Bundesrechnungshofs im Haushaltsgesetz 2026 beschlossen.\nDurch die Sperrung von RT zielt die EU darauf ab, eine kritische, nicht prowestliche Informationsquelle zum Schweigen zu bringen. Und dies",
+        "hash": "oZ1HE0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_100593754/bundestag-befindet-sich-unter-dem-reichstagsgebaeude-ein-bunker-.html",
+        "title": "Bundestag: Befindet sich unter dem Reichstagsgebäude ein Bunker?",
+        "snippet": "Bundestag ein Bunker? Sieben Mythen und Fakten im Video.\nGibt es unter dem Reichstagsgebäude einen Bunker? Und was hat Odysseus mit dem Bundestag zu tun? Diese sieben Mythen kannten Sie sicher noch nicht.\nAm 23. Februar wählen die Deutschen einen neuen Bundestag. Dann wird entschieden, wer das Land",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 166
+            "hits": 5,
+            "textWords": 143
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "SB7JcXi-FMY4",
-        "address": "https://rtde.website/inland/197092-bundestag-lehnt-lieferung-von-taurus/",
-        "title": "Bundestag lehnt Lieferung von Taurus-Marschflugkörpern an Ukraine ab — RT DE",
-        "snippet": "Bundestag hat gegen einen CDU-Antrag für Taurus-Lieferungen an die Ukraine gestimmt. CDU-Chef Friedrich Merz hatte zuvor im Bundestag vehement für die Lieferung deutscher Marschflugkörper an Kiew geworben. Doch die Abgeordneten der Koalition folgten ihm nicht.\nQuelle: AFP © John Macdougall\nDer",
+        "hash": "_8qfO0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/parteien/id_86770024/notfall-im-bundestag-weitere-abgeordnete-bricht-bei-debatte-zusammen.html",
+        "title": "Notfall im Bundestag: Weitere Abgeordnete bricht bei Debatte zusammen",
+        "snippet": "Bundestag Abgeordnete bricht bei Abstimmung zusammen\nVon dpa\nAktualisiert am 07.11.2019Lesedauer: 2 Min.\nAbgeordnete im Bundestag: Bei einer Abstimmung am Donnerstag brach eine Abgeordnete der Linken zusammen. Es war der zweite medizinische Vorfall im Parlament an einem Tag. (Quelle: dpa)\nMacht der",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 419
+            "hits": 6,
+            "textWords": 485
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "vKrwuXi-FMY4",
-        "address": "https://rtde.website/inland/194995-bsw-und-linke-im-bundestag/",
-        "title": "BSW und Linke im Bundestag – Wagenknecht will gegen Einschränkungen klagen — RT DE",
-        "snippet": "Bundestag gestern abgeschlossen. Allerdings sorgen Beschränkungen der parlamentarischen Fragerechte für Unzufriedenheit.\nGestern hat der Bundestag beschlossen, die beiden Gruppen der Linken und des Bündnisses Sahra Wagenknecht (BSW) anzuerkennen. Da die Geschäftsordnung des Bundestages derartige",
+        "hash": "1q2sQsi-FMY4",
+        "address": "https://rtde.website/international/197116-ampel-antrag-beschlossen-bundestag-fordert/",
+        "title": "Ampel-Antrag beschlossen: Bundestag fordert \"weitreichende Waffensysteme\" für Ukraine — RT DE",
+        "snippet": "Bundestag hat einen Antrag der Ampelfraktionen zur Lieferung \"weitreichender Waffen\" an die Ukraine verabschiedet. Im Ampel-Antrag wurde allerdings Taurus nicht erwähnt. Der Bundestag hatte kurz zuvor einen Antrag der Unionsfraktion zur Lieferung von \"Taurus\"-Marschflugkörpern an die Ukraine",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 489
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "4mod7Mi-FMY4",
-        "address": "https://rtde.website/kurzclips/video/209064-farle-wirft-bundestag-vor-sie/",
-        "title": "Farle wirft Bundestag vor: Sie stehen auf der Seite derjenigen, die immer mehr Menschen umbringen — RT DE",
-        "snippet": "Bundestag die \"Ukraine-Wiederaufbau-Konferenz\", die am Montag und Dienstag in Berlin stattfand, als \"sinnlos\" bezeichnet. Ein Wiederaufbau könne erst beginnen, wenn es einen Friedensschluss und einen Waffenstillstand gebe. Nicht nur die Ukraine, sondern auch Russland habe Sicherheitsinteressen,",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 275
+            "hits": 6,
+            "textWords": 411
           }
         },
         "queryPhraseHits": 0
@@ -856,6 +817,19 @@
     [],
     [
       {
+        "hash": "021ekopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q1618604",
+        "title": "German University Sports Federation - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 39,
+            "textWords": 1791
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "xwCdBQZchFfZ",
         "address": "http://www.greenteethmm.com/europe.shtml",
         "title": "Europe index",
@@ -882,6 +856,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "0Mdt_aD6WJF7",
+        "address": "https://www.theautomaticearth.com/tag/madness/",
+        "title": "madness Archives - The Automatic Earth",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 32036
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "HgJ9BQXx1HRZ",
         "address": "http://www.dailystirrer.com/2012-february.shtml",
         "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
@@ -890,32 +877,6 @@
           "EJWtfx_YPezd": {
             "hits": 2,
             "textWords": 52972
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "MluPSjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Red-baiting",
-        "title": "Red-baiting - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 8645
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "y78KOaD6WJF7",
-        "address": "https://www.theautomaticearth.com/tag/hedge-funds/",
-        "title": "hedge funds Archives - The Automatic Earth",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 63706
           }
         },
         "queryPhraseHits": 0
@@ -1056,24 +1017,24 @@
         "hash": "XCBrBuz2gIdh",
         "address": "https://der-betrieb.de/meldungen/bundestag-beschliesst-umsetzung-der-eu-verbraucherkreditrichtlinie/",
         "title": "Bundestag beschließt Umsetzung der EU-Verbraucherkreditrichtlinie - Online Portal von Der Betrieb",
-        "snippet": "Bundestag die verschärften EU-Vorgaben für Verbraucherkredite in deutsches Recht um. Ziel ist ein stärkerer Schutz vor Überschuldung, insbesondere bei neuen Bezahlmodellen wie „Buy now, pay later“. Zusätzlich wurde kurzfristig auch eine gesetzliche Grundlage für die Förderung bestimmter E-Autos",
+        "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 447
+            "hits": 6,
+            "textWords": 897
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "9KTbhKr4x6Og",
-        "address": "https://www.haufe.de/sozialwesen/sgb-recht-kommunal/betreuungsgeld-betreuungsgeld-abstimmung-im-bundestag-verschoben_238_139274.html",
-        "title": "Betreuungsgeld: Betreuungsgeld-Abstimmung im Bundestag verschoben | Sozialwesen | Haufe",
+        "hash": "_UW52tr4x6Og",
+        "address": "https://www.haufe.de/steuern/gesetzgebung-politik/bundestag-beschliesst-abbau-der-kalten-progression_168_75040.html",
+        "title": "Bundestag beschließt Abbau der kalten Progression | Steuern | Haufe",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 1171
+            "hits": 3,
+            "textWords": 941
           }
         },
         "queryPhraseHits": 0
@@ -1092,19 +1053,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "7BRwY7cgOLZi",
-        "address": "https://www.deubner-steuern.de/themen/zukunftsfinanzierungsgesetz/bundestag-beschluss.html",
-        "title": "Bundestag beschließt Gesetz zur Mitarbeiterkapitalbeteiligung",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 981
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "1gM2lQr4x6Og",
         "address": "https://www.haufe.de/personal/arbeitsrecht/vorschlaege-zum-sozialpartnermodell-im-bundestag_76_403828.html",
         "title": "Betriebsrente: Vorschläge zum Sozialpartnermodell im Bundestag | Personal | Haufe",
@@ -1116,18 +1064,31 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "7BRwY7cgOLZi",
+        "address": "https://www.deubner-steuern.de/themen/zukunftsfinanzierungsgesetz/bundestag-beschluss.html",
+        "title": "Bundestag beschließt Gesetz zur Mitarbeiterkapitalbeteiligung",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 981
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "Lng7cl_Av1Mw",
-        "address": "https://dejure.org/Drucksachen/Bundestag/BT-Drs._15/1508",
-        "title": "Bundestag: BT-Drs. 15/1508 - dejure.org",
-        "snippet": "Bundestag - Drucksache 15/1508\nGesetzentwurf, Urheber: Bundesregierung\nDeutscher Bundestag\nNachrichten zur Drucksache\n10.09.2003 BT Modernisierung der Justiz vornehmen\n12.11.2003 BT Öffentliche Anhörung zur Modernisierung der Justiz\n12.11.2003 BT Justizbeschleunigungs- und",
+        "hash": "lVgzdl_Av1Mw",
+        "address": "https://dejure.org/Drucksachen/Bundestag/BT-Drs._14/8792",
+        "title": "Bundestag: BT-Drs. 14/8792 - dejure.org",
+        "snippet": "Bundestag - Drucksache 14/8792\nUnterrichtung, Urheber: Bundesregierung\nDeutscher Bundestag\nNachrichten zur Drucksache\n18.06.2002 BT Rückbesinnung auf Grundlagen der Nachhaltigkeit gefordert\n24.06.2002 BT Aussprache mit Sachverständigenrat über Umweltgutachten 2002\n26.06.2002 BT Sachverständige:",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 2,
-            "textWords": 67
+            "textWords": 60
           }
         },
         "queryPhraseHits": 0
@@ -1146,27 +1107,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "lVgzdl_Av1Mw",
-        "address": "https://dejure.org/Drucksachen/Bundestag/BT-Drs._14/8792",
-        "title": "Bundestag: BT-Drs. 14/8792 - dejure.org",
-        "snippet": "Bundestag - Drucksache 14/8792\nUnterrichtung, Urheber: Bundesregierung\nDeutscher Bundestag\nNachrichten zur Drucksache\n18.06.2002 BT Rückbesinnung auf Grundlagen der Nachhaltigkeit gefordert\n24.06.2002 BT Aussprache mit Sachverständigenrat über Umweltgutachten 2002\n26.06.2002 BT Sachverständige:",
+        "hash": "Lng7cl_Av1Mw",
+        "address": "https://dejure.org/Drucksachen/Bundestag/BT-Drs._15/1508",
+        "title": "Bundestag: BT-Drs. 15/1508 - dejure.org",
+        "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 2,
-            "textWords": 60
+            "hits": 3,
+            "textWords": 186
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "82N6ZDb0QHTg",
-        "address": "https://www.buzer.de/gesetz/10890/index.htm",
-        "title": "PolBTLV Verordnung über die Laufbahnen des Polizeivollzugsdienstes beim Deutschen Bundestag",
-        "snippet": "Bundestag die Vorschriften der Bundeslaufbahnverordnung.\n§ 2 Schwerbehinderte Menschen\n§ 5 der Bundeslaufbahnverordnung gilt mit der Maßgabe, dass die besonderen gesundheitlichen Anforderungen, die der Polizeivollzugsdienst an Beamtinnen und Beamte stellt, berücksichtigt werden.\n§ 3 Ämter der",
+        "hash": "8-4dWDb0QHTg",
+        "address": "https://www.buzer.de/gesetz/10760/index.htm",
+        "title": "EUZBBG Gesetz über die Zusammenarbeit von Bundesregierung und Deutschem Bundestag in Angelegenheiten der",
+        "snippet": "Bundestag hat das folgende Gesetz beschlossen:\n§ 1 Mitwirkung des Bundestages\n(1) 1In Angelegenheiten der Europäischen Union wirkt der Bundestag an der Willensbildung des Bundes mit und hat das Recht zur Stellungnahme. 2Die Bundesregierung hat ihn umfassend und zum frühestmöglichen Zeitpunkt zu",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 41,
-            "textWords": 1327
+            "hits": 36,
+            "textWords": 2450
           }
         },
         "queryPhraseHits": 0
@@ -1227,11 +1188,11 @@
         "hash": "GwN9rBakAu4h",
         "address": "https://www.bundesrat.de/SharedDocs/termine/DE/praesident/2024/2024-01-31-gedenkstunde_bundestag-NEU.html",
         "title": "Bundesrat - Termine - Gedenkstunde für die Opfer des Nationalsozialismus im Bundestag",
-        "snippet": "Bundestag | Joerg Carstensen\nDer Bundestag gedenkt am 31. Januar 2024 der Opfer des Nationalsozialismus. Bundesratspräsidentin Manuela Schwesig nimmt an der Gedenkstunde im Bundestag teil.\nIn Deutschland ist der 27. Januar Gedenktag für die Opfer des Nationalsozialismus. Anlass ist die Befreiung",
+        "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 212
+            "hits": 7,
+            "textWords": 859
           }
         },
         "queryPhraseHits": 0
@@ -1343,6 +1304,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "6akbbHlt5M8j",
+        "address": "https://www.finanznachrichten.de/nachrichten-2026-09/69501193-unionsfraktionsvize-will-strikten-sparkurs-003.htm",
+        "title": "Unionsfraktionsvize will strikten Sparkurs",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 888
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "DWlCbNSG-fuh",
         "address": "https://www.hanisauland.de/wissen/spezial/politik/bundestagswahl-spezial/Spiele-Quizze-Bundestagswahl/teste-dein-wissen-interaktiv-bundestagswahl",
         "title": "Interaktiv: Bundestagswahl | Politik für Kinder, einfach erklärt - HanisauLand.de",
@@ -1367,16 +1341,135 @@
           }
         },
         "queryPhraseHits": 0
-      },
+      }
+    ],
+    [
       {
-        "hash": "RTVgLs4Af8ri",
-        "address": "https://verfassungsblog.de/the-end-of-germanys-strategic-restraint/",
-        "title": "The End of Germany’s Strategic Restraint",
+        "hash": "uNsbq7HgU-wY",
+        "address": "http://www.elektronik-kompendium.de./forum/forum_entry.php?id=229256\u0026page=15\u0026category=Netzwerktechnik\u0026order=name",
+        "title": "Routerzwang - Elektronik-Forum",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 6,
-            "textWords": 2774
+            "hits": 1,
+            "textWords": 315
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6KpqhfC6nCRj",
+        "address": "https://forum-raspberrypi.de/forum/thread/56037-wasser/?postID=527906",
+        "title": "Wasser - Page 5 - Offtopic - Deutsches Raspberry Pi Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 3805
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "pdyT69tweuYD",
+        "address": "http://www.elektronik-kompendium.de/forum/forum_entry.php?id=229256\u0026page=6\u0026category=Netzwerktechnik\u0026order=subject",
+        "title": "Routerzwang - Elektronik-Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 314
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IRlPihKWn5hj",
+        "address": "https://www.elektronik-kompendium.de/forum/forum_entry.php?id=229256\u0026page=15\u0026category=Netzwerktechnik\u0026order=name",
+        "title": "Routerzwang - Elektronik-Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 315
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3Ve4f7HgU-wY",
+        "address": "http://www.elektronik-kompendium.de./forum/forum_entry.php?id=278351\u0026page=14\u0026category=Bauelemente\u0026order=last_answer\u0026descasc=desc",
+        "title": "GC101b - Elektronik-Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 305
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8auZAfC6nCRj",
+        "address": "https://forum-raspberrypi.de/forum/thread/56037-wasser/?postID=527911",
+        "title": "Wasser - Page 5 - Offtopic - Deutsches Raspberry Pi Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 3805
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Y2jWA7HgU-wY",
+        "address": "http://www.elektronik-kompendium.de./forum/forum_entry.php?id=251404\u0026page=13\u0026category=Computertechnik\u0026order=subject",
+        "title": "siehe Text - Elektronik-Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 393
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Jh5xS7HgU-wY",
+        "address": "http://www.elektronik-kompendium.de./forum/forum_entry.php?id=251404\u0026page=14\u0026category=Computertechnik\u0026order=last_answer",
+        "title": "siehe Text - Elektronik-Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 394
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "76l-rhKWn5hj",
+        "address": "https://www.elektronik-kompendium.de/forum/forum_entry.php?id=278351\u0026page=14\u0026category=Bauelemente\u0026order=last_answer\u0026descasc=desc",
+        "title": "GC101b - Elektronik-Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 305
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fkpXwfC6nCRj",
+        "address": "https://forum-raspberrypi.de/forum/thread/56037-wasser/?postID=527941",
+        "title": "Wasser - Page 5 - Offtopic - Deutsches Raspberry Pi Forum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 3805
           }
         },
         "queryPhraseHits": 0
@@ -1384,263 +1477,131 @@
     ],
     [
       {
-        "hash": "A7qkElvC_adh",
-        "address": "https://www.wahlrecht.de/umfragen/",
-        "title": "Wahlumfragen zur Bundestagswahl – Sonntagsfrage (Wahlumfrage, Umfragen)",
-        "snippet": "",
+        "hash": "0jAPLSeT5cDg",
+        "address": "https://www.freitag.de/autoren/ulrike-baureithel/trisomie-21-bundestag-diskutiert-ueber-die-folgen-von-praenataldiagnostik",
+        "title": "Trisomie 21: Bundestag diskutiert über die Folgen von Pränataldiagnostik — der Freitag",
+        "snippet": "Bundestag befassen\nIm Gegenteil, die invasiven Eingriffe nehmen zu, weil der Anteil falsch-positiver Befunde im Versorgungsalltag viermal höher liegt als theoretisch zu erwarten. Andererseits wiegt ein negatives Testergebnis Frauen in falscher Sicherheit: Sie verzichten häufig auf das selbst zu",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 698
+            "hits": 2,
+            "textWords": 744
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "OUgCWzX5sgqx",
-        "address": "https://netzpolitik.org/2026/moritz-hennemann-neuer-bundesbeauftragter-fuer-datenschutz-und-informationsfreiheit-gewaehlt/",
-        "title": "Moritz Hennemann: Neuer Bundesbeauftragter für Datenschutz und Informationsfreiheit gewählt - netzpolitik.org",
-        "snippet": "",
+        "hash": "-pWdQT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/140061571",
+        "title": "Technikfolgen-Abschätzung für den Deutschen Bundestag : Das TA...",
+        "snippet": "Bundestag (TAB) berät seit 1990 das Parlament in aktuellen Fragen der Wissenschafts- und Technikentwicklung. Ziel dieses Buchs ist es, die dort gemachten vielfältigen praktischen Erfahrungen an der Schnittstelle zwischen Wissenschaft und Politik und damit das »Modell TAB« – mit seinen Möglichkeiten",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 1521
+            "hits": 2,
+            "textWords": 161
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "D-3atlN8O9Si",
-        "address": "https://www.heike-haensel.de/",
-        "title": "Heike Hänsel (MdB 2005-2021, Archiv)",
+        "hash": "VpXCciRtt2cA",
+        "address": "http://www.leipzig.de/rathaus/wahlen-in-leipzig/bundestagswahlen/ergebnisse-der-bundestagswahlen/ergebnisse-1998",
+        "title": "Wahl zum 14. Deutschen Bundestag am 22. September 1998 - Stadt Leipzig",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 12,
-            "textWords": 5836
+            "hits": 2,
+            "textWords": 7082
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "519rvqW2blYg",
-        "address": "https://data.idref.fr/describe/?url=http%3A%2F%2Fwww.sudoc.fr%2F004644107%2Fid",
-        "title": "About: http://www.sudoc.fr/004644107/id",
+        "hash": "9c8fEsLBKf5h",
+        "address": "https://afdbundestag.de/afd-fraktion-mahnt-bundestagspraesidenten-wegen-maskenpflicht-ab/",
+        "title": "AfD-Fraktion mahnt Bundestagspräsidenten wegen Maskenpflicht ab! - AfD-Fraktion im Deutschen Bundestag",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 2428
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iLCT1q3lHGRh",
+        "address": "https://www.beck-aktuell.de/heute-im-recht/rechtsgeschehen/web-archiv-bundestag-informationsfreiheit-transparenz-urheberrecht-2026-08-26",
+        "title": "Internet-Auftritt des Bundestags: Wo ist das Web-Archiv? | beck-aktuell",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 4,
-            "textWords": 385
+            "textWords": 1526
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "gieR9lIJ83Zi",
-        "address": "https://www.michael-brand.de/",
-        "title": "Michael Brand MdB",
+        "hash": "UOCMVWIcbLAw",
+        "address": "https://www.change.org/p/schutz-der-abschlagsfreien-altersrente-mit-65-f%C3%BCr-besonders-langj%C3%A4hrig-versicherte?source_location=topics_page",
+        "title": "Petition · Schutz der abschlagsfreien Altersrente mit \"65\" für besonders langjährig Versicherte - Deutschland · Change.org",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 5,
-            "textWords": 1003
+            "hits": 8,
+            "textWords": 1505
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "_IGxxopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q52890?uselang=gl",
-        "title": "Gustavo V de Suecia - Wikidata",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 3969
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "_rbmNQZchFfZ",
-        "address": "http://www.greenteethmm.com/ukraine-economic-war.shtml",
-        "title": "usa-russia-economic-war-over-ukraine-world-politcs-daily-stirrer-dailystirrer",
+        "hash": "WvIyBjKCL-Bs",
+        "address": "https://en.apa.az/europe/leaked-emails-reveal-scale-of-swedish-ministers-bananaphobia-453413",
+        "title": "Leaked emails reveal scale of Swedish minister’s bananaphobia",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 32666
+            "textWords": 2409
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "P-G5AhFNawUA",
-        "address": "http://www.servat.unibe.ch/tools/DfrInfo?Command=DownloadWithPages\u0026Name=bv018172",
-        "title": "BVerfGE 18, 172 - Inkompatibilität/Oberstadtdirektor Bundesverfassungsgericht Be",
+        "hash": "rYs4xXlA2Rig",
+        "address": "https://www.n-tv.de/politik/politik_kommentare/Eins-fehlt-noch-eines-muss-Merz-noch-liefern-article25608414.html",
+        "title": "Koalition wagt Großes: Eins fehlt noch, eines muss Merz noch liefern - n-tv.de",
         "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 18,
-            "textWords": 3766
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "c50tRaJNgOY4",
-        "address": "https://www.unian.info/tag/ofac",
-        "title": "OFAC - all the latest news on the topic OFAC read on UNIAN",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 2106
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "V7eSBlr3wrBg",
-        "address": "https://www.boell.de/en/topics/infrastructure",
-        "title": "Infrastructure | Heinrich Böll Stiftung",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 1388
-          }
-        },
-        "queryPhraseHits": 0
-      }
-    ],
-    [
-      {
-        "hash": "jGqDMQ_HXGTx",
-        "address": "https://correctiv.org/aktuelles/politik-2/2026/07/17/dritte-abstimmung-wohl-ungueltig-bundestag-muss-ueber-polizeigesetz-neu-abstimmen/",
-        "title": "Dritte Abstimmung ungültig: Bundestag muss über Polizeigesetz neu abstimmen",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 70
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "LQRYDXqO2Dlg",
-        "address": "https://media.ccc.de/v/megakc25-33-eine-stimme-bei-der-landtagswahl-aber-zwei-beim-bundestag-wahlrecht-erklart",
-        "title": "Eine Stimme bei der Landtagswahl, aber zwei beim Bundestag? - Wahlrecht erklärt - media.ccc.de",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 607
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "NwjxbMEdoSzg",
-        "address": "https://www.rosalux.de/veranstaltung/es_detail/CZDBG/mehr-vielfalt-in-die-parlamente---lesung-und-gespraech-mit-maximilian-oehl-von-brand-new-bundestag?cHash=edbf3b18a25e8f88184eb54666120d36",
-        "title": "Mehr Vielfalt in die Parlamente - Lesung und Gespräch mit Maximilian Oehl von Brand New Bundestag - Rosa-Luxemburg-Stiftung",
-        "snippet": "Bundestag – So bringen wir frischen Wind in die verstaubten Parlamente“. Der Gründer der überparteilichen Initiative Brand New Bundestag beschreibt in dem Buch, wie neue Köpfe, mehr Vielfalt und innovative politische Prozesse dazu beitragen können, Demokratie wieder handlungsfähiger und",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 4,
-            "textWords": 195
+            "textWords": 2103
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "3nqps2O_lfFT",
-        "address": "http://blog.dieweltistgarnichtso.net/fotografiona-in-den-bundestag",
-        "title": "Fotografiona in den Bundestag!",
+        "hash": "L2o978YmEk8g",
+        "address": "https://www.rheinische-geschichte.lvr.de/Persoenlichkeiten/franz-moeller/DE-2086/lido/623c780ed18081.17495291",
+        "title": "Franz Möller | Portal Rheinische Geschichte",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 64
+            "textWords": 5845
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "IVhKS-sOqGph",
-        "address": "https://www.ardsounds.de/episode/urn:ard:episode:feb71a942bb937c0/",
-        "title": "Ilkas Bistro – Das satirische Wochengericht mit Ilka Hein · Halloween im Bundestag · Podcast in ARD Sounds",
+        "hash": "-BqPdFqg-gVh",
+        "address": "https://www.parlament.ch/press-releases/Pages/mm-findel-2023-03-19.aspx",
+        "title": "Finance Delegation approves two emergency credit commitments totalling CHF 109 billion",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 422
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Q22Y6-sOqGph",
-        "address": "https://www.ardsounds.de/episode/urn:ard:episode:f684346d1e9f3fb7/",
-        "title": "Themen des Tages · Bundestag beschließt Tankrabatt und Entlastungsprämie · Podcast in ARD Sounds",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 436
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "-ElDL-sOqGph",
-        "address": "https://www.ardsounds.de/episode/urn:ard:episode:12f28423d78ed590/",
-        "title": "Unboxing News · Politik – Brauchen wir mehr Handwerker im Bundestag? · Podcast in ARD Sounds",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 456
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Sq4-N-sOqGph",
-        "address": "https://www.ardsounds.de/episode/urn:ard:episode:54fa252482788ea4/",
-        "title": "Themen des Tages · Bundestag stimmt mit Kanzlermehrheit für Rentenpaket · Podcast in ARD Sounds",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 460
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "edZ-j-sOqGph",
-        "address": "https://www.ardsounds.de/episode/urn:ard:episode:52eab4a2237e6574/",
-        "title": "Themen des Tages · Eklat im Bundestag: doch keine Richterwahl · Podcast in ARD Sounds",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 464
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "NEKDT-sOqGph",
-        "address": "https://www.ardsounds.de/episode/urn:ard:episode:399d5318c2f27e9a/",
-        "title": "Themen des Tages · Friedrich Merz gegen Alice Weidel: Duell im Bundestag · Podcast in ARD Sounds",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 3,
-            "textWords": 466
+            "hits": 2,
+            "textWords": 1114
           }
         },
         "queryPhraseHits": 0
@@ -1687,19 +1648,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "OcAGHH0T52eg",
-        "address": "https://www.cicero.de/comment/250936",
-        "title": "Corona-Debatte im Bundestag - Geschlossene Gesellschaft | Cicero Online",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 5,
-            "textWords": 2800
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "1B3qEXlA2Rig",
         "address": "https://www.n-tv.de/politik/Pistorius-lobt-den-Zoff-und-zeigt-sich-offen-fuer-Kompromisse-article26102172.html",
         "title": "Wehrdienst im Bundestag: Pistorius lobt den Zoff und zeigt sich offen für Kompromisse - n-tv.de",
@@ -1713,14 +1661,27 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "OcAGHH0T52eg",
+        "address": "https://www.cicero.de/comment/250936",
+        "title": "Corona-Debatte im Bundestag - Geschlossene Gesellschaft | Cicero Online",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 2800
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "xavLIa04_ukh",
         "address": "https://eisenbahn.de/eisenbahn-magazin/bundesregierung-beschliesst-entlastungspaket-gegen-trassenpreisanstieg-im-schienenverkehr_15834",
         "title": "Trassenpreise im Schienenverkehr: Bundestag beschließt Entlastungspaket und bereitet Reform ab 2027 vor - eisenbahn.de",
-        "snippet": "Bundestag reagiert damit auf die gestiegenen Kosten im Bahnbereich sowie auf die Auswirkungen der Eigenkapitalerhöhung der Deutschen Bahn AG aus der vergangenen Legislaturperiode.\nKern des Pakets ist die Auszahlung der Trassenpreisförderung in Höhe von 105 Millionen Euro für das Jahr 2025 im",
+        "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 90
+            "hits": 5,
+            "textWords": 1010
           }
         },
         "queryPhraseHits": 0
@@ -1793,6 +1754,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "AjD_bXi-f6Eg",
+        "address": "https://www.zeit.de/politik/deutschland/2020-10/cyberspionage-vietnam-hackerangriffe-deutschland-bmw-verfassungsschutz-oceanlotus-apt32/komplettansicht",
+        "title": "Cyberspionage: Hanois Hacker | DIE ZEIT",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 122
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "4eizo8fz_mdh",
         "address": "https://www.abendblatt.de/podcast/article408210542/olaf-scholz-was-war-das.html",
         "title": "Olaf Scholz: Was war das?",
@@ -1814,19 +1788,6 @@
           "EJWtfx_YPezd": {
             "hits": 3,
             "textWords": 3740
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "AjD_bXi-f6Eg",
-        "address": "https://www.zeit.de/politik/deutschland/2020-10/cyberspionage-vietnam-hackerangriffe-deutschland-bmw-verfassungsschutz-oceanlotus-apt32/komplettansicht",
-        "title": "Cyberspionage: Hanois Hacker | DIE ZEIT",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 122
           }
         },
         "queryPhraseHits": 0
@@ -1884,19 +1845,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "9_UkWkUICtcA",
-        "address": "http://www.berlin.de/rbmskzl/aktuelles/termine/",
-        "title": "Terminliste des Regierenden Bürgermeisters von Berlin - Berlin.de",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 1329
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "GSJBsN3lHGRh",
         "address": "https://www.beck-aktuell.de/thema/parlament",
         "title": "Parlament | beck-aktuell",
@@ -1908,135 +1856,148 @@
           }
         },
         "queryPhraseHits": 0
+      },
+      {
+        "hash": "OGTyPYGRB-8h",
+        "address": "https://www.hausundgrund.de/verein/detmold/baugb-novelle-haus-grund-warnt-vor-neuen-eingriffen-eigentum",
+        "title": "BauGB-Novelle: Haus \u0026 Grund warnt vor neuen Eingriffen in Eigentum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 368
+          }
+        },
+        "queryPhraseHits": 0
       }
     ],
     [
       {
-        "hash": "UbY1LTSG-fuh",
-        "address": "https://www.hanisauland.de/index.php/wissen/lexikon/grosses-lexikon/b/bundestag/deutscher_bundestag.html",
-        "title": "Deutscher Bundestag | Politik für Kinder, einfach erklärt - HanisauLand.de",
-        "snippet": "Bundestag\nDies ist der Sitz des Deutschen Bundestages in Berlin\nViele Millionen Menschen leben in Deutschland. Damit das Zusammenleben gut klappt, braucht man Regeln und Gesetze. Wer aber entscheidet, welche Regeln gelten sollen? Weil nicht alle Menschen immer dazu befragt werden können, wählen sie",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 56,
-            "textWords": 2130
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "Wz24ht7wx37i",
-        "address": "https://www.tichyseinblick.de/meinungen/debatte-bundestag-voelkermord-jesiden/",
-        "title": "Im Bundestag ist Beifall bloß erlaubt, wenn für die richtige Seite geklatscht wird",
+        "hash": "Pg9Ibp6WxzFg",
+        "address": "https://www.recht.bund.de/bgbl/1/2024/436/VO.html?nn=55638",
+        "title": "Bundesgesetzblatt Teil I - Verordnung über die Abkürzung von Fristen im Bundeswahlgesetz für die Wahl zum 21. Deutschen Bundestag - Bundesgesetzblatt",
         "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 6,
-            "textWords": 3910
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "4-WQCSeT5cDg",
-        "address": "https://www.freitag.de/autoren/katharina-koerting/der-bundestag-als-zirkuszelt-5-szenarien-wie-der-renten-zoff-ausgehen-koennte",
-        "title": "Der Bundestag als Zirkuszelt? 5 Szenarien, wie der Renten-Zoff ausgehen könnte — der Freitag",
-        "snippet": "Bundestag doch ein Zirkuszelt? Fünf Szenarien, wie der Renten-Zoff ausgehen könnte\nOb die junge Gruppe der Union bei der Rentenabstimmung wohl auch die Hand heben wird Foto: Michael Kappeler/picture alliance/dpa\nDie kaum noch sogenannte „große“ Koalition hat gerade mal zwölf Stimmen „über dem",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 3,
-            "textWords": 564
+            "textWords": 598
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "UQY4iX8moajg",
-        "address": "https://www.welt.de/politik/deutschland/article68e81adcdaea3e0002fb5060/brandner-und-moosdorf-bundestag-hebt-immunitaet-von-zwei-afd-abgeordneten-auf.html",
-        "title": "Brandner und Moosdorf: Bundestag hebt Immunität von zwei AfD-Abgeordneten auf - WELT",
-        "snippet": "Bundestag hebt Immunität von zwei AfD-Abgeordneten auf\nVeröffentlicht am 10.10.2025\nDer Bundestag hat die Immunität der beiden AfD-Abgeordneten Stephan Brandner und Matthias Moosdorf aufgehoben. In Brandners Fall geht es um die mutmaßliche Beleidigung einer Journalistin und bei Moosdorf um einen",
+        "hash": "UwPWplYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/themenfeld-biotechnologie-und-gesundheit.php",
+        "title": "TAB - Themen und Projekte - Biotechnologie und Gesundheit",
+        "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 276
+            "hits": 147,
+            "textWords": 13238
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "0nOoLT94VVHg",
-        "address": "https://www.tatup.de/index.php/tatup/en/article/view/4874/8432",
-        "title": "View of Politikberatung durch Enquête-Kommissionen: ANDREAS VIERECKE (Hrsg.): Die Beratung der Technologie- und Umweltpolitik durch Enquête-Kommissionen beim Deutschen Bundestag.",
+        "hash": "DSmDyCQ9XIaj",
+        "address": "https://foresight.tab-beim-bundestag.de/",
+        "title": "Startseite - TAB Foresight",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1159
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uZhZK0kYmBHg",
+        "address": "https://social.bund.de/@TABundestag",
+        "title": "TAB (@TABundestag@social.bund.de) - social.bund.de",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 103
+            "textWords": 88
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "DzHA1juj-MMi",
-        "address": "https://julia-verlinden.de/presse/pressemitteilungen/",
-        "title": "Pressemitteilungen",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 5,
-            "textWords": 263
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "iwndplthUqeg",
-        "address": "https://www.utn.de/hinweisgeber/",
-        "title": "Meldestelle für Hinweisgeber | UTN",
+        "hash": "yi1TZyi-f6Eg",
+        "address": "https://www.zeit.de/digital/datenschutz/2015-10/vds-kubicki-klage-vorratsdatenspeicherung",
+        "title": "VDS: Kritiker kündigen Klagen gegen Vorratsdatenspeicherung an | DIE ZEIT",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 1088
+            "textWords": 68
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "0GfBkWIcbLAw",
-        "address": "https://www.change.org/p/w%C3%BCrde-f%C3%BCr-pflegende-keine-ausgrenzung-von-familien-nach-schweren-schicksalsschl%C3%A4gen?source_location=topics_page",
-        "title": "Petition · Würde für Pflegende! Keine Ausgrenzung von Familien nach schweren Schicksalsschlägen - Deutschland · Change.org",
+        "hash": "BvDm-65wLSBj",
+        "address": "https://www.assemblee-nationale.fr/dyn/europe-et-international",
+        "title": "Europe et international - Assemblée nationale",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 2,
-            "textWords": 1345
+            "textWords": 2003
           }
         },
         "queryPhraseHits": 0
       },
       {
-        "hash": "qBs9bXlA2Rig",
-        "address": "https://www.n-tv.de/politik/Moeglich-dass-man-Kontaktbeschraenkungen-fuer-alle-braucht-article22938715.html",
-        "title": "Göring-Eckardt im \"Frühstart\": \"Möglich, dass man Kontaktbeschränkungen für alle braucht\" - n-tv.de",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 2,
-            "textWords": 1414
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ueUfv8fz_mdh",
-        "address": "https://www.abendblatt.de/podcast/article406442433/jung-gruen-weiblich-das-neue-erfolgsmodell.html",
-        "title": "Jung, grün, weiblich: Das neue Erfolgsmodell?",
+        "hash": "mN9MylTAr1Xj",
+        "address": "https://www.deutschlandfunkkultur.de/erschoepft-und-ausgebrannt-wenn-politisches-engagement-krank-macht-dlf-kultur-fb897e30-100.html",
+        "title": "Politiker-Burn-out",
         "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 1165
+            "textWords": 711
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "sN3_7WX5sgqx",
+        "address": "https://netzpolitik.org/tag/rundfunkbeitrag/",
+        "title": "Rundfunkbeitrag - netzpolitik.org",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 663
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "1w_Ykopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q5593?uselang=mt",
+        "title": "Pablo Picasso - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 14198
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SX62zT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000103276",
+        "title": "Technikfolgen-Abschätzung als Technikforschung und Politikbera...",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 201
           }
         },
         "queryPhraseHits": 0
@@ -2122,6 +2083,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "7JTEBjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Nazism",
+        "title": "Nazism - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 35315
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "ZKXnwl20khcg",
         "address": "https://www.juwiss.de/72-2026/",
         "title": "Highway to Verfassungswidrigkeit: Die Bundesregierung erneut auf Rechtsbruchkurs | JuWissBlog",
@@ -2135,6 +2109,19 @@
         "queryPhraseHits": 0
       },
       {
+        "hash": "Cj0LuSFNawUA",
+        "address": "http://www.servat.unibe.ch/fallrecht/bv089291.html",
+        "title": "DFR - BVerfGE 89, 291 - Wahlprüfungsverfahren",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 16,
+            "textWords": 6137
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
         "hash": "dE84pQ4SzKmg",
         "address": "https://www.bdew.de/wasser-abwasser/stoffstrombilanz-abschaffung-nitratinitative/",
         "title": "Stoffstrombilanz ermöglicht verursachergerechte Düngung | BDEW",
@@ -2143,32 +2130,6 @@
           "EJWtfx_YPezd": {
             "hits": 2,
             "textWords": 759
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "ShhJDs5D-QSg",
-        "address": "https://snl.no/utjevningsmandat",
-        "title": "utjevningsmandat – Store norske leksikon",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 1,
-            "textWords": 2022
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
-        "hash": "cX00LW4Af8ri",
-        "address": "https://verfassungsblog.de/tag/omt/",
-        "title": "omt Archives - Verfassungsblog",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 2,
-            "textWords": 1073
           }
         },
         "queryPhraseHits": 0
@@ -2189,19 +2150,6 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "fRIgFvY3c3Fg",
-        "address": "https://www.golem.de/news/haushaltsausschuss-bundestag-will-faxgeraete-ausmustern-2311-179543.html",
-        "title": "Haushaltsausschuss: Bundestag will Faxgeräte ausmustern",
-        "snippet": "",
-        "matchedWords": {
-          "EJWtfx_YPezd": {
-            "hits": 10,
-            "textWords": 1471
-          }
-        },
-        "queryPhraseHits": 0
-      },
-      {
         "hash": "cpR-IC8moajg",
         "address": "https://www.welt.de/regionales/berlin/article255519072/21-Abgeordnete-aus-Brandenburg-im-neuen-Bundestag.html",
         "title": "21 Abgeordnete aus Brandenburg im neuen Bundestag - WELT",
@@ -2215,14 +2163,27 @@
         "queryPhraseHits": 0
       },
       {
-        "hash": "fcl6KsuvagGh",
-        "address": "https://www.bundestag.de/dokumente/textarchiv/2026/kw37-de-wirtschaft-1194768",
-        "title": "Wirtschaftsetat bei 5,55 Milliarden Euro - Deutscher Bundestag",
-        "snippet": "Bundestag hat sich am Dienstag, 8. September 2026, in erster Lesung gut eineinhalb Stunden lang mit dem Etatentwurf des Bundesministeriums für Wirtschaft und Energie (BMWE) für 2027 beschäftigt. Der Einzelplan 09 des Bundeshaushalts 2027 (21/7300(Dokument, öffnet ein neues Fenster)) umfasst",
+        "hash": "fRIgFvY3c3Fg",
+        "address": "https://www.golem.de/news/haushaltsausschuss-bundestag-will-faxgeraete-ausmustern-2311-179543.html",
+        "title": "Haushaltsausschuss: Bundestag will Faxgeräte ausmustern",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 10,
+            "textWords": 1471
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eDZRHsuvagGh",
+        "address": "https://www.bundestag.de/dokumente/textarchiv/2026/kw37-de-justiz-1194756",
+        "title": "Justizetat annähernd unverändert - Deutscher Bundestag",
+        "snippet": "Bundestag hat sich am Donnerstag, 10. September 2026, in erster Lesung gut eineinhalb Stunden lang mit dem Etatentwurf für das Bundesministerium der Justiz und für Verbraucherschutz auseinandergesetzt. Der Einzelplan 07 des Bundeshaushalts 2027 (21/7300(Dokument, öffnet ein neues Fenster)) umfasst",
         "matchedWords": {
           "EJWtfx_YPezd": {
             "hits": 1,
-            "textWords": 1483
+            "textWords": 1324
           }
         },
         "queryPhraseHits": 0
@@ -2257,11 +2218,11 @@
         "hash": "dGR4SXqO2Dlg",
         "address": "https://media.ccc.de/v/36c3-106-welches-betriebssystem-hat-der-bundestag-und-wie-kann-man-es-hacken-",
         "title": "Welches Betriebssystem hat der Bundestag und wie kann man es hacken? - media.ccc.de",
-        "snippet": "Bundestag nicht mal transparent, geschweige denn besonders partizipativ ab. Das Interface ist so unübersichtlich, dass selbst die Leute mit Adminrechten (Regierung) zum Teil Schwierigkeiten haben, den Überblick zu behalten. Als Bundestagsabgeordnete wurde mir zwar ein dickes Manual ausgehändigt,",
+        "snippet": "",
         "matchedWords": {
           "EJWtfx_YPezd": {
-            "hits": 4,
-            "textWords": 417
+            "hits": 6,
+            "textWords": 696
           }
         },
         "queryPhraseHits": 0
@@ -2301,6 +2262,2399 @@
           "EJWtfx_YPezd": {
             "hits": 6,
             "textWords": 1196
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "9gW75XlA2Rig",
+        "address": "https://www.n-tv.de/politik/Bundesregierung-erfasst-Sabotage-und-Spionage-durch-Putins-Schattenflotte-nicht-article25947712.html",
+        "title": "Schrotttanker in der Ostsee: Bundesregierung erfasst Sabotage und Spionage durch Putins Schattenflotte nicht - n-tv.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1993
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8hukQjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/West_Germany",
+        "title": "West Germany - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 14,
+            "textWords": 12361
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xolVLohLN4H4",
+        "address": "https://apnews.com/live/germany-election-updates-parliament",
+        "title": "Germany election: Election results, analysis, latest news | AP News",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 7,
+            "textWords": 16980
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "570NkXK91_eg",
+        "address": "https://www.otz.de/politik/steuern/",
+        "title": "Steuern: News, Infos und Tipps",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 6766
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "FZyy8OS6MKD4",
+        "address": "https://github.com/boltcomptrollertube/public-apis",
+        "title": "GitHub - boltcomptrollertube/public-apis: Maintained fork of public-apis — security patches \u0026 install fixes. pip install git+https://github.com/boltcomptrollertube/public-apis.git · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 18896
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gckTQsoY3Cf5",
+        "address": "https://alethonews.com/",
+        "title": "Aletho News",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 13020
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Q5avAdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Andy_Warhol",
+        "title": "Andy Warhol – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 11653
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tiF-J-S6MKD4",
+        "address": "https://github.com/anasty17/public-apis",
+        "title": "GitHub - anasty17/public-apis: A collective list of free APIs · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 17534
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Io0vPgJPjR4x",
+        "address": "https://es.wikipedia.org/wiki/Berl%C3%ADn",
+        "title": "Berlín - Wikipedia, la enciclopedia libre",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 12885
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hWFS4pS2iC9x",
+        "address": "https://az.wikipedia.org/wiki/Konrad_Adenauer",
+        "title": "Konrad Adenauer — Vikipediya",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 4041
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [
+      {
+        "hash": "C7QwUL91Mvvj",
+        "address": "https://www.abgeordnetenwatch.de/recherchen/lobbyismus/liste-veroeffentlicht-diese-lobbyisten-haben-zugang-zum-bundestag",
+        "title": "Liste veröffentlicht: Diese Lobbyisten haben Zugang zum Bundestag | abgeordnetenwatch.de",
+        "snippet": "Bundestag erhalten.\nCDU und CSU bewilligten mehr als doppelt so viele Hausausweise wie die übrigen Fraktionen zusammen.\nAuf einem Unions-Ticket gelangen u.a. der Rüstungskonzern EADS, der Axel Springer-Verlag und die Frackinglobby ins Parlament.\nDie vollständige Liste mit allen Hausausweisinhabern",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 17,
+            "textWords": 1079
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C5xxDX8moajg",
+        "address": "https://www.welt.de/politik/video236531243/Wirtschaftsminister-Habeck-praesentiert-Jahreswirtschaftsbericht-im-Bundestag.html",
+        "title": "Wirtschaftsminister Habeck präsentiert Jahreswirtschaftsbericht im Bundestag - Video - WELT",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 776
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AtFFUlUnydmg",
+        "address": "https://www.lemonde.fr/archives/article/1959/01/14/deux-deputes-au-bundestag-effectuent-une-mission-economique-en-tunisie_2169755_1819218.html",
+        "title": "Deux députés au Bundestag effectuent une mission économique en Tunisie",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1833
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Cs6Dqle494ig",
+        "address": "https://www.nzz.ch/schaeuble-will-erneut-fuer-bundestag-kandidieren-ld.794386",
+        "title": "Schäuble will erneut für Bundestag kandidieren | NZZ",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 448
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A1z01Xpr109g",
+        "address": "https://www.mmnews.de/politik/128891-bundestag-lobt-china-erfogreichster-einparteienstaat",
+        "title": "Bundestag lobt China: Erfolgreichster Einparteienstaat",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1893
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "AYWROnMdVdYj",
+        "address": "https://afd-fraktion-hamburg.de/2023/04/04/cum-ex-untersuchungsausschuss-im-bundestag-wolf-im-sinne-der-aufklaerung/",
+        "title": "Cum-Ex-Untersuchungsausschuss im Bundestag / Wolf: „Im Sinne der Aufklärung“ | AfD-Fraktion Hamburg",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1254
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BzxeHlcBYrvg",
+        "address": "https://www.moldpres.md/en/news/2016/04/18/16003102",
+        "title": "MOLDPRES News Agency - Bundestag secretary-general reiterates Germany's willingness to further support Moldova",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 594
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8YMa-lYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/news-2026-08-ki-und-biotechnologie-neue-tab-studie-analysiert-sicherheitsrisiken-und-handlungsoptionen.php",
+        "title": "TAB - Service - News - KI und Biotechnologie: Neue TAB-Studie analysiert Sicherheitsrisiken und Handlungsoptionen",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 7234
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "B3moiXCZCJKg",
+        "address": "https://www.merkur.de/politik/afd-deutschtuerken-europawahl-maximilian-krah-tiktok-spd-bundestag-macit-karaahmetoglu-zr-92992989.html",
+        "title": "„Will Deutschtürken für dumm verkaufen“ – AfD wirbt ausgerechnet um Migranten",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 986
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5_HTwT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000133257",
+        "title": "Das Raumtransportsystem Sänger. Billiger in den Orbit? Vorstud...",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 287
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "mls5dJKXQHv5",
+        "address": "https://de.tradingview.com/chart/3XJN/6ZFMPWTh/",
+        "title": "Kawumm'sche MORGENANALYSE zum Montag, den 24.02.2025 für XETR:3XJN von DrMartin_Kawumm — TradingView",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1016
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uD-v_RvrsyS5",
+        "address": "https://marcusampe.wordpress.com/",
+        "title": "Marcus Ampe's Space | Just another WordPress.com site with thoughts by Marcus Ampe",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 18644
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8g2TdjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Portal:Current_events/August_2015",
+        "title": "Portal:Current events/August 2015 - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 13314
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xu7QR_QqMBss",
+        "address": "https://english.wafa.ps/Pages/Details/173042",
+        "title": "Israeli military extends offensive on Jenin, Tulkarm and Nur Shams refugee camps until end of September",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1330
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xF5SaHtoqot4",
+        "address": "https://tr.euronews.com/",
+        "title": "Son dakika haberleri talebe bağlı ücretsiz videoyla izleyin | Euronews",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 5634
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VoukAH3CLCF6",
+        "address": "https://www.midwesternmarx.com/articles/archives/01-2024",
+        "title": "Blog Archives - Midwestern Marx Institute",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 33287
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3EtFa7yX5Qug",
+        "address": "https://www.t-online.de/themen/cdu/",
+        "title": "CDU: Aktuelle News \u0026 Infos",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 2835
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "daW1ZQZchFfZ",
+        "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+        "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 48486
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QfD-u2sbQ1t5",
+        "address": "https://www.irishtimes.com/world/europe/176/",
+        "title": "Europe News | Breaking Updates \u0026 Analysis from Europe | The Irish Times",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 4576
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xsokQlNBWsBi",
+        "address": "https://www.innovationslupe.de/",
+        "title": "Innovationslupe - Innovationen und Ihre Schutzrechte",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2432
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [],
+    [
+      {
+        "hash": "imLcflYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/gutachtenausschreibungen.php",
+        "title": "TAB - Service - Gutachtenausschreibungen",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 6923
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kbxIZ70T52eg",
+        "address": "https://www.cicero.de/themen/ampelkoalition",
+        "title": "Ampelkoalition | Cicero Online",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1963
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "mhG_Cs4Af8ri",
+        "address": "https://verfassungsblog.de/vorzeichenwechsel-im-europawahlrecht/",
+        "title": "Vorzeichenwechsel im Europawahlrecht",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 2758
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "oJBDXxX5sgqx",
+        "address": "https://netzpolitik.org/2013/netzpolitischer-wochenruckblick-kw-21/",
+        "title": "Netzpolitischer Wochenrückblick: KW 21 - netzpolitik.org",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 1425
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3Jm9Rikt3yBw",
+        "address": "https://us.boell.org/en/contact",
+        "title": "Contact | Heinrich Böll Stiftung | Washington, DC Office - USA, Canada, Global Dialogue",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 526
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "cc4sPT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000191167",
+        "title": "Technologische Möglichkeiten zur Reduktion von Kunststoffabfäl...",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 352
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "e5pjVjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Frankfurt",
+        "title": "Frankfurt - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 29812
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DYp17zoEZeWh",
+        "address": "https://www.wiso.uni-hamburg.de/fachbereich-sowi/ueber-den-fachbereich/aktuelle-meldungen.html",
+        "title": "Aktuelles : Fakultät für Wirtschafts- und Sozialwissenschaften : Universität Hamburg",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1621
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "e0koxqW2blYg",
+        "address": "https://data.idref.fr/describe/?url=http%3A%2F%2Fwww.sudoc.fr%2F087120321%2Fid",
+        "title": "About: http://www.sudoc.fr/087120321/id",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 352
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ii4_Bn1-GXaw",
+        "address": "https://hoa.boell.org/en",
+        "title": "Heinrich-Böll-Stiftung | Horn of Africa | Ethiopia | Sudan | Somalia/Somaliland",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1620
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "36ht27OXQR5h",
+        "address": "https://www.zeitklicks.de/zeitstrahl/1987/bundestagswahl-1987-wahl-zum-11-deutschen-bundestag",
+        "title": "Bundestagswahl 1987 - Wahl zum 11. Deutschen Bundestag - Deutschland im Jahr 1987 - Zeitstrahl | Zeitklicks",
+        "snippet": "Bundestag. Die Wahl 1987 war außerdem die letzte Wahl vor der deutschen Wiedervereinigung 1990.\nAls Kanzlerkandidat trat Johannes Rau (SPD) gegen den amtierenden Bundeskanzler Helmut Kohl (CDU) an. Rau war seit 1978 Ministerpräsident in Nordrhein-Westfalen. Dort hatte er 1980 und 1985 sehr gute",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 280
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "vEaBropg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q30542764?uselang=mzn",
+        "title": "17th German Bundestag - Wikidata",
+        "snippet": "Bundestag\nlegislative term from 2009 to 2013\nSeventeenth German Bundestag\nاظهارات\n17\n۰ منبع\n۰ منبع\n۲۷ اکتبر 2009\n۲۲ اکتبر 2013\n۱ منبع\n۳\n۸ مارس 2025\n۰ منبع\n۰ منبع\n۰ منبع\n۰ منبع\n۲۷ اکتبر 2009\n۱ منبع\n۳۰ اکتبر 2021\n17/1\n۲۲ اکتبر 2013\n۱ منبع\n۳۰ اکتبر 2021\n18/1\n۲۷ سپتامبر 2009\n۰ منبع\n۲۷ اکتبر 2009\n۰ منبع",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 107
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iAwpwli3ujYg",
+        "address": "https://www.djb.de/kampagne-gleichstellung-und-demokratie",
+        "title": "Kampagne \"Gleichstellung \u0026 Demokratie\" (2021): Deutscher Juristinnenbund e.V.",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 886
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Vot1JxX5sgqx",
+        "address": "https://netzpolitik.org/2013/leistungsschutzrecht-springer-verlag-macht-keinen-gebrauch-vom-neuen-gesetz/",
+        "title": "Leistungsschutzrecht: Springer-Verlag macht keinen Gebrauch vom neuen Gesetz - netzpolitik.org",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1513
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BCpaRUZZ-YVh",
+        "address": "https://brockhaus.de/ecs/enzy/article/deutsche-geschichte/das-vereinigte-deutschland-seit-1990/die-schwarz-rote-koalition-seit-2025",
+        "title": "Enzyklopädie - Brockhaus.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 315
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OgA9qlgip_Fg",
+        "address": "https://www.dfb.de/",
+        "title": "Deutscher Fußball-Bund: Offizielle Webseite des DFB",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 3977
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uD-v_RvrsyS5",
+        "address": "https://marcusampe.wordpress.com/",
+        "title": "Marcus Ampe's Space | Just another WordPress.com site with thoughts by Marcus Ampe",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 19034
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "HqxJhQZchFfZ",
+        "address": "http://www.greenteethmm.com/europe-unglued.shtml",
+        "title": "the-editor-of-business-insider-fears-europe-is-coming-unglued-from-his-globalist-agenda",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 31588
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8Zk7q2HjdLqg",
+        "address": "https://www.focus.de/earth/news/",
+        "title": "Klimanachrichten - FOCUS Online",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 5332
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "n8112l20khcg",
+        "address": "https://www.juwiss.de/88-2021/",
+        "title": "Alles Gut(e), Elisabeth Selbert!? – Ein Geburtstagsgruß vor der Bundestagswahl | JuWissBlog",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 12,
+            "textWords": 1998
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "A7qkElvC_adh",
+        "address": "https://www.wahlrecht.de/umfragen/",
+        "title": "Wahlumfragen zur Bundestagswahl – Sonntagsfrage (Wahlumfrage, Umfragen)",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 698
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "OUgCWzX5sgqx",
+        "address": "https://netzpolitik.org/2026/moritz-hennemann-neuer-bundesbeauftragter-fuer-datenschutz-und-informationsfreiheit-gewaehlt/",
+        "title": "Moritz Hennemann: Neuer Bundesbeauftragter für Datenschutz und Informationsfreiheit gewählt - netzpolitik.org",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1521
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "D-3atlN8O9Si",
+        "address": "https://www.heike-haensel.de/",
+        "title": "Heike Hänsel (MdB 2005-2021, Archiv)",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 12,
+            "textWords": 5836
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gieR9lIJ83Zi",
+        "address": "https://www.michael-brand.de/",
+        "title": "Michael Brand MdB",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 1003
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "519rvqW2blYg",
+        "address": "https://data.idref.fr/describe/?url=http%3A%2F%2Fwww.sudoc.fr%2F004644107%2Fid",
+        "title": "About: http://www.sudoc.fr/004644107/id",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 385
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "P-G5AhFNawUA",
+        "address": "http://www.servat.unibe.ch/tools/DfrInfo?Command=DownloadWithPages\u0026Name=bv018172",
+        "title": "BVerfGE 18, 172 - Inkompatibilität/Oberstadtdirektor Bundesverfassungsgericht Be",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 18,
+            "textWords": 3766
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "RjahXopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q214758?uselang=kab",
+        "title": "Dean Acheson — Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 3535
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_rbmNQZchFfZ",
+        "address": "http://www.greenteethmm.com/ukraine-economic-war.shtml",
+        "title": "usa-russia-economic-war-over-ukraine-world-politcs-daily-stirrer-dailystirrer",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 32666
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Hp_fqlr3wrBg",
+        "address": "https://www.boell.de/en/topics/finance",
+        "title": "Finance | Heinrich Böll Stiftung",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1451
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "c50tRaJNgOY4",
+        "address": "https://www.unian.info/tag/ofac",
+        "title": "OFAC - all the latest news on the topic OFAC read on UNIAN",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2106
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "dK8bFlYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/ueber-uns.php",
+        "title": "TAB - Über uns",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 63,
+            "textWords": 11514
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "r_YFLK_AGtx5",
+        "address": "https://www.golosameriki.com/a/prezident-germanii-raspustil-bundestag-i-naznachil-dosrochnye-vybory/7915671.html",
+        "title": "Президент Германии распустил Бундестаг и назначил досрочные выборы",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1309
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0Ux0RYX5sgqx",
+        "address": "https://netzpolitik.org/2024/digitale-dienste-gesetz-bundeskriminalamt-erwartet-meldungen-im-minutentakt/",
+        "title": "Digitale-Dienste-Gesetz: Bundeskriminalamt erwartet Meldungen im Minutentakt - netzpolitik.org",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1993
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "hEiLy03MiEig",
+        "address": "https://www.ndr.de/nachrichten/info/von-notz-zu-anschlag-auf-csd-unsere-demokratie-muss-wehrhaft-sein,audio-3381122.html",
+        "title": "Von Notz zu Anschlag auf CSD: Unsere Demokratie muss wehrhaft sein | ndr.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 912
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZcXr6qC43Oug",
+        "address": "https://www.fdp.de/person/gyde-jensen",
+        "title": "Gyde Jensen | FDP",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 238
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rdDXjlaTEdIh",
+        "address": "https://www.openpetition.de/abgeordnete/vertreter/svenja-stadler-spd-deutschland/8",
+        "title": "Svenja Stadler - Elected representative in Germany",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 630
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "De8TMjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Puerto_Montt",
+        "title": "Puerto Montt - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 5313
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Mm4wUopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q8023",
+        "title": "Nelson Mandela - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 7512
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9jc__aJNgOY4",
+        "address": "https://www.unian.info/tag/sipri",
+        "title": "SIPRI - all the latest news on the topic SIPRI read on UNIAN",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2472
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "a-z2eQZchFfZ",
+        "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
+        "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 31542
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "HyZBi44LMaSg",
+        "address": "https://www.bbc.co.uk/news/articles/ceq901dxjnzo",
+        "title": "Far-right AfD's win on asylum vote rocks German parliament - BBC News",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 2585
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uEbw-0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/id_101407714/rechtswissenschaftler-linker-mietendeckel-verfassungsgemaess.html",
+        "title": "Rechtswissenschaftler: Linker Mietendeckel verfassungsgemäß",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1704
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "wL1ro0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/id_101407076/koalitionsfraktionen-schliessen-aenderung-bei-rente-nicht-aus.html",
+        "title": "Koalitionsfraktionen schließen Änderung bei Rente nicht aus",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1431
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "H8NXZ0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/id_101388512/bundesrat-sieht-sich-gewappnet-fuer-moegliche-afd-regierung.html",
+        "title": "Bundesrat sieht sich gewappnet für mögliche AfD-Regierung",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 2080
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LODyh0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_101403086/kabinettsklausur-der-regierung-entscheidende-monate-brechen-fuer-merz-an.html",
+        "title": "Kabinettsklausur der Regierung: Entscheidende Monate brechen für Merz an",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 2514
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9Gfi7KsrSOQw",
+        "address": "https://arxiv.org/list/cs/new",
+        "title": "Computer Science",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 42573
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TCiod0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_101407460/linke-fordert-bundesweiten-mietendeckel-und-legt-gutachten-vor.html",
+        "title": "Linke fordert \"bundesweiten Mietendeckel\" und legt Gutachten vor",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 2187
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "w-hkQ8S-H9Pw",
+        "address": "https://www.npr.org/live-updates/morning-edition-2022-01-27",
+        "title": "Start your day here: The world marks Holocaust Remembrance Day | NPR",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 8790
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zgdB40yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/parteien/id_101407166/spd-fordert-steuer-fuer-superreiche-extreme-ungleichheit-.html",
+        "title": "SPD fordert Steuer für Superreiche: \"Extreme Ungleichheit\"",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 2736
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kjK4I0yX5Qug",
+        "address": "https://www.t-online.de/nachrichten/deutschland/innenpolitik/id_101403856/kabinettsklausur-in-neuhardenberg-die-stimmung-stimmt-schon-mal.html",
+        "title": "Kabinettsklausur in Neuhardenberg: Die Stimmung stimmt schon mal",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 2675
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "gsx2CUmK3Lbg",
+        "address": "https://www.lto.de/recht/hintergruende/h/bverfg-gg-richter-demokratie-bundestag-rechtsstaat-verfassungsaenderung",
+        "title": "Pläne zur BVerfG-Absicherung erreichen Bundestag",
+        "snippet": "Bundestag auf. Ullrich weiter: \"Das Gericht an sich, die Einrichtung, und die Verfassungsbeschwerde sind durch das Grundgesetz (GG) geschützt, aber nicht die Anzahl der Senate, nicht die Länge der Amtsdauer der Richterinnen und Richter und auch nicht die Geschäftsverteilung.\" Der Vorschlag, das",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 1319
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "NzvXAlYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/projekte_elektronische-petitionen-und-modernisierung-des-petitionswesens-in-europa.php",
+        "title": "TAB - Themen und Projekte - Projekteübersicht - Elektronische Petitionen und Modernisierung des Petitionswesens in Europa",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 25,
+            "textWords": 10118
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "eF8rSlYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/projekte_stakeholderpartizipation-und-diskursanalyse.php",
+        "title": "TAB - Themen und Projekte - Projekteübersicht - Stakeholderpartizipation und Diskursanalyse zur Identifikation von gesellschaftlichen Wahrnehmungen von Technologien",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 15,
+            "textWords": 7544
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "MHuFbEC43Oug",
+        "address": "https://www.fdp.de/seite/leitbildprozess",
+        "title": "Leitbildprozess | FDP",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 500
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DPitcWX5sgqx",
+        "address": "https://netzpolitik.org/tag/pether-thiel/",
+        "title": "Pether Thiel - netzpolitik.org",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 324
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ZrcFOUZBxguz",
+        "address": "https://netzwerkrecherche.org/blog/union-plant-abschaffung-des-informationsfreiheitsgesetzes/",
+        "title": "Union plant Abschaffung des Informationsfreiheitsgesetzes - Netzwerk Recherche",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1432
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zVKIEopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q21096327",
+        "title": "Springer Nature - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 8,
+            "textWords": 1729
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "A1j_2laTEdIh",
+        "address": "https://www.openpetition.de/abgeordnete/vertreter/ulla-jelpke-die-linke-deutschland/12",
+        "title": "Ulla Jelpke - Elected representative in Germany",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 688
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ebe7VT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000103601",
+        "title": "E-Commerce. Endbericht zum TA-Projekt",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 264
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "BcIa4YGRB-8h",
+        "address": "https://www.hausundgrund.de/verein/uckermark/baugb-novelle-haus-grund-warnt-vor-neuen-eingriffen-eigentum",
+        "title": "BauGB-Novelle: Haus \u0026 Grund warnt vor neuen Eingriffen in Eigentum",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 382
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "VXNyH50w__jw",
+        "address": "https://www.faz.net/aktuell/politik/inland/bundestag-diese-abgeordneten-koennten-eine-besondere-rolle-spielen-110377065.html",
+        "title": "Bundestag: Diese Abgeordneten könnten eine besondere Rolle spielen",
+        "snippet": "Bundestag gewählt worden, er zählte zu den bedeutendsten Schriftstellern der DDR. Begleitet wurde die Rede damals noch von allerhand Erregung und offener Ablehnung. Wenn Gysi an diesem Dienstag an das Rednerpult tritt, dürfte das in der einstigen Schärfe nicht mehr zu erwarten sein. Immerhin hat er",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 108
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "X0ruu50w__jw",
+        "address": "https://www.faz.net/aktuell/politik/inland/bundestag-beschliesst-gesetzentwurf-fuer-mehr-inklusion-im-arbeitsmarkt-18836415.html",
+        "title": "Bundestag beschließt Gesetzentwurf für mehr Inklusion im Arbeitsmarkt",
+        "snippet": "Bundestag beschließt Gesetz für mehr Inklusion im Arbeitsmarkt\n20.04.2023, 18:16Lesezeit: 2 Min.\nMaximilian Eichinger (v.l.) bekommt einen Einblick in den Produktionsalltag einer Bäckereidpa\nMenschen mit Behinderungen sollen mehr Chancen erhalten, einen Job auch außerhalb von Werkstätten zu",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 55
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VnMYKltNwpr4",
+        "address": "https://www.dw.com/en/bundestag-germanys-lower-house-of-parliament/t-19153330",
+        "title": "Bundestag (Germany's lower house of parliament)",
+        "snippet": "Skip next section News\nNews\nShow more\nSkip next section Reports \u0026 Analysis\nReports \u0026 Analysis\nPoliticsJuly 3, 2026\nPoliticsJuly 3, 202602:19 min\nPoliticsFebruary 10, 2026\nPoliticsFebruary 1, 2026\nHistoryJanuary 28, 202602:57 min\nPoliticsJanuary 14, 2026\nShow more\nSkip next section In the spotlight",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 0,
+            "textWords": 62
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "WN7sKvYNjNt5",
+        "address": "https://www.bellingcat.com/news/2020/05/05/who-is-dmitry-badin-the-gru-hacker-indicted-by-germany-over-the-bundestag-hacks/",
+        "title": "Who Is Dmitry Badin, The GRU Hacker Indicted By Germany Over The Bundestag Hacks? - bellingcat",
+        "snippet": "Bundestag.\nWhat Was The 2015 Bundestag Hack?\nIn April 2015, members of the German parliament as well as members of Merkel’s Bundestag office, received an email that ostensibly originated from the United Nations, based on its visible domain name “@un.org”. The mail was titled “Ukraine conflict with",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 1520
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "-EZuX77YFqG4",
+        "address": "https://rbmodyssee.podbean.com/e/parteilos-anstatt-cdu-direktkandidat-aus-baden-wurtemberg-bringt-sich-fur-bundestag-in-position/",
+        "title": "Parteilos anstatt CDU:  Direktkandidat aus Baden-Würtemberg bringt sich für Bundestag in Position.",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 302
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dGkmWlTaf3hx",
+        "address": "https://storage.mollywhite.net/pdfs/Bundestag-statement.pdf",
+        "title": "Statement to the German Bundestag",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 4268
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "328M4cX5sgqx",
+        "address": "https://netzpolitik.org/2017/bundestag-beraet-ausbau-der-videoueberwachung/",
+        "title": "Bundestag berät Ausbau der Videoüberwachung",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 1118
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kIHMD_vj3EIw",
+        "address": "https://fsfe.org/news/podcast/episode-27.en.html",
+        "title": "SFP#27: Policy and EU: Free Software hearing in the German Bundestag - FSFE",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 506
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Uoh2OK9yUUPw",
+        "address": "https://www.rferl.org/a/german_parliament_vote_on_eurozone_resuce_fund/24343392.html",
+        "title": "In Merkel Test, Bundestag Backs Expansion Of Eurozone Rescue Fund",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 11784
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "yXs-OyTyak05",
+        "address": "https://ibir.deutschebahn.com/2022/en/group-management-report/events-after-the-balance-sheet-date/german-parliament-passes-infrastructure-acceleration-act/",
+        "title": "DB - Bundestag beschließt Infrastrukturbeschleunigungsgesetz | Deutsche Bahn Annual Report 2022",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2850
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "9j3MoaPA_p6g",
+        "address": "https://www.lefigaro.fr/tag/bundestag",
+        "title": "Bundestag : Suivez les dernières actualités et infos",
+        "snippet": "Bundestag ce 2 mars 2023, le chancelier allemand Olaf Scholz a exhorté Pékin à ne pas armer la Russie dans sa guerre contre l'Ukraine.\nAllemagne: un groupuscule d’extrême droite qui voulait attaquer le Bundestag a été démantelé\nVingt-cinq personnes ont été interpellées et 3000 membres des forces de",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 32,
+            "textWords": 2240
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "CVtbxTDkyZGh",
+        "address": "https://www.beck-shop.de/klassen-vom-labor-bundestag/product/39150430",
+        "title": "Klassen | Vom Labor in den Bundestag | 1. Auflage | 2026 | beck-shop.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1511
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "dpEmx7OXQR5h",
+        "address": "https://www.zeitklicks.de/zeitstrahl/1987/brd",
+        "title": "BRD - Deutschland im Jahr 1987 - Zeitstrahl | Zeitklicks",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 619
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bt6MAS78emCg",
+        "address": "https://www.blaetter.de/autoren/sven-altenburger",
+        "title": "Sven Altenburger | Blätter für deutsche und internationale Politik",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 342
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "qwkyqopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q48973",
+        "title": "Glenn Theodore Seaborg - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 3828
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Ok586UvOykn4",
+        "address": "https://www.vdek.com/ueber_uns/Selbstverwaltung.html",
+        "title": "Selbstverwaltung in der GKV",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1840
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "M8snNlr3wrBg",
+        "address": "https://www.boell.de/en/division/political-research",
+        "title": "Division Political Research | Heinrich Böll Stiftung",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 946
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2O3AEkEPoO8g",
+        "address": "https://gfds.de/aktionen/wort-des-jahres/",
+        "title": "Wort des Jahres | GfdS",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 2315
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "LDQl2KxB0Fi6",
+        "address": "https://www.gisreportsonline.com/e/nerlich-uwe/",
+        "title": "GIS Expert Uwe Nerlich – GIS Reports",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 526
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fKXdcjc4UIAx",
+        "address": "https://en.wikivoyage.org/wiki/Berlin",
+        "title": "Berlin – Travel guide at Wikivoyage",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 30312
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "34aFo8fz_mdh",
+        "address": "https://www.abendblatt.de/podcast/article410366476/27-vorschau-dorothee-baer-ueber-kinder-im-bundestag-und-den-feminismus-faktor-von-friedrich-merz.html",
+        "title": "#27 Vorschau: Dorothee Bär über Kinder im Bundestag und den Feminismus-Faktor von Friedrich Merz",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 1415
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "xKZmpGnCuxPx",
+        "address": "https://openlibrary.org/works/OL27453244W/Curt_Becker_Franz_Marx_Ernst_Paul_Hans_Sch%C3%BCtz_Elisabeth_Schwarzhaupt_J._Hermann_Siemer_Anton_Storch",
+        "title": "Curt Becker, Franz Marx, Ernst Paul, Hans Schütz, Elisabeth Schwarzhaupt, J. Hermann Siemer, Anton Storch by Deutscher Bundestag | Open Library",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 972
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "huUdZlYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/projekte_chancen-und-perspektiven-behinderungskompensierender-technologien-am-arbeitsplatz.php",
+        "title": "TAB - Themen und Projekte - Projekteübersicht - Chancen und Perspektiven behinderungskompensierender Technologien am Arbeitsplatz",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 9790
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "SVeeQZXXOSAg",
+        "address": "https://www.rbb24.de/wirtschaft/beitrag/2026/07/bundestag-bau-neuer-gaskraftwerke-kein-suedbonus.html",
+        "title": "Bau neuer Gaskraftwerke beschlossen - und vom Bundesrat bestätigt",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 1689
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8hIFYDszUNti",
+        "address": "https://das-blaettchen.de/2025/07/knirschen-im-parteiengebaelk-72264.html",
+        "title": "Knirschen im Parteiengebälk – Das Blättchen",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 1274
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3YVXG0kIU2cj",
+        "address": "https://www.verkehrsrundschau.de/nachrichten/transport-logistik/nachtragshaushalt-2023-beschlossen-3465305",
+        "title": "Nachtragshaushalt 2023 beschlossen",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 7,
+            "textWords": 1413
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "aCksiT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000131615",
+        "title": "TAB-Brief Nr. 6",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 190
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Z1SeMNSG-fuh",
+        "address": "https://www.hanisauland.de/wissen/lexikon/grosses-lexikon/w/wahlgrundsaetze.html",
+        "title": "Wahlgrundsätze | Politik für Kinder, einfach erklärt - HanisauLand.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 8,
+            "textWords": 3763
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zfKO9BJzxOcj",
+        "address": "https://www.bundesverfassungsgericht.de/SharedDocs/Pressemitteilungen/EN/2009/bvg09-072.html?nn=69796",
+        "title": "Bundesverfassungsgericht - Histoire - Act Approving the Treaty of Lisbon compatible with the Basic Law; accompanying law unconstitutional to the extent that legislative bodies",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 10,
+            "textWords": 4583
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "IU-8yF4Af8ri",
+        "address": "https://verfassungsblog.de/affiliation-1/kanzlei/",
+        "title": "Kanzlei Archives - Verfassungsblog",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 3087
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "59FTtQZchFfZ",
+        "address": "http://www.greenteethmm.com/MH17-news-suppressed.shtml",
+        "title": "downed-malaysia-airlines-flight-mh17-news-developments-being-suppressed-by-mainstream-media.",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 31044
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uD-v_RvrsyS5",
+        "address": "https://marcusampe.wordpress.com/",
+        "title": "Marcus Ampe's Space | Just another WordPress.com site with thoughts by Marcus Ampe",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 19015
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gckTQsoY3Cf5",
+        "address": "https://alethonews.com/",
+        "title": "Aletho News",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 13020
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Fl-YxlDOAHJg",
+        "address": "https://www.heise.de/",
+        "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 6387
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4aBZB_mdljS4",
+        "address": "https://swentr.site/news/592927-frozen-assets-germany-navalny/",
+        "title": "Seize frozen Russian assets in Navalny’s name – German MP — RT World News",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1444
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "gVeVOQZchFfZ",
+        "address": "http://www.greenteethmm.com/climate-science-liars.shtml",
+        "title": "punish-climate-change-liars-demands-climate-change-liar-news-daily-stirrer-dailystirrer",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 32467
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zbSnnQZchFfZ",
+        "address": "http://www.greenteethmm.com/left-authoritarian-tide.shtml",
+        "title": "tide-is-turning-against-the-politically-correct-autoritarian-left-daily-stirrer-dailystirrer",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 33195
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "c9L1NayX5Qug",
+        "address": "https://www.t-online.de/author/id_91849070/niclas-glania.html",
+        "title": "Niclas Glania: alle aktuellen Artikel",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 7748
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "utCZ2QZchFfZ",
+        "address": "http://www.greenteethmm.com/european-dictator-schulz.shtml",
+        "title": "european-parliament-dictatorial-martin-schulz-dissolves-eefd-group-of-euro-sceptics-daily-stirrer-dailystirrer",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 32669
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kZa-xQZchFfZ",
+        "address": "http://www.greenteethmm.com/science-scalar-waves.shtml",
+        "title": "scalar-waves-hidden-source-of-clean-sustainable-cost-free-energy-electricity-science-technology-ian-thorpe-ianrthorpe",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 40341
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "Cc1smc5dOxjx",
+        "address": "https://www.ukrinform.net/rubric-polytics/4100513-president-of-bundestag-visits-energy-facility-in-kyiv-region-damaged-by-russians.html",
+        "title": "President of Bundestag visits energy facility in Kyiv region damaged by Russians",
+        "snippet": "Bundestag of the Federal Republic of Germany Julia Klöckner, visited one of the energy facilities in the Kyiv region that the Russian aggressor attacked.\nAccording to Ukrinform, Stefanchuk reported this on Facebook.\n\"Together with President of the Bundestag of the Federal Republic of Germany Julia",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 230
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "M_ym2jszUNti",
+        "address": "https://das-blaettchen.de/2004/08/nichtdeutsches-im-bundestag-24391.html",
+        "title": "Nichtdeutsches im Bundestag – Das Blättchen",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 1099
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "kccljOjhITYg",
+        "address": "https://www.senatspressestelle.bremen.de/pressemitteilungen/wahl-zum-18-deutschen-bundestag-am-22-september-2013-wahlausschuesse-lassen-wahlvorschlaege-zu-71958?asl=bremen146.c.25714.de",
+        "title": "Wahl zum 18. Deutschen Bundestag am 22. September 2013: Wahlausschüsse lassen Wahlvorschläge zu - Pressestelle des Senats",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 585
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "g02obXlA2Rig",
+        "address": "https://www.n-tv.de/politik/Dobrindt-feiert-deutschen-Abstieg-auf-Platz-3-article25892099.html",
+        "title": "Migrationsdebatte im Bundestag: Dobrindt feiert deutschen Abstieg auf Platz 3 - n-tv.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 2007
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_fq-KC3g_WMg",
+        "address": "https://libmod.de/en/about-us/dr-khatia-kikalishvili/",
+        "title": "Dr. Khatia Kikalishvili - libmod.de - Zentrum Liberale Moderne",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 658
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "nJtphNSG-fuh",
+        "address": "https://www.hanisauland.de/wissen/lexikon/grosses-lexikon/v/vermittlungsausschuss.html",
+        "title": "Vermittlungsausschuss | Politik für Kinder, einfach erklärt - HanisauLand.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 8,
+            "textWords": 874
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VJsUQ7ZLl1Oj",
+        "address": "https://www.bundeswahlleiterin.de/info/presse/mitteilungen/bundestagswahl-2021/50_21_vorlaeufiges-ergebnis.html",
+        "title": "Bundestagswahl 2021: Vorläufiges Ergebnis - Die Bundeswahlleiterin",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 638
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "9FAJo0kIU2cj",
+        "address": "https://www.verkehrsrundschau.de/nachrichten/transport-logistik/waehlen-im-nebel-3617496",
+        "title": "Wählen im Nebel: Welche Versprechen machen die Parteien zur Bundestagswahl 2025?",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1095
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "W2xpglzFQyLh",
+        "address": "https://www.hug-baden.de/ov-oberkirch.html",
+        "title": "Haus \u0026 Grund Oberkirch, Haus und Grund Oberkirch",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1706
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "UkHDSmphTQBg",
+        "address": "https://www.bvkj.de/politik-und-presse/pressemitteilung/bvkj-kritisiert-heute-verabschiedetes-gkv-spargesetz/",
+        "title": "BVKJ kritisiert heute verabschiedetes GKV-Spargesetz: BVKJ.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 700
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "swVDTFQNd90j",
+        "address": "https://www.vermittlungsausschuss.de/VA/DE/homepage/homepage-node.html",
+        "title": "Vermittlungsausschuss - Startseite Vermittlungsausschuss",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 15,
+            "textWords": 1485
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "9B7S6jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/21st_Bundestag",
+        "title": "21st Bundestag - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 29,
+            "textWords": 24671
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "3whRHYX5sgqx",
+        "address": "https://netzpolitik.org/2024/onlinezugangsgesetz-2-0-bundestag-beschliesst-update-fuer-die-verwaltungsdigitalisierung/",
+        "title": "Onlinezugangsgesetz 2.0: Bundestag beschließt Update für die Verwaltungsdigitalisierung - netzpolitik.org",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 2639
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "jd5NHRB2jcTg",
+        "address": "https://thw-bv.de/was-wir-machen/neuigkeiten/detail/mdb-trifft-thw-erfolgreiches-fruehstueck-im-bundestag-mit-ueber-300-abgeordneten",
+        "title": "THW-Bundesvereinigung e.V.: MdB trifft THW: Das Frühstück im Deutschen Bundestag mit über 300 Abgeordneten",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1116
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "iioPTXgw84xh",
+        "address": "https://www.sueddeutsche.de/politik/atomkraftwerke-laufzeitverlaengerung-streckbetrieb-ampel-bundestag-1.5694552",
+        "title": "Atomkraftwerke: Warum Ampel-Abgeordnete im Bundestag ausscheren - Politik - SZ.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 1690
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Eb-S4lhl_5qi",
+        "address": "https://www.deutschlandfunk.de/abberufung-von-afd-nachwuchs-chef-aus-verteidigungsausschuss-gefordert-100.html",
+        "title": "Bundestag - Abberufung von AfD-Nachwuchs-Chef aus Verteidigungsausschuss gefordert",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 1184
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Jcn7Xl5x6Rzh",
+        "address": "https://www.deutschland.de/en/news/friedrich-merz-federal-chancellor-of-germany",
+        "title": "New German Chancellor: Bundestag elects Friedrich Merz",
+        "snippet": "Bundestag has elected CDU leader Friedrich Merz as Chancellor of the Federal Republic of Germany in the second ballot. He received 325 of the votes cast in the secret ballot, nine votes more than the required majority of 316 votes. The combined CDU/CSU and SPD coalition factions have 328 seats in",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 224
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "_H__6lYWY2Aj",
+        "address": "https://www.tab-beim-bundestag.de/projekte_chancen-und-risiken-mobiler-und-digitaler-kommunikation-in-der-arbeitswelt.php",
+        "title": "TAB - Themen und Projekte - Projekteübersicht - Chancen und Risiken mobiler und digitaler Kommunikation in der Arbeitswelt",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 8,
+            "textWords": 7632
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "uFXwCT23s4hw",
+        "address": "https://publikationen.bibliothek.kit.edu/1000194201",
+        "title": "Potenziale des digitalen Zwillings für eine nachhaltige und kl...",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 799
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PDw8cTSG-fuh",
+        "address": "https://www.hanisauland.de/index.php/wissen/spezial/politik/bundestagswahl-spezial/film-clip-bundestagswahlen",
+        "title": "Film-Clip und Bundestagswahl-Plakate",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 5,
+            "textWords": 906
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "5wM-KJ3g_WMg",
+        "address": "https://libmod.de/author/zlm_christoph_becker/",
+        "title": "Christoph Becker, Autor bei libmod.de - Zentrum Liberale Moderne",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 894
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "1qv-gmqgWtg5",
+        "address": "https://www.turkish-talk.com/threads/cannabis-petition-im-deutschen-bundestag.49722/page-4",
+        "title": "Cannabis Petition im deutschen Bundestag | Page 4 | Deutsch-Türkische Community - turkish-talk.com",
+        "snippet": "Bundestag\nEsmaa, zähle doch bitte mal auf, was du unter Drogen verstehst. Damit wir in diesem Punkt Klarheit schaffen.\nUnd deine Theorie mit den teuer werdenden Zigaretten ist kompletter Humbug. Ich hoffe du studierst nicht BWL.\nDeine Theorie würde nur funktionieren, wenn alle Raucher zur gleichen",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 819
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "QrWGDqZ-Q9gh",
+        "address": "https://dserver.bundestag.de/btd/18/078/1807880.pdf",
+        "title": "Drucksache 18/7880",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 1200
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "2KDRao6uOe_h",
+        "address": "https://claudia-roth.de/themen/rechtsextremismus/",
+        "title": "Rechtsextremismus – Claudia Roth",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 6,
+            "textWords": 575
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "VDVm-seBmE7w",
+        "address": "https://sagwas.net/demut-vor-dem-mandat/",
+        "title": "Demut vor dem Mandat | Sagwas.net",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 896
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "C1cQUXwpqI0i",
+        "address": "https://forum.computerbetrug.de/threads/kundigungsbutton.61685/",
+        "title": "Kündigungsbutton | Diskussionsforum auf computerbetrug.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 4,
+            "textWords": 739
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "W5hx2shRt3z5",
+        "address": "https://rcphotostock.com/contacts/",
+        "title": "Contact Us - Need help buying and finding royalty-free stock photos, vectors, and videos at rcfotostock? Contact us! - rcfotostock | RC Photo Stock",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1622
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "rZIYhXFB4eMg",
+        "address": "https://www.mz.de/leben/finanzen",
+        "title": "Finanzen - Aktuelles aus Börse \u0026 Finanzen | MZ.de",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1824
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "tajsRC8moajg",
+        "address": "https://www.welt.de/regionales/baden-wuerttemberg/",
+        "title": "Baden-Württemberg: Nachrichten \u0026 aktuelle News aus BW - WELT",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 4597
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "JL9sn4sWmZQg",
+        "address": "https://www.lsvd.de/de/verband/ueber-uns",
+        "title": "Was macht der LSVD⁺ – Verband Queere Vielfalt?",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2951
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "bHqejsq8iy26",
+        "address": "https://bwa-deutschland.com/publikationen",
+        "title": "Publikationen | BWA",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2044
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "EoIEMluvagGh",
+        "address": "https://www.bundestag.de/en/parliament/history/parliamentarism/weimar/weimar-200326",
+        "title": "The Weimar Republic (1918 - 1933) - German Bundestag",
+        "snippet": "As a result of the November Revolution of 1918, Germany’s constitutional monarchy was replaced by parliamentary democracy. Throughout its entire existence, the Weimar Republic, named after the town where its constitution was adopted, was continuously subjected to internal and external stresses and",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 0,
+            "textWords": 957
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "YKgTOLNoct-i",
+        "address": "https://www.kreis-offenbach.de/Kreis/Politik/%C3%BCber-den-Kreis-hinaus/Bundestag/",
+        "title": "Deutscher Bundestag / Kreis Offenbach",
+        "snippet": "Dieser Internetauftritt verwendet Cookies für persönliche Einstellungen und besondere Funktionen.\nAußerdem möchten wir Cookies auch verwenden, um statistische Daten zur Nutzung unseres Angebots zu sammeln. Dafür bitten wir um Ihr Einverständnis.\nMehr dazu in unserer Datenschutzerklärung.",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 0,
+            "textWords": 36
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ijbMse-gyr7j",
+        "address": "https://www.landkreis-lueneburg.de/ueber-den-landkreis/politik-und-verwaltung/wahlen/kreiswahlausschuss.html",
+        "title": "Landkreis Lüneburg - Kreiswahlausschuss",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1821
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "S-nCAX8moajg",
+        "address": "https://www.welt.de/politik/article6a940bbef45c7ed96fc6be08/papier-der-ost-gruenen-ostdeutsche-werden-zu-gern-pauschal-als-missmutige-personen-dargestellt.html",
+        "title": "Papier der Ost-Grünen: „Ostdeutsche werden zu gern pauschal als missmutige Personen dargestellt“ - WELT",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 976
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "8uzoksCr7Ekj",
+        "address": "https://pflegeethik-initiative.de/ueber-uns/",
+        "title": "Über uns – Pflegeethik Initiative Deutschland e.V.",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 938
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "4qw_msar9jvi",
+        "address": "https://pflege-prisma.de/",
+        "title": "Pflege-Prisma – Das Magazin der Pflegeethik Initiative Deutschland e.V.",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1004
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "swVDTFQNd90j",
+        "address": "https://www.vermittlungsausschuss.de/VA/DE/homepage/homepage-node.html",
+        "title": "Vermittlungsausschuss - Startseite Vermittlungsausschuss",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 15,
+            "textWords": 1485
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "0J-OFsyjdpCj",
+        "address": "https://bundesverband-lebensrecht.de/marsch-fuer-das-leben/",
+        "title": "Marsch für das Leben – Bundesverband Lebensrecht",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 35,
+            "textWords": 48704
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "i22EZe-gyr7j",
+        "address": "https://www.landkreis-lueneburg.de/ueber-den-landkreis/politik-und-verwaltung/wahlen/kommunalwahl-2026.html",
+        "title": "Landkreis Lüneburg - Kommunalwahl 2026",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 1742
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "6RAAPkaOlo6g",
+        "address": "https://dogfriendly-hotels.co.uk/germany/berlin",
+        "title": "Dog Friendly Hotels in Berlin, Germany | Pet Friendly Stays | Dogfriendly-Hotels.co.uk",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2916
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ],
+    [
+      {
+        "hash": "F05VFXi-f6Eg",
+        "address": "https://www.zeit.de/politik/deutschland/2018-08/parteienfinanzierung-afd-klage-wahlkampf-verdacht",
+        "title": "Parteienfinanzierung: AfD klagt gegen Unterstützerverein | DIE ZEIT",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 57
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "PVzcuX3cB8dh",
+        "address": "https://www.imi-online.de/publikationen/imi-aktuell/archiv/",
+        "title": "Informationsstelle Militarisierung (IMI) » IMI-Aktuell Archiv",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 27,
+            "textWords": 2603
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "zy9Umopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q5593?uselang=kab",
+        "title": "Pablo Picasso — Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 16044
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "fEwrLlS0dx-5",
+        "address": "https://de-academic.com/dic.nsf/dewiki/1472796",
+        "title": "Volksrepublik China",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 29827
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "ofFDll9B6zzh",
+        "address": "https://www.morgenpost.de/",
+        "title": "Aktuelle Nachrichten aus Berlin und der Welt - Berliner Morgenpost",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 2,
+            "textWords": 8224
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "EohHLQZchFfZ",
+        "address": "http://www.greenteethmm.com/transhumanism-elite-agenda.shtml",
+        "title": "transhumanism-elite-total-control-agenda-philo-and-sophia-daily-stirrer-dailystirrer",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 31725
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "Nnxh9jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Basic_income",
+        "title": "Universal basic income - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 3,
+            "textWords": 13861
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "TSP5x8D3AMxY",
+        "address": "http://commonsensewonder.blogspot.com/2026/09/has-left-in-germany-finally-overplayed.html",
+        "title": "Commonsense \u0026 Wonder: Has the left in Germany finally overplayed its hand",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 7429
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "O2LV4NJNgOY4",
+        "address": "https://www.unian.info/editor/taras-semenyuk",
+        "title": "Taras Semeniuk - all articles of the author for a personal column | Opinions on UNIAN",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 2512
+          }
+        },
+        "queryPhraseHits": 0
+      },
+      {
+        "hash": "DgvbyD3g_WMg",
+        "address": "https://libmod.de/category/unkategorisiert/",
+        "title": "‌",
+        "snippet": "",
+        "matchedWords": {
+          "EJWtfx_YPezd": {
+            "hits": 1,
+            "textWords": 9987
           }
         },
         "queryPhraseHits": 0

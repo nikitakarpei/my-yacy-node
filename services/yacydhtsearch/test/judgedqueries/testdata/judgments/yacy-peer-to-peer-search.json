@@ -2,10 +2,52 @@
   "query": "yacy peer to peer search",
   "judgedDocuments": [
     {
+      "hash": "dq1cqsc7o6d4",
+      "address": "https://yacy.space/",
+      "title": "YaCy Instances",
+      "grade": 2
+    },
+    {
+      "hash": "TJnRLsc7o6d4",
+      "address": "https://yacy.space/submit-url.php",
+      "title": "Submit a URL to YaCy (Single Page)",
+      "grade": 2
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "cw0xkbg2aLVh",
+      "address": "https://community.searchlab.eu/",
+      "title": "Searchlab Community - Search Engine Technology Laboratory",
+      "grade": 1
+    },
+    {
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
       "grade": 2
+    },
+    {
+      "hash": "ByKn9s55Qxow",
+      "address": "https://yacy.net/demonstration_tutorial_screenshot/",
+      "title": "Demo - YaCy",
+      "grade": 2
+    },
+    {
+      "hash": "VVkiYmS6MKD4",
+      "address": "https://github.com/pluja/awesome-privacy",
+      "title": "GitHub - pluja/awesome-privacy: Awesome Privacy - A curated list of services and alternatives that respect your privacy because PRIVACY MATTERS.",
+      "grade": 1
+    },
+    {
+      "hash": "tt-iHg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/engines/online/peertube.html",
+      "title": "Peertube Engines — SearXNG Documentation (2024.8.2+e76a4f72e)",
+      "grade": 0
     }
   ]
 }

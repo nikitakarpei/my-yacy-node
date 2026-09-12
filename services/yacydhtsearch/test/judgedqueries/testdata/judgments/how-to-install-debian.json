@@ -1,4 +1,299 @@
 {
   "query": "how to install debian",
-  "judgedDocuments": []
+  "judgedDocuments": [
+    {
+      "hash": "It5EdL1nrxbw",
+      "address": "https://www.debian.org/intro/about",
+      "title": "Debian -- About Debian",
+      "grade": 1
+    },
+    {
+      "hash": "NweMal1nrxbw",
+      "address": "https://www.debian.org/social_contract",
+      "title": "Debian Social Contract",
+      "grade": 1
+    },
+    {
+      "hash": "my3jOE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/ubuntu/",
+      "title": "Install Docker Engine on Ubuntu | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 1
+    },
+    {
+      "hash": "xY0EdL1nrxbw",
+      "address": "https://www.debian.org/intro/help",
+      "title": "Debian -- Contribute: How you can help Debian",
+      "grade": 1
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "yBMaQL1nrxbw",
+      "address": "https://www.debian.org/intro/free",
+      "title": "Debian -- What does free mean?",
+      "grade": 1
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "t2b3Ag1nrxbw",
+      "address": "https://www.debian.org/distrib/packages",
+      "title": "Debian -- Packages",
+      "grade": 1
+    },
+    {
+      "hash": "wGCbVt1nrxbw",
+      "address": "https://www.debian.org/CD/verify",
+      "title": "Verifying authenticity of Debian images",
+      "grade": 1
+    },
+    {
+      "hash": "xOYgTl1nrxbw",
+      "address": "https://www.debian.org/events/",
+      "title": "Events related to Debian",
+      "grade": 1
+    },
+    {
+      "hash": "941WA31nrxbw",
+      "address": "https://www.debian.org/News/weekly/",
+      "title": "Debian Project News - Index",
+      "grade": 1
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "MocmU2sEYJ15",
+      "address": "https://tailscale.com/docs/reference/tailscale-cli",
+      "title": "Tailscale CLI · Tailscale Docs",
+      "grade": 0
+    },
+    {
+      "hash": "ufEmuitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/2.0.html",
+      "title": "What’s New in Python 2.0 — Python 3.14.6 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Q357ixtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
+      "title": "ArchWiki talk:Requests - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "-8IONxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Arch_compared_to_other_distributions",
+      "title": "Arch compared to other distributions - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "aEjYq2u0AVBw",
+      "address": "https://build.slashdot.org/",
+      "title": "Build News | Slashdot",
+      "grade": 0
+    },
+    {
+      "hash": "OYZdJl1nrxbw",
+      "address": "https://www.debian.org/support",
+      "title": "Debian -- User Support",
+      "grade": 1
+    },
+    {
+      "hash": "Q6EQky1nrxbw",
+      "address": "https://www.debian.org/releases/trixie/installmanual",
+      "title": "Debian trixie -- Installation Guide",
+      "grade": 2
+    },
+    {
+      "hash": "R5pe_l1nrxbw",
+      "address": "https://www.debian.org/News/",
+      "title": "Debian -- Latest News",
+      "grade": 1
+    },
+    {
+      "hash": "SL3yxl1nrxbw",
+      "address": "https://www.debian.org/blends/",
+      "title": "Debian Pure Blends",
+      "grade": 1
+    },
+    {
+      "hash": "gmhRVl1nrxbw",
+      "address": "https://www.debian.org/devel/",
+      "title": "Debian -- Debian Developers' Corner",
+      "grade": 1
+    },
+    {
+      "hash": "4SIJYl1nrxbw",
+      "address": "https://www.debian.org/distrib/",
+      "title": "Download Debian",
+      "grade": 2
+    },
+    {
+      "hash": "QETWOeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
+      "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "QLafoeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/write-streams.html",
+      "title": "Write a Kafka Streams Application for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "SChoGeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/kotlin.html",
+      "title": "Create a Kafka Client App for Kotlin for Use With Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "O2B7wWSMo4M4",
+      "address": "https://www.zdnet.com/home-and-office/work-life/this-linux-and-windows-app-makes-managing-all-of-your-documents-easier/",
+      "title": "This Linux and Windows app makes managing all your documents easier - ZDNET",
+      "grade": 0
+    },
+    {
+      "hash": "wJjmaeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/confluent-plugin-for-jetbrains-ides.html",
+      "title": "Confluent Plugin for JetBrains IDEs for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "wTGvueFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/rust.html",
+      "title": "Create a Kafka Client App for Rust for Use With Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "xwlXNeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/client-configs.html",
+      "title": "Client Producer and Consumer Configuration Recommendations for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "yUw0FeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/kafka-mqtt/intro.html",
+      "title": "MQTT Proxy for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "wAnYgnLU2GSx",
+      "address": "https://blog.k0sproject.io/posts/k0s-multi-arch-kubernetes-cluster/",
+      "title": "k0s Multi Architectures Kubernetes Cluster AMD/ARM/RISC-V | The Zero Friction Kubernetes Blog",
+      "grade": 0
+    },
+    {
+      "hash": "sPfvHeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples.html",
+      "title": "Kafka Client Examples for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "tO5gNeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/examples/groovy.html",
+      "title": "Create a Kafka Client App for Groovy for Use With Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "tdfcWeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/interactive-queries.html",
+      "title": "Kafka Streams Interactive Queries for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "_8ITH_nMM_j5",
+      "address": "https://grokipedia.com/page/Raspberry_Pi",
+      "title": "Raspberry Pi — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "i98NBeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/clients/producer.html",
+      "title": "Kafka Producer for Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "jaHe6eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/installation/upgrade.html",
+      "title": "Upgrade Confluent Platform | Confluent Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "FevfV2gYLBO5",
+      "address": "https://caddyserver.com/docs/install",
+      "title": "Install — Caddy Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "xInASeFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/installation/installing_cp/rhel-centos.html",
+      "title": "Install Confluent Platform using Systemd on RHEL, CentOS, and Fedora-based Linux | Confluent Documentation",
+      "grade": 0
+    }
+  ]
 }

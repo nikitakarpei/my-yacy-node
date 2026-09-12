@@ -1,10 +1,473 @@
 {
   "query": "fahrradwerkstatt berlin",
-  "recordedAt": "2026-09-11T22:14:21Z",
-  "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [],
+  "recordedAt": "2026-09-12T00:22:33Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "ScwFf7yX5Qug",
+        "address": "https://www.t-online.de/themen/reifen/",
+        "title": "Reifen: Aktuelle News und Infos zu Reifen",
+        "snippet": "Reifen\nPro und Kontra im Check\nAllwetterreifen: Wie sicher sind sie im Winter?\nReifenpanne\nLkw kracht durch Betonleitplanke auf A14\nReis, Nudeln oder Gemüse?\nSo lagern Sie Lebensmittel richtig\nEinfacher einparken\nIm Stand lenken: Schadet es dem Auto?\nWichtige Regel bei Winterwetter\nDiese Reifen",
+        "matchedWords": {
+          "01oC60kUlFD7": {
+            "hits": 0,
+            "textWords": 536
+          },
+          "oGzN40S0DLar": {
+            "hits": 0,
+            "textWords": 536
+          }
+        },
+        "queryPhraseHits": 0
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "njWECeJsEHPj",
+      "address": "https://www.braunschweiger-zeitung.de/niedersachsen/wolfenbuettel/",
+      "title": "Wolfenbüttel: Aktuelle Nachrichten, Hintergründe, Interviews",
+      "snippet": "Berlin. Die Ex-Wolfenbüttelerin Marlies Askamp hat 1998 eine WM gespielt und ist derzeit in Berlin als Expertin gefragt. Was sie für den deutschen Frauenbasketball erhofft.\nVon Ute Berndt\nNotdurft verrichten\nStille Örtchen: Eine Übersicht über Wolfenbüttels öffentliche Toiletten\nWolfenbüttel. Ob",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 2,
+          "textWords": 5325
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 5325
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "snippet": "Zum Inhalt springen\nZum Hauptmenü springen\nZum Menü springen\nZur Suche springen\nZur Fußzeile springen\nHome",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 16
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 16
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rDolRjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/e-bikes-fahrraeder/",
+      "title": "Ratgeber und News rund um E-Bikes und Fahrräder",
+      "snippet": "E-Bikes und Fahrräder\nADAC hat es getestet\nFahrrad kaufen: So viel Geld sparen Sie jetzt\nSchutz vor Diebstahl und Schäden\nBraucht mein Fahrrad eine Versicherung?\nBlitzblank ohne Chemie\nFahrrad schnell, gründlich und günstig reinigen\nSicherheitscodes\nSo einfach ändern Sie den Abus-Zahlenschloss-Code",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 522
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 522
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iAnVcl9B6zzh",
+      "address": "https://www.morgenpost.de/wirtschaft/",
+      "title": "Wirtschaft - News zu Unternehmen \u0026 Märkten",
+      "snippet": "Berlin. Die Heizölpreise in Deutschland ziehen spürbar an. Lohnt sich jetzt eine Bestellung? Unser Preisüberblick vom 10. September.\nWirtschaft in Berlin\nAbonnieren Sie kostenlos den Wirtschafts-Newsletter der Berliner Morgenpost\nWirtschaft in Berlin\nAbonnieren Sie kostenlos den",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 129,
+          "textWords": 4756
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 4756
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5hWWSQLYGe9h",
+      "address": "https://stellenmarkt.sueddeutsche.de/jobs/management-projekte",
+      "title": "Jobs im technischen Management - Jobs \u0026 Stellenangebote",
+      "snippet": "Informationen zur Anzeige:\nArchitekt / Bauingenieur (m/w/d)\nDüsseldorf\nAktualität: 10.09.2026\nAnzeigeninhalt:\n10.09.2026, Flughafen Düsseldorf GmbH\nDüsseldorf\nArchitekt / Bauingenieur (m/w/d)\nAufgaben:\nEigenverantwortliche Entwicklung, Planung und Steuerung von Hochbau- und Infrastrukturprojekten",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 246
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 246
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "snippet": "Zum Inhalt springen\nZum Hauptmenü springen\nZum Menü springen\nZur Suche springen\nZur Fußzeile springen\nHome",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 16
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 16
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rDolRjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/e-bikes-fahrraeder/",
+      "title": "Ratgeber und News rund um E-Bikes und Fahrräder",
+      "snippet": "E-Bikes und Fahrräder\nADAC hat es getestet\nFahrrad kaufen: So viel Geld sparen Sie jetzt\nSchutz vor Diebstahl und Schäden\nBraucht mein Fahrrad eine Versicherung?\nBlitzblank ohne Chemie\nFahrrad schnell, gründlich und günstig reinigen\nSicherheitscodes\nSo einfach ändern Sie den Abus-Zahlenschloss-Code",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 522
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 522
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "snippet": "Zum Inhalt springen\nZum Hauptmenü springen\nZum Menü springen\nZur Suche springen\nZur Fußzeile springen\nHome",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 16
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 16
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rDolRjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/e-bikes-fahrraeder/",
+      "title": "Ratgeber und News rund um E-Bikes und Fahrräder",
+      "snippet": "E-Bikes und Fahrräder\nADAC hat es getestet\nFahrrad kaufen: So viel Geld sparen Sie jetzt\nSchutz vor Diebstahl und Schäden\nBraucht mein Fahrrad eine Versicherung?\nBlitzblank ohne Chemie\nFahrrad schnell, gründlich und günstig reinigen\nSicherheitscodes\nSo einfach ändern Sie den Abus-Zahlenschloss-Code",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 522
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 522
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pVuVNlaBxnQg",
+      "address": "https://www.haz.de/ticker/",
+      "title": "Newsticker",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oUkDVlfz_mdh",
+      "address": "https://www.abendblatt.de/niedersachsen/",
+      "title": "Niedersachsen",
+      "snippet": "Hamburg–Berlin und Hamburg–Hannover: Nachdem Großbaustellen für Unmut sorgten, zieht die DB Lehren. Welche Projekte anstehen, was künftig besser laufen soll.\nVon Anika Würz\nKommunalwahl 2026\nBuxtehude sucht den Bürgermeister – drei Kandidaten machen es spannend\nBuxtehude. Anwärter auf den",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 20,
+          "textWords": 4994
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 4994
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "k6uTylkRFRqj",
+      "address": "https://www.marktplatz-mittelstand.de/",
+      "title": "✅ Unternehmen finden | marktplatz-mittelstand.de",
+      "snippet": "Berlin\n5.0\n(17)\nVerband Pflegeförderung\nGesundheitsberatung\nNeue Mainzer Straße 52-58, 60311 Frankfurt am Main\n5.0\n(12)\nAulis Consult GmbH\nConsulting\nLübecker Straße 1, 22087 Hamburg\n5.0\n(17)\nNeueste Bewertungen\nZucker-Venus | Haarentfernung | Sugaring | Visagistin Magdeburg\nEndlich die perfekten",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 297
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 297
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0sORGlw4Rujh",
+      "address": "https://www.presseportal.de/blaulicht/",
+      "title": "Plattform für Presseberichte von Polizei, Feuerwehr, Zoll und anderen Behörden | Presseportal",
+      "snippet": "Berlin/Brandenburg\nBremen\nHamburg\nHessen\nMecklenburg-Vorpommern\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt\nSchleswig-Holstein\nThüringen\nMedien:\nZeitraum: Alle\nGestern\nLetzte 7 Tage\nZeitraum:Gesamt\nPolizeipräsidium Rostock\nPOL-HRO: Tödlicher Verkehrsunfall bei",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 1940
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 1940
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "vUDqhl8e_9Cg",
+      "address": "https://www.hs-aalen.de/",
+      "title": "Hochschule Aalen",
+      "snippet": "Jetzt noch fürs Wintersemester einschreiben!\nStudienangebot entdecken\nZentraler Vorkurs\nZur Anmeldung\n1 von 3\nWissen wächst im Wir\nGemeinsam lernen, Ideen entwickeln, Zukunft gestalten. Praxisnah, persönlich, mit der Region – Hochschule Aalen.\nUnsere Studiengänge\nInformationen für\nStudierende",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 101
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 101
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "iAnVcl9B6zzh",
+      "address": "https://www.morgenpost.de/wirtschaft/",
+      "title": "Wirtschaft - News zu Unternehmen \u0026 Märkten",
+      "snippet": "Berlin. Die Heizölpreise in Deutschland ziehen spürbar an. Lohnt sich jetzt eine Bestellung? Unser Preisüberblick vom 10. September.\nWirtschaft in Berlin\nAbonnieren Sie kostenlos den Wirtschafts-Newsletter der Berliner Morgenpost\nWirtschaft in Berlin\nAbonnieren Sie kostenlos den",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 129,
+          "textWords": 4756
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 4756
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "njWECeJsEHPj",
+      "address": "https://www.braunschweiger-zeitung.de/niedersachsen/wolfenbuettel/",
+      "title": "Wolfenbüttel: Aktuelle Nachrichten, Hintergründe, Interviews",
+      "snippet": "Berlin. Die Ex-Wolfenbüttelerin Marlies Askamp hat 1998 eine WM gespielt und ist derzeit in Berlin als Expertin gefragt. Was sie für den deutschen Frauenbasketball erhofft.\nVon Ute Berndt\nNotdurft verrichten\nStille Örtchen: Eine Übersicht über Wolfenbüttels öffentliche Toiletten\nWolfenbüttel. Ob",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 2,
+          "textWords": 5325
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 5325
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8wCrjeJsEHPj",
+      "address": "https://www.braunschweiger-zeitung.de/niedersachsen/gifhorn/",
+      "title": "Gifhorn: Aktuelle Nachrichten, Hintergründe, Interviews",
+      "snippet": "Lehrte-Berlin gehört auch die Modernisierung von 25 Bahnhöfen. 4 davon befinden sich im Kreis Gifhorn. Das plant die Bahn konkret.\nVon Stefan Lienert\nGifhorn\n15°\nWolkig\nH: 21° T: 8°\nStündliche Vorhersage\nJetzt5 %15°\n3 Uhr5 %14°\n4 Uhr14°\n5 Uhr14°\n6 Uhr14°\n6:46Sonnenaufgang\n7 Uhr14°\n8 Uhr14°\n9 Uhr14°",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 3,
+          "textWords": 4955
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 4955
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "5hWWSQLYGe9h",
+      "address": "https://stellenmarkt.sueddeutsche.de/jobs/management-projekte",
+      "title": "Jobs im technischen Management - Jobs \u0026 Stellenangebote - SZ-Stellenmarkt",
+      "snippet": "Informationen zur Anzeige:\nArchitekt / Bauingenieur (m/w/d)\nDüsseldorf\nAktualität: 10.09.2026\nAnzeigeninhalt:\n10.09.2026, Flughafen Düsseldorf GmbH\nDüsseldorf\nArchitekt / Bauingenieur (m/w/d)\nAufgaben:\nEigenverantwortliche Entwicklung, Planung und Steuerung von Hochbau- und Infrastrukturprojekten",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 246
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 246
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "pVuVNlaBxnQg",
+      "address": "https://www.haz.de/ticker/",
+      "title": "Newsticker",
+      "snippet": "",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 0
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "oUkDVlfz_mdh",
+      "address": "https://www.abendblatt.de/niedersachsen/",
+      "title": "Niedersachsen",
+      "snippet": "Hamburg–Berlin und Hamburg–Hannover: Nachdem Großbaustellen für Unmut sorgten, zieht die DB Lehren. Welche Projekte anstehen, was künftig besser laufen soll.\nVon Anika Würz\nKommunalwahl 2026\nBuxtehude sucht den Bürgermeister – drei Kandidaten machen es spannend\nBuxtehude. Anwärter auf den",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 20,
+          "textWords": 4994
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 4994
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "k6uTylkRFRqj",
+      "address": "https://www.marktplatz-mittelstand.de/",
+      "title": "✅ Unternehmen finden | marktplatz-mittelstand.de",
+      "snippet": "Berlin\n5.0\n(17)\nVerband Pflegeförderung\nGesundheitsberatung\nNeue Mainzer Straße 52-58, 60311 Frankfurt am Main\n5.0\n(12)\nAulis Consult GmbH\nConsulting\nLübecker Straße 1, 22087 Hamburg\n5.0\n(17)\nNeueste Bewertungen\nZucker-Venus | Haarentfernung | Sugaring | Visagistin Magdeburg\nEndlich die perfekten",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 297
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 297
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0sORGlw4Rujh",
+      "address": "https://www.presseportal.de/blaulicht/",
+      "title": "Plattform für Presseberichte von Polizei, Feuerwehr, Zoll und anderen Behörden | Presseportal",
+      "snippet": "Berlin/Brandenburg\nBremen\nHamburg\nHessen\nMecklenburg-Vorpommern\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt\nSchleswig-Holstein\nThüringen\nMedien:\nZeitraum: Alle\nGestern\nLetzte 7 Tage\nZeitraum:Gesamt\nPolizeipräsidium Rostock\nPOL-HRO: Tödlicher Verkehrsunfall bei",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 1940
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 1940
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "0sORGlw4Rujh",
+      "address": "https://www.presseportal.de/blaulicht/",
+      "title": "Plattform für Presseberichte von Polizei, Feuerwehr, Zoll und anderen Behörden | Presseportal",
+      "snippet": "Berlin/Brandenburg\nBremen\nHamburg\nHessen\nMecklenburg-Vorpommern\nNiedersachsen\nNordrhein-Westfalen\nRheinland-Pfalz\nSaarland\nSachsen\nSachsen-Anhalt\nSchleswig-Holstein\nThüringen\nMedien:\nZeitraum: Alle\nGestern\nLetzte 7 Tage\nZeitraum:Gesamt\nPolizeipräsidium Rostock\nPOL-HRO: Tödlicher Verkehrsunfall bei",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 1940
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 1940
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "snippet": "Zum Inhalt springen\nZum Hauptmenü springen\nZum Menü springen\nZur Suche springen\nZur Fußzeile springen\nHome",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 16
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 16
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "rDolRjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/e-bikes-fahrraeder/",
+      "title": "Ratgeber und News rund um E-Bikes und Fahrräder",
+      "snippet": "E-Bikes und Fahrräder\nADAC hat es getestet\nFahrrad kaufen: So viel Geld sparen Sie jetzt\nSchutz vor Diebstahl und Schäden\nBraucht mein Fahrrad eine Versicherung?\nBlitzblank ohne Chemie\nFahrrad schnell, gründlich und günstig reinigen\nSicherheitscodes\nSo einfach ändern Sie den Abus-Zahlenschloss-Code",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 0,
+          "textWords": 522
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 522
+        }
+      },
+      "queryPhraseHits": 0
+    },
+    {
+      "hash": "8wCrjeJsEHPj",
+      "address": "https://www.braunschweiger-zeitung.de/niedersachsen/gifhorn/",
+      "title": "Gifhorn: Aktuelle Nachrichten, Hintergründe, Interviews",
+      "snippet": "Lehrte-Berlin gehört auch die Modernisierung von 25 Bahnhöfen. 4 davon befinden sich im Kreis Gifhorn. Das plant die Bahn konkret.\nVon Stefan Lienert\nGifhorn\n15°\nWolkig\nH: 21° T: 8°\nStündliche Vorhersage\nJetzt5 %15°\n3 Uhr5 %14°\n4 Uhr14°\n5 Uhr14°\n6 Uhr14°\n6:46Sonnenaufgang\n7 Uhr14°\n8 Uhr14°\n9 Uhr14°",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 3,
+          "textWords": 4955
+        },
+        "oGzN40S0DLar": {
+          "hits": 0,
+          "textWords": 4955
+        }
+      },
+      "queryPhraseHits": 0
+    }
+  ],
   "documentsHeldPerQueryWord": {
-    "01oC60kUlFD7": 47163,
-    "oGzN40S0DLar": 374
+    "01oC60kUlFD7": 1066697,
+    "oGzN40S0DLar": 3563
   }
 }

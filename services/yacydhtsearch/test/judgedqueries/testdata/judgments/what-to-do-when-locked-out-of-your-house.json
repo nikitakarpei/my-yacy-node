@@ -1,0 +1,47 @@
+{
+  "query": "what to do when locked out of your house",
+  "judgedDocuments": [
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "-WvJtjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Singapore",
+      "title": "Singapore - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "w4BkfQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-july.shtml",
+      "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "m5Fe6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google",
+      "title": "Google - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

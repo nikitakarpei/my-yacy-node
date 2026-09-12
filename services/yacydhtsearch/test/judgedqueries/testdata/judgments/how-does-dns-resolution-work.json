@@ -1,0 +1,251 @@
+{
+  "query": "how does dns resolution work",
+  "judgedDocuments": [
+    {
+      "hash": "F1n0LluI8hnw",
+      "address": "https://www.eff.org/deeplinks/2015/12/how-tpp-will-affect-you-and-your-digital-rights",
+      "title": "How the TPP Will Affect You and Your Digital Rights | Electronic Frontier Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "7T32t2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/how-dra-works/",
+      "title": "How DRA Works | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "vo6A9AK-xyJ4",
+      "address": "https://go.dev/doc/go1.7",
+      "title": "Go 1.7 Release Notes - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "FDbC6B-c6vHw",
+      "address": "https://nixos.org/manual/nixpkgs/stable/",
+      "title": "Nixpkgs 23.05 manual | Nix \u0026 NixOS",
+      "grade": 0
+    },
+    {
+      "hash": "az8RMs5DCs35",
+      "address": "https://wordpress.com/hosting/",
+      "title": "Managed WordPress Hosting | Super Fast. Ultra Secure | WordPress.com",
+      "grade": 0
+    },
+    {
+      "hash": "eODiks5DCs35",
+      "address": "https://wordpress.com/pricing/",
+      "title": "WordPress.com Pricing and Plans | Start Building Today",
+      "grade": 0
+    },
+    {
+      "hash": "fRk_vs5DCs35",
+      "address": "https://wordpress.com/features/",
+      "title": "Explore WordPress.com Features | WordPress.com",
+      "grade": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "h6qKJHS6MKD4",
+      "address": "https://github.com/mcp/microsoft/playwright-mcp",
+      "title": "MCP Registry | Playwright · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "MFZemWSMo4M4",
+      "address": "https://www.zdnet.com/home-and-office/home-entertainment/roku-tv-vs-fire-stick/",
+      "title": "Roku TV vs. Fire Stick: Why I'm looking beyond streaming resolution when comparing the two - ZDNET",
+      "grade": 0
+    },
+    {
+      "hash": "4-p3KlSMo4M4",
+      "address": "https://www.zdnet.com/",
+      "title": "News and Advice on the World's Latest Innovations | ZDNET - ZDNET",
+      "grade": 0
+    },
+    {
+      "hash": "XwuSSjXxSRFx",
+      "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "title": "RFC 9110: HTTP Semantics",
+      "grade": 0
+    },
+    {
+      "hash": "hWuQZ7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc3986/",
+      "title": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax | RFC Editor",
+      "grade": 0
+    },
+    {
+      "hash": "jh1R77XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc6125/",
+      "title": "RFC 6125: Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) | RFC Editor",
+      "grade": 0
+    },
+    {
+      "hash": "sjywP7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc2616/",
+      "title": "RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1 | RFC Editor",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "lTVMLsgJoQyx",
+      "address": "https://grapheneos.org/faq",
+      "title": "Frequently Asked Questions | GrapheneOS",
+      "grade": 0
+    },
+    {
+      "hash": "_QujqCjVeYyw",
+      "address": "https://w3c.github.io/network-error-logging/",
+      "title": "Network Error Logging",
+      "grade": 0
+    },
+    {
+      "hash": "-Qqp72jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/workloads/pods/disruptions/",
+      "title": "Disruptions | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "grade": 0
+    },
+    {
+      "hash": "-xpxEitD2jQw",
+      "address": "https://docs.python.org/3/contents.html",
+      "title": "Python Documentation contents — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "UobyTsuI8hnw",
+      "address": "https://www.eff.org/about/staff",
+      "title": "EFF's Staff and Contributors | Electronic Frontier Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "8-yf-WRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc3261",
+      "title": "RFC 3261 - SIP: Session Initiation Protocol",
+      "grade": 0
+    },
+    {
+      "hash": "Cpc5fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PbwP7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
+      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "FxC5-KsrSOQw",
+      "address": "https://arxiv.org/list/cs.LG/new",
+      "title": "Machine Learning",
+      "grade": 0
+    },
+    {
+      "hash": "mpTuJKsrSOQw",
+      "address": "https://arxiv.org/list/physics/new",
+      "title": "Physics",
+      "grade": 0
+    },
+    {
+      "hash": "Ma72KjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ChromeOS",
+      "title": "ChromeOS - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "jNEVesgJoQyx",
+      "address": "https://grapheneos.org/releases",
+      "title": "Releases | GrapheneOS",
+      "grade": 0
+    },
+    {
+      "hash": "89Pocs6GdY-4",
+      "address": "https://danluu.com/diseconomies-scale/",
+      "title": "Diseconomies of scale in fraud, spam, support, and moderation",
+      "grade": 0
+    },
+    {
+      "hash": "XCqnWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Computer_security",
+      "title": "Computer security - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "b-x4NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Domain_name",
+      "title": "Domain name - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "wYESGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Windows",
+      "title": "Microsoft Windows - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "grade": 0
+    }
+  ]
+}

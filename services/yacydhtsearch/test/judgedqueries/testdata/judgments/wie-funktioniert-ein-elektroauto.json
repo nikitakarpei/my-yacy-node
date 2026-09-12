@@ -1,0 +1,149 @@
+{
+  "query": "wie funktioniert ein elektroauto",
+  "judgedDocuments": [
+    {
+      "hash": "Lec2Nl9BgZ3g",
+      "address": "https://www.swr.de/",
+      "title": "Südwestrundfunk | SWR.de",
+      "grade": 0
+    },
+    {
+      "hash": "rtQ-JluG0-bg",
+      "address": "https://www.fr.de/",
+      "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
+      "grade": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "A2rEcUNVBxfg",
+      "address": "https://article.chip.de/",
+      "title": "Chip",
+      "grade": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "siaP_lQCzJQg",
+      "address": "https://www.chip.de/",
+      "title": "CHIP | News, Tests, Downloads, Tech- \u0026 Verbraucherberatung",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": 0
+    },
+    {
+      "hash": "EZWaqlDOAHJg",
+      "address": "https://www.heise.de/plus",
+      "title": "heise+ Immer mehr Wissen | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "ZyiHz7E1ETA5",
+      "address": "https://www.handelsblatt.com/themen/elektro-autos",
+      "title": "Elektromobilität News: Neueste Nachrichten aus der Welt der E-Autos",
+      "grade": 1
+    },
+    {
+      "hash": "VYaXgl8moajg",
+      "address": "https://www.welt.de/finanzen/",
+      "title": "Finanzen - Aktuelle Nachrichten, News \u0026 Ratgeber - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "w623Xl8moajg",
+      "address": "https://www.welt.de/weltplus/",
+      "title": "WELTplus - Qualitätsjournalismus für Abonnenten - WELT",
+      "grade": 1
+    },
+    {
+      "hash": "ZavYZl0w__jw",
+      "address": "https://www.faz.net/kaufkompass/",
+      "title": "F.A.Z. Kaufkompass – Das Testportal des F.A.Z.-Verlags",
+      "grade": 0
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "grade": 0
+    },
+    {
+      "hash": "q7UDNl3ESnng",
+      "address": "https://www.br.de/index.html",
+      "title": "Bayerischer Rundfunk: Nachrichten von BR24, Highlights aus der BR Mediathek, Live Radio hören und BR.de-Specials - die Startseite für Bayern | BR.de",
+      "grade": 0
+    },
+    {
+      "hash": "cQVvPl5ARWyg",
+      "address": "https://www.spiegel.de/schlagzeilen/",
+      "title": "Schlagzeilen - DER SPIEGEL",
+      "grade": 0
+    },
+    {
+      "hash": "OZ82-lDOAHJg",
+      "address": "https://www.heise.de/ct",
+      "title": "c't: Magazin für Computertechnik | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "YbzwIlDOAHJg",
+      "address": "https://www.heise.de/newsticker/",
+      "title": "7-Tage-News | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "eIRKNNDOAHJg",
+      "address": "https://www.heise.de/thema/Test",
+      "title": "Test | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "3Zwe0lDOAHJg",
+      "address": "https://www.heise.de/tests",
+      "title": "tests | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "l9eEIl_oo2rh",
+      "address": "https://www.weser-kurier.de/",
+      "title": "Nachrichten aus Bremen \u0026 Niedersachsen",
+      "grade": 0
+    },
+    {
+      "hash": "bx3fBlc_rKzh",
+      "address": "https://www.telepolis.de/",
+      "title": "Onlinemagazin für Politik \u0026 Medien im digitalen Zeitalter | Telepolis",
+      "grade": 0
+    },
+    {
+      "hash": "jMlwsl6bFQy6",
+      "address": "https://www.notebookcheck.com/",
+      "title": "Notebook Test, Laptop Test und News - Notebookcheck",
+      "grade": 0
+    },
+    {
+      "hash": "meozUllA2Rig",
+      "address": "https://www.n-tv.de/auto/",
+      "title": "Auto - n-tv.de",
+      "grade": 1
+    },
+    {
+      "hash": "3fuRCZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/weltplus/",
+      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
+      "grade": 0
+    }
+  ]
+}

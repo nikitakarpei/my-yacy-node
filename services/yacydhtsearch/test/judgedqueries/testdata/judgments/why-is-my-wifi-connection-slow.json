@@ -1,0 +1,89 @@
+{
+  "query": "why is my wifi connection slow",
+  "judgedDocuments": [
+    {
+      "hash": "b08TwlDZkUL4",
+      "address": "https://www.cnet.com/",
+      "title": "CNET: Product reviews, advice, how-tos and the latest news",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "yJuijsCG40j4",
+      "address": "https://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "GxTNgsF20Rww",
+      "address": "https://ma.tt/",
+      "title": "Matt Mullenweg | Unlucky in Cards",
+      "grade": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "MAC3Gs6GdY-4",
+      "address": "https://danluu.com/web-bloat/",
+      "title": "How web bloat impacts users with slow connections",
+      "grade": 1
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "nWMgE7yp6WtY",
+      "address": "http://tantek.com/?skin=vtx",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "m5Fe6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google",
+      "title": "Google - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SCifX7yp6WtY",
+      "address": "http://tantek.com/?",
+      "title": "Tantek Çelik",
+      "grade": 0
+    }
+  ]
+}

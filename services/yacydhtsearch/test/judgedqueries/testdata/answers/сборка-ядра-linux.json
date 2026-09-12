@@ -1,11 +1,33 @@
 {
   "query": "сборка ядра linux",
-  "recordedAt": "2026-09-11T22:14:23Z",
+  "recordedAt": "2026-09-12T00:26:28Z",
   "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [],
+  "itemsInNoOrder": [
+    {
+      "hash": "gGtDQPnTPArx",
+      "address": "https://ru.wikipedia.org/wiki/Android",
+      "title": "Android — Википедия",
+      "snippet": "ядра\nядро Linux (с версии 5.8 патчи не требуются)\nИнтерфейс\nMaterial Design\nЛицензия\nApache License 2.0[2] и GNU GPL 2\nСостояние\nподдерживаемая\nРепозиторий исходного кода\nandroid.googlesource.com\nandroid-review.googlesource.com/…\nВеб-сайт\nandroid.com (англ.)\nМедиафайлы на Викискладе\nAndroid",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 10,
+          "textWords": 7214
+        },
+        "_j65A0psXCcz": {
+          "hits": 3,
+          "textWords": 7214
+        },
+        "pgoTulnNQRjM": {
+          "hits": 1,
+          "textWords": 7214
+        }
+      },
+      "queryPhraseHits": 2
+    }
+  ],
   "documentsHeldPerQueryWord": {
-    "4galTpdpDM5Q": 35978,
-    "_j65A0psXCcz": 196,
-    "pgoTulnNQRjM": 60
+    "4galTpdpDM5Q": 350825,
+    "_j65A0psXCcz": 1028,
+    "pgoTulnNQRjM": 843
   }
 }

@@ -1,0 +1,287 @@
+{
+  "query": "how does public key cryptography work",
+  "judgedDocuments": [
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "jtT-mSofUy-5",
+      "address": "https://duckduckgo.com/duckduckgo-help-pages/resources/vpn/what-does-a-vpn-do",
+      "title": "What Does a VPN Do? How Does a VPN Work? - DuckDuckGo Help Pages",
+      "grade": 0
+    },
+    {
+      "hash": "4I8HnsgJoQyx",
+      "address": "https://grapheneos.org/features",
+      "title": "Features overview | GrapheneOS",
+      "grade": 0
+    },
+    {
+      "hash": "cF6iQswQPNL4",
+      "address": "https://auth0.com/changelog?version=v202533",
+      "title": "Auth0 Changelog",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "siAIZpx-vfi7",
+      "address": "https://www.askamathematician.com/2012/09/q-what-is-a-fourier-transform-what-is-it-used-for/",
+      "title": "Q: What is a Fourier transform? What is it used for? | Ask a Mathematician / Ask a Physicist",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "atY_jKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CR/new",
+      "title": "Cryptography and Security",
+      "grade": 0
+    },
+    {
+      "hash": "kHtomjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mao_Zedong",
+      "title": "Mao Zedong - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zjh_EiBbCobw",
+      "address": "https://www.php.net/manual/en/language.types.string.php",
+      "title": "PHP: Strings - Manual",
+      "grade": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "hxeq6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
+      "title": "Gottfried Wilhelm Leibniz - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ptCCrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+      "title": "Massachusetts Institute of Technology - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "t9RUcmVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
+      "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "grade": 0
+    },
+    {
+      "hash": "ww-gf8cZd9Fw",
+      "address": "https://hackage.haskell.org/packages/",
+      "title": "packages by category | Hackage",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "DhKFI-fvgwV4",
+      "address": "https://www.hp.com/us-en/newsroom.html",
+      "title": "Newsroom | HP® Official Site",
+      "grade": 0
+    },
+    {
+      "hash": "VK6Z_Fs4EUS4",
+      "address": "https://roundingtheearth.substack.com/p/a-grand-unified-theory-of-the-ftx",
+      "title": "A Grand Unified Theory of the FTX Disaster",
+      "grade": 0
+    },
+    {
+      "hash": "8UUF7AIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/politics/",
+      "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
+      "grade": 0
+    },
+    {
+      "hash": "4w4qosN9NeLw",
+      "address": "https://signal.org/blog/",
+      "title": "Signal Blog",
+      "grade": 1
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "BKEmz7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc8422/",
+      "title": "RFC 8422: Elliptic Curve Cryptography (ECC) Cipher Suites for Transport Layer Security (TLS) Versions 1.2 and Earlier | RFC Editor",
+      "grade": 1
+    },
+    {
+      "hash": "vcPgA7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc8446/",
+      "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3 | RFC Editor",
+      "grade": 1
+    },
+    {
+      "hash": "B9VWfKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CV/new",
+      "title": "Computer Vision and Pattern Recognition",
+      "grade": 0
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "grade": 0
+    },
+    {
+      "hash": "v3ss6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bluetooth",
+      "title": "Bluetooth - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
+      "grade": 0
+    },
+    {
+      "hash": "y9mkpsMAuxi4",
+      "address": "https://www.linkedin.com/top-content/technology/exploring-quantum-technology/",
+      "title": "Top LinkedIn Content on Exploring Quantum Technology",
+      "grade": 0
+    },
+    {
+      "hash": "3m8uWeVM3_EY",
+      "address": "http://bobagard.blogspot.com/2022/07/athena-thorne-predicts-biden-will-not.html",
+      "title": "Bob's Blog: Athena Thorne predicts Biden will not survive past the midterm elections",
+      "grade": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
+      "grade": 0
+    },
+    {
+      "hash": "4TSBLkIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2006/02/grave-mysteries-part-one_21.html",
+      "title": "Rigorous Intuition: \"Grave mysteries\" (Part One)",
+      "grade": 0
+    },
+    {
+      "hash": "zSc6gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/WhatsApp",
+      "title": "WhatsApp - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "FxC5-KsrSOQw",
+      "address": "https://arxiv.org/list/cs.LG/new",
+      "title": "Machine Learning",
+      "grade": 0
+    },
+    {
+      "hash": "kiVj1l2e50v4",
+      "address": "https://labs.ovhcloud.com/en/end-to-end-encryption/",
+      "title": "End-to-End Encryption Platform",
+      "grade": 1
+    },
+    {
+      "hash": "4DXm5sFbwuxx",
+      "address": "https://letsencrypt.org/blog/",
+      "title": "Blog - Let's Encrypt",
+      "grade": 1
+    },
+    {
+      "hash": "3zFnUKsrSOQw",
+      "address": "https://arxiv.org/list/math/new",
+      "title": "Mathematics",
+      "grade": 0
+    },
+    {
+      "hash": "31RRrlv6IfH4",
+      "address": "https://www.schneier.com/",
+      "title": "Schneier on Security -",
+      "grade": 0
+    },
+    {
+      "hash": "2MFHBtYEKFwx",
+      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
+      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+      "grade": 0
+    },
+    {
+      "hash": "2c26yxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Installation_guide",
+      "title": "Installation guide - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "iTNcujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Charles_Babbage",
+      "title": "Charles Babbage - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "8HJM8yiZhzY4",
+      "address": "https://www.grc.com/sn/sn-1062.htm",
+      "title": "Security Now! Transcript of Episode #1062",
+      "grade": 0
+    },
+    {
+      "hash": "-60L9j5sllYz",
+      "address": "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026",
+      "title": "International AI Safety Report 2026 | International AI Safety Report",
+      "grade": 0
+    },
+    {
+      "hash": "WZgveeFbwuxx",
+      "address": "https://letsencrypt.org/documents/isrg-cps-v2.5/",
+      "title": "ISRG CPS v2.5 - Let's Encrypt",
+      "grade": 1
+    },
+    {
+      "hash": "NNbrnsPZ2Wzx",
+      "address": "https://wikileaks.org/vault7/",
+      "title": "WikiLeaks - Vault 7: Projects",
+      "grade": 0
+    },
+    {
+      "hash": "5Ryb-lXxSRFx",
+      "address": "https://www.rfc-editor.org/",
+      "title": "RFC Editor",
+      "grade": 0
+    }
+  ]
+}

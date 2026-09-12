@@ -2,34 +2,64 @@
   "query": "docker compose",
   "judgedDocuments": [
     {
-      "hash": "KSSoYZ9Ojva4",
-      "address": "https://docs.docker.com/retired/",
-      "title": "Deprecated and retired Docker products and features | Docker Docs",
+      "hash": "BPdiiZ9Ojva4",
+      "address": "https://docs.docker.com/scout/",
+      "title": "Docker Scout | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+      "grade": 0
+    },
+    {
+      "hash": "IpYcVX9Ojva4",
+      "address": "https://docs.docker.com/reference/samples/plex/",
+      "title": "Plex samples | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "DJvK9ug2aLVh",
+      "address": "https://community.searchlab.eu/t/what-is-the-correct-docker-compose-setting/3394",
+      "title": "What is the correct docker compose setting? - YaCy - Searchlab Community",
       "grade": 1
     },
     {
-      "hash": "AYjzb2RnNlC4",
-      "address": "https://supabase.com/docs/guides/self-hosting/docker",
-      "title": "Self-Hosting with Docker | Supabase Docs",
-      "grade": 1
+      "hash": "OmcmkE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/24.0/",
+      "title": "Engine v24.0 | Docker Docs",
+      "grade": 0
     },
     {
-      "hash": "RRNM9k_MW7i4",
-      "address": "https://www.docker.com/community/open-source/",
-      "title": "Docker and Open Source | Docker",
-      "grade": 1
+      "hash": "ugbg8j_MW7i4",
+      "address": "https://www.docker.com/products/container-runtime/",
+      "title": "The Industry-Leading Container Runtime | Docker",
+      "grade": 0
     },
     {
-      "hash": "_B_aiX9Ojva4",
-      "address": "https://docs.docker.com/reference/api/hub/changelog/",
-      "title": "Docker Hub API changelog | Docker Docs",
-      "grade": 1
+      "hash": "stTy1E9Ojva4",
+      "address": "https://docs.docker.com/engine/network/drivers/host/",
+      "title": "Host network driver | Docker Docs",
+      "grade": 0
     },
     {
-      "hash": "6PUUbj_MW7i4",
-      "address": "https://www.docker.com/products/developer-tools/",
-      "title": "Developer Tools | Docker",
-      "grade": 1
+      "hash": "0i0OGX9Ojva4",
+      "address": "https://docs.docker.com/reference/api/hub/deprecated/",
+      "title": "Deprecated Docker Hub API endpoints | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "3JOA-syz5Ngx",
+      "address": "https://archivebox.io/",
+      "title": "ArchiveBox - Open-source self-hosted web archiving",
+      "grade": 0
+    },
+    {
+      "hash": "8mnnr49Ojva4",
+      "address": "https://docs.docker.com/build/building/best-practices/",
+      "title": "Building best practices | Docker Docs",
+      "grade": 0
     },
     {
       "hash": "spCnKZ9Ojva4",
@@ -38,244 +68,244 @@
       "grade": 2
     },
     {
-      "hash": "L34sUGdTeyA4",
-      "address": "https://github.blog/changelog/2024-04-10-github-hosted-runner-images-deprecation-notice-docker-compose-v1/",
-      "title": "GitHub-hosted runner images deprecation notice: Docker Compose v1 - GitHub Changelog",
+      "hash": "qFW6El_MW7i4",
+      "address": "https://www.docker.com/community/",
+      "title": "Community | Docker",
+      "grade": 0
+    },
+    {
+      "hash": "ybt5vj_MW7i4",
+      "address": "https://www.docker.com/products/cli/",
+      "title": "Command Line Tools for Container Management | Docker CLI",
+      "grade": 0
+    },
+    {
+      "hash": "88Bc6c9Ojva4",
+      "address": "https://docs.docker.com/compose/how-tos/environment-variables/envvars/",
+      "title": "Configure pre-defined environment variables in Docker Compose | Docker Docs",
       "grade": 2
     },
     {
-      "hash": "NHWIWV2Rr_dw",
-      "address": "https://docs.searxng.org/admin/installation-docker.html",
-      "title": "Installation container - SearXNG Documentation (2026.8.4+c63835bd2)",
-      "grade": 1
-    },
-    {
-      "hash": "dvIpR3S6MKD4",
-      "address": "https://github.com/internetarchive/openlibrary",
-      "title": "GitHub - internetarchive/openlibrary: One webpage for every book ever published! · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "75lx7E9Ojva4",
-      "address": "https://docs.docker.com/engine/security/",
-      "title": "Docker Engine security | Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "V24pRGdTeyA4",
-      "address": "https://github.blog/changelog/2023-12-21-codespaces-host-image-upgrades-docker-and-compose/",
-      "title": "Codespaces host image upgrades Docker and compose - GitHub Changelog",
+      "hash": "4Ki38c9Ojva4",
+      "address": "https://docs.docker.com/compose/gettingstarted/",
+      "title": "Docker Compose Quickstart | Docker Docs",
       "grade": 2
     },
     {
-      "hash": "dUFt5j_MW7i4",
-      "address": "https://www.docker.com/products/docker-desktop/",
-      "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
-      "grade": 1
-    },
-    {
-      "hash": "_1ijAG9elSo4",
-      "address": "https://mailcow.email/posts/2022/release-2022-06/",
-      "title": "🌕🐄 Moone Update 2022 - The Docker Compose V2 Update (Part I) | Changes - mailcow: dockerized - Blog",
+      "hash": "5xXVok4eGBC5",
+      "address": "https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and-mysql-with-docker-compose?comment=76300",
+      "title": "How To Set Up Laravel, Nginx, and MySQL with Docker Compose | DigitalOcean",
       "grade": 2
     },
     {
-      "hash": "u-FvND8sSnOw",
-      "address": "https://patdavid.net/2025/05/anubis-and-caddy-docker-proxy/",
-      "title": "Anubis and caddy-docker-proxy",
-      "grade": 1
-    },
-    {
-      "hash": "I9UfPeMW35a4",
-      "address": "https://hub.docker.com/search",
-      "title": "Explore Docker's Container Image Repository | Docker Hub",
-      "grade": 1
-    },
-    {
-      "hash": "_1RN8w-ynEe4",
-      "address": "https://docs.mailcow.email/troubleshooting/debug-mysql_aria/",
-      "title": "Recover crashed Aria storage engine - mailcow: dockerized documentation",
+      "hash": "CybcXzS6MKD4",
+      "address": "https://github.com/topics/docker-compose",
+      "title": "docker-compose · GitHub Topics · GitHub",
       "grade": 2
     },
     {
-      "hash": "CN-RM49Ojva4",
-      "address": "https://docs.docker.com/build/building/multi-platform/",
-      "title": "Multi-platform | Docker Docs",
+      "hash": "E9jC8X9Ojva4",
+      "address": "https://docs.docker.com/reference/glossary/",
+      "title": "Glossary | Docker Docs",
       "grade": 0
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
+      "hash": "4x3NEl_MW7i4",
+      "address": "https://www.docker.com/play-with-docker/",
+      "title": "Play with Docker | Docker",
       "grade": 0
     },
     {
-      "hash": "A1QAeDS6MKD4",
-      "address": "https://github.com/fastapi/full-stack-fastapi-template",
-      "title": "GitHub - fastapi/full-stack-fastapi-template: Full stack, modern web application template. Using FastAPI, React, SQLModel, PostgreSQL, Docker, GitHub Actions, automatic HTTPS and more.",
+      "hash": "NHivBUlasQL4",
+      "address": "https://xuanyuan.cloud/usage/docker-compose?section=restart",
+      "title": "Docker Compose 镜像源配置教程 - 轩辕镜像",
+      "grade": 2
+    },
+    {
+      "hash": "bEW2ml_MW7i4",
+      "address": "https://www.docker.com/partners/",
+      "title": "Become a Docker Partner | Docker Partner Programs",
       "grade": 0
     },
     {
-      "hash": "DEKXKM9Ojva4",
-      "address": "https://docs.docker.com/desktop/setup/install/linux/",
-      "title": "Install Docker Desktop on Linux | Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "Ckphb1MW35a4",
-      "address": "https://hub.docker.com/r/itzg/minecraft-bedrock-server",
-      "title": "itzg/minecraft-bedrock-server - Docker Image",
-      "grade": 1
-    },
-    {
-      "hash": "GkyDLPMW35a4",
-      "address": "https://hub.docker.com/_/geonetwork",
-      "title": "geonetwork - Official Image | Docker Hub",
-      "grade": 1
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
+      "hash": "WP9VuZ9Ojva4",
+      "address": "https://docs.docker.com/reference/",
+      "title": "Reference documentation | Docker Docs",
       "grade": 0
     },
     {
-      "hash": "ANdR2LS6MKD4",
-      "address": "https://github.com/TryGhost/Ghost",
-      "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters.",
+      "hash": "CNS81J9Ojva4",
+      "address": "https://docs.docker.com/ai/mcp-catalog-and-toolkit/profiles/",
+      "title": "Profiles | Docker Docs",
       "grade": 0
     },
     {
-      "hash": "AgkPisS6MKD4",
-      "address": "https://github.com/VictorMoni",
-      "title": "VictorMoni (Victor Moni) · GitHub",
+      "hash": "jXcHX9BNHzag",
+      "address": "https://thestacks.libaac.de/",
+      "title": "DSpace Started with Docker Compose | Home",
+      "grade": 1
+    },
+    {
+      "hash": "Dv7ABvS6MKD4",
+      "address": "https://github.com/MemPalace/mempalace/blob/develop/docker-compose.yml",
+      "title": "mempalace/docker-compose.yml at develop · MemPalace/mempalace · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "DcjaKj_MW7i4",
+      "address": "https://www.docker.com/products/ide/",
+      "title": "IDE Extensions | Docker",
+      "grade": 1
+    },
+    {
+      "hash": "hx-ob2sEYJ15",
+      "address": "https://tailscale.com/docs/features/containers/docker/how-to/connect-docker-container",
+      "title": "Connect a Docker container to your tailnet with Docker Compose · Tailscale Docs",
+      "grade": 2
+    },
+    {
+      "hash": "Kx6WZl_MW7i4",
+      "address": "https://www.docker.com/company/",
+      "title": "About Docker | Docker",
       "grade": 0
     },
     {
-      "hash": "bAEKjh9Ojva4",
-      "address": "https://docs.docker.com/dhi/explore/what/",
-      "title": "What are hardened images and why use them? | Docker Docs",
+      "hash": "4JzLCQS6MKD4",
+      "address": "https://github.com/docker/compose",
+      "title": "GitHub - docker/compose: Define and run multi-container applications with Docker · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "R8J8sJ_MW7i4",
+      "address": "https://www.docker.com/blog/build-ai-agents-with-docker-compose/",
+      "title": "Docker Brings Compose to the AI Agent Era | Docker",
       "grade": 1
     },
     {
-      "hash": "umob9v9Ojva4",
-      "address": "https://docs.docker.com/guides/nodejs/",
-      "title": "Node.js language-specific guide | Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "-SVQ7f9Ojva4",
-      "address": "https://docs.docker.com/get-started/docker-concepts/building-images/build-tag-and-publish-an-image/",
-      "title": "Build, tag, and publish an image | Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "MbQgLE9Ojva4",
-      "address": "https://docs.docker.com/engine/manage-resources/labels/",
-      "title": "Docker object labels | Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "NRZFDZ9Ojva4",
-      "address": "https://docs.docker.com/docker-hub",
-      "title": "Docker Hub | Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "VaAJPX9Ojva4",
-      "address": "https://docs.docker.com/reference/dockerfile",
-      "title": "Dockerfile reference | Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "33nc5Z9Ojva4",
-      "address": "https://docs.docker.com/",
-      "title": "Docker Docs",
-      "grade": 1
-    },
-    {
-      "hash": "rmf3ysBAoHwy",
-      "address": "https://podman-desktop.io/",
-      "title": "Podman Desktop - Containers and Kubernetes | Podman Desktop",
-      "grade": 1
-    },
-    {
-      "hash": "M2WI19OKiiF6",
-      "address": "https://www.epsilonsworld.com/2026/03/",
-      "title": "Epsilon's World: March 2026",
+      "hash": "0fjdrJ9Ojva4",
+      "address": "https://docs.docker.com/ai/sandboxes/configuration/",
+      "title": "Configure Docker Sandboxes | Docker Docs",
       "grade": 0
     },
     {
-      "hash": "GOC_RsS6MKD4",
-      "address": "https://github.com/mvanhorn",
-      "title": "mvanhorn (Matt Van Horn) · GitHub",
+      "hash": "k5CFYeMW35a4",
+      "address": "https://hub.docker.com/",
+      "title": "Docker Hub Container Image Library | App Containerization",
       "grade": 0
     },
     {
-      "hash": "JWSlkdS6MKD4",
-      "address": "https://github.com/github/gh-aw-firewall",
-      "title": "GitHub - github/gh-aw-firewall: GitHub Agentic Workflows Firewall · GitHub",
-      "grade": 1
+      "hash": "NTbkPc9Ojva4",
+      "address": "https://docs.docker.com/compose/install/linux/",
+      "title": "Plugin | Docker Docs",
+      "grade": 2
     },
     {
-      "hash": "NW0FU9S6MKD4",
-      "address": "https://github.com/funmusicplace/mirlo",
-      "title": "GitHub - funmusicplace/mirlo: An open source audio distribution and patronage platform · GitHub",
-      "grade": 1
+      "hash": "6kvu9c9Ojva4",
+      "address": "https://docs.docker.com/compose/intro/features-uses/",
+      "title": "Why use Compose? | Docker Docs",
+      "grade": 2
     },
     {
-      "hash": "NX1lJPS6MKD4",
-      "address": "https://github.com/rtk-ai/rtk",
-      "title": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies · GitHub",
-      "grade": 1
+      "hash": "D1jI4QS6MKD4",
+      "address": "https://github.com/docker/awesome-compose",
+      "title": "GitHub - docker/awesome-compose: Awesome Docker Compose samples",
+      "grade": 2
     },
     {
-      "hash": "N-XUO0S6MKD4",
-      "address": "https://github.com/netxms/netxms",
-      "title": "GitHub - netxms/netxms: NetXMS - Open Source network and infrastructure monitoring and management",
-      "grade": 1
-    },
-    {
-      "hash": "OIjuydS6MKD4",
-      "address": "https://github.com/HKUDS/Vibe-Trading",
-      "title": "GitHub - HKUDS/Vibe-Trading: \"Vibe-Trading: Your Personal Trading Agent\" · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "Ofc55PS6MKD4",
-      "address": "https://github.com/strapi/strapi",
-      "title": "GitHub - strapi/strapi: 🚀 Strapi is the leading open-source headless CMS. It’s 100% JavaScript/TypeScript, fully customizable and developer-first.",
+      "hash": "rgqCtE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/19.03/",
+      "title": "Docker Engine 19.03 release notes | Docker Docs",
       "grade": 0
     },
     {
-      "hash": "S0w-Wl_MW7i4",
-      "address": "https://www.docker.com/products/",
-      "title": "Products | Docker",
-      "grade": 1
+      "hash": "H-1BPX9Ojva4",
+      "address": "https://docs.docker.com/reference/cli/docker/compose/images/",
+      "title": "docker compose images | Docker Docs",
+      "grade": 2
     },
     {
-      "hash": "EhYhXE9Ojva4",
-      "address": "https://docs.docker.com/engine/security/userns-remap/",
-      "title": "Isolate containers with a user namespace | Docker Docs",
-      "grade": 1
+      "hash": "YvaOVX9Ojva4",
+      "address": "https://docs.docker.com/reference/compose-file/",
+      "title": "Compose file reference | Docker Docs",
+      "grade": 2
     },
     {
-      "hash": "KXuKCf9Ojva4",
-      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
-      "title": "Sharing local files with containers | Docker Docs",
-      "grade": 1
+      "hash": "6gIxo9oRvHL4",
+      "address": "https://langfuse.com/self-hosting/deployment/docker-compose",
+      "title": "Docker Compose (self-hosted) - Langfuse",
+      "grade": 2
     },
     {
-      "hash": "CsBSKxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Docker",
-      "title": "Docker - ArchWiki",
-      "grade": 1
+      "hash": "M9bsEexFffU5",
+      "address": "https://help.nextcloud.com/t/docker-compose-collabora-traefik/219975/2",
+      "title": "Docker compose - Collabora - Traefik",
+      "grade": 2
     },
     {
-      "hash": "snVhjjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Docker_(software)",
-      "title": "Docker (software) - Wikipedia",
-      "grade": 1
+      "hash": "xn4_qj_MW7i4",
+      "address": "https://www.docker.com/products/extensions/",
+      "title": "Extensions | Docker",
+      "grade": 0
+    },
+    {
+      "hash": "woebyv7JARt4",
+      "address": "https://www.infoq.com/news/2023/10/docker-compose-watch/",
+      "title": "New Docker Compose Functionality Banishes Alt-Tabbing and Bind Mounts",
+      "grade": 2
+    },
+    {
+      "hash": "KH5o9X9Ojva4",
+      "address": "https://docs.docker.com/reference/compose-file/include/",
+      "title": "Use include to modularize Compose files | Docker Docs",
+      "grade": 2
+    },
+    {
+      "hash": "CDOtDX9Ojva4",
+      "address": "https://docs.docker.com/reference/cli/docker/",
+      "title": "docker | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "OZundfs7j0L4",
+      "address": "https://dietpi.com/forum/t/docker-compose-failed/22082",
+      "title": "Docker compose failed - Troubleshooting - DietPi Community Forum",
+      "grade": 2
+    },
+    {
+      "hash": "Xmqx3Kf4Pib5",
+      "address": "https://code.visualstudio.com/docs/containers/docker-compose",
+      "title": "Use Docker Compose",
+      "grade": 2
+    },
+    {
+      "hash": "9AK5yc9Ojva4",
+      "address": "https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/",
+      "title": "Merge Compose files | Docker Docs",
+      "grade": 2
+    },
+    {
+      "hash": "Ok-CFsOMezx5",
+      "address": "https://pimylifeup.com/mongodb-docker-compose/",
+      "title": "How to Install and Run MongoDB using Docker Compose - Pi My Life Up",
+      "grade": 2
+    },
+    {
+      "hash": "k93SLX9Ojva4",
+      "address": "https://docs.docker.com/reference/compose-file/merge/",
+      "title": "Merge Compose files | Docker Docs",
+      "grade": 2
+    },
+    {
+      "hash": "bfznZc9Ojva4",
+      "address": "https://docs.docker.com/compose/intro/history/",
+      "title": "History and development of Docker Compose | Docker Docs",
+      "grade": 2
+    },
+    {
+      "hash": "JT2132jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/",
+      "title": "Translate a Docker Compose File to Kubernetes Resources | Kubernetes",
+      "grade": 2
     }
   ]
 }

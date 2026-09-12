@@ -2,10 +2,40 @@
   "query": "git rebase",
   "judgedDocuments": [
     {
-      "hash": "98ydQs9cq-94",
-      "address": "https://git-scm.com/learn",
-      "title": "Git - Learn",
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
       "grade": 1
+    },
+    {
+      "hash": "F3enq_nMM_j5",
+      "address": "https://grokipedia.com/page/GitHub",
+      "title": "GitHub — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "QJ-wEV9cq-94",
+      "address": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing",
+      "title": "Git - Rebasing",
+      "grade": 2
+    },
+    {
+      "hash": "PexbGAK-xyJ4",
+      "address": "https://go.dev/doc/contribute",
+      "title": "Contribution Guide - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "NB7afyXjZ9O4",
+      "address": "https://docs.github.com/en/pull-requests/how-tos/commit-changes/changing-a-commit-message",
+      "title": "Changing a commit message - GitHub Docs",
+      "grade": 1
+    },
+    {
+      "hash": "p_5Wwo0Z_SDg",
+      "address": "https://www.jvt.me/posts/2021/03/31/git-origin-head/",
+      "title": "Working with a Git remote's default branch, using `origin/HEAD` · Jamie Tanna | Software Engineer",
+      "grade": 0
     },
     {
       "hash": "tetY4sElpUjy",
@@ -14,46 +44,292 @@
       "grade": 0
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
+      "hash": "wVAXw_nMM_j5",
+      "address": "https://grokipedia.com/page/Git",
+      "title": "Git — Grokipedia",
       "grade": 0
     },
     {
-      "hash": "X1qxTyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
-      "title": "Autolinked references and URLs - GitHub Docs",
+      "hash": "0cykrss0voQ5",
+      "address": "https://johnnyreilly.com/rss.xml",
+      "title": "",
       "grade": 0
     },
     {
-      "hash": "u2SnisCRdREw",
-      "address": "https://jvns.ca/",
-      "title": "Julia Evans",
+      "hash": "J4wKnyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started",
+      "title": "Get started with GitHub documentation - GitHub Docs",
       "grade": 0
     },
     {
-      "hash": "Tv0cB6S6MKD4",
-      "address": "https://github.com/opencontainers/runc/pull/3905",
-      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "Pq85gxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/AUR_submission_guidelines",
-      "title": "AUR submission guidelines - ArchWiki",
-      "grade": 0
-    },
-    {
-      "hash": "dneiglzbmVEz",
-      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
-      "title": "Conventional Commits",
-      "grade": 0
-    },
-    {
-      "hash": "CZQqI29cq-94",
-      "address": "https://git-scm.com/docs/git-worktree/2.42.0",
-      "title": "Git - git-worktree Documentation",
+      "hash": "CmQQlyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
+      "title": "Optimize your workflow with Git stash",
       "grade": 1
+    },
+    {
+      "hash": "TeZMVjy-fQn5",
+      "address": "https://aomedia.googlesource.com/aom/",
+      "title": "aom - Git at Google",
+      "grade": 0
+    },
+    {
+      "hash": "YgAeyl0lKwR5",
+      "address": "https://www.git-tower.com/",
+      "title": "Tower — The most powerful Git client for Mac and Windows",
+      "grade": 1
+    },
+    {
+      "hash": "z3pThyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-git",
+      "title": "Using Git - GitHub Docs",
+      "grade": 1
+    },
+    {
+      "hash": "0uJDlvRjxAex",
+      "address": "https://cs.wikibooks.org/wiki/Git",
+      "title": "Git – Wikiknihy",
+      "grade": 1
+    },
+    {
+      "hash": "8gWJRJNn7ab5",
+      "address": "https://www.jeremykun.com/2020/01/14/the-communicative-value-of-using-git-well/",
+      "title": "The Communicative Value of Using Git Well || Math ∩ Programming",
+      "grade": 1
+    },
+    {
+      "hash": "RVPC2yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-git/about-git-rebase",
+      "title": "About Git rebase - GitHub Docs",
+      "grade": 2
+    },
+    {
+      "hash": "R0RMzyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
+      "title": "Setting your username in Git - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "X9sotyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/set-up-git",
+      "title": "Set up Git - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "lMTZq2bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/collaboration/pull-requests-and-git-flow/",
+      "title": "Pull requests and Git flow | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "5g9r129cq-94",
+      "address": "https://git-scm.com/docs/pretty-formats",
+      "title": "Git - pretty-formats Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "cs0WNsR2NVbw",
+      "address": "https://devguide.python.org/getting-started/git-boot-camp/",
+      "title": "Git bootcamp and cheat sheet",
+      "grade": 1
+    },
+    {
+      "hash": "98ydQs9cq-94",
+      "address": "https://git-scm.com/learn",
+      "title": "Git - Learn",
+      "grade": 1
+    },
+    {
+      "hash": "jXCYphffZ5F4",
+      "address": "https://pospi.spadgos.com/2012/08/22/list-of-git-tips/",
+      "title": "List of git tips | pospi",
+      "grade": 2
+    },
+    {
+      "hash": "u8YTm29cq-94",
+      "address": "https://git-scm.com/docs/git-log",
+      "title": "Git - git-log Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "-7-UKs9cq-94",
+      "address": "https://git-scm.com/docs",
+      "title": "Git - Reference",
+      "grade": 1
+    },
+    {
+      "hash": "zSrcq29cq-94",
+      "address": "https://git-scm.com/docs/git-shortlog",
+      "title": "Git - git-shortlog Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "RgG4r29cq-94",
+      "address": "https://git-scm.com/docs/git-bugreport",
+      "title": "Git - git-bugreport Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "fDcnx29cq-94",
+      "address": "https://git-scm.com/docs/git-bundle",
+      "title": "Git - git-bundle Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "19sbJ29cq-94",
+      "address": "https://git-scm.com/docs/git-verify-pack",
+      "title": "Git - git-verify-pack Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "aE__u29cq-94",
+      "address": "https://git-scm.com/docs/git-submodule",
+      "title": "Git - git-submodule Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "7WP56MS6MKD4",
+      "address": "https://github.com/tiimgreen/github-cheat-sheet",
+      "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub. · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "9qMfQo0Z_SDg",
+      "address": "https://www.jvt.me/posts/2019/01/10/git-commit-fixup/",
+      "title": "Using `git commit --fixup=` to track changes that need to be applied on top of another commit · Jamie Tanna | Software Engineer",
+      "grade": 1
+    },
+    {
+      "hash": "QWtr229cq-94",
+      "address": "https://git-scm.com/docs/git-diff",
+      "title": "Git - git-diff Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "lpRZC29cq-94",
+      "address": "https://git-scm.com/docs/gitrevisions",
+      "title": "Git - gitrevisions Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "l-XXS29cq-94",
+      "address": "https://git-scm.com/docs/gittutorial",
+      "title": "Git - gittutorial Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "Atcou29cq-94",
+      "address": "https://git-scm.com/docs/git-checkout",
+      "title": "Git - git-checkout Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Y0wMEQvPJCNw",
+      "address": "https://eagain.net/articles/git-for-computer-scientists/",
+      "title": "Git for Computer Scientists",
+      "grade": 1
+    },
+    {
+      "hash": "JnqHwV9cq-94",
+      "address": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
+      "title": "Git - Submodules",
+      "grade": 0
+    },
+    {
+      "hash": "sKaik29cq-94",
+      "address": "https://git-scm.com/docs/githooks",
+      "title": "Git - githooks Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "3A0ez29cq-94",
+      "address": "https://git-scm.com/docs/git-commit/2.31.0",
+      "title": "Git - git-commit Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "-y8Tx29cq-94",
+      "address": "https://git-scm.com/docs/git-fast-import",
+      "title": "Git - git-fast-import Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "6vbK7ssY0Thg",
+      "address": "https://bueltge.de/git/",
+      "title": "Get your Practice-Git on!",
+      "grade": 1
+    },
+    {
+      "hash": "DNJ9f29cq-94",
+      "address": "https://git-scm.com/docs/git-commit-tree",
+      "title": "Git - git-commit-tree Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "K3Sdz29cq-94",
+      "address": "https://git-scm.com/docs/git-reflog",
+      "title": "Git - git-reflog Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "MqEBYs9cq-94",
+      "address": "https://git-scm.com/cheat-sheet",
+      "title": "Git Cheat Sheet",
+      "grade": 1
+    },
+    {
+      "hash": "SGCHO29cq-94",
+      "address": "https://git-scm.com/docs/gitsubmodules",
+      "title": "Git - gitsubmodules Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "SOaOd29cq-94",
+      "address": "https://git-scm.com/docs/git",
+      "title": "Git - git Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "omph329cq-94",
+      "address": "https://git-scm.com/docs/gitcli",
+      "title": "Git - gitcli Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "zCoSO29cq-94",
+      "address": "https://git-scm.com/docs/git-filter-branch",
+      "title": "Git - git-filter-branch Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "1HsAf29cq-94",
+      "address": "https://git-scm.com/docs/git-fsck",
+      "title": "Git - git-fsck Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "1di-C29cq-94",
+      "address": "https://git-scm.com/docs/gitfaq",
+      "title": "Git - gitfaq Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "6fDY-29cq-94",
+      "address": "https://git-scm.com/docs/git-grep",
+      "title": "Git - git-grep Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "7gc6929cq-94",
+      "address": "https://git-scm.com/docs/git-worktree",
+      "title": "Git - git-worktree Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "9SzT029cq-94",
+      "address": "https://git-scm.com/docs/git-apply",
+      "title": "Git - git-apply Documentation",
+      "grade": 0
     }
   ]
 }

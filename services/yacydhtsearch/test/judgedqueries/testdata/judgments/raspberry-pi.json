@@ -2,111 +2,51 @@
   "query": "raspberry pi",
   "judgedDocuments": [
     {
-      "hash": "7b0gSsUQxb2x",
-      "address": "https://join-lemmy.org/",
-      "title": "Lemmy - A decentralised discussion platform for communities",
+      "hash": "O8Lb1wX-NDdg",
+      "address": "https://www.pcwelt.de/article/2217585/raspberry-pi-5-test.html",
+      "title": "Raspberry Pi 5 im Praxistest – PC-WELT",
+      "grade": 2
+    },
+    {
+      "hash": "5aOF74eBOW2g",
+      "address": "https://www.phoscon.de/de/conbee2/install",
+      "title": "ConBee II Installation",
       "grade": 0
     },
     {
-      "hash": "Bq57jjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/BASIC",
-      "title": "BASIC - Wikipedia",
-      "grade": 0
+      "hash": "uik3ku78zDE5",
+      "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/probamos-chromium-el-sistema-operativo-de-google-en-la-raspberry-pi-3",
+      "title": "Probamos Chromium, el sistema operativo de Google, en la Raspberry Pi 3",
+      "grade": 2
     },
     {
-      "hash": "j2Pq0_nMM_j5",
-      "address": "https://grokipedia.com/page/Home_Assistant",
-      "title": "Home Assistant — Grokipedia",
-      "grade": 0
+      "hash": "jDfrOl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-ssd-256gb.html",
+      "title": "Raspberry Pi SSD - 256GB - SparkFun Electronics",
+      "grade": 1
     },
     {
-      "hash": "ryUhvGS6MKD4",
-      "address": "https://github.com/veggiemonk/awesome-docker",
-      "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
-      "grade": 0
+      "hash": "SyGXxpA4psi4",
+      "address": "https://www.theverge.com/2012/8/1/3212236/android-4-0-ics-raspberry-pi-port",
+      "title": "Android 4.0 ported to Raspberry Pi, supports HD video but not audio | The Verge",
+      "grade": 2
     },
     {
-      "hash": "uS2bt_nMM_j5",
-      "address": "https://grokipedia.com/page/Node-RED",
-      "title": "Node-RED — Grokipedia",
-      "grade": 0
+      "hash": "HDt-ql8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-4-model-b-1gb.html",
+      "title": "Raspberry Pi 4 Model B (1GB) - SparkFun Electronics",
+      "grade": 1
     },
     {
-      "hash": "rsWFmIf1Pcd5",
-      "address": "https://store.steampowered.com/mobile",
-      "title": "Steam, The Ultimate Online Game Platform",
-      "grade": 0
+      "hash": "Mc-49XVimsy4",
+      "address": "https://thepihut.com/products/letstrust-tpm-for-raspberry-pi",
+      "title": "LetsTrust TPM for Raspberry Pi - The Pi Hut",
+      "grade": 2
     },
     {
-      "hash": "Tj9g554nScL4",
-      "address": "https://www.wired.com/review/epilogue-sn-operator/",
-      "title": "Epilogue SN Operator Review: Super Nintendo Fun | WIRED",
-      "grade": 0
-    },
-    {
-      "hash": "DEKXKM9Ojva4",
-      "address": "https://docs.docker.com/desktop/setup/install/linux/",
-      "title": "Install Docker Desktop on Linux | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "MaHDQsRDFHM6",
-      "address": "https://stackexchange.com/sites",
-      "title": "All Sites - Stack Exchange",
-      "grade": 0
-    },
-    {
-      "hash": "A5ci-TS6MKD4",
-      "address": "https://github.com/cpaczek/skylight",
-      "title": "GitHub - cpaczek/skylight: Project the aircraft passing overhead onto your ceiling in real time, from an RTL-SDR — with a live sky layer (sun, moon, stars, ISS) and where each plane is headed. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "_4vwbyS6MKD4",
-      "address": "https://github.com/HQarroum/awesome-iot",
-      "title": "GitHub - HQarroum/awesome-iot: 🤖 A curated list of awesome Internet of Things projects and resources. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "20qcLnydS8Zw",
-      "address": "https://couchdb.apache.org/",
-      "title": "Apache CouchDB",
-      "grade": 0
-    },
-    {
-      "hash": "8mnnr49Ojva4",
-      "address": "https://docs.docker.com/build/building/best-practices/",
-      "title": "Building best practices | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "QrkRzl6LuyIx",
-      "address": "https://www.lazarus-ide.org/",
-      "title": "Lazarus Homepage",
-      "grade": 0
-    },
-    {
-      "hash": "QZa1dES6MKD4",
-      "address": "https://github.com/terkelg/awesome-creative-coding",
-      "title": "GitHub - terkelg/awesome-creative-coding: Creative Coding: Generative Art, Data visualization, Interaction Design, Resources.",
-      "grade": 0
-    },
-    {
-      "hash": "QxKVZMS6MKD4",
-      "address": "https://github.com/ggml-org/whisper.cpp",
-      "title": "GitHub - ggml-org/whisper.cpp: Port of OpenAI's Whisper model in C/C++ · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "PbKKIUjw1Zlx",
-      "address": "https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/",
-      "title": "Kubernetes Setup Using Ansible and Vagrant | Kubernetes",
-      "grade": 0
-    },
-    {
-      "hash": "QGRE8Ujw1Zlx",
-      "address": "https://kubernetes.io/blog/2023/08/29/gateway-api-v0-8/",
-      "title": "Gateway API v0.8.0: Introducing Service Mesh Support | Kubernetes",
+      "hash": "XlmWLvEndn4x",
+      "address": "https://cs.wikipedia.org/wiki/Linux",
+      "title": "Linux – Wikipedie",
       "grade": 0
     },
     {
@@ -116,106 +56,268 @@
       "grade": 1
     },
     {
-      "hash": "Q3Xj1Ujw1Zlx",
-      "address": "https://kubernetes.io/blog/2016/02/kubernetes-community-meeting-notes/",
-      "title": "Kubernetes Community Meeting Notes - 20160204 | Kubernetes",
+      "hash": "7b0gSsUQxb2x",
+      "address": "https://join-lemmy.org/",
+      "title": "Lemmy - A decentralised discussion platform for communities",
       "grade": 0
     },
     {
-      "hash": "RKKmoUjw1Zlx",
-      "address": "https://kubernetes.io/blog/2017/10/request-routing-and-policy-management/",
-      "title": "Request Routing and Policy Management with the Istio Service Mesh | Kubernetes",
-      "grade": 0
+      "hash": "gvuasl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-4-model-b-8-gb.html",
+      "title": "Raspberry Pi 4 Model B (8 GB) - SparkFun Electronics",
+      "grade": 2
     },
     {
-      "hash": "WVhIT9S6MKD4",
-      "address": "https://github.com/bytedeco/javacpp-presets",
-      "title": "GitHub - bytedeco/javacpp-presets: The missing Java distribution of native C++ libraries",
-      "grade": 0
+      "hash": "nd3jY0oiQ-vh",
+      "address": "https://www.audiostereo.pl/topic/121319-raspberry-pi-malinka-z-daciem-hifi-swietny-odtwarzacz-sieciowy/",
+      "title": "Raspberry Pi (Malinka) z DACiem - HiFi - swietny odtwarzacz sieciowy - PC Audio - Audiostereo.pl",
+      "grade": 2
     },
     {
-      "hash": "X9v9dxS6MKD4",
-      "address": "https://github.com/boppreh/keyboard",
-      "title": "GitHub - boppreh/keyboard: Hook and simulate global keyboard events on Windows and Linux.",
-      "grade": 0
+      "hash": "ikkiqvDOAHJg",
+      "address": "https://www.heise.de/news/Ein-kompletter-Arcade-Automat-fuer-350-Euro-c-t-3003-11227265.html",
+      "title": "Taugt ein Arcade-Automat für 350 Euro mit Raspberry Pi und Batocera? | c't 3003 | heise online",
+      "grade": 2
     },
     {
-      "hash": "UqygLNqRILQr",
-      "address": "https://www.qtreetechnologies.in/course/iot-training-in-coimbatore.php",
-      "title": "The Best IOT Training Course in Coimbatore | Qtree Technologies",
-      "grade": 0
+      "hash": "S-BJJvYLAaI5",
+      "address": "https://www.tomshardware.com/news/why-own-raspberry-pi,38809.html",
+      "title": "Why Every Tech Geek Should Own a Raspberry Pi | Tom's Hardware",
+      "grade": 2
     },
     {
-      "hash": "Yk0ebs2jvnSw",
-      "address": "https://ffmpeg.org/",
-      "title": "FFmpeg",
-      "grade": 0
+      "hash": "2cUMoMYlAY74",
+      "address": "https://ubuntu.com/download/raspberry-pi",
+      "title": "Install Ubuntu on a Raspberry Pi | Ubuntu",
+      "grade": 2
     },
     {
-      "hash": "b8vPZsAbx4Yw",
-      "address": "https://sqlite.org/whynotgit.html",
-      "title": "Why SQLite Does Not Use Git",
-      "grade": 0
+      "hash": "1jWNOsOMezx5",
+      "address": "https://pimylifeup.com/raspberry-pi-obsidian/",
+      "title": "Easily Take Notes on your Raspberry Pi with Obsidian - Pi My Life Up",
+      "grade": 2
     },
     {
-      "hash": "B5nOLjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/ARM_architecture_family",
-      "title": "ARM architecture family - Wikipedia",
-      "grade": 0
+      "hash": "74tBuMYLAaI5",
+      "address": "https://www.tomshardware.com/raspberry-pi/page/7",
+      "title": "Raspberry Pi News, Analysis and Features - Page 7 | Tom's Hardware",
+      "grade": 2
     },
     {
-      "hash": "Zn04ZPS6MKD4",
-      "address": "https://github.com/alebcay/awesome-shell",
-      "title": "GitHub - alebcay/awesome-shell: A curated list of awesome command-line frameworks, toolkits, guides and gizmos. Inspired by awesome-php. · GitHub",
-      "grade": 0
+      "hash": "vdRFB2sEYJ15",
+      "address": "https://tailscale.com/docs/solutions/block-ads-all-devices-anywhere-using-raspberry-pi",
+      "title": "Block ads on all your devices from anywhere using a Raspberry Pi · Tailscale Docs",
+      "grade": 2
     },
     {
-      "hash": "b6JleZS6MKD4",
-      "address": "https://github.com/markets/awesome-ruby",
-      "title": "GitHub - markets/awesome-ruby: 💎 A collection of awesome Ruby libraries, tools, frameworks and software · GitHub",
-      "grade": 0
+      "hash": "hhTy_SMAuxi4",
+      "address": "https://www.linkedin.com/learning/raspberry-pi-essential-training-2024",
+      "title": "Raspberry Pi Essential Training Online Class | LinkedIn Learning, formerly Lynda.com",
+      "grade": 2
     },
     {
-      "hash": "0IsrslZZ-o74",
-      "address": "https://www.nccgroup.com/research/",
-      "title": "Cyber Security Research | NCC Group",
-      "grade": 0
+      "hash": "BdNFVMs8l0-4",
+      "address": "https://www.clubic.com/raspberry-pi/article-891655-1-raspberry-pi-transformer-enceintes-airplay-spotify.html",
+      "title": "Comment transformer votre enceinte en enceinte connectée grâce à Balena Sound et un Raspberry Pi ?",
+      "grade": 2
     },
     {
-      "hash": "D9zZ37S6MKD4",
-      "address": "https://github.com/sindresorhus/awesome-nodejs",
-      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMISSIONS, SUBMISSIONS ARE PAUSED UNTIL JULY] · GitHub",
-      "grade": 0
+      "hash": "1Zdo-AVimsy4",
+      "address": "https://thepihut.com/collections/raspberry-pi-gifts",
+      "title": "Raspberry Pi Gifts - The Pi Hut",
+      "grade": 2
     },
     {
-      "hash": "LcA-MxS6MKD4",
-      "address": "https://github.com/mopidy/mopidy",
-      "title": "GitHub - mopidy/mopidy: Mopidy is an extensible music server written in Python · GitHub",
-      "grade": 0
+      "hash": "7uQD4VgsGuO5",
+      "address": "https://www.cnx-software.com/2025/12/20/do-you-need-14-usb-ports-on-your-raspberry-pi-5/",
+      "title": "Do you need 14 USB ports on your Raspberry Pi 5? - CNX Software",
+      "grade": 2
     },
     {
-      "hash": "M89BHJS6MKD4",
-      "address": "https://github.com/home-assistant/core",
-      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
-      "grade": 0
+      "hash": "0P5oHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Raspbian",
+      "title": "Raspberry Pi OS - Wikipedia",
+      "grade": 2
     },
     {
-      "hash": "asQ49l8bqxA4",
-      "address": "https://www.sparkfun.com/tall-gpio-header-female-pth-0-1in-2x20-pin.html",
-      "title": "Tall GPIO Header - Female (PTH, 0.1in., 2x20-Pin) - SparkFun Electronics",
-      "grade": 0
+      "hash": "TtXkJwSMo4M4",
+      "address": "https://www.zdnet.com/article/best-raspberry-pi-alternative/",
+      "title": "The best Raspberry Pi alternatives of 2026: Expert recommended | ZDNET",
+      "grade": 2
     },
     {
-      "hash": "cYieCl8bqxA4",
-      "address": "https://www.sparkfun.com/myoware-2-0-power-shield.html",
-      "title": "MyoWare 2.0 Power Shield - SparkFun Electronics",
-      "grade": 0
+      "hash": "0joG-ALfGIY4",
+      "address": "https://www.manning.com/livevideo/raspberry-pi-for-beginners-step-by-step",
+      "title": "Raspberry Pi for Beginners, Step by Step - Edouard Renard",
+      "grade": 2
     },
     {
-      "hash": "C92zoAK-xyJ4",
-      "address": "https://go.dev/doc/go1.12",
-      "title": "Go 1.12 Release Notes - The Go Programming Language",
-      "grade": 0
+      "hash": "2yk0DDVimsy4",
+      "address": "https://thepihut.com/blogs/raspberry-pi-roundup/what-you-need-to-get-started-with-the-raspberry-pi",
+      "title": "What you need to get started with the Raspberry Pi",
+      "grade": 2
+    },
+    {
+      "hash": "wOjCtsnRCfv4",
+      "address": "https://52pi.com/",
+      "title": "Raspberry Pi Products One Stop Shopping Mall – 52Pi Store",
+      "grade": 2
+    },
+    {
+      "hash": "jIiTLVflQqd5",
+      "address": "https://magazine.raspberrypi.com/subscribe",
+      "title": "Raspberry Pi Official Magazine",
+      "grade": 2
+    },
+    {
+      "hash": "jURJnM591Hww",
+      "address": "https://www.pishop.us/product/raspberry-pi-500-unit-only/",
+      "title": "Raspberry Pi 500+ Unit Only | SC1237",
+      "grade": 2
+    },
+    {
+      "hash": "_8ITH_nMM_j5",
+      "address": "https://grokipedia.com/page/Raspberry_Pi",
+      "title": "Raspberry Pi",
+      "grade": 2
+    },
+    {
+      "hash": "BNDWYSYLAaI5",
+      "address": "https://www.tomshardware.com/best-picks/raspberry-pi-microsd-cards",
+      "title": "Best microSD Cards for Raspberry Pi 2025 | Tom's Hardware",
+      "grade": 2
+    },
+    {
+      "hash": "t3Gfs8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Raspberry_Pi",
+      "title": "Raspberry Pi - Gentoo wiki",
+      "grade": 2
+    },
+    {
+      "hash": "1x38FsOMezx5",
+      "address": "https://pimylifeup.com/raspberry-pi-nomachine/",
+      "title": "Using NoMachine on the Raspberry Pi - Pi My Life Up",
+      "grade": 2
+    },
+    {
+      "hash": "1A9SvsOMezx5",
+      "address": "https://pimylifeup.com/raspberry-pi-4/",
+      "title": "The Raspberry Pi 4 is now Available - Pi My Life Up",
+      "grade": 2
+    },
+    {
+      "hash": "g9DI2Kf4Pib5",
+      "address": "https://code.visualstudio.com/docs/setup/raspberry-pi",
+      "title": "Visual Studio Code on Raspberry Pi",
+      "grade": 2
+    },
+    {
+      "hash": "cR3HHu78zDE5",
+      "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/haz-una-camara-de-video-con-streaming-en-youtube-con-tu-raspberry-pi",
+      "title": "Haz una cámara de vídeo con streaming en YouTube con tu Raspberry Pi",
+      "grade": 2
+    },
+    {
+      "hash": "hWXeAdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Raspberry_Pi",
+      "title": "Raspberry Pi – Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "aPSJXXVimsy4",
+      "address": "https://thepihut.com/products/remotepi-board-for-raspberry-pi-4",
+      "title": "RemotePi Board for Raspberry Pi 4 [Discontinued] - The Pi Hut",
+      "grade": 2
+    },
+    {
+      "hash": "P2AlLvwmtUd5",
+      "address": "https://www.raspberrypi.com/news/raspberry-pi-pico-hot-wheels-drag-race-track-hackspace-51/",
+      "title": "Raspberry Pi Pico Hot Wheels drag race track | HackSpace #51 - Raspberry Pi",
+      "grade": 2
+    },
+    {
+      "hash": "K9jghwMA19g4",
+      "address": "https://www.pcworld.com/article/420028/10-practical-raspberry-pi-projects-anyone-can-do.html",
+      "title": "10 surprisingly practical Raspberry Pi projects anybody can do | PCWorld",
+      "grade": 2
+    },
+    {
+      "hash": "qJavYAVimsy4",
+      "address": "https://thepihut.com/collections/raspberry-pi-cooling",
+      "title": "Raspberry Pi Cooling - The Pi Hut",
+      "grade": 2
+    },
+    {
+      "hash": "EPqdRzKWn5hj",
+      "address": "https://www.elektronik-kompendium.de/sites/raspberry-pi/pico.htm",
+      "title": "Raspberry Pi Pico - Elektronik-Kompendium.de",
+      "grade": 1
+    },
+    {
+      "hash": "GYGEOYgdaPmx",
+      "address": "https://buildhat.readthedocs.io/en/latest/buildhat/index.html",
+      "title": "Build HAT — Raspberry Pi Build HAT documentation",
+      "grade": 2
+    },
+    {
+      "hash": "o_m_nAVimsy4",
+      "address": "https://thepihut.com/collections/raspberry-pi-power-supplies",
+      "title": "Raspberry Pi Power Supplies - The Pi Hut",
+      "grade": 2
+    },
+    {
+      "hash": "byIvhvYLAaI5",
+      "address": "https://www.tomshardware.com/news/argon-40-releases-argon-one-m2-case-for-the-raspberry-pi",
+      "title": "Argon 40 Releases Argon One M.2 Case for the Raspberry Pi | Tom's Hardware",
+      "grade": 1
+    },
+    {
+      "hash": "BvDeqUYlAY74",
+      "address": "https://ubuntu.com/blog/linux-gaming-tutorial-raspberry-pi-minecraft-server-on-ubuntu-desktop",
+      "title": "Raspberry Pi Tutorial: Host a Minecraft server on Ubuntu Desktop | Ubuntu",
+      "grade": 2
+    },
+    {
+      "hash": "YT38mzS6MKD4",
+      "address": "https://github.com/topics/raspberry-pi",
+      "title": "raspberry-pi · GitHub Topics · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "GLKnMvDOAHJg",
+      "address": "https://www.heise.de/news/Raspberry-Pi-Mini-Tower-Gehaeuse-bekommt-Touchscreen-11206365.html",
+      "title": "Raspberry Pi: Mini-Tower-Gehäuse bekommt Touchscreen | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "uz0rrQ3yZjwC",
+      "address": "http://www.freiesmagazin.de/160621_gewinner_scratch_arduino.html",
+      "title": "Gewinner des Buchs „Faszinierende Elektronikprojekte mit Scratch, Raspberry Pi und Arduino” | freiesMagazin",
+      "grade": 1
+    },
+    {
+      "hash": "3sLpLxk5tjlg",
+      "address": "https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/5002372/full-print",
+      "title": "RASPBERRY PI FOUNDATION - 1129409",
+      "grade": 2
+    },
+    {
+      "hash": "BhvfBu9CdfCx",
+      "address": "https://ja.wikipedia.org/wiki/Raspberry_Pi",
+      "title": "Raspberry Pi - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "H3h_oJ5ESx75",
+      "address": "https://www.jeffgeerling.com/blog/2015/getting-gigabit-networking/",
+      "title": "Getting Gigabit Networking on a Raspberry Pi 2, 3 and B+ - Jeff Geerling",
+      "grade": 2
+    },
+    {
+      "hash": "r3Krijh5j3y5",
+      "address": "https://investors.raspberrypi.com/leadership",
+      "title": "Leadership - Investor relations - Raspberry Pi",
+      "grade": 2
     }
   ]
 }
