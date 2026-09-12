@@ -12,6 +12,7 @@ const (
 	PathTransferRWI = "/yacy/transferRWI.html"
 	PathTransferURL = "/yacy/transferURL.html"
 	PathSearch      = "/yacy/search.html"
+	PathURLMetadata = "/yacy/urls.xml"
 	PathQuery       = "/yacy/query.html"
 )
 

@@ -2,7 +2,6 @@ package searchresult_test
 
 import (
 	"slices"
-	"strconv"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
@@ -12,12 +11,18 @@ import (
 func itemAt(t *testing.T, address string) searchresult.Item {
 	t.Helper()
 
-	item, ok := searchresult.ItemFrom(yacymodel.URLMetadata{Address: address})
-	if !ok {
-		t.Fatalf("ItemFrom(%q) refused a well-formed address", address)
+	return searchresult.ItemFrom(metadataNamedByAddress(t, address))
+}
+
+func metadataNamedByAddress(t *testing.T, address string) yacymodel.URLMetadata {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return item
+	return yacymodel.URLMetadata{Hash: hash, Address: address}
 }
 
 func addressesOf(items []searchresult.Item) []string {
@@ -27,61 +32,6 @@ func addressesOf(items []searchresult.Item) []string {
 	}
 
 	return addresses
-}
-
-func TestRankingFromTakesOneItemPerPeerPerRound(t *testing.T) {
-	t.Parallel()
-
-	first := []searchresult.Item{itemAt(t, "https://a.example/1"), itemAt(t, "https://a.example/2")}
-	second := []searchresult.Item{itemAt(t, "https://b.example/1")}
-
-	ranking := searchresult.RankingFrom([][]searchresult.Item{first, second}, 10)
-
-	want := []string{"https://a.example/1", "https://b.example/1", "https://a.example/2"}
-	if got := addressesOf(ranking.Items); !slices.Equal(got, want) {
-		t.Fatalf("RankingFrom = %v, want %v", got, want)
-	}
-}
-
-func TestRankingFromReturnsOneURLOnceHoweverManyPeersHoldIt(t *testing.T) {
-	t.Parallel()
-
-	shared := itemAt(t, "https://shared.example/")
-	ranking := searchresult.RankingFrom([][]searchresult.Item{{shared}, {shared}}, 10)
-
-	if got := addressesOf(ranking.Items); !slices.Equal(got, []string{"https://shared.example/"}) {
-		t.Fatalf("RankingFrom = %v, want the shared address once", got)
-	}
-}
-
-func TestRankingFromStopsAtTheCeiling(t *testing.T) {
-	t.Parallel()
-
-	answer := make([]searchresult.Item, 0, 10)
-	for i := range 10 {
-		answer = append(answer, itemAt(t, "https://a.example/"+strconv.Itoa(i)))
-	}
-
-	ranking := searchresult.RankingFrom([][]searchresult.Item{answer}, 3)
-
-	if len(ranking.Items) != 3 {
-		t.Fatalf("RankingFrom returned %d items, want 3", len(ranking.Items))
-	}
-}
-
-func TestRankingFromHoldsNothingWhenNoItemWasAskedFor(t *testing.T) {
-	t.Parallel()
-
-	answer := []searchresult.Item{itemAt(t, "https://a.example/")}
-
-	if ranking := searchresult.RankingFrom(
-		[][]searchresult.Item{answer},
-		0,
-	); len(
-		ranking.Items,
-	) != 0 {
-		t.Fatalf("RankingFrom = %+v, want an empty ranking", ranking)
-	}
 }
 
 func rankingOver(t *testing.T, addresses ...string) searchresult.Ranking {

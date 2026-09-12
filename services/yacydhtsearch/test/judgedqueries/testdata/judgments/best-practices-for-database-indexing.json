@@ -1,0 +1,281 @@
+{
+  "query": "best practices for database indexing",
+  "judgedDocuments": [
+    {
+      "hash": "tqphPlx-PVw5",
+      "address": "https://www.githubstatus.com/",
+      "title": "GitHub Status",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "a7Urh_nMM_j5",
+      "address": "https://grokipedia.com/page/PostgreSQL",
+      "title": "PostgreSQL — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "g4p8j_nMM_j5",
+      "address": "https://grokipedia.com/page/MongoDB",
+      "title": "MongoDB — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "00fzG1tSpg04",
+      "address": "https://xmlns.com/foaf/spec/",
+      "title": "FOAF Vocabulary Specification",
+      "grade": 0
+    },
+    {
+      "hash": "WKJ7SseQQCqz",
+      "address": "https://westminsterpasadena.org/",
+      "title": "Faith, Community, and Church Services",
+      "grade": 0
+    },
+    {
+      "hash": "vrmcS_nMM_j5",
+      "address": "https://grokipedia.com/page/NoSQL",
+      "title": "NoSQL — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "XEyWzL8hxo35",
+      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": 0
+    },
+    {
+      "hash": "WcqwxsFEcG_7",
+      "address": "https://cotentinwebdesign.com/",
+      "title": "www.cotentinwebdesign.com -",
+      "grade": 0
+    },
+    {
+      "hash": "3mlWOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Amazon.com",
+      "title": "Amazon (company) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "4LX1ujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_Wiley_\u0026_Sons",
+      "title": "Wiley (publisher) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "BkDhKWawk-F5",
+      "address": "https://theintactone.com/tag/citizenship/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "B7k26Wawk-F5",
+      "address": "https://theintactone.com/tag/bcom103-financial-accounting/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "DQ-D2Wawk-F5",
+      "address": "https://theintactone.com/tag/project-selection/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "F0aO1Wawk-F5",
+      "address": "https://theintactone.com/tag/marketing-research-techniques/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "KcwLwWawk-F5",
+      "address": "https://theintactone.com/tag/vinted/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "Kl4u9Wawk-F5",
+      "address": "https://theintactone.com/tag/bban206-business-statistics/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "SFTDNWawk-F5",
+      "address": "https://theintactone.com/tag/human-values-ethics/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "hROLbWawk-F5",
+      "address": "https://theintactone.com/tag/online-shopping/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "iUpBvWawk-F5",
+      "address": "https://theintactone.com/tag/republic/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "icGV6Wawk-F5",
+      "address": "https://theintactone.com/tag/buffer/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "jC_0WWawk-F5",
+      "address": "https://theintactone.com/tag/active-living/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "jYiD6Wawk-F5",
+      "address": "https://theintactone.com/tag/seniority/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "jcEm9Wawk-F5",
+      "address": "https://theintactone.com/tag/tone/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "n3cfVWawk-F5",
+      "address": "https://theintactone.com/tag/wbs/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "pwiCrWawk-F5",
+      "address": "https://theintactone.com/tag/aspect/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "7tXYzWawk-F5",
+      "address": "https://theintactone.com/tag/sports/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "MQJwI5my_IVw",
+      "address": "https://wikipedialibrary.wmflabs.org/suggest/",
+      "title": "The Wikipedia Library",
+      "grade": 0
+    },
+    {
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
+      "grade": 0
+    },
+    {
+      "hash": "gZlAnz8hxo35",
+      "address": "https://www.microsoft.com/en-US/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": 0
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "B0aD4yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/concepts/agents/github-copilot-app",
+      "title": "About the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "Ua5YKyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app",
+      "title": "Customizing the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "UetwYyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot",
+      "title": "GitHub Copilot documentation - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "yv0qxyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests",
+      "title": "Managing issues and pull requests with the GitHub Copilot app - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "0zCYHyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials/copilot-cookbook",
+      "title": "GitHub Copilot Cookbook - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "HDs2NMhTaKi5",
+      "address": "https://www.datadoghq.com/product/ai/agent-directory/",
+      "title": "AI Agent Directory | Datadog",
+      "grade": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
+      "grade": 0
+    },
+    {
+      "hash": "75kEMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/International_Organization_for_Standardization",
+      "title": "International Organization for Standardization - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "3E6rJyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials",
+      "title": "Tutorials for GitHub Copilot - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "8CJLrjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+      "grade": 0
+    },
+    {
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "g3nPAWawk-F5",
+      "address": "https://theintactone.com/tag/supplychain-planning/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "iYU5_Wawk-F5",
+      "address": "https://theintactone.com/tag/rbi-system/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "S5Uj65c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/documentdb",
+      "title": "Azure DocumentDB | Microsoft Azure",
+      "grade": 0
+    }
+  ]
+}

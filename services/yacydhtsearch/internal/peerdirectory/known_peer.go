@@ -13,7 +13,7 @@ type KnownPeer struct {
 	Addresses        []string
 	AnsweringAddress string
 	AdmittedAt       time.Time
-	AskedAt          time.Time
+	ChosenAt         time.Time
 	AnsweredAt       time.Time
 }
 type AskablePeer struct {

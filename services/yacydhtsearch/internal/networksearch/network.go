@@ -1,35 +1,43 @@
-// Package networksearch ranks what the peers of the configured network hold for
-// one query, inside one whole-query time budget.
+// Package networksearch ranks what the peers of the network hold for one query,
+// inside one whole-query time budget. It spreads the query over the peers the
+// directory can ask, with the query spread it holds, puts what the peers
+// answered in the order the items ordering it holds gives them, reads the pages
+// of the items that came first, gives the answers what those pages say, puts
+// them in order again, and carries back the items up to the ceiling as the
+// ranking the client reads.
 package networksearch
 
 import (
 	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-type PeerSelection interface {
-	PeersFor(
+type QuerySpread interface {
+	SpreadOverPeers(
 		ctx context.Context,
 		query searchquery.Query,
 		askablePeers []peerdirectory.AskablePeer,
-	) []peerdirectory.AskablePeer
+	) peeranswers.AnsweredQuery
 }
 
-type PerformedNetworkSearch struct {
-	AmountOfAskedPeers                 int
-	AmountOfAnsweringPeers             int
-	AmountOfPeersThatSentItems         int
-	AmountOfItemsAcrossAnswers         int
-	AmountOfRepeatedItemsAcrossAnswers int
-	AmountOfItemsInRanking             int
-	TimeSpent                          time.Duration
+type ItemsOrdering interface {
+	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem
+}
+
+type PageReading interface {
+	DocumentTextPerDocument(
+		ctx context.Context,
+		queryWords []yacymodel.Hash,
+		pagesToRead []pagereading.PageToRead,
+	) map[yacymodel.URLHash]documenttext.DocumentText
 }
 
 type SearchOutcome int
@@ -45,39 +53,38 @@ type NetworkSearchObserver interface {
 }
 
 type Network struct {
-	networkName        string
 	peerDirectory      *peerdirectory.Directory
-	peerSelection      PeerSelection
-	peerSearch         peersearch.Peers
+	querySpread        QuerySpread
+	pageReading        PageReading
+	itemsOrdering      ItemsOrdering
 	queryBudget        time.Duration
-	peerCallBudget     time.Duration
-	peerItemsCeiling   int
+	pageReadBudget     time.Duration
+	pagesReadPerQuery  int
 	rankedItemsCeiling int
-	ringPartitions     yacymodel.DHTRingPartitions
 	observer           NetworkSearchObserver
 }
 
-//nolint:revive // argument-limit: nine explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: what one network search holds for every query
 func New(
-	networkName string,
 	peerDirectory *peerdirectory.Directory,
-	peerSelection PeerSelection,
-	peerSearch peersearch.Peers,
-	queryBudget, peerCallBudget time.Duration,
-	peerItemsCeiling, rankedItemsCeiling int,
-	ringPartitions yacymodel.DHTRingPartitions,
+	querySpread QuerySpread,
+	pageReading PageReading,
+	itemsOrdering ItemsOrdering,
+	queryBudget time.Duration,
+	pageReadBudget time.Duration,
+	pagesReadPerQuery int,
+	rankedItemsCeiling int,
 	observer NetworkSearchObserver,
 ) Network {
 	return Network{
-		networkName:        networkName,
 		peerDirectory:      peerDirectory,
-		peerSelection:      peerSelection,
-		peerSearch:         peerSearch,
+		querySpread:        querySpread,
+		pageReading:        pageReading,
+		itemsOrdering:      itemsOrdering,
 		queryBudget:        queryBudget,
-		peerCallBudget:     peerCallBudget,
-		peerItemsCeiling:   peerItemsCeiling,
+		pageReadBudget:     pageReadBudget,
+		pagesReadPerQuery:  pagesReadPerQuery,
 		rankedItemsCeiling: rankedItemsCeiling,
-		ringPartitions:     ringPartitions,
 		observer:           observer,
 	}
 }
@@ -94,94 +101,73 @@ func (n Network) Search(
 	defer stopQueryBudget()
 	startedAt := time.Now()
 
-	chosenPeers := n.peerSelection.PeersFor(ctx, query, n.peerDirectory.AskablePeers(ctx))
-	if len(chosenPeers) == 0 {
+	askablePeers := n.peerDirectory.AskablePeers(ctx)
+	if len(askablePeers) == 0 {
 		return searchresult.Ranking{}, NoPeerToAsk
 	}
-	n.peerDirectory.MarkPeersAsked(ctx, chosenPeers)
 
-	answers := n.peerSearch.Ask(ctx, chosenPeers, n.requestFor(query))
-	ranking := searchresult.RankingFrom(itemsOfEachAnswer(answers), n.rankedItemsCeiling)
-	n.observer.NetworkSearchPerformed(ctx, PerformedNetworkSearch{
-		AmountOfAskedPeers:                 len(chosenPeers),
-		AmountOfAnsweringPeers:             len(answers),
-		AmountOfPeersThatSentItems:         amountOfPeersThatSentItems(answers),
-		AmountOfItemsAcrossAnswers:         amountOfItemsAcrossAnswers(answers),
-		AmountOfRepeatedItemsAcrossAnswers: amountOfRepeatedItemsAcrossAnswers(answers),
-		AmountOfItemsInRanking:             len(ranking.Items),
-		TimeSpent:                          time.Since(startedAt),
-	})
+	spreading, endSpreading := contextOfTheQuerySpread(ctx, n.queryBudget, n.pageReadBudget)
+	defer endSpreading()
+	answers := n.querySpread.SpreadOverPeers(spreading, query, askablePeers)
+	candidates := itemsUpTo(n.itemsOrdering.OrderedItemsOf(answers), n.pagesReadPerQuery)
+	readAnswers := answers.CarryingTheTextOfEachDocument(
+		n.pageReading.DocumentTextPerDocument(
+			ctx, query.TermHashes(), pagesToReadOf(candidates),
+		),
+	)
+	rankedItems := itemsUpTo(
+		n.itemsOrdering.OrderedItemsOf(readAnswers), n.rankedItemsCeiling,
+	)
+	n.observer.NetworkSearchPerformed(
+		ctx,
+		performedNetworkSearchFrom(
+			readAnswers, rankedItems, len(askablePeers), time.Since(startedAt),
+		),
+	)
 
-	return ranking, PeersAsked
+	return rankingOf(rankedItems), PeersAsked
 }
 
-func (n Network) requestFor(query searchquery.Query) yacyproto.SearchRequest {
-	return yacyproto.SearchRequest{
-		NetworkName: n.networkName,
-		Query:       query.TermHashes(),
-		Exclude:     query.ExclusionHashes(),
-		Count:       n.peerItemsCeiling,
-		Time:        int(n.peerCallBudget.Milliseconds()),
-		Partitions:  int(n.ringPartitions),
-		ContentDom:  yacyproto.ContentDomainText,
-		Language:    query.Language,
-	}
-}
-
-func itemsOfEachAnswer(answers []peersearch.Answer) [][]searchresult.Item {
-	items := make([][]searchresult.Item, 0, len(answers))
-	for _, answer := range answers {
-		items = append(items, answer.Items)
-	}
-
-	return items
-}
-
-func amountOfPeersThatSentItems(answers []peersearch.Answer) int {
-	var peersThatSentItems int
-	for _, answer := range answers {
-		if len(answer.Items) == 0 {
-			continue
-		}
-		peersThatSentItems++
-	}
-
-	return peersThatSentItems
-}
-
-func amountOfItemsAcrossAnswers(answers []peersearch.Answer) int {
-	var answeredItems int
-	for _, answer := range answers {
-		answeredItems += len(answer.Items)
-	}
-
-	return answeredItems
-}
-
-func amountOfRepeatedItemsAcrossAnswers(answers []peersearch.Answer) int {
-	answeredAddresses := make(map[yacymodel.URLHash]struct{}, amountOfItemsAcrossAnswers(answers))
-	var repeatedItems int
-	for _, answer := range answers {
-		for _, item := range answer.Items {
-			if _, answeredBefore := answeredAddresses[item.Hash]; answeredBefore {
-				repeatedItems++
-
-				continue
-			}
-			answeredAddresses[item.Hash] = struct{}{}
-		}
-	}
-
-	return repeatedItems
-}
-
-type NetworkSearchObservers []NetworkSearchObserver
-
-func (observers NetworkSearchObservers) NetworkSearchPerformed(
+func contextOfTheQuerySpread(
 	ctx context.Context,
-	search PerformedNetworkSearch,
-) {
-	for _, observer := range observers {
-		observer.NetworkSearchPerformed(ctx, search)
+	queryBudget time.Duration,
+	pageReadBudget time.Duration,
+) (context.Context, context.CancelFunc) {
+	return context.WithTimeout(ctx, querySpreadBudgetFrom(queryBudget, pageReadBudget))
+}
+
+func querySpreadBudgetFrom(queryBudget time.Duration, pageReadBudget time.Duration) time.Duration {
+	return max(queryBudget-pageReadBudget, 0)
+}
+
+func itemsUpTo(
+	orderedItems []peeranswers.AnsweredItem,
+	ceiling int,
+) []peeranswers.AnsweredItem {
+	if ceiling <= 0 {
+		return nil
 	}
+
+	return orderedItems[:min(ceiling, len(orderedItems))]
+}
+
+func pagesToReadOf(candidates []peeranswers.AnsweredItem) []pagereading.PageToRead {
+	pagesToRead := make([]pagereading.PageToRead, 0, len(candidates))
+	for _, candidate := range candidates {
+		pagesToRead = append(pagesToRead, pagereading.PageToRead{
+			Document: candidate.Metadata.Hash,
+			Address:  candidate.Metadata.Address,
+		})
+	}
+
+	return pagesToRead
+}
+
+func rankingOf(rankedItems []peeranswers.AnsweredItem) searchresult.Ranking {
+	items := make([]searchresult.Item, 0, len(rankedItems))
+	for _, rankedItem := range rankedItems {
+		items = append(items, searchresult.ItemFrom(rankedItem.Metadata))
+	}
+
+	return searchresult.Ranking{Items: items}
 }

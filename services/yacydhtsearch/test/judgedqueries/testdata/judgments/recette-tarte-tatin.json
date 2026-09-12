@@ -1,0 +1,131 @@
+{
+  "query": "recette tarte tatin",
+  "judgedDocuments": [
+    {
+      "hash": "6yuMua7ddyzg",
+      "address": "https://video.lefigaro.fr/figaro/la-recette-de-la-tarte-tatin-aux-pommes-et-son-caramel-maison-20251027",
+      "title": "La recette de la tarte tatin aux pommes et son caramel maison",
+      "grade": 2
+    },
+    {
+      "hash": "npXJn1Sb-d6h",
+      "address": "https://www.latribune.fr/la-tribune-dimanche/gastronomie-sorties-990/",
+      "title": "Gastronomie \u0026 Sorties - La Tribune",
+      "grade": 0
+    },
+    {
+      "hash": "jAiI3CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/ingredients/ananas-0",
+      "title": "Ananas recettes traditionnelles : sublimez vos plats",
+      "grade": 0
+    },
+    {
+      "hash": "EB2-l9OaeHfg",
+      "address": "https://www.gala.fr/lifestyle/pour-lutter-contre-les-fortes-chaleurs-adeline-blondieau-a-trouve-la-parade-elle-devoile-une-boisson-fraiche-et-originale-qui-risque-de-vous-surprendre-20260719",
+      "title": "Pour lutter contre les fortes chaleurs, Adeline Blondieau a trouvé la parade : elle dévoile une boisson fraîche et originale qui risque de vous surprendre !",
+      "grade": 0
+    },
+    {
+      "hash": "b_HN9CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/salade-papillon-epinards-frais-basilic-030701-201092",
+      "title": "Salade papillon aux épinards frais et basilic",
+      "grade": 0
+    },
+    {
+      "hash": "f7EzzcKIzUTx",
+      "address": "https://fr.wikibooks.org/wiki/Accueil",
+      "title": "Wikilivres",
+      "grade": 0
+    },
+    {
+      "hash": "Eefa2CKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/idees-menus/aperitif-dinatoire-0",
+      "title": "Recettes Apéro dînatoire : faciles et originales",
+      "grade": 0
+    },
+    {
+      "hash": "cCdvbCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/tartelette-fromage-frais-herbes-radis-rose-060412-227975",
+      "title": "Tartelette au fromage frais, herbes et radis rose",
+      "grade": 0
+    },
+    {
+      "hash": "64NrRCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/idees-menus/fruit",
+      "title": "Recettes Recettes à base de fruits : faciles et originales",
+      "grade": 0
+    },
+    {
+      "hash": "FF-7Scw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Tarte_aux_pommes",
+      "title": "Tarte aux pommes — Wikipédia",
+      "grade": 1
+    },
+    {
+      "hash": "Uom0VYKCIhSg",
+      "address": "https://madame.lefigaro.fr/cuisine/menu-de-la-semaine-nos-idees-recettes-du-10-au-16-novembre-20251107",
+      "title": "Menu de la semaine : nos idées recettes du 10 au 16 novembre",
+      "grade": 0
+    },
+    {
+      "hash": "6PQUelvtr8Z5",
+      "address": "https://www.doitinparis.com/en/oreiller-belle-aurore-verot-25480",
+      "title": "The Belle Aurore pillow from Maison Vérot",
+      "grade": 0
+    },
+    {
+      "hash": "Ksld5eMcq6Ew",
+      "address": "https://web.archive.org/web/20101128133831/http:/www.cuisine.tv/cid40056/marmite-dieppoise-de-laurent-mariotte.html",
+      "title": "Marmite Dieppoise de Laurent Mariotte - CUISINE TV",
+      "grade": 0
+    },
+    {
+      "hash": "5toBRoiyKphw",
+      "address": "https://www.kochwiki.org/wiki/Kategorie:Vegetarische_Backwaren",
+      "title": "Kategorie:Vegetarische Backwaren – Koch-Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "9gLDqCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/plats/dessert",
+      "title": "Dessert : recettes faciles et rapides",
+      "grade": 0
+    },
+    {
+      "hash": "F0IMFcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Curnonsky",
+      "title": "Curnonsky — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "vNDoJcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Pomme",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "154wlcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Apple_pie",
+      "title": "Tarte aux pommes — Wikipédia",
+      "grade": 1
+    },
+    {
+      "hash": "TsMEXCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/potage-lentilles-301000-198857",
+      "title": "Potage aux lentilles",
+      "grade": 0
+    },
+    {
+      "hash": "bYLCCCKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/milkshake-banane-040602-202002",
+      "title": "Milkshake banane",
+      "grade": 0
+    },
+    {
+      "hash": "_CQdACKCIhSg",
+      "address": "https://madame.lefigaro.fr/recettes/comment-clarifier-un-oeuf-2-20240430",
+      "title": "Comment clarifier un œuf ?",
+      "grade": 0
+    }
+  ]
+}

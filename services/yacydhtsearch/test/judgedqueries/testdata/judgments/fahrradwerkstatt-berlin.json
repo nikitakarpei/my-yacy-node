@@ -1,0 +1,17 @@
+{
+  "query": "fahrradwerkstatt berlin",
+  "judgedDocuments": [
+    {
+      "hash": "ksYCRlyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/",
+      "title": "News und Infos rund um das Thema Mobilität",
+      "grade": 0
+    },
+    {
+      "hash": "rDolRjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/e-bikes-fahrraeder/",
+      "title": "Ratgeber und News rund um E-Bikes und Fahrräder",
+      "grade": 1
+    }
+  ]
+}

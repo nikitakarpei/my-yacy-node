@@ -1,10 +1,12 @@
-// Package searchquery holds the query a client asked for, the word hashes that
-// address it on the DHT ring, and the spelling a held ranking answers to.
+// Package searchquery holds the words a client asked for outside the stopwords
+// of their language, the word hashes that address them on the DHT ring, and the
+// spelling a held ranking answers to.
 package searchquery
 
 import (
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stopwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -14,7 +16,7 @@ type Query struct {
 	Language   string
 }
 
-func QueryFrom(raw string) Query {
+func QueryFrom(raw, language string) Query {
 	var terms, exclusions []string
 	for _, token := range tokensOf(raw) {
 		if token.excluded {
@@ -24,7 +26,11 @@ func QueryFrom(raw string) Query {
 		terms = appendUnseen(terms, token.word)
 	}
 
-	return Query{Terms: terms, Exclusions: exclusions}
+	return Query{
+		Terms:      stopwords.ContentWordsOf(terms, language),
+		Exclusions: exclusions,
+		Language:   language,
+	}
 }
 
 func (q Query) String() string {
@@ -66,13 +72,9 @@ func tokensOf(raw string) []token {
 	var tokens []token
 	for _, field := range strings.Fields(raw) {
 		excluded := strings.HasPrefix(field, "-")
-		word := strings.TrimLeft(field, "+-")
-		word = strings.Trim(word, `"'`)
-		word = strings.ToLower(strings.TrimSpace(word))
-		if !yacymodel.WordIsIndexed(word) {
-			continue
+		for _, word := range yacymodel.WordsIn(field) {
+			tokens = append(tokens, token{word: word, excluded: excluded})
 		}
-		tokens = append(tokens, token{word: word, excluded: excluded})
 	}
 
 	return tokens

@@ -23,16 +23,22 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 		SeedlistURLs:       []string{"http://127.0.0.1:1/yacy/seedlist.html"},
 		EgressProxyURL:     &url.URL{Scheme: "http", Host: "127.0.0.1:1"},
 		QueryBudget:        time.Second,
-		PeerCallBudget:     time.Second,
-		PeerSearchCooldown: 5 * time.Second,
+		PeerChoiceCooldown: 5 * time.Second,
+		NetworkRedundancy:  2,
 		PeerCallsInFlight:  2,
+		PeerCallBudget:     time.Second,
+		ProbesInFlight:     2,
 		DirectoryCapacity:  8,
 		RefreshInterval:    time.Hour,
 		ProbeBudget:        time.Second,
 		Partitions:         16,
-		PeerRedundancy:     3,
 		MaxResponseBytes:   1024,
 		RankedItemsCeiling: 50,
+
+		PagesReadPerQuery:    10,
+		PageReadBudget:       time.Second,
+		PageByteCeiling:      1024,
+		SnippetLengthCeiling: 300,
 	}
 
 	ctx, stop := context.WithCancel(t.Context())

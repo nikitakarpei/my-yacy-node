@@ -89,7 +89,7 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 
 	askable := make([]AskablePeer, 0, len(d.peers))
 	for _, peer := range d.peers {
-		if peer.AnsweringAddress == "" || d.now().Sub(peer.AskedAt) < d.cooldown {
+		if peer.AnsweringAddress == "" || d.now().Sub(peer.ChosenAt) < d.cooldown {
 			continue
 		}
 		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweringAddress})
@@ -98,17 +98,17 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 	return askable
 }
 
-func (d *Directory) MarkPeersAsked(ctx context.Context, peers []AskablePeer) {
+func (d *Directory) MarkPeersChosen(ctx context.Context, peers []AskablePeer) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
-	for _, askedPeer := range peers {
-		known, ok := d.peers[askedPeer.Hash]
+	for _, chosenPeer := range peers {
+		known, ok := d.peers[chosenPeer.Hash]
 		if !ok {
 			continue
 		}
-		known.AskedAt = d.now()
-		d.peers[askedPeer.Hash] = known
+		known.ChosenAt = d.now()
+		d.peers[chosenPeer.Hash] = known
 	}
 }
 

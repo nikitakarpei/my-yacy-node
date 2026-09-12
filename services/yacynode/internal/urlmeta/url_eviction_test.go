@@ -14,7 +14,7 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
-	row := urlMetadata("a")
+	row := urlMetadata(t, "a")
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
@@ -23,7 +23,7 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 		if _, purgeErr := module.Evictor.Purge(
 			ctx,
 			tx,
-			[]yacymodel.URLHash{metadataHash(t, row)},
+			[]yacymodel.URLHash{row.Hash},
 		); purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)
 		}
@@ -32,7 +32,7 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
-	if len(observer.purged) != 1 || observer.purged[0] != metadataHash(t, row) {
+	if len(observer.purged) != 1 || observer.purged[0] != row.Hash {
 		t.Fatalf("purged = %v, want one matching hash", observer.purged)
 	}
 }
@@ -41,14 +41,14 @@ func TestPurgeSurvivesObserverFailure(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{fail: true}
 	v, module := openObservedModule(t, observer)
-	row := urlMetadata("a")
+	row := urlMetadata(t, "a")
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
 	var result urlmeta.PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{metadataHash(t, row)})
+		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{row.Hash})
 		result = purged
 		if purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)
@@ -66,17 +66,17 @@ func TestPurgeSurvivesObserverFailure(t *testing.T) {
 func TestPurgeDeletesRows(t *testing.T) {
 	ctx := context.Background()
 	v, module := openObservedModule(t)
-	row := urlMetadata("a")
+	row := urlMetadata(t, "a")
 	if _, err := module.Receiver.Receive(
 		ctx,
-		[]yacymodel.URLMetadata{row, urlMetadata("b")},
+		[]yacymodel.URLMetadata{row, urlMetadata(t, "b")},
 	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
 	var result urlmeta.PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{metadataHash(t, row)})
+		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{row.Hash})
 		result = purged
 		if purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)

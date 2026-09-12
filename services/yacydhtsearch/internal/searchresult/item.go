@@ -1,5 +1,5 @@
-// Package searchresult holds one result a peer reported, the rule that merges
-// the answers of many peers into one ranking, and the pages cut from it.
+// Package searchresult holds what the client reads of one search: one item per
+// document, the ranking of those items, and the pages cut from the ranking.
 package searchresult
 
 import (
@@ -17,20 +17,15 @@ type Item struct {
 	ImageAddress string
 }
 
-func ItemFrom(metadata yacymodel.URLMetadata) (Item, bool) {
-	hash, err := metadata.Hash()
-	if err != nil {
-		return Item{}, false
-	}
-
+func ItemFrom(metadata yacymodel.URLMetadata) Item {
 	return Item{
-		Hash:         hash,
+		Hash:         metadata.Hash,
 		Address:      metadata.Address,
 		Title:        metadata.Title,
 		Description:  metadata.Snippet,
 		PublishedAt:  publicationInstantOf(metadata),
 		ImageAddress: metadata.FaviconAddress,
-	}, true
+	}
 }
 
 func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[time.Time] {

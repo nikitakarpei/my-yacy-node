@@ -30,23 +30,47 @@ func TestEveryOutcomeOfASearchIsPublishedApart(t *testing.T) {
 
 	registry := prometheusclient.NewRegistry()
 	metrics := queryrankingsobserversprometheus.New(registry)
-	query := searchquery.QueryFrom("berlin")
+	query := searchquery.QueryFrom("berlin", "")
 
 	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
 	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
 	metrics.QueryAnsweredByPeers(t.Context(), query, 12)
-	metrics.QueryHadNoIndexedTerm(t.Context(), query)
-	metrics.QueryFoundNoPeerToAsk(t.Context(), query)
+	metrics.QueryHoldsNoIndexedTerm(t.Context(), query)
+	metrics.QueryReachedNoPeer(t.Context(), query)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_searches_total{outcome="answered_from_cache"} 2`,
 		`yacydhtsearch_searches_total{outcome="answered_by_peers"} 1`,
 		`yacydhtsearch_searches_total{outcome="no_indexed_term"} 1`,
-		`yacydhtsearch_searches_total{outcome="no_peer_to_ask"} 1`,
+		`yacydhtsearch_searches_total{outcome="no_peer_reached"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
+	}
+}
+
+func TestASearchThatCameBackWithNoItemIsCountedApartFromOneThatHeldItems(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryrankingsobserversprometheus.New(registry)
+	query := searchquery.QueryFrom("berlin", "")
+
+	metrics.QueryAnsweredByPeers(t.Context(), query, 0)
+	metrics.QueryAnsweredFromCache(t.Context(), query, 0)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_searches_total{outcome="no_item_from_peers"} 1`,
+		`yacydhtsearch_searches_total{outcome="no_item_from_cache"} 1`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+	if strings.Contains(body, `outcome="answered_by_peers"`) {
+		t.Fatalf("a search that came back with no item was counted as answered:\n%s", body)
 	}
 }

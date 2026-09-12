@@ -27,7 +27,10 @@ const (
 
 var (
 	distributionWordHash = mustHash("DISTWORDHASH")
-	distributionDocument = yacymodel.URLMetadata{Address: "http://example.invalid/dist-e2e"}
+	distributionDocument = yacymodel.URLMetadata{
+		Hash:    mustURLHash("http://example.invalid/dist-e2e"),
+		Address: "http://example.invalid/dist-e2e",
+	}
 )
 
 func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
@@ -63,10 +66,7 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 
 	waitPeerActiveConnected(t, ctx, probe, yacyURL, nodeHash, 60*time.Second)
 
-	documentHash, err := distributionDocument.Hash()
-	if err != nil {
-		t.Fatalf("document hash: %v", err)
-	}
+	documentHash := distributionDocument.Hash
 
 	nodepeer.PushPosting(t, ctx, probe, nodeURL, nodeHash, distributionWordHash, documentHash)
 

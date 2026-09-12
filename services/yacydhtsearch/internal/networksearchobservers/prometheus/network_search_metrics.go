@@ -1,5 +1,6 @@
-// Package prometheus reports how many peers a network search reached, and its
-// answering peers, peers that sent items, overlap and duration, as metrics.
+// Package prometheus reports network search breadth, the size of the ranking,
+// how much of it one peer supplied, how much of it a peer counted a query word
+// in, and duration as metrics.
 package prometheus
 
 import (
@@ -15,40 +16,50 @@ import (
 const (
 	durationBucketRatio = 1.6
 	bucketsUpToBudget   = 15
+	itemBucketCeiling   = 10000.0
+	itemBuckets         = 10
+	peerBucketCeiling   = 128.0
+	peerBuckets         = 8
+	ratioBuckets        = 11
+	ratioStep           = 0.1
 )
 
 var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type NetworkSearchMetrics struct {
-	peersAskedPerNetworkSearch   prometheusclient.Histogram
-	answeringPeersRatio          prometheusclient.Histogram
-	peersThatSentItemsRatio      prometheusclient.Histogram
-	networkSearchOverlap         prometheusclient.Histogram
-	networkSearchDurationSeconds prometheusclient.Histogram
+	itemsRankedPerNetworkSearch    prometheusclient.Histogram
+	askablePeersPerNetworkSearch   prometheusclient.Histogram
+	rankingShareOfTheOnePeer       prometheusclient.Histogram
+	rankedItemsCountedByAPeerRatio prometheusclient.Histogram
+	networkSearchDurationSeconds   prometheusclient.Histogram
 }
 
 func New(registry prometheusclient.Registerer, queryBudget time.Duration) *NetworkSearchMetrics {
 	metrics := &NetworkSearchMetrics{
-		peersAskedPerNetworkSearch: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_network_search_peers_asked",
-			Help:    "Peers asked for one network search.",
-			Buckets: prometheusclient.ExponentialBucketsRange(1, 128, 8),
+		itemsRankedPerNetworkSearch: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacydhtsearch_network_search_items_ranked",
+			Help:    "Unique items in the final ranking after the ranking limit.",
+			Buckets: bucketsFromNoneTo(itemBucketCeiling, itemBuckets),
 		}),
-		answeringPeersRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_network_search_answering_peers_ratio",
-			Help:    "Share of asked peers that replied.",
-			Buckets: prometheusclient.LinearBuckets(0, 0.1, 11),
+		askablePeersPerNetworkSearch: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacydhtsearch_network_search_askable_peers",
+			Help:    "Peers the directory could ask when one network search started.",
+			Buckets: bucketsFromNoneTo(peerBucketCeiling, peerBuckets),
 		}),
-		peersThatSentItemsRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_network_search_peers_that_sent_items_ratio",
-			Help:    "Share of replying peers that sent at least one item.",
-			Buckets: prometheusclient.LinearBuckets(0, 0.1, 11),
+		rankingShareOfTheOnePeer: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacydhtsearch_network_search_ranking_top_peer_share",
+			Help:    "Share of the ranking that came from the one peer that supplied the most.",
+			Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
 		}),
-		networkSearchOverlap: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_network_search_overlap_ratio",
-			Help:    "Share of answered items that repeat an address another peer answered.",
-			Buckets: prometheusclient.LinearBuckets(0, 0.1, 11),
-		}),
+		rankedItemsCountedByAPeerRatio: prometheusclient.NewHistogram(
+			prometheusclient.HistogramOpts{
+				Name: "yacydhtsearch_network_search_ranked_items_with_a_posting_ratio",
+				Help: "Share of the ranked items that a peer counted a query word in. These " +
+					"score on how often the query word appears, the rest only on the words " +
+					"they matched.",
+				Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
+			},
+		),
 		networkSearchDurationSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_network_search_duration_seconds",
 			Help:    "Network search duration in seconds.",
@@ -56,14 +67,21 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 		}),
 	}
 	registry.MustRegister(
-		metrics.peersAskedPerNetworkSearch,
-		metrics.answeringPeersRatio,
-		metrics.peersThatSentItemsRatio,
-		metrics.networkSearchOverlap,
+		metrics.itemsRankedPerNetworkSearch,
+		metrics.askablePeersPerNetworkSearch,
+		metrics.rankingShareOfTheOnePeer,
+		metrics.rankedItemsCountedByAPeerRatio,
 		metrics.networkSearchDurationSeconds,
 	)
 
 	return metrics
+}
+
+func bucketsFromNoneTo(ceiling float64, buckets int) []float64 {
+	return append(
+		[]float64{0},
+		prometheusclient.ExponentialBucketsRange(1, ceiling, buckets)...,
+	)
 }
 
 func networkSearchDurationBucketsFor(queryBudget time.Duration) []float64 {
@@ -83,35 +101,23 @@ func (m *NetworkSearchMetrics) NetworkSearchPerformed(
 	_ context.Context,
 	search networksearch.PerformedNetworkSearch,
 ) {
-	m.peersAskedPerNetworkSearch.Observe(float64(search.AmountOfAskedPeers))
+	m.itemsRankedPerNetworkSearch.Observe(float64(search.AmountOfItemsInRanking))
+	m.askablePeersPerNetworkSearch.Observe(float64(search.AmountOfAskablePeers))
 	m.networkSearchDurationSeconds.Observe(search.TimeSpent.Seconds())
-	m.answeringPeersRatio.Observe(
-		float64(search.AmountOfAnsweringPeers) / float64(search.AmountOfAskedPeers),
-	)
-	m.observePeersThatSentItemsRatio(search)
-	m.observeOverlap(search)
+	m.observeTheSharesOfTheRanking(search)
 }
 
-func (m *NetworkSearchMetrics) observePeersThatSentItemsRatio(
+func (m *NetworkSearchMetrics) observeTheSharesOfTheRanking(
 	search networksearch.PerformedNetworkSearch,
 ) {
-	if search.AmountOfAnsweringPeers == 0 {
+	if search.AmountOfItemsInRanking == 0 {
 		return
 	}
 
-	m.peersThatSentItemsRatio.Observe(
-		float64(search.AmountOfPeersThatSentItems) /
-			float64(search.AmountOfAnsweringPeers),
+	m.rankingShareOfTheOnePeer.Observe(
+		float64(search.AmountOfRankedItemsOfTheOnePeer) / float64(search.AmountOfItemsInRanking),
 	)
-}
-
-func (m *NetworkSearchMetrics) observeOverlap(search networksearch.PerformedNetworkSearch) {
-	if search.AmountOfItemsAcrossAnswers == 0 {
-		return
-	}
-
-	m.networkSearchOverlap.Observe(
-		float64(search.AmountOfRepeatedItemsAcrossAnswers) /
-			float64(search.AmountOfItemsAcrossAnswers),
+	m.rankedItemsCountedByAPeerRatio.Observe(
+		float64(search.AmountOfRankedItemsCountedByAPeer) / float64(search.AmountOfItemsInRanking),
 	)
 }

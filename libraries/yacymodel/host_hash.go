@@ -5,17 +5,19 @@ import (
 	"fmt"
 )
 
+const HostHashLength = 6
+
 var ErrInvalidHostHash = errors.New("invalid host hash")
 
 type HostHash struct{ value string }
 
 func ParseHostHash(s string) (HostHash, error) {
-	if len(s) != hostHashLength {
+	if len(s) != HostHashLength {
 		return HostHash{}, fmt.Errorf(
 			"%w: length %d, want %d",
 			ErrInvalidHostHash,
 			len(s),
-			hostHashLength,
+			HostHashLength,
 		)
 	}
 	for i := range len(s) {

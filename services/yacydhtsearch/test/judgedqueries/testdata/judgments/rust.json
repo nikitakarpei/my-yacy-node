@@ -1,0 +1,329 @@
+{
+  "query": "rust",
+  "judgedDocuments": [
+    {
+      "hash": "7-snwDDZNRCx",
+      "address": "https://doc.rust-lang.org/book/",
+      "title": "The Rust Programming Language - The Rust Programming Language",
+      "grade": 2
+    },
+    {
+      "hash": "EJQL5vDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "op6r4sNweQAy",
+      "address": "https://steamunlocked.org/rust-free-download/",
+      "title": "Rust Free Download (v2321 \u0026 Multiplayer) » SteamUnlocked",
+      "grade": 1
+    },
+    {
+      "hash": "tA8cOeWRy054",
+      "address": "https://developer.mescius.com/blogs/how-to-use-javascript-reporting-tool-in-your-rust-web-application",
+      "title": "How to Use a JavaScript Reporting Tool in Your Rust Web Application",
+      "grade": 1
+    },
+    {
+      "hash": "XKjr2SS6MKD4",
+      "address": "https://github.com/xd009642/tarpaulin/",
+      "title": "GitHub - xd009642/tarpaulin: A code coverage tool for Rust projects · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "RPQES3B0B7w6",
+      "address": "https://stackoverflow.blog/2020/06/05/why-the-developers-who-use-rust-love-it-so-much/",
+      "title": "Why the developers who use Rust love it so much - Stack Overflow",
+      "grade": 1
+    },
+    {
+      "hash": "pE0bEngko1nx",
+      "address": "https://users.rust-lang.org/u/nasa42",
+      "title": "Profile - nasa42 - The Rust Programming Language Forum",
+      "grade": 1
+    },
+    {
+      "hash": "_4-AysS6MKD4",
+      "address": "https://github.com/rust-lang",
+      "title": "The Rust Programming Language · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "uZZMYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_the_Rust_programming_language",
+      "title": "Outline of the Rust programming language - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "pmMjcC7NCNPA",
+      "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-567498",
+      "title": "An Analysis of Malware Written in the Rust Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "_GS0aoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/keyword.crate.html",
+      "title": "crate - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "Q2tdhvDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "T4keGsnpCNr6",
+      "address": "https://rust-for-linux.com/gccrs",
+      "title": "gccrs - Rust for Linux",
+      "grade": 1
+    },
+    {
+      "hash": "lh0zKsnpCNr6",
+      "address": "https://rust-for-linux.com/",
+      "title": "Rust for Linux",
+      "grade": 1
+    },
+    {
+      "hash": "G0iakwS6MKD4",
+      "address": "https://github.com/rust-lang/rust",
+      "title": "GitHub - rust-lang/rust: Empowering everyone to build reliable and efficient software. · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "YSYluU8LZOnz",
+      "address": "https://this-week-in-rust.org/blog/2022/11/30/this-week-in-rust-471/",
+      "title": "This Week in Rust 471 · This Week in Rust",
+      "grade": 1
+    },
+    {
+      "hash": "mts9ingko1nx",
+      "address": "https://users.rust-lang.org/u/crackanimad0r",
+      "title": "Profile - crackanimad0r - The Rust Programming Language Forum",
+      "grade": 1
+    },
+    {
+      "hash": "y_bJAnKObb4y",
+      "address": "https://blog.sebastianwick.net/posts/three-little-rust-crates/",
+      "title": "Three Little Rust Crates - swick's blog",
+      "grade": 1
+    },
+    {
+      "hash": "16ysrngko1nx",
+      "address": "https://users.rust-lang.org/u/notriddle",
+      "title": "Profile - notriddle - The Rust Programming Language Forum",
+      "grade": 1
+    },
+    {
+      "hash": "QLueEgsjOPf5",
+      "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
+      "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
+      "grade": 1
+    },
+    {
+      "hash": "YyXMZYaFOBeg",
+      "address": "https://www.cmjornal.pt/vidas/ultimas/detalhe/fbi-diz-que-alec-baldwin-disparou-arma-que-matou-colega-durante-gravacao-de-rust-vidas",
+      "title": "FBI diz que Alec Baldwin disparou arma que matou colega durante gravação de 'Rust' - Últimas - Correio da Manhã",
+      "grade": 0
+    },
+    {
+      "hash": "QGxlht023Lg4",
+      "address": "https://blog.orhun.dev/800-rust-projects/",
+      "title": "800 Rust terminal projects in 3 years - Orhun's Blog",
+      "grade": 1
+    },
+    {
+      "hash": "6K8zAtkUiOQ5",
+      "address": "https://rust.code-maven.com/",
+      "title": "Rust Maven",
+      "grade": 1
+    },
+    {
+      "hash": "v_sv4GS6MKD4",
+      "address": "https://github.com/moltis-org/moltis",
+      "title": "GitHub - moltis-org/moltis: A secure persistent personal agent server in Rust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, WhatsApp, Discord, Teams, and MCP tools. Secure by design, runs on your hardware. · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "NtmYkoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/primitive.str.html",
+      "title": "str - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "0INJAoBXHPax",
+      "address": "https://blog.rust-lang.org/inside-rust/2024/08/09/async-closures-call-for-testing/",
+      "title": "Async Closures MVP: Call for Testing! | Inside Rust Blog",
+      "grade": 1
+    },
+    {
+      "hash": "U_yD6oDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/sync/mpmc/struct.Receiver.html",
+      "title": "Receiver in std::sync::mpmc - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "P5qgbsnpCNr6",
+      "address": "https://rust-for-linux.com/print",
+      "title": "Rust for Linux",
+      "grade": 1
+    },
+    {
+      "hash": "8pWVgoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/mem/struct.ManuallyDrop.html",
+      "title": "ManuallyDrop in std::mem - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "6ytcEoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/intrinsics/fallback/trait.CarrylessMul.html",
+      "title": "CarrylessMul in core::intrinsics::fallback - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "yRhm8oDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/primitive.u8.html",
+      "title": "u8 - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "3Hk7xDDZNRCx",
+      "address": "https://doc.rust-lang.org/reference/procedural-macros.html",
+      "title": "Procedural macros - The Rust Reference",
+      "grade": 1
+    },
+    {
+      "hash": "KT8bUtV9oHh4",
+      "address": "https://rust.utils.com/",
+      "title": "Rust Shell - utils.com",
+      "grade": 1
+    },
+    {
+      "hash": "XvPK_coCj-7w",
+      "address": "https://rust-unofficial.github.io/patterns/print.html",
+      "title": "Rust Design Patterns",
+      "grade": 1
+    },
+    {
+      "hash": "Vgg9AcVXjSf4",
+      "address": "https://rust-mobile.en.uptodown.com/android",
+      "title": "Rust Mobile for Android - Download the APK from Uptodown",
+      "grade": 1
+    },
+    {
+      "hash": "bhWQUmgko1nx",
+      "address": "https://users.rust-lang.org/t/welcome-to-the-rust-programming-language-users-forum/77411",
+      "title": "Welcome to the Rust programming language users forum - meta - The Rust Programming Language Forum",
+      "grade": 1
+    },
+    {
+      "hash": "f0zFwtDnLmqx",
+      "address": "https://thanks.rust-lang.org/rust/0.6.0/",
+      "title": "Rust 0.6.0 Contributors",
+      "grade": 1
+    },
+    {
+      "hash": "aIh_JoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/ops/trait.Shr.html",
+      "title": "Shr in core::ops - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "OUkf3mgko1nx",
+      "address": "https://users.rust-lang.org/t/twir-quote-of-the-week/328",
+      "title": "TWiR quote of the week - community - The Rust Programming Language Forum",
+      "grade": 1
+    },
+    {
+      "hash": "5e0M2U8LZOnz",
+      "address": "https://this-week-in-rust.org/blog/2026/04/29/this-week-in-rust-649/",
+      "title": "This Week in Rust 649 · This Week in Rust",
+      "grade": 1
+    },
+    {
+      "hash": "pbc9aoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html",
+      "title": "Unpin in core::marker - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "9ZngG5Di1byx",
+      "address": "https://rust-lang.org/governance/people/djc/",
+      "title": "Dirkjan Ochtman - Rust Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "YT8E9oDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/primitive.i16.html",
+      "title": "i16 - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "G1ejCoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/ffi/index.html",
+      "title": "std::ffi - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "YjZ0LDDZNRCx",
+      "address": "https://doc.rust-lang.org/rust-by-example/",
+      "title": "Introduction - Rust By Example",
+      "grade": 1
+    },
+    {
+      "hash": "EG80KtDnLmqx",
+      "address": "https://thanks.rust-lang.org/rust/1.98.1/",
+      "title": "Rust 1.98.1 Contributors",
+      "grade": 1
+    },
+    {
+      "hash": "PF3jvsVuF7c4",
+      "address": "https://rust-mobile.ru.uptodown.com/android",
+      "title": "Rust Mobile 1.33.1.106 для Android - Скачайте проверенный APK с Uptodown",
+      "grade": 1
+    },
+    {
+      "hash": "NTQeXoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/panic/trait.UnwindSafe.html",
+      "title": "UnwindSafe in std::panic - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "agKV-5Di1byx",
+      "address": "https://rust-lang.org/governance/people/Eh2406/",
+      "title": "Jacob Finkelman - Rust Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "1H9REtDnLmqx",
+      "address": "https://thanks.rust-lang.org/rust/0.8.0/",
+      "title": "Rust 0.8.0 Contributors",
+      "grade": 1
+    },
+    {
+      "hash": "_RH4ooDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/ptr/fn.read_unaligned.html",
+      "title": "read_unaligned in core::ptr - Rust",
+      "grade": 1
+    },
+    {
+      "hash": "59ctk5Di1byx",
+      "address": "https://rust-lang.org/governance/people/dianqk/",
+      "title": "dianqk - Rust Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "MalpltDnLmqx",
+      "address": "https://thanks.rust-lang.org/rust/1.77.1/",
+      "title": "Rust 1.77.1 Contributors",
+      "grade": 1
+    },
+    {
+      "hash": "jq9sPoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/keyword.match.html",
+      "title": "match - Rust",
+      "grade": 1
+    }
+  ]
+}

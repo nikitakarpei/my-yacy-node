@@ -69,6 +69,12 @@ const (
 )
 
 const (
+	FieldCall       = "call"
+	FieldHashes     = "hashes"
+	CallURLHashList = "urlhashlist"
+)
+
+const (
 	FieldObject   = "object"
 	FieldEnv      = "env"
 	FieldResponse = "response"

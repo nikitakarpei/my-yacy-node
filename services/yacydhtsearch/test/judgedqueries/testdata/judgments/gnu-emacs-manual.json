@@ -1,0 +1,281 @@
+{
+  "query": "gnu emacs manual",
+  "judgedDocuments": [
+    {
+      "hash": "WmDEfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ASCII",
+      "title": "ASCII - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "QSl7VQjpmq6Q",
+      "address": "http://www.gnu.org/home.zh-cn.html",
+      "title": "GNU 操作系统和自由软件运动",
+      "grade": 0
+    },
+    {
+      "hash": "je0ycX3rJRBw",
+      "address": "https://ftp.gnu.org/gnu/",
+      "title": "Index of /gnu",
+      "grade": 0
+    },
+    {
+      "hash": "w_9jmzX55GGw",
+      "address": "https://planet.jabber.org/",
+      "title": "Planet Jabber",
+      "grade": 0
+    },
+    {
+      "hash": "5qBCujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
+      "title": "GNU Free Documentation License - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "rAcGdsyV5lzw",
+      "address": "https://orgmode.org/",
+      "title": "Org mode for GNU Emacs",
+      "grade": 1
+    },
+    {
+      "hash": "gloktjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_software",
+      "title": "Free software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "-t3HAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Firefox",
+      "title": "Firefox - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "0WCDDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Conkeror",
+      "title": "Conkeror - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "VJM4o7R6-xlR",
+      "address": "http://zackmdavis.net/blog/",
+      "title": "An Algorithmic Lucidity",
+      "grade": 0
+    },
+    {
+      "hash": "KGUVEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Man_page",
+      "title": "man page - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "F1-5sjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Richard_Stallman",
+      "title": "Richard Stallman - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "C1Wyrs1_farg",
+      "address": "https://ar.al/",
+      "title": "Aral Balkan",
+      "grade": 0
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DEUnajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_programming_languages_by_type",
+      "title": "List of programming languages by type - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "rBG8Oh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Web_browsers",
+      "title": "Category:Web browsers - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "HiNfCs5tr8M4",
+      "address": "https://leanpub.com/",
+      "title": "Leanpub: Publish Early, Publish Often",
+      "grade": 0
+    },
+    {
+      "hash": "ILpP4B69iSD4",
+      "address": "https://nicholas.carlini.com/writing/2024/how-i-use-ai.html",
+      "title": "How I Use \"AI\"",
+      "grade": 0
+    },
+    {
+      "hash": "Kmk49sMaUr46",
+      "address": "https://gnuworldorder.info/",
+      "title": "Gnu World Order",
+      "grade": 0
+    },
+    {
+      "hash": "lN9DCbR2NVbw",
+      "address": "https://devguide.python.org/documentation/markup/",
+      "title": "reStructuredText markup",
+      "grade": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "LRfNwzmvZD7w",
+      "address": "https://planet.opensuse.org/",
+      "title": "Global - openSUSE Planet",
+      "grade": 0
+    },
+    {
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "grade": 0
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "grade": 0
+    },
+    {
+      "hash": "eE-MAxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd",
+      "title": "systemd - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "zTCfkxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "QnfPVsI9I2Th",
+      "address": "https://karl-voit.at/",
+      "title": "public voit - Homepage of Karl Voit",
+      "grade": 0
+    },
+    {
+      "hash": "aXRLMlZyJMFx",
+      "address": "https://www.free-soft.org/gpl_history/",
+      "title": "The History of the GNU General Public License",
+      "grade": 0
+    },
+    {
+      "hash": "r5eKBxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/General_recommendations",
+      "title": "General recommendations - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "P0YYCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+      "title": "Python (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "_uUfZV1nrxbw",
+      "address": "https://www.debian.org/doc/debian-policy/upgrading-checklist.html",
+      "title": "10. Upgrading checklist — Debian Policy Manual v4.7.4.1",
+      "grade": 0
+    },
+    {
+      "hash": "gmhRVl1nrxbw",
+      "address": "https://www.debian.org/devel/",
+      "title": "Debian -- Debian Developers' Corner",
+      "grade": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "grade": 0
+    },
+    {
+      "hash": "KgBwHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Regular_expression",
+      "title": "Regular expression - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "esXNdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GIMP",
+      "title": "GIMP - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "2fgfWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
+      "title": "Vim (text editor) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "aI7l5obrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:SyntaxHighlight",
+      "title": "Extension:SyntaxHighlight - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "eNlTQjldhbwx",
+      "address": "https://en.wikibooks.org/wiki/How_To_Assemble_A_Desktop_PC/Printable_version",
+      "title": "How To Assemble A Desktop PC/Printable version - Wikibooks, open books for an open world",
+      "grade": 0
+    },
+    {
+      "hash": "y9Sjojldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Shelf:Computer_software",
+      "title": "Shelf:Computer software - Wikibooks, open books for an open world",
+      "grade": 0
+    },
+    {
+      "hash": "RfX7GxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Man_page",
+      "title": "man page - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "JlpqPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Internet_Explorer",
+      "title": "Internet Explorer - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

@@ -1,0 +1,293 @@
+{
+  "query": "berliner mauer geschichte",
+  "judgedDocuments": [
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "R1PZSlKDFhNg",
+      "address": "https://www.bpb.de/",
+      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
+      "grade": 0
+    },
+    {
+      "hash": "JvV_6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cold_War",
+      "title": "Cold War - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "n9Y5MdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Portal:Geschichte",
+      "title": "Portal:Geschichte – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "_STefHUICtcA",
+      "address": "http://www.berlin.de/sen/stadtentwicklung/planung/bebauungsplanverfahren/bebauungsplanverfahren-in-berlin/fachbereiche-stadtplanung-der-berliner-bezirke/",
+      "title": "Fachbereiche Stadtplanung der Berliner Bezirke - Berlin.de",
+      "grade": 0
+    },
+    {
+      "hash": "WsFtevF-RWXj",
+      "address": "https://www.bundesumweltministerium.de/media/berliner-dienstsitz-aktuelle-aufnahmen",
+      "title": "BMUKN: Berliner Dienstsitz: aktuelle Aufnahmen | Bildergalerie",
+      "grade": 0
+    },
+    {
+      "hash": "17zOZjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Germany",
+      "title": "Germany – Travel guide at Wikivoyage",
+      "grade": 0
+    },
+    {
+      "hash": "ybbdrajCKJ9g",
+      "address": "https://www.bva.bund.de/DE/Das-BVA/Rueckblick/rueckblick_node.html",
+      "title": "BVA - Rückblick",
+      "grade": 0
+    },
+    {
+      "hash": "8uW9ql8moajg",
+      "address": "https://www.welt.de/geschichte/",
+      "title": "Geschichte - Von der Antike über das Mittelalter zur Moderne - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "a9ooXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Berlin",
+      "title": "Berlin - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "grade": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": 0
+    },
+    {
+      "hash": "3Qt4nC8moajg",
+      "address": "https://www.welt.de/regionales/berlin/",
+      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "68MPWl8moajg",
+      "address": "https://www.welt.de/videos/",
+      "title": "WELT Videos: Aktuelle News \u0026 Nachrichten-Videos",
+      "grade": 0
+    },
+    {
+      "hash": "O_W7sdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Exzellente_Artikel",
+      "title": "Wikipedia:Exzellente Artikel – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "TR9kflXXOSAg",
+      "address": "https://www.rbb24.de/",
+      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "grade": 0
+    },
+    {
+      "hash": "ATIMylhl_5qi",
+      "address": "https://www.deutschlandfunk.de/sendungen",
+      "title": "Alle Sendungen",
+      "grade": 0
+    },
+    {
+      "hash": "0OQaDApVI8fh",
+      "address": "https://plus.sueddeutsche.de/",
+      "title": "Alle SZplus Inhalte der Süddeutschen Zeitung - SZ.de",
+      "grade": 0
+    },
+    {
+      "hash": "bWC1SaqeWpa5",
+      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
+      "title": "Essen und Trinken in Wiesdorf",
+      "grade": 0
+    },
+    {
+      "hash": "XlXr-l5ARWyg",
+      "address": "https://www.spiegel.de/kultur/",
+      "title": "Kultur - DER SPIEGEL",
+      "grade": 0
+    },
+    {
+      "hash": "cQVvPl5ARWyg",
+      "address": "https://www.spiegel.de/schlagzeilen/",
+      "title": "Schlagzeilen - DER SPIEGEL",
+      "grade": 0
+    },
+    {
+      "hash": "vysDFN5ARWyg",
+      "address": "https://www.spiegel.de/thema/spiegel-tv/",
+      "title": "SPIEGEL TV - DER SPIEGEL",
+      "grade": 0
+    },
+    {
+      "hash": "MnL7SdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Berlin",
+      "title": "Berlin – Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "PCb0dlhl_5qi",
+      "address": "https://www.deutschlandfunk.de/",
+      "title": "Deutschlandfunk - Alles von Relevanz",
+      "grade": 0
+    },
+    {
+      "hash": "bthkIlgw84xh",
+      "address": "https://www.sueddeutsche.de/",
+      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
+      "grade": 0
+    },
+    {
+      "hash": "6BzIDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
+      "title": "Eastern Bloc - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "-eJKllXXOSAg",
+      "address": "https://www.rbb24.de/thema/",
+      "title": "Themen von A - Z",
+      "grade": 0
+    },
+    {
+      "hash": "LA9XAhoLWSig",
+      "address": "https://www.berlin.de/landesdenkmalamt/veranstaltungen/tag-des-offenen-denkmals/",
+      "title": "Tag des offenen Denkmals - Berlin.de",
+      "grade": 0
+    },
+    {
+      "hash": "QrcPgdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Klassizismus",
+      "title": "Klassizismus – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "B9pAUdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Zweiter_Weltkrieg",
+      "title": "Zweiter Weltkrieg – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DWP4NdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Deutscher_Bundestag",
+      "title": "Deutscher Bundestag – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "N_sgsdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Europa",
+      "title": "Europa – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "VSatEdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Lesenswerte_Artikel",
+      "title": "Wikipedia:Lesenswerte Artikel – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "nFqlndFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Volksrepublik_China",
+      "title": "Volksrepublik China – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "sxUL2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "grade": 0
+    },
+    {
+      "hash": "UGaaTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Central_Europe",
+      "title": "Central Europe - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "RXMx0mcqomtg",
+      "address": "https://taz.de/Kultur/!p4639/",
+      "title": "Kultur | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "VZxGl4cqomtg",
+      "address": "https://taz.de/Gesellschaft/!p4611/",
+      "title": "Gesellschaft | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "ZMZqM3cqomtg",
+      "address": "https://taz.de/Themen/!p5360/",
+      "title": "Themen | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "vxNtiscqomtg",
+      "address": "https://taz.de/",
+      "title": "taz.de | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "46TeYscqomtg",
+      "address": "https://taz.de/!p5360/",
+      "title": "Themen | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "0k0HOtcqomtg",
+      "address": "https://taz.de/verlag/aktuelles-aus-der-taz/!v=8f20076f-2be2-41ba-b79b-5a03bb0ecc51/",
+      "title": "Aktuelles | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "1c6AWlfWll-g",
+      "address": "https://www.3sat.de/",
+      "title": "Startseite - 3sat-Mediathek",
+      "grade": 0
+    },
+    {
+      "hash": "1dN9D7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/294350/die-aufarbeitung-der-aufarbeitung-welche-zukunft-hat-die-ddr-geschichte/",
+      "title": "Die Aufarbeitung der Aufarbeitung - Welche Zukunft hat die DDR-Geschichte? | Deutschland Archiv | bpb.de",
+      "grade": 1
+    },
+    {
+      "hash": "1f_Ai7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/324915/die-durchlaufene-mauer/",
+      "title": "Die durchlaufene Mauer | Deutschland Archiv | bpb.de",
+      "grade": 2
+    },
+    {
+      "hash": "-JFhL7KDFhNg",
+      "address": "https://www.bpb.de/themen/deutschlandarchiv/284090/eine-fernsehserie-schreibt-geschichte/",
+      "title": "Eine Fernsehserie schreibt Geschichte | Deutschland Archiv | bpb.de",
+      "grade": 0
+    },
+    {
+      "hash": "_8OCxlkaJR9i",
+      "address": "https://www.berliner-zeitung.de/categories",
+      "title": "Themen A-Z - Berliner Zeitung",
+      "grade": 0
+    }
+  ]
+}

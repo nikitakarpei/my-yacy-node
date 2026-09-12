@@ -1,5 +1,7 @@
-// Package dhtdistance picks the peers a query goes to by how near they sit to
-// the postings of its terms on the DHT ring.
+// Package dhtdistance picks the peers one word of a query goes to by how near
+// they sit to the postings of that word on the DHT ring. It takes the peers
+// from every partition of the ring in turn, so that a ceiling below what the
+// partitions hold still leaves every partition covered.
 package dhtdistance
 
 import (
@@ -8,7 +10,6 @@ import (
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -18,66 +19,136 @@ type DHTDistanceObserver interface {
 
 type Selection struct {
 	partitions yacymodel.DHTRingPartitions
-	redundancy int
 	observer   DHTDistanceObserver
 }
 
 func New(
 	partitions yacymodel.DHTRingPartitions,
-	redundancy int,
 	observer DHTDistanceObserver,
 ) Selection {
-	return Selection{partitions: partitions, redundancy: redundancy, observer: observer}
+	return Selection{partitions: partitions, observer: observer}
 }
 
-func (s Selection) PeersFor(
+func (s Selection) PeersForWord(
 	ctx context.Context,
-	query searchquery.Query,
+	word yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
+	peersCeiling int,
 ) []peerdirectory.AskablePeer {
-	chosenPeers := make([]peerdirectory.AskablePeer, 0, len(askablePeers))
-	ringFractions := make([]float64, 0, len(askablePeers))
-	takenPeers := map[yacymodel.Hash]struct{}{}
-	for _, term := range query.TermHashes() {
-		for partition := range uint(s.partitions) {
-			position := yacymodel.DHTRingPositionOfWordInPartition(term, partition, s.partitions)
-			for _, peer := range s.nearestPeers(askablePeers, position) {
-				if _, seen := takenPeers[peer.Hash]; seen {
-					continue
-				}
-				takenPeers[peer.Hash] = struct{}{}
-				chosenPeers = append(chosenPeers, peer)
-				ringFractions = append(ringFractions, ringFractionTo(position, peer))
-			}
-		}
+	peersNearestToEachPosting := s.peersNearestToEachPostingOf(word, askablePeers)
+	nearestPeers := peersTakenFromEachPostingInTurn(peersNearestToEachPosting, peersCeiling)
+	s.observer.PeersSelected(ctx, ringFractionsOf(nearestPeers))
+
+	return peersOf(nearestPeers)
+}
+
+type peersNearestToPosting struct {
+	posting yacymodel.DHTRingPosition
+	peers   []peerdirectory.AskablePeer
+}
+
+func (s Selection) peersNearestToEachPostingOf(
+	word yacymodel.Hash,
+	askablePeers []peerdirectory.AskablePeer,
+) []peersNearestToPosting {
+	nearestToEachPosting := make([]peersNearestToPosting, 0, s.partitions)
+	for partition := range uint(s.partitions) {
+		posting := yacymodel.DHTRingPositionOfWordInPartition(word, partition, s.partitions)
+		nearestToEachPosting = append(nearestToEachPosting, peersNearestToPosting{
+			posting: posting,
+			peers:   peersByRingDistanceTo(posting, askablePeers),
+		})
 	}
-	s.observer.PeersSelected(ctx, ringFractions)
 
-	return chosenPeers
+	return nearestToEachPosting
 }
 
-func ringFractionTo(
-	position yacymodel.DHTRingPosition,
-	peer peerdirectory.AskablePeer,
-) float64 {
-	return position.DistanceTo(yacymodel.DHTRingPositionOf(peer.Hash)).FractionOfDHTRing()
-}
-
-func (s Selection) nearestPeers(
+func peersByRingDistanceTo(
+	posting yacymodel.DHTRingPosition,
 	askablePeers []peerdirectory.AskablePeer,
-	position yacymodel.DHTRingPosition,
 ) []peerdirectory.AskablePeer {
-	peersByRingDistance := slices.SortedFunc(
+	return slices.SortedFunc(
 		slices.Values(askablePeers),
-		func(a, b peerdirectory.AskablePeer) int {
+		func(firstPeer, secondPeer peerdirectory.AskablePeer) int {
 			return cmp.Compare(
-				position.DistanceTo(yacymodel.DHTRingPositionOf(a.Hash)),
-				position.DistanceTo(yacymodel.DHTRingPositionOf(b.Hash)),
+				posting.DistanceTo(yacymodel.DHTRingPositionOf(firstPeer.Hash)),
+				posting.DistanceTo(yacymodel.DHTRingPositionOf(secondPeer.Hash)),
 			)
 		},
 	)
+}
 
-	return peersByRingDistance[:min(s.redundancy, len(peersByRingDistance))]
+type peerNearestToPosting struct {
+	peer    peerdirectory.AskablePeer
+	posting yacymodel.DHTRingPosition
+}
+
+func peersTakenFromEachPostingInTurn(
+	peersNearestToEachPosting []peersNearestToPosting,
+	peersCeiling int,
+) []peerNearestToPosting {
+	takenPeers := make([]peerNearestToPosting, 0, peersCeiling)
+	peersAlreadyTaken := map[yacymodel.Hash]struct{}{}
+	nextPeerPerPosting := make([]int, len(peersNearestToEachPosting))
+	for takenInTurn := -1; takenInTurn != 0 && len(takenPeers) < peersCeiling; {
+		takenInTurn = 0
+		for index, nearest := range peersNearestToEachPosting {
+			if len(takenPeers) == peersCeiling {
+				break
+			}
+			peer, nextPeer, found := peerNotYetTaken(
+				nearest.peers, nextPeerPerPosting[index], peersAlreadyTaken,
+			)
+			nextPeerPerPosting[index] = nextPeer
+			if !found {
+				continue
+			}
+			peersAlreadyTaken[peer.Hash] = struct{}{}
+			takenPeers = append(
+				takenPeers,
+				peerNearestToPosting{peer: peer, posting: nearest.posting},
+			)
+			takenInTurn++
+		}
+	}
+
+	return takenPeers
+}
+
+func peerNotYetTaken(
+	peers []peerdirectory.AskablePeer,
+	nextPeer int,
+	peersAlreadyTaken map[yacymodel.Hash]struct{},
+) (peerdirectory.AskablePeer, int, bool) {
+	for index := nextPeer; index < len(peers); index++ {
+		if _, taken := peersAlreadyTaken[peers[index].Hash]; taken {
+			continue
+		}
+
+		return peers[index], index + 1, true
+	}
+
+	return peerdirectory.AskablePeer{}, len(peers), false
+}
+
+func ringFractionsOf(nearestPeers []peerNearestToPosting) []float64 {
+	fractions := make([]float64, 0, len(nearestPeers))
+	for _, nearest := range nearestPeers {
+		fractions = append(fractions, nearest.posting.DistanceTo(
+			yacymodel.DHTRingPositionOf(nearest.peer.Hash),
+		).FractionOfDHTRing())
+	}
+
+	return fractions
+}
+
+func peersOf(nearestPeers []peerNearestToPosting) []peerdirectory.AskablePeer {
+	peers := make([]peerdirectory.AskablePeer, 0, len(nearestPeers))
+	for _, nearest := range nearestPeers {
+		peers = append(peers, nearest.peer)
+	}
+
+	return peers
 }
 
 type DHTDistanceObservers []DHTDistanceObserver
