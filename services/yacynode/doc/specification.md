@@ -36,6 +36,7 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL receive inbound DHT RWI postings.
 * The node SHALL receive URL metadata associated with RWI postings.
 * The node SHALL serve remote RWI search requests.
+* The node SHALL serve the stored URL metadata of the URL hashes a peer names.
 * The node SHALL answer RWI capacity and status queries.
 * The node SHALL reject remote crawl work.
 * The node SHALL store accepted RWI postings and the URL metadata those postings reference.

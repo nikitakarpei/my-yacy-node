@@ -26,5 +26,6 @@ const (
 	TransferRWIEndpointMethods = EndpointMethodsPost
 	TransferURLEndpointMethods = EndpointMethodsPost
 	SearchEndpointMethods      = EndpointMethodsGetPost
+	URLMetadataEndpointMethods = EndpointMethodsGetPost
 	QueryEndpointMethods       = EndpointMethodsGetPost
 )

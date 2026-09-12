@@ -24,7 +24,7 @@ func Mount(
 	metrics *searchmetrics.SearchMetrics,
 	partitions yacymodel.DHTRingPartitions,
 ) {
-	httpguard.Mount(
+	httpguard.MountMessage(
 		router,
 		yacyproto.PathSearch,
 		yacyproto.SearchEndpointMethods,

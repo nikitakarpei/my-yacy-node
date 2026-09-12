@@ -21,7 +21,7 @@ func Mount(
 	receiver rwiadmission.PostingReceiver,
 	config Config,
 ) {
-	httpguard.Mount(
+	httpguard.MountMessage(
 		router,
 		yacyproto.PathTransferRWI,
 		yacyproto.TransferRWIEndpointMethods,
