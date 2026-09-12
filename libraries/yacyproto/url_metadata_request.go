@@ -29,6 +29,49 @@ func (r URLMetadataRequest) Form() url.Values {
 	return form
 }
 
+func ParseURLMetadataRequest(_ context.Context, form url.Values) (URLMetadataRequest, error) {
+	urls, err := splitConcatURLHashes("urls request", FieldHashes, form.Get(FieldHashes))
+	if err != nil {
+		return URLMetadataRequest{}, err
+	}
+
+	return URLMetadataRequest{NetworkName: form.Get(FieldNetworkName), URLs: urls}, nil
+}
+
+func (r URLMetadataResponse) Encode() []byte {
+	feed := urlMetadataFeed{
+		Peer:    urlMetadataFeedPeer{Response: urlMetadataFeedAccepted},
+		Channel: urlMetadataFeedChannel{Items: urlMetadataFeedItemsOf(r.URLs)},
+	}
+	body, _ := xml.Marshal(feed)
+
+	return append([]byte(xml.Header), body...)
+}
+
+func urlMetadataFeedItemsOf(urls []yacymodel.URLMetadata) []urlMetadataFeedItem {
+	items := make([]urlMetadataFeedItem, 0, len(urls))
+	for _, metadata := range urls {
+		items = append(items, urlMetadataFeedItem{
+			Title:   metadata.Title,
+			Link:    metadata.Address,
+			Author:  metadata.Author,
+			PubDate: instantTextOfCalendarDay(metadata.Modified),
+			GUID:    metadata.Hash.String(),
+		})
+	}
+
+	return items
+}
+
+func instantTextOfCalendarDay(day yacymodel.Optional[yacymodel.CalendarDay]) string {
+	modified, known := day.Get()
+	if !known {
+		return ""
+	}
+
+	return instantWireCodec{}.encode(modified.Time())
+}
+
 func ParseURLMetadataResponse(ctx context.Context, body []byte) (URLMetadataResponse, error) {
 	feed, err := urlMetadataFeedOf(body)
 	if err != nil {
@@ -65,6 +108,7 @@ func urlMetadataFeedOf(body []byte) (urlMetadataFeed, error) {
 const urlMetadataFeedAccepted = "ok"
 
 type urlMetadataFeed struct {
+	XMLName xml.Name               `xml:"rss"`
 	Peer    urlMetadataFeedPeer    `xml:"yacy"`
 	Channel urlMetadataFeedChannel `xml:"channel"`
 }
