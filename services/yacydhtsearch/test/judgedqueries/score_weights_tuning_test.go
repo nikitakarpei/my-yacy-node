@@ -2,8 +2,11 @@ package judgedqueries_test
 
 import (
 	"fmt"
+	"math"
 	"os"
+	"runtime"
 	"slices"
+	"sync"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
@@ -12,6 +15,7 @@ import (
 const (
 	tuningSwitch                     = "YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS"
 	amountOfWeightsOfTheScoreWeights = 5
+	roundingOfTheWeightRatios        = 1e6
 )
 
 var weightValuesOfTheGrid = []float64{0, 0.25, 0.5, 1, 1.5, 2, 3}
@@ -85,17 +89,41 @@ func placeAmongTheJudgedQueriesOf(query string) int {
 }
 
 func bestScoreWeightsOver(judged []judgedQuery) relevance.ScoreWeights {
+	grid := scoreWeightsOfTheGrid()
+	meanGainOfEachScoreWeights := meanGainOfEachOf(grid, judged)
+
 	bestScoreWeights := relevance.DefaultScoreWeights()
 	bestMeanGain := meanGainOfTheScoreWeights(bestScoreWeights, judged)
-	for _, scoreWeights := range scoreWeightsOfTheGrid() {
-		meanGain := meanGainOfTheScoreWeights(scoreWeights, judged)
+	for place, meanGain := range meanGainOfEachScoreWeights {
 		if meanGain <= bestMeanGain {
 			continue
 		}
-		bestScoreWeights, bestMeanGain = scoreWeights, meanGain
+		bestScoreWeights, bestMeanGain = grid[place], meanGain
 	}
 
 	return bestScoreWeights
+}
+
+func meanGainOfEachOf(
+	grid []relevance.ScoreWeights, judged []judgedQuery,
+) []float64 {
+	meanGainOfEachScoreWeights := make([]float64, len(grid))
+	amountOfWorkers := runtime.GOMAXPROCS(0)
+	var measuringWorkers sync.WaitGroup
+	for worker := range amountOfWorkers {
+		measuringWorkers.Add(1)
+		go func() {
+			defer measuringWorkers.Done()
+			for place := worker; place < len(grid); place += amountOfWorkers {
+				meanGainOfEachScoreWeights[place] = meanGainOfTheScoreWeights(
+					grid[place], judged,
+				)
+			}
+		}()
+	}
+	measuringWorkers.Wait()
+
+	return meanGainOfEachScoreWeights
 }
 
 func meanGainOfTheScoreWeights(
@@ -105,18 +133,22 @@ func meanGainOfTheScoreWeights(
 }
 
 func scoreWeightsOfTheGrid() []relevance.ScoreWeights {
+	return scoreWeightsOfDistinctWeightRatiosAmong(scoreWeightsOfEveryWeightCombination())
+}
+
+func scoreWeightsOfEveryWeightCombination() []relevance.ScoreWeights {
 	amountOfVectors := 1
 	for range amountOfWeightsOfTheScoreWeights {
 		amountOfVectors *= len(weightValuesOfTheGrid)
 	}
 
-	grid := make([]relevance.ScoreWeights, 0, amountOfVectors)
+	combinations := make([]relevance.ScoreWeights, 0, amountOfVectors)
 	for _, weightOfThePlaceScore := range weightValuesOfTheGrid {
 		for _, weightOfTheTitleScore := range weightValuesOfTheGrid {
 			for _, weightOfTheTextScore := range weightValuesOfTheGrid {
 				for _, weightOfTheAddressScore := range weightValuesOfTheGrid {
 					for _, weightOfThePhraseScore := range weightValuesOfTheGrid {
-						grid = append(grid, relevance.ScoreWeights{
+						combinations = append(combinations, relevance.ScoreWeights{
 							WeightOfThePlaceScore:   weightOfThePlaceScore,
 							WeightOfTheTitleScore:   weightOfTheTitleScore,
 							WeightOfTheTextScore:    weightOfTheTextScore,
@@ -129,7 +161,47 @@ func scoreWeightsOfTheGrid() []relevance.ScoreWeights {
 		}
 	}
 
-	return grid
+	return combinations
+}
+
+func scoreWeightsOfDistinctWeightRatiosAmong(
+	combinations []relevance.ScoreWeights,
+) []relevance.ScoreWeights {
+	ofDistinctWeightRatios := make([]relevance.ScoreWeights, 0, len(combinations))
+	alreadyTakenWeightRatios := map[[amountOfWeightsOfTheScoreWeights]float64]struct{}{}
+	for _, scoreWeights := range combinations {
+		weightRatios := weightRatiosOf(scoreWeights)
+		if _, alreadyTaken := alreadyTakenWeightRatios[weightRatios]; alreadyTaken {
+			continue
+		}
+		alreadyTakenWeightRatios[weightRatios] = struct{}{}
+		ofDistinctWeightRatios = append(ofDistinctWeightRatios, scoreWeights)
+	}
+
+	return ofDistinctWeightRatios
+}
+
+func weightRatiosOf(
+	scoreWeights relevance.ScoreWeights,
+) [amountOfWeightsOfTheScoreWeights]float64 {
+	weights := [amountOfWeightsOfTheScoreWeights]float64{
+		scoreWeights.WeightOfThePlaceScore,
+		scoreWeights.WeightOfTheTitleScore,
+		scoreWeights.WeightOfTheTextScore,
+		scoreWeights.WeightOfTheAddressScore,
+		scoreWeights.WeightOfThePhraseScore,
+	}
+	highestWeight := slices.Max(weights[:])
+	if highestWeight == 0 {
+		return weights
+	}
+	for place, weight := range weights {
+		weights[place] = math.Round(
+			weight / highestWeight * roundingOfTheWeightRatios,
+		)
+	}
+
+	return weights
 }
 
 func spelledScoreWeightsOf(scoreWeights relevance.ScoreWeights) string {
