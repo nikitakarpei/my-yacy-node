@@ -48,15 +48,15 @@ func postingFrom(key postingIdentity, stored yacymodel.RWIPosting) yacymodel.RWI
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	key := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	replaced, wasHeld, err := d.postings.Put(tx, key, posting)
+	previousPosting, postingWasHeld, err := d.postings.Put(tx, key, posting)
 	if err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
-	if !wasHeld {
+	if !postingWasHeld {
 		return d.observers.stored(tx, posting)
 	}
 
-	return d.observers.updated(tx, postingFrom(key, replaced), posting)
+	return d.observers.updated(tx, postingFrom(key, previousPosting), posting)
 }
 
 func (d postingDirectory) PurgePosting(
@@ -65,14 +65,14 @@ func (d postingDirectory) PurgePosting(
 	url yacymodel.URLHash,
 ) (bool, error) {
 	key := postingIdentity{word: word, url: url}
-	removed, deleted, err := d.postings.Delete(tx, key)
+	purgedPosting, postingWasHeld, err := d.postings.Delete(tx, key)
 	if err != nil {
 		return false, fmt.Errorf("delete rwi posting: %w", err)
 	}
-	if !deleted {
+	if !postingWasHeld {
 		return false, nil
 	}
-	if err := d.observers.purged(tx, postingFrom(key, removed)); err != nil {
+	if err := d.observers.purged(tx, postingFrom(key, purgedPosting)); err != nil {
 		return false, err
 	}
 

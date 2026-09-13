@@ -23,8 +23,8 @@ type EngineTxn interface {
 
 type EngineBucket interface {
 	Get([]byte) ([]byte, error)
-	Put(key, record []byte) (replacedRecord []byte, err error)
-	Delete(key []byte) (removedRecord []byte, err error)
+	Put(key, record []byte) (displacedRecord []byte, err error)
+	Delete(key []byte) (displacedRecord []byte, err error)
 	Len() (int, error)
 	Scan(keys KeyRange, fn func(key, value []byte) (bool, error)) error
 }

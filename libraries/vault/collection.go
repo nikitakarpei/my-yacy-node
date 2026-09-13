@@ -73,7 +73,7 @@ func (c *Collection[K, V]) Put(tx *Txn, key K, val V) (V, bool, error) {
 		return zero, false, fmt.Errorf("encode %s: %w", c.name, err)
 	}
 
-	replacedRecord, err := tx.etx.Bucket(c.name).Put(
+	displacedRecord, err := tx.etx.Bucket(c.name).Put(
 		c.keys.Encode(key).Bytes(),
 		recordFrom(payload),
 	)
@@ -81,7 +81,7 @@ func (c *Collection[K, V]) Put(tx *Txn, key K, val V) (V, bool, error) {
 		return zero, false, fmt.Errorf("store %s: %w", c.name, err)
 	}
 
-	return c.valueOfDisplacedRecord(replacedRecord)
+	return c.valueOfDisplacedRecord(displacedRecord)
 }
 
 func (c *Collection[K, V]) Delete(tx *Txn, key K) (V, bool, error) {
@@ -92,12 +92,12 @@ func (c *Collection[K, V]) Delete(tx *Txn, key K) (V, bool, error) {
 	}
 	tx.calledWriteOperation = true
 
-	removedRecord, err := tx.etx.Bucket(c.name).Delete(c.keys.Encode(key).Bytes())
+	displacedRecord, err := tx.etx.Bucket(c.name).Delete(c.keys.Encode(key).Bytes())
 	if err != nil {
 		return zero, false, fmt.Errorf("delete %s: %w", c.name, err)
 	}
 
-	return c.valueOfDisplacedRecord(removedRecord)
+	return c.valueOfDisplacedRecord(displacedRecord)
 }
 
 func (c *Collection[K, V]) valueOfDisplacedRecord(record []byte) (V, bool, error) {
@@ -107,12 +107,12 @@ func (c *Collection[K, V]) valueOfDisplacedRecord(record []byte) (V, bool, error
 		return zero, false, nil
 	}
 
-	displaced, err := c.valueFrom(record)
+	displacedValue, err := c.valueFrom(record)
 	if err != nil {
 		return zero, false, err
 	}
 
-	return displaced, true, nil
+	return displacedValue, true, nil
 }
 
 func (c *Collection[K, V]) Scan(

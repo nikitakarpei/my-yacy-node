@@ -134,20 +134,24 @@ func TestPutReportsTheValueItReplaced(t *testing.T) {
 	v, words := openWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		replaced, wasHeld, err := words.Put(tx, "a", "alpha")
+		displacedValue, valueWasHeld, err := words.Put(tx, "a", "alpha")
 		if err != nil {
 			return wrap(err)
 		}
-		if wasHeld {
-			t.Fatalf("first Put replaced %q", replaced)
+		if valueWasHeld {
+			t.Fatalf("first Put replaced %q", displacedValue)
 		}
 
-		replaced, wasHeld, err = words.Put(tx, "a", "again")
+		displacedValue, valueWasHeld, err = words.Put(tx, "a", "again")
 		if err != nil {
 			return wrap(err)
 		}
-		if !wasHeld || replaced != "alpha" {
-			t.Fatalf("second Put replaced %q, %v, want alpha, true", replaced, wasHeld)
+		if !valueWasHeld || displacedValue != "alpha" {
+			t.Fatalf(
+				"second Put replaced %q, %v, want alpha, true",
+				displacedValue,
+				valueWasHeld,
+			)
 		}
 
 		return nil
@@ -165,20 +169,20 @@ func TestDeleteReportsTheValueItRemoved(t *testing.T) {
 			return wrap(err)
 		}
 
-		removed, wasHeld, err := words.Delete(tx, "a")
+		displacedValue, valueWasHeld, err := words.Delete(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if !wasHeld || removed != "alpha" {
-			t.Fatalf("Delete removed %q, %v, want alpha, true", removed, wasHeld)
+		if !valueWasHeld || displacedValue != "alpha" {
+			t.Fatalf("Delete removed %q, %v, want alpha, true", displacedValue, valueWasHeld)
 		}
 
-		removed, wasHeld, err = words.Delete(tx, "a")
+		displacedValue, valueWasHeld, err = words.Delete(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if wasHeld {
-			t.Fatalf("second Delete removed %q", removed)
+		if valueWasHeld {
+			t.Fatalf("second Delete removed %q", displacedValue)
 		}
 
 		return nil

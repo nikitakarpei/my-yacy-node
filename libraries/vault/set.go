@@ -14,21 +14,21 @@ func (v *Vault) RegisterSet[K any](bucket Name, keys KeyLayout[K]) (*Set[K], err
 }
 
 func (s *Set[K]) Add(tx *Txn, key K) (bool, error) {
-	_, alreadyHeld, err := s.entries.Put(tx, key, struct{}{})
+	_, keyWasHeld, err := s.entries.Put(tx, key, struct{}{})
 	if err != nil {
 		return false, err
 	}
 
-	return !alreadyHeld, nil
+	return !keyWasHeld, nil
 }
 
 func (s *Set[K]) Remove(tx *Txn, key K) (bool, error) {
-	_, removed, err := s.entries.Delete(tx, key)
+	_, keyWasHeld, err := s.entries.Delete(tx, key)
 	if err != nil {
 		return false, err
 	}
 
-	return removed, nil
+	return keyWasHeld, nil
 }
 
 func (s *Set[K]) Scan(tx *Txn, keys KeyRange, fn func(K) (bool, error)) error {

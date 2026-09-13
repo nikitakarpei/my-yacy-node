@@ -77,11 +77,11 @@ func TestRemovedKeyLeavesSetEmpty(t *testing.T) {
 			return wrap(err)
 		}
 
-		removed, err := members.Remove(tx, "a")
+		keyWasHeld, err := members.Remove(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if !removed {
+		if !keyWasHeld {
 			t.Fatal("Remove(a) = false, want true")
 		}
 
@@ -118,19 +118,19 @@ func TestAddReportsWhetherTheKeyIsNew(t *testing.T) {
 	v, members := openMembers(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		added, err := members.Add(tx, "a")
+		keyIsNew, err := members.Add(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if !added {
+		if !keyIsNew {
 			t.Fatal("first Add(a) = false, want true")
 		}
 
-		added, err = members.Add(tx, "a")
+		keyIsNew, err = members.Add(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if added {
+		if keyIsNew {
 			t.Fatal("second Add(a) = true, want false")
 		}
 

@@ -38,8 +38,8 @@ func (b memBucket) Put(key []byte, value []byte) ([]byte, error) {
 }
 
 func (b memBucket) Delete(key []byte) ([]byte, error) {
-	previousValue, present := b.entries[string(key)]
-	if !present {
+	previousValue, valueWasHeld := b.entries[string(key)]
+	if !valueWasHeld {
 		return nil, nil
 	}
 	delete(b.entries, string(key))

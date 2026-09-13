@@ -191,18 +191,18 @@ func lengthAfterDeleteAndOverwrite(t *testing.T, open func(int64) (vault.Engine,
 		if _, _, err := words.Put(tx, "a", "again"); err != nil {
 			return wrapTest(err)
 		}
-		_, deleted, err := words.Delete(tx, "a")
+		_, valueWasHeld, err := words.Delete(tx, "a")
 		if err != nil {
 			return wrapTest(err)
 		}
-		if !deleted {
+		if !valueWasHeld {
 			t.Fatal("Delete reported missing key")
 		}
-		_, missing, err := words.Delete(tx, "a")
+		_, valueWasHeld, err = words.Delete(tx, "a")
 		if err != nil {
 			return wrapTest(err)
 		}
-		if missing {
+		if valueWasHeld {
 			t.Fatal("second Delete reported a deletion")
 		}
 
@@ -232,28 +232,28 @@ func writesReportTheValueTheyDisplaced(t *testing.T, open func(int64) (vault.Eng
 	words := register(t, v, "words")
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		replaced, wasHeld, err := words.Put(tx, "a", "alpha")
+		displacedValue, valueWasHeld, err := words.Put(tx, "a", "alpha")
 		if err != nil {
 			return wrapTest(err)
 		}
-		if wasHeld {
-			t.Fatalf("Put over an absent key replaced %q", replaced)
+		if valueWasHeld {
+			t.Fatalf("Put over an absent key replaced %q", displacedValue)
 		}
 
-		replaced, wasHeld, err = words.Put(tx, "a", "again")
+		displacedValue, valueWasHeld, err = words.Put(tx, "a", "again")
 		if err != nil {
 			return wrapTest(err)
 		}
-		if !wasHeld || replaced != "alpha" {
-			t.Fatalf("Put replaced %q, %v, want alpha, true", replaced, wasHeld)
+		if !valueWasHeld || displacedValue != "alpha" {
+			t.Fatalf("Put replaced %q, %v, want alpha, true", displacedValue, valueWasHeld)
 		}
 
-		removed, wasHeld, err := words.Delete(tx, "a")
+		displacedValue, valueWasHeld, err = words.Delete(tx, "a")
 		if err != nil {
 			return wrapTest(err)
 		}
-		if !wasHeld || removed != "again" {
-			t.Fatalf("Delete removed %q, %v, want again, true", removed, wasHeld)
+		if !valueWasHeld || displacedValue != "again" {
+			t.Fatalf("Delete removed %q, %v, want again, true", displacedValue, valueWasHeld)
 		}
 
 		return nil

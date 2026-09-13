@@ -54,19 +54,19 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 
 	word := yacymodel.WordHash("w1")
 	url := urlHash("u1")
-	var deleted bool
+	var postingWasPurged bool
 	if err := h.vault.Update(ctx, func(tx *vault.Txn) error {
-		dropped, err := h.purger.PurgePosting(tx, word, url)
+		var err error
+		postingWasPurged, err = h.purger.PurgePosting(tx, word, url)
 		if err != nil {
 			return fmt.Errorf("purge posting: %w", err)
 		}
-		deleted = dropped
 
 		return nil
 	}); err != nil {
 		t.Fatalf("PurgePosting: %v", err)
 	}
-	if !deleted {
+	if !postingWasPurged {
 		t.Fatal("PurgePosting reported nothing deleted, want the posting dropped")
 	}
 
@@ -86,20 +86,22 @@ func TestPurgingAPostingThatIsNotHeldNotifiesNobody(t *testing.T) {
 
 	h.admit(t, posting("w1", "u1"))
 
-	var deleted bool
+	var postingWasPurged bool
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		dropped, err := h.purger.PurgePosting(tx, yacymodel.WordHash("w2"), urlHash("u2"))
+		var err error
+		postingWasPurged, err = h.purger.PurgePosting(
+			tx, yacymodel.WordHash("w2"), urlHash("u2"),
+		)
 		if err != nil {
 			return fmt.Errorf("purge posting: %w", err)
 		}
-		deleted = dropped
 
 		return nil
 	}); err != nil {
 		t.Fatalf("PurgePosting: %v", err)
 	}
 
-	if deleted {
+	if postingWasPurged {
 		t.Fatal("PurgePosting reported a deletion, want none")
 	}
 	if len(h.observer.purged) != 0 {
