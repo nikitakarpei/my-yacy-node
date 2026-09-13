@@ -4,8 +4,8 @@
 // when the word appears in the title of the document. It is fixed when the
 // posting is stored. A search reads a word in this order, so it finds the best
 // documents of that word without reading every posting of it. The order is a
-// projection of rwi: it changes only inside the transaction that stores,
-// updates or purges a posting, so it never drifts from the postings it mirrors.
+// projection of rwi: it changes only inside the transaction that stores or
+// purges a posting, so it never drifts from the postings it mirrors.
 package rwiimpactorder
 
 import (

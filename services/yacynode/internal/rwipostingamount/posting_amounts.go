@@ -48,14 +48,6 @@ func (a *postingAmounts) countOnePostingMore(tx *vault.Txn, word yacymodel.Hash)
 	return nil
 }
 
-func (a *postingAmounts) PostingUpdated(
-	*vault.Txn,
-	yacymodel.RWIPosting,
-	yacymodel.RWIPosting,
-) error {
-	return nil
-}
-
 func (a *postingAmounts) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	return a.countOnePostingLess(tx, posting.WordHash)
 }

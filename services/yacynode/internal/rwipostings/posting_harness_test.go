@@ -81,35 +81,27 @@ func openHarness(t *testing.T) harness {
 	return harness{vault: v, index: index, admitter: admitter, purger: purger, observer: observer}
 }
 
-type recordingObserver struct {
-	stored  []yacymodel.RWIPosting
-	updated []postingUpdate
-	purged  []yacymodel.RWIPosting
-}
+const (
+	storedNotification = "stored"
+	purgedNotification = "purged"
+)
 
-type postingUpdate struct {
-	previous yacymodel.RWIPosting
-	current  yacymodel.RWIPosting
+type recordingObserver struct {
+	stored               []yacymodel.RWIPosting
+	purged               []yacymodel.RWIPosting
+	notificationsInOrder []string
 }
 
 func (o *recordingObserver) PostingStored(_ *vault.Txn, posting yacymodel.RWIPosting) error {
 	o.stored = append(o.stored, posting)
-
-	return nil
-}
-
-func (o *recordingObserver) PostingUpdated(
-	_ *vault.Txn,
-	previous yacymodel.RWIPosting,
-	current yacymodel.RWIPosting,
-) error {
-	o.updated = append(o.updated, postingUpdate{previous: previous, current: current})
+	o.notificationsInOrder = append(o.notificationsInOrder, storedNotification)
 
 	return nil
 }
 
 func (o *recordingObserver) PostingPurged(_ *vault.Txn, posting yacymodel.RWIPosting) error {
 	o.purged = append(o.purged, posting)
+	o.notificationsInOrder = append(o.notificationsInOrder, purgedNotification)
 
 	return nil
 }

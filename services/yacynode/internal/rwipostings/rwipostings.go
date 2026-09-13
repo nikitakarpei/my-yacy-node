@@ -1,10 +1,12 @@
-// Package rwipostings owns RWI posting storage, search, and eviction. It is the
-// only writer of postings: callers read through PostingIndex, add postings through
-// PostingAdmitter, and drop them through PostingPurger. Projections learn through
-// PostingObserver when a posting is stored, updated or purged. Every port speaks
-// the yacymodel vocabulary and lends cross-module work a shared transaction, so
-// the schema never leaks; PostingCodec publishes the stored value codec for
-// packages that hold a posting outside this index.
+// Package rwipostings owns RWI posting storage and eviction. It is the only
+// writer of postings: callers read through PostingIndex, add postings through
+// PostingAdmitter, and drop them through PostingPurger. Projections learn
+// through PostingObserver when a posting is stored and when a posting is
+// purged. A posting that replaces a different posting of the same word and URL
+// is purged and stored again; a posting that replaces an equal one is neither.
+// Every port speaks the yacymodel vocabulary and lends cross-module work a
+// shared transaction, so the schema never leaks; PostingCodec publishes the
+// stored value codec for packages that hold a posting outside this index.
 package rwipostings
 
 import (
@@ -14,7 +16,6 @@ import (
 
 type PostingObserver interface {
 	PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error
-	PostingUpdated(tx *vault.Txn, previous, current yacymodel.RWIPosting) error
 	PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error
 }
 

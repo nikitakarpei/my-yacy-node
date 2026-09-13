@@ -188,38 +188,21 @@ func TestAPurgedPostingLeavesTheOrder(t *testing.T) {
 	}
 }
 
-func TestAnUpdatedPostingMovesToItsNewPlace(t *testing.T) {
+func TestAPostingPurgedAndStoredWithMoreHitsMovesToItsNewPlace(t *testing.T) {
 	h := openHarness(t)
 
 	h.store(t, postingOf("w1", "u1", 9), postingOf("w1", "u2", 1))
 	h.write(t, func(tx *vault.Txn) error {
-		return h.impactOrder.PostingUpdated(
-			tx,
-			postingOf("w1", "u2", 1),
-			postingOf("w1", "u2", 99),
-		)
+		if err := h.impactOrder.PostingPurged(tx, postingOf("w1", "u2", 1)); err != nil {
+			return err
+		}
+
+		return h.impactOrder.PostingStored(tx, postingOf("w1", "u2", 99))
 	})
 
 	documents := h.documentsInImpactOrder(t, yacymodel.WordHash("w1"))
 	if len(documents) != 2 || documents[0] != documentHashOf("u2").String() {
 		t.Fatalf("documents = %v, want u2 first and each posting once", documents)
-	}
-}
-
-func TestAnUpdatedPostingOfTheSameImpactStaysWhereItIs(t *testing.T) {
-	h := openHarness(t)
-
-	h.store(t, postingOf("w1", "u1", 9))
-	h.write(t, func(tx *vault.Txn) error {
-		return h.impactOrder.PostingUpdated(
-			tx,
-			postingOf("w1", "u1", 9),
-			postingOf("w1", "u1", 9),
-		)
-	})
-
-	if documents := h.documentsInImpactOrder(t, yacymodel.WordHash("w1")); len(documents) != 1 {
-		t.Fatalf("documents = %v, want the posting once", documents)
 	}
 }
 

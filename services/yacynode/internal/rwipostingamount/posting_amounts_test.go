@@ -137,16 +137,16 @@ func TestTheLastPurgedPostingLeavesTheWordAtNone(t *testing.T) {
 	}
 }
 
-func TestAnUpdatedPostingLeavesTheAmountAlone(t *testing.T) {
+func TestAPostingPurgedAndStoredAgainLeavesTheAmountAlone(t *testing.T) {
 	h := openHarness(t)
 
 	h.store(t, postingOf("w1", "u1"))
 	h.write(t, func(tx *vault.Txn) error {
-		return h.postingAmounts.PostingUpdated(
-			tx,
-			postingOf("w1", "u1"),
-			postingOf("w1", "u1"),
-		)
+		if err := h.postingAmounts.PostingPurged(tx, postingOf("w1", "u1")); err != nil {
+			return err
+		}
+
+		return h.postingAmounts.PostingStored(tx, postingOf("w1", "u1"))
 	})
 
 	if amount := h.amountOfPostingsOf(t, yacymodel.WordHash("w1")); amount != 1 {

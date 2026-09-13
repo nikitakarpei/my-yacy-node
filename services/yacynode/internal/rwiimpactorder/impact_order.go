@@ -42,21 +42,6 @@ func (o *impactOrder) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting)
 	return nil
 }
 
-func (o *impactOrder) PostingUpdated(
-	tx *vault.Txn,
-	previous yacymodel.RWIPosting,
-	current yacymodel.RWIPosting,
-) error {
-	if ImpactOf(previous) == ImpactOf(current) {
-		return nil
-	}
-	if err := o.PostingPurged(tx, previous); err != nil {
-		return err
-	}
-
-	return o.PostingStored(tx, current)
-}
-
 func (o *impactOrder) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	if _, err := o.postings.Remove(tx, postingByImpactOf(posting)); err != nil {
 		return fmt.Errorf("drop posting impact: %w", err)
