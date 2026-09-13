@@ -66,6 +66,10 @@ components:
     in: internal/documentsearch/searchmetrics/**
   termdocuments:
     in: internal/documentsearch/termdocuments/**
+  searchrelevance:
+    in: internal/documentsearch/searchrelevance/**
+  documentshortlist:
+    in: internal/documentsearch/documentshortlist/**
   searchtest:
     in: internal/documentsearch/searchtest/**
   nodestatus:
@@ -287,6 +291,8 @@ deps:
       - documentsearch
       - searchmetrics
       - termdocuments
+      - searchrelevance
+      - documentshortlist
       - rwipostings
       - rwipostingimpactorder
       - rwipostingamount
@@ -303,6 +309,13 @@ deps:
       - rwipostingimpactorder
     canUse:
       - vault
+  searchrelevance:
+    mayDependOn:
+      - documentsearch
+      - rwipostingimpactorder
+  documentshortlist:
+    mayDependOn:
+      - searchrelevance
   searchmetrics:
     canUse:
       - prometheus

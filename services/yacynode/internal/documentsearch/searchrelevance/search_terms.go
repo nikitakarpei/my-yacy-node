@@ -1,4 +1,4 @@
-package documentmatch
+package searchrelevance
 
 import (
 	"math"
@@ -8,16 +8,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 )
 
-type searchTerms struct {
+type SearchTerms struct {
 	rarestTerm    yacymodel.Hash
 	otherTerms    []yacymodel.Hash
 	rarityPerTerm map[yacymodel.Hash]float64
 }
 
-func searchTermsOf(
+func SearchTermsOf(
 	criteria searchcriteria.Criteria,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
-) searchTerms {
+) SearchTerms {
 	terms := criteria.Terms
 	largestAmountOfPostings := 0
 	for _, term := range terms {
@@ -25,7 +25,7 @@ func searchTermsOf(
 	}
 	rarestTerm := rarestTermOf(terms, amountOfPostingsPerTerm)
 
-	return searchTerms{
+	return SearchTerms{
 		rarestTerm: rarestTerm,
 		otherTerms: otherTermsOf(terms, rarestTerm),
 		rarityPerTerm: rarityPerTermOf(
@@ -74,6 +74,14 @@ func rarityPerTermOf(
 	return rarityPerTerm
 }
 
-func (t searchTerms) rarityOf(term yacymodel.Hash) float64 {
+func (t SearchTerms) RarestTerm() yacymodel.Hash {
+	return t.rarestTerm
+}
+
+func (t SearchTerms) OtherTerms() []yacymodel.Hash {
+	return t.otherTerms
+}
+
+func (t SearchTerms) rarityOf(term yacymodel.Hash) float64 {
 	return t.rarityPerTerm[term]
 }

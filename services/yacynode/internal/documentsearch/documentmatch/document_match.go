@@ -1,15 +1,6 @@
 package documentmatch
 
-import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
-)
-
-type rankedDocument struct {
-	joinedPosting yacymodel.RWIPosting
-	relevance     float64
-	termSpread    int
-}
+import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 func joinedPostingOf(postings []yacymodel.RWIPosting) yacymodel.RWIPosting {
 	joined := postings[0]
@@ -41,16 +32,6 @@ func earliestPosition(position, additional int) int {
 	}
 
 	return min(position, additional)
-}
-
-func relevanceOf(postings []yacymodel.RWIPosting, terms searchTerms) float64 {
-	relevance := 0.0
-	for _, posting := range postings {
-		relevance += terms.rarityOf(posting.WordHash) *
-			float64(rwipostingimpactorder.ImpactOf(posting))
-	}
-
-	return relevance
 }
 
 func termSpreadOf(postings []yacymodel.RWIPosting) int {

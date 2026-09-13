@@ -29,6 +29,17 @@ func titlePostingOf(term yacymodel.Hash, document string) yacymodel.RWIPosting {
 	return posting
 }
 
+func postingAtPosition(
+	term yacymodel.Hash,
+	document string,
+	textPosition int,
+) yacymodel.RWIPosting {
+	posting := postingOf(term, document, 1)
+	posting.TextPosition = textPosition
+
+	return posting
+}
+
 type searchIndex interface {
 	PostingOf(
 		tx *vault.Txn,
@@ -234,6 +245,42 @@ func TestMostRelevantDocumentsDropDocumentsHoldingAnExcludedTerm(t *testing.T) {
 	if len(matches.JoinedPostings) != 1 ||
 		matches.JoinedPostings[0].URLHash != searchtest.URLHashFor("u1") {
 		t.Errorf("documents = %v, want only u1", documentNames(matches))
+	}
+}
+
+func TestMostRelevantDocumentsDropDocumentsWhoseTermsLieTooFarApart(t *testing.T) {
+	firstTerm, secondTerm := searchtest.HashFor("w1"), searchtest.HashFor("w2")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		firstTerm: {
+			postingAtPosition(firstTerm, "u1", 1),
+			postingAtPosition(firstTerm, "u2", 1),
+		},
+		secondTerm: {
+			postingAtPosition(secondTerm, "u1", 3),
+			postingAtPosition(secondTerm, "u2", 20),
+		},
+	}}
+
+	matches, err := matchesFor(t, index, searchcriteria.Criteria{
+		Terms:         []yacymodel.Hash{firstTerm, secondTerm},
+		MaxTermSpread: 5,
+		MaxResults:    10,
+	})
+	if err != nil {
+		t.Fatalf("MatchesFor: %v", err)
+	}
+	if len(matches.JoinedPostings) != 1 ||
+		matches.JoinedPostings[0].URLHash != searchtest.URLHashFor("u1") {
+		t.Errorf(
+			"documents = %v, want only the document whose terms stay close",
+			documentNames(matches),
+		)
+	}
+	if matches.AmountOfDocumentsMatchingEveryTerm != 1 {
+		t.Errorf(
+			"documents matching every term = %d, want the one within the term spread",
+			matches.AmountOfDocumentsMatchingEveryTerm,
+		)
 	}
 }
 
