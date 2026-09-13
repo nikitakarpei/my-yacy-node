@@ -45,7 +45,7 @@ type documentMatcher struct {
 	impactOrder rwipostingimpactorder.ImpactOrderQuery
 }
 
-type indexRead struct {
+type searchInProgress struct {
 	terms                              searchrelevance.SearchTerms
 	relevanceBound                     searchrelevance.RelevanceBound
 	shortlist                          *documentshortlist.Shortlist
@@ -67,21 +67,21 @@ func (m documentMatcher) MatchesFor(
 		return DocumentMatches{}, err
 	}
 
-	rarestTermRead := indexRead{
+	searchInProgress := searchInProgress{
 		terms:          terms,
 		relevanceBound: searchrelevance.RelevanceBoundOf(terms, largestImpactPerOtherTerm),
 		shortlist:      documentshortlist.New(criteria.MaxResults),
 	}
-	indexReadStopReason, err := m.readRarestTerm(ctx, tx, criteria, &rarestTermRead)
+	indexReadStopReason, err := m.readRarestTerm(ctx, tx, criteria, &searchInProgress)
 	if err != nil {
 		return DocumentMatches{}, err
 	}
 
 	return DocumentMatches{
 		JoinedPostings: joinedPostingsOf(
-			rarestTermRead.shortlist.InRelevanceOrder(),
+			searchInProgress.shortlist.InRelevanceOrder(),
 		),
-		AmountOfDocumentsMatchingEveryTerm: rarestTermRead.amountOfDocumentsMatchingEveryTerm,
+		AmountOfDocumentsMatchingEveryTerm: searchInProgress.amountOfDocumentsMatchingEveryTerm,
 		IndexReadStopReason:                indexReadStopReason,
 	}, nil
 }
@@ -128,13 +128,13 @@ func (m documentMatcher) readRarestTerm(
 	ctx context.Context,
 	tx *vault.Txn,
 	criteria searchcriteria.Criteria,
-	rarestTermRead *indexRead,
+	searchInProgress *searchInProgress,
 ) (IndexReadStopReason, error) {
 	indexReadStopReason := IndexReadStoppedAtEndOfTerm
 	filter := postingfilter.FilterForSearch(criteria)
 	err := m.impactOrder.ScanPostingsInImpactOrder(
 		tx,
-		rarestTermRead.terms.RarestTerm(),
+		searchInProgress.terms.RarestTerm(),
 		func(
 			document yacymodel.URLHash,
 			impactOfNextUnreadPosting rwipostingimpactorder.Impact,
@@ -144,16 +144,22 @@ func (m documentMatcher) readRarestTerm(
 
 				return false, nil
 			}
-			if rarestTermRead.shortlist.IsFull() &&
-				rarestTermRead.shortlist.LowestRelevance() >=
-					rarestTermRead.relevanceBound.LargestRelevanceReachableFrom(
+			if searchInProgress.shortlist.IsFull() &&
+				searchInProgress.shortlist.LowestRelevance() >=
+					searchInProgress.relevanceBound.LargestRelevanceReachableFrom(
 						impactOfNextUnreadPosting,
 					) {
 				indexReadStopReason = IndexReadStoppedAtRelevanceBound
 
 				return false, nil
 			}
-			if err := m.placeDocument(tx, criteria, filter, document, rarestTermRead); err != nil {
+			if err := m.placeDocument(
+				tx,
+				criteria,
+				filter,
+				document,
+				searchInProgress,
+			); err != nil {
 				return false, err
 			}
 
@@ -169,7 +175,7 @@ func (m documentMatcher) placeDocument(
 	criteria searchcriteria.Criteria,
 	filter postingfilter.Filter,
 	document yacymodel.URLHash,
-	rarestTermRead *indexRead,
+	searchInProgress *searchInProgress,
 ) error {
 	postings, holdsEveryTerm, err := m.postingsOfEveryTerm(tx, criteria.Terms, filter, document)
 	if err != nil {
@@ -189,10 +195,10 @@ func (m documentMatcher) placeDocument(
 	if criteria.MaxTermSpread > 0 && termSpread > criteria.MaxTermSpread {
 		return nil
 	}
-	rarestTermRead.amountOfDocumentsMatchingEveryTerm++
-	rarestTermRead.shortlist.Place(documentshortlist.RankedDocument{
+	searchInProgress.amountOfDocumentsMatchingEveryTerm++
+	searchInProgress.shortlist.Place(documentshortlist.RankedDocument{
 		JoinedPosting: joinedPostingOf(postings),
-		Relevance:     searchrelevance.RelevanceOf(postings, rarestTermRead.terms),
+		Relevance:     searchrelevance.RelevanceOf(postings, searchInProgress.terms),
 		TermSpread:    termSpread,
 	})
 
