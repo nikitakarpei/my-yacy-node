@@ -92,7 +92,6 @@ func (r Results) ResultFor(
 
 		abstracts := indexabstract.IndexAbstractsFor(
 			requestedIndexAbstracts,
-			criteria,
 			joined.matchesForQueryTerms,
 			matchesForIndexAbstractTerms,
 		)

@@ -1,29 +1,26 @@
 package indexabstract
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
+)
 
-type RequestedIndexAbstracts interface {
-	requestedIndexAbstracts()
+type RequestedIndexAbstract interface {
+	indexAbstracts(
+		matchesForQueryTerms map[yacymodel.Hash]termpostings.Match,
+		matchesForIndexAbstractTerms map[yacymodel.Hash]termpostings.Match,
+	) IndexAbstracts
 }
 
-type NoIndexAbstracts struct{}
-
-func (NoIndexAbstracts) requestedIndexAbstracts() {}
-
-type IndexAbstractOfTermWithMostPostings struct{}
-
-func (IndexAbstractOfTermWithMostPostings) requestedIndexAbstracts() {}
-
-type IndexAbstractsOfTerms struct {
-	Terms []yacymodel.Hash
-}
-
-func (IndexAbstractsOfTerms) requestedIndexAbstracts() {}
+type RequestedIndexAbstracts []RequestedIndexAbstract
 
 func IndexAbstractTermsOf(requested RequestedIndexAbstracts) []yacymodel.Hash {
-	if abstract, ok := requested.(IndexAbstractsOfTerms); ok {
-		return abstract.Terms
+	var terms []yacymodel.Hash
+	for _, requestedAbstract := range requested {
+		if abstractsOfTerms, ok := requestedAbstract.(IndexAbstractsOfTerms); ok {
+			terms = append(terms, abstractsOfTerms.Terms...)
+		}
 	}
 
-	return nil
+	return terms
 }
