@@ -26,8 +26,8 @@ func Of(
 ) PageRWI {
 	pageURL := scrapedPage.PageURL
 
-	order, occurrences, textStats := tokenize(string(text))
-	_, _, titleStats := tokenize(document.Title)
+	textWordsInOrder, textWordOccurrences, textStats := tokenize(string(text))
+	_, titleWordOccurrences, titleStats := tokenize(document.Title)
 
 	metadata := metadataOf(pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words)
 	shared := sharedPosting(pageURL, document, reachedAt, metadata.Hash)
@@ -35,15 +35,17 @@ func Of(
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
 
-	postings := make([]yacymodel.RWIPosting, 0, len(order))
-	for _, word := range order {
-		occurrence := occurrences[word]
+	postings := make([]yacymodel.RWIPosting, 0, len(textWordsInOrder))
+	for _, word := range textWordsInOrder {
+		occurrenceInText := textWordOccurrences[word]
+		_, appearsInTitle := titleWordOccurrences[word]
 		posting := shared
 		posting.WordHash = yacymodel.WordHash(word)
-		posting.Hits = occurrence.count
-		posting.TextPosition = occurrence.firstPosition
-		posting.PhraseRelativePosition = occurrence.firstPositionInPhrase
-		posting.PhrasePosition = occurrence.firstPhraseNumber
+		posting.Appearance.AppearsInTitle = appearsInTitle
+		posting.Hits = occurrenceInText.count
+		posting.TextPosition = occurrenceInText.firstPosition
+		posting.PhraseRelativePosition = occurrenceInText.firstPositionInPhrase
+		posting.PhrasePosition = occurrenceInText.firstPhraseNumber
 		postings = append(postings, posting)
 	}
 
