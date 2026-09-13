@@ -750,7 +750,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 40
       },
@@ -774,6 +774,44 @@
           "refId": "A",
           "expr": "sum by (option) (clamp_min(yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{option}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 87,
+      "title": "Index reads of a search, by what ended each read",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 40
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (stop) (clamp_min(yacynode_documentsearch_index_reads_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_index_reads_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{stop}}"
         }
       ],
       "interval": "$window"
