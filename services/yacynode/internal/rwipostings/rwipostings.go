@@ -21,7 +21,11 @@ type PostingObserver interface {
 }
 
 type PostingPurger interface {
-	PurgePosting(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) (bool, error)
+	PurgePosting(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		url yacymodel.URLHash,
+	) (wasPurged bool, err error)
 }
 
 type PostingIndex interface {

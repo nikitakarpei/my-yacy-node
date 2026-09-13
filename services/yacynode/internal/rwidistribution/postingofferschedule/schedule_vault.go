@@ -52,12 +52,12 @@ var orderKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkey
 
 var orderKeyLayout = orderKeyParts.KeyLayoutFor(
 	func(offer scheduledPostingOffer) (time.Time, yacymodel.Hash, yacymodel.URLHash) {
-		return offer.At, offer.Posting.Word, offer.Posting.URL
+		return offer.At, offer.Identity.Word, offer.Identity.URL
 	},
 	func(dueAt time.Time, word yacymodel.Hash, url yacymodel.URLHash) scheduledPostingOffer {
 		return scheduledPostingOffer{
-			At:      dueAt,
-			Posting: postingidentity.Identity{Word: word, URL: url},
+			At:       dueAt,
+			Identity: postingidentity.Identity{Word: word, URL: url},
 		}
 	},
 )

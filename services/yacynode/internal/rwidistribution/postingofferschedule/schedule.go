@@ -21,8 +21,8 @@ type Observer interface {
 }
 
 type scheduledPostingOffer struct {
-	At      time.Time
-	Posting postingidentity.Identity
+	At       time.Time
+	Identity postingidentity.Identity
 }
 
 type Schedule struct {
@@ -95,7 +95,7 @@ func (s *Schedule) clearDueAt(
 ) error {
 	if _, err := s.order.Remove(
 		tx,
-		scheduledPostingOffer{At: dueAt, Posting: identity},
+		scheduledPostingOffer{At: dueAt, Identity: identity},
 	); err != nil {
 		return fmt.Errorf("drop offer order: %w", err)
 	}
@@ -111,7 +111,7 @@ func (s *Schedule) setDueAt(
 	identity postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if _, err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Posting: identity}); err != nil {
+	if _, err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Identity: identity}); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
 	if err := s.dueTimes.Put(tx, identity, dueAt); err != nil {
@@ -225,7 +225,7 @@ func (s *Schedule) DuePostings(
 		tx,
 		everyOfferDueBy(s.now()),
 		func(scheduledOffer scheduledPostingOffer) (bool, error) {
-			duePostings = append(duePostings, scheduledOffer.Posting)
+			duePostings = append(duePostings, scheduledOffer.Identity)
 
 			return len(duePostings) < limit, nil
 		},

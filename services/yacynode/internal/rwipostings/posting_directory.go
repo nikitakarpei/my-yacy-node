@@ -66,7 +66,7 @@ func (d postingDirectory) PurgePosting(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
-) (bool, error) {
+) (wasPurged bool, err error) {
 	identity := postingIdentity{word: word, url: url}
 	purgedPosting, wasDeleted, err := d.postings.DeleteReturning(tx, identity)
 	if err != nil {
