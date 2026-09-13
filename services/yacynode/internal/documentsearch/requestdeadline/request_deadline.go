@@ -1,6 +1,6 @@
 // Package requestdeadline reports whether the request a search serves has
-// ended. A read of the index asks between postings, so it stops and answers
-// with the documents it holds instead of running past the time the peer grants.
+// ended. A search asks it while it reads, so it answers the peer within the
+// time the peer grants.
 package requestdeadline
 
 import "context"

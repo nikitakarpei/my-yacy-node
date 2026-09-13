@@ -1,8 +1,7 @@
-// Package searchresult runs one search pass: it reads how many postings this
-// node holds for each query term, finds the documents that match every term,
-// reads the metadata of the most relevant ones, and adds the index abstracts
-// the request asked for. The pass reads one snapshot, so the documents it
-// returns are the documents the postings chose.
+// Package searchresult owns one search pass over the index of this node. It
+// answers the search endpoint with the matched documents and their metadata,
+// the topics of their titles, the index abstracts the request asked for, and
+// how many postings this node holds for each query term.
 package searchresult
 
 import (
@@ -30,23 +29,23 @@ type DocumentDirectory interface {
 
 type Results struct {
 	vault             *vault.Vault
-	documentMatches   documentmatch.MostRelevantPostingsOfSearch
-	termDocuments     termdocuments.TermDocuments
+	documentMatcher   documentmatch.DocumentMatcher
+	termDocumentQuery termdocuments.TermDocumentQuery
 	postingAmounts    rwipostingamount.PostingAmountQuery
 	documentDirectory DocumentDirectory
 }
 
 func New(
 	v *vault.Vault,
-	documentMatches documentmatch.MostRelevantPostingsOfSearch,
-	termDocuments termdocuments.TermDocuments,
+	documentMatcher documentmatch.DocumentMatcher,
+	termDocumentQuery termdocuments.TermDocumentQuery,
 	postingAmounts rwipostingamount.PostingAmountQuery,
 	documentDirectory DocumentDirectory,
 ) Results {
 	return Results{
 		vault:             v,
-		documentMatches:   documentMatches,
-		termDocuments:     termDocuments,
+		documentMatcher:   documentMatcher,
+		termDocumentQuery: termDocumentQuery,
 		postingAmounts:    postingAmounts,
 		documentDirectory: documentDirectory,
 	}
@@ -102,14 +101,14 @@ func (r Results) resultIn(
 		return Result{}, err
 	}
 
-	mostRelevantPostings, err := r.documentMatches.MostRelevantPostingsFor(
+	documentMatches, err := r.documentMatcher.MatchesFor(
 		ctx, tx, criteria, amountOfPostingsPerTerm,
 	)
 	if err != nil {
 		return Result{}, err
 	}
 
-	matchedDocuments, err := r.matchedDocuments(tx, mostRelevantPostings.Postings)
+	matchedDocuments, err := r.matchedDocuments(tx, documentMatches.Postings)
 	if err != nil {
 		return Result{}, err
 	}
@@ -127,10 +126,10 @@ func (r Results) resultIn(
 			documentTitlesOf(matchedDocuments),
 			criteria.Terms,
 		),
-		TotalDocumentsMatchingEveryTerm: mostRelevantPostings.AmountOfMatchedDocuments,
+		TotalDocumentsMatchingEveryTerm: documentMatches.AmountOfDocumentsMatchingEveryTerm,
 		IndexAbstracts:                  abstracts,
 		AmountOfPostingsPerTerm:         amountOfPostingsPerTerm,
-		IndexReadStop:                   mostRelevantPostings.IndexReadStop,
+		IndexReadStop:                   documentMatches.IndexReadStop,
 	}, nil
 }
 
@@ -195,7 +194,7 @@ func (r Results) indexAbstracts(
 
 	documentsPerTerm := make(map[yacymodel.Hash][]yacymodel.URLHash, len(terms))
 	for _, term := range terms {
-		documents, err := r.termDocuments.DocumentsHoldingTerm(ctx, tx, term, criteria)
+		documents, err := r.termDocumentQuery.DocumentsHoldingTerm(ctx, tx, term, criteria)
 		if err != nil {
 			return nil, err
 		}

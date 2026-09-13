@@ -1,11 +1,7 @@
-// Package rwipostingimpactorder keeps, for every word, the postings of that word in
-// order of impact, the most relevant posting first. The impact of a posting
-// comes from its hits, saturated so that many hits do not dominate, and rises
-// when the word appears in the title of the document. It is fixed when the
-// posting is stored. A search reads a word in this order, so it finds the best
-// documents of that word without reading every posting of it. The order is a
-// projection of rwi: it changes only inside the transaction that stores or
-// purges a posting, so it never drifts from the postings it mirrors.
+// Package rwipostingimpactorder keeps the postings of every word in order of
+// impact, the most relevant posting first. It answers a search with the best
+// documents of a word, without a read of every posting of that word. It is a
+// projection of the postings this node holds.
 package rwipostingimpactorder
 
 import (

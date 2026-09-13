@@ -1,9 +1,6 @@
 // Package rwidistribution opens the two durable records a distribution cycle
 // needs for each stored posting — its offer schedule and its replica ledger —
-// and tells both when a posting is stored and when a posting is purged. A
-// posting that arrives again unchanged keeps both records. A posting that
-// arrives changed drops its replica ledger and the offer interval it widened,
-// and becomes due for a new offer.
+// and keeps both in step with the postings this node stores and purges.
 package rwidistribution
 
 import (

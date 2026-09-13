@@ -69,6 +69,6 @@ func indexReadStopOf(stop documentmatch.IndexReadStop) searchmetrics.IndexReadSt
 	case documentmatch.IndexReadStoppedAtDeadline:
 		return searchmetrics.IndexReadStoppedAtDeadline
 	default:
-		return searchmetrics.IndexReadStoppedAtEndOfWord
+		return searchmetrics.IndexReadStoppedAtEndOfTerm
 	}
 }

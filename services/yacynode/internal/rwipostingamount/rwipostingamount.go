@@ -1,9 +1,7 @@
 // Package rwipostingamount knows how many postings this node holds for every
 // word. It answers the amount a search reports to the peer that asked, and the
-// amount a search weighs how rare a word is with, without any read of the
-// postings themselves. The amount is a projection of rwi: it changes only
-// inside the transaction that stores or purges a posting, so it never drifts
-// from the postings it counts.
+// amount a search weighs the rarity of a word with. It is a projection of the
+// postings this node holds.
 package rwipostingamount
 
 import (

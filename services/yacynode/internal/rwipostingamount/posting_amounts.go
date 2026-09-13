@@ -33,10 +33,10 @@ func (a *postingAmounts) AmountOfPostingsOf(
 }
 
 func (a *postingAmounts) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	return a.countOnePostingMore(tx, posting.WordHash)
+	return a.raiseAmountOfPostingsOf(tx, posting.WordHash)
 }
 
-func (a *postingAmounts) countOnePostingMore(tx *vault.Txn, word yacymodel.Hash) error {
+func (a *postingAmounts) raiseAmountOfPostingsOf(tx *vault.Txn, word yacymodel.Hash) error {
 	amountOfPostings, err := a.AmountOfPostingsOf(tx, word)
 	if err != nil {
 		return err
@@ -49,10 +49,10 @@ func (a *postingAmounts) countOnePostingMore(tx *vault.Txn, word yacymodel.Hash)
 }
 
 func (a *postingAmounts) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	return a.countOnePostingLess(tx, posting.WordHash)
+	return a.lowerAmountOfPostingsOf(tx, posting.WordHash)
 }
 
-func (a *postingAmounts) countOnePostingLess(tx *vault.Txn, word yacymodel.Hash) error {
+func (a *postingAmounts) lowerAmountOfPostingsOf(tx *vault.Txn, word yacymodel.Hash) error {
 	amountOfPostings, err := a.AmountOfPostingsOf(tx, word)
 	if err != nil {
 		return err

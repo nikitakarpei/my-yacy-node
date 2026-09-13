@@ -3,7 +3,7 @@ package documentmatch
 type IndexReadStop int
 
 const (
-	IndexReadStoppedAtEndOfWord IndexReadStop = iota
+	IndexReadStoppedAtEndOfTerm IndexReadStop = iota
 	IndexReadStoppedAtRelevanceBound
 	IndexReadStoppedAtDeadline
 )

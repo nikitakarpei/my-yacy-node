@@ -1,8 +1,7 @@
-// Package indexabstract chooses the terms the index abstracts of one search
-// request cover, and holds the abstracts built from them. One index abstract
-// names a term and the documents this node holds for it. A peer reads index
-// abstracts to plan which peers to ask next, so they carry document hashes
-// only, never metadata.
+// Package indexabstract owns the index abstracts of one search request: the
+// terms they cover, and the documents each one names. A peer reads them to
+// plan which peers to ask next, so they carry document hashes only, never
+// metadata.
 package indexabstract
 
 import (

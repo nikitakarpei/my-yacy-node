@@ -1,7 +1,7 @@
-// Package searchmetrics exports the Prometheus metrics of the documentsearch
-// domain: the outcome of every answered search, what ended the index read of
-// every answered search, how far requested terms sit from this node on the DHT
-// ring, and which unsupported search options peers ask for.
+// Package searchmetrics owns the Prometheus metrics of the documentsearch
+// domain: the outcome of every answered search, what ended its index read, the
+// ring distance of the requested terms, and the unsupported options peers ask
+// for.
 package searchmetrics
 
 import "github.com/prometheus/client_golang/prometheus"
@@ -33,7 +33,7 @@ const (
 type IndexReadStop string
 
 const (
-	IndexReadStoppedAtEndOfWord      IndexReadStop = "end_of_word"
+	IndexReadStoppedAtEndOfTerm      IndexReadStop = "end_of_term"
 	IndexReadStoppedAtRelevanceBound IndexReadStop = "relevance_bound"
 	IndexReadStoppedAtDeadline       IndexReadStop = "deadline"
 )

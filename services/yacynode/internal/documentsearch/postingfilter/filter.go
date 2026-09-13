@@ -1,6 +1,5 @@
 // Package postingfilter decides which postings of a term the search criteria
-// admit. It reads no storage, and it knows nothing of the words a search
-// excludes: the caller looks those up for each document it examines.
+// admit. It answers a search from the posting alone, and reads no storage.
 package postingfilter
 
 import (

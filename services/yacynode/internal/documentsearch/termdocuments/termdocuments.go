@@ -1,9 +1,6 @@
 // Package termdocuments names the documents this node holds for one term, the
-// most relevant first. It reads the term in impact order and keeps only the
-// documents the search criteria admit, and it stops once it holds as many
-// documents as an index abstract of one term covers, or once the request runs
-// out of time. An index abstract therefore costs the same reads however many
-// results the request asks for.
+// most relevant first. It answers the search pass with the documents an index
+// abstract of that term covers.
 package termdocuments
 
 import (
@@ -18,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type TermDocuments interface {
+type TermDocumentQuery interface {
 	DocumentsHoldingTerm(
 		ctx context.Context,
 		tx *vault.Txn,
@@ -31,21 +28,21 @@ func New(
 	postings rwipostings.PostingIndex,
 	impactOrder rwipostingimpactorder.ImpactOrderQuery,
 	indexAbstractDocumentsPerTerm int,
-) TermDocuments {
-	return termDocuments{
+) TermDocumentQuery {
+	return termDocumentQuery{
 		postings:                      postings,
 		impactOrder:                   impactOrder,
 		indexAbstractDocumentsPerTerm: indexAbstractDocumentsPerTerm,
 	}
 }
 
-type termDocuments struct {
+type termDocumentQuery struct {
 	postings                      rwipostings.PostingIndex
 	impactOrder                   rwipostingimpactorder.ImpactOrderQuery
 	indexAbstractDocumentsPerTerm int
 }
 
-func (t termDocuments) DocumentsHoldingTerm(
+func (t termDocumentQuery) DocumentsHoldingTerm(
 	ctx context.Context,
 	tx *vault.Txn,
 	term yacymodel.Hash,
@@ -80,7 +77,7 @@ func (t termDocuments) DocumentsHoldingTerm(
 	return documents, nil
 }
 
-func (t termDocuments) acceptsDocument(
+func (t termDocumentQuery) acceptsDocument(
 	tx *vault.Txn,
 	term yacymodel.Hash,
 	document yacymodel.URLHash,
