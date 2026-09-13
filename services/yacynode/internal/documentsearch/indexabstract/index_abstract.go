@@ -5,6 +5,8 @@
 package indexabstract
 
 import (
+	"maps"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
@@ -18,49 +20,9 @@ func IndexAbstractsFor(
 ) IndexAbstracts {
 	abstracts := make(IndexAbstracts, len(requested))
 	for _, requestedAbstract := range requested {
-		for term, documents := range indexAbstractsOf(
-			requestedAbstract,
-			matchesForQueryTerms,
-			matchesForIndexAbstractTerms,
-		) {
-			abstracts[term] = documents
-		}
-	}
-	if len(abstracts) == 0 {
-		return nil
-	}
-
-	return abstracts
-}
-
-func indexAbstractsOf(
-	requested RequestedIndexAbstract,
-	matchesForQueryTerms map[yacymodel.Hash]termpostings.Match,
-	matchesForIndexAbstractTerms map[yacymodel.Hash]termpostings.Match,
-) IndexAbstracts {
-	switch requested := requested.(type) {
-	case IndexAbstractOfTermWithMostPostings:
-		return indexAbstractOfTermWithMostPostings(matchesForQueryTerms)
-	case IndexAbstractOfTermNearestToNodePosition:
-		return indexAbstractOfTermNearestToNodePosition(
-			matchesForQueryTerms,
-			requested.NodePosition,
-		)
-	case IndexAbstractsOfTerms:
-		return indexAbstractsOfTerms(requested.Terms, matchesForIndexAbstractTerms)
-	default:
-		return nil
-	}
-}
-
-func indexAbstractsOfTerms(
-	terms []yacymodel.Hash,
-	matchesForIndexAbstractTerms map[yacymodel.Hash]termpostings.Match,
-) IndexAbstracts {
-	abstracts := make(IndexAbstracts, len(terms))
-	for _, term := range terms {
-		abstracts[term] = documentHashesOf(
-			matchesForIndexAbstractTerms[term].PostingPerDocument,
+		maps.Copy(
+			abstracts,
+			requestedAbstract.indexAbstracts(matchesForQueryTerms, matchesForIndexAbstractTerms),
 		)
 	}
 

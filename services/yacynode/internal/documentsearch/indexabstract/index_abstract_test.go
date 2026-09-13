@@ -92,7 +92,7 @@ func TestIndexAbstractsForTermWithMostPostingsSkipTermsWithoutDocuments(t *testi
 
 func TestIndexAbstractsForNoRequestStayEmpty(t *testing.T) {
 	abstracts := indexabstract.IndexAbstractsFor(nil, nil, nil)
-	if abstracts != nil {
+	if len(abstracts) != 0 {
 		t.Fatalf("abstracts = %v, want none", abstracts)
 	}
 }
@@ -105,7 +105,7 @@ func TestIndexAbstractsForTermWithMostPostingsStayEmptyWithoutMatches(t *testing
 		nil,
 		nil,
 	)
-	if abstracts != nil {
+	if len(abstracts) != 0 {
 		t.Fatalf("abstracts = %v, want none", abstracts)
 	}
 }

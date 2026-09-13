@@ -1,28 +1,18 @@
 package indexabstract
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
+)
 
 type RequestedIndexAbstract interface {
-	requestedIndexAbstract()
+	indexAbstracts(
+		matchesForQueryTerms map[yacymodel.Hash]termpostings.Match,
+		matchesForIndexAbstractTerms map[yacymodel.Hash]termpostings.Match,
+	) IndexAbstracts
 }
 
 type RequestedIndexAbstracts []RequestedIndexAbstract
-
-type IndexAbstractOfTermWithMostPostings struct{}
-
-func (IndexAbstractOfTermWithMostPostings) requestedIndexAbstract() {}
-
-type IndexAbstractOfTermNearestToNodePosition struct {
-	NodePosition yacymodel.DHTRingPosition
-}
-
-func (IndexAbstractOfTermNearestToNodePosition) requestedIndexAbstract() {}
-
-type IndexAbstractsOfTerms struct {
-	Terms []yacymodel.Hash
-}
-
-func (IndexAbstractsOfTerms) requestedIndexAbstract() {}
 
 func IndexAbstractTermsOf(requested RequestedIndexAbstracts) []yacymodel.Hash {
 	var terms []yacymodel.Hash
