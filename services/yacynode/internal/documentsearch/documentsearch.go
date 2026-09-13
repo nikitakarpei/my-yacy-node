@@ -29,6 +29,7 @@ func MountSearch(
 	documents searchresult.DocumentDirectory,
 	metrics *searchmetrics.SearchMetrics,
 	partitions yacymodel.DHTRingPartitions,
+	indexAbstractDocumentsPerTerm int,
 ) {
 	searchendpoint.Mount(
 		router,
@@ -36,7 +37,7 @@ func MountSearch(
 		searchresult.New(
 			v,
 			documentmatch.New(index, impactOrder),
-			termdocuments.New(index, impactOrder),
+			termdocuments.New(index, impactOrder, indexAbstractDocumentsPerTerm),
 			amounts,
 			documents,
 		),

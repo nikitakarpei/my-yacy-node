@@ -15,6 +15,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
+const indexAbstractDocumentsPerTerm = 1000
+
+type termIndex interface {
+	rwipostings.PostingIndex
+	rwiimpactorder.ImpactOrderQuery
+}
+
 func postingOf(word yacymodel.Hash, document string, hits int) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: word,
@@ -25,10 +32,10 @@ func postingOf(word yacymodel.Hash, document string, hits int) yacymodel.RWIPost
 
 func documentsHoldingTerm(
 	t *testing.T,
-	postings rwipostings.PostingIndex,
-	impactOrder rwiimpactorder.ImpactOrderQuery,
+	index termIndex,
 	term yacymodel.Hash,
 	criteria searchcriteria.Criteria,
+	indexAbstractDocumentsPerTerm int,
 ) ([]yacymodel.URLHash, error) {
 	t.Helper()
 
@@ -42,9 +49,9 @@ func documentsHoldingTerm(
 
 	ctx := context.Background()
 	err = v.View(ctx, func(tx *vault.Txn) error {
-		found, readErr := termdocuments.New(postings, impactOrder).DocumentsHoldingTerm(
-			ctx, tx, term, criteria,
-		)
+		found, readErr := termdocuments.New(
+			index, index, indexAbstractDocumentsPerTerm,
+		).DocumentsHoldingTerm(ctx, tx, term, criteria)
 		documents = found
 
 		return readErr
@@ -59,7 +66,9 @@ func TestDocumentsHoldingTermComeInImpactOrder(t *testing.T) {
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9)},
 	}}
 
-	documents, err := documentsHoldingTerm(t, index, index, word, searchcriteria.Criteria{})
+	documents, err := documentsHoldingTerm(
+		t, index, word, searchcriteria.Criteria{}, indexAbstractDocumentsPerTerm,
+	)
 	if err != nil {
 		t.Fatalf("DocumentsHoldingTerm: %v", err)
 	}
@@ -68,20 +77,39 @@ func TestDocumentsHoldingTermComeInImpactOrder(t *testing.T) {
 	}
 }
 
-func TestDocumentsHoldingTermStopAtTheResultsTheRequestAsksFor(t *testing.T) {
+func TestDocumentsHoldingTermStopAtTheDocumentsAnIndexAbstractCovers(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9), postingOf(word, "u3", 5)},
 	}}
 
-	documents, err := documentsHoldingTerm(t, index, index, word, searchcriteria.Criteria{
-		MaxResults: 2,
-	})
+	documents, err := documentsHoldingTerm(t, index, word, searchcriteria.Criteria{}, 2)
 	if err != nil {
 		t.Fatalf("DocumentsHoldingTerm: %v", err)
 	}
 	if len(documents) != 2 {
 		t.Errorf("documents = %v, want two", documents)
+	}
+}
+
+func TestDocumentsHoldingTermOutnumberTheResultsTheRequestAsksFor(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9), postingOf(word, "u3", 5)},
+	}}
+
+	documents, err := documentsHoldingTerm(
+		t,
+		index,
+		word,
+		searchcriteria.Criteria{MaxResults: 1},
+		indexAbstractDocumentsPerTerm,
+	)
+	if err != nil {
+		t.Fatalf("DocumentsHoldingTerm: %v", err)
+	}
+	if len(documents) != 3 {
+		t.Errorf("documents = %v, want every document of the term", documents)
 	}
 }
 
@@ -91,9 +119,15 @@ func TestDocumentsHoldingTermSkipDocumentsTheFilterRejects(t *testing.T) {
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9)},
 	}}
 
-	documents, err := documentsHoldingTerm(t, index, index, word, searchcriteria.Criteria{
-		RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u1")},
-	})
+	documents, err := documentsHoldingTerm(
+		t,
+		index,
+		word,
+		searchcriteria.Criteria{
+			RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u1")},
+		},
+		indexAbstractDocumentsPerTerm,
+	)
 	if err != nil {
 		t.Fatalf("DocumentsHoldingTerm: %v", err)
 	}
@@ -106,7 +140,11 @@ func TestDocumentsHoldingTermSurfaceIndexFailures(t *testing.T) {
 	index := searchtest.FailingPostingIndex{Err: errIndexBroken}
 
 	_, err := documentsHoldingTerm(
-		t, index, index, searchtest.HashFor("w1"), searchcriteria.Criteria{},
+		t,
+		index,
+		searchtest.HashFor("w1"),
+		searchcriteria.Criteria{},
+		indexAbstractDocumentsPerTerm,
 	)
 	if !errors.Is(err, errIndexBroken) {
 		t.Fatalf("error = %v, want %v", err, errIndexBroken)

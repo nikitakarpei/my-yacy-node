@@ -36,9 +36,9 @@ sum of its impacts across the search words, each weighted by how rare the word i
 The search stops when the best documents it found score at least as well as any document it has
 not read yet. The count of a word answers the `indexcount` field with no read of the postings.
 
-The request deadline is the only other limit. Every search has one: the time the peer grants,
-capped at three seconds, or three seconds when it grants none. A search that reaches its deadline
-answers with the best documents it found so far, and the node reports it through metrics.
+The request deadline is the only other limit on this read. Every search has one: the time the peer
+grants, capped at three seconds, or three seconds when it grants none. A search that reaches its
+deadline answers with the best documents it found so far, and the node reports it through metrics.
 
 ## Considered alternatives
 

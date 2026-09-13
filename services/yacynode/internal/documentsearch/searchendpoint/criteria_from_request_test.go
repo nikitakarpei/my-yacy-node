@@ -342,7 +342,7 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 		searchresult.New(
 			openVault(t),
 			recording,
-			termdocuments.New(index, index),
+			termdocuments.New(index, index, indexAbstractDocumentsPerTerm),
 			index,
 			directory,
 		),

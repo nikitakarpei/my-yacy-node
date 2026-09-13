@@ -1,9 +1,9 @@
 // Package termdocuments names the documents this node holds for one term, the
 // most relevant first. It reads the term in impact order and keeps only the
 // documents the search criteria admit, and it stops once it holds as many
-// documents as the request asks results for, or once the request runs out of
-// time. An index abstract of a term therefore costs no more reads than the
-// answer the same request carries.
+// documents as an index abstract of one term covers, or once the request runs
+// out of time. An index abstract therefore costs the same reads however many
+// results the request asks for.
 package termdocuments
 
 import (
@@ -29,13 +29,19 @@ type TermDocuments interface {
 func New(
 	postings rwipostings.PostingIndex,
 	impactOrder rwiimpactorder.ImpactOrderQuery,
+	indexAbstractDocumentsPerTerm int,
 ) TermDocuments {
-	return termDocuments{postings: postings, impactOrder: impactOrder}
+	return termDocuments{
+		postings:                      postings,
+		impactOrder:                   impactOrder,
+		indexAbstractDocumentsPerTerm: indexAbstractDocumentsPerTerm,
+	}
 }
 
 type termDocuments struct {
-	postings    rwipostings.PostingIndex
-	impactOrder rwiimpactorder.ImpactOrderQuery
+	postings                      rwipostings.PostingIndex
+	impactOrder                   rwiimpactorder.ImpactOrderQuery
+	indexAbstractDocumentsPerTerm int
 }
 
 func (t termDocuments) DocumentsHoldingTerm(
@@ -63,7 +69,7 @@ func (t termDocuments) DocumentsHoldingTerm(
 				documents = append(documents, document)
 			}
 
-			return criteria.MaxResults <= 0 || len(documents) < criteria.MaxResults, nil
+			return len(documents) < t.indexAbstractDocumentsPerTerm, nil
 		},
 	)
 	if err != nil {
