@@ -78,7 +78,7 @@ const (
 
 const servedURLMetadataPerRequest = 1000
 
-const indexAbstractDocumentsPerTerm = 1000
+const mostRelevantDocumentsPerTerm = 1000
 
 func assembleNode(
 	ctx context.Context,
@@ -260,7 +260,7 @@ func assembleNode(
 		urlDirectory,
 		searchmetrics.NewSearchMetrics(registry),
 		dhtRingPartitions,
-		indexAbstractDocumentsPerTerm,
+		mostRelevantDocumentsPerTerm,
 	)
 
 	peerRoster, err := peerroster.Open(

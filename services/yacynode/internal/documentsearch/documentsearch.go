@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
@@ -29,7 +29,7 @@ func MountSearch(
 	documentDirectory searchresult.DocumentDirectory,
 	metrics *searchmetrics.SearchMetrics,
 	partitions yacymodel.DHTRingPartitions,
-	indexAbstractDocumentsPerTerm int,
+	mostRelevantDocumentsPerTerm int,
 ) {
 	searchendpoint.Mount(
 		router,
@@ -37,7 +37,7 @@ func MountSearch(
 		searchresult.New(
 			v,
 			documentmatch.New(postingIndex, impactOrder),
-			termdocuments.New(postingIndex, impactOrder, indexAbstractDocumentsPerTerm),
+			termmatch.New(postingIndex, impactOrder, mostRelevantDocumentsPerTerm),
 			postingAmounts,
 			documentDirectory,
 		),

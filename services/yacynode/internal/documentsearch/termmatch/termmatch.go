@@ -1,7 +1,7 @@
-// Package termdocuments names the documents this node holds for one term, the
-// most relevant first. It answers the search pass with the documents an index
-// abstract of that term covers.
-package termdocuments
+// Package termmatch names the documents this node holds for one term that the
+// search criteria admit, the most relevant first and up to a cap. It answers
+// the search pass with them for the index abstracts of that term.
+package termmatch
 
 import (
 	"context"
@@ -15,8 +15,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type TermDocumentQuery interface {
-	DocumentsHoldingTerm(
+type TermMatcher interface {
+	MatchesFor(
 		ctx context.Context,
 		tx *vault.Txn,
 		term yacymodel.Hash,
@@ -27,22 +27,22 @@ type TermDocumentQuery interface {
 func New(
 	postings rwipostings.PostingIndex,
 	impactOrder rwipostingimpactorder.ImpactOrderQuery,
-	indexAbstractDocumentsPerTerm int,
-) TermDocumentQuery {
-	return termDocumentQuery{
-		postings:                      postings,
-		impactOrder:                   impactOrder,
-		indexAbstractDocumentsPerTerm: indexAbstractDocumentsPerTerm,
+	mostRelevantDocumentsPerTerm int,
+) TermMatcher {
+	return termMatcher{
+		postings:                     postings,
+		impactOrder:                  impactOrder,
+		mostRelevantDocumentsPerTerm: mostRelevantDocumentsPerTerm,
 	}
 }
 
-type termDocumentQuery struct {
-	postings                      rwipostings.PostingIndex
-	impactOrder                   rwipostingimpactorder.ImpactOrderQuery
-	indexAbstractDocumentsPerTerm int
+type termMatcher struct {
+	postings                     rwipostings.PostingIndex
+	impactOrder                  rwipostingimpactorder.ImpactOrderQuery
+	mostRelevantDocumentsPerTerm int
 }
 
-func (t termDocumentQuery) DocumentsHoldingTerm(
+func (t termMatcher) MatchesFor(
 	ctx context.Context,
 	tx *vault.Txn,
 	term yacymodel.Hash,
@@ -67,7 +67,7 @@ func (t termDocumentQuery) DocumentsHoldingTerm(
 				documents = append(documents, document)
 			}
 
-			return len(documents) < t.indexAbstractDocumentsPerTerm, nil
+			return len(documents) < t.mostRelevantDocumentsPerTerm, nil
 		},
 	)
 	if err != nil {
@@ -77,7 +77,7 @@ func (t termDocumentQuery) DocumentsHoldingTerm(
 	return documents, nil
 }
 
-func (t termDocumentQuery) acceptsDocument(
+func (t termMatcher) acceptsDocument(
 	tx *vault.Txn,
 	term yacymodel.Hash,
 	document yacymodel.URLHash,

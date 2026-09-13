@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/titletopics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 )
@@ -30,7 +30,7 @@ type DocumentDirectory interface {
 type Results struct {
 	vault             *vault.Vault
 	documentMatcher   documentmatch.DocumentMatcher
-	termDocumentQuery termdocuments.TermDocumentQuery
+	termMatcher       termmatch.TermMatcher
 	postingAmounts    rwipostingamount.PostingAmountQuery
 	documentDirectory DocumentDirectory
 }
@@ -38,14 +38,14 @@ type Results struct {
 func New(
 	v *vault.Vault,
 	documentMatcher documentmatch.DocumentMatcher,
-	termDocumentQuery termdocuments.TermDocumentQuery,
+	termMatcher termmatch.TermMatcher,
 	postingAmounts rwipostingamount.PostingAmountQuery,
 	documentDirectory DocumentDirectory,
 ) Results {
 	return Results{
 		vault:             v,
 		documentMatcher:   documentMatcher,
-		termDocumentQuery: termDocumentQuery,
+		termMatcher:       termMatcher,
 		postingAmounts:    postingAmounts,
 		documentDirectory: documentDirectory,
 	}
@@ -194,7 +194,7 @@ func (r Results) indexAbstracts(
 
 	documentsPerTerm := make(map[yacymodel.Hash][]yacymodel.URLHash, len(terms))
 	for _, term := range terms {
-		documents, err := r.termDocumentQuery.DocumentsHoldingTerm(ctx, tx, term, criteria)
+		documents, err := r.termMatcher.MatchesFor(ctx, tx, term, criteria)
 		if err != nil {
 			return nil, err
 		}

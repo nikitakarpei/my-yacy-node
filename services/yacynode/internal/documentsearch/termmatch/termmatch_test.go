@@ -1,4 +1,4 @@
-package termdocuments_test
+package termmatch_test
 
 import (
 	"context"
@@ -10,12 +10,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-const indexAbstractDocumentsPerTerm = 1000
+const mostRelevantDocumentsPerTerm = 1000
 
 type termIndex interface {
 	rwipostings.PostingIndex
@@ -35,7 +35,7 @@ func documentsHoldingTerm(
 	index termIndex,
 	term yacymodel.Hash,
 	criteria searchcriteria.Criteria,
-	indexAbstractDocumentsPerTerm int,
+	mostRelevantDocumentsPerTerm int,
 ) ([]yacymodel.URLHash, error) {
 	t.Helper()
 
@@ -49,9 +49,9 @@ func documentsHoldingTerm(
 
 	ctx := context.Background()
 	err = v.View(ctx, func(tx *vault.Txn) error {
-		found, readErr := termdocuments.New(
-			index, index, indexAbstractDocumentsPerTerm,
-		).DocumentsHoldingTerm(ctx, tx, term, criteria)
+		found, readErr := termmatch.New(
+			index, index, mostRelevantDocumentsPerTerm,
+		).MatchesFor(ctx, tx, term, criteria)
 		documents = found
 
 		return readErr
@@ -60,24 +60,24 @@ func documentsHoldingTerm(
 	return documents, err
 }
 
-func TestDocumentsHoldingTermComeInImpactOrder(t *testing.T) {
+func TestTermMatchesComeInImpactOrder(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9)},
 	}}
 
 	documents, err := documentsHoldingTerm(
-		t, index, word, searchcriteria.Criteria{}, indexAbstractDocumentsPerTerm,
+		t, index, word, searchcriteria.Criteria{}, mostRelevantDocumentsPerTerm,
 	)
 	if err != nil {
-		t.Fatalf("DocumentsHoldingTerm: %v", err)
+		t.Fatalf("MatchesFor: %v", err)
 	}
 	if len(documents) != 2 || documents[0] != searchtest.URLHashFor("u2") {
 		t.Errorf("documents = %v, want the most relevant first", documents)
 	}
 }
 
-func TestDocumentsHoldingTermStopAtTheDocumentsAnIndexAbstractCovers(t *testing.T) {
+func TestTermMatchesStopAtTheDocumentsAnIndexAbstractCovers(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9), postingOf(word, "u3", 5)},
@@ -85,14 +85,14 @@ func TestDocumentsHoldingTermStopAtTheDocumentsAnIndexAbstractCovers(t *testing.
 
 	documents, err := documentsHoldingTerm(t, index, word, searchcriteria.Criteria{}, 2)
 	if err != nil {
-		t.Fatalf("DocumentsHoldingTerm: %v", err)
+		t.Fatalf("MatchesFor: %v", err)
 	}
 	if len(documents) != 2 {
 		t.Errorf("documents = %v, want two", documents)
 	}
 }
 
-func TestDocumentsHoldingTermOutnumberTheResultsTheRequestAsksFor(t *testing.T) {
+func TestTermMatchesOutnumberTheResultsTheRequestAsksFor(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9), postingOf(word, "u3", 5)},
@@ -103,17 +103,17 @@ func TestDocumentsHoldingTermOutnumberTheResultsTheRequestAsksFor(t *testing.T) 
 		index,
 		word,
 		searchcriteria.Criteria{MaxResults: 1},
-		indexAbstractDocumentsPerTerm,
+		mostRelevantDocumentsPerTerm,
 	)
 	if err != nil {
-		t.Fatalf("DocumentsHoldingTerm: %v", err)
+		t.Fatalf("MatchesFor: %v", err)
 	}
 	if len(documents) != 3 {
 		t.Errorf("documents = %v, want every document of the term", documents)
 	}
 }
 
-func TestDocumentsHoldingTermSkipDocumentsTheFilterRejects(t *testing.T) {
+func TestTermMatchesSkipDocumentsTheFilterRejects(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9)},
@@ -126,17 +126,17 @@ func TestDocumentsHoldingTermSkipDocumentsTheFilterRejects(t *testing.T) {
 		searchcriteria.Criteria{
 			RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u1")},
 		},
-		indexAbstractDocumentsPerTerm,
+		mostRelevantDocumentsPerTerm,
 	)
 	if err != nil {
-		t.Fatalf("DocumentsHoldingTerm: %v", err)
+		t.Fatalf("MatchesFor: %v", err)
 	}
 	if len(documents) != 1 || documents[0] != searchtest.URLHashFor("u1") {
 		t.Errorf("documents = %v, want only the required document", documents)
 	}
 }
 
-func TestDocumentsHoldingTermSurfaceIndexFailures(t *testing.T) {
+func TestTermMatchesSurfaceIndexFailures(t *testing.T) {
 	index := searchtest.FailingPostingIndex{Err: errIndexBroken}
 
 	_, err := documentsHoldingTerm(
@@ -144,7 +144,7 @@ func TestDocumentsHoldingTermSurfaceIndexFailures(t *testing.T) {
 		index,
 		searchtest.HashFor("w1"),
 		searchcriteria.Criteria{},
-		indexAbstractDocumentsPerTerm,
+		mostRelevantDocumentsPerTerm,
 	)
 	if !errors.Is(err, errIndexBroken) {
 		t.Fatalf("error = %v, want %v", err, errIndexBroken)
