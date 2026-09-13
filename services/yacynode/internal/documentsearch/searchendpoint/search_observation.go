@@ -51,7 +51,7 @@ func (o searchObservation) observeServed(result searchresult.Result) {
 	} else {
 		o.metrics.ObserveSearchOutcome(searchmetrics.SearchServedNoResults)
 	}
-	o.metrics.ObserveIndexReadStop(indexReadStopOf(result.IndexReadStop))
+	o.metrics.ObserveIndexReadStopReason(indexReadStopReasonOf(result.IndexReadStopReason))
 	for term, amountOfPostings := range result.AmountOfPostingsPerTerm {
 		nearness := o.nodePosition.DistanceFromPostingsOfWord(term, o.partitions)
 		if amountOfPostings > 0 {
@@ -62,8 +62,10 @@ func (o searchObservation) observeServed(result searchresult.Result) {
 	}
 }
 
-func indexReadStopOf(stop documentmatch.IndexReadStop) searchmetrics.IndexReadStop {
-	switch stop {
+func indexReadStopReasonOf(
+	reason documentmatch.IndexReadStopReason,
+) searchmetrics.IndexReadStopReason {
+	switch reason {
 	case documentmatch.IndexReadStoppedAtRelevanceBound:
 		return searchmetrics.IndexReadStoppedAtRelevanceBound
 	case documentmatch.IndexReadStoppedAtDeadline:

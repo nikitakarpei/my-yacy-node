@@ -17,9 +17,9 @@ import (
 )
 
 type DocumentMatches struct {
-	Postings                           []yacymodel.RWIPosting
+	JoinedPostings                     []yacymodel.RWIPosting
 	AmountOfDocumentsMatchingEveryTerm int
-	IndexReadStop                      IndexReadStop
+	IndexReadStopReason                IndexReadStopReason
 }
 
 type DocumentMatcher interface {
@@ -52,22 +52,27 @@ func (m documentMatcher) MatchesFor(
 	if !everyTermHasPostings(criteria.Terms, amountOfPostingsPerTerm) {
 		return DocumentMatches{}, nil
 	}
-	terms := termsByRarityOf(criteria.Terms, amountOfPostingsPerTerm)
-	relevanceBoundOfOtherTerms, err := m.relevanceBoundOfOtherTerms(tx, terms)
+	searchTerms := searchTermsOf(criteria, amountOfPostingsPerTerm)
+	largestRelevanceFromOtherTerms, err := m.largestRelevanceFromOtherTerms(tx, searchTerms)
 	if err != nil {
 		return DocumentMatches{}, err
 	}
 
-	ranking := rankingFor(criteria, terms, relevanceBoundOfOtherTerms)
-	indexReadStop, err := m.readRarestTerm(ctx, tx, criteria, &ranking)
+	ranker := documentRanker{
+		terms:                          searchTerms,
+		largestRelevanceFromOtherTerms: largestRelevanceFromOtherTerms,
+		maxTermSpread:                  criteria.MaxTermSpread,
+		maxResults:                     criteria.MaxResults,
+	}
+	indexReadStopReason, err := m.readRarestTerm(ctx, tx, criteria, &ranker)
 	if err != nil {
 		return DocumentMatches{}, err
 	}
 
 	return DocumentMatches{
-		Postings:                           ranking.postingsInRelevanceOrder(),
-		AmountOfDocumentsMatchingEveryTerm: ranking.amountOfDocumentsMatchingEveryTerm,
-		IndexReadStop:                      indexReadStop,
+		JoinedPostings:                     ranker.joinedPostingsInRelevanceOrder(),
+		AmountOfDocumentsMatchingEveryTerm: ranker.amountOfDocumentsMatchingEveryTerm,
+		IndexReadStopReason:                indexReadStopReason,
 	}, nil
 }
 
@@ -87,12 +92,12 @@ func everyTermHasPostings(
 	return true
 }
 
-func (m documentMatcher) relevanceBoundOfOtherTerms(
+func (m documentMatcher) largestRelevanceFromOtherTerms(
 	tx *vault.Txn,
-	terms termsByRarity,
+	searchTerms searchTerms,
 ) (float64, error) {
 	relevanceBound := 0.0
-	for _, term := range terms.otherTerms {
+	for _, term := range searchTerms.otherTerms {
 		largestImpact, found, err := m.impactOrder.LargestImpactOf(tx, term)
 		if err != nil {
 			return 0, err
@@ -100,7 +105,7 @@ func (m documentMatcher) relevanceBoundOfOtherTerms(
 		if !found {
 			continue
 		}
-		relevanceBound += terms.rarityOf(term) * float64(largestImpact)
+		relevanceBound += searchTerms.rarityOf(term) * float64(largestImpact)
 	}
 
 	return relevanceBound, nil
@@ -110,28 +115,28 @@ func (m documentMatcher) readRarestTerm(
 	ctx context.Context,
 	tx *vault.Txn,
 	criteria searchcriteria.Criteria,
-	ranking *ranking,
-) (IndexReadStop, error) {
-	indexReadStop := IndexReadStoppedAtEndOfTerm
+	ranker *documentRanker,
+) (IndexReadStopReason, error) {
+	indexReadStopReason := IndexReadStoppedAtEndOfTerm
 	filter := postingfilter.FilterForSearch(criteria)
 	err := m.impactOrder.ScanPostingsInImpactOrder(
 		tx,
-		ranking.rarestTerm(),
+		ranker.rarestTerm(),
 		func(
 			document yacymodel.URLHash,
 			impactOfNextUnreadPosting rwipostingimpactorder.Impact,
 		) (bool, error) {
 			if requestdeadline.RequestHasEnded(ctx) {
-				indexReadStop = IndexReadStoppedAtDeadline
+				indexReadStopReason = IndexReadStoppedAtDeadline
 
 				return false, nil
 			}
-			if ranking.hasReachedRelevanceBoundAt(impactOfNextUnreadPosting) {
-				indexReadStop = IndexReadStoppedAtRelevanceBound
+			if ranker.hasReachedRelevanceBoundAt(impactOfNextUnreadPosting) {
+				indexReadStopReason = IndexReadStoppedAtRelevanceBound
 
 				return false, nil
 			}
-			if err := m.rankDocument(tx, criteria, filter, document, ranking); err != nil {
+			if err := m.rankDocument(tx, criteria, filter, document, ranker); err != nil {
 				return false, err
 			}
 
@@ -139,7 +144,7 @@ func (m documentMatcher) readRarestTerm(
 		},
 	)
 
-	return indexReadStop, err
+	return indexReadStopReason, err
 }
 
 func (m documentMatcher) rankDocument(
@@ -147,7 +152,7 @@ func (m documentMatcher) rankDocument(
 	criteria searchcriteria.Criteria,
 	filter postingfilter.Filter,
 	document yacymodel.URLHash,
-	ranking *ranking,
+	ranker *documentRanker,
 ) error {
 	postings, holdsEveryTerm, err := m.postingsOfEveryTerm(tx, criteria.Terms, filter, document)
 	if err != nil {
@@ -163,7 +168,7 @@ func (m documentMatcher) rankDocument(
 	if holdsAnExcludedTerm {
 		return nil
 	}
-	ranking.rankPostingsOfDocument(postings)
+	ranker.rankPostingsOfDocument(postings)
 
 	return nil
 }

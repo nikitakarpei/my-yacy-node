@@ -93,8 +93,8 @@ func matchesWithin(
 }
 
 func documentNames(matches documentmatch.DocumentMatches) []string {
-	names := make([]string, 0, len(matches.Postings))
-	for _, posting := range matches.Postings {
+	names := make([]string, 0, len(matches.JoinedPostings))
+	for _, posting := range matches.JoinedPostings {
 		names = append(names, posting.URLHash.String())
 	}
 
@@ -114,10 +114,10 @@ func TestMostRelevantDocumentsComeInImpactOrder(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if len(matches.Postings) != 2 {
+	if len(matches.JoinedPostings) != 2 {
 		t.Fatalf("documents = %v, want two", documentNames(matches))
 	}
-	if matches.Postings[0].URLHash != searchtest.URLHashFor("u2") {
+	if matches.JoinedPostings[0].URLHash != searchtest.URLHashFor("u2") {
 		t.Errorf(
 			"documents = %v, want the title posting first",
 			documentNames(matches),
@@ -144,14 +144,14 @@ func TestMostRelevantDocumentsStopOnceTheyReachTheRelevanceBound(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if matches.IndexReadStop != documentmatch.IndexReadStoppedAtRelevanceBound {
+	if matches.IndexReadStopReason != documentmatch.IndexReadStoppedAtRelevanceBound {
 		t.Errorf(
 			"index read stop = %v, want the relevance bound",
-			matches.IndexReadStop,
+			matches.IndexReadStopReason,
 		)
 	}
-	if len(matches.Postings) != 1 ||
-		matches.Postings[0].URLHash != searchtest.URLHashFor("u1") {
+	if len(matches.JoinedPostings) != 1 ||
+		matches.JoinedPostings[0].URLHash != searchtest.URLHashFor("u1") {
 		t.Errorf(
 			"documents = %v, want the title posting alone",
 			documentNames(matches),
@@ -177,7 +177,7 @@ func TestMostRelevantDocumentsNeverReadACommonTermInFull(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if len(matches.Postings) != 1 {
+	if len(matches.JoinedPostings) != 1 {
 		t.Fatalf(
 			"documents = %v, want the one document both terms hold",
 			documentNames(matches),
@@ -231,8 +231,8 @@ func TestMostRelevantDocumentsDropDocumentsHoldingAnExcludedTerm(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if len(matches.Postings) != 1 ||
-		matches.Postings[0].URLHash != searchtest.URLHashFor("u1") {
+	if len(matches.JoinedPostings) != 1 ||
+		matches.JoinedPostings[0].URLHash != searchtest.URLHashFor("u1") {
 		t.Errorf("documents = %v, want only u1", documentNames(matches))
 	}
 }
@@ -251,8 +251,8 @@ func TestMostRelevantDocumentsDropDocumentsTheFilterRejects(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if len(matches.Postings) != 1 ||
-		matches.Postings[0].URLHash != searchtest.URLHashFor("u2") {
+	if len(matches.JoinedPostings) != 1 ||
+		matches.JoinedPostings[0].URLHash != searchtest.URLHashFor("u2") {
 		t.Errorf(
 			"documents = %v, want only the required document",
 			documentNames(matches),
@@ -273,7 +273,7 @@ func TestMostRelevantDocumentsStayEmptyWhenTheNodeHoldsNoPostingOfATerm(t *testi
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if len(matches.Postings) != 0 ||
+	if len(matches.JoinedPostings) != 0 ||
 		matches.AmountOfDocumentsMatchingEveryTerm != 0 {
 		t.Errorf("documents = %v, want none", documentNames(matches))
 	}
@@ -289,7 +289,7 @@ func TestMostRelevantDocumentsStayEmptyWhenTheSearchNamesNoTerm(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if len(matches.Postings) != 0 ||
+	if len(matches.JoinedPostings) != 0 ||
 		matches.AmountOfDocumentsMatchingEveryTerm != 0 {
 		t.Errorf("documents = %v, want none", documentNames(matches))
 	}
@@ -320,10 +320,10 @@ func TestMostRelevantDocumentsAnswerWithWhatTheyFoundWhenTheRequestEnds(t *testi
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if matches.IndexReadStop != documentmatch.IndexReadStoppedAtDeadline {
-		t.Errorf("index read stop = %v, want the deadline", matches.IndexReadStop)
+	if matches.IndexReadStopReason != documentmatch.IndexReadStoppedAtDeadline {
+		t.Errorf("index read stop = %v, want the deadline", matches.IndexReadStopReason)
 	}
-	if len(matches.Postings) != 1 {
+	if len(matches.JoinedPostings) != 1 {
 		t.Errorf("documents = %v, want the one document read before the end",
 			documentNames(matches))
 	}

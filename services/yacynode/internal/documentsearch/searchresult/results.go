@@ -63,7 +63,7 @@ type Result struct {
 	Duration                        time.Duration
 	IndexAbstracts                  indexabstract.IndexAbstracts
 	AmountOfPostingsPerTerm         map[yacymodel.Hash]int
-	IndexReadStop                   documentmatch.IndexReadStop
+	IndexReadStopReason             documentmatch.IndexReadStopReason
 }
 
 var ErrDocumentDirectory = errors.New("document metadata")
@@ -108,7 +108,7 @@ func (r Results) resultIn(
 		return Result{}, err
 	}
 
-	matchedDocuments, err := r.matchedDocuments(tx, documentMatches.Postings)
+	matchedDocuments, err := r.matchedDocuments(tx, documentMatches.JoinedPostings)
 	if err != nil {
 		return Result{}, err
 	}
@@ -129,7 +129,7 @@ func (r Results) resultIn(
 		TotalDocumentsMatchingEveryTerm: documentMatches.AmountOfDocumentsMatchingEveryTerm,
 		IndexAbstracts:                  abstracts,
 		AmountOfPostingsPerTerm:         amountOfPostingsPerTerm,
-		IndexReadStop:                   documentMatches.IndexReadStop,
+		IndexReadStopReason:             documentMatches.IndexReadStopReason,
 	}, nil
 }
 

@@ -30,17 +30,17 @@ const (
 	SearchMetadataFailure   SearchOutcome = "metadata_failure"
 )
 
-type IndexReadStop string
+type IndexReadStopReason string
 
 const (
-	IndexReadStoppedAtEndOfTerm      IndexReadStop = "end_of_term"
-	IndexReadStoppedAtRelevanceBound IndexReadStop = "relevance_bound"
-	IndexReadStoppedAtDeadline       IndexReadStop = "deadline"
+	IndexReadStoppedAtEndOfTerm      IndexReadStopReason = "end_of_term"
+	IndexReadStoppedAtRelevanceBound IndexReadStopReason = "relevance_bound"
+	IndexReadStoppedAtDeadline       IndexReadStopReason = "deadline"
 )
 
 type SearchMetrics struct {
 	searchesPerOutcome           *prometheus.CounterVec
-	indexReadsPerStop            *prometheus.CounterVec
+	indexReadsPerStopReason      *prometheus.CounterVec
 	termRingFractionPerPresence  *prometheus.HistogramVec
 	requestsPerUnsupportedOption *prometheus.CounterVec
 }
@@ -53,7 +53,7 @@ func NewSearchMetrics(registry prometheus.Registerer) *SearchMetrics {
 		},
 		[]string{labelSearchOutcome},
 	)
-	indexReadsPerStop := prometheus.NewCounterVec(
+	indexReadsPerStopReason := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "yacynode_documentsearch_index_reads_total",
 			Help: "Index reads of an answered search, by what ended each read.",
@@ -79,14 +79,14 @@ func NewSearchMetrics(registry prometheus.Registerer) *SearchMetrics {
 	)
 	registry.MustRegister(
 		searchesPerOutcome,
-		indexReadsPerStop,
+		indexReadsPerStopReason,
 		termRingFractionPerPresence,
 		requestsPerUnsupportedOption,
 	)
 
 	return &SearchMetrics{
 		searchesPerOutcome:           searchesPerOutcome,
-		indexReadsPerStop:            indexReadsPerStop,
+		indexReadsPerStopReason:      indexReadsPerStopReason,
 		termRingFractionPerPresence:  termRingFractionPerPresence,
 		requestsPerUnsupportedOption: requestsPerUnsupportedOption,
 	}
@@ -96,8 +96,8 @@ func (s *SearchMetrics) ObserveSearchOutcome(outcome SearchOutcome) {
 	s.searchesPerOutcome.WithLabelValues(string(outcome)).Inc()
 }
 
-func (s *SearchMetrics) ObserveIndexReadStop(stop IndexReadStop) {
-	s.indexReadsPerStop.WithLabelValues(string(stop)).Inc()
+func (s *SearchMetrics) ObserveIndexReadStopReason(reason IndexReadStopReason) {
+	s.indexReadsPerStopReason.WithLabelValues(string(reason)).Inc()
 }
 
 func (s *SearchMetrics) ObserveTermInIndex(ringFraction float64) {

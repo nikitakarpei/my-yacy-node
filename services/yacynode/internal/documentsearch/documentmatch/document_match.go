@@ -6,31 +6,31 @@ import (
 )
 
 type rankedDocument struct {
-	posting    yacymodel.RWIPosting
-	relevance  float64
-	termSpread int
+	joinedPosting yacymodel.RWIPosting
+	relevance     float64
+	termSpread    int
 }
 
-func mergedPostingOf(postings []yacymodel.RWIPosting) yacymodel.RWIPosting {
-	merged := postings[0]
+func joinedPostingOf(postings []yacymodel.RWIPosting) yacymodel.RWIPosting {
+	joined := postings[0]
 	for _, posting := range postings[1:] {
-		merged.TextPosition = earliestPosition(merged.TextPosition, posting.TextPosition)
-		if merged.PhrasePosition > posting.PhrasePosition {
-			merged.PhrasePosition = posting.PhrasePosition
-			merged.PhraseRelativePosition = posting.PhraseRelativePosition
-		} else if merged.PhrasePosition == posting.PhrasePosition {
-			merged.PhraseRelativePosition = min(
-				merged.PhraseRelativePosition,
+		joined.TextPosition = earliestPosition(joined.TextPosition, posting.TextPosition)
+		if joined.PhrasePosition > posting.PhrasePosition {
+			joined.PhrasePosition = posting.PhrasePosition
+			joined.PhraseRelativePosition = posting.PhraseRelativePosition
+		} else if joined.PhrasePosition == posting.PhrasePosition {
+			joined.PhraseRelativePosition = min(
+				joined.PhraseRelativePosition,
 				posting.PhraseRelativePosition,
 			)
 		}
-		merged.TextWords = max(merged.TextWords, posting.TextWords)
-		merged.TitleWords = max(merged.TitleWords, posting.TitleWords)
-		merged.Phrases = max(merged.Phrases, posting.Phrases)
-		merged.Hits = max(merged.Hits, posting.Hits)
+		joined.TextWords = max(joined.TextWords, posting.TextWords)
+		joined.TitleWords = max(joined.TitleWords, posting.TitleWords)
+		joined.Phrases = max(joined.Phrases, posting.Phrases)
+		joined.Hits = max(joined.Hits, posting.Hits)
 	}
 
-	return merged
+	return joined
 }
 
 const positionAbsent = 0
@@ -43,7 +43,7 @@ func earliestPosition(position, additional int) int {
 	return min(position, additional)
 }
 
-func relevanceOf(postings []yacymodel.RWIPosting, terms termsByRarity) float64 {
+func relevanceOf(postings []yacymodel.RWIPosting, terms searchTerms) float64 {
 	relevance := 0.0
 	for _, posting := range postings {
 		relevance += terms.rarityOf(posting.WordHash) *

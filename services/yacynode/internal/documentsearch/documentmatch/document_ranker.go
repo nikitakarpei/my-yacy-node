@@ -5,37 +5,23 @@ import (
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 )
 
-type ranking struct {
-	terms                              termsByRarity
-	relevanceBoundOfOtherTerms         float64
+type documentRanker struct {
+	terms                              searchTerms
+	largestRelevanceFromOtherTerms     float64
 	maxTermSpread                      int
 	maxResults                         int
 	rankedDocuments                    []rankedDocument
 	amountOfDocumentsMatchingEveryTerm int
 }
 
-func rankingFor(
-	criteria searchcriteria.Criteria,
-	terms termsByRarity,
-	relevanceBoundOfOtherTerms float64,
-) ranking {
-	return ranking{
-		terms:                      terms,
-		relevanceBoundOfOtherTerms: relevanceBoundOfOtherTerms,
-		maxTermSpread:              criteria.MaxTermSpread,
-		maxResults:                 criteria.MaxResults,
-	}
-}
-
-func (r *ranking) rarestTerm() yacymodel.Hash {
+func (r *documentRanker) rarestTerm() yacymodel.Hash {
 	return r.terms.rarestTerm
 }
 
-func (r *ranking) hasReachedRelevanceBoundAt(
+func (r *documentRanker) hasReachedRelevanceBoundAt(
 	impactOfNextUnreadPosting rwipostingimpactorder.Impact,
 ) bool {
 	if r.maxResults <= 0 || len(r.rankedDocuments) < r.maxResults {
@@ -46,18 +32,18 @@ func (r *ranking) hasReachedRelevanceBoundAt(
 		r.largestRelevanceReachableFrom(impactOfNextUnreadPosting)
 }
 
-func (r *ranking) largestRelevanceReachableFrom(
+func (r *documentRanker) largestRelevanceReachableFrom(
 	impactOfNextUnreadPosting rwipostingimpactorder.Impact,
 ) float64 {
 	return r.terms.rarityOf(r.rarestTerm())*float64(impactOfNextUnreadPosting) +
-		r.relevanceBoundOfOtherTerms
+		r.largestRelevanceFromOtherTerms
 }
 
-func (r *ranking) rankPostingsOfDocument(postings []yacymodel.RWIPosting) {
+func (r *documentRanker) rankPostingsOfDocument(postings []yacymodel.RWIPosting) {
 	document := rankedDocument{
-		posting:    mergedPostingOf(postings),
-		relevance:  relevanceOf(postings, r.terms),
-		termSpread: termSpreadOf(postings),
+		joinedPosting: joinedPostingOf(postings),
+		relevance:     relevanceOf(postings, r.terms),
+		termSpread:    termSpreadOf(postings),
 	}
 	if !r.isWithinTermSpread(document) {
 		return
@@ -66,7 +52,7 @@ func (r *ranking) rankPostingsOfDocument(postings []yacymodel.RWIPosting) {
 	r.placeRankedDocument(document)
 }
 
-func (r *ranking) isWithinTermSpread(document rankedDocument) bool {
+func (r *documentRanker) isWithinTermSpread(document rankedDocument) bool {
 	if r.maxTermSpread <= 0 {
 		return true
 	}
@@ -74,7 +60,7 @@ func (r *ranking) isWithinTermSpread(document rankedDocument) bool {
 	return document.termSpread <= r.maxTermSpread
 }
 
-func (r *ranking) placeRankedDocument(document rankedDocument) {
+func (r *documentRanker) placeRankedDocument(document rankedDocument) {
 	documentAt, _ := slices.BinarySearchFunc(r.rankedDocuments, document, r.compare)
 	if r.maxResults > 0 && documentAt >= r.maxResults {
 		return
@@ -85,21 +71,21 @@ func (r *ranking) placeRankedDocument(document rankedDocument) {
 	}
 }
 
-func (r *ranking) compare(a, b rankedDocument) int {
+func (r *documentRanker) compare(a, b rankedDocument) int {
 	return cmp.Or(
 		cmp.Compare(b.relevance, a.relevance),
 		cmp.Compare(a.termSpread, b.termSpread),
 		yacymodel.CompareInAlphabetOrder(
-			a.posting.URLHash.String(),
-			b.posting.URLHash.String(),
+			a.joinedPosting.URLHash.String(),
+			b.joinedPosting.URLHash.String(),
 		),
 	)
 }
 
-func (r *ranking) postingsInRelevanceOrder() []yacymodel.RWIPosting {
+func (r *documentRanker) joinedPostingsInRelevanceOrder() []yacymodel.RWIPosting {
 	postings := make([]yacymodel.RWIPosting, 0, len(r.rankedDocuments))
 	for _, document := range r.rankedDocuments {
-		postings = append(postings, document.posting)
+		postings = append(postings, document.joinedPosting)
 	}
 
 	return postings

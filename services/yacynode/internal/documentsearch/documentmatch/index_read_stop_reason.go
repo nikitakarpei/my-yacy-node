@@ -1,9 +1,9 @@
 package documentmatch
 
-type IndexReadStop int
+type IndexReadStopReason int
 
 const (
-	IndexReadStoppedAtEndOfTerm IndexReadStop = iota
+	IndexReadStoppedAtEndOfTerm IndexReadStopReason = iota
 	IndexReadStoppedAtRelevanceBound
 	IndexReadStoppedAtDeadline
 )
