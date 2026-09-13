@@ -125,11 +125,12 @@ func TestPostingStoredSchedulesPosting(t *testing.T) {
 	}
 }
 
-func TestPostingUpdatedReschedulesAndKeepsTheReplicaLedger(t *testing.T) {
+func TestAChangedPostingDropsTheReplicaLedgerAndIsDueAgain(t *testing.T) {
 	harness := openPostingRecords(t)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
+	changedPosting := yacymodel.RWIPosting{WordHash: word, URLHash: url, Hits: 7}
 
 	harness.update(t, func(tx *vault.Txn) error {
 		return harness.records.PostingStored(tx, posting)
@@ -139,15 +140,19 @@ func TestPostingUpdatedReschedulesAndKeepsTheReplicaLedger(t *testing.T) {
 	})
 
 	harness.update(t, func(tx *vault.Txn) error {
-		return harness.records.PostingUpdated(tx, posting, posting)
+		if err := harness.records.PostingPurged(tx, posting); err != nil {
+			return err
+		}
+
+		return harness.records.PostingStored(tx, changedPosting)
 	})
 
 	due := harness.duePostings(t)
 	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want the updated posting %v", due, word)
+		t.Fatalf("due = %v, want the changed posting %v", due, word)
 	}
-	if holders := harness.holdersOf(t, word, url); len(holders) != 1 || holders[0] != peer {
-		t.Fatalf("holders = %v, want [%v] after an update", holders, peer)
+	if holders := harness.holdersOf(t, word, url); len(holders) != 0 {
+		t.Fatalf("holders = %v, want none once the posting changed", holders)
 	}
 }
 
