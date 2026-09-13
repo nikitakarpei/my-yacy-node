@@ -1399,7 +1399,7 @@
     },
     {
       "id": 73,
-      "title": "Postings this node holds, by ring sector",
+      "title": "Ring occupancy of this node's postings, by ring sector",
       "description": "The DHT ring unrolled: each row is one sector of the keyspace.",
       "type": "heatmap",
       "datasource": {
@@ -1452,7 +1452,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "yacynode_rwipostings_per_dht_ring_sector{instance=~\"$service_instance\"}",
+          "expr": "yacynode_rwi_ring_sector_occupancy{instance=~\"$service_instance\"}",
           "legendFormat": "{{sector}}",
           "format": "time_series"
         }

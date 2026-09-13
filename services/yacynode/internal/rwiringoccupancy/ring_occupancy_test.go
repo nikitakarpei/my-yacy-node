@@ -1,4 +1,4 @@
-package rwipostingsectoramount_test
+package rwiringoccupancy_test
 
 import (
 	"context"
@@ -10,14 +10,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingsectoramount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
 )
 
 const ringPartitionExponent = 6
 
 type harness struct {
 	vault         *vault.Vault
-	sectorAmounts rwipostingsectoramount.PostingSectorAmountProjection
+	ringOccupancy rwiringoccupancy.RingOccupancyProjection
 }
 
 func openHarness(t *testing.T) harness {
@@ -33,12 +33,12 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	sectorAmounts, err := rwipostingsectoramount.Open(v, ringPartitions(t))
+	ringOccupancy, err := rwiringoccupancy.Open(v, ringPartitions(t))
 	if err != nil {
-		t.Fatalf("rwipostingsectoramount.Open: %v", err)
+		t.Fatalf("rwiringoccupancy.Open: %v", err)
 	}
 
-	return harness{vault: v, sectorAmounts: sectorAmounts}
+	return harness{vault: v, ringOccupancy: ringOccupancy}
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -54,7 +54,7 @@ func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.sectorAmounts.PostingStored(tx, posting); err != nil {
+			if err := h.ringOccupancy.PostingStored(tx, posting); err != nil {
 				return fmt.Errorf("store posting: %w", err)
 			}
 		}
@@ -68,7 +68,7 @@ func (h harness) purge(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.sectorAmounts.PostingPurged(tx, posting); err != nil {
+			if err := h.ringOccupancy.PostingPurged(tx, posting); err != nil {
 				return fmt.Errorf("purge posting: %w", err)
 			}
 		}
@@ -77,22 +77,22 @@ func (h harness) purge(t *testing.T, postings ...yacymodel.RWIPosting) {
 	})
 }
 
-func (h harness) amountOfPostingsPerDHTRingSector(
+func (h harness) occupancyOfDHTRingSectors(
 	t *testing.T,
 ) map[yacymodel.DHTRingSector]int {
 	t.Helper()
 
-	var amountPerSector map[yacymodel.DHTRingSector]int
+	var occupancyPerSector map[yacymodel.DHTRingSector]int
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		amounts, err := h.sectorAmounts.AmountOfPostingsPerDHTRingSector(tx)
-		amountPerSector = amounts
+		occupancy, err := h.ringOccupancy.OccupancyOfDHTRingSectors(tx)
+		occupancyPerSector = occupancy
 
 		return err
 	}); err != nil {
-		t.Fatalf("AmountOfPostingsPerDHTRingSector: %v", err)
+		t.Fatalf("OccupancyOfDHTRingSectors: %v", err)
 	}
 
-	return amountPerSector
+	return occupancyPerSector
 }
 
 func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
@@ -128,15 +128,15 @@ func sectorOf(t *testing.T, posting yacymodel.RWIPosting) yacymodel.DHTRingSecto
 	)
 }
 
-func TestANodeHoldingNoPostingCountsNoSector(t *testing.T) {
+func TestANodeHoldingNoPostingOccupiesNoSector(t *testing.T) {
 	h := openHarness(t)
 
-	if amounts := h.amountOfPostingsPerDHTRingSector(t); len(amounts) != 0 {
-		t.Fatalf("amounts = %v, want none", amounts)
+	if occupancy := h.occupancyOfDHTRingSectors(t); len(occupancy) != 0 {
+		t.Fatalf("occupancy = %v, want none", occupancy)
 	}
 }
 
-func TestEachStoredPostingRaisesTheAmountOfItsSector(t *testing.T) {
+func TestEachStoredPostingRaisesTheOccupancyOfItsSector(t *testing.T) {
 	h := openHarness(t)
 	together := []yacymodel.RWIPosting{postingOf("w1", "u1"), postingOf("w2", "u1")}
 	apart := postingOf("w1", "u2")
@@ -147,12 +147,12 @@ func TestEachStoredPostingRaisesTheAmountOfItsSector(t *testing.T) {
 		sectorOf(t, together[0]): 2,
 		sectorOf(t, apart):       1,
 	}
-	if got := h.amountOfPostingsPerDHTRingSector(t); !maps.Equal(got, want) {
-		t.Fatalf("amounts = %v, want %v", got, want)
+	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
+		t.Fatalf("occupancy = %v, want %v", got, want)
 	}
 }
 
-func TestEachPurgedPostingLowersTheAmountOfItsSector(t *testing.T) {
+func TestEachPurgedPostingLowersTheOccupancyOfItsSector(t *testing.T) {
 	h := openHarness(t)
 	remaining := postingOf("w1", "u1")
 	h.store(t, remaining, postingOf("w2", "u1"))
@@ -160,23 +160,23 @@ func TestEachPurgedPostingLowersTheAmountOfItsSector(t *testing.T) {
 	h.purge(t, postingOf("w2", "u1"))
 
 	want := map[yacymodel.DHTRingSector]int{sectorOf(t, remaining): 1}
-	if got := h.amountOfPostingsPerDHTRingSector(t); !maps.Equal(got, want) {
-		t.Fatalf("amounts = %v, want %v", got, want)
+	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
+		t.Fatalf("occupancy = %v, want %v", got, want)
 	}
 }
 
-func TestTheLastPurgedPostingLeavesItsSectorUncounted(t *testing.T) {
+func TestTheLastPurgedPostingLeavesItsSectorUnoccupied(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, postingOf("w1", "u1"))
 
 	h.purge(t, postingOf("w1", "u1"))
 
-	if amounts := h.amountOfPostingsPerDHTRingSector(t); len(amounts) != 0 {
-		t.Fatalf("amounts = %v, want none", amounts)
+	if occupancy := h.occupancyOfDHTRingSectors(t); len(occupancy) != 0 {
+		t.Fatalf("occupancy = %v, want none", occupancy)
 	}
 }
 
-func TestAPostingPurgedAndStoredAgainLeavesTheAmountAlone(t *testing.T) {
+func TestAPostingPurgedAndStoredAgainLeavesTheOccupancyAlone(t *testing.T) {
 	h := openHarness(t)
 	posting := postingOf("w1", "u1")
 	h.store(t, posting)
@@ -185,7 +185,7 @@ func TestAPostingPurgedAndStoredAgainLeavesTheAmountAlone(t *testing.T) {
 	h.store(t, posting)
 
 	want := map[yacymodel.DHTRingSector]int{sectorOf(t, posting): 1}
-	if got := h.amountOfPostingsPerDHTRingSector(t); !maps.Equal(got, want) {
-		t.Fatalf("amounts = %v, want %v", got, want)
+	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
+		t.Fatalf("occupancy = %v, want %v", got, want)
 	}
 }

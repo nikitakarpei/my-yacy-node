@@ -44,8 +44,8 @@ components:
     in: internal/rwipostingimpactorder/**
   rwipostingamount:
     in: internal/rwipostingamount/**
-  rwipostingsectoramount:
-    in: internal/rwipostingsectoramount/**
+  rwiringoccupancy:
+    in: internal/rwiringoccupancy/**
   rwiescrow:
     in: internal/rwiescrow/**
   rwiadmission:
@@ -233,7 +233,7 @@ deps:
     canUse:
       - vault
       - storedfields
-  rwipostingsectoramount:
+  rwiringoccupancy:
     mayDependOn:
       - rwipostings
     canUse:

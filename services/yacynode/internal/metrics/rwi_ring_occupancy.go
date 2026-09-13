@@ -11,33 +11,33 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type RWIPostingSectorAmounts interface {
-	AmountOfPostingsPerDHTRingSector(
+type RWIRingOccupancy interface {
+	OccupancyOfDHTRingSectors(
 		tx *vault.Txn,
 	) (map[yacymodel.DHTRingSector]int, error)
 }
 
-type RWIPostingSectorMetrics struct {
+type RWIRingOccupancyMetrics struct {
 	vault      *vault.Vault
-	amounts    RWIPostingSectorAmounts
+	occupancy  RWIRingOccupancy
 	nodeSector yacymodel.DHTRingSector
-	postings   *prometheus.Desc
+	occupied   *prometheus.Desc
 	ofNode     *prometheus.Desc
 }
 
-func NewRWIPostingSectorMetrics(
+func NewRWIRingOccupancyMetrics(
 	registry prometheus.Registerer,
 	v *vault.Vault,
-	amounts RWIPostingSectorAmounts,
+	occupancy RWIRingOccupancy,
 	nodeSector yacymodel.DHTRingSector,
-) *RWIPostingSectorMetrics {
-	metrics := &RWIPostingSectorMetrics{
+) *RWIRingOccupancyMetrics {
+	metrics := &RWIRingOccupancyMetrics{
 		vault:      v,
-		amounts:    amounts,
+		occupancy:  occupancy,
 		nodeSector: nodeSector,
-		postings: prometheus.NewDesc(
-			"yacynode_rwipostings_per_dht_ring_sector",
-			"Postings this node holds, by the DHT ring sector they fall in.",
+		occupied: prometheus.NewDesc(
+			"yacynode_rwi_ring_sector_occupancy",
+			"Occupancy of a DHT ring sector by the postings this node holds.",
 			[]string{labelDHTRingSector},
 			nil,
 		),
@@ -53,12 +53,12 @@ func NewRWIPostingSectorMetrics(
 	return metrics
 }
 
-func (m *RWIPostingSectorMetrics) Describe(descriptions chan<- *prometheus.Desc) {
-	descriptions <- m.postings
+func (m *RWIRingOccupancyMetrics) Describe(descriptions chan<- *prometheus.Desc) {
+	descriptions <- m.occupied
 	descriptions <- m.ofNode
 }
 
-func (m *RWIPostingSectorMetrics) Collect(samples chan<- prometheus.Metric) {
+func (m *RWIRingOccupancyMetrics) Collect(samples chan<- prometheus.Metric) {
 	ctx := context.Background()
 
 	samples <- prometheus.MustNewConstMetric(
@@ -67,16 +67,16 @@ func (m *RWIPostingSectorMetrics) Collect(samples chan<- prometheus.Metric) {
 		float64(m.nodeSector),
 	)
 
-	amountPerSector, err := m.amountOfPostingsPerDHTRingSector(ctx)
+	occupancyPerSector, err := m.occupancyOfDHTRingSectors(ctx)
 	if err != nil {
-		slog.WarnContext(ctx, "postings per dht ring sector unavailable", slog.Any("error", err))
+		slog.WarnContext(ctx, "ring occupancy of sectors unavailable", slog.Any("error", err))
 
 		return
 	}
 
-	for sector, amountOfPostings := range amountPerSector {
+	for sector, amountOfPostings := range occupancyPerSector {
 		samples <- prometheus.MustNewConstMetric(
-			m.postings,
+			m.occupied,
 			prometheus.GaugeValue,
 			float64(amountOfPostings),
 			fmt.Sprintf(dhtRingSectorFormat, sector),
@@ -84,18 +84,18 @@ func (m *RWIPostingSectorMetrics) Collect(samples chan<- prometheus.Metric) {
 	}
 }
 
-func (m *RWIPostingSectorMetrics) amountOfPostingsPerDHTRingSector(
+func (m *RWIRingOccupancyMetrics) occupancyOfDHTRingSectors(
 	ctx context.Context,
 ) (map[yacymodel.DHTRingSector]int, error) {
-	var amountPerSector map[yacymodel.DHTRingSector]int
+	var occupancyPerSector map[yacymodel.DHTRingSector]int
 	if err := m.vault.View(ctx, func(tx *vault.Txn) error {
-		amounts, err := m.amounts.AmountOfPostingsPerDHTRingSector(tx)
-		amountPerSector = amounts
+		occupancy, err := m.occupancy.OccupancyOfDHTRingSectors(tx)
+		occupancyPerSector = occupancy
 
 		return err
 	}); err != nil {
-		return nil, fmt.Errorf("read posting amounts per sector: %w", err)
+		return nil, fmt.Errorf("read ring occupancy of sectors: %w", err)
 	}
 
-	return amountPerSector, nil
+	return occupancyPerSector, nil
 }
