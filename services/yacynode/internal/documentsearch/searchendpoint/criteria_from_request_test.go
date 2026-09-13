@@ -11,9 +11,11 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -334,12 +336,14 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	index, directory := searchFixtureFor(t, searchWord,
 		searchDocument{Address: chosenSite},
 	)
-	recording := &deadlineRecordingPostingIndex{postings: index}
+	recording := &deadlineRecordingMatches{matches: documentmatch.New(index, index)}
 	mux, _ := mountedSearchResults(
 		t,
 		searchresult.New(
 			openVault(t),
-			termpostings.New(recording, maxPostingsPerTerm),
+			recording,
+			termdocuments.New(index, index),
+			index,
 			directory,
 		),
 	)
@@ -353,34 +357,22 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	return recording.remainingSearchTime
 }
 
-type deadlineRecordingPostingIndex struct {
-	postings            searchtest.PostingIndex
+type deadlineRecordingMatches struct {
+	matches             documentmatch.Matches
 	remainingSearchTime time.Duration
 }
 
-func (index *deadlineRecordingPostingIndex) ScanWord(
+func (m *deadlineRecordingMatches) MostRelevantDocumentsFor(
 	ctx context.Context,
 	tx *vault.Txn,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) error {
+	criteria searchcriteria.Criteria,
+	amountOfPostingsPerTerm map[yacymodel.Hash]int,
+) (documentmatch.MostRelevantDocuments, error) {
 	if deadline, found := ctx.Deadline(); found {
-		index.remainingSearchTime = time.Until(deadline)
+		m.remainingSearchTime = time.Until(deadline)
 	}
 
-	return index.postings.ScanWord(ctx, tx, word, visit)
-}
-
-func (index *deadlineRecordingPostingIndex) RWICount(tx *vault.Txn) (int, error) {
-	return index.postings.RWICount(tx)
-}
-
-func (index *deadlineRecordingPostingIndex) PostingOf(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	document yacymodel.URLHash,
-) (yacymodel.RWIPosting, bool, error) {
-	return index.postings.PostingOf(tx, word, document)
+	return m.matches.MostRelevantDocumentsFor(ctx, tx, criteria, amountOfPostingsPerTerm)
 }
 
 func assertRemainingSearchTime(t *testing.T, remaining, want time.Duration) {

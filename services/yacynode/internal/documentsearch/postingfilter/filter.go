@@ -1,6 +1,6 @@
 // Package postingfilter decides which postings of a term the search criteria
-// admit. It reads no storage: the caller supplies the documents that hold an
-// excluded term.
+// admit. It reads no storage, and it knows nothing of the words a search
+// excludes: the caller looks those up for each document it examines.
 package postingfilter
 
 import (
@@ -11,29 +11,13 @@ import (
 type Filter struct {
 	language           yacymodel.Optional[yacymodel.Language]
 	requiredDocuments  map[yacymodel.URLHash]struct{}
-	excludedDocuments  map[yacymodel.URLHash]struct{}
 	siteHash           yacymodel.Optional[yacymodel.HostHash]
 	contentKind        searchcriteria.ContentKind
 	strictContentKind  bool
 	requiredAppearance yacymodel.Optional[yacymodel.Appearance]
 }
 
-func FilterForSearch(
-	criteria searchcriteria.Criteria,
-	excludedDocuments map[yacymodel.URLHash]struct{},
-) Filter {
-	return Filter{
-		language:           criteria.Language,
-		requiredDocuments:  documentSet(criteria.RequiredDocuments),
-		excludedDocuments:  excludedDocuments,
-		siteHash:           criteria.SiteHash,
-		contentKind:        criteria.ContentKind,
-		strictContentKind:  criteria.StrictContentKind,
-		requiredAppearance: criteria.RequiredAppearance,
-	}
-}
-
-func FilterForReport(criteria searchcriteria.Criteria) Filter {
+func FilterForSearch(criteria searchcriteria.Criteria) Filter {
 	return Filter{
 		language:           criteria.Language,
 		requiredDocuments:  documentSet(criteria.RequiredDocuments),
@@ -67,9 +51,6 @@ func (f Filter) Accepts(posting yacymodel.RWIPosting) bool {
 		if _, ok := f.requiredDocuments[documentHash]; !ok {
 			return false
 		}
-	}
-	if _, ok := f.excludedDocuments[documentHash]; ok {
-		return false
 	}
 	if !isFromRequestedSite(posting.URLHash, f.siteHash) {
 		return false

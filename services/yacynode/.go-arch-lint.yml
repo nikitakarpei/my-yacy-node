@@ -62,6 +62,8 @@ components:
     in: internal/documentsearch/**
   searchmetrics:
     in: internal/documentsearch/searchmetrics/**
+  termdocuments:
+    in: internal/documentsearch/termdocuments/**
   searchtest:
     in: internal/documentsearch/searchtest/**
   nodestatus:
@@ -276,17 +278,29 @@ deps:
     mayDependOn:
       - documentsearch
       - searchmetrics
+      - termdocuments
       - rwipostings
+      - rwiimpactorder
+      - rwipostingamount
       - urlmeta
       - httpguard
       - nodeidentity
     canUse:
       - yacyproto
       - vault
+  termdocuments:
+    mayDependOn:
+      - documentsearch
+      - rwipostings
+      - rwiimpactorder
+    canUse:
+      - vault
   searchmetrics:
     canUse:
       - prometheus
   searchtest:
+    mayDependOn:
+      - rwiimpactorder
     canUse:
       - vault
   nodestatus:

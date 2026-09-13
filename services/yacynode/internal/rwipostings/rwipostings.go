@@ -8,8 +8,6 @@
 package rwipostings
 
 import (
-	"context"
-
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -35,12 +33,6 @@ type PostingIndex interface {
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
 	) (yacymodel.RWIPosting, bool, error)
-	ScanWord(
-		ctx context.Context,
-		tx *vault.Txn,
-		word yacymodel.Hash,
-		visit func(yacymodel.RWIPosting) (bool, error),
-	) error
 }
 
 type PostingAdmitter interface {

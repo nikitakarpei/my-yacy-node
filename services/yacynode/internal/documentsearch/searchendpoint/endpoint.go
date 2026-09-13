@@ -90,7 +90,7 @@ func (e endpoint) Serve(
 		resp.JoinCount = result.TotalDocumentsMatchingEveryTerm
 		resp.Resources = searchResourcesFrom(result)
 		resp.Count = len(resp.Resources)
-		resp.IndexCount = result.PostingsHeldPerTerm
+		resp.IndexCount = result.AmountOfPostingsPerTerm
 		resp.IndexAbstract = result.IndexAbstracts
 	} else {
 		e.observation.observeNetworkMismatch()

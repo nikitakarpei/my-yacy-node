@@ -40,7 +40,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
@@ -72,8 +74,6 @@ const (
 	evictionURLsPerBatch    = 256
 	evictionBatchesPerSweep = 64
 )
-
-const searchPostingsPerWord = 1000
 
 const servedURLMetadataPerRequest = 1000
 
@@ -141,6 +141,16 @@ func assembleNode(
 		return node{}, fmt.Errorf("url references: %w", err)
 	}
 
+	postingImpactOrder, err := rwiimpactorder.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi impact order: %w", err)
+	}
+
+	postingAmounts, err := rwipostingamount.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
+	}
+
 	distributionObserver := metrics.NewDistributionMetrics(registry)
 
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
@@ -156,6 +166,8 @@ func assembleNode(
 		vault,
 		urlReferences,
 		postingRecords,
+		postingImpactOrder,
+		postingAmounts,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
@@ -228,8 +240,9 @@ func assembleNode(
 		router,
 		identity,
 		postings,
+		postingImpactOrder,
+		postingAmounts,
 		urlDirectory,
-		searchPostingsPerWord,
 		searchmetrics.NewSearchMetrics(registry),
 		dhtRingPartitions,
 	)

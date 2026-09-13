@@ -1,13 +1,14 @@
 // Package searchmetrics exports the Prometheus metrics of the documentsearch
-// domain: the outcome of every answered search, how far requested terms sit
-// from this node on the DHT ring, and which unsupported search options peers
-// ask for.
+// domain: the outcome of every answered search, what ended the index read of
+// every answered search, how far requested terms sit from this node on the DHT
+// ring, and which unsupported search options peers ask for.
 package searchmetrics
 
 import "github.com/prometheus/client_golang/prometheus"
 
 const (
 	labelSearchOutcome = "outcome"
+	labelIndexReadStop = "stop"
 	labelTermPresence  = "presence"
 	labelSearchOption  = "option"
 
@@ -29,8 +30,17 @@ const (
 	SearchMetadataFailure   SearchOutcome = "metadata_failure"
 )
 
+type IndexReadStop string
+
+const (
+	IndexReadStoppedAtEveryPosting   IndexReadStop = "every_posting_read"
+	IndexReadStoppedAtRelevanceBound IndexReadStop = "relevance_bound"
+	IndexReadStoppedAtDeadline       IndexReadStop = "deadline"
+)
+
 type SearchMetrics struct {
 	searchesPerOutcome           *prometheus.CounterVec
+	indexReadsPerStop            *prometheus.CounterVec
 	termRingFractionPerPresence  *prometheus.HistogramVec
 	requestsPerUnsupportedOption *prometheus.CounterVec
 }
@@ -42,6 +52,13 @@ func NewSearchMetrics(registry prometheus.Registerer) *SearchMetrics {
 			Help: "Search requests answered, by how each one ended.",
 		},
 		[]string{labelSearchOutcome},
+	)
+	indexReadsPerStop := prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "yacynode_documentsearch_index_reads_total",
+			Help: "Index reads of an answered search, by what ended each read.",
+		},
+		[]string{labelIndexReadStop},
 	)
 	termRingFractionPerPresence := prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
@@ -62,12 +79,14 @@ func NewSearchMetrics(registry prometheus.Registerer) *SearchMetrics {
 	)
 	registry.MustRegister(
 		searchesPerOutcome,
+		indexReadsPerStop,
 		termRingFractionPerPresence,
 		requestsPerUnsupportedOption,
 	)
 
 	return &SearchMetrics{
 		searchesPerOutcome:           searchesPerOutcome,
+		indexReadsPerStop:            indexReadsPerStop,
 		termRingFractionPerPresence:  termRingFractionPerPresence,
 		requestsPerUnsupportedOption: requestsPerUnsupportedOption,
 	}
@@ -75,6 +94,10 @@ func NewSearchMetrics(registry prometheus.Registerer) *SearchMetrics {
 
 func (s *SearchMetrics) ObserveSearchOutcome(outcome SearchOutcome) {
 	s.searchesPerOutcome.WithLabelValues(string(outcome)).Inc()
+}
+
+func (s *SearchMetrics) ObserveIndexReadStop(stop IndexReadStop) {
+	s.indexReadsPerStop.WithLabelValues(string(stop)).Inc()
 }
 
 func (s *SearchMetrics) ObserveTermInIndex(ringFraction float64) {

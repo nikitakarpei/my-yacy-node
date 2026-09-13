@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 )
@@ -50,12 +51,24 @@ func (o searchObservation) observeServed(result searchresult.Result) {
 	} else {
 		o.metrics.ObserveSearchOutcome(searchmetrics.SearchServedNoResults)
 	}
-	for term, postingsHeld := range result.PostingsHeldPerTerm {
+	o.metrics.ObserveIndexReadStop(indexReadStopOf(result.IndexReadStop))
+	for term, amountOfPostings := range result.AmountOfPostingsPerTerm {
 		nearness := o.nodePosition.DistanceFromPostingsOfWord(term, o.partitions)
-		if postingsHeld > 0 {
+		if amountOfPostings > 0 {
 			o.metrics.ObserveTermInIndex(nearness.FractionOfDHTRing())
 		} else {
 			o.metrics.ObserveTermNotInIndex(nearness.FractionOfDHTRing())
 		}
+	}
+}
+
+func indexReadStopOf(stop documentmatch.IndexReadStop) searchmetrics.IndexReadStop {
+	switch stop {
+	case documentmatch.StoppedAtRelevanceBound:
+		return searchmetrics.IndexReadStoppedAtRelevanceBound
+	case documentmatch.StoppedAtDeadline:
+		return searchmetrics.IndexReadStoppedAtDeadline
+	default:
+		return searchmetrics.IndexReadStoppedAtEveryPosting
 	}
 }

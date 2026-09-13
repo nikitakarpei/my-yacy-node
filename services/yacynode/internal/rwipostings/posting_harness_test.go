@@ -36,21 +36,6 @@ func (h harness) rwiCount(t *testing.T) int {
 	return count
 }
 
-func (h harness) scanWord(
-	t *testing.T,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) {
-	t.Helper()
-
-	ctx := context.Background()
-	if err := h.vault.View(ctx, func(tx *vault.Txn) error {
-		return h.index.ScanWord(ctx, tx, word, visit)
-	}); err != nil {
-		t.Fatalf("ScanWord: %v", err)
-	}
-}
-
 func (h harness) postingOf(
 	t *testing.T,
 	word yacymodel.Hash,

@@ -1,7 +1,6 @@
 package rwipostings
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -80,30 +79,6 @@ func (d postingDirectory) PurgePosting(
 	}
 
 	return true, nil
-}
-
-func (d postingDirectory) ScanWord(
-	ctx context.Context,
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) error {
-	err := d.postings.Scan(
-		tx,
-		everyPostingOf(word),
-		func(identity postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
-			if err := ctx.Err(); err != nil {
-				return false, fmt.Errorf("context: %w", err)
-			}
-
-			return visit(postingWithIdentity(identity, entry))
-		},
-	)
-	if err != nil {
-		return fmt.Errorf("scan word postings: %w", err)
-	}
-
-	return nil
 }
 
 func collectionLength[K, V any](

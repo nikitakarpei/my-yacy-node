@@ -8,12 +8,50 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
+
+type searchIndex interface {
+	rwipostings.PostingIndex
+	rwiimpactorder.ImpactOrderQuery
+	rwipostingamount.PostingAmountQuery
+}
+
+func resultsFor(
+	t *testing.T,
+	index searchIndex,
+	documents searchresult.DocumentDirectory,
+) searchresult.Results {
+	t.Helper()
+
+	return searchresult.New(
+		openVault(t),
+		documentmatch.New(index, index),
+		termdocuments.New(index, index),
+		index,
+		documents,
+	)
+}
+
+func openVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	v, err := memoryvault.Open(0, nil)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	t.Cleanup(func() { _ = v.Close() })
+
+	return v
+}
 
 func mustLanguage(t *testing.T, raw string) yacymodel.Language {
 	t.Helper()
@@ -26,10 +64,10 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Language {
 	return language
 }
 
-func postingEntry(word yacymodel.Hash, url string, position int) yacymodel.RWIPosting {
+func postingEntry(word yacymodel.Hash, document string, position int) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:     word,
-		URLHash:      searchtest.URLHashFor(url),
+		URLHash:      searchtest.URLHashFor(document),
 		Hits:         1,
 		TextPosition: position,
 	}
@@ -71,15 +109,13 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 		word1: {postingEntry(word1, "u1", 0), postingEntry(word1, "u2", 0)},
 		word2: {postingEntry(word2, "u2", 0), postingEntry(word2, "u3", 0)},
 	}}
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
-	)
+	results := resultsFor(t, index, searchtest.URLDirectory{
+		Documents: urlMetadata("u1", "u2", "u3"),
+	})
 
 	result, err := results.ResultFor(
 		context.Background(),
-		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}},
+		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}, MaxResults: 10},
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -99,18 +135,40 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 	if result.MatchedDocuments[0].Metadata.Address != addressFor("u2") {
 		t.Errorf("resource = %v, want u2", result.MatchedDocuments[0].Metadata)
 	}
-	if result.PostingsHeldPerTerm[word1] != 2 {
+	if got := result.IndexAbstracts[word1]; !hasExactlyDocuments(got, "u1", "u2") {
+		t.Errorf("IndexAbstracts[w1] = %v, want u1, u2", got)
+	}
+}
+
+func TestSearchReportsTheAmountOfPostingsItHoldsWithoutReadingThemAll(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {
+			postingEntry(word, "u1", 0),
+			postingEntry(word, "u2", 0),
+			postingEntry(word, "u3", 0),
+		},
+	}}
+	results := resultsFor(t, index, searchtest.URLDirectory{
+		Documents: urlMetadata("u1", "u2", "u3"),
+	})
+
+	result, err := results.ResultFor(
+		context.Background(),
+		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}, MaxResults: 1},
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("ResultFor: %v", err)
+	}
+	if result.AmountOfPostingsPerTerm[word] != 3 {
 		t.Errorf(
-			"PostingsHeldPerTerm[w1] = %d, want 2",
-			result.PostingsHeldPerTerm[word1],
+			"AmountOfPostingsPerTerm[w1] = %d, want the 3 postings the node holds",
+			result.AmountOfPostingsPerTerm[word],
 		)
 	}
-	if got := result.IndexAbstracts[word1]; !hasExactlyDocuments(
-		got,
-		"u1",
-		"u2",
-	) {
-		t.Errorf("IndexAbstracts[w1] = %v, want u1, u2", got)
+	if len(result.MatchedDocuments) != 1 {
+		t.Errorf("resources = %d, want 1", len(result.MatchedDocuments))
 	}
 }
 
@@ -123,11 +181,9 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 			postingEntry(word, "u3", 0),
 		},
 	}}
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
-	)
+	results := resultsFor(t, index, searchtest.URLDirectory{
+		Documents: urlMetadata("u1", "u2", "u3"),
+	})
 
 	result, err := results.ResultFor(
 		context.Background(),
@@ -137,39 +193,26 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}
-	if result.TotalDocumentsMatchingEveryTerm != 3 {
-		t.Errorf(
-			"TotalDocumentsMatchingEveryTerm = %d, want 3",
-			result.TotalDocumentsMatchingEveryTerm,
-		)
-	}
 	if len(result.MatchedDocuments) != 2 {
 		t.Errorf("resources = %d, want 2", len(result.MatchedDocuments))
 	}
 }
 
 func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
-	word1, word2, word3 := searchtest.HashFor(
-		"w1",
-	), searchtest.HashFor(
-		"w2",
-	), searchtest.HashFor(
-		"w3",
-	)
+	word1, word2, word3 := searchtest.HashFor("w1"),
+		searchtest.HashFor("w2"),
+		searchtest.HashFor("w3")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {postingEntry(word1, "uA", 1), postingEntry(word1, "uB", 1)},
 		word2: {postingEntry(word2, "uA", 5), postingEntry(word2, "uB", 10)},
 		word3: {postingEntry(word3, "uA", 9), postingEntry(word3, "uB", 20)},
 	}}
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.URLDirectory{Documents: urlMetadata("uA", "uB")},
-	)
+	results := resultsFor(t, index, searchtest.URLDirectory{Documents: urlMetadata("uA", "uB")})
 
 	result, err := results.ResultFor(context.Background(), searchcriteria.Criteria{
 		Terms:         []yacymodel.Hash{word1, word2, word3},
 		MaxTermSpread: 5,
+		MaxResults:    10,
 	}, nil)
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
@@ -180,27 +223,10 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	}
 }
 
-func TestSearchSurfacesExcludedTermScanFailures(t *testing.T) {
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(searchtest.FailingPostingIndex{Err: errScanBroken}, 100),
-		searchtest.URLDirectory{},
-	)
-
-	_, err := results.ResultFor(
-		context.Background(),
-		searchcriteria.Criteria{ExcludedTerms: []yacymodel.Hash{searchtest.HashFor("ban")}},
-		nil,
-	)
-	if !errors.Is(err, errScanBroken) {
-		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
-	}
-}
-
-func TestSearchSurfacesQueryTermScanFailures(t *testing.T) {
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(searchtest.FailingPostingIndex{Err: errScanBroken}, 100),
+func TestSearchSurfacesQueryTermFailures(t *testing.T) {
+	results := resultsFor(
+		t,
+		searchtest.FailingPostingIndex{Err: errIndexBroken},
 		searchtest.URLDirectory{},
 	)
 
@@ -209,8 +235,8 @@ func TestSearchSurfacesQueryTermScanFailures(t *testing.T) {
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{searchtest.HashFor("w1")}},
 		nil,
 	)
-	if !errors.Is(err, errScanBroken) {
-		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
+	if !errors.Is(err, errIndexBroken) {
+		t.Fatalf("ResultFor error = %v, want %v", err, errIndexBroken)
 	}
 }
 
@@ -219,15 +245,11 @@ func TestSearchSurfacesMetadataFailures(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 0)},
 	}}
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.FailingURLDirectory{Err: errDirectoryBroken},
-	)
+	results := resultsFor(t, index, searchtest.FailingURLDirectory{Err: errDirectoryBroken})
 
 	_, err := results.ResultFor(
 		context.Background(),
-		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}},
+		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}, MaxResults: 10},
 		nil,
 	)
 	if !errors.Is(err, errDirectoryBroken) {
@@ -235,10 +257,10 @@ func TestSearchSurfacesMetadataFailures(t *testing.T) {
 	}
 }
 
-func TestSearchSurfacesIndexAbstractTermScanFailures(t *testing.T) {
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(searchtest.FailingPostingIndex{Err: errScanBroken}, 100),
+func TestSearchSurfacesIndexAbstractTermFailures(t *testing.T) {
+	results := resultsFor(
+		t,
+		searchtest.FailingPostingIndex{Err: errIndexBroken},
 		searchtest.URLDirectory{},
 	)
 
@@ -249,13 +271,13 @@ func TestSearchSurfacesIndexAbstractTermScanFailures(t *testing.T) {
 			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{searchtest.HashFor("w2")}},
 		},
 	)
-	if !errors.Is(err, errScanBroken) {
-		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
+	if !errors.Is(err, errIndexBroken) {
+		t.Fatalf("ResultFor error = %v, want %v", err, errIndexBroken)
 	}
 }
 
 var (
-	errScanBroken      = errors.New("scan broken")
+	errIndexBroken     = errors.New("index broken")
 	errDirectoryBroken = errors.New("directory broken")
 )
 
@@ -264,11 +286,7 @@ func TestSearchAbstractsRequestedTermsWithoutQueryTerms(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 1), postingEntry(word, "u2", 1)},
 	}}
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.URLDirectory{},
-	)
+	results := resultsFor(t, index, searchtest.URLDirectory{})
 
 	result, err := results.ResultFor(
 		context.Background(),
@@ -283,15 +301,11 @@ func TestSearchAbstractsRequestedTermsWithoutQueryTerms(t *testing.T) {
 	if result.TotalDocumentsMatchingEveryTerm != 0 || len(result.MatchedDocuments) != 0 {
 		t.Fatalf("result = %+v, want report only", result)
 	}
-	if len(result.PostingsHeldPerTerm) != 0 {
-		t.Errorf("PostingsHeldPerTerm = %v, want none without query terms",
-			result.PostingsHeldPerTerm)
+	if len(result.AmountOfPostingsPerTerm) != 0 {
+		t.Errorf("AmountOfPostingsPerTerm = %v, want none without query terms",
+			result.AmountOfPostingsPerTerm)
 	}
-	if got := result.IndexAbstracts[word]; !hasExactlyDocuments(
-		got,
-		"u1",
-		"u2",
-	) {
+	if got := result.IndexAbstracts[word]; !hasExactlyDocuments(got, "u1", "u2") {
 		t.Errorf("IndexAbstracts = %v, want u1, u2", got)
 	}
 }
@@ -302,15 +316,11 @@ func TestSearchAbstractsRequestedTermsAlongsideQueryTerms(t *testing.T) {
 		word:    {postingEntry(word, "u1", 0), postingEntry(word, "u2", 0)},
 		related: {postingEntry(related, "u2", 0), postingEntry(related, "u3", 0)},
 	}}
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")},
-	)
+	results := resultsFor(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")})
 
 	result, err := results.ResultFor(
 		context.Background(),
-		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}},
+		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}, MaxResults: 10},
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{related}},
 		},
@@ -318,50 +328,44 @@ func TestSearchAbstractsRequestedTermsAlongsideQueryTerms(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}
-	if got := result.IndexAbstracts[related]; !hasExactlyDocuments(
-		got,
-		"u2",
-		"u3",
-	) {
+	if got := result.IndexAbstracts[related]; !hasExactlyDocuments(got, "u2", "u3") {
 		t.Fatalf("IndexAbstracts[related] = %v, want u2, u3", got)
 	}
 }
 
 func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
-	english := func(url string, position int) yacymodel.RWIPosting {
-		posting := postingEntry(word1, url, position)
-		posting.Language = mustLanguage(t, "en")
-
-		return posting
-	}
-	inLanguage := func(word yacymodel.Hash, url, language string, position int) yacymodel.RWIPosting {
-		posting := postingEntry(word, url, position)
+	inLanguage := func(
+		word yacymodel.Hash,
+		document, language string,
+		position int,
+	) yacymodel.RWIPosting {
+		posting := postingEntry(word, document, position)
 		posting.Language = mustLanguage(t, language)
 
 		return posting
 	}
 
-	near := english("u1", 1)
-	nearOther := inLanguage(word2, "u1", "en", 2)
-	german := inLanguage(word1, "u2", "de", 1)
-	germanOther := inLanguage(word2, "u2", "de", 2)
-	far := english("u3", 1)
-	farOther := inLanguage(word2, "u3", "en", 9)
-
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word1: {near, german, far},
-		word2: {nearOther, germanOther, farOther},
+		word1: {
+			inLanguage(word1, "u1", "en", 1),
+			inLanguage(word1, "u2", "de", 1),
+			inLanguage(word1, "u3", "en", 1),
+		},
+		word2: {
+			inLanguage(word2, "u1", "en", 2),
+			inLanguage(word2, "u2", "de", 2),
+			inLanguage(word2, "u3", "en", 9),
+		},
 	}}
-	results := searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
-	)
+	results := resultsFor(t, index, searchtest.URLDirectory{
+		Documents: urlMetadata("u1", "u2", "u3"),
+	})
 
 	result, err := results.ResultFor(context.Background(), searchcriteria.Criteria{
 		Terms:         []yacymodel.Hash{word1, word2},
 		MaxTermSpread: 5,
+		MaxResults:    10,
 		Language:      yacymodel.Some(mustLanguage(t, "en")),
 	}, nil)
 	if err != nil {
@@ -371,16 +375,4 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 		result.MatchedDocuments[0].Metadata.Address != addressFor("u1") {
 		t.Fatalf("resources = %v, want only u1", result.MatchedDocuments)
 	}
-}
-
-func openVault(t *testing.T) *vault.Vault {
-	t.Helper()
-
-	v, err := memoryvault.Open(0, nil)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
-	t.Cleanup(func() { _ = v.Close() })
-
-	return v
 }

@@ -1,17 +1,20 @@
 // Package documentsearch mounts the endpoint that finds documents containing
-// query terms, orders them by relevance, and reports how many documents matched
-// each term.
+// query terms, orders them by relevance, and reports how many postings this
+// node holds for each term.
 package documentsearch
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -21,15 +24,22 @@ func MountSearch(
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
 	index rwipostings.PostingIndex,
+	impactOrder rwiimpactorder.ImpactOrderQuery,
+	amounts rwipostingamount.PostingAmountQuery,
 	documents searchresult.DocumentDirectory,
-	maxPostingsPerTerm int,
 	metrics *searchmetrics.SearchMetrics,
 	partitions yacymodel.DHTRingPartitions,
 ) {
 	searchendpoint.Mount(
 		router,
 		identity,
-		searchresult.New(v, termpostings.New(index, maxPostingsPerTerm), documents),
+		searchresult.New(
+			v,
+			documentmatch.New(index, impactOrder),
+			termdocuments.New(index, impactOrder),
+			amounts,
+			documents,
+		),
 		metrics,
 		partitions,
 	)

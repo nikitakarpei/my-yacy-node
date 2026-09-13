@@ -12,20 +12,43 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const (
-	searchNetwork      = "freeworld"
-	maxPostingsPerTerm = 100
-)
+const searchNetwork = "freeworld"
+
+type searchIndex interface {
+	rwipostings.PostingIndex
+	rwiimpactorder.ImpactOrderQuery
+	rwipostingamount.PostingAmountQuery
+}
+
+func searchResultsFor(
+	t *testing.T,
+	index searchIndex,
+	documents searchresult.DocumentDirectory,
+) searchresult.Results {
+	t.Helper()
+
+	return searchresult.New(
+		openVault(t),
+		documentmatch.New(index, index),
+		termdocuments.New(index, index),
+		index,
+		documents,
+	)
+}
 
 type searchRuntimeStatus struct{}
 
@@ -44,14 +67,7 @@ func mountedSearch(
 ) *http.ServeMux {
 	t.Helper()
 
-	mux, _ := mountedSearchResults(
-		t,
-		searchresult.New(
-			openVault(t),
-			termpostings.New(index, maxPostingsPerTerm),
-			documents,
-		),
-	)
+	mux, _ := mountedSearchResults(t, searchResultsFor(t, index, documents))
 
 	return mux
 }
