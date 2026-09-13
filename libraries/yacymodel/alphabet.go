@@ -1,6 +1,7 @@
 package yacymodel
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 )
@@ -20,6 +21,19 @@ func newDecodeTable() [256]int8 {
 		table[Alphabet[i]] = int8(i)
 	}
 	return table
+}
+
+// CompareInAlphabetOrder orders two encoded values the way YaCy orders them,
+// by the place of each symbol in Alphabet and not by its byte value
+// (Base64Order.enhancedCoder).
+func CompareInAlphabetOrder(a, b string) int {
+	for i := 0; i < len(a) && i < len(b); i++ {
+		if order := cmp.Compare(decodeTable[a[i]], decodeTable[b[i]]); order != 0 {
+			return order
+		}
+	}
+
+	return cmp.Compare(len(a), len(b))
 }
 
 func Encode(src []byte) string {

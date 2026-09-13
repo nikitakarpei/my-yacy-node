@@ -138,7 +138,10 @@ func PostingsOfMostRelevantDocuments(
 			return cmp.Compare(a.termSpread(termCount), b.termSpread(termCount))
 		}
 
-		return cmp.Compare(a.posting.URLHash.String(), b.posting.URLHash.String())
+		return yacymodel.CompareInAlphabetOrder(
+			a.posting.URLHash.String(),
+			b.posting.URLHash.String(),
+		)
 	})
 
 	postings := make([]yacymodel.RWIPosting, 0, len(ranked))
