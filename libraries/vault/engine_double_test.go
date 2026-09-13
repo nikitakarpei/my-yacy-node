@@ -103,19 +103,21 @@ func (b doubleBucket) Get(key []byte) ([]byte, error) {
 	return copyBytes(value), nil
 }
 
-func (b doubleBucket) Put(key []byte, value []byte) error {
+func (b doubleBucket) Put(key []byte, value []byte) ([]byte, error) {
+	previousValue := b.entries[string(key)]
 	b.entries[string(key)] = copyBytes(value)
 
-	return nil
+	return previousValue, nil
 }
 
-func (b doubleBucket) Delete(key []byte) (bool, error) {
-	if _, present := b.entries[string(key)]; !present {
-		return false, nil
+func (b doubleBucket) Delete(key []byte) ([]byte, error) {
+	previousValue, present := b.entries[string(key)]
+	if !present {
+		return nil, nil
 	}
 	delete(b.entries, string(key))
 
-	return true, nil
+	return previousValue, nil
 }
 
 func (b doubleBucket) Len() (int, error) {

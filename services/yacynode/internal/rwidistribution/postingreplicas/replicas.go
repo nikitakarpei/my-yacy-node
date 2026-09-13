@@ -32,7 +32,7 @@ func (l *Replicas) PostingPurged(
 	url yacymodel.URLHash,
 ) error {
 	posting := postingidentity.IdentityOf(word, url)
-	if _, err := l.holders.Delete(tx, posting); err != nil {
+	if _, _, err := l.holders.Delete(tx, posting); err != nil {
 		return fmt.Errorf("drop replica ledger: %w", err)
 	}
 
@@ -73,7 +73,7 @@ func (l *Replicas) RecordAccepted(
 		if slices.Contains(holders, peer) {
 			continue
 		}
-		if err := l.holders.Put(tx, identity, append(holders, peer)); err != nil {
+		if _, _, err := l.holders.Put(tx, identity, append(holders, peer)); err != nil {
 			return fmt.Errorf("record accepted replica: %w", err)
 		}
 	}
@@ -123,13 +123,13 @@ func (l *Replicas) dropHolders(
 		return 0, nil
 	}
 	if len(keptHolders) == 0 {
-		if _, err := l.holders.Delete(tx, posting); err != nil {
+		if _, _, err := l.holders.Delete(tx, posting); err != nil {
 			return 0, fmt.Errorf("drop stale replicas: %w", err)
 		}
 
 		return droppedReplicas, nil
 	}
-	if err := l.holders.Put(tx, posting, keptHolders); err != nil {
+	if _, _, err := l.holders.Put(tx, posting, keptHolders); err != nil {
 		return 0, fmt.Errorf("drop stale replicas: %w", err)
 	}
 

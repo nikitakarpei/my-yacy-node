@@ -12,7 +12,9 @@ func TestPutThenGetTranslatesThroughCodec(t *testing.T) {
 	v, words := openWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -67,7 +69,9 @@ func TestEncodeErrorSurfaces(t *testing.T) {
 	}
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return collection.Put(tx, "a", "alpha")
+		_, _, storeErr := collection.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err == nil {
 		t.Fatal("Put with failing encode succeeded, want error")
 	}
@@ -94,7 +98,9 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 	}
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return collection.Put(tx, "a", "alpha")
+		_, _, storeErr := collection.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -120,5 +126,63 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 	})
 	if scanErr == nil {
 		t.Fatal("Scan with failing decode succeeded, want error")
+	}
+}
+
+func TestPutReportsTheValueItReplaced(t *testing.T) {
+	ctx := context.Background()
+	v, words := openWords(t)
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		replaced, wasHeld, err := words.Put(tx, "a", "alpha")
+		if err != nil {
+			return wrap(err)
+		}
+		if wasHeld {
+			t.Fatalf("first Put replaced %q", replaced)
+		}
+
+		replaced, wasHeld, err = words.Put(tx, "a", "again")
+		if err != nil {
+			return wrap(err)
+		}
+		if !wasHeld || replaced != "alpha" {
+			t.Fatalf("second Put replaced %q, %v, want alpha, true", replaced, wasHeld)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
+func TestDeleteReportsTheValueItRemoved(t *testing.T) {
+	ctx := context.Background()
+	v, words := openWords(t)
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		if _, _, err := words.Put(tx, "a", "alpha"); err != nil {
+			return wrap(err)
+		}
+
+		removed, wasHeld, err := words.Delete(tx, "a")
+		if err != nil {
+			return wrap(err)
+		}
+		if !wasHeld || removed != "alpha" {
+			t.Fatalf("Delete removed %q, %v, want alpha, true", removed, wasHeld)
+		}
+
+		removed, wasHeld, err = words.Delete(tx, "a")
+		if err != nil {
+			return wrap(err)
+		}
+		if wasHeld {
+			t.Fatalf("second Delete removed %q", removed)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
 	}
 }

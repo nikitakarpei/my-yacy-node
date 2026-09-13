@@ -19,30 +19,31 @@ func (b boltBucket) Get(key []byte) ([]byte, error) {
 	return b.entries.Get(key), nil
 }
 
-func (b boltBucket) Put(key []byte, val []byte) error {
-	inserted := b.entries.Get(key) == nil
+func (b boltBucket) Put(key []byte, val []byte) ([]byte, error) {
+	previousValue := bytes.Clone(b.entries.Get(key))
 	if err := b.entries.Put(key, val); err != nil {
-		return fmt.Errorf("store: %w", err)
+		return nil, fmt.Errorf("store: %w", err)
 	}
-	if !inserted {
-		return nil
+	if previousValue != nil {
+		return previousValue, nil
 	}
 
-	return adjustLength(b.lengths, b.name, 1)
+	return nil, adjustLength(b.lengths, b.name, 1)
 }
 
-func (b boltBucket) Delete(key []byte) (bool, error) {
-	if b.entries.Get(key) == nil {
-		return false, nil
+func (b boltBucket) Delete(key []byte) ([]byte, error) {
+	previousValue := bytes.Clone(b.entries.Get(key))
+	if previousValue == nil {
+		return nil, nil
 	}
 	if err := b.entries.Delete(key); err != nil {
-		return false, fmt.Errorf("delete: %w", err)
+		return nil, fmt.Errorf("delete: %w", err)
 	}
 	if err := adjustLength(b.lengths, b.name, -1); err != nil {
-		return false, err
+		return nil, err
 	}
 
-	return true, nil
+	return previousValue, nil
 }
 
 func (b boltBucket) Len() (int, error) {

@@ -82,7 +82,9 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	first := vaultAt(t, path, 0)
 	words := registerWords(t, first)
 	if err := first.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -157,7 +159,9 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 	words := registerWords(t, store)
 
 	if err := store.Update(context.Background(), func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update over quota = %v, want nil (the engine does not gate writes)", err)
 	}

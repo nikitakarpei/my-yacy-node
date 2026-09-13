@@ -18,41 +18,41 @@ func (b pebbleBucket) Get(key []byte) ([]byte, error) {
 	return b.entries.valueAt(key)
 }
 
-func (b pebbleBucket) Put(key []byte, newValue []byte) error {
+func (b pebbleBucket) Put(key []byte, newValue []byte) ([]byte, error) {
 	previousValue, err := b.entries.valueAt(key)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if err := b.staged.Set(
 		b.entries.region.absoluteKeyFrom(key),
 		newValue,
 		pebble.NoSync,
 	); err != nil {
-		return fmt.Errorf("store: %w", err)
+		return nil, fmt.Errorf("store: %w", err)
 	}
 	if previousValue == nil {
-		return b.tally.adjustBy(1, int64(len(key)+len(newValue)))
+		return nil, b.tally.adjustBy(1, int64(len(key)+len(newValue)))
 	}
 
-	return b.tally.adjustBy(0, int64(len(newValue)-len(previousValue)))
+	return previousValue, b.tally.adjustBy(0, int64(len(newValue)-len(previousValue)))
 }
 
-func (b pebbleBucket) Delete(key []byte) (bool, error) {
+func (b pebbleBucket) Delete(key []byte) ([]byte, error) {
 	previousValue, err := b.entries.valueAt(key)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 	if previousValue == nil {
-		return false, nil
+		return nil, nil
 	}
 	if err := b.staged.Delete(b.entries.region.absoluteKeyFrom(key), pebble.NoSync); err != nil {
-		return false, fmt.Errorf("delete: %w", err)
+		return nil, fmt.Errorf("delete: %w", err)
 	}
 	if err := b.tally.adjustBy(-1, -int64(len(key)+len(previousValue))); err != nil {
-		return false, err
+		return nil, err
 	}
 
-	return true, nil
+	return previousValue, nil
 }
 
 func (b pebbleBucket) Len() (int, error) {

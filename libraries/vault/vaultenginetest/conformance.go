@@ -28,6 +28,10 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 		"LengthAfterDeleteAndOverwrite",
 		func(t *testing.T) { lengthAfterDeleteAndOverwrite(t, open) },
 	)
+	t.Run(
+		"WritesReportTheValueTheyDisplaced",
+		func(t *testing.T) { writesReportTheValueTheyDisplaced(t, open) },
+	)
 	t.Run("ScanVisitsRangeInOrder", func(t *testing.T) { scanVisitsRangeInOrder(t, open) })
 	t.Run("ScanStopsWhenAsked", func(t *testing.T) { scanStopsWhenAsked(t, open) })
 	t.Run(
@@ -122,11 +126,13 @@ func roundTripAndLength(t *testing.T, open func(int64) (vault.Engine, error)) {
 	words := register(t, v, "words")
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		if err := words.Put(tx, "a", "alpha"); err != nil {
+		if _, _, err := words.Put(tx, "a", "alpha"); err != nil {
 			return wrapTest(err)
 		}
 
-		return words.Put(tx, "b", "beta")
+		_, _, storeErr := words.Put(tx, "b", "beta")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -179,20 +185,20 @@ func lengthAfterDeleteAndOverwrite(t *testing.T, open func(int64) (vault.Engine,
 	words := register(t, v, "words")
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		if err := words.Put(tx, "a", "alpha"); err != nil {
+		if _, _, err := words.Put(tx, "a", "alpha"); err != nil {
 			return wrapTest(err)
 		}
-		if err := words.Put(tx, "a", "again"); err != nil {
+		if _, _, err := words.Put(tx, "a", "again"); err != nil {
 			return wrapTest(err)
 		}
-		deleted, err := words.Delete(tx, "a")
+		_, deleted, err := words.Delete(tx, "a")
 		if err != nil {
 			return wrapTest(err)
 		}
 		if !deleted {
 			t.Fatal("Delete reported missing key")
 		}
-		missing, err := words.Delete(tx, "a")
+		_, missing, err := words.Delete(tx, "a")
 		if err != nil {
 			return wrapTest(err)
 		}
@@ -220,6 +226,42 @@ func lengthAfterDeleteAndOverwrite(t *testing.T, open func(int64) (vault.Engine,
 	}
 }
 
+func writesReportTheValueTheyDisplaced(t *testing.T, open func(int64) (vault.Engine, error)) {
+	ctx := context.Background()
+	v := openVault(t, open, 0)
+	words := register(t, v, "words")
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		replaced, wasHeld, err := words.Put(tx, "a", "alpha")
+		if err != nil {
+			return wrapTest(err)
+		}
+		if wasHeld {
+			t.Fatalf("Put over an absent key replaced %q", replaced)
+		}
+
+		replaced, wasHeld, err = words.Put(tx, "a", "again")
+		if err != nil {
+			return wrapTest(err)
+		}
+		if !wasHeld || replaced != "alpha" {
+			t.Fatalf("Put replaced %q, %v, want alpha, true", replaced, wasHeld)
+		}
+
+		removed, wasHeld, err := words.Delete(tx, "a")
+		if err != nil {
+			return wrapTest(err)
+		}
+		if !wasHeld || removed != "again" {
+			t.Fatalf("Delete removed %q, %v, want again, true", removed, wasHeld)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
 func scanVisitsRangeInOrder(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
@@ -227,7 +269,7 @@ func scanVisitsRangeInOrder(t *testing.T, open func(int64) (vault.Engine, error)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		for _, key := range []string{"qa", "pb", "pa"} {
-			if err := words.Put(tx, key, key); err != nil {
+			if _, _, err := words.Put(tx, key, key); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -264,7 +306,7 @@ func scanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, error)) {
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		for _, key := range []string{"a", "b", "c"} {
-			if err := words.Put(tx, key, key); err != nil {
+			if _, _, err := words.Put(tx, key, key); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -361,7 +403,7 @@ func storeBoundedScanKeys(t *testing.T, engine vault.Engine) {
 	if err := engine.Update(context.Background(), func(etx vault.EngineTxn) error {
 		bucket := etx.Bucket(boundedScanBucket)
 		for _, key := range boundedScanKeys {
-			if err := bucket.Put(stringKeyParts.Key(key).Bytes(), []byte(key)); err != nil {
+			if _, err := bucket.Put(stringKeyParts.Key(key).Bytes(), []byte(key)); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -407,10 +449,10 @@ func crossCollectionAtomicRollback(t *testing.T, open func(int64) (vault.Engine,
 
 	sentinel := errors.New("boom")
 	err := v.Update(ctx, func(tx *vault.Txn) error {
-		if err := left.Put(tx, "a", "alpha"); err != nil {
+		if _, _, err := left.Put(tx, "a", "alpha"); err != nil {
 			return wrapTest(err)
 		}
-		if err := right.Put(tx, "b", "beta"); err != nil {
+		if _, _, err := right.Put(tx, "b", "beta"); err != nil {
 			return wrapTest(err)
 		}
 
@@ -476,8 +518,9 @@ func storeScannedEntries(t *testing.T, engine vault.Engine) {
 		t.Fatalf("Provision: %v", err)
 	}
 	if err := engine.Update(context.Background(), func(tx vault.EngineTxn) error {
+		scanned := tx.Bucket(scannedBucket)
 		for _, key := range []string{"a", "b", "c"} {
-			if err := tx.Bucket(scannedBucket).Put([]byte(key), []byte(key+"-value")); err != nil {
+			if _, err := scanned.Put([]byte(key), []byte(key+"-value")); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -532,7 +575,9 @@ func bucketOwnershipIsolation(t *testing.T, open func(int64) (vault.Engine, erro
 	right := register(t, v, "right")
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return left.Put(tx, "a", "alpha")
+		_, _, storeErr := left.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -558,7 +603,9 @@ func atCapacityTracksQuota(t *testing.T, open func(int64) (vault.Engine, error))
 	words := register(t, v, "words")
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -591,7 +638,9 @@ func usedBytesGrowsWithData(t *testing.T, open func(int64) (vault.Engine, error)
 	}
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -626,7 +675,7 @@ func usedBytesFallsAfterDelete(t *testing.T, open func(int64) (vault.Engine, err
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		for row := range deletedRowCount {
-			if _, err := words.Delete(tx, strconv.Itoa(row)); err != nil {
+			if _, _, err := words.Delete(tx, strconv.Itoa(row)); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -651,7 +700,7 @@ func storeDeletedRows(t *testing.T, v *vault.Vault, words *vault.Collection[stri
 	value := strings.Repeat("x", deletedRowValueBytes)
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		for row := range deletedRowCount {
-			if err := words.Put(tx, strconv.Itoa(row), value); err != nil {
+			if _, _, err := words.Put(tx, strconv.Itoa(row), value); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -744,7 +793,7 @@ func incrementCounter(tx *vault.Txn, counters *vault.Collection[string, string])
 		}
 	}
 
-	if err := counters.Put(tx, counterKey, strconv.Itoa(current+1)); err != nil {
+	if _, _, err := counters.Put(tx, counterKey, strconv.Itoa(current+1)); err != nil {
 		return wrapTest(err)
 	}
 
@@ -771,7 +820,9 @@ func repeatedWriteCommitsOneValue(t *testing.T, open func(int64) (vault.Engine, 
 	words := register(t, v, "words")
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "alpha", "first")
+		_, _, storeErr := words.Put(tx, "alpha", "first")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -804,7 +855,9 @@ func repeatedWriteSeesTheSameStoredState(t *testing.T, open func(int64) (vault.E
 		}
 		found = append(found, stored)
 
-		return words.Put(tx, "alpha", "first")
+		_, _, storeErr := words.Put(tx, "alpha", "first")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}

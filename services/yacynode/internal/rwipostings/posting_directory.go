@@ -42,7 +42,7 @@ func (d postingDirectory) PostingOf(
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	key := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	if err := d.postings.Put(tx, key, posting); err != nil {
+	if _, _, err := d.postings.Put(tx, key, posting); err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
 	if err := d.observers.stored(tx, posting.WordHash, posting.URLHash); err != nil {
@@ -57,7 +57,7 @@ func (d postingDirectory) PurgePosting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (bool, error) {
-	deleted, err := d.postings.Delete(tx, postingIdentity{word: word, url: url})
+	_, deleted, err := d.postings.Delete(tx, postingIdentity{word: word, url: url})
 	if err != nil {
 		return false, fmt.Errorf("delete rwi posting: %w", err)
 	}

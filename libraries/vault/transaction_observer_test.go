@@ -132,7 +132,9 @@ func TestCommittedWriteThatStoresReportsWriteOperation(t *testing.T) {
 	v, observer, words := openObservedWords(t)
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -170,7 +172,7 @@ func TestCommittedWriteDeletingAbsentKeyReportsWriteOperation(t *testing.T) {
 	v, observer, words := openObservedWords(t)
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		_, err := words.Delete(tx, "a")
+		_, _, err := words.Delete(tx, "a")
 
 		return err
 	}); err != nil {

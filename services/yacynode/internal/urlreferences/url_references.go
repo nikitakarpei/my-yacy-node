@@ -31,10 +31,10 @@ func (r *urlReferences) PostingStored(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) error {
-	if err := r.words.Add(tx, wordByURL{url: url, word: word}); err != nil {
+	if _, err := r.words.Add(tx, wordByURL{url: url, word: word}); err != nil {
 		return fmt.Errorf("record word by url: %w", err)
 	}
-	if err := r.referenced.Add(tx, url); err != nil {
+	if _, err := r.referenced.Add(tx, url); err != nil {
 		return fmt.Errorf("record referenced url: %w", err)
 	}
 

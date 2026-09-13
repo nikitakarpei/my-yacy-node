@@ -73,7 +73,7 @@ func (d urlDirectory) Purge(
 ) (PurgeResult, error) {
 	var result PurgeResult
 	for _, hash := range urls {
-		deleted, err := d.collection.Delete(tx, hash)
+		_, deleted, err := d.collection.Delete(tx, hash)
 		if err != nil {
 			return PurgeResult{}, fmt.Errorf("delete url metadata: %w", err)
 		}

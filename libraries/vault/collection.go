@@ -60,39 +60,59 @@ func (c *Collection[K, V]) valueFrom(record []byte) (V, error) {
 	return val, nil
 }
 
-func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
+func (c *Collection[K, V]) Put(tx *Txn, key K, val V) (V, bool, error) {
+	var zero V
+
 	if !tx.etx.Writable() {
-		return errReadOnly
+		return zero, false, errReadOnly
 	}
 	tx.calledWriteOperation = true
 
 	payload, err := c.values.Encode(val)
 	if err != nil {
-		return fmt.Errorf("encode %s: %w", c.name, err)
+		return zero, false, fmt.Errorf("encode %s: %w", c.name, err)
 	}
 
-	if err := tx.etx.Bucket(c.name).Put(
+	replacedRecord, err := tx.etx.Bucket(c.name).Put(
 		c.keys.Encode(key).Bytes(),
 		recordFrom(payload),
-	); err != nil {
-		return fmt.Errorf("store %s: %w", c.name, err)
+	)
+	if err != nil {
+		return zero, false, fmt.Errorf("store %s: %w", c.name, err)
 	}
 
-	return nil
+	return c.valueOfDisplacedRecord(replacedRecord)
 }
 
-func (c *Collection[K, V]) Delete(tx *Txn, key K) (bool, error) {
+func (c *Collection[K, V]) Delete(tx *Txn, key K) (V, bool, error) {
+	var zero V
+
 	if !tx.etx.Writable() {
-		return false, errReadOnly
+		return zero, false, errReadOnly
 	}
 	tx.calledWriteOperation = true
 
-	deleted, err := tx.etx.Bucket(c.name).Delete(c.keys.Encode(key).Bytes())
+	removedRecord, err := tx.etx.Bucket(c.name).Delete(c.keys.Encode(key).Bytes())
 	if err != nil {
-		return false, fmt.Errorf("delete %s: %w", c.name, err)
+		return zero, false, fmt.Errorf("delete %s: %w", c.name, err)
 	}
 
-	return deleted, nil
+	return c.valueOfDisplacedRecord(removedRecord)
+}
+
+func (c *Collection[K, V]) valueOfDisplacedRecord(record []byte) (V, bool, error) {
+	var zero V
+
+	if record == nil {
+		return zero, false, nil
+	}
+
+	displaced, err := c.valueFrom(record)
+	if err != nil {
+		return zero, false, err
+	}
+
+	return displaced, true, nil
 }
 
 func (c *Collection[K, V]) Scan(

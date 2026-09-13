@@ -14,14 +14,16 @@ func TestWriteInsideViewReturnsError(t *testing.T) {
 	v, words := openWords(t)
 
 	putErr := v.View(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	})
 	if putErr == nil {
 		t.Fatal("Put inside View succeeded, want error")
 	}
 
 	deleteErr := v.View(ctx, func(tx *vault.Txn) error {
-		_, delErr := words.Delete(tx, "a")
+		_, _, delErr := words.Delete(tx, "a")
 		if delErr != nil {
 			return wrap(delErr)
 		}
@@ -65,7 +67,9 @@ func TestAfterCommitCallbackRunsOnceWhenTheWriteCommits(t *testing.T) {
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		tx.RunAfterCommit(func() { runs++ })
 
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -82,7 +86,7 @@ func TestAfterCommitCallbackStaysUnrunWhenTheWriteAborts(t *testing.T) {
 	runs := 0
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		tx.RunAfterCommit(func() { runs++ })
-		if err := words.Put(tx, "a", "alpha"); err != nil {
+		if _, _, err := words.Put(tx, "a", "alpha"); err != nil {
 			return wrap(err)
 		}
 
@@ -119,7 +123,9 @@ func TestAfterCommitCallbackRunsOnceWhenTheEngineRepeatsTheClosure(t *testing.T)
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		tx.RunAfterCommit(func() { runs++ })
 
-		return words.Put(tx, "a", "alpha")
+		_, _, storeErr := words.Put(tx, "a", "alpha")
+
+		return storeErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}

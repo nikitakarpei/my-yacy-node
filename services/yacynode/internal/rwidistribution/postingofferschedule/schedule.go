@@ -96,7 +96,7 @@ func (s *Schedule) clearDueAt(
 	); err != nil {
 		return fmt.Errorf("drop offer order: %w", err)
 	}
-	if _, err := s.dueTimes.Delete(tx, posting); err != nil {
+	if _, _, err := s.dueTimes.Delete(tx, posting); err != nil {
 		return fmt.Errorf("drop offer due: %w", err)
 	}
 
@@ -108,10 +108,10 @@ func (s *Schedule) setDueAt(
 	posting postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Posting: posting}); err != nil {
+	if _, err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Posting: posting}); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
-	if err := s.dueTimes.Put(tx, posting, dueAt); err != nil {
+	if _, _, err := s.dueTimes.Put(tx, posting, dueAt); err != nil {
 		return fmt.Errorf("record offer due: %w", err)
 	}
 
@@ -132,7 +132,7 @@ func (s *Schedule) PostingPurged(
 }
 
 func (s *Schedule) forgetOfferInterval(tx *vault.Txn, posting postingidentity.Identity) error {
-	if _, err := s.offerIntervals.Delete(tx, posting); err != nil {
+	if _, _, err := s.offerIntervals.Delete(tx, posting); err != nil {
 		return fmt.Errorf("drop offer retry wait: %w", err)
 	}
 
@@ -190,7 +190,11 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	if err != nil {
 		return fmt.Errorf("read offer interval: %w", err)
 	}
-	if err := s.offerIntervals.Put(tx, posting, bounds.WidenedFrom(previousInterval)); err != nil {
+	if _, _, err := s.offerIntervals.Put(
+		tx,
+		posting,
+		bounds.WidenedFrom(previousInterval),
+	); err != nil {
 		return fmt.Errorf("record offer interval: %w", err)
 	}
 	pause := bounds.PauseFrom(previousInterval, requestedPause)

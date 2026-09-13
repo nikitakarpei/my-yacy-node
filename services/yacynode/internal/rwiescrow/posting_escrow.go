@@ -60,13 +60,13 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 		}
 	}
 
-	if err := e.escrowed.Put(tx, identity, escrowedPosting{
+	if _, _, err := e.escrowed.Put(tx, identity, escrowedPosting{
 		HeldAt:  heldAt,
 		Posting: posting,
 	}); err != nil {
 		return fmt.Errorf("escrow posting: %w", err)
 	}
-	if err := e.holds.Add(tx, postingHold{HeldAt: heldAt, Posting: identity}); err != nil {
+	if _, err := e.holds.Add(tx, postingHold{HeldAt: heldAt, Posting: identity}); err != nil {
 		return fmt.Errorf("record posting hold: %w", err)
 	}
 	if !found {
@@ -213,7 +213,7 @@ func (e *PostingEscrow) release(tx *vault.Txn, escrowed escrowedPosting) error {
 }
 
 func (e *PostingEscrow) drop(tx *vault.Txn, hold postingHold) error {
-	if _, err := e.escrowed.Delete(tx, hold.Posting); err != nil {
+	if _, _, err := e.escrowed.Delete(tx, hold.Posting); err != nil {
 		return fmt.Errorf("drop escrowed posting: %w", err)
 	}
 	if _, err := e.holds.Remove(tx, hold); err != nil {
