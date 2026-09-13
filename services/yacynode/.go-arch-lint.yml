@@ -44,6 +44,8 @@ components:
     in: internal/rwipostingimpactorder/**
   rwipostingamount:
     in: internal/rwipostingamount/**
+  rwipostingsectoramount:
+    in: internal/rwipostingsectoramount/**
   rwiescrow:
     in: internal/rwiescrow/**
   rwiadmission:
@@ -228,6 +230,12 @@ deps:
     mayDependOn:
       - rwipostings
       - hashkeypart
+    canUse:
+      - vault
+      - storedfields
+  rwipostingsectoramount:
+    mayDependOn:
+      - rwipostings
     canUse:
       - vault
       - storedfields

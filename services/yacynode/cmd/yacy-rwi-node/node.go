@@ -44,6 +44,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingsectoramount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
@@ -153,6 +154,17 @@ func assembleNode(
 		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
 	}
 
+	postingSectorAmounts, err := rwipostingsectoramount.Open(vault, dhtRingPartitions)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi posting amounts per sector: %w", err)
+	}
+	metrics.NewRWIPostingSectorMetrics(
+		registry,
+		vault,
+		postingSectorAmounts,
+		yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(identity.Hash)),
+	)
+
 	distributionObserver := metrics.NewDistributionMetrics(registry)
 
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
@@ -170,6 +182,7 @@ func assembleNode(
 		postingRecords,
 		postingImpactOrder,
 		postingAmounts,
+		postingSectorAmounts,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
