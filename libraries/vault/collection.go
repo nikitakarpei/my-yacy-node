@@ -60,10 +60,13 @@ func (c *Collection[K, V]) valueFrom(record []byte) (V, error) {
 	return val, nil
 }
 
-func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
-	_, err := c.storeRecord(tx, key, val)
+func (c *Collection[K, V]) Put(tx *Txn, key K, val V) (wasReplaced bool, err error) {
+	replacedRecord, err := c.storeRecord(tx, key, val)
+	if err != nil {
+		return false, err
+	}
 
-	return err
+	return replacedRecord != nil, nil
 }
 
 func (c *Collection[K, V]) storeRecord(

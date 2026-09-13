@@ -60,7 +60,7 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 		}
 	}
 
-	if err := e.escrowed.Put(tx, identity, escrowedPosting{
+	if _, err := e.escrowed.Put(tx, identity, escrowedPosting{
 		HeldAt:  heldAt,
 		Posting: posting,
 	}); err != nil {

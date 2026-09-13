@@ -66,7 +66,7 @@ func (o *stalenessRanking) URLStored(
 	if _, err := o.order.Add(tx, rankedURL{rank: rank, hash: hash}); err != nil {
 		return fmt.Errorf("record staleness order: %w", err)
 	}
-	if err := o.freshness.Put(tx, hash, rank); err != nil {
+	if _, err := o.freshness.Put(tx, hash, rank); err != nil {
 		return fmt.Errorf("record staleness freshness: %w", err)
 	}
 

@@ -114,7 +114,7 @@ func (s *Schedule) setDueAt(
 	if _, err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Identity: identity}); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
-	if err := s.dueTimes.Put(tx, identity, dueAt); err != nil {
+	if _, err := s.dueTimes.Put(tx, identity, dueAt); err != nil {
 		return fmt.Errorf("record offer due: %w", err)
 	}
 
@@ -189,7 +189,7 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	if err != nil {
 		return fmt.Errorf("read offer interval: %w", err)
 	}
-	if err := s.offerIntervals.Put(
+	if _, err := s.offerIntervals.Put(
 		tx,
 		identity,
 		bounds.WidenedFrom(previousInterval),

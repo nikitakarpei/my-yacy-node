@@ -12,7 +12,9 @@ func TestPutThenGetTranslatesThroughCodec(t *testing.T) {
 	v, words := openWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, err := words.Put(tx, "a", "alpha")
+
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -67,7 +69,9 @@ func TestEncodeErrorSurfaces(t *testing.T) {
 	}
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return collection.Put(tx, "a", "alpha")
+		_, err := collection.Put(tx, "a", "alpha")
+
+		return err
 	}); err == nil {
 		t.Fatal("Put with failing encode succeeded, want error")
 	}
@@ -78,7 +82,9 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 	v, words := openUndecodableWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, err := words.Put(tx, "a", "alpha")
+
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -104,6 +110,33 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 	})
 	if scanErr == nil {
 		t.Fatal("Scan with failing decode succeeded, want error")
+	}
+}
+
+func TestPutReportsWhetherTheKeyHeldARecord(t *testing.T) {
+	ctx := context.Background()
+	v, words := openWords(t)
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		wasReplaced, err := words.Put(tx, "a", "alpha")
+		if err != nil {
+			return wrap(err)
+		}
+		if wasReplaced {
+			t.Fatal("first Put reported a replacement, want none")
+		}
+
+		wasReplaced, err = words.Put(tx, "a", "again")
+		if err != nil {
+			return wrap(err)
+		}
+		if !wasReplaced {
+			t.Fatal("second Put reported no replacement, want the held record replaced")
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
 	}
 }
 
@@ -143,7 +176,7 @@ func TestDeleteReturningReportsTheValueItRemoved(t *testing.T) {
 	v, words := openWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		if err := words.Put(tx, "a", "alpha"); err != nil {
+		if _, err := words.Put(tx, "a", "alpha"); err != nil {
 			return wrap(err)
 		}
 
@@ -174,7 +207,9 @@ func TestReturningWritesFailOverARecordThatDoesNotDecode(t *testing.T) {
 	v, words := openUndecodableWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, err := words.Put(tx, "a", "alpha")
+
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -203,15 +238,24 @@ func TestPlainWritesSucceedOverARecordThatDoesNotDecode(t *testing.T) {
 	v, words := openUndecodableWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, err := words.Put(tx, "a", "alpha")
+
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
 
+	var wasReplaced bool
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "again")
+		replaced, err := words.Put(tx, "a", "again")
+		wasReplaced = replaced
+
+		return err
 	}); err != nil {
 		t.Fatalf("Put over a record that does not decode: %v", err)
+	}
+	if !wasReplaced {
+		t.Fatal("Put reported no replacement, want the record that does not decode replaced")
 	}
 
 	var wasDeleted bool

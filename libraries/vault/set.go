@@ -14,7 +14,7 @@ func (v *Vault) RegisterSet[K any](bucket Name, keys KeyLayout[K]) (*Set[K], err
 }
 
 func (s *Set[K]) Add(tx *Txn, key K) (alreadyExists bool, err error) {
-	_, alreadyExists, err = s.entries.PutReturning(tx, key, struct{}{})
+	alreadyExists, err = s.entries.Put(tx, key, struct{}{})
 	if err != nil {
 		return false, err
 	}

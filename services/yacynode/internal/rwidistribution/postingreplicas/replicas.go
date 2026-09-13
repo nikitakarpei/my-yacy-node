@@ -69,7 +69,7 @@ func (l *Replicas) RecordAccepted(
 		if slices.Contains(holders, peer) {
 			continue
 		}
-		if err := l.holders.Put(tx, identity, append(holders, peer)); err != nil {
+		if _, err := l.holders.Put(tx, identity, append(holders, peer)); err != nil {
 			return fmt.Errorf("record accepted replica: %w", err)
 		}
 	}
@@ -125,7 +125,7 @@ func (l *Replicas) dropHolders(
 
 		return droppedReplicas, nil
 	}
-	if err := l.holders.Put(tx, identity, keptHolders); err != nil {
+	if _, err := l.holders.Put(tx, identity, keptHolders); err != nil {
 		return 0, fmt.Errorf("drop stale replicas: %w", err)
 	}
 

@@ -102,7 +102,7 @@ func (r *roster) discoverOne(
 	}
 	entry.primaryAddress = networkAddress.Host()
 	entry.port = networkAddress.Port()
-	if err := r.peers.Put(tx, peerHash, entry); err != nil {
+	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
 		return fmt.Errorf("store peer %s: %w", peerHash, err)
 	}
 
@@ -293,7 +293,7 @@ func (r *roster) recordReachable(
 	entry.port = networkAddress.Port()
 	entry.lastContacted = confirmedAt
 	entry.lastReachable = confirmedAt
-	if err := r.peers.Put(tx, peerHash, entry); err != nil {
+	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
 		return fmt.Errorf("store peer %s: %w", peerHash, err)
 	}
 
@@ -346,7 +346,7 @@ func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
 
 	entry.lastContacted = r.now()
 	entry.lastReachable = neverReachable
-	if err := r.peers.Put(tx, peer, entry); err != nil {
+	if _, err := r.peers.Put(tx, peer, entry); err != nil {
 		return fmt.Errorf("store peer %s: %w", peer, err)
 	}
 
