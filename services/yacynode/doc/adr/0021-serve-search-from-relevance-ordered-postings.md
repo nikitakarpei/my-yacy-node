@@ -36,9 +36,9 @@ sum of its impacts across the search words, each weighted by how rare the word i
 The search stops when the best documents it found score at least as well as any document it has
 not read yet. The count of a word answers the `indexcount` field with no read of the postings.
 
-The node still stops after a fixed number of postings per word, in case the check never lets it
-stop, and it still stops at the request deadline. When either limit stops a search, the node
-reports it through metrics.
+The request deadline is the only other limit. Every search has one: the time the peer grants,
+capped at three seconds, or three seconds when it grants none. A search that reaches its deadline
+answers with the best documents it found so far, and the node reports it through metrics.
 
 ## Considered alternatives
 
@@ -48,9 +48,6 @@ rarity of a word tell more about relevance than hits, and both are known to the 
 Rank with the full model of `yacydhtsearch`. Rejected: its phrase and address scores need the
 page text or the address, which the node has only after it chose the documents, and that service
 applies them to what the node sends anyway.
-
-Start from the rarest word without an ordered list. Rejected: the node still reads the whole
-rarest word, so this bounds memory but not disk reads.
 
 One ordered list per filter, such as language or site. Deferred: it multiplies the writes and
 the storage of every posting. It is added once metrics show that filtered searches return too
@@ -63,10 +60,13 @@ on arrival. Rejected: the storage engine offers no seek, and dropping postings c
 ## Known limitations
 
 A strict filter can return fewer results than the node holds, because the node applies the
-filter only to the postings it examines before the fixed limit.
+filter only to the postings it examines before the deadline.
 
 Two documents with the same score are ordered by term spread and URL hash, which the stop check
-does not see. A search where all postings have the same impact runs to the fixed limit.
+does not see. A search where all postings have the same impact runs to the deadline.
+
+A common word can keep the disk busy for the whole deadline, as it does today. The reads are
+bounded by time, not by a count, so a slow disk examines fewer postings in the same time.
 
 A store from before this decision starts with empty lists, and a change of the impact rule
 takes effect only for postings stored after it. The node migrates neither. An operator recreates
@@ -76,5 +76,5 @@ the store, as ADR 0017 did for the key format. Each posting costs two more write
 
 The reads of one search are bounded by the request and by the rarest search word, never by the
 size of a common word. A search with one rare word costs a few dozen reads. Excluded words no
-longer load a whole list into memory. Operators see through metrics when a search stopped at a
-limit instead of on its own check.
+longer load a whole list into memory. Operators see through metrics when a search stopped at
+the deadline instead of on its own check.
