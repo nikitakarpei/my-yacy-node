@@ -1,7 +1,7 @@
-// Package indexabstract owns the index abstracts of one search request: the
-// terms they cover, and the documents each one names. A peer reads them to
-// plan which peers to ask next, so they carry document hashes only, never
-// metadata.
+// Package indexabstract owns the index abstracts of one search request: which
+// terms they cover, and the documents each one names, the most relevant first
+// and up to a cap, read from the index of this node. A peer reads them to plan
+// which peers to ask next, so they carry document hashes only.
 package indexabstract
 
 import (
@@ -11,18 +11,6 @@ import (
 )
 
 type IndexAbstracts map[yacymodel.Hash][]yacymodel.URLHash
-
-func IndexAbstractsOf(
-	terms []yacymodel.Hash,
-	documentsPerTerm map[yacymodel.Hash][]yacymodel.URLHash,
-) IndexAbstracts {
-	abstracts := make(IndexAbstracts, len(terms))
-	for _, term := range terms {
-		abstracts[term] = documentsPerTerm[term]
-	}
-
-	return abstracts
-}
 
 func termsInIndex(
 	queryTerms []yacymodel.Hash,

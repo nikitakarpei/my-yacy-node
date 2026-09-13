@@ -64,8 +64,6 @@ components:
     in: internal/documentsearch/**
   searchmetrics:
     in: internal/documentsearch/searchmetrics/**
-  termmatch:
-    in: internal/documentsearch/termmatch/**
   searchrelevance:
     in: internal/documentsearch/searchrelevance/**
   documentshortlist:
@@ -290,7 +288,6 @@ deps:
     mayDependOn:
       - documentsearch
       - searchmetrics
-      - termmatch
       - searchrelevance
       - documentshortlist
       - rwipostings
@@ -301,13 +298,6 @@ deps:
       - nodeidentity
     canUse:
       - yacyproto
-      - vault
-  termmatch:
-    mayDependOn:
-      - documentsearch
-      - rwipostings
-      - rwipostingimpactorder
-    canUse:
       - vault
   searchrelevance:
     mayDependOn:

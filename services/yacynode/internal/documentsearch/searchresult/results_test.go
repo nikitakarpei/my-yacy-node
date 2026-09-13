@@ -13,7 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -25,7 +24,7 @@ type searchIndex interface {
 	rwipostingamount.PostingAmountQuery
 }
 
-const mostRelevantDocumentsPerTerm = 1000
+const documentsPerIndexAbstract = 1000
 
 func resultsFor(
 	t *testing.T,
@@ -37,7 +36,7 @@ func resultsFor(
 	return searchresult.New(
 		openVault(t),
 		documentmatch.New(index, index),
-		termmatch.New(index, index, mostRelevantDocumentsPerTerm),
+		indexabstract.New(index, index, documentsPerIndexAbstract),
 		index,
 		documents,
 	)

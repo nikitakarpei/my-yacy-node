@@ -15,7 +15,7 @@ type RequestedIndexAbstract interface {
 
 type RequestedIndexAbstracts []RequestedIndexAbstract
 
-func TermsCoveredBy(
+func termsCoveredBy(
 	requested RequestedIndexAbstracts,
 	queryTerms []yacymodel.Hash,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,

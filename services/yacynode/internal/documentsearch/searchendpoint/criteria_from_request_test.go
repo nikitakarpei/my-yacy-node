@@ -12,10 +12,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -344,7 +344,7 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 		searchresult.New(
 			openVault(t),
 			recording,
-			termmatch.New(index, index, mostRelevantDocumentsPerTerm),
+			indexabstract.New(index, index, documentsPerIndexAbstract),
 			index,
 			directory,
 		),

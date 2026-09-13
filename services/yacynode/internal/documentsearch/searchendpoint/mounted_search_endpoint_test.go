@@ -13,11 +13,11 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
@@ -34,7 +34,7 @@ type searchIndex interface {
 	rwipostingamount.PostingAmountQuery
 }
 
-const mostRelevantDocumentsPerTerm = 1000
+const documentsPerIndexAbstract = 1000
 
 func searchResultsFor(
 	t *testing.T,
@@ -46,7 +46,7 @@ func searchResultsFor(
 	return searchresult.New(
 		openVault(t),
 		documentmatch.New(index, index),
-		termmatch.New(index, index, mostRelevantDocumentsPerTerm),
+		indexabstract.New(index, index, documentsPerIndexAbstract),
 		index,
 		documents,
 	)

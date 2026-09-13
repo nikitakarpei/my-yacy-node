@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/titletopics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 )
@@ -28,26 +27,26 @@ type DocumentDirectory interface {
 }
 
 type Results struct {
-	vault             *vault.Vault
-	documentMatcher   documentmatch.DocumentMatcher
-	termMatcher       termmatch.TermMatcher
-	postingAmounts    rwipostingamount.PostingAmountQuery
-	documentDirectory DocumentDirectory
+	vault              *vault.Vault
+	documentMatcher    documentmatch.DocumentMatcher
+	indexAbstractQuery indexabstract.IndexAbstractQuery
+	postingAmounts     rwipostingamount.PostingAmountQuery
+	documentDirectory  DocumentDirectory
 }
 
 func New(
 	v *vault.Vault,
 	documentMatcher documentmatch.DocumentMatcher,
-	termMatcher termmatch.TermMatcher,
+	indexAbstractQuery indexabstract.IndexAbstractQuery,
 	postingAmounts rwipostingamount.PostingAmountQuery,
 	documentDirectory DocumentDirectory,
 ) Results {
 	return Results{
-		vault:             v,
-		documentMatcher:   documentMatcher,
-		termMatcher:       termMatcher,
-		postingAmounts:    postingAmounts,
-		documentDirectory: documentDirectory,
+		vault:              v,
+		documentMatcher:    documentMatcher,
+		indexAbstractQuery: indexAbstractQuery,
+		postingAmounts:     postingAmounts,
+		documentDirectory:  documentDirectory,
 	}
 }
 
@@ -113,7 +112,7 @@ func (r Results) resultIn(
 		return Result{}, err
 	}
 
-	abstracts, err := r.indexAbstracts(
+	abstracts, err := r.indexAbstractQuery.IndexAbstractsFor(
 		ctx, tx, criteria, requestedIndexAbstracts, amountOfPostingsPerTerm,
 	)
 	if err != nil {
@@ -177,31 +176,6 @@ func documentHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
 	}
 
 	return hashes
-}
-
-func (r Results) indexAbstracts(
-	ctx context.Context,
-	tx *vault.Txn,
-	criteria searchcriteria.Criteria,
-	requestedIndexAbstracts indexabstract.RequestedIndexAbstracts,
-	amountOfPostingsPerTerm map[yacymodel.Hash]int,
-) (indexabstract.IndexAbstracts, error) {
-	terms := indexabstract.TermsCoveredBy(
-		requestedIndexAbstracts,
-		criteria.Terms,
-		amountOfPostingsPerTerm,
-	)
-
-	documentsPerTerm := make(map[yacymodel.Hash][]yacymodel.URLHash, len(terms))
-	for _, term := range terms {
-		documents, err := r.termMatcher.MatchesFor(ctx, tx, term, criteria)
-		if err != nil {
-			return nil, err
-		}
-		documentsPerTerm[term] = documents
-	}
-
-	return indexabstract.IndexAbstractsOf(terms, documentsPerTerm), nil
 }
 
 func documentTitlesOf(matched []MatchedDocument) []string {

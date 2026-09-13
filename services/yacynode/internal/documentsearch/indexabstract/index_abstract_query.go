@@ -1,7 +1,4 @@
-// Package termmatch names the documents this node holds for one term that the
-// search criteria admit, the most relevant first and up to a cap. It answers
-// the search pass with them for the index abstracts of that term.
-package termmatch
+package indexabstract
 
 import (
 	"context"
@@ -15,34 +12,56 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type TermMatcher interface {
-	MatchesFor(
+type IndexAbstractQuery interface {
+	IndexAbstractsFor(
 		ctx context.Context,
 		tx *vault.Txn,
-		term yacymodel.Hash,
 		criteria searchcriteria.Criteria,
-	) ([]yacymodel.URLHash, error)
+		requested RequestedIndexAbstracts,
+		amountOfPostingsPerTerm map[yacymodel.Hash]int,
+	) (IndexAbstracts, error)
 }
 
 func New(
 	postings rwipostings.PostingIndex,
 	impactOrder rwipostingimpactorder.ImpactOrderQuery,
-	mostRelevantDocumentsPerTerm int,
-) TermMatcher {
-	return termMatcher{
-		postings:                     postings,
-		impactOrder:                  impactOrder,
-		mostRelevantDocumentsPerTerm: mostRelevantDocumentsPerTerm,
+	documentsPerIndexAbstract int,
+) IndexAbstractQuery {
+	return indexAbstractQuery{
+		postings:                  postings,
+		impactOrder:               impactOrder,
+		documentsPerIndexAbstract: documentsPerIndexAbstract,
 	}
 }
 
-type termMatcher struct {
-	postings                     rwipostings.PostingIndex
-	impactOrder                  rwipostingimpactorder.ImpactOrderQuery
-	mostRelevantDocumentsPerTerm int
+type indexAbstractQuery struct {
+	postings                  rwipostings.PostingIndex
+	impactOrder               rwipostingimpactorder.ImpactOrderQuery
+	documentsPerIndexAbstract int
 }
 
-func (t termMatcher) MatchesFor(
+func (q indexAbstractQuery) IndexAbstractsFor(
+	ctx context.Context,
+	tx *vault.Txn,
+	criteria searchcriteria.Criteria,
+	requested RequestedIndexAbstracts,
+	amountOfPostingsPerTerm map[yacymodel.Hash]int,
+) (IndexAbstracts, error) {
+	terms := termsCoveredBy(requested, criteria.Terms, amountOfPostingsPerTerm)
+
+	abstracts := make(IndexAbstracts, len(terms))
+	for _, term := range terms {
+		abstract, err := q.indexAbstractOf(ctx, tx, term, criteria)
+		if err != nil {
+			return nil, err
+		}
+		abstracts[term] = abstract
+	}
+
+	return abstracts, nil
+}
+
+func (q indexAbstractQuery) indexAbstractOf(
 	ctx context.Context,
 	tx *vault.Txn,
 	term yacymodel.Hash,
@@ -52,14 +71,14 @@ func (t termMatcher) MatchesFor(
 
 	var documents []yacymodel.URLHash
 
-	err := t.impactOrder.ScanPostingsInImpactOrder(
+	err := q.impactOrder.ScanPostingsInImpactOrder(
 		tx,
 		term,
 		func(document yacymodel.URLHash, _ rwipostingimpactorder.Impact) (bool, error) {
 			if requestdeadline.RequestHasEnded(ctx) {
 				return false, nil
 			}
-			accepted, err := t.acceptsDocument(tx, term, document, filter)
+			accepted, err := q.acceptsDocument(tx, term, document, filter)
 			if err != nil {
 				return false, err
 			}
@@ -67,7 +86,7 @@ func (t termMatcher) MatchesFor(
 				documents = append(documents, document)
 			}
 
-			return len(documents) < t.mostRelevantDocumentsPerTerm, nil
+			return len(documents) < q.documentsPerIndexAbstract, nil
 		},
 	)
 	if err != nil {
@@ -77,13 +96,13 @@ func (t termMatcher) MatchesFor(
 	return documents, nil
 }
 
-func (t termMatcher) acceptsDocument(
+func (q indexAbstractQuery) acceptsDocument(
 	tx *vault.Txn,
 	term yacymodel.Hash,
 	document yacymodel.URLHash,
 	filter postingfilter.Filter,
 ) (bool, error) {
-	posting, found, err := t.postings.PostingOf(tx, term, document)
+	posting, found, err := q.postings.PostingOf(tx, term, document)
 	if err != nil {
 		return false, err
 	}

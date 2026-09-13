@@ -1,18 +1,21 @@
 package indexabstract_test
 
 import (
+	"maps"
 	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 )
 
-func TestIndexAbstractTermsOfTermWithMostPostingsRankByPostingsTheNodeHolds(t *testing.T) {
+func TestIndexAbstractsOfTermWithMostPostingsCoverTheTermTheNodeHoldsMostPostingsOf(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -24,10 +27,11 @@ func TestIndexAbstractTermsOfTermWithMostPostingsRankByPostingsTheNodeHolds(t *t
 	}
 }
 
-func TestIndexAbstractTermsOfTermWithMostPostingsBreakTiesBySmallerTerm(t *testing.T) {
+func TestIndexAbstractsOfTermWithMostPostingsBreakTiesBySmallerTerm(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -39,10 +43,11 @@ func TestIndexAbstractTermsOfTermWithMostPostingsBreakTiesBySmallerTerm(t *testi
 	}
 }
 
-func TestIndexAbstractTermsOfTermWithMostPostingsSkipTermsTheNodeDoesNotHold(t *testing.T) {
+func TestIndexAbstractsOfTermWithMostPostingsSkipTermsTheNodeDoesNotHold(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -54,14 +59,15 @@ func TestIndexAbstractTermsOfTermWithMostPostingsSkipTermsTheNodeDoesNotHold(t *
 	}
 }
 
-func TestIndexAbstractTermsOfNoRequestStayEmpty(t *testing.T) {
-	if terms := indexabstract.TermsCoveredBy(nil, nil, nil); terms != nil {
+func TestIndexAbstractsOfNoRequestStayEmpty(t *testing.T) {
+	if terms := termsCoveredByRequest(t, nil, nil, nil); terms != nil {
 		t.Fatalf("terms = %v, want none", terms)
 	}
 }
 
-func TestIndexAbstractTermsOfTermWithMostPostingsStayEmptyWithoutQueryTerms(t *testing.T) {
-	terms := indexabstract.TermsCoveredBy(
+func TestIndexAbstractsOfTermWithMostPostingsStayEmptyWithoutQueryTerms(t *testing.T) {
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -73,10 +79,11 @@ func TestIndexAbstractTermsOfTermWithMostPostingsStayEmptyWithoutQueryTerms(t *t
 	}
 }
 
-func TestIndexAbstractTermsOfTermNearestToNodePositionNameTheTermTheDHTSendsHere(t *testing.T) {
+func TestIndexAbstractsOfTermNearestToNodePositionCoverTheTermTheDHTSendsHere(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
 				NodePosition: yacymodel.DHTRingPositionOf(word2),
@@ -90,10 +97,11 @@ func TestIndexAbstractTermsOfTermNearestToNodePositionNameTheTermTheDHTSendsHere
 	}
 }
 
-func TestIndexAbstractTermsOfTermNearestToNodePositionMeasureForwardAroundTheRing(t *testing.T) {
+func TestIndexAbstractsOfTermNearestToNodePositionMeasureForwardAroundTheRing(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
 				NodePosition: yacymodel.DHTRingPositionOf(word1) - 1,
@@ -107,10 +115,11 @@ func TestIndexAbstractTermsOfTermNearestToNodePositionMeasureForwardAroundTheRin
 	}
 }
 
-func TestIndexAbstractTermsOfTermNearestToNodePositionSkipTermsTheNodeDoesNotHold(t *testing.T) {
+func TestIndexAbstractsOfTermNearestToNodePositionSkipTermsTheNodeDoesNotHold(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
 				NodePosition: yacymodel.DHTRingPositionOf(word1),
@@ -124,10 +133,11 @@ func TestIndexAbstractTermsOfTermNearestToNodePositionSkipTermsTheNodeDoesNotHol
 	}
 }
 
-func TestIndexAbstractTermsOfBothNodeTermsNameEachOfThem(t *testing.T) {
+func TestIndexAbstractsOfBothNodeTermsCoverEachOfThem(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
@@ -142,10 +152,11 @@ func TestIndexAbstractTermsOfBothNodeTermsNameEachOfThem(t *testing.T) {
 	}
 }
 
-func TestIndexAbstractTermsOfBothNodeTermsCollapseWhenOneTermWinsBothRules(t *testing.T) {
+func TestIndexAbstractsOfBothNodeTermsCollapseWhenOneTermWinsBothRules(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
@@ -160,10 +171,11 @@ func TestIndexAbstractTermsOfBothNodeTermsCollapseWhenOneTermWinsBothRules(t *te
 	}
 }
 
-func TestIndexAbstractTermsOfNameTheTermsTheRequestAsksFor(t *testing.T) {
+func TestIndexAbstractsOfNamedTermsCoverTheTermsTheRequestAsksFor(t *testing.T) {
 	word, related := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.TermsCoveredBy(
+	terms := termsCoveredByRequest(
+		t,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{related}},
 		},
@@ -175,19 +187,56 @@ func TestIndexAbstractTermsOfNameTheTermsTheRequestAsksFor(t *testing.T) {
 	}
 }
 
-func TestIndexAbstractsOfNameTheDocumentsBehindEachTerm(t *testing.T) {
+func TestIndexAbstractsNameACoveredTermTheNodeHoldsNoDocumentsFor(t *testing.T) {
 	word, related := searchtest.HashFor("w1"), searchtest.HashFor("w2")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingOf(word, "u1", 1)},
+	}}
 
-	abstracts := indexabstract.IndexAbstractsOf(
-		[]yacymodel.Hash{word, related},
-		map[yacymodel.Hash][]yacymodel.URLHash{
-			word: {searchtest.URLHashFor("u1")},
+	abstracts, err := indexAbstractsFrom(
+		t,
+		indexabstract.New(index, index, documentsPerIndexAbstract),
+		searchcriteria.Criteria{Terms: []yacymodel.Hash{word, related}},
+		indexabstract.RequestedIndexAbstracts{
+			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{word, related}},
 		},
+		nil,
 	)
+	if err != nil {
+		t.Fatalf("IndexAbstractsFor: %v", err)
+	}
 	if len(abstracts[word]) != 1 {
 		t.Fatalf("abstracts = %v, want one document behind w1", abstracts)
 	}
 	if _, named := abstracts[related]; !named {
 		t.Errorf("abstracts = %v, want an empty abstract for w2", abstracts)
 	}
+}
+
+func termsCoveredByRequest(
+	t *testing.T,
+	requested indexabstract.RequestedIndexAbstracts,
+	queryTerms []yacymodel.Hash,
+	amountOfPostingsPerTerm map[yacymodel.Hash]int,
+) []yacymodel.Hash {
+	t.Helper()
+
+	abstracts, err := indexAbstractsFrom(
+		t,
+		indexabstract.New(
+			searchtest.PostingIndex{}, searchtest.PostingIndex{}, documentsPerIndexAbstract,
+		),
+		searchcriteria.Criteria{Terms: queryTerms},
+		requested,
+		amountOfPostingsPerTerm,
+	)
+	if err != nil {
+		t.Fatalf("IndexAbstractsFor: %v", err)
+	}
+	terms := slices.Collect(maps.Keys(abstracts))
+	slices.SortFunc(terms, func(a, b yacymodel.Hash) int {
+		return yacymodel.CompareInAlphabetOrder(a.String(), b.String())
+	})
+
+	return terms
 }
