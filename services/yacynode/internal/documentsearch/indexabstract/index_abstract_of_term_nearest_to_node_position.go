@@ -41,7 +41,7 @@ func termNearestToNodePositionOf(
 	return slices.MinFunc(terms, func(a, b yacymodel.Hash) int {
 		return cmp.Or(
 			cmp.Compare(distanceOf(a), distanceOf(b)),
-			cmp.Compare(a.String(), b.String()),
+			yacymodel.CompareInAlphabetOrder(a.String(), b.String()),
 		)
 	}), true
 }

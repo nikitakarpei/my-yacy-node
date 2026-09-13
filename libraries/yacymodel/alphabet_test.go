@@ -63,3 +63,21 @@ func TestDecodeIgnoresLineFeeds(t *testing.T) {
 		t.Fatalf("Decode with newline = %v", got)
 	}
 }
+
+func TestCompareInAlphabetOrderPutsLettersBeforeDigits(t *testing.T) {
+	if yacymodel.CompareInAlphabetOrder("A", "0") >= 0 {
+		t.Error(`CompareInAlphabetOrder("A", "0") >= 0, want A first: bytes order it last`)
+	}
+	if yacymodel.CompareInAlphabetOrder("a", "_") >= 0 {
+		t.Error(`CompareInAlphabetOrder("a", "_") >= 0, want a first: bytes order it last`)
+	}
+}
+
+func TestCompareInAlphabetOrderPutsAPrefixFirst(t *testing.T) {
+	if yacymodel.CompareInAlphabetOrder("AB", "ABC") >= 0 {
+		t.Error(`CompareInAlphabetOrder("AB", "ABC") >= 0, want the shorter value first`)
+	}
+	if yacymodel.CompareInAlphabetOrder("ABC", "ABC") != 0 {
+		t.Error("CompareInAlphabetOrder found a difference between equal values")
+	}
+}

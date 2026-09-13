@@ -36,7 +36,7 @@ func termWithMostPostingsOf(
 	return slices.MinFunc(terms, func(a, b yacymodel.Hash) int {
 		return cmp.Or(
 			cmp.Compare(matches[b].PostingsHeld, matches[a].PostingsHeld),
-			cmp.Compare(a.String(), b.String()),
+			yacymodel.CompareInAlphabetOrder(a.String(), b.String()),
 		)
 	}), true
 }
