@@ -48,12 +48,15 @@ func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, e
 	}, nil
 }
 
-func (s *Schedule) PostingStored(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	posting := postingidentity.IdentityOf(word, url)
+func (s *Schedule) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	return s.setDueNow(tx, postingidentity.IdentityOf(posting.WordHash, posting.URLHash))
+}
+
+func (s *Schedule) PostingUpdated(tx *vault.Txn, _, current yacymodel.RWIPosting) error {
+	return s.setDueNow(tx, postingidentity.IdentityOf(current.WordHash, current.URLHash))
+}
+
+func (s *Schedule) setDueNow(tx *vault.Txn, posting postingidentity.Identity) error {
 	if err := s.forgetDueAt(tx, posting); err != nil {
 		return err
 	}
@@ -118,17 +121,13 @@ func (s *Schedule) setDueAt(
 	return nil
 }
 
-func (s *Schedule) PostingPurged(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	posting := postingidentity.IdentityOf(word, url)
-	if err := s.forgetDueAt(tx, posting); err != nil {
+func (s *Schedule) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+	if err := s.forgetDueAt(tx, identity); err != nil {
 		return err
 	}
 
-	return s.forgetOfferInterval(tx, posting)
+	return s.forgetOfferInterval(tx, identity)
 }
 
 func (s *Schedule) forgetOfferInterval(tx *vault.Txn, posting postingidentity.Identity) error {

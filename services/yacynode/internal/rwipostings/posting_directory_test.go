@@ -80,3 +80,25 @@ func TestScanWordStopsWhenVisitorStops(t *testing.T) {
 		t.Fatalf("visited %d postings, want 1 before stop", visited)
 	}
 }
+
+func TestAdmittingAPostingTwiceReportsAnUpdateNotAnArrival(t *testing.T) {
+	h := openHarness(t)
+
+	arrived := posting("w1", "u1")
+	h.admit(t, arrived)
+
+	refreshed := arrived
+	refreshed.Hits = 7
+	h.admit(t, refreshed)
+
+	if len(h.observer.stored) != 1 || h.observer.stored[0] != arrived {
+		t.Fatalf("stored notifications = %+v, want only the first admission", h.observer.stored)
+	}
+	if len(h.observer.updated) != 1 {
+		t.Fatalf("updated notifications = %d, want 1", len(h.observer.updated))
+	}
+	update := h.observer.updated[0]
+	if update.previous != arrived || update.current != refreshed {
+		t.Fatalf("update carried %+v, want the posting as it was and as it is", update)
+	}
+}

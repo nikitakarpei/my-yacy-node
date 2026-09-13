@@ -26,38 +26,40 @@ func openURLReferences(v *vault.Vault) (*urlReferences, error) {
 	return &urlReferences{words: words, referenced: referenced}, nil
 }
 
-func (r *urlReferences) PostingStored(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	if _, err := r.words.Add(tx, wordByURL{url: url, word: word}); err != nil {
+func (r *urlReferences) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	reference := wordByURL{url: posting.URLHash, word: posting.WordHash}
+	if _, err := r.words.Add(tx, reference); err != nil {
 		return fmt.Errorf("record word by url: %w", err)
 	}
-	if _, err := r.referenced.Add(tx, url); err != nil {
+	if _, err := r.referenced.Add(tx, posting.URLHash); err != nil {
 		return fmt.Errorf("record referenced url: %w", err)
 	}
 
 	return nil
 }
 
-func (r *urlReferences) PostingPurged(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
+func (r *urlReferences) PostingUpdated(
+	*vault.Txn,
+	yacymodel.RWIPosting,
+	yacymodel.RWIPosting,
 ) error {
-	if _, err := r.words.Remove(tx, wordByURL{url: url, word: word}); err != nil {
+	return nil
+}
+
+func (r *urlReferences) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	reference := wordByURL{url: posting.URLHash, word: posting.WordHash}
+	if _, err := r.words.Remove(tx, reference); err != nil {
 		return fmt.Errorf("drop word by url: %w", err)
 	}
 
-	remaining, err := r.WordsReferencing(tx, url)
+	remaining, err := r.WordsReferencing(tx, posting.URLHash)
 	if err != nil {
 		return err
 	}
 	if len(remaining) > 0 {
 		return nil
 	}
-	if _, err := r.referenced.Remove(tx, url); err != nil {
+	if _, err := r.referenced.Remove(tx, posting.URLHash); err != nil {
 		return fmt.Errorf("drop referenced url: %w", err)
 	}
 

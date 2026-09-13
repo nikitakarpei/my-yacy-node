@@ -27,29 +27,36 @@ func (d postingDirectory) PostingOf(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
-	stored, found, err := d.postings.Get(tx, postingIdentity{word: word, url: url})
+	key := postingIdentity{word: word, url: url}
+	stored, found, err := d.postings.Get(tx, key)
 	if err != nil {
 		return yacymodel.RWIPosting{}, false, fmt.Errorf("read rwi posting: %w", err)
 	}
 	if !found {
 		return yacymodel.RWIPosting{}, false, nil
 	}
-	stored.WordHash = word
-	stored.URLHash = url
 
-	return stored, true, nil
+	return postingFrom(key, stored), true, nil
+}
+
+func postingFrom(key postingIdentity, stored yacymodel.RWIPosting) yacymodel.RWIPosting {
+	stored.WordHash = key.word
+	stored.URLHash = key.url
+
+	return stored
 }
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	key := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	if _, _, err := d.postings.Put(tx, key, posting); err != nil {
+	replaced, wasHeld, err := d.postings.Put(tx, key, posting)
+	if err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
-	if err := d.observers.stored(tx, posting.WordHash, posting.URLHash); err != nil {
-		return err
+	if !wasHeld {
+		return d.observers.stored(tx, posting)
 	}
 
-	return nil
+	return d.observers.updated(tx, postingFrom(key, replaced), posting)
 }
 
 func (d postingDirectory) PurgePosting(
@@ -57,15 +64,19 @@ func (d postingDirectory) PurgePosting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (bool, error) {
-	_, deleted, err := d.postings.Delete(tx, postingIdentity{word: word, url: url})
+	key := postingIdentity{word: word, url: url}
+	removed, deleted, err := d.postings.Delete(tx, key)
 	if err != nil {
 		return false, fmt.Errorf("delete rwi posting: %w", err)
 	}
-	if err := d.observers.purged(tx, word, url); err != nil {
+	if !deleted {
+		return false, nil
+	}
+	if err := d.observers.purged(tx, postingFrom(key, removed)); err != nil {
 		return false, err
 	}
 
-	return deleted, nil
+	return true, nil
 }
 
 func (d postingDirectory) ScanWord(
@@ -81,10 +92,8 @@ func (d postingDirectory) ScanWord(
 			if err := ctx.Err(); err != nil {
 				return false, fmt.Errorf("context: %w", err)
 			}
-			entry.WordHash = word
-			entry.URLHash = identity.url
 
-			return visit(entry)
+			return visit(postingFrom(identity, entry))
 		},
 	)
 	if err != nil {

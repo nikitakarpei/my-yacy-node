@@ -26,13 +26,9 @@ func Open(v *vault.Vault, schedule *postingofferschedule.Schedule) (*Replicas, e
 	return &Replicas{holders: holders, schedule: schedule}, nil
 }
 
-func (l *Replicas) PostingPurged(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	posting := postingidentity.IdentityOf(word, url)
-	if _, _, err := l.holders.Delete(tx, posting); err != nil {
+func (l *Replicas) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+	if _, _, err := l.holders.Delete(tx, identity); err != nil {
 		return fmt.Errorf("drop replica ledger: %w", err)
 	}
 

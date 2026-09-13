@@ -117,7 +117,7 @@ func store(
 	t.Helper()
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return schedule.PostingStored(tx, word, url)
+		return schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
 	}

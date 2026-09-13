@@ -116,12 +116,38 @@ func TestPostingStoredSchedulesPosting(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 
 	harness.update(t, func(tx *vault.Txn) error {
-		return harness.records.PostingStored(tx, word, url)
+		return harness.records.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	})
 
 	due := harness.duePostings(t)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want the stored posting %v", due, word)
+	}
+}
+
+func TestPostingUpdatedReschedulesAndKeepsTheReplicaLedger(t *testing.T) {
+	harness := openPostingRecords(t)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
+
+	harness.update(t, func(tx *vault.Txn) error {
+		return harness.records.PostingStored(tx, posting)
+	})
+	harness.update(t, func(tx *vault.Txn) error {
+		return harness.replicas.RecordAccepted(tx, peer, []yacymodel.RWIPosting{posting})
+	})
+
+	harness.update(t, func(tx *vault.Txn) error {
+		return harness.records.PostingUpdated(tx, posting, posting)
+	})
+
+	due := harness.duePostings(t)
+	if len(due) != 1 || due[0].Word != word {
+		t.Fatalf("due = %v, want the updated posting %v", due, word)
+	}
+	if holders := harness.holdersOf(t, word, url); len(holders) != 1 || holders[0] != peer {
+		t.Fatalf("holders = %v, want [%v] after an update", holders, peer)
 	}
 }
 
@@ -131,7 +157,7 @@ func TestPostingPurgedFansOutToScheduleAndReplicas(t *testing.T) {
 	peer := yacymodel.WordHash("peer")
 
 	harness.update(t, func(tx *vault.Txn) error {
-		return harness.records.PostingStored(tx, word, url)
+		return harness.records.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	})
 	harness.update(t, func(tx *vault.Txn) error {
 		return harness.replicas.RecordAccepted(
@@ -140,7 +166,7 @@ func TestPostingPurgedFansOutToScheduleAndReplicas(t *testing.T) {
 	})
 
 	harness.update(t, func(tx *vault.Txn) error {
-		return harness.records.PostingPurged(tx, word, url)
+		return harness.records.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	})
 
 	if due := harness.duePostings(t); len(due) != 0 {

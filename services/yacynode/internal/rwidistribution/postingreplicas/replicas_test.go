@@ -36,7 +36,7 @@ func store(
 	t.Helper()
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return schedule.PostingStored(tx, word, url)
+		return schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
 	}
@@ -249,7 +249,7 @@ func TestPostingPurgedRemovesLedgerRow(t *testing.T) {
 	recordAccepted(t, v, ledger, peer, fakePosting(word, url))
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return ledger.PostingPurged(tx, word, url)
+		return ledger.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingPurged: %v", err)
 	}

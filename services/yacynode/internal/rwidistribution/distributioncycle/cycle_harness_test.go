@@ -214,11 +214,14 @@ func purgeBookkeeping(
 	replicas *postingreplicas.Replicas,
 ) func(*vault.Txn, yacymodel.Hash, yacymodel.URLHash) error {
 	return func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error {
-		if err := schedule.PostingPurged(tx, word, url); err != nil {
+		if err := schedule.PostingPurged(
+			tx,
+			yacymodel.RWIPosting{WordHash: word, URLHash: url},
+		); err != nil {
 			return err
 		}
 
-		return replicas.PostingPurged(tx, word, url)
+		return replicas.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}
 }
 
@@ -412,7 +415,7 @@ func store(
 	t.Helper()
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return schedule.PostingStored(tx, word, url)
+		return schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
 	}

@@ -9,24 +9,35 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type recordingObserver struct {
-	purged []yacymodel.Hash
+type postingUpdate struct {
+	previous yacymodel.RWIPosting
+	current  yacymodel.RWIPosting
 }
 
-func (o *recordingObserver) PostingStored(
-	_ *vault.Txn,
-	_ yacymodel.Hash,
-	_ yacymodel.URLHash,
-) error {
+type recordingObserver struct {
+	stored  []yacymodel.RWIPosting
+	updated []postingUpdate
+	purged  []yacymodel.RWIPosting
+}
+
+func (o *recordingObserver) PostingStored(_ *vault.Txn, posting yacymodel.RWIPosting) error {
+	o.stored = append(o.stored, posting)
+
 	return nil
 }
 
-func (o *recordingObserver) PostingPurged(
+func (o *recordingObserver) PostingUpdated(
 	_ *vault.Txn,
-	word yacymodel.Hash,
-	_ yacymodel.URLHash,
+	previous yacymodel.RWIPosting,
+	current yacymodel.RWIPosting,
 ) error {
-	o.purged = append(o.purged, word)
+	o.updated = append(o.updated, postingUpdate{previous: previous, current: current})
+
+	return nil
+}
+
+func (o *recordingObserver) PostingPurged(_ *vault.Txn, posting yacymodel.RWIPosting) error {
+	o.purged = append(o.purged, posting)
 
 	return nil
 }
@@ -62,7 +73,36 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 	if rwiCount := h.rwiCount(t); rwiCount != 2 {
 		t.Fatalf("RWICount = %d, want 2", rwiCount)
 	}
-	if len(h.observer.purged) != 1 || h.observer.purged[0] != word {
-		t.Fatalf("purged observers = %v, want one notification for %q", h.observer.purged, word)
+	if len(h.observer.purged) != 1 {
+		t.Fatalf("purged notifications = %d, want 1", len(h.observer.purged))
+	}
+	if departed := h.observer.purged[0]; departed != posting("w1", "u1") {
+		t.Fatalf("purged notification carried %+v, want the posting that was dropped", departed)
+	}
+}
+
+func TestPurgingAPostingThatIsNotHeldNotifiesNobody(t *testing.T) {
+	h := openHarness(t)
+
+	h.admit(t, posting("w1", "u1"))
+
+	var deleted bool
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		dropped, err := h.purger.PurgePosting(tx, yacymodel.WordHash("w2"), urlHash("u2"))
+		if err != nil {
+			return fmt.Errorf("purge posting: %w", err)
+		}
+		deleted = dropped
+
+		return nil
+	}); err != nil {
+		t.Fatalf("PurgePosting: %v", err)
+	}
+
+	if deleted {
+		t.Fatal("PurgePosting reported a deletion, want none")
+	}
+	if len(h.observer.purged) != 0 {
+		t.Fatalf("purged notifications = %v, want none", h.observer.purged)
 	}
 }

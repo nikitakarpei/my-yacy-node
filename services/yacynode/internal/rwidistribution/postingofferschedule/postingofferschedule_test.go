@@ -81,9 +81,20 @@ func (o *postingOffers) store(t *testing.T, word yacymodel.Hash, url yacymodel.U
 	t.Helper()
 
 	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.PostingStored(tx, word, url)
+		return o.schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
+	}
+}
+
+func (o *postingOffers) update(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
+	t.Helper()
+
+	posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
+	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return o.schedule.PostingUpdated(tx, posting, posting)
+	}); err != nil {
+		t.Fatalf("PostingUpdated: %v", err)
 	}
 }
 
@@ -91,7 +102,7 @@ func (o *postingOffers) purge(t *testing.T, word yacymodel.Hash, url yacymodel.U
 	t.Helper()
 
 	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.PostingPurged(tx, word, url)
+		return o.schedule.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingPurged: %v", err)
 	}
