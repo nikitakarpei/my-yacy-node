@@ -44,7 +44,7 @@ func TestDuePostingsRespectsLimit(t *testing.T) {
 	}
 }
 
-func TestPostingUpdatedIsDueAgain(t *testing.T) {
+func TestAPostingPurgedAndStoredAgainIsDueAgain(t *testing.T) {
 	offers := openOffers(t, testStart)
 	word, url := testWord, urlHash("u1")
 	offers.store(t, word, url)
@@ -54,7 +54,8 @@ func TestPostingUpdatedIsDueAgain(t *testing.T) {
 		t.Fatalf("due = %v, want none while the offer is paused", due)
 	}
 
-	offers.update(t, word, url)
+	offers.purge(t, word, url)
+	offers.store(t, word, url)
 
 	due := offers.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word || due[0].URL != url {

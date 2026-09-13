@@ -41,7 +41,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
@@ -73,9 +76,9 @@ const (
 	evictionBatchesPerSweep = 64
 )
 
-const searchPostingsPerWord = 1000
-
 const servedURLMetadataPerRequest = 1000
+
+const documentsPerIndexAbstract = 1000
 
 func assembleNode(
 	ctx context.Context,
@@ -141,6 +144,27 @@ func assembleNode(
 		return node{}, fmt.Errorf("url references: %w", err)
 	}
 
+	postingImpactOrder, err := rwipostingimpactorder.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi impact order: %w", err)
+	}
+
+	postingAmounts, err := rwipostingamount.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
+	}
+
+	ringOccupancy, err := rwiringoccupancy.Open(vault, dhtRingPartitions)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi ring occupancy: %w", err)
+	}
+	metrics.NewRWIRingOccupancyMetrics(
+		registry,
+		vault,
+		ringOccupancy,
+		yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(identity.Hash)),
+	)
+
 	distributionObserver := metrics.NewDistributionMetrics(registry)
 
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
@@ -156,6 +180,9 @@ func assembleNode(
 		vault,
 		urlReferences,
 		postingRecords,
+		postingImpactOrder,
+		postingAmounts,
+		ringOccupancy,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
@@ -228,10 +255,12 @@ func assembleNode(
 		router,
 		identity,
 		postings,
+		postingImpactOrder,
+		postingAmounts,
 		urlDirectory,
-		searchPostingsPerWord,
 		searchmetrics.NewSearchMetrics(registry),
 		dhtRingPartitions,
+		documentsPerIndexAbstract,
 	)
 
 	peerRoster, err := peerroster.Open(

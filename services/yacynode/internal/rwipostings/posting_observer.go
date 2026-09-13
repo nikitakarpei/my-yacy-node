@@ -19,20 +19,6 @@ func (o postingObservers) stored(tx *vault.Txn, posting yacymodel.RWIPosting) er
 	return nil
 }
 
-func (o postingObservers) updated(
-	tx *vault.Txn,
-	previous yacymodel.RWIPosting,
-	current yacymodel.RWIPosting,
-) error {
-	for _, observer := range o {
-		if err := observer.PostingUpdated(tx, previous, current); err != nil {
-			return fmt.Errorf("posting observer: %w", err)
-		}
-	}
-
-	return nil
-}
-
 func (o postingObservers) purged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	for _, observer := range o {
 		if err := observer.PostingPurged(tx, posting); err != nil {

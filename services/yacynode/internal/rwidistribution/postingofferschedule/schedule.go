@@ -49,19 +49,12 @@ func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, e
 }
 
 func (s *Schedule) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	return s.setDueNow(tx, postingidentity.IdentityOf(posting))
-}
-
-func (s *Schedule) setDueNow(tx *vault.Txn, identity postingidentity.Identity) error {
+	identity := postingidentity.IdentityOf(posting)
 	if err := s.forgetDueAt(tx, identity); err != nil {
 		return err
 	}
 
 	return s.setDueAt(tx, identity, s.now())
-}
-
-func (s *Schedule) PostingUpdated(tx *vault.Txn, _, current yacymodel.RWIPosting) error {
-	return s.setDueNow(tx, postingidentity.IdentityOf(current))
 }
 
 func (s *Schedule) forgetDueAt(tx *vault.Txn, identity postingidentity.Identity) error {

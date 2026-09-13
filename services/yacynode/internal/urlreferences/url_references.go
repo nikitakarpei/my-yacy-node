@@ -38,14 +38,6 @@ func (r *urlReferences) PostingStored(tx *vault.Txn, posting yacymodel.RWIPostin
 	return nil
 }
 
-func (r *urlReferences) PostingUpdated(
-	*vault.Txn,
-	yacymodel.RWIPosting,
-	yacymodel.RWIPosting,
-) error {
-	return nil
-}
-
 func (r *urlReferences) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	reference := wordByURL{url: posting.URLHash, word: posting.WordHash}
 	if _, err := r.words.Remove(tx, reference); err != nil {

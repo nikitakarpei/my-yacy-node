@@ -1,7 +1,6 @@
 package rwipostings
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -51,15 +50,22 @@ func postingWithIdentity(
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	identity := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	previousPosting, wasReplaced, err := d.postings.PutReturning(tx, identity, posting)
+	replacedPosting, wasReplaced, err := d.postings.PutReturning(tx, identity, posting)
 	if err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
 	if !wasReplaced {
 		return d.observers.stored(tx, posting)
 	}
+	previousPosting := postingWithIdentity(identity, replacedPosting)
+	if previousPosting == posting {
+		return nil
+	}
+	if err := d.observers.purged(tx, previousPosting); err != nil {
+		return err
+	}
 
-	return d.observers.updated(tx, postingWithIdentity(identity, previousPosting), posting)
+	return d.observers.stored(tx, posting)
 }
 
 func (d postingDirectory) PurgePosting(
@@ -80,30 +86,6 @@ func (d postingDirectory) PurgePosting(
 	}
 
 	return true, nil
-}
-
-func (d postingDirectory) ScanWord(
-	ctx context.Context,
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) error {
-	err := d.postings.Scan(
-		tx,
-		everyPostingOf(word),
-		func(identity postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
-			if err := ctx.Err(); err != nil {
-				return false, fmt.Errorf("context: %w", err)
-			}
-
-			return visit(postingWithIdentity(identity, entry))
-		},
-	)
-	if err != nil {
-		return fmt.Errorf("scan word postings: %w", err)
-	}
-
-	return nil
 }
 
 func collectionLength[K, V any](

@@ -1,24 +1,34 @@
 package indexabstract
 
 import (
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
 
 type RequestedIndexAbstract interface {
-	indexAbstracts(
-		matchesForQueryTerms map[yacymodel.Hash]termpostings.Match,
-		matchesForIndexAbstractTerms map[yacymodel.Hash]termpostings.Match,
-	) IndexAbstracts
+	coveredTerms(
+		queryTerms []yacymodel.Hash,
+		amountOfPostingsPerTerm map[yacymodel.Hash]int,
+	) []yacymodel.Hash
 }
 
 type RequestedIndexAbstracts []RequestedIndexAbstract
 
-func IndexAbstractTermsOf(requested RequestedIndexAbstracts) []yacymodel.Hash {
+func termsCoveredBy(
+	requested RequestedIndexAbstracts,
+	queryTerms []yacymodel.Hash,
+	amountOfPostingsPerTerm map[yacymodel.Hash]int,
+) []yacymodel.Hash {
 	var terms []yacymodel.Hash
 	for _, requestedAbstract := range requested {
-		if abstractsOfTerms, ok := requestedAbstract.(IndexAbstractsOfTerms); ok {
-			terms = append(terms, abstractsOfTerms.Terms...)
+		for _, term := range requestedAbstract.coveredTerms(
+			queryTerms,
+			amountOfPostingsPerTerm,
+		) {
+			if !slices.Contains(terms, term) {
+				terms = append(terms, term)
+			}
 		}
 	}
 

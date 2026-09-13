@@ -40,6 +40,12 @@ components:
     in: internal/urlreferences/**
   rwipostings:
     in: internal/rwipostings/**
+  rwipostingimpactorder:
+    in: internal/rwipostingimpactorder/**
+  rwipostingamount:
+    in: internal/rwipostingamount/**
+  rwiringoccupancy:
+    in: internal/rwiringoccupancy/**
   rwiescrow:
     in: internal/rwiescrow/**
   rwiadmission:
@@ -58,6 +64,10 @@ components:
     in: internal/documentsearch/**
   searchmetrics:
     in: internal/documentsearch/searchmetrics/**
+  searchrelevance:
+    in: internal/documentsearch/searchrelevance/**
+  documentshortlist:
+    in: internal/documentsearch/documentshortlist/**
   searchtest:
     in: internal/documentsearch/searchtest/**
   nodestatus:
@@ -212,6 +222,25 @@ deps:
     canUse:
       - vault
       - storedfields
+  rwipostingimpactorder:
+    mayDependOn:
+      - rwipostings
+      - hashkeypart
+    canUse:
+      - vault
+  rwipostingamount:
+    mayDependOn:
+      - rwipostings
+      - hashkeypart
+    canUse:
+      - vault
+      - storedfields
+  rwiringoccupancy:
+    mayDependOn:
+      - rwipostings
+    canUse:
+      - vault
+      - storedfields
   rwiescrow:
     mayDependOn:
       - rwipostings
@@ -259,17 +288,30 @@ deps:
     mayDependOn:
       - documentsearch
       - searchmetrics
+      - searchrelevance
+      - documentshortlist
       - rwipostings
+      - rwipostingimpactorder
+      - rwipostingamount
       - urlmeta
       - httpguard
       - nodeidentity
     canUse:
       - yacyproto
       - vault
+  searchrelevance:
+    mayDependOn:
+      - documentsearch
+      - rwipostingimpactorder
+  documentshortlist:
+    mayDependOn:
+      - searchrelevance
   searchmetrics:
     canUse:
       - prometheus
   searchtest:
+    mayDependOn:
+      - rwipostingimpactorder
     canUse:
       - vault
   nodestatus:

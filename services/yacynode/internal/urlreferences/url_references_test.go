@@ -48,23 +48,6 @@ func store(
 	}
 }
 
-func update(
-	t *testing.T,
-	v *vault.Vault,
-	index urlreferences.ReferenceProjection,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) {
-	t.Helper()
-
-	posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return index.PostingUpdated(tx, posting, posting)
-	}); err != nil {
-		t.Fatalf("PostingUpdated: %v", err)
-	}
-}
-
 func purge(
 	t *testing.T,
 	v *vault.Vault,
@@ -183,12 +166,13 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
-func TestUpdatedPostingLeavesTheReferenceIntact(t *testing.T) {
+func TestAPostingPurgedAndStoredAgainLeavesTheReferenceIntact(t *testing.T) {
 	v, index := openReferences(t)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	store(t, v, index, word, url)
 
-	update(t, v, index, word, url)
+	purge(t, v, index, word, url)
+	store(t, v, index, word, url)
 
 	words := wordsReferencing(t, v, index, url)
 	if len(words) != 1 || words[0] != word {
