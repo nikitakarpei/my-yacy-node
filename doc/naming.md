@@ -31,8 +31,9 @@ A name reads as a complete phrase and stands alone. Skip no word that the
 package, the type, or the code beside it supplies: `amountOfItemsAcrossAnswers`,
 not `answeredItems`.
 
-Every name carries its noun: `duePostings`, not `due`. A bare adjective or
-participle is never a name; the comma-ok idiom keeps `found`.
+Every name carries its noun: `duePostings`, not `due`. Only a boolean that
+reports the outcome of its own call has no noun. It reads as the outcome:
+`found`, `wasReplaced`, `alreadyExists`.
 
 A name states the state the value is in, not one it reaches later: `chosenPeers`
 before the call that asks them.

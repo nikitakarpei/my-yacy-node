@@ -1,6 +1,8 @@
 // Package rwidistribution opens the two durable records a distribution cycle
 // needs for each stored posting — its offer schedule and its replica ledger —
-// and fans out posting arrival and departure to both.
+// and tells both when a posting is stored and when a posting is purged. When a
+// posting is updated, it becomes due for a new offer, and its replica ledger
+// does not change.
 package rwidistribution
 
 import (
@@ -41,22 +43,22 @@ type postingRecords struct {
 	replicas *postingreplicas.Replicas
 }
 
-func (r *postingRecords) PostingStored(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	return r.schedule.PostingStored(tx, word, url)
+func (r *postingRecords) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	return r.schedule.PostingStored(tx, posting)
 }
 
-func (r *postingRecords) PostingPurged(
+func (r *postingRecords) PostingUpdated(
 	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
+	previous yacymodel.RWIPosting,
+	current yacymodel.RWIPosting,
 ) error {
-	if err := r.schedule.PostingPurged(tx, word, url); err != nil {
+	return r.schedule.PostingUpdated(tx, previous, current)
+}
+
+func (r *postingRecords) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	if err := r.schedule.PostingPurged(tx, posting); err != nil {
 		return err
 	}
 
-	return r.replicas.PostingPurged(tx, word, url)
+	return r.replicas.PostingPurged(tx, posting)
 }

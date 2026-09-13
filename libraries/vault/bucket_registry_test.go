@@ -64,7 +64,7 @@ func TestEntriesByCollectionReportsRegisteredLengths(t *testing.T) {
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		for index := range 3 {
-			if err := words.Put(tx, fmt.Sprintf("k%d", index), "v"); err != nil {
+			if _, err := words.Put(tx, fmt.Sprintf("k%d", index), "v"); err != nil {
 				return err
 			}
 		}

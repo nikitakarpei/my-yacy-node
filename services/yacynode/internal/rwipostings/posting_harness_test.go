@@ -96,6 +96,39 @@ func openHarness(t *testing.T) harness {
 	return harness{vault: v, index: index, admitter: admitter, purger: purger, observer: observer}
 }
 
+type recordingObserver struct {
+	stored  []yacymodel.RWIPosting
+	updated []postingUpdate
+	purged  []yacymodel.RWIPosting
+}
+
+type postingUpdate struct {
+	previous yacymodel.RWIPosting
+	current  yacymodel.RWIPosting
+}
+
+func (o *recordingObserver) PostingStored(_ *vault.Txn, posting yacymodel.RWIPosting) error {
+	o.stored = append(o.stored, posting)
+
+	return nil
+}
+
+func (o *recordingObserver) PostingUpdated(
+	_ *vault.Txn,
+	previous yacymodel.RWIPosting,
+	current yacymodel.RWIPosting,
+) error {
+	o.updated = append(o.updated, postingUpdate{previous: previous, current: current})
+
+	return nil
+}
+
+func (o *recordingObserver) PostingPurged(_ *vault.Txn, posting yacymodel.RWIPosting) error {
+	o.purged = append(o.purged, posting)
+
+	return nil
+}
+
 func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 

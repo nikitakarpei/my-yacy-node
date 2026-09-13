@@ -26,13 +26,9 @@ func Open(v *vault.Vault, schedule *postingofferschedule.Schedule) (*Replicas, e
 	return &Replicas{holders: holders, schedule: schedule}, nil
 }
 
-func (l *Replicas) PostingPurged(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	posting := postingidentity.IdentityOf(word, url)
-	if _, err := l.holders.Delete(tx, posting); err != nil {
+func (l *Replicas) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	identity := postingidentity.IdentityOf(posting)
+	if _, err := l.holders.Delete(tx, identity); err != nil {
 		return fmt.Errorf("drop replica ledger: %w", err)
 	}
 
@@ -41,9 +37,9 @@ func (l *Replicas) PostingPurged(
 
 func (l *Replicas) HoldersOf(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 ) ([]yacymodel.Hash, error) {
-	holders, _, err := l.holders.Get(tx, posting)
+	holders, _, err := l.holders.Get(tx, identity)
 	if err != nil {
 		return nil, fmt.Errorf("read replica holders: %w", err)
 	}
@@ -57,7 +53,7 @@ func (l *Replicas) RecordAccepted(
 	postings []yacymodel.RWIPosting,
 ) error {
 	for _, posting := range postings {
-		identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+		identity := postingidentity.IdentityOf(posting)
 		postingScheduled, err := l.schedule.IsScheduled(tx, identity)
 		if err != nil {
 			return err
@@ -73,7 +69,7 @@ func (l *Replicas) RecordAccepted(
 		if slices.Contains(holders, peer) {
 			continue
 		}
-		if err := l.holders.Put(tx, identity, append(holders, peer)); err != nil {
+		if _, err := l.holders.Put(tx, identity, append(holders, peer)); err != nil {
 			return fmt.Errorf("record accepted replica: %w", err)
 		}
 	}
@@ -86,8 +82,8 @@ func (l *Replicas) DropStaleHolders(
 	staleHolders map[postingidentity.Identity][]yacymodel.Hash,
 ) (int, error) {
 	var droppedReplicas int
-	for posting, peers := range staleHolders {
-		droppedForPosting, err := l.dropHolders(tx, posting, peers)
+	for identity, peers := range staleHolders {
+		droppedForPosting, err := l.dropHolders(tx, identity, peers)
 		if err != nil {
 			return 0, err
 		}
@@ -99,10 +95,10 @@ func (l *Replicas) DropStaleHolders(
 
 func (l *Replicas) dropHolders(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 	staleHolders []yacymodel.Hash,
 ) (int, error) {
-	holders, found, err := l.holders.Get(tx, posting)
+	holders, found, err := l.holders.Get(tx, identity)
 	if err != nil {
 		return 0, fmt.Errorf("read replica holders: %w", err)
 	}
@@ -123,13 +119,13 @@ func (l *Replicas) dropHolders(
 		return 0, nil
 	}
 	if len(keptHolders) == 0 {
-		if _, err := l.holders.Delete(tx, posting); err != nil {
+		if _, err := l.holders.Delete(tx, identity); err != nil {
 			return 0, fmt.Errorf("drop stale replicas: %w", err)
 		}
 
 		return droppedReplicas, nil
 	}
-	if err := l.holders.Put(tx, posting, keptHolders); err != nil {
+	if _, err := l.holders.Put(tx, identity, keptHolders); err != nil {
 		return 0, fmt.Errorf("drop stale replicas: %w", err)
 	}
 

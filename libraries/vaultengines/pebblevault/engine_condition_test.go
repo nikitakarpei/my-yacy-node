@@ -170,7 +170,7 @@ func storeWords(t *testing.T, engine *pebblevault.Engine, batch, words int) {
 		bucket := tx.Bucket(vault.Name("words"))
 		for word := range words {
 			key := strconv.Itoa(batch) + "-" + strconv.Itoa(word)
-			if err := bucket.Put([]byte(key), value); err != nil {
+			if _, err := bucket.Put([]byte(key), value); err != nil {
 				return err
 			}
 		}

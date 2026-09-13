@@ -132,7 +132,9 @@ func TestCommittedWriteThatStoresReportsWriteOperation(t *testing.T) {
 	v, observer, words := openObservedWords(t)
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, err := words.Put(tx, "a", "alpha")
+
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}

@@ -73,11 +73,11 @@ func (d urlDirectory) Purge(
 ) (PurgeResult, error) {
 	var result PurgeResult
 	for _, hash := range urls {
-		deleted, err := d.collection.Delete(tx, hash)
+		wasDeleted, err := d.collection.Delete(tx, hash)
 		if err != nil {
 			return PurgeResult{}, fmt.Errorf("delete url metadata: %w", err)
 		}
-		if !deleted {
+		if !wasDeleted {
 			continue
 		}
 		d.observers.purged(ctx, tx, hash)

@@ -18,41 +18,41 @@ func (b pebbleBucket) Get(key []byte) ([]byte, error) {
 	return b.entries.valueAt(key)
 }
 
-func (b pebbleBucket) Put(key []byte, newValue []byte) error {
-	previousValue, err := b.entries.valueAt(key)
+func (b pebbleBucket) Put(key []byte, record []byte) ([]byte, error) {
+	replacedRecord, err := b.entries.valueAt(key)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if err := b.staged.Set(
 		b.entries.region.absoluteKeyFrom(key),
-		newValue,
+		record,
 		pebble.NoSync,
 	); err != nil {
-		return fmt.Errorf("store: %w", err)
+		return nil, fmt.Errorf("store: %w", err)
 	}
-	if previousValue == nil {
-		return b.tally.adjustBy(1, int64(len(key)+len(newValue)))
+	if replacedRecord == nil {
+		return nil, b.tally.adjustBy(1, int64(len(key)+len(record)))
 	}
 
-	return b.tally.adjustBy(0, int64(len(newValue)-len(previousValue)))
+	return replacedRecord, b.tally.adjustBy(0, int64(len(record)-len(replacedRecord)))
 }
 
-func (b pebbleBucket) Delete(key []byte) (bool, error) {
-	previousValue, err := b.entries.valueAt(key)
+func (b pebbleBucket) Delete(key []byte) ([]byte, error) {
+	deletedRecord, err := b.entries.valueAt(key)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	if previousValue == nil {
-		return false, nil
+	if deletedRecord == nil {
+		return nil, nil
 	}
 	if err := b.staged.Delete(b.entries.region.absoluteKeyFrom(key), pebble.NoSync); err != nil {
-		return false, fmt.Errorf("delete: %w", err)
+		return nil, fmt.Errorf("delete: %w", err)
 	}
-	if err := b.tally.adjustBy(-1, -int64(len(key)+len(previousValue))); err != nil {
-		return false, err
+	if err := b.tally.adjustBy(-1, -int64(len(key)+len(deletedRecord))); err != nil {
+		return nil, err
 	}
 
-	return true, nil
+	return deletedRecord, nil
 }
 
 func (b pebbleBucket) Len() (int, error) {

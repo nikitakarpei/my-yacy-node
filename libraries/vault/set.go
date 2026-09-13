@@ -13,12 +13,22 @@ func (v *Vault) RegisterSet[K any](bucket Name, keys KeyLayout[K]) (*Set[K], err
 	return &Set[K]{entries: entries}, nil
 }
 
-func (s *Set[K]) Add(tx *Txn, key K) error {
-	return s.entries.Put(tx, key, struct{}{})
+func (s *Set[K]) Add(tx *Txn, key K) (alreadyExists bool, err error) {
+	alreadyExists, err = s.entries.Put(tx, key, struct{}{})
+	if err != nil {
+		return false, err
+	}
+
+	return alreadyExists, nil
 }
 
-func (s *Set[K]) Remove(tx *Txn, key K) (bool, error) {
-	return s.entries.Delete(tx, key)
+func (s *Set[K]) Remove(tx *Txn, key K) (wasRemoved bool, err error) {
+	wasRemoved, err = s.entries.Delete(tx, key)
+	if err != nil {
+		return false, err
+	}
+
+	return wasRemoved, nil
 }
 
 func (s *Set[K]) Scan(tx *Txn, keys KeyRange, fn func(K) (bool, error)) error {

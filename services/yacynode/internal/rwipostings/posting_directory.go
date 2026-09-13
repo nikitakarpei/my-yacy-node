@@ -27,45 +27,59 @@ func (d postingDirectory) PostingOf(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
-	stored, found, err := d.postings.Get(tx, postingIdentity{word: word, url: url})
+	identity := postingIdentity{word: word, url: url}
+	storedPosting, found, err := d.postings.Get(tx, identity)
 	if err != nil {
 		return yacymodel.RWIPosting{}, false, fmt.Errorf("read rwi posting: %w", err)
 	}
 	if !found {
 		return yacymodel.RWIPosting{}, false, nil
 	}
-	stored.WordHash = word
-	stored.URLHash = url
 
-	return stored, true, nil
+	return postingWithIdentity(identity, storedPosting), true, nil
+}
+
+func postingWithIdentity(
+	identity postingIdentity,
+	storedPosting yacymodel.RWIPosting,
+) yacymodel.RWIPosting {
+	storedPosting.WordHash = identity.word
+	storedPosting.URLHash = identity.url
+
+	return storedPosting
 }
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	key := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	if err := d.postings.Put(tx, key, posting); err != nil {
+	identity := postingIdentity{word: posting.WordHash, url: posting.URLHash}
+	previousPosting, wasReplaced, err := d.postings.PutReturning(tx, identity, posting)
+	if err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
-	if err := d.observers.stored(tx, posting.WordHash, posting.URLHash); err != nil {
-		return err
+	if !wasReplaced {
+		return d.observers.stored(tx, posting)
 	}
 
-	return nil
+	return d.observers.updated(tx, postingWithIdentity(identity, previousPosting), posting)
 }
 
 func (d postingDirectory) PurgePosting(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
-) (bool, error) {
-	deleted, err := d.postings.Delete(tx, postingIdentity{word: word, url: url})
+) (wasPurged bool, err error) {
+	identity := postingIdentity{word: word, url: url}
+	purgedPosting, wasDeleted, err := d.postings.DeleteReturning(tx, identity)
 	if err != nil {
 		return false, fmt.Errorf("delete rwi posting: %w", err)
 	}
-	if err := d.observers.purged(tx, word, url); err != nil {
+	if !wasDeleted {
+		return false, nil
+	}
+	if err := d.observers.purged(tx, postingWithIdentity(identity, purgedPosting)); err != nil {
 		return false, err
 	}
 
-	return deleted, nil
+	return true, nil
 }
 
 func (d postingDirectory) ScanWord(
@@ -81,10 +95,8 @@ func (d postingDirectory) ScanWord(
 			if err := ctx.Err(); err != nil {
 				return false, fmt.Errorf("context: %w", err)
 			}
-			entry.WordHash = word
-			entry.URLHash = identity.url
 
-			return visit(entry)
+			return visit(postingWithIdentity(identity, entry))
 		},
 	)
 	if err != nil {
