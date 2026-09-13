@@ -45,7 +45,9 @@ func TestUsedBytesFollowsTheValueAnOverwriteLeaves(t *testing.T) {
 	words := registerWords(t, store)
 
 	if err := store.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha")
+		_, err := words.Put(tx, "a", "alpha")
+
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -55,7 +57,9 @@ func TestUsedBytesFollowsTheValueAnOverwriteLeaves(t *testing.T) {
 	}
 
 	if err := store.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, "a", "alpha-and-then-some")
+		_, err := words.Put(tx, "a", "alpha-and-then-some")
+
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}

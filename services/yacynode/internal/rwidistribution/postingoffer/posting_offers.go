@@ -169,7 +169,7 @@ func (o *PostingOffers) offerFor(
 	posting yacymodel.RWIPosting,
 	acceptingPeers []yacymodel.Seed,
 ) (PostingOffer, error) {
-	identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+	identity := postingidentity.IdentityOf(posting)
 	recordedHolders, err := o.replicas.HoldersOf(tx, identity)
 	if err != nil {
 		return PostingOffer{}, fmt.Errorf(replicaLedgerUnread, err)

@@ -29,7 +29,7 @@ type requestedPauses map[postingidentity.Identity]time.Duration
 
 func (p requestedPauses) record(postings []yacymodel.RWIPosting, pause time.Duration) {
 	for _, posting := range postings {
-		identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+		identity := postingidentity.IdentityOf(posting)
 		if pause > p[identity] {
 			p[identity] = pause
 		}

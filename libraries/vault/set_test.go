@@ -33,7 +33,9 @@ func TestAddedKeysAreScannedAndCounted(t *testing.T) {
 	v, members := openMembers(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return members.Add(tx, "a")
+		_, addErr := members.Add(tx, "a")
+
+		return addErr
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -71,15 +73,15 @@ func TestRemovedKeyLeavesSetEmpty(t *testing.T) {
 	v, members := openMembers(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		if err := members.Add(tx, "a"); err != nil {
+		if _, err := members.Add(tx, "a"); err != nil {
 			return wrap(err)
 		}
 
-		removed, err := members.Remove(tx, "a")
+		wasRemoved, err := members.Remove(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if !removed {
+		if !wasRemoved {
 			t.Fatal("Remove(a) = false, want true")
 		}
 
@@ -108,5 +110,32 @@ func TestRegisterSetRejectsDuplicateBucket(t *testing.T) {
 
 	if _, err := v.RegisterSet(vault.Name("members"), stringKeyLayout); err == nil {
 		t.Fatal("duplicate RegisterSet succeeded, want error")
+	}
+}
+
+func TestAddReportsWhetherTheKeyAlreadyExists(t *testing.T) {
+	ctx := context.Background()
+	v, members := openMembers(t)
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		alreadyExists, err := members.Add(tx, "a")
+		if err != nil {
+			return wrap(err)
+		}
+		if alreadyExists {
+			t.Fatal("first Add(a) = true, want false")
+		}
+
+		alreadyExists, err = members.Add(tx, "a")
+		if err != nil {
+			return wrap(err)
+		}
+		if !alreadyExists {
+			t.Fatal("second Add(a) = false, want true")
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
 	}
 }

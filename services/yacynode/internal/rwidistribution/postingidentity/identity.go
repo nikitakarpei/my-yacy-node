@@ -9,6 +9,6 @@ type Identity struct {
 	URL  yacymodel.URLHash
 }
 
-func IdentityOf(word yacymodel.Hash, url yacymodel.URLHash) Identity {
-	return Identity{Word: word, URL: url}
+func IdentityOf(posting yacymodel.RWIPosting) Identity {
+	return Identity{Word: posting.WordHash, URL: posting.URLHash}
 }

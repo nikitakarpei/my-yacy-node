@@ -9,13 +9,9 @@ import (
 
 type postingObservers []PostingObserver
 
-func (o postingObservers) stored(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
+func (o postingObservers) stored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	for _, observer := range o {
-		if err := observer.PostingStored(tx, word, url); err != nil {
+		if err := observer.PostingStored(tx, posting); err != nil {
 			return fmt.Errorf("posting observer: %w", err)
 		}
 	}
@@ -23,13 +19,23 @@ func (o postingObservers) stored(
 	return nil
 }
 
-func (o postingObservers) purged(
+func (o postingObservers) updated(
 	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
+	previous yacymodel.RWIPosting,
+	current yacymodel.RWIPosting,
 ) error {
 	for _, observer := range o {
-		if err := observer.PostingPurged(tx, word, url); err != nil {
+		if err := observer.PostingUpdated(tx, previous, current); err != nil {
+			return fmt.Errorf("posting observer: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (o postingObservers) purged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	for _, observer := range o {
+		if err := observer.PostingPurged(tx, posting); err != nil {
 			return fmt.Errorf("posting observer: %w", err)
 		}
 	}

@@ -81,7 +81,7 @@ func (h *Handoff) isHeldByCloserPeers(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
 ) (bool, error) {
-	identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+	identity := postingidentity.IdentityOf(posting)
 	holders, err := h.replicas.HoldersOf(tx, identity)
 	if err != nil {
 		return false, fmt.Errorf("read replica ledger: %w", err)
