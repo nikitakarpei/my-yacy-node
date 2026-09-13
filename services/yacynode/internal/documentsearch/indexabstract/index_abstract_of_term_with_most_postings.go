@@ -9,7 +9,7 @@ import (
 
 type IndexAbstractOfTermWithMostPostings struct{}
 
-func (IndexAbstractOfTermWithMostPostings) indexAbstractTerms(
+func (IndexAbstractOfTermWithMostPostings) coveredTerms(
 	queryTerms []yacymodel.Hash,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
 ) []yacymodel.Hash {

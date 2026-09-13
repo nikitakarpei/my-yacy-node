@@ -11,7 +11,7 @@ type IndexAbstractOfTermNearestToNodePosition struct {
 	NodePosition yacymodel.DHTRingPosition
 }
 
-func (r IndexAbstractOfTermNearestToNodePosition) indexAbstractTerms(
+func (r IndexAbstractOfTermNearestToNodePosition) coveredTerms(
 	queryTerms []yacymodel.Hash,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
 ) []yacymodel.Hash {

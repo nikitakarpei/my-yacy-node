@@ -186,7 +186,7 @@ func (r Results) indexAbstracts(
 	requestedIndexAbstracts indexabstract.RequestedIndexAbstracts,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
 ) (indexabstract.IndexAbstracts, error) {
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		requestedIndexAbstracts,
 		criteria.Terms,
 		amountOfPostingsPerTerm,

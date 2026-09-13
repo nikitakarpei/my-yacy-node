@@ -12,7 +12,7 @@ import (
 func TestIndexAbstractTermsOfTermWithMostPostingsRankByPostingsTheNodeHolds(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -27,7 +27,7 @@ func TestIndexAbstractTermsOfTermWithMostPostingsRankByPostingsTheNodeHolds(t *t
 func TestIndexAbstractTermsOfTermWithMostPostingsBreakTiesBySmallerTerm(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -42,7 +42,7 @@ func TestIndexAbstractTermsOfTermWithMostPostingsBreakTiesBySmallerTerm(t *testi
 func TestIndexAbstractTermsOfTermWithMostPostingsSkipTermsTheNodeDoesNotHold(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -55,13 +55,13 @@ func TestIndexAbstractTermsOfTermWithMostPostingsSkipTermsTheNodeDoesNotHold(t *
 }
 
 func TestIndexAbstractTermsOfNoRequestStayEmpty(t *testing.T) {
-	if terms := indexabstract.IndexAbstractTermsOf(nil, nil, nil); terms != nil {
+	if terms := indexabstract.TermsCoveredBy(nil, nil, nil); terms != nil {
 		t.Fatalf("terms = %v, want none", terms)
 	}
 }
 
 func TestIndexAbstractTermsOfTermWithMostPostingsStayEmptyWithoutQueryTerms(t *testing.T) {
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 		},
@@ -76,7 +76,7 @@ func TestIndexAbstractTermsOfTermWithMostPostingsStayEmptyWithoutQueryTerms(t *t
 func TestIndexAbstractTermsOfTermNearestToNodePositionNameTheTermTheDHTSendsHere(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
 				NodePosition: yacymodel.DHTRingPositionOf(word2),
@@ -93,7 +93,7 @@ func TestIndexAbstractTermsOfTermNearestToNodePositionNameTheTermTheDHTSendsHere
 func TestIndexAbstractTermsOfTermNearestToNodePositionMeasureForwardAroundTheRing(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
 				NodePosition: yacymodel.DHTRingPositionOf(word1) - 1,
@@ -110,7 +110,7 @@ func TestIndexAbstractTermsOfTermNearestToNodePositionMeasureForwardAroundTheRin
 func TestIndexAbstractTermsOfTermNearestToNodePositionSkipTermsTheNodeDoesNotHold(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
 				NodePosition: yacymodel.DHTRingPositionOf(word1),
@@ -127,7 +127,7 @@ func TestIndexAbstractTermsOfTermNearestToNodePositionSkipTermsTheNodeDoesNotHol
 func TestIndexAbstractTermsOfBothNodeTermsNameEachOfThem(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
@@ -145,7 +145,7 @@ func TestIndexAbstractTermsOfBothNodeTermsNameEachOfThem(t *testing.T) {
 func TestIndexAbstractTermsOfBothNodeTermsCollapseWhenOneTermWinsBothRules(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractOfTermWithMostPostings{},
 			indexabstract.IndexAbstractOfTermNearestToNodePosition{
@@ -163,7 +163,7 @@ func TestIndexAbstractTermsOfBothNodeTermsCollapseWhenOneTermWinsBothRules(t *te
 func TestIndexAbstractTermsOfNameTheTermsTheRequestAsksFor(t *testing.T) {
 	word, related := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	terms := indexabstract.IndexAbstractTermsOf(
+	terms := indexabstract.TermsCoveredBy(
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{related}},
 		},

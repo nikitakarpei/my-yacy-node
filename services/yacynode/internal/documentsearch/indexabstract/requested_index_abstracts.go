@@ -7,7 +7,7 @@ import (
 )
 
 type RequestedIndexAbstract interface {
-	indexAbstractTerms(
+	coveredTerms(
 		queryTerms []yacymodel.Hash,
 		amountOfPostingsPerTerm map[yacymodel.Hash]int,
 	) []yacymodel.Hash
@@ -15,14 +15,14 @@ type RequestedIndexAbstract interface {
 
 type RequestedIndexAbstracts []RequestedIndexAbstract
 
-func IndexAbstractTermsOf(
+func TermsCoveredBy(
 	requested RequestedIndexAbstracts,
 	queryTerms []yacymodel.Hash,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
 ) []yacymodel.Hash {
 	var terms []yacymodel.Hash
 	for _, requestedAbstract := range requested {
-		for _, term := range requestedAbstract.indexAbstractTerms(
+		for _, term := range requestedAbstract.coveredTerms(
 			queryTerms,
 			amountOfPostingsPerTerm,
 		) {

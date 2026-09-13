@@ -6,7 +6,7 @@ type IndexAbstractsOfTerms struct {
 	Terms []yacymodel.Hash
 }
 
-func (r IndexAbstractsOfTerms) indexAbstractTerms(
+func (r IndexAbstractsOfTerms) coveredTerms(
 	_ []yacymodel.Hash,
 	_ map[yacymodel.Hash]int,
 ) []yacymodel.Hash {
