@@ -40,6 +40,10 @@ components:
     in: internal/urlreferences/**
   rwipostings:
     in: internal/rwipostings/**
+  rwiimpactorder:
+    in: internal/rwiimpactorder/**
+  rwipostingamount:
+    in: internal/rwipostingamount/**
   rwiescrow:
     in: internal/rwiescrow/**
   rwiadmission:
@@ -208,6 +212,19 @@ deps:
       - vault
   rwipostings:
     mayDependOn:
+      - hashkeypart
+    canUse:
+      - vault
+      - storedfields
+  rwiimpactorder:
+    mayDependOn:
+      - rwipostings
+      - hashkeypart
+    canUse:
+      - vault
+  rwipostingamount:
+    mayDependOn:
+      - rwipostings
       - hashkeypart
     canUse:
       - vault
