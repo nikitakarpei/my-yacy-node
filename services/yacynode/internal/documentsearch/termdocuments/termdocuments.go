@@ -12,8 +12,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/requestdeadline"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -28,7 +29,7 @@ type TermDocuments interface {
 
 func New(
 	postings rwipostings.PostingIndex,
-	impactOrder rwiimpactorder.ImpactOrderQuery,
+	impactOrder rwipostingimpactorder.ImpactOrderQuery,
 	indexAbstractDocumentsPerTerm int,
 ) TermDocuments {
 	return termDocuments{
@@ -40,7 +41,7 @@ func New(
 
 type termDocuments struct {
 	postings                      rwipostings.PostingIndex
-	impactOrder                   rwiimpactorder.ImpactOrderQuery
+	impactOrder                   rwipostingimpactorder.ImpactOrderQuery
 	indexAbstractDocumentsPerTerm int
 }
 
@@ -57,8 +58,8 @@ func (t termDocuments) DocumentsHoldingTerm(
 	err := t.impactOrder.ScanPostingsInImpactOrder(
 		tx,
 		term,
-		func(document yacymodel.URLHash, _ rwiimpactorder.Impact) (bool, error) {
-			if requestHasEnded(ctx) {
+		func(document yacymodel.URLHash, _ rwipostingimpactorder.Impact) (bool, error) {
+			if requestdeadline.RequestHasEnded(ctx) {
 				return false, nil
 			}
 			accepted, err := t.acceptsDocument(tx, term, document, filter)
@@ -77,15 +78,6 @@ func (t termDocuments) DocumentsHoldingTerm(
 	}
 
 	return documents, nil
-}
-
-func requestHasEnded(ctx context.Context) bool {
-	select {
-	case <-ctx.Done():
-		return true
-	default:
-		return false
-	}
 }
 
 func (t termDocuments) acceptsDocument(

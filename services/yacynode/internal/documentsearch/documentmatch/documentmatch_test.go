@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 )
 
 func postingOf(word yacymodel.Hash, document string, hits int) yacymodel.RWIPosting {
@@ -39,28 +39,28 @@ type searchIndex interface {
 	ScanPostingsInImpactOrder(
 		tx *vault.Txn,
 		word yacymodel.Hash,
-		visit func(yacymodel.URLHash, rwiimpactorder.Impact) (bool, error),
+		visit func(yacymodel.URLHash, rwipostingimpactorder.Impact) (bool, error),
 	) error
-	LargestImpactOf(tx *vault.Txn, word yacymodel.Hash) (rwiimpactorder.Impact, bool, error)
+	LargestImpactOf(tx *vault.Txn, word yacymodel.Hash) (rwipostingimpactorder.Impact, bool, error)
 	AmountOfPostingsOf(tx *vault.Txn, word yacymodel.Hash) (int, error)
 }
 
-func mostRelevantDocumentsFor(
+func mostRelevantPostingsFor(
 	t *testing.T,
 	index searchIndex,
 	criteria searchcriteria.Criteria,
-) (documentmatch.MostRelevantDocuments, error) {
+) (documentmatch.MostRelevantPostings, error) {
 	t.Helper()
 
-	return mostRelevantDocumentsWithin(t, context.Background(), index, criteria)
+	return mostRelevantPostingsWithin(t, context.Background(), index, criteria)
 }
 
-func mostRelevantDocumentsWithin(
+func mostRelevantPostingsWithin(
 	t *testing.T,
 	ctx context.Context,
 	index searchIndex,
 	criteria searchcriteria.Criteria,
-) (documentmatch.MostRelevantDocuments, error) {
+) (documentmatch.MostRelevantPostings, error) {
 	t.Helper()
 
 	v, err := memoryvault.Open(0, nil)
@@ -71,7 +71,7 @@ func mostRelevantDocumentsWithin(
 
 	amountOfPostingsPerTerm := make(map[yacymodel.Hash]int, len(criteria.Terms))
 
-	var documents documentmatch.MostRelevantDocuments
+	var mostRelevantPostings documentmatch.MostRelevantPostings
 
 	err = v.View(ctx, func(tx *vault.Txn) error {
 		for _, term := range criteria.Terms {
@@ -81,20 +81,20 @@ func mostRelevantDocumentsWithin(
 			}
 			amountOfPostingsPerTerm[term] = amount
 		}
-		found, matchErr := documentmatch.New(index, index).MostRelevantDocumentsFor(
+		found, matchErr := documentmatch.New(index, index).MostRelevantPostingsFor(
 			ctx, tx, criteria, amountOfPostingsPerTerm,
 		)
-		documents = found
+		mostRelevantPostings = found
 
 		return matchErr
 	})
 
-	return documents, err
+	return mostRelevantPostings, err
 }
 
-func documentNames(documents documentmatch.MostRelevantDocuments) []string {
-	names := make([]string, 0, len(documents.Postings))
-	for _, posting := range documents.Postings {
+func documentNames(mostRelevantPostings documentmatch.MostRelevantPostings) []string {
+	names := make([]string, 0, len(mostRelevantPostings.Postings))
+	for _, posting := range mostRelevantPostings.Postings {
 		names = append(names, posting.URLHash.String())
 	}
 
@@ -107,20 +107,20 @@ func TestMostRelevantDocumentsComeInImpactOrder(t *testing.T) {
 		word: {postingOf(word, "u1", 50), titlePostingOf(word, "u2")},
 	}}
 
-	documents, err := mostRelevantDocumentsFor(t, index, searchcriteria.Criteria{
+	mostRelevantPostings, err := mostRelevantPostingsFor(t, index, searchcriteria.Criteria{
 		Terms:      []yacymodel.Hash{word},
 		MaxResults: 10,
 	})
 	if err != nil {
-		t.Fatalf("MostRelevantDocumentsFor: %v", err)
+		t.Fatalf("MostRelevantPostingsFor: %v", err)
 	}
-	if len(documents.Postings) != 2 {
-		t.Fatalf("documents = %v, want two", documentNames(documents))
+	if len(mostRelevantPostings.Postings) != 2 {
+		t.Fatalf("documents = %v, want two", documentNames(mostRelevantPostings))
 	}
-	if documents.Postings[0].URLHash != searchtest.URLHashFor("u2") {
+	if mostRelevantPostings.Postings[0].URLHash != searchtest.URLHashFor("u2") {
 		t.Errorf(
 			"documents = %v, want the title posting first",
-			documentNames(documents),
+			documentNames(mostRelevantPostings),
 		)
 	}
 }
@@ -137,19 +137,25 @@ func TestMostRelevantDocumentsStopOnceNoUnreadDocumentCanEnterTheAnswer(t *testi
 		},
 	}}
 
-	documents, err := mostRelevantDocumentsFor(t, index, searchcriteria.Criteria{
+	mostRelevantPostings, err := mostRelevantPostingsFor(t, index, searchcriteria.Criteria{
 		Terms:      []yacymodel.Hash{word},
 		MaxResults: 1,
 	})
 	if err != nil {
-		t.Fatalf("MostRelevantDocumentsFor: %v", err)
+		t.Fatalf("MostRelevantPostingsFor: %v", err)
 	}
-	if documents.IndexReadStop != documentmatch.StoppedAtRelevanceBound {
-		t.Errorf("index read stop = %v, want the relevance bound", documents.IndexReadStop)
+	if mostRelevantPostings.IndexReadStop != documentmatch.IndexReadStoppedAtRelevanceBound {
+		t.Errorf(
+			"index read stop = %v, want the relevance bound",
+			mostRelevantPostings.IndexReadStop,
+		)
 	}
-	if len(documents.Postings) != 1 ||
-		documents.Postings[0].URLHash != searchtest.URLHashFor("u1") {
-		t.Errorf("documents = %v, want the title posting alone", documentNames(documents))
+	if len(mostRelevantPostings.Postings) != 1 ||
+		mostRelevantPostings.Postings[0].URLHash != searchtest.URLHashFor("u1") {
+		t.Errorf(
+			"documents = %v, want the title posting alone",
+			documentNames(mostRelevantPostings),
+		)
 	}
 }
 
@@ -164,15 +170,18 @@ func TestMostRelevantDocumentsNeverReadACommonWordInFull(t *testing.T) {
 	}
 	index := &countingIndex{PostingIndex: searchtest.PostingIndex{Postings: postings}}
 
-	documents, err := mostRelevantDocumentsFor(t, index, searchcriteria.Criteria{
+	mostRelevantPostings, err := mostRelevantPostingsFor(t, index, searchcriteria.Criteria{
 		Terms:      []yacymodel.Hash{commonWord, rareWord},
 		MaxResults: 10,
 	})
 	if err != nil {
-		t.Fatalf("MostRelevantDocumentsFor: %v", err)
+		t.Fatalf("MostRelevantPostingsFor: %v", err)
 	}
-	if len(documents.Postings) != 1 {
-		t.Fatalf("documents = %v, want the one document both words hold", documentNames(documents))
+	if len(mostRelevantPostings.Postings) != 1 {
+		t.Fatalf(
+			"documents = %v, want the one document both words hold",
+			documentNames(mostRelevantPostings),
+		)
 	}
 	if index.readDocumentsOf[commonWord] != 0 {
 		t.Errorf(
@@ -190,7 +199,7 @@ type countingIndex struct {
 func (index *countingIndex) ScanPostingsInImpactOrder(
 	tx *vault.Txn,
 	word yacymodel.Hash,
-	visit func(yacymodel.URLHash, rwiimpactorder.Impact) (bool, error),
+	visit func(yacymodel.URLHash, rwipostingimpactorder.Impact) (bool, error),
 ) error {
 	if index.readDocumentsOf == nil {
 		index.readDocumentsOf = map[yacymodel.Hash]int{}
@@ -199,7 +208,7 @@ func (index *countingIndex) ScanPostingsInImpactOrder(
 	return index.PostingIndex.ScanPostingsInImpactOrder(
 		tx,
 		word,
-		func(document yacymodel.URLHash, impact rwiimpactorder.Impact) (bool, error) {
+		func(document yacymodel.URLHash, impact rwipostingimpactorder.Impact) (bool, error) {
 			index.readDocumentsOf[word]++
 
 			return visit(document, impact)
@@ -214,17 +223,17 @@ func TestMostRelevantDocumentsDropDocumentsHoldingAnExcludedTerm(t *testing.T) {
 		excluded: {postingOf(excluded, "u2", 1)},
 	}}
 
-	documents, err := mostRelevantDocumentsFor(t, index, searchcriteria.Criteria{
+	mostRelevantPostings, err := mostRelevantPostingsFor(t, index, searchcriteria.Criteria{
 		Terms:         []yacymodel.Hash{word},
 		ExcludedTerms: []yacymodel.Hash{excluded},
 		MaxResults:    10,
 	})
 	if err != nil {
-		t.Fatalf("MostRelevantDocumentsFor: %v", err)
+		t.Fatalf("MostRelevantPostingsFor: %v", err)
 	}
-	if len(documents.Postings) != 1 ||
-		documents.Postings[0].URLHash != searchtest.URLHashFor("u1") {
-		t.Errorf("documents = %v, want only u1", documentNames(documents))
+	if len(mostRelevantPostings.Postings) != 1 ||
+		mostRelevantPostings.Postings[0].URLHash != searchtest.URLHashFor("u1") {
+		t.Errorf("documents = %v, want only u1", documentNames(mostRelevantPostings))
 	}
 }
 
@@ -234,17 +243,20 @@ func TestMostRelevantDocumentsDropDocumentsTheFilterRejects(t *testing.T) {
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 1)},
 	}}
 
-	documents, err := mostRelevantDocumentsFor(t, index, searchcriteria.Criteria{
+	mostRelevantPostings, err := mostRelevantPostingsFor(t, index, searchcriteria.Criteria{
 		Terms:             []yacymodel.Hash{word},
 		RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u2")},
 		MaxResults:        10,
 	})
 	if err != nil {
-		t.Fatalf("MostRelevantDocumentsFor: %v", err)
+		t.Fatalf("MostRelevantPostingsFor: %v", err)
 	}
-	if len(documents.Postings) != 1 ||
-		documents.Postings[0].URLHash != searchtest.URLHashFor("u2") {
-		t.Errorf("documents = %v, want only the required document", documentNames(documents))
+	if len(mostRelevantPostings.Postings) != 1 ||
+		mostRelevantPostings.Postings[0].URLHash != searchtest.URLHashFor("u2") {
+		t.Errorf(
+			"documents = %v, want only the required document",
+			documentNames(mostRelevantPostings),
+		)
 	}
 }
 
@@ -254,15 +266,16 @@ func TestMostRelevantDocumentsStayEmptyWhenTheNodeHoldsNoPostingOfATerm(t *testi
 		word: {postingOf(word, "u1", 1)},
 	}}
 
-	documents, err := mostRelevantDocumentsFor(t, index, searchcriteria.Criteria{
+	mostRelevantPostings, err := mostRelevantPostingsFor(t, index, searchcriteria.Criteria{
 		Terms:      []yacymodel.Hash{word, absent},
 		MaxResults: 10,
 	})
 	if err != nil {
-		t.Fatalf("MostRelevantDocumentsFor: %v", err)
+		t.Fatalf("MostRelevantPostingsFor: %v", err)
 	}
-	if len(documents.Postings) != 0 || documents.AmountOfMatchedDocuments != 0 {
-		t.Errorf("documents = %v, want none", documentNames(documents))
+	if len(mostRelevantPostings.Postings) != 0 ||
+		mostRelevantPostings.AmountOfMatchedDocuments != 0 {
+		t.Errorf("documents = %v, want none", documentNames(mostRelevantPostings))
 	}
 }
 
@@ -279,7 +292,7 @@ func TestMostRelevantDocumentsAnswerWithWhatTheyFoundWhenTheRequestEnds(t *testi
 	ctx, endRequest := context.WithCancel(context.Background())
 	defer endRequest()
 
-	documents, err := mostRelevantDocumentsWithin(
+	mostRelevantPostings, err := mostRelevantPostingsWithin(
 		t,
 		ctx,
 		&endingIndex{
@@ -289,14 +302,14 @@ func TestMostRelevantDocumentsAnswerWithWhatTheyFoundWhenTheRequestEnds(t *testi
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}, MaxResults: 10},
 	)
 	if err != nil {
-		t.Fatalf("MostRelevantDocumentsFor: %v", err)
+		t.Fatalf("MostRelevantPostingsFor: %v", err)
 	}
-	if documents.IndexReadStop != documentmatch.StoppedAtDeadline {
-		t.Errorf("index read stop = %v, want the deadline", documents.IndexReadStop)
+	if mostRelevantPostings.IndexReadStop != documentmatch.IndexReadStoppedAtDeadline {
+		t.Errorf("index read stop = %v, want the deadline", mostRelevantPostings.IndexReadStop)
 	}
-	if len(documents.Postings) != 1 {
+	if len(mostRelevantPostings.Postings) != 1 {
 		t.Errorf("documents = %v, want the one document read before the end",
-			documentNames(documents))
+			documentNames(mostRelevantPostings))
 	}
 }
 
@@ -308,12 +321,12 @@ type endingIndex struct {
 func (index *endingIndex) ScanPostingsInImpactOrder(
 	tx *vault.Txn,
 	word yacymodel.Hash,
-	visit func(yacymodel.URLHash, rwiimpactorder.Impact) (bool, error),
+	visit func(yacymodel.URLHash, rwipostingimpactorder.Impact) (bool, error),
 ) error {
 	return index.PostingIndex.ScanPostingsInImpactOrder(
 		tx,
 		word,
-		func(document yacymodel.URLHash, impact rwiimpactorder.Impact) (bool, error) {
+		func(document yacymodel.URLHash, impact rwipostingimpactorder.Impact) (bool, error) {
 			keepGoing, err := visit(document, impact)
 			index.endRequest()
 
@@ -334,7 +347,7 @@ func TestMostRelevantDocumentsSurfaceIndexFailures(t *testing.T) {
 	index := searchtest.FailingPostingIndex{Err: errIndexBroken}
 	ctx := context.Background()
 	err = v.View(ctx, func(tx *vault.Txn) error {
-		_, matchErr := documentmatch.New(index, index).MostRelevantDocumentsFor(
+		_, matchErr := documentmatch.New(index, index).MostRelevantPostingsFor(
 			ctx,
 			tx,
 			searchcriteria.Criteria{Terms: []yacymodel.Hash{word}, MaxResults: 10},

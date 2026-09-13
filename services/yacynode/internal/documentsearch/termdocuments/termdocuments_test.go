@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -19,7 +19,7 @@ const indexAbstractDocumentsPerTerm = 1000
 
 type termIndex interface {
 	rwipostings.PostingIndex
-	rwiimpactorder.ImpactOrderQuery
+	rwipostingimpactorder.ImpactOrderQuery
 }
 
 func postingOf(word yacymodel.Hash, document string, hits int) yacymodel.RWIPosting {

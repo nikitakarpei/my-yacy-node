@@ -21,75 +21,73 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/requestdeadline"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type MostRelevantDocuments struct {
+type MostRelevantPostings struct {
 	Postings                 []yacymodel.RWIPosting
 	AmountOfMatchedDocuments int
 	IndexReadStop            IndexReadStop
 }
 
-type Matches interface {
-	MostRelevantDocumentsFor(
+type MostRelevantPostingsOfSearch interface {
+	MostRelevantPostingsFor(
 		ctx context.Context,
 		tx *vault.Txn,
 		criteria searchcriteria.Criteria,
 		amountOfPostingsPerTerm map[yacymodel.Hash]int,
-	) (MostRelevantDocuments, error)
+	) (MostRelevantPostings, error)
 }
 
 func New(
 	postings rwipostings.PostingIndex,
-	impactOrder rwiimpactorder.ImpactOrderQuery,
-) Matches {
-	return indexMatches{postings: postings, impactOrder: impactOrder}
+	impactOrder rwipostingimpactorder.ImpactOrderQuery,
+) MostRelevantPostingsOfSearch {
+	return mostRelevantPostingsOfSearch{postings: postings, impactOrder: impactOrder}
 }
 
-type indexMatches struct {
+type mostRelevantPostingsOfSearch struct {
 	postings    rwipostings.PostingIndex
-	impactOrder rwiimpactorder.ImpactOrderQuery
+	impactOrder rwipostingimpactorder.ImpactOrderQuery
 }
 
-func (m indexMatches) MostRelevantDocumentsFor(
+func (m mostRelevantPostingsOfSearch) MostRelevantPostingsFor(
 	ctx context.Context,
 	tx *vault.Txn,
 	criteria searchcriteria.Criteria,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
-) (MostRelevantDocuments, error) {
+) (MostRelevantPostings, error) {
 	rarity := wordRarityOf(criteria.Terms, amountOfPostingsPerTerm)
 	if !rarity.everyWordIsHeld {
-		return MostRelevantDocuments{}, nil
+		return MostRelevantPostings{}, nil
 	}
 	largestRelevanceBesideRarestWord, err := m.largestRelevanceBesideRarestWord(tx, rarity)
 	if err != nil {
-		return MostRelevantDocuments{}, err
+		return MostRelevantPostings{}, err
 	}
 
 	ranking := rankingFor(criteria, rarity, largestRelevanceBesideRarestWord)
 	indexReadStop, err := m.readRarestWord(ctx, tx, criteria, &ranking)
 	if err != nil {
-		return MostRelevantDocuments{}, err
+		return MostRelevantPostings{}, err
 	}
 
-	return MostRelevantDocuments{
+	return MostRelevantPostings{
 		Postings:                 ranking.postingsInRelevanceOrder(),
 		AmountOfMatchedDocuments: ranking.amountOfMatchedDocuments,
 		IndexReadStop:            indexReadStop,
 	}, nil
 }
 
-func (m indexMatches) largestRelevanceBesideRarestWord(
+func (m mostRelevantPostingsOfSearch) largestRelevanceBesideRarestWord(
 	tx *vault.Txn,
 	rarity wordRarity,
 ) (float64, error) {
 	largestRelevance := 0.0
-	for position, word := range rarity.words {
-		if position == rarity.rarestWordPosition {
-			continue
-		}
+	for _, word := range rarity.wordsBesideTheRarestWord {
 		largestImpact, found, err := m.impactOrder.LargestImpactOf(tx, word)
 		if err != nil {
 			return 0, err
@@ -103,25 +101,25 @@ func (m indexMatches) largestRelevanceBesideRarestWord(
 	return largestRelevance, nil
 }
 
-func (m indexMatches) readRarestWord(
+func (m mostRelevantPostingsOfSearch) readRarestWord(
 	ctx context.Context,
 	tx *vault.Txn,
 	criteria searchcriteria.Criteria,
 	ranking *ranking,
 ) (IndexReadStop, error) {
-	indexReadStop := StoppedAtEveryPosting
+	indexReadStop := IndexReadStoppedAtEndOfWord
 	filter := postingfilter.FilterForSearch(criteria)
 	err := m.impactOrder.ScanPostingsInImpactOrder(
 		tx,
 		ranking.rarestWord(),
-		func(document yacymodel.URLHash, impact rwiimpactorder.Impact) (bool, error) {
-			if requestHasEnded(ctx) {
-				indexReadStop = StoppedAtDeadline
+		func(document yacymodel.URLHash, impact rwipostingimpactorder.Impact) (bool, error) {
+			if requestdeadline.RequestHasEnded(ctx) {
+				indexReadStop = IndexReadStoppedAtDeadline
 
 				return false, nil
 			}
 			if ranking.noUnreadDocumentCanEnterTheAnswer(impact) {
-				indexReadStop = StoppedAtRelevanceBound
+				indexReadStop = IndexReadStoppedAtRelevanceBound
 
 				return false, nil
 			}
@@ -136,16 +134,7 @@ func (m indexMatches) readRarestWord(
 	return indexReadStop, err
 }
 
-func requestHasEnded(ctx context.Context) bool {
-	select {
-	case <-ctx.Done():
-		return true
-	default:
-		return false
-	}
-}
-
-func (m indexMatches) considerDocument(
+func (m mostRelevantPostingsOfSearch) considerDocument(
 	tx *vault.Txn,
 	criteria searchcriteria.Criteria,
 	filter postingfilter.Filter,
@@ -166,12 +155,12 @@ func (m indexMatches) considerDocument(
 	if holdsAnExcludedTerm {
 		return nil
 	}
-	ranking.consider(postings)
+	ranking.considerPostingsOfDocument(postings)
 
 	return nil
 }
 
-func (m indexMatches) postingsOfEveryTerm(
+func (m mostRelevantPostingsOfSearch) postingsOfEveryTerm(
 	tx *vault.Txn,
 	terms []yacymodel.Hash,
 	filter postingfilter.Filter,
@@ -192,7 +181,7 @@ func (m indexMatches) postingsOfEveryTerm(
 	return postings, true, nil
 }
 
-func (m indexMatches) holdsAnyTerm(
+func (m mostRelevantPostingsOfSearch) holdsAnyTerm(
 	tx *vault.Txn,
 	terms []yacymodel.Hash,
 	document yacymodel.URLHash,

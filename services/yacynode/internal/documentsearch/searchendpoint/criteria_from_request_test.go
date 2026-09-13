@@ -336,7 +336,9 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	index, directory := searchFixtureFor(t, searchWord,
 		searchDocument{Address: chosenSite},
 	)
-	recording := &deadlineRecordingMatches{matches: documentmatch.New(index, index)}
+	recording := &deadlineRecordingDocumentMatches{
+		documentMatches: documentmatch.New(index, index),
+	}
 	mux, _ := mountedSearchResults(
 		t,
 		searchresult.New(
@@ -357,22 +359,22 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	return recording.remainingSearchTime
 }
 
-type deadlineRecordingMatches struct {
-	matches             documentmatch.Matches
+type deadlineRecordingDocumentMatches struct {
+	documentMatches     documentmatch.MostRelevantPostingsOfSearch
 	remainingSearchTime time.Duration
 }
 
-func (m *deadlineRecordingMatches) MostRelevantDocumentsFor(
+func (m *deadlineRecordingDocumentMatches) MostRelevantPostingsFor(
 	ctx context.Context,
 	tx *vault.Txn,
 	criteria searchcriteria.Criteria,
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
-) (documentmatch.MostRelevantDocuments, error) {
+) (documentmatch.MostRelevantPostings, error) {
 	if deadline, found := ctx.Deadline(); found {
 		m.remainingSearchTime = time.Until(deadline)
 	}
 
-	return m.matches.MostRelevantDocumentsFor(ctx, tx, criteria, amountOfPostingsPerTerm)
+	return m.documentMatches.MostRelevantPostingsFor(ctx, tx, criteria, amountOfPostingsPerTerm)
 }
 
 func assertRemainingSearchTime(t *testing.T, remaining, want time.Duration) {

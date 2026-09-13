@@ -1,4 +1,4 @@
-package rwiimpactorder
+package rwipostingimpactorder
 
 import (
 	"fmt"

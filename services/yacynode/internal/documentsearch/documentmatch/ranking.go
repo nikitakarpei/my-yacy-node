@@ -6,7 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 )
 
 type ranking struct {
@@ -34,10 +34,10 @@ func rankingFor(
 }
 
 func (r *ranking) rarestWord() yacymodel.Hash {
-	return r.rarity.rarestWord()
+	return r.rarity.rarestWord
 }
 
-func (r *ranking) noUnreadDocumentCanEnterTheAnswer(nextImpact rwiimpactorder.Impact) bool {
+func (r *ranking) noUnreadDocumentCanEnterTheAnswer(nextImpact rwipostingimpactorder.Impact) bool {
 	if r.maxResults <= 0 || len(r.matches) < r.maxResults {
 		return false
 	}
@@ -45,18 +45,18 @@ func (r *ranking) noUnreadDocumentCanEnterTheAnswer(nextImpact rwiimpactorder.Im
 	return r.matches[len(r.matches)-1].relevance >= r.largestRelevanceFrom(nextImpact)
 }
 
-func (r *ranking) largestRelevanceFrom(nextImpact rwiimpactorder.Impact) float64 {
+func (r *ranking) largestRelevanceFrom(nextImpact rwipostingimpactorder.Impact) float64 {
 	return r.rarity.rarityOf(r.rarestWord())*float64(nextImpact) +
 		r.largestRelevanceBesideRarestWord
 }
 
-func (r *ranking) consider(postings []yacymodel.RWIPosting) {
+func (r *ranking) considerPostingsOfDocument(postings []yacymodel.RWIPosting) {
 	match := matchAcrossTerms(postings, r.rarity)
 	if !r.isWithinTermSpread(match) {
 		return
 	}
 	r.amountOfMatchedDocuments++
-	r.place(match)
+	r.placeDocumentMatch(match)
 }
 
 func (r *ranking) isWithinTermSpread(match documentMatch) bool {
@@ -67,12 +67,12 @@ func (r *ranking) isWithinTermSpread(match documentMatch) bool {
 	return match.termSpread(r.amountOfTerms) <= r.maxTermSpread
 }
 
-func (r *ranking) place(match documentMatch) {
-	position, _ := slices.BinarySearchFunc(r.matches, match, r.compare)
-	if r.maxResults > 0 && position >= r.maxResults {
+func (r *ranking) placeDocumentMatch(match documentMatch) {
+	matchAt, _ := slices.BinarySearchFunc(r.matches, match, r.compare)
+	if r.maxResults > 0 && matchAt >= r.maxResults {
 		return
 	}
-	r.matches = slices.Insert(r.matches, position, match)
+	r.matches = slices.Insert(r.matches, matchAt, match)
 	if r.maxResults > 0 && len(r.matches) > r.maxResults {
 		r.matches = r.matches[:r.maxResults]
 	}

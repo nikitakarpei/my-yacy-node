@@ -20,8 +20,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -30,7 +30,7 @@ const searchNetwork = "freeworld"
 
 type searchIndex interface {
 	rwipostings.PostingIndex
-	rwiimpactorder.ImpactOrderQuery
+	rwipostingimpactorder.ImpactOrderQuery
 	rwipostingamount.PostingAmountQuery
 }
 

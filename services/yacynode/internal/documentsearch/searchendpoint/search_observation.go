@@ -64,11 +64,11 @@ func (o searchObservation) observeServed(result searchresult.Result) {
 
 func indexReadStopOf(stop documentmatch.IndexReadStop) searchmetrics.IndexReadStop {
 	switch stop {
-	case documentmatch.StoppedAtRelevanceBound:
+	case documentmatch.IndexReadStoppedAtRelevanceBound:
 		return searchmetrics.IndexReadStoppedAtRelevanceBound
-	case documentmatch.StoppedAtDeadline:
+	case documentmatch.IndexReadStoppedAtDeadline:
 		return searchmetrics.IndexReadStoppedAtDeadline
 	default:
-		return searchmetrics.IndexReadStoppedAtEveryPosting
+		return searchmetrics.IndexReadStoppedAtEndOfWord
 	}
 }

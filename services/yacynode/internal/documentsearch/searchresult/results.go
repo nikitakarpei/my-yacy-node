@@ -30,7 +30,7 @@ type DocumentDirectory interface {
 
 type Results struct {
 	vault             *vault.Vault
-	documentMatches   documentmatch.Matches
+	documentMatches   documentmatch.MostRelevantPostingsOfSearch
 	termDocuments     termdocuments.TermDocuments
 	postingAmounts    rwipostingamount.PostingAmountQuery
 	documentDirectory DocumentDirectory
@@ -38,17 +38,17 @@ type Results struct {
 
 func New(
 	v *vault.Vault,
-	matches documentmatch.Matches,
-	documents termdocuments.TermDocuments,
-	amounts rwipostingamount.PostingAmountQuery,
-	directory DocumentDirectory,
+	documentMatches documentmatch.MostRelevantPostingsOfSearch,
+	termDocuments termdocuments.TermDocuments,
+	postingAmounts rwipostingamount.PostingAmountQuery,
+	documentDirectory DocumentDirectory,
 ) Results {
 	return Results{
 		vault:             v,
-		documentMatches:   matches,
-		termDocuments:     documents,
-		postingAmounts:    amounts,
-		documentDirectory: directory,
+		documentMatches:   documentMatches,
+		termDocuments:     termDocuments,
+		postingAmounts:    postingAmounts,
+		documentDirectory: documentDirectory,
 	}
 }
 
@@ -102,14 +102,14 @@ func (r Results) resultIn(
 		return Result{}, err
 	}
 
-	mostRelevantDocuments, err := r.documentMatches.MostRelevantDocumentsFor(
+	mostRelevantPostings, err := r.documentMatches.MostRelevantPostingsFor(
 		ctx, tx, criteria, amountOfPostingsPerTerm,
 	)
 	if err != nil {
 		return Result{}, err
 	}
 
-	matchedDocuments, err := r.matchedDocuments(tx, mostRelevantDocuments.Postings)
+	matchedDocuments, err := r.matchedDocuments(tx, mostRelevantPostings.Postings)
 	if err != nil {
 		return Result{}, err
 	}
@@ -127,10 +127,10 @@ func (r Results) resultIn(
 			documentTitlesOf(matchedDocuments),
 			criteria.Terms,
 		),
-		TotalDocumentsMatchingEveryTerm: mostRelevantDocuments.AmountOfMatchedDocuments,
+		TotalDocumentsMatchingEveryTerm: mostRelevantPostings.AmountOfMatchedDocuments,
 		IndexAbstracts:                  abstracts,
 		AmountOfPostingsPerTerm:         amountOfPostingsPerTerm,
-		IndexReadStop:                   mostRelevantDocuments.IndexReadStop,
+		IndexReadStop:                   mostRelevantPostings.IndexReadStop,
 	}, nil
 }
 

@@ -13,8 +13,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -23,10 +23,10 @@ func MountSearch(
 	v *vault.Vault,
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
-	index rwipostings.PostingIndex,
-	impactOrder rwiimpactorder.ImpactOrderQuery,
-	amounts rwipostingamount.PostingAmountQuery,
-	documents searchresult.DocumentDirectory,
+	postingIndex rwipostings.PostingIndex,
+	impactOrder rwipostingimpactorder.ImpactOrderQuery,
+	postingAmounts rwipostingamount.PostingAmountQuery,
+	documentDirectory searchresult.DocumentDirectory,
 	metrics *searchmetrics.SearchMetrics,
 	partitions yacymodel.DHTRingPartitions,
 	indexAbstractDocumentsPerTerm int,
@@ -36,10 +36,10 @@ func MountSearch(
 		identity,
 		searchresult.New(
 			v,
-			documentmatch.New(index, impactOrder),
-			termdocuments.New(index, impactOrder, indexAbstractDocumentsPerTerm),
-			amounts,
-			documents,
+			documentmatch.New(postingIndex, impactOrder),
+			termdocuments.New(postingIndex, impactOrder, indexAbstractDocumentsPerTerm),
+			postingAmounts,
+			documentDirectory,
 		),
 		metrics,
 		partitions,

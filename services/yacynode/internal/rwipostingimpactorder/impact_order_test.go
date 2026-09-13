@@ -1,4 +1,4 @@
-package rwiimpactorder_test
+package rwipostingimpactorder_test
 
 import (
 	"context"
@@ -9,12 +9,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 )
 
 type harness struct {
 	vault       *vault.Vault
-	impactOrder rwiimpactorder.ImpactOrderProjection
+	impactOrder rwipostingimpactorder.ImpactOrderProjection
 }
 
 func openHarness(t *testing.T) harness {
@@ -30,9 +30,9 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	impactOrder, err := rwiimpactorder.Open(v)
+	impactOrder, err := rwipostingimpactorder.Open(v)
 	if err != nil {
-		t.Fatalf("rwiimpactorder.Open: %v", err)
+		t.Fatalf("rwipostingimpactorder.Open: %v", err)
 	}
 
 	return harness{vault: v, impactOrder: impactOrder}
@@ -68,7 +68,7 @@ func (h harness) documentsInImpactOrder(t *testing.T, word yacymodel.Hash) []str
 		return h.impactOrder.ScanPostingsInImpactOrder(
 			tx,
 			word,
-			func(document yacymodel.URLHash, _ rwiimpactorder.Impact) (bool, error) {
+			func(document yacymodel.URLHash, _ rwipostingimpactorder.Impact) (bool, error) {
 				documents = append(documents, document.String())
 
 				return true, nil
@@ -81,11 +81,14 @@ func (h harness) documentsInImpactOrder(t *testing.T, word yacymodel.Hash) []str
 	return documents
 }
 
-func (h harness) largestImpactOf(t *testing.T, word yacymodel.Hash) (rwiimpactorder.Impact, bool) {
+func (h harness) largestImpactOf(
+	t *testing.T,
+	word yacymodel.Hash,
+) (rwipostingimpactorder.Impact, bool) {
 	t.Helper()
 
 	var (
-		largestImpact rwiimpactorder.Impact
+		largestImpact rwipostingimpactorder.Impact
 		found         bool
 	)
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
@@ -215,7 +218,7 @@ func TestTheLargestImpactIsTheImpactOfTheFirstPosting(t *testing.T) {
 	if !found {
 		t.Fatal("LargestImpactOf found nothing, want the title posting")
 	}
-	if largestImpact != rwiimpactorder.ImpactOf(titlePostingOf("w1", "u2")) {
+	if largestImpact != rwipostingimpactorder.ImpactOf(titlePostingOf("w1", "u2")) {
 		t.Errorf("largest impact = %d, want the impact of the title posting", largestImpact)
 	}
 }

@@ -14,14 +14,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termdocuments"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type searchIndex interface {
 	rwipostings.PostingIndex
-	rwiimpactorder.ImpactOrderQuery
+	rwipostingimpactorder.ImpactOrderQuery
 	rwipostingamount.PostingAmountQuery
 }
 

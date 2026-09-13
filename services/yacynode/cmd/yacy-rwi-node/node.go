@@ -40,9 +40,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
@@ -143,7 +143,7 @@ func assembleNode(
 		return node{}, fmt.Errorf("url references: %w", err)
 	}
 
-	postingImpactOrder, err := rwiimpactorder.Open(vault)
+	postingImpactOrder, err := rwipostingimpactorder.Open(vault)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi impact order: %w", err)
 	}

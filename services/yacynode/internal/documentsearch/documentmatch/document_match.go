@@ -2,7 +2,7 @@ package documentmatch
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 )
 
 type documentMatch struct {
@@ -30,7 +30,7 @@ func matchAcrossTerms(postings []yacymodel.RWIPosting, rarity wordRarity) docume
 }
 
 func relevanceOf(posting yacymodel.RWIPosting, rarity wordRarity) float64 {
-	return rarity.rarityOf(posting.WordHash) * float64(rwiimpactorder.ImpactOf(posting))
+	return rarity.rarityOf(posting.WordHash) * float64(rwipostingimpactorder.ImpactOf(posting))
 }
 
 func postingAcrossTerms(posting, additional yacymodel.RWIPosting) yacymodel.RWIPosting {

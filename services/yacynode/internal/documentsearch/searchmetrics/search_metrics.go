@@ -33,7 +33,7 @@ const (
 type IndexReadStop string
 
 const (
-	IndexReadStoppedAtEveryPosting   IndexReadStop = "every_posting_read"
+	IndexReadStoppedAtEndOfWord      IndexReadStop = "end_of_word"
 	IndexReadStoppedAtRelevanceBound IndexReadStop = "relevance_bound"
 	IndexReadStoppedAtDeadline       IndexReadStop = "deadline"
 )

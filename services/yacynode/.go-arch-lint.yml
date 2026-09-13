@@ -40,8 +40,8 @@ components:
     in: internal/urlreferences/**
   rwipostings:
     in: internal/rwipostings/**
-  rwiimpactorder:
-    in: internal/rwiimpactorder/**
+  rwipostingimpactorder:
+    in: internal/rwipostingimpactorder/**
   rwipostingamount:
     in: internal/rwipostingamount/**
   rwiescrow:
@@ -218,7 +218,7 @@ deps:
     canUse:
       - vault
       - storedfields
-  rwiimpactorder:
+  rwipostingimpactorder:
     mayDependOn:
       - rwipostings
       - hashkeypart
@@ -280,7 +280,7 @@ deps:
       - searchmetrics
       - termdocuments
       - rwipostings
-      - rwiimpactorder
+      - rwipostingimpactorder
       - rwipostingamount
       - urlmeta
       - httpguard
@@ -292,7 +292,7 @@ deps:
     mayDependOn:
       - documentsearch
       - rwipostings
-      - rwiimpactorder
+      - rwipostingimpactorder
     canUse:
       - vault
   searchmetrics:
@@ -300,7 +300,7 @@ deps:
       - prometheus
   searchtest:
     mayDependOn:
-      - rwiimpactorder
+      - rwipostingimpactorder
     canUse:
       - vault
   nodestatus:
