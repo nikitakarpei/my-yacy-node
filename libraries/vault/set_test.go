@@ -77,11 +77,11 @@ func TestRemovedKeyLeavesSetEmpty(t *testing.T) {
 			return wrap(err)
 		}
 
-		keyWasHeld, err := members.Remove(tx, "a")
+		wasRemoved, err := members.Remove(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if !keyWasHeld {
+		if !wasRemoved {
 			t.Fatal("Remove(a) = false, want true")
 		}
 
@@ -113,25 +113,25 @@ func TestRegisterSetRejectsDuplicateBucket(t *testing.T) {
 	}
 }
 
-func TestAddReportsWhetherTheKeyIsNew(t *testing.T) {
+func TestAddReportsWhetherTheKeyAlreadyExists(t *testing.T) {
 	ctx := context.Background()
 	v, members := openMembers(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		keyIsNew, err := members.Add(tx, "a")
+		alreadyExists, err := members.Add(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if !keyIsNew {
-			t.Fatal("first Add(a) = false, want true")
+		if alreadyExists {
+			t.Fatal("first Add(a) = true, want false")
 		}
 
-		keyIsNew, err = members.Add(tx, "a")
+		alreadyExists, err = members.Add(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
-		if keyIsNew {
-			t.Fatal("second Add(a) = true, want false")
+		if !alreadyExists {
+			t.Fatal("second Add(a) = false, want true")
 		}
 
 		return nil

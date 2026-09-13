@@ -90,9 +90,7 @@ func (p *PeerHash) adoptHash(
 	}
 
 	if err := p.storage.Update(ctx, func(tx *vault.Txn) error {
-		_, _, storeErr := p.peerHashByPeer.Put(tx, selfPeer, adopted)
-
-		return storeErr
+		return p.peerHashByPeer.Put(tx, selfPeer, adopted)
 	}); err != nil {
 		return yacymodel.Hash{}, fmt.Errorf("store peer hash: %w", err)
 	}

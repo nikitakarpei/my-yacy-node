@@ -30,21 +30,21 @@ func (b memBucket) Get(key []byte) ([]byte, error) {
 	return value, nil
 }
 
-func (b memBucket) Put(key []byte, value []byte) ([]byte, error) {
-	previousValue := b.entries[string(key)]
-	b.entries[string(key)] = copyValue(value)
+func (b memBucket) Put(key []byte, record []byte) ([]byte, error) {
+	replacedRecord := b.entries[string(key)]
+	b.entries[string(key)] = copyValue(record)
 
-	return previousValue, nil
+	return replacedRecord, nil
 }
 
 func (b memBucket) Delete(key []byte) ([]byte, error) {
-	previousValue, valueWasHeld := b.entries[string(key)]
-	if !valueWasHeld {
+	deletedRecord, found := b.entries[string(key)]
+	if !found {
 		return nil, nil
 	}
 	delete(b.entries, string(key))
 
-	return previousValue, nil
+	return deletedRecord, nil
 }
 
 func (b memBucket) Len() (int, error) {

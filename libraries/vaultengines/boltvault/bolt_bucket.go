@@ -19,21 +19,21 @@ func (b boltBucket) Get(key []byte) ([]byte, error) {
 	return b.entries.Get(key), nil
 }
 
-func (b boltBucket) Put(key []byte, val []byte) ([]byte, error) {
-	previousValue := bytes.Clone(b.entries.Get(key))
-	if err := b.entries.Put(key, val); err != nil {
+func (b boltBucket) Put(key []byte, record []byte) ([]byte, error) {
+	replacedRecord := bytes.Clone(b.entries.Get(key))
+	if err := b.entries.Put(key, record); err != nil {
 		return nil, fmt.Errorf("store: %w", err)
 	}
-	if previousValue != nil {
-		return previousValue, nil
+	if replacedRecord != nil {
+		return replacedRecord, nil
 	}
 
 	return nil, adjustLength(b.lengths, b.name, 1)
 }
 
 func (b boltBucket) Delete(key []byte) ([]byte, error) {
-	previousValue := bytes.Clone(b.entries.Get(key))
-	if previousValue == nil {
+	deletedRecord := bytes.Clone(b.entries.Get(key))
+	if deletedRecord == nil {
 		return nil, nil
 	}
 	if err := b.entries.Delete(key); err != nil {
@@ -43,7 +43,7 @@ func (b boltBucket) Delete(key []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	return previousValue, nil
+	return deletedRecord, nil
 }
 
 func (b boltBucket) Len() (int, error) {

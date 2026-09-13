@@ -27,8 +27,8 @@ func (d postingDirectory) PostingOf(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
-	key := postingIdentity{word: word, url: url}
-	stored, found, err := d.postings.Get(tx, key)
+	identity := postingIdentity{word: word, url: url}
+	storedPosting, found, err := d.postings.Get(tx, identity)
 	if err != nil {
 		return yacymodel.RWIPosting{}, false, fmt.Errorf("read rwi posting: %w", err)
 	}
@@ -36,27 +36,30 @@ func (d postingDirectory) PostingOf(
 		return yacymodel.RWIPosting{}, false, nil
 	}
 
-	return postingFrom(key, stored), true, nil
+	return postingWithIdentity(identity, storedPosting), true, nil
 }
 
-func postingFrom(key postingIdentity, stored yacymodel.RWIPosting) yacymodel.RWIPosting {
-	stored.WordHash = key.word
-	stored.URLHash = key.url
+func postingWithIdentity(
+	identity postingIdentity,
+	storedPosting yacymodel.RWIPosting,
+) yacymodel.RWIPosting {
+	storedPosting.WordHash = identity.word
+	storedPosting.URLHash = identity.url
 
-	return stored
+	return storedPosting
 }
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	key := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	previousPosting, postingWasHeld, err := d.postings.Put(tx, key, posting)
+	identity := postingIdentity{word: posting.WordHash, url: posting.URLHash}
+	previousPosting, wasReplaced, err := d.postings.PutReturning(tx, identity, posting)
 	if err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
-	if !postingWasHeld {
+	if !wasReplaced {
 		return d.observers.stored(tx, posting)
 	}
 
-	return d.observers.updated(tx, postingFrom(key, previousPosting), posting)
+	return d.observers.updated(tx, postingWithIdentity(identity, previousPosting), posting)
 }
 
 func (d postingDirectory) PurgePosting(
@@ -64,15 +67,15 @@ func (d postingDirectory) PurgePosting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (bool, error) {
-	key := postingIdentity{word: word, url: url}
-	purgedPosting, postingWasHeld, err := d.postings.Delete(tx, key)
+	identity := postingIdentity{word: word, url: url}
+	purgedPosting, wasDeleted, err := d.postings.DeleteReturning(tx, identity)
 	if err != nil {
 		return false, fmt.Errorf("delete rwi posting: %w", err)
 	}
-	if !postingWasHeld {
+	if !wasDeleted {
 		return false, nil
 	}
-	if err := d.observers.purged(tx, postingFrom(key, purgedPosting)); err != nil {
+	if err := d.observers.purged(tx, postingWithIdentity(identity, purgedPosting)); err != nil {
 		return false, err
 	}
 
@@ -93,7 +96,7 @@ func (d postingDirectory) ScanWord(
 				return false, fmt.Errorf("context: %w", err)
 			}
 
-			return visit(postingFrom(identity, entry))
+			return visit(postingWithIdentity(identity, entry))
 		},
 	)
 	if err != nil {

@@ -70,9 +70,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 		t.Fatalf("Register: %v", err)
 	}
 	if err := first.Update(ctx, func(tx *vault.Txn) error {
-		_, _, storeErr := words.Put(tx, "a", "alpha")
-
-		return storeErr
+		return words.Put(tx, "a", "alpha")
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -173,9 +171,7 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 	}
 
 	if err := store.Update(ctx, func(tx *vault.Txn) error {
-		_, _, storeErr := words.Put(tx, "a", "alpha")
-
-		return storeErr
+		return words.Put(tx, "a", "alpha")
 	}); err != nil {
 		t.Fatalf("Update over quota = %v, want nil (kernel does not gate writes)", err)
 	}

@@ -9,39 +9,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type postingUpdate struct {
-	previous yacymodel.RWIPosting
-	current  yacymodel.RWIPosting
-}
-
-type recordingObserver struct {
-	stored  []yacymodel.RWIPosting
-	updated []postingUpdate
-	purged  []yacymodel.RWIPosting
-}
-
-func (o *recordingObserver) PostingStored(_ *vault.Txn, posting yacymodel.RWIPosting) error {
-	o.stored = append(o.stored, posting)
-
-	return nil
-}
-
-func (o *recordingObserver) PostingUpdated(
-	_ *vault.Txn,
-	previous yacymodel.RWIPosting,
-	current yacymodel.RWIPosting,
-) error {
-	o.updated = append(o.updated, postingUpdate{previous: previous, current: current})
-
-	return nil
-}
-
-func (o *recordingObserver) PostingPurged(_ *vault.Txn, posting yacymodel.RWIPosting) error {
-	o.purged = append(o.purged, posting)
-
-	return nil
-}
-
 func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t)

@@ -67,7 +67,7 @@ func (i urlIntake) store(
 		if found {
 			existing = append(existing, hash)
 		}
-		if _, _, err := i.collection.Put(tx, hash, stored); err != nil {
+		if err := i.collection.Put(tx, hash, stored); err != nil {
 			rejected = append(rejected, hash)
 			slog.WarnContext(ctx, urlMetadataDiscarded,
 				slog.String("reason", "store failed"),

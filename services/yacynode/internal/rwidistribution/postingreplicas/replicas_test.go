@@ -95,7 +95,7 @@ func holdersOf(
 	var holders []yacymodel.Hash
 	if err := v.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		holders, err = ledger.HoldersOf(tx, postingidentity.IdentityOf(word, url))
+		holders, err = ledger.HoldersOf(tx, postingidentity.Identity{Word: word, URL: url})
 
 		return err
 	}); err != nil {

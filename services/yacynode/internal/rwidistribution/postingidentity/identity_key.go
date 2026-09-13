@@ -12,5 +12,7 @@ var KeyLayout = identityKeyParts.KeyLayoutFor(
 	func(identity Identity) (yacymodel.Hash, yacymodel.URLHash) {
 		return identity.Word, identity.URL
 	},
-	IdentityOf,
+	func(word yacymodel.Hash, url yacymodel.URLHash) Identity {
+		return Identity{Word: word, URL: url}
+	},
 )

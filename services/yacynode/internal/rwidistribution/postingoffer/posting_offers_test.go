@@ -144,7 +144,7 @@ func (h postingOfferHarness) holdersOf(
 	var holders []yacymodel.Hash
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		holders, err = h.replicas.HoldersOf(tx, postingidentity.IdentityOf(word, url))
+		holders, err = h.replicas.HoldersOf(tx, postingidentity.Identity{Word: word, URL: url})
 
 		return err
 	}); err != nil {

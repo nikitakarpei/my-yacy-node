@@ -55,7 +55,10 @@ var orderKeyLayout = orderKeyParts.KeyLayoutFor(
 		return offer.At, offer.Posting.Word, offer.Posting.URL
 	},
 	func(dueAt time.Time, word yacymodel.Hash, url yacymodel.URLHash) scheduledPostingOffer {
-		return scheduledPostingOffer{At: dueAt, Posting: postingidentity.IdentityOf(word, url)}
+		return scheduledPostingOffer{
+			At:      dueAt,
+			Posting: postingidentity.Identity{Word: word, URL: url},
+		}
 	},
 )
 

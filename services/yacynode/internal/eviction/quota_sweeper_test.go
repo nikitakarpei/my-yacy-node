@@ -53,7 +53,7 @@ func seedUsage(t *testing.T, v *vault.Vault) {
 		t.Fatalf("Register seed: %v", err)
 	}
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		if _, _, err := collection.Put(tx, "seed", make([]byte, 64)); err != nil {
+		if err := collection.Put(tx, "seed", make([]byte, 64)); err != nil {
 			return fmt.Errorf("put seed: %w", err)
 		}
 
