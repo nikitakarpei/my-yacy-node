@@ -32,9 +32,9 @@ func encodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
 	for domain := range domains {
 		keys = append(keys, domain)
 	}
-	slices.SortFunc(keys, compareBase64Strings)
+	slices.SortFunc(keys, yacymodel.CompareInAlphabetOrder)
 	for _, domain := range keys {
-		slices.SortFunc(domains[domain], compareBase64Strings)
+		slices.SortFunc(domains[domain], yacymodel.CompareInAlphabetOrder)
 	}
 
 	var b strings.Builder
@@ -51,35 +51,6 @@ func encodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
 	}
 	b.WriteByte('}')
 	return b.String()
-}
-
-func compareBase64Strings(a, b string) int {
-	for i := 0; i < len(a) && i < len(b); i++ {
-		av := base64Order(a[i])
-		bv := base64Order(b[i])
-		if av < bv {
-			return -1
-		}
-		if av > bv {
-			return 1
-		}
-	}
-	if len(a) < len(b) {
-		return -1
-	}
-	if len(a) > len(b) {
-		return 1
-	}
-	return 0
-}
-
-func base64Order(c byte) int {
-	for i := range len(yacymodel.Alphabet) {
-		if yacymodel.Alphabet[i] == c {
-			return i
-		}
-	}
-	return len(yacymodel.Alphabet) + int(c)
 }
 
 func decodeSearchIndexAbstract(abstract string) []yacymodel.URLHash {

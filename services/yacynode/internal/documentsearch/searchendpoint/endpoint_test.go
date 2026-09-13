@@ -65,7 +65,7 @@ func TestEndpointAnswersWithThePostingThatMatchedEachDocument(t *testing.T) {
 	}
 }
 
-func TestEndpointReportsTermWithMostMatches(t *testing.T) {
+func TestEndpointReportsTheTermItHoldsMostAndTheTermNearestItsPosition(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {postingEntry(word1, "u1"), postingEntry(word1, "u2")},
@@ -82,8 +82,58 @@ func TestEndpointReportsTermWithMostMatches(t *testing.T) {
 	if resp.Count != 1 {
 		t.Errorf("Count = %d, want 1", resp.Count)
 	}
-	if len(resp.IndexAbstract) == 0 {
-		t.Error("IndexAbstract empty, want reported term")
+	if len(resp.IndexAbstract[word1]) == 0 {
+		t.Errorf(
+			"IndexAbstract = %v, want w1, whose postings this node holds most of",
+			resp.IndexAbstract,
+		)
+	}
+	if len(resp.IndexAbstract[word2]) == 0 {
+		t.Errorf("IndexAbstract = %v, want w2, which sits nearest this node", resp.IndexAbstract)
+	}
+}
+
+func TestEndpointReportsNoTermsOfItsOwnForASingleTermQuery(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingEntry(word, "u1")},
+	}}
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1")})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		Query:       []yacymodel.Hash{word},
+		Abstracts:   yacyproto.SearchAbstractsAuto,
+	})
+
+	if len(resp.IndexAbstract) != 0 {
+		t.Errorf(
+			"IndexAbstract = %v, want none: one term leaves nothing to plan",
+			resp.IndexAbstract,
+		)
+	}
+}
+
+func TestEndpointReportsNoTermsOfItsOwnForARequestThatNamesDocuments(t *testing.T) {
+	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word1: {postingEntry(word1, "u1"), postingEntry(word1, "u2")},
+		word2: {postingEntry(word2, "u2")},
+	}}
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		Query:       []yacymodel.Hash{word1, word2},
+		URLs:        []yacymodel.URLHash{documentHashOf("u2")},
+		Abstracts:   yacyproto.SearchAbstractsAuto,
+	})
+
+	if len(resp.IndexAbstract) != 0 {
+		t.Errorf(
+			"IndexAbstract = %v, want none: the request already names its documents",
+			resp.IndexAbstract,
+		)
 	}
 }
 
