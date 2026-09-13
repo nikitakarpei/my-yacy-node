@@ -24,17 +24,19 @@ func Mount(
 	metrics *searchmetrics.SearchMetrics,
 	partitions yacymodel.DHTRingPartitions,
 ) {
+	nodePosition := yacymodel.DHTRingPositionOf(identity.Hash)
 	httpguard.MountMessage(
 		router,
 		yacyproto.PathSearch,
 		yacyproto.SearchEndpointMethods,
 		yacyproto.ParseSearchRequest,
 		endpoint{
-			identity: identity,
-			results:  results,
+			identity:     identity,
+			nodePosition: nodePosition,
+			results:      results,
 			observation: searchObservation{
 				metrics:      metrics,
-				nodePosition: yacymodel.DHTRingPositionOf(identity.Hash),
+				nodePosition: nodePosition,
 				partitions:   partitions,
 			},
 		}.Serve,
@@ -42,9 +44,10 @@ func Mount(
 }
 
 type endpoint struct {
-	identity    nodeidentity.Identity
-	results     searchresult.Results
-	observation searchObservation
+	identity     nodeidentity.Identity
+	nodePosition yacymodel.DHTRingPosition
+	results      searchresult.Results
+	observation  searchObservation
 }
 
 func (e endpoint) Serve(
@@ -60,7 +63,7 @@ func (e endpoint) Serve(
 
 			return yacyproto.SearchResponse{}, fmt.Errorf("search criteria: %w", err)
 		}
-		requestedIndexAbstracts := requestedIndexAbstractsFromRequest(req)
+		requestedIndexAbstracts := requestedIndexAbstractsFromRequest(req, e.nodePosition)
 		if ignoredOptions := ignoredOptionNames(req); len(ignoredOptions) != 0 {
 			slog.DebugContext(ctx, "ignoring accepted search options",
 				slog.Any("options", ignoredOptions),
