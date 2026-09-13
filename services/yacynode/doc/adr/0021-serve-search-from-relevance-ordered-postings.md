@@ -8,11 +8,10 @@ Proposed
 
 ## Context
 
-When a peer searches, the node reads every posting of each search word. It keeps the 1000
-postings with the most hits and throws the rest away. For each excluded word it reads every
-posting into memory, with no limit at all. So the work for one search depends on how many
-postings a word has, not on what the peer asked for. A common word makes the node read its
-whole list to return ten results.
+When a peer searches, the node reads every posting of each search word, keeps the 1000 with
+the most hits, and throws the rest away. It reads every posting of each excluded word into
+memory with no limit at all. So the work for one search depends on how many postings a word
+has, not on what the peer asked for. A common word is read in full to return ten results.
 
 The node stores postings by word and URL. Nothing keeps a word's postings in order of relevance,
 so the only way to find the best ones is to read all of them. Relevance today is the hits of the
@@ -41,9 +40,6 @@ The node still stops after a fixed number of postings per word, in case the chec
 stop, and it still stops at the request deadline. When either limit stops a search, the node
 reports it through metrics.
 
-A store from before this decision starts with empty lists. The node does not migrate it. An
-operator recreates the store, as ADR 0017 did for the key format.
-
 ## Considered alternatives
 
 Order by hits alone. Rejected: the tuned weights of `yacydhtsearch` show that the title and the
@@ -55,9 +51,6 @@ applies them to what the node sends anyway.
 
 Start from the rarest word without an ordered list. Rejected: the node still reads the whole
 rarest word, so this bounds memory but not disk reads.
-
-Only cap the number of results. Rejected: the request already caps the results, and the cost is
-in what the node reads to choose them.
 
 One ordered list per filter, such as language or site. Deferred: it multiplies the writes and
 the storage of every posting. It is added once metrics show that filtered searches return too
@@ -75,8 +68,9 @@ filter only to the postings it examines before the fixed limit.
 Two documents with the same score are ordered by term spread and URL hash, which the stop check
 does not see. A search where all postings have the same impact runs to the fixed limit.
 
-A change of the impact rule takes effect only for postings stored after it, unless the operator
-recreates the store. Each posting costs two more writes and the storage of two more keys.
+A store from before this decision starts with empty lists, and a change of the impact rule
+takes effect only for postings stored after it. The node migrates neither. An operator recreates
+the store, as ADR 0017 did for the key format. Each posting costs two more writes and two keys.
 
 ## Consequences
 
