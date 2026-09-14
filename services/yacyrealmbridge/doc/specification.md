@@ -27,10 +27,10 @@ manage the network technology that provides it.
 * The bridge SHALL lease each held peer hash one translated address in the other realm, from the translated address space the operator configures for that realm, for an operator-configured lease that the bridge renews while the peer is held. Until the lease expires, that hash SHALL have that translated address and no other.
 * The bridge SHALL forward a translated address to the native address its view holds for the leased hash.
 * The bridge SHALL NOT translate a peer when no translated address is available.
-* The bridge SHALL mark every seed it emits with a bridge label in the seed's tags, signed with the bridge's key over the seed it marks. The bridge SHALL read only a label signed by a key the operator trusts, and SHALL treat a seed with any other label as unlabelled.
-* The bridge SHALL NOT translate a labelled seed, and SHALL NOT translate a peer whose hash is held natively in the receiving realm.
-* The bridge SHALL label its own seed in each realm, and SHALL NOT translate the labelled seed of another bridge into the other realm.
-* The bridge SHALL NOT translate a native peer whose hash a labelled seed in the receiving realm already carries. When two bridges have translated one hash, the translation with the smaller translated address SHALL stand, and the other bridge SHALL withdraw its translation and SHALL stop answering on it.
+* The bridge SHALL mark its own seed in each realm with the bridge mark in the seed's tags, and SHALL NOT translate any seed that carries the bridge mark, whoever set it.
+* The bridge SHALL mark every translated seed with a translation mark in the seed's tags, signed with the bridge's key over the seed it marks. The bridge SHALL read only a translation mark signed by a key the operator trusts, and SHALL treat a seed with any other translation mark as unmarked.
+* The bridge SHALL NOT translate a seed that carries a trusted translation mark, and SHALL NOT translate a peer whose hash is held natively in the receiving realm.
+* The bridge SHALL NOT translate a native peer whose hash a seed with a trusted translation mark in the receiving realm already carries. When two bridges have translated one hash, the translation with the smaller translated address SHALL stand, and the other bridge SHALL withdraw its translation and SHALL stop answering on it.
 * The bridge SHALL list the held peers of one realm, at their translated addresses, in the hello answers of its peer in the other realm.
 * The bridge SHALL preserve the peer hash, network, and DHT position of a held peer.
 * The bridge SHALL change only the seed fields that describe how to reach the peer, and the tags. A translated seed SHALL offer plain HTTP at the translated address only.
@@ -57,7 +57,7 @@ manage the network technology that provides it.
 
 ## Known Limitations
 
-* A seed whose label the bridge does not trust reads as a native peer. An untrusted bridge's translations can be translated onward, and two bridges that do not trust each other both translate every peer.
+* A seed whose translation mark the bridge does not trust reads as a native peer. An untrusted bridge's translations can be translated onward, and two bridges that do not trust each other both translate every peer.
 * A peer hash is stated, not proven. Peers in a realm that treat an address as identity see the bridge's own addresses behind every translated address, not the native peer.
 * Any peer that answers a confirmation is held. The bounds on the view and on the address space are the whole defence.
 * A rogue that states another peer's hash in one realm is forwarded under that hash into the other realm, as it would be inside one realm.
