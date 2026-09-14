@@ -35,7 +35,7 @@ func TestRunSweepLoopObservesDeletions(t *testing.T) {
 	observer := &recordingObserver{}
 
 	eviction.RunSweepLoop(ctx, scriptedSweeper{
-		result: eviction.Result{URLsDeleted: 2, PostingsDeleted: 3},
+		result: eviction.Result{URLsDeleted: 2},
 	}, observer, time.Minute)
 
 	if len(observer.observed) != 1 || observer.observed[0].URLsDeleted != 2 {

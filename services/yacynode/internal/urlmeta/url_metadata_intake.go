@@ -76,7 +76,9 @@ func (i urlIntake) store(
 
 			continue
 		}
-		i.observers.stored(ctx, tx, hash, stored.Freshness())
+		if err := i.observers.stored(tx, hash, stored.Freshness()); err != nil {
+			return nil, nil, err
+		}
 	}
 
 	return existing, rejected, nil

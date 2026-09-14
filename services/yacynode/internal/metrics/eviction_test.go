@@ -15,22 +15,18 @@ func TestEvictionCountsSweptWork(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewEvictionMetrics(registry)
 
-	observer.Observe(eviction.Result{URLsDeleted: 3, PostingsDeleted: 7})
-	observer.Observe(eviction.Result{URLsDeleted: 2, PostingsDeleted: 1})
+	observer.Observe(eviction.Result{URLsDeleted: 3})
+	observer.Observe(eviction.Result{URLsDeleted: 2})
 
 	expected := `
 # HELP yacynode_eviction_urls_evicted_total URLs purged by storage eviction.
 # TYPE yacynode_eviction_urls_evicted_total counter
 yacynode_eviction_urls_evicted_total 5
-# HELP yacynode_eviction_postings_evicted_total Postings purged by storage eviction.
-# TYPE yacynode_eviction_postings_evicted_total counter
-yacynode_eviction_postings_evicted_total 8
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
 		"yacynode_eviction_urls_evicted_total",
-		"yacynode_eviction_postings_evicted_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

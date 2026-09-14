@@ -47,6 +47,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
@@ -202,10 +203,17 @@ func assembleNode(
 	}
 	metrics.NewRWIEscrowCapacityMetrics(registry, vault, postingEscrow)
 
+	urlPostingPurge := urlpostingpurge.New(
+		urlReferences,
+		postingPurger,
+		metrics.NewURLPostingPurgeMetrics(registry),
+	)
+
 	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(
 		vault,
 		urlMetadataStaleness,
 		postingEscrow,
+		urlPostingPurge,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
@@ -377,8 +385,6 @@ func assembleNode(
 		),
 		evictionSweeper: eviction.NewSweeper(
 			vault,
-			postingPurger,
-			urlReferences,
 			urlEvictor,
 			urlMetadataStaleness,
 			eviction.Config{

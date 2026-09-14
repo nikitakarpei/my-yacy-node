@@ -38,6 +38,8 @@ components:
     in: internal/urlmetastaleness/**
   urlreferences:
     in: internal/urlreferences/**
+  urlpostingpurge:
+    in: internal/urlpostingpurge/**
   rwipostings:
     in: internal/rwipostings/**
   rwipostingimpactorder:
@@ -322,12 +324,16 @@ deps:
     canUse:
       - yacyproto
       - vault
-  eviction:
+  urlpostingpurge:
     mayDependOn:
       - rwipostings
+      - urlreferences
+    canUse:
+      - vault
+  eviction:
+    mayDependOn:
       - urlmeta
       - urlmetastaleness
-      - urlreferences
     canUse:
       - vault
   metrics:
@@ -335,6 +341,7 @@ deps:
       - eviction
       - peerannouncement
       - rwiadmission
+      - urlpostingpurge
     canUse:
       - prometheus
       - vault

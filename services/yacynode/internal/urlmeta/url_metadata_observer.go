@@ -1,40 +1,34 @@
 package urlmeta
 
 import (
-	"context"
-	"log/slog"
+	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const urlObserverFailed = "url metadata observer failed"
-
 type observers []URLMetadataObserver
 
 func (o observers) stored(
-	ctx context.Context,
 	tx *vault.Txn,
 	hash yacymodel.URLHash,
 	freshness yacymodel.Optional[yacymodel.CalendarDay],
-) {
+) error {
 	for _, observer := range o {
 		if err := observer.URLStored(tx, hash, freshness); err != nil {
-			slog.WarnContext(ctx, urlObserverFailed,
-				slog.String("event", "stored"),
-				slog.Any("error", err),
-			)
+			return fmt.Errorf("url metadata observer: %w", err)
 		}
 	}
+
+	return nil
 }
 
-func (o observers) purged(ctx context.Context, tx *vault.Txn, hash yacymodel.URLHash) {
+func (o observers) purged(tx *vault.Txn, hash yacymodel.URLHash) error {
 	for _, observer := range o {
 		if err := observer.URLPurged(tx, hash); err != nil {
-			slog.WarnContext(ctx, urlObserverFailed,
-				slog.String("event", "purged"),
-				slog.Any("error", err),
-			)
+			return fmt.Errorf("url metadata observer: %w", err)
 		}
 	}
+
+	return nil
 }

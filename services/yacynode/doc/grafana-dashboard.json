@@ -2345,8 +2345,8 @@
         },
         {
           "refId": "B",
-          "expr": "rate(yacynode_eviction_postings_evicted_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "postings evicted"
+          "expr": "rate(yacynode_url_posting_purge_postings_total{instance=~\"$service_instance\"}[$window])",
+          "legendFormat": "postings purged with their URLs"
         }
       ],
       "interval": "$window"
