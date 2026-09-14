@@ -18,7 +18,9 @@ a conflict, not a redundancy. The bridges have no channel to each other and must
 Every seed a bridge emits carries a bridge label in the seed's tags, signed with the bridge's
 key. A translated seed's label names the native address behind it. A labelled seed is never a native peer: no bridge translates
 it onward. A bridge does not translate a native peer whose address a label in the receiving realm
-already names. When two bridges have translated one peer before seeing each other, the smaller
+already names.
+
+When two bridges have translated one peer before seeing each other, the smaller
 translated address stands, and the other bridge withdraws its translation and stops answering
 on it. Bridges read the labels that native peers gossip and never talk to each other.
 
