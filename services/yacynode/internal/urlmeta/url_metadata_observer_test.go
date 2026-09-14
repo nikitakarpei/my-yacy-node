@@ -59,7 +59,7 @@ func openObservedModule(
 		}
 	})
 
-	directory, evictor, receiver, err := urlmeta.Open(v, watchers...)
+	directory, evictor, _, receiver, err := urlmeta.Open(v, watchers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

@@ -279,7 +279,7 @@ func openIndexedPage(t *testing.T) indexedPage {
 	if err != nil {
 		t.Fatalf("urlmetastaleness.Open: %v", err)
 	}
-	_, evictor, receiver, err := urlmeta.Open(
+	_, evictor, _, receiver, err := urlmeta.Open(
 		v,
 		staleness,
 		urlpostingpurge.New(references, purger, discardedPurges{}),

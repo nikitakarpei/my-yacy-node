@@ -38,7 +38,7 @@ func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
 		}
 	})
 
-	directory, evictor, receiver, err := urlmeta.Open(v)
+	directory, evictor, _, receiver, err := urlmeta.Open(v)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

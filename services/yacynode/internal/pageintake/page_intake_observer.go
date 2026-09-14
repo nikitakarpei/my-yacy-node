@@ -6,7 +6,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-//nolint:interfacebloat // One page intake has these distinct observable domain facts.
 type PageIntakeObserver interface {
 	OfferedPageInvalid(ctx context.Context)
 	PageOffered(
@@ -25,39 +24,23 @@ type PageIntakeObserver interface {
 		messageIdentity string,
 		pageURL canonicalurl.CanonicalURL,
 	)
-	URLMetadataAdmitted(
+	PageAdmitted(
 		ctx context.Context,
 		messageIdentity string,
 		pageURL canonicalurl.CanonicalURL,
+		amountOfPostings int,
 	)
-	URLMetadataAdmissionBusy(
+	PageAdmissionBusy(
 		ctx context.Context,
 		messageIdentity string,
 		pageURL canonicalurl.CanonicalURL,
+		amountOfPostings int,
 	)
-	URLMetadataAdmissionFailed(
+	PageAdmissionFailed(
 		ctx context.Context,
 		messageIdentity string,
 		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
-	PostingsAdmitted(
-		ctx context.Context,
-		messageIdentity string,
-		pageURL canonicalurl.CanonicalURL,
-		postings int,
-	)
-	PostingsAdmissionBusy(
-		ctx context.Context,
-		messageIdentity string,
-		pageURL canonicalurl.CanonicalURL,
-		postings int,
-	)
-	PostingsAdmissionFailed(
-		ctx context.Context,
-		messageIdentity string,
-		pageURL canonicalurl.CanonicalURL,
-		postings int,
+		amountOfPostings int,
 		cause error,
 	)
 	PageIndexed(
@@ -106,68 +89,37 @@ func (observers PageIntakeObservers) NoIndexDerived(
 	}
 }
 
-func (observers PageIntakeObservers) URLMetadataAdmitted(
+func (observers PageIntakeObservers) PageAdmitted(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
+	amountOfPostings int,
 ) {
 	for _, observer := range observers {
-		observer.URLMetadataAdmitted(ctx, messageIdentity, pageURL)
+		observer.PageAdmitted(ctx, messageIdentity, pageURL, amountOfPostings)
 	}
 }
 
-func (observers PageIntakeObservers) URLMetadataAdmissionBusy(
+func (observers PageIntakeObservers) PageAdmissionBusy(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
+	amountOfPostings int,
 ) {
 	for _, observer := range observers {
-		observer.URLMetadataAdmissionBusy(ctx, messageIdentity, pageURL)
+		observer.PageAdmissionBusy(ctx, messageIdentity, pageURL, amountOfPostings)
 	}
 }
 
-func (observers PageIntakeObservers) URLMetadataAdmissionFailed(
+func (observers PageIntakeObservers) PageAdmissionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
+	amountOfPostings int,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.URLMetadataAdmissionFailed(ctx, messageIdentity, pageURL, cause)
-	}
-}
-
-func (observers PageIntakeObservers) PostingsAdmitted(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	postings int,
-) {
-	for _, observer := range observers {
-		observer.PostingsAdmitted(ctx, messageIdentity, pageURL, postings)
-	}
-}
-
-func (observers PageIntakeObservers) PostingsAdmissionBusy(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	postings int,
-) {
-	for _, observer := range observers {
-		observer.PostingsAdmissionBusy(ctx, messageIdentity, pageURL, postings)
-	}
-}
-
-func (observers PageIntakeObservers) PostingsAdmissionFailed(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	postings int,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.PostingsAdmissionFailed(ctx, messageIdentity, pageURL, postings, cause)
+		observer.PageAdmissionFailed(ctx, messageIdentity, pageURL, amountOfPostings, cause)
 	}
 }
 

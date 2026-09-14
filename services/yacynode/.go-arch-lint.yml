@@ -80,6 +80,8 @@ components:
     in: internal/metrics/**
   pagerwi:
     in: internal/pagerwi/**
+  pageadmission:
+    in: internal/pageadmission/**
   pageintake:
     in: internal/pageintake/**
   pageintakeobserversapplog:
@@ -351,11 +353,17 @@ deps:
       - canonicalurl
       - documentextraction
       - pagescrapecontract
-  pageintake:
+  pageadmission:
     mayDependOn:
       - pagerwi
       - urlmeta
-      - rwiadmission
+      - rwipostings
+    canUse:
+      - vault
+  pageintake:
+    mayDependOn:
+      - pagerwi
+      - pageadmission
     canUse:
       - pagescrapecontract
       - pageformats

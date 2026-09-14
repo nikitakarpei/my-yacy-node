@@ -25,6 +25,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
@@ -209,7 +210,7 @@ func assembleNode(
 		metrics.NewURLPostingPurgeMetrics(registry),
 	)
 
-	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(
+	urlDirectory, urlEvictor, urlMetadataAdmitter, urlReceiver, err := urlmeta.Open(
 		vault,
 		urlMetadataStaleness,
 		postingEscrow,
@@ -220,17 +221,23 @@ func assembleNode(
 	}
 
 	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
-	postingReceiver, pagePostingReceiver := rwiadmission.Open(
+	postingReceiver := rwiadmission.Open(
 		vault,
 		urlDirectory,
 		postingAdmitter,
-		postingPurger,
-		urlReferences,
 		postingEscrow,
 		rwiadmission.Config{
 			Pause:    postingAdmissionBusyPause,
 			Refusals: admissionRefusals,
 		},
+	)
+
+	pageReceiver := pageadmission.Open(
+		vault,
+		urlEvictor,
+		urlMetadataAdmitter,
+		postingAdmitter,
+		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
 	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, vault, postings, urlDirectory)
@@ -306,7 +313,7 @@ func assembleNode(
 
 	if config.PageOfferIntake.Enabled() {
 		intake, intakeErr := openPageOfferIntake(
-			ctx, config.PageOfferIntake, urlReceiver, pagePostingReceiver, registry,
+			ctx, config.PageOfferIntake, pageReceiver, registry,
 		)
 		if intakeErr != nil {
 			return node{}, intakeErr

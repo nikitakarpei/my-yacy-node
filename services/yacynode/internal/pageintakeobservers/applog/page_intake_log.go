@@ -9,17 +9,14 @@ import (
 )
 
 const (
-	msgPageOffered                = "offered page received"
-	msgOfferedPageInvalid         = "offered page invalid, nothing stored"
-	msgDocumentExtractionFailed   = "offered page document extraction failed, nothing stored"
-	msgNoIndexDerived             = "offered page derives no index, nothing stored"
-	msgURLMetadataAdmitted        = "offered page url metadata admitted"
-	msgURLMetadataAdmissionBusy   = "offered page url metadata admission deferred because storage is busy"
-	msgURLMetadataAdmissionFailed = "offered page url metadata admission failed"
-	msgPostingsAdmitted           = "offered page postings admitted"
-	msgPostingsAdmissionBusy      = "offered page postings admission deferred because storage is busy"
-	msgPostingsAdmissionFailed    = "offered page postings admission failed"
-	msgPageIndexed                = "offered page indexed"
+	msgPageOffered              = "offered page received"
+	msgOfferedPageInvalid       = "offered page invalid, nothing stored"
+	msgDocumentExtractionFailed = "offered page document extraction failed, nothing stored"
+	msgNoIndexDerived           = "offered page derives no index, nothing stored"
+	msgPageAdmitted             = "offered page admitted"
+	msgPageAdmissionBusy        = "offered page admission deferred because storage is busy"
+	msgPageAdmissionFailed      = "offered page admission failed"
+	msgPageIndexed              = "offered page indexed"
 )
 
 type PageIntakeLog struct{}
@@ -63,81 +60,43 @@ func (PageIntakeLog) NoIndexDerived(
 	)
 }
 
-func (PageIntakeLog) URLMetadataAdmitted(
+func (PageIntakeLog) PageAdmitted(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
+	amountOfPostings int,
 ) {
-	slog.DebugContext(ctx, msgURLMetadataAdmitted,
+	slog.DebugContext(ctx, msgPageAdmitted,
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
+		slog.Int("postings", amountOfPostings),
 	)
 }
 
-func (PageIntakeLog) URLMetadataAdmissionBusy(
+func (PageIntakeLog) PageAdmissionBusy(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
+	amountOfPostings int,
 ) {
-	slog.WarnContext(ctx, msgURLMetadataAdmissionBusy,
+	slog.WarnContext(ctx, msgPageAdmissionBusy,
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
+		slog.Int("postings", amountOfPostings),
 	)
 }
 
-func (PageIntakeLog) URLMetadataAdmissionFailed(
+func (PageIntakeLog) PageAdmissionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
+	amountOfPostings int,
 	cause error,
 ) {
-	attributes := []any{
+	slog.WarnContext(ctx, msgPageAdmissionFailed,
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
-	}
-	if cause != nil {
-		attributes = append(attributes, slog.Any("error", cause))
-	}
-	slog.WarnContext(ctx, msgURLMetadataAdmissionFailed, attributes...)
-}
-
-func (PageIntakeLog) PostingsAdmitted(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	postings int,
-) {
-	slog.DebugContext(ctx, msgPostingsAdmitted,
-		slog.String("message", messageIdentity),
-		slog.String("pageUrl", pageURL.String()),
-		slog.Int("postings", postings),
-	)
-}
-
-func (PageIntakeLog) PostingsAdmissionBusy(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	postings int,
-) {
-	slog.WarnContext(ctx, msgPostingsAdmissionBusy,
-		slog.String("message", messageIdentity),
-		slog.String("pageUrl", pageURL.String()),
-		slog.Int("postings", postings),
-	)
-}
-
-func (PageIntakeLog) PostingsAdmissionFailed(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	postings int,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgPostingsAdmissionFailed,
-		slog.String("message", messageIdentity),
-		slog.String("pageUrl", pageURL.String()),
-		slog.Int("postings", postings),
+		slog.Int("postings", amountOfPostings),
 		slog.Any("error", cause),
 	)
 }

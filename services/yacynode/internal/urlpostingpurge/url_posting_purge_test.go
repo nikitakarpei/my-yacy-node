@@ -58,7 +58,7 @@ func openHarness(t *testing.T) harness {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 	observing := &recordedPurges{postingsPerURL: map[yacymodel.URLHash]int{}}
-	_, evictor, receiver, err := urlmeta.Open(
+	_, evictor, _, receiver, err := urlmeta.Open(
 		v,
 		urlpostingpurge.New(references, purger, observing),
 	)

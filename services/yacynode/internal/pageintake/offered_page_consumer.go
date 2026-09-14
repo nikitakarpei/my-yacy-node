@@ -1,11 +1,9 @@
-// Package pageintake stores the reverse word index of each page the scrape service offers:
-// the page's URL metadata, then its postings, and sends a receipt back for the caller waiting
-// on that page.
+// Package pageintake stores the reverse word index of each page the scrape service offers,
+// and sends a receipt back for the caller waiting on that page.
 package pageintake
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -14,13 +12,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
-
-var errURLMetadataAdmissionRejected = errors.New("url metadata admission rejected")
 
 type IntakeReceipts interface {
 	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
@@ -30,8 +24,7 @@ type IntakeReceipts interface {
 type OfferedPageConsumer struct {
 	offeredPageSource          pullintake.MessageSource
 	formatDerivations          pageformats.FormatDerivationCatalog
-	urlReceiver                urlmeta.URLReceiver
-	pagePostingReceiver        rwiadmission.PagePostingReceiver
+	pageReceiver               pageadmission.PageReceiver
 	intakeReceipts             IntakeReceipts
 	pageIntakeObserver         PageIntakeObserver
 	pageOfferIntakeConcurrency int
@@ -40,8 +33,7 @@ type OfferedPageConsumer struct {
 type OfferedPageConsumerConfig struct {
 	OfferedPageSource          pullintake.MessageSource
 	FormatDerivations          pageformats.FormatDerivationCatalog
-	URLReceiver                urlmeta.URLReceiver
-	PagePostingReceiver        rwiadmission.PagePostingReceiver
+	PageReceiver               pageadmission.PageReceiver
 	IntakeReceipts             IntakeReceipts
 	PageIntakeObserver         PageIntakeObserver
 	PageOfferIntakeConcurrency int
@@ -51,8 +43,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 	return &OfferedPageConsumer{
 		offeredPageSource:          config.OfferedPageSource,
 		formatDerivations:          config.FormatDerivations,
-		urlReceiver:                config.URLReceiver,
-		pagePostingReceiver:        config.PagePostingReceiver,
+		pageReceiver:               config.PageReceiver,
 		intakeReceipts:             config.IntakeReceipts,
 		pageIntakeObserver:         config.PageIntakeObserver,
 		pageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
@@ -132,10 +123,7 @@ func (c *OfferedPageConsumer) store(
 	message pullintake.PendingMessage,
 	index pagerwi.PageRWI,
 ) {
-	if !c.admitURLMetadata(ctx, message, index) {
-		return
-	}
-	if !c.admitPostings(ctx, message, index) {
+	if !c.admitPage(ctx, message, index) {
 		return
 	}
 	c.intakeReceipts.ReportKeptPage(ctx, index.PageURL)
@@ -143,52 +131,14 @@ func (c *OfferedPageConsumer) store(
 	c.pageIntakeObserver.PageIndexed(ctx, message.Identity(), index.PageURL)
 }
 
-func (c *OfferedPageConsumer) admitURLMetadata(
+func (c *OfferedPageConsumer) admitPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	index pagerwi.PageRWI,
 ) bool {
-	receipt, err := c.urlReceiver.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
+	receipt, err := c.pageReceiver.Receive(ctx, index)
 	if err != nil {
-		c.pageIntakeObserver.URLMetadataAdmissionFailed(
-			ctx, message.Identity(), index.PageURL, err,
-		)
-		message.Return(ctx)
-
-		return false
-	}
-	if receipt.Busy {
-		c.pageIntakeObserver.URLMetadataAdmissionBusy(ctx, message.Identity(), index.PageURL)
-		message.Return(ctx)
-
-		return false
-	}
-	if len(receipt.ErrorURL) != 0 {
-		c.pageIntakeObserver.URLMetadataAdmissionFailed(
-			ctx,
-			message.Identity(),
-			index.PageURL,
-			errURLMetadataAdmissionRejected,
-		)
-		message.Return(ctx)
-
-		return false
-	}
-	c.pageIntakeObserver.URLMetadataAdmitted(ctx, message.Identity(), index.PageURL)
-
-	return true
-}
-
-func (c *OfferedPageConsumer) admitPostings(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	index pagerwi.PageRWI,
-) bool {
-	receipt, err := c.pagePostingReceiver.ReceiveEveryPostingOfPage(
-		ctx, index.Metadata.Hash, index.Postings,
-	)
-	if err != nil {
-		c.pageIntakeObserver.PostingsAdmissionFailed(
+		c.pageIntakeObserver.PageAdmissionFailed(
 			ctx,
 			message.Identity(),
 			index.PageURL,
@@ -200,7 +150,7 @@ func (c *OfferedPageConsumer) admitPostings(
 		return false
 	}
 	if receipt.Busy {
-		c.pageIntakeObserver.PostingsAdmissionBusy(
+		c.pageIntakeObserver.PageAdmissionBusy(
 			ctx,
 			message.Identity(),
 			index.PageURL,
@@ -210,7 +160,7 @@ func (c *OfferedPageConsumer) admitPostings(
 
 		return false
 	}
-	c.pageIntakeObserver.PostingsAdmitted(
+	c.pageIntakeObserver.PageAdmitted(
 		ctx,
 		message.Identity(),
 		index.PageURL,

@@ -11,12 +11,11 @@ import (
 	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakereceiptpublicationobservers/prometheus"
 	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageofferbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 const corpus = "yacynode"
@@ -29,8 +28,7 @@ type pageOfferIntake struct {
 func openPageOfferIntake(
 	ctx context.Context,
 	config nodeconfiguration.PageOfferIntakeConfig,
-	urls urlmeta.URLReceiver,
-	pagePostings rwiadmission.PagePostingReceiver,
+	pages pageadmission.PageReceiver,
 	registry prometheus.Registerer,
 ) (*pageOfferIntake, error) {
 	broker, err := pageofferbroker.Open(ctx, pageofferbroker.Config{
@@ -52,10 +50,9 @@ func openPageOfferIntake(
 		broker: broker,
 		consumer: pageintake.NewOfferedPageConsumer(
 			pageintake.OfferedPageConsumerConfig{
-				OfferedPageSource:   broker.OfferedPages,
-				FormatDerivations:   formatDerivations,
-				URLReceiver:         urls,
-				PagePostingReceiver: pagePostings,
+				OfferedPageSource: broker.OfferedPages,
+				FormatDerivations: formatDerivations,
+				PageReceiver:      pages,
 				IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
 					broker.Connection, corpus,
 					intakereceiptsnats.IntakeReceiptPublicationObservers{

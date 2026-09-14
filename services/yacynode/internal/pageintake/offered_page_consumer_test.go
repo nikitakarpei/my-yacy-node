@@ -14,9 +14,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
 
 const (
@@ -25,35 +25,17 @@ const (
 	pageTitle      = "Hi"
 )
 
-type recordingURLs struct {
-	receipt  urlmeta.Receipt
+type recordingPages struct {
+	receipt  pageadmission.Receipt
 	err      error
-	received []yacymodel.URLMetadata
+	received []pagerwi.PageRWI
 }
 
-func (r *recordingURLs) Receive(
+func (r *recordingPages) Receive(
 	_ context.Context,
-	metadata []yacymodel.URLMetadata,
-) (urlmeta.Receipt, error) {
-	r.received = append(r.received, metadata...)
-
-	return r.receipt, r.err
-}
-
-type recordingPostings struct {
-	receipt  rwiadmission.Receipt
-	err      error
-	calls    [][]yacymodel.RWIPosting
-	pageURLs []yacymodel.URLHash
-}
-
-func (r *recordingPostings) ReceiveEveryPostingOfPage(
-	_ context.Context,
-	pageURL yacymodel.URLHash,
-	postings []yacymodel.RWIPosting,
-) (rwiadmission.Receipt, error) {
-	r.calls = append(r.calls, postings)
-	r.pageURLs = append(r.pageURLs, pageURL)
+	page pagerwi.PageRWI,
+) (pageadmission.Receipt, error) {
+	r.received = append(r.received, page)
 
 	return r.receipt, r.err
 }
@@ -80,7 +62,7 @@ func (r *recordingIntakeReceipts) ReportRejectedPage(
 type recordingPageIntakeObserver struct {
 	disposals           []string
 	pagesOffered        int
-	urlMetadataAdmitted int
+	pagesAdmitted       int
 	postingsAdmitted    int
 	postingsNotAdmitted []int
 	admissionFailures   []error
@@ -115,60 +97,35 @@ func (r *recordingPageIntakeObserver) NoIndexDerived(
 	r.disposals = append(r.disposals, "no_index_derived")
 }
 
-func (r *recordingPageIntakeObserver) URLMetadataAdmitted(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-) {
-	r.urlMetadataAdmitted++
-}
-
-func (r *recordingPageIntakeObserver) URLMetadataAdmissionBusy(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-) {
-	r.disposals = append(r.disposals, "url_metadata_admission_busy")
-}
-
-func (r *recordingPageIntakeObserver) URLMetadataAdmissionFailed(
+func (r *recordingPageIntakeObserver) PageAdmitted(
 	_ context.Context,
 	_ string,
 	_ canonicalurl.CanonicalURL,
+	amountOfPostings int,
+) {
+	r.pagesAdmitted++
+	r.postingsAdmitted += amountOfPostings
+}
+
+func (r *recordingPageIntakeObserver) PageAdmissionBusy(
+	_ context.Context,
+	_ string,
+	_ canonicalurl.CanonicalURL,
+	amountOfPostings int,
+) {
+	r.disposals = append(r.disposals, "page_admission_busy")
+	r.postingsNotAdmitted = append(r.postingsNotAdmitted, amountOfPostings)
+}
+
+func (r *recordingPageIntakeObserver) PageAdmissionFailed(
+	_ context.Context,
+	_ string,
+	_ canonicalurl.CanonicalURL,
+	amountOfPostings int,
 	cause error,
 ) {
-	r.disposals = append(r.disposals, "url_metadata_admission_failed")
-	r.admissionFailures = append(r.admissionFailures, cause)
-}
-
-func (r *recordingPageIntakeObserver) PostingsAdmitted(
-	_ context.Context,
-	_ string,
-	_ canonicalurl.CanonicalURL,
-	postings int,
-) {
-	r.postingsAdmitted += postings
-}
-
-func (r *recordingPageIntakeObserver) PostingsAdmissionBusy(
-	_ context.Context,
-	_ string,
-	_ canonicalurl.CanonicalURL,
-	postings int,
-) {
-	r.disposals = append(r.disposals, "postings_admission_busy")
-	r.postingsNotAdmitted = append(r.postingsNotAdmitted, postings)
-}
-
-func (r *recordingPageIntakeObserver) PostingsAdmissionFailed(
-	_ context.Context,
-	_ string,
-	_ canonicalurl.CanonicalURL,
-	postings int,
-	cause error,
-) {
-	r.disposals = append(r.disposals, "postings_admission_failed")
-	r.postingsNotAdmitted = append(r.postingsNotAdmitted, postings)
+	r.disposals = append(r.disposals, "page_admission_failed")
+	r.postingsNotAdmitted = append(r.postingsNotAdmitted, amountOfPostings)
 	r.admissionFailures = append(r.admissionFailures, cause)
 }
 
@@ -209,23 +166,16 @@ func offeredPage(
 }
 
 type intakeCollaborators struct {
-	urlReceiver         urlmeta.URLReceiver
-	pagePostingReceiver rwiadmission.PagePostingReceiver
-	intakeReceipts      pageintake.IntakeReceipts
-	pageIntakeObserver  pageintake.PageIntakeObserver
+	pageReceiver       pageadmission.PageReceiver
+	intakeReceipts     pageintake.IntakeReceipts
+	pageIntakeObserver pageintake.PageIntakeObserver
 }
 
-func run(
-	t *testing.T,
-	msg jetstream.Msg,
-	urls urlmeta.URLReceiver,
-	postings rwiadmission.PagePostingReceiver,
-) error {
+func run(t *testing.T, msg jetstream.Msg, pages pageadmission.PageReceiver) error {
 	return runWith(t, msg, intakeCollaborators{
-		urlReceiver:         urls,
-		pagePostingReceiver: postings,
-		intakeReceipts:      &recordingIntakeReceipts{},
-		pageIntakeObserver:  pageintake.PageIntakeObservers{},
+		pageReceiver:       pages,
+		intakeReceipts:     &recordingIntakeReceipts{},
+		pageIntakeObserver: pageintake.PageIntakeObservers{},
 	})
 }
 
@@ -245,8 +195,7 @@ func runWith(
 		pageintake.OfferedPageConsumerConfig{
 			OfferedPageSource:          pullintaketest.MessageSourceOf(msg),
 			FormatDerivations:          formatDerivations,
-			URLReceiver:                collaborators.urlReceiver,
-			PagePostingReceiver:        collaborators.pagePostingReceiver,
+			PageReceiver:               collaborators.pageReceiver,
 			IntakeReceipts:             collaborators.intakeReceipts,
 			PageIntakeObserver:         collaborators.pageIntakeObserver,
 			PageOfferIntakeConcurrency: 1,
@@ -256,15 +205,13 @@ func runWith(
 func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 	observer := &recordingPageIntakeObserver{}
 	receipts := &recordingIntakeReceipts{}
-	urls := &recordingURLs{}
-	postings := &recordingPostings{}
+	pages := &recordingPages{}
 	message := offeredPageMessage(t, "alpha beta")
 
 	if err := runWith(t, message, intakeCollaborators{
-		urlReceiver:         urls,
-		pagePostingReceiver: postings,
-		intakeReceipts:      receipts,
-		pageIntakeObserver:  observer,
+		pageReceiver:       pages,
+		intakeReceipts:     receipts,
+		pageIntakeObserver: observer,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -275,29 +222,28 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 	if got := observer.disposals; len(got) != 1 || got[0] != "indexed" {
 		t.Errorf("disposals = %v, want indexed", got)
 	}
-	if observer.pagesOffered != 1 {
-		t.Errorf("pages offered = %d, want 1", observer.pagesOffered)
+	if observer.pagesOffered != 1 || observer.pagesAdmitted != 1 {
+		t.Errorf("pages offered = %d and admitted = %d, want one of each",
+			observer.pagesOffered, observer.pagesAdmitted)
 	}
-	if len(urls.received) != 1 || urls.received[0].Address != offeredPageURL {
-		t.Fatalf("stored metadata %+v, want one row for the offered page", urls.received)
+	if len(pages.received) != 1 {
+		t.Fatalf("admitted %d pages, want one for the offered page", len(pages.received))
 	}
-	if urls.received[0].Title != pageTitle {
-		t.Errorf("stored title = %q, want the extracted title", urls.received[0].Title)
+	admitted := pages.received[0]
+	if admitted.Metadata.Address != offeredPageURL {
+		t.Errorf("admitted address = %q, want the offered page", admitted.Metadata.Address)
+	}
+	if admitted.Metadata.Title != pageTitle {
+		t.Errorf("admitted title = %q, want the extracted title", admitted.Metadata.Title)
 	}
 	if len(receipts.kept) != 1 || receipts.kept[0].String() != offeredPageURL {
 		t.Errorf("kept receipts = %v, want one for the offered page", receipts.kept)
 	}
-	if len(postings.pageURLs) != 1 || postings.pageURLs[0] != urls.received[0].Hash {
-		t.Errorf(
-			"page urls = %v, want the hash the metadata was stored under",
-			postings.pageURLs,
-		)
-	}
-	assertWordsAdmitted(t, postings, "alpha", "beta")
+	assertWordsAdmitted(t, pages, "alpha", "beta")
 }
 
 func TestPageThatLandedElsewhereIsIndexedUnderTheOfferedURL(t *testing.T) {
-	urls := &recordingURLs{}
+	pages := &recordingPages{}
 
 	message := offeredPage(t, pagescrapecontract.OfferedPage{
 		PageURL:     canonicalurltest.CanonicalURLOf(t, offeredPageURL),
@@ -305,33 +251,37 @@ func TestPageThatLandedElsewhereIsIndexedUnderTheOfferedURL(t *testing.T) {
 		ContentType: "text/html",
 		Body:        []byte(`<html lang="en"><body><p>alpha</p></body></html>`),
 	})
-	if err := run(t, message, urls, &recordingPostings{}); err != nil {
+	if err := run(t, message, pages); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if action := message.Settlement(t); action != pullintaketest.Acknowledged {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(urls.received) != 1 || urls.received[0].Address != offeredPageURL {
-		t.Fatalf("stored metadata %+v, want one row under the offered url", urls.received)
+	if len(pages.received) != 1 ||
+		pages.received[0].Metadata.Address != offeredPageURL {
+		t.Fatalf("admitted %+v, want one page under the offered url", pages.received)
 	}
 }
 
-func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
-	postings := &recordingPostings{}
+func TestConsumerAdmitsAPageInOneCall(t *testing.T) {
+	pages := &recordingPages{}
 
-	if err := run(t, offeredPageMessage(t, "alpha beta gamma delta epsilon"),
-		&recordingURLs{}, postings); err != nil {
+	if err := run(
+		t,
+		offeredPageMessage(t, "alpha beta gamma delta epsilon"),
+		pages,
+	); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	assertWordsAdmitted(t, postings, "alpha", "beta", "gamma", "delta", "epsilon")
+	assertWordsAdmitted(t, pages, "alpha", "beta", "gamma", "delta", "epsilon")
 }
 
 func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 	observer := &recordingPageIntakeObserver{}
 	receipts := &recordingIntakeReceipts{}
-	postings := &recordingPostings{}
+	pages := &recordingPages{}
 
 	message := offeredPage(t, pagescrapecontract.OfferedPage{
 		PageURL:     canonicalurltest.CanonicalURLOf(t, offeredPageURL),
@@ -340,10 +290,9 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 		Body:        []byte("%PDF-1.4"),
 	})
 	if err := runWith(t, message, intakeCollaborators{
-		urlReceiver:         &recordingURLs{},
-		pagePostingReceiver: postings,
-		intakeReceipts:      receipts,
-		pageIntakeObserver:  observer,
+		pageReceiver:       pages,
+		intakeReceipts:     receipts,
+		pageIntakeObserver: observer,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -351,8 +300,8 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 	if action := message.Settlement(t); action != pullintaketest.Acknowledged {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(postings.calls) != 0 {
-		t.Errorf("stored %v, want nothing", postings.calls)
+	if len(pages.received) != 0 {
+		t.Errorf("admitted %v, want nothing", pages.received)
 	}
 	if len(receipts.rejected) != 1 {
 		t.Errorf("rejected receipts = %v, want one for the offered page", receipts.rejected)
@@ -363,49 +312,21 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 }
 
 type admissionDisposalExpectation struct {
-	urls             *recordingURLs
-	postings         *recordingPostings
+	pages            *recordingPages
 	wantDisposal     string
-	wantURLMetadata  int
-	wantPostingCalls int
 	wantFailureCause bool
 }
 
-func TestConsumerReportsWhichAdmissionReturnedTheOfferedPage(t *testing.T) {
+func TestConsumerReportsWhyAdmissionReturnedTheOfferedPage(t *testing.T) {
 	cause := errors.New("admission failed")
 	for name, expectation := range map[string]admissionDisposalExpectation{
-		"url busy": {
-			urls:         &recordingURLs{receipt: urlmeta.Receipt{Busy: true}},
-			postings:     &recordingPostings{},
-			wantDisposal: "url_metadata_admission_busy",
+		"busy": {
+			pages:        &recordingPages{receipt: pageadmission.Receipt{Busy: true}},
+			wantDisposal: "page_admission_busy",
 		},
-		"url failed": {
-			urls:             &recordingURLs{err: cause},
-			postings:         &recordingPostings{},
-			wantDisposal:     "url_metadata_admission_failed",
-			wantFailureCause: true,
-		},
-		"url rejected": {
-			urls: &recordingURLs{receipt: urlmeta.Receipt{
-				ErrorURL: []yacymodel.URLHash{{}},
-			}},
-			postings:         &recordingPostings{},
-			wantDisposal:     "url_metadata_admission_failed",
-			wantFailureCause: true,
-		},
-		"posting busy": {
-			urls:             &recordingURLs{},
-			postings:         &recordingPostings{receipt: rwiadmission.Receipt{Busy: true}},
-			wantDisposal:     "postings_admission_busy",
-			wantURLMetadata:  1,
-			wantPostingCalls: 1,
-		},
-		"posting failed": {
-			urls:             &recordingURLs{},
-			postings:         &recordingPostings{err: cause},
-			wantDisposal:     "postings_admission_failed",
-			wantURLMetadata:  1,
-			wantPostingCalls: 1,
+		"failed": {
+			pages:            &recordingPages{err: cause},
+			wantDisposal:     "page_admission_failed",
 			wantFailureCause: true,
 		},
 	} {
@@ -414,10 +335,9 @@ func TestConsumerReportsWhichAdmissionReturnedTheOfferedPage(t *testing.T) {
 			message := offeredPageMessage(t, "alpha")
 
 			if err := runWith(t, message, intakeCollaborators{
-				urlReceiver:         expectation.urls,
-				pagePostingReceiver: expectation.postings,
-				intakeReceipts:      &recordingIntakeReceipts{},
-				pageIntakeObserver:  observer,
+				pageReceiver:       expectation.pages,
+				intakeReceipts:     &recordingIntakeReceipts{},
+				pageIntakeObserver: observer,
 			}); err != nil {
 				t.Fatalf("run: %v", err)
 			}
@@ -440,25 +360,18 @@ func assertAdmissionDisposal(
 	if got := observer.disposals; len(got) != 1 || got[0] != expectation.wantDisposal {
 		t.Errorf("disposals = %v, want %s", got, expectation.wantDisposal)
 	}
-	if observer.urlMetadataAdmitted != expectation.wantURLMetadata {
-		t.Errorf("url metadata admitted = %d, want %d",
-			observer.urlMetadataAdmitted, expectation.wantURLMetadata)
+	if observer.pagesAdmitted != 0 || observer.postingsAdmitted != 0 {
+		t.Errorf("pages admitted = %d and postings admitted = %d, want none",
+			observer.pagesAdmitted, observer.postingsAdmitted)
 	}
-	if observer.postingsAdmitted != 0 {
-		t.Errorf("postings admitted = %d, want 0", observer.postingsAdmitted)
+	admitted := expectation.pages.received
+	if len(admitted) != 1 {
+		t.Fatalf("admission calls = %d, want one", len(admitted))
 	}
-	if len(expectation.postings.calls) != expectation.wantPostingCalls {
-		t.Errorf("posting admission calls = %d, want %d",
-			len(expectation.postings.calls), expectation.wantPostingCalls)
-	}
-	if expectation.wantPostingCalls == 0 && len(observer.postingsNotAdmitted) != 0 {
-		t.Errorf("postings not admitted = %v, want none", observer.postingsNotAdmitted)
-	}
-	if expectation.wantPostingCalls == 1 &&
-		(len(observer.postingsNotAdmitted) != 1 ||
-			observer.postingsNotAdmitted[0] != len(expectation.postings.calls[0])) {
+	if len(observer.postingsNotAdmitted) != 1 ||
+		observer.postingsNotAdmitted[0] != len(admitted[0].Postings) {
 		t.Errorf("postings not admitted = %v, want %d",
-			observer.postingsNotAdmitted, len(expectation.postings.calls[0]))
+			observer.postingsNotAdmitted, len(admitted[0].Postings))
 	}
 	if got := len(observer.admissionFailures) != 0; got != expectation.wantFailureCause {
 		t.Errorf("failure cause reported = %t, want %t", got, expectation.wantFailureCause)
@@ -468,7 +381,7 @@ func assertAdmissionDisposal(
 func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	msg := &pullintaketest.Message{Body: []byte("not an offered page")}
 
-	err := run(t, msg, &recordingURLs{}, &recordingPostings{})
+	err := run(t, msg, &recordingPages{})
 
 	if !errors.Is(err, poisonhalt.ErrPoisonMessage) {
 		t.Fatalf("err = %v, want a poison message halt", err)
@@ -478,19 +391,19 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	}
 }
 
-func assertWordsAdmitted(t *testing.T, postings *recordingPostings, words ...string) {
+func assertWordsAdmitted(t *testing.T, pages *recordingPages, words ...string) {
 	t.Helper()
 
-	if len(postings.calls) != 1 {
-		t.Fatalf("admitted over %d calls, want one call for the page", len(postings.calls))
+	if len(pages.received) != 1 {
+		t.Fatalf("admitted over %d calls, want one call for the page", len(pages.received))
 	}
 	admitted := map[yacymodel.Hash]bool{}
-	for _, posting := range postings.calls[0] {
+	for _, posting := range pages.received[0].Postings {
 		admitted[posting.WordHash] = true
 	}
 	for _, word := range words {
 		if !admitted[yacymodel.WordHash(word)] {
-			t.Errorf("word %q should be admitted, got %v", word, postings.calls[0])
+			t.Errorf("word %q should be admitted, got %v", word, pages.received[0].Postings)
 		}
 	}
 }
