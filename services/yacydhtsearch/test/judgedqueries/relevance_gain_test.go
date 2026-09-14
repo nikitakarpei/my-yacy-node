@@ -12,6 +12,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalenessdiscount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -21,6 +23,12 @@ const (
 
 type itemsOrdering interface {
 	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem
+}
+
+type orderingPerJudgedQuery func(judged judgedQuery) itemsOrdering
+
+func theSameOrderingOfEveryJudgedQuery(ordering itemsOrdering) orderingPerJudgedQuery {
+	return func(judgedQuery) itemsOrdering { return ordering }
 }
 
 func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
@@ -39,9 +47,10 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 }
 
 type judgedQuery struct {
-	query           string
-	answers         peeranswers.AnsweredQuery
-	gradedDocuments gradedDocuments
+	query                     string
+	answers                   peeranswers.AnsweredQuery
+	dayTheAnswersWereRecorded yacymodel.CalendarDay
+	gradedDocuments           gradedDocuments
 }
 
 func judgedQueriesRecorded(t *testing.T) []judgedQuery {
@@ -55,9 +64,10 @@ func judgedQueriesRecorded(t *testing.T) []judgedQuery {
 		}
 		answers := recordedAnswersInTheFile(t, answersFile)
 		judged = append(judged, judgedQuery{
-			query:           answers.Query,
-			answers:         answers.answeredQuery(),
-			gradedDocuments: graded,
+			query:                     answers.Query,
+			answers:                   answers.answeredQuery(),
+			dayTheAnswersWereRecorded: yacymodel.CalendarDayOf(answers.RecordedAt),
+			gradedDocuments:           graded,
 		})
 	}
 
@@ -81,8 +91,12 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 
 func orderingOfTheServiceFrom(
 	scoreWeights documentrelevance.ScoreWeights,
-) hostdiscount.Ordering {
-	return hostdiscount.New(documentrelevance.New(scoreWeights))
+) orderingPerJudgedQuery {
+	return func(judged judgedQuery) itemsOrdering {
+		return hostdiscount.New(stalenessdiscount.New(
+			documentrelevance.New(scoreWeights), judged.dayTheAnswersWereRecorded.Time,
+		))
+	}
 }
 
 type orderingOfThePeerRankings struct{}
@@ -119,9 +133,15 @@ func reportTheGainOfEachJudgedQuery(
 	t.Logf(
 		"the mean over %d judged queries: host discount %.4f, relevance %.4f, peer order %.4f",
 		len(judged),
-		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(documentRelevance), judged),
-		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
-		meanNormalizedGainDiscountedPerHostOf(orderingOfThePeerRankings{}, judged),
+		meanNormalizedGainDiscountedPerHostOf(
+			theSameOrderingOfEveryJudgedQuery(hostdiscount.New(documentRelevance)), judged,
+		),
+		meanNormalizedGainDiscountedPerHostOf(
+			theSameOrderingOfEveryJudgedQuery(relevanceOrdering), judged,
+		),
+		meanNormalizedGainDiscountedPerHostOf(
+			theSameOrderingOfEveryJudgedQuery(orderingOfThePeerRankings{}), judged,
+		),
 	)
 	t.Logf(
 		"the ordering of the service reaches no gain on %d of %d judged queries",
@@ -131,12 +151,12 @@ func reportTheGainOfEachJudgedQuery(
 }
 
 func meanNormalizedGainDiscountedPerHostOf(
-	ordering itemsOrdering, judged []judgedQuery,
+	orderingOfTheQuery orderingPerJudgedQuery, judged []judgedQuery,
 ) float64 {
 	sumOfNormalizedGains := 0.0
 	for _, judgedQuery := range judged {
 		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-			ordering.OrderedItemsOf(judgedQuery.answers),
+			orderingOfTheQuery(judgedQuery).OrderedItemsOf(judgedQuery.answers),
 		)
 	}
 
@@ -150,7 +170,7 @@ func failIfTheLiftOverThePeerOrderingFallsShort(t *testing.T, judged []judgedQue
 		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
 	)
 	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
-		orderingOfThePeerRankings{}, judged,
+		theSameOrderingOfEveryJudgedQuery(orderingOfThePeerRankings{}), judged,
 	)
 	if meanGainOfTheOrderingOfTheService-meanGainOfThePeerOrdering >=
 		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering {
