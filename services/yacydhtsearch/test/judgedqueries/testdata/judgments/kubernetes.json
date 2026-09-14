@@ -1,0 +1,311 @@
+{
+  "query": "kubernetes",
+  "judgedDocuments": [
+    {
+      "hash": "AsVNaz7OfS44",
+      "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
+      "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
+      "grade": 0
+    },
+    {
+      "hash": "OBtKCl9V0Pqw",
+      "address": "https://www.stefanux.net/",
+      "title": "start [IT-Administration stefanux.net]",
+      "grade": 0
+    },
+    {
+      "hash": "4iXo2S0M4T84",
+      "address": "https://tilde.club/~calor/blog/tag_kubernetes.html",
+      "title": "my tildelog — posts tagged \"kubernetes\"",
+      "grade": 0
+    },
+    {
+      "hash": "P8xl6XqO2Dlg",
+      "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
+      "title": "Kubernetes on Nix - media.ccc.de",
+      "grade": 1
+    },
+    {
+      "hash": "RlgmHUqZWFe4",
+      "address": "https://gyptazy.com/blog/talos-linux-howto-create-a-kubernetes-cluster-in-10-minutes/",
+      "title": "Deploy a Kubernetes Cluster with Talos Linux in 10 Minutes",
+      "grade": 1
+    },
+    {
+      "hash": "QptPQSMAuxi4",
+      "address": "https://www.linkedin.com/learning/topics/devops?trk=homepage-basic_learning-cta",
+      "title": "DevOps Online Training Courses | LinkedIn Learning, formerly Lynda.com",
+      "grade": 0
+    },
+    {
+      "hash": "cCOwMUBJaYCh",
+      "address": "https://cloudbear.nl/blog/managed-kubernetes-hosting-schaalbare-infrastructuur-zonder-complexiteit/",
+      "title": "Managed Kubernetes hosting: schaalbare infrastructuur zonder complexiteit - Cloudbear",
+      "grade": 1
+    },
+    {
+      "hash": "ubKuHJb8iyg4",
+      "address": "https://cloud.google.com/kubernetes-engine/pricing",
+      "title": "Google Kubernetes Engine pricing | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "lXUphWptipG4",
+      "address": "https://yoshio3.com/tag/kubernetes/",
+      "title": "Kubernetes | 寺田　佳央 - Yoshio Terada",
+      "grade": 0
+    },
+    {
+      "hash": "i1qY6Gs7qoi5",
+      "address": "https://itopstimes.com/kubernetes/three-ways-to-automate-kubernetes-incident-management/",
+      "title": "Three ways to automate Kubernetes incident management - ITOps Times",
+      "grade": 1
+    },
+    {
+      "hash": "yy8YSGYlAY74",
+      "address": "https://ubuntu.com/kubernetes/managed",
+      "title": "Managed Kubernetes | Kubernetes | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "nBX0yGS6MKD4",
+      "address": "https://github.com/kubernetes/kubernetes/tree/master",
+      "title": "GitHub - kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "Qa_3QQagPfm4",
+      "address": "https://ratslav.com/articles/kubernetes-on-windows.html",
+      "title": "Setting Up a High-Performance Local Kubernetes on Windows",
+      "grade": 1
+    },
+    {
+      "hash": "gsQNdv-HUoo0",
+      "address": "https://docs.dagu.sh/step-types/kubernetes",
+      "title": "Kubernetes | Dagu",
+      "grade": 0
+    },
+    {
+      "hash": "_O-0BOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/blog/2025/09/19/kubernetes-v1-34-recover-expansion-failure/",
+      "title": "Kubernetes v1.34：从存储卷扩展失效中恢复（GA） | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "PyiYL5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/kubernetes-fleet-manager/",
+      "title": "Azure Kubernetes Fleet Manager | Microsoft Azure",
+      "grade": 1
+    },
+    {
+      "hash": "o0eYctS6MKD4",
+      "address": "https://github.com/kubernetes-el/kubernetes-el",
+      "title": "GitHub - kubernetes-el/kubernetes-el: Manage Kubernetes clusters with Emacs.",
+      "grade": 0
+    },
+    {
+      "hash": "iwuExlQ4KKDh",
+      "address": "https://www.skoleniroot.cz/kubernetes/",
+      "title": "Kubernetes - Školení od Root.cz",
+      "grade": 0
+    },
+    {
+      "hash": "3DGOK2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/",
+      "title": "Pod Topology Spread Constraints | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "91v0v2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/access-authn-authz/authentication/",
+      "title": "Authenticating | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "Sw99fdUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-google/stable/_api/tests/system/google/cloud/kubernetes_engine/example_kubernetes_engine/index.html",
+      "title": "tests.system.google.cloud.kubernetes_engine.example_kubernetes_engine — apache-airflow-providers-google Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "26zHHWlfXUB4",
+      "address": "https://vexpose.blog/tag/kubernetes/",
+      "title": "kubernetes – {{ vExpose }}.Blog",
+      "grade": 0
+    },
+    {
+      "hash": "nI4bKGS6MKD4",
+      "address": "https://github.com/kubernetes/website/",
+      "title": "GitHub - kubernetes/website: Kubernetes website and documentation repo: · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "_0mDl2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/",
+      "title": "Managing Kubernetes Objects Using Imperative Commands | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "AIy_nGS6MKD4",
+      "address": "https://github.com/kubernetes/kompose",
+      "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "zlEh5a9VKBYx",
+      "address": "https://chronosphere.io/learn/what-is-a-kubernetes-pod/",
+      "title": "What is a Kubernetes pod?",
+      "grade": 1
+    },
+    {
+      "hash": "LrlbTLo7vSm6",
+      "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-cluster-security?ts=markdown",
+      "title": "Securing Your Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks",
+      "grade": 1
+    },
+    {
+      "hash": "qjEAgsjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/",
+      "title": "Kubernetes",
+      "grade": 2
+    },
+    {
+      "hash": "DpOP6dUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/pod/index.html",
+      "title": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "jEre840jxin4",
+      "address": "https://docs.gitlab.com/user/clusters/agent/",
+      "title": "Connecting a Kubernetes cluster with GitLab | GitLab Docs",
+      "grade": 0
+    },
+    {
+      "hash": "6y4OTxAl9Ia5",
+      "address": "https://developer.hashicorp.com/vault/tutorials/integrate-kubernetes-hcp-vault-dedicated/kubernetes-vso-hcp-vault",
+      "title": "Create Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer",
+      "grade": 0
+    },
+    {
+      "hash": "qjo2Ci-VnHQw",
+      "address": "https://kubernetes-csi.github.io/docs/drivers.html",
+      "title": "Drivers - Kubernetes CSI Developer Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "VRF90Xyvgfs5",
+      "address": "https://docs.digitalocean.com/reference/ansible/reference/modules/kubernetes_cluster/",
+      "title": "kubernetes_cluster | DigitalOcean Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "JqxSFBxFffU5",
+      "address": "https://help.nextcloud.com/tag/kubernetes/413",
+      "title": "Topics tagged kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "0KDJNlaFvW05",
+      "address": "https://www.kubernetes.dev/docs/",
+      "title": "Documentation | Kubernetes Contributors",
+      "grade": 1
+    },
+    {
+      "hash": "dmb_HXqO2Dlg",
+      "address": "https://media.ccc.de/v/ASG2017-137-what_if_component_xxx_dies_introducing_self-healing_kubernetes",
+      "title": "What If Component xxx Dies? Introducing Self-Healing Kubernetes - media.ccc.de",
+      "grade": 1
+    },
+    {
+      "hash": "_vIWyKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/azure/kubernetes",
+      "title": "Working with Kubernetes in VS Code",
+      "grade": 1
+    },
+    {
+      "hash": "_nQGxLLc30Qw",
+      "address": "https://www.coursera.org/learn/kubernetes-for-absolute-beginners",
+      "title": "Kubernetes for the Absolute Beginners with Hands-on Labs | Coursera",
+      "grade": 0
+    },
+    {
+      "hash": "sJ2DfvtgnJ_5",
+      "address": "https://vivekdhami.com/tags/kubernetes/",
+      "title": "Tag: kubernetes | Vivek Dhami",
+      "grade": 0
+    },
+    {
+      "hash": "Ceyo32cDhyy5",
+      "address": "https://aerospike.com/docs/kubernetes/install/helm/",
+      "title": "Install Aerospike Kubernetes Operator using Helm | Aerospike Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "FCRyr2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/security/controlling-access/",
+      "title": "Controlling Access to the Kubernetes API | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "9-wFc2jw1Zlx",
+      "address": "https://kubernetes.io/docs/contribute/style/page-content-types/",
+      "title": "Page content types | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "tgPOkWBJaYCh",
+      "address": "https://cloudbear.nl/tag/managed-kubernetes-hosting/",
+      "title": "managed kubernetes hosting Archives - Cloudbear",
+      "grade": 0
+    },
+    {
+      "hash": "wtEcA2WvZanx",
+      "address": "https://v1-33.docs.kubernetes.io/releases/download/",
+      "title": "Download Kubernetes | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "Bc3md2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
+      "title": "Horizontal Pod Autoscaling | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "_TYuOOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/blog/2025/02/28/nftables-kube-proxy/",
+      "title": "kube-proxy 的 NFTables 模式 | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "_4_Lp2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/instrumentation/slis/",
+      "title": "Kubernetes Component SLI Metrics | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "xf1oj2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/administer-cluster/kubelet-in-userns/",
+      "title": "Running Kubernetes Node Components as a Non-root User | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "0VrucIDqcl0x",
+      "address": "https://v1-36.docs.kubernetes.io/",
+      "title": "Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "_-WLsUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2025/06/02/gateway-api-v1-3/",
+      "title": "Gateway API v1.3.0: Advancements in Request Mirroring, CORS, Gateway Merging, and Retry Budgets | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "WvWPIsjw1Zlx",
+      "address": "https://kubernetes.io/",
+      "title": "Kubernetes",
+      "grade": 2
+    }
+  ]
+}

@@ -285,7 +285,7 @@ func (f seedWireForm) solrAvailable() yacymodel.Optional[bool] {
 }
 
 func (f seedWireForm) timestamp(column string) yacymodel.Optional[time.Time] {
-	instant, ok := seedTimestampWireCodec{}.decode(f.properties[column])
+	instant, ok := instantWireCodec{}.decode(f.properties[column])
 	if !ok {
 		return yacymodel.None[time.Time]()
 	}
@@ -372,10 +372,10 @@ func seedWireFormFromDomain(seed yacymodel.Seed) seedWireForm {
 		f.putSolrAvailable(available)
 	}
 	if instant, ok := seed.FirstSeen.Get(); ok {
-		f.put(seedColFirstSeen, seedTimestampWireCodec{}.encode(instant))
+		f.put(seedColFirstSeen, instantWireCodec{}.encode(instant))
 	}
 	if instant, ok := seed.LastSeen.Get(); ok {
-		f.put(seedColLastSeen, seedTimestampWireCodec{}.encode(instant))
+		f.put(seedColLastSeen, instantWireCodec{}.encode(instant))
 	}
 	if instant, ok := seed.DisconnectedAt.Get(); ok {
 		f.put(seedColDisconnectedAt, strconv.FormatInt(instant.UnixMilli(), 10))

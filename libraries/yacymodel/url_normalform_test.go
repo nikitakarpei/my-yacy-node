@@ -77,6 +77,26 @@ func TestURLNormalformEncodesNonBasicLabelsPerLabel(t *testing.T) {
 	}
 }
 
+func TestURLNormalformOfAnIPv6HostIsItselfAnAddress(t *testing.T) {
+	cases := map[string]string{
+		"http://[2001:db8::1]/x":      "http://[2001:db8::1]/x",
+		"http://[2001:DB8::1]:80/x":   "http://[2001:db8::1]/x",
+		"http://[2001:db8::1]:8080/x": "http://[2001:db8::1]:8080/x",
+		"http://[::1]/":               "http://[::1]/",
+	}
+	for address, want := range cases {
+		normalform := normalformOfAddress(t, address).String()
+		if normalform != want {
+			t.Errorf("normalform of %q = %q, want %q", address, normalform, want)
+
+			continue
+		}
+		if got := normalformOfAddress(t, normalform).String(); got != normalform {
+			t.Errorf("normalform %q reparses as %q", normalform, got)
+		}
+	}
+}
+
 func normalformOfAddress(t *testing.T, raw string) yacymodel.URLNormalform {
 	t.Helper()
 

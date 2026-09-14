@@ -4,6 +4,7 @@ package e2e
 
 import (
 	"context"
+	"net/http"
 	"strings"
 	"testing"
 	"time"
@@ -12,10 +13,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequestbridge"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
-	corpusmarkdownv1 "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/markdowncorpusclienttest"
 )
 
@@ -30,10 +31,11 @@ func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
-	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
+	pagescrapeservice.Start(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
+	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
 	recallAddress := startCorpusMarkdown(t, ctx, network.Name)
 
 	js := connectJetStream(t, crawlNATSURL)
@@ -65,21 +67,15 @@ func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 		t.Errorf("stored markdown = %q, want it to contain %q", stored, originBody)
 	}
 
-	recallPageResponse, err := markdowncorpusclienttest.New(t, recallAddress).
-		RecallPage(ctx, &corpusmarkdownv1.RecallPageRequest{Url: originCanonicalURL})
-	if err != nil {
-		t.Fatalf("recall page: %v", err)
+	recalled, statusCode := markdowncorpusclienttest.New(t, recallAddress).
+		RecallPage(ctx, originCanonicalURL)
+	if statusCode != http.StatusOK {
+		t.Fatalf("recall page status = %d, want %d", statusCode, http.StatusOK)
 	}
-	if recallPageResponse.GetMarkdown() != string(stored) {
-		t.Errorf(
-			"recalled markdown = %q, want the stored %q",
-			recallPageResponse.GetMarkdown(), stored,
-		)
+	if recalled.Markdown != string(stored) {
+		t.Errorf("recalled markdown = %q, want the stored %q", recalled.Markdown, stored)
 	}
-	if recallPageResponse.GetCanonicalUrl() != originCanonicalURL {
-		t.Errorf(
-			"recalled canonicalUrl = %q, want %q",
-			recallPageResponse.GetCanonicalUrl(), originCanonicalURL,
-		)
+	if recalled.CanonicalURL != originCanonicalURL {
+		t.Errorf("recalled canonicalUrl = %q, want %q", recalled.CanonicalURL, originCanonicalURL)
 	}
 }

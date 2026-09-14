@@ -11,7 +11,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 const (
@@ -63,9 +63,9 @@ func fetchOneScrapeRequest(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
-) scraperequestcontract.ScrapeRequest {
+) pagescrapecontract.ScrapeRequest {
 	t.Helper()
-	stream := awaitStream(t, ctx, js, scraperequestcontract.ScrapeRequestsStreamName)
+	stream := awaitStream(t, ctx, js, pagescrapecontract.ScrapeRequestsStreamName)
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		AckPolicy: jetstream.AckExplicitPolicy,
 	})
@@ -76,7 +76,7 @@ func fetchOneScrapeRequest(
 	if err != nil {
 		t.Fatalf("fetch scrape request: %v", err)
 	}
-	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
+	scrapeRequest, err := pagescrapecontract.UnmarshalScrapeRequest(msg.Data())
 	if err != nil {
 		t.Fatalf("decode scrape request: %v", err)
 	}
@@ -86,43 +86,13 @@ func fetchOneScrapeRequest(
 	return scrapeRequest
 }
 
-func fetchScrapeRequestForDurable(
-	t *testing.T,
-	ctx context.Context,
-	js jetstream.JetStream,
-	durable string,
-) scraperequestcontract.ScrapeRequest {
-	t.Helper()
-	stream := awaitStream(t, ctx, js, scraperequestcontract.ScrapeRequestsStreamName)
-	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Durable:       durable,
-		FilterSubject: scraperequestcontract.ScrapeRequestSubject,
-		AckPolicy:     jetstream.AckExplicitPolicy,
-	})
-	if err != nil {
-		t.Fatalf("create %s consumer: %v", durable, err)
-	}
-	msg, err := consumer.Next(jetstream.FetchMaxWait(messageArrivalWait))
-	if err != nil {
-		t.Fatalf("fetch scrape request for %s: %v", durable, err)
-	}
-	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
-	if err != nil {
-		t.Fatalf("decode scrape request for %s: %v", durable, err)
-	}
-	if err := msg.Ack(); err != nil {
-		t.Fatalf("ack scrape request for %s: %v", durable, err)
-	}
-	return scrapeRequest
-}
-
 func fetchEveryScrapeRequest(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
-) []scraperequestcontract.ScrapeRequest {
+) []pagescrapecontract.ScrapeRequest {
 	t.Helper()
-	stream := awaitStream(t, ctx, js, scraperequestcontract.ScrapeRequestsStreamName)
+	stream := awaitStream(t, ctx, js, pagescrapecontract.ScrapeRequestsStreamName)
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		AckPolicy: jetstream.AckExplicitPolicy,
 	})
@@ -133,7 +103,7 @@ func fetchEveryScrapeRequest(
 	if err != nil {
 		t.Fatalf("fetch scrape request: %v", err)
 	}
-	requests := []scraperequestcontract.ScrapeRequest{decodeScrapeRequest(t, first)}
+	requests := []pagescrapecontract.ScrapeRequest{decodeScrapeRequest(t, first)}
 	batch, err := consumer.Fetch(duplicateScrapeRequestLimit,
 		jetstream.FetchMaxWait(duplicateSettlingWait))
 	if err != nil {
@@ -145,9 +115,9 @@ func fetchEveryScrapeRequest(
 	return requests
 }
 
-func decodeScrapeRequest(t *testing.T, msg jetstream.Msg) scraperequestcontract.ScrapeRequest {
+func decodeScrapeRequest(t *testing.T, msg jetstream.Msg) pagescrapecontract.ScrapeRequest {
 	t.Helper()
-	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
+	scrapeRequest, err := pagescrapecontract.UnmarshalScrapeRequest(msg.Data())
 	if err != nil {
 		t.Fatalf("decode scrape request: %v", err)
 	}

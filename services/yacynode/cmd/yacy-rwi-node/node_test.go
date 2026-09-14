@@ -6,14 +6,12 @@ import (
 	"io"
 	"net"
 	"net/http"
-	"net/url"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -50,15 +48,12 @@ func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
 	}
 }
 
-func TestRunNodeReportsAnUnreachableScrapeRequestBroker(t *testing.T) {
+func TestRunNodeReportsAnUnreachablePageOfferBroker(t *testing.T) {
 	config := nodeConfigFor(t)
-	config.ScrapeRequestIntake = nodeconfiguration.ScrapeRequestIntakeConfig{
-		ScrapeRequestNATSURL:           "nats://127.0.0.1:1",
-		ScrapeRequestSubject:           nodeconfiguration.DefaultScrapeRequestSubject,
-		ScrapeRequestDurable:           nodeconfiguration.DefaultScrapeRequestDurable,
-		ProxyURL:                       &url.URL{Scheme: "http", Host: "renderproxy:8080"},
-		ProxyDialMode:                  pagefetchershttp.ProxyDialTunnel,
-		ScrapeRequestIntakeConcurrency: nodeconfiguration.DefaultScrapeRequestIntakeConcurrency,
+	config.PageOfferIntake = nodeconfiguration.PageOfferIntakeConfig{
+		PageOfferNATSURL:           "nats://127.0.0.1:1",
+		PageOfferDurable:           nodeconfiguration.DefaultPageOfferDurable,
+		PageOfferIntakeConcurrency: nodeconfiguration.DefaultPageOfferIntakeConcurrency,
 	}
 
 	node := startNode(t, config)
@@ -68,8 +63,8 @@ func TestRunNodeReportsAnUnreachableScrapeRequestBroker(t *testing.T) {
 	if err == nil {
 		t.Fatal("RunNode returned nil, want the broker failure")
 	}
-	if !strings.Contains(err.Error(), "scrape request broker") {
-		t.Fatalf("RunNode: %v, want a scrape request broker failure", err)
+	if !strings.Contains(err.Error(), "page offer broker") {
+		t.Fatalf("RunNode: %v, want a page offer broker failure", err)
 	}
 }
 
@@ -82,8 +77,8 @@ func TestServedPeerRequestsAreCountedByEndpointAndStatus(t *testing.T) {
 
 	published := node.metrics(t)
 	for _, counter := range []string{
-		`http_requests_total{code="200",endpoint="/{$}"} 1`,
-		`http_requests_total{code="404",endpoint="unmatched"} 1`,
+		`yacynode_http_requests_total{code="200",endpoint="/{$}"} 1`,
+		`yacynode_http_requests_total{code="404",endpoint="unmatched"} 1`,
 	} {
 		if !strings.Contains(published, counter) {
 			t.Errorf("metrics do not carry %s", counter)
@@ -159,7 +154,7 @@ func TestOpsEndpointPublishesWhatStorageHolds(t *testing.T) {
 	defer node.stop()
 
 	published := node.metrics(t)
-	for _, gauge := range []string{"vault_quota_bytes", "vault_used_bytes", "vault_collection"} {
+	for _, gauge := range []string{"yacynode_vault_quota_bytes", "yacynode_vault_used_bytes", "yacynode_vault_collection"} {
 		if !strings.Contains(published, gauge) {
 			t.Errorf("metrics do not carry %s", gauge)
 		}

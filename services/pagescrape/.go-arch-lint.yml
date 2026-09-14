@@ -1,0 +1,106 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - canonicalurl
+
+components:
+  scrapeintake:
+    in: internal/scrapeintake/**
+  redirectfollowingfetch:
+    in: internal/redirectfollowingfetch/**
+  scrapestreamsjetstream:
+    in: internal/scrapestreams/jetstream/**
+  pageofferpublishersjetstream:
+    in: internal/pageofferpublishers/jetstream/**
+  scrapeschedulesjetstream:
+    in: internal/scrapeschedules/jetstream/**
+  scrapeoutcomefeedsnats:
+    in: internal/scrapeoutcomefeeds/nats/**
+  scrapeoutcomefeedobserversapplog:
+    in: internal/scrapeoutcomefeedobservers/applog/**
+  scrapeoutcomefeedobserversprometheus:
+    in: internal/scrapeoutcomefeedobservers/prometheus/**
+  scrapeintakeobserversapplog:
+    in: internal/scrapeintakeobservers/applog/**
+  scrapeintakeobserversprometheus:
+    in: internal/scrapeintakeobservers/prometheus/**
+  pagescrapecmd:
+    in: cmd/pagescrape/**
+
+vendors:
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+
+deps:
+  scrapeintake:
+    mayDependOn:
+      - redirectfollowingfetch
+    canUse:
+      - pagescrapecontract
+      - pagefetch
+      - serviceruntime
+  redirectfollowingfetch:
+    canUse:
+      - pagefetch
+  scrapestreamsjetstream:
+    canUse:
+      - pagescrapecontract
+      - nats
+  pageofferpublishersjetstream:
+    canUse:
+      - pagescrapecontract
+      - nats
+  scrapeschedulesjetstream:
+    canUse:
+      - pagescrapecontract
+      - nats
+  scrapeoutcomefeedsnats:
+    canUse:
+      - pagescrapecontract
+      - nats
+  scrapeoutcomefeedobserversapplog:
+    canUse:
+      - canonicalurl
+  scrapeoutcomefeedobserversprometheus:
+    canUse:
+      - prometheus
+  scrapeintakeobserversapplog:
+    canUse:
+      - pagescrapecontract
+      - serviceruntime
+  scrapeintakeobserversprometheus:
+    canUse:
+      - pagescrapecontract
+      - prometheus
+  pagescrapecmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
+  - "test/e2e"
+  - "contract"

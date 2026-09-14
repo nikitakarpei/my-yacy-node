@@ -4,10 +4,11 @@
   "editable": true,
   "schemaVersion": 39,
   "time": {
-    "from": "now-1h",
+    "from": "now-24h",
     "to": "now"
   },
-  "refresh": "15s",
+  "refresh": "30s",
+  "graphTooltip": 1,
   "templating": {
     "list": [
       {
@@ -16,14 +17,110 @@
         "query": "prometheus",
         "current": {},
         "hide": 0
+      },
+      {
+        "name": "service_instance",
+        "label": "Process instance",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "query": {
+          "query": "label_values(yacycrawler_info, instance)",
+          "refId": "service-instance-variable"
+        },
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
+      },
+      {
+        "name": "window",
+        "label": "Smoothing window",
+        "type": "interval",
+        "query": "30s,1m,2m,5m,10m,30m,1h,6h,12h,1d",
+        "options": [
+          {
+            "text": "auto",
+            "value": "$__auto_interval_window",
+            "selected": true
+          },
+          {
+            "text": "30s",
+            "value": "30s",
+            "selected": false
+          },
+          {
+            "text": "1m",
+            "value": "1m",
+            "selected": false
+          },
+          {
+            "text": "2m",
+            "value": "2m",
+            "selected": false
+          },
+          {
+            "text": "5m",
+            "value": "5m",
+            "selected": false
+          },
+          {
+            "text": "10m",
+            "value": "10m",
+            "selected": false
+          },
+          {
+            "text": "30m",
+            "value": "30m",
+            "selected": false
+          },
+          {
+            "text": "1h",
+            "value": "1h",
+            "selected": false
+          },
+          {
+            "text": "6h",
+            "value": "6h",
+            "selected": false
+          },
+          {
+            "text": "12h",
+            "value": "12h",
+            "selected": false
+          },
+          {
+            "text": "1d",
+            "value": "1d",
+            "selected": false
+          }
+        ],
+        "auto": true,
+        "auto_count": 60,
+        "auto_min": "30s",
+        "current": {
+          "text": "auto",
+          "value": "$__auto_interval_window",
+          "selected": true
+        },
+        "refresh": 2,
+        "hide": 0
       }
     ]
   },
   "panels": [
     {
-      "id": 1,
-      "title": "Crawler health",
+      "id": 10,
+      "title": "Inbound crawl orders",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -33,119 +130,8 @@
       "panels": []
     },
     {
-      "id": 3,
-      "title": "Share of received orders returned",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 0.05,
-                "color": "yellow"
-              },
-              {
-                "value": 0.2,
-                "color": "red"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(increase(yacycrawler_orders_returned_total[$__range])) / sum(increase(yacycrawler_orders_received_total[$__range]))"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Fetch latency (p99)",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket[$__rate_interval])))"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "title": "Order flow",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "panels": []
-    },
-    {
       "id": 11,
-      "title": "Orders received, accepted, and returned",
+      "title": "Crawl orders, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -155,7 +141,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 1
       },
       "fieldConfig": {
         "defaults": {
@@ -192,36 +178,28 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(increase(yacycrawler_orders_received_total[$__rate_interval]))",
-          "legendFormat": "received"
-        },
-        {
-          "refId": "B",
-          "expr": "sum(increase(yacycrawler_orders_accepted_total[$__rate_interval]))",
-          "legendFormat": "accepted"
-        },
-        {
-          "refId": "C",
-          "expr": "sum(increase(yacycrawler_orders_returned_total[$__rate_interval]))",
-          "legendFormat": "returned"
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"} - (yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
-      "id": 20,
-      "title": "Page fetching",
+      "id": 40,
+      "title": "Page visits",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 9
       },
       "panels": []
     },
     {
-      "id": 21,
-      "title": "Pages fetched",
+      "id": 41,
+      "title": "Page visit attempts, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -229,93 +207,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 16,
         "x": 0,
-        "y": 15
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "cps",
-          "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(yacycrawler_pages_fetched_total[$__rate_interval]))",
-          "legendFormat": "fetched"
-        }
-      ]
-    },
-    {
-      "id": 22,
-      "title": "Fetch attempt latency (p50/p95/p99)",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 15
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket[$__rate_interval])))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket[$__rate_interval])))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket[$__rate_interval])))",
-          "legendFormat": "p99"
-        }
-      ]
-    },
-    {
-      "id": 23,
-      "title": "Refusals honored, by target demand",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 23
+        "y": 10
       },
       "fieldConfig": {
         "defaults": {
@@ -335,71 +229,59 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (demand) (increase(yacycrawler_refusals_honored_total[$__rate_interval]))",
-          "legendFormat": "{{demand}}"
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"} - (yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
-      "id": 30,
-      "title": "Scrape request publication",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 31
-      },
-      "panels": []
-    },
-    {
-      "id": 31,
-      "title": "Scrape requests published",
-      "type": "timeseries",
+      "id": 42,
+      "title": "Failures reading or writing page visit history",
+      "description": "A read failure can cause an extra fetch now. A write failure can allow an extra fetch later.",
+      "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 32
+        "w": 8,
+        "x": 16,
+        "y": 10
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "cps",
+          "unit": "short",
           "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
+            "fillOpacity": 70,
+            "lineWidth": 0
           }
         }
       },
       "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_scrape_requests_published_total[$__rate_interval]))",
-          "legendFormat": "published"
+          "expr": "sum(clamp_min(yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"} - (yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "write failures"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(clamp_min(yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"} - (yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "read failures"
         }
-      ]
-    },
-    {
-      "id": 34,
-      "title": "Page disposal",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 40
-      },
-      "panels": []
+      ],
+      "interval": "$window"
     },
     {
       "id": 32,
@@ -414,7 +296,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 18
       },
       "fieldConfig": {
         "defaults": {
@@ -434,10 +316,640 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (increase(yacycrawler_pages_disposed_total[$__rate_interval]))",
+          "expr": "sum by (reason) (clamp_min(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} - (yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{reason}}"
         }
-      ]
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 20,
+      "title": "Pages fetched from the web",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "panels": []
+    },
+    {
+      "id": 21,
+      "title": "Page fetches, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 27
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"} - (yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 22,
+      "title": "How long a page fetch took",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 27
+      },
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "s",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 51,
+      "title": "Page media types not parsed",
+      "description": "The crawler reads the media type up to the first semicolon instead, to tell whether the page is HTML.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 27
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"} - (yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "not parsed"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 50,
+      "title": "Addresses the crawler could not resolve",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "panels": []
+    },
+    {
+      "id": 52,
+      "title": "Page base URLs the crawler could not resolve",
+      "description": "A page can state the URL its links are relative to. When the crawler cannot resolve that URL, it uses the page URL instead.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"} - (yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "not resolved"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 53,
+      "title": "Links the crawler could not resolve",
+      "description": "A link the crawler cannot resolve into a URL never reaches the frontier, so the page behind it stays uncrawled.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"} - (yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "not resolved"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 60,
+      "title": "Rules the pages state about indexing and link discovery",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 44
+      },
+      "panels": []
+    },
+    {
+      "id": 31,
+      "title": "Crawled pages, by what the page says about indexing",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 45
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (indexing) (clamp_min(yacycrawler_crawled_pages_total{instance=~\"$service_instance\"} - (yacycrawler_crawled_pages_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{indexing}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 23,
+      "title": "Pages that told the crawler not to follow their links",
+      "description": "None of the links on such a page reach the frontier.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 45
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} - (yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "enforced"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 30,
+      "title": "Published crawled pages",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 53
+      },
+      "panels": []
+    },
+    {
+      "id": 35,
+      "title": "Crawled pages published, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 54
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} - (yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 100,
+      "title": "Go process",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 62
+      },
+      "panels": []
+    },
+    {
+      "id": 101,
+      "title": "Process memory",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 63
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "process_resident_memory_bytes{instance=~\"$service_instance\"} and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}} resident"
+        },
+        {
+          "refId": "B",
+          "expr": "go_memstats_heap_alloc_bytes{instance=~\"$service_instance\"} and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}} heap allocated"
+        },
+        {
+          "refId": "C",
+          "expr": "go_memstats_heap_inuse_bytes{instance=~\"$service_instance\"} and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}} heap in use"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 102,
+      "title": "CPU cores used",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 63
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(process_cpu_seconds_total{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 103,
+      "title": "Goroutines",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 63
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "go_goroutines{instance=~\"$service_instance\"} and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 104,
+      "title": "Garbage collections",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 71
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 105,
+      "title": "Share of time paused for garbage collection",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 71
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(go_gc_duration_seconds_sum{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 106,
+      "title": "Share of file descriptor capacity used",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 71
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(process_open_fds{instance=~\"$service_instance\"} / process_max_fds{instance=~\"$service_instance\"}) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
+      ],
+      "interval": "$window"
     }
   ]
 }

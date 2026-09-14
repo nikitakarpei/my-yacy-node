@@ -5,7 +5,7 @@ COVERAGE_MIN ?= 80
 # make workspace writes go.work for the editor; every target here builds each module as a standalone consumer sees it.
 export GOWORK := off
 
-GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod))
+GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod test/contracts/*/go.mod))
 GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod test/*/go.mod))
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
@@ -69,7 +69,6 @@ endef
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
 	build build-go verify peer-hash \
-	proto \
 	e2e e2e-images
 
 fmt:         fmt-go fmt-go-e2e fmt-py
@@ -89,21 +88,6 @@ $(TOOLS_STAMP): tools/install tools/tools.lock
 	@touch $@
 
 tools: $(TOOLS_STAMP)
-
-PROTOC := $(TOOLS_BIN)/protoc
-PROTOC_INCLUDE := $(CURDIR)/.toolchain/include
-PROTO_GEN_GO := $(TOOLS_BIN)/protoc-gen-go
-PROTO_GEN_GO_GRPC := $(TOOLS_BIN)/protoc-gen-go-grpc
-CORPUSMARKDOWN_API_DIR := services/corpusmarkdown/contract
-
-proto: $(TOOLS_STAMP)
-	@echo "==> proto"
-	@PATH="$(TOOLS_BIN):$$PATH" $(PROTOC) \
-		--proto_path=$(PROTOC_INCLUDE) \
-		--proto_path=$(CORPUSMARKDOWN_API_DIR) \
-		--go_out=$(CORPUSMARKDOWN_API_DIR) --go_opt=paths=source_relative \
-		--go-grpc_out=$(CORPUSMARKDOWN_API_DIR) --go-grpc_opt=paths=source_relative \
-		corpusmarkdown/v1/markdowncorpus.proto
 
 $(PY_VENV_STAMPS): %/.venv/.installed: %/requirements-dev.txt
 	$(PYTHON) -m venv $*/.venv
@@ -217,7 +201,7 @@ E2E_DOCKER_HOST := $(or $(DOCKER_HOST),unix://$(E2E_RUNTIME_DIR)/podman/podman.s
 E2E_DOCKER_ENV := DOCKER_HOST=$(E2E_DOCKER_HOST) TESTCONTAINERS_RYUK_DISABLED=true
 
 # Modules that build a docker image for e2e testing, and the tag each produces.
-E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown visitcrawl renderproxy webarchivescrape webresearchmcp
+E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown visitcrawl renderproxy webarchivescrape webresearchmcp pagescrape yacydhtsearch
 
 E2E_PATH_yacynode        := services/yacynode
 E2E_PATH_yacycrawler     := services/yacycrawler
@@ -227,6 +211,8 @@ E2E_PATH_visitcrawl      := services/visitcrawl
 E2E_PATH_renderproxy     := services/renderproxy
 E2E_PATH_webarchivescrape := services/webarchivescrape
 E2E_PATH_webresearchmcp   := services/webresearchmcp
+E2E_PATH_pagescrape       := services/pagescrape
+E2E_PATH_yacydhtsearch    := services/yacydhtsearch
 
 E2E_IMAGE_ENV_yacynode        := YACY_NODE_IMAGE
 E2E_IMAGE_ENV_yacycrawler     := YACYCRAWLER_IMAGE
@@ -236,6 +222,8 @@ E2E_IMAGE_ENV_visitcrawl      := VISITCRAWL_IMAGE
 E2E_IMAGE_ENV_renderproxy     := RENDERPROXY_IMAGE
 E2E_IMAGE_ENV_webarchivescrape := WEBARCHIVESCRAPE_IMAGE
 E2E_IMAGE_ENV_webresearchmcp   := WEBRESEARCHMCP_IMAGE
+E2E_IMAGE_ENV_pagescrape       := PAGESCRAPE_IMAGE
+E2E_IMAGE_ENV_yacydhtsearch    := YACYDHTSEARCH_IMAGE
 
 E2E_IMAGE_yacynode        := yacy-rwi-node:e2e
 E2E_IMAGE_yacycrawler     := yacy-rwi-crawler:e2e
@@ -245,6 +233,8 @@ E2E_IMAGE_visitcrawl      := visitcrawl:e2e
 E2E_IMAGE_renderproxy     := renderproxy:e2e
 E2E_IMAGE_webarchivescrape := webarchivescrape:e2e
 E2E_IMAGE_webresearchmcp   := webresearchmcp:e2e
+E2E_IMAGE_pagescrape       := pagescrape:e2e
+E2E_IMAGE_yacydhtsearch    := yacydhtsearch:e2e
 
 define e2e_image_rule
 .PHONY: e2e-$(1)-image
@@ -256,22 +246,24 @@ $(foreach m,$(E2E_IMAGE_MODULES),$(eval $(call e2e_image_rule,$(m))))
 e2e-images: $(foreach m,$(E2E_IMAGE_MODULES),e2e-$(m)-image)
 
 # Every e2e suite, where it lives, and the images it needs.
-E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxng-crawled-text-search renderproxy webarchivescrape webresearchmcp scraperequestfanout
+E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxng-crawled-text-search renderproxy webarchivescrape webresearchmcp pageofferfanout pagescrape yacydhtsearch
 
 E2E_PATH_searxng-result-router         := plugins/searxng/searxng-result-router
 E2E_PATH_searxng-crawled-text-search   := plugins/searxng/searxng-crawled-text-search
-E2E_SUITE_DIR_scraperequestfanout      := test/scraperequestfanout
+E2E_SUITE_DIR_pageofferfanout          := test/pageofferfanout
 
 E2E_SUITE_IMAGES_yacynode                    := yacynode
 E2E_SUITE_IMAGES_yacycrawler                 := yacycrawler
-E2E_SUITE_IMAGES_corpustext                  := yacynode yacycrawler corpustext
-E2E_SUITE_IMAGES_corpusmarkdown              := yacynode yacycrawler corpusmarkdown
+E2E_SUITE_IMAGES_corpustext                  := yacynode yacycrawler corpustext pagescrape
+E2E_SUITE_IMAGES_corpusmarkdown              := yacynode yacycrawler corpusmarkdown pagescrape
 E2E_SUITE_IMAGES_searxng-result-router       := visitcrawl
-E2E_SUITE_IMAGES_searxng-crawled-text-search := corpustext
+E2E_SUITE_IMAGES_searxng-crawled-text-search := corpustext pagescrape
 E2E_SUITE_IMAGES_renderproxy                 := renderproxy
-E2E_SUITE_IMAGES_webarchivescrape             := webarchivescrape corpustext
-E2E_SUITE_IMAGES_webresearchmcp              := corpusmarkdown webresearchmcp
-E2E_SUITE_IMAGES_scraperequestfanout         := corpustext corpusmarkdown
+E2E_SUITE_IMAGES_webarchivescrape             := webarchivescrape corpustext pagescrape
+E2E_SUITE_IMAGES_webresearchmcp              := corpusmarkdown webresearchmcp pagescrape
+E2E_SUITE_IMAGES_pageofferfanout             := corpustext corpusmarkdown pagescrape
+E2E_SUITE_IMAGES_pagescrape                  := pagescrape
+E2E_SUITE_IMAGES_yacydhtsearch               := yacydhtsearch
 
 # A suite reads the tag of each image it needs from that image's env var.
 e2e_suite_image_env = $(foreach i,$(E2E_SUITE_IMAGES_$(1)),$(E2E_IMAGE_ENV_$(i))=$(E2E_IMAGE_$(i)))

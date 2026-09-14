@@ -7,7 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
@@ -20,9 +20,9 @@ const (
 
 var reachedAt = time.Unix(1_700_000_000, 0)
 
-func scrapedPage(t *testing.T, text string) scrapedpage.ScrapedPage {
+func scrapedPage(t *testing.T, text string) pagescrapecontract.OfferedPage {
 	t.Helper()
-	return scrapedpage.ScrapedPage{
+	return pagescrapecontract.OfferedPage{
 		PageURL:     canonicalurltest.CanonicalURLOf(t, pageURL),
 		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageURL),
 		ContentType: "text/html",
@@ -121,25 +121,34 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 }
 
 func TestOfMetadataCarriesURLHash(t *testing.T) {
-	got, err := indexOf(t, sampleText).Metadata.Hash()
-	if err != nil {
-		t.Fatalf("Hash: %v", err)
-	}
+	got := indexOf(t, sampleText).Metadata.Hash
 	if want := hashOfPageURL(t); got != want {
 		t.Fatalf("metadata url hash = %q, want %q", got, want)
 	}
 }
 
-func TestOfOmitsLanguageWhenAbsent(t *testing.T) {
+func TestOfRecordsTheUndeclaredLanguageInEveryPosting(t *testing.T) {
 	document := extractedDocument()
 	document.Language = ""
 
 	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
 
 	for _, posting := range index.Postings {
-		if language, ok := posting.Language.Get(); ok {
-			t.Fatalf("language should be empty when unknown, got %q", language)
+		if posting.Language != yacymodel.LanguageOfUndeclaredDocument {
+			t.Fatalf("language = %q, want %q",
+				posting.Language, yacymodel.LanguageOfUndeclaredDocument)
 		}
+	}
+}
+
+func TestOfLeavesMetadataLanguageAbsentWhenThePageDeclaresNone(t *testing.T) {
+	document := extractedDocument()
+	document.Language = ""
+
+	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+
+	if language, ok := index.Metadata.Language.Get(); ok {
+		t.Fatalf("metadata language = %q, want absent", language)
 	}
 }
 
@@ -223,6 +232,67 @@ func TestOfCountsPhrasesAndPhrasePositions(t *testing.T) {
 			sleepsPhrase,
 		)
 	}
+}
+
+func TestOfCountsTheWordsOfTheTextAndOfTheTitleInEveryPosting(t *testing.T) {
+	index := indexOf(t, sampleText)
+
+	if len(index.Postings) == 0 {
+		t.Fatal("no postings")
+	}
+	for _, posting := range index.Postings {
+		if posting.TextWords != 6 {
+			t.Fatalf("text words = %d, want the 6 words of %q", posting.TextWords, sampleText)
+		}
+		if posting.TitleWords != 2 {
+			t.Fatalf("title words = %d, want the 2 words of %q", posting.TitleWords, documentTitle)
+		}
+	}
+}
+
+func TestOfMarksAWordOfTheTitleAsAppearingInIt(t *testing.T) {
+	index := indexOf(t, "hello there quick fox")
+
+	if !appearanceOf(t, index, "hello").AppearsInTitle {
+		t.Errorf("word %q of title %q should appear in the title", "hello", documentTitle)
+	}
+	if appearanceOf(t, index, "quick").AppearsInTitle {
+		t.Errorf(
+			"word %q is absent from title %q and should not appear in it",
+			"quick",
+			documentTitle,
+		)
+	}
+}
+
+func TestOfMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
+	document := extractedDocument()
+	document.Title = ""
+
+	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+
+	for _, posting := range index.Postings {
+		if posting.Appearance.AppearsInTitle {
+			t.Fatalf("word %q should not appear in an absent title", posting.WordHash)
+		}
+	}
+	if index.Postings[0].TitleWords != 0 {
+		t.Fatalf("title words = %d, want 0", index.Postings[0].TitleWords)
+	}
+}
+
+func appearanceOf(t *testing.T, index pagerwi.PageRWI, word string) yacymodel.Appearance {
+	t.Helper()
+
+	wordHash := yacymodel.WordHash(word)
+	for _, posting := range index.Postings {
+		if posting.WordHash == wordHash {
+			return posting.Appearance
+		}
+	}
+	t.Fatalf("word %q should be indexed", word)
+
+	return yacymodel.Appearance{}
 }
 
 func assertWordIndexed(t *testing.T, text string, word string) {

@@ -13,9 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -37,7 +35,35 @@ func TestEndpointJoinsAndAnswers(t *testing.T) {
 	}
 }
 
-func TestEndpointReportsTermWithMostMatches(t *testing.T) {
+func TestEndpointAnswersWithThePostingThatMatchedEachDocument(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingEntry(word, "u1")},
+	}}
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1")})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		Query:       []yacymodel.Hash{word},
+		Count:       10,
+	})
+
+	if len(resp.Resources) != 1 {
+		t.Fatalf("resources = %d, want 1", len(resp.Resources))
+	}
+	posting, ok := resp.Resources[0].Posting.Get()
+	if !ok {
+		t.Fatal("resource carries no posting")
+	}
+	if posting.URLHash != documentHashOf("u1") {
+		t.Errorf("posting names %q, want %q", posting.URLHash, documentHashOf("u1"))
+	}
+	if posting.Hits != 1 {
+		t.Errorf("posting hits = %d, want 1", posting.Hits)
+	}
+}
+
+func TestEndpointReportsTheTermItHoldsMostAndTheTermNearestItsPosition(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {postingEntry(word1, "u1"), postingEntry(word1, "u2")},
@@ -54,8 +80,58 @@ func TestEndpointReportsTermWithMostMatches(t *testing.T) {
 	if resp.Count != 1 {
 		t.Errorf("Count = %d, want 1", resp.Count)
 	}
-	if len(resp.IndexAbstract) == 0 {
-		t.Error("IndexAbstract empty, want reported term")
+	if len(resp.IndexAbstract[word1]) == 0 {
+		t.Errorf(
+			"IndexAbstract = %v, want w1, whose postings this node holds most of",
+			resp.IndexAbstract,
+		)
+	}
+	if len(resp.IndexAbstract[word2]) == 0 {
+		t.Errorf("IndexAbstract = %v, want w2, which sits nearest this node", resp.IndexAbstract)
+	}
+}
+
+func TestEndpointReportsNoTermsOfItsOwnForASingleTermQuery(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingEntry(word, "u1")},
+	}}
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1")})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		Query:       []yacymodel.Hash{word},
+		Abstracts:   yacyproto.SearchAbstractsAuto,
+	})
+
+	if len(resp.IndexAbstract) != 0 {
+		t.Errorf(
+			"IndexAbstract = %v, want none: one term leaves nothing to plan",
+			resp.IndexAbstract,
+		)
+	}
+}
+
+func TestEndpointReportsNoTermsOfItsOwnForARequestThatNamesDocuments(t *testing.T) {
+	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word1: {postingEntry(word1, "u1"), postingEntry(word1, "u2")},
+		word2: {postingEntry(word2, "u2")},
+	}}
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		Query:       []yacymodel.Hash{word1, word2},
+		URLs:        []yacymodel.URLHash{documentHashOf("u2")},
+		Abstracts:   yacyproto.SearchAbstractsAuto,
+	})
+
+	if len(resp.IndexAbstract) != 0 {
+		t.Errorf(
+			"IndexAbstract = %v, want none: the request already names its documents",
+			resp.IndexAbstract,
+		)
 	}
 }
 
@@ -85,8 +161,8 @@ func TestEndpointAnswersWithTitleTopics(t *testing.T) {
 		word: {postingEntry(word, "u1")},
 	}}
 	documents := searchtest.URLDirectory{Documents: map[yacymodel.URLHash]yacymodel.URLMetadata{
-		searchtest.URLHashFor("u1"): {
-			Address: "http://example.com/u1",
+		documentHashOf("u1"): {
+			Address: documentAddressOf("u1"),
 			Title:   "orange kitten pictures",
 		},
 	}}
@@ -115,11 +191,14 @@ func TestEndpointRejectsMalformedCriteria(t *testing.T) {
 }
 
 func TestEndpointSurfacesSearchFailures(t *testing.T) {
-	mux, registry := mountedSearchResults(t, searchresult.New(
-		openVault(t),
-		termpostings.New(searchtest.FailingPostingIndex{Err: errScanBroken}, 100),
-		searchtest.URLDirectory{},
-	))
+	mux, registry := mountedSearchResults(
+		t,
+		searchResultsFor(
+			t,
+			searchtest.FailingPostingIndex{Err: errScanBroken},
+			searchtest.URLDirectory{},
+		),
+	)
 
 	rec := postSearch(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
@@ -150,11 +229,10 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1")},
 	}}
-	mux, registry := mountedSearchResults(t, searchresult.New(
-		openVault(t),
-		termpostings.New(index, 100),
-		searchtest.URLDirectory{Documents: urlMetadata("u1")},
-	))
+	mux, registry := mountedSearchResults(
+		t,
+		searchResultsFor(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1")}),
+	)
 
 	search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
@@ -184,11 +262,7 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 func TestEndpointObservesNetworkMismatch(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(
-			openVault(t),
-			termpostings.New(searchtest.PostingIndex{}, 100),
-			searchtest.URLDirectory{},
-		),
+		searchResultsFor(t, searchtest.PostingIndex{}, searchtest.URLDirectory{}),
 	)
 
 	search(t, mux, yacyproto.SearchRequest{NetworkName: "othernet"})
@@ -201,11 +275,7 @@ func TestEndpointObservesNetworkMismatch(t *testing.T) {
 func TestEndpointObservesInvalidCriteria(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(
-			openVault(t),
-			termpostings.New(searchtest.PostingIndex{}, 100),
-			searchtest.URLDirectory{},
-		),
+		searchResultsFor(t, searchtest.PostingIndex{}, searchtest.URLDirectory{}),
 	)
 
 	rec := postSearch(t, mux, yacyproto.SearchRequest{
@@ -221,11 +291,14 @@ func TestEndpointObservesInvalidCriteria(t *testing.T) {
 }
 
 func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
-	deadlineMux, deadlineRegistry := mountedSearchResults(t, searchresult.New(
-		openVault(t),
-		termpostings.New(searchtest.FailingPostingIndex{Err: context.DeadlineExceeded}, 100),
-		searchtest.URLDirectory{},
-	))
+	deadlineMux, deadlineRegistry := mountedSearchResults(
+		t,
+		searchResultsFor(
+			t,
+			searchtest.FailingPostingIndex{Err: context.DeadlineExceeded},
+			searchtest.URLDirectory{},
+		),
+	)
 	if rec := postSearch(t, deadlineMux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{searchtest.HashFor("w1")},
@@ -236,11 +309,14 @@ func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
 		t.Errorf("deadline_exceeded searches = %v, want 1", got)
 	}
 
-	metadataMux, metadataRegistry := mountedSearchResults(t, searchresult.New(
-		openVault(t),
-		termpostings.New(searchtest.PostingIndex{}, 100),
-		searchtest.FailingURLDirectory{Err: errScanBroken},
-	))
+	metadataMux, metadataRegistry := mountedSearchResults(
+		t,
+		searchResultsFor(
+			t,
+			searchtest.PostingIndex{},
+			searchtest.FailingURLDirectory{Err: errScanBroken},
+		),
+	)
 	if rec := postSearch(t, metadataMux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{searchtest.HashFor("w1")},
@@ -255,11 +331,7 @@ func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
 func TestEndpointObservesUnsupportedOptions(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(
-			openVault(t),
-			termpostings.New(searchtest.PostingIndex{}, 100),
-			searchtest.URLDirectory{},
-		),
+		searchResultsFor(t, searchtest.PostingIndex{}, searchtest.URLDirectory{}),
 	)
 
 	search(t, mux, yacyproto.SearchRequest{
@@ -270,7 +342,7 @@ func TestEndpointObservesUnsupportedOptions(t *testing.T) {
 	families := gatheredFamilies(t, registry)
 	value, found := labeledCounter(
 		families,
-		"documentsearch_unsupported_options_requested_total",
+		"yacynode_documentsearch_unsupported_options_requested_total",
 		"prefer",
 	)
 	if !found || value != 1 {
@@ -287,7 +359,7 @@ func searchesEnded(
 
 	value, _ := labeledCounter(
 		gatheredFamilies(t, registry),
-		"documentsearch_searches_total",
+		"yacynode_documentsearch_searches_total",
 		string(outcome),
 	)
 
@@ -298,7 +370,7 @@ func termsObserved(t *testing.T, registry *prometheus.Registry, presence string)
 	t.Helper()
 
 	for _, family := range gatheredFamilies(t, registry) {
-		if family.GetName() != "documentsearch_query_term_ring_fraction" {
+		if family.GetName() != "yacynode_documentsearch_query_term_ring_fraction" {
 			continue
 		}
 		for _, metric := range family.GetMetric() {

@@ -1,0 +1,335 @@
+{
+  "query": "debian",
+  "judgedDocuments": [
+    {
+      "hash": "zviPwZBP-b24",
+      "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
+      "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
+      "grade": 1
+    },
+    {
+      "hash": "R7L27l1nrxbw",
+      "address": "https://www.debian.org/doc/",
+      "title": "Debian -- Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "LphQq3piq92w",
+      "address": "https://packages.debian.org/squeeze/system-config-lvm",
+      "title": "Debian -- Error",
+      "grade": 1
+    },
+    {
+      "hash": "T2EF52bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+      "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": 1
+    },
+    {
+      "hash": "XFmAGZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2022/",
+      "title": "Debian -- News from 2022",
+      "grade": 1
+    },
+    {
+      "hash": "StjW1Spiq92w",
+      "address": "https://packages.debian.org/sid/cups-pk-helper,",
+      "title": "Debian -- Error",
+      "grade": 1
+    },
+    {
+      "hash": "zqqUCl1nrxbw",
+      "address": "https://www.debian.org/logos/",
+      "title": "Debian logos",
+      "grade": 1
+    },
+    {
+      "hash": "6IL4IjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Template_talk:Timeline_Debian_GNU/Linux",
+      "title": "Template talk:Timeline Debian GNU/Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "wRV4m5piq92w",
+      "address": "https://packages.debian.org/.internal/challenge.html?original=%2fsource%2funstable%2fasterisk",
+      "title": "Debian -- Error",
+      "grade": 1
+    },
+    {
+      "hash": "0EpDBk1nrxbw",
+      "address": "https://www.debian.org/consultants/philiphands",
+      "title": "Debian -- List of Consultants",
+      "grade": 1
+    },
+    {
+      "hash": "iaso0m0h8sSw",
+      "address": "https://tracker.debian.org/pkg/debian-installer",
+      "title": "debian-installer - Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "It5EdL1nrxbw",
+      "address": "https://www.debian.org/intro/about",
+      "title": "Debian -- About Debian",
+      "grade": 1
+    },
+    {
+      "hash": "vlCSfg1nrxbw",
+      "address": "https://www.debian.org/distrib/archive",
+      "title": "Debian -- Distribution Archives",
+      "grade": 1
+    },
+    {
+      "hash": "4SIJYl1nrxbw",
+      "address": "https://www.debian.org/distrib/",
+      "title": "Download Debian",
+      "grade": 1
+    },
+    {
+      "hash": "iwrFOp1nrxbw",
+      "address": "https://www.debian.org/partners/partners",
+      "title": "Debian -- Debian Partners Program - description",
+      "grade": 1
+    },
+    {
+      "hash": "AbsN3l1nrxbw",
+      "address": "https://www.debian.org/contact",
+      "title": "Debian -- How to contact us",
+      "grade": 1
+    },
+    {
+      "hash": "bZbFuPQGph7w",
+      "address": "https://i18n.debian.org/",
+      "title": "i18n.debian.org/l10n.debian.org",
+      "grade": 1
+    },
+    {
+      "hash": "W1Hv7L1nrxbw",
+      "address": "https://www.debian.org/intro/people",
+      "title": "Debian -- People: Who we are and what we do",
+      "grade": 1
+    },
+    {
+      "hash": "aan2nSpiq92w",
+      "address": "https://packages.debian.org/sid/source/llvm-toolchain-19",
+      "title": "Debian -- Details of source package llvm-toolchain-19 in sid",
+      "grade": 1
+    },
+    {
+      "hash": "xY0EdL1nrxbw",
+      "address": "https://www.debian.org/intro/help",
+      "title": "Debian -- Contribute: How you can help Debian",
+      "grade": 1
+    },
+    {
+      "hash": "SL3yxl1nrxbw",
+      "address": "https://www.debian.org/blends/",
+      "title": "Debian Pure Blends",
+      "grade": 1
+    },
+    {
+      "hash": "k6fRrm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/python-openai",
+      "title": "python-openai - Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "wXumBqp4ogvw",
+      "address": "https://qa.debian.org/cgi-bin/watch?pkg=plexus-velocity",
+      "title": "Watch -- Debian Quality Assurance",
+      "grade": 1
+    },
+    {
+      "hash": "TvFA_y1nrxbw",
+      "address": "https://www.debian.org/releases/stable/",
+      "title": "Debian -- Debian “trixie” Release Information",
+      "grade": 1
+    },
+    {
+      "hash": "AjzZFn7vg5bw",
+      "address": "https://reproduce.debian.net/",
+      "title": "reproduce.debian.net",
+      "grade": 1
+    },
+    {
+      "hash": "4lLIDk1nrxbw",
+      "address": "https://www.debian.org/consultants/boguslawski",
+      "title": "Debian -- List of Consultants",
+      "grade": 1
+    },
+    {
+      "hash": "m1-2Wtpiq92w",
+      "address": "https://packages.debian.org/source/sid/libsidplay",
+      "title": "Debian -- Details of source package libsidplay in sid",
+      "grade": 1
+    },
+    {
+      "hash": "y37Q7m0h8sSw",
+      "address": "https://tracker.debian.org/pkg/lua-geoip",
+      "title": "lua-geoip - Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "-120uSpiq92w",
+      "address": "https://packages.debian.org/sid/arm64/ebtables/download",
+      "title": "Debian -- Package Download Selection -- ebtables_2.0.11-6+b3_arm64.deb",
+      "grade": 1
+    },
+    {
+      "hash": "HV8U8m0h8sSw",
+      "address": "https://tracker.debian.org/pkg/lua-systemd",
+      "title": "lua-systemd - Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "EWF5R0piq92w",
+      "address": "https://packages.debian.org/bullseye/epiphany-browser",
+      "title": "Debian -- Details of package epiphany-browser in bullseye",
+      "grade": 1
+    },
+    {
+      "hash": "YAZ8YE1nrxbw",
+      "address": "https://www.debian.org/users/com/one_eighty_out",
+      "title": "Debian -- One-Eighty Out, Incorporated, Colorado Springs, Colorado, USA",
+      "grade": 1
+    },
+    {
+      "hash": "M_UYiL1nrxbw",
+      "address": "https://www.debian.org/intro/index",
+      "title": "Debian -- Introduction to Debian",
+      "grade": 1
+    },
+    {
+      "hash": "xCnp1G1nrxbw",
+      "address": "https://www.debian.org/vote/2007/vote_003",
+      "title": "General Resolution: Endorse the concept of Debian Maintainers",
+      "grade": 1
+    },
+    {
+      "hash": "9ZYostpiq92w",
+      "address": "https://packages.debian.org/source/unstable/pflogsumm",
+      "title": "Debian -- Details of source package pflogsumm in sid",
+      "grade": 1
+    },
+    {
+      "hash": "KZ3knTp4ogvw",
+      "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
+      "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
+      "grade": 1
+    },
+    {
+      "hash": "gZzFUHWhP36w",
+      "address": "https://matrix-team.pages.debian.net/blogue/",
+      "title": "Matrix on Debian blog",
+      "grade": 1
+    },
+    {
+      "hash": "ldzk0N1nrxbw",
+      "address": "https://www.debian.org/women/participate",
+      "title": "Debian -- How to get involved in Debian Women",
+      "grade": 1
+    },
+    {
+      "hash": "mXINO9piq92w",
+      "address": "https://packages.debian.org/stable/lynx-common",
+      "title": "Debian -- Details of package lynx-common in trixie",
+      "grade": 1
+    },
+    {
+      "hash": "6VKzVE1nrxbw",
+      "address": "https://www.debian.org/users/com/computerisms",
+      "title": "Debian -- Computerisms, Yukon, Canada",
+      "grade": 1
+    },
+    {
+      "hash": "7ErrjSpiq92w",
+      "address": "https://packages.debian.org/sid/riscv64/ebtables/download",
+      "title": "Debian -- Package Download Selection -- ebtables_2.0.11-6_riscv64.deb",
+      "grade": 1
+    },
+    {
+      "hash": "Kc02xl1nrxbw",
+      "address": "https://www.debian.org/",
+      "title": "Debian -- The Universal Operating System",
+      "grade": 2
+    },
+    {
+      "hash": "-2p0pZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2014/",
+      "title": "Debian -- News from 2014",
+      "grade": 1
+    },
+    {
+      "hash": "FEd6Pl1nrxbw",
+      "address": "https://www.debian.org/sitemap",
+      "title": "Site map for Debian web pages",
+      "grade": 1
+    },
+    {
+      "hash": "E4Z92E1nrxbw",
+      "address": "https://www.debian.org/users/com/biodec",
+      "title": "Debian -- BioDec, Italy",
+      "grade": 1
+    },
+    {
+      "hash": "wQi5sE1nrxbw",
+      "address": "https://www.debian.org/users/com/ngcommunications",
+      "title": "Debian -- IT Ops, NG Communications bvba, Kortenberg, Belgium",
+      "grade": 1
+    },
+    {
+      "hash": "cWDIYm0h8sSw",
+      "address": "https://tracker.debian.org/pkg/hplip",
+      "title": "hplip - Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "_NH8h31nrxbw",
+      "address": "https://www.debian.org/News/2026/2026011002",
+      "title": "Debian -- News -- Updated Debian 12: 12.13 released",
+      "grade": 1
+    },
+    {
+      "hash": "RECWXCeuM-zw",
+      "address": "https://ftp.debian.org/debian/dists/trixie/",
+      "title": "Index of /debian/dists/trixie",
+      "grade": 1
+    },
+    {
+      "hash": "LJkrJX1nrxbw",
+      "address": "https://www.debian.org/security/faq",
+      "title": "Debian -- Debian security FAQ",
+      "grade": 1
+    },
+    {
+      "hash": "_vBCkt1nrxbw",
+      "address": "https://www.debian.org/CD/http-ftp/",
+      "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
+      "grade": 1
+    },
+    {
+      "hash": "dwvDam0h8sSw",
+      "address": "https://tracker.debian.org/pkg/linux/news/",
+      "title": "Debian Package Tracker",
+      "grade": 1
+    },
+    {
+      "hash": "nIXyutpiq92w",
+      "address": "https://packages.debian.org/source/bullseye/simplesamlphp",
+      "title": "Debian -- Details of source package simplesamlphp in bullseye",
+      "grade": 1
+    },
+    {
+      "hash": "GppVSifhnZpw",
+      "address": "https://nm.debian.org/public/people/dd_u/",
+      "title": "Debian New Member Process",
+      "grade": 1
+    },
+    {
+      "hash": "R5pe_l1nrxbw",
+      "address": "https://www.debian.org/News/",
+      "title": "Debian -- Latest News",
+      "grade": 1
+    }
+  ]
+}

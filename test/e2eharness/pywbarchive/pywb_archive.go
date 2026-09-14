@@ -18,10 +18,11 @@ import (
 )
 
 const (
-	Image      = "docker.io/webrecorder/pywb:2.9.1"
-	Collection = "captures"
-	port       = "8080/tcp"
-	alias      = "pywb"
+	Image         = "docker.io/webrecorder/pywb:2.9.1"
+	Collection    = "captures"
+	port          = "8080/tcp"
+	alias         = "pywb"
+	uncapturedURL = "http://uncaptured.test/"
 )
 
 type Archive struct {
@@ -60,7 +61,10 @@ func Start(t *testing.T, ctx context.Context, networkName string, warc []byte) A
 					FileMode:          0o644,
 				},
 			},
-			WaitingFor: wait.ForListeningPort(port).WithStartupTimeout(2 * time.Minute),
+			WaitingFor: wait.ForHTTP("/" + Collection + "/cdx?url=" + uncapturedURL).
+				WithPort(port).
+				WithForcedIPv4LocalHost().
+				WithStartupTimeout(2 * time.Minute),
 		},
 	})
 	if err != nil {

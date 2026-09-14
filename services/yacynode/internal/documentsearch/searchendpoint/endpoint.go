@@ -24,17 +24,19 @@ func Mount(
 	metrics *searchmetrics.SearchMetrics,
 	partitions yacymodel.DHTRingPartitions,
 ) {
-	httpguard.Mount(
+	nodePosition := yacymodel.DHTRingPositionOf(identity.Hash)
+	httpguard.MountMessage(
 		router,
 		yacyproto.PathSearch,
 		yacyproto.SearchEndpointMethods,
 		yacyproto.ParseSearchRequest,
 		endpoint{
-			identity: identity,
-			results:  results,
+			identity:     identity,
+			nodePosition: nodePosition,
+			results:      results,
 			observation: searchObservation{
 				metrics:      metrics,
-				nodePosition: yacymodel.DHTRingPositionOf(identity.Hash),
+				nodePosition: nodePosition,
 				partitions:   partitions,
 			},
 		}.Serve,
@@ -42,9 +44,10 @@ func Mount(
 }
 
 type endpoint struct {
-	identity    nodeidentity.Identity
-	results     searchresult.Results
-	observation searchObservation
+	identity     nodeidentity.Identity
+	nodePosition yacymodel.DHTRingPosition
+	results      searchresult.Results
+	observation  searchObservation
 }
 
 func (e endpoint) Serve(
@@ -60,7 +63,7 @@ func (e endpoint) Serve(
 
 			return yacyproto.SearchResponse{}, fmt.Errorf("search criteria: %w", err)
 		}
-		requestedIndexAbstracts := requestedIndexAbstractsFromRequest(req)
+		requestedIndexAbstracts := requestedIndexAbstractsFromRequest(req, e.nodePosition)
 		if ignoredOptions := ignoredOptionNames(req); len(ignoredOptions) != 0 {
 			slog.DebugContext(ctx, "ignoring accepted search options",
 				slog.Any("options", ignoredOptions),
@@ -85,10 +88,10 @@ func (e endpoint) Serve(
 		resp.SearchTime = int(result.Duration / time.Millisecond)
 		resp.References = strings.Join(result.Topics, ",")
 		resp.JoinCount = result.TotalDocumentsMatchingEveryTerm
-		resp.Count = len(result.DocumentMetadata)
-		resp.Resources = result.DocumentMetadata
-		resp.IndexCount = result.PostingsHeldPerTerm
-		resp.IndexAbstract = encodedIndexAbstractsFrom(result.IndexAbstracts)
+		resp.Resources = searchResourcesFrom(result)
+		resp.Count = len(resp.Resources)
+		resp.IndexCount = result.AmountOfPostingsPerTerm
+		resp.IndexAbstract = result.IndexAbstracts
 	} else {
 		e.observation.observeNetworkMismatch()
 	}
@@ -101,13 +104,14 @@ func (e endpoint) Serve(
 	return resp, nil
 }
 
-func encodedIndexAbstractsFrom(
-	documentsPerTerm map[yacymodel.Hash][]yacymodel.URLHash,
-) map[yacymodel.Hash]string {
-	abstracts := make(map[yacymodel.Hash]string, len(documentsPerTerm))
-	for term, documentHashes := range documentsPerTerm {
-		abstracts[term] = yacyproto.EncodeSearchIndexAbstract(documentHashes)
+func searchResourcesFrom(result searchresult.Result) []yacyproto.SearchResource {
+	resources := make([]yacyproto.SearchResource, 0, len(result.MatchedDocuments))
+	for _, document := range result.MatchedDocuments {
+		resources = append(resources, yacyproto.SearchResource{
+			Metadata: document.Metadata,
+			Posting:  yacymodel.Some(document.Posting),
+		})
 	}
 
-	return abstracts
+	return resources
 }

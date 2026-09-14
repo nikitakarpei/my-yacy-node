@@ -1,36 +1,11 @@
 package rwipostings_test
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-func TestScanWordVisitsMatchingPostings(t *testing.T) {
-	h := openHarness(t)
-
-	h.admit(t,
-		posting("w1", "u1"),
-		posting("w1", "u2"),
-		posting("w2", "u3"),
-	)
-
-	word := yacymodel.WordHash("w1")
-	var visited []yacymodel.RWIPosting
-	h.scanWord(t, word, func(entry yacymodel.RWIPosting) (bool, error) {
-		visited = append(visited, entry)
-
-		return true, nil
-	})
-	if len(visited) != 2 {
-		t.Fatalf("visited %d postings, want 2", len(visited))
-	}
-	for _, entry := range visited {
-		if entry.WordHash != word {
-			t.Fatalf("entry word hash = %q, want %q", entry.WordHash, word)
-		}
-	}
-}
 
 func TestPostingReadsBackStoredEntry(t *testing.T) {
 	h := openHarness(t)
@@ -62,21 +37,42 @@ func TestPostingMissingIsNotFound(t *testing.T) {
 	}
 }
 
-func TestScanWordStopsWhenVisitorStops(t *testing.T) {
+func TestAdmittingAChangedPostingPurgesTheOneItReplaces(t *testing.T) {
 	h := openHarness(t)
 
-	h.admit(t,
-		posting("w1", "u1"),
-		posting("w1", "u2"),
-	)
+	arrived := posting("w1", "u1")
+	h.admit(t, arrived)
 
-	visited := 0
-	h.scanWord(t, yacymodel.WordHash("w1"), func(yacymodel.RWIPosting) (bool, error) {
-		visited++
+	refreshed := arrived
+	refreshed.Hits = 7
+	h.admit(t, refreshed)
 
-		return false, nil
-	})
-	if visited != 1 {
-		t.Fatalf("visited %d postings, want 1 before stop", visited)
+	wantedNotifications := []string{storedNotification, purgedNotification, storedNotification}
+	if !slices.Equal(h.observer.notificationsInOrder, wantedNotifications) {
+		t.Fatalf(
+			"notifications = %v, want the replaced posting purged before the one that replaces it",
+			h.observer.notificationsInOrder,
+		)
+	}
+	if len(h.observer.purged) != 1 || h.observer.purged[0] != arrived {
+		t.Fatalf("purged notifications = %+v, want the posting as it was", h.observer.purged)
+	}
+	if len(h.observer.stored) != 2 || h.observer.stored[1] != refreshed {
+		t.Fatalf("stored notifications = %+v, want the posting as it is", h.observer.stored)
+	}
+}
+
+func TestAdmittingAnEqualPostingAgainNotifiesNobody(t *testing.T) {
+	h := openHarness(t)
+
+	arrived := posting("w1", "u1")
+	h.admit(t, arrived)
+	h.admit(t, arrived)
+
+	if !slices.Equal(h.observer.notificationsInOrder, []string{storedNotification}) {
+		t.Fatalf(
+			"notifications = %v, want only the first admission",
+			h.observer.notificationsInOrder,
+		)
 	}
 }

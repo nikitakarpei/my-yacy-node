@@ -21,6 +21,7 @@ type Roster interface {
 	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
+	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
@@ -56,6 +57,6 @@ func Open(
 		announceInterval: announceInterval,
 		self:             self,
 		observer:         observer,
-		reachable:        make(map[yacymodel.Hash]yacymodel.Seed),
+		reachable:        make(map[yacymodel.Hash]reachablePeer),
 	}, nil
 }

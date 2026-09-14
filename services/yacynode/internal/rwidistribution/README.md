@@ -32,11 +32,11 @@ the posting's DHT position than this node. A holder counts only while the node
 can reach it. A deleted posting leaves the local index, the work queue, and the
 replica record. Its URL metadata stays until storage eviction reclaims it.
 
-A holder goes stale when closer peers displace it, or when the peer stays
+A holder goes stale when closer peers replace it, or when the peer stays
 uncontacted past the peer roster's credibility window. A stale holder leaves the
 replica record. The posting is then offered to as many further peers as it needs
 replicas. An uncontacted peer gets the posting again if contact resumes. A
-displaced peer does not.
+replaced peer does not.
 
 ## Divergence from YaCy
 

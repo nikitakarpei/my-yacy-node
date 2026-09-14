@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+func mustLanguage(t *testing.T, raw string) yacymodel.Language {
 	t.Helper()
 
 	language, err := yacymodel.ParseLanguage(raw)
@@ -16,7 +16,7 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Languag
 		t.Fatalf("parse language %q: %v", raw, err)
 	}
 
-	return yacymodel.Some(language)
+	return language
 }
 
 func fullPosting(t *testing.T) yacymodel.RWIPosting {

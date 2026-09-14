@@ -21,9 +21,11 @@ require (
 	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
+	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
 	golang.org/x/net v0.55.0 // indirect
@@ -31,7 +33,7 @@ require (
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
@@ -55,19 +57,13 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
-	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/scrapedpage v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/prometheus/client_golang v1.23.2
-	google.golang.org/grpc v1.83.1
-	google.golang.org/protobuf v1.36.12
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/scrapedpage => ../../libraries/scrapedpage
-
-replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction

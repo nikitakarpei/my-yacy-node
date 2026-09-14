@@ -44,6 +44,25 @@ func TestDuePostingsRespectsLimit(t *testing.T) {
 	}
 }
 
+func TestAPostingPurgedAndStoredAgainIsDueAgain(t *testing.T) {
+	offers := openOffers(t, testStart)
+	word, url := testWord, urlHash("u1")
+	offers.store(t, word, url)
+	offers.pauseOffer(t, word, url, time.Hour)
+
+	if due := offers.duePostings(t, 10); len(due) != 0 {
+		t.Fatalf("due = %v, want none while the offer is paused", due)
+	}
+
+	offers.purge(t, word, url)
+	offers.store(t, word, url)
+
+	due := offers.duePostings(t, 10)
+	if len(due) != 1 || due[0].Word != word || due[0].URL != url {
+		t.Fatalf("due = %v, want single entry for %v/%v", due, word, url)
+	}
+}
+
 func TestPostingPurgedLeavesNothingScheduled(t *testing.T) {
 	offers := openOffers(t, testStart)
 	word, url := testWord, urlHash("u1")

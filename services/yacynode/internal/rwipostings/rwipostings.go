@@ -1,26 +1,25 @@
-// Package rwipostings owns RWI posting storage, search, and eviction. It is the
-// only writer of postings: callers read through PostingIndex, add postings through
-// PostingAdmitter, and drop them through PostingPurger, while projections follow
-// arrivals and departures through PostingObserver. Every port speaks the yacymodel
-// vocabulary and lends cross-module work a shared transaction, so the schema never
-// leaks; PostingCodec publishes the stored value codec for packages that hold a
-// posting outside this index.
+// Package rwipostings owns the RWI postings of this node, and is their only
+// writer: callers read through PostingIndex, add through PostingAdmitter, and
+// drop through PostingPurger, while projections follow through PostingObserver.
+// PostingCodec publishes the stored value codec of a posting.
 package rwipostings
 
 import (
-	"context"
-
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PostingObserver interface {
-	PostingStored(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
-	PostingPurged(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
+	PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error
+	PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error
 }
 
 type PostingPurger interface {
-	PurgePosting(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) (bool, error)
+	PurgePosting(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		url yacymodel.URLHash,
+	) (wasPurged bool, err error)
 }
 
 type PostingIndex interface {
@@ -30,12 +29,6 @@ type PostingIndex interface {
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
 	) (yacymodel.RWIPosting, bool, error)
-	ScanWord(
-		ctx context.Context,
-		tx *vault.Txn,
-		word yacymodel.Hash,
-		visit func(yacymodel.RWIPosting) (bool, error),
-	) error
 }
 
 type PostingAdmitter interface {

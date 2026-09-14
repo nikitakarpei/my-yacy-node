@@ -1,0 +1,311 @@
+{
+  "query": "git rebase",
+  "judgedDocuments": [
+    {
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "F3enq_nMM_j5",
+      "address": "https://grokipedia.com/page/GitHub",
+      "title": "GitHub — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "QJ-wEV9cq-94",
+      "address": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing",
+      "title": "Git - Rebasing",
+      "grade": 2
+    },
+    {
+      "hash": "NB7afyXjZ9O4",
+      "address": "https://docs.github.com/en/pull-requests/how-tos/commit-changes/changing-a-commit-message",
+      "title": "Changing a commit message - GitHub Docs",
+      "grade": 1
+    },
+    {
+      "hash": "11YwxZPqQlSw",
+      "address": "https://pip.pypa.io/en/stable/development/contributing/",
+      "title": "Contributing - pip documentation v26.2.1",
+      "grade": 0
+    },
+    {
+      "hash": "0uJDlvRjxAex",
+      "address": "https://cs.wikibooks.org/wiki/Git",
+      "title": "Git – Wikiknihy",
+      "grade": 0
+    },
+    {
+      "hash": "wVAXw_nMM_j5",
+      "address": "https://grokipedia.com/page/Git",
+      "title": "Git — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "J4wKnyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started",
+      "title": "Get started with GitHub documentation - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "TeZMVjy-fQn5",
+      "address": "https://aomedia.googlesource.com/aom/",
+      "title": "aom - Git at Google",
+      "grade": 0
+    },
+    {
+      "hash": "SOAt4sWMnAPx",
+      "address": "https://fedoraplanet.org/",
+      "title": "Fedora People",
+      "grade": 0
+    },
+    {
+      "hash": "X1qxTyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
+      "title": "Autolinked references and URLs - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "YgAeyl0lKwR5",
+      "address": "https://www.git-tower.com/",
+      "title": "Tower — The most powerful Git client for Mac and Windows",
+      "grade": 0
+    },
+    {
+      "hash": "cEcJUyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security",
+      "title": "About GitHub Advanced Security - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "cx4QG2McH3tw",
+      "address": "https://llvm.org/docs/CodingStandards.html",
+      "title": "LLVM Coding Standards — LLVM 13 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "-eL3TvdTeyA4",
+      "address": "https://github.blog/open-source/git/highlights-from-git-2-55/",
+      "title": "Highlights from Git 2.55 - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "p_5Wwo0Z_SDg",
+      "address": "https://www.jvt.me/posts/2021/03/31/git-origin-head/",
+      "title": "Working with a Git remote's default branch, using `origin/HEAD` · Jamie Tanna | Software Engineer",
+      "grade": 0
+    },
+    {
+      "hash": "tetY4sElpUjy",
+      "address": "https://git-send-email.io/",
+      "title": "Learn to use email with git!",
+      "grade": 0
+    },
+    {
+      "hash": "v733uyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github/github-flow",
+      "title": "GitHub flow - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "6bQzZ2bypRQw",
+      "address": "https://forgejo.org/docs/latest/contributor/localization/admin/",
+      "title": "Weblate admin duties | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "CmQQlyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
+      "title": "Optimize your workflow with Git stash",
+      "grade": 0
+    },
+    {
+      "hash": "rqW0fx8XNsex",
+      "address": "https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html",
+      "title": "Contributing to Ruby on Rails — Ruby on Rails Guides",
+      "grade": 0
+    },
+    {
+      "hash": "ZLEAaobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Gerrit/Tutorial",
+      "title": "Gerrit/Tutorial - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "PexbGAK-xyJ4",
+      "address": "https://go.dev/doc/contribute",
+      "title": "Contribution Guide - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "R0RMzyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
+      "title": "Setting your username in Git - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "X9sotyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/set-up-git",
+      "title": "Set up Git - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "TKQQYyS6MKD4",
+      "address": "https://github.com/blindglobe/common-lisp-stat",
+      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.org/). See the google group for lisp stat / common lisp statistics for a mailing list. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "1di-C29cq-94",
+      "address": "https://git-scm.com/docs/gitfaq",
+      "title": "Git - gitfaq Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "6vbK7ssY0Thg",
+      "address": "https://bueltge.de/git/",
+      "title": "Get your Practice-Git on!",
+      "grade": 0
+    },
+    {
+      "hash": "RVPC2yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-git/about-git-rebase",
+      "title": "About Git rebase - GitHub Docs",
+      "grade": 2
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "79vs4yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/learning-about-github/githubs-plans",
+      "title": "GitHub's plans - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "cZ2_WkRFf6Bx",
+      "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
+      "title": "Parsoid - Wikitech",
+      "grade": 0
+    },
+    {
+      "hash": "_HoZdyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github/github-mobile",
+      "title": "GitHub Mobile - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "WVLgdPaM_sMw",
+      "address": "https://docs.codeberg.org/collaborating/pull-requests-and-git-flow/",
+      "title": "Pull requests and Git flow | Codeberg Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "jmgT3MS6MKD4",
+      "address": "https://github.com/tpope/vim-fugitive",
+      "title": "GitHub - tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "98ydQs9cq-94",
+      "address": "https://git-scm.com/learn",
+      "title": "Git - Learn",
+      "grade": 0
+    },
+    {
+      "hash": "xDYFcsUZXr25",
+      "address": "https://pre-commit.com/",
+      "title": "pre-commit",
+      "grade": 0
+    },
+    {
+      "hash": "SGCHO29cq-94",
+      "address": "https://git-scm.com/docs/gitsubmodules",
+      "title": "Git - gitsubmodules Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "-7-UKs9cq-94",
+      "address": "https://git-scm.com/docs",
+      "title": "Git - Reference",
+      "grade": 0
+    },
+    {
+      "hash": "RgG4r29cq-94",
+      "address": "https://git-scm.com/docs/git-bugreport",
+      "title": "Git - git-bugreport Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "6JOUD29cq-94",
+      "address": "https://git-scm.com/docs/git-remote",
+      "title": "Git - git-remote Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "18R0h29cq-94",
+      "address": "https://git-scm.com/docs/git-send-email",
+      "title": "Git - git-send-email Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "7WP56MS6MKD4",
+      "address": "https://github.com/tiimgreen/github-cheat-sheet",
+      "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "9qMfQo0Z_SDg",
+      "address": "https://www.jvt.me/posts/2019/01/10/git-commit-fixup/",
+      "title": "Using `git commit --fixup=` to track changes that need to be applied on top of another commit · Jamie Tanna | Software Engineer",
+      "grade": 1
+    },
+    {
+      "hash": "sKaik29cq-94",
+      "address": "https://git-scm.com/docs/githooks",
+      "title": "Git - githooks Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "18Aza29cq-94",
+      "address": "https://git-scm.com/docs/giteveryday",
+      "title": "Git - giteveryday Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "6fDY-29cq-94",
+      "address": "https://git-scm.com/docs/git-grep",
+      "title": "Git - git-grep Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "5g9r129cq-94",
+      "address": "https://git-scm.com/docs/pretty-formats",
+      "title": "Git - pretty-formats Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "-y8Tx29cq-94",
+      "address": "https://git-scm.com/docs/git-fast-import",
+      "title": "Git - git-fast-import Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "QWtr229cq-94",
+      "address": "https://git-scm.com/docs/git-diff",
+      "title": "Git - git-diff Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "1HsAf29cq-94",
+      "address": "https://git-scm.com/docs/git-fsck",
+      "title": "Git - git-fsck Documentation",
+      "grade": 0
+    }
+  ]
+}

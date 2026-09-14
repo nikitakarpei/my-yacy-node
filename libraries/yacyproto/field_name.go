@@ -63,10 +63,15 @@ const (
 	FieldSearchTime       = "searchtime"
 	FieldReferences       = "references"
 	FieldJoinCount        = "joincount"
-	FieldLinkCount        = "linkcount"
 	prefixResource        = "resource"
 	prefixIndexCount      = "indexcount."
 	prefixIndexAbstract   = "indexabstract."
+)
+
+const (
+	FieldCall       = "call"
+	FieldHashes     = "hashes"
+	CallURLHashList = "urlhashlist"
 )
 
 const (

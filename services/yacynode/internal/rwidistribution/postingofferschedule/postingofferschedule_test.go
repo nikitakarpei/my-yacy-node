@@ -81,7 +81,7 @@ func (o *postingOffers) store(t *testing.T, word yacymodel.Hash, url yacymodel.U
 	t.Helper()
 
 	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.PostingStored(tx, word, url)
+		return o.schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
 	}
@@ -91,7 +91,7 @@ func (o *postingOffers) purge(t *testing.T, word yacymodel.Hash, url yacymodel.U
 	t.Helper()
 
 	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.PostingPurged(tx, word, url)
+		return o.schedule.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingPurged: %v", err)
 	}
@@ -108,7 +108,7 @@ func (o *postingOffers) pauseOffer(
 	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		return o.schedule.SetNextOfferAfterRedundancyMissed(
 			tx,
-			postingidentity.IdentityOf(word, url),
+			postingidentity.Identity{Word: word, URL: url},
 			testInterval,
 			requestedPause,
 		)
@@ -123,7 +123,7 @@ func (o *postingOffers) meetRedundancy(t *testing.T, word yacymodel.Hash, url ya
 	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		return o.schedule.SetNextOfferAfterRedundancyMet(
 			tx,
-			postingidentity.IdentityOf(word, url),
+			postingidentity.Identity{Word: word, URL: url},
 			testInterval,
 		)
 	}); err != nil {
@@ -141,7 +141,10 @@ func (o *postingOffers) isScheduled(
 	var postingScheduled bool
 	if err := o.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		postingScheduled, err = o.schedule.IsScheduled(tx, postingidentity.IdentityOf(word, url))
+		postingScheduled, err = o.schedule.IsScheduled(
+			tx,
+			postingidentity.Identity{Word: word, URL: url},
+		)
 
 		return err
 	}); err != nil {

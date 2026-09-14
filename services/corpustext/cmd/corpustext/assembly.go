@@ -9,13 +9,17 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/indexmetrics"
+	intakereceiptpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/intakereceiptpublicationobservers/applog"
+	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/intakereceiptpublicationobservers/prometheus"
+	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
-	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/applog"
+	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -24,15 +28,17 @@ import (
 const (
 	opsReadHeaderLimit = 10 * time.Second
 	opsShutdownLimit   = 15 * time.Second
+
+	corpus = "corpustext"
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	js, conn, err := jetstreamconnect.Open(cfg.ScrapeRequestNATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
 	if err != nil {
 		return err
 	}
 	defer conn.Close()
-	consumer, err := scrapeRequestConsumerFor(ctx, js, cfg)
+	consumer, err := pageOfferConsumerFor(ctx, js, cfg)
 	if err != nil {
 		return err
 	}
@@ -40,14 +46,6 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	fetcher := pagefetchershttp.New(
-		cfg.ProxyURL,
-		cfg.ProxyDialMode,
-		cfg.UserAgent,
-		cfg.MaxBodyBytes,
-		cfg.FetchDeadline,
-	)
-
 	selection, err := selectSearchIndex(cfg, http.DefaultClient)
 	if err != nil {
 		return fmt.Errorf("select search index: %w", err)
@@ -56,14 +54,29 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return fmt.Errorf("bootstrap search index schema: %w", err)
 	}
 	registry := prometheus.NewRegistry()
-	metrics := indexmetrics.New(registry)
-	intake := pageintake.NewScrapeRequestConsumer(pageintake.Config{
-		Source:                         consumer,
-		Fetcher:                        fetcher,
-		FormatDerivations:              formatDerivations,
-		SearchIndex:                    selection.index,
-		Progress:                       metrics,
-		ScrapeRequestIntakeConcurrency: cfg.ScrapeRequestIntakeConcurrency,
+	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "corpustext_info",
+			Help: "Corpus text application identity.",
+		}, func() float64 { return 1 }),
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
+	intake := pageintake.NewOfferedPageConsumer(pageintake.Config{
+		Source:            consumer,
+		FormatDerivations: formatDerivations,
+		SearchIndex:       selection.index,
+		IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(conn, corpus,
+			intakereceiptsnats.IntakeReceiptPublicationObservers{
+				intakereceiptpublicationobserversapplog.IntakeReceiptPublicationLog{},
+				intakereceiptpublicationobserversprometheus.New(registry),
+			},
+		),
+		PageIntakeObserver: pageintake.PageIntakeObservers{
+			pageintakeobserversapplog.PageIntakeLog{},
+			pageintakeobserversprometheus.New(registry),
+		},
+		PageOfferIntakeConcurrency: cfg.PageOfferIntakeConcurrency,
 	})
 
 	opsServer := &http.Server{
@@ -73,16 +86,15 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 
 	slog.InfoContext(ctx, "corpustext started",
-		slog.String("subject", cfg.ScrapeRequestSubject),
 		slog.String("engine", cfg.SearchIndexEngine),
 		slog.String("indexPrefix", selection.prefix),
-		slog.Int("scrapeRequestIntakeConcurrency", cfg.ScrapeRequestIntakeConcurrency),
+		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, opsShutdownLimit,
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
 		func(runCtx context.Context) error {
 			if err := intake.Run(runCtx); err != nil {
-				return fmt.Errorf("run scrape request consumer: %w", err)
+				return fmt.Errorf("run offered page consumer: %w", err)
 			}
 			return nil
 		},
@@ -91,26 +103,23 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	return err
 }
 
-func scrapeRequestConsumerFor(
+func pageOfferConsumerFor(
 	ctx context.Context,
-	scrapeRequestJetStream jetstream.JetStream,
+	pageOffers jetstream.JetStream,
 	cfg ServiceConfig,
 ) (jetstream.Consumer, error) {
-	stream, err := scrapeRequestJetStream.Stream(
-		ctx,
-		scraperequestcontract.ScrapeRequestsStreamName,
-	)
+	stream, err := pageOffers.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
 	if err != nil {
-		return nil, fmt.Errorf("lookup scrape requests stream: %w", err)
+		return nil, fmt.Errorf("lookup page offers stream: %w", err)
 	}
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Durable:       cfg.ScrapeRequestDurable,
-		FilterSubject: cfg.ScrapeRequestSubject,
+		Durable:       cfg.PageOfferDurable,
+		FilterSubject: pagescrapecontract.OfferedPageSubject,
 		AckPolicy:     jetstream.AckExplicitPolicy,
-		MaxAckPending: cfg.ScrapeRequestIntakeConcurrency,
+		MaxAckPending: cfg.PageOfferIntakeConcurrency,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("create scrape request consumer: %w", err)
+		return nil, fmt.Errorf("create page offer consumer: %w", err)
 	}
 	return consumer, nil
 }

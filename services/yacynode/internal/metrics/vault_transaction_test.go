@@ -20,7 +20,7 @@ func TestVaultTransactionReportsBeginLatency(t *testing.T) {
 	if count := histogramCount(
 		t,
 		registry,
-		"vault_write_transaction_begin_seconds",
+		"yacynode_vault_write_transaction_begin_seconds",
 		"",
 		"",
 	); count != 1 {
@@ -37,15 +37,15 @@ func TestVaultTransactionCountsBeginRefusalsByCause(t *testing.T) {
 	transactions.ObserveWriteBeginRefused("unclassified")
 
 	expected := `
-# HELP vault_write_transaction_begin_refusals_total Vault write transactions the storage engine refused before opening, by cause.
-# TYPE vault_write_transaction_begin_refusals_total counter
-vault_write_transaction_begin_refusals_total{cause="no_space"} 2
-vault_write_transaction_begin_refusals_total{cause="unclassified"} 1
+# HELP yacynode_vault_write_transaction_begin_refusals_total Vault write transactions the storage engine refused before opening, by cause.
+# TYPE yacynode_vault_write_transaction_begin_refusals_total counter
+yacynode_vault_write_transaction_begin_refusals_total{cause="no_space"} 2
+yacynode_vault_write_transaction_begin_refusals_total{cause="unclassified"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"vault_write_transaction_begin_refusals_total",
+		"yacynode_vault_write_transaction_begin_refusals_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -60,16 +60,16 @@ func TestVaultTransactionCountsOutcomes(t *testing.T) {
 	transactions.ObserveWriteCommitRefused(time.Millisecond, time.Millisecond, "no_space")
 
 	expected := `
-# HELP vault_write_transactions_total Vault write transactions that opened, by how they ended.
-# TYPE vault_write_transactions_total counter
-vault_write_transactions_total{called_write_operation="",cause="",outcome="aborted"} 1
-vault_write_transactions_total{called_write_operation="",cause="no_space",outcome="refused"} 1
-vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
+# HELP yacynode_vault_write_transactions_total Vault write transactions that opened, by how they ended.
+# TYPE yacynode_vault_write_transactions_total counter
+yacynode_vault_write_transactions_total{called_write_operation="",cause="",outcome="aborted"} 1
+yacynode_vault_write_transactions_total{called_write_operation="",cause="no_space",outcome="refused"} 1
+yacynode_vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"vault_write_transactions_total",
+		"yacynode_vault_write_transactions_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -77,7 +77,7 @@ vault_write_transactions_total{called_write_operation="true",cause="",outcome="c
 	if count := histogramCount(
 		t,
 		registry,
-		"vault_write_transaction_duration_seconds",
+		"yacynode_vault_write_transaction_duration_seconds",
 		"phase",
 		"commit",
 	); count != 1 {
@@ -86,7 +86,7 @@ vault_write_transactions_total{called_write_operation="true",cause="",outcome="c
 	if count := histogramCount(
 		t,
 		registry,
-		"vault_write_transaction_duration_seconds",
+		"yacynode_vault_write_transaction_duration_seconds",
 		"phase",
 		"rollback",
 	); count != 2 {
@@ -95,7 +95,7 @@ vault_write_transactions_total{called_write_operation="true",cause="",outcome="c
 	if count := histogramCount(
 		t,
 		registry,
-		"vault_write_transaction_duration_seconds",
+		"yacynode_vault_write_transaction_duration_seconds",
 		"phase",
 		"execute",
 	); count != 3 {
@@ -112,15 +112,15 @@ func TestVaultTransactionSeparatesCommitsThatCalledNoWriteOperation(t *testing.T
 	transactions.ObserveWriteCommitted(time.Millisecond, time.Millisecond, false)
 
 	expected := `
-# HELP vault_write_transactions_total Vault write transactions that opened, by how they ended.
-# TYPE vault_write_transactions_total counter
-vault_write_transactions_total{called_write_operation="false",cause="",outcome="committed"} 2
-vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
+# HELP yacynode_vault_write_transactions_total Vault write transactions that opened, by how they ended.
+# TYPE yacynode_vault_write_transactions_total counter
+yacynode_vault_write_transactions_total{called_write_operation="false",cause="",outcome="committed"} 2
+yacynode_vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"vault_write_transactions_total",
+		"yacynode_vault_write_transactions_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -135,14 +135,14 @@ func TestVaultTransactionTracksReadsInFlight(t *testing.T) {
 	transactions.ObserveReadEnded()
 
 	expected := `
-# HELP vault_reads_in_flight Reads currently open through the vault.
-# TYPE vault_reads_in_flight gauge
-vault_reads_in_flight 1
+# HELP yacynode_vault_reads_in_flight Reads currently open through the vault.
+# TYPE yacynode_vault_reads_in_flight gauge
+yacynode_vault_reads_in_flight 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"vault_reads_in_flight",
+		"yacynode_vault_reads_in_flight",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

@@ -13,11 +13,11 @@ type urlDirectory struct {
 	observers  observers
 }
 
-func (d urlDirectory) MetadataByHash(
+func (d urlDirectory) MetadataPerHash(
 	tx *vault.Txn,
 	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
-	metadata := make([]yacymodel.URLMetadata, 0, len(hashes))
+) (map[yacymodel.URLHash]yacymodel.URLMetadata, error) {
+	metadata := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(hashes))
 	for _, hash := range hashes {
 		stored, ok, err := d.collection.Get(tx, hash)
 		if err != nil {
@@ -26,7 +26,8 @@ func (d urlDirectory) MetadataByHash(
 		if !ok {
 			continue
 		}
-		metadata = append(metadata, stored)
+		stored.Hash = hash
+		metadata[hash] = stored
 	}
 
 	return metadata, nil
@@ -72,11 +73,11 @@ func (d urlDirectory) Purge(
 ) (PurgeResult, error) {
 	var result PurgeResult
 	for _, hash := range urls {
-		deleted, err := d.collection.Delete(tx, hash)
+		wasDeleted, err := d.collection.Delete(tx, hash)
 		if err != nil {
 			return PurgeResult{}, fmt.Errorf("delete url metadata: %w", err)
 		}
-		if !deleted {
+		if !wasDeleted {
 			continue
 		}
 		d.observers.purged(ctx, tx, hash)

@@ -17,15 +17,15 @@ type EvictionMetrics struct {
 
 func NewEvictionMetrics(registry prometheus.Registerer) *EvictionMetrics {
 	urls := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "eviction_urls_evicted_total",
+		Name: "yacynode_eviction_urls_evicted_total",
 		Help: "URLs purged by storage eviction.",
 	})
 	postings := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "eviction_postings_evicted_total",
+		Name: "yacynode_eviction_postings_evicted_total",
 		Help: "Postings purged by storage eviction.",
 	})
 	failures := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "eviction_failures_total",
+		Name: "yacynode_eviction_failures_total",
 		Help: "Storage eviction sweeps that ended in error.",
 	})
 	registry.MustRegister(urls, postings, failures)

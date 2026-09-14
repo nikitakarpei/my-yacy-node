@@ -10,10 +10,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/hermeticnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/nodepeer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerclient"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -32,16 +32,9 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 	yacyHash := peerclient.ResolveHash(t, ctx, probe, yacyURL)
 
 	seedlistURL := "http://" + transferYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html"
-	fleet := nodepeer.StartFleet(
-		t,
-		ctx,
-		probe,
-		network.Name,
-		seedlistURL,
-		nodepeer.MinConnectedPeers,
-	)
+	fleet := nodepeer.StartFleet(t, ctx, probe, network.Name, seedlistURL)
 
-	yacypeer.PushDocument(t, ctx, probe, yacyURL, yacypeer.TransferTokens())
+	_ = yacypeer.PushDocument(t, ctx, probe, yacyURL, yacypeer.TransferTokens())
 
 	yacypeer.WaitRWICount(
 		t,
@@ -52,10 +45,27 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 		yacypeer.DHTMinLocalRWIs,
 		30*time.Second,
 	)
-	waitFleetSenior(t, ctx, probe, yacyURL, fleet, 60*time.Second)
-	waitFleetActiveConnected(t, ctx, probe, yacyURL, fleet, 15*time.Second)
+	waitConnectedFleetPeers(
+		t,
+		ctx,
+		probe,
+		yacyURL,
+		fleet,
+		nodepeer.MinConnectedPeersForDHT,
+		90*time.Second,
+	)
 
-	yacypeer.Restart(t, ctx, probe, yacyContainer)
+	yacyURL = yacypeer.Restart(t, ctx, probe, yacyContainer)
+
+	waitConnectedFleetPeers(
+		t,
+		ctx,
+		probe,
+		yacyURL,
+		fleet,
+		nodepeer.MinConnectedPeersForDHT,
+		90*time.Second,
+	)
 
 	received := pollwait.For(180*time.Second, func() bool {
 		for _, node := range fleet {

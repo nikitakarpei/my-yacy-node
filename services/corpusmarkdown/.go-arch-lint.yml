@@ -9,22 +9,24 @@ commonVendors:
   - canonicalurl
 
 components:
-  markdownintake:
-    in: internal/markdownintake/**
-  scrapeprogressobserversprometheus:
-    in: internal/scrapeprogressobservers/prometheus/**
-  scrapeprogressobserversapplog:
-    in: internal/scrapeprogressobservers/applog/**
+  pageintake:
+    in: internal/pageintake/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
   pagemarkdowncorporajetstream:
     in: internal/pagemarkdowncorpora/jetstream/**
   markdownrecall:
     in: internal/markdownrecall/**
-  markdownrecallreceiversgrpc:
-    in: internal/markdownrecallreceivers/grpc/**
-  pageredirectionsjetstream:
-    in: internal/pageredirections/jetstream/**
-  scrapeoutcomeannouncementsnats:
-    in: internal/scrapeoutcomeannouncements/nats/**
+  markdownrecallreceivershttp:
+    in: internal/markdownrecallreceivers/http/**
+  intakereceiptsnats:
+    in: internal/intakereceipts/nats/**
+  intakereceiptpublicationobserversapplog:
+    in: internal/intakereceiptpublicationobservers/applog/**
+  intakereceiptpublicationobserversprometheus:
+    in: internal/intakereceiptpublicationobservers/prometheus/**
   corpusmarkdowncmd:
     in: cmd/corpusmarkdown/**
 
@@ -33,10 +35,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  scrapedpage:
-    in: github.com/nikitakarpei/yacy-rwi-node/scrapedpage
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -44,27 +44,13 @@ vendors:
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
-  pagefetch:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pagefetchershttp:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   pagemarkdownstore:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/**
-  grpc:
-    in:
-      - google.golang.org/grpc
-      - google.golang.org/grpc/**
-  protobuf:
-    in:
-      - google.golang.org/protobuf
-      - google.golang.org/protobuf/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -83,13 +69,10 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
-  markdownintake:
+  pageintake:
     canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
-      - scrapedpage
+      - pagescrapecontract
       - pageformats
-      - pagefetch
       - serviceruntime
       - documentextraction
   pagemarkdowncorporajetstream:
@@ -98,23 +81,21 @@ deps:
     canUse:
       - pagemarkdownstore
       - yacycrawlcontract
-      - scraperequestcontract
+      - pagescrapecontract
       - nats
-  pageredirectionsjetstream:
+  intakereceiptsnats:
     canUse:
+      - pagescrapecontract
       - nats
-  scrapeoutcomeannouncementsnats:
-    canUse:
-      - pagemarkdownstore
-      - nats
-  markdownrecallreceiversgrpc:
+  markdownrecallreceivershttp:
     mayDependOn:
       - markdownrecall
     canUse:
       - pagemarkdownstore
-      - grpc
-      - protobuf
-  scrapeprogressobserversprometheus:
+  intakereceiptpublicationobserversprometheus:
+    canUse:
+      - prometheus
+  pageintakeobserversprometheus:
     canUse:
       - prometheus
   corpusmarkdowncmd:

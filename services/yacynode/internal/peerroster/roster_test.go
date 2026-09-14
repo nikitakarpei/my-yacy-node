@@ -160,6 +160,47 @@ func TestDiscoverEvictsStalestBeyondCapacity(t *testing.T) {
 	}
 }
 
+func TestMostRecentlyReachablePeersRankLatestConfirmationFirst(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+
+	earlier := seniorSeed(t, "earlier", "203.0.113.1", 8090)
+	later := seniorSeed(t, "later", "203.0.113.2", 8090)
+	roster.Discover(ctx, earlier, later)
+	roster.ConfirmReachable(ctx, earlier)
+	roster.ConfirmReachable(ctx, later)
+
+	ranked := roster.MostRecentlyReachablePeers(ctx, 4)
+	if len(ranked) != 2 || ranked[0].Hash != later.Hash {
+		t.Fatalf("ranked = %v, want the last confirmed peer first", hashes(ranked))
+	}
+
+	roster.ConfirmReachable(ctx, earlier)
+
+	ranked = roster.MostRecentlyReachablePeers(ctx, 4)
+	if len(ranked) != 2 || ranked[0].Hash != earlier.Hash {
+		t.Fatalf("ranked = %v, want the reconfirmed peer first", hashes(ranked))
+	}
+}
+
+func TestMostRecentlyReachablePeersCappedToLimit(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+
+	first := seniorSeed(t, "first", "203.0.113.1", 8090)
+	second := seniorSeed(t, "second", "203.0.113.2", 8090)
+	roster.Discover(ctx, first, second)
+	roster.ConfirmReachable(ctx, first)
+	roster.ConfirmReachable(ctx, second)
+
+	if got := roster.MostRecentlyReachablePeers(ctx, 1); len(got) != 1 {
+		t.Fatalf("ranked = %d, want 1", len(got))
+	}
+	if got := roster.MostRecentlyReachablePeers(ctx, 0); len(got) != 0 {
+		t.Fatalf("ranked = %d, want none for a limit of zero", len(got))
+	}
+}
+
 func TestUnreachablePeerHashesCappedToLimit(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 2})

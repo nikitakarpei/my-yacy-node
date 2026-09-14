@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -36,7 +37,7 @@ func TestQueryResponseRoundTrip(t *testing.T) {
 	resp := yacyproto.QueryResponse{
 		ResponseHeader: yacyproto.ResponseHeader{Version: "1.0", Uptime: 3},
 		Response:       yacyproto.QueryResponseRejected,
-		MyTime:         "20260617120002",
+		MyTime:         time.Date(2026, time.June, 17, 12, 0, 2, 0, time.UTC),
 		Magic:          "deadbeef",
 	}
 

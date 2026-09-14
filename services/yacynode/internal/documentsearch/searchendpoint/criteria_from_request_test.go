@@ -11,9 +11,11 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -87,11 +89,11 @@ func parsedAddress(t *testing.T, address string) *url.URL {
 	return parsed
 }
 
-func languageIn(t *testing.T, document searchDocument) yacymodel.Optional[yacymodel.Language] {
+func languageIn(t *testing.T, document searchDocument) yacymodel.Language {
 	t.Helper()
 
 	if document.Language == "" {
-		return yacymodel.None[yacymodel.Language]()
+		return yacymodel.LanguageOfUndeclaredDocument
 	}
 
 	language, err := yacymodel.ParseLanguage(document.Language)
@@ -99,7 +101,7 @@ func languageIn(t *testing.T, document searchDocument) yacymodel.Optional[yacymo
 		t.Fatalf("ParseLanguage(%q): %v", document.Language, err)
 	}
 
-	return yacymodel.Some(language)
+	return language
 }
 
 func searchRequestFor(
@@ -117,7 +119,7 @@ func assertDocuments(t *testing.T, resp yacyproto.SearchResponse, want ...string
 
 	found := make([]string, len(resp.Resources))
 	for position, resource := range resp.Resources {
-		found[position] = resource.Address
+		found[position] = resource.Metadata.Address
 	}
 	slices.Sort(found)
 
@@ -334,12 +336,16 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	index, directory := searchFixtureFor(t, searchWord,
 		searchDocument{Address: chosenSite},
 	)
-	recording := &deadlineRecordingPostingIndex{postings: index}
+	recording := &deadlineRecordingDocumentMatcher{
+		documentMatcher: documentmatch.New(index, index),
+	}
 	mux, _ := mountedSearchResults(
 		t,
 		searchresult.New(
 			openVault(t),
-			termpostings.New(recording, maxPostingsPerTerm),
+			recording,
+			indexabstract.New(index, index, documentsPerIndexAbstract),
+			index,
 			directory,
 		),
 	)
@@ -353,34 +359,22 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	return recording.remainingSearchTime
 }
 
-type deadlineRecordingPostingIndex struct {
-	postings            searchtest.PostingIndex
+type deadlineRecordingDocumentMatcher struct {
+	documentMatcher     documentmatch.DocumentMatcher
 	remainingSearchTime time.Duration
 }
 
-func (index *deadlineRecordingPostingIndex) ScanWord(
+func (m *deadlineRecordingDocumentMatcher) MatchesFor(
 	ctx context.Context,
 	tx *vault.Txn,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) error {
+	criteria searchcriteria.Criteria,
+	amountOfPostingsPerTerm map[yacymodel.Hash]int,
+) (documentmatch.DocumentMatches, error) {
 	if deadline, found := ctx.Deadline(); found {
-		index.remainingSearchTime = time.Until(deadline)
+		m.remainingSearchTime = time.Until(deadline)
 	}
 
-	return index.postings.ScanWord(ctx, tx, word, visit)
-}
-
-func (index *deadlineRecordingPostingIndex) RWICount(tx *vault.Txn) (int, error) {
-	return index.postings.RWICount(tx)
-}
-
-func (index *deadlineRecordingPostingIndex) PostingOf(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	document yacymodel.URLHash,
-) (yacymodel.RWIPosting, bool, error) {
-	return index.postings.PostingOf(tx, word, document)
+	return m.documentMatcher.MatchesFor(ctx, tx, criteria, amountOfPostingsPerTerm)
 }
 
 func assertRemainingSearchTime(t *testing.T, remaining, want time.Duration) {

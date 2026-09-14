@@ -1,9 +1,9 @@
 // Package crawlorderbroker is the visit intake's NATS JetStream edge to the
 // crawl fleet. It is the only place that speaks the broker protocol: it opens
-// the connection and exposes OrderPlacement as the plain port the visit intake
-// places orders through. Open wires the connection; Close releases it. The
-// orders stream belongs to yacycrawler; until yacycrawler has created it,
-// placing an order fails.
+// the connection and exposes PublishingCrawlOrderPlacer, which publishes each
+// crawl order to the orders subject and reports the publication to its
+// observer. Open wires the connection; Close releases it. The orders stream
+// belongs to yacycrawler; until yacycrawler has created it, publishing fails.
 package crawlorderbroker
 
 import (
@@ -20,19 +20,23 @@ type Config struct {
 }
 
 type CrawlOrderBroker struct {
-	conn   *nats.Conn
-	Orders *OrderPlacement
+	conn        *nats.Conn
+	OrderPlacer *PublishingCrawlOrderPlacer
 }
 
-func Open(_ context.Context, cfg Config) (*CrawlOrderBroker, error) {
+func Open(
+	_ context.Context,
+	cfg Config,
+	observer CrawlOrderPublicationObserver,
+) (*CrawlOrderBroker, error) {
 	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
 		return nil, err
 	}
 
 	return &CrawlOrderBroker{
-		conn:   conn,
-		Orders: newOrderPlacement(js, cfg.CrawlOrdersSubject),
+		conn:        conn,
+		OrderPlacer: newPublishingCrawlOrderPlacer(js, cfg.CrawlOrdersSubject, observer),
 	}, nil
 }
 

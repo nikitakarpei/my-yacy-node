@@ -58,15 +58,7 @@ func (i urlIntake) store(
 			return nil, nil, fmt.Errorf("context: %w", err)
 		}
 
-		hash, err := stored.Hash()
-		if err != nil {
-			slog.WarnContext(ctx, urlMetadataDiscarded,
-				slog.String("reason", "invalid url hash"),
-				slog.Any("error", err),
-			)
-
-			continue
-		}
+		hash := stored.Hash
 
 		_, found, err := i.collection.Get(tx, hash)
 		if err != nil {
@@ -75,7 +67,7 @@ func (i urlIntake) store(
 		if found {
 			existing = append(existing, hash)
 		}
-		if err := i.collection.Put(tx, hash, stored); err != nil {
+		if _, err := i.collection.Put(tx, hash, stored); err != nil {
 			rejected = append(rejected, hash)
 			slog.WarnContext(ctx, urlMetadataDiscarded,
 				slog.String("reason", "store failed"),

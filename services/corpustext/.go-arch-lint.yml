@@ -16,26 +16,25 @@ components:
     in: internal/searchindexes/manticore/**
   pageintake:
     in: internal/pageintake/**
-  indexmetrics:
-    in: internal/indexmetrics/**
+  intakereceiptsnats:
+    in: internal/intakereceipts/nats/**
+  intakereceiptpublicationobserversapplog:
+    in: internal/intakereceiptpublicationobservers/applog/**
+  intakereceiptpublicationobserversprometheus:
+    in: internal/intakereceiptpublicationobservers/prometheus/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
   corpustextcmd:
     in: cmd/corpustext/**
 
 vendors:
-  yacycrawlcontract:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
-      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  scrapedpage:
-    in: github.com/nikitakarpei/yacy-rwi-node/scrapedpage
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
-  pagefetch:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -43,9 +42,6 @@ vendors:
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pagefetchershttp:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   searchdocument:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/searchdocument
@@ -87,17 +83,30 @@ deps:
     mayDependOn:
       - scrapedpagedocument
     canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
-      - scrapedpage
+      - pagescrapecontract
       - pageformats
-      - pagefetch
       - searchdocument
       - serviceruntime
       - documentextraction
       - canonicalurl
-  indexmetrics:
+  intakereceiptsnats:
     canUse:
+      - pagescrapecontract
+      - canonicalurl
+      - nats
+  intakereceiptpublicationobserversapplog:
+    canUse:
+      - canonicalurl
+  intakereceiptpublicationobserversprometheus:
+    canUse:
+      - canonicalurl
+      - prometheus
+  pageintakeobserversapplog:
+    canUse:
+      - canonicalurl
+  pageintakeobserversprometheus:
+    canUse:
+      - canonicalurl
       - prometheus
   corpustextcmd:
     anyProjectDeps: true

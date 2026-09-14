@@ -23,9 +23,9 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
-  scraperequestcontract:
+  pagescrapecontract:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -42,7 +42,7 @@ deps:
       - canonicalurl
   scraperequestsjetstream:
     canUse:
-      - scraperequestcontract
+      - pagescrapecontract
       - nats
       - serviceruntime
   scraperequestsnoop:

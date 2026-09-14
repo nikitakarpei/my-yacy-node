@@ -37,6 +37,12 @@ func TestParseURLHashBytesRejectsAnotherLength(t *testing.T) {
 	}
 }
 
+func TestURLHashOfRefusesAnAddressThatIsNotOne(t *testing.T) {
+	if _, err := yacymodel.URLHashOf("://"); err == nil {
+		t.Error("URLHashOf accepted an address that is not a URL")
+	}
+}
+
 func TestURLHashIsDeterministic(t *testing.T) {
 	first := hashOfAddress(t, "http://example.com/")
 	second := hashOfAddress(t, "http://example.com/")

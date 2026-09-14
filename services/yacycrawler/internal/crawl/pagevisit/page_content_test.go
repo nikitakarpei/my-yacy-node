@@ -6,7 +6,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -18,26 +17,26 @@ const (
 		`</head><body><a href="/next">next</a></body></html>`
 )
 
-func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.VisitOutcome {
+func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.PageVisitOutcome {
 	t.Helper()
-	return visitHost(t, newVisitor(
+	return visitHostPage(t, newPageVisitor(
 		fetchOf(fetchOutcomeOf(page)),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		newObserver(),
-		&fakeScrapeRequests{},
+		&fakeCrawledPages{},
 	))
 }
 
-func refusalsHonoredFor(t *testing.T, markup string) map[string]int {
+func linkDiscoveryRefusalsEnforcedFor(t *testing.T, markup string) int {
 	t.Helper()
 	observer := newObserver()
-	visitHost(t, newVisitor(
+	visitHostPage(t, newPageVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, markup))),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		observer,
-		&fakeScrapeRequests{},
+		&fakeCrawledPages{},
 	))
-	return observer.refusals
+	return observer.linkDiscoveryRefusalsEnforced
 }
 
 func fetchOutcomeOf(page pagefetch.FetchedPage) pagefetch.FetchOutcome {
@@ -52,7 +51,6 @@ func fetchedPage(t *testing.T) pagefetch.FetchedPage {
 func pageHolding(t *testing.T, markup string) pagefetch.FetchedPage {
 	t.Helper()
 	return pagefetch.FetchedPage{
-		LandedURL:   canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		ContentType: "text/html",
 		Body:        []byte(markup),
 	}
@@ -77,58 +75,33 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	}
 }
 
-func TestVisitHonorsMetaNoIndex(t *testing.T) {
-	outcome := pageContentOutcome(t, pageHolding(t, pageRefusingIndexing))
-
-	if outcome.Disposal != disposal.IndexingRefused {
-		t.Fatalf("noindex not honored, disposal = %q", outcome.Disposal)
-	}
-}
-
-func TestVisitReportsAnHonoredIndexingRefusal(t *testing.T) {
-	honored := refusalsHonoredFor(t, pageRefusingIndexing)
-
-	if honored["indexing"] != 1 {
-		t.Fatalf("honored refusals %v, want one indexing refusal", honored)
-	}
-}
-
-func TestVisitReportsNoHonoredIndexingRefusalWhenTheOrderIgnoresIt(t *testing.T) {
-	observer := newObserver()
-	visitorFor := newVisitorFor(
+func TestVisitPublishesAPageThatRefusesIndexingAsRefusingIndexing(t *testing.T) {
+	crawledPages := &fakeCrawledPages{}
+	pageVisitor := newPageVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
-		&fakeRecrawl{due: true},
-		observer,
-		&fakeScrapeRequests{},
-	)
-
-	visitHost(t, visitorFor(pagerefusals.IgnoredRefusals{IndexingRefusal: true}))
-
-	if observer.refusals["indexing"] != 0 {
-		t.Fatalf("honored refusals %v, want none", observer.refusals)
-	}
-}
-
-func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T) {
-	visitorFor := newVisitorFor(
-		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		newObserver(),
-		&fakeScrapeRequests{},
+		crawledPages,
 	)
 
-	outcome := visitHost(t, visitorFor(pagerefusals.IgnoredRefusals{IndexingRefusal: true}))
+	outcome := visitHostPage(t, pageVisitor)
 
 	if outcome.Disposal != disposal.NotDisposed {
-		t.Fatalf("noindex not ignored, disposal = %q", outcome.Disposal)
+		t.Fatalf("a published page carries no disposal, got %q", outcome.Disposal)
+	}
+	if refused := crawledPages.refusedPages(); len(refused) != 1 {
+		t.Fatalf("want the page published as refusing indexing, got %v", refused)
+	}
+	if indexable := crawledPages.indexablePages(); len(indexable) != 0 {
+		t.Fatalf("a page that refuses indexing is not indexable, got %v", indexable)
 	}
 }
 
 func TestVisitReportsAnHonoredLinkDiscoveryRefusal(t *testing.T) {
-	honored := refusalsHonoredFor(t, pageRefusingLinkDiscovery)
+	enforced := linkDiscoveryRefusalsEnforcedFor(t, pageRefusingLinkDiscovery)
 
-	if honored["link-discovery"] != 1 {
-		t.Fatalf("honored refusals %v, want one link-discovery refusal", honored)
+	if enforced != 1 {
+		t.Fatalf("link discovery refusals enforced = %d, want 1", enforced)
 	}
 }
 

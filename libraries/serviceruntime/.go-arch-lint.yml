@@ -14,6 +14,8 @@ components:
     in: httpobservation/**
   httpaccesslog:
     in: httpaccesslog/**
+  httpmetrics:
+    in: httpmetrics/**
   opsmetrics:
     in: opsmetrics/**
   servergroup:
@@ -26,6 +28,14 @@ components:
     in: pullintake/pullintaketest/**
   jetstreamconnect:
     in: jetstreamconnect/**
+  foregroundprocess:
+    in: foregroundprocess/**
+  processenvironmentleaseclient:
+    in: processenvironmentleaseclient/**
+  processenvironmentleaseserver:
+    in: processenvironmentleaseserver/**
+  processentrypoint:
+    in: processentrypoint/**
 
 vendors:
   errgroup:
@@ -35,11 +45,22 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  processenvironmentlease:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
 
 deps:
   httpaccesslog:
     mayDependOn:
       - httpobservation
+  httpmetrics:
+    mayDependOn:
+      - httpobservation
+    canUse:
+      - prometheus
   servergroup:
     canUse:
       - errgroup
@@ -53,6 +74,16 @@ deps:
   jetstreamconnect:
     canUse:
       - nats
+  processenvironmentleaseclient:
+    canUse:
+      - processenvironmentlease
+  processenvironmentleaseserver:
+    canUse:
+      - processenvironmentlease
+  processentrypoint:
+    mayDependOn:
+      - foregroundprocess
+      - processenvironmentleaseclient
 
 excludeFiles:
   - "_test\\.go"

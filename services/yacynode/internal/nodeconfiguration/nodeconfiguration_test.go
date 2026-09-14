@@ -38,15 +38,27 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.Identity.AdvertisePort != 8090 {
 		t.Errorf("AdvertisePort = %d, want 8090 (from peer addr)", config.Identity.AdvertisePort)
 	}
-	if !strings.HasSuffix(config.Storage.Path, nodeconfiguration.StorageFileName) {
+	if !strings.HasSuffix(config.Storage.Path, nodeconfiguration.StorageDirectoryName) {
 		t.Errorf(
 			"StoragePath = %q, want suffix %q",
 			config.Storage.Path,
-			nodeconfiguration.StorageFileName,
+			nodeconfiguration.StorageDirectoryName,
 		)
 	}
 	if config.Storage.QuotaByte != 1<<30 {
 		t.Errorf("StorageQuotaByte = %d, want 1GB", config.Storage.QuotaByte)
+	}
+	if config.Storage.BlockCacheByte != 64<<20 {
+		t.Errorf("BlockCacheByte = %d, want 64MB", config.Storage.BlockCacheByte)
+	}
+	if config.Storage.MemtableByte != 8<<20 {
+		t.Errorf("MemtableByte = %d, want 8MB", config.Storage.MemtableByte)
+	}
+	if config.Storage.CompactionConcurrency != nodeconfiguration.DefaultPebbleCompactionConcurrency {
+		t.Errorf("CompactionConcurrency = %d, want default", config.Storage.CompactionConcurrency)
+	}
+	if config.Storage.OpenFileLimit != nodeconfiguration.DefaultPebbleOpenFileLimit {
+		t.Errorf("OpenFileLimit = %d, want default", config.Storage.OpenFileLimit)
 	}
 	if config.PeerExchange.AnnounceInterval != nodeconfiguration.DefaultAnnounceInterval {
 		t.Errorf("AnnounceInterval = %v, want default", config.PeerExchange.AnnounceInterval)
@@ -54,89 +66,62 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.PeerExchange.SeedlistURLs != nil {
 		t.Errorf("SeedlistURLs = %v, want nil", config.PeerExchange.SeedlistURLs)
 	}
-	if config.ScrapeRequestIntake.Enabled() {
+	if config.PageOfferIntake.Enabled() {
 		t.Errorf(
-			"ScrapeRequestIntake = %+v, want disabled without a broker",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want disabled without a broker",
+			config.PageOfferIntake,
 		)
 	}
 }
 
-func TestLoadDefaultsTheScrapeRequestIntake(t *testing.T) {
+func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
-		nodeconfiguration.EnvPeerName:             "node",
-		nodeconfiguration.EnvEgressProxyURL:       "http://proxy:4750",
-		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
-		nodeconfiguration.EnvScrapeProxyURL:       "http://renderproxy:8080",
+		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerName:         "node",
+		nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
+		nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if !config.ScrapeRequestIntake.Enabled() {
+	if !config.PageOfferIntake.Enabled() {
 		t.Fatalf(
-			"ScrapeRequestIntake = %+v, want enabled by the broker url",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want enabled by the broker url",
+			config.PageOfferIntake,
 		)
 	}
-	if config.ScrapeRequestIntake.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
-		config.ScrapeRequestIntake.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
+	if config.PageOfferIntake.PageOfferDurable != nodeconfiguration.DefaultPageOfferDurable ||
+		config.PageOfferIntake.PageOfferIntakeConcurrency !=
+			nodeconfiguration.DefaultPageOfferIntakeConcurrency {
 		t.Errorf(
-			"ScrapeRequestIntake = %+v, want the default subject and durable",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want the default durable and intake concurrency",
+			config.PageOfferIntake,
 		)
-	}
-	if config.ScrapeRequestIntake.UserAgent != nodeconfiguration.DefaultScrapeUserAgent ||
-		config.ScrapeRequestIntake.MaxBodyBytes != nodeconfiguration.DefaultScrapeMaxBodyBytes ||
-		config.ScrapeRequestIntake.FetchDeadline != nodeconfiguration.DefaultScrapeFetchDeadline ||
-		config.ScrapeRequestIntake.ScrapeRequestIntakeConcurrency != nodeconfiguration.DefaultScrapeRequestIntakeConcurrency {
-		t.Errorf(
-			"ScrapeRequestIntake = %+v, want the default fetch settings",
-			config.ScrapeRequestIntake,
-		)
-	}
-	if config.ScrapeRequestIntake.ProxyURL == nil ||
-		config.ScrapeRequestIntake.ProxyURL.Host != "renderproxy:8080" {
-		t.Errorf(
-			"scrape request intake proxy = %v, want the configured proxy",
-			config.ScrapeRequestIntake.ProxyURL,
-		)
-	}
-}
-
-func TestLoadRequiresAScrapeProxyWhenIngestIsEnabled(t *testing.T) {
-	_, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
-		nodeconfiguration.EnvPeerName:             "node",
-		nodeconfiguration.EnvEgressProxyURL:       "http://proxy:4750",
-		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
-	}))
-
-	if err == nil {
-		t.Fatal("scrape request intake without a fetch proxy should fail")
 	}
 }
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:                "0123456789AB",
-		nodeconfiguration.EnvPeerName:                       "node",
-		nodeconfiguration.EnvEgressProxyURL:                 "http://proxy:4750",
-		nodeconfiguration.EnvNetworkName:                    "testnet",
-		nodeconfiguration.EnvPeerAddr:                       ":7000",
-		nodeconfiguration.EnvOpsAddr:                        ":7001",
-		nodeconfiguration.EnvAdvertiseHost:                  "203.0.113.1",
-		nodeconfiguration.EnvAdvertisePort:                  "9999",
-		nodeconfiguration.EnvStorageQuota:                   "2MB",
-		nodeconfiguration.EnvTrustedProxies:                 "10.0.0.0/8",
-		nodeconfiguration.EnvSeedlistURLs:                   " http://a , http://b ,",
-		nodeconfiguration.EnvAnnounceInterval:               "30s",
-		nodeconfiguration.EnvScrapeRequestNATSURL:           "nats://broker:4222",
-		nodeconfiguration.EnvScrapeProxyURL:                 "http://renderproxy:8080",
-		nodeconfiguration.EnvScrapeRequestSubject:           "reached.subject",
-		nodeconfiguration.EnvScrapeRequestDurable:           "reached-durable",
-		nodeconfiguration.EnvScrapeRequestIntakeConcurrency: "9",
+		nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
+		nodeconfiguration.EnvPeerName:                    "node",
+		nodeconfiguration.EnvEgressProxyURL:              "http://proxy:4750",
+		nodeconfiguration.EnvNetworkName:                 "testnet",
+		nodeconfiguration.EnvPeerAddr:                    ":7000",
+		nodeconfiguration.EnvOpsAddr:                     ":7001",
+		nodeconfiguration.EnvAdvertiseHost:               "203.0.113.1",
+		nodeconfiguration.EnvAdvertisePort:               "9999",
+		nodeconfiguration.EnvStorageQuota:                "2MB",
+		nodeconfiguration.EnvPebbleBlockCache:            "4MB",
+		nodeconfiguration.EnvPebbleMemtableSize:          "2MB",
+		nodeconfiguration.EnvPebbleCompactionConcurrency: "3",
+		nodeconfiguration.EnvPebbleOpenFileLimit:         "128",
+		nodeconfiguration.EnvTrustedProxies:              "10.0.0.0/8",
+		nodeconfiguration.EnvSeedlistURLs:                " http://a , http://b ,",
+		nodeconfiguration.EnvAnnounceInterval:            "30s",
+		nodeconfiguration.EnvPageOfferNATSURL:            "nats://broker:4222",
+		nodeconfiguration.EnvPageOfferDurable:            "reached-durable",
+		nodeconfiguration.EnvPageOfferIntakeConcurrency:  "9",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -151,6 +136,18 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.Storage.QuotaByte != 2<<20 {
 		t.Errorf("StorageQuotaByte = %d, want 2MB", config.Storage.QuotaByte)
 	}
+	if config.Storage.BlockCacheByte != 4<<20 {
+		t.Errorf("BlockCacheByte = %d, want 4MB", config.Storage.BlockCacheByte)
+	}
+	if config.Storage.MemtableByte != 2<<20 {
+		t.Errorf("MemtableByte = %d, want 2MB", config.Storage.MemtableByte)
+	}
+	if config.Storage.CompactionConcurrency != 3 {
+		t.Errorf("CompactionConcurrency = %d, want 3", config.Storage.CompactionConcurrency)
+	}
+	if config.Storage.OpenFileLimit != 128 {
+		t.Errorf("OpenFileLimit = %d, want 128", config.Storage.OpenFileLimit)
+	}
 	if len(config.Serving.TrustedProxyNetworks) != 1 {
 		t.Errorf("TrustedProxyNetworks = %d, want 1", len(config.Serving.TrustedProxyNetworks))
 	}
@@ -161,12 +158,11 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
 	}
-	if config.ScrapeRequestIntake.ScrapeRequestSubject != "reached.subject" ||
-		config.ScrapeRequestIntake.ScrapeRequestDurable != "reached-durable" ||
-		config.ScrapeRequestIntake.ScrapeRequestIntakeConcurrency != 9 {
+	if config.PageOfferIntake.PageOfferDurable != "reached-durable" ||
+		config.PageOfferIntake.PageOfferIntakeConcurrency != 9 {
 		t.Errorf(
-			"ScrapeRequestIntake = %+v, want the named subject, durable, and scrapeRequestIntakeConcurrency",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want the named durable and intake concurrency",
+			config.PageOfferIntake,
 		)
 	}
 }
@@ -239,6 +235,26 @@ func TestLoadRejects(t *testing.T) {
 			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 			nodeconfiguration.EnvPeerName:        "n",
 			nodeconfiguration.EnvStorageQuota:    "big",
+		},
+		"bad block cache": {
+			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+			nodeconfiguration.EnvPeerName:         "n",
+			nodeconfiguration.EnvPebbleBlockCache: "plenty",
+		},
+		"bad memtable size": {
+			nodeconfiguration.EnvInitialPeerHash:    "0123456789AB",
+			nodeconfiguration.EnvPeerName:           "n",
+			nodeconfiguration.EnvPebbleMemtableSize: "plenty",
+		},
+		"bad compaction concurrency": {
+			nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
+			nodeconfiguration.EnvPeerName:                    "n",
+			nodeconfiguration.EnvPebbleCompactionConcurrency: "0",
+		},
+		"bad open file limit": {
+			nodeconfiguration.EnvInitialPeerHash:     "0123456789AB",
+			nodeconfiguration.EnvPeerName:            "n",
+			nodeconfiguration.EnvPebbleOpenFileLimit: "-1",
 		},
 		"bad announce interval": {
 			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",

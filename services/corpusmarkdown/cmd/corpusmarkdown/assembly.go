@@ -9,38 +9,37 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
+	intakereceiptpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceiptpublicationobservers/applog"
+	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceiptpublicationobservers/prometheus"
+	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
-	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
+	markdownrecallreceivershttp "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintake"
+	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/applog"
+	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/prometheus"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
-	pageredirectionsjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageredirections/jetstream"
-	scrapeoutcomeannouncementsnats "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeoutcomeannouncements/nats"
-	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeprogressobservers/applog"
-	scrapeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeprogressobservers/prometheus"
-	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
 const (
-	opsReadHeaderLimit = 10 * time.Second
-	opsShutdownLimit   = 15 * time.Second
+	readHeaderLimit = 10 * time.Second
+	shutdownLimit   = 15 * time.Second
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	scrapeRequestJetStream, scrapeRequestConnection, err := jetstreamconnect.Open(
-		cfg.ScrapeRequestNATSURL,
-	)
+	pageOfferJetStream, pageOfferConnection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
 	if err != nil {
 		return err
 	}
-	defer scrapeRequestConnection.Close()
+	defer pageOfferConnection.Close()
 	pageMarkdownJetStream, pageMarkdownConnection, err := jetstreamconnect.Open(
 		cfg.PageMarkdownNATSURL,
 	)
@@ -49,98 +48,97 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 	defer pageMarkdownConnection.Close()
 
-	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequestJetStream, cfg)
+	consumer, err := pageOfferConsumerFor(ctx, pageOfferJetStream, cfg)
 	if err != nil {
 		return err
 	}
-	corpus, err := pagemarkdowncorporajetstream.OpenCorpus(ctx, pageMarkdownJetStream)
+	markdownCorpus, err := pagemarkdowncorporajetstream.OpenCorpus(ctx, pageMarkdownJetStream)
 	if err != nil {
 		return err
 	}
-	redirections, err := pageredirectionsjetstream.OpenPageRedirections(ctx, pageMarkdownJetStream)
-	if err != nil {
-		return err
-	}
-	announcements := scrapeoutcomeannouncementsnats.NewScrapeOutcomeAnnouncements(
-		pageMarkdownConnection,
-	)
 	formatDerivations, err := pageformats.New()
 	if err != nil {
 		return err
 	}
-	fetcher := pagefetchershttp.New(
-		cfg.ProxyURL,
-		cfg.ProxyDialMode,
-		cfg.UserAgent,
-		cfg.MaxBodyBytes,
-		cfg.FetchDeadline,
-	)
 
 	registry := prometheus.NewRegistry()
-	progress := markdownintake.ScrapeProgressObservers{
-		scrapeprogressobserversapplog.ScrapeProgressLog{},
-		scrapeprogressobserversprometheus.New(registry),
-	}
-	intake := markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
-		Source:                         consumer,
-		Fetcher:                        fetcher,
-		FormatDerivations:              formatDerivations,
-		Corpus:                         corpus,
-		Redirections:                   redirections,
-		Announcements:                  announcements,
-		Progress:                       progress,
-		ScrapeRequestIntakeConcurrency: cfg.ScrapeRequestIntakeConcurrency,
+	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "corpusmarkdown_info",
+			Help: "Corpus Markdown application identity.",
+		}, func() float64 { return 1 }),
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
+	intake := pageintake.NewOfferedPageConsumer(pageintake.Config{
+		Source:            consumer,
+		FormatDerivations: formatDerivations,
+		Corpus:            markdownCorpus,
+		IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
+			pageOfferConnection, pagescrapecontract.CorpusMarkdown,
+			intakereceiptsnats.IntakeReceiptPublicationObservers{
+				intakereceiptpublicationobserversapplog.IntakeReceiptPublicationLog{},
+				intakereceiptpublicationobserversprometheus.New(registry),
+			},
+		),
+		PageIntakeObserver: pageintake.PageIntakeObservers{
+			pageintakeobserversapplog.PageIntakeLog{},
+			pageintakeobserversprometheus.New(registry),
+		},
+		PageOfferIntakeConcurrency: cfg.PageOfferIntakeConcurrency,
 	})
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
-		ReadHeaderTimeout: opsReadHeaderLimit,
+		ReadHeaderTimeout: readHeaderLimit,
 	}
 
-	recall := markdownrecall.NewPageMarkdownRecall(corpus, redirections)
-	receiver := markdownrecallreceiversgrpc.NewMarkdownRecallReceiver(recall, cfg.ListenAddr)
+	recall := markdownrecall.NewPageMarkdownRecall(markdownCorpus)
+	recallServer := &http.Server{
+		Addr:              cfg.ListenAddr,
+		Handler:           markdownrecallreceivershttp.NewMux(recall),
+		ReadHeaderTimeout: readHeaderLimit,
+	}
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
 		slog.String("listen", cfg.ListenAddr),
-		slog.String("subject", cfg.ScrapeRequestSubject),
 		slog.String("bucket", pagemarkdownstore.BucketName),
-		slog.Int("scrapeRequestIntakeConcurrency", cfg.ScrapeRequestIntakeConcurrency),
+		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
-	err = servergroup.Run(ctx, opsShutdownLimit,
-		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
+	err = servergroup.Run(ctx, shutdownLimit,
+		[]servergroup.NamedServer{
+			{Name: "ops", Server: opsServer},
+			{Name: "recall", Server: recallServer},
+		},
 		func(runCtx context.Context) error {
 			if err := intake.Run(runCtx); err != nil {
-				return fmt.Errorf("run scrape request consumer: %w", err)
+				return fmt.Errorf("run offered page consumer: %w", err)
 			}
 			return nil
 		},
-		receiver.Serve,
 	)
 	slog.InfoContext(ctx, "corpusmarkdown stopped")
 	return err
 }
 
-func scrapeRequestConsumerFor(
+func pageOfferConsumerFor(
 	ctx context.Context,
-	scrapeRequestJetStream jetstream.JetStream,
+	pageOffers jetstream.JetStream,
 	cfg ServiceConfig,
 ) (jetstream.Consumer, error) {
-	stream, err := scrapeRequestJetStream.Stream(
-		ctx,
-		scraperequestcontract.ScrapeRequestsStreamName,
-	)
+	stream, err := pageOffers.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
 	if err != nil {
-		return nil, fmt.Errorf("lookup scrape requests stream: %w", err)
+		return nil, fmt.Errorf("lookup page offers stream: %w", err)
 	}
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Durable:       cfg.ScrapeRequestDurable,
-		FilterSubject: cfg.ScrapeRequestSubject,
+		Durable:       cfg.PageOfferDurable,
+		FilterSubject: pagescrapecontract.OfferedPageSubject,
 		AckPolicy:     jetstream.AckExplicitPolicy,
-		MaxAckPending: cfg.ScrapeRequestIntakeConcurrency,
+		MaxAckPending: cfg.PageOfferIntakeConcurrency,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("create scrape request consumer: %w", err)
+		return nil, fmt.Errorf("create page offer consumer: %w", err)
 	}
 	return consumer, nil
 }

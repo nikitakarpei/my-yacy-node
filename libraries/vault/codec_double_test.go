@@ -33,6 +33,31 @@ func openWords(t *testing.T) (*vault.Vault, *vault.Collection[string, string]) {
 	return v, words
 }
 
+func openUndecodableWords(t *testing.T) (*vault.Vault, *vault.Collection[string, string]) {
+	t.Helper()
+
+	v, err := openDouble()
+	if err != nil {
+		t.Fatalf("openDouble: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := v.Close(); err != nil {
+			t.Fatalf("Close: %v", err)
+		}
+	})
+
+	words, err := v.RegisterCollection(
+		vault.Name("words"),
+		stringKeyLayout,
+		failingDecodeCodec{},
+	)
+	if err != nil {
+		t.Fatalf("RegisterCollection: %v", err)
+	}
+
+	return v, words
+}
+
 func wrap(err error) error { return fmt.Errorf("vault op: %w", err) }
 
 var stringKeyParts = vault.SingleKey(vault.TextKeyPart)

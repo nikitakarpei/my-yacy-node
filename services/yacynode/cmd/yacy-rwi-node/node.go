@@ -10,6 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -40,7 +41,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
@@ -54,7 +58,7 @@ type node struct {
 	postingEscrowObserver *metrics.RWIEscrowMetrics
 	peerAnnouncer         peerannouncement.Announcer
 	distributionCycle     *distributioncycle.Cycle
-	scrapeRequestIntake   *scrapeRequestIntake
+	pageOfferIntake       *pageOfferIntake
 }
 
 const advertisedYaCyRelease = 1.83
@@ -72,7 +76,9 @@ const (
 	evictionBatchesPerSweep = 64
 )
 
-const searchPostingsPerWord = 1000
+const servedURLMetadataPerRequest = 1000
+
+const documentsPerIndexAbstract = 1000
 
 func assembleNode(
 	ctx context.Context,
@@ -138,6 +144,27 @@ func assembleNode(
 		return node{}, fmt.Errorf("url references: %w", err)
 	}
 
+	postingImpactOrder, err := rwipostingimpactorder.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi impact order: %w", err)
+	}
+
+	postingAmounts, err := rwipostingamount.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
+	}
+
+	ringOccupancy, err := rwiringoccupancy.Open(vault, dhtRingPartitions)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi ring occupancy: %w", err)
+	}
+	metrics.NewRWIRingOccupancyMetrics(
+		registry,
+		vault,
+		ringOccupancy,
+		yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(identity.Hash)),
+	)
+
 	distributionObserver := metrics.NewDistributionMetrics(registry)
 
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
@@ -153,6 +180,9 @@ func assembleNode(
 		vault,
 		urlReferences,
 		postingRecords,
+		postingImpactOrder,
+		postingAmounts,
+		ringOccupancy,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
@@ -207,6 +237,13 @@ func assembleNode(
 
 	mux.Handle("/{$}", landing.NewEndpoint())
 	urlmeta.MountTransferURL(router, identity, urlReceiver)
+	urlmeta.MountURLMetadataLookup(
+		router,
+		identity,
+		vault,
+		urlDirectory,
+		servedURLMetadataPerRequest,
+	)
 	rwiingress.Mount(router, identity, postingReceiver, rwiingress.Config{
 		PostingCap: peerPostingTransferCapacity,
 		Pause:      postingAdmissionBusyPause,
@@ -218,10 +255,12 @@ func assembleNode(
 		router,
 		identity,
 		postings,
+		postingImpactOrder,
+		postingAmounts,
 		urlDirectory,
-		searchPostingsPerWord,
 		searchmetrics.NewSearchMetrics(registry),
 		dhtRingPartitions,
+		documentsPerIndexAbstract,
 	)
 
 	peerRoster, err := peerroster.Open(
@@ -237,7 +276,7 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
 
-	peeradmission.MountHello(router, identity, runtimeStatus, peerRoster, egressClient)
+	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, egressClient)
 
 	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{
@@ -250,18 +289,19 @@ func assembleNode(
 		runtimeStatus,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
 		peerRoster,
+		metrics.NewPeerAnnouncementMetrics(registry),
 	)
 
-	var scrapeRequests *scrapeRequestIntake
+	var pageOffers *pageOfferIntake
 
-	if config.ScrapeRequestIntake.Enabled() {
-		intake, intakeErr := openScrapeRequestIntake(
-			ctx, config.ScrapeRequestIntake, urlReceiver, postingReceiver, registry,
+	if config.PageOfferIntake.Enabled() {
+		intake, intakeErr := openPageOfferIntake(
+			ctx, config.PageOfferIntake, urlReceiver, postingReceiver, registry,
 		)
 		if intakeErr != nil {
 			return node{}, intakeErr
 		}
-		scrapeRequests = intake
+		pageOffers = intake
 	}
 
 	var distributionCycle *distributioncycle.Cycle
@@ -331,7 +371,7 @@ func assembleNode(
 		peerHandler: httpobservation.NewHandler(
 			mux,
 			httpaccesslog.New(),
-			endpointMetricsObserver{endpoints: metrics.NewHTTPEndpointMetrics(registry)},
+			httpmetrics.NewEndpointMetrics(registry, "yacynode"),
 		),
 		evictionSweeper: eviction.NewSweeper(
 			vault,
@@ -350,6 +390,6 @@ func assembleNode(
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
 		distributionCycle:     distributionCycle,
-		scrapeRequestIntake:   scrapeRequests,
+		pageOfferIntake:       pageOffers,
 	}, nil
 }

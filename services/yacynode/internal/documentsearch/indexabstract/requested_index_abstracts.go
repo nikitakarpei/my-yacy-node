@@ -1,29 +1,36 @@
 package indexabstract
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+import (
+	"slices"
 
-type RequestedIndexAbstracts interface {
-	requestedIndexAbstracts()
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+type RequestedIndexAbstract interface {
+	coveredTerms(
+		queryTerms []yacymodel.Hash,
+		amountOfPostingsPerTerm map[yacymodel.Hash]int,
+	) []yacymodel.Hash
 }
 
-type NoIndexAbstracts struct{}
+type RequestedIndexAbstracts []RequestedIndexAbstract
 
-func (NoIndexAbstracts) requestedIndexAbstracts() {}
-
-type IndexAbstractOfTermWithMostPostings struct{}
-
-func (IndexAbstractOfTermWithMostPostings) requestedIndexAbstracts() {}
-
-type IndexAbstractsOfTerms struct {
-	Terms []yacymodel.Hash
-}
-
-func (IndexAbstractsOfTerms) requestedIndexAbstracts() {}
-
-func IndexAbstractTermsOf(requested RequestedIndexAbstracts) []yacymodel.Hash {
-	if abstract, ok := requested.(IndexAbstractsOfTerms); ok {
-		return abstract.Terms
+func termsCoveredBy(
+	requested RequestedIndexAbstracts,
+	queryTerms []yacymodel.Hash,
+	amountOfPostingsPerTerm map[yacymodel.Hash]int,
+) []yacymodel.Hash {
+	var terms []yacymodel.Hash
+	for _, requestedAbstract := range requested {
+		for _, term := range requestedAbstract.coveredTerms(
+			queryTerms,
+			amountOfPostingsPerTerm,
+		) {
+			if !slices.Contains(terms, term) {
+				terms = append(terms, term)
+			}
+		}
 	}
 
-	return nil
+	return terms
 }

@@ -21,8 +21,20 @@ func ParseLanguage(code string) (Language, error) {
 			LanguageCodeLength,
 		)
 	}
+	for _, letter := range []byte(code) {
+		if letter < 'a' || letter > 'z' {
+			return Language{}, fmt.Errorf(
+				"%w: %q is not two lowercase letters",
+				ErrInvalidLanguage,
+				code,
+			)
+		}
+	}
+
 	return Language{value: code}, nil
 }
+
+var LanguageOfUndeclaredDocument = Language{value: "en"}
 
 func (l Language) IsZero() bool { return l.value == "" }
 

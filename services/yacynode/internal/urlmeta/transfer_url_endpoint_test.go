@@ -80,7 +80,7 @@ func TestTransferURLStoresAndAnswers(t *testing.T) {
 		NetworkName: "freeworld",
 		YouAre:      localIdentity().Hash,
 		URLCount:    1,
-		URLs:        []yacymodel.URLMetadata{urlMetadata("a")},
+		URLs:        []yacymodel.URLMetadata{urlMetadata(t, "a")},
 	})
 
 	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultOK) {
@@ -100,7 +100,7 @@ func TestTransferURLRejectsWrongNetwork(t *testing.T) {
 		NetworkName: "othernetwork",
 		YouAre:      localIdentity().Hash,
 		URLCount:    1,
-		URLs:        []yacymodel.URLMetadata{urlMetadata("a")},
+		URLs:        []yacymodel.URLMetadata{urlMetadata(t, "a")},
 	})
 
 	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultWrongTarget) {

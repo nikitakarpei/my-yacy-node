@@ -98,11 +98,11 @@ func (s quotaSweeper) purgePostings(tx *vault.Txn, urls []yacymodel.URLHash) (in
 			return 0, fmt.Errorf("words referencing url: %w", err)
 		}
 		for _, word := range words {
-			deleted, err := s.postings.PurgePosting(tx, word, url)
+			wasPurged, err := s.postings.PurgePosting(tx, word, url)
 			if err != nil {
 				return 0, fmt.Errorf("purge posting: %w", err)
 			}
-			if deleted {
+			if wasPurged {
 				purged++
 			}
 		}

@@ -21,8 +21,8 @@ type Observer interface {
 }
 
 type scheduledPostingOffer struct {
-	At      time.Time
-	Posting postingidentity.Identity
+	At       time.Time
+	Identity postingidentity.Identity
 }
 
 type Schedule struct {
@@ -48,21 +48,17 @@ func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, e
 	}, nil
 }
 
-func (s *Schedule) PostingStored(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	posting := postingidentity.IdentityOf(word, url)
-	if err := s.forgetDueAt(tx, posting); err != nil {
+func (s *Schedule) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	identity := postingidentity.IdentityOf(posting)
+	if err := s.forgetDueAt(tx, identity); err != nil {
 		return err
 	}
 
-	return s.setDueAt(tx, posting, s.now())
+	return s.setDueAt(tx, identity, s.now())
 }
 
-func (s *Schedule) forgetDueAt(tx *vault.Txn, posting postingidentity.Identity) error {
-	dueAt, found, err := s.dueAt(tx, posting)
+func (s *Schedule) forgetDueAt(tx *vault.Txn, identity postingidentity.Identity) error {
+	dueAt, found, err := s.dueAt(tx, identity)
 	if err != nil {
 		return err
 	}
@@ -70,14 +66,14 @@ func (s *Schedule) forgetDueAt(tx *vault.Txn, posting postingidentity.Identity) 
 		return nil
 	}
 
-	return s.clearDueAt(tx, posting, dueAt)
+	return s.clearDueAt(tx, identity, dueAt)
 }
 
 func (s *Schedule) dueAt(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 ) (time.Time, bool, error) {
-	dueAt, found, err := s.dueTimes.Get(tx, posting)
+	dueAt, found, err := s.dueTimes.Get(tx, identity)
 	if err != nil {
 		return time.Time{}, false, fmt.Errorf("read offer due: %w", err)
 	}
@@ -87,16 +83,16 @@ func (s *Schedule) dueAt(
 
 func (s *Schedule) clearDueAt(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 	dueAt time.Time,
 ) error {
 	if _, err := s.order.Remove(
 		tx,
-		scheduledPostingOffer{At: dueAt, Posting: posting},
+		scheduledPostingOffer{At: dueAt, Identity: identity},
 	); err != nil {
 		return fmt.Errorf("drop offer order: %w", err)
 	}
-	if _, err := s.dueTimes.Delete(tx, posting); err != nil {
+	if _, err := s.dueTimes.Delete(tx, identity); err != nil {
 		return fmt.Errorf("drop offer due: %w", err)
 	}
 
@@ -105,34 +101,30 @@ func (s *Schedule) clearDueAt(
 
 func (s *Schedule) setDueAt(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Posting: posting}); err != nil {
+	if _, err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Identity: identity}); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
-	if err := s.dueTimes.Put(tx, posting, dueAt); err != nil {
+	if _, err := s.dueTimes.Put(tx, identity, dueAt); err != nil {
 		return fmt.Errorf("record offer due: %w", err)
 	}
 
 	return nil
 }
 
-func (s *Schedule) PostingPurged(
-	tx *vault.Txn,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	posting := postingidentity.IdentityOf(word, url)
-	if err := s.forgetDueAt(tx, posting); err != nil {
+func (s *Schedule) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	identity := postingidentity.IdentityOf(posting)
+	if err := s.forgetDueAt(tx, identity); err != nil {
 		return err
 	}
 
-	return s.forgetOfferInterval(tx, posting)
+	return s.forgetOfferInterval(tx, identity)
 }
 
-func (s *Schedule) forgetOfferInterval(tx *vault.Txn, posting postingidentity.Identity) error {
-	if _, err := s.offerIntervals.Delete(tx, posting); err != nil {
+func (s *Schedule) forgetOfferInterval(tx *vault.Txn, identity postingidentity.Identity) error {
+	if _, err := s.offerIntervals.Delete(tx, identity); err != nil {
 		return fmt.Errorf("drop offer retry wait: %w", err)
 	}
 
@@ -141,44 +133,44 @@ func (s *Schedule) forgetOfferInterval(tx *vault.Txn, posting postingidentity.Id
 
 func (s *Schedule) SetNextOfferAfterRedundancyMet(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 	bounds postingofferinterval.Bounds,
 ) error {
-	if err := s.forgetOfferInterval(tx, posting); err != nil {
+	if err := s.forgetOfferInterval(tx, identity); err != nil {
 		return err
 	}
 
-	return s.reschedule(tx, posting, func(previousDueAt time.Time) time.Time {
+	return s.reschedule(tx, identity, func(previousDueAt time.Time) time.Time {
 		return bounds.NextOfferDueFrom(previousDueAt, s.now())
 	})
 }
 
 func (s *Schedule) reschedule(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 	nextDueAtFrom func(previousDueAt time.Time) time.Time,
 ) error {
-	previousDueAt, found, err := s.dueAt(tx, posting)
+	previousDueAt, found, err := s.dueAt(tx, identity)
 	if err != nil {
 		return fmt.Errorf("reschedule offer: %w", err)
 	}
 	if !found {
 		return nil
 	}
-	if err := s.clearDueAt(tx, posting, previousDueAt); err != nil {
+	if err := s.clearDueAt(tx, identity, previousDueAt); err != nil {
 		return fmt.Errorf("reschedule offer: %w", err)
 	}
 
-	return s.setDueAt(tx, posting, nextDueAtFrom(previousDueAt))
+	return s.setDueAt(tx, identity, nextDueAtFrom(previousDueAt))
 }
 
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 	bounds postingofferinterval.Bounds,
 	requestedPause time.Duration,
 ) error {
-	postingScheduled, err := s.IsScheduled(tx, posting)
+	postingScheduled, err := s.IsScheduled(tx, identity)
 	if err != nil {
 		return fmt.Errorf("read offer schedule: %w", err)
 	}
@@ -186,25 +178,29 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 		return nil
 	}
 
-	previousInterval, _, err := s.offerIntervals.Get(tx, posting)
+	previousInterval, _, err := s.offerIntervals.Get(tx, identity)
 	if err != nil {
 		return fmt.Errorf("read offer interval: %w", err)
 	}
-	if err := s.offerIntervals.Put(tx, posting, bounds.WidenedFrom(previousInterval)); err != nil {
+	if _, err := s.offerIntervals.Put(
+		tx,
+		identity,
+		bounds.WidenedFrom(previousInterval),
+	); err != nil {
 		return fmt.Errorf("record offer interval: %w", err)
 	}
 	pause := bounds.PauseFrom(previousInterval, requestedPause)
 
-	return s.reschedule(tx, posting, func(time.Time) time.Time {
+	return s.reschedule(tx, identity, func(time.Time) time.Time {
 		return s.now().Add(pause)
 	})
 }
 
 func (s *Schedule) IsScheduled(
 	tx *vault.Txn,
-	posting postingidentity.Identity,
+	identity postingidentity.Identity,
 ) (bool, error) {
-	_, found, err := s.dueAt(tx, posting)
+	_, found, err := s.dueAt(tx, identity)
 
 	return found, err
 }
@@ -222,7 +218,7 @@ func (s *Schedule) DuePostings(
 		tx,
 		everyOfferDueBy(s.now()),
 		func(scheduledOffer scheduledPostingOffer) (bool, error) {
-			duePostings = append(duePostings, scheduledOffer.Posting)
+			duePostings = append(duePostings, scheduledOffer.Identity)
 
 			return len(duePostings) < limit, nil
 		},

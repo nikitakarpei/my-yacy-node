@@ -1,0 +1,2 @@
+Increments one counter for each observed fact and holds no rule of its own. A test could
+only restate the metric name this file declares.

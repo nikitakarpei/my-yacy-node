@@ -92,12 +92,12 @@ func concatURLHashes(urls []yacymodel.URLHash) string {
 	return b.String()
 }
 
-func splitSearchURLHashes(field, raw string) ([]yacymodel.URLHash, error) {
+func splitConcatURLHashes(scope, field, raw string) ([]yacymodel.URLHash, error) {
 	var urls []yacymodel.URLHash
 	for i := 0; i+yacymodel.HashLength <= len(raw); i += yacymodel.HashLength {
 		url, err := yacymodel.ParseURLHash(raw[i : i+yacymodel.HashLength])
 		if err != nil {
-			return nil, fmt.Errorf("search request %s: %w", field, err)
+			return nil, fmt.Errorf("%s %s: %w", scope, field, err)
 		}
 
 		urls = append(urls, url)

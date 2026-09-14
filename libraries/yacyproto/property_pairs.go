@@ -8,6 +8,14 @@ import (
 
 var errBadPropertyForm = errors.New("bad property form")
 
+func propertyPairsOfRow(row string) (map[string]string, error) {
+	if len(row) < 2 || row[0] != propertyOpen || row[len(row)-1] != propertyClose {
+		return nil, fmt.Errorf("%w: missing property form", errBadPropertyForm)
+	}
+
+	return parsePropertyPairs(row[1 : len(row)-1])
+}
+
 func parsePropertyPairs(body string) (map[string]string, error) {
 	props := make(map[string]string)
 	for token := range strings.SplitSeq(body, ",") {

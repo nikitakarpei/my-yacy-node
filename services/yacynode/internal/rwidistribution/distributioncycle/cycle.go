@@ -233,14 +233,14 @@ func replicaRingFractionsOf(
 ) []float64 {
 	offerByPosting := make(map[postingidentity.Identity]postingoffer.PostingOffer, len(offers))
 	for _, offer := range offers {
-		identity := postingidentity.IdentityOf(offer.Posting.WordHash, offer.Posting.URLHash)
+		identity := postingidentity.IdentityOf(offer.Posting)
 		offerByPosting[identity] = offer
 	}
 
 	var ringFractions []float64
 	for _, acceptance := range acceptances {
 		for _, posting := range acceptance.postings {
-			identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+			identity := postingidentity.IdentityOf(posting)
 			offer, offered := offerByPosting[identity]
 			if !offered {
 				continue
@@ -262,7 +262,7 @@ func staleByPosting(
 		if len(offer.StaleHolders) == 0 {
 			continue
 		}
-		identity := postingidentity.IdentityOf(offer.Posting.WordHash, offer.Posting.URLHash)
+		identity := postingidentity.IdentityOf(offer.Posting)
 		staleHolders[identity] = append(staleHolders[identity], offer.StaleHolders...)
 	}
 
@@ -298,7 +298,7 @@ func (c *Cycle) setNextOffers(
 	acceptances := acceptancesByPosting(round.acceptances)
 
 	for _, offer := range offers {
-		identity := postingidentity.IdentityOf(offer.Posting.WordHash, offer.Posting.URLHash)
+		identity := postingidentity.IdentityOf(offer.Posting)
 
 		var err error
 		if acceptances[identity] >= offer.AcceptancesNeeded {
@@ -320,7 +320,7 @@ func acceptancesByPosting(acceptances []peerAcceptance) map[postingidentity.Iden
 	byPosting := make(map[postingidentity.Identity]int)
 	for _, acceptance := range acceptances {
 		for _, posting := range acceptance.postings {
-			byPosting[postingidentity.IdentityOf(posting.WordHash, posting.URLHash)]++
+			byPosting[postingidentity.IdentityOf(posting)]++
 		}
 	}
 

@@ -9,11 +9,10 @@ import (
 )
 
 const (
-	EnvCrawlNATSURL         = "CRAWL_NATS_URL"
-	EnvScrapeRequestNATSURL = "SCRAPE_REQUEST_NATS_URL"
-	EnvCrawlOrdersSubject   = "CRAWL_ORDERS_SUBJECT"
-	EnvCrawlOrdersDurable   = "CRAWL_ORDERS_DURABLE"
-	EnvPendingVisitDurable  = "PENDING_VISIT_DURABLE"
+	EnvCrawlNATSURL            = "CRAWL_NATS_URL"
+	EnvCrawlOrdersSubject      = "CRAWL_ORDERS_SUBJECT"
+	EnvCrawlOrdersDurable      = "CRAWL_ORDERS_DURABLE"
+	EnvPendingPageVisitDurable = "PENDING_PAGE_VISIT_DURABLE"
 
 	EnvProxyURL         = "YACYCRAWLER_FETCH_PROXY_URL"
 	EnvProxyDialMode    = "YACYCRAWLER_FETCH_PROXY_DIAL_MODE"
@@ -27,24 +26,20 @@ const (
 )
 
 const (
-	DefaultCrawlOrdersSubject  = "yacy.crawl.orders"
-	DefaultCrawlOrdersDurable  = "yacycrawler"
-	DefaultPendingVisitDurable = "yacycrawler-visits"
-	DefaultFetchConcurrency    = 4
-	DefaultMaxBodyBytes        = 2 << 20
-	DefaultFetchDeadline       = 30 * time.Second
-	DefaultOpsAddr             = ":9090"
-	DefaultUserAgent           = "yacycrawler (+https://yacy.net)"
-	DefaultProxyDialMode       = "tunnel"
-	DefaultRecrawlGrace        = time.Hour
+	DefaultCrawlOrdersSubject      = "yacy.crawl.orders"
+	DefaultCrawlOrdersDurable      = "yacycrawler"
+	DefaultPendingPageVisitDurable = "yacycrawler-page-visits"
+	DefaultFetchConcurrency        = 4
+	DefaultMaxBodyBytes            = 2 << 20
+	DefaultFetchDeadline           = 30 * time.Second
+	DefaultOpsAddr                 = ":9090"
+	DefaultUserAgent               = "yacycrawler (+https://yacy.net)"
+	DefaultProxyDialMode           = "tunnel"
+	DefaultRecrawlGrace            = time.Hour
 )
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	crawlNATSURL, err := envconfig.Required(getenv, EnvCrawlNATSURL)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
-	scrapeRequestNATSURL, err := envconfig.Required(getenv, EnvScrapeRequestNATSURL)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -66,8 +61,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:         crawlNATSURL,
-		ScrapeRequestNATSURL: scrapeRequestNATSURL,
+		CrawlNATSURL: crawlNATSURL,
 		CrawlOrdersSubject: envconfig.String(
 			getenv,
 			EnvCrawlOrdersSubject,
@@ -78,10 +72,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			EnvCrawlOrdersDurable,
 			DefaultCrawlOrdersDurable,
 		),
-		PendingVisitDurable: envconfig.String(
+		PendingPageVisitDurable: envconfig.String(
 			getenv,
-			EnvPendingVisitDurable,
-			DefaultPendingVisitDurable,
+			EnvPendingPageVisitDurable,
+			DefaultPendingPageVisitDurable,
 		),
 		ProxyURL:         proxyURL,
 		ProxyDialMode:    proxyDialMode,

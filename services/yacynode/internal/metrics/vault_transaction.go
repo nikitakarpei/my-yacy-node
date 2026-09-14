@@ -35,20 +35,20 @@ type VaultTransactionMetrics struct {
 func NewVaultTransactionMetrics(registry prometheus.Registerer) *VaultTransactionMetrics {
 	metrics := &VaultTransactionMetrics{
 		beginSeconds: prometheus.NewHistogram(prometheus.HistogramOpts{
-			Name:    "vault_write_transaction_begin_seconds",
+			Name:    "yacynode_vault_write_transaction_begin_seconds",
 			Help:    "Time spent waiting for a vault write transaction to begin, in seconds.",
 			Buckets: prometheus.ExponentialBucketsRange(10e-6, 10, 16),
 		}),
 		beginRefusals: prometheus.NewCounterVec(
 			prometheus.CounterOpts{
-				Name: "vault_write_transaction_begin_refusals_total",
+				Name: "yacynode_vault_write_transaction_begin_refusals_total",
 				Help: "Vault write transactions the storage engine refused before opening, by cause.",
 			},
 			[]string{labelWriteCause},
 		),
 		durations: prometheus.NewHistogramVec(
 			prometheus.HistogramOpts{
-				Name:    "vault_write_transaction_duration_seconds",
+				Name:    "yacynode_vault_write_transaction_duration_seconds",
 				Help:    "Duration of each phase of an open vault write transaction, in seconds.",
 				Buckets: prometheus.ExponentialBucketsRange(10e-6, 10, 16),
 			},
@@ -56,13 +56,13 @@ func NewVaultTransactionMetrics(registry prometheus.Registerer) *VaultTransactio
 		),
 		transactions: prometheus.NewCounterVec(
 			prometheus.CounterOpts{
-				Name: "vault_write_transactions_total",
+				Name: "yacynode_vault_write_transactions_total",
 				Help: "Vault write transactions that opened, by how they ended.",
 			},
 			[]string{labelWriteOutcome, labelWriteCause, labelWriteCalledOperation},
 		),
 		readsInFlight: prometheus.NewGauge(prometheus.GaugeOpts{
-			Name: "vault_reads_in_flight",
+			Name: "yacynode_vault_reads_in_flight",
 			Help: "Reads currently open through the vault.",
 		}),
 	}

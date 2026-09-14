@@ -79,6 +79,23 @@ func (rwiPostingWireCodec) encode(p yacymodel.RWIPosting) string {
 	return rwiPostingWireFormFromDomain(p).line()
 }
 
+func (rwiPostingWireCodec) decodePropertyForm(form string) (yacymodel.RWIPosting, error) {
+	properties, err := propertyPairsOfRow(form)
+	if err != nil {
+		return yacymodel.RWIPosting{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
+	}
+	posting, err := rwiPostingWireForm{properties: properties}.domain()
+	if err != nil {
+		return yacymodel.RWIPosting{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
+	}
+
+	return posting, nil
+}
+
+func (rwiPostingWireCodec) encodePropertyForm(p yacymodel.RWIPosting) string {
+	return rwiPostingWireFormFromDomain(p).propertyForm()
+}
+
 const maxRWIPostingsPerTransfer = 1000
 
 func (c rwiPostingWireCodec) encodeLines(postings []yacymodel.RWIPosting) string {
@@ -197,19 +214,13 @@ func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
 
 // language keeps only the leading ISO 639-1 code: YaCy peers are known to send
 // three-letter codes in this column.
-func (e rwiPostingWireForm) language() (yacymodel.Optional[yacymodel.Language], error) {
-	value, ok := e.properties[colLanguage]
-	if !ok {
-		return yacymodel.None[yacymodel.Language](), nil
-	}
+func (e rwiPostingWireForm) language() (yacymodel.Language, error) {
+	value := e.properties[colLanguage]
 	if len(value) > yacymodel.LanguageCodeLength {
 		value = value[:yacymodel.LanguageCodeLength]
 	}
-	language, err := yacymodel.ParseLanguage(value)
-	if err != nil {
-		return yacymodel.None[yacymodel.Language](), err
-	}
-	return yacymodel.Some(language), nil
+
+	return yacymodel.ParseLanguage(value)
 }
 
 func (e rwiPostingWireForm) appearance() (yacymodel.Appearance, error) {
@@ -246,9 +257,8 @@ func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 		colPhraseRelativePos: strconv.Itoa(p.PhraseRelativePosition),
 		colPhrasePosition:    strconv.Itoa(p.PhrasePosition),
 	}
-	if language, ok := p.Language.Get(); ok {
-		props[colLanguage] = language.String()
-	}
+	props[colLanguage] = p.Language.String()
+
 	return rwiPostingWireForm{wordHash: p.WordHash, properties: props}
 }
 
@@ -276,13 +286,16 @@ func parseRWIPostingLine(line string) (rwiPostingWireForm, error) {
 }
 
 func (e rwiPostingWireForm) line() string {
+	return e.wordHash.String() + e.propertyForm()
+}
+
+func (e rwiPostingWireForm) propertyForm() string {
 	keys := make([]string, 0, len(e.properties))
 	for k := range e.properties {
 		keys = append(keys, k)
 	}
 	slices.Sort(keys)
 	var b strings.Builder
-	b.WriteString(e.wordHash.String())
 	b.WriteByte(propertyOpen)
 	for i, k := range keys {
 		if i > 0 {

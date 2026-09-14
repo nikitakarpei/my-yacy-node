@@ -7,21 +7,26 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	markdowncorporagrpc "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/markdowncorpora/grpc"
+	markdowncorporahttp "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/markdowncorpora/http"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pageread"
-	pagereadprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadprogressobservers/applog"
-	pagereadprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadprogressobservers/prometheus"
+	pagereadobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadobservers/applog"
+	pagereadobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadobservers/prometheus"
+	scrapeoutcomeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomeobservers/applog"
+	scrapeoutcomeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomeobservers/prometheus"
 	scrapeoutcomesnats "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomes/nats"
+	scraperequestobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequestobservers/applog"
+	scraperequestobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequestobservers/prometheus"
 	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequests/jetstream"
 	searchenginessearxng "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchengines/searxng"
-	searchprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchprogressobservers/applog"
-	searchprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchprogressobservers/prometheus"
 	toolcallreceiversmcp "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/toolcallreceivers/mcp"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearch"
+	websearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearchobservers/applog"
+	websearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearchobservers/prometheus"
 )
 
 const (
@@ -30,34 +35,47 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	corpus, err := markdowncorporagrpc.OpenMarkdownCorpus(
+	corpus := markdowncorporahttp.NewMarkdownCorpus(
 		cfg.CorpusMarkdownAddr,
 		cfg.CorpusMarkdownRecallDeadline,
 	)
-	if err != nil {
-		return err
-	}
-	defer func() { _ = corpus.Close() }()
+
+	registry := prometheus.NewRegistry()
+	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "webresearchmcp_info",
+			Help: "Web research MCP application identity.",
+		}, func() float64 { return 1 }),
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
 	scrapeRequests, err := scraperequestsjetstream.OpenScrapeRequests(
 		cfg.ScrapeRequestNATSURL,
-		cfg.ScrapeRequestSubject,
+		scraperequestsjetstream.ScrapeRequestPublicationObservers{
+			scraperequestobserversapplog.ScrapeRequestLog{},
+			scraperequestobserversprometheus.New(registry),
+		},
 	)
 	if err != nil {
 		return err
 	}
 	defer scrapeRequests.Close()
-	scrapeOutcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(cfg.PageMarkdownNATSURL)
+	scrapeOutcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(
+		cfg.ScrapeRequestNATSURL,
+		scrapeoutcomesnats.ScrapeOutcomeObservers{
+			scrapeoutcomeobserversapplog.ScrapeOutcomeLog{},
+			scrapeoutcomeobserversprometheus.New(registry),
+		},
+	)
 	if err != nil {
 		return err
 	}
 	defer scrapeOutcomes.Close()
-
-	registry := prometheus.NewRegistry()
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine: searchenginessearxng.NewSearXNG(cfg.SearXNGURL, cfg.SearXNGSearchDeadline),
-		Progress: websearch.SearchProgressObservers{
-			searchprogressobserversapplog.SearchProgressLog{},
-			searchprogressobserversprometheus.New(registry),
+		Observer: websearch.WebSearchObservers{
+			websearchobserversapplog.WebSearchLog{},
+			websearchobserversprometheus.New(registry),
 		},
 		SearchResultLimit: cfg.SearchResultLimit,
 	})
@@ -65,9 +83,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		Corpus:         corpus,
 		ScrapeRequests: scrapeRequests,
 		ScrapeOutcomes: scrapeOutcomes,
-		Progress: pageread.PageReadProgressObservers{
-			pagereadprogressobserversapplog.PageReadProgressLog{},
-			pagereadprogressobserversprometheus.New(registry),
+		Observer: pageread.PageReadObservers{
+			pagereadobserversapplog.PageReadLog{},
+			pagereadobserversprometheus.New(registry),
 		},
 		CharacterLimit:  cfg.PageFetchCharacterLimit,
 		ScrapeTolerance: cfg.PageScrapeTolerance,

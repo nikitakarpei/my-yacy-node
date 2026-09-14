@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -19,39 +19,39 @@ type PageRWI struct {
 }
 
 func Of(
-	scrapedPage scrapedpage.ScrapedPage,
+	scrapedPage pagescrapecontract.OfferedPage,
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,
 ) PageRWI {
 	pageURL := scrapedPage.PageURL
-	urlHash := yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash()
 
-	order, occurrences, textStats := tokenize(string(text))
-	_, _, titleStats := tokenize(document.Title)
+	textWordsInOrder, textWordOccurrences, textStats := tokenize(string(text))
+	_, titleWordOccurrences, titleStats := tokenize(document.Title)
 
-	shared := sharedPosting(pageURL, document, reachedAt, urlHash)
+	metadata := metadataOf(pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words)
+	shared := sharedPosting(pageURL, document, reachedAt, metadata.Hash)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
 
-	postings := make([]yacymodel.RWIPosting, 0, len(order))
-	for _, word := range order {
-		occurrence := occurrences[word]
+	postings := make([]yacymodel.RWIPosting, 0, len(textWordsInOrder))
+	for _, word := range textWordsInOrder {
+		occurrenceInText := textWordOccurrences[word]
+		_, appearsInTitle := titleWordOccurrences[word]
 		posting := shared
 		posting.WordHash = yacymodel.WordHash(word)
-		posting.Hits = occurrence.count
-		posting.TextPosition = occurrence.firstPosition
-		posting.PhraseRelativePosition = occurrence.firstPositionInPhrase
-		posting.PhrasePosition = occurrence.firstPhraseNumber
+		posting.Appearance.AppearsInTitle = appearsInTitle
+		posting.Hits = occurrenceInText.count
+		posting.TextPosition = occurrenceInText.firstPosition
+		posting.PhraseRelativePosition = occurrenceInText.firstPositionInPhrase
+		posting.PhrasePosition = occurrenceInText.firstPhraseNumber
 		postings = append(postings, posting)
 	}
 
 	return PageRWI{
-		PageURL: pageURL,
-		Metadata: metadataOf(
-			pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words,
-		),
+		PageURL:  pageURL,
+		Metadata: metadata,
 		Postings: postings,
 	}
 }
@@ -66,7 +66,7 @@ func sharedPosting(
 		URLHash:       urlHash,
 		LastModified:  yacymodel.MicroDateFromTime(reachedAt),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      languageOf(document),
+		Language:      recordedLanguageOf(document),
 		LocalLinks:    document.LocalLinks,
 		ExternalLinks: document.ExternalLinks,
 		URLLength:     len(pageURL.String()),
@@ -82,11 +82,12 @@ func metadataOf(
 	wordCount int,
 ) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{
+		Hash:          yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash(),
 		Address:       pageURL.String(),
 		Title:         document.Title,
 		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      languageOf(document),
+		Language:      declaredLanguageOf(document),
 		ByteSize:      documentByteSize,
 		WordCount:     wordCount,
 		LocalLinks:    document.LocalLinks,
@@ -94,7 +95,18 @@ func metadataOf(
 	}
 }
 
-func languageOf(document documentextraction.Document) yacymodel.Optional[yacymodel.Language] {
+func recordedLanguageOf(document documentextraction.Document) yacymodel.Language {
+	declared, ok := declaredLanguageOf(document).Get()
+	if !ok {
+		return yacymodel.LanguageOfUndeclaredDocument
+	}
+
+	return declared
+}
+
+func declaredLanguageOf(
+	document documentextraction.Document,
+) yacymodel.Optional[yacymodel.Language] {
 	if document.Language == "" {
 		return yacymodel.None[yacymodel.Language]()
 	}

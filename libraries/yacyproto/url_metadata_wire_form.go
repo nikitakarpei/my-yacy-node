@@ -49,13 +49,7 @@ func (urlMetadataWireCodec) decode(
 	ctx context.Context,
 	row string,
 ) (yacymodel.URLMetadata, error) {
-	if len(row) < 2 || row[0] != propertyOpen || row[len(row)-1] != propertyClose {
-		return yacymodel.URLMetadata{}, fmt.Errorf(
-			"%w: missing property form",
-			yacymodel.ErrBadURLMetadata,
-		)
-	}
-	properties, err := parsePropertyPairs(row[1 : len(row)-1])
+	properties, err := propertyPairsOfRow(row)
 	if err != nil {
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
@@ -69,7 +63,7 @@ func (urlMetadataWireCodec) decode(
 }
 
 func (urlMetadataWireCodec) encode(metadata yacymodel.URLMetadata) string {
-	return urlMetadataWireFormFromDomain(metadata).row()
+	return urlMetadataWireFormOf(metadata).row()
 }
 
 // urlMetadataWireForm is the url metadata in its property-form wire
@@ -80,9 +74,8 @@ type urlMetadataWireForm struct {
 }
 
 // domain projects the wire form onto the URLMetadata domain concept. A peer
-// also sends hash, flags, score and wi columns; the address is the identity,
-// the flags restate other columns, and the remaining two belong to ranking and
-// to the posting, so none of them are read.
+// also sends flags and score columns; the flags restate other columns, and the
+// score belongs to the sending peer's ranking, so neither is read.
 func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata, error) {
 	address, err := f.text(ctx, urlMetadataColAddress)
 	if err != nil {
@@ -90,6 +83,11 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 	}
 	if address == "" {
 		return yacymodel.URLMetadata{}, fmt.Errorf("url metadata address: empty")
+	}
+
+	hash, err := yacymodel.ParseURLHash(f.properties[urlMetadataColHash])
+	if err != nil {
+		return yacymodel.URLMetadata{}, fmt.Errorf("url metadata hash: %w", err)
 	}
 
 	texts, err := f.texts(
@@ -117,6 +115,7 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 	}
 
 	return yacymodel.URLMetadata{
+		Hash:             hash,
 		Address:          address,
 		Referrer:         referrer,
 		Title:            texts[urlMetadataColTitle],
@@ -255,16 +254,10 @@ func splitTags(joined string) []string {
 	return strings.Split(joined, urlMetadataTagSeparator)
 }
 
-// urlMetadataWireFormFromDomain builds the wire form for domain metadata,
-// emitting the columns in the order YaCy itself writes them. The hash column
-// is recomputed from the address, which is what a receiving peer does too.
-func urlMetadataWireFormFromDomain(m yacymodel.URLMetadata) urlMetadataWireForm {
+func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	f := urlMetadataWireForm{properties: map[string]string{}}
 
-	hash, err := m.Hash()
-	if err == nil {
-		f.put(urlMetadataColHash, hash.String())
-	}
+	f.put(urlMetadataColHash, m.Hash.String())
 	f.putEncoded(urlMetadataColAddress, m.Address)
 	f.putEncoded(urlMetadataColTitle, m.Title)
 	f.putEncoded(urlMetadataColAuthor, m.Author)

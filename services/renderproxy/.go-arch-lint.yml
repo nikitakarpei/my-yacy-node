@@ -24,8 +24,14 @@ components:
     in: internal/originpreflight/**
   proxyintake:
     in: internal/proxyintake/**
-  rendermetrics:
-    in: internal/rendermetrics/**
+  renderobserversapplog:
+    in: internal/renderobservers/applog/**
+  renderobserversprometheus:
+    in: internal/renderobservers/prometheus/**
+  rendercapacityobserversapplog:
+    in: internal/rendercapacityobservers/applog/**
+  rendercapacityobserversprometheus:
+    in: internal/rendercapacityobservers/prometheus/**
   renderproxycmd:
     in: cmd/renderproxy/**
 
@@ -42,6 +48,9 @@ vendors:
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
@@ -56,7 +65,20 @@ deps:
   cdpdocumentbinding:
     canUse:
       - cdproto
-  rendermetrics:
+  renderobserversapplog:
+    mayDependOn:
+      - rendergate
+  renderobserversprometheus:
+    mayDependOn:
+      - rendergate
+    canUse:
+      - prometheus
+  rendercapacityobserversapplog:
+    mayDependOn:
+      - rendergate
+  rendercapacityobserversprometheus:
+    mayDependOn:
+      - rendergate
     canUse:
       - prometheus
   renderproxycmd:

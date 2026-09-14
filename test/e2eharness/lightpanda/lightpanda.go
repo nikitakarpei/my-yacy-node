@@ -14,9 +14,10 @@ import (
 )
 
 const (
-	image = "lightpanda/browser:0.3.4"
-	alias = "lightpanda"
-	port  = "9222"
+	image       = "lightpanda/browser:0.3.4"
+	alias       = "lightpanda"
+	port        = "9222"
+	pathVersion = "/json/version"
 )
 
 func Start(t *testing.T, ctx context.Context, networkName string) {
@@ -51,7 +52,9 @@ func start(t *testing.T, ctx context.Context, networkName string, extraArgs []st
 				"--port", port,
 				"--advertise-host", alias,
 			}, extraArgs...),
-			WaitingFor: wait.ForListeningPort(port + "/tcp").
+			WaitingFor: wait.ForHTTP(pathVersion).
+				WithPort(port + "/tcp").
+				WithForcedIPv4LocalHost().
 				WithStartupTimeout(time.Minute),
 		},
 	})

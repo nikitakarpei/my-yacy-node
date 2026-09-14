@@ -1,0 +1,329 @@
+{
+  "query": "openstreetmap",
+  "judgedDocuments": [
+    {
+      "hash": "D1UyW8ybg-vy",
+      "address": "https://www.openstreetmap.org/way/313187245",
+      "title": "Way: ‪ТП-3865‬ (‪313187245‬) | OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "FW4Ehsxlxh74",
+      "address": "https://domain.glass/2604:b000:c100:749:4ae6:1f9e:43f9:4141",
+      "title": "2604:b000:c100:749:4ae6:1f9e:43f9:4141 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+      "grade": 0
+    },
+    {
+      "hash": "5Uppzlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=40.711667\u0026mlon=-74.0125\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "eO3Aulybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=40.009376\u0026mlon=-75.133346\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "1mo1Mlybg-vy",
+      "address": "https://www.openstreetmap.org/",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "YCJ-Fgybg-vy",
+      "address": "https://www.openstreetmap.org/user/tyr_asd/diary/22363",
+      "title": "tyr_asd's Diary | OSM Node Density 2014 | OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "7sbfBsxlxh74",
+      "address": "https://domain.glass/5.75.231.55",
+      "title": "5.75.231.55 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+      "grade": 0
+    },
+    {
+      "hash": "7jWewSS6MKD4",
+      "address": "https://github.com/dkahle/ggmap",
+      "title": "GitHub - dkahle/ggmap: A package for plotting maps in R with ggplot2 · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "2Q34jlHS80Jh",
+      "address": "https://www.mba-studium.de/datenschutzerklaerung/",
+      "title": "Datenschutzerklärung | MBA-Studium.de",
+      "grade": 0
+    },
+    {
+      "hash": "EVoYIPc_rKzh",
+      "address": "https://www.telepolis.de/features/Kostenlose-Wanderkarten-Die-besten-OpenStreetMap-Apps-im-Test-10313937.html?wt_mc=rss.red.tp.tp.atom.beitrag.beitrag",
+      "title": "Kostenlose Wanderkarten: Die besten OpenStreetMap-Apps im Test | Telepolis",
+      "grade": 1
+    },
+    {
+      "hash": "uKAJVlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47.8391464\u0026mlon=8.8611088",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "bE2T7lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "lYm9vlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.728026\u0026mlon=139.809705\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "2IsWFlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=51.698\u0026mlon=94.39\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "STrh8lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.9\u0026mlon=14.4\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "P95urlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=53\u0026mlon=-8\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "PB3kvlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=9\u0026mlon=8\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "WmYuElybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "ePCLCl-n3pGi",
+      "address": "https://www.openstreetmap.de/",
+      "title": "Die freie Weltkarte — OpenStreetMap Deutschland",
+      "grade": 1
+    },
+    {
+      "hash": "tg_iAlybg-vy",
+      "address": "https://www.openstreetmap.org/copyright",
+      "title": "Copyright and License | OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "-2wmalybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=52.5091,13.3464",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "-Frwjlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.1816\u0026mlon=33.3634\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "mrBojlybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=32.788231,34.968442",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "lJ7RJlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47.33518\u0026mlon=11.19355",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "VdH8ilybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=55.0307,23.7771",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "_76yj8ybg-vy",
+      "address": "https://www.openstreetmap.org/way/677717488",
+      "title": "Way: 677717488 | OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "dkfYoF9eh9Zy",
+      "address": "https://welcome.openstreetmap.org/",
+      "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "BhWqmlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=43.233333333333\u0026mlon=-3.2833333333333\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "5M_8Ulybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=37.967\u0026mlon=23.717\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "Xu8nplybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=36\u0026mlon=128\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "zI04Alybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=16.083333\u0026mlon=121\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "F08OWlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=48.20843\u0026mlon=16.37813",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "Qv8CFlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=42\u0026mlon=51\u0026zoom=7",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "NNqA1lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=21.000\u0026mlon=57.000\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "pOt6vlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-34\u0026mlon=-64\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "69GTylybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-36.4\u0026mlon=-61.6\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "cBfGylybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=22.8\u0026mlon=83\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "pcmfBlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=23\u0026mlon=46\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "Q92cXlybg-vy",
+      "address": "https://www.openstreetmap.org/communities",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "0Wwhvlybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=41.87864,-87.64025",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "MVkeZlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=42.508\u0026mlon=-90.639\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "cjiPJlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "ehgIXlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=50.10000\u0026mlon=9.20000\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "_7OgYNybg-vy",
+      "address": "https://www.openstreetmap.org/node/6634517426",
+      "title": "Node: 6634517426 | OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "MEC8btgcGDHy",
+      "address": "https://blog.openstreetmap.org/",
+      "title": "OpenStreetMap Blog | Supporting the OpenStreetMap project",
+      "grade": 1
+    },
+    {
+      "hash": "jft0alybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=17.351\u0026mlon=78.475",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "tpw_7lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=58.3\u0026mlon=24.4\u0026zoom=9",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "5T_ov8KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Mapbox",
+      "title": "Mapbox - OpenStreetMap Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "HIfHwlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=50.345278\u0026mlon=8.590556\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "PUd1Ulybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=50\u0026mlon=-2\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "ubz0Klybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=50.97188\u0026mlon=11.32970",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "-TY-Vlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47.5003674\u0026mlon=10.7208852",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "S763-lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=52.3\u0026mlon=5.6333333333333\u0026zoom=7",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "AWewB8KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Lb:Main_Page",
+      "title": "Lb:Main Page - OpenStreetMap Wiki",
+      "grade": 1
+    }
+  ]
+}

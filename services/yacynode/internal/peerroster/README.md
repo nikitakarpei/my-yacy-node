@@ -23,6 +23,9 @@ always keeps its place when reconfirmed. A newly reachable peer is admitted
 only if the reachable set still has room; if it is full, the confirmation
 is dropped and logged.
 
+Reachable peers are ranked for gossip: the peer confirmed most recently
+ranks first.
+
 Unreachable peers are ranked for probing: a peer reachable most recently
 ranks first, so a peer that was reachable right up to a restart is retried
 before peers that have never been confirmed. Among peers with no recent

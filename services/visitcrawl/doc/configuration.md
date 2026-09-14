@@ -19,8 +19,8 @@ The visit intake service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `VISITCRAWL_ORDER_TIMEOUT` | `5s` | Time bound on a single placement attempt. |
-| `VISITCRAWL_MAX_IN_FLIGHT` | `256` | Concurrent placement attempts allowed before new visits are skipped. |
+| `VISITCRAWL_ORDER_TIMEOUT` | `5s` | Time bound on placing one crawl order. |
+| `VISITCRAWL_MAX_IN_FLIGHT` | `256` | Concurrent placements allowed before a further placement is refused. |
 | `VISITCRAWL_MAX_BODY_BYTES` | `4096` | Largest request body accepted on `/visit`. |
 
 ## Crawl profile
@@ -35,7 +35,6 @@ Every placed order carries the same crawl profile, built once from these variabl
 | `VISITCRAWL_URL_MUST_NOT_MATCH` | none | Regular expression that excludes a URL from the crawl. |
 | `VISITCRAWL_MAX_PAGES_PER_HOST` | `100` | Pages per host the crawl may fetch; `-1` is unlimited. |
 | `VISITCRAWL_ALLOW_QUERY_URLS` | `false` | Whether URLs with a query string may be crawled. |
-| `VISITCRAWL_IGNORES_INDEXING_REFUSAL` | `true` | Whether the crawl indexes a page that refuses indexing. |
 
 ## Operations
 

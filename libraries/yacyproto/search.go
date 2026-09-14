@@ -43,9 +43,9 @@ type SearchResponse struct {
 	References    string
 	JoinCount     int
 	Count         int
-	Resources     []yacymodel.URLMetadata
+	Resources     []SearchResource
 	IndexCount    map[yacymodel.Hash]int
-	IndexAbstract map[yacymodel.Hash]string
+	IndexAbstract map[yacymodel.Hash][]yacymodel.URLHash
 }
 
 func (r SearchRequest) Form() url.Values {
@@ -131,7 +131,7 @@ func ParseSearchRequest(ctx context.Context, form url.Values) (SearchRequest, er
 		return SearchRequest{}, err
 	}
 
-	req.URLs, err = splitSearchURLHashes(FieldURLs, form.Get(FieldURLs))
+	req.URLs, err = splitConcatURLHashes("search request", FieldURLs, form.Get(FieldURLs))
 	if err != nil {
 		return SearchRequest{}, err
 	}
@@ -205,15 +205,15 @@ func (r SearchResponse) Encode() Message {
 	setInt(msg, FieldSearchTime, r.SearchTime)
 	setString(msg, FieldReferences, r.References)
 	setInt(msg, FieldJoinCount, r.JoinCount)
-	setInt(msg, FieldLinkCount, r.Count)
+	setInt(msg, FieldCount, r.Count)
 	for i, row := range r.Resources {
-		setString(msg, indexedKey(prefixResource, i), urlMetadataWireCodec{}.encode(row))
+		setString(msg, indexedKey(prefixResource, i), searchResourceWireCodec{}.encode(row))
 	}
 	for hash, count := range r.IndexCount {
 		setInt(msg, prefixIndexCount+hash.String(), count)
 	}
-	for hash, abstract := range r.IndexAbstract {
-		setString(msg, prefixIndexAbstract+hash.String(), abstract)
+	for hash, documents := range r.IndexAbstract {
+		setString(msg, prefixIndexAbstract+hash.String(), encodeSearchIndexAbstract(documents))
 	}
 
 	return msg
@@ -238,7 +238,7 @@ func ParseSearchResponse(ctx context.Context, m Message) (SearchResponse, error)
 		return SearchResponse{}, err
 	}
 
-	if resp.Count, err = optionalInt(FieldLinkCount, m[FieldLinkCount]); err != nil {
+	if resp.Count, err = optionalInt(FieldCount, m[FieldCount]); err != nil {
 		return SearchResponse{}, err
 	}
 
@@ -255,8 +255,8 @@ func parseSearchResources(
 	ctx context.Context,
 	m Message,
 	count int,
-) []yacymodel.URLMetadata {
-	var resources []yacymodel.URLMetadata
+) []SearchResource {
+	var resources []SearchResource
 	for i := 0; count <= 0 || i < count; i++ {
 		raw, ok := m[indexedKey(prefixResource, i)]
 		if !ok {
@@ -267,7 +267,7 @@ func parseSearchResources(
 			continue
 		}
 
-		resource, err := urlMetadataWireCodec{}.decode(ctx, raw)
+		resource, err := searchResourceWireCodec{}.decode(ctx, raw)
 		if err != nil {
 			slog.WarnContext(
 				ctx,
@@ -288,10 +288,10 @@ func parseSearchResources(
 
 func parseSearchIndexes(
 	m Message,
-) (map[yacymodel.Hash]int, map[yacymodel.Hash]string, error) {
+) (map[yacymodel.Hash]int, map[yacymodel.Hash][]yacymodel.URLHash, error) {
 	var (
 		counts    map[yacymodel.Hash]int
-		abstracts map[yacymodel.Hash]string
+		abstracts map[yacymodel.Hash][]yacymodel.URLHash
 	)
 
 	for key, value := range m {
@@ -319,10 +319,10 @@ func parseSearchIndexes(
 			}
 
 			if abstracts == nil {
-				abstracts = map[yacymodel.Hash]string{}
+				abstracts = map[yacymodel.Hash][]yacymodel.URLHash{}
 			}
 
-			abstracts[hash] = value
+			abstracts[hash] = decodeSearchIndexAbstract(value)
 		}
 	}
 

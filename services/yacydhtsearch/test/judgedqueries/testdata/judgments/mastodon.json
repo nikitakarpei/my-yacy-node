@@ -1,0 +1,335 @@
+{
+  "query": "mastodon",
+  "judgedDocuments": [
+    {
+      "hash": "rlS7rcg_vK7w",
+      "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
+      "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
+      "grade": 1
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "ytosSsXT2Q14",
+      "address": "https://mastodon.social/?ref=jamesfrew.me",
+      "title": "Mastodon",
+      "grade": 2
+    },
+    {
+      "hash": "nLEeWYsNgbb4",
+      "address": "https://music.apple.com/np/album/marrow-deep/6781040477",
+      "title": "‎Marrow Deep - Album by Mastodon - Apple Music",
+      "grade": 0
+    },
+    {
+      "hash": "BH0SPsXT2Q14",
+      "address": "https://mastodon.social/@Sarahp",
+      "title": "Sarah Perez 💙 (@Sarahp@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "aysh7T7AHFOw",
+      "address": "https://apps.kde.org/id/tokodon/",
+      "title": "Tokodon - Aplikasi KDE",
+      "grade": 1
+    },
+    {
+      "hash": "cad2Xscvw7Vx",
+      "address": "https://wordpress.org/",
+      "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "jLIPjsY8g9Qg",
+      "address": "https://mastodon.ie/@donncha",
+      "title": "Donncha Ó Caoimh (@donncha@mastodon.ie) - mastodon.ie",
+      "grade": 0
+    },
+    {
+      "hash": "rO4CGxAry6d4",
+      "address": "https://fhf-mastodon.instatus.com/",
+      "title": "FHF Mastodon Instances - Status",
+      "grade": 0
+    },
+    {
+      "hash": "Pckw3sS6MKD4",
+      "address": "https://github.com/mbauman",
+      "title": "mbauman (Matt Bauman) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "3Bjd3sXT2Q14",
+      "address": "https://mastodon.social/@ennedia",
+      "title": "Nicola D'Agostino (@ennedia@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "Be6bI56L_tSg",
+      "address": "https://mastodon.org.uk/",
+      "title": "Mastodon.org.uk",
+      "grade": 1
+    },
+    {
+      "hash": "Hu9zVsXT2Q14",
+      "address": "https://mastodon.social/@itsfoss",
+      "title": "It's FOSS (@itsfoss@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "dUKRusXT2Q14",
+      "address": "https://mastodon.social/@gutenberg_new",
+      "title": "Project Gutenberg New Books (@gutenberg_new@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "c5_CmNXT2Q14",
+      "address": "https://mastodon.social/@stroughtonsmith/109819345925189299",
+      "title": "Steve Troughton-Smith: \"libc does *what* 😟 /via https://mastodon.social/@…\" - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "96OHNsXT2Q14",
+      "address": "https://mastodon.social/@macrumors",
+      "title": "MacRumors.com (@macrumors@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "kiI309XT2Q14",
+      "address": "https://mastodon.social/auth/sign_in",
+      "title": "Log in - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "8bFuGsmeXit4",
+      "address": "https://mastodon.xyz/@rms",
+      "title": "Richard Stallman (@rms@mastodon.xyz) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "9CDzsMXT2Q14",
+      "address": "https://mastodon.social/@renor/103410032879136596",
+      "title": "renor: \"Explicaré porqué Twtiter es un servicio malicioso…\" - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "kyXnDfXT2Q14",
+      "address": "https://mastodon.social/@cdevroe/109933294082940633",
+      "title": "Colin Devroe: \"When Nilay Patel interviewed Mozilla CEO @WMitche…\" - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "RJNKSsXT2Q14",
+      "address": "https://mastodon.social/@mdn",
+      "title": "MDN Web Docs (@mdn@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "WTKbYsXT2Q14",
+      "address": "https://mastodon.social/@Catasaur",
+      "title": "Catasaur (@Catasaur@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "uX-6IsXT2Q14",
+      "address": "https://mastodon.social/@ComputerBase",
+      "title": "ComputerBase (@ComputerBase@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "STm-dsXT2Q14",
+      "address": "https://mastodon.social/@amerika21",
+      "title": "amerika21.de (@amerika21@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "myp5YsXT2Q14",
+      "address": "https://mastodon.social/@andrewnez",
+      "title": "Andrew Nesbitt (@andrewnez@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "hk2qqwXT2Q14",
+      "address": "https://mastodon.social/@davemark/109936826662610131",
+      "title": "Dave Mark: \"SOLUTION: - Buried in the Screen Time Settings, …\" - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "fKGqasXT2Q14",
+      "address": "https://mastodon.social/@programming_dev",
+      "title": "programming.dev (@programming_dev@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "GE_UmsXT2Q14",
+      "address": "https://mastodon.social/@opennetru",
+      "title": "OpenNet (@opennetru@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "7xcye5svrCt4",
+      "address": "https://mastodon.gamedev.place/@ruffle",
+      "title": "Ruffle - Flash Player Emulator (@ruffle@mastodon.gamedev.place) - Gamedev Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "ZE95msXT2Q14",
+      "address": "https://mastodon.social/@pfefferle",
+      "title": "Matthias Pfefferle (@pfefferle@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "z1e-1spL_jd4",
+      "address": "https://mastodon.world/@WordPress",
+      "title": "WordPress (@WordPress@mastodon.world) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "XWMtisXT2Q14",
+      "address": "https://mastodon.social/@AllyProto",
+      "title": "AllyProto (@AllyProto@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "Fi16WsK9j8Ug",
+      "address": "https://mastodon.nl/@Wikimedia_Nederland",
+      "title": "Wikimedia Nederland (@Wikimedia_Nederland@mastodon.nl) - Mastodon.nl door Stichting Activityclub",
+      "grade": 0
+    },
+    {
+      "hash": "AUpqbsViDFz4",
+      "address": "https://mastodon.cloud/@boingboing",
+      "title": "Boing Boing (@boingboing@mastodon.cloud) - mastodon.cloud",
+      "grade": 0
+    },
+    {
+      "hash": "_WYPmIpL_jd4",
+      "address": "https://mastodon.world/@Thoogah/116676239477210513",
+      "title": "Wonko The Sane: \"#rainbow🌈 #pixel_dailies #pixelart @pixel_dailies…\" - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "0uu67sY8g9Qg",
+      "address": "https://mastodon.ie/@marcas",
+      "title": "Marcus Marcius Marcellus (@marcas@mastodon.ie) - mastodon.ie",
+      "grade": 0
+    },
+    {
+      "hash": "UEhtisXT2Q14",
+      "address": "https://mastodon.social/privacy-policy",
+      "title": "Privacy Policy - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "cVY9CsXT2Q14",
+      "address": "https://mastodon.social/@brianhurley",
+      "title": "Brian Hurley (@BrianHurley@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "yC4nFsXT2Q14",
+      "address": "https://mastodon.social/@pepertuity",
+      "title": "Perper (@pepertuity@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "R3HTgsXT2Q14",
+      "address": "https://mastodon.social/@sdqmd",
+      "title": "sdqmd (@sdqmd@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "HRkUR5a4DhX4",
+      "address": "https://mastodon.stack.black/@diego",
+      "title": "Diego \"rehrar\" Salazar (@diego@stack.black) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "1rLQosXT2Q14",
+      "address": "https://mastodon.social/@zackwhittaker",
+      "title": "Zack Whittaker (@zackwhittaker@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "_CRjE5IHupF5",
+      "address": "https://mastodon.fediverse.observer/go\u0026software=mastodon",
+      "title": "Fediverse Observer | mastodon Sites Status",
+      "grade": 0
+    },
+    {
+      "hash": "Du8sc5B52pXw",
+      "address": "https://mastodon.matrix.org/@matrix",
+      "title": "The Matrix.org Foundation (@matrix@mastodon.matrix.org) - Matrix.org's Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "xnIdnsViDFz4",
+      "address": "https://mastodon.cloud/@slashdot",
+      "title": "Slashdot :verified: (@slashdot@mastodon.cloud) - mastodon.cloud",
+      "grade": 0
+    },
+    {
+      "hash": "6Ek5p5svrCt4",
+      "address": "https://mastodon.gamedev.place/@gpuopen",
+      "title": "GPUOpen (@gpuopen@mastodon.gamedev.place) - Gamedev Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "1Q_5fsXT2Q14",
+      "address": "https://mastodon.social/@jagmeets13",
+      "title": "Jagmeet Singh (@jagmeets13@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "yV2SGsXT2Q14",
+      "address": "https://mastodon.social/@dpc_ibuildings",
+      "title": "The Dutch PHP Conference (@dpc_ibuildings@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "zahydsmeXit4",
+      "address": "https://mastodon.xyz/@nextcloud",
+      "title": "Nextcloud 📱☁️💻 (@nextcloud@mastodon.xyz) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "ZIStn5svrCt4",
+      "address": "https://mastodon.gamedev.place/@godotengine",
+      "title": "Godot Engine :godot: (@godotengine@mastodon.gamedev.place) - Gamedev Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "pL-nGsXT2Q14",
+      "address": "https://mastodon.social/@creativecommons",
+      "title": "Creative Commons (@creativecommons@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "Y_F6esXT2Q14",
+      "address": "https://mastodon.social/@mozilla",
+      "title": "Mozilla (@mozilla@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "rqw6vsXT2Q14",
+      "address": "https://mastodon.social/@eff",
+      "title": "Electronic Frontier Foundation (@eff@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "KcqYNsXT2Q14",
+      "address": "https://mastodon.social/@FirefoxOfficial",
+      "title": "Firefox (@FirefoxOfficial@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "rNukzsXT2Q14",
+      "address": "https://mastodon.social/@esoastronomy",
+      "title": "ESO (@esoastronomy@mastodon.social) - Mastodon",
+      "grade": 0
+    }
+  ]
+}

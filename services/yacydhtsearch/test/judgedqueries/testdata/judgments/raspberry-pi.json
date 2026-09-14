@@ -1,0 +1,311 @@
+{
+  "query": "raspberry pi",
+  "judgedDocuments": [
+    {
+      "hash": "BvDeqUYlAY74",
+      "address": "https://ubuntu.com/blog/linux-gaming-tutorial-raspberry-pi-minecraft-server-on-ubuntu-desktop",
+      "title": "Raspberry Pi Tutorial: Host a Minecraft server on Ubuntu Desktop | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "G1s4LyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/151",
+      "title": "Firefox 151 release notes for developers (Stable) - Mozilla | MDN",
+      "grade": 0
+    },
+    {
+      "hash": "7qi9OOZ4S_O4",
+      "address": "https://www.ctrl-c.club/~timemachine/2020/09/24/adding-gitea-to-my-rasberry-pi/",
+      "title": "Adding Gitea To My Raspberry Pi",
+      "grade": 1
+    },
+    {
+      "hash": "SyGXxpA4psi4",
+      "address": "https://www.theverge.com/2012/8/1/3212236/android-4-0-ics-raspberry-pi-port",
+      "title": "Android 4.0 ported to Raspberry Pi, supports HD video but not audio | The Verge",
+      "grade": 1
+    },
+    {
+      "hash": "oZ1OMDVimsy4",
+      "address": "https://thepihut.com/blogs/raspberry-pi-tutorials/build-a-raspberry-pi-pico-robot-with-mecanum-wheels",
+      "title": "Build a Raspberry Pi Pico Robot with Mecanum Wheels",
+      "grade": 1
+    },
+    {
+      "hash": "3E1W2tEMwriD",
+      "address": "http://macchineperidrocolonterapia.it/2018/01/14/ciao-mondo/",
+      "title": "News ed Articoli – Macchine per idrocolonterapia",
+      "grade": 0
+    },
+    {
+      "hash": "ruDQwQy9F8gR",
+      "address": "http://www.cotswoldjam.org/",
+      "title": "Cotswold Raspberry Jam – Raspberry Pi computer enthusiast events in Cheltenham, Gloucestershire and beyond",
+      "grade": 1
+    },
+    {
+      "hash": "qHotSl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-poe-hat.html",
+      "title": "Raspberry Pi PoE+ HAT - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "gvuasl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-4-model-b-8-gb.html",
+      "title": "Raspberry Pi 4 Model B (8 GB) - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "nd3jY0oiQ-vh",
+      "address": "https://www.audiostereo.pl/topic/121319-raspberry-pi-malinka-z-daciem-hifi-swietny-odtwarzacz-sieciowy/",
+      "title": "Raspberry Pi (Malinka) z DACiem - HiFi - swietny odtwarzacz sieciowy - PC Audio - Audiostereo.pl",
+      "grade": 1
+    },
+    {
+      "hash": "S-BJJvYLAaI5",
+      "address": "https://www.tomshardware.com/news/why-own-raspberry-pi,38809.html",
+      "title": "Why Every Tech Geek Should Own a Raspberry Pi | Tom's Hardware",
+      "grade": 1
+    },
+    {
+      "hash": "2cUMoMYlAY74",
+      "address": "https://ubuntu.com/download/raspberry-pi",
+      "title": "Install Ubuntu on a Raspberry Pi | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "1jWNOsOMezx5",
+      "address": "https://pimylifeup.com/raspberry-pi-obsidian/",
+      "title": "Easily Take Notes on your Raspberry Pi with Obsidian - Pi My Life Up",
+      "grade": 1
+    },
+    {
+      "hash": "tGMz3l8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-iqaudio-dac.html",
+      "title": "Raspberry Pi IQAudio DAC+ - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "vdRFB2sEYJ15",
+      "address": "https://tailscale.com/docs/solutions/block-ads-all-devices-anywhere-using-raspberry-pi",
+      "title": "Block ads on all your devices from anywhere using a Raspberry Pi · Tailscale Docs",
+      "grade": 1
+    },
+    {
+      "hash": "gUgNJl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-ai-camera.html",
+      "title": "Raspberry Pi AI Camera - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "hhTy_SMAuxi4",
+      "address": "https://www.linkedin.com/learning/raspberry-pi-essential-training-2024",
+      "title": "Raspberry Pi Essential Training Online Class | LinkedIn Learning, formerly Lynda.com",
+      "grade": 1
+    },
+    {
+      "hash": "cg_-JDFJZONx",
+      "address": "https://insinuator.net/2025/06/using-the-raspberry-pi-pico-w-as-a-bluetooth-dongle/",
+      "title": "Using the Raspberry Pi Pico W as a Bluetooth Dongle – Insinuator.net",
+      "grade": 1
+    },
+    {
+      "hash": "jDfrOl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-ssd-256gb.html",
+      "title": "Raspberry Pi SSD - 256GB - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "qqLWzXVimsy4",
+      "address": "https://thepihut.com/products/raspberry-pi-5",
+      "title": "Raspberry Pi 5 - The Pi Hut",
+      "grade": 1
+    },
+    {
+      "hash": "7uQD4VgsGuO5",
+      "address": "https://www.cnx-software.com/2025/12/20/do-you-need-14-usb-ports-on-your-raspberry-pi-5/",
+      "title": "Do you need 14 USB ports on your Raspberry Pi 5? - CNX Software",
+      "grade": 1
+    },
+    {
+      "hash": "-vFO6sYLAaI5",
+      "address": "https://www.tomshardware.com/how-to/create-ai-chatbot-server-on-raspberry-pi",
+      "title": "How To Create Your Own AI Chatbot Server With Raspberry Pi 4 | Tom's Hardware",
+      "grade": 1
+    },
+    {
+      "hash": "bvdN-lBjnZN4",
+      "address": "https://www.canakit.com/raspberry-pi-5",
+      "title": "Raspberry Pi 5",
+      "grade": 1
+    },
+    {
+      "hash": "0joG-ALfGIY4",
+      "address": "https://www.manning.com/livevideo/raspberry-pi-for-beginners-step-by-step",
+      "title": "Raspberry Pi for Beginners, Step by Step - Edouard Renard",
+      "grade": 1
+    },
+    {
+      "hash": "1QNhwAVimsy4",
+      "address": "https://thepihut.com/collections/raspberry-pi-store?page=39",
+      "title": "Raspberry Pi Store - The Pi Hut – Page 39",
+      "grade": 1
+    },
+    {
+      "hash": "XwlZglBjnZN4",
+      "address": "https://www.canakit.com/",
+      "title": "Buy CanaKit Raspberry Pi Kits and Raspberry Pi Boards and Accessories",
+      "grade": 1
+    },
+    {
+      "hash": "wOjCtsnRCfv4",
+      "address": "https://52pi.com/",
+      "title": "Raspberry Pi Products One Stop Shopping Mall – 52Pi Store",
+      "grade": 1
+    },
+    {
+      "hash": "fCwYYl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-500-kit.html",
+      "title": "Raspberry Pi 500 Kit - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "jIiTLVflQqd5",
+      "address": "https://magazine.raspberrypi.com/subscribe",
+      "title": "Raspberry Pi Official Magazine",
+      "grade": 1
+    },
+    {
+      "hash": "yheYm9DZkUL4",
+      "address": "https://www.cnet.com/tech/computing/1-million-raspberry-pi-computers-have-been-sold/",
+      "title": "1 million Raspberry Pi computers have been sold - CNET",
+      "grade": 1
+    },
+    {
+      "hash": "5eTOUl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-touch-display-2.html",
+      "title": "Raspberry Pi Touch Display 2 - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "jURJnM591Hww",
+      "address": "https://www.pishop.us/product/raspberry-pi-500-unit-only/",
+      "title": "Raspberry Pi 500+ Unit Only | SC1237",
+      "grade": 1
+    },
+    {
+      "hash": "_8ITH_nMM_j5",
+      "address": "https://grokipedia.com/page/Raspberry_Pi",
+      "title": "Raspberry Pi",
+      "grade": 2
+    },
+    {
+      "hash": "dTAtytzmo8j4",
+      "address": "https://tilde.town/~diff/snippets/speedofpi.html",
+      "title": "401 ~Raspberry Pi FastBoot™ Tips",
+      "grade": 1
+    },
+    {
+      "hash": "EJyw0l55Qxow",
+      "address": "https://yacy.net/installation/raspberry_pi/",
+      "title": "Raspberry pi - YaCy",
+      "grade": 1
+    },
+    {
+      "hash": "t3Gfs8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Raspberry_Pi",
+      "title": "Raspberry Pi - Gentoo wiki",
+      "grade": 1
+    },
+    {
+      "hash": "l21Wyl8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-poe-injector.html",
+      "title": "Raspberry Pi PoE+ Injector - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "1x38FsOMezx5",
+      "address": "https://pimylifeup.com/raspberry-pi-nomachine/",
+      "title": "Using NoMachine on the Raspberry Pi - Pi My Life Up",
+      "grade": 1
+    },
+    {
+      "hash": "1A9SvsOMezx5",
+      "address": "https://pimylifeup.com/raspberry-pi-4/",
+      "title": "The Raspberry Pi 4 is now Available - Pi My Life Up",
+      "grade": 1
+    },
+    {
+      "hash": "g9DI2Kf4Pib5",
+      "address": "https://code.visualstudio.com/docs/setup/raspberry-pi",
+      "title": "Visual Studio Code on Raspberry Pi",
+      "grade": 1
+    },
+    {
+      "hash": "suYK1l8bqxA4",
+      "address": "https://www.sparkfun.com/raspberry-pi-build-hat.html",
+      "title": "Raspberry Pi Build HAT - SparkFun Electronics",
+      "grade": 1
+    },
+    {
+      "hash": "f1Rj-Szmo8j4",
+      "address": "https://tilde.town/~kzimmermann/articles/30_days_on_a_pi.html",
+      "title": "Klaus Zimmermann's musings - 30 days on a Raspberry Pi",
+      "grade": 1
+    },
+    {
+      "hash": "hWXeAdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Raspberry_Pi",
+      "title": "Raspberry Pi – Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "20Pc3luwPzox",
+      "address": "https://www.raspberrypi.org/donate/?utm_source=blog\u0026utm_medium=web\u0026utm_campaign=pi-day-2023",
+      "title": "Donate to the Raspberry Pi Foundation – Raspberry Pi",
+      "grade": 1
+    },
+    {
+      "hash": "P2AlLvwmtUd5",
+      "address": "https://www.raspberrypi.com/news/raspberry-pi-pico-hot-wheels-drag-race-track-hackspace-51/",
+      "title": "Raspberry Pi Pico Hot Wheels drag race track | HackSpace #51 - Raspberry Pi",
+      "grade": 1
+    },
+    {
+      "hash": "EPqdRzKWn5hj",
+      "address": "https://www.elektronik-kompendium.de/sites/raspberry-pi/pico.htm",
+      "title": "Raspberry Pi Pico - Elektronik-Kompendium.de",
+      "grade": 1
+    },
+    {
+      "hash": "siS8iMlnIma5",
+      "address": "https://www.waveshare.com/product/raspberry-pi/hats/versatile.htm",
+      "title": "Raspberry Pi Versatile HATs",
+      "grade": 1
+    },
+    {
+      "hash": "byIvhvYLAaI5",
+      "address": "https://www.tomshardware.com/news/argon-40-releases-argon-one-m2-case-for-the-raspberry-pi",
+      "title": "Argon 40 Releases Argon One M.2 Case for the Raspberry Pi | Tom's Hardware",
+      "grade": 1
+    },
+    {
+      "hash": "Ot6mnJuwPzox",
+      "address": "https://www.raspberrypi.org/blog/welcome-dave/",
+      "title": "Welcome Dave! - Raspberry Pi Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "uz0rrQ3yZjwC",
+      "address": "http://www.freiesmagazin.de/160621_gewinner_scratch_arduino.html",
+      "title": "Gewinner des Buchs „Faszinierende Elektronikprojekte mit Scratch, Raspberry Pi und Arduino” | freiesMagazin",
+      "grade": 0
+    },
+    {
+      "hash": "1gefTsOMezx5",
+      "address": "https://pimylifeup.com/raspberry-pi-peanut/",
+      "title": "Building a NUT Dashboard with PeaNUT on the Raspberry Pi - Pi My Life Up",
+      "grade": 1
+    }
+  ]
+}

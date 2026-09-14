@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 type fakeAcceptedOrders struct {
@@ -30,11 +30,14 @@ func (o *fakeAcceptedOrders) Keep(_ context.Context, order acceptedorder.Accepte
 }
 
 type fakePendingVisits struct {
-	published []pendingvisit.PendingVisit
+	published []pendingpagevisit.PendingPageVisit
 	err       error
 }
 
-func (v *fakePendingVisits) Publish(_ context.Context, visit pendingvisit.PendingVisit) error {
+func (v *fakePendingVisits) Publish(
+	_ context.Context,
+	visit pendingpagevisit.PendingPageVisit,
+) error {
 	if v.err != nil {
 		return v.err
 	}
@@ -43,14 +46,17 @@ func (v *fakePendingVisits) Publish(_ context.Context, visit pendingvisit.Pendin
 }
 
 type recordingObserver struct {
-	received int
 	accepted int
 	returned int
 }
 
-func (o *recordingObserver) OrderReceived() { o.received++ }
-func (o *recordingObserver) OrderAccepted() { o.accepted++ }
-func (o *recordingObserver) OrderReturned() { o.returned++ }
+func (o *recordingObserver) CrawlOrderAccepted(context.Context, string, int) {
+	o.accepted++
+}
+
+func (o *recordingObserver) CrawlOrderReturned(context.Context, string, error) {
+	o.returned++
+}
 
 func seeds(t *testing.T) []canonicalurl.CanonicalURL {
 	t.Helper()
@@ -123,8 +129,8 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
-	if observer.received != 1 || observer.accepted != 1 {
-		t.Fatalf("observer %+v, want one received and one accepted", observer)
+	if observer.accepted != 1 {
+		t.Fatalf("observer %+v, want one accepted order", observer)
 	}
 }
 

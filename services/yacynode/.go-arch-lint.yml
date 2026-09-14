@@ -40,6 +40,12 @@ components:
     in: internal/urlreferences/**
   rwipostings:
     in: internal/rwipostings/**
+  rwipostingimpactorder:
+    in: internal/rwipostingimpactorder/**
+  rwipostingamount:
+    in: internal/rwipostingamount/**
+  rwiringoccupancy:
+    in: internal/rwiringoccupancy/**
   rwiescrow:
     in: internal/rwiescrow/**
   rwiadmission:
@@ -58,6 +64,10 @@ components:
     in: internal/documentsearch/**
   searchmetrics:
     in: internal/documentsearch/searchmetrics/**
+  searchrelevance:
+    in: internal/documentsearch/searchrelevance/**
+  documentshortlist:
+    in: internal/documentsearch/documentshortlist/**
   searchtest:
     in: internal/documentsearch/searchtest/**
   nodestatus:
@@ -68,16 +78,23 @@ components:
     in: internal/metrics/**
   pagerwi:
     in: internal/pagerwi/**
-  scraperequestintake:
-    in: internal/scraperequestintake/**
-  scrapeprogressobserversapplog:
-    in: internal/scrapeprogressobservers/applog/**
-  scrapeprogressobserversprometheus:
-    in: internal/scrapeprogressobservers/prometheus/**
-  scraperequestbroker:
-    in: internal/scraperequestbroker/**
+  pageintake:
+    in: internal/pageintake/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
+  pageofferbroker:
+    in: internal/pageofferbroker/**
+  intakereceiptsnats:
+    in: internal/intakereceipts/nats/**
+  intakereceiptpublicationobserversapplog:
+    in: internal/intakereceiptpublicationobservers/applog/**
+  intakereceiptpublicationobserversprometheus:
+    in: internal/intakereceiptpublicationobservers/prometheus/**
   cmd:
     in:
+      - cmd/yacy-entrypoint/**
       - cmd/yacy-peer-hash/**
       - cmd/yacy-rwi-node/**
 
@@ -94,16 +111,14 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  scrapedpage:
-    in: github.com/nikitakarpei/yacy-rwi-node/scrapedpage
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   storedfields:
     in: github.com/nikitakarpei/yacy-rwi-node/storedfields
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
-  boltvault:
-    in: github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault
+  pebblevault:
+    in: github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault
   prometheus:
     in:
       - github.com/prometheus/client_golang/prometheus
@@ -119,12 +134,6 @@ vendors:
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
-  pagefetch:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
-  pagefetchershttp:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -134,6 +143,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
@@ -153,10 +163,8 @@ deps:
       - serviceruntime
       - yacyproto
       - yacycrawlcontract
-      - scraperequestcontract
+      - pagescrapecontract
       - pageformats
-      - pagefetch
-      - pagefetchershttp
   nodeidentity:
     canUse:
       - yacyproto
@@ -214,6 +222,25 @@ deps:
     canUse:
       - vault
       - storedfields
+  rwipostingimpactorder:
+    mayDependOn:
+      - rwipostings
+      - hashkeypart
+    canUse:
+      - vault
+  rwipostingamount:
+    mayDependOn:
+      - rwipostings
+      - hashkeypart
+    canUse:
+      - vault
+      - storedfields
+  rwiringoccupancy:
+    mayDependOn:
+      - rwipostings
+    canUse:
+      - vault
+      - storedfields
   rwiescrow:
     mayDependOn:
       - rwipostings
@@ -261,17 +288,30 @@ deps:
     mayDependOn:
       - documentsearch
       - searchmetrics
+      - searchrelevance
+      - documentshortlist
       - rwipostings
+      - rwipostingimpactorder
+      - rwipostingamount
       - urlmeta
       - httpguard
       - nodeidentity
     canUse:
       - yacyproto
       - vault
+  searchrelevance:
+    mayDependOn:
+      - documentsearch
+      - rwipostingimpactorder
+  documentshortlist:
+    mayDependOn:
+      - searchrelevance
   searchmetrics:
     canUse:
       - prometheus
   searchtest:
+    mayDependOn:
+      - rwipostingimpactorder
     canUse:
       - vault
   nodestatus:
@@ -292,36 +332,40 @@ deps:
   metrics:
     mayDependOn:
       - eviction
+      - peerannouncement
       - rwiadmission
     canUse:
       - prometheus
       - vault
+      - pebblevault
   pagerwi:
     canUse:
       - canonicalurl
       - documentextraction
-      - scrapedpage
-  scraperequestintake:
+      - pagescrapecontract
+  pageintake:
     mayDependOn:
       - pagerwi
       - urlmeta
       - rwiadmission
     canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
-      - scrapedpage
+      - pagescrapecontract
       - pageformats
-      - pagefetch
-      - pagefetchershttp
       - serviceruntime
       - documentextraction
-  scraperequestbroker:
+  pageofferbroker:
     canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
+      - pagescrapecontract
       - nats
       - serviceruntime
-  scrapeprogressobserversprometheus:
+  intakereceiptsnats:
+    canUse:
+      - pagescrapecontract
+      - nats
+  pageintakeobserversprometheus:
+    canUse:
+      - prometheus
+  intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus
   cmd:

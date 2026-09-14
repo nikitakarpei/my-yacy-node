@@ -1,0 +1,269 @@
+{
+  "query": "how does public key cryptography work",
+  "judgedDocuments": [
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "F0CwieFbwuxx",
+      "address": "https://letsencrypt.org/documents/isrg-cps-v4.1/",
+      "title": "ISRG CPS v4.1 - Let's Encrypt",
+      "grade": 0
+    },
+    {
+      "hash": "5uJeNaIq6BFg",
+      "address": "https://proton.me/learn/encryption/glossary/post-quantum-cryptography",
+      "title": "What is post-quantum cryptography? | Proton",
+      "grade": 1
+    },
+    {
+      "hash": "3VHCVsOEIUyr",
+      "address": "https://simerdupolresbatang.id/",
+      "title": "simerdupolresbatangid",
+      "grade": 0
+    },
+    {
+      "hash": "32glu_nMM_j5",
+      "address": "https://grokipedia.com/page/Authentication",
+      "title": "Authentication — Grokipedia",
+      "grade": 1
+    },
+    {
+      "hash": "E-T1Ljldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Cryptography/Print_version",
+      "title": "Cryptography/Print version - Wikibooks, open books for an open world",
+      "grade": 2
+    },
+    {
+      "hash": "Hz7ud_nMM_j5",
+      "address": "https://grokipedia.com/page/Digital_transformation",
+      "title": "Digital transformation — Grokipedia",
+      "grade": 0
+    },
+    {
+      "hash": "cF6iQswQPNL4",
+      "address": "https://auth0.com/changelog?version=v202533",
+      "title": "Auth0 Changelog",
+      "grade": 0
+    },
+    {
+      "hash": "atY_jKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CR/new",
+      "title": "Cryptography and Security",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "YIVK5aIq6BFg",
+      "address": "https://proton.me/learn/encryption/types-of-encryption/zero-access",
+      "title": "What is zero-access encryption? | Proton",
+      "grade": 1
+    },
+    {
+      "hash": "kt1CvWawk-F5",
+      "address": "https://theintactone.com/tag/sblc/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "FEiQtWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc8471",
+      "title": "RFC 8471 - The Token Binding Protocol Version 1.0",
+      "grade": 1
+    },
+    {
+      "hash": "B9VWfKsrSOQw",
+      "address": "https://arxiv.org/list/cs.CV/new",
+      "title": "Computer Vision and Pattern Recognition",
+      "grade": 0
+    },
+    {
+      "hash": "jrbsLWawk-F5",
+      "address": "https://theintactone.com/tag/holder/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "grade": 0
+    },
+    {
+      "hash": "w_9jmzX55GGw",
+      "address": "https://planet.jabber.org/",
+      "title": "Planet Jabber",
+      "grade": 0
+    },
+    {
+      "hash": "zjh_EiBbCobw",
+      "address": "https://www.php.net/manual/en/language.types.string.php",
+      "title": "PHP: Strings - Manual",
+      "grade": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "46ps9sE9Eiw4",
+      "address": "https://pgp.utils.com/",
+      "title": "PGP Encrypt/Decrypt - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "8UUF7AIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/politics/",
+      "title": "Politics, Law \u0026 War – 10 Zen Monkeys",
+      "grade": 0
+    },
+    {
+      "hash": "Zm-akaIq6BFg",
+      "address": "https://proton.me/learn/encryption",
+      "title": "What is encryption? A complete guide | Proton",
+      "grade": 1
+    },
+    {
+      "hash": "4HqVeaIq6BFg",
+      "address": "https://proton.me/learn/encryption/types-of-encryption/full-disk-encryption",
+      "title": "What is full-disk encryption? A complete guide | Proton",
+      "grade": 1
+    },
+    {
+      "hash": "4w4qosN9NeLw",
+      "address": "https://signal.org/blog/",
+      "title": "Signal Blog",
+      "grade": 0
+    },
+    {
+      "hash": "FSWGqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/World_War_I",
+      "title": "World War I - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "XZgTmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Edgar_Allan_Poe",
+      "title": "Edgar Allan Poe - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ptCCrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+      "title": "Massachusetts Institute of Technology - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "fRWe3tS6MKD4",
+      "address": "https://github.com/trending/systemverilog?since=daily",
+      "title": "Trending SystemVerilog repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "vcPgA7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc8446/",
+      "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3 | RFC Editor",
+      "grade": 1
+    },
+    {
+      "hash": "YzkOOsa7-qV4",
+      "address": "https://xkcd.com/archive/",
+      "title": "xkcd - A webcomic of romance, sarcasm, math, and language - By Randall Munroe",
+      "grade": 0
+    },
+    {
+      "hash": "G7Xre2cHOkWx",
+      "address": "https://www.gutenberg.org/files/3008/3008-h/3008-h.htm",
+      "title": "The Project Gutenberg Etext of The New Hacker's Dictionary version 4.2.2",
+      "grade": 0
+    },
+    {
+      "hash": "DhKFI-fvgwV4",
+      "address": "https://www.hp.com/us-en/newsroom.html",
+      "title": "Newsroom | HP® Official Site",
+      "grade": 0
+    },
+    {
+      "hash": "4I8HnsgJoQyx",
+      "address": "https://grapheneos.org/features",
+      "title": "Features overview | GrapheneOS",
+      "grade": 0
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
+      "grade": 0
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "grade": 0
+    },
+    {
+      "hash": "UobyTsuI8hnw",
+      "address": "https://www.eff.org/about/staff",
+      "title": "EFF's Staff and Contributors | Electronic Frontier Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS 22.11 manual",
+      "grade": 0
+    },
+    {
+      "hash": "41DS_L8hxo35",
+      "address": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/sfi-progress-report-july-2026",
+      "title": "SFI Progress Report July 2026 | Microsoft Trust Center",
+      "grade": 0
+    },
+    {
+      "hash": "-PEP9iBbCobw",
+      "address": "https://www.php.net/manual/en/features.http-auth.php",
+      "title": "PHP: HTTP authentication with PHP - Manual",
+      "grade": 0
+    },
+    {
+      "hash": "n9fGWlSCNQa4",
+      "address": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux",
+      "title": "Red Hat Enterprise Linux",
+      "grade": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "grade": 0
+    },
+    {
+      "hash": "0IsrslZZ-o74",
+      "address": "https://www.nccgroup.com/research/",
+      "title": "Cyber Security Research | NCC Group",
+      "grade": 0
+    },
+    {
+      "hash": "3zFnUKsrSOQw",
+      "address": "https://arxiv.org/list/math/new",
+      "title": "Mathematics",
+      "grade": 0
+    }
+  ]
+}

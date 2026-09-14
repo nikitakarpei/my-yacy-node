@@ -8,7 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go"
 
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 type scrapeRequestSubscription struct {
@@ -23,7 +23,7 @@ func subscribeToScrapeRequests(t *testing.T, natsURL string) scrapeRequestSubscr
 		t.Fatalf("connect scrape-request subscription: %v", err)
 	}
 	t.Cleanup(connection.Close)
-	subscription, err := connection.SubscribeSync(scraperequestcontract.ScrapeRequestSubject)
+	subscription, err := connection.SubscribeSync(pagescrapecontract.ScrapeRequestSubject)
 	if err != nil {
 		t.Fatalf("subscribe to scrape requests: %v", err)
 	}
@@ -33,13 +33,13 @@ func subscribeToScrapeRequests(t *testing.T, natsURL string) scrapeRequestSubscr
 	return scrapeRequestSubscription{connection: connection, subscription: subscription}
 }
 
-func (s scrapeRequestSubscription) next(t *testing.T) scraperequestcontract.ScrapeRequest {
+func (s scrapeRequestSubscription) next(t *testing.T) pagescrapecontract.ScrapeRequest {
 	t.Helper()
 	message, err := s.subscription.NextMsg(10 * time.Second)
 	if err != nil {
 		t.Fatalf("receive scrape request: %v", err)
 	}
-	request, err := scraperequestcontract.UnmarshalScrapeRequest(message.Data)
+	request, err := pagescrapecontract.UnmarshalScrapeRequest(message.Data)
 	if err != nil {
 		t.Fatalf("read scrape request: %v", err)
 	}

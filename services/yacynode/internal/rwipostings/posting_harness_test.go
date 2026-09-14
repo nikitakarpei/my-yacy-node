@@ -36,21 +36,6 @@ func (h harness) rwiCount(t *testing.T) int {
 	return count
 }
 
-func (h harness) scanWord(
-	t *testing.T,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) {
-	t.Helper()
-
-	ctx := context.Background()
-	if err := h.vault.View(ctx, func(tx *vault.Txn) error {
-		return h.index.ScanWord(ctx, tx, word, visit)
-	}); err != nil {
-		t.Fatalf("ScanWord: %v", err)
-	}
-}
-
 func (h harness) postingOf(
 	t *testing.T,
 	word yacymodel.Hash,
@@ -96,6 +81,31 @@ func openHarness(t *testing.T) harness {
 	return harness{vault: v, index: index, admitter: admitter, purger: purger, observer: observer}
 }
 
+const (
+	storedNotification = "stored"
+	purgedNotification = "purged"
+)
+
+type recordingObserver struct {
+	stored               []yacymodel.RWIPosting
+	purged               []yacymodel.RWIPosting
+	notificationsInOrder []string
+}
+
+func (o *recordingObserver) PostingStored(_ *vault.Txn, posting yacymodel.RWIPosting) error {
+	o.stored = append(o.stored, posting)
+	o.notificationsInOrder = append(o.notificationsInOrder, storedNotification)
+
+	return nil
+}
+
+func (o *recordingObserver) PostingPurged(_ *vault.Txn, posting yacymodel.RWIPosting) error {
+	o.purged = append(o.purged, posting)
+	o.notificationsInOrder = append(o.notificationsInOrder, purgedNotification)
+
+	return nil
+}
+
 func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
@@ -125,6 +135,7 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:   yacymodel.WordHash(word),
 		URLHash:    urlHash(urlSeed),
+		Language:   yacymodel.LanguageOfUndeclaredDocument,
 		LocalLinks: 1,
 		Hits:       1,
 	}

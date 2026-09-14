@@ -1,0 +1,275 @@
+{
+  "query": "free software foundation",
+  "judgedDocuments": [
+    {
+      "hash": "WdJ2qlDmGrO5",
+      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
+      "title": "Another Blog Post",
+      "grade": 0
+    },
+    {
+      "hash": "THPLFiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
+      "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "xnFwQjXHmKFw",
+      "address": "https://www.fsf.org/blogs/community/software-that-supports-your-body-should-always-respect-your-freedom",
+      "title": "Software that supports your body should always respect your freedom — Free Software Foundation — Working together for free software",
+      "grade": 1
+    },
+    {
+      "hash": "M7cV_s0hnfE5",
+      "address": "https://fullhousesa.com/",
+      "title": "fullhousesa.com",
+      "grade": 0
+    },
+    {
+      "hash": "tsBO3hsWTYKx",
+      "address": "https://sourceforge.net/directory/software-development/",
+      "title": "Best Open Source Software Development Software 2026",
+      "grade": 0
+    },
+    {
+      "hash": "rj2YgZxftzp0",
+      "address": "https://streetwiseworld.com.ng/2024/02/26/hardship-we-will-not-allow-protesters-impede-free-flow-of-traffic-lagos-police/",
+      "title": "Hardship: We Will Not Allow Protesters Impede Free Flow Of Traffic- Lagos Police – Street Wise World",
+      "grade": 0
+    },
+    {
+      "hash": "8KdpCL8hxo35",
+      "address": "https://www.microsoft.com/en-us/software-development-companies",
+      "title": "AI \u0026 Tools for Software Companies | Software Development Companies",
+      "grade": 0
+    },
+    {
+      "hash": "zlsdajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software",
+      "title": "Software",
+      "grade": 0
+    },
+    {
+      "hash": "39fEgitD2jQw",
+      "address": "https://docs.python.org/3/howto/free-threading-python.html",
+      "title": "Python support for free threading — Python 3.14.6 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "CBsJnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_maintainer",
+      "title": "Software maintainer - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9n1rhjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/free",
+      "title": "free - Wiktionary, the free dictionary",
+      "grade": 0
+    },
+    {
+      "hash": "3eCEIBCH4Pew",
+      "address": "https://savannah.gnu.org/projects/free",
+      "title": "GNU.FREE - Summary [Savannah]",
+      "grade": 0
+    },
+    {
+      "hash": "KAs9AjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_content",
+      "title": "Free content - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "_grbrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_engineering",
+      "title": "Software engineering - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ko6iFUb8iyg4",
+      "address": "https://cloud.google.com/free",
+      "title": "Free Trial and Free Tier Services and Products | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "96iJCyuI8hnw",
+      "address": "https://www.eff.org/press/releases/mobile-ad-software-encourages-location-data-sharing-eff-report-finds",
+      "title": "Mobile Ad Software Encourages Location Data Sharing, EFF Report Finds | Electronic Frontier Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "gloktjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_software",
+      "title": "Free software - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "AeDSZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Graphics_software",
+      "title": "Graphics software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "mCpq5KS6MKD4",
+      "address": "https://github.com/johnjago/awesome-free-software",
+      "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "1Y8-qjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Application_software",
+      "title": "Application software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "2X6yByhkKIQy",
+      "address": "https://www.linuxfoundation.org/legal/the-linux-mark",
+      "title": "Sublicense the Linux Mark | Linux Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Krz6_MaQF27w",
+      "address": "https://www.apache.org/foundation/marks/",
+      "title": "Apache Software Foundation Trademark Policy | Apache Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "lWSSlHWUVeV5",
+      "address": "https://opensource.com/article/22/7/meet-fsf-executive-director-zoe-kooyman",
+      "title": "Meet Free Software Foundation Executive Director Zoë Kooyman | Opensource.com",
+      "grade": 1
+    },
+    {
+      "hash": "SD9VQcToTHCx",
+      "address": "https://ia.wikipedia.org/wiki/Software_libere",
+      "title": "Software libere - Wikipedia, le encyclopedia libere",
+      "grade": 0
+    },
+    {
+      "hash": "feJyUjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_as_a_service",
+      "title": "Software as a service - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PSrKH8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Foundation:Privacy_Policy",
+      "title": "Foundation:Privacy Policy - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "gs4qP_QzrsJ5",
+      "address": "https://thestingofthescorpion.wordpress.com/tag/selfie-level/",
+      "title": "Selfie Level | The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "jKQKJldG5jPw",
+      "address": "https://www.python.org/psf-landing/",
+      "title": "Python Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "HgsjmL8hxo35",
+      "address": "https://www.microsoft.com/en-us/software-development-companies/resources/articles",
+      "title": "Software Company Resources | Software Development Companies",
+      "grade": 0
+    },
+    {
+      "hash": "v3JgSzH2Pyiw",
+      "address": "https://ocw.mit.edu/",
+      "title": "MIT OpenCourseWare | Free Online Course Materials",
+      "grade": 0
+    },
+    {
+      "hash": "BsZOzh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Chat_software",
+      "title": "Category:Chat software - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "7UdOfL8hxo35",
+      "address": "https://www.microsoft.com/en-us/security/business/get-started/start-free-trial",
+      "title": "Microsoft Security Free Trial | Microsoft Security",
+      "grade": 0
+    },
+    {
+      "hash": "4AdwWNrC7Zxw",
+      "address": "https://www.gnu.org/philosophy/free-sw.en.html",
+      "title": "What is Free Software? - GNU Project - Free Software Foundation",
+      "grade": 1
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "grade": 0
+    },
+    {
+      "hash": "BsRHNUC_VmZ4",
+      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
+      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
+      "grade": 0
+    },
+    {
+      "hash": "CfGENlC_VmZ4",
+      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
+      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
+      "grade": 0
+    },
+    {
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
+      "grade": 0
+    },
+    {
+      "hash": "1yd_7zbpbGvx",
+      "address": "https://species.wikimedia.org/wiki/Main_Page",
+      "title": "Wikispecies, free species directory",
+      "grade": 0
+    },
+    {
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "grade": 0
+    }
+  ]
+}

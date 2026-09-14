@@ -62,7 +62,7 @@ func MountQuery(
 	references ReferencedURLCounter,
 	urls URLCounter,
 ) {
-	httpguard.Mount(
+	httpguard.MountMessage(
 		router,
 		yacyproto.PathQuery,
 		yacyproto.QueryEndpointMethods,

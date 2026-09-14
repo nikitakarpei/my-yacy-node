@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
@@ -9,10 +10,11 @@ import (
 	"syscall"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 )
@@ -35,18 +37,34 @@ func run() error {
 	}
 
 	registry := prometheus.NewRegistry()
+	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "yacynode_info",
+			Help: "YaCy node application identity.",
+		}, func() float64 { return 1 }),
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
 
-	storage, err := boltvault.Open(
+	engine, err := pebblevault.OpenEngine(
 		config.Storage.Path,
 		config.Storage.QuotaByte,
-		boltvault.WriteBatch{
-			MaximumWrites: config.Storage.BBoltWriteBatchMaximumWrites,
-			MaximumDelay:  config.Storage.BBoltWriteBatchMaximumDelay,
+		pebblevault.MachineLimits{
+			BlockCacheBytes:       config.Storage.BlockCacheByte,
+			MemtableBytes:         config.Storage.MemtableByte,
+			CompactionConcurrency: config.Storage.CompactionConcurrency,
+			OpenFileLimit:         config.Storage.OpenFileLimit,
 		},
-		metrics.NewVaultTransactionMetrics(registry),
+		metrics.NewPebbleWriteStallMetrics(registry),
 	)
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)
+	}
+	metrics.NewPebbleConditionMetrics(registry, engine)
+
+	storage, err := vault.New(engine, metrics.NewVaultTransactionMetrics(registry))
+	if err != nil {
+		return errors.Join(fmt.Errorf("lend storage: %w", err), engine.Close())
 	}
 	defer closeVault(storage)
 

@@ -13,24 +13,32 @@ components:
     in: internal/websearch/**
   searchenginessearxng:
     in: internal/searchengines/searxng/**
-  searchprogressobserversapplog:
-    in: internal/searchprogressobservers/applog/**
-  searchprogressobserversprometheus:
-    in: internal/searchprogressobservers/prometheus/**
+  websearchobserversapplog:
+    in: internal/websearchobservers/applog/**
+  websearchobserversprometheus:
+    in: internal/websearchobservers/prometheus/**
   pageread:
     in: internal/pageread/**
   markdownexcerpt:
     in: internal/markdownexcerpt/**
-  markdowncorporagrpc:
-    in: internal/markdowncorpora/grpc/**
+  markdowncorporahttp:
+    in: internal/markdowncorpora/http/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
   scrapeoutcomesnats:
     in: internal/scrapeoutcomes/nats/**
-  pagereadprogressobserversapplog:
-    in: internal/pagereadprogressobservers/applog/**
-  pagereadprogressobserversprometheus:
-    in: internal/pagereadprogressobservers/prometheus/**
+  pagereadobserversapplog:
+    in: internal/pagereadobservers/applog/**
+  pagereadobserversprometheus:
+    in: internal/pagereadobservers/prometheus/**
+  scraperequestobserversapplog:
+    in: internal/scraperequestobservers/applog/**
+  scraperequestobserversprometheus:
+    in: internal/scraperequestobservers/prometheus/**
+  scrapeoutcomeobserversapplog:
+    in: internal/scrapeoutcomeobservers/applog/**
+  scrapeoutcomeobserversprometheus:
+    in: internal/scrapeoutcomeobservers/prometheus/**
   toolcallreceiversmcp:
     in: internal/toolcallreceivers/mcp/**
   webresearchmcpcmd:
@@ -45,15 +53,11 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/**
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   mcpsdk:
     in:
       - github.com/modelcontextprotocol/go-sdk/mcp
-  grpc:
-    in:
-      - google.golang.org/grpc
-      - google.golang.org/grpc/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -76,37 +80,42 @@ deps:
   searchenginessearxng:
     mayDependOn:
       - websearch
-  searchprogressobserversapplog:
+  websearchobserversapplog:
     mayDependOn:
       - websearch
-  searchprogressobserversprometheus:
+  websearchobserversprometheus:
     mayDependOn:
       - websearch
     canUse:
       - prometheus
-  markdowncorporagrpc:
+  markdowncorporahttp:
     mayDependOn:
       - pageread
     canUse:
       - pagemarkdownstore
-      - grpc
   scraperequestsjetstream:
     canUse:
-      - scraperequestcontract
+      - pagescrapecontract
       - serviceruntime
       - nats
   scrapeoutcomesnats:
     mayDependOn:
       - pageread
     canUse:
-      - pagemarkdownstore
+      - pagescrapecontract
       - nats
-  pagereadprogressobserversapplog:
+  pagereadobserversapplog:
     mayDependOn:
       - pageread
-  pagereadprogressobserversprometheus:
+  pagereadobserversprometheus:
     mayDependOn:
       - pageread
+    canUse:
+      - prometheus
+  scraperequestobserversprometheus:
+    canUse:
+      - prometheus
+  scrapeoutcomeobserversprometheus:
     canUse:
       - prometheus
   toolcallreceiversmcp:

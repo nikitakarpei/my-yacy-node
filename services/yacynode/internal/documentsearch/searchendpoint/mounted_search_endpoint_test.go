@@ -5,26 +5,52 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const (
-	searchNetwork      = "freeworld"
-	maxPostingsPerTerm = 100
-)
+const searchNetwork = "freeworld"
+
+type searchIndex interface {
+	rwipostings.PostingIndex
+	rwipostingimpactorder.ImpactOrderQuery
+	rwipostingamount.PostingAmountQuery
+}
+
+const documentsPerIndexAbstract = 1000
+
+func searchResultsFor(
+	t *testing.T,
+	index searchIndex,
+	documents searchresult.DocumentDirectory,
+) searchresult.Results {
+	t.Helper()
+
+	return searchresult.New(
+		openVault(t),
+		documentmatch.New(index, index),
+		indexabstract.New(index, index, documentsPerIndexAbstract),
+		index,
+		documents,
+	)
+}
 
 type searchRuntimeStatus struct{}
 
@@ -43,14 +69,7 @@ func mountedSearch(
 ) *http.ServeMux {
 	t.Helper()
 
-	mux, _ := mountedSearchResults(
-		t,
-		searchresult.New(
-			openVault(t),
-			termpostings.New(index, maxPostingsPerTerm),
-			documents,
-		),
-	)
+	mux, _ := mountedSearchResults(t, searchResultsFor(t, index, documents))
 
 	return mux
 }
@@ -138,18 +157,30 @@ func search(
 func urlMetadata(ids ...string) map[yacymodel.URLHash]yacymodel.URLMetadata {
 	metadata := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(ids))
 	for _, id := range ids {
-		metadata[searchtest.URLHashFor(id)] = yacymodel.URLMetadata{
-			Address: "http://example.com/" + id,
-		}
+		metadata[documentHashOf(id)] = yacymodel.URLMetadata{Address: documentAddressOf(id)}
 	}
 
 	return metadata
 }
 
-func postingEntry(word yacymodel.Hash, url string) yacymodel.RWIPosting {
+func postingEntry(word yacymodel.Hash, id string) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: word,
-		URLHash:  searchtest.URLHashFor(url),
+		URLHash:  documentHashOf(id),
+		Language: yacymodel.LanguageOfUndeclaredDocument,
 		Hits:     1,
 	}
+}
+
+func documentAddressOf(id string) string {
+	return "http://example.com/" + id
+}
+
+func documentHashOf(id string) yacymodel.URLHash {
+	address, err := url.Parse(documentAddressOf(id))
+	if err != nil {
+		panic(err)
+	}
+
+	return yacymodel.URLNormalformOf(address).Hash()
 }

@@ -17,16 +17,16 @@ func TestDHTRingTracksAcceptingPeersPerSector(t *testing.T) {
 	observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector([]int{0, 2, 0})
 
 	expected := `
-# HELP rwidistribution_peers_accepting_remote_index Peers accepting remote index, by the DHT ring sector they occupy.
-# TYPE rwidistribution_peers_accepting_remote_index gauge
-rwidistribution_peers_accepting_remote_index{sector="00"} 0
-rwidistribution_peers_accepting_remote_index{sector="01"} 2
-rwidistribution_peers_accepting_remote_index{sector="02"} 0
+# HELP yacynode_rwidistribution_peers_accepting_remote_index Peers accepting remote index, by the DHT ring sector they occupy.
+# TYPE yacynode_rwidistribution_peers_accepting_remote_index gauge
+yacynode_rwidistribution_peers_accepting_remote_index{sector="00"} 0
+yacynode_rwidistribution_peers_accepting_remote_index{sector="01"} 2
+yacynode_rwidistribution_peers_accepting_remote_index{sector="02"} 0
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_peers_accepting_remote_index",
+		"yacynode_rwidistribution_peers_accepting_remote_index",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -40,7 +40,7 @@ func TestDHTRingTracksReplicaRingFractions(t *testing.T) {
 
 	if got := testutil.CollectAndCount(
 		registry,
-		"rwidistribution_replica_ring_fraction",
+		"yacynode_rwidistribution_replica_ring_fraction",
 	); got != 1 {
 		t.Errorf("series = %v, want 1", got)
 	}
@@ -50,7 +50,7 @@ func TestDHTRingTracksReplicaRingFractions(t *testing.T) {
 		t.Fatalf("Gather: %v", err)
 	}
 	for _, family := range families {
-		if family.GetName() != "rwidistribution_replica_ring_fraction" {
+		if family.GetName() != "yacynode_rwidistribution_replica_ring_fraction" {
 			continue
 		}
 		histogram := family.GetMetric()[0].GetHistogram()

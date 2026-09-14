@@ -8,18 +8,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/titletopics"
 )
 
-func titled(title string) yacymodel.URLMetadata {
-	return yacymodel.URLMetadata{Title: title}
-}
-
 func TestTopicsFromTitlesOrdersByFrequency(t *testing.T) {
-	resources := []yacymodel.URLMetadata{
-		titled("alpha beta gamma"),
-		titled("alpha beta"),
-		titled("alpha"),
+	titles := []string{
+		"alpha beta gamma",
+		"alpha beta",
+		"alpha",
 	}
 
-	got := titletopics.TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(titles, nil)
 	want := []string{"alpha", "beta", "gamma"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -27,13 +23,13 @@ func TestTopicsFromTitlesOrdersByFrequency(t *testing.T) {
 }
 
 func TestTopicsFromTitlesExcludesQueryTerms(t *testing.T) {
-	resources := []yacymodel.URLMetadata{
-		titled("report budget review"),
-		titled("budget review"),
+	titles := []string{
+		"report budget review",
+		"budget review",
 	}
 	queryTerms := []yacymodel.Hash{yacymodel.WordHash("budget")}
 
-	got := titletopics.TopicsFromTitles(resources, queryTerms)
+	got := titletopics.TopicsFromTitles(titles, queryTerms)
 	want := []string{"review", "report"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -41,12 +37,12 @@ func TestTopicsFromTitlesExcludesQueryTerms(t *testing.T) {
 }
 
 func TestTopicsFromTitlesDropsShortAndNonLetters(t *testing.T) {
-	resources := []yacymodel.URLMetadata{
-		titled("go 2024 release notes"),
-		titled("release notes"),
+	titles := []string{
+		"go 2024 release notes",
+		"release notes",
 	}
 
-	got := titletopics.TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(titles, nil)
 	want := []string{"notes", "release"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -54,12 +50,12 @@ func TestTopicsFromTitlesDropsShortAndNonLetters(t *testing.T) {
 }
 
 func TestTopicsFromTitlesCapsAtFiveAlphabeticallyAmongEquallyFrequentWords(t *testing.T) {
-	resources := []yacymodel.URLMetadata{
-		titled("one two three four five six seven"),
-		titled("one two three four five six seven"),
+	titles := []string{
+		"one two three four five six seven",
+		"one two three four five six seven",
 	}
 
-	got := titletopics.TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(titles, nil)
 	want := []string{"five", "four", "one", "seven", "six"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -67,9 +63,9 @@ func TestTopicsFromTitlesCapsAtFiveAlphabeticallyAmongEquallyFrequentWords(t *te
 }
 
 func TestTopicsFromTitlesReturnsSingleWord(t *testing.T) {
-	resources := []yacymodel.URLMetadata{titled("alpha alpha alpha")}
+	titles := []string{"alpha alpha alpha"}
 
-	got := titletopics.TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(titles, nil)
 	want := []string{"alpha"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -77,12 +73,12 @@ func TestTopicsFromTitlesReturnsSingleWord(t *testing.T) {
 }
 
 func TestTopicsFromTitlesDropsUnhelpfulWords(t *testing.T) {
-	resources := []yacymodel.URLMetadata{
-		titled("the alpha and beta"),
-		titled("the alpha"),
+	titles := []string{
+		"the alpha and beta",
+		"the alpha",
 	}
 
-	got := titletopics.TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(titles, nil)
 	want := []string{"alpha", "beta"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)

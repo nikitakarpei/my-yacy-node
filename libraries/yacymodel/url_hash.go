@@ -2,11 +2,19 @@ package yacymodel
 
 import (
 	"fmt"
+	"net/url"
 )
 
-const hostHashLength = 6
-
 type URLHash struct{ hash Hash }
+
+func URLHashOf(address string) (URLHash, error) {
+	parsed, err := url.Parse(address)
+	if err != nil {
+		return URLHash{}, fmt.Errorf("url hash: address %q: %w", address, err)
+	}
+
+	return URLNormalformOf(parsed).Hash(), nil
+}
 
 func ParseURLHash(raw string) (URLHash, error) {
 	hash, err := ParseHash(raw)
@@ -53,5 +61,5 @@ func (h URLHash) String() string {
 }
 
 func (h URLHash) HostHash() HostHash {
-	return HostHash{value: h.hash.value[HashLength-hostHashLength:]}
+	return HostHash{value: h.hash.value[HashLength-HostHashLength:]}
 }
