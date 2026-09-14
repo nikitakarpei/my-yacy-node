@@ -28,8 +28,8 @@ const (
 	colTextPosition      = "t"
 	colPhraseRelativePos = "r"
 	colPhrasePosition    = "o"
-	byteColumnMask       = 0xff
-	uint16ColumnMask     = 0xffff
+	byteColumnCeiling    = 0xff
+	uint16ColumnCeiling  = 0xffff
 	propertyOpen         = '{'
 	propertyClose        = '}'
 )
@@ -205,11 +205,11 @@ func (e rwiPostingWireForm) cardinal(column string) uint64 {
 }
 
 func (e rwiPostingWireForm) byteCardinal(column string) byte {
-	return byte(e.cardinal(column) & byteColumnMask)
+	return byte(e.cardinal(column) & byteColumnCeiling)
 }
 
 func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
-	return uint16(e.cardinal(column) & uint16ColumnMask)
+	return uint16(e.cardinal(column) & uint16ColumnCeiling)
 }
 
 // language keeps only the leading ISO 639-1 code: YaCy peers are known to send
@@ -243,23 +243,42 @@ func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 	props := map[string]string{
 		colURLHash:           p.URLHash.String(),
 		colLastModified:      strconv.FormatUint(microDateWireCodec{}.encode(p.LastModified), 10),
-		colTitleWordCount:    strconv.Itoa(p.TitleWords),
-		colTextWordCount:     strconv.Itoa(p.TextWords),
-		colPhraseCount:       strconv.Itoa(p.Phrases),
+		colTitleWordCount:    byteCardinalTextFrom(p.TitleWords),
+		colTextWordCount:     uint16CardinalTextFrom(p.TextWords),
+		colPhraseCount:       uint16CardinalTextFrom(p.Phrases),
 		colDocType:           strconv.FormatUint(uint64(charByDocumentType[p.DocumentType]), 10),
-		colLocalLinkCount:    strconv.Itoa(p.LocalLinks),
-		colExternalLinkCount: strconv.Itoa(p.ExternalLinks),
-		colURLLength:         strconv.Itoa(p.URLLength),
-		colURLComponentCount: strconv.Itoa(p.URLComponents),
+		colLocalLinkCount:    byteCardinalTextFrom(p.LocalLinks),
+		colExternalLinkCount: byteCardinalTextFrom(p.ExternalLinks),
+		colURLLength:         byteCardinalTextFrom(p.URLLength),
+		colURLComponentCount: byteCardinalTextFrom(p.URLComponents),
 		colFlags:             yacymodel.Encode(bitfieldFromAppearance(p.Appearance)),
-		colHitCount:          strconv.Itoa(p.Hits),
-		colTextPosition:      strconv.Itoa(p.TextPosition),
-		colPhraseRelativePos: strconv.Itoa(p.PhraseRelativePosition),
-		colPhrasePosition:    strconv.Itoa(p.PhrasePosition),
+		colHitCount:          byteCardinalTextFrom(p.Hits),
+		colTextPosition:      uint16CardinalTextFrom(p.TextPosition),
+		colPhraseRelativePos: byteCardinalTextFrom(p.PhraseRelativePosition),
+		colPhrasePosition:    byteCardinalTextFrom(p.PhrasePosition),
 	}
 	props[colLanguage] = p.Language.String()
 
 	return rwiPostingWireForm{wordHash: p.WordHash, properties: props}
+}
+
+func byteCardinalTextFrom(value int) string {
+	return strconv.Itoa(saturatedCardinalFrom(value, byteColumnCeiling))
+}
+
+func saturatedCardinalFrom(value, ceiling int) int {
+	if value < 0 {
+		return 0
+	}
+	if value > ceiling {
+		return ceiling
+	}
+
+	return value
+}
+
+func uint16CardinalTextFrom(value int) string {
+	return strconv.Itoa(saturatedCardinalFrom(value, uint16ColumnCeiling))
 }
 
 func parseRWIPostingLine(line string) (rwiPostingWireForm, error) {
