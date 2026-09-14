@@ -16,10 +16,10 @@ a conflict, not a redundancy. The bridges have no channel to each other and must
 ## Decision
 
 Every seed a bridge emits carries a bridge label in the seed's tags, signed with the bridge's
-key. A translated seed's label names the native address behind it. A bridge reads only labels
-signed by keys its operator trusts; any other label is no label. A labelled seed is never a
-native peer: no bridge translates it onward. A bridge does not translate a native peer whose
-address a label in the receiving realm already names.
+key over the seed it marks. A bridge reads only labels signed by keys its operator trusts; any
+other label is no label. A labelled seed is never a native peer: no bridge translates it onward.
+A bridge does not translate a native peer whose hash a labelled seed in the receiving realm
+already carries.
 
 When two bridges have translated one peer before seeing each other, the smaller translated
 address stands, and the other bridge withdraws its translation and stops answering on it.

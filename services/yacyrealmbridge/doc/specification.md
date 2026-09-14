@@ -24,15 +24,16 @@ manage the network technology that provides it.
 * The bridge SHALL serve one configured YaCy network across both realms.
 * The bridge SHALL be a YaCy peer of its own in each realm, SHALL learn that realm's peers the way any peer does, and SHALL publish in each realm a seed list that holds its own seed for that realm.
 * Before it holds a peer, the bridge SHALL confirm that a YaCy peer of the network answers at the address the peer's seed advertises. The bridge SHALL keep confirming held peers and SHALL drop a peer that stops answering.
-* The bridge SHALL identify a held peer by its native address. The peer hash SHALL be payload.
-* The bridge SHALL give each held native peer one translated address in the other realm, by the translated address scheme the operator configures for that realm, and SHALL NOT translate a peer when no translated address is available.
-* The bridge SHALL mark every seed it emits with a bridge label in the seed's tags, signed with the bridge's key. The label of a translated seed SHALL name the native address behind it. The bridge SHALL read only a label signed by a key the operator trusts, and SHALL treat a seed with any other label as unlabelled.
+* The bridge SHALL lease each held peer hash one translated address in the other realm, from the translated address space the operator configures for that realm, for an operator-configured lease that the bridge renews while the peer is held. Until the lease expires, that hash SHALL have that translated address and no other.
+* The bridge SHALL forward a translated address to the native address its view holds for the leased hash.
+* The bridge SHALL NOT translate a peer when no translated address is available.
+* The bridge SHALL mark every seed it emits with a bridge label in the seed's tags, signed with the bridge's key over the seed it marks. The bridge SHALL read only a label signed by a key the operator trusts, and SHALL treat a seed with any other label as unlabelled.
 * The bridge SHALL NOT translate a labelled seed, and SHALL NOT translate a peer whose hash is held natively in the receiving realm.
-* The bridge SHALL NOT translate a native peer whose native address a label in the receiving realm already names. When two bridges have translated one peer, the translation with the smaller translated address SHALL stand, and the other bridge SHALL withdraw its translation and SHALL stop answering on it.
+* The bridge SHALL NOT translate a native peer whose hash a labelled seed in the receiving realm already carries. When two bridges have translated one hash, the translation with the smaller translated address SHALL stand, and the other bridge SHALL withdraw its translation and SHALL stop answering on it.
 * The bridge SHALL list the held peers of one realm, at their translated addresses, in the hello answers of its peer in the other realm.
 * The bridge SHALL preserve the peer hash, network, and DHT position of a held peer.
 * The bridge SHALL change only the seed fields that describe how to reach the peer, and the tags. A translated seed SHALL offer plain HTTP at the translated address only.
-* The bridge SHALL forward admitted YaCy peer requests that arrive at a standing translated address to the native address of the held peer.
+* The bridge SHALL forward admitted YaCy peer requests that arrive at a standing translated address, and SHALL NOT answer on one that does not stand.
 * The bridge SHALL translate every carried seed for the receiving realm. It SHALL refuse a request whose required seed has no translation, and SHALL drop an optional seed that has no translation.
 * The bridge SHALL proxy only YaCy peer-protocol paths under `/yacy/`.
 * The operator SHALL admit or refuse each peer-protocol path per crossing direction.
@@ -41,11 +42,11 @@ manage the network technology that provides it.
 
 ## Non-Functional Requirements
 
-* A translated address SHALL stay the same while the native address behind it is held, across bridge restarts.
-* The bridge SHALL hold its views of both realms and its translated address allocations in NATS JetStream, shared by every instance of the bridge, and SHALL hold no other durable state.
+* A translated address SHALL stay with its hash until the lease expires, across bridge restarts and across moves of the native peer inside its realm.
+* The bridge SHALL hold its views of both realms and its translated address leases in NATS JetStream, shared by every instance of the bridge, and SHALL hold no other durable state.
 * Every instance of one bridge SHALL serve every held peer of that bridge.
 * The bridge SHALL NOT start without NATS JetStream.
-* The size of each view and of each translated address pool SHALL have an operator-configured bound.
+* The size of each view and of each translated address space SHALL have an operator-configured bound.
 * Resource use and operation deadlines SHALL have operator-configured limits.
 * Forwarded requests SHALL reach only held native addresses.
 * Discovery failure in one realm SHALL NOT stop forwarding for the peers held in the other realm.
@@ -56,7 +57,7 @@ manage the network technology that provides it.
 ## Known Limitations
 
 * A seed whose label the bridge does not trust reads as a native peer. An untrusted bridge's translations can be translated onward, and two bridges that do not trust each other both translate every peer.
-* A held peer is as strong as the native address the realm gives it. Peers in a realm that treat an address as identity see the bridge's own addresses behind every translated address, not the native peer.
-* Any peer that answers a confirmation is held. The bounds on the view and on the pool are the whole defence.
-* A hash that a rogue states in one realm is forwarded under that hash into the other realm.
+* A peer hash is stated, not proven. Peers in a realm that treat an address as identity see the bridge's own addresses behind every translated address, not the native peer.
+* Any peer that answers a confirmation is held. The bounds on the view and on the address space are the whole defence.
+* A rogue that states another peer's hash in one realm is forwarded under that hash into the other realm, as it would be inside one realm.
 * The bridge's addresses in a realm may all sit on one host that the realm's technology binds to one key. That host is a single point of failure the bridge does not remove.
