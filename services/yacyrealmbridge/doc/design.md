@@ -66,8 +66,7 @@ network gets the hello answer YaCy gives, `yourtype=virgin`, and HTTP 403 elsewh
 each realm runs `RunOnce` to reconfirm its known addresses, then the listeners and the announcement cycle start. An
 entry ends when its native address stays unreachable past the configured retention, or a finite pool fills with departed peers.
 
-**Only fields that carry seeds and `yourip` are re-encoded.** Seeds sit in hello `seed`, search `myseed`, and
-hello answer `seed0..N`. Every other request or answer, `urls.xml` included, crosses byte for byte.
+**Only fields that carry seeds and `yourip` are re-encoded.** Seeds sit in hello `seed`, search `myseed`, and hello answer `seed0..N`. Every other request or answer, `urls.xml` included, crosses byte for byte.
 
 **Wire units are lifted, not copied.** `yacyseedlist` and `peerlivenesswire` move from `yacydhtsearch` to
 `libraries/`; the hello exchange of `yacynode`'s `peerannouncement` becomes `peergreetwire` there too.
