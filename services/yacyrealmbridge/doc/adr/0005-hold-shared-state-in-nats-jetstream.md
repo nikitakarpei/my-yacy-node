@@ -9,12 +9,13 @@ Accepted
 ## Context
 
 One bridge process is a single point of failure for every peer that chose it. Instances behind
-one address must agree on registrations and on which port belongs to whom. The embedded vault
+one address must agree on which peers are held and on which port belongs to whom. The embedded vault
 engines lock their directory to one process, so no vault can serve two instances.
 
 ## Decision
 
-The bridge holds registrations and pool allocations in JetStream key-value buckets it owns, over
+The bridge holds its views of both realms and its pool allocations in JetStream key-value
+buckets it owns, over
 `github.com/nats-io/nats.go`, and uses no vault. NATS is required: the bridge does not start
 without it.
 
