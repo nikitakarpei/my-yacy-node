@@ -68,9 +68,8 @@ path reads the configuration of its own crossing, for example refuse `transferRW
 names. A foreign network gets the hello answer YaCy gives, `yourtype=virgin`, and HTTP 403 elsewhere. Only the fields
 that carry seeds and `yourip` are re-encoded: hello `seed`, search `myseed`, hello answer `seed0..N`. All else crosses byte for byte.
 
-**Durable state is one vault with two collections: known addresses per realm, and the peer address table.** At start
-each realm runs `RunOnce` to reconfirm its known addresses, then the listeners and the announcement cycle start. An entry
-ends when its native address stays unreachable past the retention, or a finite pool fills with departed peers.
+**Durable state is one vault with two collections: known addresses per realm, and the peer address table.** At start each
+realm runs `RunOnce` to reconfirm its known addresses, then the listeners and the announcement cycle start. An entry ends when its native address stays unreachable past the retention, or a finite pool fills with departed peers.
 
 ## Residual risks and open points
 
