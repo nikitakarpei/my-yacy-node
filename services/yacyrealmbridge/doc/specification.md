@@ -12,7 +12,6 @@ not identify or manage the network technology that provides it.
 
 * Create, configure, monitor, or route an address realm.
 * Provide a general-purpose proxy.
-* Change YaCy peer identities or DHT behavior.
 * Proxy non-peer YaCy interfaces.
 * Provide anonymity or payload confidentiality from the bridge operator.
 
@@ -25,9 +24,12 @@ not identify or manage the network technology that provides it.
 * The bridge SHALL preserve the peer hash, network, capabilities, and DHT position.
 * The bridge SHALL replace only seed fields that describe reachability.
 * The bridge SHALL announce projected seeds in the receiving realm.
-* The bridge SHALL forward YaCy peer requests between projected and native endpoints.
+* The bridge SHALL forward admitted YaCy peer requests between projected and native endpoints.
 * The bridge SHALL translate every carried seed for the receiving realm.
-* The bridge SHALL proxy only configured YaCy peer-protocol paths under `/yacy/`.
+* The bridge SHALL proxy only YaCy peer-protocol paths under `/yacy/`.
+* The bridge SHALL apply operator-configured boundary rules to each crossing direction.
+* A boundary rule SHALL select peer-protocol paths and SHALL admit or refuse them.
+* The bridge SHALL answer a refused request in place of the native peer and SHALL not forward it.
 * The bridge SHALL suppress a projection when that peer is native to the receiving realm.
 * The bridge SHALL withdraw a projection while its native peer is unreachable.
 * The bridge SHALL reject malformed seeds and requests for another YaCy network.
@@ -40,6 +42,6 @@ not identify or manage the network technology that provides it.
 * Resource use and operation deadlines SHALL have operator-configured limits.
 * Forwarded requests SHALL reach only confirmed native peer endpoints.
 * Discovery failure in one realm SHALL not stop valid projections in the other realm.
-* Health, projection, discovery, announcement, and forwarding SHALL expose metrics.
+* Health, projection, discovery, announcement, forwarding, and refusal SHALL expose metrics.
 * The bridge SHALL support low-resource Linux-class hosts.
 * The bridge SHALL remain compatible with standard plain-HTTP YaCy peer contracts.
