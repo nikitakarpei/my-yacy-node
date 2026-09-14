@@ -38,6 +38,8 @@ components:
     in: internal/urlmetastaleness/**
   urlreferences:
     in: internal/urlreferences/**
+  urlpostingpurge:
+    in: internal/urlpostingpurge/**
   rwipostings:
     in: internal/rwipostings/**
   rwipostingimpactorder:
@@ -78,6 +80,8 @@ components:
     in: internal/metrics/**
   pagerwi:
     in: internal/pagerwi/**
+  pageadmission:
+    in: internal/pageadmission/**
   pageintake:
     in: internal/pageintake/**
   pageintakeobserversapplog:
@@ -254,6 +258,7 @@ deps:
       - rwipostings
       - rwiescrow
       - urlmeta
+      - urlreferences
     canUse:
       - vault
   rwiingress:
@@ -321,12 +326,16 @@ deps:
     canUse:
       - yacyproto
       - vault
-  eviction:
+  urlpostingpurge:
     mayDependOn:
       - rwipostings
+      - urlreferences
+    canUse:
+      - vault
+  eviction:
+    mayDependOn:
       - urlmeta
       - urlmetastaleness
-      - urlreferences
     canUse:
       - vault
   metrics:
@@ -334,6 +343,7 @@ deps:
       - eviction
       - peerannouncement
       - rwiadmission
+      - urlpostingpurge
     canUse:
       - prometheus
       - vault
@@ -343,11 +353,17 @@ deps:
       - canonicalurl
       - documentextraction
       - pagescrapecontract
-  pageintake:
+  pageadmission:
     mayDependOn:
       - pagerwi
       - urlmeta
-      - rwiadmission
+      - rwipostings
+    canUse:
+      - vault
+  pageintake:
+    mayDependOn:
+      - pagerwi
+      - pageadmission
     canUse:
       - pagescrapecontract
       - pageformats

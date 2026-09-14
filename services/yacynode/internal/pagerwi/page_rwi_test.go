@@ -317,3 +317,67 @@ func hashOfPageURL(t *testing.T) yacymodel.URLHash {
 
 	return yacymodel.URLNormalformOf(pageAddress).Hash()
 }
+
+func indexOfPageModifiedAt(t *testing.T, modifiedAt time.Time) pagerwi.PageRWI {
+	t.Helper()
+	scraped := scrapedPage(t, sampleText)
+	scraped.PageModifiedAt = modifiedAt
+
+	return pagerwi.Of(scraped, extractedDocument(), []byte(sampleText), reachedAt)
+}
+
+func TestOfRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
+	modifiedAt := reachedAt.Add(-72 * time.Hour)
+
+	index := indexOfPageModifiedAt(t, modifiedAt)
+
+	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+		modified != yacymodel.CalendarDayOf(modifiedAt) {
+		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, modifiedAt)
+	}
+	for _, posting := range index.Postings {
+		if posting.LastModified != yacymodel.MicroDateFromTime(modifiedAt) {
+			t.Fatalf("posting last modified = %v, want %v",
+				posting.LastModified, yacymodel.MicroDateFromTime(modifiedAt))
+		}
+	}
+}
+
+func TestOfKeepsTheTimeThePageWasFetchedAsTheLoadedDate(t *testing.T) {
+	index := indexOfPageModifiedAt(t, reachedAt.Add(-72*time.Hour))
+
+	if loaded, ok := index.Metadata.Loaded.Get(); !ok ||
+		loaded != yacymodel.CalendarDayOf(reachedAt) {
+		t.Fatalf("metadata loaded = %+v, want %v", index.Metadata.Loaded, reachedAt)
+	}
+}
+
+func TestOfFallsBackToTheTimeThePageWasReachedWhenTheOriginSaidNothing(t *testing.T) {
+	index := indexOfPageModifiedAt(t, time.Time{})
+
+	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+		modified != yacymodel.CalendarDayOf(reachedAt) {
+		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
+	}
+	for _, posting := range index.Postings {
+		if posting.LastModified != yacymodel.MicroDateFromTime(reachedAt) {
+			t.Fatalf("posting last modified = %v, want %v",
+				posting.LastModified, yacymodel.MicroDateFromTime(reachedAt))
+		}
+	}
+}
+
+func TestOfHoldsBackAModifiedDateLaterThanTheTimeThePageWasReached(t *testing.T) {
+	index := indexOfPageModifiedAt(t, reachedAt.Add(240*time.Hour))
+
+	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+		modified != yacymodel.CalendarDayOf(reachedAt) {
+		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
+	}
+	for _, posting := range index.Postings {
+		if posting.LastModified > yacymodel.MicroDateFromTime(reachedAt) {
+			t.Fatalf("posting last modified = %v, want no later than %v",
+				posting.LastModified, yacymodel.MicroDateFromTime(reachedAt))
+		}
+	}
+}

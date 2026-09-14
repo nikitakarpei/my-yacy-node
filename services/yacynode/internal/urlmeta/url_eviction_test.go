@@ -37,29 +37,28 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 	}
 }
 
-func TestPurgeSurvivesObserverFailure(t *testing.T) {
+func TestPurgeKeepsTheURLWhenAnObserverFails(t *testing.T) {
 	ctx := context.Background()
-	observer := &recordingObserver{fail: true}
+	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
 	row := urlMetadata(t, "a")
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
-	var result urlmeta.PurgeResult
+	observer.fail = true
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{row.Hash})
-		result = purged
+		_, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{row.Hash})
 		if purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)
 		}
 
 		return nil
-	}); err != nil {
-		t.Fatalf("Update: %v", err)
+	}); err == nil {
+		t.Fatal("Purge reported success although an observer refused it")
 	}
-	if result.URLsDeleted != 1 {
-		t.Fatalf("URLsDeleted = %d, want 1 despite observer failure", result.URLsDeleted)
+	if count := storedURLCount(t, v, module.Directory); count != 1 {
+		t.Fatalf("Count = %d, want the url the refused purge left in place", count)
 	}
 }
 

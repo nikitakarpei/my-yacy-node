@@ -28,6 +28,10 @@ type URLReceiver interface {
 	Receive(ctx context.Context, metadata []yacymodel.URLMetadata) (Receipt, error)
 }
 
+type URLMetadataAdmitter interface {
+	Admit(tx *vault.Txn, metadata yacymodel.URLMetadata) error
+}
+
 type URLEvictor interface {
 	Purge(ctx context.Context, tx *vault.Txn, urls []yacymodel.URLHash) (PurgeResult, error)
 }
@@ -54,19 +58,17 @@ type PurgeResult struct {
 func Open(
 	vault *vault.Vault,
 	watchers ...URLMetadataObserver,
-) (URLDirectory, URLEvictor, URLReceiver, error) {
+) (URLDirectory, URLEvictor, URLMetadataAdmitter, URLReceiver, error) {
 	collection, err := registerCollection(vault)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, nil, nil, nil, err
 	}
 
 	watched := observers(watchers)
 	directory := urlDirectory{collection: collection, observers: watched}
+	intake := urlIntake{vault: vault, collection: collection, observers: watched}
 
-	return directory,
-		directory,
-		urlIntake{vault: vault, collection: collection, observers: watched},
-		nil
+	return directory, directory, intake, intake, nil
 }
 
 func MountTransferURL(

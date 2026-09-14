@@ -1191,7 +1191,7 @@
     },
     {
       "id": 92,
-      "title": "URL metadata admission throughput",
+      "title": "Page admission throughput",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1221,7 +1221,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pageintake_url_metadata_admitted_total{instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum(rate(yacynode_pageintake_pages_admitted_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "admitted"
         }
       ],
@@ -2345,8 +2345,8 @@
         },
         {
           "refId": "B",
-          "expr": "rate(yacynode_eviction_postings_evicted_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "postings evicted"
+          "expr": "rate(yacynode_url_posting_purge_postings_total{instance=~\"$service_instance\"}[$window])",
+          "legendFormat": "postings purged with their URLs"
         }
       ],
       "interval": "$window"

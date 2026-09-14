@@ -38,7 +38,7 @@ func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
 		}
 	})
 
-	directory, evictor, receiver, err := urlmeta.Open(v)
+	directory, evictor, _, receiver, err := urlmeta.Open(v)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -185,7 +185,7 @@ func TestIntakeUpdatesAndNotifiesOnDuplicateURLs(t *testing.T) {
 	}
 }
 
-func TestIntakeSurvivesObserverFailure(t *testing.T) {
+func TestIntakeStoresNothingWhenAnObserverFails(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{fail: true}
 	v, module := openObservedModule(t, observer)
@@ -193,11 +193,11 @@ func TestIntakeSurvivesObserverFailure(t *testing.T) {
 	if _, err := module.Receiver.Receive(
 		ctx,
 		[]yacymodel.URLMetadata{urlMetadata(t, "a")},
-	); err != nil {
-		t.Fatalf("Intake: %v", err)
+	); err == nil {
+		t.Fatal("Intake accepted the url although an observer refused it")
 	}
-	if count := storedURLCount(t, v, module.Directory); count != 1 {
-		t.Fatalf("Count = %d, want 1 despite observer failure", count)
+	if count := storedURLCount(t, v, module.Directory); count != 0 {
+		t.Fatalf("Count = %d, want the refused url left unstored", count)
 	}
 }
 

@@ -6,19 +6,14 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
 const boundReachedMessage = "storage eviction stopped at its sweep bound"
 
 type quotaSweeper struct {
 	vault           *vault.Vault
-	postings        rwipostings.PostingPurger
-	references      urlreferences.ReferenceQuery
 	urls            urlmeta.URLEvictor
 	stale           urlmetastaleness.StaleURLSource
 	target          float64
@@ -48,16 +43,12 @@ func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 			return total, err
 		}
 		total.URLsDeleted += batch.URLsDeleted
-		total.PostingsDeleted += batch.PostingsDeleted
 		if batch.URLsDeleted == 0 {
 			return total, nil
 		}
 	}
 
-	slog.WarnContext(ctx, boundReachedMessage,
-		slog.Int("urls", total.URLsDeleted),
-		slog.Int("postings", total.PostingsDeleted),
-	)
+	slog.WarnContext(ctx, boundReachedMessage, slog.Int("urls", total.URLsDeleted))
 
 	return total, nil
 }
@@ -70,16 +61,11 @@ func (s quotaSweeper) purgeStalest(ctx context.Context) (Result, error) {
 			return fmt.Errorf("select stale urls: %w", err)
 		}
 
-		purgedPostings, err := s.purgePostings(tx, stalest)
-		if err != nil {
-			return err
-		}
-
-		urlResult, err := s.urls.Purge(ctx, tx, stalest)
+		purged, err := s.urls.Purge(ctx, tx, stalest)
 		if err != nil {
 			return fmt.Errorf("purge urls: %w", err)
 		}
-		result = Result{URLsDeleted: urlResult.URLsDeleted, PostingsDeleted: purgedPostings}
+		result = Result{URLsDeleted: purged.URLsDeleted}
 
 		return nil
 	})
@@ -88,25 +74,4 @@ func (s quotaSweeper) purgeStalest(ctx context.Context) (Result, error) {
 	}
 
 	return result, nil
-}
-
-func (s quotaSweeper) purgePostings(tx *vault.Txn, urls []yacymodel.URLHash) (int, error) {
-	purged := 0
-	for _, url := range urls {
-		words, err := s.references.WordsReferencing(tx, url)
-		if err != nil {
-			return 0, fmt.Errorf("words referencing url: %w", err)
-		}
-		for _, word := range words {
-			wasPurged, err := s.postings.PurgePosting(tx, word, url)
-			if err != nil {
-				return 0, fmt.Errorf("purge posting: %w", err)
-			}
-			if wasPurged {
-				purged++
-			}
-		}
-	}
-
-	return purged, nil
 }

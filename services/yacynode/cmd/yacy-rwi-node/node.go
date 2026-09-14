@@ -25,6 +25,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
@@ -47,6 +48,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
@@ -202,10 +204,17 @@ func assembleNode(
 	}
 	metrics.NewRWIEscrowCapacityMetrics(registry, vault, postingEscrow)
 
-	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(
+	urlPostingPurge := urlpostingpurge.New(
+		urlReferences,
+		postingPurger,
+		metrics.NewURLPostingPurgeMetrics(registry),
+	)
+
+	urlDirectory, urlEvictor, urlMetadataAdmitter, urlReceiver, err := urlmeta.Open(
 		vault,
 		urlMetadataStaleness,
 		postingEscrow,
+		urlPostingPurge,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
@@ -221,6 +230,14 @@ func assembleNode(
 			Pause:    postingAdmissionBusyPause,
 			Refusals: admissionRefusals,
 		},
+	)
+
+	pageReceiver := pageadmission.Open(
+		vault,
+		urlEvictor,
+		urlMetadataAdmitter,
+		postingAdmitter,
+		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
 	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, vault, postings, urlDirectory)
@@ -296,7 +313,7 @@ func assembleNode(
 
 	if config.PageOfferIntake.Enabled() {
 		intake, intakeErr := openPageOfferIntake(
-			ctx, config.PageOfferIntake, urlReceiver, postingReceiver, registry,
+			ctx, config.PageOfferIntake, pageReceiver, registry,
 		)
 		if intakeErr != nil {
 			return node{}, intakeErr
@@ -375,8 +392,6 @@ func assembleNode(
 		),
 		evictionSweeper: eviction.NewSweeper(
 			vault,
-			postingPurger,
-			urlReferences,
 			urlEvictor,
 			urlMetadataStaleness,
 			eviction.Config{
