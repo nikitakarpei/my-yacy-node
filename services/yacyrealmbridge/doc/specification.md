@@ -15,7 +15,7 @@ manage the network technology that provides it.
 * Proxy non-peer YaCy interfaces.
 * Provide anonymity or payload confidentiality from the bridge operator.
 * Prove that a peer owns the peer hash it states.
-* Decide which bridge keys to trust.
+* Establish trust between bridge operators.
 * Talk to other bridges.
 
 ## Functional Requirements
@@ -26,7 +26,7 @@ manage the network technology that provides it.
 * Before it holds a peer, the bridge SHALL confirm that a YaCy peer of the network answers at the address the peer's seed advertises. The bridge SHALL keep confirming held peers and SHALL drop a peer that stops answering.
 * The bridge SHALL identify a held peer by its native address. The peer hash SHALL be payload.
 * The bridge SHALL give each held native peer one translated address in the other realm, by the translated address scheme the operator configures for that realm, and SHALL NOT translate a peer when no translated address is available.
-* The bridge SHALL mark every seed it emits with a bridge label in the seed's tags, signed with the bridge's key. The label of a translated seed SHALL name the native address behind it. The bridge SHALL read only a label whose signature holds.
+* The bridge SHALL mark every seed it emits with a bridge label in the seed's tags, signed with the bridge's key. The label of a translated seed SHALL name the native address behind it. The bridge SHALL read only a label signed by a key the operator trusts, and SHALL treat a seed with any other label as unlabelled.
 * The bridge SHALL NOT translate a labelled seed, and SHALL NOT translate a peer whose hash is held natively in the receiving realm.
 * The bridge SHALL NOT translate a native peer whose native address a label in the receiving realm already names. When two bridges have translated one peer, the translation with the smaller translated address SHALL stand, and the other bridge SHALL withdraw its translation and SHALL stop answering on it.
 * The bridge SHALL list the held peers of one realm, at their translated addresses, in the hello answers of its peer in the other realm.
@@ -55,7 +55,7 @@ manage the network technology that provides it.
 
 ## Known Limitations
 
-* A bridge label is signed, but the bridge trusts every key. A rogue that gossips a seed labelled as some peer's translation, at a small address, stops every honest bridge from translating that peer.
+* A seed whose label the bridge does not trust reads as a native peer. An untrusted bridge's translations can be translated onward, and two bridges that do not trust each other both translate every peer.
 * A held peer is as strong as the native address the realm gives it. Peers in a realm that treat an address as identity see the bridge's own addresses behind every translated address, not the native peer.
 * Any peer that answers a confirmation is held. The bounds on the view and on the pool are the whole defence.
 * A hash that a rogue states in one realm is forwarded under that hash into the other realm.

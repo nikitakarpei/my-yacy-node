@@ -16,13 +16,14 @@ a conflict, not a redundancy. The bridges have no channel to each other and must
 ## Decision
 
 Every seed a bridge emits carries a bridge label in the seed's tags, signed with the bridge's
-key. A translated seed's label names the native address behind it. A labelled seed is never a native peer: no bridge translates
-it onward. A bridge does not translate a native peer whose address a label in the receiving realm
-already names.
+key. A translated seed's label names the native address behind it. A bridge reads only labels
+signed by keys its operator trusts; any other label is no label. A labelled seed is never a
+native peer: no bridge translates it onward. A bridge does not translate a native peer whose
+address a label in the receiving realm already names.
 
-When two bridges have translated one peer before seeing each other, the smaller
-translated address stands, and the other bridge withdraws its translation and stops answering
-on it. Bridges read the labels that native peers gossip and never talk to each other.
+When two bridges have translated one peer before seeing each other, the smaller translated
+address stands, and the other bridge withdraws its translation and stops answering on it.
+Bridges read the labels that native peers gossip and never talk to each other.
 
 ## Consequences
 
@@ -31,6 +32,7 @@ that stops answering is dropped by the native peers themselves. Stock YaCy store
 map and re-emits every entry of it, so the label survives gossip; a seed longer than 16000
 characters is rejected whole.
 
-The signature proves which key made a label, and nothing yet says which keys to trust: a rogue that gossips a seed labelled as some peer's translation, at a small
-address, stops every honest bridge from translating that peer. Bridge admission and trust chains
-between operators are future work the signature leaves room for.
+A rogue label under an untrusted key changes nothing: the bridge translates the peer anyway. A
+seed under an untrusted label reads as a native peer, so an untrusted bridge's translations can
+be translated onward, and two bridges that do not trust each other both translate every peer.
+Admission processes and trust chains between operators are future work.

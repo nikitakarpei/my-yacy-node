@@ -11,10 +11,10 @@ native peer gets one translated address in the other realm, and the bridge's hel
 other realm's held peers at their translated addresses. Peers greet those addresses and gossip spreads the rest.
 
 Every seed the bridge emits carries a bridge label in its `Tags`, signed with the bridge's key: identity seeds a
-bare label, translated seeds a label naming the native address behind them. A labelled seed is never a native peer,
-so no bridge translates it onward. Bridges never talk to each other: each reads the labels native peers gossip and
-does not translate a native peer whose address a label in the receiving realm names. Two bridges that translated one
-peer before seeing each other apply one rule alone: the smaller translated address stands, the other stops answering.
+bare label, translated seeds a label naming the native address behind them. A bridge reads only labels signed by
+keys its operator trusts; any other label is no label. A labelled seed is never a native peer, so no bridge translates
+it onward, and no bridge translates a native peer a trusted label in the receiving realm names. Bridges never talk
+to each other. When two translated one peer before seeing each other, the smaller translated address stands.
 
 A request to a translated address is forwarded to the native address, and the answer comes back with every carried
 seed translated; in a hello answer `yourip` becomes the address the bridge saw the caller on. A freeworld peer's
@@ -27,7 +27,7 @@ bridge share the views and the pool through NATS JetStream; how traffic reaches 
 | Package | Owns | Contract |
 |---|---|---|
 | `addressrealm` | The two realm names and a crossing between them. | `Name`, `Pair.OtherOf(Name) Name`, `Crossing{From, Into}` |
-| `bridgelabel` | The bridge label a seed carries in its tags, signed with the bridge's key: the identity form, the translation form that names a native address, and the reading of a label whose signature holds. | `IdentityLabel() []Tag`, `TranslationLabelOf(native) []Tag`, `LabelOf(seed) Optional[Label]`, `Label{Kind, NativeAddress, Signer}` |
+| `bridgelabel` | The bridge label a seed carries in its tags, signed with the bridge's key: the identity form, the translation form that names a native address, and the reading of a label signed by one of the configured trusted keys. | `IdentityLabel() []Tag`, `TranslationLabelOf(native) []Tag`, `LabelOf(seed) Optional[Label]`, `Label{Kind, NativeAddress, Signer}` |
 | `bridgeidentity` | The bridge's own peer in one realm: its labelled seed with every capability flag off, and the endpoints a YaCy peer expects: hello, which hands the caller to the view and lists the other realm's peers; `query.html`, which answers rwicount 0; `search.html`, which answers nothing. | `Seed() yacymodel.Seed`, `NewMux(...) *http.ServeMux` |
 | `realmpeerview` | What the bridge holds of one realm: the confirmed native peers with their seeds, and the translations other bridges' labels name there. Lives in a JetStream key-value bucket the bridge owns, watched into a live cache in each instance. Confirms by back-ping on arrival and on a schedule; drops after a configured run of failures. | `Offer(realm, seed)`, `NativeSeedAt(realm, address) Optional[Seed]`, `IsHeldNativeHash(realm, hash) bool`, `MostRecentlySeenSeeds(realm, limit) []Seed`, `TranslationsElsewhereOf(realm, native) []NetworkAddress` |
 | `translationprecedence` | Which translation of one native peer stands in a realm: the bridge's own, or another bridge's at a smaller translated address. | `StandingTranslationOf(native, into) Optional[NetworkAddress]` |
@@ -47,9 +47,9 @@ A peer that moves is confirmed at its new address and gets a new translated addr
 stops answering, and peers in the other realm drop it themselves. The hash serves one check: a hash held natively
 in the receiving realm gets no translated address there.
 
-**A signed label replaces coordination.** Bridges over the same realms neither know nor ask each other. The label
-a native peer gossips is the whole signal, the native address in it is the key, and the smaller translated address
-is the tie-break both sides compute alone. Stock YaCy re-emits every entry of a stored seed, so labels survive gossip. A bridge whose translation does not stand answers HTTP 503 on it, as
+**A signed label replaces coordination, and trust is configured.** Bridges over the same realms neither know nor
+ask each other. A label under a trusted key is the whole signal, the native address in it is the key, and the
+smaller translated address is the tie-break both sides compute alone. A bridge whose translation does not stand answers HTTP 503 on it, as
 does a translated address behind which no held peer stands. A carried seed that does not translate: a required
 field refuses the request the same way, an optional field or an answer list loses the seed.
 
@@ -74,7 +74,7 @@ one atomic step the pool needs. NATS is required, and a NATS cluster gives the b
 
 ## Residual risks and open points
 
-* A label is signed, but no key is trusted yet, so a rogue key is as good as any: a rogue that gossips a seed labelled as some peer's translation, at a small address, stops every honest bridge from translating that peer. A hash claimed by a rogue is forwarded under it. Both wait on bridge admission and trust chains between operators, future work the signature makes possible.
+* A seed whose label the bridge does not trust reads as a native peer: an untrusted bridge's translations can be translated onward, and two bridges that do not trust each other both translate every peer. Admission processes and trust chains between operators are future work. A hash claimed by a rogue is forwarded under it; not the bridge's concern.
 * The yggdrasil docs call a `/64` unwise for identity verification, so a lease bound to a translated address there is only as strong as the `/64`; and one key is one node, so that `/64` lives on one router host in front of the instances, a SPOF the bridge cannot remove.
 * Any peer that answers a back-ping is held, and one yggdrasil key answers on 2^64 addresses. The view and the pool are bounded, and those bounds are the whole defence.
 * Verify on a host that the `/64` answers on addresses added to the interface before the embedded translator is written.
