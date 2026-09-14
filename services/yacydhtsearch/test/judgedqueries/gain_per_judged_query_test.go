@@ -11,12 +11,14 @@ const acceptedGainFile = "testdata/accepted-gain-per-judged-query.json"
 type gainPerJudgedQuery map[string]float64
 
 func gainPerJudgedQueryOf(
-	ordering itemsOrdering, judged []judgedQuery,
+	orderingOfTheQuery orderingPerJudgedQuery, judged []judgedQuery,
 ) gainPerJudgedQuery {
 	gainOfEachQuery := make(gainPerJudgedQuery, len(judged))
 	for _, judgedQuery := range judged {
 		gainOfEachQuery[judgedQuery.query] = judgedQuery.gradedDocuments.
-			normalizedGainDiscountedPerHostOf(ordering.OrderedItemsOf(judgedQuery.answers))
+			normalizedGainDiscountedPerHostOf(
+				orderingOfTheQuery(judgedQuery).OrderedItemsOf(judgedQuery.answers),
+			)
 	}
 
 	return gainOfEachQuery
