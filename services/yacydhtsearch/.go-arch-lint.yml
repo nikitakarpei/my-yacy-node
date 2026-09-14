@@ -27,6 +27,8 @@ components:
     in: internal/documenttext/**
   documentrelevance:
     in: internal/documentrelevance/**
+  stalenessdiscount:
+    in: internal/stalenessdiscount/**
   itemsorderingrelevance:
     in: internal/itemsordering/relevance/**
   itemsorderinghostdiscount:
@@ -161,6 +163,11 @@ deps:
     mayDependOn:
       - stopwords
   documentrelevance:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peeranswers
+  stalenessdiscount:
     canUse:
       - yacymodel
     mayDependOn:
