@@ -1,6 +1,6 @@
-# yacyrealmbridge — Solution design (draft)
+# yacyrealmbridge — Solution design
 
-Draft record for step 3 of `doc/design-process.md`: boxes, boundary contracts, decisions with reasons. Stressed by the owner, not yet by a clean-context reviewer.
+Accepted record of step 7 of `doc/design-process.md`: boxes, boundary contracts, decisions with reasons. The decisions that shape the service are landed in `adr/`; the specification carries the requirements.
 
 ## Mechanism
 
@@ -74,5 +74,5 @@ create-if-absent gives the one atomic step the pool needs. NATS is required, and
 * One yggdrasil key is one node, so the bridge's `/64` lives on one router host in front of the instances. That host is a SPOF the bridge cannot remove.
 * Anyone in a realm may register and hold a translated address until the lease lapses; the pool is bounded, and that bound is the whole defence.
 * A hash claimed by a rogue in one realm is forwarded under it into the other while the real peer is unregistered there. Not the bridge's concern.
-* The seed codec carries only the columns `yacymodel` names. The specification must gain the identity, registration, lease, and NATS rules.
-* ADRs to write before code: record decisions, JetStream for shared state, and the lifted wire libraries. Verify on a host that the `/64` answers on addresses added to the interface.
+* The seed codec carries only the columns `yacymodel` names.
+* Verify on a host that the `/64` answers on addresses added to the interface before the embedded translator is written.
