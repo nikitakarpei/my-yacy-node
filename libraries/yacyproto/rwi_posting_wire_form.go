@@ -205,11 +205,11 @@ func (e rwiPostingWireForm) cardinal(column string) uint64 {
 }
 
 func (e rwiPostingWireForm) byteCardinal(column string) byte {
-	return byte(e.cardinal(column) & byteColumnCeiling)
+	return byte(e.cardinal(column) % (byteColumnCeiling + 1))
 }
 
 func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
-	return uint16(e.cardinal(column) & uint16ColumnCeiling)
+	return uint16(e.cardinal(column) % (uint16ColumnCeiling + 1))
 }
 
 // language keeps only the leading ISO 639-1 code: YaCy peers are known to send
