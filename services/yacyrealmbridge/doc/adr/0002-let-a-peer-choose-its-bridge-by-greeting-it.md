@@ -8,10 +8,10 @@ Accepted
 
 ## Context
 
-The first draft had the bridge discover peers in each realm from seed lists and announce
-translated seeds. Discovery repeats rumours, several bridges over the same two realms race to
-represent one peer, and a realm that treats an address as identity cannot hold a peer that
-several bridges represent at once.
+A bridge that finds peers from seed lists and announces translated seeds repeats rumours it
+cannot confirm. Several such bridges over the same two realms race to represent one peer, and a
+realm that treats an address as identity cannot hold a peer that several bridges represent at
+once.
 
 ## Decision
 

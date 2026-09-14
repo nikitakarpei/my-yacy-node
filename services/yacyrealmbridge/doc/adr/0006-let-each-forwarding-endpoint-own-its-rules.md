@@ -8,9 +8,9 @@ Accepted
 
 ## Context
 
-The first draft named a boundary rule engine and a catalogue of refusal answers. Each
-peer-protocol path refuses in its own way: a transfer answers not granted with a pause, a hello
-answers a virgin peer type. The rules are few and read from one configuration.
+Each peer-protocol path refuses in its own way: a transfer answers not granted with a pause, a
+hello answers a virgin peer type. The rules are few and read from one configuration. A rule
+engine with a catalogue of refusal answers would add a vocabulary no path speaks.
 
 ## Decision
 
