@@ -45,11 +45,8 @@ func sweepOnce(ctx context.Context, sweeper Sweeper, observer SweepObserver) {
 		return
 	}
 	observer.Observe(result)
-	if result.URLsDeleted == 0 && result.PostingsDeleted == 0 {
+	if result.URLsDeleted == 0 {
 		return
 	}
-	slog.DebugContext(ctx, sweptMessage,
-		slog.Int("urls", result.URLsDeleted),
-		slog.Int("postings", result.PostingsDeleted),
-	)
+	slog.DebugContext(ctx, sweptMessage, slog.Int("urls", result.URLsDeleted))
 }

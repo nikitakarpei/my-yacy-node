@@ -118,20 +118,20 @@ func TestTransferRWIRequestNormalizesYaCyPropertyForm(t *testing.T) {
 	}
 }
 
-func TestTransferRWIRequestKeepsALastModifiedDateWiderThanTwoBytes(t *testing.T) {
+func TestTransferRWIRequestFoldsALastModifiedDateWiderThanItsColumn(t *testing.T) {
 	t.Parallel()
 
 	line := postingWordHash + "{a=200000,h=" + postingURLHash + ",l=en}"
 	got := postingFromLine(t, line)
-	if got.LastModified != yacymodel.MicroDate(200000) {
-		t.Fatalf("last modified = %d, want 200000", got.LastModified)
+	if got.LastModified != yacymodel.MicroDate(3392) {
+		t.Fatalf("last modified = %d, want 3392", got.LastModified)
 	}
 }
 
-func TestTransferRWIRequestWrapsTheLastModifiedDateAtTheYaCyModulus(t *testing.T) {
+func TestTransferRWIRequestWrapsTheLastModifiedDateAtItsColumnWidth(t *testing.T) {
 	t.Parallel()
 
-	const modulus = 262144
+	const modulus = 65536
 	cases := map[yacymodel.MicroDate]yacymodel.MicroDate{
 		modulus:     0,
 		-1:          modulus - 1,
@@ -180,6 +180,56 @@ func TestTransferRWIRequestRejectsALineWithoutALanguage(t *testing.T) {
 		}
 		if len(req.Indexes) != 0 {
 			t.Errorf("%s language kept %+v, want a rejected posting", name, req.Indexes)
+		}
+	}
+}
+
+func postingFromCardinals(t *testing.T, byteCardinal, uint16Cardinal int) yacymodel.RWIPosting {
+	t.Helper()
+
+	return yacymodel.RWIPosting{
+		WordHash:               mustHash(t, postingWordHash),
+		URLHash:                mustPostingURLHash(t),
+		Language:               englishLanguage(t),
+		TitleWords:             byteCardinal,
+		LocalLinks:             byteCardinal,
+		ExternalLinks:          byteCardinal,
+		URLLength:              byteCardinal,
+		URLComponents:          byteCardinal,
+		Hits:                   byteCardinal,
+		PhraseRelativePosition: byteCardinal,
+		PhrasePosition:         byteCardinal,
+		TextWords:              uint16Cardinal,
+		Phrases:                uint16Cardinal,
+		TextPosition:           uint16Cardinal,
+	}
+}
+
+func TestTransferRWIRequestSaturatesCardinalsWiderThanTheirColumn(t *testing.T) {
+	t.Parallel()
+
+	const (
+		byteCeiling   = 255
+		uint16Ceiling = 65535
+	)
+	saturated := postingFromCardinals(t, byteCeiling, uint16Ceiling)
+	cases := map[string]struct {
+		written, want yacymodel.RWIPosting
+	}{
+		"at the ceiling": {saturated, saturated},
+		"one above the ceiling": {
+			postingFromCardinals(t, byteCeiling+1, uint16Ceiling+1),
+			saturated,
+		},
+		"far above the ceiling": {postingFromCardinals(t, 4096, 1<<20), saturated},
+		"below zero": {
+			postingFromCardinals(t, -1, -300),
+			postingFromCardinals(t, 0, 0),
+		},
+	}
+	for name, testCase := range cases {
+		if got := postingRoundTrip(t, testCase.written); got != testCase.want {
+			t.Errorf("%s round trips to %+v, want %+v", name, got, testCase.want)
 		}
 	}
 }

@@ -11,7 +11,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
 var seedKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
@@ -63,35 +67,6 @@ func seedUsage(t *testing.T, v *vault.Vault) {
 	}
 }
 
-type fakeReferences struct {
-	word yacymodel.Hash
-}
-
-func (f fakeReferences) WordsReferencing(
-	_ *vault.Txn,
-	_ yacymodel.URLHash,
-) ([]yacymodel.Hash, error) {
-	return []yacymodel.Hash{f.word}, nil
-}
-
-func (f fakeReferences) ReferencedURLCount(*vault.Txn) (int, error) {
-	return 0, nil
-}
-
-type fakePostings struct {
-	purged []yacymodel.URLHash
-}
-
-func (f *fakePostings) PurgePosting(
-	tx *vault.Txn,
-	_ yacymodel.Hash,
-	url yacymodel.URLHash,
-) (bool, error) {
-	tx.RunAfterCommit(func() { f.purged = append(f.purged, url) })
-
-	return true, nil
-}
-
 type fakeURLs struct {
 	remaining []yacymodel.URLHash
 	selected  [][]yacymodel.URLHash
@@ -136,18 +111,10 @@ func hashes(n int) []yacymodel.URLHash {
 
 func newSweeper(
 	vault *vault.Vault,
-	postings *fakePostings,
 	urls *fakeURLs,
 	config eviction.Config,
 ) eviction.Sweeper {
-	return eviction.NewSweeper(
-		vault,
-		postings,
-		fakeReferences{word: yacymodel.WordHash("w")},
-		urls,
-		urls,
-		config,
-	)
+	return eviction.NewSweeper(vault, urls, urls, config)
 }
 
 func sweepConfig(target float64, urlsPerBatch, batchesPerSweep int) eviction.Config {
@@ -160,20 +127,18 @@ func sweepConfig(target float64, urlsPerBatch, batchesPerSweep int) eviction.Con
 
 func TestSweepDrainsCandidatesAboveTarget(t *testing.T) {
 	vault := openVault(t, 1)
-	postings := &fakePostings{}
 	urls := &fakeURLs{remaining: hashes(5)}
 
 	result, err := newSweeper(
 		vault,
-		postings,
 		urls,
 		sweepConfig(1, 2, 8),
 	).Sweep(context.Background())
 	if err != nil {
 		t.Fatalf("Sweep: %v", err)
 	}
-	if result.URLsDeleted != 5 || result.PostingsDeleted != 5 {
-		t.Fatalf("result = %+v, want 5/5", result)
+	if result.URLsDeleted != 5 {
+		t.Fatalf("result = %+v, want 5 urls deleted", result)
 	}
 	if len(urls.remaining) != 0 {
 		t.Fatalf("remaining = %d, want fully drained", len(urls.remaining))
@@ -189,7 +154,6 @@ func TestSweepStopsOnNoProgress(t *testing.T) {
 
 	result, err := newSweeper(
 		vault,
-		&fakePostings{},
 		urls,
 		sweepConfig(1, 2, 8),
 	).Sweep(context.Background())
@@ -210,7 +174,6 @@ func TestSweepStopsAtItsBatchBound(t *testing.T) {
 
 	result, err := newSweeper(
 		vault,
-		&fakePostings{},
 		urls,
 		sweepConfig(1, 2, 3),
 	).Sweep(context.Background())
@@ -234,7 +197,6 @@ func TestSweepNoopUnderTarget(t *testing.T) {
 
 	result, err := newSweeper(
 		vault,
-		&fakePostings{},
 		urls,
 		sweepConfig(0.9, 2, 8),
 	).Sweep(context.Background())
@@ -252,7 +214,6 @@ func TestSweepNoopUnderTarget(t *testing.T) {
 func TestSweepNoopWithoutQuota(t *testing.T) {
 	result, err := newSweeper(
 		openVault(t, 0),
-		&fakePostings{},
 		&fakeURLs{remaining: hashes(4)},
 		sweepConfig(0.5, 2, 8),
 	).
@@ -271,7 +232,6 @@ func TestSweepReportsPurgeError(t *testing.T) {
 
 	_, err := newSweeper(
 		openVault(t, 1),
-		&fakePostings{},
 		urls,
 		sweepConfig(1, 1, 8),
 	).Sweep(context.Background())
@@ -287,4 +247,110 @@ func urlHash(raw string) yacymodel.URLHash {
 	}
 
 	return hash
+}
+
+const quotaFarAboveUsage = 1 << 20
+
+type discardedPurges struct{}
+
+func (discardedPurges) ObservePostingsPurgedWithURL(yacymodel.URLHash, int) {}
+
+type indexedPage struct {
+	vault   *vault.Vault
+	index   rwipostings.PostingIndex
+	sweeper eviction.Sweeper
+	url     yacymodel.URLHash
+	word    yacymodel.Hash
+}
+
+func openIndexedPage(t *testing.T) indexedPage {
+	t.Helper()
+
+	v := openVault(t, quotaFarAboveUsage)
+	references, err := urlreferences.Open(v)
+	if err != nil {
+		t.Fatalf("urlreferences.Open: %v", err)
+	}
+	index, admitter, purger, err := rwipostings.Open(v, references)
+	if err != nil {
+		t.Fatalf("rwipostings.Open: %v", err)
+	}
+	staleness, err := urlmetastaleness.Open(v)
+	if err != nil {
+		t.Fatalf("urlmetastaleness.Open: %v", err)
+	}
+	_, evictor, _, receiver, err := urlmeta.Open(
+		v,
+		staleness,
+		urlpostingpurge.New(references, purger, discardedPurges{}),
+	)
+	if err != nil {
+		t.Fatalf("urlmeta.Open: %v", err)
+	}
+
+	page := indexedPage{
+		vault:   v,
+		index:   index,
+		sweeper: eviction.NewSweeper(v, evictor, staleness, sweepConfig(0, 2, 8)),
+		url:     urlHash("a"),
+		word:    yacymodel.WordHash("w"),
+	}
+	page.store(t, receiver, admitter)
+
+	return page
+}
+
+func (p indexedPage) store(
+	t *testing.T,
+	receiver urlmeta.URLReceiver,
+	admitter rwipostings.PostingAdmitter,
+) {
+	t.Helper()
+
+	if _, err := receiver.Receive(context.Background(), []yacymodel.URLMetadata{
+		{Hash: p.url, Address: "http://example.com/a"},
+	}); err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+	if err := p.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return admitter.Admit(tx, yacymodel.RWIPosting{
+			WordHash: p.word,
+			URLHash:  p.url,
+			Language: yacymodel.LanguageOfUndeclaredDocument,
+			Hits:     1,
+		})
+	}); err != nil {
+		t.Fatalf("Admit: %v", err)
+	}
+}
+
+func (p indexedPage) indexed(t *testing.T) bool {
+	t.Helper()
+
+	var found bool
+	if err := p.vault.View(context.Background(), func(tx *vault.Txn) error {
+		_, stored, err := p.index.PostingOf(tx, p.word, p.url)
+		found = stored
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingOf: %v", err)
+	}
+
+	return found
+}
+
+func TestSweptURLLeavesNoPostingBehind(t *testing.T) {
+	page := openIndexedPage(t)
+
+	result, err := page.sweeper.Sweep(context.Background())
+	if err != nil {
+		t.Fatalf("Sweep: %v", err)
+	}
+	if result.URLsDeleted != 1 {
+		t.Fatalf("URLsDeleted = %d, want the swept url", result.URLsDeleted)
+	}
+	if page.indexed(t) {
+		t.Error("a posting of the swept url is still indexed")
+	}
 }

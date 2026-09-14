@@ -64,7 +64,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
-	urlDirectory, _, urlReceiver, err := urlmeta.Open(v, escrow)
+	urlDirectory, _, _, urlReceiver, err := urlmeta.Open(v, escrow)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
@@ -155,6 +155,14 @@ func (h harness) storeMetadata(t *testing.T, seeds ...string) {
 	}
 	if _, err := h.urls.Receive(context.Background(), metadata); err != nil {
 		t.Fatalf("urls.Receive: %v", err)
+	}
+}
+
+func (h harness) receive(t *testing.T, entries []yacymodel.RWIPosting) {
+	t.Helper()
+
+	if _, err := h.receiver.Receive(context.Background(), entries); err != nil {
+		t.Fatalf("Receive: %v", err)
 	}
 }
 
@@ -311,3 +319,18 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 }
 
 var _ rwiadmission.PostingHolder = (*rwiescrow.PostingEscrow)(nil)
+
+func TestPeerPostingsLeaveEveryOtherPostingOfTheirURLInPlace(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.storeMetadata(t, "u1")
+	stored := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w2", "u1")}
+	h.receive(t, stored)
+
+	h.receive(t, []yacymodel.RWIPosting{posting("w3", "u1")})
+
+	for _, entry := range stored {
+		if !h.indexed(t, entry) {
+			t.Errorf("a later delivery dropped the posting of %q", entry.WordHash)
+		}
+	}
+}

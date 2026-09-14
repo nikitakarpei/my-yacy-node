@@ -12,6 +12,8 @@ import (
 
 const urlMetadataDiscarded = "url metadata discarded"
 
+var errURLMetadataRefused = errors.New("url metadata refused by storage")
+
 type urlIntake struct {
 	vault      *vault.Vault
 	collection *vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata]
@@ -67,7 +69,10 @@ func (i urlIntake) store(
 		if found {
 			existing = append(existing, hash)
 		}
-		if _, err := i.collection.Put(tx, hash, stored); err != nil {
+		if err := i.Admit(tx, stored); err != nil {
+			if !errors.Is(err, errURLMetadataRefused) {
+				return nil, nil, err
+			}
 			rejected = append(rejected, hash)
 			slog.WarnContext(ctx, urlMetadataDiscarded,
 				slog.String("reason", "store failed"),
@@ -76,8 +81,20 @@ func (i urlIntake) store(
 
 			continue
 		}
-		i.observers.stored(ctx, tx, hash, stored.Freshness())
 	}
 
 	return existing, rejected, nil
 }
+
+func (i urlIntake) Admit(tx *vault.Txn, metadata yacymodel.URLMetadata) error {
+	if _, err := i.collection.Put(tx, metadata.Hash, metadata); err != nil {
+		return fmt.Errorf("%w: %w", errURLMetadataRefused, err)
+	}
+
+	return i.observers.stored(tx, metadata.Hash, metadata.Freshness())
+}
+
+var (
+	_ URLMetadataAdmitter = urlIntake{}
+	_ URLReceiver         = urlIntake{}
+)

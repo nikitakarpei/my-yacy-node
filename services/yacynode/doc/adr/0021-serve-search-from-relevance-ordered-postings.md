@@ -25,8 +25,8 @@ Keep two more lists next to the posting store, each in its own unit, and update 
 transaction that stores or purges a posting, as the node already does for the words of a URL:
 
 - for each word, its postings in order of impact, most relevant first. The impact of a posting
-  comes from its hits, saturated so that many hits do not dominate, and raised when the word
-  appears in the title. It is fixed when the posting is stored;
+  comes from its hits, with diminishing returns so that many hits do not dominate, and raised
+  when the word appears in the title. It is fixed when the posting is stored;
 - for each word, how many postings the node holds.
 
 A search reads the postings of a word in that order and decides by itself when to stop. It first

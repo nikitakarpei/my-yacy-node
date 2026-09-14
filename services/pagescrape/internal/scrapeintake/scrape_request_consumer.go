@@ -97,7 +97,7 @@ func (c *ScrapeRequestConsumer) processOne(
 	switch landed.Outcome.Status {
 	case pagefetch.FetchSucceeded:
 		c.offerPage(ctx, message, pagescrapecontract.OfferedPageFrom(
-			request, landed.Outcome.Page, landed.URL,
+			request, landed.Outcome.Page, landed.Outcome.Version, landed.URL,
 		))
 	case pagefetch.FetchDeferred:
 		c.deferScrape(ctx, message, request, landed.Outcome.DeferFor)
