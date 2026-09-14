@@ -15,15 +15,14 @@ manage the network technology that provides it.
 * Proxy non-peer YaCy interfaces.
 * Provide anonymity or payload confidentiality from the bridge operator.
 * Prove that a peer owns the peer hash it states.
-* Establish trust between bridge operators.
-* Talk to other bridges.
+* Establish trust between bridge operators, or talk to other bridges.
 
 ## Functional Requirements
 
 * The bridge SHALL connect exactly two configured address realms.
 * The bridge SHALL serve one configured YaCy network across both realms.
-* The bridge SHALL be a YaCy peer of its own in each realm and publish its seed there in a seed list.
-* The bridge SHALL learn each realm's peers from seed lists, greetings, and seeds carried in answers.
+* The bridge SHALL be a YaCy peer in each realm and SHALL publish its seed there in a seed list.
+* The bridge SHALL learn each realm's peers from seed lists, greetings, and seeds in answers.
 * The bridge SHALL hold a peer only after a YaCy peer of the network has answered at the address
   the peer's seed advertises, and SHALL drop a held peer that stops answering.
 * The bridge SHALL give each held peer hash one translated address in the other realm, and no
