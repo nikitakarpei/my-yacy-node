@@ -254,6 +254,7 @@ deps:
       - rwipostings
       - rwiescrow
       - urlmeta
+      - urlreferences
     canUse:
       - vault
   rwiingress:

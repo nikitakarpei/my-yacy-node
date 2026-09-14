@@ -31,7 +31,7 @@ type OfferedPageConsumer struct {
 	offeredPageSource          pullintake.MessageSource
 	formatDerivations          pageformats.FormatDerivationCatalog
 	urlReceiver                urlmeta.URLReceiver
-	postingReceiver            rwiadmission.PostingReceiver
+	pagePostingReceiver        rwiadmission.PagePostingReceiver
 	intakeReceipts             IntakeReceipts
 	pageIntakeObserver         PageIntakeObserver
 	pageOfferIntakeConcurrency int
@@ -41,7 +41,7 @@ type OfferedPageConsumerConfig struct {
 	OfferedPageSource          pullintake.MessageSource
 	FormatDerivations          pageformats.FormatDerivationCatalog
 	URLReceiver                urlmeta.URLReceiver
-	PostingReceiver            rwiadmission.PostingReceiver
+	PagePostingReceiver        rwiadmission.PagePostingReceiver
 	IntakeReceipts             IntakeReceipts
 	PageIntakeObserver         PageIntakeObserver
 	PageOfferIntakeConcurrency int
@@ -52,7 +52,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 		offeredPageSource:          config.OfferedPageSource,
 		formatDerivations:          config.FormatDerivations,
 		urlReceiver:                config.URLReceiver,
-		postingReceiver:            config.PostingReceiver,
+		pagePostingReceiver:        config.PagePostingReceiver,
 		intakeReceipts:             config.IntakeReceipts,
 		pageIntakeObserver:         config.PageIntakeObserver,
 		pageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
@@ -184,7 +184,9 @@ func (c *OfferedPageConsumer) admitPostings(
 	message pullintake.PendingMessage,
 	index pagerwi.PageRWI,
 ) bool {
-	receipt, err := c.postingReceiver.Receive(ctx, index.Postings)
+	receipt, err := c.pagePostingReceiver.ReceiveEveryPostingOfPage(
+		ctx, index.Metadata.Hash, index.Postings,
+	)
 	if err != nil {
 		c.pageIntakeObserver.PostingsAdmissionFailed(
 			ctx,

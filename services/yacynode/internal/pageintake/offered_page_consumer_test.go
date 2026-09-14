@@ -41,16 +41,19 @@ func (r *recordingURLs) Receive(
 }
 
 type recordingPostings struct {
-	receipt rwiadmission.Receipt
-	err     error
-	calls   [][]yacymodel.RWIPosting
+	receipt  rwiadmission.Receipt
+	err      error
+	calls    [][]yacymodel.RWIPosting
+	pageURLs []yacymodel.URLHash
 }
 
-func (r *recordingPostings) Receive(
+func (r *recordingPostings) ReceiveEveryPostingOfPage(
 	_ context.Context,
+	pageURL yacymodel.URLHash,
 	postings []yacymodel.RWIPosting,
 ) (rwiadmission.Receipt, error) {
 	r.calls = append(r.calls, postings)
+	r.pageURLs = append(r.pageURLs, pageURL)
 
 	return r.receipt, r.err
 }
@@ -206,23 +209,23 @@ func offeredPage(
 }
 
 type intakeCollaborators struct {
-	urlReceiver        urlmeta.URLReceiver
-	postingReceiver    rwiadmission.PostingReceiver
-	intakeReceipts     pageintake.IntakeReceipts
-	pageIntakeObserver pageintake.PageIntakeObserver
+	urlReceiver         urlmeta.URLReceiver
+	pagePostingReceiver rwiadmission.PagePostingReceiver
+	intakeReceipts      pageintake.IntakeReceipts
+	pageIntakeObserver  pageintake.PageIntakeObserver
 }
 
 func run(
 	t *testing.T,
 	msg jetstream.Msg,
 	urls urlmeta.URLReceiver,
-	postings rwiadmission.PostingReceiver,
+	postings rwiadmission.PagePostingReceiver,
 ) error {
 	return runWith(t, msg, intakeCollaborators{
-		urlReceiver:        urls,
-		postingReceiver:    postings,
-		intakeReceipts:     &recordingIntakeReceipts{},
-		pageIntakeObserver: pageintake.PageIntakeObservers{},
+		urlReceiver:         urls,
+		pagePostingReceiver: postings,
+		intakeReceipts:      &recordingIntakeReceipts{},
+		pageIntakeObserver:  pageintake.PageIntakeObservers{},
 	})
 }
 
@@ -243,7 +246,7 @@ func runWith(
 			OfferedPageSource:          pullintaketest.MessageSourceOf(msg),
 			FormatDerivations:          formatDerivations,
 			URLReceiver:                collaborators.urlReceiver,
-			PostingReceiver:            collaborators.postingReceiver,
+			PagePostingReceiver:        collaborators.pagePostingReceiver,
 			IntakeReceipts:             collaborators.intakeReceipts,
 			PageIntakeObserver:         collaborators.pageIntakeObserver,
 			PageOfferIntakeConcurrency: 1,
@@ -258,10 +261,10 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 	message := offeredPageMessage(t, "alpha beta")
 
 	if err := runWith(t, message, intakeCollaborators{
-		urlReceiver:        urls,
-		postingReceiver:    postings,
-		intakeReceipts:     receipts,
-		pageIntakeObserver: observer,
+		urlReceiver:         urls,
+		pagePostingReceiver: postings,
+		intakeReceipts:      receipts,
+		pageIntakeObserver:  observer,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -283,6 +286,12 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 	}
 	if len(receipts.kept) != 1 || receipts.kept[0].String() != offeredPageURL {
 		t.Errorf("kept receipts = %v, want one for the offered page", receipts.kept)
+	}
+	if len(postings.pageURLs) != 1 || postings.pageURLs[0] != urls.received[0].Hash {
+		t.Errorf(
+			"page urls = %v, want the hash the metadata was stored under",
+			postings.pageURLs,
+		)
 	}
 	assertWordsAdmitted(t, postings, "alpha", "beta")
 }
@@ -331,10 +340,10 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 		Body:        []byte("%PDF-1.4"),
 	})
 	if err := runWith(t, message, intakeCollaborators{
-		urlReceiver:        &recordingURLs{},
-		postingReceiver:    postings,
-		intakeReceipts:     receipts,
-		pageIntakeObserver: observer,
+		urlReceiver:         &recordingURLs{},
+		pagePostingReceiver: postings,
+		intakeReceipts:      receipts,
+		pageIntakeObserver:  observer,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -405,10 +414,10 @@ func TestConsumerReportsWhichAdmissionReturnedTheOfferedPage(t *testing.T) {
 			message := offeredPageMessage(t, "alpha")
 
 			if err := runWith(t, message, intakeCollaborators{
-				urlReceiver:        expectation.urls,
-				postingReceiver:    expectation.postings,
-				intakeReceipts:     &recordingIntakeReceipts{},
-				pageIntakeObserver: observer,
+				urlReceiver:         expectation.urls,
+				pagePostingReceiver: expectation.postings,
+				intakeReceipts:      &recordingIntakeReceipts{},
+				pageIntakeObserver:  observer,
 			}); err != nil {
 				t.Fatalf("run: %v", err)
 			}

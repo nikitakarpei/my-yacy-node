@@ -30,7 +30,7 @@ func openPageOfferIntake(
 	ctx context.Context,
 	config nodeconfiguration.PageOfferIntakeConfig,
 	urls urlmeta.URLReceiver,
-	postings rwiadmission.PostingReceiver,
+	pagePostings rwiadmission.PagePostingReceiver,
 	registry prometheus.Registerer,
 ) (*pageOfferIntake, error) {
 	broker, err := pageofferbroker.Open(ctx, pageofferbroker.Config{
@@ -52,10 +52,10 @@ func openPageOfferIntake(
 		broker: broker,
 		consumer: pageintake.NewOfferedPageConsumer(
 			pageintake.OfferedPageConsumerConfig{
-				OfferedPageSource: broker.OfferedPages,
-				FormatDerivations: formatDerivations,
-				URLReceiver:       urls,
-				PostingReceiver:   postings,
+				OfferedPageSource:   broker.OfferedPages,
+				FormatDerivations:   formatDerivations,
+				URLReceiver:         urls,
+				PagePostingReceiver: pagePostings,
 				IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
 					broker.Connection, corpus,
 					intakereceiptsnats.IntakeReceiptPublicationObservers{

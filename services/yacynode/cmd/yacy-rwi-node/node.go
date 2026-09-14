@@ -212,10 +212,12 @@ func assembleNode(
 	}
 
 	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
-	postingReceiver := rwiadmission.Open(
+	postingReceiver, pagePostingReceiver := rwiadmission.Open(
 		vault,
 		urlDirectory,
 		postingAdmitter,
+		postingPurger,
+		urlReferences,
 		postingEscrow,
 		rwiadmission.Config{
 			Pause:    postingAdmissionBusyPause,
@@ -296,7 +298,7 @@ func assembleNode(
 
 	if config.PageOfferIntake.Enabled() {
 		intake, intakeErr := openPageOfferIntake(
-			ctx, config.PageOfferIntake, urlReceiver, postingReceiver, registry,
+			ctx, config.PageOfferIntake, urlReceiver, pagePostingReceiver, registry,
 		)
 		if intakeErr != nil {
 			return node{}, intakeErr

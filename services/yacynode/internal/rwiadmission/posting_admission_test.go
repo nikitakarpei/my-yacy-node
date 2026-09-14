@@ -2,6 +2,7 @@ package rwiadmission_test
 
 import (
 	"context"
+	"errors"
 	"net/url"
 	"testing"
 	"time"
@@ -14,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
 const busyPause = 5 * time.Second
@@ -32,15 +34,42 @@ func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, pos
 }
 
 type harness struct {
-	vault    *vault.Vault
-	index    rwipostings.PostingIndex
-	escrow   *rwiescrow.PostingEscrow
-	urls     urlmeta.URLReceiver
-	receiver rwiadmission.PostingReceiver
-	refusals *recordedRefusals
+	vault        *vault.Vault
+	index        rwipostings.PostingIndex
+	escrow       *rwiescrow.PostingEscrow
+	urls         urlmeta.URLReceiver
+	receiver     rwiadmission.PostingReceiver
+	pageReceiver rwiadmission.PagePostingReceiver
+	refusals     *recordedRefusals
 }
 
+type refusedAdmitter struct {
+	admitter rwipostings.PostingAdmitter
+	word     yacymodel.Hash
+}
+
+func (r refusedAdmitter) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	if posting.WordHash == r.word {
+		return errAdmissionRefused
+	}
+
+	return r.admitter.Admit(tx, posting)
+}
+
+var errAdmissionRefused = errors.New("admission refused")
+
 func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
+	t.Helper()
+
+	return openHarnessAdmitting(t, quotaBytes, escrowCapacity, nil)
+}
+
+func openHarnessAdmitting(
+	t *testing.T,
+	quotaBytes int64,
+	escrowCapacity int,
+	admittedThrough func(rwipostings.PostingAdmitter) rwipostings.PostingAdmitter,
+) harness {
 	t.Helper()
 
 	v, err := vault.New(
@@ -56,9 +85,16 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		}
 	})
 
-	index, admitter, _, err := rwipostings.Open(v)
+	references, err := urlreferences.Open(v)
+	if err != nil {
+		t.Fatalf("urlreferences.Open: %v", err)
+	}
+	index, admitter, purger, err := rwipostings.Open(v, references)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
+	}
+	if admittedThrough != nil {
+		admitter = admittedThrough(admitter)
 	}
 	escrow, err := rwiescrow.Open(v, admitter, discardedHolds{}, escrowCapacity, time.Now)
 	if err != nil {
@@ -69,20 +105,24 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
 	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
+	receiver, pageReceiver := rwiadmission.Open(
+		v,
+		urlDirectory,
+		admitter,
+		purger,
+		references,
+		escrow,
+		rwiadmission.Config{Pause: busyPause, Refusals: refusals},
+	)
 
 	return harness{
-		vault:  v,
-		index:  index,
-		escrow: escrow,
-		urls:   urlReceiver,
-		receiver: rwiadmission.Open(
-			v,
-			urlDirectory,
-			admitter,
-			escrow,
-			rwiadmission.Config{Pause: busyPause, Refusals: refusals},
-		),
-		refusals: refusals,
+		vault:        v,
+		index:        index,
+		escrow:       escrow,
+		urls:         urlReceiver,
+		receiver:     receiver,
+		pageReceiver: pageReceiver,
+		refusals:     refusals,
 	}
 }
 
@@ -311,3 +351,116 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 }
 
 var _ rwiadmission.PostingHolder = (*rwiescrow.PostingEscrow)(nil)
+
+const recrawledPageURLSeed = "u1"
+
+func postingOfRecrawledPage(word string, hits int) yacymodel.RWIPosting {
+	entry := posting(word, recrawledPageURLSeed)
+	entry.Hits = hits
+
+	return entry
+}
+
+func (h harness) storedPosting(
+	t *testing.T,
+	entry yacymodel.RWIPosting,
+) yacymodel.RWIPosting {
+	t.Helper()
+
+	var stored yacymodel.RWIPosting
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		found, _, err := h.index.PostingOf(tx, entry.WordHash, entry.URLHash)
+		stored = found
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingOf: %v", err)
+	}
+
+	return stored
+}
+
+func (h harness) receiveEveryPostingOfRecrawledPage(
+	t *testing.T,
+	postings []yacymodel.RWIPosting,
+) {
+	t.Helper()
+
+	if _, err := h.pageReceiver.ReceiveEveryPostingOfPage(
+		context.Background(),
+		urlHash(recrawledPageURLSeed),
+		postings,
+	); err != nil {
+		t.Fatalf("ReceiveEveryPostingOfPage: %v", err)
+	}
+}
+
+func TestRecrawledPageLosesThePostingsOfTheWordsItNoLongerHas(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.storeMetadata(t, recrawledPageURLSeed)
+	departed, kept := postingOfRecrawledPage("w1", 1), postingOfRecrawledPage("w2", 3)
+	h.receiveEveryPostingOfRecrawledPage(t, []yacymodel.RWIPosting{departed, kept})
+
+	arrived := postingOfRecrawledPage("w3", 2)
+	refreshed := postingOfRecrawledPage("w2", 7)
+	h.receiveEveryPostingOfRecrawledPage(t, []yacymodel.RWIPosting{refreshed, arrived})
+
+	if h.indexed(t, departed) {
+		t.Error("a word the recrawled page no longer has kept its posting")
+	}
+	if !h.indexed(t, arrived) {
+		t.Error("a word the recrawled page gained has no posting")
+	}
+	if got := h.storedPosting(t, refreshed).Hits; got != refreshed.Hits {
+		t.Errorf("hits of the word the page kept = %d, want the recrawled %d",
+			got, refreshed.Hits)
+	}
+}
+
+func TestPeerPostingsLeaveEveryOtherPostingOfTheirURLInPlace(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.storeMetadata(t, recrawledPageURLSeed)
+	stored := []yacymodel.RWIPosting{
+		postingOfRecrawledPage("w1", 1),
+		postingOfRecrawledPage("w2", 1),
+	}
+	h.receiveEveryPostingOfRecrawledPage(t, stored)
+
+	if _, err := h.receiver.Receive(
+		context.Background(),
+		[]yacymodel.RWIPosting{postingOfRecrawledPage("w3", 1)},
+	); err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+
+	for _, entry := range stored {
+		if !h.indexed(t, entry) {
+			t.Errorf("a partial batch from a peer dropped the posting of %q", entry.WordHash)
+		}
+	}
+}
+
+func TestRefusedPageLeavesThePostingsItWouldHaveReplaced(t *testing.T) {
+	h := openHarnessAdmitting(t, 0, 100,
+		func(admitter rwipostings.PostingAdmitter) rwipostings.PostingAdmitter {
+			return refusedAdmitter{admitter: admitter, word: yacymodel.WordHash("w3")}
+		})
+	h.storeMetadata(t, recrawledPageURLSeed)
+	departed, kept := postingOfRecrawledPage("w1", 1), postingOfRecrawledPage("w2", 3)
+	h.receiveEveryPostingOfRecrawledPage(t, []yacymodel.RWIPosting{departed, kept})
+
+	if _, err := h.pageReceiver.ReceiveEveryPostingOfPage(
+		context.Background(),
+		urlHash(recrawledPageURLSeed),
+		[]yacymodel.RWIPosting{postingOfRecrawledPage("w2", 7), postingOfRecrawledPage("w3", 1)},
+	); !errors.Is(err, errAdmissionRefused) {
+		t.Fatalf("ReceiveEveryPostingOfPage error = %v, want the refused admission", err)
+	}
+	if !h.indexed(t, departed) {
+		t.Error("a refused recrawl purged the posting of a word the page had before")
+	}
+	if got := h.storedPosting(t, kept).Hits; got != kept.Hits {
+		t.Errorf("hits of the kept word = %d, want the %d stored before the refusal",
+			got, kept.Hits)
+	}
+}
