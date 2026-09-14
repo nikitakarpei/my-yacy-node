@@ -3,16 +3,14 @@
 ## Context
 
 YaCy peers in different IP address realms can belong to one logical network. The bridge makes
-the peers of each realm reachable from the other realm.
-
-An address realm is an operator-defined IP reachability context. The bridge does not identify or
-manage the network technology that provides it.
+the peers of each realm reachable from the other realm. An address realm is an operator-defined
+IP reachability context. The bridge does not identify or manage the network technology that
+provides it.
 
 ## Non-Goals
 
 * Create, configure, monitor, or route an address realm.
-* Provide a general-purpose proxy.
-* Proxy non-peer YaCy interfaces.
+* Provide a general-purpose proxy, or proxy non-peer YaCy interfaces.
 * Provide anonymity or payload confidentiality from the bridge operator.
 * Prove that a peer owns the peer hash it states.
 * Establish trust between bridge operators, or talk to other bridges.
@@ -31,10 +29,13 @@ manage the network technology that provides it.
 * The bridge SHALL NOT translate a peer when no translated address is available.
 * The bridge SHALL mark its own seed in each realm as a bridge seed, and SHALL NOT translate a
   seed marked as a bridge seed, whoever marked it.
-* The bridge SHALL mark every translated seed as a translation, signed with its key.
-* The bridge SHALL honour a translation mark only under a key the operator trusts.
-* The bridge SHALL NOT translate a seed that carries a trusted translation mark.
-* The bridge SHALL NOT translate a peer whose hash is held natively in the receiving realm.
+* The bridge SHALL mark every translated seed as a translation that names the realm the seed came
+  from, signed with its key.
+* The bridge SHALL honour a translation mark only under a key the operator trusts, and SHALL
+  neither hold nor translate a seed whose translation mark it cannot verify.
+* The bridge SHALL NOT translate a trusted translation back into the realm its mark names, and
+  SHALL translate it onward into any other realm.
+* The bridge SHALL translate a peer even when the receiving realm holds a native seed of its hash.
 * The bridge SHALL NOT translate a peer whose hash a trusted translation in the receiving realm
   already carries.
 * When two bridges have translated one hash, the translation with the smaller translated address
@@ -69,12 +70,11 @@ manage the network technology that provides it.
 
 ## Known Limitations
 
-* A seed whose translation mark the bridge does not trust reads as a native peer: an untrusted
-  bridge's translations can be translated onward, and two such bridges both translate every peer.
-* A rogue that states another peer's hash in one realm is forwarded under that hash into the
-  other realm, as it would be inside one realm.
-* Peers in a realm that treat an address as identity see the bridge's own addresses behind every
-  translated address, not the native peer.
+* A chain of realms carries only through bridges whose operators trust each other and share
+  realm names; two bridges that do not trust each other both translate every peer.
+* A rogue that states another peer's hash is forwarded under it, or conflicts with the true peer
+  in the receiving realm; the peers of that realm resolve the conflict by their own rules.
+* Where an address is identity, a translated peer shows the bridge's address, not its own.
 * Any peer that answers is held; the bounds on the view and the address space are the whole defence.
 * The bridge's addresses in a realm may all sit on one host that the realm's technology binds to
   one key. That host is a single point of failure the bridge does not remove.

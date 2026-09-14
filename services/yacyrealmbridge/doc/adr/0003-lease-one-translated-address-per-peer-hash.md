@@ -25,4 +25,5 @@ for the hash, as any peer's roster does.
 A peer that moves inside its realm keeps its translated address, so the receiving realm sees no
 change. A peer that goes away frees its address after the lease. A rogue that states another
 peer's hash in one realm is forwarded under it into the other, as it would be inside one realm.
-A hash held natively in the receiving realm gets no translated address there.
+A native seed of the same hash in the receiving realm does not withhold the translation; the
+peers of that realm resolve the conflict by their own rules.
