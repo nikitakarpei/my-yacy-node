@@ -29,6 +29,7 @@ manage the network technology that provides it.
 * The bridge SHALL NOT translate a peer when no translated address is available.
 * The bridge SHALL mark every seed it emits with a bridge label in the seed's tags, signed with the bridge's key over the seed it marks. The bridge SHALL read only a label signed by a key the operator trusts, and SHALL treat a seed with any other label as unlabelled.
 * The bridge SHALL NOT translate a labelled seed, and SHALL NOT translate a peer whose hash is held natively in the receiving realm.
+* The bridge SHALL label its own seed in each realm, and SHALL NOT translate the labelled seed of another bridge into the other realm.
 * The bridge SHALL NOT translate a native peer whose hash a labelled seed in the receiving realm already carries. When two bridges have translated one hash, the translation with the smaller translated address SHALL stand, and the other bridge SHALL withdraw its translation and SHALL stop answering on it.
 * The bridge SHALL list the held peers of one realm, at their translated addresses, in the hello answers of its peer in the other realm.
 * The bridge SHALL preserve the peer hash, network, and DHT position of a held peer.

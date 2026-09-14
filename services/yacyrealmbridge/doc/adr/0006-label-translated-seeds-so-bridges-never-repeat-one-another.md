@@ -16,8 +16,11 @@ a conflict, not a redundancy. The bridges have no channel to each other and must
 ## Decision
 
 Every seed a bridge emits carries a bridge label in the seed's tags, signed with the bridge's
-key over the seed it marks. A bridge reads only labels signed by keys its operator trusts; any
-other label is no label. A labelled seed is never a native peer: no bridge translates it onward.
+key over the seed it marks: the translated seeds and the bridge's own seed in each realm alike.
+A bridge reads only labels signed by keys its operator trusts; any other label is no label. A
+labelled seed is never a native peer: no bridge translates it onward, and no bridge carries
+another bridge's own peer into the other realm.
+
 A bridge does not translate a native peer whose hash a labelled seed in the receiving realm
 already carries.
 
@@ -27,8 +30,9 @@ Bridges read the labels that native peers gossip and never talk to each other.
 
 ## Consequences
 
-One native peer converges on one translated address per realm without coordination, and a peer
-that stops answering is dropped by the native peers themselves. Stock YaCy stores a seed as one
+One native peer converges on one translated address per realm without coordination, a peer
+that stops answering is dropped by the native peers themselves, and a trusted bridge's own peer
+stays in the realm it serves. Stock YaCy stores a seed as one
 map and re-emits every entry of it, so the label survives gossip; a seed longer than 16000
 characters is rejected whole.
 
