@@ -178,7 +178,7 @@ func (e rwiPostingWireForm) domain() (yacymodel.RWIPosting, error) {
 	return yacymodel.RWIPosting{
 		WordHash:               e.wordHash,
 		URLHash:                urlHash,
-		LastModified:           microDateWireCodec{}.decode(e.cardinal(colLastModified)),
+		LastModified:           microDateWireCodec{}.decode(e.uint16Cardinal(colLastModified)),
 		TitleWords:             int(e.byteCardinal(colTitleWordCount)),
 		TextWords:              int(e.uint16Cardinal(colTextWordCount)),
 		Phrases:                int(e.uint16Cardinal(colPhraseCount)),

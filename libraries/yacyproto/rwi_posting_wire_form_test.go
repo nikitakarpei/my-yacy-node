@@ -118,20 +118,20 @@ func TestTransferRWIRequestNormalizesYaCyPropertyForm(t *testing.T) {
 	}
 }
 
-func TestTransferRWIRequestKeepsALastModifiedDateWiderThanTwoBytes(t *testing.T) {
+func TestTransferRWIRequestFoldsALastModifiedDateWiderThanItsColumn(t *testing.T) {
 	t.Parallel()
 
 	line := postingWordHash + "{a=200000,h=" + postingURLHash + ",l=en}"
 	got := postingFromLine(t, line)
-	if got.LastModified != yacymodel.MicroDate(200000) {
-		t.Fatalf("last modified = %d, want 200000", got.LastModified)
+	if got.LastModified != yacymodel.MicroDate(3392) {
+		t.Fatalf("last modified = %d, want 3392", got.LastModified)
 	}
 }
 
-func TestTransferRWIRequestWrapsTheLastModifiedDateAtTheYaCyModulus(t *testing.T) {
+func TestTransferRWIRequestWrapsTheLastModifiedDateAtItsColumnWidth(t *testing.T) {
 	t.Parallel()
 
-	const modulus = 262144
+	const modulus = 65536
 	cases := map[yacymodel.MicroDate]yacymodel.MicroDate{
 		modulus:     0,
 		-1:          modulus - 1,
