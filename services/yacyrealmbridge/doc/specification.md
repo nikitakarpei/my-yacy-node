@@ -14,6 +14,7 @@ provides it.
 * Provide anonymity or payload confidentiality from the bridge operator.
 * Prove that a peer owns the peer hash it states.
 * Establish trust between bridge operators, or talk to other bridges.
+* Carry a peer across more than one public bridge.
 
 ## Functional Requirements
 
@@ -29,12 +30,10 @@ provides it.
 * The bridge SHALL NOT translate a peer when no translated address is available.
 * The bridge SHALL mark its own seed in each realm as a bridge seed, and SHALL NOT translate a
   seed marked as a bridge seed, whoever marked it.
-* The bridge SHALL mark every translated seed as a translation that names the realm the seed came
-  from, signed with its key.
-* The bridge SHALL honour a translation mark only under a key the operator trusts, and SHALL
-  neither hold nor translate a seed whose translation mark it cannot verify.
-* The bridge SHALL NOT translate a trusted translation back into the realm its mark names, and
-  SHALL translate it onward into any other realm.
+* A public bridge, the default, SHALL mark every translated seed as a translation, signed with
+  its key; a private bridge SHALL NOT mark translated seeds.
+* The bridge SHALL NOT translate a seed that carries a translation mark, verified or not.
+* The bridge SHALL honour what a translation mark states only under a key the operator trusts.
 * The bridge SHALL translate a peer even when the receiving realm holds a native seed of its hash.
 * The bridge SHALL NOT translate a peer whose hash a trusted translation in the receiving realm
   already carries.
@@ -70,8 +69,9 @@ provides it.
 
 ## Known Limitations
 
-* A chain of realms carries only through bridges whose operators trust each other and share
-  realm names; two bridges that do not trust each other both translate every peer.
+* A translation mark under a key the bridge does not trust stops that seed and nothing else: two
+  bridges that do not trust each other both translate every peer.
+* A private bridge's translations look native to every other bridge, which may translate them again.
 * A rogue that states another peer's hash is forwarded under it, or conflicts with the true peer
   in the receiving realm; the peers of that realm resolve the conflict by their own rules.
 * Where an address is identity, a translated peer shows the bridge's address, not its own.

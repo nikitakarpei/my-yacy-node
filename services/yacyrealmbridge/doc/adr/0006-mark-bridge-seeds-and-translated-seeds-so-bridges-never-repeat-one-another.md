@@ -19,31 +19,29 @@ A bridge's own seed in each realm carries a plain bridge mark in its tags, and n
 translates a seed that carries it, whoever set it. Faking the mark costs only the faker its own
 translation, so the mark needs no signature.
 
-Every translated seed carries a translation mark in its tags that names the realm the seed came
-from, signed with the bridge's key over the seed it marks. A bridge reads only translation marks
-signed by keys its operator trusts, and drops a seed under a mark it cannot verify. A trusted
-translation never goes back into the realm its mark names and goes onward into any other realm.
-
-A bridge does not translate a peer whose hash a trusted translation in the receiving realm
-already carries; a native seed of that hash there withholds nothing.
+A public bridge, the default, puts a translation mark in the tags of every translated seed,
+signed with its key over the seed it marks. No bridge translates a seed that carries a
+translation mark, verified or not, so a peer crosses one public bridge and never a chain. What a
+mark states counts only under a key the operator trusts: a bridge does not translate a peer
+whose hash a trusted translation in the receiving realm already carries.
 
 When two bridges have translated one hash before seeing each other, the smaller translated
 address stands, and the other bridge withdraws its translation and stops answering on it.
 Bridges read the marks that native peers gossip and never talk to each other.
 
+A private bridge marks no translated seed. It is for a lone deployment, such as a few peers
+behind one NAT exposed through their owner's own bridge, where no second bridge will ever
+translate the same peers.
+
 ## Consequences
 
 One native peer converges on one translated address per realm without coordination, a peer
 that stops answering is dropped by the native peers themselves, and any bridge's own peer stays
-in the realm it serves.
+in the realm it serves. Stock YaCy stores a seed as one map and re-emits every entry of it, so
+the marks survive gossip; a seed longer than 16000 characters is rejected whole.
 
-A further realm can be bridged onto one that is bridged already, through bridges whose
-operators trust each other and share realm names. Stock YaCy stores a seed as one
-map and re-emits every entry of it, so the marks survive gossip; a seed longer than 16000
-characters is rejected whole.
-
-A rogue translation mark under an untrusted key changes nothing: the bridge translates the peer
-anyway and drops the marked seed. A native seed that states a translated peer's hash changes
-nothing either; the peers of that realm resolve the conflict by their own rules. Two bridges that
-do not trust each other both translate every peer. Admission processes and trust chains between
-operators are future work.
+A translation mark under an untrusted key stops that seed and nothing else: the bridge
+translates the peer from the other realm anyway. A native seed that states a translated peer's
+hash changes nothing either; the peers of that realm resolve the conflict by their own rules.
+Two bridges that do not trust each other both translate every peer, and a private bridge's
+translations look native to every other bridge, which may translate them again.
