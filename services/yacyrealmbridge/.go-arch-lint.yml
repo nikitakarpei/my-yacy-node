@@ -1,0 +1,65 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonComponents:
+  - addressrealm
+  - bridgemark
+  - translationmark
+
+components:
+  addressrealm:
+    in: internal/addressrealm/**
+  bridgemark:
+    in: internal/bridgemark/**
+  translationmark:
+    in: internal/translationmark/**
+  bridgeidentity:
+    in: internal/bridgeidentity/**
+  realmpeerview:
+    in: internal/realmpeerview/**
+  translatedaddressleases:
+    in: internal/translatedaddressleases/**
+  prefixaddresses:
+    in: internal/translatedaddressspaces/prefixaddresses/**
+  hostports:
+    in: internal/translatedaddressspaces/hostports/**
+  translationprecedence:
+    in: internal/translationprecedence/**
+  seedtranslation:
+    in: internal/seedtranslation/**
+  peerrequestforwarding:
+    in: internal/peerrequestforwarding/**
+  bridgeidentityobserversapplog:
+    in: internal/bridgeidentityobservers/applog/**
+  bridgeidentityobserversprometheus:
+    in: internal/bridgeidentityobservers/prometheus/**
+  realmpeerviewobserversapplog:
+    in: internal/realmpeerviewobservers/applog/**
+  realmpeerviewobserversprometheus:
+    in: internal/realmpeerviewobservers/prometheus/**
+  translatedaddressleasesobserversapplog:
+    in: internal/translatedaddressleasesobservers/applog/**
+  translatedaddressleasesobserversprometheus:
+    in: internal/translatedaddressleasesobservers/prometheus/**
+  seedtranslationobserversapplog:
+    in: internal/seedtranslationobservers/applog/**
+  seedtranslationobserversprometheus:
+    in: internal/seedtranslationobservers/prometheus/**
+  peerrequestforwardingobserversapplog:
+    in: internal/peerrequestforwardingobservers/applog/**
+  peerrequestforwardingobserversprometheus:
+    in: internal/peerrequestforwardingobservers/prometheus/**
+  yacyrealmbridgecmd:
+    in: cmd/yacyrealmbridge/**
+
+deps:
+  yacyrealmbridgecmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
