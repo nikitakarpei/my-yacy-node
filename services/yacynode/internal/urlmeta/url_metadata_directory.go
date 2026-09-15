@@ -67,7 +67,7 @@ func (d urlDirectory) Count(tx *vault.Txn) (int, error) {
 }
 
 func (d urlDirectory) Purge(
-	ctx context.Context,
+	_ context.Context,
 	tx *vault.Txn,
 	urls []yacymodel.URLHash,
 ) (PurgeResult, error) {
@@ -80,7 +80,9 @@ func (d urlDirectory) Purge(
 		if !wasDeleted {
 			continue
 		}
-		d.observers.purged(ctx, tx, hash)
+		if err := d.observers.purged(tx, hash); err != nil {
+			return PurgeResult{}, err
+		}
 		result.URLsDeleted++
 	}
 

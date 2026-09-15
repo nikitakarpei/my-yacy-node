@@ -25,12 +25,13 @@ func Of(
 	reachedAt time.Time,
 ) PageRWI {
 	pageURL := scrapedPage.PageURL
+	modifiedAt := recordedModifiedAtOf(scrapedPage, reachedAt)
 
 	textWordsInOrder, textWordOccurrences, textStats := tokenize(string(text))
 	_, titleWordOccurrences, titleStats := tokenize(document.Title)
 
-	metadata := metadataOf(pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words)
-	shared := sharedPosting(pageURL, document, reachedAt, metadata.Hash)
+	metadata := metadataOf(scrapedPage, document, reachedAt, modifiedAt, textStats.Words)
+	shared := sharedPosting(pageURL, document, modifiedAt, metadata.Hash)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
@@ -56,52 +57,40 @@ func Of(
 	}
 }
 
-func sharedPosting(
-	pageURL canonicalurl.CanonicalURL,
-	document documentextraction.Document,
+func recordedModifiedAtOf(
+	scrapedPage pagescrapecontract.OfferedPage,
 	reachedAt time.Time,
-	urlHash yacymodel.URLHash,
-) yacymodel.RWIPosting {
-	return yacymodel.RWIPosting{
-		URLHash:       urlHash,
-		LastModified:  yacymodel.MicroDateFromTime(reachedAt),
-		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      recordedLanguageOf(document),
-		LocalLinks:    document.LocalLinks,
-		ExternalLinks: document.ExternalLinks,
-		URLLength:     len(pageURL.String()),
-		URLComponents: componentCount(pageURL.WebAddress().Path),
+) time.Time {
+	declared := scrapedPage.PageModifiedAt
+	if declared.IsZero() || declared.After(reachedAt) {
+		return reachedAt
 	}
+
+	return declared
 }
 
 func metadataOf(
-	pageURL canonicalurl.CanonicalURL,
+	scrapedPage pagescrapecontract.OfferedPage,
 	document documentextraction.Document,
-	documentByteSize int,
 	reachedAt time.Time,
+	modifiedAt time.Time,
 	wordCount int,
 ) yacymodel.URLMetadata {
+	pageURL := scrapedPage.PageURL
+
 	return yacymodel.URLMetadata{
 		Hash:          yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash(),
 		Address:       pageURL.String(),
 		Title:         document.Title,
+		Modified:      yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),
 		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      declaredLanguageOf(document),
-		ByteSize:      documentByteSize,
+		ByteSize:      len(scrapedPage.Body),
 		WordCount:     wordCount,
 		LocalLinks:    document.LocalLinks,
 		ExternalLinks: document.ExternalLinks,
 	}
-}
-
-func recordedLanguageOf(document documentextraction.Document) yacymodel.Language {
-	declared, ok := declaredLanguageOf(document).Get()
-	if !ok {
-		return yacymodel.LanguageOfUndeclaredDocument
-	}
-
-	return declared
 }
 
 func declaredLanguageOf(
@@ -116,6 +105,33 @@ func declaredLanguageOf(
 	}
 
 	return yacymodel.Some(language)
+}
+
+func sharedPosting(
+	pageURL canonicalurl.CanonicalURL,
+	document documentextraction.Document,
+	modifiedAt time.Time,
+	urlHash yacymodel.URLHash,
+) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		URLHash:       urlHash,
+		LastModified:  yacymodel.MicroDateFromTime(modifiedAt),
+		DocumentType:  yacymodel.DocumentTypeText,
+		Language:      recordedLanguageOf(document),
+		LocalLinks:    document.LocalLinks,
+		ExternalLinks: document.ExternalLinks,
+		URLLength:     len(pageURL.String()),
+		URLComponents: componentCount(pageURL.WebAddress().Path),
+	}
+}
+
+func recordedLanguageOf(document documentextraction.Document) yacymodel.Language {
+	declared, ok := declaredLanguageOf(document).Get()
+	if !ok {
+		return yacymodel.LanguageOfUndeclaredDocument
+	}
+
+	return declared
 }
 
 func componentCount(canonicalPath string) int {

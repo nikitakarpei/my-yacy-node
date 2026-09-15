@@ -25,12 +25,9 @@ func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 	metrics.PageOffered(ctx, "message", pageURL)
 	metrics.DocumentExtractionFailed(ctx, "message", pageURL, cause)
 	metrics.NoIndexDerived(ctx, "message", pageURL)
-	metrics.URLMetadataAdmissionBusy(ctx, "message", pageURL)
-	metrics.URLMetadataAdmissionFailed(ctx, "message", pageURL, cause)
-	metrics.PostingsAdmissionBusy(ctx, "message", pageURL, 11)
-	metrics.PostingsAdmissionFailed(ctx, "message", pageURL, 13, cause)
-	metrics.URLMetadataAdmitted(ctx, "message", pageURL)
-	metrics.PostingsAdmitted(ctx, "message", pageURL, 17)
+	metrics.PageAdmissionBusy(ctx, "message", pageURL, 11)
+	metrics.PageAdmissionFailed(ctx, "message", pageURL, 13, cause)
+	metrics.PageAdmitted(ctx, "message", pageURL, 17)
 	metrics.PageIndexed(ctx, "message", pageURL)
 
 	body := exposition(t, registry)
@@ -46,10 +43,8 @@ func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 		}
 	}
 	for _, cause := range []string{
-		"url_metadata_admission_busy",
-		"url_metadata_admission_failed",
-		"postings_admission_busy",
-		"postings_admission_failed",
+		"page_admission_busy",
+		"page_admission_failed",
 	} {
 		want := `yacynode_pageintake_pages_left_for_retry_total{cause="` + cause + `"} 1`
 		if !strings.Contains(body, want) {
@@ -57,7 +52,7 @@ func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 		}
 	}
 	for _, want := range []string{
-		"yacynode_pageintake_url_metadata_admitted_total 1",
+		"yacynode_pageintake_pages_admitted_total 1",
 		"yacynode_pageintake_postings_admitted_total 17",
 	} {
 		if !strings.Contains(body, want) {
@@ -71,8 +66,7 @@ func TestPageIntakeMetricsDoNotExposeMessageOrURLLabels(t *testing.T) {
 	metrics := pageintakeobserversprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://secret.example/page")
 
-	metrics.URLMetadataAdmitted(context.Background(), "secret-message", pageURL)
-	metrics.PostingsAdmitted(context.Background(), "secret-message", pageURL, 1)
+	metrics.PageAdmitted(context.Background(), "secret-message", pageURL, 1)
 	metrics.PageIndexed(context.Background(), "secret-message", pageURL)
 
 	body := exposition(t, registry)
@@ -89,8 +83,7 @@ func TestPageIntakeMetricsKeepRetriedPagesOutOfDisposals(t *testing.T) {
 	metrics := pageintakeobserversprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.test/page")
 
-	metrics.URLMetadataAdmissionBusy(ctx, "message", pageURL)
-	metrics.PostingsAdmissionBusy(ctx, "message", pageURL, 3)
+	metrics.PageAdmissionBusy(ctx, "message", pageURL, 3)
 	metrics.PageIndexed(ctx, "message", pageURL)
 
 	body := exposition(t, registry)
@@ -98,7 +91,7 @@ func TestPageIntakeMetricsKeepRetriedPagesOutOfDisposals(t *testing.T) {
 	if !strings.Contains(body, want) {
 		t.Errorf("metrics output missing %q", want)
 	}
-	for _, cause := range []string{"url_metadata_admission_busy", "postings_admission_busy"} {
+	for _, cause := range []string{"page_admission_busy"} {
 		unwanted := `yacynode_pageintake_offered_pages_disposed_total{disposal="` + cause + `"}`
 		if strings.Contains(body, unwanted) {
 			t.Errorf("metrics output contains %q", unwanted)

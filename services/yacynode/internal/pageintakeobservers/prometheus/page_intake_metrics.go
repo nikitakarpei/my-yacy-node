@@ -29,23 +29,19 @@ var offeredPageDisposals = []string{
 }
 
 const (
-	retryCauseURLMetadataAdmissionBusy   = "url_metadata_admission_busy"
-	retryCauseURLMetadataAdmissionFailed = "url_metadata_admission_failed"
-	retryCausePostingsAdmissionBusy      = "postings_admission_busy"
-	retryCausePostingsAdmissionFailed    = "postings_admission_failed"
+	retryCausePageAdmissionBusy   = "page_admission_busy"
+	retryCausePageAdmissionFailed = "page_admission_failed"
 )
 
 var retryCauses = []string{
-	retryCauseURLMetadataAdmissionBusy,
-	retryCauseURLMetadataAdmissionFailed,
-	retryCausePostingsAdmissionBusy,
-	retryCausePostingsAdmissionFailed,
+	retryCausePageAdmissionBusy,
+	retryCausePageAdmissionFailed,
 }
 
 type PageIntakeMetrics struct {
 	offeredPagesDisposed *prometheusclient.CounterVec
 	pagesLeftForRetry    *prometheusclient.CounterVec
-	urlMetadataAdmitted  prometheusclient.Counter
+	pagesAdmitted        prometheusclient.Counter
 	postingsAdmitted     prometheusclient.Counter
 }
 
@@ -70,9 +66,9 @@ func New(registry prometheusclient.Registerer) *PageIntakeMetrics {
 	for _, cause := range retryCauses {
 		pagesLeftForRetry.WithLabelValues(cause)
 	}
-	urlMetadataAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
-		Name: "yacynode_pageintake_url_metadata_admitted_total",
-		Help: "URL metadata admissions accepted while taking in offered pages.",
+	pagesAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
+		Name: "yacynode_pageintake_pages_admitted_total",
+		Help: "Offered pages the node admitted as one replacement of what it held.",
 	})
 	postingsAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
 		Name: "yacynode_pageintake_postings_admitted_total",
@@ -81,14 +77,14 @@ func New(registry prometheusclient.Registerer) *PageIntakeMetrics {
 	registry.MustRegister(
 		offeredPagesDisposed,
 		pagesLeftForRetry,
-		urlMetadataAdmitted,
+		pagesAdmitted,
 		postingsAdmitted,
 	)
 
 	return &PageIntakeMetrics{
 		offeredPagesDisposed: offeredPagesDisposed,
 		pagesLeftForRetry:    pagesLeftForRetry,
-		urlMetadataAdmitted:  urlMetadataAdmitted,
+		pagesAdmitted:        pagesAdmitted,
 		postingsAdmitted:     postingsAdmitted,
 	}
 }
@@ -121,57 +117,33 @@ func (m *PageIntakeMetrics) NoIndexDerived(
 	m.dispose(disposalNoIndexDerived)
 }
 
-func (m *PageIntakeMetrics) URLMetadataAdmitted(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-) {
-	m.urlMetadataAdmitted.Inc()
-}
-
-func (m *PageIntakeMetrics) URLMetadataAdmissionBusy(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-) {
-	m.leaveForRetry(retryCauseURLMetadataAdmissionBusy)
-}
-
-func (m *PageIntakeMetrics) URLMetadataAdmissionFailed(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-	error,
-) {
-	m.leaveForRetry(retryCauseURLMetadataAdmissionFailed)
-}
-
-func (m *PageIntakeMetrics) PostingsAdmitted(
+func (m *PageIntakeMetrics) PageAdmitted(
 	_ context.Context,
 	_ string,
 	_ canonicalurl.CanonicalURL,
-	postings int,
+	amountOfPostings int,
 ) {
-	m.postingsAdmitted.Add(float64(postings))
+	m.pagesAdmitted.Inc()
+	m.postingsAdmitted.Add(float64(amountOfPostings))
 }
 
-func (m *PageIntakeMetrics) PostingsAdmissionBusy(
+func (m *PageIntakeMetrics) PageAdmissionBusy(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
 	int,
 ) {
-	m.leaveForRetry(retryCausePostingsAdmissionBusy)
+	m.leaveForRetry(retryCausePageAdmissionBusy)
 }
 
-func (m *PageIntakeMetrics) PostingsAdmissionFailed(
+func (m *PageIntakeMetrics) PageAdmissionFailed(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
 	int,
 	error,
 ) {
-	m.leaveForRetry(retryCausePostingsAdmissionFailed)
+	m.leaveForRetry(retryCausePageAdmissionFailed)
 }
 
 func (m *PageIntakeMetrics) PageIndexed(

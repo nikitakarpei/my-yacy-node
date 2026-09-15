@@ -3,6 +3,7 @@ package pagescrapecontract
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
@@ -14,11 +15,13 @@ type OfferedPage struct {
 	ContentType      string                    `json:"ContentType"`
 	Body             []byte                    `json:"Body"`
 	RobotsDirectives []string                  `json:"RobotsDirectives,omitzero"`
+	PageModifiedAt   time.Time                 `json:"PageModifiedAt,omitzero"`
 }
 
 func OfferedPageFrom(
 	request ScrapeRequest,
 	fetchedPage pagefetch.FetchedPage,
+	pageVersion pagefetch.PageVersion,
 	landedURL canonicalurl.CanonicalURL,
 ) OfferedPage {
 	return OfferedPage{
@@ -27,6 +30,7 @@ func OfferedPageFrom(
 		ContentType:      fetchedPage.ContentType,
 		Body:             fetchedPage.Body,
 		RobotsDirectives: fetchedPage.RobotsDirectives,
+		PageModifiedAt:   pageVersion.ModifiedAt,
 	}
 }
 

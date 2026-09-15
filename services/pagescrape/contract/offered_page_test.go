@@ -3,6 +3,7 @@ package pagescrapecontract_test
 import (
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
@@ -18,6 +19,7 @@ func TestOfferedPageFromCarriesTheBytesTheFetchReturned(t *testing.T) {
 			ContentType: "text/html",
 			Body:        []byte("hello"),
 		},
+		pagefetch.PageVersion{},
 		pageURL,
 	)
 
@@ -33,6 +35,7 @@ func TestOfferedPageFromKeepsThePageURLTheRequestNamed(t *testing.T) {
 	offered := pagescrapecontract.OfferedPageFrom(
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
 		pagefetch.FetchedPage{},
+		pagefetch.PageVersion{},
 		landedURL,
 	)
 
@@ -54,6 +57,7 @@ func TestOfferedPageFromKeepsThePageURLWhenTheFetchURLNamesAnotherAddress(t *tes
 			FetchURL: canonicalurltest.CanonicalURLOf(t, "https://archive.example/a"),
 		},
 		pagefetch.FetchedPage{},
+		pagefetch.PageVersion{},
 		landedURL,
 	)
 
@@ -65,6 +69,37 @@ func TestOfferedPageFromKeepsThePageURLWhenTheFetchURLNamesAnotherAddress(t *tes
 	}
 }
 
+func TestOfferedPageFromCarriesTheDateTheOriginSaidThePageWasModified(t *testing.T) {
+	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
+	modifiedAt := time.Date(2024, time.March, 2, 10, 0, 0, 0, time.UTC)
+
+	offered := pagescrapecontract.OfferedPageFrom(
+		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
+		pagefetch.FetchedPage{},
+		pagefetch.PageVersion{EntityTag: "\"v1\"", ModifiedAt: modifiedAt},
+		pageURL,
+	)
+
+	if !offered.PageModifiedAt.Equal(modifiedAt) {
+		t.Errorf("page modified at = %v, want %v", offered.PageModifiedAt, modifiedAt)
+	}
+}
+
+func TestOfferedPageFromLeavesThePageModifiedAtZeroWhenTheOriginSaidNothing(t *testing.T) {
+	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
+
+	offered := pagescrapecontract.OfferedPageFrom(
+		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
+		pagefetch.FetchedPage{},
+		pagefetch.PageVersion{EntityTag: "\"v1\""},
+		pageURL,
+	)
+
+	if !offered.PageModifiedAt.IsZero() {
+		t.Errorf("page modified at = %v, want the zero time", offered.PageModifiedAt)
+	}
+}
+
 func TestOfferedPageRoundTrip(t *testing.T) {
 	page := pagescrapecontract.OfferedPage{
 		PageURL:          canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
@@ -72,6 +107,7 @@ func TestOfferedPageRoundTrip(t *testing.T) {
 		ContentType:      "text/html",
 		Body:             []byte("hello"),
 		RobotsDirectives: []string{"noindex"},
+		PageModifiedAt:   time.Date(2024, time.March, 2, 10, 0, 0, 0, time.UTC),
 	}
 
 	data, err := pagescrapecontract.MarshalOfferedPage(page)
