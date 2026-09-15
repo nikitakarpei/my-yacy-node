@@ -25,4 +25,4 @@ rejected: a peer that moves would change its translated address, which the lease
 
 Both directions follow one rule. A prefix space is as good as unbounded; a port space is not, so
 translation into the one-address realm can run out, and the bridge then translates no further
-peers into it. A translated seed offers plain HTTP at one address only.
+peers into it. A translated seed reaches its peer at one address only.

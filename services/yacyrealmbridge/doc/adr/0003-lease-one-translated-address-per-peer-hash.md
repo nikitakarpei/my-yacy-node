@@ -15,9 +15,9 @@ the network's known problem inside one realm, and it stays the network's across 
 
 ## Decision
 
-A held peer hash leases one translated address in the other realm for an operator-configured
-lease, renewed while the peer is held. Until the lease expires, that hash has that address and
-no other, in both directions. The native address behind it is whatever the bridge's view holds
+A confirmed peer hash leases one translated address in the other realm for an operator-configured
+lease, renewed while the peer stays confirmed. Until the lease expires, that hash has that address
+and no other, in both directions. The native address behind it is the one the bridge's view has
 for the hash, as any peer's roster does.
 
 ## Consequences

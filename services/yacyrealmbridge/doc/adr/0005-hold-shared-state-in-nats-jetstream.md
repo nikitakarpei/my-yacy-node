@@ -9,7 +9,7 @@ Accepted
 ## Context
 
 One bridge process is a single point of failure for every peer that chose it. Instances behind
-one address must agree on which peers are held and on which address each hash leases. The
+one address must agree on which peers are confirmed and on which address each hash leases. The
 embedded vault engines lock their directory to one process, so no vault can serve two instances.
 
 ## Decision
