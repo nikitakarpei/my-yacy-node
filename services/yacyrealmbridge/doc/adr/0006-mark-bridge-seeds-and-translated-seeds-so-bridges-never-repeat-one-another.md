@@ -40,8 +40,8 @@ translate the same peers.
 One native peer converges on one translated address per realm without coordination, and the
 bridge that withdraws is the newer one, which fewer peers have seen. A peer that stops answering
 is dropped by the native peers themselves, and any bridge's own peer stays in the realm it
-serves. Stock YaCy stores a seed as one map and re-emits every entry of it, so
-the marks survive gossip; a seed longer than 16000 characters is rejected whole.
+serves. Stock YaCy stores a seed as one map and re-emits every entry of it, so the marks survive
+gossip; a seed longer than 16000 characters is rejected whole.
 
 A translation mark under an untrusted key stops that seed and nothing else: the bridge
 translates the peer from the other realm anyway. A native seed that states a translated peer's
