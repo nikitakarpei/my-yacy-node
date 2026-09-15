@@ -37,8 +37,8 @@ provides it.
 * The bridge SHALL translate a peer even when the receiving realm holds a native seed of its hash.
 * The bridge SHALL NOT translate a peer whose hash a trusted translation in the receiving realm
   already carries.
-* When two bridges have translated one hash, the translation with the smaller translated address
-  SHALL stand, and the other bridge SHALL withdraw its translation and stop answering on it.
+* When two bridges have translated one hash, the translation whose mark states the earlier lease
+  SHALL stand, the smaller address on equal times, and the other bridge SHALL withdraw it.
 * The bridge SHALL list the held peers of one realm, at their translated addresses, in the hello
   answers of its peer in the other realm.
 * The bridge SHALL preserve the peer hash, network, and DHT position of a held peer.
