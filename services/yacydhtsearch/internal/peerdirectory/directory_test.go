@@ -2,6 +2,7 @@ package peerdirectory_test
 
 import (
 	"context"
+	"slices"
 	"testing"
 	"time"
 
@@ -150,7 +151,7 @@ func TestASilentPeerLeavesTheAskableSet(t *testing.T) {
 	}
 }
 
-func TestAdmittingAPeerAgainReplacesTheAddressesItAdvertises(t *testing.T) {
+func TestAdmittingAPeerThatNeverAnsweredReplacesTheAddressesItAdvertises(t *testing.T) {
 	t.Parallel()
 
 	clock := &testClock{instant: time.Unix(0, 0)}
@@ -162,6 +163,47 @@ func TestAdmittingAPeerAgainReplacesTheAddressesItAdvertises(t *testing.T) {
 	known := directory.KnownPeers(t.Context())
 	if len(known) != 1 || known[0].Addresses[0] != "http://10.0.0.2:8090" {
 		t.Fatalf("KnownPeers = %+v, want one peer on 10.0.0.2", known)
+	}
+}
+
+func TestAPeerThatAnswersAgainComesBackToTheAskableSet(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	directory := directoryAt(clock, wideCapacity)
+	peer := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+	clock.instant = clock.instant.Add(time.Second)
+	directory.ConfirmSilent(t.Context(), peer)
+
+	clock.instant = clock.instant.Add(time.Second)
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+
+	if askable := directory.AskablePeers(t.Context()); len(askable) != 1 {
+		t.Fatalf("AskablePeers = %v, want the peer that answered after its silence", askable)
+	}
+}
+
+func TestASeedThatLeavesOutTheAddressAPeerAnsweredOnDoesNotTakeItAway(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	directory := directoryAt(clock, wideCapacity)
+	peer := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+	clock.instant = clock.instant.Add(time.Second)
+	directory.ConfirmSilent(t.Context(), peer)
+
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.2")})
+
+	known := directory.KnownPeers(t.Context())
+	if len(known) != 1 || !slices.Equal(known[0].Addresses, []string{
+		"http://10.0.0.1:8090",
+		"http://10.0.0.2:8090",
+	}) {
+		t.Fatalf("KnownPeers = %+v, want the answered address kept and leading", known)
 	}
 }
 

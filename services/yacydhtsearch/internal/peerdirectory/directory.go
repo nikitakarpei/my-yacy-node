@@ -80,7 +80,7 @@ func (d *Directory) holdAdmittedPeers(
 			continue
 		}
 		if known, ok := d.peers[seed.Hash]; ok {
-			known.Addresses = addresses
+			known.Addresses = addressesLedBy(known.AnsweredAddress, addresses)
 			d.peers[seed.Hash] = known
 			continue
 		}
@@ -113,10 +113,10 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 
 	askable := make([]AskablePeer, 0, len(d.peers))
 	for _, peer := range d.peers {
-		if peer.AnsweringAddress == "" || d.now().Sub(peer.ChosenAt) < d.cooldown {
+		if !peer.answersNow() || d.now().Sub(peer.ChosenAt) < d.cooldown {
 			continue
 		}
-		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweringAddress})
+		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweredAddress})
 	}
 
 	return askable
@@ -137,7 +137,7 @@ func (d *Directory) MarkPeersChosen(ctx context.Context, peers []AskablePeer) {
 }
 
 func (d *Directory) ConfirmAnswering(ctx context.Context, peer yacymodel.Hash, address string) {
-	answeredAt, wasSilent, isKnown := d.holdAnsweringAddress(peer, address)
+	answeredAt, wasSilent, isKnown := d.holdAnswer(peer, address)
 	if !isKnown {
 		return
 	}
@@ -147,7 +147,7 @@ func (d *Directory) ConfirmAnswering(ctx context.Context, peer yacymodel.Hash, a
 	}
 }
 
-func (d *Directory) holdAnsweringAddress(
+func (d *Directory) holdAnswer(
 	peer yacymodel.Hash,
 	address string,
 ) (time.Time, bool, bool) {
@@ -158,8 +158,8 @@ func (d *Directory) holdAnsweringAddress(
 	if !ok {
 		return time.Time{}, false, false
 	}
-	wasSilent := known.AnsweringAddress == ""
-	known.AnsweringAddress = address
+	wasSilent := !known.answersNow()
+	known.AnsweredAddress = address
 	known.AnsweredAt = d.now()
 	d.peers[peer] = known
 
@@ -167,7 +167,7 @@ func (d *Directory) holdAnsweringAddress(
 }
 
 func (d *Directory) ConfirmSilent(ctx context.Context, peer yacymodel.Hash) {
-	wasAnswering, isKnown := d.releaseAnsweringAddress(peer)
+	wasAnswering, isKnown := d.holdSilence(peer)
 	if !isKnown {
 		return
 	}
@@ -177,7 +177,7 @@ func (d *Directory) ConfirmSilent(ctx context.Context, peer yacymodel.Hash) {
 	}
 }
 
-func (d *Directory) releaseAnsweringAddress(peer yacymodel.Hash) (bool, bool) {
+func (d *Directory) holdSilence(peer yacymodel.Hash) (bool, bool) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
@@ -185,8 +185,8 @@ func (d *Directory) releaseAnsweringAddress(peer yacymodel.Hash) (bool, bool) {
 	if !ok {
 		return false, false
 	}
-	wasAnswering := known.AnsweringAddress != ""
-	known.AnsweringAddress = ""
+	wasAnswering := known.answersNow()
+	known.WentSilentAt = d.now()
 	d.peers[peer] = known
 
 	return wasAnswering, true
@@ -210,7 +210,7 @@ func (d *Directory) reportPeersKnown(ctx context.Context) {
 
 	amountOfAnsweringPeers := 0
 	for _, peer := range d.peers {
-		if peer.AnsweringAddress != "" {
+		if peer.answersNow() {
 			amountOfAnsweringPeers++
 		}
 	}
@@ -237,6 +237,21 @@ func addressesOf(seed yacymodel.Seed) []string {
 	}
 
 	return addresses
+}
+
+func addressesLedBy(answeredAddress string, seeded []string) []string {
+	if answeredAddress == "" {
+		return seeded
+	}
+	led := make([]string, 0, len(seeded)+1)
+	led = append(led, answeredAddress)
+	for _, address := range seeded {
+		if address != answeredAddress {
+			led = append(led, address)
+		}
+	}
+
+	return led
 }
 
 type DirectoryObservers []DirectoryObserver
