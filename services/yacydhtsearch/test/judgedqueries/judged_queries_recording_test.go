@@ -181,10 +181,14 @@ func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
 			silentSeedlistObserver{},
 		),
 		directory,
-		peerlivenesswire.New(http.DefaultClient, networkName),
+		peerlivenesswire.New(
+			http.DefaultClient, networkName, peerlivenesswire.PeerLivenessObservers{},
+		),
 		refreshInterval,
-		probeBudget,
-		probesInFlight,
+		peerdirectoryrefresh.ProbeLimits{
+			ProbeBudget:    probeBudget,
+			ProbesInFlight: probesInFlight,
+		},
 	).RefreshOnce(t.Context())
 
 	return directory

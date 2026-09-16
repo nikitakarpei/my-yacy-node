@@ -43,6 +43,14 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |
 | `YACYDHTSEARCH_PEER_CHOICE_COOLDOWN` | `5s` | Time a chosen peer rests before a search may choose it again. |
 
+## Peer presence
+
+The service records each answer a peer gives, and adds the time since the answer before it. This presence shows which peers stay reachable. If `YACYDHTSEARCH_NATS_URL` is set, all instances read the same answers and hold the same presence. If it is not set, an instance holds presence only while it runs.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `YACYDHTSEARCH_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one answer can add. An answer after a longer silence adds only this time. |
+
 ## Query
 
 | Variable | Default | Meaning |

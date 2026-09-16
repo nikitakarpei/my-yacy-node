@@ -9,6 +9,7 @@ commonComponents:
   - searchquery
   - searchresult
   - peerdirectory
+  - peerpresence
 
 components:
   peermatchedobserversapplog:
@@ -99,6 +100,14 @@ components:
     in: internal/peerdirectoryobservers/prometheus/**
   yacyseedlistobserversapplog:
     in: internal/yacyseedlistobservers/applog/**
+  peerpresence:
+    in: internal/peerpresence/**
+  peerhistoriesjetstream:
+    in: internal/peerhistories/jetstream/**
+  peerhistoriesmemory:
+    in: internal/peerhistories/memory/**
+  peerreliability:
+    in: internal/peerreliability/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -188,6 +197,17 @@ deps:
       - uax29sentences
       - yacymodel
   peerdirectory:
+    canUse:
+      - yacymodel
+  peerpresence:
+    canUse:
+      - yacymodel
+      - hashicorplru
+  peerhistoriesjetstream:
+    canUse:
+      - yacymodel
+      - nats
+  peerhistoriesmemory:
     canUse:
       - yacymodel
   stalepeersourcesleastrecentlyanswered:

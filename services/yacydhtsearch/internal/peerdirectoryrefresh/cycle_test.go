@@ -22,15 +22,16 @@ const (
 	refreshEvery   = time.Hour
 	probeBudget    = 3 * time.Second
 	probesInFlight = 4
+	rwiCountAnswer = "version=1.83\nuptime=1200\nresponse=42\n"
 )
 
 type silentDirectoryObserver struct{}
 
-func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)     {}
-func (silentDirectoryObserver) PeerAnswering(context.Context, yacymodel.Hash, string) {}
-func (silentDirectoryObserver) PeerSilent(context.Context, yacymodel.Hash)            {}
-func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)           {}
-func (silentDirectoryObserver) DirectoryHolds(context.Context, int, int, int)         {}
+func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)               {}
+func (silentDirectoryObserver) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {}
+func (silentDirectoryObserver) PeerWentSilent(context.Context, yacymodel.Hash)                  {}
+func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)                     {}
+func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)                       {}
 
 type silentSeedlistObserver struct{}
 
@@ -48,7 +49,10 @@ func peerAnsweringProbes(t *testing.T, status int) (host, port string) {
 	t.Helper()
 
 	server := httptest.NewServer(http.HandlerFunc(
-		func(writer http.ResponseWriter, _ *http.Request) { writer.WriteHeader(status) },
+		func(writer http.ResponseWriter, _ *http.Request) {
+			writer.WriteHeader(status)
+			_, _ = writer.Write([]byte(rwiCountAnswer))
+		},
 	))
 	t.Cleanup(server.Close)
 
@@ -87,10 +91,14 @@ func refreshOver(
 			silentSeedlistObserver{},
 		),
 		directory,
-		peerlivenesswire.New(http.DefaultClient, "freeworld"),
+		peerlivenesswire.New(
+			http.DefaultClient, "freeworld", peerlivenesswire.PeerLivenessObservers{},
+		),
 		refreshEvery,
-		probeBudget,
-		probesInFlight,
+		peerdirectoryrefresh.ProbeLimits{
+			ProbeBudget:    probeBudget,
+			ProbesInFlight: probesInFlight,
+		},
 	)
 }
 
@@ -149,7 +157,9 @@ func TestTheCycleRefreshesUntilTheServiceStops(t *testing.T) {
 
 	host, port := peerAnsweringProbes(t, http.StatusOK)
 	directory := directoryOf(t)
-	cycle := refreshOver(t, seedlistNaming(t, "aaaaaaaaaaaa", host, port), directory)
+	cycle := refreshOver(
+		t, seedlistNaming(t, "aaaaaaaaaaaa", host, port), directory,
+	)
 
 	ctx, stop := context.WithCancel(t.Context())
 	stopped := make(chan struct{})

@@ -26,6 +26,7 @@ const (
 	EnvDirectoryCapacity    = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval      = "YACYDHTSEARCH_REFRESH_INTERVAL"
 	EnvProbeBudget          = "YACYDHTSEARCH_PROBE_BUDGET"
+	EnvContinuityLimit      = "YACYDHTSEARCH_PRESENCE_CONTINUITY_LIMIT"
 	EnvPartitionExponent    = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvMaxResponseBytes     = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
 	EnvPeerItemsCeiling     = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
@@ -49,6 +50,7 @@ const (
 	DefaultDirectoryCapacity    = 4096
 	DefaultRefreshInterval      = 5 * time.Minute
 	DefaultProbeBudget          = 3 * time.Second
+	DefaultContinuityLimit      = 15 * time.Minute
 	DefaultPartitionExponent    = 4
 	DefaultMaxResponseBytes     = 4 * 1024 * 1024
 	DefaultPeerItemsCeiling     = 10
@@ -76,6 +78,7 @@ type ServiceConfig struct {
 	DirectoryCapacity  int
 	RefreshInterval    time.Duration
 	ProbeBudget        time.Duration
+	ContinuityLimit    time.Duration
 	Partitions         yacymodel.DHTRingPartitions
 	MaxResponseBytes   int64
 	PeerItemsCeiling   int
@@ -139,6 +142,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		DirectoryCapacity:  counts.directoryCapacity,
 		RefreshInterval:    durations.refreshInterval,
 		ProbeBudget:        durations.probeBudget,
+		ContinuityLimit:    durations.continuityLimit,
 		Partitions:         partitions,
 		MaxResponseBytes:   maxResponseBytes,
 		PeerItemsCeiling:   counts.peerItemsCeiling,
@@ -160,6 +164,7 @@ type configuredDurations struct {
 	peerCallBudget     time.Duration
 	refreshInterval    time.Duration
 	probeBudget        time.Duration
+	continuityLimit    time.Duration
 	rankingLifetime    time.Duration
 	pageReadBudget     time.Duration
 }
@@ -177,6 +182,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		{EnvPeerCallBudget, DefaultPeerCallBudget, &durations.peerCallBudget},
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
+		{EnvContinuityLimit, DefaultContinuityLimit, &durations.continuityLimit},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
 		{EnvPageReadBudget, DefaultPageReadBudget, &durations.pageReadBudget},
 	} {

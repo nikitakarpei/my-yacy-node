@@ -16,11 +16,11 @@ const (
 
 type silentObserver struct{}
 
-func (silentObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)     {}
-func (silentObserver) PeerAnswering(context.Context, yacymodel.Hash, string) {}
-func (silentObserver) PeerSilent(context.Context, yacymodel.Hash)            {}
-func (silentObserver) PeerDropped(context.Context, yacymodel.Hash)           {}
-func (silentObserver) DirectoryHolds(context.Context, int, int, int)         {}
+func (silentObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)               {}
+func (silentObserver) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {}
+func (silentObserver) PeerWentSilent(context.Context, yacymodel.Hash)                  {}
+func (silentObserver) PeerDropped(context.Context, yacymodel.Hash)                     {}
+func (silentObserver) PeersKnown(context.Context, int, int, int)                       {}
 
 type oldestAdmittedFirst struct{}
 
@@ -198,7 +198,7 @@ type contentsRecorder struct {
 	answeringPeers int
 }
 
-func (r *contentsRecorder) DirectoryHolds(_ context.Context, peers, answeringPeers, _ int) {
+func (r *contentsRecorder) PeersKnown(_ context.Context, peers, answeringPeers, _ int) {
 	r.peers = peers
 	r.answeringPeers = answeringPeers
 }
@@ -223,7 +223,76 @@ func TestTheDirectoryReportsHowManyOfItsPeersAnswer(t *testing.T) {
 	directory.ConfirmSilent(t.Context(), silent)
 
 	if recorder.peers != 2 || recorder.answeringPeers != 1 {
-		t.Fatalf("DirectoryHolds = %d peers, %d answering, want 2 and 1",
+		t.Fatalf("PeersKnown = %d peers, %d answering, want 2 and 1",
 			recorder.peers, recorder.answeringPeers)
+	}
+}
+
+type reportedAnswer struct {
+	peer       yacymodel.Hash
+	address    string
+	answeredAt time.Time
+}
+
+type answerReportingObserver struct {
+	silentObserver
+	answers      []reportedAnswer
+	droppedPeers []yacymodel.Hash
+}
+
+func (o *answerReportingObserver) PeerAnswered(
+	_ context.Context,
+	peer yacymodel.Hash,
+	address string,
+	answeredAt time.Time,
+) {
+	o.answers = append(
+		o.answers,
+		reportedAnswer{peer: peer, address: address, answeredAt: answeredAt},
+	)
+}
+
+func (o *answerReportingObserver) PeerDropped(_ context.Context, peer yacymodel.Hash) {
+	o.droppedPeers = append(o.droppedPeers, peer)
+}
+
+func TestAnAnsweringPeerIsReportedWithItsAddressAndTheTimeItAnswered(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	answers := &answerReportingObserver{}
+	directory := peerdirectory.New(
+		wideCapacity, cooldown, clock.now, oldestAdmittedFirst{},
+		peerdirectory.DirectoryObservers{answers},
+	)
+	peer := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
+
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+
+	want := reportedAnswer{peer: peer, address: "http://10.0.0.1:8090", answeredAt: clock.instant}
+	if len(answers.answers) != 1 || answers.answers[0] != want {
+		t.Fatalf("answers reported %+v, want %+v", answers.answers, want)
+	}
+}
+
+func TestAPeerEvictedToMakeRoomIsReportedAsDropped(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	answers := &answerReportingObserver{}
+	directory := peerdirectory.New(
+		1, cooldown, clock.now, oldestAdmittedFirst{},
+		peerdirectory.DirectoryObservers{answers},
+	)
+	evicted := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, evicted, "10.0.0.1")})
+
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, hashOf(t, 'b'), "10.0.0.2")})
+
+	if len(answers.droppedPeers) != 1 || answers.droppedPeers[0] != evicted {
+		t.Fatalf("dropped peers reported %v, want %v", answers.droppedPeers, evicted)
 	}
 }

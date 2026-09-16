@@ -12,30 +12,32 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 )
 
-type Cycle struct {
-	seedlists   yacyseedlist.Seedlists
-	directory   *peerdirectory.Directory
-	liveness    peerlivenesswire.Wire
-	interval    time.Duration
-	probeBudget time.Duration
-	inFlight    int
+type ProbeLimits struct {
+	ProbeBudget    time.Duration
+	ProbesInFlight int
 }
 
-//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
+type Cycle struct {
+	seedlists yacyseedlist.Seedlists
+	directory *peerdirectory.Directory
+	liveness  peerlivenesswire.Wire
+	interval  time.Duration
+	probes    ProbeLimits
+}
+
 func New(
 	seedlists yacyseedlist.Seedlists,
 	directory *peerdirectory.Directory,
 	liveness peerlivenesswire.Wire,
-	interval, probeBudget time.Duration,
-	inFlight int,
+	interval time.Duration,
+	probes ProbeLimits,
 ) Cycle {
 	return Cycle{
-		seedlists:   seedlists,
-		directory:   directory,
-		liveness:    liveness,
-		interval:    interval,
-		probeBudget: probeBudget,
-		inFlight:    inFlight,
+		seedlists: seedlists,
+		directory: directory,
+		liveness:  liveness,
+		interval:  interval,
+		probes:    probes,
 	}
 }
 
@@ -55,14 +57,14 @@ func (c Cycle) Run(ctx context.Context) {
 
 func (c Cycle) RefreshOnce(ctx context.Context) {
 	c.directory.Admit(ctx, c.seedlists.Fetch(ctx))
-	c.probeKnownPeers(ctx)
+	c.probeKnownPeers(ctx, c.directory.KnownPeers(ctx))
 }
 
-func (c Cycle) probeKnownPeers(ctx context.Context) {
-	inFlight := make(chan struct{}, c.inFlight)
+func (c Cycle) probeKnownPeers(ctx context.Context, knownPeers []peerdirectory.KnownPeer) {
+	inFlight := make(chan struct{}, c.probes.ProbesInFlight)
 	var probes sync.WaitGroup
 
-	for _, peer := range c.directory.KnownPeers(ctx) {
+	for _, peer := range knownPeers {
 		probes.Add(1)
 		go func() {
 			defer probes.Done()
@@ -76,11 +78,12 @@ func (c Cycle) probeKnownPeers(ctx context.Context) {
 
 func (c Cycle) probeOne(ctx context.Context, peer peerdirectory.KnownPeer) {
 	for _, address := range peer.Addresses {
-		probeCtx, endProbe := context.WithTimeout(ctx, c.probeBudget)
+		probeCtx, endProbe := context.WithTimeout(ctx, c.probes.ProbeBudget)
 		alive := c.liveness.Alive(probeCtx, address)
 		endProbe()
 		if alive {
 			c.directory.ConfirmAnswering(ctx, peer.Hash, address)
+
 			return
 		}
 	}

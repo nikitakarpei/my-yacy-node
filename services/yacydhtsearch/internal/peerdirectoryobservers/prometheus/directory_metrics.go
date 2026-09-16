@@ -3,6 +3,7 @@ package prometheus
 
 import (
 	"context"
+	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
@@ -10,11 +11,11 @@ import (
 )
 
 const (
-	labelChange         = "change"
-	changePeerAdmitted  = "admitted"
-	changePeerAnswering = "answering"
-	changePeerSilent    = "silent"
-	changePeerDropped   = "dropped"
+	labelChange          = "change"
+	changePeerAdmitted   = "admitted"
+	changePeerAnswered   = "answered"
+	changePeerWentSilent = "wentSilent"
+	changePeerDropped    = "dropped"
 )
 
 type DirectoryMetrics struct {
@@ -57,19 +58,19 @@ func (m *DirectoryMetrics) PeerAdmitted(context.Context, yacymodel.Hash, int) {
 	m.peerChanges.WithLabelValues(changePeerAdmitted).Inc()
 }
 
-func (m *DirectoryMetrics) PeerAnswering(context.Context, yacymodel.Hash, string) {
-	m.peerChanges.WithLabelValues(changePeerAnswering).Inc()
+func (m *DirectoryMetrics) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {
+	m.peerChanges.WithLabelValues(changePeerAnswered).Inc()
 }
 
-func (m *DirectoryMetrics) PeerSilent(context.Context, yacymodel.Hash) {
-	m.peerChanges.WithLabelValues(changePeerSilent).Inc()
+func (m *DirectoryMetrics) PeerWentSilent(context.Context, yacymodel.Hash) {
+	m.peerChanges.WithLabelValues(changePeerWentSilent).Inc()
 }
 
 func (m *DirectoryMetrics) PeerDropped(context.Context, yacymodel.Hash) {
 	m.peerChanges.WithLabelValues(changePeerDropped).Inc()
 }
 
-func (m *DirectoryMetrics) DirectoryHolds(
+func (m *DirectoryMetrics) PeersKnown(
 	_ context.Context,
 	peers, answeringPeers, capacity int,
 ) {

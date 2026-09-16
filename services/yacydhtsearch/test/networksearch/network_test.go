@@ -40,11 +40,11 @@ const (
 
 type silentDirectoryObserver struct{}
 
-func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)     {}
-func (silentDirectoryObserver) PeerAnswering(context.Context, yacymodel.Hash, string) {}
-func (silentDirectoryObserver) PeerSilent(context.Context, yacymodel.Hash)            {}
-func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)           {}
-func (silentDirectoryObserver) DirectoryHolds(context.Context, int, int, int)         {}
+func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)               {}
+func (silentDirectoryObserver) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {}
+func (silentDirectoryObserver) PeerWentSilent(context.Context, yacymodel.Hash)                  {}
+func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)                     {}
+func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)                       {}
 
 type silentOutcome struct{}
 
