@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
-	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
+	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -70,7 +70,7 @@ func TestAnAnsweringPeerBecomesObserved(t *testing.T) {
 	t.Parallel()
 
 	reported := &reportedPresence{}
-	presence := peerpresencesmemory.New(wideAccrualLimits, reported)
+	presence := peerpresencememory.New(wideAccrualLimits, reported)
 	peer := hashOf(t, 'a')
 
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
@@ -91,7 +91,7 @@ func TestAPeerThatKeepsAnsweringEarnsPresence(t *testing.T) {
 	t.Parallel()
 
 	reported := &reportedPresence{}
-	presence := peerpresencesmemory.New(wideAccrualLimits, reported)
+	presence := peerpresencememory.New(wideAccrualLimits, reported)
 	peer := hashOf(t, 'a')
 
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
@@ -108,7 +108,7 @@ func TestAPeerThatKeepsAnsweringEarnsPresence(t *testing.T) {
 func TestAPeerDroppedFromTheDirectoryKeepsThePresenceItEarned(t *testing.T) {
 	t.Parallel()
 
-	presence := peerpresencesmemory.New(wideAccrualLimits, &reportedPresence{})
+	presence := peerpresencememory.New(wideAccrualLimits, &reportedPresence{})
 	peer := hashOf(t, 'a')
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 	presence.PeerAnswered(

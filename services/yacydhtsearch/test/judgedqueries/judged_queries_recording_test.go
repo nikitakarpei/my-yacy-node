@@ -16,7 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
-	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
+	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
@@ -170,7 +170,7 @@ func directoryOfTheNetwork(
 ) (*peerdirectory.Directory, peerreliability.Reliability) {
 	t.Helper()
 
-	presence := peerpresencesmemory.New(
+	presence := peerpresencememory.New(
 		presenceaccrual.PresenceAccrualLimits{
 			Capacity:        directoryCapacity,
 			ContinuityLimit: refreshInterval,

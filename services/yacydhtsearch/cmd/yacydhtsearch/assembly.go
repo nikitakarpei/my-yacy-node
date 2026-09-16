@@ -44,10 +44,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
 	peermatchedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/applog"
 	peermatchedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/prometheus"
+	peerpresencejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/jetstream"
+	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
 	peerpresenceobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/jetstream/applog"
 	peerpresenceobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/jetstream/prometheus"
-	peerpresencesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/jetstream"
-	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	presenceaccrualobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrualobservers/applog"
@@ -300,7 +300,7 @@ func peerPresenceFor(
 		presenceaccrualobserversprometheus.New(registry),
 	}
 	if cfg.NATSURL == "" {
-		return peerpresencesmemory.New(accrualLimits, accrualObservers), nil
+		return peerpresencememory.New(accrualLimits, accrualObservers), nil
 	}
 
 	answers, err := peerAnswerHistoryAt(ctx, cfg)
@@ -311,15 +311,15 @@ func peerPresenceFor(
 	if err != nil {
 		return nil, err
 	}
-	presence := peerpresencesjetstream.New(
+	presence := peerpresencejetstream.New(
 		answers,
 		snapshots,
-		peerpresencesjetstream.PeerPresenceLimits{
+		peerpresencejetstream.PeerPresenceLimits{
 			AccrualLimits:    accrualLimits,
 			SnapshotInterval: cfg.SnapshotInterval,
 		},
 		accrualObservers,
-		peerpresencesjetstream.PeerPresenceObservers{
+		peerpresencejetstream.PeerPresenceObservers{
 			peerpresenceobserversjetstreamapplog.PeerPresenceLog{},
 			peerpresenceobserversjetstreamprometheus.New(registry),
 		},

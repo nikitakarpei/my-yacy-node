@@ -9,7 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
-	peerpresencesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/jetstream"
+	peerpresencejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -85,7 +85,7 @@ func presenceOver(
 	stream natsjetstream.JetStream,
 	limits presenceaccrual.PresenceAccrualLimits,
 	snapshotInterval time.Duration,
-) *peerpresencesjetstream.PeerPresence {
+) *peerpresencejetstream.PeerPresence {
 	t.Helper()
 
 	bucket, err := stream.KeyValue(t.Context(), bucketName)
@@ -93,7 +93,7 @@ func presenceOver(
 		t.Fatalf("open bucket: %v", err)
 	}
 
-	return peerpresencesjetstream.New(
+	return peerpresencejetstream.New(
 		peeranswerhistory.New(
 			stream,
 			streamName,
@@ -101,7 +101,7 @@ func presenceOver(
 			peeranswerhistory.HistoryObservers{},
 		),
 		bucket,
-		peerpresencesjetstream.PeerPresenceLimits{
+		peerpresencejetstream.PeerPresenceLimits{
 			AccrualLimits:    limits,
 			SnapshotInterval: snapshotInterval,
 		},
@@ -112,7 +112,7 @@ func presenceOver(
 
 func consuming(
 	t *testing.T,
-	presence *peerpresencesjetstream.PeerPresence,
+	presence *peerpresencejetstream.PeerPresence,
 ) context.CancelFunc {
 	t.Helper()
 
@@ -128,7 +128,7 @@ func peerAtAddress(peer yacymodel.Hash) peeranswerhistory.PeerAtAddress {
 
 func foldedWithin(
 	t *testing.T,
-	presence *peerpresencesjetstream.PeerPresence,
+	presence *peerpresencejetstream.PeerPresence,
 	peer peeranswerhistory.PeerAtAddress,
 	folded func(earnedPresence time.Duration, latestAnswer time.Time) bool,
 ) {

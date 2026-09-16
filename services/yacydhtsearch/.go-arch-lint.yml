@@ -119,10 +119,10 @@ components:
     in: internal/peeranswerhistory/**
   presenceaccrual:
     in: internal/presenceaccrual/**
-  peerpresencesjetstream:
-    in: internal/peerpresences/jetstream/**
-  peerpresencesmemory:
-    in: internal/peerpresences/memory/**
+  peerpresencejetstream:
+    in: internal/peerpresence/jetstream/**
+  peerpresencememory:
+    in: internal/peerpresence/memory/**
   peerreliability:
     in: internal/peerreliability/**
   yacydhtsearchcmd:
@@ -224,11 +224,11 @@ deps:
     canUse:
       - yacymodel
       - hashicorplru
-  peerpresencesjetstream:
+  peerpresencejetstream:
     canUse:
       - yacymodel
       - nats
-  peerpresencesmemory:
+  peerpresencememory:
     canUse:
       - yacymodel
   stalepeersourcesleastreliable:
