@@ -82,10 +82,10 @@ func (d *Directory) holdAdmittedPeers(
 
 	d.refreshTheAddressesOfHeldPeers(seeds)
 	candidates := d.candidatesAmong(seeds)
-	refusedCandidates, droppedPeers := d.peersThatDoNotFit(ctx, candidates)
-	d.drop(droppedPeers)
+	peersOverTheCapacity := d.peersOverTheCapacity(ctx, candidates)
+	droppedPeers := d.drop(peersOverTheCapacity)
 
-	return d.hold(candidates, refusedCandidates), droppedPeers
+	return d.hold(candidates, peersOverTheCapacity), droppedPeers
 }
 
 func (d *Directory) refreshTheAddressesOfHeldPeers(seeds []yacymodel.Seed) {
@@ -117,34 +117,27 @@ func (d *Directory) candidatesAmong(seeds []yacymodel.Seed) []CandidatePeer {
 	return candidates
 }
 
-func (d *Directory) peersThatDoNotFit(
+func (d *Directory) peersOverTheCapacity(
 	ctx context.Context,
 	candidates []CandidatePeer,
-) (map[yacymodel.Hash]struct{}, []yacymodel.Hash) {
-	peersOverTheCapacity := len(d.peers) + len(candidates) - d.limits.Capacity
-	if peersOverTheCapacity <= 0 {
-		return nil, nil
+) []yacymodel.Hash {
+	amountOverTheCapacity := len(d.peers) + len(candidates) - d.limits.Capacity
+	if amountOverTheCapacity <= 0 {
+		return nil
 	}
 	newcomers := d.newcomersDrawnAmong(candidates)
-	offered := hashesOf(candidates)
-	refusedCandidates := map[yacymodel.Hash]struct{}{}
-	var droppedPeers []yacymodel.Hash
+	peersOverTheCapacity := make([]yacymodel.Hash, 0, amountOverTheCapacity)
 	for _, peer := range d.stalestPeersFirst(ctx, candidates) {
-		if peersOverTheCapacity == 0 {
+		if len(peersOverTheCapacity) == amountOverTheCapacity {
 			break
 		}
 		if _, drawn := newcomers[peer]; drawn {
 			continue
 		}
-		if _, isCandidate := offered[peer]; isCandidate {
-			refusedCandidates[peer] = struct{}{}
-		} else {
-			droppedPeers = append(droppedPeers, peer)
-		}
-		peersOverTheCapacity--
+		peersOverTheCapacity = append(peersOverTheCapacity, peer)
 	}
 
-	return refusedCandidates, droppedPeers
+	return peersOverTheCapacity
 }
 
 func (d *Directory) newcomersDrawnAmong(
@@ -163,15 +156,6 @@ func (d *Directory) newcomersDrawnAmong(
 	return drawn
 }
 
-func hashesOf(candidates []CandidatePeer) map[yacymodel.Hash]struct{} {
-	hashes := make(map[yacymodel.Hash]struct{}, len(candidates))
-	for _, candidate := range candidates {
-		hashes[candidate.Hash] = struct{}{}
-	}
-
-	return hashes
-}
-
 func (d *Directory) stalestPeersFirst(
 	ctx context.Context,
 	candidates []CandidatePeer,
@@ -179,16 +163,27 @@ func (d *Directory) stalestPeersFirst(
 	return d.stale.StalestPeersFirst(ctx, slices.Collect(maps.Values(d.peers)), candidates)
 }
 
-func (d *Directory) drop(peers []yacymodel.Hash) {
+func (d *Directory) drop(peers []yacymodel.Hash) []yacymodel.Hash {
+	droppedPeers := make([]yacymodel.Hash, 0, len(peers))
 	for _, peer := range peers {
+		if _, isHeld := d.peers[peer]; !isHeld {
+			continue
+		}
 		delete(d.peers, peer)
+		droppedPeers = append(droppedPeers, peer)
 	}
+
+	return droppedPeers
 }
 
 func (d *Directory) hold(
 	candidates []CandidatePeer,
-	refusedCandidates map[yacymodel.Hash]struct{},
+	peersOverTheCapacity []yacymodel.Hash,
 ) []KnownPeer {
+	refusedCandidates := make(map[yacymodel.Hash]struct{}, len(peersOverTheCapacity))
+	for _, peer := range peersOverTheCapacity {
+		refusedCandidates[peer] = struct{}{}
+	}
 	admittedPeers := make([]KnownPeer, 0, len(candidates)-len(refusedCandidates))
 	for _, candidate := range candidates {
 		if _, refused := refusedCandidates[candidate.Hash]; refused {
