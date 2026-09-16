@@ -8,12 +8,12 @@ import (
 )
 
 const (
-	labelFailure           = "failure"
-	failureUnusableAddress = "unusableAddress"
-	failureNoAnswer        = "noAnswer"
-	failureRefused         = "refused"
-	failureAnswerUnread    = "answerUnread"
-	failureNoRWICount      = "noRWICount"
+	labelFailure            = "failure"
+	failureUnusableAddress  = "unusableAddress"
+	failureNoAnswer         = "noAnswer"
+	failureRefused          = "refused"
+	failureAnswerIncomplete = "answerIncomplete"
+	failureNoRWICount       = "noRWICount"
 )
 
 type PeerLivenessMetrics struct {
@@ -45,7 +45,7 @@ func (m *PeerLivenessMetrics) PeerRefusedTheProbe(context.Context, string, int) 
 }
 
 func (m *PeerLivenessMetrics) ProbeAnswerCouldNotBeRead(context.Context, string, error) {
-	m.probeFailures.WithLabelValues(failureAnswerUnread).Inc()
+	m.probeFailures.WithLabelValues(failureAnswerIncomplete).Inc()
 }
 
 func (m *PeerLivenessMetrics) ProbeAnswerCarriedNoRWICount(context.Context, string, error) {
