@@ -118,6 +118,21 @@ func PositiveInt64(getenv func(string) string, key string, fallback int64) (int6
 	return value, nil
 }
 
+func Share(getenv func(string) string, key string, fallback float64) (float64, error) {
+	raw := strings.TrimSpace(getenv(key))
+	if raw == "" {
+		return fallback, nil
+	}
+	value, err := strconv.ParseFloat(raw, 64)
+	if err != nil {
+		return 0, fmt.Errorf("%s: %w", key, err)
+	}
+	if value < 0 || value >= 1 {
+		return 0, fmt.Errorf("%s: must be at least 0 and below 1", key)
+	}
+	return value, nil
+}
+
 func Duration(
 	getenv func(string) string,
 	key string,
