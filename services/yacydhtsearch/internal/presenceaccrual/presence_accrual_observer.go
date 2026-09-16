@@ -10,7 +10,6 @@ import (
 type PresenceAccrualObserver interface {
 	PeerAnsweredForTheFirstTime(ctx context.Context, peer yacymodel.Hash, address string)
 	PeerEarnedPresence(ctx context.Context, peer yacymodel.Hash, presence time.Duration)
-	PeersObserved(ctx context.Context, amountOfObservedPeers int)
 }
 
 type PresenceAccrualObservers []PresenceAccrualObserver
@@ -32,14 +31,5 @@ func (observers PresenceAccrualObservers) PeerEarnedPresence(
 ) {
 	for _, observer := range observers {
 		observer.PeerEarnedPresence(ctx, peer, presence)
-	}
-}
-
-func (observers PresenceAccrualObservers) PeersObserved(
-	ctx context.Context,
-	amountOfObservedPeers int,
-) {
-	for _, observer := range observers {
-		observer.PeersObserved(ctx, amountOfObservedPeers)
 	}
 }

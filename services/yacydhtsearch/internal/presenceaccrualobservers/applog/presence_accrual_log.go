@@ -12,7 +12,6 @@ import (
 const (
 	msgPeerAnsweredForTheFirstTime = "peer answered for the first time"
 	msgPeerEarnedPresence          = "peer earned presence"
-	msgPeersObserved               = "presence is held for peers"
 )
 
 type PresenceAccrualLog struct{}
@@ -37,8 +36,4 @@ func (PresenceAccrualLog) PeerEarnedPresence(
 		slog.String("peer", peer.String()),
 		slog.Duration("presence", presence),
 	)
-}
-
-func (PresenceAccrualLog) PeersObserved(ctx context.Context, amountOfObservedPeers int) {
-	slog.DebugContext(ctx, msgPeersObserved, slog.Int("observedPeers", amountOfObservedPeers))
 }

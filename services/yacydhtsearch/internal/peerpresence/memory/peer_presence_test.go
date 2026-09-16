@@ -25,7 +25,6 @@ var wideAccrualLimits = presenceaccrual.PresenceAccrualLimits{
 type reportedPresence struct {
 	firstAnswers   int
 	earnedPresence time.Duration
-	observedPeers  int
 }
 
 func (r *reportedPresence) PeerAnsweredForTheFirstTime(
@@ -42,10 +41,6 @@ func (r *reportedPresence) PeerEarnedPresence(
 	presence time.Duration,
 ) {
 	r.earnedPresence = presence
-}
-
-func (r *reportedPresence) PeersObserved(_ context.Context, amountOfObservedPeers int) {
-	r.observedPeers = amountOfObservedPeers
 }
 
 func startOfObservation() time.Time {
@@ -82,8 +77,8 @@ func TestAnAnsweringPeerBecomesObserved(t *testing.T) {
 	if !latestAnswer.Equal(startOfObservation()) {
 		t.Fatalf("LatestAnswerOf = %v, want the answer the peer gave", latestAnswer)
 	}
-	if reported.firstAnswers != 1 || reported.observedPeers != 1 {
-		t.Fatalf("reported %+v, want one first answer and one observed peer", reported)
+	if reported.firstAnswers != 1 {
+		t.Fatalf("reported %+v, want one first answer", reported)
 	}
 }
 

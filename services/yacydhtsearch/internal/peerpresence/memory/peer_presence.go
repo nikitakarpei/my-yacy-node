@@ -23,7 +23,7 @@ func New(
 	accrualObserver presenceaccrual.PresenceAccrualObserver,
 ) *PeerPresence {
 	return &PeerPresence{
-		accrual:         presenceaccrual.PresenceAccrualFrom(nil, accrualLimits, accrualObserver),
+		accrual:         presenceaccrual.PresenceAccrualFrom(nil, accrualLimits),
 		accrualObserver: accrualObserver,
 	}
 }
@@ -48,7 +48,7 @@ func (h *PeerPresence) PeerAnswered(
 	address string,
 	answeredAt time.Time,
 ) {
-	answeredPeer, answerCredited := h.accrual.Credit(ctx, probeanswerhistory.ProbeAnswer{
+	answeredPeer, answerCredited := h.accrual.Credit(probeanswerhistory.ProbeAnswer{
 		PeerAtAddress: probeanswerhistory.PeerAtAddress{Hash: peer, Address: address},
 		AnsweredAt:    answeredAt,
 	})

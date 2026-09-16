@@ -10,7 +10,6 @@
 package presenceaccrual
 
 import (
-	"context"
 	"sync"
 	"time"
 
@@ -28,13 +27,11 @@ type PresenceAccrual struct {
 	mutex           sync.Mutex
 	observedPeers   *expirable.LRU[probeanswerhistory.PeerAtAddress, ObservedPeer]
 	continuityLimit time.Duration
-	observer        PresenceAccrualObserver
 }
 
 func PresenceAccrualFrom(
 	observedPeers []ObservedPeer,
 	limits PresenceAccrualLimits,
-	observer PresenceAccrualObserver,
 ) *PresenceAccrual {
 	alreadyObserved := expirable.NewLRU[probeanswerhistory.PeerAtAddress, ObservedPeer](
 		limits.Capacity, nil, 0,
@@ -46,12 +43,10 @@ func PresenceAccrualFrom(
 	return &PresenceAccrual{
 		observedPeers:   alreadyObserved,
 		continuityLimit: limits.ContinuityLimit,
-		observer:        observer,
 	}
 }
 
 func (p *PresenceAccrual) Credit(
-	ctx context.Context,
 	answer probeanswerhistory.ProbeAnswer,
 ) (ObservedPeer, bool) {
 	p.mutex.Lock()
@@ -75,9 +70,6 @@ func (p *PresenceAccrual) Credit(
 		answeredPeer.LatestAnsweredAt = answer.AnsweredAt
 	}
 	p.observedPeers.Add(answer.PeerAtAddress, answeredPeer)
-	if !isObserved {
-		p.observer.PeersObserved(ctx, p.observedPeers.Len())
-	}
 
 	return answeredPeer, true
 }

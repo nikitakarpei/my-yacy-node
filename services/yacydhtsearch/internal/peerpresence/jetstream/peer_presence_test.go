@@ -35,7 +35,6 @@ type silentObserver struct{}
 
 func (silentObserver) PeerAnsweredForTheFirstTime(context.Context, yacymodel.Hash, string) {}
 func (silentObserver) PeerEarnedPresence(context.Context, yacymodel.Hash, time.Duration)   {}
-func (silentObserver) PeersObserved(context.Context, int)                                  {}
 func (silentObserver) SnapshotsReadFailed(context.Context, error)                          {}
 func (silentObserver) SnapshotUndecodable(context.Context, string, error)                  {}
 func (silentObserver) SnapshotWriteFailed(context.Context, string, error)                  {}

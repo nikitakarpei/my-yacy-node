@@ -62,7 +62,7 @@ func New(
 		presenceObserver: presenceObserver,
 	}
 	presence.accrual.Store(
-		presenceaccrual.PresenceAccrualFrom(nil, limits.AccrualLimits, accrualObserver),
+		presenceaccrual.PresenceAccrualFrom(nil, limits.AccrualLimits),
 	)
 
 	return presence
@@ -97,7 +97,7 @@ func (h *PeerPresence) PeerAnswered(
 func (h *PeerPresence) FoldTheProbeAnswerHistory(ctx context.Context) {
 	peersSnapshotted := h.peersSnapshotted(ctx)
 	h.accrual.Store(presenceaccrual.PresenceAccrualFrom(
-		observedPeersAmong(peersSnapshotted), h.accrualLimits, h.accrualObserver,
+		observedPeersAmong(peersSnapshotted), h.accrualLimits,
 	))
 
 	for position, answer := range h.answers.AnswersAfter(ctx, foldedUpToBy(peersSnapshotted)) {
@@ -157,7 +157,7 @@ func (h *PeerPresence) credit(
 	position probeanswerhistory.ProbeAnswerPosition,
 	answer probeanswerhistory.ProbeAnswer,
 ) {
-	if observedPeer, credited := h.accrual.Load().Credit(ctx, answer); credited {
+	if observedPeer, credited := h.accrual.Load().Credit(answer); credited {
 		h.changedPeers[observedPeer.PeerAtAddress] = snapshottedPeer{
 			ObservedPeer: observedPeer,
 			FoldedUpTo:   position,

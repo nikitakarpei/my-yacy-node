@@ -1,7 +1,6 @@
 package presenceaccrual_test
 
 import (
-	"context"
 	"testing"
 	"time"
 
@@ -20,12 +19,6 @@ var wideAccrualLimits = presenceaccrual.PresenceAccrualLimits{
 	Capacity:        wideCapacity,
 	ContinuityLimit: continuityLimit,
 }
-
-type silentObserver struct{}
-
-func (silentObserver) PeerAnsweredForTheFirstTime(context.Context, yacymodel.Hash, string) {}
-func (silentObserver) PeerEarnedPresence(context.Context, yacymodel.Hash, time.Duration)   {}
-func (silentObserver) PeersObserved(context.Context, int)                                  {}
 
 func startOfObservation() time.Time {
 	return time.Date(2026, time.September, 15, 12, 0, 0, 0, time.UTC)
@@ -55,10 +48,10 @@ func answeredAt(
 func TestTheFirstAnswerOfAPeerEarnsItNoPresence(t *testing.T) {
 	t.Parallel()
 
-	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits)
 	peer := peerAtAddress(t, 'a')
 
-	observedPeer, credited := presence.Credit(t.Context(), answeredAt(peer, startOfObservation()))
+	observedPeer, credited := presence.Credit(answeredAt(peer, startOfObservation()))
 
 	if !credited {
 		t.Fatal("Credit refused the first answer of a peer")
@@ -77,11 +70,11 @@ func TestTheFirstAnswerOfAPeerEarnsItNoPresence(t *testing.T) {
 func TestAFurtherAnswerEarnsThePresenceSinceTheAnswerBeforeIt(t *testing.T) {
 	t.Parallel()
 
-	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits)
 	peer := peerAtAddress(t, 'a')
-	presence.Credit(t.Context(), answeredAt(peer, startOfObservation()))
+	presence.Credit(answeredAt(peer, startOfObservation()))
 
-	observedPeer, _ := presence.Credit(t.Context(),
+	observedPeer, _ := presence.Credit(
 		answeredAt(peer, startOfObservation().Add(time.Minute)),
 	)
 
@@ -93,11 +86,11 @@ func TestAFurtherAnswerEarnsThePresenceSinceTheAnswerBeforeIt(t *testing.T) {
 func TestAnAnswerAfterALongSilenceEarnsOnlyTheContinuityLimit(t *testing.T) {
 	t.Parallel()
 
-	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits)
 	peer := peerAtAddress(t, 'a')
-	presence.Credit(t.Context(), answeredAt(peer, startOfObservation()))
+	presence.Credit(answeredAt(peer, startOfObservation()))
 
-	observedPeer, _ := presence.Credit(t.Context(),
+	observedPeer, _ := presence.Credit(
 		answeredAt(peer, startOfObservation().Add(24*time.Hour)),
 	)
 
@@ -110,11 +103,11 @@ func TestAnAnswerAfterALongSilenceEarnsOnlyTheContinuityLimit(t *testing.T) {
 func TestAnAnswerOlderThanTheLatestOneIsNotCredited(t *testing.T) {
 	t.Parallel()
 
-	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits)
 	peer := peerAtAddress(t, 'a')
-	presence.Credit(t.Context(), answeredAt(peer, startOfObservation().Add(time.Minute)))
+	presence.Credit(answeredAt(peer, startOfObservation().Add(time.Minute)))
 
-	_, credited := presence.Credit(t.Context(), answeredAt(peer, startOfObservation()))
+	_, credited := presence.Credit(answeredAt(peer, startOfObservation()))
 
 	if credited {
 		t.Fatal("Credit accepted an answer older than the latest one it holds")
@@ -133,10 +126,9 @@ func TestPresenceCarriesOnFromTheObservedPeersItStartsWith(t *testing.T) {
 			Presence:         time.Hour,
 		}},
 		wideAccrualLimits,
-		silentObserver{},
 	)
 
-	observedPeer, _ := presence.Credit(t.Context(),
+	observedPeer, _ := presence.Credit(
 		answeredAt(peer, startOfObservation().Add(time.Minute)),
 	)
 
@@ -152,10 +144,10 @@ func TestPresenceIsHeldForNoMorePeersThanItsCapacity(t *testing.T) {
 	presence := presenceaccrual.PresenceAccrualFrom(nil, presenceaccrual.PresenceAccrualLimits{
 		Capacity:        1,
 		ContinuityLimit: continuityLimit,
-	}, silentObserver{})
+	})
 	first, second := peerAtAddress(t, 'a'), peerAtAddress(t, 'b')
-	presence.Credit(t.Context(), answeredAt(first, startOfObservation()))
-	presence.Credit(t.Context(), answeredAt(second, startOfObservation()))
+	presence.Credit(answeredAt(first, startOfObservation()))
+	presence.Credit(answeredAt(second, startOfObservation()))
 
 	if !presence.LatestAnswerOf(first).IsZero() {
 		t.Fatal("the first peer still has a latest answer, want it released at the capacity of 1")
@@ -168,7 +160,7 @@ func TestPresenceIsHeldForNoMorePeersThanItsCapacity(t *testing.T) {
 func TestAPeerNeverObservedHasEarnedNoPresence(t *testing.T) {
 	t.Parallel()
 
-	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits)
 
 	if earned := presence.EarnedPresenceOf(peerAtAddress(t, 'a')); earned != 0 {
 		t.Fatalf("EarnedPresenceOf = %v, want none for a peer never observed", earned)
