@@ -1585,7 +1585,7 @@
     },
     {
       "id": 48,
-      "title": "Peer presence earned",
+      "title": "Total earned presence of the peers that answered",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
