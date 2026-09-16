@@ -7,14 +7,13 @@ This project's `yacynode` is a lightweight Go peer scoped to DHT RWI storage and
 live federated search to it would grow that scope beyond its purpose. The project instead
 provides `yacydhtsearch`, a separate standalone Go service that performs live, synchronous
 federated search across one configured YaCy DHT network — any configured network, not only
-"freeworld" — exposing YaCy's own public search contract. It holds no local index and stores
-nothing beyond a peer directory.
+"freeworld" — exposing YaCy's own public search contract. It holds no local index.
 
 ## Non-Goals
 
 * A local index, posting cache, or result cache of any kind.
 * Full-text indexing, crawling, or keeping page content after a query.
-* Peer reputation, trust scoring, or abuse-prevention baked into core behavior.
+* Trust scoring from what peers claim, or abuse-prevention baked into core behavior.
 * Serving more than one YaCy network per process.
 * Receiving inbound DHT RWI postings or participating in DHT storage (that is `yacynode`'s role).
 * Asynchronous or streaming search delivery.
@@ -42,12 +41,11 @@ nothing beyond a peer directory.
 * The service SHALL end every peer call when the query's budget ends, and SHALL tell each peer
   how much of that budget its answer has, so one unresponsive peer cannot delay the answer.
 * The service SHALL keep memory usage bounded independently of network size.
-* The service SHALL NOT persist any state beyond the peer directory.
 * The service SHALL preserve compatibility with standard YaCy peer-to-peer contracts.
 * The service SHALL preserve compatibility with YaCy's public `/yacysearch.json` contract closely
   enough that any compliant client, including SearXNG's native YaCy engine, can use it unmodified.
-* Peer selection and peer-directory eviction SHALL be replaceable behind narrow interfaces, with
-  no trust or reputation mechanism assumed by the default implementation.
+* Peer selection and peer-directory eviction SHALL be replaceable behind narrow interfaces.
+* Peer selection SHALL use nothing a peer claims about itself or about another peer.
 * Operational behavior SHALL be observable through machine-readable metrics, including per-query
   completeness.
 * The service SHOULD track peer liveness and refresh its peer directory to reduce the likelihood

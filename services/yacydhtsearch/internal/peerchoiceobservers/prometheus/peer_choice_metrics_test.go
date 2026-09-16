@@ -9,7 +9,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	dhtdistanceobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/dhtdistanceobservers/prometheus"
+	peerchoiceobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoiceobservers/prometheus"
 )
 
 func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
@@ -28,7 +28,7 @@ func TestEachPickedPeerPublishesItsDistanceFromTheTermItAnswersFor(t *testing.T)
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := dhtdistanceobserversprometheus.New(registry)
+	metrics := peerchoiceobserversprometheus.New(registry)
 
 	metrics.PeersSelected(t.Context(), []float64{0.001, 0.5, 0.75})
 

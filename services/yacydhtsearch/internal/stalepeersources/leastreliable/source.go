@@ -1,8 +1,8 @@
 // Package leastreliable ranks the peer this deployment has had the least luck
 // with as the stalest, so a full directory drops a peer that does not answer
-// before a peer that has answered for weeks. Presence belongs to a peer at one
-// address while the directory keeps or drops the peer itself, so the address
-// the peer has done best from speaks for it. A peer that was admitted too
+// before a peer that has answered for weeks. Reliability belongs to a peer at
+// one address while the directory keeps or drops the peer itself, so the
+// address the peer has done best from speaks for it. A peer that was admitted too
 // recently to have been probed is never the stalest, so every newcomer gets one
 // refresh cycle to answer for itself before it can be dropped. Peers this
 // deployment has never seen answer are ordered by the directory's own record of
@@ -17,37 +17,29 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PeerPresence interface {
-	EarnedPresenceOf(
+type PeerReliability interface {
+	ReliabilityOf(
 		ctx context.Context,
 		peerAtAddress peeranswerhistory.PeerAtAddress,
-	) time.Duration
-	LatestAnswerOf(
-		ctx context.Context,
-		peerAtAddress peeranswerhistory.PeerAtAddress,
-	) time.Time
+	) float64
 }
 
 type Source struct {
-	presence        PeerPresence
-	weights         peerreliability.ReliabilityWeights
+	reliability     PeerReliability
 	refreshInterval time.Duration
 	now             func() time.Time
 }
 
 func New(
-	presence PeerPresence,
-	weights peerreliability.ReliabilityWeights,
+	reliability PeerReliability,
 	refreshInterval time.Duration,
 	now func() time.Time,
 ) Source {
 	return Source{
-		presence:        presence,
-		weights:         weights,
+		reliability:     reliability,
 		refreshInterval: refreshInterval,
 		now:             now,
 	}
@@ -83,7 +75,7 @@ func (s Source) rankedPeersFrom(
 		ranked = append(ranked, rankedPeer{
 			hash:                peer.Hash,
 			awaitsItsFirstProbe: now.Sub(peer.AdmittedAt) < s.refreshInterval,
-			reliability:         s.reliabilityOf(ctx, peer, now),
+			reliability:         s.reliabilityOf(ctx, peer),
 			answeredAt:          peer.AnsweredAt,
 			admittedAt:          peer.AdmittedAt,
 		})
@@ -92,18 +84,11 @@ func (s Source) rankedPeersFrom(
 	return ranked
 }
 
-func (s Source) reliabilityOf(
-	ctx context.Context,
-	peer peerdirectory.KnownPeer,
-	now time.Time,
-) float64 {
+func (s Source) reliabilityOf(ctx context.Context, peer peerdirectory.KnownPeer) float64 {
 	bestReliability := 0.0
 	for _, address := range peer.Addresses {
-		peerAtAddress := peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: address}
-		bestReliability = max(bestReliability, s.weights.ReliabilityOf(
-			s.presence.EarnedPresenceOf(ctx, peerAtAddress),
-			s.presence.LatestAnswerOf(ctx, peerAtAddress),
-			now,
+		bestReliability = max(bestReliability, s.reliability.ReliabilityOf(
+			ctx, peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: address},
 		))
 	}
 

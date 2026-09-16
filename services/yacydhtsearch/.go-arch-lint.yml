@@ -37,10 +37,8 @@ components:
     in: internal/peerdirectory/**
   stalepeersourcesleastreliable:
     in: internal/stalepeersources/leastreliable/**
-  peerselectionsdhtdistance:
-    in: internal/peerselections/dhtdistance/**
-  dhtdistanceobserversprometheus:
-    in: internal/dhtdistanceobservers/prometheus/**
+  peerchoiceobserversprometheus:
+    in: internal/peerchoiceobservers/prometheus/**
   networksearch:
     in: internal/networksearch/**
   pagereading:
@@ -223,11 +221,6 @@ deps:
     mayDependOn:
       - peerdirectory
       - peerreliability
-  peerselectionsdhtdistance:
-    canUse:
-      - yacymodel
-    mayDependOn:
-      - peerdirectory
   peerchoice:
     canUse:
       - yacymodel
@@ -342,7 +335,7 @@ deps:
     mayDependOn:
       - searchquery
       - searchresult
-  dhtdistanceobserversprometheus:
+  peerchoiceobserversprometheus:
     canUse:
       - prometheus
   networksearchobserversapplog:

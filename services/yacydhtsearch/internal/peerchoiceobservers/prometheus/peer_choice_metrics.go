@@ -1,5 +1,5 @@
-// Package prometheus reports how near the picked peers sit to the postings of a
-// query's terms on the DHT ring.
+// Package prometheus reports how near the peers a query asks sit to the
+// postings of its terms on the DHT ring.
 package prometheus
 
 import (
@@ -8,12 +8,12 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 )
 
-type DHTDistanceMetrics struct {
+type PeerChoiceMetrics struct {
 	ringFractionFromTermToPeer prometheusclient.Histogram
 }
 
-func New(registry prometheusclient.Registerer) *DHTDistanceMetrics {
-	metrics := &DHTDistanceMetrics{
+func New(registry prometheusclient.Registerer) *PeerChoiceMetrics {
+	metrics := &PeerChoiceMetrics{
 		ringFractionFromTermToPeer: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
 				Name: "yacydhtsearch_selection_ring_fraction",
@@ -28,7 +28,7 @@ func New(registry prometheusclient.Registerer) *DHTDistanceMetrics {
 	return metrics
 }
 
-func (m *DHTDistanceMetrics) PeersSelected(_ context.Context, ringFractions []float64) {
+func (m *PeerChoiceMetrics) PeersSelected(_ context.Context, ringFractions []float64) {
 	for _, fraction := range ringFractions {
 		m.ringFractionFromTermToPeer.Observe(fraction)
 	}

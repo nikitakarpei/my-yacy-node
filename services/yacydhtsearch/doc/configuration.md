@@ -65,7 +65,7 @@ The service records each answer a peer gives, and adds the time since the answer
 
 ## Peer calls
 
-A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left, and the nearest peer of each word is asked first.
+A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left, and the peer each word counts as nearest is asked first. A peer counts as nearer when this deployment's probes found it reliable, and a share of each word's peers is drawn at random.
 
 | Variable | Default | Meaning |
 |---|---|---|

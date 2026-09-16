@@ -18,7 +18,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
 	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
@@ -151,8 +150,8 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 		t.Skipf("set %s to record what the peers answer", recordingSwitch)
 	}
 
-	directory := directoryOfTheNetwork(t)
-	spread := querySpreadOverThePeers(t, directory)
+	directory, reliability := directoryOfTheNetwork(t)
+	spread := querySpreadOverThePeers(t, directory, reliability)
 	reading := pageTextReadingOverTheWeb(t)
 	t.Logf(
 		"the directory knows %d peers and can ask %d",
@@ -166,7 +165,9 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 	}
 }
 
-func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
+func directoryOfTheNetwork(
+	t *testing.T,
+) (*peerdirectory.Directory, peerreliability.Reliability) {
 	t.Helper()
 
 	presence := peerpresencesmemory.New(
@@ -176,16 +177,14 @@ func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
 		},
 		presenceaccrual.PresenceAccrualObservers{},
 	)
+	reliability := peerreliability.New(
+		presence, peerreliability.DefaultReliabilityWeights(), time.Now,
+	)
 	directory := peerdirectory.New(
 		directoryCapacity,
 		peerChoiceCooldown,
 		time.Now,
-		leastreliable.New(
-			presence,
-			peerreliability.DefaultReliabilityWeights(),
-			refreshInterval,
-			time.Now,
-		),
+		leastreliable.New(reliability, refreshInterval, time.Now),
 		peerdirectory.DirectoryObservers{presence},
 	)
 	peerdirectoryrefresh.New(
@@ -206,10 +205,14 @@ func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
 		},
 	).RefreshOnce(t.Context())
 
-	return directory
+	return directory, reliability
 }
 
-func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) querySpread {
+func querySpreadOverThePeers(
+	t *testing.T,
+	directory *peerdirectory.Directory,
+	reliability peerreliability.Reliability,
+) querySpread {
 	t.Helper()
 
 	partitions := ringPartitions(t)
@@ -224,8 +227,7 @@ func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) q
 		peercallwire.PeerCallObservers{},
 	)
 	choice := peerchoice.New(
-		dhtdistance.New(partitions, dhtdistance.DHTDistanceObservers{}),
-		directory,
+		partitions, reliability, directory, peerchoice.PeerChoiceObservers{},
 	)
 
 	return bywordcount.New(

@@ -7,8 +7,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -22,20 +20,13 @@ const (
 
 var theInstant = time.Unix(1_000_000, 0)
 
-type observedPeers map[peeranswerhistory.PeerAtAddress]presenceaccrual.ObservedPeer
+type reliabilityPerPeerAtAddress map[peeranswerhistory.PeerAtAddress]float64
 
-func (peers observedPeers) EarnedPresenceOf(
+func (reliability reliabilityPerPeerAtAddress) ReliabilityOf(
 	_ context.Context,
 	peerAtAddress peeranswerhistory.PeerAtAddress,
-) time.Duration {
-	return peers[peerAtAddress].Presence
-}
-
-func (peers observedPeers) LatestAnswerOf(
-	_ context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
-) time.Time {
-	return peers[peerAtAddress].LatestAnsweredAt
+) float64 {
+	return reliability[peerAtAddress]
 }
 
 func hashOf(t *testing.T, symbol byte) yacymodel.Hash {
@@ -52,35 +43,26 @@ func hashOf(t *testing.T, symbol byte) yacymodel.Hash {
 	return hash
 }
 
-func presenceEarnedAt(
+func reliabilityEarnedAt(
 	peer yacymodel.Hash,
 	address string,
-	presence time.Duration,
-) presenceaccrual.ObservedPeer {
-	return presenceaccrual.ObservedPeer{
-		PeerAtAddress:    peeranswerhistory.PeerAtAddress{Hash: peer, Address: address},
-		FirstAnsweredAt:  theInstant.Add(-presence),
-		LatestAnsweredAt: theInstant,
-		Presence:         presence,
+	reliability float64,
+) reliabilityPerPeerAtAddress {
+	return reliabilityPerPeerAtAddress{
+		peeranswerhistory.PeerAtAddress{Hash: peer, Address: address}: reliability,
 	}
 }
 
-func presenceOver(observed ...presenceaccrual.ObservedPeer) observedPeers {
-	peers := make(observedPeers, len(observed))
-	for _, observedPeer := range observed {
-		peers[observedPeer.PeerAtAddress] = observedPeer
+func sourceOver(earned ...reliabilityPerPeerAtAddress) leastreliable.Source {
+	reliability := reliabilityPerPeerAtAddress{}
+	for _, earnedByOnePeer := range earned {
+		for peerAtAddress, earnedReliability := range earnedByOnePeer {
+			reliability[peerAtAddress] = earnedReliability
+		}
 	}
 
-	return peers
-}
-
-func sourceOver(observed observedPeers) leastreliable.Source {
 	return leastreliable.New(
-		observed,
-		peerreliability.ReliabilityWeights{
-			MaturationDuration: time.Hour,
-			StalenessHorizon:   time.Hour,
-		},
+		reliability,
 		refreshInterval,
 		func() time.Time { return theInstant },
 	)
@@ -98,9 +80,10 @@ func TestThePeerWithTheLeastEarnedReliabilityIsTheStalest(t *testing.T) {
 	t.Parallel()
 
 	present, transient := hashOf(t, 'a'), hashOf(t, 'b')
-	presentPeer := presenceEarnedAt(present, answeringAddress, time.Hour)
-	transientPeer := presenceEarnedAt(transient, answeringAddress, time.Minute)
-	stalest := sourceOver(presenceOver(presentPeer, transientPeer)).StalestPeers(
+	stalest := sourceOver(
+		reliabilityEarnedAt(present, answeringAddress, 1),
+		reliabilityEarnedAt(transient, answeringAddress, 0.1),
+	).StalestPeers(
 		t.Context(),
 		[]peerdirectory.KnownPeer{
 			knownPeer(present, answeringAddress),
@@ -118,9 +101,10 @@ func TestAPeerSpeaksForItselfThroughTheAddressItHasDoneBestFrom(t *testing.T) {
 	t.Parallel()
 
 	moved, transient := hashOf(t, 'a'), hashOf(t, 'b')
-	movedPeer := presenceEarnedAt(moved, anotherAddress, time.Hour)
-	transientPeer := presenceEarnedAt(transient, answeringAddress, time.Minute)
-	stalest := sourceOver(presenceOver(movedPeer, transientPeer)).StalestPeers(
+	stalest := sourceOver(
+		reliabilityEarnedAt(moved, anotherAddress, 1),
+		reliabilityEarnedAt(transient, answeringAddress, 0.1),
+	).StalestPeers(
 		t.Context(),
 		[]peerdirectory.KnownPeer{
 			knownPeer(moved, answeringAddress, anotherAddress),
@@ -138,10 +122,11 @@ func TestAPeerAdmittedTooRecentlyToBeProbedIsNeverTheStalest(t *testing.T) {
 	t.Parallel()
 
 	newcomer, transient := hashOf(t, 'a'), hashOf(t, 'b')
-	transientPeer := presenceEarnedAt(transient, answeringAddress, time.Minute)
 	justAdmitted := knownPeer(newcomer, answeringAddress)
 	justAdmitted.AdmittedAt = theInstant
-	stalest := sourceOver(presenceOver(transientPeer)).StalestPeers(
+	stalest := sourceOver(
+		reliabilityEarnedAt(transient, answeringAddress, 0.1),
+	).StalestPeers(
 		t.Context(),
 		[]peerdirectory.KnownPeer{justAdmitted, knownPeer(transient, answeringAddress)},
 		1,
@@ -152,7 +137,7 @@ func TestAPeerAdmittedTooRecentlyToBeProbedIsNeverTheStalest(t *testing.T) {
 	}
 }
 
-func TestPeersThatEarnedNoPresenceAreStalestInTheOrderTheyAnswered(t *testing.T) {
+func TestPeersThatEarnedNoReliabilityAreStalestInTheOrderTheyAnswered(t *testing.T) {
 	t.Parallel()
 
 	recent, old := hashOf(t, 'a'), hashOf(t, 'b')
@@ -160,7 +145,7 @@ func TestPeersThatEarnedNoPresenceAreStalestInTheOrderTheyAnswered(t *testing.T)
 		knownPeer(old, answeringAddress)
 	answeredRecently.AnsweredAt = theInstant.Add(-time.Minute)
 	answeredLongAgo.AnsweredAt = theInstant.Add(-time.Hour)
-	stalest := sourceOver(nil).StalestPeers(
+	stalest := sourceOver().StalestPeers(
 		t.Context(),
 		[]peerdirectory.KnownPeer{answeredRecently, answeredLongAgo},
 		1,
@@ -174,7 +159,7 @@ func TestPeersThatEarnedNoPresenceAreStalestInTheOrderTheyAnswered(t *testing.T)
 func TestNoPeerIsStalestWhenNoneIsAskedFor(t *testing.T) {
 	t.Parallel()
 
-	stalest := sourceOver(nil).StalestPeers(
+	stalest := sourceOver().StalestPeers(
 		t.Context(),
 		[]peerdirectory.KnownPeer{knownPeer(hashOf(t, 'a'), answeringAddress)},
 		0,

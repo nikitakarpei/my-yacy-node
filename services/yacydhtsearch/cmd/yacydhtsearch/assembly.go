@@ -19,7 +19,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	dhtdistanceobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/dhtdistanceobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
@@ -33,6 +32,7 @@ import (
 	peercallobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
+	peerchoiceobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoiceobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	peerdirectoryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/applog"
 	peerdirectoryobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/prometheus"
@@ -43,7 +43,6 @@ import (
 	peerpresencesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/jetstream"
 	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
 	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
@@ -88,16 +87,14 @@ func RunService(
 		return err
 	}
 
+	reliability := peerreliability.New(
+		presence, peerreliability.DefaultReliabilityWeights(), time.Now,
+	)
 	directory := peerdirectory.New(
 		cfg.DirectoryCapacity,
 		cfg.PeerChoiceCooldown,
 		time.Now,
-		leastreliable.New(
-			presence,
-			peerreliability.DefaultReliabilityWeights(),
-			cfg.RefreshInterval,
-			time.Now,
-		),
+		leastreliable.New(reliability, cfg.RefreshInterval, time.Now),
 		peerdirectory.DirectoryObservers{
 			peerdirectoryobserversapplog.DirectoryLog{},
 			peerdirectoryobserversprometheus.New(registry),
@@ -118,8 +115,10 @@ func RunService(
 		},
 	)
 	choice := peerchoice.New(
-		dhtdistance.New(cfg.Partitions, dhtdistanceobserversprometheus.New(registry)),
+		cfg.Partitions,
+		reliability,
 		directory,
+		peerchoiceobserversprometheus.New(registry),
 	)
 	pageReading, err := pageReadingFor(cfg, registry)
 	if err != nil {
@@ -261,7 +260,7 @@ func itemsOrderingOfTheService() networksearch.ItemsOrdering {
 
 type peerPresence interface {
 	peerdirectory.DirectoryObserver
-	leastreliable.PeerPresence
+	peerreliability.PeerPresence
 	peerdirectoryrefresh.PeerPresence
 }
 

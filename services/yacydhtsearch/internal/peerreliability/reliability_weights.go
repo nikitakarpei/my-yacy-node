@@ -1,9 +1,10 @@
 // Package peerreliability gives every peer one number that says how well this
 // deployment's own probes have gone with it. A peer earns the number by staying
 // reachable from one probe to the next, and loses it as its latest answer ages.
-// The number belongs to the peer alone, so the same number orders the peers a
-// query asks and the peers the directory keeps. Nothing here holds state or
-// reads it.
+// The number belongs to the peer at the address it answered on, so the same
+// number orders the peers a query asks and the peers the directory keeps. The
+// presence a peer has earned is read where it is kept; the durations that weigh
+// it are held here.
 package peerreliability
 
 import "time"
@@ -18,35 +19,4 @@ func DefaultReliabilityWeights() ReliabilityWeights {
 		MaturationDuration: 7 * 24 * time.Hour,
 		StalenessHorizon:   6 * time.Hour,
 	}
-}
-
-func (weights ReliabilityWeights) ReliabilityOf(
-	earnedPresence time.Duration,
-	latestAnswer time.Time,
-	now time.Time,
-) float64 {
-	return weights.presenceBenefitOf(earnedPresence) * weights.freshnessOf(latestAnswer, now)
-}
-
-func (weights ReliabilityWeights) presenceBenefitOf(earnedPresence time.Duration) float64 {
-	if weights.MaturationDuration <= 0 {
-		return 0
-	}
-
-	return min(
-		float64(earnedPresence)/float64(weights.MaturationDuration),
-		1,
-	)
-}
-
-func (weights ReliabilityWeights) freshnessOf(latestAnswer, now time.Time) float64 {
-	if weights.StalenessHorizon <= 0 {
-		return 0
-	}
-	sinceTheLatestAnswer := now.Sub(latestAnswer)
-	if sinceTheLatestAnswer <= 0 {
-		return 1
-	}
-
-	return max(1-float64(sinceTheLatestAnswer)/float64(weights.StalenessHorizon), 0)
 }
