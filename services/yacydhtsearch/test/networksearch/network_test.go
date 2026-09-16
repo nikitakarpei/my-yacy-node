@@ -155,7 +155,11 @@ func directoryAnsweringAt(t *testing.T, addresses ...string) *peerdirectory.Dire
 
 type stalestFirst struct{}
 
-func (stalestFirst) StalestPeers(known []peerdirectory.KnownPeer, _ int) []yacymodel.Hash {
+func (stalestFirst) StalestPeers(
+	_ context.Context,
+	known []peerdirectory.KnownPeer,
+	_ int,
+) []yacymodel.Hash {
 	return []yacymodel.Hash{known[0].Hash}
 }
 

@@ -34,8 +34,8 @@ components:
     in: internal/itemsordering/hostdiscount/**
   peerdirectory:
     in: internal/peerdirectory/**
-  stalepeersourcesleastrecentlyanswered:
-    in: internal/stalepeersources/leastrecentlyanswered/**
+  stalepeersourcesleastreliable:
+    in: internal/stalepeersources/leastreliable/**
   peerselectionsdhtdistance:
     in: internal/peerselections/dhtdistance/**
   dhtdistanceobserversprometheus:
@@ -210,11 +210,12 @@ deps:
   peerpresencesmemory:
     canUse:
       - yacymodel
-  stalepeersourcesleastrecentlyanswered:
+  stalepeersourcesleastreliable:
     canUse:
       - yacymodel
     mayDependOn:
       - peerdirectory
+      - peerreliability
   peerselectionsdhtdistance:
     canUse:
       - yacymodel

@@ -41,7 +41,11 @@ func (silentSeedlistObserver) SeedlistUnreadable(context.Context, string, error)
 
 type stalestFirst struct{}
 
-func (stalestFirst) StalestPeers(known []peerdirectory.KnownPeer, _ int) []yacymodel.Hash {
+func (stalestFirst) StalestPeers(
+	_ context.Context,
+	known []peerdirectory.KnownPeer,
+	_ int,
+) []yacymodel.Hash {
 	return []yacymodel.Hash{known[0].Hash}
 }
 

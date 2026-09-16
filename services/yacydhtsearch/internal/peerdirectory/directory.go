@@ -11,7 +11,7 @@ import (
 )
 
 type StalePeerSource interface {
-	StalestPeers(known []KnownPeer, limit int) []yacymodel.Hash
+	StalestPeers(ctx context.Context, known []KnownPeer, limit int) []yacymodel.Hash
 }
 
 type DirectoryObserver interface {
@@ -55,7 +55,7 @@ func New(
 }
 
 func (d *Directory) Admit(ctx context.Context, seeds []yacymodel.Seed) {
-	admittedPeers, droppedPeers := d.holdAdmittedPeers(seeds)
+	admittedPeers, droppedPeers := d.holdAdmittedPeers(ctx, seeds)
 	for _, droppedPeer := range droppedPeers {
 		d.observer.PeerDropped(ctx, droppedPeer)
 	}
@@ -65,7 +65,10 @@ func (d *Directory) Admit(ctx context.Context, seeds []yacymodel.Seed) {
 	d.reportPeersKnown(ctx)
 }
 
-func (d *Directory) holdAdmittedPeers(seeds []yacymodel.Seed) ([]KnownPeer, []yacymodel.Hash) {
+func (d *Directory) holdAdmittedPeers(
+	ctx context.Context,
+	seeds []yacymodel.Seed,
+) ([]KnownPeer, []yacymodel.Hash) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
@@ -81,7 +84,7 @@ func (d *Directory) holdAdmittedPeers(seeds []yacymodel.Seed) ([]KnownPeer, []ya
 			d.peers[seed.Hash] = known
 			continue
 		}
-		roomMade, droppedPeer := d.roomMade()
+		roomMade, droppedPeer := d.roomMade(ctx)
 		droppedPeers = append(droppedPeers, droppedPeer...)
 		if !roomMade {
 			continue
@@ -189,11 +192,11 @@ func (d *Directory) releaseAnsweringAddress(peer yacymodel.Hash) (bool, bool) {
 	return wasAnswering, true
 }
 
-func (d *Directory) roomMade() (bool, []yacymodel.Hash) {
+func (d *Directory) roomMade(ctx context.Context) (bool, []yacymodel.Hash) {
 	if len(d.peers) < d.capacity {
 		return true, nil
 	}
-	stalestPeers := d.stale.StalestPeers(slices.Collect(maps.Values(d.peers)), 1)
+	stalestPeers := d.stale.StalestPeers(ctx, slices.Collect(maps.Values(d.peers)), 1)
 	for _, stalePeer := range stalestPeers {
 		delete(d.peers, stalePeer)
 	}

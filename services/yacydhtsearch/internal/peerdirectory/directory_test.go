@@ -25,6 +25,7 @@ func (silentObserver) PeersKnown(context.Context, int, int, int)                
 type oldestAdmittedFirst struct{}
 
 func (oldestAdmittedFirst) StalestPeers(
+	_ context.Context,
 	known []peerdirectory.KnownPeer,
 	limit int,
 ) []yacymodel.Hash {

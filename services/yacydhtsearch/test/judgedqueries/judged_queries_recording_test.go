@@ -17,12 +17,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
+	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastrecentlyanswered"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -170,7 +173,18 @@ func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
 		directoryCapacity,
 		peerChoiceCooldown,
 		time.Now,
-		leastrecentlyanswered.New(),
+		leastreliable.New(
+			peerpresencesmemory.New(
+				presenceaccrual.PresenceAccrualLimits{
+					Capacity:        directoryCapacity,
+					ContinuityLimit: refreshInterval,
+				},
+				presenceaccrual.PresenceAccrualObservers{},
+			),
+			peerreliability.DefaultReliabilityWeights(),
+			refreshInterval,
+			time.Now,
+		),
 		peerdirectory.DirectoryObservers{},
 	)
 	peerdirectoryrefresh.New(

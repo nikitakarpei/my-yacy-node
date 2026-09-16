@@ -41,6 +41,7 @@ import (
 	peermatchedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/prometheus"
 	peerpresencesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/jetstream"
 	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
@@ -53,7 +54,7 @@ import (
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/applog"
 	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastrecentlyanswered"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	wordjoinedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/applog"
 	wordjoinedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
@@ -90,7 +91,12 @@ func RunService(
 		cfg.DirectoryCapacity,
 		cfg.PeerChoiceCooldown,
 		time.Now,
-		leastrecentlyanswered.New(),
+		leastreliable.New(
+			presence,
+			peerreliability.DefaultReliabilityWeights(),
+			cfg.RefreshInterval,
+			time.Now,
+		),
 		peerdirectory.DirectoryObservers{
 			peerdirectoryobserversapplog.DirectoryLog{},
 			peerdirectoryobserversprometheus.New(registry),
@@ -252,10 +258,15 @@ func itemsOrderingOfTheService() networksearch.ItemsOrdering {
 	return hostdiscount.New(documentrelevance.New(documentrelevance.DefaultScoreWeights()))
 }
 
+type peerPresence interface {
+	peerdirectory.DirectoryObserver
+	leastreliable.PeerPresence
+}
+
 func peerPresenceFor(
 	ctx context.Context,
 	cfg ServiceConfig,
-) (peerdirectory.DirectoryObserver, error) {
+) (peerPresence, error) {
 	accrualLimits := presenceaccrual.PresenceAccrualLimits{
 		Capacity:        cfg.DirectoryCapacity,
 		ContinuityLimit: cfg.ContinuityLimit,
