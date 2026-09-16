@@ -43,7 +43,7 @@ func TestEveryReasonAProbeFoundNoPeerIsPublishedApart(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, failure := range []string{
-		"probeUnbuilt", "noAnswer", "refused", "answerUnread", "noRWICount",
+		"unusableAddress", "noAnswer", "refused", "answerUnread", "noRWICount",
 	} {
 		published := `yacydhtsearch_probe_failures_total{failure="` + failure + `"} 1`
 		if !strings.Contains(body, published) {

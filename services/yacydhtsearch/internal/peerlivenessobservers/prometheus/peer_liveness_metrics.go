@@ -8,12 +8,12 @@ import (
 )
 
 const (
-	labelFailure        = "failure"
-	failureProbeUnbuilt = "probeUnbuilt"
-	failureNoAnswer     = "noAnswer"
-	failureRefused      = "refused"
-	failureAnswerUnread = "answerUnread"
-	failureNoRWICount   = "noRWICount"
+	labelFailure           = "failure"
+	failureUnusableAddress = "unusableAddress"
+	failureNoAnswer        = "noAnswer"
+	failureRefused         = "refused"
+	failureAnswerUnread    = "answerUnread"
+	failureNoRWICount      = "noRWICount"
 )
 
 type PeerLivenessMetrics struct {
@@ -33,7 +33,7 @@ func New(registry prometheusclient.Registerer) *PeerLivenessMetrics {
 }
 
 func (m *PeerLivenessMetrics) ProbeCouldNotBeBuilt(context.Context, string, error) {
-	m.probeFailures.WithLabelValues(failureProbeUnbuilt).Inc()
+	m.probeFailures.WithLabelValues(failureUnusableAddress).Inc()
 }
 
 func (m *PeerLivenessMetrics) PeerDidNotAnswerTheProbe(context.Context, string, error) {
