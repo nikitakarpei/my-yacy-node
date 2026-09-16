@@ -68,6 +68,10 @@ func sourceOver(earned ...reliabilityPerPeerAtAddress) leastreliable.Source {
 	)
 }
 
+func candidatePeer(peer yacymodel.Hash, addresses ...string) peerdirectory.CandidatePeer {
+	return peerdirectory.CandidatePeer{Hash: peer, Addresses: addresses}
+}
+
 func knownPeer(peer yacymodel.Hash, addresses ...string) peerdirectory.KnownPeer {
 	return peerdirectory.KnownPeer{
 		Hash:       peer,
@@ -83,17 +87,17 @@ func TestThePeerWithTheLeastEarnedReliabilityIsTheStalest(t *testing.T) {
 	stalest := sourceOver(
 		reliabilityEarnedAt(present, answeringAddress, 1),
 		reliabilityEarnedAt(transient, answeringAddress, 0.1),
-	).StalestPeers(
+	).StalestPeersFirst(
 		t.Context(),
 		[]peerdirectory.KnownPeer{
 			knownPeer(present, answeringAddress),
 			knownPeer(transient, answeringAddress),
 		},
-		1,
+		nil,
 	)
 
-	if len(stalest) != 1 || stalest[0] != transient {
-		t.Fatalf("StalestPeers = %v, want %s", stalest, transient)
+	if len(stalest) != 2 || stalest[0] != transient {
+		t.Fatalf("StalestPeersFirst = %v, want %s first", stalest, transient)
 	}
 }
 
@@ -104,17 +108,17 @@ func TestAPeerSpeaksForItselfThroughTheAddressItHasDoneBestFrom(t *testing.T) {
 	stalest := sourceOver(
 		reliabilityEarnedAt(moved, anotherAddress, 1),
 		reliabilityEarnedAt(transient, answeringAddress, 0.1),
-	).StalestPeers(
+	).StalestPeersFirst(
 		t.Context(),
 		[]peerdirectory.KnownPeer{
 			knownPeer(moved, answeringAddress, anotherAddress),
 			knownPeer(transient, answeringAddress),
 		},
-		1,
+		nil,
 	)
 
-	if len(stalest) != 1 || stalest[0] != transient {
-		t.Fatalf("StalestPeers = %v, want %s", stalest, transient)
+	if len(stalest) != 2 || stalest[0] != transient {
+		t.Fatalf("StalestPeersFirst = %v, want %s first", stalest, transient)
 	}
 }
 
@@ -126,14 +130,14 @@ func TestAPeerAdmittedTooRecentlyToBeProbedIsNeverTheStalest(t *testing.T) {
 	justAdmitted.AdmittedAt = theInstant
 	stalest := sourceOver(
 		reliabilityEarnedAt(transient, answeringAddress, 0.1),
-	).StalestPeers(
+	).StalestPeersFirst(
 		t.Context(),
 		[]peerdirectory.KnownPeer{justAdmitted, knownPeer(transient, answeringAddress)},
-		1,
+		nil,
 	)
 
-	if len(stalest) != 1 || stalest[0] != transient {
-		t.Fatalf("StalestPeers = %v, want %s", stalest, transient)
+	if len(stalest) != 2 || stalest[0] != transient {
+		t.Fatalf("StalestPeersFirst = %v, want %s first", stalest, transient)
 	}
 }
 
@@ -145,27 +149,56 @@ func TestPeersThatEarnedNoReliabilityAreStalestInTheOrderTheyAnswered(t *testing
 		knownPeer(old, answeringAddress)
 	answeredRecently.AnsweredAt = theInstant.Add(-time.Minute)
 	answeredLongAgo.AnsweredAt = theInstant.Add(-time.Hour)
-	stalest := sourceOver().StalestPeers(
+	stalest := sourceOver().StalestPeersFirst(
 		t.Context(),
 		[]peerdirectory.KnownPeer{answeredRecently, answeredLongAgo},
-		1,
+		nil,
 	)
 
-	if len(stalest) != 1 || stalest[0] != old {
-		t.Fatalf("StalestPeers = %v, want %s", stalest, old)
+	if len(stalest) != 2 || stalest[0] != old {
+		t.Fatalf("StalestPeersFirst = %v, want %s first", stalest, old)
 	}
 }
 
-func TestNoPeerIsStalestWhenNoneIsAskedFor(t *testing.T) {
+func TestAnOfferedPeerIsStalerThanAHeldPeerOfTheSameReliability(t *testing.T) {
 	t.Parallel()
 
-	stalest := sourceOver().StalestPeers(
+	held, offered := hashOf(t, 'a'), hashOf(t, 'b')
+	stalest := sourceOver(
+		reliabilityEarnedAt(held, answeringAddress, 0.5),
+		reliabilityEarnedAt(offered, answeringAddress, 0.5),
+	).StalestPeersFirst(
 		t.Context(),
-		[]peerdirectory.KnownPeer{knownPeer(hashOf(t, 'a'), answeringAddress)},
-		0,
+		[]peerdirectory.KnownPeer{knownPeer(held, answeringAddress)},
+		[]peerdirectory.CandidatePeer{candidatePeer(offered, answeringAddress)},
 	)
 
-	if stalest != nil {
-		t.Fatalf("StalestPeers = %v, want none", stalest)
+	if len(stalest) != 2 || stalest[0] != offered {
+		t.Fatalf("StalestPeersFirst = %v, want the offered %s first", stalest, offered)
+	}
+}
+
+func TestAnOfferedPeerThisDeploymentHasSeenAnswerOutranksAHeldPeerItHasNot(t *testing.T) {
+	t.Parallel()
+
+	held, offered := hashOf(t, 'a'), hashOf(t, 'b')
+	stalest := sourceOver(
+		reliabilityEarnedAt(offered, answeringAddress, 0.5),
+	).StalestPeersFirst(
+		t.Context(),
+		[]peerdirectory.KnownPeer{knownPeer(held, answeringAddress)},
+		[]peerdirectory.CandidatePeer{candidatePeer(offered, answeringAddress)},
+	)
+
+	if len(stalest) != 2 || stalest[0] != held {
+		t.Fatalf("StalestPeersFirst = %v, want the held %s first", stalest, held)
+	}
+}
+
+func TestNoPeerIsStalestWhenTheDirectoryIsEmptyAndNothingIsOffered(t *testing.T) {
+	t.Parallel()
+
+	if stalest := sourceOver().StalestPeersFirst(t.Context(), nil, nil); len(stalest) != 0 {
+		t.Fatalf("StalestPeersFirst = %v, want none", stalest)
 	}
 }

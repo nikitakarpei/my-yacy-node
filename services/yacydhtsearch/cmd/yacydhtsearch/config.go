@@ -26,6 +26,7 @@ const (
 	EnvProbesInFlight           = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
 	EnvDirectoryCapacity        = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval          = "YACYDHTSEARCH_REFRESH_INTERVAL"
+	EnvNewcomerShare            = "YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE"
 	EnvProbeBudget              = "YACYDHTSEARCH_PROBE_BUDGET"
 	EnvContinuityLimit          = "YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT"
 	EnvPeerAnswerHistoryKeptFor = "YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR"
@@ -54,6 +55,7 @@ const (
 	DefaultProbesInFlight           = 24
 	DefaultDirectoryCapacity        = 4096
 	DefaultRefreshInterval          = 5 * time.Minute
+	DefaultNewcomerShare            = 0.05
 	DefaultProbeBudget              = 3 * time.Second
 	DefaultContinuityLimit          = 15 * time.Minute
 	DefaultPeerAnswerHistoryKeptFor = 24 * time.Hour
@@ -83,6 +85,7 @@ type ServiceConfig struct {
 	PeerCallBudget           time.Duration
 	ProbesInFlight           int
 	DirectoryCapacity        int
+	NewcomerShare            float64
 	RefreshInterval          time.Duration
 	ProbeBudget              time.Duration
 	ContinuityLimit          time.Duration
@@ -125,6 +128,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	newcomerShare, err := envconfig.Share(getenv, EnvNewcomerShare, DefaultNewcomerShare)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 	maxResponseBytes, err := envconfig.PositiveInt64(
 		getenv, EnvMaxResponseBytes, DefaultMaxResponseBytes,
 	)
@@ -155,6 +162,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PeerCallBudget:           durations.peerCallBudget,
 		ProbesInFlight:           counts.probesInFlight,
 		DirectoryCapacity:        counts.directoryCapacity,
+		NewcomerShare:            newcomerShare,
 		RefreshInterval:          durations.refreshInterval,
 		ProbeBudget:              durations.probeBudget,
 		ContinuityLimit:          durations.continuityLimit,

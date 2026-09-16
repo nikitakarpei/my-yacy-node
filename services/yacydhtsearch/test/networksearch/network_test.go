@@ -126,8 +126,7 @@ func directoryAnsweringAt(t *testing.T, addresses ...string) *peerdirectory.Dire
 	t.Helper()
 
 	directory := peerdirectory.New(
-		directoryLimit,
-		cooldown,
+		peerdirectory.DirectoryLimits{Capacity: directoryLimit, Cooldown: cooldown},
 		time.Now,
 		stalestFirst{},
 		silentDirectoryObserver{},
@@ -155,12 +154,20 @@ func directoryAnsweringAt(t *testing.T, addresses ...string) *peerdirectory.Dire
 
 type stalestFirst struct{}
 
-func (stalestFirst) StalestPeers(
+func (stalestFirst) StalestPeersFirst(
 	_ context.Context,
-	known []peerdirectory.KnownPeer,
-	_ int,
+	members []peerdirectory.KnownPeer,
+	candidates []peerdirectory.CandidatePeer,
 ) []yacymodel.Hash {
-	return []yacymodel.Hash{known[0].Hash}
+	stalest := make([]yacymodel.Hash, 0, len(members)+len(candidates))
+	for _, candidate := range candidates {
+		stalest = append(stalest, candidate.Hash)
+	}
+	for _, member := range members {
+		stalest = append(stalest, member.Hash)
+	}
+
+	return stalest
 }
 
 func networkOver(

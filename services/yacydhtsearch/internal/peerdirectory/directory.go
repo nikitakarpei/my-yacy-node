@@ -3,6 +3,7 @@ package peerdirectory
 import (
 	"context"
 	"maps"
+	"math/rand/v2"
 	"slices"
 	"sync"
 	"time"
@@ -11,7 +12,11 @@ import (
 )
 
 type StalePeerSource interface {
-	StalestPeers(ctx context.Context, known []KnownPeer, limit int) []yacymodel.Hash
+	StalestPeersFirst(
+		ctx context.Context,
+		members []KnownPeer,
+		candidates []CandidatePeer,
+	) []yacymodel.Hash
 }
 
 type DirectoryObserver interface {
@@ -27,27 +32,30 @@ type DirectoryObserver interface {
 	PeersKnown(ctx context.Context, amountOfKnownPeers, amountOfAnsweringPeers, capacity int)
 }
 
+type DirectoryLimits struct {
+	Capacity      int
+	Cooldown      time.Duration
+	NewcomerShare float64
+}
+
 type Directory struct {
 	mutex    sync.Mutex
 	peers    map[yacymodel.Hash]KnownPeer
-	capacity int
-	cooldown time.Duration
+	limits   DirectoryLimits
 	now      func() time.Time
 	stale    StalePeerSource
 	observer DirectoryObserver
 }
 
 func New(
-	capacity int,
-	cooldown time.Duration,
+	limits DirectoryLimits,
 	now func() time.Time,
 	stale StalePeerSource,
 	observer DirectoryObserver,
 ) *Directory {
 	return &Directory{
-		peers:    make(map[yacymodel.Hash]KnownPeer, capacity),
-		capacity: capacity,
-		cooldown: cooldown,
+		peers:    make(map[yacymodel.Hash]KnownPeer, limits.Capacity),
+		limits:   limits,
 		now:      now,
 		stale:    stale,
 		observer: observer,
@@ -72,32 +80,129 @@ func (d *Directory) holdAdmittedPeers(
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
-	var admittedPeers []KnownPeer
-	var droppedPeers []yacymodel.Hash
+	d.refreshTheAddressesOfHeldPeers(seeds)
+	candidates := d.candidatesAmong(seeds)
+	refusedCandidates, droppedPeers := d.peersThatDoNotFit(ctx, candidates)
+	d.drop(droppedPeers)
+
+	return d.hold(candidates, refusedCandidates), droppedPeers
+}
+
+func (d *Directory) refreshTheAddressesOfHeldPeers(seeds []yacymodel.Seed) {
 	for _, seed := range seeds {
 		addresses := addressesOf(seed)
-		if len(addresses) == 0 {
+		held, isHeld := d.peers[seed.Hash]
+		if len(addresses) == 0 || !isHeld {
 			continue
 		}
-		if known, ok := d.peers[seed.Hash]; ok {
-			known.Addresses = addressesLedBy(known.AnsweredAddress, addresses)
-			d.peers[seed.Hash] = known
+		held.Addresses = addressesLedBy(held.AnsweredAddress, addresses)
+		d.peers[seed.Hash] = held
+	}
+}
+
+func (d *Directory) candidatesAmong(seeds []yacymodel.Seed) []CandidatePeer {
+	var candidates []CandidatePeer
+	offered := map[yacymodel.Hash]struct{}{}
+	for _, seed := range seeds {
+		addresses := addressesOf(seed)
+		_, isHeld := d.peers[seed.Hash]
+		_, isOffered := offered[seed.Hash]
+		if len(addresses) == 0 || isHeld || isOffered {
 			continue
 		}
-		roomMade, droppedPeer := d.roomMade(ctx)
-		droppedPeers = append(droppedPeers, droppedPeer...)
-		if !roomMade {
-			continue
-		}
-		d.peers[seed.Hash] = KnownPeer{
-			Hash:       seed.Hash,
-			Addresses:  addresses,
-			AdmittedAt: d.now(),
-		}
-		admittedPeers = append(admittedPeers, d.peers[seed.Hash])
+		offered[seed.Hash] = struct{}{}
+		candidates = append(candidates, CandidatePeer{Hash: seed.Hash, Addresses: addresses})
 	}
 
-	return admittedPeers, droppedPeers
+	return candidates
+}
+
+func (d *Directory) peersThatDoNotFit(
+	ctx context.Context,
+	candidates []CandidatePeer,
+) (map[yacymodel.Hash]struct{}, []yacymodel.Hash) {
+	peersOverTheCapacity := len(d.peers) + len(candidates) - d.limits.Capacity
+	if peersOverTheCapacity <= 0 {
+		return nil, nil
+	}
+	newcomers := d.newcomersDrawnAmong(candidates)
+	offered := hashesOf(candidates)
+	refusedCandidates := map[yacymodel.Hash]struct{}{}
+	var droppedPeers []yacymodel.Hash
+	for _, peer := range d.stalestPeersFirst(ctx, candidates) {
+		if peersOverTheCapacity == 0 {
+			break
+		}
+		if _, drawn := newcomers[peer]; drawn {
+			continue
+		}
+		if _, isCandidate := offered[peer]; isCandidate {
+			refusedCandidates[peer] = struct{}{}
+		} else {
+			droppedPeers = append(droppedPeers, peer)
+		}
+		peersOverTheCapacity--
+	}
+
+	return refusedCandidates, droppedPeers
+}
+
+func (d *Directory) newcomersDrawnAmong(
+	candidates []CandidatePeer,
+) map[yacymodel.Hash]struct{} {
+	amountDrawn := min(
+		len(candidates),
+		int(float64(d.limits.Capacity)*d.limits.NewcomerShare),
+	)
+	drawn := make(map[yacymodel.Hash]struct{}, amountDrawn)
+	//nolint:gosec // G404: which new peers a directory admits needs no unpredictability.
+	for _, index := range rand.Perm(len(candidates))[:amountDrawn] {
+		drawn[candidates[index].Hash] = struct{}{}
+	}
+
+	return drawn
+}
+
+func hashesOf(candidates []CandidatePeer) map[yacymodel.Hash]struct{} {
+	hashes := make(map[yacymodel.Hash]struct{}, len(candidates))
+	for _, candidate := range candidates {
+		hashes[candidate.Hash] = struct{}{}
+	}
+
+	return hashes
+}
+
+func (d *Directory) stalestPeersFirst(
+	ctx context.Context,
+	candidates []CandidatePeer,
+) []yacymodel.Hash {
+	return d.stale.StalestPeersFirst(ctx, slices.Collect(maps.Values(d.peers)), candidates)
+}
+
+func (d *Directory) drop(peers []yacymodel.Hash) {
+	for _, peer := range peers {
+		delete(d.peers, peer)
+	}
+}
+
+func (d *Directory) hold(
+	candidates []CandidatePeer,
+	refusedCandidates map[yacymodel.Hash]struct{},
+) []KnownPeer {
+	admittedPeers := make([]KnownPeer, 0, len(candidates)-len(refusedCandidates))
+	for _, candidate := range candidates {
+		if _, refused := refusedCandidates[candidate.Hash]; refused {
+			continue
+		}
+		d.peers[candidate.Hash] = KnownPeer{
+			Hash:       candidate.Hash,
+			Addresses:  candidate.Addresses,
+			AdmittedAt: d.now(),
+		}
+		admittedPeers = append(admittedPeers, d.peers[candidate.Hash])
+	}
+
+	return admittedPeers
 }
 
 func (d *Directory) KnownPeers(ctx context.Context) []KnownPeer {
@@ -113,7 +218,7 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 
 	askable := make([]AskablePeer, 0, len(d.peers))
 	for _, peer := range d.peers {
-		if !peer.answersNow() || d.now().Sub(peer.ChosenAt) < d.cooldown {
+		if !peer.answersNow() || d.now().Sub(peer.ChosenAt) < d.limits.Cooldown {
 			continue
 		}
 		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweredAddress})
@@ -192,18 +297,6 @@ func (d *Directory) holdSilence(peer yacymodel.Hash) (bool, bool) {
 	return wasAnswering, true
 }
 
-func (d *Directory) roomMade(ctx context.Context) (bool, []yacymodel.Hash) {
-	if len(d.peers) < d.capacity {
-		return true, nil
-	}
-	stalestPeers := d.stale.StalestPeers(ctx, slices.Collect(maps.Values(d.peers)), 1)
-	for _, stalePeer := range stalestPeers {
-		delete(d.peers, stalePeer)
-	}
-
-	return len(d.peers) < d.capacity, stalestPeers
-}
-
 func (d *Directory) reportPeersKnown(ctx context.Context) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
@@ -214,7 +307,7 @@ func (d *Directory) reportPeersKnown(ctx context.Context) {
 			amountOfAnsweringPeers++
 		}
 	}
-	d.observer.PeersKnown(ctx, len(d.peers), amountOfAnsweringPeers, d.capacity)
+	d.observer.PeersKnown(ctx, len(d.peers), amountOfAnsweringPeers, d.limits.Capacity)
 }
 
 func addressesOf(seed yacymodel.Seed) []string {

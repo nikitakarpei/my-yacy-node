@@ -1,7 +1,10 @@
 // Package peerdirectory owns the peers this service knows, which address each
 // answers on, and when each may next be asked. It keeps the address a peer has
 // answered on even after the peer goes silent, so a seedlist that no longer
-// names that address cannot take it away from the peer.
+// names that address cannot take it away from the peer. A full directory keeps
+// a peer it holds over an offered peer of the same standing, and lends a
+// bounded share of itself in every admission to peers it does not hold, so it
+// goes on finding peers it has never met.
 package peerdirectory
 
 import (
@@ -22,6 +25,11 @@ type KnownPeer struct {
 
 func (peer KnownPeer) answersNow() bool {
 	return peer.AnsweredAddress != "" && peer.AnsweredAt.After(peer.WentSilentAt)
+}
+
+type CandidatePeer struct {
+	Hash      yacymodel.Hash
+	Addresses []string
 }
 
 type AskablePeer struct {

@@ -37,7 +37,8 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYDHTSEARCH_DIRECTORY_CAPACITY` | `4096` | Most peers the directory holds. A full directory drops the peer that answered longest ago. |
+| `YACYDHTSEARCH_DIRECTORY_CAPACITY` | `4096` | Most peers the directory holds. A full directory drops its least reliable peer to admit a more reliable one. |
+| `YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE` | `0.05` | Part of a full directory given to new peers at each seedlist read. A new peer has no reliability, so it comes in only here. Set `0` to keep it out. |
 | `YACYDHTSEARCH_REFRESH_INTERVAL` | `5m` | Time between seedlist reads and probe cycles. |
 | `YACYDHTSEARCH_PROBE_BUDGET` | `3s` | Time one probe of one peer address may take. |
 | `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |

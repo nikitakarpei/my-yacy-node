@@ -181,8 +181,10 @@ func directoryOfTheNetwork(
 		presence, peerreliability.DefaultReliabilityWeights(), time.Now,
 	)
 	directory := peerdirectory.New(
-		directoryCapacity,
-		peerChoiceCooldown,
+		peerdirectory.DirectoryLimits{
+			Capacity: directoryCapacity,
+			Cooldown: peerChoiceCooldown,
+		},
 		time.Now,
 		leastreliable.New(reliability, refreshInterval, time.Now),
 		peerdirectory.DirectoryObservers{presence},
