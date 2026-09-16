@@ -46,13 +46,15 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 ## Peer presence and reliability
 
-With `YACYDHTSEARCH_NATS_URL` set, all instances share the peer presence. Without it, an instance keeps peer presence only while it runs.
+Peer presence is the time a peer stayed reachable at one address. Each probe answer adds the time since the previous answer of that peer. Peer reliability comes from presence and from the age of the last answer. Among the peers that hold a word, a search asks the reliable peers first. A full directory drops its least reliable peers first.
+
+With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the peer presence in NATS and share them. Without it, an instance keeps peer presence only while it runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one peer answer can add. |
-| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time the shared history keeps one peer answer. An instance stopped for longer loses the presence earned while it was stopped. |
-| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence. A longer time makes a restart slower. |
+| `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one probe answer can add. |
+| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time NATS keeps one probe answer. If all instances stop for longer, they lose the presence from the answers after the last write of the peer presence. |
+| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence to NATS. A starting instance reads the last write, then the answers after it, so a longer time makes the start slower. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION` | `168h` | Presence a peer must earn for the highest reliability. More presence adds no more. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON` | `6h` | Time after the last answer of a peer at which its reliability becomes zero. |
 
