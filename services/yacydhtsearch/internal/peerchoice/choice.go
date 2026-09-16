@@ -75,15 +75,13 @@ func (c Choice) peersOneQueryMayAsk(
 	askablePeers []peerdirectory.AskablePeer,
 	amountOfPeersHoldingOneWord int,
 ) peersOneQueryMayAsk {
-	shareOfDistanceCountedPerPeer := make(
-		map[peerdirectory.AskablePeer]float64, len(askablePeers),
-	)
+	shareOfDistanceCountedPerPeer := make(map[yacymodel.Hash]float64, len(askablePeers))
 	for _, peer := range askablePeers {
 		reliability := c.peerReliability.ReliabilityOf(
 			ctx,
 			peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: peer.Address},
 		)
-		shareOfDistanceCountedPerPeer[peer] =
+		shareOfDistanceCountedPerPeer[peer.Hash] =
 			1 - reliability*(1-shareOfDistanceCountedForAFullyReliablePeer)
 	}
 

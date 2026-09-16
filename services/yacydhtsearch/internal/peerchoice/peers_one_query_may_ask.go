@@ -19,7 +19,7 @@ type peersOneQueryMayAsk struct {
 	partitions                    yacymodel.DHTRingPartitions
 	observer                      PeerChoiceObserver
 	askablePeers                  []peerdirectory.AskablePeer
-	shareOfDistanceCountedPerPeer map[peerdirectory.AskablePeer]float64
+	shareOfDistanceCountedPerPeer map[yacymodel.Hash]float64
 	amountOfPeersHoldingOneWord   int
 }
 
@@ -73,11 +73,11 @@ func (q peersOneQueryMayAsk) peersNearestToEachPositionOfQueryWord(
 
 func peersTheQueryAsked(
 	peersPerEarlierChoice ...[]peerdirectory.AskablePeer,
-) map[peerdirectory.AskablePeer]struct{} {
-	askedPeers := map[peerdirectory.AskablePeer]struct{}{}
+) map[yacymodel.Hash]struct{} {
+	askedPeers := map[yacymodel.Hash]struct{}{}
 	for _, peers := range peersPerEarlierChoice {
 		for _, peer := range peers {
-			askedPeers[peer] = struct{}{}
+			askedPeers[peer.Hash] = struct{}{}
 		}
 	}
 
@@ -86,7 +86,7 @@ func peersTheQueryAsked(
 
 func (q peersOneQueryMayAsk) peersNearestFirstTo(
 	wordPosition yacymodel.DHTRingPosition,
-	peersAskedByEarlierWords map[peerdirectory.AskablePeer]struct{},
+	peersAskedByEarlierWords map[yacymodel.Hash]struct{},
 ) []peerdirectory.AskablePeer {
 	return slices.SortedFunc(
 		slices.Values(q.askablePeers),
@@ -102,11 +102,11 @@ func (q peersOneQueryMayAsk) peersNearestFirstTo(
 func (q peersOneQueryMayAsk) countedRingFractionFrom(
 	wordPosition yacymodel.DHTRingPosition,
 	peer peerdirectory.AskablePeer,
-	peersAskedByEarlierWords map[peerdirectory.AskablePeer]struct{},
+	peersAskedByEarlierWords map[yacymodel.Hash]struct{},
 ) float64 {
 	countedRingFraction := ringFractionFrom(wordPosition, peer) *
-		q.shareOfDistanceCountedPerPeer[peer]
-	if _, alreadyAsked := peersAskedByEarlierWords[peer]; alreadyAsked {
+		q.shareOfDistanceCountedPerPeer[peer.Hash]
+	if _, alreadyAsked := peersAskedByEarlierWords[peer.Hash]; alreadyAsked {
 		return countedRingFraction + ringsCountedForAPeerTheQueryAlreadyAsked
 	}
 
@@ -206,12 +206,12 @@ func peersOf(takenPeers []peerTakenFromWordPosition) []peerdirectory.AskablePeer
 
 func peersDrawnAtRandomFrom(
 	askablePeers []peerdirectory.AskablePeer,
-	peersAlreadyChosen map[peerdirectory.AskablePeer]struct{},
+	peersAlreadyChosen map[yacymodel.Hash]struct{},
 	amountOfPeersDrawn int,
 ) []peerdirectory.AskablePeer {
 	peersLeft := make([]peerdirectory.AskablePeer, 0, len(askablePeers))
 	for _, peer := range askablePeers {
-		if _, alreadyChosen := peersAlreadyChosen[peer]; !alreadyChosen {
+		if _, alreadyChosen := peersAlreadyChosen[peer.Hash]; !alreadyChosen {
 			peersLeft = append(peersLeft, peer)
 		}
 	}
