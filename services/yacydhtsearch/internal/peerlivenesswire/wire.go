@@ -1,7 +1,7 @@
 // Package peerlivenesswire asks one peer address whether it is alive. An
-// address is alive when it answers the RWI count query as a peer of this
-// network, so an address that answers something else is not mistaken for a
-// peer.
+// address is alive when it answers the RWI count query as the peer the probe
+// names, in this network, so an address that answers something else is not
+// mistaken for that peer.
 package peerlivenesswire
 
 import (
@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -42,8 +43,8 @@ func New(client *http.Client, networkName string, observer PeerLivenessObserver)
 	return Wire{client: client, networkName: networkName, observer: observer}
 }
 
-func (w Wire) Alive(ctx context.Context, address string) bool {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, w.probeOf(address), nil)
+func (w Wire) Alive(ctx context.Context, peer yacymodel.Hash, address string) bool {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, w.probeOf(peer, address), nil)
 	if err != nil {
 		w.observer.ProbeCouldNotBeBuilt(ctx, address, err)
 
@@ -60,9 +61,10 @@ func (w Wire) Alive(ctx context.Context, address string) bool {
 	return w.answersAsAPeer(ctx, address, resp)
 }
 
-func (w Wire) probeOf(address string) string {
+func (w Wire) probeOf(peer yacymodel.Hash, address string) string {
 	return address + livenessPath + "?" + url.Values{
 		yacyproto.FieldNetworkName: {w.networkName},
+		yacyproto.FieldYouAre:      {peer.String()},
 		yacyproto.FieldObject:      {string(yacyproto.ObjectRWICount)},
 	}.Encode()
 }

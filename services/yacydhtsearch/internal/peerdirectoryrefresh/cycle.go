@@ -92,7 +92,7 @@ func (c Cycle) probeKnownPeers(ctx context.Context, knownPeers []peerdirectory.K
 func (c Cycle) probeOne(ctx context.Context, peer peerdirectory.KnownPeer) {
 	for _, address := range c.addressesMostPresentFirst(ctx, peer) {
 		probeCtx, endProbe := context.WithTimeout(ctx, c.probes.ProbeBudget)
-		alive := c.liveness.Alive(probeCtx, address)
+		alive := c.liveness.Alive(probeCtx, peer.Hash, address)
 		endProbe()
 		if alive {
 			c.directory.ConfirmAnswering(ctx, peer.Hash, address)

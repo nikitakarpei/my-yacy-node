@@ -337,6 +337,7 @@ deps:
       - peerasks
   peerlivenesswire:
     canUse:
+      - yacymodel
       - yacyproto
   yacyseedlist:
     canUse:
