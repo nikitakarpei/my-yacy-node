@@ -313,8 +313,9 @@ type reportedAnswer struct {
 
 type answerReportingObserver struct {
 	silentObserver
-	answers      []reportedAnswer
-	droppedPeers []yacymodel.Hash
+	answers         []reportedAnswer
+	droppedPeers    []yacymodel.Hash
+	wentSilentPeers []yacymodel.Hash
 }
 
 func (o *answerReportingObserver) PeerAnswered(
@@ -331,6 +332,10 @@ func (o *answerReportingObserver) PeerAnswered(
 
 func (o *answerReportingObserver) PeerDropped(_ context.Context, peer yacymodel.Hash) {
 	o.droppedPeers = append(o.droppedPeers, peer)
+}
+
+func (o *answerReportingObserver) PeerWentSilent(_ context.Context, peer yacymodel.Hash) {
+	o.wentSilentPeers = append(o.wentSilentPeers, peer)
 }
 
 func TestAnAnsweringPeerIsReportedWithItsAddressAndTheTimeItAnswered(t *testing.T) {
@@ -353,6 +358,39 @@ func TestAnAnsweringPeerIsReportedWithItsAddressAndTheTimeItAnswered(t *testing.
 	want := reportedAnswer{peer: peer, address: "http://10.0.0.1:8090", answeredAt: clock.instant}
 	if len(answers.answers) != 1 || answers.answers[0] != want {
 		t.Fatalf("answers reported %+v, want %+v", answers.answers, want)
+	}
+}
+
+func TestOnlyAPeerThatWasAnsweringIsReportedAsGoneSilent(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	answers := &answerReportingObserver{}
+	directory := directoryOver(
+		clock,
+		peerdirectory.DirectoryLimits{Capacity: wideCapacity, Cooldown: cooldown},
+		heldPeersBeforeOfferedPeers{},
+		answers,
+	)
+	answering, neverAnswering := hashOf(t, 'a'), hashOf(t, 'b')
+	directory.Admit(t.Context(), []yacymodel.Seed{
+		seedOf(t, answering, "10.0.0.1"),
+		seedOf(t, neverAnswering, "10.0.0.2"),
+	})
+	directory.ConfirmAnswering(t.Context(), answering, "http://10.0.0.1:8090")
+
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.ConfirmSilent(t.Context(), answering)
+	directory.ConfirmSilent(t.Context(), neverAnswering)
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.ConfirmSilent(t.Context(), answering)
+
+	if !slices.Equal(answers.wentSilentPeers, []yacymodel.Hash{answering}) {
+		t.Fatalf(
+			"peers reported gone silent %v, want only %v once",
+			answers.wentSilentPeers,
+			answering,
+		)
 	}
 }
 

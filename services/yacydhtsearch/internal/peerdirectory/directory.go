@@ -267,29 +267,26 @@ func (d *Directory) holdAnswer(
 }
 
 func (d *Directory) ConfirmSilent(ctx context.Context, peer yacymodel.Hash) {
-	wasAnswering, isKnown := d.holdSilence(peer)
-	if !isKnown {
+	if !d.holdSilence(peer) {
 		return
 	}
 	d.observer.PeerWentSilent(ctx, peer)
-	if wasAnswering {
-		d.reportPeersKnown(ctx)
-	}
+	d.reportPeersKnown(ctx)
 }
 
-func (d *Directory) holdSilence(peer yacymodel.Hash) (bool, bool) {
+func (d *Directory) holdSilence(peer yacymodel.Hash) (wasAnswering bool) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
 	known, ok := d.peers[peer]
 	if !ok {
-		return false, false
+		return false
 	}
-	wasAnswering := known.answersNow()
+	wasAnswering = known.answersNow()
 	known.WentSilentAt = d.now()
 	d.peers[peer] = known
 
-	return wasAnswering, true
+	return wasAnswering
 }
 
 func (d *Directory) reportPeersKnown(ctx context.Context) {
