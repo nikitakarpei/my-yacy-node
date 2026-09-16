@@ -1,7 +1,8 @@
-// Package peerchoice chooses which peers each word of a query goes to. It
-// spreads the words of one query over the DHT ring, favours the peers this
-// deployment has found reliable, and reaches peers an earlier word or an
-// earlier search did not.
+// Package peerchoice chooses which peers each word of a query goes to. For
+// each place on the DHT ring a word is held, only the peers nearest to that
+// place may hold the word, so it asks those peers and no others, and among them
+// asks first the peers this deployment has found reliable. A later word of the
+// query reaches peers an earlier word did not.
 package peerchoice
 
 import (
@@ -12,8 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-const shareOfDistanceCountedForAFullyReliablePeer = 0.5
 
 type PeerReliability interface {
 	ReliabilityOf(
@@ -74,21 +73,19 @@ func (c Choice) peersOneQueryMayAsk(
 	askablePeers []peerdirectory.AskablePeer,
 	amountOfPeersHoldingOneWord int,
 ) peersOneQueryMayAsk {
-	shareOfDistanceCountedPerPeer := make(map[yacymodel.Hash]float64, len(askablePeers))
+	reliabilityOfEachPeer := make(map[yacymodel.Hash]float64, len(askablePeers))
 	for _, peer := range askablePeers {
-		reliability := c.peerReliability.ReliabilityOf(
+		reliabilityOfEachPeer[peer.Hash] = c.peerReliability.ReliabilityOf(
 			ctx,
 			peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: peer.Address},
 		)
-		shareOfDistanceCountedPerPeer[peer.Hash] =
-			1 - reliability*(1-shareOfDistanceCountedForAFullyReliablePeer)
 	}
 
 	return peersOneQueryMayAsk{
-		partitions:                    c.partitions,
-		askablePeers:                  askablePeers,
-		shareOfDistanceCountedPerPeer: shareOfDistanceCountedPerPeer,
-		amountOfPeersHoldingOneWord:   amountOfPeersHoldingOneWord,
+		partitions:                  c.partitions,
+		askablePeers:                askablePeers,
+		reliabilityOfEachPeer:       reliabilityOfEachPeer,
+		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
 	}
 }
 
