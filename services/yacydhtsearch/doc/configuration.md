@@ -37,8 +37,8 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYDHTSEARCH_DIRECTORY_CAPACITY` | `4096` | Most peers the directory holds. A full directory drops its least reliable peer to admit a more reliable one. |
-| `YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE` | `0.05` | Part of a full directory given to new peers at each seedlist read. A new peer has no reliability, so it comes in only here. Set `0` to keep it out. |
+| `YACYDHTSEARCH_DIRECTORY_CAPACITY` | `4096` | Most peers the directory holds. |
+| `YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE` | `0.05` | Part of a full directory given to new peers at each seedlist read. `0` admits no new peer into a full directory. |
 | `YACYDHTSEARCH_REFRESH_INTERVAL` | `5m` | Time between seedlist reads and probe cycles. |
 | `YACYDHTSEARCH_PROBE_BUDGET` | `3s` | Time one probe of one peer address may take. |
 | `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |
@@ -46,15 +46,13 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 ## Peer presence and reliability
 
-The service records each answer a peer gives, and adds the time since the answer before it. This presence shows which peers stay reachable. If `YACYDHTSEARCH_NATS_URL` is set, all instances read the same answers and hold the same presence. If it is not set, an instance holds presence only while it runs.
-
-Reliability is one number that the service makes from that presence. The number increases with the presence a peer earned, and decreases as the last answer of the peer becomes old. A search asks the peers with the highest number first, and a full directory keeps them.
+With `YACYDHTSEARCH_NATS_URL` set, all instances share the peer presence. Without it, an instance keeps peer presence only while it runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one answer can add. An answer after a longer silence adds only this time. |
-| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time the shared history keeps one answer. An instance that stopped for longer cannot read the answers it missed. It continues from the presence it wrote last, and the time it missed adds no presence. |
-| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between the writes of the earned presence to the bucket. An instance that starts again reads the answers that came after its last write, so a longer time makes the start slower. |
+| `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one peer answer can add. |
+| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time the shared history keeps one peer answer. An instance stopped for longer loses the presence earned while it was stopped. |
+| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence. A longer time makes a restart slower. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION` | `168h` | Presence a peer must earn for the highest reliability. More presence adds no more. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON` | `6h` | Time after the last answer of a peer at which its reliability becomes zero. |
 
@@ -71,7 +69,7 @@ Reliability is one number that the service makes from that presence. The number 
 
 ## Peer calls
 
-A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left. For each place on the ring that holds a word, the query asks only the peers nearest to that place, and asks the peers that this deployment found reliable first. A query asks a peer for one word only, unless too few peers are left.
+A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left.
 
 | Variable | Default | Meaning |
 |---|---|---|
