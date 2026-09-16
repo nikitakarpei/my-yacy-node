@@ -28,34 +28,31 @@ func (q peersOneQueryMayAsk) peersForQueryWord(
 	)
 }
 
-type peersNearestToTheWordInPartition struct {
-	wordPosition yacymodel.DHTRingPosition
-	peers        []peerdirectory.AskablePeer
+type peerAtRingFractionFromTheWord struct {
+	peer                    peerdirectory.AskablePeer
+	ringFractionFromTheWord float64
 }
 
 func (q peersOneQueryMayAsk) peersNearestToTheWordInEachPartition(
 	queryWord yacymodel.Hash,
 	peersChosenForEarlierWords []peerdirectory.AskablePeer,
-) []peersNearestToTheWordInPartition {
+) [][]peerAtRingFractionFromTheWord {
 	peersNotChosenForEarlierWords := peersNotChosenForEarlierWordsAmong(
 		q.askablePeers, peersChosenForEarlierWords,
 	)
-	nearestToTheWordInEachPartition := make([]peersNearestToTheWordInPartition, 0, q.partitions)
+	nearestToTheWordInEachPartition := make([][]peerAtRingFractionFromTheWord, 0, q.partitions)
 	for partition := range uint(q.partitions) {
 		wordPosition := yacymodel.DHTRingPositionOfWordInPartition(
 			queryWord, partition, q.partitions,
 		)
 		nearestToTheWordInEachPartition = append(
 			nearestToTheWordInEachPartition,
-			peersNearestToTheWordInPartition{
-				wordPosition: wordPosition,
-				peers: slices.Concat(
-					q.reliablePeersFirstAmongThePeersHoldingTheWord(
-						peersNearestFirstTo(wordPosition, peersNotChosenForEarlierWords),
-					),
-					peersNearestFirstTo(wordPosition, peersChosenForEarlierWords),
+			slices.Concat(
+				q.reliablePeersFirstAmongThePeersHoldingTheWord(
+					peersNearestFirstTo(wordPosition, peersNotChosenForEarlierWords),
 				),
-			},
+				peersNearestFirstTo(wordPosition, peersChosenForEarlierWords),
+			),
 		)
 	}
 
@@ -88,17 +85,17 @@ func hashesOf(peers []peerdirectory.AskablePeer) map[yacymodel.Hash]struct{} {
 }
 
 func (q peersOneQueryMayAsk) reliablePeersFirstAmongThePeersHoldingTheWord(
-	peersNearestFirst []peerdirectory.AskablePeer,
-) []peerdirectory.AskablePeer {
+	peersNearestFirst []peerAtRingFractionFromTheWord,
+) []peerAtRingFractionFromTheWord {
 	amountOfPeersHoldingTheWordInOnePartition := min(len(peersNearestFirst), q.networkRedundancy)
 
 	return slices.Concat(
 		slices.SortedStableFunc(
 			slices.Values(peersNearestFirst[:amountOfPeersHoldingTheWordInOnePartition]),
-			func(firstPeer, secondPeer peerdirectory.AskablePeer) int {
+			func(firstPeer, secondPeer peerAtRingFractionFromTheWord) int {
 				return cmp.Compare(
-					q.reliabilityOfEachPeer[secondPeer.Hash],
-					q.reliabilityOfEachPeer[firstPeer.Hash],
+					q.reliabilityOfEachPeer[secondPeer.peer.Hash],
+					q.reliabilityOfEachPeer[firstPeer.peer.Hash],
 				)
 			},
 		),
@@ -109,16 +106,28 @@ func (q peersOneQueryMayAsk) reliablePeersFirstAmongThePeersHoldingTheWord(
 func peersNearestFirstTo(
 	wordPosition yacymodel.DHTRingPosition,
 	peers []peerdirectory.AskablePeer,
-) []peerdirectory.AskablePeer {
-	return slices.SortedFunc(
-		slices.Values(peers),
-		func(firstPeer, secondPeer peerdirectory.AskablePeer) int {
+) []peerAtRingFractionFromTheWord {
+	peersAtRingFractionFromTheWord := make([]peerAtRingFractionFromTheWord, 0, len(peers))
+	for _, peer := range peers {
+		peersAtRingFractionFromTheWord = append(
+			peersAtRingFractionFromTheWord,
+			peerAtRingFractionFromTheWord{
+				peer:                    peer,
+				ringFractionFromTheWord: ringFractionFrom(wordPosition, peer),
+			},
+		)
+	}
+	slices.SortFunc(
+		peersAtRingFractionFromTheWord,
+		func(firstPeer, secondPeer peerAtRingFractionFromTheWord) int {
 			return cmp.Compare(
-				ringFractionFrom(wordPosition, firstPeer),
-				ringFractionFrom(wordPosition, secondPeer),
+				firstPeer.ringFractionFromTheWord,
+				secondPeer.ringFractionFromTheWord,
 			)
 		},
 	)
+
+	return peersAtRingFractionFromTheWord
 }
 
 func ringFractionFrom(
@@ -131,21 +140,24 @@ func ringFractionFrom(
 }
 
 func peersTakenFromEachPartitionInTurn(
-	peersNearestToTheWordInEachPartition []peersNearestToTheWordInPartition,
+	peersNearestToTheWordInEachPartition [][]peerAtRingFractionFromTheWord,
 	networkRedundancy int,
 ) (takenPeers []peerdirectory.AskablePeer, ringFractionsOfTheTakenPeers []float64) {
 	peersAlreadyTaken := map[yacymodel.Hash]struct{}{}
 	for range networkRedundancy {
-		for index, nearest := range peersNearestToTheWordInEachPartition {
-			peer, peersLeft, found := firstPeerNotYetTaken(nearest.peers, peersAlreadyTaken)
+		for index, peersNearestFirst := range peersNearestToTheWordInEachPartition {
+			takenPeer, peersLeft, found := firstPeerNotYetTaken(
+				peersNearestFirst,
+				peersAlreadyTaken,
+			)
 			if !found {
 				return takenPeers, ringFractionsOfTheTakenPeers
 			}
-			peersNearestToTheWordInEachPartition[index].peers = peersLeft
-			peersAlreadyTaken[peer.Hash] = struct{}{}
-			takenPeers = append(takenPeers, peer)
+			peersNearestToTheWordInEachPartition[index] = peersLeft
+			peersAlreadyTaken[takenPeer.peer.Hash] = struct{}{}
+			takenPeers = append(takenPeers, takenPeer.peer)
 			ringFractionsOfTheTakenPeers = append(
-				ringFractionsOfTheTakenPeers, ringFractionFrom(nearest.wordPosition, peer),
+				ringFractionsOfTheTakenPeers, takenPeer.ringFractionFromTheWord,
 			)
 		}
 	}
@@ -154,16 +166,16 @@ func peersTakenFromEachPartitionInTurn(
 }
 
 func firstPeerNotYetTaken(
-	peersNearestFirst []peerdirectory.AskablePeer,
+	peersNearestFirst []peerAtRingFractionFromTheWord,
 	peersAlreadyTaken map[yacymodel.Hash]struct{},
-) (firstPeer peerdirectory.AskablePeer, peersLeft []peerdirectory.AskablePeer, found bool) {
-	for index, peer := range peersNearestFirst {
-		if _, taken := peersAlreadyTaken[peer.Hash]; taken {
+) (firstPeer peerAtRingFractionFromTheWord, peersLeft []peerAtRingFractionFromTheWord, found bool) {
+	for index, firstPeer := range peersNearestFirst {
+		if _, taken := peersAlreadyTaken[firstPeer.peer.Hash]; taken {
 			continue
 		}
 
-		return peer, peersNearestFirst[index+1:], true
+		return firstPeer, peersNearestFirst[index+1:], true
 	}
 
-	return peerdirectory.AskablePeer{}, nil, false
+	return peerAtRingFractionFromTheWord{}, nil, false
 }
