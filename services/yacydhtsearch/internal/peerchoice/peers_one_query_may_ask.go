@@ -9,10 +9,10 @@ import (
 )
 
 type peersOneQueryMayAsk struct {
-	partitions                  yacymodel.DHTRingPartitions
-	askablePeers                []peerdirectory.AskablePeer
-	reliabilityOfEachPeer       map[yacymodel.Hash]float64
-	amountOfPeersHoldingOneWord int
+	partitions            yacymodel.DHTRingPartitions
+	networkRedundancy     int
+	askablePeers          []peerdirectory.AskablePeer
+	reliabilityOfEachPeer map[yacymodel.Hash]float64
 }
 
 func (q peersOneQueryMayAsk) peersForQueryWord(
@@ -24,7 +24,7 @@ func (q peersOneQueryMayAsk) peersForQueryWord(
 ) {
 	return peersTakenFromEachPartitionInTurn(
 		q.peersNearestToTheWordInEachPartition(queryWord, peersChosenForEarlierWords),
-		q.amountOfPeersHoldingOneWord,
+		yacymodel.PeersHoldingOneWordOf(q.partitions, q.networkRedundancy),
 	)
 }
 
@@ -90,14 +90,11 @@ func hashesOf(peers []peerdirectory.AskablePeer) map[yacymodel.Hash]struct{} {
 func (q peersOneQueryMayAsk) reliablePeersFirstAmongThePeersHoldingTheWord(
 	peersNearestFirst []peerdirectory.AskablePeer,
 ) []peerdirectory.AskablePeer {
-	amountHoldingTheWord := min(
-		len(peersNearestFirst),
-		max(1, q.amountOfPeersHoldingOneWord/int(q.partitions)),
-	)
+	amountOfPeersHoldingTheWordInOnePartition := min(len(peersNearestFirst), q.networkRedundancy)
 
 	return slices.Concat(
 		slices.SortedStableFunc(
-			slices.Values(peersNearestFirst[:amountHoldingTheWord]),
+			slices.Values(peersNearestFirst[:amountOfPeersHoldingTheWordInOnePartition]),
 			func(firstPeer, secondPeer peerdirectory.AskablePeer) int {
 				return cmp.Compare(
 					q.reliabilityOfEachPeer[secondPeer.Hash],
@@ -105,7 +102,7 @@ func (q peersOneQueryMayAsk) reliablePeersFirstAmongThePeersHoldingTheWord(
 				)
 			},
 		),
-		peersNearestFirst[amountHoldingTheWord:],
+		peersNearestFirst[amountOfPeersHoldingTheWordInOnePartition:],
 	)
 }
 

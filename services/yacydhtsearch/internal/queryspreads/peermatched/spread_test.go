@@ -14,8 +14,7 @@ import (
 )
 
 const (
-	itemsCeiling        = 10
-	peersHoldingOneWord = 24
+	itemsCeiling = 10
 )
 
 type peerNetwork struct {
@@ -74,7 +73,6 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	_ int,
 ) [][]peerdirectory.AskablePeer {
 	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for range queryWords {
@@ -103,7 +101,7 @@ func searchOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
 ) [][]queryanswers.AnsweredItem {
-	return spreadOf(network, peersHoldingOneWord, observer).SpreadOverPeers(
+	return spreadOf(network, observer).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
@@ -115,7 +113,7 @@ func searchForTheQuery(network *peerNetwork, query string) [][]queryanswers.Answ
 }
 
 func answersOfTheQuery(network *peerNetwork, query string) queryanswers.AnsweredQuery {
-	return spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
+	return spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom(query, ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
@@ -124,10 +122,9 @@ func answersOfTheQuery(network *peerNetwork, query string) queryanswers.Answered
 
 func spreadOf(
 	network *peerNetwork,
-	peersOfOneWord int,
 	observer peermatched.PeerMatchedSpreadObserver,
 ) peermatched.Spread {
-	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, peersOfOneWord, observer)
+	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, observer)
 }
 
 func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {
@@ -135,7 +132,7 @@ func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {
 
 	network := networkOf(map[string][]string{})
 
-	spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
+	spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{

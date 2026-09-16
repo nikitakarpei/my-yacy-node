@@ -132,6 +132,7 @@ func RunService(
 	)
 	choice := peerchoice.New(
 		cfg.Partitions,
+		cfg.NetworkRedundancy,
 		reliability,
 		directory,
 		peerchoice.PeerChoiceObservers{
@@ -221,16 +222,13 @@ func querySpreadFor(
 	choice peerchoice.Choice,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
-	amountOfPeersHoldingOneWord := yacymodel.PeersHoldingOneWordOf(
-		cfg.Partitions, cfg.NetworkRedundancy,
-	)
 	return bywordcount.New(
 		wordjoined.New(
 			peers,
 			choice,
 			cfg.RankedItemsCeiling,
 			cfg.PeerItemsCeiling,
-			amountOfPeersHoldingOneWord,
+			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{
 				wordjoinedobserversapplog.WordJoinedSpreadLog{},
 				wordjoinedobserversprometheus.New(registry, cfg.QueryBudget),
@@ -240,7 +238,6 @@ func querySpreadFor(
 			peers,
 			choice,
 			cfg.PeerItemsCeiling,
-			amountOfPeersHoldingOneWord,
 			peermatched.PeerMatchedSpreadObservers{
 				peermatchedobserversapplog.PeerMatchedSpreadLog{},
 				peermatchedobserversprometheus.New(registry, cfg.QueryBudget),

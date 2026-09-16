@@ -26,23 +26,26 @@ type PeerDirectory interface {
 }
 
 type Choice struct {
-	partitions      yacymodel.DHTRingPartitions
-	peerReliability PeerReliability
-	peerDirectory   PeerDirectory
-	observer        PeerChoiceObserver
+	partitions        yacymodel.DHTRingPartitions
+	networkRedundancy int
+	peerReliability   PeerReliability
+	peerDirectory     PeerDirectory
+	observer          PeerChoiceObserver
 }
 
 func New(
 	partitions yacymodel.DHTRingPartitions,
+	networkRedundancy int,
 	peerReliability PeerReliability,
 	peerDirectory PeerDirectory,
 	observer PeerChoiceObserver,
 ) Choice {
 	return Choice{
-		partitions:      partitions,
-		peerReliability: peerReliability,
-		peerDirectory:   peerDirectory,
-		observer:        observer,
+		partitions:        partitions,
+		networkRedundancy: networkRedundancy,
+		peerReliability:   peerReliability,
+		peerDirectory:     peerDirectory,
+		observer:          observer,
 	}
 }
 
@@ -50,11 +53,8 @@ func (c Choice) ChoosePeersPerQueryWord(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	amountOfPeersHoldingOneWord int,
 ) [][]peerdirectory.AskablePeer {
-	peersTheQueryMayAsk := c.peersOneQueryMayAsk(
-		ctx, askablePeers, amountOfPeersHoldingOneWord,
-	)
+	peersTheQueryMayAsk := c.peersOneQueryMayAsk(ctx, askablePeers)
 	chosenPeersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
 		chosenPeers, ringFractionsOfTheTakenPeers := peersTheQueryMayAsk.peersForQueryWord(
@@ -71,7 +71,6 @@ func (c Choice) ChoosePeersPerQueryWord(
 func (c Choice) peersOneQueryMayAsk(
 	ctx context.Context,
 	askablePeers []peerdirectory.AskablePeer,
-	amountOfPeersHoldingOneWord int,
 ) peersOneQueryMayAsk {
 	reliabilityOfEachPeer := make(map[yacymodel.Hash]float64, len(askablePeers))
 	for _, peer := range askablePeers {
@@ -82,10 +81,10 @@ func (c Choice) peersOneQueryMayAsk(
 	}
 
 	return peersOneQueryMayAsk{
-		partitions:                  c.partitions,
-		askablePeers:                askablePeers,
-		reliabilityOfEachPeer:       reliabilityOfEachPeer,
-		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
+		partitions:            c.partitions,
+		networkRedundancy:     c.networkRedundancy,
+		askablePeers:          askablePeers,
+		reliabilityOfEachPeer: reliabilityOfEachPeer,
 	}
 }
 

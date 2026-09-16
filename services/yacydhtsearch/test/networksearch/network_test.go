@@ -24,18 +24,17 @@ import (
 )
 
 const (
-	networkName         = "freeworld"
-	responseLimit       = 1 << 20
-	peersHoldingOneWord = 4
-	peerCallsInFlight   = 48
-	peerCallBudget      = 3 * time.Second
-	queryBudget         = 5 * time.Second
-	pageReadBudget      = 3 * time.Second
-	peerResults         = 10
-	directoryLimit      = 16
-	recordCeiling       = 50
-	pagesReadPerQuery   = 50
-	cooldown            = 5 * time.Second
+	networkName       = "freeworld"
+	responseLimit     = 1 << 20
+	peerCallsInFlight = 48
+	peerCallBudget    = 3 * time.Second
+	queryBudget       = 5 * time.Second
+	pageReadBudget    = 3 * time.Second
+	peerResults       = 10
+	directoryLimit    = 16
+	recordCeiling     = 50
+	pagesReadPerQuery = 50
+	cooldown          = 5 * time.Second
 )
 
 type silentDirectoryObserver struct{}
@@ -84,7 +83,6 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	_ int,
 ) [][]peerdirectory.AskablePeer {
 	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for range queryWords {
@@ -196,7 +194,6 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 		),
 		everyAskablePeer{},
 		peerResults,
-		peersHoldingOneWord,
 		peermatched.PeerMatchedSpreadObservers{},
 	)
 }

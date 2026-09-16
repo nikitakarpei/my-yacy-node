@@ -14,7 +14,7 @@ import (
 const (
 	partitionExponent = 4
 	ringPartitions    = 1 << partitionExponent
-	peersCeiling      = 24
+	networkRedundancy = 2
 )
 
 type reliabilityPerPeer map[yacymodel.Hash]float64
@@ -56,13 +56,14 @@ func partitions(t *testing.T) yacymodel.DHTRingPartitions {
 
 func choiceOver(
 	t *testing.T,
+	networkRedundancy int,
 	reliability reliabilityPerPeer,
 	directory peerchoice.PeerDirectory,
 	observer peerchoice.PeerChoiceObserver,
 ) peerchoice.Choice {
 	t.Helper()
 
-	return peerchoice.New(partitions(t), reliability, directory, observer)
+	return peerchoice.New(partitions(t), networkRedundancy, reliability, directory, observer)
 }
 
 func askablePeers(t *testing.T, count int) []peerdirectory.AskablePeer {
@@ -94,9 +95,9 @@ func TestEveryChosenPeerIsNamedOnceForItsQueryWord(t *testing.T) {
 	t.Parallel()
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
 	).ChoosePeersPerQueryWord(
-		t.Context(), words(t, "berlin"), askablePeers(t, 20), peersCeiling,
+		t.Context(), words(t, "berlin"), askablePeers(t, 20),
 	)
 
 	seen := map[yacymodel.Hash]struct{}{}
@@ -112,16 +113,16 @@ func TestNoMorePeersAreChosenForAQueryWordThanTheCeilingAllows(t *testing.T) {
 	t.Parallel()
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
 	).ChoosePeersPerQueryWord(
-		t.Context(), words(t, "berlin"), askablePeers(t, 200), peersCeiling,
+		t.Context(), words(t, "berlin"), askablePeers(t, 200),
 	)
 
-	if len(peersPerQueryWord[0]) != peersCeiling {
+	if len(peersPerQueryWord[0]) != networkRedundancy*ringPartitions {
 		t.Fatalf(
 			"the query word was given %d peers, want %d",
 			len(peersPerQueryWord[0]),
-			peersCeiling,
+			networkRedundancy*ringPartitions,
 		)
 	}
 }
@@ -131,8 +132,14 @@ func TestEveryPartitionOfTheRingGivesAPeerBeforeAnyGivesASecond(t *testing.T) {
 
 	observer := &recordedFractions{}
 
-	choiceOver(t, reliabilityPerPeer{}, &restedPeers{}, observer).ChoosePeersPerQueryWord(
-		t.Context(), words(t, "berlin"), askablePeers(t, 200), peersCeiling,
+	choiceOver(
+		t,
+		networkRedundancy,
+		reliabilityPerPeer{},
+		&restedPeers{},
+		observer,
+	).ChoosePeersPerQueryWord(
+		t.Context(), words(t, "berlin"), askablePeers(t, 200),
 	)
 
 	for index, fraction := range observer.fractions[0][:ringPartitions] {
@@ -152,8 +159,8 @@ func TestEveryAskablePeerIsChosenWhenTheyAreFewerThanTheCeiling(t *testing.T) {
 	askable := askablePeers(t, 2)
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), words(t, "berlin"), askable, peersCeiling)
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), words(t, "berlin"), askable)
 
 	if len(peersPerQueryWord[0]) != len(askable) {
 		t.Fatalf(
@@ -168,8 +175,8 @@ func TestNoPeerIsChosenFromAnEmptyAskableSet(t *testing.T) {
 	t.Parallel()
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), words(t, "berlin"), nil, peersCeiling)
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), words(t, "berlin"), nil)
 
 	if len(peersPerQueryWord[0]) != 0 {
 		t.Fatalf("the query word was given %v, want no peer", peersPerQueryWord[0])
@@ -182,12 +189,12 @@ func TestOneRingFractionIsReportedForEachPeerTheRingChose(t *testing.T) {
 	observer := &recordedFractions{}
 
 	peersPerQueryWord := choiceOver(
-		t,
+		t, networkRedundancy,
 		reliabilityPerPeer{},
 		&restedPeers{},
 		peerchoice.PeerChoiceObservers{observer},
 	).ChoosePeersPerQueryWord(
-		t.Context(), words(t, "berlin"), askablePeers(t, 20), peersCeiling,
+		t.Context(), words(t, "berlin"), askablePeers(t, 20),
 	)
 
 	if len(observer.fractions[0]) != len(peersPerQueryWord[0]) {
@@ -210,12 +217,12 @@ func TestAReliablePeerNeverTakesTheSlotOfAPeerNearerToTheWord(t *testing.T) {
 	askable := askablePeers(t, 200)
 	word := words(t, "berlin")
 	knownToNobody := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), word, askable, ringPartitions)
+		t, 1, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), word, askable)
 
 	chosen := choiceOver(
-		t, reliableOutside(askable, knownToNobody[0]), &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), word, askable, ringPartitions)
+		t, 1, reliableOutside(askable, knownToNobody[0]), &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), word, askable)
 
 	if somePeerIsOutside(chosen[0], knownToNobody[0]) {
 		t.Fatalf(
@@ -232,14 +239,14 @@ func TestAReliablePeerIsAskedBeforeALessReliablePeerOfItsPartition(t *testing.T)
 	askable := askablePeers(t, 200)
 	word := words(t, "berlin")
 	knownToNobody := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), word, askable, 2*ringPartitions)
+		t, 2, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), word, askable)
 	secondTurn := knownToNobody[0][ringPartitions:]
 
 	chosen := choiceOver(
-		t, reliableOutside(askable, knownToNobody[0][:ringPartitions]), &restedPeers{},
+		t, 2, reliableOutside(askable, knownToNobody[0][:ringPartitions]), &restedPeers{},
 		&recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), word, askable, 2*ringPartitions)
+	).ChoosePeersPerQueryWord(t.Context(), word, askable)
 
 	if somePeerIsOutside(chosen[0][:ringPartitions], secondTurn) {
 		t.Fatalf(
@@ -270,11 +277,11 @@ func TestTwoSearchesForOneWordAskTheSamePeers(t *testing.T) {
 	askable := askablePeers(t, 200)
 	word := words(t, "berlin")
 	firstSearch := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), word, askable, peersCeiling)
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), word, askable)
 	secondSearch := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), word, askable, peersCeiling)
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), word, askable)
 
 	if somePeerIsOutside(secondSearch[0], firstSearch[0]) {
 		t.Fatalf(
@@ -306,9 +313,9 @@ func TestALaterQueryWordReachesPeersTheEarlierWordsDidNot(t *testing.T) {
 	t.Parallel()
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
 	).ChoosePeersPerQueryWord(
-		t.Context(), words(t, "berlin", "berlin"), askablePeers(t, 200), peersCeiling,
+		t.Context(), words(t, "berlin", "berlin"), askablePeers(t, 200),
 	)
 
 	for _, peer := range peersPerQueryWord[1] {
@@ -327,8 +334,8 @@ func TestALaterQueryWordTakesPeersAnEarlierWordChoseWhenNoOtherPeerIsLeft(t *tes
 	askable := askablePeers(t, 2)
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), words(t, "berlin", "weather"), askable, peersCeiling)
+		t, networkRedundancy, reliabilityPerPeer{}, &restedPeers{}, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), words(t, "berlin", "weather"), askable)
 
 	if len(peersPerQueryWord[1]) != len(askable) {
 		t.Fatalf(
@@ -345,9 +352,9 @@ func TestEveryPeerChosenForAQueryRestsBeforeTheNextSearch(t *testing.T) {
 	directory := &restedPeers{}
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, directory, &recordedFractions{},
+		t, networkRedundancy, reliabilityPerPeer{}, directory, &recordedFractions{},
 	).ChoosePeersPerQueryWord(
-		t.Context(), words(t, "berlin", "weather"), askablePeers(t, 200), peersCeiling,
+		t.Context(), words(t, "berlin", "weather"), askablePeers(t, 200),
 	)
 
 	if len(directory.marked) != 1 {
@@ -371,8 +378,8 @@ func TestNoPeerRestsWhenTheQueryHasNoWord(t *testing.T) {
 	directory := &restedPeers{}
 
 	peersPerQueryWord := choiceOver(
-		t, reliabilityPerPeer{}, directory, &recordedFractions{},
-	).ChoosePeersPerQueryWord(t.Context(), nil, nil, peersCeiling)
+		t, networkRedundancy, reliabilityPerPeer{}, directory, &recordedFractions{},
+	).ChoosePeersPerQueryWord(t.Context(), nil, nil)
 
 	if len(peersPerQueryWord) != 0 {
 		t.Fatalf("ChoosePeersPerQueryWord = %v, want none", peersPerQueryWord)
