@@ -36,13 +36,13 @@ import (
 	peerdirectoryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/applog"
 	peerdirectoryobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
-	peerhistoriesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerhistories/jetstream"
-	peerhistoriesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerhistories/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
 	peermatchedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/applog"
 	peermatchedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence"
+	peerpresencesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/jetstream"
+	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
 	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
 	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
@@ -81,7 +81,7 @@ func RunService(
 	registry *prometheus.Registry,
 ) error {
 	outbound := outboundClient(cfg)
-	history, err := peerHistoryFor(ctx, cfg)
+	presence, err := peerPresenceFor(ctx, cfg)
 	if err != nil {
 		return err
 	}
@@ -94,7 +94,7 @@ func RunService(
 		peerdirectory.DirectoryObservers{
 			peerdirectoryobserversapplog.DirectoryLog{},
 			peerdirectoryobserversprometheus.New(registry),
-			history,
+			presence,
 		},
 	)
 	peers := peercallwire.New(
@@ -252,16 +252,19 @@ func itemsOrderingOfTheService() networksearch.ItemsOrdering {
 	return hostdiscount.New(documentrelevance.New(documentrelevance.DefaultScoreWeights()))
 }
 
-func peerHistoryFor(
+func peerPresenceFor(
 	ctx context.Context,
 	cfg ServiceConfig,
 ) (peerdirectory.DirectoryObserver, error) {
-	presenceLimits := peerpresence.PeerPresenceLimits{
+	accrualLimits := presenceaccrual.PresenceAccrualLimits{
 		Capacity:        cfg.DirectoryCapacity,
 		ContinuityLimit: cfg.ContinuityLimit,
 	}
 	if cfg.NATSURL == "" {
-		return peerhistoriesmemory.New(presenceLimits, peerpresence.PeerPresenceObservers{}), nil
+		return peerpresencesmemory.New(
+			accrualLimits,
+			presenceaccrual.PresenceAccrualObservers{},
+		), nil
 	}
 
 	peersAnswered, err := peersAnsweredAt(ctx, cfg)
@@ -272,39 +275,39 @@ func peerHistoryFor(
 	if err != nil {
 		return nil, err
 	}
-	history := peerhistoriesjetstream.New(
+	presence := peerpresencesjetstream.New(
 		peersAnswered,
 		snapshots,
-		presenceLimits,
-		peerpresence.PeerPresenceObservers{},
-		peerhistoriesjetstream.PeerHistoryObservers{},
+		accrualLimits,
+		presenceaccrual.PresenceAccrualObservers{},
+		peerpresencesjetstream.PeerPresenceObservers{},
 	)
-	go history.ConsumeThePeerAnsweredStream(ctx)
+	go presence.ConsumeThePeerAnsweredStream(ctx)
 
-	return history, nil
+	return presence, nil
 }
 
 func peersAnsweredAt(
 	ctx context.Context,
 	cfg ServiceConfig,
-) (peerhistoriesjetstream.PeerAnsweredStream, error) {
+) (peerpresencesjetstream.PeerAnsweredStream, error) {
 	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
-		return peerhistoriesjetstream.PeerAnsweredStream{}, fmt.Errorf("%s: %w", EnvNATSURL, err)
+		return peerpresencesjetstream.PeerAnsweredStream{}, fmt.Errorf("%s: %w", EnvNATSURL, err)
 	}
 
 	_, err = stream.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
 		Name: peersAnsweredStream,
 		Subjects: []string{
-			peerhistoriesjetstream.SubjectOfEveryPeerAnsweredIn(cfg.NetworkName),
+			peerpresencesjetstream.SubjectOfEveryPeerAnsweredIn(cfg.NetworkName),
 		},
 	})
 	if err != nil {
-		return peerhistoriesjetstream.PeerAnsweredStream{},
+		return peerpresencesjetstream.PeerAnsweredStream{},
 			fmt.Errorf("open stream %s: %w", peersAnsweredStream, err)
 	}
 
-	return peerhistoriesjetstream.PeerAnsweredStream{
+	return peerpresencesjetstream.PeerAnsweredStream{
 		JetStream:   stream,
 		Name:        peersAnsweredStream,
 		NetworkName: cfg.NetworkName,

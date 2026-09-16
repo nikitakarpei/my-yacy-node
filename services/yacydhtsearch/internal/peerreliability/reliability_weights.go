@@ -9,7 +9,7 @@ package peerreliability
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 )
 
 type ReliabilityWeights struct {
@@ -25,14 +25,14 @@ func DefaultReliabilityWeights() ReliabilityWeights {
 }
 
 func (weights ReliabilityWeights) ReliabilityOf(
-	observedPeer peerpresence.ObservedPeer,
+	observedPeer presenceaccrual.ObservedPeer,
 	now time.Time,
 ) float64 {
 	return weights.presenceBenefitOf(observedPeer) * weights.freshnessOf(observedPeer, now)
 }
 
 func (weights ReliabilityWeights) presenceBenefitOf(
-	observedPeer peerpresence.ObservedPeer,
+	observedPeer presenceaccrual.ObservedPeer,
 ) float64 {
 	if weights.MaturationDuration <= 0 {
 		return 0
@@ -45,7 +45,7 @@ func (weights ReliabilityWeights) presenceBenefitOf(
 }
 
 func (weights ReliabilityWeights) freshnessOf(
-	observedPeer peerpresence.ObservedPeer,
+	observedPeer presenceaccrual.ObservedPeer,
 	now time.Time,
 ) float64 {
 	if weights.StalenessHorizon <= 0 {

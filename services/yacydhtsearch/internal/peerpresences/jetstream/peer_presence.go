@@ -19,7 +19,7 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -34,78 +34,78 @@ func SubjectOfEveryPeerAnsweredIn(networkName string) string {
 }
 
 type snapshottedPeer struct {
-	peerpresence.ObservedPeer
+	presenceaccrual.ObservedPeer
 	FoldedUpTo uint64
 }
 
-type PeerHistory struct {
+type PeerPresence struct {
 	peerAnsweredStream     PeerAnsweredStream
 	snapshots              natsjetstream.KeyValue
-	presenceLimits         peerpresence.PeerPresenceLimits
-	presence               atomic.Pointer[peerpresence.PeerPresence]
-	changedPeers           map[peerpresence.PeerAtAddress]snapshottedPeer
+	accrualLimits          presenceaccrual.PresenceAccrualLimits
+	accrual                atomic.Pointer[presenceaccrual.PresenceAccrual]
+	changedPeers           map[presenceaccrual.PeerAtAddress]snapshottedPeer
 	answersSinceCompaction int
-	presenceObserver       peerpresence.PeerPresenceObserver
-	historyObserver        PeerHistoryObserver
+	accrualObserver        presenceaccrual.PresenceAccrualObserver
+	presenceObserver       PeerPresenceObserver
 }
 
 func New(
 	peerAnsweredStream PeerAnsweredStream,
 	snapshots natsjetstream.KeyValue,
-	presenceLimits peerpresence.PeerPresenceLimits,
-	presenceObserver peerpresence.PeerPresenceObserver,
-	historyObserver PeerHistoryObserver,
-) *PeerHistory {
-	history := &PeerHistory{
+	accrualLimits presenceaccrual.PresenceAccrualLimits,
+	accrualObserver presenceaccrual.PresenceAccrualObserver,
+	presenceObserver PeerPresenceObserver,
+) *PeerPresence {
+	presence := &PeerPresence{
 		peerAnsweredStream: peerAnsweredStream,
 		snapshots:          snapshots,
-		presenceLimits:     presenceLimits,
-		changedPeers:       map[peerpresence.PeerAtAddress]snapshottedPeer{},
+		accrualLimits:      accrualLimits,
+		changedPeers:       map[presenceaccrual.PeerAtAddress]snapshottedPeer{},
+		accrualObserver:    accrualObserver,
 		presenceObserver:   presenceObserver,
-		historyObserver:    historyObserver,
 	}
-	history.presence.Store(peerpresence.PeerPresenceFrom(nil, presenceLimits, presenceObserver))
+	presence.accrual.Store(presenceaccrual.PresenceAccrualFrom(nil, accrualLimits, accrualObserver))
 
-	return history
+	return presence
 }
 
-func (h *PeerHistory) ObservedPeers(context.Context) []peerpresence.ObservedPeer {
-	return h.presence.Load().ObservedPeers()
+func (h *PeerPresence) ObservedPeers(context.Context) []presenceaccrual.ObservedPeer {
+	return h.accrual.Load().ObservedPeers()
 }
 
-func (h *PeerHistory) PeerAnswered(
+func (h *PeerPresence) PeerAnswered(
 	ctx context.Context,
 	peer yacymodel.Hash,
 	address string,
 	answeredAt time.Time,
 ) {
-	peerAtAddress := peerpresence.PeerAtAddress{Hash: peer, Address: address}
-	encoded, err := json.Marshal(peerpresence.PeerAnswered{
+	peerAtAddress := presenceaccrual.PeerAtAddress{Hash: peer, Address: address}
+	encoded, err := json.Marshal(presenceaccrual.PeerAnswered{
 		PeerAtAddress: peerAtAddress,
 		AnsweredAt:    answeredAt,
 	})
 	if err != nil {
-		h.historyObserver.PeerAnsweredPublishFailed(ctx, err)
+		h.presenceObserver.PeerAnsweredPublishFailed(ctx, err)
 
 		return
 	}
 	_, err = h.peerAnsweredStream.JetStream.Publish(ctx, h.subjectOf(peerAtAddress), encoded)
 	if err != nil {
-		h.historyObserver.PeerAnsweredPublishFailed(ctx, err)
+		h.presenceObserver.PeerAnsweredPublishFailed(ctx, err)
 	}
 }
 
-func (h *PeerHistory) ConsumeThePeerAnsweredStream(ctx context.Context) {
+func (h *PeerPresence) ConsumeThePeerAnsweredStream(ctx context.Context) {
 	peersSnapshotted := h.peersSnapshotted(ctx)
-	h.presence.Store(peerpresence.PeerPresenceFrom(
-		observedPeersAmong(peersSnapshotted), h.presenceLimits, h.presenceObserver,
+	h.accrual.Store(presenceaccrual.PresenceAccrualFrom(
+		observedPeersAmong(peersSnapshotted), h.accrualLimits, h.accrualObserver,
 	))
 
 	peerAnsweredMessages, err := h.peerAnsweredMessagesFrom(
 		ctx, h.sequenceToFoldFrom(ctx, peersSnapshotted),
 	)
 	if err != nil {
-		h.historyObserver.PeerAnsweredStreamEnded(ctx, err)
+		h.presenceObserver.PeerAnsweredStreamEnded(ctx, err)
 
 		return
 	}
@@ -115,7 +115,7 @@ func (h *PeerHistory) ConsumeThePeerAnsweredStream(ctx context.Context) {
 	for {
 		peerAnsweredMessage, err := peerAnsweredMessages.Next()
 		if err != nil {
-			h.historyObserver.PeerAnsweredStreamEnded(ctx, err)
+			h.presenceObserver.PeerAnsweredStreamEnded(ctx, err)
 
 			return
 		}
@@ -123,10 +123,10 @@ func (h *PeerHistory) ConsumeThePeerAnsweredStream(ctx context.Context) {
 	}
 }
 
-func (h *PeerHistory) peersSnapshotted(ctx context.Context) []snapshottedPeer {
+func (h *PeerPresence) peersSnapshotted(ctx context.Context) []snapshottedPeer {
 	watcher, err := h.snapshots.Watch(ctx, h.subjectOfEveryPeer(), natsjetstream.IgnoreDeletes())
 	if err != nil {
-		h.historyObserver.SnapshotsReadFailed(ctx, err)
+		h.presenceObserver.SnapshotsReadFailed(ctx, err)
 
 		return nil
 	}
@@ -139,7 +139,7 @@ func (h *PeerHistory) peersSnapshotted(ctx context.Context) []snapshottedPeer {
 		}
 		var peerSnapshotted snapshottedPeer
 		if err := json.Unmarshal(entry.Value(), &peerSnapshotted); err != nil {
-			h.historyObserver.SnapshotUndecodable(ctx, entry.Key(), err)
+			h.presenceObserver.SnapshotUndecodable(ctx, entry.Key(), err)
 
 			continue
 		}
@@ -149,8 +149,8 @@ func (h *PeerHistory) peersSnapshotted(ctx context.Context) []snapshottedPeer {
 	return peersSnapshotted
 }
 
-func observedPeersAmong(peersSnapshotted []snapshottedPeer) []peerpresence.ObservedPeer {
-	observedPeers := make([]peerpresence.ObservedPeer, 0, len(peersSnapshotted))
+func observedPeersAmong(peersSnapshotted []snapshottedPeer) []presenceaccrual.ObservedPeer {
+	observedPeers := make([]presenceaccrual.ObservedPeer, 0, len(peersSnapshotted))
 	for _, peerSnapshotted := range peersSnapshotted {
 		observedPeers = append(observedPeers, peerSnapshotted.ObservedPeer)
 	}
@@ -158,7 +158,7 @@ func observedPeersAmong(peersSnapshotted []snapshottedPeer) []peerpresence.Obser
 	return observedPeers
 }
 
-func (h *PeerHistory) sequenceToFoldFrom(
+func (h *PeerPresence) sequenceToFoldFrom(
 	ctx context.Context,
 	peersSnapshotted []snapshottedPeer,
 ) uint64 {
@@ -183,16 +183,16 @@ func oldestSequenceMissingFrom(peersSnapshotted []snapshottedPeer) uint64 {
 	return foldedUpTo + 1
 }
 
-func (h *PeerHistory) firstStreamSequence(ctx context.Context) (uint64, bool) {
+func (h *PeerPresence) firstStreamSequence(ctx context.Context) (uint64, bool) {
 	stream, err := h.peerAnsweredStream.JetStream.Stream(ctx, h.peerAnsweredStream.Name)
 	if err != nil {
-		h.historyObserver.PeerAnsweredStreamEnded(ctx, err)
+		h.presenceObserver.PeerAnsweredStreamEnded(ctx, err)
 
 		return 0, false
 	}
 	streamState, err := stream.Info(ctx)
 	if err != nil {
-		h.historyObserver.PeerAnsweredStreamEnded(ctx, err)
+		h.presenceObserver.PeerAnsweredStreamEnded(ctx, err)
 
 		return 0, false
 	}
@@ -200,7 +200,7 @@ func (h *PeerHistory) firstStreamSequence(ctx context.Context) (uint64, bool) {
 	return streamState.State.FirstSeq, true
 }
 
-func (h *PeerHistory) peerAnsweredMessagesFrom(
+func (h *PeerPresence) peerAnsweredMessagesFrom(
 	ctx context.Context,
 	foldFrom uint64,
 ) (natsjetstream.MessagesContext, error) {
@@ -220,20 +220,20 @@ func (h *PeerHistory) peerAnsweredMessagesFrom(
 	return consumer.Messages() //nolint:wrapcheck // the caller reports it to the stream observer
 }
 
-func (h *PeerHistory) credit(ctx context.Context, peerAnsweredMessage natsjetstream.Msg) {
+func (h *PeerPresence) credit(ctx context.Context, peerAnsweredMessage natsjetstream.Msg) {
 	delivered, err := peerAnsweredMessage.Metadata()
 	if err != nil {
-		h.historyObserver.PeerAnsweredMessageUndecodable(ctx, 0, err)
+		h.presenceObserver.PeerAnsweredMessageUndecodable(ctx, 0, err)
 
 		return
 	}
-	var peerAnswered peerpresence.PeerAnswered
+	var peerAnswered presenceaccrual.PeerAnswered
 	if err := json.Unmarshal(peerAnsweredMessage.Data(), &peerAnswered); err != nil {
-		h.historyObserver.PeerAnsweredMessageUndecodable(ctx, delivered.Sequence.Stream, err)
+		h.presenceObserver.PeerAnsweredMessageUndecodable(ctx, delivered.Sequence.Stream, err)
 
 		return
 	}
-	if observedPeer, credited := h.presence.Load().Credit(ctx, peerAnswered); credited {
+	if observedPeer, credited := h.accrual.Load().Credit(ctx, peerAnswered); credited {
 		h.changedPeers[observedPeer.PeerAtAddress] = snapshottedPeer{
 			ObservedPeer: observedPeer,
 			FoldedUpTo:   delivered.Sequence.Stream,
@@ -243,30 +243,30 @@ func (h *PeerHistory) credit(ctx context.Context, peerAnsweredMessage natsjetstr
 	h.compactWhenDue(ctx)
 }
 
-func (h *PeerHistory) reportCredited(
+func (h *PeerPresence) reportCredited(
 	ctx context.Context,
-	observedPeer peerpresence.ObservedPeer,
+	observedPeer presenceaccrual.ObservedPeer,
 ) {
 	if observedPeer.LatestAnsweredAt.Equal(observedPeer.FirstAnsweredAt) {
-		h.presenceObserver.PeerAnsweredForTheFirstTime(
+		h.accrualObserver.PeerAnsweredForTheFirstTime(
 			ctx, observedPeer.Hash, observedPeer.Address,
 		)
 
 		return
 	}
-	h.presenceObserver.PeerEarnedPresence(ctx, observedPeer.Hash, observedPeer.Presence)
+	h.accrualObserver.PeerEarnedPresence(ctx, observedPeer.Hash, observedPeer.Presence)
 }
 
-func (h *PeerHistory) compactWhenDue(ctx context.Context) {
+func (h *PeerPresence) compactWhenDue(ctx context.Context) {
 	h.answersSinceCompaction++
-	if h.answersSinceCompaction < h.presenceLimits.Capacity {
+	if h.answersSinceCompaction < h.accrualLimits.Capacity {
 		return
 	}
 	h.answersSinceCompaction = 0
 	h.compact(ctx)
 }
 
-func (h *PeerHistory) compact(ctx context.Context) {
+func (h *PeerPresence) compact(ctx context.Context) {
 	amountOfSnapshots := len(h.changedPeers)
 	for peerAtAddress, peerSnapshotted := range h.changedPeers {
 		if !h.snapshot(ctx, peerAtAddress, peerSnapshotted) {
@@ -274,7 +274,7 @@ func (h *PeerHistory) compact(ctx context.Context) {
 		}
 	}
 	clear(h.changedPeers)
-	h.historyObserver.PeersSnapshotted(ctx, amountOfSnapshots)
+	h.presenceObserver.PeersSnapshotted(ctx, amountOfSnapshots)
 
 	purgedUpTo := oldestSequenceMissingFrom(h.peersSnapshotted(ctx))
 	if purgedUpTo == 0 {
@@ -282,32 +282,32 @@ func (h *PeerHistory) compact(ctx context.Context) {
 	}
 	stream, err := h.peerAnsweredStream.JetStream.Stream(ctx, h.peerAnsweredStream.Name)
 	if err != nil {
-		h.historyObserver.PeerAnsweredStreamPurgeFailed(ctx, err)
+		h.presenceObserver.PeerAnsweredStreamPurgeFailed(ctx, err)
 
 		return
 	}
 	if err := stream.Purge(ctx, natsjetstream.WithPurgeSequence(purgedUpTo)); err != nil {
-		h.historyObserver.PeerAnsweredStreamPurgeFailed(ctx, err)
+		h.presenceObserver.PeerAnsweredStreamPurgeFailed(ctx, err)
 
 		return
 	}
-	h.historyObserver.PeerAnsweredStreamPurged(ctx, purgedUpTo)
+	h.presenceObserver.PeerAnsweredStreamPurged(ctx, purgedUpTo)
 }
 
-func (h *PeerHistory) snapshot(
+func (h *PeerPresence) snapshot(
 	ctx context.Context,
-	peerAtAddress peerpresence.PeerAtAddress,
+	peerAtAddress presenceaccrual.PeerAtAddress,
 	peerSnapshotted snapshottedPeer,
 ) bool {
 	key := h.subjectOf(peerAtAddress)
 	encoded, err := json.Marshal(peerSnapshotted)
 	if err != nil {
-		h.historyObserver.SnapshotWriteFailed(ctx, key, err)
+		h.presenceObserver.SnapshotWriteFailed(ctx, key, err)
 
 		return false
 	}
 	if _, err := h.snapshots.Put(ctx, key, encoded); err != nil {
-		h.historyObserver.SnapshotWriteFailed(ctx, key, err)
+		h.presenceObserver.SnapshotWriteFailed(ctx, key, err)
 
 		return false
 	}
@@ -315,19 +315,19 @@ func (h *PeerHistory) snapshot(
 	return true
 }
 
-func (h *PeerHistory) PeerAdmitted(context.Context, yacymodel.Hash, int) {}
+func (h *PeerPresence) PeerAdmitted(context.Context, yacymodel.Hash, int) {}
 
-func (h *PeerHistory) PeerWentSilent(context.Context, yacymodel.Hash) {}
+func (h *PeerPresence) PeerWentSilent(context.Context, yacymodel.Hash) {}
 
-func (h *PeerHistory) PeerDropped(context.Context, yacymodel.Hash) {}
+func (h *PeerPresence) PeerDropped(context.Context, yacymodel.Hash) {}
 
-func (h *PeerHistory) PeersKnown(context.Context, int, int, int) {}
+func (h *PeerPresence) PeersKnown(context.Context, int, int, int) {}
 
-func (h *PeerHistory) subjectOf(peerAtAddress peerpresence.PeerAtAddress) string {
+func (h *PeerPresence) subjectOf(peerAtAddress presenceaccrual.PeerAtAddress) string {
 	return h.peerAnsweredStream.NetworkName + "." + peerAtAddress.Hash.String() + "." +
 		base64.RawURLEncoding.EncodeToString([]byte(peerAtAddress.Address))
 }
 
-func (h *PeerHistory) subjectOfEveryPeer() string {
+func (h *PeerPresence) subjectOfEveryPeer() string {
 	return SubjectOfEveryPeerAnsweredIn(h.peerAnsweredStream.NetworkName)
 }

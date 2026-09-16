@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	peerhistoriesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerhistories/memory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence"
+	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -16,7 +16,7 @@ const (
 	answeringAddress = "http://10.0.0.1:8090"
 )
 
-var widePresenceLimits = peerpresence.PeerPresenceLimits{
+var wideAccrualLimits = presenceaccrual.PresenceAccrualLimits{
 	Capacity:        wideCapacity,
 	ContinuityLimit: continuityLimit,
 }
@@ -69,12 +69,12 @@ func TestAnAnsweringPeerBecomesAnObservedPeer(t *testing.T) {
 	t.Parallel()
 
 	reported := &reportedPresence{}
-	history := peerhistoriesmemory.New(widePresenceLimits, reported)
+	presence := peerpresencesmemory.New(wideAccrualLimits, reported)
 	peer := hashOf(t, 'a')
 
-	history.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
+	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 
-	observed := history.ObservedPeers(t.Context())
+	observed := presence.ObservedPeers(t.Context())
 	if len(observed) != 1 || observed[0].Hash != peer {
 		t.Fatalf("ObservedPeers = %+v, want the peer that answered", observed)
 	}
@@ -87,11 +87,11 @@ func TestAPeerThatKeepsAnsweringEarnsPresence(t *testing.T) {
 	t.Parallel()
 
 	reported := &reportedPresence{}
-	history := peerhistoriesmemory.New(widePresenceLimits, reported)
+	presence := peerpresencesmemory.New(wideAccrualLimits, reported)
 	peer := hashOf(t, 'a')
 
-	history.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
-	history.PeerAnswered(
+	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
+	presence.PeerAnswered(
 		t.Context(), peer, answeringAddress, startOfObservation().Add(time.Minute),
 	)
 
@@ -104,13 +104,13 @@ func TestAPeerThatKeepsAnsweringEarnsPresence(t *testing.T) {
 func TestAPeerDroppedFromTheDirectoryKeepsThePresenceItEarned(t *testing.T) {
 	t.Parallel()
 
-	history := peerhistoriesmemory.New(widePresenceLimits, &reportedPresence{})
+	presence := peerpresencesmemory.New(wideAccrualLimits, &reportedPresence{})
 	peer := hashOf(t, 'a')
-	history.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
+	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 
-	history.PeerDropped(t.Context(), peer)
+	presence.PeerDropped(t.Context(), peer)
 
-	if observed := history.ObservedPeers(t.Context()); len(observed) != 1 {
+	if observed := presence.ObservedPeers(t.Context()); len(observed) != 1 {
 		t.Fatalf("ObservedPeers = %+v, want the dropped peer to keep what it earned", observed)
 	}
 }

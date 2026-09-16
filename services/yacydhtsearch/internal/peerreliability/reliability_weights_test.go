@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -26,7 +26,7 @@ func answeredAt() time.Time {
 	return time.Date(2026, time.September, 15, 12, 0, 0, 0, time.UTC)
 }
 
-func peerObservedFor(t *testing.T, presence time.Duration) peerpresence.ObservedPeer {
+func peerObservedFor(t *testing.T, presence time.Duration) presenceaccrual.ObservedPeer {
 	t.Helper()
 
 	hash, err := yacymodel.ParseHash("aaaaaaaaaaaa")
@@ -34,8 +34,8 @@ func peerObservedFor(t *testing.T, presence time.Duration) peerpresence.Observed
 		t.Fatalf("ParseHash: %v", err)
 	}
 
-	return peerpresence.ObservedPeer{
-		PeerAtAddress: peerpresence.PeerAtAddress{
+	return presenceaccrual.ObservedPeer{
+		PeerAtAddress: presenceaccrual.PeerAtAddress{
 			Hash:    hash,
 			Address: answeringAddress,
 		},

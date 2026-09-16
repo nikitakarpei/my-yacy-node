@@ -1,4 +1,4 @@
-package peerpresence
+package presenceaccrual
 
 import (
 	"time"

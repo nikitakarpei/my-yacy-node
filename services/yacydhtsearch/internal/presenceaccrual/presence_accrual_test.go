@@ -1,11 +1,11 @@
-package peerpresence_test
+package presenceaccrual_test
 
 import (
 	"context"
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,7 +15,7 @@ const (
 	answeringAddress = "http://10.0.0.1:8090"
 )
 
-var widePresenceLimits = peerpresence.PeerPresenceLimits{
+var wideAccrualLimits = presenceaccrual.PresenceAccrualLimits{
 	Capacity:        wideCapacity,
 	ContinuityLimit: continuityLimit,
 }
@@ -30,7 +30,7 @@ func startOfObservation() time.Time {
 	return time.Date(2026, time.September, 15, 12, 0, 0, 0, time.UTC)
 }
 
-func peerAtAddress(t *testing.T, symbol byte) peerpresence.PeerAtAddress {
+func peerAtAddress(t *testing.T, symbol byte) presenceaccrual.PeerAtAddress {
 	t.Helper()
 
 	hash, err := yacymodel.ParseHash(string([]byte{
@@ -41,17 +41,17 @@ func peerAtAddress(t *testing.T, symbol byte) peerpresence.PeerAtAddress {
 		t.Fatalf("parse hash: %v", err)
 	}
 
-	return peerpresence.PeerAtAddress{Hash: hash, Address: answeringAddress}
+	return presenceaccrual.PeerAtAddress{Hash: hash, Address: answeringAddress}
 }
 
-func answeredAt(peer peerpresence.PeerAtAddress, at time.Time) peerpresence.PeerAnswered {
-	return peerpresence.PeerAnswered{PeerAtAddress: peer, AnsweredAt: at}
+func answeredAt(peer presenceaccrual.PeerAtAddress, at time.Time) presenceaccrual.PeerAnswered {
+	return presenceaccrual.PeerAnswered{PeerAtAddress: peer, AnsweredAt: at}
 }
 
 func TestTheFirstAnswerOfAPeerEarnsItNoPresence(t *testing.T) {
 	t.Parallel()
 
-	presence := peerpresence.PeerPresenceFrom(nil, widePresenceLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
 	peer := peerAtAddress(t, 'a')
 
 	observedPeer, credited := presence.Credit(t.Context(), answeredAt(peer, startOfObservation()))
@@ -73,7 +73,7 @@ func TestTheFirstAnswerOfAPeerEarnsItNoPresence(t *testing.T) {
 func TestAFurtherAnswerEarnsThePresenceSinceTheAnswerBeforeIt(t *testing.T) {
 	t.Parallel()
 
-	presence := peerpresence.PeerPresenceFrom(nil, widePresenceLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
 	peer := peerAtAddress(t, 'a')
 	presence.Credit(t.Context(), answeredAt(peer, startOfObservation()))
 
@@ -89,7 +89,7 @@ func TestAFurtherAnswerEarnsThePresenceSinceTheAnswerBeforeIt(t *testing.T) {
 func TestAnAnswerAfterALongSilenceEarnsOnlyTheContinuityLimit(t *testing.T) {
 	t.Parallel()
 
-	presence := peerpresence.PeerPresenceFrom(nil, widePresenceLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
 	peer := peerAtAddress(t, 'a')
 	presence.Credit(t.Context(), answeredAt(peer, startOfObservation()))
 
@@ -106,7 +106,7 @@ func TestAnAnswerAfterALongSilenceEarnsOnlyTheContinuityLimit(t *testing.T) {
 func TestAnAnswerOlderThanTheLatestOneIsNotCredited(t *testing.T) {
 	t.Parallel()
 
-	presence := peerpresence.PeerPresenceFrom(nil, widePresenceLimits, silentObserver{})
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
 	peer := peerAtAddress(t, 'a')
 	presence.Credit(t.Context(), answeredAt(peer, startOfObservation().Add(time.Minute)))
 
@@ -121,14 +121,14 @@ func TestPresenceCarriesOnFromTheObservedPeersItStartsWith(t *testing.T) {
 	t.Parallel()
 
 	peer := peerAtAddress(t, 'a')
-	presence := peerpresence.PeerPresenceFrom(
-		[]peerpresence.ObservedPeer{{
+	presence := presenceaccrual.PresenceAccrualFrom(
+		[]presenceaccrual.ObservedPeer{{
 			PeerAtAddress:    peer,
 			FirstAnsweredAt:  startOfObservation(),
 			LatestAnsweredAt: startOfObservation(),
 			Presence:         time.Hour,
 		}},
-		widePresenceLimits,
+		wideAccrualLimits,
 		silentObserver{},
 	)
 
@@ -145,7 +145,7 @@ func TestPresenceCarriesOnFromTheObservedPeersItStartsWith(t *testing.T) {
 func TestPresenceIsHeldForNoMorePeersThanItsCapacity(t *testing.T) {
 	t.Parallel()
 
-	presence := peerpresence.PeerPresenceFrom(nil, peerpresence.PeerPresenceLimits{
+	presence := presenceaccrual.PresenceAccrualFrom(nil, presenceaccrual.PresenceAccrualLimits{
 		Capacity:        1,
 		ContinuityLimit: continuityLimit,
 	}, silentObserver{})

@@ -2,7 +2,7 @@ package jetstream
 
 import "context"
 
-type PeerHistoryObserver interface {
+type PeerPresenceObserver interface {
 	PeerAnsweredPublishFailed(ctx context.Context, err error)
 	PeerAnsweredMessageUndecodable(ctx context.Context, sequence uint64, err error)
 	PeerAnsweredStreamEnded(ctx context.Context, err error)
@@ -14,9 +14,9 @@ type PeerHistoryObserver interface {
 	PeersSnapshotted(ctx context.Context, amountOfSnapshots int)
 }
 
-type PeerHistoryObservers []PeerHistoryObserver
+type PeerPresenceObservers []PeerPresenceObserver
 
-func (observers PeerHistoryObservers) PeerAnsweredPublishFailed(
+func (observers PeerPresenceObservers) PeerAnsweredPublishFailed(
 	ctx context.Context,
 	err error,
 ) {
@@ -25,7 +25,7 @@ func (observers PeerHistoryObservers) PeerAnsweredPublishFailed(
 	}
 }
 
-func (observers PeerHistoryObservers) PeerAnsweredMessageUndecodable(
+func (observers PeerPresenceObservers) PeerAnsweredMessageUndecodable(
 	ctx context.Context,
 	sequence uint64,
 	err error,
@@ -35,13 +35,13 @@ func (observers PeerHistoryObservers) PeerAnsweredMessageUndecodable(
 	}
 }
 
-func (observers PeerHistoryObservers) PeerAnsweredStreamEnded(ctx context.Context, err error) {
+func (observers PeerPresenceObservers) PeerAnsweredStreamEnded(ctx context.Context, err error) {
 	for _, observer := range observers {
 		observer.PeerAnsweredStreamEnded(ctx, err)
 	}
 }
 
-func (observers PeerHistoryObservers) PeerAnsweredStreamPurgeFailed(
+func (observers PeerPresenceObservers) PeerAnsweredStreamPurgeFailed(
 	ctx context.Context,
 	err error,
 ) {
@@ -50,7 +50,7 @@ func (observers PeerHistoryObservers) PeerAnsweredStreamPurgeFailed(
 	}
 }
 
-func (observers PeerHistoryObservers) PeerAnsweredStreamPurged(
+func (observers PeerPresenceObservers) PeerAnsweredStreamPurged(
 	ctx context.Context,
 	purgedUpTo uint64,
 ) {
@@ -59,13 +59,13 @@ func (observers PeerHistoryObservers) PeerAnsweredStreamPurged(
 	}
 }
 
-func (observers PeerHistoryObservers) SnapshotsReadFailed(ctx context.Context, err error) {
+func (observers PeerPresenceObservers) SnapshotsReadFailed(ctx context.Context, err error) {
 	for _, observer := range observers {
 		observer.SnapshotsReadFailed(ctx, err)
 	}
 }
 
-func (observers PeerHistoryObservers) SnapshotUndecodable(
+func (observers PeerPresenceObservers) SnapshotUndecodable(
 	ctx context.Context,
 	key string,
 	err error,
@@ -75,7 +75,7 @@ func (observers PeerHistoryObservers) SnapshotUndecodable(
 	}
 }
 
-func (observers PeerHistoryObservers) SnapshotWriteFailed(
+func (observers PeerPresenceObservers) SnapshotWriteFailed(
 	ctx context.Context,
 	key string,
 	err error,
@@ -85,7 +85,7 @@ func (observers PeerHistoryObservers) SnapshotWriteFailed(
 	}
 }
 
-func (observers PeerHistoryObservers) PeersSnapshotted(
+func (observers PeerPresenceObservers) PeersSnapshotted(
 	ctx context.Context,
 	amountOfSnapshots int,
 ) {

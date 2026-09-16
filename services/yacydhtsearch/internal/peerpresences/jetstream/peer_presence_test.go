@@ -8,8 +8,8 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	peerhistoriesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerhistories/jetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence"
+	peerpresencesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -23,7 +23,7 @@ const (
 	foldingDeadline  = 5 * time.Second
 )
 
-var widePresenceLimits = peerpresence.PeerPresenceLimits{
+var wideAccrualLimits = presenceaccrual.PresenceAccrualLimits{
 	Capacity:        wideCapacity,
 	ContinuityLimit: continuityLimit,
 }
@@ -67,7 +67,7 @@ func sharedJetStream(t *testing.T) natsjetstream.JetStream {
 	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	_, err := stream.CreateOrUpdateStream(t.Context(), natsjetstream.StreamConfig{
 		Name:     streamName,
-		Subjects: []string{peerhistoriesjetstream.SubjectOfEveryPeerAnsweredIn(networkName)},
+		Subjects: []string{peerpresencesjetstream.SubjectOfEveryPeerAnsweredIn(networkName)},
 	})
 	if err != nil {
 		t.Fatalf("create stream: %v", err)
@@ -82,11 +82,11 @@ func sharedJetStream(t *testing.T) natsjetstream.JetStream {
 	return stream
 }
 
-func historyOver(
+func presenceOver(
 	t *testing.T,
 	stream natsjetstream.JetStream,
-	limits peerpresence.PeerPresenceLimits,
-) *peerhistoriesjetstream.PeerHistory {
+	limits presenceaccrual.PresenceAccrualLimits,
+) *peerpresencesjetstream.PeerPresence {
 	t.Helper()
 
 	bucket, err := stream.KeyValue(t.Context(), bucketName)
@@ -94,8 +94,8 @@ func historyOver(
 		t.Fatalf("open bucket: %v", err)
 	}
 
-	return peerhistoriesjetstream.New(
-		peerhistoriesjetstream.PeerAnsweredStream{
+	return peerpresencesjetstream.New(
+		peerpresencesjetstream.PeerAnsweredStream{
 			JetStream:   stream,
 			Name:        streamName,
 			NetworkName: networkName,
@@ -109,26 +109,26 @@ func historyOver(
 
 func consuming(
 	t *testing.T,
-	history *peerhistoriesjetstream.PeerHistory,
+	presence *peerpresencesjetstream.PeerPresence,
 ) context.CancelFunc {
 	t.Helper()
 
 	consumed, stop := context.WithCancel(t.Context())
-	go history.ConsumeThePeerAnsweredStream(consumed)
+	go presence.ConsumeThePeerAnsweredStream(consumed)
 
 	return stop
 }
 
 func foldedWithin(
 	t *testing.T,
-	history *peerhistoriesjetstream.PeerHistory,
-	folded func([]peerpresence.ObservedPeer) bool,
-) []peerpresence.ObservedPeer {
+	presence *peerpresencesjetstream.PeerPresence,
+	folded func([]presenceaccrual.ObservedPeer) bool,
+) []presenceaccrual.ObservedPeer {
 	t.Helper()
 
 	deadline := time.Now().Add(foldingDeadline)
 	for {
-		observedPeers := history.ObservedPeers(t.Context())
+		observedPeers := presence.ObservedPeers(t.Context())
 		if folded(observedPeers) {
 			return observedPeers
 		}
@@ -140,12 +140,12 @@ func foldedWithin(
 	}
 }
 
-func anyPeerObserved(observedPeers []peerpresence.ObservedPeer) bool {
+func anyPeerObserved(observedPeers []presenceaccrual.ObservedPeer) bool {
 	return len(observedPeers) > 0
 }
 
-func presenceEarned(earned time.Duration) func([]peerpresence.ObservedPeer) bool {
-	return func(observedPeers []peerpresence.ObservedPeer) bool {
+func presenceEarned(earned time.Duration) func([]presenceaccrual.ObservedPeer) bool {
+	return func(observedPeers []presenceaccrual.ObservedPeer) bool {
 		return len(observedPeers) == 1 && observedPeers[0].Presence == earned
 	}
 }
@@ -153,13 +153,13 @@ func presenceEarned(earned time.Duration) func([]peerpresence.ObservedPeer) bool
 func TestAnAnsweringPeerBecomesObservedOnceTheStreamIsFolded(t *testing.T) {
 	t.Parallel()
 
-	history := historyOver(t, sharedJetStream(t), widePresenceLimits)
-	defer consuming(t, history)()
+	presence := presenceOver(t, sharedJetStream(t), wideAccrualLimits)
+	defer consuming(t, presence)()
 	peer := hashOf(t, 'a')
 
-	history.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
+	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 
-	observedPeers := foldedWithin(t, history, anyPeerObserved)
+	observedPeers := foldedWithin(t, presence, anyPeerObserved)
 	if observedPeers[0].Hash != peer || observedPeers[0].Address != answeringAddress {
 		t.Fatalf("ObservedPeers = %+v, want the peer that answered", observedPeers)
 	}
@@ -169,9 +169,9 @@ func TestAnInstanceEarnsPresenceFromAnswersItDidNotPublish(t *testing.T) {
 	t.Parallel()
 
 	stream := sharedJetStream(t)
-	publishing := historyOver(t, stream, widePresenceLimits)
+	publishing := presenceOver(t, stream, wideAccrualLimits)
 	defer consuming(t, publishing)()
-	sibling := historyOver(t, stream, widePresenceLimits)
+	sibling := presenceOver(t, stream, wideAccrualLimits)
 	defer consuming(t, sibling)()
 	peer := hashOf(t, 'a')
 
@@ -187,11 +187,11 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 	t.Parallel()
 
 	stream := sharedJetStream(t)
-	compactingLimits := peerpresence.PeerPresenceLimits{
+	compactingLimits := presenceaccrual.PresenceAccrualLimits{
 		Capacity:        2,
 		ContinuityLimit: continuityLimit,
 	}
-	before := historyOver(t, stream, compactingLimits)
+	before := presenceOver(t, stream, compactingLimits)
 	stop := consuming(t, before)
 	peer := hashOf(t, 'a')
 	before.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
@@ -202,7 +202,7 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 	purgedWithin(t, stream)
 	stop()
 
-	after := historyOver(t, stream, compactingLimits)
+	after := presenceOver(t, stream, compactingLimits)
 	defer consuming(t, after)()
 
 	foldedWithin(t, after, presenceEarned(time.Minute))

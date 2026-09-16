@@ -1,4 +1,4 @@
-package peerpresence
+package presenceaccrual
 
 import (
 	"context"
@@ -7,15 +7,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PeerPresenceObserver interface {
+type PresenceAccrualObserver interface {
 	PeerAnsweredForTheFirstTime(ctx context.Context, peer yacymodel.Hash, address string)
 	PeerEarnedPresence(ctx context.Context, peer yacymodel.Hash, presence time.Duration)
 	PeersObserved(ctx context.Context, amountOfObservedPeers int)
 }
 
-type PeerPresenceObservers []PeerPresenceObserver
+type PresenceAccrualObservers []PresenceAccrualObserver
 
-func (observers PeerPresenceObservers) PeerAnsweredForTheFirstTime(
+func (observers PresenceAccrualObservers) PeerAnsweredForTheFirstTime(
 	ctx context.Context,
 	peer yacymodel.Hash,
 	address string,
@@ -25,7 +25,7 @@ func (observers PeerPresenceObservers) PeerAnsweredForTheFirstTime(
 	}
 }
 
-func (observers PeerPresenceObservers) PeerEarnedPresence(
+func (observers PresenceAccrualObservers) PeerEarnedPresence(
 	ctx context.Context,
 	peer yacymodel.Hash,
 	presence time.Duration,
@@ -35,7 +35,7 @@ func (observers PeerPresenceObservers) PeerEarnedPresence(
 	}
 }
 
-func (observers PeerPresenceObservers) PeersObserved(
+func (observers PresenceAccrualObservers) PeersObserved(
 	ctx context.Context,
 	amountOfObservedPeers int,
 ) {
