@@ -1,14 +1,7 @@
-// Package peerchoice chooses the peers the words of a query go to. It asks the
-// same amount of peers for every word and picks the peers of one word by how
-// near they sit to the postings of that word on the DHT ring, taking the peers
-// from every partition of the ring in turn so that a ceiling below what the
-// partitions hold still leaves every partition covered. A peer counts as nearer
-// to a posting than it is by how reliable this deployment has found it, and a
-// peer this query has already asked comes after every peer it has not, so the
-// words of one query reach peers the earlier words did not. A share of every
-// word's peers is drawn at random from the peers the ring did not pick, so a
-// peer this deployment knows nothing about is asked as well. Every peer the
-// query chooses then rests, so that the next search reaches further.
+// Package peerchoice chooses which peers each word of a query goes to. It
+// spreads the words of one query over the DHT ring, favours the peers this
+// deployment has found reliable, and reaches peers an earlier word or an
+// earlier search did not.
 package peerchoice
 
 import (
@@ -20,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const shareOfDistanceKeptByAFullyReliablePeer = 0.5
+const shareOfDistanceCountedForAFullyReliablePeer = 0.5
 
 type PeerReliability interface {
 	ReliabilityOf(
@@ -58,25 +51,30 @@ func (c Choice) ChoosePeersPerQueryWord(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	amountOfPeersAskedPerWord int,
+	amountOfPeersHoldingOneWord int,
 ) [][]peerdirectory.AskablePeer {
-	oneQuery := c.choiceForOneQuery(ctx, askablePeers, amountOfPeersAskedPerWord)
+	peersTheQueryMayAsk := c.peersOneQueryMayAsk(
+		ctx, askablePeers, amountOfPeersHoldingOneWord,
+	)
 	chosenPeersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
-		chosenPeersPerQueryWord = append(chosenPeersPerQueryWord, oneQuery.peersForWord(
-			ctx, queryWord, peersAcrossQueryWords(chosenPeersPerQueryWord),
-		))
+		chosenPeersPerQueryWord = append(
+			chosenPeersPerQueryWord,
+			peersTheQueryMayAsk.peersForQueryWord(
+				ctx, queryWord, peersAcrossQueryWords(chosenPeersPerQueryWord),
+			),
+		)
 	}
 	c.peerDirectory.MarkPeersChosen(ctx, peersAcrossQueryWords(chosenPeersPerQueryWord))
 
 	return chosenPeersPerQueryWord
 }
 
-func (c Choice) choiceForOneQuery(
+func (c Choice) peersOneQueryMayAsk(
 	ctx context.Context,
 	askablePeers []peerdirectory.AskablePeer,
-	peersCeiling int,
-) choiceForOneQuery {
+	amountOfPeersHoldingOneWord int,
+) peersOneQueryMayAsk {
 	shareOfDistanceCountedPerPeer := make(
 		map[peerdirectory.AskablePeer]float64, len(askablePeers),
 	)
@@ -86,14 +84,15 @@ func (c Choice) choiceForOneQuery(
 			peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: peer.Address},
 		)
 		shareOfDistanceCountedPerPeer[peer] =
-			1 - reliability*(1-shareOfDistanceKeptByAFullyReliablePeer)
+			1 - reliability*(1-shareOfDistanceCountedForAFullyReliablePeer)
 	}
 
-	return choiceForOneQuery{
-		Choice:                        c,
+	return peersOneQueryMayAsk{
+		partitions:                    c.partitions,
+		observer:                      c.observer,
 		askablePeers:                  askablePeers,
 		shareOfDistanceCountedPerPeer: shareOfDistanceCountedPerPeer,
-		peersCeiling:                  peersCeiling,
+		amountOfPeersHoldingOneWord:   amountOfPeersHoldingOneWord,
 	}
 }
 

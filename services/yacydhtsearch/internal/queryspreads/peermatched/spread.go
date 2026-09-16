@@ -22,7 +22,7 @@ type PeerChoice interface {
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		askablePeers []peerdirectory.AskablePeer,
-		amountOfPeersAskedPerWord int,
+		amountOfPeersHoldingOneWord int,
 	) [][]peerdirectory.AskablePeer
 }
 
@@ -34,26 +34,26 @@ type PeerAsks interface {
 }
 
 type Spread struct {
-	peerAsks                  PeerAsks
-	peerChoice                PeerChoice
-	peerItemsCeiling          int
-	amountOfPeersAskedPerWord int
-	observer                  PeerMatchedSpreadObserver
+	peerAsks                    PeerAsks
+	peerChoice                  PeerChoice
+	peerItemsCeiling            int
+	amountOfPeersHoldingOneWord int
+	observer                    PeerMatchedSpreadObserver
 }
 
 func New(
 	peerAsks PeerAsks,
 	peerChoice PeerChoice,
 	peerItemsCeiling int,
-	amountOfPeersAskedPerWord int,
+	amountOfPeersHoldingOneWord int,
 	observer PeerMatchedSpreadObserver,
 ) Spread {
 	return Spread{
-		peerAsks:                  peerAsks,
-		peerChoice:                peerChoice,
-		peerItemsCeiling:          peerItemsCeiling,
-		amountOfPeersAskedPerWord: amountOfPeersAskedPerWord,
-		observer:                  observer,
+		peerAsks:                    peerAsks,
+		peerChoice:                  peerChoice,
+		peerItemsCeiling:            peerItemsCeiling,
+		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
+		observer:                    observer,
 	}
 }
 
@@ -66,7 +66,7 @@ func (spread Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers, spread.amountOfPeersAskedPerWord,
+		ctx, query.TermHashes(), askablePeers, spread.amountOfPeersHoldingOneWord,
 	)
 	chosenPeers := peersAcrossQueryWords(chosenPeersPerQueryWord)
 	asks := matchedItemsAsksFor(query, chosenPeers, spread.peerItemsCeiling)

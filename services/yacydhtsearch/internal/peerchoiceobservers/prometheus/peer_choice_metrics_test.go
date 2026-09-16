@@ -24,13 +24,13 @@ func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
 	return recorder.Body.String()
 }
 
-func TestEachPickedPeerPublishesItsDistanceFromTheTermItAnswersFor(t *testing.T) {
+func TestEachPickedPeerPublishesItsDistanceFromTheWordItAnswersFor(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := peerchoiceobserversprometheus.New(registry)
 
-	metrics.PeersSelected(t.Context(), []float64{0.001, 0.5, 0.75})
+	metrics.PeersTakenFromTheRing(t.Context(), []float64{0.001, 0.5, 0.75})
 
 	body := publishedBy(t, registry)
 	if !strings.Contains(body, "yacydhtsearch_selection_ring_fraction_count 3") ||

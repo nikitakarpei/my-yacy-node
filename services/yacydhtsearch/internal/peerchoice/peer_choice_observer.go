@@ -3,16 +3,16 @@ package peerchoice
 import "context"
 
 type PeerChoiceObserver interface {
-	PeersSelected(ctx context.Context, ringFractions []float64)
+	PeersTakenFromTheRing(ctx context.Context, ringFractions []float64)
 }
 
 type PeerChoiceObservers []PeerChoiceObserver
 
-func (observers PeerChoiceObservers) PeersSelected(
+func (observers PeerChoiceObservers) PeersTakenFromTheRing(
 	ctx context.Context,
 	ringFractions []float64,
 ) {
 	for _, observer := range observers {
-		observer.PeersSelected(ctx, ringFractions)
+		observer.PeersTakenFromTheRing(ctx, ringFractions)
 	}
 }

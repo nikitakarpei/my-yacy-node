@@ -38,7 +38,7 @@ func (rested *restedPeers) MarkPeersChosen(
 
 type recordedFractions struct{ fractions [][]float64 }
 
-func (recorded *recordedFractions) PeersSelected(_ context.Context, fractions []float64) {
+func (recorded *recordedFractions) PeersTakenFromTheRing(_ context.Context, fractions []float64) {
 	recorded.fractions = append(recorded.fractions, fractions)
 }
 
@@ -195,7 +195,7 @@ func TestOneRingFractionIsReportedForEachPeerTheRingChose(t *testing.T) {
 
 	if len(observer.fractions[0]) > len(peersPerQueryWord[0]) {
 		t.Fatalf(
-			"PeersSelected reported %d fractions for %d peers",
+			"PeersTakenFromTheRing reported %d fractions for %d peers",
 			len(observer.fractions[0]),
 			len(peersPerQueryWord[0]),
 		)

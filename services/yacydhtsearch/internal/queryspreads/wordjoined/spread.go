@@ -21,7 +21,7 @@ type PeerChoice interface {
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		askablePeers []peerdirectory.AskablePeer,
-		amountOfPeersAskedPerWord int,
+		amountOfPeersHoldingOneWord int,
 	) [][]peerdirectory.AskablePeer
 }
 
@@ -37,12 +37,12 @@ type PeerAsks interface {
 }
 
 type Spread struct {
-	peerAsks                  PeerAsks
-	peerChoice                PeerChoice
-	metadataDocumentsCeiling  int
-	peerItemsCeiling          int
-	amountOfPeersAskedPerWord int
-	observer                  WordJoinedSpreadObserver
+	peerAsks                    PeerAsks
+	peerChoice                  PeerChoice
+	metadataDocumentsCeiling    int
+	peerItemsCeiling            int
+	amountOfPeersHoldingOneWord int
+	observer                    WordJoinedSpreadObserver
 }
 
 //nolint:revive // argument-limit: the ceilings one word joined spread stays within
@@ -51,16 +51,16 @@ func New(
 	peerChoice PeerChoice,
 	metadataDocumentsCeiling int,
 	peerItemsCeiling int,
-	amountOfPeersAskedPerWord int,
+	amountOfPeersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
-		peerAsks:                  peerAsks,
-		peerChoice:                peerChoice,
-		metadataDocumentsCeiling:  metadataDocumentsCeiling,
-		peerItemsCeiling:          peerItemsCeiling,
-		amountOfPeersAskedPerWord: amountOfPeersAskedPerWord,
-		observer:                  observer,
+		peerAsks:                    peerAsks,
+		peerChoice:                  peerChoice,
+		metadataDocumentsCeiling:    metadataDocumentsCeiling,
+		peerItemsCeiling:            peerItemsCeiling,
+		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
+		observer:                    observer,
 	}
 }
 
@@ -73,7 +73,7 @@ func (spread Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers, spread.amountOfPeersAskedPerWord,
+		ctx, query.TermHashes(), askablePeers, spread.amountOfPeersHoldingOneWord,
 	)
 	heldDocumentsAsks, answeredHeldDocumentsAsks := spread.askForHeldDocuments(
 		ctx, query, chosenPeersPerQueryWord,
@@ -143,7 +143,7 @@ func (spread Spread) askForURLMetadata(
 		documentsWithoutMetadata,
 		answeredHeldDocumentsAsks,
 		spread.metadataDocumentsCeiling,
-		spread.amountOfPeersAskedPerWord,
+		spread.amountOfPeersHoldingOneWord,
 	)
 	secondRound, endSecondRound := contextOfTheSecondRound(ctx)
 	defer endSecondRound()
