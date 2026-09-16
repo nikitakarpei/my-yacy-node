@@ -28,7 +28,7 @@ func (q peersOneQueryMayAsk) peersForQueryWord(
 	ringFractionsOfTheTakenPeers []float64,
 ) {
 	return peersTakenFromEachWordPositionInTurn(
-		q.peersNearestToEachPositionOfQueryWord(queryWord, peersOfEarlierWords),
+		q.peersNearestToTheWordInEachPartition(queryWord, peersOfEarlierWords),
 		q.amountOfPeersHoldingOneWord,
 	)
 }
@@ -38,7 +38,7 @@ type peersNearestToWordPosition struct {
 	peers        []peerdirectory.AskablePeer
 }
 
-func (q peersOneQueryMayAsk) peersNearestToEachPositionOfQueryWord(
+func (q peersOneQueryMayAsk) peersNearestToTheWordInEachPartition(
 	queryWord yacymodel.Hash,
 	peersOfEarlierWords []peerdirectory.AskablePeer,
 ) []peersNearestToWordPosition {
