@@ -10,8 +10,8 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	peermatchedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
+	queryspreadsobserverspeermatchedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/peermatched/prometheus"
 )
 
 const queryBudget = 5 * time.Second
@@ -32,7 +32,7 @@ func TestOnePeerMatchedSpreadPublishesHowManyPeersAnsweredAndHowLongItTook(t *te
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := peermatchedobserversprometheus.New(registry, queryBudget)
+	metrics := queryspreadsobserverspeermatchedprometheus.New(registry, queryBudget)
 
 	metrics.PeerMatchedSpreadPerformed(t.Context(), peermatched.PerformedPeerMatchedSpread{
 		AmountOfQueryWords:              3,
@@ -57,7 +57,7 @@ func TestASpreadNoPeerAnsweredPublishesAnAnsweringRatioOfNone(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := peermatchedobserversprometheus.New(registry, queryBudget)
+	metrics := queryspreadsobserverspeermatchedprometheus.New(registry, queryBudget)
 
 	metrics.PeerMatchedSpreadPerformed(t.Context(), peermatched.PerformedPeerMatchedSpread{
 		AmountOfQueryWords: 1,
@@ -75,7 +75,7 @@ func TestASpreadThatAskedNoPeerPublishesNoAnsweringRatio(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := peermatchedobserversprometheus.New(registry, queryBudget)
+	metrics := queryspreadsobserverspeermatchedprometheus.New(registry, queryBudget)
 
 	metrics.PeerMatchedSpreadPerformed(t.Context(), peermatched.PerformedPeerMatchedSpread{
 		AmountOfQueryWords: 1,

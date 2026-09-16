@@ -11,7 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	wordjoinedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/prometheus"
+	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
 )
 
 func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
@@ -30,7 +30,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := wordjoinedobserversprometheus.New(registry, 5*time.Second)
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
 		AmountOfQueryWords:                     4,
@@ -69,7 +69,7 @@ func TestASpreadThatAskedNoPeerPublishesNoAnsweringRatio(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := wordjoinedobserversprometheus.New(registry, 5*time.Second)
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
 		AmountOfQueryWords: 2,
@@ -88,7 +88,7 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := wordjoinedobserversprometheus.New(registry, 5*time.Second)
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
 		AmountOfQueryWords: 3,
@@ -109,7 +109,7 @@ func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoAskedForRatio(t *test
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := wordjoinedobserversprometheus.New(registry, 5*time.Second)
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
 		AmountOfQueryWords:                  2,
@@ -130,7 +130,7 @@ func TestAJoinTheSpreadPutToNoPeerPublishesNoYield(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := wordjoinedobserversprometheus.New(registry, 5*time.Second)
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
 		AmountOfQueryWords:      2,
@@ -150,7 +150,7 @@ func TestASpreadNoPeerMatchedADocumentInPublishesNoPostingShare(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := wordjoinedobserversprometheus.New(registry, 5*time.Second)
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
 		AmountOfQueryWords:      2,

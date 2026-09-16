@@ -13,10 +13,10 @@ commonComponents:
   - presenceaccrual
 
 components:
-  peermatchedobserversapplog:
-    in: internal/peermatchedobservers/applog/**
-  peermatchedobserversprometheus:
-    in: internal/peermatchedobservers/prometheus/**
+  queryspreadsobserverspeermatchedapplog:
+    in: internal/queryspreadsobservers/peermatched/applog/**
+  queryspreadsobserverspeermatchedprometheus:
+    in: internal/queryspreadsobservers/peermatched/prometheus/**
   searchquery:
     in: internal/searchquery/**
   stopwords:
@@ -101,10 +101,10 @@ components:
     in: internal/networksearchobservers/applog/**
   networksearchobserversprometheus:
     in: internal/networksearchobservers/prometheus/**
-  wordjoinedobserversapplog:
-    in: internal/wordjoinedobservers/applog/**
-  wordjoinedobserversprometheus:
-    in: internal/wordjoinedobservers/prometheus/**
+  queryspreadsobserverswordjoinedapplog:
+    in: internal/queryspreadsobservers/wordjoined/applog/**
+  queryspreadsobserverswordjoinedprometheus:
+    in: internal/queryspreadsobservers/wordjoined/prometheus/**
   peercallobserversapplog:
     in: internal/peercallobservers/applog/**
   peercallobserversprometheus:
@@ -173,10 +173,10 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
 
 deps:
-  peermatchedobserversapplog:
+  queryspreadsobserverspeermatchedapplog:
     mayDependOn:
       - peermatched
-  peermatchedobserversprometheus:
+  queryspreadsobserverspeermatchedprometheus:
     canUse:
       - prometheus
     mayDependOn:
@@ -376,10 +376,10 @@ deps:
       - prometheus
     mayDependOn:
       - networksearch
-  wordjoinedobserversapplog:
+  queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
-  wordjoinedobserversprometheus:
+  queryspreadsobserverswordjoinedprometheus:
     canUse:
       - prometheus
     mayDependOn:
