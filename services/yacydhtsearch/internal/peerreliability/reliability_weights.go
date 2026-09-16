@@ -6,11 +6,7 @@
 // reads it.
 package peerreliability
 
-import (
-	"time"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
-)
+import "time"
 
 type ReliabilityWeights struct {
 	MaturationDuration time.Duration
@@ -25,33 +21,29 @@ func DefaultReliabilityWeights() ReliabilityWeights {
 }
 
 func (weights ReliabilityWeights) ReliabilityOf(
-	observedPeer presenceaccrual.ObservedPeer,
+	earnedPresence time.Duration,
+	latestAnswer time.Time,
 	now time.Time,
 ) float64 {
-	return weights.presenceBenefitOf(observedPeer) * weights.freshnessOf(observedPeer, now)
+	return weights.presenceBenefitOf(earnedPresence) * weights.freshnessOf(latestAnswer, now)
 }
 
-func (weights ReliabilityWeights) presenceBenefitOf(
-	observedPeer presenceaccrual.ObservedPeer,
-) float64 {
+func (weights ReliabilityWeights) presenceBenefitOf(earnedPresence time.Duration) float64 {
 	if weights.MaturationDuration <= 0 {
 		return 0
 	}
 
 	return min(
-		float64(observedPeer.Presence)/float64(weights.MaturationDuration),
+		float64(earnedPresence)/float64(weights.MaturationDuration),
 		1,
 	)
 }
 
-func (weights ReliabilityWeights) freshnessOf(
-	observedPeer presenceaccrual.ObservedPeer,
-	now time.Time,
-) float64 {
+func (weights ReliabilityWeights) freshnessOf(latestAnswer, now time.Time) float64 {
 	if weights.StalenessHorizon <= 0 {
 		return 0
 	}
-	sinceTheLatestAnswer := now.Sub(observedPeer.LatestAnsweredAt)
+	sinceTheLatestAnswer := now.Sub(latestAnswer)
 	if sinceTheLatestAnswer <= 0 {
 		return 1
 	}

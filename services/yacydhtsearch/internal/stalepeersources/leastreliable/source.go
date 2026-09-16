@@ -22,10 +22,14 @@ import (
 )
 
 type PeerPresence interface {
-	ObservedPeerAt(
+	EarnedPresenceOf(
 		ctx context.Context,
 		peerAtAddress presenceaccrual.PeerAtAddress,
-	) (presenceaccrual.ObservedPeer, bool)
+	) time.Duration
+	LatestAnswerOf(
+		ctx context.Context,
+		peerAtAddress presenceaccrual.PeerAtAddress,
+	) time.Time
 }
 
 type Source struct {
@@ -95,14 +99,12 @@ func (s Source) reliabilityOf(
 ) float64 {
 	bestReliability := 0.0
 	for _, address := range peer.Addresses {
-		observedPeer, isObserved := s.presence.ObservedPeerAt(ctx, presenceaccrual.PeerAtAddress{
-			Hash:    peer.Hash,
-			Address: address,
-		})
-		if !isObserved {
-			continue
-		}
-		bestReliability = max(bestReliability, s.weights.ReliabilityOf(observedPeer, now))
+		peerAtAddress := presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: address}
+		bestReliability = max(bestReliability, s.weights.ReliabilityOf(
+			s.presence.EarnedPresenceOf(ctx, peerAtAddress),
+			s.presence.LatestAnswerOf(ctx, peerAtAddress),
+			now,
+		))
 	}
 
 	return bestReliability

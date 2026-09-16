@@ -23,13 +23,18 @@ var theInstant = time.Unix(1_000_000, 0)
 
 type observedPeers map[presenceaccrual.PeerAtAddress]presenceaccrual.ObservedPeer
 
-func (peers observedPeers) ObservedPeerAt(
+func (peers observedPeers) EarnedPresenceOf(
 	_ context.Context,
 	peerAtAddress presenceaccrual.PeerAtAddress,
-) (presenceaccrual.ObservedPeer, bool) {
-	observedPeer, isObserved := peers[peerAtAddress]
+) time.Duration {
+	return peers[peerAtAddress].Presence
+}
 
-	return observedPeer, isObserved
+func (peers observedPeers) LatestAnswerOf(
+	_ context.Context,
+	peerAtAddress presenceaccrual.PeerAtAddress,
+) time.Time {
+	return peers[peerAtAddress].LatestAnsweredAt
 }
 
 func hashOf(t *testing.T, symbol byte) yacymodel.Hash {

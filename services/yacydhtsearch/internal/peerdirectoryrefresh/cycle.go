@@ -19,10 +19,10 @@ import (
 )
 
 type PeerPresence interface {
-	ObservedPeerAt(
+	EarnedPresenceOf(
 		ctx context.Context,
 		peerAtAddress presenceaccrual.PeerAtAddress,
-	) (presenceaccrual.ObservedPeer, bool)
+	) time.Duration
 }
 
 type ProbeLimits struct {
@@ -110,22 +110,14 @@ func (c Cycle) addressesMostPresentFirst(
 	mostPresentFirst := slices.Clone(peer.Addresses)
 	slices.SortStableFunc(mostPresentFirst, func(a, b string) int {
 		return cmp.Compare(
-			c.presenceOf(ctx, presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: b}),
-			c.presenceOf(ctx, presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: a}),
+			c.presence.EarnedPresenceOf(
+				ctx, presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: b},
+			),
+			c.presence.EarnedPresenceOf(
+				ctx, presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: a},
+			),
 		)
 	})
 
 	return mostPresentFirst
-}
-
-func (c Cycle) presenceOf(
-	ctx context.Context,
-	peerAtAddress presenceaccrual.PeerAtAddress,
-) time.Duration {
-	observedPeer, isObserved := c.presence.ObservedPeerAt(ctx, peerAtAddress)
-	if !isObserved {
-		return 0
-	}
-
-	return observedPeer.Presence
 }

@@ -153,10 +153,23 @@ func TestPresenceIsHeldForNoMorePeersThanItsCapacity(t *testing.T) {
 	presence.Credit(t.Context(), answeredAt(first, startOfObservation()))
 	presence.Credit(t.Context(), answeredAt(second, startOfObservation()))
 
-	if _, isObserved := presence.ObservedPeerAt(first); isObserved {
-		t.Fatal("ObservedPeerAt holds the first peer, want it released at the capacity of 1")
+	if !presence.LatestAnswerOf(first).IsZero() {
+		t.Fatal("the first peer still has a latest answer, want it released at the capacity of 1")
 	}
-	if _, isObserved := presence.ObservedPeerAt(second); !isObserved {
-		t.Fatal("ObservedPeerAt holds no peer, want the one that answered last")
+	if presence.LatestAnswerOf(second).IsZero() {
+		t.Fatal("the peer that answered last has no latest answer, want the answer it gave")
+	}
+}
+
+func TestAPeerNeverObservedHasEarnedNoPresence(t *testing.T) {
+	t.Parallel()
+
+	presence := presenceaccrual.PresenceAccrualFrom(nil, wideAccrualLimits, silentObserver{})
+
+	if earned := presence.EarnedPresenceOf(peerAtAddress(t, 'a')); earned != 0 {
+		t.Fatalf("EarnedPresenceOf = %v, want none for a peer never observed", earned)
+	}
+	if latest := presence.LatestAnswerOf(peerAtAddress(t, 'a')); !latest.IsZero() {
+		t.Fatalf("LatestAnswerOf = %v, want no answer for a peer never observed", latest)
 	}
 }

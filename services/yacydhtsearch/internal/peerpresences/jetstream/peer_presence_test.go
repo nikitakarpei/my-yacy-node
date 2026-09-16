@@ -127,31 +127,32 @@ func foldedWithin(
 	t *testing.T,
 	presence *peerpresencesjetstream.PeerPresence,
 	peer presenceaccrual.PeerAtAddress,
-	folded func(presenceaccrual.ObservedPeer, bool) bool,
+	folded func(earnedPresence time.Duration, latestAnswer time.Time) bool,
 ) {
 	t.Helper()
 
 	deadline := time.Now().Add(foldingDeadline)
 	for {
-		observedPeer, isObserved := presence.ObservedPeerAt(t.Context(), peer)
-		if folded(observedPeer, isObserved) {
+		earnedPresence := presence.EarnedPresenceOf(t.Context(), peer)
+		latestAnswer := presence.LatestAnswerOf(t.Context(), peer)
+		if folded(earnedPresence, latestAnswer) {
 			return
 		}
 		if time.Now().After(deadline) {
-			t.Fatalf("ObservedPeerAt = %+v after %v, want the answers folded",
-				observedPeer, foldingDeadline)
+			t.Fatalf("earned presence = %v, latest answer = %v after %v, want the answers folded",
+				earnedPresence, latestAnswer, foldingDeadline)
 		}
 		time.Sleep(10 * time.Millisecond)
 	}
 }
 
-func peerObserved(_ presenceaccrual.ObservedPeer, isObserved bool) bool {
-	return isObserved
+func peerObserved(_ time.Duration, latestAnswer time.Time) bool {
+	return !latestAnswer.IsZero()
 }
 
-func presenceEarned(earned time.Duration) func(presenceaccrual.ObservedPeer, bool) bool {
-	return func(observedPeer presenceaccrual.ObservedPeer, isObserved bool) bool {
-		return isObserved && observedPeer.Presence == earned
+func presenceEarned(earned time.Duration) func(time.Duration, time.Time) bool {
+	return func(earnedPresence time.Duration, _ time.Time) bool {
+		return earnedPresence == earned
 	}
 }
 

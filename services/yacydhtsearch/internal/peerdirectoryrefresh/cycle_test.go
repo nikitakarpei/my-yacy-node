@@ -41,15 +41,13 @@ func (silentSeedlistObserver) SeedlistRead(context.Context, string, int)        
 func (silentSeedlistObserver) SeedlistUnreachable(context.Context, string, error) {}
 func (silentSeedlistObserver) SeedlistUnreadable(context.Context, string, error)  {}
 
-type observedPeers map[presenceaccrual.PeerAtAddress]presenceaccrual.ObservedPeer
+type earnedPresences map[presenceaccrual.PeerAtAddress]time.Duration
 
-func (peers observedPeers) ObservedPeerAt(
+func (presences earnedPresences) EarnedPresenceOf(
 	_ context.Context,
 	peerAtAddress presenceaccrual.PeerAtAddress,
-) (presenceaccrual.ObservedPeer, bool) {
-	observedPeer, isObserved := peers[peerAtAddress]
-
-	return observedPeer, isObserved
+) time.Duration {
+	return presences[peerAtAddress]
 }
 
 type stalestFirst struct{}
@@ -100,7 +98,7 @@ func refreshOver(
 	t *testing.T,
 	seedlistURL string,
 	directory *peerdirectory.Directory,
-	presence observedPeers,
+	presence earnedPresences,
 ) peerdirectoryrefresh.Cycle {
 	t.Helper()
 
@@ -145,7 +143,7 @@ func TestOneRefreshMakesASeededPeerAskable(t *testing.T) {
 		t,
 		seedlistNaming(t, host, port),
 		directory,
-		observedPeers{},
+		earnedPresences{},
 	).RefreshOnce(t.Context())
 
 	askable := directory.AskablePeers(t.Context())
@@ -164,7 +162,7 @@ func TestAPeerThatAnswersNoProbeStaysUnaskable(t *testing.T) {
 		t,
 		seedlistNaming(t, host, port),
 		directory,
-		observedPeers{},
+		earnedPresences{},
 	).RefreshOnce(t.Context())
 
 	if known := directory.KnownPeers(t.Context()); len(known) != 1 {
@@ -181,7 +179,7 @@ func TestTheCycleRefreshesUntilTheServiceStops(t *testing.T) {
 	host, port := peerAnsweringProbes(t, http.StatusOK)
 	directory := directoryOf(t)
 	cycle := refreshOver(
-		t, seedlistNaming(t, host, port), directory, observedPeers{},
+		t, seedlistNaming(t, host, port), directory, earnedPresences{},
 	)
 
 	ctx, stop := context.WithCancel(t.Context())
@@ -214,11 +212,11 @@ func TestTheAddressAPeerHasEarnedPresenceAtIsProbedFirst(t *testing.T) {
 		t,
 		seedlistNaming(t, host, port, "localhost"),
 		directory,
-		observedPeers{
+		earnedPresences{
 			presenceaccrual.PeerAtAddress{
 				Hash:    peerHash(t),
 				Address: presentAddress,
-			}: {Presence: time.Hour},
+			}: time.Hour,
 		},
 	).RefreshOnce(t.Context())
 

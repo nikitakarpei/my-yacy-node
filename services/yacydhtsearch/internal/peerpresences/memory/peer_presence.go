@@ -27,11 +27,18 @@ func New(
 	}
 }
 
-func (h *PeerPresence) ObservedPeerAt(
+func (h *PeerPresence) EarnedPresenceOf(
 	_ context.Context,
 	peerAtAddress presenceaccrual.PeerAtAddress,
-) (presenceaccrual.ObservedPeer, bool) {
-	return h.accrual.ObservedPeerAt(peerAtAddress)
+) time.Duration {
+	return h.accrual.EarnedPresenceOf(peerAtAddress)
+}
+
+func (h *PeerPresence) LatestAnswerOf(
+	_ context.Context,
+	peerAtAddress presenceaccrual.PeerAtAddress,
+) time.Time {
+	return h.accrual.LatestAnswerOf(peerAtAddress)
 }
 
 func (h *PeerPresence) PeerAnswered(

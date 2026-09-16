@@ -78,9 +78,20 @@ func (p *PresenceAccrual) Credit(
 	return answeredPeer, true
 }
 
-func (p *PresenceAccrual) ObservedPeerAt(peerAtAddress PeerAtAddress) (ObservedPeer, bool) {
+func (p *PresenceAccrual) EarnedPresenceOf(peerAtAddress PeerAtAddress) time.Duration {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	return p.observedPeers.Peek(peerAtAddress)
+	observedPeer, _ := p.observedPeers.Peek(peerAtAddress)
+
+	return observedPeer.Presence
+}
+
+func (p *PresenceAccrual) LatestAnswerOf(peerAtAddress PeerAtAddress) time.Time {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	observedPeer, _ := p.observedPeers.Peek(peerAtAddress)
+
+	return observedPeer.LatestAnsweredAt
 }

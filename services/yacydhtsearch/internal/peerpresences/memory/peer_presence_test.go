@@ -65,7 +65,7 @@ func hashOf(t *testing.T, symbol byte) yacymodel.Hash {
 	return hash
 }
 
-func TestAnAnsweringPeerBecomesAnObservedPeer(t *testing.T) {
+func TestAnAnsweringPeerBecomesObserved(t *testing.T) {
 	t.Parallel()
 
 	reported := &reportedPresence{}
@@ -74,12 +74,12 @@ func TestAnAnsweringPeerBecomesAnObservedPeer(t *testing.T) {
 
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 
-	observed, isObserved := presence.ObservedPeerAt(t.Context(), presenceaccrual.PeerAtAddress{
+	latestAnswer := presence.LatestAnswerOf(t.Context(), presenceaccrual.PeerAtAddress{
 		Hash:    peer,
 		Address: answeringAddress,
 	})
-	if !isObserved || observed.Hash != peer {
-		t.Fatalf("ObservedPeerAt = %+v, want the peer that answered", observed)
+	if !latestAnswer.Equal(startOfObservation()) {
+		t.Fatalf("LatestAnswerOf = %v, want the answer the peer gave", latestAnswer)
 	}
 	if reported.firstAnswers != 1 || reported.observedPeers != 1 {
 		t.Fatalf("reported %+v, want one first answer and one observed peer", reported)
@@ -110,13 +110,17 @@ func TestAPeerDroppedFromTheDirectoryKeepsThePresenceItEarned(t *testing.T) {
 	presence := peerpresencesmemory.New(wideAccrualLimits, &reportedPresence{})
 	peer := hashOf(t, 'a')
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
+	presence.PeerAnswered(
+		t.Context(), peer, answeringAddress, startOfObservation().Add(time.Minute),
+	)
 
 	presence.PeerDropped(t.Context(), peer)
 
-	if _, isObserved := presence.ObservedPeerAt(t.Context(), presenceaccrual.PeerAtAddress{
+	earned := presence.EarnedPresenceOf(t.Context(), presenceaccrual.PeerAtAddress{
 		Hash:    peer,
 		Address: answeringAddress,
-	}); !isObserved {
-		t.Fatal("ObservedPeerAt holds no peer, want the dropped peer to keep what it earned")
+	})
+	if earned != time.Minute {
+		t.Fatalf("EarnedPresenceOf = %v, want the minute the dropped peer earned", earned)
 	}
 }
