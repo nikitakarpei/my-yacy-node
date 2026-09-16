@@ -22,8 +22,8 @@ components:
     in: internal/stopwords/**
   searchresult:
     in: internal/searchresult/**
-  peeranswers:
-    in: internal/peeranswers/**
+  queryanswers:
+    in: internal/queryanswers/**
   documenttext:
     in: internal/documenttext/**
   documentrelevance:
@@ -173,21 +173,21 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
   itemsorderingrelevance:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
   itemsorderinghostdiscount:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
   searchresult:
     canUse:
       - yacymodel
-  peeranswers:
+  queryanswers:
     canUse:
       - yacymodel
     mayDependOn:
@@ -232,7 +232,7 @@ deps:
     mayDependOn:
       - documenttext
       - pagereading
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - searchquery
       - searchresult
@@ -256,7 +256,7 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - peerasks
       - searchquery
@@ -264,13 +264,13 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - peerasks
       - searchquery
   bywordcount:
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - searchquery
   queryrankings:
@@ -310,14 +310,14 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
   peercallwire:
     canUse:
       - yacymodel
       - yacyproto
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerasks
   peerlivenesswire:
     canUse:

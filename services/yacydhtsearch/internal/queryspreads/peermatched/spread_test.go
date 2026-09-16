@@ -5,9 +5,9 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -60,7 +60,7 @@ func (n *peerNetwork) matchedDocumentsAt(addresses []string) []peerasks.MatchedD
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
 		}
 		if n.countsAWordWithEachItem {
-			matchedDocument.CountOfAWordTheAskNamed = peeranswers.WordCount{Hits: 3}
+			matchedDocument.CountOfAWordTheAskNamed = queryanswers.WordCount{Hits: 3}
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -102,7 +102,7 @@ func peerAt(address string) peerdirectory.AskablePeer {
 func searchOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
-) [][]peeranswers.AnsweredItem {
+) [][]queryanswers.AnsweredItem {
 	return spreadOf(network, peersHoldingOneWord, observer).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather", ""),
@@ -110,11 +110,11 @@ func searchOf(
 	).ItemsInTheOrderOfEachPeerRanking
 }
 
-func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.AnsweredItem {
+func searchForTheQuery(network *peerNetwork, query string) [][]queryanswers.AnsweredItem {
 	return answersOfTheQuery(network, query).ItemsInTheOrderOfEachPeerRanking
 }
 
-func answersOfTheQuery(network *peerNetwork, query string) peeranswers.AnsweredQuery {
+func answersOfTheQuery(network *peerNetwork, query string) queryanswers.AnsweredQuery {
 	return spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom(query, ""),

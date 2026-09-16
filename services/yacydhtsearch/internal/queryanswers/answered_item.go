@@ -1,4 +1,4 @@
-package peeranswers
+package queryanswers
 
 import (
 	"maps"

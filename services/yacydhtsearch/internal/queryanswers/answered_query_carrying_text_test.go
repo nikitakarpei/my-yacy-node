@@ -1,10 +1,10 @@
-package peeranswers_test
+package queryanswers_test
 
 import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -28,15 +28,15 @@ func textOfTheReadDocument(t *testing.T) map[yacymodel.URLHash]documenttext.Docu
 	}
 }
 
-func answersOfTheReadDocument(t *testing.T) peeranswers.AnsweredQuery {
+func answersOfTheReadDocument(t *testing.T) queryanswers.AnsweredQuery {
 	t.Helper()
 
 	item := answeredItemMatchingTheWord(t, addressOfTheReadDocument)
 
-	return peeranswers.AnsweredQuery{
+	return queryanswers.AnsweredQuery{
 		QueryWords:                       []yacymodel.Hash{yacymodel.WordHash("berlin")},
-		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{{item}, {item}},
-		ItemsInNoOrder:                   []peeranswers.AnsweredItem{item},
+		ItemsInTheOrderOfEachPeerRanking: [][]queryanswers.AnsweredItem{{item}, {item}},
+		ItemsInNoOrder:                   []queryanswers.AnsweredItem{item},
 		DocumentsHeldPerQueryWord:        map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 12},
 	}
 }
@@ -48,7 +48,7 @@ func TestEveryItemOfAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 
 	read := answers.CarryingTheTextOfEachDocument(textOfTheReadDocument(t))
 
-	for _, item := range []peeranswers.AnsweredItem{
+	for _, item := range []queryanswers.AnsweredItem{
 		read.ItemsInTheOrderOfEachPeerRanking[0][0],
 		read.ItemsInTheOrderOfEachPeerRanking[1][0],
 		read.ItemsInNoOrder[0],
@@ -64,11 +64,11 @@ func TestEveryItemOfAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 	t.Parallel()
 
-	answers := peeranswers.AnsweredQuery{
+	answers := queryanswers.AnsweredQuery{
 		QueryWords: []yacymodel.Hash{
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("weather"),
 		},
-		ItemsInNoOrder: []peeranswers.AnsweredItem{
+		ItemsInNoOrder: []queryanswers.AnsweredItem{
 			answeredItemMatchingTheWord(t, addressOfTheReadDocument),
 		},
 	}
@@ -109,8 +109,8 @@ func TestTheDocumentsHeldPerQueryWordStayAsThePeersCountedThem(t *testing.T) {
 func TestAnItemOfADocumentThatWasNotReadStaysAsThePeersAnsweredIt(t *testing.T) {
 	t.Parallel()
 
-	answers := peeranswers.AnsweredQuery{
-		ItemsInNoOrder: []peeranswers.AnsweredItem{
+	answers := queryanswers.AnsweredQuery{
+		ItemsInNoOrder: []queryanswers.AnsweredItem{
 			answeredItemCountedForTheWord(t, "https://unread.example/", "berlin"),
 		},
 	}

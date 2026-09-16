@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -94,7 +94,7 @@ func normalizedGainOfTheDocumentsInOrder(
 	t.Helper()
 
 	graded := make(gradedDocuments, len(documentsInOrder))
-	orderedItems := make([]peeranswers.AnsweredItem, 0, len(documentsInOrder))
+	orderedItems := make([]queryanswers.AnsweredItem, 0, len(documentsInOrder))
 	for _, document := range documentsInOrder {
 		hash, err := yacymodel.URLHashOf(document.address)
 		if err != nil {
@@ -106,7 +106,7 @@ func normalizedGainOfTheDocumentsInOrder(
 				host:  hostOf(document.address),
 			}
 		}
-		orderedItems = append(orderedItems, peeranswers.AnsweredItem{
+		orderedItems = append(orderedItems, queryanswers.AnsweredItem{
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: document.address},
 		})
 	}

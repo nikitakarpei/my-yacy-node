@@ -3,8 +3,8 @@ package wordjoined
 import (
 	"maps"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -51,7 +51,7 @@ func amountOfQueryWordsPerDocument(
 
 func joinedDocumentsWithoutMetadata(
 	joinedDocuments map[yacymodel.URLHash]struct{},
-	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking [][]queryanswers.AnsweredItem,
 ) map[yacymodel.URLHash]struct{} {
 	documentsWithoutMetadata := make(map[yacymodel.URLHash]struct{}, len(joinedDocuments))
 	maps.Copy(documentsWithoutMetadata, joinedDocuments)

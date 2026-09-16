@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
@@ -18,10 +18,10 @@ func (c *countedSpread) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ []peerdirectory.AskablePeer,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	c.searches++
 
-	return peeranswers.AnsweredQuery{}
+	return queryanswers.AnsweredQuery{}
 }
 
 func searchesOf(t *testing.T, spelledQuery string) (int, int) {

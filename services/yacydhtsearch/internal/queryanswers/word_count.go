@@ -1,4 +1,4 @@
-package peeranswers
+package queryanswers
 
 type WordCount struct {
 	Hits      int

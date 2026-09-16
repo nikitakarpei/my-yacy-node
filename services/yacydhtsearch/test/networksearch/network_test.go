@@ -13,10 +13,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -219,8 +219,8 @@ func networkSearching(
 type orderingOfThePeerRankings struct{}
 
 func (orderingOfThePeerRankings) OrderedItemsOf(
-	answers peeranswers.AnsweredQuery,
-) []peeranswers.AnsweredItem {
+	answers queryanswers.AnsweredQuery,
+) []queryanswers.AnsweredItem {
 	return answers.ItemOfEachAnsweredDocument()
 }
 
@@ -421,25 +421,25 @@ func TestOnePeerCanSupplyTheWholeRanking(t *testing.T) {
 }
 
 type spreadAnswering struct {
-	answers peeranswers.AnsweredQuery
+	answers queryanswers.AnsweredQuery
 }
 
 func (s spreadAnswering) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ []peerdirectory.AskablePeer,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	return s.answers
 }
 
 func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadAnswering {
 	t.Helper()
 
-	return spreadAnswering{answers: peeranswers.AnsweredQuery{
+	return spreadAnswering{answers: queryanswers.AnsweredQuery{
 		QueryWords: []yacymodel.Hash{
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 		},
-		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
+		ItemsInTheOrderOfEachPeerRanking: [][]queryanswers.AnsweredItem{
 			{answeredItemCountedForTheWord(t, commonWordAddress, "berlin")},
 			{answeredItemCountedForTheWord(t, rareWordAddress, "kelondro")},
 		},
@@ -452,7 +452,7 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 
 func answeredItemCountedForTheWord(
 	t *testing.T, address string, word string,
-) peeranswers.AnsweredItem {
+) queryanswers.AnsweredItem {
 	t.Helper()
 
 	hash, err := yacymodel.URLHashOf(address)
@@ -460,9 +460,9 @@ func answeredItemCountedForTheWord(
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return peeranswers.AnsweredItem{
+	return queryanswers.AnsweredItem{
 		Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
-		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
+		MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{
 			yacymodel.WordHash(word): {Hits: 1},
 		},
 	}
@@ -566,7 +566,7 @@ type recordedBudgets struct {
 }
 
 type spreadRecordingTheBudgetItGets struct {
-	answers  peeranswers.AnsweredQuery
+	answers  queryanswers.AnsweredQuery
 	recorded *recordedBudgets
 }
 
@@ -574,7 +574,7 @@ func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
 	_ []peerdirectory.AskablePeer,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	s.recorded.spread = budgetLeftIn(ctx)
 
 	return s.answers

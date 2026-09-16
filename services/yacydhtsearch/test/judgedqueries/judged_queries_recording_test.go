@@ -11,7 +11,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -21,6 +20,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
@@ -143,7 +143,7 @@ type querySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		askablePeers []peerdirectory.AskablePeer,
-	) peeranswers.AnsweredQuery
+	) queryanswers.AnsweredQuery
 }
 
 func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
@@ -296,7 +296,7 @@ func answersOfOneQuery(
 	spread querySpread,
 	directory *peerdirectory.Directory,
 	query string,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	t.Helper()
 
 	ctx, stopQueryBudget := context.WithTimeout(t.Context(), queryBudget)
@@ -310,7 +310,7 @@ func answersOfOneQuery(
 func pageTextOfTheFirstAnsweredDocuments(
 	t *testing.T,
 	reading pageTextReading,
-	answers peeranswers.AnsweredQuery,
+	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]string {
 	t.Helper()
 

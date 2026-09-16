@@ -1,9 +1,9 @@
-// Package peeranswers holds what the peers answered for one whole query: the
+// Package queryanswers holds what the peers answered for one whole query: the
 // words of the query, the items of each peer ranking in the order the peer put
 // them, the items in no order, how many documents the peers hold per query
 // word, and the one item of each answered document. The text of a document,
 // once a node read its page, replaces what the peers counted for it.
-package peeranswers
+package queryanswers
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"

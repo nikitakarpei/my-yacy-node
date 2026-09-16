@@ -13,8 +13,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -25,11 +25,11 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		askablePeers []peerdirectory.AskablePeer,
-	) peeranswers.AnsweredQuery
+	) queryanswers.AnsweredQuery
 }
 
 type ItemsOrdering interface {
-	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem
+	OrderedItemsOf(answers queryanswers.AnsweredQuery) []queryanswers.AnsweredItem
 }
 
 type PageReading interface {
@@ -141,9 +141,9 @@ func querySpreadBudgetFrom(queryBudget time.Duration, pageReadBudget time.Durati
 }
 
 func itemsUpTo(
-	orderedItems []peeranswers.AnsweredItem,
+	orderedItems []queryanswers.AnsweredItem,
 	ceiling int,
-) []peeranswers.AnsweredItem {
+) []queryanswers.AnsweredItem {
 	if ceiling <= 0 {
 		return nil
 	}
@@ -151,7 +151,7 @@ func itemsUpTo(
 	return orderedItems[:min(ceiling, len(orderedItems))]
 }
 
-func pagesToReadOf(candidates []peeranswers.AnsweredItem) []pagereading.PageToRead {
+func pagesToReadOf(candidates []queryanswers.AnsweredItem) []pagereading.PageToRead {
 	pagesToRead := make([]pagereading.PageToRead, 0, len(candidates))
 	for _, candidate := range candidates {
 		pagesToRead = append(pagesToRead, pagereading.PageToRead{
@@ -163,7 +163,7 @@ func pagesToReadOf(candidates []peeranswers.AnsweredItem) []pagereading.PageToRe
 	return pagesToRead
 }
 
-func rankingOf(rankedItems []peeranswers.AnsweredItem) searchresult.Ranking {
+func rankingOf(rankedItems []queryanswers.AnsweredItem) searchresult.Ranking {
 	items := make([]searchresult.Item, 0, len(rankedItems))
 	for _, rankedItem := range rankedItems {
 		items = append(items, searchresult.ItemFrom(rankedItem.Metadata))

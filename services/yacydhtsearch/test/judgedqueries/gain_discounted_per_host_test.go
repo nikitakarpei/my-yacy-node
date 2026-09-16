@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -23,7 +23,7 @@ type gradedDocument struct {
 type gradedDocuments map[yacymodel.URLHash]gradedDocument
 
 func (documents gradedDocuments) normalizedGainDiscountedPerHostOf(
-	orderedItems []peeranswers.AnsweredItem,
+	orderedItems []queryanswers.AnsweredItem,
 ) float64 {
 	idealGain := gainDiscountedPerHostOf(documents.gradedDocumentsInTheIdealOrder())
 	if idealGain == 0 {
@@ -113,7 +113,7 @@ func placeOfTheMostGainingDocumentAmong(
 }
 
 func (documents gradedDocuments) gradedDocumentsInTheOrderOf(
-	orderedItems []peeranswers.AnsweredItem,
+	orderedItems []queryanswers.AnsweredItem,
 ) []gradedDocument {
 	inTheOrderOfTheItems := make([]gradedDocument, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
@@ -138,7 +138,7 @@ func (documents gradedDocuments) holdARelevantDocument() bool {
 }
 
 func (documents gradedDocuments) amountOfUngradedItemsAmong(
-	orderedItems []peeranswers.AnsweredItem,
+	orderedItems []queryanswers.AnsweredItem,
 ) int {
 	amountOfUngradedItems := 0
 	for _, orderedItem := range orderedItems {
