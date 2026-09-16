@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -20,11 +20,11 @@ const (
 
 var theInstant = time.Unix(1_000_000, 0)
 
-type reliabilityPerPeerAtAddress map[peeranswerhistory.PeerAtAddress]float64
+type reliabilityPerPeerAtAddress map[probeanswerhistory.PeerAtAddress]float64
 
 func (reliability reliabilityPerPeerAtAddress) ReliabilityOf(
 	_ context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) float64 {
 	return reliability[peerAtAddress]
 }
@@ -49,7 +49,7 @@ func reliabilityEarnedAt(
 	reliability float64,
 ) reliabilityPerPeerAtAddress {
 	return reliabilityPerPeerAtAddress{
-		peeranswerhistory.PeerAtAddress{Hash: peer, Address: address}: reliability,
+		probeanswerhistory.PeerAtAddress{Hash: peer, Address: address}: reliability,
 	}
 }
 

@@ -1,4 +1,4 @@
-// Package peeranswerhistory keeps every answer a peer gave to a probe, in the
+// Package probeanswerhistory keeps every answer a peer gave to a probe, in the
 // order this deployment observed them, in a NATS stream that all instances of
 // the service share. An instance appends the answers it observes and reads
 // every answer back, its own among them, so all instances read the same
@@ -7,7 +7,7 @@
 // when it starts again. The history holds the answers of a recent while and
 // not of all time, so the earliest answer it still holds can be later than the
 // position a consumer asks from.
-package peeranswerhistory
+package probeanswerhistory
 
 import (
 	"context"
@@ -38,27 +38,27 @@ func New(
 	}
 }
 
-func (h History) Append(ctx context.Context, answer PeerAnswer) {
+func (h History) Append(ctx context.Context, answer ProbeAnswer) {
 	encoded, err := json.Marshal(answer)
 	if err != nil {
-		h.observer.PeerAnswerAppendFailed(ctx, err)
+		h.observer.ProbeAnswerAppendFailed(ctx, err)
 
 		return
 	}
-	subject := subjectOfPeerAnswerIn(h.networkName, answer.PeerAtAddress)
+	subject := subjectOfProbeAnswerIn(h.networkName, answer.PeerAtAddress)
 	if _, err := h.jetStream.Publish(ctx, subject, encoded); err != nil {
-		h.observer.PeerAnswerAppendFailed(ctx, err)
+		h.observer.ProbeAnswerAppendFailed(ctx, err)
 	}
 }
 
 func (h History) AnswersAfter(
 	ctx context.Context,
-	position AnswerPosition,
-) iter.Seq2[AnswerPosition, PeerAnswer] {
-	return func(yield func(AnswerPosition, PeerAnswer) bool) {
+	position ProbeAnswerPosition,
+) iter.Seq2[ProbeAnswerPosition, ProbeAnswer] {
+	return func(yield func(ProbeAnswerPosition, ProbeAnswer) bool) {
 		answers, err := h.answersFrom(ctx, h.firstPositionHeldAfter(ctx, position))
 		if err != nil {
-			h.observer.PeerAnswerHistoryEnded(ctx, err)
+			h.observer.ProbeAnswerHistoryEnded(ctx, err)
 
 			return
 		}
@@ -68,7 +68,7 @@ func (h History) AnswersAfter(
 		for {
 			message, err := answers.Next()
 			if err != nil {
-				h.observer.PeerAnswerHistoryEnded(ctx, err)
+				h.observer.ProbeAnswerHistoryEnded(ctx, err)
 
 				return
 			}
@@ -82,8 +82,8 @@ func (h History) AnswersAfter(
 
 func (h History) firstPositionHeldAfter(
 	ctx context.Context,
-	position AnswerPosition,
-) AnswerPosition {
+	position ProbeAnswerPosition,
+) ProbeAnswerPosition {
 	earliestHeld, historyRead := h.earliestPositionHeld(ctx)
 	if historyRead && earliestHeld > position.next() {
 		return earliestHeld
@@ -92,32 +92,32 @@ func (h History) firstPositionHeldAfter(
 	return position.next()
 }
 
-func (h History) earliestPositionHeld(ctx context.Context) (AnswerPosition, bool) {
+func (h History) earliestPositionHeld(ctx context.Context) (ProbeAnswerPosition, bool) {
 	stream, err := h.jetStream.Stream(ctx, h.streamName)
 	if err != nil {
-		h.observer.PeerAnswerHistoryEnded(ctx, err)
+		h.observer.ProbeAnswerHistoryEnded(ctx, err)
 
 		return 0, false
 	}
 	streamState, err := stream.Info(ctx)
 	if err != nil {
-		h.observer.PeerAnswerHistoryEnded(ctx, err)
+		h.observer.ProbeAnswerHistoryEnded(ctx, err)
 
 		return 0, false
 	}
 
-	return AnswerPosition(streamState.State.FirstSeq), true
+	return ProbeAnswerPosition(streamState.State.FirstSeq), true
 }
 
 func (h History) answersFrom(
 	ctx context.Context,
-	position AnswerPosition,
+	position ProbeAnswerPosition,
 ) (natsjetstream.MessagesContext, error) {
 	consumer, err := h.jetStream.OrderedConsumer(
 		ctx,
 		h.streamName,
 		natsjetstream.OrderedConsumerConfig{
-			FilterSubjects: []string{SubjectOfEveryPeerAnswerIn(h.networkName)},
+			FilterSubjects: []string{SubjectOfEveryProbeAnswerIn(h.networkName)},
 			DeliverPolicy:  natsjetstream.DeliverByStartSequencePolicy,
 			OptStartSeq:    uint64(position),
 		},
@@ -132,19 +132,19 @@ func (h History) answersFrom(
 func (h History) answerIn(
 	ctx context.Context,
 	message natsjetstream.Msg,
-) (AnswerPosition, PeerAnswer, bool) {
+) (ProbeAnswerPosition, ProbeAnswer, bool) {
 	delivered, err := message.Metadata()
 	if err != nil {
-		h.observer.PeerAnswerUnreadable(ctx, 0, err)
+		h.observer.ProbeAnswerUnreadable(ctx, 0, err)
 
-		return 0, PeerAnswer{}, false
+		return 0, ProbeAnswer{}, false
 	}
-	position := AnswerPosition(delivered.Sequence.Stream)
-	var answer PeerAnswer
+	position := ProbeAnswerPosition(delivered.Sequence.Stream)
+	var answer ProbeAnswer
 	if err := json.Unmarshal(message.Data(), &answer); err != nil {
-		h.observer.PeerAnswerUnreadable(ctx, position, err)
+		h.observer.ProbeAnswerUnreadable(ctx, position, err)
 
-		return 0, PeerAnswer{}, false
+		return 0, ProbeAnswer{}, false
 	}
 
 	return position, answer, true

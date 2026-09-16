@@ -12,16 +12,16 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 )
 
 type PeerPresence interface {
 	EarnedPresenceOf(
 		ctx context.Context,
-		peerAtAddress peeranswerhistory.PeerAtAddress,
+		peerAtAddress probeanswerhistory.PeerAtAddress,
 	) time.Duration
 }
 
@@ -111,10 +111,10 @@ func (c Cycle) addressesMostPresentFirst(
 	slices.SortStableFunc(mostPresentFirst, func(a, b string) int {
 		return cmp.Compare(
 			c.presence.EarnedPresenceOf(
-				ctx, peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: b},
+				ctx, probeanswerhistory.PeerAtAddress{Hash: peer.Hash, Address: b},
 			),
 			c.presence.EarnedPresenceOf(
-				ctx, peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: a},
+				ctx, probeanswerhistory.PeerAtAddress{Hash: peer.Hash, Address: a},
 			),
 		)
 	})

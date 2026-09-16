@@ -13,93 +13,93 @@ import (
 )
 
 const (
-	EnvListenAddr               = "YACYDHTSEARCH_LISTEN_ADDR"
-	EnvOpsAddr                  = "YACYDHTSEARCH_OPS_ADDR"
-	EnvNetworkName              = "YACYDHTSEARCH_NETWORK_NAME"
-	EnvSeedlistURLs             = "YACYDHTSEARCH_SEEDLIST_URLS"
-	EnvEgressProxyURL           = "EGRESS_PROXY_URL"
-	EnvQueryBudget              = "YACYDHTSEARCH_QUERY_BUDGET"
-	EnvPeerChoiceCooldown       = "YACYDHTSEARCH_PEER_CHOICE_COOLDOWN"
-	EnvNetworkRedundancy        = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
-	EnvPeerCallsInFlight        = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
-	EnvPeerCallBudget           = "YACYDHTSEARCH_PEER_CALL_BUDGET"
-	EnvProbesInFlight           = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
-	EnvDirectoryCapacity        = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
-	EnvRefreshInterval          = "YACYDHTSEARCH_REFRESH_INTERVAL"
-	EnvNewcomerShare            = "YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE"
-	EnvProbeBudget              = "YACYDHTSEARCH_PROBE_BUDGET"
-	EnvContinuityLimit          = "YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT"
-	EnvPeerAnswerHistoryKeptFor = "YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR"
-	EnvMaturationDuration       = "YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION"
-	EnvStalenessHorizon         = "YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON"
-	EnvSnapshotInterval         = "YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL"
-	EnvPartitionExponent        = "YACYDHTSEARCH_PARTITION_EXPONENT"
-	EnvMaxResponseBytes         = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
-	EnvPeerItemsCeiling         = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
-	EnvRankedItemsCeiling       = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
-	EnvNATSURL                  = "YACYDHTSEARCH_NATS_URL"
-	EnvRankingCacheCapacity     = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
-	EnvRankingLifetime          = "YACYDHTSEARCH_RANKING_LIFETIME"
-	EnvPagesReadPerQuery        = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
-	EnvPageReadBudget           = "YACYDHTSEARCH_PAGE_READ_BUDGET"
-	EnvPageByteCeiling          = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
-	EnvSnippetLengthCeiling     = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
+	EnvListenAddr                = "YACYDHTSEARCH_LISTEN_ADDR"
+	EnvOpsAddr                   = "YACYDHTSEARCH_OPS_ADDR"
+	EnvNetworkName               = "YACYDHTSEARCH_NETWORK_NAME"
+	EnvSeedlistURLs              = "YACYDHTSEARCH_SEEDLIST_URLS"
+	EnvEgressProxyURL            = "EGRESS_PROXY_URL"
+	EnvQueryBudget               = "YACYDHTSEARCH_QUERY_BUDGET"
+	EnvPeerChoiceCooldown        = "YACYDHTSEARCH_PEER_CHOICE_COOLDOWN"
+	EnvNetworkRedundancy         = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
+	EnvPeerCallsInFlight         = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
+	EnvPeerCallBudget            = "YACYDHTSEARCH_PEER_CALL_BUDGET"
+	EnvProbesInFlight            = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
+	EnvDirectoryCapacity         = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
+	EnvRefreshInterval           = "YACYDHTSEARCH_REFRESH_INTERVAL"
+	EnvNewcomerShare             = "YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE"
+	EnvProbeBudget               = "YACYDHTSEARCH_PROBE_BUDGET"
+	EnvContinuityLimit           = "YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT"
+	EnvProbeAnswerHistoryKeptFor = "YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR"
+	EnvMaturationDuration        = "YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION"
+	EnvStalenessHorizon          = "YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON"
+	EnvSnapshotInterval          = "YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL"
+	EnvPartitionExponent         = "YACYDHTSEARCH_PARTITION_EXPONENT"
+	EnvMaxResponseBytes          = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
+	EnvPeerItemsCeiling          = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
+	EnvRankedItemsCeiling        = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
+	EnvNATSURL                   = "YACYDHTSEARCH_NATS_URL"
+	EnvRankingCacheCapacity      = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
+	EnvRankingLifetime           = "YACYDHTSEARCH_RANKING_LIFETIME"
+	EnvPagesReadPerQuery         = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
+	EnvPageReadBudget            = "YACYDHTSEARCH_PAGE_READ_BUDGET"
+	EnvPageByteCeiling           = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
+	EnvSnippetLengthCeiling      = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
 
-	DefaultListenAddr               = ":8080"
-	DefaultOpsAddr                  = ":9090"
-	DefaultQueryBudget              = 10 * time.Second
-	DefaultPeerChoiceCooldown       = 5 * time.Second
-	DefaultNetworkRedundancy        = 3
-	DefaultPeerCallsInFlight        = 48
-	DefaultPeerCallBudget           = 3 * time.Second
-	DefaultProbesInFlight           = 24
-	DefaultDirectoryCapacity        = 4096
-	DefaultRefreshInterval          = 5 * time.Minute
-	DefaultNewcomerShare            = 0.05
-	DefaultProbeBudget              = 3 * time.Second
-	DefaultContinuityLimit          = 15 * time.Minute
-	DefaultPeerAnswerHistoryKeptFor = 24 * time.Hour
-	DefaultSnapshotInterval         = 10 * time.Minute
-	DefaultPartitionExponent        = 4
-	DefaultMaxResponseBytes         = 4 * 1024 * 1024
-	DefaultPeerItemsCeiling         = 10
-	DefaultRankedItemsCeiling       = 50
-	DefaultRankingCacheCapacity     = 1024
-	DefaultRankingLifetime          = 2 * time.Minute
-	DefaultPagesReadPerQuery        = 50
-	DefaultPageReadBudget           = 3 * time.Second
-	DefaultPageByteCeiling          = 4 * 1024 * 1024
-	DefaultSnippetLengthCeiling     = 300
+	DefaultListenAddr                = ":8080"
+	DefaultOpsAddr                   = ":9090"
+	DefaultQueryBudget               = 10 * time.Second
+	DefaultPeerChoiceCooldown        = 5 * time.Second
+	DefaultNetworkRedundancy         = 3
+	DefaultPeerCallsInFlight         = 48
+	DefaultPeerCallBudget            = 3 * time.Second
+	DefaultProbesInFlight            = 24
+	DefaultDirectoryCapacity         = 4096
+	DefaultRefreshInterval           = 5 * time.Minute
+	DefaultNewcomerShare             = 0.05
+	DefaultProbeBudget               = 3 * time.Second
+	DefaultContinuityLimit           = 15 * time.Minute
+	DefaultProbeAnswerHistoryKeptFor = 24 * time.Hour
+	DefaultSnapshotInterval          = 10 * time.Minute
+	DefaultPartitionExponent         = 4
+	DefaultMaxResponseBytes          = 4 * 1024 * 1024
+	DefaultPeerItemsCeiling          = 10
+	DefaultRankedItemsCeiling        = 50
+	DefaultRankingCacheCapacity      = 1024
+	DefaultRankingLifetime           = 2 * time.Minute
+	DefaultPagesReadPerQuery         = 50
+	DefaultPageReadBudget            = 3 * time.Second
+	DefaultPageByteCeiling           = 4 * 1024 * 1024
+	DefaultSnippetLengthCeiling      = 300
 )
 
 type ServiceConfig struct {
-	ListenAddr               string
-	OpsAddr                  string
-	NetworkName              string
-	SeedlistURLs             []string
-	EgressProxyURL           *url.URL
-	QueryBudget              time.Duration
-	PeerChoiceCooldown       time.Duration
-	NetworkRedundancy        int
-	PeerCallsInFlight        int
-	PeerCallBudget           time.Duration
-	ProbesInFlight           int
-	DirectoryCapacity        int
-	NewcomerShare            float64
-	RefreshInterval          time.Duration
-	ProbeBudget              time.Duration
-	ContinuityLimit          time.Duration
-	PeerAnswerHistoryKeptFor time.Duration
-	MaturationDuration       time.Duration
-	StalenessHorizon         time.Duration
-	SnapshotInterval         time.Duration
-	Partitions               yacymodel.DHTRingPartitions
-	MaxResponseBytes         int64
-	PeerItemsCeiling         int
-	RankedItemsCeiling       int
-	NATSURL                  string
-	RankingCache             int
-	RankingLifetime          time.Duration
+	ListenAddr                string
+	OpsAddr                   string
+	NetworkName               string
+	SeedlistURLs              []string
+	EgressProxyURL            *url.URL
+	QueryBudget               time.Duration
+	PeerChoiceCooldown        time.Duration
+	NetworkRedundancy         int
+	PeerCallsInFlight         int
+	PeerCallBudget            time.Duration
+	ProbesInFlight            int
+	DirectoryCapacity         int
+	NewcomerShare             float64
+	RefreshInterval           time.Duration
+	ProbeBudget               time.Duration
+	ContinuityLimit           time.Duration
+	ProbeAnswerHistoryKeptFor time.Duration
+	MaturationDuration        time.Duration
+	StalenessHorizon          time.Duration
+	SnapshotInterval          time.Duration
+	Partitions                yacymodel.DHTRingPartitions
+	MaxResponseBytes          int64
+	PeerItemsCeiling          int
+	RankedItemsCeiling        int
+	NATSURL                   string
+	RankingCache              int
+	RankingLifetime           time.Duration
 
 	PagesReadPerQuery    int
 	PageReadBudget       time.Duration
@@ -153,30 +153,30 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			EnvNetworkName,
 			yacyproto.DefaultNetwork,
 		),
-		SeedlistURLs:             seedlistURLs,
-		EgressProxyURL:           egressProxyURL,
-		QueryBudget:              durations.queryBudget,
-		PeerChoiceCooldown:       durations.peerChoiceCooldown,
-		NetworkRedundancy:        counts.networkRedundancy,
-		PeerCallsInFlight:        counts.peerCallsInFlight,
-		PeerCallBudget:           durations.peerCallBudget,
-		ProbesInFlight:           counts.probesInFlight,
-		DirectoryCapacity:        counts.directoryCapacity,
-		NewcomerShare:            newcomerShare,
-		RefreshInterval:          durations.refreshInterval,
-		ProbeBudget:              durations.probeBudget,
-		ContinuityLimit:          durations.continuityLimit,
-		PeerAnswerHistoryKeptFor: durations.peerAnswerHistoryKeptFor,
-		MaturationDuration:       durations.maturationDuration,
-		StalenessHorizon:         durations.stalenessHorizon,
-		SnapshotInterval:         durations.snapshotInterval,
-		Partitions:               partitions,
-		MaxResponseBytes:         maxResponseBytes,
-		PeerItemsCeiling:         counts.peerItemsCeiling,
-		RankedItemsCeiling:       counts.rankedItemsCeiling,
-		NATSURL:                  strings.TrimSpace(getenv(EnvNATSURL)),
-		RankingCache:             counts.rankingCacheCapacity,
-		RankingLifetime:          durations.rankingLifetime,
+		SeedlistURLs:              seedlistURLs,
+		EgressProxyURL:            egressProxyURL,
+		QueryBudget:               durations.queryBudget,
+		PeerChoiceCooldown:        durations.peerChoiceCooldown,
+		NetworkRedundancy:         counts.networkRedundancy,
+		PeerCallsInFlight:         counts.peerCallsInFlight,
+		PeerCallBudget:            durations.peerCallBudget,
+		ProbesInFlight:            counts.probesInFlight,
+		DirectoryCapacity:         counts.directoryCapacity,
+		NewcomerShare:             newcomerShare,
+		RefreshInterval:           durations.refreshInterval,
+		ProbeBudget:               durations.probeBudget,
+		ContinuityLimit:           durations.continuityLimit,
+		ProbeAnswerHistoryKeptFor: durations.probeAnswerHistoryKeptFor,
+		MaturationDuration:        durations.maturationDuration,
+		StalenessHorizon:          durations.stalenessHorizon,
+		SnapshotInterval:          durations.snapshotInterval,
+		Partitions:                partitions,
+		MaxResponseBytes:          maxResponseBytes,
+		PeerItemsCeiling:          counts.peerItemsCeiling,
+		RankedItemsCeiling:        counts.rankedItemsCeiling,
+		NATSURL:                   strings.TrimSpace(getenv(EnvNATSURL)),
+		RankingCache:              counts.rankingCacheCapacity,
+		RankingLifetime:           durations.rankingLifetime,
 
 		PagesReadPerQuery:    counts.pagesReadPerQuery,
 		PageReadBudget:       durations.pageReadBudget,
@@ -186,18 +186,18 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 }
 
 type configuredDurations struct {
-	queryBudget              time.Duration
-	peerChoiceCooldown       time.Duration
-	peerCallBudget           time.Duration
-	refreshInterval          time.Duration
-	probeBudget              time.Duration
-	continuityLimit          time.Duration
-	peerAnswerHistoryKeptFor time.Duration
-	maturationDuration       time.Duration
-	stalenessHorizon         time.Duration
-	snapshotInterval         time.Duration
-	rankingLifetime          time.Duration
-	pageReadBudget           time.Duration
+	queryBudget               time.Duration
+	peerChoiceCooldown        time.Duration
+	peerCallBudget            time.Duration
+	refreshInterval           time.Duration
+	probeBudget               time.Duration
+	continuityLimit           time.Duration
+	probeAnswerHistoryKeptFor time.Duration
+	maturationDuration        time.Duration
+	stalenessHorizon          time.Duration
+	snapshotInterval          time.Duration
+	rankingLifetime           time.Duration
+	pageReadBudget            time.Duration
 }
 
 func durationsOf(getenv func(string) string) (configuredDurations, error) {
@@ -214,7 +214,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
 		{EnvContinuityLimit, DefaultContinuityLimit, &durations.continuityLimit},
-		{EnvPeerAnswerHistoryKeptFor, DefaultPeerAnswerHistoryKeptFor, &durations.peerAnswerHistoryKeptFor},
+		{EnvProbeAnswerHistoryKeptFor, DefaultProbeAnswerHistoryKeptFor, &durations.probeAnswerHistoryKeptFor},
 		{
 			EnvMaturationDuration,
 			peerreliability.DefaultReliabilityWeights().MaturationDuration,

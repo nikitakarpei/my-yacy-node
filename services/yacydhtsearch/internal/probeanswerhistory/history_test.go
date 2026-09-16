@@ -1,4 +1,4 @@
-package peeranswerhistory_test
+package probeanswerhistory_test
 
 import (
 	"context"
@@ -8,27 +8,27 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
 	networkName      = "yacydhtsearch"
-	streamName       = "peer-answer-history"
+	streamName       = "probe-answer-history"
 	answeringAddress = "http://10.0.0.1:8090"
 	readingDeadline  = 5 * time.Second
 )
 
 type silentObserver struct{}
 
-func (silentObserver) PeerAnswerAppendFailed(context.Context, error) {}
-func (silentObserver) PeerAnswerUnreadable(
+func (silentObserver) ProbeAnswerAppendFailed(context.Context, error) {}
+func (silentObserver) ProbeAnswerUnreadable(
 	context.Context,
-	peeranswerhistory.AnswerPosition,
+	probeanswerhistory.ProbeAnswerPosition,
 	error,
 ) {
 }
-func (silentObserver) PeerAnswerHistoryEnded(context.Context, error) {}
+func (silentObserver) ProbeAnswerHistoryEnded(context.Context, error) {}
 
 func startOfObservation() time.Time {
 	return time.Date(2026, time.September, 15, 12, 0, 0, 0, time.UTC)
@@ -48,28 +48,28 @@ func hashOf(t *testing.T, symbol byte) yacymodel.Hash {
 	return hash
 }
 
-func historyOver(t *testing.T) (peeranswerhistory.History, natsjetstream.JetStream) {
+func historyOver(t *testing.T) (probeanswerhistory.History, natsjetstream.JetStream) {
 	t.Helper()
 
 	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	_, err := stream.CreateOrUpdateStream(t.Context(), natsjetstream.StreamConfig{
 		Name:     streamName,
-		Subjects: []string{peeranswerhistory.SubjectOfEveryPeerAnswerIn(networkName)},
+		Subjects: []string{probeanswerhistory.SubjectOfEveryProbeAnswerIn(networkName)},
 	})
 	if err != nil {
 		t.Fatalf("create stream: %v", err)
 	}
 
-	return peeranswerhistory.New(
-		stream, streamName, networkName, peeranswerhistory.HistoryObservers{silentObserver{}},
+	return probeanswerhistory.New(
+		stream, streamName, networkName, probeanswerhistory.HistoryObservers{silentObserver{}},
 	), stream
 }
 
-func answerOf(t *testing.T, symbol byte, at time.Time) peeranswerhistory.PeerAnswer {
+func answerOf(t *testing.T, symbol byte, at time.Time) probeanswerhistory.ProbeAnswer {
 	t.Helper()
 
-	return peeranswerhistory.PeerAnswer{
-		PeerAtAddress: peeranswerhistory.PeerAtAddress{
+	return probeanswerhistory.ProbeAnswer{
+		PeerAtAddress: probeanswerhistory.PeerAtAddress{
 			Hash:    hashOf(t, symbol),
 			Address: answeringAddress,
 		},
@@ -79,17 +79,17 @@ func answerOf(t *testing.T, symbol byte, at time.Time) peeranswerhistory.PeerAns
 
 func readAfter(
 	t *testing.T,
-	history peeranswerhistory.History,
-	position peeranswerhistory.AnswerPosition,
+	history probeanswerhistory.History,
+	position probeanswerhistory.ProbeAnswerPosition,
 	amount int,
-) ([]peeranswerhistory.AnswerPosition, []peeranswerhistory.PeerAnswer) {
+) ([]probeanswerhistory.ProbeAnswerPosition, []probeanswerhistory.ProbeAnswer) {
 	t.Helper()
 
 	read, giveUp := context.WithTimeout(t.Context(), readingDeadline)
 	defer giveUp()
 
-	var positions []peeranswerhistory.AnswerPosition
-	var answers []peeranswerhistory.PeerAnswer
+	var positions []probeanswerhistory.ProbeAnswerPosition
+	var answers []probeanswerhistory.ProbeAnswer
 	for readPosition, answer := range history.AnswersAfter(read, position) {
 		positions = append(positions, readPosition)
 		answers = append(answers, answer)
@@ -167,7 +167,7 @@ func dropEveryAnswer(t *testing.T, stream natsjetstream.JetStream) {
 func TestTheEarliestPositionIsTheOneEveryReaderHasReached(t *testing.T) {
 	t.Parallel()
 
-	earliest := peeranswerhistory.EarliestOf(7, 3, 9)
+	earliest := probeanswerhistory.EarliestOf(7, 3, 9)
 
 	if earliest != 3 {
 		t.Fatalf("EarliestOf = %v, want the earliest position given", earliest)
@@ -177,7 +177,7 @@ func TestTheEarliestPositionIsTheOneEveryReaderHasReached(t *testing.T) {
 func TestNoPositionAtAllIsTheStartOfTheHistory(t *testing.T) {
 	t.Parallel()
 
-	if earliest := peeranswerhistory.EarliestOf(); earliest != 0 {
+	if earliest := probeanswerhistory.EarliestOf(); earliest != 0 {
 		t.Fatalf("EarliestOf = %v, want the start of the history", earliest)
 	}
 }

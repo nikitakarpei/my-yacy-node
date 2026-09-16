@@ -9,7 +9,7 @@ commonComponents:
   - searchquery
   - searchresult
   - peerdirectory
-  - peeranswerhistory
+  - probeanswerhistory
   - presenceaccrual
 
 components:
@@ -49,8 +49,8 @@ components:
     in: internal/peerpresenceobservers/jetstream/applog/**
   peerpresenceobserversjetstreamprometheus:
     in: internal/peerpresenceobservers/jetstream/prometheus/**
-  peeranswerhistoryobserversapplog:
-    in: internal/peeranswerhistoryobservers/applog/**
+  probeanswerhistoryobserversapplog:
+    in: internal/probeanswerhistoryobservers/applog/**
   peerlivenessobserversapplog:
     in: internal/peerlivenessobservers/applog/**
   peerlivenessobserversprometheus:
@@ -115,8 +115,8 @@ components:
     in: internal/peerdirectoryobservers/prometheus/**
   yacyseedlistobserversapplog:
     in: internal/yacyseedlistobservers/applog/**
-  peeranswerhistory:
-    in: internal/peeranswerhistory/**
+  probeanswerhistory:
+    in: internal/probeanswerhistory/**
   presenceaccrual:
     in: internal/presenceaccrual/**
   peerpresencejetstream:
@@ -216,7 +216,7 @@ deps:
   peerdirectory:
     canUse:
       - yacymodel
-  peeranswerhistory:
+  probeanswerhistory:
     canUse:
       - yacymodel
       - nats

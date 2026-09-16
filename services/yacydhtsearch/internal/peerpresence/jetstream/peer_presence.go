@@ -1,4 +1,4 @@
-// Package jetstream folds the peer answer history into the presence each peer
+// Package jetstream folds the probe answer history into the presence each peer
 // has earned. An instance credits nothing it observes directly: it appends the
 // answer to the history, and its own answers reach it the same way its
 // siblings' answers do, so every instance folds the same answers in the same
@@ -17,14 +17,14 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type snapshottedPeer struct {
 	presenceaccrual.ObservedPeer
-	FoldedUpTo peeranswerhistory.AnswerPosition
+	FoldedUpTo probeanswerhistory.ProbeAnswerPosition
 }
 
 type PeerPresenceLimits struct {
@@ -33,11 +33,11 @@ type PeerPresenceLimits struct {
 }
 
 type PeerPresence struct {
-	answers          peeranswerhistory.History
+	answers          probeanswerhistory.History
 	snapshots        natsjetstream.KeyValue
 	accrualLimits    presenceaccrual.PresenceAccrualLimits
 	accrual          atomic.Pointer[presenceaccrual.PresenceAccrual]
-	changedPeers     map[peeranswerhistory.PeerAtAddress]snapshottedPeer
+	changedPeers     map[probeanswerhistory.PeerAtAddress]snapshottedPeer
 	snapshotInterval time.Duration
 	snapshotDueAt    time.Time
 	accrualObserver  presenceaccrual.PresenceAccrualObserver
@@ -45,7 +45,7 @@ type PeerPresence struct {
 }
 
 func New(
-	answers peeranswerhistory.History,
+	answers probeanswerhistory.History,
 	snapshots natsjetstream.KeyValue,
 	limits PeerPresenceLimits,
 	accrualObserver presenceaccrual.PresenceAccrualObserver,
@@ -55,7 +55,7 @@ func New(
 		answers:          answers,
 		snapshots:        snapshots,
 		accrualLimits:    limits.AccrualLimits,
-		changedPeers:     map[peeranswerhistory.PeerAtAddress]snapshottedPeer{},
+		changedPeers:     map[probeanswerhistory.PeerAtAddress]snapshottedPeer{},
 		snapshotInterval: limits.SnapshotInterval,
 		snapshotDueAt:    time.Now().Add(limits.SnapshotInterval),
 		accrualObserver:  accrualObserver,
@@ -70,14 +70,14 @@ func New(
 
 func (h *PeerPresence) EarnedPresenceOf(
 	_ context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) time.Duration {
 	return h.accrual.Load().EarnedPresenceOf(peerAtAddress)
 }
 
 func (h *PeerPresence) LatestAnswerOf(
 	_ context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) time.Time {
 	return h.accrual.Load().LatestAnswerOf(peerAtAddress)
 }
@@ -88,13 +88,13 @@ func (h *PeerPresence) PeerAnswered(
 	address string,
 	answeredAt time.Time,
 ) {
-	h.answers.Append(ctx, peeranswerhistory.PeerAnswer{
-		PeerAtAddress: peeranswerhistory.PeerAtAddress{Hash: peer, Address: address},
+	h.answers.Append(ctx, probeanswerhistory.ProbeAnswer{
+		PeerAtAddress: probeanswerhistory.PeerAtAddress{Hash: peer, Address: address},
 		AnsweredAt:    answeredAt,
 	})
 }
 
-func (h *PeerPresence) FoldThePeerAnswerHistory(ctx context.Context) {
+func (h *PeerPresence) FoldTheProbeAnswerHistory(ctx context.Context) {
 	peersSnapshotted := h.peersSnapshotted(ctx)
 	h.accrual.Store(presenceaccrual.PresenceAccrualFrom(
 		observedPeersAmong(peersSnapshotted), h.accrualLimits, h.accrualObserver,
@@ -143,19 +143,19 @@ func observedPeersAmong(peersSnapshotted []snapshottedPeer) []presenceaccrual.Ob
 	return observedPeers
 }
 
-func foldedUpToBy(peersSnapshotted []snapshottedPeer) peeranswerhistory.AnswerPosition {
-	foldedUpTo := make([]peeranswerhistory.AnswerPosition, 0, len(peersSnapshotted))
+func foldedUpToBy(peersSnapshotted []snapshottedPeer) probeanswerhistory.ProbeAnswerPosition {
+	foldedUpTo := make([]probeanswerhistory.ProbeAnswerPosition, 0, len(peersSnapshotted))
 	for _, peerSnapshotted := range peersSnapshotted {
 		foldedUpTo = append(foldedUpTo, peerSnapshotted.FoldedUpTo)
 	}
 
-	return peeranswerhistory.EarliestOf(foldedUpTo...)
+	return probeanswerhistory.EarliestOf(foldedUpTo...)
 }
 
 func (h *PeerPresence) credit(
 	ctx context.Context,
-	position peeranswerhistory.AnswerPosition,
-	answer peeranswerhistory.PeerAnswer,
+	position probeanswerhistory.ProbeAnswerPosition,
+	answer probeanswerhistory.ProbeAnswer,
 ) {
 	if observedPeer, credited := h.accrual.Load().Credit(ctx, answer); credited {
 		h.changedPeers[observedPeer.PeerAtAddress] = snapshottedPeer{
@@ -201,7 +201,7 @@ func (h *PeerPresence) snapshotChangedPeers(ctx context.Context) {
 
 func (h *PeerPresence) snapshot(
 	ctx context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 	peerSnapshotted snapshottedPeer,
 ) bool {
 	key := keyOf(peerAtAddress)
@@ -220,7 +220,7 @@ func (h *PeerPresence) snapshot(
 	return true
 }
 
-func keyOf(peerAtAddress peeranswerhistory.PeerAtAddress) string {
+func keyOf(peerAtAddress probeanswerhistory.PeerAtAddress) string {
 	return peerAtAddress.Hash.String() + "." +
 		base64.RawURLEncoding.EncodeToString([]byte(peerAtAddress.Address))
 }

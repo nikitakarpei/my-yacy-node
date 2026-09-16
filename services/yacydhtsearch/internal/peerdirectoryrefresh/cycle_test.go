@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -41,11 +41,11 @@ func (silentSeedlistObserver) SeedlistRead(context.Context, string, int)        
 func (silentSeedlistObserver) SeedlistUnreachable(context.Context, string, error) {}
 func (silentSeedlistObserver) SeedlistUnreadable(context.Context, string, error)  {}
 
-type earnedPresences map[peeranswerhistory.PeerAtAddress]time.Duration
+type earnedPresences map[probeanswerhistory.PeerAtAddress]time.Duration
 
 func (presences earnedPresences) EarnedPresenceOf(
 	_ context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) time.Duration {
 	return presences[peerAtAddress]
 }
@@ -220,7 +220,7 @@ func TestTheAddressAPeerHasEarnedPresenceAtIsProbedFirst(t *testing.T) {
 		seedlistNaming(t, host, port, "localhost"),
 		directory,
 		earnedPresences{
-			peeranswerhistory.PeerAtAddress{
+			probeanswerhistory.PeerAtAddress{
 				Hash:    peerHash(t),
 				Address: presentAddress,
 			}: time.Hour,

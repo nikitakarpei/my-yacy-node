@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -31,7 +31,7 @@ func startOfObservation() time.Time {
 	return time.Date(2026, time.September, 15, 12, 0, 0, 0, time.UTC)
 }
 
-func peerAtAddress(t *testing.T, symbol byte) peeranswerhistory.PeerAtAddress {
+func peerAtAddress(t *testing.T, symbol byte) probeanswerhistory.PeerAtAddress {
 	t.Helper()
 
 	hash, err := yacymodel.ParseHash(string([]byte{
@@ -42,11 +42,14 @@ func peerAtAddress(t *testing.T, symbol byte) peeranswerhistory.PeerAtAddress {
 		t.Fatalf("parse hash: %v", err)
 	}
 
-	return peeranswerhistory.PeerAtAddress{Hash: hash, Address: answeringAddress}
+	return probeanswerhistory.PeerAtAddress{Hash: hash, Address: answeringAddress}
 }
 
-func answeredAt(peer peeranswerhistory.PeerAtAddress, at time.Time) peeranswerhistory.PeerAnswer {
-	return peeranswerhistory.PeerAnswer{PeerAtAddress: peer, AnsweredAt: at}
+func answeredAt(
+	peer probeanswerhistory.PeerAtAddress,
+	at time.Time,
+) probeanswerhistory.ProbeAnswer {
+	return probeanswerhistory.ProbeAnswer{PeerAtAddress: peer, AnsweredAt: at}
 }
 
 func TestTheFirstAnswerOfAPeerEarnsItNoPresence(t *testing.T) {

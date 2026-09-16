@@ -8,9 +8,9 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	peerpresencejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -65,7 +65,7 @@ func sharedJetStream(t *testing.T) natsjetstream.JetStream {
 	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	_, err := stream.CreateOrUpdateStream(t.Context(), natsjetstream.StreamConfig{
 		Name:     streamName,
-		Subjects: []string{peeranswerhistory.SubjectOfEveryPeerAnswerIn(networkName)},
+		Subjects: []string{probeanswerhistory.SubjectOfEveryProbeAnswerIn(networkName)},
 	})
 	if err != nil {
 		t.Fatalf("create stream: %v", err)
@@ -94,11 +94,11 @@ func presenceOver(
 	}
 
 	return peerpresencejetstream.New(
-		peeranswerhistory.New(
+		probeanswerhistory.New(
 			stream,
 			streamName,
 			networkName,
-			peeranswerhistory.HistoryObservers{},
+			probeanswerhistory.HistoryObservers{},
 		),
 		bucket,
 		peerpresencejetstream.PeerPresenceLimits{
@@ -117,19 +117,19 @@ func consuming(
 	t.Helper()
 
 	consumed, stop := context.WithCancel(t.Context())
-	go presence.FoldThePeerAnswerHistory(consumed)
+	go presence.FoldTheProbeAnswerHistory(consumed)
 
 	return stop
 }
 
-func peerAtAddress(peer yacymodel.Hash) peeranswerhistory.PeerAtAddress {
-	return peeranswerhistory.PeerAtAddress{Hash: peer, Address: answeringAddress}
+func peerAtAddress(peer yacymodel.Hash) probeanswerhistory.PeerAtAddress {
+	return probeanswerhistory.PeerAtAddress{Hash: peer, Address: answeringAddress}
 }
 
 func foldedWithin(
 	t *testing.T,
 	presence *peerpresencejetstream.PeerPresence,
-	peer peeranswerhistory.PeerAtAddress,
+	peer probeanswerhistory.PeerAtAddress,
 	folded func(earnedPresence time.Duration, latestAnswer time.Time) bool,
 ) {
 	t.Helper()

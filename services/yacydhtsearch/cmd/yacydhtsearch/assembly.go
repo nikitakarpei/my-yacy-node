@@ -27,8 +27,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	pagereadingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereadingobservers/applog"
 	pagereadingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereadingobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
-	peeranswerhistoryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistoryobservers/applog"
 	peercallobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/applog"
 	peercallobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
@@ -52,6 +50,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	presenceaccrualobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrualobservers/applog"
 	presenceaccrualobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrualobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
+	probeanswerhistoryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistoryobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
 	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
 	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
@@ -72,16 +72,16 @@ import (
 )
 
 const (
-	opsReadHeaderLimit      = 10 * time.Second
-	shutdownLimit           = 15 * time.Second
-	rankingBucket           = "yacydhtsearch-rankings"
-	rankingByteCeiling      = 32 * 1024
-	peerAnswerHistoryStream = "yacydhtsearch-peer-answer-history"
-	peerPresenceBucket      = "yacydhtsearch-peer-presence"
-	presenceByteCeiling     = 512
-	msgServiceStarted       = "yacydhtsearch started"
-	msgServiceStopped       = "yacydhtsearch stopped"
-	pageFetchUserAgent      = "yacydhtsearch (+https://yacy.net)"
+	opsReadHeaderLimit       = 10 * time.Second
+	shutdownLimit            = 15 * time.Second
+	rankingBucket            = "yacydhtsearch-rankings"
+	rankingByteCeiling       = 32 * 1024
+	probeAnswerHistoryStream = "yacydhtsearch-probe-answer-history"
+	peerPresenceBucket       = "yacydhtsearch-peer-presence"
+	presenceByteCeiling      = 512
+	msgServiceStarted        = "yacydhtsearch started"
+	msgServiceStopped        = "yacydhtsearch stopped"
+	pageFetchUserAgent       = "yacydhtsearch (+https://yacy.net)"
 )
 
 func RunService(
@@ -300,7 +300,7 @@ func peerPresenceFor(
 		return peerpresencememory.New(accrualLimits, accrualObservers), nil
 	}
 
-	answers, err := peerAnswerHistoryAt(ctx, cfg)
+	answers, err := probeAnswerHistoryAt(ctx, cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -321,38 +321,38 @@ func peerPresenceFor(
 			peerpresenceobserversjetstreamprometheus.New(registry),
 		},
 	)
-	go presence.FoldThePeerAnswerHistory(ctx)
+	go presence.FoldTheProbeAnswerHistory(ctx)
 
 	return presence, nil
 }
 
-func peerAnswerHistoryAt(
+func probeAnswerHistoryAt(
 	ctx context.Context,
 	cfg ServiceConfig,
-) (peeranswerhistory.History, error) {
+) (probeanswerhistory.History, error) {
 	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
-		return peeranswerhistory.History{}, fmt.Errorf("%s: %w", EnvNATSURL, err)
+		return probeanswerhistory.History{}, fmt.Errorf("%s: %w", EnvNATSURL, err)
 	}
 
 	_, err = stream.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
-		Name: peerAnswerHistoryStream,
+		Name: probeAnswerHistoryStream,
 		Subjects: []string{
-			peeranswerhistory.SubjectOfEveryPeerAnswerIn(cfg.NetworkName),
+			probeanswerhistory.SubjectOfEveryProbeAnswerIn(cfg.NetworkName),
 		},
-		MaxAge: cfg.PeerAnswerHistoryKeptFor,
+		MaxAge: cfg.ProbeAnswerHistoryKeptFor,
 	})
 	if err != nil {
-		return peeranswerhistory.History{},
-			fmt.Errorf("open stream %s: %w", peerAnswerHistoryStream, err)
+		return probeanswerhistory.History{},
+			fmt.Errorf("open stream %s: %w", probeAnswerHistoryStream, err)
 	}
 
-	return peeranswerhistory.New(
+	return probeanswerhistory.New(
 		stream,
-		peerAnswerHistoryStream,
+		probeAnswerHistoryStream,
 		cfg.NetworkName,
-		peeranswerhistory.HistoryObservers{
-			peeranswerhistoryobserversapplog.PeerAnswerHistoryLog{},
+		probeanswerhistory.HistoryObservers{
+			probeanswerhistoryobserversapplog.ProbeAnswerHistoryLog{},
 		},
 	), nil
 }

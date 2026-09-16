@@ -9,15 +9,15 @@ import (
 	"context"
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PeerReliability interface {
 	ReliabilityOf(
 		ctx context.Context,
-		peerAtAddress peeranswerhistory.PeerAtAddress,
+		peerAtAddress probeanswerhistory.PeerAtAddress,
 	) float64
 }
 
@@ -76,7 +76,7 @@ func (c Choice) peersOneQueryMayAsk(
 	for _, peer := range askablePeers {
 		reliabilityOfEachPeer[peer.Hash] = c.peerReliability.ReliabilityOf(
 			ctx,
-			peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: peer.Address},
+			probeanswerhistory.PeerAtAddress{Hash: peer.Hash, Address: peer.Address},
 		)
 	}
 

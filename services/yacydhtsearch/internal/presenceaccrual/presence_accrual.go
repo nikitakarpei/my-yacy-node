@@ -6,7 +6,7 @@
 // accrues as vouched-for uptime and never falls. Presence belongs to the pair,
 // so a peer hash that answers from another address earns its own presence and
 // takes none away. The rule lives here; where the answers are kept and how
-// they are read again belongs to the peer answer history a presence folds.
+// they are read again belongs to the probe answer history a presence folds.
 package presenceaccrual
 
 import (
@@ -16,7 +16,7 @@ import (
 
 	"github.com/hashicorp/golang-lru/v2/expirable"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 )
 
 type PresenceAccrualLimits struct {
@@ -26,7 +26,7 @@ type PresenceAccrualLimits struct {
 
 type PresenceAccrual struct {
 	mutex           sync.Mutex
-	observedPeers   *expirable.LRU[peeranswerhistory.PeerAtAddress, ObservedPeer]
+	observedPeers   *expirable.LRU[probeanswerhistory.PeerAtAddress, ObservedPeer]
 	continuityLimit time.Duration
 	observer        PresenceAccrualObserver
 }
@@ -36,7 +36,7 @@ func PresenceAccrualFrom(
 	limits PresenceAccrualLimits,
 	observer PresenceAccrualObserver,
 ) *PresenceAccrual {
-	alreadyObserved := expirable.NewLRU[peeranswerhistory.PeerAtAddress, ObservedPeer](
+	alreadyObserved := expirable.NewLRU[probeanswerhistory.PeerAtAddress, ObservedPeer](
 		limits.Capacity, nil, 0,
 	)
 	for _, observedPeer := range observedPeers {
@@ -52,7 +52,7 @@ func PresenceAccrualFrom(
 
 func (p *PresenceAccrual) Credit(
 	ctx context.Context,
-	answer peeranswerhistory.PeerAnswer,
+	answer probeanswerhistory.ProbeAnswer,
 ) (ObservedPeer, bool) {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
@@ -83,7 +83,7 @@ func (p *PresenceAccrual) Credit(
 }
 
 func (p *PresenceAccrual) EarnedPresenceOf(
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) time.Duration {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
@@ -94,7 +94,7 @@ func (p *PresenceAccrual) EarnedPresenceOf(
 }
 
 func (p *PresenceAccrual) LatestAnswerOf(
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) time.Time {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()

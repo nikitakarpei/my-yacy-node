@@ -17,15 +17,15 @@ import (
 	"slices"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PeerReliability interface {
 	ReliabilityOf(
 		ctx context.Context,
-		peerAtAddress peeranswerhistory.PeerAtAddress,
+		peerAtAddress probeanswerhistory.PeerAtAddress,
 	) float64
 }
 
@@ -99,7 +99,7 @@ func (s Source) reliabilityOf(
 	bestReliability := 0.0
 	for _, address := range addresses {
 		bestReliability = max(bestReliability, s.reliability.ReliabilityOf(
-			ctx, peeranswerhistory.PeerAtAddress{Hash: peer, Address: address},
+			ctx, probeanswerhistory.PeerAtAddress{Hash: peer, Address: address},
 		))
 	}
 

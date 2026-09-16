@@ -1,4 +1,4 @@
-package peeranswerhistory
+package probeanswerhistory
 
 import (
 	"time"
@@ -11,7 +11,7 @@ type PeerAtAddress struct {
 	Address string
 }
 
-type PeerAnswer struct {
+type ProbeAnswer struct {
 	PeerAtAddress
 	AnsweredAt time.Time
 }

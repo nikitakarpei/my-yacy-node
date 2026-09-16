@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -21,7 +21,7 @@ type reliabilityPerPeer map[yacymodel.Hash]float64
 
 func (reliability reliabilityPerPeer) ReliabilityOf(
 	_ context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) float64 {
 	return reliability[peerAtAddress.Hash]
 }

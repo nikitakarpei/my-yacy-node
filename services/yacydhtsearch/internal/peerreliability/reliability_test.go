@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -24,14 +24,14 @@ type observedPeer struct {
 
 func (observed observedPeer) EarnedPresenceOf(
 	_ context.Context,
-	_ peeranswerhistory.PeerAtAddress,
+	_ probeanswerhistory.PeerAtAddress,
 ) time.Duration {
 	return observed.earnedPresence
 }
 
 func (observed observedPeer) LatestAnswerOf(
 	_ context.Context,
-	_ peeranswerhistory.PeerAtAddress,
+	_ probeanswerhistory.PeerAtAddress,
 ) time.Time {
 	return observed.latestAnswer
 }
@@ -51,7 +51,7 @@ func reliabilityOf(
 			StalenessHorizon:   stalenessHorizon,
 		},
 		func() time.Time { return now },
-	).ReliabilityOf(t.Context(), peeranswerhistory.PeerAtAddress{
+	).ReliabilityOf(t.Context(), probeanswerhistory.PeerAtAddress{
 		Hash:    yacymodel.WordHash("peer"),
 		Address: "http://10.0.0.1:8090",
 	})

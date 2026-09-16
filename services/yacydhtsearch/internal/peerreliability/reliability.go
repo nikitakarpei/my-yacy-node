@@ -4,17 +4,17 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 )
 
 type PeerPresence interface {
 	EarnedPresenceOf(
 		ctx context.Context,
-		peerAtAddress peeranswerhistory.PeerAtAddress,
+		peerAtAddress probeanswerhistory.PeerAtAddress,
 	) time.Duration
 	LatestAnswerOf(
 		ctx context.Context,
-		peerAtAddress peeranswerhistory.PeerAtAddress,
+		peerAtAddress probeanswerhistory.PeerAtAddress,
 	) time.Time
 }
 
@@ -34,7 +34,7 @@ func New(
 
 func (reliability Reliability) ReliabilityOf(
 	ctx context.Context,
-	peerAtAddress peeranswerhistory.PeerAtAddress,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
 ) float64 {
 	return reliability.presenceBenefitOf(
 		reliability.presence.EarnedPresenceOf(ctx, peerAtAddress),

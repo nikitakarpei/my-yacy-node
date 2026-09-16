@@ -53,7 +53,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one probe answer can add. |
-| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time NATS keeps one probe answer. If all instances stop for longer, they lose the presence from the answers after the last write of the peer presence. |
+| `YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time NATS keeps one probe answer. If all instances stop for longer, they lose the presence from the answers after the last write of the peer presence. |
 | `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence to NATS. A starting instance reads the last write, then the answers after it, so a longer time makes the start slower. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION` | `168h` | Presence a peer must earn for the highest reliability. More presence adds no more. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON` | `6h` | Time after the last answer of a peer at which its reliability becomes zero. |
