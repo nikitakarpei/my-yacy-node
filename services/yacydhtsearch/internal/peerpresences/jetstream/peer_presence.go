@@ -27,33 +27,43 @@ type snapshottedPeer struct {
 	FoldedUpTo peeranswerhistory.AnswerPosition
 }
 
+type PeerPresenceLimits struct {
+	AccrualLimits    presenceaccrual.PresenceAccrualLimits
+	SnapshotInterval time.Duration
+}
+
 type PeerPresence struct {
-	answers              peeranswerhistory.History
-	snapshots            natsjetstream.KeyValue
-	accrualLimits        presenceaccrual.PresenceAccrualLimits
-	accrual              atomic.Pointer[presenceaccrual.PresenceAccrual]
-	changedPeers         map[peeranswerhistory.PeerAtAddress]snapshottedPeer
-	answersSinceSnapshot int
-	accrualObserver      presenceaccrual.PresenceAccrualObserver
-	presenceObserver     PeerPresenceObserver
+	answers          peeranswerhistory.History
+	snapshots        natsjetstream.KeyValue
+	accrualLimits    presenceaccrual.PresenceAccrualLimits
+	accrual          atomic.Pointer[presenceaccrual.PresenceAccrual]
+	changedPeers     map[peeranswerhistory.PeerAtAddress]snapshottedPeer
+	snapshotInterval time.Duration
+	snapshotDueAt    time.Time
+	accrualObserver  presenceaccrual.PresenceAccrualObserver
+	presenceObserver PeerPresenceObserver
 }
 
 func New(
 	answers peeranswerhistory.History,
 	snapshots natsjetstream.KeyValue,
-	accrualLimits presenceaccrual.PresenceAccrualLimits,
+	limits PeerPresenceLimits,
 	accrualObserver presenceaccrual.PresenceAccrualObserver,
 	presenceObserver PeerPresenceObserver,
 ) *PeerPresence {
 	presence := &PeerPresence{
 		answers:          answers,
 		snapshots:        snapshots,
-		accrualLimits:    accrualLimits,
+		accrualLimits:    limits.AccrualLimits,
 		changedPeers:     map[peeranswerhistory.PeerAtAddress]snapshottedPeer{},
+		snapshotInterval: limits.SnapshotInterval,
+		snapshotDueAt:    time.Now().Add(limits.SnapshotInterval),
 		accrualObserver:  accrualObserver,
 		presenceObserver: presenceObserver,
 	}
-	presence.accrual.Store(presenceaccrual.PresenceAccrualFrom(nil, accrualLimits, accrualObserver))
+	presence.accrual.Store(
+		presenceaccrual.PresenceAccrualFrom(nil, limits.AccrualLimits, accrualObserver),
+	)
 
 	return presence
 }
@@ -92,6 +102,7 @@ func (h *PeerPresence) FoldThePeerAnswerHistory(ctx context.Context) {
 
 	for position, answer := range h.answers.AnswersAfter(ctx, foldedUpToBy(peersSnapshotted)) {
 		h.credit(ctx, position, answer)
+		h.snapshotWhenDue(ctx)
 	}
 }
 
@@ -153,7 +164,6 @@ func (h *PeerPresence) credit(
 		}
 		h.reportCredited(ctx, observedPeer)
 	}
-	h.snapshotWhenDue(ctx)
 }
 
 func (h *PeerPresence) reportCredited(
@@ -171,11 +181,10 @@ func (h *PeerPresence) reportCredited(
 }
 
 func (h *PeerPresence) snapshotWhenDue(ctx context.Context) {
-	h.answersSinceSnapshot++
-	if h.answersSinceSnapshot < h.accrualLimits.Capacity {
+	if time.Now().Before(h.snapshotDueAt) {
 		return
 	}
-	h.answersSinceSnapshot = 0
+	h.snapshotDueAt = time.Now().Add(h.snapshotInterval)
 	h.snapshotChangedPeers(ctx)
 }
 

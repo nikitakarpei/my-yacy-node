@@ -43,14 +43,19 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |
 | `YACYDHTSEARCH_PEER_CHOICE_COOLDOWN` | `5s` | Time a chosen peer rests before a search may choose it again. |
 
-## Peer presence
+## Peer presence and reliability
 
 The service records each answer a peer gives, and adds the time since the answer before it. This presence shows which peers stay reachable. If `YACYDHTSEARCH_NATS_URL` is set, all instances read the same answers and hold the same presence. If it is not set, an instance holds presence only while it runs.
 
+Reliability is one number that the service makes from that presence. The number increases with the presence a peer earned, and decreases as the last answer of the peer becomes old. A search asks the peers with the highest number first, and a full directory keeps them.
+
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYDHTSEARCH_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one answer can add. An answer after a longer silence adds only this time. |
-| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time the shared history keeps one answer. An instance that starts again after a longer stop reads the presence it kept, not the answers. |
+| `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one answer can add. An answer after a longer silence adds only this time. |
+| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time the shared history keeps one answer. An instance that stopped for longer cannot read the answers it missed. It continues from the presence it wrote last, and the time it missed adds no presence. |
+| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between the writes of the earned presence to the bucket. An instance that starts again reads the answers that came after its last write, so a longer time makes the start slower. |
+| `YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION` | `168h` | Presence a peer must earn for the highest reliability. More presence adds no more. |
+| `YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON` | `6h` | Time after the last answer of a peer at which its reliability becomes zero. |
 
 ## Query
 

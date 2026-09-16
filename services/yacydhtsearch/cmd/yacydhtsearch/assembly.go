@@ -88,7 +88,12 @@ func RunService(
 	}
 
 	reliability := peerreliability.New(
-		presence, peerreliability.DefaultReliabilityWeights(), time.Now,
+		presence,
+		peerreliability.ReliabilityWeights{
+			MaturationDuration: cfg.MaturationDuration,
+			StalenessHorizon:   cfg.StalenessHorizon,
+		},
+		time.Now,
 	)
 	directory := peerdirectory.New(
 		cfg.DirectoryCapacity,
@@ -290,7 +295,10 @@ func peerPresenceFor(
 	presence := peerpresencesjetstream.New(
 		answers,
 		snapshots,
-		accrualLimits,
+		peerpresencesjetstream.PeerPresenceLimits{
+			AccrualLimits:    accrualLimits,
+			SnapshotInterval: cfg.SnapshotInterval,
+		},
 		presenceaccrual.PresenceAccrualObservers{},
 		peerpresencesjetstream.PeerPresenceObservers{},
 	)

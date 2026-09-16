@@ -21,6 +21,8 @@ const (
 	answeringAddress = "http://10.0.0.1:8090"
 	continuityLimit  = 10 * time.Minute
 	wideCapacity     = 16
+	snapshotSeldom   = time.Hour
+	snapshotOnEvery  = 0
 	foldingDeadline  = 5 * time.Second
 )
 
@@ -82,6 +84,7 @@ func presenceOver(
 	t *testing.T,
 	stream natsjetstream.JetStream,
 	limits presenceaccrual.PresenceAccrualLimits,
+	snapshotInterval time.Duration,
 ) *peerpresencesjetstream.PeerPresence {
 	t.Helper()
 
@@ -98,7 +101,10 @@ func presenceOver(
 			peeranswerhistory.HistoryObservers{},
 		),
 		bucket,
-		limits,
+		peerpresencesjetstream.PeerPresenceLimits{
+			AccrualLimits:    limits,
+			SnapshotInterval: snapshotInterval,
+		},
 		silentObserver{},
 		silentObserver{},
 	)
@@ -156,7 +162,7 @@ func presenceEarned(earned time.Duration) func(time.Duration, time.Time) bool {
 func TestAnAnsweringPeerBecomesObservedOnceTheStreamIsFolded(t *testing.T) {
 	t.Parallel()
 
-	presence := presenceOver(t, sharedJetStream(t), wideAccrualLimits)
+	presence := presenceOver(t, sharedJetStream(t), wideAccrualLimits, snapshotSeldom)
 	defer consuming(t, presence)()
 	peer := hashOf(t, 'a')
 
@@ -169,9 +175,9 @@ func TestAnInstanceEarnsPresenceFromAnswersItDidNotPublish(t *testing.T) {
 	t.Parallel()
 
 	stream := sharedJetStream(t)
-	publishing := presenceOver(t, stream, wideAccrualLimits)
+	publishing := presenceOver(t, stream, wideAccrualLimits, snapshotSeldom)
 	defer consuming(t, publishing)()
-	sibling := presenceOver(t, stream, wideAccrualLimits)
+	sibling := presenceOver(t, stream, wideAccrualLimits, snapshotSeldom)
 	defer consuming(t, sibling)()
 	peer := hashOf(t, 'a')
 
@@ -187,11 +193,7 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 	t.Parallel()
 
 	stream := sharedJetStream(t)
-	snapshottingLimits := presenceaccrual.PresenceAccrualLimits{
-		Capacity:        2,
-		ContinuityLimit: continuityLimit,
-	}
-	before := presenceOver(t, stream, snapshottingLimits)
+	before := presenceOver(t, stream, wideAccrualLimits, snapshotOnEvery)
 	stop := consuming(t, before)
 	peer := hashOf(t, 'a')
 	before.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
@@ -203,7 +205,7 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 	stop()
 	dropEveryAnswer(t, stream)
 
-	after := presenceOver(t, stream, snapshottingLimits)
+	after := presenceOver(t, stream, wideAccrualLimits, snapshotOnEvery)
 	defer consuming(t, after)()
 
 	foldedWithin(t, after, peerAtAddress(peer), presenceEarned(time.Minute))

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -26,8 +27,11 @@ const (
 	EnvDirectoryCapacity        = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval          = "YACYDHTSEARCH_REFRESH_INTERVAL"
 	EnvProbeBudget              = "YACYDHTSEARCH_PROBE_BUDGET"
-	EnvContinuityLimit          = "YACYDHTSEARCH_PRESENCE_CONTINUITY_LIMIT"
+	EnvContinuityLimit          = "YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT"
 	EnvPeerAnswerHistoryKeptFor = "YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR"
+	EnvMaturationDuration       = "YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION"
+	EnvStalenessHorizon         = "YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON"
+	EnvSnapshotInterval         = "YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL"
 	EnvPartitionExponent        = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvMaxResponseBytes         = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
 	EnvPeerItemsCeiling         = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
@@ -53,6 +57,7 @@ const (
 	DefaultProbeBudget              = 3 * time.Second
 	DefaultContinuityLimit          = 15 * time.Minute
 	DefaultPeerAnswerHistoryKeptFor = 24 * time.Hour
+	DefaultSnapshotInterval         = 10 * time.Minute
 	DefaultPartitionExponent        = 4
 	DefaultMaxResponseBytes         = 4 * 1024 * 1024
 	DefaultPeerItemsCeiling         = 10
@@ -82,6 +87,9 @@ type ServiceConfig struct {
 	ProbeBudget              time.Duration
 	ContinuityLimit          time.Duration
 	PeerAnswerHistoryKeptFor time.Duration
+	MaturationDuration       time.Duration
+	StalenessHorizon         time.Duration
+	SnapshotInterval         time.Duration
 	Partitions               yacymodel.DHTRingPartitions
 	MaxResponseBytes         int64
 	PeerItemsCeiling         int
@@ -151,6 +159,9 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		ProbeBudget:              durations.probeBudget,
 		ContinuityLimit:          durations.continuityLimit,
 		PeerAnswerHistoryKeptFor: durations.peerAnswerHistoryKeptFor,
+		MaturationDuration:       durations.maturationDuration,
+		StalenessHorizon:         durations.stalenessHorizon,
+		SnapshotInterval:         durations.snapshotInterval,
 		Partitions:               partitions,
 		MaxResponseBytes:         maxResponseBytes,
 		PeerItemsCeiling:         counts.peerItemsCeiling,
@@ -174,6 +185,9 @@ type configuredDurations struct {
 	probeBudget              time.Duration
 	continuityLimit          time.Duration
 	peerAnswerHistoryKeptFor time.Duration
+	maturationDuration       time.Duration
+	stalenessHorizon         time.Duration
+	snapshotInterval         time.Duration
 	rankingLifetime          time.Duration
 	pageReadBudget           time.Duration
 }
@@ -193,6 +207,17 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
 		{EnvContinuityLimit, DefaultContinuityLimit, &durations.continuityLimit},
 		{EnvPeerAnswerHistoryKeptFor, DefaultPeerAnswerHistoryKeptFor, &durations.peerAnswerHistoryKeptFor},
+		{
+			EnvMaturationDuration,
+			peerreliability.DefaultReliabilityWeights().MaturationDuration,
+			&durations.maturationDuration,
+		},
+		{
+			EnvStalenessHorizon,
+			peerreliability.DefaultReliabilityWeights().StalenessHorizon,
+			&durations.stalenessHorizon,
+		},
+		{EnvSnapshotInterval, DefaultSnapshotInterval, &durations.snapshotInterval},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
 		{EnvPageReadBudget, DefaultPageReadBudget, &durations.pageReadBudget},
 	} {
