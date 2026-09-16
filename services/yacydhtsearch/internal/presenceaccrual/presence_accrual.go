@@ -6,7 +6,7 @@
 // accrues as vouched-for uptime and never falls. Presence belongs to the pair,
 // so a peer hash that answers from another address earns its own presence and
 // takes none away. The rule lives here; where the answers are kept and how
-// they are replayed belongs to the peer presences that hold them.
+// they are read again belongs to the peer answer history a presence folds.
 package presenceaccrual
 
 import (
@@ -15,6 +15,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/golang-lru/v2/expirable"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 )
 
 type PresenceAccrualLimits struct {
@@ -24,7 +26,7 @@ type PresenceAccrualLimits struct {
 
 type PresenceAccrual struct {
 	mutex           sync.Mutex
-	observedPeers   *expirable.LRU[PeerAtAddress, ObservedPeer]
+	observedPeers   *expirable.LRU[peeranswerhistory.PeerAtAddress, ObservedPeer]
 	continuityLimit time.Duration
 	observer        PresenceAccrualObserver
 }
@@ -34,7 +36,9 @@ func PresenceAccrualFrom(
 	limits PresenceAccrualLimits,
 	observer PresenceAccrualObserver,
 ) *PresenceAccrual {
-	alreadyObserved := expirable.NewLRU[PeerAtAddress, ObservedPeer](limits.Capacity, nil, 0)
+	alreadyObserved := expirable.NewLRU[peeranswerhistory.PeerAtAddress, ObservedPeer](
+		limits.Capacity, nil, 0,
+	)
 	for _, observedPeer := range observedPeers {
 		alreadyObserved.Add(observedPeer.PeerAtAddress, observedPeer)
 	}
@@ -48,29 +52,29 @@ func PresenceAccrualFrom(
 
 func (p *PresenceAccrual) Credit(
 	ctx context.Context,
-	peerAnswered PeerAnswered,
+	answer peeranswerhistory.PeerAnswer,
 ) (ObservedPeer, bool) {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	answeredPeer, isObserved := p.observedPeers.Get(peerAnswered.PeerAtAddress)
+	answeredPeer, isObserved := p.observedPeers.Get(answer.PeerAtAddress)
 	switch {
 	case !isObserved:
 		answeredPeer = ObservedPeer{
-			PeerAtAddress:    peerAnswered.PeerAtAddress,
-			FirstAnsweredAt:  peerAnswered.AnsweredAt,
-			LatestAnsweredAt: peerAnswered.AnsweredAt,
+			PeerAtAddress:    answer.PeerAtAddress,
+			FirstAnsweredAt:  answer.AnsweredAt,
+			LatestAnsweredAt: answer.AnsweredAt,
 		}
-	case !peerAnswered.AnsweredAt.After(answeredPeer.LatestAnsweredAt):
+	case !answer.AnsweredAt.After(answeredPeer.LatestAnsweredAt):
 		return ObservedPeer{}, false
 	default:
 		answeredPeer.Presence += min(
-			peerAnswered.AnsweredAt.Sub(answeredPeer.LatestAnsweredAt),
+			answer.AnsweredAt.Sub(answeredPeer.LatestAnsweredAt),
 			p.continuityLimit,
 		)
-		answeredPeer.LatestAnsweredAt = peerAnswered.AnsweredAt
+		answeredPeer.LatestAnsweredAt = answer.AnsweredAt
 	}
-	p.observedPeers.Add(peerAnswered.PeerAtAddress, answeredPeer)
+	p.observedPeers.Add(answer.PeerAtAddress, answeredPeer)
 	if !isObserved {
 		p.observer.PeersObserved(ctx, p.observedPeers.Len())
 	}
@@ -78,7 +82,9 @@ func (p *PresenceAccrual) Credit(
 	return answeredPeer, true
 }
 
-func (p *PresenceAccrual) EarnedPresenceOf(peerAtAddress PeerAtAddress) time.Duration {
+func (p *PresenceAccrual) EarnedPresenceOf(
+	peerAtAddress peeranswerhistory.PeerAtAddress,
+) time.Duration {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
@@ -87,7 +93,9 @@ func (p *PresenceAccrual) EarnedPresenceOf(peerAtAddress PeerAtAddress) time.Dur
 	return observedPeer.Presence
 }
 
-func (p *PresenceAccrual) LatestAnswerOf(peerAtAddress PeerAtAddress) time.Time {
+func (p *PresenceAccrual) LatestAnswerOf(
+	peerAtAddress peeranswerhistory.PeerAtAddress,
+) time.Time {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 

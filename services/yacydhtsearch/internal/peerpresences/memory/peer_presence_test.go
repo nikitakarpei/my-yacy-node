@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	peerpresencesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -74,7 +75,7 @@ func TestAnAnsweringPeerBecomesObserved(t *testing.T) {
 
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 
-	latestAnswer := presence.LatestAnswerOf(t.Context(), presenceaccrual.PeerAtAddress{
+	latestAnswer := presence.LatestAnswerOf(t.Context(), peeranswerhistory.PeerAtAddress{
 		Hash:    peer,
 		Address: answeringAddress,
 	})
@@ -116,7 +117,7 @@ func TestAPeerDroppedFromTheDirectoryKeepsThePresenceItEarned(t *testing.T) {
 
 	presence.PeerDropped(t.Context(), peer)
 
-	earned := presence.EarnedPresenceOf(t.Context(), presenceaccrual.PeerAtAddress{
+	earned := presence.EarnedPresenceOf(t.Context(), peeranswerhistory.PeerAtAddress{
 		Hash:    peer,
 		Address: answeringAddress,
 	})

@@ -3,22 +3,12 @@ package presenceaccrual
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 )
 
-type PeerAtAddress struct {
-	Hash    yacymodel.Hash
-	Address string
-}
-
 type ObservedPeer struct {
-	PeerAtAddress
+	peeranswerhistory.PeerAtAddress
 	FirstAnsweredAt  time.Time
 	LatestAnsweredAt time.Time
 	Presence         time.Duration
-}
-
-type PeerAnswered struct {
-	PeerAtAddress
-	AnsweredAt time.Time
 }

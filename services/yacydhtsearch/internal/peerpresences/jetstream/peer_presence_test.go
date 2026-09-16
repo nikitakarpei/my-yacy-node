@@ -8,6 +8,7 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	peerpresencesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresences/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -33,14 +34,9 @@ type silentObserver struct{}
 func (silentObserver) PeerAnsweredForTheFirstTime(context.Context, yacymodel.Hash, string) {}
 func (silentObserver) PeerEarnedPresence(context.Context, yacymodel.Hash, time.Duration)   {}
 func (silentObserver) PeersObserved(context.Context, int)                                  {}
-func (silentObserver) PeerAnsweredPublishFailed(context.Context, error)                    {}
-func (silentObserver) PeerAnsweredMessageUndecodable(context.Context, uint64, error)       {}
-func (silentObserver) PeerAnsweredStreamEnded(context.Context, error)                      {}
 func (silentObserver) SnapshotsReadFailed(context.Context, error)                          {}
 func (silentObserver) SnapshotUndecodable(context.Context, string, error)                  {}
 func (silentObserver) SnapshotWriteFailed(context.Context, string, error)                  {}
-func (silentObserver) PeerAnsweredStreamPurgeFailed(context.Context, error)                {}
-func (silentObserver) PeerAnsweredStreamPurged(context.Context, uint64)                    {}
 func (silentObserver) PeersSnapshotted(context.Context, int)                               {}
 
 func startOfObservation() time.Time {
@@ -67,7 +63,7 @@ func sharedJetStream(t *testing.T) natsjetstream.JetStream {
 	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	_, err := stream.CreateOrUpdateStream(t.Context(), natsjetstream.StreamConfig{
 		Name:     streamName,
-		Subjects: []string{peerpresencesjetstream.SubjectOfEveryPeerAnsweredIn(networkName)},
+		Subjects: []string{peeranswerhistory.SubjectOfEveryPeerAnswerIn(networkName)},
 	})
 	if err != nil {
 		t.Fatalf("create stream: %v", err)
@@ -95,11 +91,12 @@ func presenceOver(
 	}
 
 	return peerpresencesjetstream.New(
-		peerpresencesjetstream.PeerAnsweredStream{
-			JetStream:   stream,
-			Name:        streamName,
-			NetworkName: networkName,
-		},
+		peeranswerhistory.New(
+			stream,
+			streamName,
+			networkName,
+			peeranswerhistory.HistoryObservers{},
+		),
 		bucket,
 		limits,
 		silentObserver{},
@@ -114,19 +111,19 @@ func consuming(
 	t.Helper()
 
 	consumed, stop := context.WithCancel(t.Context())
-	go presence.ConsumeThePeerAnsweredStream(consumed)
+	go presence.FoldThePeerAnswerHistory(consumed)
 
 	return stop
 }
 
-func peerAtAddress(peer yacymodel.Hash) presenceaccrual.PeerAtAddress {
-	return presenceaccrual.PeerAtAddress{Hash: peer, Address: answeringAddress}
+func peerAtAddress(peer yacymodel.Hash) peeranswerhistory.PeerAtAddress {
+	return peeranswerhistory.PeerAtAddress{Hash: peer, Address: answeringAddress}
 }
 
 func foldedWithin(
 	t *testing.T,
 	presence *peerpresencesjetstream.PeerPresence,
-	peer presenceaccrual.PeerAtAddress,
+	peer peeranswerhistory.PeerAtAddress,
 	folded func(earnedPresence time.Duration, latestAnswer time.Time) bool,
 ) {
 	t.Helper()
@@ -190,11 +187,11 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 	t.Parallel()
 
 	stream := sharedJetStream(t)
-	compactingLimits := presenceaccrual.PresenceAccrualLimits{
+	snapshottingLimits := presenceaccrual.PresenceAccrualLimits{
 		Capacity:        2,
 		ContinuityLimit: continuityLimit,
 	}
-	before := presenceOver(t, stream, compactingLimits)
+	before := presenceOver(t, stream, snapshottingLimits)
 	stop := consuming(t, before)
 	peer := hashOf(t, 'a')
 	before.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
@@ -202,43 +199,44 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 		t.Context(), peer, answeringAddress, startOfObservation().Add(time.Minute),
 	)
 	foldedWithin(t, before, peerAtAddress(peer), presenceEarned(time.Minute))
-	purgedWithin(t, stream)
+	snapshottedWithin(t, stream)
 	stop()
+	dropEveryAnswer(t, stream)
 
-	after := presenceOver(t, stream, compactingLimits)
+	after := presenceOver(t, stream, snapshottingLimits)
 	defer consuming(t, after)()
 
 	foldedWithin(t, after, peerAtAddress(peer), presenceEarned(time.Minute))
 }
 
-func purgedWithin(t *testing.T, stream natsjetstream.JetStream) {
+func snapshottedWithin(t *testing.T, stream natsjetstream.JetStream) {
 	t.Helper()
 
+	bucket, err := stream.KeyValue(t.Context(), bucketName)
+	if err != nil {
+		t.Fatalf("open bucket: %v", err)
+	}
 	deadline := time.Now().Add(foldingDeadline)
 	for {
-		answers := streamedAnswers(t, stream)
-		if answers == 0 {
+		if keys, err := bucket.Keys(t.Context()); err == nil && len(keys) > 0 {
 			return
 		}
 		if time.Now().After(deadline) {
-			t.Fatalf("stream holds %d answers after %v, want them purged behind the snapshots",
-				answers, foldingDeadline)
+			t.Fatalf("no peer is snapshotted after %v, want the earned presence kept",
+				foldingDeadline)
 		}
 		time.Sleep(10 * time.Millisecond)
 	}
 }
 
-func streamedAnswers(t *testing.T, stream natsjetstream.JetStream) uint64 {
+func dropEveryAnswer(t *testing.T, stream natsjetstream.JetStream) {
 	t.Helper()
 
-	peerAnsweredStream, err := stream.Stream(t.Context(), streamName)
+	answers, err := stream.Stream(t.Context(), streamName)
 	if err != nil {
 		t.Fatalf("open stream: %v", err)
 	}
-	streamState, err := peerAnsweredStream.Info(t.Context())
-	if err != nil {
-		t.Fatalf("read stream state: %v", err)
+	if err := answers.Purge(t.Context()); err != nil {
+		t.Fatalf("drop the answers: %v", err)
 	}
-
-	return streamState.State.Msgs
 }

@@ -15,20 +15,20 @@ import (
 	"slices"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PeerPresence interface {
 	EarnedPresenceOf(
 		ctx context.Context,
-		peerAtAddress presenceaccrual.PeerAtAddress,
+		peerAtAddress peeranswerhistory.PeerAtAddress,
 	) time.Duration
 	LatestAnswerOf(
 		ctx context.Context,
-		peerAtAddress presenceaccrual.PeerAtAddress,
+		peerAtAddress peeranswerhistory.PeerAtAddress,
 	) time.Time
 }
 
@@ -99,7 +99,7 @@ func (s Source) reliabilityOf(
 ) float64 {
 	bestReliability := 0.0
 	for _, address := range peer.Addresses {
-		peerAtAddress := presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: address}
+		peerAtAddress := peeranswerhistory.PeerAtAddress{Hash: peer.Hash, Address: address}
 		bestReliability = max(bestReliability, s.weights.ReliabilityOf(
 			s.presence.EarnedPresenceOf(ctx, peerAtAddress),
 			s.presence.LatestAnswerOf(ctx, peerAtAddress),

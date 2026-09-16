@@ -9,6 +9,7 @@ commonComponents:
   - searchquery
   - searchresult
   - peerdirectory
+  - peeranswerhistory
   - presenceaccrual
 
 components:
@@ -100,6 +101,8 @@ components:
     in: internal/peerdirectoryobservers/prometheus/**
   yacyseedlistobserversapplog:
     in: internal/yacyseedlistobservers/applog/**
+  peeranswerhistory:
+    in: internal/peeranswerhistory/**
   presenceaccrual:
     in: internal/presenceaccrual/**
   peerpresencesjetstream:
@@ -199,6 +202,10 @@ deps:
   peerdirectory:
     canUse:
       - yacymodel
+  peeranswerhistory:
+    canUse:
+      - yacymodel
+      - nats
   presenceaccrual:
     canUse:
       - yacymodel

@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
@@ -21,18 +22,18 @@ const (
 
 var theInstant = time.Unix(1_000_000, 0)
 
-type observedPeers map[presenceaccrual.PeerAtAddress]presenceaccrual.ObservedPeer
+type observedPeers map[peeranswerhistory.PeerAtAddress]presenceaccrual.ObservedPeer
 
 func (peers observedPeers) EarnedPresenceOf(
 	_ context.Context,
-	peerAtAddress presenceaccrual.PeerAtAddress,
+	peerAtAddress peeranswerhistory.PeerAtAddress,
 ) time.Duration {
 	return peers[peerAtAddress].Presence
 }
 
 func (peers observedPeers) LatestAnswerOf(
 	_ context.Context,
-	peerAtAddress presenceaccrual.PeerAtAddress,
+	peerAtAddress peeranswerhistory.PeerAtAddress,
 ) time.Time {
 	return peers[peerAtAddress].LatestAnsweredAt
 }
@@ -57,7 +58,7 @@ func presenceEarnedAt(
 	presence time.Duration,
 ) presenceaccrual.ObservedPeer {
 	return presenceaccrual.ObservedPeer{
-		PeerAtAddress:    presenceaccrual.PeerAtAddress{Hash: peer, Address: address},
+		PeerAtAddress:    peeranswerhistory.PeerAtAddress{Hash: peer, Address: address},
 		FirstAnsweredAt:  theInstant.Add(-presence),
 		LatestAnsweredAt: theInstant,
 		Presence:         presence,

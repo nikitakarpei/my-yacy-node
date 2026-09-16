@@ -8,6 +8,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -29,14 +30,14 @@ func New(
 
 func (h *PeerPresence) EarnedPresenceOf(
 	_ context.Context,
-	peerAtAddress presenceaccrual.PeerAtAddress,
+	peerAtAddress peeranswerhistory.PeerAtAddress,
 ) time.Duration {
 	return h.accrual.EarnedPresenceOf(peerAtAddress)
 }
 
 func (h *PeerPresence) LatestAnswerOf(
 	_ context.Context,
-	peerAtAddress presenceaccrual.PeerAtAddress,
+	peerAtAddress peeranswerhistory.PeerAtAddress,
 ) time.Time {
 	return h.accrual.LatestAnswerOf(peerAtAddress)
 }
@@ -47,8 +48,8 @@ func (h *PeerPresence) PeerAnswered(
 	address string,
 	answeredAt time.Time,
 ) {
-	answeredPeer, answerCredited := h.accrual.Credit(ctx, presenceaccrual.PeerAnswered{
-		PeerAtAddress: presenceaccrual.PeerAtAddress{Hash: peer, Address: address},
+	answeredPeer, answerCredited := h.accrual.Credit(ctx, peeranswerhistory.PeerAnswer{
+		PeerAtAddress: peeranswerhistory.PeerAtAddress{Hash: peer, Address: address},
 		AnsweredAt:    answeredAt,
 	})
 	if !answerCredited {

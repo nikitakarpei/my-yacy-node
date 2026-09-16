@@ -50,6 +50,7 @@ The service records each answer a peer gives, and adds the time since the answer
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one answer can add. An answer after a longer silence adds only this time. |
+| `YACYDHTSEARCH_PEER_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time the shared history keeps one answer. An instance that starts again after a longer stop reads the presence it kept, not the answers. |
 
 ## Query
 
