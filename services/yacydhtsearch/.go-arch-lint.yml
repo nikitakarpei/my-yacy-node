@@ -37,8 +37,24 @@ components:
     in: internal/peerdirectory/**
   stalepeersourcesleastreliable:
     in: internal/stalepeersources/leastreliable/**
+  peerchoiceobserversapplog:
+    in: internal/peerchoiceobservers/applog/**
   peerchoiceobserversprometheus:
     in: internal/peerchoiceobservers/prometheus/**
+  presenceaccrualobserversapplog:
+    in: internal/presenceaccrualobservers/applog/**
+  presenceaccrualobserversprometheus:
+    in: internal/presenceaccrualobservers/prometheus/**
+  peerpresenceobserversjetstreamapplog:
+    in: internal/peerpresenceobservers/jetstream/applog/**
+  peerpresenceobserversjetstreamprometheus:
+    in: internal/peerpresenceobservers/jetstream/prometheus/**
+  peeranswerhistoryobserversapplog:
+    in: internal/peeranswerhistoryobservers/applog/**
+  peerlivenessobserversapplog:
+    in: internal/peerlivenessobservers/applog/**
+  peerlivenessobserversprometheus:
+    in: internal/peerlivenessobservers/prometheus/**
   networksearch:
     in: internal/networksearch/**
   pagereading:
@@ -336,6 +352,19 @@ deps:
       - searchquery
       - searchresult
   peerchoiceobserversprometheus:
+    canUse:
+      - prometheus
+  presenceaccrualobserversapplog:
+    canUse:
+      - yacymodel
+  presenceaccrualobserversprometheus:
+    canUse:
+      - prometheus
+      - yacymodel
+  peerpresenceobserversjetstreamprometheus:
+    canUse:
+      - prometheus
+  peerlivenessobserversprometheus:
     canUse:
       - prometheus
   networksearchobserversapplog:
