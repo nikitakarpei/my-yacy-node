@@ -52,8 +52,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	rankingcachejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/jetstream"
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
-	rankingcacheobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/applog"
-	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
+	rankingcacheobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/applog"
+	rankingcacheobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	wordjoinedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/applog"
 	wordjoinedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/prometheus"
@@ -138,7 +138,7 @@ func RunService(
 			networksearchobserversprometheus.New(registry, cfg.QueryBudget),
 		},
 	)
-	rankingCacheMetrics := rankingcacheobserversprometheus.New(registry)
+	rankingCacheMetrics := rankingcacheobserversjetstreamprometheus.New(registry)
 	cache, err := rankingCacheFor(ctx, cfg, rankingCacheMetrics)
 	if err != nil {
 		return err
@@ -353,7 +353,7 @@ func peerPresenceBucketAt(
 func rankingCacheFor(
 	ctx context.Context,
 	cfg ServiceConfig,
-	metrics *rankingcacheobserversprometheus.RankingMetrics,
+	metrics *rankingcacheobserversjetstreamprometheus.RankingMetrics,
 ) (queryrankings.RankingCache, error) {
 	if cfg.NATSURL == "" {
 		return rankingcachememory.New(cfg.RankingCache, cfg.RankingLifetime), nil
@@ -365,7 +365,7 @@ func rankingCacheFor(
 	}
 
 	return rankingcachejetstream.New(bucket, rankingcachejetstream.RankingCacheObservers{
-		rankingcacheobserversapplog.RankingLog{},
+		rankingcacheobserversjetstreamapplog.RankingLog{},
 		metrics,
 	}), nil
 }

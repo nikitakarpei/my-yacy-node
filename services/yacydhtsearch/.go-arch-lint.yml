@@ -63,10 +63,10 @@ components:
     in: internal/queryrankingsobservers/applog/**
   queryrankingsobserversprometheus:
     in: internal/queryrankingsobservers/prometheus/**
-  rankingcacheobserversapplog:
-    in: internal/rankingcacheobservers/applog/**
-  rankingcacheobserversprometheus:
-    in: internal/rankingcacheobservers/prometheus/**
+  rankingcacheobserversjetstreamapplog:
+    in: internal/rankingcacheobservers/jetstream/applog/**
+  rankingcacheobserversjetstreamprometheus:
+    in: internal/rankingcacheobservers/jetstream/prometheus/**
   peerasks:
     in: internal/peerasks/**
   peerchoice:
@@ -298,10 +298,10 @@ deps:
       - prometheus
     mayDependOn:
       - searchquery
-  rankingcacheobserversapplog:
+  rankingcacheobserversjetstreamapplog:
     mayDependOn:
       - searchquery
-  rankingcacheobserversprometheus:
+  rankingcacheobserversjetstreamprometheus:
     canUse:
       - prometheus
     mayDependOn:

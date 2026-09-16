@@ -10,7 +10,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
+	rankingcacheobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
@@ -30,7 +30,7 @@ func TestAFailedHoldIsPublishedApartFromAFailedLookup(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := rankingcacheobserversprometheus.New(registry)
+	metrics := rankingcacheobserversjetstreamprometheus.New(registry)
 	query := searchquery.QueryFrom("berlin", "")
 	refused := errors.New("bucket refused")
 
