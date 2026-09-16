@@ -1,16 +1,29 @@
 // Package peerdirectoryrefresh keeps the peer directory current: it re-reads
-// the seedlists and probes which address of each known peer answers.
+// the seedlists and probes which address of each known peer answers. It probes
+// the address a peer has earned the most presence at first, so an address a
+// seedlist has only just named for that peer answers for it only when every
+// address this deployment has already heard from is silent.
 package peerdirectoryrefresh
 
 import (
+	"cmp"
 	"context"
+	"slices"
 	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 )
+
+type PeerPresence interface {
+	ObservedPeerAt(
+		ctx context.Context,
+		peerAtAddress presenceaccrual.PeerAtAddress,
+	) (presenceaccrual.ObservedPeer, bool)
+}
 
 type ProbeLimits struct {
 	ProbeBudget    time.Duration
@@ -21,7 +34,7 @@ type Cycle struct {
 	seedlists yacyseedlist.Seedlists
 	directory *peerdirectory.Directory
 	liveness  peerlivenesswire.Wire
-	interval  time.Duration
+	presence  PeerPresence
 	probes    ProbeLimits
 }
 
@@ -29,20 +42,20 @@ func New(
 	seedlists yacyseedlist.Seedlists,
 	directory *peerdirectory.Directory,
 	liveness peerlivenesswire.Wire,
-	interval time.Duration,
+	presence PeerPresence,
 	probes ProbeLimits,
 ) Cycle {
 	return Cycle{
 		seedlists: seedlists,
 		directory: directory,
 		liveness:  liveness,
-		interval:  interval,
+		presence:  presence,
 		probes:    probes,
 	}
 }
 
-func (c Cycle) Run(ctx context.Context) {
-	ticks := time.NewTicker(c.interval)
+func (c Cycle) Run(ctx context.Context, every time.Duration) {
+	ticks := time.NewTicker(every)
 	defer ticks.Stop()
 
 	for {
@@ -77,7 +90,7 @@ func (c Cycle) probeKnownPeers(ctx context.Context, knownPeers []peerdirectory.K
 }
 
 func (c Cycle) probeOne(ctx context.Context, peer peerdirectory.KnownPeer) {
-	for _, address := range peer.Addresses {
+	for _, address := range c.addressesMostPresentFirst(ctx, peer) {
 		probeCtx, endProbe := context.WithTimeout(ctx, c.probes.ProbeBudget)
 		alive := c.liveness.Alive(probeCtx, address)
 		endProbe()
@@ -88,4 +101,31 @@ func (c Cycle) probeOne(ctx context.Context, peer peerdirectory.KnownPeer) {
 		}
 	}
 	c.directory.ConfirmSilent(ctx, peer.Hash)
+}
+
+func (c Cycle) addressesMostPresentFirst(
+	ctx context.Context,
+	peer peerdirectory.KnownPeer,
+) []string {
+	mostPresentFirst := slices.Clone(peer.Addresses)
+	slices.SortStableFunc(mostPresentFirst, func(a, b string) int {
+		return cmp.Compare(
+			c.presenceOf(ctx, presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: b}),
+			c.presenceOf(ctx, presenceaccrual.PeerAtAddress{Hash: peer.Hash, Address: a}),
+		)
+	})
+
+	return mostPresentFirst
+}
+
+func (c Cycle) presenceOf(
+	ctx context.Context,
+	peerAtAddress presenceaccrual.PeerAtAddress,
+) time.Duration {
+	observedPeer, isObserved := c.presence.ObservedPeerAt(ctx, peerAtAddress)
+	if !isObserved {
+		return 0
+	}
+
+	return observedPeer.Presence
 }

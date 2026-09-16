@@ -169,23 +169,24 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
 	t.Helper()
 
+	presence := peerpresencesmemory.New(
+		presenceaccrual.PresenceAccrualLimits{
+			Capacity:        directoryCapacity,
+			ContinuityLimit: refreshInterval,
+		},
+		presenceaccrual.PresenceAccrualObservers{},
+	)
 	directory := peerdirectory.New(
 		directoryCapacity,
 		peerChoiceCooldown,
 		time.Now,
 		leastreliable.New(
-			peerpresencesmemory.New(
-				presenceaccrual.PresenceAccrualLimits{
-					Capacity:        directoryCapacity,
-					ContinuityLimit: refreshInterval,
-				},
-				presenceaccrual.PresenceAccrualObservers{},
-			),
+			presence,
 			peerreliability.DefaultReliabilityWeights(),
 			refreshInterval,
 			time.Now,
 		),
-		peerdirectory.DirectoryObservers{},
+		peerdirectory.DirectoryObservers{presence},
 	)
 	peerdirectoryrefresh.New(
 		yacyseedlist.New(
@@ -198,7 +199,7 @@ func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
 		peerlivenesswire.New(
 			http.DefaultClient, networkName, peerlivenesswire.PeerLivenessObservers{},
 		),
-		refreshInterval,
+		presence,
 		peerdirectoryrefresh.ProbeLimits{
 			ProbeBudget:    probeBudget,
 			ProbesInFlight: probesInFlight,

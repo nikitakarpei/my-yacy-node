@@ -156,13 +156,13 @@ func RunService(
 		),
 		directory,
 		peerlivenesswire.New(outbound, cfg.NetworkName, peerlivenesswire.PeerLivenessObservers{}),
-		cfg.RefreshInterval,
+		presence,
 		peerdirectoryrefresh.ProbeLimits{
 			ProbeBudget:    cfg.ProbeBudget,
 			ProbesInFlight: cfg.ProbesInFlight,
 		},
 	)
-	go refresh.Run(ctx)
+	go refresh.Run(ctx, cfg.RefreshInterval)
 
 	searchServer := &http.Server{
 		Addr: cfg.ListenAddr,
@@ -261,6 +261,7 @@ func itemsOrderingOfTheService() networksearch.ItemsOrdering {
 type peerPresence interface {
 	peerdirectory.DirectoryObserver
 	leastreliable.PeerPresence
+	peerdirectoryrefresh.PeerPresence
 }
 
 func peerPresenceFor(
