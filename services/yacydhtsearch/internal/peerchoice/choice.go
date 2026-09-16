@@ -58,12 +58,11 @@ func (c Choice) ChoosePeersPerQueryWord(
 	)
 	chosenPeersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
-		chosenPeersPerQueryWord = append(
-			chosenPeersPerQueryWord,
-			peersTheQueryMayAsk.peersForQueryWord(
-				ctx, queryWord, peersAcrossQueryWords(chosenPeersPerQueryWord),
-			),
+		chosenPeers, ringFractionsOfTheTakenPeers := peersTheQueryMayAsk.peersForQueryWord(
+			queryWord, peersAcrossQueryWords(chosenPeersPerQueryWord),
 		)
+		c.observer.PeersTakenFromTheRing(ctx, ringFractionsOfTheTakenPeers)
+		chosenPeersPerQueryWord = append(chosenPeersPerQueryWord, chosenPeers)
 	}
 	c.peerDirectory.MarkPeersChosen(ctx, peersAcrossQueryWords(chosenPeersPerQueryWord))
 
@@ -87,7 +86,6 @@ func (c Choice) peersOneQueryMayAsk(
 
 	return peersOneQueryMayAsk{
 		partitions:                    c.partitions,
-		observer:                      c.observer,
 		askablePeers:                  askablePeers,
 		shareOfDistanceCountedPerPeer: shareOfDistanceCountedPerPeer,
 		amountOfPeersHoldingOneWord:   amountOfPeersHoldingOneWord,
