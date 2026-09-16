@@ -71,7 +71,7 @@ Reliability is one number that the service makes from that presence. The number 
 
 ## Peer calls
 
-A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left. For each place on the ring that holds a word, the query asks only the peers nearest to that place. Among these peers, it asks first the peers that this deployment found reliable.
+A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left. For each place on the ring that holds a word, the query asks only the peers nearest to that place, and asks the peers that this deployment found reliable first. A query asks a peer for one word only, unless too few peers are left.
 
 | Variable | Default | Meaning |
 |---|---|---|
