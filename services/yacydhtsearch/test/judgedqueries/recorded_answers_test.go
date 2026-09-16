@@ -32,6 +32,7 @@ type recordedItem struct {
 	Address         string                               `json:"address"`
 	Title           string                               `json:"title"`
 	Snippet         string                               `json:"snippet"`
+	Modified        *yacymodel.CalendarDay               `json:"modified,omitempty"`
 	MatchedWords    map[yacymodel.Hash]recordedWordCount `json:"matchedWords"`
 	QueryPhraseHits int                                  `json:"queryPhraseHits"`
 }
@@ -64,10 +65,11 @@ func answeredItemsOf(recordedItems []recordedItem) []peeranswers.AnsweredItem {
 	for _, recorded := range recordedItems {
 		answeredItems = append(answeredItems, peeranswers.AnsweredItem{
 			Metadata: yacymodel.URLMetadata{
-				Hash:    recorded.Hash,
-				Address: recorded.Address,
-				Title:   recorded.Title,
-				Snippet: recorded.Snippet,
+				Hash:     recorded.Hash,
+				Address:  recorded.Address,
+				Title:    recorded.Title,
+				Snippet:  recorded.Snippet,
+				Modified: modifiedDayOf(recorded.Modified),
 			},
 			MatchedWords:    wordCountsOf(recorded.MatchedWords),
 			QueryPhraseHits: recorded.QueryPhraseHits,
@@ -75,6 +77,16 @@ func answeredItemsOf(recordedItems []recordedItem) []peeranswers.AnsweredItem {
 	}
 
 	return answeredItems
+}
+
+func modifiedDayOf(
+	recorded *yacymodel.CalendarDay,
+) yacymodel.Optional[yacymodel.CalendarDay] {
+	if recorded == nil {
+		return yacymodel.None[yacymodel.CalendarDay]()
+	}
+
+	return yacymodel.Some(*recorded)
 }
 
 func wordCountsOf(
@@ -118,12 +130,24 @@ func recordedItemsOf(answeredItems []peeranswers.AnsweredItem) []recordedItem {
 			Address:         answeredItem.Metadata.Address,
 			Title:           answeredItem.Metadata.Title,
 			Snippet:         answeredItem.Metadata.Snippet,
+			Modified:        recordedModifiedDayOf(answeredItem.Metadata.Modified),
 			MatchedWords:    recordedWordCountsOf(answeredItem.MatchedWords),
 			QueryPhraseHits: answeredItem.QueryPhraseHits,
 		})
 	}
 
 	return recordedItems
+}
+
+func recordedModifiedDayOf(
+	modified yacymodel.Optional[yacymodel.CalendarDay],
+) *yacymodel.CalendarDay {
+	day, dated := modified.Get()
+	if !dated {
+		return nil
+	}
+
+	return &day
 }
 
 func recordedWordCountsOf(

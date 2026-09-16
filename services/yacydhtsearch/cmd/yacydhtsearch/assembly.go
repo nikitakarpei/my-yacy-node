@@ -50,6 +50,7 @@ import (
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/applog"
 	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalenessdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastrecentlyanswered"
 	wordjoinedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/applog"
 	wordjoinedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/prometheus"
@@ -235,7 +236,11 @@ func pageReadingFor(
 }
 
 func itemsOrderingOfTheService() networksearch.ItemsOrdering {
-	return hostdiscount.New(documentrelevance.New(documentrelevance.DefaultScoreWeights()))
+	return hostdiscount.New(
+		stalenessdiscount.New(
+			documentrelevance.New(documentrelevance.DefaultScoreWeights()), time.Now,
+		),
+	)
 }
 
 func rankingCacheFor(
