@@ -53,6 +53,9 @@ federated search across one configured YaCy DHT network — any configured netwo
 
 ## Known Limitations
 
+* Instances of one deployment trust the observations of each other. They share one history of peer
+  answers and one presence made from it, so an instance with a wrong clock or a wrong view of the
+  network changes which peers every other instance asks and keeps.
 * Result quality depends on operators choosing to run purpose-built peers with fresher or wider
   indexes; the service itself has no mechanism to encourage or require this.
 * Running multiple instances of this service for multiple networks on shared hardware is not
