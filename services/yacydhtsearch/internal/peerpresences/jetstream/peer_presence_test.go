@@ -119,34 +119,39 @@ func consuming(
 	return stop
 }
 
+func peerAtAddress(peer yacymodel.Hash) presenceaccrual.PeerAtAddress {
+	return presenceaccrual.PeerAtAddress{Hash: peer, Address: answeringAddress}
+}
+
 func foldedWithin(
 	t *testing.T,
 	presence *peerpresencesjetstream.PeerPresence,
-	folded func([]presenceaccrual.ObservedPeer) bool,
-) []presenceaccrual.ObservedPeer {
+	peer presenceaccrual.PeerAtAddress,
+	folded func(presenceaccrual.ObservedPeer, bool) bool,
+) {
 	t.Helper()
 
 	deadline := time.Now().Add(foldingDeadline)
 	for {
-		observedPeers := presence.ObservedPeers(t.Context())
-		if folded(observedPeers) {
-			return observedPeers
+		observedPeer, isObserved := presence.ObservedPeerAt(t.Context(), peer)
+		if folded(observedPeer, isObserved) {
+			return
 		}
 		if time.Now().After(deadline) {
-			t.Fatalf("ObservedPeers = %+v after %v, want the answers folded",
-				observedPeers, foldingDeadline)
+			t.Fatalf("ObservedPeerAt = %+v after %v, want the answers folded",
+				observedPeer, foldingDeadline)
 		}
 		time.Sleep(10 * time.Millisecond)
 	}
 }
 
-func anyPeerObserved(observedPeers []presenceaccrual.ObservedPeer) bool {
-	return len(observedPeers) > 0
+func peerObserved(_ presenceaccrual.ObservedPeer, isObserved bool) bool {
+	return isObserved
 }
 
-func presenceEarned(earned time.Duration) func([]presenceaccrual.ObservedPeer) bool {
-	return func(observedPeers []presenceaccrual.ObservedPeer) bool {
-		return len(observedPeers) == 1 && observedPeers[0].Presence == earned
+func presenceEarned(earned time.Duration) func(presenceaccrual.ObservedPeer, bool) bool {
+	return func(observedPeer presenceaccrual.ObservedPeer, isObserved bool) bool {
+		return isObserved && observedPeer.Presence == earned
 	}
 }
 
@@ -159,10 +164,7 @@ func TestAnAnsweringPeerBecomesObservedOnceTheStreamIsFolded(t *testing.T) {
 
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 
-	observedPeers := foldedWithin(t, presence, anyPeerObserved)
-	if observedPeers[0].Hash != peer || observedPeers[0].Address != answeringAddress {
-		t.Fatalf("ObservedPeers = %+v, want the peer that answered", observedPeers)
-	}
+	foldedWithin(t, presence, peerAtAddress(peer), peerObserved)
 }
 
 func TestAnInstanceEarnsPresenceFromAnswersItDidNotPublish(t *testing.T) {
@@ -180,7 +182,7 @@ func TestAnInstanceEarnsPresenceFromAnswersItDidNotPublish(t *testing.T) {
 		t.Context(), peer, answeringAddress, startOfObservation().Add(time.Minute),
 	)
 
-	foldedWithin(t, sibling, presenceEarned(time.Minute))
+	foldedWithin(t, sibling, peerAtAddress(peer), presenceEarned(time.Minute))
 }
 
 func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T) {
@@ -198,14 +200,14 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 	before.PeerAnswered(
 		t.Context(), peer, answeringAddress, startOfObservation().Add(time.Minute),
 	)
-	foldedWithin(t, before, presenceEarned(time.Minute))
+	foldedWithin(t, before, peerAtAddress(peer), presenceEarned(time.Minute))
 	purgedWithin(t, stream)
 	stop()
 
 	after := presenceOver(t, stream, compactingLimits)
 	defer consuming(t, after)()
 
-	foldedWithin(t, after, presenceEarned(time.Minute))
+	foldedWithin(t, after, peerAtAddress(peer), presenceEarned(time.Minute))
 }
 
 func purgedWithin(t *testing.T, stream natsjetstream.JetStream) {

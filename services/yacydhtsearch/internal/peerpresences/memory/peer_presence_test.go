@@ -74,9 +74,12 @@ func TestAnAnsweringPeerBecomesAnObservedPeer(t *testing.T) {
 
 	presence.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
 
-	observed := presence.ObservedPeers(t.Context())
-	if len(observed) != 1 || observed[0].Hash != peer {
-		t.Fatalf("ObservedPeers = %+v, want the peer that answered", observed)
+	observed, isObserved := presence.ObservedPeerAt(t.Context(), presenceaccrual.PeerAtAddress{
+		Hash:    peer,
+		Address: answeringAddress,
+	})
+	if !isObserved || observed.Hash != peer {
+		t.Fatalf("ObservedPeerAt = %+v, want the peer that answered", observed)
 	}
 	if reported.firstAnswers != 1 || reported.observedPeers != 1 {
 		t.Fatalf("reported %+v, want one first answer and one observed peer", reported)
@@ -110,7 +113,10 @@ func TestAPeerDroppedFromTheDirectoryKeepsThePresenceItEarned(t *testing.T) {
 
 	presence.PeerDropped(t.Context(), peer)
 
-	if observed := presence.ObservedPeers(t.Context()); len(observed) != 1 {
-		t.Fatalf("ObservedPeers = %+v, want the dropped peer to keep what it earned", observed)
+	if _, isObserved := presence.ObservedPeerAt(t.Context(), presenceaccrual.PeerAtAddress{
+		Hash:    peer,
+		Address: answeringAddress,
+	}); !isObserved {
+		t.Fatal("ObservedPeerAt holds no peer, want the dropped peer to keep what it earned")
 	}
 }

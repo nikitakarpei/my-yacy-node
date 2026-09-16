@@ -149,10 +149,14 @@ func TestPresenceIsHeldForNoMorePeersThanItsCapacity(t *testing.T) {
 		Capacity:        1,
 		ContinuityLimit: continuityLimit,
 	}, silentObserver{})
-	presence.Credit(t.Context(), answeredAt(peerAtAddress(t, 'a'), startOfObservation()))
-	presence.Credit(t.Context(), answeredAt(peerAtAddress(t, 'b'), startOfObservation()))
+	first, second := peerAtAddress(t, 'a'), peerAtAddress(t, 'b')
+	presence.Credit(t.Context(), answeredAt(first, startOfObservation()))
+	presence.Credit(t.Context(), answeredAt(second, startOfObservation()))
 
-	if observedPeers := presence.ObservedPeers(); len(observedPeers) != 1 {
-		t.Fatalf("ObservedPeers = %+v, want no more than the capacity of 1", observedPeers)
+	if _, isObserved := presence.ObservedPeerAt(first); isObserved {
+		t.Fatal("ObservedPeerAt holds the first peer, want it released at the capacity of 1")
+	}
+	if _, isObserved := presence.ObservedPeerAt(second); !isObserved {
+		t.Fatal("ObservedPeerAt holds no peer, want the one that answered last")
 	}
 }

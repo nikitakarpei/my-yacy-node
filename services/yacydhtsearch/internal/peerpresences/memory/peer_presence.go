@@ -27,8 +27,11 @@ func New(
 	}
 }
 
-func (h *PeerPresence) ObservedPeers(context.Context) []presenceaccrual.ObservedPeer {
-	return h.accrual.ObservedPeers()
+func (h *PeerPresence) ObservedPeerAt(
+	_ context.Context,
+	peerAtAddress presenceaccrual.PeerAtAddress,
+) (presenceaccrual.ObservedPeer, bool) {
+	return h.accrual.ObservedPeerAt(peerAtAddress)
 }
 
 func (h *PeerPresence) PeerAnswered(

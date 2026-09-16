@@ -1,6 +1,8 @@
 // Package leastreliable ranks the peer this deployment has had the least luck
 // with as the stalest, so a full directory drops a peer that does not answer
-// before a peer that has answered for weeks. A peer that was admitted too
+// before a peer that has answered for weeks. Presence belongs to a peer at one
+// address while the directory keeps or drops the peer itself, so the address
+// the peer has done best from speaks for it. A peer that was admitted too
 // recently to have been probed is never the stalest, so every newcomer gets one
 // refresh cycle to answer for itself before it can be dropped. Peers this
 // deployment has never seen answer are ordered by the directory's own record of
@@ -20,7 +22,10 @@ import (
 )
 
 type PeerPresence interface {
-	ObservedPeers(ctx context.Context) []presenceaccrual.ObservedPeer
+	ObservedPeerAt(
+		ctx context.Context,
+		peerAtAddress presenceaccrual.PeerAtAddress,
+	) (presenceaccrual.ObservedPeer, bool)
 }
 
 type Source struct {
@@ -69,13 +74,12 @@ func (s Source) rankedPeersFrom(
 	known []peerdirectory.KnownPeer,
 ) []rankedPeer {
 	now := s.now()
-	reliabilities := s.reliabilityOfEveryObservedPeer(ctx, now)
 	ranked := make([]rankedPeer, 0, len(known))
 	for _, peer := range known {
 		ranked = append(ranked, rankedPeer{
 			hash:                peer.Hash,
 			awaitsItsFirstProbe: now.Sub(peer.AdmittedAt) < s.refreshInterval,
-			reliability:         reliabilities[peer.Hash],
+			reliability:         s.reliabilityOf(ctx, peer, now),
 			answeredAt:          peer.AnsweredAt,
 			admittedAt:          peer.AdmittedAt,
 		})
@@ -84,19 +88,24 @@ func (s Source) rankedPeersFrom(
 	return ranked
 }
 
-func (s Source) reliabilityOfEveryObservedPeer(
+func (s Source) reliabilityOf(
 	ctx context.Context,
+	peer peerdirectory.KnownPeer,
 	now time.Time,
-) map[yacymodel.Hash]float64 {
-	reliabilities := make(map[yacymodel.Hash]float64)
-	for _, observedPeer := range s.presence.ObservedPeers(ctx) {
-		reliabilities[observedPeer.Hash] = max(
-			reliabilities[observedPeer.Hash],
-			s.weights.ReliabilityOf(observedPeer, now),
-		)
+) float64 {
+	bestReliability := 0.0
+	for _, address := range peer.Addresses {
+		observedPeer, isObserved := s.presence.ObservedPeerAt(ctx, presenceaccrual.PeerAtAddress{
+			Hash:    peer.Hash,
+			Address: address,
+		})
+		if !isObserved {
+			continue
+		}
+		bestReliability = max(bestReliability, s.weights.ReliabilityOf(observedPeer, now))
 	}
 
-	return reliabilities
+	return bestReliability
 }
 
 type rankedPeer struct {
