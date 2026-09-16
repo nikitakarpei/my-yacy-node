@@ -17,13 +17,13 @@ type peersOneQueryMayAsk struct {
 
 func (q peersOneQueryMayAsk) peersForQueryWord(
 	queryWord yacymodel.Hash,
-	peersOfEarlierWords []peerdirectory.AskablePeer,
+	peersChosenForEarlierWords []peerdirectory.AskablePeer,
 ) (
 	chosenPeers []peerdirectory.AskablePeer,
 	ringFractionsOfTheTakenPeers []float64,
 ) {
 	return peersTakenFromEachPartitionInTurn(
-		q.peersNearestToTheWordInEachPartition(queryWord, peersOfEarlierWords),
+		q.peersNearestToTheWordInEachPartition(queryWord, peersChosenForEarlierWords),
 		q.amountOfPeersHoldingOneWord,
 	)
 }
@@ -35,14 +35,10 @@ type peersNearestToTheWordInPartition struct {
 
 func (q peersOneQueryMayAsk) peersNearestToTheWordInEachPartition(
 	queryWord yacymodel.Hash,
-	peersOfEarlierWords []peerdirectory.AskablePeer,
+	peersChosenForEarlierWords []peerdirectory.AskablePeer,
 ) []peersNearestToTheWordInPartition {
-	peersChosenForEarlierWords := peersChosenForEarlierWordsAmong(
-		q.askablePeers,
-		peersOfEarlierWords,
-	)
 	peersNotChosenForEarlierWords := peersNotChosenForEarlierWordsAmong(
-		q.askablePeers, peersOfEarlierWords,
+		q.askablePeers, peersChosenForEarlierWords,
 	)
 	nearestToTheWordInEachPartition := make([]peersNearestToTheWordInPartition, 0, q.partitions)
 	for partition := range uint(q.partitions) {
@@ -66,18 +62,18 @@ func (q peersOneQueryMayAsk) peersNearestToTheWordInEachPartition(
 	return nearestToTheWordInEachPartition
 }
 
-func peersChosenForEarlierWordsAmong(
+func peersNotChosenForEarlierWordsAmong(
 	askablePeers []peerdirectory.AskablePeer,
-	peersOfEarlierWords []peerdirectory.AskablePeer,
+	peersChosenForEarlierWords []peerdirectory.AskablePeer,
 ) []peerdirectory.AskablePeer {
-	hashesOfPeersChosenForEarlierWords := hashesOf(peersOfEarlierWords)
+	hashesOfPeersChosenForEarlierWords := hashesOf(peersChosenForEarlierWords)
 
 	return slices.DeleteFunc(
 		slices.Clone(askablePeers),
 		func(peer peerdirectory.AskablePeer) bool {
 			_, chosen := hashesOfPeersChosenForEarlierWords[peer.Hash]
 
-			return !chosen
+			return chosen
 		},
 	)
 }
@@ -89,22 +85,6 @@ func hashesOf(peers []peerdirectory.AskablePeer) map[yacymodel.Hash]struct{} {
 	}
 
 	return hashes
-}
-
-func peersNotChosenForEarlierWordsAmong(
-	askablePeers []peerdirectory.AskablePeer,
-	peersOfEarlierWords []peerdirectory.AskablePeer,
-) []peerdirectory.AskablePeer {
-	hashesOfPeersChosenForEarlierWords := hashesOf(peersOfEarlierWords)
-
-	return slices.DeleteFunc(
-		slices.Clone(askablePeers),
-		func(peer peerdirectory.AskablePeer) bool {
-			_, chosen := hashesOfPeersChosenForEarlierWords[peer.Hash]
-
-			return chosen
-		},
-	)
 }
 
 func (q peersOneQueryMayAsk) reliablePeersFirstAmongThePeersHoldingTheWord(
