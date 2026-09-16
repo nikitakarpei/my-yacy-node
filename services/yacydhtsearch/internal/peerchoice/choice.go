@@ -1,8 +1,8 @@
 // Package peerchoice chooses which peers each word of a query goes to. For
 // each place on the DHT ring a word is held, only the peers nearest to that
-// place may hold the word, so it asks those peers and no others, and among them
-// asks first the peers this deployment has found reliable. A later word of the
-// query reaches peers an earlier word did not.
+// place may hold the word, so it asks the nearest peers first, and among the
+// peers that hold the word asks first the ones this deployment has found
+// reliable. A later word of the query reaches peers an earlier word did not.
 package peerchoice
 
 import (

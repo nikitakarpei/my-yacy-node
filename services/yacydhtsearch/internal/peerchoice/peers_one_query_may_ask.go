@@ -24,7 +24,7 @@ func (q peersOneQueryMayAsk) peersForQueryWord(
 ) {
 	return peersTakenFromEachPartitionInTurn(
 		q.peersNearestToTheWordInEachPartition(queryWord, peersChosenForEarlierWords),
-		yacymodel.PeersHoldingOneWordOf(q.partitions, q.networkRedundancy),
+		q.networkRedundancy,
 	)
 }
 
@@ -132,39 +132,21 @@ func ringFractionFrom(
 
 func peersTakenFromEachPartitionInTurn(
 	peersNearestToTheWordInEachPartition []peersNearestToTheWordInPartition,
-	peersCeiling int,
+	networkRedundancy int,
 ) (takenPeers []peerdirectory.AskablePeer, ringFractionsOfTheTakenPeers []float64) {
-	peersLeftPerPartition := make(
-		[][]peerdirectory.AskablePeer, 0, len(peersNearestToTheWordInEachPartition),
-	)
-	for _, nearest := range peersNearestToTheWordInEachPartition {
-		peersLeftPerPartition = append(peersLeftPerPartition, nearest.peers)
-	}
-	takenPeers = make([]peerdirectory.AskablePeer, 0, peersCeiling)
-	ringFractionsOfTheTakenPeers = make([]float64, 0, peersCeiling)
 	peersAlreadyTaken := map[yacymodel.Hash]struct{}{}
-	for len(takenPeers) < peersCeiling {
-		takenInThisTurn := false
+	for range networkRedundancy {
 		for index, nearest := range peersNearestToTheWordInEachPartition {
-			if len(takenPeers) == peersCeiling {
-				break
-			}
-			peer, peersLeft, found := firstPeerNotYetTaken(
-				peersLeftPerPartition[index], peersAlreadyTaken,
-			)
-			peersLeftPerPartition[index] = peersLeft
+			peer, peersLeft, found := firstPeerNotYetTaken(nearest.peers, peersAlreadyTaken)
 			if !found {
-				continue
+				return takenPeers, ringFractionsOfTheTakenPeers
 			}
+			peersNearestToTheWordInEachPartition[index].peers = peersLeft
 			peersAlreadyTaken[peer.Hash] = struct{}{}
 			takenPeers = append(takenPeers, peer)
 			ringFractionsOfTheTakenPeers = append(
 				ringFractionsOfTheTakenPeers, ringFractionFrom(nearest.wordPosition, peer),
 			)
-			takenInThisTurn = true
-		}
-		if !takenInThisTurn {
-			break
 		}
 	}
 
