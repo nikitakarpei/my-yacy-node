@@ -126,14 +126,14 @@ func TestAnAnsweredWordIsCountedUnderWhatItAskedFor(t *testing.T) {
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
 	metrics.PeerAnsweredMatchedAndHeldDocuments(t.Context(), "http://peer.example", 7, time.Second)
-	metrics.PeerAnsweredHeldDocuments(t.Context(), "http://peer.example", 2, time.Second)
+	metrics.PeerAnsweredCrossCheckedDocuments(t.Context(), "http://peer.example", 2, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_peer_calls_total{asked_for="matched and held documents",outcome="answered"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched and held documents",outcome="answered"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="held documents",outcome="answered"} 1`,
-		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="held documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="cross-checked documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="cross-checked documents",outcome="answered"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

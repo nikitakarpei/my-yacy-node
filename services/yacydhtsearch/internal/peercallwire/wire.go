@@ -1,12 +1,5 @@
-// Package peercallwire speaks the YaCy search protocol to the peers an ask
-// names. It asks a peer for the documents it matches, for the documents it
-// matched and holds for one word, for the documents it holds for one word among
-// the documents the ask names, or for the metadata of the documents the ask
-// names, and reads back what the peer answered. It holds the peer calls this
-// node has in flight at the amount it is built for and puts the asks in the
-// order they came. One peer call runs for the budget it is built for, or for
-// the time the ask has left, whichever ends first, and leaves the peer that
-// time less the margin the answer needs to reach this node.
+// Package peercallwire puts asks to peers over the YaCy search protocol and
+// reads back what each peer answered.
 package peercallwire
 
 import (
@@ -289,14 +282,14 @@ func (w Wire) putMatchedAndHeldDocumentsAsk(
 		return peerasks.AnsweredMatchedAndHeldDocumentsAsk{}, false
 	}
 
-	documentsHeldForTheWord := response.IndexAbstract[ask.Word]
+	documentsListedForTheWord := response.IndexAbstract[ask.Word]
 	w.observer.PeerAnsweredMatchedAndHeldDocuments(
-		ctx, ask.Peer.Address, len(documentsHeldForTheWord), time.Since(startedAt),
+		ctx, ask.Peer.Address, len(documentsListedForTheWord), time.Since(startedAt),
 	)
 
 	return peerasks.AnsweredMatchedAndHeldDocumentsAsk{
 		Ask:                             ask,
-		DocumentsHeldForTheWord:         documentsHeldForTheWord,
+		DocumentsListedForTheWord:       documentsListedForTheWord,
 		MatchedDocuments:                matchedDocumentsOf(response),
 		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
 	}, true
@@ -326,23 +319,23 @@ func (w Wire) requestForMatchedAndHeldDocuments(
 	return request
 }
 
-func (w Wire) AskForHeldDocuments(
+func (w Wire) AskForCrossCheckedDocuments(
 	ctx context.Context,
-	asks []peerasks.HeldDocumentsAsk,
-) []peerasks.AnsweredHeldDocumentsAsk {
+	asks []peerasks.CrossCheckedDocumentsAsk,
+) []peerasks.AnsweredCrossCheckedDocumentsAsk {
 	return putAsksToPeers(
 		w.callsInFlight,
 		asks,
-		func(ask peerasks.HeldDocumentsAsk) (peerasks.AnsweredHeldDocumentsAsk, bool) {
-			return w.putHeldDocumentsAsk(ctx, ask)
+		func(ask peerasks.CrossCheckedDocumentsAsk) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
+			return w.putCrossCheckedDocumentsAsk(ctx, ask)
 		},
 	)
 }
 
-func (w Wire) putHeldDocumentsAsk(
+func (w Wire) putCrossCheckedDocumentsAsk(
 	ctx context.Context,
-	ask peerasks.HeldDocumentsAsk,
-) (peerasks.AnsweredHeldDocumentsAsk, bool) {
+	ask peerasks.CrossCheckedDocumentsAsk,
+) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
 	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
 	defer endPeerCall()
 	startedAt := time.Now()
@@ -351,29 +344,29 @@ func (w Wire) putHeldDocumentsAsk(
 		peerCall{
 			address:  ask.Peer.Address,
 			path:     yacyproto.PathSearch,
-			askedFor: peerasks.HeldDocuments,
-			form:     w.requestForHeldDocuments(ctx, ask).Form(),
+			askedFor: peerasks.CrossCheckedDocuments,
+			form:     w.requestForCrossCheckedDocuments(ctx, ask).Form(),
 		},
 		startedAt,
 	)
 	if !ok {
-		return peerasks.AnsweredHeldDocumentsAsk{}, false
+		return peerasks.AnsweredCrossCheckedDocumentsAsk{}, false
 	}
 
 	documentsHeldForTheWord := response.IndexAbstract[ask.Word]
-	w.observer.PeerAnsweredHeldDocuments(
+	w.observer.PeerAnsweredCrossCheckedDocuments(
 		ctx, ask.Peer.Address, len(documentsHeldForTheWord), time.Since(startedAt),
 	)
 
-	return peerasks.AnsweredHeldDocumentsAsk{
+	return peerasks.AnsweredCrossCheckedDocumentsAsk{
 		Ask:                     ask,
 		DocumentsHeldForTheWord: documentsHeldForTheWord,
 	}, true
 }
 
-func (w Wire) requestForHeldDocuments(
+func (w Wire) requestForCrossCheckedDocuments(
 	ctx context.Context,
-	ask peerasks.HeldDocumentsAsk,
+	ask peerasks.CrossCheckedDocumentsAsk,
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, nil, "")
 	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})

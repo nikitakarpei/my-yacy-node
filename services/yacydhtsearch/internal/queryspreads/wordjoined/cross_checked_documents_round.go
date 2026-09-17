@@ -5,13 +5,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type heldDocumentsRound struct {
-	asks                                         []peerasks.HeldDocumentsAsk
-	answeredAsks                                 []peerasks.AnsweredHeldDocumentsAsk
-	amountOfDocumentsPastTheHeldDocumentsCeiling int
+type crossCheckedDocumentsRound struct {
+	asks                                                 []peerasks.CrossCheckedDocumentsAsk
+	answeredAsks                                         []peerasks.AnsweredCrossCheckedDocumentsAsk
+	amountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
 }
 
-func (round heldDocumentsRound) documentsHeldPerQueryWord() map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
+func (round crossCheckedDocumentsRound) documentsHeldPerQueryWord() map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
 	documentsHeldPerQueryWord := map[yacymodel.Hash]map[yacymodel.URLHash]struct{}{}
 	for _, answeredAsk := range round.answeredAsks {
 		if documentsHeldPerQueryWord[answeredAsk.Ask.Word] == nil {

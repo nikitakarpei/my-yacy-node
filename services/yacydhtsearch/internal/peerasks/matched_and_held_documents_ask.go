@@ -1,10 +1,5 @@
 // Package peerasks holds the asks this node puts to peers and what one peer
-// answered for each — the documents it matched, the documents it matched and
-// holds for one word, the documents it holds for one word among the documents
-// the ask names, or the metadata it holds for the documents the ask names.
-// A matched document carries the count of a word the ask named without the word
-// itself, zero when the peer counted none, so only the spread that named the
-// words of the ask can say which word the count belongs to.
+// answered for each.
 package peerasks
 
 import (
@@ -22,7 +17,7 @@ type MatchedAndHeldDocumentsAsk struct {
 
 type AnsweredMatchedAndHeldDocumentsAsk struct {
 	Ask                             MatchedAndHeldDocumentsAsk
-	DocumentsHeldForTheWord         []yacymodel.URLHash
+	DocumentsListedForTheWord       []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
 }

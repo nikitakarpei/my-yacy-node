@@ -94,13 +94,13 @@ func (m *PeerCallMetrics) PeerAnsweredMatchedAndHeldDocuments(
 	m.countAnswer(peerasks.MatchedAndHeldDocuments, amountOfDocuments, spent)
 }
 
-func (m *PeerCallMetrics) PeerAnsweredHeldDocuments(
+func (m *PeerCallMetrics) PeerAnsweredCrossCheckedDocuments(
 	_ context.Context,
 	_ string,
 	amountOfDocuments int,
 	spent time.Duration,
 ) {
-	m.countAnswer(peerasks.HeldDocuments, amountOfDocuments, spent)
+	m.countAnswer(peerasks.CrossCheckedDocuments, amountOfDocuments, spent)
 }
 
 func (m *PeerCallMetrics) countAnswer(

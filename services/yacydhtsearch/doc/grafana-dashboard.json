@@ -684,7 +684,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 53
       },
@@ -734,6 +734,47 @@
       ]
     },
     {
+      "id": 36,
+      "title": "Calls that asked which documents match the query, by outcome",
+      "description": "Unreadable means an answer arrived that did not parse.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 53
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
       "id": 17,
       "title": "Share of the asked peers that answered",
       "description": "The rest were unreachable or slower than the time the query allows them.",
@@ -744,8 +785,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 16,
         "y": 53
       },
       "fieldConfig": {
@@ -807,186 +848,6 @@
       "panels": []
     },
     {
-      "id": 19,
-      "title": "Share of the joined documents that arrived with their metadata in the first round",
-      "description": "A joined document is one every query word led to. Metadata is the title, address and dates a result is shown with, and a joined document without it costs a metadata round of calls.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 78
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_join_with_metadata_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_join_with_metadata_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 20,
-      "title": "Share of the joined documents without metadata asked about in the metadata round",
-      "description": "The rest drop out of the results before any peer is asked. The metadata round takes a limited number of documents, set by YACYDHTSEARCH_RANKED_ITEMS_CEILING, from a limited number of peers.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 78
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 21,
-      "title": "Share of the documents the metadata round asked about whose metadata arrived",
-      "description": "A document whose metadata no peer sends back drops out of the results.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 78
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_asked_documents_with_metadata_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_asked_documents_with_metadata_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 22,
       "title": "How long a joined query took",
       "type": "heatmap",
@@ -996,9 +857,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 102
+        "y": 62
       },
       "fieldConfig": {
         "defaults": {
@@ -1048,7 +909,6 @@
     {
       "id": 23,
       "title": "Share of multi-word queries that joined no document",
-      "description": "No single document was held for every word of the query.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1058,7 +918,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 70
+        "y": 62
       },
       "fieldConfig": {
         "defaults": {
@@ -1083,9 +943,21 @@
       ]
     },
     {
+      "id": 54,
+      "title": "Joined queries: listing each query word's documents",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 70
+      },
+      "panels": []
+    },
+    {
       "id": 24,
-      "title": "Peers the first round asked which documents they hold",
-      "description": "The first round asks each peer which documents it holds for one query word. A peer counts once, whatever amount of query words it is responsible for.",
+      "title": "Distinct peers asked which documents they hold for a query word",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1095,7 +967,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 62
+        "y": 71
       },
       "fieldConfig": {
         "defaults": {
@@ -1136,17 +1008,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peers_asked_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
       ]
     },
     {
-      "id": 25,
-      "title": "Share of the peers the first round asked that answered",
-      "description": "The rest were unreachable or slower than the time the query allows them.",
-      "type": "heatmap",
+      "id": 45,
+      "title": "Calls that asked a peer which documents it holds for a query word, by outcome",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1155,7 +1026,47 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 62
+        "y": 71
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched and held documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched and held documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "title": "Share of the peers asked which documents they hold for a query word that answered",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 71
       },
       "fieldConfig": {
         "defaults": {
@@ -1196,7 +1107,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -1204,8 +1115,7 @@
     },
     {
       "id": 26,
-      "title": "Share of the query words no peer had a document for",
-      "description": "One empty word leaves the whole query with no result.",
+      "title": "Share of the query words no peer listed a document for",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1215,7 +1125,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 70
+        "y": 79
       },
       "fieldConfig": {
         "defaults": {
@@ -1263,9 +1173,8 @@
       ]
     },
     {
-      "id": 27,
-      "title": "Share of the matched documents that carried a posting",
-      "description": "A posting carries how often the word occurs in the document, and only a peer that stores the word sends one. Counted over every document a peer matched, including the ones the join drops.",
+      "id": 52,
+      "title": "Share of the query words whose peers listed every document they hold",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1273,69 +1182,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 62
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_matched_documents_counted_by_a_peer_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_matched_documents_counted_by_a_peer_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 47,
-      "title": "Share of the query words whose peers listed all they hold",
-      "description": "The second round does not ask the peers of these words again.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 86
+        "w": 12,
+        "x": 12,
+        "y": 79
       },
       "fieldConfig": {
         "defaults": {
@@ -1383,261 +1232,81 @@
       ]
     },
     {
-      "id": 48,
-      "title": "Share of the peers the second round asked that answered",
-      "description": "The rest were unreachable or slower than the time the query allows them.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 86
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_answering_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_answering_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 49,
-      "title": "Share of the second round answers that held none of the named documents",
-      "description": "These peers hold no document of the anchoring word, so their word keeps only what the first round proved.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 86
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_empty_held_documents_answers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_empty_held_documents_answers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 50,
-      "title": "Share of the join the first round alone proved",
-      "description": "The second round added the rest. A low share means the first round answers came back capped.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 94
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_join_before_the_held_documents_asks_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_join_before_the_held_documents_asks_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 51,
-      "title": "Documents one second round ask had no room for",
-      "description": "Documents past YACYDHTSEARCH_HELD_DOCUMENTS_CEILING, which the ask had no room for.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 94
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "short",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_documents_past_the_held_documents_ceiling_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_documents_past_the_held_documents_ceiling_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 28,
-      "title": "Pages read for a search",
+      "id": 55,
+      "title": "Joined queries: cross-checking the rarest word's documents with the other words' peers",
       "type": "row",
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 110
+        "y": 87
       },
       "panels": []
     },
     {
-      "id": 29,
-      "title": "Pages read, by outcome",
+      "id": 51,
+      "title": "Share of the documents listed for the rarest query word that missed a cross-check",
+      "description": "Depends on YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 88
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_documents_listed_for_the_rarest_query_word_that_missed_a_cross_check_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_documents_listed_for_the_rarest_query_word_that_missed_a_cross_check_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "title": "Calls that asked a peer to cross-check documents, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1645,19 +1314,16 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 111
+        "w": 6,
+        "x": 6,
+        "y": 88
       },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
           "custom": {
             "drawStyle": "bars",
-            "fillOpacity": 70,
-            "stacking": {
-              "mode": "normal"
-            }
+            "fillOpacity": 70
           },
           "min": 0
         },
@@ -1673,10 +1339,386 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_page_reading_pages_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ]
+    },
+    {
+      "id": 53,
+      "title": "Share of the peers asked to cross-check documents that answered",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 88
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "title": "Share of the joined documents found only by cross-checking",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 88
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "title": "Joined queries: document metadata lookup",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 96
+      },
+      "panels": []
+    },
+    {
+      "id": 20,
+      "title": "Share of the joined documents dropped before their metadata was looked up",
+      "description": "Depends on YACYDHTSEARCH_RANKED_ITEMS_CEILING.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 97
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "title": "Calls that asked a peer for document metadata, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 97
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"url metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"url metadata\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "Share of the looked-up documents no peer sent metadata for",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 97
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "title": "Peer calls during a search",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 105
+      },
+      "panels": []
+    },
+    {
+      "id": 37,
+      "title": "How long an answered peer call took",
+      "description": "Only the peer calls a peer answered. The peer call budget bounds it.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 106
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "s",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "title": "Pages read for a search",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 114
+      },
+      "panels": []
     },
     {
       "id": 30,
@@ -1690,8 +1732,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 111
+        "x": 0,
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1739,6 +1781,49 @@
       ]
     },
     {
+      "id": 29,
+      "title": "Pages read, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 115
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_page_reading_pages_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
       "id": 31,
       "title": "Known peers",
       "type": "row",
@@ -1747,7 +1832,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 123
       },
       "panels": []
     },
@@ -1764,7 +1849,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 120
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -1815,7 +1900,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 120
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -1854,7 +1939,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 128
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -1895,7 +1980,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 128
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -1954,7 +2039,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 128
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -2001,7 +2086,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 136
+        "y": 140
       },
       "fieldConfig": {
         "defaults": {
@@ -2049,202 +2134,6 @@
       ]
     },
     {
-      "id": 35,
-      "title": "Peer calls during a search",
-      "type": "row",
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 144
-      },
-      "panels": []
-    },
-    {
-      "id": 36,
-      "title": "Calls that asked which documents match the query, by outcome",
-      "description": "Unreadable means an answer arrived that did not parse.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 145
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
-        }
-      ]
-    },
-    {
-      "id": 45,
-      "title": "Calls that asked which documents a peer matched and holds for one word, by outcome",
-      "description": "The first round of a query of more than one word.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 145
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched and held documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched and held documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
-        }
-      ]
-    },
-    {
-      "id": 46,
-      "title": "Calls that asked a peer for the metadata of documents, by outcome",
-      "description": "The last round of a query of more than one word, for the documents that came back without metadata.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 145
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"url metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"url metadata\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
-        }
-      ]
-    },
-    {
-      "id": 37,
-      "title": "How long an answered peer call took",
-      "description": "Only the peer calls a peer answered. The peer call budget bounds it.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 153
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "s",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 38,
       "title": "Go process",
       "type": "row",
@@ -2253,7 +2142,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 161
+        "y": 148
       },
       "panels": []
     },
@@ -2269,7 +2158,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 162
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -2319,7 +2208,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 162
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -2359,7 +2248,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 162
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -2399,7 +2288,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 170
+        "y": 157
       },
       "fieldConfig": {
         "defaults": {
@@ -2439,7 +2328,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 170
+        "y": 157
       },
       "fieldConfig": {
         "defaults": {
@@ -2479,7 +2368,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 170
+        "y": 157
       },
       "fieldConfig": {
         "defaults": {

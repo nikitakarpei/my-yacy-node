@@ -7,32 +7,32 @@ import (
 )
 
 type joinOfTheQuery struct {
-	documentsJoinedBeforeTheHeldDocumentsAsks map[yacymodel.URLHash]struct{}
-	joinedDocuments                           map[yacymodel.URLHash]struct{}
+	documentsJoinedBeforeTheCrossCheckedDocumentsAsks map[yacymodel.URLHash]struct{}
+	joinedDocuments                                   map[yacymodel.URLHash]struct{}
 }
 
 func joinOfTheQueryFrom(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	heldDocumentsRound heldDocumentsRound,
+	crossCheckedDocumentsRound crossCheckedDocumentsRound,
 ) joinOfTheQuery {
-	documentsHeldPerQueryWordInTheSecondRound := heldDocumentsRound.documentsHeldPerQueryWord()
-	documentsJoinedBeforeTheHeldDocumentsAsks := matchedAndHeldDocumentsRound.anchor().
-		documentsHeld()
-	joinedDocuments := maps.Clone(documentsJoinedBeforeTheHeldDocumentsAsks)
-	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheAnchor() {
-		documentsHeldInTheFirstRound := queryWord.documentsHeld()
-		documentsJoinedBeforeTheHeldDocumentsAsks = documentsHeldInSomeRoundAmong(
-			documentsJoinedBeforeTheHeldDocumentsAsks, documentsHeldInTheFirstRound,
+	documentsHeldPerQueryWordInTheSecondRound := crossCheckedDocumentsRound.documentsHeldPerQueryWord()
+	documentsJoinedBeforeTheCrossCheckedDocumentsAsks := matchedAndHeldDocumentsRound.rarestQueryWord().
+		documentsListed()
+	joinedDocuments := maps.Clone(documentsJoinedBeforeTheCrossCheckedDocumentsAsks)
+	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheRarestQueryWord() {
+		documentsListedForTheQueryWord := queryWord.documentsListed()
+		documentsJoinedBeforeTheCrossCheckedDocumentsAsks = documentsHeldInSomeRoundAmong(
+			documentsJoinedBeforeTheCrossCheckedDocumentsAsks, documentsListedForTheQueryWord,
 		)
 		joinedDocuments = documentsHeldInSomeRoundAmong(
 			joinedDocuments,
-			documentsHeldInTheFirstRound,
+			documentsListedForTheQueryWord,
 			documentsHeldPerQueryWordInTheSecondRound[queryWord.word],
 		)
 	}
 
 	return joinOfTheQuery{
-		documentsJoinedBeforeTheHeldDocumentsAsks: documentsJoinedBeforeTheHeldDocumentsAsks,
+		documentsJoinedBeforeTheCrossCheckedDocumentsAsks: documentsJoinedBeforeTheCrossCheckedDocumentsAsks,
 		joinedDocuments: joinedDocuments,
 	}
 }

@@ -14,7 +14,7 @@ const (
 	msgPeerAnsweredMatchedDocuments        = "peer answered the documents it matched"
 	msgPeerAnsweredURLMetadata             = "peer answered the metadata it holds for the documents"
 	msgPeerAnsweredMatchedAndHeldDocuments = "peer answered the documents it matched and holds for a word"
-	msgPeerAnsweredHeldDocuments           = "peer answered the documents it holds for a word among the documents named"
+	msgPeerAnsweredCrossCheckedDocuments   = "peer answered which of the cross-checked documents it holds for a word"
 	msgPeerRefused                         = "peer refused a search"
 	msgPeerUnreachable                     = "peer could not be reached for a search"
 	msgPeerAnswerUnreadable                = "peer answered a search unreadably"
@@ -61,13 +61,13 @@ func (PeerCallLog) PeerAnsweredMatchedAndHeldDocuments(
 	)
 }
 
-func (PeerCallLog) PeerAnsweredHeldDocuments(
+func (PeerCallLog) PeerAnsweredCrossCheckedDocuments(
 	ctx context.Context,
 	address string,
 	amountOfDocuments int,
 	spent time.Duration,
 ) {
-	slog.DebugContext(ctx, msgPeerAnsweredHeldDocuments,
+	slog.DebugContext(ctx, msgPeerAnsweredCrossCheckedDocuments,
 		slog.String("address", address),
 		slog.Int("amountOfDocuments", amountOfDocuments),
 		slog.Duration("spent", spent),

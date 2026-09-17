@@ -149,19 +149,19 @@ func lowerMedianOf(amounts []int) int {
 	return sortedAmounts[(len(sortedAmounts)-1)/2]
 }
 
-func (queryWord answeredQueryWord) documentsHeld() map[yacymodel.URLHash]struct{} {
-	documentsHeld := map[yacymodel.URLHash]struct{}{}
+func (queryWord answeredQueryWord) documentsListed() map[yacymodel.URLHash]struct{} {
+	documentsListed := map[yacymodel.URLHash]struct{}{}
 	for _, replica := range queryWord.replicas {
 		answer, answered := replica.answer.Get()
 		if !answered {
 			continue
 		}
-		for _, document := range answer.DocumentsHeldForTheWord {
-			documentsHeld[document] = struct{}{}
+		for _, document := range answer.DocumentsListedForTheWord {
+			documentsListed[document] = struct{}{}
 		}
 	}
 
-	return documentsHeld
+	return documentsListed
 }
 
 func (queryWord answeredQueryWord) isFullyListed() bool {
@@ -195,5 +195,5 @@ func (replica replicaOfQueryWord) listedAllItHolds() bool {
 	}
 	amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
 
-	return counted && amountOfDocumentsHeld <= len(answer.DocumentsHeldForTheWord)
+	return counted && amountOfDocumentsHeld <= len(answer.DocumentsListedForTheWord)
 }

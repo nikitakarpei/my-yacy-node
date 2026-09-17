@@ -18,15 +18,15 @@ type matchedAndHeldDocumentsRound struct {
 	amountOfPeersPerDocument       map[yacymodel.URLHash]int
 }
 
-func (round matchedAndHeldDocumentsRound) anchor() answeredQueryWord {
+func (round matchedAndHeldDocumentsRound) rarestQueryWord() answeredQueryWord {
 	return round.queryWordsFewestDocumentsFirst[0]
 }
 
-func (round matchedAndHeldDocumentsRound) queryWordsBesideTheAnchor() []answeredQueryWord {
+func (round matchedAndHeldDocumentsRound) queryWordsBesideTheRarestQueryWord() []answeredQueryWord {
 	return round.queryWordsFewestDocumentsFirst[1:]
 }
 
-func (round matchedAndHeldDocumentsRound) documentsMostHeldFirstAmong(
+func (round matchedAndHeldDocumentsRound) documentsMostListedFirstAmong(
 	documents map[yacymodel.URLHash]struct{},
 ) []yacymodel.URLHash {
 	return slices.SortedFunc(
@@ -69,7 +69,7 @@ func amountOfPeersPerDocumentOf(
 	countedPeers := map[peerOfDocument]struct{}{}
 	amountOfPeersPerDocument := map[yacymodel.URLHash]int{}
 	for _, answeredAsk := range answeredAsks {
-		for _, document := range answeredAsk.DocumentsHeldForTheWord {
+		for _, document := range answeredAsk.DocumentsListedForTheWord {
 			peerOfDocument := peerOfDocument{document: document, peer: answeredAsk.Ask.Peer.Hash}
 			if _, counted := countedPeers[peerOfDocument]; counted {
 				continue

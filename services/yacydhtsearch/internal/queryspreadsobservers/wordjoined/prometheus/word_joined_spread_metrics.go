@@ -1,11 +1,4 @@
-// Package prometheus reports how many peers the first round of a word joined
-// spread asked and how many answered, how much of the query the network held,
-// how often no document held all query words, how many query words their peers
-// listed in full and what the second round asked and got back, how much the
-// second round added to the join and how many documents it could not name, how
-// much of the join an item of an answer already covers and how much of that
-// carried a posting, and how much of the join the third round asked metadata
-// for and got back, as metrics.
+// Package prometheus reports how a word joined spread performed, as metrics.
 package prometheus
 
 import (
@@ -30,17 +23,15 @@ const (
 )
 
 type WordJoinedSpreadMetrics struct {
-	wordJoinedSpreads                   *prometheusclient.CounterVec
-	peersAsked                          prometheusclient.Histogram
-	answeringPeersRatio                 prometheusclient.Histogram
-	unheldQueryWordsRatio               prometheusclient.Histogram
-	fullyListedQueryWordsRatio          prometheusclient.Histogram
-	heldDocumentsRound                  heldDocumentsRoundMetrics
-	joinWithMetadataRatio               prometheusclient.Histogram
-	matchedDocumentsCountedByAPeerRatio prometheusclient.Histogram
-	missingMetadataAskedForRatio        prometheusclient.Histogram
-	askedDocumentsWithMetadataRatio     prometheusclient.Histogram
-	wordJoinedSpreadDurationSeconds     prometheusclient.Histogram
+	wordJoinedSpreads                               *prometheusclient.CounterVec
+	peersAskedForMatchedAndHeldDocuments            prometheusclient.Histogram
+	answeringMatchedAndHeldDocumentsPeersRatio      prometheusclient.Histogram
+	unheldQueryWordsRatio                           prometheusclient.Histogram
+	fullyListedQueryWordsRatio                      prometheusclient.Histogram
+	crossCheckedDocumentsRound                      crossCheckedDocumentsRoundMetrics
+	joinedDocumentsDroppedBeforeMetadataLookupRatio prometheusclient.Histogram
+	lookedUpDocumentsWithoutMetadataRatio           prometheusclient.Histogram
+	wordJoinedSpreadDurationSeconds                 prometheusclient.Histogram
 }
 
 func New(
@@ -50,19 +41,19 @@ func New(
 	metrics := &WordJoinedSpreadMetrics{
 		wordJoinedSpreads: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "yacydhtsearch_word_joined_spreads_total",
-			Help: "Word joined spreads, by what the first round found for all query words.",
+			Help: "Word joined spreads, by whether the join found a document.",
 		}, []string{labelJoin}),
-		peersAsked: prometheusclient.NewHistogram(
+		peersAskedForMatchedAndHeldDocuments: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
-				Name: "yacydhtsearch_word_joined_spread_peers_asked",
-				Help: "Peers the first round of a word joined spread asked which documents " +
-					"they hold. A peer responsible for several query words counts once.",
+				Name: "yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents",
+				Help: "Distinct peers a word joined spread asked which documents they hold " +
+					"for a query word.",
 				Buckets: bucketsFromNoneTo(peerBucketCeiling, peerBuckets),
 			},
 		),
-		answeringPeersRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_answering_peers_ratio",
-			"Share of the peers asked which documents they hold that answered.",
+		answeringMatchedAndHeldDocumentsPeersRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio",
+			"Share of the peers asked which documents they hold for a query word that answered.",
 		),
 		unheldQueryWordsRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_unheld_query_words_ratio",
@@ -70,28 +61,18 @@ func New(
 		),
 		fullyListedQueryWordsRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio",
-			"Share of query words whose peers listed all the documents they hold for the word, "+
-				"which the second round does not ask again.",
+			"Share of query words whose peers listed every document they hold for the word.",
 		),
-		heldDocumentsRound: heldDocumentsRoundMetricsRegisteredIn(registry),
-		joinWithMetadataRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_join_with_metadata_ratio",
-			"Share of the joined documents that an answer to the first round already "+
-				"carried the metadata of.",
+		crossCheckedDocumentsRound: crossCheckedDocumentsRoundMetricsRegisteredIn(registry),
+		joinedDocumentsDroppedBeforeMetadataLookupRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio",
+			"Share of the joined documents without metadata that the spread dropped before "+
+				"looking their metadata up.",
 		),
-		matchedDocumentsCountedByAPeerRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_matched_documents_counted_by_a_peer_ratio",
-			"Share of the documents the peers matched in their answers to the first round "+
-				"that a peer counted a word in.",
-		),
-		missingMetadataAskedForRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio",
-			"Share of the joined documents that came without metadata the spread "+
-				"asked the peers metadata for.",
-		),
-		askedDocumentsWithMetadataRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_asked_documents_with_metadata_ratio",
-			"Share of the documents the spread asked metadata for that came back with metadata.",
+		lookedUpDocumentsWithoutMetadataRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio",
+			"Share of the documents the spread looked metadata up for that no peer sent "+
+				"metadata for.",
 		),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
@@ -107,14 +88,12 @@ func New(
 	}
 	registry.MustRegister(
 		metrics.wordJoinedSpreads,
-		metrics.peersAsked,
-		metrics.answeringPeersRatio,
+		metrics.peersAskedForMatchedAndHeldDocuments,
+		metrics.answeringMatchedAndHeldDocumentsPeersRatio,
 		metrics.unheldQueryWordsRatio,
 		metrics.fullyListedQueryWordsRatio,
-		metrics.joinWithMetadataRatio,
-		metrics.matchedDocumentsCountedByAPeerRatio,
-		metrics.missingMetadataAskedForRatio,
-		metrics.askedDocumentsWithMetadataRatio,
+		metrics.joinedDocumentsDroppedBeforeMetadataLookupRatio,
+		metrics.lookedUpDocumentsWithoutMetadataRatio,
 		metrics.wordJoinedSpreadDurationSeconds,
 	)
 
@@ -140,35 +119,36 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	m.peersAsked.Observe(float64(spread.MatchedAndHeldDocumentsRound.AmountOfPeersAsked))
+	m.peersAskedForMatchedAndHeldDocuments.Observe(float64(
+		spread.MatchedAndHeldDocumentsRound.AmountOfPeersAskedForMatchedAndHeldDocuments,
+	))
 	m.wordJoinedSpreadDurationSeconds.Observe(spread.TimeSpent.Seconds())
-	m.countJoin(spread.HeldDocumentsRound, spread.URLMetadataRound)
+	m.countJoin(spread.CrossCheckedDocumentsRound, spread.URLMetadataRound)
 	m.observeMatchedAndHeldDocumentsRound(spread.MatchedAndHeldDocumentsRound)
-	m.heldDocumentsRound.observeHeldDocumentsRound(spread.HeldDocumentsRound)
-	m.observeAskedDocumentsWithMetadataRatio(spread.URLMetadataRound)
+	m.crossCheckedDocumentsRound.observeCrossCheckedDocumentsRound(
+		spread.CrossCheckedDocumentsRound,
+		spread.MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheRarestQueryWord,
+	)
+	m.observeLookedUpDocumentsWithoutMetadataRatio(spread.URLMetadataRound)
 }
 
 func (m *WordJoinedSpreadMetrics) countJoin(
-	heldDocumentsRound wordjoined.PerformedHeldDocumentsRound,
+	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
 	urlMetadataRound wordjoined.PerformedURLMetadataRound,
 ) {
-	if heldDocumentsRound.AmountOfJoinedDocuments == 0 {
+	if crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
 		m.wordJoinedSpreads.WithLabelValues(joinFoundNoDocument).Inc()
 
 		return
 	}
 	m.wordJoinedSpreads.WithLabelValues(joinFoundDocuments).Inc()
-	m.joinWithMetadataRatio.Observe(
-		float64(urlMetadataRound.AmountOfJoinedDocumentsWithMetadata) /
-			float64(heldDocumentsRound.AmountOfJoinedDocuments),
-	)
-	documentsMissingMetadata := heldDocumentsRound.AmountOfJoinedDocuments -
+	documentsMissingMetadata := crossCheckedDocumentsRound.AmountOfJoinedDocuments -
 		urlMetadataRound.AmountOfJoinedDocumentsWithMetadata
 	if documentsMissingMetadata == 0 {
 		return
 	}
-	m.missingMetadataAskedForRatio.Observe(
-		float64(urlMetadataRound.AmountOfDocumentsAskedMetadataFor) /
+	m.joinedDocumentsDroppedBeforeMetadataLookupRatio.Observe(
+		float64(documentsMissingMetadata-urlMetadataRound.AmountOfDocumentsAskedMetadataFor) /
 			float64(documentsMissingMetadata),
 	)
 }
@@ -176,36 +156,31 @@ func (m *WordJoinedSpreadMetrics) countJoin(
 func (m *WordJoinedSpreadMetrics) observeMatchedAndHeldDocumentsRound(
 	round wordjoined.PerformedMatchedAndHeldDocumentsRound,
 ) {
-	if round.AmountOfPeersAsked > 0 {
-		m.answeringPeersRatio.Observe(
-			float64(round.AmountOfPeersThatAnswered) / float64(round.AmountOfPeersAsked),
+	if round.AmountOfPeersAskedForMatchedAndHeldDocuments > 0 {
+		m.answeringMatchedAndHeldDocumentsPeersRatio.Observe(
+			float64(round.AmountOfPeersThatAnsweredMatchedAndHeldDocuments) /
+				float64(round.AmountOfPeersAskedForMatchedAndHeldDocuments),
 		)
 	}
-	if round.AmountOfQueryWords > 0 {
-		m.unheldQueryWordsRatio.Observe(
-			float64(round.AmountOfQueryWordsHeldByNoPeer) / float64(round.AmountOfQueryWords),
-		)
-		m.fullyListedQueryWordsRatio.Observe(
-			float64(round.AmountOfFullyListedQueryWords) / float64(round.AmountOfQueryWords),
-		)
-	}
-	if round.AmountOfMatchedDocumentsAcrossAnswers == 0 {
+	if round.AmountOfQueryWords == 0 {
 		return
 	}
-	m.matchedDocumentsCountedByAPeerRatio.Observe(
-		float64(round.AmountOfMatchedDocumentsCountedByAPeer) /
-			float64(round.AmountOfMatchedDocumentsAcrossAnswers),
+	m.unheldQueryWordsRatio.Observe(
+		float64(round.AmountOfQueryWordsHeldByNoPeer) / float64(round.AmountOfQueryWords),
+	)
+	m.fullyListedQueryWordsRatio.Observe(
+		float64(round.AmountOfFullyListedQueryWords) / float64(round.AmountOfQueryWords),
 	)
 }
 
-func (m *WordJoinedSpreadMetrics) observeAskedDocumentsWithMetadataRatio(
+func (m *WordJoinedSpreadMetrics) observeLookedUpDocumentsWithoutMetadataRatio(
 	round wordjoined.PerformedURLMetadataRound,
 ) {
 	if round.AmountOfDocumentsAskedMetadataFor == 0 {
 		return
 	}
-	m.askedDocumentsWithMetadataRatio.Observe(
-		float64(round.AmountOfAskedDocumentsWithMetadata) /
+	m.lookedUpDocumentsWithoutMetadataRatio.Observe(
+		float64(round.AmountOfDocumentsAskedMetadataFor-round.AmountOfAskedDocumentsWithMetadata) /
 			float64(round.AmountOfDocumentsAskedMetadataFor),
 	)
 }

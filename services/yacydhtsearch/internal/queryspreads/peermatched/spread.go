@@ -1,9 +1,5 @@
-// Package peermatched collects what each asked peer matched for the whole
-// query on its own. It asks the peers the DHT ring makes responsible for any
-// word of the query, and asks a peer responsible for several words once. Every document a
-// peer answers matched every word of the query. A peer counts a word in a
-// document without naming the word it counted, so only a query of one word says
-// which word the count belongs to.
+// Package peermatched collects the documents each peer matched for the whole
+// query on its own.
 package peermatched
 
 import (

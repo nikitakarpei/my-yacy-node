@@ -6,16 +6,16 @@ import (
 )
 
 type PerformedMatchedAndHeldDocumentsRound struct {
-	AmountOfQueryWords                     int
-	AmountOfQueryWordsHeldByNoPeer         int
-	AmountOfFullyListedQueryWords          int
-	AmountOfPeersAsked                     int
-	AmountOfPeersThatAnswered              int
-	AmountOfPeersHoldingAQueryWord         int
-	AmountOfAnchorDocuments                int
-	AmountOfMatchedDocumentsAcrossAnswers  int
-	AmountOfMatchedDocumentsCountedByAPeer int
-	AmountOfDocumentsHeldInEachAnswer      []int
+	AmountOfQueryWords                                    int
+	AmountOfQueryWordsHeldByNoPeer                        int
+	AmountOfFullyListedQueryWords                         int
+	AmountOfPeersAskedForMatchedAndHeldDocuments          int
+	AmountOfPeersThatAnsweredMatchedAndHeldDocuments      int
+	AmountOfPeersThatListedADocument                      int
+	AmountOfDocumentsListedByThePeersOfTheRarestQueryWord int
+	AmountOfMatchedDocumentsAcrossAnswers                 int
+	AmountOfMatchedDocumentsCountedByAPeer                int
+	AmountOfDocumentsHeldInEachAnswer                     []int
 }
 
 func performedMatchedAndHeldDocumentsRoundFrom(
@@ -29,15 +29,20 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		AmountOfFullyListedQueryWords: amountOfFullyListedQueryWordsAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfPeersAsked: amountOfPeersAcross(round.asks, peerOfMatchedAndHeldDocumentsAsk),
-		AmountOfPeersThatAnswered: amountOfPeersAcross(
+		AmountOfPeersAskedForMatchedAndHeldDocuments: amountOfPeersAcross(
+			round.asks,
+			peerOfMatchedAndHeldDocumentsAsk,
+		),
+		AmountOfPeersThatAnsweredMatchedAndHeldDocuments: amountOfPeersAcross(
 			round.answeredAsks, peerOfAnsweredMatchedAndHeldDocumentsAsk,
 		),
-		AmountOfPeersHoldingAQueryWord: amountOfPeersAcross(
-			answeredAsksWithAHeldDocument(round.answeredAsks),
+		AmountOfPeersThatListedADocument: amountOfPeersAcross(
+			answeredAsksWithAListedDocument(round.answeredAsks),
 			peerOfAnsweredMatchedAndHeldDocumentsAsk,
 		),
-		AmountOfAnchorDocuments: len(round.anchor().documentsHeld()),
+		AmountOfDocumentsListedByThePeersOfTheRarestQueryWord: len(
+			round.rarestQueryWord().documentsListed(),
+		),
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
 		),
@@ -51,7 +56,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 func amountOfQueryWordsHeldByNoPeerAmong(queryWords []answeredQueryWord) int {
 	amount := 0
 	for _, queryWord := range queryWords {
-		if len(queryWord.documentsHeld()) > 0 {
+		if len(queryWord.documentsListed()) > 0 {
 			continue
 		}
 		amount++
@@ -84,12 +89,12 @@ func peerOfAnsweredMatchedAndHeldDocumentsAsk(
 	return answeredAsk.Ask.Peer
 }
 
-func answeredAsksWithAHeldDocument(
+func answeredAsksWithAListedDocument(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
 	keptAnsweredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.DocumentsHeldForTheWord) == 0 {
+		if len(answeredAsk.DocumentsListedForTheWord) == 0 {
 			continue
 		}
 		keptAnsweredAsks = append(keptAnsweredAsks, answeredAsk)

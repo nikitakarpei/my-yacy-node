@@ -26,7 +26,7 @@ type PeerCallObserver interface {
 		amountOfDocuments int,
 		spent time.Duration,
 	)
-	PeerAnsweredHeldDocuments(
+	PeerAnsweredCrossCheckedDocuments(
 		ctx context.Context,
 		address string,
 		amountOfDocuments int,
@@ -90,14 +90,14 @@ func (observers PeerCallObservers) PeerAnsweredMatchedAndHeldDocuments(
 	}
 }
 
-func (observers PeerCallObservers) PeerAnsweredHeldDocuments(
+func (observers PeerCallObservers) PeerAnsweredCrossCheckedDocuments(
 	ctx context.Context,
 	address string,
 	amountOfDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnsweredHeldDocuments(ctx, address, amountOfDocuments, spent)
+		observer.PeerAnsweredCrossCheckedDocuments(ctx, address, amountOfDocuments, spent)
 	}
 }
 

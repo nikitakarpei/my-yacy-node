@@ -55,7 +55,7 @@ func (silentOutcome) PeerAnsweredMatchedAndHeldDocuments(
 ) {
 }
 
-func (silentOutcome) PeerAnsweredHeldDocuments(
+func (silentOutcome) PeerAnsweredCrossCheckedDocuments(
 	context.Context, string, int, time.Duration,
 ) {
 }

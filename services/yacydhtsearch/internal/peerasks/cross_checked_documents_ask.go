@@ -5,13 +5,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type HeldDocumentsAsk struct {
+type CrossCheckedDocumentsAsk struct {
 	Peer      peerdirectory.AskablePeer
 	Word      yacymodel.Hash
 	Documents []yacymodel.URLHash
 }
 
-type AnsweredHeldDocumentsAsk struct {
-	Ask                     HeldDocumentsAsk
+type AnsweredCrossCheckedDocumentsAsk struct {
+	Ask                     CrossCheckedDocumentsAsk
 	DocumentsHeldForTheWord []yacymodel.URLHash
 }

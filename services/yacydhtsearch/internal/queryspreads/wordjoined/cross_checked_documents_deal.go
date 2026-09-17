@@ -8,32 +8,33 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type heldDocumentsDeal struct {
-	asks                    []peerasks.HeldDocumentsAsk
+type crossCheckedDocumentsDeal struct {
+	asks                    []peerasks.CrossCheckedDocumentsAsk
 	documentsPastTheCeiling map[yacymodel.URLHash]struct{}
 }
 
-func heldDocumentsDealFor(
-	queryWordsBesideTheAnchor []answeredQueryWord,
-	anchorDocumentsMostHeldFirst []yacymodel.URLHash,
-	heldDocumentsCeiling int,
-) heldDocumentsDeal {
-	deal := heldDocumentsDeal{documentsPastTheCeiling: map[yacymodel.URLHash]struct{}{}}
-	for _, queryWord := range queryWordsBesideTheAnchor {
+func crossCheckedDocumentsDealFor(
+	queryWordsBesideTheRarestQueryWord []answeredQueryWord,
+	documentsListedByThePeersOfTheRarestQueryWordMostListedFirst []yacymodel.URLHash,
+	crossCheckedDocumentsCeiling int,
+) crossCheckedDocumentsDeal {
+	deal := crossCheckedDocumentsDeal{documentsPastTheCeiling: map[yacymodel.URLHash]struct{}{}}
+	for _, queryWord := range queryWordsBesideTheRarestQueryWord {
 		if queryWord.isFullyListed() {
 			continue
 		}
-		candidateDocuments := documentsNotHeldAmong(
-			anchorDocumentsMostHeldFirst, queryWord.documentsHeld(),
+		candidateDocuments := documentsNotListedAmong(
+			documentsListedByThePeersOfTheRarestQueryWordMostListedFirst,
+			queryWord.documentsListed(),
 		)
 		peersWithoutAnAsk := peersWithoutAnAskAmong(
 			queryWord.peersThatDidNotListAllTheyHold(),
 			deal.asks,
 		)
 		amountOfDocumentsDealt := min(
-			len(candidateDocuments), len(peersWithoutAnAsk)*heldDocumentsCeiling,
+			len(candidateDocuments), len(peersWithoutAnAsk)*crossCheckedDocumentsCeiling,
 		)
-		deal.asks = append(deal.asks, heldDocumentsAsksDealtAcross(
+		deal.asks = append(deal.asks, crossCheckedDocumentsAsksDealtAcross(
 			peersWithoutAnAsk, queryWord.word, candidateDocuments[:amountOfDocumentsDealt],
 		)...)
 		for _, document := range candidateDocuments[amountOfDocumentsDealt:] {
@@ -44,13 +45,13 @@ func heldDocumentsDealFor(
 	return deal
 }
 
-func documentsNotHeldAmong(
+func documentsNotListedAmong(
 	documents []yacymodel.URLHash,
-	documentsHeld map[yacymodel.URLHash]struct{},
+	documentsListed map[yacymodel.URLHash]struct{},
 ) []yacymodel.URLHash {
 	keptDocuments := make([]yacymodel.URLHash, 0, len(documents))
 	for _, document := range documents {
-		if _, held := documentsHeld[document]; held {
+		if _, listed := documentsListed[document]; listed {
 			continue
 		}
 		keptDocuments = append(keptDocuments, document)
@@ -61,11 +62,11 @@ func documentsNotHeldAmong(
 
 func peersWithoutAnAskAmong(
 	peers []peerdirectory.AskablePeer,
-	asks []peerasks.HeldDocumentsAsk,
+	asks []peerasks.CrossCheckedDocumentsAsk,
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(peers))
 	for _, peer := range peers {
-		if slices.ContainsFunc(asks, func(ask peerasks.HeldDocumentsAsk) bool {
+		if slices.ContainsFunc(asks, func(ask peerasks.CrossCheckedDocumentsAsk) bool {
 			return ask.Peer.Hash == peer.Hash
 		}) {
 			continue
@@ -76,23 +77,23 @@ func peersWithoutAnAskAmong(
 	return keptPeers
 }
 
-func heldDocumentsAsksDealtAcross(
+func crossCheckedDocumentsAsksDealtAcross(
 	peers []peerdirectory.AskablePeer,
 	queryWord yacymodel.Hash,
 	documents []yacymodel.URLHash,
-) []peerasks.HeldDocumentsAsk {
+) []peerasks.CrossCheckedDocumentsAsk {
 	documentsDealtToEachPeer := make([][]yacymodel.URLHash, len(peers))
 	for turn, document := range documents {
 		place := turn % len(peers)
 		documentsDealtToEachPeer[place] = append(documentsDealtToEachPeer[place], document)
 	}
 
-	asks := make([]peerasks.HeldDocumentsAsk, 0, len(peers))
+	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(peers))
 	for place, documentsDealtToOnePeer := range documentsDealtToEachPeer {
 		if len(documentsDealtToOnePeer) == 0 {
 			continue
 		}
-		asks = append(asks, peerasks.HeldDocumentsAsk{
+		asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
 			Peer:      peers[place],
 			Word:      queryWord,
 			Documents: documentsDealtToOnePeer,

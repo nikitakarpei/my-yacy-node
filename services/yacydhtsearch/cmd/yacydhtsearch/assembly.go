@@ -227,7 +227,7 @@ func querySpreadFor(
 			peers,
 			choice,
 			cfg.RankedItemsCeiling,
-			cfg.HeldDocumentsCeiling,
+			cfg.CrossCheckedDocumentsCeiling,
 			cfg.PeerItemsCeiling,
 			cfg.Partitions,
 			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),

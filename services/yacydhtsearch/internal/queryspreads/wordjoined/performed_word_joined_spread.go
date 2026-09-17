@@ -8,14 +8,14 @@ import (
 
 type PerformedWordJoinedSpread struct {
 	MatchedAndHeldDocumentsRound PerformedMatchedAndHeldDocumentsRound
-	HeldDocumentsRound           PerformedHeldDocumentsRound
+	CrossCheckedDocumentsRound   PerformedCrossCheckedDocumentsRound
 	URLMetadataRound             PerformedURLMetadataRound
 	TimeSpent                    time.Duration
 }
 
 func performedWordJoinedSpreadFrom(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	heldDocumentsRound heldDocumentsRound,
+	crossCheckedDocumentsRound crossCheckedDocumentsRound,
 	joinOfTheQuery joinOfTheQuery,
 	urlMetadataRound urlMetadataRound,
 	timeSpent time.Duration,
@@ -24,9 +24,12 @@ func performedWordJoinedSpreadFrom(
 		MatchedAndHeldDocumentsRound: performedMatchedAndHeldDocumentsRoundFrom(
 			matchedAndHeldDocumentsRound,
 		),
-		HeldDocumentsRound: performedHeldDocumentsRoundFrom(heldDocumentsRound, joinOfTheQuery),
-		URLMetadataRound:   performedURLMetadataRoundFrom(urlMetadataRound, joinOfTheQuery),
-		TimeSpent:          timeSpent,
+		CrossCheckedDocumentsRound: performedCrossCheckedDocumentsRoundFrom(
+			crossCheckedDocumentsRound,
+			joinOfTheQuery,
+		),
+		URLMetadataRound: performedURLMetadataRoundFrom(urlMetadataRound, joinOfTheQuery),
+		TimeSpent:        timeSpent,
 	}
 }
 

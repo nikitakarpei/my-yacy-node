@@ -4,6 +4,7 @@ package applog
 import (
 	"context"
 	"log/slog"
+	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
@@ -16,76 +17,89 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	ctx context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	matchedAndHeldDocumentsRound := spread.MatchedAndHeldDocumentsRound
-	heldDocumentsRound := spread.HeldDocumentsRound
-	urlMetadataRound := spread.URLMetadataRound
-	slog.DebugContext(
+	slog.LogAttrs(
 		ctx,
+		slog.LevelDebug,
 		msgWordJoinedSpreadPerformed,
-		slog.Int("amountOfQueryWords", matchedAndHeldDocumentsRound.AmountOfQueryWords),
+		slices.Concat(
+			attributesOfMatchedAndHeldDocumentsRound(spread.MatchedAndHeldDocumentsRound),
+			attributesOfCrossCheckedDocumentsRound(spread.CrossCheckedDocumentsRound),
+			attributesOfURLMetadataRound(spread.URLMetadataRound),
+			[]slog.Attr{slog.Duration("timeSpent", spread.TimeSpent)},
+		)...,
+	)
+}
+
+func attributesOfMatchedAndHeldDocumentsRound(
+	round wordjoined.PerformedMatchedAndHeldDocumentsRound,
+) []slog.Attr {
+	return []slog.Attr{
+		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
+		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
+		slog.Int("amountOfFullyListedQueryWords", round.AmountOfFullyListedQueryWords),
 		slog.Int(
-			"amountOfQueryWordsHeldByNoPeer",
-			matchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer,
+			"amountOfPeersAskedForMatchedAndHeldDocuments",
+			round.AmountOfPeersAskedForMatchedAndHeldDocuments,
 		),
 		slog.Int(
-			"amountOfFullyListedQueryWords",
-			matchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords,
+			"amountOfPeersThatAnsweredMatchedAndHeldDocuments",
+			round.AmountOfPeersThatAnsweredMatchedAndHeldDocuments,
 		),
-		slog.Int("amountOfPeersAsked", matchedAndHeldDocumentsRound.AmountOfPeersAsked),
+		slog.Int("amountOfPeersThatListedADocument", round.AmountOfPeersThatListedADocument),
 		slog.Int(
-			"amountOfPeersThatAnswered",
-			matchedAndHeldDocumentsRound.AmountOfPeersThatAnswered,
-		),
-		slog.Int(
-			"amountOfPeersHoldingAQueryWord",
-			matchedAndHeldDocumentsRound.AmountOfPeersHoldingAQueryWord,
-		),
-		slog.Int("amountOfAnchorDocuments", matchedAndHeldDocumentsRound.AmountOfAnchorDocuments),
-		slog.Int(
-			"amountOfDocumentsPastTheHeldDocumentsCeiling",
-			heldDocumentsRound.AmountOfDocumentsPastTheHeldDocumentsCeiling,
-		),
-		slog.Int(
-			"amountOfPeersAskedForHeldDocuments",
-			heldDocumentsRound.AmountOfPeersAskedForHeldDocuments,
-		),
-		slog.Int(
-			"amountOfPeersThatAnsweredHeldDocuments",
-			heldDocumentsRound.AmountOfPeersThatAnsweredHeldDocuments,
-		),
-		slog.Int(
-			"amountOfEmptyHeldDocumentsAnswers",
-			heldDocumentsRound.AmountOfEmptyHeldDocumentsAnswers,
-		),
-		slog.Int(
-			"amountOfJoinedDocumentsBeforeTheHeldDocumentsAsks",
-			heldDocumentsRound.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks,
-		),
-		slog.Int("amountOfJoinedDocuments", heldDocumentsRound.AmountOfJoinedDocuments),
-		slog.Int(
-			"amountOfJoinedDocumentsWithMetadata",
-			urlMetadataRound.AmountOfJoinedDocumentsWithMetadata,
+			"amountOfDocumentsListedByThePeersOfTheRarestQueryWord",
+			round.AmountOfDocumentsListedByThePeersOfTheRarestQueryWord,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsAcrossAnswers",
-			matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsAcrossAnswers,
+			round.AmountOfMatchedDocumentsAcrossAnswers,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsCountedByAPeer",
-			matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsCountedByAPeer,
+			round.AmountOfMatchedDocumentsCountedByAPeer,
 		),
-		slog.Any(
-			"amountOfDocumentsHeldInEachAnswer",
-			matchedAndHeldDocumentsRound.AmountOfDocumentsHeldInEachAnswer,
+		slog.Any("amountOfDocumentsHeldInEachAnswer", round.AmountOfDocumentsHeldInEachAnswer),
+	}
+}
+
+func attributesOfCrossCheckedDocumentsRound(
+	round wordjoined.PerformedCrossCheckedDocumentsRound,
+) []slog.Attr {
+	return []slog.Attr{
+		slog.Int(
+			"amountOfDocumentsPastTheCrossCheckedDocumentsCeiling",
+			round.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
 		),
 		slog.Int(
-			"amountOfDocumentsAskedMetadataFor",
-			urlMetadataRound.AmountOfDocumentsAskedMetadataFor,
+			"amountOfPeersAskedForCrossCheckedDocuments",
+			round.AmountOfPeersAskedForCrossCheckedDocuments,
 		),
+		slog.Int(
+			"amountOfPeersThatAnsweredCrossCheckedDocuments",
+			round.AmountOfPeersThatAnsweredCrossCheckedDocuments,
+		),
+		slog.Int(
+			"amountOfEmptyCrossCheckedDocumentsAnswers",
+			round.AmountOfEmptyCrossCheckedDocumentsAnswers,
+		),
+		slog.Int(
+			"amountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks",
+			round.AmountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks,
+		),
+		slog.Int("amountOfJoinedDocuments", round.AmountOfJoinedDocuments),
+	}
+}
+
+func attributesOfURLMetadataRound(round wordjoined.PerformedURLMetadataRound) []slog.Attr {
+	return []slog.Attr{
+		slog.Int(
+			"amountOfJoinedDocumentsWithMetadata",
+			round.AmountOfJoinedDocumentsWithMetadata,
+		),
+		slog.Int("amountOfDocumentsAskedMetadataFor", round.AmountOfDocumentsAskedMetadataFor),
 		slog.Int(
 			"amountOfAskedDocumentsWithMetadata",
-			urlMetadataRound.AmountOfAskedDocumentsWithMetadata,
+			round.AmountOfAskedDocumentsWithMetadata,
 		),
-		slog.Duration("timeSpent", spread.TimeSpent),
-	)
+	}
 }
