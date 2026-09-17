@@ -11,56 +11,38 @@ func matchedAndHeldDocumentsAsksFor(
 	chosenPeersPerQueryWord [][]peerchoice.ChosenPeer,
 	itemsCeiling int,
 ) []peerasks.MatchedAndHeldDocumentsAsk {
-	return asksInTurnsAcrossTheWordsOf(
-		matchedAndHeldDocumentsAsksPerQueryWordFor(query, chosenPeersPerQueryWord, itemsCeiling),
-	)
+	var asks []peerasks.MatchedAndHeldDocumentsAsk
+	for turn := 0; ; turn++ {
+		asksInTheTurn := matchedAndHeldDocumentsAsksInTurn(
+			turn, query, chosenPeersPerQueryWord, itemsCeiling,
+		)
+		if len(asksInTheTurn) == 0 {
+			return asks
+		}
+		asks = append(asks, asksInTheTurn...)
+	}
 }
 
-func matchedAndHeldDocumentsAsksPerQueryWordFor(
+func matchedAndHeldDocumentsAsksInTurn(
+	turn int,
 	query searchquery.Query,
 	chosenPeersPerQueryWord [][]peerchoice.ChosenPeer,
 	itemsCeiling int,
-) [][]peerasks.MatchedAndHeldDocumentsAsk {
-	asksPerQueryWord := make([][]peerasks.MatchedAndHeldDocumentsAsk, 0, len(query.TermHashes()))
+) []peerasks.MatchedAndHeldDocumentsAsk {
+	asksInTheTurn := make([]peerasks.MatchedAndHeldDocumentsAsk, 0, len(query.TermHashes()))
 	for index, queryWord := range query.TermHashes() {
 		chosenPeers := chosenPeersPerQueryWord[index]
-		asksOfQueryWord := make([]peerasks.MatchedAndHeldDocumentsAsk, 0, len(chosenPeers))
-		for _, chosenPeer := range chosenPeers {
-			asksOfQueryWord = append(asksOfQueryWord, peerasks.MatchedAndHeldDocumentsAsk{
-				Peer:          chosenPeer.Peer,
-				Word:          queryWord,
-				ExcludedWords: query.ExclusionHashes(),
-				Language:      query.Language,
-				ItemsCeiling:  itemsCeiling,
-			})
+		if turn >= len(chosenPeers) {
+			continue
 		}
-		asksPerQueryWord = append(asksPerQueryWord, asksOfQueryWord)
+		asksInTheTurn = append(asksInTheTurn, peerasks.MatchedAndHeldDocumentsAsk{
+			Peer:          chosenPeers[turn].Peer,
+			Word:          queryWord,
+			ExcludedWords: query.ExclusionHashes(),
+			Language:      query.Language,
+			ItemsCeiling:  itemsCeiling,
+		})
 	}
 
-	return asksPerQueryWord
-}
-
-func asksInTurnsAcrossTheWordsOf(
-	asksPerQueryWord [][]peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.MatchedAndHeldDocumentsAsk {
-	var asksInTurns []peerasks.MatchedAndHeldDocumentsAsk
-	for turn := range amountOfTurnsAcrossTheWordsOf(asksPerQueryWord) {
-		for _, asksOfQueryWord := range asksPerQueryWord {
-			if turn >= len(asksOfQueryWord) {
-				continue
-			}
-			asksInTurns = append(asksInTurns, asksOfQueryWord[turn])
-		}
-	}
-
-	return asksInTurns
-}
-
-func amountOfTurnsAcrossTheWordsOf(asksPerQueryWord [][]peerasks.MatchedAndHeldDocumentsAsk) int {
-	amountOfTurns := 0
-	for _, asksOfQueryWord := range asksPerQueryWord {
-		amountOfTurns = max(amountOfTurns, len(asksOfQueryWord))
-	}
-
-	return amountOfTurns
+	return asksInTheTurn
 }
