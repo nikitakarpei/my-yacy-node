@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func answersCarryingThePageTextOfEachDocument(
+func answersSaturatedWithThePageText(
 	query string,
 	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
@@ -23,5 +23,5 @@ func answersCarryingThePageTextOfEachDocument(
 		)
 	}
 
-	return answers.CarryingTheTextOfEachDocument(documentTextPerDocument)
+	return answers.SaturatedWith(documentTextPerDocument)
 }

@@ -35,10 +35,10 @@ func TestOneQueryPublishesThePeersItReachedAndWhatItCost(t *testing.T) {
 	metrics := networksearchobserversprometheus.New(registry, queryBudget)
 
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
-		AmountOfAskablePeers:            8,
-		AmountOfItemsInRanking:          20,
-		AmountOfRankedItemsOfTheOnePeer: 5,
-		TimeSpent:                       250 * time.Millisecond,
+		AmountOfAskablePeers:                   8,
+		AmountOfItemsInRanking:                 20,
+		AmountOfRankedItemsOfTheMostRankedPeer: 5,
+		TimeSpent:                              250 * time.Millisecond,
 	})
 
 	body := publishedBy(t, registry)

@@ -297,15 +297,15 @@ func recordOneJudgedQuery(
 	answers := answersOfOneQuery(t, spread, directory, query)
 	pageTextPerDocument := pageTextOfTheFirstAnsweredDocuments(t, reading, answers)
 	storePageTextOfTheQuery(t, query, pageTextPerDocument)
-	answersCarryingThePageText := answersCarryingThePageTextOfEachDocument(
+	saturatedAnswers := answersSaturatedWithThePageText(
 		query, answers, pageTextPerDocument,
 	)
 	writeRecordedAnswersFile(
-		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersCarryingThePageText),
+		t, recordedAnswersFileOf(query), recordedAnswersOf(query, saturatedAnswers),
 	)
 	judgments := queryJudgmentsOfTheDocumentsToJudge(
 		query,
-		answersCarryingThePageText,
+		saturatedAnswers,
 		pageTextPerDocument,
 		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query)),
 	)

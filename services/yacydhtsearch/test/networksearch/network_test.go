@@ -414,7 +414,7 @@ func TestTheRankingReportsHowMuchOfItOnePeerSupplied(t *testing.T) {
 	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
 
 	if observer.performed.AmountOfItemsInRanking != 2 ||
-		observer.performed.AmountOfRankedItemsOfTheOnePeer != 1 {
+		observer.performed.AmountOfRankedItemsOfTheMostRankedPeer != 1 {
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want two ranked items and one from the leading peer",
 			observer.performed,
@@ -454,7 +454,7 @@ func TestOnePeerCanSupplyTheWholeRanking(t *testing.T) {
 
 	if observer.performed.AmountOfAskablePeers != 1 ||
 		observer.performed.AmountOfItemsInRanking != 1 ||
-		observer.performed.AmountOfRankedItemsOfTheOnePeer != 1 ||
+		observer.performed.AmountOfRankedItemsOfTheMostRankedPeer != 1 ||
 		observer.performed.AmountOfItemsAcrossAnswers != 2 {
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want one askable peer supplying the whole ranking",

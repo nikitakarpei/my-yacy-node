@@ -1,10 +1,7 @@
 // Package networksearch ranks what the peers of the network hold for one query,
-// inside one whole-query time budget. It chooses the peers of each query word
-// among those the directory can ask, lets them rest, spreads the query over them
-// with the query spread it holds, puts what the peers answered in the order the
-// items ordering it holds gives them, reads the pages of the items that came
-// first, gives the answers what those pages say, puts them in order again, and
-// carries back the items up to the ceiling as the ranking the client reads.
+// within one query budget. It asks the peers that hold the words of the query,
+// puts what they answered in order, reads the pages of the items it puts first,
+// and carries back the items up to the ceiling as the ranking the client reads.
 package networksearch
 
 import (
@@ -122,38 +119,35 @@ func (n Network) Search(
 		ctx, query.TermHashes(), askablePeers,
 	)
 	n.peerDirectory.MarkPeersChosen(ctx, chosenPeersPerQueryWord.PeersAcrossQueryWords())
-	spreading, endSpreading := contextOfTheQuerySpread(ctx, n.queryBudget, n.pageReadBudget)
-	defer endSpreading()
-	answers := n.querySpread.SpreadOverPeers(spreading, query, chosenPeersPerQueryWord)
-	candidates := itemsUpTo(n.itemsOrdering.OrderedItemsOf(answers), n.pagesReadPerQuery)
-	readAnswers := answers.CarryingTheTextOfEachDocument(
-		n.pageReading.DocumentTextPerDocument(
-			ctx, query.TermHashes(), pagesToReadOf(candidates),
-		),
+	querySpreadContext, endTheQuerySpread := contextWithinTheQuerySpreadBudget(
+		ctx, n.queryBudget, n.pageReadBudget,
 	)
+	defer endTheQuerySpread()
+	answers := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
+	itemsOrderedFirst := itemsUpTo(n.itemsOrdering.OrderedItemsOf(answers), n.pagesReadPerQuery)
+	documentTextPerDocument := n.pageReading.DocumentTextPerDocument(
+		ctx, query.TermHashes(), pagesToReadOf(itemsOrderedFirst),
+	)
+	answersSaturatedWithDocumentText := answers.SaturatedWith(documentTextPerDocument)
 	rankedItems := itemsUpTo(
-		n.itemsOrdering.OrderedItemsOf(readAnswers), n.rankedItemsCeiling,
+		n.itemsOrdering.OrderedItemsOf(answersSaturatedWithDocumentText), n.rankedItemsCeiling,
 	)
 	n.observer.NetworkSearchPerformed(
 		ctx,
 		performedNetworkSearchFrom(
-			readAnswers, rankedItems, len(askablePeers), time.Since(startedAt),
+			answersSaturatedWithDocumentText, rankedItems, len(askablePeers), time.Since(startedAt),
 		),
 	)
 
 	return rankingOf(rankedItems), PeersAsked
 }
 
-func contextOfTheQuerySpread(
+func contextWithinTheQuerySpreadBudget(
 	ctx context.Context,
 	queryBudget time.Duration,
 	pageReadBudget time.Duration,
 ) (context.Context, context.CancelFunc) {
-	return context.WithTimeout(ctx, querySpreadBudgetFrom(queryBudget, pageReadBudget))
-}
-
-func querySpreadBudgetFrom(queryBudget time.Duration, pageReadBudget time.Duration) time.Duration {
-	return max(queryBudget-pageReadBudget, 0)
+	return context.WithTimeout(ctx, max(queryBudget-pageReadBudget, 0))
 }
 
 func itemsUpTo(
@@ -167,12 +161,12 @@ func itemsUpTo(
 	return orderedItems[:min(ceiling, len(orderedItems))]
 }
 
-func pagesToReadOf(candidates []queryanswers.AnsweredItem) []pagereading.PageToRead {
-	pagesToRead := make([]pagereading.PageToRead, 0, len(candidates))
-	for _, candidate := range candidates {
+func pagesToReadOf(items []queryanswers.AnsweredItem) []pagereading.PageToRead {
+	pagesToRead := make([]pagereading.PageToRead, 0, len(items))
+	for _, item := range items {
 		pagesToRead = append(pagesToRead, pagereading.PageToRead{
-			Document: candidate.Metadata.Hash,
-			Address:  candidate.Metadata.Address,
+			Document: item.Metadata.Hash,
+			Address:  item.Metadata.Address,
 		})
 	}
 
