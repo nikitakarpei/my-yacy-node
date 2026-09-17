@@ -2,6 +2,7 @@ package peerchoice_test
 
 import (
 	"context"
+	"slices"
 	"strconv"
 	"testing"
 
@@ -380,5 +381,35 @@ func TestThePeersOfAQueryWordSpanEveryPartitionOfTheRing(t *testing.T) {
 			len(partitionsWithAPeer),
 			ringPartitions,
 		)
+	}
+}
+
+func TestAPeerChosenForTwoQueryWordsKeepsThePartitionOfItsFirstQueryWord(t *testing.T) {
+	t.Parallel()
+
+	chosenPeersPerQueryWord := peerchoice.ChosenPeersPerQueryWord{
+		{
+			QueryWord: yacymodel.WordHash("berlin"),
+			ChosenPeers: []peerchoice.ChosenPeer{
+				{Peer: askablePeers(t, 2)[0], Partition: 3},
+				{Peer: askablePeers(t, 2)[1], Partition: 7},
+			},
+		},
+		{
+			QueryWord: yacymodel.WordHash("weather"),
+			ChosenPeers: []peerchoice.ChosenPeer{
+				{Peer: askablePeers(t, 2)[1], Partition: 11},
+			},
+		},
+	}
+
+	chosenPeersAcrossQueryWords := chosenPeersPerQueryWord.ChosenPeersAcrossQueryWords()
+
+	want := []peerchoice.ChosenPeer{
+		{Peer: askablePeers(t, 2)[0], Partition: 3},
+		{Peer: askablePeers(t, 2)[1], Partition: 7},
+	}
+	if !slices.Equal(chosenPeersAcrossQueryWords, want) {
+		t.Fatalf("the query words chose %v, want %v", chosenPeersAcrossQueryWords, want)
 	}
 }

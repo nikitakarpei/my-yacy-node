@@ -7,6 +7,7 @@ import (
 
 type MatchedDocumentsAsk struct {
 	Peer          peerdirectory.AskablePeer
+	Partition     uint
 	WordsToMatch  []yacymodel.Hash
 	ExcludedWords []yacymodel.Hash
 	Language      string

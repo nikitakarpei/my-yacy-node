@@ -9,6 +9,7 @@ import (
 
 type MatchedAndHeldDocumentsAsk struct {
 	Peer          peerdirectory.AskablePeer
+	Partition     uint
 	Word          yacymodel.Hash
 	ExcludedWords []yacymodel.Hash
 	Language      string

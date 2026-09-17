@@ -57,6 +57,12 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		errors.New("bad row"),
 		time.Second,
 	)
+	metrics.PeerCallCancelled(
+		t.Context(),
+		"http://peer.example",
+		peerasks.MatchedDocuments,
+		time.Second,
+	)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
@@ -64,6 +70,9 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="refused"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="unreachable"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="unreadable"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="cancelled"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="cancelled"} 0`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched documents",outcome="cancelled"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched documents",outcome="answered"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched documents",outcome="unreachable"} 3`,
 	} {
@@ -137,5 +146,29 @@ func TestAnAnsweredWordIsCountedUnderWhatItAskedFor(t *testing.T) {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
+	}
+}
+
+func TestPeerCallsWaitingForASlotAreCountedWhileTheyWait(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := peercallobserversprometheus.New(registry, queryBudget)
+
+	if !strings.Contains(
+		publishedBy(t, registry), "yacydhtsearch_peer_calls_waiting_for_a_slot 0",
+	) {
+		t.Fatalf("metrics do not start the waiting calls at zero:\n%s", publishedBy(t, registry))
+	}
+
+	metrics.PeerCallWaitsForASlot(t.Context(), "http://peer.example", peerasks.MatchedDocuments)
+	metrics.PeerCallWaitsForASlot(t.Context(), "http://peer.example", peerasks.URLMetadata)
+	metrics.PeerCallTookASlot(
+		t.Context(), "http://peer.example", peerasks.MatchedDocuments, time.Second,
+	)
+
+	body := publishedBy(t, registry)
+	if !strings.Contains(body, "yacydhtsearch_peer_calls_waiting_for_a_slot 1") {
+		t.Fatalf("metrics do not carry the one call still waiting for a slot:\n%s", body)
 	}
 }

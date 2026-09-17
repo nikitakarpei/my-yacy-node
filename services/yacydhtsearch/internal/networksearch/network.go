@@ -118,7 +118,6 @@ func (n Network) Search(
 	chosenPeersPerQueryWord := n.peerChoice.ChosenPeersPerQueryWordFor(
 		ctx, query.TermHashes(), askablePeers,
 	)
-	n.peerDirectory.MarkPeersChosen(ctx, chosenPeersPerQueryWord.PeersAcrossQueryWords())
 	querySpreadContext, endTheQuerySpread := contextWithinTheQuerySpreadBudget(
 		ctx, n.queryBudget, n.pageReadBudget,
 	)

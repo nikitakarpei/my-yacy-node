@@ -10,10 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	cooldown     = 5 * time.Second
-	wideCapacity = 16
-)
+const wideCapacity = 16
 
 type silentObserver struct{}
 
@@ -103,7 +100,7 @@ func seedOf(t *testing.T, hash yacymodel.Hash, host string) yacymodel.Seed {
 func directoryAt(clock *testClock, capacity int) *peerdirectory.Directory {
 	return directoryOver(
 		clock,
-		peerdirectory.DirectoryLimits{Capacity: capacity, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: capacity},
 		heldPeersBeforeOfferedPeers{},
 		silentObserver{},
 	)
@@ -147,27 +144,6 @@ func TestAPeerBecomesAskableOnTheAddressThatAnswered(t *testing.T) {
 	askable := directory.AskablePeers(t.Context())
 	if len(askable) != 1 || askable[0].Address != "http://10.0.0.1:8090" {
 		t.Fatalf("AskablePeers = %v, want the address that answered", askable)
-	}
-}
-
-func TestAnAskedPeerRestsForTheCooldown(t *testing.T) {
-	t.Parallel()
-
-	clock := &testClock{instant: time.Unix(0, 0)}
-	directory := directoryAt(clock, wideCapacity)
-	peer := hashOf(t, 'a')
-	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
-	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
-
-	directory.MarkPeersChosen(t.Context(), directory.AskablePeers(t.Context()))
-	clock.instant = clock.instant.Add(cooldown - time.Second)
-	if askable := directory.AskablePeers(t.Context()); len(askable) != 0 {
-		t.Fatalf("AskablePeers = %v, want none inside the cooldown", askable)
-	}
-
-	clock.instant = clock.instant.Add(2 * time.Second)
-	if askable := directory.AskablePeers(t.Context()); len(askable) != 1 {
-		t.Fatalf("AskablePeers = %v, want the peer back after the cooldown", askable)
 	}
 }
 
@@ -287,7 +263,7 @@ func TestTheDirectoryReportsHowManyOfItsPeersAnswer(t *testing.T) {
 	recorder := &contentsRecorder{}
 	directory := directoryOver(
 		&testClock{instant: time.Unix(0, 0)},
-		peerdirectory.DirectoryLimits{Capacity: wideCapacity, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: wideCapacity},
 		heldPeersBeforeOfferedPeers{},
 		recorder,
 	)
@@ -345,7 +321,7 @@ func TestAnAnsweringPeerIsReportedWithItsAddressAndTheTimeItAnswered(t *testing.
 	answers := &answerReportingObserver{}
 	directory := directoryOver(
 		clock,
-		peerdirectory.DirectoryLimits{Capacity: wideCapacity, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: wideCapacity},
 		heldPeersBeforeOfferedPeers{},
 		answers,
 	)
@@ -368,7 +344,7 @@ func TestOnlyAPeerThatWasAnsweringIsReportedAsGoneSilent(t *testing.T) {
 	answers := &answerReportingObserver{}
 	directory := directoryOver(
 		clock,
-		peerdirectory.DirectoryLimits{Capacity: wideCapacity, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: wideCapacity},
 		heldPeersBeforeOfferedPeers{},
 		answers,
 	)
@@ -401,7 +377,7 @@ func TestAPeerEvictedToMakeRoomIsReportedAsDropped(t *testing.T) {
 	answers := &answerReportingObserver{}
 	directory := directoryOver(
 		clock,
-		peerdirectory.DirectoryLimits{Capacity: 1, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: 1},
 		heldPeersBeforeOfferedPeers{},
 		answers,
 	)
@@ -444,7 +420,7 @@ func TestAFullDirectoryRefusesACandidateThatIsStalerThanEveryPeerItHolds(t *test
 	clock := &testClock{instant: time.Unix(0, 0)}
 	directory := directoryOver(
 		clock,
-		peerdirectory.DirectoryLimits{Capacity: 1, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: 1},
 		offeredPeersBeforeHeldPeers{},
 		silentObserver{},
 	)
@@ -472,7 +448,6 @@ func TestAFullDirectoryLendsItsNewcomerShareToPeersTheOrderRefuses(t *testing.T)
 		clock,
 		peerdirectory.DirectoryLimits{
 			Capacity:      membersOfAFullDirectory,
-			Cooldown:      cooldown,
 			NewcomerShare: newcomerShare,
 		},
 		offeredPeersBeforeHeldPeers{},
@@ -515,7 +490,6 @@ func TestTheNewcomersLentASlotAreDrawnFromTheWholeAdmission(t *testing.T) {
 			clock,
 			peerdirectory.DirectoryLimits{
 				Capacity:      membersOfAFullDirectory,
-				Cooldown:      cooldown,
 				NewcomerShare: newcomerShare,
 			},
 			offeredPeersBeforeHeldPeers{},

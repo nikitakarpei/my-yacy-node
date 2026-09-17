@@ -11,6 +11,9 @@ import (
 )
 
 const (
+	msgPeerCallWaitsForASlot               = "peer call waits for an in-flight slot"
+	msgPeerCallTookASlot                   = "peer call took an in-flight slot"
+	msgPeerCallCancelled                   = "peer call was cancelled before the peer answered"
 	msgPeerAnsweredMatchedDocuments        = "peer answered the documents it matched"
 	msgPeerAnsweredURLMetadata             = "peer answered the metadata it holds for the documents"
 	msgPeerAnsweredMatchedAndHeldDocuments = "peer answered the documents it matched and holds for a word"
@@ -21,6 +24,30 @@ const (
 )
 
 type PeerCallLog struct{}
+
+func (PeerCallLog) PeerCallWaitsForASlot(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+) {
+	slog.DebugContext(ctx, msgPeerCallWaitsForASlot,
+		slog.String("address", address),
+		slog.String("askedFor", string(askedFor)),
+	)
+}
+
+func (PeerCallLog) PeerCallTookASlot(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+	waited time.Duration,
+) {
+	slog.DebugContext(ctx, msgPeerCallTookASlot,
+		slog.String("address", address),
+		slog.String("askedFor", string(askedFor)),
+		slog.Duration("waited", waited),
+	)
+}
 
 func (PeerCallLog) PeerAnsweredMatchedDocuments(
 	ctx context.Context,
@@ -115,6 +142,19 @@ func (PeerCallLog) PeerAnswerUnreadable(
 		slog.String("address", address),
 		slog.String("askedFor", string(askedFor)),
 		slog.Any("error", cause),
+		slog.Duration("spent", spent),
+	)
+}
+
+func (PeerCallLog) PeerCallCancelled(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+	spent time.Duration,
+) {
+	slog.DebugContext(ctx, msgPeerCallCancelled,
+		slog.String("address", address),
+		slog.String("askedFor", string(askedFor)),
 		slog.Duration("spent", spent),
 	)
 }

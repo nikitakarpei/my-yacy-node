@@ -31,7 +31,7 @@ Without a NATS address each instance caches its own rankings, and a restart drop
 
 ## Peer directory
 
-YaCy peers can limit remote searches by client address. Service instances that use the same egress proxy share that allowance, and the peer cooldown reduces how often this service uses it on one peer.
+YaCy peers can limit remote searches by client address. Service instances that use the same egress proxy share that allowance.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -40,7 +40,6 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | `YACYDHTSEARCH_REFRESH_INTERVAL` | `5m` | Time between seedlist reads and probe cycles. |
 | `YACYDHTSEARCH_PROBE_BUDGET` | `3s` | Time one probe of one peer address may take. |
 | `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |
-| `YACYDHTSEARCH_PEER_CHOICE_COOLDOWN` | `5s` | Time a chosen peer rests before a search may choose it again. |
 
 ## Peer presence and reliability
 
@@ -75,5 +74,7 @@ A query asks the peers that hold each of its words, which is the partitions of t
 |---|---|---|
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_PEER_CALL_BUDGET` | `3s` | Time one peer call may take once it runs. |
+| `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time a replica call stays unanswered before the next replica of its word partition is asked. |
+| `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Replicas that must list documents for one word partition before the search stops asking its other replicas. A value above the redundancy stops the service from starting. |
 | `YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING` | `1000` | Most documents one second call asks a peer about. A lower value puts less load on a peer, and the query can miss results. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |

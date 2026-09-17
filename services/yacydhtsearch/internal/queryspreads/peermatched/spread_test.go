@@ -2,6 +2,7 @@ package peermatched_test
 
 import (
 	"context"
+	"maps"
 	"slices"
 	"testing"
 
@@ -79,19 +80,22 @@ func (everyAskablePeer) ChosenPeersPerQueryWordFor(
 	for _, queryWord := range queryWords {
 		peersPerQueryWord = append(peersPerQueryWord, peerchoice.ChosenPeersOfQueryWord{
 			QueryWord:   queryWord,
-			ChosenPeers: peersOfOnePartition(askablePeers),
+			ChosenPeers: chosenPeersInTheirOwnPartitions(askablePeers),
 		})
 	}
 
 	return peersPerQueryWord
 }
 
-func peersOfOnePartition(
+func chosenPeersInTheirOwnPartitions(
 	askablePeers []peerdirectory.AskablePeer,
 ) []peerchoice.ChosenPeer {
 	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
-	for _, peer := range askablePeers {
-		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{Peer: peer, Partition: 0})
+	for place, peer := range askablePeers {
+		chosenPeers = append(
+			chosenPeers,
+			peerchoice.ChosenPeer{Peer: peer, Partition: uint(place)},
+		)
 	}
 
 	return chosenPeers
@@ -267,5 +271,22 @@ func TestTheSpreadReportsHowManyAskedPeersAnswered(t *testing.T) {
 	}
 	if performed.TimeSpent <= 0 {
 		t.Fatalf("the spread reported %v spent, want the time it took", performed.TimeSpent)
+	}
+}
+
+func TestEveryAskCarriesThePartitionOfTheChosenPeer(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{})
+
+	searchOf(network, &recordedSpreads{})
+
+	partitionsAsked := map[string]uint{}
+	for _, ask := range network.asks {
+		partitionsAsked[ask.Peer.Address] = ask.Partition
+	}
+	want := map[string]uint{"first": 0, "second": 1}
+	if !maps.Equal(partitionsAsked, want) {
+		t.Fatalf("the asks carry the partitions %v, want %v", partitionsAsked, want)
 	}
 }

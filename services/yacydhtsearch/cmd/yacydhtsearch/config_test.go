@@ -28,13 +28,8 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 	if cfg.ListenAddr != main.DefaultListenAddr || cfg.OpsAddr != main.DefaultOpsAddr {
 		t.Fatalf("addresses = %q and %q, want the defaults", cfg.ListenAddr, cfg.OpsAddr)
 	}
-	if cfg.QueryBudget != main.DefaultQueryBudget ||
-		cfg.PeerChoiceCooldown != main.DefaultPeerChoiceCooldown {
-		t.Fatalf(
-			"budgets = %v and %v, want the defaults",
-			cfg.QueryBudget,
-			cfg.PeerChoiceCooldown,
-		)
+	if cfg.QueryBudget != main.DefaultQueryBudget {
+		t.Fatalf("query budget = %v, want the default", cfg.QueryBudget)
 	}
 	if cfg.NetworkRedundancy != main.DefaultNetworkRedundancy ||
 		cfg.PeerCallsInFlight != main.DefaultPeerCallsInFlight ||
@@ -44,6 +39,15 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 			cfg.NetworkRedundancy,
 			cfg.PeerCallsInFlight,
 			cfg.PeerCallBudget,
+		)
+	}
+	if cfg.HedgeDelay != main.DefaultHedgeDelay {
+		t.Fatalf("hedge delay = %v, want the default", cfg.HedgeDelay)
+	}
+	if cfg.ReplicasCoveringAPartition != main.DefaultReplicasCoveringAPartition {
+		t.Fatalf(
+			"replicas covering a partition = %d, want the default",
+			cfg.ReplicasCoveringAPartition,
 		)
 	}
 	if cfg.Partitions != 1<<main.DefaultPartitionExponent {
@@ -74,23 +78,25 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 
 	environment := minimalEnvironment()
 	environment[main.EnvQueryBudget] = "9s"
-	environment[main.EnvPeerChoiceCooldown] = "7s"
 	environment[main.EnvNetworkRedundancy] = "7"
 	environment[main.EnvPeerCallsInFlight] = "9"
 	environment[main.EnvPeerCallBudget] = "2s"
 	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
 	environment[main.EnvCrossCheckedDocumentsCeiling] = "64"
+	environment[main.EnvReplicasCoveringAPartition] = "2"
+	environment[main.EnvHedgeDelay] = "250ms"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
 		t.Fatalf("load service config: %v", err)
 	}
-	if cfg.QueryBudget != 9*time.Second || cfg.PeerChoiceCooldown != 7*time.Second ||
+	if cfg.QueryBudget != 9*time.Second ||
 		cfg.NetworkRedundancy != 7 || cfg.PeerCallsInFlight != 9 ||
 		cfg.PeerCallBudget != 2*time.Second ||
 		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 ||
-		cfg.CrossCheckedDocumentsCeiling != 64 {
+		cfg.CrossCheckedDocumentsCeiling != 64 ||
+		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }
@@ -137,6 +143,18 @@ func TestTheServiceRefusesAPartitionExponentTheRingCannotHold(t *testing.T) {
 
 	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
 		t.Fatal("LoadServiceConfig accepted a partition exponent wider than the ring")
+	}
+}
+
+func TestTheServiceRefusesMoreReplicasCoveringAPartitionThanTheNetworkRedundancy(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvNetworkRedundancy] = "3"
+	environment[main.EnvReplicasCoveringAPartition] = "4"
+
+	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
+		t.Fatal("LoadServiceConfig accepted more replicas covering a partition than the redundancy")
 	}
 }
 
