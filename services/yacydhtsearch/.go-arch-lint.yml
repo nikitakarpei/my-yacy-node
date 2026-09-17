@@ -91,6 +91,10 @@ components:
     in: internal/hedgedelays/constant/**
   replicaasks:
     in: internal/replicaasks/**
+  replicaasksobserversapplog:
+    in: internal/replicaasksobservers/applog/**
+  replicaasksobserversprometheus:
+    in: internal/replicaasksobservers/prometheus/**
   peercallwire:
     in: internal/peercallwire/**
   peerlivenesswire:
@@ -340,6 +344,14 @@ deps:
       - yacymodel
     mayDependOn:
       - peerasks
+  replicaasksobserversapplog:
+    mayDependOn:
+      - replicaasks
+  replicaasksobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - replicaasks
   peercallwire:
     canUse:
       - yacymodel
