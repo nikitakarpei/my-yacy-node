@@ -19,7 +19,6 @@ import (
 const (
 	responseLimit  = 1 << 20
 	directoryLimit = 16
-	cooldown       = 5 * time.Second
 	refreshEvery   = time.Hour
 	probeBudget    = 3 * time.Second
 	probesInFlight = 4
@@ -133,7 +132,7 @@ func directoryOf(t *testing.T) *peerdirectory.Directory {
 	t.Helper()
 
 	return peerdirectory.New(
-		peerdirectory.DirectoryLimits{Capacity: directoryLimit, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: directoryLimit},
 		time.Now,
 		stalestFirst{},
 		silentDirectoryObserver{},

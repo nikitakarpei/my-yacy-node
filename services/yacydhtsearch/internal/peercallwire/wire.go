@@ -4,6 +4,7 @@ package peercallwire
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 	"net/url"
@@ -44,7 +45,7 @@ func New(
 		client:           client,
 		searchedNetwork:  searchedNetwork,
 		maxResponseBytes: limits.MaxResponseBytes,
-		callsInFlight:    make(peerCallsInFlight, limits.PeerCallsInFlight),
+		callsInFlight:    newPeerCallsInFlight(limits.PeerCallsInFlight, observer),
 		peerCallBudget:   limits.PeerCallBudget,
 		observer:         observer,
 	}
@@ -55,8 +56,12 @@ func (w Wire) AskForMatchedDocuments(
 	asks []peerasks.MatchedDocumentsAsk,
 ) []peerasks.AnsweredMatchedDocumentsAsk {
 	return putAsksToPeers(
+		ctx,
 		w.callsInFlight,
 		asks,
+		func(ask peerasks.MatchedDocumentsAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.MatchedDocuments
+		},
 		func(ask peerasks.MatchedDocumentsAsk) (peerasks.AnsweredMatchedDocumentsAsk, bool) {
 			return w.putMatchedDocumentsAsk(ctx, ask)
 		},
@@ -64,16 +69,21 @@ func (w Wire) AskForMatchedDocuments(
 }
 
 func putAsksToPeers[Ask any, Answered any](
+	ctx context.Context,
 	callsInFlight peerCallsInFlight,
 	asks []Ask,
+	askedPeerOf func(Ask) (address string, askedFor peerasks.AskedFor),
 	putAsk func(Ask) (Answered, bool),
 ) []Answered {
 	answeredAsks := make([]Answered, len(asks))
 	replied := make([]bool, len(asks))
 
-	callsInFlight.putEveryPeerCallInTheOrderGiven(len(asks), func(index int) {
-		answeredAsks[index], replied[index] = putAsk(asks[index])
-	})
+	callsInFlight.putEveryPeerCallInTheOrderGiven(
+		ctx,
+		len(asks),
+		func(index int) (string, peerasks.AskedFor) { return askedPeerOf(asks[index]) },
+		func(index int) { answeredAsks[index], replied[index] = putAsk(asks[index]) },
+	)
 
 	return answeredAsksThatCameBack(answeredAsks, replied)
 }
@@ -183,8 +193,12 @@ func (w Wire) AskForURLMetadata(
 	asks []peerasks.URLMetadataAsk,
 ) []peerasks.AnsweredURLMetadataAsk {
 	return putAsksToPeers(
+		ctx,
 		w.callsInFlight,
 		asks,
+		func(ask peerasks.URLMetadataAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.URLMetadata
+		},
 		func(ask peerasks.URLMetadataAsk) (peerasks.AnsweredURLMetadataAsk, bool) {
 			return w.putURLMetadataAsk(ctx, ask)
 		},
@@ -253,8 +267,12 @@ func (w Wire) AskForMatchedAndHeldDocuments(
 	asks []peerasks.MatchedAndHeldDocumentsAsk,
 ) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
 	return putAsksToPeers(
+		ctx,
 		w.callsInFlight,
 		asks,
+		func(ask peerasks.MatchedAndHeldDocumentsAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.MatchedAndHeldDocuments
+		},
 		func(ask peerasks.MatchedAndHeldDocumentsAsk) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
 			return w.putMatchedAndHeldDocumentsAsk(ctx, ask)
 		},
@@ -324,8 +342,12 @@ func (w Wire) AskForCrossCheckedDocuments(
 	asks []peerasks.CrossCheckedDocumentsAsk,
 ) []peerasks.AnsweredCrossCheckedDocumentsAsk {
 	return putAsksToPeers(
+		ctx,
 		w.callsInFlight,
 		asks,
+		func(ask peerasks.CrossCheckedDocumentsAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.CrossCheckedDocuments
+		},
 		func(ask peerasks.CrossCheckedDocumentsAsk) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
 			return w.putCrossCheckedDocumentsAsk(ctx, ask)
 		},
@@ -406,14 +428,14 @@ func (w Wire) answerBody(
 		ctx, http.MethodPost, call.address+call.path, strings.NewReader(call.form.Encode()),
 	)
 	if err != nil {
-		w.observer.PeerUnreachable(ctx, call.address, call.askedFor, err, time.Since(startedAt))
+		w.reportUnansweredPeerCall(ctx, call, err, time.Since(startedAt))
 		return "", false
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := w.client.Do(req)
 	if err != nil {
-		w.observer.PeerUnreachable(ctx, call.address, call.askedFor, err, time.Since(startedAt))
+		w.reportUnansweredPeerCall(ctx, call, err, time.Since(startedAt))
 		return "", false
 	}
 	defer func() { _ = resp.Body.Close() }()
@@ -433,4 +455,18 @@ func (w Wire) answerBody(
 	}
 
 	return string(body), true
+}
+
+func (w Wire) reportUnansweredPeerCall(
+	ctx context.Context,
+	call peerCall,
+	cause error,
+	spent time.Duration,
+) {
+	if errors.Is(ctx.Err(), context.Canceled) {
+		w.observer.PeerCallCancelled(ctx, call.address, call.askedFor, spent)
+
+		return
+	}
+	w.observer.PeerUnreachable(ctx, call.address, call.askedFor, cause, spent)
 }

@@ -1721,6 +1721,308 @@
       ]
     },
     {
+      "id": 60,
+      "title": "Replica asks during a search",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 122
+      },
+      "panels": []
+    },
+    {
+      "id": 61,
+      "title": "How long the replica asks of a search took",
+      "description": "The replica asks of one spread call, from the first ask to the settled last word partition.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 123
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "s",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "title": "What settled a word partition",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 123
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (settled_by) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{settled_by}}"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "title": "What put a replica ask",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 123
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (put_on) (clamp_min(yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{put_on}}"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "title": "Documents a word partition listed",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 131
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "short",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "title": "Peer calls waiting for a slot",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 131
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(yacydhtsearch_peer_calls_waiting_for_a_slot{instance=~\"$service_instance\"})",
+          "legendFormat": "waiting"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "title": "What put the ask that covered a word partition",
+      "description": "Counts only word partitions settled by coverage.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 131
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (covering_ask_put_on) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} offset $__interval), 0))",
+          "legendFormat": "{{covering_ask_put_on}}"
+        }
+      ]
+    },
+    {
       "id": 28,
       "title": "Pages read for a search",
       "type": "row",
@@ -1729,7 +2031,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 122
+        "y": 139
       },
       "panels": []
     },
@@ -1746,7 +2048,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 123
+        "y": 140
       },
       "fieldConfig": {
         "defaults": {
@@ -1805,7 +2107,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 123
+        "y": 140
       },
       "fieldConfig": {
         "defaults": {
@@ -1845,7 +2147,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 131
+        "y": 148
       },
       "panels": []
     },
@@ -1862,7 +2164,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 132
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -1913,7 +2215,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 132
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -1952,7 +2254,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 140
+        "y": 157
       },
       "fieldConfig": {
         "defaults": {
@@ -1993,7 +2295,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 140
+        "y": 157
       },
       "fieldConfig": {
         "defaults": {
@@ -2052,7 +2354,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 140
+        "y": 157
       },
       "fieldConfig": {
         "defaults": {
@@ -2099,7 +2401,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 148
+        "y": 165
       },
       "fieldConfig": {
         "defaults": {
@@ -2155,7 +2457,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 156
+        "y": 173
       },
       "panels": []
     },
@@ -2171,7 +2473,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 157
+        "y": 174
       },
       "fieldConfig": {
         "defaults": {
@@ -2221,7 +2523,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 157
+        "y": 174
       },
       "fieldConfig": {
         "defaults": {
@@ -2261,7 +2563,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 157
+        "y": 174
       },
       "fieldConfig": {
         "defaults": {
@@ -2301,7 +2603,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 165
+        "y": 182
       },
       "fieldConfig": {
         "defaults": {
@@ -2341,7 +2643,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 165
+        "y": 182
       },
       "fieldConfig": {
         "defaults": {
@@ -2381,7 +2683,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 165
+        "y": 182
       },
       "fieldConfig": {
         "defaults": {

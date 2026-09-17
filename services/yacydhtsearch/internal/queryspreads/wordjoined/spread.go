@@ -13,11 +13,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PeerAsks interface {
+type ReplicaAsks interface {
 	AskForMatchedAndHeldDocuments(
 		ctx context.Context,
 		asks []peerasks.MatchedAndHeldDocumentsAsk,
 	) []peerasks.AnsweredMatchedAndHeldDocumentsAsk
+}
+
+type PeerAsks interface {
 	AskForCrossCheckedDocuments(
 		ctx context.Context,
 		asks []peerasks.CrossCheckedDocumentsAsk,
@@ -29,6 +32,7 @@ type PeerAsks interface {
 }
 
 type Spread struct {
+	replicaAsks                  ReplicaAsks
 	peerAsks                     PeerAsks
 	metadataDocumentsCeiling     int
 	asksForCrossCheckedDocuments bool
@@ -41,6 +45,7 @@ type Spread struct {
 
 //nolint:revive // argument-limit: the rounds, ceilings and ring one word joined spread stays within
 func New(
+	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
 	metadataDocumentsCeiling int,
 	asksForCrossCheckedDocuments bool,
@@ -51,6 +56,7 @@ func New(
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
+		replicaAsks:                  replicaAsks,
 		peerAsks:                     peerAsks,
 		metadataDocumentsCeiling:     metadataDocumentsCeiling,
 		asksForCrossCheckedDocuments: asksForCrossCheckedDocuments,
@@ -101,7 +107,7 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, amountOfRoundsOfPeerCalls)
 	defer endRound()
-	answeredAsks := spread.peerAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
+	answeredAsks := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
 
 	return matchedAndHeldDocumentsRound{
 		queryWords:   query.TermHashes(),

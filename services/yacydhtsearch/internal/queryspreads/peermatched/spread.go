@@ -45,7 +45,7 @@ func (spread Spread) SpreadOverPeers(
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	chosenPeers := chosenPeersPerQueryWord.PeersAcrossQueryWords()
+	chosenPeers := chosenPeersPerQueryWord.ChosenPeersAcrossQueryWords()
 	asks := matchedDocumentsAsksFor(query, chosenPeers, spread.peerItemsCeiling)
 	answeredAsks := spread.peerAsks.AskForMatchedDocuments(ctx, asks)
 

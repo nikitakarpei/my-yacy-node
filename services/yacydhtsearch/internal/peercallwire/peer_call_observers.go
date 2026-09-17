@@ -8,6 +8,17 @@ import (
 )
 
 type PeerCallObserver interface {
+	PeerCallWaitsForASlot(
+		ctx context.Context,
+		address string,
+		askedFor peerasks.AskedFor,
+	)
+	PeerCallTookASlot(
+		ctx context.Context,
+		address string,
+		askedFor peerasks.AskedFor,
+		waited time.Duration,
+	)
 	PeerAnsweredMatchedDocuments(
 		ctx context.Context,
 		address string,
@@ -53,9 +64,36 @@ type PeerCallObserver interface {
 		cause error,
 		spent time.Duration,
 	)
+	PeerCallCancelled(
+		ctx context.Context,
+		address string,
+		askedFor peerasks.AskedFor,
+		spent time.Duration,
+	)
 }
 
 type PeerCallObservers []PeerCallObserver
+
+func (observers PeerCallObservers) PeerCallWaitsForASlot(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+) {
+	for _, observer := range observers {
+		observer.PeerCallWaitsForASlot(ctx, address, askedFor)
+	}
+}
+
+func (observers PeerCallObservers) PeerCallTookASlot(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+	waited time.Duration,
+) {
+	for _, observer := range observers {
+		observer.PeerCallTookASlot(ctx, address, askedFor, waited)
+	}
+}
 
 func (observers PeerCallObservers) PeerAnsweredMatchedDocuments(
 	ctx context.Context,
@@ -134,5 +172,16 @@ func (observers PeerCallObservers) PeerAnswerUnreadable(
 ) {
 	for _, observer := range observers {
 		observer.PeerAnswerUnreadable(ctx, address, askedFor, cause, spent)
+	}
+}
+
+func (observers PeerCallObservers) PeerCallCancelled(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+	spent time.Duration,
+) {
+	for _, observer := range observers {
+		observer.PeerCallCancelled(ctx, address, askedFor, spent)
 	}
 }

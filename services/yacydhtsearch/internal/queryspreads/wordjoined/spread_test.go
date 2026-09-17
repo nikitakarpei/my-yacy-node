@@ -2,6 +2,7 @@ package wordjoined_test
 
 import (
 	"context"
+	"fmt"
 	"maps"
 	"slices"
 	"strings"
@@ -27,7 +28,8 @@ const (
 	asksForNoCrossCheckedDocuments = false
 	peerItemsCeiling               = 10
 	peersHoldingOneWord            = 24
-	partitionsOfTheRing            = 1
+	onePartitionOfTheRing          = 1
+	twoPartitionsOfTheRing         = 2
 )
 
 type peerNetwork struct {
@@ -363,11 +365,12 @@ func spreadAskingMetadataForUpTo(
 			choice,
 			wordjoined.New(
 				network,
+				network,
 				metadataDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
-				partitionsOfTheRing,
+				onePartitionOfTheRing,
 				peersHoldingOneWord,
 				observer,
 			),
@@ -398,11 +401,12 @@ func spreadNamingCrossCheckedDocumentsForUpTo(
 			choice,
 			wordjoined.New(
 				network,
+				network,
 				metadataDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
-				partitionsOfTheRing,
+				onePartitionOfTheRing,
 				peersHoldingOneWord,
 				observer,
 			),
@@ -420,11 +424,12 @@ func spreadNotAskingForCrossCheckedDocuments(
 			choice,
 			wordjoined.New(
 				network,
+				network,
 				metadataDocumentsCeiling,
 				asksForNoCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
-				partitionsOfTheRing,
+				onePartitionOfTheRing,
 				peersHoldingOneWord,
 				&recordedSpreads{},
 			),
@@ -443,11 +448,12 @@ func spreadOfTheQuery(
 		choice,
 		wordjoined.New(
 			network,
+			network,
 			metadataDocumentsCeiling,
 			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
-			partitionsOfTheRing,
+			onePartitionOfTheRing,
 			peersHoldingOneWord,
 			observer,
 		),
@@ -466,11 +472,12 @@ func spreadWithin(network *peerNetwork, budget time.Duration) {
 		responsiblePeers{},
 		wordjoined.New(
 			network,
+			network,
 			metadataDocumentsCeiling,
 			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
-			partitionsOfTheRing,
+			onePartitionOfTheRing,
 			peersHoldingOneWord,
 			&recordedSpreads{},
 		),
@@ -1367,11 +1374,12 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 			responsiblePeers{},
 			wordjoined.New(
 				network,
+				network,
 				metadataDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
-				partitionsOfTheRing,
+				onePartitionOfTheRing,
 				peersOfOneWord,
 				&recordedSpreads{},
 			),
@@ -1604,6 +1612,7 @@ func documentsHeldPerQueryWordAcrossPartitions(
 			choice,
 			wordjoined.New(
 				network,
+				network,
 				metadataDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
@@ -1679,49 +1688,71 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	}
 }
 
-func TestTheNearestPeerOfEveryWordIsAskedBeforeTheNextPeerOfAnyWord(t *testing.T) {
+func TestTheAsksOfAQueryWordNameItsReplicasInChoiceOrderWithTheirPartitions(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string]map[string][]string{})
 
-	spreadChoosing(network, responsiblePeers{peerAddressesPerWord: map[string][]string{
-		firstWord:  {"nearest-of-first", "next-of-first"},
-		secondWord: {"nearest-of-second", "next-of-second"},
-	}}, &recordedSpreads{})
+	spreadAcrossPartitions(network, responsiblePeers{
+		peerAddressesPerWord: map[string][]string{
+			firstWord:  {"nearest-of-first", "next-of-first"},
+			secondWord: {"nearest-of-second"},
+		},
+		partitionOfEachPeer: map[string]uint{
+			"nearest-of-first":  1,
+			"next-of-first":     0,
+			"nearest-of-second": 1,
+		},
+	}, twoPartitionsOfTheRing)
 
-	wanted := []string{
-		firstWord + " nearest-of-first",
-		secondWord + " nearest-of-second",
-		firstWord + " next-of-first",
-		secondWord + " next-of-second",
-	}
-	if got := wordsAndPeersAskedInOrder(
-		network.matchedAndHeldDocumentsAsks,
-	); !slices.Equal(
-		got,
-		wanted,
-	) {
-		t.Fatalf("the spread asked %v, want a turn of every word before the next peer", got)
+	wanted := []string{"nearest-of-first in partition 1", "next-of-first in partition 0"}
+	if got := replicasAskedForTheWordInOrder(
+		yacymodel.WordHash(firstWord), network.matchedAndHeldDocumentsAsks,
+	); !slices.Equal(got, wanted) {
+		t.Fatalf("the spread asked %v for the word, want %v", got, wanted)
 	}
 }
 
-func wordsAndPeersAskedInOrder(asks []peerasks.MatchedAndHeldDocumentsAsk) []string {
-	wordsAndPeers := make([]string, 0, len(asks))
+func spreadAcrossPartitions(
+	network *peerNetwork,
+	choice responsiblePeers,
+	partitions yacymodel.DHTRingPartitions,
+) {
+	spreadOverPeers(
+		spreadChoosingPeersBy(
+			choice,
+			wordjoined.New(
+				network,
+				network,
+				metadataDocumentsCeiling,
+				asksForCrossCheckedDocuments,
+				crossCheckedDocumentsCeiling,
+				peerItemsCeiling,
+				partitions,
+				peersHoldingOneWord,
+				&recordedSpreads{},
+			),
+		),
+		peersAt([]string{"nearest-of-first", "next-of-first", "nearest-of-second"}),
+	)
+}
+
+func replicasAskedForTheWordInOrder(
+	word yacymodel.Hash,
+	asks []peerasks.MatchedAndHeldDocumentsAsk,
+) []string {
+	var replicasAsked []string
 	for _, ask := range asks {
-		wordsAndPeers = append(wordsAndPeers, spelledWordOf(ask.Word)+" "+ask.Peer.Address)
-	}
-
-	return wordsAndPeers
-}
-
-func spelledWordOf(word yacymodel.Hash) string {
-	for _, spelledWord := range []string{firstWord, secondWord} {
-		if yacymodel.WordHash(spelledWord) == word {
-			return spelledWord
+		if ask.Word != word {
+			continue
 		}
+		replicasAsked = append(
+			replicasAsked,
+			fmt.Sprintf("%s in partition %d", ask.Peer.Address, ask.Partition),
+		)
 	}
 
-	return word.String()
+	return replicasAsked
 }
 
 type spreadChoosingPeers struct {

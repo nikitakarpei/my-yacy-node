@@ -20,6 +20,7 @@ const (
 	outcomePeerRefused         = "refused"
 	outcomePeerUnreachable     = "unreachable"
 	outcomePeerUnreadable      = "unreadable"
+	outcomePeerCallCancelled   = "cancelled"
 	durationBucketRatio        = 1.6
 	bucketsUpToBudget          = 15
 )
@@ -27,7 +28,8 @@ const (
 var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type PeerCallMetrics struct {
-	peerCallsPerAskedFor map[peerasks.AskedFor]peerCallsOfOneAsk
+	peerCallsPerAskedFor     map[peerasks.AskedFor]peerCallsOfOneAsk
+	peerCallsWaitingForASlot prometheusclient.Gauge
 }
 
 type peerCallsOfOneAsk struct {
@@ -36,6 +38,7 @@ type peerCallsOfOneAsk struct {
 	refused         peerCallsOfOneOutcome
 	unreachable     peerCallsOfOneOutcome
 	unreadable      peerCallsOfOneOutcome
+	cancelled       peerCallsOfOneOutcome
 }
 
 type peerCallsOfOneOutcome struct {
@@ -56,7 +59,11 @@ func New(
 		Help:    "One peer call in seconds, by outcome and by what it asked for.",
 		Buckets: peerCallDurationBucketsFor(queryBudget),
 	}, []string{labelOutcome, labelAskedFor})
-	registry.MustRegister(peerCalls, peerCallDurationSeconds)
+	peerCallsWaitingForASlot := prometheusclient.NewGauge(prometheusclient.GaugeOpts{
+		Name: "yacydhtsearch_peer_calls_waiting_for_a_slot",
+		Help: "How many peer calls wait for an in-flight slot.",
+	})
+	registry.MustRegister(peerCalls, peerCallDurationSeconds, peerCallsWaitingForASlot)
 
 	//exhaustive:enforce
 	peerCallsPerAskedFor := map[peerasks.AskedFor]peerCallsOfOneAsk{
@@ -74,7 +81,10 @@ func New(
 		),
 	}
 
-	return &PeerCallMetrics{peerCallsPerAskedFor: peerCallsPerAskedFor}
+	return &PeerCallMetrics{
+		peerCallsPerAskedFor:     peerCallsPerAskedFor,
+		peerCallsWaitingForASlot: peerCallsWaitingForASlot,
+	}
 }
 
 func peerCallDurationBucketsFor(queryBudget time.Duration) []float64 {
@@ -111,6 +121,9 @@ func peerCallsOfOneAskFrom(
 		unreadable: peerCallsOfOneOutcomeFrom(
 			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerUnreadable,
 		),
+		cancelled: peerCallsOfOneOutcomeFrom(
+			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerCallCancelled,
+		),
 	}
 }
 
@@ -124,6 +137,23 @@ func peerCallsOfOneOutcomeFrom(
 		peerCalls:               peerCalls.WithLabelValues(outcome, string(askedFor)),
 		peerCallDurationSeconds: peerCallDurationSeconds.WithLabelValues(outcome, string(askedFor)),
 	}
+}
+
+func (m *PeerCallMetrics) PeerCallWaitsForASlot(
+	_ context.Context,
+	_ string,
+	_ peerasks.AskedFor,
+) {
+	m.peerCallsWaitingForASlot.Inc()
+}
+
+func (m *PeerCallMetrics) PeerCallTookASlot(
+	_ context.Context,
+	_ string,
+	_ peerasks.AskedFor,
+	_ time.Duration,
+) {
+	m.peerCallsWaitingForASlot.Dec()
 }
 
 func (m *PeerCallMetrics) PeerAnsweredMatchedDocuments(
@@ -204,4 +234,13 @@ func (m *PeerCallMetrics) PeerAnswerUnreadable(
 	spent time.Duration,
 ) {
 	m.peerCallsPerAskedFor[askedFor].unreadable.count(spent)
+}
+
+func (m *PeerCallMetrics) PeerCallCancelled(
+	_ context.Context,
+	_ string,
+	askedFor peerasks.AskedFor,
+	spent time.Duration,
+) {
+	m.peerCallsPerAskedFor[askedFor].cancelled.count(spent)
 }

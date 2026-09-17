@@ -8,7 +8,18 @@ import (
 type ChosenPeersPerQueryWord []ChosenPeersOfQueryWord
 
 func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) PeersAcrossQueryWords() []peerdirectory.AskablePeer {
-	var peersAcrossQueryWords []peerdirectory.AskablePeer
+	chosenPeersAcrossQueryWords := chosenPeersPerQueryWord.ChosenPeersAcrossQueryWords()
+
+	peersAcrossQueryWords := make([]peerdirectory.AskablePeer, 0, len(chosenPeersAcrossQueryWords))
+	for _, chosenPeer := range chosenPeersAcrossQueryWords {
+		peersAcrossQueryWords = append(peersAcrossQueryWords, chosenPeer.Peer)
+	}
+
+	return peersAcrossQueryWords
+}
+
+func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) ChosenPeersAcrossQueryWords() []ChosenPeer {
+	var chosenPeersAcrossQueryWords []ChosenPeer
 	takenPeers := map[yacymodel.Hash]struct{}{}
 	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
 		for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
@@ -16,9 +27,9 @@ func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) PeersAcrossQueryWords() [
 				continue
 			}
 			takenPeers[chosenPeer.Peer.Hash] = struct{}{}
-			peersAcrossQueryWords = append(peersAcrossQueryWords, chosenPeer.Peer)
+			chosenPeersAcrossQueryWords = append(chosenPeersAcrossQueryWords, chosenPeer)
 		}
 	}
 
-	return peersAcrossQueryWords
+	return chosenPeersAcrossQueryWords
 }
