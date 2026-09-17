@@ -48,6 +48,13 @@ func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)       
 
 type silentOutcome struct{}
 
+func (silentOutcome) PeerCallWaitsForASlot(context.Context, string, peerasks.AskedFor) {}
+
+func (silentOutcome) PeerCallTookASlot(
+	context.Context, string, peerasks.AskedFor, time.Duration,
+) {
+}
+
 func (silentOutcome) PeerAnsweredMatchedDocuments(context.Context, string, int, time.Duration) {}
 func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)      {}
 func (silentOutcome) PeerAnsweredMatchedAndHeldDocuments(
@@ -72,6 +79,11 @@ func (silentOutcome) PeerUnreachable(
 
 func (silentOutcome) PeerAnswerUnreadable(
 	context.Context, string, peerasks.AskedFor, error, time.Duration,
+) {
+}
+
+func (silentOutcome) PeerCallCancelled(
+	context.Context, string, peerasks.AskedFor, time.Duration,
 ) {
 }
 

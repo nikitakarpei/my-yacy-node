@@ -40,8 +40,38 @@ type recordedOutcome struct {
 	refused                         int
 	unreachable                     int
 	unreadable                      int
+	cancelled                       int
+	waitedForASlot                  int
+	tookASlot                       int
+	waitsBeforeTheSlotWasTaken      int
 	askedFor                        peerasks.AskedFor
 	spent                           time.Duration
+}
+
+func (r *recordedOutcome) PeerCallWaitsForASlot(
+	_ context.Context,
+	_ string,
+	askedFor peerasks.AskedFor,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	r.waitedForASlot++
+	r.askedFor = askedFor
+}
+
+func (r *recordedOutcome) PeerCallTookASlot(
+	_ context.Context,
+	_ string,
+	askedFor peerasks.AskedFor,
+	_ time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	r.tookASlot++
+	r.waitsBeforeTheSlotWasTaken = r.waitedForASlot
+	r.askedFor = askedFor
 }
 
 func (r *recordedOutcome) PeerAnsweredMatchedDocuments(
@@ -141,6 +171,20 @@ func (r *recordedOutcome) PeerAnswerUnreadable(
 	defer r.mutex.Unlock()
 
 	r.unreadable++
+	r.askedFor = askedFor
+	r.spent = spent
+}
+
+func (r *recordedOutcome) PeerCallCancelled(
+	_ context.Context,
+	_ string,
+	askedFor peerasks.AskedFor,
+	spent time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	r.cancelled++
 	r.askedFor = askedFor
 	r.spent = spent
 }
@@ -906,6 +950,68 @@ func TestAPeerThatHoldsNoCrossCheckedDocumentStillReplies(t *testing.T) {
 			"PeerAnsweredCrossCheckedDocuments reported %d times with %d documents, want once with none",
 			observer.answeredCrossCheckedDocuments,
 			observer.amountOfCrossCheckedDocuments,
+		)
+	}
+}
+
+func TestAPeerCallWaitsForAnInFlightSlotBeforeItTakesOne(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedOutcome{}
+	address, _ := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
+
+	matchedDocumentsOf(t, observer, peerasks.MatchedDocumentsAsk{Peer: peerAt(address)})
+
+	if observer.waitedForASlot != 1 || observer.tookASlot != 1 ||
+		observer.waitsBeforeTheSlotWasTaken != 1 {
+		t.Fatalf(
+			"the call reported %d waits and %d taken slots, %d of the waits before a slot was taken,"+
+				" want one wait reported before the one slot it took",
+			observer.waitedForASlot,
+			observer.tookASlot,
+			observer.waitsBeforeTheSlotWasTaken,
+		)
+	}
+}
+
+func TestACallCancelledWhileThePeerAnswersIsNotReportedAsAnUnreachablePeer(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedOutcome{}
+	askReachedThePeer, searchEnded := make(chan struct{}), make(chan struct{})
+	var oneAskReported sync.Once
+	server := httptest.NewServer(http.HandlerFunc(
+		func(_ http.ResponseWriter, _ *http.Request) {
+			oneAskReported.Do(func() { close(askReachedThePeer) })
+			<-searchEnded
+		},
+	))
+	t.Cleanup(server.Close)
+	ctx, endSearch := context.WithCancel(t.Context())
+	t.Cleanup(endSearch)
+	go func() {
+		<-askReachedThePeer
+		endSearch()
+		close(searchEnded)
+	}()
+
+	answeredAsks := wireTo(observer).AskForMatchedDocuments(
+		ctx, []peerasks.MatchedDocumentsAsk{{Peer: peerAt(server.URL)}},
+	)
+
+	if len(answeredAsks) != 0 || observer.cancelled != 1 || observer.unreachable != 0 {
+		t.Fatalf(
+			"AskForMatchedDocuments = %+v with %d cancelled and %d unreachable calls,"+
+				" want none answered, one cancelled and none unreachable",
+			answeredAsks,
+			observer.cancelled,
+			observer.unreachable,
+		)
+	}
+	if observer.askedFor != peerasks.MatchedDocuments {
+		t.Fatalf(
+			"the cancelled call named %q, want the matched documents",
+			observer.askedFor,
 		)
 	}
 }
