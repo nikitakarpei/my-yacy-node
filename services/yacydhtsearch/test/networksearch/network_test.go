@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
@@ -19,6 +20,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -35,6 +38,11 @@ const (
 	directoryLimit    = 16
 	recordCeiling     = 50
 	pagesReadPerQuery = 50
+
+	networkRedundancy            = 2
+	replicasCoveringAPartition   = networkRedundancy
+	hedgeDelay                   = 50 * time.Millisecond
+	crossCheckedDocumentsCeiling = 64
 )
 
 type silentDirectoryObserver struct{}
@@ -216,18 +224,51 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 	t.Helper()
 
 	return peermatched.New(
-		peercallwire.New(
-			http.DefaultClient,
-			peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions(t)},
-			peercallwire.PeerCallLimits{
-				MaxResponseBytes:  responseLimit,
-				PeerCallsInFlight: peerCallsInFlight,
-				PeerCallBudget:    peerCallBudget,
-			},
-			silentOutcome{},
-		),
+		replicaAsks(t),
 		peerResults,
 		peermatched.PeerMatchedSpreadObservers{},
+	)
+}
+
+func wordJoinedSpread(t *testing.T) wordjoined.Spread {
+	t.Helper()
+
+	return wordjoined.New(
+		replicaAsks(t),
+		peerCalls(t),
+		recordCeiling,
+		false,
+		crossCheckedDocumentsCeiling,
+		peerResults,
+		ringPartitions(t),
+		yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
+		wordjoined.WordJoinedSpreadObservers{},
+	)
+}
+
+func replicaAsks(t *testing.T) replicaasks.Asks {
+	t.Helper()
+
+	return replicaasks.New(
+		peerCalls(t),
+		hedgedelaysconstant.New(hedgeDelay),
+		replicasCoveringAPartition,
+		replicaasks.ReplicaAsksObservers{},
+	)
+}
+
+func peerCalls(t *testing.T) peercallwire.Wire {
+	t.Helper()
+
+	return peercallwire.New(
+		http.DefaultClient,
+		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions(t)},
+		peercallwire.PeerCallLimits{
+			MaxResponseBytes:  responseLimit,
+			PeerCallsInFlight: peerCallsInFlight,
+			PeerCallBudget:    peerCallBudget,
+		},
+		silentOutcome{},
 	)
 }
 
@@ -707,6 +748,66 @@ func TestAPageReadBudgetOfTheWholeQueryLeavesTheQuerySpreadNothing(t *testing.T)
 		t.Fatalf(
 			"the pages got %v, want what is left of the query budget of %v",
 			recorded.pageReading, queryBudget,
+		)
+	}
+}
+
+func peerListingTheAddressForEachWord(t *testing.T, address string, words ...string) string {
+	t.Helper()
+
+	documentHash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
+	documentsPerWord := make(map[yacymodel.Hash][]yacymodel.URLHash, len(words))
+	documentsHeldPerWord := make(map[yacymodel.Hash]int, len(words))
+	for _, word := range words {
+		documentsPerWord[yacymodel.WordHash(word)] = []yacymodel.URLHash{documentHash}
+		documentsHeldPerWord[yacymodel.WordHash(word)] = 1
+	}
+	body := yacyproto.SearchResponse{
+		Count: 1,
+		Resources: []yacyproto.SearchResource{{
+			Metadata: yacymodel.URLMetadata{
+				Hash: documentHash, Address: address, Title: "Weather",
+			},
+		}},
+		IndexAbstract: documentsPerWord,
+		IndexCount:    documentsHeldPerWord,
+	}.Encode().Encode()
+
+	server := httptest.NewServer(http.HandlerFunc(
+		func(writer http.ResponseWriter, _ *http.Request) {
+			_, _ = writer.Write([]byte(body))
+		},
+	))
+	t.Cleanup(server.Close)
+
+	return server.URL
+}
+
+func TestAQueryOfTwoWordsCarriesBackWhatTheReplicasListForBothWords(t *testing.T) {
+	t.Parallel()
+
+	const address = "https://a.example/"
+	observer := &recordedQuery{}
+	directory := directoryAnsweringAt(
+		t, peerListingTheAddressForEachWord(t, address, "berlin", "kelondro"),
+	)
+	network := networkSearching(t, directory, observer, wordJoinedSpread(t))
+
+	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+
+	if outcome != networksearch.PeersAsked {
+		t.Fatalf("Search reached outcome %v, want peers asked", outcome)
+	}
+	if len(ranking.Items) != 1 || ranking.Items[0].Address != address {
+		t.Fatalf("Search = %+v, want the address the replicas list for both words", ranking.Items)
+	}
+	if observer.performed.AmountOfItemsInRanking != 1 {
+		t.Fatalf(
+			"NetworkSearchPerformed = %+v, want the one item both words joined on",
+			observer.performed,
 		)
 	}
 }

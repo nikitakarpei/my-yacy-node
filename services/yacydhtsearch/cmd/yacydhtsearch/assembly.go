@@ -20,6 +20,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
+	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
@@ -64,6 +65,9 @@ import (
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/applog"
 	rankingcacheobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	replicaasksobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/applog"
+	replicaasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
@@ -220,8 +224,19 @@ func querySpreadFor(
 	peers peercallwire.Wire,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
+	replicaAsks := replicaasks.New(
+		peers,
+		hedgedelaysconstant.New(cfg.HedgeDelay),
+		cfg.ReplicasCoveringAPartition,
+		replicaasks.ReplicaAsksObservers{
+			replicaasksobserversapplog.ReplicaAsksLog{},
+			replicaasksobserversprometheus.New(registry, cfg.QueryBudget),
+		},
+	)
+
 	return bywordcount.New(
 		wordjoined.New(
+			replicaAsks,
 			peers,
 			cfg.RankedItemsCeiling,
 			cfg.AsksForCrossCheckedDocuments,
@@ -235,7 +250,7 @@ func querySpreadFor(
 			},
 		),
 		peermatched.New(
-			peers,
+			replicaAsks,
 			cfg.PeerItemsCeiling,
 			peermatched.PeerMatchedSpreadObservers{
 				queryspreadsobserverspeermatchedapplog.PeerMatchedSpreadLog{},

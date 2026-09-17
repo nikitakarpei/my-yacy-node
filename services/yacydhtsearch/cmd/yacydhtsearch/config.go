@@ -20,6 +20,8 @@ const (
 	EnvEgressProxyURL               = "EGRESS_PROXY_URL"
 	EnvQueryBudget                  = "YACYDHTSEARCH_QUERY_BUDGET"
 	EnvNetworkRedundancy            = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
+	EnvReplicasCoveringAPartition   = "YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION"
+	EnvHedgeDelay                   = "YACYDHTSEARCH_HEDGE_DELAY"
 	EnvPeerCallsInFlight            = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
 	EnvPeerCallBudget               = "YACYDHTSEARCH_PEER_CALL_BUDGET"
 	EnvProbesInFlight               = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
@@ -50,6 +52,7 @@ const (
 	DefaultOpsAddr                      = ":9090"
 	DefaultQueryBudget                  = 10 * time.Second
 	DefaultNetworkRedundancy            = 3
+	DefaultHedgeDelay                   = 500 * time.Millisecond
 	DefaultPeerCallsInFlight            = 48
 	DefaultPeerCallBudget               = 3 * time.Second
 	DefaultProbesInFlight               = 24
@@ -82,6 +85,8 @@ type ServiceConfig struct {
 	EgressProxyURL               *url.URL
 	QueryBudget                  time.Duration
 	NetworkRedundancy            int
+	ReplicasCoveringAPartition   int
+	HedgeDelay                   time.Duration
 	PeerCallsInFlight            int
 	PeerCallBudget               time.Duration
 	ProbesInFlight               int
@@ -131,6 +136,13 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	replicasCoveringAPartition, err := replicasCoveringAPartitionOf(
+		getenv,
+		counts.networkRedundancy,
+	)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 	newcomerShare, err := envconfig.Share(getenv, EnvNewcomerShare, DefaultNewcomerShare)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -166,6 +178,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		EgressProxyURL:               egressProxyURL,
 		QueryBudget:                  durations.queryBudget,
 		NetworkRedundancy:            counts.networkRedundancy,
+		ReplicasCoveringAPartition:   replicasCoveringAPartition,
+		HedgeDelay:                   durations.hedgeDelay,
 		PeerCallsInFlight:            counts.peerCallsInFlight,
 		PeerCallBudget:               durations.peerCallBudget,
 		ProbesInFlight:               counts.probesInFlight,
@@ -197,6 +211,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 
 type configuredDurations struct {
 	queryBudget               time.Duration
+	hedgeDelay                time.Duration
 	peerCallBudget            time.Duration
 	refreshInterval           time.Duration
 	probeBudget               time.Duration
@@ -218,6 +233,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		into     *time.Duration
 	}{
 		{EnvQueryBudget, DefaultQueryBudget, &durations.queryBudget},
+		{EnvHedgeDelay, DefaultHedgeDelay, &durations.hedgeDelay},
 		{EnvPeerCallBudget, DefaultPeerCallBudget, &durations.peerCallBudget},
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
@@ -283,6 +299,25 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 	}
 
 	return counts, nil
+}
+
+func replicasCoveringAPartitionOf(
+	getenv func(string) string,
+	networkRedundancy int,
+) (int, error) {
+	replicas, err := envconfig.PositiveInt(getenv, EnvReplicasCoveringAPartition, networkRedundancy)
+	if err != nil {
+		return 0, err
+	}
+	if replicas > networkRedundancy {
+		return 0, fmt.Errorf(
+			"%s: must not be above %s",
+			EnvReplicasCoveringAPartition,
+			EnvNetworkRedundancy,
+		)
+	}
+
+	return replicas, nil
 }
 
 func partitionsOf(getenv func(string) string) (yacymodel.DHTRingPartitions, error) {

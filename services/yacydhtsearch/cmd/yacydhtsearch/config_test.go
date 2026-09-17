@@ -41,6 +41,15 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 			cfg.PeerCallBudget,
 		)
 	}
+	if cfg.HedgeDelay != main.DefaultHedgeDelay {
+		t.Fatalf("hedge delay = %v, want the default", cfg.HedgeDelay)
+	}
+	if cfg.ReplicasCoveringAPartition != main.DefaultNetworkRedundancy {
+		t.Fatalf(
+			"replicas covering a partition = %d, want the network redundancy",
+			cfg.ReplicasCoveringAPartition,
+		)
+	}
 	if cfg.Partitions != 1<<main.DefaultPartitionExponent {
 		t.Fatalf("Partitions = %d, want %d", cfg.Partitions, 1<<main.DefaultPartitionExponent)
 	}
@@ -75,6 +84,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
 	environment[main.EnvCrossCheckedDocumentsCeiling] = "64"
+	environment[main.EnvReplicasCoveringAPartition] = "2"
+	environment[main.EnvHedgeDelay] = "250ms"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
@@ -84,7 +95,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.NetworkRedundancy != 7 || cfg.PeerCallsInFlight != 9 ||
 		cfg.PeerCallBudget != 2*time.Second ||
 		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 ||
-		cfg.CrossCheckedDocumentsCeiling != 64 {
+		cfg.CrossCheckedDocumentsCeiling != 64 ||
+		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }
@@ -131,6 +143,18 @@ func TestTheServiceRefusesAPartitionExponentTheRingCannotHold(t *testing.T) {
 
 	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
 		t.Fatal("LoadServiceConfig accepted a partition exponent wider than the ring")
+	}
+}
+
+func TestTheServiceRefusesMoreReplicasCoveringAPartitionThanTheNetworkRedundancy(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvNetworkRedundancy] = "3"
+	environment[main.EnvReplicasCoveringAPartition] = "4"
+
+	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
+		t.Fatal("LoadServiceConfig accepted more replicas covering a partition than the redundancy")
 	}
 }
 
