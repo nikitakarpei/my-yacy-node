@@ -127,7 +127,7 @@ func (m *WordJoinedSpreadMetrics) countJoin(
 	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
 ) {
 	joinsOfTheLeadingQueryWordStanding := m.joinsPerLeadingQueryWordStanding[leadingQueryWordStanding]
-	if crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
+	if crossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking == 0 {
 		joinsOfTheLeadingQueryWordStanding.joinsThatFoundNoDocument.Inc()
 
 		return

@@ -38,7 +38,7 @@ func (m urlMetadataRoundMetrics) observeURLMetadataRound(
 	urlMetadataRound wordjoined.PerformedURLMetadataRound,
 	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
 ) {
-	amountOfJoinedDocumentsWithoutMetadata := crossCheckedDocumentsRound.AmountOfJoinedDocuments -
+	amountOfJoinedDocumentsWithoutMetadata := crossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking -
 		urlMetadataRound.AmountOfJoinedDocumentsWithMetadata
 	if amountOfJoinedDocumentsWithoutMetadata > 0 {
 		m.joinedDocumentsDroppedBeforeMetadataLookupRatio.Observe(

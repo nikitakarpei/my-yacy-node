@@ -84,10 +84,13 @@ func attributesOfCrossCheckedDocumentsRound(
 			round.AmountOfEmptyCrossCheckedDocumentsAnswers,
 		),
 		slog.Int(
-			"amountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks",
-			round.AmountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks,
+			"amountOfDocumentsJoinedWithoutCrossChecking",
+			round.AmountOfDocumentsJoinedWithoutCrossChecking,
 		),
-		slog.Int("amountOfJoinedDocuments", round.AmountOfJoinedDocuments),
+		slog.Int(
+			"amountOfDocumentsJoinedWithCrossChecking",
+			round.AmountOfDocumentsJoinedWithCrossChecking,
+		),
 	}
 }
 

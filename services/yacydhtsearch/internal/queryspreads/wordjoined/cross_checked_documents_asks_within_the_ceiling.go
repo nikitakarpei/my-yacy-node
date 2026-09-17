@@ -25,9 +25,9 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 		if queryWord.isFullyListed() {
 			continue
 		}
-		candidateDocuments := documentsNotListedAmong(
+		candidateDocuments := documentsNotListedByPeersAmong(
 			documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst,
-			queryWord.documentsListed(),
+			queryWord.documentsListedByPeers(),
 		)
 		peersWithoutAnAsk := peersWithoutAnAskAmong(
 			queryWord.peersThatDidNotListAllTheyHold(),
@@ -49,13 +49,13 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 	return asksWithinTheCeiling
 }
 
-func documentsNotListedAmong(
+func documentsNotListedByPeersAmong(
 	documents []yacymodel.URLHash,
-	documentsListed map[yacymodel.URLHash]struct{},
+	documentsListedByPeers map[yacymodel.URLHash]struct{},
 ) []yacymodel.URLHash {
 	keptDocuments := make([]yacymodel.URLHash, 0, len(documents))
 	for _, document := range documents {
-		if _, listed := documentsListed[document]; listed {
+		if _, listedByPeers := documentsListedByPeers[document]; listedByPeers {
 			continue
 		}
 		keptDocuments = append(keptDocuments, document)

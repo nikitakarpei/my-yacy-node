@@ -45,7 +45,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 			round.queryWordsFewestDocumentsFirst,
 		),
 		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
-			round.leadingQueryWord().documentsListed(),
+			round.leadingQueryWord().documentsListedByPeers(),
 		),
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
@@ -60,7 +60,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
-		if len(queryWord.documentsListed()) > 0 {
+		if len(queryWord.documentsListedByPeers()) > 0 {
 			continue
 		}
 		amount++

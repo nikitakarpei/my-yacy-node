@@ -7,50 +7,62 @@ import (
 )
 
 type joinOfTheQuery struct {
-	documentsJoinedBeforeTheCrossCheckedDocumentsAsks map[yacymodel.URLHash]struct{}
-	joinedDocuments                                   map[yacymodel.URLHash]struct{}
+	documentsJoinedWithoutCrossChecking map[yacymodel.URLHash]struct{}
+	documentsJoinedWithCrossChecking    map[yacymodel.URLHash]struct{}
 }
 
 func joinOfTheQueryFrom(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	crossCheckedDocumentsRound crossCheckedDocumentsRound,
 ) joinOfTheQuery {
-	documentsHeldPerQueryWordInTheSecondRound := crossCheckedDocumentsRound.documentsHeldPerQueryWord()
-	documentsJoinedBeforeTheCrossCheckedDocumentsAsks := matchedAndHeldDocumentsRound.leadingQueryWord().
-		documentsListed()
-	joinedDocuments := maps.Clone(documentsJoinedBeforeTheCrossCheckedDocumentsAsks)
-	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord() {
-		documentsListedForTheQueryWord := queryWord.documentsListed()
-		documentsJoinedBeforeTheCrossCheckedDocumentsAsks = documentsHeldInSomeRoundAmong(
-			documentsJoinedBeforeTheCrossCheckedDocumentsAsks, documentsListedForTheQueryWord,
-		)
-		joinedDocuments = documentsHeldInSomeRoundAmong(
-			joinedDocuments,
-			documentsListedForTheQueryWord,
-			documentsHeldPerQueryWordInTheSecondRound[queryWord.word],
-		)
-	}
-
 	return joinOfTheQuery{
-		documentsJoinedBeforeTheCrossCheckedDocumentsAsks: documentsJoinedBeforeTheCrossCheckedDocumentsAsks,
-		joinedDocuments: joinedDocuments,
+		documentsJoinedWithoutCrossChecking: documentsJoinedFrom(matchedAndHeldDocumentsRound, nil),
+		documentsJoinedWithCrossChecking: documentsJoinedFrom(
+			matchedAndHeldDocumentsRound,
+			crossCheckedDocumentsRound.documentsFoundByCrossCheckingPerQueryWord(),
+		),
 	}
 }
 
-func documentsHeldInSomeRoundAmong(
-	documents map[yacymodel.URLHash]struct{},
-	documentsHeldInEachRound ...map[yacymodel.URLHash]struct{},
+func documentsJoinedFrom(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	documentsFoundByCrossCheckingPerQueryWord map[yacymodel.Hash]map[yacymodel.URLHash]struct{},
 ) map[yacymodel.URLHash]struct{} {
-	keptDocuments := make(map[yacymodel.URLHash]struct{}, len(documents))
-	for document := range documents {
-		for _, documentsHeldInOneRound := range documentsHeldInEachRound {
-			if _, held := documentsHeldInOneRound[document]; held {
-				keptDocuments[document] = struct{}{}
+	documentsJoined := matchedAndHeldDocumentsRound.leadingQueryWord().documentsListedByPeers()
+	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord() {
+		documentsJoined = documentsAlsoAmong(
+			documentsJoined,
+			documentsFoundForTheQueryWordFrom(
+				queryWord.documentsListedByPeers(),
+				documentsFoundByCrossCheckingPerQueryWord[queryWord.word],
+			),
+		)
+	}
 
-				break
-			}
+	return documentsJoined
+}
+
+func documentsAlsoAmong(
+	documentsJoined map[yacymodel.URLHash]struct{},
+	documentsFoundForTheQueryWord map[yacymodel.URLHash]struct{},
+) map[yacymodel.URLHash]struct{} {
+	keptDocuments := make(map[yacymodel.URLHash]struct{}, len(documentsJoined))
+	for document := range documentsJoined {
+		if _, found := documentsFoundForTheQueryWord[document]; !found {
+			continue
 		}
+		keptDocuments[document] = struct{}{}
 	}
 
 	return keptDocuments
+}
+
+func documentsFoundForTheQueryWordFrom(
+	documentsListedByPeers map[yacymodel.URLHash]struct{},
+	documentsFoundByCrossChecking map[yacymodel.URLHash]struct{},
+) map[yacymodel.URLHash]struct{} {
+	documentsFoundForTheQueryWord := maps.Clone(documentsListedByPeers)
+	maps.Copy(documentsFoundForTheQueryWord, documentsFoundByCrossChecking)
+
+	return documentsFoundForTheQueryWord
 }

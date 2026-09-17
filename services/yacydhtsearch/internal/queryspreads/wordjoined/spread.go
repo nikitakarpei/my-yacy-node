@@ -144,7 +144,7 @@ func (spread Spread) askForCrossCheckedDocuments(
 	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeilingFor(
 		matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord(),
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(
-			matchedAndHeldDocumentsRound.leadingQueryWord().documentsListed(),
+			matchedAndHeldDocumentsRound.leadingQueryWord().documentsListedByPeers(),
 		),
 		spread.crossCheckedDocumentsCeiling,
 	)
@@ -169,7 +169,7 @@ func (spread Spread) askForURLMetadata(
 	joinOfTheQuery joinOfTheQuery,
 ) urlMetadataRound {
 	documentsWithoutMetadata := documentsWithoutMetadataAmong(
-		joinOfTheQuery.joinedDocuments, matchedAndHeldDocumentsRound.answeredAsks,
+		joinOfTheQuery.documentsJoinedWithCrossChecking, matchedAndHeldDocumentsRound.answeredAsks,
 	)
 	asks := urlMetadataAsksFor(
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(documentsWithoutMetadata),

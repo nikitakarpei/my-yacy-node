@@ -13,7 +13,8 @@ func answeredQueryFrom(
 	return queryanswers.AnsweredQuery{
 		QueryWords: matchedAndHeldDocumentsRound.queryWords,
 		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingOf(
-			matchedAndHeldDocumentsRound.answeredAsks, joinOfTheQuery.joinedDocuments,
+			matchedAndHeldDocumentsRound.answeredAsks,
+			joinOfTheQuery.documentsJoinedWithCrossChecking,
 		),
 		ItemsInNoOrder: itemsOfAnsweredURLMetadataAsks(urlMetadataRound.answeredAsks),
 		DocumentsHeldPerQueryWord: matchedAndHeldDocumentsRound.

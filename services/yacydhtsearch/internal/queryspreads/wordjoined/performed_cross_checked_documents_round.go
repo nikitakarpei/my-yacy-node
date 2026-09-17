@@ -6,12 +6,12 @@ import (
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
-	AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling      int
-	AmountOfPeersAskedForCrossCheckedDocuments                int
-	AmountOfPeersThatAnsweredCrossCheckedDocuments            int
-	AmountOfEmptyCrossCheckedDocumentsAnswers                 int
-	AmountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks int
-	AmountOfJoinedDocuments                                   int
+	AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
+	AmountOfPeersAskedForCrossCheckedDocuments           int
+	AmountOfPeersThatAnsweredCrossCheckedDocuments       int
+	AmountOfEmptyCrossCheckedDocumentsAnswers            int
+	AmountOfDocumentsJoinedWithoutCrossChecking          int
+	AmountOfDocumentsJoinedWithCrossChecking             int
 }
 
 func performedCrossCheckedDocumentsRoundFrom(
@@ -31,10 +31,12 @@ func performedCrossCheckedDocumentsRoundFrom(
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
-		AmountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks: len(
-			joinOfTheQuery.documentsJoinedBeforeTheCrossCheckedDocumentsAsks,
+		AmountOfDocumentsJoinedWithoutCrossChecking: len(
+			joinOfTheQuery.documentsJoinedWithoutCrossChecking,
 		),
-		AmountOfJoinedDocuments: len(joinOfTheQuery.joinedDocuments),
+		AmountOfDocumentsJoinedWithCrossChecking: len(
+			joinOfTheQuery.documentsJoinedWithCrossChecking,
+		),
 	}
 }
 

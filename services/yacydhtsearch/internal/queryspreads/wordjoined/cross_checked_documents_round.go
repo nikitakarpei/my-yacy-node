@@ -11,16 +11,16 @@ type crossCheckedDocumentsRound struct {
 	amountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
 }
 
-func (round crossCheckedDocumentsRound) documentsHeldPerQueryWord() map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
-	documentsHeldPerQueryWord := map[yacymodel.Hash]map[yacymodel.URLHash]struct{}{}
+func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWord() map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
+	documentsFoundByCrossCheckingPerQueryWord := map[yacymodel.Hash]map[yacymodel.URLHash]struct{}{}
 	for _, answeredAsk := range round.answeredAsks {
-		if documentsHeldPerQueryWord[answeredAsk.Ask.Word] == nil {
-			documentsHeldPerQueryWord[answeredAsk.Ask.Word] = map[yacymodel.URLHash]struct{}{}
+		if documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] == nil {
+			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] = map[yacymodel.URLHash]struct{}{}
 		}
 		for _, document := range answeredAsk.DocumentsHeldForTheWord {
-			documentsHeldPerQueryWord[answeredAsk.Ask.Word][document] = struct{}{}
+			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word][document] = struct{}{}
 		}
 	}
 
-	return documentsHeldPerQueryWord
+	return documentsFoundByCrossCheckingPerQueryWord
 }

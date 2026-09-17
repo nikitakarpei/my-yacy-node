@@ -51,13 +51,13 @@ func (m crossCheckedDocumentsRoundMetrics) observeCrossCheckedDocumentsRound(
 		float64(crossCheckedDocumentsRound.AmountOfPeersThatAnsweredCrossCheckedDocuments) /
 			float64(crossCheckedDocumentsRound.AmountOfPeersAskedForCrossCheckedDocuments),
 	)
-	if crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
+	if crossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking == 0 {
 		return
 	}
-	amountOfJoinedDocumentsFoundOnlyByCrossChecking := crossCheckedDocumentsRound.AmountOfJoinedDocuments -
-		crossCheckedDocumentsRound.AmountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks
+	amountOfJoinedDocumentsFoundOnlyByCrossChecking := crossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking -
+		crossCheckedDocumentsRound.AmountOfDocumentsJoinedWithoutCrossChecking
 	m.joinedDocumentsFoundOnlyByCrossCheckingRatio.Observe(
 		float64(amountOfJoinedDocumentsFoundOnlyByCrossChecking) /
-			float64(crossCheckedDocumentsRound.AmountOfJoinedDocuments),
+			float64(crossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking),
 	)
 }

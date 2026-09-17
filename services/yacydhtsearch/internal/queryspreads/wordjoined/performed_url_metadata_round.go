@@ -16,7 +16,7 @@ func performedURLMetadataRoundFrom(
 	joinOfTheQuery joinOfTheQuery,
 ) PerformedURLMetadataRound {
 	return PerformedURLMetadataRound{
-		AmountOfJoinedDocumentsWithMetadata: len(joinOfTheQuery.joinedDocuments) -
+		AmountOfJoinedDocumentsWithMetadata: len(joinOfTheQuery.documentsJoinedWithCrossChecking) -
 			len(round.documentsWithoutMetadata),
 		AmountOfDocumentsAskedMetadataFor: len(documentsAcrossURLMetadataAsks(round.asks)),
 		AmountOfAskedDocumentsWithMetadata: amountOfAskedDocumentsWithMetadata(
