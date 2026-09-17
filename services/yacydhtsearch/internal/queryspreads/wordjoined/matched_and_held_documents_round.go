@@ -18,12 +18,24 @@ type matchedAndHeldDocumentsRound struct {
 	amountOfPeersPerDocument       map[yacymodel.URLHash]int
 }
 
-func (round matchedAndHeldDocumentsRound) rarestQueryWord() answeredQueryWord {
-	return round.queryWordsFewestDocumentsFirst[0]
+func (round matchedAndHeldDocumentsRound) leadingQueryWord() answeredQueryWord {
+	return round.queryWordsFewestDocumentsFirst[round.placeOfTheLeadingQueryWord()]
 }
 
-func (round matchedAndHeldDocumentsRound) queryWordsBesideTheRarestQueryWord() []answeredQueryWord {
-	return round.queryWordsFewestDocumentsFirst[1:]
+func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() []answeredQueryWord {
+	placeOfTheLeadingQueryWord := round.placeOfTheLeadingQueryWord()
+
+	return slices.Concat(
+		round.queryWordsFewestDocumentsFirst[:placeOfTheLeadingQueryWord],
+		round.queryWordsFewestDocumentsFirst[placeOfTheLeadingQueryWord+1:],
+	)
+}
+
+func (round matchedAndHeldDocumentsRound) placeOfTheLeadingQueryWord() int {
+	return max(
+		0,
+		slices.IndexFunc(round.queryWordsFewestDocumentsFirst, answeredQueryWord.isFullyListed),
+	)
 }
 
 func (round matchedAndHeldDocumentsRound) documentsMostListedFirstAmong(

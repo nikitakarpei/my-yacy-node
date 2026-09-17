@@ -16,10 +16,10 @@ func joinOfTheQueryFrom(
 	crossCheckedDocumentsRound crossCheckedDocumentsRound,
 ) joinOfTheQuery {
 	documentsHeldPerQueryWordInTheSecondRound := crossCheckedDocumentsRound.documentsHeldPerQueryWord()
-	documentsJoinedBeforeTheCrossCheckedDocumentsAsks := matchedAndHeldDocumentsRound.rarestQueryWord().
+	documentsJoinedBeforeTheCrossCheckedDocumentsAsks := matchedAndHeldDocumentsRound.leadingQueryWord().
 		documentsListed()
 	joinedDocuments := maps.Clone(documentsJoinedBeforeTheCrossCheckedDocumentsAsks)
-	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheRarestQueryWord() {
+	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord() {
 		documentsListedForTheQueryWord := queryWord.documentsListed()
 		documentsJoinedBeforeTheCrossCheckedDocumentsAsks = documentsHeldInSomeRoundAmong(
 			documentsJoinedBeforeTheCrossCheckedDocumentsAsks, documentsListedForTheQueryWord,

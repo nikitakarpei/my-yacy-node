@@ -7,9 +7,9 @@ import (
 )
 
 type crossCheckedDocumentsRoundMetrics struct {
-	answeringCrossCheckedDocumentsPeersRatio                       prometheusclient.Histogram
-	joinedDocumentsFoundOnlyByCrossCheckingRatio                   prometheusclient.Histogram
-	documentsListedForTheRarestQueryWordThatMissedACrossCheckRatio prometheusclient.Histogram
+	answeringCrossCheckedDocumentsPeersRatio                          prometheusclient.Histogram
+	joinedDocumentsFoundOnlyByCrossCheckingRatio                      prometheusclient.Histogram
+	leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio
 }
 
 func crossCheckedDocumentsRoundMetricsRegisteredIn(
@@ -25,43 +25,39 @@ func crossCheckedDocumentsRoundMetricsRegisteredIn(
 			"Share of the joined documents found only by cross-checking, in the spreads that "+
 				"asked a peer to cross-check documents.",
 		),
-		documentsListedForTheRarestQueryWordThatMissedACrossCheckRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_documents_listed_for_the_rarest_query_word_that_missed_a_cross_check_ratio",
-			"Share of the documents listed for the rarest query word that missed a cross-check.",
+		leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio: leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatioRegisteredIn(
+			registry,
 		),
 	}
 	registry.MustRegister(
 		metrics.answeringCrossCheckedDocumentsPeersRatio,
 		metrics.joinedDocumentsFoundOnlyByCrossCheckingRatio,
-		metrics.documentsListedForTheRarestQueryWordThatMissedACrossCheckRatio,
 	)
 
 	return metrics
 }
 
 func (m crossCheckedDocumentsRoundMetrics) observeCrossCheckedDocumentsRound(
-	round wordjoined.PerformedCrossCheckedDocumentsRound,
-	amountOfDocumentsListedByThePeersOfTheRarestQueryWord int,
+	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
+	matchedAndHeldDocumentsRound wordjoined.PerformedMatchedAndHeldDocumentsRound,
 ) {
-	if amountOfDocumentsListedByThePeersOfTheRarestQueryWord > 0 {
-		m.documentsListedForTheRarestQueryWordThatMissedACrossCheckRatio.Observe(
-			float64(round.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling) /
-				float64(amountOfDocumentsListedByThePeersOfTheRarestQueryWord),
-		)
-	}
-	if round.AmountOfPeersAskedForCrossCheckedDocuments == 0 {
+	m.leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio.observe(
+		crossCheckedDocumentsRound, matchedAndHeldDocumentsRound,
+	)
+	if crossCheckedDocumentsRound.AmountOfPeersAskedForCrossCheckedDocuments == 0 {
 		return
 	}
 	m.answeringCrossCheckedDocumentsPeersRatio.Observe(
-		float64(round.AmountOfPeersThatAnsweredCrossCheckedDocuments) /
-			float64(round.AmountOfPeersAskedForCrossCheckedDocuments),
+		float64(crossCheckedDocumentsRound.AmountOfPeersThatAnsweredCrossCheckedDocuments) /
+			float64(crossCheckedDocumentsRound.AmountOfPeersAskedForCrossCheckedDocuments),
 	)
-	if round.AmountOfJoinedDocuments == 0 {
+	if crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
 		return
 	}
-	amountOfJoinedDocumentsFoundOnlyByAsking := round.AmountOfJoinedDocuments -
-		round.AmountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks
+	amountOfJoinedDocumentsFoundOnlyByCrossChecking := crossCheckedDocumentsRound.AmountOfJoinedDocuments -
+		crossCheckedDocumentsRound.AmountOfJoinedDocumentsBeforeTheCrossCheckedDocumentsAsks
 	m.joinedDocumentsFoundOnlyByCrossCheckingRatio.Observe(
-		float64(amountOfJoinedDocumentsFoundOnlyByAsking) / float64(round.AmountOfJoinedDocuments),
+		float64(amountOfJoinedDocumentsFoundOnlyByCrossChecking) /
+			float64(crossCheckedDocumentsRound.AmountOfJoinedDocuments),
 	)
 }

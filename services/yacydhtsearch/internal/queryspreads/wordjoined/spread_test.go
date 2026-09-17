@@ -468,17 +468,17 @@ func documentsInTheirHashOrder(documents []yacymodel.URLHash) []yacymodel.URLHas
 	return documentsInOrder
 }
 
-func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheRarestQueryWordItLeftOut(
+func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheLeadingQueryWordItLeftOut(
 	t *testing.T,
 ) {
 	t.Parallel()
 
-	documentsListedForTheRarestQueryWord := []string{
+	documentsListedForTheLeadingQueryWord := []string{
 		"https://anchored.example/",
 		"https://answered.example/",
 	}
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheRarestQueryWord},
+		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
 		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
@@ -505,7 +505,7 @@ func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheRarestQueryWo
 		got, wanted,
 	) {
 		t.Fatalf(
-			"the ask named %v, want the document listed for the rarest query word that the answer left out",
+			"the ask named %v, want the document listed for the leading query word that the answer left out",
 			got,
 		)
 	}
@@ -514,12 +514,12 @@ func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheRarestQueryWo
 func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) {
 	t.Parallel()
 
-	documentsListedForTheRarestQueryWord := []string{
+	documentsListedForTheLeadingQueryWord := []string{
 		"https://anchored.example/",
 		"https://answered.example/",
 	}
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheRarestQueryWord},
+		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
 		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
@@ -551,7 +551,7 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 	}
 }
 
-func TestTheWordTheFewestDocumentsAreHeldForIsTheRarestQueryWord(t *testing.T) {
+func TestTheFullyListedWordTheFewestDocumentsAreHeldForLeads(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string]map[string][]string{
@@ -575,15 +575,59 @@ func TestTheWordTheFewestDocumentsAreHeldForIsTheRarestQueryWord(t *testing.T) {
 		observer,
 	)
 
-	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheRarestQueryWord != 2 {
+	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
+	if matchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.RarestFullyListedQueryWord ||
+		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 2 {
 		t.Fatalf(
-			"the spread took a rarest query word of %d documents, want the word the fewest are held for",
-			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheRarestQueryWord,
+			"the spread reported %+v, want the fully listed word the fewest documents are held for leading",
+			matchedAndHeldDocumentsRound,
 		)
 	}
 }
 
-func TestAPartlyListedWordIsTheRarestQueryWordWhenTheFewestDocumentsAreCountedForIt(
+func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t *testing.T) {
+	t.Parallel()
+
+	anchored := "https://anchored.example/"
+	unlisted := "https://unlisted.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first": {firstWord: {anchored, unlisted, "https://other.example/"}},
+		"second": {secondWord: {
+			anchored, unlisted, "https://third.example/",
+			"https://fourth.example/", "https://fifth.example/",
+		}},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"first": 1}
+	network.documentsHeldByEachPeer = map[string]int{"second": 5}
+	observer := &recordedSpreads{}
+
+	spreadOfTheQuery(
+		network,
+		peersOfEachQueryWord(map[string][]string{
+			firstWord:  {"first"},
+			secondWord: {"second"},
+		}),
+		firstWord+" "+secondWord,
+		observer,
+	)
+
+	performed := observer.performed[0]
+	if performed.MatchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.MoreCommonFullyListedQueryWord ||
+		performed.MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 5 {
+		t.Fatalf(
+			"the spread reported %+v, want the fully listed word leading over the rarer partly listed word",
+			performed.MatchedAndHeldDocumentsRound,
+		)
+	}
+	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 {
+		t.Fatalf(
+			"the spread joined %d documents, want the one both words listed and the one the partly listed word left out",
+			performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments,
+		)
+	}
+}
+
+func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFullyListed(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -591,7 +635,7 @@ func TestAPartlyListedWordIsTheRarestQueryWordWhenTheFewestDocumentsAreCountedFo
 	anchored := "https://anchored.example/"
 	network := networkOf(map[string]map[string][]string{
 		"first": {
-			firstWord: {anchored, "https://second.example/", "https://third.example/"},
+			firstWord: {"https://second.example/", anchored, "https://third.example/"},
 		},
 		"second": {secondWord: {anchored, "https://second.example/"}},
 		"third": {thirdWord: {
@@ -599,8 +643,7 @@ func TestAPartlyListedWordIsTheRarestQueryWordWhenTheFewestDocumentsAreCountedFo
 			"https://third.example/", "https://fifth.example/",
 		}},
 	})
-	network.documentsHeldByEachPeer = map[string]int{"first": 3}
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 1}
+	network.documentsPerAnswerOfEachPeer = map[string]int{"first": 1, "second": 1, "third": 1}
 	observer := &recordedSpreads{}
 
 	spreadOfTheQuery(
@@ -614,24 +657,22 @@ func TestAPartlyListedWordIsTheRarestQueryWordWhenTheFewestDocumentsAreCountedFo
 		observer,
 	)
 
-	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheRarestQueryWord != 1 {
+	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
+	if matchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.RarestPartlyListedQueryWord ||
+		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 1 {
 		t.Fatalf(
-			"the spread took a rarest query word of %d documents, want the one the partly listed word listed",
-			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheRarestQueryWord,
+			"the spread reported %+v, want the partly listed word the fewest documents are counted for leading",
+			matchedAndHeldDocumentsRound,
 		)
 	}
-	if len(network.crossCheckedDocumentsAsks) != 1 ||
-		network.crossCheckedDocumentsAsks[0].Peer.Address != "third" {
-		t.Fatalf(
-			"the spread put %v, want one cross-checked documents ask to the peer of the other partly listed word",
-			network.crossCheckedDocumentsAsks,
-		)
-	}
-	wanted := documentHashesOf([]string{anchored})
+	wanted := documentHashesOf([]string{anchored, anchored})
 	if got := documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
 		got, wanted,
 	) {
-		t.Fatalf("the ask named %v, want the documents the rarest query word listed", got)
+		t.Fatalf(
+			"the asks named %v, want the document the leading query word listed, once per other word",
+			got,
+		)
 	}
 }
 
@@ -707,7 +748,7 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 	if crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 0 ||
 		crossCheckedDocumentsRound.AmountOfJoinedDocuments != 3 {
 		t.Fatalf(
-			"the spread reported %+v, want every document listed for the rarest query word joined and none past the ceiling",
+			"the spread reported %+v, want every document listed for the leading query word joined and none past the ceiling",
 			crossCheckedDocumentsRound,
 		)
 	}
@@ -717,16 +758,16 @@ func TestTwoPartlyListedReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing
 	t.Parallel()
 
 	answered := "https://answered.example/"
-	documentsListedForTheRarestQueryWord := []string{
+	documentsListedForTheLeadingQueryWord := []string{
 		answered,
 		"https://first.example/",
 		"https://second.example/",
 		"https://third.example/",
 	}
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheRarestQueryWord},
-		"second": {secondWord: documentsListedForTheRarestQueryWord},
-		"third":  {secondWord: documentsListedForTheRarestQueryWord},
+		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
+		"second": {secondWord: documentsListedForTheLeadingQueryWord},
+		"third":  {secondWord: documentsListedForTheLeadingQueryWord},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 1}
 
@@ -746,7 +787,7 @@ func TestTwoPartlyListedReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing
 			network.crossCheckedDocumentsAsks,
 		)
 	}
-	wanted := documentsInTheirHashOrder(documentHashesOf(documentsListedForTheRarestQueryWord[1:]))
+	wanted := documentsInTheirHashOrder(documentHashesOf(documentsListedForTheLeadingQueryWord[1:]))
 	got := documentsInTheirHashOrder(documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks))
 	if !slices.Equal(got, wanted) {
 		t.Fatalf(
@@ -764,16 +805,16 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDo
 
 	const documentsOneCrossCheckedDocumentsAskNames = 1
 
-	documentsListedForTheRarestQueryWord := []string{
+	documentsListedForTheLeadingQueryWord := []string{
 		"https://first.example/",
 		"https://second.example/",
 		"https://third.example/",
 		"https://fourth.example/",
 	}
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheRarestQueryWord},
-		"second": {secondWord: documentsListedForTheRarestQueryWord},
-		"third":  {secondWord: documentsListedForTheRarestQueryWord},
+		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
+		"second": {secondWord: documentsListedForTheLeadingQueryWord},
+		"third":  {secondWord: documentsListedForTheLeadingQueryWord},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
 	observer := &recordedSpreads{}

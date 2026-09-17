@@ -6,16 +6,17 @@ import (
 )
 
 type PerformedMatchedAndHeldDocumentsRound struct {
-	AmountOfQueryWords                                    int
-	AmountOfQueryWordsHeldByNoPeer                        int
-	AmountOfFullyListedQueryWords                         int
-	AmountOfPeersAskedForMatchedAndHeldDocuments          int
-	AmountOfPeersThatAnsweredMatchedAndHeldDocuments      int
-	AmountOfPeersThatListedADocument                      int
-	AmountOfDocumentsListedByThePeersOfTheRarestQueryWord int
-	AmountOfMatchedDocumentsAcrossAnswers                 int
-	AmountOfMatchedDocumentsCountedByAPeer                int
-	AmountOfDocumentsHeldInEachAnswer                     []int
+	AmountOfQueryWords                                     int
+	AmountOfQueryWordsHeldByNoPeer                         int
+	AmountOfFullyListedQueryWords                          int
+	AmountOfPeersAskedForMatchedAndHeldDocuments           int
+	AmountOfPeersThatAnsweredMatchedAndHeldDocuments       int
+	AmountOfPeersThatListedADocument                       int
+	LeadingQueryWordStanding                               LeadingQueryWordStanding
+	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
+	AmountOfMatchedDocumentsAcrossAnswers                  int
+	AmountOfMatchedDocumentsCountedByAPeer                 int
+	AmountOfDocumentsHeldInEachAnswer                      []int
 }
 
 func performedMatchedAndHeldDocumentsRoundFrom(
@@ -40,8 +41,11 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 			answeredAsksWithAListedDocument(round.answeredAsks),
 			peerOfAnsweredMatchedAndHeldDocumentsAsk,
 		),
-		AmountOfDocumentsListedByThePeersOfTheRarestQueryWord: len(
-			round.rarestQueryWord().documentsListed(),
+		LeadingQueryWordStanding: leadingQueryWordStandingAmong(
+			round.queryWordsFewestDocumentsFirst,
+		),
+		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
+			round.leadingQueryWord().documentsListed(),
 		),
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,

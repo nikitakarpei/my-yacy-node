@@ -14,17 +14,17 @@ type crossCheckedDocumentsDeal struct {
 }
 
 func crossCheckedDocumentsDealFor(
-	queryWordsBesideTheRarestQueryWord []answeredQueryWord,
-	documentsListedByThePeersOfTheRarestQueryWordMostListedFirst []yacymodel.URLHash,
+	queryWordsBesideTheLeadingQueryWord []answeredQueryWord,
+	documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
 	crossCheckedDocumentsCeiling int,
 ) crossCheckedDocumentsDeal {
 	deal := crossCheckedDocumentsDeal{documentsPastTheCeiling: map[yacymodel.URLHash]struct{}{}}
-	for _, queryWord := range queryWordsBesideTheRarestQueryWord {
+	for _, queryWord := range queryWordsBesideTheLeadingQueryWord {
 		if queryWord.isFullyListed() {
 			continue
 		}
 		candidateDocuments := documentsNotListedAmong(
-			documentsListedByThePeersOfTheRarestQueryWordMostListedFirst,
+			documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst,
 			queryWord.documentsListed(),
 		)
 		peersWithoutAnAsk := peersWithoutAnAskAmong(

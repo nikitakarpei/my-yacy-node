@@ -142,9 +142,9 @@ func (spread Spread) askForCrossCheckedDocuments(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 ) crossCheckedDocumentsRound {
 	deal := crossCheckedDocumentsDealFor(
-		matchedAndHeldDocumentsRound.queryWordsBesideTheRarestQueryWord(),
+		matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord(),
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(
-			matchedAndHeldDocumentsRound.rarestQueryWord().documentsListed(),
+			matchedAndHeldDocumentsRound.leadingQueryWord().documentsListed(),
 		),
 		spread.crossCheckedDocumentsCeiling,
 	)
