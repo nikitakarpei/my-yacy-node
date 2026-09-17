@@ -29,19 +29,21 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 			documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst,
 			queryWord.documentsListedByPeers(),
 		)
-		peersWithoutAnAsk := peersWithoutAnAskAmong(
+		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			queryWord.peersThatDidNotListAllTheyHold(),
 			asksWithinTheCeiling.asks,
 		)
-		amountOfDocumentsDealt := min(
-			len(candidateDocuments), len(peersWithoutAnAsk)*crossCheckedDocumentsCeiling,
+		amountOfDocumentsToDeal := min(
+			len(candidateDocuments), len(peersNotYetAskedToCrossCheck)*crossCheckedDocumentsCeiling,
 		)
 		asksWithinTheCeiling.asks = append(
 			asksWithinTheCeiling.asks,
 			crossCheckedDocumentsAsksDealtAcross(
-				peersWithoutAnAsk, queryWord.word, candidateDocuments[:amountOfDocumentsDealt],
+				peersNotYetAskedToCrossCheck,
+				queryWord.word,
+				candidateDocuments[:amountOfDocumentsToDeal],
 			)...)
-		for _, document := range candidateDocuments[amountOfDocumentsDealt:] {
+		for _, document := range candidateDocuments[amountOfDocumentsToDeal:] {
 			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling.add(document)
 		}
 	}
@@ -64,7 +66,7 @@ func documentsNotListedByPeersAmong(
 	return keptDocuments
 }
 
-func peersWithoutAnAskAmong(
+func peersNotYetAskedToCrossCheckAmong(
 	peers []peerdirectory.AskablePeer,
 	asks []peerasks.CrossCheckedDocumentsAsk,
 ) []peerdirectory.AskablePeer {
