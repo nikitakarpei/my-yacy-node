@@ -171,11 +171,11 @@ func (m *ReplicaAsksMetrics) ReplicaAsksPerformed(
 }
 
 func (m *ReplicaAsksMetrics) countWordPartition(
-	wordPartition replicaasks.PerformedWordPartition,
+	wordPartition replicaasks.SettledWordPartition,
 ) {
 	m.wordPartitionsPerSettledBy[wordPartition.SettledBy][wordPartition.CoveringAskPutOn].Inc()
 	m.wordPartitionDocumentsListed.Observe(float64(wordPartition.AmountOfDocumentsListed))
-	for _, replicaAsk := range wordPartition.Asks {
-		m.replicaAsksPerPutOn[replicaAsk.PutOn].Inc()
+	for _, putOn := range wordPartition.AsksPutOn {
+		m.replicaAsksPerPutOn[putOn].Inc()
 	}
 }

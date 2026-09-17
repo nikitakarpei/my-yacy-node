@@ -65,30 +65,28 @@ func performedReplicaAsks() replicaasks.PerformedReplicaAsks {
 	return replicaasks.PerformedReplicaAsks{
 		EndedBy:   replicaasks.EndedByCoverage,
 		TimeSpent: 250 * time.Millisecond,
-		WordPartitions: []replicaasks.PerformedWordPartition{
+		WordPartitions: []replicaasks.SettledWordPartition{
 			{
 				SettledBy:               replicaasks.SettledByCoverage,
 				CoveringAskPutOn:        replicaasks.PutOnStart,
 				AmountOfDocumentsListed: 5,
-				Asks: []replicaasks.PerformedReplicaAsk{
-					{PutOn: replicaasks.PutOnStart},
-				},
+				AsksPutOn:               []replicaasks.PutOn{replicaasks.PutOnStart},
 			},
 			{
 				SettledBy:               replicaasks.SettledByCoverage,
 				CoveringAskPutOn:        replicaasks.PutOnHedgeDelay,
 				AmountOfDocumentsListed: 0,
-				Asks: []replicaasks.PerformedReplicaAsk{
-					{PutOn: replicaasks.PutOnStart},
-					{PutOn: replicaasks.PutOnHedgeDelay},
+				AsksPutOn: []replicaasks.PutOn{
+					replicaasks.PutOnStart,
+					replicaasks.PutOnHedgeDelay,
 				},
 			},
 			{
 				SettledBy:               replicaasks.SettledByNoReplicaLeft,
 				AmountOfDocumentsListed: 2,
-				Asks: []replicaasks.PerformedReplicaAsk{
-					{PutOn: replicaasks.PutOnStart},
-					{PutOn: replicaasks.PutOnFailure},
+				AsksPutOn: []replicaasks.PutOn{
+					replicaasks.PutOnStart,
+					replicaasks.PutOnFailure,
 				},
 			},
 		},

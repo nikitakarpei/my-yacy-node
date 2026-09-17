@@ -47,120 +47,28 @@ func New(
 	}
 }
 
-type matchedAndHeldDocumentsReplicaCalls = replicaCalls[
-	peerasks.MatchedAndHeldDocumentsAsk,
-	peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-]
-
 func (asks Asks) AskForMatchedAndHeldDocuments(
 	ctx context.Context,
 	asksInReplicaOrder []peerasks.MatchedAndHeldDocumentsAsk,
 ) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
-	return answersOfWordPartitions(
+	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,
-		matchedAndHeldDocumentsReplicaCalls{
-			wordPartitionKeyOf:        wordPartitionKeyOfTheMatchedAndHeldDocumentsAsk,
-			hedgeDelayOf:              asks.hedgeDelayOfTheMatchedAndHeldDocumentsAsk,
-			putAsk:                    asks.putTheMatchedAndHeldDocumentsAsk,
-			amountOfDocumentsListedIn: amountOfDocumentsListedForTheWordIn,
-		},
+		matchedAndHeldDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
 		asks.replicasCoveringAPartition,
 		asks.observer,
 	)
 }
-
-func wordPartitionKeyOfTheMatchedAndHeldDocumentsAsk(
-	ask peerasks.MatchedAndHeldDocumentsAsk,
-) wordPartitionKey {
-	return wordPartitionKey{word: ask.Word.String(), partition: ask.Partition}
-}
-
-func (asks Asks) hedgeDelayOfTheMatchedAndHeldDocumentsAsk(
-	ctx context.Context,
-	ask peerasks.MatchedAndHeldDocumentsAsk,
-) time.Duration {
-	return asks.hedgeDelay.HedgeDelayOf(ctx, ask.Peer)
-}
-
-func (asks Asks) putTheMatchedAndHeldDocumentsAsk(
-	ctx context.Context,
-	ask peerasks.MatchedAndHeldDocumentsAsk,
-) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
-	answeredAsks := asks.peerCalls.AskForMatchedAndHeldDocuments(
-		ctx,
-		[]peerasks.MatchedAndHeldDocumentsAsk{ask},
-	)
-	if len(answeredAsks) == 0 {
-		return peerasks.AnsweredMatchedAndHeldDocumentsAsk{}, false
-	}
-
-	return answeredAsks[0], true
-}
-
-func amountOfDocumentsListedForTheWordIn(
-	answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) int {
-	if len(answeredAsk.DocumentsListedForTheWord) > 0 {
-		return len(answeredAsk.DocumentsListedForTheWord)
-	}
-	amountHeld, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
-	if !counted {
-		return 0
-	}
-
-	return max(0, amountHeld)
-}
-
-type matchedDocumentsReplicaCalls = replicaCalls[
-	peerasks.MatchedDocumentsAsk,
-	peerasks.AnsweredMatchedDocumentsAsk,
-]
 
 func (asks Asks) AskForMatchedDocuments(
 	ctx context.Context,
 	asksInReplicaOrder []peerasks.MatchedDocumentsAsk,
 ) []peerasks.AnsweredMatchedDocumentsAsk {
-	return answersOfWordPartitions(
+	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,
-		matchedDocumentsReplicaCalls{
-			wordPartitionKeyOf:        wordPartitionKeyOfTheMatchedDocumentsAsk,
-			hedgeDelayOf:              asks.hedgeDelayOfTheMatchedDocumentsAsk,
-			putAsk:                    asks.putTheMatchedDocumentsAsk,
-			amountOfDocumentsListedIn: amountOfMatchedDocumentsIn,
-		},
+		matchedDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
 		asks.replicasCoveringAPartition,
 		asks.observer,
 	)
-}
-
-func wordPartitionKeyOfTheMatchedDocumentsAsk(ask peerasks.MatchedDocumentsAsk) wordPartitionKey {
-	return wordPartitionKey{partition: ask.Partition}
-}
-
-func (asks Asks) hedgeDelayOfTheMatchedDocumentsAsk(
-	ctx context.Context,
-	ask peerasks.MatchedDocumentsAsk,
-) time.Duration {
-	return asks.hedgeDelay.HedgeDelayOf(ctx, ask.Peer)
-}
-
-func (asks Asks) putTheMatchedDocumentsAsk(
-	ctx context.Context,
-	ask peerasks.MatchedDocumentsAsk,
-) (peerasks.AnsweredMatchedDocumentsAsk, bool) {
-	answeredAsks := asks.peerCalls.AskForMatchedDocuments(
-		ctx,
-		[]peerasks.MatchedDocumentsAsk{ask},
-	)
-	if len(answeredAsks) == 0 {
-		return peerasks.AnsweredMatchedDocumentsAsk{}, false
-	}
-
-	return answeredAsks[0], true
-}
-
-func amountOfMatchedDocumentsIn(answeredAsk peerasks.AnsweredMatchedDocumentsAsk) int {
-	return len(answeredAsk.MatchedDocuments)
 }

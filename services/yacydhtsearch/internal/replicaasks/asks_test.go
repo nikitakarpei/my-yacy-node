@@ -431,11 +431,7 @@ func (recorded *recordedReplicaAsks) wantCoveringAskPutOn(
 
 func (recorded *recordedReplicaAsks) wantPutOn(t *testing.T, putOn ...replicaasks.PutOn) {
 	t.Helper()
-	asks := recorded.wordPartitions(t)[0].Asks
-	putOnReported := make([]replicaasks.PutOn, 0, len(asks))
-	for _, ask := range asks {
-		putOnReported = append(putOnReported, ask.PutOn)
-	}
+	putOnReported := recorded.wordPartitions(t)[0].AsksPutOn
 	if !slices.Equal(putOnReported, putOn) {
 		t.Fatalf("the replica asks were put on %q, want %q", putOnReported, putOn)
 	}
@@ -469,7 +465,7 @@ func (recorded *recordedReplicaAsks) wantEndedBy(t *testing.T, endedBy replicaas
 
 func (recorded *recordedReplicaAsks) wordPartitions(
 	t *testing.T,
-) []replicaasks.PerformedWordPartition {
+) []replicaasks.SettledWordPartition {
 	t.Helper()
 	recorded.mutex.Lock()
 	defer recorded.mutex.Unlock()

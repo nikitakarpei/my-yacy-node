@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-type replicaCalls[Ask any, Answered any] struct {
-	wordPartitionKeyOf        func(Ask) wordPartitionKey
-	hedgeDelayOf              func(context.Context, Ask) time.Duration
-	putAsk                    func(context.Context, Ask) (Answered, bool)
-	amountOfDocumentsListedIn func(Answered) int
+type askKind[Ask any, Answered any] interface {
+	wordPartitionKeyOf(ask Ask) wordPartitionKey
+	hedgeDelayOf(ctx context.Context, ask Ask) time.Duration
+	putAsk(ctx context.Context, ask Ask) (Answered, bool)
+	amountOfDocumentsListedIn(answer Answered) int
 }
 
 type wordPartitionKey struct {
@@ -18,10 +18,10 @@ type wordPartitionKey struct {
 	partition uint
 }
 
-func answersOfWordPartitions[Ask any, Answered any](
+func askTheWordPartitions[Ask any, Answered any](
 	ctx context.Context,
 	asksInReplicaOrder []Ask,
-	calls replicaCalls[Ask, Answered],
+	kind askKind[Ask, Answered],
 	replicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
 ) []Answered {
@@ -29,96 +29,82 @@ func answersOfWordPartitions[Ask any, Answered any](
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
-	settledWordPartitions := settledWordPartitionsFrom(
+	answeredWordPartitions := settleTheWordPartitions(
 		askingContext,
-		wordPartitionsOf(asksInReplicaOrder, calls, replicasCoveringAPartition),
+		wordPartitionsOf(asksInReplicaOrder, kind, replicasCoveringAPartition),
 	)
 
 	observer.ReplicaAsksPerformed(
 		ctx,
-		performedReplicaAsksFrom(settledWordPartitions, time.Since(startedAt)),
+		performedReplicaAsksFrom(answeredWordPartitions, time.Since(startedAt)),
 	)
 
-	return answersOf(settledWordPartitions)
+	return answersOf(answeredWordPartitions)
 }
 
 func wordPartitionsOf[Ask any, Answered any](
 	asksInReplicaOrder []Ask,
-	calls replicaCalls[Ask, Answered],
+	kind askKind[Ask, Answered],
 	replicasCoveringAPartition int,
 ) []wordPartition[Ask, Answered] {
 	wordPartitions := make([]wordPartition[Ask, Answered], 0, len(asksInReplicaOrder))
 	placeOfKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
 	for _, ask := range asksInReplicaOrder {
-		key := calls.wordPartitionKeyOf(ask)
+		key := kind.wordPartitionKeyOf(ask)
 		place, known := placeOfKey[key]
 		if !known {
-			placeOfKey[key] = len(wordPartitions)
+			place = len(wordPartitions)
+			placeOfKey[key] = place
 			wordPartitions = append(wordPartitions, wordPartition[Ask, Answered]{
-				calls:                      calls,
+				kind:                       kind,
 				replicasCoveringAPartition: replicasCoveringAPartition,
 			})
-			place = placeOfKey[key]
 		}
-		wordPartitions[place].replicas = append(wordPartitions[place].replicas, ask)
+		wordPartitions[place].asksInReplicaOrder = append(
+			wordPartitions[place].asksInReplicaOrder, ask,
+		)
 	}
 
 	return wordPartitions
 }
 
-func settledWordPartitionsFrom[Ask any, Answered any](
+func settleTheWordPartitions[Ask any, Answered any](
 	ctx context.Context,
 	wordPartitions []wordPartition[Ask, Answered],
-) []settledWordPartition[Answered] {
-	settledWordPartitions := make([]settledWordPartition[Answered], len(wordPartitions))
-	var asking sync.WaitGroup
+) []answeredWordPartition[Answered] {
+	answeredWordPartitions := make([]answeredWordPartition[Answered], len(wordPartitions))
+	var settling sync.WaitGroup
 	for place, partition := range wordPartitions {
-		asking.Add(1)
+		settling.Add(1)
 		go func() {
-			defer asking.Done()
-			settledWordPartitions[place] = partition.settle(ctx)
+			defer settling.Done()
+			answeredWordPartitions[place] = partition.settle(ctx)
 		}()
 	}
-	asking.Wait()
+	settling.Wait()
 
-	return settledWordPartitions
+	return answeredWordPartitions
 }
 
 func performedReplicaAsksFrom[Answered any](
-	settledWordPartitions []settledWordPartition[Answered],
+	answeredWordPartitions []answeredWordPartition[Answered],
 	timeSpent time.Duration,
 ) PerformedReplicaAsks {
-	performedWordPartitions := make([]PerformedWordPartition, 0, len(settledWordPartitions))
-	for _, settled := range settledWordPartitions {
-		performedWordPartitions = append(performedWordPartitions, PerformedWordPartition{
-			SettledBy:               settled.settledBy,
-			CoveringAskPutOn:        settled.coveringAskPutOn,
-			AmountOfDocumentsListed: settled.amountOfDocumentsListed,
-			Asks:                    performedReplicaAsksOf(settled),
-		})
+	settledWordPartitions := make([]SettledWordPartition, 0, len(answeredWordPartitions))
+	for _, answered := range answeredWordPartitions {
+		settledWordPartitions = append(settledWordPartitions, answered.settled)
 	}
 
 	return PerformedReplicaAsks{
-		EndedBy:        endedByOf(settledWordPartitions),
+		EndedBy:        endedByOf(answeredWordPartitions),
 		TimeSpent:      timeSpent,
-		WordPartitions: performedWordPartitions,
+		WordPartitions: settledWordPartitions,
 	}
 }
 
-func performedReplicaAsksOf[Answered any](
-	settled settledWordPartition[Answered],
-) []PerformedReplicaAsk {
-	performedReplicaAsks := make([]PerformedReplicaAsk, 0, len(settled.putOn))
-	for _, putOn := range settled.putOn {
-		performedReplicaAsks = append(performedReplicaAsks, PerformedReplicaAsk{PutOn: putOn})
-	}
-
-	return performedReplicaAsks
-}
-
-func endedByOf[Answered any](settledWordPartitions []settledWordPartition[Answered]) EndedBy {
-	for _, settled := range settledWordPartitions {
-		if settled.settledBy == SettledByDeadline {
+func endedByOf[Answered any](answeredWordPartitions []answeredWordPartition[Answered]) EndedBy {
+	for _, answered := range answeredWordPartitions {
+		if answered.settled.SettledBy == SettledByDeadline {
 			return EndedByDeadline
 		}
 	}
@@ -127,11 +113,11 @@ func endedByOf[Answered any](settledWordPartitions []settledWordPartition[Answer
 }
 
 func answersOf[Answered any](
-	settledWordPartitions []settledWordPartition[Answered],
+	answeredWordPartitions []answeredWordPartition[Answered],
 ) []Answered {
-	answers := make([]Answered, 0, len(settledWordPartitions))
-	for _, settled := range settledWordPartitions {
-		answers = append(answers, settled.answers...)
+	answers := make([]Answered, 0, len(answeredWordPartitions))
+	for _, answered := range answeredWordPartitions {
+		answers = append(answers, answered.answers...)
 	}
 
 	return answers

@@ -6,179 +6,188 @@ import (
 )
 
 type wordPartition[Ask any, Answered any] struct {
-	replicas                   []Ask
-	calls                      replicaCalls[Ask, Answered]
+	asksInReplicaOrder         []Ask
+	kind                       askKind[Ask, Answered]
 	replicasCoveringAPartition int
 }
 
-type settledWordPartition[Answered any] struct {
-	settledBy               SettledBy
-	coveringAskPutOn        PutOn
-	amountOfDocumentsListed int
-	putOn                   []PutOn
-	answers                 []Answered
+type answeredWordPartition[Answered any] struct {
+	settled SettledWordPartition
+	answers []Answered
 }
 
 func (partition wordPartition[Ask, Answered]) settle(
 	ctx context.Context,
-) settledWordPartition[Answered] {
-	callingContext, stopCalling := context.WithCancel(ctx)
-	defer stopCalling()
+) answeredWordPartition[Answered] {
+	askingContext, stopAsking := context.WithCancel(ctx)
+	defer stopAsking()
 
-	asked := partition.askedReplicas()
-	asked.putTheFirstReplicas(callingContext)
-	for asked.settledBy == "" {
-		asked.takeTheNextEvent(callingContext)
+	asking := partition.asking()
+	asking.askTheFirstReplicas(askingContext)
+	for !asking.settled() {
+		asking.takeTheNextEvent(askingContext)
 	}
-	asked.stopTheHedgeTimers()
+	asking.stopTheHedgeTimers()
 
-	return asked.settledWordPartition()
+	return asking.answeredWordPartition()
 }
 
-type askedReplicas[Ask any, Answered any] struct {
-	partition            wordPartition[Ask, Answered]
-	events               chan replicaCallEvent[Answered]
-	settledBy            SettledBy
-	coveringAskPutOn     PutOn
-	putOn                []PutOn
-	replicasThatCameBack []bool
-	hedgeTimers          []*time.Timer
-	callsOutstanding     int
-	listingsCounted      int
-	answers              []Answered
+type wordPartitionAsking[Ask any, Answered any] struct {
+	partition                wordPartition[Ask, Answered]
+	hedgesDue                chan int
+	callOutcomes             chan replicaCallOutcome[Answered]
+	settledBy                SettledBy
+	coveringAskPutOn         PutOn
+	putOnPerReplica          []PutOn
+	callsEnded               []bool
+	hedgeTimers              []*time.Timer
+	amountOfCallsOutstanding int
+	amountOfListings         int
+	answers                  []Answered
 }
 
-func (partition wordPartition[Ask, Answered]) askedReplicas() *askedReplicas[Ask, Answered] {
-	return &askedReplicas[Ask, Answered]{
-		partition: partition,
-		events:    make(chan replicaCallEvent[Answered], 2*len(partition.replicas)),
-	}
-}
-
-func (asked *askedReplicas[Ask, Answered]) putTheFirstReplicas(ctx context.Context) {
-	for range min(asked.partition.replicasCoveringAPartition, len(asked.partition.replicas)) {
-		asked.putTheNextReplica(ctx, PutOnStart)
+func (partition wordPartition[Ask, Answered]) asking() *wordPartitionAsking[Ask, Answered] {
+	return &wordPartitionAsking[Ask, Answered]{
+		partition:    partition,
+		hedgesDue:    make(chan int, len(partition.asksInReplicaOrder)),
+		callOutcomes: make(chan replicaCallOutcome[Answered], len(partition.asksInReplicaOrder)),
 	}
 }
 
-func (asked *askedReplicas[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
+func (asking *wordPartitionAsking[Ask, Answered]) askTheFirstReplicas(ctx context.Context) {
+	for range min(
+		asking.partition.replicasCoveringAPartition, len(asking.partition.asksInReplicaOrder),
+	) {
+		asking.askTheNextReplica(ctx, PutOnStart)
+	}
+}
+
+func (asking *wordPartitionAsking[Ask, Answered]) settled() bool {
+	return asking.settledBy != ""
+}
+
+func (asking *wordPartitionAsking[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
 	if ctx.Err() != nil {
-		asked.settledBy = SettledByDeadline
+		asking.settledBy = SettledByDeadline
 
 		return
 	}
 	select {
-	case event := <-asked.events:
-		asked.takeTheEvent(ctx, event)
+	case replica := <-asking.hedgesDue:
+		asking.takeTheHedgeDue(ctx, replica)
+	case outcome := <-asking.callOutcomes:
+		asking.takeTheCallOutcome(ctx, outcome)
 	case <-ctx.Done():
-		asked.settledBy = SettledByDeadline
+		asking.settledBy = SettledByDeadline
 	}
 }
 
-func (asked *askedReplicas[Ask, Answered]) takeTheEvent(
+func (asking *wordPartitionAsking[Ask, Answered]) takeTheHedgeDue(
 	ctx context.Context,
-	event replicaCallEvent[Answered],
+	replica int,
 ) {
-	if event.hedgeIsDue {
-		asked.takeTheHedgeDue(ctx, event.replica)
-
+	if asking.callsEnded[replica] {
 		return
 	}
-	asked.callsOutstanding--
-	asked.replicasThatCameBack[event.replica] = true
-	asked.takeTheCallOutcome(ctx, event)
-	if asked.settledBy == "" && asked.callsOutstanding == 0 && asked.noReplicaIsLeft() {
-		asked.settledBy = SettledByNoReplicaLeft
-	}
+	asking.askTheNextReplica(ctx, PutOnHedgeDelay)
 }
 
-func (asked *askedReplicas[Ask, Answered]) takeTheHedgeDue(ctx context.Context, replica int) {
-	if asked.replicasThatCameBack[replica] {
-		return
-	}
-	asked.putTheNextReplica(ctx, PutOnHedgeDelay)
-}
-
-func (asked *askedReplicas[Ask, Answered]) takeTheCallOutcome(
+func (asking *wordPartitionAsking[Ask, Answered]) takeTheCallOutcome(
 	ctx context.Context,
-	event replicaCallEvent[Answered],
+	outcome replicaCallOutcome[Answered],
 ) {
-	if !event.answered {
-		asked.putTheNextReplica(ctx, PutOnFailure)
-
-		return
-	}
-	asked.answers = append(asked.answers, event.answer)
-	if !event.listsDocuments {
-		asked.putTheNextReplica(ctx, PutOnEmptyAnswer)
-
-		return
-	}
-	asked.listingsCounted++
-	if asked.listingsCounted == asked.partition.replicasCoveringAPartition {
-		asked.settledBy = SettledByCoverage
-		asked.coveringAskPutOn = asked.putOn[event.replica]
+	asking.amountOfCallsOutstanding--
+	asking.callsEnded[outcome.replica] = true
+	asking.coverOrAskTheNextReplica(ctx, outcome)
+	if !asking.settled() && asking.amountOfCallsOutstanding == 0 && asking.noReplicaIsLeft() {
+		asking.settledBy = SettledByNoReplicaLeft
 	}
 }
 
-func (asked *askedReplicas[Ask, Answered]) putTheNextReplica(ctx context.Context, putOn PutOn) {
-	if asked.noReplicaIsLeft() {
+func (asking *wordPartitionAsking[Ask, Answered]) coverOrAskTheNextReplica(
+	ctx context.Context,
+	outcome replicaCallOutcome[Answered],
+) {
+	if !outcome.answered {
+		asking.askTheNextReplica(ctx, PutOnFailure)
+
 		return
 	}
-	replica := len(asked.putOn)
-	ask := asked.partition.replicas[replica]
-	asked.putOn = append(asked.putOn, putOn)
-	asked.replicasThatCameBack = append(asked.replicasThatCameBack, false)
-	asked.callsOutstanding++
-	asked.hedgeTimers = append(asked.hedgeTimers, time.AfterFunc(
-		asked.partition.calls.hedgeDelayOf(ctx, ask),
-		func() { asked.events <- replicaCallEvent[Answered]{replica: replica, hedgeIsDue: true} },
+	asking.answers = append(asking.answers, outcome.answer)
+	if !outcome.listsDocuments {
+		asking.askTheNextReplica(ctx, PutOnEmptyAnswer)
+
+		return
+	}
+	asking.amountOfListings++
+	if asking.amountOfListings == asking.partition.replicasCoveringAPartition {
+		asking.settledBy = SettledByCoverage
+		asking.coveringAskPutOn = asking.putOnPerReplica[outcome.replica]
+	}
+}
+
+func (asking *wordPartitionAsking[Ask, Answered]) askTheNextReplica(
+	ctx context.Context,
+	putOn PutOn,
+) {
+	if asking.noReplicaIsLeft() {
+		return
+	}
+	replica := len(asking.putOnPerReplica)
+	ask := asking.partition.asksInReplicaOrder[replica]
+	asking.putOnPerReplica = append(asking.putOnPerReplica, putOn)
+	asking.callsEnded = append(asking.callsEnded, false)
+	asking.amountOfCallsOutstanding++
+	asking.hedgeTimers = append(asking.hedgeTimers, time.AfterFunc(
+		asking.partition.kind.hedgeDelayOf(ctx, ask),
+		func() { asking.hedgesDue <- replica },
 	))
-	go asked.putTheAsk(ctx, replica, ask)
+	go asking.putTheAsk(ctx, replica, ask)
 }
 
-func (asked *askedReplicas[Ask, Answered]) putTheAsk(
+func (asking *wordPartitionAsking[Ask, Answered]) putTheAsk(
 	ctx context.Context,
 	replica int,
 	ask Ask,
 ) {
-	answer, answered := asked.partition.calls.putAsk(ctx, ask)
-	asked.events <- replicaCallEvent[Answered]{
+	answer, answered := asking.partition.kind.putAsk(ctx, ask)
+	asking.callOutcomes <- replicaCallOutcome[Answered]{
 		replica:        replica,
 		answered:       answered,
 		answer:         answer,
-		listsDocuments: answered && asked.partition.calls.amountOfDocumentsListedIn(answer) > 0,
+		listsDocuments: answered && asking.partition.kind.amountOfDocumentsListedIn(answer) > 0,
 	}
 }
 
-func (asked *askedReplicas[Ask, Answered]) noReplicaIsLeft() bool {
-	return len(asked.putOn) == len(asked.partition.replicas)
+func (asking *wordPartitionAsking[Ask, Answered]) noReplicaIsLeft() bool {
+	return len(asking.putOnPerReplica) == len(asking.partition.asksInReplicaOrder)
 }
 
-func (asked *askedReplicas[Ask, Answered]) stopTheHedgeTimers() {
-	for _, hedgeTimer := range asked.hedgeTimers {
+func (asking *wordPartitionAsking[Ask, Answered]) stopTheHedgeTimers() {
+	for _, hedgeTimer := range asking.hedgeTimers {
 		hedgeTimer.Stop()
 	}
 }
 
-func (asked *askedReplicas[Ask, Answered]) settledWordPartition() settledWordPartition[Answered] {
+func (asking *wordPartitionAsking[Ask, Answered]) answeredWordPartition() answeredWordPartition[Answered] {
 	amountOfDocumentsListed := 0
-	for _, answer := range asked.answers {
-		amountOfDocumentsListed += asked.partition.calls.amountOfDocumentsListedIn(answer)
+	for _, answer := range asking.answers {
+		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
 	}
 
-	return settledWordPartition[Answered]{
-		settledBy:               asked.settledBy,
-		coveringAskPutOn:        asked.coveringAskPutOn,
-		amountOfDocumentsListed: amountOfDocumentsListed,
-		putOn:                   asked.putOn,
-		answers:                 asked.answers,
+	return answeredWordPartition[Answered]{
+		settled: SettledWordPartition{
+			SettledBy:               asking.settledBy,
+			CoveringAskPutOn:        asking.coveringAskPutOn,
+			AmountOfDocumentsListed: amountOfDocumentsListed,
+			AsksPutOn:               asking.putOnPerReplica,
+		},
+		answers: asking.answers,
 	}
 }
 
-type replicaCallEvent[Answered any] struct {
+type replicaCallOutcome[Answered any] struct {
 	replica        int
-	hedgeIsDue     bool
 	answered       bool
 	listsDocuments bool
 	answer         Answered
