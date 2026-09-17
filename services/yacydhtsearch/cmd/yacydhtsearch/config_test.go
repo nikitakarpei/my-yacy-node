@@ -180,3 +180,49 @@ func TestTheServiceRefusesACountThatIsNotOne(t *testing.T) {
 		}
 	}
 }
+
+func TestPageReadsLeaveThroughTheEgressProxyUntilTheyAreGivenTheirOwn(t *testing.T) {
+	t.Parallel()
+
+	cfg, err := main.LoadServiceConfig(environmentOf(minimalEnvironment()))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.PageReadProxyURL.String() != cfg.EgressProxyURL.String() {
+		t.Fatalf(
+			"page read proxy = %q, want the egress proxy %q",
+			cfg.PageReadProxyURL,
+			cfg.EgressProxyURL,
+		)
+	}
+}
+
+func TestPageReadsLeaveThroughTheProxyTheyAreGiven(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvPageReadProxyURL] = "http://archive.example:4750"
+
+	cfg, err := main.LoadServiceConfig(environmentOf(environment))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.PageReadProxyURL.String() != "http://archive.example:4750" {
+		t.Fatalf("page read proxy = %q, want the one the environment names", cfg.PageReadProxyURL)
+	}
+	if cfg.EgressProxyURL.String() != "http://proxy.example:3128" {
+		t.Fatalf("egress proxy = %q, want the one the environment names", cfg.EgressProxyURL)
+	}
+}
+
+func TestTheServiceRefusesAPageReadProxyThatIsNotOne(t *testing.T) {
+	t.Parallel()
+
+	for _, proxy := range []string{"ftp://archive.example", "http://", "://"} {
+		environment := minimalEnvironment()
+		environment[main.EnvPageReadProxyURL] = proxy
+		if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
+			t.Fatalf("LoadServiceConfig accepted %q as a page read proxy", proxy)
+		}
+	}
+}

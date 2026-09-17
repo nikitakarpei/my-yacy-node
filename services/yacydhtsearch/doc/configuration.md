@@ -7,7 +7,8 @@
 | `LOG_LEVEL` | `INFO` | Log level. |
 | `YACYDHTSEARCH_LISTEN_ADDR` | `:8080` | Address that serves `/yacysearch.json`. |
 | `YACYDHTSEARCH_OPS_ADDR` | `:9090` | Address that serves `/metrics`. |
-| `EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy that every outbound request leaves through. |
+| `EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy that peer calls and seedlist reads leave through. |
+| `YACYDHTSEARCH_PAGE_READ_PROXY_URL` | the egress proxy | HTTP or HTTPS proxy that page reads leave through. |
 
 ## Network
 
