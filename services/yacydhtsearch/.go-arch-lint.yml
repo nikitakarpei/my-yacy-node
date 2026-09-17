@@ -89,6 +89,8 @@ components:
     in: internal/peerchoice/**
   hedgedelaysconstant:
     in: internal/hedgedelays/constant/**
+  replicaasks:
+    in: internal/replicaasks/**
   peercallwire:
     in: internal/peercallwire/**
   peerlivenesswire:
@@ -333,6 +335,11 @@ deps:
     mayDependOn:
       - queryanswers
       - peerdirectory
+  replicaasks:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerasks
   peercallwire:
     canUse:
       - yacymodel
