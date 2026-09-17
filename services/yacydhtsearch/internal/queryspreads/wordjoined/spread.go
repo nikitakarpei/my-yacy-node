@@ -141,7 +141,7 @@ func (spread Spread) askForCrossCheckedDocuments(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 ) crossCheckedDocumentsRound {
-	deal := crossCheckedDocumentsDealFor(
+	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeilingFor(
 		matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord(),
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(
 			matchedAndHeldDocumentsRound.leadingQueryWord().documentsListed(),
@@ -152,9 +152,14 @@ func (spread Spread) askForCrossCheckedDocuments(
 	defer endRound()
 
 	return crossCheckedDocumentsRound{
-		asks:         deal.asks,
-		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(roundContext, deal.asks),
-		amountOfDocumentsPastTheCrossCheckedDocumentsCeiling: len(deal.documentsPastTheCeiling),
+		asks: asksWithinTheCeiling.asks,
+		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(
+			roundContext,
+			asksWithinTheCeiling.asks,
+		),
+		amountOfDocumentsPastTheCrossCheckedDocumentsCeiling: len(
+			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling,
+		),
 	}
 }
 

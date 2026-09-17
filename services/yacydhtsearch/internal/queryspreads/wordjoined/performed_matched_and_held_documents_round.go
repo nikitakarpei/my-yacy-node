@@ -57,7 +57,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 	}
 }
 
-func amountOfQueryWordsHeldByNoPeerAmong(queryWords []answeredQueryWord) int {
+func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
 		if len(queryWord.documentsListed()) > 0 {
@@ -69,7 +69,7 @@ func amountOfQueryWordsHeldByNoPeerAmong(queryWords []answeredQueryWord) int {
 	return amount
 }
 
-func amountOfFullyListedQueryWordsAmong(queryWords []answeredQueryWord) int {
+func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
 		if !queryWord.isFullyListed() {

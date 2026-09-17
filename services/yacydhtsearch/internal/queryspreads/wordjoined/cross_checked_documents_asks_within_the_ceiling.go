@@ -8,17 +8,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type crossCheckedDocumentsDeal struct {
-	asks                    []peerasks.CrossCheckedDocumentsAsk
-	documentsPastTheCeiling map[yacymodel.URLHash]struct{}
+type crossCheckedDocumentsAsksWithinTheCeiling struct {
+	asks                                         []peerasks.CrossCheckedDocumentsAsk
+	documentsPastTheCrossCheckedDocumentsCeiling map[yacymodel.URLHash]struct{}
 }
 
-func crossCheckedDocumentsDealFor(
-	queryWordsBesideTheLeadingQueryWord []answeredQueryWord,
+func crossCheckedDocumentsAsksWithinTheCeilingFor(
+	queryWordsBesideTheLeadingQueryWord []queryWordAcrossReplicas,
 	documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
 	crossCheckedDocumentsCeiling int,
-) crossCheckedDocumentsDeal {
-	deal := crossCheckedDocumentsDeal{documentsPastTheCeiling: map[yacymodel.URLHash]struct{}{}}
+) crossCheckedDocumentsAsksWithinTheCeiling {
+	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeiling{
+		documentsPastTheCrossCheckedDocumentsCeiling: map[yacymodel.URLHash]struct{}{},
+	}
 	for _, queryWord := range queryWordsBesideTheLeadingQueryWord {
 		if queryWord.isFullyListed() {
 			continue
@@ -29,20 +31,22 @@ func crossCheckedDocumentsDealFor(
 		)
 		peersWithoutAnAsk := peersWithoutAnAskAmong(
 			queryWord.peersThatDidNotListAllTheyHold(),
-			deal.asks,
+			asksWithinTheCeiling.asks,
 		)
 		amountOfDocumentsDealt := min(
 			len(candidateDocuments), len(peersWithoutAnAsk)*crossCheckedDocumentsCeiling,
 		)
-		deal.asks = append(deal.asks, crossCheckedDocumentsAsksDealtAcross(
-			peersWithoutAnAsk, queryWord.word, candidateDocuments[:amountOfDocumentsDealt],
-		)...)
+		asksWithinTheCeiling.asks = append(
+			asksWithinTheCeiling.asks,
+			crossCheckedDocumentsAsksDealtAcross(
+				peersWithoutAnAsk, queryWord.word, candidateDocuments[:amountOfDocumentsDealt],
+			)...)
 		for _, document := range candidateDocuments[amountOfDocumentsDealt:] {
-			deal.documentsPastTheCeiling[document] = struct{}{}
+			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling[document] = struct{}{}
 		}
 	}
 
-	return deal
+	return asksWithinTheCeiling
 }
 
 func documentsNotListedAmong(

@@ -14,15 +14,15 @@ type matchedAndHeldDocumentsRound struct {
 	queryWords                     []yacymodel.Hash
 	asks                           []peerasks.MatchedAndHeldDocumentsAsk
 	answeredAsks                   []peerasks.AnsweredMatchedAndHeldDocumentsAsk
-	queryWordsFewestDocumentsFirst []answeredQueryWord
+	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	amountOfPeersPerDocument       map[yacymodel.URLHash]int
 }
 
-func (round matchedAndHeldDocumentsRound) leadingQueryWord() answeredQueryWord {
+func (round matchedAndHeldDocumentsRound) leadingQueryWord() queryWordAcrossReplicas {
 	return round.queryWordsFewestDocumentsFirst[round.placeOfTheLeadingQueryWord()]
 }
 
-func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() []answeredQueryWord {
+func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
 	placeOfTheLeadingQueryWord := round.placeOfTheLeadingQueryWord()
 
 	return slices.Concat(
@@ -34,7 +34,10 @@ func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() 
 func (round matchedAndHeldDocumentsRound) placeOfTheLeadingQueryWord() int {
 	return max(
 		0,
-		slices.IndexFunc(round.queryWordsFewestDocumentsFirst, answeredQueryWord.isFullyListed),
+		slices.IndexFunc(
+			round.queryWordsFewestDocumentsFirst,
+			queryWordAcrossReplicas.isFullyListed,
+		),
 	)
 }
 
@@ -60,7 +63,7 @@ func (round matchedAndHeldDocumentsRound) amountOfDocumentsHeldPerQueryWord() ma
 		map[yacymodel.Hash]int, len(round.queryWordsFewestDocumentsFirst),
 	)
 	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
-		amountOfDocumentsHeld, counted := queryWord.amountOfDocumentsHeld()
+		amountOfDocumentsHeld, counted := queryWord.estimatedAmountOfDocumentsHeld().Get()
 		if !counted {
 			continue
 		}

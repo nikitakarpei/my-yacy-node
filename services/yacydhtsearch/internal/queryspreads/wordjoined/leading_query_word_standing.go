@@ -11,9 +11,9 @@ const (
 )
 
 func leadingQueryWordStandingAmong(
-	queryWordsFewestDocumentsFirst []answeredQueryWord,
+	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas,
 ) LeadingQueryWordStanding {
-	switch slices.IndexFunc(queryWordsFewestDocumentsFirst, answeredQueryWord.isFullyListed) {
+	switch slices.IndexFunc(queryWordsFewestDocumentsFirst, queryWordAcrossReplicas.isFullyListed) {
 	case -1:
 		return RarestPartlyListedQueryWord
 	case 0:
