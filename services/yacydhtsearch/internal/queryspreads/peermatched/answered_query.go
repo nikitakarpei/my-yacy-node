@@ -7,7 +7,7 @@ import (
 )
 
 func answeredQueryFrom(
-	answeredAsks []peerasks.AnsweredMatchedItemsAsk,
+	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
@@ -20,7 +20,7 @@ func answeredQueryFrom(
 }
 
 func itemsInTheOrderOfEachPeerRankingOf(
-	answeredAsks []peerasks.AnsweredMatchedItemsAsk,
+	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
 ) [][]queryanswers.AnsweredItem {
 	itemsInTheOrderOfEachPeerRanking := make([][]queryanswers.AnsweredItem, 0, len(answeredAsks))

@@ -30,21 +30,22 @@ import (
 )
 
 const (
-	recordingSwitch    = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
-	networkName        = "freeworld"
-	partitionExponent  = 4
-	maxResponseBytes   = 4 * 1024 * 1024
-	directoryCapacity  = 4096
-	peerChoiceCooldown = 5 * time.Second
-	refreshInterval    = 5 * time.Minute
-	probeBudget        = 3 * time.Second
-	probesInFlight     = 24
-	networkRedundancy  = 3
-	peerCallsInFlight  = 48
-	peerCallBudget     = 5 * time.Second
-	peerItemsCeiling   = 10
-	rankedItemsCeiling = 50
-	queryBudget        = 15 * time.Second
+	recordingSwitch              = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
+	networkName                  = "freeworld"
+	partitionExponent            = 4
+	maxResponseBytes             = 4 * 1024 * 1024
+	directoryCapacity            = 4096
+	peerChoiceCooldown           = 5 * time.Second
+	refreshInterval              = 5 * time.Minute
+	probeBudget                  = 3 * time.Second
+	probesInFlight               = 24
+	networkRedundancy            = 3
+	peerCallsInFlight            = 48
+	peerCallBudget               = 5 * time.Second
+	peerItemsCeiling             = 10
+	rankedItemsCeiling           = 50
+	crossCheckedDocumentsCeiling = 1000
+	queryBudget                  = 15 * time.Second
 
 	pagesReadPerQuery    = 50
 	pageReadBudget       = 10 * time.Second
@@ -228,26 +229,49 @@ func querySpreadOverThePeers(
 		},
 		peercallwire.PeerCallObservers{},
 	)
-	choice := peerchoice.New(
-		partitions, networkRedundancy, reliability, directory, peerchoice.PeerChoiceObservers{},
-	)
-
-	return bywordcount.New(
+	spread := bywordcount.New(
 		wordjoined.New(
 			peers,
-			choice,
 			rankedItemsCeiling,
+			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
+			partitions,
 			yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{},
 		),
 		peermatched.New(
 			peers,
-			choice,
 			peerItemsCeiling,
 			peermatched.PeerMatchedSpreadObservers{},
 		),
 	)
+
+	return spreadChoosingPeers{
+		directory: directory,
+		choice: peerchoice.New(
+			partitions, networkRedundancy, reliability, peerchoice.PeerChoiceObservers{},
+		),
+		spread: spread,
+	}
+}
+
+type spreadChoosingPeers struct {
+	directory *peerdirectory.Directory
+	choice    peerchoice.Choice
+	spread    bywordcount.Spread
+}
+
+func (s spreadChoosingPeers) SpreadOverPeers(
+	ctx context.Context,
+	query searchquery.Query,
+	askablePeers []peerdirectory.AskablePeer,
+) queryanswers.AnsweredQuery {
+	chosenPeersPerQueryWord := s.choice.ChosenPeersPerQueryWordFor(
+		ctx, query.TermHashes(), askablePeers,
+	)
+	s.directory.MarkPeersChosen(ctx, chosenPeersPerQueryWord.PeersAcrossQueryWords())
+
+	return s.spread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 }
 
 func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
@@ -273,15 +297,15 @@ func recordOneJudgedQuery(
 	answers := answersOfOneQuery(t, spread, directory, query)
 	pageTextPerDocument := pageTextOfTheFirstAnsweredDocuments(t, reading, answers)
 	storePageTextOfTheQuery(t, query, pageTextPerDocument)
-	answersCarryingThePageText := answersCarryingThePageTextOfEachDocument(
+	saturatedAnswers := answersSaturatedWithThePageText(
 		query, answers, pageTextPerDocument,
 	)
 	writeRecordedAnswersFile(
-		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersCarryingThePageText),
+		t, recordedAnswersFileOf(query), recordedAnswersOf(query, saturatedAnswers),
 	)
 	judgments := queryJudgmentsOfTheDocumentsToJudge(
 		query,
-		answersCarryingThePageText,
+		saturatedAnswers,
 		pageTextPerDocument,
 		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query)),
 	)

@@ -46,7 +46,7 @@ func TestEveryItemOfAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 
 	answers := answersOfTheReadDocument(t)
 
-	read := answers.CarryingTheTextOfEachDocument(textOfTheReadDocument(t))
+	read := answers.SaturatedWith(textOfTheReadDocument(t))
 
 	for _, item := range []queryanswers.AnsweredItem{
 		read.ItemsInTheOrderOfEachPeerRanking[0][0],
@@ -82,7 +82,7 @@ func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 		},
 	}
 
-	read := answers.CarryingTheTextOfEachDocument(textOfTheDocument)
+	read := answers.SaturatedWith(textOfTheDocument)
 
 	count := read.ItemsInNoOrder[0].MatchedWords[yacymodel.WordHash("weather")]
 	if count.Hits != 2 || count.TextWords != 400 {
@@ -96,7 +96,7 @@ func TestTheDocumentsHeldPerQueryWordStayAsThePeersCountedThem(t *testing.T) {
 
 	answers := answersOfTheReadDocument(t)
 
-	read := answers.CarryingTheTextOfEachDocument(textOfTheReadDocument(t))
+	read := answers.SaturatedWith(textOfTheReadDocument(t))
 
 	if read.DocumentsHeldPerQueryWord[yacymodel.WordHash("berlin")] != 12 {
 		t.Fatalf(
@@ -115,7 +115,7 @@ func TestAnItemOfADocumentThatWasNotReadStaysAsThePeersAnsweredIt(t *testing.T) 
 		},
 	}
 
-	read := answers.CarryingTheTextOfEachDocument(textOfTheReadDocument(t))
+	read := answers.SaturatedWith(textOfTheReadDocument(t))
 
 	count := read.ItemsInNoOrder[0].MatchedWords[yacymodel.WordHash("berlin")]
 	if count.Hits != 1 || count.TextWords != 0 {

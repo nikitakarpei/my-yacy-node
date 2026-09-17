@@ -16,36 +16,41 @@ const (
 )
 
 type PeerPresenceMetrics struct {
-	snapshotFailures *prometheusclient.CounterVec
-	snapshotsWritten prometheusclient.Counter
+	snapshotReadsFailed  prometheusclient.Counter
+	snapshotsUndecodable prometheusclient.Counter
+	snapshotWritesFailed prometheusclient.Counter
+	snapshotsWritten     prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *PeerPresenceMetrics {
-	metrics := &PeerPresenceMetrics{
-		snapshotFailures: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_peer_presence_snapshot_failures_total",
-			Help: "Snapshots of earned presence that failed, by failure.",
-		}, []string{labelFailure}),
-		snapshotsWritten: prometheusclient.NewCounter(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_peer_presence_snapshots_written_total",
-			Help: "Snapshots of earned presence written to the bucket.",
-		}),
-	}
-	registry.MustRegister(metrics.snapshotFailures, metrics.snapshotsWritten)
+	snapshotFailures := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_peer_presence_snapshot_failures_total",
+		Help: "Snapshots of earned presence that failed, by failure.",
+	}, []string{labelFailure})
+	snapshotsWritten := prometheusclient.NewCounter(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_peer_presence_snapshots_written_total",
+		Help: "Snapshots of earned presence written to the bucket.",
+	})
+	registry.MustRegister(snapshotFailures, snapshotsWritten)
 
-	return metrics
+	return &PeerPresenceMetrics{
+		snapshotReadsFailed:  snapshotFailures.WithLabelValues(failureSnapshotsUnread),
+		snapshotsUndecodable: snapshotFailures.WithLabelValues(failureSnapshotUndecodable),
+		snapshotWritesFailed: snapshotFailures.WithLabelValues(failureSnapshotUnwritten),
+		snapshotsWritten:     snapshotsWritten,
+	}
 }
 
 func (m *PeerPresenceMetrics) SnapshotsReadFailed(context.Context, error) {
-	m.snapshotFailures.WithLabelValues(failureSnapshotsUnread).Inc()
+	m.snapshotReadsFailed.Inc()
 }
 
 func (m *PeerPresenceMetrics) SnapshotUndecodable(context.Context, string, error) {
-	m.snapshotFailures.WithLabelValues(failureSnapshotUndecodable).Inc()
+	m.snapshotsUndecodable.Inc()
 }
 
 func (m *PeerPresenceMetrics) SnapshotWriteFailed(context.Context, string, error) {
-	m.snapshotFailures.WithLabelValues(failureSnapshotUnwritten).Inc()
+	m.snapshotWritesFailed.Inc()
 }
 
 func (m *PeerPresenceMetrics) PeersSnapshotted(_ context.Context, amountOfSnapshots int) {

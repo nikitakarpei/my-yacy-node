@@ -27,31 +27,54 @@ const (
 var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type PeerCallMetrics struct {
-	peerCalls               *prometheusclient.CounterVec
-	peerCallDurationSeconds *prometheusclient.HistogramVec
+	peerCallsPerAskedFor map[peerasks.AskedFor]peerCallsOfOneAsk
+}
+
+type peerCallsOfOneAsk struct {
+	answered        peerCallsOfOneOutcome
+	answeredNothing peerCallsOfOneOutcome
+	refused         peerCallsOfOneOutcome
+	unreachable     peerCallsOfOneOutcome
+	unreadable      peerCallsOfOneOutcome
+}
+
+type peerCallsOfOneOutcome struct {
+	peerCalls               prometheusclient.Counter
+	peerCallDurationSeconds prometheusclient.Observer
 }
 
 func New(
 	registry prometheusclient.Registerer,
 	queryBudget time.Duration,
 ) *PeerCallMetrics {
-	metrics := &PeerCallMetrics{
-		peerCalls: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_peer_calls_total",
-			Help: "Peer calls, by outcome and by what the peer call asked the peer for.",
-		}, []string{labelOutcome, labelAskedFor}),
-		peerCallDurationSeconds: prometheusclient.NewHistogramVec(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_peer_call_duration_seconds",
-			Help:    "One peer call in seconds, by outcome and by what it asked for.",
-			Buckets: peerCallDurationBucketsFor(queryBudget),
-		}, []string{labelOutcome, labelAskedFor}),
-	}
-	registry.MustRegister(
-		metrics.peerCalls,
-		metrics.peerCallDurationSeconds,
-	)
+	peerCalls := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_peer_calls_total",
+		Help: "Peer calls, by outcome and by what the peer call asked the peer for.",
+	}, []string{labelOutcome, labelAskedFor})
+	peerCallDurationSeconds := prometheusclient.NewHistogramVec(prometheusclient.HistogramOpts{
+		Name:    "yacydhtsearch_peer_call_duration_seconds",
+		Help:    "One peer call in seconds, by outcome and by what it asked for.",
+		Buckets: peerCallDurationBucketsFor(queryBudget),
+	}, []string{labelOutcome, labelAskedFor})
+	registry.MustRegister(peerCalls, peerCallDurationSeconds)
 
-	return metrics
+	//exhaustive:enforce
+	peerCallsPerAskedFor := map[peerasks.AskedFor]peerCallsOfOneAsk{
+		peerasks.MatchedDocuments: peerCallsOfOneAskFrom(
+			peerCalls, peerCallDurationSeconds, peerasks.MatchedDocuments,
+		),
+		peerasks.MatchedAndHeldDocuments: peerCallsOfOneAskFrom(
+			peerCalls, peerCallDurationSeconds, peerasks.MatchedAndHeldDocuments,
+		),
+		peerasks.CrossCheckedDocuments: peerCallsOfOneAskFrom(
+			peerCalls, peerCallDurationSeconds, peerasks.CrossCheckedDocuments,
+		),
+		peerasks.URLMetadata: peerCallsOfOneAskFrom(
+			peerCalls, peerCallDurationSeconds, peerasks.URLMetadata,
+		),
+	}
+
+	return &PeerCallMetrics{peerCallsPerAskedFor: peerCallsPerAskedFor}
 }
 
 func peerCallDurationBucketsFor(queryBudget time.Duration) []float64 {
@@ -67,13 +90,49 @@ func peerCallDurationBucketsFor(queryBudget time.Duration) []float64 {
 	return buckets
 }
 
-func (m *PeerCallMetrics) PeerAnsweredMatchedItems(
+func peerCallsOfOneAskFrom(
+	peerCalls *prometheusclient.CounterVec,
+	peerCallDurationSeconds *prometheusclient.HistogramVec,
+	askedFor peerasks.AskedFor,
+) peerCallsOfOneAsk {
+	return peerCallsOfOneAsk{
+		answered: peerCallsOfOneOutcomeFrom(
+			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerAnswered,
+		),
+		answeredNothing: peerCallsOfOneOutcomeFrom(
+			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerAnsweredNothing,
+		),
+		refused: peerCallsOfOneOutcomeFrom(
+			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerRefused,
+		),
+		unreachable: peerCallsOfOneOutcomeFrom(
+			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerUnreachable,
+		),
+		unreadable: peerCallsOfOneOutcomeFrom(
+			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerUnreadable,
+		),
+	}
+}
+
+func peerCallsOfOneOutcomeFrom(
+	peerCalls *prometheusclient.CounterVec,
+	peerCallDurationSeconds *prometheusclient.HistogramVec,
+	askedFor peerasks.AskedFor,
+	outcome string,
+) peerCallsOfOneOutcome {
+	return peerCallsOfOneOutcome{
+		peerCalls:               peerCalls.WithLabelValues(outcome, string(askedFor)),
+		peerCallDurationSeconds: peerCallDurationSeconds.WithLabelValues(outcome, string(askedFor)),
+	}
+}
+
+func (m *PeerCallMetrics) PeerAnsweredMatchedDocuments(
 	_ context.Context,
 	_ string,
-	amountOfMatchedItems int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
-	m.countAnswer(peerasks.MatchedItems, amountOfMatchedItems, spent)
+	m.peerCallsPerAskedFor[peerasks.MatchedDocuments].countAnswer(amountOfMatchedDocuments, spent)
 }
 
 func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
@@ -82,29 +141,39 @@ func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
 	amountOfDescribedDocuments int,
 	spent time.Duration,
 ) {
-	m.countAnswer(peerasks.URLMetadata, amountOfDescribedDocuments, spent)
+	m.peerCallsPerAskedFor[peerasks.URLMetadata].countAnswer(amountOfDescribedDocuments, spent)
 }
 
-func (m *PeerCallMetrics) PeerAnsweredHeldDocuments(
+func (m *PeerCallMetrics) PeerAnsweredMatchedAndHeldDocuments(
 	_ context.Context,
 	_ string,
 	amountOfDocuments int,
 	spent time.Duration,
 ) {
-	m.countAnswer(peerasks.HeldDocuments, amountOfDocuments, spent)
+	m.peerCallsPerAskedFor[peerasks.MatchedAndHeldDocuments].countAnswer(amountOfDocuments, spent)
 }
 
-func (m *PeerCallMetrics) countAnswer(
-	askedFor peerasks.AskedFor,
-	amountAnswered int,
+func (m *PeerCallMetrics) PeerAnsweredCrossCheckedDocuments(
+	_ context.Context,
+	_ string,
+	amountOfDocuments int,
 	spent time.Duration,
 ) {
+	m.peerCallsPerAskedFor[peerasks.CrossCheckedDocuments].countAnswer(amountOfDocuments, spent)
+}
+
+func (calls peerCallsOfOneAsk) countAnswer(amountAnswered int, spent time.Duration) {
 	if amountAnswered == 0 {
-		m.countPeerCall(outcomePeerAnsweredNothing, askedFor, spent)
+		calls.answeredNothing.count(spent)
 
 		return
 	}
-	m.countPeerCall(outcomePeerAnswered, askedFor, spent)
+	calls.answered.count(spent)
+}
+
+func (calls peerCallsOfOneOutcome) count(spent time.Duration) {
+	calls.peerCalls.Inc()
+	calls.peerCallDurationSeconds.Observe(spent.Seconds())
 }
 
 func (m *PeerCallMetrics) PeerRefused(
@@ -114,7 +183,7 @@ func (m *PeerCallMetrics) PeerRefused(
 	_ int,
 	spent time.Duration,
 ) {
-	m.countPeerCall(outcomePeerRefused, askedFor, spent)
+	m.peerCallsPerAskedFor[askedFor].refused.count(spent)
 }
 
 func (m *PeerCallMetrics) PeerUnreachable(
@@ -124,7 +193,7 @@ func (m *PeerCallMetrics) PeerUnreachable(
 	_ error,
 	spent time.Duration,
 ) {
-	m.countPeerCall(outcomePeerUnreachable, askedFor, spent)
+	m.peerCallsPerAskedFor[askedFor].unreachable.count(spent)
 }
 
 func (m *PeerCallMetrics) PeerAnswerUnreadable(
@@ -134,14 +203,5 @@ func (m *PeerCallMetrics) PeerAnswerUnreadable(
 	_ error,
 	spent time.Duration,
 ) {
-	m.countPeerCall(outcomePeerUnreadable, askedFor, spent)
-}
-
-func (m *PeerCallMetrics) countPeerCall(
-	outcome string,
-	askedFor peerasks.AskedFor,
-	spent time.Duration,
-) {
-	m.peerCalls.WithLabelValues(outcome, string(askedFor)).Inc()
-	m.peerCallDurationSeconds.WithLabelValues(outcome, string(askedFor)).Observe(spent.Seconds())
+	m.peerCallsPerAskedFor[askedFor].unreadable.count(spent)
 }

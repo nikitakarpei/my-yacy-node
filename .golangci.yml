@@ -29,6 +29,10 @@ linters:
     - wrapcheck
   settings:
     exhaustive:
+      check:
+        - switch
+        - map
+      explicit-exhaustive-map: true
       default-signifies-exhaustive: true
       ignore-enum-types: golang.org/x/net/html/atom.Atom
     funlen:

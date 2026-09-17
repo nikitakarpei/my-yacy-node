@@ -66,3 +66,22 @@ func TestHowFullTheDirectoryIsIsPublishedAgainstItsCapacity(t *testing.T) {
 		t.Fatalf("metrics do not carry the directory fill:\n%s", body)
 	}
 }
+
+func TestEveryDirectoryChangeIsPublishedBeforeTheFirstChange(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	peerdirectoryobserversprometheus.New(registry)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_directory_peer_changes_total{change="admitted"} 0`,
+		`yacydhtsearch_directory_peer_changes_total{change="answered"} 0`,
+		`yacydhtsearch_directory_peer_changes_total{change="wentSilent"} 0`,
+		`yacydhtsearch_directory_peer_changes_total{change="dropped"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}

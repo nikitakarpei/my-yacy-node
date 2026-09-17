@@ -17,7 +17,7 @@ type AnsweredQuery struct {
 	DocumentsHeldPerQueryWord        map[yacymodel.Hash]int
 }
 
-func (a AnsweredQuery) CarryingTheTextOfEachDocument(
+func (a AnsweredQuery) SaturatedWith(
 	textPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
 ) AnsweredQuery {
 	if len(textPerDocument) == 0 {
@@ -30,30 +30,30 @@ func (a AnsweredQuery) CarryingTheTextOfEachDocument(
 	for _, itemsOfOnePeerRanking := range a.ItemsInTheOrderOfEachPeerRanking {
 		itemsInTheOrderOfEachPeerRanking = append(
 			itemsInTheOrderOfEachPeerRanking,
-			itemsCarryingTheTextOfTheirDocument(itemsOfOnePeerRanking, textPerDocument),
+			itemsSaturatedWith(itemsOfOnePeerRanking, textPerDocument),
 		)
 	}
 
 	a.ItemsInTheOrderOfEachPeerRanking = itemsInTheOrderOfEachPeerRanking
-	a.ItemsInNoOrder = itemsCarryingTheTextOfTheirDocument(a.ItemsInNoOrder, textPerDocument)
+	a.ItemsInNoOrder = itemsSaturatedWith(a.ItemsInNoOrder, textPerDocument)
 
 	return a
 }
 
-func itemsCarryingTheTextOfTheirDocument(
+func itemsSaturatedWith(
 	items []AnsweredItem,
 	textPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
 ) []AnsweredItem {
-	carryingItems := make([]AnsweredItem, 0, len(items))
+	saturatedItems := make([]AnsweredItem, 0, len(items))
 	for _, item := range items {
 		text, read := textPerDocument[item.Metadata.Hash]
 		if read {
-			item = item.carryingTheText(text)
+			item = item.saturatedWith(text)
 		}
-		carryingItems = append(carryingItems, item)
+		saturatedItems = append(saturatedItems, item)
 	}
 
-	return carryingItems
+	return saturatedItems
 }
 
 func (a AnsweredQuery) ItemOfEachAnsweredDocument() []AnsweredItem {

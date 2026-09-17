@@ -3,6 +3,7 @@ package searchendpoint_test
 import (
 	"context"
 	"errors"
+	"slices"
 	"strings"
 	"testing"
 
@@ -149,6 +150,32 @@ func TestEndpointReportsRequestedTerms(t *testing.T) {
 
 	if len(resp.IndexAbstract[word]) == 0 {
 		t.Errorf("IndexAbstract = %v, want the requested term", resp.IndexAbstract)
+	}
+	if len(resp.IndexCount) != 0 {
+		t.Errorf("IndexCount = %v, want none without a query", resp.IndexCount)
+	}
+}
+
+func TestEndpointRestrictsARequestedAbstractToTheNamedDocuments(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingEntry(word, "u1"), postingEntry(word, "u2")},
+	}}
+	mux := mountedSearch(t, index, searchtest.URLDirectory{})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		URLs:        []yacymodel.URLHash{documentHashOf("u2")},
+		Abstracts:   yacyproto.SearchAbstracts(word.String()),
+	})
+
+	wantedDocuments := []yacymodel.URLHash{documentHashOf("u2")}
+	if !slices.Equal(resp.IndexAbstract[word], wantedDocuments) {
+		t.Errorf(
+			"IndexAbstract[w1] = %v, want %v, the documents the request names",
+			resp.IndexAbstract[word],
+			wantedDocuments,
+		)
 	}
 	if len(resp.IndexCount) != 0 {
 		t.Errorf("IndexCount = %v, want none without a query", resp.IndexCount)

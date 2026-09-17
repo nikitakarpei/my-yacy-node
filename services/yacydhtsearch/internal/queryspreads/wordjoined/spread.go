@@ -1,8 +1,5 @@
-// Package wordjoined finds documents that match the whole query even when no
-// single peer holds every query word. It asks each peer which documents it
-// holds for one query word and which documents it matches for that word, keeps
-// the documents that came back for every word, and asks the peers that hold
-// them for the metadata of the joined documents that came back without it.
+// Package wordjoined finds documents that match the whole query when no single
+// peer holds every query word, by joining what the peers of each word hold.
 package wordjoined
 
 import (
@@ -10,25 +7,21 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PeerChoice interface {
-	ChoosePeersPerQueryWord(
-		ctx context.Context,
-		queryWords []yacymodel.Hash,
-		askablePeers []peerdirectory.AskablePeer,
-	) [][]peerdirectory.AskablePeer
-}
-
 type PeerAsks interface {
-	AskForHeldDocuments(
+	AskForMatchedAndHeldDocuments(
 		ctx context.Context,
-		asks []peerasks.HeldDocumentsAsk,
-	) []peerasks.AnsweredHeldDocumentsAsk
+		asks []peerasks.MatchedAndHeldDocumentsAsk,
+	) []peerasks.AnsweredMatchedAndHeldDocumentsAsk
+	AskForCrossCheckedDocuments(
+		ctx context.Context,
+		asks []peerasks.CrossCheckedDocumentsAsk,
+	) []peerasks.AnsweredCrossCheckedDocumentsAsk
 	AskForURLMetadata(
 		ctx context.Context,
 		asks []peerasks.URLMetadataAsk,
@@ -36,30 +29,33 @@ type PeerAsks interface {
 }
 
 type Spread struct {
-	peerAsks                    PeerAsks
-	peerChoice                  PeerChoice
-	metadataDocumentsCeiling    int
-	peerItemsCeiling            int
-	amountOfPeersHoldingOneWord int
-	observer                    WordJoinedSpreadObserver
+	peerAsks                     PeerAsks
+	metadataDocumentsCeiling     int
+	crossCheckedDocumentsCeiling int
+	peerItemsCeiling             int
+	partitions                   yacymodel.DHTRingPartitions
+	amountOfPeersHoldingOneWord  int
+	observer                     WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the ceilings one word joined spread stays within
+//nolint:revive // argument-limit: the ceilings and the ring one word joined spread stays within
 func New(
 	peerAsks PeerAsks,
-	peerChoice PeerChoice,
 	metadataDocumentsCeiling int,
+	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
+	partitions yacymodel.DHTRingPartitions,
 	amountOfPeersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
-		peerAsks:                    peerAsks,
-		peerChoice:                  peerChoice,
-		metadataDocumentsCeiling:    metadataDocumentsCeiling,
-		peerItemsCeiling:            peerItemsCeiling,
-		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
-		observer:                    observer,
+		peerAsks:                     peerAsks,
+		metadataDocumentsCeiling:     metadataDocumentsCeiling,
+		crossCheckedDocumentsCeiling: crossCheckedDocumentsCeiling,
+		peerItemsCeiling:             peerItemsCeiling,
+		partitions:                   partitions,
+		amountOfPeersHoldingOneWord:  amountOfPeersHoldingOneWord,
+		observer:                     observer,
 	}
 }
 
@@ -67,89 +63,115 @@ func New(
 func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
-	askablePeers []peerdirectory.AskablePeer,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers,
-	)
-	heldDocumentsAsks, answeredHeldDocumentsAsks := spread.askForHeldDocuments(
-		ctx, query, chosenPeersPerQueryWord,
-	)
-	joinedDocuments := joinedDocumentsOf(answeredHeldDocumentsAsks, query.TermHashes())
-	itemsInTheOrderOfEachPeerRanking := itemsInTheOrderOfEachPeerRankingOf(
-		answeredHeldDocumentsAsks, joinedDocuments,
-	)
-	documentsWithoutMetadata := joinedDocumentsWithoutMetadata(
-		joinedDocuments, itemsInTheOrderOfEachPeerRanking,
-	)
-	urlMetadataAsks, answeredURLMetadataAsks := spread.askForURLMetadata(
-		ctx, documentsWithoutMetadata, answeredHeldDocumentsAsks,
-	)
-
-	spread.observer.WordJoinedSpreadPerformed(
+	matchedAndHeldDocumentsRound := spread.askForMatchedAndHeldDocuments(
 		ctx,
-		performedWordJoinedSpreadFrom(
-			query.TermHashes(),
-			heldDocumentsAsks,
-			answeredHeldDocumentsAsks,
-			joinedDocuments,
-			documentsWithoutMetadata,
-			urlMetadataAsks,
-			answeredURLMetadataAsks,
-			time.Since(startedAt),
-		),
+		query,
+		chosenPeersPerQueryWord,
 	)
+	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
+		ctx,
+		matchedAndHeldDocumentsRound,
+	)
+	joinedDocuments := joinedDocumentsFrom(matchedAndHeldDocumentsRound, crossCheckedDocumentsRound)
+	urlMetadataRound := spread.askForURLMetadata(ctx, matchedAndHeldDocumentsRound, joinedDocuments)
 
-	return answeredQueryFrom(
-		itemsInTheOrderOfEachPeerRanking,
-		answeredURLMetadataAsks,
-		answeredHeldDocumentsAsks,
-		query.TermHashes(),
-	)
+	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
+		matchedAndHeldDocumentsRound,
+		crossCheckedDocumentsRound,
+		joinedDocuments,
+		urlMetadataRound,
+		time.Since(startedAt),
+	))
+
+	return answeredQueryFrom(matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound)
 }
 
-func (spread Spread) askForHeldDocuments(
+func (spread Spread) askForMatchedAndHeldDocuments(
 	ctx context.Context,
 	query searchquery.Query,
-	chosenPeersPerQueryWord [][]peerdirectory.AskablePeer,
-) ([]peerasks.HeldDocumentsAsk, []peerasks.AnsweredHeldDocumentsAsk) {
-	asks := heldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
-	firstRound, endFirstRound := contextOfTheFirstRound(ctx)
-	defer endFirstRound()
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+) matchedAndHeldDocumentsRound {
+	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
+	roundContext, endRound := contextOfRound(ctx, amountOfRoundsOfPeerCalls)
+	defer endRound()
+	answeredAsks := spread.peerAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
 
-	return asks, spread.peerAsks.AskForHeldDocuments(firstRound, asks)
+	return matchedAndHeldDocumentsRound{
+		queryWords:   query.TermHashes(),
+		asks:         asks,
+		answeredAsks: answeredAsks,
+		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
+			chosenPeersPerQueryWord, spread.partitions, answeredAsks,
+		),
+		amountOfPeersPerDocument: amountOfPeersPerDocumentOf(answeredAsks),
+	}
 }
 
-const amountOfRoundsOfPeerCalls = 2
+const (
+	amountOfRoundsOfPeerCalls            = 3
+	roundsLeftAtTheCrossCheckedDocuments = 2
+	roundsLeftAtTheURLMetadata           = 1
+)
 
-func contextOfTheFirstRound(ctx context.Context) (context.Context, context.CancelFunc) {
+func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, context.CancelFunc) {
 	deadline, bounded := ctx.Deadline()
 	if !bounded {
 		return ctx, func() {}
 	}
 
-	return context.WithTimeout(ctx, time.Until(deadline)/amountOfRoundsOfPeerCalls)
+	return context.WithTimeout(ctx, time.Until(deadline)/time.Duration(roundsLeft))
+}
+
+func (spread Spread) askForCrossCheckedDocuments(
+	ctx context.Context,
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+) crossCheckedDocumentsRound {
+	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeilingFor(
+		matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord(),
+		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(
+			matchedAndHeldDocumentsRound.leadingQueryWord().documentsListedByPeers(),
+		),
+		spread.crossCheckedDocumentsCeiling,
+	)
+	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
+	defer endRound()
+
+	return crossCheckedDocumentsRound{
+		asks: asksWithinTheCeiling.asks,
+		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(
+			roundContext,
+			asksWithinTheCeiling.asks,
+		),
+		amountOfDocumentsPastTheCrossCheckedDocumentsCeiling: len(
+			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling,
+		),
+	}
 }
 
 func (spread Spread) askForURLMetadata(
 	ctx context.Context,
-	documentsWithoutMetadata map[yacymodel.URLHash]struct{},
-	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
-) ([]peerasks.URLMetadataAsk, []peerasks.AnsweredURLMetadataAsk) {
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinedDocuments distinctDocuments,
+) urlMetadataRound {
+	documentsWithoutMetadata := documentsWithoutMetadataAmong(
+		joinedDocuments, matchedAndHeldDocumentsRound.answeredAsks,
+	)
 	asks := urlMetadataAsksFor(
-		documentsWithoutMetadata,
-		answeredHeldDocumentsAsks,
+		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(documentsWithoutMetadata),
+		matchedAndHeldDocumentsRound.answeredAsks,
 		spread.metadataDocumentsCeiling,
 		spread.amountOfPeersHoldingOneWord,
 	)
-	secondRound, endSecondRound := contextOfTheSecondRound(ctx)
-	defer endSecondRound()
+	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadata)
+	defer endRound()
 
-	return asks, spread.peerAsks.AskForURLMetadata(secondRound, asks)
-}
-
-func contextOfTheSecondRound(ctx context.Context) (context.Context, context.CancelFunc) {
-	return context.WithCancel(ctx)
+	return urlMetadataRound{
+		documentsWithoutMetadata: documentsWithoutMetadata,
+		asks:                     asks,
+		answeredAsks:             spread.peerAsks.AskForURLMetadata(roundContext, asks),
+	}
 }

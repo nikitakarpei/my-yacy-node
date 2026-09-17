@@ -6,14 +6,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-func matchedItemsAsksFor(
+func matchedDocumentsAsksFor(
 	query searchquery.Query,
 	chosenPeers []peerdirectory.AskablePeer,
 	peerItemsCeiling int,
-) []peerasks.MatchedItemsAsk {
-	asks := make([]peerasks.MatchedItemsAsk, 0, len(chosenPeers))
+) []peerasks.MatchedDocumentsAsk {
+	asks := make([]peerasks.MatchedDocumentsAsk, 0, len(chosenPeers))
 	for _, peer := range chosenPeers {
-		asks = append(asks, peerasks.MatchedItemsAsk{
+		asks = append(asks, peerasks.MatchedDocumentsAsk{
 			Peer:          peer,
 			WordsToMatch:  query.TermHashes(),
 			ExcludedWords: query.ExclusionHashes(),

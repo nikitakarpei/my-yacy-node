@@ -13,7 +13,7 @@ type AnsweredItem struct {
 	QueryPhraseHits int
 }
 
-func (a AnsweredItem) carryingTheText(text documenttext.DocumentText) AnsweredItem {
+func (a AnsweredItem) saturatedWith(text documenttext.DocumentText) AnsweredItem {
 	matchedWords := make(map[yacymodel.Hash]WordCount, len(text.HitsPerQueryWord))
 	for word, hits := range text.HitsPerQueryWord {
 		matchedWords[word] = WordCount{Hits: hits, TextWords: text.AmountOfWords}

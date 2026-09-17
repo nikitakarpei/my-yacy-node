@@ -11,25 +11,26 @@ import (
 )
 
 const (
-	msgPeerAnsweredMatchedItems  = "peer answered the items it matched"
-	msgPeerAnsweredURLMetadata   = "peer answered the metadata it holds for the documents"
-	msgPeerAnsweredHeldDocuments = "peer answered the documents it holds for a word"
-	msgPeerRefused               = "peer refused a search"
-	msgPeerUnreachable           = "peer could not be reached for a search"
-	msgPeerAnswerUnreadable      = "peer answered a search unreadably"
+	msgPeerAnsweredMatchedDocuments        = "peer answered the documents it matched"
+	msgPeerAnsweredURLMetadata             = "peer answered the metadata it holds for the documents"
+	msgPeerAnsweredMatchedAndHeldDocuments = "peer answered the documents it matched and holds for a word"
+	msgPeerAnsweredCrossCheckedDocuments   = "peer answered which of the cross-checked documents it holds for a word"
+	msgPeerRefused                         = "peer refused a search"
+	msgPeerUnreachable                     = "peer could not be reached for a search"
+	msgPeerAnswerUnreadable                = "peer answered a search unreadably"
 )
 
 type PeerCallLog struct{}
 
-func (PeerCallLog) PeerAnsweredMatchedItems(
+func (PeerCallLog) PeerAnsweredMatchedDocuments(
 	ctx context.Context,
 	address string,
-	amountOfMatchedItems int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
-	slog.DebugContext(ctx, msgPeerAnsweredMatchedItems,
+	slog.DebugContext(ctx, msgPeerAnsweredMatchedDocuments,
 		slog.String("address", address),
-		slog.Int("amountOfMatchedItems", amountOfMatchedItems),
+		slog.Int("amountOfMatchedDocuments", amountOfMatchedDocuments),
 		slog.Duration("spent", spent),
 	)
 }
@@ -47,13 +48,26 @@ func (PeerCallLog) PeerAnsweredURLMetadata(
 	)
 }
 
-func (PeerCallLog) PeerAnsweredHeldDocuments(
+func (PeerCallLog) PeerAnsweredMatchedAndHeldDocuments(
 	ctx context.Context,
 	address string,
 	amountOfDocuments int,
 	spent time.Duration,
 ) {
-	slog.DebugContext(ctx, msgPeerAnsweredHeldDocuments,
+	slog.DebugContext(ctx, msgPeerAnsweredMatchedAndHeldDocuments,
+		slog.String("address", address),
+		slog.Int("amountOfDocuments", amountOfDocuments),
+		slog.Duration("spent", spent),
+	)
+}
+
+func (PeerCallLog) PeerAnsweredCrossCheckedDocuments(
+	ctx context.Context,
+	address string,
+	amountOfDocuments int,
+	spent time.Duration,
+) {
+	slog.DebugContext(ctx, msgPeerAnsweredCrossCheckedDocuments,
 		slog.String("address", address),
 		slog.Int("amountOfDocuments", amountOfDocuments),
 		slog.Duration("spent", spent),

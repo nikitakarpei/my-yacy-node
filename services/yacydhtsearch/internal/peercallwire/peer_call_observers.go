@@ -8,10 +8,10 @@ import (
 )
 
 type PeerCallObserver interface {
-	PeerAnsweredMatchedItems(
+	PeerAnsweredMatchedDocuments(
 		ctx context.Context,
 		address string,
-		amountOfMatchedItems int,
+		amountOfMatchedDocuments int,
 		spent time.Duration,
 	)
 	PeerAnsweredURLMetadata(
@@ -20,7 +20,13 @@ type PeerCallObserver interface {
 		amountOfDescribedDocuments int,
 		spent time.Duration,
 	)
-	PeerAnsweredHeldDocuments(
+	PeerAnsweredMatchedAndHeldDocuments(
+		ctx context.Context,
+		address string,
+		amountOfDocuments int,
+		spent time.Duration,
+	)
+	PeerAnsweredCrossCheckedDocuments(
 		ctx context.Context,
 		address string,
 		amountOfDocuments int,
@@ -51,14 +57,14 @@ type PeerCallObserver interface {
 
 type PeerCallObservers []PeerCallObserver
 
-func (observers PeerCallObservers) PeerAnsweredMatchedItems(
+func (observers PeerCallObservers) PeerAnsweredMatchedDocuments(
 	ctx context.Context,
 	address string,
-	amountOfMatchedItems int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnsweredMatchedItems(ctx, address, amountOfMatchedItems, spent)
+		observer.PeerAnsweredMatchedDocuments(ctx, address, amountOfMatchedDocuments, spent)
 	}
 }
 
@@ -73,14 +79,25 @@ func (observers PeerCallObservers) PeerAnsweredURLMetadata(
 	}
 }
 
-func (observers PeerCallObservers) PeerAnsweredHeldDocuments(
+func (observers PeerCallObservers) PeerAnsweredMatchedAndHeldDocuments(
 	ctx context.Context,
 	address string,
 	amountOfDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnsweredHeldDocuments(ctx, address, amountOfDocuments, spent)
+		observer.PeerAnsweredMatchedAndHeldDocuments(ctx, address, amountOfDocuments, spent)
+	}
+}
+
+func (observers PeerCallObservers) PeerAnsweredCrossCheckedDocuments(
+	ctx context.Context,
+	address string,
+	amountOfDocuments int,
+	spent time.Duration,
+) {
+	for _, observer := range observers {
+		observer.PeerAnsweredCrossCheckedDocuments(ctx, address, amountOfDocuments, spent)
 	}
 }
 

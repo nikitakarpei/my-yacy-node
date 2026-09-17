@@ -248,6 +248,7 @@ deps:
     mayDependOn:
       - documenttext
       - pagereading
+      - peerchoice
       - queryanswers
       - peerdirectory
       - searchquery
@@ -273,6 +274,7 @@ deps:
       - yacymodel
     mayDependOn:
       - queryanswers
+      - peerchoice
       - peerdirectory
       - peerasks
       - searchquery
@@ -281,13 +283,14 @@ deps:
       - yacymodel
     mayDependOn:
       - queryanswers
+      - peerchoice
       - peerdirectory
       - peerasks
       - searchquery
   bywordcount:
     mayDependOn:
       - queryanswers
-      - peerdirectory
+      - peerchoice
       - searchquery
   queryrankings:
     mayDependOn:

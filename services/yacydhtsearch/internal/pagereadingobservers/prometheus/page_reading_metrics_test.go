@@ -60,3 +60,24 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		}
 	}
 }
+
+func TestEveryOutcomeOfAPageIsPublishedBeforeTheFirstPageReading(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	pagereadingobserversprometheus.New(registry, pageReadBudget)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_page_reading_pages_total{outcome="read"} 0`,
+		`yacydhtsearch_page_reading_pages_total{outcome="unreachable"} 0`,
+		`yacydhtsearch_page_reading_pages_total{outcome="refused"} 0`,
+		`yacydhtsearch_page_reading_pages_total{outcome="unreadable"} 0`,
+		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 0`,
+		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}

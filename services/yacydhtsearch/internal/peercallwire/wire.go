@@ -1,11 +1,5 @@
-// Package peercallwire speaks the YaCy search protocol to the peers an ask
-// names. It asks a peer for the documents it matches, for the documents it
-// holds for one word, or for the metadata of the documents the ask names, and
-// reads back what the peer answered. It holds the peer calls this node has in
-// flight at the amount it is built for and puts the asks in the order they
-// came. One peer call runs for the budget it is built for, or for the time the
-// ask has left, whichever ends first, and leaves the peer that time less the
-// margin the answer needs to reach this node.
+// Package peercallwire puts asks to peers over the YaCy search protocol and
+// reads back what each peer answered.
 package peercallwire
 
 import (
@@ -56,15 +50,15 @@ func New(
 	}
 }
 
-func (w Wire) AskForMatchedItems(
+func (w Wire) AskForMatchedDocuments(
 	ctx context.Context,
-	asks []peerasks.MatchedItemsAsk,
-) []peerasks.AnsweredMatchedItemsAsk {
+	asks []peerasks.MatchedDocumentsAsk,
+) []peerasks.AnsweredMatchedDocumentsAsk {
 	return putAsksToPeers(
 		w.callsInFlight,
 		asks,
-		func(ask peerasks.MatchedItemsAsk) (peerasks.AnsweredMatchedItemsAsk, bool) {
-			return w.putMatchedItemsAsk(ctx, ask)
+		func(ask peerasks.MatchedDocumentsAsk) (peerasks.AnsweredMatchedDocumentsAsk, bool) {
+			return w.putMatchedDocumentsAsk(ctx, ask)
 		},
 	)
 }
@@ -99,10 +93,10 @@ func answeredAsksThatCameBack[Answered any](
 	return keptAnsweredAsks
 }
 
-func (w Wire) putMatchedItemsAsk(
+func (w Wire) putMatchedDocumentsAsk(
 	ctx context.Context,
-	ask peerasks.MatchedItemsAsk,
-) (peerasks.AnsweredMatchedItemsAsk, bool) {
+	ask peerasks.MatchedDocumentsAsk,
+) (peerasks.AnsweredMatchedDocumentsAsk, bool) {
 	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
 	defer endPeerCall()
 	startedAt := time.Now()
@@ -111,21 +105,21 @@ func (w Wire) putMatchedItemsAsk(
 		peerCall{
 			address:  ask.Peer.Address,
 			path:     yacyproto.PathSearch,
-			askedFor: peerasks.MatchedItems,
-			form:     w.requestForMatchedItems(ctx, ask).Form(),
+			askedFor: peerasks.MatchedDocuments,
+			form:     w.requestForMatchedDocuments(ctx, ask).Form(),
 		},
 		startedAt,
 	)
 	if !ok {
-		return peerasks.AnsweredMatchedItemsAsk{}, false
+		return peerasks.AnsweredMatchedDocumentsAsk{}, false
 	}
 
 	matchedDocuments := matchedDocumentsOf(response)
-	w.observer.PeerAnsweredMatchedItems(
+	w.observer.PeerAnsweredMatchedDocuments(
 		ctx, ask.Peer.Address, len(matchedDocuments), time.Since(startedAt),
 	)
 
-	return peerasks.AnsweredMatchedItemsAsk{Ask: ask, MatchedDocuments: matchedDocuments}, true
+	return peerasks.AnsweredMatchedDocumentsAsk{Ask: ask, MatchedDocuments: matchedDocuments}, true
 }
 
 func matchedDocumentsOf(response yacyproto.SearchResponse) []peerasks.MatchedDocument {
@@ -149,9 +143,9 @@ func wordCountOf(posting yacymodel.Optional[yacymodel.RWIPosting]) queryanswers.
 	return queryanswers.WordCount{Hits: counted.Hits, TextWords: counted.TextWords}
 }
 
-func (w Wire) requestForMatchedItems(
+func (w Wire) requestForMatchedDocuments(
 	ctx context.Context,
-	ask peerasks.MatchedItemsAsk,
+	ask peerasks.MatchedDocumentsAsk,
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
 	request.Query = ask.WordsToMatch
@@ -254,23 +248,23 @@ func (w Wire) urlMetadataResponse(
 	return response, true
 }
 
-func (w Wire) AskForHeldDocuments(
+func (w Wire) AskForMatchedAndHeldDocuments(
 	ctx context.Context,
-	asks []peerasks.HeldDocumentsAsk,
-) []peerasks.AnsweredHeldDocumentsAsk {
+	asks []peerasks.MatchedAndHeldDocumentsAsk,
+) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
 	return putAsksToPeers(
 		w.callsInFlight,
 		asks,
-		func(ask peerasks.HeldDocumentsAsk) (peerasks.AnsweredHeldDocumentsAsk, bool) {
-			return w.putHeldDocumentsAsk(ctx, ask)
+		func(ask peerasks.MatchedAndHeldDocumentsAsk) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
+			return w.putMatchedAndHeldDocumentsAsk(ctx, ask)
 		},
 	)
 }
 
-func (w Wire) putHeldDocumentsAsk(
+func (w Wire) putMatchedAndHeldDocumentsAsk(
 	ctx context.Context,
-	ask peerasks.HeldDocumentsAsk,
-) (peerasks.AnsweredHeldDocumentsAsk, bool) {
+	ask peerasks.MatchedAndHeldDocumentsAsk,
+) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
 	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
 	defer endPeerCall()
 	startedAt := time.Now()
@@ -279,23 +273,23 @@ func (w Wire) putHeldDocumentsAsk(
 		peerCall{
 			address:  ask.Peer.Address,
 			path:     yacyproto.PathSearch,
-			askedFor: peerasks.HeldDocuments,
-			form:     w.requestForHeldDocuments(ctx, ask).Form(),
+			askedFor: peerasks.MatchedAndHeldDocuments,
+			form:     w.requestForMatchedAndHeldDocuments(ctx, ask).Form(),
 		},
 		startedAt,
 	)
 	if !ok {
-		return peerasks.AnsweredHeldDocumentsAsk{}, false
+		return peerasks.AnsweredMatchedAndHeldDocumentsAsk{}, false
 	}
 
-	documentsHeldForTheWord := response.IndexAbstract[ask.Word]
-	w.observer.PeerAnsweredHeldDocuments(
-		ctx, ask.Peer.Address, len(documentsHeldForTheWord), time.Since(startedAt),
+	documentsListedForTheWord := response.IndexAbstract[ask.Word]
+	w.observer.PeerAnsweredMatchedAndHeldDocuments(
+		ctx, ask.Peer.Address, len(documentsListedForTheWord), time.Since(startedAt),
 	)
 
-	return peerasks.AnsweredHeldDocumentsAsk{
+	return peerasks.AnsweredMatchedAndHeldDocumentsAsk{
 		Ask:                             ask,
-		DocumentsHeldForTheWord:         documentsHeldForTheWord,
+		DocumentsListedForTheWord:       documentsListedForTheWord,
 		MatchedDocuments:                matchedDocumentsOf(response),
 		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
 	}, true
@@ -313,14 +307,70 @@ func amountOfDocumentsHeldForTheWordOf(
 	return yacymodel.Some(documentsHeld)
 }
 
-func (w Wire) requestForHeldDocuments(
+func (w Wire) requestForMatchedAndHeldDocuments(
 	ctx context.Context,
-	ask peerasks.HeldDocumentsAsk,
+	ask peerasks.MatchedAndHeldDocumentsAsk,
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
 	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
 	request.Query = []yacymodel.Hash{ask.Word}
 	request.Count = ask.ItemsCeiling
+
+	return request
+}
+
+func (w Wire) AskForCrossCheckedDocuments(
+	ctx context.Context,
+	asks []peerasks.CrossCheckedDocumentsAsk,
+) []peerasks.AnsweredCrossCheckedDocumentsAsk {
+	return putAsksToPeers(
+		w.callsInFlight,
+		asks,
+		func(ask peerasks.CrossCheckedDocumentsAsk) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
+			return w.putCrossCheckedDocumentsAsk(ctx, ask)
+		},
+	)
+}
+
+func (w Wire) putCrossCheckedDocumentsAsk(
+	ctx context.Context,
+	ask peerasks.CrossCheckedDocumentsAsk,
+) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
+	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
+	defer endPeerCall()
+	startedAt := time.Now()
+	response, ok := w.searchResponse(
+		ctx,
+		peerCall{
+			address:  ask.Peer.Address,
+			path:     yacyproto.PathSearch,
+			askedFor: peerasks.CrossCheckedDocuments,
+			form:     w.requestForCrossCheckedDocuments(ctx, ask).Form(),
+		},
+		startedAt,
+	)
+	if !ok {
+		return peerasks.AnsweredCrossCheckedDocumentsAsk{}, false
+	}
+
+	documentsHeldForTheWord := response.IndexAbstract[ask.Word]
+	w.observer.PeerAnsweredCrossCheckedDocuments(
+		ctx, ask.Peer.Address, len(documentsHeldForTheWord), time.Since(startedAt),
+	)
+
+	return peerasks.AnsweredCrossCheckedDocumentsAsk{
+		Ask:                     ask,
+		DocumentsHeldForTheWord: documentsHeldForTheWord,
+	}, true
+}
+
+func (w Wire) requestForCrossCheckedDocuments(
+	ctx context.Context,
+	ask peerasks.CrossCheckedDocumentsAsk,
+) yacyproto.SearchRequest {
+	request := w.requestFor(ctx, nil, "")
+	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
+	request.URLs = ask.Documents
 
 	return request
 }

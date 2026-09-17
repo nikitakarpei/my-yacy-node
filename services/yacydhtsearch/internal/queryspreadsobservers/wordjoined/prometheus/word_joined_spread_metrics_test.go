@@ -33,31 +33,68 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords:                     4,
-		AmountOfQueryWordsHeldByNoPeer:         1,
-		AmountOfPeersAsked:                     8,
-		AmountOfPeersThatAnswered:              6,
-		TimeSpent:                              250 * time.Millisecond,
-		AmountOfPeersHoldingAQueryWord:         4,
-		AmountOfJoinedDocuments:                10,
-		AmountOfJoinedDocumentsWithMetadata:    2,
-		AmountOfMatchedDocumentsAcrossAnswers:  10,
-		AmountOfMatchedDocumentsCountedByAPeer: 6,
-		AmountOfDocumentsAskedMetadataFor:      4,
-		AmountOfAskedDocumentsWithMetadata:     3,
+		MatchedAndHeldDocumentsRound: wordjoined.PerformedMatchedAndHeldDocumentsRound{
+			AmountOfQueryWords:                                     4,
+			AmountOfQueryWordsHeldByNoPeer:                         1,
+			AmountOfFullyListedQueryWords:                          2,
+			AmountOfPeersAskedForMatchedAndHeldDocuments:           8,
+			AmountOfPeersThatAnsweredMatchedAndHeldDocuments:       6,
+			AmountOfPeersThatListedADocument:                       4,
+			LeadingQueryWordStanding:                               wordjoined.MoreCommonFullyListedQueryWord,
+			AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: 12,
+		},
+		CrossCheckedDocumentsRound: wordjoined.PerformedCrossCheckedDocumentsRound{
+			AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: 3,
+			AmountOfPeersAskedForCrossCheckedDocuments:           4,
+			AmountOfPeersThatAnsweredCrossCheckedDocuments:       2,
+			AmountOfJoinedDocumentsFoundOnlyByCrossChecking:      6,
+			AmountOfJoinedDocuments:                              10,
+		},
+		URLMetadataRound: wordjoined.PerformedURLMetadataRound{
+			AmountOfJoinedDocumentsWithMetadata:   2,
+			AmountOfLookedUpDocuments:             4,
+			AmountOfLookedUpDocumentsWithMetadata: 3,
+		},
+		TimeSpent: 250 * time.Millisecond,
 	})
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="documents"} 1`,
-		"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_sum 0.5",
-		"yacydhtsearch_word_joined_spread_join_with_metadata_ratio_sum 0.2",
-		"yacydhtsearch_word_joined_spread_matched_documents_counted_by_a_peer_ratio_sum 0.6",
-		"yacydhtsearch_word_joined_spread_peers_asked_sum 8",
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_standing="more common word, fully listed"} 1`,
+		"yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio_sum 0.6",
+		`yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_sum{leading_query_word_standing="more common word, fully listed"} 0.25`,
+		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum 0.25",
+		"yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_sum 8",
 		"yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum 0.25",
-		"yacydhtsearch_word_joined_spread_asked_documents_with_metadata_ratio_sum 0.75",
-		"yacydhtsearch_word_joined_spread_answering_peers_ratio_sum 0.75",
+		"yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_sum 0.75",
 		"yacydhtsearch_word_joined_spread_duration_seconds_sum 0.25",
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
+
+func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_standing="rarest word, partly listed"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_standing="more common word, fully listed"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_standing="rarest word, fully listed"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_standing="rarest word, partly listed"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_standing="more common word, fully listed"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_standing="rarest word, fully listed"} 0`,
+		`yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_count{leading_query_word_standing="rarest word, partly listed"} 0`,
+		`yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_count{leading_query_word_standing="more common word, fully listed"} 0`,
+		`yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_count{leading_query_word_standing="rarest word, fully listed"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -71,16 +108,48 @@ func TestASpreadThatAskedNoPeerPublishesNoAnsweringRatio(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
-	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords: 2,
-	})
+	metrics.WordJoinedSpreadPerformed(t.Context(), spreadOfQueryWords(2))
 
 	body := publishedBy(t, registry)
 	if !strings.Contains(
 		body,
-		"yacydhtsearch_word_joined_spread_answering_peers_ratio_count 0",
+		"yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_count 0",
 	) {
 		t.Fatalf("metrics carry an answering ratio for a spread that asked no peer:\n%s", body)
+	}
+}
+
+func spreadOfQueryWords(amountOfQueryWords int) wordjoined.PerformedWordJoinedSpread {
+	return wordjoined.PerformedWordJoinedSpread{
+		MatchedAndHeldDocumentsRound: wordjoined.PerformedMatchedAndHeldDocumentsRound{
+			AmountOfQueryWords:       amountOfQueryWords,
+			LeadingQueryWordStanding: wordjoined.RarestPartlyListedQueryWord,
+		},
+	}
+}
+
+func TestASpreadThatCrossCheckedNoDocumentPublishesNoShareOfCrossChecking(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	metrics.WordJoinedSpreadPerformed(t.Context(), spreadJoiningDocuments(3))
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		"yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_count 0",
+		"yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio_count 0",
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf(
+				"metrics carry %q for a spread that cross-checked no document:\n%s",
+				published,
+				body,
+			)
+		}
 	}
 }
 
@@ -90,14 +159,12 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
-	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords: 3,
-	})
+	metrics.WordJoinedSpreadPerformed(t.Context(), spreadOfQueryWords(3))
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="no document"} 1`,
-		"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_count 0",
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_standing="rarest word, partly listed"} 1`,
+		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count 0",
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -105,65 +172,68 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 	}
 }
 
-func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoAskedForRatio(t *testing.T) {
+func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoShareDroppedBeforeLookup(
+	t *testing.T,
+) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
-	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords:                  2,
-		AmountOfJoinedDocuments:             4,
-		AmountOfJoinedDocumentsWithMetadata: 4,
-	})
+	spread := spreadJoiningDocuments(4)
+	spread.URLMetadataRound.AmountOfJoinedDocumentsWithMetadata = 4
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 
 	body := publishedBy(t, registry)
 	if !strings.Contains(
 		body,
-		"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_count 0",
+		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count 0",
 	) {
-		t.Fatalf("metrics carry an asked for ratio for a spread that asked for none:\n%s", body)
+		t.Fatalf("metrics carry a share dropped before lookup for a spread missing none:\n%s", body)
 	}
 }
 
-func TestAJoinTheSpreadPutToNoPeerPublishesNoYield(t *testing.T) {
+func spreadJoiningDocuments(amountOfJoinedDocuments int) wordjoined.PerformedWordJoinedSpread {
+	spread := spreadOfQueryWords(2)
+	spread.CrossCheckedDocumentsRound.AmountOfJoinedDocuments = amountOfJoinedDocuments
+
+	return spread
+}
+
+func TestASpreadThatLookedUpNoMetadataPublishesNoShareWithoutMetadata(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
-	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords:      2,
-		AmountOfJoinedDocuments: 4,
-	})
+	metrics.WordJoinedSpreadPerformed(t.Context(), spreadJoiningDocuments(4))
 
 	body := publishedBy(t, registry)
 	if !strings.Contains(
 		body,
-		"yacydhtsearch_word_joined_spread_asked_documents_with_metadata_ratio_count 0",
+		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_count 0",
 	) {
-		t.Fatalf("metrics carry a share for a spread that asked no metadata:\n%s", body)
+		t.Fatalf("metrics carry a share for a spread that looked up no metadata:\n%s", body)
 	}
 }
 
-func TestASpreadNoPeerMatchedADocumentInPublishesNoPostingShare(t *testing.T) {
+func TestASpreadWhoseLeadingQueryWordPeersListedNoDocumentPublishesNoSharePastTheCrossCheckedDocumentsCeiling(
+	t *testing.T,
+) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
-	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords:      2,
-		AmountOfJoinedDocuments: 4,
-	})
+	metrics.WordJoinedSpreadPerformed(t.Context(), spreadOfQueryWords(2))
 
 	body := publishedBy(t, registry)
 	if !strings.Contains(
 		body,
-		"yacydhtsearch_word_joined_spread_matched_documents_counted_by_a_peer_ratio_count 0",
+		`yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_count{leading_query_word_standing="rarest word, partly listed"} 0`,
 	) {
 		t.Fatalf(
-			"metrics carry a posting share for a spread no peer matched a document in:\n%s",
+			"metrics carry a share past the cross-checked documents ceiling for a spread that listed no document:\n%s",
 			body,
 		)
 	}

@@ -8,12 +8,12 @@ import (
 )
 
 type PerformedNetworkSearch struct {
-	AmountOfAskablePeers              int
-	AmountOfItemsAcrossAnswers        int
-	AmountOfItemsInRanking            int
-	AmountOfRankedItemsOfTheOnePeer   int
-	AmountOfRankedItemsCountedByAPeer int
-	TimeSpent                         time.Duration
+	AmountOfAskablePeers                   int
+	AmountOfItemsAcrossAnswers             int
+	AmountOfItemsInRanking                 int
+	AmountOfRankedItemsOfTheMostRankedPeer int
+	AmountOfRankedItemsCountedByAPeer      int
+	TimeSpent                              time.Duration
 }
 
 func performedNetworkSearchFrom(
@@ -26,7 +26,7 @@ func performedNetworkSearchFrom(
 		AmountOfAskablePeers:       amountOfAskablePeers,
 		AmountOfItemsAcrossAnswers: amountOfItemsAcrossAnswers(answers),
 		AmountOfItemsInRanking:     len(rankedItems),
-		AmountOfRankedItemsOfTheOnePeer: amountOfRankedItemsOfTheOnePeer(
+		AmountOfRankedItemsOfTheMostRankedPeer: amountOfRankedItemsOfTheMostRankedPeer(
 			answers.ItemsInTheOrderOfEachPeerRanking,
 			rankedItems,
 		),
@@ -44,7 +44,7 @@ func amountOfItemsAcrossAnswers(answers queryanswers.AnsweredQuery) int {
 	return amountOfAnsweredItems
 }
 
-func amountOfRankedItemsOfTheOnePeer(
+func amountOfRankedItemsOfTheMostRankedPeer(
 	itemsInTheOrderOfEachPeerRanking [][]queryanswers.AnsweredItem,
 	rankedItems []queryanswers.AnsweredItem,
 ) int {
@@ -68,15 +68,15 @@ func amountOfRankedItemsAmong(
 	items []queryanswers.AnsweredItem,
 	rankedDocuments map[yacymodel.URLHash]struct{},
 ) int {
-	countedDocuments := make(map[yacymodel.URLHash]struct{}, len(items))
+	rankedDocumentsOfThePeer := make(map[yacymodel.URLHash]struct{}, len(items))
 	for _, item := range items {
 		if _, ranked := rankedDocuments[item.Metadata.Hash]; !ranked {
 			continue
 		}
-		countedDocuments[item.Metadata.Hash] = struct{}{}
+		rankedDocumentsOfThePeer[item.Metadata.Hash] = struct{}{}
 	}
 
-	return len(countedDocuments)
+	return len(rankedDocumentsOfThePeer)
 }
 
 func amountOfItemsCountedByAPeer(items []queryanswers.AnsweredItem) int {

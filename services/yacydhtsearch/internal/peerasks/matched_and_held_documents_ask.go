@@ -1,0 +1,23 @@
+// Package peerasks holds the asks this node puts to peers and what one peer
+// answered for each.
+package peerasks
+
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+type MatchedAndHeldDocumentsAsk struct {
+	Peer          peerdirectory.AskablePeer
+	Word          yacymodel.Hash
+	ExcludedWords []yacymodel.Hash
+	Language      string
+	ItemsCeiling  int
+}
+
+type AnsweredMatchedAndHeldDocumentsAsk struct {
+	Ask                             MatchedAndHeldDocumentsAsk
+	DocumentsListedForTheWord       []yacymodel.URLHash
+	MatchedDocuments                []MatchedDocument
+	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
+}
