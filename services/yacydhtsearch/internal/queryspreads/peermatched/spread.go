@@ -19,7 +19,7 @@ type PeerChoice interface {
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		askablePeers []peerdirectory.AskablePeer,
-	) [][]peerchoice.ChosenPeer
+	) peerchoice.ChosenPeersPerQueryWord
 }
 
 type PeerAsks interface {
@@ -61,7 +61,7 @@ func (spread Spread) SpreadOverPeers(
 	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
 		ctx, query.TermHashes(), askablePeers,
 	)
-	chosenPeers := peersAcrossQueryWords(chosenPeersPerQueryWord)
+	chosenPeers := chosenPeersPerQueryWord.PeersAcrossQueryWords()
 	asks := matchedDocumentsAsksFor(query, chosenPeers, spread.peerItemsCeiling)
 	answeredAsks := spread.peerAsks.AskForMatchedDocuments(ctx, asks)
 

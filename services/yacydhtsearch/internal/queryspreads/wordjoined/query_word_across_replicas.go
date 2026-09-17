@@ -21,17 +21,16 @@ type queryWordOnReplica struct {
 }
 
 func queryWordsFewestDocumentsFirstFrom(
-	queryWords []yacymodel.Hash,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	partitions yacymodel.DHTRingPartitions,
-	chosenPeersPerQueryWord [][]peerchoice.ChosenPeer,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []queryWordAcrossReplicas {
-	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(queryWords))
-	for index, queryWord := range queryWords {
+	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(chosenPeersPerQueryWord))
+	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
 		queryWordsAcrossReplicas = append(queryWordsAcrossReplicas, queryWordAcrossReplicas{
-			word: queryWord,
+			word: chosenPeersOfQueryWord.QueryWord,
 			queryWordOnReplicasPerPartition: queryWordOnReplicasPerPartitionFrom(
-				queryWord, partitions, chosenPeersPerQueryWord[index], answeredAsks,
+				chosenPeersOfQueryWord, partitions, answeredAsks,
 			),
 		})
 	}
@@ -41,18 +40,21 @@ func queryWordsFewestDocumentsFirstFrom(
 }
 
 func queryWordOnReplicasPerPartitionFrom(
-	queryWord yacymodel.Hash,
+	chosenPeersOfQueryWord peerchoice.ChosenPeersOfQueryWord,
 	partitions yacymodel.DHTRingPartitions,
-	chosenPeers []peerchoice.ChosenPeer,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) [][]queryWordOnReplica {
 	queryWordOnReplicasPerPartition := make([][]queryWordOnReplica, partitions)
-	for _, chosenPeer := range chosenPeers {
+	for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
 		queryWordOnReplicasPerPartition[chosenPeer.Partition] = append(
 			queryWordOnReplicasPerPartition[chosenPeer.Partition],
 			queryWordOnReplica{
-				peer:   chosenPeer.Peer,
-				answer: answerOfPeerFor(chosenPeer.Peer, queryWord, answeredAsks),
+				peer: chosenPeer.Peer,
+				answer: answerOfPeerFor(
+					chosenPeer.Peer,
+					chosenPeersOfQueryWord.QueryWord,
+					answeredAsks,
+				),
 			},
 		)
 	}

@@ -245,18 +245,19 @@ func (r responsiblePeers) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) [][]peerchoice.ChosenPeer {
-	peersPerQueryWord := make([][]peerchoice.ChosenPeer, 0, len(queryWords))
+) peerchoice.ChosenPeersPerQueryWord {
+	peersPerQueryWord := make(peerchoice.ChosenPeersPerQueryWord, 0, len(queryWords))
 	for _, queryWord := range queryWords {
-		peersPerQueryWord = append(
-			peersPerQueryWord, r.chosenPeersOfQueryWord(r.peersForWord(queryWord, askablePeers)),
-		)
+		peersPerQueryWord = append(peersPerQueryWord, peerchoice.ChosenPeersOfQueryWord{
+			QueryWord:   queryWord,
+			ChosenPeers: r.chosenPeersOf(r.peersForWord(queryWord, askablePeers)),
+		})
 	}
 
 	return peersPerQueryWord
 }
 
-func (r responsiblePeers) chosenPeersOfQueryWord(
+func (r responsiblePeers) chosenPeersOf(
 	askablePeers []peerdirectory.AskablePeer,
 ) []peerchoice.ChosenPeer {
 	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
