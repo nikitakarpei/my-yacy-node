@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -66,7 +66,7 @@ func (j queryJudgments) amountOfUngradedDocuments() int {
 
 func queryJudgmentsOfTheDocumentsToJudge(
 	query string,
-	answers peeranswers.AnsweredQuery,
+	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
 	judgedAlready queryJudgments,
 ) queryJudgments {
@@ -83,7 +83,7 @@ func queryJudgmentsOfTheDocumentsToJudge(
 }
 
 func documentsToJudgeOf(
-	answers peeranswers.AnsweredQuery,
+	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
 ) []judgedDocument {
 	toJudge := documentsThePeersPutFirst(answers)
@@ -108,7 +108,7 @@ func documentsToJudgeOf(
 }
 
 func documentsThePeersPutFirst(
-	answers peeranswers.AnsweredQuery,
+	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]struct{} {
 	orderedItems := answers.ItemOfEachAnsweredDocument()
 

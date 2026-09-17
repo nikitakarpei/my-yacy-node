@@ -1,7 +1,7 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -26,7 +26,7 @@ func DefaultScoreWeights() ScoreWeights {
 }
 
 func (weights ScoreWeights) relevanceOf(
-	item peeranswers.AnsweredItem,
+	item queryanswers.AnsweredItem,
 	placeScore float64,
 	rarityOfTheQueryWords queryWordRarity,
 	averageDocumentLength float64,

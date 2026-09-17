@@ -5,17 +5,16 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	itemsCeiling        = 10
-	peersHoldingOneWord = 24
+	itemsCeiling = 10
 )
 
 type peerNetwork struct {
@@ -60,7 +59,7 @@ func (n *peerNetwork) matchedDocumentsAt(addresses []string) []peerasks.MatchedD
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
 		}
 		if n.countsAWordWithEachItem {
-			matchedDocument.CountOfAWordTheAskNamed = peeranswers.WordCount{Hits: 3}
+			matchedDocument.CountOfAWordTheAskNamed = queryanswers.WordCount{Hits: 3}
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -74,7 +73,6 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	_ int,
 ) [][]peerdirectory.AskablePeer {
 	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for range queryWords {
@@ -102,20 +100,20 @@ func peerAt(address string) peerdirectory.AskablePeer {
 func searchOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
-) [][]peeranswers.AnsweredItem {
-	return spreadOf(network, peersHoldingOneWord, observer).SpreadOverPeers(
+) [][]queryanswers.AnsweredItem {
+	return spreadOf(network, observer).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	).ItemsInTheOrderOfEachPeerRanking
 }
 
-func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.AnsweredItem {
+func searchForTheQuery(network *peerNetwork, query string) [][]queryanswers.AnsweredItem {
 	return answersOfTheQuery(network, query).ItemsInTheOrderOfEachPeerRanking
 }
 
-func answersOfTheQuery(network *peerNetwork, query string) peeranswers.AnsweredQuery {
-	return spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
+func answersOfTheQuery(network *peerNetwork, query string) queryanswers.AnsweredQuery {
+	return spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom(query, ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
@@ -124,10 +122,9 @@ func answersOfTheQuery(network *peerNetwork, query string) peeranswers.AnsweredQ
 
 func spreadOf(
 	network *peerNetwork,
-	peersOfOneWord int,
 	observer peermatched.PeerMatchedSpreadObserver,
 ) peermatched.Spread {
-	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, peersOfOneWord, observer)
+	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, observer)
 }
 
 func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {
@@ -135,7 +132,7 @@ func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {
 
 	network := networkOf(map[string][]string{})
 
-	spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
+	spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{

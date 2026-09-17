@@ -15,7 +15,7 @@ func urlMetadataAsksFor(
 	documentsWithoutMetadata map[yacymodel.URLHash]struct{},
 	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
 	metadataDocumentsCeiling int,
-	amountOfPeersAskedPerWord int,
+	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
 	mostHeldDocuments := mostHeldDocumentsAmong(
 		documentsWithoutMetadata, answeredHeldDocumentsAsks, metadataDocumentsCeiling,
@@ -24,7 +24,7 @@ func urlMetadataAsksFor(
 		mostHeldDocuments, answeredHeldDocumentsAsks,
 	)
 	coveringPeers := peersCoveringMostDocuments(
-		documentsHeldByEachPeer, amountOfPeersAskedPerWord,
+		documentsHeldByEachPeer, amountOfPeersHoldingOneWord,
 	)
 
 	asks := make([]peerasks.URLMetadataAsk, 0, len(coveringPeers))
@@ -161,16 +161,16 @@ func documentsWithoutRepeats(documents []yacymodel.URLHash) []yacymodel.URLHash 
 
 func peersCoveringMostDocuments(
 	documentsHeldByEachPeer []documentsHeldByPeer,
-	amountOfPeersAskedPerWord int,
+	amountOfPeersHoldingOneWord int,
 ) []documentsHeldByPeer {
-	if len(documentsHeldByEachPeer) <= amountOfPeersAskedPerWord {
+	if len(documentsHeldByEachPeer) <= amountOfPeersHoldingOneWord {
 		return documentsHeldByEachPeer
 	}
 
-	coveringPeers := make([]documentsHeldByPeer, 0, amountOfPeersAskedPerWord)
+	coveringPeers := make([]documentsHeldByPeer, 0, amountOfPeersHoldingOneWord)
 	coveredDocuments := map[yacymodel.URLHash]struct{}{}
 	takenPeers := make([]bool, len(documentsHeldByEachPeer))
-	for len(coveringPeers) < amountOfPeersAskedPerWord {
+	for len(coveringPeers) < amountOfPeersHoldingOneWord {
 		mostCoveringPeer := mostCoveringPeerAmong(
 			documentsHeldByEachPeer, takenPeers, coveredDocuments,
 		)

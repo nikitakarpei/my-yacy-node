@@ -3,11 +3,11 @@ package documentrelevance
 import (
 	"net/url"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func addressScoreOf(item peeranswers.AnsweredItem, queryWords []yacymodel.Hash) float64 {
+func addressScoreOf(item queryanswers.AnsweredItem, queryWords []yacymodel.Hash) float64 {
 	wordsOfTheHost := wordsOfTheHostOf(item.Metadata.Address)
 
 	amountOfQueryWordsInTheHost := 0

@@ -2,6 +2,7 @@ package peerdirectory_test
 
 import (
 	"context"
+	"slices"
 	"testing"
 	"time"
 
@@ -16,27 +17,50 @@ const (
 
 type silentObserver struct{}
 
-func (silentObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)     {}
-func (silentObserver) PeerAnswering(context.Context, yacymodel.Hash, string) {}
-func (silentObserver) PeerSilent(context.Context, yacymodel.Hash)            {}
-func (silentObserver) PeerDropped(context.Context, yacymodel.Hash)           {}
-func (silentObserver) DirectoryHolds(context.Context, int, int, int)         {}
+func (silentObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)               {}
+func (silentObserver) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {}
+func (silentObserver) PeerWentSilent(context.Context, yacymodel.Hash)                  {}
+func (silentObserver) PeerDropped(context.Context, yacymodel.Hash)                     {}
+func (silentObserver) PeersKnown(context.Context, int, int, int)                       {}
 
-type oldestAdmittedFirst struct{}
+type heldPeersBeforeOfferedPeers struct{}
 
-func (oldestAdmittedFirst) StalestPeers(
-	known []peerdirectory.KnownPeer,
-	limit int,
+func (heldPeersBeforeOfferedPeers) StalestPeersFirst(
+	_ context.Context,
+	members []peerdirectory.KnownPeer,
+	candidates []peerdirectory.CandidatePeer,
 ) []yacymodel.Hash {
-	stalest := make([]yacymodel.Hash, 0, limit)
-	oldest := known[0]
-	for _, peer := range known {
-		if peer.AdmittedAt.Before(oldest.AdmittedAt) {
-			oldest = peer
-		}
+	stalest := make([]yacymodel.Hash, 0, len(members)+len(candidates))
+	for _, member := range slices.SortedFunc(slices.Values(members), oldestAdmittedFirst) {
+		stalest = append(stalest, member.Hash)
+	}
+	for _, candidate := range candidates {
+		stalest = append(stalest, candidate.Hash)
 	}
 
-	return append(stalest, oldest.Hash)
+	return stalest
+}
+
+func oldestAdmittedFirst(a, b peerdirectory.KnownPeer) int {
+	return a.AdmittedAt.Compare(b.AdmittedAt)
+}
+
+type offeredPeersBeforeHeldPeers struct{}
+
+func (offeredPeersBeforeHeldPeers) StalestPeersFirst(
+	_ context.Context,
+	members []peerdirectory.KnownPeer,
+	candidates []peerdirectory.CandidatePeer,
+) []yacymodel.Hash {
+	stalest := make([]yacymodel.Hash, 0, len(members)+len(candidates))
+	for _, candidate := range candidates {
+		stalest = append(stalest, candidate.Hash)
+	}
+	for _, member := range members {
+		stalest = append(stalest, member.Hash)
+	}
+
+	return stalest
 }
 
 type testClock struct{ instant time.Time }
@@ -77,12 +101,25 @@ func seedOf(t *testing.T, hash yacymodel.Hash, host string) yacymodel.Seed {
 }
 
 func directoryAt(clock *testClock, capacity int) *peerdirectory.Directory {
+	return directoryOver(
+		clock,
+		peerdirectory.DirectoryLimits{Capacity: capacity, Cooldown: cooldown},
+		heldPeersBeforeOfferedPeers{},
+		silentObserver{},
+	)
+}
+
+func directoryOver(
+	clock *testClock,
+	limits peerdirectory.DirectoryLimits,
+	stale peerdirectory.StalePeerSource,
+	observer peerdirectory.DirectoryObserver,
+) *peerdirectory.Directory {
 	return peerdirectory.New(
-		capacity,
-		cooldown,
+		limits,
 		clock.now,
-		oldestAdmittedFirst{},
-		peerdirectory.DirectoryObservers{silentObserver{}},
+		stale,
+		peerdirectory.DirectoryObservers{observer},
 	)
 }
 
@@ -149,7 +186,7 @@ func TestASilentPeerLeavesTheAskableSet(t *testing.T) {
 	}
 }
 
-func TestAdmittingAPeerAgainReplacesTheAddressesItAdvertises(t *testing.T) {
+func TestAdmittingAPeerThatNeverAnsweredReplacesTheAddressesItAdvertises(t *testing.T) {
 	t.Parallel()
 
 	clock := &testClock{instant: time.Unix(0, 0)}
@@ -161,6 +198,47 @@ func TestAdmittingAPeerAgainReplacesTheAddressesItAdvertises(t *testing.T) {
 	known := directory.KnownPeers(t.Context())
 	if len(known) != 1 || known[0].Addresses[0] != "http://10.0.0.2:8090" {
 		t.Fatalf("KnownPeers = %+v, want one peer on 10.0.0.2", known)
+	}
+}
+
+func TestAPeerThatAnswersAgainComesBackToTheAskableSet(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	directory := directoryAt(clock, wideCapacity)
+	peer := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+	clock.instant = clock.instant.Add(time.Second)
+	directory.ConfirmSilent(t.Context(), peer)
+
+	clock.instant = clock.instant.Add(time.Second)
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+
+	if askable := directory.AskablePeers(t.Context()); len(askable) != 1 {
+		t.Fatalf("AskablePeers = %v, want the peer that answered after its silence", askable)
+	}
+}
+
+func TestASeedThatLeavesOutTheAddressAPeerAnsweredOnDoesNotTakeItAway(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	directory := directoryAt(clock, wideCapacity)
+	peer := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+	clock.instant = clock.instant.Add(time.Second)
+	directory.ConfirmSilent(t.Context(), peer)
+
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.2")})
+
+	known := directory.KnownPeers(t.Context())
+	if len(known) != 1 || !slices.Equal(known[0].Addresses, []string{
+		"http://10.0.0.1:8090",
+		"http://10.0.0.2:8090",
+	}) {
+		t.Fatalf("KnownPeers = %+v, want the answered address kept and leading", known)
 	}
 }
 
@@ -198,7 +276,7 @@ type contentsRecorder struct {
 	answeringPeers int
 }
 
-func (r *contentsRecorder) DirectoryHolds(_ context.Context, peers, answeringPeers, _ int) {
+func (r *contentsRecorder) PeersKnown(_ context.Context, peers, answeringPeers, _ int) {
 	r.peers = peers
 	r.answeringPeers = answeringPeers
 }
@@ -207,12 +285,11 @@ func TestTheDirectoryReportsHowManyOfItsPeersAnswer(t *testing.T) {
 	t.Parallel()
 
 	recorder := &contentsRecorder{}
-	directory := peerdirectory.New(
-		wideCapacity,
-		cooldown,
-		(&testClock{instant: time.Unix(0, 0)}).now,
-		oldestAdmittedFirst{},
-		peerdirectory.DirectoryObservers{recorder},
+	directory := directoryOver(
+		&testClock{instant: time.Unix(0, 0)},
+		peerdirectory.DirectoryLimits{Capacity: wideCapacity, Cooldown: cooldown},
+		heldPeersBeforeOfferedPeers{},
+		recorder,
 	)
 	answering, silent := hashOf(t, 'a'), hashOf(t, 'b')
 	directory.Admit(t.Context(), []yacymodel.Seed{
@@ -223,7 +300,241 @@ func TestTheDirectoryReportsHowManyOfItsPeersAnswer(t *testing.T) {
 	directory.ConfirmSilent(t.Context(), silent)
 
 	if recorder.peers != 2 || recorder.answeringPeers != 1 {
-		t.Fatalf("DirectoryHolds = %d peers, %d answering, want 2 and 1",
+		t.Fatalf("PeersKnown = %d peers, %d answering, want 2 and 1",
 			recorder.peers, recorder.answeringPeers)
+	}
+}
+
+type reportedAnswer struct {
+	peer       yacymodel.Hash
+	address    string
+	answeredAt time.Time
+}
+
+type answerReportingObserver struct {
+	silentObserver
+	answers         []reportedAnswer
+	droppedPeers    []yacymodel.Hash
+	wentSilentPeers []yacymodel.Hash
+}
+
+func (o *answerReportingObserver) PeerAnswered(
+	_ context.Context,
+	peer yacymodel.Hash,
+	address string,
+	answeredAt time.Time,
+) {
+	o.answers = append(
+		o.answers,
+		reportedAnswer{peer: peer, address: address, answeredAt: answeredAt},
+	)
+}
+
+func (o *answerReportingObserver) PeerDropped(_ context.Context, peer yacymodel.Hash) {
+	o.droppedPeers = append(o.droppedPeers, peer)
+}
+
+func (o *answerReportingObserver) PeerWentSilent(_ context.Context, peer yacymodel.Hash) {
+	o.wentSilentPeers = append(o.wentSilentPeers, peer)
+}
+
+func TestAnAnsweringPeerIsReportedWithItsAddressAndTheTimeItAnswered(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	answers := &answerReportingObserver{}
+	directory := directoryOver(
+		clock,
+		peerdirectory.DirectoryLimits{Capacity: wideCapacity, Cooldown: cooldown},
+		heldPeersBeforeOfferedPeers{},
+		answers,
+	)
+	peer := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, peer, "10.0.0.1")})
+
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+
+	want := reportedAnswer{peer: peer, address: "http://10.0.0.1:8090", answeredAt: clock.instant}
+	if len(answers.answers) != 1 || answers.answers[0] != want {
+		t.Fatalf("answers reported %+v, want %+v", answers.answers, want)
+	}
+}
+
+func TestOnlyAPeerThatWasAnsweringIsReportedAsGoneSilent(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	answers := &answerReportingObserver{}
+	directory := directoryOver(
+		clock,
+		peerdirectory.DirectoryLimits{Capacity: wideCapacity, Cooldown: cooldown},
+		heldPeersBeforeOfferedPeers{},
+		answers,
+	)
+	answering, neverAnswering := hashOf(t, 'a'), hashOf(t, 'b')
+	directory.Admit(t.Context(), []yacymodel.Seed{
+		seedOf(t, answering, "10.0.0.1"),
+		seedOf(t, neverAnswering, "10.0.0.2"),
+	})
+	directory.ConfirmAnswering(t.Context(), answering, "http://10.0.0.1:8090")
+
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.ConfirmSilent(t.Context(), answering)
+	directory.ConfirmSilent(t.Context(), neverAnswering)
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.ConfirmSilent(t.Context(), answering)
+
+	if !slices.Equal(answers.wentSilentPeers, []yacymodel.Hash{answering}) {
+		t.Fatalf(
+			"peers reported gone silent %v, want only %v once",
+			answers.wentSilentPeers,
+			answering,
+		)
+	}
+}
+
+func TestAPeerEvictedToMakeRoomIsReportedAsDropped(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	answers := &answerReportingObserver{}
+	directory := directoryOver(
+		clock,
+		peerdirectory.DirectoryLimits{Capacity: 1, Cooldown: cooldown},
+		heldPeersBeforeOfferedPeers{},
+		answers,
+	)
+	evicted := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, evicted, "10.0.0.1")})
+
+	clock.instant = clock.instant.Add(time.Minute)
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, hashOf(t, 'b'), "10.0.0.2")})
+
+	if len(answers.droppedPeers) != 1 || answers.droppedPeers[0] != evicted {
+		t.Fatalf("dropped peers reported %v, want %v", answers.droppedPeers, evicted)
+	}
+}
+
+func seedsOf(t *testing.T, symbols string) []yacymodel.Seed {
+	t.Helper()
+
+	seeds := make([]yacymodel.Seed, 0, len(symbols))
+	for _, symbol := range []byte(symbols) {
+		seeds = append(seeds, seedOf(t, hashOf(t, symbol), "10.0.0.1"))
+	}
+
+	return seeds
+}
+
+func heldHashes(t *testing.T, directory *peerdirectory.Directory) map[yacymodel.Hash]struct{} {
+	t.Helper()
+
+	held := map[yacymodel.Hash]struct{}{}
+	for _, peer := range directory.KnownPeers(t.Context()) {
+		held[peer.Hash] = struct{}{}
+	}
+
+	return held
+}
+
+func TestAFullDirectoryRefusesACandidateThatIsStalerThanEveryPeerItHolds(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	directory := directoryOver(
+		clock,
+		peerdirectory.DirectoryLimits{Capacity: 1, Cooldown: cooldown},
+		offeredPeersBeforeHeldPeers{},
+		silentObserver{},
+	)
+	held := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, held, "10.0.0.1")})
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, hashOf(t, 'b'), "10.0.0.2")})
+
+	known := directory.KnownPeers(t.Context())
+	if len(known) != 1 || known[0].Hash != held {
+		t.Fatalf("KnownPeers = %+v, want the peer the directory already held", known)
+	}
+}
+
+func TestAFullDirectoryLendsItsNewcomerShareToPeersTheOrderRefuses(t *testing.T) {
+	t.Parallel()
+
+	const (
+		membersOfAFullDirectory = 16
+		newcomerShare           = 0.25
+		newcomersLentASlot      = 4
+	)
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	directory := directoryOver(
+		clock,
+		peerdirectory.DirectoryLimits{
+			Capacity:      membersOfAFullDirectory,
+			Cooldown:      cooldown,
+			NewcomerShare: newcomerShare,
+		},
+		offeredPeersBeforeHeldPeers{},
+		silentObserver{},
+	)
+	directory.Admit(t.Context(), seedsOf(t, "abcdefghijklmnop"))
+	directory.Admit(t.Context(), seedsOf(t, "ABCDEFGHIJKLMNOP"))
+
+	held := heldHashes(t, directory)
+	newcomersHeld := 0
+	for _, seed := range seedsOf(t, "ABCDEFGHIJKLMNOP") {
+		if _, isHeld := held[seed.Hash]; isHeld {
+			newcomersHeld++
+		}
+	}
+	if len(held) != membersOfAFullDirectory || newcomersHeld != newcomersLentASlot {
+		t.Fatalf(
+			"the directory holds %d peers, %d of them newcomers, want %d and %d",
+			len(held),
+			newcomersHeld,
+			membersOfAFullDirectory,
+			newcomersLentASlot,
+		)
+	}
+}
+
+func TestTheNewcomersLentASlotAreDrawnFromTheWholeAdmission(t *testing.T) {
+	t.Parallel()
+
+	const (
+		membersOfAFullDirectory = 16
+		newcomerShare           = 0.25
+		admissions              = 10
+	)
+
+	reachedTheEndOfTheAdmission := false
+	for range admissions {
+		clock := &testClock{instant: time.Unix(0, 0)}
+		directory := directoryOver(
+			clock,
+			peerdirectory.DirectoryLimits{
+				Capacity:      membersOfAFullDirectory,
+				Cooldown:      cooldown,
+				NewcomerShare: newcomerShare,
+			},
+			offeredPeersBeforeHeldPeers{},
+			silentObserver{},
+		)
+		directory.Admit(t.Context(), seedsOf(t, "abcdefghijklmnop"))
+		directory.Admit(t.Context(), seedsOf(t, "ABCDEFGHIJKLMNOP"))
+
+		held := heldHashes(t, directory)
+		for _, seed := range seedsOf(t, "MNOP") {
+			if _, isHeld := held[seed.Hash]; isHeld {
+				reachedTheEndOfTheAdmission = true
+			}
+		}
+	}
+	if !reachedTheEndOfTheAdmission {
+		t.Fatalf(
+			"%d admissions lent no slot to a newcomer named last, want the whole admission drawn from",
+			admissions,
+		)
 	}
 }

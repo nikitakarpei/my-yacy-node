@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -75,7 +75,7 @@ func (n *peerNetwork) matchedDocumentsOf(
 			Metadata: yacymodel.URLMetadata{Hash: document},
 		}
 		if n.countsAWordWithEachItem {
-			matchedDocument.CountOfAWordTheAskNamed = peeranswers.WordCount{Hits: 3}
+			matchedDocument.CountOfAWordTheAskNamed = queryanswers.WordCount{Hits: 3}
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -160,7 +160,6 @@ func (r responsiblePeers) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	_ int,
 ) [][]peerdirectory.AskablePeer {
 	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
@@ -237,7 +236,7 @@ func distinctDocumentsAskedMetadataFor(asks []peerasks.URLMetadataAsk) []yacymod
 func spreadOf(
 	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	return spreadChoosing(network, responsiblePeers{}, observer)
 }
 
@@ -245,7 +244,7 @@ func spreadChoosing(
 	network *peerNetwork,
 	choice responsiblePeers,
 	observer wordjoined.WordJoinedSpreadObserver,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	return spreadAskingMetadataForUpTo(network, choice, metadataDocumentsCeiling, observer)
 }
 
@@ -254,7 +253,7 @@ func spreadAskingMetadataForUpTo(
 	choice responsiblePeers,
 	metadataDocumentsCeiling int,
 	observer wordjoined.WordJoinedSpreadObserver,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	return spreadOverPeers(
 		wordjoined.New(
 			network,
@@ -271,7 +270,7 @@ func spreadAskingMetadataForUpTo(
 func spreadOverPeers(
 	spread wordjoined.Spread,
 	askablePeers []peerdirectory.AskablePeer,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	return spread.SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom(firstWord+" "+secondWord, ""),

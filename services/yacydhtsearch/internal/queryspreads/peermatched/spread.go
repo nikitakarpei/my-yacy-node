@@ -10,9 +10,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -22,7 +22,6 @@ type PeerChoice interface {
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		askablePeers []peerdirectory.AskablePeer,
-		amountOfPeersAskedPerWord int,
 	) [][]peerdirectory.AskablePeer
 }
 
@@ -34,26 +33,23 @@ type PeerAsks interface {
 }
 
 type Spread struct {
-	peerAsks                  PeerAsks
-	peerChoice                PeerChoice
-	peerItemsCeiling          int
-	amountOfPeersAskedPerWord int
-	observer                  PeerMatchedSpreadObserver
+	peerAsks         PeerAsks
+	peerChoice       PeerChoice
+	peerItemsCeiling int
+	observer         PeerMatchedSpreadObserver
 }
 
 func New(
 	peerAsks PeerAsks,
 	peerChoice PeerChoice,
 	peerItemsCeiling int,
-	amountOfPeersAskedPerWord int,
 	observer PeerMatchedSpreadObserver,
 ) Spread {
 	return Spread{
-		peerAsks:                  peerAsks,
-		peerChoice:                peerChoice,
-		peerItemsCeiling:          peerItemsCeiling,
-		amountOfPeersAskedPerWord: amountOfPeersAskedPerWord,
-		observer:                  observer,
+		peerAsks:         peerAsks,
+		peerChoice:       peerChoice,
+		peerItemsCeiling: peerItemsCeiling,
+		observer:         observer,
 	}
 }
 
@@ -62,11 +58,11 @@ func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	askablePeers []peerdirectory.AskablePeer,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
 	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers, spread.amountOfPeersAskedPerWord,
+		ctx, query.TermHashes(), askablePeers,
 	)
 	chosenPeers := peersAcrossQueryWords(chosenPeersPerQueryWord)
 	asks := matchedItemsAsksFor(query, chosenPeers, spread.peerItemsCeiling)

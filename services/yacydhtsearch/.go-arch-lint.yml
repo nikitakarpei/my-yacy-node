@@ -9,20 +9,22 @@ commonComponents:
   - searchquery
   - searchresult
   - peerdirectory
+  - probeanswerhistory
+  - presenceaccrual
 
 components:
-  peermatchedobserversapplog:
-    in: internal/peermatchedobservers/applog/**
-  peermatchedobserversprometheus:
-    in: internal/peermatchedobservers/prometheus/**
+  queryspreadsobserverspeermatchedapplog:
+    in: internal/queryspreadsobservers/peermatched/applog/**
+  queryspreadsobserverspeermatchedprometheus:
+    in: internal/queryspreadsobservers/peermatched/prometheus/**
   searchquery:
     in: internal/searchquery/**
   stopwords:
     in: internal/stopwords/**
   searchresult:
     in: internal/searchresult/**
-  peeranswers:
-    in: internal/peeranswers/**
+  queryanswers:
+    in: internal/queryanswers/**
   documenttext:
     in: internal/documenttext/**
   documentrelevance:
@@ -33,12 +35,26 @@ components:
     in: internal/itemsordering/hostdiscount/**
   peerdirectory:
     in: internal/peerdirectory/**
-  stalepeersourcesleastrecentlyanswered:
-    in: internal/stalepeersources/leastrecentlyanswered/**
-  peerselectionsdhtdistance:
-    in: internal/peerselections/dhtdistance/**
-  dhtdistanceobserversprometheus:
-    in: internal/dhtdistanceobservers/prometheus/**
+  stalepeersourcesleastreliable:
+    in: internal/stalepeersources/leastreliable/**
+  peerchoiceobserversapplog:
+    in: internal/peerchoiceobservers/applog/**
+  peerchoiceobserversprometheus:
+    in: internal/peerchoiceobservers/prometheus/**
+  presenceaccrualobserversapplog:
+    in: internal/presenceaccrualobservers/applog/**
+  presenceaccrualobserversprometheus:
+    in: internal/presenceaccrualobservers/prometheus/**
+  peerpresenceobserversjetstreamapplog:
+    in: internal/peerpresenceobservers/jetstream/applog/**
+  peerpresenceobserversjetstreamprometheus:
+    in: internal/peerpresenceobservers/jetstream/prometheus/**
+  probeanswerhistoryobserversapplog:
+    in: internal/probeanswerhistoryobservers/applog/**
+  peerlivenessobserversapplog:
+    in: internal/peerlivenessobservers/applog/**
+  peerlivenessobserversprometheus:
+    in: internal/peerlivenessobservers/prometheus/**
   networksearch:
     in: internal/networksearch/**
   pagereading:
@@ -63,10 +79,10 @@ components:
     in: internal/queryrankingsobservers/applog/**
   queryrankingsobserversprometheus:
     in: internal/queryrankingsobservers/prometheus/**
-  rankingcacheobserversapplog:
-    in: internal/rankingcacheobservers/applog/**
-  rankingcacheobserversprometheus:
-    in: internal/rankingcacheobservers/prometheus/**
+  rankingcacheobserversjetstreamapplog:
+    in: internal/rankingcacheobservers/jetstream/applog/**
+  rankingcacheobserversjetstreamprometheus:
+    in: internal/rankingcacheobservers/jetstream/prometheus/**
   peerasks:
     in: internal/peerasks/**
   peerchoice:
@@ -85,10 +101,10 @@ components:
     in: internal/networksearchobservers/applog/**
   networksearchobserversprometheus:
     in: internal/networksearchobservers/prometheus/**
-  wordjoinedobserversapplog:
-    in: internal/wordjoinedobservers/applog/**
-  wordjoinedobserversprometheus:
-    in: internal/wordjoinedobservers/prometheus/**
+  queryspreadsobserverswordjoinedapplog:
+    in: internal/queryspreadsobservers/wordjoined/applog/**
+  queryspreadsobserverswordjoinedprometheus:
+    in: internal/queryspreadsobservers/wordjoined/prometheus/**
   peercallobserversapplog:
     in: internal/peercallobservers/applog/**
   peercallobserversprometheus:
@@ -99,6 +115,16 @@ components:
     in: internal/peerdirectoryobservers/prometheus/**
   yacyseedlistobserversapplog:
     in: internal/yacyseedlistobservers/applog/**
+  probeanswerhistory:
+    in: internal/probeanswerhistory/**
+  presenceaccrual:
+    in: internal/presenceaccrual/**
+  peerpresencejetstream:
+    in: internal/peerpresence/jetstream/**
+  peerpresencememory:
+    in: internal/peerpresence/memory/**
+  peerreliability:
+    in: internal/peerreliability/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -147,10 +173,10 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
 
 deps:
-  peermatchedobserversapplog:
+  queryspreadsobserverspeermatchedapplog:
     mayDependOn:
       - peermatched
-  peermatchedobserversprometheus:
+  queryspreadsobserverspeermatchedprometheus:
     canUse:
       - prometheus
     mayDependOn:
@@ -164,21 +190,21 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
   itemsorderingrelevance:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
   itemsorderinghostdiscount:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
   searchresult:
     canUse:
       - yacymodel
-  peeranswers:
+  queryanswers:
     canUse:
       - yacymodel
     mayDependOn:
@@ -190,16 +216,27 @@ deps:
   peerdirectory:
     canUse:
       - yacymodel
-  stalepeersourcesleastrecentlyanswered:
+  probeanswerhistory:
+    canUse:
+      - yacymodel
+      - nats
+  presenceaccrual:
+    canUse:
+      - yacymodel
+      - hashicorplru
+  peerpresencejetstream:
+    canUse:
+      - yacymodel
+      - nats
+  peerpresencememory:
+    canUse:
+      - yacymodel
+  stalepeersourcesleastreliable:
     canUse:
       - yacymodel
     mayDependOn:
       - peerdirectory
-  peerselectionsdhtdistance:
-    canUse:
-      - yacymodel
-    mayDependOn:
-      - peerdirectory
+      - peerreliability
   peerchoice:
     canUse:
       - yacymodel
@@ -211,7 +248,7 @@ deps:
     mayDependOn:
       - documenttext
       - pagereading
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - searchquery
       - searchresult
@@ -235,7 +272,7 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - peerasks
       - searchquery
@@ -243,13 +280,13 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - peerasks
       - searchquery
   bywordcount:
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
       - searchquery
   queryrankings:
@@ -277,10 +314,10 @@ deps:
       - prometheus
     mayDependOn:
       - searchquery
-  rankingcacheobserversapplog:
+  rankingcacheobserversjetstreamapplog:
     mayDependOn:
       - searchquery
-  rankingcacheobserversprometheus:
+  rankingcacheobserversjetstreamprometheus:
     canUse:
       - prometheus
     mayDependOn:
@@ -289,17 +326,18 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerdirectory
   peercallwire:
     canUse:
       - yacymodel
       - yacyproto
     mayDependOn:
-      - peeranswers
+      - queryanswers
       - peerasks
   peerlivenesswire:
     canUse:
+      - yacymodel
       - yacyproto
   yacyseedlist:
     canUse:
@@ -314,7 +352,20 @@ deps:
     mayDependOn:
       - searchquery
       - searchresult
-  dhtdistanceobserversprometheus:
+  peerchoiceobserversprometheus:
+    canUse:
+      - prometheus
+  presenceaccrualobserversapplog:
+    canUse:
+      - yacymodel
+  presenceaccrualobserversprometheus:
+    canUse:
+      - prometheus
+      - yacymodel
+  peerpresenceobserversjetstreamprometheus:
+    canUse:
+      - prometheus
+  peerlivenessobserversprometheus:
     canUse:
       - prometheus
   networksearchobserversapplog:
@@ -325,10 +376,10 @@ deps:
       - prometheus
     mayDependOn:
       - networksearch
-  wordjoinedobserversapplog:
+  queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
-  wordjoinedobserversprometheus:
+  queryspreadsobserverswordjoinedprometheus:
     canUse:
       - prometheus
     mayDependOn:

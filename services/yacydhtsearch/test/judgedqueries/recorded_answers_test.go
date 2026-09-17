@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -41,9 +41,9 @@ type recordedWordCount struct {
 	TextWords int `json:"textWords"`
 }
 
-func (r recordedAnswers) answeredQuery() peeranswers.AnsweredQuery {
+func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
 	itemsInTheOrderOfEachPeerRanking := make(
-		[][]peeranswers.AnsweredItem, 0, len(r.ItemsInTheOrderOfEachPeerRanking),
+		[][]queryanswers.AnsweredItem, 0, len(r.ItemsInTheOrderOfEachPeerRanking),
 	)
 	for _, recordedItemsOfOnePeerRanking := range r.ItemsInTheOrderOfEachPeerRanking {
 		itemsInTheOrderOfEachPeerRanking = append(
@@ -51,7 +51,7 @@ func (r recordedAnswers) answeredQuery() peeranswers.AnsweredQuery {
 		)
 	}
 
-	return peeranswers.AnsweredQuery{
+	return queryanswers.AnsweredQuery{
 		QueryWords:                       searchquery.QueryFrom(r.Query, "").TermHashes(),
 		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
 		ItemsInNoOrder:                   answeredItemsOf(r.ItemsInNoOrder),
@@ -59,10 +59,10 @@ func (r recordedAnswers) answeredQuery() peeranswers.AnsweredQuery {
 	}
 }
 
-func answeredItemsOf(recordedItems []recordedItem) []peeranswers.AnsweredItem {
-	answeredItems := make([]peeranswers.AnsweredItem, 0, len(recordedItems))
+func answeredItemsOf(recordedItems []recordedItem) []queryanswers.AnsweredItem {
+	answeredItems := make([]queryanswers.AnsweredItem, 0, len(recordedItems))
 	for _, recorded := range recordedItems {
-		answeredItems = append(answeredItems, peeranswers.AnsweredItem{
+		answeredItems = append(answeredItems, queryanswers.AnsweredItem{
 			Metadata: yacymodel.URLMetadata{
 				Hash:    recorded.Hash,
 				Address: recorded.Address,
@@ -79,10 +79,10 @@ func answeredItemsOf(recordedItems []recordedItem) []peeranswers.AnsweredItem {
 
 func wordCountsOf(
 	recordedWordCounts map[yacymodel.Hash]recordedWordCount,
-) map[yacymodel.Hash]peeranswers.WordCount {
-	wordCounts := make(map[yacymodel.Hash]peeranswers.WordCount, len(recordedWordCounts))
+) map[yacymodel.Hash]queryanswers.WordCount {
+	wordCounts := make(map[yacymodel.Hash]queryanswers.WordCount, len(recordedWordCounts))
 	for word, recorded := range recordedWordCounts {
-		wordCounts[word] = peeranswers.WordCount{
+		wordCounts[word] = queryanswers.WordCount{
 			Hits:      recorded.Hits,
 			TextWords: recorded.TextWords,
 		}
@@ -91,7 +91,7 @@ func wordCountsOf(
 	return wordCounts
 }
 
-func recordedAnswersOf(query string, answers peeranswers.AnsweredQuery) recordedAnswers {
+func recordedAnswersOf(query string, answers queryanswers.AnsweredQuery) recordedAnswers {
 	itemsInTheOrderOfEachPeerRanking := make(
 		[][]recordedItem, 0, len(answers.ItemsInTheOrderOfEachPeerRanking),
 	)
@@ -110,7 +110,7 @@ func recordedAnswersOf(query string, answers peeranswers.AnsweredQuery) recorded
 	}
 }
 
-func recordedItemsOf(answeredItems []peeranswers.AnsweredItem) []recordedItem {
+func recordedItemsOf(answeredItems []queryanswers.AnsweredItem) []recordedItem {
 	recordedItems := make([]recordedItem, 0, len(answeredItems))
 	for _, answeredItem := range answeredItems {
 		recordedItems = append(recordedItems, recordedItem{
@@ -127,7 +127,7 @@ func recordedItemsOf(answeredItems []peeranswers.AnsweredItem) []recordedItem {
 }
 
 func recordedWordCountsOf(
-	wordCounts map[yacymodel.Hash]peeranswers.WordCount,
+	wordCounts map[yacymodel.Hash]queryanswers.WordCount,
 ) map[yacymodel.Hash]recordedWordCount {
 	recordedWordCounts := make(map[yacymodel.Hash]recordedWordCount, len(wordCounts))
 	for word, wordCount := range wordCounts {

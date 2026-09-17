@@ -7,12 +7,12 @@ import (
 	"cmp"
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type DocumentRelevance interface {
-	RelevancePerDocumentOf(answers peeranswers.AnsweredQuery) map[yacymodel.URLHash]float64
+	RelevancePerDocumentOf(answers queryanswers.AnsweredQuery) map[yacymodel.URLHash]float64
 }
 
 type Ordering struct {
@@ -24,8 +24,8 @@ func New(documentRelevance DocumentRelevance) Ordering {
 }
 
 func (ordering Ordering) OrderedItemsOf(
-	answers peeranswers.AnsweredQuery,
-) []peeranswers.AnsweredItem {
+	answers queryanswers.AnsweredQuery,
+) []queryanswers.AnsweredItem {
 	return itemsInFallingOrderOfRelevance(
 		answers.ItemOfEachAnsweredDocument(),
 		ordering.documentRelevance.RelevancePerDocumentOf(answers),
@@ -33,10 +33,10 @@ func (ordering Ordering) OrderedItemsOf(
 }
 
 func itemsInFallingOrderOfRelevance(
-	items []peeranswers.AnsweredItem,
+	items []queryanswers.AnsweredItem,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-) []peeranswers.AnsweredItem {
-	slices.SortStableFunc(items, func(one, other peeranswers.AnsweredItem) int {
+) []queryanswers.AnsweredItem {
+	slices.SortStableFunc(items, func(one, other queryanswers.AnsweredItem) int {
 		return cmp.Compare(
 			relevancePerDocument[other.Metadata.Hash], relevancePerDocument[one.Metadata.Hash],
 		)

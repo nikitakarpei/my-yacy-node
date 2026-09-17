@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 )
 
 type itemsOrdering interface {
-	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem
+	OrderedItemsOf(answers queryanswers.AnsweredQuery) []queryanswers.AnsweredItem
 }
 
 func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
@@ -40,7 +40,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 
 type judgedQuery struct {
 	query           string
-	answers         peeranswers.AnsweredQuery
+	answers         queryanswers.AnsweredQuery
 	gradedDocuments gradedDocuments
 }
 
@@ -88,8 +88,8 @@ func orderingOfTheServiceFrom(
 type orderingOfThePeerRankings struct{}
 
 func (orderingOfThePeerRankings) OrderedItemsOf(
-	answers peeranswers.AnsweredQuery,
-) []peeranswers.AnsweredItem {
+	answers queryanswers.AnsweredQuery,
+) []queryanswers.AnsweredItem {
 	return answers.ItemOfEachAnsweredDocument()
 }
 

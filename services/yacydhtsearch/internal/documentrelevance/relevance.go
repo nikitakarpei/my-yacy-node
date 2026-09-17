@@ -6,7 +6,7 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -19,7 +19,7 @@ func New(scoreWeights ScoreWeights) Relevance {
 }
 
 func (relevance Relevance) RelevancePerDocumentOf(
-	answers peeranswers.AnsweredQuery,
+	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	items := answers.ItemOfEachAnsweredDocument()
 	placeScorePerDocument := placeScorePerDocumentOf(answers.ItemsInTheOrderOfEachPeerRanking)
