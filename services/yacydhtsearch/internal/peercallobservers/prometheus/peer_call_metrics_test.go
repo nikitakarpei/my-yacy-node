@@ -109,13 +109,12 @@ func TestAnAnsweredMetadataCallIsCountedUnderWhatItAskedFor(t *testing.T) {
 	for _, published := range []string{
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="answered"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="url metadata",outcome="answered"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="answered"} 0`,
+		`yacydhtsearch_peer_call_duration_seconds_count{asked_for="matched documents",outcome="answered"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
-	}
-	if strings.Contains(body, `asked_for="matched documents"`) {
-		t.Fatalf("a metadata answer was counted as a peer call that asked for items:\n%s", body)
 	}
 }
 

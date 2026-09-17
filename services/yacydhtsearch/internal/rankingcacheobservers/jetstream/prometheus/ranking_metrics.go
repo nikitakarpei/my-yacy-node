@@ -16,25 +16,27 @@ const (
 )
 
 type RankingMetrics struct {
-	failures *prometheusclient.CounterVec
+	lookupFailures prometheusclient.Counter
+	storeFailures  prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *RankingMetrics {
-	metrics := &RankingMetrics{
-		failures: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_ranking_cache_failures_total",
-			Help: "Failures against the ranking cache, by action.",
-		}, []string{labelAction}),
-	}
-	registry.MustRegister(metrics.failures)
+	failures := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_ranking_cache_failures_total",
+		Help: "Failures against the ranking cache, by action.",
+	}, []string{labelAction})
+	registry.MustRegister(failures)
 
-	return metrics
+	return &RankingMetrics{
+		lookupFailures: failures.WithLabelValues(actionLookup),
+		storeFailures:  failures.WithLabelValues(actionStore),
+	}
 }
 
 func (m *RankingMetrics) RankingLookupFailed(context.Context, searchquery.Query, error) {
-	m.failures.WithLabelValues(actionLookup).Inc()
+	m.lookupFailures.Inc()
 }
 
 func (m *RankingMetrics) RankingStoreFailed(context.Context, searchquery.Query, error) {
-	m.failures.WithLabelValues(actionStore).Inc()
+	m.storeFailures.Inc()
 }

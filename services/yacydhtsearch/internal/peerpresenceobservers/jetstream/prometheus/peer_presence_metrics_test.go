@@ -50,3 +50,21 @@ func TestEverySnapshotFailureIsPublishedApartFromTheSnapshotsWritten(t *testing.
 		}
 	}
 }
+
+func TestEverySnapshotFailureIsPublishedBeforeTheFirstSnapshot(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	peerpresenceobserversjetstreamprometheus.New(registry)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotsUnread"} 0`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotUndecodable"} 0`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotUnwritten"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
