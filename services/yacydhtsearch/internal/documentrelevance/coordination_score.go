@@ -1,14 +1,14 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const coordinationScoreOfAQueryOfOneWord = 1.0
 
 func coordinationScoreOf(
-	item peeranswers.AnsweredItem, queryWords []yacymodel.Hash,
+	item queryanswers.AnsweredItem, queryWords []yacymodel.Hash,
 ) float64 {
 	if len(queryWords) <= 1 {
 		return coordinationScoreOfAQueryOfOneWord

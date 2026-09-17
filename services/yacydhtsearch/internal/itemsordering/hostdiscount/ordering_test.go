@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -14,7 +14,7 @@ type relevanceOfTheGivenDocuments struct {
 }
 
 func (given relevanceOfTheGivenDocuments) RelevancePerDocumentOf(
-	_ peeranswers.AnsweredQuery,
+	_ queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	return given.relevancePerDocument
 }
@@ -30,7 +30,7 @@ func addressesOrderedWithTheHostDiscount(
 	t.Helper()
 
 	itemsOfOnePeerRanking := make(
-		[]peeranswers.AnsweredItem, 0, len(addressesInFallingOrderOfRelevance),
+		[]queryanswers.AnsweredItem, 0, len(addressesInFallingOrderOfRelevance),
 	)
 	relevancePerDocument := map[yacymodel.URLHash]float64{}
 	for _, addressAndItsRelevance := range addressesInFallingOrderOfRelevance {
@@ -38,7 +38,7 @@ func addressesOrderedWithTheHostDiscount(
 		if err != nil {
 			t.Fatalf("URLHashOf(%q): %v", addressAndItsRelevance.address, err)
 		}
-		itemsOfOnePeerRanking = append(itemsOfOnePeerRanking, peeranswers.AnsweredItem{
+		itemsOfOnePeerRanking = append(itemsOfOnePeerRanking, queryanswers.AnsweredItem{
 			Metadata: yacymodel.URLMetadata{
 				Hash:    hash,
 				Address: addressAndItsRelevance.address,
@@ -49,8 +49,8 @@ func addressesOrderedWithTheHostDiscount(
 
 	orderedItems := hostdiscount.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
-	).OrderedItemsOf(peeranswers.AnsweredQuery{
-		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{itemsOfOnePeerRanking},
+	).OrderedItemsOf(queryanswers.AnsweredQuery{
+		ItemsInTheOrderOfEachPeerRanking: [][]queryanswers.AnsweredItem{itemsOfOnePeerRanking},
 	})
 	orderedAddresses := make([]string, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {

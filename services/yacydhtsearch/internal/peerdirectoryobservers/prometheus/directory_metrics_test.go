@@ -5,6 +5,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -33,15 +34,15 @@ func TestEveryDirectoryChangeIsCountedUnderItsName(t *testing.T) {
 	peer := yacymodel.WordHash("peer")
 
 	metrics.PeerAdmitted(t.Context(), peer, 2)
-	metrics.PeerAnswering(t.Context(), peer, "http://peer.example:8090")
-	metrics.PeerSilent(t.Context(), peer)
+	metrics.PeerAnswered(t.Context(), peer, "http://peer.example:8090", time.Now())
+	metrics.PeerWentSilent(t.Context(), peer)
 	metrics.PeerDropped(t.Context(), peer)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_directory_peer_changes_total{change="admitted"} 1`,
-		`yacydhtsearch_directory_peer_changes_total{change="answering"} 1`,
-		`yacydhtsearch_directory_peer_changes_total{change="silent"} 1`,
+		`yacydhtsearch_directory_peer_changes_total{change="answered"} 1`,
+		`yacydhtsearch_directory_peer_changes_total{change="wentSilent"} 1`,
 		`yacydhtsearch_directory_peer_changes_total{change="dropped"} 1`,
 	} {
 		if !strings.Contains(body, published) {
@@ -56,7 +57,7 @@ func TestHowFullTheDirectoryIsIsPublishedAgainstItsCapacity(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peerdirectoryobserversprometheus.New(registry)
 
-	metrics.DirectoryHolds(t.Context(), 12, 5, 4096)
+	metrics.PeersKnown(t.Context(), 12, 5, 4096)
 
 	body := publishedBy(t, registry)
 	if !strings.Contains(body, "yacydhtsearch_directory_peers 12") ||

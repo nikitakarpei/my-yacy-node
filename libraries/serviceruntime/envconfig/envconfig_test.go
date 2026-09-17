@@ -69,6 +69,25 @@ func TestPositiveInt64(t *testing.T) {
 	}
 }
 
+func TestShare(t *testing.T) {
+	getenv := fixedEnv(map[string]string{"OK": "0.05", "WHOLE": "1", "NEG": "-0.1", "BAD": "x"})
+	if got, err := envconfig.Share(getenv, "OK", 0.5); err != nil || got != 0.05 {
+		t.Errorf("OK = %v, %v", got, err)
+	}
+	if got, err := envconfig.Share(getenv, "MISSING", 0.5); err != nil || got != 0.5 {
+		t.Errorf("MISSING = %v, %v", got, err)
+	}
+	if _, err := envconfig.Share(getenv, "WHOLE", 0.5); err == nil {
+		t.Error("WHOLE: expected error")
+	}
+	if _, err := envconfig.Share(getenv, "NEG", 0.5); err == nil {
+		t.Error("NEG: expected error")
+	}
+	if _, err := envconfig.Share(getenv, "BAD", 0.5); err == nil {
+		t.Error("BAD: expected error")
+	}
+}
+
 func TestDuration(t *testing.T) {
 	getenv := fixedEnv(map[string]string{"OK": "30s", "ZERO": "0s", "BAD": "x"})
 	if got, err := envconfig.Duration(

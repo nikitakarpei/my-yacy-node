@@ -13,10 +13,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -24,27 +24,26 @@ import (
 )
 
 const (
-	networkName         = "freeworld"
-	responseLimit       = 1 << 20
-	peersHoldingOneWord = 4
-	peerCallsInFlight   = 48
-	peerCallBudget      = 3 * time.Second
-	queryBudget         = 5 * time.Second
-	pageReadBudget      = 3 * time.Second
-	peerResults         = 10
-	directoryLimit      = 16
-	recordCeiling       = 50
-	pagesReadPerQuery   = 50
-	cooldown            = 5 * time.Second
+	networkName       = "freeworld"
+	responseLimit     = 1 << 20
+	peerCallsInFlight = 48
+	peerCallBudget    = 3 * time.Second
+	queryBudget       = 5 * time.Second
+	pageReadBudget    = 3 * time.Second
+	peerResults       = 10
+	directoryLimit    = 16
+	recordCeiling     = 50
+	pagesReadPerQuery = 50
+	cooldown          = 5 * time.Second
 )
 
 type silentDirectoryObserver struct{}
 
-func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)     {}
-func (silentDirectoryObserver) PeerAnswering(context.Context, yacymodel.Hash, string) {}
-func (silentDirectoryObserver) PeerSilent(context.Context, yacymodel.Hash)            {}
-func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)           {}
-func (silentDirectoryObserver) DirectoryHolds(context.Context, int, int, int)         {}
+func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)               {}
+func (silentDirectoryObserver) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {}
+func (silentDirectoryObserver) PeerWentSilent(context.Context, yacymodel.Hash)                  {}
+func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)                     {}
+func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)                       {}
 
 type silentOutcome struct{}
 
@@ -84,7 +83,6 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	_ int,
 ) [][]peerdirectory.AskablePeer {
 	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for range queryWords {
@@ -126,8 +124,7 @@ func directoryAnsweringAt(t *testing.T, addresses ...string) *peerdirectory.Dire
 	t.Helper()
 
 	directory := peerdirectory.New(
-		directoryLimit,
-		cooldown,
+		peerdirectory.DirectoryLimits{Capacity: directoryLimit, Cooldown: cooldown},
 		time.Now,
 		stalestFirst{},
 		silentDirectoryObserver{},
@@ -155,8 +152,20 @@ func directoryAnsweringAt(t *testing.T, addresses ...string) *peerdirectory.Dire
 
 type stalestFirst struct{}
 
-func (stalestFirst) StalestPeers(known []peerdirectory.KnownPeer, _ int) []yacymodel.Hash {
-	return []yacymodel.Hash{known[0].Hash}
+func (stalestFirst) StalestPeersFirst(
+	_ context.Context,
+	members []peerdirectory.KnownPeer,
+	candidates []peerdirectory.CandidatePeer,
+) []yacymodel.Hash {
+	stalest := make([]yacymodel.Hash, 0, len(members)+len(candidates))
+	for _, candidate := range candidates {
+		stalest = append(stalest, candidate.Hash)
+	}
+	for _, member := range members {
+		stalest = append(stalest, member.Hash)
+	}
+
+	return stalest
 }
 
 func networkOver(
@@ -185,7 +194,6 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 		),
 		everyAskablePeer{},
 		peerResults,
-		peersHoldingOneWord,
 		peermatched.PeerMatchedSpreadObservers{},
 	)
 }
@@ -215,8 +223,8 @@ func networkSearching(
 type orderingOfThePeerRankings struct{}
 
 func (orderingOfThePeerRankings) OrderedItemsOf(
-	answers peeranswers.AnsweredQuery,
-) []peeranswers.AnsweredItem {
+	answers queryanswers.AnsweredQuery,
+) []queryanswers.AnsweredItem {
 	return answers.ItemOfEachAnsweredDocument()
 }
 
@@ -417,25 +425,25 @@ func TestOnePeerCanSupplyTheWholeRanking(t *testing.T) {
 }
 
 type spreadAnswering struct {
-	answers peeranswers.AnsweredQuery
+	answers queryanswers.AnsweredQuery
 }
 
 func (s spreadAnswering) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ []peerdirectory.AskablePeer,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	return s.answers
 }
 
 func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadAnswering {
 	t.Helper()
 
-	return spreadAnswering{answers: peeranswers.AnsweredQuery{
+	return spreadAnswering{answers: queryanswers.AnsweredQuery{
 		QueryWords: []yacymodel.Hash{
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 		},
-		ItemsInTheOrderOfEachPeerRanking: [][]peeranswers.AnsweredItem{
+		ItemsInTheOrderOfEachPeerRanking: [][]queryanswers.AnsweredItem{
 			{answeredItemCountedForTheWord(t, commonWordAddress, "berlin")},
 			{answeredItemCountedForTheWord(t, rareWordAddress, "kelondro")},
 		},
@@ -448,7 +456,7 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 
 func answeredItemCountedForTheWord(
 	t *testing.T, address string, word string,
-) peeranswers.AnsweredItem {
+) queryanswers.AnsweredItem {
 	t.Helper()
 
 	hash, err := yacymodel.URLHashOf(address)
@@ -456,9 +464,9 @@ func answeredItemCountedForTheWord(
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return peeranswers.AnsweredItem{
+	return queryanswers.AnsweredItem{
 		Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
-		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
+		MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{
 			yacymodel.WordHash(word): {Hits: 1},
 		},
 	}
@@ -562,7 +570,7 @@ type recordedBudgets struct {
 }
 
 type spreadRecordingTheBudgetItGets struct {
-	answers  peeranswers.AnsweredQuery
+	answers  queryanswers.AnsweredQuery
 	recorded *recordedBudgets
 }
 
@@ -570,7 +578,7 @@ func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
 	_ []peerdirectory.AskablePeer,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	s.recorded.spread = budgetLeftIn(ctx)
 
 	return s.answers

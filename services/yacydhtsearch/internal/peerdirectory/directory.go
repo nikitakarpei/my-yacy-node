@@ -3,6 +3,7 @@ package peerdirectory
 import (
 	"context"
 	"maps"
+	"math/rand/v2"
 	"slices"
 	"sync"
 	"time"
@@ -11,38 +12,50 @@ import (
 )
 
 type StalePeerSource interface {
-	StalestPeers(known []KnownPeer, limit int) []yacymodel.Hash
+	StalestPeersFirst(
+		ctx context.Context,
+		members []KnownPeer,
+		candidates []CandidatePeer,
+	) []yacymodel.Hash
 }
 
 type DirectoryObserver interface {
 	PeerAdmitted(ctx context.Context, peer yacymodel.Hash, addresses int)
-	PeerAnswering(ctx context.Context, peer yacymodel.Hash, address string)
-	PeerSilent(ctx context.Context, peer yacymodel.Hash)
+	PeerAnswered(
+		ctx context.Context,
+		peer yacymodel.Hash,
+		address string,
+		answeredAt time.Time,
+	)
+	PeerWentSilent(ctx context.Context, peer yacymodel.Hash)
 	PeerDropped(ctx context.Context, peer yacymodel.Hash)
-	DirectoryHolds(ctx context.Context, peers, answeringPeers, capacity int)
+	PeersKnown(ctx context.Context, amountOfKnownPeers, amountOfAnsweringPeers, capacity int)
+}
+
+type DirectoryLimits struct {
+	Capacity      int
+	Cooldown      time.Duration
+	NewcomerShare float64
 }
 
 type Directory struct {
 	mutex    sync.Mutex
 	peers    map[yacymodel.Hash]KnownPeer
-	capacity int
-	cooldown time.Duration
+	limits   DirectoryLimits
 	now      func() time.Time
 	stale    StalePeerSource
 	observer DirectoryObserver
 }
 
 func New(
-	capacity int,
-	cooldown time.Duration,
+	limits DirectoryLimits,
 	now func() time.Time,
 	stale StalePeerSource,
 	observer DirectoryObserver,
 ) *Directory {
 	return &Directory{
-		peers:    make(map[yacymodel.Hash]KnownPeer, capacity),
-		capacity: capacity,
-		cooldown: cooldown,
+		peers:    make(map[yacymodel.Hash]KnownPeer, limits.Capacity),
+		limits:   limits,
 		now:      now,
 		stale:    stale,
 		observer: observer,
@@ -50,30 +63,141 @@ func New(
 }
 
 func (d *Directory) Admit(ctx context.Context, seeds []yacymodel.Seed) {
+	admittedPeers, droppedPeers := d.holdAdmittedPeers(ctx, seeds)
+	for _, droppedPeer := range droppedPeers {
+		d.observer.PeerDropped(ctx, droppedPeer)
+	}
+	for _, admittedPeer := range admittedPeers {
+		d.observer.PeerAdmitted(ctx, admittedPeer.Hash, len(admittedPeer.Addresses))
+	}
+	d.reportPeersKnown(ctx)
+}
+
+func (d *Directory) holdAdmittedPeers(
+	ctx context.Context,
+	seeds []yacymodel.Seed,
+) ([]KnownPeer, []yacymodel.Hash) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
+	d.refreshTheAddressesOfHeldPeers(seeds)
+	candidates := d.candidatesAmong(seeds)
+	peersOverTheCapacity := d.peersOverTheCapacity(ctx, candidates)
+	droppedPeers := d.drop(peersOverTheCapacity)
+
+	return d.hold(candidates, peersOverTheCapacity), droppedPeers
+}
+
+func (d *Directory) refreshTheAddressesOfHeldPeers(seeds []yacymodel.Seed) {
 	for _, seed := range seeds {
 		addresses := addressesOf(seed)
-		if len(addresses) == 0 {
+		held, isHeld := d.peers[seed.Hash]
+		if len(addresses) == 0 || !isHeld {
 			continue
 		}
-		if known, ok := d.peers[seed.Hash]; ok {
-			known.Addresses = addresses
-			d.peers[seed.Hash] = known
+		held.Addresses = addressesLedBy(held.AnsweredAddress, addresses)
+		d.peers[seed.Hash] = held
+	}
+}
+
+func (d *Directory) candidatesAmong(seeds []yacymodel.Seed) []CandidatePeer {
+	var candidates []CandidatePeer
+	offered := map[yacymodel.Hash]struct{}{}
+	for _, seed := range seeds {
+		addresses := addressesOf(seed)
+		_, isHeld := d.peers[seed.Hash]
+		_, isOffered := offered[seed.Hash]
+		if len(addresses) == 0 || isHeld || isOffered {
 			continue
 		}
-		if !d.makeRoom(ctx) {
+		offered[seed.Hash] = struct{}{}
+		candidates = append(candidates, CandidatePeer{Hash: seed.Hash, Addresses: addresses})
+	}
+
+	return candidates
+}
+
+func (d *Directory) peersOverTheCapacity(
+	ctx context.Context,
+	candidates []CandidatePeer,
+) []yacymodel.Hash {
+	amountOverTheCapacity := len(d.peers) + len(candidates) - d.limits.Capacity
+	if amountOverTheCapacity <= 0 {
+		return nil
+	}
+	newcomers := d.newcomersDrawnAmong(candidates)
+	peersOverTheCapacity := make([]yacymodel.Hash, 0, amountOverTheCapacity)
+	for _, peer := range d.stalestPeersFirst(ctx, candidates) {
+		if len(peersOverTheCapacity) == amountOverTheCapacity {
+			break
+		}
+		if _, drawn := newcomers[peer]; drawn {
 			continue
 		}
-		d.peers[seed.Hash] = KnownPeer{
-			Hash:       seed.Hash,
-			Addresses:  addresses,
+		peersOverTheCapacity = append(peersOverTheCapacity, peer)
+	}
+
+	return peersOverTheCapacity
+}
+
+func (d *Directory) newcomersDrawnAmong(
+	candidates []CandidatePeer,
+) map[yacymodel.Hash]struct{} {
+	amountDrawn := min(
+		len(candidates),
+		int(float64(d.limits.Capacity)*d.limits.NewcomerShare),
+	)
+	drawn := make(map[yacymodel.Hash]struct{}, amountDrawn)
+	//nolint:gosec // G404: which new peers a directory admits needs no unpredictability.
+	for _, index := range rand.Perm(len(candidates))[:amountDrawn] {
+		drawn[candidates[index].Hash] = struct{}{}
+	}
+
+	return drawn
+}
+
+func (d *Directory) stalestPeersFirst(
+	ctx context.Context,
+	candidates []CandidatePeer,
+) []yacymodel.Hash {
+	return d.stale.StalestPeersFirst(ctx, slices.Collect(maps.Values(d.peers)), candidates)
+}
+
+func (d *Directory) drop(peers []yacymodel.Hash) []yacymodel.Hash {
+	droppedPeers := make([]yacymodel.Hash, 0, len(peers))
+	for _, peer := range peers {
+		if _, isHeld := d.peers[peer]; !isHeld {
+			continue
+		}
+		delete(d.peers, peer)
+		droppedPeers = append(droppedPeers, peer)
+	}
+
+	return droppedPeers
+}
+
+func (d *Directory) hold(
+	candidates []CandidatePeer,
+	peersOverTheCapacity []yacymodel.Hash,
+) []KnownPeer {
+	refusedCandidates := make(map[yacymodel.Hash]struct{}, len(peersOverTheCapacity))
+	for _, peer := range peersOverTheCapacity {
+		refusedCandidates[peer] = struct{}{}
+	}
+	admittedPeers := make([]KnownPeer, 0, len(candidates)-len(refusedCandidates))
+	for _, candidate := range candidates {
+		if _, refused := refusedCandidates[candidate.Hash]; refused {
+			continue
+		}
+		d.peers[candidate.Hash] = KnownPeer{
+			Hash:       candidate.Hash,
+			Addresses:  candidate.Addresses,
 			AdmittedAt: d.now(),
 		}
-		d.observer.PeerAdmitted(ctx, seed.Hash, len(addresses))
+		admittedPeers = append(admittedPeers, d.peers[candidate.Hash])
 	}
-	d.reportContents(ctx)
+
+	return admittedPeers
 }
 
 func (d *Directory) KnownPeers(ctx context.Context) []KnownPeer {
@@ -89,10 +213,10 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 
 	askable := make([]AskablePeer, 0, len(d.peers))
 	for _, peer := range d.peers {
-		if peer.AnsweringAddress == "" || d.now().Sub(peer.ChosenAt) < d.cooldown {
+		if !peer.answersNow() || d.now().Sub(peer.ChosenAt) < d.limits.Cooldown {
 			continue
 		}
-		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweringAddress})
+		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweredAddress})
 	}
 
 	return askable
@@ -113,60 +237,69 @@ func (d *Directory) MarkPeersChosen(ctx context.Context, peers []AskablePeer) {
 }
 
 func (d *Directory) ConfirmAnswering(ctx context.Context, peer yacymodel.Hash, address string) {
+	answeredAt, wasSilent, isKnown := d.holdAnswer(peer, address)
+	if !isKnown {
+		return
+	}
+	d.observer.PeerAnswered(ctx, peer, address, answeredAt)
+	if wasSilent {
+		d.reportPeersKnown(ctx)
+	}
+}
+
+func (d *Directory) holdAnswer(
+	peer yacymodel.Hash,
+	address string,
+) (time.Time, bool, bool) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
 	known, ok := d.peers[peer]
 	if !ok {
-		return
+		return time.Time{}, false, false
 	}
-	wasSilent := known.AnsweringAddress == ""
-	known.AnsweringAddress = address
+	wasSilent := !known.answersNow()
+	known.AnsweredAddress = address
 	known.AnsweredAt = d.now()
 	d.peers[peer] = known
-	d.observer.PeerAnswering(ctx, peer, address)
-	if wasSilent {
-		d.reportContents(ctx)
-	}
+
+	return known.AnsweredAt, wasSilent, true
 }
 
 func (d *Directory) ConfirmSilent(ctx context.Context, peer yacymodel.Hash) {
+	if !d.holdSilence(peer) {
+		return
+	}
+	d.observer.PeerWentSilent(ctx, peer)
+	d.reportPeersKnown(ctx)
+}
+
+func (d *Directory) holdSilence(peer yacymodel.Hash) (wasAnswering bool) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
 	known, ok := d.peers[peer]
 	if !ok {
-		return
+		return false
 	}
-	wasAnswering := known.AnsweringAddress != ""
-	known.AnsweringAddress = ""
+	wasAnswering = known.answersNow()
+	known.WentSilentAt = d.now()
 	d.peers[peer] = known
-	d.observer.PeerSilent(ctx, peer)
-	if wasAnswering {
-		d.reportContents(ctx)
-	}
+
+	return wasAnswering
 }
 
-func (d *Directory) makeRoom(ctx context.Context) bool {
-	if len(d.peers) < d.capacity {
-		return true
-	}
-	for _, stale := range d.stale.StalestPeers(slices.Collect(maps.Values(d.peers)), 1) {
-		delete(d.peers, stale)
-		d.observer.PeerDropped(ctx, stale)
-	}
+func (d *Directory) reportPeersKnown(ctx context.Context) {
+	d.mutex.Lock()
+	defer d.mutex.Unlock()
 
-	return len(d.peers) < d.capacity
-}
-
-func (d *Directory) reportContents(ctx context.Context) {
-	answeringPeers := 0
+	amountOfAnsweringPeers := 0
 	for _, peer := range d.peers {
-		if peer.AnsweringAddress != "" {
-			answeringPeers++
+		if peer.answersNow() {
+			amountOfAnsweringPeers++
 		}
 	}
-	d.observer.DirectoryHolds(ctx, len(d.peers), answeringPeers, d.capacity)
+	d.observer.PeersKnown(ctx, len(d.peers), amountOfAnsweringPeers, d.limits.Capacity)
 }
 
 func addressesOf(seed yacymodel.Seed) []string {
@@ -191,6 +324,21 @@ func addressesOf(seed yacymodel.Seed) []string {
 	return addresses
 }
 
+func addressesLedBy(answeredAddress string, seeded []string) []string {
+	if answeredAddress == "" {
+		return seeded
+	}
+	led := make([]string, 0, len(seeded)+1)
+	led = append(led, answeredAddress)
+	for _, address := range seeded {
+		if address != answeredAddress {
+			led = append(led, address)
+		}
+	}
+
+	return led
+}
+
 type DirectoryObservers []DirectoryObserver
 
 func (observers DirectoryObservers) PeerAdmitted(
@@ -203,19 +351,20 @@ func (observers DirectoryObservers) PeerAdmitted(
 	}
 }
 
-func (observers DirectoryObservers) PeerAnswering(
+func (observers DirectoryObservers) PeerAnswered(
 	ctx context.Context,
 	peer yacymodel.Hash,
 	address string,
+	answeredAt time.Time,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnswering(ctx, peer, address)
+		observer.PeerAnswered(ctx, peer, address, answeredAt)
 	}
 }
 
-func (observers DirectoryObservers) PeerSilent(ctx context.Context, peer yacymodel.Hash) {
+func (observers DirectoryObservers) PeerWentSilent(ctx context.Context, peer yacymodel.Hash) {
 	for _, observer := range observers {
-		observer.PeerSilent(ctx, peer)
+		observer.PeerWentSilent(ctx, peer)
 	}
 }
 
@@ -225,11 +374,11 @@ func (observers DirectoryObservers) PeerDropped(ctx context.Context, peer yacymo
 	}
 }
 
-func (observers DirectoryObservers) DirectoryHolds(
+func (observers DirectoryObservers) PeersKnown(
 	ctx context.Context,
-	peers, answeringPeers, capacity int,
+	amountOfKnownPeers, amountOfAnsweringPeers, capacity int,
 ) {
 	for _, observer := range observers {
-		observer.DirectoryHolds(ctx, peers, answeringPeers, capacity)
+		observer.PeersKnown(ctx, amountOfKnownPeers, amountOfAnsweringPeers, capacity)
 	}
 }

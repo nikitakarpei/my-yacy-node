@@ -12,7 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -51,7 +51,7 @@ func formatDerivationsOfThePages(t *testing.T) pageformats.FormatDerivationCatal
 
 func (r pageTextReading) pageTextPerDocument(
 	ctx context.Context,
-	answeredItems []peeranswers.AnsweredItem,
+	answeredItems []queryanswers.AnsweredItem,
 ) map[yacymodel.URLHash]string {
 	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
 	defer stopPageReadBudget()
@@ -111,7 +111,7 @@ func (r pageTextReading) textOfTheDocument(
 }
 
 func pageTextPerDocumentOf(
-	answeredItems []peeranswers.AnsweredItem,
+	answeredItems []queryanswers.AnsweredItem,
 	pageTextOfEachPlace []string,
 ) map[yacymodel.URLHash]string {
 	pageTextPerDocument := make(map[yacymodel.URLHash]string, len(answeredItems))

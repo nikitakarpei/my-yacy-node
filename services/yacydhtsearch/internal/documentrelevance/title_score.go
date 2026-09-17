@@ -1,7 +1,7 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -11,7 +11,7 @@ const (
 )
 
 func titleScoreOf(
-	item peeranswers.AnsweredItem, rarity queryWordRarity, queryWords []yacymodel.Hash,
+	item queryanswers.AnsweredItem, rarity queryWordRarity, queryWords []yacymodel.Hash,
 ) float64 {
 	if item.Metadata.Title == "" {
 		return shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses
@@ -25,7 +25,7 @@ func titleScoreOf(
 }
 
 func queryWordsOfTheTitleOf(
-	item peeranswers.AnsweredItem, queryWords []yacymodel.Hash,
+	item queryanswers.AnsweredItem, queryWords []yacymodel.Hash,
 ) []yacymodel.Hash {
 	wordsOfTheTitle := wordsOfTheTitleOf(item.Metadata.Title)
 

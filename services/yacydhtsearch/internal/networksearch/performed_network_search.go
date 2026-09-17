@@ -3,7 +3,7 @@ package networksearch
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -17,8 +17,8 @@ type PerformedNetworkSearch struct {
 }
 
 func performedNetworkSearchFrom(
-	answers peeranswers.AnsweredQuery,
-	rankedItems []peeranswers.AnsweredItem,
+	answers queryanswers.AnsweredQuery,
+	rankedItems []queryanswers.AnsweredItem,
 	amountOfAskablePeers int,
 	timeSpent time.Duration,
 ) PerformedNetworkSearch {
@@ -35,7 +35,7 @@ func performedNetworkSearchFrom(
 	}
 }
 
-func amountOfItemsAcrossAnswers(answers peeranswers.AnsweredQuery) int {
+func amountOfItemsAcrossAnswers(answers queryanswers.AnsweredQuery) int {
 	amountOfAnsweredItems := len(answers.ItemsInNoOrder)
 	for _, itemsOfOnePeerRanking := range answers.ItemsInTheOrderOfEachPeerRanking {
 		amountOfAnsweredItems += len(itemsOfOnePeerRanking)
@@ -45,8 +45,8 @@ func amountOfItemsAcrossAnswers(answers peeranswers.AnsweredQuery) int {
 }
 
 func amountOfRankedItemsOfTheOnePeer(
-	itemsInTheOrderOfEachPeerRanking [][]peeranswers.AnsweredItem,
-	rankedItems []peeranswers.AnsweredItem,
+	itemsInTheOrderOfEachPeerRanking [][]queryanswers.AnsweredItem,
+	rankedItems []queryanswers.AnsweredItem,
 ) int {
 	rankedDocuments := make(map[yacymodel.URLHash]struct{}, len(rankedItems))
 	for _, item := range rankedItems {
@@ -65,7 +65,7 @@ func amountOfRankedItemsOfTheOnePeer(
 }
 
 func amountOfRankedItemsAmong(
-	items []peeranswers.AnsweredItem,
+	items []queryanswers.AnsweredItem,
 	rankedDocuments map[yacymodel.URLHash]struct{},
 ) int {
 	countedDocuments := make(map[yacymodel.URLHash]struct{}, len(items))
@@ -79,7 +79,7 @@ func amountOfRankedItemsAmong(
 	return len(countedDocuments)
 }
 
-func amountOfItemsCountedByAPeer(items []peeranswers.AnsweredItem) int {
+func amountOfItemsCountedByAPeer(items []queryanswers.AnsweredItem) int {
 	amount := 0
 	for _, item := range items {
 		if !item.CountedByAPeer() {

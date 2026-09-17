@@ -11,38 +11,40 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
+	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastrecentlyanswered"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	recordingSwitch     = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
-	networkName         = "freeworld"
-	partitionExponent   = 4
-	maxResponseBytes    = 4 * 1024 * 1024
-	directoryCapacity   = 4096
-	peerChoiceCooldown  = 5 * time.Second
-	refreshInterval     = 5 * time.Minute
-	probeBudget         = 3 * time.Second
-	probesInFlight      = 24
-	peersHoldingOneWord = 48
-	peerCallsInFlight   = 48
-	peerCallBudget      = 5 * time.Second
-	peerItemsCeiling    = 10
-	rankedItemsCeiling  = 50
-	queryBudget         = 15 * time.Second
+	recordingSwitch    = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
+	networkName        = "freeworld"
+	partitionExponent  = 4
+	maxResponseBytes   = 4 * 1024 * 1024
+	directoryCapacity  = 4096
+	peerChoiceCooldown = 5 * time.Second
+	refreshInterval    = 5 * time.Minute
+	probeBudget        = 3 * time.Second
+	probesInFlight     = 24
+	networkRedundancy  = 3
+	peerCallsInFlight  = 48
+	peerCallBudget     = 5 * time.Second
+	peerItemsCeiling   = 10
+	rankedItemsCeiling = 50
+	queryBudget        = 15 * time.Second
 
 	pagesReadPerQuery    = 50
 	pageReadBudget       = 10 * time.Second
@@ -140,7 +142,7 @@ type querySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		askablePeers []peerdirectory.AskablePeer,
-	) peeranswers.AnsweredQuery
+	) queryanswers.AnsweredQuery
 }
 
 func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
@@ -148,8 +150,8 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 		t.Skipf("set %s to record what the peers answer", recordingSwitch)
 	}
 
-	directory := directoryOfTheNetwork(t)
-	spread := querySpreadOverThePeers(t, directory)
+	directory, reliability := directoryOfTheNetwork(t)
+	spread := querySpreadOverThePeers(t, directory, reliability)
 	reading := pageTextReadingOverTheWeb(t)
 	t.Logf(
 		"the directory knows %d peers and can ask %d",
@@ -163,15 +165,29 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 	}
 }
 
-func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
+func directoryOfTheNetwork(
+	t *testing.T,
+) (*peerdirectory.Directory, peerreliability.Reliability) {
 	t.Helper()
 
+	presence := peerpresencememory.New(
+		presenceaccrual.PresenceAccrualLimits{
+			Capacity:        directoryCapacity,
+			ContinuityLimit: refreshInterval,
+		},
+		presenceaccrual.PresenceAccrualObservers{},
+	)
+	reliability := peerreliability.New(
+		presence, peerreliability.DefaultReliabilityWeights(), time.Now,
+	)
 	directory := peerdirectory.New(
-		directoryCapacity,
-		peerChoiceCooldown,
+		peerdirectory.DirectoryLimits{
+			Capacity: directoryCapacity,
+			Cooldown: peerChoiceCooldown,
+		},
 		time.Now,
-		leastrecentlyanswered.New(),
-		peerdirectory.DirectoryObservers{},
+		leastreliable.New(reliability, refreshInterval, time.Now),
+		peerdirectory.DirectoryObservers{presence},
 	)
 	peerdirectoryrefresh.New(
 		yacyseedlist.New(
@@ -181,16 +197,24 @@ func directoryOfTheNetwork(t *testing.T) *peerdirectory.Directory {
 			silentSeedlistObserver{},
 		),
 		directory,
-		peerlivenesswire.New(http.DefaultClient, networkName),
-		refreshInterval,
-		probeBudget,
-		probesInFlight,
+		peerlivenesswire.New(
+			http.DefaultClient, networkName, peerlivenesswire.PeerLivenessObservers{},
+		),
+		presence,
+		peerdirectoryrefresh.ProbeLimits{
+			ProbeBudget:    probeBudget,
+			ProbesInFlight: probesInFlight,
+		},
 	).RefreshOnce(t.Context())
 
-	return directory
+	return directory, reliability
 }
 
-func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) querySpread {
+func querySpreadOverThePeers(
+	t *testing.T,
+	directory *peerdirectory.Directory,
+	reliability peerreliability.Reliability,
+) querySpread {
 	t.Helper()
 
 	partitions := ringPartitions(t)
@@ -205,8 +229,7 @@ func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) q
 		peercallwire.PeerCallObservers{},
 	)
 	choice := peerchoice.New(
-		dhtdistance.New(partitions, dhtdistance.DHTDistanceObservers{}),
-		directory,
+		partitions, networkRedundancy, reliability, directory, peerchoice.PeerChoiceObservers{},
 	)
 
 	return bywordcount.New(
@@ -215,14 +238,13 @@ func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) q
 			choice,
 			rankedItemsCeiling,
 			peerItemsCeiling,
-			peersHoldingOneWord,
+			yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{},
 		),
 		peermatched.New(
 			peers,
 			choice,
 			peerItemsCeiling,
-			peersHoldingOneWord,
 			peermatched.PeerMatchedSpreadObservers{},
 		),
 	)
@@ -277,7 +299,7 @@ func answersOfOneQuery(
 	spread querySpread,
 	directory *peerdirectory.Directory,
 	query string,
-) peeranswers.AnsweredQuery {
+) queryanswers.AnsweredQuery {
 	t.Helper()
 
 	ctx, stopQueryBudget := context.WithTimeout(t.Context(), queryBudget)
@@ -291,7 +313,7 @@ func answersOfOneQuery(
 func pageTextOfTheFirstAnsweredDocuments(
 	t *testing.T,
 	reading pageTextReading,
-	answers peeranswers.AnsweredQuery,
+	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]string {
 	t.Helper()
 

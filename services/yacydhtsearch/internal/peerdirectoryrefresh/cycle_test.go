@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -22,15 +23,17 @@ const (
 	refreshEvery   = time.Hour
 	probeBudget    = 3 * time.Second
 	probesInFlight = 4
+	rwiCountAnswer = "version=1.83\nuptime=1200\nresponse=42\n"
+	seededHash     = "aaaaaaaaaaaa"
 )
 
 type silentDirectoryObserver struct{}
 
-func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)     {}
-func (silentDirectoryObserver) PeerAnswering(context.Context, yacymodel.Hash, string) {}
-func (silentDirectoryObserver) PeerSilent(context.Context, yacymodel.Hash)            {}
-func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)           {}
-func (silentDirectoryObserver) DirectoryHolds(context.Context, int, int, int)         {}
+func (silentDirectoryObserver) PeerAdmitted(context.Context, yacymodel.Hash, int)               {}
+func (silentDirectoryObserver) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {}
+func (silentDirectoryObserver) PeerWentSilent(context.Context, yacymodel.Hash)                  {}
+func (silentDirectoryObserver) PeerDropped(context.Context, yacymodel.Hash)                     {}
+func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)                       {}
 
 type silentSeedlistObserver struct{}
 
@@ -38,17 +41,41 @@ func (silentSeedlistObserver) SeedlistRead(context.Context, string, int)        
 func (silentSeedlistObserver) SeedlistUnreachable(context.Context, string, error) {}
 func (silentSeedlistObserver) SeedlistUnreadable(context.Context, string, error)  {}
 
+type earnedPresences map[probeanswerhistory.PeerAtAddress]time.Duration
+
+func (presences earnedPresences) EarnedPresenceOf(
+	_ context.Context,
+	peerAtAddress probeanswerhistory.PeerAtAddress,
+) time.Duration {
+	return presences[peerAtAddress]
+}
+
 type stalestFirst struct{}
 
-func (stalestFirst) StalestPeers(known []peerdirectory.KnownPeer, _ int) []yacymodel.Hash {
-	return []yacymodel.Hash{known[0].Hash}
+func (stalestFirst) StalestPeersFirst(
+	_ context.Context,
+	members []peerdirectory.KnownPeer,
+	candidates []peerdirectory.CandidatePeer,
+) []yacymodel.Hash {
+	stalest := make([]yacymodel.Hash, 0, len(members)+len(candidates))
+	for _, candidate := range candidates {
+		stalest = append(stalest, candidate.Hash)
+	}
+	for _, member := range members {
+		stalest = append(stalest, member.Hash)
+	}
+
+	return stalest
 }
 
 func peerAnsweringProbes(t *testing.T, status int) (host, port string) {
 	t.Helper()
 
 	server := httptest.NewServer(http.HandlerFunc(
-		func(writer http.ResponseWriter, _ *http.Request) { writer.WriteHeader(status) },
+		func(writer http.ResponseWriter, _ *http.Request) {
+			writer.WriteHeader(status)
+			_, _ = writer.Write([]byte(rwiCountAnswer))
+		},
 	))
 	t.Cleanup(server.Close)
 
@@ -58,10 +85,13 @@ func peerAnsweringProbes(t *testing.T, status int) (host, port string) {
 	return address[:split], address[split+1:]
 }
 
-func seedlistNaming(t *testing.T, hash, host, port string) string {
+func seedlistNaming(t *testing.T, host, port string, alsoAt ...string) string {
 	t.Helper()
 
-	line := "Hash=" + hash + ",Name=holder,PeerType=senior,IP=" + host + ",Port=" + port
+	line := "Hash=" + seededHash + ",Name=holder,PeerType=senior,IP=" + host + ",Port=" + port
+	if len(alsoAt) > 0 {
+		line += ",IP6=" + strings.Join(alsoAt, "|")
+	}
 	server := httptest.NewServer(http.HandlerFunc(
 		func(writer http.ResponseWriter, _ *http.Request) {
 			_, _ = writer.Write([]byte(line))
@@ -76,6 +106,7 @@ func refreshOver(
 	t *testing.T,
 	seedlistURL string,
 	directory *peerdirectory.Directory,
+	presence earnedPresences,
 ) peerdirectoryrefresh.Cycle {
 	t.Helper()
 
@@ -87,10 +118,14 @@ func refreshOver(
 			silentSeedlistObserver{},
 		),
 		directory,
-		peerlivenesswire.New(http.DefaultClient, "freeworld"),
-		refreshEvery,
-		probeBudget,
-		probesInFlight,
+		peerlivenesswire.New(
+			http.DefaultClient, "freeworld", peerlivenesswire.PeerLivenessObservers{},
+		),
+		presence,
+		peerdirectoryrefresh.ProbeLimits{
+			ProbeBudget:    probeBudget,
+			ProbesInFlight: probesInFlight,
+		},
 	)
 }
 
@@ -98,8 +133,7 @@ func directoryOf(t *testing.T) *peerdirectory.Directory {
 	t.Helper()
 
 	return peerdirectory.New(
-		directoryLimit,
-		cooldown,
+		peerdirectory.DirectoryLimits{Capacity: directoryLimit, Cooldown: cooldown},
 		time.Now,
 		stalestFirst{},
 		silentDirectoryObserver{},
@@ -114,8 +148,9 @@ func TestOneRefreshMakesASeededPeerAskable(t *testing.T) {
 
 	refreshOver(
 		t,
-		seedlistNaming(t, "aaaaaaaaaaaa", host, port),
+		seedlistNaming(t, host, port),
 		directory,
+		earnedPresences{},
 	).RefreshOnce(t.Context())
 
 	askable := directory.AskablePeers(t.Context())
@@ -132,8 +167,9 @@ func TestAPeerThatAnswersNoProbeStaysUnaskable(t *testing.T) {
 
 	refreshOver(
 		t,
-		seedlistNaming(t, "aaaaaaaaaaaa", host, port),
+		seedlistNaming(t, host, port),
 		directory,
+		earnedPresences{},
 	).RefreshOnce(t.Context())
 
 	if known := directory.KnownPeers(t.Context()); len(known) != 1 {
@@ -149,13 +185,15 @@ func TestTheCycleRefreshesUntilTheServiceStops(t *testing.T) {
 
 	host, port := peerAnsweringProbes(t, http.StatusOK)
 	directory := directoryOf(t)
-	cycle := refreshOver(t, seedlistNaming(t, "aaaaaaaaaaaa", host, port), directory)
+	cycle := refreshOver(
+		t, seedlistNaming(t, host, port), directory, earnedPresences{},
+	)
 
 	ctx, stop := context.WithCancel(t.Context())
 	stopped := make(chan struct{})
 	go func() {
 		defer close(stopped)
-		cycle.Run(ctx)
+		cycle.Run(ctx, refreshEvery)
 	}()
 
 	for len(directory.AskablePeers(t.Context())) == 0 {
@@ -168,4 +206,40 @@ func TestTheCycleRefreshesUntilTheServiceStops(t *testing.T) {
 	case <-time.After(5 * time.Second):
 		t.Fatal("Run did not return after the service stopped")
 	}
+}
+
+func TestTheAddressAPeerHasEarnedPresenceAtIsProbedFirst(t *testing.T) {
+	t.Parallel()
+
+	host, port := peerAnsweringProbes(t, http.StatusOK)
+	presentAddress := "http://localhost:" + port
+	directory := directoryOf(t)
+
+	refreshOver(
+		t,
+		seedlistNaming(t, host, port, "localhost"),
+		directory,
+		earnedPresences{
+			probeanswerhistory.PeerAtAddress{
+				Hash:    peerHash(t),
+				Address: presentAddress,
+			}: time.Hour,
+		},
+	).RefreshOnce(t.Context())
+
+	askable := directory.AskablePeers(t.Context())
+	if len(askable) != 1 || askable[0].Address != presentAddress {
+		t.Fatalf("AskablePeers = %+v, want the address the peer earned presence at", askable)
+	}
+}
+
+func peerHash(t *testing.T) yacymodel.Hash {
+	t.Helper()
+
+	parsed, err := yacymodel.ParseHash(seededHash)
+	if err != nil {
+		t.Fatalf("parse hash: %v", err)
+	}
+
+	return parsed
 }
