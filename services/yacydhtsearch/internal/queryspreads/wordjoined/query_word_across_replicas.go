@@ -95,25 +95,23 @@ func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {
 }
 
 func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymodel.Optional[int] {
-	amountsHeldInCountedPartitions := queryWord.amountsOfDocumentsHeldInCountedPartitions()
-	if len(amountsHeldInCountedPartitions) == 0 {
+	amountsHeldInPartitionsWhereAPeerCounted := queryWord.amountsOfDocumentsHeldInPartitionsWhereAPeerCounted()
+	if len(amountsHeldInPartitionsWhereAPeerCounted) == 0 {
 		return yacymodel.None[int]()
 	}
 
-	amountOfUncountedPartitions := len(
-		queryWord.queryWordOnReplicasPerPartition,
-	) - len(
-		amountsHeldInCountedPartitions,
-	)
-	sumOfAmountsHeld := amountOfUncountedPartitions * lowerMedianOf(amountsHeldInCountedPartitions)
-	for _, amountHeld := range amountsHeldInCountedPartitions {
+	amountOfPartitionsWhereNoPeerCounted := len(queryWord.queryWordOnReplicasPerPartition) -
+		len(amountsHeldInPartitionsWhereAPeerCounted)
+	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted *
+		lowerMedianOf(amountsHeldInPartitionsWhereAPeerCounted)
+	for _, amountHeld := range amountsHeldInPartitionsWhereAPeerCounted {
 		sumOfAmountsHeld += amountHeld
 	}
 
 	return yacymodel.Some(sumOfAmountsHeld)
 }
 
-func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInCountedPartitions() []int {
+func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
 	amountsHeld := make([]int, 0, len(queryWord.queryWordOnReplicasPerPartition))
 	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
 		countedAmounts := amountsOfDocumentsHeldCountedBy(queryWordOnReplicasOfPartition)
