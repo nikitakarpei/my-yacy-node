@@ -3,12 +3,11 @@ package wordjoined
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func answeredQueryFrom(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 	urlMetadataRound urlMetadataRound,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{

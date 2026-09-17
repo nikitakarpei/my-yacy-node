@@ -43,22 +43,22 @@ func (m urlMetadataRoundMetrics) observeURLMetadataRound(
 	if amountOfJoinedDocumentsWithoutMetadata > 0 {
 		m.joinedDocumentsDroppedBeforeMetadataLookupRatio.Observe(
 			float64(
-				amountOfJoinedDocumentsWithoutMetadata-urlMetadataRound.AmountOfDocumentsAskedMetadataFor,
+				amountOfJoinedDocumentsWithoutMetadata-urlMetadataRound.AmountOfLookedUpDocuments,
 			) /
 				float64(
 					amountOfJoinedDocumentsWithoutMetadata,
 				),
 		)
 	}
-	if urlMetadataRound.AmountOfDocumentsAskedMetadataFor == 0 {
+	if urlMetadataRound.AmountOfLookedUpDocuments == 0 {
 		return
 	}
 	m.lookedUpDocumentsWithoutMetadataRatio.Observe(
 		float64(
-			urlMetadataRound.AmountOfDocumentsAskedMetadataFor-urlMetadataRound.AmountOfAskedDocumentsWithMetadata,
+			urlMetadataRound.AmountOfLookedUpDocuments-urlMetadataRound.AmountOfLookedUpDocumentsWithMetadata,
 		) /
 			float64(
-				urlMetadataRound.AmountOfDocumentsAskedMetadataFor,
+				urlMetadataRound.AmountOfLookedUpDocuments,
 			),
 	)
 }

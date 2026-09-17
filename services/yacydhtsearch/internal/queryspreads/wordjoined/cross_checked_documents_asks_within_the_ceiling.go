@@ -10,7 +10,7 @@ import (
 
 type crossCheckedDocumentsAsksWithinTheCeiling struct {
 	asks                                         []peerasks.CrossCheckedDocumentsAsk
-	documentsPastTheCrossCheckedDocumentsCeiling map[yacymodel.URLHash]struct{}
+	documentsPastTheCrossCheckedDocumentsCeiling distinctDocuments
 }
 
 func crossCheckedDocumentsAsksWithinTheCeilingFor(
@@ -19,7 +19,7 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 	crossCheckedDocumentsCeiling int,
 ) crossCheckedDocumentsAsksWithinTheCeiling {
 	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeiling{
-		documentsPastTheCrossCheckedDocumentsCeiling: map[yacymodel.URLHash]struct{}{},
+		documentsPastTheCrossCheckedDocumentsCeiling: distinctDocuments{},
 	}
 	for _, queryWord := range queryWordsBesideTheLeadingQueryWord {
 		if queryWord.isFullyListed() {
@@ -42,7 +42,7 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 				peersWithoutAnAsk, queryWord.word, candidateDocuments[:amountOfDocumentsDealt],
 			)...)
 		for _, document := range candidateDocuments[amountOfDocumentsDealt:] {
-			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling[document] = struct{}{}
+			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling.add(document)
 		}
 	}
 
@@ -51,11 +51,11 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 
 func documentsNotListedByPeersAmong(
 	documents []yacymodel.URLHash,
-	documentsListedByPeers map[yacymodel.URLHash]struct{},
+	documentsListedByPeers distinctDocuments,
 ) []yacymodel.URLHash {
 	keptDocuments := make([]yacymodel.URLHash, 0, len(documents))
 	for _, document := range documents {
-		if _, listedByPeers := documentsListedByPeers[document]; listedByPeers {
+		if documentsListedByPeers.contains(document) {
 			continue
 		}
 		keptDocuments = append(keptDocuments, document)

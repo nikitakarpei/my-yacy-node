@@ -2,7 +2,6 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type crossCheckedDocumentsRound struct {
@@ -11,14 +10,14 @@ type crossCheckedDocumentsRound struct {
 	amountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
 }
 
-func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWord() map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
-	documentsFoundByCrossCheckingPerQueryWord := map[yacymodel.Hash]map[yacymodel.URLHash]struct{}{}
+func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWord() documentsPerQueryWord {
+	documentsFoundByCrossCheckingPerQueryWord := documentsPerQueryWord{}
 	for _, answeredAsk := range round.answeredAsks {
 		if documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] == nil {
-			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] = map[yacymodel.URLHash]struct{}{}
+			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] = distinctDocuments{}
 		}
 		for _, document := range answeredAsk.DocumentsHeldForTheWord {
-			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word][document] = struct{}{}
+			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word].add(document)
 		}
 	}
 

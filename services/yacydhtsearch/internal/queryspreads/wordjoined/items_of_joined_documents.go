@@ -8,7 +8,7 @@ import (
 
 func itemsInTheOrderOfEachPeerRankingOf(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 ) [][]queryanswers.AnsweredItem {
 	itemsInTheOrderOfEachPeerRanking := make([][]queryanswers.AnsweredItem, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
@@ -24,11 +24,11 @@ func itemsInTheOrderOfEachPeerRankingOf(
 
 func itemsOfJoinedDocumentsAmong(
 	answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 ) []queryanswers.AnsweredItem {
 	keptItems := make([]queryanswers.AnsweredItem, 0, len(answeredAsk.MatchedDocuments))
 	for _, matchedDocument := range answeredAsk.MatchedDocuments {
-		if _, joined := joinedDocuments[matchedDocument.Metadata.Hash]; !joined {
+		if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
 			continue
 		}
 		keptItems = append(keptItems, queryanswers.AnsweredItem{

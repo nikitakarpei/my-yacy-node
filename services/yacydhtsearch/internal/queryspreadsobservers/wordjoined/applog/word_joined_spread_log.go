@@ -97,10 +97,10 @@ func attributesOfURLMetadataRound(round wordjoined.PerformedURLMetadataRound) []
 			"amountOfJoinedDocumentsWithMetadata",
 			round.AmountOfJoinedDocumentsWithMetadata,
 		),
-		slog.Int("amountOfDocumentsAskedMetadataFor", round.AmountOfDocumentsAskedMetadataFor),
+		slog.Int("amountOfLookedUpDocuments", round.AmountOfLookedUpDocuments),
 		slog.Int(
-			"amountOfAskedDocumentsWithMetadata",
-			round.AmountOfAskedDocumentsWithMetadata,
+			"amountOfLookedUpDocumentsWithMetadata",
+			round.AmountOfLookedUpDocumentsWithMetadata,
 		),
 	}
 }

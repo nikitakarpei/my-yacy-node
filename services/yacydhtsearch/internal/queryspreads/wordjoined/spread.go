@@ -166,7 +166,7 @@ func (spread Spread) askForCrossCheckedDocuments(
 func (spread Spread) askForURLMetadata(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 ) urlMetadataRound {
 	documentsWithoutMetadata := documentsWithoutMetadataAmong(
 		joinedDocuments, matchedAndHeldDocumentsRound.answeredAsks,

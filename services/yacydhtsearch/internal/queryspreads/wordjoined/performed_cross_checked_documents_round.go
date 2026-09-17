@@ -3,7 +3,6 @@ package wordjoined
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
@@ -18,7 +17,7 @@ type PerformedCrossCheckedDocumentsRound struct {
 func performedCrossCheckedDocumentsRoundFrom(
 	round crossCheckedDocumentsRound,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 ) PerformedCrossCheckedDocumentsRound {
 	return PerformedCrossCheckedDocumentsRound{
 		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: round.
@@ -34,9 +33,9 @@ func performedCrossCheckedDocumentsRoundFrom(
 			round.answeredAsks,
 		),
 		AmountOfJoinedDocuments: len(joinedDocuments),
-		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: amountOfJoinedDocumentsFoundOnlyByCrossCheckingAmong(
-			joinedDocuments,
-			matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord(),
+		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: len(joinedDocuments) - len(
+			matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord().
+				documentsOfEveryQueryWord(),
 		),
 	}
 }
@@ -59,21 +58,6 @@ func amountOfEmptyCrossCheckedDocumentsAnswers(
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
 		if len(answeredAsk.DocumentsHeldForTheWord) > 0 {
-			continue
-		}
-		amount++
-	}
-
-	return amount
-}
-
-func amountOfJoinedDocumentsFoundOnlyByCrossCheckingAmong(
-	joinedDocuments map[yacymodel.URLHash]struct{},
-	documentsListedByPeersPerQueryWord map[yacymodel.Hash]map[yacymodel.URLHash]struct{},
-) int {
-	amount := 0
-	for document := range joinedDocuments {
-		if isFoundForEveryQueryWord(document, documentsListedByPeersPerQueryWord) {
 			continue
 		}
 		amount++

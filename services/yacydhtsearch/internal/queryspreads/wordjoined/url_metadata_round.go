@@ -4,19 +4,18 @@ import (
 	"maps"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type urlMetadataRound struct {
-	documentsWithoutMetadata map[yacymodel.URLHash]struct{}
+	documentsWithoutMetadata distinctDocuments
 	asks                     []peerasks.URLMetadataAsk
 	answeredAsks             []peerasks.AnsweredURLMetadataAsk
 }
 
 func documentsWithoutMetadataAmong(
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) map[yacymodel.URLHash]struct{} {
+) distinctDocuments {
 	documentsWithoutMetadata := maps.Clone(joinedDocuments)
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {

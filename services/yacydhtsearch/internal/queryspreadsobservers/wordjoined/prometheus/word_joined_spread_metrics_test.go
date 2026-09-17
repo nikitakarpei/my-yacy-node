@@ -51,9 +51,9 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 			AmountOfJoinedDocuments:                              10,
 		},
 		URLMetadataRound: wordjoined.PerformedURLMetadataRound{
-			AmountOfJoinedDocumentsWithMetadata: 2,
-			AmountOfDocumentsAskedMetadataFor:   4,
-			AmountOfAskedDocumentsWithMetadata:  3,
+			AmountOfJoinedDocumentsWithMetadata:   2,
+			AmountOfLookedUpDocuments:             4,
+			AmountOfLookedUpDocumentsWithMetadata: 3,
 		},
 		TimeSpent: 250 * time.Millisecond,
 	})

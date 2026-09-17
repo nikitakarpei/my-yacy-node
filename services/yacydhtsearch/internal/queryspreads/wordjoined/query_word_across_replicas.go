@@ -147,8 +147,8 @@ func lowerMedianOf(amounts []int) int {
 	return sortedAmounts[(len(sortedAmounts)-1)/2]
 }
 
-func (queryWord queryWordAcrossReplicas) documentsListedByPeers() map[yacymodel.URLHash]struct{} {
-	documentsListedByPeers := map[yacymodel.URLHash]struct{}{}
+func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocuments {
+	documentsListedByPeers := distinctDocuments{}
 	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
 		for _, queryWordOnOneReplica := range queryWordOnReplicasOfPartition {
 			answer, answered := queryWordOnOneReplica.answer.Get()
@@ -156,7 +156,7 @@ func (queryWord queryWordAcrossReplicas) documentsListedByPeers() map[yacymodel.
 				continue
 			}
 			for _, document := range answer.DocumentsListedForTheWord {
-				documentsListedByPeers[document] = struct{}{}
+				documentsListedByPeers.add(document)
 			}
 		}
 	}

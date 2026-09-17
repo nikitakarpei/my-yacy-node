@@ -42,7 +42,7 @@ func (round matchedAndHeldDocumentsRound) placeOfTheLeadingQueryWord() int {
 }
 
 func (round matchedAndHeldDocumentsRound) documentsMostListedFirstAmong(
-	documents map[yacymodel.URLHash]struct{},
+	documents distinctDocuments,
 ) []yacymodel.URLHash {
 	return slices.SortedFunc(
 		maps.Keys(documents),
@@ -97,9 +97,9 @@ func amountOfPeersPerDocumentOf(
 	return amountOfPeersPerDocument
 }
 
-func (round matchedAndHeldDocumentsRound) documentsListedByPeersPerQueryWord() map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
+func (round matchedAndHeldDocumentsRound) documentsListedByPeersPerQueryWord() documentsPerQueryWord {
 	documentsListedByPeersPerQueryWord := make(
-		map[yacymodel.Hash]map[yacymodel.URLHash]struct{},
+		documentsPerQueryWord,
 		len(round.queryWordsFewestDocumentsFirst),
 	)
 	for _, queryWord := range round.queryWordsFewestDocumentsFirst {

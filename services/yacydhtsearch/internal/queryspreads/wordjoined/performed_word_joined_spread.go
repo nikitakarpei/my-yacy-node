@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedWordJoinedSpread struct {
@@ -17,7 +16,7 @@ type PerformedWordJoinedSpread struct {
 func performedWordJoinedSpreadFrom(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	crossCheckedDocumentsRound crossCheckedDocumentsRound,
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 	urlMetadataRound urlMetadataRound,
 	timeSpent time.Duration,
 ) PerformedWordJoinedSpread {

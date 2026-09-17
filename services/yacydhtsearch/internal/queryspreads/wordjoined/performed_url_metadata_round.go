@@ -2,54 +2,53 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedURLMetadataRound struct {
-	AmountOfJoinedDocumentsWithMetadata int
-	AmountOfDocumentsAskedMetadataFor   int
-	AmountOfAskedDocumentsWithMetadata  int
+	AmountOfJoinedDocumentsWithMetadata   int
+	AmountOfLookedUpDocuments             int
+	AmountOfLookedUpDocumentsWithMetadata int
 }
 
 func performedURLMetadataRoundFrom(
 	round urlMetadataRound,
-	joinedDocuments map[yacymodel.URLHash]struct{},
+	joinedDocuments distinctDocuments,
 ) PerformedURLMetadataRound {
 	return PerformedURLMetadataRound{
 		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) -
 			len(round.documentsWithoutMetadata),
-		AmountOfDocumentsAskedMetadataFor: len(documentsAcrossURLMetadataAsks(round.asks)),
-		AmountOfAskedDocumentsWithMetadata: amountOfAskedDocumentsWithMetadata(
+		AmountOfLookedUpDocuments: len(lookedUpDocumentsAcross(round.asks)),
+		AmountOfLookedUpDocumentsWithMetadata: amountOfLookedUpDocumentsWithMetadata(
 			round.asks, round.answeredAsks,
 		),
 	}
 }
 
-func documentsAcrossURLMetadataAsks(
+func lookedUpDocumentsAcross(
 	asks []peerasks.URLMetadataAsk,
-) map[yacymodel.URLHash]struct{} {
-	documents := map[yacymodel.URLHash]struct{}{}
+) distinctDocuments {
+	documents := distinctDocuments{}
 	for _, ask := range asks {
 		for _, document := range ask.Documents {
-			documents[document] = struct{}{}
+			documents.add(document)
 		}
 	}
 
 	return documents
 }
 
-func amountOfAskedDocumentsWithMetadata(
+func amountOfLookedUpDocumentsWithMetadata(
 	asks []peerasks.URLMetadataAsk,
 	answeredAsks []peerasks.AnsweredURLMetadataAsk,
 ) int {
-	askedDocuments := documentsAcrossURLMetadataAsks(asks)
-	documentsWithMetadata := map[yacymodel.URLHash]struct{}{}
+	lookedUpDocuments := lookedUpDocumentsAcross(asks)
+	documentsWithMetadata := distinctDocuments{}
 	for _, answeredAsk := range answeredAsks {
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
-			if _, asked := askedDocuments[metadata.Hash]; !asked {
+			if !lookedUpDocuments.contains(metadata.Hash) {
 				continue
 			}
-			documentsWithMetadata[metadata.Hash] = struct{}{}
+			documentsWithMetadata.add(metadata.Hash)
 		}
 	}
 

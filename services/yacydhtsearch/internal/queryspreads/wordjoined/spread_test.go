@@ -1134,7 +1134,7 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 			performed)
 	}
 	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer != 0 ||
-		performed.URLMetadataRound.AmountOfAskedDocumentsWithMetadata != 1 {
+		performed.URLMetadataRound.AmountOfLookedUpDocumentsWithMetadata != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want every word held and the joined document back",
 			performed,
@@ -1271,16 +1271,16 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 
 	performed := observer.performed[0]
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 ||
-		performed.URLMetadataRound.AmountOfDocumentsAskedMetadataFor != 1 {
+		performed.URLMetadataRound.AmountOfLookedUpDocuments != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want two joined documents and one asked metadata for",
 			performed,
 		)
 	}
-	if performed.URLMetadataRound.AmountOfAskedDocumentsWithMetadata != 1 {
+	if performed.URLMetadataRound.AmountOfLookedUpDocumentsWithMetadata != 1 {
 		t.Fatalf(
 			"the spread reported %d documents back, want the one it asked metadata for",
-			performed.URLMetadataRound.AmountOfAskedDocumentsWithMetadata,
+			performed.URLMetadataRound.AmountOfLookedUpDocumentsWithMetadata,
 		)
 	}
 }
