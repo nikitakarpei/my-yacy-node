@@ -240,6 +240,7 @@ func querySpreadOverThePeers(
 			rankedItemsCeiling,
 			heldDocumentsCeiling,
 			peerItemsCeiling,
+			partitions,
 			yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{},
 		),

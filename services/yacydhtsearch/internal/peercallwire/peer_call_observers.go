@@ -8,10 +8,10 @@ import (
 )
 
 type PeerCallObserver interface {
-	PeerAnsweredMatchedItems(
+	PeerAnsweredMatchedDocuments(
 		ctx context.Context,
 		address string,
-		amountOfMatchedItems int,
+		amountOfMatchedDocuments int,
 		spent time.Duration,
 	)
 	PeerAnsweredURLMetadata(
@@ -57,14 +57,14 @@ type PeerCallObserver interface {
 
 type PeerCallObservers []PeerCallObserver
 
-func (observers PeerCallObservers) PeerAnsweredMatchedItems(
+func (observers PeerCallObservers) PeerAnsweredMatchedDocuments(
 	ctx context.Context,
 	address string,
-	amountOfMatchedItems int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnsweredMatchedItems(ctx, address, amountOfMatchedItems, spent)
+		observer.PeerAnsweredMatchedDocuments(ctx, address, amountOfMatchedDocuments, spent)
 	}
 }
 

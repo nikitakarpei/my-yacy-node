@@ -229,6 +229,7 @@ func querySpreadFor(
 			cfg.RankedItemsCeiling,
 			cfg.HeldDocumentsCeiling,
 			cfg.PeerItemsCeiling,
+			cfg.Partitions,
 			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{
 				queryspreadsobserverswordjoinedapplog.WordJoinedSpreadLog{},

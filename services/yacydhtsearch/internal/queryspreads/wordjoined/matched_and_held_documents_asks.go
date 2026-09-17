@@ -8,7 +8,7 @@ import (
 
 func matchedAndHeldDocumentsAsksFor(
 	query searchquery.Query,
-	chosenPeersPerQueryWord []peerchoice.PeersOfQueryWord,
+	chosenPeersPerQueryWord [][]peerchoice.ChosenPeer,
 	itemsCeiling int,
 ) []peerasks.MatchedAndHeldDocumentsAsk {
 	return asksInTurnsAcrossTheWordsOf(
@@ -18,16 +18,16 @@ func matchedAndHeldDocumentsAsksFor(
 
 func matchedAndHeldDocumentsAsksPerQueryWordFor(
 	query searchquery.Query,
-	chosenPeersPerQueryWord []peerchoice.PeersOfQueryWord,
+	chosenPeersPerQueryWord [][]peerchoice.ChosenPeer,
 	itemsCeiling int,
 ) [][]peerasks.MatchedAndHeldDocumentsAsk {
 	asksPerQueryWord := make([][]peerasks.MatchedAndHeldDocumentsAsk, 0, len(query.TermHashes()))
 	for index, queryWord := range query.TermHashes() {
-		chosenPeers := chosenPeersPerQueryWord[index].Peers()
+		chosenPeers := chosenPeersPerQueryWord[index]
 		asksOfQueryWord := make([]peerasks.MatchedAndHeldDocumentsAsk, 0, len(chosenPeers))
-		for _, peer := range chosenPeers {
+		for _, chosenPeer := range chosenPeers {
 			asksOfQueryWord = append(asksOfQueryWord, peerasks.MatchedAndHeldDocumentsAsk{
-				Peer:          peer,
+				Peer:          chosenPeer.Peer,
 				Word:          queryWord,
 				ExcludedWords: query.ExclusionHashes(),
 				Language:      query.Language,

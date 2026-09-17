@@ -24,7 +24,8 @@ type replicaOfQueryWord struct {
 
 func queryWordsFewestDocumentsFirstFrom(
 	queryWords []yacymodel.Hash,
-	chosenPeersPerQueryWord []peerchoice.PeersOfQueryWord,
+	partitions yacymodel.DHTRingPartitions,
+	chosenPeersPerQueryWord [][]peerchoice.ChosenPeer,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []answeredQueryWord {
 	answerOfEachReplica := answerOfEachReplicaOf(answeredAsks)
@@ -32,7 +33,7 @@ func queryWordsFewestDocumentsFirstFrom(
 	for index, queryWord := range queryWords {
 		answeredQueryWords = append(answeredQueryWords, answeredQueryWord{
 			word:       queryWord,
-			partitions: chosenPeersPerQueryWord[index].Partitions,
+			partitions: partitions,
 			replicas: replicasOfQueryWordFrom(
 				queryWord, chosenPeersPerQueryWord[index], answerOfEachReplica,
 			),
@@ -65,11 +66,11 @@ func answerOfEachReplicaOf(
 
 func replicasOfQueryWordFrom(
 	queryWord yacymodel.Hash,
-	chosenPeers peerchoice.PeersOfQueryWord,
+	chosenPeers []peerchoice.ChosenPeer,
 	answerOfEachReplica map[peerOfQueryWord]peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []replicaOfQueryWord {
-	replicas := make([]replicaOfQueryWord, 0, len(chosenPeers.ChosenPeers))
-	for _, chosenPeer := range chosenPeers.ChosenPeers {
+	replicas := make([]replicaOfQueryWord, 0, len(chosenPeers))
+	for _, chosenPeer := range chosenPeers {
 		answer := yacymodel.None[peerasks.AnsweredMatchedAndHeldDocumentsAsk]()
 		if answeredAsk, answered := answerOfEachReplica[peerOfQueryWord{
 			peer: chosenPeer.Peer.Hash, word: queryWord,

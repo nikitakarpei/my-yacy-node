@@ -25,6 +25,7 @@ const (
 	heldDocumentsCeiling     = 10
 	peerItemsCeiling         = 10
 	peersHoldingOneWord      = 24
+	partitionsOfTheRing      = 1
 )
 
 type peerNetwork struct {
@@ -236,27 +237,26 @@ func metadataOfEachDocument(documents []yacymodel.URLHash) []yacymodel.URLMetada
 type responsiblePeers struct {
 	peerAddressesPerWord map[string][]string
 	partitionOfEachPeer  map[string]uint
-	partitionsOfTheRing  yacymodel.DHTRingPartitions
 }
 
 func (r responsiblePeers) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) []peerchoice.PeersOfQueryWord {
-	peersPerQueryWord := make([]peerchoice.PeersOfQueryWord, 0, len(queryWords))
+) [][]peerchoice.ChosenPeer {
+	peersPerQueryWord := make([][]peerchoice.ChosenPeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
 		peersPerQueryWord = append(
-			peersPerQueryWord, r.peersOfQueryWord(r.peersForWord(queryWord, askablePeers)),
+			peersPerQueryWord, r.chosenPeersOfQueryWord(r.peersForWord(queryWord, askablePeers)),
 		)
 	}
 
 	return peersPerQueryWord
 }
 
-func (r responsiblePeers) peersOfQueryWord(
+func (r responsiblePeers) chosenPeersOfQueryWord(
 	askablePeers []peerdirectory.AskablePeer,
-) peerchoice.PeersOfQueryWord {
+) []peerchoice.ChosenPeer {
 	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
 	for _, peer := range askablePeers {
 		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{
@@ -265,10 +265,7 @@ func (r responsiblePeers) peersOfQueryWord(
 		})
 	}
 
-	return peerchoice.PeersOfQueryWord{
-		Partitions:  max(r.partitionsOfTheRing, 1),
-		ChosenPeers: chosenPeers,
-	}
+	return chosenPeers
 }
 
 func (r responsiblePeers) peersForWord(
@@ -363,6 +360,7 @@ func spreadAskingMetadataForUpTo(
 			metadataDocumentsCeiling,
 			heldDocumentsCeiling,
 			peerItemsCeiling,
+			partitionsOfTheRing,
 			peersHoldingOneWord,
 			observer,
 		),
@@ -394,6 +392,7 @@ func spreadNamingHeldDocumentsForUpTo(
 			metadataDocumentsCeiling,
 			heldDocumentsCeiling,
 			peerItemsCeiling,
+			partitionsOfTheRing,
 			peersHoldingOneWord,
 			observer,
 		),
@@ -413,6 +412,7 @@ func spreadOfTheQuery(
 		metadataDocumentsCeiling,
 		heldDocumentsCeiling,
 		peerItemsCeiling,
+		partitionsOfTheRing,
 		peersHoldingOneWord,
 		observer,
 	).SpreadOverPeers(
@@ -432,6 +432,7 @@ func spreadWithin(network *peerNetwork, budget time.Duration) {
 		metadataDocumentsCeiling,
 		heldDocumentsCeiling,
 		peerItemsCeiling,
+		partitionsOfTheRing,
 		peersHoldingOneWord,
 		&recordedSpreads{},
 	).SpreadOverPeers(
@@ -1243,6 +1244,7 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 			metadataDocumentsCeiling,
 			heldDocumentsCeiling,
 			peerItemsCeiling,
+			partitionsOfTheRing,
 			peersOfOneWord,
 			&recordedSpreads{},
 		),
@@ -1405,10 +1407,8 @@ func TestEveryPartitionOfAQueryWordAddsWhatItsReplicasCounted(t *testing.T) {
 	got := documentsHeldPerQueryWordAcrossPartitions(
 		map[string]int{"first": 100, "second": 100, "third": 100, "fourth": 10},
 		map[string]struct{}{},
-		responsiblePeers{
-			partitionsOfTheRing: 2,
-			partitionOfEachPeer: map[string]uint{"fourth": 1},
-		},
+		2,
+		responsiblePeers{partitionOfEachPeer: map[string]uint{"fourth": 1}},
 	)
 
 	if want := documentsHeldForBothQueryWords(110); !maps.Equal(got, want) {
@@ -1422,7 +1422,8 @@ func TestAPartitionOfAnEvenAmountOfCountsTakesTheLowerMiddleOne(t *testing.T) {
 	got := documentsHeldPerQueryWordAcrossPartitions(
 		map[string]int{"first": 10, "second": 20},
 		map[string]struct{}{},
-		responsiblePeers{partitionsOfTheRing: 1},
+		1,
+		responsiblePeers{},
 	)
 
 	if want := documentsHeldForBothQueryWords(10); !maps.Equal(got, want) {
@@ -1436,10 +1437,8 @@ func TestAPartitionNoPeerCountedTakesTheMiddleOfThePartitionsThatWereCounted(t *
 	got := documentsHeldPerQueryWordAcrossPartitions(
 		map[string]int{"first": 10, "second": 30},
 		map[string]struct{}{"third": {}},
-		responsiblePeers{
-			partitionsOfTheRing: 3,
-			partitionOfEachPeer: map[string]uint{"second": 1, "third": 2},
-		},
+		3,
+		responsiblePeers{partitionOfEachPeer: map[string]uint{"second": 1, "third": 2}},
 	)
 
 	if want := documentsHeldForBothQueryWords(10 + 30 + 10); !maps.Equal(got, want) {
@@ -1453,10 +1452,8 @@ func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
 	got := documentsHeldPerQueryWordAcrossPartitions(
 		map[string]int{},
 		map[string]struct{}{"first": {}, "second": {}},
-		responsiblePeers{
-			partitionsOfTheRing: 2,
-			partitionOfEachPeer: map[string]uint{"second": 1},
-		},
+		2,
+		responsiblePeers{partitionOfEachPeer: map[string]uint{"second": 1}},
 	)
 
 	if len(got) != 0 {
@@ -1467,6 +1464,7 @@ func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
 func documentsHeldPerQueryWordAcrossPartitions(
 	documentsHeldByEachPeer map[string]int,
 	peersCountingNoDocument map[string]struct{},
+	partitions yacymodel.DHTRingPartitions,
 	choice responsiblePeers,
 ) map[yacymodel.Hash]int {
 	network := networkOf(map[string]map[string][]string{})
@@ -1480,6 +1478,7 @@ func documentsHeldPerQueryWordAcrossPartitions(
 			metadataDocumentsCeiling,
 			heldDocumentsCeiling,
 			peerItemsCeiling,
+			partitions,
 			peersHoldingOneWord,
 			&recordedSpreads{},
 		),

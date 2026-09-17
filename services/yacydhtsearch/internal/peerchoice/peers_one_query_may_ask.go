@@ -19,18 +19,13 @@ func (q peersOneQueryMayAsk) peersForQueryWord(
 	queryWord yacymodel.Hash,
 	peersChosenForEarlierWords []peerdirectory.AskablePeer,
 ) (
-	chosenPeers PeersOfQueryWord,
+	chosenPeers []ChosenPeer,
 	ringFractionsOfTheTakenPeers []float64,
 ) {
-	peersTakenFromTheRing, ringFractionsOfTheTakenPeers := peersTakenFromEachPartitionInTurn(
+	return peersTakenFromEachPartitionInTurn(
 		q.peersNearestToTheWordInEachPartition(queryWord, peersChosenForEarlierWords),
 		q.networkRedundancy,
 	)
-
-	return PeersOfQueryWord{
-		Partitions:  q.partitions,
-		ChosenPeers: peersTakenFromTheRing,
-	}, ringFractionsOfTheTakenPeers
 }
 
 type peerAtRingFractionFromTheWord struct {

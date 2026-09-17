@@ -48,8 +48,8 @@ func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)       
 
 type silentOutcome struct{}
 
-func (silentOutcome) PeerAnsweredMatchedItems(context.Context, string, int, time.Duration) {}
-func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)  {}
+func (silentOutcome) PeerAnsweredMatchedDocuments(context.Context, string, int, time.Duration) {}
+func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)      {}
 func (silentOutcome) PeerAnsweredMatchedAndHeldDocuments(
 	context.Context, string, int, time.Duration,
 ) {
@@ -92,8 +92,8 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) []peerchoice.PeersOfQueryWord {
-	peersPerQueryWord := make([]peerchoice.PeersOfQueryWord, 0, len(queryWords))
+) [][]peerchoice.ChosenPeer {
+	peersPerQueryWord := make([][]peerchoice.ChosenPeer, 0, len(queryWords))
 	for range queryWords {
 		peersPerQueryWord = append(peersPerQueryWord, peersOfOnePartition(askablePeers))
 	}
@@ -103,13 +103,13 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 
 func peersOfOnePartition(
 	askablePeers []peerdirectory.AskablePeer,
-) peerchoice.PeersOfQueryWord {
+) []peerchoice.ChosenPeer {
 	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
 	for _, peer := range askablePeers {
 		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{Peer: peer, Partition: 0})
 	}
 
-	return peerchoice.PeersOfQueryWord{Partitions: 1, ChosenPeers: chosenPeers}
+	return chosenPeers
 }
 
 func peerHolding(t *testing.T, addresses ...string) string {

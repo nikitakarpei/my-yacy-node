@@ -67,13 +67,13 @@ func peerCallDurationBucketsFor(queryBudget time.Duration) []float64 {
 	return buckets
 }
 
-func (m *PeerCallMetrics) PeerAnsweredMatchedItems(
+func (m *PeerCallMetrics) PeerAnsweredMatchedDocuments(
 	_ context.Context,
 	_ string,
-	amountOfMatchedItems int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
-	m.countAnswer(peerasks.MatchedItems, amountOfMatchedItems, spent)
+	m.countAnswer(peerasks.MatchedDocuments, amountOfMatchedDocuments, spent)
 }
 
 func (m *PeerCallMetrics) PeerAnsweredURLMetadata(

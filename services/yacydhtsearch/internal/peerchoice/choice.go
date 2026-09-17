@@ -53,9 +53,9 @@ func (c Choice) ChoosePeersPerQueryWord(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) []PeersOfQueryWord {
+) [][]ChosenPeer {
 	peersTheQueryMayAsk := c.peersOneQueryMayAsk(ctx, askablePeers)
-	chosenPeersPerQueryWord := make([]PeersOfQueryWord, 0, len(queryWords))
+	chosenPeersPerQueryWord := make([][]ChosenPeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
 		chosenPeers, ringFractionsOfTheTakenPeers := peersTheQueryMayAsk.peersForQueryWord(
 			queryWord, peersAcrossQueryWords(chosenPeersPerQueryWord),
@@ -89,12 +89,12 @@ func (c Choice) peersOneQueryMayAsk(
 }
 
 func peersAcrossQueryWords(
-	peersPerQueryWord []PeersOfQueryWord,
+	chosenPeersPerQueryWord [][]ChosenPeer,
 ) []peerdirectory.AskablePeer {
-	peersOfEachQueryWord := make([][]peerdirectory.AskablePeer, 0, len(peersPerQueryWord))
-	for _, peersOfQueryWord := range peersPerQueryWord {
-		peersOfEachQueryWord = append(peersOfEachQueryWord, peersOfQueryWord.Peers())
+	peers := make([]peerdirectory.AskablePeer, 0, len(chosenPeersPerQueryWord))
+	for _, chosenPeer := range slices.Concat(chosenPeersPerQueryWord...) {
+		peers = append(peers, chosenPeer.Peer)
 	}
 
-	return slices.Concat(peersOfEachQueryWord...)
+	return peers
 }

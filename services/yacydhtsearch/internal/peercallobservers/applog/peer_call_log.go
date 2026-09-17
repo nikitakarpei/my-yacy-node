@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	msgPeerAnsweredMatchedItems            = "peer answered the items it matched"
+	msgPeerAnsweredMatchedDocuments        = "peer answered the documents it matched"
 	msgPeerAnsweredURLMetadata             = "peer answered the metadata it holds for the documents"
 	msgPeerAnsweredMatchedAndHeldDocuments = "peer answered the documents it matched and holds for a word"
 	msgPeerAnsweredHeldDocuments           = "peer answered the documents it holds for a word among the documents named"
@@ -22,15 +22,15 @@ const (
 
 type PeerCallLog struct{}
 
-func (PeerCallLog) PeerAnsweredMatchedItems(
+func (PeerCallLog) PeerAnsweredMatchedDocuments(
 	ctx context.Context,
 	address string,
-	amountOfMatchedItems int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
-	slog.DebugContext(ctx, msgPeerAnsweredMatchedItems,
+	slog.DebugContext(ctx, msgPeerAnsweredMatchedDocuments,
 		slog.String("address", address),
-		slog.Int("amountOfMatchedItems", amountOfMatchedItems),
+		slog.Int("amountOfMatchedDocuments", amountOfMatchedDocuments),
 		slog.Duration("spent", spent),
 	)
 }

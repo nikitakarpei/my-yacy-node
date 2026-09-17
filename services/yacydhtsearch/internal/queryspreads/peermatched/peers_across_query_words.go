@@ -7,17 +7,17 @@ import (
 )
 
 func peersAcrossQueryWords(
-	chosenPeersPerQueryWord []peerchoice.PeersOfQueryWord,
+	chosenPeersPerQueryWord [][]peerchoice.ChosenPeer,
 ) []peerdirectory.AskablePeer {
 	var chosenPeers []peerdirectory.AskablePeer
 	takenPeers := map[yacymodel.Hash]struct{}{}
-	for _, peersOfQueryWord := range chosenPeersPerQueryWord {
-		for _, peer := range peersOfQueryWord.Peers() {
-			if _, taken := takenPeers[peer.Hash]; taken {
+	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
+		for _, chosenPeer := range chosenPeersOfQueryWord {
+			if _, taken := takenPeers[chosenPeer.Peer.Hash]; taken {
 				continue
 			}
-			takenPeers[peer.Hash] = struct{}{}
-			chosenPeers = append(chosenPeers, peer)
+			takenPeers[chosenPeer.Peer.Hash] = struct{}{}
+			chosenPeers = append(chosenPeers, chosenPeer.Peer)
 		}
 	}
 

@@ -57,15 +57,15 @@ func New(
 	}
 }
 
-func (w Wire) AskForMatchedItems(
+func (w Wire) AskForMatchedDocuments(
 	ctx context.Context,
-	asks []peerasks.MatchedItemsAsk,
-) []peerasks.AnsweredMatchedItemsAsk {
+	asks []peerasks.MatchedDocumentsAsk,
+) []peerasks.AnsweredMatchedDocumentsAsk {
 	return putAsksToPeers(
 		w.callsInFlight,
 		asks,
-		func(ask peerasks.MatchedItemsAsk) (peerasks.AnsweredMatchedItemsAsk, bool) {
-			return w.putMatchedItemsAsk(ctx, ask)
+		func(ask peerasks.MatchedDocumentsAsk) (peerasks.AnsweredMatchedDocumentsAsk, bool) {
+			return w.putMatchedDocumentsAsk(ctx, ask)
 		},
 	)
 }
@@ -100,10 +100,10 @@ func answeredAsksThatCameBack[Answered any](
 	return keptAnsweredAsks
 }
 
-func (w Wire) putMatchedItemsAsk(
+func (w Wire) putMatchedDocumentsAsk(
 	ctx context.Context,
-	ask peerasks.MatchedItemsAsk,
-) (peerasks.AnsweredMatchedItemsAsk, bool) {
+	ask peerasks.MatchedDocumentsAsk,
+) (peerasks.AnsweredMatchedDocumentsAsk, bool) {
 	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
 	defer endPeerCall()
 	startedAt := time.Now()
@@ -112,21 +112,21 @@ func (w Wire) putMatchedItemsAsk(
 		peerCall{
 			address:  ask.Peer.Address,
 			path:     yacyproto.PathSearch,
-			askedFor: peerasks.MatchedItems,
-			form:     w.requestForMatchedItems(ctx, ask).Form(),
+			askedFor: peerasks.MatchedDocuments,
+			form:     w.requestForMatchedDocuments(ctx, ask).Form(),
 		},
 		startedAt,
 	)
 	if !ok {
-		return peerasks.AnsweredMatchedItemsAsk{}, false
+		return peerasks.AnsweredMatchedDocumentsAsk{}, false
 	}
 
 	matchedDocuments := matchedDocumentsOf(response)
-	w.observer.PeerAnsweredMatchedItems(
+	w.observer.PeerAnsweredMatchedDocuments(
 		ctx, ask.Peer.Address, len(matchedDocuments), time.Since(startedAt),
 	)
 
-	return peerasks.AnsweredMatchedItemsAsk{Ask: ask, MatchedDocuments: matchedDocuments}, true
+	return peerasks.AnsweredMatchedDocumentsAsk{Ask: ask, MatchedDocuments: matchedDocuments}, true
 }
 
 func matchedDocumentsOf(response yacyproto.SearchResponse) []peerasks.MatchedDocument {
@@ -150,9 +150,9 @@ func wordCountOf(posting yacymodel.Optional[yacymodel.RWIPosting]) queryanswers.
 	return queryanswers.WordCount{Hits: counted.Hits, TextWords: counted.TextWords}
 }
 
-func (w Wire) requestForMatchedItems(
+func (w Wire) requestForMatchedDocuments(
 	ctx context.Context,
-	ask peerasks.MatchedItemsAsk,
+	ask peerasks.MatchedDocumentsAsk,
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
 	request.Query = ask.WordsToMatch

@@ -2097,7 +2097,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched items\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched items\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ]

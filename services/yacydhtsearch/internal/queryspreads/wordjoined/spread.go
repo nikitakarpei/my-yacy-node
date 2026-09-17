@@ -25,7 +25,7 @@ type PeerChoice interface {
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		askablePeers []peerdirectory.AskablePeer,
-	) []peerchoice.PeersOfQueryWord
+	) [][]peerchoice.ChosenPeer
 }
 
 type PeerAsks interface {
@@ -49,17 +49,19 @@ type Spread struct {
 	metadataDocumentsCeiling    int
 	heldDocumentsCeiling        int
 	peerItemsCeiling            int
+	partitions                  yacymodel.DHTRingPartitions
 	amountOfPeersHoldingOneWord int
 	observer                    WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the ceilings one word joined spread stays within
+//nolint:revive // argument-limit: the ceilings and the ring one word joined spread stays within
 func New(
 	peerAsks PeerAsks,
 	peerChoice PeerChoice,
 	metadataDocumentsCeiling int,
 	heldDocumentsCeiling int,
 	peerItemsCeiling int,
+	partitions yacymodel.DHTRingPartitions,
 	amountOfPeersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
 ) Spread {
@@ -69,6 +71,7 @@ func New(
 		metadataDocumentsCeiling:    metadataDocumentsCeiling,
 		heldDocumentsCeiling:        heldDocumentsCeiling,
 		peerItemsCeiling:            peerItemsCeiling,
+		partitions:                  partitions,
 		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
 		observer:                    observer,
 	}
@@ -116,7 +119,7 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 		asks:         asks,
 		answeredAsks: answeredAsks,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
-			query.TermHashes(), chosenPeersPerQueryWord, answeredAsks,
+			query.TermHashes(), spread.partitions, chosenPeersPerQueryWord, answeredAsks,
 		),
 		amountOfPeersPerDocument: amountOfPeersPerDocumentOf(answeredAsks),
 	}

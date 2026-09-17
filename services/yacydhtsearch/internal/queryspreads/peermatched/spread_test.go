@@ -22,25 +22,25 @@ type peerNetwork struct {
 	itemsPerPeer            map[string][]string
 	countsAWordWithEachItem bool
 	silentPeers             map[string]struct{}
-	asks                    []peerasks.MatchedItemsAsk
+	asks                    []peerasks.MatchedDocumentsAsk
 }
 
 func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	return &peerNetwork{itemsPerPeer: itemsPerPeer, silentPeers: map[string]struct{}{}}
 }
 
-func (n *peerNetwork) AskForMatchedItems(
+func (n *peerNetwork) AskForMatchedDocuments(
 	_ context.Context,
-	asks []peerasks.MatchedItemsAsk,
-) []peerasks.AnsweredMatchedItemsAsk {
+	asks []peerasks.MatchedDocumentsAsk,
+) []peerasks.AnsweredMatchedDocumentsAsk {
 	n.asks = append(n.asks, asks...)
 
-	answeredAsks := make([]peerasks.AnsweredMatchedItemsAsk, 0, len(asks))
+	answeredAsks := make([]peerasks.AnsweredMatchedDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
 		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedItemsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedDocumentsAsk{
 			Ask:              ask,
 			MatchedDocuments: n.matchedDocumentsAt(n.itemsPerPeer[ask.Peer.Address]),
 		})
@@ -74,8 +74,8 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) []peerchoice.PeersOfQueryWord {
-	peersPerQueryWord := make([]peerchoice.PeersOfQueryWord, 0, len(queryWords))
+) [][]peerchoice.ChosenPeer {
+	peersPerQueryWord := make([][]peerchoice.ChosenPeer, 0, len(queryWords))
 	for range queryWords {
 		peersPerQueryWord = append(peersPerQueryWord, peersOfOnePartition(askablePeers))
 	}
@@ -85,13 +85,13 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 
 func peersOfOnePartition(
 	askablePeers []peerdirectory.AskablePeer,
-) peerchoice.PeersOfQueryWord {
+) []peerchoice.ChosenPeer {
 	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
 	for _, peer := range askablePeers {
 		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{Peer: peer, Partition: 0})
 	}
 
-	return peerchoice.PeersOfQueryWord{Partitions: 1, ChosenPeers: chosenPeers}
+	return chosenPeers
 }
 
 type recordedSpreads struct {
