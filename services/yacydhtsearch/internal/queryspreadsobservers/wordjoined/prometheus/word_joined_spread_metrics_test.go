@@ -33,23 +33,35 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords:                     4,
-		AmountOfQueryWordsHeldByNoPeer:         1,
-		AmountOfPeersAsked:                     8,
-		AmountOfPeersThatAnswered:              6,
-		TimeSpent:                              250 * time.Millisecond,
-		AmountOfPeersHoldingAQueryWord:         4,
-		AmountOfJoinedDocuments:                10,
-		AmountOfJoinedDocumentsWithMetadata:    2,
-		AmountOfMatchedDocumentsAcrossAnswers:  10,
-		AmountOfMatchedDocumentsCountedByAPeer: 6,
-		AmountOfDocumentsAskedMetadataFor:      4,
-		AmountOfAskedDocumentsWithMetadata:     3,
+		AmountOfQueryWords:                                4,
+		AmountOfQueryWordsHeldByNoPeer:                    1,
+		AmountOfShortQueryWords:                           2,
+		AmountOfPeersAsked:                                8,
+		AmountOfPeersThatAnswered:                         6,
+		TimeSpent:                                         250 * time.Millisecond,
+		AmountOfPeersHoldingAQueryWord:                    4,
+		AmountOfAnchorDocuments:                           12,
+		AmountOfDocumentsPastTheHeldDocumentsCeiling:      3,
+		AmountOfPeersAskedForHeldDocuments:                4,
+		AmountOfPeersThatAnsweredHeldDocuments:            2,
+		AmountOfEmptyHeldDocumentsAnswers:                 1,
+		AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks: 4,
+		AmountOfJoinedDocuments:                           10,
+		AmountOfJoinedDocumentsWithMetadata:               2,
+		AmountOfMatchedDocumentsAcrossAnswers:             10,
+		AmountOfMatchedDocumentsCountedByAPeer:            6,
+		AmountOfDocumentsAskedMetadataFor:                 4,
+		AmountOfAskedDocumentsWithMetadata:                3,
 	})
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents"} 1`,
+		"yacydhtsearch_word_joined_spread_short_query_words_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_answering_held_documents_peers_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_empty_held_documents_answers_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_join_before_the_held_documents_asks_ratio_sum 0.4",
+		"yacydhtsearch_word_joined_spread_documents_past_the_held_documents_ceiling_sum 3",
 		"yacydhtsearch_word_joined_spread_missing_metadata_asked_for_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_join_with_metadata_ratio_sum 0.2",
 		"yacydhtsearch_word_joined_spread_matched_documents_counted_by_a_peer_ratio_sum 0.6",
@@ -81,6 +93,28 @@ func TestASpreadThatAskedNoPeerPublishesNoAnsweringRatio(t *testing.T) {
 		"yacydhtsearch_word_joined_spread_answering_peers_ratio_count 0",
 	) {
 		t.Fatalf("metrics carry an answering ratio for a spread that asked no peer:\n%s", body)
+	}
+}
+
+func TestASpreadThatAskedNoPeerForHeldDocumentsPublishesNoSecondRoundShare(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
+		AmountOfQueryWords: 2,
+	})
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		"yacydhtsearch_word_joined_spread_answering_held_documents_peers_ratio_count 0",
+		"yacydhtsearch_word_joined_spread_empty_held_documents_answers_ratio_count 0",
+		"yacydhtsearch_word_joined_spread_join_before_the_held_documents_asks_ratio_count 0",
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics carry %q for a spread that asked no peer again:\n%s", published, body)
+		}
 	}
 }
 

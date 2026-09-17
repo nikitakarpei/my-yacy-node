@@ -13,15 +13,15 @@ import (
 
 func urlMetadataAsksFor(
 	documentsWithoutMetadata map[yacymodel.URLHash]struct{},
-	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
+	answeredMatchedAndHeldDocumentsAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 	metadataDocumentsCeiling int,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
 	mostHeldDocuments := mostHeldDocumentsAmong(
-		documentsWithoutMetadata, answeredHeldDocumentsAsks, metadataDocumentsCeiling,
+		documentsWithoutMetadata, answeredMatchedAndHeldDocumentsAsks, metadataDocumentsCeiling,
 	)
 	documentsHeldByEachPeer := documentsHeldByEachPeerAmong(
-		mostHeldDocuments, answeredHeldDocumentsAsks,
+		mostHeldDocuments, answeredMatchedAndHeldDocumentsAsks,
 	)
 	coveringPeers := peersCoveringMostDocuments(
 		documentsHeldByEachPeer, amountOfPeersHoldingOneWord,
@@ -40,15 +40,30 @@ func urlMetadataAsksFor(
 
 func mostHeldDocumentsAmong(
 	documents map[yacymodel.URLHash]struct{},
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 	metadataDocumentsCeiling int,
 ) map[yacymodel.URLHash]struct{} {
 	if len(documents) <= metadataDocumentsCeiling {
 		return documents
 	}
 
+	mostHeldDocuments := make(map[yacymodel.URLHash]struct{}, metadataDocumentsCeiling)
+	for _, document := range documentsMostHeldFirstAmong(
+		documents, answeredAsks,
+	)[:metadataDocumentsCeiling] {
+		mostHeldDocuments[document] = struct{}{}
+	}
+
+	return mostHeldDocuments
+}
+
+func documentsMostHeldFirstAmong(
+	documents map[yacymodel.URLHash]struct{},
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+) []yacymodel.URLHash {
 	amountOfPeersPerDocument := amountOfPeersPerDocument(answeredAsks)
-	documentsMostHeldFirst := slices.SortedFunc(
+
+	return slices.SortedFunc(
 		maps.Keys(documents),
 		func(first, second yacymodel.URLHash) int {
 			if amountOfPeersPerDocument[first] != amountOfPeersPerDocument[second] {
@@ -60,13 +75,6 @@ func mostHeldDocumentsAmong(
 			return strings.Compare(first.String(), second.String())
 		},
 	)
-
-	mostHeldDocuments := make(map[yacymodel.URLHash]struct{}, metadataDocumentsCeiling)
-	for _, document := range documentsMostHeldFirst[:metadataDocumentsCeiling] {
-		mostHeldDocuments[document] = struct{}{}
-	}
-
-	return mostHeldDocuments
 }
 
 type peerOfDocument struct {
@@ -75,7 +83,7 @@ type peerOfDocument struct {
 }
 
 func amountOfPeersPerDocument(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) map[yacymodel.URLHash]int {
 	countedPeers := map[peerOfDocument]struct{}{}
 	amountOfPeersPerDocument := map[yacymodel.URLHash]int{}
@@ -100,7 +108,7 @@ type documentsHeldByPeer struct {
 
 func documentsHeldByEachPeerAmong(
 	documents map[yacymodel.URLHash]struct{},
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []documentsHeldByPeer {
 	documentsHeldByEachPeer := make([]documentsHeldByPeer, 0, len(answeredAsks))
 	placeOfPeer := map[yacymodel.Hash]int{}

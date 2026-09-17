@@ -85,6 +85,15 @@ func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
 	m.countAnswer(peerasks.URLMetadata, amountOfDescribedDocuments, spent)
 }
 
+func (m *PeerCallMetrics) PeerAnsweredMatchedAndHeldDocuments(
+	_ context.Context,
+	_ string,
+	amountOfDocuments int,
+	spent time.Duration,
+) {
+	m.countAnswer(peerasks.MatchedAndHeldDocuments, amountOfDocuments, spent)
+}
+
 func (m *PeerCallMetrics) PeerAnsweredHeldDocuments(
 	_ context.Context,
 	_ string,

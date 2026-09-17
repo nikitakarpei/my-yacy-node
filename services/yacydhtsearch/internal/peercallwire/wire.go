@@ -1,11 +1,12 @@
 // Package peercallwire speaks the YaCy search protocol to the peers an ask
 // names. It asks a peer for the documents it matches, for the documents it
-// holds for one word, or for the metadata of the documents the ask names, and
-// reads back what the peer answered. It holds the peer calls this node has in
-// flight at the amount it is built for and puts the asks in the order they
-// came. One peer call runs for the budget it is built for, or for the time the
-// ask has left, whichever ends first, and leaves the peer that time less the
-// margin the answer needs to reach this node.
+// matched and holds for one word, for the documents it holds for one word among
+// the documents the ask names, or for the metadata of the documents the ask
+// names, and reads back what the peer answered. It holds the peer calls this
+// node has in flight at the amount it is built for and puts the asks in the
+// order they came. One peer call runs for the budget it is built for, or for
+// the time the ask has left, whichever ends first, and leaves the peer that
+// time less the margin the answer needs to reach this node.
 package peercallwire
 
 import (
@@ -254,6 +255,77 @@ func (w Wire) urlMetadataResponse(
 	return response, true
 }
 
+func (w Wire) AskForMatchedAndHeldDocuments(
+	ctx context.Context,
+	asks []peerasks.MatchedAndHeldDocumentsAsk,
+) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+	return putAsksToPeers(
+		w.callsInFlight,
+		asks,
+		func(ask peerasks.MatchedAndHeldDocumentsAsk) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
+			return w.putMatchedAndHeldDocumentsAsk(ctx, ask)
+		},
+	)
+}
+
+func (w Wire) putMatchedAndHeldDocumentsAsk(
+	ctx context.Context,
+	ask peerasks.MatchedAndHeldDocumentsAsk,
+) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
+	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
+	defer endPeerCall()
+	startedAt := time.Now()
+	response, ok := w.searchResponse(
+		ctx,
+		peerCall{
+			address:  ask.Peer.Address,
+			path:     yacyproto.PathSearch,
+			askedFor: peerasks.MatchedAndHeldDocuments,
+			form:     w.requestForMatchedAndHeldDocuments(ctx, ask).Form(),
+		},
+		startedAt,
+	)
+	if !ok {
+		return peerasks.AnsweredMatchedAndHeldDocumentsAsk{}, false
+	}
+
+	documentsHeldForTheWord := response.IndexAbstract[ask.Word]
+	w.observer.PeerAnsweredMatchedAndHeldDocuments(
+		ctx, ask.Peer.Address, len(documentsHeldForTheWord), time.Since(startedAt),
+	)
+
+	return peerasks.AnsweredMatchedAndHeldDocumentsAsk{
+		Ask:                             ask,
+		DocumentsHeldForTheWord:         documentsHeldForTheWord,
+		MatchedDocuments:                matchedDocumentsOf(response),
+		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
+	}, true
+}
+
+func amountOfDocumentsHeldForTheWordOf(
+	response yacyproto.SearchResponse,
+	word yacymodel.Hash,
+) yacymodel.Optional[int] {
+	documentsHeld, counted := response.IndexCount[word]
+	if !counted {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(documentsHeld)
+}
+
+func (w Wire) requestForMatchedAndHeldDocuments(
+	ctx context.Context,
+	ask peerasks.MatchedAndHeldDocumentsAsk,
+) yacyproto.SearchRequest {
+	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
+	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
+	request.Query = []yacymodel.Hash{ask.Word}
+	request.Count = ask.ItemsCeiling
+
+	return request
+}
+
 func (w Wire) AskForHeldDocuments(
 	ctx context.Context,
 	asks []peerasks.HeldDocumentsAsk,
@@ -294,33 +366,18 @@ func (w Wire) putHeldDocumentsAsk(
 	)
 
 	return peerasks.AnsweredHeldDocumentsAsk{
-		Ask:                             ask,
-		DocumentsHeldForTheWord:         documentsHeldForTheWord,
-		MatchedDocuments:                matchedDocumentsOf(response),
-		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
+		Ask:                     ask,
+		DocumentsHeldForTheWord: documentsHeldForTheWord,
 	}, true
-}
-
-func amountOfDocumentsHeldForTheWordOf(
-	response yacyproto.SearchResponse,
-	word yacymodel.Hash,
-) yacymodel.Optional[int] {
-	documentsHeld, counted := response.IndexCount[word]
-	if !counted {
-		return yacymodel.None[int]()
-	}
-
-	return yacymodel.Some(documentsHeld)
 }
 
 func (w Wire) requestForHeldDocuments(
 	ctx context.Context,
 	ask peerasks.HeldDocumentsAsk,
 ) yacyproto.SearchRequest {
-	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
+	request := w.requestFor(ctx, nil, "")
 	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
-	request.Query = []yacymodel.Hash{ask.Word}
-	request.Count = ask.ItemsCeiling
+	request.URLs = ask.Documents
 
 	return request
 }

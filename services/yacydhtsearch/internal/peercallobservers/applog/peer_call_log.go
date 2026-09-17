@@ -11,12 +11,13 @@ import (
 )
 
 const (
-	msgPeerAnsweredMatchedItems  = "peer answered the items it matched"
-	msgPeerAnsweredURLMetadata   = "peer answered the metadata it holds for the documents"
-	msgPeerAnsweredHeldDocuments = "peer answered the documents it holds for a word"
-	msgPeerRefused               = "peer refused a search"
-	msgPeerUnreachable           = "peer could not be reached for a search"
-	msgPeerAnswerUnreadable      = "peer answered a search unreadably"
+	msgPeerAnsweredMatchedItems            = "peer answered the items it matched"
+	msgPeerAnsweredURLMetadata             = "peer answered the metadata it holds for the documents"
+	msgPeerAnsweredMatchedAndHeldDocuments = "peer answered the documents it matched and holds for a word"
+	msgPeerAnsweredHeldDocuments           = "peer answered the documents it holds for a word among the documents named"
+	msgPeerRefused                         = "peer refused a search"
+	msgPeerUnreachable                     = "peer could not be reached for a search"
+	msgPeerAnswerUnreadable                = "peer answered a search unreadably"
 )
 
 type PeerCallLog struct{}
@@ -43,6 +44,19 @@ func (PeerCallLog) PeerAnsweredURLMetadata(
 	slog.DebugContext(ctx, msgPeerAnsweredURLMetadata,
 		slog.String("address", address),
 		slog.Int("amountOfDescribedDocuments", amountOfDescribedDocuments),
+		slog.Duration("spent", spent),
+	)
+}
+
+func (PeerCallLog) PeerAnsweredMatchedAndHeldDocuments(
+	ctx context.Context,
+	address string,
+	amountOfDocuments int,
+	spent time.Duration,
+) {
+	slog.DebugContext(ctx, msgPeerAnsweredMatchedAndHeldDocuments,
+		slog.String("address", address),
+		slog.Int("amountOfDocuments", amountOfDocuments),
 		slog.Duration("spent", spent),
 	)
 }

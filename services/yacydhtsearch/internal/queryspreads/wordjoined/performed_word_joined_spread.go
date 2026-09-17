@@ -9,41 +9,69 @@ import (
 )
 
 type PerformedWordJoinedSpread struct {
-	AmountOfQueryWords                     int
-	AmountOfQueryWordsHeldByNoPeer         int
-	AmountOfPeersAsked                     int
-	AmountOfPeersThatAnswered              int
-	AmountOfPeersHoldingAQueryWord         int
-	AmountOfJoinedDocuments                int
-	AmountOfJoinedDocumentsWithMetadata    int
-	AmountOfMatchedDocumentsAcrossAnswers  int
-	AmountOfMatchedDocumentsCountedByAPeer int
-	AmountOfDocumentsHeldInEachAnswer      []int
-	AmountOfDocumentsAskedMetadataFor      int
-	AmountOfAskedDocumentsWithMetadata     int
-	TimeSpent                              time.Duration
+	AmountOfQueryWords                                int
+	AmountOfQueryWordsHeldByNoPeer                    int
+	AmountOfShortQueryWords                           int
+	AmountOfPeersAsked                                int
+	AmountOfPeersThatAnswered                         int
+	AmountOfPeersHoldingAQueryWord                    int
+	AmountOfAnchorDocuments                           int
+	AmountOfDocumentsPastTheHeldDocumentsCeiling      int
+	AmountOfPeersAskedForHeldDocuments                int
+	AmountOfPeersThatAnsweredHeldDocuments            int
+	AmountOfEmptyHeldDocumentsAnswers                 int
+	AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks int
+	AmountOfJoinedDocuments                           int
+	AmountOfJoinedDocumentsWithMetadata               int
+	AmountOfMatchedDocumentsAcrossAnswers             int
+	AmountOfMatchedDocumentsCountedByAPeer            int
+	AmountOfDocumentsHeldInEachAnswer                 []int
+	AmountOfDocumentsAskedMetadataFor                 int
+	AmountOfAskedDocumentsWithMetadata                int
+	TimeSpent                                         time.Duration
 }
 
 //nolint:revive // argument-limit: the stages one word joined spread passes
 func performedWordJoinedSpreadFrom(
 	queryWords []yacymodel.Hash,
-	heldDocumentsAsks []peerasks.HeldDocumentsAsk,
-	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
+	matchedAndHeldDocumentsAsks []peerasks.MatchedAndHeldDocumentsAsk,
+	answeredMatchedAndHeldDocumentsAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	anchor anchorOfTheQuery,
+	heldDocuments heldDocumentsRound,
 	joinedDocuments map[yacymodel.URLHash]struct{},
 	documentsWithoutMetadata map[yacymodel.URLHash]struct{},
 	urlMetadataAsks []peerasks.URLMetadataAsk,
 	answeredURLMetadataAsks []peerasks.AnsweredURLMetadataAsk,
 	timeSpent time.Duration,
 ) PerformedWordJoinedSpread {
-	asksWithAHeldDocument := answeredAsksWithAHeldDocument(answeredHeldDocumentsAsks)
+	asksWithAHeldDocument := answeredAsksWithAHeldDocument(answeredMatchedAndHeldDocumentsAsks)
 
 	return PerformedWordJoinedSpread{
+		AmountOfShortQueryWords: heldDocuments.amountOfShortQueryWords,
+		AmountOfAnchorDocuments: len(anchor.documents),
+		AmountOfDocumentsPastTheHeldDocumentsCeiling: heldDocuments.
+			amountOfDocumentsPastTheHeldDocumentsCeiling,
+		AmountOfPeersAskedForHeldDocuments: amountOfPeersAcrossHeldDocumentsAsks(
+			heldDocuments.asks,
+		),
+		AmountOfPeersThatAnsweredHeldDocuments: amountOfPeersAcrossAnsweredHeldDocumentsAsks(
+			heldDocuments.answeredAsks,
+		),
+		AmountOfEmptyHeldDocumentsAnswers: amountOfEmptyHeldDocumentsAnswers(
+			heldDocuments.answeredAsks,
+		),
+		AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks: len(joinedDocumentsOf(
+			anchor,
+			answeredMatchedAndHeldDocumentsAsks,
+			nil,
+			queryWords,
+		)),
 		AmountOfQueryWords: len(queryWords),
 		AmountOfQueryWordsHeldByNoPeer: len(queryWords) -
 			amountOfQueryWordsAcrossAnsweredAsks(asksWithAHeldDocument),
-		AmountOfPeersAsked: amountOfPeersAcrossAsks(heldDocumentsAsks),
+		AmountOfPeersAsked: amountOfPeersAcrossAsks(matchedAndHeldDocumentsAsks),
 		AmountOfPeersThatAnswered: amountOfPeersAcrossAnsweredAsks(
-			answeredHeldDocumentsAsks,
+			answeredMatchedAndHeldDocumentsAsks,
 		),
 		AmountOfPeersHoldingAQueryWord: amountOfPeersAcrossAnsweredAsks(
 			asksWithAHeldDocument,
@@ -52,13 +80,13 @@ func performedWordJoinedSpreadFrom(
 		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) -
 			len(documentsWithoutMetadata),
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
-			answeredHeldDocumentsAsks,
+			answeredMatchedAndHeldDocumentsAsks,
 		),
 		AmountOfMatchedDocumentsCountedByAPeer: amountOfMatchedDocumentsCountedByAPeer(
-			answeredHeldDocumentsAsks,
+			answeredMatchedAndHeldDocumentsAsks,
 		),
 		AmountOfDocumentsHeldInEachAnswer: amountOfDocumentsHeldInEachAnswer(
-			answeredHeldDocumentsAsks,
+			answeredMatchedAndHeldDocumentsAsks,
 		),
 		AmountOfDocumentsAskedMetadataFor: amountOfDocumentsAskedMetadataFor(urlMetadataAsks),
 		AmountOfAskedDocumentsWithMetadata: amountOfAskedDocumentsWithMetadata(
@@ -70,9 +98,9 @@ func performedWordJoinedSpreadFrom(
 }
 
 func answeredAsksWithAHeldDocument(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
-) []peerasks.AnsweredHeldDocumentsAsk {
-	keptAnsweredAsks := make([]peerasks.AnsweredHeldDocumentsAsk, 0, len(answeredAsks))
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+	keptAnsweredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
 		if len(answeredAsk.DocumentsHeldForTheWord) == 0 {
 			continue
@@ -84,7 +112,7 @@ func answeredAsksWithAHeldDocument(
 }
 
 func amountOfQueryWordsAcrossAnsweredAsks(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) int {
 	queryWords := map[yacymodel.Hash]struct{}{}
 	for _, answeredAsk := range answeredAsks {
@@ -94,7 +122,7 @@ func amountOfQueryWordsAcrossAnsweredAsks(
 	return len(queryWords)
 }
 
-func amountOfPeersAcrossAsks(asks []peerasks.HeldDocumentsAsk) int {
+func amountOfPeersAcrossAsks(asks []peerasks.MatchedAndHeldDocumentsAsk) int {
 	peers := map[peerdirectory.AskablePeer]struct{}{}
 	for _, ask := range asks {
 		peers[ask.Peer] = struct{}{}
@@ -103,7 +131,9 @@ func amountOfPeersAcrossAsks(asks []peerasks.HeldDocumentsAsk) int {
 	return len(peers)
 }
 
-func amountOfPeersAcrossAnsweredAsks(answeredAsks []peerasks.AnsweredHeldDocumentsAsk) int {
+func amountOfPeersAcrossAnsweredAsks(
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+) int {
 	peers := map[peerdirectory.AskablePeer]struct{}{}
 	for _, answeredAsk := range answeredAsks {
 		peers[answeredAsk.Ask.Peer] = struct{}{}
@@ -112,8 +142,40 @@ func amountOfPeersAcrossAnsweredAsks(answeredAsks []peerasks.AnsweredHeldDocumen
 	return len(peers)
 }
 
-func amountOfMatchedDocumentsAcrossAnswers(
+func amountOfPeersAcrossHeldDocumentsAsks(asks []peerasks.HeldDocumentsAsk) int {
+	peers := map[peerdirectory.AskablePeer]struct{}{}
+	for _, ask := range asks {
+		peers[ask.Peer] = struct{}{}
+	}
+
+	return len(peers)
+}
+
+func amountOfPeersAcrossAnsweredHeldDocumentsAsks(
 	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+) int {
+	peers := map[peerdirectory.AskablePeer]struct{}{}
+	for _, answeredAsk := range answeredAsks {
+		peers[answeredAsk.Ask.Peer] = struct{}{}
+	}
+
+	return len(peers)
+}
+
+func amountOfEmptyHeldDocumentsAnswers(answeredAsks []peerasks.AnsweredHeldDocumentsAsk) int {
+	amount := 0
+	for _, answeredAsk := range answeredAsks {
+		if len(answeredAsk.DocumentsHeldForTheWord) > 0 {
+			continue
+		}
+		amount++
+	}
+
+	return amount
+}
+
+func amountOfMatchedDocumentsAcrossAnswers(
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
@@ -124,7 +186,7 @@ func amountOfMatchedDocumentsAcrossAnswers(
 }
 
 func amountOfMatchedDocumentsCountedByAPeer(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
@@ -140,7 +202,7 @@ func amountOfMatchedDocumentsCountedByAPeer(
 }
 
 func amountOfDocumentsHeldInEachAnswer(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []int {
 	amountOfDocumentsHeldInEachAnswer := make([]int, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {

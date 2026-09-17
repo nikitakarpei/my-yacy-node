@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
@@ -73,13 +74,24 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) [][]peerdirectory.AskablePeer {
-	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
+) []peerchoice.PeersOfQueryWord {
+	peersPerQueryWord := make([]peerchoice.PeersOfQueryWord, 0, len(queryWords))
 	for range queryWords {
-		peersPerQueryWord = append(peersPerQueryWord, askablePeers)
+		peersPerQueryWord = append(peersPerQueryWord, peersOfOnePartition(askablePeers))
 	}
 
 	return peersPerQueryWord
+}
+
+func peersOfOnePartition(
+	askablePeers []peerdirectory.AskablePeer,
+) peerchoice.PeersOfQueryWord {
+	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
+	for _, peer := range askablePeers {
+		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{Peer: peer, Partition: 0})
+	}
+
+	return peerchoice.PeersOfQueryWord{Partitions: 1, ChosenPeers: chosenPeers}
 }
 
 type recordedSpreads struct {

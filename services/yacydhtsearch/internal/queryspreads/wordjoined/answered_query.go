@@ -9,14 +9,14 @@ import (
 func answeredQueryFrom(
 	itemsInTheOrderOfEachPeerRanking [][]queryanswers.AnsweredItem,
 	answeredURLMetadataAsks []peerasks.AnsweredURLMetadataAsk,
-	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
+	amountOfDocumentsHeldPerQueryWord map[yacymodel.Hash]int,
 	queryWords []yacymodel.Hash,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
 		QueryWords:                       queryWords,
 		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
 		ItemsInNoOrder:                   itemsOfAnsweredURLMetadataAsks(answeredURLMetadataAsks),
-		DocumentsHeldPerQueryWord:        documentsHeldPerQueryWordOf(answeredHeldDocumentsAsks),
+		DocumentsHeldPerQueryWord:        amountOfDocumentsHeldPerQueryWord,
 	}
 }
 
@@ -31,19 +31,4 @@ func itemsOfAnsweredURLMetadataAsks(
 	}
 
 	return items
-}
-
-func documentsHeldPerQueryWordOf(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
-) map[yacymodel.Hash]int {
-	documentsHeldPerQueryWord := make(map[yacymodel.Hash]int, len(answeredAsks))
-	for _, answeredAsk := range answeredAsks {
-		amountOfDocumentsHeldForTheWord, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
-		if !counted {
-			continue
-		}
-		documentsHeldPerQueryWord[answeredAsk.Ask.Word] += amountOfDocumentsHeldForTheWord
-	}
-
-	return documentsHeldPerQueryWord
 }

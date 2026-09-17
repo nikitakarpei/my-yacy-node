@@ -9,44 +9,72 @@ import (
 )
 
 func joinedDocumentsOf(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+	anchor anchorOfTheQuery,
+	answeredMatchedAndHeldDocumentsAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
 	queryWords []yacymodel.Hash,
 ) map[yacymodel.URLHash]struct{} {
-	joinedDocuments := map[yacymodel.URLHash]struct{}{}
-	for document, amountOfQueryWords := range amountOfQueryWordsPerDocument(answeredAsks) {
-		if amountOfQueryWords != len(queryWords) {
+	documentsHeldPerQueryWord := documentsHeldPerQueryWordAcrossRoundsOf(
+		answeredMatchedAndHeldDocumentsAsks, answeredHeldDocumentsAsks,
+	)
+	joinedDocuments := maps.Clone(anchor.documents)
+	for _, queryWord := range queryWords {
+		if queryWord == anchor.word {
 			continue
 		}
-		joinedDocuments[document] = struct{}{}
+		joinedDocuments = documentsHeldForTheQueryWordAmong(
+			joinedDocuments, documentsHeldPerQueryWord[queryWord],
+		)
 	}
 
 	return joinedDocuments
 }
 
-type queryWordOfDocument struct {
-	document  yacymodel.URLHash
-	queryWord yacymodel.Hash
-}
-
-func amountOfQueryWordsPerDocument(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
-) map[yacymodel.URLHash]int {
-	countedWords := map[queryWordOfDocument]struct{}{}
-	amountOfQueryWordsPerDocument := map[yacymodel.URLHash]int{}
-	for _, answeredAsk := range answeredAsks {
-		for _, document := range answeredAsk.DocumentsHeldForTheWord {
-			queryWordOfDocument := queryWordOfDocument{
-				document: document, queryWord: answeredAsk.Ask.Word,
-			}
-			if _, counted := countedWords[queryWordOfDocument]; counted {
-				continue
-			}
-			countedWords[queryWordOfDocument] = struct{}{}
-			amountOfQueryWordsPerDocument[document]++
-		}
+func documentsHeldPerQueryWordAcrossRoundsOf(
+	answeredMatchedAndHeldDocumentsAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
+) map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
+	documentsHeldPerQueryWord := map[yacymodel.Hash]map[yacymodel.URLHash]struct{}{}
+	for _, answeredAsk := range answeredMatchedAndHeldDocumentsAsks {
+		addDocumentsHeldForTheQueryWord(
+			documentsHeldPerQueryWord, answeredAsk.Ask.Word, answeredAsk.DocumentsHeldForTheWord,
+		)
+	}
+	for _, answeredAsk := range answeredHeldDocumentsAsks {
+		addDocumentsHeldForTheQueryWord(
+			documentsHeldPerQueryWord, answeredAsk.Ask.Word, answeredAsk.DocumentsHeldForTheWord,
+		)
 	}
 
-	return amountOfQueryWordsPerDocument
+	return documentsHeldPerQueryWord
+}
+
+func addDocumentsHeldForTheQueryWord(
+	documentsHeldPerQueryWord map[yacymodel.Hash]map[yacymodel.URLHash]struct{},
+	queryWord yacymodel.Hash,
+	documentsHeldForTheWord []yacymodel.URLHash,
+) {
+	for _, document := range documentsHeldForTheWord {
+		if documentsHeldPerQueryWord[queryWord] == nil {
+			documentsHeldPerQueryWord[queryWord] = map[yacymodel.URLHash]struct{}{}
+		}
+		documentsHeldPerQueryWord[queryWord][document] = struct{}{}
+	}
+}
+
+func documentsHeldForTheQueryWordAmong(
+	documents map[yacymodel.URLHash]struct{},
+	documentsHeldForTheQueryWord map[yacymodel.URLHash]struct{},
+) map[yacymodel.URLHash]struct{} {
+	keptDocuments := make(map[yacymodel.URLHash]struct{}, len(documents))
+	for document := range documents {
+		if _, held := documentsHeldForTheQueryWord[document]; !held {
+			continue
+		}
+		keptDocuments[document] = struct{}{}
+	}
+
+	return keptDocuments
 }
 
 func joinedDocumentsWithoutMetadata(

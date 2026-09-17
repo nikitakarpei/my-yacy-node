@@ -1,9 +1,11 @@
 // Package prometheus reports how many peers the first round of a word joined
 // spread asked and how many answered, how much of the query the network held,
-// how often no document held all query words, how many documents the peers hold
-// for a query word, how much of the join an item of an answer already covers
-// and how much of that carried a posting, and how much of the join the second
-// round asked metadata for and got back, as metrics.
+// how often no document held all query words, how many query words answered
+// short and what the second round asked their peers and got back, how much the
+// second round added to the join and how many documents it could not name, how
+// much of the join an item of an answer already covers and how much of that
+// carried a posting, and how much of the join the third round asked metadata
+// for and got back, as metrics.
 package prometheus
 
 import (
@@ -32,6 +34,8 @@ type WordJoinedSpreadMetrics struct {
 	peersAsked                          prometheusclient.Histogram
 	answeringPeersRatio                 prometheusclient.Histogram
 	unheldQueryWordsRatio               prometheusclient.Histogram
+	shortQueryWordsRatio                prometheusclient.Histogram
+	heldDocumentsRound                  heldDocumentsRoundMetrics
 	joinWithMetadataRatio               prometheusclient.Histogram
 	matchedDocumentsCountedByAPeerRatio prometheusclient.Histogram
 	missingMetadataAskedForRatio        prometheusclient.Histogram
@@ -64,6 +68,12 @@ func New(
 			"yacydhtsearch_word_joined_spread_unheld_query_words_ratio",
 			"Share of query words that no asked peer held a document for.",
 		),
+		shortQueryWordsRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_short_query_words_ratio",
+			"Share of query words whose peers answered with less than they hold, "+
+				"which the second round asks again.",
+		),
+		heldDocumentsRound: heldDocumentsRoundMetricsRegisteredIn(registry),
 		joinWithMetadataRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_join_with_metadata_ratio",
 			"Share of the joined documents that an answer to the first round already "+
@@ -100,6 +110,7 @@ func New(
 		metrics.peersAsked,
 		metrics.answeringPeersRatio,
 		metrics.unheldQueryWordsRatio,
+		metrics.shortQueryWordsRatio,
 		metrics.joinWithMetadataRatio,
 		metrics.matchedDocumentsCountedByAPeerRatio,
 		metrics.missingMetadataAskedForRatio,
@@ -134,6 +145,7 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	m.countJoin(spread)
 	m.observeAnsweringPeersRatio(spread)
 	m.observeQueryRatios(spread)
+	m.heldDocumentsRound.observeHeldDocumentsRound(spread)
 	m.observeMatchedDocumentsCountedByAPeerRatio(spread)
 }
 
@@ -187,6 +199,11 @@ func (m *WordJoinedSpreadMetrics) observeQueryRatios(
 	if spread.AmountOfQueryWords > 0 {
 		m.unheldQueryWordsRatio.Observe(
 			float64(spread.AmountOfQueryWordsHeldByNoPeer) / float64(spread.AmountOfQueryWords),
+		)
+	}
+	if spread.AmountOfQueryWords > 0 {
+		m.shortQueryWordsRatio.Observe(
+			float64(spread.AmountOfShortQueryWords) / float64(spread.AmountOfQueryWords),
 		)
 	}
 	if spread.AmountOfDocumentsAskedMetadataFor == 0 {

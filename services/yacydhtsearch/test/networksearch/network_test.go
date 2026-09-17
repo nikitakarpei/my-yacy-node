@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
@@ -47,9 +48,17 @@ func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)       
 
 type silentOutcome struct{}
 
-func (silentOutcome) PeerAnsweredMatchedItems(context.Context, string, int, time.Duration)  {}
-func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)   {}
-func (silentOutcome) PeerAnsweredHeldDocuments(context.Context, string, int, time.Duration) {}
+func (silentOutcome) PeerAnsweredMatchedItems(context.Context, string, int, time.Duration) {}
+func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)  {}
+func (silentOutcome) PeerAnsweredMatchedAndHeldDocuments(
+	context.Context, string, int, time.Duration,
+) {
+}
+
+func (silentOutcome) PeerAnsweredHeldDocuments(
+	context.Context, string, int, time.Duration,
+) {
+}
 
 func (silentOutcome) PeerRefused(
 	context.Context, string, peerasks.AskedFor, int, time.Duration,
@@ -83,13 +92,24 @@ func (everyAskablePeer) ChoosePeersPerQueryWord(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) [][]peerdirectory.AskablePeer {
-	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
+) []peerchoice.PeersOfQueryWord {
+	peersPerQueryWord := make([]peerchoice.PeersOfQueryWord, 0, len(queryWords))
 	for range queryWords {
-		peersPerQueryWord = append(peersPerQueryWord, askablePeers)
+		peersPerQueryWord = append(peersPerQueryWord, peersOfOnePartition(askablePeers))
 	}
 
 	return peersPerQueryWord
+}
+
+func peersOfOnePartition(
+	askablePeers []peerdirectory.AskablePeer,
+) peerchoice.PeersOfQueryWord {
+	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
+	for _, peer := range askablePeers {
+		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{Peer: peer, Partition: 0})
+	}
+
+	return peerchoice.PeersOfQueryWord{Partitions: 1, ChosenPeers: chosenPeers}
 }
 
 func peerHolding(t *testing.T, addresses ...string) string {

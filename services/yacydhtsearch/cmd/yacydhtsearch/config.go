@@ -36,6 +36,7 @@ const (
 	EnvPartitionExponent         = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvMaxResponseBytes          = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
 	EnvPeerItemsCeiling          = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
+	EnvHeldDocumentsCeiling      = "YACYDHTSEARCH_HELD_DOCUMENTS_CEILING"
 	EnvRankedItemsCeiling        = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL                   = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity      = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
@@ -63,6 +64,7 @@ const (
 	DefaultPartitionExponent         = 4
 	DefaultMaxResponseBytes          = 4 * 1024 * 1024
 	DefaultPeerItemsCeiling          = 10
+	DefaultHeldDocumentsCeiling      = 1000
 	DefaultRankedItemsCeiling        = 50
 	DefaultRankingCacheCapacity      = 1024
 	DefaultRankingLifetime           = 2 * time.Minute
@@ -96,6 +98,7 @@ type ServiceConfig struct {
 	Partitions                yacymodel.DHTRingPartitions
 	MaxResponseBytes          int64
 	PeerItemsCeiling          int
+	HeldDocumentsCeiling      int
 	RankedItemsCeiling        int
 	NATSURL                   string
 	RankingCache              int
@@ -173,6 +176,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		Partitions:                partitions,
 		MaxResponseBytes:          maxResponseBytes,
 		PeerItemsCeiling:          counts.peerItemsCeiling,
+		HeldDocumentsCeiling:      counts.heldDocumentsCeiling,
 		RankedItemsCeiling:        counts.rankedItemsCeiling,
 		NATSURL:                   strings.TrimSpace(getenv(EnvNATSURL)),
 		RankingCache:              counts.rankingCacheCapacity,
@@ -243,6 +247,7 @@ type configuredCounts struct {
 	probesInFlight       int
 	directoryCapacity    int
 	peerItemsCeiling     int
+	heldDocumentsCeiling int
 	rankedItemsCeiling   int
 	rankingCacheCapacity int
 	pagesReadPerQuery    int
@@ -262,6 +267,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvProbesInFlight, DefaultProbesInFlight, &counts.probesInFlight},
 		{EnvDirectoryCapacity, DefaultDirectoryCapacity, &counts.directoryCapacity},
 		{EnvPeerItemsCeiling, DefaultPeerItemsCeiling, &counts.peerItemsCeiling},
+		{EnvHeldDocumentsCeiling, DefaultHeldDocumentsCeiling, &counts.heldDocumentsCeiling},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 		{EnvPagesReadPerQuery, DefaultPagesReadPerQuery, &counts.pagesReadPerQuery},

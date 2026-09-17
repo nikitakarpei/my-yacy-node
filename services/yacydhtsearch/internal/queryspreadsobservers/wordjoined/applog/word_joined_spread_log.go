@@ -19,9 +19,31 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	slog.DebugContext(ctx, msgWordJoinedSpreadPerformed,
 		slog.Int("amountOfQueryWords", spread.AmountOfQueryWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", spread.AmountOfQueryWordsHeldByNoPeer),
+		slog.Int("amountOfShortQueryWords", spread.AmountOfShortQueryWords),
 		slog.Int("amountOfPeersAsked", spread.AmountOfPeersAsked),
 		slog.Int("amountOfPeersThatAnswered", spread.AmountOfPeersThatAnswered),
 		slog.Int("amountOfPeersHoldingAQueryWord", spread.AmountOfPeersHoldingAQueryWord),
+		slog.Int("amountOfAnchorDocuments", spread.AmountOfAnchorDocuments),
+		slog.Int(
+			"amountOfDocumentsPastTheHeldDocumentsCeiling",
+			spread.AmountOfDocumentsPastTheHeldDocumentsCeiling,
+		),
+		slog.Int(
+			"amountOfPeersAskedForHeldDocuments",
+			spread.AmountOfPeersAskedForHeldDocuments,
+		),
+		slog.Int(
+			"amountOfPeersThatAnsweredHeldDocuments",
+			spread.AmountOfPeersThatAnsweredHeldDocuments,
+		),
+		slog.Int(
+			"amountOfEmptyHeldDocumentsAnswers",
+			spread.AmountOfEmptyHeldDocumentsAnswers,
+		),
+		slog.Int(
+			"amountOfJoinedDocumentsBeforeTheHeldDocumentsAsks",
+			spread.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks,
+		),
 		slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments),
 		slog.Int(
 			"amountOfJoinedDocumentsWithMetadata",

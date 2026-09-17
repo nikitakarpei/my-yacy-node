@@ -80,14 +80,14 @@ func TestAPeerCallThatBroughtNothingIsCountedApartFromOneThatBroughtSomething(t 
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
 	metrics.PeerAnsweredMatchedItems(t.Context(), "http://peer.example", 0, time.Second)
-	metrics.PeerAnsweredHeldDocuments(t.Context(), "http://peer.example", 0, time.Second)
+	metrics.PeerAnsweredMatchedAndHeldDocuments(t.Context(), "http://peer.example", 0, time.Second)
 	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 0, time.Second)
 	metrics.PeerAnsweredMatchedItems(t.Context(), "http://peer.example", 3, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_peer_calls_total{asked_for="matched items",outcome="answered nothing"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="held documents",outcome="answered nothing"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="matched and held documents",outcome="answered nothing"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="answered nothing"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="matched items",outcome="answered"} 1`,
 	} {
@@ -125,10 +125,13 @@ func TestAnAnsweredWordIsCountedUnderWhatItAskedFor(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredHeldDocuments(t.Context(), "http://peer.example", 7, time.Second)
+	metrics.PeerAnsweredMatchedAndHeldDocuments(t.Context(), "http://peer.example", 7, time.Second)
+	metrics.PeerAnsweredHeldDocuments(t.Context(), "http://peer.example", 2, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
+		`yacydhtsearch_peer_calls_total{asked_for="matched and held documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched and held documents",outcome="answered"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="held documents",outcome="answered"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="held documents",outcome="answered"} 1`,
 	} {

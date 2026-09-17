@@ -28,18 +28,20 @@ const (
 )
 
 type recordedOutcome struct {
-	mutex                      sync.Mutex
-	answeredMatchedItems       int
-	amountOfMatchedItems       int
-	answeredURLMetadata        int
-	amountOfDescribedDocuments int
-	answeredHeldDocuments      int
-	amountOfDocuments          int
-	refused                    int
-	unreachable                int
-	unreadable                 int
-	askedFor                   peerasks.AskedFor
-	spent                      time.Duration
+	mutex                           sync.Mutex
+	answeredMatchedItems            int
+	amountOfMatchedItems            int
+	answeredURLMetadata             int
+	amountOfDescribedDocuments      int
+	answeredMatchedAndHeldDocuments int
+	amountOfDocuments               int
+	answeredHeldDocuments           int
+	amountOfHeldDocuments           int
+	refused                         int
+	unreachable                     int
+	unreadable                      int
+	askedFor                        peerasks.AskedFor
+	spent                           time.Duration
 }
 
 func (r *recordedOutcome) PeerAnsweredMatchedItems(
@@ -70,7 +72,7 @@ func (r *recordedOutcome) PeerAnsweredURLMetadata(
 	r.spent = spent
 }
 
-func (r *recordedOutcome) PeerAnsweredHeldDocuments(
+func (r *recordedOutcome) PeerAnsweredMatchedAndHeldDocuments(
 	_ context.Context,
 	_ string,
 	amountOfDocuments int,
@@ -79,8 +81,22 @@ func (r *recordedOutcome) PeerAnsweredHeldDocuments(
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 
-	r.answeredHeldDocuments++
+	r.answeredMatchedAndHeldDocuments++
 	r.amountOfDocuments = amountOfDocuments
+	r.spent = spent
+}
+
+func (r *recordedOutcome) PeerAnsweredHeldDocuments(
+	_ context.Context,
+	_ string,
+	amountOfHeldDocuments int,
+	spent time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	r.answeredHeldDocuments++
+	r.amountOfHeldDocuments = amountOfHeldDocuments
 	r.spent = spent
 }
 
@@ -190,18 +206,18 @@ func matchedItemsOf(
 	return answeredAsks[0].MatchedDocuments, true
 }
 
-func heldDocumentsAnswerOf(
+func matchedAndHeldDocumentsAnswerOf(
 	t *testing.T,
 	observer peercallwire.PeerCallObserver,
-	ask peerasks.HeldDocumentsAsk,
-) (peerasks.AnsweredHeldDocumentsAsk, bool) {
+	ask peerasks.MatchedAndHeldDocumentsAsk,
+) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
 	t.Helper()
 
-	answeredAsks := wireTo(observer).AskForHeldDocuments(
-		callWithin(t, spreadBudgetOfTheTests), []peerasks.HeldDocumentsAsk{ask},
+	answeredAsks := wireTo(observer).AskForMatchedAndHeldDocuments(
+		callWithin(t, spreadBudgetOfTheTests), []peerasks.MatchedAndHeldDocumentsAsk{ask},
 	)
 	if len(answeredAsks) == 0 {
-		return peerasks.AnsweredHeldDocumentsAsk{}, false
+		return peerasks.AnsweredMatchedAndHeldDocumentsAsk{}, false
 	}
 
 	return answeredAsks[0], true
@@ -362,7 +378,7 @@ func TestAPeerIsGrantedTheCallBudgetLessTheMarginTheAnswerNeeds(t *testing.T) {
 	}
 }
 
-func TestAHeldDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testing.T) {
+func TestAMatchedAndHeldDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testing.T) {
 	t.Parallel()
 
 	word := yacymodel.WordHash("berlin")
@@ -373,16 +389,16 @@ func TestAHeldDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testing.
 	address, requests := peerAnswering(t, body, http.StatusOK)
 	observer := &recordedOutcome{}
 
-	answeredAsk, replied := heldDocumentsAnswerOf(
+	answeredAsk, replied := matchedAndHeldDocumentsAnswerOf(
 		t,
 		observer,
-		peerasks.HeldDocumentsAsk{Peer: peerAt(address), Word: word, ItemsCeiling: 7},
+		peerasks.MatchedAndHeldDocumentsAsk{Peer: peerAt(address), Word: word, ItemsCeiling: 7},
 	)
 
 	if !replied || len(answeredAsk.DocumentsHeldForTheWord) != 1 ||
 		answeredAsk.DocumentsHeldForTheWord[0] != document {
 		t.Fatalf(
-			"AskForHeldDocuments = %+v, %v, want the document the peer holds",
+			"AskForMatchedAndHeldDocuments = %+v, %v, want the document the peer holds",
 			answeredAsk.DocumentsHeldForTheWord,
 			replied,
 		)
@@ -392,16 +408,16 @@ func TestAHeldDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testing.
 		len(request.Query) != 1 || request.Query[0] != word || request.Count != 7 {
 		t.Fatalf("request = %+v, want the abstract and the items of the one word", request)
 	}
-	if observer.answeredHeldDocuments != 1 || observer.amountOfDocuments != 1 {
+	if observer.answeredMatchedAndHeldDocuments != 1 || observer.amountOfDocuments != 1 {
 		t.Fatalf(
-			"PeerAnsweredHeldDocuments reported %d times with %d documents, want once with one",
-			observer.answeredHeldDocuments,
+			"PeerAnsweredMatchedAndHeldDocuments reported %d times with %d documents, want once with one",
+			observer.answeredMatchedAndHeldDocuments,
 			observer.amountOfDocuments,
 		)
 	}
 }
 
-func TestAHeldDocumentsAnswerReadsTheItemsAndTheDocumentsThePeerHolds(t *testing.T) {
+func TestAMatchedAndHeldDocumentsAnswerReadsTheItemsAndTheDocumentsThePeerHolds(t *testing.T) {
 	t.Parallel()
 
 	word := yacymodel.WordHash("berlin")
@@ -418,13 +434,15 @@ func TestAHeldDocumentsAnswerReadsTheItemsAndTheDocumentsThePeerHolds(t *testing
 	}.Encode().Encode()
 	address, _ := peerAnswering(t, body, http.StatusOK)
 
-	answeredAsk, replied := heldDocumentsAnswerOf(
-		t, &recordedOutcome{}, peerasks.HeldDocumentsAsk{Peer: peerAt(address), Word: word},
+	answeredAsk, replied := matchedAndHeldDocumentsAnswerOf(
+		t,
+		&recordedOutcome{},
+		peerasks.MatchedAndHeldDocumentsAsk{Peer: peerAt(address), Word: word},
 	)
 
 	if !replied || len(answeredAsk.MatchedDocuments) != 2 ||
 		answeredAsk.MatchedDocuments[0].Metadata.Address != "https://example.org/berlin" {
-		t.Fatalf("AskForHeldDocuments read %+v, want the documents the peer matched",
+		t.Fatalf("AskForMatchedAndHeldDocuments read %+v, want the documents the peer matched",
 			answeredAsk.MatchedDocuments)
 	}
 	if answeredAsk.MatchedDocuments[0].CountOfAWordTheAskNamed.Hits != 3 ||
@@ -475,8 +493,10 @@ func TestAPeerThatCountsNoDocumentForTheWordAnswersWithoutACount(t *testing.T) {
 	}.Encode().Encode()
 	address, _ := peerAnswering(t, body, http.StatusOK)
 
-	answeredAsk, replied := heldDocumentsAnswerOf(
-		t, &recordedOutcome{}, peerasks.HeldDocumentsAsk{Peer: peerAt(address), Word: word},
+	answeredAsk, replied := matchedAndHeldDocumentsAnswerOf(
+		t,
+		&recordedOutcome{},
+		peerasks.MatchedAndHeldDocumentsAsk{Peer: peerAt(address), Word: word},
 	)
 
 	if _, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get(); !replied || counted {
@@ -485,7 +505,7 @@ func TestAPeerThatCountsNoDocumentForTheWordAnswersWithoutACount(t *testing.T) {
 	}
 }
 
-func TestAHeldDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
+func TestAMatchedAndHeldDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
 	t.Parallel()
 
 	body := yacyproto.SearchResponse{
@@ -495,15 +515,20 @@ func TestAHeldDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
 	}.Encode().Encode()
 	address, _ := peerAnswering(t, body, http.StatusOK)
 
-	answeredAsk, replied := heldDocumentsAnswerOf(
+	answeredAsk, replied := matchedAndHeldDocumentsAnswerOf(
 		t,
 		&recordedOutcome{},
-		peerasks.HeldDocumentsAsk{Peer: peerAt(address), Word: yacymodel.WordHash("berlin")},
+		peerasks.MatchedAndHeldDocumentsAsk{
+			Peer: peerAt(address),
+			Word: yacymodel.WordHash("berlin"),
+		},
 	)
 
 	if !replied || len(answeredAsk.DocumentsHeldForTheWord) != 0 {
-		t.Fatalf("AskForHeldDocuments = %+v, want no document of the word it did not ask for",
-			answeredAsk.DocumentsHeldForTheWord)
+		t.Fatalf(
+			"AskForMatchedAndHeldDocuments = %+v, want no document of the word it did not ask for",
+			answeredAsk.DocumentsHeldForTheWord,
+		)
 	}
 }
 
@@ -531,15 +556,15 @@ func TestAFailedCallReportsWhatItAskedThePeerFor(t *testing.T) {
 	matchedItemsOf(t, refusedItemsAsk, peerasks.MatchedItemsAsk{Peer: peerAt(address)})
 
 	refusedDocumentsAsk := &recordedOutcome{}
-	heldDocumentsAnswerOf(t, refusedDocumentsAsk, peerasks.HeldDocumentsAsk{
+	matchedAndHeldDocumentsAnswerOf(t, refusedDocumentsAsk, peerasks.MatchedAndHeldDocumentsAsk{
 		Peer: peerAt(address),
 		Word: yacymodel.WordHash("berlin"),
 	})
 
 	if refusedItemsAsk.askedFor != peerasks.MatchedItems ||
-		refusedDocumentsAsk.askedFor != peerasks.HeldDocuments {
+		refusedDocumentsAsk.askedFor != peerasks.MatchedAndHeldDocuments {
 		t.Fatalf(
-			"the refusals named %q and %q, want the matched items and the held documents",
+			"the refusals named %q and %q, want the matched items and the matched and held documents",
 			refusedItemsAsk.askedFor,
 			refusedDocumentsAsk.askedFor,
 		)
@@ -720,6 +745,136 @@ func TestAPeerThatRejectsTheURLMetadataCallYieldsNoItems(t *testing.T) {
 			"the failure was reported for %q, want %q",
 			observer.askedFor,
 			peerasks.URLMetadata,
+		)
+	}
+}
+
+func TestAHeldDocumentsAskNamesTheWordAndTheDocumentsAndAsksForNoItem(t *testing.T) {
+	t.Parallel()
+
+	word := yacymodel.WordHash("berlin")
+	documents := []yacymodel.URLHash{
+		mustParseURLHash(t, "bbbbbbAAAAAA"),
+		mustParseURLHash(t, "Q_ylfl--9bK5"),
+	}
+	address, calls := peerRecordingTheFormPosted(t, "")
+
+	wireTo(&recordedOutcome{}).AskForHeldDocuments(
+		callWithin(t, spreadBudgetOfTheTests),
+		[]peerasks.HeldDocumentsAsk{{Peer: peerAt(address), Word: word, Documents: documents}},
+	)
+
+	if len(calls.paths) != 1 || calls.paths[0] != yacyproto.PathSearch {
+		t.Fatalf("the peer was called at %v, want %q", calls.paths, yacyproto.PathSearch)
+	}
+	form := calls.forms[0]
+	if got := form.Get(yacyproto.FieldQuery); got != "" {
+		t.Errorf("query = %q, want no word to match", got)
+	}
+	if got := form.Get(yacyproto.FieldAbstracts); got != word.String() {
+		t.Errorf("abstracts = %q, want the one word the ask named", got)
+	}
+	if got := form.Get(yacyproto.FieldURLs); got != documents[0].String()+documents[1].String() {
+		t.Errorf("urls = %q, want the documents the ask named", got)
+	}
+	if got := form.Get(yacyproto.FieldCount); got != "" && got != "0" {
+		t.Errorf("count = %q, want no item", got)
+	}
+}
+
+func peerRecordingTheFormPosted(t *testing.T, body string) (string, *peerCalls) {
+	t.Helper()
+
+	calls := &peerCalls{}
+	server := httptest.NewServer(http.HandlerFunc(
+		func(writer http.ResponseWriter, reader *http.Request) {
+			calls.paths = append(calls.paths, reader.URL.Path)
+			if err := reader.ParseForm(); err == nil {
+				calls.forms = append(calls.forms, reader.PostForm)
+			}
+			_, _ = writer.Write([]byte(body))
+		},
+	))
+	t.Cleanup(server.Close)
+
+	return server.URL, calls
+}
+
+func TestAHeldDocumentsAnswerReadsTheDocumentsOfTheAbstractAlone(t *testing.T) {
+	t.Parallel()
+
+	word := yacymodel.WordHash("berlin")
+	document := mustParseURLHash(t, "bbbbbbAAAAAA")
+	body := yacyproto.SearchResponse{
+		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{word: {document}},
+	}.Encode().Encode()
+	address, _ := peerAnswering(t, body, http.StatusOK)
+	observer := &recordedOutcome{}
+
+	answeredAsk, replied := heldDocumentsAnswerOf(t, observer, peerasks.HeldDocumentsAsk{
+		Peer:      peerAt(address),
+		Word:      word,
+		Documents: []yacymodel.URLHash{document},
+	})
+
+	if !replied || len(answeredAsk.DocumentsHeldForTheWord) != 1 ||
+		answeredAsk.DocumentsHeldForTheWord[0] != document {
+		t.Fatalf(
+			"AskForHeldDocuments = %+v, %v, want the document the peer holds",
+			answeredAsk.DocumentsHeldForTheWord,
+			replied,
+		)
+	}
+	if observer.answeredHeldDocuments != 1 || observer.amountOfHeldDocuments != 1 {
+		t.Fatalf(
+			"PeerAnsweredHeldDocuments reported %d times with %d documents, want once with one",
+			observer.answeredHeldDocuments,
+			observer.amountOfHeldDocuments,
+		)
+	}
+}
+
+func heldDocumentsAnswerOf(
+	t *testing.T,
+	observer peercallwire.PeerCallObserver,
+	ask peerasks.HeldDocumentsAsk,
+) (peerasks.AnsweredHeldDocumentsAsk, bool) {
+	t.Helper()
+
+	answeredAsks := wireTo(observer).AskForHeldDocuments(
+		callWithin(t, spreadBudgetOfTheTests), []peerasks.HeldDocumentsAsk{ask},
+	)
+	if len(answeredAsks) == 0 {
+		return peerasks.AnsweredHeldDocumentsAsk{}, false
+	}
+
+	return answeredAsks[0], true
+}
+
+func TestAPeerThatHoldsNoDocumentTheHeldDocumentsAskNamedStillReplies(t *testing.T) {
+	t.Parallel()
+
+	address, _ := peerAnswering(t, "", http.StatusOK)
+	observer := &recordedOutcome{}
+
+	answeredAsk, replied := heldDocumentsAnswerOf(t, observer, peerasks.HeldDocumentsAsk{
+		Peer:      peerAt(address),
+		Word:      yacymodel.WordHash("berlin"),
+		Documents: []yacymodel.URLHash{mustParseURLHash(t, "bbbbbbAAAAAA")},
+	})
+
+	if !replied || len(answeredAsk.DocumentsHeldForTheWord) != 0 {
+		t.Fatalf(
+			"AskForHeldDocuments = %+v, %v, want a reply that carries no document",
+			answeredAsk.DocumentsHeldForTheWord,
+			replied,
+		)
+	}
+	if observer.answeredHeldDocuments != 1 || observer.amountOfHeldDocuments != 0 {
+		t.Fatalf(
+			"PeerAnsweredHeldDocuments reported %d times with %d documents, want once with none",
+			observer.answeredHeldDocuments,
+			observer.amountOfHeldDocuments,
 		)
 	}
 }

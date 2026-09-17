@@ -273,6 +273,7 @@ deps:
       - yacymodel
     mayDependOn:
       - queryanswers
+      - peerchoice
       - peerdirectory
       - peerasks
       - searchquery
@@ -281,6 +282,7 @@ deps:
       - yacymodel
     mayDependOn:
       - queryanswers
+      - peerchoice
       - peerdirectory
       - peerasks
       - searchquery
