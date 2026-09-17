@@ -225,6 +225,7 @@ func querySpreadFor(
 		wordjoined.New(
 			peers,
 			cfg.RankedItemsCeiling,
+			cfg.AsksForCrossCheckedDocuments,
 			cfg.CrossCheckedDocumentsCeiling,
 			cfg.PeerItemsCeiling,
 			cfg.Partitions,

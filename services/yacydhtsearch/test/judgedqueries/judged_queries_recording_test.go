@@ -44,6 +44,7 @@ const (
 	peerCallBudget               = 5 * time.Second
 	peerItemsCeiling             = 10
 	rankedItemsCeiling           = 50
+	asksForCrossCheckedDocuments = false
 	crossCheckedDocumentsCeiling = 1000
 	queryBudget                  = 15 * time.Second
 
@@ -233,6 +234,7 @@ func querySpreadOverThePeers(
 		wordjoined.New(
 			peers,
 			rankedItemsCeiling,
+			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
 			partitions,
