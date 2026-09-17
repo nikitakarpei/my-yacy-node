@@ -84,18 +84,18 @@ func (spread Spread) SpreadOverPeers(
 		ctx,
 		matchedAndHeldDocumentsRound,
 	)
-	joinOfTheQuery := joinOfTheQueryFrom(matchedAndHeldDocumentsRound, crossCheckedDocumentsRound)
-	urlMetadataRound := spread.askForURLMetadata(ctx, matchedAndHeldDocumentsRound, joinOfTheQuery)
+	joinedDocuments := joinedDocumentsFrom(matchedAndHeldDocumentsRound, crossCheckedDocumentsRound)
+	urlMetadataRound := spread.askForURLMetadata(ctx, matchedAndHeldDocumentsRound, joinedDocuments)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		matchedAndHeldDocumentsRound,
 		crossCheckedDocumentsRound,
-		joinOfTheQuery,
+		joinedDocuments,
 		urlMetadataRound,
 		time.Since(startedAt),
 	))
 
-	return answeredQueryFrom(matchedAndHeldDocumentsRound, joinOfTheQuery, urlMetadataRound)
+	return answeredQueryFrom(matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound)
 }
 
 func (spread Spread) askForMatchedAndHeldDocuments(
@@ -166,10 +166,10 @@ func (spread Spread) askForCrossCheckedDocuments(
 func (spread Spread) askForURLMetadata(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	joinOfTheQuery joinOfTheQuery,
+	joinedDocuments map[yacymodel.URLHash]struct{},
 ) urlMetadataRound {
 	documentsWithoutMetadata := documentsWithoutMetadataAmong(
-		joinOfTheQuery.documentsJoinedWithCrossChecking, matchedAndHeldDocumentsRound.answeredAsks,
+		joinedDocuments, matchedAndHeldDocumentsRound.answeredAsks,
 	)
 	asks := urlMetadataAsksFor(
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(documentsWithoutMetadata),

@@ -536,9 +536,9 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 	)
 
 	performed := observer.performed[0]
-	if performed.CrossCheckedDocumentsRound.AmountOfDocumentsJoinedWithoutCrossChecking != 1 ||
-		performed.CrossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking != 2 {
-		t.Fatalf("the spread reported %+v, want the second round adding one document to the join",
+	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocumentsFoundOnlyByCrossChecking != 1 ||
+		performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 {
+		t.Fatalf("the spread reported %+v, want cross-checking adding one document to the join",
 			performed)
 	}
 	if performed.MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords != 1 ||
@@ -619,10 +619,10 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 			performed.MatchedAndHeldDocumentsRound,
 		)
 	}
-	if performed.CrossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking != 2 {
+	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 {
 		t.Fatalf(
 			"the spread joined %d documents, want the one both words listed and the one the partly listed word left out",
-			performed.CrossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking,
+			performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments,
 		)
 	}
 }
@@ -746,7 +746,7 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 	}
 	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
 	if crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 0 ||
-		crossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking != 3 {
+		crossCheckedDocumentsRound.AmountOfJoinedDocuments != 3 {
 		t.Fatalf(
 			"the spread reported %+v, want every document listed for the leading query word joined and none past the ceiling",
 			crossCheckedDocumentsRound,
@@ -1129,7 +1129,7 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 	performed := observer.performed[0]
 	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWords != 2 ||
 		performed.MatchedAndHeldDocumentsRound.AmountOfPeersAskedForMatchedAndHeldDocuments != 2 ||
-		performed.CrossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking != 1 {
+		performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 1 {
 		t.Fatalf("the spread reported %+v, want two words, two peers and one joined document",
 			performed)
 	}
@@ -1270,7 +1270,7 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	spreadAskingMetadataForUpTo(network, responsiblePeers{}, 1, observer)
 
 	performed := observer.performed[0]
-	if performed.CrossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking != 2 ||
+	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 ||
 		performed.URLMetadataRound.AmountOfDocumentsAskedMetadataFor != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want two joined documents and one asked metadata for",

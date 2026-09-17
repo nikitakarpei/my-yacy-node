@@ -96,3 +96,15 @@ func amountOfPeersPerDocumentOf(
 
 	return amountOfPeersPerDocument
 }
+
+func (round matchedAndHeldDocumentsRound) documentsListedByPeersPerQueryWord() map[yacymodel.Hash]map[yacymodel.URLHash]struct{} {
+	documentsListedByPeersPerQueryWord := make(
+		map[yacymodel.Hash]map[yacymodel.URLHash]struct{},
+		len(round.queryWordsFewestDocumentsFirst),
+	)
+	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
+		documentsListedByPeersPerQueryWord[queryWord.word] = queryWord.documentsListedByPeers()
+	}
+
+	return documentsListedByPeersPerQueryWord
+}

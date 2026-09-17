@@ -47,8 +47,8 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 			AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: 3,
 			AmountOfPeersAskedForCrossCheckedDocuments:           4,
 			AmountOfPeersThatAnsweredCrossCheckedDocuments:       2,
-			AmountOfDocumentsJoinedWithoutCrossChecking:          4,
-			AmountOfDocumentsJoinedWithCrossChecking:             10,
+			AmountOfJoinedDocumentsFoundOnlyByCrossChecking:      6,
+			AmountOfJoinedDocuments:                              10,
 		},
 		URLMetadataRound: wordjoined.PerformedURLMetadataRound{
 			AmountOfJoinedDocumentsWithMetadata: 2,
@@ -195,7 +195,7 @@ func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoShareDroppedBeforeLoo
 
 func spreadJoiningDocuments(amountOfJoinedDocuments int) wordjoined.PerformedWordJoinedSpread {
 	spread := spreadOfQueryWords(2)
-	spread.CrossCheckedDocumentsRound.AmountOfDocumentsJoinedWithCrossChecking = amountOfJoinedDocuments
+	spread.CrossCheckedDocumentsRound.AmountOfJoinedDocuments = amountOfJoinedDocuments
 
 	return spread
 }

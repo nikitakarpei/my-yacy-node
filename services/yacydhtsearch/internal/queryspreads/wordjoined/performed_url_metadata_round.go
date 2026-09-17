@@ -13,10 +13,10 @@ type PerformedURLMetadataRound struct {
 
 func performedURLMetadataRoundFrom(
 	round urlMetadataRound,
-	joinOfTheQuery joinOfTheQuery,
+	joinedDocuments map[yacymodel.URLHash]struct{},
 ) PerformedURLMetadataRound {
 	return PerformedURLMetadataRound{
-		AmountOfJoinedDocumentsWithMetadata: len(joinOfTheQuery.documentsJoinedWithCrossChecking) -
+		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) -
 			len(round.documentsWithoutMetadata),
 		AmountOfDocumentsAskedMetadataFor: len(documentsAcrossURLMetadataAsks(round.asks)),
 		AmountOfAskedDocumentsWithMetadata: amountOfAskedDocumentsWithMetadata(

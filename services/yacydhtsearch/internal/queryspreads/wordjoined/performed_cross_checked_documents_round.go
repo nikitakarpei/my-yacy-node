@@ -3,6 +3,7 @@ package wordjoined
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
@@ -10,13 +11,14 @@ type PerformedCrossCheckedDocumentsRound struct {
 	AmountOfPeersAskedForCrossCheckedDocuments           int
 	AmountOfPeersThatAnsweredCrossCheckedDocuments       int
 	AmountOfEmptyCrossCheckedDocumentsAnswers            int
-	AmountOfDocumentsJoinedWithoutCrossChecking          int
-	AmountOfDocumentsJoinedWithCrossChecking             int
+	AmountOfJoinedDocuments                              int
+	AmountOfJoinedDocumentsFoundOnlyByCrossChecking      int
 }
 
 func performedCrossCheckedDocumentsRoundFrom(
 	round crossCheckedDocumentsRound,
-	joinOfTheQuery joinOfTheQuery,
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinedDocuments map[yacymodel.URLHash]struct{},
 ) PerformedCrossCheckedDocumentsRound {
 	return PerformedCrossCheckedDocumentsRound{
 		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: round.
@@ -31,11 +33,10 @@ func performedCrossCheckedDocumentsRoundFrom(
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
-		AmountOfDocumentsJoinedWithoutCrossChecking: len(
-			joinOfTheQuery.documentsJoinedWithoutCrossChecking,
-		),
-		AmountOfDocumentsJoinedWithCrossChecking: len(
-			joinOfTheQuery.documentsJoinedWithCrossChecking,
+		AmountOfJoinedDocuments: len(joinedDocuments),
+		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: amountOfJoinedDocumentsFoundOnlyByCrossCheckingAmong(
+			joinedDocuments,
+			matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord(),
 		),
 	}
 }
@@ -58,6 +59,21 @@ func amountOfEmptyCrossCheckedDocumentsAnswers(
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
 		if len(answeredAsk.DocumentsHeldForTheWord) > 0 {
+			continue
+		}
+		amount++
+	}
+
+	return amount
+}
+
+func amountOfJoinedDocumentsFoundOnlyByCrossCheckingAmong(
+	joinedDocuments map[yacymodel.URLHash]struct{},
+	documentsListedByPeersPerQueryWord map[yacymodel.Hash]map[yacymodel.URLHash]struct{},
+) int {
+	amount := 0
+	for document := range joinedDocuments {
+		if isFoundForEveryQueryWord(document, documentsListedByPeersPerQueryWord) {
 			continue
 		}
 		amount++
