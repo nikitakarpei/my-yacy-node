@@ -44,9 +44,9 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 	if cfg.HedgeDelay != main.DefaultHedgeDelay {
 		t.Fatalf("hedge delay = %v, want the default", cfg.HedgeDelay)
 	}
-	if cfg.ReplicasCoveringAPartition != main.DefaultNetworkRedundancy {
+	if cfg.ReplicasCoveringAPartition != main.DefaultReplicasCoveringAPartition {
 		t.Fatalf(
-			"replicas covering a partition = %d, want the network redundancy",
+			"replicas covering a partition = %d, want the default",
 			cfg.ReplicasCoveringAPartition,
 		)
 	}

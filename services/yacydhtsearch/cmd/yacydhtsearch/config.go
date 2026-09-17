@@ -53,6 +53,7 @@ const (
 	DefaultQueryBudget                  = 10 * time.Second
 	DefaultNetworkRedundancy            = 3
 	DefaultHedgeDelay                   = 500 * time.Millisecond
+	DefaultReplicasCoveringAPartition   = 1
 	DefaultPeerCallsInFlight            = 48
 	DefaultPeerCallBudget               = 3 * time.Second
 	DefaultProbesInFlight               = 24
@@ -305,7 +306,11 @@ func replicasCoveringAPartitionOf(
 	getenv func(string) string,
 	networkRedundancy int,
 ) (int, error) {
-	replicas, err := envconfig.PositiveInt(getenv, EnvReplicasCoveringAPartition, networkRedundancy)
+	replicas, err := envconfig.PositiveInt(
+		getenv,
+		EnvReplicasCoveringAPartition,
+		DefaultReplicasCoveringAPartition,
+	)
 	if err != nil {
 		return 0, err
 	}
