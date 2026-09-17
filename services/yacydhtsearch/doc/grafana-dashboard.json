@@ -1813,7 +1813,10 @@
           "unit": "short",
           "custom": {
             "drawStyle": "bars",
-            "fillOpacity": 70
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
           },
           "min": 0
         },
@@ -1854,7 +1857,10 @@
           "unit": "short",
           "custom": {
             "drawStyle": "bars",
-            "fillOpacity": 70
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
           },
           "min": 0
         },
