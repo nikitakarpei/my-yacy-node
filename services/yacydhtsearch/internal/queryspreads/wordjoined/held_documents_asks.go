@@ -18,26 +18,16 @@ func heldDocumentsAsksFor(
 	peersShortOfTheirQueryWord := peersShortOfTheirQueryWordAcross(shortQueryWords, answeredAsks)
 	asks := make([]peerasks.HeldDocumentsAsk, 0, len(peersShortOfTheirQueryWord))
 	documentsPastTheCeiling := map[yacymodel.URLHash]struct{}{}
-	askedPeers := map[yacymodel.Hash]struct{}{}
-	for _, peerShortOfItsQueryWord := range peersShortOfTheirQueryWord {
-		if _, asked := askedPeers[peerShortOfItsQueryWord.peer.Hash]; asked {
-			continue
-		}
-		documentsToName, documentsLeftOut := documentsWithinTheCeiling(
+	for _, peersShortOfOneQueryWord := range peersShortOfEachQueryWordAmong(
+		peersShortOfTheirQueryWord,
+	) {
+		asksOfTheQueryWord, documentsPastTheCeilingOfTheQueryWord := heldDocumentsAsksDealtAcross(
+			peersWithoutAnAskAmong(peersShortOfOneQueryWord, asks),
 			documentsMostHeldFirst,
-			peerShortOfItsQueryWord.documentsTheAnswerNamed,
 			heldDocumentsCeiling,
 		)
-		if len(documentsToName) == 0 {
-			continue
-		}
-		askedPeers[peerShortOfItsQueryWord.peer.Hash] = struct{}{}
-		asks = append(asks, peerasks.HeldDocumentsAsk{
-			Peer:      peerShortOfItsQueryWord.peer,
-			Word:      peerShortOfItsQueryWord.word,
-			Documents: documentsToName,
-		})
-		for _, document := range documentsLeftOut {
+		asks = append(asks, asksOfTheQueryWord...)
+		for _, document := range documentsPastTheCeilingOfTheQueryWord {
 			documentsPastTheCeiling[document] = struct{}{}
 		}
 	}
@@ -97,21 +87,123 @@ func answerOfEachPeerPerQueryWordOf(
 	return answerOfEachPeerPerQueryWord
 }
 
-func documentsWithinTheCeiling(
-	documentsMostHeldFirst []yacymodel.URLHash,
-	documentsTheAnswerNamed []yacymodel.URLHash,
-	heldDocumentsCeiling int,
-) ([]yacymodel.URLHash, []yacymodel.URLHash) {
-	documentsToName := make([]yacymodel.URLHash, 0, len(documentsMostHeldFirst))
-	for _, document := range documentsMostHeldFirst {
-		if slices.Contains(documentsTheAnswerNamed, document) {
-			continue
+func peersShortOfEachQueryWordAmong(
+	peersShortOfTheirQueryWord []peerShortOfAQueryWord,
+) [][]peerShortOfAQueryWord {
+	peersShortOfEachQueryWord := make([][]peerShortOfAQueryWord, 0, len(peersShortOfTheirQueryWord))
+	placeOfEachQueryWord := map[yacymodel.Hash]int{}
+	for _, peerShortOfItsQueryWord := range peersShortOfTheirQueryWord {
+		place, grouped := placeOfEachQueryWord[peerShortOfItsQueryWord.word]
+		if !grouped {
+			place = len(peersShortOfEachQueryWord)
+			placeOfEachQueryWord[peerShortOfItsQueryWord.word] = place
+			peersShortOfEachQueryWord = append(peersShortOfEachQueryWord, nil)
 		}
-		documentsToName = append(documentsToName, document)
-	}
-	if len(documentsToName) <= heldDocumentsCeiling {
-		return documentsToName, nil
+		peersShortOfEachQueryWord[place] = append(
+			peersShortOfEachQueryWord[place], peerShortOfItsQueryWord,
+		)
 	}
 
-	return documentsToName[:heldDocumentsCeiling], documentsToName[heldDocumentsCeiling:]
+	return peersShortOfEachQueryWord
+}
+
+func peersWithoutAnAskAmong(
+	peersShortOfOneQueryWord []peerShortOfAQueryWord,
+	asks []peerasks.HeldDocumentsAsk,
+) []peerShortOfAQueryWord {
+	keptPeers := make([]peerShortOfAQueryWord, 0, len(peersShortOfOneQueryWord))
+	for _, peerShortOfItsQueryWord := range peersShortOfOneQueryWord {
+		if slices.ContainsFunc(asks, func(ask peerasks.HeldDocumentsAsk) bool {
+			return ask.Peer.Hash == peerShortOfItsQueryWord.peer.Hash
+		}) {
+			continue
+		}
+		keptPeers = append(keptPeers, peerShortOfItsQueryWord)
+	}
+
+	return keptPeers
+}
+
+func heldDocumentsAsksDealtAcross(
+	peersShortOfOneQueryWord []peerShortOfAQueryWord,
+	documentsMostHeldFirst []yacymodel.URLHash,
+	heldDocumentsCeiling int,
+) ([]peerasks.HeldDocumentsAsk, []yacymodel.URLHash) {
+	documentsDealtToEachPeer := make([][]yacymodel.URLHash, len(peersShortOfOneQueryWord))
+	documentsPastTheCeiling := make([]yacymodel.URLHash, 0, len(documentsMostHeldFirst))
+	placeOfTheNextTurn := 0
+	for _, document := range documentsMostHeldFirst {
+		place, dealt := placeOfThePeerTakingTheDocument(
+			peersShortOfOneQueryWord,
+			documentsDealtToEachPeer,
+			document,
+			placeOfTheNextTurn,
+			heldDocumentsCeiling,
+		)
+		if !dealt {
+			if !everyPeerNamedTheDocument(peersShortOfOneQueryWord, document) {
+				documentsPastTheCeiling = append(documentsPastTheCeiling, document)
+			}
+
+			continue
+		}
+		documentsDealtToEachPeer[place] = append(documentsDealtToEachPeer[place], document)
+		placeOfTheNextTurn = (place + 1) % len(peersShortOfOneQueryWord)
+	}
+
+	return heldDocumentsAsksNamingTheDealtDocuments(
+		peersShortOfOneQueryWord, documentsDealtToEachPeer,
+	), documentsPastTheCeiling
+}
+
+func placeOfThePeerTakingTheDocument(
+	peersShortOfOneQueryWord []peerShortOfAQueryWord,
+	documentsDealtToEachPeer [][]yacymodel.URLHash,
+	document yacymodel.URLHash,
+	placeOfTheNextTurn int,
+	heldDocumentsCeiling int,
+) (int, bool) {
+	for turn := range peersShortOfOneQueryWord {
+		place := (placeOfTheNextTurn + turn) % len(peersShortOfOneQueryWord)
+		if len(documentsDealtToEachPeer[place]) >= heldDocumentsCeiling ||
+			slices.Contains(peersShortOfOneQueryWord[place].documentsTheAnswerNamed, document) {
+			continue
+		}
+
+		return place, true
+	}
+
+	return 0, false
+}
+
+func everyPeerNamedTheDocument(
+	peersShortOfOneQueryWord []peerShortOfAQueryWord,
+	document yacymodel.URLHash,
+) bool {
+	for _, peerShortOfItsQueryWord := range peersShortOfOneQueryWord {
+		if !slices.Contains(peerShortOfItsQueryWord.documentsTheAnswerNamed, document) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func heldDocumentsAsksNamingTheDealtDocuments(
+	peersShortOfOneQueryWord []peerShortOfAQueryWord,
+	documentsDealtToEachPeer [][]yacymodel.URLHash,
+) []peerasks.HeldDocumentsAsk {
+	asks := make([]peerasks.HeldDocumentsAsk, 0, len(peersShortOfOneQueryWord))
+	for place, documentsDealtToOnePeer := range documentsDealtToEachPeer {
+		if len(documentsDealtToOnePeer) == 0 {
+			continue
+		}
+		asks = append(asks, peerasks.HeldDocumentsAsk{
+			Peer:      peersShortOfOneQueryWord[place].peer,
+			Word:      peersShortOfOneQueryWord[place].word,
+			Documents: documentsDealtToOnePeer,
+		})
+	}
+
+	return asks
 }

@@ -456,6 +456,15 @@ func documentsAskedForHeldDocuments(asks []peerasks.HeldDocumentsAsk) []yacymode
 	return documents
 }
 
+func documentsInTheirHashOrder(documents []yacymodel.URLHash) []yacymodel.URLHash {
+	documentsInOrder := slices.Clone(documents)
+	slices.SortFunc(documentsInOrder, func(first, second yacymodel.URLHash) int {
+		return strings.Compare(first.String(), second.String())
+	})
+
+	return documentsInOrder
+}
+
 func TestAPeerShortOfAWordIsAskedAboutTheDocumentsOfTheAnchorWordItLeftOut(t *testing.T) {
 	t.Parallel()
 
@@ -644,12 +653,13 @@ func TestADocumentPastTheHeldDocumentsCeilingStaysInTheJoinTheFirstRoundProved(t
 
 	abstracted := "https://abstracted.example/"
 	named := "https://named.example/"
+	other := "https://other.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: {abstracted, named}},
-		"fourth": {firstWord: {named}},
-		"fifth":  {firstWord: {named}},
-		"second": {secondWord: {abstracted, named}},
-		"third":  {secondWord: {abstracted, named}},
+		"first":  {firstWord: {abstracted, named, other}},
+		"fourth": {firstWord: {named, other}},
+		"fifth":  {firstWord: {named, other}},
+		"second": {secondWord: {abstracted, named, other}},
+		"third":  {secondWord: {abstracted, named, other}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 0}
 	observer := &recordedSpreads{}
@@ -666,7 +676,7 @@ func TestADocumentPastTheHeldDocumentsCeilingStaysInTheJoinTheFirstRoundProved(t
 
 	performed := observer.performed[0]
 	if performed.AmountOfDocumentsPastTheHeldDocumentsCeiling != 1 ||
-		performed.AmountOfJoinedDocuments != 2 {
+		performed.AmountOfJoinedDocuments != 3 {
 		t.Fatalf(
 			"the spread reported %+v, want the document past the ceiling counted and in the join",
 			performed,
@@ -676,6 +686,102 @@ func TestADocumentPastTheHeldDocumentsCeilingStaysInTheJoinTheFirstRoundProved(t
 		if len(ask.Documents) > documentsOneHeldDocumentsAskNames {
 			t.Fatalf(
 				"the ask to peer %q named %v, want no more documents than the ceiling allows",
+				ask.Peer.Address,
+				ask.Documents,
+			)
+		}
+	}
+}
+
+func TestTwoCutOffReplicasOfAShortQueryWordAreAskedDisjointDocuments(t *testing.T) {
+	t.Parallel()
+
+	answered := "https://answered.example/"
+	anchorDocuments := []string{
+		answered,
+		"https://first.example/",
+		"https://second.example/",
+		"https://third.example/",
+	}
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: anchorDocuments},
+		"second": {secondWord: anchorDocuments},
+		"third":  {secondWord: anchorDocuments},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 1}
+
+	spreadOfTheQuery(
+		network,
+		peersOfEachQueryWord(map[string][]string{
+			firstWord:  {"first"},
+			secondWord: {"second", "third"},
+		}),
+		firstWord+" "+secondWord,
+		&recordedSpreads{},
+	)
+
+	if len(network.heldDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spread put %v, want a held documents ask to each cut-off replica",
+			network.heldDocumentsAsks,
+		)
+	}
+	wanted := documentsInTheirHashOrder(documentHashesOf(anchorDocuments[1:]))
+	got := documentsInTheirHashOrder(documentsAskedForHeldDocuments(network.heldDocumentsAsks))
+	if !slices.Equal(got, wanted) {
+		t.Fatalf(
+			"the asks named %v, want %v dealt across the replicas without a repeat",
+			got,
+			wanted,
+		)
+	}
+}
+
+func TestTheDocumentsNoCutOffReplicaCanTakeAreCountedPastTheHeldDocumentsCeiling(t *testing.T) {
+	t.Parallel()
+
+	const documentsOneHeldDocumentsAskNames = 1
+
+	anchorDocuments := []string{
+		"https://first.example/",
+		"https://second.example/",
+		"https://third.example/",
+		"https://fourth.example/",
+	}
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: anchorDocuments},
+		"second": {secondWord: anchorDocuments},
+		"third":  {secondWord: anchorDocuments},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
+	observer := &recordedSpreads{}
+
+	spreadNamingHeldDocumentsForUpTo(
+		network,
+		peersOfEachQueryWord(map[string][]string{
+			firstWord:  {"first"},
+			secondWord: {"second", "third"},
+		}),
+		documentsOneHeldDocumentsAskNames,
+		observer,
+	)
+
+	if observer.performed[0].AmountOfDocumentsPastTheHeldDocumentsCeiling != 2 {
+		t.Fatalf(
+			"the spread reported %d documents past the ceiling, want the two no replica took",
+			observer.performed[0].AmountOfDocumentsPastTheHeldDocumentsCeiling,
+		)
+	}
+	if len(network.heldDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spread put %v, want a held documents ask to each cut-off replica",
+			network.heldDocumentsAsks,
+		)
+	}
+	for _, ask := range network.heldDocumentsAsks {
+		if len(ask.Documents) != documentsOneHeldDocumentsAskNames {
+			t.Fatalf(
+				"the ask to peer %q named %v, want the one document the ceiling allows",
 				ask.Peer.Address,
 				ask.Documents,
 			)
