@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
@@ -21,25 +22,25 @@ type peerNetwork struct {
 	itemsPerPeer            map[string][]string
 	countsAWordWithEachItem bool
 	silentPeers             map[string]struct{}
-	asks                    []peerasks.MatchedItemsAsk
+	asks                    []peerasks.MatchedDocumentsAsk
 }
 
 func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	return &peerNetwork{itemsPerPeer: itemsPerPeer, silentPeers: map[string]struct{}{}}
 }
 
-func (n *peerNetwork) AskForMatchedItems(
+func (n *peerNetwork) AskForMatchedDocuments(
 	_ context.Context,
-	asks []peerasks.MatchedItemsAsk,
-) []peerasks.AnsweredMatchedItemsAsk {
+	asks []peerasks.MatchedDocumentsAsk,
+) []peerasks.AnsweredMatchedDocumentsAsk {
 	n.asks = append(n.asks, asks...)
 
-	answeredAsks := make([]peerasks.AnsweredMatchedItemsAsk, 0, len(asks))
+	answeredAsks := make([]peerasks.AnsweredMatchedDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
 		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedItemsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedDocumentsAsk{
 			Ask:              ask,
 			MatchedDocuments: n.matchedDocumentsAt(n.itemsPerPeer[ask.Peer.Address]),
 		})
@@ -69,17 +70,31 @@ func (n *peerNetwork) matchedDocumentsAt(addresses []string) []peerasks.MatchedD
 
 type everyAskablePeer struct{}
 
-func (everyAskablePeer) ChoosePeersPerQueryWord(
+func (everyAskablePeer) ChosenPeersPerQueryWordFor(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) [][]peerdirectory.AskablePeer {
-	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
-	for range queryWords {
-		peersPerQueryWord = append(peersPerQueryWord, askablePeers)
+) peerchoice.ChosenPeersPerQueryWord {
+	peersPerQueryWord := make(peerchoice.ChosenPeersPerQueryWord, 0, len(queryWords))
+	for _, queryWord := range queryWords {
+		peersPerQueryWord = append(peersPerQueryWord, peerchoice.ChosenPeersOfQueryWord{
+			QueryWord:   queryWord,
+			ChosenPeers: peersOfOnePartition(askablePeers),
+		})
 	}
 
 	return peersPerQueryWord
+}
+
+func peersOfOnePartition(
+	askablePeers []peerdirectory.AskablePeer,
+) []peerchoice.ChosenPeer {
+	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
+	for _, peer := range askablePeers {
+		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{Peer: peer, Partition: 0})
+	}
+
+	return chosenPeers
 }
 
 type recordedSpreads struct {
@@ -123,8 +138,24 @@ func answersOfTheQuery(network *peerNetwork, query string) queryanswers.Answered
 func spreadOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
-) peermatched.Spread {
-	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, observer)
+) spreadChoosingEveryAskablePeer {
+	return spreadChoosingEveryAskablePeer{spread: peermatched.New(network, itemsCeiling, observer)}
+}
+
+type spreadChoosingEveryAskablePeer struct {
+	spread peermatched.Spread
+}
+
+func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
+	ctx context.Context,
+	query searchquery.Query,
+	askablePeers []peerdirectory.AskablePeer,
+) queryanswers.AnsweredQuery {
+	return s.spread.SpreadOverPeers(
+		ctx,
+		query,
+		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
+	)
 }
 
 func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {

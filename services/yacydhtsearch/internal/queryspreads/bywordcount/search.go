@@ -6,7 +6,7 @@ package bywordcount
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
@@ -15,7 +15,7 @@ type QuerySpread interface {
 	SpreadOverPeers(
 		ctx context.Context,
 		query searchquery.Query,
-		askablePeers []peerdirectory.AskablePeer,
+		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	) queryanswers.AnsweredQuery
 }
 
@@ -31,11 +31,11 @@ func New(wordJoinedSpread, peerMatchedSpread QuerySpread) Spread {
 func (s Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
-	askablePeers []peerdirectory.AskablePeer,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	if len(query.TermHashes()) < 2 {
-		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, askablePeers)
+		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 	}
 
-	return s.wordJoinedSpread.SpreadOverPeers(ctx, query, askablePeers)
+	return s.wordJoinedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 }

@@ -2,64 +2,33 @@ package wordjoined
 
 import (
 	"maps"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func joinedDocumentsOf(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
-	queryWords []yacymodel.Hash,
-) map[yacymodel.URLHash]struct{} {
-	joinedDocuments := map[yacymodel.URLHash]struct{}{}
-	for document, amountOfQueryWords := range amountOfQueryWordsPerDocument(answeredAsks) {
-		if amountOfQueryWords != len(queryWords) {
-			continue
-		}
-		joinedDocuments[document] = struct{}{}
-	}
-
-	return joinedDocuments
+func joinedDocumentsFrom(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	crossCheckedDocumentsRound crossCheckedDocumentsRound,
+) distinctDocuments {
+	return documentsFoundPerQueryWordFrom(
+		matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord(),
+		crossCheckedDocumentsRound.documentsFoundByCrossCheckingPerQueryWord(),
+	).documentsOfEveryQueryWord()
 }
 
-type queryWordOfDocument struct {
-	document  yacymodel.URLHash
-	queryWord yacymodel.Hash
-}
-
-func amountOfQueryWordsPerDocument(
-	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
-) map[yacymodel.URLHash]int {
-	countedWords := map[queryWordOfDocument]struct{}{}
-	amountOfQueryWordsPerDocument := map[yacymodel.URLHash]int{}
-	for _, answeredAsk := range answeredAsks {
-		for _, document := range answeredAsk.DocumentsHeldForTheWord {
-			queryWordOfDocument := queryWordOfDocument{
-				document: document, queryWord: answeredAsk.Ask.Word,
-			}
-			if _, counted := countedWords[queryWordOfDocument]; counted {
-				continue
-			}
-			countedWords[queryWordOfDocument] = struct{}{}
-			amountOfQueryWordsPerDocument[document]++
-		}
+func documentsFoundPerQueryWordFrom(
+	documentsListedByPeersPerQueryWord documentsPerQueryWord,
+	documentsFoundByCrossCheckingPerQueryWord documentsPerQueryWord,
+) documentsPerQueryWord {
+	documentsFoundPerQueryWord := make(
+		documentsPerQueryWord, len(documentsListedByPeersPerQueryWord),
+	)
+	for queryWord, documentsListedByPeers := range documentsListedByPeersPerQueryWord {
+		documentsFoundForTheQueryWord := maps.Clone(documentsListedByPeers)
+		maps.Copy(
+			documentsFoundForTheQueryWord,
+			documentsFoundByCrossCheckingPerQueryWord[queryWord],
+		)
+		documentsFoundPerQueryWord[queryWord] = documentsFoundForTheQueryWord
 	}
 
-	return amountOfQueryWordsPerDocument
-}
-
-func joinedDocumentsWithoutMetadata(
-	joinedDocuments map[yacymodel.URLHash]struct{},
-	itemsInTheOrderOfEachPeerRanking [][]queryanswers.AnsweredItem,
-) map[yacymodel.URLHash]struct{} {
-	documentsWithoutMetadata := make(map[yacymodel.URLHash]struct{}, len(joinedDocuments))
-	maps.Copy(documentsWithoutMetadata, joinedDocuments)
-	for _, items := range itemsInTheOrderOfEachPeerRanking {
-		for _, item := range items {
-			delete(documentsWithoutMetadata, item.Metadata.Hash)
-		}
-	}
-
-	return documentsWithoutMetadata
+	return documentsFoundPerQueryWord
 }

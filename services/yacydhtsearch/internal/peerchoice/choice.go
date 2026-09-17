@@ -7,7 +7,6 @@ package peerchoice
 
 import (
 	"context"
-	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
@@ -21,15 +20,10 @@ type PeerReliability interface {
 	) float64
 }
 
-type PeerDirectory interface {
-	MarkPeersChosen(ctx context.Context, peers []peerdirectory.AskablePeer)
-}
-
 type Choice struct {
 	partitions        yacymodel.DHTRingPartitions
 	networkRedundancy int
 	peerReliability   PeerReliability
-	peerDirectory     PeerDirectory
 	observer          PeerChoiceObserver
 }
 
@@ -37,33 +31,33 @@ func New(
 	partitions yacymodel.DHTRingPartitions,
 	networkRedundancy int,
 	peerReliability PeerReliability,
-	peerDirectory PeerDirectory,
 	observer PeerChoiceObserver,
 ) Choice {
 	return Choice{
 		partitions:        partitions,
 		networkRedundancy: networkRedundancy,
 		peerReliability:   peerReliability,
-		peerDirectory:     peerDirectory,
 		observer:          observer,
 	}
 }
 
-func (c Choice) ChoosePeersPerQueryWord(
+func (c Choice) ChosenPeersPerQueryWordFor(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) [][]peerdirectory.AskablePeer {
+) ChosenPeersPerQueryWord {
 	peersTheQueryMayAsk := c.peersOneQueryMayAsk(ctx, askablePeers)
-	chosenPeersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
+	chosenPeersPerQueryWord := make(ChosenPeersPerQueryWord, 0, len(queryWords))
 	for _, queryWord := range queryWords {
 		chosenPeers, ringFractionsOfTheTakenPeers := peersTheQueryMayAsk.peersForQueryWord(
-			queryWord, peersAcrossQueryWords(chosenPeersPerQueryWord),
+			queryWord, chosenPeersPerQueryWord.PeersAcrossQueryWords(),
 		)
 		c.observer.PeersTakenFromTheRing(ctx, ringFractionsOfTheTakenPeers)
-		chosenPeersPerQueryWord = append(chosenPeersPerQueryWord, chosenPeers)
+		chosenPeersPerQueryWord = append(chosenPeersPerQueryWord, ChosenPeersOfQueryWord{
+			QueryWord:   queryWord,
+			ChosenPeers: chosenPeers,
+		})
 	}
-	c.peerDirectory.MarkPeersChosen(ctx, peersAcrossQueryWords(chosenPeersPerQueryWord))
 
 	return chosenPeersPerQueryWord
 }
@@ -86,10 +80,4 @@ func (c Choice) peersOneQueryMayAsk(
 		askablePeers:          askablePeers,
 		reliabilityOfEachPeer: reliabilityOfEachPeer,
 	}
-}
-
-func peersAcrossQueryWords(
-	peersPerQueryWord [][]peerdirectory.AskablePeer,
-) []peerdirectory.AskablePeer {
-	return slices.Concat(peersPerQueryWord...)
 }

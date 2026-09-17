@@ -5,7 +5,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type MatchedItemsAsk struct {
+type MatchedDocumentsAsk struct {
 	Peer          peerdirectory.AskablePeer
 	WordsToMatch  []yacymodel.Hash
 	ExcludedWords []yacymodel.Hash
@@ -13,7 +13,7 @@ type MatchedItemsAsk struct {
 	ItemsCeiling  int
 }
 
-type AnsweredMatchedItemsAsk struct {
-	Ask              MatchedItemsAsk
+type AnsweredMatchedDocumentsAsk struct {
+	Ask              MatchedDocumentsAsk
 	MatchedDocuments []MatchedDocument
 }

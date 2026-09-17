@@ -131,7 +131,7 @@ func TestASecondServiceAnswersFromTheRankingHeldInNATS(t *testing.T) {
 	if !strings.Contains(metrics, `yacydhtsearch_searches_total{outcome="answered_from_cache"} 1`) {
 		t.Fatalf("%s did not answer from the ranking cache:\n%s", readingSearchAlias, metrics)
 	}
-	if strings.Contains(metrics, `yacydhtsearch_searches_total{outcome="answered_by_peers"}`) {
+	if !strings.Contains(metrics, `yacydhtsearch_searches_total{outcome="answered_by_peers"} 0`) {
 		t.Fatalf("%s asked peers for a query it could read:\n%s", readingSearchAlias, metrics)
 	}
 }

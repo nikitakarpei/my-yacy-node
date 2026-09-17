@@ -65,12 +65,11 @@ func TestASearchThatCameBackWithNoItemIsCountedApartFromOneThatHeldItems(t *test
 	for _, published := range []string{
 		`yacydhtsearch_searches_total{outcome="no_item_from_peers"} 1`,
 		`yacydhtsearch_searches_total{outcome="no_item_from_cache"} 1`,
+		`yacydhtsearch_searches_total{outcome="answered_by_peers"} 0`,
+		`yacydhtsearch_searches_total{outcome="answered_from_cache"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
-	}
-	if strings.Contains(body, `outcome="answered_by_peers"`) {
-		t.Fatalf("a search that came back with no item was counted as answered:\n%s", body)
 	}
 }

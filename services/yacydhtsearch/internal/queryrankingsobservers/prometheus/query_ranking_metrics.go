@@ -20,19 +20,29 @@ const (
 )
 
 type QueryRankingMetrics struct {
-	searches *prometheusclient.CounterVec
+	searchesAnsweredFromCache   prometheusclient.Counter
+	searchesWithNoItemFromCache prometheusclient.Counter
+	searchesAnsweredByPeers     prometheusclient.Counter
+	searchesWithNoItemFromPeers prometheusclient.Counter
+	searchesWithNoIndexedTerm   prometheusclient.Counter
+	searchesThatReachedNoPeer   prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *QueryRankingMetrics {
-	metrics := &QueryRankingMetrics{
-		searches: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_searches_total",
-			Help: "Searches answered, by the outcome each search reached.",
-		}, []string{labelOutcome}),
-	}
-	registry.MustRegister(metrics.searches)
+	searches := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_searches_total",
+		Help: "Searches answered, by the outcome each search reached.",
+	}, []string{labelOutcome})
+	registry.MustRegister(searches)
 
-	return metrics
+	return &QueryRankingMetrics{
+		searchesAnsweredFromCache:   searches.WithLabelValues(outcomeAnsweredFromCache),
+		searchesWithNoItemFromCache: searches.WithLabelValues(outcomeNoItemFromCache),
+		searchesAnsweredByPeers:     searches.WithLabelValues(outcomeAnsweredByPeers),
+		searchesWithNoItemFromPeers: searches.WithLabelValues(outcomeNoItemFromPeers),
+		searchesWithNoIndexedTerm:   searches.WithLabelValues(outcomeNoIndexedTerm),
+		searchesThatReachedNoPeer:   searches.WithLabelValues(outcomeNoPeerReached),
+	}
 }
 
 func (m *QueryRankingMetrics) QueryAnsweredFromCache(
@@ -40,7 +50,12 @@ func (m *QueryRankingMetrics) QueryAnsweredFromCache(
 	_ searchquery.Query,
 	amountOfItems int,
 ) {
-	m.countSearch(outcomeAnsweredFromCache, outcomeNoItemFromCache, amountOfItems)
+	if amountOfItems == 0 {
+		m.searchesWithNoItemFromCache.Inc()
+
+		return
+	}
+	m.searchesAnsweredFromCache.Inc()
 }
 
 func (m *QueryRankingMetrics) QueryAnsweredByPeers(
@@ -48,26 +63,18 @@ func (m *QueryRankingMetrics) QueryAnsweredByPeers(
 	_ searchquery.Query,
 	amountOfItems int,
 ) {
-	m.countSearch(outcomeAnsweredByPeers, outcomeNoItemFromPeers, amountOfItems)
-}
-
-func (m *QueryRankingMetrics) countSearch(
-	outcomeWithItems string,
-	outcomeWithNoItem string,
-	amountOfItems int,
-) {
 	if amountOfItems == 0 {
-		m.searches.WithLabelValues(outcomeWithNoItem).Inc()
+		m.searchesWithNoItemFromPeers.Inc()
 
 		return
 	}
-	m.searches.WithLabelValues(outcomeWithItems).Inc()
+	m.searchesAnsweredByPeers.Inc()
 }
 
 func (m *QueryRankingMetrics) QueryHoldsNoIndexedTerm(context.Context, searchquery.Query) {
-	m.searches.WithLabelValues(outcomeNoIndexedTerm).Inc()
+	m.searchesWithNoIndexedTerm.Inc()
 }
 
 func (m *QueryRankingMetrics) QueryReachedNoPeer(context.Context, searchquery.Query) {
-	m.searches.WithLabelValues(outcomeNoPeerReached).Inc()
+	m.searchesThatReachedNoPeer.Inc()
 }

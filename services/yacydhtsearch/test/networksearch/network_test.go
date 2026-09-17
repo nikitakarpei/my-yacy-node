@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
@@ -47,9 +48,17 @@ func (silentDirectoryObserver) PeersKnown(context.Context, int, int, int)       
 
 type silentOutcome struct{}
 
-func (silentOutcome) PeerAnsweredMatchedItems(context.Context, string, int, time.Duration)  {}
-func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)   {}
-func (silentOutcome) PeerAnsweredHeldDocuments(context.Context, string, int, time.Duration) {}
+func (silentOutcome) PeerAnsweredMatchedDocuments(context.Context, string, int, time.Duration) {}
+func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)      {}
+func (silentOutcome) PeerAnsweredMatchedAndHeldDocuments(
+	context.Context, string, int, time.Duration,
+) {
+}
+
+func (silentOutcome) PeerAnsweredCrossCheckedDocuments(
+	context.Context, string, int, time.Duration,
+) {
+}
 
 func (silentOutcome) PeerRefused(
 	context.Context, string, peerasks.AskedFor, int, time.Duration,
@@ -79,17 +88,31 @@ func (r *recordedQuery) NetworkSearchPerformed(
 
 type everyAskablePeer struct{}
 
-func (everyAskablePeer) ChoosePeersPerQueryWord(
+func (everyAskablePeer) ChosenPeersPerQueryWordFor(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-) [][]peerdirectory.AskablePeer {
-	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
-	for range queryWords {
-		peersPerQueryWord = append(peersPerQueryWord, askablePeers)
+) peerchoice.ChosenPeersPerQueryWord {
+	peersPerQueryWord := make(peerchoice.ChosenPeersPerQueryWord, 0, len(queryWords))
+	for _, queryWord := range queryWords {
+		peersPerQueryWord = append(peersPerQueryWord, peerchoice.ChosenPeersOfQueryWord{
+			QueryWord:   queryWord,
+			ChosenPeers: peersOfOnePartition(askablePeers),
+		})
 	}
 
 	return peersPerQueryWord
+}
+
+func peersOfOnePartition(
+	askablePeers []peerdirectory.AskablePeer,
+) []peerchoice.ChosenPeer {
+	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
+	for _, peer := range askablePeers {
+		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{Peer: peer, Partition: 0})
+	}
+
+	return chosenPeers
 }
 
 func peerHolding(t *testing.T, addresses ...string) string {
@@ -192,7 +215,6 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 			},
 			silentOutcome{},
 		),
-		everyAskablePeer{},
 		peerResults,
 		peermatched.PeerMatchedSpreadObservers{},
 	)
@@ -239,6 +261,7 @@ func networkOrdering(
 
 	return networksearch.New(
 		directory,
+		everyAskablePeer{},
 		querySpread,
 		pagesThatNoOneReads{},
 		itemsOrdering,
@@ -298,6 +321,22 @@ func TestARankingStopsAtTheRecordCeiling(t *testing.T) {
 
 	if len(ranking.Items) != recordCeiling {
 		t.Fatalf("Search carried %d items, want the ceiling %d", len(ranking.Items), recordCeiling)
+	}
+}
+
+func TestEveryPeerChosenForAQueryRestsBeforeTheNextSearch(t *testing.T) {
+	t.Parallel()
+
+	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
+	network := networkOver(t, directory, &recordedQuery{})
+
+	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+
+	if askable := directory.AskablePeers(t.Context()); len(askable) != 0 {
+		t.Fatalf(
+			"the directory offers %v right after the search, want the chosen peer resting",
+			askable,
+		)
 	}
 }
 
@@ -375,7 +414,7 @@ func TestTheRankingReportsHowMuchOfItOnePeerSupplied(t *testing.T) {
 	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
 
 	if observer.performed.AmountOfItemsInRanking != 2 ||
-		observer.performed.AmountOfRankedItemsOfTheOnePeer != 1 {
+		observer.performed.AmountOfRankedItemsOfTheMostRankedPeer != 1 {
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want two ranked items and one from the leading peer",
 			observer.performed,
@@ -415,7 +454,7 @@ func TestOnePeerCanSupplyTheWholeRanking(t *testing.T) {
 
 	if observer.performed.AmountOfAskablePeers != 1 ||
 		observer.performed.AmountOfItemsInRanking != 1 ||
-		observer.performed.AmountOfRankedItemsOfTheOnePeer != 1 ||
+		observer.performed.AmountOfRankedItemsOfTheMostRankedPeer != 1 ||
 		observer.performed.AmountOfItemsAcrossAnswers != 2 {
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want one askable peer supplying the whole ranking",
@@ -431,7 +470,7 @@ type spreadAnswering struct {
 func (s spreadAnswering) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
-	_ []peerdirectory.AskablePeer,
+	_ peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	return s.answers
 }
@@ -544,6 +583,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	common, rare := "https://common.example/", "https://rare.example/"
 	network := networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
 		answersOfTwoWords(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
 		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
@@ -577,7 +617,7 @@ type spreadRecordingTheBudgetItGets struct {
 func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
-	_ []peerdirectory.AskablePeer,
+	_ peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	s.recorded.spread = budgetLeftIn(ctx)
 
@@ -616,6 +656,7 @@ func networkRecordingItsBudgets(
 
 	return networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
 		spreadRecordingTheBudgetItGets{
 			answers:  answersOfTwoWords(t, "https://a.example/", "https://b.example/").answers,
 			recorded: recorded,

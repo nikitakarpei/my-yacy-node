@@ -47,3 +47,20 @@ func TestAFailedHoldIsPublishedApartFromAFailedLookup(t *testing.T) {
 		}
 	}
 }
+
+func TestEveryRankingCacheFailureIsPublishedBeforeTheFirstFailure(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	rankingcacheobserversjetstreamprometheus.New(registry)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_ranking_cache_failures_total{action="lookup"} 0`,
+		`yacydhtsearch_ranking_cache_failures_total{action="store"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}

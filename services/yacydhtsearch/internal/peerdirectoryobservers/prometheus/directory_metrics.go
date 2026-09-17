@@ -19,18 +19,25 @@ const (
 )
 
 type DirectoryMetrics struct {
-	peerChanges             *prometheusclient.CounterVec
+	peersAdmitted           prometheusclient.Counter
+	peersAnswered           prometheusclient.Counter
+	peersWentSilent         prometheusclient.Counter
+	peersDropped            prometheusclient.Counter
 	directoryPeers          prometheusclient.Gauge
 	directoryAnsweringPeers prometheusclient.Gauge
 	directoryCapacity       prometheusclient.Gauge
 }
 
 func New(registry prometheusclient.Registerer) *DirectoryMetrics {
+	peerChanges := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_directory_peer_changes_total",
+		Help: "Peer directory changes, by change.",
+	}, []string{labelChange})
 	metrics := &DirectoryMetrics{
-		peerChanges: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_directory_peer_changes_total",
-			Help: "Peer directory changes, by change.",
-		}, []string{labelChange}),
+		peersAdmitted:   peerChanges.WithLabelValues(changePeerAdmitted),
+		peersAnswered:   peerChanges.WithLabelValues(changePeerAnswered),
+		peersWentSilent: peerChanges.WithLabelValues(changePeerWentSilent),
+		peersDropped:    peerChanges.WithLabelValues(changePeerDropped),
 		directoryPeers: prometheusclient.NewGauge(prometheusclient.GaugeOpts{
 			Name: "yacydhtsearch_directory_peers",
 			Help: "Peers the directory holds.",
@@ -45,7 +52,7 @@ func New(registry prometheusclient.Registerer) *DirectoryMetrics {
 		}),
 	}
 	registry.MustRegister(
-		metrics.peerChanges,
+		peerChanges,
 		metrics.directoryPeers,
 		metrics.directoryAnsweringPeers,
 		metrics.directoryCapacity,
@@ -55,19 +62,19 @@ func New(registry prometheusclient.Registerer) *DirectoryMetrics {
 }
 
 func (m *DirectoryMetrics) PeerAdmitted(context.Context, yacymodel.Hash, int) {
-	m.peerChanges.WithLabelValues(changePeerAdmitted).Inc()
+	m.peersAdmitted.Inc()
 }
 
 func (m *DirectoryMetrics) PeerAnswered(context.Context, yacymodel.Hash, string, time.Time) {
-	m.peerChanges.WithLabelValues(changePeerAnswered).Inc()
+	m.peersAnswered.Inc()
 }
 
 func (m *DirectoryMetrics) PeerWentSilent(context.Context, yacymodel.Hash) {
-	m.peerChanges.WithLabelValues(changePeerWentSilent).Inc()
+	m.peersWentSilent.Inc()
 }
 
 func (m *DirectoryMetrics) PeerDropped(context.Context, yacymodel.Hash) {
-	m.peerChanges.WithLabelValues(changePeerDropped).Inc()
+	m.peersDropped.Inc()
 }
 
 func (m *DirectoryMetrics) PeersKnown(

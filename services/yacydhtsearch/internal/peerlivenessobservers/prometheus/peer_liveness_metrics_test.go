@@ -51,3 +51,23 @@ func TestEveryReasonAProbeFoundNoPeerIsPublishedApart(t *testing.T) {
 		}
 	}
 }
+
+func TestEveryReasonAProbeFoundNoPeerIsPublishedBeforeTheFirstProbe(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	peerlivenessobserversprometheus.New(registry)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_probe_failures_total{failure="unusableAddress"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="noAnswer"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="refused"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="answerIncomplete"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="noRWICount"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}

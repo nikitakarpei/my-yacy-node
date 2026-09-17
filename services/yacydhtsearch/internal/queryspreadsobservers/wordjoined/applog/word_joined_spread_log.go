@@ -4,6 +4,7 @@ package applog
 import (
 	"context"
 	"log/slog"
+	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
@@ -16,37 +17,90 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	ctx context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	slog.DebugContext(ctx, msgWordJoinedSpreadPerformed,
-		slog.Int("amountOfQueryWords", spread.AmountOfQueryWords),
-		slog.Int("amountOfQueryWordsHeldByNoPeer", spread.AmountOfQueryWordsHeldByNoPeer),
-		slog.Int("amountOfPeersAsked", spread.AmountOfPeersAsked),
-		slog.Int("amountOfPeersThatAnswered", spread.AmountOfPeersThatAnswered),
-		slog.Int("amountOfPeersHoldingAQueryWord", spread.AmountOfPeersHoldingAQueryWord),
-		slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments),
+	slog.LogAttrs(
+		ctx,
+		slog.LevelDebug,
+		msgWordJoinedSpreadPerformed,
+		slices.Concat(
+			attributesOfMatchedAndHeldDocumentsRound(spread.MatchedAndHeldDocumentsRound),
+			attributesOfCrossCheckedDocumentsRound(spread.CrossCheckedDocumentsRound),
+			attributesOfURLMetadataRound(spread.URLMetadataRound),
+			[]slog.Attr{slog.Duration("timeSpent", spread.TimeSpent)},
+		)...,
+	)
+}
+
+func attributesOfMatchedAndHeldDocumentsRound(
+	round wordjoined.PerformedMatchedAndHeldDocumentsRound,
+) []slog.Attr {
+	return []slog.Attr{
+		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
+		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
+		slog.Int("amountOfFullyListedQueryWords", round.AmountOfFullyListedQueryWords),
 		slog.Int(
-			"amountOfJoinedDocumentsWithMetadata",
-			spread.AmountOfJoinedDocumentsWithMetadata,
+			"amountOfPeersAskedForMatchedAndHeldDocuments",
+			round.AmountOfPeersAskedForMatchedAndHeldDocuments,
+		),
+		slog.Int(
+			"amountOfPeersThatAnsweredMatchedAndHeldDocuments",
+			round.AmountOfPeersThatAnsweredMatchedAndHeldDocuments,
+		),
+		slog.Int("amountOfPeersThatListedADocument", round.AmountOfPeersThatListedADocument),
+		slog.String("leadingQueryWordStanding", string(round.LeadingQueryWordStanding)),
+		slog.Int(
+			"amountOfDocumentsListedByThePeersOfTheLeadingQueryWord",
+			round.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsAcrossAnswers",
-			spread.AmountOfMatchedDocumentsAcrossAnswers,
+			round.AmountOfMatchedDocumentsAcrossAnswers,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsCountedByAPeer",
-			spread.AmountOfMatchedDocumentsCountedByAPeer,
+			round.AmountOfMatchedDocumentsCountedByAPeer,
 		),
-		slog.Any(
-			"amountOfDocumentsHeldInEachAnswer",
-			spread.AmountOfDocumentsHeldInEachAnswer,
+		slog.Any("amountOfDocumentsHeldInEachAnswer", round.AmountOfDocumentsHeldInEachAnswer),
+	}
+}
+
+func attributesOfCrossCheckedDocumentsRound(
+	round wordjoined.PerformedCrossCheckedDocumentsRound,
+) []slog.Attr {
+	return []slog.Attr{
+		slog.Int(
+			"amountOfDocumentsPastTheCrossCheckedDocumentsCeiling",
+			round.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
 		),
 		slog.Int(
-			"amountOfDocumentsAskedMetadataFor",
-			spread.AmountOfDocumentsAskedMetadataFor,
+			"amountOfPeersAskedForCrossCheckedDocuments",
+			round.AmountOfPeersAskedForCrossCheckedDocuments,
 		),
 		slog.Int(
-			"amountOfAskedDocumentsWithMetadata",
-			spread.AmountOfAskedDocumentsWithMetadata,
+			"amountOfPeersThatAnsweredCrossCheckedDocuments",
+			round.AmountOfPeersThatAnsweredCrossCheckedDocuments,
 		),
-		slog.Duration("timeSpent", spread.TimeSpent),
-	)
+		slog.Int(
+			"amountOfEmptyCrossCheckedDocumentsAnswers",
+			round.AmountOfEmptyCrossCheckedDocumentsAnswers,
+		),
+		slog.Int("amountOfJoinedDocuments", round.AmountOfJoinedDocuments),
+		slog.Int(
+			"amountOfJoinedDocumentsFoundOnlyByCrossChecking",
+			round.AmountOfJoinedDocumentsFoundOnlyByCrossChecking,
+		),
+	}
+}
+
+func attributesOfURLMetadataRound(round wordjoined.PerformedURLMetadataRound) []slog.Attr {
+	return []slog.Attr{
+		slog.Int(
+			"amountOfJoinedDocumentsWithMetadata",
+			round.AmountOfJoinedDocumentsWithMetadata,
+		),
+		slog.Int("amountOfLookedUpDocuments", round.AmountOfLookedUpDocuments),
+		slog.Int(
+			"amountOfLookedUpDocumentsWithMetadata",
+			round.AmountOfLookedUpDocumentsWithMetadata,
+		),
+	}
 }

@@ -16,10 +16,15 @@ func (NetworkSearchLog) NetworkSearchPerformed(
 	ctx context.Context,
 	search networksearch.PerformedNetworkSearch,
 ) {
-	slog.DebugContext(ctx, msgNetworkSearchPerformed,
+	slog.DebugContext(
+		ctx,
+		msgNetworkSearchPerformed,
 		slog.Int("amountOfAskablePeers", search.AmountOfAskablePeers),
 		slog.Int("amountOfItemsAcrossAnswers", search.AmountOfItemsAcrossAnswers),
-		slog.Int("amountOfRankedItemsOfTheOnePeer", search.AmountOfRankedItemsOfTheOnePeer),
+		slog.Int(
+			"amountOfRankedItemsOfTheMostRankedPeer",
+			search.AmountOfRankedItemsOfTheMostRankedPeer,
+		),
 		slog.Int("amountOfItemsInRanking", search.AmountOfItemsInRanking),
 		slog.Int("amountOfRankedItemsCountedByAPeer", search.AmountOfRankedItemsCountedByAPeer),
 		slog.Duration("timeSpent", search.TimeSpent),
