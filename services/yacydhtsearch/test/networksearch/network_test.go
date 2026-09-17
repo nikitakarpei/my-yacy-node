@@ -88,7 +88,7 @@ func (r *recordedQuery) NetworkSearchPerformed(
 
 type everyAskablePeer struct{}
 
-func (everyAskablePeer) ChoosePeersPerQueryWord(
+func (everyAskablePeer) ChosenPeersPerQueryWordFor(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
@@ -215,7 +215,6 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 			},
 			silentOutcome{},
 		),
-		everyAskablePeer{},
 		peerResults,
 		peermatched.PeerMatchedSpreadObservers{},
 	)
@@ -262,6 +261,7 @@ func networkOrdering(
 
 	return networksearch.New(
 		directory,
+		everyAskablePeer{},
 		querySpread,
 		pagesThatNoOneReads{},
 		itemsOrdering,
@@ -321,6 +321,22 @@ func TestARankingStopsAtTheRecordCeiling(t *testing.T) {
 
 	if len(ranking.Items) != recordCeiling {
 		t.Fatalf("Search carried %d items, want the ceiling %d", len(ranking.Items), recordCeiling)
+	}
+}
+
+func TestEveryPeerChosenForAQueryRestsBeforeTheNextSearch(t *testing.T) {
+	t.Parallel()
+
+	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
+	network := networkOver(t, directory, &recordedQuery{})
+
+	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+
+	if askable := directory.AskablePeers(t.Context()); len(askable) != 0 {
+		t.Fatalf(
+			"the directory offers %v right after the search, want the chosen peer resting",
+			askable,
+		)
 	}
 }
 
@@ -454,7 +470,7 @@ type spreadAnswering struct {
 func (s spreadAnswering) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
-	_ []peerdirectory.AskablePeer,
+	_ peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	return s.answers
 }
@@ -567,6 +583,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	common, rare := "https://common.example/", "https://rare.example/"
 	network := networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
 		answersOfTwoWords(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
 		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
@@ -600,7 +617,7 @@ type spreadRecordingTheBudgetItGets struct {
 func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
-	_ []peerdirectory.AskablePeer,
+	_ peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	s.recorded.spread = budgetLeftIn(ctx)
 
@@ -639,6 +656,7 @@ func networkRecordingItsBudgets(
 
 	return networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
 		spreadRecordingTheBudgetItGets{
 			answers:  answersOfTwoWords(t, "https://a.example/", "https://b.example/").answers,
 			recorded: recorded,

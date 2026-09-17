@@ -1,10 +1,10 @@
 // Package networksearch ranks what the peers of the network hold for one query,
-// inside one whole-query time budget. It spreads the query over the peers the
-// directory can ask, with the query spread it holds, puts what the peers
-// answered in the order the items ordering it holds gives them, reads the pages
-// of the items that came first, gives the answers what those pages say, puts
-// them in order again, and carries back the items up to the ceiling as the
-// ranking the client reads.
+// inside one whole-query time budget. It chooses the peers of each query word
+// among those the directory can ask, lets them rest, spreads the query over them
+// with the query spread it holds, puts what the peers answered in the order the
+// items ordering it holds gives them, reads the pages of the items that came
+// first, gives the answers what those pages say, puts them in order again, and
+// carries back the items up to the ceiling as the ranking the client reads.
 package networksearch
 
 import (
@@ -13,6 +13,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -20,11 +21,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+type PeerChoice interface {
+	ChosenPeersPerQueryWordFor(
+		ctx context.Context,
+		queryWords []yacymodel.Hash,
+		askablePeers []peerdirectory.AskablePeer,
+	) peerchoice.ChosenPeersPerQueryWord
+}
+
 type QuerySpread interface {
 	SpreadOverPeers(
 		ctx context.Context,
 		query searchquery.Query,
-		askablePeers []peerdirectory.AskablePeer,
+		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	) queryanswers.AnsweredQuery
 }
 
@@ -54,6 +63,7 @@ type NetworkSearchObserver interface {
 
 type Network struct {
 	peerDirectory      *peerdirectory.Directory
+	peerChoice         PeerChoice
 	querySpread        QuerySpread
 	pageReading        PageReading
 	itemsOrdering      ItemsOrdering
@@ -67,6 +77,7 @@ type Network struct {
 //nolint:revive // argument-limit: what one network search holds for every query
 func New(
 	peerDirectory *peerdirectory.Directory,
+	peerChoice PeerChoice,
 	querySpread QuerySpread,
 	pageReading PageReading,
 	itemsOrdering ItemsOrdering,
@@ -78,6 +89,7 @@ func New(
 ) Network {
 	return Network{
 		peerDirectory:      peerDirectory,
+		peerChoice:         peerChoice,
 		querySpread:        querySpread,
 		pageReading:        pageReading,
 		itemsOrdering:      itemsOrdering,
@@ -106,9 +118,13 @@ func (n Network) Search(
 		return searchresult.Ranking{}, NoPeerToAsk
 	}
 
+	chosenPeersPerQueryWord := n.peerChoice.ChosenPeersPerQueryWordFor(
+		ctx, query.TermHashes(), askablePeers,
+	)
+	n.peerDirectory.MarkPeersChosen(ctx, chosenPeersPerQueryWord.PeersAcrossQueryWords())
 	spreading, endSpreading := contextOfTheQuerySpread(ctx, n.queryBudget, n.pageReadBudget)
 	defer endSpreading()
-	answers := n.querySpread.SpreadOverPeers(spreading, query, askablePeers)
+	answers := n.querySpread.SpreadOverPeers(spreading, query, chosenPeersPerQueryWord)
 	candidates := itemsUpTo(n.itemsOrdering.OrderedItemsOf(answers), n.pagesReadPerQuery)
 	readAnswers := answers.CarryingTheTextOfEachDocument(
 		n.pageReading.DocumentTextPerDocument(

@@ -241,7 +241,7 @@ type responsiblePeers struct {
 	partitionOfEachPeer  map[string]uint
 }
 
-func (r responsiblePeers) ChoosePeersPerQueryWord(
+func (r responsiblePeers) ChosenPeersPerQueryWordFor(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
@@ -357,22 +357,24 @@ func spreadAskingMetadataForUpTo(
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
 	return spreadOverPeers(
-		wordjoined.New(
-			network,
+		spreadChoosingPeersBy(
 			choice,
-			metadataDocumentsCeiling,
-			crossCheckedDocumentsCeiling,
-			peerItemsCeiling,
-			partitionsOfTheRing,
-			peersHoldingOneWord,
-			observer,
+			wordjoined.New(
+				network,
+				metadataDocumentsCeiling,
+				crossCheckedDocumentsCeiling,
+				peerItemsCeiling,
+				partitionsOfTheRing,
+				peersHoldingOneWord,
+				observer,
+			),
 		),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	)
 }
 
 func spreadOverPeers(
-	spread wordjoined.Spread,
+	spread spreadChoosingPeers,
 	askablePeers []peerdirectory.AskablePeer,
 ) queryanswers.AnsweredQuery {
 	return spread.SpreadOverPeers(
@@ -389,15 +391,17 @@ func spreadNamingCrossCheckedDocumentsForUpTo(
 	observer wordjoined.WordJoinedSpreadObserver,
 ) {
 	spreadOverPeers(
-		wordjoined.New(
-			network,
+		spreadChoosingPeersBy(
 			choice,
-			metadataDocumentsCeiling,
-			crossCheckedDocumentsCeiling,
-			peerItemsCeiling,
-			partitionsOfTheRing,
-			peersHoldingOneWord,
-			observer,
+			wordjoined.New(
+				network,
+				metadataDocumentsCeiling,
+				crossCheckedDocumentsCeiling,
+				peerItemsCeiling,
+				partitionsOfTheRing,
+				peersHoldingOneWord,
+				observer,
+			),
 		),
 		peersAt([]string{"first", "second"}),
 	)
@@ -409,15 +413,17 @@ func spreadOfTheQuery(
 	query string,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) {
-	wordjoined.New(
-		network,
+	spreadChoosingPeersBy(
 		choice,
-		metadataDocumentsCeiling,
-		crossCheckedDocumentsCeiling,
-		peerItemsCeiling,
-		partitionsOfTheRing,
-		peersHoldingOneWord,
-		observer,
+		wordjoined.New(
+			network,
+			metadataDocumentsCeiling,
+			crossCheckedDocumentsCeiling,
+			peerItemsCeiling,
+			partitionsOfTheRing,
+			peersHoldingOneWord,
+			observer,
+		),
 	).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom(query, ""),
@@ -429,15 +435,17 @@ func spreadWithin(network *peerNetwork, budget time.Duration) {
 	ctx, endQuery := context.WithTimeout(context.Background(), budget)
 	defer endQuery()
 
-	wordjoined.New(
-		network,
+	spreadChoosingPeersBy(
 		responsiblePeers{},
-		metadataDocumentsCeiling,
-		crossCheckedDocumentsCeiling,
-		peerItemsCeiling,
-		partitionsOfTheRing,
-		peersHoldingOneWord,
-		&recordedSpreads{},
+		wordjoined.New(
+			network,
+			metadataDocumentsCeiling,
+			crossCheckedDocumentsCeiling,
+			peerItemsCeiling,
+			partitionsOfTheRing,
+			peersHoldingOneWord,
+			&recordedSpreads{},
+		),
 	).SpreadOverPeers(
 		ctx,
 		searchquery.QueryFrom(firstWord+" "+secondWord, ""),
@@ -1301,15 +1309,17 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 	})
 
 	spreadOverPeers(
-		wordjoined.New(
-			network,
+		spreadChoosingPeersBy(
 			responsiblePeers{},
-			metadataDocumentsCeiling,
-			crossCheckedDocumentsCeiling,
-			peerItemsCeiling,
-			partitionsOfTheRing,
-			peersOfOneWord,
-			&recordedSpreads{},
+			wordjoined.New(
+				network,
+				metadataDocumentsCeiling,
+				crossCheckedDocumentsCeiling,
+				peerItemsCeiling,
+				partitionsOfTheRing,
+				peersOfOneWord,
+				&recordedSpreads{},
+			),
 		),
 		peersAt([]string{"first", "second", "third", "fourth"}),
 	)
@@ -1535,15 +1545,17 @@ func documentsHeldPerQueryWordAcrossPartitions(
 	network.peersCountingNoDocument = peersCountingNoDocument
 
 	return spreadOverPeers(
-		wordjoined.New(
-			network,
+		spreadChoosingPeersBy(
 			choice,
-			metadataDocumentsCeiling,
-			crossCheckedDocumentsCeiling,
-			peerItemsCeiling,
-			partitions,
-			peersHoldingOneWord,
-			&recordedSpreads{},
+			wordjoined.New(
+				network,
+				metadataDocumentsCeiling,
+				crossCheckedDocumentsCeiling,
+				peerItemsCeiling,
+				partitions,
+				peersHoldingOneWord,
+				&recordedSpreads{},
+			),
 		),
 		peersAt(addressesAcross(documentsHeldByEachPeer, peersCountingNoDocument)),
 	).DocumentsHeldPerQueryWord
@@ -1654,4 +1666,25 @@ func spelledWordOf(word yacymodel.Hash) string {
 	}
 
 	return word.String()
+}
+
+type spreadChoosingPeers struct {
+	choice responsiblePeers
+	spread wordjoined.Spread
+}
+
+func spreadChoosingPeersBy(choice responsiblePeers, spread wordjoined.Spread) spreadChoosingPeers {
+	return spreadChoosingPeers{choice: choice, spread: spread}
+}
+
+func (s spreadChoosingPeers) SpreadOverPeers(
+	ctx context.Context,
+	query searchquery.Query,
+	askablePeers []peerdirectory.AskablePeer,
+) queryanswers.AnsweredQuery {
+	return s.spread.SpreadOverPeers(
+		ctx,
+		query,
+		s.choice.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
+	)
 }

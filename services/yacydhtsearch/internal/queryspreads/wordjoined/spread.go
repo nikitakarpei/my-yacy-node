@@ -8,19 +8,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-type PeerChoice interface {
-	ChoosePeersPerQueryWord(
-		ctx context.Context,
-		queryWords []yacymodel.Hash,
-		askablePeers []peerdirectory.AskablePeer,
-	) peerchoice.ChosenPeersPerQueryWord
-}
 
 type PeerAsks interface {
 	AskForMatchedAndHeldDocuments(
@@ -39,7 +30,6 @@ type PeerAsks interface {
 
 type Spread struct {
 	peerAsks                     PeerAsks
-	peerChoice                   PeerChoice
 	metadataDocumentsCeiling     int
 	crossCheckedDocumentsCeiling int
 	peerItemsCeiling             int
@@ -51,7 +41,6 @@ type Spread struct {
 //nolint:revive // argument-limit: the ceilings and the ring one word joined spread stays within
 func New(
 	peerAsks PeerAsks,
-	peerChoice PeerChoice,
 	metadataDocumentsCeiling int,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
@@ -61,7 +50,6 @@ func New(
 ) Spread {
 	return Spread{
 		peerAsks:                     peerAsks,
-		peerChoice:                   peerChoice,
 		metadataDocumentsCeiling:     metadataDocumentsCeiling,
 		crossCheckedDocumentsCeiling: crossCheckedDocumentsCeiling,
 		peerItemsCeiling:             peerItemsCeiling,
@@ -75,11 +63,15 @@ func New(
 func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
-	askablePeers []peerdirectory.AskablePeer,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	matchedAndHeldDocumentsRound := spread.askForMatchedAndHeldDocuments(ctx, query, askablePeers)
+	matchedAndHeldDocumentsRound := spread.askForMatchedAndHeldDocuments(
+		ctx,
+		query,
+		chosenPeersPerQueryWord,
+	)
 	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
 		ctx,
 		matchedAndHeldDocumentsRound,
@@ -101,11 +93,8 @@ func (spread Spread) SpreadOverPeers(
 func (spread Spread) askForMatchedAndHeldDocuments(
 	ctx context.Context,
 	query searchquery.Query,
-	askablePeers []peerdirectory.AskablePeer,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) matchedAndHeldDocumentsRound {
-	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers,
-	)
 	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, amountOfRoundsOfPeerCalls)
 	defer endRound()

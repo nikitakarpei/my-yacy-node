@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -17,7 +17,7 @@ type countedSpread struct {
 func (c *countedSpread) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
-	_ []peerdirectory.AskablePeer,
+	_ peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	c.searches++
 

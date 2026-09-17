@@ -70,7 +70,7 @@ func (n *peerNetwork) matchedDocumentsAt(addresses []string) []peerasks.MatchedD
 
 type everyAskablePeer struct{}
 
-func (everyAskablePeer) ChoosePeersPerQueryWord(
+func (everyAskablePeer) ChosenPeersPerQueryWordFor(
 	_ context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
@@ -138,8 +138,24 @@ func answersOfTheQuery(network *peerNetwork, query string) queryanswers.Answered
 func spreadOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
-) peermatched.Spread {
-	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, observer)
+) spreadChoosingEveryAskablePeer {
+	return spreadChoosingEveryAskablePeer{spread: peermatched.New(network, itemsCeiling, observer)}
+}
+
+type spreadChoosingEveryAskablePeer struct {
+	spread peermatched.Spread
+}
+
+func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
+	ctx context.Context,
+	query searchquery.Query,
+	askablePeers []peerdirectory.AskablePeer,
+) queryanswers.AnsweredQuery {
+	return s.spread.SpreadOverPeers(
+		ctx,
+		query,
+		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
+	)
 }
 
 func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {

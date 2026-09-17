@@ -229,14 +229,9 @@ func querySpreadOverThePeers(
 		},
 		peercallwire.PeerCallObservers{},
 	)
-	choice := peerchoice.New(
-		partitions, networkRedundancy, reliability, directory, peerchoice.PeerChoiceObservers{},
-	)
-
-	return bywordcount.New(
+	spread := bywordcount.New(
 		wordjoined.New(
 			peers,
-			choice,
 			rankedItemsCeiling,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
@@ -246,11 +241,37 @@ func querySpreadOverThePeers(
 		),
 		peermatched.New(
 			peers,
-			choice,
 			peerItemsCeiling,
 			peermatched.PeerMatchedSpreadObservers{},
 		),
 	)
+
+	return spreadChoosingPeers{
+		directory: directory,
+		choice: peerchoice.New(
+			partitions, networkRedundancy, reliability, peerchoice.PeerChoiceObservers{},
+		),
+		spread: spread,
+	}
+}
+
+type spreadChoosingPeers struct {
+	directory *peerdirectory.Directory
+	choice    peerchoice.Choice
+	spread    bywordcount.Spread
+}
+
+func (s spreadChoosingPeers) SpreadOverPeers(
+	ctx context.Context,
+	query searchquery.Query,
+	askablePeers []peerdirectory.AskablePeer,
+) queryanswers.AnsweredQuery {
+	chosenPeersPerQueryWord := s.choice.ChosenPeersPerQueryWordFor(
+		ctx, query.TermHashes(), askablePeers,
+	)
+	s.directory.MarkPeersChosen(ctx, chosenPeersPerQueryWord.PeersAcrossQueryWords())
+
+	return s.spread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 }
 
 func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {

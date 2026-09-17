@@ -8,19 +8,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-type PeerChoice interface {
-	ChoosePeersPerQueryWord(
-		ctx context.Context,
-		queryWords []yacymodel.Hash,
-		askablePeers []peerdirectory.AskablePeer,
-	) peerchoice.ChosenPeersPerQueryWord
-}
 
 type PeerAsks interface {
 	AskForMatchedDocuments(
@@ -31,20 +21,17 @@ type PeerAsks interface {
 
 type Spread struct {
 	peerAsks         PeerAsks
-	peerChoice       PeerChoice
 	peerItemsCeiling int
 	observer         PeerMatchedSpreadObserver
 }
 
 func New(
 	peerAsks PeerAsks,
-	peerChoice PeerChoice,
 	peerItemsCeiling int,
 	observer PeerMatchedSpreadObserver,
 ) Spread {
 	return Spread{
 		peerAsks:         peerAsks,
-		peerChoice:       peerChoice,
 		peerItemsCeiling: peerItemsCeiling,
 		observer:         observer,
 	}
@@ -54,13 +41,10 @@ func New(
 func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
-	askablePeers []peerdirectory.AskablePeer,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	chosenPeersPerQueryWord := spread.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers,
-	)
 	chosenPeers := chosenPeersPerQueryWord.PeersAcrossQueryWords()
 	asks := matchedDocumentsAsksFor(query, chosenPeers, spread.peerItemsCeiling)
 	answeredAsks := spread.peerAsks.AskForMatchedDocuments(ctx, asks)

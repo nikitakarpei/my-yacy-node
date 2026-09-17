@@ -248,6 +248,7 @@ deps:
     mayDependOn:
       - documenttext
       - pagereading
+      - peerchoice
       - queryanswers
       - peerdirectory
       - searchquery
@@ -289,7 +290,7 @@ deps:
   bywordcount:
     mayDependOn:
       - queryanswers
-      - peerdirectory
+      - peerchoice
       - searchquery
   queryrankings:
     mayDependOn:

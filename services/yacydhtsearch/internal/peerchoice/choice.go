@@ -20,15 +20,10 @@ type PeerReliability interface {
 	) float64
 }
 
-type PeerDirectory interface {
-	MarkPeersChosen(ctx context.Context, peers []peerdirectory.AskablePeer)
-}
-
 type Choice struct {
 	partitions        yacymodel.DHTRingPartitions
 	networkRedundancy int
 	peerReliability   PeerReliability
-	peerDirectory     PeerDirectory
 	observer          PeerChoiceObserver
 }
 
@@ -36,19 +31,17 @@ func New(
 	partitions yacymodel.DHTRingPartitions,
 	networkRedundancy int,
 	peerReliability PeerReliability,
-	peerDirectory PeerDirectory,
 	observer PeerChoiceObserver,
 ) Choice {
 	return Choice{
 		partitions:        partitions,
 		networkRedundancy: networkRedundancy,
 		peerReliability:   peerReliability,
-		peerDirectory:     peerDirectory,
 		observer:          observer,
 	}
 }
 
-func (c Choice) ChoosePeersPerQueryWord(
+func (c Choice) ChosenPeersPerQueryWordFor(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
@@ -65,7 +58,6 @@ func (c Choice) ChoosePeersPerQueryWord(
 			ChosenPeers: chosenPeers,
 		})
 	}
-	c.peerDirectory.MarkPeersChosen(ctx, chosenPeersPerQueryWord.PeersAcrossQueryWords())
 
 	return chosenPeersPerQueryWord
 }
