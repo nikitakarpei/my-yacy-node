@@ -28,8 +28,12 @@ func (ReplicaAsksLog) ReplicaAsksPerformed(
 			amountOfWordPartitionsPerSettledBy(replicaAsks.WordPartitions),
 		),
 		slog.Any(
-			"amountOfReplicaAsksPerPutAs",
-			amountOfReplicaAsksPerPutAs(replicaAsks.WordPartitions),
+			"amountOfWordPartitionsCoveredPerAskPutOn",
+			amountOfWordPartitionsCoveredPerAskPutOn(replicaAsks.WordPartitions),
+		),
+		slog.Any(
+			"amountOfReplicaAsksPerPutOn",
+			amountOfReplicaAsksPerPutOn(replicaAsks.WordPartitions),
 		),
 		slog.Int(
 			"amountOfDocumentsListedAcrossWordPartitions",
@@ -49,13 +53,26 @@ func amountOfWordPartitionsPerSettledBy(
 	return amountOfWordPartitions
 }
 
-func amountOfReplicaAsksPerPutAs(
+func amountOfWordPartitionsCoveredPerAskPutOn(
 	wordPartitions []replicaasks.PerformedWordPartition,
-) map[replicaasks.PutAs]int {
-	amountOfReplicaAsks := make(map[replicaasks.PutAs]int, len(wordPartitions))
+) map[replicaasks.PutOn]int {
+	amountOfWordPartitions := make(map[replicaasks.PutOn]int, len(wordPartitions))
+	for _, wordPartition := range wordPartitions {
+		if wordPartition.SettledBy == replicaasks.SettledByCoverage {
+			amountOfWordPartitions[wordPartition.CoveringAskPutOn]++
+		}
+	}
+
+	return amountOfWordPartitions
+}
+
+func amountOfReplicaAsksPerPutOn(
+	wordPartitions []replicaasks.PerformedWordPartition,
+) map[replicaasks.PutOn]int {
+	amountOfReplicaAsks := make(map[replicaasks.PutOn]int, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
 		for _, replicaAsk := range wordPartition.Asks {
-			amountOfReplicaAsks[replicaAsk.PutAs]++
+			amountOfReplicaAsks[replicaAsk.PutOn]++
 		}
 	}
 

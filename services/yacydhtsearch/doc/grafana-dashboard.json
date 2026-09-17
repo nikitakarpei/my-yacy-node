@@ -1796,7 +1796,6 @@
     {
       "id": 62,
       "title": "What settled a word partition",
-      "description": "A partition settles when enough replicas listed documents, when no replica is left, or at the deadline.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1840,7 +1839,6 @@
     {
       "id": 63,
       "title": "What put a replica ask",
-      "description": "A hedge ask goes out when the call before it stays unanswered longer than the hedge delay.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1876,15 +1874,14 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (put_as) (clamp_min(yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{put_as}}"
+          "expr": "sum by (put_on) (clamp_min(yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{put_on}}"
         }
       ]
     },
     {
       "id": 64,
       "title": "Documents a word partition listed",
-      "description": "Documents the replicas of one settled word partition listed for the word.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1892,7 +1889,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 131
       },
@@ -1944,7 +1941,6 @@
     {
       "id": 65,
       "title": "Peer calls waiting for a slot",
-      "description": "Peer calls that wait for one of the in-flight slots before they go out.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1952,8 +1948,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 131
       },
       "fieldConfig": {
@@ -1979,6 +1975,50 @@
           "refId": "A",
           "expr": "sum(yacydhtsearch_peer_calls_waiting_for_a_slot{instance=~\"$service_instance\"})",
           "legendFormat": "waiting"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "title": "What put the ask that covered a word partition",
+      "description": "Counts only word partitions settled by coverage.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 131
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (covering_ask_put_on) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} offset $__interval), 0))",
+          "legendFormat": "{{covering_ask_put_on}}"
         }
       ]
     },

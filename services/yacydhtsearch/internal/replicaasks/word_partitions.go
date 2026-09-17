@@ -92,6 +92,7 @@ func performedReplicaAsksFrom[Answered any](
 	for _, settled := range settledWordPartitions {
 		performedWordPartitions = append(performedWordPartitions, PerformedWordPartition{
 			SettledBy:               settled.settledBy,
+			CoveringAskPutOn:        settled.coveringAskPutOn,
 			AmountOfDocumentsListed: settled.amountOfDocumentsListed,
 			Asks:                    performedReplicaAsksOf(settled),
 		})
@@ -107,9 +108,9 @@ func performedReplicaAsksFrom[Answered any](
 func performedReplicaAsksOf[Answered any](
 	settled settledWordPartition[Answered],
 ) []PerformedReplicaAsk {
-	performedReplicaAsks := make([]PerformedReplicaAsk, 0, len(settled.putAs))
-	for _, putAs := range settled.putAs {
-		performedReplicaAsks = append(performedReplicaAsks, PerformedReplicaAsk{PutAs: putAs})
+	performedReplicaAsks := make([]PerformedReplicaAsk, 0, len(settled.putOn))
+	for _, putOn := range settled.putOn {
+		performedReplicaAsks = append(performedReplicaAsks, PerformedReplicaAsk{PutOn: putOn})
 	}
 
 	return performedReplicaAsks

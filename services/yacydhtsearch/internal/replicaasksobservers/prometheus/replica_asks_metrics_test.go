@@ -47,16 +47,16 @@ func TestEveryLabelValueOfTheReplicaAsksStartsAtZero(t *testing.T) {
 	requirePublished(t, publishedBy(t, registry), []string{
 		`yacydhtsearch_replica_asks_duration_seconds_count{ended_by="coverage"} 0`,
 		`yacydhtsearch_replica_asks_duration_seconds_count{ended_by="deadline"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="first"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="hedge"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="after empty answer"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="after failure"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="exhausted"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="deadline"} 0`,
-		`yacydhtsearch_replica_asks_total{put_as="first"} 0`,
-		`yacydhtsearch_replica_asks_total{put_as="hedge"} 0`,
-		`yacydhtsearch_replica_asks_total{put_as="after empty answer"} 0`,
-		`yacydhtsearch_replica_asks_total{put_as="after failure"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="start",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="hedge delay",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="empty answer",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="failure",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="",settled_by="no replica left"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="",settled_by="deadline"} 0`,
+		`yacydhtsearch_replica_asks_total{put_on="start"} 0`,
+		`yacydhtsearch_replica_asks_total{put_on="hedge delay"} 0`,
+		`yacydhtsearch_replica_asks_total{put_on="empty answer"} 0`,
+		`yacydhtsearch_replica_asks_total{put_on="failure"} 0`,
 		`yacydhtsearch_word_partition_documents_listed_count 0`,
 	})
 }
@@ -67,26 +67,28 @@ func performedReplicaAsks() replicaasks.PerformedReplicaAsks {
 		TimeSpent: 250 * time.Millisecond,
 		WordPartitions: []replicaasks.PerformedWordPartition{
 			{
-				SettledBy:               replicaasks.SettledByFirst,
+				SettledBy:               replicaasks.SettledByCoverage,
+				CoveringAskPutOn:        replicaasks.PutOnStart,
 				AmountOfDocumentsListed: 5,
 				Asks: []replicaasks.PerformedReplicaAsk{
-					{PutAs: replicaasks.PutAsFirst},
+					{PutOn: replicaasks.PutOnStart},
 				},
 			},
 			{
-				SettledBy:               replicaasks.SettledByHedge,
+				SettledBy:               replicaasks.SettledByCoverage,
+				CoveringAskPutOn:        replicaasks.PutOnHedgeDelay,
 				AmountOfDocumentsListed: 0,
 				Asks: []replicaasks.PerformedReplicaAsk{
-					{PutAs: replicaasks.PutAsFirst},
-					{PutAs: replicaasks.PutAsHedge},
+					{PutOn: replicaasks.PutOnStart},
+					{PutOn: replicaasks.PutOnHedgeDelay},
 				},
 			},
 			{
-				SettledBy:               replicaasks.SettledByAfterAFailure,
+				SettledBy:               replicaasks.SettledByNoReplicaLeft,
 				AmountOfDocumentsListed: 2,
 				Asks: []replicaasks.PerformedReplicaAsk{
-					{PutAs: replicaasks.PutAsFirst},
-					{PutAs: replicaasks.PutAsAfterAFailure},
+					{PutOn: replicaasks.PutOnStart},
+					{PutOn: replicaasks.PutOnFailure},
 				},
 			},
 		},
@@ -102,12 +104,12 @@ func TestEveryWordPartitionIsCountedUnderWhatSettledIt(t *testing.T) {
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_word_partitions_total{settled_by="first"} 1`,
-		`yacydhtsearch_word_partitions_total{settled_by="hedge"} 1`,
-		`yacydhtsearch_word_partitions_total{settled_by="after failure"} 1`,
-		`yacydhtsearch_word_partitions_total{settled_by="after empty answer"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="exhausted"} 0`,
-		`yacydhtsearch_word_partitions_total{settled_by="deadline"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="start",settled_by="coverage"} 1`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="hedge delay",settled_by="coverage"} 1`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="empty answer",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="failure",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="",settled_by="no replica left"} 1`,
+		`yacydhtsearch_word_partitions_total{covering_ask_put_on="",settled_by="deadline"} 0`,
 	})
 }
 
@@ -120,10 +122,10 @@ func TestEveryReplicaAskIsCountedUnderWhatPutIt(t *testing.T) {
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_total{put_as="first"} 3`,
-		`yacydhtsearch_replica_asks_total{put_as="hedge"} 1`,
-		`yacydhtsearch_replica_asks_total{put_as="after failure"} 1`,
-		`yacydhtsearch_replica_asks_total{put_as="after empty answer"} 0`,
+		`yacydhtsearch_replica_asks_total{put_on="start"} 3`,
+		`yacydhtsearch_replica_asks_total{put_on="hedge delay"} 1`,
+		`yacydhtsearch_replica_asks_total{put_on="failure"} 1`,
+		`yacydhtsearch_replica_asks_total{put_on="empty answer"} 0`,
 	})
 }
 

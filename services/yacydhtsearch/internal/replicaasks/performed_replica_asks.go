@@ -10,12 +10,13 @@ type PerformedReplicaAsks struct {
 
 type PerformedWordPartition struct {
 	SettledBy               SettledBy
+	CoveringAskPutOn        PutOn
 	AmountOfDocumentsListed int
 	Asks                    []PerformedReplicaAsk
 }
 
 type PerformedReplicaAsk struct {
-	PutAs PutAs
+	PutOn PutOn
 }
 
 type EndedBy string
@@ -28,23 +29,16 @@ const (
 type SettledBy string
 
 const (
-	SettledByFirst              SettledBy = "first"
-	SettledByHedge              SettledBy = "hedge"
-	SettledByAfterAnEmptyAnswer SettledBy = "after empty answer"
-	SettledByAfterAFailure      SettledBy = "after failure"
-	SettledByExhausted          SettledBy = "exhausted"
-	SettledByDeadline           SettledBy = "deadline"
+	SettledByCoverage      SettledBy = "coverage"
+	SettledByNoReplicaLeft SettledBy = "no replica left"
+	SettledByDeadline      SettledBy = "deadline"
 )
 
-type PutAs string
+type PutOn string
 
 const (
-	PutAsFirst              PutAs = "first"
-	PutAsHedge              PutAs = "hedge"
-	PutAsAfterAnEmptyAnswer PutAs = "after empty answer"
-	PutAsAfterAFailure      PutAs = "after failure"
+	PutOnStart       PutOn = "start"
+	PutOnHedgeDelay  PutOn = "hedge delay"
+	PutOnEmptyAnswer PutOn = "empty answer"
+	PutOnFailure     PutOn = "failure"
 )
-
-func settledByOf(putAs PutAs) SettledBy {
-	return SettledBy(putAs)
-}

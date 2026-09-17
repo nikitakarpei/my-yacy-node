@@ -13,8 +13,9 @@ type wordPartition[Ask any, Answered any] struct {
 
 type settledWordPartition[Answered any] struct {
 	settledBy               SettledBy
+	coveringAskPutOn        PutOn
 	amountOfDocumentsListed int
-	putAs                   []PutAs
+	putOn                   []PutOn
 	answers                 []Answered
 }
 
@@ -38,7 +39,8 @@ type askedReplicas[Ask any, Answered any] struct {
 	partition            wordPartition[Ask, Answered]
 	events               chan replicaCallEvent[Answered]
 	settledBy            SettledBy
-	putAs                []PutAs
+	coveringAskPutOn     PutOn
+	putOn                []PutOn
 	replicasThatCameBack []bool
 	hedgeTimers          []*time.Timer
 	callsOutstanding     int
@@ -55,7 +57,7 @@ func (partition wordPartition[Ask, Answered]) askedReplicas() *askedReplicas[Ask
 
 func (asked *askedReplicas[Ask, Answered]) putTheFirstReplicas(ctx context.Context) {
 	for range min(asked.partition.replicasCoveringAPartition, len(asked.partition.replicas)) {
-		asked.putTheNextReplica(ctx, PutAsFirst)
+		asked.putTheNextReplica(ctx, PutOnStart)
 	}
 }
 
@@ -86,7 +88,7 @@ func (asked *askedReplicas[Ask, Answered]) takeTheEvent(
 	asked.replicasThatCameBack[event.replica] = true
 	asked.takeTheCallOutcome(ctx, event)
 	if asked.settledBy == "" && asked.callsOutstanding == 0 && asked.noReplicaIsLeft() {
-		asked.settledBy = SettledByExhausted
+		asked.settledBy = SettledByNoReplicaLeft
 	}
 }
 
@@ -94,7 +96,7 @@ func (asked *askedReplicas[Ask, Answered]) takeTheHedgeDue(ctx context.Context, 
 	if asked.replicasThatCameBack[replica] {
 		return
 	}
-	asked.putTheNextReplica(ctx, PutAsHedge)
+	asked.putTheNextReplica(ctx, PutOnHedgeDelay)
 }
 
 func (asked *askedReplicas[Ask, Answered]) takeTheCallOutcome(
@@ -102,29 +104,30 @@ func (asked *askedReplicas[Ask, Answered]) takeTheCallOutcome(
 	event replicaCallEvent[Answered],
 ) {
 	if !event.answered {
-		asked.putTheNextReplica(ctx, PutAsAfterAFailure)
+		asked.putTheNextReplica(ctx, PutOnFailure)
 
 		return
 	}
 	asked.answers = append(asked.answers, event.answer)
 	if !event.listsDocuments {
-		asked.putTheNextReplica(ctx, PutAsAfterAnEmptyAnswer)
+		asked.putTheNextReplica(ctx, PutOnEmptyAnswer)
 
 		return
 	}
 	asked.listingsCounted++
 	if asked.listingsCounted == asked.partition.replicasCoveringAPartition {
-		asked.settledBy = settledByOf(asked.putAs[event.replica])
+		asked.settledBy = SettledByCoverage
+		asked.coveringAskPutOn = asked.putOn[event.replica]
 	}
 }
 
-func (asked *askedReplicas[Ask, Answered]) putTheNextReplica(ctx context.Context, putAs PutAs) {
+func (asked *askedReplicas[Ask, Answered]) putTheNextReplica(ctx context.Context, putOn PutOn) {
 	if asked.noReplicaIsLeft() {
 		return
 	}
-	replica := len(asked.putAs)
+	replica := len(asked.putOn)
 	ask := asked.partition.replicas[replica]
-	asked.putAs = append(asked.putAs, putAs)
+	asked.putOn = append(asked.putOn, putOn)
 	asked.replicasThatCameBack = append(asked.replicasThatCameBack, false)
 	asked.callsOutstanding++
 	asked.hedgeTimers = append(asked.hedgeTimers, time.AfterFunc(
@@ -149,7 +152,7 @@ func (asked *askedReplicas[Ask, Answered]) putTheAsk(
 }
 
 func (asked *askedReplicas[Ask, Answered]) noReplicaIsLeft() bool {
-	return len(asked.putAs) == len(asked.partition.replicas)
+	return len(asked.putOn) == len(asked.partition.replicas)
 }
 
 func (asked *askedReplicas[Ask, Answered]) stopTheHedgeTimers() {
@@ -166,8 +169,9 @@ func (asked *askedReplicas[Ask, Answered]) settledWordPartition() settledWordPar
 
 	return settledWordPartition[Answered]{
 		settledBy:               asked.settledBy,
+		coveringAskPutOn:        asked.coveringAskPutOn,
 		amountOfDocumentsListed: amountOfDocumentsListed,
-		putAs:                   asked.putAs,
+		putOn:                   asked.putOn,
 		answers:                 asked.answers,
 	}
 }

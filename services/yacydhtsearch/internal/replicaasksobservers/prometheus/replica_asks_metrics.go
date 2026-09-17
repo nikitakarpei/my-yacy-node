@@ -1,6 +1,7 @@
 // Package prometheus reports as metrics how long the replica asks of one spread
-// took, what settled each word partition, what put each ask to a replica, and
-// how many documents a settled word partition listed.
+// took, what settled each word partition and what put the ask that covered it,
+// what put each ask to a replica, and how many documents a settled word
+// partition listed.
 package prometheus
 
 import (
@@ -16,7 +17,8 @@ import (
 const (
 	labelEndedBy                   = "ended_by"
 	labelSettledBy                 = "settled_by"
-	labelPutAs                     = "put_as"
+	labelCoveringAskPutOn          = "covering_ask_put_on"
+	labelPutOn                     = "put_on"
 	durationBucketRatio            = 1.6
 	bucketsUpToBudget              = 15
 	documentsListedBucketCeiling   = 1024.0
@@ -27,8 +29,8 @@ var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type ReplicaAsksMetrics struct {
 	replicaAsksDurationSecondsPerEndedBy map[replicaasks.EndedBy]prometheusclient.Observer
-	wordPartitionsPerSettledBy           map[replicaasks.SettledBy]prometheusclient.Counter
-	replicaAsksPerPutAs                  map[replicaasks.PutAs]prometheusclient.Counter
+	wordPartitionsPerSettledBy           map[replicaasks.SettledBy]map[replicaasks.PutOn]prometheusclient.Counter
+	replicaAsksPerPutOn                  map[replicaasks.PutOn]prometheusclient.Counter
 	wordPartitionDocumentsListed         prometheusclient.Histogram
 }
 
@@ -46,12 +48,13 @@ func New(
 	)
 	wordPartitions := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_partitions_total",
-		Help: "Settled word partitions, by what settled the word partition.",
-	}, []string{labelSettledBy})
+		Help: "Settled word partitions, by what settled the word partition " +
+			"and, when covered, by what put the ask that covered it.",
+	}, []string{labelSettledBy, labelCoveringAskPutOn})
 	replicaAsks := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_replica_asks_total",
 		Help: "Asks put to a replica of a word partition, by what put the ask.",
-	}, []string{labelPutAs})
+	}, []string{labelPutOn})
 	wordPartitionDocumentsListed := prometheusclient.NewHistogram(
 		prometheusclient.HistogramOpts{
 			Name: "yacydhtsearch_word_partition_documents_listed",
@@ -70,7 +73,7 @@ func New(
 			replicaAsksDurationSeconds,
 		),
 		wordPartitionsPerSettledBy:   wordPartitionsPerSettledByFrom(wordPartitions),
-		replicaAsksPerPutAs:          replicaAsksPerPutAsFrom(replicaAsks),
+		replicaAsksPerPutOn:          replicaAsksPerPutOnFrom(replicaAsks),
 		wordPartitionDocumentsListed: wordPartitionDocumentsListed,
 	}
 }
@@ -111,43 +114,47 @@ func replicaAsksDurationSecondsPerEndedByFrom(
 
 func wordPartitionsPerSettledByFrom(
 	wordPartitions *prometheusclient.CounterVec,
-) map[replicaasks.SettledBy]prometheusclient.Counter {
+) map[replicaasks.SettledBy]map[replicaasks.PutOn]prometheusclient.Counter {
 	//exhaustive:enforce
-	return map[replicaasks.SettledBy]prometheusclient.Counter{
-		replicaasks.SettledByFirst: wordPartitions.WithLabelValues(
-			string(replicaasks.SettledByFirst),
-		),
-		replicaasks.SettledByHedge: wordPartitions.WithLabelValues(
-			string(replicaasks.SettledByHedge),
-		),
-		replicaasks.SettledByAfterAnEmptyAnswer: wordPartitions.WithLabelValues(
-			string(replicaasks.SettledByAfterAnEmptyAnswer),
-		),
-		replicaasks.SettledByAfterAFailure: wordPartitions.WithLabelValues(
-			string(replicaasks.SettledByAfterAFailure),
-		),
-		replicaasks.SettledByExhausted: wordPartitions.WithLabelValues(
-			string(replicaasks.SettledByExhausted),
-		),
-		replicaasks.SettledByDeadline: wordPartitions.WithLabelValues(
-			string(replicaasks.SettledByDeadline),
-		),
+	return map[replicaasks.SettledBy]map[replicaasks.PutOn]prometheusclient.Counter{
+		replicaasks.SettledByCoverage: wordPartitionsCoveredPerAskPutOnFrom(wordPartitions),
+		replicaasks.SettledByNoReplicaLeft: {
+			"": wordPartitions.WithLabelValues(string(replicaasks.SettledByNoReplicaLeft), ""),
+		},
+		replicaasks.SettledByDeadline: {
+			"": wordPartitions.WithLabelValues(string(replicaasks.SettledByDeadline), ""),
+		},
 	}
 }
 
-func replicaAsksPerPutAsFrom(
-	replicaAsks *prometheusclient.CounterVec,
-) map[replicaasks.PutAs]prometheusclient.Counter {
+func wordPartitionsCoveredPerAskPutOnFrom(
+	wordPartitions *prometheusclient.CounterVec,
+) map[replicaasks.PutOn]prometheusclient.Counter {
+	covered := func(putOn replicaasks.PutOn) prometheusclient.Counter {
+		return wordPartitions.WithLabelValues(string(replicaasks.SettledByCoverage), string(putOn))
+	}
 	//exhaustive:enforce
-	return map[replicaasks.PutAs]prometheusclient.Counter{
-		replicaasks.PutAsFirst: replicaAsks.WithLabelValues(string(replicaasks.PutAsFirst)),
-		replicaasks.PutAsHedge: replicaAsks.WithLabelValues(string(replicaasks.PutAsHedge)),
-		replicaasks.PutAsAfterAnEmptyAnswer: replicaAsks.WithLabelValues(
-			string(replicaasks.PutAsAfterAnEmptyAnswer),
+	return map[replicaasks.PutOn]prometheusclient.Counter{
+		replicaasks.PutOnStart:       covered(replicaasks.PutOnStart),
+		replicaasks.PutOnHedgeDelay:  covered(replicaasks.PutOnHedgeDelay),
+		replicaasks.PutOnEmptyAnswer: covered(replicaasks.PutOnEmptyAnswer),
+		replicaasks.PutOnFailure:     covered(replicaasks.PutOnFailure),
+	}
+}
+
+func replicaAsksPerPutOnFrom(
+	replicaAsks *prometheusclient.CounterVec,
+) map[replicaasks.PutOn]prometheusclient.Counter {
+	//exhaustive:enforce
+	return map[replicaasks.PutOn]prometheusclient.Counter{
+		replicaasks.PutOnStart: replicaAsks.WithLabelValues(string(replicaasks.PutOnStart)),
+		replicaasks.PutOnHedgeDelay: replicaAsks.WithLabelValues(
+			string(replicaasks.PutOnHedgeDelay),
 		),
-		replicaasks.PutAsAfterAFailure: replicaAsks.WithLabelValues(
-			string(replicaasks.PutAsAfterAFailure),
+		replicaasks.PutOnEmptyAnswer: replicaAsks.WithLabelValues(
+			string(replicaasks.PutOnEmptyAnswer),
 		),
+		replicaasks.PutOnFailure: replicaAsks.WithLabelValues(string(replicaasks.PutOnFailure)),
 	}
 }
 
@@ -166,9 +173,9 @@ func (m *ReplicaAsksMetrics) ReplicaAsksPerformed(
 func (m *ReplicaAsksMetrics) countWordPartition(
 	wordPartition replicaasks.PerformedWordPartition,
 ) {
-	m.wordPartitionsPerSettledBy[wordPartition.SettledBy].Inc()
+	m.wordPartitionsPerSettledBy[wordPartition.SettledBy][wordPartition.CoveringAskPutOn].Inc()
 	m.wordPartitionDocumentsListed.Observe(float64(wordPartition.AmountOfDocumentsListed))
 	for _, replicaAsk := range wordPartition.Asks {
-		m.replicaAsksPerPutAs[replicaAsk.PutAs].Inc()
+		m.replicaAsksPerPutOn[replicaAsk.PutOn].Inc()
 	}
 }
