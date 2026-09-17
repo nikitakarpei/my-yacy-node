@@ -23,12 +23,12 @@ func newPeerCallsInFlight(amountOfSlots int, observer PeerCallObserver) peerCall
 func (inFlight peerCallsInFlight) putEveryPeerCallInTheOrderGiven(
 	ctx context.Context,
 	amountOfPeerCalls int,
-	peerAskAt func(index int) (address string, askedFor peerasks.AskedFor),
+	askedPeerAt func(index int) (address string, askedFor peerasks.AskedFor),
 	putOnePeerCall func(index int),
 ) {
 	var peerCalls sync.WaitGroup
 	for index := range amountOfPeerCalls {
-		address, askedFor := peerAskAt(index)
+		address, askedFor := askedPeerAt(index)
 		inFlight.takeASlot(ctx, address, askedFor)
 		peerCalls.Add(1)
 		go func() {

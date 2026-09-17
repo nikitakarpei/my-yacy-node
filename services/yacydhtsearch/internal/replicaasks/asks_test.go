@@ -2,6 +2,7 @@ package replicaasks_test
 
 import (
 	"context"
+	"slices"
 	"sync"
 	"testing"
 	"time"
@@ -401,29 +402,24 @@ func (recorded *recordedReplicaAsks) wantSettledBy(
 ) {
 	t.Helper()
 	wordPartitions := recorded.wordPartitions(t)
-	if len(wordPartitions) != len(settledBy) {
-		t.Fatalf("%d word partitions were reported, want %d", len(wordPartitions), len(settledBy))
+	settledByReported := make([]replicaasks.SettledBy, 0, len(wordPartitions))
+	for _, wordPartition := range wordPartitions {
+		settledByReported = append(settledByReported, wordPartition.SettledBy)
 	}
-	for place, wordPartition := range wordPartitions {
-		if wordPartition.SettledBy != settledBy[place] {
-			t.Fatalf(
-				"word partition %d settled by %q, want %q",
-				place, wordPartition.SettledBy, settledBy[place],
-			)
-		}
+	if !slices.Equal(settledByReported, settledBy) {
+		t.Fatalf("the word partitions settled by %q, want %q", settledByReported, settledBy)
 	}
 }
 
 func (recorded *recordedReplicaAsks) wantPutAs(t *testing.T, putAs ...replicaasks.PutAs) {
 	t.Helper()
 	asks := recorded.wordPartitions(t)[0].Asks
-	if len(asks) != len(putAs) {
-		t.Fatalf("%d replica asks were reported, want %d", len(asks), len(putAs))
+	putAsReported := make([]replicaasks.PutAs, 0, len(asks))
+	for _, ask := range asks {
+		putAsReported = append(putAsReported, ask.PutAs)
 	}
-	for place, ask := range asks {
-		if ask.PutAs != putAs[place] {
-			t.Fatalf("replica ask %d was put as %q, want %q", place, ask.PutAs, putAs[place])
-		}
+	if !slices.Equal(putAsReported, putAs) {
+		t.Fatalf("the replica asks were put as %q, want %q", putAsReported, putAs)
 	}
 }
 

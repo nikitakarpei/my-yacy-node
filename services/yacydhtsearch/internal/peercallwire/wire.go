@@ -59,8 +59,9 @@ func (w Wire) AskForMatchedDocuments(
 		ctx,
 		w.callsInFlight,
 		asks,
-		peerasks.MatchedDocuments,
-		func(ask peerasks.MatchedDocumentsAsk) string { return ask.Peer.Address },
+		func(ask peerasks.MatchedDocumentsAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.MatchedDocuments
+		},
 		func(ask peerasks.MatchedDocumentsAsk) (peerasks.AnsweredMatchedDocumentsAsk, bool) {
 			return w.putMatchedDocumentsAsk(ctx, ask)
 		},
@@ -71,8 +72,7 @@ func putAsksToPeers[Ask any, Answered any](
 	ctx context.Context,
 	callsInFlight peerCallsInFlight,
 	asks []Ask,
-	askedFor peerasks.AskedFor,
-	addressOf func(Ask) string,
+	askedPeerOf func(Ask) (address string, askedFor peerasks.AskedFor),
 	putAsk func(Ask) (Answered, bool),
 ) []Answered {
 	answeredAsks := make([]Answered, len(asks))
@@ -81,7 +81,7 @@ func putAsksToPeers[Ask any, Answered any](
 	callsInFlight.putEveryPeerCallInTheOrderGiven(
 		ctx,
 		len(asks),
-		func(index int) (string, peerasks.AskedFor) { return addressOf(asks[index]), askedFor },
+		func(index int) (string, peerasks.AskedFor) { return askedPeerOf(asks[index]) },
 		func(index int) { answeredAsks[index], replied[index] = putAsk(asks[index]) },
 	)
 
@@ -196,8 +196,9 @@ func (w Wire) AskForURLMetadata(
 		ctx,
 		w.callsInFlight,
 		asks,
-		peerasks.URLMetadata,
-		func(ask peerasks.URLMetadataAsk) string { return ask.Peer.Address },
+		func(ask peerasks.URLMetadataAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.URLMetadata
+		},
 		func(ask peerasks.URLMetadataAsk) (peerasks.AnsweredURLMetadataAsk, bool) {
 			return w.putURLMetadataAsk(ctx, ask)
 		},
@@ -269,8 +270,9 @@ func (w Wire) AskForMatchedAndHeldDocuments(
 		ctx,
 		w.callsInFlight,
 		asks,
-		peerasks.MatchedAndHeldDocuments,
-		func(ask peerasks.MatchedAndHeldDocumentsAsk) string { return ask.Peer.Address },
+		func(ask peerasks.MatchedAndHeldDocumentsAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.MatchedAndHeldDocuments
+		},
 		func(ask peerasks.MatchedAndHeldDocumentsAsk) (peerasks.AnsweredMatchedAndHeldDocumentsAsk, bool) {
 			return w.putMatchedAndHeldDocumentsAsk(ctx, ask)
 		},
@@ -343,8 +345,9 @@ func (w Wire) AskForCrossCheckedDocuments(
 		ctx,
 		w.callsInFlight,
 		asks,
-		peerasks.CrossCheckedDocuments,
-		func(ask peerasks.CrossCheckedDocumentsAsk) string { return ask.Peer.Address },
+		func(ask peerasks.CrossCheckedDocumentsAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.CrossCheckedDocuments
+		},
 		func(ask peerasks.CrossCheckedDocumentsAsk) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
 			return w.putCrossCheckedDocumentsAsk(ctx, ask)
 		},

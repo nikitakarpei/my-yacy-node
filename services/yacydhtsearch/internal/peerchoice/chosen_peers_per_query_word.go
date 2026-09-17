@@ -10,7 +10,7 @@ type ChosenPeersPerQueryWord []ChosenPeersOfQueryWord
 func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) PeersAcrossQueryWords() []peerdirectory.AskablePeer {
 	chosenPeersAcrossQueryWords := chosenPeersPerQueryWord.ChosenPeersAcrossQueryWords()
 
-	var peersAcrossQueryWords []peerdirectory.AskablePeer
+	peersAcrossQueryWords := make([]peerdirectory.AskablePeer, 0, len(chosenPeersAcrossQueryWords))
 	for _, chosenPeer := range chosenPeersAcrossQueryWords {
 		peersAcrossQueryWords = append(peersAcrossQueryWords, chosenPeer.Peer)
 	}
