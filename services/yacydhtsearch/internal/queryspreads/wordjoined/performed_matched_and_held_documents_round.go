@@ -8,7 +8,7 @@ import (
 type PerformedMatchedAndHeldDocumentsRound struct {
 	AmountOfQueryWords                     int
 	AmountOfQueryWordsHeldByNoPeer         int
-	AmountOfCutOffQueryWords               int
+	AmountOfFullyListedQueryWords          int
 	AmountOfPeersAsked                     int
 	AmountOfPeersThatAnswered              int
 	AmountOfPeersHoldingAQueryWord         int
@@ -26,8 +26,10 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfCutOffQueryWords: len(round.cutOffQueryWords()),
-		AmountOfPeersAsked:       amountOfPeersAcross(round.asks, peerOfMatchedAndHeldDocumentsAsk),
+		AmountOfFullyListedQueryWords: amountOfFullyListedQueryWordsAmong(
+			round.queryWordsFewestDocumentsFirst,
+		),
+		AmountOfPeersAsked: amountOfPeersAcross(round.asks, peerOfMatchedAndHeldDocumentsAsk),
 		AmountOfPeersThatAnswered: amountOfPeersAcross(
 			round.answeredAsks, peerOfAnsweredMatchedAndHeldDocumentsAsk,
 		),
@@ -50,6 +52,18 @@ func amountOfQueryWordsHeldByNoPeerAmong(queryWords []answeredQueryWord) int {
 	amount := 0
 	for _, queryWord := range queryWords {
 		if len(queryWord.documentsHeld()) > 0 {
+			continue
+		}
+		amount++
+	}
+
+	return amount
+}
+
+func amountOfFullyListedQueryWordsAmong(queryWords []answeredQueryWord) int {
+	amount := 0
+	for _, queryWord := range queryWords {
+		if !queryWord.isFullyListed() {
 			continue
 		}
 		amount++

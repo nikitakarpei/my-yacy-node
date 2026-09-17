@@ -1324,8 +1324,8 @@
     },
     {
       "id": 47,
-      "title": "Share of the query words that came back cut off",
-      "description": "The second round asks the peers of these words again, for the documents of the anchor word.",
+      "title": "Share of the query words whose peers listed all they hold",
+      "description": "The second round does not ask the peers of these words again.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1376,7 +1376,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_cut_off_query_words_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_cut_off_query_words_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }

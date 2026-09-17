@@ -14,24 +14,27 @@ type heldDocumentsDeal struct {
 }
 
 func heldDocumentsDealFor(
-	cutOffQueryWords []answeredQueryWord,
+	queryWordsBesideTheAnchor []answeredQueryWord,
 	anchorDocumentsMostHeldFirst []yacymodel.URLHash,
 	heldDocumentsCeiling int,
 ) heldDocumentsDeal {
 	deal := heldDocumentsDeal{documentsPastTheCeiling: map[yacymodel.URLHash]struct{}{}}
-	for _, cutOffQueryWord := range cutOffQueryWords {
+	for _, queryWord := range queryWordsBesideTheAnchor {
+		if queryWord.isFullyListed() {
+			continue
+		}
 		candidateDocuments := documentsNotHeldAmong(
-			anchorDocumentsMostHeldFirst, cutOffQueryWord.documentsHeld(),
+			anchorDocumentsMostHeldFirst, queryWord.documentsHeld(),
 		)
 		peersWithoutAnAsk := peersWithoutAnAskAmong(
-			cutOffQueryWord.cutOffOrSilentPeers(),
+			queryWord.peersThatDidNotListAllTheyHold(),
 			deal.asks,
 		)
 		amountOfDocumentsDealt := min(
 			len(candidateDocuments), len(peersWithoutAnAsk)*heldDocumentsCeiling,
 		)
 		deal.asks = append(deal.asks, heldDocumentsAsksDealtAcross(
-			peersWithoutAnAsk, cutOffQueryWord.word, candidateDocuments[:amountOfDocumentsDealt],
+			peersWithoutAnAsk, queryWord.word, candidateDocuments[:amountOfDocumentsDealt],
 		)...)
 		for _, document := range candidateDocuments[amountOfDocumentsDealt:] {
 			deal.documentsPastTheCeiling[document] = struct{}{}

@@ -164,19 +164,19 @@ func (queryWord answeredQueryWord) documentsHeld() map[yacymodel.URLHash]struct{
 	return documentsHeld
 }
 
-func (queryWord answeredQueryWord) isComplete() bool {
-	partitionsWithACompleteAnswer := map[uint]struct{}{}
+func (queryWord answeredQueryWord) isFullyListed() bool {
+	partitionsWithAFullListing := map[uint]struct{}{}
 	for _, replica := range queryWord.replicas {
 		if !replica.listedAllItHolds() {
 			continue
 		}
-		partitionsWithACompleteAnswer[replica.partition] = struct{}{}
+		partitionsWithAFullListing[replica.partition] = struct{}{}
 	}
 
-	return len(partitionsWithACompleteAnswer) >= int(queryWord.partitions)
+	return len(partitionsWithAFullListing) >= int(queryWord.partitions)
 }
 
-func (queryWord answeredQueryWord) cutOffOrSilentPeers() []peerdirectory.AskablePeer {
+func (queryWord answeredQueryWord) peersThatDidNotListAllTheyHold() []peerdirectory.AskablePeer {
 	peers := make([]peerdirectory.AskablePeer, 0, len(queryWord.replicas))
 	for _, replica := range queryWord.replicas {
 		if replica.listedAllItHolds() {

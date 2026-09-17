@@ -26,18 +26,6 @@ func (round matchedAndHeldDocumentsRound) queryWordsBesideTheAnchor() []answered
 	return round.queryWordsFewestDocumentsFirst[1:]
 }
 
-func (round matchedAndHeldDocumentsRound) cutOffQueryWords() []answeredQueryWord {
-	cutOffQueryWords := make([]answeredQueryWord, 0, len(round.queryWordsFewestDocumentsFirst))
-	for _, queryWord := range round.queryWordsBesideTheAnchor() {
-		if queryWord.isComplete() {
-			continue
-		}
-		cutOffQueryWords = append(cutOffQueryWords, queryWord)
-	}
-
-	return cutOffQueryWords
-}
-
 func (round matchedAndHeldDocumentsRound) documentsMostHeldFirstAmong(
 	documents map[yacymodel.URLHash]struct{},
 ) []yacymodel.URLHash {

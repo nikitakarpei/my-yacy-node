@@ -1,7 +1,7 @@
 // Package prometheus reports how many peers the first round of a word joined
 // spread asked and how many answered, how much of the query the network held,
-// how often no document held all query words, how many query words came back
-// cut off and what the second round asked their peers and got back, how much the
+// how often no document held all query words, how many query words their peers
+// listed in full and what the second round asked and got back, how much the
 // second round added to the join and how many documents it could not name, how
 // much of the join an item of an answer already covers and how much of that
 // carried a posting, and how much of the join the third round asked metadata
@@ -34,7 +34,7 @@ type WordJoinedSpreadMetrics struct {
 	peersAsked                          prometheusclient.Histogram
 	answeringPeersRatio                 prometheusclient.Histogram
 	unheldQueryWordsRatio               prometheusclient.Histogram
-	cutOffQueryWordsRatio               prometheusclient.Histogram
+	fullyListedQueryWordsRatio          prometheusclient.Histogram
 	heldDocumentsRound                  heldDocumentsRoundMetrics
 	joinWithMetadataRatio               prometheusclient.Histogram
 	matchedDocumentsCountedByAPeerRatio prometheusclient.Histogram
@@ -68,10 +68,10 @@ func New(
 			"yacydhtsearch_word_joined_spread_unheld_query_words_ratio",
 			"Share of query words that no asked peer held a document for.",
 		),
-		cutOffQueryWordsRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_cut_off_query_words_ratio",
-			"Share of query words whose peers answered with less than they hold, "+
-				"which the second round asks again.",
+		fullyListedQueryWordsRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio",
+			"Share of query words whose peers listed all the documents they hold for the word, "+
+				"which the second round does not ask again.",
 		),
 		heldDocumentsRound: heldDocumentsRoundMetricsRegisteredIn(registry),
 		joinWithMetadataRatio: ratioHistogramNamed(
@@ -110,7 +110,7 @@ func New(
 		metrics.peersAsked,
 		metrics.answeringPeersRatio,
 		metrics.unheldQueryWordsRatio,
-		metrics.cutOffQueryWordsRatio,
+		metrics.fullyListedQueryWordsRatio,
 		metrics.joinWithMetadataRatio,
 		metrics.matchedDocumentsCountedByAPeerRatio,
 		metrics.missingMetadataAskedForRatio,
@@ -185,8 +185,8 @@ func (m *WordJoinedSpreadMetrics) observeMatchedAndHeldDocumentsRound(
 		m.unheldQueryWordsRatio.Observe(
 			float64(round.AmountOfQueryWordsHeldByNoPeer) / float64(round.AmountOfQueryWords),
 		)
-		m.cutOffQueryWordsRatio.Observe(
-			float64(round.AmountOfCutOffQueryWords) / float64(round.AmountOfQueryWords),
+		m.fullyListedQueryWordsRatio.Observe(
+			float64(round.AmountOfFullyListedQueryWords) / float64(round.AmountOfQueryWords),
 		)
 	}
 	if round.AmountOfMatchedDocumentsAcrossAnswers == 0 {

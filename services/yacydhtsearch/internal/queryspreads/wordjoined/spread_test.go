@@ -466,7 +466,9 @@ func documentsInTheirHashOrder(documents []yacymodel.URLHash) []yacymodel.URLHas
 	return documentsInOrder
 }
 
-func TestACutOffPeerOfAWordIsAskedAboutTheDocumentsOfTheAnchorWordItLeftOut(t *testing.T) {
+func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheAnchorWordItLeftOut(
+	t *testing.T,
+) {
 	t.Parallel()
 
 	anchorDocuments := []string{"https://anchored.example/", "https://answered.example/"}
@@ -488,8 +490,10 @@ func TestACutOffPeerOfAWordIsAskedAboutTheDocumentsOfTheAnchorWordItLeftOut(t *t
 
 	if len(network.heldDocumentsAsks) != 1 ||
 		network.heldDocumentsAsks[0].Peer.Address != "second" {
-		t.Fatalf("the spread put %v, want one held documents ask to the cut-off peer",
-			network.heldDocumentsAsks)
+		t.Fatalf(
+			"the spread put %v, want one held documents ask to the peer that did not list all it holds",
+			network.heldDocumentsAsks,
+		)
 	}
 	wanted := documentHashesOf([]string{"https://anchored.example/"})
 	if got := documentsAskedForHeldDocuments(network.heldDocumentsAsks); !slices.Equal(
@@ -526,11 +530,13 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 		t.Fatalf("the spread reported %+v, want the second round adding one document to the join",
 			performed)
 	}
-	if performed.MatchedAndHeldDocumentsRound.AmountOfCutOffQueryWords != 1 ||
+	if performed.MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords != 1 ||
 		performed.HeldDocumentsRound.AmountOfPeersAskedForHeldDocuments != 1 ||
 		performed.HeldDocumentsRound.AmountOfPeersThatAnsweredHeldDocuments != 1 {
-		t.Fatalf("the spread reported %+v, want one cut-off word asked of one peer that answered",
-			performed)
+		t.Fatalf(
+			"the spread reported %+v, want one fully listed word and the other asked of one peer that answered",
+			performed,
+		)
 	}
 }
 
@@ -566,7 +572,7 @@ func TestTheWordTheFewestDocumentsAreHeldForAnchorsTheJoin(t *testing.T) {
 	}
 }
 
-func TestACutOffWordAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t *testing.T) {
+func TestAPartlyListedWordAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t *testing.T) {
 	t.Parallel()
 
 	anchored := "https://anchored.example/"
@@ -597,14 +603,14 @@ func TestACutOffWordAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t *testi
 
 	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfAnchorDocuments != 1 {
 		t.Fatalf(
-			"the spread anchored the join on %d documents, want the one the cut-off word listed",
+			"the spread anchored the join on %d documents, want the one the partly listed word listed",
 			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfAnchorDocuments,
 		)
 	}
 	if len(network.heldDocumentsAsks) != 1 ||
 		network.heldDocumentsAsks[0].Peer.Address != "third" {
 		t.Fatalf(
-			"the spread put %v, want one held documents ask to the peer of the other cut-off word",
+			"the spread put %v, want one held documents ask to the peer of the other partly listed word",
 			network.heldDocumentsAsks,
 		)
 	}
@@ -616,7 +622,7 @@ func TestACutOffWordAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t *testi
 	}
 }
 
-func TestAPeerCutOffForTwoQueryWordsIsAskedOnce(t *testing.T) {
+func TestAPeerThatDidNotListAllItHoldsForTwoQueryWordsIsAskedOnce(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string]map[string][]string{
@@ -641,13 +647,13 @@ func TestAPeerCutOffForTwoQueryWordsIsAskedOnce(t *testing.T) {
 
 	if len(network.heldDocumentsAsks) != 1 {
 		t.Fatalf(
-			"the spread put %v, want one held documents ask to the peer cut off for both words",
+			"the spread put %v, want one held documents ask to the peer that did not list all it holds for both words",
 			network.heldDocumentsAsks,
 		)
 	}
 }
 
-func TestADocumentOneReplicaListedForACutOffWordIsAskedOfNoOtherReplica(t *testing.T) {
+func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t *testing.T) {
 	t.Parallel()
 
 	listed := "https://listed.example/"
@@ -694,7 +700,7 @@ func TestADocumentOneReplicaListedForACutOffWordIsAskedOfNoOtherReplica(t *testi
 	}
 }
 
-func TestTwoCutOffReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing.T) {
+func TestTwoPartlyListedReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
@@ -723,7 +729,7 @@ func TestTwoCutOffReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing.T) {
 
 	if len(network.heldDocumentsAsks) != 2 {
 		t.Fatalf(
-			"the spread put %v, want a held documents ask to each cut-off replica",
+			"the spread put %v, want a held documents ask to each partly listed replica",
 			network.heldDocumentsAsks,
 		)
 	}
@@ -738,7 +744,9 @@ func TestTwoCutOffReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing.T) {
 	}
 }
 
-func TestTheDocumentsNoCutOffReplicaCanTakeAreCountedPastTheHeldDocumentsCeiling(t *testing.T) {
+func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheHeldDocumentsCeiling(
+	t *testing.T,
+) {
 	t.Parallel()
 
 	const documentsOneHeldDocumentsAskNames = 1
@@ -775,7 +783,7 @@ func TestTheDocumentsNoCutOffReplicaCanTakeAreCountedPastTheHeldDocumentsCeiling
 	}
 	if len(network.heldDocumentsAsks) != 2 {
 		t.Fatalf(
-			"the spread put %v, want a held documents ask to each cut-off replica",
+			"the spread put %v, want a held documents ask to each partly listed replica",
 			network.heldDocumentsAsks,
 		)
 	}
@@ -827,7 +835,7 @@ func TestAPeerThatHoldsNoneOfTheNamedDocumentsLeavesTheJoinOfTheFirstRoundWhole(
 	}
 }
 
-func TestAQueryEveryWordCameBackCompleteForAsksForNoHeldDocuments(t *testing.T) {
+func TestAQueryWhoseWordsAreAllFullyListedAsksForNoHeldDocuments(t *testing.T) {
 	t.Parallel()
 
 	shared := []string{"https://shared.example/"}
@@ -846,10 +854,10 @@ func TestAQueryEveryWordCameBackCompleteForAsksForNoHeldDocuments(t *testing.T) 
 			len(network.urlMetadataAsks),
 		)
 	}
-	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfCutOffQueryWords != 0 {
+	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords != 2 {
 		t.Fatalf(
-			"the spread reported %d cut-off query words, want none",
-			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfCutOffQueryWords,
+			"the spread reported %d fully listed query words, want both",
+			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords,
 		)
 	}
 }

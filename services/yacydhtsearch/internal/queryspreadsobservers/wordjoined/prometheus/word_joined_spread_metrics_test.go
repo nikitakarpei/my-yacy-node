@@ -36,7 +36,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		MatchedAndHeldDocumentsRound: wordjoined.PerformedMatchedAndHeldDocumentsRound{
 			AmountOfQueryWords:                     4,
 			AmountOfQueryWordsHeldByNoPeer:         1,
-			AmountOfCutOffQueryWords:               2,
+			AmountOfFullyListedQueryWords:          2,
 			AmountOfPeersAsked:                     8,
 			AmountOfPeersThatAnswered:              6,
 			AmountOfPeersHoldingAQueryWord:         4,
@@ -63,7 +63,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents"} 1`,
-		"yacydhtsearch_word_joined_spread_cut_off_query_words_ratio_sum 0.5",
+		"yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_answering_held_documents_peers_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_empty_held_documents_answers_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_join_before_the_held_documents_asks_ratio_sum 0.4",

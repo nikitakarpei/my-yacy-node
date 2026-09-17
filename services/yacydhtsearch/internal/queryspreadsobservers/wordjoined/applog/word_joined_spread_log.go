@@ -19,13 +19,18 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	matchedAndHeldDocumentsRound := spread.MatchedAndHeldDocumentsRound
 	heldDocumentsRound := spread.HeldDocumentsRound
 	urlMetadataRound := spread.URLMetadataRound
-	slog.DebugContext(ctx, msgWordJoinedSpreadPerformed,
+	slog.DebugContext(
+		ctx,
+		msgWordJoinedSpreadPerformed,
 		slog.Int("amountOfQueryWords", matchedAndHeldDocumentsRound.AmountOfQueryWords),
 		slog.Int(
 			"amountOfQueryWordsHeldByNoPeer",
 			matchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer,
 		),
-		slog.Int("amountOfCutOffQueryWords", matchedAndHeldDocumentsRound.AmountOfCutOffQueryWords),
+		slog.Int(
+			"amountOfFullyListedQueryWords",
+			matchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords,
+		),
 		slog.Int("amountOfPeersAsked", matchedAndHeldDocumentsRound.AmountOfPeersAsked),
 		slog.Int(
 			"amountOfPeersThatAnswered",

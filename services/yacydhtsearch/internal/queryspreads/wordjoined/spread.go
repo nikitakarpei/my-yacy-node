@@ -2,10 +2,10 @@
 // single peer holds every query word. It runs three rounds of peer calls. The
 // first round asks the peers of each query word which documents they hold and
 // which documents they match for that word. The second round takes the
-// documents of the query word with the fewest and asks the peers of every word
-// that came back cut off which of those documents they hold. The third round
-// asks the peers that hold the joined documents for the metadata the earlier
-// rounds did not carry.
+// documents of the query word with the fewest and asks the peers of every other
+// word which of those documents they hold, unless those peers already listed all
+// they hold. The third round asks the peers that hold the joined documents for
+// the metadata the earlier rounds did not carry.
 package wordjoined
 
 import (
@@ -145,7 +145,7 @@ func (spread Spread) askForHeldDocuments(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 ) heldDocumentsRound {
 	deal := heldDocumentsDealFor(
-		matchedAndHeldDocumentsRound.cutOffQueryWords(),
+		matchedAndHeldDocumentsRound.queryWordsBesideTheAnchor(),
 		matchedAndHeldDocumentsRound.documentsMostHeldFirstAmong(
 			matchedAndHeldDocumentsRound.anchor().documentsHeld(),
 		),
