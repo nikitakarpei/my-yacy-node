@@ -62,7 +62,6 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 |---|---|---|
 | `YACYDHTSEARCH_QUERY_BUDGET` | `10s` | Time one client query may take, end to end. |
 | `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
-| `YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING` | `1000` | Most documents one peer is asked to cross-check. |
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
 | `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. A page that is not read leaves its result as the peers answered it. |
 | `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `4194304` | Most bytes read from one page. |
@@ -70,10 +69,11 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 
 ## Peer calls
 
-A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. A query of more than one word asks the peers of a word that answered with less than they hold once more, for the documents of the word the fewest are held for, so a peer sees at most two search calls from one query. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left.
+A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network, for every word. A query of more than one word can ask the peers of a word a second time, to find which documents of another word they also hold. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_PEER_CALL_BUDGET` | `3s` | Time one peer call may take once it runs. |
+| `YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING` | `1000` | Most documents one second call asks a peer about. A lower value puts less load on a peer, and the query can miss results. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |
