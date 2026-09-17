@@ -31,6 +31,7 @@ type PeerAsks interface {
 type Spread struct {
 	peerAsks                     PeerAsks
 	metadataDocumentsCeiling     int
+	asksForCrossCheckedDocuments bool
 	crossCheckedDocumentsCeiling int
 	peerItemsCeiling             int
 	partitions                   yacymodel.DHTRingPartitions
@@ -38,10 +39,11 @@ type Spread struct {
 	observer                     WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the ceilings and the ring one word joined spread stays within
+//nolint:revive // argument-limit: the rounds, ceilings and ring one word joined spread stays within
 func New(
 	peerAsks PeerAsks,
 	metadataDocumentsCeiling int,
+	asksForCrossCheckedDocuments bool,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
@@ -51,6 +53,7 @@ func New(
 	return Spread{
 		peerAsks:                     peerAsks,
 		metadataDocumentsCeiling:     metadataDocumentsCeiling,
+		asksForCrossCheckedDocuments: asksForCrossCheckedDocuments,
 		crossCheckedDocumentsCeiling: crossCheckedDocumentsCeiling,
 		peerItemsCeiling:             peerItemsCeiling,
 		partitions:                   partitions,
@@ -130,6 +133,9 @@ func (spread Spread) askForCrossCheckedDocuments(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 ) crossCheckedDocumentsRound {
+	if !spread.asksForCrossCheckedDocuments {
+		return crossCheckedDocumentsRound{}
+	}
 	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeilingFor(
 		matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord(),
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(
