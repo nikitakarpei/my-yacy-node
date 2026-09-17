@@ -393,7 +393,7 @@ func TestNoPeerRestsWhenTheQueryHasNoWord(t *testing.T) {
 	}
 }
 
-func TestEveryPeerOfAQueryWordSitsInOnePartitionOfTheRing(t *testing.T) {
+func TestThePeersOfAQueryWordSpanEveryPartitionOfTheRing(t *testing.T) {
 	t.Parallel()
 
 	peersPerQueryWord := choiceOver(
@@ -402,33 +402,30 @@ func TestEveryPeerOfAQueryWordSitsInOnePartitionOfTheRing(t *testing.T) {
 		t.Context(), words(t, "berlin"), askablePeers(t, 200),
 	)
 
-	if len(peersPerQueryWord[0].PeersPerPartition()) != ringPartitions {
+	if peersPerQueryWord[0].Partitions != ringPartitions {
 		t.Fatalf(
 			"the query word was given %d partitions of the ring, want %d",
-			len(peersPerQueryWord[0].PeersPerPartition()),
+			peersPerQueryWord[0].Partitions,
 			ringPartitions,
 		)
 	}
-	partitionsOfEachPeer := map[yacymodel.Hash]int{}
-	for _, peersOfPartition := range peersPerQueryWord[0].PeersPerPartition() {
-		for _, peer := range peersOfPartition {
-			partitionsOfEachPeer[peer.Hash]++
-		}
-	}
-	for _, peer := range peersPerQueryWord[0].Peers() {
-		if partitionsOfEachPeer[peer.Hash] != 1 {
+	partitionsWithAPeer := map[uint]struct{}{}
+	for _, chosenPeer := range peersPerQueryWord[0].ChosenPeers {
+		if chosenPeer.Partition >= ringPartitions {
 			t.Fatalf(
-				"%s sits in %d partitions of the ring, want one",
-				peer.Hash,
-				partitionsOfEachPeer[peer.Hash],
+				"%s sits in partition %d, want one of the %d of the ring",
+				chosenPeer.Peer.Hash,
+				chosenPeer.Partition,
+				ringPartitions,
 			)
 		}
+		partitionsWithAPeer[chosenPeer.Partition] = struct{}{}
 	}
-	if len(partitionsOfEachPeer) != len(peersPerQueryWord[0].Peers()) {
+	if len(partitionsWithAPeer) != ringPartitions {
 		t.Fatalf(
-			"the partitions of the ring hold %d peers, want the %d the query word chose",
-			len(partitionsOfEachPeer),
-			len(peersPerQueryWord[0].Peers()),
+			"the chosen peers sit in %d partitions of the ring, want all %d",
+			len(partitionsWithAPeer),
+			ringPartitions,
 		)
 	}
 }

@@ -56,28 +56,28 @@ func heldDocumentsRoundMetricsRegisteredIn(
 }
 
 func (m heldDocumentsRoundMetrics) observeHeldDocumentsRound(
-	spread wordjoined.PerformedWordJoinedSpread,
+	round wordjoined.PerformedHeldDocumentsRound,
 ) {
 	m.documentsPastTheHeldDocumentsCeiling.Observe(
-		float64(spread.AmountOfDocumentsPastTheHeldDocumentsCeiling),
+		float64(round.AmountOfDocumentsPastTheHeldDocumentsCeiling),
 	)
-	if spread.AmountOfPeersAskedForHeldDocuments > 0 {
+	if round.AmountOfPeersAskedForHeldDocuments > 0 {
 		m.answeringHeldDocumentsPeersRatio.Observe(
-			float64(spread.AmountOfPeersThatAnsweredHeldDocuments) /
-				float64(spread.AmountOfPeersAskedForHeldDocuments),
+			float64(round.AmountOfPeersThatAnsweredHeldDocuments) /
+				float64(round.AmountOfPeersAskedForHeldDocuments),
 		)
 	}
-	if spread.AmountOfPeersThatAnsweredHeldDocuments > 0 {
+	if round.AmountOfPeersThatAnsweredHeldDocuments > 0 {
 		m.emptyHeldDocumentsAnswersRatio.Observe(
-			float64(spread.AmountOfEmptyHeldDocumentsAnswers) /
-				float64(spread.AmountOfPeersThatAnsweredHeldDocuments),
+			float64(round.AmountOfEmptyHeldDocumentsAnswers) /
+				float64(round.AmountOfPeersThatAnsweredHeldDocuments),
 		)
 	}
-	if spread.AmountOfJoinedDocuments == 0 {
+	if round.AmountOfJoinedDocuments == 0 {
 		return
 	}
 	m.joinBeforeTheHeldDocumentsAsksRatio.Observe(
-		float64(spread.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks) /
-			float64(spread.AmountOfJoinedDocuments),
+		float64(round.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks) /
+			float64(round.AmountOfJoinedDocuments),
 	)
 }

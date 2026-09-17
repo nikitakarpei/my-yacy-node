@@ -1,7 +1,7 @@
 // Package prometheus reports how many peers the first round of a word joined
 // spread asked and how many answered, how much of the query the network held,
-// how often no document held all query words, how many query words answered
-// short and what the second round asked their peers and got back, how much the
+// how often no document held all query words, how many query words came back
+// cut off and what the second round asked their peers and got back, how much the
 // second round added to the join and how many documents it could not name, how
 // much of the join an item of an answer already covers and how much of that
 // carried a posting, and how much of the join the third round asked metadata
@@ -34,7 +34,7 @@ type WordJoinedSpreadMetrics struct {
 	peersAsked                          prometheusclient.Histogram
 	answeringPeersRatio                 prometheusclient.Histogram
 	unheldQueryWordsRatio               prometheusclient.Histogram
-	shortQueryWordsRatio                prometheusclient.Histogram
+	cutOffQueryWordsRatio               prometheusclient.Histogram
 	heldDocumentsRound                  heldDocumentsRoundMetrics
 	joinWithMetadataRatio               prometheusclient.Histogram
 	matchedDocumentsCountedByAPeerRatio prometheusclient.Histogram
@@ -68,8 +68,8 @@ func New(
 			"yacydhtsearch_word_joined_spread_unheld_query_words_ratio",
 			"Share of query words that no asked peer held a document for.",
 		),
-		shortQueryWordsRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_short_query_words_ratio",
+		cutOffQueryWordsRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_cut_off_query_words_ratio",
 			"Share of query words whose peers answered with less than they hold, "+
 				"which the second round asks again.",
 		),
@@ -110,7 +110,7 @@ func New(
 		metrics.peersAsked,
 		metrics.answeringPeersRatio,
 		metrics.unheldQueryWordsRatio,
-		metrics.shortQueryWordsRatio,
+		metrics.cutOffQueryWordsRatio,
 		metrics.joinWithMetadataRatio,
 		metrics.matchedDocumentsCountedByAPeerRatio,
 		metrics.missingMetadataAskedForRatio,
@@ -140,77 +140,72 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	m.peersAsked.Observe(float64(spread.AmountOfPeersAsked))
+	m.peersAsked.Observe(float64(spread.MatchedAndHeldDocumentsRound.AmountOfPeersAsked))
 	m.wordJoinedSpreadDurationSeconds.Observe(spread.TimeSpent.Seconds())
-	m.countJoin(spread)
-	m.observeAnsweringPeersRatio(spread)
-	m.observeQueryRatios(spread)
-	m.heldDocumentsRound.observeHeldDocumentsRound(spread)
-	m.observeMatchedDocumentsCountedByAPeerRatio(spread)
+	m.countJoin(spread.HeldDocumentsRound, spread.URLMetadataRound)
+	m.observeMatchedAndHeldDocumentsRound(spread.MatchedAndHeldDocumentsRound)
+	m.heldDocumentsRound.observeHeldDocumentsRound(spread.HeldDocumentsRound)
+	m.observeAskedDocumentsWithMetadataRatio(spread.URLMetadataRound)
 }
 
-func (m *WordJoinedSpreadMetrics) observeMatchedDocumentsCountedByAPeerRatio(
-	spread wordjoined.PerformedWordJoinedSpread,
+func (m *WordJoinedSpreadMetrics) countJoin(
+	heldDocumentsRound wordjoined.PerformedHeldDocumentsRound,
+	urlMetadataRound wordjoined.PerformedURLMetadataRound,
 ) {
-	if spread.AmountOfMatchedDocumentsAcrossAnswers == 0 {
-		return
-	}
-	m.matchedDocumentsCountedByAPeerRatio.Observe(
-		float64(spread.AmountOfMatchedDocumentsCountedByAPeer) /
-			float64(spread.AmountOfMatchedDocumentsAcrossAnswers),
-	)
-}
-
-func (m *WordJoinedSpreadMetrics) countJoin(spread wordjoined.PerformedWordJoinedSpread) {
-	if spread.AmountOfJoinedDocuments == 0 {
+	if heldDocumentsRound.AmountOfJoinedDocuments == 0 {
 		m.wordJoinedSpreads.WithLabelValues(joinFoundNoDocument).Inc()
 
 		return
 	}
 	m.wordJoinedSpreads.WithLabelValues(joinFoundDocuments).Inc()
 	m.joinWithMetadataRatio.Observe(
-		float64(spread.AmountOfJoinedDocumentsWithMetadata) /
-			float64(spread.AmountOfJoinedDocuments),
+		float64(urlMetadataRound.AmountOfJoinedDocumentsWithMetadata) /
+			float64(heldDocumentsRound.AmountOfJoinedDocuments),
 	)
-	documentsMissingMetadata := spread.AmountOfJoinedDocuments -
-		spread.AmountOfJoinedDocumentsWithMetadata
+	documentsMissingMetadata := heldDocumentsRound.AmountOfJoinedDocuments -
+		urlMetadataRound.AmountOfJoinedDocumentsWithMetadata
 	if documentsMissingMetadata == 0 {
 		return
 	}
 	m.missingMetadataAskedForRatio.Observe(
-		float64(spread.AmountOfDocumentsAskedMetadataFor) / float64(documentsMissingMetadata),
+		float64(urlMetadataRound.AmountOfDocumentsAskedMetadataFor) /
+			float64(documentsMissingMetadata),
 	)
 }
 
-func (m *WordJoinedSpreadMetrics) observeAnsweringPeersRatio(
-	spread wordjoined.PerformedWordJoinedSpread,
+func (m *WordJoinedSpreadMetrics) observeMatchedAndHeldDocumentsRound(
+	round wordjoined.PerformedMatchedAndHeldDocumentsRound,
 ) {
-	if spread.AmountOfPeersAsked == 0 {
+	if round.AmountOfPeersAsked > 0 {
+		m.answeringPeersRatio.Observe(
+			float64(round.AmountOfPeersThatAnswered) / float64(round.AmountOfPeersAsked),
+		)
+	}
+	if round.AmountOfQueryWords > 0 {
+		m.unheldQueryWordsRatio.Observe(
+			float64(round.AmountOfQueryWordsHeldByNoPeer) / float64(round.AmountOfQueryWords),
+		)
+		m.cutOffQueryWordsRatio.Observe(
+			float64(round.AmountOfCutOffQueryWords) / float64(round.AmountOfQueryWords),
+		)
+	}
+	if round.AmountOfMatchedDocumentsAcrossAnswers == 0 {
 		return
 	}
-	m.answeringPeersRatio.Observe(
-		float64(spread.AmountOfPeersThatAnswered) / float64(spread.AmountOfPeersAsked),
+	m.matchedDocumentsCountedByAPeerRatio.Observe(
+		float64(round.AmountOfMatchedDocumentsCountedByAPeer) /
+			float64(round.AmountOfMatchedDocumentsAcrossAnswers),
 	)
 }
 
-func (m *WordJoinedSpreadMetrics) observeQueryRatios(
-	spread wordjoined.PerformedWordJoinedSpread,
+func (m *WordJoinedSpreadMetrics) observeAskedDocumentsWithMetadataRatio(
+	round wordjoined.PerformedURLMetadataRound,
 ) {
-	if spread.AmountOfQueryWords > 0 {
-		m.unheldQueryWordsRatio.Observe(
-			float64(spread.AmountOfQueryWordsHeldByNoPeer) / float64(spread.AmountOfQueryWords),
-		)
-	}
-	if spread.AmountOfQueryWords > 0 {
-		m.shortQueryWordsRatio.Observe(
-			float64(spread.AmountOfShortQueryWords) / float64(spread.AmountOfQueryWords),
-		)
-	}
-	if spread.AmountOfDocumentsAskedMetadataFor == 0 {
+	if round.AmountOfDocumentsAskedMetadataFor == 0 {
 		return
 	}
 	m.askedDocumentsWithMetadataRatio.Observe(
-		float64(spread.AmountOfAskedDocumentsWithMetadata) /
-			float64(spread.AmountOfDocumentsAskedMetadataFor),
+		float64(round.AmountOfAskedDocumentsWithMetadata) /
+			float64(round.AmountOfDocumentsAskedMetadataFor),
 	)
 }

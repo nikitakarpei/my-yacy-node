@@ -465,7 +465,7 @@ func documentsInTheirHashOrder(documents []yacymodel.URLHash) []yacymodel.URLHas
 	return documentsInOrder
 }
 
-func TestAPeerShortOfAWordIsAskedAboutTheDocumentsOfTheAnchorWordItLeftOut(t *testing.T) {
+func TestACutOffPeerOfAWordIsAskedAboutTheDocumentsOfTheAnchorWordItLeftOut(t *testing.T) {
 	t.Parallel()
 
 	anchorDocuments := []string{"https://anchored.example/", "https://answered.example/"}
@@ -487,7 +487,7 @@ func TestAPeerShortOfAWordIsAskedAboutTheDocumentsOfTheAnchorWordItLeftOut(t *te
 
 	if len(network.heldDocumentsAsks) != 1 ||
 		network.heldDocumentsAsks[0].Peer.Address != "second" {
-		t.Fatalf("the spread put %v, want one held documents ask to the short peer",
+		t.Fatalf("the spread put %v, want one held documents ask to the cut-off peer",
 			network.heldDocumentsAsks)
 	}
 	wanted := documentHashesOf([]string{"https://anchored.example/"})
@@ -520,15 +520,15 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 	)
 
 	performed := observer.performed[0]
-	if performed.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks != 1 ||
-		performed.AmountOfJoinedDocuments != 2 {
+	if performed.HeldDocumentsRound.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks != 1 ||
+		performed.HeldDocumentsRound.AmountOfJoinedDocuments != 2 {
 		t.Fatalf("the spread reported %+v, want the second round adding one document to the join",
 			performed)
 	}
-	if performed.AmountOfShortQueryWords != 1 ||
-		performed.AmountOfPeersAskedForHeldDocuments != 1 ||
-		performed.AmountOfPeersThatAnsweredHeldDocuments != 1 {
-		t.Fatalf("the spread reported %+v, want one short word asked of one peer that answered",
+	if performed.MatchedAndHeldDocumentsRound.AmountOfCutOffQueryWords != 1 ||
+		performed.HeldDocumentsRound.AmountOfPeersAskedForHeldDocuments != 1 ||
+		performed.HeldDocumentsRound.AmountOfPeersThatAnsweredHeldDocuments != 1 {
+		t.Fatalf("the spread reported %+v, want one cut-off word asked of one peer that answered",
 			performed)
 	}
 }
@@ -557,15 +557,15 @@ func TestTheWordTheFewestDocumentsAreHeldForAnchorsTheJoin(t *testing.T) {
 		observer,
 	)
 
-	if observer.performed[0].AmountOfAnchorDocuments != 2 {
+	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfAnchorDocuments != 2 {
 		t.Fatalf(
 			"the spread anchored the join on %d documents, want the word the fewest are held for",
-			observer.performed[0].AmountOfAnchorDocuments,
+			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfAnchorDocuments,
 		)
 	}
 }
 
-func TestAWordAnsweredShortAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t *testing.T) {
+func TestACutOffWordAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t *testing.T) {
 	t.Parallel()
 
 	anchored := "https://anchored.example/"
@@ -594,16 +594,16 @@ func TestAWordAnsweredShortAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t
 		observer,
 	)
 
-	if observer.performed[0].AmountOfAnchorDocuments != 1 {
+	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfAnchorDocuments != 1 {
 		t.Fatalf(
-			"the spread anchored the join on %d documents, want the one the short word listed",
-			observer.performed[0].AmountOfAnchorDocuments,
+			"the spread anchored the join on %d documents, want the one the cut-off word listed",
+			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfAnchorDocuments,
 		)
 	}
 	if len(network.heldDocumentsAsks) != 1 ||
 		network.heldDocumentsAsks[0].Peer.Address != "third" {
 		t.Fatalf(
-			"the spread put %v, want one held documents ask to the peer of the other short word",
+			"the spread put %v, want one held documents ask to the peer of the other cut-off word",
 			network.heldDocumentsAsks,
 		)
 	}
@@ -615,7 +615,7 @@ func TestAWordAnsweredShortAnchorsTheJoinWhenTheFewestDocumentsAreCountedForIt(t
 	}
 }
 
-func TestAPeerShortOfTwoQueryWordsIsAskedOnce(t *testing.T) {
+func TestAPeerCutOffForTwoQueryWordsIsAskedOnce(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string]map[string][]string{
@@ -640,60 +640,60 @@ func TestAPeerShortOfTwoQueryWordsIsAskedOnce(t *testing.T) {
 
 	if len(network.heldDocumentsAsks) != 1 {
 		t.Fatalf(
-			"the spread put %v, want one held documents ask to the peer short of both words",
+			"the spread put %v, want one held documents ask to the peer cut off for both words",
 			network.heldDocumentsAsks,
 		)
 	}
 }
 
-func TestADocumentPastTheHeldDocumentsCeilingStaysInTheJoinTheFirstRoundProved(t *testing.T) {
+func TestADocumentOneReplicaListedForACutOffWordIsAskedOfNoOtherReplica(t *testing.T) {
 	t.Parallel()
 
-	const documentsOneHeldDocumentsAskNames = 1
-
-	abstracted := "https://abstracted.example/"
+	listed := "https://listed.example/"
 	named := "https://named.example/"
 	other := "https://other.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: {abstracted, named, other}},
+		"first":  {firstWord: {listed, named, other}},
 		"fourth": {firstWord: {named, other}},
 		"fifth":  {firstWord: {named, other}},
-		"second": {secondWord: {abstracted, named, other}},
-		"third":  {secondWord: {abstracted, named, other}},
+		"second": {secondWord: {listed, named, other}},
+		"third":  {secondWord: {listed, named, other}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 0}
 	observer := &recordedSpreads{}
 
-	spreadNamingHeldDocumentsForUpTo(
+	spreadOfTheQuery(
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first", "fourth", "fifth"},
 			secondWord: {"second", "third"},
 		}),
-		documentsOneHeldDocumentsAskNames,
+		firstWord+" "+secondWord,
 		observer,
 	)
 
-	performed := observer.performed[0]
-	if performed.AmountOfDocumentsPastTheHeldDocumentsCeiling != 1 ||
-		performed.AmountOfJoinedDocuments != 3 {
+	if slices.Contains(
+		documentsAskedForHeldDocuments(
+			network.heldDocumentsAsks,
+		),
+		documentHashesOf([]string{listed})[0],
+	) {
 		t.Fatalf(
-			"the spread reported %+v, want the document past the ceiling counted and in the join",
-			performed,
+			"the spread put %v, want no ask naming the document a replica already listed",
+			network.heldDocumentsAsks,
 		)
 	}
-	for _, ask := range network.heldDocumentsAsks {
-		if len(ask.Documents) > documentsOneHeldDocumentsAskNames {
-			t.Fatalf(
-				"the ask to peer %q named %v, want no more documents than the ceiling allows",
-				ask.Peer.Address,
-				ask.Documents,
-			)
-		}
+	heldDocumentsRound := observer.performed[0].HeldDocumentsRound
+	if heldDocumentsRound.AmountOfDocumentsPastTheHeldDocumentsCeiling != 0 ||
+		heldDocumentsRound.AmountOfJoinedDocuments != 3 {
+		t.Fatalf(
+			"the spread reported %+v, want every anchor document joined and none past the ceiling",
+			heldDocumentsRound,
+		)
 	}
 }
 
-func TestTwoCutOffReplicasOfAShortQueryWordAreAskedDisjointDocuments(t *testing.T) {
+func TestTwoCutOffReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
@@ -766,10 +766,10 @@ func TestTheDocumentsNoCutOffReplicaCanTakeAreCountedPastTheHeldDocumentsCeiling
 		observer,
 	)
 
-	if observer.performed[0].AmountOfDocumentsPastTheHeldDocumentsCeiling != 2 {
+	if observer.performed[0].HeldDocumentsRound.AmountOfDocumentsPastTheHeldDocumentsCeiling != 2 {
 		t.Fatalf(
 			"the spread reported %d documents past the ceiling, want the two no replica took",
-			observer.performed[0].AmountOfDocumentsPastTheHeldDocumentsCeiling,
+			observer.performed[0].HeldDocumentsRound.AmountOfDocumentsPastTheHeldDocumentsCeiling,
 		)
 	}
 	if len(network.heldDocumentsAsks) != 2 {
@@ -818,15 +818,15 @@ func TestAPeerThatHoldsNoneOfTheNamedDocumentsLeavesTheJoinOfTheFirstRoundWhole(
 	) {
 		t.Fatalf("the join kept %v, want the document the first round already proved", got)
 	}
-	if observer.performed[0].AmountOfEmptyHeldDocumentsAnswers != 1 {
+	if observer.performed[0].HeldDocumentsRound.AmountOfEmptyHeldDocumentsAnswers != 1 {
 		t.Fatalf(
 			"the spread reported %d empty answers, want the one the peer sent",
-			observer.performed[0].AmountOfEmptyHeldDocumentsAnswers,
+			observer.performed[0].HeldDocumentsRound.AmountOfEmptyHeldDocumentsAnswers,
 		)
 	}
 }
 
-func TestAQueryEveryWordCameBackWholeForAsksForNoHeldDocuments(t *testing.T) {
+func TestAQueryEveryWordCameBackCompleteForAsksForNoHeldDocuments(t *testing.T) {
 	t.Parallel()
 
 	shared := []string{"https://shared.example/"}
@@ -845,10 +845,10 @@ func TestAQueryEveryWordCameBackWholeForAsksForNoHeldDocuments(t *testing.T) {
 			len(network.urlMetadataAsks),
 		)
 	}
-	if observer.performed[0].AmountOfShortQueryWords != 0 {
+	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfCutOffQueryWords != 0 {
 		t.Fatalf(
-			"the spread reported %d short query words, want none",
-			observer.performed[0].AmountOfShortQueryWords,
+			"the spread reported %d cut-off query words, want none",
+			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfCutOffQueryWords,
 		)
 	}
 }
@@ -1064,13 +1064,14 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 		t.Fatalf("the observer saw %d spreads, want one", len(observer.performed))
 	}
 	performed := observer.performed[0]
-	if performed.AmountOfQueryWords != 2 || performed.AmountOfPeersAsked != 2 ||
-		performed.AmountOfJoinedDocuments != 1 {
+	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWords != 2 ||
+		performed.MatchedAndHeldDocumentsRound.AmountOfPeersAsked != 2 ||
+		performed.HeldDocumentsRound.AmountOfJoinedDocuments != 1 {
 		t.Fatalf("the spread reported %+v, want two words, two peers and one joined document",
 			performed)
 	}
-	if performed.AmountOfQueryWordsHeldByNoPeer != 0 ||
-		performed.AmountOfAskedDocumentsWithMetadata != 1 {
+	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer != 0 ||
+		performed.URLMetadataRound.AmountOfAskedDocumentsWithMetadata != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want every word held and the joined document back",
 			performed,
@@ -1089,10 +1090,10 @@ func TestAQueryWordHeldByNoPeerIsReported(t *testing.T) {
 
 	spreadOf(network, observer)
 
-	if observer.performed[0].AmountOfQueryWordsHeldByNoPeer != 1 {
+	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer != 1 {
 		t.Fatalf(
 			"the spread reported %d query words held by no peer, want the one word nobody held",
-			observer.performed[0].AmountOfQueryWordsHeldByNoPeer,
+			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer,
 		)
 	}
 }
@@ -1115,10 +1116,10 @@ func TestAPeerThatDoesNotAnswerHoldsNothingForTheJoin(t *testing.T) {
 			len(network.urlMetadataAsks),
 		)
 	}
-	if observer.performed[0].AmountOfPeersThatAnswered != 1 {
+	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfPeersThatAnswered != 1 {
 		t.Fatalf(
 			"the spread reported %d answering peers, want one",
-			observer.performed[0].AmountOfPeersThatAnswered,
+			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfPeersThatAnswered,
 		)
 	}
 }
@@ -1206,16 +1207,17 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	spreadAskingMetadataForUpTo(network, responsiblePeers{}, 1, observer)
 
 	performed := observer.performed[0]
-	if performed.AmountOfJoinedDocuments != 2 || performed.AmountOfDocumentsAskedMetadataFor != 1 {
+	if performed.HeldDocumentsRound.AmountOfJoinedDocuments != 2 ||
+		performed.URLMetadataRound.AmountOfDocumentsAskedMetadataFor != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want two joined documents and one asked metadata for",
 			performed,
 		)
 	}
-	if performed.AmountOfAskedDocumentsWithMetadata != 1 {
+	if performed.URLMetadataRound.AmountOfAskedDocumentsWithMetadata != 1 {
 		t.Fatalf(
 			"the spread reported %d documents back, want the one it asked metadata for",
-			performed.AmountOfAskedDocumentsWithMetadata,
+			performed.URLMetadataRound.AmountOfAskedDocumentsWithMetadata,
 		)
 	}
 }
@@ -1528,18 +1530,21 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	}}, observer)
 
 	performed := observer.performed[0]
-	if performed.AmountOfJoinedDocumentsWithMetadata != 1 ||
-		performed.AmountOfMatchedDocumentsAcrossAnswers != 2 ||
-		performed.AmountOfMatchedDocumentsCountedByAPeer != 2 {
+	matchedAndHeldDocumentsRound := performed.MatchedAndHeldDocumentsRound
+	if performed.URLMetadataRound.AmountOfJoinedDocumentsWithMetadata != 1 ||
+		matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsAcrossAnswers != 2 ||
+		matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsCountedByAPeer != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the joined document answered once and two counts",
 			performed,
 		)
 	}
-	if !slices.Equal(performed.AmountOfDocumentsHeldInEachAnswer, []int{512, 512}) {
+	if !slices.Equal(
+		matchedAndHeldDocumentsRound.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
+	) {
 		t.Fatalf(
 			"the spread reported %v documents held per query word, want 512 for each answer",
-			performed.AmountOfDocumentsHeldInEachAnswer,
+			matchedAndHeldDocumentsRound.AmountOfDocumentsHeldInEachAnswer,
 		)
 	}
 }

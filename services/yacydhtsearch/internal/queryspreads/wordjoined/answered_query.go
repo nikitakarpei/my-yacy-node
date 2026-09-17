@@ -3,20 +3,21 @@ package wordjoined
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func answeredQueryFrom(
-	itemsInTheOrderOfEachPeerRanking [][]queryanswers.AnsweredItem,
-	answeredURLMetadataAsks []peerasks.AnsweredURLMetadataAsk,
-	amountOfDocumentsHeldPerQueryWord map[yacymodel.Hash]int,
-	queryWords []yacymodel.Hash,
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinOfTheQuery joinOfTheQuery,
+	urlMetadataRound urlMetadataRound,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:                       queryWords,
-		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
-		ItemsInNoOrder:                   itemsOfAnsweredURLMetadataAsks(answeredURLMetadataAsks),
-		DocumentsHeldPerQueryWord:        amountOfDocumentsHeldPerQueryWord,
+		QueryWords: matchedAndHeldDocumentsRound.queryWords,
+		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingOf(
+			matchedAndHeldDocumentsRound.answeredAsks, joinOfTheQuery.joinedDocuments,
+		),
+		ItemsInNoOrder: itemsOfAnsweredURLMetadataAsks(urlMetadataRound.answeredAsks),
+		DocumentsHeldPerQueryWord: matchedAndHeldDocumentsRound.
+			amountOfDocumentsHeldPerQueryWord(),
 	}
 }
 

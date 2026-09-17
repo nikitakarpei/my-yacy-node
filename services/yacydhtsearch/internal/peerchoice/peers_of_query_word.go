@@ -23,14 +23,3 @@ func (p PeersOfQueryWord) Peers() []peerdirectory.AskablePeer {
 
 	return peers
 }
-
-func (p PeersOfQueryWord) PeersPerPartition() [][]peerdirectory.AskablePeer {
-	peersPerPartition := make([][]peerdirectory.AskablePeer, p.Partitions)
-	for _, chosenPeer := range p.ChosenPeers {
-		peersPerPartition[chosenPeer.Partition] = append(
-			peersPerPartition[chosenPeer.Partition], chosenPeer.Peer,
-		)
-	}
-
-	return peersPerPartition
-}

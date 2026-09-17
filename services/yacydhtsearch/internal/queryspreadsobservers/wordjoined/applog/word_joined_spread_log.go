@@ -16,58 +16,70 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	ctx context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
+	matchedAndHeldDocumentsRound := spread.MatchedAndHeldDocumentsRound
+	heldDocumentsRound := spread.HeldDocumentsRound
+	urlMetadataRound := spread.URLMetadataRound
 	slog.DebugContext(ctx, msgWordJoinedSpreadPerformed,
-		slog.Int("amountOfQueryWords", spread.AmountOfQueryWords),
-		slog.Int("amountOfQueryWordsHeldByNoPeer", spread.AmountOfQueryWordsHeldByNoPeer),
-		slog.Int("amountOfShortQueryWords", spread.AmountOfShortQueryWords),
-		slog.Int("amountOfPeersAsked", spread.AmountOfPeersAsked),
-		slog.Int("amountOfPeersThatAnswered", spread.AmountOfPeersThatAnswered),
-		slog.Int("amountOfPeersHoldingAQueryWord", spread.AmountOfPeersHoldingAQueryWord),
-		slog.Int("amountOfAnchorDocuments", spread.AmountOfAnchorDocuments),
+		slog.Int("amountOfQueryWords", matchedAndHeldDocumentsRound.AmountOfQueryWords),
+		slog.Int(
+			"amountOfQueryWordsHeldByNoPeer",
+			matchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer,
+		),
+		slog.Int("amountOfCutOffQueryWords", matchedAndHeldDocumentsRound.AmountOfCutOffQueryWords),
+		slog.Int("amountOfPeersAsked", matchedAndHeldDocumentsRound.AmountOfPeersAsked),
+		slog.Int(
+			"amountOfPeersThatAnswered",
+			matchedAndHeldDocumentsRound.AmountOfPeersThatAnswered,
+		),
+		slog.Int(
+			"amountOfPeersHoldingAQueryWord",
+			matchedAndHeldDocumentsRound.AmountOfPeersHoldingAQueryWord,
+		),
+		slog.Int("amountOfAnchorDocuments", matchedAndHeldDocumentsRound.AmountOfAnchorDocuments),
 		slog.Int(
 			"amountOfDocumentsPastTheHeldDocumentsCeiling",
-			spread.AmountOfDocumentsPastTheHeldDocumentsCeiling,
+			heldDocumentsRound.AmountOfDocumentsPastTheHeldDocumentsCeiling,
 		),
 		slog.Int(
 			"amountOfPeersAskedForHeldDocuments",
-			spread.AmountOfPeersAskedForHeldDocuments,
+			heldDocumentsRound.AmountOfPeersAskedForHeldDocuments,
 		),
 		slog.Int(
 			"amountOfPeersThatAnsweredHeldDocuments",
-			spread.AmountOfPeersThatAnsweredHeldDocuments,
+			heldDocumentsRound.AmountOfPeersThatAnsweredHeldDocuments,
 		),
 		slog.Int(
 			"amountOfEmptyHeldDocumentsAnswers",
-			spread.AmountOfEmptyHeldDocumentsAnswers,
+			heldDocumentsRound.AmountOfEmptyHeldDocumentsAnswers,
 		),
 		slog.Int(
 			"amountOfJoinedDocumentsBeforeTheHeldDocumentsAsks",
-			spread.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks,
+			heldDocumentsRound.AmountOfJoinedDocumentsBeforeTheHeldDocumentsAsks,
 		),
-		slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments),
+		slog.Int("amountOfJoinedDocuments", heldDocumentsRound.AmountOfJoinedDocuments),
 		slog.Int(
 			"amountOfJoinedDocumentsWithMetadata",
-			spread.AmountOfJoinedDocumentsWithMetadata,
+			urlMetadataRound.AmountOfJoinedDocumentsWithMetadata,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsAcrossAnswers",
-			spread.AmountOfMatchedDocumentsAcrossAnswers,
+			matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsAcrossAnswers,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsCountedByAPeer",
-			spread.AmountOfMatchedDocumentsCountedByAPeer,
+			matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsCountedByAPeer,
 		),
 		slog.Any(
 			"amountOfDocumentsHeldInEachAnswer",
-			spread.AmountOfDocumentsHeldInEachAnswer,
+			matchedAndHeldDocumentsRound.AmountOfDocumentsHeldInEachAnswer,
 		),
 		slog.Int(
 			"amountOfDocumentsAskedMetadataFor",
-			spread.AmountOfDocumentsAskedMetadataFor,
+			urlMetadataRound.AmountOfDocumentsAskedMetadataFor,
 		),
 		slog.Int(
 			"amountOfAskedDocumentsWithMetadata",
-			spread.AmountOfAskedDocumentsWithMetadata,
+			urlMetadataRound.AmountOfAskedDocumentsWithMetadata,
 		),
 		slog.Duration("timeSpent", spread.TimeSpent),
 	)
