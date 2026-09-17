@@ -31,7 +31,7 @@ Without a NATS address each instance caches its own rankings, and a restart drop
 
 ## Peer directory
 
-YaCy peers can limit remote searches by client address. Service instances that use the same egress proxy share that allowance, and the peer cooldown reduces how often this service uses it on one peer.
+YaCy peers can limit remote searches by client address. Service instances that use the same egress proxy share that allowance.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -40,7 +40,6 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | `YACYDHTSEARCH_REFRESH_INTERVAL` | `5m` | Time between seedlist reads and probe cycles. |
 | `YACYDHTSEARCH_PROBE_BUDGET` | `3s` | Time one probe of one peer address may take. |
 | `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |
-| `YACYDHTSEARCH_PEER_CHOICE_COOLDOWN` | `5s` | Time a chosen peer rests before a search may choose it again. |
 
 ## Peer presence and reliability
 

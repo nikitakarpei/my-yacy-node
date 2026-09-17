@@ -35,7 +35,6 @@ const (
 	partitionExponent            = 4
 	maxResponseBytes             = 4 * 1024 * 1024
 	directoryCapacity            = 4096
-	peerChoiceCooldown           = 5 * time.Second
 	refreshInterval              = 5 * time.Minute
 	probeBudget                  = 3 * time.Second
 	probesInFlight               = 24
@@ -153,7 +152,7 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 	}
 
 	directory, reliability := directoryOfTheNetwork(t)
-	spread := querySpreadOverThePeers(t, directory, reliability)
+	spread := querySpreadOverThePeers(t, reliability)
 	reading := pageTextReadingOverTheWeb(t)
 	t.Logf(
 		"the directory knows %d peers and can ask %d",
@@ -183,10 +182,7 @@ func directoryOfTheNetwork(
 		presence, peerreliability.DefaultReliabilityWeights(), time.Now,
 	)
 	directory := peerdirectory.New(
-		peerdirectory.DirectoryLimits{
-			Capacity: directoryCapacity,
-			Cooldown: peerChoiceCooldown,
-		},
+		peerdirectory.DirectoryLimits{Capacity: directoryCapacity},
 		time.Now,
 		leastreliable.New(reliability, refreshInterval, time.Now),
 		peerdirectory.DirectoryObservers{presence},
@@ -214,7 +210,6 @@ func directoryOfTheNetwork(
 
 func querySpreadOverThePeers(
 	t *testing.T,
-	directory *peerdirectory.Directory,
 	reliability peerreliability.Reliability,
 ) querySpread {
 	t.Helper()
@@ -233,6 +228,7 @@ func querySpreadOverThePeers(
 	spread := bywordcount.New(
 		wordjoined.New(
 			peers,
+			peers,
 			rankedItemsCeiling,
 			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
@@ -249,7 +245,6 @@ func querySpreadOverThePeers(
 	)
 
 	return spreadChoosingPeers{
-		directory: directory,
 		choice: peerchoice.New(
 			partitions, networkRedundancy, reliability, peerchoice.PeerChoiceObservers{},
 		),
@@ -258,9 +253,8 @@ func querySpreadOverThePeers(
 }
 
 type spreadChoosingPeers struct {
-	directory *peerdirectory.Directory
-	choice    peerchoice.Choice
-	spread    bywordcount.Spread
+	choice peerchoice.Choice
+	spread bywordcount.Spread
 }
 
 func (s spreadChoosingPeers) SpreadOverPeers(
@@ -271,7 +265,6 @@ func (s spreadChoosingPeers) SpreadOverPeers(
 	chosenPeersPerQueryWord := s.choice.ChosenPeersPerQueryWordFor(
 		ctx, query.TermHashes(), askablePeers,
 	)
-	s.directory.MarkPeersChosen(ctx, chosenPeersPerQueryWord.PeersAcrossQueryWords())
 
 	return s.spread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 }

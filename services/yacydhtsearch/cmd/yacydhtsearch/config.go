@@ -19,7 +19,6 @@ const (
 	EnvSeedlistURLs                 = "YACYDHTSEARCH_SEEDLIST_URLS"
 	EnvEgressProxyURL               = "EGRESS_PROXY_URL"
 	EnvQueryBudget                  = "YACYDHTSEARCH_QUERY_BUDGET"
-	EnvPeerChoiceCooldown           = "YACYDHTSEARCH_PEER_CHOICE_COOLDOWN"
 	EnvNetworkRedundancy            = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
 	EnvPeerCallsInFlight            = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
 	EnvPeerCallBudget               = "YACYDHTSEARCH_PEER_CALL_BUDGET"
@@ -50,7 +49,6 @@ const (
 	DefaultListenAddr                   = ":8080"
 	DefaultOpsAddr                      = ":9090"
 	DefaultQueryBudget                  = 10 * time.Second
-	DefaultPeerChoiceCooldown           = 5 * time.Second
 	DefaultNetworkRedundancy            = 3
 	DefaultPeerCallsInFlight            = 48
 	DefaultPeerCallBudget               = 3 * time.Second
@@ -83,7 +81,6 @@ type ServiceConfig struct {
 	SeedlistURLs                 []string
 	EgressProxyURL               *url.URL
 	QueryBudget                  time.Duration
-	PeerChoiceCooldown           time.Duration
 	NetworkRedundancy            int
 	PeerCallsInFlight            int
 	PeerCallBudget               time.Duration
@@ -168,7 +165,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		SeedlistURLs:                 seedlistURLs,
 		EgressProxyURL:               egressProxyURL,
 		QueryBudget:                  durations.queryBudget,
-		PeerChoiceCooldown:           durations.peerChoiceCooldown,
 		NetworkRedundancy:            counts.networkRedundancy,
 		PeerCallsInFlight:            counts.peerCallsInFlight,
 		PeerCallBudget:               durations.peerCallBudget,
@@ -201,7 +197,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 
 type configuredDurations struct {
 	queryBudget               time.Duration
-	peerChoiceCooldown        time.Duration
 	peerCallBudget            time.Duration
 	refreshInterval           time.Duration
 	probeBudget               time.Duration
@@ -223,7 +218,6 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		into     *time.Duration
 	}{
 		{EnvQueryBudget, DefaultQueryBudget, &durations.queryBudget},
-		{EnvPeerChoiceCooldown, DefaultPeerChoiceCooldown, &durations.peerChoiceCooldown},
 		{EnvPeerCallBudget, DefaultPeerCallBudget, &durations.peerCallBudget},
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},

@@ -34,7 +34,6 @@ type DirectoryObserver interface {
 
 type DirectoryLimits struct {
 	Capacity      int
-	Cooldown      time.Duration
 	NewcomerShare float64
 }
 
@@ -213,27 +212,13 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 
 	askable := make([]AskablePeer, 0, len(d.peers))
 	for _, peer := range d.peers {
-		if !peer.answersNow() || d.now().Sub(peer.ChosenAt) < d.limits.Cooldown {
+		if !peer.answersNow() {
 			continue
 		}
 		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweredAddress})
 	}
 
 	return askable
-}
-
-func (d *Directory) MarkPeersChosen(ctx context.Context, peers []AskablePeer) {
-	d.mutex.Lock()
-	defer d.mutex.Unlock()
-
-	for _, chosenPeer := range peers {
-		known, ok := d.peers[chosenPeer.Hash]
-		if !ok {
-			continue
-		}
-		known.ChosenAt = d.now()
-		d.peers[chosenPeer.Hash] = known
-	}
 }
 
 func (d *Directory) ConfirmAnswering(ctx context.Context, peer yacymodel.Hash, address string) {

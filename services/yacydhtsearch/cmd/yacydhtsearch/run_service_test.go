@@ -23,7 +23,6 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 		SeedlistURLs:       []string{"http://127.0.0.1:1/yacy/seedlist.html"},
 		EgressProxyURL:     &url.URL{Scheme: "http", Host: "127.0.0.1:1"},
 		QueryBudget:        time.Second,
-		PeerChoiceCooldown: 5 * time.Second,
 		NetworkRedundancy:  2,
 		PeerCallsInFlight:  2,
 		PeerCallBudget:     time.Second,

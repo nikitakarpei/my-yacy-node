@@ -106,7 +106,6 @@ func RunService(
 	directory := peerdirectory.New(
 		peerdirectory.DirectoryLimits{
 			Capacity:      cfg.DirectoryCapacity,
-			Cooldown:      cfg.PeerChoiceCooldown,
 			NewcomerShare: cfg.NewcomerShare,
 		},
 		time.Now,

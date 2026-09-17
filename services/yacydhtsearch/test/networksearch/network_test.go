@@ -35,7 +35,6 @@ const (
 	directoryLimit    = 16
 	recordCeiling     = 50
 	pagesReadPerQuery = 50
-	cooldown          = 5 * time.Second
 )
 
 type silentDirectoryObserver struct{}
@@ -159,7 +158,7 @@ func directoryAnsweringAt(t *testing.T, addresses ...string) *peerdirectory.Dire
 	t.Helper()
 
 	directory := peerdirectory.New(
-		peerdirectory.DirectoryLimits{Capacity: directoryLimit, Cooldown: cooldown},
+		peerdirectory.DirectoryLimits{Capacity: directoryLimit},
 		time.Now,
 		stalestFirst{},
 		silentDirectoryObserver{},
@@ -333,22 +332,6 @@ func TestARankingStopsAtTheRecordCeiling(t *testing.T) {
 
 	if len(ranking.Items) != recordCeiling {
 		t.Fatalf("Search carried %d items, want the ceiling %d", len(ranking.Items), recordCeiling)
-	}
-}
-
-func TestEveryPeerChosenForAQueryRestsBeforeTheNextSearch(t *testing.T) {
-	t.Parallel()
-
-	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
-	network := networkOver(t, directory, &recordedQuery{})
-
-	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
-
-	if askable := directory.AskablePeers(t.Context()); len(askable) != 0 {
-		t.Fatalf(
-			"the directory offers %v right after the search, want the chosen peer resting",
-			askable,
-		)
 	}
 }
 
