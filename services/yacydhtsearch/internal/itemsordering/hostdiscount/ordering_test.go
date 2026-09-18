@@ -29,8 +29,8 @@ func addressesOrderedWithTheHostDiscount(
 ) []string {
 	t.Helper()
 
-	itemsOfOnePeerRanking := make(
-		[]queryanswers.AnsweredItem, 0, len(addressesInFallingOrderOfRelevance),
+	foundDocuments := make(
+		[]queryanswers.FoundDocument, 0, len(addressesInFallingOrderOfRelevance),
 	)
 	relevancePerDocument := map[yacymodel.URLHash]float64{}
 	for _, addressAndItsRelevance := range addressesInFallingOrderOfRelevance {
@@ -38,7 +38,7 @@ func addressesOrderedWithTheHostDiscount(
 		if err != nil {
 			t.Fatalf("URLHashOf(%q): %v", addressAndItsRelevance.address, err)
 		}
-		itemsOfOnePeerRanking = append(itemsOfOnePeerRanking, queryanswers.AnsweredItem{
+		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
 			Metadata: yacymodel.URLMetadata{
 				Hash:    hash,
 				Address: addressAndItsRelevance.address,
@@ -50,7 +50,7 @@ func addressesOrderedWithTheHostDiscount(
 	orderedItems := hostdiscount.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
 	).OrderedItemsOf(queryanswers.AnsweredQuery{
-		ItemsInTheOrderOfEachPeerRanking: [][]queryanswers.AnsweredItem{itemsOfOnePeerRanking},
+		FoundDocuments: foundDocuments,
 	})
 	orderedAddresses := make([]string, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
@@ -126,7 +126,7 @@ func TestEachFurtherItemOfOneHostTakesAFurtherDiscount(t *testing.T) {
 	}
 }
 
-func TestTheItemsOfEqualDiscountedRelevanceKeepTheOrderThePeersPutThem(t *testing.T) {
+func TestTheItemsOfEqualDiscountedRelevanceKeepTheOrderTheyWereFoundIn(t *testing.T) {
 	t.Parallel()
 
 	got := addressesOrderedWithTheHostDiscount(
@@ -186,10 +186,52 @@ func TestAnAddressThatHoldsNoHostIsItsOwnHost(t *testing.T) {
 	}
 }
 
-func TestNoAnsweredItemMakesNoOrderedItem(t *testing.T) {
+func TestNoFoundDocumentMakesNoOrderedItem(t *testing.T) {
 	t.Parallel()
 
 	if got := addressesOrderedWithTheHostDiscount(t); len(got) != 0 {
 		t.Fatalf("the host discount order reads %v, want no item", got)
 	}
+}
+
+func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
+	t.Parallel()
+
+	answers := queryanswers.AnsweredQuery{
+		FoundDocuments: []queryanswers.FoundDocument{
+			foundDocumentAt(t, "https://less.example/"),
+			foundDocumentAt(t, "https://more.example/"),
+		},
+	}
+
+	hostdiscount.New(relevanceByFoundPlace{}).OrderedItemsOf(answers)
+
+	if answers.FoundDocuments[0].Metadata.Address != "https://less.example/" {
+		t.Fatalf("the answers read %v after ordering, want the order they were found in",
+			answers.FoundDocuments)
+	}
+}
+
+func foundDocumentAt(t *testing.T, address string) queryanswers.FoundDocument {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
+
+	return queryanswers.FoundDocument{Metadata: yacymodel.URLMetadata{Hash: hash, Address: address}}
+}
+
+type relevanceByFoundPlace struct{}
+
+func (relevanceByFoundPlace) RelevancePerDocumentOf(
+	answers queryanswers.AnsweredQuery,
+) map[yacymodel.URLHash]float64 {
+	relevancePerDocument := map[yacymodel.URLHash]float64{}
+	for place, foundDocument := range answers.FoundDocuments {
+		relevancePerDocument[foundDocument.Metadata.Hash] = float64(place)
+	}
+
+	return relevancePerDocument
 }

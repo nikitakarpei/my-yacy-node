@@ -35,7 +35,7 @@ type QuerySpread interface {
 }
 
 type ItemsOrdering interface {
-	OrderedItemsOf(answers queryanswers.AnsweredQuery) []queryanswers.AnsweredItem
+	OrderedItemsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
 }
 
 type PageReading interface {
@@ -150,9 +150,9 @@ func contextWithinTheQuerySpreadBudget(
 }
 
 func itemsUpTo(
-	orderedItems []queryanswers.AnsweredItem,
+	orderedItems []queryanswers.FoundDocument,
 	ceiling int,
-) []queryanswers.AnsweredItem {
+) []queryanswers.FoundDocument {
 	if ceiling <= 0 {
 		return nil
 	}
@@ -160,7 +160,7 @@ func itemsUpTo(
 	return orderedItems[:min(ceiling, len(orderedItems))]
 }
 
-func pagesToReadOf(items []queryanswers.AnsweredItem) []pagereading.PageToRead {
+func pagesToReadOf(items []queryanswers.FoundDocument) []pagereading.PageToRead {
 	pagesToRead := make([]pagereading.PageToRead, 0, len(items))
 	for _, item := range items {
 		pagesToRead = append(pagesToRead, pagereading.PageToRead{
@@ -172,7 +172,7 @@ func pagesToReadOf(items []queryanswers.AnsweredItem) []pagereading.PageToRead {
 	return pagesToRead
 }
 
-func rankingOf(rankedItems []queryanswers.AnsweredItem) searchresult.Ranking {
+func rankingOf(rankedItems []queryanswers.FoundDocument) searchresult.Ranking {
 	items := make([]searchresult.Item, 0, len(rankedItems))
 	for _, rankedItem := range rankedItems {
 		items = append(items, searchresult.ItemFrom(rankedItem.Metadata))

@@ -24,7 +24,7 @@ func DefaultScoreWeights() ScoreWeights {
 }
 
 func (weights ScoreWeights) relevanceOf(
-	item queryanswers.AnsweredItem,
+	item queryanswers.FoundDocument,
 	rarityOfTheQueryWords queryWordRarity,
 	averageDocumentLength float64,
 	queryWords []yacymodel.Hash,

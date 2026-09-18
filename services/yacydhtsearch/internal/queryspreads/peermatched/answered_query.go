@@ -11,53 +11,62 @@ func answeredQueryFrom(
 	queryWords []yacymodel.Hash,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords: queryWords,
-		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRankingOf(
-			answeredAsks,
-			queryWords,
-		),
+		QueryWords:     queryWords,
+		FoundDocuments: foundDocumentsFrom(answeredAsks, queryWords),
 	}
 }
 
-func itemsInTheOrderOfEachPeerRankingOf(
+func foundDocumentsFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
-) [][]queryanswers.AnsweredItem {
-	itemsInTheOrderOfEachPeerRanking := make([][]queryanswers.AnsweredItem, 0, len(answeredAsks))
+) []queryanswers.FoundDocument {
+	countedWord, countedWordIsKnown := wordThePeersCountedFor(queryWords)
+
+	var foundDocuments []queryanswers.FoundDocument
+	placeOfEachDocument := map[yacymodel.URLHash]int{}
 	for _, answeredAsk := range answeredAsks {
-		itemsInTheOrderOfEachPeerRanking = append(
-			itemsInTheOrderOfEachPeerRanking,
-			itemsOfTheMatchedDocuments(answeredAsk.MatchedDocuments, queryWords),
-		)
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			place, alreadyFound := placeOfEachDocument[matchedDocument.Metadata.Hash]
+			if !alreadyFound {
+				place = len(foundDocuments)
+				placeOfEachDocument[matchedDocument.Metadata.Hash] = place
+				foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
+					Metadata:     matchedDocument.Metadata,
+					MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{},
+				})
+			}
+			if !countedWordIsKnown {
+				continue
+			}
+			keepTheFirstCountOfTheWord(
+				foundDocuments[place].MatchedWords,
+				countedWord,
+				matchedDocument.CountOfAWordTheAskNamed,
+			)
+		}
 	}
 
-	return itemsInTheOrderOfEachPeerRanking
+	return foundDocuments
 }
 
-func itemsOfTheMatchedDocuments(
-	matchedDocuments []peerasks.MatchedDocument,
-	queryWords []yacymodel.Hash,
-) []queryanswers.AnsweredItem {
-	items := make([]queryanswers.AnsweredItem, 0, len(matchedDocuments))
-	for _, matchedDocument := range matchedDocuments {
-		items = append(items, queryanswers.AnsweredItem{
-			Metadata:     matchedDocument.Metadata,
-			MatchedWords: countPerQueryWordOf(matchedDocument, queryWords),
-		})
-	}
-
-	return items
-}
-
-func countPerQueryWordOf(
-	matchedDocument peerasks.MatchedDocument,
-	queryWords []yacymodel.Hash,
-) map[yacymodel.Hash]queryanswers.WordCount {
+func wordThePeersCountedFor(queryWords []yacymodel.Hash) (yacymodel.Hash, bool) {
 	if len(queryWords) != 1 {
-		return nil
+		return yacymodel.Hash{}, false
 	}
 
-	return map[yacymodel.Hash]queryanswers.WordCount{
-		queryWords[0]: matchedDocument.CountOfAWordTheAskNamed,
+	return queryWords[0], true
+}
+
+func keepTheFirstCountOfTheWord(
+	matchedWords map[yacymodel.Hash]queryanswers.WordCount,
+	word yacymodel.Hash,
+	count queryanswers.WordCount,
+) {
+	if !count.CountedByAPeer() {
+		return
 	}
+	if _, alreadyCounted := matchedWords[word]; alreadyCounted {
+		return
+	}
+	matchedWords[word] = count
 }

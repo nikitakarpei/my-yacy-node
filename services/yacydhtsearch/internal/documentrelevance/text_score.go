@@ -12,7 +12,7 @@ const (
 )
 
 func textScoreOf(
-	item queryanswers.AnsweredItem,
+	item queryanswers.FoundDocument,
 	rarity queryWordRarity,
 	averageDocumentLength float64,
 	queryWords []yacymodel.Hash,
@@ -29,7 +29,7 @@ func textScoreOf(
 	return textScore
 }
 
-func averageDocumentLengthOf(items []queryanswers.AnsweredItem) float64 {
+func averageDocumentLengthOf(items []queryanswers.FoundDocument) float64 {
 	sumOfTextWordsAcrossDocuments, amountOfMeasuredDocuments := 0, 0
 	for _, item := range items {
 		amountOfTextWords := amountOfTextWordsOf(item)
@@ -46,7 +46,7 @@ func averageDocumentLengthOf(items []queryanswers.AnsweredItem) float64 {
 	return float64(sumOfTextWordsAcrossDocuments) / float64(amountOfMeasuredDocuments)
 }
 
-func amountOfTextWordsOf(item queryanswers.AnsweredItem) int {
+func amountOfTextWordsOf(item queryanswers.FoundDocument) int {
 	amountOfTextWords := 0
 	for _, count := range item.MatchedWords {
 		amountOfTextWords = max(amountOfTextWords, count.TextWords)

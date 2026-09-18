@@ -20,14 +20,13 @@ const (
 )
 
 type recordedAnswers struct {
-	Query                            string                 `json:"query"`
-	RecordedAt                       time.Time              `json:"recordedAt"`
-	ItemsInTheOrderOfEachPeerRanking [][]recordedItem       `json:"itemsInTheOrderOfEachPeerRanking"`
-	ItemsInNoOrder                   []recordedItem         `json:"itemsInNoOrder"`
-	DocumentsHeldPerQueryWord        map[yacymodel.Hash]int `json:"documentsHeldPerQueryWord"`
+	Query                     string                  `json:"query"`
+	RecordedAt                time.Time               `json:"recordedAt"`
+	FoundDocuments            []recordedFoundDocument `json:"foundDocuments"`
+	DocumentsHeldPerQueryWord map[yacymodel.Hash]int  `json:"documentsHeldPerQueryWord"`
 }
 
-type recordedItem struct {
+type recordedFoundDocument struct {
 	Hash            yacymodel.URLHash                    `json:"hash"`
 	Address         string                               `json:"address"`
 	Title           string                               `json:"title"`
@@ -42,27 +41,19 @@ type recordedWordCount struct {
 }
 
 func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
-	itemsInTheOrderOfEachPeerRanking := make(
-		[][]queryanswers.AnsweredItem, 0, len(r.ItemsInTheOrderOfEachPeerRanking),
-	)
-	for _, recordedItemsOfOnePeerRanking := range r.ItemsInTheOrderOfEachPeerRanking {
-		itemsInTheOrderOfEachPeerRanking = append(
-			itemsInTheOrderOfEachPeerRanking, answeredItemsOf(recordedItemsOfOnePeerRanking),
-		)
-	}
-
 	return queryanswers.AnsweredQuery{
-		QueryWords:                       searchquery.QueryFrom(r.Query, "").TermHashes(),
-		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
-		ItemsInNoOrder:                   answeredItemsOf(r.ItemsInNoOrder),
-		DocumentsHeldPerQueryWord:        r.DocumentsHeldPerQueryWord,
+		QueryWords:                searchquery.QueryFrom(r.Query, "").TermHashes(),
+		FoundDocuments:            foundDocumentsFrom(r.FoundDocuments),
+		DocumentsHeldPerQueryWord: r.DocumentsHeldPerQueryWord,
 	}
 }
 
-func answeredItemsOf(recordedItems []recordedItem) []queryanswers.AnsweredItem {
-	answeredItems := make([]queryanswers.AnsweredItem, 0, len(recordedItems))
-	for _, recorded := range recordedItems {
-		answeredItems = append(answeredItems, queryanswers.AnsweredItem{
+func foundDocumentsFrom(
+	recordedFoundDocuments []recordedFoundDocument,
+) []queryanswers.FoundDocument {
+	foundDocuments := make([]queryanswers.FoundDocument, 0, len(recordedFoundDocuments))
+	for _, recorded := range recordedFoundDocuments {
+		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
 			Metadata: yacymodel.URLMetadata{
 				Hash:    recorded.Hash,
 				Address: recorded.Address,
@@ -74,7 +65,7 @@ func answeredItemsOf(recordedItems []recordedItem) []queryanswers.AnsweredItem {
 		})
 	}
 
-	return answeredItems
+	return foundDocuments
 }
 
 func wordCountsOf(
@@ -92,38 +83,30 @@ func wordCountsOf(
 }
 
 func recordedAnswersOf(query string, answers queryanswers.AnsweredQuery) recordedAnswers {
-	itemsInTheOrderOfEachPeerRanking := make(
-		[][]recordedItem, 0, len(answers.ItemsInTheOrderOfEachPeerRanking),
-	)
-	for _, itemsOfOnePeerRanking := range answers.ItemsInTheOrderOfEachPeerRanking {
-		itemsInTheOrderOfEachPeerRanking = append(
-			itemsInTheOrderOfEachPeerRanking, recordedItemsOf(itemsOfOnePeerRanking),
-		)
-	}
-
 	return recordedAnswers{
-		Query:                            query,
-		RecordedAt:                       time.Now().UTC().Truncate(time.Second),
-		ItemsInTheOrderOfEachPeerRanking: itemsInTheOrderOfEachPeerRanking,
-		ItemsInNoOrder:                   recordedItemsOf(answers.ItemsInNoOrder),
-		DocumentsHeldPerQueryWord:        answers.DocumentsHeldPerQueryWord,
+		Query:                     query,
+		RecordedAt:                time.Now().UTC().Truncate(time.Second),
+		FoundDocuments:            recordedFoundDocumentsFrom(answers.FoundDocuments),
+		DocumentsHeldPerQueryWord: answers.DocumentsHeldPerQueryWord,
 	}
 }
 
-func recordedItemsOf(answeredItems []queryanswers.AnsweredItem) []recordedItem {
-	recordedItems := make([]recordedItem, 0, len(answeredItems))
-	for _, answeredItem := range answeredItems {
-		recordedItems = append(recordedItems, recordedItem{
-			Hash:            answeredItem.Metadata.Hash,
-			Address:         answeredItem.Metadata.Address,
-			Title:           answeredItem.Metadata.Title,
-			Snippet:         answeredItem.Metadata.Snippet,
-			MatchedWords:    recordedWordCountsOf(answeredItem.MatchedWords),
-			QueryPhraseHits: answeredItem.QueryPhraseHits,
+func recordedFoundDocumentsFrom(
+	foundDocuments []queryanswers.FoundDocument,
+) []recordedFoundDocument {
+	recordedFoundDocuments := make([]recordedFoundDocument, 0, len(foundDocuments))
+	for _, foundDocument := range foundDocuments {
+		recordedFoundDocuments = append(recordedFoundDocuments, recordedFoundDocument{
+			Hash:            foundDocument.Metadata.Hash,
+			Address:         foundDocument.Metadata.Address,
+			Title:           foundDocument.Metadata.Title,
+			Snippet:         foundDocument.Metadata.Snippet,
+			MatchedWords:    recordedWordCountsOf(foundDocument.MatchedWords),
+			QueryPhraseHits: foundDocument.QueryPhraseHits,
 		})
 	}
 
-	return recordedItems
+	return recordedFoundDocuments
 }
 
 func recordedWordCountsOf(

@@ -86,38 +86,37 @@ func documentsToJudgeOf(
 	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
 ) []judgedDocument {
-	toJudge := documentsThePeersPutFirst(answers)
+	toJudge := documentsFoundFirst(answers)
 	for document := range pageTextPerDocument {
 		toJudge[document] = struct{}{}
 	}
 
-	answeredItems := answers.ItemOfEachAnsweredDocument()
 	documentsToJudge := make([]judgedDocument, 0, len(toJudge))
-	for _, answeredItem := range answeredItems {
-		if _, judged := toJudge[answeredItem.Metadata.Hash]; !judged {
+	for _, foundDocument := range answers.FoundDocuments {
+		if _, judged := toJudge[foundDocument.Metadata.Hash]; !judged {
 			continue
 		}
 		documentsToJudge = append(documentsToJudge, judgedDocument{
-			Hash:    answeredItem.Metadata.Hash,
-			Address: answeredItem.Metadata.Address,
-			Title:   answeredItem.Metadata.Title,
+			Hash:    foundDocument.Metadata.Hash,
+			Address: foundDocument.Metadata.Address,
+			Title:   foundDocument.Metadata.Title,
 		})
 	}
 
 	return documentsToJudge
 }
 
-func documentsThePeersPutFirst(
+func documentsFoundFirst(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]struct{} {
-	orderedItems := answers.ItemOfEachAnsweredDocument()
+	foundDocuments := answers.FoundDocuments
 
-	documentsPutFirst := make(map[yacymodel.URLHash]struct{}, judgedItemsCeiling)
-	for _, orderedItem := range orderedItems[:min(judgedItemsCeiling, len(orderedItems))] {
-		documentsPutFirst[orderedItem.Metadata.Hash] = struct{}{}
+	documentsAmongTheFirstFound := make(map[yacymodel.URLHash]struct{}, judgedItemsCeiling)
+	for _, foundDocument := range foundDocuments[:min(judgedItemsCeiling, len(foundDocuments))] {
+		documentsAmongTheFirstFound[foundDocument.Metadata.Hash] = struct{}{}
 	}
 
-	return documentsPutFirst
+	return documentsAmongTheFirstFound
 }
 
 func (j queryJudgments) gradePerJudgedDocument() map[yacymodel.URLHash]*int {

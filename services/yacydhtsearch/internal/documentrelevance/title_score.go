@@ -11,7 +11,7 @@ const (
 )
 
 func titleScoreOf(
-	item queryanswers.AnsweredItem, rarity queryWordRarity, queryWords []yacymodel.Hash,
+	item queryanswers.FoundDocument, rarity queryWordRarity, queryWords []yacymodel.Hash,
 ) float64 {
 	if item.Metadata.Title == "" {
 		return shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses
@@ -25,7 +25,7 @@ func titleScoreOf(
 }
 
 func queryWordsOfTheTitleOf(
-	item queryanswers.AnsweredItem, queryWords []yacymodel.Hash,
+	item queryanswers.FoundDocument, queryWords []yacymodel.Hash,
 ) []yacymodel.Hash {
 	wordsOfTheTitle := wordsOfTheTitleOf(item.Metadata.Title)
 

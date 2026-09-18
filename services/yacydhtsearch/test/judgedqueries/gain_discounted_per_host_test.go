@@ -23,7 +23,7 @@ type gradedDocument struct {
 type gradedDocuments map[yacymodel.URLHash]gradedDocument
 
 func (documents gradedDocuments) normalizedGainDiscountedPerHostOf(
-	orderedItems []queryanswers.AnsweredItem,
+	orderedItems []queryanswers.FoundDocument,
 ) float64 {
 	idealGain := gainDiscountedPerHostOf(documents.gradedDocumentsInTheIdealOrder())
 	if idealGain == 0 {
@@ -113,7 +113,7 @@ func placeOfTheMostGainingDocumentAmong(
 }
 
 func (documents gradedDocuments) gradedDocumentsInTheOrderOf(
-	orderedItems []queryanswers.AnsweredItem,
+	orderedItems []queryanswers.FoundDocument,
 ) []gradedDocument {
 	inTheOrderOfTheItems := make([]gradedDocument, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
@@ -138,7 +138,7 @@ func (documents gradedDocuments) holdARelevantDocument() bool {
 }
 
 func (documents gradedDocuments) amountOfUngradedItemsAmong(
-	orderedItems []queryanswers.AnsweredItem,
+	orderedItems []queryanswers.FoundDocument,
 ) int {
 	amountOfUngradedItems := 0
 	for _, orderedItem := range orderedItems {

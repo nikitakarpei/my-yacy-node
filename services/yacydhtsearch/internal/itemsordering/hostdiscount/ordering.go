@@ -2,7 +2,8 @@
 // half for each item of the same host it already placed above. One host thus
 // holds the whole first page only while its further items stay the most
 // relevant ones. Items of equal discounted relevance keep the order of falling
-// relevance, in which documents of equal relevance keep the order of the peers.
+// relevance, in which documents of equal relevance keep the order the spread found
+// them in.
 package hostdiscount
 
 import (
@@ -31,22 +32,22 @@ func New(documentRelevance DocumentRelevance) Ordering {
 
 func (ordering Ordering) OrderedItemsOf(
 	answers queryanswers.AnsweredQuery,
-) []queryanswers.AnsweredItem {
+) []queryanswers.FoundDocument {
 	relevancePerDocument := ordering.documentRelevance.RelevancePerDocumentOf(answers)
 
 	return itemsInFallingOrderOfDiscountedRelevance(
 		itemsInFallingOrderOfRelevance(
-			answers.ItemOfEachAnsweredDocument(), relevancePerDocument,
+			slices.Clone(answers.FoundDocuments), relevancePerDocument,
 		),
 		relevancePerDocument,
 	)
 }
 
 func itemsInFallingOrderOfRelevance(
-	items []queryanswers.AnsweredItem,
+	items []queryanswers.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-) []queryanswers.AnsweredItem {
-	slices.SortStableFunc(items, func(one, other queryanswers.AnsweredItem) int {
+) []queryanswers.FoundDocument {
+	slices.SortStableFunc(items, func(one, other queryanswers.FoundDocument) int {
 		return cmp.Compare(
 			relevancePerDocument[other.Metadata.Hash], relevancePerDocument[one.Metadata.Hash],
 		)
@@ -56,12 +57,12 @@ func itemsInFallingOrderOfRelevance(
 }
 
 func itemsInFallingOrderOfDiscountedRelevance(
-	itemsOfFallingRelevance []queryanswers.AnsweredItem,
+	itemsOfFallingRelevance []queryanswers.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-) []queryanswers.AnsweredItem {
+) []queryanswers.FoundDocument {
 	unplacedHostedItems := hostedItemsOf(itemsOfFallingRelevance)
 	amountOfPlacedItemsPerHost := map[string]int{}
-	placedItems := make([]queryanswers.AnsweredItem, 0, len(unplacedHostedItems))
+	placedItems := make([]queryanswers.FoundDocument, 0, len(unplacedHostedItems))
 	for len(unplacedHostedItems) > 0 {
 		position := positionOfTheHighestDiscountedRelevanceAmong(
 			unplacedHostedItems, relevancePerDocument, amountOfPlacedItemsPerHost,
@@ -75,11 +76,11 @@ func itemsInFallingOrderOfDiscountedRelevance(
 }
 
 type hostedItem struct {
-	item queryanswers.AnsweredItem
+	item queryanswers.FoundDocument
 	host string
 }
 
-func hostedItemsOf(items []queryanswers.AnsweredItem) []hostedItem {
+func hostedItemsOf(items []queryanswers.FoundDocument) []hostedItem {
 	hostedItems := make([]hostedItem, 0, len(items))
 	for _, item := range items {
 		hostedItems = append(hostedItems, hostedItem{

@@ -14,15 +14,15 @@ discounted by its place, and discounted by half again for each document of its
 host above it that has the grade 1 or more. The gate divides by the gain of the
 ideal order and drops a document of the grade `null`.
 
-The mean gain must stay at least the lift of the test above the peer ordering.
-The gate also compares the ordering of the service against the baseline in
-`testdata/accepted-gain-per-judged-query.json`. The mean gain over the queries
-that both hold must stay at or above the accepted mean less the tolerance of
-the test, and a query accepted above zero must not fall to zero.
+The mean gain must stay at least the lift of the test above the found order,
+the order in which the service found the documents. It must also stay at or
+above the mean in `testdata/accepted-gain-per-judged-query.json`, less the
+tolerance of the test, over the queries that both hold. A query accepted above
+zero must not fall to zero.
 
 ## How to grade
 
-A document is judged when its page text is stored, or when the peer ordering
+A document is judged when its page text is stored, or when the found order
 puts it in its first ten. Each new document gets the grade `null`. Grade it
 from the stored page text, the title and the address:
 

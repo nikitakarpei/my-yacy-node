@@ -291,15 +291,15 @@ func networkSearching(
 ) networksearch.Network {
 	t.Helper()
 
-	return networkOrdering(t, directory, observer, querySpread, orderingOfThePeerRankings{})
+	return networkOrdering(t, directory, observer, querySpread, orderingInTheFoundOrder{})
 }
 
-type orderingOfThePeerRankings struct{}
+type orderingInTheFoundOrder struct{}
 
-func (orderingOfThePeerRankings) OrderedItemsOf(
+func (orderingInTheFoundOrder) OrderedItemsOf(
 	answers queryanswers.AnsweredQuery,
-) []queryanswers.AnsweredItem {
-	return answers.ItemOfEachAnsweredDocument()
+) []queryanswers.FoundDocument {
+	return answers.FoundDocuments
 }
 
 func networkOrdering(
@@ -428,31 +428,10 @@ func TestAnAddressTwoPeersHoldIsRankedOnce(t *testing.T) {
 	if len(ranking.Items) != 3 {
 		t.Fatalf("Search = %+v, want the three addresses the two peers hold", ranking.Items)
 	}
-	if observer.performed.AmountOfItemsAcrossAnswers != 4 ||
+	if observer.performed.AmountOfFoundDocuments != 3 ||
 		observer.performed.AmountOfItemsInRanking != 3 {
 		t.Fatalf(
-			"NetworkSearchPerformed = %+v, want four items answered and three ranked",
-			observer.performed,
-		)
-	}
-}
-
-func TestTheRankingReportsHowMuchOfItOnePeerSupplied(t *testing.T) {
-	t.Parallel()
-
-	observer := &recordedQuery{}
-	directory := directoryAnsweringAt(t,
-		peerHolding(t, "https://a.example/"),
-		peerHolding(t, "https://b.example/"),
-	)
-	network := networkOver(t, directory, observer)
-
-	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
-
-	if observer.performed.AmountOfItemsInRanking != 2 ||
-		observer.performed.AmountOfRankedItemsOfTheMostRankedPeer != 1 {
-		t.Fatalf(
-			"NetworkSearchPerformed = %+v, want two ranked items and one from the leading peer",
+			"NetworkSearchPerformed = %+v, want three documents found and three ranked",
 			observer.performed,
 		)
 	}
@@ -471,15 +450,15 @@ func TestAPeerThatRepliedHoldingNothingAnswersButSendsNoItem(t *testing.T) {
 	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
 
 	if observer.performed.AmountOfAskablePeers != 2 ||
-		observer.performed.AmountOfItemsAcrossAnswers != 1 {
+		observer.performed.AmountOfFoundDocuments != 1 {
 		t.Fatalf(
-			"NetworkSearchPerformed = %+v, want two chosen peers and one item",
+			"NetworkSearchPerformed = %+v, want two chosen peers and one found document",
 			observer.performed,
 		)
 	}
 }
 
-func TestOnePeerCanSupplyTheWholeRanking(t *testing.T) {
+func TestADocumentOnePeerListsTwiceIsFoundOnce(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedQuery{}
@@ -490,10 +469,9 @@ func TestOnePeerCanSupplyTheWholeRanking(t *testing.T) {
 
 	if observer.performed.AmountOfAskablePeers != 1 ||
 		observer.performed.AmountOfItemsInRanking != 1 ||
-		observer.performed.AmountOfRankedItemsOfTheMostRankedPeer != 1 ||
-		observer.performed.AmountOfItemsAcrossAnswers != 2 {
+		observer.performed.AmountOfFoundDocuments != 1 {
 		t.Fatalf(
-			"NetworkSearchPerformed = %+v, want one askable peer supplying the whole ranking",
+			"NetworkSearchPerformed = %+v, want the document the peer listed twice found once",
 			observer.performed,
 		)
 	}
@@ -518,9 +496,9 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 		QueryWords: []yacymodel.Hash{
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 		},
-		ItemsInTheOrderOfEachPeerRanking: [][]queryanswers.AnsweredItem{
-			{answeredItemCountedForTheWord(t, commonWordAddress, "berlin")},
-			{answeredItemCountedForTheWord(t, rareWordAddress, "kelondro")},
+		FoundDocuments: []queryanswers.FoundDocument{
+			foundDocumentCountedForTheWord(t, commonWordAddress, "berlin"),
+			foundDocumentCountedForTheWord(t, rareWordAddress, "kelondro"),
 		},
 		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{
 			yacymodel.WordHash("berlin"):   100000,
@@ -529,9 +507,9 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 	}}
 }
 
-func answeredItemCountedForTheWord(
+func foundDocumentCountedForTheWord(
 	t *testing.T, address string, word string,
-) queryanswers.AnsweredItem {
+) queryanswers.FoundDocument {
 	t.Helper()
 
 	hash, err := yacymodel.URLHashOf(address)
@@ -539,7 +517,7 @@ func answeredItemCountedForTheWord(
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return queryanswers.AnsweredItem{
+	return queryanswers.FoundDocument{
 		Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
 		MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{
 			yacymodel.WordHash(word): {Hits: 1},
@@ -698,7 +676,7 @@ func networkRecordingItsBudgets(
 			recorded: recorded,
 		},
 		pagesRecordingTheBudgetTheyGet{recorded: recorded},
-		orderingOfThePeerRankings{},
+		orderingInTheFoundOrder{},
 		queryBudget,
 		pageReadBudgetOfTheQuery,
 		pagesReadPerQuery,

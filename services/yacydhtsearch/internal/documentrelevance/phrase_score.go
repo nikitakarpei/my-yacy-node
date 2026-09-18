@@ -6,7 +6,7 @@ import (
 
 const saturationOfTheQueryPhraseHits = 1.0
 
-func phraseScoreOf(item queryanswers.AnsweredItem) float64 {
+func phraseScoreOf(item queryanswers.FoundDocument) float64 {
 	queryPhraseHits := float64(item.QueryPhraseHits)
 
 	return queryPhraseHits / (queryPhraseHits + saturationOfTheQueryPhraseHits)

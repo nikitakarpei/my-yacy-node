@@ -20,14 +20,18 @@ const (
 )
 
 type peerNetwork struct {
-	itemsPerPeer            map[string][]string
-	countsAWordWithEachItem bool
-	silentPeers             map[string]struct{}
-	asks                    []peerasks.MatchedDocumentsAsk
+	itemsPerPeer       map[string][]string
+	peersCountingAWord map[string]struct{}
+	silentPeers        map[string]struct{}
+	asks               []peerasks.MatchedDocumentsAsk
 }
 
 func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
-	return &peerNetwork{itemsPerPeer: itemsPerPeer, silentPeers: map[string]struct{}{}}
+	return &peerNetwork{
+		itemsPerPeer:       itemsPerPeer,
+		peersCountingAWord: map[string]struct{}{},
+		silentPeers:        map[string]struct{}{},
+	}
 }
 
 func (n *peerNetwork) AskForMatchedDocuments(
@@ -43,14 +47,18 @@ func (n *peerNetwork) AskForMatchedDocuments(
 		}
 		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedDocumentsAsk{
 			Ask:              ask,
-			MatchedDocuments: n.matchedDocumentsAt(n.itemsPerPeer[ask.Peer.Address]),
+			MatchedDocuments: n.matchedDocumentsOf(ask.Peer),
 		})
 	}
 
 	return answeredAsks
 }
 
-func (n *peerNetwork) matchedDocumentsAt(addresses []string) []peerasks.MatchedDocument {
+func (n *peerNetwork) matchedDocumentsOf(
+	peer peerdirectory.AskablePeer,
+) []peerasks.MatchedDocument {
+	_, countsAWord := n.peersCountingAWord[peer.Address]
+	addresses := n.itemsPerPeer[peer.Address]
 	matchedDocuments := make([]peerasks.MatchedDocument, 0, len(addresses))
 	for _, address := range addresses {
 		hash, err := yacymodel.URLHashOf(address)
@@ -60,7 +68,7 @@ func (n *peerNetwork) matchedDocumentsAt(addresses []string) []peerasks.MatchedD
 		matchedDocument := peerasks.MatchedDocument{
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
 		}
-		if n.countsAWordWithEachItem {
+		if countsAWord {
 			matchedDocument.CountOfAWordTheAskNamed = queryanswers.WordCount{Hits: 3}
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
@@ -119,16 +127,25 @@ func peerAt(address string) peerdirectory.AskablePeer {
 func searchOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
-) [][]queryanswers.AnsweredItem {
+) []queryanswers.FoundDocument {
 	return spreadOf(network, observer).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather", ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
-	).ItemsInTheOrderOfEachPeerRanking
+	).FoundDocuments
 }
 
-func searchForTheQuery(network *peerNetwork, query string) [][]queryanswers.AnsweredItem {
-	return answersOfTheQuery(network, query).ItemsInTheOrderOfEachPeerRanking
+func searchForTheQuery(network *peerNetwork, query string) []queryanswers.FoundDocument {
+	return answersOfTheQuery(network, query).FoundDocuments
+}
+
+func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
+	addresses := make([]string, 0, len(foundDocuments))
+	for _, foundDocument := range foundDocuments {
+		addresses = append(addresses, foundDocument.Metadata.Address)
+	}
+
+	return addresses
 }
 
 func answersOfTheQuery(network *peerNetwork, query string) queryanswers.AnsweredQuery {
@@ -197,27 +214,36 @@ func TestEveryChosenPeerIsAskedToMatchTheWholeQueryOnce(t *testing.T) {
 	}
 }
 
-func TestTheItemsOfEachPeerRankingStayApart(t *testing.T) {
+func TestADocumentSeveralPeersMatchedIsFoundOnce(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{
-		"first":  {"https://a.example/", "https://b.example/"},
-		"second": {"https://c.example/"},
+		"first":  {"https://a.example/", "https://shared.example/"},
+		"second": {"https://shared.example/", "https://c.example/"},
 	})
 
-	itemsInTheOrderOfEachPeerRanking := searchOf(network, &recordedSpreads{})
+	foundDocuments := searchOf(network, &recordedSpreads{})
 
-	if len(itemsInTheOrderOfEachPeerRanking) != 2 {
-		t.Fatalf(
-			"%d peers answered items, want the items of each peer apart",
-			len(itemsInTheOrderOfEachPeerRanking),
-		)
+	want := []string{"https://a.example/", "https://shared.example/", "https://c.example/"}
+	if got := addressesOf(foundDocuments); !slices.Equal(got, want) {
+		t.Fatalf("the spread found %v, want %v", got, want)
 	}
-	if len(itemsInTheOrderOfEachPeerRanking[0])+len(itemsInTheOrderOfEachPeerRanking[1]) != 3 {
-		t.Fatalf(
-			"the peers answered %v, want three items in total",
-			itemsInTheOrderOfEachPeerRanking,
-		)
+}
+
+func TestADocumentKeepsTheCountOfAPeerThatCountedItsWord(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{
+		"first":  {"https://shared.example/"},
+		"second": {"https://shared.example/"},
+	})
+	network.peersCountingAWord["second"] = struct{}{}
+
+	foundDocuments := searchForTheQuery(network, "berlin")
+
+	if counted := foundDocuments[0].MatchedWords[yacymodel.WordHash("berlin")]; counted.Hits != 3 {
+		t.Fatalf("the found document carries %+v, want the count of the peer that counted it",
+			foundDocuments[0].MatchedWords)
 	}
 }
 
@@ -238,18 +264,18 @@ func TestOnlyAQueryOfOneWordNamesTheWordAPeerCounted(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
-	network.countsAWordWithEachItem = true
+	network.peersCountingAWord["first"] = struct{}{}
 
 	ofOneWord := searchForTheQuery(network, "berlin")
 	ofTwoWords := searchForTheQuery(network, "berlin weather")
 
-	if counted := ofOneWord[0][0].MatchedWords[yacymodel.WordHash("berlin")]; counted.Hits != 3 {
-		t.Fatalf("the item of a one word query carries %+v, want the count under that word",
-			ofOneWord[0][0].MatchedWords)
+	if counted := ofOneWord[0].MatchedWords[yacymodel.WordHash("berlin")]; counted.Hits != 3 {
+		t.Fatalf("the found document of a one word query carries %+v, want the count under "+
+			"that word", ofOneWord[0].MatchedWords)
 	}
-	if ofTwoWords[0][0].CountedByAPeer() {
-		t.Fatalf("the item of a two word query carries %+v, want no count, because the peer "+
-			"does not say which word it counted", ofTwoWords[0][0].MatchedWords)
+	if ofTwoWords[0].CountedByAPeer() {
+		t.Fatalf("the found document of a two word query carries %+v, want no count, because "+
+			"the peer does not say which word it counted", ofTwoWords[0].MatchedWords)
 	}
 }
 

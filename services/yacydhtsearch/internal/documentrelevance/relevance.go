@@ -21,7 +21,7 @@ func New(scoreWeights ScoreWeights) Relevance {
 func (relevance Relevance) RelevancePerDocumentOf(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
-	items := answers.ItemOfEachAnsweredDocument()
+	items := answers.FoundDocuments
 	rarityOfTheQueryWords := queryWordRarityOf(
 		answers.DocumentsHeldPerQueryWord, answers.QueryWords,
 	)

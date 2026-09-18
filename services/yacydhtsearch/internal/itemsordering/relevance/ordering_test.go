@@ -25,18 +25,18 @@ type addressAndItsRelevance struct {
 }
 
 func addressesOrderedByRelevance(
-	t *testing.T, addressesThePeersPut ...addressAndItsRelevance,
+	t *testing.T, addressesInTheFoundOrder ...addressAndItsRelevance,
 ) []string {
 	t.Helper()
 
-	itemsOfOnePeerRanking := make([]queryanswers.AnsweredItem, 0, len(addressesThePeersPut))
+	foundDocuments := make([]queryanswers.FoundDocument, 0, len(addressesInTheFoundOrder))
 	relevancePerDocument := map[yacymodel.URLHash]float64{}
-	for _, addressAndItsRelevance := range addressesThePeersPut {
+	for _, addressAndItsRelevance := range addressesInTheFoundOrder {
 		hash, err := yacymodel.URLHashOf(addressAndItsRelevance.address)
 		if err != nil {
 			t.Fatalf("URLHashOf(%q): %v", addressAndItsRelevance.address, err)
 		}
-		itemsOfOnePeerRanking = append(itemsOfOnePeerRanking, queryanswers.AnsweredItem{
+		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
 			Metadata: yacymodel.URLMetadata{
 				Hash:    hash,
 				Address: addressAndItsRelevance.address,
@@ -48,7 +48,7 @@ func addressesOrderedByRelevance(
 	orderedItems := relevance.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
 	).OrderedItemsOf(queryanswers.AnsweredQuery{
-		ItemsInTheOrderOfEachPeerRanking: [][]queryanswers.AnsweredItem{itemsOfOnePeerRanking},
+		FoundDocuments: foundDocuments,
 	})
 
 	orderedAddresses := make([]string, 0, len(orderedItems))
@@ -79,7 +79,7 @@ func TestTheMostRelevantDocumentComesFirst(t *testing.T) {
 	}
 }
 
-func TestDocumentsOfEqualRelevanceKeepTheOrderThePeersPutThem(t *testing.T) {
+func TestDocumentsOfEqualRelevanceKeepTheOrderTheyWereFoundIn(t *testing.T) {
 	t.Parallel()
 
 	got := addressesOrderedByRelevance(
@@ -91,14 +91,56 @@ func TestDocumentsOfEqualRelevanceKeepTheOrderThePeersPutThem(t *testing.T) {
 
 	want := []string{"https://a.example/", "https://b.example/", "https://c.example/"}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the relevance order reads %v, want the order the peers put %v", got, want)
+		t.Fatalf("the relevance order reads %v, want the order they were found in %v", got, want)
 	}
 }
 
-func TestNoAnsweredItemMakesNoOrderedItem(t *testing.T) {
+func TestNoFoundDocumentMakesNoOrderedItem(t *testing.T) {
 	t.Parallel()
 
 	if got := addressesOrderedByRelevance(t); len(got) != 0 {
 		t.Fatalf("the relevance order reads %v, want no item", got)
 	}
+}
+
+func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
+	t.Parallel()
+
+	answers := queryanswers.AnsweredQuery{
+		FoundDocuments: []queryanswers.FoundDocument{
+			foundDocumentAt(t, "https://less.example/"),
+			foundDocumentAt(t, "https://more.example/"),
+		},
+	}
+
+	relevance.New(relevanceByFoundPlace{}).OrderedItemsOf(answers)
+
+	if answers.FoundDocuments[0].Metadata.Address != "https://less.example/" {
+		t.Fatalf("the answers read %v after ordering, want the order they were found in",
+			answers.FoundDocuments)
+	}
+}
+
+func foundDocumentAt(t *testing.T, address string) queryanswers.FoundDocument {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
+
+	return queryanswers.FoundDocument{Metadata: yacymodel.URLMetadata{Hash: hash, Address: address}}
+}
+
+type relevanceByFoundPlace struct{}
+
+func (relevanceByFoundPlace) RelevancePerDocumentOf(
+	answers queryanswers.AnsweredQuery,
+) map[yacymodel.URLHash]float64 {
+	relevancePerDocument := map[yacymodel.URLHash]float64{}
+	for place, foundDocument := range answers.FoundDocuments {
+		relevancePerDocument[foundDocument.Metadata.Hash] = float64(place)
+	}
+
+	return relevancePerDocument
 }
