@@ -555,24 +555,6 @@ func TestTheDocumentOfAnAddressNoNodeCanReadKeepsThePlaceThePeersPutIt(t *testin
 	}
 }
 
-func TestTheDocumentTwoPeersPutHighComesBeforeOneASinglePeerPutFirst(t *testing.T) {
-	t.Parallel()
-
-	putByBothPeers := itemCountedForTheWord(t, "https://both.example/", "berlin", 1)
-	answers := answersOf(
-		[]string{"berlin"},
-		[]queryanswers.AnsweredItem{
-			itemCountedForTheWord(t, "https://one.example/", "berlin", 1), putByBothPeers,
-		},
-		[]queryanswers.AnsweredItem{putByBothPeers},
-	)
-
-	want := []string{"https://both.example/", "https://one.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
-		t.Fatalf("the relevance order reads %v, want %v", got, want)
-	}
-}
-
 func TestAnItemOfNoOrderComesAfterAnEquallyCountedItemAPeerPut(t *testing.T) {
 	t.Parallel()
 

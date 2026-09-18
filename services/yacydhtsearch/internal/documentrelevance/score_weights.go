@@ -6,7 +6,6 @@ import (
 )
 
 type ScoreWeights struct {
-	WeightOfThePlaceScore        float64
 	WeightOfTheTitleScore        float64
 	WeightOfTheTextScore         float64
 	WeightOfTheAddressScore      float64
@@ -16,7 +15,6 @@ type ScoreWeights struct {
 
 func DefaultScoreWeights() ScoreWeights {
 	return ScoreWeights{
-		WeightOfThePlaceScore:        0.25,
 		WeightOfTheTitleScore:        10.0,
 		WeightOfTheTextScore:         0.25,
 		WeightOfTheAddressScore:      1.0,
@@ -27,13 +25,11 @@ func DefaultScoreWeights() ScoreWeights {
 
 func (weights ScoreWeights) relevanceOf(
 	item queryanswers.AnsweredItem,
-	placeScore float64,
 	rarityOfTheQueryWords queryWordRarity,
 	averageDocumentLength float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
-	return weights.WeightOfThePlaceScore*placeScore +
-		weights.WeightOfTheTitleScore*titleScoreOf(item, rarityOfTheQueryWords, queryWords) +
+	return weights.WeightOfTheTitleScore*titleScoreOf(item, rarityOfTheQueryWords, queryWords) +
 		weights.WeightOfTheTextScore*
 			textScoreOf(item, rarityOfTheQueryWords, averageDocumentLength, queryWords) +
 		weights.WeightOfTheAddressScore*addressScoreOf(item, queryWords) +
