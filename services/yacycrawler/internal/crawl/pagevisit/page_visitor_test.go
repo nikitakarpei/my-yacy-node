@@ -185,6 +185,14 @@ func (o *recordingObserver) PageFetchFailed(
 	o.recordFetchDuration(duration)
 }
 
+func (o *recordingObserver) PageFetchDeadlinePassed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
 func (o *recordingObserver) recordFetchDuration(duration time.Duration) {
 	o.mu.Lock()
 	defer o.mu.Unlock()

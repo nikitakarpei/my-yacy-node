@@ -88,5 +88,7 @@ func (f *ObservedPageFetcher) observeFetchOutcome(
 		f.observer.PageFetchRefusedOversizedPage(ctx, pageURL, fetchDuration)
 	case pagefetch.FetchFailed:
 		f.observer.PageFetchFailed(ctx, pageURL, fetchDuration, fetchOutcome.FailureCause)
+	case pagefetch.FetchDeadlinePassed:
+		f.observer.PageFetchDeadlinePassed(ctx, pageURL, fetchDuration)
 	}
 }

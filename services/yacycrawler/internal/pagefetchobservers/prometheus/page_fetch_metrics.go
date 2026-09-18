@@ -21,6 +21,7 @@ const (
 	outcomeRedirectTargetInvalid = "redirect_target_invalid"
 	outcomeOversized             = "oversized"
 	outcomeFailed                = "failed"
+	outcomeDeadlinePassed        = "deadline_passed"
 	outcomeCanceled              = "canceled"
 )
 
@@ -34,6 +35,7 @@ var pageFetchOutcomes = []string{
 	outcomeRedirectTargetInvalid,
 	outcomeOversized,
 	outcomeFailed,
+	outcomeDeadlinePassed,
 	outcomeCanceled,
 }
 
@@ -115,6 +117,12 @@ func (m *PageFetchMetrics) PageFetchFailed(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ error,
 ) {
 	m.record(outcomeFailed, fetchDuration)
+}
+
+func (m *PageFetchMetrics) PageFetchDeadlinePassed(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
+) {
+	m.record(outcomeDeadlinePassed, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchCanceled(

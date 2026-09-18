@@ -7,6 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
+//nolint:interfacebloat // one page fetch outcome, one observation
 type PageFetchObserver interface {
 	PageFetchSucceeded(
 		ctx context.Context,
@@ -55,6 +56,11 @@ type PageFetchObserver interface {
 		pageURL canonicalurl.CanonicalURL,
 		fetchDuration time.Duration,
 		cause error,
+	)
+	PageFetchDeadlinePassed(
+		ctx context.Context,
+		pageURL canonicalurl.CanonicalURL,
+		fetchDuration time.Duration,
 	)
 	PageFetchCanceled(
 		ctx context.Context,
@@ -156,6 +162,16 @@ func (observers PageFetchObservers) PageFetchFailed(
 ) {
 	for _, observer := range observers {
 		observer.PageFetchFailed(ctx, pageURL, fetchDuration, cause)
+	}
+}
+
+func (observers PageFetchObservers) PageFetchDeadlinePassed(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	fetchDuration time.Duration,
+) {
+	for _, observer := range observers {
+		observer.PageFetchDeadlinePassed(ctx, pageURL, fetchDuration)
 	}
 }
 
