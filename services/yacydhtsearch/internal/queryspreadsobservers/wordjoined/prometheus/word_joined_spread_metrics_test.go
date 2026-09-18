@@ -44,8 +44,6 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		CrossCheckedDocumentsRound: wordjoined.PerformedCrossCheckedDocumentsRound{
 			AmountOfDocumentsSentForCrossChecking:                9,
 			AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: 3,
-			AmountOfPeersAskedForCrossCheckedDocuments:           4,
-			AmountOfPeersThatAnsweredCrossCheckedDocuments:       2,
 			AmountOfJoinedDocumentsFoundOnlyByCrossChecking:      6,
 			AmountOfJoinedDocuments:                              10,
 		},
@@ -61,7 +59,6 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_standing="more common word, fully listed"} 1`,
 		"yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_sum 0.5",
-		"yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio_sum 0.6",
 		"yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum 0.5",
@@ -117,7 +114,6 @@ func TestASpreadThatCrossCheckedNoDocumentPublishesNoShareOfCrossChecking(
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		"yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_count 0",
 		"yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio_count 0",
 	} {
 		if !strings.Contains(body, published) {

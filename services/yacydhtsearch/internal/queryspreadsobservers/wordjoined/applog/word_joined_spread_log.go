@@ -68,14 +68,6 @@ func attributesOfCrossCheckedDocumentsRound(
 			round.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
 		),
 		slog.Int(
-			"amountOfPeersAskedForCrossCheckedDocuments",
-			round.AmountOfPeersAskedForCrossCheckedDocuments,
-		),
-		slog.Int(
-			"amountOfPeersThatAnsweredCrossCheckedDocuments",
-			round.AmountOfPeersThatAnsweredCrossCheckedDocuments,
-		),
-		slog.Int(
 			"amountOfEmptyCrossCheckedDocumentsAnswers",
 			round.AmountOfEmptyCrossCheckedDocumentsAnswers,
 		),

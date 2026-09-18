@@ -8,7 +8,6 @@ import (
 
 type crossCheckedDocumentsRoundMetrics struct {
 	documentsPastTheCrossCheckedDocumentsCeilingRatio prometheusclient.Histogram
-	answeringCrossCheckedDocumentsPeersRatio          prometheusclient.Histogram
 	joinedDocumentsFoundOnlyByCrossCheckingRatio      prometheusclient.Histogram
 }
 
@@ -21,10 +20,6 @@ func crossCheckedDocumentsRoundMetricsRegisteredIn(
 			"Share of the documents to cross-check that no peer could take, in the spreads that "+
 				"had a document to cross-check.",
 		),
-		answeringCrossCheckedDocumentsPeersRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio",
-			"Share of the peers asked to cross-check documents that answered.",
-		),
 		joinedDocumentsFoundOnlyByCrossCheckingRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio",
 			"Share of the joined documents found only by cross-checking, in the spreads that "+
@@ -33,7 +28,6 @@ func crossCheckedDocumentsRoundMetricsRegisteredIn(
 	}
 	registry.MustRegister(
 		metrics.documentsPastTheCrossCheckedDocumentsCeilingRatio,
-		metrics.answeringCrossCheckedDocumentsPeersRatio,
 		metrics.joinedDocumentsFoundOnlyByCrossCheckingRatio,
 	)
 
@@ -52,14 +46,8 @@ func (m crossCheckedDocumentsRoundMetrics) observeCrossCheckedDocumentsRound(
 			float64(amountOfDocumentsPastTheCeiling) / float64(amountOfDocumentsToCrossCheck),
 		)
 	}
-	if crossCheckedDocumentsRound.AmountOfPeersAskedForCrossCheckedDocuments == 0 {
-		return
-	}
-	m.answeringCrossCheckedDocumentsPeersRatio.Observe(
-		float64(crossCheckedDocumentsRound.AmountOfPeersThatAnsweredCrossCheckedDocuments) /
-			float64(crossCheckedDocumentsRound.AmountOfPeersAskedForCrossCheckedDocuments),
-	)
-	if crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
+	if crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking == 0 ||
+		crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
 		return
 	}
 	m.joinedDocumentsFoundOnlyByCrossCheckingRatio.Observe(

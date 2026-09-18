@@ -2,14 +2,11 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
 	AmountOfDocumentsSentForCrossChecking                int
 	AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
-	AmountOfPeersAskedForCrossCheckedDocuments           int
-	AmountOfPeersThatAnsweredCrossCheckedDocuments       int
 	AmountOfEmptyCrossCheckedDocumentsAnswers            int
 	AmountOfJoinedDocuments                              int
 	AmountOfJoinedDocumentsFoundOnlyByCrossChecking      int
@@ -26,13 +23,6 @@ func performedCrossCheckedDocumentsRoundFrom(
 		),
 		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: round.
 			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
-		AmountOfPeersAskedForCrossCheckedDocuments: amountOfPeersAcross(
-			round.asks,
-			peerOfCrossCheckedDocumentsAsk,
-		),
-		AmountOfPeersThatAnsweredCrossCheckedDocuments: amountOfPeersAcross(
-			round.answeredAsks, peerOfAnsweredCrossCheckedDocumentsAsk,
-		),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
@@ -53,18 +43,6 @@ func amountOfDocumentsSentForCrossCheckingAcross(
 	}
 
 	return amount
-}
-
-func peerOfCrossCheckedDocumentsAsk(
-	ask peerasks.CrossCheckedDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return ask.Peer
-}
-
-func peerOfAnsweredCrossCheckedDocumentsAsk(
-	answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return answeredAsk.Ask.Peer
 }
 
 func amountOfEmptyCrossCheckedDocumentsAnswers(

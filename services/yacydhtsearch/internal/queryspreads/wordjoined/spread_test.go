@@ -611,13 +611,8 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 		t.Fatalf("the spread reported %+v, want cross-checking adding one document to the join",
 			performed)
 	}
-	if performed.MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords != 1 ||
-		performed.CrossCheckedDocumentsRound.AmountOfPeersAskedForCrossCheckedDocuments != 1 ||
-		performed.CrossCheckedDocumentsRound.AmountOfPeersThatAnsweredCrossCheckedDocuments != 1 {
-		t.Fatalf(
-			"the spread reported %+v, want one fully listed word and the other asked of one peer that answered",
-			performed,
-		)
+	if performed.MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords != 1 {
+		t.Fatalf("the spread reported %+v, want one fully listed word", performed)
 	}
 }
 
