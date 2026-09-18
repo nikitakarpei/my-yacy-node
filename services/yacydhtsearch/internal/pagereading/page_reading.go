@@ -101,15 +101,22 @@ func (r Reading) readPageOf(
 ) readPage {
 	pageURL, err := canonicalurl.CanonicalURLOf(pageToRead.Address)
 	if err != nil {
-		return readPage{document: pageToRead.Document, outcome: pageUnreachable}
+		return readPage{document: pageToRead.Document, outcome: pageWasUnreachable}
 	}
 	fetchStartedAt := time.Now()
 	fetched, err := r.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
 	timeSpentFetching := time.Since(fetchStartedAt)
-	if outcome := outcomeOfAFetch(fetched, err, ctx.Err()); outcome != pageRead {
+	if err != nil {
 		return readPage{
 			document:          pageToRead.Document,
-			outcome:           outcome,
+			outcome:           readOutcomeFromAFetchFailure(err, ctx.Err()),
+			timeSpentFetching: timeSpentFetching,
+		}
+	}
+	if fetched.Status != pagefetch.FetchSucceeded {
+		return readPage{
+			document:          pageToRead.Document,
+			outcome:           readOutcomeFromAFetchStatus(fetched.Status),
 			timeSpentFetching: timeSpentFetching,
 		}
 	}
@@ -122,30 +129,20 @@ func (r Reading) readPageOf(
 	return read
 }
 
-func outcomeOfAFetch(
-	fetched pagefetch.FetchOutcome,
-	fetchFailure error,
-	budgetFailure error,
-) readOutcome {
-	if fetchFailure != nil {
-		return outcomeOfAFetchFailure(fetchFailure, budgetFailure)
+func readOutcomeFromAFetchFailure(fetchFailure error, budgetFailure error) readOutcome {
+	if budgetFailure != nil || errors.Is(fetchFailure, context.DeadlineExceeded) {
+		return pageWasOutOfBudget
 	}
-	switch fetched.Status {
-	case pagefetch.FetchSucceeded:
-		return pageRead
-	case pagefetch.FetchDeadlinePassed:
-		return pageOutOfBudget
-	default:
-		return pageRefused
-	}
+
+	return pageWasUnreachable
 }
 
-func outcomeOfAFetchFailure(fetchFailure error, budgetFailure error) readOutcome {
-	if budgetFailure != nil || errors.Is(fetchFailure, context.DeadlineExceeded) {
-		return pageOutOfBudget
+func readOutcomeFromAFetchStatus(status pagefetch.FetchStatus) readOutcome {
+	if status == pagefetch.FetchDeadlinePassed {
+		return pageWasOutOfBudget
 	}
 
-	return pageUnreachable
+	return pageWasRefused
 }
 
 func (r Reading) readPageFromTheBody(
@@ -161,19 +158,19 @@ func (r Reading) readPageFromTheBody(
 	if err != nil {
 		return readPage{
 			document: pageToRead.Document,
-			outcome:  outcomeOfAnExtractionFailure(err),
+			outcome:  readOutcomeFromAnExtractionFailure(err),
 		}
 	}
 
 	return r.readPageFromTheDocument(ctx, queryWords, pageToRead, document, pageURL)
 }
 
-func outcomeOfAnExtractionFailure(extractionFailure error) readOutcome {
+func readOutcomeFromAnExtractionFailure(extractionFailure error) readOutcome {
 	if errors.Is(extractionFailure, documentextraction.ErrUnsupportedMediaType) {
-		return pageOfAnUnsupportedKind
+		return pageWasOfAnUnsupportedKind
 	}
 
-	return pageUnreadable
+	return pageWasUnreadable
 }
 
 func (r Reading) readPageFromTheDocument(
@@ -185,12 +182,12 @@ func (r Reading) readPageFromTheDocument(
 ) readPage {
 	text, derived := r.textOfTheDocument(ctx, document, pageURL)
 	if !derived {
-		return readPage{document: pageToRead.Document, outcome: pageUnreadable}
+		return readPage{document: pageToRead.Document, outcome: pageWasUnreadable}
 	}
 
 	return readPage{
 		document: pageToRead.Document,
-		outcome:  pageRead,
+		outcome:  pageWasRead,
 		text:     documenttext.DocumentTextFrom(string(text), queryWords, r.snippetLengthCeiling),
 	}
 }
@@ -219,7 +216,7 @@ func documentTextPerDocumentOf(
 		map[yacymodel.URLHash]documenttext.DocumentText, len(readPages),
 	)
 	for _, readPage := range readPages {
-		if readPage.outcome != pageRead {
+		if readPage.outcome != pageWasRead {
 			continue
 		}
 		documentTextPerDocument[readPage.document] = readPage.text

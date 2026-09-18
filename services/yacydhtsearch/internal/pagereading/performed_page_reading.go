@@ -27,17 +27,17 @@ func performedPageReadingFrom(
 		performed.TimeSpentFetching += readPage.timeSpentFetching
 		performed.TimeSpentReading += readPage.timeSpentReading
 		switch readPage.outcome {
-		case pageRead:
+		case pageWasRead:
 			performed.AmountOfPagesRead++
-		case pageUnreachable:
+		case pageWasUnreachable:
 			performed.AmountOfPagesUnreachable++
-		case pageRefused:
+		case pageWasRefused:
 			performed.AmountOfPagesRefused++
-		case pageUnreadable:
+		case pageWasUnreadable:
 			performed.AmountOfPagesUnreadable++
-		case pageOfAnUnsupportedKind:
+		case pageWasOfAnUnsupportedKind:
 			performed.AmountOfPagesOfAnUnsupportedKind++
-		case pageOutOfBudget:
+		case pageWasOutOfBudget:
 			performed.AmountOfPagesOutOfBudget++
 		}
 	}
