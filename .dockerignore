@@ -7,3 +7,4 @@ doc
 *.md
 .toolchain
 .untracked
+.claude

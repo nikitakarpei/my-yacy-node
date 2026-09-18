@@ -18,6 +18,7 @@ const (
 	EnvNetworkName                  = "YACYDHTSEARCH_NETWORK_NAME"
 	EnvSeedlistURLs                 = "YACYDHTSEARCH_SEEDLIST_URLS"
 	EnvEgressProxyURL               = "EGRESS_PROXY_URL"
+	EnvPageReadProxyURL             = "YACYDHTSEARCH_PAGE_READ_PROXY_URL"
 	EnvQueryBudget                  = "YACYDHTSEARCH_QUERY_BUDGET"
 	EnvNetworkRedundancy            = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
 	EnvReplicasCoveringAPartition   = "YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION"
@@ -84,6 +85,7 @@ type ServiceConfig struct {
 	NetworkName                  string
 	SeedlistURLs                 []string
 	EgressProxyURL               *url.URL
+	PageReadProxyURL             *url.URL
 	QueryBudget                  time.Duration
 	NetworkRedundancy            int
 	ReplicasCoveringAPartition   int
@@ -122,6 +124,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		return ServiceConfig{}, err
 	}
 	egressProxyURL, err := requiredProxyURL(getenv, EnvEgressProxyURL)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+	pageReadProxyURL, err := pageReadProxyURLOf(getenv, egressProxyURL)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -177,6 +183,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		),
 		SeedlistURLs:                 seedlistURLs,
 		EgressProxyURL:               egressProxyURL,
+		PageReadProxyURL:             pageReadProxyURL,
 		QueryBudget:                  durations.queryBudget,
 		NetworkRedundancy:            counts.networkRedundancy,
 		ReplicasCoveringAPartition:   replicasCoveringAPartition,
@@ -360,6 +367,17 @@ func seedlistURLsOf(getenv func(string) string) ([]string, error) {
 	}
 
 	return addresses, nil
+}
+
+func pageReadProxyURLOf(
+	getenv func(string) string,
+	egressProxyURL *url.URL,
+) (*url.URL, error) {
+	if strings.TrimSpace(getenv(EnvPageReadProxyURL)) == "" {
+		return egressProxyURL, nil
+	}
+
+	return requiredProxyURL(getenv, EnvPageReadProxyURL)
 }
 
 func requiredProxyURL(getenv func(string) string, key string) (*url.URL, error) {
