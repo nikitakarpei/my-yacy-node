@@ -5,277 +5,277 @@
       "hash": "5q3rQC5kpS44",
       "address": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html",
       "title": "Oracle Java SE Support Roadmap",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1fODAHewjwv4",
       "address": "https://docs.oracle.com/javase/6/docs/api/java/text/spi/BreakIteratorProvider.html",
       "title": "BreakIteratorProvider (Java Platform SE 6)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OyRR7C5kpS44",
       "address": "https://www.oracle.com/java/technologies/",
       "title": "Oracle Java Technologies | Oracle",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "X9lfAC5kpS44",
       "address": "https://www.oracle.com/java/technologies/whitepaper.html",
       "title": "The Java HotSpot Performance Engine Architecture",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OMpSxG_r5Xzw",
       "address": "https://archive.org/details/Java_Pro_V4N2_February_2000",
       "title": "Java Pro (February 2000) : Fawcette Technical Publications, Inc. : Free Download, Borrow, and Streaming : Internet Archive",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7YL9vC5kpS44",
       "address": "https://www.oracle.com/java/technologies/java-rmi-over-iiop.html",
       "title": "Java RMI over IIOP",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "o8AQAakZMXx4",
       "address": "https://dev.java/learn/language-basics/",
       "title": "Java Language Basics - Dev.java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vatqJLS6MKD4",
       "address": "https://github.com/menacher/java-game-server",
       "title": "GitHub - menacher/java-game-server: Jetserver is a high speed nio socket based multiplayer java game server written using Netty and Mike Rettig's Jetlang.It is specifically tuned for network based multiplayer games and supports TCP and UDP network protocols.",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6_kvmC5kpS44",
       "address": "https://www.oracle.com/java/technologies/java-ee-glance.html",
       "title": "Java Platform, Enterprise Edition (Java EE) | Oracle Technology Network | Oracle",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DYXueyewjwv4",
       "address": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/package-tree.html",
       "title": "java.lang.annotation Class Hierarchy (Java SE 25 \u0026 JDK 25)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "aKfxnskZMXx4",
       "address": "https://dev.java/",
       "title": "Dev.java: The Destination for Java Developers",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "CV_WBDoXncf5",
       "address": "https://android.googlesource.com/platform/build/+/refs/tags/android-14.0.0_r74/core/java_common.mk",
       "title": "core/java_common.mk - platform/build - Git at Google",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jHmGWtS6MKD4",
       "address": "https://github.com/joeferner/node-java",
       "title": "GitHub - joeferner/node-java: Bridge API to connect with existing Java APIs.",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "yRtizCtl82z5",
       "address": "https://www.w3schools.com/java/java_examples.asp",
       "title": "Java Examples",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "3ChIplOhNp04",
       "address": "https://www.java.com/en/download/help/index_installing.html",
       "title": "Java Help Center - Installing Java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jR8uTJDOAHJg",
       "address": "https://www.heise.de/blog/30-Jahre-Java-Interview-mit-Community-Vertretern-Teil-3-11122747.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
       "title": "Community-Interview zu 30 Jahren Java: \"Java hat mir nicht gefallen\" (Teil 3) | heise online",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AQYwvsV82QYy",
       "address": "https://pythonexamples.org/java/",
       "title": "Java Tutorials",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "TIxNkyewjwv4",
       "address": "https://docs.oracle.com/en/java/javase/11/docs/api/index.html?java/lang/Enum.html=",
       "title": "Overview (Java SE 11 \u0026 JDK 11 )",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "XNRDYC2QeiUy",
       "address": "https://www.geeksforgeeks.org/java/java-program-to-create-a-thread/",
       "title": "Java Program to Create a Thread - GeeksforGeeks",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "rlzbQJ6mL255",
       "address": "https://chromium.googlesource.com/chromium/src/+/c714ff2f0f12e75b5a0d91baceda7a5f0ac24c35/chrome/android/features/tab_ui/java/strings/translations/android_chrome_tab_ui_strings_ru.xtb",
       "title": "chrome/android/features/tab_ui/java/strings/translations/android_chrome_tab_ui_strings_ru.xtb - chromium/src - Git at Google",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "v-QALKf4Pib5",
       "address": "https://code.visualstudio.com/docs/java/java-build",
       "title": "Maven and Gradle support for Java in Visual Studio Code",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "PN79dakZMXx4",
       "address": "https://dev.java/learn/java-cert-overview/",
       "title": "Getting Started with Java Certification - Dev.java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "bwRImhQPJVh5",
       "address": "https://deepsource.com/directory/java/issues/JAVA-W0088",
       "title": "Finalizers are deprecated since Java 9 (JAVA-W0088) ・ Java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "UII0alOhNp04",
       "address": "https://www.java.com/en/download/help/java_6.html",
       "title": "Where can I get the latest version of Java 6?",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "03iNslebQ1kh",
       "address": "https://www.happycoders.eu/java/",
       "title": "Java - Updates, How-Tos, and Tutorials",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CG9Q3EJE6qe5",
       "address": "https://www.delftstack.com/howto/java/",
       "title": "Java Howtos | Delft Stack",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vjRZCzd8CXI6",
       "address": "https://spacecoastdaily.com/2026/09/juice-n-java-cafe-in-cocoa-beach-offers-free-kids-pancakes-throughout-september/",
       "title": "Juice N Java Cafe in Cocoa Beach Offers Free Kids’ Pancakes Throughout September - Space Coast Daily",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Kg2OdOxyFvIw",
       "address": "https://forums.gentoo.org/viewtopic.php?p=8892240",
       "title": "Java Web Start not working - Gentoo Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "LGcW9gkO1Bqx",
       "address": "https://www.bouncycastle.org/download/bouncy-castle-java/",
       "title": "Download Bouncy Castle Java - Bouncycastle",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "sYKv-lOhNp04",
       "address": "https://www.java.com/en/",
       "title": "Java | Oracle",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "7Rkg_Ctl82z5",
       "address": "https://www.w3schools.com/java/ref_keyword_double.asp",
       "title": "Java double Keyword",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AAN4eiS6MKD4",
       "address": "https://github.com/akullpp/awesome-java",
       "title": "GitHub - akullpp/awesome-java: A curated list of awesome frameworks, libraries and software for the Java programming language.",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "VS412LOhNp04",
       "address": "https://www.java.com/pt-BR/download/help/",
       "title": "Central de Ajuda do Java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1Oscpz5pQHb4",
       "address": "https://inside.java/2026/03/06/podcast-049/",
       "title": "Episode 49 “LazyConstants in JDK 26” [IJN] – Inside.java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "EdueJskZMXx4",
       "address": "https://dev.java/duke/",
       "title": "Duke, The Java Mascot - Dev.java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "A8jDSsXcOmMx",
       "address": "https://neocities.org/browse?tag=java",
       "title": "Neocities - Sites tagged java",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "l-QxrTe43T_5",
       "address": "https://campus.w3schools.com/collections/course-catalog/products/java-course",
       "title": "Java Course + Certificate | W3Schools — W3Schools.com",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Eus43hQPJVh5",
       "address": "https://deepsource.com/directory/java/issues/JAVA-E1090",
       "title": "Arguments to `Collections.nCopies()` should be in the correct order (JAVA-E1090) ・ Java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "8MqTS0DXoys7",
       "address": "https://java-design-patterns.com/patterns/acyclic-visitor/",
       "title": "Acyclic Visitor Pattern in Java: Streamlining Object Interactions | Java Design Patterns",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4XmOTD5pQHb4",
       "address": "https://inside.java/2025/06/24/podcast-038/",
       "title": "Episode 38 “Integrity by Default” with Ron Pressler – Inside.java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "APh4THgOlJX5",
       "address": "https://www.codecademy.com/articles/language/java",
       "title": "Java Articles | Codecademy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ELBbFuOzOh-w",
       "address": "https://www.javadoc.io/static/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer/20260101.1/org/owasp/html/class-use/HtmlElementTables.TextContentModel.html",
       "title": "Uses of Class org.owasp.html.HtmlElementTables.TextContentModel (OWASP Java HTML Sanitizer 20260101.1 API)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "B-KoVn5pQHb4",
       "address": "https://inside.java/2023/01/12/podcast-029/",
       "title": "Episode 29 “Helidon Níma \u0026 Virtual Threads” – Inside.java",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jQSTwR8ZBKbx",
       "address": "https://steve-miller-java.neocities.org/",
       "title": "Steve Miller - Java Programmer",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "lCUZSs-UOu6x",
       "address": "https://thenewstack.io/how-java-sparked-an-open-source-revolution-30-years-ago/",
       "title": "How Java Sparked an Open Source Revolution 30 Years Ago - The New Stack",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AVogMSt4Jg24",
       "address": "https://java-city.square.site/?location_id=LPTP23XA2FH9R\u0026fulfillment=PICKUP",
       "title": "Java City",
-      "grade": null
+      "grade": 1
     }
   ]
 }
