@@ -273,8 +273,8 @@ func TestOnlyAQueryOfOneWordNamesTheWordAPeerCounted(t *testing.T) {
 		t.Fatalf("the found document of a one word query holds the hits %v, want the hits of "+
 			"that word", ofOneWord[0].HitsPerQueryWord)
 	}
-	if ofTwoWords[0].CountedByAPeer() {
-		t.Fatalf("the found document of a two word query reads %+v, want no count, because "+
+	if len(ofTwoWords[0].HitsPerQueryWord) != 0 {
+		t.Fatalf("the found document of a two word query reads %+v, want no hits, because "+
 			"the peer does not say which word it counted", ofTwoWords[0])
 	}
 }

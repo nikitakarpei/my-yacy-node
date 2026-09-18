@@ -51,18 +51,3 @@ func (f FoundDocument) saturatedWith(text documenttext.DocumentText) FoundDocume
 
 	return f
 }
-
-// TECHDEBT: naming — CountedByAPeer names a peer as the only counter, while the
-// hits and the amount of words also come from the text of a document that was read.
-func (f FoundDocument) CountedByAPeer() bool {
-	if f.AmountOfWords > 0 {
-		return true
-	}
-	for _, hits := range f.HitsPerQueryWord {
-		if hits > 0 {
-			return true
-		}
-	}
-
-	return false
-}

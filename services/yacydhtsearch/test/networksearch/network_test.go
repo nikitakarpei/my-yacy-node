@@ -586,28 +586,6 @@ func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
 	}
 }
 
-func TestASearchReportsHowManyRankedItemsAPeerCounted(t *testing.T) {
-	t.Parallel()
-
-	common, rare := "https://common.example/", "https://rare.example/"
-	observer := &recordedQuery{}
-	network := networkSearching(
-		t, directoryAnsweringAt(t, peerHolding(t)), observer, answersOfTwoWords(t, common, rare),
-	)
-
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
-
-	if len(ranking.Items) != 2 || ranking.Items[0].Address != common {
-		t.Fatalf("the ranking reads %+v, want the order the peers put", ranking.Items)
-	}
-	if observer.performed.AmountOfRankedItemsCountedByAPeer != 2 {
-		t.Fatalf(
-			"NetworkSearchPerformed = %+v, want both ranked items counted by a peer",
-			observer.performed,
-		)
-	}
-}
-
 type pagesHoldingTheWordOfOneDocument struct {
 	address string
 	word    string
