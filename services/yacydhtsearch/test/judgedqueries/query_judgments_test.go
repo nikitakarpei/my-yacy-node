@@ -22,10 +22,11 @@ type queryJudgments struct {
 }
 
 type judgedDocument struct {
-	Hash    yacymodel.URLHash `json:"hash"`
-	Address string            `json:"address"`
-	Title   string            `json:"title"`
-	Grade   *int              `json:"grade"`
+	Hash     yacymodel.URLHash `json:"hash"`
+	Address  string            `json:"address"`
+	Title    string            `json:"title"`
+	Grade    *int              `json:"grade"`
+	Subtopic string            `json:"subtopic,omitempty"`
 }
 
 func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
@@ -35,15 +36,16 @@ func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
 			continue
 		}
 		graded[judged.Hash] = gradedDocument{
-			grade: *judged.Grade,
-			host:  hostOf(judged.Address),
+			grade:          *judged.Grade,
+			host:           hostOfTheAddress(judged.Address),
+			judgedSubtopic: judged.Subtopic,
 		}
 	}
 
 	return graded
 }
 
-func hostOf(address string) string {
+func hostOfTheAddress(address string) string {
 	readAddress, err := url.Parse(address)
 	if err != nil || readAddress.Hostname() == "" {
 		return address
@@ -70,12 +72,13 @@ func queryJudgmentsOfTheDocumentsToJudge(
 	pageTextPerDocument map[yacymodel.URLHash]string,
 	judgedAlready queryJudgments,
 ) queryJudgments {
-	gradePerDocument := judgedAlready.gradePerJudgedDocument()
+	judgmentPerDocument := judgedAlready.judgmentPerJudgedDocument()
 
 	documentsToJudge := documentsToJudgeOf(answers, pageTextPerDocument)
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
 	for _, documentToJudge := range documentsToJudge {
-		documentToJudge.Grade = gradePerDocument[documentToJudge.Hash]
+		documentToJudge.Grade = judgmentPerDocument[documentToJudge.Hash].Grade
+		documentToJudge.Subtopic = judgmentPerDocument[documentToJudge.Hash].Subtopic
 		judgedDocuments = append(judgedDocuments, documentToJudge)
 	}
 
@@ -120,13 +123,13 @@ func documentsThePeersPutFirst(
 	return documentsPutFirst
 }
 
-func (j queryJudgments) gradePerJudgedDocument() map[yacymodel.URLHash]*int {
-	gradePerDocument := make(map[yacymodel.URLHash]*int, len(j.JudgedDocuments))
+func (j queryJudgments) judgmentPerJudgedDocument() map[yacymodel.URLHash]judgedDocument {
+	judgmentPerDocument := make(map[yacymodel.URLHash]judgedDocument, len(j.JudgedDocuments))
 	for _, judged := range j.JudgedDocuments {
-		gradePerDocument[judged.Hash] = judged.Grade
+		judgmentPerDocument[judged.Hash] = judged
 	}
 
-	return gradePerDocument
+	return judgmentPerDocument
 }
 
 func queryJudgmentsInTheFile(t *testing.T, path string) queryJudgments {

@@ -6,6 +6,8 @@ three or more words, navigational, other languages, and queries no peer answers.
 Each query has three files in `test/judgedqueries/testdata/`, named by the query
 words in lower case and joined by `-`: `answers/`, `judgments/`, `pagetext/`.
 
+`judged-query-steps.md` tells how to record, derive, accept and tune the set.
+
 ## The gate
 
 `TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the first
@@ -19,6 +21,11 @@ The gate also compares the ordering of the service against the baseline in
 `testdata/accepted-gain-per-judged-query.json`. The mean gain over the queries
 that both hold must stay at or above the accepted mean less the tolerance of
 the test, and a query accepted above zero must not fall to zero.
+
+The gate reports two more gains of each ordering, and asserts neither: the gain
+that discounts a repeated subtopic in place of a repeated host, and the gain
+that discounts no repetition. The three show what the host discount costs and
+what it gives.
 
 ## How to grade
 
@@ -36,45 +43,9 @@ from the stored page text, the title and the address:
 A document with no stored text gets at most the grade `1`, and few documents
 of a pool reach `2`. Never change a grade a person gave.
 
-## How to record the answers again
+## How to judge the subtopic
 
-The recorder asks the live freeworld network and reads the pages of the first
-fifty documents from the web. It needs egress and writes every file again. A
-`-run` pattern that ends in the file name of one query records only that query.
-
-```sh
-YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test -timeout 40m -v \
-    -run TestRecordWhatThePeersAnswerForTheJudgedQueries ./test/judgedqueries/
-```
-
-## How to derive the answers again
-
-This step writes the hits, the query phrase hits, the amount of words and the
-snippet of each answers file again from the stored page text.
-
-```sh
-YACYDHTSEARCH_DERIVE_JUDGED_QUERIES=1 go test -v \
-    -run TestDeriveTheJudgedQueriesFromTheStoredPageText ./test/judgedqueries/
-```
-
-## How to accept a new baseline
-
-This step writes the gain of each judged query to the baseline file again.
-
-```sh
-YACYDHTSEARCH_ACCEPT_JUDGED_QUERIES_BASELINE=1 go test -v \
-    -run TestAcceptTheGainOfEachJudgedQueryAsTheBaseline ./test/judgedqueries/
-```
-
-## How to tune the score weights
-
-This step searches the weight of each score of the relevance ordering over a
-grid of values, gives the weights of the highest mean gain, and tunes on one
-half of the queries to measure on the other. It changes no file.
-
-```sh
-YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS=1 go test -timeout 30m -v \
-    -run TestTuneTheScoreWeightsOfTheRelevanceOrdering ./test/judgedqueries/
-```
-
-Run each step from `services/yacydhtsearch`.
+A subtopic names which intent of the query a document answers, as `jaguar`
+holds the intents `animal` and `car`. Give a subtopic to every document of the
+grade 1 or more of a query that holds more than one intent. Leave the subtopic
+out elsewhere: the host of a document then stands in for its subtopic.

@@ -33,6 +33,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	acceptedGain := acceptedGainPerJudgedQueryInTheFile(t, acceptedGainFile)
 
 	reportTheGainOfEachJudgedQuery(t, judged, gainOfTheOrderingOfTheService)
+	reportTheMeanGainUnderEachDiscount(t, judged)
 	failIfTheLiftOverThePeerOrderingFallsShort(t, judged)
 	failIfTheMeanGainFallsBelowTheAcceptedGain(t, gainOfTheOrderingOfTheService, acceptedGain)
 	failIfAJudgedQueryFellToNoGain(t, gainOfTheOrderingOfTheService, acceptedGain)
@@ -115,14 +116,16 @@ func reportTheGainOfEachJudgedQuery(
 			),
 			judgedQuery.gradedDocuments.amountOfUngradedItemsAmong(orderedItems),
 		)
+		if !judgedQuery.gradedDocuments.holdAJudgedSubtopic() {
+			continue
+		}
+		t.Logf(
+			"%q: the ordering of the service gains %.4f per subtopic and %.4f with no discount",
+			judgedQuery.query,
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerSubtopicOf(orderedItems),
+			judgedQuery.gradedDocuments.normalizedGainWithNoDiscountOf(orderedItems),
+		)
 	}
-	t.Logf(
-		"the mean over %d judged queries: host discount %.4f, relevance %.4f, peer order %.4f",
-		len(judged),
-		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(documentRelevance), judged),
-		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
-		meanNormalizedGainDiscountedPerHostOf(orderingOfThePeerRankings{}, judged),
-	)
 	t.Logf(
 		"the ordering of the service reaches no gain on %d of %d judged queries",
 		gainOfTheOrderingOfTheService.amountOfQueriesWithoutGain(),
@@ -130,13 +133,56 @@ func reportTheGainOfEachJudgedQuery(
 	)
 }
 
+type orderingToReport struct {
+	name     string
+	ordering itemsOrdering
+}
+
+func reportTheMeanGainUnderEachDiscount(t *testing.T, judged []judgedQuery) {
+	t.Helper()
+
+	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
+	orderingsToReport := []orderingToReport{
+		{name: "host discount", ordering: hostdiscount.New(documentRelevance)},
+		{name: "relevance", ordering: relevance.New(documentRelevance)},
+		{name: "peer order", ordering: orderingOfThePeerRankings{}},
+	}
+	for _, toReport := range orderingsToReport {
+		t.Logf(
+			"the mean over %d judged queries of the %s: %.4f per host, %.4f per subtopic, "+
+				"%.4f with no discount",
+			len(judged),
+			toReport.name,
+			meanNormalizedGainOf(
+				toReport.ordering, judged, gradedDocuments.normalizedGainDiscountedPerHostOf,
+			),
+			meanNormalizedGainOf(
+				toReport.ordering, judged, gradedDocuments.normalizedGainDiscountedPerSubtopicOf,
+			),
+			meanNormalizedGainOf(
+				toReport.ordering, judged, gradedDocuments.normalizedGainWithNoDiscountOf,
+			),
+		)
+	}
+}
+
 func meanNormalizedGainDiscountedPerHostOf(
 	ordering itemsOrdering, judged []judgedQuery,
 ) float64 {
+	return meanNormalizedGainOf(
+		ordering, judged, gradedDocuments.normalizedGainDiscountedPerHostOf,
+	)
+}
+
+func meanNormalizedGainOf(
+	ordering itemsOrdering,
+	judged []judgedQuery,
+	normalizedGainOf func(gradedDocuments, []queryanswers.AnsweredItem) float64,
+) float64 {
 	sumOfNormalizedGains := 0.0
 	for _, judgedQuery := range judged {
-		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-			ordering.OrderedItemsOf(judgedQuery.answers),
+		sumOfNormalizedGains += normalizedGainOf(
+			judgedQuery.gradedDocuments, ordering.OrderedItemsOf(judgedQuery.answers),
 		)
 	}
 
