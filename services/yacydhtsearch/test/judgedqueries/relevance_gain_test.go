@@ -104,25 +104,21 @@ func reportTheGainOfEachJudgedQuery(
 	for _, judgedQuery := range judged {
 		orderedItems := hostdiscount.New(documentRelevance).OrderedItemsOf(judgedQuery.answers)
 		t.Logf(
-			"%q: host discount %.4f, relevance %.4f, peer order %.4f, %d ungraded documents "+
-				"dropped",
+			"%q: the gain per subtopic of the host discount %.4f, of the relevance %.4f, "+
+				"of the peer order %.4f, %d ungraded documents dropped",
 			judgedQuery.query,
 			gainOfTheOrderingOfTheService[judgedQuery.query],
-			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerSubtopicOf(
 				relevanceOrdering.OrderedItemsOf(judgedQuery.answers),
 			),
-			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerSubtopicOf(
 				orderingOfThePeerRankings{}.OrderedItemsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.amountOfUngradedItemsAmong(orderedItems),
 		)
-		if !judgedQuery.gradedDocuments.holdAJudgedSubtopic() {
-			continue
-		}
 		t.Logf(
-			"%q: the ordering of the service gains %.4f per subtopic and %.4f with no discount",
+			"%q: the ordering of the service gains %.4f with no discount",
 			judgedQuery.query,
-			judgedQuery.gradedDocuments.normalizedGainDiscountedPerSubtopicOf(orderedItems),
 			judgedQuery.gradedDocuments.normalizedGainWithNoDiscountOf(orderedItems),
 		)
 	}
@@ -149,13 +145,10 @@ func reportTheMeanGainUnderEachDiscount(t *testing.T, judged []judgedQuery) {
 	}
 	for _, toReport := range orderingsToReport {
 		t.Logf(
-			"the mean over %d judged queries of the %s: %.4f per host, %.4f per subtopic, "+
+			"the mean over %d judged queries of the %s: %.4f per subtopic, "+
 				"%.4f with no discount",
 			len(judged),
 			toReport.name,
-			meanNormalizedGainOf(
-				toReport.ordering, judged, gradedDocuments.normalizedGainDiscountedPerHostOf,
-			),
 			meanNormalizedGainOf(
 				toReport.ordering, judged, gradedDocuments.normalizedGainDiscountedPerSubtopicOf,
 			),
@@ -166,11 +159,11 @@ func reportTheMeanGainUnderEachDiscount(t *testing.T, judged []judgedQuery) {
 	}
 }
 
-func meanNormalizedGainDiscountedPerHostOf(
+func meanNormalizedGainDiscountedPerSubtopicOf(
 	ordering itemsOrdering, judged []judgedQuery,
 ) float64 {
 	return meanNormalizedGainOf(
-		ordering, judged, gradedDocuments.normalizedGainDiscountedPerHostOf,
+		ordering, judged, gradedDocuments.normalizedGainDiscountedPerSubtopicOf,
 	)
 }
 
@@ -192,10 +185,10 @@ func meanNormalizedGainOf(
 func failIfTheLiftOverThePeerOrderingFallsShort(t *testing.T, judged []judgedQuery) {
 	t.Helper()
 
-	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
+	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerSubtopicOf(
 		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
 	)
-	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
+	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerSubtopicOf(
 		orderingOfThePeerRankings{}, judged,
 	)
 	if meanGainOfTheOrderingOfTheService-meanGainOfThePeerOrdering >=

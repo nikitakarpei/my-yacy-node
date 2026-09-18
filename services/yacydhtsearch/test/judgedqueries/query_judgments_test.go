@@ -3,7 +3,6 @@ package judgedqueries_test
 import (
 	"encoding/json"
 	"errors"
-	"net/url"
 	"os"
 	"testing"
 
@@ -37,21 +36,12 @@ func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
 		}
 		graded[judged.Hash] = gradedDocument{
 			grade:          *judged.Grade,
-			host:           hostOfTheAddress(judged.Address),
+			hash:           judged.Hash,
 			judgedSubtopic: judged.Subtopic,
 		}
 	}
 
 	return graded
-}
-
-func hostOfTheAddress(address string) string {
-	readAddress, err := url.Parse(address)
-	if err != nil || readAddress.Hostname() == "" {
-		return address
-	}
-
-	return readAddress.Hostname()
 }
 
 func (j queryJudgments) amountOfUngradedDocuments() int {

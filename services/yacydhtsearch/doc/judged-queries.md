@@ -13,8 +13,12 @@ words in lower case and joined by `-`: `answers/`, `judgments/`, `pagetext/`.
 `TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the first
 ten graded documents of each ordering. The gain of a document is its grade,
 discounted by its place, and discounted by half again for each document of its
-host above it that has the grade 1 or more. The gate divides by the gain of the
-ideal order and drops a document of the grade `null`.
+subtopic above it that has the grade 1 or more. A document with no judged
+subtopic is a subtopic of its own. The gate divides by the gain of the ideal
+order and drops a document of the grade `null`.
+
+The gain uses only the grade and the subtopic that a person judged, and the
+order of the answers. It never uses a value that the ordering computes.
 
 The mean gain must stay at least the lift of the test above the peer ordering.
 The gate also compares the ordering of the service against the baseline in
@@ -22,10 +26,8 @@ The gate also compares the ordering of the service against the baseline in
 that both hold must stay at or above the accepted mean less the tolerance of
 the test, and a query accepted above zero must not fall to zero.
 
-The gate reports two more gains of each ordering, and asserts neither: the gain
-that discounts a repeated subtopic in place of a repeated host, and the gain
-that discounts no repetition. The three show what the host discount costs and
-what it gives.
+The gate also reports the gain that discounts no repetition, and asserts
+nothing on it.
 
 ## How to grade
 
@@ -48,7 +50,8 @@ of a pool reach `2`. Never change a grade a person gave.
 A subtopic names which intent of the query a document answers, as `jaguar`
 holds the intents `animal` and `car`. Give a subtopic to every document of the
 grade 1 or more of a query that holds more than one intent. Leave the subtopic
-out elsewhere: the host of a document then stands in for its subtopic.
+out elsewhere: a document with no judged subtopic is a subtopic of its own, and
+no other document discounts it.
 
 Give the subtopic `other` to a document whose intent no other document of the
 same query holds.
