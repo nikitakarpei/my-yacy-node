@@ -410,3 +410,47 @@ func TestFetchFailsOnARedirectWithoutALocation(t *testing.T) {
 		t.Fatalf("status = %v, want failed", outcome.Status)
 	}
 }
+
+func TestFetchReportsThatTheDeadlinePassedBeforeTheOriginAnswered(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(_ http.ResponseWriter, r *http.Request) {
+		<-r.Context().Done()
+	})
+	defer closeFn()
+
+	outcome, err := httppkg.New(
+		proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, 200*time.Millisecond,
+	).Fetch(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://target.example/slow"),
+		pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if outcome.Status != pagefetch.FetchDeadlinePassed {
+		t.Fatalf("status = %v, want %v", outcome.Status, pagefetch.FetchDeadlinePassed)
+	}
+}
+
+func TestFetchReportsThatTheDeadlinePassedWhileTheBodyArrived(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("<html>"))
+		w.(http.Flusher).Flush()
+		<-r.Context().Done()
+	})
+	defer closeFn()
+
+	outcome, err := httppkg.New(
+		proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, 200*time.Millisecond,
+	).Fetch(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://target.example/dribble"),
+		pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if outcome.Status != pagefetch.FetchDeadlinePassed {
+		t.Fatalf("status = %v, want %v", outcome.Status, pagefetch.FetchDeadlinePassed)
+	}
+}

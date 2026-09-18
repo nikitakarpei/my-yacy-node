@@ -2046,7 +2046,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 140
       },
@@ -2105,8 +2105,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 140
       },
       "fieldConfig": {
@@ -2135,6 +2135,50 @@
           "refId": "A",
           "expr": "sum by (outcome) (clamp_min(yacydhtsearch_page_reading_pages_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "title": "Share of the page read time spent fetching and reading",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 140
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (activity) (rate(yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"}[$window])) / ignoring(activity) group_left sum(rate(yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"}[$window]))",
+          "legendFormat": "{{activity}}"
         }
       ]
     },

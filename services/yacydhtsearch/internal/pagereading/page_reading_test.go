@@ -73,6 +73,31 @@ func (pagesThatOutlastTheBudget) Fetch(
 	return pagefetch.FetchOutcome{}, ctx.Err()
 }
 
+type pagesWhoseDeadlinePassed struct{}
+
+func (pagesWhoseDeadlinePassed) Fetch(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	return pagefetch.FetchOutcome{Status: pagefetch.FetchDeadlinePassed}, nil
+}
+
+type pagesHeldAtTheirAddressAfterAWhile struct {
+	pages pagesHeldAtTheirAddress
+	while time.Duration
+}
+
+func (pages pagesHeldAtTheirAddressAfterAWhile) Fetch(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	time.Sleep(pages.while)
+
+	return pages.pages.Fetch(ctx, pageURL, knownVersion)
+}
+
 type pagesOfAnUnsupportedKind struct{}
 
 func (pagesOfAnUnsupportedKind) Fetch(
@@ -508,6 +533,64 @@ func TestAPageOfAnUnsupportedKindGivesNothingForItsDocument(t *testing.T) {
 		t.Fatalf(
 			"PageReadingPerformed = %+v, want one page of an unsupported kind",
 			observer.performed,
+		)
+	}
+}
+
+func TestAPageWhoseFetchDeadlinePassedIsOutOfBudget(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesWhoseDeadlinePassed{}, observer)
+
+	documentTextPerDocument := reading.DocumentTextPerDocument(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	)
+
+	if len(documentTextPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want nothing for the document", documentTextPerDocument)
+	}
+	if observer.performed.AmountOfPagesOutOfBudget != 1 {
+		t.Fatalf("PageReadingPerformed = %+v, want one page out of budget", observer.performed)
+	}
+}
+
+func TestThePageReadingTellsTheTimeItSpentFetchingApartFromReading(t *testing.T) {
+	t.Parallel()
+
+	timeToFetchThePage := 20 * time.Millisecond
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(
+		t,
+		pagesHeldAtTheirAddressAfterAWhile{
+			pages: pagesHoldingTheDocuments(t),
+			while: timeToFetchThePage,
+		},
+		observer,
+	)
+
+	reading.DocumentTextPerDocument(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	)
+
+	performed := observer.performed
+	if performed.TimeSpentFetching < timeToFetchThePage {
+		t.Fatalf(
+			"PageReadingPerformed = %+v, want at least %v spent fetching",
+			performed, timeToFetchThePage,
+		)
+	}
+	if performed.TimeSpentReading <= 0 {
+		t.Fatalf("PageReadingPerformed = %+v, want time spent reading", performed)
+	}
+	if performed.TimeSpentFetching+performed.TimeSpentReading > performed.TimeSpent {
+		t.Fatalf(
+			"PageReadingPerformed = %+v, want fetching and reading inside the time spent",
+			performed,
 		)
 	}
 }

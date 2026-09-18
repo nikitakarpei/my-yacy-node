@@ -74,3 +74,55 @@ func TestFetchAbsoluteURLModeHandlesHTTPTarget(t *testing.T) {
 		t.Fatalf("body = %q", outcome.Page.Body)
 	}
 }
+
+func TestFetchAbsoluteURLModeGivesUpWhenTheDeadlinePasses(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		time.Sleep(3 * time.Second)
+		_, _ = w.Write([]byte("far too late"))
+	})
+	defer closeFn()
+
+	startedAt := time.Now()
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, 200*time.Millisecond).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "https://target.example/slow"),
+			pagefetch.PageVersion{})
+	spent := time.Since(startedAt)
+
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if outcome.Status != pagefetch.FetchDeadlinePassed {
+		t.Fatalf("status = %v, want the fetch to give up on its deadline", outcome.Status)
+	}
+	if spent > time.Second {
+		t.Fatalf("Fetch took %v, want it to give up near its 200ms deadline", spent)
+	}
+}
+
+func TestFetchAbsoluteURLModeGivesUpWhenTheReaderStopsWaiting(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		time.Sleep(3 * time.Second)
+		_, _ = w.Write([]byte("far too late"))
+	})
+	defer closeFn()
+
+	ctx, stopWaiting := context.WithCancel(context.Background())
+	go func() {
+		time.Sleep(200 * time.Millisecond)
+		stopWaiting()
+	}()
+
+	startedAt := time.Now()
+	_, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Minute).
+		Fetch(ctx, canonicalurltest.CanonicalURLOf(t, "https://target.example/slow"), pagefetch.PageVersion{})
+	spent := time.Since(startedAt)
+
+	if err == nil {
+		t.Fatal("Fetch kept reading after the reader stopped waiting")
+	}
+	if spent > time.Second {
+		t.Fatalf("Fetch took %v, want it to stop when the context was cancelled", spent)
+	}
+}

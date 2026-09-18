@@ -28,7 +28,7 @@ type FormatDerivations interface {
 	BodyIn(
 		ctx context.Context,
 		format documentextraction.Format,
-		document documentextraction.Document,
+		extractedDocument documentextraction.Document,
 		pageURL canonicalurl.CanonicalURL,
 	) ([]byte, bool)
 }
@@ -101,80 +101,98 @@ func (r Reading) readPageOf(
 ) readPage {
 	pageURL, err := canonicalurl.CanonicalURLOf(pageToRead.Address)
 	if err != nil {
-		return readPage{document: pageToRead.Document, outcome: pageUnreachable}
+		return readPage{document: pageToRead.Document, outcome: pageWasUnreachable}
 	}
+	fetchStartedAt := time.Now()
 	fetched, err := r.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
+	timeSpentFetching := time.Since(fetchStartedAt)
 	if err != nil {
 		return readPage{
-			document: pageToRead.Document,
-			outcome:  outcomeOfAFetchFailure(err, ctx.Err()),
+			document:          pageToRead.Document,
+			outcome:           readOutcomeFromAFetchFailure(err, ctx.Err()),
+			timeSpentFetching: timeSpentFetching,
 		}
 	}
 	if fetched.Status != pagefetch.FetchSucceeded {
-		return readPage{document: pageToRead.Document, outcome: pageRefused}
-	}
-	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.Page.Body, fetched.Page.ContentType, pageURL,
-	)
-	if err != nil {
 		return readPage{
-			document: pageToRead.Document,
-			outcome:  outcomeOfAnExtractionFailure(err),
+			document:          pageToRead.Document,
+			outcome:           readOutcomeFromAFetchStatus(fetched.Status),
+			timeSpentFetching: timeSpentFetching,
 		}
 	}
 
-	return r.readPageFromTheDocument(ctx, queryWords, pageToRead, document, pageURL)
-}
-
-func outcomeOfAFetchFailure(fetchFailure error, budgetFailure error) readOutcome {
-	if budgetFailure != nil || errors.Is(fetchFailure, context.DeadlineExceeded) {
-		return pageOutOfBudget
-	}
-
-	return pageUnreachable
-}
-
-func outcomeOfAnExtractionFailure(extractionFailure error) readOutcome {
-	if errors.Is(extractionFailure, documentextraction.ErrUnsupportedMediaType) {
-		return pageOfAnUnsupportedKind
-	}
-
-	return pageUnreadable
-}
-
-func (r Reading) readPageFromTheDocument(
-	ctx context.Context,
-	queryWords []yacymodel.Hash,
-	pageToRead PageToRead,
-	document documentextraction.Document,
-	pageURL canonicalurl.CanonicalURL,
-) readPage {
-	text, derived := r.textOfTheDocument(ctx, document, pageURL)
-	if !derived {
-		return readPage{document: pageToRead.Document, outcome: pageUnreadable}
-	}
+	readingStartedAt := time.Now()
+	text, outcome := r.documentTextFromTheFetchedPage(ctx, queryWords, fetched.Page, pageURL)
 
 	return readPage{
-		document: pageToRead.Document,
-		outcome:  pageRead,
-		text:     documenttext.DocumentTextFrom(string(text), queryWords, r.snippetLengthCeiling),
+		document:          pageToRead.Document,
+		outcome:           outcome,
+		text:              text,
+		timeSpentFetching: timeSpentFetching,
+		timeSpentReading:  time.Since(readingStartedAt),
 	}
 }
 
-func (r Reading) textOfTheDocument(
+func readOutcomeFromAFetchFailure(fetchFailure error, budgetFailure error) readOutcome {
+	if budgetFailure != nil || errors.Is(fetchFailure, context.DeadlineExceeded) {
+		return pageWasOutOfBudget
+	}
+
+	return pageWasUnreachable
+}
+
+func readOutcomeFromAFetchStatus(status pagefetch.FetchStatus) readOutcome {
+	if status == pagefetch.FetchDeadlinePassed {
+		return pageWasOutOfBudget
+	}
+
+	return pageWasRefused
+}
+
+func (r Reading) documentTextFromTheFetchedPage(
 	ctx context.Context,
-	document documentextraction.Document,
+	queryWords []yacymodel.Hash,
+	fetchedPage pagefetch.FetchedPage,
+	pageURL canonicalurl.CanonicalURL,
+) (documenttext.DocumentText, readOutcome) {
+	extractedDocument, err := documentextraction.DocumentFrom(
+		ctx, fetchedPage.Body, fetchedPage.ContentType, pageURL,
+	)
+	if err != nil {
+		return documenttext.DocumentText{}, readOutcomeFromAnExtractionFailure(err)
+	}
+	text, derived := r.textOfTheExtractedDocument(ctx, extractedDocument, pageURL)
+	if !derived {
+		return documenttext.DocumentText{}, pageWasUnreadable
+	}
+
+	return documenttext.DocumentTextFrom(
+		string(text), queryWords, r.snippetLengthCeiling,
+	), pageWasRead
+}
+
+func readOutcomeFromAnExtractionFailure(extractionFailure error) readOutcome {
+	if errors.Is(extractionFailure, documentextraction.ErrUnsupportedMediaType) {
+		return pageWasOfAnUnsupportedKind
+	}
+
+	return pageWasUnreadable
+}
+
+func (r Reading) textOfTheExtractedDocument(
+	ctx context.Context,
+	extractedDocument documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) ([]byte, bool) {
 	readableText, readableTextDerived := r.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatReadableText, document, pageURL,
+		ctx, documentextraction.FormatReadableText, extractedDocument, pageURL,
 	)
 	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
 		return readableText, true
 	}
 
 	return r.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatFullText, document, pageURL,
+		ctx, documentextraction.FormatFullText, extractedDocument, pageURL,
 	)
 }
 
@@ -185,7 +203,7 @@ func documentTextPerDocumentOf(
 		map[yacymodel.URLHash]documenttext.DocumentText, len(readPages),
 	)
 	for _, readPage := range readPages {
-		if readPage.outcome != pageRead {
+		if readPage.outcome != pageWasRead {
 			continue
 		}
 		documentTextPerDocument[readPage.document] = readPage.text

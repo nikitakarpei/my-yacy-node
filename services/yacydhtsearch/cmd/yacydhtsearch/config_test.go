@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	main "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/cmd/yacydhtsearch"
 )
 
@@ -224,5 +225,43 @@ func TestTheServiceRefusesAPageReadProxyThatIsNotOne(t *testing.T) {
 		if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
 			t.Fatalf("LoadServiceConfig accepted %q as a page read proxy", proxy)
 		}
+	}
+}
+
+func TestPageReadsTunnelThroughTheProxyUntilToldOtherwise(t *testing.T) {
+	t.Parallel()
+
+	cfg, err := main.LoadServiceConfig(environmentOf(minimalEnvironment()))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.PageReadProxyDialMode != pagefetchershttp.ProxyDialTunnel {
+		t.Fatalf("page read dial mode = %v, want the tunnel default", cfg.PageReadProxyDialMode)
+	}
+}
+
+func TestPageReadsCanNameTheWholeURLToTheProxy(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvPageReadProxyDialMode] = "absolute-url"
+
+	cfg, err := main.LoadServiceConfig(environmentOf(environment))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.PageReadProxyDialMode != pagefetchershttp.ProxyDialAbsoluteURL {
+		t.Fatalf("page read dial mode = %v, want absolute-url", cfg.PageReadProxyDialMode)
+	}
+}
+
+func TestTheServiceRefusesAPageReadDialModeItCannotSpeak(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvPageReadProxyDialMode] = "carrier-pigeon"
+
+	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
+		t.Fatal("LoadServiceConfig accepted a dial mode the fetcher cannot speak")
 	}
 }

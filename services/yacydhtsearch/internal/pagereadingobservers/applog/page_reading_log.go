@@ -28,5 +28,7 @@ func (PageReadingLog) PageReadingPerformed(
 		),
 		slog.Int("amountOfPagesOutOfBudget", pageReading.AmountOfPagesOutOfBudget),
 		slog.Duration("timeSpent", pageReading.TimeSpent),
+		slog.Duration("timeSpentFetching", pageReading.TimeSpentFetching),
+		slog.Duration("timeSpentReading", pageReading.TimeSpentReading),
 	)
 }

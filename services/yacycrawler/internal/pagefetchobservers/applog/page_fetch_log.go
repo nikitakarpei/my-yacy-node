@@ -18,6 +18,7 @@ const (
 	msgPageFetchRedirectTargetInvalid = "page fetch redirect target invalid"
 	msgPageFetchRefusedOversizedPage  = "page fetch refused oversized page"
 	msgPageFetchFailed                = "page fetch failed"
+	msgPageFetchDeadlinePassed        = "page fetch deadline passed"
 	msgPageFetchCanceled              = "page fetch canceled before it finished"
 )
 
@@ -109,6 +110,14 @@ func (PageFetchLog) PageFetchFailed(
 		slog.String("url", pageURL.String()),
 		slog.Any("error", cause),
 	)
+}
+
+func (PageFetchLog) PageFetchDeadlinePassed(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ time.Duration,
+) {
+	slog.WarnContext(ctx, msgPageFetchDeadlinePassed, slog.String("url", pageURL.String()))
 }
 
 func (PageFetchLog) PageFetchCanceled(

@@ -43,6 +43,8 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		AmountOfPagesOfAnUnsupportedKind: 1,
 		AmountOfPagesOutOfBudget:         1,
 		TimeSpent:                        250 * time.Millisecond,
+		TimeSpentFetching:                200 * time.Millisecond,
+		TimeSpentReading:                 50 * time.Millisecond,
 	})
 
 	body := publishedBy(t, registry)
@@ -54,6 +56,8 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 1`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 1`,
 		"yacydhtsearch_page_reading_duration_seconds_sum 0.25",
+		`yacydhtsearch_page_reading_time_spent_seconds_total{activity="fetching"} 0.2`,
+		`yacydhtsearch_page_reading_time_spent_seconds_total{activity="reading"} 0.05`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

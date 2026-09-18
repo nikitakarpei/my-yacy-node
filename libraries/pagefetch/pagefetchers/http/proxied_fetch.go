@@ -2,10 +2,12 @@ package http
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -70,23 +72,43 @@ func (f *ProxiedFetch) Fetch(
 
 	response, err := f.client.Do(request)
 	if err != nil {
-		if ctx.Err() != nil {
-			return pagefetch.FetchOutcome{}, fmt.Errorf("fetch %s: %w", pageURL, ctx.Err())
-		}
-		return pagefetch.FetchOutcome{Status: pagefetch.FetchFailed, FailureCause: err}, nil
+		return outcomeOfAnUnfinishedFetch(ctx, fetchCtx, pageURL, err)
 	}
 	defer func() { _ = response.Body.Close() }()
 
-	return f.classify(response, knownVersion), nil
+	return f.classify(fetchCtx, response, knownVersion), nil
+}
+
+func outcomeOfAnUnfinishedFetch(
+	ctx context.Context,
+	fetchCtx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	cause error,
+) (pagefetch.FetchOutcome, error) {
+	if ctx.Err() != nil {
+		return pagefetch.FetchOutcome{}, fmt.Errorf("fetch %s: %w", pageURL, ctx.Err())
+	}
+	if deadlinePassed(fetchCtx, cause) {
+		return pagefetch.FetchOutcome{Status: pagefetch.FetchDeadlinePassed}, nil
+	}
+
+	return pagefetch.FetchOutcome{Status: pagefetch.FetchFailed, FailureCause: cause}, nil
+}
+
+func deadlinePassed(fetchCtx context.Context, cause error) bool {
+	return errors.Is(fetchCtx.Err(), context.DeadlineExceeded) ||
+		errors.Is(cause, context.DeadlineExceeded) ||
+		errors.Is(cause, os.ErrDeadlineExceeded)
 }
 
 func (f *ProxiedFetch) classify(
+	fetchCtx context.Context,
 	response *http.Response,
 	sent pagefetch.PageVersion,
 ) pagefetch.FetchOutcome {
 	switch {
 	case response.StatusCode >= 200 && response.StatusCode < 300:
-		return f.fetched(response)
+		return f.fetched(fetchCtx, response)
 	case response.StatusCode == http.StatusNotModified:
 		return pagefetch.FetchOutcome{
 			Status:  pagefetch.FetchNotModified,
@@ -116,10 +138,14 @@ func (f *ProxiedFetch) classify(
 }
 
 func (f *ProxiedFetch) fetched(
+	fetchCtx context.Context,
 	response *http.Response,
 ) pagefetch.FetchOutcome {
 	body, readErr := readBody(response.Body, f.maxBodyBytes+1)
 	if readErr != nil {
+		if deadlinePassed(fetchCtx, readErr) {
+			return pagefetch.FetchOutcome{Status: pagefetch.FetchDeadlinePassed}
+		}
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchFailed, FailureCause: readErr}
 	}
 	if int64(len(body)) > f.maxBodyBytes {

@@ -12,4 +12,5 @@ const (
 	FetchRedirectTargetInvalid
 	FetchOversized
 	FetchFailed
+	FetchDeadlinePassed
 )

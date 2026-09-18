@@ -13,6 +13,9 @@ import (
 
 const (
 	labelOutcome               = "outcome"
+	labelActivity              = "activity"
+	activityFetching           = "fetching"
+	activityReading            = "reading"
 	outcomePageRead            = "read"
 	outcomePageUnreachable     = "unreachable"
 	outcomePageRefused         = "refused"
@@ -32,6 +35,8 @@ type PageReadingMetrics struct {
 	pagesOfAnUnsupportedKind   prometheusclient.Counter
 	pagesOutOfBudget           prometheusclient.Counter
 	pageReadingDurationSeconds prometheusclient.Histogram
+	timeSpentFetchingSeconds   prometheusclient.Counter
+	timeSpentReadingSeconds    prometheusclient.Counter
 }
 
 func New(
@@ -53,7 +58,11 @@ func New(
 			),
 		},
 	)
-	registry.MustRegister(pages, pageReadingDurationSeconds)
+	timeSpentSeconds := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_page_reading_time_spent_seconds_total",
+		Help: "Time the pages of all queries spent, by activity, in seconds.",
+	}, []string{labelActivity})
+	registry.MustRegister(pages, pageReadingDurationSeconds, timeSpentSeconds)
 
 	return &PageReadingMetrics{
 		pagesRead:                  pages.WithLabelValues(outcomePageRead),
@@ -63,6 +72,8 @@ func New(
 		pagesOfAnUnsupportedKind:   pages.WithLabelValues(outcomePageUnsupportedKind),
 		pagesOutOfBudget:           pages.WithLabelValues(outcomePageOutOfBudget),
 		pageReadingDurationSeconds: pageReadingDurationSeconds,
+		timeSpentFetchingSeconds:   timeSpentSeconds.WithLabelValues(activityFetching),
+		timeSpentReadingSeconds:    timeSpentSeconds.WithLabelValues(activityReading),
 	}
 }
 
@@ -71,6 +82,8 @@ func (m *PageReadingMetrics) PageReadingPerformed(
 	pageReading pagereading.PerformedPageReading,
 ) {
 	m.pageReadingDurationSeconds.Observe(pageReading.TimeSpent.Seconds())
+	m.timeSpentFetchingSeconds.Add(pageReading.TimeSpentFetching.Seconds())
+	m.timeSpentReadingSeconds.Add(pageReading.TimeSpentReading.Seconds())
 	m.pagesRead.Add(float64(pageReading.AmountOfPagesRead))
 	m.pagesUnreachable.Add(float64(pageReading.AmountOfPagesUnreachable))
 	m.pagesRefused.Add(float64(pageReading.AmountOfPagesRefused))

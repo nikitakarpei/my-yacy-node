@@ -11,6 +11,8 @@ type PerformedPageReading struct {
 	AmountOfPagesOfAnUnsupportedKind int
 	AmountOfPagesOutOfBudget         int
 	TimeSpent                        time.Duration
+	TimeSpentFetching                time.Duration
+	TimeSpentReading                 time.Duration
 }
 
 func performedPageReadingFrom(
@@ -22,18 +24,20 @@ func performedPageReadingFrom(
 		TimeSpent:           timeSpent,
 	}
 	for _, readPage := range readPages {
+		performed.TimeSpentFetching += readPage.timeSpentFetching
+		performed.TimeSpentReading += readPage.timeSpentReading
 		switch readPage.outcome {
-		case pageRead:
+		case pageWasRead:
 			performed.AmountOfPagesRead++
-		case pageUnreachable:
+		case pageWasUnreachable:
 			performed.AmountOfPagesUnreachable++
-		case pageRefused:
+		case pageWasRefused:
 			performed.AmountOfPagesRefused++
-		case pageUnreadable:
+		case pageWasUnreadable:
 			performed.AmountOfPagesUnreadable++
-		case pageOfAnUnsupportedKind:
+		case pageWasOfAnUnsupportedKind:
 			performed.AmountOfPagesOfAnUnsupportedKind++
-		case pageOutOfBudget:
+		case pageWasOutOfBudget:
 			performed.AmountOfPagesOutOfBudget++
 		}
 	}
