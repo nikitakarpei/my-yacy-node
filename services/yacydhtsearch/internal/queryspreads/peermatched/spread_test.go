@@ -69,7 +69,7 @@ func (n *peerNetwork) matchedDocumentsOf(
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
 		}
 		if countsAWord {
-			matchedDocument.CountOfAWordTheAskNamed = peerasks.WordCount{Hits: 3}
+			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{Hits: 3})
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}

@@ -1,7 +1,6 @@
 package wordjoined
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -41,10 +40,10 @@ func foundDocumentsFrom(
 					foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
 				)
 			}
-			keepTheFirstCountOfTheWord(
+			keepTheFirstPostingOfTheWord(
 				&foundDocuments[place],
 				answeredAsk.Ask.Word,
-				matchedDocument.CountOfAWordTheAskNamed,
+				matchedDocument.Posting,
 			)
 		}
 	}
@@ -61,17 +60,18 @@ func foundDocumentsFrom(
 	return foundDocuments
 }
 
-func keepTheFirstCountOfTheWord(
+func keepTheFirstPostingOfTheWord(
 	foundDocument *queryanswers.FoundDocument,
 	word yacymodel.Hash,
-	count peerasks.WordCount,
+	posting yacymodel.Optional[yacymodel.RWIPosting],
 ) {
-	if !count.CountedByAPeer() {
+	sentPosting, sent := posting.Get()
+	if !sent {
 		return
 	}
 	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
 		return
 	}
-	foundDocument.HitsPerQueryWord[word] = count.Hits
-	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, count.TextWords)
+	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
+	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, sentPosting.TextWords)
 }

@@ -135,21 +135,12 @@ func matchedDocumentsOf(response yacyproto.SearchResponse) []peerasks.MatchedDoc
 	matchedDocuments := make([]peerasks.MatchedDocument, 0, len(response.Resources))
 	for _, resource := range response.Resources {
 		matchedDocuments = append(matchedDocuments, peerasks.MatchedDocument{
-			Metadata:                resource.Metadata,
-			CountOfAWordTheAskNamed: wordCountOf(resource.Posting),
+			Metadata: resource.Metadata,
+			Posting:  resource.Posting,
 		})
 	}
 
 	return matchedDocuments
-}
-
-func wordCountOf(posting yacymodel.Optional[yacymodel.RWIPosting]) peerasks.WordCount {
-	counted, sent := posting.Get()
-	if !sent {
-		return peerasks.WordCount{}
-	}
-
-	return peerasks.WordCount{Hits: counted.Hits, TextWords: counted.TextWords}
 }
 
 func (w Wire) requestForMatchedDocuments(

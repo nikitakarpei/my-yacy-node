@@ -56,8 +56,8 @@ func attributesOfMatchedAndHeldDocumentsRound(
 			round.AmountOfMatchedDocumentsAcrossAnswers,
 		),
 		slog.Int(
-			"amountOfMatchedDocumentsCountedByAPeer",
-			round.AmountOfMatchedDocumentsCountedByAPeer,
+			"amountOfMatchedDocumentsWithAPosting",
+			round.AmountOfMatchedDocumentsWithAPosting,
 		),
 		slog.Any("amountOfDocumentsHeldInEachAnswer", round.AmountOfDocumentsHeldInEachAnswer),
 	}

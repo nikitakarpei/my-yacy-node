@@ -5,6 +5,6 @@ import (
 )
 
 type MatchedDocument struct {
-	Metadata                yacymodel.URLMetadata
-	CountOfAWordTheAskNamed WordCount
+	Metadata yacymodel.URLMetadata
+	Posting  yacymodel.Optional[yacymodel.RWIPosting]
 }

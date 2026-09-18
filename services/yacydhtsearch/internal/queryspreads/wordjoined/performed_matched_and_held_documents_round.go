@@ -15,7 +15,7 @@ type PerformedMatchedAndHeldDocumentsRound struct {
 	LeadingQueryWordStanding                               LeadingQueryWordStanding
 	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
 	AmountOfMatchedDocumentsAcrossAnswers                  int
-	AmountOfMatchedDocumentsCountedByAPeer                 int
+	AmountOfMatchedDocumentsWithAPosting                   int
 	AmountOfDocumentsHeldInEachAnswer                      []int
 }
 
@@ -50,7 +50,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
 		),
-		AmountOfMatchedDocumentsCountedByAPeer: amountOfMatchedDocumentsCountedByAPeer(
+		AmountOfMatchedDocumentsWithAPosting: amountOfMatchedDocumentsWithAPosting(
 			round.answeredAsks,
 		),
 		AmountOfDocumentsHeldInEachAnswer: amountOfDocumentsHeldInEachAnswer(round.answeredAsks),
@@ -118,13 +118,13 @@ func amountOfMatchedDocumentsAcrossAnswers(
 	return amount
 }
 
-func amountOfMatchedDocumentsCountedByAPeer(
+func amountOfMatchedDocumentsWithAPosting(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			if !matchedDocument.CountOfAWordTheAskNamed.CountedByAPeer() {
+			if !matchedDocument.Posting.Present() {
 				continue
 			}
 			amount++

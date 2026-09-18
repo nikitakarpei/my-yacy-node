@@ -37,10 +37,10 @@ func foundDocumentsFrom(
 			if !countedWordIsKnown {
 				continue
 			}
-			keepTheFirstCountOfTheWord(
+			keepTheFirstPostingOfTheWord(
 				&foundDocuments[place],
 				countedWord,
-				matchedDocument.CountOfAWordTheAskNamed,
+				matchedDocument.Posting,
 			)
 		}
 	}
@@ -56,17 +56,18 @@ func wordThePeersCountedFor(queryWords []yacymodel.Hash) (yacymodel.Hash, bool) 
 	return queryWords[0], true
 }
 
-func keepTheFirstCountOfTheWord(
+func keepTheFirstPostingOfTheWord(
 	foundDocument *queryanswers.FoundDocument,
 	word yacymodel.Hash,
-	count peerasks.WordCount,
+	posting yacymodel.Optional[yacymodel.RWIPosting],
 ) {
-	if !count.CountedByAPeer() {
+	sentPosting, sent := posting.Get()
+	if !sent {
 		return
 	}
 	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
 		return
 	}
-	foundDocument.HitsPerQueryWord[word] = count.Hits
-	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, count.TextWords)
+	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
+	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, sentPosting.TextWords)
 }

@@ -145,7 +145,7 @@ func (n *peerNetwork) matchedDocumentsOf(
 			Metadata: yacymodel.URLMetadata{Hash: document},
 		}
 		if n.countsAWordWithEachItem {
-			matchedDocument.CountOfAWordTheAskNamed = peerasks.WordCount{Hits: 3}
+			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{Hits: 3})
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -1703,7 +1703,7 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	matchedAndHeldDocumentsRound := performed.MatchedAndHeldDocumentsRound
 	if performed.URLMetadataRound.AmountOfJoinedDocumentsWithMetadata != 1 ||
 		matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsAcrossAnswers != 2 ||
-		matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsCountedByAPeer != 2 {
+		matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsWithAPosting != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the joined document answered once and two counts",
 			performed,
