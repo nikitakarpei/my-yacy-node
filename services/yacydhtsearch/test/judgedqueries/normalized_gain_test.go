@@ -10,98 +10,77 @@ import (
 )
 
 const (
-	judgedItemsCeiling         = 10
-	gradeOfARelevantDocument   = 1
-	discountOfARepeatedSubject = 0.5
+	judgedItemsCeiling          = 10
+	gradeOfARelevantDocument    = 1
+	discountOfARepeatedSubtopic = 0.5
 )
 
 type gradedDocument struct {
 	grade          int
-	host           string
+	hash           yacymodel.URLHash
 	judgedSubtopic string
 }
 
 type gradedDocuments map[yacymodel.URLHash]gradedDocument
 
-func hostOf(document gradedDocument) string {
-	return document.host
-}
-
-func subtopicOf(document gradedDocument) string {
-	if document.judgedSubtopic == "" {
-		return document.host
-	}
-
-	return document.judgedSubtopic
-}
-
-func (documents gradedDocuments) normalizedGainDiscountedPerHostOf(
-	orderedItems []queryanswers.AnsweredItem,
-) float64 {
-	return documents.normalizedGainDiscountedPerRepeatedSubjectOf(orderedItems, hostOf)
-}
-
 func (documents gradedDocuments) normalizedGainDiscountedPerSubtopicOf(
 	orderedItems []queryanswers.AnsweredItem,
 ) float64 {
-	return documents.normalizedGainDiscountedPerRepeatedSubjectOf(orderedItems, subtopicOf)
-}
-
-func (documents gradedDocuments) normalizedGainDiscountedPerRepeatedSubjectOf(
-	orderedItems []queryanswers.AnsweredItem,
-	repeatedSubjectOf func(gradedDocument) string,
-) float64 {
-	idealGain := gainDiscountedPerRepeatedSubjectOf(
-		documents.gradedDocumentsInTheIdealOrderOf(repeatedSubjectOf), repeatedSubjectOf,
+	idealGain := gainDiscountedPerRepeatedSubtopicOf(
+		documents.gradedDocumentsInTheIdealOrderPerSubtopic(),
 	)
 	if idealGain == 0 {
 		return 0
 	}
 
-	return gainDiscountedPerRepeatedSubjectOf(
-		documents.gradedDocumentsInTheOrderOf(orderedItems), repeatedSubjectOf,
+	return gainDiscountedPerRepeatedSubtopicOf(
+		documents.gradedDocumentsInTheOrderOf(orderedItems),
 	) / idealGain
 }
 
-func gainDiscountedPerRepeatedSubjectOf(
-	rankedDocuments []gradedDocument, repeatedSubjectOf func(gradedDocument) string,
-) float64 {
+func gainDiscountedPerRepeatedSubtopicOf(rankedDocuments []gradedDocument) float64 {
 	gain := 0.0
-	amountOfRelevantDocumentsPerSubject := map[string]int{}
+	amountOfRelevantDocumentsPerSubtopic := map[string]int{}
 	for rank, ranked := range rankedDocuments[:min(judgedItemsCeiling, len(rankedDocuments))] {
-		subject := repeatedSubjectOf(ranked)
-		gain += ranked.gainAfter(amountOfRelevantDocumentsPerSubject[subject]) /
+		subtopic := subtopicOf(ranked)
+		gain += ranked.gainAfter(amountOfRelevantDocumentsPerSubtopic[subtopic]) /
 			math.Log2(float64(rank)+2)
 		if ranked.grade >= gradeOfARelevantDocument {
-			amountOfRelevantDocumentsPerSubject[subject]++
+			amountOfRelevantDocumentsPerSubtopic[subtopic]++
 		}
 	}
 
 	return gain
 }
 
+func subtopicOf(document gradedDocument) string {
+	if document.judgedSubtopic == "" {
+		return document.hash.String()
+	}
+
+	return document.judgedSubtopic
+}
+
 func (document gradedDocument) gainAfter(
-	amountOfRelevantDocumentsOfTheSameSubjectAbove int,
+	amountOfRelevantDocumentsOfTheSameSubtopicAbove int,
 ) float64 {
 	return float64(document.grade) * math.Pow(
-		1-discountOfARepeatedSubject, float64(amountOfRelevantDocumentsOfTheSameSubjectAbove),
+		1-discountOfARepeatedSubtopic, float64(amountOfRelevantDocumentsOfTheSameSubtopicAbove),
 	)
 }
 
-func (documents gradedDocuments) gradedDocumentsInTheIdealOrderOf(
-	repeatedSubjectOf func(gradedDocument) string,
-) []gradedDocument {
+func (documents gradedDocuments) gradedDocumentsInTheIdealOrderPerSubtopic() []gradedDocument {
 	candidates := documents.gradedDocumentsInFallingOrderOfGrade()
 
-	amountOfRelevantDocumentsPerSubject := map[string]int{}
+	amountOfRelevantDocumentsPerSubtopic := map[string]int{}
 	idealDocuments := make([]gradedDocument, 0, min(judgedItemsCeiling, len(candidates)))
 	for range cap(idealDocuments) {
 		chosen := placeOfTheMostGainingDocumentAmong(
-			candidates, amountOfRelevantDocumentsPerSubject, repeatedSubjectOf,
+			candidates, amountOfRelevantDocumentsPerSubtopic,
 		)
 		idealDocuments = append(idealDocuments, candidates[chosen])
 		if candidates[chosen].grade >= gradeOfARelevantDocument {
-			amountOfRelevantDocumentsPerSubject[repeatedSubjectOf(candidates[chosen])]++
+			amountOfRelevantDocumentsPerSubtopic[subtopicOf(candidates[chosen])]++
 		}
 		candidates = slices.Delete(candidates, chosen, chosen+1)
 	}
@@ -111,16 +90,15 @@ func (documents gradedDocuments) gradedDocumentsInTheIdealOrderOf(
 
 func placeOfTheMostGainingDocumentAmong(
 	candidates []gradedDocument,
-	amountOfRelevantDocumentsPerSubject map[string]int,
-	repeatedSubjectOf func(gradedDocument) string,
+	amountOfRelevantDocumentsPerSubtopic map[string]int,
 ) int {
 	mostGaining := 0
 	for candidate := range candidates {
 		gainOfTheCandidate := candidates[candidate].gainAfter(
-			amountOfRelevantDocumentsPerSubject[repeatedSubjectOf(candidates[candidate])],
+			amountOfRelevantDocumentsPerSubtopic[subtopicOf(candidates[candidate])],
 		)
 		gainOfTheMostGaining := candidates[mostGaining].gainAfter(
-			amountOfRelevantDocumentsPerSubject[repeatedSubjectOf(candidates[mostGaining])],
+			amountOfRelevantDocumentsPerSubtopic[subtopicOf(candidates[mostGaining])],
 		)
 		if gainOfTheCandidate > gainOfTheMostGaining {
 			mostGaining = candidate
@@ -159,8 +137,11 @@ func (documents gradedDocuments) gradedDocumentsInFallingOrderOfGrade() []graded
 		if one.grade != other.grade {
 			return other.grade - one.grade
 		}
+		if one.judgedSubtopic != other.judgedSubtopic {
+			return strings.Compare(one.judgedSubtopic, other.judgedSubtopic)
+		}
 
-		return strings.Compare(one.host, other.host)
+		return strings.Compare(one.hash.String(), other.hash.String())
 	})
 
 	return inFallingOrderOfGrade
@@ -203,14 +184,4 @@ func (documents gradedDocuments) amountOfUngradedItemsAmong(
 	}
 
 	return amountOfUngradedItems
-}
-
-func (documents gradedDocuments) holdAJudgedSubtopic() bool {
-	for _, document := range documents {
-		if document.judgedSubtopic != "" {
-			return true
-		}
-	}
-
-	return false
 }

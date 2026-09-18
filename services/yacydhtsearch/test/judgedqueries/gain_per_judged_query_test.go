@@ -16,7 +16,7 @@ func gainPerJudgedQueryOf(
 	gainOfEachQuery := make(gainPerJudgedQuery, len(judged))
 	for _, judgedQuery := range judged {
 		gainOfEachQuery[judgedQuery.query] = judgedQuery.gradedDocuments.
-			normalizedGainDiscountedPerHostOf(ordering.OrderedItemsOf(judgedQuery.answers))
+			normalizedGainDiscountedPerSubtopicOf(ordering.OrderedItemsOf(judgedQuery.answers))
 	}
 
 	return gainOfEachQuery
