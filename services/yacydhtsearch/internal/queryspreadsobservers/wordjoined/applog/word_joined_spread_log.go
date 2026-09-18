@@ -37,14 +37,6 @@ func attributesOfMatchedAndHeldDocumentsRound(
 		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
 		slog.Int("amountOfFullyListedQueryWords", round.AmountOfFullyListedQueryWords),
-		slog.Int(
-			"amountOfPeersAskedForMatchedAndHeldDocuments",
-			round.AmountOfPeersAskedForMatchedAndHeldDocuments,
-		),
-		slog.Int(
-			"amountOfPeersThatAnsweredMatchedAndHeldDocuments",
-			round.AmountOfPeersThatAnsweredMatchedAndHeldDocuments,
-		),
 		slog.Int("amountOfPeersThatListedADocument", round.AmountOfPeersThatListedADocument),
 		slog.String("leadingQueryWordStanding", string(round.LeadingQueryWordStanding)),
 		slog.Int(

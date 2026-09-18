@@ -1238,9 +1238,8 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 	}
 	performed := observer.performed[0]
 	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWords != 2 ||
-		performed.MatchedAndHeldDocumentsRound.AmountOfPeersAskedForMatchedAndHeldDocuments != 2 ||
 		performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 1 {
-		t.Fatalf("the spread reported %+v, want two words, two peers and one joined document",
+		t.Fatalf("the spread reported %+v, want two words and one joined document",
 			performed)
 	}
 	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer != 0 ||
@@ -1287,12 +1286,6 @@ func TestAPeerThatDoesNotAnswerHoldsNothingForTheJoin(t *testing.T) {
 		t.Fatalf(
 			"asked %d peers about documents, want none once a word went unanswered",
 			len(network.urlMetadataAsks),
-		)
-	}
-	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfPeersThatAnsweredMatchedAndHeldDocuments != 1 {
-		t.Fatalf(
-			"the spread reported %d answering peers, want one",
-			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfPeersThatAnsweredMatchedAndHeldDocuments,
 		)
 	}
 }

@@ -22,7 +22,6 @@ const (
 type peerNetwork struct {
 	itemsPerPeer       map[string][]string
 	peersCountingAWord map[string]struct{}
-	silentPeers        map[string]struct{}
 	asks               []peerasks.MatchedDocumentsAsk
 }
 
@@ -30,7 +29,6 @@ func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	return &peerNetwork{
 		itemsPerPeer:       itemsPerPeer,
 		peersCountingAWord: map[string]struct{}{},
-		silentPeers:        map[string]struct{}{},
 	}
 }
 
@@ -42,9 +40,6 @@ func (n *peerNetwork) AskForMatchedDocuments(
 
 	answeredAsks := make([]peerasks.AnsweredMatchedDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
-		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
-			continue
-		}
 		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedDocumentsAsk{
 			Ask:              ask,
 			MatchedDocuments: n.matchedDocumentsOf(ask.Peer),
@@ -279,11 +274,10 @@ func TestOnlyAQueryOfOneWordNamesTheWordAPeerCounted(t *testing.T) {
 	}
 }
 
-func TestTheSpreadReportsHowManyAskedPeersAnswered(t *testing.T) {
+func TestTheSpreadReportsTheTimeItTook(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
-	network.silentPeers["second"] = struct{}{}
 	observer := &recordedSpreads{}
 
 	searchOf(network, observer)
@@ -292,9 +286,6 @@ func TestTheSpreadReportsHowManyAskedPeersAnswered(t *testing.T) {
 		t.Fatalf("the observer saw %d spreads, want one", len(observer.performed))
 	}
 	performed := observer.performed[0]
-	if performed.AmountOfPeersAsked != 2 || performed.AmountOfPeersThatAnswered != 1 {
-		t.Fatalf("the spread reported %+v, want two asked peers and one that answered", performed)
-	}
 	if performed.TimeSpent <= 0 {
 		t.Fatalf("the spread reported %v spent, want the time it took", performed.TimeSpent)
 	}

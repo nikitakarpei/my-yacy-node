@@ -37,8 +37,6 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 			AmountOfQueryWords:                                     4,
 			AmountOfQueryWordsHeldByNoPeer:                         1,
 			AmountOfFullyListedQueryWords:                          2,
-			AmountOfPeersAskedForMatchedAndHeldDocuments:           8,
-			AmountOfPeersThatAnsweredMatchedAndHeldDocuments:       6,
 			AmountOfPeersThatListedADocument:                       4,
 			LeadingQueryWordStanding:                               wordjoined.MoreCommonFullyListedQueryWord,
 			AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: 12,
@@ -68,9 +66,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		"yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum 0.25",
-		"yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_sum 8",
 		"yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum 0.25",
-		"yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_sum 0.75",
 		"yacydhtsearch_word_joined_spread_duration_seconds_sum 0.25",
 	} {
 		if !strings.Contains(body, published) {
@@ -97,23 +93,6 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
-	}
-}
-
-func TestASpreadThatAskedNoPeerPublishesNoAnsweringRatio(t *testing.T) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
-
-	metrics.WordJoinedSpreadPerformed(t.Context(), spreadOfQueryWords(2))
-
-	body := publishedBy(t, registry)
-	if !strings.Contains(
-		body,
-		"yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_count 0",
-	) {
-		t.Fatalf("metrics carry an answering ratio for a spread that asked no peer:\n%s", body)
 	}
 }
 

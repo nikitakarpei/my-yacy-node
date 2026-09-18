@@ -564,7 +564,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
         "y": 45
       },
@@ -624,8 +624,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 45
       },
       "fieldConfig": {
@@ -651,66 +651,6 @@
           "refId": "A",
           "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
-        }
-      ]
-    },
-    {
-      "id": 17,
-      "title": "Share of the asked peers that answered",
-      "description": "The rest were unreachable or slower than the time the query allows them.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 45
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_matched_spread_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_matched_spread_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
         }
       ]
     },
@@ -836,65 +776,6 @@
       "panels": []
     },
     {
-      "id": 24,
-      "title": "Distinct peers asked which documents they hold for a query word",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 63
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "short",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 45,
       "title": "Calls that asked a peer which documents it holds for a query word, by outcome",
       "type": "timeseries",
@@ -905,7 +786,7 @@
       "gridPos": {
         "h": 8,
         "w": 8,
-        "x": 8,
+        "x": 0,
         "y": 63
       },
       "fieldConfig": {
@@ -935,65 +816,6 @@
       ]
     },
     {
-      "id": 25,
-      "title": "Share of the peers asked which documents they hold for a query word that answered",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 63
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 26,
       "title": "Share of the query words no peer listed a document for",
       "type": "heatmap",
@@ -1003,9 +825,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 71
+        "w": 8,
+        "x": 8,
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -1062,9 +884,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 71
+        "w": 8,
+        "x": 16,
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -1120,7 +942,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 71
       },
       "panels": []
     },
@@ -1136,7 +958,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 80
+        "y": 72
       },
       "fieldConfig": {
         "defaults": {
@@ -1173,7 +995,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 80
+        "y": 72
       },
       "fieldConfig": {
         "defaults": {
@@ -1232,7 +1054,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 88
+        "y": 80
       },
       "fieldConfig": {
         "defaults": {
@@ -1272,7 +1094,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 88
+        "y": 80
       },
       "fieldConfig": {
         "defaults": {
@@ -1331,7 +1153,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 88
+        "y": 80
       },
       "fieldConfig": {
         "defaults": {
@@ -1387,7 +1209,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 96
+        "y": 88
       },
       "panels": []
     },
@@ -1404,7 +1226,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 97
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {
@@ -1463,7 +1285,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 97
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {
@@ -1503,7 +1325,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 97
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {
@@ -1559,7 +1381,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 105
+        "y": 97
       },
       "panels": []
     },
@@ -1576,7 +1398,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 106
+        "y": 98
       },
       "fieldConfig": {
         "defaults": {
@@ -1632,7 +1454,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 114
+        "y": 106
       },
       "panels": []
     },
@@ -1649,7 +1471,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 115
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1708,7 +1530,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 115
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1751,7 +1573,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 115
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1794,7 +1616,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 123
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1853,7 +1675,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 123
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1894,7 +1716,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 123
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1934,7 +1756,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 131
+        "y": 123
       },
       "panels": []
     },
@@ -1951,7 +1773,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 132
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -2010,7 +1832,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 132
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -2053,7 +1875,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 132
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -2094,7 +1916,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 140
+        "y": 132
       },
       "panels": []
     },
@@ -2111,7 +1933,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 141
+        "y": 133
       },
       "fieldConfig": {
         "defaults": {
@@ -2162,7 +1984,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 141
+        "y": 133
       },
       "fieldConfig": {
         "defaults": {
@@ -2201,7 +2023,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 149
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -2242,7 +2064,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 149
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -2301,7 +2123,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 149
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -2348,7 +2170,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 157
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -2404,7 +2226,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 165
+        "y": 157
       },
       "panels": []
     },
@@ -2420,7 +2242,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 166
+        "y": 158
       },
       "fieldConfig": {
         "defaults": {
@@ -2470,7 +2292,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 166
+        "y": 158
       },
       "fieldConfig": {
         "defaults": {
@@ -2510,7 +2332,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 166
+        "y": 158
       },
       "fieldConfig": {
         "defaults": {
@@ -2550,7 +2372,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 174
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {
@@ -2590,7 +2412,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 174
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {
@@ -2630,7 +2452,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 174
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {

@@ -9,8 +9,6 @@ type PerformedMatchedAndHeldDocumentsRound struct {
 	AmountOfQueryWords                                     int
 	AmountOfQueryWordsHeldByNoPeer                         int
 	AmountOfFullyListedQueryWords                          int
-	AmountOfPeersAskedForMatchedAndHeldDocuments           int
-	AmountOfPeersThatAnsweredMatchedAndHeldDocuments       int
 	AmountOfPeersThatListedADocument                       int
 	LeadingQueryWordStanding                               LeadingQueryWordStanding
 	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
@@ -29,13 +27,6 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		),
 		AmountOfFullyListedQueryWords: amountOfFullyListedQueryWordsAmong(
 			round.queryWordsFewestDocumentsFirst,
-		),
-		AmountOfPeersAskedForMatchedAndHeldDocuments: amountOfPeersAcross(
-			round.asks,
-			peerOfMatchedAndHeldDocumentsAsk,
-		),
-		AmountOfPeersThatAnsweredMatchedAndHeldDocuments: amountOfPeersAcross(
-			round.answeredAsks, peerOfAnsweredMatchedAndHeldDocumentsAsk,
 		),
 		AmountOfPeersThatListedADocument: amountOfPeersAcross(
 			answeredAsksWithAListedDocument(round.answeredAsks),
@@ -79,12 +70,6 @@ func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) in
 	}
 
 	return amount
-}
-
-func peerOfMatchedAndHeldDocumentsAsk(
-	ask peerasks.MatchedAndHeldDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return ask.Peer
 }
 
 func peerOfAnsweredMatchedAndHeldDocumentsAsk(
