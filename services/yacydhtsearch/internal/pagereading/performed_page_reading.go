@@ -11,6 +11,8 @@ type PerformedPageReading struct {
 	AmountOfPagesOfAnUnsupportedKind int
 	AmountOfPagesOutOfBudget         int
 	TimeSpent                        time.Duration
+	TimeSpentFetching                time.Duration
+	TimeSpentReading                 time.Duration
 }
 
 func performedPageReadingFrom(
@@ -22,6 +24,8 @@ func performedPageReadingFrom(
 		TimeSpent:           timeSpent,
 	}
 	for _, readPage := range readPages {
+		performed.TimeSpentFetching += readPage.timeSpentFetching
+		performed.TimeSpentReading += readPage.timeSpentReading
 		switch readPage.outcome {
 		case pageRead:
 			performed.AmountOfPagesRead++

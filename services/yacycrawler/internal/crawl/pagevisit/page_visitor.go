@@ -88,7 +88,7 @@ func (visitor *pageVisitor) outcomeOfPageFetch(
 		return disposedOutcome(disposal.Oversized)
 	case pagefetch.FetchDeferred:
 		return deferredOutcome(fetchOutcome.DeferFor)
-	case pagefetch.FetchFailed:
+	case pagefetch.FetchFailed, pagefetch.FetchDeadlinePassed:
 		return retryableOutcome()
 	}
 	return retryableOutcome()

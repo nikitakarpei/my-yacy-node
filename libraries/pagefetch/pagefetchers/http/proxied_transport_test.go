@@ -93,8 +93,8 @@ func TestFetchAbsoluteURLModeGivesUpWhenTheDeadlinePasses(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}
-	if outcome.Status != pagefetch.FetchFailed {
-		t.Fatalf("status = %v, want the fetch to fail on its deadline", outcome.Status)
+	if outcome.Status != pagefetch.FetchDeadlinePassed {
+		t.Fatalf("status = %v, want the fetch to give up on its deadline", outcome.Status)
 	}
 	if spent > time.Second {
 		t.Fatalf("Fetch took %v, want it to give up near its 200ms deadline", spent)

@@ -103,18 +103,60 @@ func (r Reading) readPageOf(
 	if err != nil {
 		return readPage{document: pageToRead.Document, outcome: pageUnreachable}
 	}
+	fetchStartedAt := time.Now()
 	fetched, err := r.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
-	if err != nil {
+	timeSpentFetching := time.Since(fetchStartedAt)
+	if outcome := outcomeOfAFetch(fetched, err, ctx.Err()); outcome != pageRead {
 		return readPage{
-			document: pageToRead.Document,
-			outcome:  outcomeOfAFetchFailure(err, ctx.Err()),
+			document:          pageToRead.Document,
+			outcome:           outcome,
+			timeSpentFetching: timeSpentFetching,
 		}
 	}
-	if fetched.Status != pagefetch.FetchSucceeded {
-		return readPage{document: pageToRead.Document, outcome: pageRefused}
+
+	readingStartedAt := time.Now()
+	read := r.readPageFromTheBody(ctx, queryWords, pageToRead, fetched.Page, pageURL)
+	read.timeSpentFetching = timeSpentFetching
+	read.timeSpentReading = time.Since(readingStartedAt)
+
+	return read
+}
+
+func outcomeOfAFetch(
+	fetched pagefetch.FetchOutcome,
+	fetchFailure error,
+	budgetFailure error,
+) readOutcome {
+	if fetchFailure != nil {
+		return outcomeOfAFetchFailure(fetchFailure, budgetFailure)
 	}
+	switch fetched.Status {
+	case pagefetch.FetchSucceeded:
+		return pageRead
+	case pagefetch.FetchDeadlinePassed:
+		return pageOutOfBudget
+	default:
+		return pageRefused
+	}
+}
+
+func outcomeOfAFetchFailure(fetchFailure error, budgetFailure error) readOutcome {
+	if budgetFailure != nil || errors.Is(fetchFailure, context.DeadlineExceeded) {
+		return pageOutOfBudget
+	}
+
+	return pageUnreachable
+}
+
+func (r Reading) readPageFromTheBody(
+	ctx context.Context,
+	queryWords []yacymodel.Hash,
+	pageToRead PageToRead,
+	page pagefetch.FetchedPage,
+	pageURL canonicalurl.CanonicalURL,
+) readPage {
 	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.Page.Body, fetched.Page.ContentType, pageURL,
+		ctx, page.Body, page.ContentType, pageURL,
 	)
 	if err != nil {
 		return readPage{
@@ -124,14 +166,6 @@ func (r Reading) readPageOf(
 	}
 
 	return r.readPageFromTheDocument(ctx, queryWords, pageToRead, document, pageURL)
-}
-
-func outcomeOfAFetchFailure(fetchFailure error, budgetFailure error) readOutcome {
-	if budgetFailure != nil || errors.Is(fetchFailure, context.DeadlineExceeded) {
-		return pageOutOfBudget
-	}
-
-	return pageUnreachable
 }
 
 func outcomeOfAnExtractionFailure(extractionFailure error) readOutcome {
