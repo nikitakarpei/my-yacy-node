@@ -28,7 +28,7 @@ type FormatDerivations interface {
 	BodyIn(
 		ctx context.Context,
 		format documentextraction.Format,
-		extractedPage documentextraction.Document,
+		extractedDocument documentextraction.Document,
 		pageURL canonicalurl.CanonicalURL,
 	) ([]byte, bool)
 }
@@ -155,13 +155,13 @@ func (r Reading) documentTextFromTheFetchedPage(
 	fetchedPage pagefetch.FetchedPage,
 	pageURL canonicalurl.CanonicalURL,
 ) (documenttext.DocumentText, readOutcome) {
-	extractedPage, err := documentextraction.DocumentFrom(
+	extractedDocument, err := documentextraction.DocumentFrom(
 		ctx, fetchedPage.Body, fetchedPage.ContentType, pageURL,
 	)
 	if err != nil {
 		return documenttext.DocumentText{}, readOutcomeFromAnExtractionFailure(err)
 	}
-	text, derived := r.textOfTheExtractedPage(ctx, extractedPage, pageURL)
+	text, derived := r.textOfTheExtractedDocument(ctx, extractedDocument, pageURL)
 	if !derived {
 		return documenttext.DocumentText{}, pageWasUnreadable
 	}
@@ -179,20 +179,20 @@ func readOutcomeFromAnExtractionFailure(extractionFailure error) readOutcome {
 	return pageWasUnreadable
 }
 
-func (r Reading) textOfTheExtractedPage(
+func (r Reading) textOfTheExtractedDocument(
 	ctx context.Context,
-	extractedPage documentextraction.Document,
+	extractedDocument documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) ([]byte, bool) {
 	readableText, readableTextDerived := r.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatReadableText, extractedPage, pageURL,
+		ctx, documentextraction.FormatReadableText, extractedDocument, pageURL,
 	)
 	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
 		return readableText, true
 	}
 
 	return r.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatFullText, extractedPage, pageURL,
+		ctx, documentextraction.FormatFullText, extractedDocument, pageURL,
 	)
 }
 
