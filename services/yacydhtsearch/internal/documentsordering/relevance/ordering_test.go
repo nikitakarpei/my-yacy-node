@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -43,15 +43,15 @@ func addressesOrderedByRelevance(
 		relevancePerDocument[hash] = addressAndItsRelevance.relevance
 	}
 
-	orderedItems := relevance.New(
+	orderedDocuments := relevance.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
-	).OrderedItemsOf(queryanswers.AnsweredQuery{
+	).OrderedDocumentsOf(queryanswers.AnsweredQuery{
 		FoundDocuments: foundDocuments,
 	})
 
-	orderedAddresses := make([]string, 0, len(orderedItems))
-	for _, orderedItem := range orderedItems {
-		orderedAddresses = append(orderedAddresses, orderedItem.Address)
+	orderedAddresses := make([]string, 0, len(orderedDocuments))
+	for _, orderedDocument := range orderedDocuments {
+		orderedAddresses = append(orderedAddresses, orderedDocument.Address)
 	}
 
 	return orderedAddresses
@@ -97,7 +97,7 @@ func TestNoFoundDocumentMakesNoOrderedItem(t *testing.T) {
 	t.Parallel()
 
 	if got := addressesOrderedByRelevance(t); len(got) != 0 {
-		t.Fatalf("the relevance order reads %v, want no item", got)
+		t.Fatalf("the relevance order reads %v, want no foundDocument", got)
 	}
 }
 
@@ -111,7 +111,7 @@ func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
 		},
 	}
 
-	relevance.New(relevanceByFoundPlace{}).OrderedItemsOf(answers)
+	relevance.New(relevanceByFoundPlace{}).OrderedDocumentsOf(answers)
 
 	if answers.FoundDocuments[0].Address != "https://less.example/" {
 		t.Fatalf("the answers read %v after ordering, want the order they were found in",

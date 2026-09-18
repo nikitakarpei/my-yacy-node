@@ -11,23 +11,23 @@ const (
 )
 
 func titleScoreOf(
-	item queryanswers.FoundDocument, rarity queryWordRarity, queryWords []yacymodel.Hash,
+	foundDocument queryanswers.FoundDocument, rarity queryWordRarity, queryWords []yacymodel.Hash,
 ) float64 {
-	if item.Title == "" {
+	if foundDocument.Title == "" {
 		return shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses
 	}
 	if rarity.sumOfTheRarityOfTheQueryWords <= 0 {
 		return shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord
 	}
 
-	return rarity.sumOfTheRarityOf(queryWordsOfTheTitleOf(item, queryWords)) /
+	return rarity.sumOfTheRarityOf(queryWordsOfTheTitleOf(foundDocument, queryWords)) /
 		rarity.sumOfTheRarityOfTheQueryWords
 }
 
 func queryWordsOfTheTitleOf(
-	item queryanswers.FoundDocument, queryWords []yacymodel.Hash,
+	foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash,
 ) []yacymodel.Hash {
-	wordsOfTheTitle := wordsOfTheTitleOf(item.Title)
+	wordsOfTheTitle := wordsOfTheTitleOf(foundDocument.Title)
 
 	queryWordsOfTheTitle := make([]yacymodel.Hash, 0, len(queryWords))
 	for _, word := range queryWords {

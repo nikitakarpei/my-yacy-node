@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -45,14 +45,14 @@ func addressesOrderedWithTheHostDiscount(
 		relevancePerDocument[hash] = addressAndItsRelevance.relevance
 	}
 
-	orderedItems := hostdiscount.New(
+	orderedDocuments := hostdiscount.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
-	).OrderedItemsOf(queryanswers.AnsweredQuery{
+	).OrderedDocumentsOf(queryanswers.AnsweredQuery{
 		FoundDocuments: foundDocuments,
 	})
-	orderedAddresses := make([]string, 0, len(orderedItems))
-	for _, orderedItem := range orderedItems {
-		orderedAddresses = append(orderedAddresses, orderedItem.Address)
+	orderedAddresses := make([]string, 0, len(orderedDocuments))
+	for _, orderedDocument := range orderedDocuments {
+		orderedAddresses = append(orderedAddresses, orderedDocument.Address)
 	}
 
 	return orderedAddresses
@@ -188,7 +188,7 @@ func TestNoFoundDocumentMakesNoOrderedItem(t *testing.T) {
 	t.Parallel()
 
 	if got := addressesOrderedWithTheHostDiscount(t); len(got) != 0 {
-		t.Fatalf("the host discount order reads %v, want no item", got)
+		t.Fatalf("the host discount order reads %v, want no foundDocument", got)
 	}
 }
 
@@ -202,7 +202,7 @@ func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
 		},
 	}
 
-	hostdiscount.New(relevanceByFoundPlace{}).OrderedItemsOf(answers)
+	hostdiscount.New(relevanceByFoundPlace{}).OrderedDocumentsOf(answers)
 
 	if answers.FoundDocuments[0].Address != "https://less.example/" {
 		t.Fatalf("the answers read %v after ordering, want the order they were found in",

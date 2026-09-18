@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	judgedItemsCeiling       = 10
+	judgedDocumentsCeiling   = 10
 	gradeOfARelevantDocument = 1
 	discountOfARepeatedHost  = 0.5
 )
@@ -23,7 +23,7 @@ type gradedDocument struct {
 type gradedDocuments map[yacymodel.URLHash]gradedDocument
 
 func (documents gradedDocuments) normalizedGainDiscountedPerHostOf(
-	orderedItems []queryanswers.FoundDocument,
+	orderedDocuments []queryanswers.FoundDocument,
 ) float64 {
 	idealGain := gainDiscountedPerHostOf(documents.gradedDocumentsInTheIdealOrder())
 	if idealGain == 0 {
@@ -31,14 +31,14 @@ func (documents gradedDocuments) normalizedGainDiscountedPerHostOf(
 	}
 
 	return gainDiscountedPerHostOf(
-		documents.gradedDocumentsInTheOrderOf(orderedItems),
+		documents.gradedDocumentsInTheOrderOf(orderedDocuments),
 	) / idealGain
 }
 
 func gainDiscountedPerHostOf(rankedDocuments []gradedDocument) float64 {
 	gain := 0.0
 	amountOfRelevantDocumentsPerHost := map[string]int{}
-	for rank, ranked := range rankedDocuments[:min(judgedItemsCeiling, len(rankedDocuments))] {
+	for rank, ranked := range rankedDocuments[:min(judgedDocumentsCeiling, len(rankedDocuments))] {
 		gain += ranked.gainAfter(amountOfRelevantDocumentsPerHost[ranked.host]) /
 			math.Log2(float64(rank)+2)
 		if ranked.grade >= gradeOfARelevantDocument {
@@ -61,7 +61,7 @@ func (documents gradedDocuments) gradedDocumentsInTheIdealOrder() []gradedDocume
 	candidates := documents.gradedDocumentsInFallingOrderOfGrade()
 
 	amountOfRelevantDocumentsPerHost := map[string]int{}
-	idealDocuments := make([]gradedDocument, 0, min(judgedItemsCeiling, len(candidates)))
+	idealDocuments := make([]gradedDocument, 0, min(judgedDocumentsCeiling, len(candidates)))
 	for range cap(idealDocuments) {
 		chosen := placeOfTheMostGainingDocumentAmong(
 			candidates, amountOfRelevantDocumentsPerHost,
@@ -113,18 +113,18 @@ func placeOfTheMostGainingDocumentAmong(
 }
 
 func (documents gradedDocuments) gradedDocumentsInTheOrderOf(
-	orderedItems []queryanswers.FoundDocument,
+	orderedDocuments []queryanswers.FoundDocument,
 ) []gradedDocument {
-	inTheOrderOfTheItems := make([]gradedDocument, 0, len(orderedItems))
-	for _, orderedItem := range orderedItems {
-		document, graded := documents[orderedItem.Hash]
+	inTheOrderOfTheDocuments := make([]gradedDocument, 0, len(orderedDocuments))
+	for _, orderedDocument := range orderedDocuments {
+		document, graded := documents[orderedDocument.Hash]
 		if !graded {
 			continue
 		}
-		inTheOrderOfTheItems = append(inTheOrderOfTheItems, document)
+		inTheOrderOfTheDocuments = append(inTheOrderOfTheDocuments, document)
 	}
 
-	return inTheOrderOfTheItems
+	return inTheOrderOfTheDocuments
 }
 
 func (documents gradedDocuments) holdARelevantDocument() bool {
@@ -137,16 +137,16 @@ func (documents gradedDocuments) holdARelevantDocument() bool {
 	return false
 }
 
-func (documents gradedDocuments) amountOfUngradedItemsAmong(
-	orderedItems []queryanswers.FoundDocument,
+func (documents gradedDocuments) amountOfUngradedDocumentsAmong(
+	orderedDocuments []queryanswers.FoundDocument,
 ) int {
-	amountOfUngradedItems := 0
-	for _, orderedItem := range orderedItems {
-		if _, graded := documents[orderedItem.Hash]; graded {
+	amountOfUngradedDocuments := 0
+	for _, orderedDocument := range orderedDocuments {
+		if _, graded := documents[orderedDocument.Hash]; graded {
 			continue
 		}
-		amountOfUngradedItems++
+		amountOfUngradedDocuments++
 	}
 
-	return amountOfUngradedItems
+	return amountOfUngradedDocuments
 }

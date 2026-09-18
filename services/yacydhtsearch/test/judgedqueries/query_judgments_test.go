@@ -111,8 +111,8 @@ func documentsFoundFirst(
 ) map[yacymodel.URLHash]struct{} {
 	foundDocuments := answers.FoundDocuments
 
-	documentsAmongTheFirstFound := make(map[yacymodel.URLHash]struct{}, judgedItemsCeiling)
-	for _, foundDocument := range foundDocuments[:min(judgedItemsCeiling, len(foundDocuments))] {
+	documentsAmongTheFirstFound := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
+	for _, foundDocument := range foundDocuments[:min(judgedDocumentsCeiling, len(foundDocuments))] {
 		documentsAmongTheFirstFound[foundDocument.Hash] = struct{}{}
 	}
 

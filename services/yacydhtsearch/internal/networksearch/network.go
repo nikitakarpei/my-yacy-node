@@ -1,7 +1,7 @@
 // Package networksearch ranks what the peers of the network hold for one query,
 // within one query budget. It asks the peers that hold the words of the query,
-// puts what they answered in order, reads the pages of the items it puts first,
-// and carries back the items up to the ceiling as the ranking the client reads.
+// puts what they answered in order, reads the pages of the documents it puts first,
+// and carries back the documents up to the ceiling as the ranking the client reads.
 package networksearch
 
 import (
@@ -34,8 +34,8 @@ type QuerySpread interface {
 	) queryanswers.AnsweredQuery
 }
 
-type ItemsOrdering interface {
-	OrderedItemsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
+type DocumentsOrdering interface {
+	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
 }
 
 type PageReading interface {
@@ -63,7 +63,7 @@ type Network struct {
 	peerChoice         PeerChoice
 	querySpread        QuerySpread
 	pageReading        PageReading
-	itemsOrdering      ItemsOrdering
+	documentsOrdering  DocumentsOrdering
 	queryBudget        time.Duration
 	pageReadBudget     time.Duration
 	pagesReadPerQuery  int
@@ -77,7 +77,7 @@ func New(
 	peerChoice PeerChoice,
 	querySpread QuerySpread,
 	pageReading PageReading,
-	itemsOrdering ItemsOrdering,
+	documentsOrdering DocumentsOrdering,
 	queryBudget time.Duration,
 	pageReadBudget time.Duration,
 	pagesReadPerQuery int,
@@ -89,7 +89,7 @@ func New(
 		peerChoice:         peerChoice,
 		querySpread:        querySpread,
 		pageReading:        pageReading,
-		itemsOrdering:      itemsOrdering,
+		documentsOrdering:  documentsOrdering,
 		queryBudget:        queryBudget,
 		pageReadBudget:     pageReadBudget,
 		pagesReadPerQuery:  pagesReadPerQuery,
@@ -123,22 +123,31 @@ func (n Network) Search(
 	)
 	defer endTheQuerySpread()
 	answers := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
-	itemsOrderedFirst := itemsUpTo(n.itemsOrdering.OrderedItemsOf(answers), n.pagesReadPerQuery)
+	documentsOrderedFirst := documentsUpTo(
+		n.documentsOrdering.OrderedDocumentsOf(answers),
+		n.pagesReadPerQuery,
+	)
 	documentTextPerDocument := n.pageReading.DocumentTextPerDocument(
-		ctx, query.TermHashes(), pagesToReadOf(itemsOrderedFirst),
+		ctx, query.TermHashes(), pagesToReadOf(documentsOrderedFirst),
 	)
 	answersSaturatedWithDocumentText := answers.SaturatedWith(documentTextPerDocument)
-	rankedItems := itemsUpTo(
-		n.itemsOrdering.OrderedItemsOf(answersSaturatedWithDocumentText), n.rankedItemsCeiling,
+	rankedDocuments := documentsUpTo(
+		n.documentsOrdering.OrderedDocumentsOf(
+			answersSaturatedWithDocumentText,
+		),
+		n.rankedItemsCeiling,
 	)
 	n.observer.NetworkSearchPerformed(
 		ctx,
 		performedNetworkSearchFrom(
-			answersSaturatedWithDocumentText, rankedItems, len(askablePeers), time.Since(startedAt),
+			answersSaturatedWithDocumentText,
+			rankedDocuments,
+			len(askablePeers),
+			time.Since(startedAt),
 		),
 	)
 
-	return rankingOf(rankedItems), PeersAsked
+	return rankingOf(rankedDocuments), PeersAsked
 }
 
 func contextWithinTheQuerySpreadBudget(
@@ -149,39 +158,39 @@ func contextWithinTheQuerySpreadBudget(
 	return context.WithTimeout(ctx, max(queryBudget-pageReadBudget, 0))
 }
 
-func itemsUpTo(
-	orderedItems []queryanswers.FoundDocument,
+func documentsUpTo(
+	orderedDocuments []queryanswers.FoundDocument,
 	ceiling int,
 ) []queryanswers.FoundDocument {
 	if ceiling <= 0 {
 		return nil
 	}
 
-	return orderedItems[:min(ceiling, len(orderedItems))]
+	return orderedDocuments[:min(ceiling, len(orderedDocuments))]
 }
 
-func pagesToReadOf(items []queryanswers.FoundDocument) []pagereading.PageToRead {
-	pagesToRead := make([]pagereading.PageToRead, 0, len(items))
-	for _, item := range items {
+func pagesToReadOf(foundDocuments []queryanswers.FoundDocument) []pagereading.PageToRead {
+	pagesToRead := make([]pagereading.PageToRead, 0, len(foundDocuments))
+	for _, foundDocument := range foundDocuments {
 		pagesToRead = append(pagesToRead, pagereading.PageToRead{
-			Document: item.Hash,
-			Address:  item.Address,
+			Document: foundDocument.Hash,
+			Address:  foundDocument.Address,
 		})
 	}
 
 	return pagesToRead
 }
 
-func rankingOf(rankedItems []queryanswers.FoundDocument) searchresult.Ranking {
-	items := make([]searchresult.Item, 0, len(rankedItems))
-	for _, rankedItem := range rankedItems {
+func rankingOf(rankedDocuments []queryanswers.FoundDocument) searchresult.Ranking {
+	items := make([]searchresult.Item, 0, len(rankedDocuments))
+	for _, rankedDocument := range rankedDocuments {
 		items = append(items, searchresult.Item{
-			Hash:         rankedItem.Hash,
-			Address:      rankedItem.Address,
-			Title:        rankedItem.Title,
-			Description:  rankedItem.Snippet,
-			PublishedAt:  rankedItem.PublishedAt,
-			ImageAddress: rankedItem.FaviconAddress,
+			Hash:         rankedDocument.Hash,
+			Address:      rankedDocument.Address,
+			Title:        rankedDocument.Title,
+			Description:  rankedDocument.Snippet,
+			PublishedAt:  rankedDocument.PublishedAt,
+			ImageAddress: rankedDocument.FaviconAddress,
 		})
 	}
 

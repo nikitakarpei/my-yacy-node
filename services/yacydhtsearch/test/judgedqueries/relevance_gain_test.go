@@ -9,8 +9,8 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/hostdiscount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 )
 
@@ -19,8 +19,8 @@ const (
 	toleranceBelowTheAcceptedMeanGain                   = 0.02
 )
 
-type itemsOrdering interface {
-	OrderedItemsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
+type documentsOrdering interface {
+	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
 }
 
 func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
@@ -87,7 +87,7 @@ func orderingOfTheServiceFrom(
 
 type orderingInTheFoundOrder struct{}
 
-func (orderingInTheFoundOrder) OrderedItemsOf(
+func (orderingInTheFoundOrder) OrderedDocumentsOf(
 	answers queryanswers.AnsweredQuery,
 ) []queryanswers.FoundDocument {
 	return answers.FoundDocuments
@@ -101,19 +101,20 @@ func reportTheGainOfEachJudgedQuery(
 	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
 	relevanceOrdering := relevance.New(documentRelevance)
 	for _, judgedQuery := range judged {
-		orderedItems := hostdiscount.New(documentRelevance).OrderedItemsOf(judgedQuery.answers)
+		orderedDocuments := hostdiscount.New(documentRelevance).
+			OrderedDocumentsOf(judgedQuery.answers)
 		t.Logf(
 			"%q: host discount %.4f, relevance %.4f, found order %.4f, %d ungraded documents "+
 				"dropped",
 			judgedQuery.query,
 			gainOfTheOrderingOfTheService[judgedQuery.query],
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-				relevanceOrdering.OrderedItemsOf(judgedQuery.answers),
+				relevanceOrdering.OrderedDocumentsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-				orderingInTheFoundOrder{}.OrderedItemsOf(judgedQuery.answers),
+				orderingInTheFoundOrder{}.OrderedDocumentsOf(judgedQuery.answers),
 			),
-			judgedQuery.gradedDocuments.amountOfUngradedItemsAmong(orderedItems),
+			judgedQuery.gradedDocuments.amountOfUngradedDocumentsAmong(orderedDocuments),
 		)
 	}
 	t.Logf(
@@ -131,12 +132,12 @@ func reportTheGainOfEachJudgedQuery(
 }
 
 func meanNormalizedGainDiscountedPerHostOf(
-	ordering itemsOrdering, judged []judgedQuery,
+	ordering documentsOrdering, judged []judgedQuery,
 ) float64 {
 	sumOfNormalizedGains := 0.0
 	for _, judgedQuery := range judged {
 		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-			ordering.OrderedItemsOf(judgedQuery.answers),
+			ordering.OrderedDocumentsOf(judgedQuery.answers),
 		)
 	}
 

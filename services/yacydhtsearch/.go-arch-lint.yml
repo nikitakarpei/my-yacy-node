@@ -29,10 +29,10 @@ components:
     in: internal/documenttext/**
   documentrelevance:
     in: internal/documentrelevance/**
-  itemsorderingrelevance:
-    in: internal/itemsordering/relevance/**
-  itemsorderinghostdiscount:
-    in: internal/itemsordering/hostdiscount/**
+  documentsorderingrelevance:
+    in: internal/documentsordering/relevance/**
+  documentsorderinghostdiscount:
+    in: internal/documentsordering/hostdiscount/**
   peerdirectory:
     in: internal/peerdirectory/**
   stalepeersourcesleastreliable:
@@ -199,12 +199,12 @@ deps:
       - yacymodel
     mayDependOn:
       - queryanswers
-  itemsorderingrelevance:
+  documentsorderingrelevance:
     canUse:
       - yacymodel
     mayDependOn:
       - queryanswers
-  itemsorderinghostdiscount:
+  documentsorderinghostdiscount:
     canUse:
       - yacymodel
     mayDependOn:

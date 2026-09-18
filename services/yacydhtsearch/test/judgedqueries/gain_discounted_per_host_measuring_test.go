@@ -94,7 +94,7 @@ func normalizedGainOfTheDocumentsInOrder(
 	t.Helper()
 
 	graded := make(gradedDocuments, len(documentsInOrder))
-	orderedItems := make([]queryanswers.FoundDocument, 0, len(documentsInOrder))
+	orderedDocuments := make([]queryanswers.FoundDocument, 0, len(documentsInOrder))
 	for _, document := range documentsInOrder {
 		hash, err := yacymodel.URLHashOf(document.address)
 		if err != nil {
@@ -106,10 +106,10 @@ func normalizedGainOfTheDocumentsInOrder(
 				host:  hostOf(document.address),
 			}
 		}
-		orderedItems = append(
-			orderedItems, queryanswers.FoundDocument{Hash: hash, Address: document.address},
+		orderedDocuments = append(
+			orderedDocuments, queryanswers.FoundDocument{Hash: hash, Address: document.address},
 		)
 	}
 
-	return graded.normalizedGainDiscountedPerHostOf(orderedItems)
+	return graded.normalizedGainDiscountedPerHostOf(orderedDocuments)
 }

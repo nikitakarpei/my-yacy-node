@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
@@ -308,7 +308,7 @@ func networkSearching(
 
 type orderingInTheFoundOrder struct{}
 
-func (orderingInTheFoundOrder) OrderedItemsOf(
+func (orderingInTheFoundOrder) OrderedDocumentsOf(
 	answers queryanswers.AnsweredQuery,
 ) []queryanswers.FoundDocument {
 	return answers.FoundDocuments
@@ -319,7 +319,7 @@ func networkOrdering(
 	directory *peerdirectory.Directory,
 	observer networksearch.NetworkSearchObserver,
 	querySpread networksearch.QuerySpread,
-	itemsOrdering networksearch.ItemsOrdering,
+	documentsOrdering networksearch.DocumentsOrdering,
 ) networksearch.Network {
 	t.Helper()
 
@@ -328,7 +328,7 @@ func networkOrdering(
 		everyAskablePeer{},
 		querySpread,
 		pagesThatNoOneReads{},
-		itemsOrdering,
+		documentsOrdering,
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,

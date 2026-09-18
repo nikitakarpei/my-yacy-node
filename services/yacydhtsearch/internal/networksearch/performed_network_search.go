@@ -16,23 +16,23 @@ type PerformedNetworkSearch struct {
 
 func performedNetworkSearchFrom(
 	answers queryanswers.AnsweredQuery,
-	rankedItems []queryanswers.FoundDocument,
+	rankedDocuments []queryanswers.FoundDocument,
 	amountOfAskablePeers int,
 	timeSpent time.Duration,
 ) PerformedNetworkSearch {
 	return PerformedNetworkSearch{
 		AmountOfAskablePeers:              amountOfAskablePeers,
 		AmountOfFoundDocuments:            len(answers.FoundDocuments),
-		AmountOfItemsInRanking:            len(rankedItems),
-		AmountOfRankedItemsCountedByAPeer: amountOfItemsCountedByAPeer(rankedItems),
+		AmountOfItemsInRanking:            len(rankedDocuments),
+		AmountOfRankedItemsCountedByAPeer: amountOfItemsCountedByAPeer(rankedDocuments),
 		TimeSpent:                         timeSpent,
 	}
 }
 
-func amountOfItemsCountedByAPeer(items []queryanswers.FoundDocument) int {
+func amountOfItemsCountedByAPeer(foundDocuments []queryanswers.FoundDocument) int {
 	amount := 0
-	for _, item := range items {
-		if !item.CountedByAPeer() {
+	for _, foundDocument := range foundDocuments {
+		if !foundDocument.CountedByAPeer() {
 			continue
 		}
 		amount++

@@ -21,16 +21,16 @@ func New(scoreWeights ScoreWeights) Relevance {
 func (relevance Relevance) RelevancePerDocumentOf(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
-	items := answers.FoundDocuments
+	foundDocuments := answers.FoundDocuments
 	rarityOfTheQueryWords := queryWordRarityOf(
 		answers.DocumentsHeldPerQueryWord, answers.QueryWords,
 	)
-	averageDocumentLength := averageDocumentLengthOf(items)
+	averageDocumentLength := averageDocumentLengthOf(foundDocuments)
 
-	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(items))
-	for _, item := range items {
-		relevancePerDocument[item.Hash] = relevance.scoreWeights.relevanceOf(
-			item,
+	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(foundDocuments))
+	for _, foundDocument := range foundDocuments {
+		relevancePerDocument[foundDocument.Hash] = relevance.scoreWeights.relevanceOf(
+			foundDocument,
 			rarityOfTheQueryWords,
 			averageDocumentLength,
 			answers.QueryWords,

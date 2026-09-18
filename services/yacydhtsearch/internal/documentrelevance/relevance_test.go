@@ -92,10 +92,10 @@ func foundDocumentOfTheAddressNoNodeCanReadMatchingTheWords(
 ) queryanswers.FoundDocument {
 	t.Helper()
 
-	item := foundDocumentMatchingTheWords(t, "https://unreadable.example/", words...)
-	item.Address = addressNoNodeCanRead
+	foundDocument := foundDocumentMatchingTheWords(t, "https://unreadable.example/", words...)
+	foundDocument.Address = addressNoNodeCanRead
 
-	return item
+	return foundDocument
 }
 
 func answersOf(
@@ -144,16 +144,16 @@ func addressesInFallingOrderOfRelevanceByTheScoreWeights(
 	scoreWeights documentrelevance.ScoreWeights, answers queryanswers.AnsweredQuery,
 ) []string {
 	relevancePerDocument := documentrelevance.New(scoreWeights).RelevancePerDocumentOf(answers)
-	items := slices.Clone(answers.FoundDocuments)
-	slices.SortStableFunc(items, func(one, other queryanswers.FoundDocument) int {
+	foundDocuments := slices.Clone(answers.FoundDocuments)
+	slices.SortStableFunc(foundDocuments, func(one, other queryanswers.FoundDocument) int {
 		return cmp.Compare(
 			relevancePerDocument[other.Hash], relevancePerDocument[one.Hash],
 		)
 	})
 
-	addresses := make([]string, 0, len(items))
-	for _, item := range items {
-		addresses = append(addresses, item.Address)
+	addresses := make([]string, 0, len(foundDocuments))
+	for _, foundDocument := range foundDocuments {
+		addresses = append(addresses, foundDocument.Address)
 	}
 
 	return addresses
@@ -488,12 +488,12 @@ func foundDocumentHoldingTheQueryPhrase(
 ) queryanswers.FoundDocument {
 	t.Helper()
 
-	item := foundDocumentWithHitsOf(
+	foundDocument := foundDocumentWithHitsOf(
 		t, address, "berlin", hitsOfTheQueryWordInEveryPhrasedDocument,
 	)
-	item.QueryPhraseHits = queryPhraseHits
+	foundDocument.QueryPhraseHits = queryPhraseHits
 
-	return item
+	return foundDocument
 }
 
 func TestTheDocumentWhoseTextHoldsTheQueryPhraseComesFirst(t *testing.T) {
