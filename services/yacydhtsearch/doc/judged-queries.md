@@ -49,3 +49,6 @@ A subtopic names which intent of the query a document answers, as `jaguar`
 holds the intents `animal` and `car`. Give a subtopic to every document of the
 grade 1 or more of a query that holds more than one intent. Leave the subtopic
 out elsewhere: the host of a document then stands in for its subtopic.
+
+Give the subtopic `other` to a document whose intent no other document of the
+same query holds.
