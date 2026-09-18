@@ -5,325 +5,362 @@
       "hash": "_ShNqlCxRIa4",
       "address": "https://www.space.com/37848-solar-eclipse-2017-time.html",
       "title": "The 2017 Solar Eclipse Has Begun: See What Time It Will Reach You | Space",
-      "grade": null
+      "grade": 1,
+      "subtopic": "astronomy"
     },
     {
       "hash": "9-sNXfKml_0x",
       "address": "https://formula-indie-europe.captivate.fm/episode/formula-indie-europe-16-62025",
       "title": "FORMULA INDIE EUROPE 16.6.2025 - Formula Indie Europe",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "b0hd9429bhL4",
       "address": "https://kb.shells.com/tutorials/Clear_Linux_Latest/Eclipse/",
       "title": "Eclipse on Clear Linux - Shells KB",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "Vwi0kzUxAb_6",
       "address": "https://westseattleblog.com/2026/08/more-views-of-last-nights-lunar-eclipse-from-west-seattle/",
       "title": "Comment on More views of last night’s lunar eclipse from West Seattle by Audrey Gardner",
-      "grade": null
+      "grade": 1,
+      "subtopic": "astronomy"
     },
     {
       "hash": "WVGkQReNyC1w",
       "address": "https://accounts.eclipse.org/users/hdockter",
       "title": "Hans Dockter | Eclipse - The Eclipse Foundation open source community website.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-RRmK6PMwjH4",
       "address": "https://docs.aws.amazon.com/zh_cn/toolkit-for-eclipse/v1/user-guide/welcome.html",
       "title": "AWS 适用于 Eclipse 的工具包 - AWS 适用于 Eclipse 的工具包",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "dqoQoiYG32-5",
       "address": "https://www.livescience.com/space/the-sun/where-and-when-to-see-the-aug-12-solar-eclipse-exact-times-for-north-america-and-europe",
       "title": "Where and when to see the Aug. 12 solar eclipse — exact times for North America and Europe | Live Science",
-      "grade": null
+      "grade": 1,
+      "subtopic": "astronomy"
     },
     {
       "hash": "SZkdO7S6MKD4",
       "address": "https://github.com/eclipse-platform/eclipse.platform.swt/issues",
       "title": "Issues · eclipse-platform/eclipse.platform.swt · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VVv_fEoHYeTw",
       "address": "https://www.eclipse.org/projects/archives.php",
       "title": "Archived Projects | The Eclipse Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "8bQuYHJtFHHw",
       "address": "https://projects.eclipse.org/",
       "title": "List of Projects | projects.eclipse.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BDOfmReNyC1w",
       "address": "https://accounts.eclipse.org/users/areddyx80",
       "title": "Ajay Reddy | Eclipse - The Eclipse Foundation open source community website.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "GcTkyEoHYeTw",
       "address": "https://www.eclipse.org/projects/handbook/",
       "title": "Eclipse Project Handbook | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "uZpxHCId931w",
       "address": "https://marketplace.eclipse.org/comment/9726",
       "title": "GitHub Copilot | Eclipse Plugins, Bundles and Products - Eclipse Marketplace | Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "Qc4LCJLc6Rbw",
       "address": "https://gitlab.eclipse.org/eclipse/",
       "title": "Eclipse Projects · GitLab",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "7FdKOReNyC1w",
       "address": "https://accounts.eclipse.org/users/estuder",
       "title": "Etienne Studer | Eclipse - The Eclipse Foundation open source community website.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BB8k_toHYeTw",
       "address": "https://www.eclipse.org/collaborations/working-groups/operations/",
       "title": "Eclipse Foundation Working Group Operations Guide | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "fLEX6yoHYeTw",
       "address": "https://www.eclipse.org/legal/privacy/",
       "title": "Eclipse Foundation Website Privacy Policy | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "x9h7oLJtFHHw",
       "address": "https://projects.eclipse.org/projects/automotive",
       "title": "Eclipse Automotive | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "UY3VXReNyC1w",
       "address": "https://accounts.eclipse.org/users/atijmse7y",
       "title": "Arjan Tijms | Eclipse - The Eclipse Foundation open source community website.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pB4gxLJtFHHw",
       "address": "https://projects.eclipse.org/projects/ee4j.jakartaee-documentation",
       "title": "Eclipse Documentation for Jakarta EE | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "9v5SNloHYeTw",
       "address": "https://www.eclipse.org/downloads/",
       "title": "Eclipse Downloads | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "5UGM3iv_lWJw",
       "address": "https://blogs.eclipse.org/",
       "title": "Blog Posts | Eclipse Foundation Staff Blogs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Zg8A4ReNyC1w",
       "address": "https://accounts.eclipse.org/users/joschloman",
       "title": "John Schloman | Eclipse - The Eclipse Foundation open source community website.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RT3YXloHYeTw",
       "address": "https://www.eclipse.org/",
       "title": "Eclipse Foundation | Powering Open Innovation",
-      "grade": null
+      "grade": 2,
+      "subtopic": "software"
     },
     {
       "hash": "tfRUh-oHYeTw",
       "address": "https://www.eclipse.org/org/elections/",
       "title": "Eclipse Foundation Elections | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "SvMzLLJtFHHw",
       "address": "https://projects.eclipse.org/projects/technology.openj9/releases/0.16.0",
       "title": "Eclipse OpenJ9 0.16.0 | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "ps7dPhW3P4N4",
       "address": "https://eclipse-calendar.utils.com/",
       "title": "Eclipse Calendar - Upcoming Solar \u0026 Lunar Eclipses - utils.com",
-      "grade": null
+      "grade": 2,
+      "subtopic": "astronomy"
     },
     {
       "hash": "JUiq1LJtFHHw",
       "address": "https://projects.eclipse.org/projects/ecd.dirigible/releases/9.0.0",
       "title": "Eclipse Dirigible™ 9.0.0 | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "qOc6lloHYeTw",
       "address": "https://www.eclipse.org/collaborations/",
       "title": "Industry Collaborations | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "aGUh_loHYeTw",
       "address": "https://www.eclipse.org/legal/",
       "title": "Eclipse Foundation Legal Resources | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "hU7qABJtFHHw",
       "address": "https://projects.eclipse.org/build-technology/tycho",
       "title": "Tycho | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "heh3RLJtFHHw",
       "address": "https://projects.eclipse.org/projects/automotive.tractusx",
       "title": "Eclipse Tractus-X | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "0RvOJLJtFHHw",
       "address": "https://projects.eclipse.org/projects/tools.buildship",
       "title": "Eclipse Buildship: Eclipse Plug-ins for Gradle | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "n1j1BXId931w",
       "address": "https://marketplace.eclipse.org/category/free-tagging/yaml",
       "title": "yaml | Eclipse Plugins, Bundles and Products - Eclipse Marketplace | Eclipse Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2UE_wTJtFHHw",
       "address": "https://projects.eclipse.org/proposals/eclipse-enclave",
       "title": "Eclipse Enclave | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "RfUPdLJtFHHw",
       "address": "https://projects.eclipse.org/projects/ee4j.websocket",
       "title": "Jakarta WebSocket | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "3IFf1-oHYeTw",
       "address": "https://www.eclipse.org/org/foundation/contact/",
       "title": "Contact Us | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "xNJeKiId931w",
       "address": "https://marketplace.eclipse.org/user/eduardopvieira/favorites",
       "title": "Favorites for Eduardo Vieira | Eclipse Plugins, Bundles and Products - Eclipse Marketplace | Eclipse Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tv3Y-LJtFHHw",
       "address": "https://projects.eclipse.org/projects/rt.jetty",
       "title": "Eclipse Jetty - Servlet Engine and Http Server | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "XyxeHReNyC1w",
       "address": "https://accounts.eclipse.org/users/jvermillard",
       "title": "Julien Vermillard | Eclipse - The Eclipse Foundation open source community website.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TJqiCLJtFHHw",
       "address": "https://projects.eclipse.org/projects/iot.tinydtls",
       "title": "Eclipse tinydtls | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "k8pv7_eNyC1w",
       "address": "https://accounts.eclipse.org/mailing-list",
       "title": "Eclipse Mailing Lists | Eclipse - The Eclipse Foundation open source community website.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7s0De-oHYeTw",
       "address": "https://www.eclipse.org/org/services/",
       "title": "Services | The Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "PkXG1M17_Qww",
       "address": "https://newsroom.eclipse.org/eclipse-newsletter/2026/august",
       "title": "August 2026 Community Newsletter | Eclipse News, Eclipse in the News, Eclipse Announcement",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9PohYfuhNXOw",
       "address": "https://eclipse.aas.org/workshops/apr2022",
       "title": "Solar Eclipse Planning Workshop, 8-9 April 2022, Virtually Anywhere | Solar Eclipse Across America",
-      "grade": null
+      "grade": 1,
+      "subtopic": "astronomy"
     },
     {
       "hash": "4kUnwE_2NcCw",
       "address": "https://iot.eclipse.org/",
       "title": "Eclipse IoT - Leading open source community for IoT innovation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "f4O_HVId931w",
       "address": "https://marketplace.eclipse.org/",
       "title": "New and Updated Solutions | Eclipse Plugins, Bundles and Products - Eclipse Marketplace | Eclipse Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_ZUS1D17_Qww",
       "address": "https://newsroom.eclipse.org/",
       "title": "Eclipse News | Eclipse News, Eclipse in the News, Eclipse Announcement",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "qRduUduhNXOw",
       "address": "https://eclipse.aas.org/imaging-video/images-videos",
       "title": "How to Shoot Solar-Eclipse Images \u0026 Videos | Solar Eclipse Across America",
-      "grade": null
+      "grade": 1,
+      "subtopic": "astronomy"
     },
     {
       "hash": "xrOdiFuhNXOw",
       "address": "https://eclipse.aas.org/eclipse-basics/totality-darkness",
       "title": "How Dark Does It Get During a Total Solar Eclipse? | Solar Eclipse Across America",
-      "grade": null
+      "grade": 1,
+      "subtopic": "astronomy"
     },
     {
       "hash": "Bun_hfsawvk4",
       "address": "https://eclipse.dev/che/getting-started/",
       "title": "Home | Eclipse Che",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "1FrzqqId931w",
       "address": "https://marketplace.eclipse.org/content/andmore",
       "title": "Andmore: Development Tools for Android™ | Eclipse Plugins, Bundles and Products - Eclipse Marketplace | Eclipse Foundation",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "kFbw0LJtFHHw",
       "address": "https://projects.eclipse.org/projects/ee4j.expressly",
       "title": "Eclipse ExpressLy | projects.eclipse.org",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     },
     {
       "hash": "-0O4mssawvk4",
       "address": "https://eclipse.dev/basyx/",
       "title": "Eclipse BaSyx",
-      "grade": null
+      "grade": 1,
+      "subtopic": "software"
     }
   ]
 }
