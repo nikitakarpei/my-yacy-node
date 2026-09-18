@@ -1,6 +1,7 @@
 package wordjoined
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -36,13 +37,12 @@ func foundDocumentsFrom(
 			if !alreadyFound {
 				place = len(foundDocuments)
 				placeOfEachDocument[matchedDocument.Metadata.Hash] = place
-				foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
-					Metadata:     matchedDocument.Metadata,
-					MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{},
-				})
+				foundDocuments = append(
+					foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
+				)
 			}
 			keepTheFirstCountOfTheWord(
-				foundDocuments[place].MatchedWords,
+				&foundDocuments[place],
 				answeredAsk.Ask.Word,
 				matchedDocument.CountOfAWordTheAskNamed,
 			)
@@ -54,7 +54,7 @@ func foundDocumentsFrom(
 				continue
 			}
 			placeOfEachDocument[metadata.Hash] = len(foundDocuments)
-			foundDocuments = append(foundDocuments, queryanswers.FoundDocument{Metadata: metadata})
+			foundDocuments = append(foundDocuments, queryanswers.FoundDocumentFrom(metadata))
 		}
 	}
 
@@ -62,15 +62,16 @@ func foundDocumentsFrom(
 }
 
 func keepTheFirstCountOfTheWord(
-	matchedWords map[yacymodel.Hash]queryanswers.WordCount,
+	foundDocument *queryanswers.FoundDocument,
 	word yacymodel.Hash,
-	count queryanswers.WordCount,
+	count peerasks.WordCount,
 ) {
 	if !count.CountedByAPeer() {
 		return
 	}
-	if _, alreadyCounted := matchedWords[word]; alreadyCounted {
+	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
 		return
 	}
-	matchedWords[word] = count
+	foundDocument.HitsPerQueryWord[word] = count.Hits
+	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, count.TextWords)
 }

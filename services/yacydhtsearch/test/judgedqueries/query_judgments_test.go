@@ -93,13 +93,13 @@ func documentsToJudgeOf(
 
 	documentsToJudge := make([]judgedDocument, 0, len(toJudge))
 	for _, foundDocument := range answers.FoundDocuments {
-		if _, judged := toJudge[foundDocument.Metadata.Hash]; !judged {
+		if _, judged := toJudge[foundDocument.Hash]; !judged {
 			continue
 		}
 		documentsToJudge = append(documentsToJudge, judgedDocument{
-			Hash:    foundDocument.Metadata.Hash,
-			Address: foundDocument.Metadata.Address,
-			Title:   foundDocument.Metadata.Title,
+			Hash:    foundDocument.Hash,
+			Address: foundDocument.Address,
+			Title:   foundDocument.Title,
 		})
 	}
 
@@ -113,7 +113,7 @@ func documentsFoundFirst(
 
 	documentsAmongTheFirstFound := make(map[yacymodel.URLHash]struct{}, judgedItemsCeiling)
 	for _, foundDocument := range foundDocuments[:min(judgedItemsCeiling, len(foundDocuments))] {
-		documentsAmongTheFirstFound[foundDocument.Metadata.Hash] = struct{}{}
+		documentsAmongTheFirstFound[foundDocument.Hash] = struct{}{}
 	}
 
 	return documentsAmongTheFirstFound

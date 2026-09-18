@@ -145,7 +145,7 @@ func (n *peerNetwork) matchedDocumentsOf(
 			Metadata: yacymodel.URLMetadata{Hash: document},
 		}
 		if n.countsAWordWithEachItem {
-			matchedDocument.CountOfAWordTheAskNamed = queryanswers.WordCount{Hits: 3}
+			matchedDocument.CountOfAWordTheAskNamed = peerasks.WordCount{Hits: 3}
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -1443,7 +1443,7 @@ func TestOnlyTheJoinedDocumentsAPeerAnsweredAreFound(t *testing.T) {
 	wanted := documentHashOf(t, answered)
 	documents := map[yacymodel.URLHash]struct{}{}
 	for _, foundDocument := range foundDocuments {
-		documents[foundDocument.Metadata.Hash] = struct{}{}
+		documents[foundDocument.Hash] = struct{}{}
 	}
 	if _, cameBack := documents[wanted]; !cameBack || len(documents) != 1 {
 		t.Fatalf("the spread answered %v, want only the joined document the peer answered",
@@ -1484,11 +1484,11 @@ func TestAFoundDocumentIsCountedForTheWordThePeerWasAskedAbout(t *testing.T) {
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
 	}
-	matchedWords := foundDocuments[0].MatchedWords
-	if matchedWords[yacymodel.WordHash(firstWord)].Hits != 3 ||
-		matchedWords[yacymodel.WordHash(secondWord)].CountedByAPeer() {
-		t.Fatalf("the found document matched %v, want the count under the word the ask named",
-			matchedWords)
+	hitsPerQueryWord := foundDocuments[0].HitsPerQueryWord
+	_, secondWordHasHits := hitsPerQueryWord[yacymodel.WordHash(secondWord)]
+	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 || secondWordHasHits {
+		t.Fatalf("the found document holds the hits %v, want the hits of the word the ask named",
+			hitsPerQueryWord)
 	}
 }
 
@@ -1509,11 +1509,11 @@ func TestTheCountsOfEachQueryWordComeTogetherOnTheJoinedDocument(t *testing.T) {
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
 	}
-	matchedWords := foundDocuments[0].MatchedWords
-	if matchedWords[yacymodel.WordHash(firstWord)].Hits != 3 ||
-		matchedWords[yacymodel.WordHash(secondWord)].Hits != 3 {
-		t.Fatalf("the found document matched %v, want the count of each query word",
-			matchedWords)
+	hitsPerQueryWord := foundDocuments[0].HitsPerQueryWord
+	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 ||
+		hitsPerQueryWord[yacymodel.WordHash(secondWord)] != 3 {
+		t.Fatalf("the found document holds the hits %v, want the hits of each query word",
+			hitsPerQueryWord)
 	}
 }
 
@@ -1528,7 +1528,7 @@ func TestAJoinedDocumentNoPeerAnsweredIsFoundThroughItsMetadata(t *testing.T) {
 
 	foundDocuments := spreadOf(network, &recordedSpreads{}).FoundDocuments
 
-	if len(foundDocuments) != 1 || foundDocuments[0].Metadata.Hash != documentHashOf(t, joined) {
+	if len(foundDocuments) != 1 || foundDocuments[0].Hash != documentHashOf(t, joined) {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
 	}
 }

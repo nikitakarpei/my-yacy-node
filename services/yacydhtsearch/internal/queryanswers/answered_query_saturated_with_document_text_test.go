@@ -10,7 +10,7 @@ import (
 
 const addressOfTheReadDocument = "https://berlin.example/"
 
-func metadataNamedByAddress(t *testing.T, address string) yacymodel.URLMetadata {
+func documentOf(t *testing.T, address string) yacymodel.URLHash {
 	t.Helper()
 
 	hash, err := yacymodel.URLHashOf(address)
@@ -18,26 +18,19 @@ func metadataNamedByAddress(t *testing.T, address string) yacymodel.URLMetadata 
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return yacymodel.URLMetadata{Hash: hash, Address: address}
+	return hash
 }
 
-func foundDocumentCountedForTheWord(
+func foundDocumentWithOneHitOf(
 	t *testing.T, address string, word string,
 ) queryanswers.FoundDocument {
 	t.Helper()
 
 	return queryanswers.FoundDocument{
-		Metadata: metadataNamedByAddress(t, address),
-		MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{
-			yacymodel.WordHash(word): {Hits: 1},
-		},
+		Hash:             documentOf(t, address),
+		Address:          address,
+		HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
 	}
-}
-
-func documentOf(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	return metadataNamedByAddress(t, address).Hash
 }
 
 func textOfTheReadDocument(t *testing.T) map[yacymodel.URLHash]documenttext.DocumentText {
@@ -58,7 +51,7 @@ func answersOfTheReadDocument(t *testing.T) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
 		QueryWords: []yacymodel.Hash{yacymodel.WordHash("berlin")},
 		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentCountedForTheWord(t, addressOfTheReadDocument, "berlin"),
+			foundDocumentWithOneHitOf(t, addressOfTheReadDocument, "berlin"),
 		},
 		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 12},
 	}
@@ -72,9 +65,9 @@ func TestAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 	read := answers.SaturatedWith(textOfTheReadDocument(t))
 
 	foundDocument := read.FoundDocuments[0]
-	count := foundDocument.MatchedWords[yacymodel.WordHash("berlin")]
-	if count.Hits != 7 || count.TextWords != 400 ||
-		foundDocument.Metadata.Snippet != "Berlin holds a wall." {
+	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 7 ||
+		foundDocument.AmountOfWords != 400 ||
+		foundDocument.Snippet != "Berlin holds a wall." {
 		t.Fatalf("the found document reads %+v, want the counts and the snippet of the text",
 			foundDocument)
 	}
@@ -88,7 +81,7 @@ func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("weather"),
 		},
 		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentCountedForTheWord(t, addressOfTheReadDocument, "berlin"),
+			foundDocumentWithOneHitOf(t, addressOfTheReadDocument, "berlin"),
 		},
 	}
 	textOfTheDocument := map[yacymodel.URLHash]documenttext.DocumentText{
@@ -103,12 +96,13 @@ func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 
 	read := answers.SaturatedWith(textOfTheDocument)
 
-	count := read.FoundDocuments[0].MatchedWords[yacymodel.WordHash("weather")]
-	if count.Hits != 2 || count.TextWords != 400 {
+	foundDocument := read.FoundDocuments[0]
+	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("weather")] != 2 ||
+		foundDocument.AmountOfWords != 400 {
 		t.Fatalf(
-			"the found document counts %+v for the word no peer matched it for, want the count "+
+			"the found document reads %+v for the word no peer matched it for, want the count "+
 				"of the text",
-			count,
+			foundDocument,
 		)
 	}
 }
@@ -133,14 +127,15 @@ func TestADocumentThatWasNotReadStaysAsThePeersCountedIt(t *testing.T) {
 
 	answers := queryanswers.AnsweredQuery{
 		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentCountedForTheWord(t, "https://unread.example/", "berlin"),
+			foundDocumentWithOneHitOf(t, "https://unread.example/", "berlin"),
 		},
 	}
 
 	read := answers.SaturatedWith(textOfTheReadDocument(t))
 
-	count := read.FoundDocuments[0].MatchedWords[yacymodel.WordHash("berlin")]
-	if count.Hits != 1 || count.TextWords != 0 {
-		t.Fatalf("the found document reads %+v, want the count the peers answered", count)
+	foundDocument := read.FoundDocuments[0]
+	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 1 ||
+		foundDocument.AmountOfWords != 0 {
+		t.Fatalf("the found document reads %+v, want the count the peers answered", foundDocument)
 	}
 }

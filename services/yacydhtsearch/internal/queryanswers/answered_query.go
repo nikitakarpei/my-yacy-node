@@ -24,7 +24,7 @@ func (a AnsweredQuery) SaturatedWith(
 
 	foundDocuments := make([]FoundDocument, 0, len(a.FoundDocuments))
 	for _, foundDocument := range a.FoundDocuments {
-		text, read := textPerDocument[foundDocument.Metadata.Hash]
+		text, read := textPerDocument[foundDocument.Hash]
 		if read {
 			foundDocument = foundDocument.saturatedWith(text)
 		}

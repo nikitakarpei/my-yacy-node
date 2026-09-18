@@ -27,17 +27,13 @@ type recordedAnswers struct {
 }
 
 type recordedFoundDocument struct {
-	Hash            yacymodel.URLHash                    `json:"hash"`
-	Address         string                               `json:"address"`
-	Title           string                               `json:"title"`
-	Snippet         string                               `json:"snippet"`
-	MatchedWords    map[yacymodel.Hash]recordedWordCount `json:"matchedWords"`
-	QueryPhraseHits int                                  `json:"queryPhraseHits"`
-}
-
-type recordedWordCount struct {
-	Hits      int `json:"hits"`
-	TextWords int `json:"textWords"`
+	Hash             yacymodel.URLHash      `json:"hash"`
+	Address          string                 `json:"address"`
+	Title            string                 `json:"title"`
+	Snippet          string                 `json:"snippet"`
+	HitsPerQueryWord map[yacymodel.Hash]int `json:"hitsPerQueryWord"`
+	AmountOfWords    int                    `json:"amountOfWords"`
+	QueryPhraseHits  int                    `json:"queryPhraseHits"`
 }
 
 func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
@@ -54,32 +50,17 @@ func foundDocumentsFrom(
 	foundDocuments := make([]queryanswers.FoundDocument, 0, len(recordedFoundDocuments))
 	for _, recorded := range recordedFoundDocuments {
 		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
-			Metadata: yacymodel.URLMetadata{
-				Hash:    recorded.Hash,
-				Address: recorded.Address,
-				Title:   recorded.Title,
-				Snippet: recorded.Snippet,
-			},
-			MatchedWords:    wordCountsOf(recorded.MatchedWords),
-			QueryPhraseHits: recorded.QueryPhraseHits,
+			Hash:             recorded.Hash,
+			Address:          recorded.Address,
+			Title:            recorded.Title,
+			Snippet:          recorded.Snippet,
+			HitsPerQueryWord: recorded.HitsPerQueryWord,
+			AmountOfWords:    recorded.AmountOfWords,
+			QueryPhraseHits:  recorded.QueryPhraseHits,
 		})
 	}
 
 	return foundDocuments
-}
-
-func wordCountsOf(
-	recordedWordCounts map[yacymodel.Hash]recordedWordCount,
-) map[yacymodel.Hash]queryanswers.WordCount {
-	wordCounts := make(map[yacymodel.Hash]queryanswers.WordCount, len(recordedWordCounts))
-	for word, recorded := range recordedWordCounts {
-		wordCounts[word] = queryanswers.WordCount{
-			Hits:      recorded.Hits,
-			TextWords: recorded.TextWords,
-		}
-	}
-
-	return wordCounts
 }
 
 func recordedAnswersOf(query string, answers queryanswers.AnsweredQuery) recordedAnswers {
@@ -97,30 +78,17 @@ func recordedFoundDocumentsFrom(
 	recordedFoundDocuments := make([]recordedFoundDocument, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
 		recordedFoundDocuments = append(recordedFoundDocuments, recordedFoundDocument{
-			Hash:            foundDocument.Metadata.Hash,
-			Address:         foundDocument.Metadata.Address,
-			Title:           foundDocument.Metadata.Title,
-			Snippet:         foundDocument.Metadata.Snippet,
-			MatchedWords:    recordedWordCountsOf(foundDocument.MatchedWords),
-			QueryPhraseHits: foundDocument.QueryPhraseHits,
+			Hash:             foundDocument.Hash,
+			Address:          foundDocument.Address,
+			Title:            foundDocument.Title,
+			Snippet:          foundDocument.Snippet,
+			HitsPerQueryWord: foundDocument.HitsPerQueryWord,
+			AmountOfWords:    foundDocument.AmountOfWords,
+			QueryPhraseHits:  foundDocument.QueryPhraseHits,
 		})
 	}
 
 	return recordedFoundDocuments
-}
-
-func recordedWordCountsOf(
-	wordCounts map[yacymodel.Hash]queryanswers.WordCount,
-) map[yacymodel.Hash]recordedWordCount {
-	recordedWordCounts := make(map[yacymodel.Hash]recordedWordCount, len(wordCounts))
-	for word, wordCount := range wordCounts {
-		recordedWordCounts[word] = recordedWordCount{
-			Hits:      wordCount.Hits,
-			TextWords: wordCount.TextWords,
-		}
-	}
-
-	return recordedWordCounts
 }
 
 func recordedAnswersFiles(t *testing.T) []string {

@@ -38,7 +38,7 @@ func itemsInFallingOrderOfRelevance(
 ) []queryanswers.FoundDocument {
 	slices.SortStableFunc(items, func(one, other queryanswers.FoundDocument) int {
 		return cmp.Compare(
-			relevancePerDocument[other.Metadata.Hash], relevancePerDocument[one.Metadata.Hash],
+			relevancePerDocument[other.Hash], relevancePerDocument[one.Hash],
 		)
 	})
 

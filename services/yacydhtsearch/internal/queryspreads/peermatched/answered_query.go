@@ -30,16 +30,15 @@ func foundDocumentsFrom(
 			if !alreadyFound {
 				place = len(foundDocuments)
 				placeOfEachDocument[matchedDocument.Metadata.Hash] = place
-				foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
-					Metadata:     matchedDocument.Metadata,
-					MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{},
-				})
+				foundDocuments = append(
+					foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
+				)
 			}
 			if !countedWordIsKnown {
 				continue
 			}
 			keepTheFirstCountOfTheWord(
-				foundDocuments[place].MatchedWords,
+				&foundDocuments[place],
 				countedWord,
 				matchedDocument.CountOfAWordTheAskNamed,
 			)
@@ -58,15 +57,16 @@ func wordThePeersCountedFor(queryWords []yacymodel.Hash) (yacymodel.Hash, bool) 
 }
 
 func keepTheFirstCountOfTheWord(
-	matchedWords map[yacymodel.Hash]queryanswers.WordCount,
+	foundDocument *queryanswers.FoundDocument,
 	word yacymodel.Hash,
-	count queryanswers.WordCount,
+	count peerasks.WordCount,
 ) {
 	if !count.CountedByAPeer() {
 		return
 	}
-	if _, alreadyCounted := matchedWords[word]; alreadyCounted {
+	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
 		return
 	}
-	matchedWords[word] = count
+	foundDocument.HitsPerQueryWord[word] = count.Hits
+	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, count.TextWords)
 }

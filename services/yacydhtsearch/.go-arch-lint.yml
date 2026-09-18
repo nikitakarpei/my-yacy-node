@@ -337,7 +337,6 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - queryanswers
       - peerdirectory
   replicaasks:
     canUse:
@@ -357,7 +356,6 @@ deps:
       - yacymodel
       - yacyproto
     mayDependOn:
-      - queryanswers
       - peerasks
   peerlivenesswire:
     canUse:

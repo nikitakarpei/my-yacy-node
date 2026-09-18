@@ -49,7 +49,7 @@ func itemsInFallingOrderOfRelevance(
 ) []queryanswers.FoundDocument {
 	slices.SortStableFunc(items, func(one, other queryanswers.FoundDocument) int {
 		return cmp.Compare(
-			relevancePerDocument[other.Metadata.Hash], relevancePerDocument[one.Metadata.Hash],
+			relevancePerDocument[other.Hash], relevancePerDocument[one.Hash],
 		)
 	})
 
@@ -85,7 +85,7 @@ func hostedItemsOf(items []queryanswers.FoundDocument) []hostedItem {
 	for _, item := range items {
 		hostedItems = append(hostedItems, hostedItem{
 			item: item,
-			host: hostOf(item.Metadata.Address),
+			host: hostOf(item.Address),
 		})
 	}
 
@@ -117,7 +117,7 @@ func discountedRelevanceOf(
 	relevancePerDocument map[yacymodel.URLHash]float64,
 	amountOfPlacedItemsPerHost map[string]int,
 ) float64 {
-	return relevancePerDocument[hostedItem.item.Metadata.Hash] * math.Pow(
+	return relevancePerDocument[hostedItem.item.Hash] * math.Pow(
 		shareOfRelevanceKeptPerPlacedItemOfTheSameHost,
 		float64(amountOfPlacedItemsPerHost[hostedItem.host]),
 	)

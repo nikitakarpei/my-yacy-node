@@ -164,8 +164,8 @@ func pagesToReadOf(items []queryanswers.FoundDocument) []pagereading.PageToRead 
 	pagesToRead := make([]pagereading.PageToRead, 0, len(items))
 	for _, item := range items {
 		pagesToRead = append(pagesToRead, pagereading.PageToRead{
-			Document: item.Metadata.Hash,
-			Address:  item.Metadata.Address,
+			Document: item.Hash,
+			Address:  item.Address,
 		})
 	}
 
@@ -175,7 +175,14 @@ func pagesToReadOf(items []queryanswers.FoundDocument) []pagereading.PageToRead 
 func rankingOf(rankedItems []queryanswers.FoundDocument) searchresult.Ranking {
 	items := make([]searchresult.Item, 0, len(rankedItems))
 	for _, rankedItem := range rankedItems {
-		items = append(items, searchresult.ItemFrom(rankedItem.Metadata))
+		items = append(items, searchresult.Item{
+			Hash:         rankedItem.Hash,
+			Address:      rankedItem.Address,
+			Title:        rankedItem.Title,
+			Description:  rankedItem.Snippet,
+			PublishedAt:  rankedItem.PublishedAt,
+			ImageAddress: rankedItem.FaviconAddress,
+		})
 	}
 
 	return searchresult.Ranking{Items: items}

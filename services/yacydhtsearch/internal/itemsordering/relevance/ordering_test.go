@@ -37,10 +37,8 @@ func addressesOrderedByRelevance(
 			t.Fatalf("URLHashOf(%q): %v", addressAndItsRelevance.address, err)
 		}
 		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
-			Metadata: yacymodel.URLMetadata{
-				Hash:    hash,
-				Address: addressAndItsRelevance.address,
-			},
+			Hash:    hash,
+			Address: addressAndItsRelevance.address,
 		})
 		relevancePerDocument[hash] = addressAndItsRelevance.relevance
 	}
@@ -53,7 +51,7 @@ func addressesOrderedByRelevance(
 
 	orderedAddresses := make([]string, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
-		orderedAddresses = append(orderedAddresses, orderedItem.Metadata.Address)
+		orderedAddresses = append(orderedAddresses, orderedItem.Address)
 	}
 
 	return orderedAddresses
@@ -115,7 +113,7 @@ func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
 
 	relevance.New(relevanceByFoundPlace{}).OrderedItemsOf(answers)
 
-	if answers.FoundDocuments[0].Metadata.Address != "https://less.example/" {
+	if answers.FoundDocuments[0].Address != "https://less.example/" {
 		t.Fatalf("the answers read %v after ordering, want the order they were found in",
 			answers.FoundDocuments)
 	}
@@ -129,7 +127,7 @@ func foundDocumentAt(t *testing.T, address string) queryanswers.FoundDocument {
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return queryanswers.FoundDocument{Metadata: yacymodel.URLMetadata{Hash: hash, Address: address}}
+	return queryanswers.FoundDocument{Hash: hash, Address: address}
 }
 
 type relevanceByFoundPlace struct{}
@@ -139,7 +137,7 @@ func (relevanceByFoundPlace) RelevancePerDocumentOf(
 ) map[yacymodel.URLHash]float64 {
 	relevancePerDocument := map[yacymodel.URLHash]float64{}
 	for place, foundDocument := range answers.FoundDocuments {
-		relevancePerDocument[foundDocument.Metadata.Hash] = float64(place)
+		relevancePerDocument[foundDocument.Hash] = float64(place)
 	}
 
 	return relevancePerDocument

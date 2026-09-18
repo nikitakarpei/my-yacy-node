@@ -69,7 +69,7 @@ func (n *peerNetwork) matchedDocumentsOf(
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
 		}
 		if countsAWord {
-			matchedDocument.CountOfAWordTheAskNamed = queryanswers.WordCount{Hits: 3}
+			matchedDocument.CountOfAWordTheAskNamed = peerasks.WordCount{Hits: 3}
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -142,7 +142,7 @@ func searchForTheQuery(network *peerNetwork, query string) []queryanswers.FoundD
 func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
 	addresses := make([]string, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
-		addresses = append(addresses, foundDocument.Metadata.Address)
+		addresses = append(addresses, foundDocument.Address)
 	}
 
 	return addresses
@@ -241,9 +241,9 @@ func TestADocumentKeepsTheCountOfAPeerThatCountedItsWord(t *testing.T) {
 
 	foundDocuments := searchForTheQuery(network, "berlin")
 
-	if counted := foundDocuments[0].MatchedWords[yacymodel.WordHash("berlin")]; counted.Hits != 3 {
-		t.Fatalf("the found document carries %+v, want the count of the peer that counted it",
-			foundDocuments[0].MatchedWords)
+	if hits := foundDocuments[0].HitsPerQueryWord[yacymodel.WordHash("berlin")]; hits != 3 {
+		t.Fatalf("the found document holds the hits %v, want the hits of the peer that counted "+
+			"them", foundDocuments[0].HitsPerQueryWord)
 	}
 }
 
@@ -269,13 +269,13 @@ func TestOnlyAQueryOfOneWordNamesTheWordAPeerCounted(t *testing.T) {
 	ofOneWord := searchForTheQuery(network, "berlin")
 	ofTwoWords := searchForTheQuery(network, "berlin weather")
 
-	if counted := ofOneWord[0].MatchedWords[yacymodel.WordHash("berlin")]; counted.Hits != 3 {
-		t.Fatalf("the found document of a one word query carries %+v, want the count under "+
-			"that word", ofOneWord[0].MatchedWords)
+	if hits := ofOneWord[0].HitsPerQueryWord[yacymodel.WordHash("berlin")]; hits != 3 {
+		t.Fatalf("the found document of a one word query holds the hits %v, want the hits of "+
+			"that word", ofOneWord[0].HitsPerQueryWord)
 	}
 	if ofTwoWords[0].CountedByAPeer() {
-		t.Fatalf("the found document of a two word query carries %+v, want no count, because "+
-			"the peer does not say which word it counted", ofTwoWords[0].MatchedWords)
+		t.Fatalf("the found document of a two word query reads %+v, want no count, because "+
+			"the peer does not say which word it counted", ofTwoWords[0])
 	}
 }
 

@@ -117,7 +117,7 @@ func (documents gradedDocuments) gradedDocumentsInTheOrderOf(
 ) []gradedDocument {
 	inTheOrderOfTheItems := make([]gradedDocument, 0, len(orderedItems))
 	for _, orderedItem := range orderedItems {
-		document, graded := documents[orderedItem.Metadata.Hash]
+		document, graded := documents[orderedItem.Hash]
 		if !graded {
 			continue
 		}
@@ -142,7 +142,7 @@ func (documents gradedDocuments) amountOfUngradedItemsAmong(
 ) int {
 	amountOfUngradedItems := 0
 	for _, orderedItem := range orderedItems {
-		if _, graded := documents[orderedItem.Metadata.Hash]; graded {
+		if _, graded := documents[orderedItem.Hash]; graded {
 			continue
 		}
 		amountOfUngradedItems++

@@ -29,7 +29,7 @@ func (relevance Relevance) RelevancePerDocumentOf(
 
 	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(items))
 	for _, item := range items {
-		relevancePerDocument[item.Metadata.Hash] = relevance.scoreWeights.relevanceOf(
+		relevancePerDocument[item.Hash] = relevance.scoreWeights.relevanceOf(
 			item,
 			rarityOfTheQueryWords,
 			averageDocumentLength,

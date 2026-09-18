@@ -8,7 +8,7 @@ import (
 )
 
 func addressScoreOf(item queryanswers.FoundDocument, queryWords []yacymodel.Hash) float64 {
-	wordsOfTheHost := wordsOfTheHostOf(item.Metadata.Address)
+	wordsOfTheHost := wordsOfTheHostOf(item.Address)
 
 	amountOfQueryWordsInTheHost := 0
 	for _, word := range queryWords {

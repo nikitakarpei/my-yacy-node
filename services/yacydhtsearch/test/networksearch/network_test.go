@@ -137,15 +137,27 @@ func peersOfOnePartition(
 func peerHolding(t *testing.T, addresses ...string) string {
 	t.Helper()
 
-	resources := make([]yacyproto.SearchResource, 0, len(addresses))
+	metadataOfEachDocument := make([]yacymodel.URLMetadata, 0, len(addresses))
 	for _, address := range addresses {
 		hash, err := yacymodel.URLHashOf(address)
 		if err != nil {
 			t.Fatalf("URLHashOf(%q): %v", address, err)
 		}
-		resources = append(resources, yacyproto.SearchResource{
-			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address, Title: "Weather"},
-		})
+		metadataOfEachDocument = append(
+			metadataOfEachDocument,
+			yacymodel.URLMetadata{Hash: hash, Address: address, Title: "Weather"},
+		)
+	}
+
+	return peerHoldingTheMetadata(t, metadataOfEachDocument...)
+}
+
+func peerHoldingTheMetadata(t *testing.T, metadataOfEachDocument ...yacymodel.URLMetadata) string {
+	t.Helper()
+
+	resources := make([]yacyproto.SearchResource, 0, len(metadataOfEachDocument))
+	for _, metadata := range metadataOfEachDocument {
+		resources = append(resources, yacyproto.SearchResource{Metadata: metadata})
 	}
 	body := yacyproto.SearchResponse{
 		Count:     len(resources),
@@ -359,6 +371,37 @@ func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 	}
 }
 
+func TestARankedItemCarriesWhatThePeerReportedOfItsDocument(t *testing.T) {
+	t.Parallel()
+
+	hash, err := yacymodel.URLHashOf("https://a.example/weather")
+	if err != nil {
+		t.Fatalf("URLHashOf: %v", err)
+	}
+	modified := yacymodel.NewCalendarDay(2026, time.March, 4)
+	directory := directoryAnsweringAt(t, peerHoldingTheMetadata(t, yacymodel.URLMetadata{
+		Hash:           hash,
+		Address:        "https://a.example/weather",
+		Title:          "Weather",
+		Snippet:        "Rain in Berlin.",
+		Modified:       yacymodel.Some(modified),
+		FaviconAddress: "https://a.example/icon.png",
+	}))
+	network := networkOver(t, directory, &recordedQuery{})
+
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+
+	if len(ranking.Items) != 1 {
+		t.Fatalf("Search = %+v, want the one document the peer holds", ranking.Items)
+	}
+	item := ranking.Items[0]
+	published, _ := item.PublishedAt.Get()
+	if item.Hash != hash || item.Title != "Weather" || item.Description != "Rain in Berlin." ||
+		item.ImageAddress != "https://a.example/icon.png" || !published.Equal(modified.Time()) {
+		t.Fatalf("the ranked item reads %+v, want what the peer reported", item)
+	}
+}
+
 func TestARankingStopsAtTheRecordCeiling(t *testing.T) {
 	t.Parallel()
 
@@ -497,8 +540,8 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 		},
 		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentCountedForTheWord(t, commonWordAddress, "berlin"),
-			foundDocumentCountedForTheWord(t, rareWordAddress, "kelondro"),
+			foundDocumentWithOneHitOf(t, commonWordAddress, "berlin"),
+			foundDocumentWithOneHitOf(t, rareWordAddress, "kelondro"),
 		},
 		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{
 			yacymodel.WordHash("berlin"):   100000,
@@ -507,7 +550,7 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 	}}
 }
 
-func foundDocumentCountedForTheWord(
+func foundDocumentWithOneHitOf(
 	t *testing.T, address string, word string,
 ) queryanswers.FoundDocument {
 	t.Helper()
@@ -518,10 +561,9 @@ func foundDocumentCountedForTheWord(
 	}
 
 	return queryanswers.FoundDocument{
-		Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
-		MatchedWords: map[yacymodel.Hash]queryanswers.WordCount{
-			yacymodel.WordHash(word): {Hits: 1},
-		},
+		Hash:             hash,
+		Address:          address,
+		HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
 	}
 }
 

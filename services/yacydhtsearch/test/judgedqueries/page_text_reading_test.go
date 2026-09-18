@@ -62,7 +62,7 @@ func (r pageTextReading) pageTextPerDocument(
 		pagesBeingRead.Add(1)
 		go func() {
 			defer pagesBeingRead.Done()
-			pageTextOfEachPlace[place] = r.pageTextOf(budgetedCtx, foundDocument.Metadata.Address)
+			pageTextOfEachPlace[place] = r.pageTextOf(budgetedCtx, foundDocument.Address)
 		}()
 	}
 	pagesBeingRead.Wait()
@@ -119,7 +119,7 @@ func pageTextPerDocumentOf(
 		if pageTextOfEachPlace[place] == "" {
 			continue
 		}
-		pageTextPerDocument[foundDocument.Metadata.Hash] = pageTextOfEachPlace[place]
+		pageTextPerDocument[foundDocument.Hash] = pageTextOfEachPlace[place]
 	}
 
 	return pageTextPerDocument

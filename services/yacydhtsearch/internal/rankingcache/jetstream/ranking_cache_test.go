@@ -41,12 +41,12 @@ func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	}
 
 	return searchresult.Ranking{
-		Items: []searchresult.Item{searchresult.ItemFrom(yacymodel.URLMetadata{
-			Hash:    hash,
-			Address: address,
-			Title:   "Weather",
-			Snippet: "prose",
-		})},
+		Items: []searchresult.Item{{
+			Hash:        hash,
+			Address:     address,
+			Title:       "Weather",
+			Description: "prose",
+		}},
 	}
 }
 

@@ -106,9 +106,9 @@ func normalizedGainOfTheDocumentsInOrder(
 				host:  hostOf(document.address),
 			}
 		}
-		orderedItems = append(orderedItems, queryanswers.FoundDocument{
-			Metadata: yacymodel.URLMetadata{Hash: hash, Address: document.address},
-		})
+		orderedItems = append(
+			orderedItems, queryanswers.FoundDocument{Hash: hash, Address: document.address},
+		)
 	}
 
 	return graded.normalizedGainDiscountedPerHostOf(orderedItems)

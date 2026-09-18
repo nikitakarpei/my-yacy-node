@@ -16,7 +16,7 @@ func coordinationScoreOf(
 
 	amountOfQueryWordsTheDocumentHolds := 0
 	for _, word := range queryWords {
-		if item.MatchedWords[word].Hits <= 0 {
+		if item.HitsPerQueryWord[word] <= 0 {
 			continue
 		}
 		amountOfQueryWordsTheDocumentHolds++
