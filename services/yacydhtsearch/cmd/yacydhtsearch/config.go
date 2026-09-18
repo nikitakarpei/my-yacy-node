@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -19,6 +20,7 @@ const (
 	EnvSeedlistURLs                 = "YACYDHTSEARCH_SEEDLIST_URLS"
 	EnvEgressProxyURL               = "EGRESS_PROXY_URL"
 	EnvPageReadProxyURL             = "YACYDHTSEARCH_PAGE_READ_PROXY_URL"
+	EnvPageReadProxyDialMode        = "YACYDHTSEARCH_PAGE_READ_PROXY_DIAL_MODE"
 	EnvQueryBudget                  = "YACYDHTSEARCH_QUERY_BUDGET"
 	EnvNetworkRedundancy            = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
 	EnvReplicasCoveringAPartition   = "YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION"
@@ -77,6 +79,7 @@ const (
 	DefaultPageReadBudget               = 3 * time.Second
 	DefaultPageByteCeiling              = 4 * 1024 * 1024
 	DefaultSnippetLengthCeiling         = 300
+	DefaultPageReadProxyDialMode        = "tunnel"
 )
 
 type ServiceConfig struct {
@@ -86,6 +89,7 @@ type ServiceConfig struct {
 	SeedlistURLs                 []string
 	EgressProxyURL               *url.URL
 	PageReadProxyURL             *url.URL
+	PageReadProxyDialMode        pagefetchershttp.ProxyDialMode
 	QueryBudget                  time.Duration
 	NetworkRedundancy            int
 	ReplicasCoveringAPartition   int
@@ -128,6 +132,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		return ServiceConfig{}, err
 	}
 	pageReadProxyURL, err := pageReadProxyURLOf(getenv, egressProxyURL)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+	pageReadProxyDialMode, err := pageReadProxyDialModeOf(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -184,6 +192,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		SeedlistURLs:                 seedlistURLs,
 		EgressProxyURL:               egressProxyURL,
 		PageReadProxyURL:             pageReadProxyURL,
+		PageReadProxyDialMode:        pageReadProxyDialMode,
 		QueryBudget:                  durations.queryBudget,
 		NetworkRedundancy:            counts.networkRedundancy,
 		ReplicasCoveringAPartition:   replicasCoveringAPartition,
@@ -378,6 +387,19 @@ func pageReadProxyURLOf(
 	}
 
 	return requiredProxyURL(getenv, EnvPageReadProxyURL)
+}
+
+func pageReadProxyDialModeOf(
+	getenv func(string) string,
+) (pagefetchershttp.ProxyDialMode, error) {
+	mode, err := pagefetchershttp.ProxyDialModeNamed(
+		envconfig.String(getenv, EnvPageReadProxyDialMode, DefaultPageReadProxyDialMode),
+	)
+	if err != nil {
+		return 0, fmt.Errorf("%s: %w", EnvPageReadProxyDialMode, err)
+	}
+
+	return mode, nil
 }
 
 func requiredProxyURL(getenv func(string) string, key string) (*url.URL, error) {

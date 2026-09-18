@@ -272,7 +272,7 @@ func pageReadingFor(
 	return pagereading.New(
 		pagefetchershttp.New(
 			cfg.PageReadProxyURL,
-			pagefetchershttp.ProxyDialTunnel,
+			cfg.PageReadProxyDialMode,
 			pageFetchUserAgent,
 			cfg.PageByteCeiling,
 			cfg.PageReadBudget,
