@@ -6,6 +6,7 @@ import (
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
+	AmountOfDocumentsSentForCrossChecking                int
 	AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
 	AmountOfPeersAskedForCrossCheckedDocuments           int
 	AmountOfPeersThatAnsweredCrossCheckedDocuments       int
@@ -20,6 +21,9 @@ func performedCrossCheckedDocumentsRoundFrom(
 	joinedDocuments distinctDocuments,
 ) PerformedCrossCheckedDocumentsRound {
 	return PerformedCrossCheckedDocumentsRound{
+		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
+			round.asks,
+		),
 		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: round.
 			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
 		AmountOfPeersAskedForCrossCheckedDocuments: amountOfPeersAcross(
@@ -38,6 +42,17 @@ func performedCrossCheckedDocumentsRoundFrom(
 				documentsOfEveryQueryWord(),
 		),
 	}
+}
+
+func amountOfDocumentsSentForCrossCheckingAcross(
+	asks []peerasks.CrossCheckedDocumentsAsk,
+) int {
+	amount := 0
+	for _, ask := range asks {
+		amount += len(ask.Documents)
+	}
+
+	return amount
 }
 
 func peerOfCrossCheckedDocumentsAsk(

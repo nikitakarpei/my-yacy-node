@@ -158,9 +158,8 @@ func (spread Spread) askForCrossCheckedDocuments(
 			roundContext,
 			asksWithinTheCeiling.asks,
 		),
-		amountOfDocumentsPastTheCrossCheckedDocumentsCeiling: len(
-			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling,
-		),
+		amountOfDocumentsPastTheCrossCheckedDocumentsCeiling: asksWithinTheCeiling.
+			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
 	}
 }
 

@@ -7,15 +7,20 @@ import (
 )
 
 type crossCheckedDocumentsRoundMetrics struct {
-	answeringCrossCheckedDocumentsPeersRatio                          prometheusclient.Histogram
-	joinedDocumentsFoundOnlyByCrossCheckingRatio                      prometheusclient.Histogram
-	leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio
+	documentsPastTheCrossCheckedDocumentsCeilingRatio prometheusclient.Histogram
+	answeringCrossCheckedDocumentsPeersRatio          prometheusclient.Histogram
+	joinedDocumentsFoundOnlyByCrossCheckingRatio      prometheusclient.Histogram
 }
 
 func crossCheckedDocumentsRoundMetricsRegisteredIn(
 	registry prometheusclient.Registerer,
 ) crossCheckedDocumentsRoundMetrics {
 	metrics := crossCheckedDocumentsRoundMetrics{
+		documentsPastTheCrossCheckedDocumentsCeilingRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio",
+			"Share of the documents to cross-check that no peer could take, in the spreads that "+
+				"had a document to cross-check.",
+		),
 		answeringCrossCheckedDocumentsPeersRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio",
 			"Share of the peers asked to cross-check documents that answered.",
@@ -25,11 +30,9 @@ func crossCheckedDocumentsRoundMetricsRegisteredIn(
 			"Share of the joined documents found only by cross-checking, in the spreads that "+
 				"asked a peer to cross-check documents.",
 		),
-		leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio: leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatioRegisteredIn(
-			registry,
-		),
 	}
 	registry.MustRegister(
+		metrics.documentsPastTheCrossCheckedDocumentsCeilingRatio,
 		metrics.answeringCrossCheckedDocumentsPeersRatio,
 		metrics.joinedDocumentsFoundOnlyByCrossCheckingRatio,
 	)
@@ -39,11 +42,16 @@ func crossCheckedDocumentsRoundMetricsRegisteredIn(
 
 func (m crossCheckedDocumentsRoundMetrics) observeCrossCheckedDocumentsRound(
 	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
-	matchedAndHeldDocumentsRound wordjoined.PerformedMatchedAndHeldDocumentsRound,
 ) {
-	m.leadingQueryWordDocumentsPastTheCrossCheckedDocumentsCeilingRatio.observe(
-		crossCheckedDocumentsRound, matchedAndHeldDocumentsRound,
-	)
+	amountOfDocumentsPastTheCeiling := crossCheckedDocumentsRound.
+		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling
+	amountOfDocumentsToCrossCheck := crossCheckedDocumentsRound.
+		AmountOfDocumentsSentForCrossChecking + amountOfDocumentsPastTheCeiling
+	if amountOfDocumentsToCrossCheck > 0 {
+		m.documentsPastTheCrossCheckedDocumentsCeilingRatio.Observe(
+			float64(amountOfDocumentsPastTheCeiling) / float64(amountOfDocumentsToCrossCheck),
+		)
+	}
 	if crossCheckedDocumentsRound.AmountOfPeersAskedForCrossCheckedDocuments == 0 {
 		return
 	}

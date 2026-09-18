@@ -68,6 +68,10 @@ func attributesOfCrossCheckedDocumentsRound(
 ) []slog.Attr {
 	return []slog.Attr{
 		slog.Int(
+			"amountOfDocumentsSentForCrossChecking",
+			round.AmountOfDocumentsSentForCrossChecking,
+		),
+		slog.Int(
 			"amountOfDocumentsPastTheCrossCheckedDocumentsCeiling",
 			round.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
 		),

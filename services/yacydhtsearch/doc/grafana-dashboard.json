@@ -1113,7 +1113,7 @@
     },
     {
       "id": 55,
-      "title": "Joined queries: cross-checking the leading word's documents",
+      "title": "Joined queries: cross-checking the leading word's documents against the other query words",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -1162,9 +1162,9 @@
     },
     {
       "id": 59,
-      "title": "Average share of the leading word's documents the ceiling left unchecked, by which word led the join",
-      "description": "Depends on YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING.",
-      "type": "timeseries",
+      "title": "Share of the documents to cross-check that no peer could take",
+      "description": "A peer is asked once and takes at most YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING documents.",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1177,23 +1177,46 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "max": 1
+          "unit": "percentunit"
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (leading_query_word_standing) (rate(yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_sum{instance=~\"$service_instance\"}[$window])) / sum by (leading_query_word_standing) (rate(yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_count{instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "{{leading_query_word_standing}}"
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
       ]
     },

@@ -899,10 +899,13 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDo
 		observer,
 	)
 
-	if observer.performed[0].CrossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 2 {
+	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
+	if crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 2 ||
+		crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking != 2 {
 		t.Fatalf(
-			"the spread reported %d documents past the ceiling, want the two no replica took",
-			observer.performed[0].CrossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
+			"the spread reported %+v, want the two documents the replicas took sent and the two "+
+				"no replica took past the ceiling",
+			crossCheckedDocumentsRound,
 		)
 	}
 	if len(network.crossCheckedDocumentsAsks) != 2 {
@@ -919,6 +922,43 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDo
 				ask.Documents,
 			)
 		}
+	}
+}
+
+func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T) {
+	t.Parallel()
+
+	documentsListedForTheLeadingQueryWord := []string{
+		"https://first.example/",
+		"https://second.example/",
+	}
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
+		"second": {secondWord: documentsListedForTheLeadingQueryWord},
+		"third":  {thirdWord: documentsListedForTheLeadingQueryWord},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
+	observer := &recordedSpreads{}
+
+	spreadOfTheQuery(
+		network,
+		peersOfEachQueryWord(map[string][]string{
+			firstWord:  {"first"},
+			secondWord: {"second"},
+			thirdWord:  {"third"},
+		}),
+		firstWord+" "+secondWord+" "+thirdWord,
+		observer,
+	)
+
+	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
+	if crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking != 4 ||
+		crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 0 {
+		t.Fatalf(
+			"the spread reported %+v, want both documents sent once for each of the two other "+
+				"query words",
+			crossCheckedDocumentsRound,
+		)
 	}
 }
 
