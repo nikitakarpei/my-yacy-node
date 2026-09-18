@@ -26,6 +26,11 @@ The gate also compares the ordering of the service against the baseline in
 that both hold must stay at or above the accepted mean less the tolerance of
 the test, and a query accepted above zero must not fall to zero.
 
+The gain of each query that the baseline also holds must stay at or above the
+accepted gain of that query less the tolerance per query of the test. The peer
+ordering must reach a higher gain than the ordering of the service on no more
+judged queries than the limit of the test.
+
 The gate also reports the gain that discounts no repetition, and asserts
 nothing on it.
 

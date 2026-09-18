@@ -17,6 +17,8 @@ import (
 const (
 	leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering = 0.27
 	toleranceBelowTheAcceptedMeanGain                     = 0.02
+	toleranceBelowTheAcceptedGainOfAJudgedQuery           = 0.15
+	mostJudgedQueriesWonByThePeerOrdering                 = 7
 )
 
 type itemsOrdering interface {
@@ -30,6 +32,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	gainOfTheOrderingOfTheService := gainPerJudgedQueryOf(
 		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
 	)
+	gainOfThePeerOrdering := gainPerJudgedQueryOf(orderingOfThePeerRankings{}, judged)
 	acceptedGain := acceptedGainPerJudgedQueryInTheFile(t, acceptedGainFile)
 
 	reportTheGainOfEachJudgedQuery(t, judged, gainOfTheOrderingOfTheService)
@@ -37,6 +40,10 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	failIfTheLiftOverThePeerOrderingFallsShort(t, judged)
 	failIfTheMeanGainFallsBelowTheAcceptedGain(t, gainOfTheOrderingOfTheService, acceptedGain)
 	failIfAJudgedQueryFellToNoGain(t, gainOfTheOrderingOfTheService, acceptedGain)
+	failIfAJudgedQueryFellBelowItsAcceptedGain(t, gainOfTheOrderingOfTheService, acceptedGain)
+	failIfThePeerOrderingWinsMoreJudgedQueries(
+		t, gainOfTheOrderingOfTheService, gainOfThePeerOrdering,
+	)
 }
 
 type judgedQuery struct {
@@ -243,4 +250,50 @@ func failIfAJudgedQueryFellToNoGain(
 			accepted,
 		)
 	}
+}
+
+func failIfAJudgedQueryFellBelowItsAcceptedGain(
+	t *testing.T, gainOfTheOrderingOfTheService, acceptedGain gainPerJudgedQuery,
+) {
+	t.Helper()
+
+	for _, query := range slices.Sorted(maps.Keys(gainOfTheOrderingOfTheService)) {
+		accepted, inTheBaseline := acceptedGain[query]
+		measured := gainOfTheOrderingOfTheService[query]
+		if !inTheBaseline || accepted-measured <= toleranceBelowTheAcceptedGainOfAJudgedQuery {
+			continue
+		}
+		t.Errorf(
+			"the ordering of the service reaches a gain of %.4f on %q, want at least the "+
+				"accepted gain %.4f less the tolerance %.2f",
+			measured,
+			query,
+			accepted,
+			toleranceBelowTheAcceptedGainOfAJudgedQuery,
+		)
+	}
+}
+
+func failIfThePeerOrderingWinsMoreJudgedQueries(
+	t *testing.T, gainOfTheOrderingOfTheService, gainOfThePeerOrdering gainPerJudgedQuery,
+) {
+	t.Helper()
+
+	var queriesWonByThePeerOrdering []string
+	for _, query := range slices.Sorted(maps.Keys(gainOfTheOrderingOfTheService)) {
+		if gainOfThePeerOrdering[query] <= gainOfTheOrderingOfTheService[query] {
+			continue
+		}
+		queriesWonByThePeerOrdering = append(queriesWonByThePeerOrdering, query)
+	}
+	if len(queriesWonByThePeerOrdering) <= mostJudgedQueriesWonByThePeerOrdering {
+		return
+	}
+	t.Errorf(
+		"the peer ordering reaches a higher gain than the ordering of the service on %d judged "+
+			"queries, want at most %d: %s",
+		len(queriesWonByThePeerOrdering),
+		mostJudgedQueriesWonByThePeerOrdering,
+		strings.Join(queriesWonByThePeerOrdering, ", "),
+	)
 }
