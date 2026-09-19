@@ -19,6 +19,8 @@ const (
 	otherPageURL = "https://example.com/other"
 	corpus       = "corpusmarkdown"
 	receiptWait  = 5 * time.Second
+
+	confirmationWait = 100 * time.Millisecond
 )
 
 type recordingIntakeReceiptPublicationObserver struct {
@@ -120,9 +122,12 @@ func TestReceiptOfOnePageReachesNoListenerOfAnother(t *testing.T) {
 }
 
 func TestReceiptThatIsNeverConfirmedIsObserved(t *testing.T) {
-	receipts, _, observer := receiptsUnderTest(t, pagescrapecontract.KeptPageSubjectOf)
-	ctx, stopWaiting := context.WithCancel(context.Background())
-	stopWaiting()
+	observer := &recordingIntakeReceiptPublicationObserver{}
+	receipts := intakereceiptsnats.NewIntakeReceipts(
+		natstestserver.ConnectWithoutServer(t), corpus, observer,
+	)
+	ctx, stopWaiting := context.WithTimeout(context.Background(), confirmationWait)
+	defer stopWaiting()
 
 	receipts.ReportKeptPage(ctx, canonicalurltest.CanonicalURLOf(t, pageURL))
 

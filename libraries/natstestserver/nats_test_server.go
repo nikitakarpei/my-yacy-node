@@ -10,6 +10,8 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 )
 
+const unreachableServerURL = "nats://127.0.0.1:1"
+
 func Start(t *testing.T) string {
 	t.Helper()
 	srv, err := natsserver.NewServer(&natsserver.Options{
@@ -29,6 +31,22 @@ func Start(t *testing.T) string {
 		srv.WaitForShutdown()
 	})
 	return srv.ClientURL()
+}
+
+func ConnectWithoutServer(t *testing.T) *nats.Conn {
+	t.Helper()
+	connection, err := nats.Connect(
+		unreachableServerURL,
+		nats.RetryOnFailedConnect(true),
+		nats.MaxReconnects(-1),
+		nats.ReconnectWait(time.Hour),
+	)
+	if err != nil {
+		t.Fatalf("connect nats without a server: %v", err)
+	}
+	t.Cleanup(connection.Close)
+
+	return connection
 }
 
 func ConnectJetStream(t *testing.T, url string) jetstream.JetStream {

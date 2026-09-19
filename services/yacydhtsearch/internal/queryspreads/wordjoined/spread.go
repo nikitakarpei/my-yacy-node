@@ -32,22 +32,22 @@ type PeerAsks interface {
 }
 
 type Spread struct {
-	replicaAsks                  ReplicaAsks
-	peerAsks                     PeerAsks
-	metadataDocumentsCeiling     int
-	asksForCrossCheckedDocuments bool
-	crossCheckedDocumentsCeiling int
-	peerItemsCeiling             int
-	partitions                   yacymodel.DHTRingPartitions
-	amountOfPeersHoldingOneWord  int
-	observer                     WordJoinedSpreadObserver
+	replicaAsks                    ReplicaAsks
+	peerAsks                       PeerAsks
+	urlMetadataAskDocumentsCeiling int
+	asksForCrossCheckedDocuments   bool
+	crossCheckedDocumentsCeiling   int
+	peerItemsCeiling               int
+	partitions                     yacymodel.DHTRingPartitions
+	amountOfPeersHoldingOneWord    int
+	observer                       WordJoinedSpreadObserver
 }
 
 //nolint:revive // argument-limit: the rounds, ceilings and ring one word joined spread stays within
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
-	metadataDocumentsCeiling int,
+	urlMetadataAskDocumentsCeiling int,
 	asksForCrossCheckedDocuments bool,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
@@ -56,15 +56,15 @@ func New(
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
-		replicaAsks:                  replicaAsks,
-		peerAsks:                     peerAsks,
-		metadataDocumentsCeiling:     metadataDocumentsCeiling,
-		asksForCrossCheckedDocuments: asksForCrossCheckedDocuments,
-		crossCheckedDocumentsCeiling: crossCheckedDocumentsCeiling,
-		peerItemsCeiling:             peerItemsCeiling,
-		partitions:                   partitions,
-		amountOfPeersHoldingOneWord:  amountOfPeersHoldingOneWord,
-		observer:                     observer,
+		replicaAsks:                    replicaAsks,
+		peerAsks:                       peerAsks,
+		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
+		asksForCrossCheckedDocuments:   asksForCrossCheckedDocuments,
+		crossCheckedDocumentsCeiling:   crossCheckedDocumentsCeiling,
+		peerItemsCeiling:               peerItemsCeiling,
+		partitions:                     partitions,
+		amountOfPeersHoldingOneWord:    amountOfPeersHoldingOneWord,
+		observer:                       observer,
 	}
 }
 
@@ -174,7 +174,7 @@ func (spread Spread) askForURLMetadata(
 	asks := urlMetadataAsksFor(
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(documentsWithoutMetadata),
 		matchedAndHeldDocumentsRound.answeredAsks,
-		spread.metadataDocumentsCeiling,
+		spread.urlMetadataAskDocumentsCeiling,
 		spread.amountOfPeersHoldingOneWord,
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadata)

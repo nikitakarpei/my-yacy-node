@@ -239,7 +239,7 @@ func querySpreadFor(
 		wordjoined.New(
 			replicaAsks,
 			peers,
-			cfg.RankedItemsCeiling,
+			cfg.URLMetadataAskDocumentsCeiling,
 			cfg.AsksForCrossCheckedDocuments,
 			cfg.CrossCheckedDocumentsCeiling,
 			cfg.PeerItemsCeiling,
