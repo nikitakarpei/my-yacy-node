@@ -12,6 +12,7 @@ type ScoreWeights struct {
 	WeightOfThePhraseScore         float64
 	WeightOfTheCoordinationScore   float64
 	WeightOfTheNamedSiteEntryScore float64
+	WeightOfTheOverlongTextScore   float64
 }
 
 func DefaultScoreWeights() ScoreWeights {
@@ -22,6 +23,7 @@ func DefaultScoreWeights() ScoreWeights {
 		WeightOfThePhraseScore:         3.0,
 		WeightOfTheCoordinationScore:   0.5,
 		WeightOfTheNamedSiteEntryScore: 5,
+		WeightOfTheOverlongTextScore:   5,
 	}
 }
 
@@ -57,5 +59,8 @@ func (weights ScoreWeights) relevanceOf(
 		weights.WeightOfTheNamedSiteEntryScore*namedSiteEntryScoreOf(
 			foundDocument,
 			queryWords,
+		) -
+		weights.WeightOfTheOverlongTextScore*overlongTextScoreOf(
+			foundDocument,
 		)
 }
