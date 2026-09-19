@@ -18,6 +18,7 @@ const (
 type gradedDocument struct {
 	grade int
 	host  string
+	spam  bool
 }
 
 type gradedDocuments map[yacymodel.URLHash]gradedDocument
@@ -149,4 +150,18 @@ func (documents gradedDocuments) amountOfUngradedDocumentsAmong(
 	}
 
 	return amountOfUngradedDocuments
+}
+
+func (documents gradedDocuments) amountOfSpamDocumentsAmongTheFirstOf(
+	orderedDocuments []queryanswers.FoundDocument,
+) int {
+	amountOfSpamDocuments := 0
+	for _, orderedDocument := range orderedDocuments[:min(judgedDocumentsCeiling, len(orderedDocuments))] {
+		if !documents[orderedDocument.Hash].spam {
+			continue
+		}
+		amountOfSpamDocuments++
+	}
+
+	return amountOfSpamDocuments
 }

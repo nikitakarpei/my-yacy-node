@@ -164,6 +164,12 @@
       "grade": 1
     },
     {
+      "hash": "0-XIoUwrhNlw",
+      "address": "https://ci.rocm.debian.net/",
+      "title": "Debian Continuous Integration",
+      "grade": 1
+    },
+    {
       "hash": "y37Q7m0h8sSw",
       "address": "https://tracker.debian.org/pkg/lua-geoip",
       "title": "lua-geoip - Debian Package Tracker",
@@ -173,6 +179,12 @@
       "hash": "-120uSpiq92w",
       "address": "https://packages.debian.org/sid/arm64/ebtables/download",
       "title": "Debian -- Package Download Selection -- ebtables_2.0.11-6+b3_arm64.deb",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 1
     },
     {
@@ -302,9 +314,27 @@
       "grade": 1
     },
     {
+      "hash": "aG2uqB7dZj5w",
+      "address": "https://search.debian.org/",
+      "title": "Debian Search",
+      "grade": 1
+    },
+    {
+      "hash": "uuzH__nUgebw",
+      "address": "https://alioth-lists.debian.net/",
+      "title": "alioth-lists.debian.net",
+      "grade": 1
+    },
+    {
       "hash": "_vBCkt1nrxbw",
       "address": "https://www.debian.org/CD/http-ftp/",
       "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
+      "grade": 1
+    },
+    {
+      "hash": "2FWApvieFWRw",
+      "address": "https://paste.debian.net/",
+      "title": "Debian Pastezone",
       "grade": 1
     },
     {
@@ -320,6 +350,12 @@
       "grade": 1
     },
     {
+      "hash": "S6BIcp65jyZQ",
+      "address": "http://neuro.debian.net/",
+      "title": "The Ultimate Neuroscience Software Platform — Debian Neuroscience Package Repository",
+      "grade": 1
+    },
+    {
       "hash": "GppVSifhnZpw",
       "address": "https://nm.debian.org/public/people/dd_u/",
       "title": "Debian New Member Process",
@@ -329,6 +365,18 @@
       "hash": "R5pe_l1nrxbw",
       "address": "https://www.debian.org/News/",
       "title": "Debian -- Latest News",
+      "grade": 1
+    },
+    {
+      "hash": "_BwQ1GNQlu2w",
+      "address": "https://bits.debian.org/",
+      "title": "Bits from Debian - Blog from the Debian Project",
+      "grade": 1
+    },
+    {
+      "hash": "-ieBCR9oEcsw",
+      "address": "https://micronews.debian.org/",
+      "title": "Debian micronews",
       "grade": 1
     }
   ]

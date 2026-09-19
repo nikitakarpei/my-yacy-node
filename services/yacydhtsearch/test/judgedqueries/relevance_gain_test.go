@@ -100,12 +100,15 @@ func reportTheGainOfEachJudgedQuery(
 
 	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
 	relevanceOrdering := relevance.New(documentRelevance)
+	amountOfSpamDocumentsInTheFirstTen := 0
 	for _, judgedQuery := range judged {
 		orderedDocuments := hostdiscount.New(documentRelevance).
 			OrderedDocumentsOf(judgedQuery.answers)
+		amountOfSpamDocumentsInTheFirstTen += judgedQuery.gradedDocuments.
+			amountOfSpamDocumentsAmongTheFirstOf(orderedDocuments)
 		t.Logf(
 			"%q: host discount %.4f, relevance %.4f, found order %.4f, %d ungraded documents "+
-				"dropped",
+				"dropped, %d spam documents in the first ten",
 			judgedQuery.query,
 			gainOfTheOrderingOfTheService[judgedQuery.query],
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
@@ -115,6 +118,7 @@ func reportTheGainOfEachJudgedQuery(
 				orderingInTheFoundOrder{}.OrderedDocumentsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.amountOfUngradedDocumentsAmong(orderedDocuments),
+			judgedQuery.gradedDocuments.amountOfSpamDocumentsAmongTheFirstOf(orderedDocuments),
 		)
 	}
 	t.Logf(
@@ -123,6 +127,12 @@ func reportTheGainOfEachJudgedQuery(
 		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(documentRelevance), judged),
 		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
 		meanNormalizedGainDiscountedPerHostOf(orderingInTheFoundOrder{}, judged),
+	)
+	t.Logf(
+		"the ordering of the service puts %d spam documents in the first ten over %d judged "+
+			"queries",
+		amountOfSpamDocumentsInTheFirstTen,
+		len(judged),
 	)
 	t.Logf(
 		"the ordering of the service reaches no gain on %d of %d judged queries",

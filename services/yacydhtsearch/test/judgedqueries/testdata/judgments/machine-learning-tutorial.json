@@ -155,7 +155,8 @@
       "hash": "iLQO1sN0ip-w",
       "address": "https://m-reform.net/",
       "title": "replica football shirts",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "BiYCIWOXoHMQ",
@@ -167,13 +168,15 @@
       "hash": "G2Nk1si1vot6",
       "address": "https://missclaireshay.com/",
       "title": "missclaireshay -",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "sMiPKsnQvdJ6",
       "address": "https://cassandrasturdy.com/",
       "title": "cassandrasturdy.com -",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "GtLjhloUbV15",
@@ -215,7 +218,8 @@
       "hash": "x0uPesUTqyyz",
       "address": "https://programmingassignmentshelp.net/",
       "title": "programmingassignmentshelp -",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     }
   ]
 }

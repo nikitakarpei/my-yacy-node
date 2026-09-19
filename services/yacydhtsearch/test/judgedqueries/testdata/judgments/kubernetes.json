@@ -242,6 +242,24 @@
       "grade": 0
     },
     {
+      "hash": "C2SN3wn-yhj5",
+      "address": "https://www.infoworld.com/article/2266945/what-is-kubernetes-scalable-cloud-native-applications.html",
+      "title": "What is Kubernetes? Scalable cloud-native applications | InfoWorld",
+      "grade": 1
+    },
+    {
+      "hash": "n00mMlSCNQa4",
+      "address": "https://www.redhat.com/en/topics/containers/learning-kubernetes-tutorial",
+      "title": "Learning Kubernetes basics",
+      "grade": 1
+    },
+    {
+      "hash": "40kVHo_IRdqx",
+      "address": "https://phabricator.wikimedia.org/tag/kubernetes/",
+      "title": "Kubernetes",
+      "grade": 0
+    },
+    {
       "hash": "FCRyr2jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/security/controlling-access/",
       "title": "Controlling Access to the Kubernetes API | Kubernetes",
@@ -258,6 +276,12 @@
       "address": "https://cloudbear.nl/tag/managed-kubernetes-hosting/",
       "title": "managed kubernetes hosting Archives - Cloudbear",
       "grade": 0
+    },
+    {
+      "hash": "8zRGJLo7vSm6",
+      "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-docker?ts=markdown",
+      "title": "What Is the Difference Between Dockers and Kubernetes? - Palo Alto Networks",
+      "grade": 1
     },
     {
       "hash": "wtEcA2WvZanx",

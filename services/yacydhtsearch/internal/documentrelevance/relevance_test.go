@@ -601,3 +601,26 @@ func TestTwoDocumentsOfTheSameCountedHitsHoldTheSameRelevance(t *testing.T) {
 		)
 	}
 }
+
+func TestTheEntryPageOfTheSiteTheQueryNamesComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"heise": 100},
+		[]string{"heise"},
+		[]queryanswers.FoundDocument{
+			foundDocumentMatchingTheWords(t, "https://www.heise.de/developer/kontakt/", "heise"),
+			foundDocumentMatchingTheWords(t, "https://heise-academy.de/", "heise"),
+			foundDocumentMatchingTheWords(t, "https://www.heise.de/", "heise"),
+		},
+	)
+
+	want := []string{
+		"https://www.heise.de/",
+		"https://heise-academy.de/",
+		"https://www.heise.de/developer/kontakt/",
+	}
+	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
