@@ -215,7 +215,8 @@
       "hash": "LVF9csQMPJQ7",
       "address": "https://revistanuevagrecia.com/",
       "title": "revistanuevagrecia.com -",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "YFkvAjRvmBbx",
@@ -233,7 +234,8 @@
       "hash": "UgYGDsoMlAS5",
       "address": "https://outpostboats.com/",
       "title": "outpostboats.com -",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "Fl-YxlDOAHJg",

@@ -18,7 +18,7 @@ The mean gain must stay at least the lift of the test above the found order,
 the order in which the service found the documents. It must also stay at or
 above the mean in `testdata/accepted-gain-per-judged-query.json`, less the
 tolerance of the test, over the queries that both hold. A query accepted above
-zero must not fall to zero.
+zero must not fall to zero. The gate logs the spam documents in each first ten.
 
 ## How to grade
 
@@ -32,9 +32,10 @@ document gets `null`. Grade it from the stored page text, title and address:
   does not answer it.
 - `0` — the page has nothing to do with the query, only shares a word with it,
   lists many subjects as a tag page does, or is spam, even on the subject.
+  Also give a spam page `"spam": true`.
 
 A document with no stored text gets at most the grade `1`, and few documents
-of a pool reach `2`. Never change a grade a person gave.
+of a pool reach `2`. Never change a grade or a spam mark a person gave.
 
 ## How to record the answers again
 
@@ -68,9 +69,8 @@ YACYDHTSEARCH_ACCEPT_JUDGED_QUERIES_BASELINE=1 go test -v \
 
 ## How to tune the score weights
 
-This step searches the weight of each score of the relevance ordering over a
-grid of values, gives the weights of the highest mean gain, and tunes on one
-half of the queries to measure on the other. It changes no file.
+This step gives the score weights of the highest mean gain over a grid. It tunes
+on one half of the queries to measure on the other, and changes no file.
 
 ```sh
 YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS=1 go test -timeout 30m -v \
