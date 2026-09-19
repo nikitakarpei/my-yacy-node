@@ -469,7 +469,7 @@ func spreadTheQuery(
 	)
 }
 
-func spreadWithinQueryBudget(queryBudget time.Duration, network *peerNetwork) {
+func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 	ctx, endQuery := context.WithTimeout(context.Background(), queryBudget)
 	defer endQuery()
 
@@ -1031,7 +1031,7 @@ func TestTheFirstRoundKeepsOnlyAThirdOfTheTimeTheQueryHasLeft(t *testing.T) {
 		"second": {secondWord: {"https://shared.example/"}},
 	})
 
-	spreadWithinQueryBudget(queryBudget, network)
+	spreadWithin(queryBudget, network)
 
 	if len(network.timeLeftInEachRoundInTheirOrder) != 3 {
 		t.Fatalf(
