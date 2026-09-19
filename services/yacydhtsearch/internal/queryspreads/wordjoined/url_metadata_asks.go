@@ -13,12 +13,12 @@ func urlMetadataAsksFor(
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
 	documentsListedByEachPeer := documentsListedPerPeerFrom(answeredMatchedAndHeldDocumentsAsks)
-	asks := documentsListedByEachPeer.urlMetadataAsks(
+	asksOfEachPeer := documentsListedByEachPeer.urlMetadataAsks(
 		documentsWithoutMetadataMostListedFirst,
 		urlMetadataAskDocumentsCeiling,
 	)
 
-	return asksCoveringMostDocuments(asks, amountOfPeersHoldingOneWord)
+	return asksCoveringMostDocuments(asksOfEachPeer, amountOfPeersHoldingOneWord)
 }
 
 type documentsListedPerPeer []documentsListedByPeer
