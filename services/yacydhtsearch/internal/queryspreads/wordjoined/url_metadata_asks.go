@@ -12,76 +12,47 @@ func urlMetadataAsksFor(
 	urlMetadataAskDocumentsCeiling int,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
-	asksOfEveryListingPeer := urlMetadataAsksOfEachPeer(
-		documentsListedByEachPeerOf(answeredMatchedAndHeldDocumentsAsks),
+	peersInListingOrder := listingPeersOf(answeredMatchedAndHeldDocumentsAsks)
+	asks := peersInListingOrder.urlMetadataAsks(
 		documentsWithoutMetadataMostListedFirst,
 		urlMetadataAskDocumentsCeiling,
 	)
 
-	return asksCoveringMostDocuments(asksOfEveryListingPeer, amountOfPeersHoldingOneWord)
+	return asksCoveringMostDocuments(asks, amountOfPeersHoldingOneWord)
 }
 
-type documentsListedByPeer struct {
-	peer      peerdirectory.AskablePeer
-	documents distinctDocuments
-}
+type listingPeers []listingPeer
 
-func (documentsListedByOnePeer documentsListedByPeer) urlMetadataAsk(
-	documentsMostListedFirst []yacymodel.URLHash,
-	urlMetadataAskDocumentsCeiling int,
-) peerasks.URLMetadataAsk {
-	askDocuments := make([]yacymodel.URLHash, 0, min(
-		len(documentsListedByOnePeer.documents), urlMetadataAskDocumentsCeiling,
-	))
-	for _, document := range documentsMostListedFirst {
-		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
-			break
-		}
-		if !documentsListedByOnePeer.documents.contains(document) {
-			continue
-		}
-		askDocuments = append(askDocuments, document)
-	}
-
-	return peerasks.URLMetadataAsk{
-		Peer:      documentsListedByOnePeer.peer,
-		Documents: askDocuments,
-	}
-}
-
-func documentsListedByEachPeerOf(
+func listingPeersOf(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) []documentsListedByPeer {
-	documentsListedByEachPeer := make([]documentsListedByPeer, 0, len(answeredAsks))
+) listingPeers {
+	peersInListingOrder := make(listingPeers, 0, len(answeredAsks))
 	placeOfPeer := map[yacymodel.Hash]int{}
 	for _, answeredAsk := range answeredAsks {
 		place, placed := placeOfPeer[answeredAsk.Ask.Peer.Hash]
 		if !placed {
-			place = len(documentsListedByEachPeer)
+			place = len(peersInListingOrder)
 			placeOfPeer[answeredAsk.Ask.Peer.Hash] = place
-			documentsListedByEachPeer = append(documentsListedByEachPeer, documentsListedByPeer{
-				peer:      answeredAsk.Ask.Peer,
-				documents: distinctDocuments{},
+			peersInListingOrder = append(peersInListingOrder, listingPeer{
+				askablePeer:     answeredAsk.Ask.Peer,
+				listedDocuments: distinctDocuments{},
 			})
 		}
 		for _, document := range answeredAsk.DocumentsListedForTheWord {
-			documentsListedByEachPeer[place].documents.add(document)
+			peersInListingOrder[place].listedDocuments.add(document)
 		}
 	}
 
-	return documentsListedByEachPeer
+	return peersInListingOrder
 }
 
-func urlMetadataAsksOfEachPeer(
-	documentsListedByEachPeer []documentsListedByPeer,
+func (peersInListingOrder listingPeers) urlMetadataAsks(
 	documentsMostListedFirst []yacymodel.URLHash,
 	urlMetadataAskDocumentsCeiling int,
 ) []peerasks.URLMetadataAsk {
-	asks := make([]peerasks.URLMetadataAsk, 0, len(documentsListedByEachPeer))
-	for _, documentsListedByOnePeer := range documentsListedByEachPeer {
-		ask := documentsListedByOnePeer.urlMetadataAsk(
-			documentsMostListedFirst, urlMetadataAskDocumentsCeiling,
-		)
+	asks := make([]peerasks.URLMetadataAsk, 0, len(peersInListingOrder))
+	for _, peer := range peersInListingOrder {
+		ask := peer.urlMetadataAsk(documentsMostListedFirst, urlMetadataAskDocumentsCeiling)
 		if len(ask.Documents) == 0 {
 			continue
 		}
@@ -89,6 +60,34 @@ func urlMetadataAsksOfEachPeer(
 	}
 
 	return asks
+}
+
+type listingPeer struct {
+	askablePeer     peerdirectory.AskablePeer
+	listedDocuments distinctDocuments
+}
+
+func (peer listingPeer) urlMetadataAsk(
+	documentsMostListedFirst []yacymodel.URLHash,
+	urlMetadataAskDocumentsCeiling int,
+) peerasks.URLMetadataAsk {
+	askDocuments := make([]yacymodel.URLHash, 0, min(
+		len(peer.listedDocuments), urlMetadataAskDocumentsCeiling,
+	))
+	for _, document := range documentsMostListedFirst {
+		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
+			break
+		}
+		if !peer.listedDocuments.contains(document) {
+			continue
+		}
+		askDocuments = append(askDocuments, document)
+	}
+
+	return peerasks.URLMetadataAsk{
+		Peer:      peer.askablePeer,
+		Documents: askDocuments,
+	}
 }
 
 func asksCoveringMostDocuments(
