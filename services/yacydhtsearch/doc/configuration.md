@@ -66,6 +66,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
 | `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. A page that is not read leaves its result as the peers answered it. |
 | `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `4194304` | Most bytes read from one page. |
+| `YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS` | `3` | Most redirects followed to read one page. A result whose page moved links to the address the page moved to. |
 | `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |
 
 ## Peer calls

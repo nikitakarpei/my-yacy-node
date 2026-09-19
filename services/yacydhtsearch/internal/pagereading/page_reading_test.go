@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
@@ -17,6 +18,7 @@ import (
 
 const (
 	pageReadBudget        = time.Second
+	maxRedirectHops       = 3
 	snippetLengthCeiling  = 40
 	addressOfTheDocument  = "https://berlin.example/"
 	readableTextOfThePage = "Berlin holds a wall."
@@ -163,7 +165,7 @@ func readingOfThePages(
 	}
 
 	return pagereading.New(
-		pageFetch,
+		redirectfollowingfetch.New(pageFetch, maxRedirectHops),
 		formatDerivations,
 		pageReadBudget,
 		snippetLengthCeiling,
@@ -415,7 +417,7 @@ func TestTheWholeTextOfAPageIsReadWhenItHoldsNoReadableText(t *testing.T) {
 
 	observer := &recordedPageReading{}
 	reading := pagereading.New(
-		pagesHoldingTheDocuments(t),
+		redirectfollowingfetch.New(pagesHoldingTheDocuments(t), maxRedirectHops),
 		documentsThatHoldNoReadableText{},
 		pageReadBudget,
 		snippetLengthCeiling,
@@ -557,7 +559,7 @@ func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) 
 	}
 	observer := &recordedPageReading{}
 	reading := pagereading.New(
-		pagesThatOutlastTheBudget{},
+		redirectfollowingfetch.New(pagesThatOutlastTheBudget{}, maxRedirectHops),
 		formatDerivations,
 		time.Millisecond,
 		snippetLengthCeiling,
@@ -656,5 +658,82 @@ func TestThePageReadingTellsTheTimeItSpentFetchingApartFromReading(t *testing.T)
 			"PageReadingPerformed = %+v, want fetching and reading inside the time spent",
 			performed,
 		)
+	}
+}
+
+type pagesMovedToTheDocument struct {
+	pages      pagesHeldAtTheirAddress
+	movedPages map[string]canonicalurl.CanonicalURL
+}
+
+func (p pagesMovedToTheDocument) Fetch(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	if target, moved := p.movedPages[pageURL.String()]; moved {
+		return pagefetch.FetchOutcome{
+			Status:         pagefetch.FetchRedirected,
+			RedirectTarget: target,
+		}, nil
+	}
+
+	return p.pages.Fetch(ctx, pageURL, knownVersion)
+}
+
+func pagesMovedFrom(t *testing.T, movedAddress string) pagesMovedToTheDocument {
+	t.Helper()
+
+	target, err := canonicalurl.CanonicalURLOf(addressOfTheDocument)
+	if err != nil {
+		t.Fatalf("CanonicalURLOf(%q): %v", addressOfTheDocument, err)
+	}
+	moved, err := canonicalurl.CanonicalURLOf(movedAddress)
+	if err != nil {
+		t.Fatalf("CanonicalURLOf(%q): %v", movedAddress, err)
+	}
+
+	return pagesMovedToTheDocument{
+		pages:      pagesHoldingTheDocuments(t),
+		movedPages: map[string]canonicalurl.CanonicalURL{moved.String(): target},
+	}
+}
+
+func TestAPageThatMovedIsReadAtTheAddressItMovedTo(t *testing.T) {
+	t.Parallel()
+
+	movedAddress := "https://old.example/berlin"
+	reading := readingOfThePages(t, pagesMovedFrom(t, movedAddress), &recordedPageReading{})
+
+	documentTextPerDocument := reading.ReadEachPage(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, movedAddress)},
+	).DocumentTextPerDocument
+
+	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, movedAddress)
+	if documentText.Title != "Berlin" || documentText.Address != addressOfTheDocument {
+		t.Fatalf(
+			"the page gives %+v, want the text of %s and its address",
+			documentText, addressOfTheDocument,
+		)
+	}
+}
+
+func TestAPageThatDidNotMoveGivesNoAddress(t *testing.T) {
+	t.Parallel()
+
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
+
+	documentTextPerDocument := reading.ReadEachPage(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	).DocumentTextPerDocument
+
+	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheDocument)
+	if documentText.Address != "" {
+		t.Fatalf("the page gives the address %q, want none for a page that did not move",
+			documentText.Address)
 	}
 }

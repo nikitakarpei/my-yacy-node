@@ -11,8 +11,6 @@ commonVendors:
 components:
   scrapeintake:
     in: internal/scrapeintake/**
-  redirectfollowingfetch:
-    in: internal/redirectfollowingfetch/**
   scrapestreamsjetstream:
     in: internal/scrapestreams/jetstream/**
   pageofferpublishersjetstream:
@@ -42,6 +40,9 @@ vendors:
   pagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  redirectfollowingfetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -57,15 +58,11 @@ vendors:
 
 deps:
   scrapeintake:
-    mayDependOn:
-      - redirectfollowingfetch
     canUse:
       - pagescrapecontract
       - pagefetch
+      - redirectfollowingfetch
       - serviceruntime
-  redirectfollowingfetch:
-    canUse:
-      - pagefetch
   scrapestreamsjetstream:
     canUse:
       - pagescrapecontract
