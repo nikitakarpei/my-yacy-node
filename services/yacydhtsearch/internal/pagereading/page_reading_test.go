@@ -13,17 +13,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	pageReadBudget        = time.Second
-	maxRedirectHops       = 3
-	snippetLengthCeiling  = 40
-	addressOfTheDocument  = "https://berlin.example/"
-	readableTextOfThePage = "Berlin holds a wall."
-	fullTextOfThePage     = "Berlin Berlin holds a wall."
-	pageOfBerlin          = `<!doctype html><html><head><title>Berlin</title>` +
+	pageReadBudget              = time.Second
+	maxRedirectHops             = 3
+	snippetLengthCeiling        = 40
+	addressOfTheDocument        = "https://berlin.example/"
+	readableTextOfThePage       = "Berlin holds a wall."
+	fullTextOfThePage           = "Berlin Berlin holds a wall."
+	addressOfTheLinkingDocument = "https://berlin.example/wall"
+	pageOfTheLinkingDocument    = `<!doctype html><html><head><title>Berlin</title>` +
+		`</head><body><p>Berlin holds a wall.</p>` +
+		`<a href="/gate">the gate</a><a href="/wall">the wall</a>` +
+		`<a href="https://other.example/berlin">another site</a></body></html>`
+	pageOfBerlin = `<!doctype html><html><head><title>Berlin</title>` +
 		`<script>var div = "berlin berlin berlin";</script></head>` +
 		`<body class="berlin page"><div id="wall">` +
 		`<p>Berlin holds a wall.</p></div></body></html>`
@@ -198,8 +204,9 @@ func pagesHoldingTheDocuments(t *testing.T) pagesHeldAtTheirAddress {
 
 	pages := pagesHeldAtTheirAddress{}
 	for address, page := range map[string]string{
-		addressOfTheDocument: pageOfBerlin,
-		addressOfTheArticle:  pageOfTheArticle,
+		addressOfTheDocument:        pageOfBerlin,
+		addressOfTheArticle:         pageOfTheArticle,
+		addressOfTheLinkingDocument: pageOfTheLinkingDocument,
 	} {
 		pageURL, err := canonicalurl.CanonicalURLOf(address)
 		if err != nil {
@@ -211,19 +218,29 @@ func pagesHoldingTheDocuments(t *testing.T) pagesHeldAtTheirAddress {
 	return pages
 }
 
+func pageContentsOfTheAddressRead(
+	t *testing.T,
+	pageContentsPerDocument map[yacymodel.URLHash]queryanswers.PageContents,
+	address string,
+) queryanswers.PageContents {
+	t.Helper()
+
+	pageContents, read := pageContentsPerDocument[documentOfTheAddress(t, address)]
+	if !read {
+		t.Fatalf("the reading gives %+v, want the contents of the page", pageContentsPerDocument)
+	}
+
+	return pageContents
+}
+
 func documentTextOfTheAddressRead(
 	t *testing.T,
-	documentTextPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
+	pageContentsPerDocument map[yacymodel.URLHash]queryanswers.PageContents,
 	address string,
 ) documenttext.DocumentText {
 	t.Helper()
 
-	documentText, read := documentTextPerDocument[documentOfTheAddress(t, address)]
-	if !read {
-		t.Fatalf("the reading gives %+v, want the text of the page", documentTextPerDocument)
-	}
-
-	return documentText
+	return pageContentsOfTheAddressRead(t, pageContentsPerDocument, address).Text
 }
 
 func TestThePageOfADocumentGivesTheHitsOfEachQueryWordInItsText(t *testing.T) {
@@ -231,13 +248,13 @@ func TestThePageOfADocumentGivesTheHitsOfEachQueryWordInItsText(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin"), yacymodel.WordHash("wall")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheDocument)
+	documentText := documentTextOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if documentText.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 1 ||
 		documentText.HitsPerQueryWord[yacymodel.WordHash("wall")] != 1 {
 		t.Fatalf("the page gives %+v, want one hit of berlin and one of wall", documentText)
@@ -249,13 +266,13 @@ func TestThePageOfADocumentGivesItsTitle(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheDocument)
+	documentText := documentTextOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if documentText.Title != "Berlin" {
 		t.Fatalf("the page gives the title %q, want the title the page holds", documentText.Title)
 	}
@@ -274,11 +291,11 @@ func queryPhraseHitsOfTheAddressRead(
 		words = append(words, yacymodel.WordHash(queryWord))
 	}
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(), words, []pagereading.PageToRead{pageToReadOfTheAddress(t, address)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	return documentTextOfTheAddressRead(t, documentTextPerDocument, address).QueryPhraseHits
+	return documentTextOfTheAddressRead(t, pageContentsPerDocument, address).QueryPhraseHits
 }
 
 func TestThePageOfADocumentGivesTheHitsOfEachQueryPhraseInItsText(t *testing.T) {
@@ -331,7 +348,7 @@ func TestOnlyTheWordsAReaderSeesInThePageAreRead(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{
 			yacymodel.WordHash("berlin"),
@@ -339,9 +356,9 @@ func TestOnlyTheWordsAReaderSeesInThePageAreRead(t *testing.T) {
 			yacymodel.WordHash("body"),
 		},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheDocument)
+	documentText := documentTextOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if documentText.AmountOfWords != len(yacymodel.WordsIn(readableTextOfThePage)) {
 		t.Fatalf(
 			"the page holds %d words, want the %d words of %q",
@@ -364,13 +381,13 @@ func TestTheSnippetOfADocumentIsCutAtAWordBoundaryBeforeItsLengthCeiling(t *test
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("terraform")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheArticle)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	snippet := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheArticle).Snippet
+	snippet := documentTextOfTheAddressRead(t, pageContentsPerDocument, addressOfTheArticle).Snippet
 	if len([]rune(snippet)) > snippetLengthCeiling ||
 		!strings.HasPrefix(paragraphOfTheArticle, snippet+" ") {
 		t.Fatalf(
@@ -385,16 +402,16 @@ func TestOnlyTheArticleOfAPageIsReadWhenThePageHoldsOne(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{
 			yacymodel.WordHash("terraform"),
 			yacymodel.WordHash("navigation"),
 		},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheArticle)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheArticle)
+	documentText := documentTextOfTheAddressRead(t, pageContentsPerDocument, addressOfTheArticle)
 	if documentText.HitsPerQueryWord[yacymodel.WordHash("navigation")] != 0 {
 		t.Fatalf("the page gives %+v, want no hit for a word only the menu holds", documentText)
 	}
@@ -424,13 +441,13 @@ func TestTheWholeTextOfAPageIsReadWhenItHoldsNoReadableText(t *testing.T) {
 		pagereading.PageReadingObservers{observer},
 	)
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheDocument)
+	documentText := documentTextOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if documentText.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 2 ||
 		documentText.AmountOfWords != len(yacymodel.WordsIn(fullTextOfThePage)) {
 		t.Fatalf("the page gives %+v, want the whole text of the page", documentText)
@@ -443,14 +460,14 @@ func TestAPageThatNoAddressHoldsIsRefused(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesHeldAtTheirAddress{}, observer)
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	if len(documentTextPerDocument) != 0 {
-		t.Fatalf("the reading gives %+v, want nothing for the document", documentTextPerDocument)
+	if len(pageContentsPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
 	}
 	if observer.performed.AmountOfPagesToRead != 1 ||
 		observer.performed.AmountOfPagesRefused != 1 {
@@ -484,7 +501,7 @@ func TestAPageTheSiteSaysIsGoneGivesItsDocumentAsGone(t *testing.T) {
 	)
 
 	if _, gone := readPages.GoneDocuments[documentOfTheAddress(t, addressOfTheDocument)]; !gone ||
-		len(readPages.DocumentTextPerDocument) != 0 {
+		len(readPages.PageContentsPerDocument) != 0 {
 		t.Fatalf("the reading gives %+v, want the document as gone and no text", readPages)
 	}
 	if observer.performed.AmountOfPagesGone != 1 {
@@ -514,14 +531,14 @@ func TestAPageTooLargeToFetchIsRefused(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesTooLargeToFetch{}, observer)
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	if len(documentTextPerDocument) != 0 {
-		t.Fatalf("the reading gives %+v, want nothing for the document", documentTextPerDocument)
+	if len(pageContentsPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
 	}
 	if observer.performed.AmountOfPagesRefused != 1 {
 		t.Fatalf("PageReadingPerformed = %+v, want one refused page", observer.performed)
@@ -566,14 +583,14 @@ func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) 
 		pagereading.PageReadingObservers{observer},
 	)
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	if len(documentTextPerDocument) != 0 {
-		t.Fatalf("the reading gives %+v, want nothing for the document", documentTextPerDocument)
+	if len(pageContentsPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
 	}
 	if observer.performed.AmountOfPagesOutOfBudget != 1 {
 		t.Fatalf("PageReadingPerformed = %+v, want one page out of budget", observer.performed)
@@ -586,14 +603,14 @@ func TestAPageOfAnUnsupportedKindGivesNothingForItsDocument(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesOfAnUnsupportedKind{}, observer)
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	if len(documentTextPerDocument) != 0 {
-		t.Fatalf("the reading gives %+v, want nothing for the document", documentTextPerDocument)
+	if len(pageContentsPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
 	}
 	if observer.performed.AmountOfPagesOfAnUnsupportedKind != 1 {
 		t.Fatalf(
@@ -609,14 +626,14 @@ func TestAPageWhoseFetchDeadlinePassedIsOutOfBudget(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesWhoseDeadlinePassed{}, observer)
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	if len(documentTextPerDocument) != 0 {
-		t.Fatalf("the reading gives %+v, want nothing for the document", documentTextPerDocument)
+	if len(pageContentsPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
 	}
 	if observer.performed.AmountOfPagesOutOfBudget != 1 {
 		t.Fatalf("PageReadingPerformed = %+v, want one page out of budget", observer.performed)
@@ -705,13 +722,13 @@ func TestAPageThatMovedIsReadAtTheAddressItMovedTo(t *testing.T) {
 	movedAddress := "https://old.example/berlin"
 	reading := readingOfThePages(t, pagesMovedFrom(t, movedAddress), &recordedPageReading{})
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, movedAddress)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, movedAddress)
+	documentText := documentTextOfTheAddressRead(t, pageContentsPerDocument, movedAddress)
 	if documentText.Title != "Berlin" || documentText.Address != addressOfTheDocument {
 		t.Fatalf(
 			"the page gives %+v, want the text of %s and its address",
@@ -725,15 +742,38 @@ func TestAPageThatDidNotMoveGivesNoAddress(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	documentTextPerDocument := reading.ReadEachPage(
+	pageContentsPerDocument := reading.ReadEachPage(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).DocumentTextPerDocument
+	).PageContentsPerDocument
 
-	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheDocument)
+	documentText := documentTextOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if documentText.Address != "" {
 		t.Fatalf("the page gives the address %q, want none for a page that did not move",
 			documentText.Address)
+	}
+}
+
+func TestThePageOfADocumentGivesTheLinksOfItsOwnSiteAndOfOtherSitesItHolds(t *testing.T) {
+	t.Parallel()
+
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
+
+	pageContentsPerDocument := reading.ReadEachPage(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheLinkingDocument)},
+	).PageContentsPerDocument
+
+	linkCounts := pageContentsOfTheAddressRead(
+		t, pageContentsPerDocument, addressOfTheLinkingDocument,
+	).LinkCounts
+	if linkCounts.LocalLinks != 2 || linkCounts.ExternalLinks != 1 {
+		t.Fatalf(
+			"the page gives the link counts %+v, want the 2 links of its own site and the 1 link "+
+				"of another site it holds",
+			linkCounts,
+		)
 	}
 }

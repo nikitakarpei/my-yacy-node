@@ -273,6 +273,7 @@ deps:
       - yacymodel
     mayDependOn:
       - documenttext
+      - queryanswers
   pagereadingobserversapplog:
     mayDependOn:
       - pagereading

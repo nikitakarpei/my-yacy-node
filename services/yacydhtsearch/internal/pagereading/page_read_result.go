@@ -3,14 +3,14 @@ package pagereading
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type pageReadResult struct {
 	document          yacymodel.URLHash
 	outcome           readOutcome
-	text              documenttext.DocumentText
+	pageContents      queryanswers.PageContents
 	timeSpentFetching time.Duration
 	timeSpentReading  time.Duration
 }

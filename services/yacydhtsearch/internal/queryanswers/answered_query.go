@@ -1,14 +1,14 @@
 // Package queryanswers holds what a spread answered for one whole query: the
 // words of the query, one found document for each document it found, and how
 // many documents the peers hold per query word. The text of a document, once a
-// node read its page, replaces what the peers counted for it and their snippet.
+// node read its page, replaces what the peers counted for it, their snippet, and
+// the links they counted.
 // The title of the page replaces theirs when the page has one, and the address
 // the page moved to replaces theirs when it moved. A document can leave the
 // answers, for example once its page is gone.
 package queryanswers
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -19,17 +19,17 @@ type AnsweredQuery struct {
 }
 
 func (a AnsweredQuery) SaturatedWith(
-	textPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
+	pageContentsPerDocument map[yacymodel.URLHash]PageContents,
 ) AnsweredQuery {
-	if len(textPerDocument) == 0 {
+	if len(pageContentsPerDocument) == 0 {
 		return a
 	}
 
 	foundDocuments := make([]FoundDocument, 0, len(a.FoundDocuments))
 	for _, foundDocument := range a.FoundDocuments {
-		text, read := textPerDocument[foundDocument.Hash]
+		pageContents, read := pageContentsPerDocument[foundDocument.Hash]
 		if read {
-			foundDocument = foundDocument.saturatedWith(text)
+			foundDocument = foundDocument.saturatedWith(pageContents)
 		}
 		foundDocuments = append(foundDocuments, foundDocument)
 	}
