@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	amountOfRunsOfTheSameAnswers = 50
-	weightOfAWeighedAddressScore = 1.0
+	amountOfRunsOfTheSameAnswers   = 50
+	amountOfWordsOfALinkedDocument = 1000
+	weightOfAWeighedAddressScore   = 1.0
 )
 
 func foundDocumentAt(t *testing.T, address string) queryanswers.FoundDocument {
@@ -622,5 +623,90 @@ func TestTheEntryPageOfTheSiteTheQueryNamesComesFirst(t *testing.T) {
 	}
 	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func foundDocumentWithLinksAmongAThousandWords(
+	t *testing.T, address string, amountOfLinks int,
+) queryanswers.FoundDocument {
+	t.Helper()
+
+	foundDocument := foundDocumentWithHitsOf(t, address, "berlin", 1)
+	foundDocument.AmountOfWords = amountOfWordsOfALinkedDocument
+	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCounts{
+		LocalLinks:    amountOfLinks,
+		ExternalLinks: 0,
+	})
+
+	return foundDocument
+}
+
+func TestTheDocumentOfFewerLinksPerWordComesLast(t *testing.T) {
+	t.Parallel()
+
+	answers := answersOf(
+		[]string{"berlin"},
+		[]queryanswers.FoundDocument{
+			foundDocumentWithLinksAmongAThousandWords(t, "https://sparse.example/", 1),
+			foundDocumentWithLinksAmongAThousandWords(t, "https://linked.example/", 50),
+		},
+	)
+
+	want := []string{"https://linked.example/", "https://sparse.example/"}
+	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentNoPeerSentLinkCountsForKeepsTheRelevanceOfALinkedDocument(t *testing.T) {
+	t.Parallel()
+
+	withoutLinkCounts := foundDocumentWithLinksAmongAThousandWords(
+		t, "https://unmeasured.example/", 1,
+	)
+	withoutLinkCounts.LinkCounts = yacymodel.None[queryanswers.LinkCounts]()
+	answers := answersOf(
+		[]string{"berlin"},
+		[]queryanswers.FoundDocument{
+			withoutLinkCounts,
+			foundDocumentWithLinksAmongAThousandWords(t, "https://linked.example/", 50),
+		},
+	)
+
+	relevancePerDocument := documentrelevance.New(documentrelevance.DefaultScoreWeights()).
+		RelevancePerDocumentOf(answers)
+	linked := relevancePerDocument[answers.FoundDocuments[1].Hash]
+	if unmeasured := relevancePerDocument[withoutLinkCounts.Hash]; unmeasured != linked {
+		t.Fatalf(
+			"the document no peer sent link counts for reaches the relevance %.4f, want the %.4f "+
+				"of the document of links enough",
+			unmeasured,
+			linked,
+		)
+	}
+}
+
+func TestTheDocumentOfLinksEnoughKeepsTheRelevanceOfAFurtherLinkedDocument(t *testing.T) {
+	t.Parallel()
+
+	answers := answersOf(
+		[]string{"berlin"},
+		[]queryanswers.FoundDocument{
+			foundDocumentWithLinksAmongAThousandWords(t, "https://linked.example/", 30),
+			foundDocumentWithLinksAmongAThousandWords(t, "https://further.linked.example/", 600),
+		},
+	)
+
+	relevancePerDocument := documentrelevance.New(documentrelevance.DefaultScoreWeights()).
+		RelevancePerDocumentOf(answers)
+	linked := relevancePerDocument[answers.FoundDocuments[0].Hash]
+	furtherLinked := relevancePerDocument[answers.FoundDocuments[1].Hash]
+	if linked != furtherLinked {
+		t.Fatalf(
+			"the document of links enough reaches the relevance %.4f, want the %.4f of the "+
+				"further linked document",
+			linked,
+			furtherLinked,
+		)
 	}
 }
