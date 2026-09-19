@@ -167,7 +167,7 @@ func (r Reading) documentTextFromTheFetchedPage(
 	}
 
 	return documenttext.DocumentTextFrom(
-		string(text), queryWords, r.snippetLengthCeiling,
+		extractedDocument.Title, string(text), queryWords, r.snippetLengthCeiling,
 	), pageWasRead
 }
 

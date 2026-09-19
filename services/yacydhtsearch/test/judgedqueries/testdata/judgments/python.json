@@ -70,7 +70,7 @@
     {
       "hash": "gQlf6itD2jQw",
       "address": "https://docs.python.org/3/whatsnew/index.html",
-      "title": "What’s New in Python — Python 3.14.6 documentation",
+      "title": "What’s New in Python — Python 3.14.7 documentation",
       "grade": 1
     },
     {
@@ -100,7 +100,7 @@
     {
       "hash": "dzPvYltD2jQw",
       "address": "https://docs.python.org/3.14/using/index.html",
-      "title": "Python Setup and Usage — Python 3.14.6 documentation",
+      "title": "Python Setup and Usage — Python 3.14.7 documentation",
       "grade": 1
     },
     {
@@ -160,19 +160,19 @@
     {
       "hash": "SooFRitD2jQw",
       "address": "https://docs.python.org/3/howto/pyporting.html",
-      "title": "How to port Python 2 Code to Python 3 — Python 3.14.6 documentation",
+      "title": "How to port Python 2 Code to Python 3 — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "kEYSoltD2jQw",
       "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
-      "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
+      "title": "What’s New In Python 3.6 — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "t-S-sitD2jQw",
       "address": "https://docs.python.org/3/faq/installed.html",
-      "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.0 documentation",
+      "title": "“Why is Python Installed on my Computer?” FAQ — Python 3.14.7 documentation",
       "grade": 0
     },
     {
@@ -184,7 +184,7 @@
     {
       "hash": "JfZEMitD2jQw",
       "address": "https://docs.python.org/3/faq/",
-      "title": "Python Frequently Asked Questions — Python 3.14.6 documentation",
+      "title": "Python Frequently Asked Questions — Python 3.14.7 documentation",
       "grade": 1
     },
     {
@@ -214,13 +214,13 @@
     {
       "hash": "2fxzxltD2jQw",
       "address": "https://docs.python.org/3.14/whatsnew/index.html",
-      "title": "What’s New in Python — Python 3.14.2 documentation",
+      "title": "What’s New in Python — Python 3.14.7 documentation",
       "grade": 1
     },
     {
       "hash": "K2rpjkdG5jPw",
       "address": "https://www.python.org/community/lists/",
-      "title": "Mailing Lists | Python.org",
+      "title": "Mailing lists | Python.org",
       "grade": 0
     },
     {
@@ -238,7 +238,7 @@
     {
       "hash": "WY2aUHtD2jQw",
       "address": "https://docs.python.org/3.12/whatsnew/index.html",
-      "title": "What’s New in Python — Python 3.12.0a6 documentation",
+      "title": "What’s New in Python — Python 3.12.14 documentation",
       "grade": 1
     },
     {

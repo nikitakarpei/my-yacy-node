@@ -28,7 +28,7 @@ func TestTheTextGivesTheHitsOfEachQueryWordAndNoOtherWord(t *testing.T) {
 	t.Parallel()
 
 	documentText := documenttext.DocumentTextFrom(
-		textOfThePage, wordsOf("berlin", "river", "paris"), snippetLengthCeiling,
+		"", textOfThePage, wordsOf("berlin", "river", "paris"), snippetLengthCeiling,
 	)
 
 	if len(documentText.HitsPerQueryWord) != 3 ||
@@ -46,13 +46,13 @@ func TestTheTextGivesTheHitsOfEachQueryPhraseInTheOrderOfTheQuery(t *testing.T) 
 	t.Parallel()
 
 	inOrder := documenttext.DocumentTextFrom(
-		textOfThePage, wordsOf("berlin", "holds"), snippetLengthCeiling,
+		"", textOfThePage, wordsOf("berlin", "holds"), snippetLengthCeiling,
 	)
 	inTheOtherOrder := documenttext.DocumentTextFrom(
-		textOfThePage, wordsOf("holds", "berlin"), snippetLengthCeiling,
+		"", textOfThePage, wordsOf("holds", "berlin"), snippetLengthCeiling,
 	)
 	ofOneWord := documenttext.DocumentTextFrom(
-		textOfThePage, wordsOf("berlin"), snippetLengthCeiling,
+		"", textOfThePage, wordsOf("berlin"), snippetLengthCeiling,
 	)
 
 	if inOrder.QueryPhraseHits != 2 || inTheOtherOrder.QueryPhraseHits != 0 ||
@@ -68,7 +68,7 @@ func TestTheSnippetIsThePassageThatHoldsMoreOfTheQueryWords(t *testing.T) {
 	t.Parallel()
 
 	snippet := documenttext.DocumentTextFrom(
-		"Berlin holds a wall. The wall and the river of Berlin.",
+		"", "Berlin holds a wall. The wall and the river of Berlin.",
 		wordsOf("berlin", "river"),
 		snippetLengthCeiling,
 	).Snippet
@@ -82,7 +82,7 @@ func TestTheSnippetIsThePassageThatHoldsTheQueryPhraseWhenBothHoldTheSameWords(t
 	t.Parallel()
 
 	snippet := documenttext.DocumentTextFrom(
-		"The wall stands near Berlin. The Berlin wall is famous.",
+		"", "The wall stands near Berlin. The Berlin wall is famous.",
 		wordsOf("berlin", "wall"),
 		snippetLengthCeiling,
 	).Snippet
@@ -96,7 +96,7 @@ func TestTheSnippetIsTheEarlierPassageWhenTwoPassagesAnswerTheQueryTheSame(t *te
 	t.Parallel()
 
 	snippet := documenttext.DocumentTextFrom(
-		"Berlin is old. Berlin is new.", wordsOf("berlin"), shortSnippetLengthCeiling,
+		"", "Berlin is old. Berlin is new.", wordsOf("berlin"), shortSnippetLengthCeiling,
 	).Snippet
 
 	if snippet != "Berlin is old." {
@@ -108,7 +108,7 @@ func TestTheSnippetJoinsShortSentencesUpToTheLengthCeiling(t *testing.T) {
 	t.Parallel()
 
 	snippet := documenttext.DocumentTextFrom(
-		"One. Two. Three. This other sentence holds no query word at all.",
+		"", "One. Two. Three. This other sentence holds no query word at all.",
 		wordsOf("three"),
 		snippetLengthCeiling,
 	).Snippet
@@ -122,7 +122,7 @@ func TestTheSnippetIsCutAtAWordBoundaryBeforeTheLengthCeiling(t *testing.T) {
 	t.Parallel()
 
 	snippet := documenttext.DocumentTextFrom(
-		textOfThePage, wordsOf("city"), snippetLengthCeiling,
+		"", textOfThePage, wordsOf("city"), snippetLengthCeiling,
 	).Snippet
 
 	if len([]rune(snippet)) > snippetLengthCeiling ||
@@ -138,10 +138,25 @@ func TestTheSnippetOfATextWithoutAQueryWordIsItsFirstPassage(t *testing.T) {
 	t.Parallel()
 
 	snippet := documenttext.DocumentTextFrom(
-		"Über kurz oder lang. Und dann.", wordsOf("paris"), shortSnippetLengthCeiling,
+		"", "Über kurz oder lang. Und dann.", wordsOf("paris"), shortSnippetLengthCeiling,
 	).Snippet
 
 	if snippet != "Über kurz oder lang." {
 		t.Fatalf("the snippet reads %q, want the first passage of the text", snippet)
+	}
+}
+
+func TestTheTextCarriesTheTitleOfThePageWithItsSpacesCollapsed(t *testing.T) {
+	t.Parallel()
+
+	documentText := documenttext.DocumentTextFrom(
+		"Berlin |\n    the city", textOfThePage, wordsOf("berlin"), snippetLengthCeiling,
+	)
+
+	if documentText.Title != "Berlin | the city" {
+		t.Fatalf(
+			"the text carries the title %q, want the title of the page with its spaces collapsed",
+			documentText.Title,
+		)
 	}
 }
