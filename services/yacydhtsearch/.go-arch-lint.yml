@@ -157,6 +157,9 @@ vendors:
   pagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  redirectfollowingfetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
@@ -266,6 +269,7 @@ deps:
       - canonicalurl
       - documentextraction
       - pagefetch
+      - redirectfollowingfetch
       - yacymodel
     mayDependOn:
       - documenttext

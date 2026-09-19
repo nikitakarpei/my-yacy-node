@@ -80,7 +80,7 @@ func (visitor *pageVisitor) outcomeOfPageFetch(
 		return redirectedOutcome(fetchOutcome.RedirectTarget)
 	case pagefetch.FetchAccessRefused:
 		return disposedOutcome(disposal.AccessRefused)
-	case pagefetch.FetchRejected:
+	case pagefetch.FetchRejected, pagefetch.FetchGone:
 		return disposedOutcome(disposal.FetchRejected)
 	case pagefetch.FetchRedirectTargetInvalid:
 		return disposedOutcome(disposal.RedirectTargetInvalid)

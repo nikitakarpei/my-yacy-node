@@ -9,6 +9,7 @@ const (
 	FetchAccessRefused
 	FetchDeferred
 	FetchRejected
+	FetchGone
 	FetchRedirectTargetInvalid
 	FetchOversized
 	FetchFailed
