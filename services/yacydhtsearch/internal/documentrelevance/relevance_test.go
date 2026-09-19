@@ -624,3 +624,28 @@ func TestTheEntryPageOfTheSiteTheQueryNamesComesFirst(t *testing.T) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
+
+func TestTheOverlongTextOfEveryQueryWordComesAfterAUsualPageOfThem(t *testing.T) {
+	t.Parallel()
+
+	overlongText := foundDocumentWithHitsPerWord(
+		t, "https://archive.example/", map[string]int{"wifi": 50, "slow": 50},
+	)
+	overlongText.AmountOfWords = 400000
+	overlongText.QueryPhraseHits = 2
+	usualPage := foundDocumentWithHitsPerWord(
+		t, "https://usual.example/", map[string]int{"wifi": 2, "slow": 2},
+	)
+	usualPage.AmountOfWords = 800
+	usualPage.QueryPhraseHits = 1
+	answers := answersHolding(
+		map[string]int{"wifi": 100, "slow": 100},
+		[]string{"wifi", "slow"},
+		[]queryanswers.FoundDocument{overlongText, usualPage},
+	)
+
+	want := []string{"https://usual.example/", "https://archive.example/"}
+	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
