@@ -233,3 +233,27 @@ func (relevanceByFoundPlace) RelevancePerDocumentOf(
 
 	return relevancePerDocument
 }
+
+func TestADocumentBelowNoRelevanceDoesNotRiseWhenItsHostRepeats(t *testing.T) {
+	t.Parallel()
+
+	got := addressesOrderedWithTheHostDiscount(
+		t,
+		addressAndItsRelevance{address: "https://one.example/a", relevance: 10},
+		addressAndItsRelevance{address: "https://one.example/b", relevance: 9},
+		addressAndItsRelevance{address: "https://one.example/c", relevance: 8},
+		addressAndItsRelevance{address: "https://two.example/a", relevance: -1},
+		addressAndItsRelevance{address: "https://one.example/d", relevance: -4},
+	)
+
+	want := []string{
+		"https://one.example/a",
+		"https://one.example/b",
+		"https://one.example/c",
+		"https://two.example/a",
+		"https://one.example/d",
+	}
+	if !slices.Equal(got, want) {
+		t.Fatalf("the host discount order reads %v, want %v", got, want)
+	}
+}
