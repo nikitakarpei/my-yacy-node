@@ -128,6 +128,12 @@
       "grade": 0
     },
     {
+      "hash": "7qXiQoC2Dk-o",
+      "address": "https://wikipedia-android.softonic.cn/android",
+      "title": "Wikipedia APK Android 版 - 下载",
+      "grade": 0
+    },
+    {
       "hash": "V-hhGjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:What_is_an_article%3F",
       "title": "Wikipedia:What is an article? - Wikipedia",
@@ -152,10 +158,22 @@
       "grade": 1
     },
     {
+      "hash": "2DfK_mqjuDq4",
+      "address": "https://offline-wikipedia.fr.softonic.com/pwa",
+      "title": "Offline Wikipedia pour PWA - Télécharger",
+      "grade": 0
+    },
+    {
       "hash": "eV8_WladqZ_x",
       "address": "https://www.wikipedia.org/",
       "title": "Wikipedia",
       "grade": 2
+    },
+    {
+      "hash": "4N7QFh6tsM8o",
+      "address": "https://wikipedia.softonic.cn/",
+      "title": "Wikipedia 版 - 下载",
+      "grade": 0
     },
     {
       "hash": "LdyCTjRvmBbx",
@@ -278,6 +296,12 @@
       "grade": 0
     },
     {
+      "hash": "S7erAdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:%C3%9Cber_Wikipedia",
+      "title": "Wikipedia:Über Wikipedia – Wikipedia",
+      "grade": 1
+    },
+    {
       "hash": "nig6JZ-ZDd54",
       "address": "https://wikipedia-mobile.en.uptodown.com/ios",
       "title": "Wikipedia Mobile for iOS - Download it from Uptodown for free",
@@ -288,6 +312,36 @@
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Divisiveness",
       "title": "Wikipedia:Divisiveness - Wikipedia",
       "grade": 0
+    },
+    {
+      "hash": "JeplmJ_rb6v5",
+      "address": "https://wikipedia-un-mythe.over-blog.com/",
+      "title": "wikipedia ou le mythe de la neutralité - observatoire de wikipedia qui se prétend une encyclopédie, sans spécialistes ni vérification d'experts, chacun peut écrire ce qu'il veut sous anonymat : une pseudo-encyclopédie où prospèrent la propagande et l'irrationnel. Blog de réflexion sur la culture",
+      "grade": 1
+    },
+    {
+      "hash": "Oc6Ffsd660dx",
+      "address": "https://nl.wikipedia.org/wiki/Wikipedia:Statistieken",
+      "title": "Wikipedia:Statistieken - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "Zk80-q5_AtLx",
+      "address": "https://war.wikipedia.org/wiki/Syahan_nga_Pakli",
+      "title": "Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "onmRNNVNtdex",
+      "address": "https://fy.wikipedia.org/wiki/Wikipedy:Ynfo",
+      "title": "Wikipedy:Wat is Wikipedia - Wikipedy",
+      "grade": 1
+    },
+    {
+      "hash": "CMjFUZiEKjLx",
+      "address": "https://lb.wikipedia.org/wiki/Wikipedia:W%C3%ABllkomm",
+      "title": "Wikipedia:Wëllkomm – Wikipedia",
+      "grade": 1
     }
   ]
 }

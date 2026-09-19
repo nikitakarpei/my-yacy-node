@@ -278,6 +278,12 @@
       "grade": 0
     },
     {
+      "hash": "-3s25bdA5r_4",
+      "address": "https://www.apple.com/today/event/spotlight-apple-intelligence/7486140591563440128/?sn=R095",
+      "title": "Spotlight: Apple Intelligence - Apple",
+      "grade": 1
+    },
+    {
       "hash": "Lboc4ySIk8o4",
       "address": "https://support.apple.com/en-us/106342",
       "title": "About Search on your Apple TV - Apple Support",
@@ -314,15 +320,33 @@
       "grade": 0
     },
     {
+      "hash": "qbPsU_6htlt5",
+      "address": "https://offers.applearcade.apple/?itscg=10000\u0026itsct=arc-0-arc_ovp-ribbon-apl-ref-211025",
+      "title": "Apple Arcade - Three Month Offer - Apple",
+      "grade": 1
+    },
+    {
       "hash": "KKc6ICsNgbb4",
       "address": "https://music.apple.com/us/new",
       "title": "‎Apple Music - Web Player",
       "grade": 0
     },
     {
+      "hash": "vWkJt4X9qC8g",
+      "address": "https://store-apple.msk.ru/",
+      "title": "A Store - фирменный магазин Apple в Москве",
+      "grade": 0
+    },
+    {
       "hash": "GFIJL54Lp0o4",
       "address": "https://discussions.apple.com/welcome",
       "title": "Official Apple Support Community",
+      "grade": 1
+    },
+    {
+      "hash": "2E2tM4bvuEZ4",
+      "address": "https://tv.apple.com/sg?l=zh",
+      "title": "‎Apple TV",
       "grade": 1
     }
   ]

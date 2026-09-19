@@ -324,6 +324,48 @@
       "address": "https://wiki.openstreetmap.org/wiki/Lb:Main_Page",
       "title": "Lb:Main Page - OpenStreetMap Wiki",
       "grade": 1
+    },
+    {
+      "hash": "9BCDApN2pAny",
+      "address": "https://help.openstreetmap.org/questions/102/i-have-made-edits-but-they-dont-show-up-on-the-map/",
+      "title": "OpenStreetMap Help",
+      "grade": 1
+    },
+    {
+      "hash": "Nqz_ZbYMEouy",
+      "address": "https://supporting.openstreetmap.org/",
+      "title": "OpenStreetMap Foundation – Supporting the work of the OpenStreetMap project",
+      "grade": 1
+    },
+    {
+      "hash": "qXktE8KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Zh-hans:FAQ",
+      "title": "Zh-hans:FAQ - OpenStreetMap Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "BEBdlsSc-IEy",
+      "address": "https://openstreetmap.us/",
+      "title": "OpenStreetMap US",
+      "grade": 1
+    },
+    {
+      "hash": "I58ohld_oSSi",
+      "address": "https://www.openstreetmap.fr/",
+      "title": "Accueil - OpenStreetMap France",
+      "grade": 1
+    },
+    {
+      "hash": "E7iHKPgcGDHy",
+      "address": "https://blog.openstreetmap.org/2023/10/25/microsoft-compromete-150-000-dolares-para-apoiar-a-openstreetmap/?lang=gl",
+      "title": "Microsoft compromete 150.000 dólares para apoiar a OpenStreetMap | OpenStreetMap Blog",
+      "grade": 1
+    },
+    {
+      "hash": "VxsPeQralQdC",
+      "address": "http://www.openstreetmap.ch/?lon=121.433333\u0026lat=31.2\u0026zoom=15",
+      "title": "OpenStreetMap - The Free Wiki World Map",
+      "grade": 1
     }
   ]
 }
