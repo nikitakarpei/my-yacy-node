@@ -339,12 +339,12 @@ func networkOrdering(
 
 type pagesThatNoOneReads struct{}
 
-func (pagesThatNoOneReads) DocumentTextPerDocument(
+func (pagesThatNoOneReads) ReadEachPage(
 	_ context.Context,
 	_ []yacymodel.Hash,
 	_ []pagereading.PageToRead,
-) map[yacymodel.URLHash]documenttext.DocumentText {
-	return nil
+) pagereading.ReadPages {
+	return pagereading.ReadPages{}
 }
 
 func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
@@ -592,11 +592,11 @@ type pagesHoldingTheWordOfOneDocument struct {
 	hits    int
 }
 
-func (p pagesHoldingTheWordOfOneDocument) DocumentTextPerDocument(
+func (p pagesHoldingTheWordOfOneDocument) ReadEachPage(
 	_ context.Context,
 	_ []yacymodel.Hash,
 	pagesToRead []pagereading.PageToRead,
-) map[yacymodel.URLHash]documenttext.DocumentText {
+) pagereading.ReadPages {
 	documentTextPerDocument := map[yacymodel.URLHash]documenttext.DocumentText{}
 	for _, pageToRead := range pagesToRead {
 		if pageToRead.Address != p.address {
@@ -608,7 +608,7 @@ func (p pagesHoldingTheWordOfOneDocument) DocumentTextPerDocument(
 		}
 	}
 
-	return documentTextPerDocument
+	return pagereading.ReadPages{DocumentTextPerDocument: documentTextPerDocument}
 }
 
 func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
@@ -638,6 +638,52 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	}
 }
 
+type pagesOfOneDocumentGone struct {
+	address string
+}
+
+func (p pagesOfOneDocumentGone) ReadEachPage(
+	_ context.Context,
+	_ []yacymodel.Hash,
+	pagesToRead []pagereading.PageToRead,
+) pagereading.ReadPages {
+	goneDocuments := map[yacymodel.URLHash]struct{}{}
+	for _, pageToRead := range pagesToRead {
+		if pageToRead.Address == p.address {
+			goneDocuments[pageToRead.Document] = struct{}{}
+		}
+	}
+
+	return pagereading.ReadPages{GoneDocuments: goneDocuments}
+}
+
+func TestADocumentWhosePageIsGoneLeavesTheRanking(t *testing.T) {
+	t.Parallel()
+
+	common, rare := "https://common.example/", "https://rare.example/"
+	network := networksearch.New(
+		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
+		answersOfTwoWords(t, common, rare),
+		pagesOfOneDocumentGone{address: common},
+		orderingInTheFoundOrder{},
+		queryBudget,
+		pageReadBudget,
+		pagesReadPerQuery,
+		recordCeiling,
+		networksearch.NetworkSearchObservers{&recordedQuery{}},
+	)
+
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+
+	if len(ranking.Items) != 1 || ranking.Items[0].Address != rare {
+		t.Fatalf(
+			"the ranking reads %+v, want only the document whose page is not gone",
+			ranking.Items,
+		)
+	}
+}
+
 type recordedBudgets struct {
 	spread      time.Duration
 	pageReading time.Duration
@@ -662,14 +708,14 @@ type pagesRecordingTheBudgetTheyGet struct {
 	recorded *recordedBudgets
 }
 
-func (p pagesRecordingTheBudgetTheyGet) DocumentTextPerDocument(
+func (p pagesRecordingTheBudgetTheyGet) ReadEachPage(
 	ctx context.Context,
 	_ []yacymodel.Hash,
 	_ []pagereading.PageToRead,
-) map[yacymodel.URLHash]documenttext.DocumentText {
+) pagereading.ReadPages {
 	p.recorded.pageReading = budgetLeftIn(ctx)
 
-	return nil
+	return pagereading.ReadPages{}
 }
 
 func budgetLeftIn(ctx context.Context) time.Duration {

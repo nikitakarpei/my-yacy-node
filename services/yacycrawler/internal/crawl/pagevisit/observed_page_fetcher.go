@@ -74,7 +74,7 @@ func (f *ObservedPageFetcher) observeFetchOutcome(
 		f.observer.PageFetchAccessRefused(ctx, pageURL, fetchDuration)
 	case pagefetch.FetchDeferred:
 		f.observer.PageFetchDeferred(ctx, pageURL, fetchDuration, fetchOutcome.DeferFor)
-	case pagefetch.FetchRejected:
+	case pagefetch.FetchRejected, pagefetch.FetchGone:
 		f.observer.PageFetchRejected(ctx, pageURL, fetchDuration)
 	case pagefetch.FetchRedirected:
 		f.observer.PageFetchRedirected(

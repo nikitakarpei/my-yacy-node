@@ -192,7 +192,9 @@ func TestFetchStatusMapping(t *testing.T) {
 		http.StatusForbidden:                  pagefetch.FetchAccessRefused,
 		http.StatusUnauthorized:               pagefetch.FetchAccessRefused,
 		http.StatusUnavailableForLegalReasons: pagefetch.FetchAccessRefused,
-		http.StatusNotFound:                   pagefetch.FetchRejected,
+		http.StatusNotFound:                   pagefetch.FetchGone,
+		http.StatusGone:                       pagefetch.FetchGone,
+		http.StatusMethodNotAllowed:           pagefetch.FetchRejected,
 		http.StatusInternalServerError:        pagefetch.FetchFailed,
 	}
 	for status, wantKind := range cases {

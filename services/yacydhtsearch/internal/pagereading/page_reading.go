@@ -2,7 +2,8 @@
 // all at once inside one read budget, and gives back the text of each document
 // it could read. It takes the readable text of the page, and the whole text
 // when the page holds no readable article. A page it cannot fetch, read, or
-// finish inside the budget gives back nothing for its document.
+// finish inside the budget gives back nothing for its document. A page whose
+// site answers that it is not found or gone gives back its document as gone.
 package pagereading
 
 import (
@@ -57,64 +58,64 @@ func New(
 	}
 }
 
-func (r Reading) DocumentTextPerDocument(
+func (r Reading) ReadEachPage(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	pagesToRead []PageToRead,
-) map[yacymodel.URLHash]documenttext.DocumentText {
+) ReadPages {
 	startedAt := time.Now()
 	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
 	defer stopPageReadBudget()
 
-	readPages := r.readPagesOf(budgetedCtx, queryWords, pagesToRead)
+	pageReadResults := r.readEachPageAtOnce(budgetedCtx, queryWords, pagesToRead)
 	r.observer.PageReadingPerformed(
 		ctx,
-		performedPageReadingFrom(readPages, time.Since(startedAt)),
+		performedPageReadingFrom(pageReadResults, time.Since(startedAt)),
 	)
 
-	return documentTextPerDocumentOf(readPages)
+	return readPagesFrom(pageReadResults)
 }
 
-func (r Reading) readPagesOf(
+func (r Reading) readEachPageAtOnce(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	pagesToRead []PageToRead,
-) []readPage {
-	readPages := make([]readPage, len(pagesToRead))
+) []pageReadResult {
+	pageReadResults := make([]pageReadResult, len(pagesToRead))
 	var pagesBeingRead sync.WaitGroup
 	for place, pageToRead := range pagesToRead {
 		pagesBeingRead.Add(1)
 		go func() {
 			defer pagesBeingRead.Done()
-			readPages[place] = r.readPageOf(ctx, queryWords, pageToRead)
+			pageReadResults[place] = r.readThePage(ctx, queryWords, pageToRead)
 		}()
 	}
 	pagesBeingRead.Wait()
 
-	return readPages
+	return pageReadResults
 }
 
-func (r Reading) readPageOf(
+func (r Reading) readThePage(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	pageToRead PageToRead,
-) readPage {
+) pageReadResult {
 	pageURL, err := canonicalurl.CanonicalURLOf(pageToRead.Address)
 	if err != nil {
-		return readPage{document: pageToRead.Document, outcome: pageWasUnreachable}
+		return pageReadResult{document: pageToRead.Document, outcome: pageWasUnreachable}
 	}
 	fetchStartedAt := time.Now()
 	fetched, err := r.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
 	timeSpentFetching := time.Since(fetchStartedAt)
 	if err != nil {
-		return readPage{
+		return pageReadResult{
 			document:          pageToRead.Document,
 			outcome:           readOutcomeFromAFetchFailure(err, ctx.Err()),
 			timeSpentFetching: timeSpentFetching,
 		}
 	}
 	if fetched.Status != pagefetch.FetchSucceeded {
-		return readPage{
+		return pageReadResult{
 			document:          pageToRead.Document,
 			outcome:           readOutcomeFromAFetchStatus(fetched.Status),
 			timeSpentFetching: timeSpentFetching,
@@ -124,7 +125,7 @@ func (r Reading) readPageOf(
 	readingStartedAt := time.Now()
 	text, outcome := r.documentTextFromTheFetchedPage(ctx, queryWords, fetched.Page, pageURL)
 
-	return readPage{
+	return pageReadResult{
 		document:          pageToRead.Document,
 		outcome:           outcome,
 		text:              text,
@@ -142,11 +143,14 @@ func readOutcomeFromAFetchFailure(fetchFailure error, budgetFailure error) readO
 }
 
 func readOutcomeFromAFetchStatus(status pagefetch.FetchStatus) readOutcome {
-	if status == pagefetch.FetchDeadlinePassed {
+	switch status {
+	case pagefetch.FetchDeadlinePassed:
 		return pageWasOutOfBudget
+	case pagefetch.FetchGone:
+		return pageWasGone
+	default:
+		return pageWasRefused
 	}
-
-	return pageWasRefused
 }
 
 func (r Reading) documentTextFromTheFetchedPage(
@@ -194,20 +198,4 @@ func (r Reading) textOfTheExtractedDocument(
 	return r.formatDerivations.BodyIn(
 		ctx, documentextraction.FormatFullText, extractedDocument, pageURL,
 	)
-}
-
-func documentTextPerDocumentOf(
-	readPages []readPage,
-) map[yacymodel.URLHash]documenttext.DocumentText {
-	documentTextPerDocument := make(
-		map[yacymodel.URLHash]documenttext.DocumentText, len(readPages),
-	)
-	for _, readPage := range readPages {
-		if readPage.outcome != pageWasRead {
-			continue
-		}
-		documentTextPerDocument[readPage.document] = readPage.text
-	}
-
-	return documentTextPerDocument
 }
