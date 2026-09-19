@@ -6,20 +6,22 @@ import (
 )
 
 type ScoreWeights struct {
-	WeightOfTheTitleScore        float64
-	WeightOfTheTextScore         float64
-	WeightOfTheAddressScore      float64
-	WeightOfThePhraseScore       float64
-	WeightOfTheCoordinationScore float64
+	WeightOfTheTitleScore          float64
+	WeightOfTheTextScore           float64
+	WeightOfTheAddressScore        float64
+	WeightOfThePhraseScore         float64
+	WeightOfTheCoordinationScore   float64
+	WeightOfTheNamedSiteEntryScore float64
 }
 
 func DefaultScoreWeights() ScoreWeights {
 	return ScoreWeights{
-		WeightOfTheTitleScore:        10.0,
-		WeightOfTheTextScore:         0.25,
-		WeightOfTheAddressScore:      1.0,
-		WeightOfThePhraseScore:       3.0,
-		WeightOfTheCoordinationScore: 0.5,
+		WeightOfTheTitleScore:          10.0,
+		WeightOfTheTextScore:           0.25,
+		WeightOfTheAddressScore:        1.0,
+		WeightOfThePhraseScore:         3.0,
+		WeightOfTheCoordinationScore:   0.5,
+		WeightOfTheNamedSiteEntryScore: 5,
 	}
 }
 
@@ -49,6 +51,10 @@ func (weights ScoreWeights) relevanceOf(
 			foundDocument,
 		) +
 		weights.WeightOfTheCoordinationScore*coordinationScoreOf(
+			foundDocument,
+			queryWords,
+		) +
+		weights.WeightOfTheNamedSiteEntryScore*namedSiteEntryScoreOf(
 			foundDocument,
 			queryWords,
 		)

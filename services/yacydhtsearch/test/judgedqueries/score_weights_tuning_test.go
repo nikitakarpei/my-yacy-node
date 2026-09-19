@@ -14,13 +14,14 @@ import (
 
 const (
 	tuningSwitch                     = "YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS"
-	amountOfWeightsOfTheScoreWeights = 5
+	amountOfWeightsOfTheScoreWeights = 6
 	roundingOfTheWeightRatios        = 1e6
 )
 
 var (
 	weightValuesOfTheGridOfTheTitleScore           = []float64{0, 3, 6, 10, 15}
 	weightValuesOfTheGridOfTheScoresBesideTheTitle = []float64{0, 0.25, 0.5, 1, 3}
+	weightValuesOfTheGridOfTheNamedSiteEntryScore  = []float64{0, 5, 15}
 
 	weightValuesOfTheGridOfEachScore = [amountOfWeightsOfTheScoreWeights][]float64{
 		weightValuesOfTheGridOfTheTitleScore,
@@ -28,6 +29,7 @@ var (
 		weightValuesOfTheGridOfTheScoresBesideTheTitle,
 		weightValuesOfTheGridOfTheScoresBesideTheTitle,
 		weightValuesOfTheGridOfTheScoresBesideTheTitle,
+		weightValuesOfTheGridOfTheNamedSiteEntryScore,
 	}
 )
 
@@ -180,6 +182,7 @@ func weightOfEachScoreIn(
 		&scoreWeights.WeightOfTheAddressScore,
 		&scoreWeights.WeightOfThePhraseScore,
 		&scoreWeights.WeightOfTheCoordinationScore,
+		&scoreWeights.WeightOfTheNamedSiteEntryScore,
 	}
 }
 
@@ -222,11 +225,12 @@ func weightRatiosOf(
 
 func spelledScoreWeightsOf(scoreWeights documentrelevance.ScoreWeights) string {
 	return fmt.Sprintf(
-		"title %.2f, text %.2f, address %.2f, phrase %.2f, coordination %.2f",
+		"title %.2f, text %.2f, address %.2f, phrase %.2f, coordination %.2f, named site entry %.2f",
 		scoreWeights.WeightOfTheTitleScore,
 		scoreWeights.WeightOfTheTextScore,
 		scoreWeights.WeightOfTheAddressScore,
 		scoreWeights.WeightOfThePhraseScore,
 		scoreWeights.WeightOfTheCoordinationScore,
+		scoreWeights.WeightOfTheNamedSiteEntryScore,
 	)
 }

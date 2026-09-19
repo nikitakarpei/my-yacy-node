@@ -320,6 +320,18 @@
       "grade": 1
     },
     {
+      "hash": "5BOpd7qJpRgC",
+      "address": "http://openstreetmap.by/?lang=ru",
+      "title": "OpenStreetMap.by - Беларусь",
+      "grade": 1
+    },
+    {
+      "hash": "ptNaJlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=45.05\u0026mlon=7.3\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
       "hash": "AWewB8KDigKy",
       "address": "https://wiki.openstreetmap.org/wiki/Lb:Main_Page",
       "title": "Lb:Main Page - OpenStreetMap Wiki",
@@ -365,6 +377,12 @@
       "hash": "VxsPeQralQdC",
       "address": "http://www.openstreetmap.ch/?lon=121.433333\u0026lat=31.2\u0026zoom=15",
       "title": "OpenStreetMap - The Free Wiki World Map",
+      "grade": 1
+    },
+    {
+      "hash": "z_vz8V7h-FJy",
+      "address": "https://agri.openstreetmap.org/?zoom=11\u0026lat=51.5\u0026lon=-0.1",
+      "title": "OpenStreetMap - The Australian Geographic Reference Image",
       "grade": 1
     }
   ]

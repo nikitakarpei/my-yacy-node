@@ -74,7 +74,7 @@ func queryJudgmentsOfTheDocumentsToJudge(
 ) queryJudgments {
 	gradePerDocument := judgedAlready.gradePerJudgedDocument()
 
-	documentsToJudge := documentsToJudgeOf(answers, pageTextPerDocument)
+	documentsToJudge := documentsToJudgeOf(answers, pageTextPerDocument, gradePerDocument)
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
 	for _, documentToJudge := range documentsToJudge {
 		documentToJudge.Grade = gradePerDocument[documentToJudge.Hash]
@@ -87,6 +87,7 @@ func queryJudgmentsOfTheDocumentsToJudge(
 func documentsToJudgeOf(
 	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
+	gradePerDocument map[yacymodel.URLHash]*int,
 ) []judgedDocument {
 	toJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
 	maps.Copy(toJudge, documentsAmongTheFirstOf(
@@ -95,6 +96,12 @@ func documentsToJudgeOf(
 		).OrderedDocumentsOf(answers),
 	))
 	for document := range pageTextPerDocument {
+		toJudge[document] = struct{}{}
+	}
+	for document, grade := range gradePerDocument {
+		if grade == nil {
+			continue
+		}
 		toJudge[document] = struct{}{}
 	}
 

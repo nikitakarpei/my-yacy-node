@@ -230,6 +230,12 @@
       "grade": 0
     },
     {
+      "hash": "k8ePcDbK4AC4",
+      "address": "https://python.utils.com/",
+      "title": "Python Shell - utils.com",
+      "grade": 1
+    },
+    {
       "hash": "yNJxThVRUINg",
       "address": "https://learn-python.softonic.ru/",
       "title": "Learn Python — Скачать",
@@ -308,6 +314,12 @@
       "grade": 1
     },
     {
+      "hash": "q-Z9cDIZp8m4",
+      "address": "https://python.libhunt.com/",
+      "title": "Awesome Python | LibHunt",
+      "grade": 1
+    },
+    {
       "hash": "HSk23ldG5jPw",
       "address": "https://www.python.org/blogs/",
       "title": "Our Blogs | Python.org",
@@ -353,6 +365,12 @@
       "hash": "SNlGrxbhx54w",
       "address": "https://packaging.python.org/en/latest/",
       "title": "Python Packaging User Guide",
+      "grade": 1
+    },
+    {
+      "hash": "l20c_wbTd3a4",
+      "address": "https://istanbul.python.pizza/",
+      "title": "Python Pizza Istanbul",
       "grade": 1
     },
     {
