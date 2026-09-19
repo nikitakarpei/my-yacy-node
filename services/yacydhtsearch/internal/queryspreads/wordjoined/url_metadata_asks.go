@@ -9,14 +9,13 @@ import (
 func urlMetadataAsksFor(
 	documentsWithoutMetadataMostListedFirst []yacymodel.URLHash,
 	answeredMatchedAndHeldDocumentsAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-	metadataDocumentsCeiling int,
+	urlMetadataAskDocumentsCeiling int,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
-	mostListedDocuments := mostListedDocumentsFrom(
-		documentsWithoutMetadataMostListedFirst, metadataDocumentsCeiling,
-	)
 	documentsListedByEachPeer := documentsListedByEachPeerAmong(
-		mostListedDocuments, answeredMatchedAndHeldDocumentsAsks,
+		documentsWithoutMetadataMostListedFirst,
+		answeredMatchedAndHeldDocumentsAsks,
+		urlMetadataAskDocumentsCeiling,
 	)
 	coveringPeers := peersCoveringMostDocuments(
 		documentsListedByEachPeer, amountOfPeersHoldingOneWord,
@@ -33,84 +32,75 @@ func urlMetadataAsksFor(
 	return asks
 }
 
-func mostListedDocumentsFrom(
-	documentsMostListedFirst []yacymodel.URLHash,
-	metadataDocumentsCeiling int,
-) distinctDocuments {
-	mostListedDocuments := make(distinctDocuments, metadataDocumentsCeiling)
-	for _, document := range documentsMostListedFirst[:min(
-		len(documentsMostListedFirst), metadataDocumentsCeiling,
-	)] {
-		mostListedDocuments.add(document)
-	}
-
-	return mostListedDocuments
-}
-
 type documentsListedByPeer struct {
 	peer      peerdirectory.AskablePeer
 	documents []yacymodel.URLHash
 }
 
 func documentsListedByEachPeerAmong(
-	documents distinctDocuments,
+	documentsMostListedFirst []yacymodel.URLHash,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	urlMetadataAskDocumentsCeiling int,
 ) []documentsListedByPeer {
-	documentsListedByEachPeer := make([]documentsListedByPeer, 0, len(answeredAsks))
-	placeOfPeer := map[yacymodel.Hash]int{}
-	for _, answeredAsk := range answeredAsks {
-		listedDocuments := listedDocumentsAmong(documents, answeredAsk.DocumentsListedForTheWord)
+	peersInListingOrder, documentsHeldByEachPeer := documentsHeldByEachPeerOf(answeredAsks)
+	documentsListedByEachPeer := make([]documentsListedByPeer, 0, len(peersInListingOrder))
+	for _, peer := range peersInListingOrder {
+		listedDocuments := documentsMostListedFirstHeldIn(
+			documentsMostListedFirst,
+			documentsHeldByEachPeer[peer.Hash],
+			urlMetadataAskDocumentsCeiling,
+		)
 		if len(listedDocuments) == 0 {
 			continue
 		}
-		place, placed := placeOfPeer[answeredAsk.Ask.Peer.Hash]
-		if !placed {
-			place = len(documentsListedByEachPeer)
-			placeOfPeer[answeredAsk.Ask.Peer.Hash] = place
-			documentsListedByEachPeer = append(
-				documentsListedByEachPeer, documentsListedByPeer{peer: answeredAsk.Ask.Peer},
-			)
-		}
-		documentsListedByEachPeer[place].documents = append(
-			documentsListedByEachPeer[place].documents, listedDocuments...,
-		)
-	}
-	for place, documentsListedByOnePeer := range documentsListedByEachPeer {
-		documentsListedByEachPeer[place].documents = documentsWithoutRepeats(
-			documentsListedByOnePeer.documents,
-		)
+		documentsListedByEachPeer = append(documentsListedByEachPeer, documentsListedByPeer{
+			peer:      peer,
+			documents: listedDocuments,
+		})
 	}
 
 	return documentsListedByEachPeer
 }
 
-func listedDocumentsAmong(
-	documents distinctDocuments,
-	listedDocuments []yacymodel.URLHash,
-) []yacymodel.URLHash {
-	keptDocuments := make([]yacymodel.URLHash, 0, len(listedDocuments))
-	for _, document := range listedDocuments {
-		if !documents.contains(document) {
-			continue
+func documentsHeldByEachPeerOf(
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+) ([]peerdirectory.AskablePeer, map[yacymodel.Hash]distinctDocuments) {
+	peersInListingOrder := make([]peerdirectory.AskablePeer, 0, len(answeredAsks))
+	documentsHeldByEachPeer := make(map[yacymodel.Hash]distinctDocuments, len(answeredAsks))
+	for _, answeredAsk := range answeredAsks {
+		documentsHeldByThePeer, known := documentsHeldByEachPeer[answeredAsk.Ask.Peer.Hash]
+		if !known {
+			documentsHeldByThePeer = distinctDocuments{}
+			documentsHeldByEachPeer[answeredAsk.Ask.Peer.Hash] = documentsHeldByThePeer
+			peersInListingOrder = append(peersInListingOrder, answeredAsk.Ask.Peer)
 		}
-		keptDocuments = append(keptDocuments, document)
+		for _, document := range answeredAsk.DocumentsListedForTheWord {
+			documentsHeldByThePeer.add(document)
+		}
 	}
 
-	return keptDocuments
+	return peersInListingOrder, documentsHeldByEachPeer
 }
 
-func documentsWithoutRepeats(documents []yacymodel.URLHash) []yacymodel.URLHash {
-	keptDocuments := make([]yacymodel.URLHash, 0, len(documents))
-	seenDocuments := make(distinctDocuments, len(documents))
-	for _, document := range documents {
-		if seenDocuments.contains(document) {
+func documentsMostListedFirstHeldIn(
+	documentsMostListedFirst []yacymodel.URLHash,
+	documentsHeldByThePeer distinctDocuments,
+	urlMetadataAskDocumentsCeiling int,
+) []yacymodel.URLHash {
+	heldDocuments := make([]yacymodel.URLHash, 0, min(
+		len(documentsHeldByThePeer), urlMetadataAskDocumentsCeiling,
+	))
+	for _, document := range documentsMostListedFirst {
+		if len(heldDocuments) == urlMetadataAskDocumentsCeiling {
+			break
+		}
+		if !documentsHeldByThePeer.contains(document) {
 			continue
 		}
-		seenDocuments.add(document)
-		keptDocuments = append(keptDocuments, document)
+		heldDocuments = append(heldDocuments, document)
 	}
 
-	return keptDocuments
+	return heldDocuments
 }
 
 func peersCoveringMostDocuments(
