@@ -147,7 +147,7 @@ func recordedAnswersInTheFile(t *testing.T, path string) recordedAnswers {
 	t.Helper()
 
 	var answers recordedAnswers
-	if err := json.Unmarshal(contentOfTheCompressedFixtureFile(t, path), &answers); err != nil {
+	if err := json.Unmarshal(contentOfTheGzippedFixtureFile(t, path), &answers); err != nil {
 		t.Fatalf("read %s: %v", path, err)
 	}
 
@@ -164,7 +164,7 @@ func writeRecordedAnswersFile(t *testing.T, path string, answers recordedAnswers
 	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
 		t.Fatalf("write %s: %v", path, err)
 	}
-	writeCompressedFixtureFile(t, path, append(content, '\n'))
+	writeGzippedFixtureFile(t, path, append(content, '\n'))
 }
 
 func writeFixtureFile(t *testing.T, path string, fixture any) {

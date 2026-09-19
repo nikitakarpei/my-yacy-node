@@ -338,6 +338,12 @@
       "grade": 1
     },
     {
+      "hash": "cOK1Elybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47.6758858\u0026mlon=9.1631162",
+      "title": "OpenStreetMap",
+      "grade": null
+    },
+    {
       "hash": "9BCDApN2pAny",
       "address": "https://help.openstreetmap.org/questions/102/i-have-made-edits-but-they-dont-show-up-on-the-map/",
       "title": "OpenStreetMap Help",
@@ -348,6 +354,12 @@
       "address": "https://supporting.openstreetmap.org/",
       "title": "OpenStreetMap Foundation – Supporting the work of the OpenStreetMap project",
       "grade": 1
+    },
+    {
+      "hash": "pqMlSQralQdC",
+      "address": "http://www.openstreetmap.ch/?lon=-66.175\u0026lat=28.335556\u0026zoom=12",
+      "title": "OpenStreetMap - The Free Wiki World Map",
+      "grade": null
     },
     {
       "hash": "qXktE8KDigKy",
