@@ -52,14 +52,7 @@ func TestRunServiceStoresTheMarkdownOfAnOfferedPage(t *testing.T) {
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg) }()
 
-	store, err := pageMarkdownJetStream.CreateOrUpdateObjectStore(
-		ctx,
-		jetstream.ObjectStoreConfig{Bucket: pagemarkdownstore.BucketName},
-	)
-	if err != nil {
-		t.Fatalf("open object store: %v", err)
-	}
-
+	store := waitForPageMarkdownBucket(ctx, t, pageMarkdownJetStream)
 	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
 	publishOfferedPage(ctx, t, pageOfferJetStream)
 	waitForStored(t, ctx, store,
@@ -77,6 +70,25 @@ func TestRunServiceStoresTheMarkdownOfAnOfferedPage(t *testing.T) {
 	case <-time.After(10 * time.Second):
 		t.Fatal("service did not shut down after cancel")
 	}
+}
+
+func waitForPageMarkdownBucket(
+	ctx context.Context,
+	t *testing.T,
+	js jetstream.JetStream,
+) jetstream.ObjectStore {
+	t.Helper()
+	deadline := time.Now().Add(storedDeadline)
+	for time.Now().Before(deadline) {
+		store, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
+		if err == nil {
+			return store
+		}
+		time.Sleep(storedPollPause)
+	}
+	t.Fatalf("the service never created the %q bucket", pagemarkdownstore.BucketName)
+
+	return nil
 }
 
 func waitForPageOfferDurable(

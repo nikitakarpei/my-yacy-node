@@ -80,4 +80,5 @@ A query asks the peers that hold each of its words, which is the partitions of t
 | `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time a replica call stays unanswered before the next replica of its word partition is asked. |
 | `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Replicas that must list documents for one word partition before the search stops asking its other replicas. A value above the redundancy stops the service from starting. |
 | `YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING` | `1000` | Most documents one second call asks a peer about. A lower value puts less load on a peer, and the query can miss results. |
+| `YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING` | `1000` | Most documents one URL metadata call asks a peer about. A lower value puts less load on a peer, and the query can miss results. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |

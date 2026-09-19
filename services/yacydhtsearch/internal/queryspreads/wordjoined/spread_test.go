@@ -22,7 +22,7 @@ const (
 	firstWord                      = "berlin"
 	secondWord                     = "weather"
 	thirdWord                      = "rain"
-	metadataDocumentsCeiling       = 10
+	urlMetadataAskDocumentsCeiling = 10
 	crossCheckedDocumentsCeiling   = 10
 	asksForCrossCheckedDocuments   = true
 	asksForNoCrossCheckedDocuments = false
@@ -351,13 +351,18 @@ func spreadChoosing(
 	choice responsiblePeers,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
-	return spreadAskingMetadataForUpTo(network, choice, metadataDocumentsCeiling, observer)
+	return spreadAskingEachPeerMetadataForUpTo(
+		network,
+		choice,
+		urlMetadataAskDocumentsCeiling,
+		observer,
+	)
 }
 
-func spreadAskingMetadataForUpTo(
+func spreadAskingEachPeerMetadataForUpTo(
 	network *peerNetwork,
 	choice responsiblePeers,
-	metadataDocumentsCeiling int,
+	urlMetadataAskDocumentsCeiling int,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
 	return spreadOverPeers(
@@ -366,7 +371,7 @@ func spreadAskingMetadataForUpTo(
 			wordjoined.New(
 				network,
 				network,
-				metadataDocumentsCeiling,
+				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -402,7 +407,7 @@ func spreadNamingCrossCheckedDocumentsForUpTo(
 			wordjoined.New(
 				network,
 				network,
-				metadataDocumentsCeiling,
+				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -425,7 +430,7 @@ func spreadNotAskingForCrossCheckedDocuments(
 			wordjoined.New(
 				network,
 				network,
-				metadataDocumentsCeiling,
+				urlMetadataAskDocumentsCeiling,
 				asksForNoCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -449,7 +454,7 @@ func spreadOfTheQuery(
 		wordjoined.New(
 			network,
 			network,
-			metadataDocumentsCeiling,
+			urlMetadataAskDocumentsCeiling,
 			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
@@ -473,7 +478,7 @@ func spreadWithin(network *peerNetwork, budget time.Duration) {
 		wordjoined.New(
 			network,
 			network,
-			metadataDocumentsCeiling,
+			urlMetadataAskDocumentsCeiling,
 			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
@@ -1285,29 +1290,41 @@ func TestAPeerThatDoesNotAnswerHoldsNothingForTheJoin(t *testing.T) {
 	}
 }
 
-func TestNoMoreDocumentsThanTheCeilingAreAskedMetadataFor(t *testing.T) {
+func TestNoPeerIsAskedMetadataForMoreDocumentsThanTheCeiling(t *testing.T) {
 	t.Parallel()
 
-	joined := []string{
+	heldByFirst := []string{
 		"https://first.example/",
 		"https://second.example/",
 		"https://third.example/",
 	}
+	heldBySecond := []string{
+		"https://fourth.example/",
+		"https://fifth.example/",
+		"https://sixth.example/",
+	}
 	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: joined, secondWord: joined},
+		"first":  {firstWord: heldByFirst, secondWord: heldByFirst},
+		"second": {firstWord: heldBySecond, secondWord: heldBySecond},
 	})
 
-	spreadAskingMetadataForUpTo(network, responsiblePeers{}, 1, &recordedSpreads{})
+	spreadAskingEachPeerMetadataForUpTo(network, responsiblePeers{}, 1, &recordedSpreads{})
 
-	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); len(got) != 1 {
-		t.Fatalf(
-			"the spread asked metadata for %d documents, want the one the ceiling allows",
-			len(got),
-		)
+	if len(network.urlMetadataAsks) != 2 {
+		t.Fatalf("%d peers were asked for metadata, want both", len(network.urlMetadataAsks))
+	}
+	for _, ask := range network.urlMetadataAsks {
+		if len(ask.Documents) != 1 {
+			t.Fatalf(
+				"peer %q was asked metadata for %d documents, want the one the ceiling allows",
+				ask.Peer.Address,
+				len(ask.Documents),
+			)
+		}
 	}
 }
 
-func TestTheDocumentsTheMostPeersHoldAreTheOnesAskedMetadataFor(t *testing.T) {
+func TestTheDocumentsTheMostPeersHoldAreTheOnesEachPeerIsAskedMetadataFor(t *testing.T) {
 	t.Parallel()
 
 	first := "https://first.example/"
@@ -1334,7 +1351,7 @@ func theOneDocumentAskedMetadataFor(
 		"second": {firstWord: {heldByBothPeers}, secondWord: {heldByBothPeers}},
 	})
 
-	spreadAskingMetadataForUpTo(network, responsiblePeers{}, 1, &recordedSpreads{})
+	spreadAskingEachPeerMetadataForUpTo(network, responsiblePeers{}, 1, &recordedSpreads{})
 
 	documents := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks)
 	if len(documents) != 1 {
@@ -1365,7 +1382,7 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	})
 	observer := &recordedSpreads{}
 
-	spreadAskingMetadataForUpTo(network, responsiblePeers{}, 1, observer)
+	spreadAskingEachPeerMetadataForUpTo(network, responsiblePeers{}, 1, observer)
 
 	performed := observer.performed[0]
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 ||
@@ -1403,7 +1420,7 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 			wordjoined.New(
 				network,
 				network,
-				metadataDocumentsCeiling,
+				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -1672,7 +1689,7 @@ func documentsHeldPerQueryWordAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
-				metadataDocumentsCeiling,
+				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -1783,7 +1800,7 @@ func spreadAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
-				metadataDocumentsCeiling,
+				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
