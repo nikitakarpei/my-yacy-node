@@ -12,7 +12,7 @@ import (
 
 type saturatedAnswers struct {
 	answers                 queryanswers.AnsweredQuery
-	documentTextPerDocument map[yacymodel.URLHash]documenttext.DocumentText
+	pageContentsPerDocument map[yacymodel.URLHash]queryanswers.PageContents
 }
 
 func (e pageExtraction) answersSaturatedWithTheStoredPages(
@@ -25,8 +25,7 @@ func (e pageExtraction) answersSaturatedWithTheStoredPages(
 	t.Helper()
 
 	queryWords := searchquery.QueryFrom(query, "").TermHashes()
-	documentTextPerDocument := map[yacymodel.URLHash]documenttext.DocumentText{}
-	linkCountsPerDocument := map[yacymodel.URLHash]queryanswers.LinkCounts{}
+	pageContentsPerDocument := map[yacymodel.URLHash]queryanswers.PageContents{}
 	for _, foundDocument := range answers.FoundDocuments {
 		page, stored := pagePerAddress[foundDocument.Address]
 		if !stored {
@@ -36,33 +35,16 @@ func (e pageExtraction) answersSaturatedWithTheStoredPages(
 		if extracted.text == "" {
 			continue
 		}
-		documentTextPerDocument[foundDocument.Hash] = documenttext.DocumentTextFrom(
-			extracted.title, extracted.text, queryWords, snippetLengthCeiling,
-		)
-		linkCountsPerDocument[foundDocument.Hash] = extracted.linkCounts
+		pageContentsPerDocument[foundDocument.Hash] = queryanswers.PageContents{
+			Text: documenttext.DocumentTextFrom(
+				extracted.title, extracted.text, queryWords, snippetLengthCeiling,
+			),
+			LinkCounts: extracted.linkCounts,
+		}
 	}
 
 	return saturatedAnswers{
-		answers: answersCarryingTheLinkCounts(
-			answers.SaturatedWith(documentTextPerDocument), linkCountsPerDocument,
-		),
-		documentTextPerDocument: documentTextPerDocument,
+		answers:                 answers.SaturatedWith(pageContentsPerDocument),
+		pageContentsPerDocument: pageContentsPerDocument,
 	}
-}
-
-func answersCarryingTheLinkCounts(
-	answers queryanswers.AnsweredQuery,
-	linkCountsPerDocument map[yacymodel.URLHash]queryanswers.LinkCounts,
-) queryanswers.AnsweredQuery {
-	foundDocuments := make([]queryanswers.FoundDocument, 0, len(answers.FoundDocuments))
-	for _, foundDocument := range answers.FoundDocuments {
-		linkCounts, extracted := linkCountsPerDocument[foundDocument.Hash]
-		if extracted {
-			foundDocument.LinkCounts = yacymodel.Some(linkCounts)
-		}
-		foundDocuments = append(foundDocuments, foundDocument)
-	}
-	answers.FoundDocuments = foundDocuments
-
-	return answers
 }

@@ -314,13 +314,13 @@ func (r judgedQueryRecording) recordOneJudgedQuery(t *testing.T, query string) {
 	judgments := queryJudgmentsOfTheDocumentsToJudge(
 		query,
 		saturated.answers,
-		saturated.documentTextPerDocument,
+		saturated.pageContentsPerDocument,
 		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query)),
 	)
 	writeFixtureFile(t, queryJudgmentsFileOf(query), judgments)
 	t.Logf("%q read the page of %d documents, judges %d, and waits for %d grades",
 		query,
-		len(saturated.documentTextPerDocument),
+		len(saturated.pageContentsPerDocument),
 		len(judgments.JudgedDocuments),
 		judgments.amountOfUngradedDocuments(),
 	)

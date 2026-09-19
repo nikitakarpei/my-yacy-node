@@ -1,6 +1,7 @@
 // Package pagereading reads the page of each document one query puts first,
-// all at once inside one read budget, and gives back the text of each document
-// it could read. It takes the readable text of the page, and the whole text
+// all at once inside one read budget, and gives back the contents of the page of
+// each document it could read: its text, and how many links of its own site and
+// of other sites it holds. It takes the readable text of the page, and the whole text
 // when the page holds no readable article. A page it cannot fetch, read, or
 // finish inside the budget gives back nothing for its document. A page whose
 // site answers that it is not found or gone gives back its document as gone.
@@ -20,6 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -134,17 +136,17 @@ func (r Reading) readThePage(
 	}
 
 	readingStartedAt := time.Now()
-	text, outcome := r.documentTextFromTheFetchedPage(
+	pageContents, outcome := r.pageContentsOfTheFetchedPage(
 		ctx, queryWords, landed.Outcome.Page, landed.URL,
 	)
 	if landed.URL != pageURL {
-		text.Address = landed.URL.String()
+		pageContents.Text.Address = landed.URL.String()
 	}
 
 	return pageReadResult{
 		document:          pageToRead.Document,
 		outcome:           outcome,
-		text:              text,
+		pageContents:      pageContents,
 		timeSpentFetching: timeSpentFetching,
 		timeSpentReading:  time.Since(readingStartedAt),
 	}
@@ -169,26 +171,38 @@ func readOutcomeFromAFetchStatus(status pagefetch.FetchStatus) readOutcome {
 	}
 }
 
-func (r Reading) documentTextFromTheFetchedPage(
+func (r Reading) pageContentsOfTheFetchedPage(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	fetchedPage pagefetch.FetchedPage,
 	pageURL canonicalurl.CanonicalURL,
-) (documenttext.DocumentText, readOutcome) {
+) (queryanswers.PageContents, readOutcome) {
 	extractedDocument, err := documentextraction.DocumentFrom(
 		ctx, fetchedPage.Body, fetchedPage.ContentType, pageURL,
 	)
 	if err != nil {
-		return documenttext.DocumentText{}, readOutcomeFromAnExtractionFailure(err)
+		return queryanswers.PageContents{}, readOutcomeFromAnExtractionFailure(err)
 	}
 	text, derived := r.textOfTheExtractedDocument(ctx, extractedDocument, pageURL)
 	if !derived {
-		return documenttext.DocumentText{}, pageWasUnreadable
+		return queryanswers.PageContents{}, pageWasUnreadable
 	}
 
-	return documenttext.DocumentTextFrom(
-		extractedDocument.Title, string(text), queryWords, r.snippetLengthCeiling,
-	), pageWasRead
+	return queryanswers.PageContents{
+		Text: documenttext.DocumentTextFrom(
+			extractedDocument.Title, string(text), queryWords, r.snippetLengthCeiling,
+		),
+		LinkCounts: linkCountsOfTheExtractedDocument(extractedDocument),
+	}, pageWasRead
+}
+
+func linkCountsOfTheExtractedDocument(
+	extractedDocument documentextraction.Document,
+) queryanswers.LinkCounts {
+	return queryanswers.LinkCounts{
+		LocalLinks:    extractedDocument.LocalLinks,
+		ExternalLinks: extractedDocument.ExternalLinks,
+	}
 }
 
 func readOutcomeFromAnExtractionFailure(extractionFailure error) readOutcome {

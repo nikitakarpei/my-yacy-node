@@ -597,18 +597,20 @@ func (p pagesHoldingTheWordOfOneDocument) ReadEachPage(
 	_ []yacymodel.Hash,
 	pagesToRead []pagereading.PageToRead,
 ) pagereading.ReadPages {
-	documentTextPerDocument := map[yacymodel.URLHash]documenttext.DocumentText{}
+	pageContentsPerDocument := map[yacymodel.URLHash]queryanswers.PageContents{}
 	for _, pageToRead := range pagesToRead {
 		if pageToRead.Address != p.address {
 			continue
 		}
-		documentTextPerDocument[pageToRead.Document] = documenttext.DocumentText{
-			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(p.word): p.hits},
-			AmountOfWords:    p.hits,
+		pageContentsPerDocument[pageToRead.Document] = queryanswers.PageContents{
+			Text: documenttext.DocumentText{
+				HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(p.word): p.hits},
+				AmountOfWords:    p.hits,
+			},
 		}
 	}
 
-	return pagereading.ReadPages{DocumentTextPerDocument: documentTextPerDocument}
+	return pagereading.ReadPages{PageContentsPerDocument: pageContentsPerDocument}
 }
 
 func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {

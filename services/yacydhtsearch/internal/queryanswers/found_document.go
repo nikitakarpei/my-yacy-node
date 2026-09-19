@@ -3,7 +3,6 @@ package queryanswers
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -44,7 +43,8 @@ func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[tim
 	return yacymodel.Some(day.Time())
 }
 
-func (f FoundDocument) saturatedWith(text documenttext.DocumentText) FoundDocument {
+func (f FoundDocument) saturatedWith(pageContents PageContents) FoundDocument {
+	text := pageContents.Text
 	if text.Address != "" {
 		f.Address = text.Address
 	}
@@ -55,6 +55,7 @@ func (f FoundDocument) saturatedWith(text documenttext.DocumentText) FoundDocume
 	f.AmountOfWords = text.AmountOfWords
 	f.QueryPhraseHits = text.QueryPhraseHits
 	f.Snippet = text.Snippet
+	f.LinkCounts = yacymodel.Some(pageContents.LinkCounts)
 
 	return f
 }
