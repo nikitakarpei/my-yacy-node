@@ -82,7 +82,7 @@
     {
       "hash": "0i0OGX9Ojva4",
       "address": "https://docs.docker.com/reference/api/hub/deprecated/",
-      "title": "Deprecated | Docker Docs",
+      "title": "Deprecated Docker Hub API endpoints | Docker Docs",
       "grade": 0
     },
     {
@@ -94,7 +94,7 @@
     {
       "hash": "4JzLCQS6MKD4",
       "address": "https://github.com/docker/compose",
-      "title": "GitHub - docker/compose: Define and run multi-container applications with Docker",
+      "title": "GitHub - docker/compose: Define and run multi-container applications with Docker · GitHub",
       "grade": 2
     },
     {
@@ -124,7 +124,7 @@
     {
       "hash": "yqPL7Z9Ojva4",
       "address": "https://docs.docker.com/guides/?tags=labs",
-      "title": "Guides | Docker Docs",
+      "title": "Docker guides | Docker Docs",
       "grade": 0
     },
     {
@@ -226,7 +226,7 @@
     {
       "hash": "NHivBUlasQL4",
       "address": "https://xuanyuan.cloud/usage/docker-compose?section=restart",
-      "title": "Docker Compose 镜像源配置教程 - 轩辕镜像",
+      "title": "重启 Docker 服务 — Docker Compose 镜像源配置教程 - 轩辕镜像",
       "grade": 1
     },
     {
@@ -286,7 +286,7 @@
     {
       "hash": "M9bsEexFffU5",
       "address": "https://help.nextcloud.com/t/docker-compose-collabora-traefik/219975/2",
-      "title": "Docker compose - Collabora - Traefik",
+      "title": "Docker compose - Collabora - Traefik - #2 by wwe - ℹ️ Support - Nextcloud community",
       "grade": 0
     },
     {

@@ -49,44 +49,54 @@ func formatDerivationsOfThePages(t *testing.T) pageformats.FormatDerivationCatal
 	return formatDerivations
 }
 
-func (r pageTextReading) pageTextPerDocument(
+type readPage struct {
+	title string
+	text  string
+}
+
+type readPages struct {
+	pageTextPerDocument  map[yacymodel.URLHash]string
+	pageTitlePerDocument map[yacymodel.URLHash]string
+}
+
+func (r pageTextReading) readPagesOf(
 	ctx context.Context,
 	foundDocuments []queryanswers.FoundDocument,
-) map[yacymodel.URLHash]string {
+) readPages {
 	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
 	defer stopPageReadBudget()
 
-	pageTextOfEachPlace := make([]string, len(foundDocuments))
+	readPageOfEachPlace := make([]readPage, len(foundDocuments))
 	var pagesBeingRead sync.WaitGroup
 	for place, foundDocument := range foundDocuments {
 		pagesBeingRead.Add(1)
 		go func() {
 			defer pagesBeingRead.Done()
-			pageTextOfEachPlace[place] = r.pageTextOf(budgetedCtx, foundDocument.Address)
+			readPageOfEachPlace[place] = r.readPageOf(budgetedCtx, foundDocument.Address)
 		}()
 	}
 	pagesBeingRead.Wait()
 
-	return pageTextPerDocumentOf(foundDocuments, pageTextOfEachPlace)
+	return readPagesFrom(foundDocuments, readPageOfEachPlace)
 }
 
-func (r pageTextReading) pageTextOf(ctx context.Context, address string) string {
+func (r pageTextReading) readPageOf(ctx context.Context, address string) readPage {
 	pageURL, err := canonicalurl.CanonicalURLOf(address)
 	if err != nil {
-		return ""
+		return readPage{}
 	}
 	fetched, err := r.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
 	if err != nil || fetched.Status != pagefetch.FetchSucceeded {
-		return ""
+		return readPage{}
 	}
 	document, err := documentextraction.DocumentFrom(
 		ctx, fetched.Page.Body, fetched.Page.ContentType, pageURL,
 	)
 	if err != nil {
-		return ""
+		return readPage{}
 	}
 
-	return r.textOfTheDocument(ctx, document, pageURL)
+	return readPage{title: document.Title, text: r.textOfTheDocument(ctx, document, pageURL)}
 }
 
 func (r pageTextReading) textOfTheDocument(
@@ -110,17 +120,24 @@ func (r pageTextReading) textOfTheDocument(
 	return string(bytes.TrimSpace(fullText))
 }
 
-func pageTextPerDocumentOf(
+func readPagesFrom(
 	foundDocuments []queryanswers.FoundDocument,
-	pageTextOfEachPlace []string,
-) map[yacymodel.URLHash]string {
-	pageTextPerDocument := make(map[yacymodel.URLHash]string, len(foundDocuments))
+	readPageOfEachPlace []readPage,
+) readPages {
+	pages := readPages{
+		pageTextPerDocument:  make(map[yacymodel.URLHash]string, len(foundDocuments)),
+		pageTitlePerDocument: make(map[yacymodel.URLHash]string, len(foundDocuments)),
+	}
 	for place, foundDocument := range foundDocuments {
-		if pageTextOfEachPlace[place] == "" {
+		if readPageOfEachPlace[place].text == "" {
 			continue
 		}
-		pageTextPerDocument[foundDocument.Hash] = pageTextOfEachPlace[place]
+		pages.pageTextPerDocument[foundDocument.Hash] = readPageOfEachPlace[place].text
+		if readPageOfEachPlace[place].title == "" {
+			continue
+		}
+		pages.pageTitlePerDocument[foundDocument.Hash] = readPageOfEachPlace[place].title
 	}
 
-	return pageTextPerDocument
+	return pages
 }

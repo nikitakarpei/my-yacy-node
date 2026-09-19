@@ -11,6 +11,7 @@ func answersSaturatedWithThePageText(
 	query string,
 	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
+	pageTitlePerDocument map[yacymodel.URLHash]string,
 ) queryanswers.AnsweredQuery {
 	queryWords := searchquery.QueryFrom(query, "").TermHashes()
 
@@ -19,7 +20,7 @@ func answersSaturatedWithThePageText(
 	)
 	for document, pageText := range pageTextPerDocument {
 		documentTextPerDocument[document] = documenttext.DocumentTextFrom(
-			pageText, queryWords, snippetLengthCeiling,
+			pageTitlePerDocument[document], pageText, queryWords, snippetLengthCeiling,
 		)
 	}
 

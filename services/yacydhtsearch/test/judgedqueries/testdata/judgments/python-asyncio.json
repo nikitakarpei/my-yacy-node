@@ -136,7 +136,7 @@
     {
       "hash": "kQY84nS6MKD4",
       "address": "https://github.com/lukasmasuch/best-of-python",
-      "title": "GitHub - lukasmasuch/best-of-python: 🏆 A ranked list of awesome Python open-source libraries and tools. Updated weekly.",
+      "title": "GitHub - lukasmasuch/best-of-python: 🏆 A ranked list of awesome Python open-source libraries and tools. Updated weekly. · GitHub",
       "grade": 0
     },
     {
@@ -154,31 +154,31 @@
     {
       "hash": "1KqJ8itD2jQw",
       "address": "https://docs.python.org/3/whatsnew/3.14.html",
-      "title": "What’s new in Python 3.14 — Python 3.14.6 documentation",
+      "title": "What’s new in Python 3.14 — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "DuEPzitD2jQw",
       "address": "https://docs.python.org/3/whatsnew/3.9.html",
-      "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
+      "title": "What’s New In Python 3.9 — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "P1bBYitD2jQw",
       "address": "https://docs.python.org/3/whatsnew/3.5.html",
-      "title": "What’s New In Python 3.5 — Python 3.14.2 documentation",
+      "title": "What’s New In Python 3.5 — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "OX5sqitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-runner.html",
-      "title": "Runners — Python 3.13.3 documentation",
+      "title": "Runners — Python 3.14.7 documentation",
       "grade": 1
     },
     {
       "hash": "omDQhitD2jQw",
       "address": "https://docs.python.org/3/howto/logging.html",
-      "title": "Logging HOWTO — Python 3.13.3 documentation",
+      "title": "Logging HOWTO — Python 3.14.7 documentation",
       "grade": 0
     },
     {
@@ -190,7 +190,7 @@
     {
       "hash": "w-d8WitD2jQw",
       "address": "https://docs.python.org/3/license.html",
-      "title": "History and License — Python 3.9.1 documentation",
+      "title": "History and License — Python 3.14.7 documentation",
       "grade": 0
     },
     {
@@ -238,7 +238,7 @@
     {
       "hash": "YZiTmitD2jQw",
       "address": "https://docs.python.org/3/genindex-S.html",
-      "title": "Index — Python 3.14.0 documentation",
+      "title": "Index — Python 3.14.7 documentation",
       "grade": 0
     },
     {
@@ -250,13 +250,13 @@
     {
       "hash": "0DzM8itD2jQw",
       "address": "https://docs.python.org/3/whatsnew/3.12.html",
-      "title": "What’s New In Python 3.12 — Python 3.14.6 documentation",
+      "title": "What’s New In Python 3.12 — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "8cxLbitD2jQw",
       "address": "https://docs.python.org/3/genindex-F.html",
-      "title": "Index — Python 3.14.6 documentation",
+      "title": "Index — Python 3.14.7 documentation",
       "grade": 0
     },
     {
@@ -274,31 +274,31 @@
     {
       "hash": "P-tQgitD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-eventloop.html",
-      "title": "Event Loop — Python 3.13.2 documentation",
+      "title": "Event loop — Python 3.14.7 documentation",
       "grade": 1
     },
     {
       "hash": "53evZitD2jQw",
       "address": "https://docs.python.org/3/library/ipc.html",
-      "title": "Networking and Interprocess Communication — Python 3.14.3 documentation",
+      "title": "Networking and Interprocess Communication — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "PpEXoitD2jQw",
       "address": "https://docs.python.org/3/library/contextvars.html",
-      "title": "contextvars — Context Variables — Python 3.14.6 documentation",
+      "title": "contextvars — Context Variables — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "TYQnKitD2jQw",
       "address": "https://docs.python.org/3/deprecations/index.html",
-      "title": "Deprecations — Python 3.14.6 documentation",
+      "title": "Deprecations — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "wLl5mitD2jQw",
       "address": "https://docs.python.org/3/genindex-E.html",
-      "title": "Index — Python 3.10.4 documentation",
+      "title": "Index — Python 3.14.7 documentation",
       "grade": 0
     },
     {
@@ -310,25 +310,25 @@
     {
       "hash": "TfoQZitD2jQw",
       "address": "https://docs.python.org/3/genindex-D.html",
-      "title": "Index — Python 3.14.5 documentation",
+      "title": "Index — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "jNBt8itD2jQw",
       "address": "https://docs.python.org/3/library/asyncio-graph.html",
-      "title": "Call Graph Introspection — Python 3.14.2 documentation",
+      "title": "Call graph introspection — Python 3.14.7 documentation",
       "grade": 1
     },
     {
       "hash": "QsUXRitD2jQw",
       "address": "https://docs.python.org/3/genindex-M.html",
-      "title": "Index — Python 3.10.7 documentation",
+      "title": "Index — Python 3.14.7 documentation",
       "grade": 0
     },
     {
       "hash": "SxNpQitD2jQw",
       "address": "https://docs.python.org/3/library/index.html",
-      "title": "The Python Standard Library — Python 3.14.4 documentation",
+      "title": "The Python standard library — Python 3.14.7 documentation",
       "grade": 0
     }
   ]

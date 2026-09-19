@@ -4,7 +4,7 @@
     {
       "hash": "AsVNaz7OfS44",
       "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
-      "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
+      "title": "Kubernetes Playgrounds | iximiuz Labs",
       "grade": 0
     },
     {
@@ -28,7 +28,7 @@
     {
       "hash": "RlgmHUqZWFe4",
       "address": "https://gyptazy.com/blog/talos-linux-howto-create-a-kubernetes-cluster-in-10-minutes/",
-      "title": "Deploy a Kubernetes Cluster with Talos Linux in 10 Minutes",
+      "title": "Deploy a Kubernetes Cluster with Talos Linux in 10 Minutes | gyptazy",
       "grade": 1
     },
     {
@@ -52,7 +52,7 @@
     {
       "hash": "lXUphWptipG4",
       "address": "https://yoshio3.com/tag/kubernetes/",
-      "title": "Kubernetes | 寺田　佳央 - Yoshio Terada",
+      "title": "Kubernetes | 寺田 佳央 - Yoshio Terada",
       "grade": 0
     },
     {
@@ -100,7 +100,7 @@
     {
       "hash": "o0eYctS6MKD4",
       "address": "https://github.com/kubernetes-el/kubernetes-el",
-      "title": "GitHub - kubernetes-el/kubernetes-el: Manage Kubernetes clusters with Emacs.",
+      "title": "GitHub - kubernetes-el/kubernetes-el: Manage Kubernetes clusters with Emacs. · GitHub",
       "grade": 0
     },
     {
@@ -148,7 +148,7 @@
     {
       "hash": "AIy_nGS6MKD4",
       "address": "https://github.com/kubernetes/kompose",
-      "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes",
+      "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes · GitHub",
       "grade": 1
     },
     {

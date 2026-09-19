@@ -40,13 +40,13 @@
     {
       "hash": "fqt_oUwYpnl5",
       "address": "https://protonvpn.com/blog/what-is-dns",
-      "title": "What is DNS? | Proton",
+      "title": "What is a DNS lookup? | Proton VPN",
       "grade": 2
     },
     {
       "hash": "pO0vLyEkAvow",
       "address": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/dns-prefetch",
-      "title": "rel=\"dns-prefetch\" - HTML | MDN",
+      "title": "rel=\"dns-prefetch\" HTML attribute value - HTML | MDN",
       "grade": 0
     },
     {
@@ -76,7 +76,7 @@
     {
       "hash": "OC1-yuS6MKD4",
       "address": "https://github.com/hickory-dns/hickory-dns",
-      "title": "GitHub - hickory-dns/hickory-dns: A Rust based DNS client, server, and resolver",
+      "title": "GitHub - hickory-dns/hickory-dns: A Rust based DNS client, server, and resolver · GitHub",
       "grade": 0
     },
     {

@@ -118,7 +118,7 @@
     {
       "hash": "fyelQl6Jfwc4",
       "address": "https://www.guru99.com/google-go-tutorial.html",
-      "title": "Golang Tutorial: Learn Go Programming Language for Beginners",
+      "title": "Golang Tutorial",
       "grade": 1
     },
     {
@@ -244,7 +244,7 @@
     {
       "hash": "3xyiPxNzCnSk",
       "address": "https://www.elastic.co/docs/reference/search-connectors/es-connectors-salesforce",
-      "title": "Elastic Salesforce connector reference | Elastic Documentation",
+      "title": "Elastic Salesforce connector reference | Elasticsearch Reference",
       "grade": 0
     }
   ]

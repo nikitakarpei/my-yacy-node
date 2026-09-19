@@ -29,6 +29,7 @@ func foundDocumentWithOneHitOf(
 	return queryanswers.FoundDocument{
 		Hash:             documentOf(t, address),
 		Address:          address,
+		Title:            "The title a peer sent",
 		HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
 	}
 }
@@ -38,6 +39,7 @@ func textOfTheReadDocument(t *testing.T) map[yacymodel.URLHash]documenttext.Docu
 
 	return map[yacymodel.URLHash]documenttext.DocumentText{
 		documentOf(t, addressOfTheReadDocument): {
+			Title:            "Berlin",
 			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 7},
 			AmountOfWords:    400,
 			Snippet:          "Berlin holds a wall.",
@@ -67,9 +69,12 @@ func TestAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 	foundDocument := read.FoundDocuments[0]
 	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 7 ||
 		foundDocument.AmountOfWords != 400 ||
-		foundDocument.Snippet != "Berlin holds a wall." {
-		t.Fatalf("the found document reads %+v, want the counts and the snippet of the text",
-			foundDocument)
+		foundDocument.Snippet != "Berlin holds a wall." ||
+		foundDocument.Title != "Berlin" {
+		t.Fatalf(
+			"the found document reads %+v, want the counts, the snippet and the title of the text",
+			foundDocument,
+		)
 	}
 }
 
@@ -103,6 +108,25 @@ func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 			"the found document reads %+v for the word no peer matched it for, want the count "+
 				"of the text",
 			foundDocument,
+		)
+	}
+}
+
+func TestAReadPageWithoutATitleKeepsTheTitleAPeerSent(t *testing.T) {
+	t.Parallel()
+
+	answers := answersOfTheReadDocument(t)
+	textWithoutATitle := textOfTheReadDocument(t)
+	documentText := textWithoutATitle[documentOf(t, addressOfTheReadDocument)]
+	documentText.Title = ""
+	textWithoutATitle[documentOf(t, addressOfTheReadDocument)] = documentText
+
+	read := answers.SaturatedWith(textWithoutATitle)
+
+	if read.FoundDocuments[0].Title != "The title a peer sent" {
+		t.Fatalf(
+			"the found document holds the title %q, want the title the peer sent",
+			read.FoundDocuments[0].Title,
 		)
 	}
 }

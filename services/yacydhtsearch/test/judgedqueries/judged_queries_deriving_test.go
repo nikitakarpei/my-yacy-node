@@ -23,7 +23,10 @@ func deriveOneJudgedQueryFromTheStoredPageText(t *testing.T, answersFile string)
 	answers := recordedAnswersInTheFile(t, answersFile)
 	pageTextPerDocument := storedPageTextPerDocument(t, answers.Query)
 	derived := answersSaturatedWithThePageText(
-		answers.Query, answers.answeredQuery(), pageTextPerDocument,
+		answers.Query,
+		answers.answeredQuery(),
+		pageTextPerDocument,
+		storedPageTitlePerDocument(t, answers.Query),
 	)
 	writeRecordedAnswersFile(t, answersFile, recordedAnswersOf(answers.Query, derived))
 	judgments := queryJudgmentsOfTheDocumentsToJudge(

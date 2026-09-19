@@ -4,7 +4,7 @@
     {
       "hash": "H3k5-x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
+      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
       "grade": 1
     },
     {
@@ -34,7 +34,7 @@
     {
       "hash": "WCL7Tx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/mvcc-intro.html",
-      "title": "PostgreSQL: Documentation: 18: 13.1. Introduction",
+      "title": "PostgreSQL: Documentation: 18: 13.1. Introduction",
       "grade": 1
     },
     {
@@ -94,7 +94,7 @@
     {
       "hash": "zNzIvx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ssl-tcp.html",
-      "title": "PostgreSQL: Documentation: 18: 18.9. Secure TCP/IP Connections with SSL",
+      "title": "PostgreSQL: Documentation: 18: 18.9. Secure TCP/IP Connections with SSL",
       "grade": 1
     },
     {
@@ -136,13 +136,13 @@
     {
       "hash": "Hb2lZx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/extend-how.html",
-      "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
+      "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
       "grade": 1
     },
     {
       "hash": "qgwjkx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/libpq.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
+      "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
       "grade": 1
     },
     {
@@ -154,7 +154,7 @@
     {
       "hash": "sOJ2hx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/tutorial-sql-intro.html",
-      "title": "PostgreSQL: Documentation: 18: 2.1. Introduction",
+      "title": "PostgreSQL: Documentation: 18: 2.1. Introduction",
       "grade": 1
     },
     {
@@ -178,13 +178,13 @@
     {
       "hash": "GDBJHx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/pgprewarm.html",
-      "title": "PostgreSQL: Documentation: 18: F.30. pg_prewarm — preload relation data into buffer caches",
+      "title": "PostgreSQL: Documentation: 18: F.30. pg_prewarm — preload relation data into buffer caches",
       "grade": 1
     },
     {
       "hash": "rI2m6x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/storage-page-layout.html",
-      "title": "PostgreSQL: Documentation: 18: 66.6. Database Page Layout",
+      "title": "PostgreSQL: Documentation: 18: 66.6. Database Page Layout",
       "grade": 1
     },
     {
@@ -196,7 +196,7 @@
     {
       "hash": "tSL60x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ddl-priv.html",
-      "title": "PostgreSQL: Documentation: 17: 5.8. Privileges",
+      "title": "PostgreSQL: Documentation: 18: 5.8. Privileges",
       "grade": 1
     },
     {
@@ -214,7 +214,7 @@
     {
       "hash": "sVgx2x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ecpg-oracle-compat.html",
-      "title": "PostgreSQL: Documentation: 18: 34.16. Oracle Compatibility Mode",
+      "title": "PostgreSQL: Documentation: 18: 34.16. Oracle Compatibility Mode",
       "grade": 1
     },
     {
@@ -226,25 +226,25 @@
     {
       "hash": "wtiuUx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/manage-ag-tablespaces.html",
-      "title": "PostgreSQL: Documentation: 18: 22.6. Tablespaces",
+      "title": "PostgreSQL: Documentation: 18: 22.6. Tablespaces",
       "grade": 1
     },
     {
       "hash": "9LRebx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sourcerepo.html",
-      "title": "PostgreSQL: Documentation: 18: Appendix I. The Source Code Repository",
+      "title": "PostgreSQL: Documentation: 18: Appendix I. The Source Code Repository",
       "grade": 1
     },
     {
       "hash": "BMMdex7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/source-conventions.html",
-      "title": "PostgreSQL: Documentation: 18: 55.4. Miscellaneous Coding Conventions",
+      "title": "PostgreSQL: Documentation: 18: 55.4. Miscellaneous Coding Conventions",
       "grade": 1
     },
     {
       "hash": "464Spx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/logicaldecoding-writer.html",
-      "title": "PostgreSQL: Documentation: 18: 47.7. Logical Decoding Output Writers",
+      "title": "PostgreSQL: Documentation: 18: 47.7. Logical Decoding Output Writers",
       "grade": 1
     },
     {
@@ -262,13 +262,13 @@
     {
       "hash": "vwtScx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/trigger-example.html",
-      "title": "PostgreSQL: Documentation: 18: 37.4. A Complete Trigger Example",
+      "title": "PostgreSQL: Documentation: 18: 37.4. A Complete Trigger Example",
       "grade": 1
     },
     {
       "hash": "5j1TMx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datetime-appendix.html",
-      "title": "PostgreSQL: Documentation: 18: Appendix B. Date/Time Support",
+      "title": "PostgreSQL: Documentation: 18: Appendix B. Date/Time Support",
       "grade": 1
     },
     {
@@ -298,19 +298,19 @@
     {
       "hash": "4lnzox7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-largeobject-metadata.html",
-      "title": "PostgreSQL: Documentation: 18: 52.31. pg_largeobject_metadata",
+      "title": "PostgreSQL: Documentation: 18: 52.31. pg_largeobject_metadata",
       "grade": 1
     },
     {
       "hash": "67t3mx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/user-manag.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 21. Database Roles",
+      "title": "PostgreSQL: Documentation: 18: Chapter 21. Database Roles",
       "grade": 1
     },
     {
       "hash": "4cGpZx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/infoschema-sql-parts.html",
-      "title": "PostgreSQL: Documentation: 18: 35.50. sql_parts",
+      "title": "PostgreSQL: Documentation: 18: 35.50. sql_parts",
       "grade": 1
     },
     {
