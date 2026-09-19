@@ -492,9 +492,9 @@ func TestAMatchedAndHeldDocumentsAnswerReadsTheItemsAndTheDocumentsThePeerHolds(
 		t.Fatalf("AskForMatchedAndHeldDocuments read %+v, want the documents the peer matched",
 			answeredAsk.MatchedDocuments)
 	}
-	if answeredAsk.MatchedDocuments[0].CountOfAWordTheAskNamed.Hits != 3 ||
-		answeredAsk.MatchedDocuments[1].CountOfAWordTheAskNamed.CountedByAPeer() {
-		t.Fatalf("the documents carry the counts %+v, want the one the peer counted a word in",
+	sentPosting, sent := answeredAsk.MatchedDocuments[0].Posting.Get()
+	if !sent || sentPosting.Hits != 3 || answeredAsk.MatchedDocuments[1].Posting.Present() {
+		t.Fatalf("the documents carry the postings %+v, want the one the peer sent",
 			answeredAsk.MatchedDocuments)
 	}
 	documentsHeld, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()

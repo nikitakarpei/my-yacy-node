@@ -51,23 +51,23 @@ func formatDerivationsOfThePages(t *testing.T) pageformats.FormatDerivationCatal
 
 func (r pageTextReading) pageTextPerDocument(
 	ctx context.Context,
-	answeredItems []queryanswers.AnsweredItem,
+	foundDocuments []queryanswers.FoundDocument,
 ) map[yacymodel.URLHash]string {
 	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
 	defer stopPageReadBudget()
 
-	pageTextOfEachPlace := make([]string, len(answeredItems))
+	pageTextOfEachPlace := make([]string, len(foundDocuments))
 	var pagesBeingRead sync.WaitGroup
-	for place, answeredItem := range answeredItems {
+	for place, foundDocument := range foundDocuments {
 		pagesBeingRead.Add(1)
 		go func() {
 			defer pagesBeingRead.Done()
-			pageTextOfEachPlace[place] = r.pageTextOf(budgetedCtx, answeredItem.Metadata.Address)
+			pageTextOfEachPlace[place] = r.pageTextOf(budgetedCtx, foundDocument.Address)
 		}()
 	}
 	pagesBeingRead.Wait()
 
-	return pageTextPerDocumentOf(answeredItems, pageTextOfEachPlace)
+	return pageTextPerDocumentOf(foundDocuments, pageTextOfEachPlace)
 }
 
 func (r pageTextReading) pageTextOf(ctx context.Context, address string) string {
@@ -111,15 +111,15 @@ func (r pageTextReading) textOfTheDocument(
 }
 
 func pageTextPerDocumentOf(
-	answeredItems []queryanswers.AnsweredItem,
+	foundDocuments []queryanswers.FoundDocument,
 	pageTextOfEachPlace []string,
 ) map[yacymodel.URLHash]string {
-	pageTextPerDocument := make(map[yacymodel.URLHash]string, len(answeredItems))
-	for place, answeredItem := range answeredItems {
+	pageTextPerDocument := make(map[yacymodel.URLHash]string, len(foundDocuments))
+	for place, foundDocument := range foundDocuments {
 		if pageTextOfEachPlace[place] == "" {
 			continue
 		}
-		pageTextPerDocument[answeredItem.Metadata.Hash] = pageTextOfEachPlace[place]
+		pageTextPerDocument[foundDocument.Hash] = pageTextOfEachPlace[place]
 	}
 
 	return pageTextPerDocument

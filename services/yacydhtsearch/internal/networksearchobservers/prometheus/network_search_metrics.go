@@ -1,6 +1,5 @@
 // Package prometheus reports network search breadth, the size of the ranking,
-// how much of it one peer supplied, how much of it a peer counted a query word
-// in, and duration as metrics.
+// and duration as metrics.
 package prometheus
 
 import (
@@ -20,18 +19,14 @@ const (
 	itemBuckets         = 10
 	peerBucketCeiling   = 128.0
 	peerBuckets         = 8
-	ratioBuckets        = 11
-	ratioStep           = 0.1
 )
 
 var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type NetworkSearchMetrics struct {
-	itemsRankedPerNetworkSearch     prometheusclient.Histogram
-	askablePeersPerNetworkSearch    prometheusclient.Histogram
-	rankingShareOfTheMostRankedPeer prometheusclient.Histogram
-	rankedItemsCountedByAPeerRatio  prometheusclient.Histogram
-	networkSearchDurationSeconds    prometheusclient.Histogram
+	itemsRankedPerNetworkSearch  prometheusclient.Histogram
+	askablePeersPerNetworkSearch prometheusclient.Histogram
+	networkSearchDurationSeconds prometheusclient.Histogram
 }
 
 func New(registry prometheusclient.Registerer, queryBudget time.Duration) *NetworkSearchMetrics {
@@ -46,22 +41,6 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 			Help:    "Peers the directory could ask when one network search started.",
 			Buckets: bucketsFromNoneTo(peerBucketCeiling, peerBuckets),
 		}),
-		rankingShareOfTheMostRankedPeer: prometheusclient.NewHistogram(
-			prometheusclient.HistogramOpts{
-				Name:    "yacydhtsearch_network_search_ranking_top_peer_share",
-				Help:    "Share of the ranking that came from the one peer that supplied the most.",
-				Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
-			},
-		),
-		rankedItemsCountedByAPeerRatio: prometheusclient.NewHistogram(
-			prometheusclient.HistogramOpts{
-				Name: "yacydhtsearch_network_search_ranked_items_with_a_posting_ratio",
-				Help: "Share of the ranked items that a peer counted a query word in. These " +
-					"score on how often the query word appears, the rest only on the words " +
-					"they matched.",
-				Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
-			},
-		),
 		networkSearchDurationSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_network_search_duration_seconds",
 			Help:    "Network search duration in seconds.",
@@ -71,8 +50,6 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 	registry.MustRegister(
 		metrics.itemsRankedPerNetworkSearch,
 		metrics.askablePeersPerNetworkSearch,
-		metrics.rankingShareOfTheMostRankedPeer,
-		metrics.rankedItemsCountedByAPeerRatio,
 		metrics.networkSearchDurationSeconds,
 	)
 
@@ -106,24 +83,4 @@ func (m *NetworkSearchMetrics) NetworkSearchPerformed(
 	m.itemsRankedPerNetworkSearch.Observe(float64(search.AmountOfItemsInRanking))
 	m.askablePeersPerNetworkSearch.Observe(float64(search.AmountOfAskablePeers))
 	m.networkSearchDurationSeconds.Observe(search.TimeSpent.Seconds())
-	m.observeTheSharesOfTheRanking(search)
-}
-
-func (m *NetworkSearchMetrics) observeTheSharesOfTheRanking(
-	search networksearch.PerformedNetworkSearch,
-) {
-	if search.AmountOfItemsInRanking == 0 {
-		return
-	}
-
-	m.rankingShareOfTheMostRankedPeer.Observe(
-		float64(
-			search.AmountOfRankedItemsOfTheMostRankedPeer,
-		) / float64(
-			search.AmountOfItemsInRanking,
-		),
-	)
-	m.rankedItemsCountedByAPeerRatio.Observe(
-		float64(search.AmountOfRankedItemsCountedByAPeer) / float64(search.AmountOfItemsInRanking),
-	)
 }

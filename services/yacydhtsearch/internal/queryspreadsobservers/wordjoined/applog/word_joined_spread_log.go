@@ -37,14 +37,6 @@ func attributesOfMatchedAndHeldDocumentsRound(
 		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
 		slog.Int("amountOfFullyListedQueryWords", round.AmountOfFullyListedQueryWords),
-		slog.Int(
-			"amountOfPeersAskedForMatchedAndHeldDocuments",
-			round.AmountOfPeersAskedForMatchedAndHeldDocuments,
-		),
-		slog.Int(
-			"amountOfPeersThatAnsweredMatchedAndHeldDocuments",
-			round.AmountOfPeersThatAnsweredMatchedAndHeldDocuments,
-		),
 		slog.Int("amountOfPeersThatListedADocument", round.AmountOfPeersThatListedADocument),
 		slog.String("leadingQueryWordStanding", string(round.LeadingQueryWordStanding)),
 		slog.Int(
@@ -56,8 +48,8 @@ func attributesOfMatchedAndHeldDocumentsRound(
 			round.AmountOfMatchedDocumentsAcrossAnswers,
 		),
 		slog.Int(
-			"amountOfMatchedDocumentsCountedByAPeer",
-			round.AmountOfMatchedDocumentsCountedByAPeer,
+			"amountOfMatchedDocumentsWithAPosting",
+			round.AmountOfMatchedDocumentsWithAPosting,
 		),
 		slog.Any("amountOfDocumentsHeldInEachAnswer", round.AmountOfDocumentsHeldInEachAnswer),
 	}
@@ -68,16 +60,12 @@ func attributesOfCrossCheckedDocumentsRound(
 ) []slog.Attr {
 	return []slog.Attr{
 		slog.Int(
+			"amountOfDocumentsSentForCrossChecking",
+			round.AmountOfDocumentsSentForCrossChecking,
+		),
+		slog.Int(
 			"amountOfDocumentsPastTheCrossCheckedDocumentsCeiling",
 			round.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
-		),
-		slog.Int(
-			"amountOfPeersAskedForCrossCheckedDocuments",
-			round.AmountOfPeersAskedForCrossCheckedDocuments,
-		),
-		slog.Int(
-			"amountOfPeersThatAnsweredCrossCheckedDocuments",
-			round.AmountOfPeersThatAnsweredCrossCheckedDocuments,
 		),
 		slog.Int(
 			"amountOfEmptyCrossCheckedDocumentsAnswers",

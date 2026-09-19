@@ -482,66 +482,6 @@
       ]
     },
     {
-      "id": 12,
-      "title": "Share of the results that came from a single peer",
-      "description": "The peer that supplied the most, against the whole ranking.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 36
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_ranking_top_peer_share_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_ranking_top_peer_share_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 13,
       "title": "Unique items in the final ranking",
       "description": "The ranking limit applies after duplicate items are removed.",
@@ -553,8 +493,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 44
+        "x": 12,
+        "y": 36
       },
       "fieldConfig": {
         "defaults": {
@@ -602,66 +542,6 @@
       ]
     },
     {
-      "id": 14,
-      "title": "Share of the results that could be scored on their text",
-      "description": "Scoring the text needs how often the query words occur in a page and how long it is. Either the peer that holds the word reports it, or the page is read.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 44
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_ranked_items_with_a_posting_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_ranked_items_with_a_posting_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 15,
       "title": "Queries sent whole to each peer",
       "type": "row",
@@ -670,7 +550,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 44
       },
       "panels": []
     },
@@ -684,9 +564,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
-        "y": 53
+        "y": 45
       },
       "fieldConfig": {
         "defaults": {
@@ -744,9 +624,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 53
+        "w": 12,
+        "x": 12,
+        "y": 45
       },
       "fieldConfig": {
         "defaults": {
@@ -775,66 +655,6 @@
       ]
     },
     {
-      "id": 17,
-      "title": "Share of the asked peers that answered",
-      "description": "The rest were unreachable or slower than the time the query allows them.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 53
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_matched_spread_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_matched_spread_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 18,
       "title": "Queries joined across peers, one word each",
       "type": "row",
@@ -843,7 +663,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 53
       },
       "panels": []
     },
@@ -859,7 +679,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 62
+        "y": 54
       },
       "fieldConfig": {
         "defaults": {
@@ -918,7 +738,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 62
+        "y": 54
       },
       "fieldConfig": {
         "defaults": {
@@ -951,68 +771,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 70
+        "y": 62
       },
       "panels": []
-    },
-    {
-      "id": 24,
-      "title": "Distinct peers asked which documents they hold for a query word",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 71
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "short",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peers_asked_for_matched_and_held_documents_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
     },
     {
       "id": 45,
@@ -1025,8 +786,8 @@
       "gridPos": {
         "h": 8,
         "w": 8,
-        "x": 8,
-        "y": 71
+        "x": 0,
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -1055,65 +816,6 @@
       ]
     },
     {
-      "id": 25,
-      "title": "Share of the peers asked which documents they hold for a query word that answered",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 71
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_answering_matched_and_held_documents_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
       "id": 26,
       "title": "Share of the query words no peer listed a document for",
       "type": "heatmap",
@@ -1123,9 +825,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 79
+        "w": 8,
+        "x": 8,
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -1182,9 +884,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 79
+        "w": 8,
+        "x": 16,
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -1233,14 +935,14 @@
     },
     {
       "id": 55,
-      "title": "Joined queries: cross-checking the leading word's documents with the other words' peers",
+      "title": "Joined queries: cross-checking the leading word's documents against the other query words",
       "type": "row",
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 71
       },
       "panels": []
     },
@@ -1256,7 +958,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 88
+        "y": 72
       },
       "fieldConfig": {
         "defaults": {
@@ -1282,9 +984,9 @@
     },
     {
       "id": 59,
-      "title": "Average share of the leading word's documents past the cross-checked documents ceiling, by which word led the join",
-      "description": "Depends on YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING.",
-      "type": "timeseries",
+      "title": "Share of the documents to cross-check that no peer could take",
+      "description": "A peer is asked once and takes at most YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING documents.",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1293,83 +995,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 88
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "max": 1
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (leading_query_word_standing) (rate(yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_sum{instance=~\"$service_instance\"}[$window])) / sum by (leading_query_word_standing) (rate(yacydhtsearch_word_joined_spread_leading_query_word_documents_past_the_cross_checked_documents_ceiling_ratio_count{instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "{{leading_query_word_standing}}"
-        }
-      ]
-    },
-    {
-      "id": 56,
-      "title": "Calls that asked a peer to cross-check documents, by outcome",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 96
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
-        }
-      ]
-    },
-    {
-      "id": 53,
-      "title": "Share of the peers asked to cross-check documents that answered",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 96
+        "y": 72
       },
       "fieldConfig": {
         "defaults": {
@@ -1410,9 +1036,49 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_answering_cross_checked_documents_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "title": "Calls that asked a peer to cross-check documents, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 80
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
         }
       ]
     },
@@ -1426,9 +1092,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 96
+        "w": 12,
+        "x": 12,
+        "y": 80
       },
       "fieldConfig": {
         "defaults": {
@@ -1484,7 +1150,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 104
+        "y": 88
       },
       "panels": []
     },
@@ -1501,7 +1167,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 105
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {
@@ -1560,7 +1226,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 105
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {
@@ -1600,7 +1266,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 105
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {
@@ -1656,67 +1322,92 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 97
       },
       "panels": []
     },
     {
       "id": 37,
-      "title": "How long an answered peer call took",
+      "title": "How long an answered peer call took, by what it asked for (p90)",
       "description": "Only the peer calls a peer answered. The peer call budget bounds it.",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 114
+        "y": 98
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "always",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "s",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.90, sum by (le, asked_for) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{asked_for}}"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "title": "Peer calls waiting for a slot",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 98
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(yacydhtsearch_peer_calls_waiting_for_a_slot{instance=~\"$service_instance\"})",
+          "legendFormat": "waiting"
         }
       ]
     },
@@ -1729,15 +1420,15 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 122
+        "y": 106
       },
       "panels": []
     },
     {
       "id": 61,
-      "title": "How long the replica asks of a search took",
-      "description": "The replica asks of one spread call, from the first ask to the settled last word partition.",
-      "type": "heatmap",
+      "title": "How long the replica asks of a search took, by what ended them (p90)",
+      "description": "The replica asks of one spread call, from the first ask until every word partition is covered or the deadline comes.",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1746,50 +1437,35 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 123
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "always",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "s",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.90, sum by (le, ended_by) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{ended_by}}"
         }
       ]
     },
@@ -1805,7 +1481,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 123
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1837,8 +1513,9 @@
       ]
     },
     {
-      "id": 63,
-      "title": "What put a replica ask",
+      "id": 66,
+      "title": "What put the ask that covered a word partition",
+      "description": "Counts only word partitions settled by coverage.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1848,7 +1525,50 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 123
+        "y": 107
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (covering_ask_put_on) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} offset $__interval), 0))",
+          "legendFormat": "{{covering_ask_put_on}}"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "title": "What put a replica ask",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1889,9 +1609,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 131
+        "w": 12,
+        "x": 12,
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1939,90 +1659,6 @@
       ]
     },
     {
-      "id": 65,
-      "title": "Peer calls waiting for a slot",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 131
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(yacydhtsearch_peer_calls_waiting_for_a_slot{instance=~\"$service_instance\"})",
-          "legendFormat": "waiting"
-        }
-      ]
-    },
-    {
-      "id": 66,
-      "title": "What put the ask that covered a word partition",
-      "description": "Counts only word partitions settled by coverage.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 131
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
-            "stacking": {
-              "mode": "normal"
-            }
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (covering_ask_put_on) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} offset $__interval), 0))",
-          "legendFormat": "{{covering_ask_put_on}}"
-        }
-      ]
-    },
-    {
       "id": 28,
       "title": "Pages read for a search",
       "type": "row",
@@ -2031,7 +1667,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 139
+        "y": 123
       },
       "panels": []
     },
@@ -2048,7 +1684,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 140
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -2107,7 +1743,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 140
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -2150,7 +1786,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 140
+        "y": 124
       },
       "fieldConfig": {
         "defaults": {
@@ -2191,7 +1827,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 148
+        "y": 132
       },
       "panels": []
     },
@@ -2208,7 +1844,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 149
+        "y": 133
       },
       "fieldConfig": {
         "defaults": {
@@ -2259,7 +1895,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 149
+        "y": 133
       },
       "fieldConfig": {
         "defaults": {
@@ -2298,7 +1934,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 157
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -2339,7 +1975,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 157
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -2398,7 +2034,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 157
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -2445,7 +2081,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 165
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -2501,7 +2137,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 173
+        "y": 157
       },
       "panels": []
     },
@@ -2517,7 +2153,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 174
+        "y": 158
       },
       "fieldConfig": {
         "defaults": {
@@ -2567,7 +2203,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 174
+        "y": 158
       },
       "fieldConfig": {
         "defaults": {
@@ -2607,7 +2243,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 174
+        "y": 158
       },
       "fieldConfig": {
         "defaults": {
@@ -2647,7 +2283,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 182
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {
@@ -2687,7 +2323,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 182
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {
@@ -2727,7 +2363,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 182
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {

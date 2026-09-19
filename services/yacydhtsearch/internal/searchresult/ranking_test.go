@@ -11,18 +11,12 @@ import (
 func itemAt(t *testing.T, address string) searchresult.Item {
 	t.Helper()
 
-	return searchresult.ItemFrom(metadataNamedByAddress(t, address))
-}
-
-func metadataNamedByAddress(t *testing.T, address string) yacymodel.URLMetadata {
-	t.Helper()
-
 	hash, err := yacymodel.URLHashOf(address)
 	if err != nil {
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return yacymodel.URLMetadata{Hash: hash, Address: address}
+	return searchresult.Item{Hash: hash, Address: address}
 }
 
 func addressesOf(items []searchresult.Item) []string {

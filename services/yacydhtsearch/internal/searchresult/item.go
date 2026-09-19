@@ -16,26 +16,3 @@ type Item struct {
 	PublishedAt  yacymodel.Optional[time.Time]
 	ImageAddress string
 }
-
-func ItemFrom(metadata yacymodel.URLMetadata) Item {
-	return Item{
-		Hash:         metadata.Hash,
-		Address:      metadata.Address,
-		Title:        metadata.Title,
-		Description:  metadata.Snippet,
-		PublishedAt:  publicationInstantOf(metadata),
-		ImageAddress: metadata.FaviconAddress,
-	}
-}
-
-func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[time.Time] {
-	day, ok := metadata.Modified.Get()
-	if !ok {
-		day, ok = metadata.Loaded.Get()
-	}
-	if !ok {
-		return yacymodel.None[time.Time]()
-	}
-
-	return yacymodel.Some(day.Time())
-}
