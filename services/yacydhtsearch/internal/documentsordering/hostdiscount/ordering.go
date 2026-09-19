@@ -16,7 +16,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const shareOfRelevanceKeptPerPlacedDocumentOfTheSameHost = 0.5
+const (
+	shareOfRelevanceKeptPerPlacedDocumentOfTheSameHost = 0.5
+	leastRelevanceTheDiscountTakesFrom                 = 0.0
+)
 
 type DocumentRelevance interface {
 	RelevancePerDocumentOf(answers queryanswers.AnsweredQuery) map[yacymodel.URLHash]float64
@@ -117,7 +120,10 @@ func discountedRelevanceOf(
 	relevancePerDocument map[yacymodel.URLHash]float64,
 	amountOfPlacedDocumentsPerHost map[string]int,
 ) float64 {
-	return relevancePerDocument[hostedDocument.document.Hash] * math.Pow(
+	return max(
+		relevancePerDocument[hostedDocument.document.Hash],
+		leastRelevanceTheDiscountTakesFrom,
+	) * math.Pow(
 		shareOfRelevanceKeptPerPlacedDocumentOfTheSameHost,
 		float64(amountOfPlacedDocumentsPerHost[hostedDocument.host]),
 	)
