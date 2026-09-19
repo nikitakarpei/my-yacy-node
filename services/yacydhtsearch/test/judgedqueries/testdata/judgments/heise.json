@@ -360,6 +360,12 @@
       "address": "https://heise-academy.de/",
       "title": "Online-Weiterbildung für IT-Professionals | heise academy",
       "grade": 1
+    },
+    {
+      "hash": "pov9jlcDUfIh",
+      "address": "https://www.heise-devsec.de/",
+      "title": "heise devSec – die Konferenz für sichere Software- und Webentwicklung",
+      "grade": 0
     }
   ]
 }

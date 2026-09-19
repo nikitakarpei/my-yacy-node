@@ -326,10 +326,22 @@
       "grade": 1
     },
     {
+      "hash": "yZ9kgDh0xAH4",
+      "address": "https://education.apple.com/",
+      "title": "Education Community - Apple Education Community",
+      "grade": 1
+    },
+    {
       "hash": "KKc6ICsNgbb4",
       "address": "https://music.apple.com/us/new",
       "title": "‎Apple Music - Web Player",
       "grade": 0
+    },
+    {
+      "hash": "zB_AHldA5r_4",
+      "address": "https://www.apple.com/?cid=oas-us-domains-next.com",
+      "title": "Apple",
+      "grade": 2
     },
     {
       "hash": "vWkJt4X9qC8g",
@@ -341,6 +353,24 @@
       "hash": "GFIJL54Lp0o4",
       "address": "https://discussions.apple.com/welcome",
       "title": "Official Apple Support Community",
+      "grade": 1
+    },
+    {
+      "hash": "aIiJQPsNgbb4",
+      "address": "https://music.apple.com/ug/new",
+      "title": "‎Apple Music - Web Player",
+      "grade": 1
+    },
+    {
+      "hash": "AbovpESIk8o4",
+      "address": "https://support.apple.com/music",
+      "title": "Music - Official Apple Support",
+      "grade": 1
+    },
+    {
+      "hash": "iVHuS4bvuEZ4",
+      "address": "https://tv.apple.com/?at=1010l3b9T\u0026ct=nypost\u0026itsct=nypost_tv\u0026itscg=30200",
+      "title": "‎Apple TV",
       "grade": 1
     },
     {

@@ -176,6 +176,12 @@
       "grade": 1
     },
     {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 1
+    },
+    {
       "hash": "HV8U8m0h8sSw",
       "address": "https://tracker.debian.org/pkg/lua-systemd",
       "title": "lua-systemd - Debian Package Tracker",
@@ -302,6 +308,12 @@
       "grade": 1
     },
     {
+      "hash": "aG2uqB7dZj5w",
+      "address": "https://search.debian.org/",
+      "title": "Debian Search",
+      "grade": 1
+    },
+    {
       "hash": "uuzH__nUgebw",
       "address": "https://alioth-lists.debian.net/",
       "title": "alioth-lists.debian.net",
@@ -311,6 +323,12 @@
       "hash": "_vBCkt1nrxbw",
       "address": "https://www.debian.org/CD/http-ftp/",
       "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
+      "grade": 1
+    },
+    {
+      "hash": "2FWApvieFWRw",
+      "address": "https://paste.debian.net/",
+      "title": "Debian Pastezone",
       "grade": 1
     },
     {

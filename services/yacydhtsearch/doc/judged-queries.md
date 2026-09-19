@@ -22,9 +22,9 @@ zero must not fall to zero.
 
 ## How to grade
 
-A document is judged when its page text is stored, or when the found order or
-the ordering of the service puts it in its first ten. A new document gets
-`null`. Grade it from the stored page text, the title and the address:
+A document is judged when it has a grade, when its page text is stored, or when
+the found order or the ordering of the service puts it in its first ten. A new
+document gets `null`. Grade it from the stored page text, title and address:
 
 - `2` — the page answers the query. For a query that names a site or a
   product, only the page the name points at gets `2`, not its other pages.
