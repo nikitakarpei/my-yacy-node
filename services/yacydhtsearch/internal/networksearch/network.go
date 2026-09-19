@@ -8,7 +8,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -39,11 +38,11 @@ type DocumentsOrdering interface {
 }
 
 type PageReading interface {
-	DocumentTextPerDocument(
+	ReadEachPage(
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		pagesToRead []pagereading.PageToRead,
-	) map[yacymodel.URLHash]documenttext.DocumentText
+	) pagereading.ReadPages
 }
 
 type SearchOutcome int
@@ -127,10 +126,12 @@ func (n Network) Search(
 		n.documentsOrdering.OrderedDocumentsOf(answers),
 		n.pagesReadPerQuery,
 	)
-	documentTextPerDocument := n.pageReading.DocumentTextPerDocument(
+	readPages := n.pageReading.ReadEachPage(
 		ctx, query.TermHashes(), pagesToReadOf(documentsOrderedFirst),
 	)
-	answersSaturatedWithDocumentText := answers.SaturatedWith(documentTextPerDocument)
+	answersSaturatedWithDocumentText := answers.
+		SaturatedWith(readPages.DocumentTextPerDocument).
+		WithoutDocuments(readPages.GoneDocuments)
 	rankedDocuments := documentsUpTo(
 		n.documentsOrdering.OrderedDocumentsOf(
 			answersSaturatedWithDocumentText,

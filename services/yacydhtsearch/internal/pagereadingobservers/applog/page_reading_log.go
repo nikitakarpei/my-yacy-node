@@ -21,6 +21,7 @@ func (PageReadingLog) PageReadingPerformed(
 		slog.Int("amountOfPagesRead", pageReading.AmountOfPagesRead),
 		slog.Int("amountOfPagesUnreachable", pageReading.AmountOfPagesUnreachable),
 		slog.Int("amountOfPagesRefused", pageReading.AmountOfPagesRefused),
+		slog.Int("amountOfPagesGone", pageReading.AmountOfPagesGone),
 		slog.Int("amountOfPagesUnreadable", pageReading.AmountOfPagesUnreadable),
 		slog.Int(
 			"amountOfPagesOfAnUnsupportedKind",

@@ -339,10 +339,17 @@ func TestVisitReadsTheFetchedPage(t *testing.T) {
 }
 
 func TestVisitReportsFetchRejectedDisposal(t *testing.T) {
+	for _, status := range []pagefetch.FetchStatus{pagefetch.FetchRejected, pagefetch.FetchGone} {
+		visitReportsFetchRejectedDisposalOf(t, status)
+	}
+}
+
+func visitReportsFetchRejectedDisposalOf(t *testing.T, status pagefetch.FetchStatus) {
+	t.Helper()
 	recrawl := &fakePageVisits{due: true}
 	crawledPages := &fakeCrawledPages{}
 	pageVisitor := newPageVisitor(
-		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}),
+		fetchOf(pagefetch.FetchOutcome{Status: status}),
 		recrawl,
 		newObserver(),
 		crawledPages,
