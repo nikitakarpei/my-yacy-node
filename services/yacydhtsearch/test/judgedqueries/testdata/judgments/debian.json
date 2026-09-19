@@ -4,7 +4,7 @@
     {
       "hash": "zviPwZBP-b24",
       "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
-      "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
+      "title": "How to Install Docker CE on Debian 11 Complete Guide | Vultr Docs",
       "grade": 1
     },
     {
@@ -360,6 +360,12 @@
       "address": "https://nm.debian.org/public/people/dd_u/",
       "title": "Debian New Member Process",
       "grade": 1
+    },
+    {
+      "hash": "wcFQZHSmdGb5",
+      "address": "https://smurf-debian.livejournal.com/",
+      "title": "Debian Ramblings — LiveJournal",
+      "grade": null
     },
     {
       "hash": "R5pe_l1nrxbw",
