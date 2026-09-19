@@ -164,6 +164,12 @@
       "grade": 1
     },
     {
+      "hash": "0-XIoUwrhNlw",
+      "address": "https://ci.rocm.debian.net/",
+      "title": "Debian Continuous Integration",
+      "grade": 1
+    },
+    {
       "hash": "y37Q7m0h8sSw",
       "address": "https://tracker.debian.org/pkg/lua-geoip",
       "title": "lua-geoip - Debian Package Tracker",

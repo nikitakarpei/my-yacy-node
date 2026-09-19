@@ -143,7 +143,8 @@
       "hash": "FMbQurEEM-R4",
       "address": "https://minecraftpegg.bandcamp.com/album/minecraft-pe",
       "title": "Minecraft PE | minecraftpegg",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "dQcjQfpyxNCY",
@@ -161,13 +162,15 @@
       "hash": "2elwYg-xXJB5",
       "address": "https://www.halaltrip.com/user/profile/376673/minecraftpegg/",
       "title": "Follow Minecraft PE on Halaltrip timeline | Halal Trip",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "QiCgvF-0cdH6",
       "address": "https://minecraft-patched.latestmodapks.com/",
       "title": "Minecraft Patched APK v1.26.60.27 Download for Android (Latest)",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "FBHpSoVME-2x",

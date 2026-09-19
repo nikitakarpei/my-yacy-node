@@ -167,7 +167,8 @@
       "hash": "VY1eVsg4VUOz",
       "address": "https://texaspublicstudio.org/",
       "title": "Home Improvement, services and Real Estate",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "OhW_-sihyPBx",
