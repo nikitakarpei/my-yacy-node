@@ -218,6 +218,12 @@
       "grade": 1
     },
     {
+      "hash": "3-1TqChhB9pg",
+      "address": "https://shop.heise.de/heise-t-shirt-groesse-xl",
+      "title": "heise T-Shirt Unisex Modell 2025",
+      "grade": 0
+    },
+    {
       "hash": "imQXflDOAHJg",
       "address": "https://www.heise.de/security",
       "title": "heise security: Alerts,Newsticker,Hintergrund und Events | heise online",
@@ -266,6 +272,12 @@
       "grade": 1
     },
     {
+      "hash": "frdNx0T7dH8g",
+      "address": "https://social.heise.de/@heiseonlineenglish",
+      "title": "heise online English (@heiseonlineenglish@social.heise.de) - Heise Medien on Mastodon",
+      "grade": 1
+    },
+    {
       "hash": "xymdFJDOAHJg",
       "address": "https://www.heise.de/ratgeber/Stromleitungen-und-Rohre-finden-mit-Waermebildkameras-10460890.html?seite=all",
       "title": "Stromleitungen und Rohre finden mit Wärmebildkameras | heise online",
@@ -302,10 +314,28 @@
       "grade": 1
     },
     {
+      "hash": "4LQDBFrrGcCg",
+      "address": "https://preisvergleich.heise.de/?phist=3211533",
+      "title": "Preisentwicklung für Bosch Kiox 500 BHU3700 (13100004) (90 Tage) heise preisvergleich Deutschland",
+      "grade": 0
+    },
+    {
+      "hash": "HON3flcDUfIh",
+      "address": "https://www.heise-devsec.de/sponsoring.php?source=0",
+      "title": "heise devSec – die Konferenz für sichere Software- und Webentwicklung",
+      "grade": 0
+    },
+    {
       "hash": "ihD0elY1KsNj",
       "address": "https://www.heise-regioconcept.de/",
       "title": "heise regioconcept: Regionales Marketing, das wirkt!",
       "grade": 1
+    },
+    {
+      "hash": "QrzyGMY1KsNj",
+      "address": "https://www.heise-regioconcept.de/produkte/better-jobs/",
+      "title": "BETTER JOBS – Jobbörse von heise regioconcept",
+      "grade": 0
     },
     {
       "hash": "VWVH19D69aig",
@@ -314,10 +344,28 @@
       "grade": 1
     },
     {
+      "hash": "-AK_LlDOAHJg",
+      "address": "https://www.heise.de/developer/kontakt/?frage=3212474",
+      "title": "Kontaktformular | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "Psx0YmTzG1nj",
+      "address": "https://heise-conferences.de/formate/konferenzen",
+      "title": "IT-Konferenzen mit Tiefgang: Praxiswissen \u0026 Networking | heise conferences",
+      "grade": 1
+    },
+    {
       "hash": "EUwmPsU0aeEi",
       "address": "https://heise-academy.de/",
       "title": "Online-Weiterbildung für IT-Professionals | heise academy",
       "grade": 1
+    },
+    {
+      "hash": "pov9jlcDUfIh",
+      "address": "https://www.heise-devsec.de/",
+      "title": "heise devSec – die Konferenz für sichere Software- und Webentwicklung",
+      "grade": 0
     }
   ]
 }

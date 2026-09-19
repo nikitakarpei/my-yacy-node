@@ -1,7 +1,7 @@
 # Judged queries
 
 The judged query set measures how well the ordering of the service puts the
-documents that answer a query first. It holds 72 queries: one word, two words,
+documents that answer a query first. It holds 80 queries: one word, two words,
 three or more words, navigational, other languages, and queries no peer answers.
 Each query has three files in `test/judgedqueries/testdata/`, named by the query
 words in lower case and joined by `-`: `answers/`, `judgments/`, `pagetext/`.
@@ -18,23 +18,24 @@ The mean gain must stay at least the lift of the test above the found order,
 the order in which the service found the documents. It must also stay at or
 above the mean in `testdata/accepted-gain-per-judged-query.json`, less the
 tolerance of the test, over the queries that both hold. A query accepted above
-zero must not fall to zero.
+zero must not fall to zero. The gate logs the spam documents in each first ten.
 
 ## How to grade
 
-A document is judged when its page text is stored, or when the found order
-puts it in its first ten. Each new document gets the grade `null`. Grade it
-from the stored page text, the title and the address:
+A document is judged when it has a grade, when its page text is stored, or when
+the found order or the ordering of the service puts it in its first ten. A new
+document gets `null`. Grade it from the stored page text, title and address:
 
 - `2` — the page answers the query. For a query that names a site or a
   product, only the page the name points at gets `2`, not its other pages.
 - `1` — the subject of the query is a main topic of the page, but the page
   does not answer it.
-- `0` — the page has nothing to do with the query, or only shares a word with
-  it, or only lists many subjects, as a tag page does.
+- `0` — the page has nothing to do with the query, only shares a word with it,
+  lists many subjects as a tag page does, or is spam, even on the subject.
+  Also give a spam page `"spam": true`.
 
 A document with no stored text gets at most the grade `1`, and few documents
-of a pool reach `2`. Never change a grade a person gave.
+of a pool reach `2`. Never change a grade or a spam mark a person gave.
 
 ## How to record the answers again
 
@@ -68,9 +69,8 @@ YACYDHTSEARCH_ACCEPT_JUDGED_QUERIES_BASELINE=1 go test -v \
 
 ## How to tune the score weights
 
-This step searches the weight of each score of the relevance ordering over a
-grid of values, gives the weights of the highest mean gain, and tunes on one
-half of the queries to measure on the other. It changes no file.
+This step gives the score weights of the highest mean gain over a grid. It tunes
+on one half of the queries to measure on the other, and changes no file.
 
 ```sh
 YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS=1 go test -timeout 30m -v \

@@ -3,10 +3,12 @@ package judgedqueries_test
 import (
 	"encoding/json"
 	"errors"
+	"maps"
 	"net/url"
 	"os"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -26,6 +28,7 @@ type judgedDocument struct {
 	Address string            `json:"address"`
 	Title   string            `json:"title"`
 	Grade   *int              `json:"grade"`
+	Spam    bool              `json:"spam,omitempty"`
 }
 
 func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
@@ -37,6 +40,7 @@ func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
 		graded[judged.Hash] = gradedDocument{
 			grade: *judged.Grade,
 			host:  hostOf(judged.Address),
+			spam:  judged.Spam,
 		}
 	}
 
@@ -70,12 +74,13 @@ func queryJudgmentsOfTheDocumentsToJudge(
 	pageTextPerDocument map[yacymodel.URLHash]string,
 	judgedAlready queryJudgments,
 ) queryJudgments {
-	gradePerDocument := judgedAlready.gradePerJudgedDocument()
+	judgedDocumentPerHash := judgedAlready.judgedDocumentPerHash()
 
-	documentsToJudge := documentsToJudgeOf(answers, pageTextPerDocument)
+	documentsToJudge := documentsToJudgeOf(answers, pageTextPerDocument, judgedDocumentPerHash)
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
 	for _, documentToJudge := range documentsToJudge {
-		documentToJudge.Grade = gradePerDocument[documentToJudge.Hash]
+		documentToJudge.Grade = judgedDocumentPerHash[documentToJudge.Hash].Grade
+		documentToJudge.Spam = judgedDocumentPerHash[documentToJudge.Hash].Spam
 		judgedDocuments = append(judgedDocuments, documentToJudge)
 	}
 
@@ -85,9 +90,21 @@ func queryJudgmentsOfTheDocumentsToJudge(
 func documentsToJudgeOf(
 	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
+	judgedDocumentPerHash map[yacymodel.URLHash]judgedDocument,
 ) []judgedDocument {
-	toJudge := documentsFoundFirst(answers)
+	toJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
+	maps.Copy(toJudge, documentsAmongTheFirstOf(
+		orderingOfTheServiceFrom(
+			documentrelevance.DefaultScoreWeights(),
+		).OrderedDocumentsOf(answers),
+	))
 	for document := range pageTextPerDocument {
+		toJudge[document] = struct{}{}
+	}
+	for document, judged := range judgedDocumentPerHash {
+		if judged.Grade == nil {
+			continue
+		}
 		toJudge[document] = struct{}{}
 	}
 
@@ -106,26 +123,24 @@ func documentsToJudgeOf(
 	return documentsToJudge
 }
 
-func documentsFoundFirst(
-	answers queryanswers.AnsweredQuery,
+func documentsAmongTheFirstOf(
+	orderedDocuments []queryanswers.FoundDocument,
 ) map[yacymodel.URLHash]struct{} {
-	foundDocuments := answers.FoundDocuments
-
-	documentsAmongTheFirstFound := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
-	for _, foundDocument := range foundDocuments[:min(judgedDocumentsCeiling, len(foundDocuments))] {
-		documentsAmongTheFirstFound[foundDocument.Hash] = struct{}{}
+	documentsAmongTheFirst := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
+	for _, orderedDocument := range orderedDocuments[:min(judgedDocumentsCeiling, len(orderedDocuments))] {
+		documentsAmongTheFirst[orderedDocument.Hash] = struct{}{}
 	}
 
-	return documentsAmongTheFirstFound
+	return documentsAmongTheFirst
 }
 
-func (j queryJudgments) gradePerJudgedDocument() map[yacymodel.URLHash]*int {
-	gradePerDocument := make(map[yacymodel.URLHash]*int, len(j.JudgedDocuments))
+func (j queryJudgments) judgedDocumentPerHash() map[yacymodel.URLHash]judgedDocument {
+	judgedDocumentPerHash := make(map[yacymodel.URLHash]judgedDocument, len(j.JudgedDocuments))
 	for _, judged := range j.JudgedDocuments {
-		gradePerDocument[judged.Hash] = judged.Grade
+		judgedDocumentPerHash[judged.Hash] = judged
 	}
 
-	return gradePerDocument
+	return judgedDocumentPerHash
 }
 
 func queryJudgmentsInTheFile(t *testing.T, path string) queryJudgments {

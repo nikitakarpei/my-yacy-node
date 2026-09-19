@@ -80,6 +80,12 @@
       "grade": 0
     },
     {
+      "hash": "3xMGSmMGR-P0",
+      "address": "https://hadat.ma/editor/29497/",
+      "title": "(مدونة الإسرة) : هل المقترحات التشريعية تتناسب مع مستوى الدخل الفردي المغربي؟ وهل المقترحات هي تشريع للأغلبية أم للأقلية – HADAT",
+      "grade": 0
+    },
+    {
       "hash": "K3Zftlpcc_2y",
       "address": "https://www.notebookcheck.net/Newsarchive-2025-09.1101587.0.html",
       "title": "Newsarchive 2025 09 - Notebookcheck News",
@@ -161,7 +167,8 @@
       "hash": "VY1eVsg4VUOz",
       "address": "https://texaspublicstudio.org/",
       "title": "Home Improvement, services and Real Estate",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "OhW_-sihyPBx",
