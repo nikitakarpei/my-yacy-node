@@ -1,8 +1,8 @@
 // Package documentrelevance tells how well each answered document answers the
 // query. Its relevance adds up the share of the rarity of the query words its
 // title holds, the query words its host holds, a BM25 score of the query words
-// in its text, the query phrases and the share of the query words its text
-// holds.
+// in its text, the query phrases, the share of the query words its text holds,
+// and how likely it is the entry page of a site the query names.
 package documentrelevance
 
 import (

@@ -188,6 +188,12 @@
       "grade": 0
     },
     {
+      "hash": "99ChVsPOt3tw",
+      "address": "https://mastodon.nz/@va2lam",
+      "title": "Patrick Lam :tinoflag: (@va2lam@mastodon.nz) - Mastodon NZ",
+      "grade": 0
+    },
+    {
       "hash": "XWMtisXT2Q14",
       "address": "https://mastodon.social/@AllyProto",
       "title": "AllyProto (@AllyProto@mastodon.social) - Mastodon",
@@ -260,6 +266,12 @@
       "grade": 0
     },
     {
+      "hash": "r7Mtm5ARgG8g",
+      "address": "https://mastodon.desmu.fr/",
+      "title": "mastodon.desmu.fr",
+      "grade": 1
+    },
+    {
       "hash": "Du8sc5B52pXw",
       "address": "https://mastodon.matrix.org/@matrix",
       "title": "The Matrix.org Foundation (@matrix@mastodon.matrix.org) - Matrix.org's Mastodon",
@@ -314,9 +326,21 @@
       "grade": 0
     },
     {
+      "hash": "DViQBsq2qmtw",
+      "address": "https://mastodon.cc/",
+      "title": "Mastodon.cc",
+      "grade": 1
+    },
+    {
       "hash": "rqw6vsXT2Q14",
       "address": "https://mastodon.social/@eff",
       "title": "Electronic Frontier Foundation (@eff@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "NuKu5s0frNM4",
+      "address": "https://mastodon.top/@ellenor2000",
+      "title": "Ursidinoj/The Bjornsdottirs (@ellenor2000@mastodon.top) - Mastodon.top",
       "grade": 0
     },
     {
@@ -329,6 +353,48 @@
       "hash": "rNukzsXT2Q14",
       "address": "https://mastodon.social/@esoastronomy",
       "title": "ESO (@esoastronomy@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "z7qHjsXT2Q14",
+      "address": "https://mastodon.social/@statusgator",
+      "title": "StatusGator (@statusgator@mastodon.social) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "DyukPsViDFz4",
+      "address": "https://mastodon.cloud/@siracusa",
+      "title": "John Siracusa (@siracusa@mastodon.cloud) - mastodon.cloud",
+      "grade": 0
+    },
+    {
+      "hash": "ZMzosslxRMg4",
+      "address": "https://mastodon.energy/@EarthOrgUK",
+      "title": "Earth Notes (@EarthOrgUK@mastodon.energy) - mastodon.energy",
+      "grade": 0
+    },
+    {
+      "hash": "AeMyFspL_jd4",
+      "address": "https://mastodon.world/@lensco",
+      "title": "Lennart Schoors (@lensco@mastodon.world) - Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "scZ7s57KGDIh",
+      "address": "https://mastodon.opencloud.lu/@gunstick",
+      "title": "gunstick (@gunstick@mastodon.opencloud.lu) - OpenCloud Luxembourg Mastodon instance",
+      "grade": 0
+    },
+    {
+      "hash": "B4mZ35svrCt4",
+      "address": "https://mastodon.gamedev.place/@akien",
+      "title": "Rémi Verschelde (@akien@mastodon.gamedev.place) - Gamedev Mastodon",
+      "grade": 0
+    },
+    {
+      "hash": "Me7WRsRP9VD4",
+      "address": "https://mastodon.online/@mullvadnet",
+      "title": "Mullvad VPN (@mullvadnet@mastodon.online) - Mastodon",
       "grade": 0
     }
   ]

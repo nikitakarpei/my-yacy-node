@@ -74,6 +74,12 @@
       "grade": 0
     },
     {
+      "hash": "XHqeUlpntQz4",
+      "address": "https://www.tech-faq.com/how-to-access-netgear-router.html",
+      "title": "How to Access a Netgear Router - Tech-FAQ",
+      "grade": 1
+    },
+    {
       "hash": "1oF23Q87RqzY",
       "address": "http://ajacksonian.blogspot.com/",
       "title": "Dumb Looks Still Free",
@@ -209,7 +215,8 @@
       "hash": "LVF9csQMPJQ7",
       "address": "https://revistanuevagrecia.com/",
       "title": "revistanuevagrecia.com -",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "YFkvAjRvmBbx",
@@ -227,7 +234,8 @@
       "hash": "UgYGDsoMlAS5",
       "address": "https://outpostboats.com/",
       "title": "outpostboats.com -",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "Fl-YxlDOAHJg",

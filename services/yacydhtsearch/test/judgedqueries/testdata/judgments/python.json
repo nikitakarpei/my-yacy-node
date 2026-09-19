@@ -230,6 +230,18 @@
       "grade": 0
     },
     {
+      "hash": "k8ePcDbK4AC4",
+      "address": "https://python.utils.com/",
+      "title": "Python Shell - utils.com",
+      "grade": 1
+    },
+    {
+      "hash": "yNJxThVRUINg",
+      "address": "https://learn-python.softonic.ru/",
+      "title": "Learn Python — Скачать",
+      "grade": 0
+    },
+    {
       "hash": "ACIq1TCk19rw",
       "address": "https://peps.python.org/pep-0401/",
       "title": "PEP 401 – BDFL Retirement | peps.python.org",
@@ -290,9 +302,21 @@
       "grade": 0
     },
     {
+      "hash": "T00dXgYf_OZw",
+      "address": "https://mail.python.org/archives/list/python-announce-list@python.org/2005/3/",
+      "title": "Mailman 3 March 2005 - Python-announce-list - python.org",
+      "grade": 0
+    },
+    {
       "hash": "JV0vxTCk19rw",
       "address": "https://peps.python.org/pep-0020/",
       "title": "PEP 20 – The Zen of Python | peps.python.org",
+      "grade": 1
+    },
+    {
+      "hash": "q-Z9cDIZp8m4",
+      "address": "https://python.libhunt.com/",
+      "title": "Awesome Python | LibHunt",
       "grade": 1
     },
     {
@@ -314,10 +338,22 @@
       "grade": 1
     },
     {
+      "hash": "b619OZW0Noqx",
+      "address": "https://docs.python-guide.org/",
+      "title": "The Hitchhiker’s Guide to Python! — The Hitchhiker's Guide to Python",
+      "grade": 1
+    },
+    {
       "hash": "z02vKTCk19rw",
       "address": "https://peps.python.org/",
       "title": "PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org",
       "grade": 1
+    },
+    {
+      "hash": "Vqa3MNZTlNQ4",
+      "address": "https://python.land/data-processing/working-with-json",
+      "title": "JSON in Python: How To Read, Write, and Parse • Python Land Tutorial",
+      "grade": 0
     },
     {
       "hash": "SEaby5n__psw",
@@ -332,10 +368,28 @@
       "grade": 1
     },
     {
+      "hash": "l20c_wbTd3a4",
+      "address": "https://istanbul.python.pizza/",
+      "title": "Python Pizza Istanbul",
+      "grade": 1
+    },
+    {
       "hash": "jUyg0KTceIAw",
       "address": "https://status.python.org/",
       "title": "Python Infrastructure Status",
       "grade": 0
+    },
+    {
+      "hash": "8CxBMTCk19rw",
+      "address": "https://peps.python.org/pep-0606/",
+      "title": "PEP 606 – Python Compatibility Version | peps.python.org",
+      "grade": 0
+    },
+    {
+      "hash": "2YvMdx3vtu2w",
+      "address": "https://blog.python.org/2024/09/python-3130rc2-3126-31110-31015-3920/",
+      "title": "Python 3.13.0RC2, 3.12.6, 3.11.10, 3.10.15, 3.9.20, and 3.8.20 are now available! | Python Insider",
+      "grade": 1
     }
   ]
 }
