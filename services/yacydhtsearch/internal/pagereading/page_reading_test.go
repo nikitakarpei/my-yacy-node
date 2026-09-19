@@ -242,6 +242,23 @@ func TestThePageOfADocumentGivesTheHitsOfEachQueryWordInItsText(t *testing.T) {
 	}
 }
 
+func TestThePageOfADocumentGivesItsTitle(t *testing.T) {
+	t.Parallel()
+
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
+
+	documentTextPerDocument := reading.DocumentTextPerDocument(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	)
+
+	documentText := documentTextOfTheAddressRead(t, documentTextPerDocument, addressOfTheDocument)
+	if documentText.Title != "Berlin" {
+		t.Fatalf("the page gives the title %q, want the title the page holds", documentText.Title)
+	}
+}
+
 func queryPhraseHitsOfTheAddressRead(
 	t *testing.T,
 	address string,
