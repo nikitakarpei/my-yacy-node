@@ -146,7 +146,11 @@ func (n *peerNetwork) matchedDocumentsOf(
 			Metadata: yacymodel.URLMetadata{Hash: document},
 		}
 		if n.countsAWordWithEachItem {
-			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{Hits: 3})
+			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
+				Hits:          3,
+				LocalLinks:    12,
+				ExternalLinks: 7,
+			})
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -1832,4 +1836,50 @@ func (spread spreadOverChosenPeers) SpreadOverPeers(
 		query,
 		spread.responsiblePeers.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
 	)
+}
+
+func TestAFoundDocumentCarriesTheLinkCountsThePostingReported(t *testing.T) {
+	t.Parallel()
+
+	answered := "https://answered.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first": {firstWord: {answered}, secondWord: {answered}},
+	})
+	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: {answered}},
+	}
+	network.countsAWordWithEachItem = true
+
+	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+
+	if len(foundDocuments) != 1 {
+		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
+	}
+	linkCounts, reported := foundDocuments[0].LinkCounts.Get()
+	if !reported || linkCounts.LocalLinks != 12 || linkCounts.ExternalLinks != 7 {
+		t.Fatalf(
+			"the found document holds the link counts %+v reported %t, want 12 local and 7 external",
+			linkCounts,
+			reported,
+		)
+	}
+}
+
+func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoLinkCounts(t *testing.T) {
+	t.Parallel()
+
+	joined := "https://joined.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {joined}, secondWord: {joined}},
+		"second": {firstWord: {joined}, secondWord: {joined}},
+	})
+
+	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+
+	if len(foundDocuments) != 1 {
+		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
+	}
+	if foundDocuments[0].LinkCounts.Present() {
+		t.Fatal("the joined document holds link counts, want none where no posting reported them")
+	}
 }
