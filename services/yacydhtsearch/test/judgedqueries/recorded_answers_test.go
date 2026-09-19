@@ -27,13 +27,47 @@ type recordedAnswers struct {
 }
 
 type recordedFoundDocument struct {
-	Hash             yacymodel.URLHash      `json:"hash"`
-	Address          string                 `json:"address"`
-	Title            string                 `json:"title"`
-	Snippet          string                 `json:"snippet"`
-	HitsPerQueryWord map[yacymodel.Hash]int `json:"hitsPerQueryWord"`
-	AmountOfWords    int                    `json:"amountOfWords"`
-	QueryPhraseHits  int                    `json:"queryPhraseHits"`
+	Hash             yacymodel.URLHash                      `json:"hash"`
+	Address          string                                 `json:"address"`
+	Title            string                                 `json:"title"`
+	Snippet          string                                 `json:"snippet"`
+	HitsPerQueryWord map[yacymodel.Hash]int                 `json:"hitsPerQueryWord"`
+	AmountOfWords    int                                    `json:"amountOfWords"`
+	QueryPhraseHits  int                                    `json:"queryPhraseHits"`
+	LinkCounts       yacymodel.Optional[recordedLinkCounts] `json:"linkCounts,omitempty"`
+}
+
+type recordedLinkCounts struct {
+	LocalLinks    int `json:"localLinks"`
+	ExternalLinks int `json:"externalLinks"`
+}
+
+func linkCountsOf(
+	recorded yacymodel.Optional[recordedLinkCounts],
+) yacymodel.Optional[queryanswers.LinkCounts] {
+	counts, recordedForTheDocument := recorded.Get()
+	if !recordedForTheDocument {
+		return yacymodel.None[queryanswers.LinkCounts]()
+	}
+
+	return yacymodel.Some(queryanswers.LinkCounts{
+		LocalLinks:    counts.LocalLinks,
+		ExternalLinks: counts.ExternalLinks,
+	})
+}
+
+func recordedLinkCountsOf(
+	linkCounts yacymodel.Optional[queryanswers.LinkCounts],
+) yacymodel.Optional[recordedLinkCounts] {
+	counts, sentForTheDocument := linkCounts.Get()
+	if !sentForTheDocument {
+		return yacymodel.None[recordedLinkCounts]()
+	}
+
+	return yacymodel.Some(recordedLinkCounts{
+		LocalLinks:    counts.LocalLinks,
+		ExternalLinks: counts.ExternalLinks,
+	})
 }
 
 func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
@@ -57,6 +91,7 @@ func foundDocumentsFrom(
 			HitsPerQueryWord: recorded.HitsPerQueryWord,
 			AmountOfWords:    recorded.AmountOfWords,
 			QueryPhraseHits:  recorded.QueryPhraseHits,
+			LinkCounts:       linkCountsOf(recorded.LinkCounts),
 		})
 	}
 
@@ -85,6 +120,7 @@ func recordedFoundDocumentsFrom(
 			HitsPerQueryWord: foundDocument.HitsPerQueryWord,
 			AmountOfWords:    foundDocument.AmountOfWords,
 			QueryPhraseHits:  foundDocument.QueryPhraseHits,
+			LinkCounts:       recordedLinkCountsOf(foundDocument.LinkCounts),
 		})
 	}
 

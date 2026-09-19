@@ -64,7 +64,11 @@ func (n *peerNetwork) matchedDocumentsOf(
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
 		}
 		if countsAWord {
-			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{Hits: 3})
+			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
+				Hits:          3,
+				LocalLinks:    12,
+				ExternalLinks: 7,
+			})
 		}
 		matchedDocuments = append(matchedDocuments, matchedDocument)
 	}
@@ -305,5 +309,35 @@ func TestEveryAskCarriesThePartitionOfTheChosenPeer(t *testing.T) {
 	want := map[string]uint{"first": 0, "second": 1}
 	if !maps.Equal(partitionsAsked, want) {
 		t.Fatalf("the asks carry the partitions %v, want %v", partitionsAsked, want)
+	}
+}
+
+func TestADocumentKeepsTheLinkCountsOfAPeerThatCountedItsWord(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{"first": {"https://shared.example/"}})
+	network.peersCountingAWord["first"] = struct{}{}
+
+	foundDocuments := searchForTheQuery(network, "berlin")
+
+	linkCounts, reported := foundDocuments[0].LinkCounts.Get()
+	if !reported || linkCounts.LocalLinks != 12 || linkCounts.ExternalLinks != 7 {
+		t.Fatalf(
+			"the found document holds the link counts %+v reported %t, want 12 local and 7 external",
+			linkCounts,
+			reported,
+		)
+	}
+}
+
+func TestADocumentNoPeerCountedHoldsNoLinkCounts(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{"first": {"https://shared.example/"}})
+
+	foundDocuments := searchForTheQuery(network, "berlin")
+
+	if foundDocuments[0].LinkCounts.Present() {
+		t.Fatal("the found document holds link counts, want none where no peer reported them")
 	}
 }
