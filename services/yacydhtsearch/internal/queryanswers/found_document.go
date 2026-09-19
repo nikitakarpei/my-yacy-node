@@ -44,6 +44,9 @@ func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[tim
 }
 
 func (f FoundDocument) saturatedWith(text documenttext.DocumentText) FoundDocument {
+	if text.Address != "" {
+		f.Address = text.Address
+	}
 	if text.Title != "" {
 		f.Title = text.Title
 	}

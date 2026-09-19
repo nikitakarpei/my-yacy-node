@@ -1,8 +1,8 @@
 // Package documenttext derives the text of a document from its page: the
-// title of the page, how often the text holds each query word and each query
-// phrase, how many words it holds, and the snippet, which is the run of
-// sentences that answers the query best. A query phrase is two words the query
-// puts side by side.
+// address the page moved to, if it moved, the title of the page, how often the
+// text holds each query word and each query phrase, how many words it holds,
+// and the snippet, which is the run of sentences that answers the query best.
+// A query phrase is two words the query puts side by side.
 package documenttext
 
 import (
@@ -12,6 +12,7 @@ import (
 )
 
 type DocumentText struct {
+	Address          string
 	Title            string
 	HitsPerQueryWord map[yacymodel.Hash]int
 	QueryPhraseHits  int

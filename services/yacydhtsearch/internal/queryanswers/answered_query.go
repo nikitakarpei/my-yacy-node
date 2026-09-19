@@ -1,9 +1,10 @@
 // Package queryanswers holds what a spread answered for one whole query: the
 // words of the query, one found document for each document it found, and how
 // many documents the peers hold per query word. The text of a document, once a
-// node read its page, replaces what the peers counted for it and their snippet,
-// and the title of the page replaces theirs when the page has one. A document
-// can leave the answers, for example once its page is gone.
+// node read its page, replaces what the peers counted for it and their snippet.
+// The title of the page replaces theirs when the page has one, and the address
+// the page moved to replaces theirs when it moved. A document can leave the
+// answers, for example once its page is gone.
 package queryanswers
 
 import (

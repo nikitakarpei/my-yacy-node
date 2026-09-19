@@ -4,6 +4,8 @@
 // when the page holds no readable article. A page it cannot fetch, read, or
 // finish inside the budget gives back nothing for its document. A page whose
 // site answers that it is not found or gone gives back its document as gone.
+// It follows the redirects of a page, and a page that moved gives back the
+// address it moved to.
 package pagereading
 
 import (
@@ -16,6 +18,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -23,6 +26,14 @@ import (
 type PageToRead struct {
 	Document yacymodel.URLHash
 	Address  string
+}
+
+type PageFetcher interface {
+	Fetch(
+		ctx context.Context,
+		pageURL canonicalurl.CanonicalURL,
+		knownVersion pagefetch.PageVersion,
+	) (redirectfollowingfetch.LandedFetch, error)
 }
 
 type FormatDerivations interface {
@@ -35,7 +46,7 @@ type FormatDerivations interface {
 }
 
 type Reading struct {
-	pageFetch            pagefetch.Fetcher
+	pageFetch            PageFetcher
 	formatDerivations    FormatDerivations
 	pageReadBudget       time.Duration
 	snippetLengthCeiling int
@@ -43,7 +54,7 @@ type Reading struct {
 }
 
 func New(
-	pageFetch pagefetch.Fetcher,
+	pageFetch PageFetcher,
 	formatDerivations FormatDerivations,
 	pageReadBudget time.Duration,
 	snippetLengthCeiling int,
@@ -105,7 +116,7 @@ func (r Reading) readThePage(
 		return pageReadResult{document: pageToRead.Document, outcome: pageWasUnreachable}
 	}
 	fetchStartedAt := time.Now()
-	fetched, err := r.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
+	landed, err := r.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
 	timeSpentFetching := time.Since(fetchStartedAt)
 	if err != nil {
 		return pageReadResult{
@@ -114,16 +125,21 @@ func (r Reading) readThePage(
 			timeSpentFetching: timeSpentFetching,
 		}
 	}
-	if fetched.Status != pagefetch.FetchSucceeded {
+	if landed.Outcome.Status != pagefetch.FetchSucceeded {
 		return pageReadResult{
 			document:          pageToRead.Document,
-			outcome:           readOutcomeFromAFetchStatus(fetched.Status),
+			outcome:           readOutcomeFromAFetchStatus(landed.Outcome.Status),
 			timeSpentFetching: timeSpentFetching,
 		}
 	}
 
 	readingStartedAt := time.Now()
-	text, outcome := r.documentTextFromTheFetchedPage(ctx, queryWords, fetched.Page, pageURL)
+	text, outcome := r.documentTextFromTheFetchedPage(
+		ctx, queryWords, landed.Outcome.Page, landed.URL,
+	)
+	if landed.URL != pageURL {
+		text.Address = landed.URL.String()
+	}
 
 	return pageReadResult{
 		document:          pageToRead.Document,

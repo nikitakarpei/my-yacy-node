@@ -49,6 +49,7 @@ const (
 	EnvPagesReadPerQuery            = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
 	EnvPageReadBudget               = "YACYDHTSEARCH_PAGE_READ_BUDGET"
 	EnvPageByteCeiling              = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
+	EnvPageReadMaxRedirectHops      = "YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS"
 	EnvSnippetLengthCeiling         = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
 
 	DefaultListenAddr                   = ":8080"
@@ -78,6 +79,7 @@ const (
 	DefaultPagesReadPerQuery            = 50
 	DefaultPageReadBudget               = 3 * time.Second
 	DefaultPageByteCeiling              = 4 * 1024 * 1024
+	DefaultPageReadMaxRedirectHops      = 3
 	DefaultSnippetLengthCeiling         = 300
 	DefaultPageReadProxyDialMode        = "tunnel"
 )
@@ -116,10 +118,11 @@ type ServiceConfig struct {
 	RankingCache                 int
 	RankingLifetime              time.Duration
 
-	PagesReadPerQuery    int
-	PageReadBudget       time.Duration
-	PageByteCeiling      int64
-	SnippetLengthCeiling int
+	PagesReadPerQuery       int
+	PageReadBudget          time.Duration
+	PageByteCeiling         int64
+	PageReadMaxRedirectHops int
+	SnippetLengthCeiling    int
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -219,10 +222,11 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		RankingCache:                 counts.rankingCacheCapacity,
 		RankingLifetime:              durations.rankingLifetime,
 
-		PagesReadPerQuery:    counts.pagesReadPerQuery,
-		PageReadBudget:       durations.pageReadBudget,
-		PageByteCeiling:      pageByteCeiling,
-		SnippetLengthCeiling: counts.snippetLengthCeiling,
+		PagesReadPerQuery:       counts.pagesReadPerQuery,
+		PageReadBudget:          durations.pageReadBudget,
+		PageByteCeiling:         pageByteCeiling,
+		PageReadMaxRedirectHops: counts.pageReadMaxRedirectHops,
+		SnippetLengthCeiling:    counts.snippetLengthCeiling,
 	}, nil
 }
 
@@ -288,6 +292,7 @@ type configuredCounts struct {
 	rankedItemsCeiling           int
 	rankingCacheCapacity         int
 	pagesReadPerQuery            int
+	pageReadMaxRedirectHops      int
 	snippetLengthCeiling         int
 }
 
@@ -308,6 +313,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 		{EnvPagesReadPerQuery, DefaultPagesReadPerQuery, &counts.pagesReadPerQuery},
+		{EnvPageReadMaxRedirectHops, DefaultPageReadMaxRedirectHops, &counts.pageReadMaxRedirectHops},
 		{EnvSnippetLengthCeiling, DefaultSnippetLengthCeiling, &counts.snippetLengthCeiling},
 	} {
 		if *field.into, err = envconfig.PositiveInt(getenv, field.key, field.fallback); err != nil {
