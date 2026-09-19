@@ -12,6 +12,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
@@ -270,12 +271,15 @@ func pageReadingFor(
 	}
 
 	return pagereading.New(
-		pagefetchershttp.New(
-			cfg.PageReadProxyURL,
-			cfg.PageReadProxyDialMode,
-			pageFetchUserAgent,
-			cfg.PageByteCeiling,
-			cfg.PageReadBudget,
+		redirectfollowingfetch.New(
+			pagefetchershttp.New(
+				cfg.PageReadProxyURL,
+				cfg.PageReadProxyDialMode,
+				pageFetchUserAgent,
+				cfg.PageByteCeiling,
+				cfg.PageReadBudget,
+			),
+			cfg.PageReadMaxRedirectHops,
 		),
 		formatDerivations,
 		cfg.PageReadBudget,
