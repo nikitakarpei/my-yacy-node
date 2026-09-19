@@ -82,7 +82,7 @@
     {
       "hash": "bAimuE9Ojva4",
       "address": "https://docs.docker.com/engine/install/",
-      "title": "Install | Docker Docs",
+      "title": "Install Docker Engine | Docker Docs",
       "grade": 0
     },
     {
@@ -112,7 +112,7 @@
     {
       "hash": "_wmsVE9Ojva4",
       "address": "https://docs.docker.com/engine/release-notes/29/",
-      "title": "Engine v29 | Docker Docs",
+      "title": "Docker Engine version 29 release notes | Docker Docs",
       "grade": 0
     },
     {

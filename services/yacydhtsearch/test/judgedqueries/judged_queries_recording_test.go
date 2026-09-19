@@ -290,10 +290,12 @@ func recordOneJudgedQuery(
 	t.Helper()
 
 	answers := answersOfOneQuery(t, spread, directory, query)
-	pageTextPerDocument := pageTextOfTheFirstAnsweredDocuments(t, reading, answers)
+	pages := pagesOfTheFirstAnsweredDocuments(t, reading, answers)
+	pageTextPerDocument := pages.pageTextPerDocument
 	storePageTextOfTheQuery(t, query, pageTextPerDocument)
+	storePageTitlesOfTheQuery(t, query, pages.pageTitlePerDocument)
 	saturatedAnswers := answersSaturatedWithThePageText(
-		query, answers, pageTextPerDocument,
+		query, answers, pageTextPerDocument, pages.pageTitlePerDocument,
 	)
 	writeRecordedAnswersFile(
 		t, recordedAnswersFileOf(query), recordedAnswersOf(query, saturatedAnswers),
@@ -329,18 +331,18 @@ func answersOfOneQuery(
 	)
 }
 
-func pageTextOfTheFirstAnsweredDocuments(
+func pagesOfTheFirstAnsweredDocuments(
 	t *testing.T,
 	reading pageTextReading,
 	answers queryanswers.AnsweredQuery,
-) map[yacymodel.URLHash]string {
+) readPages {
 	t.Helper()
 
 	candidates := relevance.New(
 		documentrelevance.New(documentrelevance.DefaultScoreWeights()),
 	).OrderedDocumentsOf(answers)
 
-	return reading.pageTextPerDocument(
+	return reading.readPagesOf(
 		t.Context(), candidates[:min(pagesReadPerQuery, len(candidates))],
 	)
 }
