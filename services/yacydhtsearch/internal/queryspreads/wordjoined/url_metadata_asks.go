@@ -102,45 +102,35 @@ func asksCoveringMostDocuments(
 
 	coveringAsks := make([]peerasks.URLMetadataAsk, 0, amountOfPeersHoldingOneWord)
 	coveredDocuments := distinctDocuments{}
-	takenAsks := make([]bool, len(asks))
 	for len(coveringAsks) < amountOfPeersHoldingOneWord {
-		mostCoveringAsk := mostCoveringAskAmong(asks, takenAsks, coveredDocuments)
-		if mostCoveringAsk.amountOfUncoveredDocuments == 0 {
+		place, found := placeOfMostCoveringAskAmong(asks, coveredDocuments)
+		if !found {
 			break
 		}
-		takenAsks[mostCoveringAsk.place] = true
-		for _, document := range asks[mostCoveringAsk.place].Documents {
+		coveringAsks = append(coveringAsks, asks[place])
+		for _, document := range asks[place].Documents {
 			coveredDocuments.add(document)
 		}
-		coveringAsks = append(coveringAsks, asks[mostCoveringAsk.place])
 	}
 
 	return coveringAsks
 }
 
-type mostCoveringAsk struct {
-	place                      int
-	amountOfUncoveredDocuments int
-}
-
-func mostCoveringAskAmong(
+func placeOfMostCoveringAskAmong(
 	asks []peerasks.URLMetadataAsk,
-	takenAsks []bool,
 	coveredDocuments distinctDocuments,
-) mostCoveringAsk {
-	mostCoveringAsk := mostCoveringAsk{}
+) (int, bool) {
+	placeOfMostCoveringAsk := 0
+	mostUncoveredDocuments := 0
 	for place, ask := range asks {
-		if takenAsks[place] {
-			continue
-		}
 		amountOfUncoveredDocuments := amountOfDocumentsNotCovered(ask.Documents, coveredDocuments)
-		if amountOfUncoveredDocuments > mostCoveringAsk.amountOfUncoveredDocuments {
-			mostCoveringAsk.place = place
-			mostCoveringAsk.amountOfUncoveredDocuments = amountOfUncoveredDocuments
+		if amountOfUncoveredDocuments > mostUncoveredDocuments {
+			placeOfMostCoveringAsk = place
+			mostUncoveredDocuments = amountOfUncoveredDocuments
 		}
 	}
 
-	return mostCoveringAsk
+	return placeOfMostCoveringAsk, mostUncoveredDocuments > 0
 }
 
 func amountOfDocumentsNotCovered(

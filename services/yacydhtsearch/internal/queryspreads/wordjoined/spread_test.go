@@ -367,7 +367,7 @@ func answeredQueryUnder(
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
 	return spreadOverPeers(
-		spreadChoosingPeersBy(
+		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
 				network,
@@ -386,7 +386,7 @@ func answeredQueryUnder(
 }
 
 func spreadOverPeers(
-	spread spreadChoosingPeers,
+	spread spreadOverChosenPeers,
 	askablePeers []peerdirectory.AskablePeer,
 ) queryanswers.AnsweredQuery {
 	return spread.SpreadOverPeers(
@@ -403,7 +403,7 @@ func spreadUnder(
 	observer wordjoined.WordJoinedSpreadObserver,
 ) {
 	spreadOverPeers(
-		spreadChoosingPeersBy(
+		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
 				network,
@@ -426,7 +426,7 @@ func spreadNotAskingForCrossCheckedDocuments(
 	choice responsiblePeers,
 ) {
 	spreadOverPeers(
-		spreadChoosingPeersBy(
+		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
 				network,
@@ -450,7 +450,7 @@ func spreadTheQuery(
 	choice responsiblePeers,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) {
-	spreadChoosingPeersBy(
+	newSpreadOverChosenPeers(
 		choice,
 		wordjoined.New(
 			network,
@@ -474,7 +474,7 @@ func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 	ctx, endQuery := context.WithTimeout(context.Background(), queryBudget)
 	defer endQuery()
 
-	spreadChoosingPeersBy(
+	newSpreadOverChosenPeers(
 		responsiblePeers{},
 		wordjoined.New(
 			network,
@@ -1391,7 +1391,7 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 	})
 
 	spreadOverPeers(
-		spreadChoosingPeersBy(
+		newSpreadOverChosenPeers(
 			responsiblePeers{},
 			wordjoined.New(
 				network,
@@ -1660,7 +1660,7 @@ func documentsHeldPerQueryWordAcrossPartitions(
 	network.peersCountingNoDocument = peersCountingNoDocument
 
 	return spreadOverPeers(
-		spreadChoosingPeersBy(
+		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
 				network,
@@ -1771,7 +1771,7 @@ func spreadAcrossPartitions(
 	partitions yacymodel.DHTRingPartitions,
 ) {
 	spreadOverPeers(
-		spreadChoosingPeersBy(
+		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
 				network,
@@ -1807,23 +1807,29 @@ func replicasAskedForTheWordInOrder(
 	return replicasAsked
 }
 
-type spreadChoosingPeers struct {
-	choice responsiblePeers
-	spread wordjoined.Spread
+type spreadOverChosenPeers struct {
+	responsiblePeers responsiblePeers
+	wordJoinedSpread wordjoined.Spread
 }
 
-func spreadChoosingPeersBy(choice responsiblePeers, spread wordjoined.Spread) spreadChoosingPeers {
-	return spreadChoosingPeers{choice: choice, spread: spread}
+func newSpreadOverChosenPeers(
+	responsiblePeers responsiblePeers,
+	wordJoinedSpread wordjoined.Spread,
+) spreadOverChosenPeers {
+	return spreadOverChosenPeers{
+		responsiblePeers: responsiblePeers,
+		wordJoinedSpread: wordJoinedSpread,
+	}
 }
 
-func (s spreadChoosingPeers) SpreadOverPeers(
+func (spread spreadOverChosenPeers) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	askablePeers []peerdirectory.AskablePeer,
 ) queryanswers.AnsweredQuery {
-	return s.spread.SpreadOverPeers(
+	return spread.wordJoinedSpread.SpreadOverPeers(
 		ctx,
 		query,
-		s.choice.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
+		spread.responsiblePeers.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
 	)
 }
