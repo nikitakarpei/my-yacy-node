@@ -9,13 +9,11 @@ type PerformedMatchedAndHeldDocumentsRound struct {
 	AmountOfQueryWords                                     int
 	AmountOfQueryWordsHeldByNoPeer                         int
 	AmountOfFullyListedQueryWords                          int
-	AmountOfPeersAskedForMatchedAndHeldDocuments           int
-	AmountOfPeersThatAnsweredMatchedAndHeldDocuments       int
 	AmountOfPeersThatListedADocument                       int
 	LeadingQueryWordStanding                               LeadingQueryWordStanding
 	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
 	AmountOfMatchedDocumentsAcrossAnswers                  int
-	AmountOfMatchedDocumentsCountedByAPeer                 int
+	AmountOfMatchedDocumentsWithAPosting                   int
 	AmountOfDocumentsHeldInEachAnswer                      []int
 }
 
@@ -30,13 +28,6 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		AmountOfFullyListedQueryWords: amountOfFullyListedQueryWordsAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfPeersAskedForMatchedAndHeldDocuments: amountOfPeersAcross(
-			round.asks,
-			peerOfMatchedAndHeldDocumentsAsk,
-		),
-		AmountOfPeersThatAnsweredMatchedAndHeldDocuments: amountOfPeersAcross(
-			round.answeredAsks, peerOfAnsweredMatchedAndHeldDocumentsAsk,
-		),
 		AmountOfPeersThatListedADocument: amountOfPeersAcross(
 			answeredAsksWithAListedDocument(round.answeredAsks),
 			peerOfAnsweredMatchedAndHeldDocumentsAsk,
@@ -50,7 +41,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
 		),
-		AmountOfMatchedDocumentsCountedByAPeer: amountOfMatchedDocumentsCountedByAPeer(
+		AmountOfMatchedDocumentsWithAPosting: amountOfMatchedDocumentsWithAPosting(
 			round.answeredAsks,
 		),
 		AmountOfDocumentsHeldInEachAnswer: amountOfDocumentsHeldInEachAnswer(round.answeredAsks),
@@ -79,12 +70,6 @@ func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) in
 	}
 
 	return amount
-}
-
-func peerOfMatchedAndHeldDocumentsAsk(
-	ask peerasks.MatchedAndHeldDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return ask.Peer
 }
 
 func peerOfAnsweredMatchedAndHeldDocumentsAsk(
@@ -118,13 +103,13 @@ func amountOfMatchedDocumentsAcrossAnswers(
 	return amount
 }
 
-func amountOfMatchedDocumentsCountedByAPeer(
+func amountOfMatchedDocumentsWithAPosting(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			if !matchedDocument.CountOfAWordTheAskNamed.CountedByAPeer() {
+			if !matchedDocument.Posting.Present() {
 				continue
 			}
 			amount++

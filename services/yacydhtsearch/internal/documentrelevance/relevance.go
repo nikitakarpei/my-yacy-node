@@ -1,8 +1,8 @@
 // Package documentrelevance tells how well each answered document answers the
-// query. Its relevance adds up how high the peers placed the document, the
-// share of the rarity of the query words its title holds, the query words its
-// host holds, a BM25 score of the query words in its text, the query phrases
-// and the share of the query words its text holds.
+// query. Its relevance adds up the share of the rarity of the query words its
+// title holds, the query words its host holds, a BM25 score of the query words
+// in its text, the query phrases and the share of the query words its text
+// holds.
 package documentrelevance
 
 import (
@@ -21,18 +21,16 @@ func New(scoreWeights ScoreWeights) Relevance {
 func (relevance Relevance) RelevancePerDocumentOf(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
-	items := answers.ItemOfEachAnsweredDocument()
-	placeScorePerDocument := placeScorePerDocumentOf(answers.ItemsInTheOrderOfEachPeerRanking)
+	foundDocuments := answers.FoundDocuments
 	rarityOfTheQueryWords := queryWordRarityOf(
 		answers.DocumentsHeldPerQueryWord, answers.QueryWords,
 	)
-	averageDocumentLength := averageDocumentLengthOf(items)
+	averageDocumentLength := averageDocumentLengthOf(foundDocuments)
 
-	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(items))
-	for _, item := range items {
-		relevancePerDocument[item.Metadata.Hash] = relevance.scoreWeights.relevanceOf(
-			item,
-			placeScorePerDocument[item.Metadata.Hash],
+	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(foundDocuments))
+	for _, foundDocument := range foundDocuments {
+		relevancePerDocument[foundDocument.Hash] = relevance.scoreWeights.relevanceOf(
+			foundDocument,
 			rarityOfTheQueryWords,
 			averageDocumentLength,
 			answers.QueryWords,

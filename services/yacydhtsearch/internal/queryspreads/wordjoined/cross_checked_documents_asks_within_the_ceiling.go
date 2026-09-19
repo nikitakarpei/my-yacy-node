@@ -9,8 +9,8 @@ import (
 )
 
 type crossCheckedDocumentsAsksWithinTheCeiling struct {
-	asks                                         []peerasks.CrossCheckedDocumentsAsk
-	documentsPastTheCrossCheckedDocumentsCeiling distinctDocuments
+	asks                                                 []peerasks.CrossCheckedDocumentsAsk
+	amountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
 }
 
 func crossCheckedDocumentsAsksWithinTheCeilingFor(
@@ -18,9 +18,7 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 	documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
 	crossCheckedDocumentsCeiling int,
 ) crossCheckedDocumentsAsksWithinTheCeiling {
-	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeiling{
-		documentsPastTheCrossCheckedDocumentsCeiling: distinctDocuments{},
-	}
+	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeiling{}
 	for _, queryWord := range queryWordsBesideTheLeadingQueryWord {
 		if queryWord.isFullyListed() {
 			continue
@@ -43,9 +41,9 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 				queryWord.word,
 				candidateDocuments[:amountOfDocumentsToDeal],
 			)...)
-		for _, document := range candidateDocuments[amountOfDocumentsToDeal:] {
-			asksWithinTheCeiling.documentsPastTheCrossCheckedDocumentsCeiling.add(document)
-		}
+		asksWithinTheCeiling.amountOfDocumentsPastTheCrossCheckedDocumentsCeiling += len(
+			candidateDocuments,
+		) - amountOfDocumentsToDeal
 	}
 
 	return asksWithinTheCeiling

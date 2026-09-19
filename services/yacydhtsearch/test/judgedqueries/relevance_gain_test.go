@@ -9,18 +9,18 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/hostdiscount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 )
 
 const (
-	leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering = 0.27
-	toleranceBelowTheAcceptedMeanGain                     = 0.02
+	leastLiftOfTheOrderingOfTheServiceOverTheFoundOrder = 0.27
+	toleranceBelowTheAcceptedMeanGain                   = 0.02
 )
 
-type itemsOrdering interface {
-	OrderedItemsOf(answers queryanswers.AnsweredQuery) []queryanswers.AnsweredItem
+type documentsOrdering interface {
+	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
 }
 
 func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
@@ -33,7 +33,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	acceptedGain := acceptedGainPerJudgedQueryInTheFile(t, acceptedGainFile)
 
 	reportTheGainOfEachJudgedQuery(t, judged, gainOfTheOrderingOfTheService)
-	failIfTheLiftOverThePeerOrderingFallsShort(t, judged)
+	failIfTheLiftOverTheFoundOrderFallsShort(t, judged)
 	failIfTheMeanGainFallsBelowTheAcceptedGain(t, gainOfTheOrderingOfTheService, acceptedGain)
 	failIfAJudgedQueryFellToNoGain(t, gainOfTheOrderingOfTheService, acceptedGain)
 }
@@ -85,12 +85,12 @@ func orderingOfTheServiceFrom(
 	return hostdiscount.New(documentrelevance.New(scoreWeights))
 }
 
-type orderingOfThePeerRankings struct{}
+type orderingInTheFoundOrder struct{}
 
-func (orderingOfThePeerRankings) OrderedItemsOf(
+func (orderingInTheFoundOrder) OrderedDocumentsOf(
 	answers queryanswers.AnsweredQuery,
-) []queryanswers.AnsweredItem {
-	return answers.ItemOfEachAnsweredDocument()
+) []queryanswers.FoundDocument {
+	return answers.FoundDocuments
 }
 
 func reportTheGainOfEachJudgedQuery(
@@ -101,27 +101,28 @@ func reportTheGainOfEachJudgedQuery(
 	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
 	relevanceOrdering := relevance.New(documentRelevance)
 	for _, judgedQuery := range judged {
-		orderedItems := hostdiscount.New(documentRelevance).OrderedItemsOf(judgedQuery.answers)
+		orderedDocuments := hostdiscount.New(documentRelevance).
+			OrderedDocumentsOf(judgedQuery.answers)
 		t.Logf(
-			"%q: host discount %.4f, relevance %.4f, peer order %.4f, %d ungraded documents "+
+			"%q: host discount %.4f, relevance %.4f, found order %.4f, %d ungraded documents "+
 				"dropped",
 			judgedQuery.query,
 			gainOfTheOrderingOfTheService[judgedQuery.query],
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-				relevanceOrdering.OrderedItemsOf(judgedQuery.answers),
+				relevanceOrdering.OrderedDocumentsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-				orderingOfThePeerRankings{}.OrderedItemsOf(judgedQuery.answers),
+				orderingInTheFoundOrder{}.OrderedDocumentsOf(judgedQuery.answers),
 			),
-			judgedQuery.gradedDocuments.amountOfUngradedItemsAmong(orderedItems),
+			judgedQuery.gradedDocuments.amountOfUngradedDocumentsAmong(orderedDocuments),
 		)
 	}
 	t.Logf(
-		"the mean over %d judged queries: host discount %.4f, relevance %.4f, peer order %.4f",
+		"the mean over %d judged queries: host discount %.4f, relevance %.4f, found order %.4f",
 		len(judged),
 		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(documentRelevance), judged),
 		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
-		meanNormalizedGainDiscountedPerHostOf(orderingOfThePeerRankings{}, judged),
+		meanNormalizedGainDiscountedPerHostOf(orderingInTheFoundOrder{}, judged),
 	)
 	t.Logf(
 		"the ordering of the service reaches no gain on %d of %d judged queries",
@@ -131,38 +132,38 @@ func reportTheGainOfEachJudgedQuery(
 }
 
 func meanNormalizedGainDiscountedPerHostOf(
-	ordering itemsOrdering, judged []judgedQuery,
+	ordering documentsOrdering, judged []judgedQuery,
 ) float64 {
 	sumOfNormalizedGains := 0.0
 	for _, judgedQuery := range judged {
 		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
-			ordering.OrderedItemsOf(judgedQuery.answers),
+			ordering.OrderedDocumentsOf(judgedQuery.answers),
 		)
 	}
 
 	return sumOfNormalizedGains / float64(len(judged))
 }
 
-func failIfTheLiftOverThePeerOrderingFallsShort(t *testing.T, judged []judgedQuery) {
+func failIfTheLiftOverTheFoundOrderFallsShort(t *testing.T, judged []judgedQuery) {
 	t.Helper()
 
 	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
 		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
 	)
-	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
-		orderingOfThePeerRankings{}, judged,
+	meanGainOfTheFoundOrder := meanNormalizedGainDiscountedPerHostOf(
+		orderingInTheFoundOrder{}, judged,
 	)
-	if meanGainOfTheOrderingOfTheService-meanGainOfThePeerOrdering >=
-		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering {
+	if meanGainOfTheOrderingOfTheService-meanGainOfTheFoundOrder >=
+		leastLiftOfTheOrderingOfTheServiceOverTheFoundOrder {
 		return
 	}
 	t.Errorf(
 		"the ordering of the service lifts the mean gain from %.4f to %.4f over %d judged "+
 			"queries, want a lift of at least %.2f",
-		meanGainOfThePeerOrdering,
+		meanGainOfTheFoundOrder,
 		meanGainOfTheOrderingOfTheService,
 		len(judged),
-		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering,
+		leastLiftOfTheOrderingOfTheServiceOverTheFoundOrder,
 	)
 }
 

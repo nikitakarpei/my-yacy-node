@@ -12,62 +12,52 @@ const (
 )
 
 func textScoreOf(
-	item queryanswers.AnsweredItem,
+	foundDocument queryanswers.FoundDocument,
 	rarity queryWordRarity,
 	averageDocumentLength float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
-	amountOfTextWords := amountOfTextWordsOf(item)
-
 	textScore := 0.0
 	for _, word := range queryWords {
 		textScore += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
-			item.MatchedWords[word].Hits, amountOfTextWords, averageDocumentLength,
+			foundDocument.HitsPerQueryWord[word],
+			foundDocument.AmountOfWords,
+			averageDocumentLength,
 		)
 	}
 
 	return textScore
 }
 
-func averageDocumentLengthOf(items []queryanswers.AnsweredItem) float64 {
-	sumOfTextWordsAcrossDocuments, amountOfMeasuredDocuments := 0, 0
-	for _, item := range items {
-		amountOfTextWords := amountOfTextWordsOf(item)
-		if amountOfTextWords <= 0 {
+func averageDocumentLengthOf(foundDocuments []queryanswers.FoundDocument) float64 {
+	sumOfTheAmountsOfWords, amountOfMeasuredDocuments := 0, 0
+	for _, foundDocument := range foundDocuments {
+		if foundDocument.AmountOfWords <= 0 {
 			continue
 		}
-		sumOfTextWordsAcrossDocuments += amountOfTextWords
+		sumOfTheAmountsOfWords += foundDocument.AmountOfWords
 		amountOfMeasuredDocuments++
 	}
 	if amountOfMeasuredDocuments == 0 {
 		return 0
 	}
 
-	return float64(sumOfTextWordsAcrossDocuments) / float64(amountOfMeasuredDocuments)
+	return float64(sumOfTheAmountsOfWords) / float64(amountOfMeasuredDocuments)
 }
 
-func amountOfTextWordsOf(item queryanswers.AnsweredItem) int {
-	amountOfTextWords := 0
-	for _, count := range item.MatchedWords {
-		amountOfTextWords = max(amountOfTextWords, count.TextWords)
-	}
-
-	return amountOfTextWords
-}
-
-func saturatedHitsOf(hits int, amountOfTextWords int, averageDocumentLength float64) float64 {
+func saturatedHitsOf(hits int, amountOfWords int, averageDocumentLength float64) float64 {
 	countedHits := float64(hits)
 	saturationForTheDocumentLength := saturationOfTheHitsOfAWord * (1 - weightOfTheDocumentLength +
-		weightOfTheDocumentLength*documentLengthRatioOf(amountOfTextWords, averageDocumentLength))
+		weightOfTheDocumentLength*documentLengthRatioOf(amountOfWords, averageDocumentLength))
 
 	return countedHits * (saturationOfTheHitsOfAWord + 1) /
 		(countedHits + saturationForTheDocumentLength)
 }
 
-func documentLengthRatioOf(amountOfTextWords int, averageDocumentLength float64) float64 {
-	if amountOfTextWords <= 0 || averageDocumentLength <= 0 {
+func documentLengthRatioOf(amountOfWords int, averageDocumentLength float64) float64 {
+	if amountOfWords <= 0 || averageDocumentLength <= 0 {
 		return lengthRatioOfADocumentNoPeerMeasured
 	}
 
-	return float64(amountOfTextWords) / averageDocumentLength
+	return float64(amountOfWords) / averageDocumentLength
 }

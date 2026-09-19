@@ -2,13 +2,11 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
+	AmountOfDocumentsSentForCrossChecking                int
 	AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
-	AmountOfPeersAskedForCrossCheckedDocuments           int
-	AmountOfPeersThatAnsweredCrossCheckedDocuments       int
 	AmountOfEmptyCrossCheckedDocumentsAnswers            int
 	AmountOfJoinedDocuments                              int
 	AmountOfJoinedDocumentsFoundOnlyByCrossChecking      int
@@ -20,15 +18,11 @@ func performedCrossCheckedDocumentsRoundFrom(
 	joinedDocuments distinctDocuments,
 ) PerformedCrossCheckedDocumentsRound {
 	return PerformedCrossCheckedDocumentsRound{
+		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
+			round.asks,
+		),
 		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: round.
 			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
-		AmountOfPeersAskedForCrossCheckedDocuments: amountOfPeersAcross(
-			round.asks,
-			peerOfCrossCheckedDocumentsAsk,
-		),
-		AmountOfPeersThatAnsweredCrossCheckedDocuments: amountOfPeersAcross(
-			round.answeredAsks, peerOfAnsweredCrossCheckedDocumentsAsk,
-		),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
@@ -40,16 +34,15 @@ func performedCrossCheckedDocumentsRoundFrom(
 	}
 }
 
-func peerOfCrossCheckedDocumentsAsk(
-	ask peerasks.CrossCheckedDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return ask.Peer
-}
+func amountOfDocumentsSentForCrossCheckingAcross(
+	asks []peerasks.CrossCheckedDocumentsAsk,
+) int {
+	amount := 0
+	for _, ask := range asks {
+		amount += len(ask.Documents)
+	}
 
-func peerOfAnsweredCrossCheckedDocumentsAsk(
-	answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return answeredAsk.Ask.Peer
+	return amount
 }
 
 func amountOfEmptyCrossCheckedDocumentsAnswers(

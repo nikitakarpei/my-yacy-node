@@ -8,7 +8,7 @@ import (
 const coordinationScoreOfAQueryOfOneWord = 1.0
 
 func coordinationScoreOf(
-	item queryanswers.AnsweredItem, queryWords []yacymodel.Hash,
+	foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash,
 ) float64 {
 	if len(queryWords) <= 1 {
 		return coordinationScoreOfAQueryOfOneWord
@@ -16,7 +16,7 @@ func coordinationScoreOf(
 
 	amountOfQueryWordsTheDocumentHolds := 0
 	for _, word := range queryWords {
-		if item.MatchedWords[word].Hits <= 0 {
+		if foundDocument.HitsPerQueryWord[word] <= 0 {
 			continue
 		}
 		amountOfQueryWordsTheDocumentHolds++

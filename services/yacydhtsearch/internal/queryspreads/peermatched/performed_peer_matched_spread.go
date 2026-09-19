@@ -9,22 +9,17 @@ import (
 
 type PerformedPeerMatchedSpread struct {
 	AmountOfQueryWords              int
-	AmountOfPeersAsked              int
-	AmountOfPeersThatAnswered       int
 	AmountOfPeersThatMatchedNothing int
 	TimeSpent                       time.Duration
 }
 
 func performedPeerMatchedSpreadFrom(
 	queryWords []yacymodel.Hash,
-	asks []peerasks.MatchedDocumentsAsk,
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	timeSpent time.Duration,
 ) PerformedPeerMatchedSpread {
 	return PerformedPeerMatchedSpread{
 		AmountOfQueryWords:              len(queryWords),
-		AmountOfPeersAsked:              len(asks),
-		AmountOfPeersThatAnswered:       len(answeredAsks),
 		AmountOfPeersThatMatchedNothing: amountOfPeersThatMatchedNothing(answeredAsks),
 		TimeSpent:                       timeSpent,
 	}

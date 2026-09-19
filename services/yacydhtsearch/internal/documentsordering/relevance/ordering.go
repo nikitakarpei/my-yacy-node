@@ -1,6 +1,6 @@
-// Package relevance orders the answered items by how well each document
+// Package relevance orders the found documents by how well each document
 // answers the query, the most relevant document first. Documents of equal
-// relevance keep the order the peers put them in.
+// relevance keep the order the spread found them in.
 package relevance
 
 import (
@@ -23,24 +23,24 @@ func New(documentRelevance DocumentRelevance) Ordering {
 	return Ordering{documentRelevance: documentRelevance}
 }
 
-func (ordering Ordering) OrderedItemsOf(
+func (ordering Ordering) OrderedDocumentsOf(
 	answers queryanswers.AnsweredQuery,
-) []queryanswers.AnsweredItem {
-	return itemsInFallingOrderOfRelevance(
-		answers.ItemOfEachAnsweredDocument(),
+) []queryanswers.FoundDocument {
+	return documentsInFallingOrderOfRelevance(
+		slices.Clone(answers.FoundDocuments),
 		ordering.documentRelevance.RelevancePerDocumentOf(answers),
 	)
 }
 
-func itemsInFallingOrderOfRelevance(
-	items []queryanswers.AnsweredItem,
+func documentsInFallingOrderOfRelevance(
+	foundDocuments []queryanswers.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-) []queryanswers.AnsweredItem {
-	slices.SortStableFunc(items, func(one, other queryanswers.AnsweredItem) int {
+) []queryanswers.FoundDocument {
+	slices.SortStableFunc(foundDocuments, func(one, other queryanswers.FoundDocument) int {
 		return cmp.Compare(
-			relevancePerDocument[other.Metadata.Hash], relevancePerDocument[one.Metadata.Hash],
+			relevancePerDocument[other.Hash], relevancePerDocument[one.Hash],
 		)
 	})
 
-	return items
+	return foundDocuments
 }

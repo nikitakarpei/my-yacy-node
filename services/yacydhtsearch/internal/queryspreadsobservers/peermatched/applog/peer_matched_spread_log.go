@@ -18,8 +18,6 @@ func (PeerMatchedSpreadLog) PeerMatchedSpreadPerformed(
 ) {
 	slog.DebugContext(ctx, msgPeerMatchedSpreadPerformed,
 		slog.Int("amountOfQueryWords", spread.AmountOfQueryWords),
-		slog.Int("amountOfPeersAsked", spread.AmountOfPeersAsked),
-		slog.Int("amountOfPeersThatAnswered", spread.AmountOfPeersThatAnswered),
 		slog.Int("amountOfPeersThatMatchedNothing", spread.AmountOfPeersThatMatchedNothing),
 		slog.Duration("timeSpent", spread.TimeSpent),
 	)

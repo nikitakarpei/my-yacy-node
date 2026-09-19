@@ -20,8 +20,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/hostdiscount"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
 	networksearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/prometheus"
@@ -151,7 +151,7 @@ func RunService(
 		choice,
 		querySpreadFor(cfg, peers, registry),
 		pageReading,
-		itemsOrderingOfTheService(),
+		hostdiscount.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
 		cfg.QueryBudget,
 		cfg.PageReadBudget,
 		cfg.PagesReadPerQuery,
@@ -285,10 +285,6 @@ func pageReadingFor(
 			pagereadingobserversprometheus.New(registry, cfg.PageReadBudget),
 		},
 	), nil
-}
-
-func itemsOrderingOfTheService() networksearch.ItemsOrdering {
-	return hostdiscount.New(documentrelevance.New(documentrelevance.DefaultScoreWeights()))
 }
 
 type peerPresence interface {

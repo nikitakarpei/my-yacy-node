@@ -128,7 +128,7 @@ func rankingOver(t *testing.T, addresses ...string) searchresult.Ranking {
 		}
 		items = append(
 			items,
-			searchresult.ItemFrom(yacymodel.URLMetadata{Hash: hash, Address: address}),
+			searchresult.Item{Hash: hash, Address: address},
 		)
 	}
 

@@ -53,7 +53,6 @@ func (spread Spread) SpreadOverPeers(
 		ctx,
 		performedPeerMatchedSpreadFrom(
 			query.TermHashes(),
-			asks,
 			answeredAsks,
 			time.Since(startedAt),
 		),

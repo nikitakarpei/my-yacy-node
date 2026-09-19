@@ -7,8 +7,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func addressScoreOf(item queryanswers.AnsweredItem, queryWords []yacymodel.Hash) float64 {
-	wordsOfTheHost := wordsOfTheHostOf(item.Metadata.Address)
+func addressScoreOf(foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash) float64 {
+	wordsOfTheHost := wordsOfTheHostOf(foundDocument.Address)
 
 	amountOfQueryWordsInTheHost := 0
 	for _, word := range queryWords {
