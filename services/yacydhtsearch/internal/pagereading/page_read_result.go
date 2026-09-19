@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type readPage struct {
+type pageReadResult struct {
 	document          yacymodel.URLHash
 	outcome           readOutcome
 	text              documenttext.DocumentText
@@ -21,6 +21,7 @@ const (
 	pageWasRead readOutcome = iota
 	pageWasUnreachable
 	pageWasRefused
+	pageWasGone
 	pageWasUnreadable
 	pageWasOfAnUnsupportedKind
 	pageWasOutOfBudget

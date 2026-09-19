@@ -142,8 +142,18 @@ func TestPageThatLandedElsewhereIsOfferedUnderTheURLTheRequestNamed(t *testing.T
 }
 
 func TestPageTheOriginDoesNotServeIsReportedAsAScrapeFailureAndSettled(t *testing.T) {
+	for _, status := range []pagefetch.FetchStatus{pagefetch.FetchRejected, pagefetch.FetchGone} {
+		pageTheOriginDoesNotServeIsReportedAsAScrapeFailureAndSettled(t, status)
+	}
+}
+
+func pageTheOriginDoesNotServeIsReportedAsAScrapeFailureAndSettled(
+	t *testing.T,
+	status pagefetch.FetchStatus,
+) {
+	t.Helper()
 	request := scrapeRequestForThePage(t)
-	fetch := pageFetches{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}}
+	fetch := pageFetches{outcome: pagefetch.FetchOutcome{Status: status}}
 
 	intake := runScrapeIntake(t, request, fetch, time.Now())
 

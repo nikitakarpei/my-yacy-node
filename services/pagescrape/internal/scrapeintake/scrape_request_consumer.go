@@ -6,7 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/redirectfollowingfetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -173,7 +173,7 @@ func scrapeFailureReasonOf(status pagefetch.FetchStatus) pagescrapecontract.Scra
 	switch status {
 	case pagefetch.FetchNotModified:
 		return pagescrapecontract.NotModified
-	case pagefetch.FetchAccessRefused, pagefetch.FetchRejected:
+	case pagefetch.FetchAccessRefused, pagefetch.FetchRejected, pagefetch.FetchGone:
 		return pagescrapecontract.AccessRefused
 	case pagefetch.FetchRedirected:
 		return pagescrapecontract.RedirectsExhausted

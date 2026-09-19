@@ -163,3 +163,37 @@ func TestADocumentThatWasNotReadStaysAsThePeersCountedIt(t *testing.T) {
 		t.Fatalf("the found document reads %+v, want the count the peers answered", foundDocument)
 	}
 }
+
+func TestAReadPageThatMovedGivesItsDocumentTheAddressItMovedTo(t *testing.T) {
+	t.Parallel()
+
+	answers := answersOfTheReadDocument(t)
+	textOfAMovedPage := textOfTheReadDocument(t)
+	documentText := textOfAMovedPage[documentOf(t, addressOfTheReadDocument)]
+	documentText.Address = "https://berlin.example/moved"
+	textOfAMovedPage[documentOf(t, addressOfTheReadDocument)] = documentText
+
+	read := answers.SaturatedWith(textOfAMovedPage)
+
+	foundDocument := read.FoundDocuments[0]
+	if foundDocument.Address != "https://berlin.example/moved" ||
+		foundDocument.Hash != documentOf(t, addressOfTheReadDocument) {
+		t.Fatalf(
+			"the found document reads %+v, want the address the page moved to under its own hash",
+			foundDocument,
+		)
+	}
+}
+
+func TestAReadPageThatDidNotMoveKeepsTheAddressAPeerSent(t *testing.T) {
+	t.Parallel()
+
+	read := answersOfTheReadDocument(t).SaturatedWith(textOfTheReadDocument(t))
+
+	if read.FoundDocuments[0].Address != addressOfTheReadDocument {
+		t.Fatalf(
+			"the found document holds the address %q, want the address the peer sent",
+			read.FoundDocuments[0].Address,
+		)
+	}
+}
