@@ -2,9 +2,9 @@
 // query. Its relevance adds up the share of the rarity of the query words its
 // title holds, the query words its host holds, a BM25 score of the query words
 // in its text, the query phrases, the share of the query words its text holds,
-// and how likely it is the entry page of a site the query names. From that sum
-// it takes a penalty for a document that holds few links for the amount of words
-// it holds.
+// and how likely it is the entry page of a site the query names. From that sum it
+// takes how far its text runs past the length of a usual page, and a penalty for
+// a document that holds few links for the amount of words it holds.
 package documentrelevance
 
 import (

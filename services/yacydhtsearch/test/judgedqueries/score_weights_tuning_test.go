@@ -14,7 +14,7 @@ import (
 
 const (
 	tuningSwitch                     = "YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS"
-	amountOfWeightsOfTheScoreWeights = 7
+	amountOfWeightsOfTheScoreWeights = 8
 	roundingOfTheWeightRatios        = 1e6
 )
 
@@ -22,6 +22,7 @@ var (
 	weightValuesOfTheGridOfTheTitleScore           = []float64{0, 3, 6, 10, 15}
 	weightValuesOfTheGridOfTheScoresBesideTheTitle = []float64{0, 0.25, 0.5, 1, 3}
 	weightValuesOfTheGridOfTheNamedSiteEntryScore  = []float64{0, 5, 15}
+	weightValuesOfTheGridOfTheOverlongTextScore    = []float64{0, 3, 5, 10}
 	weightValuesOfTheGridOfTheLinkSparsityPenalty  = []float64{0, 1.5, 3}
 
 	weightValuesOfTheGridOfEachScore = [amountOfWeightsOfTheScoreWeights][]float64{
@@ -31,6 +32,7 @@ var (
 		weightValuesOfTheGridOfTheScoresBesideTheTitle,
 		weightValuesOfTheGridOfTheScoresBesideTheTitle,
 		weightValuesOfTheGridOfTheNamedSiteEntryScore,
+		weightValuesOfTheGridOfTheOverlongTextScore,
 		weightValuesOfTheGridOfTheLinkSparsityPenalty,
 	}
 )
@@ -185,6 +187,7 @@ func weightOfEachScoreIn(
 		&scoreWeights.WeightOfThePhraseScore,
 		&scoreWeights.WeightOfTheCoordinationScore,
 		&scoreWeights.WeightOfTheNamedSiteEntryScore,
+		&scoreWeights.WeightOfTheOverlongTextScore,
 		&scoreWeights.WeightOfTheLinkSparsityPenalty,
 	}
 }
@@ -229,13 +232,14 @@ func weightRatiosOf(
 func spelledScoreWeightsOf(scoreWeights documentrelevance.ScoreWeights) string {
 	return fmt.Sprintf(
 		"title %.2f, text %.2f, address %.2f, phrase %.2f, coordination %.2f, named site entry "+
-			"%.2f, link sparsity penalty %.2f",
+			"%.2f, overlong text %.2f, link sparsity penalty %.2f",
 		scoreWeights.WeightOfTheTitleScore,
 		scoreWeights.WeightOfTheTextScore,
 		scoreWeights.WeightOfTheAddressScore,
 		scoreWeights.WeightOfThePhraseScore,
 		scoreWeights.WeightOfTheCoordinationScore,
 		scoreWeights.WeightOfTheNamedSiteEntryScore,
+		scoreWeights.WeightOfTheOverlongTextScore,
 		scoreWeights.WeightOfTheLinkSparsityPenalty,
 	)
 }
