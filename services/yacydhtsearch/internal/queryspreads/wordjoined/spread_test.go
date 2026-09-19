@@ -351,18 +351,18 @@ func spreadChoosing(
 	choice responsiblePeers,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
-	return spreadAskingEachPeerMetadataForUpTo(
+	return answeredQueryWithURLMetadataAskDocumentsCeiling(
+		urlMetadataAskDocumentsCeiling,
 		network,
 		choice,
-		urlMetadataAskDocumentsCeiling,
 		observer,
 	)
 }
 
-func spreadAskingEachPeerMetadataForUpTo(
+func answeredQueryWithURLMetadataAskDocumentsCeiling(
+	urlMetadataAskDocumentsCeiling int,
 	network *peerNetwork,
 	choice responsiblePeers,
-	urlMetadataAskDocumentsCeiling int,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
 	return spreadOverPeers(
@@ -395,6 +395,8 @@ func spreadOverPeers(
 	)
 }
 
+// TECHDEBT: naming derivation — the name ends in a preposition that no argument
+// follows, and it names a spread while the value is an answered query.
 func spreadNamingCrossCheckedDocumentsForUpTo(
 	network *peerNetwork,
 	choice responsiblePeers,
@@ -1308,7 +1310,12 @@ func TestNoPeerIsAskedMetadataForMoreDocumentsThanTheCeiling(t *testing.T) {
 		"second": {firstWord: heldBySecond, secondWord: heldBySecond},
 	})
 
-	spreadAskingEachPeerMetadataForUpTo(network, responsiblePeers{}, 1, &recordedSpreads{})
+	answeredQueryWithURLMetadataAskDocumentsCeiling(
+		1,
+		network,
+		responsiblePeers{},
+		&recordedSpreads{},
+	)
 
 	if len(network.urlMetadataAsks) != 2 {
 		t.Fatalf("%d peers were asked for metadata, want both", len(network.urlMetadataAsks))
@@ -1351,7 +1358,12 @@ func theOneDocumentAskedMetadataFor(
 		"second": {firstWord: {heldByBothPeers}, secondWord: {heldByBothPeers}},
 	})
 
-	spreadAskingEachPeerMetadataForUpTo(network, responsiblePeers{}, 1, &recordedSpreads{})
+	answeredQueryWithURLMetadataAskDocumentsCeiling(
+		1,
+		network,
+		responsiblePeers{},
+		&recordedSpreads{},
+	)
 
 	documents := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks)
 	if len(documents) != 1 {
@@ -1382,7 +1394,7 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	})
 	observer := &recordedSpreads{}
 
-	spreadAskingEachPeerMetadataForUpTo(network, responsiblePeers{}, 1, observer)
+	answeredQueryWithURLMetadataAskDocumentsCeiling(1, network, responsiblePeers{}, observer)
 
 	performed := observer.performed[0]
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 ||

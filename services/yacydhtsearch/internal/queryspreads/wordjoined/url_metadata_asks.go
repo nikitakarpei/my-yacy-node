@@ -12,7 +12,7 @@ func urlMetadataAsksFor(
 	urlMetadataAskDocumentsCeiling int,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
-	documentsListedByEachPeer := documentsListedPerPeerOf(answeredMatchedAndHeldDocumentsAsks)
+	documentsListedByEachPeer := documentsListedPerPeerFrom(answeredMatchedAndHeldDocumentsAsks)
 	asks := documentsListedByEachPeer.urlMetadataAsks(
 		documentsWithoutMetadataMostListedFirst,
 		urlMetadataAskDocumentsCeiling,
@@ -23,7 +23,7 @@ func urlMetadataAsksFor(
 
 type documentsListedPerPeer []documentsListedByPeer
 
-func documentsListedPerPeerOf(
+func documentsListedPerPeerFrom(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) documentsListedPerPeer {
 	documentsListedByEachPeer := make(documentsListedPerPeer, 0, len(answeredAsks))
