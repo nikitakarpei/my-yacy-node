@@ -12,8 +12,8 @@ func urlMetadataAsksFor(
 	urlMetadataAskDocumentsCeiling int,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
-	documentsListedByEachPeer := documentsListedPerPeerFrom(answeredMatchedAndHeldDocumentsAsks)
-	asksOfEachPeer := documentsListedByEachPeer.urlMetadataAsks(
+	peersWithTheirDocuments := peersWithListedDocumentsFrom(answeredMatchedAndHeldDocumentsAsks)
+	asksOfEachPeer := peersWithTheirDocuments.urlMetadataAsks(
 		documentsWithoutMetadataMostListedFirst,
 		urlMetadataAskDocumentsCeiling,
 	)
@@ -21,38 +21,38 @@ func urlMetadataAsksFor(
 	return asksCoveringMostDocuments(asksOfEachPeer, amountOfPeersHoldingOneWord)
 }
 
-type documentsListedPerPeer []documentsListedByPeer
+type peersWithListedDocuments []peerWithListedDocuments
 
-func documentsListedPerPeerFrom(
+func peersWithListedDocumentsFrom(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) documentsListedPerPeer {
-	documentsListedByEachPeer := make(documentsListedPerPeer, 0, len(answeredAsks))
+) peersWithListedDocuments {
+	peersWithTheirDocuments := make(peersWithListedDocuments, 0, len(answeredAsks))
 	placeOfPeer := map[yacymodel.Hash]int{}
 	for _, answeredAsk := range answeredAsks {
 		place, placed := placeOfPeer[answeredAsk.Ask.Peer.Hash]
 		if !placed {
-			place = len(documentsListedByEachPeer)
+			place = len(peersWithTheirDocuments)
 			placeOfPeer[answeredAsk.Ask.Peer.Hash] = place
-			documentsListedByEachPeer = append(documentsListedByEachPeer, documentsListedByPeer{
-				peer:      answeredAsk.Ask.Peer,
-				documents: distinctDocuments{},
+			peersWithTheirDocuments = append(peersWithTheirDocuments, peerWithListedDocuments{
+				askablePeer:     answeredAsk.Ask.Peer,
+				listedDocuments: distinctDocuments{},
 			})
 		}
 		for _, document := range answeredAsk.DocumentsListedForTheWord {
-			documentsListedByEachPeer[place].documents.add(document)
+			peersWithTheirDocuments[place].listedDocuments.add(document)
 		}
 	}
 
-	return documentsListedByEachPeer
+	return peersWithTheirDocuments
 }
 
-func (documentsListedByEachPeer documentsListedPerPeer) urlMetadataAsks(
+func (peersWithTheirDocuments peersWithListedDocuments) urlMetadataAsks(
 	documentsMostListedFirst []yacymodel.URLHash,
 	urlMetadataAskDocumentsCeiling int,
 ) []peerasks.URLMetadataAsk {
-	asks := make([]peerasks.URLMetadataAsk, 0, len(documentsListedByEachPeer))
-	for _, documentsListedByOnePeer := range documentsListedByEachPeer {
-		ask := documentsListedByOnePeer.urlMetadataAsk(
+	asks := make([]peerasks.URLMetadataAsk, 0, len(peersWithTheirDocuments))
+	for _, peerWithItsDocuments := range peersWithTheirDocuments {
+		ask := peerWithItsDocuments.urlMetadataAsk(
 			documentsMostListedFirst, urlMetadataAskDocumentsCeiling,
 		)
 		if len(ask.Documents) == 0 {
@@ -64,30 +64,30 @@ func (documentsListedByEachPeer documentsListedPerPeer) urlMetadataAsks(
 	return asks
 }
 
-type documentsListedByPeer struct {
-	peer      peerdirectory.AskablePeer
-	documents distinctDocuments
+type peerWithListedDocuments struct {
+	askablePeer     peerdirectory.AskablePeer
+	listedDocuments distinctDocuments
 }
 
-func (documentsListedByOnePeer documentsListedByPeer) urlMetadataAsk(
+func (peerWithItsDocuments peerWithListedDocuments) urlMetadataAsk(
 	documentsMostListedFirst []yacymodel.URLHash,
 	urlMetadataAskDocumentsCeiling int,
 ) peerasks.URLMetadataAsk {
 	askDocuments := make([]yacymodel.URLHash, 0, min(
-		len(documentsListedByOnePeer.documents), urlMetadataAskDocumentsCeiling,
+		len(peerWithItsDocuments.listedDocuments), urlMetadataAskDocumentsCeiling,
 	))
 	for _, document := range documentsMostListedFirst {
 		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
 			break
 		}
-		if !documentsListedByOnePeer.documents.contains(document) {
+		if !peerWithItsDocuments.listedDocuments.contains(document) {
 			continue
 		}
 		askDocuments = append(askDocuments, document)
 	}
 
 	return peerasks.URLMetadataAsk{
-		Peer:      documentsListedByOnePeer.peer,
+		Peer:      peerWithItsDocuments.askablePeer,
 		Documents: askDocuments,
 	}
 }
