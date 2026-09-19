@@ -302,6 +302,12 @@
       "grade": 1
     },
     {
+      "hash": "uuzH__nUgebw",
+      "address": "https://alioth-lists.debian.net/",
+      "title": "alioth-lists.debian.net",
+      "grade": 1
+    },
+    {
       "hash": "_vBCkt1nrxbw",
       "address": "https://www.debian.org/CD/http-ftp/",
       "title": "Downloading Debian USB/CD/DVD images via HTTP/FTP",
@@ -320,6 +326,12 @@
       "grade": 1
     },
     {
+      "hash": "S6BIcp65jyZQ",
+      "address": "http://neuro.debian.net/",
+      "title": "The Ultimate Neuroscience Software Platform — Debian Neuroscience Package Repository",
+      "grade": 1
+    },
+    {
       "hash": "GppVSifhnZpw",
       "address": "https://nm.debian.org/public/people/dd_u/",
       "title": "Debian New Member Process",
@@ -329,6 +341,18 @@
       "hash": "R5pe_l1nrxbw",
       "address": "https://www.debian.org/News/",
       "title": "Debian -- Latest News",
+      "grade": 1
+    },
+    {
+      "hash": "_BwQ1GNQlu2w",
+      "address": "https://bits.debian.org/",
+      "title": "Bits from Debian - Blog from the Debian Project",
+      "grade": 1
+    },
+    {
+      "hash": "-ieBCR9oEcsw",
+      "address": "https://micronews.debian.org/",
+      "title": "Debian micronews",
       "grade": 1
     }
   ]

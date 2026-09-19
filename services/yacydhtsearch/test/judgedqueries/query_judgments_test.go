@@ -3,10 +3,12 @@ package judgedqueries_test
 import (
 	"encoding/json"
 	"errors"
+	"maps"
 	"net/url"
 	"os"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -86,7 +88,12 @@ func documentsToJudgeOf(
 	answers queryanswers.AnsweredQuery,
 	pageTextPerDocument map[yacymodel.URLHash]string,
 ) []judgedDocument {
-	toJudge := documentsFoundFirst(answers)
+	toJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
+	maps.Copy(toJudge, documentsAmongTheFirstOf(
+		orderingOfTheServiceFrom(
+			documentrelevance.DefaultScoreWeights(),
+		).OrderedDocumentsOf(answers),
+	))
 	for document := range pageTextPerDocument {
 		toJudge[document] = struct{}{}
 	}
@@ -106,17 +113,15 @@ func documentsToJudgeOf(
 	return documentsToJudge
 }
 
-func documentsFoundFirst(
-	answers queryanswers.AnsweredQuery,
+func documentsAmongTheFirstOf(
+	orderedDocuments []queryanswers.FoundDocument,
 ) map[yacymodel.URLHash]struct{} {
-	foundDocuments := answers.FoundDocuments
-
-	documentsAmongTheFirstFound := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
-	for _, foundDocument := range foundDocuments[:min(judgedDocumentsCeiling, len(foundDocuments))] {
-		documentsAmongTheFirstFound[foundDocument.Hash] = struct{}{}
+	documentsAmongTheFirst := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
+	for _, orderedDocument := range orderedDocuments[:min(judgedDocumentsCeiling, len(orderedDocuments))] {
+		documentsAmongTheFirst[orderedDocument.Hash] = struct{}{}
 	}
 
-	return documentsAmongTheFirstFound
+	return documentsAmongTheFirst
 }
 
 func (j queryJudgments) gradePerJudgedDocument() map[yacymodel.URLHash]*int {
