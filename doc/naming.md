@@ -42,16 +42,14 @@ A quantity takes `amountOf` for things, and `sumOf` for values that add.
 
 ## Derivation
 
-A function that returns a value is named for the value. A function that acts
-keeps its verb.
+Name a function for the value it returns. A function that returns nothing keeps
+its verb.
 
-A preposition binds the value to the first parameter: `Of` an attribute the
-subject has, `From` a value derived from it, `For` a value that serves it.
-Context and transaction parameters are never the subject. A value with no single
-subject takes no preposition.
-
-A derivation names the domain fact, never the conversion, and never only its
-source.
+When a name ends with a preposition, the first argument completes it. That
+argument is the first domain value, or the receiver. The name and the argument
+make one phrase: `HoldersOf(posting)`, `widenedFrom(previousInterval)`,
+`spreadWithin(queryBudget)`. A name whose value comes from all its arguments has
+no preposition.
 
 `new<Type>` is reserved for a collaborator assembled from injected dependencies.
 

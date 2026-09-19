@@ -19,17 +19,18 @@ import (
 )
 
 const (
-	firstWord                      = "berlin"
-	secondWord                     = "weather"
-	thirdWord                      = "rain"
-	urlMetadataAskDocumentsCeiling = 10
-	crossCheckedDocumentsCeiling   = 10
-	asksForCrossCheckedDocuments   = true
-	asksForNoCrossCheckedDocuments = false
-	peerItemsCeiling               = 10
-	peersHoldingOneWord            = 24
-	onePartitionOfTheRing          = 1
-	twoPartitionsOfTheRing         = 2
+	firstWord                       = "berlin"
+	secondWord                      = "weather"
+	thirdWord                       = "rain"
+	urlMetadataAskDocumentsCeiling  = 10
+	documentsOneURLMetadataAskNames = 1
+	crossCheckedDocumentsCeiling    = 10
+	asksForCrossCheckedDocuments    = true
+	asksForNoCrossCheckedDocuments  = false
+	peerItemsCeiling                = 10
+	peersHoldingOneWord             = 24
+	onePartitionOfTheRing           = 1
+	twoPartitionsOfTheRing          = 2
 )
 
 type peerNetwork struct {
@@ -343,15 +344,15 @@ func answeredQueryFrom(
 	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
-	return answeredQueryWithResponsiblePeers(responsiblePeers{}, network, observer)
+	return answeredQueryWith(responsiblePeers{}, network, observer)
 }
 
-func answeredQueryWithResponsiblePeers(
+func answeredQueryWith(
 	choice responsiblePeers,
 	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
-	return answeredQueryWithURLMetadataAskDocumentsCeiling(
+	return answeredQueryUnder(
 		urlMetadataAskDocumentsCeiling,
 		network,
 		choice,
@@ -359,7 +360,7 @@ func answeredQueryWithResponsiblePeers(
 	)
 }
 
-func answeredQueryWithURLMetadataAskDocumentsCeiling(
+func answeredQueryUnder(
 	urlMetadataAskDocumentsCeiling int,
 	network *peerNetwork,
 	choice responsiblePeers,
@@ -395,7 +396,7 @@ func spreadOverPeers(
 	)
 }
 
-func spreadWithCrossCheckedDocumentsCeiling(
+func spreadUnder(
 	crossCheckedDocumentsCeiling int,
 	network *peerNetwork,
 	choice responsiblePeers,
@@ -859,7 +860,7 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDo
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
 	observer := &recordedSpreads{}
 
-	spreadWithCrossCheckedDocumentsCeiling(
+	spreadUnder(
 		documentsOneCrossCheckedDocumentsAskNames,
 		network,
 		peersOfEachQueryWord(map[string][]string{
@@ -1001,7 +1002,7 @@ func TestAPeerThatAnsweredNothingInTheFirstRoundIsAskedInTheSecond(t *testing.T)
 	})
 	network.silentPeers["second"] = struct{}{}
 
-	answeredQueryWithResponsiblePeers(peersOfEachQueryWord(map[string][]string{
+	answeredQueryWith(peersOfEachQueryWord(map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"second"},
 	}), network, &recordedSpreads{})
@@ -1159,7 +1160,7 @@ func TestOnlyThePeersResponsibleForAWordAreAskedWhatTheyHoldForIt(t *testing.T) 
 	})
 	observer := &recordedSpreads{}
 
-	answeredQueryWithResponsiblePeers(responsiblePeers{peerAddressesPerWord: map[string][]string{
+	answeredQueryWith(responsiblePeers{peerAddressesPerWord: map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"second"},
 	}}, network, observer)
@@ -1273,8 +1274,8 @@ func TestNoPeerIsAskedMetadataForMoreDocumentsThanTheCeiling(t *testing.T) {
 		"second": {firstWord: heldBySecond, secondWord: heldBySecond},
 	})
 
-	answeredQueryWithURLMetadataAskDocumentsCeiling(
-		1,
+	answeredQueryUnder(
+		documentsOneURLMetadataAskNames,
 		network,
 		responsiblePeers{},
 		&recordedSpreads{},
@@ -1321,8 +1322,8 @@ func theOneDocumentAskedMetadataFor(
 		"second": {firstWord: {heldByBothPeers}, secondWord: {heldByBothPeers}},
 	})
 
-	answeredQueryWithURLMetadataAskDocumentsCeiling(
-		1,
+	answeredQueryUnder(
+		documentsOneURLMetadataAskNames,
 		network,
 		responsiblePeers{},
 		&recordedSpreads{},
@@ -1357,7 +1358,7 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	})
 	observer := &recordedSpreads{}
 
-	answeredQueryWithURLMetadataAskDocumentsCeiling(1, network, responsiblePeers{}, observer)
+	answeredQueryUnder(documentsOneURLMetadataAskNames, network, responsiblePeers{}, observer)
 
 	performed := observer.performed[0]
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 ||
@@ -1714,7 +1715,7 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	network.documentsHeldForEveryWord = 512
 	observer := &recordedSpreads{}
 
-	answeredQueryWithResponsiblePeers(responsiblePeers{peerAddressesPerWord: map[string][]string{
+	answeredQueryWith(responsiblePeers{peerAddressesPerWord: map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"first"},
 	}}, network, observer)
