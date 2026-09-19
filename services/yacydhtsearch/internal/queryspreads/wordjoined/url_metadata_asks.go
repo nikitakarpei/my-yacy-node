@@ -26,6 +26,29 @@ type documentsListedByPeer struct {
 	documents distinctDocuments
 }
 
+func (documentsListedByOnePeer documentsListedByPeer) urlMetadataAsk(
+	documentsMostListedFirst []yacymodel.URLHash,
+	urlMetadataAskDocumentsCeiling int,
+) peerasks.URLMetadataAsk {
+	askDocuments := make([]yacymodel.URLHash, 0, min(
+		len(documentsListedByOnePeer.documents), urlMetadataAskDocumentsCeiling,
+	))
+	for _, document := range documentsMostListedFirst {
+		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
+			break
+		}
+		if !documentsListedByOnePeer.documents.contains(document) {
+			continue
+		}
+		askDocuments = append(askDocuments, document)
+	}
+
+	return peerasks.URLMetadataAsk{
+		Peer:      documentsListedByOnePeer.peer,
+		Documents: askDocuments,
+	}
+}
+
 func documentsListedByEachPeerOf(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []documentsListedByPeer {
@@ -56,42 +79,16 @@ func urlMetadataAsksOfEachPeer(
 ) []peerasks.URLMetadataAsk {
 	asks := make([]peerasks.URLMetadataAsk, 0, len(documentsListedByEachPeer))
 	for _, documentsListedByOnePeer := range documentsListedByEachPeer {
-		askDocuments := urlMetadataAskDocumentsOf(
-			documentsListedByOnePeer.documents,
-			documentsMostListedFirst,
-			urlMetadataAskDocumentsCeiling,
+		ask := documentsListedByOnePeer.urlMetadataAsk(
+			documentsMostListedFirst, urlMetadataAskDocumentsCeiling,
 		)
-		if len(askDocuments) == 0 {
+		if len(ask.Documents) == 0 {
 			continue
 		}
-		asks = append(asks, peerasks.URLMetadataAsk{
-			Peer:      documentsListedByOnePeer.peer,
-			Documents: askDocuments,
-		})
+		asks = append(asks, ask)
 	}
 
 	return asks
-}
-
-func urlMetadataAskDocumentsOf(
-	documentsListedByOnePeer distinctDocuments,
-	documentsMostListedFirst []yacymodel.URLHash,
-	urlMetadataAskDocumentsCeiling int,
-) []yacymodel.URLHash {
-	askDocuments := make([]yacymodel.URLHash, 0, min(
-		len(documentsListedByOnePeer), urlMetadataAskDocumentsCeiling,
-	))
-	for _, document := range documentsMostListedFirst {
-		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
-			break
-		}
-		if !documentsListedByOnePeer.contains(document) {
-			continue
-		}
-		askDocuments = append(askDocuments, document)
-	}
-
-	return askDocuments
 }
 
 func asksCoveringMostDocuments(
