@@ -339,16 +339,16 @@ func distinctDocumentsAskedMetadataFor(asks []peerasks.URLMetadataAsk) []yacymod
 	return documents
 }
 
-func spreadOf(
+func answeredQueryFrom(
 	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
-	return spreadChoosing(network, responsiblePeers{}, observer)
+	return answeredQueryWithResponsiblePeers(responsiblePeers{}, network, observer)
 }
 
-func spreadChoosing(
-	network *peerNetwork,
+func answeredQueryWithResponsiblePeers(
 	choice responsiblePeers,
+	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryanswers.AnsweredQuery {
 	return answeredQueryWithURLMetadataAskDocumentsCeiling(
@@ -395,12 +395,10 @@ func spreadOverPeers(
 	)
 }
 
-// TECHDEBT: naming derivation — the name ends in a preposition that no argument
-// follows, and it names a spread while the value is an answered query.
-func spreadNamingCrossCheckedDocumentsForUpTo(
+func spreadWithCrossCheckedDocumentsCeiling(
+	crossCheckedDocumentsCeiling int,
 	network *peerNetwork,
 	choice responsiblePeers,
-	crossCheckedDocumentsCeiling int,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) {
 	spreadOverPeers(
@@ -445,10 +443,10 @@ func spreadNotAskingForCrossCheckedDocuments(
 	)
 }
 
-func spreadOfTheQuery(
+func spreadTheQuery(
+	query string,
 	network *peerNetwork,
 	choice responsiblePeers,
-	query string,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) {
 	spreadChoosingPeersBy(
@@ -471,8 +469,8 @@ func spreadOfTheQuery(
 	)
 }
 
-func spreadWithin(network *peerNetwork, budget time.Duration) {
-	ctx, endQuery := context.WithTimeout(context.Background(), budget)
+func spreadWithinQueryBudget(queryBudget time.Duration, network *peerNetwork) {
+	ctx, endQuery := context.WithTimeout(context.Background(), queryBudget)
 	defer endQuery()
 
 	spreadChoosingPeersBy(
@@ -560,15 +558,10 @@ func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheLeadingQueryW
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
 
-	spreadOfTheQuery(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second"},
-		}),
-		firstWord+" "+secondWord,
-		&recordedSpreads{},
-	)
+	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second"},
+	}), &recordedSpreads{})
 
 	if len(network.crossCheckedDocumentsAsks) != 1 ||
 		network.crossCheckedDocumentsAsks[0].Peer.Address != "second" {
@@ -602,15 +595,10 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
 	observer := &recordedSpreads{}
 
-	spreadOfTheQuery(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second"},
-		}),
-		firstWord+" "+secondWord,
-		observer,
-	)
+	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second"},
+	}), observer)
 
 	performed := observer.performed[0]
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocumentsFoundOnlyByCrossChecking != 1 ||
@@ -637,15 +625,10 @@ func TestTheFullyListedWordTheFewestDocumentsAreHeldForLeads(t *testing.T) {
 	network.documentsHeldByEachPeer = map[string]int{"first": 3, "second": 2}
 	observer := &recordedSpreads{}
 
-	spreadOfTheQuery(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second"},
-		}),
-		firstWord+" "+secondWord,
-		observer,
-	)
+	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second"},
+	}), observer)
 
 	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
 	if matchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.RarestFullyListedQueryWord ||
@@ -673,15 +656,10 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 	network.documentsHeldByEachPeer = map[string]int{"second": 5}
 	observer := &recordedSpreads{}
 
-	spreadOfTheQuery(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second"},
-		}),
-		firstWord+" "+secondWord,
-		observer,
-	)
+	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second"},
+	}), observer)
 
 	performed := observer.performed[0]
 	if performed.MatchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.MoreCommonFullyListedQueryWord ||
@@ -718,14 +696,14 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 	network.documentsPerAnswerOfEachPeer = map[string]int{"first": 1, "second": 1, "third": 1}
 	observer := &recordedSpreads{}
 
-	spreadOfTheQuery(
+	spreadTheQuery(
+		firstWord+" "+secondWord+" "+thirdWord,
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first"},
 			secondWord: {"second"},
 			thirdWord:  {"third"},
 		}),
-		firstWord+" "+secondWord+" "+thirdWord,
 		observer,
 	)
 
@@ -760,14 +738,14 @@ func TestAPeerThatDidNotListAllItHoldsForTwoQueryWordsIsAskedOnce(t *testing.T) 
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
 
-	spreadOfTheQuery(
+	spreadTheQuery(
+		firstWord+" "+secondWord+" "+thirdWord,
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first"},
 			secondWord: {"second"},
 			thirdWord:  {"second"},
 		}),
-		firstWord+" "+secondWord+" "+thirdWord,
 		&recordedSpreads{},
 	)
 
@@ -795,15 +773,10 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 0}
 	observer := &recordedSpreads{}
 
-	spreadOfTheQuery(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first", "fourth", "fifth"},
-			secondWord: {"second", "third"},
-		}),
-		firstWord+" "+secondWord,
-		observer,
-	)
+	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first", "fourth", "fifth"},
+		secondWord: {"second", "third"},
+	}), observer)
 
 	if slices.Contains(
 		documentsAskedToCrossCheck(
@@ -843,15 +816,10 @@ func TestTwoPartlyListedReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 1}
 
-	spreadOfTheQuery(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second", "third"},
-		}),
-		firstWord+" "+secondWord,
-		&recordedSpreads{},
-	)
+	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second", "third"},
+	}), &recordedSpreads{})
 
 	if len(network.crossCheckedDocumentsAsks) != 2 {
 		t.Fatalf(
@@ -891,13 +859,13 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDo
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
 	observer := &recordedSpreads{}
 
-	spreadNamingCrossCheckedDocumentsForUpTo(
+	spreadWithCrossCheckedDocumentsCeiling(
+		documentsOneCrossCheckedDocumentsAskNames,
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first"},
 			secondWord: {"second", "third"},
 		}),
-		documentsOneCrossCheckedDocumentsAskNames,
 		observer,
 	)
 
@@ -942,14 +910,14 @@ func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T)
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
 	observer := &recordedSpreads{}
 
-	spreadOfTheQuery(
+	spreadTheQuery(
+		firstWord+" "+secondWord+" "+thirdWord,
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first"},
 			secondWord: {"second"},
 			thirdWord:  {"third"},
 		}),
-		firstWord+" "+secondWord+" "+thirdWord,
 		observer,
 	)
 
@@ -977,15 +945,10 @@ func TestAPeerThatHoldsNoneOfTheNamedDocumentsLeavesTheJoinOfTheFirstRoundWhole(
 	network.peersHoldingNoNamedDocument = map[string]struct{}{"second": {}}
 	observer := &recordedSpreads{}
 
-	spreadOfTheQuery(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second"},
-		}),
-		firstWord+" "+secondWord,
-		observer,
-	)
+	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second"},
+	}), observer)
 
 	wanted := documentHashesOf([]string{"https://answered.example/"})
 	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); !slices.Equal(
@@ -1011,7 +974,7 @@ func TestAQueryWhoseWordsAreAllFullyListedCrossChecksNoDocument(t *testing.T) {
 	})
 	observer := &recordedSpreads{}
 
-	spreadOf(network, observer)
+	answeredQueryFrom(network, observer)
 
 	if len(network.crossCheckedDocumentsAsks) != 0 || len(network.urlMetadataAsks) == 0 {
 		t.Fatalf(
@@ -1038,10 +1001,10 @@ func TestAPeerThatAnsweredNothingInTheFirstRoundIsAskedInTheSecond(t *testing.T)
 	})
 	network.silentPeers["second"] = struct{}{}
 
-	spreadChoosing(network, peersOfEachQueryWord(map[string][]string{
+	answeredQueryWithResponsiblePeers(peersOfEachQueryWord(map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"second"},
-	}), &recordedSpreads{})
+	}), network, &recordedSpreads{})
 
 	if len(network.crossCheckedDocumentsAsks) != 1 ||
 		network.crossCheckedDocumentsAsks[0].Peer.Address != "second" {
@@ -1068,7 +1031,7 @@ func TestTheFirstRoundKeepsOnlyAThirdOfTheTimeTheQueryHasLeft(t *testing.T) {
 		"second": {secondWord: {"https://shared.example/"}},
 	})
 
-	spreadWithin(network, queryBudget)
+	spreadWithinQueryBudget(queryBudget, network)
 
 	if len(network.timeLeftInEachRoundInTheirOrder) != 3 {
 		t.Fatalf(
@@ -1099,7 +1062,7 @@ func TestOnlyDocumentsThatEveryQueryWordCameBackForAreAskedAbout(t *testing.T) {
 		},
 	})
 
-	spreadOf(network, &recordedSpreads{})
+	answeredQueryFrom(network, &recordedSpreads{})
 
 	wanted := documentHashesOf([]string{"https://shared.example/"})
 	if got := distinctDocumentsAskedMetadataFor(
@@ -1126,7 +1089,7 @@ func TestEachPeerIsAskedOnlyAboutTheDocumentsItHolds(t *testing.T) {
 		},
 	})
 
-	spreadOf(network, &recordedSpreads{})
+	answeredQueryFrom(network, &recordedSpreads{})
 
 	for _, ask := range network.urlMetadataAsks {
 		held := network.documentsPerWordPerPeer[ask.Peer.Address][firstWord]
@@ -1149,7 +1112,7 @@ func TestAPeerHoldingOnlyOneQueryWordIsStillAskedAboutAJoinedDocument(t *testing
 		"second": {secondWord: {"https://shared.example/"}},
 	})
 
-	spreadOf(network, &recordedSpreads{})
+	answeredQueryFrom(network, &recordedSpreads{})
 
 	if len(network.urlMetadataAsks) != 2 {
 		t.Fatalf(
@@ -1176,7 +1139,7 @@ func TestNoPeerIsAskedAboutADocumentWhenNoDocumentIsHeldForEveryWord(t *testing.
 		"second": {secondWord: {"https://only-second.example/"}},
 	})
 
-	foundDocuments := spreadOf(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
 
 	if len(network.urlMetadataAsks) != 0 || len(foundDocuments) != 0 {
 		t.Fatalf(
@@ -1196,10 +1159,10 @@ func TestOnlyThePeersResponsibleForAWordAreAskedWhatTheyHoldForIt(t *testing.T) 
 	})
 	observer := &recordedSpreads{}
 
-	spreadChoosing(network, responsiblePeers{peerAddressesPerWord: map[string][]string{
+	answeredQueryWithResponsiblePeers(responsiblePeers{peerAddressesPerWord: map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"second"},
-	}}, observer)
+	}}, network, observer)
 
 	for _, ask := range network.matchedAndHeldDocumentsAsks {
 		if ask.Peer.Address == "first" && ask.Word != yacymodel.WordHash(firstWord) {
@@ -1233,7 +1196,7 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 	network.silentPeers["never"] = struct{}{}
 	observer := &recordedSpreads{}
 
-	spreadOf(network, observer)
+	answeredQueryFrom(network, observer)
 
 	if len(observer.performed) != 1 {
 		t.Fatalf("the observer saw %d spreads, want one", len(observer.performed))
@@ -1262,7 +1225,7 @@ func TestAQueryWordHeldByNoPeerIsReported(t *testing.T) {
 	})
 	observer := &recordedSpreads{}
 
-	spreadOf(network, observer)
+	answeredQueryFrom(network, observer)
 
 	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer != 1 {
 		t.Fatalf(
@@ -1282,7 +1245,7 @@ func TestAPeerThatDoesNotAnswerHoldsNothingForTheJoin(t *testing.T) {
 	network.silentPeers["second"] = struct{}{}
 	observer := &recordedSpreads{}
 
-	spreadOf(network, observer)
+	answeredQueryFrom(network, observer)
 
 	if len(network.urlMetadataAsks) != 0 {
 		t.Fatalf(
@@ -1474,7 +1437,7 @@ func TestAJoinedDocumentAPeerAlreadyAnsweredIsNotAskedMetadataFor(t *testing.T) 
 		"first": {firstWord: {answered}},
 	}
 
-	spreadOf(network, &recordedSpreads{})
+	answeredQueryFrom(network, &recordedSpreads{})
 
 	wanted := documentHashesOf([]string{unanswered})
 	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); !slices.Equal(
@@ -1495,7 +1458,7 @@ func TestOnlyTheJoinedDocumentsAPeerAnsweredAreFound(t *testing.T) {
 		"first": {firstWord: {answered, "https://unjoined.example/"}},
 	}
 
-	foundDocuments := spreadOf(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
 
 	wanted := documentHashOf(t, answered)
 	documents := map[yacymodel.URLHash]struct{}{}
@@ -1516,7 +1479,7 @@ func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
 		"first": {firstWord: {answered}, secondWord: {answered}},
 	})
 
-	answers := spreadOf(network, &recordedSpreads{})
+	answers := answeredQueryFrom(network, &recordedSpreads{})
 
 	want := []yacymodel.Hash{yacymodel.WordHash(firstWord), yacymodel.WordHash(secondWord)}
 	if !slices.Equal(answers.QueryWords, want) {
@@ -1536,7 +1499,7 @@ func TestAFoundDocumentIsCountedForTheWordThePeerWasAskedAbout(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	foundDocuments := spreadOf(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
@@ -1561,7 +1524,7 @@ func TestTheCountsOfEachQueryWordComeTogetherOnTheJoinedDocument(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	foundDocuments := spreadOf(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
@@ -1583,7 +1546,7 @@ func TestAJoinedDocumentNoPeerAnsweredIsFoundThroughItsMetadata(t *testing.T) {
 		"second": {firstWord: {joined}, secondWord: {joined}},
 	})
 
-	foundDocuments := spreadOf(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
 
 	if len(foundDocuments) != 1 || foundDocuments[0].Hash != documentHashOf(t, joined) {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
@@ -1599,7 +1562,7 @@ func TestTheAnswersCarryTheDocumentsTheNetworkHoldsForEachQueryWord(t *testing.T
 	})
 	network.documentsHeldForEveryWord = 512
 
-	answers := spreadOf(network, &recordedSpreads{})
+	answers := answeredQueryFrom(network, &recordedSpreads{})
 
 	want := documentsHeldForBothQueryWords(512)
 	if got := answers.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
@@ -1617,7 +1580,7 @@ func TestAPeerThatCountsNoDocumentForAWordSaysNothingOfWhatTheNetworkHolds(t *te
 	network.documentsHeldForEveryWord = 512
 	network.peersCountingNoDocument = map[string]struct{}{"second": {}}
 
-	answers := spreadOf(network, &recordedSpreads{})
+	answers := answeredQueryFrom(network, &recordedSpreads{})
 
 	want := documentsHeldForBothQueryWords(512)
 	if got := answers.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
@@ -1751,10 +1714,10 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	network.documentsHeldForEveryWord = 512
 	observer := &recordedSpreads{}
 
-	spreadChoosing(network, responsiblePeers{peerAddressesPerWord: map[string][]string{
+	answeredQueryWithResponsiblePeers(responsiblePeers{peerAddressesPerWord: map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"first"},
-	}}, observer)
+	}}, network, observer)
 
 	performed := observer.performed[0]
 	matchedAndHeldDocumentsRound := performed.MatchedAndHeldDocumentsRound
