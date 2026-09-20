@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -71,12 +72,12 @@ func (j queryJudgments) amountOfUngradedDocuments() int {
 func queryJudgmentsOfTheDocumentsToJudge(
 	query string,
 	answers queryanswers.AnsweredQuery,
-	pageTextPerDocument map[yacymodel.URLHash]string,
+	documentTextPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
 	judgedAlready queryJudgments,
 ) queryJudgments {
 	judgedDocumentPerHash := judgedAlready.judgedDocumentPerHash()
 
-	documentsToJudge := documentsToJudgeOf(answers, pageTextPerDocument, judgedDocumentPerHash)
+	documentsToJudge := documentsToJudgeOf(answers, documentTextPerDocument, judgedDocumentPerHash)
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
 	for _, documentToJudge := range documentsToJudge {
 		documentToJudge.Grade = judgedDocumentPerHash[documentToJudge.Hash].Grade
@@ -89,7 +90,7 @@ func queryJudgmentsOfTheDocumentsToJudge(
 
 func documentsToJudgeOf(
 	answers queryanswers.AnsweredQuery,
-	pageTextPerDocument map[yacymodel.URLHash]string,
+	documentTextPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
 	judgedDocumentPerHash map[yacymodel.URLHash]judgedDocument,
 ) []judgedDocument {
 	toJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
@@ -98,7 +99,7 @@ func documentsToJudgeOf(
 			documentrelevance.DefaultScoreWeights(),
 		).OrderedDocumentsOf(answers),
 	))
-	for document := range pageTextPerDocument {
+	for document := range documentTextPerDocument {
 		toJudge[document] = struct{}{}
 	}
 	for document, judged := range judgedDocumentPerHash {
