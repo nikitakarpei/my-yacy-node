@@ -10,12 +10,17 @@ func answeredQueryFrom(
 	joinedDocuments distinctDocuments,
 	urlMetadataRound urlMetadataRound,
 ) queryanswers.AnsweredQuery {
+	postingReplicasPerDocument := postingReplicasPerDocumentFrom(
+		matchedAndHeldDocumentsRound, joinedDocuments,
+	)
+
 	return queryanswers.AnsweredQuery{
 		QueryWords: matchedAndHeldDocumentsRound.queryWords,
 		FoundDocuments: foundDocumentsFrom(
 			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
 		),
-		FactsPerDocument: factsPerDocumentFrom(matchedAndHeldDocumentsRound, joinedDocuments),
+		PostingReplicasPerDocument: postingReplicasPerDocument,
+		FactsPerDocument:           queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
 		DocumentsHeldPerQueryWord: matchedAndHeldDocumentsRound.
 			amountOfDocumentsHeldPerQueryWord(),
 	}
@@ -55,21 +60,30 @@ func foundDocumentsFrom(
 	return foundDocuments
 }
 
-func factsPerDocumentFrom(
+func postingReplicasPerDocumentFrom(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	joinedDocuments distinctDocuments,
-) queryanswers.FactsPerDocument {
-	factsPerDocument := queryanswers.FactsPerDocument{}
+) queryanswers.PostingReplicasPerDocument {
+	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
 	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
 			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
 				continue
 			}
-			factsPerDocument.KeepTheFirstPostingOfTheWord(
-				matchedDocument.Metadata.Hash, answeredAsk.Ask.Word, matchedDocument.Posting,
+			posting, sent := matchedDocument.Posting.Get()
+			if !sent {
+				continue
+			}
+			postingReplicasPerDocument.Keep(
+				matchedDocument.Metadata.Hash,
+				queryanswers.PostingReplica{
+					Holder:  answeredAsk.Ask.Peer.Hash,
+					Word:    yacymodel.Some(answeredAsk.Ask.Word),
+					Posting: posting,
+				},
 			)
 		}
 	}
 
-	return factsPerDocument
+	return postingReplicasPerDocument
 }

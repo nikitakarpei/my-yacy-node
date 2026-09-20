@@ -7,31 +7,45 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func postingOf(
+const countedWord = "berlin"
+
+func replicaOfTheCountedWord(
 	hits int,
 	localLinks int,
 	externalLinks int,
-) yacymodel.Optional[yacymodel.RWIPosting] {
-	return yacymodel.Some(yacymodel.RWIPosting{
-		Hits:          hits,
-		TextWords:     1200,
-		LocalLinks:    localLinks,
-		ExternalLinks: externalLinks,
-	})
+) queryanswers.PostingReplica {
+	return queryanswers.PostingReplica{
+		Holder: yacymodel.WordHash("a holder"),
+		Word:   yacymodel.Some(yacymodel.WordHash(countedWord)),
+		Posting: yacymodel.RWIPosting{
+			Hits:          hits,
+			TextWords:     1200,
+			LocalLinks:    localLinks,
+			ExternalLinks: externalLinks,
+		},
+	}
+}
+
+func factsOfTheDocumentOf(
+	t *testing.T, replicas ...queryanswers.PostingReplica,
+) queryanswers.DocumentFacts {
+	t.Helper()
+
+	document := documentOf(t, "https://berlin.example/")
+	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
+	for _, replica := range replicas {
+		postingReplicasPerDocument.Keep(document, replica)
+	}
+
+	return queryanswers.FactsPerDocumentOf(postingReplicasPerDocument)[document]
 }
 
 func TestThePostingOfAWordCountsItsHitsAndTheLinksOfTheDocument(t *testing.T) {
 	t.Parallel()
 
-	factsPerDocument := queryanswers.FactsPerDocument{}
-	document := documentOf(t, "https://berlin.example/")
+	facts := factsOfTheDocumentOf(t, replicaOfTheCountedWord(7, 20, 9))
 
-	factsPerDocument.KeepTheFirstPostingOfTheWord(
-		document, yacymodel.WordHash("berlin"), postingOf(7, 20, 9),
-	)
-
-	facts := factsPerDocument[document]
-	if facts.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 7 ||
+	if facts.HitsPerQueryWord[yacymodel.WordHash(countedWord)] != 7 ||
 		facts.AmountOfLinks.OrElse(0) != 29 {
 		t.Fatalf("the document reads %+v, want the 7 hits and the 29 links the peer counted", facts)
 	}
@@ -40,34 +54,21 @@ func TestThePostingOfAWordCountsItsHitsAndTheLinksOfTheDocument(t *testing.T) {
 func TestOnlyTheFirstPostingOfAWordCountsForADocument(t *testing.T) {
 	t.Parallel()
 
-	factsPerDocument := queryanswers.FactsPerDocument{}
-	document := documentOf(t, "https://berlin.example/")
-
-	factsPerDocument.KeepTheFirstPostingOfTheWord(
-		document, yacymodel.WordHash("berlin"), postingOf(7, 20, 9),
-	)
-	factsPerDocument.KeepTheFirstPostingOfTheWord(
-		document, yacymodel.WordHash("berlin"), postingOf(3, 1, 0),
+	facts := factsOfTheDocumentOf(
+		t, replicaOfTheCountedWord(7, 20, 9), replicaOfTheCountedWord(3, 1, 0),
 	)
 
-	facts := factsPerDocument[document]
-	if facts.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 7 ||
+	if facts.HitsPerQueryWord[yacymodel.WordHash(countedWord)] != 7 ||
 		facts.AmountOfLinks.OrElse(0) != 29 {
-		t.Fatalf("the document reads %+v, want what the first peer counted", facts)
+		t.Fatalf("the document reads %+v, want what the first holder counted", facts)
 	}
 }
 
 func TestNoPeerCountsTheWordsOrTheQueryPhrasesOfADocument(t *testing.T) {
 	t.Parallel()
 
-	factsPerDocument := queryanswers.FactsPerDocument{}
-	document := documentOf(t, "https://berlin.example/")
+	facts := factsOfTheDocumentOf(t, replicaOfTheCountedWord(7, 20, 9))
 
-	factsPerDocument.KeepTheFirstPostingOfTheWord(
-		document, yacymodel.WordHash("berlin"), postingOf(7, 20, 9),
-	)
-
-	facts := factsPerDocument[document]
 	if facts.AmountOfWords.Present() || facts.QueryPhraseHits.Present() {
 		t.Fatalf(
 			"the document reads %+v, want no amount of words and no query phrase hits of a peer",
@@ -76,18 +77,15 @@ func TestNoPeerCountsTheWordsOrTheQueryPhrasesOfADocument(t *testing.T) {
 	}
 }
 
-func TestAWordNoPeerSentAPostingForCountsForNoDocument(t *testing.T) {
+func TestThePostingOfAWordNoAskNamedCountsForNoDocument(t *testing.T) {
 	t.Parallel()
 
-	factsPerDocument := queryanswers.FactsPerDocument{}
-	document := documentOf(t, "https://berlin.example/")
+	replica := replicaOfTheCountedWord(7, 20, 9)
+	replica.Word = yacymodel.None[yacymodel.Hash]()
 
-	factsPerDocument.KeepTheFirstPostingOfTheWord(
-		document, yacymodel.WordHash("berlin"), yacymodel.None[yacymodel.RWIPosting](),
-	)
+	facts := factsOfTheDocumentOf(t, replica)
 
-	if _, counted := factsPerDocument[document]; counted {
-		t.Fatalf("the answers count the facts %+v of a document no peer sent a posting for",
-			factsPerDocument)
+	if len(facts.HitsPerQueryWord) != 0 || facts.AmountOfLinks.Present() {
+		t.Fatalf("the document reads %+v, want no fact of a posting no ask named a word for", facts)
 	}
 }

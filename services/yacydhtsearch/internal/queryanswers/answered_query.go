@@ -1,7 +1,8 @@
 // Package queryanswers holds what a spread answered for one whole query: the
-// words of the query, one found document for each document it found, the facts
-// counted for each of them, and how many documents the peers hold per query
-// word. The facts of a document are how often its text holds each query word
+// words of the query, one found document for each document it found, the
+// posting each holder sent for it, the facts counted for each of them, and how
+// many documents the peers hold per query word. The facts of a document come
+// from the first posting of each query word, until a node reads its page. The facts of a document are how often its text holds each query word
 // and each query phrase, how many words it holds, and how many links.
 // The facts a node counted from the page it read replace the facts the peers
 // counted, a query word the text holds none of included, and no peer counts a
@@ -17,10 +18,11 @@ import (
 )
 
 type AnsweredQuery struct {
-	QueryWords                []yacymodel.Hash
-	FoundDocuments            []FoundDocument
-	FactsPerDocument          FactsPerDocument
-	DocumentsHeldPerQueryWord map[yacymodel.Hash]int
+	QueryWords                 []yacymodel.Hash
+	FoundDocuments             []FoundDocument
+	PostingReplicasPerDocument PostingReplicasPerDocument
+	FactsPerDocument           FactsPerDocument
+	DocumentsHeldPerQueryWord  map[yacymodel.Hash]int
 }
 
 func (a AnsweredQuery) WithTheContentsOfTheReadPages(
@@ -57,6 +59,7 @@ func (a AnsweredQuery) WithoutDocuments(documents map[yacymodel.URLHash]struct{}
 		foundDocuments = append(foundDocuments, foundDocument)
 	}
 	a.FoundDocuments = foundDocuments
+	a.PostingReplicasPerDocument = a.PostingReplicasPerDocument.withoutDocuments(documents)
 	a.FactsPerDocument = a.FactsPerDocument.withoutDocuments(documents)
 
 	return a

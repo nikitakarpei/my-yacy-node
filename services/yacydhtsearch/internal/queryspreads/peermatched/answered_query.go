@@ -10,10 +10,13 @@ func answeredQueryFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
 ) queryanswers.AnsweredQuery {
+	postingReplicasPerDocument := postingReplicasPerDocumentFrom(answeredAsks, queryWords)
+
 	return queryanswers.AnsweredQuery{
-		QueryWords:       queryWords,
-		FoundDocuments:   foundDocumentsFrom(answeredAsks),
-		FactsPerDocument: factsPerDocumentFrom(answeredAsks, queryWords),
+		QueryWords:                 queryWords,
+		FoundDocuments:             foundDocumentsFrom(answeredAsks),
+		PostingReplicasPerDocument: postingReplicasPerDocument,
+		FactsPerDocument:           queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
 	}
 }
 
@@ -37,30 +40,38 @@ func foundDocumentsFrom(
 	return foundDocuments
 }
 
-func factsPerDocumentFrom(
+func postingReplicasPerDocumentFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
-) queryanswers.FactsPerDocument {
-	factsPerDocument := queryanswers.FactsPerDocument{}
-	countedWord, countedWordIsKnown := wordThePeersCountedFor(queryWords)
-	if !countedWordIsKnown {
-		return factsPerDocument
-	}
+) queryanswers.PostingReplicasPerDocument {
+	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
+	countedWord := wordThePeersCountedFor(queryWords)
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			factsPerDocument.KeepTheFirstPostingOfTheWord(
-				matchedDocument.Metadata.Hash, countedWord, matchedDocument.Posting,
+			posting, sent := matchedDocument.Posting.Get()
+			if !sent {
+				continue
+			}
+			postingReplicasPerDocument.Keep(
+				matchedDocument.Metadata.Hash,
+				queryanswers.PostingReplica{
+					Holder:  answeredAsk.Ask.Peer.Hash,
+					Word:    countedWord,
+					Posting: posting,
+				},
 			)
 		}
 	}
 
-	return factsPerDocument
+	return postingReplicasPerDocument
 }
 
-func wordThePeersCountedFor(queryWords []yacymodel.Hash) (yacymodel.Hash, bool) {
+func wordThePeersCountedFor(
+	queryWords []yacymodel.Hash,
+) yacymodel.Optional[yacymodel.Hash] {
 	if len(queryWords) != 1 {
-		return yacymodel.Hash{}, false
+		return yacymodel.None[yacymodel.Hash]()
 	}
 
-	return queryWords[0], true
+	return yacymodel.Some(queryWords[0])
 }

@@ -14,33 +14,40 @@ type DocumentFacts struct {
 
 type FactsPerDocument map[yacymodel.URLHash]DocumentFacts
 
-func (f FactsPerDocument) KeepTheFirstPostingOfTheWord(
-	document yacymodel.URLHash,
-	word yacymodel.Hash,
-	posting yacymodel.Optional[yacymodel.RWIPosting],
-) {
-	sentPosting, sent := posting.Get()
-	if !sent {
-		return
+func FactsPerDocumentOf(
+	postingReplicasPerDocument PostingReplicasPerDocument,
+) FactsPerDocument {
+	factsPerDocument := make(FactsPerDocument, len(postingReplicasPerDocument))
+	for document, replicas := range postingReplicasPerDocument {
+		facts, counted := factsOfTheFirstReplicaOfEachWord(replicas)
+		if !counted {
+			continue
+		}
+		factsPerDocument[document] = facts
 	}
-	facts := f.factsCountedForTheDocument(document)
-	if _, alreadyCounted := facts.HitsPerQueryWord[word]; alreadyCounted {
-		return
-	}
-	facts.HitsPerQueryWord[word] = sentPosting.Hits
-	facts.AmountOfLinks = yacymodel.Some(sentPosting.LocalLinks + sentPosting.ExternalLinks)
-	f[document] = facts
+
+	return factsPerDocument
 }
 
-func (f FactsPerDocument) factsCountedForTheDocument(
-	document yacymodel.URLHash,
-) DocumentFacts {
-	facts, counted := f[document]
-	if !counted {
-		return DocumentFacts{HitsPerQueryWord: map[yacymodel.Hash]int{}}
+func factsOfTheFirstReplicaOfEachWord(replicas []PostingReplica) (DocumentFacts, bool) {
+	facts := DocumentFacts{HitsPerQueryWord: map[yacymodel.Hash]int{}}
+	counted := false
+	for _, replica := range replicas {
+		word, wordIsKnown := replica.Word.Get()
+		if !wordIsKnown {
+			continue
+		}
+		if _, alreadyCounted := facts.HitsPerQueryWord[word]; alreadyCounted {
+			continue
+		}
+		facts.HitsPerQueryWord[word] = replica.Posting.Hits
+		facts.AmountOfLinks = yacymodel.Some(
+			replica.Posting.LocalLinks + replica.Posting.ExternalLinks,
+		)
+		counted = true
 	}
 
-	return facts
+	return facts, counted
 }
 
 func (f FactsPerDocument) withTheFactsOfTheReadPages(
