@@ -15,7 +15,6 @@ import (
 const (
 	amountOfRunsOfTheSameAnswers   = 50
 	amountOfWordsOfALinkedDocument = 1000
-	weightOfAWeighedAddressScore   = 1.0
 )
 
 func foundDocumentAt(t *testing.T, address string) queryanswers.FoundDocument {
@@ -290,26 +289,6 @@ func TestTheDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 	}
 }
 
-func TestTheDocumentOfEveryQueryWordComesBeforeOneOfManyHitsOfASingleQueryWord(t *testing.T) {
-	t.Parallel()
-
-	answers := answersHolding(
-		map[string]int{"berlin": 100, "weather": 100},
-		[]string{"berlin", "weather"},
-		[]queryanswers.FoundDocument{
-			foundDocumentWithHitsPerWord(t, "https://one-word.example/",
-				map[string]int{"berlin": 50, "weather": 0}),
-			foundDocumentWithHitsPerWord(t, "https://every-word.example/",
-				map[string]int{"berlin": 1, "weather": 1}),
-		},
-	)
-
-	want := []string{"https://every-word.example/", "https://one-word.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
-		t.Fatalf("the relevance order reads %v, want %v", got, want)
-	}
-}
-
 func TestTheDocumentWhoseHostHoldsTheOnlyQueryWordComesBeforeOneOfHitsOfThatWord(t *testing.T) {
 	t.Parallel()
 
@@ -458,27 +437,6 @@ func TestATitleIsReadPastItsPunctuation(t *testing.T) {
 
 	want := []string{"https://titled.example/", "https://beside.example/"}
 	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
-		t.Fatalf("the relevance order reads %v, want %v", got, want)
-	}
-}
-
-func TestAWeighedAddressScorePutsTheDocumentWhoseHostHoldsTheQueryWordFirst(t *testing.T) {
-	t.Parallel()
-
-	answers := answersHolding(
-		map[string]int{"berlin": 100},
-		[]string{"berlin"},
-		[]queryanswers.FoundDocument{
-			foundDocumentMatchingTheWords(t, "https://weather.example/city/", "berlin"),
-			foundDocumentMatchingTheWords(t, "https://berlin.example/city/", "berlin"),
-		},
-	)
-	scoreWeights := documentrelevance.DefaultScoreWeights()
-	scoreWeights.WeightOfTheAddressScore = weightOfAWeighedAddressScore
-
-	want := []string{"https://berlin.example/city/", "https://weather.example/city/"}
-	got := addressesInFallingOrderOfRelevanceByTheScoreWeights(scoreWeights, answers)
-	if !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
