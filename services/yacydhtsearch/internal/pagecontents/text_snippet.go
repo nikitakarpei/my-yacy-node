@@ -1,4 +1,4 @@
-package documenttext
+package pagecontents
 
 import (
 	"strings"

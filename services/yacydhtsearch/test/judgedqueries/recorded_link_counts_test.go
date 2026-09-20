@@ -4,6 +4,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -13,7 +14,7 @@ func TestTheLinkCountsOfADocumentSurviveTheRecording(t *testing.T) {
 
 	read := recordedAnswersWrittenAndReadBack(t, queryanswers.FoundDocument{
 		Address:    "https://example.org/weather",
-		LinkCounts: yacymodel.Some(queryanswers.LinkCounts{LocalLinks: 12, ExternalLinks: 7}),
+		LinkCounts: yacymodel.Some(pagecontents.LinkCounts{LocalLinks: 12, ExternalLinks: 7}),
 	})
 
 	linkCounts, recorded := read.FoundDocuments[0].LinkCounts.Get()
