@@ -43,7 +43,33 @@ type recordedFoundDocument struct {
 type recordedPostingReplica struct {
 	Holder  yacymodel.Hash                     `json:"holder"`
 	Word    yacymodel.Optional[yacymodel.Hash] `json:"word,omitempty"`
-	Posting yacymodel.RWIPosting               `json:"posting"`
+	Posting recordedPosting                    `json:"posting"`
+}
+
+type recordedPosting struct {
+	yacymodel.RWIPosting
+
+	WordHash *yacymodel.Hash `json:"WordHash,omitempty"`
+}
+
+func recordedPostingOf(posting yacymodel.RWIPosting) recordedPosting {
+	recorded := recordedPosting{RWIPosting: posting}
+	if !posting.WordHash.IsZero() {
+		wordHash := posting.WordHash
+		recorded.WordHash = &wordHash
+	}
+	recorded.RWIPosting.WordHash = yacymodel.Hash{}
+
+	return recorded
+}
+
+func (r recordedPosting) posting() yacymodel.RWIPosting {
+	posting := r.RWIPosting
+	if r.WordHash != nil {
+		posting.WordHash = *r.WordHash
+	}
+
+	return posting
 }
 
 func (r recordedFoundDocument) amountOfWordsOfTheReadPage() yacymodel.Optional[int] {
@@ -118,7 +144,7 @@ func postingReplicasPerDocumentFrom(
 			postingReplicasPerDocument.Keep(recorded.Hash, queryanswers.PostingReplica{
 				Holder:  posting.Holder,
 				Word:    posting.Word,
-				Posting: posting.Posting,
+				Posting: posting.Posting.posting(),
 			})
 		}
 	}
@@ -193,7 +219,7 @@ func postingsRecordedFor(
 		postings = append(postings, recordedPostingReplica{
 			Holder:  replica.Holder,
 			Word:    replica.Word,
-			Posting: replica.Posting,
+			Posting: recordedPostingOf(replica.Posting),
 		})
 	}
 
