@@ -1,7 +1,8 @@
 // Package networksearch ranks what the peers of the network hold for one query,
 // within one query budget. It asks the peers that hold the words of the query,
-// puts what they answered in order, reads the pages of the documents it puts first,
-// and carries back the documents up to the ceiling as the ranking the client reads.
+// puts what they answered in the order that earns a page read, reads the pages
+// of the documents it puts first, and carries back the documents up to the
+// ceiling, in the order of the ranking, as the ranking the client reads.
 package networksearch
 
 import (
@@ -58,16 +59,17 @@ type NetworkSearchObserver interface {
 }
 
 type Network struct {
-	peerDirectory      *peerdirectory.Directory
-	peerChoice         PeerChoice
-	querySpread        QuerySpread
-	pageReading        PageReading
-	documentsOrdering  DocumentsOrdering
-	queryBudget        time.Duration
-	pageReadBudget     time.Duration
-	pagesReadPerQuery  int
-	rankedItemsCeiling int
-	observer           NetworkSearchObserver
+	peerDirectory                  *peerdirectory.Directory
+	peerChoice                     PeerChoice
+	querySpread                    QuerySpread
+	pageReading                    PageReading
+	documentsOrderingForTheRead    DocumentsOrdering
+	documentsOrderingForTheRanking DocumentsOrdering
+	queryBudget                    time.Duration
+	pageReadBudget                 time.Duration
+	pagesReadPerQuery              int
+	rankedItemsCeiling             int
+	observer                       NetworkSearchObserver
 }
 
 //nolint:revive // argument-limit: what one network search holds for every query
@@ -76,7 +78,8 @@ func New(
 	peerChoice PeerChoice,
 	querySpread QuerySpread,
 	pageReading PageReading,
-	documentsOrdering DocumentsOrdering,
+	documentsOrderingForTheRead DocumentsOrdering,
+	documentsOrderingForTheRanking DocumentsOrdering,
 	queryBudget time.Duration,
 	pageReadBudget time.Duration,
 	pagesReadPerQuery int,
@@ -84,16 +87,17 @@ func New(
 	observer NetworkSearchObserver,
 ) Network {
 	return Network{
-		peerDirectory:      peerDirectory,
-		peerChoice:         peerChoice,
-		querySpread:        querySpread,
-		pageReading:        pageReading,
-		documentsOrdering:  documentsOrdering,
-		queryBudget:        queryBudget,
-		pageReadBudget:     pageReadBudget,
-		pagesReadPerQuery:  pagesReadPerQuery,
-		rankedItemsCeiling: rankedItemsCeiling,
-		observer:           observer,
+		peerDirectory:                  peerDirectory,
+		peerChoice:                     peerChoice,
+		querySpread:                    querySpread,
+		pageReading:                    pageReading,
+		documentsOrderingForTheRead:    documentsOrderingForTheRead,
+		documentsOrderingForTheRanking: documentsOrderingForTheRanking,
+		queryBudget:                    queryBudget,
+		pageReadBudget:                 pageReadBudget,
+		pagesReadPerQuery:              pagesReadPerQuery,
+		rankedItemsCeiling:             rankedItemsCeiling,
+		observer:                       observer,
 	}
 }
 
@@ -123,7 +127,7 @@ func (n Network) Search(
 	defer endTheQuerySpread()
 	answers := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
 	documentsOrderedFirst := documentsUpTo(
-		n.documentsOrdering.OrderedDocumentsOf(answers),
+		n.documentsOrderingForTheRead.OrderedDocumentsOf(answers),
 		n.pagesReadPerQuery,
 	)
 	readPages := n.pageReading.ReadEachPage(
@@ -133,7 +137,7 @@ func (n Network) Search(
 		SaturatedWith(readPages.PageContentsPerDocument).
 		WithoutDocuments(readPages.GoneDocuments)
 	rankedDocuments := documentsUpTo(
-		n.documentsOrdering.OrderedDocumentsOf(
+		n.documentsOrderingForTheRanking.OrderedDocumentsOf(
 			answersSaturatedWithThePageContents,
 		),
 		n.rankedItemsCeiling,

@@ -341,3 +341,24 @@ func TestADocumentNoPeerCountedHoldsNoLinkCounts(t *testing.T) {
 		t.Fatal("the found document holds link counts, want none where no peer reported them")
 	}
 }
+
+func TestTheAnswersCarryThePlaceEachPeerGaveADocument(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{
+		"first":  {"https://a.example/", "https://shared.example/"},
+		"second": {"https://shared.example/"},
+	})
+
+	foundDocuments := searchOf(network, &recordedSpreads{})
+
+	placesOfTheSharedDocument := foundDocuments[1].PlacesGivenByPeers
+	if len(placesOfTheSharedDocument) != 2 ||
+		placesOfTheSharedDocument[0].Place != 1 ||
+		placesOfTheSharedDocument[1].Place != 0 {
+		t.Fatalf(
+			"the shared document carries %+v, want the place each of the two peers gave it",
+			placesOfTheSharedDocument,
+		)
+	}
+}

@@ -8,16 +8,17 @@ import (
 )
 
 type FoundDocument struct {
-	Hash             yacymodel.URLHash
-	Address          string
-	Title            string
-	Snippet          string
-	PublishedAt      yacymodel.Optional[time.Time]
-	FaviconAddress   string
-	HitsPerQueryWord map[yacymodel.Hash]int
-	AmountOfWords    int
-	QueryPhraseHits  int
-	LinkCounts       yacymodel.Optional[pagecontents.LinkCounts]
+	Hash               yacymodel.URLHash
+	Address            string
+	Title              string
+	Snippet            string
+	PublishedAt        yacymodel.Optional[time.Time]
+	FaviconAddress     string
+	HitsPerQueryWord   map[yacymodel.Hash]int
+	AmountOfWords      int
+	QueryPhraseHits    int
+	LinkCounts         yacymodel.Optional[pagecontents.LinkCounts]
+	PlacesGivenByPeers []PlaceGivenByPeer
 }
 
 func FoundDocumentFrom(metadata yacymodel.URLMetadata) FoundDocument {

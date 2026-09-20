@@ -30,6 +30,7 @@ func foundDocumentsFrom(
 			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
 		),
 		postingsPerDocumentAcrossReplicasFrom(matchedAndHeldDocumentsRound, joinedDocuments),
+		matchedAndHeldDocumentsRound.placesGivenByPeersPerDocument(),
 	)
 }
 
@@ -68,18 +69,17 @@ func distinctFoundDocumentsFrom(
 func postingsPerDocumentAcrossReplicasFrom(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	joinedDocuments distinctDocuments,
-) map[yacymodel.URLHash]*postingsOfOneDocumentAcrossReplicas {
-	postingsPerDocument := map[yacymodel.URLHash]*postingsOfOneDocumentAcrossReplicas{}
+) map[yacymodel.URLHash]*queryanswers.PostingsOfOneDocumentAcrossReplicas {
+	postingsPerDocument := map[yacymodel.URLHash]*queryanswers.PostingsOfOneDocumentAcrossReplicas{}
 	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
 			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
 				continue
 			}
 			if postingsPerDocument[matchedDocument.Metadata.Hash] == nil {
-				postingsPerDocument[matchedDocument.Metadata.Hash] =
-					&postingsOfOneDocumentAcrossReplicas{}
+				postingsPerDocument[matchedDocument.Metadata.Hash] = &queryanswers.PostingsOfOneDocumentAcrossReplicas{}
 			}
-			postingsPerDocument[matchedDocument.Metadata.Hash].take(
+			postingsPerDocument[matchedDocument.Metadata.Hash].Take(
 				answeredAsk.Ask.Word, matchedDocument.Posting,
 			)
 		}
@@ -90,16 +90,18 @@ func postingsPerDocumentAcrossReplicasFrom(
 
 func foundDocumentsCountedAcrossTheReplicas(
 	foundDocuments []queryanswers.FoundDocument,
-	postingsPerDocument map[yacymodel.URLHash]*postingsOfOneDocumentAcrossReplicas,
+	postingsPerDocument map[yacymodel.URLHash]*queryanswers.PostingsOfOneDocumentAcrossReplicas,
+	placesGivenByPeersPerDocument map[yacymodel.URLHash][]queryanswers.PlaceGivenByPeer,
 ) []queryanswers.FoundDocument {
 	for place, foundDocument := range foundDocuments {
+		foundDocuments[place].PlacesGivenByPeers = placesGivenByPeersPerDocument[foundDocument.Hash]
 		postings, sentForTheDocument := postingsPerDocument[foundDocument.Hash]
 		if !sentForTheDocument {
 			continue
 		}
-		foundDocuments[place].HitsPerQueryWord = postings.hitsPerQueryWord()
-		foundDocuments[place].AmountOfWords = postings.amountOfWords()
-		foundDocuments[place].LinkCounts = postings.linkCounts()
+		foundDocuments[place].HitsPerQueryWord = postings.HitsPerQueryWord()
+		foundDocuments[place].AmountOfWords = postings.AmountOfWords()
+		foundDocuments[place].LinkCounts = postings.LinkCounts()
 	}
 
 	return foundDocuments

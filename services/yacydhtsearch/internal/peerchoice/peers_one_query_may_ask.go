@@ -22,10 +22,15 @@ func (q peersOneQueryMayAsk) peersForQueryWord(
 	chosenPeers []ChosenPeer,
 	ringFractionsOfTheTakenPeers []float64,
 ) {
-	return peersTakenFromEachPartitionInTurn(
+	takenPeers, ringFractionsOfTheTakenPeers := peersTakenFromEachPartitionInTurn(
 		q.peersNearestToTheWordInEachPartition(queryWord, peersChosenForEarlierWords),
 		q.networkRedundancy,
 	)
+	for place, takenPeer := range takenPeers {
+		takenPeers[place].Reliability = q.reliabilityOfEachPeer[takenPeer.Peer.Hash]
+	}
+
+	return takenPeers, ringFractionsOfTheTakenPeers
 }
 
 type peerAtRingFractionFromTheWord struct {

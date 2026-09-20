@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -16,6 +17,25 @@ type matchedAndHeldDocumentsRound struct {
 	answeredAsks                   []peerasks.AnsweredMatchedAndHeldDocumentsAsk
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	amountOfPeersPerDocument       map[yacymodel.URLHash]int
+	reliabilityOfEachPeer          map[yacymodel.Hash]float64
+}
+
+func (round matchedAndHeldDocumentsRound) placesGivenByPeersPerDocument() map[yacymodel.URLHash][]queryanswers.PlaceGivenByPeer {
+	placesGivenByPeersPerDocument := map[yacymodel.URLHash][]queryanswers.PlaceGivenByPeer{}
+	for _, answeredAsk := range round.answeredAsks {
+		for place, document := range answeredAsk.DocumentsListedForTheWord {
+			placesGivenByPeersPerDocument[document] = append(
+				placesGivenByPeersPerDocument[document],
+				queryanswers.PlaceGivenByPeer{
+					Peer:                 answeredAsk.Ask.Peer.Hash,
+					ReliabilityOfThePeer: round.reliabilityOfEachPeer[answeredAsk.Ask.Peer.Hash],
+					Place:                place,
+				},
+			)
+		}
+	}
+
+	return placesGivenByPeersPerDocument
 }
 
 func (round matchedAndHeldDocumentsRound) leadingQueryWord() queryWordAcrossReplicas {

@@ -313,3 +313,39 @@ func TestOneReplicaDoesNotOwnTheAmountOfWordsTheAnswersCarry(t *testing.T) {
 		)
 	}
 }
+
+func TestTheAnswersCarryThePlaceEachPeerGaveADocument(t *testing.T) {
+	t.Parallel()
+
+	query := searchquery.QueryFrom("berlin", "")
+	queryWord := query.TermHashes()[0]
+	peer := peerNamed("one")
+	answered := &answeredAsksOfOneSpread{
+		matchedAndHeldDocuments: []peerasks.AnsweredMatchedAndHeldDocumentsAsk{
+			answeredMatchedAndHeldDocumentsAsk(
+				peer,
+				queryWord,
+				[]peerasks.MatchedDocument{
+					matchedDocumentOf(t, "https://first.example/", queryWord, 3, 400),
+					matchedDocumentOf(t, "https://second.example/", queryWord, 3, 400),
+				},
+				2,
+			),
+		},
+	}
+
+	answers := spreadOver(t, answered, false).
+		SpreadOverPeers(t.Context(), query, chosenPeersOf(query.TermHashes(), peer))
+
+	placesOfTheSecondDocument := foundDocumentOf(
+		t, answers, "https://second.example/",
+	).PlacesGivenByPeers
+	if len(placesOfTheSecondDocument) != 1 ||
+		placesOfTheSecondDocument[0].Peer != peer.Hash ||
+		placesOfTheSecondDocument[0].Place != 1 {
+		t.Errorf(
+			"the document carries %+v, want the second place the peer gave it",
+			placesOfTheSecondDocument,
+		)
+	}
+}

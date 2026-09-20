@@ -1,18 +1,20 @@
-package wordjoined
+package queryanswers
 
 import (
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type postingsOfOneDocumentAcrossReplicas struct {
+type PostingsOfOneDocumentAcrossReplicas struct {
 	hitsAcrossReplicasPerQueryWord map[yacymodel.Hash][]int
 	amountsOfWordsAcrossReplicas   []int
 	localLinksAcrossReplicas       []int
 	externalLinksAcrossReplicas    []int
 }
 
-func (postings *postingsOfOneDocumentAcrossReplicas) take(
+func (postings *PostingsOfOneDocumentAcrossReplicas) Take(
 	word yacymodel.Hash,
 	posting yacymodel.Optional[yacymodel.RWIPosting],
 ) {
@@ -37,7 +39,7 @@ func (postings *postingsOfOneDocumentAcrossReplicas) take(
 	)
 }
 
-func (postings postingsOfOneDocumentAcrossReplicas) hitsPerQueryWord() map[yacymodel.Hash]int {
+func (postings PostingsOfOneDocumentAcrossReplicas) HitsPerQueryWord() map[yacymodel.Hash]int {
 	hitsPerQueryWord := make(
 		map[yacymodel.Hash]int, len(postings.hitsAcrossReplicasPerQueryWord),
 	)
@@ -48,7 +50,7 @@ func (postings postingsOfOneDocumentAcrossReplicas) hitsPerQueryWord() map[yacym
 	return hitsPerQueryWord
 }
 
-func (postings postingsOfOneDocumentAcrossReplicas) amountOfWords() int {
+func (postings PostingsOfOneDocumentAcrossReplicas) AmountOfWords() int {
 	if len(postings.amountsOfWordsAcrossReplicas) == 0 {
 		return 0
 	}
@@ -56,7 +58,7 @@ func (postings postingsOfOneDocumentAcrossReplicas) amountOfWords() int {
 	return lowerMedianOf(postings.amountsOfWordsAcrossReplicas)
 }
 
-func (postings postingsOfOneDocumentAcrossReplicas) linkCounts() yacymodel.Optional[pagecontents.LinkCounts] {
+func (postings PostingsOfOneDocumentAcrossReplicas) LinkCounts() yacymodel.Optional[pagecontents.LinkCounts] {
 	if len(postings.localLinksAcrossReplicas) == 0 {
 		return yacymodel.None[pagecontents.LinkCounts]()
 	}
@@ -65,4 +67,10 @@ func (postings postingsOfOneDocumentAcrossReplicas) linkCounts() yacymodel.Optio
 		LocalLinks:    lowerMedianOf(postings.localLinksAcrossReplicas),
 		ExternalLinks: lowerMedianOf(postings.externalLinksAcrossReplicas),
 	})
+}
+
+func lowerMedianOf(amounts []int) int {
+	sortedAmounts := slices.Sorted(slices.Values(amounts))
+
+	return sortedAmounts[(len(sortedAmounts)-1)/2]
 }

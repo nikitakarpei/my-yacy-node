@@ -33,3 +33,14 @@ func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) ChosenPeersAcrossQueryWor
 
 	return chosenPeersAcrossQueryWords
 }
+
+func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) ReliabilityPerPeer() map[yacymodel.Hash]float64 {
+	reliabilityPerPeer := map[yacymodel.Hash]float64{}
+	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
+		for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
+			reliabilityPerPeer[chosenPeer.Peer.Hash] = chosenPeer.Reliability
+		}
+	}
+
+	return reliabilityPerPeer
+}

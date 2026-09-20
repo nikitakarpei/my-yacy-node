@@ -117,6 +117,7 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 			chosenPeersPerQueryWord, spread.partitions, answeredAsks,
 		),
 		amountOfPeersPerDocument: amountOfPeersPerDocumentOf(answeredAsks),
+		reliabilityOfEachPeer:    chosenPeersPerQueryWord.ReliabilityPerPeer(),
 	}
 }
 

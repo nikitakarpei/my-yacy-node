@@ -58,5 +58,5 @@ func (spread Spread) SpreadOverPeers(
 		),
 	)
 
-	return answeredQueryFrom(answeredAsks, query.TermHashes())
+	return answeredQueryFrom(answeredAsks, query.TermHashes(), chosenPeersPerQueryWord)
 }

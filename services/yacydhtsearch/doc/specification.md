@@ -31,6 +31,10 @@ federated search across one configured YaCy DHT network — any configured netwo
 * The service SHALL bound the total time spent on a query by an operator-configured budget.
 * The service SHALL read the text of the page of each candidate result inside its own budget,
   count the query words in that text, and cut the description of the result from that text.
+* The service SHALL choose the results whose pages it reads from the places the peers gave each
+  document and from how reliable it found those peers, and SHALL NOT use for that choice what a
+  peer reports about the contents of a document.
+* The service SHALL drop a document whose address does not hold the name the peer sent it under.
 * The service SHALL NOT return duplicate results for the same URL within a query's response.
 * The service SHALL return merged results in best-effort order.
 
@@ -46,6 +50,8 @@ federated search across one configured YaCy DHT network — any configured netwo
   enough that any compliant client, including SearXNG's native YaCy engine, can use it unmodified.
 * Peer selection and peer-directory eviction SHALL be replaceable behind narrow interfaces.
 * Peer selection SHALL use nothing a peer claims about itself or about another peer.
+* A count one peer sends for a document SHALL NOT alone set what the service holds for that
+  document while other peers answered for it too.
 * Operational behavior SHALL be observable through machine-readable metrics, including per-query
   completeness.
 * The service SHOULD track peer liveness and refresh its peer directory to reduce the likelihood

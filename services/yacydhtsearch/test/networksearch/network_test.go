@@ -303,7 +303,7 @@ func networkSearching(
 ) networksearch.Network {
 	t.Helper()
 
-	return networkOrdering(t, directory, observer, querySpread, orderingInTheFoundOrder{})
+	return networkRanking(t, directory, observer, querySpread, orderingInTheFoundOrder{})
 }
 
 type orderingInTheFoundOrder struct{}
@@ -314,12 +314,12 @@ func (orderingInTheFoundOrder) OrderedDocumentsOf(
 	return answers.FoundDocuments
 }
 
-func networkOrdering(
+func networkRanking(
 	t *testing.T,
 	directory *peerdirectory.Directory,
 	observer networksearch.NetworkSearchObserver,
 	querySpread networksearch.QuerySpread,
-	documentsOrdering networksearch.DocumentsOrdering,
+	documentsOrderingForTheRanking networksearch.DocumentsOrdering,
 ) networksearch.Network {
 	t.Helper()
 
@@ -328,7 +328,8 @@ func networkOrdering(
 		everyAskablePeer{},
 		querySpread,
 		pagesThatNoOneReads{},
-		documentsOrdering,
+		orderingInTheFoundOrder{},
+		documentsOrderingForTheRanking,
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,
@@ -571,7 +572,7 @@ func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
 	t.Parallel()
 
 	common, rare := "https://common.example/", "https://rare.example/"
-	network := networkOrdering(
+	network := networkRanking(
 		t,
 		directoryAnsweringAt(t, peerHolding(t)),
 		&recordedQuery{},
@@ -620,6 +621,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		everyAskablePeer{},
 		answersOfTwoWords(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
+		orderingInTheFoundOrder{},
 		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
 		queryBudget,
 		pageReadBudget,
@@ -666,6 +668,7 @@ func TestADocumentWhosePageIsGoneLeavesTheRanking(t *testing.T) {
 		everyAskablePeer{},
 		answersOfTwoWords(t, common, rare),
 		pagesOfOneDocumentGone{address: common},
+		orderingInTheFoundOrder{},
 		orderingInTheFoundOrder{},
 		queryBudget,
 		pageReadBudget,
@@ -742,6 +745,7 @@ func networkRecordingItsBudgets(
 			recorded: recorded,
 		},
 		pagesRecordingTheBudgetTheyGet{recorded: recorded},
+		orderingInTheFoundOrder{},
 		orderingInTheFoundOrder{},
 		queryBudget,
 		pageReadBudgetOfTheQuery,
