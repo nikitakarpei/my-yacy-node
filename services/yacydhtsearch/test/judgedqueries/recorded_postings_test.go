@@ -53,7 +53,6 @@ func hashOfTheWeatherDocument(t *testing.T) yacymodel.URLHash {
 func postingOfTheDocument(
 	document yacymodel.URLHash, posting yacymodel.RWIPosting,
 ) yacymodel.RWIPosting {
-	posting.WordHash = yacymodel.WordHash("berlin")
 	posting.URLHash = document
 
 	return posting
@@ -84,7 +83,7 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 	read := answersWrittenAndReadBack(t, answers).
 		PostingReplicasPerDocument[answers.FoundDocuments[0].Hash]
 
-	if len(read) != 2 ||
+	if len(read) != 2 || !read[0].Posting.WordHash.IsZero() ||
 		read[0].Holder != firstHolder || read[0].Posting.TitleWords != 4 ||
 		read[0].Posting.Phrases != 90 || read[0].Word.OrElse(yacymodel.Hash{}) !=
 		yacymodel.WordHash("berlin") ||
