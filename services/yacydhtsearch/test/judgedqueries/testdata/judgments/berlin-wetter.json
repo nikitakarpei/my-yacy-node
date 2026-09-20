@@ -2,40 +2,142 @@
   "query": "berlin wetter",
   "judgedDocuments": [
     {
-      "hash": "5Y0vTPSEx1zg",
-      "address": "https://wetter.welt.de/",
-      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
+      "hash": "Bc4tRuHjdLqg",
+      "address": "https://www.focus.de/gesundheit/buchauszug-ich-sehe-den-himmel-nach-einer-nacht-entschied-ich-mich-gegen-chemo-und-lebte-im-heute_id_11631612.html",
+      "title": "Krebs-Kranke: „Nach der Nacht entschied ich mich gegen Chemo und lebte im Heute“ - FOCUS online",
+      "grade": null
+    },
+    {
+      "hash": "MBuM2T_qyJvh",
+      "address": "https://www.ardmediathek.de/tv-programm/6a6a7ef9cda26ef83569f841",
+      "title": "Vorschau: rbb wetter • Die Wetteraussichten für Berlin und Brandenburg",
+      "grade": null
+    },
+    {
+      "hash": "QYHT4UemigYg",
+      "address": "https://www.flixbus.de/busverbindung/fernbus-berlin-hamburg",
+      "title": "Bus Berlin nach Hamburg - Günstig tickets buchen",
+      "grade": null
+    },
+    {
+      "hash": "TWaBYMy11Gbg",
+      "address": "https://berlin.t-online.de/region/berlin/id_100975494/tagesausflug-ab-berlin-therme-wandern-und-fachwerk-in-bad-belzig.html",
+      "title": "Tagesausflug ab Berlin: Therme, Wandern und Fachwerk in Bad Belzig",
+      "grade": null
+    },
+    {
+      "hash": "TncJoNl9oJEj",
+      "address": "https://www.wiesbadener-kurier.de/lokales/hessen/wetter-in-hessen-frost-glaette-und-schnee-zum-wochenende-5362049",
+      "title": "Wetter in Hessen: Frost, Glätte und Schnee zum Wochenende",
+      "grade": null
+    },
+    {
+      "hash": "S_sNkHyX5Qug",
+      "address": "https://www.t-online.de/wetter/deutschland/berlin/jh518hs406/wetter-heute",
+      "title": "Wetter für Berlin | Vorhersage für heute",
+      "grade": null
+    },
+    {
+      "hash": "ZHRFHMy11Gbg",
+      "address": "https://berlin.t-online.de/region/berlin/id_101423200/demo-gegen-die-afd-tausende-zu-noafd-protest-heute-in-berlin-erwartet.html",
+      "title": "Demo gegen die AfD: Tausende zu \"NoAfD-Protest\" heute in Berlin erwartet",
+      "grade": null
+    },
+    {
+      "hash": "YApoeQXXOSAg",
+      "address": "https://www.rbb24.de/kultur/beitrag/2026/06/125-jahre-berliner-stadtbibliothek-berlin-zlb-.html",
+      "title": "Stadtbibliothek Berlin feiert 125 Jahre",
+      "grade": null
+    },
+    {
+      "hash": "bLlwTHJwOb4h",
+      "address": "https://www.radioeins.de/wetter/orte.htm/id=10379.html",
+      "title": "Aktuelles Wetter - Orte | radioeins",
+      "grade": null
+    },
+    {
+      "hash": "cXuUfl_5-JKg",
+      "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_tn",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "gIN3Al_5-JKg",
+      "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_txc",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "qEpb6HfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter/deutschland/wettervorhersage-deutschland-100.html",
+      "title": "Wetter Deutschland: Wolken, Temperaturen, Wind und Aussichten | tagesschau.de",
+      "grade": null
+    },
+    {
+      "hash": "przecpXXOSAg",
+      "address": "https://www.rbb24.de/panorama/beitrag/2026/08/berlin-brandenburg-wetter-wochenende-hitze-samstag-abkuehlung-sonntag.html",
+      "title": "Wetter: Samstag heiß, Sonntag kommt die Abkühlung",
+      "grade": null
+    },
+    {
+      "hash": "r7SQ1PSEx1zg",
+      "address": "https://wetter.welt.de/europa/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
       "grade": 1
     },
     {
-      "hash": "ySJH8lvSGqr4",
-      "address": "https://einarschlereth.blogspot.com/",
-      "title": "einartysken",
-      "grade": 0
+      "hash": "o2bD2gUHQOxh",
+      "address": "https://futurezone.at/science/el-nino-wetter-pazifik-hitze-duerre-regen-ueberschwemmung-rekordtemperatur/402478043",
+      "title": "El Niño: So beeinflusst das Phänomen unser Wetter",
+      "grade": null
     },
     {
-      "hash": "m4HF5WVhMz6w",
-      "address": "https://journalism.us.to/",
-      "title": "Journalism | Jornalismus | Journalism.us.to",
-      "grade": 0
+      "hash": "8c15fMy11Gbg",
+      "address": "https://berlin.t-online.de/region/berlin/id_101373902/klaus-lage-bo-heart-konzert-im-ernst-reuter-saal-berlin-ticket-infos.html",
+      "title": "Klaus Lage \u0026 Bo Heart: Konzert im Ernst-Reuter-Saal Berlin – Ticket-Infos",
+      "grade": null
     },
     {
-      "hash": "EjISsl3kFhe4",
-      "address": "https://www.wetter.com/",
-      "title": "Wetter, Wettervorhersage \u0026 Wetterbericht | wetter.com",
+      "hash": "8P9zIl_5-JKg",
+      "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_txca",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "-5YtplfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter",
+      "title": "Das tagesschau.de-Wetter | tagesschau.de",
       "grade": 1
     },
     {
-      "hash": "_2VMoQXXOSAg",
-      "address": "https://www.rbb24.de/kultur/beitrag/2026/06/berlin-open-air-veranstaltungen-genehmigung-fete-de-la-musique.html",
-      "title": "Weniger Hürden für Open-Airs in Berlin? Mitte wagt einen neuen Ansatz",
+      "hash": "tCPDDpXXOSAg",
+      "address": "https://www.rbb24.de/panorama/beitrag/2026/04/berlin-brandenburg-wetter-1-mai-wochenende-winfried-hoch-sonne.html",
+      "title": "Wetter: Mai startet in Berlin und Brandenburg warm und sonnenklar",
+      "grade": null
+    },
+    {
+      "hash": "37f63My11Gbg",
+      "address": "https://berlin.t-online.de/region/berlin/",
+      "title": "Berlin: Nachrichten \u0026 News aus Berlin",
       "grade": 0
     },
     {
-      "hash": "-gSHXofjI1Dh",
-      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
-      "title": "Wahlarchiv zur Landtagswahl Baden-Württemberg | tagesschau.de",
+      "hash": "LSS-floLWSig",
+      "address": "https://www.berlin.de/stadtplan/",
+      "title": "Stadtplan Berlin - Berlin.de",
       "grade": 0
+    },
+    {
+      "hash": "yp-eFT_qyJvh",
+      "address": "https://www.ardmediathek.de/tv-programm/6a6d1fa14cdf85e63892f4fa",
+      "title": "Vorschau: rbb wetter • Die Wetteraussichten für Berlin und Brandenburg",
+      "grade": null
+    },
+    {
+      "hash": "wrxZml_5-JKg",
+      "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_tnc",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
     },
     {
       "hash": "RA7PGPPVWAXw",
@@ -50,81 +152,27 @@
       "grade": 1
     },
     {
-      "hash": "n-pRzHfjI1Dh",
-      "address": "https://www.tagesschau.de/wetter/regenradar-deutschland/osten",
-      "title": "Regenradar Ostdeutschland: Aktueller Niederschlag | tagesschau.de",
-      "grade": 1
+      "hash": "WjrUKyCK9lK4",
+      "address": "https://de.euronews.com/wetter",
+      "title": "Wetter – Wettervorhersage für Europa und die Welt | Euronews",
+      "grade": null
     },
     {
-      "hash": "37f63My11Gbg",
-      "address": "https://berlin.t-online.de/region/berlin/",
-      "title": "Berlin: Nachrichten \u0026 News aus Berlin",
-      "grade": 0
+      "hash": "8ldsBHXXOSAg",
+      "address": "https://www.rbb24.de/wetter/berlin/",
+      "title": "Aussichten: Wetter in Berlin",
+      "grade": null
     },
     {
-      "hash": "-5YtplfjI1Dh",
-      "address": "https://www.tagesschau.de/wetter",
-      "title": "Das tagesschau.de-Wetter | tagesschau.de",
-      "grade": 1
+      "hash": "6jbQI03MiEig",
+      "address": "https://www.ndr.de/nachrichten/wetter/",
+      "title": "Wetter: Vorhersage und Regenradar für Norddeutschland | NDR.de - Nachrichten - Wetter",
+      "grade": null
     },
     {
-      "hash": "LSS-floLWSig",
-      "address": "https://www.berlin.de/stadtplan/",
-      "title": "Stadtplan Berlin - Berlin.de",
-      "grade": 0
-    },
-    {
-      "hash": "h-LXAjyX5Qug",
-      "address": "https://www.t-online.de/mobilitaet/reifen/",
-      "title": "Reifen: Autoreifen und Reifentest für Sommerreifen und Winterreifen",
-      "grade": 0
-    },
-    {
-      "hash": "FcrOSdR5Djcw",
-      "address": "https://de.wikinews.org/wiki/Hauptseite",
-      "title": "Wikinews, die freie Nachrichtenquelle",
-      "grade": 0
-    },
-    {
-      "hash": "tR-1WXj5gZJ5",
-      "address": "https://wissenschaft3000.wordpress.com/tag/1913/",
-      "title": "1913 | Wissenschaft3000 ~ science3000",
-      "grade": 0
-    },
-    {
-      "hash": "-WvJtjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Singapore",
-      "title": "Singapore - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "4Its1HfjI1Dh",
-      "address": "https://www.tagesschau.de/wetter/europa-welt",
-      "title": "Wettervorhersage Europa: Wetterlage und Temperaturen | tagesschau.de",
-      "grade": 1
-    },
-    {
-      "hash": "Bhyw76Fs30aw",
-      "address": "https://www.gsd.harvard.edu/",
-      "title": "Home - Harvard Graduate School of Design",
-      "grade": 0
-    },
-    {
-      "hash": "6AeNnlyX5Qug",
-      "address": "https://www.t-online.de/video/",
-      "title": "Die besten Videos aus Web, TV, News und Sport",
-      "grade": 0
-    },
-    {
-      "hash": "zqhYnX8moajg",
-      "address": "https://www.welt.de/politik/ausland/article185195188/Rex-Tillerson-Trump-attackiert-Ex-Minister-strohdumm-und-stinkfaul.html",
-      "title": "Rex Tillerson: Trump attackiert Ex-Minister – „strohdumm und stinkfaul“ - WELT",
-      "grade": 0
-    },
-    {
-      "hash": "DcJqWlFc3viw",
-      "address": "https://www.wetter.net/",
-      "title": "Wetter – 14-Tage-Vorhersage \u0026 Regenradar | wetter.net",
+      "hash": "5Y0vTPSEx1zg",
+      "address": "https://wetter.welt.de/",
+      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Deutschland",
       "grade": 1
     },
     {
@@ -140,9 +188,63 @@
       "grade": 0
     },
     {
+      "hash": "tHnWBhfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland/europa",
+      "title": "Aktuelle Nachrichten aus Europa | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "qUyO80yX5Qug",
+      "address": "https://www.t-online.de/nachrichten/panorama/wetter/",
+      "title": "Wetter heute und morgen, Vorhersagen und Trends",
+      "grade": null
+    },
+    {
+      "hash": "uj2IelfjI1Dh",
+      "address": "https://www.tagesschau.de/inland",
+      "title": "Aktuelle Nachrichten aus Deutschland | tagesschau.de",
+      "grade": 0
+    },
+    {
       "hash": "hpNx6l0w__jw",
       "address": "https://www.faz.net/aktuell/",
       "title": "Aktuelle Nachrichten online - FAZ.NET",
+      "grade": 0
+    },
+    {
+      "hash": "FcrOSdR5Djcw",
+      "address": "https://de.wikinews.org/wiki/Hauptseite",
+      "title": "Wikinews, die freie Nachrichtenquelle",
+      "grade": 0
+    },
+    {
+      "hash": "ng9PTlfjI1Dh",
+      "address": "https://www.tagesschau.de/",
+      "title": "tagesschau.de - die erste Adresse für Nachrichten und Information | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "zjc5Mm8moajg",
+      "address": "https://www.welt.de/sport/handball/",
+      "title": "Handball: News und Highlight-Videos zu Bundesliga, WM \u0026 EM - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "0s4GelfjI1Dh",
+      "address": "https://www.tagesschau.de/thema",
+      "title": "Nachrichten-Themen | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": 0
+    },
+    {
+      "hash": "I86iVlfjI1Dh",
+      "address": "https://www.tagesschau.de/investigativ",
+      "title": "Investigativ Berichterstattung und Reportagen | tagesschau.de",
       "grade": 0
     },
     {
@@ -152,27 +254,15 @@
       "grade": 0
     },
     {
-      "hash": "gt1Hms8_y8I6",
-      "address": "https://henrymakow-de.com/",
-      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "grade": 0
-    },
-    {
       "hash": "YFg0eX8moajg",
       "address": "https://www.welt.de/sonderthemen/medizin-der-zukunft/",
       "title": "Medizin der Zukunft",
       "grade": 0
     },
     {
-      "hash": "zjc5Mm8moajg",
-      "address": "https://www.welt.de/sport/handball/",
-      "title": "Handball: Aktuelle News zu Bundesliga, DHB \u0026 Champions League",
-      "grade": 0
-    },
-    {
-      "hash": "2RTWrl8moajg",
-      "address": "https://www.welt.de/",
-      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "hash": "gt1Hms8_y8I6",
+      "address": "https://henrymakow-de.com/",
+      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
       "grade": 0
     },
     {
@@ -188,22 +278,52 @@
       "grade": 0
     },
     {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "hash": "4nVLxl9xzMRh",
+      "address": "https://www.wetterkontor.de/",
+      "title": "Wettervorhersage, Regenradar, aktuelles Wetter - WetterKontor",
+      "grade": null
+    },
+    {
+      "hash": "6AeNnlyX5Qug",
+      "address": "https://www.t-online.de/video/",
+      "title": "Die besten Videos aus Web, TV, News und Sport",
       "grade": 0
     },
     {
-      "hash": "oq1hJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Cardiff",
-      "title": "Cardiff - Wikipedia",
+      "hash": "tR-1WXj5gZJ5",
+      "address": "https://wissenschaft3000.wordpress.com/tag/1913/",
+      "title": "1913 | Wissenschaft3000 ~ science3000",
       "grade": 0
     },
     {
-      "hash": "r7SQ1PSEx1zg",
-      "address": "https://wetter.welt.de/europa/",
-      "title": "Das aktuelle Wetter und 5-Tage Wettervorhersage für Europa",
-      "grade": 1
+      "hash": "4XL5IlJY9vJg",
+      "address": "https://www.aol.de/?r=www.aol.com",
+      "title": "AOL.de | Kostenlose Email, Nachrichten \u0026 Wetter, Finanzen , Sport und Star-News auf AOL.de - AOL.de",
+      "grade": null
+    },
+    {
+      "hash": "4oTfSHJwOb4h",
+      "address": "https://www.radioeins.de/wetter/orte.htm/id=10291.html",
+      "title": "Aktuelles Wetter - Orte | radioeins",
+      "grade": null
+    },
+    {
+      "hash": "4xROiT_qyJvh",
+      "address": "https://www.ardmediathek.de/tv-programm/6a6d21fb83901648aabce04a",
+      "title": "Vorschau: rbb wetter • Die Wetteraussichten für Berlin und Brandenburg",
+      "grade": null
+    },
+    {
+      "hash": "5ZVrAHJwOb4h",
+      "address": "https://www.radioeins.de/wetter/orte.htm/id=6510399.html",
+      "title": "Aktuelles Wetter - Orte | radioeins",
+      "grade": null
+    },
+    {
+      "hash": "6BPFXglN70Bg",
+      "address": "https://www.bergfex.de/deutschland/wetter/",
+      "title": "BERGFEX-Wetter Deutschland - Wettervorhersage Deutschland - Wetterbericht",
+      "grade": null
     },
     {
       "hash": "TR9kflXXOSAg",
@@ -212,15 +332,33 @@
       "grade": 0
     },
     {
-      "hash": "I86iVlfjI1Dh",
-      "address": "https://www.tagesschau.de/investigativ",
-      "title": "Investigativ Berichterstattung und Reportagen | tagesschau.de",
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
       "grade": 0
     },
     {
-      "hash": "SH2v_lfjI1Dh",
-      "address": "https://www.tagesschau.de/ausland",
-      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
+      "hash": "XCS0EofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "V93UbofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/thueringen",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "sII4cofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/brandenburg",
+      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "1_T-KZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/digitales",
+      "title": "Digitales aktuell | tagesschau.de",
       "grade": 0
     },
     {
@@ -242,58 +380,148 @@
       "grade": 0
     },
     {
-      "hash": "V93UbofjI1Dh",
-      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/thueringen",
-      "title": "Nachrichten und Hintergründe | tagesschau.de",
-      "grade": 0
-    },
-    {
-      "hash": "XCS0EofjI1Dh",
-      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente",
-      "title": "Nachrichten und Hintergründe | tagesschau.de",
-      "grade": 0
-    },
-    {
       "hash": "k1dSkZfjI1Dh",
       "address": "https://www.tagesschau.de/wirtschaft/verbraucher",
       "title": "Nachrichten zu Verbraucher-Themen | tagesschau.de",
       "grade": 0
     },
     {
-      "hash": "ng9PTlfjI1Dh",
-      "address": "https://www.tagesschau.de/",
-      "title": "tagesschau.de - die erste Adresse für Nachrichten und Information | tagesschau.de",
+      "hash": "-gSHXofjI1Dh",
+      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/baden-wuerttemberg",
+      "title": "Wahlarchiv zur Landtagswahl Baden-Württemberg | tagesschau.de",
       "grade": 0
     },
     {
-      "hash": "sII4cofjI1Dh",
-      "address": "https://www.tagesschau.de/wahlarchiv/laenderparlamente/brandenburg",
-      "title": "Nachrichten und Hintergründe | tagesschau.de",
+      "hash": "Bhyw76Fs30aw",
+      "address": "https://www.gsd.harvard.edu/",
+      "title": "Home - Harvard Graduate School of Design",
       "grade": 0
     },
     {
-      "hash": "tHnWBhfjI1Dh",
-      "address": "https://www.tagesschau.de/ausland/europa",
-      "title": "Aktuelle Nachrichten aus Europa | tagesschau.de",
+      "hash": "n-pRzHfjI1Dh",
+      "address": "https://www.tagesschau.de/wetter/regenradar-deutschland/osten",
+      "title": "Regenradar Ostdeutschland: Aktueller Niederschlag | tagesschau.de",
+      "grade": 1
+    },
+    {
+      "hash": "8T7bUlWgkBXg",
+      "address": "https://www.wetter.de/news.html",
+      "title": "News und Nachrichten zu Wetter Ereignissen | wetter.de",
+      "grade": null
+    },
+    {
+      "hash": "BOfydPPVWAXw",
+      "address": "https://wetter.faz.net/wetter-hamburg.html",
+      "title": "Wetter Hamburg | FAZ",
+      "grade": null
+    },
+    {
+      "hash": "JLcd9PPVWAXw",
+      "address": "https://wetter.faz.net/wetter-berlin.html",
+      "title": "Wetter Berlin | FAZ",
+      "grade": null
+    },
+    {
+      "hash": "OeRIwPPVWAXw",
+      "address": "https://wetter.faz.net/wetter-thueringen.html",
+      "title": "Wetter Thüringen | FAZ",
+      "grade": null
+    },
+    {
+      "hash": "Y2-ecgWgkBXg",
+      "address": "https://www.wetter.de/deutschland/wetter-karte-brandenburg-c49p12.html",
+      "title": "Wetter Brandenburg - Wettervorhersage - Wetterkarte | wetter.de",
+      "grade": null
+    },
+    {
+      "hash": "iPtE2PPVWAXw",
+      "address": "https://wetter.faz.net/wetter-niedersachsen.html",
+      "title": "Wetter Niedersachsen | FAZ",
+      "grade": null
+    },
+    {
+      "hash": "nwngHPPVWAXw",
+      "address": "https://wetter.faz.net/wetter-bayern.html",
+      "title": "Wetter Bayern | FAZ",
+      "grade": null
+    },
+    {
+      "hash": "pbF4bPPVWAXw",
+      "address": "https://wetter.faz.net/wetter-rheinlandpfalz.html",
+      "title": "Wetter Rheinland-Pfalz | FAZ",
+      "grade": null
+    },
+    {
+      "hash": "u3hDSgWgkBXg",
+      "address": "https://www.wetter.de/deutschland/unwetter-karte-deutschland-c49.html",
+      "title": "Aktuelle Unwetter für Deutschland | wetter.de",
+      "grade": null
+    },
+    {
+      "hash": "SH2v_lfjI1Dh",
+      "address": "https://www.tagesschau.de/ausland",
+      "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
       "grade": 0
     },
     {
-      "hash": "uj2IelfjI1Dh",
-      "address": "https://www.tagesschau.de/inland",
-      "title": "Aktuelle Nachrichten aus Deutschland | tagesschau.de",
+      "hash": "QVdy1KUHQOxh",
+      "address": "https://futurezone.at/meinung/florian-aigner-kolumne-wissenschaft-umweltschutz-cloud-seeding-geoengineering/402870497",
+      "title": "Künstlicher Regen: Wetter auf Knopfdruck gibt es nicht",
+      "grade": null
+    },
+    {
+      "hash": "-WvJtjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Singapore",
+      "title": "Singapore - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "0s4GelfjI1Dh",
-      "address": "https://www.tagesschau.de/thema",
-      "title": "Nachrichten-Themen | tagesschau.de",
+      "hash": "gkxerl_5-JKg",
+      "address": "https://www.mtwetter.de/regionales_mittel.php?par=mx_tdn\u0026datum=09",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "hm_hoz_5-JKg",
+      "address": "https://www.mtwetter.de/monatstabelle/date_mx_umx-2026-09-1-date_mx_umx.html",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "h-LXAjyX5Qug",
+      "address": "https://www.t-online.de/mobilitaet/reifen/",
+      "title": "Reifen: Autoreifen und Reifentest für Sommerreifen und Winterreifen",
       "grade": 0
     },
     {
-      "hash": "1_T-KZfjI1Dh",
-      "address": "https://www.tagesschau.de/wirtschaft/digitales",
-      "title": "Digitales aktuell | tagesschau.de",
+      "hash": "_GcBIz_5-JKg",
+      "address": "https://www.mtwetter.de/monatstabelle/mx_spx-2026-09-1-mx_spx.html",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "ySJH8lvSGqr4",
+      "address": "https://einarschlereth.blogspot.com/",
+      "title": "einartysken",
       "grade": 0
+    },
+    {
+      "hash": "wEciXz_5-JKg",
+      "address": "https://www.mtwetter.de/monatstabelle/mx_tdn-2026-09-2-mx_tdn.html",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "yEIOMl_5-JKg",
+      "address": "https://www.mtwetter.de/regionales_mittel.php?par=date_mx_umx\u0026datum=09",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
+    },
+    {
+      "hash": "qEXjel_5-JKg",
+      "address": "https://www.mtwetter.de/regionales_mittel.php?par=mo_sd\u0026datum=09",
+      "title": "Wetter- und Klimakarten",
+      "grade": null
     }
   ]
 }

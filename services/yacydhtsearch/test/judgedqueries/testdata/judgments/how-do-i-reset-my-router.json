@@ -2,135 +2,21 @@
   "query": "how do i reset my router",
   "judgedDocuments": [
     {
-      "hash": "5IDbgmwYpnl5",
-      "address": "https://protonvpn.com/support/protonvpn-setup-guide",
-      "title": "Setup guide for new users | Proton VPN",
-      "grade": 0
+      "hash": "R_xsdMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions",
+      "title": "community · Discussions · GitHub",
+      "grade": null
     },
     {
-      "hash": "HDyGbsE0EWs6",
-      "address": "https://guiltybunnies.com/",
-      "title": "guiltybunnies.com",
-      "grade": 0
+      "hash": "qtiPkyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Glossary/TCP_slow_start",
+      "title": "TCP slow start - Glossary | MDN",
+      "grade": null
     },
     {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "_Pbbj9DZkUL4",
-      "address": "https://www.cnet.com/tech/computing/how-to-factory-reset-your-macbook-to-sell-or-trade-it-in/",
-      "title": "How to Factory Reset Your MacBook: Erase Your Data Before You Sell or Trade It In - CNET",
-      "grade": 0
-    },
-    {
-      "hash": "ZSA-bCZGdT4x",
-      "address": "https://hay.toolforge.org/directory/",
-      "title": "Tools Directory - Hay's tools",
-      "grade": 0
-    },
-    {
-      "hash": "zR5OwdDZkUL4",
-      "address": "https://www.cnet.com/home/internet/best-mesh-wifi-routers/",
-      "title": "Best Mesh Wi-Fi Routers for 2026: Our Top Picks After Testing Range and Speed",
-      "grade": 1
-    },
-    {
-      "hash": "moVg22jw1Zlx",
-      "address": "https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/kube-router-network-policy/",
-      "title": "Use Kube-router for NetworkPolicy | Kubernetes",
-      "grade": 0
-    },
-    {
-      "hash": "thMJ17ic_biC",
-      "address": "http://problemkaputt.de/gbatek.htm",
-      "title": "GBATEK - GBA/NDS Technical Info",
-      "grade": 0
-    },
-    {
-      "hash": "3d4MdyMm3Ikw",
-      "address": "https://docs.vllm.ai/en/latest/",
-      "title": "vLLM",
-      "grade": 0
-    },
-    {
-      "hash": "hmcGoUlmysZ4",
-      "address": "https://veepn.com/blog/how-to-change-google-password/",
-      "title": "How to Change or Reset Your Google Password – Step-by-Step Guide | VeePN Blog",
-      "grade": 0
-    },
-    {
-      "hash": "9TGWgES6MKD4",
-      "address": "https://github.com/BlockRunAI/ClawRouter",
-      "title": "GitHub - BlockRunAI/ClawRouter: The agent-native LLM router for autonomous agents. Every frontier model behind one wallet, \u003c1ms local routing, USDC payments on Base \u0026 Solana via x402. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "o5RNZV0l928g",
-      "address": "https://www.netzwelt.de/probleme/158619-probleme-sonos-erste-hilfe-loesungen-gaengigen-stoerungen.html",
-      "title": "Probleme mit Sonos: Erste Hilfe und Lösungen zu gängigen Störungen | NETZWELT",
-      "grade": 0
-    },
-    {
-      "hash": "XHqeUlpntQz4",
-      "address": "https://www.tech-faq.com/how-to-access-netgear-router.html",
-      "title": "How to Access a Netgear Router - Tech-FAQ",
-      "grade": 1
-    },
-    {
-      "hash": "1oF23Q87RqzY",
-      "address": "http://ajacksonian.blogspot.com/",
-      "title": "Dumb Looks Still Free",
-      "grade": 0
-    },
-    {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "grade": 0
-    },
-    {
-      "hash": "-ibkk0fNDSI4",
-      "address": "https://tilde.team/~ebruce613/blog/adding-a-ddns-provider-to-my-router.html",
-      "title": "Adding a DDNS provider to my router",
-      "grade": 1
-    },
-    {
-      "hash": "ahV7FvlGc5j4",
-      "address": "https://narestan.com/product/tenda-nova-mw3-3-pack-ac1200-mesh-wifi-router",
-      "title": "خرید روتر مش وای فای تندا (3-PACK) Nova MW3",
-      "grade": 0
-    },
-    {
-      "hash": "ZrNcVB06vI96",
-      "address": "https://www.omadanetworks.com/au/business-networking/omada-router-wired-router/er605/v1/",
-      "title": "ER605 | Omada Gigabit VPN Router | TP-Link Australia",
-      "grade": 1
-    },
-    {
-      "hash": "_juwXdxTkzM4",
-      "address": "https://www.tp-link.com/us/home-networking/wifi-router/archer-c6/",
-      "title": "Archer C6 | AC1200 Wireless MU-MIMO Gigabit Router | TP-Link",
-      "grade": 1
-    },
-    {
-      "hash": "hPZVIyKMXa4Y",
-      "address": "http://computer-tricks2.blogspot.com/",
-      "title": "Computer Tips and Tricks",
-      "grade": 0
-    },
-    {
-      "hash": "MseyGJfm45J5",
-      "address": "https://www.expressvpn.com/blog/aircove-vpn-router-press-release/",
-      "title": "ExpressVPN launches Aircove, a Wi-Fi 6 router with built-in VPN protection",
-      "grade": 1
-    },
-    {
-      "hash": "4W0qsxKAn6I5",
-      "address": "https://news.ycombinator.com/item?id=30420918",
-      "title": "DYMO's new label printer uses RFID tags to prevent the use of non-OEM paper | Hacker News",
       "grade": 0
     },
     {
@@ -140,10 +26,106 @@
       "grade": 0
     },
     {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": null
+    },
+    {
+      "hash": "ZSA-bCZGdT4x",
+      "address": "https://hay.toolforge.org/directory/",
+      "title": "Tools Directory - Hay's tools",
       "grade": 0
+    },
+    {
+      "hash": "jPQVTswE2Xer",
+      "address": "https://keamananinformasi.id/",
+      "title": "keamananinformasi.id",
+      "grade": null
+    },
+    {
+      "hash": "_wxyPdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-internet-providers/",
+      "title": "Best ISPs of 2026: Our Top Picks Evaluated for Speed, Value and Price Transparency - CNET",
+      "grade": 0
+    },
+    {
+      "hash": "6Eguwl193mc6",
+      "address": "https://www.cacanhphongthuy.com/",
+      "title": "MurniQQ: Situs PKV Games QQ BandarQQ DominoQQ Terbaik 2026",
+      "grade": null
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "Ku6XRlPEHVf4",
+      "address": "https://www.ssbwiki.com/Smasher:Hungrybox",
+      "title": "Smasher:Hungrybox - SmashWiki, the Super Smash Bros. wiki",
+      "grade": null
+    },
+    {
+      "hash": "uRzNJXWmNe_4",
+      "address": "https://safety.google/products/nest/",
+      "title": "Google Nest Security \u0026 Privacy Commitments - Google Safety Center",
+      "grade": null
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "grade": null
+    },
+    {
+      "hash": "6nyn5skC_rMY",
+      "address": "http://popka.blog131.fc2.com/",
+      "title": "popka",
+      "grade": null
+    },
+    {
+      "hash": "m8ZbbdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-wi-fi-routers/",
+      "title": "Best Wi-Fi Routers for 2026: We Rank the Fastest 5th, 6th, 6E and 7th Gen Models",
+      "grade": 1
+    },
+    {
+      "hash": "H25iwlPEHVf4",
+      "address": "https://www.ssbwiki.com/Smasher:Sparg0",
+      "title": "Smasher:Sparg0 - SmashWiki, the Super Smash Bros. wiki",
+      "grade": null
+    },
+    {
+      "hash": "o9LgOs2xL7A6",
+      "address": "https://corbettreport.com/july-open-thread-2023/",
+      "title": "July Open Thread (2023) | The Corbett Report",
+      "grade": null
+    },
+    {
+      "hash": "3jGplstC-I25",
+      "address": "https://3dracinginc.com/",
+      "title": "3dracinginc -",
+      "grade": null
+    },
+    {
+      "hash": "In8plARfu9ww",
+      "address": "https://datatracker.ietf.org/stream/ise/",
+      "title": "ISE stream documents",
+      "grade": null
+    },
+    {
+      "hash": "3yXziobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/MediaWiki_1.44/wmf.27",
+      "title": "MediaWiki 1.44/wmf.27 - MediaWiki",
+      "grade": null
+    },
+    {
+      "hash": "-gZasla_7uS5",
+      "address": "https://www.theregister.com/",
+      "title": "Technology news and analysis | The Register",
+      "grade": null
     },
     {
       "hash": "DscS3QAUFAfQ",
@@ -152,27 +134,45 @@
       "grade": 0
     },
     {
+      "hash": "6w-KRsyg0sGw",
+      "address": "https://msgpack.org/",
+      "title": "MessagePack: It's like JSON. but fast and small.",
+      "grade": null
+    },
+    {
+      "hash": "Wo8mrUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2017/08/high-performance-networking-with-ec2/",
+      "title": "High Performance Networking with EC2 Virtual Private Clouds | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "dyov92jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/services-networking/ingress/",
+      "title": "Ingress | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "7fL-i2jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/administer-cluster/quota-api-object/",
+      "title": "Configure Quotas for API Objects | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "7znWz2jw1Zlx",
+      "address": "https://kubernetes.io/docs/reference/using-api/api-concepts/",
+      "title": "Kubernetes API Concepts | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "9EoxrUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2017/01/fission-serverless-functions-as-service-for-kubernetes/",
+      "title": "Fission: Serverless Functions as a Service for Kubernetes | Kubernetes",
+      "grade": null
+    },
+    {
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "grade": 0
-    },
-    {
-      "hash": "DEJvOsd21ih5",
-      "address": "https://spritesmods.com/",
-      "title": "Sprites mods - Welcome - Welcome!",
-      "grade": 0
-    },
-    {
-      "hash": "Doee3itD2jQw",
-      "address": "https://docs.python.org/3/library/socket.html",
-      "title": "socket — Low-level networking interface — Python 3.14.7 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "5DZ6TjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
-      "title": "Android (operating system) - Wikipedia",
       "grade": 0
     },
     {
@@ -182,46 +182,81 @@
       "grade": 0
     },
     {
-      "hash": "hTclojRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Firewall_(computing)",
-      "title": "Firewall (computing) - Wikipedia",
+      "hash": "UllpaUNG1pIw",
+      "address": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+      "title": "Brief independent investigation of agents’ behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident - METR",
+      "grade": null
+    },
+    {
+      "hash": "e5LTG7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc6120/",
+      "title": "RFC 6120: Extensible Messaging and Presence Protocol (XMPP): Core | RFC Editor",
+      "grade": null
+    },
+    {
+      "hash": "fFOO2AwOBDWx",
+      "address": "https://guides.rubyonrails.org/action_controller_overview.html",
+      "title": "Action Controller Overview — Ruby on Rails Guides",
+      "grade": null
+    },
+    {
+      "hash": "kM_w-2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/",
+      "title": "Ingress Controllers | Kubernetes",
+      "grade": null
+    },
+    {
+      "hash": "m1wztl1J_Myw",
+      "address": "https://www.cloudns.net/wiki/",
+      "title": "Wiki | ClouDNS",
+      "grade": null
+    },
+    {
+      "hash": "moVg22jw1Zlx",
+      "address": "https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/kube-router-network-policy/",
+      "title": "Use Kube-router for NetworkPolicy | Kubernetes",
       "grade": 0
     },
     {
-      "hash": "KAu1L9DZkUL4",
-      "address": "https://www.cnet.com/tech/services-and-software/best-vpn/",
-      "title": "Best VPNs We've Tested (2026)",
+      "hash": "03jjJ1ChLz4y",
+      "address": "https://linuxcontainers.org/incus/news/",
+      "title": "Linux Containers - Incus - News",
+      "grade": null
+    },
+    {
+      "hash": "3d4MdyMm3Ikw",
+      "address": "https://docs.vllm.ai/en/latest/",
+      "title": "vLLM",
       "grade": 0
     },
     {
-      "hash": "Ma72KjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/ChromeOS",
-      "title": "ChromeOS - Wikipedia",
-      "grade": 0
+      "hash": "7S7e_sYevRrw",
+      "address": "https://furbo.org/",
+      "title": "furbo.org by Craig Hockenberry",
+      "grade": null
     },
     {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "grade": 0
+      "hash": "CxloksgJoQyx",
+      "address": "https://grapheneos.org/usage",
+      "title": "Usage guide | GrapheneOS",
+      "grade": null
     },
     {
-      "hash": "b08TwlDZkUL4",
-      "address": "https://www.cnet.com/",
-      "title": "CNET: Product reviews, advice, how-tos and the latest news - CNET",
-      "grade": 0
+      "hash": "MZN76AwOBDWx",
+      "address": "https://guides.rubyonrails.org/security.html",
+      "title": "Securing Rails Applications — Ruby on Rails Guides",
+      "grade": null
     },
     {
-      "hash": "LVF9csQMPJQ7",
-      "address": "https://revistanuevagrecia.com/",
-      "title": "revistanuevagrecia.com -",
-      "grade": 0,
-      "spam": true
+      "hash": "NQqeso1J_Myw",
+      "address": "https://www.cloudns.net/wiki/article/29/",
+      "title": "ClouDNS: Master DNS Zone",
+      "grade": null
     },
     {
-      "hash": "YFkvAjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
-      "title": "Denial-of-service attack - Wikipedia",
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
       "grade": 0
     },
     {
@@ -231,28 +266,39 @@
       "grade": 0
     },
     {
-      "hash": "UgYGDsoMlAS5",
-      "address": "https://outpostboats.com/",
-      "title": "outpostboats.com -",
-      "grade": 0,
-      "spam": true
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "m8ZbbdDZkUL4",
-      "address": "https://www.cnet.com/home/internet/best-wi-fi-routers/",
-      "title": "Best Wi-Fi Routers for 2026: We Rank the Fastest 5th, 6th, 6E and 7th Gen Models",
-      "grade": 1
+      "hash": "-FqylOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/network-policy-provider/kube-router-network-policy/",
+      "title": "使用 kube-router 提供 NetworkPolicy | Kubernetes",
+      "grade": null
     },
     {
-      "hash": "_wxyPdDZkUL4",
-      "address": "https://www.cnet.com/home/internet/best-internet-providers/",
-      "title": "Best ISPs of 2026: Our Top Picks Evaluated for Speed, Value and Price Transparency - CNET",
+      "hash": "l4Sh4oUWXrc4",
+      "address": "https://buy.hpe.com/us/en/networking/juniper-solutions/juniper-routing-solutions/juniper-mx304-universal-router/p/1014920258",
+      "title": "Juniper MX304 Universal Router - Modern Edge Scaling | HPE Store",
+      "grade": null
+    },
+    {
+      "hash": "KAu1L9DZkUL4",
+      "address": "https://www.cnet.com/tech/services-and-software/best-vpn/",
+      "title": "Best VPNs We've Tested (2026)",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "hTclojRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Firewall_(computing)",
+      "title": "Firewall (computing) - Wikipedia",
       "grade": 0
     },
     {
@@ -260,6 +306,18 @@
       "address": "https://www.cnet.com/tech/services-and-software/nordvpn-review/",
       "title": "NordVPN Review 2025: Fast, Private and Superb for Streaming - CNET",
       "grade": 0
+    },
+    {
+      "hash": "zR5OwdDZkUL4",
+      "address": "https://www.cnet.com/home/internet/best-mesh-wifi-routers/",
+      "title": "Best Mesh Wi-Fi Routers for 2026: Our Top Picks After Testing Range and Speed",
+      "grade": 1
+    },
+    {
+      "hash": "F83ZOlTg2KM4",
+      "address": "https://www.wikihow.com/Reset-an-Xfinity-Remote-Control",
+      "title": "How to Reset an Xfinity Remote Control: Easy Guide",
+      "grade": null
     }
   ]
 }

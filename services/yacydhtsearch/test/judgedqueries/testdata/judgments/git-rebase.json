@@ -2,33 +2,63 @@
   "query": "git rebase",
   "judgedDocuments": [
     {
-      "hash": "CeKDz29cq-94",
-      "address": "https://git-scm.com/docs/git-config",
-      "title": "Git - git-config Documentation",
+      "hash": "xDYFcsUZXr25",
+      "address": "https://pre-commit.com/",
+      "title": "pre-commit",
       "grade": 0
     },
     {
-      "hash": "F3enq_nMM_j5",
-      "address": "https://grokipedia.com/page/GitHub",
-      "title": "GitHub — Grokipedia",
+      "hash": "M15zAyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/configuring-git-to-handle-line-endings",
+      "title": "Configuring Git to handle line endings - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "APWu1yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/why-is-git-always-asking-for-my-credentials",
+      "title": "Why is Git always asking for my credentials? - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "jxEgKyXjZ9O4",
+      "address": "https://docs.github.com/en/rest/activity/starring",
+      "title": "REST API endpoints for starring - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "OhaaesS6MKD4",
+      "address": "https://github.com/ljharb?tab=repositories",
+      "title": "ljharb (Jordan Harband) / Repositories · GitHub",
+      "grade": null
+    },
+    {
+      "hash": "RLdLlyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github/supported-browsers",
+      "title": "Supported browsers - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "pf_JryXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/writing-on-github/editing-and-sharing-content-with-gists/saving-gists-with-stars",
+      "title": "Saving gists with stars - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "TeZMVjy-fQn5",
+      "address": "https://aomedia.googlesource.com/aom/",
+      "title": "aom - Git at Google",
       "grade": 0
     },
     {
-      "hash": "QJ-wEV9cq-94",
-      "address": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing",
-      "title": "Git - Rebasing",
-      "grade": 2
+      "hash": "WtE-IsS6MKD4",
+      "address": "https://github.com/ljharb?achievement=pull-shark\u0026tab=achievements",
+      "title": "ljharb (Jordan Harband) / Achievements · GitHub",
+      "grade": null
     },
     {
-      "hash": "NB7afyXjZ9O4",
-      "address": "https://docs.github.com/en/pull-requests/how-tos/commit-changes/changing-a-commit-message",
-      "title": "Changing a commit message - GitHub Docs",
-      "grade": 1
-    },
-    {
-      "hash": "11YwxZPqQlSw",
-      "address": "https://pip.pypa.io/en/stable/development/contributing/",
-      "title": "Contributing - pip documentation v26.2.1",
+      "hash": "R0RMzyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
+      "title": "Setting your username in Git - GitHub Docs",
       "grade": 0
     },
     {
@@ -38,28 +68,82 @@
       "grade": 0
     },
     {
-      "hash": "wVAXw_nMM_j5",
-      "address": "https://grokipedia.com/page/Git",
-      "title": "Git — Grokipedia",
+      "hash": "QSn_ayXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-git/resolving-merge-conflicts-after-a-git-rebase",
+      "title": "Resolving merge conflicts after a Git rebase - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "5Cazk29cq-94",
+      "address": "https://git-scm.com/docs/git-mergetool",
+      "title": "Git - git-mergetool Documentation",
+      "grade": null
+    },
+    {
+      "hash": "7gc6929cq-94",
+      "address": "https://git-scm.com/docs/git-worktree",
+      "title": "Git - git-worktree Documentation",
+      "grade": null
+    },
+    {
+      "hash": "u8YTm29cq-94",
+      "address": "https://git-scm.com/docs/git-log",
+      "title": "Git - git-log Documentation",
+      "grade": null
+    },
+    {
+      "hash": "XfEyi29cq-94",
+      "address": "https://git-scm.com/docs/gitignore",
+      "title": "Git - gitignore Documentation",
+      "grade": null
+    },
+    {
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
       "grade": 0
     },
     {
-      "hash": "J4wKnyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started",
-      "title": "Get started with GitHub documentation - GitHub Docs",
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
       "grade": 0
     },
     {
-      "hash": "TeZMVjy-fQn5",
-      "address": "https://aomedia.googlesource.com/aom/",
-      "title": "aom - Git at Google",
+      "hash": "OjWkoyXjZ9O4",
+      "address": "https://docs.github.com/en/pull-requests/reference/pull-request-merges",
+      "title": "Pull request merges - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "OOd7xyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/git-workflows",
+      "title": "Git workflows - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "QJ-wEV9cq-94",
+      "address": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing",
+      "title": "Git - Rebasing",
+      "grade": 2
+    },
+    {
+      "hash": "RVPC2yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-git/about-git-rebase",
+      "title": "About Git rebase - GitHub Docs",
+      "grade": 2
+    },
+    {
+      "hash": "X9sotyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/git-basics/set-up-git",
+      "title": "Set up Git - GitHub Docs",
       "grade": 0
     },
     {
-      "hash": "SOAt4sWMnAPx",
-      "address": "https://fedoraplanet.org/",
-      "title": "Fedora People",
-      "grade": 0
+      "hash": "wao2v29cq-94",
+      "address": "https://git-scm.com/docs/git-commit",
+      "title": "Git - git-commit Documentation",
+      "grade": null
     },
     {
       "hash": "X1qxTyXjZ9O4",
@@ -68,39 +152,45 @@
       "grade": 0
     },
     {
-      "hash": "YgAeyl0lKwR5",
-      "address": "https://www.git-tower.com/",
-      "title": "Tower — The most powerful Git client for Mac and Windows",
+      "hash": "NB7afyXjZ9O4",
+      "address": "https://docs.github.com/en/pull-requests/how-tos/commit-changes/changing-a-commit-message",
+      "title": "Changing a commit message - GitHub Docs",
+      "grade": 1
+    },
+    {
+      "hash": "lTZdqyXjZ9O4",
+      "address": "https://docs.github.com/en/rest/pulls/pulls",
+      "title": "REST API endpoints for pull requests - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "0VSb9yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-git/using-git-rebase-on-the-command-line",
+      "title": "Using Git rebase on the command line - GitHub Docs",
+      "grade": null
+    },
+    {
+      "hash": "LaeCPeoqRUZ4",
+      "address": "https://git-ref.utils.com/",
+      "title": "Git Command Cheat Sheet - Quick Reference for Git Commands - utils.com",
+      "grade": null
+    },
+    {
+      "hash": "J4wKnyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started",
+      "title": "Get started with GitHub documentation - GitHub Docs",
       "grade": 0
     },
     {
-      "hash": "cEcJUyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security",
-      "title": "About GitHub Advanced Security - GitHub Docs",
-      "grade": 0
+      "hash": "sPe76yXjZ9O4",
+      "address": "https://docs.github.com/en/rest/repos/repos",
+      "title": "REST API endpoints for repositories - GitHub Docs",
+      "grade": null
     },
     {
-      "hash": "cx4QG2McH3tw",
-      "address": "https://llvm.org/docs/CodingStandards.html",
-      "title": "LLVM Coding Standards - LLVM",
-      "grade": 0
-    },
-    {
-      "hash": "-eL3TvdTeyA4",
-      "address": "https://github.blog/open-source/git/highlights-from-git-2-55/",
-      "title": "Highlights from Git 2.55 - The GitHub Blog",
-      "grade": 0
-    },
-    {
-      "hash": "p_5Wwo0Z_SDg",
-      "address": "https://www.jvt.me/posts/2021/03/31/git-origin-head/",
-      "title": "Working with a Git remote's default branch, using `origin/HEAD` · Jamie Tanna | Software Engineer",
-      "grade": 0
-    },
-    {
-      "hash": "tetY4sElpUjy",
-      "address": "https://git-send-email.io/",
-      "title": "Learn to use email with git!",
+      "hash": "ZLEAaobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Gerrit/Tutorial",
+      "title": "Gerrit/Tutorial - MediaWiki",
       "grade": 0
     },
     {
@@ -110,123 +200,15 @@
       "grade": 0
     },
     {
-      "hash": "6bQzZ2bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/localization/admin/",
-      "title": "Weblate admin duties | Forgejo – Beyond coding. We forge.",
-      "grade": 0
+      "hash": "a-dW629cq-94",
+      "address": "https://git-scm.com/docs/gitglossary",
+      "title": "Git - gitglossary Documentation",
+      "grade": null
     },
     {
-      "hash": "CmQQlyEkAvow",
-      "address": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
-      "title": "Optimize your workflow with Git stash",
-      "grade": 0
-    },
-    {
-      "hash": "rqW0fx8XNsex",
-      "address": "https://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html",
-      "title": "Contributing to Ruby on Rails — Ruby on Rails Guides",
-      "grade": 0
-    },
-    {
-      "hash": "ZLEAaobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Gerrit/Tutorial",
-      "title": "Gerrit/Tutorial - MediaWiki",
-      "grade": 0
-    },
-    {
-      "hash": "PexbGAK-xyJ4",
-      "address": "https://go.dev/doc/contribute",
-      "title": "Contribution Guide - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "R0RMzyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/git-basics/setting-your-username-in-git",
-      "title": "Setting your username in Git - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "X9sotyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/git-basics/set-up-git",
-      "title": "Set up Git - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "TKQQYyS6MKD4",
-      "address": "https://github.com/blindglobe/common-lisp-stat",
-      "title": "GitHub - blindglobe/common-lisp-stat: Common Lisp Statistics -- based on LispStat (Tierney) but updated for Common Lisp and incorporating lessons from R (http://www.r-project.org/). See the google group for lisp stat / common lisp statistics for a mailing list. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "1di-C29cq-94",
-      "address": "https://git-scm.com/docs/gitfaq",
-      "title": "Git - gitfaq Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "6vbK7ssY0Thg",
-      "address": "https://bueltge.de/git/",
-      "title": "Get your Practice-Git on!",
-      "grade": 0
-    },
-    {
-      "hash": "RVPC2yXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/using-git/about-git-rebase",
-      "title": "About Git rebase - GitHub Docs",
-      "grade": 2
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "grade": 0
-    },
-    {
-      "hash": "79vs4yXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/learning-about-github/githubs-plans",
-      "title": "GitHub's plans - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "cZ2_WkRFf6Bx",
-      "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
-      "title": "Parsoid - Wikitech",
-      "grade": 0
-    },
-    {
-      "hash": "_HoZdyXjZ9O4",
-      "address": "https://docs.github.com/en/get-started/using-github/github-mobile",
-      "title": "GitHub Mobile - GitHub Docs",
-      "grade": 0
-    },
-    {
-      "hash": "WVLgdPaM_sMw",
-      "address": "https://docs.codeberg.org/collaborating/pull-requests-and-git-flow/",
-      "title": "Pull requests and Git flow | Codeberg Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "jmgT3MS6MKD4",
-      "address": "https://github.com/tpope/vim-fugitive",
-      "title": "GitHub - tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "98ydQs9cq-94",
-      "address": "https://git-scm.com/learn",
-      "title": "Git - Learn",
-      "grade": 0
-    },
-    {
-      "hash": "xDYFcsUZXr25",
-      "address": "https://pre-commit.com/",
-      "title": "pre-commit",
-      "grade": 0
-    },
-    {
-      "hash": "SGCHO29cq-94",
-      "address": "https://git-scm.com/docs/gitsubmodules",
-      "title": "Git - gitsubmodules Documentation",
+      "hash": "cEcJUyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security",
+      "title": "About GitHub Advanced Security - GitHub Docs",
       "grade": 0
     },
     {
@@ -236,21 +218,39 @@
       "grade": 0
     },
     {
+      "hash": "QWtr229cq-94",
+      "address": "https://git-scm.com/docs/git-diff",
+      "title": "Git - git-diff Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "SOAt4sWMnAPx",
+      "address": "https://fedoraplanet.org/",
+      "title": "Fedora People",
+      "grade": 0
+    },
+    {
+      "hash": "SOaOd29cq-94",
+      "address": "https://git-scm.com/docs/git",
+      "title": "Git - git Documentation",
+      "grade": null
+    },
+    {
       "hash": "RgG4r29cq-94",
       "address": "https://git-scm.com/docs/git-bugreport",
       "title": "Git - git-bugreport Documentation",
       "grade": 0
     },
     {
-      "hash": "6JOUD29cq-94",
-      "address": "https://git-scm.com/docs/git-remote",
-      "title": "Git - git-remote Documentation",
+      "hash": "SGCHO29cq-94",
+      "address": "https://git-scm.com/docs/gitsubmodules",
+      "title": "Git - gitsubmodules Documentation",
       "grade": 0
     },
     {
-      "hash": "18R0h29cq-94",
-      "address": "https://git-scm.com/docs/git-send-email",
-      "title": "Git - git-send-email Documentation",
+      "hash": "79vs4yXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/learning-about-github/githubs-plans",
+      "title": "GitHub's plans - GitHub Docs",
       "grade": 0
     },
     {
@@ -260,10 +260,58 @@
       "grade": 0
     },
     {
-      "hash": "9qMfQo0Z_SDg",
-      "address": "https://www.jvt.me/posts/2019/01/10/git-commit-fixup/",
-      "title": "Using `git commit --fixup=` to track changes that need to be applied on top of another commit · Jamie Tanna | Software Engineer",
-      "grade": 1
+      "hash": "_HoZdyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/using-github/github-mobile",
+      "title": "GitHub Mobile - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "hMjNx29cq-94",
+      "address": "https://git-scm.com/docs/git-revert",
+      "title": "Git - git-revert Documentation",
+      "grade": null
+    },
+    {
+      "hash": "l-XXS29cq-94",
+      "address": "https://git-scm.com/docs/gittutorial",
+      "title": "Git - gittutorial Documentation",
+      "grade": null
+    },
+    {
+      "hash": "tetY4sElpUjy",
+      "address": "https://git-send-email.io/",
+      "title": "Learn to use email with git!",
+      "grade": 0
+    },
+    {
+      "hash": "6JOUD29cq-94",
+      "address": "https://git-scm.com/docs/git-remote",
+      "title": "Git - git-remote Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "98ydQs9cq-94",
+      "address": "https://git-scm.com/learn",
+      "title": "Git - Learn",
+      "grade": 0
+    },
+    {
+      "hash": "Y4WAa29cq-94",
+      "address": "https://git-scm.com/docs/git-clone",
+      "title": "Git - git-clone Documentation",
+      "grade": null
+    },
+    {
+      "hash": "jtuGq29cq-94",
+      "address": "https://git-scm.com/docs/git-status",
+      "title": "Git - git-status Documentation",
+      "grade": null
+    },
+    {
+      "hash": "mYsKy29cq-94",
+      "address": "https://git-scm.com/docs/git-rebase",
+      "title": "Git - git-rebase Documentation",
+      "grade": null
     },
     {
       "hash": "sKaik29cq-94",
@@ -272,10 +320,28 @@
       "grade": 0
     },
     {
+      "hash": "yeWo529cq-94",
+      "address": "https://git-scm.com/docs/gitattributes",
+      "title": "Git - gitattributes Documentation",
+      "grade": null
+    },
+    {
       "hash": "18Aza29cq-94",
       "address": "https://git-scm.com/docs/giteveryday",
       "title": "Git - giteveryday Documentation",
       "grade": 0
+    },
+    {
+      "hash": "18R0h29cq-94",
+      "address": "https://git-scm.com/docs/git-send-email",
+      "title": "Git - git-send-email Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "62Q_oQ_RwTbw",
+      "address": "https://git.nadeko.net/Fijxu/invidious",
+      "title": "Fijxu/invidious: Invidious fork with features exclusive to inv.nadeko.net - nadeko.net Git Server",
+      "grade": null
     },
     {
       "hash": "6fDY-29cq-94",
@@ -284,28 +350,88 @@
       "grade": 0
     },
     {
-      "hash": "5g9r129cq-94",
-      "address": "https://git-scm.com/docs/pretty-formats",
-      "title": "Git - pretty-formats Documentation",
+      "hash": "K3Sdz29cq-94",
+      "address": "https://git-scm.com/docs/git-reflog",
+      "title": "Git - git-reflog Documentation",
+      "grade": null
+    },
+    {
+      "hash": "LDpbq29cq-94",
+      "address": "https://git-scm.com/docs/git-fetch",
+      "title": "Git - git-fetch Documentation",
+      "grade": null
+    },
+    {
+      "hash": "Lh5qS29cq-94",
+      "address": "https://git-scm.com/docs/git-fsmonitor--daemon",
+      "title": "Git - git-fsmonitor--daemon Documentation",
+      "grade": null
+    },
+    {
+      "hash": "MqEBYs9cq-94",
+      "address": "https://git-scm.com/cheat-sheet",
+      "title": "Git Cheat Sheet",
+      "grade": null
+    },
+    {
+      "hash": "WVLgdPaM_sMw",
+      "address": "https://docs.codeberg.org/collaborating/pull-requests-and-git-flow/",
+      "title": "Pull requests and Git flow | Codeberg Documentation",
       "grade": 0
     },
     {
-      "hash": "-y8Tx29cq-94",
-      "address": "https://git-scm.com/docs/git-fast-import",
-      "title": "Git - git-fast-import Documentation",
+      "hash": "e0mXK29cq-94",
+      "address": "https://git-scm.com/docs/git-push",
+      "title": "Git - git-push Documentation",
+      "grade": null
+    },
+    {
+      "hash": "iQXxxsKXWpux",
+      "address": "https://git-rebase.io/",
+      "title": "Learn to change history with git rebase!",
+      "grade": null
+    },
+    {
+      "hash": "nZdos29cq-94",
+      "address": "https://git-scm.com/docs/git-rev-parse",
+      "title": "Git - git-rev-parse Documentation",
+      "grade": null
+    },
+    {
+      "hash": "cZ2_WkRFf6Bx",
+      "address": "https://wikitech.wikimedia.org/wiki/Parsoid",
+      "title": "Parsoid - Wikitech",
       "grade": 0
     },
     {
-      "hash": "QWtr229cq-94",
-      "address": "https://git-scm.com/docs/git-diff",
-      "title": "Git - git-diff Documentation",
+      "hash": "slqt_29cq-94",
+      "address": "https://git-scm.com/docs/git-branch",
+      "title": "Git - git-branch Documentation",
+      "grade": null
+    },
+    {
+      "hash": "Nc19ghGZ4FKw",
+      "address": "https://www.kernel.org/pub/software/scm/git/docs/git-rebase.html",
+      "title": "git-rebase(1)",
+      "grade": null
+    },
+    {
+      "hash": "YgAeyl0lKwR5",
+      "address": "https://www.git-tower.com/",
+      "title": "Tower — The most powerful Git client for Mac and Windows",
       "grade": 0
     },
     {
-      "hash": "1HsAf29cq-94",
-      "address": "https://git-scm.com/docs/git-fsck",
-      "title": "Git - git-fsck Documentation",
-      "grade": 0
+      "hash": "el673Un12_-6",
+      "address": "https://initialcommit.com/blog/git-rebase",
+      "title": "Git Rebase | A Guide to Rebasing in Git",
+      "grade": null
+    },
+    {
+      "hash": "rnzItsceJ5A4",
+      "address": "https://git-fork.com/",
+      "title": "Fork - a fast and friendly git client for Mac and Windows",
+      "grade": null
     }
   ]
 }

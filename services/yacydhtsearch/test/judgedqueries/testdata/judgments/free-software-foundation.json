@@ -2,112 +2,22 @@
   "query": "free software foundation",
   "judgedDocuments": [
     {
-      "hash": "WdJ2qlDmGrO5",
-      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
-      "title": "Another Blog Post",
-      "grade": 0
-    },
-    {
-      "hash": "THPLFiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
-      "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": 0
-    },
-    {
-      "hash": "xnFwQjXHmKFw",
-      "address": "https://www.fsf.org/blogs/community/software-that-supports-your-body-should-always-respect-your-freedom",
-      "title": "Software that supports your body should always respect your freedom — Free Software Foundation — Working together for free software",
-      "grade": 1
-    },
-    {
-      "hash": "M7cV_s0hnfE5",
-      "address": "https://fullhousesa.com/",
-      "title": "fullhousesa.com",
-      "grade": 0
-    },
-    {
-      "hash": "tsBO3hsWTYKx",
-      "address": "https://sourceforge.net/directory/software-development/",
-      "title": "Best Open Source Software Development Software 2026",
-      "grade": 0
-    },
-    {
-      "hash": "rj2YgZxftzp0",
-      "address": "https://streetwiseworld.com.ng/2024/02/26/hardship-we-will-not-allow-protesters-impede-free-flow-of-traffic-lagos-police/",
-      "title": "Hardship: We Will Not Allow Protesters Impede Free Flow Of Traffic- Lagos Police – Street Wise World",
-      "grade": 0
-    },
-    {
-      "hash": "8KdpCL8hxo35",
-      "address": "https://www.microsoft.com/en-us/software-development-companies",
-      "title": "AI \u0026 Tools for Software Companies | Software Development Companies",
-      "grade": 0
-    },
-    {
-      "hash": "zlsdajRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Software",
-      "title": "Software - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "39fEgitD2jQw",
-      "address": "https://docs.python.org/3/howto/free-threading-python.html",
-      "title": "Python support for free threading — Python 3.14.7 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "CBsJnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Software_maintainer",
-      "title": "Software maintainer - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "9n1rhjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/free",
-      "title": "free - Wiktionary, the free dictionary",
-      "grade": 0
-    },
-    {
-      "hash": "3eCEIBCH4Pew",
-      "address": "https://savannah.gnu.org/projects/free",
-      "title": "GNU.FREE - Summary [Savannah]",
-      "grade": 0
-    },
-    {
       "hash": "KAs9AjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Free_content",
       "title": "Free content - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "_grbrjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Software_engineering",
-      "title": "Software engineering - Wikipedia",
-      "grade": 0
+      "hash": "8kAn6BGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2008/12/it-is-free-will-choice.html",
+      "title": "Our World: It is a free will choice",
+      "grade": null
     },
     {
-      "hash": "ko6iFUb8iyg4",
-      "address": "https://cloud.google.com/free",
-      "title": "Free Trial and Free Tier Services and Products | Google Cloud",
-      "grade": 0
-    },
-    {
-      "hash": "96iJCyuI8hnw",
-      "address": "https://www.eff.org/press/releases/mobile-ad-software-encourages-location-data-sharing-eff-report-finds",
-      "title": "Mobile Ad Software Encourages Location Data Sharing, EFF Report Finds | Electronic Frontier Foundation",
-      "grade": 0
-    },
-    {
-      "hash": "gloktjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Free_software",
-      "title": "Free software - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "AeDSZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Graphics_software",
-      "title": "Graphics software - Wikipedia",
-      "grade": 0
+      "hash": "_ZICPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_States_Postal_Service",
+      "title": "United States Postal Service - Wikipedia",
+      "grade": null
     },
     {
       "hash": "mCpq5KS6MKD4",
@@ -116,105 +26,27 @@
       "grade": 0
     },
     {
-      "hash": "pdnQXlXHmKFw",
-      "address": "https://www.fsf.org/free-software-supporter/",
-      "title": "Free Software Supporter — Free Software Foundation — Working together for free software",
-      "grade": 1
+      "hash": "P7qK5DF20Rww",
+      "address": "https://ma.tt/category/wordpress/",
+      "title": "WordPress | Matt Mullenweg",
+      "grade": null
     },
     {
-      "hash": "Xu0QIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
-      "title": "Proprietary software - Wikipedia",
-      "grade": 0
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters",
+      "grade": null
     },
     {
-      "hash": "1Y8-qjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Application_software",
-      "title": "Application software - Wikipedia",
-      "grade": 0
+      "hash": "o9LgOs2xL7A6",
+      "address": "https://corbettreport.com/july-open-thread-2023/",
+      "title": "July Open Thread (2023) | The Corbett Report",
+      "grade": null
     },
     {
-      "hash": "2X6yByhkKIQy",
-      "address": "https://www.linuxfoundation.org/legal/the-linux-mark",
-      "title": "Sublicense the Linux Mark | Linux Foundation",
-      "grade": 0
-    },
-    {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Krz6_MaQF27w",
-      "address": "https://www.apache.org/foundation/marks/",
-      "title": "Apache Software Foundation Trademark Policy | Apache Software Foundation",
-      "grade": 0
-    },
-    {
-      "hash": "Rx8AIs_tHst4",
-      "address": "https://dwheeler.com/oss_fs_why.html",
-      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "grade": 0
-    },
-    {
-      "hash": "lWSSlHWUVeV5",
-      "address": "https://opensource.com/article/22/7/meet-fsf-executive-director-zoe-kooyman",
-      "title": "Meet Free Software Foundation Executive Director Zoë Kooyman | Opensource.com",
-      "grade": 1
-    },
-    {
-      "hash": "SD9VQcToTHCx",
-      "address": "https://ia.wikipedia.org/wiki/Software_libere",
-      "title": "Software libere - Wikipedia, le encyclopedia libere",
-      "grade": 0
-    },
-    {
-      "hash": "feJyUjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Software_as_a_service",
-      "title": "Software as a service - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "PSrKH8uKjjbw",
-      "address": "https://wiki.gentoo.org/wiki/Foundation:Privacy_Policy",
-      "title": "Foundation:Privacy Policy - Gentoo wiki",
-      "grade": 0
-    },
-    {
-      "hash": "gs4qP_QzrsJ5",
-      "address": "https://thestingofthescorpion.wordpress.com/tag/selfie-level/",
-      "title": "Selfie Level – The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
-      "grade": 0
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "grade": 0
-    },
-    {
-      "hash": "jKQKJldG5jPw",
-      "address": "https://www.python.org/psf-landing/",
-      "title": "Python Software Foundation",
-      "grade": 0
-    },
-    {
-      "hash": "HgsjmL8hxo35",
-      "address": "https://www.microsoft.com/en-us/software-development-companies/resources/articles",
-      "title": "Software Company Resources | Software Development Companies",
-      "grade": 0
-    },
-    {
-      "hash": "v3JgSzH2Pyiw",
-      "address": "https://ocw.mit.edu/",
-      "title": "MIT OpenCourseWare | Free Online Course Materials",
-      "grade": 0
-    },
-    {
-      "hash": "BsZOzh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Chat_software",
-      "title": "Category:Chat software - Wikimedia Commons",
+      "hash": "tsBO3hsWTYKx",
+      "address": "https://sourceforge.net/directory/software-development/",
+      "title": "Best Open Source Software Development Software 2026",
       "grade": 0
     },
     {
@@ -224,39 +56,75 @@
       "grade": 0
     },
     {
-      "hash": "8q_7kd8zMi84",
-      "address": "https://docs.cloud.google.com/release-notes",
-      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "hash": "_5YhzlZfqEBw",
+      "address": "https://www.x.org/",
+      "title": "xorg",
+      "grade": null
+    },
+    {
+      "hash": "MyubO6S6MKD4",
+      "address": "https://github.com/MobilityData/awesome-transit",
+      "title": "GitHub - MobilityData/awesome-transit: Community list of transit APIs, apps, datasets, research, and software :bus::star2::train::star2::steam_locomotive: · GitHub",
+      "grade": null
+    },
+    {
+      "hash": "gI2F0jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_Software_Foundation",
+      "title": "Free Software Foundation - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
       "grade": 0
     },
     {
-      "hash": "7UdOfL8hxo35",
-      "address": "https://www.microsoft.com/en-us/security/business/get-started/start-free-trial",
-      "title": "Microsoft Security Free Trial | Microsoft Security",
+      "hash": "KDW4msO2NUew",
+      "address": "https://donorbox.org/",
+      "title": "Donorbox: #1 Donation Software \u0026 Nonprofit Fundraising Suite",
+      "grade": null
+    },
+    {
+      "hash": "C8Ex10S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-open-source-software",
+      "title": "What is Open Source Software (OSS)? · GitHub",
+      "grade": null
+    },
+    {
+      "hash": "EbIwE3jpmq6Q",
+      "address": "http://www.gnu.org/philosophy/free-software-even-more-important.html",
+      "title": "Free Software Is Even More Important Now - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "0lxYkHjpmq6Q",
+      "address": "http://www.gnu.org/people/people.html",
+      "title": "GNU's Who - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "Q-oLFlXHmKFw",
+      "address": "https://www.fsf.org/",
+      "title": "Front Page — Free Software Foundation — working together for free software",
+      "grade": null
+    },
+    {
+      "hash": "1kXHBjjpmq6Q",
+      "address": "http://www.gnu.org/licenses/gpl-3.0.html",
+      "title": "The GNU General Public License v3.0 - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "grade": 0
     },
     {
-      "hash": "4AdwWNrC7Zxw",
-      "address": "https://www.gnu.org/philosophy/free-sw.en.html",
-      "title": "What is Free Software? - GNU Project - Free Software Foundation",
-      "grade": 1
-    },
-    {
-      "hash": "Jb4XHs5IzNm6",
-      "address": "https://citizenfreepress.com/",
-      "title": "CITIZEN FREE PRESS",
-      "grade": 0
-    },
-    {
-      "hash": "BsRHNUC_VmZ4",
-      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
-      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
-      "grade": 0
-    },
-    {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
       "grade": 0
     },
     {
@@ -266,16 +134,262 @@
       "grade": 0
     },
     {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "s9xJyJn__psw",
+      "address": "https://policies.python.org/pypi.org/Acceptable-Use-Policy/",
+      "title": "Acceptable Use Policy - Python Software Foundation Policies",
+      "grade": null
+    },
+    {
+      "hash": "UdN0bjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_license",
+      "title": "Software license - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "gloktjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_software",
+      "title": "Free software - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "tqGcG5dG5jPw",
+      "address": "https://www.python.org/psf/membership/",
+      "title": "Become a Member of the PSF | Python Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "39FQHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_software_movement",
+      "title": "Free software movement - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "ZtZd4sG9olWz",
+      "address": "https://endsoftwarepatents.org/",
+      "title": "End Software Patents",
+      "grade": null
+    },
+    {
+      "hash": "-ps5FjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Java_(software_platform)",
+      "title": "Java (software platform) - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "3fesQsvj3EIw",
+      "address": "https://fsfe.org/freesoftware/",
+      "title": "What is Free Software - FSFE",
+      "grade": null
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "gyqNGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Category:Free_software_programmers",
+      "title": "Category:Free software programmers - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "1Y8-qjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Application_software",
+      "title": "Application software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "M0ZJYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Blender_(software)",
+      "title": "Blender (software) - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "Ymn90SrC7Zxw",
+      "address": "https://www.gnu.org/fun/humor.html",
+      "title": "Laugh along with GNU - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "hZcpWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Free_Software_Definition",
+      "title": "The Free Software Definition - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "07x0EjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Python_Software_Foundation_License",
+      "title": "Python Software Foundation License - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "0PPRQjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Sleepycat_Software",
+      "title": "Sleepycat Software - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "2021gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Computer-aided_software_engineering",
+      "title": "Computer-aided software engineering - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "Ae2o0eMcq6Ew",
+      "address": "https://web.archive.org/web/20231115065058/https:/www.gnu.org/philosophy/free-sw.en.html",
+      "title": "What is Free Software? - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "OfIhaeMcq6Ew",
+      "address": "https://web.archive.org/web/20250409211710/https:/www.gnu.org/licenses/old-licenses/gpl-2.0.html",
+      "title": "GNU General Public License v2.0 - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "TDPpMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_development",
+      "title": "Software development - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "Tvp4fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_incompatibility",
+      "title": "Software incompatibility - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "_grbrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_engineering",
+      "title": "Software engineering - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "hHGvUjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Squid_(software)",
+      "title": "Squid (software) - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "hbhsMjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_open-source_software_for_mathematics",
+      "title": "List of open-source software for mathematics - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "jCOhQjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/V-model_(software_development)",
+      "title": "V-model (software development) - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "s5TuWlCrhtz5",
+      "address": "https://www.sonarsource.com/",
+      "title": "Sonar AI Code Verification Platform | SonarSource | Sonar",
+      "grade": null
+    },
+    {
+      "hash": "jKQKJldG5jPw",
+      "address": "https://www.python.org/psf-landing/",
+      "title": "Python Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "k1qssjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses",
+      "title": "Comparison of free and open-source software licenses - Wikipedia",
+      "grade": null
+    },
+    {
       "hash": "1yd_7zbpbGvx",
       "address": "https://species.wikimedia.org/wiki/Main_Page",
       "title": "Wikispecies, free species directory",
       "grade": 0
     },
     {
-      "hash": "Fn4lKjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Main_Page",
-      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
       "grade": 0
+    },
+    {
+      "hash": "DqivBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
+      "title": "Free and open-source software - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "CSmAajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Comparison_of_shopping_cart_software",
+      "title": "Comparison of shopping cart software - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "OR6nejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Adoption_of_free_and_open-source_software_by_public_institutions",
+      "title": "Adoption of free and open-source software by public institutions - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "dk5-JjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_free_software",
+      "title": "Outline of free software - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "v3JgSzH2Pyiw",
+      "address": "https://ocw.mit.edu/",
+      "title": "MIT OpenCourseWare | Free Online Course Materials",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "po1VIMaQF27w",
+      "address": "https://www.apache.org/foundation/sponsorship",
+      "title": "ASF Sponsorship | Apache Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "-t9fTDrC7Zxw",
+      "address": "https://www.gnu.org/licenses/gpl-faq.html",
+      "title": "Frequently Asked Questions about the GNU Licenses - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "mh8f8Rjpmq6Q",
+      "address": "http://www.gnu.org/graphics/graphics.html",
+      "title": "The GNU Art Gallery - GNU Project - Free Software Foundation",
+      "grade": null
+    },
+    {
+      "hash": "THPLFiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
+      "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "c_TC2KrC7Zxw",
+      "address": "https://www.gnu.org/server/sitemap.html",
+      "title": "Site map of www.gnu.org - GNU Project - Free Software Foundation",
+      "grade": null
     }
   ]
 }

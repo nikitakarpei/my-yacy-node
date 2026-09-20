@@ -2,10 +2,64 @@
   "query": "fahrrad",
   "judgedDocuments": [
     {
-      "hash": "BkidfpL47Vlg",
-      "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
-      "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
-      "grade": 1
+      "hash": "C0gtHFotHkcg",
+      "address": "https://kaufradar.spiegel.de/finanzen-versicherungen/",
+      "title": "Finanzen \u0026 Versicherungen - DER SPIEGEL Kaufradar",
+      "grade": null
+    },
+    {
+      "hash": "D-BLX2wiCtsh",
+      "address": "https://www.flixtrain.de/zugverbindung/berlin-heide",
+      "title": "Berlin - Heide Bahn - Günstige Tickets",
+      "grade": null
+    },
+    {
+      "hash": "Ao-x4AwFKWzg",
+      "address": "https://streaming-guide.spiegel.de/streamingdienste/paramount-plus/",
+      "title": "Top Filme und Serien auf Paramount+ - Ihr ultimativer Streaming-Guide | Streaming Guide",
+      "grade": null
+    },
+    {
+      "hash": "D_2-xB6oEqNB",
+      "address": "http://www.naturfreunde.at/service/suchen-and-finden/",
+      "title": "Suchen \u0026 Finden",
+      "grade": null
+    },
+    {
+      "hash": "B9Q-9KhklDv4",
+      "address": "https://hotel-stuttgart-airport.dorint.com/en/how-to-get-to-the-hotel",
+      "title": "Getting to the Essential by Dorint Stuttgart-Airport: How to reach us stress-free",
+      "grade": null
+    },
+    {
+      "hash": "A-cG3lyeZGNi",
+      "address": "https://www.report-medizin.de/",
+      "title": "Report Medizin,Neues aus der Medizin,Medizin News,Info-Netzwerk MEDIZIN 2000,Medizin 2000",
+      "grade": null
+    },
+    {
+      "hash": "D_w9rdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Portal:Wikipedia_nach_Themen",
+      "title": "Portal:Wikipedia nach Themen – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "AMV3kl5ARWyg",
+      "address": "https://www.spiegel.de/kontakt?betreff=Were+Americans+As+Bad+as+the+Soviets%3F\u0026channel=International\u0026id=051d06cd-0001-0001-0000-000001021298\u0026reason=Technische+Fragen+und+Probleme",
+      "title": "Kontakt - DER SPIEGEL",
+      "grade": null
+    },
+    {
+      "hash": "DmQMXQvMx2Sh",
+      "address": "https://www.stadt-koeln.de/leben-in-koeln/freizeit-natur-sport/veranstaltungskalender/lizenz-fuer-3d-druck-213",
+      "title": "Lizenz für 3D-Druck - Stadt Köln",
+      "grade": null
+    },
+    {
+      "hash": "BmMW1XDOAHJg",
+      "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-beste-powerstation-im-test-ecoflow-vor-bluetti-und-anker/1f379f0?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+      "title": "Top 10: Die beste Powerstation im Test – Ecoflow vor Bluetti und Anker | heise online bestenlisten",
+      "grade": null
     },
     {
       "hash": "Ol37rmlamVlg",
@@ -14,148 +68,10 @@
       "grade": 1
     },
     {
-      "hash": "xmFPUVU6TL1h",
-      "address": "https://www.fahrradwien.at/transportfahrrad/foerderung/",
-      "title": "Transportfahrrad-Förderung in Wien- Fahrrad Wien",
-      "grade": 1
-    },
-    {
-      "hash": "ueLLVFotHkcg",
-      "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
-      "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
-      "grade": 1
-    },
-    {
-      "hash": "BpdPXJGyaxOg",
-      "address": "https://www.flixbus.at/service/fahrrad-mitnahme",
-      "title": "Nimm Dein Fahrrad mit im FlixBus",
-      "grade": 1
-    },
-    {
-      "hash": "UMCez_KP-5B5",
-      "address": "https://demystifikation.wordpress.com/category/fahrrad/",
-      "title": "Fahrrad | Demystifikation",
-      "grade": 1
-    },
-    {
-      "hash": "tanZ5LUJH84g",
-      "address": "https://www.innsbruck.gv.at/mobil/fahrrad",
-      "title": "Fahrrad - Stadt Innsbruck",
-      "grade": 1
-    },
-    {
-      "hash": "wkSLDFotHkcg",
-      "address": "https://kaufradar.spiegel.de/energiesysteme/",
-      "title": "Energiesysteme - DER SPIEGEL Kaufradar",
-      "grade": 0
-    },
-    {
-      "hash": "XdTmsyX3cKDg",
-      "address": "https://www.bahn.de/angebot/zusatzticket/fahrrad/bw",
-      "title": "Fahrrad-Tageskarte Baden-Württemberg",
-      "grade": 1
-    },
-    {
-      "hash": "XyLvql9yi-Lh",
-      "address": "https://www.cntraveller.de/",
-      "title": "Condé Nast Traveller Germany",
-      "grade": 0
-    },
-    {
-      "hash": "8p5gwlkdSSIx",
-      "address": "https://www.vergleich.org/fahrrad/",
-      "title": "Fahrrad Vergleich \u0026 Test » Top 9 im September 2026",
-      "grade": 1
-    },
-    {
-      "hash": "T3iPpdQRq0sg",
-      "address": "https://www.polizei.hessen.de/praevention/beratung-hilfe-und-unterstuetzung/sicher-im-urlaub/auf-der-reise/mit-dem-fahrrad",
-      "title": "Unterwegs mit dem Fahrrad | Polizei Hessen",
-      "grade": 1
-    },
-    {
-      "hash": "K3XqtLlA2Rig",
-      "address": "https://www.n-tv.de/mediathek/videos/wirtschaft/Warum-immer-mehr-Menschen-das-Fahrrad-stehen-lassen-id31007897.html",
-      "title": "Neue Modelle, neue Hürden: Warum immer mehr Menschen das Fahrrad stehen lassen - n-tv.de",
-      "grade": 1
-    },
-    {
-      "hash": "GA9mbazJVNwg",
-      "address": "https://geschichtsbuch.hamburg.de/epochen/kaiserreich/das-fahrrad-in-hamburg/",
-      "title": "Das Fahrrad in Hamburg - Geschichtsbuch Hamburg",
-      "grade": 1
-    },
-    {
-      "hash": "ptKN8veLQKt4",
-      "address": "https://fahrrad.news/tags/kinderanhaenger/283",
-      "title": "Kinderanhänger - Stichwortverzeichnis Fahrradhändler-Verzeichnis - Alles Fahrrad",
-      "grade": 1
-    },
-    {
-      "hash": "VdO6Dffz_mdh",
-      "address": "https://www.abendblatt.de/ratgeber-wissen/fahrrad/",
-      "title": "Fahrrad: News, Infos und Berichte",
-      "grade": 1
-    },
-    {
-      "hash": "HnzBPsXcOmMx",
-      "address": "https://neocities.org/browse?tag=fahrrad",
-      "title": "Neocities - Sites tagged fahrrad",
-      "grade": 0
-    },
-    {
-      "hash": "ybCqigWwkzZi",
-      "address": "https://fietsenboerse.de/fahrradmarkt/hamburg",
-      "title": "Fahrrad Flohmarkt Hamburg | Fietsenboerse",
-      "grade": 1
-    },
-    {
-      "hash": "vGrOEx55XpXg",
-      "address": "https://miniklexikon.zum.de/wiki/Fahrrad",
-      "title": "Fahrrad – MiniKlexikon - das Kinderlexikon für Leseanfänger",
-      "grade": 2
-    },
-    {
-      "hash": "oqnwt-6nLSQg",
-      "address": "https://www.bild.de/regional/brandenburg/vermisst-seit-9-tagen-wo-ist-anna-16-fahrrad-stand-an-haltestelle-69f377536fe2dee7bfb0f055",
-      "title": "Vermisst seit 9 Tagen: Wo ist Anna (16)? Fahrrad stand an Haltestelle | Regional | BILD.de",
-      "grade": 0
-    },
-    {
-      "hash": "MzIHKNlA2Rig",
-      "address": "https://www.n-tv.de/thema/fahrrad/archiv-1",
-      "title": "Fahrrad - Thema Seite 1 - n-tv.de",
-      "grade": 1
-    },
-    {
-      "hash": "lzV3MwuDQ-Fg",
-      "address": "https://www.muenchen.de/verkehr/fahrrad",
-      "title": "Fahrrad in München: Touren, Karten, Hinweise - muenchen.de",
-      "grade": 1
-    },
-    {
-      "hash": "fiGiEXCZCJKg",
-      "address": "https://www.merkur.de/leben/auto/adac-warnt-diese-fuenf-fehler-beim-fahrrad-anschliessen-kosten-sie-ihr-rad-zr-94446433.html",
-      "title": "ADAC warnt: Diese fünf Fehler beim Fahrrad anschließen kosten Sie Ihr Rad",
-      "grade": 1
-    },
-    {
-      "hash": "zlICE02sCWng",
-      "address": "https://www.tag24.de/nachrichten/unfall/elfjaehriger-auf-fahrrad-von-auto-erfasst-kind-wird-bewusstlos-und-landet-im-krankenhaus-3525916",
-      "title": "Bremen: Kind auf Fahrrad von Auto erfasst",
-      "grade": 0
-    },
-    {
-      "hash": "5bfb-NseDREg",
-      "address": "https://www.zdfheute.de/thema/fahrrad-150.html",
-      "title": "Fahrrad - News, Tipps \u0026 Tricks",
-      "grade": 1
-    },
-    {
-      "hash": "U5PMbNlA2Rig",
-      "address": "https://www.n-tv.de/thema/fahrrad/archiv-44",
-      "title": "Fahrrad - Thema Seite 44 - n-tv.de",
-      "grade": 1
+      "hash": "O2L8A3PeAUvg",
+      "address": "https://natenom.de/2020/12/wie-man-ein-fahrrad-baut/",
+      "title": "Wie man ein Fahrrad baut - Natenoms Blog",
+      "grade": null
     },
     {
       "hash": "0QrBgsnKVAHh",
@@ -164,45 +80,39 @@
       "grade": 1
     },
     {
-      "hash": "fx_qtlzZulEg",
-      "address": "https://www.lexbike.de/fahrrad-richtig-reinigen/",
-      "title": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!",
+      "hash": "PfBZqf9B6zzh",
+      "address": "https://www.morgenpost.de/ratgeber-wissen/article409233227/unfall-oder-panne-im-urlaub-experten-verraten-schutz-massnahme.html",
+      "title": "Urlaub: Panne mit Auto oder Fahrrad? Experten verraten Schutz-Maßnahme",
+      "grade": null
+    },
+    {
+      "hash": "ueLLVFotHkcg",
+      "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
+      "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
       "grade": 1
     },
     {
-      "hash": "adfdUmlPDvFg",
-      "address": "https://www.wien.gv.at/amtswege/fahrradstaender-scooter-nicht-oeffentlicher-grund",
-      "title": "Antrag auf Förderung von Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien",
+      "hash": "Hk81LNrjjaYh",
+      "address": "https://www.guter-rat.de/thema/reise/fahrrad",
+      "title": "Fahrrad",
+      "grade": null
+    },
+    {
+      "hash": "lzV3MwuDQ-Fg",
+      "address": "https://www.muenchen.de/verkehr/fahrrad",
+      "title": "Fahrrad in München: Touren, Karten, Hinweise - muenchen.de",
       "grade": 1
     },
     {
-      "hash": "k0OASKjTZzng",
-      "address": "https://www.einhell.de/a/der-fahrrad-check/",
-      "title": "Fahrrad-Check vor der ersten Fahrt: So startest du sicher \u0026 gepflegt! | Einhell Ratgeber",
-      "grade": 1
+      "hash": "krFymlUs6etg",
+      "address": "https://www.rp-shop.de/Fahrrad/",
+      "title": "RP-SHOP | Fahrrad",
+      "grade": null
     },
     {
       "hash": "gPwaOlAii4pg",
       "address": "https://www.otto.de/sport/?sportart=_fahrrad",
       "title": "Fahrrad Produkte online kaufen | OTTO",
-      "grade": 1
-    },
-    {
-      "hash": "0tDCmJwm21Ng",
-      "address": "https://www.flixbus.ch/service/fahrrad-mitnahme",
-      "title": "Nimm Dein Fahrrad mit im FlixBus",
-      "grade": 1
-    },
-    {
-      "hash": "5ASkPXDOAHJg",
-      "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-besten-gps-tracker-fuer-fahrrad-auto-und-co-im-test/1gmyf1g",
-      "title": "Top 10: Die besten GPS-Tracker für Fahrrad, Auto und Co. im Test | Heise online bestenlisten",
-      "grade": 1
-    },
-    {
-      "hash": "15aRPhQCzJQg",
-      "address": "https://www.chip.de/downloads/Bikemap-Fahrrad-Navi-GPS-Android-App_144195848.html",
-      "title": "Bikemap: Fahrrad Navi \u0026 GPS - Android App - Download - CHIP",
       "grade": 1
     },
     {
@@ -212,9 +122,39 @@
       "grade": 1
     },
     {
-      "hash": "x-I85Npg7ax4",
-      "address": "https://de.wikipedia.org./wiki/Portal:Fahrrad",
-      "title": "Portal:Fahrrad – Wikipedia",
+      "hash": "iIpdu1X8WHMg",
+      "address": "https://langenhagen.adfc.de/artikel/fahrrad-fahr-rad-langenhagen-unsere-webseiten-beitraege-rund-ums-rad",
+      "title": "Danke! Langenhagen Fahrrad = \"Fahr Rad\"!! Unsere Webseiten-Beiträge rund ums Rad - ADFC Langenhagen: Besser Radfahren",
+      "grade": null
+    },
+    {
+      "hash": "DZ1GsgXvV0Gg",
+      "address": "https://www.shz.de/lebenswelten/auto-fahrrad-bahn",
+      "title": "Auto, Fahrrad \u0026 Bahn: Das Mobilitätsportal",
+      "grade": null
+    },
+    {
+      "hash": "fbkW0m1xxMph",
+      "address": "https://www.spreadshirt.de/shop/bekleidung/t-shirts-tops/s/fahrrad",
+      "title": "Die besten Fahrrad T-Shirts online bestellen | Spreadshirt",
+      "grade": null
+    },
+    {
+      "hash": "XyLvql9yi-Lh",
+      "address": "https://www.cntraveller.de/",
+      "title": "Condé Nast Traveller Germany",
+      "grade": 0
+    },
+    {
+      "hash": "fx_qtlzZulEg",
+      "address": "https://www.lexbike.de/fahrrad-richtig-reinigen/",
+      "title": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!",
+      "grade": 1
+    },
+    {
+      "hash": "a1zkjdfd0Dbg",
+      "address": "https://www.krone.at/vergleich/fahrrad-test/",
+      "title": "Fahrrad Test \u0026 Vergleich 2026 » Die besten Produkte auf Krone.at",
       "grade": 1
     },
     {
@@ -224,9 +164,9 @@
       "grade": 1
     },
     {
-      "hash": "gf7TPXX-NDdg",
-      "address": "https://www.pcwelt.de/bestenlisten/auto-fahrrad",
-      "title": "Auto \u0026 Fahrrad Bestenlisten | PC-WELT",
+      "hash": "0tDCmJwm21Ng",
+      "address": "https://www.flixbus.ch/service/fahrrad-mitnahme",
+      "title": "Nimm Dein Fahrrad mit im FlixBus",
       "grade": 1
     },
     {
@@ -236,27 +176,57 @@
       "grade": 1
     },
     {
-      "hash": "D0bzM6jq62tg",
-      "address": "https://www.uestra.de/service-und-mobilitaet/mobilitaetsangebote/fahrradmitnahme/",
-      "title": "Fahrrad­mitnahme im ÜSTRA Verkehrs­gebiet | ÜSTRA",
+      "hash": "8p5gwlkdSSIx",
+      "address": "https://www.vergleich.org/fahrrad/",
+      "title": "Fahrrad Vergleich \u0026 Test » Top 9 im September 2026",
       "grade": 1
     },
     {
-      "hash": "3YYi2Npg7ax4",
-      "address": "https://de.wikipedia.org./wiki/Mein_Fahrrad",
-      "title": "Mein Fahrrad – Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "a1zkjdfd0Dbg",
-      "address": "https://www.krone.at/vergleich/fahrrad-test/",
-      "title": "Fahrrad Test \u0026 Vergleich 2026 » Die besten Produkte auf Krone.at",
+      "hash": "bg5CcupuaNbg",
+      "address": "https://www.der-enno.de/fahrplan/mit-fahrrad-reisen/",
+      "title": "Mit dem Fahrrad unterwegs",
       "grade": 1
     },
     {
-      "hash": "OPE8Nz0w__jw",
-      "address": "https://www.faz.net/kaufkompass/sport-outdoor/fahrrad/",
-      "title": "Fahrrad-Produkte Tests 09/2026 | F.A.Z. Kaufkompass",
+      "hash": "4fo4RNaTwyCg",
+      "address": "https://www.test.de/thema/fahrrad-fahrradzubehoer/",
+      "title": "Fahrrad \u0026 Fahrradzubehör: alle Tests | Stiftung Warentest",
+      "grade": null
+    },
+    {
+      "hash": "eK01_XDOAHJg",
+      "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-beste-akku-luftpumpe-fuer-fahrrad-und-auto-im-test/74ev0yt?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+      "title": "Top 10: Die beste Akku-Luftpumpe für Fahrrad \u0026 Auto im Test | Heise online bestenlisten",
+      "grade": null
+    },
+    {
+      "hash": "GX5_0lezMa1j",
+      "address": "https://www.gerichtsboulevard.de/keine-fahrrad-demo-auf-der-a-23-922673/?pk_campaign=rss\u0026pk_source=rss",
+      "title": "Keine Fahrrad-Demo auf der A 23 | Gerichtsboulevard",
+      "grade": null
+    },
+    {
+      "hash": "FItLjeVb8V15",
+      "address": "https://www.anwaltonline.com/firmen-_-gewerbe/urteile/41858/eigenmaechtige-fahrrad-probefahrt-im-geschaeft-haftet-der-haendler-bei-einem-sturz/?pk_campaign=rss\u0026pk_source=rss",
+      "title": "Eigenmächtige Fahrrad-Probefahrt im Geschäft: Haftet der Händler bei einem Sturz? - Firmen / Gewerbe - Urteile - AnwaltOnline",
+      "grade": null
+    },
+    {
+      "hash": "w4tWSrf_-JMg",
+      "address": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/04/PD26_N025_461.html",
+      "title": "Jedes sechste Todesopfer im Straßenverkehr 2025 war mit dem Fahrrad unterwegs - Statistisches Bundesamt",
+      "grade": null
+    },
+    {
+      "hash": "gf7TPXX-NDdg",
+      "address": "https://www.pcwelt.de/bestenlisten/auto-fahrrad",
+      "title": "Auto \u0026 Fahrrad Bestenlisten | PC-WELT",
+      "grade": 1
+    },
+    {
+      "hash": "15aRPhQCzJQg",
+      "address": "https://www.chip.de/downloads/Bikemap-Fahrrad-Navi-GPS-Android-App_144195848.html",
+      "title": "Bikemap: Fahrrad Navi \u0026 GPS - Android App - Download - CHIP",
       "grade": 1
     },
     {
@@ -266,40 +236,112 @@
       "grade": 0
     },
     {
-      "hash": "ekaWDJseDREg",
-      "address": "https://www.zdfheute.de/ratgeber/urlaub-mit-dem-fahrrad-bikepacking-reisen-radreise-100.html",
-      "title": "Urlaub mit dem Fahrrad: Wie Backpacking auch Anfängern gelingt",
-      "grade": 1
-    },
-    {
-      "hash": "ryCuKNpg7ax4",
-      "address": "https://de.wikipedia.org./wiki/Kategorie:Fahrrad",
-      "title": "Kategorie:Fahrrad – Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "PZOOWNpg7ax4",
-      "address": "https://de.wikipedia.org./wiki/Aufbruch_Fahrrad",
-      "title": "Aufbruch Fahrrad – Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "NyrVYNpg7ax4",
-      "address": "https://de.wikipedia.org./wiki/Kategorie:Portal:Fahrrad",
-      "title": "Kategorie:Portal:Fahrrad – Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "bg5CcupuaNbg",
-      "address": "https://www.der-enno.de/fahrplan/mit-fahrrad-reisen/",
-      "title": "Mit dem Fahrrad unterwegs",
-      "grade": 1
-    },
-    {
       "hash": "vMjnWzXOdHBh",
       "address": "https://www.kino-zeit.de/film-kritiken-trailer/same-sun-mit-dem-fahrrad-durch-afrika-2026",
       "title": "Same Sun - Mit dem Fahrrad durch Afrika (2026) | Film, Trailer, Kritik",
       "grade": 1
+    },
+    {
+      "hash": "iPhcOC8moajg",
+      "address": "https://www.welt.de/regionales/berlin/article69f31eae6ae0ff2bebbd38cb/fahrrad-von-lkw-angefahren-radfahrer-stirbt.html",
+      "title": "Fahrrad von Lkw angefahren – Radfahrer stirbt - WELT",
+      "grade": null
+    },
+    {
+      "hash": "e25M3vDOAHJg",
+      "address": "https://www.heise.de/news/Ehemalige-Samsung-Designer-entwickeln-leichten-E-Antrieb-fuers-Fahrrad-11278762.html",
+      "title": "Ehemalige Samsung-Designer entwickeln leichten E-Antrieb fürs Fahrrad | heise online",
+      "grade": null
+    },
+    {
+      "hash": "rGF5olv_qywj",
+      "address": "https://www.naturcamping-bermudadreieck.de/programm-fahrrad/",
+      "title": "Mit dem Fahrrad - Campingplatz \u0026 Hafen Bermudadreieck in Mecklenburg-Vorpommern",
+      "grade": null
+    },
+    {
+      "hash": "8bSCe3PeAUvg",
+      "address": "https://natenom.de/2018/02/video-mit-fahrrad-und-anhaenger-den-berg-runter-rueckwaertige-kamera/",
+      "title": "Video: Mit Fahrrad und Anhänger den Berg runter – rückwärtige Kamera - Natenoms Blog",
+      "grade": null
+    },
+    {
+      "hash": "hW5EQXDOAHJg",
+      "address": "https://www.heise.de/bestenlisten/testsieger/top-10-der-beste-gps-tracker-fuer-fahrrad-auto-und-co-mit-und-ohne-abo/1gmyf1g?wt_mc=intern.red.bestenlisten.newsticker.anrissliste.teaser.teaser",
+      "title": "Top 10: Der beste GPS-Tracker für Fahrrad, Auto \u0026 Co. – mit und ohne Abo | heise online bestenlisten",
+      "grade": null
+    },
+    {
+      "hash": "9eWB4cPeAUvg",
+      "address": "https://natenom.de/2017/12/ich-habe-jetzt-einen-lastenanhaenger-croozer-cargo-fuer-mein-fahrrad-ein-erster-detaillierter-bericht/",
+      "title": "Ich habe jetzt einen Lastenanhänger „Croozer Cargo“ für mein Fahrrad – Ein erster detaillierter Bericht - Natenoms Blog",
+      "grade": null
+    },
+    {
+      "hash": "HnzBPsXcOmMx",
+      "address": "https://neocities.org/browse?tag=fahrrad",
+      "title": "Neocities - Sites tagged fahrrad",
+      "grade": 0
+    },
+    {
+      "hash": "01HtfNlA2Rig",
+      "address": "https://www.n-tv.de/thema/fahrrad",
+      "title": "Fahrrad - Thema - n-tv.de",
+      "grade": null
+    },
+    {
+      "hash": "b3blt50w__jw",
+      "address": "https://www.faz.net/aktuell/rhein-main/wirtschaft/fahrrad-denfeld-in-bad-homburg-groesseres-angebot-nach-umbau-200780961.html",
+      "title": "Fahrrad Denfeld in Bad Homburg: Größeres Angebot nach Umbau | FAZ",
+      "grade": null
+    },
+    {
+      "hash": "LKpItlY6bSPh",
+      "address": "https://www.fahrrad-xxl.de/orbea-gain-m30-m000062553?aff=4581\u0026utm_medium=affiliate\u0026utm_source=belboon\u0026bm=100\u0026bmcl=5343835313236323131303\u0026cl=3353735373136323131303\u0026belboon=2308140722582160634\u0026cp_name=belboon\u0026iclid=1-200829c2-151f-34fa-80fa-841f15c22908-a76514",
+      "title": "Orbea Gain M30 Aktion 28 Zoll -30% | Fahrrad XXL",
+      "grade": null
+    },
+    {
+      "hash": "yA2XpW2_RGDj",
+      "address": "https://www.saarbruecker-zeitung.de/sz-spezial/motor/mit-dem-fahrrad-in-den-urlaub-tipps-fuer-hecktraeger-am-auto_aid-148040891",
+      "title": "Mit dem Fahrrad in den Urlaub: Tipps für Heckträger am Auto",
+      "grade": null
+    },
+    {
+      "hash": "J95MRj5ARWyg",
+      "address": "https://www.spiegel.de/mobilitaet/fahrrad/e-bike-hepha-urban-8-ultra-im-test-dieses-fahrrad-schreit-diebe-an-a-bb3584d8-ca3a-4285-8aba-4b2316459f92",
+      "title": "E-Bike Hepha Urban 8 Ultra im Test: Dieses Fahrrad schreit Diebe an - DER SPIEGEL",
+      "grade": null
+    },
+    {
+      "hash": "0MRIQ3PeAUvg",
+      "address": "https://natenom.de/2020/05/wieder-mit-abstandshalter-am-fahrrad-unterwegs/",
+      "title": "Wieder mit Abstandshalter am Fahrrad unterwegs - Natenoms Blog",
+      "grade": null
+    },
+    {
+      "hash": "BkidfpL47Vlg",
+      "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
+      "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
+      "grade": 1
+    },
+    {
+      "hash": "5I7e8XDOAHJg",
+      "address": "https://www.heise.de/bestenlisten/testbericht/fahrrad-airbag-hoevding-3-im-test/f5qgf2n",
+      "title": "Fahrrad-Airbag Hövding 3 im Test | heise online bestenlisten",
+      "grade": null
+    },
+    {
+      "hash": "5ASkPXDOAHJg",
+      "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-besten-gps-tracker-fuer-fahrrad-auto-und-co-im-test/1gmyf1g",
+      "title": "Top 10: Die besten GPS-Tracker für Fahrrad, Auto und Co. im Test | Heise online bestenlisten",
+      "grade": 1
+    },
+    {
+      "hash": "Ewd0MWIlozhQ",
+      "address": "http://www.faqs.org/faqs/de-rec-fahrrad-faq/part5/",
+      "title": "de.rec.fahrrad FAQ part 5",
+      "grade": null
     }
   ]
 }

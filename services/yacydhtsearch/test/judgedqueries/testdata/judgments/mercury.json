@@ -2,40 +2,136 @@
   "query": "mercury",
   "judgedDocuments": [
     {
-      "hash": "njhDmi4xOujw",
-      "address": "https://science.nasa.gov/mercury/",
-      "title": "Mercury",
-      "grade": 2
+      "hash": "AiDs57Bb5PN4",
+      "address": "https://www.esa.int/ESA_Multimedia/Videos/2026/08/Media_briefing_BepiColombo_s_next_milestone_towards_Mercury",
+      "title": "ESA - Media briefing: BepiColombo's next milestone towards Mercury",
+      "grade": null
     },
     {
-      "hash": "SBknnd75SICx",
-      "address": "https://dictionary.cambridge.org/dictionary/english/mercury-lamp?topic=electricity-and-electronics",
-      "title": "MERCURY LAMP | English meaning - Cambridge Dictionary",
-      "grade": 0
+      "hash": "UzqIICQa4LQY",
+      "address": "http://mondoexploito.blogspot.com/2026/07/time-longer-than-rope.html",
+      "title": "Mondo Exploito: Time Longer Than Rope",
+      "grade": null
     },
     {
-      "hash": "NhRePZjeHlN4",
-      "address": "https://mercury250hpproxs924520.widblog.com/97950503/mercury-250-pro-xs-power-and-performance-review",
-      "title": "Mercury 250 Pro XS: Power and Performance Review",
+      "hash": "M6mmbsUFmc2k",
+      "address": "https://electrek.co/guides/electric-motor/",
+      "title": "Electric motor | Electrek",
+      "grade": null
+    },
+    {
+      "hash": "HldyGysrSOQw",
+      "address": "https://arxiv.org/html/2609.11964v1",
+      "title": "Field-Deployable Pressure Standard Based on a Compact Dual-Cavity Refractometer",
+      "grade": null
+    },
+    {
+      "hash": "YRNwW_cHOkWx",
+      "address": "https://www.gutenberg.org/ebooks/49165",
+      "title": "Brightside Crossing by Alan Edward Nourse | Project Gutenberg",
+      "grade": null
+    },
+    {
+      "hash": "HnNrSsVUrQm6",
+      "address": "https://earthnewspaper.com/Quotes/",
+      "title": "Quotes – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": null
+    },
+    {
+      "hash": "mdqsolurML-4",
+      "address": "https://www.sfadb.com/Priya_Sharma_Chronology",
+      "title": "sfadb : Priya Sharma Chronology",
+      "grade": null
+    },
+    {
+      "hash": "Exbu7oRGn275",
+      "address": "https://www.dictionary.com/browse/azotic",
+      "title": "AZOTIC Definition \u0026 Meaning | Dictionary.com",
+      "grade": null
+    },
+    {
+      "hash": "cqFBiaYG32-5",
+      "address": "https://www.livescience.com/tag/anthropology",
+      "title": "Anthropology - News and Scientific Articles on Live Science | Live Science",
+      "grade": null
+    },
+    {
+      "hash": "O4Bzdl4VCz24",
+      "address": "https://www.geody.com/geospot.php?world=terra\u0026map=col\u0026ufi=11029278\u0026alc=",
+      "title": "??? / Yiheyuan, China, Earth - Things to do in Yiheyuan - Geody",
+      "grade": null
+    },
+    {
+      "hash": "s_Dvr7CxRIa4",
+      "address": "https://www.space.com/space-exploration/launches-spacecraft/bepicolombo-mission-begins-mercury-arrival-phase-esa-jaxa",
+      "title": "2 spacecraft headed to Mercury are about to begin their long-awaited arrival for Europe and Japan — watch it live on Sept. 3 | Space",
+      "grade": null
+    },
+    {
+      "hash": "YxLl6lCxRIa4",
+      "address": "https://www.space.com/32832-new-mercury-maps-highs-and-lows.html",
+      "title": "Gorgeous New Mercury Maps Showcase Planet's Striking Features | Space",
+      "grade": null
+    },
+    {
+      "hash": "5O4KBs7qHGe4",
+      "address": "https://mercury.com/command",
+      "title": "Mercury Command — Drive Financial Work End to End with AI",
       "grade": 1
     },
     {
-      "hash": "HnCZ48wKrhA5",
-      "address": "https://herballure.com/HotTopics/MyMercuryStory.html",
-      "title": "My Mercury Story by Russ Tanner",
-      "grade": 1
+      "hash": "_fUEZHmoSPb5",
+      "address": "https://metroparts.com/Classic-Car-Guides-Ratings-Features/Mercury/1967-Mercury-Colony-Park-Catalog/",
+      "title": "1967 Mercury Colony Park Catalog and Classic Car Guide, Ratings and Features - Metro Moulded Parts Inc",
+      "grade": null
     },
     {
-      "hash": "gwwJMsj5gZJ5",
-      "address": "https://wissenschaft3000.wordpress.com/2016/05/05/queen-feddy-mercury-unbewusste-beeinflussung-durch-musik-und-mehr/",
-      "title": "Queen Feddy Mercury: Unbewusste Beeinflussung durch Musik und mehr | Wissenschaft3000 ~ science3000",
-      "grade": 1
+      "hash": "6aIjqH7qHGe4",
+      "address": "https://mercury.com/legal/privacy",
+      "title": "Mercury Privacy Policy | Mercury",
+      "grade": null
     },
     {
-      "hash": "r0pjyW1NYF34",
-      "address": "https://newatlas.com/tag/mercury/",
-      "title": "Mercury",
-      "grade": 0
+      "hash": "-Q-MVssqMaE4",
+      "address": "https://in5d.com/top-10-things-not-to-do-during-a-mercury-retrograde/",
+      "title": "TOP 10 Things NOT To Do During A Mercury Retrograde! - In5D",
+      "grade": null
+    },
+    {
+      "hash": "bQ7UsVJtXge4",
+      "address": "https://mercury.wnba.com/",
+      "title": "The Official Website of the Phoenix Mercury | WNBA",
+      "grade": null
+    },
+    {
+      "hash": "gsjaZKcBJP54",
+      "address": "https://status.mercury.com/",
+      "title": "Mercury Status",
+      "grade": null
+    },
+    {
+      "hash": "-6fcYHmoSPb5",
+      "address": "https://metroparts.com/Classic-Car-Guides-Ratings-Features/Mercury/1971-Mercury-Cyclone-Catalog/",
+      "title": "1971 Mercury Cyclone Catalog and Classic Car Guide, Ratings and Features - Metro Moulded Parts Inc",
+      "grade": null
+    },
+    {
+      "hash": "rvOE5DHND8b6",
+      "address": "https://musclecarclub.com/category/mercury/",
+      "title": "Mercury Archives - Muscle Car Club",
+      "grade": null
+    },
+    {
+      "hash": "Qc1BeYwCQJi4",
+      "address": "https://demo.mercury.com/dashboard",
+      "title": "Mercury | Banking for Startups",
+      "grade": null
+    },
+    {
+      "hash": "guQXEa9VB44Q",
+      "address": "http://whale.to/vaccines/thimerosal.htm",
+      "title": "MERCURY POISONING RACKET",
+      "grade": 1
     },
     {
       "hash": "Tz3ruLrVLaEw",
@@ -50,189 +146,39 @@
       "grade": 0
     },
     {
-      "hash": "KBMqolt5Czi4",
-      "address": "https://www.heart.news/2026-07-21-mercury-fillings-are-fueling-alzheimers-heart-disease.html",
-      "title": "“The Human Shutdown” on BrightU: How mercury fillings are fueling Alzheimer’s and heart disease",
-      "grade": 1
+      "hash": "lrtxNq1q02E4",
+      "address": "https://app.mercury.com/redirect",
+      "title": "Mercury | Banking for Startups",
+      "grade": null
     },
     {
-      "hash": "KApZy0FYBkL4",
-      "address": "https://www.pcguide.com/keyboard/razer-huntsman-mini-mercury-review/",
-      "title": "Razer Huntsman Mini Mercury review: a fast itty bitty clicky keyboard - PC Guide",
-      "grade": 0
+      "hash": "kEqhow7fufB7",
+      "address": "https://www.scientificamerican.com/article/gold-mining-is-poisoning-amazon-forests-with-mercury/",
+      "title": "Gold Mining Is Poisoning Amazon Forests with Mercury | Scientific American",
+      "grade": null
     },
     {
-      "hash": "UxRclh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Freddie_Mercury",
-      "title": "Freddie Mercury - Wikimedia Commons",
-      "grade": 1
+      "hash": "rJwNU1bPf3w4",
+      "address": "https://www.webmd.com/diet/mercury-in-fish",
+      "title": "What You Need to Know About Mercury in Fish and Shellfish",
+      "grade": null
     },
     {
-      "hash": "Dvy2QpyNqPgw",
-      "address": "https://www.mercury.co.nz/",
-      "title": "Power Company - NZ Gas, Electricity \u0026 Internet Provider | Mercury",
-      "grade": 2
+      "hash": "OThGIlCxRIa4",
+      "address": "https://www.space.com/bepicolombo-first-mercury-flyby-video",
+      "title": "Fly by Mercury with this stunning new video from the BepiColombo spacecraft | Space",
+      "grade": null
     },
     {
-      "hash": "cCpP3sK1rLw4",
-      "address": "https://zzztube.com/723150?title=my-babysitters-club-cadey-mercury-having-sex-for-cash",
-      "title": "My Babysitters Club - Cadey Mercury having sex for cash",
-      "grade": 0
-    },
-    {
-      "hash": "nYrn5mMylZZ5",
-      "address": "https://www.slideserve.com/jemma/freddie-mercury",
-      "title": "PPT - Freddie Mercury PowerPoint Presentation, free download - ID:1853715",
-      "grade": 1
-    },
-    {
-      "hash": "bdf1D8Zr0p16",
-      "address": "https://arizonasports.com/wnba/phoenix-mercury/mercury-sign-monique-billings-through-rest-season",
-      "title": "Mercury sign forward Monique Billings through rest of season",
-      "grade": 1
-    },
-    {
-      "hash": "OHVM3x11Lh9x",
-      "address": "https://sites.dartmouth.edu/toxmetal/mercury/",
-      "title": "Mercury | Dartmouth Toxic Metals",
-      "grade": 1
-    },
-    {
-      "hash": "b1HB19mflev4",
-      "address": "https://drprem.com/ecoguide/mercury-in-fish-why-you-need-to-be-aware/",
-      "title": "Mercury in Fish: Why you need to be aware?",
-      "grade": 1
-    },
-    {
-      "hash": "2Myjnl6bFQy6",
-      "address": "https://www.notebookcheck.com/Minisforum-Mercury-Series-EM780-im-Test-Extrem-kompakter-Mini-PC-mit-AMD-Ryzen-7-7840U-32-GB-RAM-und-1-TB-SSD.812209.0.html",
-      "title": "Minisforum Mercury Series EM780 im Test: Extrem kompakter Mini-PC mit AMD Ryzen 7 7840U, 32 GB RAM und 1-TB-SSD - Notebookcheck Test",
-      "grade": 0
-    },
-    {
-      "hash": "3V9XKoUyL1Z6",
-      "address": "https://www.sportsmediawatch.com/tv-schedules/wnba-tv-schedule/phoenix-mercury/",
-      "title": "Phoenix Mercury TV Schedule 2026: How to Watch - Sports Media Watch",
-      "grade": 1
-    },
-    {
-      "hash": "OpdOpiqG-9s5",
-      "address": "https://www.worldatlas.com/space/mercury.html",
+      "hash": "njhDmi4xOujw",
+      "address": "https://science.nasa.gov/mercury/",
       "title": "Mercury",
-      "grade": 1
-    },
-    {
-      "hash": "_HS44A7XkvOh",
-      "address": "https://www.moviepilot.de/movies/das-mercury-puzzle/trailer/4681",
-      "title": "Das Mercury Puzzle | Moviepilot.de",
-      "grade": 0
-    },
-    {
-      "hash": "fWQ9ljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Freddie_Mercury",
-      "title": "Freddie Mercury - Wikipedia",
       "grade": 2
-    },
-    {
-      "hash": "S0AFGdVLiZ-4",
-      "address": "https://www.ibdb.com/broadway-cast-staff/freddie-mercury-497998",
-      "title": "Freddie Mercury – Broadway Cast \u0026 Staff | IBDB",
-      "grade": 1
-    },
-    {
-      "hash": "VEd6EjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mercury_Browser",
-      "title": "Mercury Browser - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "pd5EcjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mercury_(element)",
-      "title": "Mercury (element) - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "rAPUYjbowXug",
-      "address": "https://kultura.onet.pl/muzyka/wywiady-i-artykuly/dobranoc-slodkich-snow-tak-pozegnal-sie-freddie-mercury/mr03hjg",
-      "title": "\"Dobranoc, słodkich snów\". Tak pożegnał się Freddie Mercury",
-      "grade": 1
     },
     {
       "hash": "zR8g6lV9Rj3w",
       "address": "https://www.epa.gov/mercury",
       "title": "Mercury | US EPA",
-      "grade": 1
-    },
-    {
-      "hash": "zExjLM1Lq4Ox",
-      "address": "https://acp.copernicus.org/articles/special_issue189.html",
-      "title": "ACP – Special issue – Chemistry, Emission, and Transport of Atmospheric Mercury (CETAM)",
-      "grade": 1
-    },
-    {
-      "hash": "tO5MhlrCDCu5",
-      "address": "https://www.sondrakistan.com/1928-no-mint-mark-mercury-dime-value-price-guide-for-collectors/",
-      "title": "1928 No Mint Mark Mercury Dime Value: Price Guide for Collectors - Sondrakistan Coin",
-      "grade": 1
-    },
-    {
-      "hash": "LkwBdLlA2Rig",
-      "address": "https://www.n-tv.de/mediathek/bilderserien/unterhaltung/Freddie-Mercury-bleibt-unvergessen-id31206699.html",
-      "title": "\"Ich werde eine Legende sein\": Freddie Mercury bleibt unvergessen - n-tv.de",
-      "grade": 1
-    },
-    {
-      "hash": "cIFMr2HXhLF4",
-      "address": "https://www.porntrex.com/video/3293064/cadey-mercury-arabian-nights2",
-      "title": "Cadey Mercury - Arabian Nights | Porntrex.com best ...",
-      "grade": 0
-    },
-    {
-      "hash": "uqZ_4jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mercury_regulation_in_the_United_States",
-      "title": "Mercury regulation in the United States - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "h0ITxl6bFQy6",
-      "address": "https://www.notebookcheck.com/Minisforum-Mercury-Series-EM680-mit-Ryzen-7-6800U-im-1-4L-Gehaeuse.729746.0.html",
-      "title": "Minisforum Mercury Series EM680 mit Ryzen 7 6800U im 1/4L Gehäuse - Notebookcheck News",
-      "grade": 0
-    },
-    {
-      "hash": "JfTOIlmMQij4",
-      "address": "https://www.who.int/en/news-room/fact-sheets/detail/mercury-and-health",
-      "title": "Mercury",
-      "grade": 1
-    },
-    {
-      "hash": "S910u2-Qfulg",
-      "address": "https://www.zdf.de/video/reportagen/aspekte-106/mercury-geburtstag-100",
-      "title": "Queen-Star und Pop-Ikone: Freddie Mercury zum 80. Geburtstag",
-      "grade": 1
-    },
-    {
-      "hash": "LsE9hJJ1sIs5",
-      "address": "https://www.davidbowie.com/blog/2019/4/25/the-mercury-demos-lp-box-due-in-june",
-      "title": "The ‘Mercury’ Demos LP box due in June — David Bowie",
-      "grade": 0
-    },
-    {
-      "hash": "t2plDlEdhU-5",
-      "address": "https://www.naturalnews.com/045705_flu_vaccine_mercury_heavy_metals.html",
-      "title": "Flu vaccine contains 25,000 times more mercury than is legally allowed in drinking water - NaturalNews.com",
-      "grade": 1
-    },
-    {
-      "hash": "Pbsz-sK56jFx",
-      "address": "https://nineplanets.org/mercury/",
-      "title": "Mercury Facts | Information, History, Location, Size \u0026 Definition",
-      "grade": 1
-    },
-    {
-      "hash": "-aDclh0jInq6",
-      "address": "https://spaceflightnow.com/2014/12/26/nasa-spacecraft-to-get-bonus-time-studying-mercury/",
-      "title": "NASA spacecraft to get bonus time studying Mercury – Spaceflight Now",
       "grade": 1
     },
     {
@@ -242,52 +188,58 @@
       "grade": 1
     },
     {
-      "hash": "1zg2198Ycw55",
-      "address": "https://www.africanews.com/2026/09/07/zanzibars-freddie-mercury-museum-showcases-life-of-legendary-queen-frontman/",
-      "title": "Zanzibar's Freddie Mercury Museum showcases life of legendary Queen frontman | Africanews",
-      "grade": 1
-    },
-    {
-      "hash": "eAV4-lpcc_2y",
-      "address": "https://www.notebookcheck.net/OWC-announces-Mercury-Aura-Express-6G-SSDs-for-MBAs.61862.0.html",
-      "title": "OWC announces Mercury Aura Express 6G SSDs for MBAs - Notebookcheck News",
-      "grade": 0
-    },
-    {
-      "hash": "zr9l_HT_VPS4",
-      "address": "https://www.nature.com/articles/s42003-022-03464-z?error=cookies_not_supported\u0026code=9fb11513-9e2c-422d-9b67-118be2814eb3",
-      "title": "Mercury levels in hair are associated with reduced neurobehavioral performance and altered brain structures in young adults | Communications Biology",
-      "grade": 1
-    },
-    {
-      "hash": "NQOsoQq7ilPw",
-      "address": "https://eos.org/articles/antarctica-is-releasing-mercury-faster-than-ever-because-of-climate-change",
-      "title": "Antarctica Is Releasing Mercury Faster Than Ever Because of Climate Change - Eos",
-      "grade": 1
-    },
-    {
-      "hash": "5O4KBs7qHGe4",
-      "address": "https://mercury.com/command",
-      "title": "Mercury Command — Drive Financial Work End to End with AI",
-      "grade": 1
-    },
-    {
-      "hash": "guQXEa9VB44Q",
-      "address": "http://whale.to/vaccines/thimerosal.htm",
-      "title": "MERCURY POISONING RACKET",
-      "grade": 1
-    },
-    {
       "hash": "NHZY-l7UZWb4",
       "address": "https://www.12news.com/mercury",
       "title": "Phoenix Mercury \u0026 WNBA Pro Basketball News | 12news.com",
       "grade": 1
     },
     {
-      "hash": "kRVggjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mercury_(programming_language)",
-      "title": "Mercury (programming language) - Wikipedia",
-      "grade": 2
+      "hash": "gEXqj6J10Qzw",
+      "address": "https://periodic-table.rsc.org/element/80/mercury",
+      "title": "Mercury - Element information, properties and uses | Periodic Table",
+      "grade": null
+    },
+    {
+      "hash": "DQTiWJmMQij4",
+      "address": "https://www.who.int/news-room/fact-sheets/detail/mercury-and-health",
+      "title": "Mercury",
+      "grade": null
+    },
+    {
+      "hash": "8pZV5qNmxau5",
+      "address": "https://romanpagan.wordpress.com/mercury/",
+      "title": "Private Site",
+      "grade": null
+    },
+    {
+      "hash": "AQByarHaWmMw",
+      "address": "https://airandspace.si.edu/stories/editorial/mercury-primate-capsule-and-ham-astrochimp",
+      "title": "Mercury Primate Capsule and Ham the Astrochimp | National Air and Space Museum",
+      "grade": null
+    },
+    {
+      "hash": "fgLb-mdGH9ra",
+      "address": "http://www.hotshotdigital.com/WellAlwaysRemember/FreddieMercuryBio.html",
+      "title": "Freddie Mercury - hotshotdigital.com",
+      "grade": null
+    },
+    {
+      "hash": "0Pr3HkUnydmg",
+      "address": "https://www.lemonde.fr/resultats-legislatives-2024/mercury-73154/",
+      "title": "Client Challenge",
+      "grade": null
+    },
+    {
+      "hash": "hziNhwUENdog",
+      "address": "https://www.rtbf.be/article/la-derniere-interview-filmee-de-freddie-mercury-11175456",
+      "title": "La dernière interview filmée de Freddie Mercury - RTBF Actus",
+      "grade": null
+    },
+    {
+      "hash": "fo3CqwUENdog",
+      "address": "https://www.rtbf.be/article/les-deux-personnalites-que-freddie-mercury-aurait-aime-rencontrer-11136882",
+      "title": "Les deux personnalités que Freddie Mercury aurait aimé rencontrer - RTBF Actus",
+      "grade": null
     },
     {
       "hash": "TJxSvjRvmBbx",
@@ -296,16 +248,130 @@
       "grade": 1
     },
     {
+      "hash": "zBbzMwUENdog",
+      "address": "https://www.rtbf.be/article/mercury-la-video-censuree-ressort-10335023",
+      "title": "Mercury: la vidéo censurée ressort - RTBF Actus",
+      "grade": null
+    },
+    {
+      "hash": "u-DT0wUENdog",
+      "address": "https://www.rtbf.be/article/destination-montreux-et-sa-statue-de-freddie-mercury-11131968",
+      "title": "Destination Montreux et sa statue de Freddie Mercury - RTBF Actus",
+      "grade": null
+    },
+    {
+      "hash": "PI_8CMCWRxx6",
+      "address": "https://www.jesus-is-savior.com/Evils%20in%20America/Rock-n-Roll/freddie_mercury.htm",
+      "title": "The Tragic Life of Freddie Mercury",
+      "grade": null
+    },
+    {
+      "hash": "KGW0sj-V-uiw",
+      "address": "https://news.cornell.edu/stories/2007/05/cu-astronomer-finds-mercury-has-molten-core",
+      "title": "Mercury has molten core, Cornell researcher shows | Cornell Chronicle",
+      "grade": null
+    },
+    {
+      "hash": "rfmjwFMXd2kx",
+      "address": "https://simple.wikipedia.org/wiki/Mercury_(planet)",
+      "title": "Mercury (planet) - Simple English Wikipedia, the free encyclopedia",
+      "grade": null
+    },
+    {
+      "hash": "xmvdqdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Mercury_Records",
+      "title": "Mercury Records – Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "vhKEpcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Mercury_Records",
+      "title": "Mercury Records — Wikipédia",
+      "grade": null
+    },
+    {
+      "hash": "pd5EcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mercury_(element)",
+      "title": "Mercury (element) - Wikipedia",
+      "grade": 2
+    },
+    {
       "hash": "sRhht5nm0pd5",
       "address": "https://mercury-market-price-202902642.collectblogs.com/87560053/get-liquid-mercury-via-the-internet-your-comprehensive-guide-locations-to-locate-it",
       "title": "Get Liquid Mercury Via the Internet : Your Comprehensive Guide \u0026 Locations to Locate It",
       "grade": 1
     },
     {
-      "hash": "9d6FhlEdhU-5",
-      "address": "https://www.naturalnews.com/048888_vaccine_adverse_events_autism_INFANRIX_Hexa.html",
-      "title": "Italian court rules mercury and aluminum in vaccines cause autism: US media continues total blackout of medical truth - NaturalNews.com",
+      "hash": "UfJLDysrSOQw",
+      "address": "https://arxiv.org/html/2304.11935v1",
+      "title": "Prediction of the collisions of meteoroids originating in comet 21P/Giacobini-Zinner with the Mercury, Venus, and Mars",
+      "grade": null
+    },
+    {
+      "hash": "rB2_fiYG32-5",
+      "address": "https://www.livescience.com/space/astronomy/planets/mercury",
+      "title": "Mercury: News, features and articles | Live Science",
+      "grade": null
+    },
+    {
+      "hash": "LsE9hJJ1sIs5",
+      "address": "https://www.davidbowie.com/blog/2019/4/25/the-mercury-demos-lp-box-due-in-june",
+      "title": "The ‘Mercury’ Demos LP box due in June — David Bowie",
+      "grade": 0
+    },
+    {
+      "hash": "NRSb9l_6Jkv5",
+      "address": "https://www.fairymercury.com/",
+      "title": "Fairy Mercury | Freddie Mercury Lookalike, Tribute Artist \u0026 Live Entertainer",
+      "grade": null
+    },
+    {
+      "hash": "jCvhglCxRIa4",
+      "address": "https://www.space.com/18301-mariner-10.html",
+      "title": "Mariner 10: First Mission to Mercury | Space",
+      "grade": null
+    },
+    {
+      "hash": "-aDclh0jInq6",
+      "address": "https://spaceflightnow.com/2014/12/26/nasa-spacecraft-to-get-bonus-time-studying-mercury/",
+      "title": "NASA spacecraft to get bonus time studying Mercury – Spaceflight Now",
       "grade": 1
+    },
+    {
+      "hash": "pyyllxKAn6I5",
+      "address": "https://news.ycombinator.com/item?id=43851099",
+      "title": "Mercury: Commercial-scale diffusion language model | Hacker News",
+      "grade": null
+    },
+    {
+      "hash": "rDxxnq1q02E4",
+      "address": "https://app.mercury.com/login",
+      "title": "Mercury | Banking for Startups",
+      "grade": null
+    },
+    {
+      "hash": "gwztfg5dlbp4",
+      "address": "https://mashable.com/science/bepicolombo-mercury-approach-images",
+      "title": "Spacecraft BepiColombo survives earlier mission crisis and approaches Mercury | Mashable",
+      "grade": null
+    },
+    {
+      "hash": "UxRclh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Freddie_Mercury",
+      "title": "Freddie Mercury - Wikimedia Commons",
+      "grade": 1
+    },
+    {
+      "hash": "_rwCQlMdu_4g",
+      "address": "https://www.80s80s.de/freddie-mercury-queen-schlagzeilen",
+      "title": "Schlagzeilen von Freddie Mercury \u0026 Queen | 80s80s",
+      "grade": null
+    },
+    {
+      "hash": "Scra9eMcq6Ew",
+      "address": "https://web.archive.org/web/20090713233748/http:/www.hq.nasa.gov/office/pao/History/SP-4201/toc.htm",
+      "title": "This New Ocean: A History of Project Mercury",
+      "grade": null
     }
   ]
 }

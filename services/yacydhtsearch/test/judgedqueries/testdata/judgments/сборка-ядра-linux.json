@@ -1,11 +1,4 @@
 {
   "query": "сборка ядра linux",
-  "judgedDocuments": [
-    {
-      "hash": "gGtDQPnTPArx",
-      "address": "https://ru.wikipedia.org/wiki/Android",
-      "title": "Android — Википедия",
-      "grade": 0
-    }
-  ]
+  "judgedDocuments": []
 }

@@ -2,142 +2,64 @@
   "query": "what causes climate change",
   "judgedDocuments": [
     {
-      "hash": "20jsji4xOujw",
-      "address": "https://science.nasa.gov/climate-change/",
-      "title": "Climate Change - NASA Science",
-      "grade": 1
-    },
-    {
-      "hash": "LRGEm8tOCwSx",
-      "address": "https://www.counterpunch.org/2015/09/04/regime-change-refugees-on-the-shores-of-europe/",
-      "title": "Regime Change Refugees: On the Shores of Europe - CounterPunch.org",
-      "grade": 0
-    },
-    {
-      "hash": "JIdxU6Os8qp5",
-      "address": "https://bylinetimes.com/columns/the-climate-emergency/",
-      "title": "The Climate Emergency Archives – Byline Times",
-      "grade": 0
-    },
-    {
-      "hash": "Z4H69lkx8IKw",
-      "address": "https://www.econtalk.org/moises-velasquez-manoff-on-cows-carbon-farming-and-climate-change/",
-      "title": "Moises Velasquez-Manoff on Cows, Carbon Farming, and Climate Change - Econlib",
-      "grade": 0
-    },
-    {
       "hash": "S3ER0jDuT774",
       "address": "https://edbutt.blogspot.com/2023/02/study-bill-gates-fake-meat-causes-turbo.html",
       "title": "Boggart Abroad: Study: Bill Gates’ Fake Meat Causes “Turbo Cancer” in Humans",
       "grade": 0
     },
     {
-      "hash": "TTdgPlS5WTn4",
-      "address": "https://www.jpost.com/environment-and-climate-change",
-      "title": "Environment \u0026 Climate Change | The Jerusalem Post",
+      "hash": "ZE_IpptwlIb4",
+      "address": "https://health.yahoo.com/",
+      "title": "Yahoo Health: Advice and Reviews on Nutrition, Fitness, Sleep, Aging, Well Being and More",
+      "grade": null
+    },
+    {
+      "hash": "hCu9ytNcDvjw",
+      "address": "https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1009705",
+      "title": "SARS-CoV-2 infection in the Syrian hamster model causes inflammation as well as type I interferon dysregulation in both respiratory and non-respiratory tissues including the heart and kidney | PLOS Pathogens",
+      "grade": null
+    },
+    {
+      "hash": "nrtxXyNcDvjw",
+      "address": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0246383",
+      "title": "Molecular characterization and the mutation pattern of SARS-CoV-2 during first and second wave outbreaks in Hiroshima, Japan | PLOS One",
+      "grade": null
+    },
+    {
+      "hash": "t2h4nQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2013-november.shtml",
+      "title": "dailystirrer curent month",
       "grade": 0
     },
     {
-      "hash": "UToSHQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate_change.shtml",
-      "title": "climate_change",
-      "grade": 0
+      "hash": "soN7ws67Ucfw",
+      "address": "https://grist.org/",
+      "title": "Grist – Climate and environmental news | Grist",
+      "grade": null
     },
     {
-      "hash": "CvYIMh5-F5dg",
-      "address": "https://www.bgs.ac.uk/discovering-geology/climate-change/",
-      "title": "Discovering Geology: climate change - British Geological Survey",
-      "grade": 1
+      "hash": "t3lILQZchFfZ",
+      "address": "http://www.greenteethmm.com/religion_faith_belief.shtml",
+      "title": "religion, belief, faith",
+      "grade": null
     },
     {
-      "hash": "bt5Ean_BDBHx",
-      "address": "https://npg.copernicus.org/articles/30/63/2023/",
-      "title": "NPG - A range of outcomes: the combined effects of internal variability and anthropogenic forcing on regional climate trends over Europe",
-      "grade": 0
+      "hash": "_s72IQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2019-may.shtml",
+      "title": "dailystirrer-2019-news-may-comment-opinion-controversy-contrarianism",
+      "grade": null
     },
     {
-      "hash": "IAjfbBOLCOH6",
-      "address": "https://wattsupwiththat.com/2009/12/07/noaa-paper-north-american-2008-cooling-attributed-to-natural-causes/",
-      "title": "NOAA Paper: North American 2008 Cooling Attributed to Natural Causes - Watts Up With That?",
-      "grade": 1
+      "hash": "qYKc9YIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2004/11/awol-opposition_20.html",
+      "title": "Rigorous Intuition: The AWOL Opposition",
+      "grade": null
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "grade": 0
-    },
-    {
-      "hash": "yJuijsCG40j4",
-      "address": "https://tantek.com/",
-      "title": "Tantek Çelik",
-      "grade": 0
-    },
-    {
-      "hash": "xZzmyl6ahC7x",
-      "address": "https://www.greenfacts.org/en/climate-change-ar4/index.htm",
-      "title": "Climate Change 2007 Update",
-      "grade": 2
-    },
-    {
-      "hash": "01LhXsOLCOH6",
-      "address": "https://wattsupwiththat.com/climate-change-vs-crop-production/",
-      "title": "Climate Change vs. Crop Production - Watts Up With That?",
-      "grade": 0
-    },
-    {
-      "hash": "gwXFtsASFOMg",
-      "address": "https://sive.rs/balance",
-      "title": "How to do what you love and make good money | Derek Sivers",
-      "grade": 0
-    },
-    {
-      "hash": "_22Und3UszF5",
-      "address": "https://larvalsubjects.wordpress.com/",
-      "title": "Larval Subjects .",
-      "grade": 0
-    },
-    {
-      "hash": "MAG-fMYA3hZg",
-      "address": "https://weather.metoffice.gov.uk/climate-change/what-is-climate-change",
-      "title": "What is climate change? - Met Office",
-      "grade": 2
-    },
-    {
-      "hash": "qbjdnJXsCtxg",
-      "address": "https://www.eesc.europa.eu/en/our-work/opinions-information-reports/opinions/eu-anti-poverty-strategy",
-      "title": "EU Anti-poverty Strategy | EESC",
-      "grade": 0
-    },
-    {
-      "hash": "0bQU8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Europe",
-      "title": "Europe - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "paPZhjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Preventive_healthcare",
-      "title": "Preventive healthcare - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "a-z2eQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
-      "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
-      "grade": 0
-    },
-    {
-      "hash": "Qve1qQZchFfZ",
-      "address": "http://www.greenteethmm.com/energy-net-zero-fantasy.shtml",
-      "title": "greenteeth-digital-publishing-net-zero-is-dangerous-fantasy-but-scientists-believe-in-fairies-it-seems",
-      "grade": 0
-    },
-    {
-      "hash": "c2AzrSHKIdig",
-      "address": "https://www.eeas.europa.eu/delegations/fiji/pacific-adaptation-climate-change-and-resilience-pacres_en?s=139",
-      "title": "Pacific Adaptation to Climate Change and Resilience (PACRES) | EEAS",
-      "grade": 0
+      "hash": "UViuAzwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/2015/03/03/temperature-was-not-rising-but-climate-chief-s-cock-was-20157196/",
+      "title": "Temperature Was Not Rising But Climate Chief’s Cock Was | The Original Boggart Blog",
+      "grade": null
     },
     {
       "hash": "AWq9VQXx1HRZ",
@@ -152,34 +74,118 @@
       "grade": 0
     },
     {
-      "hash": "l5Dztsfelx86",
-      "address": "https://skepticalscience.com/newsarchives.php",
-      "title": "News Archives",
-      "grade": 0
-    },
-    {
       "hash": "SMdVHQZchFfZ",
       "address": "http://www.greenteethmm.com/green-renewable-energy-delusion.shtml",
       "title": "Debunked:-the-great-renewable-energy-green-delusion",
       "grade": 0
     },
     {
-      "hash": "W5uqHs-D33u5",
-      "address": "https://instapundit.com/",
-      "title": "Instapundit",
+      "hash": "fE4y5sGA_USx",
+      "address": "https://warracket.net/",
+      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO, CORPORATIONS, BANKERS",
+      "grade": null
+    },
+    {
+      "hash": "daW1ZQZchFfZ",
+      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
+      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
       "grade": 0
     },
     {
-      "hash": "Q831Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/United_States",
-      "title": "United States - Wikiquote",
+      "hash": "dnYEedwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/category/science/climate/",
+      "title": "climate | The Original Boggart Blog",
+      "grade": null
+    },
+    {
+      "hash": "otpk1QZchFfZ",
+      "address": "http://www.greenteethmm.com/green-scaremongering-returns.shtml",
+      "title": "The-Climate-Change-Scare-Rears-Its-Ugly-Head-Again-news-environment-daily-stirrer",
+      "grade": null
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "grade": 0
     },
     {
-      "hash": "fnKUNs2xL7A6",
-      "address": "https://corbettreport.com/june-open-thread/",
-      "title": "June Open Thread | The Corbett Report",
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": null
+    },
+    {
+      "hash": "Gj2Hd-YG32-5",
+      "address": "https://www.livescience.com/planet-earth/climate-change",
+      "title": "Climate change: Facts, news, features and articles about our warming planet | Live Science",
+      "grade": null
+    },
+    {
+      "hash": "75lF2sOLCOH6",
+      "address": "https://wattsupwiththat.com/climate_tv/",
+      "title": "Watts Up With That? - The world's most viewed site on global warming and climate change",
+      "grade": null
+    },
+    {
+      "hash": "20jsji4xOujw",
+      "address": "https://science.nasa.gov/climate-change/",
+      "title": "Climate Change - NASA Science",
+      "grade": 1
+    },
+    {
+      "hash": "eAsPmlj-kX5y",
+      "address": "https://www.climatecentral.org/resources?type=Partnership%20Journalism\u0026tab=content",
+      "title": "Resources | Climate Central",
+      "grade": null
+    },
+    {
+      "hash": "zG3BYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Climate_change",
+      "title": "Climate change - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "TBtrwmVUrQm6",
+      "address": "https://earthnewspaper.com/mark-r-elsis/the-ominous-change-at-the-federal-reserve-by-mark-r-elsis/",
+      "title": "The Ominous Change At The Federal Reserve by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": null
+    },
+    {
+      "hash": "UToSHQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate_change.shtml",
+      "title": "climate_change",
       "grade": 0
+    },
+    {
+      "hash": "mc2dMsONv-Sx",
+      "address": "https://dosomething.org/",
+      "title": "Fueling Young People to Change the World | DoSomething.org",
+      "grade": null
+    },
+    {
+      "hash": "27LwJlBRidT5",
+      "address": "https://www.newscientist.com/",
+      "title": "New Scientist | Science news, articles, and features",
+      "grade": null
+    },
+    {
+      "hash": "01LhXsOLCOH6",
+      "address": "https://wattsupwiththat.com/climate-change-vs-crop-production/",
+      "title": "Climate Change vs. Crop Production - Watts Up With That?",
+      "grade": 0
+    },
+    {
+      "hash": "Sa0cW7uRTBFY",
+      "address": "http://dissectleft.blogspot.com/",
+      "title": "Dissecting Leftism",
+      "grade": null
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
+      "grade": null
     },
     {
       "hash": "Jb4XHs5IzNm6",
@@ -188,9 +194,9 @@
       "grade": 0
     },
     {
-      "hash": "-i3KWUOV-EIY",
-      "address": "http://bollocksallbollocks.blogspot.com/",
-      "title": "It's Bollocks, My Dears, All Bollocks",
+      "hash": "0bQU8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Europe",
+      "title": "Europe - Wikipedia",
       "grade": 0
     },
     {
@@ -200,33 +206,15 @@
       "grade": 0
     },
     {
-      "hash": "HgJ9BQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-february.shtml",
-      "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
-      "grade": 0
+      "hash": "HfmFlFspn_sy",
+      "address": "https://www.cleanenergywire.org/factsheets/climate-impact-farming-land-use-change-and-forestry-germany",
+      "title": "Climate impact of farming, land use (change) and forestry in Germany | Clean Energy Wire",
+      "grade": null
     },
     {
-      "hash": "VtHnjQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-january.shtml",
-      "title": "dailystirrer-2021-news-January-comment-opinion-controversy-contrarianism",
-      "grade": 0
-    },
-    {
-      "hash": "t2h4nQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2013-november.shtml",
-      "title": "dailystirrer curent month",
-      "grade": 0
-    },
-    {
-      "hash": "wrsAbQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2012-august.shtml",
-      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
-      "grade": 0
-    },
-    {
-      "hash": "seSMJsY-tUi5",
-      "address": "https://moralparty.com/warnings/",
-      "title": "Warnings – MoralParty.com",
+      "hash": "Qve1qQZchFfZ",
+      "address": "http://www.greenteethmm.com/energy-net-zero-fantasy.shtml",
+      "title": "greenteeth-digital-publishing-net-zero-is-dangerous-fantasy-but-scientists-believe-in-fairies-it-seems",
       "grade": 0
     },
     {
@@ -236,16 +224,16 @@
       "grade": 0
     },
     {
-      "hash": "bb-C0QZchFfZ",
-      "address": "http://www.greenteethmm.com/europe-down-drain.shtml",
-      "title": "eu-officials-say-europe-is-going-down-the-drain-daily-stirrer",
+      "hash": "HgJ9BQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-february.shtml",
+      "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
       "grade": 0
     },
     {
-      "hash": "daW1ZQZchFfZ",
-      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
-      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
-      "grade": 0
+      "hash": "xvVVVQZchFfZ",
+      "address": "http://www.greenteethmm.com/ever-changing-ocean.shtml",
+      "title": "ever-changing-ocean-sea-environment-climate-ecology-science-nature-life-poem-monologue-poetry-verse",
+      "grade": null
     },
     {
       "hash": "n8m5ZQZchFfZ",
@@ -254,10 +242,46 @@
       "grade": 0
     },
     {
-      "hash": "pIq__QZchFfZ",
-      "address": "http://www.greenteethmm.com/lawless-libya.shtml",
-      "title": "lawless-leaderless-libya-becoming-a-terror-hub-fukus-axis-war-islam",
+      "hash": "qrCASQZchFfZ",
+      "address": "http://www.greenteethmm.com/oil-shale-salvation.shtml",
+      "title": "science-proves-brain-change-plasticity-mediation-religion-superstirion-placebo",
+      "grade": null
+    },
+    {
+      "hash": "76pW538yq-w5",
+      "address": "https://judithcurry.com/2020/05/10/why-herd-immunity-to-covid-19-is-reached-much-earlier-than-thought/",
+      "title": "Why herd immunity to COVID-19 is reached much earlier than thought - Climate Etc.",
+      "grade": null
+    },
+    {
+      "hash": "dpknRQZchFfZ",
+      "address": "http://www.greenteethmm.com/death-of-democracy.shtml",
+      "title": "the-death-of-democracy-creeping-authoritarian-government-terror-climate-human-rights-greenteethmm-daily-stirrer",
+      "grade": null
+    },
+    {
+      "hash": "o_-3MQZchFfZ",
+      "address": "http://www.greenteethmm.com/climate-co2-overstated.shtml",
+      "title": "climate-change-study-shows-carbon-dioxide-dangers-are-overstated-dailystirrrer-daily-stirrer-news-opinion",
       "grade": 0
+    },
+    {
+      "hash": "34415jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Global_warming",
+      "title": "Climate change - Wikipedia",
+      "grade": null
+    },
+    {
+      "hash": "VtHnjQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-january.shtml",
+      "title": "dailystirrer-2021-news-January-comment-opinion-controversy-contrarianism",
+      "grade": 0
+    },
+    {
+      "hash": "QaJyelxSD0j4",
+      "address": "https://www.bbc.com/future-planet",
+      "title": "BBC Earth | Environment, Climate Change, AI, Food, Health, Social, \u0026 Technology",
+      "grade": null
     },
     {
       "hash": "FhRVUQZchFfZ",
@@ -266,10 +290,76 @@
       "grade": 0
     },
     {
-      "hash": "o_-3MQZchFfZ",
-      "address": "http://www.greenteethmm.com/climate-co2-overstated.shtml",
-      "title": "climate-change-study-shows-carbon-dioxide-dangers-are-overstated-dailystirrrer-daily-stirrer-news-opinion",
+      "hash": "seSMJsY-tUi5",
+      "address": "https://moralparty.com/warnings/",
+      "title": "Warnings – MoralParty.com",
       "grade": 0
+    },
+    {
+      "hash": "-rEAtQ1tu8ya",
+      "address": "http://www.climate-skeptic.com/",
+      "title": "Climate Skeptic",
+      "grade": null
+    },
+    {
+      "hash": "wrsAbQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-august.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "grade": 0
+    },
+    {
+      "hash": "8FFP2l-RWVw5",
+      "address": "https://www.climatedepot.com/",
+      "title": "Climate Depot – A project of CFACT",
+      "grade": null
+    },
+    {
+      "hash": "WUlyk9D5msq5",
+      "address": "https://www.kiwipolitico.com/2026/06/systemic-change-institutional-lag-and-societal-resilience/",
+      "title": "Systemic Change, Institutional Lag and Societal Resilience. – Kiwipolitico",
+      "grade": null
+    },
+    {
+      "hash": "_0TAwYUnpvvx",
+      "address": "https://www.propublica.org/topics/environment",
+      "title": "Investigative Reporting on Climate and Environment — ProPublica",
+      "grade": null
+    },
+    {
+      "hash": "pkjvO6DuT774",
+      "address": "https://edbutt.blogspot.com/2022/08/1200-scientists-and-professionals-go.html",
+      "title": "Boggart Abroad: 1,200 Scientists and Professionals Go Public With: “There is No Climate Emergency”",
+      "grade": null
+    },
+    {
+      "hash": "C1gIwQZchFfZ",
+      "address": "http://www.greenteethmm.com/cliimate-lies-composite.shtml",
+      "title": "climate-change-lies-of-scientists-and-politicians-and-the-simple-facts-daily-stirrer-dailystirrer",
+      "grade": null
+    },
+    {
+      "hash": "OThj6sOLCOH6",
+      "address": "https://wattsupwiththat.com/great-lakes-water-levels-are-falling-due-to-climate-change/",
+      "title": "Great Lakes Water Levels are falling due to Climate Change - Watts Up With That?",
+      "grade": null
+    },
+    {
+      "hash": "hcKXIsOLCOH6",
+      "address": "https://wattsupwiththat.com/unprecedented-heat-wave-in-pacific-northwest-was-driven-by-climate-change/",
+      "title": "Unprecedented Heat Wave in Pacific Northwest was Driven by Climate Change - Watts Up With That?",
+      "grade": null
+    },
+    {
+      "hash": "7-OLSvOLCOH6",
+      "address": "https://wattsupwiththat.com/failed-climate-prediction-timeline/droughts-are-increasing-due-to-climate-change/",
+      "title": "Droughts are Increasing Due to Climate Change - Watts Up With That?",
+      "grade": null
+    },
+    {
+      "hash": "SOj6YQZchFfZ",
+      "address": "http://www.greenteethmm.com/green-murderers.shtml",
+      "title": "daily-stirrer-truth-murdering-greens-climate-change-alarmists-serial-killers-environment-holocaust-heartland-ed-butt-dailystirrer",
+      "grade": null
     }
   ]
 }
