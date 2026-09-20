@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 )
 
 type pageExtraction struct {
@@ -18,7 +18,7 @@ type pageExtraction struct {
 type extractedPage struct {
 	title      string
 	text       string
-	linkCounts queryanswers.LinkCounts
+	linkCounts pagecontents.LinkCounts
 }
 
 func pageExtractionOfTheFormats(t *testing.T) pageExtraction {
@@ -45,7 +45,7 @@ func (e pageExtraction) extractedPageOf(ctx context.Context, page storedPage) ex
 	return extractedPage{
 		title: document.Title,
 		text:  e.textOfTheDocument(ctx, document, pageURL),
-		linkCounts: queryanswers.LinkCounts{
+		linkCounts: pagecontents.LinkCounts{
 			LocalLinks:    document.LocalLinks,
 			ExternalLinks: document.ExternalLinks,
 		},

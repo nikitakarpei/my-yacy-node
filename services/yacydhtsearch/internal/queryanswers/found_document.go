@@ -3,7 +3,7 @@ package queryanswers
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -17,7 +17,7 @@ type FoundDocument struct {
 	HitsPerQueryWord map[yacymodel.Hash]int
 	AmountOfWords    int
 	QueryPhraseHits  int
-	LinkCounts       yacymodel.Optional[LinkCounts]
+	LinkCounts       yacymodel.Optional[pagecontents.LinkCounts]
 }
 
 func FoundDocumentFrom(metadata yacymodel.URLMetadata) FoundDocument {
@@ -44,17 +44,18 @@ func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[tim
 	return yacymodel.Some(day.Time())
 }
 
-func (f FoundDocument) saturatedWith(text documenttext.DocumentText) FoundDocument {
-	if text.Address != "" {
-		f.Address = text.Address
+func (f FoundDocument) saturatedWith(pageContents pagecontents.PageContents) FoundDocument {
+	if pageContents.Address != "" {
+		f.Address = pageContents.Address
 	}
-	if text.Title != "" {
-		f.Title = text.Title
+	if pageContents.Title != "" {
+		f.Title = pageContents.Title
 	}
-	f.HitsPerQueryWord = text.HitsPerQueryWord
-	f.AmountOfWords = text.AmountOfWords
-	f.QueryPhraseHits = text.QueryPhraseHits
-	f.Snippet = text.Snippet
+	f.HitsPerQueryWord = pageContents.HitsPerQueryWord
+	f.AmountOfWords = pageContents.AmountOfWords
+	f.QueryPhraseHits = pageContents.QueryPhraseHits
+	f.Snippet = pageContents.Snippet
+	f.LinkCounts = yacymodel.Some(pageContents.LinkCounts)
 
 	return f
 }

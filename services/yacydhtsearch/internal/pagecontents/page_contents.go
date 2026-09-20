@@ -1,9 +1,10 @@
-// Package documenttext derives the text of a document from its page: the
+// Package pagecontents derives the contents of the page of a document: the
 // address the page moved to, if it moved, the title of the page, how often the
 // text holds each query word and each query phrase, how many words it holds,
-// and the snippet, which is the run of sentences that answers the query best.
-// A query phrase is two words the query puts side by side.
-package documenttext
+// the snippet, which is the run of sentences that answers the query best, and
+// how many links of its own site and of other sites it holds. A query phrase is
+// two words the query puts side by side.
+package pagecontents
 
 import (
 	"strings"
@@ -11,28 +12,31 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type DocumentText struct {
+type PageContents struct {
 	Address          string
 	Title            string
 	HitsPerQueryWord map[yacymodel.Hash]int
 	QueryPhraseHits  int
 	AmountOfWords    int
 	Snippet          string
+	LinkCounts       LinkCounts
 }
 
-func DocumentTextFrom(
+func PageContentsFrom(
 	pageTitle string,
 	pageText string,
+	linkCounts LinkCounts,
 	queryWords []yacymodel.Hash,
 	snippetLengthCeiling int,
-) DocumentText {
+) PageContents {
 	counts := textCountsOf(pageText, queryWords)
 
-	return DocumentText{
+	return PageContents{
 		Title:            strings.Join(strings.Fields(pageTitle), " "),
 		HitsPerQueryWord: counts.hitsPerQueryWord,
 		QueryPhraseHits:  counts.queryPhraseHits,
 		AmountOfWords:    counts.amountOfWords,
 		Snippet:          snippetOf(pageText, queryWords, snippetLengthCeiling),
+		LinkCounts:       linkCounts,
 	}
 }

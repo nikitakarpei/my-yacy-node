@@ -3,7 +3,7 @@ package queryanswers_test
 import (
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -34,15 +34,18 @@ func foundDocumentWithOneHitOf(
 	}
 }
 
-func textOfTheReadDocument(t *testing.T) map[yacymodel.URLHash]documenttext.DocumentText {
+func pageContentsOfTheReadDocument(
+	t *testing.T,
+) map[yacymodel.URLHash]pagecontents.PageContents {
 	t.Helper()
 
-	return map[yacymodel.URLHash]documenttext.DocumentText{
+	return map[yacymodel.URLHash]pagecontents.PageContents{
 		documentOf(t, addressOfTheReadDocument): {
 			Title:            "Berlin",
 			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 7},
 			AmountOfWords:    400,
 			Snippet:          "Berlin holds a wall.",
+			LinkCounts:       pagecontents.LinkCounts{LocalLinks: 25, ExternalLinks: 4},
 		},
 	}
 }
@@ -64,7 +67,7 @@ func TestAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 
 	answers := answersOfTheReadDocument(t)
 
-	read := answers.SaturatedWith(textOfTheReadDocument(t))
+	read := answers.SaturatedWith(pageContentsOfTheReadDocument(t))
 
 	foundDocument := read.FoundDocuments[0]
 	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 7 ||
@@ -89,7 +92,7 @@ func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 			foundDocumentWithOneHitOf(t, addressOfTheReadDocument, "berlin"),
 		},
 	}
-	textOfTheDocument := map[yacymodel.URLHash]documenttext.DocumentText{
+	pageContentsOfTheDocument := map[yacymodel.URLHash]pagecontents.PageContents{
 		documentOf(t, addressOfTheReadDocument): {
 			HitsPerQueryWord: map[yacymodel.Hash]int{
 				yacymodel.WordHash("berlin"):  7,
@@ -99,7 +102,7 @@ func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 		},
 	}
 
-	read := answers.SaturatedWith(textOfTheDocument)
+	read := answers.SaturatedWith(pageContentsOfTheDocument)
 
 	foundDocument := read.FoundDocuments[0]
 	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("weather")] != 2 ||
@@ -116,12 +119,12 @@ func TestAReadPageWithoutATitleKeepsTheTitleAPeerSent(t *testing.T) {
 	t.Parallel()
 
 	answers := answersOfTheReadDocument(t)
-	textWithoutATitle := textOfTheReadDocument(t)
-	documentText := textWithoutATitle[documentOf(t, addressOfTheReadDocument)]
-	documentText.Title = ""
-	textWithoutATitle[documentOf(t, addressOfTheReadDocument)] = documentText
+	pageContentsWithoutATitle := pageContentsOfTheReadDocument(t)
+	pageContents := pageContentsWithoutATitle[documentOf(t, addressOfTheReadDocument)]
+	pageContents.Title = ""
+	pageContentsWithoutATitle[documentOf(t, addressOfTheReadDocument)] = pageContents
 
-	read := answers.SaturatedWith(textWithoutATitle)
+	read := answers.SaturatedWith(pageContentsWithoutATitle)
 
 	if read.FoundDocuments[0].Title != "The title a peer sent" {
 		t.Fatalf(
@@ -136,7 +139,7 @@ func TestTheDocumentsHeldPerQueryWordStayAsThePeersCountedThem(t *testing.T) {
 
 	answers := answersOfTheReadDocument(t)
 
-	read := answers.SaturatedWith(textOfTheReadDocument(t))
+	read := answers.SaturatedWith(pageContentsOfTheReadDocument(t))
 
 	if read.DocumentsHeldPerQueryWord[yacymodel.WordHash("berlin")] != 12 {
 		t.Fatalf(
@@ -155,7 +158,7 @@ func TestADocumentThatWasNotReadStaysAsThePeersCountedIt(t *testing.T) {
 		},
 	}
 
-	read := answers.SaturatedWith(textOfTheReadDocument(t))
+	read := answers.SaturatedWith(pageContentsOfTheReadDocument(t))
 
 	foundDocument := read.FoundDocuments[0]
 	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 1 ||
@@ -168,12 +171,12 @@ func TestAReadPageThatMovedGivesItsDocumentTheAddressItMovedTo(t *testing.T) {
 	t.Parallel()
 
 	answers := answersOfTheReadDocument(t)
-	textOfAMovedPage := textOfTheReadDocument(t)
-	documentText := textOfAMovedPage[documentOf(t, addressOfTheReadDocument)]
-	documentText.Address = "https://berlin.example/moved"
-	textOfAMovedPage[documentOf(t, addressOfTheReadDocument)] = documentText
+	pageContentsOfAMovedPage := pageContentsOfTheReadDocument(t)
+	pageContents := pageContentsOfAMovedPage[documentOf(t, addressOfTheReadDocument)]
+	pageContents.Address = "https://berlin.example/moved"
+	pageContentsOfAMovedPage[documentOf(t, addressOfTheReadDocument)] = pageContents
 
-	read := answers.SaturatedWith(textOfAMovedPage)
+	read := answers.SaturatedWith(pageContentsOfAMovedPage)
 
 	foundDocument := read.FoundDocuments[0]
 	if foundDocument.Address != "https://berlin.example/moved" ||
@@ -188,12 +191,60 @@ func TestAReadPageThatMovedGivesItsDocumentTheAddressItMovedTo(t *testing.T) {
 func TestAReadPageThatDidNotMoveKeepsTheAddressAPeerSent(t *testing.T) {
 	t.Parallel()
 
-	read := answersOfTheReadDocument(t).SaturatedWith(textOfTheReadDocument(t))
+	read := answersOfTheReadDocument(t).SaturatedWith(pageContentsOfTheReadDocument(t))
 
 	if read.FoundDocuments[0].Address != addressOfTheReadDocument {
 		t.Fatalf(
 			"the found document holds the address %q, want the address the peer sent",
 			read.FoundDocuments[0].Address,
+		)
+	}
+}
+
+func TestAReadPageGivesItsDocumentTheLinksItHoldsInPlaceOfTheLinksAPeerCounted(t *testing.T) {
+	t.Parallel()
+
+	answers := answersOfTheReadDocument(t)
+	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
+		LocalLinks:    1,
+		ExternalLinks: 1,
+	})
+
+	read := answers.SaturatedWith(pageContentsOfTheReadDocument(t))
+
+	linkCounts, counted := read.FoundDocuments[0].LinkCounts.Get()
+	if !counted || linkCounts.LocalLinks != 25 || linkCounts.ExternalLinks != 4 {
+		t.Fatalf(
+			"the found document holds the link counts %+v counted %t, want the 25 local and 4 "+
+				"external links the page holds",
+			linkCounts,
+			counted,
+		)
+	}
+}
+
+func TestADocumentThatWasNotReadKeepsTheLinksAPeerCounted(t *testing.T) {
+	t.Parallel()
+
+	answers := queryanswers.AnsweredQuery{
+		FoundDocuments: []queryanswers.FoundDocument{
+			foundDocumentWithOneHitOf(t, "https://unread.example/", "berlin"),
+		},
+	}
+	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
+		LocalLinks:    1,
+		ExternalLinks: 1,
+	})
+
+	read := answers.SaturatedWith(pageContentsOfTheReadDocument(t))
+
+	linkCounts, counted := read.FoundDocuments[0].LinkCounts.Get()
+	if !counted || linkCounts.LocalLinks != 1 || linkCounts.ExternalLinks != 1 {
+		t.Fatalf(
+			"the found document holds the link counts %+v counted %t, want the 1 local and 1 "+
+				"external link the peer counted",
+			linkCounts,
+			counted,
 		)
 	}
 }

@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -44,20 +45,20 @@ type recordedLinkCounts struct {
 
 func linkCountsOf(
 	recorded yacymodel.Optional[recordedLinkCounts],
-) yacymodel.Optional[queryanswers.LinkCounts] {
+) yacymodel.Optional[pagecontents.LinkCounts] {
 	counts, recordedForTheDocument := recorded.Get()
 	if !recordedForTheDocument {
-		return yacymodel.None[queryanswers.LinkCounts]()
+		return yacymodel.None[pagecontents.LinkCounts]()
 	}
 
-	return yacymodel.Some(queryanswers.LinkCounts{
+	return yacymodel.Some(pagecontents.LinkCounts{
 		LocalLinks:    counts.LocalLinks,
 		ExternalLinks: counts.ExternalLinks,
 	})
 }
 
 func recordedLinkCountsOf(
-	linkCounts yacymodel.Optional[queryanswers.LinkCounts],
+	linkCounts yacymodel.Optional[pagecontents.LinkCounts],
 ) yacymodel.Optional[recordedLinkCounts] {
 	counts, sentForTheDocument := linkCounts.Get()
 	if !sentForTheDocument {
