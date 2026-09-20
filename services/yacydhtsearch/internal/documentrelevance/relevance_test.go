@@ -706,7 +706,7 @@ func TestTheDocumentNobodyCountedTheQueryPhrasesOfKeepsTheRelevanceOfAnApartDocu
 	}
 }
 
-func TestTheDocumentNobodyCountedTheQueryPhrasesOfComesBetweenThePhrasedAndTheApartOnes(
+func TestTheDocumentNobodyCountedTheQueryPhrasesOfComesAfterThePhrasedOne(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -715,15 +715,12 @@ func TestTheDocumentNobodyCountedTheQueryPhrasesOfComesBetweenThePhrasedAndTheAp
 		map[string]int{"berlin": 100},
 		[]string{"berlin"},
 		[]queryanswers.FoundDocument{
-			foundDocumentHoldingTheQueryPhrase(t, "https://apart.example/", 0),
 			foundDocumentNobodyCountedTheQueryPhrasesOf(t, "https://uncounted.example/"),
 			foundDocumentHoldingTheQueryPhrase(t, "https://phrased.example/", 9),
 		},
 	)
 
-	want := []string{
-		"https://phrased.example/", "https://uncounted.example/", "https://apart.example/",
-	}
+	want := []string{"https://phrased.example/", "https://uncounted.example/"}
 	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
