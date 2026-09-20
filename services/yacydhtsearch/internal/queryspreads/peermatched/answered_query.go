@@ -70,4 +70,5 @@ func keepTheFirstPostingOfTheWord(
 	}
 	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
 	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, sentPosting.TextWords)
+	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCountsFrom(sentPosting))
 }

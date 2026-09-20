@@ -17,6 +17,7 @@ type FoundDocument struct {
 	HitsPerQueryWord map[yacymodel.Hash]int
 	AmountOfWords    int
 	QueryPhraseHits  int
+	LinkCounts       yacymodel.Optional[LinkCounts]
 }
 
 func FoundDocumentFrom(metadata yacymodel.URLMetadata) FoundDocument {
