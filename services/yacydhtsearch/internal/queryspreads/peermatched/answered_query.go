@@ -16,6 +16,7 @@ func answeredQueryFrom(
 		QueryWords:                 queryWords,
 		FoundDocuments:             foundDocumentsFrom(answeredAsks),
 		PostingReplicasPerDocument: postingReplicasPerDocument,
+		MetadataPerDocument:        metadataPerDocumentFrom(answeredAsks),
 		FactsPerDocument:           queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
 	}
 }
@@ -38,6 +39,19 @@ func foundDocumentsFrom(
 	}
 
 	return foundDocuments
+}
+
+func metadataPerDocumentFrom(
+	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
+) queryanswers.MetadataPerDocument {
+	metadataPerDocument := queryanswers.MetadataPerDocument{}
+	for _, answeredAsk := range answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			metadataPerDocument.Keep(matchedDocument.Metadata)
+		}
+	}
+
+	return metadataPerDocument
 }
 
 func postingReplicasPerDocumentFrom(

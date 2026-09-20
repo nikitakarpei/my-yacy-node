@@ -35,6 +35,15 @@ type recordedFoundDocument struct {
 	AmountOfWords    int                     `json:"amountOfWords"`
 	QueryPhraseHits  int                     `json:"queryPhraseHits"`
 	AmountOfLinks    yacymodel.Optional[int] `json:"amountOfLinks,omitempty"`
+
+	Metadata yacymodel.Optional[yacymodel.URLMetadata] `json:"metadata,omitempty"`
+	Postings []recordedPostingReplica                  `json:"postings,omitempty"`
+}
+
+type recordedPostingReplica struct {
+	Holder  yacymodel.Hash                     `json:"holder"`
+	Word    yacymodel.Optional[yacymodel.Hash] `json:"word,omitempty"`
+	Posting yacymodel.RWIPosting               `json:"posting"`
 }
 
 func (r recordedFoundDocument) amountOfWordsOfTheReadPage() yacymodel.Optional[int] {
@@ -59,10 +68,12 @@ func (r recordedFoundDocument) holdsTheFactsOfAPageRead() bool {
 
 func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:                searchquery.QueryFrom(r.Query, "").TermHashes(),
-		FoundDocuments:            foundDocumentsFrom(r.FoundDocuments),
-		FactsPerDocument:          factsPerDocumentFrom(r.FoundDocuments),
-		DocumentsHeldPerQueryWord: r.DocumentsHeldPerQueryWord,
+		QueryWords:                 searchquery.QueryFrom(r.Query, "").TermHashes(),
+		FoundDocuments:             foundDocumentsFrom(r.FoundDocuments),
+		PostingReplicasPerDocument: postingReplicasPerDocumentFrom(r.FoundDocuments),
+		MetadataPerDocument:        metadataPerDocumentFrom(r.FoundDocuments),
+		FactsPerDocument:           factsPerDocumentFrom(r.FoundDocuments),
+		DocumentsHeldPerQueryWord:  r.DocumentsHeldPerQueryWord,
 	}
 }
 
@@ -98,6 +109,38 @@ func factsPerDocumentFrom(
 	return factsPerDocument
 }
 
+func postingReplicasPerDocumentFrom(
+	recordedFoundDocuments []recordedFoundDocument,
+) queryanswers.PostingReplicasPerDocument {
+	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
+	for _, recorded := range recordedFoundDocuments {
+		for _, posting := range recorded.Postings {
+			postingReplicasPerDocument.Keep(recorded.Hash, queryanswers.PostingReplica{
+				Holder:  posting.Holder,
+				Word:    posting.Word,
+				Posting: posting.Posting,
+			})
+		}
+	}
+
+	return postingReplicasPerDocument
+}
+
+func metadataPerDocumentFrom(
+	recordedFoundDocuments []recordedFoundDocument,
+) queryanswers.MetadataPerDocument {
+	metadataPerDocument := queryanswers.MetadataPerDocument{}
+	for _, recorded := range recordedFoundDocuments {
+		metadata, reported := recorded.Metadata.Get()
+		if !reported {
+			continue
+		}
+		metadataPerDocument.Keep(metadata)
+	}
+
+	return metadataPerDocument
+}
+
 func recordedAnswersOf(query string, answers queryanswers.AnsweredQuery) recordedAnswers {
 	return recordedAnswers{
 		Query:                     query,
@@ -122,10 +165,39 @@ func recordedFoundDocumentsFrom(
 			AmountOfWords:    facts.AmountOfWords.OrElse(0),
 			QueryPhraseHits:  facts.QueryPhraseHits.OrElse(0),
 			AmountOfLinks:    facts.AmountOfLinks,
+			Metadata:         metadataRecordedFor(foundDocument.Hash, answers),
+			Postings:         postingsRecordedFor(foundDocument.Hash, answers),
 		})
 	}
 
 	return recordedFoundDocuments
+}
+
+func metadataRecordedFor(
+	document yacymodel.URLHash, answers queryanswers.AnsweredQuery,
+) yacymodel.Optional[yacymodel.URLMetadata] {
+	metadata, reported := answers.MetadataPerDocument[document]
+	if !reported {
+		return yacymodel.None[yacymodel.URLMetadata]()
+	}
+
+	return yacymodel.Some(metadata)
+}
+
+func postingsRecordedFor(
+	document yacymodel.URLHash, answers queryanswers.AnsweredQuery,
+) []recordedPostingReplica {
+	replicas := answers.PostingReplicasPerDocument[document]
+	postings := make([]recordedPostingReplica, 0, len(replicas))
+	for _, replica := range replicas {
+		postings = append(postings, recordedPostingReplica{
+			Holder:  replica.Holder,
+			Word:    replica.Word,
+			Posting: replica.Posting,
+		})
+	}
+
+	return postings
 }
 
 func recordedAnswersFiles(t *testing.T) []string {

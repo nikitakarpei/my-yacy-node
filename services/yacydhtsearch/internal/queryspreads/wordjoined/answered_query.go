@@ -20,7 +20,10 @@ func answeredQueryFrom(
 			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
 		),
 		PostingReplicasPerDocument: postingReplicasPerDocument,
-		FactsPerDocument:           queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
+		MetadataPerDocument: metadataPerDocumentFrom(
+			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
+		),
+		FactsPerDocument: queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
 		DocumentsHeldPerQueryWord: matchedAndHeldDocumentsRound.
 			amountOfDocumentsHeldPerQueryWord(),
 	}
@@ -58,6 +61,29 @@ func foundDocumentsFrom(
 	}
 
 	return foundDocuments
+}
+
+func metadataPerDocumentFrom(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinedDocuments distinctDocuments,
+	urlMetadataRound urlMetadataRound,
+) queryanswers.MetadataPerDocument {
+	metadataPerDocument := queryanswers.MetadataPerDocument{}
+	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
+				continue
+			}
+			metadataPerDocument.Keep(matchedDocument.Metadata)
+		}
+	}
+	for _, answeredAsk := range urlMetadataRound.answeredAsks {
+		for _, metadata := range answeredAsk.MetadataOfEachDocument {
+			metadataPerDocument.Keep(metadata)
+		}
+	}
+
+	return metadataPerDocument
 }
 
 func postingReplicasPerDocumentFrom(
