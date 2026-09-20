@@ -7,35 +7,40 @@ import (
 
 const derivingSwitch = "YACYDHTSEARCH_DERIVE_JUDGED_QUERIES"
 
-func TestDeriveTheJudgedQueriesFromTheStoredPageText(t *testing.T) {
+func TestDeriveTheJudgedQueriesFromTheStoredPages(t *testing.T) {
 	if os.Getenv(derivingSwitch) == "" {
-		t.Skipf("set %s to derive the judged queries from the stored page text", derivingSwitch)
+		t.Skipf("set %s to derive the judged queries from the stored pages", derivingSwitch)
 	}
 
+	extraction := pageExtractionOfTheFormats(t)
 	for _, answersFile := range recordedAnswersFiles(t) {
-		deriveOneJudgedQueryFromTheStoredPageText(t, answersFile)
+		deriveOneJudgedQueryFromTheStoredPages(t, extraction, answersFile)
 	}
 }
 
-func deriveOneJudgedQueryFromTheStoredPageText(t *testing.T, answersFile string) {
+func deriveOneJudgedQueryFromTheStoredPages(
+	t *testing.T, extraction pageExtraction, answersFile string,
+) {
 	t.Helper()
 
 	answers := recordedAnswersInTheFile(t, answersFile)
-	pageTextPerDocument := storedPageTextPerDocument(t, answers.Query)
-	derived := answersSaturatedWithThePageText(
+	saturated := extraction.answersSaturatedWithTheStoredPages(
+		t.Context(),
+		t,
 		answers.Query,
 		answers.answeredQuery(),
-		pageTextPerDocument,
-		storedPageTitlePerDocument(t, answers.Query),
+		storedPagePerAddress(t, answers.Query),
 	)
-	writeRecordedAnswersFile(t, answersFile, recordedAnswersOf(answers.Query, derived))
+	writeRecordedAnswersFile(t, answersFile, recordedAnswersOf(answers.Query, saturated.answers))
 	judgments := queryJudgmentsOfTheDocumentsToJudge(
 		answers.Query,
-		derived,
-		pageTextPerDocument,
+		saturated.answers,
+		saturated.documentTextPerDocument,
 		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(answers.Query)),
 	)
 	writeFixtureFile(t, queryJudgmentsFileOf(answers.Query), judgments)
 	t.Logf("%q derived the text of %d documents, %d documents wait for a grade",
-		answers.Query, len(pageTextPerDocument), judgments.amountOfUngradedDocuments())
+		answers.Query,
+		len(saturated.documentTextPerDocument),
+		judgments.amountOfUngradedDocuments())
 }

@@ -160,8 +160,12 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 	}
 
 	directory, reliability := directoryOfTheNetwork(t)
-	spread := querySpreadOverThePeers(t, reliability)
-	reading := pageTextReadingOverTheWeb(t)
+	recording := judgedQueryRecording{
+		spread:     querySpreadOverThePeers(t, reliability),
+		fetching:   pageFetchingOverTheWeb(pageReadBudget),
+		extraction: pageExtractionOfTheFormats(t),
+		directory:  directory,
+	}
 	t.Logf(
 		"the directory knows %d peers and can ask %d",
 		len(directory.KnownPeers(t.Context())),
@@ -169,7 +173,7 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 	)
 	for _, query := range judgedQueries {
 		t.Run(queryInFileNames(query), func(t *testing.T) {
-			recordOneJudgedQuery(t, spread, reading, directory, query)
+			recording.recordOneJudgedQuery(t, query)
 		})
 	}
 }
@@ -288,36 +292,35 @@ func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
 	return partitions
 }
 
-func recordOneJudgedQuery(
-	t *testing.T,
-	spread querySpread,
-	reading pageTextReading,
-	directory *peerdirectory.Directory,
-	query string,
-) {
+type judgedQueryRecording struct {
+	spread     querySpread
+	fetching   pageFetching
+	extraction pageExtraction
+	directory  *peerdirectory.Directory
+}
+
+func (r judgedQueryRecording) recordOneJudgedQuery(t *testing.T, query string) {
 	t.Helper()
 
-	answers := answersOfOneQuery(t, spread, directory, query)
-	pages := pagesOfTheFirstAnsweredDocuments(t, reading, answers)
-	pageTextPerDocument := pages.pageTextPerDocument
-	storePageTextOfTheQuery(t, query, pageTextPerDocument)
-	storePageTitlesOfTheQuery(t, query, pages.pageTitlePerDocument)
-	saturatedAnswers := answersSaturatedWithThePageText(
-		query, answers, pageTextPerDocument, pages.pageTitlePerDocument,
+	answers := answersOfOneQuery(t, r.spread, r.directory, query)
+	pages := pagesOfTheFirstAnsweredDocuments(t, r.fetching, answers)
+	storePagesOfTheQuery(t, query, pages)
+	saturated := r.extraction.answersSaturatedWithTheStoredPages(
+		t.Context(), t, query, answers, pagePerAddressOf(pages),
 	)
 	writeRecordedAnswersFile(
-		t, recordedAnswersFileOf(query), recordedAnswersOf(query, saturatedAnswers),
+		t, recordedAnswersFileOf(query), recordedAnswersOf(query, saturated.answers),
 	)
 	judgments := queryJudgmentsOfTheDocumentsToJudge(
 		query,
-		saturatedAnswers,
-		pageTextPerDocument,
+		saturated.answers,
+		saturated.documentTextPerDocument,
 		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query)),
 	)
 	writeFixtureFile(t, queryJudgmentsFileOf(query), judgments)
 	t.Logf("%q read the page of %d documents, judges %d, and waits for %d grades",
 		query,
-		len(pageTextPerDocument),
+		len(saturated.documentTextPerDocument),
 		len(judgments.JudgedDocuments),
 		judgments.amountOfUngradedDocuments(),
 	)
@@ -341,16 +344,16 @@ func answersOfOneQuery(
 
 func pagesOfTheFirstAnsweredDocuments(
 	t *testing.T,
-	reading pageTextReading,
+	fetching pageFetching,
 	answers queryanswers.AnsweredQuery,
-) readPages {
+) []storedPage {
 	t.Helper()
 
 	candidates := relevance.New(
 		documentrelevance.New(documentrelevance.DefaultScoreWeights()),
 	).OrderedDocumentsOf(answers)
 
-	return reading.readPagesOf(
+	return fetching.fetchedPagesOf(
 		t.Context(), candidates[:min(pagesReadPerQuery, len(candidates))],
 	)
 }

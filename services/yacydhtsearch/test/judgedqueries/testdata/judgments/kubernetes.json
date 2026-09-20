@@ -260,6 +260,18 @@
       "grade": 0
     },
     {
+      "hash": "m7GlAdUhjm5w",
+      "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/job/index.html",
+      "title": "airflow.providers.cncf.kubernetes.operators.job — apache-airflow-providers-cncf-kubernetes Documentation",
+      "grade": null
+    },
+    {
+      "hash": "MHEnELo7vSm6",
+      "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-security",
+      "title": "What Is Kubernetes Security? - Palo Alto Networks",
+      "grade": null
+    },
+    {
       "hash": "FCRyr2jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/security/controlling-access/",
       "title": "Controlling Access to the Kubernetes API | Kubernetes",
