@@ -73,6 +73,21 @@ func keepTheFirstPostingOfTheWord(
 		return
 	}
 	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
-	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, sentPosting.TextWords)
+	foundDocument.AmountOfWordsAPeerCounted = mostWordsAnyPeerCounted(
+		foundDocument.AmountOfWordsAPeerCounted, sentPosting.TextWords,
+	)
 	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCountsFrom(sentPosting))
+}
+
+func mostWordsAnyPeerCounted(
+	amountOfWordsThePeersBeforeCounted yacymodel.Optional[int],
+	amountOfWordsThisPeerCounted int,
+) yacymodel.Optional[int] {
+	if amountOfWordsThisPeerCounted <= 0 {
+		return amountOfWordsThePeersBeforeCounted
+	}
+
+	return yacymodel.Some(
+		max(amountOfWordsThePeersBeforeCounted.OrElse(0), amountOfWordsThisPeerCounted),
+	)
 }

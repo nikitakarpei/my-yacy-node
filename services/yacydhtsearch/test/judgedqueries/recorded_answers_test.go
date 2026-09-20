@@ -43,6 +43,34 @@ type recordedLinkCounts struct {
 	ExternalLinks int `json:"externalLinks"`
 }
 
+func (r recordedFoundDocument) amountOfWordsOfTheReadPage() yacymodel.Optional[int] {
+	if !r.holdsTheFactsOfAPageRead() {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(r.AmountOfWords)
+}
+
+func (r recordedFoundDocument) amountOfWordsAPeerCounted() yacymodel.Optional[int] {
+	if r.holdsTheFactsOfAPageRead() || r.AmountOfWords <= 0 {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(r.AmountOfWords)
+}
+
+func (r recordedFoundDocument) queryPhraseHitsOfTheReadPage() yacymodel.Optional[int] {
+	if !r.holdsTheFactsOfAPageRead() {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(r.QueryPhraseHits)
+}
+
+func (r recordedFoundDocument) holdsTheFactsOfAPageRead() bool {
+	return r.LinkCounts.Present()
+}
+
 func linkCountsOf(
 	recorded yacymodel.Optional[recordedLinkCounts],
 ) yacymodel.Optional[pagecontents.LinkCounts] {
@@ -85,14 +113,15 @@ func foundDocumentsFrom(
 	foundDocuments := make([]queryanswers.FoundDocument, 0, len(recordedFoundDocuments))
 	for _, recorded := range recordedFoundDocuments {
 		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
-			Hash:             recorded.Hash,
-			Address:          recorded.Address,
-			Title:            recorded.Title,
-			Snippet:          recorded.Snippet,
-			HitsPerQueryWord: recorded.HitsPerQueryWord,
-			AmountOfWords:    recorded.AmountOfWords,
-			QueryPhraseHits:  recorded.QueryPhraseHits,
-			LinkCounts:       linkCountsOf(recorded.LinkCounts),
+			Hash:                         recorded.Hash,
+			Address:                      recorded.Address,
+			Title:                        recorded.Title,
+			Snippet:                      recorded.Snippet,
+			HitsPerQueryWord:             recorded.HitsPerQueryWord,
+			AmountOfWordsAPeerCounted:    recorded.amountOfWordsAPeerCounted(),
+			AmountOfWordsOfTheReadPage:   recorded.amountOfWordsOfTheReadPage(),
+			QueryPhraseHitsOfTheReadPage: recorded.queryPhraseHitsOfTheReadPage(),
+			LinkCounts:                   linkCountsOf(recorded.LinkCounts),
 		})
 	}
 
@@ -119,8 +148,8 @@ func recordedFoundDocumentsFrom(
 			Title:            foundDocument.Title,
 			Snippet:          foundDocument.Snippet,
 			HitsPerQueryWord: foundDocument.HitsPerQueryWord,
-			AmountOfWords:    foundDocument.AmountOfWords,
-			QueryPhraseHits:  foundDocument.QueryPhraseHits,
+			AmountOfWords:    foundDocument.AmountOfWordsAnyoneCounted().OrElse(0),
+			QueryPhraseHits:  foundDocument.QueryPhraseHitsOfTheReadPage.OrElse(0),
 			LinkCounts:       recordedLinkCountsOf(foundDocument.LinkCounts),
 		})
 	}

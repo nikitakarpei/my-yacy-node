@@ -3,7 +3,8 @@
 // title holds, a BM25 score of the query words in its text, the query phrases,
 // and how likely it is the entry page of a site the query names. From that sum
 // it takes a penalty for a document that holds few links for the amount of words
-// it holds.
+// it holds. Where nobody counted the query phrases of a document, or its links,
+// it scores as the average of the documents someone counted.
 package documentrelevance
 
 import (
@@ -26,14 +27,16 @@ func (relevance Relevance) RelevancePerDocumentOf(
 	rarityOfTheQueryWords := queryWordRarityOf(
 		answers.DocumentsHeldPerQueryWord, answers.QueryWords,
 	)
-	averageDocumentLength := averageDocumentLengthOf(foundDocuments)
+	averageLengthOfTheReadPages := averageLengthOfTheReadPagesAmong(foundDocuments)
+	scoresOfADocumentNobodyCounted := scoresOfADocumentNobodyCountedAmong(foundDocuments)
 
 	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
 		relevancePerDocument[foundDocument.Hash] = relevance.scoreWeights.relevanceOf(
 			foundDocument,
 			rarityOfTheQueryWords,
-			averageDocumentLength,
+			averageLengthOfTheReadPages,
+			scoresOfADocumentNobodyCounted,
 			answers.QueryWords,
 		)
 	}

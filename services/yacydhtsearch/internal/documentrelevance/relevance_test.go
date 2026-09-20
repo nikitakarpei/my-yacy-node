@@ -59,7 +59,7 @@ func foundDocumentWithHitsAmongWords(
 	t.Helper()
 
 	foundDocument := foundDocumentWithHitsOf(t, address, word, hits)
-	foundDocument.AmountOfWords = amountOfWords
+	foundDocument.AmountOfWordsOfTheReadPage = yacymodel.Some(amountOfWords)
 
 	return foundDocument
 }
@@ -451,7 +451,7 @@ func foundDocumentHoldingTheQueryPhrase(
 	foundDocument := foundDocumentWithHitsOf(
 		t, address, "berlin", hitsOfTheQueryWordInEveryPhrasedDocument,
 	)
-	foundDocument.QueryPhraseHits = queryPhraseHits
+	foundDocument.QueryPhraseHitsOfTheReadPage = yacymodel.Some(queryPhraseHits)
 
 	return foundDocument
 }
@@ -591,7 +591,7 @@ func foundDocumentWithLinksAmongAThousandWords(
 	t.Helper()
 
 	foundDocument := foundDocumentWithHitsOf(t, address, "berlin", 1)
-	foundDocument.AmountOfWords = amountOfWordsOfALinkedDocument
+	foundDocument.AmountOfWordsOfTheReadPage = yacymodel.Some(amountOfWordsOfALinkedDocument)
 	foundDocument.LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
 		LocalLinks:    amountOfLinks,
 		ExternalLinks: 0,
@@ -666,6 +666,120 @@ func TestTheDocumentOfLinksEnoughKeepsTheRelevanceOfAFurtherLinkedDocument(t *te
 				"further linked document",
 			linked,
 			furtherLinked,
+		)
+	}
+}
+
+func foundDocumentNobodyCountedTheQueryPhrasesOf(
+	t *testing.T, address string,
+) queryanswers.FoundDocument {
+	t.Helper()
+
+	return foundDocumentWithHitsOf(
+		t, address, "berlin", hitsOfTheQueryWordInEveryPhrasedDocument,
+	)
+}
+
+func TestTheDocumentNobodyCountedTheQueryPhrasesOfKeepsTheRelevanceOfAnApartDocument(t *testing.T) {
+	t.Parallel()
+
+	uncounted := foundDocumentNobodyCountedTheQueryPhrasesOf(t, "https://uncounted.example/")
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]string{"berlin"},
+		[]queryanswers.FoundDocument{
+			uncounted,
+			foundDocumentHoldingTheQueryPhrase(t, "https://apart.example/", 0),
+		},
+	)
+
+	relevancePerDocument := documentrelevance.New(documentrelevance.DefaultScoreWeights()).
+		RelevancePerDocumentOf(answers)
+	apart := relevancePerDocument[answers.FoundDocuments[1].Hash]
+	if uncountedRelevance := relevancePerDocument[uncounted.Hash]; uncountedRelevance < apart {
+		t.Fatalf(
+			"the document nobody counted the query phrases of reaches the relevance %.4f, want "+
+				"no less than the %.4f of the document that holds the query words apart",
+			uncountedRelevance,
+			apart,
+		)
+	}
+}
+
+func TestTheDocumentNobodyCountedTheQueryPhrasesOfComesBetweenThePhrasedAndTheApartOnes(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]string{"berlin"},
+		[]queryanswers.FoundDocument{
+			foundDocumentHoldingTheQueryPhrase(t, "https://apart.example/", 0),
+			foundDocumentNobodyCountedTheQueryPhrasesOf(t, "https://uncounted.example/"),
+			foundDocumentHoldingTheQueryPhrase(t, "https://phrased.example/", 9),
+		},
+	)
+
+	want := []string{
+		"https://phrased.example/", "https://uncounted.example/", "https://apart.example/",
+	}
+	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func foundDocumentThisNodeCountedTheWordsOf(
+	t *testing.T, address string, amountOfWords int,
+) queryanswers.FoundDocument {
+	t.Helper()
+
+	foundDocument := foundDocumentWithHitsOf(t, address, "berlin", 3)
+	foundDocument.AmountOfWordsOfTheReadPage = yacymodel.Some(amountOfWords)
+
+	return foundDocument
+}
+
+func foundDocumentAPeerCountedTheWordsOf(
+	t *testing.T, address string, amountOfWords int,
+) queryanswers.FoundDocument {
+	t.Helper()
+
+	foundDocument := foundDocumentWithHitsOf(t, address, "berlin", 3)
+	foundDocument.AmountOfWordsAPeerCounted = yacymodel.Some(amountOfWords)
+
+	return foundDocument
+}
+
+func TestTheRelevanceOfAReadDocumentHoldsHoweverManyUnreadDocumentsTheAnswersHold(t *testing.T) {
+	t.Parallel()
+
+	readDocuments := []queryanswers.FoundDocument{
+		foundDocumentThisNodeCountedTheWordsOf(t, "https://short.example/", 400),
+		foundDocumentThisNodeCountedTheWordsOf(t, "https://long.example/", 12000),
+	}
+	documentsPerWord := map[string]int{"berlin": 100}
+	amongTheReadDocuments := documentrelevance.New(documentrelevance.DefaultScoreWeights()).
+		RelevancePerDocumentOf(answersHolding(documentsPerWord, []string{"berlin"}, readDocuments))
+	amongTheUnreadDocumentsToo := documentrelevance.New(documentrelevance.DefaultScoreWeights()).
+		RelevancePerDocumentOf(answersHolding(documentsPerWord, []string{"berlin"}, append(
+			slices.Clone(readDocuments),
+			foundDocumentAPeerCountedTheWordsOf(t, "https://unread.example/", 300),
+			foundDocumentAPeerCountedTheWordsOf(t, "https://further-unread.example/", 200),
+		)))
+
+	for _, readDocument := range readDocuments {
+		beside := amongTheUnreadDocumentsToo[readDocument.Hash]
+		without := amongTheReadDocuments[readDocument.Hash]
+		if beside == without {
+			continue
+		}
+		t.Fatalf(
+			"the document %q reaches the relevance %.4f beside the unread documents, want the "+
+				"%.4f it reaches without them",
+			readDocument.Address,
+			beside,
+			without,
 		)
 	}
 }

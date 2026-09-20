@@ -2,7 +2,8 @@
 // words of the query, one found document for each document it found, and how
 // many documents the peers hold per query word. The text of a document, once a
 // node read its page, replaces what the peers counted for it, their snippet, and
-// the links they counted.
+// the links they counted. Where the page holds no hit of a query word, the hits
+// a peer counted for that word stand.
 // The title of the page replaces theirs when the page has one, and the address
 // the page moved to replaces theirs when it moved. A document can leave the
 // answers, for example once its page is gone.
