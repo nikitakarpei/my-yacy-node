@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -78,15 +77,16 @@ func everySecondDocumentWhosePageANodeReadOf(
 	hidden := map[yacymodel.URLHash]bool{}
 	documentsRead := 0
 	for _, foundDocument := range answers.FoundDocuments {
-		if _, read := foundDocument.LinkCounts.Get(); !read {
+		facts := answers.FactsPerDocument[foundDocument.Hash]
+		if !facts.AmountOfLinks.Present() {
 			continue
 		}
 		documentsRead++
 		if documentsRead%everySecondDocument != 0 {
 			continue
 		}
-		hitsOfTheReadPage, counted := foundDocument.QueryPhraseHitsOfTheReadPage.Get()
-		hidden[foundDocument.Hash] = counted && hitsOfTheReadPage > 0
+		queryPhraseHits, counted := facts.QueryPhraseHits.Get()
+		hidden[foundDocument.Hash] = counted && queryPhraseHits > 0
 	}
 
 	return hidden
@@ -96,15 +96,15 @@ func answersWithoutTheFactsOfThePageReadsOf(
 	answers queryanswers.AnsweredQuery,
 	hidden map[yacymodel.URLHash]bool,
 ) queryanswers.AnsweredQuery {
-	foundDocuments := make([]queryanswers.FoundDocument, 0, len(answers.FoundDocuments))
-	for _, foundDocument := range answers.FoundDocuments {
-		if _, hiddenDocument := hidden[foundDocument.Hash]; hiddenDocument {
-			foundDocument.QueryPhraseHitsOfTheReadPage = yacymodel.None[int]()
-			foundDocument.LinkCounts = yacymodel.None[pagecontents.LinkCounts]()
+	factsPerDocument := make(queryanswers.FactsPerDocument, len(answers.FactsPerDocument))
+	for document, facts := range answers.FactsPerDocument {
+		if _, hiddenDocument := hidden[document]; hiddenDocument {
+			facts.QueryPhraseHits = yacymodel.None[int]()
+			facts.AmountOfLinks = yacymodel.None[int]()
 		}
-		foundDocuments = append(foundDocuments, foundDocument)
+		factsPerDocument[document] = facts
 	}
-	answers.FoundDocuments = foundDocuments
+	answers.FactsPerDocument = factsPerDocument
 
 	return answers
 }

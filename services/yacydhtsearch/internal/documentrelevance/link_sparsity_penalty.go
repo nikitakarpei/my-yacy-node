@@ -7,13 +7,13 @@ import (
 
 const leastLinkDensityWithoutASparsityPenalty = 0.03
 
-func linkSparsityPenaltyOf(foundDocument queryanswers.FoundDocument) yacymodel.Optional[float64] {
-	linkCounts, countedForTheDocument := foundDocument.LinkCounts.Get()
-	amountOfWords, counted := foundDocument.AmountOfWordsAnyoneCounted().Get()
+func linkSparsityPenaltyOf(facts queryanswers.DocumentFacts) yacymodel.Optional[float64] {
+	amountOfLinks, countedForTheDocument := facts.AmountOfLinks.Get()
+	amountOfWords, counted := facts.AmountOfWords.Get()
 	if !countedForTheDocument || !counted || amountOfWords <= 0 {
 		return yacymodel.None[float64]()
 	}
-	linkDensity := linkDensityOf(linkCounts.AmountOfLinks(), amountOfWords)
+	linkDensity := linkDensityOf(amountOfLinks, amountOfWords)
 	if linkDensity >= leastLinkDensityWithoutASparsityPenalty {
 		return yacymodel.Some(0.0)
 	}

@@ -7,8 +7,8 @@ import (
 
 const saturationOfTheQueryPhraseHits = 1.0
 
-func phraseScoreOf(foundDocument queryanswers.FoundDocument) yacymodel.Optional[float64] {
-	hits, counted := foundDocument.QueryPhraseHitsOfTheReadPage.Get()
+func phraseScoreOf(facts queryanswers.DocumentFacts) yacymodel.Optional[float64] {
+	hits, counted := facts.QueryPhraseHits.Get()
 	if !counted {
 		return yacymodel.None[float64]()
 	}

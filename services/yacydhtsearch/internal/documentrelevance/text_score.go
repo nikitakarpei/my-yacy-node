@@ -6,55 +6,57 @@ import (
 )
 
 const (
-	saturationOfTheHitsOfAWord                = 1.2
-	weightOfTheDocumentLength                 = 0.75
-	lengthRatioOfADocumentWhosePageNoNodeRead = 1.0
+	saturationOfTheHitsOfAWord                    = 1.2
+	weightOfTheDocumentLength                     = 0.75
+	lengthRatioOfADocumentNobodyCountedTheWordsOf = 1.0
 )
 
 func textScoreOf(
-	foundDocument queryanswers.FoundDocument,
+	facts queryanswers.DocumentFacts,
 	rarity queryWordRarity,
-	averageLengthOfTheReadPages float64,
+	averageAmountOfWordsAnyoneCounted float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
 	textScore := 0.0
 	for _, word := range queryWords {
 		textScore += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
-			foundDocument.HitsPerQueryWord[word],
-			foundDocument.AmountOfWordsOfTheReadPage,
-			averageLengthOfTheReadPages,
+			facts.HitsPerQueryWord[word],
+			facts.AmountOfWords,
+			averageAmountOfWordsAnyoneCounted,
 		)
 	}
 
 	return textScore
 }
 
-func averageLengthOfTheReadPagesAmong(foundDocuments []queryanswers.FoundDocument) float64 {
-	sumOfTheAmountsOfWords, amountOfReadPages := 0, 0
-	for _, foundDocument := range foundDocuments {
-		amountOfWords, read := foundDocument.AmountOfWordsOfTheReadPage.Get()
-		if !read || amountOfWords <= 0 {
+func averageAmountOfWordsAnyoneCountedAmong(
+	factsPerDocument queryanswers.FactsPerDocument,
+) float64 {
+	sumOfTheAmountsOfWords, amountOfCountedDocuments := 0, 0
+	for _, facts := range factsPerDocument {
+		amountOfWords, counted := facts.AmountOfWords.Get()
+		if !counted || amountOfWords <= 0 {
 			continue
 		}
 		sumOfTheAmountsOfWords += amountOfWords
-		amountOfReadPages++
+		amountOfCountedDocuments++
 	}
-	if amountOfReadPages == 0 {
+	if amountOfCountedDocuments == 0 {
 		return 0
 	}
 
-	return float64(sumOfTheAmountsOfWords) / float64(amountOfReadPages)
+	return float64(sumOfTheAmountsOfWords) / float64(amountOfCountedDocuments)
 }
 
 func saturatedHitsOf(
 	hits int,
-	amountOfWordsOfTheReadPage yacymodel.Optional[int],
-	averageLengthOfTheReadPages float64,
+	amountOfWords yacymodel.Optional[int],
+	averageAmountOfWordsAnyoneCounted float64,
 ) float64 {
 	countedHits := float64(hits)
 	saturationForTheDocumentLength := saturationOfTheHitsOfAWord * (1 - weightOfTheDocumentLength +
 		weightOfTheDocumentLength*documentLengthRatioOf(
-			amountOfWordsOfTheReadPage, averageLengthOfTheReadPages,
+			amountOfWords, averageAmountOfWordsAnyoneCounted,
 		))
 
 	return countedHits * (saturationOfTheHitsOfAWord + 1) /
@@ -62,13 +64,13 @@ func saturatedHitsOf(
 }
 
 func documentLengthRatioOf(
-	amountOfWordsOfTheReadPage yacymodel.Optional[int],
-	averageLengthOfTheReadPages float64,
+	amountOfWords yacymodel.Optional[int],
+	averageAmountOfWordsAnyoneCounted float64,
 ) float64 {
-	amountOfWords, read := amountOfWordsOfTheReadPage.Get()
-	if !read || amountOfWords <= 0 || averageLengthOfTheReadPages <= 0 {
-		return lengthRatioOfADocumentWhosePageNoNodeRead
+	countedAmountOfWords, counted := amountOfWords.Get()
+	if !counted || countedAmountOfWords <= 0 || averageAmountOfWordsAnyoneCounted <= 0 {
+		return lengthRatioOfADocumentNobodyCountedTheWordsOf
 	}
 
-	return float64(amountOfWords) / averageLengthOfTheReadPages
+	return float64(countedAmountOfWords) / averageAmountOfWordsAnyoneCounted
 }

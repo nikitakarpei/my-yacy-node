@@ -27,8 +27,9 @@ func DefaultScoreWeights() ScoreWeights {
 
 func (weights ScoreWeights) relevanceOf(
 	foundDocument queryanswers.FoundDocument,
+	facts queryanswers.DocumentFacts,
 	rarityOfTheQueryWords queryWordRarity,
-	averageLengthOfTheReadPages float64,
+	averageAmountOfWordsAnyoneCounted float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
 	return weights.WeightOfTheTitleScore*titleScoreOf(
@@ -38,17 +39,17 @@ func (weights ScoreWeights) relevanceOf(
 	) +
 		weights.WeightOfTheTextScore*
 			textScoreOf(
-				foundDocument,
+				facts,
 				rarityOfTheQueryWords,
-				averageLengthOfTheReadPages,
+				averageAmountOfWordsAnyoneCounted,
 				queryWords,
 			) +
-		weights.WeightOfThePhraseScore*phraseScoreOf(foundDocument).
+		weights.WeightOfThePhraseScore*phraseScoreOf(facts).
 			OrElse(scoreOfAnUncountedFact) +
 		weights.WeightOfTheNamedSiteEntryScore*namedSiteEntryScoreOf(
 			foundDocument,
 			queryWords,
 		) -
-		weights.WeightOfTheLinkSparsityPenalty*linkSparsityPenaltyOf(foundDocument).
+		weights.WeightOfTheLinkSparsityPenalty*linkSparsityPenaltyOf(facts).
 			OrElse(scoreOfAnUncountedFact)
 }

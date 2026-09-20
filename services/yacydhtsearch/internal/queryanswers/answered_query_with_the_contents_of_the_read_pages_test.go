@@ -21,17 +21,32 @@ func documentOf(t *testing.T, address string) yacymodel.URLHash {
 	return hash
 }
 
-func foundDocumentWithOneHitOf(
+func answersOfTheDocumentAPeerMatchedForTheWord(
 	t *testing.T, address string, word string,
-) queryanswers.FoundDocument {
+) queryanswers.AnsweredQuery {
 	t.Helper()
 
-	return queryanswers.FoundDocument{
-		Hash:             documentOf(t, address),
-		Address:          address,
-		Title:            "The title a peer sent",
-		HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
+	document := documentOf(t, address)
+
+	return queryanswers.AnsweredQuery{
+		QueryWords: []yacymodel.Hash{yacymodel.WordHash(word)},
+		FoundDocuments: []queryanswers.FoundDocument{{
+			Hash:    document,
+			Address: address,
+			Title:   "The title a peer sent",
+		}},
+		FactsPerDocument: queryanswers.FactsPerDocument{document: {
+			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
+			AmountOfLinks:    yacymodel.Some(2),
+		}},
+		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 12},
 	}
+}
+
+func answersOfTheReadDocument(t *testing.T) queryanswers.AnsweredQuery {
+	t.Helper()
+
+	return answersOfTheDocumentAPeerMatchedForTheWord(t, addressOfTheReadDocument, "berlin")
 }
 
 func pageContentsOfTheReadDocument(
@@ -50,18 +65,6 @@ func pageContentsOfTheReadDocument(
 	}
 }
 
-func answersOfTheReadDocument(t *testing.T) queryanswers.AnsweredQuery {
-	t.Helper()
-
-	return queryanswers.AnsweredQuery{
-		QueryWords: []yacymodel.Hash{yacymodel.WordHash("berlin")},
-		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentWithOneHitOf(t, addressOfTheReadDocument, "berlin"),
-		},
-		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 12},
-	}
-}
-
 func TestAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 	t.Parallel()
 
@@ -69,14 +72,17 @@ func TestAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 
 	read := answers.WithTheContentsOfTheReadPages(pageContentsOfTheReadDocument(t))
 
+	facts := read.FactsPerDocument[documentOf(t, addressOfTheReadDocument)]
 	foundDocument := read.FoundDocuments[0]
-	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 7 ||
-		foundDocument.AmountOfWordsOfTheReadPage.OrElse(0) != 400 ||
+	if facts.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 7 ||
+		facts.AmountOfWords.OrElse(0) != 400 ||
 		foundDocument.Snippet != "Berlin holds a wall." ||
 		foundDocument.Title != "Berlin" {
 		t.Fatalf(
-			"the found document reads %+v, want the counts, the snippet and the title of the text",
+			"the document reads %+v and %+v, want the counts, the snippet and the title of the "+
+				"text",
 			foundDocument,
+			facts,
 		)
 	}
 }
@@ -84,33 +90,22 @@ func TestAReadDocumentCarriesWhatItsTextHolds(t *testing.T) {
 func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 	t.Parallel()
 
-	answers := queryanswers.AnsweredQuery{
-		QueryWords: []yacymodel.Hash{
-			yacymodel.WordHash("berlin"), yacymodel.WordHash("weather"),
-		},
-		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentWithOneHitOf(t, addressOfTheReadDocument, "berlin"),
-		},
-	}
-	pageContentsOfTheDocument := map[yacymodel.URLHash]pagecontents.PageContents{
-		documentOf(t, addressOfTheReadDocument): {
-			HitsPerQueryWord: map[yacymodel.Hash]int{
-				yacymodel.WordHash("berlin"):  7,
-				yacymodel.WordHash("weather"): 2,
-			},
-			AmountOfWords: 400,
-		},
-	}
+	answers := answersOfTheReadDocument(t)
+	answers.QueryWords = append(answers.QueryWords, yacymodel.WordHash("weather"))
+	pageContentsOfTheDocument := pageContentsOfTheReadDocument(t)
+	pageContents := pageContentsOfTheDocument[documentOf(t, addressOfTheReadDocument)]
+	pageContents.HitsPerQueryWord[yacymodel.WordHash("weather")] = 2
+	pageContentsOfTheDocument[documentOf(t, addressOfTheReadDocument)] = pageContents
 
 	read := answers.WithTheContentsOfTheReadPages(pageContentsOfTheDocument)
 
-	foundDocument := read.FoundDocuments[0]
-	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("weather")] != 2 ||
-		foundDocument.AmountOfWordsOfTheReadPage.OrElse(0) != 400 {
+	facts := read.FactsPerDocument[documentOf(t, addressOfTheReadDocument)]
+	if facts.HitsPerQueryWord[yacymodel.WordHash("weather")] != 2 ||
+		facts.AmountOfWords.OrElse(0) != 400 {
 		t.Fatalf(
-			"the found document reads %+v for the word no peer matched it for, want the count "+
-				"of the text",
-			foundDocument,
+			"the document reads %+v for the word no peer matched it for, want the count of the "+
+				"text",
+			facts,
 		)
 	}
 }
@@ -152,18 +147,17 @@ func TestTheDocumentsHeldPerQueryWordStayAsThePeersCountedThem(t *testing.T) {
 func TestADocumentThatWasNotReadStaysAsThePeersCountedIt(t *testing.T) {
 	t.Parallel()
 
-	answers := queryanswers.AnsweredQuery{
-		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentWithOneHitOf(t, "https://unread.example/", "berlin"),
-		},
-	}
+	answers := answersOfTheDocumentAPeerMatchedForTheWord(
+		t, "https://unread.example/", "berlin",
+	)
 
 	read := answers.WithTheContentsOfTheReadPages(pageContentsOfTheReadDocument(t))
 
-	foundDocument := read.FoundDocuments[0]
-	if foundDocument.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 1 ||
-		foundDocument.AmountOfWordsOfTheReadPage.Present() {
-		t.Fatalf("the found document reads %+v, want the count the peers answered", foundDocument)
+	facts := read.FactsPerDocument[documentOf(t, "https://unread.example/")]
+	if facts.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 1 ||
+		facts.AmountOfWords.Present() ||
+		facts.AmountOfLinks.OrElse(0) != 2 {
+		t.Fatalf("the document reads %+v, want the counts the peers answered", facts)
 	}
 }
 
@@ -207,45 +201,14 @@ func TestAReadPageGivesItsDocumentTheLinksItHoldsInPlaceOfTheLinksAPeerCounted(t
 	t.Parallel()
 
 	answers := answersOfTheReadDocument(t)
-	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
-		LocalLinks:    1,
-		ExternalLinks: 1,
-	})
 
 	read := answers.WithTheContentsOfTheReadPages(pageContentsOfTheReadDocument(t))
 
-	linkCounts, counted := read.FoundDocuments[0].LinkCounts.Get()
-	if !counted || linkCounts.LocalLinks != 25 || linkCounts.ExternalLinks != 4 {
+	facts := read.FactsPerDocument[documentOf(t, addressOfTheReadDocument)]
+	if amountOfLinks, counted := facts.AmountOfLinks.Get(); !counted || amountOfLinks != 29 {
 		t.Fatalf(
-			"the found document holds the link counts %+v counted %t, want the 25 local and 4 "+
-				"external links the page holds",
-			linkCounts,
-			counted,
-		)
-	}
-}
-
-func TestADocumentThatWasNotReadKeepsTheLinksAPeerCounted(t *testing.T) {
-	t.Parallel()
-
-	answers := queryanswers.AnsweredQuery{
-		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentWithOneHitOf(t, "https://unread.example/", "berlin"),
-		},
-	}
-	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
-		LocalLinks:    1,
-		ExternalLinks: 1,
-	})
-
-	read := answers.WithTheContentsOfTheReadPages(pageContentsOfTheReadDocument(t))
-
-	linkCounts, counted := read.FoundDocuments[0].LinkCounts.Get()
-	if !counted || linkCounts.LocalLinks != 1 || linkCounts.ExternalLinks != 1 {
-		t.Fatalf(
-			"the found document holds the link counts %+v counted %t, want the 1 local and 1 "+
-				"external link the peer counted",
-			linkCounts,
+			"the document holds %d links counted %t, want the 29 links the page holds",
+			amountOfLinks,
 			counted,
 		)
 	}
@@ -254,28 +217,18 @@ func TestADocumentThatWasNotReadKeepsTheLinksAPeerCounted(t *testing.T) {
 func TestAReadPageCountsAQueryWordItHoldsNoneOfInPlaceOfThePeerThatMatchedIt(t *testing.T) {
 	t.Parallel()
 
-	answers := queryanswers.AnsweredQuery{
-		QueryWords: []yacymodel.Hash{
-			yacymodel.WordHash("berlin"), yacymodel.WordHash("weather"),
-		},
-		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentWithOneHitOf(t, addressOfTheReadDocument, "weather"),
-		},
-	}
-	pageContentsWithoutTheQueryWord := map[yacymodel.URLHash]pagecontents.PageContents{
-		documentOf(t, addressOfTheReadDocument): {
-			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 7},
-			AmountOfWords:    400,
-		},
-	}
+	answers := answersOfTheDocumentAPeerMatchedForTheWord(
+		t, addressOfTheReadDocument, "weather",
+	)
 
-	read := answers.WithTheContentsOfTheReadPages(pageContentsWithoutTheQueryWord)
+	read := answers.WithTheContentsOfTheReadPages(pageContentsOfTheReadDocument(t))
 
-	if read.FoundDocuments[0].HitsPerQueryWord[yacymodel.WordHash("weather")] != 0 {
+	facts := read.FactsPerDocument[documentOf(t, addressOfTheReadDocument)]
+	if facts.HitsPerQueryWord[yacymodel.WordHash("weather")] != 0 {
 		t.Fatalf(
-			"the found document counts %d hits of the query word its read page holds none of, "+
-				"want the count of the text",
-			read.FoundDocuments[0].HitsPerQueryWord[yacymodel.WordHash("weather")],
+			"the document counts %d hits of the query word its read page holds none of, want the "+
+				"count of the text",
+			facts.HitsPerQueryWord[yacymodel.WordHash("weather")],
 		)
 	}
 }
@@ -284,9 +237,11 @@ func TestOnlyAReadPageCountsTheQueryPhrases(t *testing.T) {
 	t.Parallel()
 
 	answers := answersOfTheReadDocument(t)
-	answers.FoundDocuments = append(
-		answers.FoundDocuments, foundDocumentWithOneHitOf(t, "https://unread.example/", "berlin"),
-	)
+	unread := answersOfTheDocumentAPeerMatchedForTheWord(t, "https://unread.example/", "berlin")
+	answers.FoundDocuments = append(answers.FoundDocuments, unread.FoundDocuments[0])
+	for document, facts := range unread.FactsPerDocument {
+		answers.FactsPerDocument[document] = facts
+	}
 	pageContentsOfTheDocument := pageContentsOfTheReadDocument(t)
 	pageContents := pageContentsOfTheDocument[documentOf(t, addressOfTheReadDocument)]
 	pageContents.QueryPhraseHits = 3
@@ -294,13 +249,17 @@ func TestOnlyAReadPageCountsTheQueryPhrases(t *testing.T) {
 
 	read := answers.WithTheContentsOfTheReadPages(pageContentsOfTheDocument)
 
-	if read.FoundDocuments[0].QueryPhraseHitsOfTheReadPage.OrElse(0) != 3 ||
-		read.FoundDocuments[1].QueryPhraseHitsOfTheReadPage.Present() {
+	queryPhraseHitsOfTheReadDocument := read.
+		FactsPerDocument[documentOf(t, addressOfTheReadDocument)].QueryPhraseHits
+	queryPhraseHitsOfTheUnreadDocument := read.
+		FactsPerDocument[documentOf(t, "https://unread.example/")].QueryPhraseHits
+	if queryPhraseHitsOfTheReadDocument.OrElse(0) != 3 ||
+		queryPhraseHitsOfTheUnreadDocument.Present() {
 		t.Fatalf(
 			"the read document holds %+v query phrase hits and the unread one %+v, want the "+
 				"three hits of the read page and none for the unread document",
-			read.FoundDocuments[0].QueryPhraseHitsOfTheReadPage,
-			read.FoundDocuments[1].QueryPhraseHitsOfTheReadPage,
+			queryPhraseHitsOfTheReadDocument,
+			queryPhraseHitsOfTheUnreadDocument,
 		)
 	}
 }

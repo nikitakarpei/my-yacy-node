@@ -11,41 +11,50 @@ func answeredQueryFrom(
 	queryWords []yacymodel.Hash,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:     queryWords,
-		FoundDocuments: foundDocumentsFrom(answeredAsks, queryWords),
+		QueryWords:       queryWords,
+		FoundDocuments:   foundDocumentsFrom(answeredAsks),
+		FactsPerDocument: factsPerDocumentFrom(answeredAsks, queryWords),
 	}
 }
 
 func foundDocumentsFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
-	queryWords []yacymodel.Hash,
 ) []queryanswers.FoundDocument {
-	countedWord, countedWordIsKnown := wordThePeersCountedFor(queryWords)
-
 	var foundDocuments []queryanswers.FoundDocument
-	placeOfEachDocument := map[yacymodel.URLHash]int{}
+	alreadyFoundDocuments := map[yacymodel.URLHash]struct{}{}
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			place, alreadyFound := placeOfEachDocument[matchedDocument.Metadata.Hash]
-			if !alreadyFound {
-				place = len(foundDocuments)
-				placeOfEachDocument[matchedDocument.Metadata.Hash] = place
-				foundDocuments = append(
-					foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
-				)
-			}
-			if !countedWordIsKnown {
+			if _, alreadyFound := alreadyFoundDocuments[matchedDocument.Metadata.Hash]; alreadyFound {
 				continue
 			}
-			keepTheFirstPostingOfTheWord(
-				&foundDocuments[place],
-				countedWord,
-				matchedDocument.Posting,
+			alreadyFoundDocuments[matchedDocument.Metadata.Hash] = struct{}{}
+			foundDocuments = append(
+				foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
 			)
 		}
 	}
 
 	return foundDocuments
+}
+
+func factsPerDocumentFrom(
+	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
+	queryWords []yacymodel.Hash,
+) queryanswers.FactsPerDocument {
+	factsPerDocument := queryanswers.FactsPerDocument{}
+	countedWord, countedWordIsKnown := wordThePeersCountedFor(queryWords)
+	if !countedWordIsKnown {
+		return factsPerDocument
+	}
+	for _, answeredAsk := range answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			factsPerDocument.KeepTheFirstPostingOfTheWord(
+				matchedDocument.Metadata.Hash, countedWord, matchedDocument.Posting,
+			)
+		}
+	}
+
+	return factsPerDocument
 }
 
 func wordThePeersCountedFor(queryWords []yacymodel.Hash) (yacymodel.Hash, bool) {
@@ -54,36 +63,4 @@ func wordThePeersCountedFor(queryWords []yacymodel.Hash) (yacymodel.Hash, bool) 
 	}
 
 	return queryWords[0], true
-}
-
-func keepTheFirstPostingOfTheWord(
-	foundDocument *queryanswers.FoundDocument,
-	word yacymodel.Hash,
-	posting yacymodel.Optional[yacymodel.RWIPosting],
-) {
-	sentPosting, sent := posting.Get()
-	if !sent {
-		return
-	}
-	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
-		return
-	}
-	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
-	foundDocument.AmountOfWordsAPeerCounted = mostWordsAnyPeerCounted(
-		foundDocument.AmountOfWordsAPeerCounted, sentPosting.TextWords,
-	)
-	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCountsFrom(sentPosting))
-}
-
-func mostWordsAnyPeerCounted(
-	amountOfWordsThePeersBeforeCounted yacymodel.Optional[int],
-	amountOfWordsThisPeerCounted int,
-) yacymodel.Optional[int] {
-	if amountOfWordsThisPeerCounted <= 0 {
-		return amountOfWordsThePeersBeforeCounted
-	}
-
-	return yacymodel.Some(
-		max(amountOfWordsThePeersBeforeCounted.OrElse(0), amountOfWordsThisPeerCounted),
-	)
 }
