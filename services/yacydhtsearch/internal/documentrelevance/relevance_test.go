@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -633,7 +634,7 @@ func foundDocumentWithLinksAmongAThousandWords(
 
 	foundDocument := foundDocumentWithHitsOf(t, address, "berlin", 1)
 	foundDocument.AmountOfWords = amountOfWordsOfALinkedDocument
-	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCounts{
+	foundDocument.LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
 		LocalLinks:    amountOfLinks,
 		ExternalLinks: 0,
 	})
@@ -664,7 +665,7 @@ func TestTheDocumentNoPeerSentLinkCountsForKeepsTheRelevanceOfALinkedDocument(t 
 	withoutLinkCounts := foundDocumentWithLinksAmongAThousandWords(
 		t, "https://unmeasured.example/", 1,
 	)
-	withoutLinkCounts.LinkCounts = yacymodel.None[queryanswers.LinkCounts]()
+	withoutLinkCounts.LinkCounts = yacymodel.None[pagecontents.LinkCounts]()
 	answers := answersOf(
 		[]string{"berlin"},
 		[]queryanswers.FoundDocument{

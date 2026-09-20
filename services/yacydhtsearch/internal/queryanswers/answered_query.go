@@ -9,6 +9,7 @@
 package queryanswers
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -19,7 +20,7 @@ type AnsweredQuery struct {
 }
 
 func (a AnsweredQuery) SaturatedWith(
-	pageContentsPerDocument map[yacymodel.URLHash]PageContents,
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
 ) AnsweredQuery {
 	if len(pageContentsPerDocument) == 0 {
 		return a

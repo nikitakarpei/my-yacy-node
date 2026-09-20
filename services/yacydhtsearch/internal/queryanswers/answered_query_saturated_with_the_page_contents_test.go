@@ -3,7 +3,7 @@ package queryanswers_test
 import (
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -36,18 +36,16 @@ func foundDocumentWithOneHitOf(
 
 func pageContentsOfTheReadDocument(
 	t *testing.T,
-) map[yacymodel.URLHash]queryanswers.PageContents {
+) map[yacymodel.URLHash]pagecontents.PageContents {
 	t.Helper()
 
-	return map[yacymodel.URLHash]queryanswers.PageContents{
+	return map[yacymodel.URLHash]pagecontents.PageContents{
 		documentOf(t, addressOfTheReadDocument): {
-			Text: documenttext.DocumentText{
-				Title:            "Berlin",
-				HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 7},
-				AmountOfWords:    400,
-				Snippet:          "Berlin holds a wall.",
-			},
-			LinkCounts: queryanswers.LinkCounts{LocalLinks: 25, ExternalLinks: 4},
+			Title:            "Berlin",
+			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 7},
+			AmountOfWords:    400,
+			Snippet:          "Berlin holds a wall.",
+			LinkCounts:       pagecontents.LinkCounts{LocalLinks: 25, ExternalLinks: 4},
 		},
 	}
 }
@@ -94,15 +92,13 @@ func TestTheTextOfADocumentCountsAQueryWordNoPeerMatchedItFor(t *testing.T) {
 			foundDocumentWithOneHitOf(t, addressOfTheReadDocument, "berlin"),
 		},
 	}
-	pageContentsOfTheDocument := map[yacymodel.URLHash]queryanswers.PageContents{
+	pageContentsOfTheDocument := map[yacymodel.URLHash]pagecontents.PageContents{
 		documentOf(t, addressOfTheReadDocument): {
-			Text: documenttext.DocumentText{
-				HitsPerQueryWord: map[yacymodel.Hash]int{
-					yacymodel.WordHash("berlin"):  7,
-					yacymodel.WordHash("weather"): 2,
-				},
-				AmountOfWords: 400,
+			HitsPerQueryWord: map[yacymodel.Hash]int{
+				yacymodel.WordHash("berlin"):  7,
+				yacymodel.WordHash("weather"): 2,
 			},
+			AmountOfWords: 400,
 		},
 	}
 
@@ -125,7 +121,7 @@ func TestAReadPageWithoutATitleKeepsTheTitleAPeerSent(t *testing.T) {
 	answers := answersOfTheReadDocument(t)
 	pageContentsWithoutATitle := pageContentsOfTheReadDocument(t)
 	pageContents := pageContentsWithoutATitle[documentOf(t, addressOfTheReadDocument)]
-	pageContents.Text.Title = ""
+	pageContents.Title = ""
 	pageContentsWithoutATitle[documentOf(t, addressOfTheReadDocument)] = pageContents
 
 	read := answers.SaturatedWith(pageContentsWithoutATitle)
@@ -177,7 +173,7 @@ func TestAReadPageThatMovedGivesItsDocumentTheAddressItMovedTo(t *testing.T) {
 	answers := answersOfTheReadDocument(t)
 	pageContentsOfAMovedPage := pageContentsOfTheReadDocument(t)
 	pageContents := pageContentsOfAMovedPage[documentOf(t, addressOfTheReadDocument)]
-	pageContents.Text.Address = "https://berlin.example/moved"
+	pageContents.Address = "https://berlin.example/moved"
 	pageContentsOfAMovedPage[documentOf(t, addressOfTheReadDocument)] = pageContents
 
 	read := answers.SaturatedWith(pageContentsOfAMovedPage)
@@ -209,7 +205,7 @@ func TestAReadPageGivesItsDocumentTheLinksItHoldsInPlaceOfTheLinksAPeerCounted(t
 	t.Parallel()
 
 	answers := answersOfTheReadDocument(t)
-	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(queryanswers.LinkCounts{
+	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
 		LocalLinks:    1,
 		ExternalLinks: 1,
 	})
@@ -235,7 +231,7 @@ func TestADocumentThatWasNotReadKeepsTheLinksAPeerCounted(t *testing.T) {
 			foundDocumentWithOneHitOf(t, "https://unread.example/", "berlin"),
 		},
 	}
-	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(queryanswers.LinkCounts{
+	answers.FoundDocuments[0].LinkCounts = yacymodel.Some(pagecontents.LinkCounts{
 		LocalLinks:    1,
 		ExternalLinks: 1,
 	})

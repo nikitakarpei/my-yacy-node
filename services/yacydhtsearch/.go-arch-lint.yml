@@ -25,8 +25,8 @@ components:
     in: internal/searchresult/**
   queryanswers:
     in: internal/queryanswers/**
-  documenttext:
-    in: internal/documenttext/**
+  pagecontents:
+    in: internal/pagecontents/**
   documentrelevance:
     in: internal/documentrelevance/**
   documentsorderingrelevance:
@@ -219,8 +219,8 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - documenttext
-  documenttext:
+      - pagecontents
+  pagecontents:
     canUse:
       - uax29sentences
       - yacymodel
@@ -257,7 +257,7 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - documenttext
+      - pagecontents
       - pagereading
       - peerchoice
       - queryanswers
@@ -272,8 +272,7 @@ deps:
       - redirectfollowingfetch
       - yacymodel
     mayDependOn:
-      - documenttext
-      - queryanswers
+      - pagecontents
   pagereadingobserversapplog:
     mayDependOn:
       - pagereading

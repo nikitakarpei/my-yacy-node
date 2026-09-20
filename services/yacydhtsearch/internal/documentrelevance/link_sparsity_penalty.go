@@ -11,7 +11,7 @@ func linkSparsityPenaltyOf(foundDocument queryanswers.FoundDocument) float64 {
 	if !sentForTheDocument || foundDocument.AmountOfWords <= 0 {
 		return 0
 	}
-	linkDensity := linkDensityOf(linkCounts, foundDocument.AmountOfWords)
+	linkDensity := linkDensityOf(linkCounts.AmountOfLinks(), foundDocument.AmountOfWords)
 	if linkDensity >= leastLinkDensityWithoutASparsityPenalty {
 		return 0
 	}
@@ -19,8 +19,6 @@ func linkSparsityPenaltyOf(foundDocument queryanswers.FoundDocument) float64 {
 	return 1 - linkDensity/leastLinkDensityWithoutASparsityPenalty
 }
 
-func linkDensityOf(linkCounts queryanswers.LinkCounts, amountOfWords int) float64 {
-	amountOfLinks := linkCounts.LocalLinks + linkCounts.ExternalLinks
-
+func linkDensityOf(amountOfLinks int, amountOfWords int) float64 {
 	return float64(amountOfLinks) / float64(amountOfWords)
 }

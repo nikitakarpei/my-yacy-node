@@ -1,4 +1,4 @@
-package documenttext
+package pagecontents
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
