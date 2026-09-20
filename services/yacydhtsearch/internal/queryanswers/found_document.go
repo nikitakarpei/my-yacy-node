@@ -1,7 +1,6 @@
 package queryanswers
 
 import (
-	"maps"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
@@ -54,33 +53,20 @@ func (f FoundDocument) AmountOfWordsAnyoneCounted() yacymodel.Optional[int] {
 	return f.AmountOfWordsAPeerCounted
 }
 
-func (f FoundDocument) saturatedWith(pageContents pagecontents.PageContents) FoundDocument {
+func (f FoundDocument) withTheContentsOfItsReadPage(
+	pageContents pagecontents.PageContents,
+) FoundDocument {
 	if pageContents.Address != "" {
 		f.Address = pageContents.Address
 	}
 	if pageContents.Title != "" {
 		f.Title = pageContents.Title
 	}
-	f.HitsPerQueryWord = f.hitsPerQueryWordSaturatedWith(pageContents.HitsPerQueryWord)
+	f.HitsPerQueryWord = pageContents.HitsPerQueryWord
 	f.AmountOfWordsOfTheReadPage = yacymodel.Some(pageContents.AmountOfWords)
 	f.QueryPhraseHitsOfTheReadPage = yacymodel.Some(pageContents.QueryPhraseHits)
 	f.Snippet = pageContents.Snippet
 	f.LinkCounts = yacymodel.Some(pageContents.LinkCounts)
 
 	return f
-}
-
-func (f FoundDocument) hitsPerQueryWordSaturatedWith(
-	hitsPerQueryWordOfTheReadPage map[yacymodel.Hash]int,
-) map[yacymodel.Hash]int {
-	hitsPerQueryWord := make(map[yacymodel.Hash]int, len(hitsPerQueryWordOfTheReadPage))
-	maps.Copy(hitsPerQueryWord, hitsPerQueryWordOfTheReadPage)
-	for word, hitsAPeerCounted := range f.HitsPerQueryWord {
-		if hitsPerQueryWord[word] > 0 {
-			continue
-		}
-		hitsPerQueryWord[word] = hitsAPeerCounted
-	}
-
-	return hitsPerQueryWord
 }

@@ -2,8 +2,7 @@
 // words of the query, one found document for each document it found, and how
 // many documents the peers hold per query word. The text of a document, once a
 // node read its page, replaces what the peers counted for it, their snippet, and
-// the links they counted. Where the page holds no hit of a query word, the hits
-// a peer counted for that word stand.
+// the links they counted, a query word the text holds none of included.
 // The title of the page replaces theirs when the page has one, and the address
 // the page moved to replaces theirs when it moved. A document can leave the
 // answers, for example once its page is gone.
@@ -20,7 +19,7 @@ type AnsweredQuery struct {
 	DocumentsHeldPerQueryWord map[yacymodel.Hash]int
 }
 
-func (a AnsweredQuery) SaturatedWith(
+func (a AnsweredQuery) WithTheContentsOfTheReadPages(
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
 ) AnsweredQuery {
 	if len(pageContentsPerDocument) == 0 {
@@ -31,7 +30,7 @@ func (a AnsweredQuery) SaturatedWith(
 	for _, foundDocument := range a.FoundDocuments {
 		pageContents, read := pageContentsPerDocument[foundDocument.Hash]
 		if read {
-			foundDocument = foundDocument.saturatedWith(pageContents)
+			foundDocument = foundDocument.withTheContentsOfItsReadPage(pageContents)
 		}
 		foundDocuments = append(foundDocuments, foundDocument)
 	}

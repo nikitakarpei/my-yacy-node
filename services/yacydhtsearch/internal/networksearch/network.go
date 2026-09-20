@@ -129,19 +129,19 @@ func (n Network) Search(
 	readPages := n.pageReading.ReadEachPage(
 		ctx, query.TermHashes(), pagesToReadOf(documentsOrderedFirst),
 	)
-	answersSaturatedWithThePageContents := answers.
-		SaturatedWith(readPages.PageContentsPerDocument).
+	answersWithTheContentsOfTheReadPages := answers.
+		WithTheContentsOfTheReadPages(readPages.PageContentsPerDocument).
 		WithoutDocuments(readPages.GoneDocuments)
 	rankedDocuments := documentsUpTo(
 		n.documentsOrdering.OrderedDocumentsOf(
-			answersSaturatedWithThePageContents,
+			answersWithTheContentsOfTheReadPages,
 		),
 		n.rankedItemsCeiling,
 	)
 	n.observer.NetworkSearchPerformed(
 		ctx,
 		performedNetworkSearchFrom(
-			answersSaturatedWithThePageContents,
+			answersWithTheContentsOfTheReadPages,
 			rankedDocuments,
 			len(askablePeers),
 			time.Since(startedAt),
