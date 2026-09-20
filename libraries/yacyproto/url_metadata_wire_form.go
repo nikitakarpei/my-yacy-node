@@ -85,9 +85,9 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 		return yacymodel.URLMetadata{}, fmt.Errorf("url metadata address: empty")
 	}
 
-	hash, err := yacymodel.ParseURLHash(f.properties[urlMetadataColHash])
+	hash, err := hashOfTheAddress(address, f.properties[urlMetadataColHash])
 	if err != nil {
-		return yacymodel.URLMetadata{}, fmt.Errorf("url metadata hash: %w", err)
+		return yacymodel.URLMetadata{}, err
 	}
 
 	texts, err := f.texts(

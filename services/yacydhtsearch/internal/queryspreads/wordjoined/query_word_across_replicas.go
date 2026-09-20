@@ -141,12 +141,6 @@ func amountsOfDocumentsHeldCountedBy(queryWordOnReplicas []queryWordOnReplica) [
 	return countedAmounts
 }
 
-func lowerMedianOf(amounts []int) int {
-	sortedAmounts := slices.Sorted(slices.Values(amounts))
-
-	return sortedAmounts[(len(sortedAmounts)-1)/2]
-}
-
 func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocuments {
 	documentsListedByPeers := distinctDocuments{}
 	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {

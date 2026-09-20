@@ -16,7 +16,11 @@ func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWor
 		if documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] == nil {
 			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] = distinctDocuments{}
 		}
+		askedDocuments := distinctDocumentsAmong(answeredAsk.Ask.Documents)
 		for _, document := range answeredAsk.DocumentsHeldForTheWord {
+			if !askedDocuments.contains(document) {
+				continue
+			}
 			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word].add(document)
 		}
 	}

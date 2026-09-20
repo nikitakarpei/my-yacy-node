@@ -99,14 +99,14 @@ func TestURLMetadataRequestRefusesAMalformedName(t *testing.T) {
 func TestURLMetadataResponseReadsBackWhatItWrote(t *testing.T) {
 	written := yacyproto.URLMetadataResponse{URLs: []yacymodel.URLMetadata{
 		{
-			Hash:     mustParseURLHash(t, "Q_ylfl--9bK5"),
+			Hash:     urlHashOfTheAddress(t, "https://example.com/?a=1&b=<2>"),
 			Address:  "https://example.com/?a=1&b=<2>",
 			Title:    "Rock & Roll's <best>",
 			Author:   "Smith & Sons",
 			Modified: calendarDay(t, "2025-11-16"),
 		},
 		{
-			Hash:    mustParseURLHash(t, "eVZzCn--SAOx"),
+			Hash:    urlHashOfTheAddress(t, "https://example.org/"),
 			Address: "https://example.org/",
 		},
 	}}
@@ -167,7 +167,7 @@ func TestURLMetadataResponseReadsARealYaCyAnswer(t *testing.T) {
 func TestURLMetadataResponseDiscardsAnItemWithoutAName(t *testing.T) {
 	const body = `<rss><yacy><response>ok</response></yacy><channel>` +
 		`<item><link>http://example.com/</link><guid isPermaLink="false"></guid></item>` +
-		`<item><link>http://example.com/x</link><guid isPermaLink="false">Q_ylfl--9bK5</guid></item>` +
+		`<item><link>http://example.com/x</link><guid isPermaLink="false">egt8B7QpK89Y</guid></item>` +
 		`</channel></rss>`
 
 	response, err := yacyproto.ParseURLMetadataResponse(context.Background(), []byte(body))
@@ -182,11 +182,28 @@ func TestURLMetadataResponseDiscardsAnItemWithoutAName(t *testing.T) {
 	}
 }
 
+func TestURLMetadataResponseDropsAnItemThatNamesAnotherDocumentThanItsLink(t *testing.T) {
+	body := `<rss><yacy><response>ok</response></yacy><channel>` +
+		`<item><link>http://example.com/x</link>` +
+		`<guid isPermaLink="false">` +
+		urlHashOfTheAddress(t, "http://example.com/y").String() +
+		`</guid></item>` +
+		`</channel></rss>`
+
+	response, err := yacyproto.ParseURLMetadataResponse(context.Background(), []byte(body))
+	if err != nil {
+		t.Fatalf("ParseURLMetadataResponse: %v", err)
+	}
+	if len(response.URLs) != 0 {
+		t.Errorf("urls = %+v, want none for an item that names another document", response.URLs)
+	}
+}
+
 func TestURLMetadataResponseReadsATitleThePeerLeftUnescaped(t *testing.T) {
 	const body = `<rss><yacy><response>ok</response></yacy><channel>` +
 		`<item><title>Rock & Roll</title><link>http://example.com/x</link>` +
 		`<author>Smith & Sons</author>` +
-		`<guid isPermaLink="false">Q_ylfl--9bK5</guid></item>` +
+		`<guid isPermaLink="false">egt8B7QpK89Y</guid></item>` +
 		`</channel></rss>`
 
 	response, err := yacyproto.ParseURLMetadataResponse(context.Background(), []byte(body))

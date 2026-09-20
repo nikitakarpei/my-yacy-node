@@ -11,13 +11,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const yacyURLMetadataRow = "{hash=MNOPQRSTUVWX,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8," +
+const yacyURLMetadataRow = "{hash=71f2fsumTYow,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8," +
 	"descr=b|RXhhbXBsZQ,author=b|,tags=b|,publisher=b|,lat=0,lon=0," +
 	"mod=20250101,load=20250203,fresh=20260101,referrer=,size=1024,wc=12," +
 	"dt=t,flags=AAAAAA,lang=en,llocal=3,lother=4,limage=0,laudio=0," +
 	"lvideo=0,lapp=0}"
 
-func urlHashOfAddress(t *testing.T, address string) yacymodel.URLHash {
+func urlHashOfTheAddress(t *testing.T, address string) yacymodel.URLHash {
 	t.Helper()
 
 	hash, err := yacymodel.URLHashOf(address)
@@ -32,7 +32,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	t.Helper()
 
 	return yacymodel.URLMetadata{
-		Hash:             urlHashOfAddress(t, "https://example.org/"),
+		Hash:             urlHashOfTheAddress(t, "https://example.org/"),
 		Address:          "https://example.org/",
 		Referrer:         yacymodel.Some(sampleURLHash(t, "referrer")),
 		Title:            "Example, Inc.",
@@ -92,7 +92,7 @@ func TestTransferURLRequestReadsARowAsRealYaCyWritesIt(t *testing.T) {
 	t.Parallel()
 
 	want := yacymodel.URLMetadata{
-		Hash:          mustParseURLHash(t, "MNOPQRSTUVWX"),
+		Hash:          urlHashOfTheAddress(t, "https://example.org/"),
 		Address:       "https://example.org/",
 		Title:         "Example",
 		Modified:      yacymodel.Some(yacymodel.NewCalendarDay(2025, time.January, 1)),
@@ -111,13 +111,36 @@ func TestTransferURLRequestReadsARowAsRealYaCyWritesIt(t *testing.T) {
 	}
 }
 
+func TestTransferURLRequestDropsARowThatNamesAnotherDocumentThanItsAddress(t *testing.T) {
+	t.Parallel()
+
+	rowOfAnotherDocument := strings.Replace(
+		yacyURLMetadataRow,
+		"hash="+urlHashOfTheAddress(t, "https://example.org/").String(),
+		"hash="+urlHashOfTheAddress(t, "https://example.com/").String(),
+		1,
+	)
+
+	form := url.Values{
+		yacyproto.FieldURLCount: {"1"},
+		"url0":                  {rowOfAnotherDocument},
+	}
+	request, err := yacyproto.ParseTransferURLRequest(t.Context(), form)
+	if err != nil {
+		t.Fatalf("ParseTransferURLRequest: %v", err)
+	}
+	if len(request.URLs) != 0 {
+		t.Errorf("urls = %+v, want none for a row that names another document", request.URLs)
+	}
+}
+
 func TestTransferURLRequestCarriesCommasInText(t *testing.T) {
 	t.Parallel()
 
 	const address = "http://example.com/article?ids=1,2,3"
 
 	want := yacymodel.URLMetadata{
-		Hash:    urlHashOfAddress(t, address),
+		Hash:    urlHashOfTheAddress(t, address),
 		Address: address,
 		Title:   "Fourth of July fireworks, 1986 - Example",
 	}

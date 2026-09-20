@@ -316,6 +316,16 @@ func searchAnswerHolding(t *testing.T, addresses ...string) string {
 	}.Encode().Encode()
 }
 
+func documentOf(t *testing.T, address string) yacymodel.URLHash {
+	t.Helper()
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return hash
+}
+
 func mustParseURLHash(t *testing.T, raw string) yacymodel.URLHash {
 	t.Helper()
 
@@ -468,7 +478,7 @@ func TestAMatchedAndHeldDocumentsAnswerReadsTheItemsAndTheDocumentsThePeerHolds(
 	t.Parallel()
 
 	word := yacymodel.WordHash("berlin")
-	withoutAPosting := mustParseURLHash(t, "bbbbbbAAAAAA")
+	withoutAPosting := documentOf(t, "https://example.org/other")
 	body := yacyproto.SearchResponse{
 		Count: 2,
 		Resources: []yacyproto.SearchResource{
@@ -694,12 +704,12 @@ func peerAnsweringURLMetadata(t *testing.T, body string) (string, *peerCalls) {
 func TestAURLMetadataAskFetchesTheDocumentsItNames(t *testing.T) {
 	t.Parallel()
 
-	document := mustParseURLHash(t, "Q_ylfl--9bK5")
+	document := documentOf(t, "https://example.org/weather")
 	address, _ := peerAnsweringURLMetadata(
 		t,
 		`<rss><yacy><response>ok</response></yacy><channel><item>`+
 			`<title>Weather</title><link>https://example.org/weather</link>`+
-			`<guid isPermaLink="false">Q_ylfl--9bK5</guid>`+
+			`<guid isPermaLink="false">`+document.String()+`</guid>`+
 			`</item></channel></rss>`,
 	)
 
@@ -723,12 +733,12 @@ func TestAURLMetadataAskFetchesTheDocumentsItNames(t *testing.T) {
 func TestAnAnsweredURLMetadataAskIsReportedAsTheMetadataItIs(t *testing.T) {
 	t.Parallel()
 
-	document := mustParseURLHash(t, "Q_ylfl--9bK5")
+	document := documentOf(t, "https://example.org/weather")
 	address, _ := peerAnsweringURLMetadata(
 		t,
 		`<rss><yacy><response>ok</response></yacy><channel><item>`+
 			`<title>Weather</title><link>https://example.org/weather</link>`+
-			`<guid isPermaLink="false">Q_ylfl--9bK5</guid>`+
+			`<guid isPermaLink="false">`+document.String()+`</guid>`+
 			`</item></channel></rss>`,
 	)
 

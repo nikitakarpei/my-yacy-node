@@ -156,9 +156,9 @@ func urlMetadataOf(ctx context.Context, items []urlMetadataFeedItem) []yacymodel
 // the domain concept holds a name, and the description repeats the title, so
 // neither is read.
 func (i urlMetadataFeedItem) domain() (yacymodel.URLMetadata, error) {
-	hash, err := yacymodel.ParseURLHash(i.GUID)
+	hash, err := hashOfTheAddress(i.Link, i.GUID)
 	if err != nil {
-		return yacymodel.URLMetadata{}, fmt.Errorf("url metadata guid: %w", err)
+		return yacymodel.URLMetadata{}, err
 	}
 
 	return yacymodel.URLMetadata{

@@ -15,3 +15,12 @@ func (documents distinctDocuments) contains(document yacymodel.URLHash) bool {
 func (documents distinctDocuments) add(document yacymodel.URLHash) {
 	documents[document] = struct{}{}
 }
+
+func distinctDocumentsAmong(documents []yacymodel.URLHash) distinctDocuments {
+	distinct := make(distinctDocuments, len(documents))
+	for _, document := range documents {
+		distinct.add(document)
+	}
+
+	return distinct
+}

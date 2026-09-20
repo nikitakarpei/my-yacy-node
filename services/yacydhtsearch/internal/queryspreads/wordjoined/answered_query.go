@@ -25,34 +25,39 @@ func foundDocumentsFrom(
 	joinedDocuments distinctDocuments,
 	urlMetadataRound urlMetadataRound,
 ) []queryanswers.FoundDocument {
+	return foundDocumentsCountedAcrossTheReplicas(
+		distinctFoundDocumentsFrom(
+			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
+		),
+		postingsPerDocumentAcrossReplicasFrom(matchedAndHeldDocumentsRound, joinedDocuments),
+	)
+}
+
+func distinctFoundDocumentsFrom(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinedDocuments distinctDocuments,
+	urlMetadataRound urlMetadataRound,
+) []queryanswers.FoundDocument {
 	var foundDocuments []queryanswers.FoundDocument
-	placeOfEachDocument := map[yacymodel.URLHash]int{}
+	documentsAlreadyFound := distinctDocuments{}
 	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
+			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) ||
+				documentsAlreadyFound.contains(matchedDocument.Metadata.Hash) {
 				continue
 			}
-			place, alreadyFound := placeOfEachDocument[matchedDocument.Metadata.Hash]
-			if !alreadyFound {
-				place = len(foundDocuments)
-				placeOfEachDocument[matchedDocument.Metadata.Hash] = place
-				foundDocuments = append(
-					foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
-				)
-			}
-			keepTheFirstPostingOfTheWord(
-				&foundDocuments[place],
-				answeredAsk.Ask.Word,
-				matchedDocument.Posting,
+			documentsAlreadyFound.add(matchedDocument.Metadata.Hash)
+			foundDocuments = append(
+				foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
 			)
 		}
 	}
 	for _, answeredAsk := range urlMetadataRound.answeredAsks {
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
-			if _, alreadyFound := placeOfEachDocument[metadata.Hash]; alreadyFound {
+			if documentsAlreadyFound.contains(metadata.Hash) {
 				continue
 			}
-			placeOfEachDocument[metadata.Hash] = len(foundDocuments)
+			documentsAlreadyFound.add(metadata.Hash)
 			foundDocuments = append(foundDocuments, queryanswers.FoundDocumentFrom(metadata))
 		}
 	}
@@ -60,19 +65,42 @@ func foundDocumentsFrom(
 	return foundDocuments
 }
 
-func keepTheFirstPostingOfTheWord(
-	foundDocument *queryanswers.FoundDocument,
-	word yacymodel.Hash,
-	posting yacymodel.Optional[yacymodel.RWIPosting],
-) {
-	sentPosting, sent := posting.Get()
-	if !sent {
-		return
+func postingsPerDocumentAcrossReplicasFrom(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinedDocuments distinctDocuments,
+) map[yacymodel.URLHash]*postingsOfOneDocumentAcrossReplicas {
+	postingsPerDocument := map[yacymodel.URLHash]*postingsOfOneDocumentAcrossReplicas{}
+	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
+				continue
+			}
+			if postingsPerDocument[matchedDocument.Metadata.Hash] == nil {
+				postingsPerDocument[matchedDocument.Metadata.Hash] =
+					&postingsOfOneDocumentAcrossReplicas{}
+			}
+			postingsPerDocument[matchedDocument.Metadata.Hash].take(
+				answeredAsk.Ask.Word, matchedDocument.Posting,
+			)
+		}
 	}
-	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
-		return
+
+	return postingsPerDocument
+}
+
+func foundDocumentsCountedAcrossTheReplicas(
+	foundDocuments []queryanswers.FoundDocument,
+	postingsPerDocument map[yacymodel.URLHash]*postingsOfOneDocumentAcrossReplicas,
+) []queryanswers.FoundDocument {
+	for place, foundDocument := range foundDocuments {
+		postings, sentForTheDocument := postingsPerDocument[foundDocument.Hash]
+		if !sentForTheDocument {
+			continue
+		}
+		foundDocuments[place].HitsPerQueryWord = postings.hitsPerQueryWord()
+		foundDocuments[place].AmountOfWords = postings.amountOfWords()
+		foundDocuments[place].LinkCounts = postings.linkCounts()
 	}
-	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
-	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, sentPosting.TextWords)
-	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCountsFrom(sentPosting))
+
+	return foundDocuments
 }
