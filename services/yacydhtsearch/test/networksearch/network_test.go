@@ -10,9 +10,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
@@ -597,16 +597,14 @@ func (p pagesHoldingTheWordOfOneDocument) ReadEachPage(
 	_ []yacymodel.Hash,
 	pagesToRead []pagereading.PageToRead,
 ) pagereading.ReadPages {
-	pageContentsPerDocument := map[yacymodel.URLHash]queryanswers.PageContents{}
+	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
 	for _, pageToRead := range pagesToRead {
 		if pageToRead.Address != p.address {
 			continue
 		}
-		pageContentsPerDocument[pageToRead.Document] = queryanswers.PageContents{
-			Text: documenttext.DocumentText{
-				HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(p.word): p.hits},
-				AmountOfWords:    p.hits,
-			},
+		pageContentsPerDocument[pageToRead.Document] = pagecontents.PageContents{
+			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(p.word): p.hits},
+			AmountOfWords:    p.hits,
 		}
 	}
 

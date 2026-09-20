@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -12,7 +12,7 @@ import (
 
 type saturatedAnswers struct {
 	answers                 queryanswers.AnsweredQuery
-	pageContentsPerDocument map[yacymodel.URLHash]queryanswers.PageContents
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
 }
 
 func (e pageExtraction) answersSaturatedWithTheStoredPages(
@@ -25,7 +25,7 @@ func (e pageExtraction) answersSaturatedWithTheStoredPages(
 	t.Helper()
 
 	queryWords := searchquery.QueryFrom(query, "").TermHashes()
-	pageContentsPerDocument := map[yacymodel.URLHash]queryanswers.PageContents{}
+	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
 	for _, foundDocument := range answers.FoundDocuments {
 		page, stored := pagePerAddress[foundDocument.Address]
 		if !stored {
@@ -35,12 +35,13 @@ func (e pageExtraction) answersSaturatedWithTheStoredPages(
 		if extracted.text == "" {
 			continue
 		}
-		pageContentsPerDocument[foundDocument.Hash] = queryanswers.PageContents{
-			Text: documenttext.DocumentTextFrom(
-				extracted.title, extracted.text, queryWords, snippetLengthCeiling,
-			),
-			LinkCounts: extracted.linkCounts,
-		}
+		pageContentsPerDocument[foundDocument.Hash] = pagecontents.PageContentsFrom(
+			extracted.title,
+			extracted.text,
+			extracted.linkCounts,
+			queryWords,
+			snippetLengthCeiling,
+		)
 	}
 
 	return saturatedAnswers{

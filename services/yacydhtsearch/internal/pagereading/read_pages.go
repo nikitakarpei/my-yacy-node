@@ -1,19 +1,19 @@
 package pagereading
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type ReadPages struct {
-	PageContentsPerDocument map[yacymodel.URLHash]queryanswers.PageContents
+	PageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
 	GoneDocuments           map[yacymodel.URLHash]struct{}
 }
 
 func readPagesFrom(pageReadResults []pageReadResult) ReadPages {
 	readPages := ReadPages{
 		PageContentsPerDocument: make(
-			map[yacymodel.URLHash]queryanswers.PageContents, len(pageReadResults),
+			map[yacymodel.URLHash]pagecontents.PageContents, len(pageReadResults),
 		),
 		GoneDocuments: map[yacymodel.URLHash]struct{}{},
 	}

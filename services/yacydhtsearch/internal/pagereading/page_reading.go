@@ -20,8 +20,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -140,7 +139,7 @@ func (r Reading) readThePage(
 		ctx, queryWords, landed.Outcome.Page, landed.URL,
 	)
 	if landed.URL != pageURL {
-		pageContents.Text.Address = landed.URL.String()
+		pageContents.Address = landed.URL.String()
 	}
 
 	return pageReadResult{
@@ -176,30 +175,31 @@ func (r Reading) pageContentsOfTheFetchedPage(
 	queryWords []yacymodel.Hash,
 	fetchedPage pagefetch.FetchedPage,
 	pageURL canonicalurl.CanonicalURL,
-) (queryanswers.PageContents, readOutcome) {
+) (pagecontents.PageContents, readOutcome) {
 	extractedDocument, err := documentextraction.DocumentFrom(
 		ctx, fetchedPage.Body, fetchedPage.ContentType, pageURL,
 	)
 	if err != nil {
-		return queryanswers.PageContents{}, readOutcomeFromAnExtractionFailure(err)
+		return pagecontents.PageContents{}, readOutcomeFromAnExtractionFailure(err)
 	}
 	text, derived := r.textOfTheExtractedDocument(ctx, extractedDocument, pageURL)
 	if !derived {
-		return queryanswers.PageContents{}, pageWasUnreadable
+		return pagecontents.PageContents{}, pageWasUnreadable
 	}
 
-	return queryanswers.PageContents{
-		Text: documenttext.DocumentTextFrom(
-			extractedDocument.Title, string(text), queryWords, r.snippetLengthCeiling,
-		),
-		LinkCounts: linkCountsOfTheExtractedDocument(extractedDocument),
-	}, pageWasRead
+	return pagecontents.PageContentsFrom(
+		extractedDocument.Title,
+		string(text),
+		linkCountsOfTheExtractedDocument(extractedDocument),
+		queryWords,
+		r.snippetLengthCeiling,
+	), pageWasRead
 }
 
 func linkCountsOfTheExtractedDocument(
 	extractedDocument documentextraction.Document,
-) queryanswers.LinkCounts {
-	return queryanswers.LinkCounts{
+) pagecontents.LinkCounts {
+	return pagecontents.LinkCounts{
 		LocalLinks:    extractedDocument.LocalLinks,
 		ExternalLinks: extractedDocument.ExternalLinks,
 	}

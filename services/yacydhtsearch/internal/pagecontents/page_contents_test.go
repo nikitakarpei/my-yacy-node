@@ -1,10 +1,10 @@
-package documenttext_test
+package pagecontents_test
 
 import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -27,32 +27,44 @@ func wordsOf(spelledWords ...string) []yacymodel.Hash {
 func TestTheTextGivesTheHitsOfEachQueryWordAndNoOtherWord(t *testing.T) {
 	t.Parallel()
 
-	documentText := documenttext.DocumentTextFrom(
-		"", textOfThePage, wordsOf("berlin", "river", "paris"), snippetLengthCeiling,
+	pageContents := pagecontents.PageContentsFrom(
+		"",
+		textOfThePage,
+		pagecontents.LinkCounts{},
+		wordsOf("berlin", "river", "paris"),
+		snippetLengthCeiling,
 	)
 
-	if len(documentText.HitsPerQueryWord) != 3 ||
-		documentText.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 2 ||
-		documentText.HitsPerQueryWord[yacymodel.WordHash("river")] != 1 ||
-		documentText.HitsPerQueryWord[yacymodel.WordHash("paris")] != 0 {
-		t.Fatalf("the text gives %+v, want two berlin, one river, zero paris", documentText)
+	if len(pageContents.HitsPerQueryWord) != 3 ||
+		pageContents.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 2 ||
+		pageContents.HitsPerQueryWord[yacymodel.WordHash("river")] != 1 ||
+		pageContents.HitsPerQueryWord[yacymodel.WordHash("paris")] != 0 {
+		t.Fatalf("the text gives %+v, want two berlin, one river, zero paris", pageContents)
 	}
-	if documentText.AmountOfWords != len(yacymodel.WordsIn(textOfThePage)) {
-		t.Fatalf("the text holds %d words, want every indexed word", documentText.AmountOfWords)
+	if pageContents.AmountOfWords != len(yacymodel.WordsIn(textOfThePage)) {
+		t.Fatalf("the text holds %d words, want every indexed word", pageContents.AmountOfWords)
 	}
 }
 
 func TestTheTextGivesTheHitsOfEachQueryPhraseInTheOrderOfTheQuery(t *testing.T) {
 	t.Parallel()
 
-	inOrder := documenttext.DocumentTextFrom(
-		"", textOfThePage, wordsOf("berlin", "holds"), snippetLengthCeiling,
+	inOrder := pagecontents.PageContentsFrom(
+		"",
+		textOfThePage,
+		pagecontents.LinkCounts{},
+		wordsOf("berlin", "holds"),
+		snippetLengthCeiling,
 	)
-	inTheOtherOrder := documenttext.DocumentTextFrom(
-		"", textOfThePage, wordsOf("holds", "berlin"), snippetLengthCeiling,
+	inTheOtherOrder := pagecontents.PageContentsFrom(
+		"",
+		textOfThePage,
+		pagecontents.LinkCounts{},
+		wordsOf("holds", "berlin"),
+		snippetLengthCeiling,
 	)
-	ofOneWord := documenttext.DocumentTextFrom(
-		"", textOfThePage, wordsOf("berlin"), snippetLengthCeiling,
+	ofOneWord := pagecontents.PageContentsFrom(
+		"", textOfThePage, pagecontents.LinkCounts{}, wordsOf("berlin"), snippetLengthCeiling,
 	)
 
 	if inOrder.QueryPhraseHits != 2 || inTheOtherOrder.QueryPhraseHits != 0 ||
@@ -67,10 +79,9 @@ func TestTheTextGivesTheHitsOfEachQueryPhraseInTheOrderOfTheQuery(t *testing.T) 
 func TestTheSnippetIsThePassageThatHoldsMoreOfTheQueryWords(t *testing.T) {
 	t.Parallel()
 
-	snippet := documenttext.DocumentTextFrom(
+	snippet := pagecontents.PageContentsFrom(
 		"", "Berlin holds a wall. The wall and the river of Berlin.",
-		wordsOf("berlin", "river"),
-		snippetLengthCeiling,
+		pagecontents.LinkCounts{}, wordsOf("berlin", "river"), snippetLengthCeiling,
 	).Snippet
 
 	if snippet != "The wall and the river of Berlin." {
@@ -81,10 +92,9 @@ func TestTheSnippetIsThePassageThatHoldsMoreOfTheQueryWords(t *testing.T) {
 func TestTheSnippetIsThePassageThatHoldsTheQueryPhraseWhenBothHoldTheSameWords(t *testing.T) {
 	t.Parallel()
 
-	snippet := documenttext.DocumentTextFrom(
+	snippet := pagecontents.PageContentsFrom(
 		"", "The wall stands near Berlin. The Berlin wall is famous.",
-		wordsOf("berlin", "wall"),
-		snippetLengthCeiling,
+		pagecontents.LinkCounts{}, wordsOf("berlin", "wall"), snippetLengthCeiling,
 	).Snippet
 
 	if snippet != "The Berlin wall is famous." {
@@ -95,8 +105,12 @@ func TestTheSnippetIsThePassageThatHoldsTheQueryPhraseWhenBothHoldTheSameWords(t
 func TestTheSnippetIsTheEarlierPassageWhenTwoPassagesAnswerTheQueryTheSame(t *testing.T) {
 	t.Parallel()
 
-	snippet := documenttext.DocumentTextFrom(
-		"", "Berlin is old. Berlin is new.", wordsOf("berlin"), shortSnippetLengthCeiling,
+	snippet := pagecontents.PageContentsFrom(
+		"",
+		"Berlin is old. Berlin is new.",
+		pagecontents.LinkCounts{},
+		wordsOf("berlin"),
+		shortSnippetLengthCeiling,
 	).Snippet
 
 	if snippet != "Berlin is old." {
@@ -107,10 +121,9 @@ func TestTheSnippetIsTheEarlierPassageWhenTwoPassagesAnswerTheQueryTheSame(t *te
 func TestTheSnippetJoinsShortSentencesUpToTheLengthCeiling(t *testing.T) {
 	t.Parallel()
 
-	snippet := documenttext.DocumentTextFrom(
+	snippet := pagecontents.PageContentsFrom(
 		"", "One. Two. Three. This other sentence holds no query word at all.",
-		wordsOf("three"),
-		snippetLengthCeiling,
+		pagecontents.LinkCounts{}, wordsOf("three"), snippetLengthCeiling,
 	).Snippet
 
 	if snippet != "One. Two. Three." {
@@ -121,8 +134,8 @@ func TestTheSnippetJoinsShortSentencesUpToTheLengthCeiling(t *testing.T) {
 func TestTheSnippetIsCutAtAWordBoundaryBeforeTheLengthCeiling(t *testing.T) {
 	t.Parallel()
 
-	snippet := documenttext.DocumentTextFrom(
-		"", textOfThePage, wordsOf("city"), snippetLengthCeiling,
+	snippet := pagecontents.PageContentsFrom(
+		"", textOfThePage, pagecontents.LinkCounts{}, wordsOf("city"), snippetLengthCeiling,
 	).Snippet
 
 	if len([]rune(snippet)) > snippetLengthCeiling ||
@@ -137,8 +150,12 @@ func TestTheSnippetIsCutAtAWordBoundaryBeforeTheLengthCeiling(t *testing.T) {
 func TestTheSnippetOfATextWithoutAQueryWordIsItsFirstPassage(t *testing.T) {
 	t.Parallel()
 
-	snippet := documenttext.DocumentTextFrom(
-		"", "Über kurz oder lang. Und dann.", wordsOf("paris"), shortSnippetLengthCeiling,
+	snippet := pagecontents.PageContentsFrom(
+		"",
+		"Über kurz oder lang. Und dann.",
+		pagecontents.LinkCounts{},
+		wordsOf("paris"),
+		shortSnippetLengthCeiling,
 	).Snippet
 
 	if snippet != "Über kurz oder lang." {
@@ -149,14 +166,18 @@ func TestTheSnippetOfATextWithoutAQueryWordIsItsFirstPassage(t *testing.T) {
 func TestTheTextCarriesTheTitleOfThePageWithItsSpacesCollapsed(t *testing.T) {
 	t.Parallel()
 
-	documentText := documenttext.DocumentTextFrom(
-		"Berlin |\n    the city", textOfThePage, wordsOf("berlin"), snippetLengthCeiling,
+	pageContents := pagecontents.PageContentsFrom(
+		"Berlin |\n    the city",
+		textOfThePage,
+		pagecontents.LinkCounts{},
+		wordsOf("berlin"),
+		snippetLengthCeiling,
 	)
 
-	if documentText.Title != "Berlin | the city" {
+	if pageContents.Title != "Berlin | the city" {
 		t.Fatalf(
 			"the text carries the title %q, want the title of the page with its spaces collapsed",
-			documentText.Title,
+			pageContents.Title,
 		)
 	}
 }
