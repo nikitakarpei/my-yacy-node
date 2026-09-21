@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	leastLiftOfTheOrderingOfTheServiceOverTheFoundOrder = 0.27
-	toleranceBelowTheAcceptedMeanGain                   = 0.02
+	leastLiftOfTheOrderingOfTheServiceOverTheFoundOrder = 0.45
+	toleranceBelowTheAcceptedMeanGain                   = 0.01
 )
 
 type documentsOrdering interface {
