@@ -5,61 +5,61 @@
       "hash": "wP9hhlPEHVf4",
       "address": "https://www.ssbwiki.com/Template:Wikipedia",
       "title": "Template:Wikipedia - SmashWiki, the Super Smash Bros. wiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pJy8Dh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Category:Interlingua_Wikipedia",
       "title": "Category:Interlingua Wikipedia - Wikimedia Commons",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AC30wc6VT9z4",
       "address": "https://vieiros.com/nova/59382/a-wikipedia-en-galego-supera-os-25-000-artigos",
       "title": "Vieiros: Galiza Hoxe - A wikipedia en galego supera os 25.000 artigos",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jCNhPjAL9Tgx",
       "address": "https://en.wikisource.org/wiki/Category:Appletons_template_with_Wikipedia_parameter",
       "title": "Category:Appletons template with Wikipedia parameter - Wikisource, the free online library",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CV1GVMFozFBx",
       "address": "https://diff.wikimedia.org/2012/01/26/announcing-the-official-wikipedia-android-app/",
       "title": "Announcing the Official Wikipedia Android App – Diff",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "BzzAt53Gp6b5",
       "address": "https://www.mentalfloss.com/culture/internet/17-utterly-charming-articles-scots-wikipedia",
       "title": "17 Utterly Charming Articles on Scots Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-KE308KDigKy",
       "address": "https://wiki.openstreetmap.org/wiki/Key:wikipedia?uselang=en",
       "title": "Key:wikipedia - OpenStreetMap Wiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "k0jHhjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Sanditon",
       "title": "Sanditon - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "D1Hz8-DUniK4",
       "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
       "title": "Wikipedia and Beyond",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AwptRPsrSOQw",
       "address": "https://arxiv.org/abs/1501.06307",
       "title": "[1501.06307] It's a Man's Wikipedia? Assessing Gender Inequality in an Online Encyclopedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Fct7Cj-JVcyx",
@@ -83,7 +83,7 @@
       "hash": "MIaemAyZbNhw",
       "address": "https://gwern.net/doc/wikipedia/index",
       "title": "‘Wikipedia’ directory · Gwern.net",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "YQwbBjcl0ynx",
@@ -119,13 +119,13 @@
       "hash": "OleOcjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(technical)/Archive_108",
       "title": "Wikipedia:Village pump (technical)/Archive 108 - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3lJbJjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Maintenance",
       "title": "Wikipedia:Maintenance - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "q5u7ih3e0QFx",
@@ -137,13 +137,13 @@
       "hash": "-qx1fopg4UCw",
       "address": "https://www.wikidata.org/wiki/Q52",
       "title": "Wikipedia - Wikidata",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1cbFAjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Bruce_Springsteen",
       "title": "Bruce Springsteen - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4N7QFh6tsM8o",
@@ -161,7 +161,7 @@
       "hash": "-FCq16g7yvNw",
       "address": "https://handwiki.org/wiki/Wikipedia",
       "title": "Wikipedia - HandWiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "3ZEiijRvmBbx",
@@ -179,97 +179,97 @@
       "hash": "j5JkcjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Help:Contents",
       "title": "Help:Contents - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "JlhcNjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Karl_Rove",
       "title": "Karl Rove - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XE1xxjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Griffin",
       "title": "Griffin - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "L9G8MdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Hauptseite",
       "title": "Wikipedia – Die freie Enzyklopädie",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0TNidjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Dina_Powell",
       "title": "Dina Powell - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DpjGbcosd1Hx",
       "address": "https://diq.wikipedia.org/wiki/Perest%C4%B1%C5%9Fgey_Artemisi",
       "title": "Perestışgey Artemisi - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "lHOc2jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Stub",
       "title": "Wikipedia:Stub - Wikipedia",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "wB4XdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Dire_Straits",
       "title": "Dire Straits - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-c3SyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Help:IPA/English",
       "title": "Help:IPA/English - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-mPOEjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Principal_Snyder",
       "title": "List of Buffy the Vampire Slayer characters - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "oXGpal_Hj7ch",
       "address": "https://www.wikipedia.de/",
       "title": "Wikipedia, die freie Enzyklopädie",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "v9u7djRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Help:ISBN",
       "title": "Help:ISBN - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vMaCxjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Help:Page_information",
       "title": "Help:Page information - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tHYsejRvmBbx",
       "address": "https://en.wikipedia.org/wiki/1859",
       "title": "1859 - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tSaN31_bylRx",
       "address": "https://da.wikipedia.org/wiki/A_Rush_of_Blood_to_the_Head",
       "title": "A Rush of Blood to the Head - Wikipedia, den frie encyklopædi",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "t8uVycosd1Hx",
       "address": "https://diq.wikipedia.org/wiki/Vlad_III",
       "title": "Vlad III - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2DfK_mqjuDq4",
@@ -281,7 +281,7 @@
       "hash": "1yEG4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Good_articles",
       "title": "Wikipedia:Good articles - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1ahuixAorqWw",
@@ -305,25 +305,25 @@
       "hash": "ihdjZCR1KeLx",
       "address": "https://ve.wikipedia.org/wiki/Daiode_i_bvisaho_tshedza",
       "title": "Daiode i bvisaho tshedza - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tbL3wrdZe3lx",
       "address": "https://dag.wikipedia.org/wiki/%C5%8Aun_su:SA_twenty/Breastfeeding",
       "title": "Ŋun su:SA twenty/Breastfeeding - Dagbani Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WJxPCjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Help:Template",
       "title": "Help:Template - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zH7llh0sW9Sx",
       "address": "https://sv.wikipedia.org/wiki/Kategori:Debatt%C3%B6rer_och_ess%C3%A4ister_p%C3%A5_Youtube",
       "title": "Kategori:Debattörer och essäister på Youtube – Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Zk80-q5_AtLx",
@@ -335,19 +335,19 @@
       "hash": "mFSof81h31Ix",
       "address": "https://map-bms.wikipedia.org/wiki/2014",
       "title": "2014 - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "iGqb6C6T-2Kx",
       "address": "https://mi.wikipedia.org/wiki/KOWHEORI-19",
       "title": "KOWHEORI-19 - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_xxakZcUd8rx",
       "address": "https://kw.wikipedia.org/wiki/Dons",
       "title": "Dons - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3PTlTjRvmBbx",
@@ -365,7 +365,7 @@
       "hash": "_6y0JjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Bob_Marley",
       "title": "Bob Marley - Wikipedia",
-      "grade": null
+      "grade": 0
     }
   ]
 }

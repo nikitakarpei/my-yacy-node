@@ -5,7 +5,7 @@
       "hash": "C86yrtpTIZug",
       "address": "https://www.nhs.uk/symptoms/unintentional-weight-loss/",
       "title": "Unintentional weight loss - NHS",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "cbF3gWLR1yTw",
@@ -17,67 +17,69 @@
       "hash": "JNt0Iypk4Yf4",
       "address": "https://sv.patient.info/medicine/semaglutide-injections-for-weight-loss",
       "title": "Semaglutide (Wegovy®) Injections for Weight Loss",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "MlYjgvxSD0j4",
       "address": "https://www.bbc.com/news/topics/c1m99jyd4ggt",
       "title": "Weight loss - BBC News",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OxNo5aFxAKb5",
       "address": "https://fromguestwriters.wordpress.com/tag/sacrificial-offering/",
       "title": "Sacrificial offering | From guestwriters",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NrIPfJefydE4",
       "address": "https://celebrityhairstyles.lifetips.com/",
       "title": "Celebrity Hairstyles - Celebrity Hairstyles Pictures -- Hair Style",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-b3sxspKNBr4",
       "address": "https://rense.com/",
       "title": "rense.com",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Ob5ZrjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Global_cooling",
       "title": "Global cooling - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PSkz_QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "MP5GOsILYdd7",
       "address": "https://miss-avenirfacile.com/",
       "title": "Miss Avenirfacile",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "cFg6sJpGtAW4",
       "address": "https://www.amazon.com/Asian-Diet-Weight-Loss-Solution-ebook/dp/B0BPDM9S9S",
       "title": "The Asian Diet Weight Loss Solution: The 7-Day Kickstart Plan for Lasting Weight Loss (The Successful Diet Plan Book 1) - Kindle edition by Khan, Khawar. Health, Fitness \u0026 Dieting Kindle eBooks @ Amazon.com.",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xhTn_TTOfYzw",
       "address": "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2013/01/weight-gain-during-pregnancy",
       "title": "Weight Gain During Pregnancy | ACOG",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_NxFjl1ze3b4",
       "address": "https://patient.info/features/treatment-medication/is-it-safe-to-take-weight-loss-pills",
       "title": "Do diet pills work for weight loss?",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CdHOlz1ze3b4",
@@ -95,19 +97,20 @@
       "hash": "CyUYvsY-tUi5",
       "address": "https://moralparty.com/Warnings/",
       "title": "Warnings – MoralParty.com",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "TZN7GyNcDvjw",
       "address": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0250625",
       "title": "Lifestyle changes associated with COVID-19 quarantine among young Saudi women: A prospective study | PLOS One",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pjF60ttwlIb4",
       "address": "https://health.yahoo.com/your-body/weight-management/",
       "title": "Weight Management Resources",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "asxdTDKAF-D5",
@@ -119,31 +122,33 @@
       "hash": "aD_JQaFxAKb5",
       "address": "https://fromguestwriters.wordpress.com/tag/jesus-christ/",
       "title": "Jesus Christ | From guestwriters",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "lKPSLa98uUd5",
       "address": "https://www.medicinenet.com/obesity_weight_loss/article.htm",
       "title": "Obesity Causes, Risk Factors, Treatment, Statistics, Prevention",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-_ona6pEYB6A",
       "address": "http://www.helawishetlands.co.uk/",
       "title": "Why Online Gaming Offers Endless Digital Experiences",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "H375C1pk4Yf4",
       "address": "https://sv.patient.info/features/healthy-living/is-it-possible-to-lose-weight-and-be-body-positive",
       "title": "Can you lose weight and be body positive?",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "HyEdYslOirt4",
       "address": "https://mounsie.com/",
       "title": "It’s Not Just for “Gamers” Anymore",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "GtLjhloUbV15",
@@ -155,19 +160,20 @@
       "hash": "oquZRUFttUHA",
       "address": "http://www.alastairmillar.co.uk/",
       "title": "Home",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "vvArqFWk_wb4",
       "address": "https://hi.patient.info/features/healthy-living/how-to-quit-smoking-without-gaining-weight",
       "title": "How to avoid weight gain when quitting smoking",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "x75y-slzY_Gk",
       "address": "https://danwang.co/",
       "title": "Dan Wang | The secure transport of light",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "woW7WjRvmBbx",
@@ -179,49 +185,49 @@
       "hash": "OvM69xpS3iEY",
       "address": "http://junkfoodscience.blogspot.com/",
       "title": "Junkfood Science",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7-0wLNlkZMs5",
       "address": "https://www.healthline.com/nutrition/how-to-lose-weight-after-50",
       "title": "The 20 Best Ways to Lose Weight After 50",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "JsobBl1ze3b4",
       "address": "https://patient.info/features/childrens-health/grief-and-young-people-how-to-cope-with-loss",
       "title": "Grief and young people: how to cope with loss",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4toosl1ze3b4",
       "address": "https://patient.info/features/bones-joints-muscles/how-to-build-muscle-mass-after-weight-loss-treatment",
       "title": "Building muscle mass after weight loss treatment",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "iVbr-JNmUwAw",
       "address": "https://www.nifs.org/blog/weightlifting-for-women-enhance-weight-loss-and-more",
       "title": "Weightlifting for Women: Enhance Weight Loss and More",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Q3lhxsX5CmNz",
       "address": "https://sightlineministry.org/loss-of-significance/",
       "title": "The Loss of Significance: Reclaiming Your God-Given Worth",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "z12rNiaLopc4",
       "address": "https://he.patient.info/healthy-living/weight-loss-weight-reduction",
       "title": "How to Lose Weight | Expert Tips for Weight Loss",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "6d9B5l1ze3b4",
       "address": "https://patient.info/features/diet-and-nutrition/how-to-crash-diet-healthy",
       "title": "Do crash diets ever really work for healthy weight loss?",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "IJLnEAuM_rm4",
@@ -233,67 +239,68 @@
       "hash": "5gOVSNlkZMs5",
       "address": "https://www.healthline.com/nutrition/25-best-diet-tips",
       "title": "The 25 Best Diet Tips to Lose Weight and Improve Health",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "67-KyKyAP9a6",
       "address": "https://www.trialsitenews.com/a/novos-bold-play-the-billion-dollar-weight-loss-gambit-that-shook-big-pharma-ace82fa3",
       "title": "Novo’s Bold Play: The Billion-Dollar Weight-Loss Gambit That Shook Big Pharma",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7NBi13-sXBNw",
       "address": "https://www.spectator.com.au/2025/11/portrait-of-the-week-bbc-vs-trump-a-plot-against-starmer-and-a-weight-loss-deadline-for-north-sea-oil-workers/",
       "title": "Portrait of the week: BBC vs Trump, a plot against Starmer and a weight loss deadline for North Sea oil workers | The Spectator Australia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7s65dljpi064",
       "address": "https://www.today.com/best-diet-plans",
       "title": "Best Diet Plans: Weight Loss and Health - TODAY.com | TODAY | TODAY",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "HalJTBpGtAW4",
       "address": "https://www.amazon.com/Fatty-Liver-Diet-Cookbook-Beginners-ebook/dp/B0FLT6Z4FL",
       "title": "Fatty Liver Diet Cookbook for Busy Beginners: 90+ Easy Recipes to Reverse MASLD (NAFLD) \u0026 Manage Weight, with Time-Saving \u0026 Smart Eating Tips for a Tight Schedule + 30-Day Meal Plan \u0026 Shopping Lists - Kindle edition by Whitaker, Avery. Health, Fitness \u0026 Dieting Kindle eBooks @ Amazon.com.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "aZlnG_YJ934w",
       "address": "https://phys.org/news/2013-12-east-antarctica-sideways-ice-loss.html",
       "title": "East Antarctica is sliding sideways: Ice loss on West Antarctica affecting mantle flow below",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tmgf3wMsTg64",
       "address": "https://www.statista.com/chart/amp/35920/weight-loss-drug-sales-by-novo-nordisk-in-the-us-and-the-rest-of-the-world/",
       "title": "Chart: The U.S. Leads the Weight-Loss Injection Boom | Statista",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "oF06M1bPf3w4",
       "address": "https://www.webmd.com/diet/low-calorie-diets",
       "title": "Are Very Low-Calorie Diets Safe for Weight Loss?",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CVClWl1ze3b4",
       "address": "https://patient.info/features/pregnancy/how-much-pregnancy-weight-gain-is-normal",
       "title": "How much pregnancy weight gain is normal?",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DOcQgHoxhXn6",
       "address": "https://www.medicalnewstoday.com/articles/326982",
       "title": "Does Accutane cause hair loss?",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DkvQ0ZMylZZ5",
       "address": "https://www.slideserve.com/gunzalezback0328/construct-weight-loss-success-through-these-professional-ideas-powerpoint-ppt-presentation",
       "title": "PPT - Construct Weight Loss Success Through These Professional Ideas PowerPoint Presentation - ID:9908167",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "rm2nDs1ze3b4",
@@ -305,7 +312,7 @@
       "hash": "G_9KLUB74Q05",
       "address": "https://apimagesblog.com/blog/2023/11/9/in-the-shadow-of-loss-a-mothers-long-search-for-happiness",
       "title": "In the shadow of loss, a mother's long search for happiness — AP Photos",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BSnyGeMw9kw4",
@@ -317,13 +324,13 @@
       "hash": "A7WuGl1ze3b4",
       "address": "https://patient.info/features/mental-health/does-stress-cause-weight-gain",
       "title": "Does stress cause weight gain?",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DeHaHJmMQij4",
       "address": "https://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss",
       "title": "Deafness and hearing loss",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "--MH2BXhbKt7",

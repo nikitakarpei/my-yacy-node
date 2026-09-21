@@ -5,7 +5,7 @@
       "hash": "_0kH419YjHYw",
       "address": "https://forum.yunohost.org/t/debian-trixie-13-yunohost-is-not-yet-compatible/37960",
       "title": "Debian Trixie (13): YunoHost is not yet compatible! - Announcements - YunoHost Forum",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zviPwZBP-b24",
@@ -29,49 +29,49 @@
       "hash": "q03Sr2QlA5B4",
       "address": "https://miniflux.app/docs/debian.html",
       "title": "Debian Installation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "eKmk8ZFFVuw4",
       "address": "https://www.passbolt.com/ce/debian",
       "title": "Install Community Edition on Debian: Passbolt Install Guide",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "yp2SBE9Ojva4",
       "address": "https://docs.docker.com/engine/install/debian/",
       "title": "Debian | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OYZdJl1nrxbw",
       "address": "https://www.debian.org/support",
       "title": "Debian -- User Support",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "oVUdsvKqlBA4",
       "address": "https://www.phoronix.com/news/Debian-APT-Will-Require-Rust",
       "title": "Debian's APT Will Soon Begin Requiring Rust: Debian Ports Need To Adapt Or Be Sunset - Phoronix",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vkZ39WzhkODg",
       "address": "https://soloconlinux.org.es/debian-13-6-point-release/",
       "title": "Debian 13.6 (point release)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "LqHn3YWmW0sw",
       "address": "https://debian.griffo.io/",
       "title": "debian.griffo.io - Latest Debian \u0026 Ubuntu Packages for Modern Development Tools | Zig, Ghostty, TigerBeetle, lazygit, yazi \u0026 More",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "K6tD-09oEcsw",
       "address": "https://micronews.debian.org/2026/1769592422.html",
       "title": "Meet @Debian at @fosdem2026 next weekend! We will be at building H level 1. #debian #fosdem #fosdem2026",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "LphQq3piq92w",
@@ -89,7 +89,7 @@
       "hash": "IilY1vYgUcBw",
       "address": "https://salsa.debian.org/reimbursements-team/debian-reimbursement",
       "title": "Debian Reimbursements / Debian Reimbursement · GitLab",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KZ3knTp4ogvw",
@@ -101,7 +101,7 @@
       "hash": "TJ3KcE1nrxbw",
       "address": "https://www.debian.org/users/com/eveha",
       "title": "Debian -- Bureau d'études et valorisations archéologiques Éveha, Limoges, France",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "T2EF52bypRQw",
@@ -113,13 +113,13 @@
       "hash": "T_1-q31nrxbw",
       "address": "https://www.debian.org/News/2025/20250315",
       "title": "Debian -- News -- Updated Debian 12: 12.10 released",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "woAk3G1nrxbw",
       "address": "https://www.debian.org/vote/2026/vote_002",
       "title": "General Resolution: LLM usage in Debian",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "k6fRrm0h8sSw",
@@ -131,67 +131,67 @@
       "hash": "7bh5_V1nrxbw",
       "address": "https://www.debian.org/doc/debian-policy/",
       "title": "Debian Policy Manual — Debian Policy Manual v4.7.4.1",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Au_ktTp4ogvw",
       "address": "https://qa.debian.org/developer.php?login=wolfgang%40silbermayr.at",
       "title": "DDPO: Wolfgang Silbermayr -- Debian Quality Assurance",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "28RfxB5exHdw",
       "address": "https://blends.debian.org/science/tasks/nanoscale-physics",
       "title": "Debian Science Nanoscale physics packages",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "3wJz5V1nrxbw",
       "address": "https://www.debian.org/doc/index.zh-tw.html",
       "title": "Debian -- 說明文件",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0Ij50suoY2kg",
       "address": "https://debian.ch/",
       "title": "debian.ch",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7CFiyMpiq92w",
       "address": "https://packages.debian.org/bookworm/firefox-esr",
       "title": "Debian -- Details of package firefox-esr in bookworm",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9wxXSfpiq92w",
       "address": "https://packages.debian.org/buster/python-pysrt",
       "title": "Debian -- Error",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_GDrky1nrxbw",
       "address": "https://www.debian.org/releases/bookworm/armhf/index.zh-cn.html",
       "title": "Debian GNU/Linux 安装手册",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "NweMal1nrxbw",
       "address": "https://www.debian.org/social_contract",
       "title": "Debian Social Contract",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "__nmrtpiq92w",
       "address": "https://packages.debian.org/source/trixie/tea4cups",
       "title": "Debian -- Details of source package tea4cups in trixie",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_aNHCSpiq92w",
       "address": "https://packages.debian.org/sid/schroot",
       "title": "Debian -- Details of package schroot in sid",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AbsN3l1nrxbw",
@@ -203,7 +203,7 @@
       "hash": "8RwYwSpiq92w",
       "address": "https://packages.debian.org/sid/ethstatus",
       "title": "Debian -- Details of package ethstatus in sid",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "uuzH__nUgebw",
@@ -221,25 +221,25 @@
       "hash": "wcFQZHSmdGb5",
       "address": "https://smurf-debian.livejournal.com/",
       "title": "Debian Ramblings",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "O8nK5BYgUcBw",
       "address": "https://salsa.debian.org/java-team/svnkit",
       "title": "Debian Java Maintainers / svnkit · GitLab",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ODVEim0h8sSw",
       "address": "https://tracker.debian.org/pkg/jama",
       "title": "jama - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OJ0QvTp4ogvw",
       "address": "https://qa.debian.org/debcheck.php?dist=testing\u0026package=apache-directory-server",
       "title": "debcheck -- Debian Quality Assurance",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "m1-2Wtpiq92w",
@@ -263,49 +263,49 @@
       "hash": "mr-k9tpiq92w",
       "address": "https://packages.debian.org/source/sid/ruby-redis-rails",
       "title": "Debian -- Error",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "upQ3-t1nrxbw",
       "address": "https://www.debian.org/CD/vendors/",
       "title": "Vendors of Debian installation media",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "2t3zf5piq92w",
       "address": "https://packages.debian.org/search?lang=pl\u0026suite=sid\u0026searchon=names\u0026keywords=libgnome",
       "title": "Debian -- Wyniki wyszukiwania pakietu -- libgnome",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xwiJmm0h8sSw",
       "address": "https://tracker.debian.org/pkg/lua-posix",
       "title": "lua-posix - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "p4s4g5piq92w",
       "address": "https://packages.debian.org/search?lang=ja\u0026suite=sid\u0026searchon=names\u0026keywords=libgnome",
       "title": "Debian -- パッケージ検索結果 -- libgnome",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "yQGiJ18Iy73w",
       "address": "https://sources.debian.org/patches/afterstep/2.2.12-15/",
       "title": "Package: afterstep | Debian Sources",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "rUiPF5piq92w",
       "address": "https://packages.debian.org/search?lang=uk\u0026suite=sid\u0026searchon=names\u0026keywords=libgnome",
       "title": "Debian -- Package Search Results -- libgnome",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "sq9mPm0h8sSw",
       "address": "https://tracker.debian.org/pkg/mgltools-pybabel",
       "title": "mgltools-pybabel - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "YAZ8YE1nrxbw",
@@ -329,25 +329,25 @@
       "hash": "eJpsky1nrxbw",
       "address": "https://www.debian.org/releases/trixie/amd64/",
       "title": "Debian GNU/Linux Installation Guide",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "eAGXPm0h8sSw",
       "address": "https://tracker.debian.org/pkg/llama.cpp",
       "title": "llama.cpp - Debian Package Tracker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ojdnMD1nrxbw",
       "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
       "title": "Debian -- Packages being worked on, organized by age",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "iKGIZtpiq92w",
       "address": "https://packages.debian.org/source/testing/rust-parking-lot-core",
       "title": "Debian -- Details of source package rust-parking-lot-core in forky",
-      "grade": null
+      "grade": 1
     }
   ]
 }

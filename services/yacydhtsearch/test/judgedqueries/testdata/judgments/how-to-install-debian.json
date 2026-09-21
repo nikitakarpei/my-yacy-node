@@ -17,55 +17,55 @@
       "hash": "1UeAx2bypRQw",
       "address": "https://forgejo.org/docs/latest/user/packages/rubygems/",
       "title": "RubyGems Packages Repository | Forgejo – Beyond coding. We forge.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Jh0CDss7j0L4",
       "address": "https://dietpi.com/",
       "title": "DietPi - Lightweight justice for your SBC!",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TAU517sX4qR4",
       "address": "https://discourse.ubuntu.com/t/jammy-jellyfish-release-notes/24668",
       "title": "Jammy Jellyfish Release Notes - Release - Ubuntu Community Hub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wy2HUX2Yfep5",
       "address": "https://learn.microsoft.com/en-us/windows/wsl/install",
       "title": "Install WSL | Microsoft Learn",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sevpOvS6MKD4",
       "address": "https://github.com/ArchiveTeam/grab-site",
       "title": "GitHub - ArchiveTeam/grab-site: The archivist's web crawler: WARC output, dashboard for all crawls, dynamic ignore patterns · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OgXnxsTGcoY5",
       "address": "https://ublockorigin.com/",
       "title": "uBlock Origin - Free, open-source ad blocker extension",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "I8CU8CppYNKx",
       "address": "https://adguard-dns.io/en/public-dns.html",
       "title": "Connect to public AdGuard DNS server",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Nk0YglY5WVp5",
       "address": "https://www.malwarebytes.com/glossary",
       "title": "Glossary | Malwarebytes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ojdnMD1nrxbw",
       "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
       "title": "Debian -- Packages being worked on, organized by age",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NweMal1nrxbw",
@@ -77,19 +77,19 @@
       "hash": "OYZdJl1nrxbw",
       "address": "https://www.debian.org/support",
       "title": "Debian -- User Support",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "lGNDNlUc6t9w",
       "address": "https://idroot.us/linux/debian-based/debian/",
       "title": "Debian - idroot",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "KFrlTwwmtUd5",
       "address": "https://www.raspberrypi.com/software/operating-systems/",
       "title": "Raspberry Pi OS downloads – Raspberry Pi",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "M_UYiL1nrxbw",
@@ -101,25 +101,25 @@
       "hash": "upQ3-t1nrxbw",
       "address": "https://www.debian.org/CD/vendors/",
       "title": "Vendors of Debian installation media",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "FDbC6B-c6vHw",
       "address": "https://nixos.org/manual/nixpkgs/stable/",
       "title": "Nixpkgs Reference Manual",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "gZOqTcfB8ORw",
       "address": "https://web.emhmki.org/guides/web_hosting/guide_xapian_omega_search_engine.html",
       "title": "Adding search capability to a website with Xapian Omega for Apache web-servers on Debian - emhmki.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "m7tfH21OrXLw",
       "address": "https://logit.io/docs/integrations/debian/",
       "title": "Learn How to Integrate and Configure Filebeat to Send Debian Logs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4SIJYl1nrxbw",
@@ -131,31 +131,31 @@
       "hash": "ojjq9l1nrxbw",
       "address": "https://www.debian.org/releases/",
       "title": "Debian -- Debian Releases",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5b3Zyl1nrxbw",
       "address": "https://www.debian.org/MailingLists/",
       "title": "Debian -- Mailing Lists",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7Bas3CyOxSA4",
       "address": "https://docs-develop.pleroma.social/backend/installation/migrating_from_source_otp_en/",
       "title": "Switching a from-source install to OTP releases - Pleroma Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7YU2Hh9Ojva4",
       "address": "https://docs.docker.com/dhi/migration/migrate-from-doi/",
       "title": "Migrate from Alpine or Debian | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7cUt6Tp4ogvw",
       "address": "https://qa.debian.org/developer.php",
       "title": "DDPO -- Debian Quality Assurance",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ALdUosH8M7Hx",
@@ -167,61 +167,61 @@
       "hash": "dau8jl1nrxbw",
       "address": "https://www.debian.org/trademark",
       "title": "Debian -- Debian Trademarks",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DQmGAl1nrxbw",
       "address": "https://www.debian.org/license",
       "title": "Debian WWW Pages License",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pJB7Il1nrxbw",
       "address": "https://www.debian.org/code_of_conduct",
       "title": "Debian Code of Conduct",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "t2b3Ag1nrxbw",
       "address": "https://www.debian.org/distrib/packages",
       "title": "Debian -- Packages",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "FEd6Pl1nrxbw",
       "address": "https://www.debian.org/sitemap",
       "title": "Site map for Debian web pages",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "YGXXJknKYIzx",
       "address": "https://developer.wordpress.org/advanced-administration/before-install/howto-install/",
       "title": "How to install WordPress – Advanced Administration Handbook | Developer.WordPress.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bAimuE9Ojva4",
       "address": "https://docs.docker.com/engine/install/",
       "title": "Install Docker Engine | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vqp5vg1nrxbw",
       "address": "https://www.debian.org/distrib/netinst",
       "title": "Installing Debian via the Internet",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "HnrGHy1nrxbw",
       "address": "https://www.debian.org/legal/licenses/",
       "title": "Debian -- License information",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OkJ2Km0h8sSw",
       "address": "https://tracker.debian.org/pkg/linux",
       "title": "linux - Debian Package Tracker",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_BwQ1GNQlu2w",
@@ -233,37 +233,37 @@
       "hash": "l2W6Kc9Ojva4",
       "address": "https://docs.docker.com/compose/install/",
       "title": "Overview of installing Docker Compose | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bb5cqxqvBx1x",
       "address": "https://www.openproject.org/docs/installation-and-operations/installation/packaged/",
       "title": "Install OpenProject with DEB/RPM packages - OpenProject",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "knX-uskcrnOx",
       "address": "https://crystal-lang.org/install/",
       "title": "Install - The Crystal Programming Language",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "o3o21uaYDaix",
       "address": "https://zulip.readthedocs.io/en/stable/production/install.html",
       "title": "Install a Zulip server — Zulip 12.0-dev+git documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wSToGlPiVSqi",
       "address": "https://www.janwagemakers.be/",
       "title": "Website : Jan Wagemakers | Website Jan Wagemakers about GNU Linux debian electronics microcontrollers microchip raspberry pi pinephone hacking programming assembly",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xOYgTl1nrxbw",
       "address": "https://www.debian.org/events/",
       "title": "Events related to Debian",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xY0EdL1nrxbw",
@@ -281,7 +281,7 @@
       "hash": "wGCbVt1nrxbw",
       "address": "https://www.debian.org/CD/verify",
       "title": "Verifying authenticity of Debian images",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xCnp1G1nrxbw",
@@ -293,13 +293,13 @@
       "hash": "yHvLSG1nrxbw",
       "address": "https://www.debian.org/vote/2019/vote_001",
       "title": "Debian Project Leader Elections 2019",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TxFWSG1nrxbw",
       "address": "https://www.debian.org/vote/2014/vote_001",
       "title": "Debian Project Leader Elections 2014",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "It5EdL1nrxbw",
@@ -311,25 +311,25 @@
       "hash": "DEKXKM9Ojva4",
       "address": "https://docs.docker.com/desktop/setup/install/linux/",
       "title": "Install Docker Desktop on Linux | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kfBwnsH8M7Hx",
       "address": "https://snapcraft.io/docker",
       "title": "Install docker on Linux | Snap Store",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xT4ET2Q2YKr4",
       "address": "https://grafana.com/docs/k6/latest/set-up/install-k6/",
       "title": "Install k6 | Grafana k6 documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jz2k6qWfERA4",
       "address": "https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop",
       "title": "Download and install Google Chrome - Computer - Google Chrome Help",
-      "grade": null
+      "grade": 0
     }
   ]
 }

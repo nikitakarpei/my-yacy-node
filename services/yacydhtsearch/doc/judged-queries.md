@@ -22,20 +22,8 @@ zero must not fall to zero. The gate logs the spam documents in each first ten.
 
 ## How to grade
 
-A document is judged when it has a grade, when its page text is stored, or when
-the found order or the ordering of the service puts it in its first ten. A new
-document gets `null`. Grade it from the stored page text, title and address:
-
-- `2` — the page answers the query. For a query that names a site or a
-  product, only the page the name points at gets `2`, not its other pages.
-- `1` — the subject of the query is a main topic of the page, but the page
-  does not answer it.
-- `0` — the page has nothing to do with the query, only shares a word with it,
-  lists many subjects as a tag page does, or is spam, even on the subject.
-  Also give a spam page `"spam": true`.
-
-A document with no stored text gets at most the grade `1`, and few documents
-of a pool reach `2`. Never change a grade or a spam mark a person gave.
+`judged-query-grades.md` gives the grades, the rule for the language of the
+query, and the spam mark.
 
 ## How to record the answers again
 
@@ -50,8 +38,9 @@ YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test -timeout 40m -v \
 
 ## How to derive the answers again
 
-This step writes the hits, the query phrase hits, the amount of words and the
-snippet of each answers file again from the stored page text.
+This step writes the contents of every read page of each answers file again
+from the stored page: the title, the snippet, the hits, the query phrase hits,
+the amount of words and the links of each kind.
 
 ```sh
 YACYDHTSEARCH_DERIVE_JUDGED_QUERIES=1 go test -v \

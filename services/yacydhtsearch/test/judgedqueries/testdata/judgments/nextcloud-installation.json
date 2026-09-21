@@ -11,7 +11,7 @@
       "hash": "1reqmvqO2Dlg",
       "address": "https://media.ccc.de/podcast-lq.xml",
       "title": "",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Fl-YxlDOAHJg",
@@ -59,13 +59,13 @@
       "hash": "3ObM6LHzph0w",
       "address": "https://www.freebsd.org/status/report-2025-01-2025-03/",
       "title": "FreeBSD Status Report First Quarter 2025 | The FreeBSD Project",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "LnAl1U29UZro",
       "address": "https://kalken.in/blog/nextcloud-setup/",
       "title": "Nextcloud Installation HowTo: Secure Your Data with a Private Cloud | Kalyani Kenekar",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "D5UzaAjUmtg5",
@@ -89,13 +89,13 @@
       "hash": "RAz7ZPKXKxA4",
       "address": "https://cloud.ionos.com/network/application-load-balancer",
       "title": "Application Load Balancer as Managed Service | IONOS CLOUD",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TdRNksqGot6w",
       "address": "https://yunohost.org/",
       "title": "YunoHost: garden your own piece of the Internet!",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bPT5aq7AHFOw",
@@ -107,55 +107,55 @@
       "hash": "3TFWwl8hA1s6",
       "address": "https://www.mythic-beasts.com/",
       "title": "Mythic Beasts - Mythic Beasts",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CDOtDX9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/",
       "title": "docker | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "evCaGstdUxJw",
       "address": "https://mariadb.org/about/",
       "title": "About MariaDB Server - MariaDB.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jp9ZzlCSS9c4",
       "address": "https://www.ionos.com/",
       "title": "IONOS » Hosting Provider | Websites. Domains. Server.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ngx06lOVq6Iy",
       "address": "https://www.agendadulibre.org/",
       "title": "L'Agenda du Libre",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uVWKZZ3WSkX4",
       "address": "https://docs.ovhcloud.com/fr/",
       "title": "OVHcloud Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "x0u2VZrMzZuw",
       "address": "https://docs.hedgedoc.org/",
       "title": "HedgeDoc",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DZHjMLHzph0w",
       "address": "https://www.freebsd.org/status/report-2022-10-2022-12/",
       "title": "FreeBSD Status Report Fourth Quarter 2022 | The FreeBSD Project",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wBcifxS6MKD4",
       "address": "https://github.com/ibizaman/selfhostblocks",
       "title": "GitHub - ibizaman/selfhostblocks: Modular server management based on NixOS modules and focused on best practices. · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DkgJosH3-qPx",
@@ -167,7 +167,7 @@
       "hash": "cLNRXZ-N3N0w",
       "address": "https://lists.freebsd.org/archives/freebsd-stable/2021-November/000330.html",
       "title": "FreeBSD Quarterly Status Report - Third Quarter 2021",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "w9rUZjRvmBbx",
@@ -179,67 +179,67 @@
       "hash": "5RY-4nNc4Gq4",
       "address": "https://jvalleroy.fbx.one/wordpress/",
       "title": "James Valleroy – FreedomBox and Debian",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "T9UVezaS0qdw",
       "address": "https://planet.debian.org/fr/",
       "title": "Planet Debian French",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xC4NmnSqykzp",
       "address": "https://blog.sahilister.in/2020/08/how-i-installed-searx-using-yunohost/",
       "title": "How I Installed Searx Using Yunohost",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BfcNhs7XY2Q6",
       "address": "https://linuxunplugged.com/489",
       "title": "LINUX Unplugged 489: Brent's Secret Emails",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CRermB-c6vHw",
       "address": "https://nixos.org/manual/nixos/stable/",
       "title": "NixOS Manual",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SbjzAqBQpHng",
       "address": "https://blog.hboeck.de/plugin/tag/security",
       "title": "Hanno's blog - Entries tagged as security",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "C9IcLyS6MKD4",
       "address": "https://github.com/openclaw/openclaw",
       "title": "GitHub - openclaw/openclaw: The AI that really does things. Any OS. Any Platform. The lobster way. 🦞 · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "rvYlfsS6MKD4",
       "address": "https://github.com/nextcloud",
       "title": "Nextcloud · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "YbzwIlDOAHJg",
       "address": "https://www.heise.de/newsticker/",
       "title": "Newsticker | heise online",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-ZFdosyV5lzw",
       "address": "https://orgmode.org/org.html",
       "title": "The Org Manual",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "EZWaqlDOAHJg",
       "address": "https://www.heise.de/plus",
       "title": "heise+ Immer mehr Wissen | heise online",
-      "grade": null
+      "grade": 0
     }
   ]
 }

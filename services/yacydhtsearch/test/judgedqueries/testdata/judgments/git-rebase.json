@@ -11,37 +11,37 @@
       "hash": "M15zAyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/git-basics/configuring-git-to-handle-line-endings",
       "title": "Configuring Git to handle line endings - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "APWu1yXjZ9O4",
       "address": "https://docs.github.com/en/get-started/git-basics/why-is-git-always-asking-for-my-credentials",
       "title": "Why is Git always asking for my credentials? - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jxEgKyXjZ9O4",
       "address": "https://docs.github.com/en/rest/activity/starring",
       "title": "REST API endpoints for starring - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OhaaesS6MKD4",
       "address": "https://github.com/ljharb?tab=repositories",
       "title": "ljharb (Jordan Harband) / Repositories · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RLdLlyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/using-github/supported-browsers",
       "title": "Supported browsers - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pf_JryXjZ9O4",
       "address": "https://docs.github.com/en/get-started/writing-on-github/editing-and-sharing-content-with-gists/saving-gists-with-stars",
       "title": "Saving gists with stars - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TeZMVjy-fQn5",
@@ -53,7 +53,7 @@
       "hash": "WtE-IsS6MKD4",
       "address": "https://github.com/ljharb?achievement=pull-shark\u0026tab=achievements",
       "title": "ljharb (Jordan Harband) / Achievements · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "R0RMzyXjZ9O4",
@@ -71,31 +71,31 @@
       "hash": "QSn_ayXjZ9O4",
       "address": "https://docs.github.com/en/get-started/using-git/resolving-merge-conflicts-after-a-git-rebase",
       "title": "Resolving merge conflicts after a Git rebase - GitHub Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "5Cazk29cq-94",
       "address": "https://git-scm.com/docs/git-mergetool",
       "title": "Git - git-mergetool Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7gc6929cq-94",
       "address": "https://git-scm.com/docs/git-worktree",
       "title": "Git - git-worktree Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "u8YTm29cq-94",
       "address": "https://git-scm.com/docs/git-log",
       "title": "Git - git-log Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XfEyi29cq-94",
       "address": "https://git-scm.com/docs/gitignore",
       "title": "Git - gitignore Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CeKDz29cq-94",
@@ -113,13 +113,13 @@
       "hash": "OjWkoyXjZ9O4",
       "address": "https://docs.github.com/en/pull-requests/reference/pull-request-merges",
       "title": "Pull request merges - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OOd7xyXjZ9O4",
       "address": "https://docs.github.com/en/get-started/git-basics/git-workflows",
       "title": "Git workflows - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "QJ-wEV9cq-94",
@@ -143,7 +143,7 @@
       "hash": "wao2v29cq-94",
       "address": "https://git-scm.com/docs/git-commit",
       "title": "Git - git-commit Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "X1qxTyXjZ9O4",
@@ -161,19 +161,19 @@
       "hash": "lTZdqyXjZ9O4",
       "address": "https://docs.github.com/en/rest/pulls/pulls",
       "title": "REST API endpoints for pull requests - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0VSb9yXjZ9O4",
       "address": "https://docs.github.com/en/get-started/using-git/using-git-rebase-on-the-command-line",
       "title": "Using Git rebase on the command line - GitHub Docs",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "LaeCPeoqRUZ4",
       "address": "https://git-ref.utils.com/",
       "title": "Git Command Cheat Sheet - Quick Reference for Git Commands - utils.com",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "J4wKnyXjZ9O4",
@@ -185,7 +185,7 @@
       "hash": "sPe76yXjZ9O4",
       "address": "https://docs.github.com/en/rest/repos/repos",
       "title": "REST API endpoints for repositories - GitHub Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ZLEAaobrsZjx",
@@ -203,7 +203,7 @@
       "hash": "a-dW629cq-94",
       "address": "https://git-scm.com/docs/gitglossary",
       "title": "Git - gitglossary Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cEcJUyXjZ9O4",
@@ -233,7 +233,7 @@
       "hash": "SOaOd29cq-94",
       "address": "https://git-scm.com/docs/git",
       "title": "Git - git Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RgG4r29cq-94",
@@ -269,13 +269,13 @@
       "hash": "hMjNx29cq-94",
       "address": "https://git-scm.com/docs/git-revert",
       "title": "Git - git-revert Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "l-XXS29cq-94",
       "address": "https://git-scm.com/docs/gittutorial",
       "title": "Git - gittutorial Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tetY4sElpUjy",
@@ -299,19 +299,19 @@
       "hash": "Y4WAa29cq-94",
       "address": "https://git-scm.com/docs/git-clone",
       "title": "Git - git-clone Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jtuGq29cq-94",
       "address": "https://git-scm.com/docs/git-status",
       "title": "Git - git-status Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "mYsKy29cq-94",
       "address": "https://git-scm.com/docs/git-rebase",
       "title": "Git - git-rebase Documentation",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "sKaik29cq-94",
@@ -323,7 +323,7 @@
       "hash": "yeWo529cq-94",
       "address": "https://git-scm.com/docs/gitattributes",
       "title": "Git - gitattributes Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "18Aza29cq-94",
@@ -341,7 +341,7 @@
       "hash": "62Q_oQ_RwTbw",
       "address": "https://git.nadeko.net/Fijxu/invidious",
       "title": "Fijxu/invidious: Invidious fork with features exclusive to inv.nadeko.net - nadeko.net Git Server",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6fDY-29cq-94",
@@ -353,25 +353,25 @@
       "hash": "K3Sdz29cq-94",
       "address": "https://git-scm.com/docs/git-reflog",
       "title": "Git - git-reflog Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "LDpbq29cq-94",
       "address": "https://git-scm.com/docs/git-fetch",
       "title": "Git - git-fetch Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Lh5qS29cq-94",
       "address": "https://git-scm.com/docs/git-fsmonitor--daemon",
       "title": "Git - git-fsmonitor--daemon Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "MqEBYs9cq-94",
       "address": "https://git-scm.com/cheat-sheet",
       "title": "Git Cheat Sheet",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WVLgdPaM_sMw",
@@ -383,19 +383,19 @@
       "hash": "e0mXK29cq-94",
       "address": "https://git-scm.com/docs/git-push",
       "title": "Git - git-push Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "iQXxxsKXWpux",
       "address": "https://git-rebase.io/",
       "title": "Learn to change history with git rebase!",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "nZdos29cq-94",
       "address": "https://git-scm.com/docs/git-rev-parse",
       "title": "Git - git-rev-parse Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cZ2_WkRFf6Bx",
@@ -407,13 +407,13 @@
       "hash": "slqt_29cq-94",
       "address": "https://git-scm.com/docs/git-branch",
       "title": "Git - git-branch Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Nc19ghGZ4FKw",
       "address": "https://www.kernel.org/pub/software/scm/git/docs/git-rebase.html",
       "title": "git-rebase(1)",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "YgAeyl0lKwR5",
@@ -425,13 +425,13 @@
       "hash": "el673Un12_-6",
       "address": "https://initialcommit.com/blog/git-rebase",
       "title": "Git Rebase | A Guide to Rebasing in Git",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "rnzItsceJ5A4",
       "address": "https://git-fork.com/",
       "title": "Fork - a fast and friendly git client for Mac and Windows",
-      "grade": null
+      "grade": 0
     }
   ]
 }

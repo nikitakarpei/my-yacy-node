@@ -5,61 +5,61 @@
       "hash": "DQYzKPMW35a4",
       "address": "https://hub.docker.com/_/python/",
       "title": "python - Official Image | Docker Hub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DuEPzitD2jQw",
       "address": "https://docs.python.org/3/whatsnew/3.9.html",
       "title": "What’s New In Python 3.9 — Python 3.11.1 documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CjTujSS6MKD4",
       "address": "https://github.com/python/cpython/",
       "title": "GitHub - python/cpython: The Python programming language · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "B8L6LZDlvx65",
       "address": "https://docs.appsignal.com/python.html",
       "title": "AppSignal for Python | AppSignal documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "B4BuoSGYFcLw",
       "address": "https://sentry.io/for/python/",
       "title": "Python Error Monitoring \u0026 Performance Tracking | Sentry",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AxPVlTCk19rw",
       "address": "https://peps.python.org/pep-0741/",
       "title": "PEP 741 – Python Configuration C API | peps.python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AaMvcVDdGLy5",
       "address": "https://marketplace.visualstudio.com/items?itemName=ms-python.python",
       "title": "Python - Visual Studio Marketplace",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AJJfqlYNEQ54",
       "address": "https://www.educba.com/python-for-ai-development/",
       "title": "Python for AI Development | Why It Is the Top Choice?",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DvgUusENrbc6",
       "address": "https://husking-studio.com/extending-python-with-c-execution/",
       "title": "Python 與 C 擴充 -透過 C++ 執行檔的各種處理 - 小哈的程式工作坊",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "A2A-vVtl82z5",
       "address": "https://www.w3schools.com/programming/index.php",
       "title": "Introduction to Programming",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "JfZEMitD2jQw",
@@ -95,13 +95,13 @@
       "hash": "XyZRbgdG5jPw",
       "address": "https://www.python.org/download/alternatives/",
       "title": "Alternative Python implementations | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "g3IUJldG5jPw",
       "address": "https://www.python.org/shell/",
       "title": "Welcome to Python.org",
-      "grade": 0
+      "grade": 1
     },
     {
       "hash": "lNYajPMW35a4",
@@ -119,19 +119,19 @@
       "hash": "g--irzdG5jPw",
       "address": "https://www.python.org/success-stories/category/engineering/",
       "title": "Engineering | Our Success Stories | Python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "O3nHJAn__psw",
       "address": "https://policies.python.org/python.org/code-of-conduct/",
       "title": "Python Software Foundation Code of Conduct - Python Software Foundation Policies",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "mhcPeJn__psw",
       "address": "https://policies.python.org/pypi.org/Privacy-Notice/",
       "title": "Privacy Notice - Python Software Foundation Policies",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "qRaHnG-j6W54",
@@ -143,7 +143,7 @@
       "hash": "tlPoPhdG5jPw",
       "address": "https://www.python.org/downloads/release/python-387rc1/",
       "title": "Python Release Python 3.8.7rc1 | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vaQzdpr4CjGw",
@@ -197,19 +197,19 @@
       "hash": "L_BxPTCk19rw",
       "address": "https://peps.python.org/pep-0373/",
       "title": "PEP 373 – Python 2.7 Release Schedule | peps.python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "72tCmTCk19rw",
       "address": "https://peps.python.org/pep-0774/",
       "title": "PEP 774 – Removing the LLVM requirement for JIT builds | peps.python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7tAyOlBLxyZw",
       "address": "https://bugs.python.org/msg200289",
       "title": "Message 200289 - Python tracker",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9DykFpdG5jPw",
@@ -227,7 +227,7 @@
       "hash": "_gJcIpr4CjGw",
       "address": "https://discuss.python.org/u/thomas",
       "title": "Profile - thomas - Discussions on Python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AusAYpdG5jPw",
@@ -239,7 +239,7 @@
       "hash": "AF6AOlBLxyZw",
       "address": "https://bugs.python.org/issue36763",
       "title": "Issue 36763: Implementation of the PEP 587 - Python tracker",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ACIq1TCk19rw",
@@ -257,19 +257,19 @@
       "hash": "80sKtpdG5jPw",
       "address": "https://www.python.org/events/python-user-group/1856/",
       "title": "Python Meeting Düsseldorf | Python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7F-8TUZTlNQ4",
       "address": "https://python.land/blog/page/4",
       "title": "Blog • Page 4 of 4 • Python Land",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "iBpkgDr-_bZg",
       "address": "https://python.softonic.se/",
       "title": "Python - Download",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jKQKJldG5jPw",
@@ -293,13 +293,13 @@
       "hash": "rC25SldG5jPw",
       "address": "https://www.python.org/jobs/type/finance/",
       "title": "Python Job Board | Python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "s9xJyJn__psw",
       "address": "https://policies.python.org/pypi.org/Acceptable-Use-Policy/",
       "title": "Acceptable Use Policy - Python Software Foundation Policies",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "soIzFAIRlUi5",
@@ -311,7 +311,7 @@
       "hash": "39DSksZTlNQ4",
       "address": "https://python.land/migrating-from-python-2-to-3",
       "title": "Migrating From Python 2 to 3 • Python Land Tutorial",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "34K-apdG5jPw",
@@ -329,25 +329,25 @@
       "hash": "2A1OSfpNk_Ig",
       "address": "https://python-para-todos.softonic.se/",
       "title": "Python para todos - Download",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RDC7iTCk19rw",
       "address": "https://peps.python.org/pep-8015/",
       "title": "PEP 8015 – Organization of the Python community | peps.python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "gSN6KhdG5jPw",
       "address": "https://www.python.org/downloads/release/python-242/",
       "title": "Python Release Python 2.4.2 | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jWntrTCk19rw",
       "address": "https://peps.python.org/pep-0719/",
       "title": "PEP 719 – Python 3.13 Release Schedule | peps.python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "k8ePcDbK4AC4",
@@ -359,19 +359,19 @@
       "hash": "4YgNDgdG5jPw",
       "address": "https://www.python.org/download/mac/tcltk/",
       "title": "IDLE and tkinter with Tcl/Tk on macOS | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "va6rNhdG5jPw",
       "address": "https://www.python.org/downloads/release/python-3916/",
       "title": "Python Release Python 3.9.16 | Python.org",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "u5hBnTCk19rw",
       "address": "https://peps.python.org/pep-0459/",
       "title": "PEP 459 – Standard Metadata Extensions for Python Software Packages | peps.python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vfhHBEgOlJX5",
@@ -383,13 +383,13 @@
       "hash": "7N3vIpdG5jPw",
       "address": "https://www.python.org/events/python-user-group/2039/",
       "title": "Python Leiden User Group | Python.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1iYAEt3vtu2w",
       "address": "https://blog.python.org/blog/",
       "title": "Blog | Python Insider",
-      "grade": null
+      "grade": 1
     }
   ]
 }

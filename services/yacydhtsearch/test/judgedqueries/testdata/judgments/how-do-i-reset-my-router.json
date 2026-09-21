@@ -5,13 +5,13 @@
       "hash": "R_xsdMS6MKD4",
       "address": "https://github.com/orgs/community/discussions",
       "title": "community · Discussions · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "qtiPkyEkAvow",
       "address": "https://developer.mozilla.org/en-US/docs/Glossary/TCP_slow_start",
       "title": "TCP slow start - Glossary | MDN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -29,7 +29,7 @@
       "hash": "8q_7kd8zMi84",
       "address": "https://docs.cloud.google.com/release-notes",
       "title": "Google Cloud release notes | Google Cloud Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ZSA-bCZGdT4x",
@@ -41,7 +41,7 @@
       "hash": "jPQVTswE2Xer",
       "address": "https://keamananinformasi.id/",
       "title": "keamananinformasi.id",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_wxyPdDZkUL4",
@@ -53,7 +53,8 @@
       "hash": "6Eguwl193mc6",
       "address": "https://www.cacanhphongthuy.com/",
       "title": "MurniQQ: Situs PKV Games QQ BandarQQ DominoQQ Terbaik 2026",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "pGRD67yp6WtY",
@@ -65,25 +66,26 @@
       "hash": "Ku6XRlPEHVf4",
       "address": "https://www.ssbwiki.com/Smasher:Hungrybox",
       "title": "Smasher:Hungrybox - SmashWiki, the Super Smash Bros. wiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uRzNJXWmNe_4",
       "address": "https://safety.google/products/nest/",
       "title": "Google Nest Security \u0026 Privacy Commitments - Google Safety Center",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Qy5lgspN1dF5",
       "address": "https://cirosantilli.com/china-dictatorship/",
       "title": "China Dictatorship 中国独裁统治",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6nyn5skC_rMY",
       "address": "http://popka.blog131.fc2.com/",
       "title": "popka",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "m8ZbbdDZkUL4",
@@ -95,37 +97,38 @@
       "hash": "H25iwlPEHVf4",
       "address": "https://www.ssbwiki.com/Smasher:Sparg0",
       "title": "Smasher:Sparg0 - SmashWiki, the Super Smash Bros. wiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "o9LgOs2xL7A6",
       "address": "https://corbettreport.com/july-open-thread-2023/",
       "title": "July Open Thread (2023) | The Corbett Report",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3jGplstC-I25",
       "address": "https://3dracinginc.com/",
       "title": "3dracinginc -",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "In8plARfu9ww",
       "address": "https://datatracker.ietf.org/stream/ise/",
       "title": "ISE stream documents",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3yXziobrsZjx",
       "address": "https://www.mediawiki.org/wiki/MediaWiki_1.44/wmf.27",
       "title": "MediaWiki 1.44/wmf.27 - MediaWiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-gZasla_7uS5",
       "address": "https://www.theregister.com/",
       "title": "Technology news and analysis | The Register",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DscS3QAUFAfQ",
@@ -137,37 +140,37 @@
       "hash": "6w-KRsyg0sGw",
       "address": "https://msgpack.org/",
       "title": "MessagePack: It's like JSON. but fast and small.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Wo8mrUjw1Zlx",
       "address": "https://kubernetes.io/blog/2017/08/high-performance-networking-with-ec2/",
       "title": "High Performance Networking with EC2 Virtual Private Clouds | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "dyov92jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/services-networking/ingress/",
       "title": "Ingress | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7fL-i2jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/administer-cluster/quota-api-object/",
       "title": "Configure Quotas for API Objects | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7znWz2jw1Zlx",
       "address": "https://kubernetes.io/docs/reference/using-api/api-concepts/",
       "title": "Kubernetes API Concepts | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9EoxrUjw1Zlx",
       "address": "https://kubernetes.io/blog/2017/01/fission-serverless-functions-as-service-for-kubernetes/",
       "title": "Fission: Serverless Functions as a Service for Kubernetes | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CjgsxsIyoLTx",
@@ -185,31 +188,31 @@
       "hash": "UllpaUNG1pIw",
       "address": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
       "title": "Brief independent investigation of agents’ behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident - METR",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "e5LTG7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc6120/",
       "title": "RFC 6120: Extensible Messaging and Presence Protocol (XMPP): Core | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "fFOO2AwOBDWx",
       "address": "https://guides.rubyonrails.org/action_controller_overview.html",
       "title": "Action Controller Overview — Ruby on Rails Guides",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kM_w-2jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/",
       "title": "Ingress Controllers | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "m1wztl1J_Myw",
       "address": "https://www.cloudns.net/wiki/",
       "title": "Wiki | ClouDNS",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "moVg22jw1Zlx",
@@ -221,7 +224,7 @@
       "hash": "03jjJ1ChLz4y",
       "address": "https://linuxcontainers.org/incus/news/",
       "title": "Linux Containers - Incus - News",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3d4MdyMm3Ikw",
@@ -233,25 +236,25 @@
       "hash": "7S7e_sYevRrw",
       "address": "https://furbo.org/",
       "title": "furbo.org by Craig Hockenberry",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CxloksgJoQyx",
       "address": "https://grapheneos.org/usage",
       "title": "Usage guide | GrapheneOS",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "MZN76AwOBDWx",
       "address": "https://guides.rubyonrails.org/security.html",
       "title": "Securing Rails Applications — Ruby on Rails Guides",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NQqeso1J_Myw",
       "address": "https://www.cloudns.net/wiki/article/29/",
       "title": "ClouDNS: Master DNS Zone",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5DZ6TjRvmBbx",
@@ -275,13 +278,13 @@
       "hash": "-FqylOjw1Zlx",
       "address": "https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/network-policy-provider/kube-router-network-policy/",
       "title": "使用 kube-router 提供 NetworkPolicy | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "l4Sh4oUWXrc4",
       "address": "https://buy.hpe.com/us/en/networking/juniper-solutions/juniper-routing-solutions/juniper-mx304-universal-router/p/1014920258",
       "title": "Juniper MX304 Universal Router - Modern Edge Scaling | HPE Store",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KAu1L9DZkUL4",
@@ -317,7 +320,7 @@
       "hash": "F83ZOlTg2KM4",
       "address": "https://www.wikihow.com/Reset-an-Xfinity-Remote-Control",
       "title": "How to Reset an Xfinity Remote Control: Easy Guide",
-      "grade": null
+      "grade": 0
     }
   ]
 }

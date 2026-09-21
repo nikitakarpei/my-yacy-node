@@ -11,19 +11,19 @@
       "hash": "jhN0ljRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions",
       "title": "Domain Name System Security Extensions - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "JGVH0H4r5fnw",
       "address": "https://fetch.spec.whatwg.org/",
       "title": "Fetch Standard",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pGRD67yp6WtY",
       "address": "http://tantek.com/",
       "title": "Tantek Çelik",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "gOUNKUb8iyg4",
@@ -35,49 +35,49 @@
       "hash": "9j64kj_oppU4",
       "address": "https://www.ibm.com/products/ns1-connect",
       "title": "IBM NS1 Connect",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "nWMgE7yp6WtY",
       "address": "http://tantek.com/?skin=vtx",
       "title": "Tantek Çelik",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_7_WSE9Ojva4",
       "address": "https://docs.docker.com/engine/network/",
       "title": "Networking overview | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "yJuijsCG40j4",
       "address": "https://tantek.com/",
       "title": "Tantek Çelik",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "qqUxNr40hLFx",
       "address": "https://noc.wikimedia.org/conf/highlight.php?file=InitialiseSettings.php",
       "title": "InitialiseSettings.php – Wikimedia NOC",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5KXbQwEVVL0w",
       "address": "https://archive.blogs.harvard.edu/sj/",
       "title": "The Longest Now",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hNrcdJ-bwreQ",
       "address": "http://ace.mu.nu/",
       "title": "Ace of Spades HQ",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "h6qKJHS6MKD4",
@@ -113,7 +113,7 @@
       "hash": "uP5qwjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Computer_network",
       "title": "Computer network - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wYESGjRvmBbx",
@@ -125,13 +125,13 @@
       "hash": "Gg5rbjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_protocol_suite",
       "title": "Internet protocol suite - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XCqnWjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Computer_security",
       "title": "Computer security - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "qzV8sjRvmBbx",
@@ -143,103 +143,103 @@
       "hash": "2luNljRvmBbx",
       "address": "https://en.wikipedia.org/wiki/History_of_Wikipedia",
       "title": "History of Wikipedia - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4aKmv2jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/",
       "title": "Distribute Credentials Securely Using Secrets | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6HmK8jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Domain_Name_System",
       "title": "Domain Name System - Wikipedia",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "6xF062jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/administer-cluster/ip-masq-agent/",
       "title": "IP Masquerade Agent User Guide | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "COUi-jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Internet_of_things",
       "title": "Internet of things - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "G8OmctS6MKD4",
       "address": "https://github.com/trending/powershell?since=daily",
       "title": "Trending PowerShell repositories on GitHub today · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "LqIvItS6MKD4",
       "address": "https://github.com/trending/c++?since=daily",
       "title": "Trending C++ repositories on GitHub today · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "W8VAxjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Network_Time_Protocol",
       "title": "Network Time Protocol - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kj2xyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/File_Allocation_Table",
       "title": "File Allocation Table - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "oHOK5jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Freedom_of_information",
       "title": "Freedom of information - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1JoJ6Fe1kpGw",
       "address": "https://about.zenodo.org/infrastructure/",
       "title": "Infrastructure | Zenodo",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "34pVijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Cyberwarfare",
       "title": "Cyberwarfare - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "400Hx2jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/",
       "title": "Force Delete StatefulSet Pods | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4cTls2jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/",
       "title": "DaemonSet | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5P28l2jw1Zlx",
       "address": "https://kubernetes.io/docs/concepts/scheduling-eviction/pod-overhead/",
       "title": "Pod Overhead | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6jgkn2jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/administer-cluster/kubelet-credential-provider/",
       "title": "Configure a kubelet image credential provider | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7fL-i2jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/administer-cluster/quota-api-object/",
       "title": "Configure Quotas for API Objects | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9dnewsdTeyA4",
@@ -251,43 +251,43 @@
       "hash": "CRmOkKb8iyg4",
       "address": "https://cloud.google.com/solutions/manufacturing",
       "title": "Cloud for manufacturing | Google Cloud",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OUESAWRfu9ww",
       "address": "https://datatracker.ietf.org/doc/html/rfc2616",
       "title": "RFC 2616 - Hypertext Transfer Protocol -- HTTP/1.1",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "V48tajRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
       "title": "Rust (programming language) - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XIwJ831S-aUw",
       "address": "https://www.icann.org/compliance/complaint",
       "title": "Submitting a Complaint to ICANN Contractual Compliance - ICANN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "fYwTDWS6MKD4",
       "address": "https://github.com/bregman-arie/devops-exercises",
       "title": "GitHub - bregman-arie/devops-exercises: Linux, Jenkins, AWS, SRE, Prometheus, Docker, Python, Ansible, Git, Kubernetes, Terraform, OpenStack, SQL, NoSQL, Azure, GCP, DNS, Elastic, Network, Virtualization. DevOps Interview Questions · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "HUcIDU1S-aUw",
       "address": "https://www.icann.org/resources/pages/dispute-resolution-2012-02-25-en",
       "title": "Have a Problem? Dispute Resolution Options - ICANN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hWuQZ7XxSRFx",

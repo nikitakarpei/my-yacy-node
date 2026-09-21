@@ -5,43 +5,43 @@
       "hash": "BJ_i-2bypRQw",
       "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
       "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DKApesRMLT-5",
       "address": "https://canonical.com/careers",
       "title": "Canonical Careers",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zmBhwGKvmHFw",
       "address": "https://www.cncf.io/people/ambassadors/",
       "title": "Ambassadors | CNCF",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "rMsoyobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Manual:Installation_guide",
       "title": "Manual:Installing MediaWiki - MediaWiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "gim7yZv-bf35",
       "address": "https://docs.datadoghq.com/",
       "title": "Datadog Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vCkbDzS6MKD4",
       "address": "https://github.com/topics/postgresql",
       "title": "postgresql · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "rdDkCsBqgIi4",
       "address": "https://uses.tech/",
       "title": "/uses",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "v4aP-zS6MKD4",
@@ -53,7 +53,7 @@
       "hash": "mLTru5c9duY5",
       "address": "https://azure.microsoft.com/en-us/products/postgresql/",
       "title": "Azure Database for PostgreSQL | Microsoft Azure",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BR1Be6RMLT-5",
@@ -65,13 +65,13 @@
       "hash": "mJj6Cl7Yxvhx",
       "address": "https://www.postgresql.org/",
       "title": "PostgreSQL: The world's most advanced open source database",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "cViEGs_XwdU5",
       "address": "https://endoflife.date/postgresql",
       "title": "PostgreSQL | endoflife.date",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5lCPsx7Yxvhx",
@@ -83,265 +83,265 @@
       "hash": "VclB621OrXLw",
       "address": "https://logit.io/docs/integrations/postgresql/",
       "title": "Learn How to Integrate and Configure Filebeat to Send PostgreSQL Logs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pn2iyUjw1Zlx",
       "address": "https://kubernetes.io/blog/2017/02/postgresql-clusters-kubernetes-statefulsets/",
       "title": "Deploying PostgreSQL Clusters using StatefulSets | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Qm_jIl7Yxvhx",
       "address": "https://www.postgresql.org/docs/",
       "title": "PostgreSQL: Documentation",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "xj2M_l7Yxvhx",
       "address": "https://www.postgresql.org/download/",
       "title": "PostgreSQL: Downloads",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "M8dGFUb8iyg4",
       "address": "https://cloud.google.com/sql",
       "title": "Cloud SQL for MySQL, PostgreSQL, and SQL Server | Google Cloud",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TXqRYx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-datetime.html",
       "title": "PostgreSQL: Documentation: 18: 8.5. Date/Time Types",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "TmZA3x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-json.html",
       "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "i-OkNzJx-ffx",
       "address": "https://planet.postgresql.org/",
       "title": "Planet PostgreSQL",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BPM2Xl7Yxvhx",
       "address": "https://www.postgresql.org/developer/",
       "title": "PostgreSQL: Developers",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "QPDjps7Yxvhx",
       "address": "https://www.postgresql.org/about/licence/",
       "title": "PostgreSQL: License",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RDUhVx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-enum.html",
       "title": "PostgreSQL: Documentation: 18: 8.7. Enumerated Types",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Tu3G6x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/runtime-config-replication.html",
       "title": "PostgreSQL: Documentation: 18: 19.6. Replication",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Tw1yQx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-numeric.html",
       "title": "PostgreSQL: Documentation: 18: 8.1. Numeric Types",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "8AOi481iNM2x",
       "address": "https://wiki.postgresql.org/wiki/Apt",
       "title": "Apt - PostgreSQL wiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "QhFdmx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/monitoring-ps.html",
       "title": "PostgreSQL: Documentation: 18: 27.1. Standard Unix Tools",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RgFlGx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/runtime-config-statistics.html",
       "title": "PostgreSQL: Documentation: 18: 19.9. Run-time Statistics",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RqLGQx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/runtime-config-connection.html",
       "title": "PostgreSQL: Documentation: 18: 19.3. Connections and Authentication",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-DJbbx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-keywords-appendix.html",
       "title": "PostgreSQL: Documentation: 18: Appendix C. SQL Key Words",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Rhc3Rx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-set-constraints.html",
       "title": "PostgreSQL: Documentation: 18: SET CONSTRAINTS",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "QZSRvx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/views.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 53. System Views",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RLLlYx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-sequence.html",
       "title": "PostgreSQL: Documentation: 18: 52.47. pg_sequence",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Rj_LMx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalogs.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 52. System Catalogs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SnAumx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
       "title": "PostgreSQL: Documentation: 18: CREATE FUNCTION",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "TDHHrx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/view-pg-matviews.html",
       "title": "PostgreSQL: Documentation: 18: 53.14. pg_matviews",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "TjG-4x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createpolicy.html",
       "title": "PostgreSQL: Documentation: 18: CREATE POLICY",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Tz6Vix7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/replication-origins.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 48. Replication Progress Tracking",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SGwdJx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
       "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gjgHux7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/runtime-config.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 19. Server Configuration",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gJQ94x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-tablespace.html",
       "title": "PostgreSQL: Documentation: 18: 52.56. pg_tablespace",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "hLgU4x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ssh-tunnels.html",
       "title": "PostgreSQL: Documentation: 18: 18.11. Secure TCP/IP Connections with SSH Tunnels",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "hLkPMx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-rewrite.html",
       "title": "PostgreSQL: Documentation: 18: 52.45. pg_rewrite",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "hX7yvx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/functions-info.html",
       "title": "PostgreSQL: Documentation: 18: 9.27. System Information Functions and Operators",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "hZhL1x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/wal-intro.html",
       "title": "PostgreSQL: Documentation: 18: 28.3. Write-Ahead Logging (WAL)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "hzkvEx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createtable.html",
       "title": "PostgreSQL: Documentation: 18: CREATE TABLE",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jp2SHx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
       "title": "PostgreSQL: Documentation: 18: 5.9. Row Security Policies",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jyudgx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/upgrading.html",
       "title": "PostgreSQL: Documentation: 18: 18.6. Upgrading a PostgreSQL Cluster",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "tGGxlx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-binary.html",
       "title": "PostgreSQL: Documentation: 18: 8.4. Binary Data Types",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OWtUq81iNM2x",
       "address": "https://wiki.postgresql.org/wiki/New_in_postgres_10",
       "title": "New in postgres 10 - PostgreSQL wiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "sKxLOx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/high-availability.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 26. High Availability, Load Balancing, and Replication",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0_6s-s7Yxvhx",
       "address": "https://www.postgresql.org/about/featurematrix/detail/postgres_fdw-pushdown/",
       "title": "PostgreSQL: Feature Description",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Rg3DRk7Yxvhx",
       "address": "https://www.postgresql.org/community/contributors/",
       "title": "PostgreSQL: Contributor Profiles",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "rw8y0k7Yxvhx",
       "address": "https://www.postgresql.org/community/irc/",
       "title": "PostgreSQL: IRC",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "s2gNgx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql.html",
       "title": "PostgreSQL: Documentation: 18: Part II. The SQL Language",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "viQpex7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/bgworker.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 46. Background Worker Processes",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zNzIvx7Yxvhx",

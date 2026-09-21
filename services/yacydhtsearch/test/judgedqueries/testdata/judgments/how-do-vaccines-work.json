@@ -11,25 +11,26 @@
       "hash": "hNrcdJ-bwreQ",
       "address": "http://ace.mu.nu/",
       "title": "Ace of Spades HQ",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vEF2VsPHBkE5",
       "address": "https://drsambailey.com/",
       "title": "Dr Sam Bailey – Illuminating Health",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DBimNsgeELC6",
       "address": "https://greatgameindia.com/500k-adverse-events-vaccines/",
       "title": "500K Adverse Events Reported After COVID Vaccines In The US Alone - GreatGameInternational",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "OH-J92NcDvjw",
       "address": "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003648",
       "title": "Thrombotic thrombocytopenia associated with COVID-19 infection or vaccination: Possible paths to platelet factor 4 autoimmunity | PLOS Medicine",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "5DGFbQXx1HRZ",
@@ -41,37 +42,38 @@
       "hash": "WXBfWE1ze3b4",
       "address": "https://patient.info/travel-and-vaccinations/egypt",
       "title": "Travel health advice for Egypt – vaccines and risks",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "fj0LSsjsdFw4",
       "address": "https://akdart.com/cops.html",
       "title": "Abuse of Power by Ordinary Cops",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "GVURLlptNsG4",
       "address": "https://www.akdart.com/lib72.html",
       "title": "Liberals Use Emotion Instead of Reason",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VDqVMjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Joe_Rogan",
       "title": "Joe Rogan - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pTmG_s2xL7A6",
       "address": "https://corbettreport.com/gatesvaccine/",
       "title": "Episode 378 - Bill Gates' Plan to Vaccinate the World | The Corbett Report",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "4nneDQZchFfZ",
       "address": "http://www.greenteethmm.com/science-earth-sum.shtml",
       "title": "one-in-four-americans-do-not-know-the-earth-circles-the-sun-it-is-science-but-does-it-matter-dailystirrer",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "8o94QjRvmBbx",
@@ -83,37 +85,40 @@
       "hash": "E-qFaQXx1HRZ",
       "address": "http://www.dailystirrer.com/2020-may.shtml",
       "title": "dailystirrer-2020-news-May-comment-opinion-controversy-contrarianism",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "h8DYsqwMR4F5",
       "address": "https://originalboggartblog.wordpress.com/tag/china/",
       "title": "china | The Original Boggart Blog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zWfAGpwMR4F5",
       "address": "https://originalboggartblog.wordpress.com/2021/03/06/council-of-europe-decrees-vaccines-must-not-be-mandatory-and-non-vaccinated-must-not-be-discriminated-against/",
       "title": "Council of Europe Decrees Vaccines Must Not be Mandatory and Non-Vaccinated Must Not be Discriminated Against | The Original Boggart Blog",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "71ZHN6DuT774",
       "address": "https://edbutt.blogspot.com/2024/09/governments-are-still-lying-about.html",
       "title": "Boggart Abroad: Governments are still lying about the deaths and serious health problems caused by COVID vaccines",
-      "grade": 1
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "YyTQ2kwztQz5",
       "address": "https://littlenickymachiavelli.wordpress.com/",
       "title": "Little Nicky Machiavelli | And let them know that I am Machiavel, admired am I by those that hate me most.The Jew Of Malta by Christopher Marlow",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "JOZMHQ_WyUig",
       "address": "https://vaccineknowledge.ox.ac.uk/covid-19-vaccines",
       "title": "COVID-19 vaccines | Vaccine Knowledge Project",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "VdnuQs1ze3b4",
@@ -125,187 +130,202 @@
       "hash": "RK8tiXj078-4",
       "address": "https://www.statnews.com/2021/02/02/comparing-the-covid-19-vaccines-developed-by-pfizer-moderna-and-johnson-johnson/",
       "title": "Comparing three Covid-19 vaccines: Pfizer, Moderna, J\u0026J",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "31kf2QZchFfZ",
       "address": "http://www.greenteethmm.com/history-menu.shtml",
       "title": "history-menu-",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ze4t3QZchFfZ",
       "address": "http://www.greenteethmm.com/greenteeth-back-index34.shtml",
       "title": "greenteeth-back-index34-all-posts",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_s72IQXx1HRZ",
       "address": "http://www.dailystirrer.com/2019-may.shtml",
       "title": "dailystirrer-2019-news-may-comment-opinion-controversy-contrarianism",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sWmyoQZchFfZ",
       "address": "http://www.greenteethmm.com/clinton-soros.shtml",
       "title": "dc-leaks-hack-of-soros-open-society-foundation-reveals-plans-to-control-the-media-news-dailystirrer-daily-stirrer",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "y6-D_yNcDvjw",
       "address": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0250797",
       "title": "Potential impact of introducing vaccines against COVID-19 under supply and uptake constraints in France: A modelling study | PLOS One",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "wi50LQZchFfZ",
       "address": "http://www.greenteethmm.com/clinton-tyranny.shtml",
       "title": "fbi-just-indicted-hillary-clinton-over-libyan-war-crimes-sadly-this-article-was-an-april-fool-news-daily-stirrer-daily-stirrer",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OrRmVQZchFfZ",
       "address": "http://www.greenteethmm.com/free-speech-importance.shtml",
       "title": "importance-of-free-speech-politically-correct-civil-right-freedom-politically-correct-authoritarian-englisht-racist-homophobia-tyranny-daily-stirrer-short",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5ltJSh0u6ug6",
       "address": "https://healthimpactnews.com/2021/why-i-am-proud-to-wear-the-anti-vaxx-label-history-and-science-show-vaccines-have-never-been-safe-nor-effective/",
       "title": "Why I am Proud to Wear the “Anti-Vaxx” Label – History and Science Show Vaccines Have NEVER Been Safe nor Effective",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "4vCI7KDuT774",
       "address": "https://edbutt.blogspot.com/2021/07/blood-doctor-releases-findings-showing.html",
       "title": "Boggart Abroad: Blood doctor releases findings showing Moderna’s mRNA Covid vaccines change red blood cells",
-      "grade": 1
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "cg6J9SbX_0-4",
       "address": "https://www.merck.com/research/vaccines/",
       "title": "Vaccines - Merck.com",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "dA_1JQZchFfZ",
       "address": "http://www.greenteethmm.com/covid-vaccine-refusers-attacked.shtml",
       "title": "covid-vaccine-refusers-thrive-on-attention-says-prime-attention-seeker-and-chief-clown-boris-johnson-news-daily-stirrer",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "Q4SEOs3rpWVz",
       "address": "https://inconvenienttruths.net/",
       "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "pP5gbWZm-l-z",
       "address": "https://everydayconcerned.net/tag/mrna-vaccines/",
       "title": "mRNA Vaccines | The Everyday Concerned Citizen",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "snjLnZpGtAW4",
       "address": "https://www.amazon.com/Saying-No-Vaccines-Resource-Guide/dp/0979091047",
       "title": "Amazon.com: Saying No to Vaccines: A Resource Guide for All Ages: 9780979091049: Sherri J. Tenpenny, NMA Media Press: Books",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "5wt-6ufuTP36",
       "address": "https://vaccineimpact.com/2022/75322-dead-5938318-injured-recorded-in-europe-and-usa-following-covid-vaccines-babies-and-toddlers-hallucinating-and-having-seizures-after-shots/",
       "title": "75,322 Dead 5,938,318 Injured Recorded in Europe and USA Following COVID Vaccines – Babies and Toddlers Hallucinating and Having Seizures After Shots - Vaccine Impact",
-      "grade": 1
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "AiE3FhZm-l-z",
       "address": "https://everydayconcerned.net/2021/11/24/news-report-3-theyre-playing-russian-roulette-with-child-covid-vaccines-12-primary-reasons-not-to-inject-your-child/",
       "title": "News Report 3 | They’re Playing Russian Roulette with Child COVID Vaccines | 12 Primary Reasons Not to Inject Your Child | The Everyday Concerned Citizen",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "qdsACalrjgr4",
       "address": "https://www.techdirt.com/tag/vaccines/",
       "title": "Vaccines stories at Techdirt.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vl-rqKDuT774",
       "address": "https://edbutt.blogspot.com/2014/04/do-you-remember-great-swine-flu-scam-of.html",
       "title": "Boggart Abroad: Swine Flu Scam Exposed: Useless Drugs And Vaccines - Lying Science Whores",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "u9QDvgNcDvjw",
       "address": "https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0009374",
       "title": "DNA vaccination induced protective immunity against SARS CoV-2 infection in hamsterss | PLOS Neglected Tropical Diseases",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7qWLpgNcDvjw",
       "address": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009319",
       "title": "The interplay between vaccination and social distancing strategies affects COVID19 population-level outcomes | PLOS Computational Biology",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6eQiqFbrEWug",
       "address": "https://www.ema.europa.eu/en/news/first-adapted-covid-19-booster-vaccines-recommended-approval-eu",
       "title": "First adapted COVID-19 booster vaccines recommended for approval in the EU | European Medicines Agency (EMA)",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "GZwpKrjmjy8w",
       "address": "https://www.aarp.org/health/conditions-treatments/vaccines-after-50/",
       "title": "What You Need to Know About Vaccines After 50",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OflJt6DuT774",
       "address": "https://edbutt.blogspot.com/2024/04/gates-foundation-funded-study-punlished.html",
       "title": "Boggart Abroad: Gates Foundation funded study published by The Lancet exposes failure of COVID vaccines and lockdowns",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "kJjshlEdhU-5",
       "address": "https://www.naturalnews.com/037653_vaccine_additives_thimerosal_formaldehyde.html",
       "title": "What's really in vaccines? Proof of MSG, formaldehyde, aluminum and mercury - NaturalNews.com",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "-aMIOlEdhU-5",
       "address": "https://www.naturalnews.com/033584_Dr_Maurice_Hilleman_SV40.html",
       "title": "Merck vaccine scientist Dr. Maurice Hilleman admitted presence of SV40, AIDS and cancer viruses in vaccines - NaturalNews.com",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "859lFlEdhU-5",
       "address": "https://www.naturalnews.com/032587_polio_vaccines_Pakistan.html",
       "title": "78 percent of Pakistani children with polio were given polio vaccines - NaturalNews.com",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "WSJDRlEdhU-5",
       "address": "https://www.naturalnews.com/042864_measles_outbreak_mumps_vaccines_scientific_fraud.html",
       "title": "Vaccine fraud exposed: Measles and mumps making a huge comeback because vaccines are designed to fail, say Merck virologists - NaturalNews.com",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "w4BkfQXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-july.shtml",
       "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "r-TZWWYtK1Ly",
       "address": "https://kffhealthnews.org/tag/vaccines/",
       "title": "Vaccines Archives - KFF Health News",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XnudeE1ze3b4",
       "address": "https://patient.info/travel-and-vaccinations/spain",
       "title": "Travel health advice for Spain – vaccines and risks",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CpKCjE1ze3b4",
@@ -317,7 +337,7 @@
       "hash": "7pTdhyNcDvjw",
       "address": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0261286",
       "title": "Assessing the knowledge and skill of vaccination staff at Adult Vaccination Counters for COVID-19 vaccines: Simulated client method | PLOS One",
-      "grade": null
+      "grade": 1
     }
   ]
 }

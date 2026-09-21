@@ -11,7 +11,7 @@
       "hash": "pYw3_AHucLY4",
       "address": "https://adrienalfiste.vip-blog.com/",
       "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "K3Zftlpcc_2y",
@@ -29,13 +29,14 @@
       "hash": "zgU_hQZchFfZ",
       "address": "http://www.greenteethmm.com/2021-july.shtml",
       "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "5f5Xp9DZkUL4",
       "address": "https://www.cnet.com/tech/mobile/apple-iphone-15-pro-and-15-pro-max-review-love-at-first-zoom/",
       "title": "Apple iPhone 15 Pro and 15 Pro Max Review: Love at First Zoom - CNET",
-      "grade": null
+      "grade": 0
     }
   ]
 }

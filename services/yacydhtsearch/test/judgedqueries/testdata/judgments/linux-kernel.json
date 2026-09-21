@@ -5,37 +5,37 @@
       "hash": "GACSIssyhcfx",
       "address": "https://archlinux.org/download/",
       "title": "Arch Linux - Downloads",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3bTr_eSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=2160841",
       "title": "xz Package Backdoor / Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-VddV2jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/",
       "title": "Install and Set Up kubectl on Linux | Kubernetes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cuwY9sRhmFjx",
       "address": "https://firewalld.org/",
       "title": "Home | firewalld",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "nXiF30WUVeV5",
       "address": "https://opensource.com/resources/linux",
       "title": "What is Linux? | Opensource.com",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "myKVgl2uAu0w",
       "address": "https://www.linux.org/",
       "title": "Linux.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OBXywlSCNQa4",
@@ -47,19 +47,19 @@
       "hash": "NFWoYsYlAY74",
       "address": "https://ubuntu.com/core",
       "title": "Ubuntu Core | Ubuntu",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Sorv6QJ4kKG4",
       "address": "https://wiki.ubuntu.com/WSL",
       "title": "WSL - Ubuntu Wiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CeUcFl9moDe4",
       "address": "https://www.linux.com/",
       "title": "Linux.com - News For Open Source Professionals",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uEZoLvXKQKtw",
@@ -71,7 +71,7 @@
       "hash": "JLITKVI-vZCw",
       "address": "https://subspace.kernel.org/lists.linux.dev.html",
       "title": "lists.linux.dev — subspace.kernel.org documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "JEaJ_ZXKQKtw",
@@ -83,13 +83,13 @@
       "hash": "FoR7bJhkKIQy",
       "address": "https://www.linuxfoundation.org/blog/blog/10-highlights-of-jon-corbets-linux-kernel-report",
       "title": "10 Highlights of Jon Corbet's Linux Kernel Report - Linux Foundation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "F_zQJLS6MKD4",
       "address": "https://github.com/torvalds/linux",
       "title": "GitHub - torvalds/linux: Linux kernel source tree · GitHub",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "N_bW_5DJH5aw",
@@ -101,13 +101,13 @@
       "hash": "jpQ5kcKBgd5w",
       "address": "https://www.spinics.net/lists/kernel/msg4339024.html",
       "title": "[PATCH] nvme-pci: fix host memory buffer allocation size — Linux Kernel",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "P8Wi90XKQKtw",
       "address": "https://docs.kernel.org/next/process/index.html",
       "title": "Working with the kernel development community — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "N280urS6MKD4",
@@ -125,7 +125,7 @@
       "hash": "8SBrdtS6MKD4",
       "address": "https://github.com/trending/linux-kernel-module?since=daily",
       "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9KNuQjRvmBbx",
@@ -137,7 +137,7 @@
       "hash": "ecEomsscikty",
       "address": "https://kernelnewbies.org/Linux_4.14",
       "title": "Linux_4.14 - Linux Kernel Newbies",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SDL4QvKqlBA4",
@@ -149,13 +149,13 @@
       "hash": "QE4NFNXKQKtw",
       "address": "https://docs.kernel.org/netlabel/index.html",
       "title": "NetLabel — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "QZaZy0g5sCUy",
       "address": "https://www.socallinuxexpo.org/scale/21x/presentations/getting-around-it-deferred-work-mechanisms-linux-kernel/index.html",
       "title": "Getting Around to It: Deferred Work Mechanisms in the Linux Kernel | SCALE 21x",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "UxZv1VGZ4FKw",
@@ -167,13 +167,13 @@
       "hash": "WfsGDsscikty",
       "address": "https://kernelnewbies.org/KernelMentors",
       "title": "KernelMentors - Linux Kernel Newbies",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "UEGFt_S6MKD4",
       "address": "https://github.com/oracle/linux-uek",
       "title": "GitHub - oracle/linux-uek: Oracle Linux UEK: Unbreakable Enterprise Kernel · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "uX9xOlSCNQa4",
@@ -185,7 +185,7 @@
       "hash": "CR2nkVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/admin-guide/pm/intel_idle.html",
       "title": "intel_idle CPU Idle Time Management Driver — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AE5Ku2sEYJ15",
@@ -197,25 +197,25 @@
       "hash": "NsqhDqXKQKtw",
       "address": "https://docs.kernel.org/fpga/index.html",
       "title": "FPGA — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "PeoycG1ajpq5",
       "address": "https://www.linuxjournal.com/content/linux-kernel-reduction-longterm-support",
       "title": "Linux Kernel Faces Reduction in Long-Term Support Due to Maintenance Challenges | Linux Journal",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OECnZVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/admin-guide/device-mapper/verity.html",
       "title": "dm-verity — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "PDp7Y_cLWfM6",
       "address": "https://linuxsecurity.com/news/organizations-events/linux-kernel-5-4-officially-released-with-exfat-support-kernel-lockdown-feature",
       "title": "Linux Kernel 5.4 Official Release: exFAT and Security Features",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_BwbJVGZ4FKw",
@@ -227,25 +227,25 @@
       "hash": "7YbWsvKqlBA4",
       "address": "https://www.phoronix.com/news/Linux-Kernel-WebAssembly",
       "title": "Linux Kernel Ported To WebAssembly - Demo Lets You Run It In Your Web Browser - Phoronix",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0qHLKIXKQKtw",
       "address": "https://docs.kernel.org/arch/arm/index.html",
       "title": "ARM Architecture — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "2oBoWVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/v5.0/admin-guide/mm/userfaultfd.html",
       "title": "Userfaultfd — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "N18ZTrS6MKD4",
       "address": "https://github.com/K900/amneziawg-linux-kernel-module",
       "title": "GitHub - K900/amneziawg-linux-kernel-module: AmneziaWG Linux kernel module · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9vmHasOAID44",
@@ -257,13 +257,13 @@
       "hash": "9HvbC47wB5Ly",
       "address": "https://www.ndss-symposium.org/ndss-paper/statically-discover-cross-entry-use-after-free-vulnerabilities-in-the-linux-kernel/",
       "title": "Statically Discover Cross-Entry Use-After-Free Vulnerabilities in the Linux Kernel - NDSS Symposium",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DsW0A_cLWfM6",
       "address": "https://linuxsecurity.com/news/security-vulnerabilities/linux-kernel-llc-state-machine-out-of-bounds-read",
       "title": "Linux Kernel Network Patch Fixes Out-Of-Bounds Memory Read Bug",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CrsApVGZ4FKw",
@@ -275,7 +275,7 @@
       "hash": "ezt0MRLPB-C6",
       "address": "https://www.linux-magazine.com/tags/view/Programming/Kernel",
       "title": "Kernel » Programming » Linux Magazine",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5A3Als-kQ1nw",
@@ -287,7 +287,7 @@
       "hash": "lWsPplGZ4FKw",
       "address": "https://www.kernel.org/",
       "title": "The Linux Kernel Archives",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "5OdiTlSCNQa4",
@@ -311,7 +311,7 @@
       "hash": "SJBZeIXKQKtw",
       "address": "https://docs.kernel.org/arch/index.html",
       "title": "CPU Architectures — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "FJclwl6plxQx",
@@ -323,25 +323,25 @@
       "hash": "3tE-YAGZ4FKw",
       "address": "https://www.kernel.org/category/about.html",
       "title": "The Linux Kernel Archives - About",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RBWxl_XKQKtw",
       "address": "https://docs.kernel.org/admin-guide/reporting-issues.html",
       "title": "Reporting issues — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "VZ4sAZXKQKtw",
       "address": "https://docs.kernel.org/index.html",
       "title": "The Linux Kernel documentation — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "WstY4_XKQKtw",
       "address": "https://docs.kernel.org/admin-guide/binfmt-misc.html",
       "title": "Kernel Support for miscellaneous Binary Formats (binfmt_misc) — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "fRleuzvWe9Yw",
@@ -359,31 +359,31 @@
       "hash": "fs8ziVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/admin-guide/index.html",
       "title": "The Linux kernel user’s and administrator’s guide — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "wPTao_XKQKtw",
       "address": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
       "title": "Control Group v2 — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-0LnBAGZ4FKw",
       "address": "https://www.kernel.org/category/faq.html",
       "title": "The Linux Kernel Archives - FAQ",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "3mhBrVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/admin-guide/binderfs.html",
       "title": "The Android binderfs Filesystem — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AJYAa_XKQKtw",
       "address": "https://docs.kernel.org/admin-guide/module-signing.html",
       "title": "Kernel module signing facility — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DnI_SvKqlBA4",
@@ -413,7 +413,7 @@
       "hash": "2j87xrXKQKtw",
       "address": "https://docs.kernel.org/wmi/index.html",
       "title": "WMI Subsystem — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7yh0lVGZ4FKw",
@@ -461,7 +461,7 @@
       "hash": "e5NoTOXKQKtw",
       "address": "https://docs.kernel.org/userspace-api/tee.html",
       "title": "TEE (Trusted Execution Environment) Userspace API — The Linux Kernel documentation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Ckmv4yRO6Xx4",

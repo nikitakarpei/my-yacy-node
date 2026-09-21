@@ -5,37 +5,37 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vXAmxgSKkctx",
       "address": "https://softpanorama.org/Net/index.shtml",
       "title": "TCP/IP Networks",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vnQXUZbnzbVw",
       "address": "https://docs.n8n.io/changelog",
       "title": "Changelog | n8n Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sN2TJsQ2H1F4",
       "address": "https://wpvip.com/faq/",
       "title": "Frequently Asked Questions | WordPress VIP",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ZHoMPyfAodxw",
       "address": "https://docs.freebsd.org/en/books/handbook/security/",
       "title": "Chapter 16. Security | FreeBSD Documentation Portal",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Cg9jcs2jvnSw",
       "address": "https://ffmpeg.org/ffmpeg-filters.html",
       "title": "FFmpeg Filters Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7IiavjRvmBbx",
@@ -53,13 +53,13 @@
       "hash": "APCBjTmOi-kx",
       "address": "https://www.freehaven.net/anonbib/papers/pets2011/p9-herrmann.pdf",
       "title": "p9-herrmann.pdf",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "C_nvFqgO8X1w",
       "address": "https://cdn.dal.ca/content/dam/dalhousie/pdf/faculty/computerscience/technical-reports/CS-2017-01.pdf",
       "title": "Paper Title (use style: paper title)",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XwuSSjXxSRFx",
@@ -77,7 +77,7 @@
       "hash": "bGtmojRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Telecommunications",
       "title": "Telecommunications - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "P-tQgitD2jQw",
@@ -95,7 +95,7 @@
       "hash": "Nk6Ael1J_Myw",
       "address": "https://www.cloudns.net/premium/",
       "title": "Premium DNS Hosting | Fast \u0026 Secure DNS Service | ClouDNS",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PozOJ7XxSRFx",
@@ -107,13 +107,13 @@
       "hash": "ivsA_Q0hYC7Q",
       "address": "http://www.sbcl.org/manual/",
       "title": "SBCL 2.6.8 User Manual",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RdyC6lhTaKi5",
       "address": "https://www.datadoghq.com/pricing/",
       "title": "Pricing | Datadog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sAeglsJDpFPw",
@@ -125,7 +125,7 @@
       "hash": "sYNodl1J_Myw",
       "address": "https://www.cloudns.net/ddos-protected-plans/",
       "title": "DDoS Protected DNS Hosting | Prevent Attacks \u0026 Stay Online | ClouDNS",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uyg_1x7Vnw6w",
@@ -137,13 +137,13 @@
       "hash": "v_585VhzG1b4",
       "address": "https://documentation.ubuntu.com/release-notes/24.04/",
       "title": "Ubuntu 24.04 LTS release notes - Ubuntu release notes",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1h8nhjXxSRFx",
       "address": "https://www.rfc-editor.org/rfc/rfc9113.html",
       "title": "RFC 9113: HTTP/2",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4ZVCTtaaTUr5",
@@ -161,19 +161,19 @@
       "hash": "ueT18UsEYJ15",
       "address": "https://tailscale.com/blog/how-nat-traversal-works",
       "title": "How NAT traversal works",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "S8-8qGfVq0pw",
       "address": "https://httpwg.org/specs/rfc9110.html",
       "title": "RFC 9110 - HTTP Semantics",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "17F5ECjVeYyw",
       "address": "https://w3c.github.io/webrtc-pc/",
       "title": "WebRTC: Real-Time Communication in Browsers",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "f8PBZ70fl1jw",
@@ -185,49 +185,49 @@
       "hash": "CRermB-c6vHw",
       "address": "https://nixos.org/manual/nixos/stable/",
       "title": "NixOS Manual",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "o4Lo42UbPYhg",
       "address": "https://curl.se/docs/manpage.html",
       "title": "curl - How To Use",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cDYzHX9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/service/create/",
       "title": "docker service create | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ry7sBvBKFM7w",
       "address": "https://nodejs.org/api/http.html",
       "title": "HTTP | Node.js v26.9.0 Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-yiS3J9Ojva4",
       "address": "https://docs.docker.com/ai/sandboxes/troubleshooting/",
       "title": "Troubleshooting | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "nOCMcyfAodxw",
       "address": "https://docs.freebsd.org/en/books/handbook/firewalls/",
       "title": "Chapter 34. Firewalls | FreeBSD Documentation Portal",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "puuhqoBj08iw",
       "address": "https://man.openbsd.org/pf.conf",
       "title": "pf.conf(5) - OpenBSD manual pages",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VYyQWyEkAvow",
       "address": "https://developer.mozilla.org/en-US/docs/Glossary/Lossy_compression",
       "title": "Lossy compression - Glossary | MDN",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "eF249jRvmBbx",
@@ -251,25 +251,25 @@
       "hash": "v3ss6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Bluetooth",
       "title": "Bluetooth - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wDfuCliZhzY4",
       "address": "https://www.grc.com/stevegibson.htm",
       "title": "GRC | Steve Gibson's WebZone:",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "N-aytS6v85_w",
       "address": "https://blog.tenstral.net/2026/09/jpeg-xl-appstream-and-better-media-processing.html",
       "title": "JPEG-XL as default in AppStream, and better media processing – Ximions Blog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hRGSPjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Usenet",
       "title": "Usenet - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2ZqdVzfOEiDw",

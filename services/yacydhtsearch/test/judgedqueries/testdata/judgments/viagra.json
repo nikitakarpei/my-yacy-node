@@ -5,61 +5,67 @@
       "hash": "Qg0resDNK5f4",
       "address": "https://xzblogs.com/new-posts?2=",
       "title": "Latest Posts page 2",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "-X16tsUsCqZ4",
       "address": "https://aioblogs.com/new-posts?2=",
       "title": "Latest Posts page 2",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "yrTWvse1V6k4",
       "address": "https://jaiblogs.com/new-posts?4=",
       "title": "Latest Posts page 4",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "X_iVrsKsIkI6",
       "address": "https://blogs-service.com/new-posts?3=",
       "title": "Latest Posts page 3",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "vci8wsDNK5f4",
       "address": "https://xzblogs.com/new-posts?3=",
       "title": "Latest Posts page 3",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "r62rdolNvrB5",
       "address": "https://www.songfacts.com/browse/artists/v",
       "title": "Songfacts - Artist Names Starting with V",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SaGRA5_XO-26",
       "address": "https://bookmarkingbay.com/story18124377/5-simple-statements-about-single-origin-coffee-explained",
       "title": "5 Simple Statements About single origin coffee Explained",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "JAPMss1ze3b4",
       "address": "https://patient.info/medicine",
       "title": "Medicine Information (A-Z)",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "yVEgLlGgel77",
       "address": "https://www.henrygruvertribute.com/don/",
       "title": "Don | Henry Gruver Tribute",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "o9E3FvNp7jj7",
       "address": "https://luigioilofficials.com/product/luigi-5150-pack/",
       "title": "Luigi 5150 Pack",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NqS7RrlkZMs5",
@@ -71,7 +77,7 @@
       "hash": "FON0NrlkZMs5",
       "address": "https://www.healthline.com/health/erectile-dysfunction/herbs",
       "title": "What Is Herbal Viagra? And Does It Work? | Healthline",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "yYUJTdFO6r_x",
@@ -101,13 +107,13 @@
       "hash": "oVp6kuyX5Qug",
       "address": "https://www.t-online.de/gesundheit/gesund-leben/sexualitaet/id_63535928/viagra-das-sollten-sie-ueber-potenz-generika-wissen.html",
       "title": "Viagra: Das sollten Sie über Potenz-Generika wissen",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "WGHrUMi-FMY4",
       "address": "https://rtde.website/kurzclips/video/154208-staatliches-viagra-un-beauftragte-gibt/",
       "title": "Staatliches Viagra? UN-Beauftragte gibt zu, ukrainische Propaganda ungeprüft zu verbreiten — RT DE",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bu1r-uyX5Qug",
@@ -119,13 +125,13 @@
       "hash": "62fgtuyX5Qug",
       "address": "https://www.t-online.de/gesundheit/krankheiten-symptome/sexuelle-probleme/id_84527078/leistungsdruck-fluch-und-segen-nach-20-jahren-viagra.html",
       "title": "Leistungsdruck: Fluch und Segen nach 20 Jahren Viagra",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "82w4e0yX5Qug",
       "address": "https://www.t-online.de/nachrichten/panorama/gesellschaft/id_100806202/grossbritannien-potenzmittel-rekord-102-jaehriger-bekommt-viagra-vom-staat.html",
       "title": "Großbritannien: Potenzmittel-Rekord – 102-Jähriger bekommt Viagra vom Staat",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "XVM51v_w0LFh",
@@ -203,7 +209,8 @@
       "hash": "uS6dpv6MSPJ6",
       "address": "https://mygenericstore.com/product/viagra/",
       "title": "VIAGRA – My Generic Store",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "8vOARsuCzQtw",
@@ -216,25 +223,27 @@
       "hash": "He1Y6rlkZMs5",
       "address": "https://www.healthline.com/health/drugs/viagra-vs-levitra",
       "title": "Viagra vs. Levitra: How These Drugs Compare",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zD54TrYG32-5",
       "address": "https://www.livescience.com/health/sex/viagra-alternatives-study-of-mouse-erections-hints-at-new-ways-to-treat-erectile-dysfunction",
       "title": "Viagra alternatives? Study of mouse erections hints at new ways to treat erectile dysfunction | Live Science",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "W0zInsQiWDN6",
       "address": "https://novamenpharmacy.com/",
       "title": "Viagra Online in the USA – Sildenafil Guide, Effects \u0026 Trusted Pharmacy Sources | NovaMen Pharmacy",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "IDABS7noM7ba",
       "address": "http://sildenafilvip.com/",
       "title": "Viagra Best Price – Quick Checkout \u0026 Delivery | Sildenafil Vip",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "_kmAGer4x6Og",
@@ -246,67 +255,78 @@
       "hash": "BEPiIs8jZYW6",
       "address": "https://mannensapotek.shop/",
       "title": "Viagra Online Sverige – Köp Sildenafil Utan Recept Diskret | MannensApotek",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "XNYWBsfIgcK5",
       "address": "https://svenskapharm.com/",
       "title": "Viagra in the USA – Trusted Information, Real Results \u0026 Safe Online Sources",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "ZQ3cyspsxD-6",
       "address": "https://confiafarmacia.shop/",
       "title": "Viagra Genérico Online – Comprar Sildenafilo Sin Receta en España",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "K5Zm8sTOHB-5",
       "address": "https://bestbetgiris.online/",
       "title": "Viagra in the USA – Trusted Information, Real Results \u0026 Safe Online Sources",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "SpmqmszJSo77",
       "address": "https://sildenafilpriceguide.com/",
       "title": "Viagra (Sildenafil) 100mg \u0026 50mg: Price Comparison, Dosage \u0026 USA Stock",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "FLAn4vlZLbn5",
       "address": "https://freshpharm24.com/product/viagra",
       "title": "Buy Viagra | Affordable Generics | Fresh Pharmacy 24",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "Nce2UsJFBj54",
       "address": "https://pinupazz.top/",
       "title": "Viagra in the USA – Trusted Information, Real Results \u0026 Safe Online Sources",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "S3u9usv8z-N5",
       "address": "https://casivipgiris.site/",
       "title": "Viagra in the USA – Trusted Information, Real Results \u0026 Safe Online Sources",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "nMPXC77y8B1b",
       "address": "http://vitalcorepharmacy.com/",
       "title": "Viagra Online in the USA – Trusted Sildenafil Tablets | VitalCore Pharmacy",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "NVD6js5khgi5",
       "address": "https://mostbettr.blog/",
       "title": "Viagra in the USA – Trusted Information, Real Results \u0026 Safe Online Sources",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "AkRD9s9MjE75",
       "address": "https://vdcasino1st.online/",
       "title": "Viagra in the USA – Trusted Information, Real Results \u0026 Safe Online Sources",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "1mKohsPVjo14",
@@ -326,13 +346,14 @@
       "hash": "q_oOsOlNvrB5",
       "address": "https://www.songfacts.com/facts/viagra-boys/man-made-of-meat",
       "title": "Man Made Of Meat by Viagra Boys - Songfacts",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3lsP27LlCuHb",
       "address": "http://tadalmedspharmacy.com/",
       "title": "Viagra in the USA – Trusted Information, Real Results \u0026 Safe Online Sources",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "_0sVrl7Ru1Eg",

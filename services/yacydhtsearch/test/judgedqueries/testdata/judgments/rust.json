@@ -5,61 +5,61 @@
       "hash": "5DcPZLLtsUGy",
       "address": "https://rustfoundation.org/policy/rust-trademark-policy/",
       "title": "Rust Language Trademark Policy – The Rust Foundation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "v17ow1DZNRCx",
       "address": "https://doc.rust-lang.org/stable/std/option/enum.Option.html",
       "title": "Option in std::option - Rust",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "A1N8bsS6MKD4",
       "address": "https://github.com/elichai",
       "title": "elichai (Elichai Turkel) · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "23Mib4r7-8J5",
       "address": "https://belgischebroedersinchristus.wordpress.com/2026/07/25/gebed-om-de-komst-van-een-koning/",
       "title": "Gebed om de komst van een koning – Belgische Broeders In Christus",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3jF9E3khua85",
       "address": "https://jwupdate.wordpress.com/",
       "title": "JWUpdate | JW Current Apostate Status and Final Temple Judgment – Web Witnessing Record; The Bethel Apostasy is Prophecy",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "V2dn4ZzEDQ74",
       "address": "https://booksbikesboomsticks.blogspot.com/",
       "title": "View From The Porch",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wpXBf4uNhXy5",
       "address": "https://thenonconformer.wordpress.com/tag/jesus-christ/",
       "title": "Jesus Christ | The non conformer's Canadian Weblog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BsZARvbMGqiy",
       "address": "https://simonwillison.net/tags/browsers/",
       "title": "Simon Willison on browsers",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Nx4aqdaoyK-x",
       "address": "https://docs.joinmastodon.org/client/libraries/",
       "title": "Libraries and implementations - Mastodon documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "op6r4sNweQAy",
@@ -71,25 +71,25 @@
       "hash": "QggaZoDZNRCx",
       "address": "https://doc.rust-lang.org/nightly/std/primitive.slice.html",
       "title": "slice - Rust",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "iM_2v97JARt4",
       "address": "https://www.infoq.com/presentations/rust-efficient-software/?topicPageSponsorship=33b2362b-79e8-4a5f-a47a-e00fa89099c5",
       "title": "Not Just Memory Safety: How Rust Helps Maintain Efficient Software - InfoQ",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9eT5QsDi1byx",
       "address": "https://rust-lang.org/policies/code-of-conduct/",
       "title": "Code of conduct - Rust Programming Language",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xBUI1oDZNRCx",
       "address": "https://doc.rust-lang.org/nightly/core/convert/trait.Into.html",
       "title": "Into in core::convert - Rust",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "lh0zKsnpCNr6",
@@ -107,13 +107,13 @@
       "hash": "LCloI97JARt4",
       "address": "https://www.infoq.com/presentations/rust-tps-service/",
       "title": "The Rust High Performance Talk You Did Not Expect - InfoQ",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "2MFf9oDZNRCx",
       "address": "https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html",
       "title": "Sized in core::marker - Rust",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "P5qgbsnpCNr6",
@@ -125,7 +125,7 @@
       "hash": "IiXRJLV3Q1Xw",
       "address": "https://kobzol.github.io/rust/rustc/2026/01/05/my-rust-contributions-in-2025",
       "title": "1160 PRs to improve Rust in 2025 | Kobzol’s blog",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "XvPK_coCj-7w",
@@ -137,37 +137,37 @@
       "hash": "nc7-NU7GyzR4",
       "address": "https://corrode.dev/blog/tips-for-faster-rust-compile-times/",
       "title": "Tips For Faster Rust Compile Times | corrode Rust Consulting",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "zqBn8s5iReyk",
       "address": "https://loige.co/where-to-go-to-learn-rust-in-2021/",
       "title": "Where to go to learn Rust in 2021",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "YTNlydLtsUGy",
       "address": "https://rustfoundation.org/media/ferrous-systems-donates-ferrocene-language-specification-to-rust-project/",
       "title": "Ferrous Systems Donates Ferrocene Language Specification to Rust Project - The Rust Foundation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "x08V-NT-94c4",
       "address": "https://qouteall.fun/qouteall-blog/2025/How%20to%20Avoid%20Fighting%20Rust%20Borrow%20Checker",
       "title": "How to Avoid Fighting Rust Borrow Checker | qouteall notes",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "8y6cqlDi1byx",
       "address": "https://rust-lang.org/tools/install/",
       "title": "Install Rust - Rust Programming Language",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vSeMBs-UOu6x",
       "address": "https://thenewstack.io/combining-rust-and-python-for-high-performance-ai-systems/",
       "title": "Combining Rust and Python for High-Performance AI Systems - The New Stack",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "tA8cOeWRy054",
@@ -179,37 +179,37 @@
       "hash": "0C2s66g7yvNw",
       "address": "https://handwiki.org/wiki/Outline_of_the_Rust_programming_language",
       "title": "Outline of the Rust programming language - HandWiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0q9BHU8LZOnz",
       "address": "https://this-week-in-rust.org/blog/2023/02/01/this-week-in-rust-480/",
       "title": "This Week in Rust 480 · This Week in Rust",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "20WbAsLtsUGy",
       "address": "https://rustfoundation.org/rust-commercial-network/",
       "title": "Rust Commercial Network - The Rust Foundation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "2pM_8NuD3Iyw",
       "address": "https://forums.freebsd.org/threads/issue-building-rust-with-poudriere-on-15-0-release.100838/",
       "title": "Issue building Rust with Poudriere on 15.0-RELEASE | The FreeBSD Forums",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0xTU9E8bxdRx",
       "address": "https://play.rust-lang.org/",
       "title": "Rust Playground",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "2FgsS1S6MKD4",
       "address": "https://github.com/rust-unofficial/awesome-rust",
       "title": "GitHub - rust-unofficial/awesome-rust: A curated list of Rust code and resources. · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6K8zAtkUiOQ5",
@@ -227,25 +227,25 @@
       "hash": "7REomxdtTup4",
       "address": "https://litslink.com/technologies/rust-development-services",
       "title": "Rust Development Services. Hire Rust Developers at LITSLINK",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-NoUI6clwn2w",
       "address": "https://www.ars.usda.gov/midwest-area/stpaul/cereal-disease-lab/docs/barberry/black-stem-rust-biology-and-threat-to-wheat-growers/",
       "title": "Black stem rust biology and threat to wheat growers : USDA ARS",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DeasHU7GyzR4",
       "address": "https://corrode.dev/blog/why-rust/",
       "title": "Why Rust in Production? | corrode Rust Consulting",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9EB_rNfNDSI4",
       "address": "https://tilde.team/~bonebaboon/rust-trademark-policy-issue/",
       "title": "Rust Foundation Trademark Policy Issue",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "PF3jvsVuF7c4",
@@ -257,13 +257,13 @@
       "hash": "Od57MdLtsUGy",
       "address": "https://rustfoundation.org/media/google-contributes-1m-to-rust-foundation-to-support-c-rust-interop-initiative/",
       "title": "Google Contributes $1M to Rust Foundation to Support C++/Rust “Interop Initiative” - The Rust Foundation",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "VRkg7aLfGIY4",
       "address": "https://www.manning.com/books/refactoring-to-rust",
       "title": "Refactoring to Rust - Lily Mara, Joel Holmes",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_4-AysS6MKD4",
@@ -281,67 +281,67 @@
       "hash": "vDnLq97JARt4",
       "address": "https://www.infoq.com/presentations/rust-borrow-checker/",
       "title": "The Rust Borrow Checker - a Deep Dive - InfoQ",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "poqRBqNKpOCw",
       "address": "https://linux.slashdot.org/story/26/05/27/208203/rust-will-save-linux-from-ai-says-greg-kroah-hartman",
       "title": "Rust Will Save Linux From AI, Says Greg Kroah-Hartman - Slashdot",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Jf0uyDDZNRCx",
       "address": "https://doc.rust-lang.org/std/",
       "title": "std - Rust",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "_4RkJo4Dk-Vw",
       "address": "https://it.slashdot.org/story/25/12/17/2034233/linux-kernel-rust-code-sees-its-first-cve-vulnerability?utm_source=rss1.0mainlinkanon\u0026utm_medium=feed",
       "title": "Linux Kernel Rust Code Sees Its First CVE Vulnerability - Slashdot",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "8EPLlEPaiEbx",
       "address": "https://rustc-dev-guide.rust-lang.org/overview.html",
       "title": "Overview of the compiler - Rust Compiler Development Guide",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gQVzTeMcq6Ew",
       "address": "https://web.archive.org/web/20220625140128/https:/www.infoq.com/presentations/rust-borrow-checker/",
       "title": "The Rust Borrow Checker - a Deep Dive",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "HTPqzsDi1byx",
       "address": "https://rust-lang.org/",
       "title": "Rust Programming Language",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "dlXNUgDZNRCx",
       "address": "https://doc.rust-lang.org/edition-guide/editions/index.html",
       "title": "What are editions? - The Rust Edition Guide",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "qIqhBUemigYg",
       "address": "https://www.flixbus.de/busverbindung/fernbus-europa-park-rust-heidelberg",
       "title": "Bus Rust (Europa-Park) nach Heidelberg - Günstig Tickets buchen",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pE0bEngko1nx",
       "address": "https://users.rust-lang.org/u/nasa42",
       "title": "Profile - nasa42 - The Rust Programming Language Forum",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "boulXeDZNRCx",
       "address": "https://doc.rust-lang.org/book/ch15-06-reference-cycles.html",
       "title": "Reference Cycles Can Leak Memory - The Rust Programming Language",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "YjZ0LDDZNRCx",
@@ -353,7 +353,7 @@
       "hash": "IhmoUjjEZfvx",
       "address": "https://en.wiktionary.org/wiki/rust",
       "title": "rust - Wiktionary, the free dictionary",
-      "grade": null
+      "grade": 1
     }
   ]
 }

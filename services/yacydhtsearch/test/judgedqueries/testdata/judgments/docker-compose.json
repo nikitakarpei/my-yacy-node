@@ -5,61 +5,61 @@
       "hash": "AcKQBX9Ojva4",
       "address": "https://docs.docker.com/reference/samples/php/",
       "title": "PHP samples | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AkNjlZBP-b24",
       "address": "https://docs.vultr.com/install-docker-compose-on-ubuntu-20-04",
       "title": "How to Install Docker Compose on Ubuntu 20.04 Tutorial | Vultr Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AYjzb2RnNlC4",
       "address": "https://supabase.com/docs/guides/self-hosting/docker",
       "title": "Self-Hosting with Docker | Supabase Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CrZldX9Ojva4",
       "address": "https://docs.docker.com/reference/api/engine/sdk/",
       "title": "Develop with Docker Engine SDKs | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "JVMJ8X9Ojva4",
       "address": "https://docs.docker.com/reference/samples/java/",
       "title": "Java samples | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "KSSoYZ9Ojva4",
       "address": "https://docs.docker.com/retired/",
       "title": "Deprecated and retired Docker products and features | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "OulR-X_MW7i4",
       "address": "https://www.docker.com/ja-jp/products/ide/",
       "title": "IDE 拡張機能 | Docker",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ETQBrl_MW7i4",
       "address": "https://www.docker.com/trust/",
       "title": "Trust | Docker",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Pvkk9BKkVoL4",
       "address": "https://forums.docker.com/tag/docker/9",
       "title": "Topics tagged docker",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WP9VuZ9Ojva4",
       "address": "https://docs.docker.com/reference/",
       "title": "Reference | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_B_aiX9Ojva4",
@@ -83,7 +83,7 @@
       "hash": "KJnCcc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/networking/",
       "title": "Networking in Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "cOQxNX9Ojva4",
@@ -95,7 +95,7 @@
       "hash": "QtotYc9Ojva4",
       "address": "https://docs.docker.com/compose/install/uninstall/",
       "title": "Uninstall Docker Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DcjaKj_MW7i4",
@@ -113,7 +113,7 @@
       "hash": "NTbkPc9Ojva4",
       "address": "https://docs.docker.com/compose/install/linux/",
       "title": "Install the Docker Compose plugin | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "nsCuQl_MW7i4",
@@ -125,7 +125,7 @@
       "hash": "TOysAX9Ojva4",
       "address": "https://docs.docker.com/reference/compose-file/develop/",
       "title": "Compose Develop Specification | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ueEPEj_MW7i4",
@@ -137,13 +137,13 @@
       "hash": "F77-_X9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/compose/logs/",
       "title": "docker compose logs | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "k93SLX9Ojva4",
       "address": "https://docs.docker.com/reference/compose-file/merge/",
       "title": "Merge Compose files | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "3JOA-syz5Ngx",
@@ -155,43 +155,43 @@
       "hash": "YvaOVX9Ojva4",
       "address": "https://docs.docker.com/reference/compose-file/",
       "title": "Compose file reference | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "SQnSiWS6MKD4",
       "address": "https://github.com/aksiksi/compose2nix",
       "title": "GitHub - aksiksi/compose2nix: Generate a NixOS config from a Docker Compose project. · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KH5o9X9Ojva4",
       "address": "https://docs.docker.com/reference/compose-file/include/",
       "title": "Use include to modularize Compose files | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RmjtrX9Ojva4",
       "address": "https://docs.docker.com/reference/compose-file/build/",
       "title": "Compose Build Specification | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "msCDoc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/multiple-compose-files/",
       "title": "Use multiple Compose files | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "vlvGkQS6MKD4",
       "address": "https://github.com/docker/compose/releases",
       "title": "Releases · docker/compose · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "sOS1aGdTeyA4",
       "address": "https://github.blog/changelog/2026-01-30-docker-and-docker-compose-version-upgrades-on-hosted-runners/",
       "title": "Docker and Docker Compose version upgrades on hosted runners - GitHub Changelog",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4JzLCQS6MKD4",
@@ -209,13 +209,13 @@
       "hash": "88Bc6c9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/environment-variables/envvars/",
       "title": "Configure pre-defined environment variables in Docker Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "JT2132jw1Zlx",
       "address": "https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/",
       "title": "Translate a Docker Compose File to Kubernetes Resources | Kubernetes",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "R8J8sJ_MW7i4",
@@ -233,55 +233,55 @@
       "hash": "OoaImJ9Ojva4",
       "address": "https://docs.docker.com/ai/compose/models-and-compose/",
       "title": "Define AI Models in Docker Compose applications | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "l2W6Kc9Ojva4",
       "address": "https://docs.docker.com/compose/install/",
       "title": "Overview of installing Docker Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "OI4fOc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/lifecycle/",
       "title": "Using lifecycle hooks with Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6LVR5c9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/multiple-compose-files/extends/",
       "title": "Extend your Compose file | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4coX0m_hER54",
       "address": "https://mise.jdx.dev/bootstrap/compose.html",
       "title": "Docker Compose projects | mise-en-place",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "NPGLMgs4taKw",
       "address": "https://wikipedia.ddns.net:51234/content/stackoverflow.com_en_all_2023-11/questions/57559967/docker-compose-3-multiline",
       "title": "docker-compose-3-multiline",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "i_7p7X9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/compose/port/",
       "title": "docker compose port | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Td7m9X9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/compose/alpha/dry-run/",
       "title": "docker compose alpha dry-run | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "DJvK9ug2aLVh",
       "address": "https://community.searchlab.eu/t/what-is-the-correct-docker-compose-setting/3394",
       "title": "What is the correct docker compose setting? - YaCy - Searchlab Community",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "6kvu9c9Ojva4",
@@ -293,7 +293,7 @@
       "hash": "9pOP_cS6MKD4",
       "address": "https://github.com/louislam/dockge",
       "title": "GitHub - louislam/dockge: A fancy, easy-to-use and reactive self-hosted docker compose.yaml stack-oriented manager · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CjgsxsIyoLTx",
@@ -317,19 +317,19 @@
       "hash": "4Ki38c9Ojva4",
       "address": "https://docs.docker.com/compose/gettingstarted/",
       "title": "Docker Compose Quickstart | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "49J1BX9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/compose/",
       "title": "docker compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4ARbss0F3eD6",
       "address": "https://raspberrytips.com/docker-compose-raspberry-pi/",
       "title": "Docker Compose: The Easier Way to Run Docker on Raspberry Pi – RaspberryTips",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "spCnKZ9Ojva4",
@@ -341,13 +341,13 @@
       "hash": "cNQdA49Ojva4",
       "address": "https://docs.docker.com/build/bake/compose-file/",
       "title": "Building with Bake from a Compose file | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ZpHn-E9Ojva4",
       "address": "https://docs.docker.com/engine/security/trust/deploying_notary/",
       "title": "Deploy Notary Server with Compose | Docker Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bEW2ml_MW7i4",
@@ -377,31 +377,31 @@
       "hash": "3EkYQc9Ojva4",
       "address": "https://docs.docker.com/compose/bridge/usage/",
       "title": "Use the default Compose Bridge transformation | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "KEguxc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/use-secrets/",
       "title": "Manage secrets securely in Docker Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jWQPnc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/production/",
       "title": "Use Compose in production | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "LL7rKc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/init-containers/",
       "title": "Use init containers in Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "XTTIZc9Ojva4",
       "address": "https://docs.docker.com/compose/trust-model/",
       "title": "Trust model for Compose files | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "H1rfWX9Ojva4",
@@ -413,13 +413,13 @@
       "hash": "SJnv4c9Ojva4",
       "address": "https://docs.docker.com/compose/intro/compose-application-model/",
       "title": "How Compose works | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "TKx8dJ_MW7i4",
       "address": "https://www.docker.com/blog/announcing-compose-v2-general-availability/",
       "title": "Announcing Compose V2 General Availability | Docker",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RgD2Uc9Ojva4",
@@ -431,7 +431,7 @@
       "hash": "XX3XVc9Ojva4",
       "address": "https://docs.docker.com/compose/compose-sdk/",
       "title": "Using the Compose SDK | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CDOtDX9Ojva4",
@@ -455,25 +455,25 @@
       "hash": "yHI8nc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/oci-artifact/",
       "title": "Package and deploy Docker Compose applications as OCI artifacts | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "xxmyhc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/gpu-support/",
       "title": "Run Docker Compose services with GPU access | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "gan9Sc9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/file-watch/",
       "title": "Use Compose Watch | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "uC0K1c9Ojva4",
       "address": "https://docs.docker.com/compose/how-tos/profiles/",
       "title": "Using profiles with Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0fjdrJ9Ojva4",
@@ -485,7 +485,7 @@
       "hash": "oSUemX9Ojva4",
       "address": "https://docs.docker.com/reference/compose-file/services/",
       "title": "Define services in Docker Compose | Docker Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "H-1BPX9Ojva4",

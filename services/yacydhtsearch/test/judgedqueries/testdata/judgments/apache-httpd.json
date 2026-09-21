@@ -5,7 +5,7 @@
       "hash": "Df3dbjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Category:Apache_Software_Foundation_projects",
       "title": "Category:Apache Software Foundation projects - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "s2BSFayzSDzw",
@@ -17,7 +17,7 @@
       "hash": "7CAYC5kvnDhy",
       "address": "https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-apache-http-server/",
       "title": "Getting started with Apache HTTP Server :: Fedora Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7DbfcXyzSDzw",
@@ -29,13 +29,13 @@
       "hash": "hcakplUX9GT5",
       "address": "https://www.movabletype.com/",
       "title": "Movable Type - Content Management System, Blog Software \u0026 Publishing Platform",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "x0i_csH7rt95",
       "address": "https://movabletype.com/",
       "title": "Movable Type - Content Management System, Blog Software \u0026 Publishing Platform",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "U69luayzSDzw",
@@ -47,13 +47,13 @@
       "hash": "VewhMxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Apache_HTTP_Server_(Magyar)",
       "title": "Apache HTTP Server (Magyar) - ArchWiki",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "p9gdlobrsZjx",
       "address": "https://www.mediawiki.org/wiki/Project:Support_desk",
       "title": "Project:Support desk - MediaWiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uFJMaayzSDzw",
@@ -65,7 +65,7 @@
       "hash": "F_bXE7tibGbx",
       "address": "https://blog.josefsson.org/2022/09/20/privilege-separation-of-gss-api-credentials-for-apache/",
       "title": "Privilege separation of GSS-API credentials for Apache",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9xaYXayzSDzw",
@@ -101,7 +101,7 @@
       "hash": "PalVhXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/mod_ratelimit.html",
       "title": "mod_ratelimit - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "P2FWiayzSDzw",
@@ -113,13 +113,13 @@
       "hash": "N743uXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/developer/new_api_2_4.html",
       "title": "API Changes in Apache HTTP Server 2.4 since 2.2 - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7D9J4XyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/en/programs/httpd.html",
       "title": "httpd - Apache Hypertext Transfer Protocol Server - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "tkDMTXyzSDzw",
@@ -137,7 +137,7 @@
       "hash": "sepuiXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/dns-caveats.html",
       "title": "Issues Regarding DNS and Apache HTTP Server - Apache HTTP Server Version 2.5",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "0XsHISyzSDzw",
@@ -149,7 +149,7 @@
       "hash": "06faeXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/install.html",
       "title": "Compiling and Installing - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "1Xy9mXyzSDzw",
@@ -161,7 +161,7 @@
       "hash": "1LKucXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/en/env.html",
       "title": "Environment Variables in Apache httpd - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4X4ryXyzSDzw",
@@ -173,13 +173,13 @@
       "hash": "4xSkSXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/urlmapping.html",
       "title": "Mapping URLs to Filesystem Locations - Apache HTTP Server Version 2.5",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "7q9-1XyzSDzw",
       "address": "https://httpd.apache.org/docs/current/getting-started.html",
       "title": "Getting Started - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "UKe3dXyzSDzw",
@@ -197,7 +197,7 @@
       "hash": "8OYxtXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/content-negotiation.html",
       "title": "Content Negotiation - Apache HTTP Server Version 2.5",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-XrviXyzSDzw",
@@ -209,13 +209,13 @@
       "hash": "8UIUgXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/env.html",
       "title": "Environment Variables in Apache httpd - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "CFB9UXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/sitemap.html",
       "title": "Sitemap - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9N5z4MaQF27w",
@@ -263,7 +263,7 @@
       "hash": "IrMMBfDZf_-w",
       "address": "https://downloads.apache.org/httpd/Announcement2.4.html",
       "title": "Apache HTTP Server Project",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "QJO3EayzSDzw",
@@ -299,25 +299,25 @@
       "hash": "FDlZdayzSDzw",
       "address": "https://httpd.apache.org/download.cgi",
       "title": "Download - The Apache HTTP Server Project",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "v27zFcDP7iww",
       "address": "https://selfserve.apache.org/mailinglist-new.html",
       "title": "ASF Self-serve Portal - The Apache Software Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "41k-jXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/misc/",
       "title": "Apache Miscellaneous Documentation - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "53fzcXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/programs/",
       "title": "Server and Supporting Programs - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "O1k6UXyzSDzw",
@@ -329,19 +329,19 @@
       "hash": "j6PKCXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/urlmapping.html",
       "title": "Mapping URLs to Filesystem Locations - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "o_sicXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/env.html",
       "title": "Environment Variables in Apache httpd - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9IYVhXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/sections.html",
       "title": "Configuration Sections - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "HqY_7XyzSDzw",
@@ -383,7 +383,7 @@
       "hash": "nJH-hXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "yu99cXyzSDzw",
@@ -395,25 +395,25 @@
       "hash": "ELJ-nrPVkhUw",
       "address": "https://infra.apache.org/blog/",
       "title": "Blogs - Apache Infrastructure Website",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NQVcsXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/programs/httpd.html",
       "title": "httpd - Apache Hypertext Transfer Protocol Server - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "RDb1jayzSDzw",
       "address": "https://httpd.apache.org/mod_ftp/",
       "title": "mod_ftp - FTP Protocol module for Apache 2 - The Apache HTTP Server Project",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "THpTcXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/programs/httpd.html",
       "title": "httpd - Apache Hypertext Transfer Protocol Server - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ebMwaXyzSDzw",
@@ -431,25 +431,25 @@
       "hash": "OtMjWXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/programs/httpd.html",
       "title": "httpd - Apache Hypertext Transfer Protocol Server - Apache HTTP Server Version 2.5",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ZtltUXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/en/howto/ssi.html",
       "title": "Apache httpd Tutorial: Introduction to Server Side Includes - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "aTGTDXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/en/programs/httpd.html",
       "title": "httpd - Apache Hypertext Transfer Protocol Server - Apache HTTP Server Version 2.4",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "ak0cWXyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/howto/ssi.html",
       "title": "Apache httpd Tutorial: Introduction to Server Side Includes - Apache HTTP Server Version 2.5",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "cwHhRDyzSDzw",

@@ -5,7 +5,7 @@
       "hash": "WgnHQsAMJc15",
       "address": "https://tedunderwood.com/",
       "title": "The Stone and the Shell – Using large digital libraries to advance literary history",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ifP7FdHU0ZoY",
@@ -17,25 +17,26 @@
       "hash": "HnNrSsVUrQm6",
       "address": "https://earthnewspaper.com/Quotes/",
       "title": "Quotes – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "8homhsoJh_h5",
       "address": "https://techxplore.com/",
       "title": "Tech Xplore - Technology and Engineering news",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CpMPuPoT35q6",
       "address": "https://uptimeinstitute.com/about-ui/news-media",
       "title": "News \u0026 Media | Latest Updates - Uptime Institute",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5wkklSwBu71x",
       "address": "https://www.dallasfed.org/research/papers",
       "title": "Working papers - Dallasfed.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SAjxrQZchFfZ",
@@ -65,7 +66,8 @@
       "hash": "MW69aQZchFfZ",
       "address": "http://www.greenteethmm.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "m5Fe6jRvmBbx",
@@ -113,31 +115,31 @@
       "hash": "aJD3bsakFVXw",
       "address": "https://slashdot.org/",
       "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4ymsRvOpC_C5",
       "address": "https://www.sciencedaily.com/news/matter_energy/engineering/",
       "title": "Engineering News -- ScienceDaily",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7eYSusLVkley",
       "address": "https://daringfireball.net/",
       "title": "Daring Fireball",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RWaqljRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Automation",
       "title": "Automation - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hQpGajRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Conservatism_in_the_United_States",
       "title": "Conservatism in the United States - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-60L9j5sllYz",
@@ -149,19 +151,19 @@
       "hash": "YK107lV83u95",
       "address": "https://www.isgp-studies.com/liberal-cia",
       "title": "The Grassroots Myth: ''Liberal CIA'' Network of ''New Left'' Foundations, Media, Activism",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xrMtYs8yq-w5",
       "address": "https://judithcurry.com/",
       "title": "Climate Etc. – A blog by Judith Curry",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "8cvADlcYruk4",
       "address": "https://www.hetzner.com/webhosting/",
       "title": "Premium web hosting: Fast, Safe, Cheap",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "daW1ZQZchFfZ",
@@ -173,7 +175,8 @@
       "hash": "HgJ9BQXx1HRZ",
       "address": "http://www.dailystirrer.com/2012-february.shtml",
       "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "z5kbMQZchFfZ",
@@ -185,7 +188,8 @@
       "hash": "PSkz_QXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "eW2kUjRvmBbx",
@@ -215,13 +219,13 @@
       "hash": "CttD4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Carbon_nanotube",
       "title": "Carbon nanotube - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Fp68rjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Hydroelectricity",
       "title": "Hydroelectricity - Wikipedia",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "Jot9GFhOjcfw",
@@ -233,49 +237,49 @@
       "hash": "P3-D3jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Geographic_information_system",
       "title": "Geographic information system - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "AwnqUjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Chinese_Civil_War",
       "title": "Chinese Civil War - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Ldz9ljRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Transformer",
       "title": "Transformer - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "LvUI3jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Malthusianism",
       "title": "Malthusianism - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SHM3KjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Crowdsourcing",
       "title": "Crowdsourcing - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "W3pL5jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Superconductivity",
       "title": "Superconductivity - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xjfebjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Public_transport",
       "title": "Public transport - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Afiz3jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Fusion_power",
       "title": "Fusion power - Wikipedia",
-      "grade": null
+      "grade": 0
     }
   ]
 }

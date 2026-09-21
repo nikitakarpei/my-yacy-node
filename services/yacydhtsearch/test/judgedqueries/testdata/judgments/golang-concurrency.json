@@ -11,13 +11,13 @@
       "hash": "VM-WmZyt64y5",
       "address": "https://docs.photoprism.app/release-notes/",
       "title": "Release Notes - PhotoPrism",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "xneCNMyt64y5",
       "address": "https://docs.photoprism.app/getting-started/troubleshooting/performance/",
       "title": "Performance - PhotoPrism",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "8gsjosK-xyJ4",
@@ -29,19 +29,19 @@
       "hash": "SK7_ZxNzCnSk",
       "address": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query",
       "title": "Query string query | Elasticsearch Reference",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bEDZ5sb29Eq4",
       "address": "https://zulip.com/communities/",
       "title": "Open communities directory | Zulip",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "mY_LrzS6MKD4",
       "address": "https://github.com/topics/filesystem",
       "title": "filesystem · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "tucm1jRvmBbx",
@@ -59,25 +59,25 @@
       "hash": "T_l4-UrNs7-x",
       "address": "https://getstream.io/blog/switched-python-go/",
       "title": "Why We Switched from Python to Go",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "jenFDsS6MKD4",
       "address": "https://github.com/hyper0x",
       "title": "hyper0x (HyL) · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-zyAxuKtJDgx",
       "address": "https://id.wikipedia.org/wiki/Go_(bahasa_pemrograman)",
       "title": "Go (bahasa pemrograman) - Wikipedia bahasa Indonesia, ensiklopedia bebas",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "9EmqOSU39EL4",
       "address": "https://pygolang.nexedi.com/",
       "title": "Pygolang Home",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "V7zmBsK-xyJ4",
@@ -89,13 +89,13 @@
       "hash": "sUWcBzS6MKD4",
       "address": "https://github.com/topics/unicorns",
       "title": "unicorns · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "u2SnisCRdREw",
       "address": "https://jvns.ca/",
       "title": "Julia Evans",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "wPbQLR1YIUaQ",
@@ -107,7 +107,7 @@
       "hash": "C42pLzS6MKD4",
       "address": "https://github.com/topics/command-line",
       "title": "command-line · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -137,49 +137,49 @@
       "hash": "84vzxd14cltk",
       "address": "https://planet.python.org.br/",
       "title": "Planeta PythonBrasil",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "A_45Olcc31ei",
       "address": "https://www.gophercon-russia.ru/en",
       "title": "GopherCon Russia 2021",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NPoTiMvuh6k5",
       "address": "https://muharem.wordpress.com/",
       "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "qQ00LfS6MKD4",
       "address": "https://github.com/affaan-m/ECC",
       "title": "GitHub - affaan-m/ECC: The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond. · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0hFlpzS6MKD4",
       "address": "https://github.com/topics/streams",
       "title": "streams · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Rf_kgMyt64y5",
       "address": "https://docs.photoprism.app/getting-started/raspberry-pi/",
       "title": "Requirements - PhotoPrism",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RpFk9zS6MKD4",
       "address": "https://github.com/topics/dart",
       "title": "dart · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7Ev84zS6MKD4",
       "address": "https://github.com/topics/project",
       "title": "project · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jDc0FAK-xyJ4",
@@ -197,55 +197,55 @@
       "hash": "j31VWpS6MKD4",
       "address": "https://github.com/quozd/awesome-dotnet",
       "title": "GitHub - quozd/awesome-dotnet: A collection of awesome .NET libraries, tools, frameworks and software · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6F57CEMW35a4",
       "address": "https://hub.docker.com/categories/languages-and-frameworks",
       "title": "Languages \u0026 frameworks | Docker Hub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3Wv6m2MW35a4",
       "address": "https://hub.docker.com/u/ppc64le",
       "title": "DOI: ppc64le",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XNn7M2MW35a4",
       "address": "https://hub.docker.com/u/riscv64",
       "title": "DOI: riscv64",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "r_HdU2MW35a4",
       "address": "https://hub.docker.com/u/arm64v8",
       "title": "DOI: arm64v8",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "lnd1bUK-xyJ4",
       "address": "https://go.dev/blog/context-and-structs",
       "title": "Contexts and structs - The Go Programming Language",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "4x07skxyfg74",
       "address": "https://pkg.go.dev/golang.org/x",
       "title": "Sub-repositories - Go Packages",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6sD4SLK-xyJ4",
       "address": "https://go.dev/ref/mem",
       "title": "The Go Memory Model - The Go Programming Language",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "52ikqzS6MKD4",
       "address": "https://github.com/topics/learning-golang",
       "title": "learning-golang · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5qG8l0S6MKD4",
@@ -281,7 +281,7 @@
       "hash": "PeV3jUK-xyJ4",
       "address": "https://go.dev/blog/waza-talk",
       "title": "Concurrency is not parallelism - The Go Programming Language",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "QriquAK-xyJ4",
@@ -293,25 +293,25 @@
       "hash": "u8KO6UlsMv8w",
       "address": "https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/",
       "title": "Notes on structured concurrency, or: Go statement considered harmful — njs blog",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "3j9_jsvE6fPw",
       "address": "https://golangcn.org/",
       "title": "Golang China Contributors Club",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TzRMZlS6MKD4",
       "address": "https://github.com/arunsworld/nursery",
       "title": "GitHub - arunsworld/nursery: Structured Concurrency in Go · GitHub",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "V3eaVa_rJw_4",
       "address": "https://gitlab.com/explore/projects/topics/golang",
       "title": "golang · Topics · GitLab",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0N-aIjRvmBbx",
@@ -323,7 +323,7 @@
       "hash": "Fli12UK-xyJ4",
       "address": "https://go.dev/blog/context",
       "title": "Go Concurrency Patterns: Context - The Go Programming Language",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "KRP4Evd537ax",
@@ -347,7 +347,7 @@
       "hash": "RQJHhRDzPvww",
       "address": "https://tip.golang.org/doc/faq",
       "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-      "grade": null
+      "grade": 1
     }
   ]
 }

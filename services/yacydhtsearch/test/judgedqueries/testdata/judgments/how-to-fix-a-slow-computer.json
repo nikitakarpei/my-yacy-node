@@ -30,67 +30,67 @@
       "hash": "-b3sxspKNBr4",
       "address": "https://rense.com/",
       "title": "rense.com",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ze4t3QZchFfZ",
       "address": "http://www.greenteethmm.com/greenteeth-back-index34.shtml",
       "title": "greenteeth-back-index34-all-posts",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_XjzDY87hRS5",
       "address": "https://timesofindia.indiatimes.com/technology",
       "title": "Technology News: Latest Tech News on New Mobile Phones, Laptops, Gadgets \u0026 More",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PmWG4sY-tUi5",
       "address": "https://moralparty.com/AI/",
       "title": "AI – MoralParty.com",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sI9aJs2xL7A6",
       "address": "https://corbettreport.com/december-open-thread-2022/",
       "title": "December Open Thread (2022) | The Corbett Report",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9Gfi7KsrSOQw",
       "address": "https://arxiv.org/list/cs/new",
       "title": "Computer Science",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0BZyCsY-tUi5",
       "address": "https://moralparty.com/ai/",
       "title": "AI – MoralParty.com",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ULoN5vOpC_C5",
       "address": "https://www.sciencedaily.com/news/computers_math/computer_modeling/",
       "title": "Computer Modeling News -- ScienceDaily",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "6_WRFiwsFjp5",
       "address": "https://lurkerablog.wordpress.com/",
       "title": "Richard's Dystopian Pokeverse |",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pGRD67yp6WtY",
@@ -102,13 +102,13 @@
       "hash": "-S1qcjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
       "title": "Wikipedia:Community portal - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sX9EVn7YLxR5",
@@ -126,151 +126,152 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Qu__XUVM3_EY",
       "address": "http://bobagard.blogspot.com/",
       "title": "Bob's Blog",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "qLOQmobrsZjx",
       "address": "https://www.mediawiki.org/wiki/How_to_report_a_bug",
       "title": "How to report a bug - MediaWiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Fct7Cj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Wikipedia",
       "title": "Wikipedia - Wikiquote",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Pq3ojlcVhFQ5",
       "address": "https://www.anthropic.com/glasswing",
       "title": "Project Glasswing: Securing critical software for the AI era \\ Anthropic",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Z1PfjsdnMqgw",
       "address": "https://exiftool.org/",
       "title": "ExifTool by Phil Harvey",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vo5-wtHf-SKx",
       "address": "https://blog.openlibrary.org/",
       "title": "The Open Library Blog | A web page for every book",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Ch04dlOpC_C5",
       "address": "https://www.sciencedaily.com/",
       "title": "ScienceDaily: Your source for the latest research news",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "O1Tk8shc5tG6",
       "address": "https://accordingtohoyt.com/",
       "title": "According To Hoyt – Born Free",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "S9YMJzCJVaIz",
       "address": "https://planet.documentfoundation.org/",
       "title": "The Document Foundation Planet",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WgnHQsAMJc15",
       "address": "https://tedunderwood.com/",
       "title": "The Stone and the Shell – Using large digital libraries to advance literary history",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Zxd0glxSD0j4",
       "address": "https://www.bbc.com/culture",
       "title": "BBC Culture | Arts, Film \u0026 TV, Reviews, Books, Music, Style",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "SOAt4sWMnAPx",
       "address": "https://fedoraplanet.org/",
       "title": "Fedora People",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XwuSSjXxSRFx",
       "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
       "title": "RFC 9110: HTTP Semantics",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Z5FWhh3e0QFx",
       "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
       "title": "Commons:Village pump - Wikimedia Commons",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kdk_feVM3_EY",
       "address": "http://bobagard.blogspot.com/2022/07/biden-conveniently-reinitiates-strict.html",
       "title": "Bob's Blog: Biden conveniently reinitiates strict isolation procedures",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-gZasla_7uS5",
       "address": "https://www.theregister.com/",
       "title": "Technology news and analysis | The Register",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3FmMi9sVFIWx",
       "address": "https://policylabs.frontiersin.org/",
       "title": "Frontiers Policy Labs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3f88Bs01kFt6",
       "address": "https://calibre-ebook.com/whats-new",
       "title": "calibre - What's new",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CIDKPsSKISY5",
       "address": "https://rubystyle.guide/",
       "title": "Ruby Style Guide",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Cg9jcs2jvnSw",
       "address": "https://ffmpeg.org/ffmpeg-filters.html",
       "title": "FFmpeg Filters Documentation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "IIjdmCAp6NRx",
       "address": "https://yo.wikipedia.org/wiki/Wikipedia:N%C3%ADpa_Wikipedia",
       "title": "Wikipedia:Nípa Wikipedia - Wikipedia, ìwé-ìmọ̀ ọ̀fẹ́",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Llh3thPQJxN5",
       "address": "https://pielkeclimatesci.wordpress.com/",
       "title": "Climate Science: Roger Pielke Sr. | by Roger Pielke Sr.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Qj6oCHl9zMFY",
       "address": "http://antigreen.blogspot.com/",
       "title": "GREENIE WATCH",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "yJuijsCG40j4",
@@ -282,25 +283,26 @@
       "hash": "190N3snp_33z",
       "address": "https://globalkleptocracy.net/",
       "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "PVTc7tJ0E3O4",
       "address": "https://sneak.berlin/20201112/your-computer-isnt-yours/",
       "title": "Jeffrey Paul: Your Computer Isn't Yours",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_ed09slfKKy5",
       "address": "https://jeffhuang.com/best_paper_awards/",
       "title": "Best Paper Awards in Computer Science",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ttBK6wDAkc24",
       "address": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool",
       "title": "Computer use tool - Claude Platform Docs",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pYT9fjRvmBbx",

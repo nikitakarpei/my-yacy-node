@@ -5,7 +5,7 @@
       "hash": "S5dY0dDZkUL4",
       "address": "https://www.cnet.com/home/internet/best-wifi-extenders/",
       "title": "Best Wi-Fi Extenders of 2026 - CNET",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -23,13 +23,14 @@
       "hash": "CyUYvsY-tUi5",
       "address": "https://moralparty.com/Warnings/",
       "title": "Warnings – MoralParty.com",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "CKxG5gDK8NP4",
       "address": "https://press.opera.com/",
       "title": "Opera Newsroom - Keep up on what's happening at Opera by following our latest public announcements.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "D4lABzaS0qdw",
@@ -41,7 +42,7 @@
       "hash": "GxTNgsF20Rww",
       "address": "https://ma.tt/",
       "title": "Matt Mullenweg | Unlucky in Cards",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_wxyPdDZkUL4",
@@ -59,13 +60,13 @@
       "hash": "6rDRUjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Image_scanner",
       "title": "Image scanner - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2CAHw8uKjjbw",
       "address": "https://wiki.gentoo.org/wiki/FAQ",
       "title": "FAQ - Gentoo wiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "b08TwlDZkUL4",
@@ -83,7 +84,7 @@
       "hash": "SeOAQWUkQfFx",
       "address": "https://futureoflife.org/open-letter/pause-giant-ai-experiments/",
       "title": "Pause Giant AI Experiments: An Open Letter - Future of Life Institute",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "cWZdmz9qXMBw",
@@ -95,13 +96,13 @@
       "hash": "Ch04dlOpC_C5",
       "address": "https://www.sciencedaily.com/",
       "title": "ScienceDaily: Your source for the latest research news",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bzwX8z_hTtNw",
       "address": "https://planet.kde.org/",
       "title": "English - Planet KDE",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "MAC3Gs6GdY-4",
@@ -113,181 +114,181 @@
       "hash": "0tcC9tTJaYK7",
       "address": "https://blog.hansenpartnership.com/",
       "title": "James Bottomley's random Pages | A collection of information",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "69Tgi7MYcFPZ",
       "address": "http://scripting.com/",
       "title": "Scripting News",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CRermB-c6vHw",
       "address": "https://nixos.org/manual/nixos/stable/",
       "title": "NixOS Manual",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "k28rSYuF2KJ5",
       "address": "https://waitbutwhy.com/2015/01/artificial-intelligence-revolution-2.html",
       "title": "The Artificial Intelligence Revolution: Part 2 - Wait But Why",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sAeglsJDpFPw",
       "address": "https://seclists.org/",
       "title": "SecLists.Org Security Mailing List Archive",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "048wnzlUZgD5",
       "address": "https://michaelfothca.wordpress.com/",
       "title": "Back Country Thoughts – A view of life and creation from the back of a horse",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0j7optWEl-n4",
       "address": "https://blog.chriswm.com/",
       "title": "Chris Martin",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Q6DdZlW8T-F4",
       "address": "https://www.techmeme.com/",
       "title": "Techmeme",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "0yjALsXG1e85",
       "address": "https://micahflee.com/mobile-location-anonymity-proxying-twitter-im-and-email-through-tor-on-android/",
       "title": "Mobile Location Anonymity: Proxying Twitter, IM, and Email through Tor on Android",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "176zmlk3__N4",
       "address": "https://www.costco.com/toothbrush-replacement-heads.html",
       "title": "Toothbrush Replacement Heads",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2LKQgb8Z2ik6",
       "address": "https://manuelmoreale.com/thoughts/scaling-up-kindness",
       "title": "Scaling Up Kindness – Manu",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4tC0Ulk3__N4",
       "address": "https://www.costco.com/life-insurance-services.html",
       "title": "Term Life Insurance | Costco",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ILpP4B69iSD4",
       "address": "https://nicholas.carlini.com/writing/2024/how-i-use-ai.html",
       "title": "How I Use \"AI\"",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NWXi5pCqJTiw",
       "address": "https://esbuild.github.io/api/",
       "title": "esbuild - API",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "RYzK47k3__N4",
       "address": "https://www.costco.com/opt/full-synthetic-oils-for-cars",
       "title": "Full Synthetic Oils For Cars | Costco",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TpGoJlIvA9az",
       "address": "https://www.new-york-city-hotel.net/en/truthbarrier.html",
       "title": "CELIA FARBER – The Truth Barrier – journalist, author, and editor based in New York City, who grew up in Sweden and New York.",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "UjirKskwXJ3x",
       "address": "https://dustycloud.org/blog/",
       "title": "Recent Posts -- Dustycloud Brainstorms",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WFrOtUmB-044",
       "address": "https://shkspr.mobi/blog/2021/01/the-unreasonable-effectiveness-of-simple-html/",
       "title": "The unreasonable effectiveness of simple HTML – Terence Eden’s Blog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "_t5XNs-lWgF4",
       "address": "https://news3lv.com/news",
       "title": "News",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "au0i-sapL5xy",
       "address": "https://educate-yourself.org/fc/",
       "title": "Educate-Yourself - Forbidden Cures",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "skgOyXvCb5P4",
       "address": "https://jack.wrenn.fyi/blog/brown-location-surveillance/",
       "title": "How does Brown University know where you are?",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "m5Fe6jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google",
       "title": "Google - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1FgYFzJ1RhH6",
       "address": "https://krebsonsecurity.com/2026/07/lg-to-ban-residential-proxies-from-smart-tv-apps/",
       "title": "LG to Ban Residential Proxies from Smart TV Apps – Krebs on Security",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Tw2WTjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Google_Chrome",
       "title": "Google Chrome - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "EtPUKjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/HTTPS",
       "title": "HTTPS - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "JJuzksgKzQ9w",
       "address": "https://indieweb.org/js;dr",
       "title": "js;dr - IndieWeb",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "LVq9AjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Email",
       "title": "Email - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "4Ut7TJP37Zf4",
       "address": "https://www.euronews.com/travel/travel-news",
       "title": "Travel News | Travel | Euronews",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5KQ_nsUDS-lx",
       "address": "https://boingboing.net/",
       "title": "Boing Boing - A Directory of Mostly Wonderful Things",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "J3BPejRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Local_area_network",
       "title": "Local area network - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XTPIBlptNsG4",

@@ -5,19 +5,20 @@
       "hash": "N6YnisVUrQm6",
       "address": "https://earthnewspaper.com/Books/",
       "title": "Books – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "MW69aQZchFfZ",
       "address": "http://www.greenteethmm.com/2021-october.shtml",
       "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "uaEnGzTwnifx",
       "address": "https://planet.wordpress.org/",
       "title": "Planet — WordPress.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XTPIBlptNsG4",
@@ -29,25 +30,26 @@
       "hash": "YyTQ2kwztQz5",
       "address": "https://littlenickymachiavelli.wordpress.com/",
       "title": "Little Nicky Machiavelli | And let them know that I am Machiavel, admired am I by those that hate me most.The Jew Of Malta by Christopher Marlow",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "wXMGJqwMR4F5",
       "address": "https://originalboggartblog.wordpress.com/tag/gas/",
       "title": "gas | The Original Boggart Blog",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "WlW-mleSN0L5",
       "address": "https://www.offthekuff.com/wp/",
       "title": "Off the Kuff | Knowledge Is Good",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2Goj8sAq2i9i",
       "address": "https://vanosengineering.nl/table_filling/",
       "title": "table_filling – VAN OS ENGINEERING",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-b3sxspKNBr4",
@@ -59,31 +61,32 @@
       "hash": "fdSdvs1Pjs6w",
       "address": "https://fediring.net/",
       "title": "Fediring.net",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "190N3snp_33z",
       "address": "https://globalkleptocracy.net/",
       "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "khKlLsVUrQm6",
       "address": "https://earthnewspaper.com/Links/",
       "title": "Links – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "v3JgSzH2Pyiw",
       "address": "https://ocw.mit.edu/",
       "title": "MIT OpenCourseWare | Free Online Course Materials",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7Nac2lptNsG4",
       "address": "https://www.akdart.com/lib9.html",
       "title": "Socialist Democrats are out of step with America",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "nL-trz8CAV45",
@@ -101,7 +104,7 @@
       "hash": "FzYmTlptNsG4",
       "address": "https://www.akdart.com/sports.html",
       "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kR4wQnm_mTBS",
@@ -119,13 +122,13 @@
       "hash": "O1Tk8shc5tG6",
       "address": "https://accordingtohoyt.com/",
       "title": "According To Hoyt – Born Free",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "bvn8hQZchFfZ",
       "address": "http://www.greenteethmm.com/islam-appeasement.shtml",
       "title": "seventy-years-down-the-line-and-we-have-come-back-to-appeasement-as-a-means-to-peace",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CTQ-Yj-JVcyx",
@@ -137,7 +140,7 @@
       "hash": "tiI9Q1cdqEdw",
       "address": "https://www.smh.com.au/",
       "title": "Australian Breaking News Headlines \u0026 World News Online | SMH.com.au",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pYw3_AHucLY4",
@@ -149,7 +152,7 @@
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "hNrcdJ-bwreQ",
@@ -167,13 +170,14 @@
       "hash": "HgJ9BQXx1HRZ",
       "address": "http://www.dailystirrer.com/2012-february.shtml",
       "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "sdTiTsVUrQm6",
       "address": "https://earthnewspaper.com/Contact/",
       "title": "Contact – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "1lGoBsyuNlT5",
@@ -185,85 +189,86 @@
       "hash": "Q4SEOs3rpWVz",
       "address": "https://inconvenienttruths.net/",
       "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "a88e7mVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/eva-braun-films/",
       "title": "Eva Braun Films by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "l712nmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/israel-assassinated-president-john-f-kennedy-by-mark-r-elsis/",
       "title": "Israel Assassinated President John F. Kennedy by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "np71FsVUrQm6",
       "address": "https://earthnewspaper.com/Subscribe/",
       "title": "Subscribe – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7pIaKsVUrQm6",
       "address": "https://earthnewspaper.com/Videos/",
       "title": "Featured Videos 2025 / 2026 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PiRYusjsdFw4",
       "address": "https://akdart.com/labor2.html",
       "title": "Unionized Teachers",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ZtDpWmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/hitler-wanted-to-take-over-the-world-by-mark-r-elsis/",
       "title": "Hitler Wanted To Take Over The World by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "9ygFcssYtAxw",
       "address": "https://nl.wikinews.org/wiki/2021_Weekberichten_Wikidata",
       "title": "2021 Weekberichten Wikidata - Wikinieuws",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Dwh0asX_omF4",
       "address": "https://blog.youtube/",
       "title": "Official YouTube Blog for Latest YouTube News \u0026 Insights",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Ju6qkQZchFfZ",
       "address": "http://www.greenteethmm.com/immigration-composite.shtml",
       "title": "immigration--composite-post-covering-all-aspects-of the-uk-problem-with-reports-from-other-e-u-nations",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "VpCOpt6ArEvw",
       "address": "https://blog.archive.org/",
       "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ClTOilptNsG4",
       "address": "https://www.akdart.com/obama11.html",
       "title": "The Obama Presidency : Narcissism and Bad Decisions",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "atffDjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Template_talk:Did_you_know",
       "title": "Template talk:Did you know - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "TX6B6sAQv-v6",
@@ -287,13 +292,15 @@
       "hash": "w4BkfQXx1HRZ",
       "address": "http://www.dailystirrer.com/2021-july.shtml",
       "title": "dailystirrer-2021-news-july-comment-opinion-controversy-contrarianism",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "CXK7j3bLCWwj",
       "address": "https://clubmotonautique-triouzoune.fr/2018/10/23/nulla-turpis-magna/",
       "title": "Nulla turpis magna – Club Motonautique du lac de Triouzoune",
-      "grade": null
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "1akPysVUrQm6",
@@ -305,7 +312,7 @@
       "hash": "VHIibluhnM-6",
       "address": "https://www.jerrypournelle.com/",
       "title": "Jerry Pournelle's Chaos Manor",
-      "grade": null
+      "grade": 0
     }
   ]
 }

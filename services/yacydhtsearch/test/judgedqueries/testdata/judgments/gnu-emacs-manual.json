@@ -5,7 +5,7 @@
       "hash": "K-7LFQjpmq6Q",
       "address": "http://www.gnu.org/home.nl.html",
       "title": "Het GNU-besturingssysteem en de vrijesoftwarebeweging",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "QdW-xjRvmBbx",
@@ -17,13 +17,13 @@
       "hash": "qkToObjpmq6Q",
       "address": "http://www.gnu.org/server/sitemap.html",
       "title": "Site map of www.gnu.org - GNU Project - Free Software Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vFfDURrrnsyQ",
       "address": "http://planet.gnu.org/rss20.xml",
       "title": "",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "84FlxRrrnsyQ",
@@ -35,7 +35,7 @@
       "hash": "V_k5uQE4EF7Q",
       "address": "http://www.landley.net/notes.html",
       "title": "Rob Landley's Blog Thing for 2025",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zPsYJjRvmBbx",
@@ -47,13 +47,13 @@
       "hash": "0lxYkHjpmq6Q",
       "address": "http://www.gnu.org/people/people.html",
       "title": "GNU's Who - GNU Project - Free Software Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zRVRoyfAodxw",
       "address": "https://docs.freebsd.org/en/books/porters-handbook/",
       "title": "FreeBSD Porter's Handbook | FreeBSD Documentation Portal",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "FIRH00oB9UFw",
@@ -83,37 +83,37 @@
       "hash": "P60DNWVFEEow",
       "address": "https://guix.gnu.org/manual/devel/en/guix.html",
       "title": "GNU Guix Reference Manual",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "NXIDFjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Smalltalk",
       "title": "Smalltalk - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7NDFjdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Computermaus",
       "title": "Computermaus – Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "I-LUQjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Fortran",
       "title": "Fortran - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Wp-OhjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Gzip",
       "title": "gzip - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "3-Wi3Ejpmq6Q",
       "address": "http://www.gnu.org/manual/blurbs.html",
       "title": "GNU Package Blurbs - GNU Project - Free Software Foundation",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "-t3HAjRvmBbx",
@@ -137,13 +137,13 @@
       "hash": "2luNljRvmBbx",
       "address": "https://en.wikipedia.org/wiki/History_of_Wikipedia",
       "title": "History of Wikipedia - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Rq9Av27csAiw",
       "address": "https://pygments.org/docs/lexers/",
       "title": "Available lexers — Pygments",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DEUnajRvmBbx",
@@ -155,13 +155,13 @@
       "hash": "K0-T7sIapY-w",
       "address": "https://pandoc.org/MANUAL.html",
       "title": "Pandoc - Pandoc User’s Guide",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CykhaxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Environment_variables",
       "title": "Environment variables - ArchWiki",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "r5eKBxtQ-zSx",
@@ -215,7 +215,7 @@
       "hash": "F2MDdjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/TeX",
       "title": "TeX - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "gloktjRvmBbx",
@@ -233,13 +233,13 @@
       "hash": "oCluGjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GPL",
       "title": "GNU General Public License - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "yk9R7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Troff",
       "title": "troff - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "QnfPVsI9I2Th",
@@ -257,7 +257,7 @@
       "hash": "-1Sxrsy7DAnw",
       "address": "https://mosh.org/",
       "title": "Mosh: the mobile shell",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ILpP4B69iSD4",
@@ -269,19 +269,19 @@
       "hash": "IbXUrGpDTFD4",
       "address": "https://seirdy.one/posts/2021/03/10/search-engines-with-own-indexes/",
       "title": "A look at search engines with their own indexes - Seirdy",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "jP8JEsfAl3Ez",
       "address": "https://plaintextaccounting.org/",
       "title": "Plain Text Accounting - plaintextaccounting.org",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vm2ddsowC1m4",
       "address": "https://prismjs.com/",
       "title": "Prism",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "w_9jmzX55GGw",

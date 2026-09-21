@@ -5,19 +5,19 @@
       "hash": "BNK4dl55Qxow",
       "address": "https://yacy.net/installation/requirements/",
       "title": "System Requirements - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "lddldsz1d6Wg",
       "address": "https://yacy.de/download_installation/",
       "title": "Download - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "opLh6I55Qxow",
       "address": "https://yacy.net/operation/performance/",
       "title": "Performance Tuning - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "I2NpYX42xI24",
@@ -41,7 +41,7 @@
       "hash": "cw0xkbg2aLVh",
       "address": "https://community.searchlab.eu/",
       "title": "Searchlab Community - Search Engine Technology Laboratory",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "T8ZB7sS6MKD4",
@@ -59,7 +59,7 @@
       "hash": "ByKn9s55Qxow",
       "address": "https://yacy.net/demonstration_tutorial_screenshot/",
       "title": "Demo - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "AeOqws55Qxow",
@@ -71,49 +71,49 @@
       "hash": "CBSxal55Qxow",
       "address": "https://yacy.net/installation/android/",
       "title": "Android installation - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "a8D0Ob55Qxow",
       "address": "https://yacy.net/dev/solrcloud/",
       "title": "YaCy and Solr Cloud - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "nyfODF7h8s64",
       "address": "https://desv.abcdef.wiki/wiki/YaCy",
       "title": "YaCy - abcdef.wiki",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "t4RHsI55Qxow",
       "address": "https://yacy.net/operation/rwi-index-distribution/",
       "title": "RWI Index distribution in YaCy - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "C_BAal55Qxow",
       "address": "https://yacy.net/installation/debian_high_availability/",
       "title": "YaCy High-Availability Configuration on Debian - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "5JFFlI55Qxow",
       "address": "https://yacy.net/operation/index-export-import/",
       "title": "Index export and import - YaCy",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "B8kfSwRMd2Bg",
       "address": "https://eldar.cz/yacydoc/operation/rwi-index-distribution.html",
       "title": "RWI Index distribution in YaCy - YaCy Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "nt55SjS6MKD4",
       "address": "https://github.com/sponsors/Orbiter",
       "title": "Sponsor @Orbiter on GitHub Sponsors · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "pkF3plkhygUx",
@@ -125,13 +125,13 @@
       "hash": "l_YXLlS0dx-5",
       "address": "https://de-academic.com/dic.nsf/dewiki/1536764",
       "title": "Yet another Cyberspace",
-      "grade": null
+      "grade": 2
     },
     {
       "hash": "sDNOwwRMd2Bg",
       "address": "https://eldar.cz/yacydoc/operation/network-definition.html",
       "title": "Network definition - YaCy Docs",
-      "grade": null
+      "grade": 1
     },
     {
       "hash": "D4lABzaS0qdw",

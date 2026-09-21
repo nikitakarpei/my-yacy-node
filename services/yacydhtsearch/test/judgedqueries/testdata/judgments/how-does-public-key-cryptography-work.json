@@ -23,91 +23,91 @@
       "hash": "t9RUcmVUrQm6",
       "address": "https://earthnewspaper.com/mark-r-elsis/attack-on-pearl-harbor-december-7-1941-by-mark-r-elsis/",
       "title": "Attack On Pearl Harbor, December 7, 1941 by Mark R. Elsis – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kpAzjl7fufB7",
       "address": "https://www.scientificamerican.com/",
       "title": "Scientific American",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "ZLCPGlRhEzc4",
       "address": "https://www.amazon.science/",
       "title": "Amazon Science homepage",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "E2yWKKsrSOQw",
       "address": "https://arxiv.org/list/cs.CL/new",
       "title": "Computation and Language",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "JGVH0H4r5fnw",
       "address": "https://fetch.spec.whatwg.org/",
       "title": "Fetch Standard",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "kHtomjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Mao_Zedong",
       "title": "Mao Zedong - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "zkGiclw6k2Lw",
       "address": "https://www.w3.org/TR/",
       "title": "W3C standards and drafts | W3C",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2CcJkdxyfg74",
       "address": "https://pkg.go.dev/std",
       "title": "Standard library - Go Packages",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "2ZqdVzfOEiDw",
       "address": "https://planet.gnome.org/",
       "title": "Planet GNOME",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "DB7viAK-xyJ4",
       "address": "https://go.dev/doc/faq",
       "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "mUB-JTRBYjbw",
       "address": "https://matrix.org/foundation/about/",
       "title": "Matrix.org - About Matrix",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "uP5qwjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Computer_network",
       "title": "Computer network - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "5Hy0pjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Axis_powers",
       "title": "Axis powers - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "BVjyIlQw_dt5",
       "address": "https://www.cloudflare.com/sase/",
       "title": "Cloudflare One | The agile SASE platform | Cloudflare",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "sC0kMlDOAHJg",
@@ -119,19 +119,19 @@
       "hash": "1_L9MjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/.NET_Framework",
       "title": ".NET Framework - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "R6pdf8ra3eRg",
       "address": "https://nlnet.nl/project/index.html",
       "title": "NLnet; All projects",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "XzgwVlCGloew",
       "address": "https://www.etsi.org/standards/",
       "title": "Standards - ETSI",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "atY_jKsrSOQw",
@@ -143,61 +143,61 @@
       "hash": "sVnshsra3eRg",
       "address": "https://nlnet.nl/speakerbureau/",
       "title": "NLnet; NGI0 Speaker bureau",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "CcYVa7S6MKD4",
       "address": "https://github.com/sindresorhus/awesome",
       "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones] · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "l3iqozS6MKD4",
       "address": "https://github.com/topics/pentesting",
       "title": "pentesting · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "loUYR7XxSRFx",
       "address": "https://www.rfc-editor.org/info/rfc7540/",
       "title": "RFC 7540: Hypertext Transfer Protocol Version 2 (HTTP/2) | RFC Editor",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "iX0l8ARfu9ww",
       "address": "https://datatracker.ietf.org/stream/irtf/",
       "title": "IRTF stream documents",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "7olKfjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki",
       "title": "Atomic bombings of Hiroshima and Nagasaki - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PmWG4sY-tUi5",
       "address": "https://moralparty.com/AI/",
       "title": "AI – MoralParty.com",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "n6Jz5zsJrVm4",
       "address": "https://www.osnews.com/story/23524/10-reasons-why-the-pc-is-here-to-stay/",
       "title": "10 Reasons Why the PC Is Here to Stay – OSnews",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "JvCBcjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Quantum_computing",
       "title": "Quantum computing - Wikipedia",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "45GhdRsrSOQw",
       "address": "https://arxiv.org/archive/cs.CY",
       "title": "Computer Science",
-      "grade": null
+      "grade": 0
     }
   ]
 }
