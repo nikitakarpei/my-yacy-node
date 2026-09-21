@@ -88,7 +88,7 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 func orderingOfTheServiceFrom(
 	relevanceWeights documentrelevance.RelevanceWeights,
 ) sitediscount.Ordering {
-	return sitediscount.New(documentrelevance.New(relevanceWeights))
+	return sitediscount.New(documentrelevance.RelevanceScorerWeighedBy(relevanceWeights))
 }
 
 type orderingInTheFoundOrder struct{}
@@ -128,11 +128,13 @@ func reportTheGainOfEachJudgedQuery(
 ) {
 	t.Helper()
 
-	documentRelevance := documentrelevance.New(documentrelevance.DefaultRelevanceWeights())
-	relevanceOrdering := relevance.New(documentRelevance)
+	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
+		documentrelevance.DefaultRelevanceWeights(),
+	)
+	relevanceOrdering := relevance.New(relevanceScorer)
 	amountOfSpamDocumentsInTheFirstTen := 0
 	for _, judgedQuery := range judged {
-		orderedDocuments := sitediscount.New(documentRelevance).
+		orderedDocuments := sitediscount.New(relevanceScorer).
 			OrderedDocumentsOf(judgedQuery.answers)
 		amountOfSpamDocumentsInTheFirstTen += judgedQuery.gradedDocuments.
 			amountOfSpamDocumentsAmongTheFirstOf(orderedDocuments)
@@ -188,16 +190,18 @@ func reportTheRelevantDocumentsHeldInTheFirstTen(
 func reportTheMeanGainOfEachOrdering(t *testing.T, judgedQueriesOfAnOrder []judgedQuery) {
 	t.Helper()
 
-	documentRelevance := documentrelevance.New(documentrelevance.DefaultRelevanceWeights())
+	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
+		documentrelevance.DefaultRelevanceWeights(),
+	)
 	t.Logf(
 		"the mean over the %d judged queries of several relevant documents: site discount "+
 			"%.4f, relevance %.4f, found order %.4f",
 		len(judgedQueriesOfAnOrder),
 		meanNormalizedGainDiscountedPerSiteOf(
-			sitediscount.New(documentRelevance), judgedQueriesOfAnOrder,
+			sitediscount.New(relevanceScorer), judgedQueriesOfAnOrder,
 		),
 		meanNormalizedGainDiscountedPerSiteOf(
-			relevance.New(documentRelevance), judgedQueriesOfAnOrder,
+			relevance.New(relevanceScorer), judgedQueriesOfAnOrder,
 		),
 		meanNormalizedGainDiscountedPerSiteOf(orderingInTheFoundOrder{}, judgedQueriesOfAnOrder),
 	)

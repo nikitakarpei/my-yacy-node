@@ -9,48 +9,53 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type Relevance struct {
+type RelevanceScorer struct {
 	relevanceWeights RelevanceWeights
 }
 
-func New(relevanceWeights RelevanceWeights) Relevance {
-	return Relevance{relevanceWeights: relevanceWeights}
+func RelevanceScorerWeighedBy(relevanceWeights RelevanceWeights) RelevanceScorer {
+	return RelevanceScorer{relevanceWeights: relevanceWeights}
 }
 
-func (relevance Relevance) RelevancePerDocumentOf(
+func (relevanceScorer RelevanceScorer) RelevancePerDocumentOf(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
-	foundDocuments := answers.FoundDocuments
-	queryWordRarities := queryWordRaritiesFrom(answers)
-	documentAverages := documentAveragesAmong(foundDocuments)
+	scoring := relevanceScorer.scoringOf(answers)
 
-	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(foundDocuments))
-	for _, foundDocument := range foundDocuments {
-		relevancePerDocument[foundDocument.Hash] = relevance.relevanceOf(
-			foundDocument,
-			queryWordRarities,
-			documentAverages,
-			answers.QueryWords,
-		)
+	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(answers.FoundDocuments))
+	for _, document := range answers.FoundDocuments {
+		relevancePerDocument[document.Hash] = scoring.relevanceOf(document)
 	}
 
 	return relevancePerDocument
 }
 
-func (relevance Relevance) relevanceOf(
-	foundDocument queryanswers.FoundDocument,
-	queryWordRarities queryWordRarities,
-	documentAverages documentAverages,
-	queryWords []yacymodel.Hash,
-) float64 {
-	return relevance.relevanceWeights.WeightOfTitleScore*
-		titleScoreOf(foundDocument, queryWordRarities, queryWords) +
-		relevance.relevanceWeights.WeightOfTextScore*textScoreOf(
-			foundDocument, queryWordRarities, documentAverages.averageAmountOfWords, queryWords,
-		) +
-		relevance.relevanceWeights.WeightOfPhraseScore*phraseScoreOf(foundDocument) +
-		relevance.relevanceWeights.WeightOfNamedSiteEntryScore*
-			namedSiteEntryScoreOf(foundDocument, queryWords) -
-		relevance.relevanceWeights.WeightOfLinkSparsityPenalty*
-			linkSparsityPenaltyOf(foundDocument, documentAverages.averageLinkSparsityPenalty)
+func (relevanceScorer RelevanceScorer) scoringOf(answers queryanswers.AnsweredQuery) scoring {
+	statistics := answersStatisticsFrom(answers)
+
+	return scoring{
+		relevanceWeights:     relevanceScorer.relevanceWeights,
+		titleScorer:          titleScorerFrom(statistics),
+		textScorer:           textScorerFrom(statistics),
+		namedSiteEntryScorer: namedSiteEntryScorerFrom(statistics),
+		linkSparsityPenalty:  linkSparsityPenaltyFrom(statistics),
+	}
+}
+
+type scoring struct {
+	relevanceWeights     RelevanceWeights
+	titleScorer          titleScorer
+	textScorer           textScorer
+	namedSiteEntryScorer namedSiteEntryScorer
+	linkSparsityPenalty  linkSparsityPenalty
+}
+
+func (scoring scoring) relevanceOf(document queryanswers.FoundDocument) float64 {
+	return scoring.relevanceWeights.WeightOfTitleScore*scoring.titleScorer.scoreOf(document) +
+		scoring.relevanceWeights.WeightOfTextScore*scoring.textScorer.scoreOf(document) +
+		scoring.relevanceWeights.WeightOfPhraseScore*phraseScoreOf(document) +
+		scoring.relevanceWeights.WeightOfNamedSiteEntryScore*
+			scoring.namedSiteEntryScorer.scoreOf(document) -
+		scoring.relevanceWeights.WeightOfLinkSparsityPenalty*
+			scoring.linkSparsityPenalty.penaltyOf(document)
 }

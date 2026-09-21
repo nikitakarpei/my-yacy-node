@@ -350,7 +350,7 @@ func pagesOfTheFirstAnsweredDocuments(
 	t.Helper()
 
 	candidates := relevance.New(
-		documentrelevance.New(documentrelevance.DefaultRelevanceWeights()),
+		documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()),
 	).OrderedDocumentsOf(answers)
 
 	return fetching.fetchedPagesOf(

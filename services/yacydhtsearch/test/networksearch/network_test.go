@@ -587,7 +587,11 @@ func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
 		directoryAnsweringAt(t, peerHolding(t)),
 		&recordedQuery{},
 		answersOfTwoWords(t, common, rare),
-		relevance.New(documentrelevance.New(documentrelevance.DefaultRelevanceWeights())),
+		relevance.New(
+			documentrelevance.RelevanceScorerWeighedBy(
+				documentrelevance.DefaultRelevanceWeights(),
+			),
+		),
 	)
 
 	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
@@ -631,7 +635,11 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		everyAskablePeer{},
 		answersOfTwoWords(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
-		relevance.New(documentrelevance.New(documentrelevance.DefaultRelevanceWeights())),
+		relevance.New(
+			documentrelevance.RelevanceScorerWeighedBy(
+				documentrelevance.DefaultRelevanceWeights(),
+			),
+		),
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,

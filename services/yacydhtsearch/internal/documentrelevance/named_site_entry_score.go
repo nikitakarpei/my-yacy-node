@@ -17,15 +17,21 @@ const (
 	amountOfStepsToSiteEntry = 1
 )
 
-func namedSiteEntryScoreOf(
-	foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash,
-) float64 {
-	address, err := url.Parse(foundDocument.Address)
+type namedSiteEntryScorer struct {
+	queryWords []yacymodel.Hash
+}
+
+func namedSiteEntryScorerFrom(statistics answersStatistics) namedSiteEntryScorer {
+	return namedSiteEntryScorer{queryWords: statistics.queryWords}
+}
+
+func (scorer namedSiteEntryScorer) scoreOf(document queryanswers.FoundDocument) float64 {
+	address, err := url.Parse(document.Address)
 	if err != nil {
 		return namedSiteEntryScoreOfMalformedAddress
 	}
 	wordsInSiteName := wordsInSiteNameOf(address.Hostname())
-	amountOfQueryWordsInSiteName := amountOfQueryWordsAmong(wordsInSiteName, queryWords)
+	amountOfQueryWordsInSiteName := scorer.amountOfQueryWordsAmong(wordsInSiteName)
 	if amountOfQueryWordsInSiteName == 0 {
 		return namedSiteEntryScoreOfOtherSite
 	}
@@ -33,7 +39,7 @@ func namedSiteEntryScoreOf(
 	shareOfSiteNameTheQueryHolds := float64(amountOfQueryWordsInSiteName) /
 		float64(len(wordsInSiteName))
 	shareOfQueryTheSiteNameHolds := float64(amountOfQueryWordsInSiteName) /
-		float64(len(queryWords))
+		float64(len(scorer.queryWords))
 	amountOfStepsToDocument := amountOfStepsToSiteEntry +
 		amountOfPathSegmentsOf(address.Path)
 
@@ -50,11 +56,11 @@ func wordsInSiteNameOf(host string) map[yacymodel.Hash]struct{} {
 	return wordsIn(siteName)
 }
 
-func amountOfQueryWordsAmong(
-	words map[yacymodel.Hash]struct{}, queryWords []yacymodel.Hash,
+func (scorer namedSiteEntryScorer) amountOfQueryWordsAmong(
+	words map[yacymodel.Hash]struct{},
 ) int {
 	amountOfQueryWords := 0
-	for _, queryWord := range queryWords {
+	for _, queryWord := range scorer.queryWords {
 		if _, amongWords := words[queryWord]; !amongWords {
 			continue
 		}

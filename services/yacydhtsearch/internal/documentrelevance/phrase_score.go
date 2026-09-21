@@ -9,12 +9,12 @@ const (
 	phraseScoreOfUnreadDocument = 0.0
 )
 
-func phraseScoreOf(foundDocument queryanswers.FoundDocument) float64 {
-	hits, queryPhrasesCounted := foundDocument.Facts.QueryPhraseHits.Get()
+func phraseScoreOf(document queryanswers.FoundDocument) float64 {
+	queryPhraseHits, queryPhrasesCounted := document.Facts.QueryPhraseHits.Get()
 	if !queryPhrasesCounted {
 		return phraseScoreOfUnreadDocument
 	}
-	queryPhraseHits := float64(hits)
 
-	return queryPhraseHits / (queryPhraseHits + saturationOfQueryPhraseHits)
+	return float64(queryPhraseHits) /
+		(float64(queryPhraseHits) + saturationOfQueryPhraseHits)
 }

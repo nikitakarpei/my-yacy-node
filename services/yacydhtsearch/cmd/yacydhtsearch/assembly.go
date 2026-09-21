@@ -152,7 +152,11 @@ func RunService(
 		choice,
 		querySpreadFor(cfg, peers, registry),
 		pageReading,
-		sitediscount.New(documentrelevance.New(documentrelevance.DefaultRelevanceWeights())),
+		sitediscount.New(
+			documentrelevance.RelevanceScorerWeighedBy(
+				documentrelevance.DefaultRelevanceWeights(),
+			),
+		),
 		cfg.QueryBudget,
 		cfg.PageReadBudget,
 		cfg.PagesReadPerQuery,

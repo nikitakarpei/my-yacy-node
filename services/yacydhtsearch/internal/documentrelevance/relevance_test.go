@@ -38,58 +38,65 @@ func foundDocumentAt(t *testing.T, address string) foundDocument {
 	}
 }
 
-func (f foundDocument) matchingWords(words ...string) foundDocument {
+func (document foundDocument) matchingWords(words ...string) foundDocument {
 	for _, word := range words {
-		f.Facts.HitsPerQueryWord[yacymodel.WordHash(word)] = 0
+		document.Facts.HitsPerQueryWord[yacymodel.WordHash(word)] = 0
 	}
 
-	return f
+	return document
 }
 
-func (f foundDocument) withHitsOf(word string, hits int) foundDocument {
-	f.Facts.HitsPerQueryWord[yacymodel.WordHash(word)] = hits
+func (document foundDocument) withHitsOf(word string, hits int) foundDocument {
+	document.Facts.HitsPerQueryWord[yacymodel.WordHash(word)] = hits
 
-	return f
+	return document
 }
 
-func (f foundDocument) withTitle(title string) foundDocument {
-	f.Title = title
+func (document foundDocument) withTitle(title string) foundDocument {
+	document.Title = title
 
-	return f
+	return document
 }
 
-func (f foundDocument) withAmountOfWords(amountOfWords int) foundDocument {
-	f.Facts.AmountOfWords = yacymodel.Some(amountOfWords)
+func (document foundDocument) withAmountOfWords(amountOfWords int) foundDocument {
+	document.Facts.AmountOfWords = yacymodel.Some(amountOfWords)
 
-	return f
+	return document
 }
 
-func (f foundDocument) withAmountOfLinks(amountOfLinks int) foundDocument {
-	f.Facts.AmountOfLinks = yacymodel.Some(amountOfLinks)
+func (document foundDocument) withAmountOfLinks(amountOfLinks int) foundDocument {
+	document.Facts.AmountOfLinks = yacymodel.Some(amountOfLinks)
 
-	return f
+	return document
 }
 
-func (f foundDocument) withQueryPhraseHits(queryPhraseHits int) foundDocument {
-	f.Facts.QueryPhraseHits = yacymodel.Some(queryPhraseHits)
+func (document foundDocument) withQueryPhraseHits(queryPhraseHits int) foundDocument {
+	document.Facts.QueryPhraseHits = yacymodel.Some(queryPhraseHits)
 
-	return f
+	return document
 }
 
-func (f foundDocument) shownAtAddress(address string) foundDocument {
-	f.Address = address
+func (document foundDocument) shownAtAddress(address string) foundDocument {
+	document.Address = address
 
-	return f
+	return document
 }
 
-func (f foundDocument) withHitsAPeerCounted(word string, hits int) foundDocument {
-	f.PostingReplicas = append(slices.Clone(f.PostingReplicas), queryanswers.PostingReplica{
-		Word:    yacymodel.Some(yacymodel.WordHash(word)),
-		Posting: yacymodel.RWIPosting{Hits: hits},
-	})
-	f.Facts = queryanswers.FoundDocumentOf(f.Hash, nil, f.PostingReplicas).Facts
+func (document foundDocument) withHitsAPeerCounted(word string, hits int) foundDocument {
+	document.PostingReplicas = append(
+		slices.Clone(document.PostingReplicas),
+		queryanswers.PostingReplica{
+			Word:    yacymodel.Some(yacymodel.WordHash(word)),
+			Posting: yacymodel.RWIPosting{Hits: hits},
+		},
+	)
+	document.Facts = queryanswers.FoundDocumentOf(
+		document.Hash,
+		nil,
+		document.PostingReplicas,
+	).Facts
 
-	return f
+	return document
 }
 
 func answersOf(
@@ -97,12 +104,12 @@ func answersOf(
 	foundDocuments []foundDocument,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:     hashesOfQueryWords(queryWords),
+		QueryWords:     hashesOf(queryWords),
 		FoundDocuments: foundDocumentsOf(foundDocuments),
 	}
 }
 
-func hashesOfQueryWords(queryWords []string) []yacymodel.Hash {
+func hashesOf(queryWords []string) []yacymodel.Hash {
 	hashes := make([]yacymodel.Hash, 0, len(queryWords))
 	for _, queryWord := range queryWords {
 		hashes = append(hashes, yacymodel.WordHash(queryWord))
@@ -131,22 +138,23 @@ func answersHoldingDocumentsPerQueryWord(
 	}
 
 	return queryanswers.AnsweredQuery{
-		QueryWords:                hashesOfQueryWords(queryWords),
+		QueryWords:                hashesOf(queryWords),
 		FoundDocuments:            foundDocumentsOf(foundDocuments),
 		DocumentsHeldPerQueryWord: documentsHeldPerQueryWord,
 	}
 }
 
 func addressesInFallingOrderOfRelevance(answers queryanswers.AnsweredQuery) []string {
-	return addressesInFallingOrderOfRelevanceByRelevanceWeights(
+	return addressesInFallingOrderOfRelevanceBy(
 		documentrelevance.DefaultRelevanceWeights(), answers,
 	)
 }
 
-func addressesInFallingOrderOfRelevanceByRelevanceWeights(
+func addressesInFallingOrderOfRelevanceBy(
 	relevanceWeights documentrelevance.RelevanceWeights, answers queryanswers.AnsweredQuery,
 ) []string {
-	relevancePerDocument := documentrelevance.New(relevanceWeights).RelevancePerDocumentOf(answers)
+	relevancePerDocument := documentrelevance.RelevanceScorerWeighedBy(relevanceWeights).
+		RelevancePerDocumentOf(answers)
 	foundDocuments := slices.Clone(answers.FoundDocuments)
 	slices.SortStableFunc(foundDocuments, func(one, other queryanswers.FoundDocument) int {
 		return cmp.Compare(
@@ -286,7 +294,7 @@ func relevanceOfDocumentAt(
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return documentrelevance.New(documentrelevance.DefaultRelevanceWeights()).
+	return documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()).
 		RelevancePerDocumentOf(answers)[hash]
 }
 
@@ -592,8 +600,10 @@ func TestTwoDocumentsOfSameCountedHitsHoldSameRelevance(t *testing.T) {
 		map[string]int{"berlin": 100},
 	)
 
-	relevancePerDocument := documentrelevance.New(documentrelevance.DefaultRelevanceWeights()).
-		RelevancePerDocumentOf(answers)
+	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
+		documentrelevance.DefaultRelevanceWeights(),
+	)
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
 	relevanceOfDocuments := slices.Collect(maps.Values(relevancePerDocument))
 	if len(relevanceOfDocuments) != 2 ||
 		relevanceOfDocuments[0] != relevanceOfDocuments[1] {
@@ -697,8 +707,10 @@ func TestDocumentOfLinksEnoughKeepsRelevanceOfFurtherLinkedDocument(t *testing.T
 		},
 	)
 
-	relevancePerDocument := documentrelevance.New(documentrelevance.DefaultRelevanceWeights()).
-		RelevancePerDocumentOf(answers)
+	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
+		documentrelevance.DefaultRelevanceWeights(),
+	)
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
 	linked := relevancePerDocument[answers.FoundDocuments[0].Hash]
 	furtherLinked := relevancePerDocument[answers.FoundDocuments[1].Hash]
 	if linked != furtherLinked {
@@ -727,8 +739,10 @@ func TestUnreadDocumentKeepsRelevanceOfApartDocument(t *testing.T) {
 		map[string]int{"berlin": 100},
 	)
 
-	relevancePerDocument := documentrelevance.New(documentrelevance.DefaultRelevanceWeights()).
-		RelevancePerDocumentOf(answers)
+	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
+		documentrelevance.DefaultRelevanceWeights(),
+	)
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
 	apart := relevancePerDocument[answers.FoundDocuments[1].Hash]
 	if unreadRelevance := relevancePerDocument[unread.Hash]; unreadRelevance < apart {
 		t.Fatalf(
@@ -773,11 +787,14 @@ func TestRelevanceOfReadDocumentHoldsHoweverManyUnreadDocumentsTheAnswersHold(t 
 			withAmountOfWords(12000),
 	}
 	documentsHeldPerWord := map[string]int{"berlin": 100}
-	amongReadDocuments := documentrelevance.New(documentrelevance.DefaultRelevanceWeights()).
+	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
+		documentrelevance.DefaultRelevanceWeights(),
+	)
+	amongReadDocuments := relevanceScorer.
 		RelevancePerDocumentOf(answersHoldingDocumentsPerQueryWord(
 			[]string{"berlin"}, readDocuments, documentsHeldPerWord,
 		))
-	amongUnreadDocumentsToo := documentrelevance.New(documentrelevance.DefaultRelevanceWeights()).
+	amongUnreadDocumentsToo := relevanceScorer.
 		RelevancePerDocumentOf(answersHoldingDocumentsPerQueryWord(
 			[]string{"berlin"},
 			append(

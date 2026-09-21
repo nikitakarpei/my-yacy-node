@@ -7,25 +7,33 @@ import (
 
 const titleScoreOfDocumentWithoutTitle = -1.0
 
-func titleScoreOf(
-	foundDocument queryanswers.FoundDocument,
-	queryWordRarities queryWordRarities,
-	queryWords []yacymodel.Hash,
-) float64 {
-	if foundDocument.Title == "" {
+type titleScorer struct {
+	queryWordRarities queryWordRarities
+	queryWords        []yacymodel.Hash
+}
+
+func titleScorerFrom(statistics answersStatistics) titleScorer {
+	return titleScorer{
+		queryWordRarities: statistics.queryWordRarities,
+		queryWords:        statistics.queryWords,
+	}
+}
+
+func (scorer titleScorer) scoreOf(document queryanswers.FoundDocument) float64 {
+	if document.Title == "" {
 		return titleScoreOfDocumentWithoutTitle
 	}
 
-	return queryWordRarities.rarityShareOfWords(queryWordsInTitleOf(foundDocument, queryWords))
+	return scorer.queryWordRarities.rarityShareOfWords(scorer.queryWordsInTitleOf(document))
 }
 
-func queryWordsInTitleOf(
-	foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash,
+func (scorer titleScorer) queryWordsInTitleOf(
+	document queryanswers.FoundDocument,
 ) []yacymodel.Hash {
-	wordsInTitle := wordsIn(foundDocument.Title)
+	wordsInTitle := wordsIn(document.Title)
 
-	queryWordsInTitle := make([]yacymodel.Hash, 0, len(queryWords))
-	for _, word := range queryWords {
+	queryWordsInTitle := make([]yacymodel.Hash, 0, len(scorer.queryWords))
+	for _, word := range scorer.queryWords {
 		if _, inTitle := wordsInTitle[word]; !inTitle {
 			continue
 		}

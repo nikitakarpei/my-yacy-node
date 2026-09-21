@@ -13,20 +13,20 @@ type documentAverages struct {
 }
 
 func documentAveragesAmong(
-	foundDocuments []queryanswers.FoundDocument,
+	documents []queryanswers.FoundDocument,
 ) documentAverages {
 	return documentAverages{
-		averageAmountOfWords:       averageAmountOfWordsAmong(foundDocuments),
-		averageLinkSparsityPenalty: averageLinkSparsityPenaltyAmong(foundDocuments),
+		averageAmountOfWords:       averageAmountOfWordsAmong(documents),
+		averageLinkSparsityPenalty: averageLinkSparsityPenaltyAmong(documents),
 	}
 }
 
 func averageAmountOfWordsAmong(
-	foundDocuments []queryanswers.FoundDocument,
+	documents []queryanswers.FoundDocument,
 ) float64 {
 	sumOfAmountsOfWords, amountOfCountedDocuments := 0, 0
-	for _, foundDocument := range foundDocuments {
-		amountOfWords, wordsCounted := foundDocument.Facts.AmountOfWords.Get()
+	for _, document := range documents {
+		amountOfWords, wordsCounted := document.Facts.AmountOfWords.Get()
 		if !wordsCounted || amountOfWords <= 0 {
 			continue
 		}
@@ -41,11 +41,11 @@ func averageAmountOfWordsAmong(
 }
 
 func averageLinkSparsityPenaltyAmong(
-	foundDocuments []queryanswers.FoundDocument,
+	documents []queryanswers.FoundDocument,
 ) float64 {
 	sumOfPenalties, amountOfCountedDocuments := 0.0, 0
-	for _, foundDocument := range foundDocuments {
-		penalty, penaltyCounted := countedLinkSparsityPenaltyOf(foundDocument).Get()
+	for _, document := range documents {
+		penalty, penaltyCounted := countedLinkSparsityPenaltyOf(document).Get()
 		if !penaltyCounted {
 			continue
 		}
