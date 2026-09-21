@@ -640,7 +640,7 @@ func TestTheDocumentOfFewerLinksPerWordComesLast(t *testing.T) {
 	}
 }
 
-func TestTheDocumentNoPeerSentLinkCountsForKeepsTheRelevanceOfALinkedDocument(t *testing.T) {
+func TestTheDocumentNoPeerSentLinkCountsForComesBetweenTheSparseAndTheLinked(t *testing.T) {
 	t.Parallel()
 
 	withoutLinkCounts := foundDocumentWithLinksAmongAThousandWords(
@@ -650,21 +650,19 @@ func TestTheDocumentNoPeerSentLinkCountsForKeepsTheRelevanceOfALinkedDocument(t 
 	answers := answersOf(
 		[]string{"berlin"},
 		[]answeredDocument{
+			foundDocumentWithLinksAmongAThousandWords(t, "https://sparse.example/", 0),
 			withoutLinkCounts,
 			foundDocumentWithLinksAmongAThousandWords(t, "https://linked.example/", 50),
 		},
 	)
 
-	relevancePerDocument := documentrelevance.New(documentrelevance.DefaultScoreWeights()).
-		RelevancePerDocumentOf(answers)
-	linked := relevancePerDocument[answers.FoundDocuments[1].Hash]
-	if unmeasured := relevancePerDocument[withoutLinkCounts.foundDocument.Hash]; unmeasured != linked {
-		t.Fatalf(
-			"the document no peer sent link counts for reaches the relevance %.4f, want the %.4f "+
-				"of the document of links enough",
-			unmeasured,
-			linked,
-		)
+	want := []string{
+		"https://linked.example/",
+		"https://unmeasured.example/",
+		"https://sparse.example/",
+	}
+	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
 

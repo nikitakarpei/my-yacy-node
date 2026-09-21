@@ -29,7 +29,7 @@ func (weights ScoreWeights) relevanceOf(
 	foundDocument queryanswers.FoundDocument,
 	facts queryanswers.DocumentFacts,
 	rarityOfTheQueryWords queryWordRarity,
-	averageAmountOfWordsAnyoneCounted float64,
+	averageFacts averageFactsAnyoneCounted,
 	queryWords []yacymodel.Hash,
 ) float64 {
 	return weights.WeightOfTheTitleScore*titleScoreOf(
@@ -41,7 +41,7 @@ func (weights ScoreWeights) relevanceOf(
 			textScoreOf(
 				facts,
 				rarityOfTheQueryWords,
-				averageAmountOfWordsAnyoneCounted,
+				averageFacts.amountOfWords,
 				queryWords,
 			) +
 		weights.WeightOfThePhraseScore*phraseScoreOf(facts).
@@ -50,6 +50,7 @@ func (weights ScoreWeights) relevanceOf(
 			foundDocument,
 			queryWords,
 		) -
-		weights.WeightOfTheLinkSparsityPenalty*linkSparsityPenaltyOf(facts).
-			OrElse(scoreOfAnUncountedFact)
+		weights.WeightOfTheLinkSparsityPenalty*linkSparsityPenaltyOf(
+			facts, averageFacts.linkSparsityPenalty,
+		)
 }
