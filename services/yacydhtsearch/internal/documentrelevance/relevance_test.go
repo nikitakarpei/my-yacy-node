@@ -296,6 +296,50 @@ func TestTheShorterDocumentOfTheSameHitsComesFirst(t *testing.T) {
 	}
 }
 
+func relevanceOfTheDocumentAt(
+	t *testing.T, answers queryanswers.AnsweredQuery, address string,
+) float64 {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
+
+	return documentrelevance.New(documentrelevance.DefaultScoreWeights()).
+		RelevancePerDocumentOf(answers)[hash]
+}
+
+func TestADocumentOfAHitOfEveryQueryWordHoldsTheSameRelevanceHoweverLongTheQueryIs(t *testing.T) {
+	t.Parallel()
+
+	const address = "https://a.example/"
+	relevanceUnderTheShortQuery := relevanceOfTheDocumentAt(t, answersHolding(
+		map[string]int{"berlin": 100},
+		[]string{"berlin"},
+		[]answeredDocument{
+			foundDocumentWithHitsPerWord(t, address, map[string]int{"berlin": 1}),
+		},
+	), address)
+	relevanceUnderTheLongQuery := relevanceOfTheDocumentAt(t, answersHolding(
+		map[string]int{"berlin": 100, "weather": 100, "today": 100},
+		[]string{"berlin", "weather", "today"},
+		[]answeredDocument{
+			foundDocumentWithHitsPerWord(t, address, map[string]int{
+				"berlin": 1, "weather": 1, "today": 1,
+			}),
+		},
+	), address)
+
+	if relevanceUnderTheShortQuery != relevanceUnderTheLongQuery {
+		t.Fatalf(
+			"the document holds the relevance %f under the query of one word and %f under the "+
+				"query of three words, want the same relevance",
+			relevanceUnderTheShortQuery, relevanceUnderTheLongQuery,
+		)
+	}
+}
+
 func TestTheDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 	t.Parallel()
 
