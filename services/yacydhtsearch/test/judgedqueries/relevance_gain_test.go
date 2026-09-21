@@ -27,14 +27,20 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	t.Parallel()
 
 	judged := judgedQueriesRecorded(t)
-	gainOfTheOrderingOfTheService := gainPerJudgedQueryOf(
-		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
-	)
+	orderingOfTheService := orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights())
+	gainOfTheOrderingOfTheService := gainPerJudgedQueryOf(orderingOfTheService, judged)
 	acceptedGain := acceptedGainPerJudgedQueryInTheFile(t, acceptedGainFile)
+	judgedQueriesOfAnOrder := judgedQueriesOfSeveralRelevantDocuments(judged)
 
 	reportTheGainOfEachJudgedQuery(t, judged, gainOfTheOrderingOfTheService)
-	failIfTheLiftOverTheFoundOrderFallsShort(t, judged)
-	failIfTheMeanGainFallsBelowTheAcceptedGain(t, gainOfTheOrderingOfTheService, acceptedGain)
+	reportTheMeanGainOfEachOrdering(t, judgedQueriesOfAnOrder)
+	reportTheRelevantDocumentsHeldInTheFirstTen(
+		t, judgedQueriesOfOneRelevantDocument(judged), gainOfTheOrderingOfTheService,
+	)
+	failIfTheLiftOverTheFoundOrderFallsShort(t, judgedQueriesOfAnOrder)
+	failIfTheMeanGainFallsBelowTheAcceptedGain(
+		t, gainPerJudgedQueryOf(orderingOfTheService, judgedQueriesOfAnOrder), acceptedGain,
+	)
 	failIfAJudgedQueryFellToNoGain(t, gainOfTheOrderingOfTheService, acceptedGain)
 }
 
@@ -93,6 +99,30 @@ func (orderingInTheFoundOrder) OrderedDocumentsOf(
 	return answers.FoundDocuments
 }
 
+func judgedQueriesOfSeveralRelevantDocuments(judged []judgedQuery) []judgedQuery {
+	ofSeveralRelevantDocuments := make([]judgedQuery, 0, len(judged))
+	for _, judgedQuery := range judged {
+		if !judgedQuery.gradedDocuments.holdAnOrderOfRelevantDocuments() {
+			continue
+		}
+		ofSeveralRelevantDocuments = append(ofSeveralRelevantDocuments, judgedQuery)
+	}
+
+	return ofSeveralRelevantDocuments
+}
+
+func judgedQueriesOfOneRelevantDocument(judged []judgedQuery) []judgedQuery {
+	ofOneRelevantDocument := make([]judgedQuery, 0, len(judged))
+	for _, judgedQuery := range judged {
+		if judgedQuery.gradedDocuments.holdAnOrderOfRelevantDocuments() {
+			continue
+		}
+		ofOneRelevantDocument = append(ofOneRelevantDocument, judgedQuery)
+	}
+
+	return ofOneRelevantDocument
+}
+
 func reportTheGainOfEachJudgedQuery(
 	t *testing.T, judged []judgedQuery, gainOfTheOrderingOfTheService gainPerJudgedQuery,
 ) {
@@ -122,13 +152,6 @@ func reportTheGainOfEachJudgedQuery(
 		)
 	}
 	t.Logf(
-		"the mean over %d judged queries: site discount %.4f, relevance %.4f, found order %.4f",
-		len(judged),
-		meanNormalizedGainDiscountedPerSiteOf(sitediscount.New(documentRelevance), judged),
-		meanNormalizedGainDiscountedPerSiteOf(relevanceOrdering, judged),
-		meanNormalizedGainDiscountedPerSiteOf(orderingInTheFoundOrder{}, judged),
-	)
-	t.Logf(
 		"the ordering of the service puts %d spam documents in the first ten over %d judged "+
 			"queries",
 		amountOfSpamDocumentsInTheFirstTen,
@@ -138,6 +161,45 @@ func reportTheGainOfEachJudgedQuery(
 		"the ordering of the service reaches no gain on %d of %d judged queries",
 		gainOfTheOrderingOfTheService.amountOfQueriesWithoutGain(),
 		len(judged),
+	)
+}
+
+func reportTheRelevantDocumentsHeldInTheFirstTen(
+	t *testing.T,
+	judgedQueriesOfOneRelevantDocument []judgedQuery,
+	gainOfTheOrderingOfTheService gainPerJudgedQuery,
+) {
+	t.Helper()
+
+	heldInTheFirstTen := 0
+	for _, judgedQuery := range judgedQueriesOfOneRelevantDocument {
+		if gainOfTheOrderingOfTheService[judgedQuery.query] > 0 {
+			heldInTheFirstTen++
+		}
+	}
+	t.Logf(
+		"the ordering of the service holds the one relevant document of %d of %d judged "+
+			"queries in the first ten, whose gain measures its place and not an order",
+		heldInTheFirstTen,
+		len(judgedQueriesOfOneRelevantDocument),
+	)
+}
+
+func reportTheMeanGainOfEachOrdering(t *testing.T, judgedQueriesOfAnOrder []judgedQuery) {
+	t.Helper()
+
+	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
+	t.Logf(
+		"the mean over the %d judged queries of several relevant documents: site discount "+
+			"%.4f, relevance %.4f, found order %.4f",
+		len(judgedQueriesOfAnOrder),
+		meanNormalizedGainDiscountedPerSiteOf(
+			sitediscount.New(documentRelevance), judgedQueriesOfAnOrder,
+		),
+		meanNormalizedGainDiscountedPerSiteOf(
+			relevance.New(documentRelevance), judgedQueriesOfAnOrder,
+		),
+		meanNormalizedGainDiscountedPerSiteOf(orderingInTheFoundOrder{}, judgedQueriesOfAnOrder),
 	)
 }
 

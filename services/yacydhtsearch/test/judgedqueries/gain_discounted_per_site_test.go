@@ -13,6 +13,8 @@ const (
 	judgedDocumentsCeiling   = 10
 	gradeOfARelevantDocument = 1
 	discountOfARepeatedSite  = 0.5
+
+	relevantDocumentsAnOrderNeeds = 2
 )
 
 type gradedDocument struct {
@@ -129,13 +131,23 @@ func (documents gradedDocuments) gradedDocumentsInTheOrderOf(
 }
 
 func (documents gradedDocuments) holdARelevantDocument() bool {
+	return documents.amountOfRelevantDocuments() > 0
+}
+
+func (documents gradedDocuments) holdAnOrderOfRelevantDocuments() bool {
+	return documents.amountOfRelevantDocuments() >= relevantDocumentsAnOrderNeeds
+}
+
+func (documents gradedDocuments) amountOfRelevantDocuments() int {
+	amountOfRelevantDocuments := 0
 	for _, document := range documents {
-		if document.grade >= gradeOfARelevantDocument {
-			return true
+		if document.grade < gradeOfARelevantDocument {
+			continue
 		}
+		amountOfRelevantDocuments++
 	}
 
-	return false
+	return amountOfRelevantDocuments
 }
 
 func (documents gradedDocuments) amountOfUngradedDocumentsAmong(
