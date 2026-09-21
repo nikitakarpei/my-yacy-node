@@ -17,15 +17,15 @@ type queryWordRarities struct {
 
 func queryWordRaritiesFrom(answers queryanswers.AnsweredQuery) queryWordRarities {
 	rarityPerWord := rarityPerWordFrom(answers.DocumentsHeldPerQueryWord)
-	queryWordRarities := queryWordRarities{
+	rarities := queryWordRarities{
 		rarityPerWord:         rarityPerWord,
 		rarityOfUncountedWord: leastRarityAmong(rarityPerWord),
 	}
 	for _, word := range answers.QueryWords {
-		queryWordRarities.sumOfRarities += queryWordRarities.rarityOfWord(word)
+		rarities.sumOfRarities += rarities.rarityOf(word)
 	}
 
-	return queryWordRarities
+	return rarities
 }
 
 func rarityPerWordFrom(
@@ -62,24 +62,24 @@ func leastRarityAmong(rarityPerWord map[yacymodel.Hash]float64) float64 {
 	return leastRarity
 }
 
-func (queryWordRarities queryWordRarities) rarityShareOfWords(words []yacymodel.Hash) float64 {
-	rarityShareHeldByWords := 0.0
+func (rarities queryWordRarities) rarityShareOfWords(words []yacymodel.Hash) float64 {
+	rarityShare := 0.0
 	for _, word := range words {
-		rarityShareHeldByWords += queryWordRarities.rarityShareOfWord(word)
+		rarityShare += rarities.rarityShareOfWord(word)
 	}
 
-	return rarityShareHeldByWords
+	return rarityShare
 }
 
-func (queryWordRarities queryWordRarities) rarityShareOfWord(word yacymodel.Hash) float64 {
-	return queryWordRarities.rarityOfWord(word) / queryWordRarities.sumOfRarities
+func (rarities queryWordRarities) rarityShareOfWord(word yacymodel.Hash) float64 {
+	return rarities.rarityOf(word) / rarities.sumOfRarities
 }
 
-func (queryWordRarities queryWordRarities) rarityOfWord(word yacymodel.Hash) float64 {
-	countedRarityOfWord, rarityCounted := queryWordRarities.rarityPerWord[word]
+func (rarities queryWordRarities) rarityOf(word yacymodel.Hash) float64 {
+	countedRarity, rarityCounted := rarities.rarityPerWord[word]
 	if !rarityCounted {
-		return queryWordRarities.rarityOfUncountedWord
+		return rarities.rarityOfUncountedWord
 	}
 
-	return countedRarityOfWord
+	return countedRarity
 }
