@@ -8,31 +8,37 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const prefixOfAWorldWideWebHost = "www."
+const (
+	prefixOfAWorldWideWebHost = "www."
+
+	namedSiteEntryScoreOfAnAddressNoOneCanRead    = 0.0
+	namedSiteEntryScoreOfASiteTheQueryDoesNotName = 0.0
+
+	stepsFromTheSiteEntryToItself = 1
+)
 
 func namedSiteEntryScoreOf(
 	foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash,
 ) float64 {
-	readAddress, err := url.Parse(foundDocument.Address)
+	address, err := url.Parse(foundDocument.Address)
 	if err != nil {
-		return 0
+		return namedSiteEntryScoreOfAnAddressNoOneCanRead
 	}
-	wordsInTheSiteName := wordsInTheSiteNameOf(readAddress.Hostname())
-
-	amountOfQueryWordsInTheSiteName := 0
-	for _, word := range queryWords {
-		if _, inTheSiteName := wordsInTheSiteName[word]; !inTheSiteName {
-			continue
-		}
-		amountOfQueryWordsInTheSiteName++
-	}
+	wordsInTheSiteName := wordsInTheSiteNameOf(address.Hostname())
+	amountOfQueryWordsInTheSiteName := amountOfQueryWordsAmong(wordsInTheSiteName, queryWords)
 	if amountOfQueryWordsInTheSiteName == 0 {
-		return 0
+		return namedSiteEntryScoreOfASiteTheQueryDoesNotName
 	}
 
-	return float64(amountOfQueryWordsInTheSiteName) / float64(len(wordsInTheSiteName)) *
-		float64(amountOfQueryWordsInTheSiteName) / float64(len(queryWords)) /
-		float64(1+amountOfPathSegmentsOf(readAddress.Path))
+	shareOfTheSiteNameTheQueryNames := float64(amountOfQueryWordsInTheSiteName) /
+		float64(len(wordsInTheSiteName))
+	shareOfTheQueryTheSiteNameHolds := float64(amountOfQueryWordsInTheSiteName) /
+		float64(len(queryWords))
+	stepsFromTheSiteEntry := stepsFromTheSiteEntryToItself +
+		amountOfPathSegmentsOf(address.Path)
+
+	return shareOfTheSiteNameTheQueryNames * shareOfTheQueryTheSiteNameHolds /
+		float64(stepsFromTheSiteEntry)
 }
 
 func wordsInTheSiteNameOf(host string) map[yacymodel.Hash]struct{} {
@@ -48,6 +54,20 @@ func wordsInTheSiteNameOf(host string) map[yacymodel.Hash]struct{} {
 	}
 
 	return wordsInTheSiteName
+}
+
+func amountOfQueryWordsAmong(
+	words map[yacymodel.Hash]struct{}, queryWords []yacymodel.Hash,
+) int {
+	amountOfQueryWords := 0
+	for _, queryWord := range queryWords {
+		if _, amongTheWords := words[queryWord]; !amongTheWords {
+			continue
+		}
+		amountOfQueryWords++
+	}
+
+	return amountOfQueryWords
 }
 
 func amountOfPathSegmentsOf(path string) int {
