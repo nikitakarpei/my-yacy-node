@@ -26,11 +26,13 @@ const (
 	warcResponseBlockType       = "application/http;msgtype=response"
 	warcRecordEnd               = "\r\n\r\n"
 	httpResponseStatusLine      = "HTTP/1.1 200 OK"
+	httpContentTypeField        = "Content-Type"
+	httpContentLengthField      = "Content-Length"
 	httpResponseHeaderEnd       = "\r\n\r\n"
 	amountOfRecordIdentityBytes = 16
 )
 
-func warcOfThePages(t *testing.T, pages []storedPage) []byte {
+func warcOf(t *testing.T, pages []storedPage) []byte {
 	t.Helper()
 
 	var warc bytes.Buffer
@@ -51,7 +53,7 @@ func warcResponseRecordOf(t *testing.T, page storedPage) []byte {
 		{warcRecordTypeField, warcResponseRecordType},
 		{warcTargetAddressField, page.address},
 		{warcRecordDateField, time.Now().UTC().Format(time.RFC3339)},
-		{warcRecordIdentityField, warcRecordIdentityOf(t)},
+		{warcRecordIdentityField, warcRecordIdentity(t)},
 		{warcBlockTypeField, warcResponseBlockType},
 		{warcBlockLengthField, strconv.Itoa(len(block))},
 	} {
@@ -67,15 +69,15 @@ func warcResponseRecordOf(t *testing.T, page storedPage) []byte {
 func httpResponseBlockOf(page storedPage) []byte {
 	var block bytes.Buffer
 	block.WriteString(httpResponseStatusLine + "\r\n")
-	fmt.Fprintf(&block, "Content-Type: %s\r\n", page.contentType)
-	fmt.Fprintf(&block, "Content-Length: %d", len(page.body))
+	fmt.Fprintf(&block, "%s: %s\r\n", httpContentTypeField, page.contentType)
+	fmt.Fprintf(&block, "%s: %d", httpContentLengthField, len(page.body))
 	block.WriteString(httpResponseHeaderEnd)
 	block.Write(page.body)
 
 	return block.Bytes()
 }
 
-func warcRecordIdentityOf(t *testing.T) string {
+func warcRecordIdentity(t *testing.T) string {
 	t.Helper()
 
 	identity := make([]byte, amountOfRecordIdentityBytes)
@@ -98,27 +100,27 @@ type warcRecord struct {
 	block  []byte
 }
 
-func pagesOfTheWARC(t *testing.T, warc []byte) []storedPage {
+func pagesOfWARC(t *testing.T, warc []byte) []storedPage {
 	t.Helper()
 
 	var pages []storedPage
 	reader := bufio.NewReader(bytes.NewReader(warc))
 	for {
-		record, read := warcRecordOf(t, reader)
+		record, read := nextWARCRecordIn(t, reader)
 		if !read {
 			return pages
 		}
 		if record.fields.Get(warcRecordTypeField) != warcResponseRecordType {
 			continue
 		}
-		pages = append(pages, pageOfTheWARCRecord(t, record))
+		pages = append(pages, pageOf(t, record))
 	}
 }
 
-func warcRecordOf(t *testing.T, reader *bufio.Reader) (warcRecord, bool) {
+func nextWARCRecordIn(t *testing.T, reader *bufio.Reader) (warcRecord, bool) {
 	t.Helper()
 
-	if !readTheWARCVersionLine(t, reader) {
+	if !readWARCVersionLine(t, reader) {
 		return warcRecord{}, false
 	}
 	fields, err := textproto.NewReader(reader).ReadMIMEHeader()
@@ -140,7 +142,7 @@ func warcRecordOf(t *testing.T, reader *bufio.Reader) (warcRecord, bool) {
 	return warcRecord{fields: fields, block: block}, true
 }
 
-func readTheWARCVersionLine(t *testing.T, reader *bufio.Reader) bool {
+func readWARCVersionLine(t *testing.T, reader *bufio.Reader) bool {
 	t.Helper()
 
 	for {
@@ -151,20 +153,20 @@ func readTheWARCVersionLine(t *testing.T, reader *bufio.Reader) bool {
 		if err != nil && err != io.EOF {
 			t.Fatalf("read a warc record: %v", err)
 		}
-		trimmed := string(bytes.TrimSpace([]byte(line)))
-		if trimmed == "" {
+		trimmedLine := string(bytes.TrimSpace([]byte(line)))
+		if trimmedLine == "" {
 			continue
 		}
-		if trimmed != warcVersionLine {
+		if trimmedLine != warcVersionLine {
 			t.Fatalf("read a warc record: the version line reads %q, want %q",
-				trimmed, warcVersionLine)
+				trimmedLine, warcVersionLine)
 		}
 
 		return true
 	}
 }
 
-func pageOfTheWARCRecord(t *testing.T, record warcRecord) storedPage {
+func pageOf(t *testing.T, record warcRecord) storedPage {
 	t.Helper()
 
 	response, err := http.ReadResponse(bufio.NewReader(bytes.NewReader(record.block)), nil)
@@ -181,7 +183,7 @@ func pageOfTheWARCRecord(t *testing.T, record warcRecord) storedPage {
 
 	return storedPage{
 		address:     record.fields.Get(warcTargetAddressField),
-		contentType: response.Header.Get("Content-Type"),
+		contentType: response.Header.Get(httpContentTypeField),
 		body:        body,
 	}
 }

@@ -2,68 +2,23 @@ package judgedqueries_test
 
 import (
 	"context"
-	"net/http"
 	"os"
-	"path/filepath"
-	"strings"
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
-	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	recordingSwitch                = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
-	networkName                    = "freeworld"
-	partitionExponent              = 4
-	maxResponseBytes               = 4 * 1024 * 1024
-	directoryCapacity              = 4096
-	refreshInterval                = 5 * time.Minute
-	probeBudget                    = 3 * time.Second
-	probesInFlight                 = 24
-	networkRedundancy              = 3
-	peerCallsInFlight              = 48
-	peerCallBudget                 = 5 * time.Second
-	peerItemsCeiling               = 10
-	urlMetadataAskDocumentsCeiling = 1000
-	asksForCrossCheckedDocuments   = false
-	crossCheckedDocumentsCeiling   = 1000
-	queryBudget                    = 15 * time.Second
+	recordingSwitch = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
 
 	pagesReadPerQuery    = 50
-	pageReadBudget       = 10 * time.Second
-	pageByteCeiling      = 4 * 1024 * 1024
-	snippetLengthCeiling = 300
-	pageFetchUserAgent   = "yacydhtsearch (+https://yacy.net)"
+	recordingPagesBudget = 10 * time.Second
 )
 
-var seedlistURLs = []string{
-	"http://sixcooler.de/yacy/seed.txt",
-	"https://sonst.mifritscher.de/yacy/seed.txt",
-	"http://5.45.105.16/yacyseed",
-	"http://yacy.v16.de/seed/seed.txt",
-	"https://frank-siebert.de/seed.txt",
-	"http://seedlist.wertewesten.net/seed.txt",
-}
-
-var judgedQueries = []string{
+var recordedQueries = []string{
 	"wikipedia",
 	"debian",
 	"kubernetes",
@@ -146,150 +101,28 @@ var judgedQueries = []string{
 	"zzyzx quanternion glomph",
 }
 
-type querySpread interface {
-	SpreadOverPeers(
-		ctx context.Context,
-		query searchquery.Query,
-		askablePeers []peerdirectory.AskablePeer,
-	) queryanswers.AnsweredQuery
-}
-
 func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 	if os.Getenv(recordingSwitch) == "" {
 		t.Skipf("set %s to record what the peers answer", recordingSwitch)
 	}
 
-	directory, reliability := directoryOfTheNetwork(t)
+	peers := peersOfTheNetworkRefreshedOnce(t)
 	recording := judgedQueryRecording{
-		spread:     querySpreadOverThePeers(t, reliability),
-		fetching:   pageFetchingOverTheWeb(pageReadBudget),
-		extraction: pageExtractionOfTheFormats(t),
-		directory:  directory,
+		spread:     peers.querySpread(t),
+		fetching:   pageFetchingWithin(recordingPagesBudget),
+		extraction: pageExtractionOfEveryFormat(t),
+		directory:  peers.directory,
 	}
 	t.Logf(
 		"the directory knows %d peers and can ask %d",
-		len(directory.KnownPeers(t.Context())),
-		len(directory.AskablePeers(t.Context())),
+		len(peers.directory.KnownPeers(t.Context())),
+		len(peers.directory.AskablePeers(t.Context())),
 	)
-	for _, query := range judgedQueries {
-		t.Run(queryInFileNames(query), func(t *testing.T) {
-			recording.recordOneJudgedQuery(t, query)
+	for _, query := range recordedQueries {
+		t.Run(query, func(t *testing.T) {
+			recording.recordOne(t, query)
 		})
 	}
-}
-
-func directoryOfTheNetwork(
-	t *testing.T,
-) (*peerdirectory.Directory, peerreliability.Reliability) {
-	t.Helper()
-
-	presence := peerpresencememory.New(
-		presenceaccrual.PresenceAccrualLimits{
-			Capacity:        directoryCapacity,
-			ContinuityLimit: refreshInterval,
-		},
-		presenceaccrual.PresenceAccrualObservers{},
-	)
-	reliability := peerreliability.New(
-		presence, peerreliability.DefaultReliabilityWeights(), time.Now,
-	)
-	directory := peerdirectory.New(
-		peerdirectory.DirectoryLimits{Capacity: directoryCapacity},
-		time.Now,
-		leastreliable.New(reliability, refreshInterval, time.Now),
-		peerdirectory.DirectoryObservers{presence},
-	)
-	peerdirectoryrefresh.New(
-		yacyseedlist.New(
-			http.DefaultClient,
-			seedlistURLs,
-			maxResponseBytes,
-			silentSeedlistObserver{},
-		),
-		directory,
-		peerlivenesswire.New(
-			http.DefaultClient, networkName, peerlivenesswire.PeerLivenessObservers{},
-		),
-		presence,
-		peerdirectoryrefresh.ProbeLimits{
-			ProbeBudget:    probeBudget,
-			ProbesInFlight: probesInFlight,
-		},
-	).RefreshOnce(t.Context())
-
-	return directory, reliability
-}
-
-func querySpreadOverThePeers(
-	t *testing.T,
-	reliability peerreliability.Reliability,
-) querySpread {
-	t.Helper()
-
-	partitions := ringPartitions(t)
-	peers := peercallwire.New(
-		http.DefaultClient,
-		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: partitions},
-		peercallwire.PeerCallLimits{
-			MaxResponseBytes:  maxResponseBytes,
-			PeerCallsInFlight: peerCallsInFlight,
-			PeerCallBudget:    peerCallBudget,
-		},
-		peercallwire.PeerCallObservers{},
-	)
-	spread := bywordcount.New(
-		wordjoined.New(
-			peers,
-			peers,
-			urlMetadataAskDocumentsCeiling,
-			asksForCrossCheckedDocuments,
-			crossCheckedDocumentsCeiling,
-			peerItemsCeiling,
-			partitions,
-			yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
-			wordjoined.WordJoinedSpreadObservers{},
-		),
-		peermatched.New(
-			peers,
-			peerItemsCeiling,
-			peermatched.PeerMatchedSpreadObservers{},
-		),
-	)
-
-	return spreadChoosingPeers{
-		choice: peerchoice.New(
-			partitions, networkRedundancy, reliability, peerchoice.PeerChoiceObservers{},
-		),
-		spread: spread,
-	}
-}
-
-type spreadChoosingPeers struct {
-	choice peerchoice.Choice
-	spread bywordcount.Spread
-}
-
-func (s spreadChoosingPeers) SpreadOverPeers(
-	ctx context.Context,
-	query searchquery.Query,
-	askablePeers []peerdirectory.AskablePeer,
-) queryanswers.AnsweredQuery {
-	chosenPeersPerQueryWord := s.choice.ChosenPeersPerQueryWordFor(
-		ctx, query.TermHashes(), askablePeers,
-	)
-
-	return s.spread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
-}
-
-func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
-	t.Helper()
-
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(partitionExponent)
-	if err != nil {
-		t.Fatalf("partitions from exponent %d: %v", partitionExponent, err)
-	}
-
-	return partitions
 }
 
 type judgedQueryRecording struct {
@@ -299,76 +132,51 @@ type judgedQueryRecording struct {
 	directory  *peerdirectory.Directory
 }
 
-func (r judgedQueryRecording) recordOneJudgedQuery(t *testing.T, query string) {
+func (recording judgedQueryRecording) recordOne(t *testing.T, query string) {
 	t.Helper()
 
-	answers := answersOfOneQuery(t, r.spread, r.directory, query)
-	pages := pagesOfTheFirstAnsweredDocuments(t, r.fetching, answers)
-	storePagesOfTheQuery(t, query, pages)
-	answersAndTheirPages := r.extraction.answersWithTheContentsOfTheStoredPages(
-		t.Context(), t, query, answers, pagePerAddressOf(pages),
+	answers := recording.answersOf(t, query)
+	pages := recording.pagesReadFor(t, answers)
+	writeStoredPagesOf(t, query, pages)
+	answersAndPageContents := answersAndPageContentsOf(
+		answers,
+		recording.extraction.pageContentsPerDocumentOf(
+			t.Context(), answers, pagePerAddressOf(pages),
+		),
 	)
 	writeRecordedAnswersFile(
-		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersAndTheirPages),
+		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersAndPageContents),
 	)
-	judgments := queryJudgmentsRecordedFor(t, query).withTheDocumentsToJudgeIn(
-		answersAndTheirPages.answeredQuery.WithReadPages(
-			answersAndTheirPages.pageContentsPerDocument,
-		),
-		answersAndTheirPages.pageContentsPerDocument,
-	)
-	writeFixtureFile(t, queryJudgmentsFileOf(query), judgments)
+	judgments := writeJudgmentsOf(t, query, answersAndPageContents)
 	t.Logf("%q read the page of %d documents, judges %d, and waits for %d grades",
 		query,
-		len(answersAndTheirPages.pageContentsPerDocument),
+		len(answersAndPageContents.pageContentsPerDocument),
 		len(judgments.JudgedDocuments),
 		judgments.amountOfUngradedDocuments(),
 	)
 }
 
-func answersOfOneQuery(
-	t *testing.T,
-	spread querySpread,
-	directory *peerdirectory.Directory,
-	query string,
+func (recording judgedQueryRecording) answersOf(
+	t *testing.T, query string,
 ) queryanswers.AnsweredQuery {
 	t.Helper()
 
 	ctx, stopQueryBudget := context.WithTimeout(t.Context(), queryBudget)
 	defer stopQueryBudget()
 
-	return spread.SpreadOverPeers(
-		ctx, searchquery.QueryFrom(query, ""), directory.AskablePeers(ctx),
+	return recording.spread.SpreadOverPeers(
+		ctx, searchquery.QueryFrom(query, ""), recording.directory.AskablePeers(ctx),
 	)
 }
 
-func pagesOfTheFirstAnsweredDocuments(
-	t *testing.T,
-	fetching pageFetching,
-	answers queryanswers.AnsweredQuery,
+func (recording judgedQueryRecording) pagesReadFor(
+	t *testing.T, answers queryanswers.AnsweredQuery,
 ) []storedPage {
 	t.Helper()
 
-	candidates := relevance.New(
-		documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()),
-	).OrderedDocumentsOf(answers)
+	orderedDocuments := defaultRelevanceOrdering().OrderedDocumentsOf(answers)
 
-	return fetching.fetchedPagesOf(
-		t.Context(), candidates[:min(pagesReadPerQuery, len(candidates))],
+	return recording.fetching.fetchedPagesOf(
+		t.Context(), orderedDocuments[:min(pagesReadPerQuery, len(orderedDocuments))],
 	)
-}
-
-func recordedAnswersFileOf(query string) string {
-	return filepath.Join(
-		recordedAnswersDirectory,
-		queryInFileNames(query)+recordedAnswersFileSuffix,
-	)
-}
-
-func queryJudgmentsFileOf(query string) string {
-	return filepath.Join(queryJudgmentsDirectory, queryInFileNames(query)+queryJudgmentsFileSuffix)
-}
-
-func queryInFileNames(query string) string {
-	return strings.Join(strings.Fields(strings.ToLower(query)), "-")
 }
