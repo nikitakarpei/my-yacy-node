@@ -10,8 +10,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type answersWithThePageContents struct {
-	answers                 queryanswers.AnsweredQuery
+type answersAndTheirReadPages struct {
+	answeredQuery           queryanswers.AnsweredQuery
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
 }
 
@@ -21,7 +21,7 @@ func (e pageExtraction) answersWithTheContentsOfTheStoredPages(
 	query string,
 	answers queryanswers.AnsweredQuery,
 	pagePerAddress map[string]storedPage,
-) answersWithThePageContents {
+) answersAndTheirReadPages {
 	t.Helper()
 
 	queryWords := searchquery.QueryFrom(query, "").TermHashes()
@@ -44,8 +44,8 @@ func (e pageExtraction) answersWithTheContentsOfTheStoredPages(
 		)
 	}
 
-	return answersWithThePageContents{
-		answers:                 answers.WithTheContentsOfTheReadPages(pageContentsPerDocument),
+	return answersAndTheirReadPages{
+		answeredQuery:           answers,
 		pageContentsPerDocument: pageContentsPerDocument,
 	}
 }

@@ -45,11 +45,11 @@ func TestTheOrderingReportsThePlacesLostWithoutTheFactsOfAPageRead(t *testing.T)
 				documentsLeavingTheFirstTen++
 			}
 		}
-		sumOfGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
+		sumOfGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerSiteOf(
 			ordering.OrderedDocumentsOf(judgedQuery.answers),
 		)
 		sumOfGainsWithoutTheFacts += judgedQuery.gradedDocuments.
-			normalizedGainDiscountedPerHostOf(
+			normalizedGainDiscountedPerSiteOf(
 				ordering.OrderedDocumentsOf(answersWithoutTheFacts),
 			)
 	}

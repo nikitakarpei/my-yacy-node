@@ -142,7 +142,7 @@ func meanGainOfEachOf(
 func meanGainOfTheScoreWeights(
 	scoreWeights documentrelevance.ScoreWeights, judged []judgedQuery,
 ) float64 {
-	return meanNormalizedGainDiscountedPerHostOf(orderingOfTheServiceFrom(scoreWeights), judged)
+	return meanNormalizedGainDiscountedPerSiteOf(orderingOfTheServiceFrom(scoreWeights), judged)
 }
 
 func scoreWeightsOfTheGrid() []documentrelevance.ScoreWeights {

@@ -10,35 +10,35 @@ import (
 
 const gainTolerance = 1e-9
 
-func TestTheSecondDocumentOfAHostCountsHalfOfADocumentOfAnotherHost(t *testing.T) {
+func TestTheSecondDocumentOfASiteCountsHalfOfADocumentOfAnotherSite(t *testing.T) {
 	t.Parallel()
 
-	gainOfOneHost := gainDiscountedPerHostOf([]gradedDocument{
-		{grade: 2, host: "one.example"},
-		{grade: 2, host: "one.example"},
+	gainOfOneSite := gainDiscountedPerSiteOf([]gradedDocument{
+		{grade: 2, site: "one.example"},
+		{grade: 2, site: "one.example"},
 	})
-	gainOfTwoHosts := gainDiscountedPerHostOf([]gradedDocument{
-		{grade: 2, host: "one.example"},
-		{grade: 2, host: "two.example"},
+	gainOfTwoSites := gainDiscountedPerSiteOf([]gradedDocument{
+		{grade: 2, site: "one.example"},
+		{grade: 2, site: "two.example"},
 	})
 
-	wantOfOneHost := 2.0 + 2.0*discountOfARepeatedHost/math.Log2(3)
-	wantOfTwoHosts := 2.0 + 2.0/math.Log2(3)
-	if math.Abs(gainOfOneHost-wantOfOneHost) > gainTolerance {
+	wantOfOneSite := 2.0 + 2.0*discountOfARepeatedSite/math.Log2(3)
+	wantOfTwoSites := 2.0 + 2.0/math.Log2(3)
+	if math.Abs(gainOfOneSite-wantOfOneSite) > gainTolerance {
 		t.Errorf(
-			"two documents of one host reach the gain %.6f, want %.6f",
-			gainOfOneHost, wantOfOneHost,
+			"two documents of one site reach the gain %.6f, want %.6f",
+			gainOfOneSite, wantOfOneSite,
 		)
 	}
-	if math.Abs(gainOfTwoHosts-wantOfTwoHosts) > gainTolerance {
+	if math.Abs(gainOfTwoSites-wantOfTwoSites) > gainTolerance {
 		t.Errorf(
-			"two documents of two hosts reach the gain %.6f, want %.6f",
-			gainOfTwoHosts, wantOfTwoHosts,
+			"two documents of two sites reach the gain %.6f, want %.6f",
+			gainOfTwoSites, wantOfTwoSites,
 		)
 	}
 }
 
-func TestTheIdealOrderPutsTheFirstDocumentOfAnotherHostFirst(t *testing.T) {
+func TestTheIdealOrderPutsTheFirstDocumentOfAnotherSiteFirst(t *testing.T) {
 	t.Parallel()
 
 	got := normalizedGainOfTheDocumentsInOrder(t,
@@ -47,21 +47,21 @@ func TestTheIdealOrderPutsTheFirstDocumentOfAnotherHostFirst(t *testing.T) {
 		documentToMeasure{address: "https://two.example/a", grade: gradeOf(2)},
 	)
 
-	idealGain := 2.0 + 2.0/math.Log2(3) + 2.0*discountOfARepeatedHost/math.Log2(4)
-	gainOfTheOrder := 2.0 + 2.0*discountOfARepeatedHost/math.Log2(3) + 2.0/math.Log2(4)
+	idealGain := 2.0 + 2.0/math.Log2(3) + 2.0*discountOfARepeatedSite/math.Log2(4)
+	gainOfTheOrder := 2.0 + 2.0*discountOfARepeatedSite/math.Log2(3) + 2.0/math.Log2(4)
 	want := gainOfTheOrder / idealGain
 	if math.Abs(got-want) > gainTolerance {
 		t.Errorf(
-			"the order that repeats a host before another host reaches %.6f, want %.6f",
+			"the order that repeats a site before another site reaches %.6f, want %.6f",
 			got, want,
 		)
 	}
 	if got >= 1 {
-		t.Errorf("the order that repeats a host reaches %.6f, want less than the ideal", got)
+		t.Errorf("the order that repeats a site reaches %.6f, want less than the ideal", got)
 	}
 }
 
-func TestAnUngradedDocumentOfTheSameHostDiscountsNothing(t *testing.T) {
+func TestAnUngradedDocumentOfTheSameSiteDiscountsNothing(t *testing.T) {
 	t.Parallel()
 
 	got := normalizedGainOfTheDocumentsInOrder(t,
@@ -73,7 +73,7 @@ func TestAnUngradedDocumentOfTheSameHostDiscountsNothing(t *testing.T) {
 	want := 1.0
 	if math.Abs(got-want) > gainTolerance {
 		t.Errorf(
-			"the order under an ungraded document of the same host reaches %.6f, want %.6f",
+			"the order under an ungraded document of the same site reaches %.6f, want %.6f",
 			got, want,
 		)
 	}
@@ -103,7 +103,7 @@ func normalizedGainOfTheDocumentsInOrder(
 		if document.grade != nil {
 			graded[hash] = gradedDocument{
 				grade: *document.grade,
-				host:  hostOf(document.address),
+				site:  yacymodel.SiteOf(document.address),
 			}
 		}
 		orderedDocuments = append(
@@ -111,5 +111,5 @@ func normalizedGainOfTheDocumentsInOrder(
 		)
 	}
 
-	return graded.normalizedGainDiscountedPerHostOf(orderedDocuments)
+	return graded.normalizedGainDiscountedPerSiteOf(orderedDocuments)
 }

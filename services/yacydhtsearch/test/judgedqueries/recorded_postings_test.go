@@ -1,7 +1,6 @@
 package judgedqueries_test
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
@@ -13,10 +12,7 @@ func answersWrittenAndReadBack(
 ) queryanswers.AnsweredQuery {
 	t.Helper()
 
-	path := filepath.Join(t.TempDir(), "recorded"+recordedAnswersFileSuffix)
-	writeRecordedAnswersFile(t, path, recordedAnswersOf("berlin", answers))
-
-	return recordedAnswersInTheFile(t, path).answeredQuery()
+	return answersOfADocumentWrittenAndReadBack(t, answersAndTheirReadPages{answeredQuery: answers})
 }
 
 func answersOfOneDocumentHolding(

@@ -1,10 +1,10 @@
-package hostdiscount_test
+package sitediscount_test
 
 import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/hostdiscount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -24,7 +24,7 @@ type addressAndItsRelevance struct {
 	relevance float64
 }
 
-func addressesOrderedWithTheHostDiscount(
+func addressesOrderedWithTheSiteDiscount(
 	t *testing.T, addressesInFallingOrderOfRelevance ...addressAndItsRelevance,
 ) []string {
 	t.Helper()
@@ -45,7 +45,7 @@ func addressesOrderedWithTheHostDiscount(
 		relevancePerDocument[hash] = addressAndItsRelevance.relevance
 	}
 
-	orderedDocuments := hostdiscount.New(
+	orderedDocuments := sitediscount.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
 	).OrderedDocumentsOf(queryanswers.AnsweredQuery{
 		FoundDocuments: foundDocuments,
@@ -58,10 +58,10 @@ func addressesOrderedWithTheHostDiscount(
 	return orderedAddresses
 }
 
-func TestASecondItemOfAHostWaitsForEveryItemTheDiscountLeavesAboveIt(t *testing.T) {
+func TestASecondItemOfASiteWaitsForEveryItemTheDiscountLeavesAboveIt(t *testing.T) {
 	t.Parallel()
 
-	got := addressesOrderedWithTheHostDiscount(
+	got := addressesOrderedWithTheSiteDiscount(
 		t,
 		addressAndItsRelevance{address: "https://one.example/a", relevance: 10},
 		addressAndItsRelevance{address: "https://one.example/b", relevance: 8},
@@ -76,14 +76,14 @@ func TestASecondItemOfAHostWaitsForEveryItemTheDiscountLeavesAboveIt(t *testing.
 		"https://three.example/a",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the host discount order reads %v, want %v", got, want)
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
 	}
 }
 
-func TestAStrongSecondItemOfAHostComesBeforeAWeakerItemOfAnotherHost(t *testing.T) {
+func TestAStrongSecondItemOfASiteComesBeforeAWeakerItemOfAnotherSite(t *testing.T) {
 	t.Parallel()
 
-	got := addressesOrderedWithTheHostDiscount(
+	got := addressesOrderedWithTheSiteDiscount(
 		t,
 		addressAndItsRelevance{address: "https://one.example/a", relevance: 10},
 		addressAndItsRelevance{address: "https://one.example/b", relevance: 9},
@@ -96,14 +96,14 @@ func TestAStrongSecondItemOfAHostComesBeforeAWeakerItemOfAnotherHost(t *testing.
 		"https://two.example/a",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the host discount order reads %v, want %v", got, want)
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
 	}
 }
 
-func TestEachFurtherItemOfOneHostTakesAFurtherDiscount(t *testing.T) {
+func TestEachFurtherItemOfOneSiteTakesAFurtherDiscount(t *testing.T) {
 	t.Parallel()
 
-	got := addressesOrderedWithTheHostDiscount(
+	got := addressesOrderedWithTheSiteDiscount(
 		t,
 		addressAndItsRelevance{address: "https://one.example/a", relevance: 10},
 		addressAndItsRelevance{address: "https://one.example/b", relevance: 10},
@@ -120,14 +120,14 @@ func TestEachFurtherItemOfOneHostTakesAFurtherDiscount(t *testing.T) {
 		"https://two.example/b",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the host discount order reads %v, want %v", got, want)
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
 	}
 }
 
 func TestTheItemsOfEqualDiscountedRelevanceKeepTheOrderTheyWereFoundIn(t *testing.T) {
 	t.Parallel()
 
-	got := addressesOrderedWithTheHostDiscount(
+	got := addressesOrderedWithTheSiteDiscount(
 		t,
 		addressAndItsRelevance{address: "https://one.example/a", relevance: 5},
 		addressAndItsRelevance{address: "https://two.example/a", relevance: 5},
@@ -140,14 +140,14 @@ func TestTheItemsOfEqualDiscountedRelevanceKeepTheOrderTheyWereFoundIn(t *testin
 		"https://three.example/a",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the host discount order reads %v, want %v", got, want)
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
 	}
 }
 
-func TestOnePathOfAHostDoesNotMakeAnotherHost(t *testing.T) {
+func TestOnePathOfASiteDoesNotMakeAnotherSite(t *testing.T) {
 	t.Parallel()
 
-	got := addressesOrderedWithTheHostDiscount(
+	got := addressesOrderedWithTheSiteDiscount(
 		t,
 		addressAndItsRelevance{address: "https://one.example/a", relevance: 10},
 		addressAndItsRelevance{address: "http://one.example:8080/b", relevance: 8},
@@ -160,14 +160,34 @@ func TestOnePathOfAHostDoesNotMakeAnotherHost(t *testing.T) {
 		"http://one.example:8080/b",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the host discount order reads %v, want %v", got, want)
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
 	}
 }
 
-func TestAnAddressThatHoldsNoHostIsItsOwnHost(t *testing.T) {
+func TestTheWorldWideWebLabelDoesNotMakeAnotherSite(t *testing.T) {
 	t.Parallel()
 
-	got := addressesOrderedWithTheHostDiscount(
+	got := addressesOrderedWithTheSiteDiscount(
+		t,
+		addressAndItsRelevance{address: "https://www.one.example/a", relevance: 10},
+		addressAndItsRelevance{address: "https://one.example/b", relevance: 8},
+		addressAndItsRelevance{address: "https://two.example/a", relevance: 6},
+	)
+
+	want := []string{
+		"https://www.one.example/a",
+		"https://two.example/a",
+		"https://one.example/b",
+	}
+	if !slices.Equal(got, want) {
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
+	}
+}
+
+func TestAnAddressThatHoldsNoHostIsItsOwnSite(t *testing.T) {
+	t.Parallel()
+
+	got := addressesOrderedWithTheSiteDiscount(
 		t,
 		addressAndItsRelevance{address: "documents/a", relevance: 10},
 		addressAndItsRelevance{address: "documents/b", relevance: 9},
@@ -180,15 +200,15 @@ func TestAnAddressThatHoldsNoHostIsItsOwnHost(t *testing.T) {
 		"https://one.example/a",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the host discount order reads %v, want %v", got, want)
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
 	}
 }
 
 func TestNoFoundDocumentMakesNoOrderedItem(t *testing.T) {
 	t.Parallel()
 
-	if got := addressesOrderedWithTheHostDiscount(t); len(got) != 0 {
-		t.Fatalf("the host discount order reads %v, want no foundDocument", got)
+	if got := addressesOrderedWithTheSiteDiscount(t); len(got) != 0 {
+		t.Fatalf("the site discount order reads %v, want no foundDocument", got)
 	}
 }
 
@@ -202,7 +222,7 @@ func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
 		},
 	}
 
-	hostdiscount.New(relevanceByFoundPlace{}).OrderedDocumentsOf(answers)
+	sitediscount.New(relevanceByFoundPlace{}).OrderedDocumentsOf(answers)
 
 	if answers.FoundDocuments[0].Address != "https://less.example/" {
 		t.Fatalf("the answers read %v after ordering, want the order they were found in",
@@ -234,10 +254,10 @@ func (relevanceByFoundPlace) RelevancePerDocumentOf(
 	return relevancePerDocument
 }
 
-func TestADocumentBelowNoRelevanceDoesNotRiseWhenItsHostRepeats(t *testing.T) {
+func TestADocumentBelowNoRelevanceDoesNotRiseWhenItsSiteRepeats(t *testing.T) {
 	t.Parallel()
 
-	got := addressesOrderedWithTheHostDiscount(
+	got := addressesOrderedWithTheSiteDiscount(
 		t,
 		addressAndItsRelevance{address: "https://one.example/a", relevance: 10},
 		addressAndItsRelevance{address: "https://one.example/b", relevance: 9},
@@ -254,6 +274,6 @@ func TestADocumentBelowNoRelevanceDoesNotRiseWhenItsHostRepeats(t *testing.T) {
 		"https://one.example/d",
 	}
 	if !slices.Equal(got, want) {
-		t.Fatalf("the host discount order reads %v, want %v", got, want)
+		t.Fatalf("the site discount order reads %v, want %v", got, want)
 	}
 }

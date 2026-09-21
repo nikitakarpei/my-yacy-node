@@ -9,8 +9,8 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/hostdiscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 )
 
@@ -81,8 +81,8 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 
 func orderingOfTheServiceFrom(
 	scoreWeights documentrelevance.ScoreWeights,
-) hostdiscount.Ordering {
-	return hostdiscount.New(documentrelevance.New(scoreWeights))
+) sitediscount.Ordering {
+	return sitediscount.New(documentrelevance.New(scoreWeights))
 }
 
 type orderingInTheFoundOrder struct{}
@@ -102,19 +102,19 @@ func reportTheGainOfEachJudgedQuery(
 	relevanceOrdering := relevance.New(documentRelevance)
 	amountOfSpamDocumentsInTheFirstTen := 0
 	for _, judgedQuery := range judged {
-		orderedDocuments := hostdiscount.New(documentRelevance).
+		orderedDocuments := sitediscount.New(documentRelevance).
 			OrderedDocumentsOf(judgedQuery.answers)
 		amountOfSpamDocumentsInTheFirstTen += judgedQuery.gradedDocuments.
 			amountOfSpamDocumentsAmongTheFirstOf(orderedDocuments)
 		t.Logf(
-			"%q: host discount %.4f, relevance %.4f, found order %.4f, %d ungraded documents "+
+			"%q: site discount %.4f, relevance %.4f, found order %.4f, %d ungraded documents "+
 				"dropped, %d spam documents in the first ten",
 			judgedQuery.query,
 			gainOfTheOrderingOfTheService[judgedQuery.query],
-			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerSiteOf(
 				relevanceOrdering.OrderedDocumentsOf(judgedQuery.answers),
 			),
-			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerSiteOf(
 				orderingInTheFoundOrder{}.OrderedDocumentsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.amountOfUngradedDocumentsAmong(orderedDocuments),
@@ -122,11 +122,11 @@ func reportTheGainOfEachJudgedQuery(
 		)
 	}
 	t.Logf(
-		"the mean over %d judged queries: host discount %.4f, relevance %.4f, found order %.4f",
+		"the mean over %d judged queries: site discount %.4f, relevance %.4f, found order %.4f",
 		len(judged),
-		meanNormalizedGainDiscountedPerHostOf(hostdiscount.New(documentRelevance), judged),
-		meanNormalizedGainDiscountedPerHostOf(relevanceOrdering, judged),
-		meanNormalizedGainDiscountedPerHostOf(orderingInTheFoundOrder{}, judged),
+		meanNormalizedGainDiscountedPerSiteOf(sitediscount.New(documentRelevance), judged),
+		meanNormalizedGainDiscountedPerSiteOf(relevanceOrdering, judged),
+		meanNormalizedGainDiscountedPerSiteOf(orderingInTheFoundOrder{}, judged),
 	)
 	t.Logf(
 		"the ordering of the service puts %d spam documents in the first ten over %d judged "+
@@ -141,12 +141,12 @@ func reportTheGainOfEachJudgedQuery(
 	)
 }
 
-func meanNormalizedGainDiscountedPerHostOf(
+func meanNormalizedGainDiscountedPerSiteOf(
 	ordering documentsOrdering, judged []judgedQuery,
 ) float64 {
 	sumOfNormalizedGains := 0.0
 	for _, judgedQuery := range judged {
-		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
+		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerSiteOf(
 			ordering.OrderedDocumentsOf(judgedQuery.answers),
 		)
 	}
@@ -157,10 +157,10 @@ func meanNormalizedGainDiscountedPerHostOf(
 func failIfTheLiftOverTheFoundOrderFallsShort(t *testing.T, judged []judgedQuery) {
 	t.Helper()
 
-	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
+	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerSiteOf(
 		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
 	)
-	meanGainOfTheFoundOrder := meanNormalizedGainDiscountedPerHostOf(
+	meanGainOfTheFoundOrder := meanNormalizedGainDiscountedPerSiteOf(
 		orderingInTheFoundOrder{}, judged,
 	)
 	if meanGainOfTheOrderingOfTheService-meanGainOfTheFoundOrder >=

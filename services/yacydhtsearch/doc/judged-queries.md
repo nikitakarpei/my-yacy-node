@@ -11,8 +11,9 @@ words in lower case and joined by `-`: `answers/`, `judgments/`, `pagetext/`.
 `TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the first
 ten graded documents of each ordering. The gain of a document is its grade,
 discounted by its place, and discounted by half again for each document of its
-host above it that has the grade 1 or more. The gate divides by the gain of the
-ideal order and drops a document of the grade `null`.
+site above it that has the grade 1 or more. A site is the host of the address
+without the world wide web label. The gate divides by the gain of the ideal
+order and drops a document of the grade `null`.
 
 The mean gain must stay at least the lift of the test above the found order,
 the order in which the service found the documents. It must also stay at or

@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -27,17 +28,53 @@ type recordedAnswers struct {
 }
 
 type recordedFoundDocument struct {
-	Hash             yacymodel.URLHash       `json:"hash"`
-	Address          string                  `json:"address"`
-	Title            string                  `json:"title"`
-	Snippet          string                  `json:"snippet"`
-	HitsPerQueryWord map[yacymodel.Hash]int  `json:"hitsPerQueryWord"`
-	AmountOfWords    int                     `json:"amountOfWords"`
-	QueryPhraseHits  int                     `json:"queryPhraseHits"`
-	AmountOfLinks    yacymodel.Optional[int] `json:"amountOfLinks,omitempty"`
+	Hash    yacymodel.URLHash `json:"hash"`
+	Address string            `json:"address"`
+	Title   string            `json:"title"`
+	Snippet string            `json:"snippet"`
 
-	Metadata yacymodel.Optional[yacymodel.URLMetadata] `json:"metadata,omitempty"`
-	Postings []recordedPostingReplica                  `json:"postings,omitempty"`
+	Metadata     yacymodel.Optional[yacymodel.URLMetadata] `json:"metadata,omitempty"`
+	Postings     []recordedPostingReplica                  `json:"postings,omitempty"`
+	PageContents yacymodel.Optional[recordedPageContents]  `json:"pageContents,omitempty"`
+}
+
+type recordedPageContents struct {
+	Address          string                 `json:"address,omitempty"`
+	Title            string                 `json:"title"`
+	Snippet          string                 `json:"snippet"`
+	HitsPerQueryWord map[yacymodel.Hash]int `json:"hitsPerQueryWord"`
+	QueryPhraseHits  int                    `json:"queryPhraseHits"`
+	AmountOfWords    int                    `json:"amountOfWords"`
+	LocalLinks       int                    `json:"localLinks"`
+	ExternalLinks    int                    `json:"externalLinks"`
+}
+
+func recordedPageContentsOf(pageContents pagecontents.PageContents) recordedPageContents {
+	return recordedPageContents{
+		Address:          pageContents.Address,
+		Title:            pageContents.Title,
+		Snippet:          pageContents.Snippet,
+		HitsPerQueryWord: pageContents.HitsPerQueryWord,
+		QueryPhraseHits:  pageContents.QueryPhraseHits,
+		AmountOfWords:    pageContents.AmountOfWords,
+		LocalLinks:       pageContents.LinkCounts.LocalLinks,
+		ExternalLinks:    pageContents.LinkCounts.ExternalLinks,
+	}
+}
+
+func (r recordedPageContents) pageContents() pagecontents.PageContents {
+	return pagecontents.PageContents{
+		Address:          r.Address,
+		Title:            r.Title,
+		Snippet:          r.Snippet,
+		HitsPerQueryWord: r.HitsPerQueryWord,
+		QueryPhraseHits:  r.QueryPhraseHits,
+		AmountOfWords:    r.AmountOfWords,
+		LinkCounts: pagecontents.LinkCounts{
+			LocalLinks:    r.LocalLinks,
+			ExternalLinks: r.ExternalLinks,
+		},
+	}
 }
 
 type recordedPostingReplica struct {
@@ -72,35 +109,17 @@ func (r recordedPosting) posting() yacymodel.RWIPosting {
 	return posting
 }
 
-func (r recordedFoundDocument) amountOfWordsOfTheReadPage() yacymodel.Optional[int] {
-	if !r.holdsTheFactsOfAPageRead() || r.AmountOfWords <= 0 {
-		return yacymodel.None[int]()
-	}
-
-	return yacymodel.Some(r.AmountOfWords)
-}
-
-func (r recordedFoundDocument) queryPhraseHitsOfTheReadPage() yacymodel.Optional[int] {
-	if !r.holdsTheFactsOfAPageRead() {
-		return yacymodel.None[int]()
-	}
-
-	return yacymodel.Some(r.QueryPhraseHits)
-}
-
-func (r recordedFoundDocument) holdsTheFactsOfAPageRead() bool {
-	return r.AmountOfLinks.Present()
-}
-
 func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
 		QueryWords:                 searchquery.QueryFrom(r.Query, "").TermHashes(),
 		FoundDocuments:             foundDocumentsFrom(r.FoundDocuments),
 		PostingReplicasPerDocument: postingReplicasPerDocumentFrom(r.FoundDocuments),
 		MetadataPerDocument:        metadataPerDocumentFrom(r.FoundDocuments),
-		FactsPerDocument:           factsPerDocumentFrom(r.FoundDocuments),
-		DocumentsHeldPerQueryWord:  r.DocumentsHeldPerQueryWord,
-	}
+		FactsPerDocument: queryanswers.FactsPerDocumentOf(
+			postingReplicasPerDocumentFrom(r.FoundDocuments),
+		),
+		DocumentsHeldPerQueryWord: r.DocumentsHeldPerQueryWord,
+	}.WithTheContentsOfTheReadPages(pageContentsPerDocumentFrom(r.FoundDocuments))
 }
 
 func foundDocumentsFrom(
@@ -119,20 +138,19 @@ func foundDocumentsFrom(
 	return foundDocuments
 }
 
-func factsPerDocumentFrom(
+func pageContentsPerDocumentFrom(
 	recordedFoundDocuments []recordedFoundDocument,
-) queryanswers.FactsPerDocument {
-	factsPerDocument := make(queryanswers.FactsPerDocument, len(recordedFoundDocuments))
+) map[yacymodel.URLHash]pagecontents.PageContents {
+	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
 	for _, recorded := range recordedFoundDocuments {
-		factsPerDocument[recorded.Hash] = queryanswers.DocumentFacts{
-			HitsPerQueryWord: recorded.HitsPerQueryWord,
-			QueryPhraseHits:  recorded.queryPhraseHitsOfTheReadPage(),
-			AmountOfWords:    recorded.amountOfWordsOfTheReadPage(),
-			AmountOfLinks:    recorded.AmountOfLinks,
+		recordedPageContents, read := recorded.PageContents.Get()
+		if !read {
+			continue
 		}
+		pageContentsPerDocument[recorded.Hash] = recordedPageContents.pageContents()
 	}
 
-	return factsPerDocument
+	return pageContentsPerDocument
 }
 
 func postingReplicasPerDocumentFrom(
@@ -167,36 +185,49 @@ func metadataPerDocumentFrom(
 	return metadataPerDocument
 }
 
-func recordedAnswersOf(query string, answers queryanswers.AnsweredQuery) recordedAnswers {
+func recordedAnswersOf(
+	query string, answersAndTheirPages answersAndTheirReadPages,
+) recordedAnswers {
 	return recordedAnswers{
 		Query:                     query,
 		RecordedAt:                time.Now().UTC().Truncate(time.Second),
-		FoundDocuments:            recordedFoundDocumentsFrom(answers),
-		DocumentsHeldPerQueryWord: answers.DocumentsHeldPerQueryWord,
+		FoundDocuments:            recordedFoundDocumentsFrom(answersAndTheirPages),
+		DocumentsHeldPerQueryWord: answersAndTheirPages.answeredQuery.DocumentsHeldPerQueryWord,
 	}
 }
 
 func recordedFoundDocumentsFrom(
-	answers queryanswers.AnsweredQuery,
+	answersAndTheirPages answersAndTheirReadPages,
 ) []recordedFoundDocument {
+	answers := answersAndTheirPages.answeredQuery
 	recordedFoundDocuments := make([]recordedFoundDocument, 0, len(answers.FoundDocuments))
 	for _, foundDocument := range answers.FoundDocuments {
-		facts := answers.FactsPerDocument[foundDocument.Hash]
 		recordedFoundDocuments = append(recordedFoundDocuments, recordedFoundDocument{
-			Hash:             foundDocument.Hash,
-			Address:          foundDocument.Address,
-			Title:            foundDocument.Title,
-			Snippet:          foundDocument.Snippet,
-			HitsPerQueryWord: facts.HitsPerQueryWord,
-			AmountOfWords:    facts.AmountOfWords.OrElse(0),
-			QueryPhraseHits:  facts.QueryPhraseHits.OrElse(0),
-			AmountOfLinks:    facts.AmountOfLinks,
-			Metadata:         metadataRecordedFor(foundDocument.Hash, answers),
-			Postings:         postingsRecordedFor(foundDocument.Hash, answers),
+			Hash:     foundDocument.Hash,
+			Address:  foundDocument.Address,
+			Title:    foundDocument.Title,
+			Snippet:  foundDocument.Snippet,
+			Metadata: metadataRecordedFor(foundDocument.Hash, answers),
+			Postings: postingsRecordedFor(foundDocument.Hash, answers),
+			PageContents: pageContentsRecordedFor(
+				foundDocument.Hash, answersAndTheirPages.pageContentsPerDocument,
+			),
 		})
 	}
 
 	return recordedFoundDocuments
+}
+
+func pageContentsRecordedFor(
+	document yacymodel.URLHash,
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
+) yacymodel.Optional[recordedPageContents] {
+	pageContents, read := pageContentsPerDocument[document]
+	if !read {
+		return yacymodel.None[recordedPageContents]()
+	}
+
+	return yacymodel.Some(recordedPageContentsOf(pageContents))
 }
 
 func metadataRecordedFor(
