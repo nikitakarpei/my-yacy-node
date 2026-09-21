@@ -305,22 +305,22 @@ func (r judgedQueryRecording) recordOneJudgedQuery(t *testing.T, query string) {
 	answers := answersOfOneQuery(t, r.spread, r.directory, query)
 	pages := pagesOfTheFirstAnsweredDocuments(t, r.fetching, answers)
 	storePagesOfTheQuery(t, query, pages)
-	saturated := r.extraction.answersSaturatedWithTheStoredPages(
+	answersAndTheirPages := r.extraction.answersWithTheContentsOfTheStoredPages(
 		t.Context(), t, query, answers, pagePerAddressOf(pages),
 	)
 	writeRecordedAnswersFile(
-		t, recordedAnswersFileOf(query), recordedAnswersOf(query, saturated.answers),
+		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersAndTheirPages),
 	)
-	judgments := queryJudgmentsOfTheDocumentsToJudge(
-		query,
-		saturated.answers,
-		saturated.pageContentsPerDocument,
-		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query)),
+	judgments := queryJudgmentsRecordedFor(t, query).withTheDocumentsToJudgeIn(
+		answersAndTheirPages.answeredQuery.WithTheContentsOfTheReadPages(
+			answersAndTheirPages.pageContentsPerDocument,
+		),
+		answersAndTheirPages.pageContentsPerDocument,
 	)
 	writeFixtureFile(t, queryJudgmentsFileOf(query), judgments)
 	t.Logf("%q read the page of %d documents, judges %d, and waits for %d grades",
 		query,
-		len(saturated.pageContentsPerDocument),
+		len(answersAndTheirPages.pageContentsPerDocument),
 		len(judgments.JudgedDocuments),
 		judgments.amountOfUngradedDocuments(),
 	)

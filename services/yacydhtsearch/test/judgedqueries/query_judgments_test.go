@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"maps"
-	"net/url"
 	"os"
 	"testing"
 
@@ -40,21 +39,12 @@ func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
 		}
 		graded[judged.Hash] = gradedDocument{
 			grade: *judged.Grade,
-			host:  hostOf(judged.Address),
+			site:  yacymodel.SiteOf(judged.Address),
 			spam:  judged.Spam,
 		}
 	}
 
 	return graded
-}
-
-func hostOf(address string) string {
-	readAddress, err := url.Parse(address)
-	if err != nil || readAddress.Hostname() == "" {
-		return address
-	}
-
-	return readAddress.Hostname()
 }
 
 func (j queryJudgments) amountOfUngradedDocuments() int {
@@ -69,13 +59,11 @@ func (j queryJudgments) amountOfUngradedDocuments() int {
 	return amountOfUngradedDocuments
 }
 
-func queryJudgmentsOfTheDocumentsToJudge(
-	query string,
+func (j queryJudgments) withTheDocumentsToJudgeIn(
 	answers queryanswers.AnsweredQuery,
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
-	judgedAlready queryJudgments,
 ) queryJudgments {
-	judgedDocumentPerHash := judgedAlready.judgedDocumentPerHash()
+	judgedDocumentPerHash := j.judgedDocumentPerHash()
 
 	documentsToJudge := documentsToJudgeOf(answers, pageContentsPerDocument, judgedDocumentPerHash)
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
@@ -85,7 +73,7 @@ func queryJudgmentsOfTheDocumentsToJudge(
 		judgedDocuments = append(judgedDocuments, documentToJudge)
 	}
 
-	return queryJudgments{Query: query, JudgedDocuments: judgedDocuments}
+	return queryJudgments{Query: j.Query, JudgedDocuments: judgedDocuments}
 }
 
 func documentsToJudgeOf(
@@ -158,6 +146,15 @@ func queryJudgmentsInTheFile(t *testing.T, path string) queryJudgments {
 	if err := json.Unmarshal(content, &judgments); err != nil {
 		t.Fatalf("read %s: %v", path, err)
 	}
+
+	return judgments
+}
+
+func queryJudgmentsRecordedFor(t *testing.T, query string) queryJudgments {
+	t.Helper()
+
+	judgments := queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query))
+	judgments.Query = query
 
 	return judgments
 }

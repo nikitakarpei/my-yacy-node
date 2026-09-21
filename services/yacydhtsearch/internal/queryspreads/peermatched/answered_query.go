@@ -10,37 +10,30 @@ func answeredQueryFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
 ) queryanswers.AnsweredQuery {
+	postingReplicasPerDocument := postingReplicasPerDocumentFrom(answeredAsks, queryWords)
+
 	return queryanswers.AnsweredQuery{
-		QueryWords:     queryWords,
-		FoundDocuments: foundDocumentsFrom(answeredAsks, queryWords),
+		QueryWords:                 queryWords,
+		FoundDocuments:             foundDocumentsFrom(answeredAsks),
+		PostingReplicasPerDocument: postingReplicasPerDocument,
+		MetadataPerDocument:        metadataPerDocumentFrom(answeredAsks),
+		FactsPerDocument:           queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
 	}
 }
 
 func foundDocumentsFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
-	queryWords []yacymodel.Hash,
 ) []queryanswers.FoundDocument {
-	countedWord, countedWordIsKnown := wordThePeersCountedFor(queryWords)
-
 	var foundDocuments []queryanswers.FoundDocument
-	placeOfEachDocument := map[yacymodel.URLHash]int{}
+	alreadyFoundDocuments := map[yacymodel.URLHash]struct{}{}
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			place, alreadyFound := placeOfEachDocument[matchedDocument.Metadata.Hash]
-			if !alreadyFound {
-				place = len(foundDocuments)
-				placeOfEachDocument[matchedDocument.Metadata.Hash] = place
-				foundDocuments = append(
-					foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
-				)
-			}
-			if !countedWordIsKnown {
+			if _, alreadyFound := alreadyFoundDocuments[matchedDocument.Metadata.Hash]; alreadyFound {
 				continue
 			}
-			keepTheFirstPostingOfTheWord(
-				&foundDocuments[place],
-				countedWord,
-				matchedDocument.Posting,
+			alreadyFoundDocuments[matchedDocument.Metadata.Hash] = struct{}{}
+			foundDocuments = append(
+				foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
 			)
 		}
 	}
@@ -48,27 +41,51 @@ func foundDocumentsFrom(
 	return foundDocuments
 }
 
-func wordThePeersCountedFor(queryWords []yacymodel.Hash) (yacymodel.Hash, bool) {
-	if len(queryWords) != 1 {
-		return yacymodel.Hash{}, false
+func metadataPerDocumentFrom(
+	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
+) queryanswers.MetadataPerDocument {
+	metadataPerDocument := queryanswers.MetadataPerDocument{}
+	for _, answeredAsk := range answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			metadataPerDocument.Keep(matchedDocument.Metadata)
+		}
 	}
 
-	return queryWords[0], true
+	return metadataPerDocument
 }
 
-func keepTheFirstPostingOfTheWord(
-	foundDocument *queryanswers.FoundDocument,
-	word yacymodel.Hash,
-	posting yacymodel.Optional[yacymodel.RWIPosting],
-) {
-	sentPosting, sent := posting.Get()
-	if !sent {
-		return
+func postingReplicasPerDocumentFrom(
+	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
+	queryWords []yacymodel.Hash,
+) queryanswers.PostingReplicasPerDocument {
+	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
+	countedWord := wordThePeersCountedFor(queryWords)
+	for _, answeredAsk := range answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			posting, sent := matchedDocument.Posting.Get()
+			if !sent {
+				continue
+			}
+			postingReplicasPerDocument.Keep(
+				matchedDocument.Metadata.Hash,
+				queryanswers.PostingReplica{
+					Holder:  answeredAsk.Ask.Peer.Hash,
+					Word:    countedWord,
+					Posting: posting,
+				},
+			)
+		}
 	}
-	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
-		return
+
+	return postingReplicasPerDocument
+}
+
+func wordThePeersCountedFor(
+	queryWords []yacymodel.Hash,
+) yacymodel.Optional[yacymodel.Hash] {
+	if len(queryWords) != 1 {
+		return yacymodel.None[yacymodel.Hash]()
 	}
-	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
-	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, sentPosting.TextWords)
-	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCountsFrom(sentPosting))
+
+	return yacymodel.Some(queryWords[0])
 }

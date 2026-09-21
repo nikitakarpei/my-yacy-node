@@ -36,6 +36,25 @@ func ParseLanguage(code string) (Language, error) {
 
 var LanguageOfUndeclaredDocument = Language{value: "en"}
 
+func (l Language) MarshalText() ([]byte, error) {
+	return []byte(l.value), nil
+}
+
+func (l *Language) UnmarshalText(text []byte) error {
+	if len(text) == 0 {
+		*l = Language{}
+
+		return nil
+	}
+	parsed, err := ParseLanguage(string(text))
+	if err != nil {
+		return err
+	}
+	*l = parsed
+
+	return nil
+}
+
 func (l Language) IsZero() bool { return l.value == "" }
 
 func (l Language) String() string { return l.value }

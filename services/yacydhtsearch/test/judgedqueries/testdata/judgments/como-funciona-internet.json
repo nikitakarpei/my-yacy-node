@@ -2,82 +2,64 @@
   "query": "como funciona internet",
   "judgedDocuments": [
     {
-      "hash": "BDocSs5DCs35",
-      "address": "https://wordpress.com/es/",
-      "title": "WordPress.com: Todo lo que necesitas para crear tu web",
+      "hash": "ZNF7ipJePNBY",
+      "address": "http://pilarbujaldon.blogspot.com/",
+      "title": "PATCHWORK EN L' ARMENTERA",
       "grade": 0
     },
     {
-      "hash": "yi2P9sF9mEug",
-      "address": "https://eslemmy.es/",
-      "title": "Navegando hacia el Futuro Digital: Desafíos y Oportunidades",
+      "hash": "ya5QtxsyY3b4",
+      "address": "https://turbotax.intuit.com/personal-taxes/en-espanol/",
+      "title": "TurboTax® en español Presenta tus impuestos en línea - Expertos en impuestos bilingües",
       "grade": 0
     },
     {
-      "hash": "oGdiksxGbbDw",
-      "address": "https://getblogs.net/new-posts?5=",
-      "title": "Latest Posts page 5",
+      "hash": "CpMPuPoT35q6",
+      "address": "https://uptimeinstitute.com/about-ui/news-media",
+      "title": "News \u0026 Media | Latest Updates - Uptime Institute",
+      "grade": 0
+    },
+    {
+      "hash": "12PJ8jO5mxKg",
+      "address": "https://abierta.ugr.es/",
+      "title": "Página Principal | AbiertaUGR",
+      "grade": 0
+    },
+    {
+      "hash": "QJNy2WG-ATF4",
+      "address": "https://podcasts.apple.com/co/new",
+      "title": "Reproductor web de Apple Podcasts (CO)",
+      "grade": 0
+    },
+    {
+      "hash": "lBTVRsS4Z4xk",
+      "address": "https://forbes.cl/",
+      "title": "Forbes Chile",
+      "grade": 0
+    },
+    {
+      "hash": "Tr5uysUsCqZ4",
+      "address": "https://aioblogs.com/new-posts?3=",
+      "title": "Latest Posts page 3",
       "grade": 0,
       "spam": true
     },
     {
-      "hash": "xMKUjFiwa444",
-      "address": "https://apps.apple.com/us/iphone/story/id1825160725?l=es-MX",
-      "title": "‎Clasificaciones por edades - App Store",
+      "hash": "sPvbsZdd3tag",
+      "address": "https://www.rtve.es/noticias/andalucia/",
+      "title": "Toda la información de Andalucía",
       "grade": 0
     },
     {
-      "hash": "vEuKGtoJBRx4",
-      "address": "https://es.wikihow.com/Categor%C3%ADa:Internet",
-      "title": "Internet",
+      "hash": "FKZZ7h3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Geolocalizaci%C3%B3n",
+      "title": "Commons:Geolocalización - Wikimedia Commons",
       "grade": 0
     },
     {
-      "hash": "608M0uwYpnl5",
-      "address": "https://protonvpn.com/es-es/features/wireguard",
-      "title": "Obtén conexiones más rápidas con el protocolo VPN WireGuard | Proton VPN",
-      "grade": 0
-    },
-    {
-      "hash": "GFyr263wJSN4",
-      "address": "https://es-la.facebook.com/lite/",
-      "title": "APK de Facebook Lite para Android",
-      "grade": 0
-    },
-    {
-      "hash": "R9JEPJ7raSJ4",
-      "address": "https://www.shopify.com/br/blog/o-que-e-shopify",
-      "title": "O que é a Shopify e como funciona? (2026) - Shopify Brasil",
-      "grade": 0
-    },
-    {
-      "hash": "VQs--saTm9b4",
-      "address": "https://linklist.bio/",
-      "title": "Seus links e produtos em um só lugar",
-      "grade": 0
-    },
-    {
-      "hash": "ybc53sIcCCC6",
-      "address": "https://localdigitalkit.com/",
-      "title": "Local Digital Kit impulsa tu negocio en internet - LDK",
-      "grade": 0
-    },
-    {
-      "hash": "rJUS60JPlTDg",
-      "address": "https://europa.eu/youreurope/business/growing/protecting-intellectual-property/design-protection/index_es.htm",
-      "title": "Protección de dibujos y modelos en la UE - Your Europe",
-      "grade": 0
-    },
-    {
-      "hash": "7Y9_t9dnKxjx",
-      "address": "https://pt.wikipedia.org/wiki/Brasil",
-      "title": "Brasil – Wikipédia, a enciclopédia livre",
-      "grade": 0
-    },
-    {
-      "hash": "LsNmTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Association_football",
-      "title": "Association football - Wikipedia",
+      "hash": "hoklMlStt315",
+      "address": "https://www.blogarama.com/",
+      "title": "Blogarama - Blog Directory",
       "grade": 0
     },
     {
@@ -87,52 +69,165 @@
       "grade": 0
     },
     {
-      "hash": "5LEnbs8vCvC5",
-      "address": "https://wuappasplus.com/",
-      "title": "WhatsApp Plus Descargar V18.80 Última Versión 2026 | Oficial",
-      "grade": 0,
-      "spam": true
-    },
-    {
-      "hash": "C7wm7uwYpnl5",
-      "address": "https://protonvpn.com/es-es/support/increase-vpn-speeds",
-      "title": "Cómo entender y aumentar las velocidades de conexión de la VPN | Proton VPN",
+      "hash": "GFyr263wJSN4",
+      "address": "https://es-la.facebook.com/lite/",
+      "title": "APK de Facebook Lite para Android",
       "grade": 0
     },
     {
-      "hash": "WRL-KH8WlvNx",
-      "address": "https://mwl.wikipedia.org/wiki/Biquip%C3%A9dia:Taberna",
-      "title": "Biquipédia:Taberna - Biquipédia",
+      "hash": "7Y9_t9dnKxjx",
+      "address": "https://pt.wikipedia.org/wiki/Brasil",
+      "title": "Brasil – Wikipédia, a enciclopédia livre",
       "grade": 0
     },
     {
-      "hash": "_TfV3lFZc5Lg",
-      "address": "https://www.elmundo.es/",
-      "title": "EL MUNDO - Diario online líder de información en español",
+      "hash": "J6JNelOVkIX5",
+      "address": "https://www.guiainfantil.com/",
+      "title": "Bebés, niños y embarazo. Revista para embarazadas, padres y toda la familia",
       "grade": 0
     },
     {
-      "hash": "-5bDhgJPjR4x",
-      "address": "https://es.wikipedia.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikipedia, la enciclopedia libre",
+      "hash": "ssGbZFiwa444",
+      "address": "https://apps.apple.com/us/app/jetpack-para-wordpress/id1565481562?l=pt-BR",
+      "title": "‎App Jetpack para WordPress – App Store",
       "grade": 0
     },
     {
-      "hash": "6cwPLIJTSRTx",
-      "address": "https://ro.wikipedia.org/wiki/Fotbal",
-      "title": "Fotbal - Wikipedia",
+      "hash": "zKPMgFiwa444",
+      "address": "https://apps.apple.com/us/app/jetpack-para-wordpress/id1565481562?l=es-MX",
+      "title": "‎App Jetpack para WordPress - App Store",
       "grade": 0
     },
     {
-      "hash": "IHdBWPMeDwQx",
-      "address": "https://foundation.wikimedia.org/wiki/Condi%C3%A7%C3%B5es_de_Uso",
-      "title": "Política:Termos de Uso - Wikimedia Foundation Governance Wiki",
+      "hash": "28NjOT5DCs35",
+      "address": "https://wordpress.com/es/accesibilidad/",
+      "title": "Accesibilidad en WordPress.com",
       "grade": 0
     },
     {
-      "hash": "VZtMbPMeDwQx",
-      "address": "https://foundation.wikimedia.org/wiki/Policy:Privacy_policy/es",
-      "title": "Política de Privacidad de la Fundación Wikimedia - Wikimedia Foundation Governance Wiki",
+      "hash": "s6Kw6cxYdD3g",
+      "address": "https://www.ecb.europa.eu/press/annual-reports-financial-statements/annual/html/ar2015.pt.html",
+      "title": "BCE Relatório Anual / 2015",
+      "grade": 0
+    },
+    {
+      "hash": "3HjZccxYdD3g",
+      "address": "https://www.ecb.europa.eu/press/feedbackar/html/ecb.20250428_feedback_on_the_input_provided_by_the_european_parliament~435b92b26c.pt.html",
+      "title": "Comentários ao contributo prestado pelo Parlamento Europeu na sua resolução sobre o Relatório Anual do BCE de 2023",
+      "grade": 0
+    },
+    {
+      "hash": "FzjPHcxYdD3g",
+      "address": "https://www.ecb.europa.eu/press/feedbackar/html/ecb.20250428_feedback_on_the_input_provided_by_the_european_parliament~435b92b26c.es.html",
+      "title": "Comentarios sobre las observaciones formuladas por el Parlamento Europeo en su resolución sobre el Informe Anual 2023 del Banco Central Europeo",
+      "grade": 0
+    },
+    {
+      "hash": "Hp4I5cxYdD3g",
+      "address": "https://www.ecb.europa.eu/press/annual-reports-financial-statements/annual/html/ar2017.pt.html",
+      "title": "Annual Report 2017",
+      "grade": 0
+    },
+    {
+      "hash": "IC0GjcxYdD3g",
+      "address": "https://www.ecb.europa.eu/press/annual-reports-financial-statements/annual/html/ar2015.es.html",
+      "title": "Informe Anual 2015, BCE",
+      "grade": 0
+    },
+    {
+      "hash": "JQRGPcxYdD3g",
+      "address": "https://www.ecb.europa.eu/press/annual-reports-financial-statements/annual/html/ar2016.pt.html",
+      "title": "Relatório Anual",
+      "grade": 0
+    },
+    {
+      "hash": "tuR16cxYdD3g",
+      "address": "https://www.ecb.europa.eu/press/annual-reports-financial-statements/annual/html/ar2016.es.html",
+      "title": "Informe Anual",
+      "grade": 0
+    },
+    {
+      "hash": "lsHKDl8Gpikw",
+      "address": "https://www.ripe.net/",
+      "title": "Welcome to RIPE and the RIPE NCC — RIPE Network Coordination Centre",
+      "grade": 0
+    },
+    {
+      "hash": "oUGeo9dnKxjx",
+      "address": "https://pt.wikipedia.org/wiki/Estados_Unidos",
+      "title": "Estados Unidos – Wikipédia, a enciclopédia livre",
+      "grade": 0
+    },
+    {
+      "hash": "VQs--saTm9b4",
+      "address": "https://linklist.bio/",
+      "title": "Your links and products in one place",
+      "grade": 0
+    },
+    {
+      "hash": "cvE56sbdc1u6",
+      "address": "https://theconversation.com/catalan",
+      "title": "The Conversation – Notícies i anàlisi acadèmica",
+      "grade": 0
+    },
+    {
+      "hash": "o9u3VFG-ATF4",
+      "address": "https://podcasts.apple.com/cl/new",
+      "title": "Reproductor web de Apple Podcasts (CL)",
+      "grade": 0
+    },
+    {
+      "hash": "rQL1A5G-ATF4",
+      "address": "https://podcasts.apple.com/br/new",
+      "title": "Apple Podcasts (BR) — Player On‑line",
+      "grade": 0
+    },
+    {
+      "hash": "sCAluZG-ATF4",
+      "address": "https://podcasts.apple.com/uy/new",
+      "title": "Apple Podcasts (UY) - Web Player",
+      "grade": 0
+    },
+    {
+      "hash": "2ITuJgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Jap%C3%B3n",
+      "title": "Japón - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "37nS5ToOoWS5",
+      "address": "https://automattic.com/es/privacy/",
+      "title": "Política de privacidad – Automattic",
+      "grade": 0
+    },
+    {
+      "hash": "4_Ams7TQkkb4",
+      "address": "https://www.malavida.com/es/android/",
+      "title": "Malavida: Descargar Aplicaciones para Android Gratis. Apps 100% Seguras",
+      "grade": 0
+    },
+    {
+      "hash": "IEwLFKG-ATF4",
+      "address": "https://podcasts.apple.com/es/new",
+      "title": "Apple Podcasts (ES) - Reproductor web",
+      "grade": 0
+    },
+    {
+      "hash": "JyKZxsbdc1u6",
+      "address": "https://theconversation.com/br",
+      "title": "The Conversation: notícias e análises produzidas por cientistas e pesquisadores",
+      "grade": 0
+    },
+    {
+      "hash": "ZZS5NTG-ATF4",
+      "address": "https://podcasts.apple.com/pt/new",
+      "title": "Apple Podcasts (PT) – Leitor web",
+      "grade": 0
+    },
+    {
+      "hash": "avZLXl0i5eji",
+      "address": "https://www.businessinsider.es/",
+      "title": "Business Insider España: Actualidad económica, tendencias y mundo global",
       "grade": 0
     },
     {
@@ -142,10 +237,106 @@
       "grade": 0
     },
     {
+      "hash": "BDocSs5DCs35",
+      "address": "https://wordpress.com/es/",
+      "title": "WordPress.com: Todo lo que necesitas para crear tu web",
+      "grade": 0
+    },
+    {
+      "hash": "RPA85pAPaXNk",
+      "address": "https://www.sensacine.com.co/",
+      "title": "SensaCine.com.co: Cine colombiano y series. Estrenos, películas en Cartelera, Streaming y últimos Trailers",
+      "grade": 0
+    },
+    {
+      "hash": "ohWHGk8Gpikw",
+      "address": "https://www.ripe.net/community/internet-governance/internet-governance-news/",
+      "title": "Internet Governance News — RIPE Network Coordination Centre",
+      "grade": 0
+    },
+    {
+      "hash": "6-LbKu8Gpikw",
+      "address": "https://www.ripe.net/analyse/archived-projects/rrcc/",
+      "title": "RRCC — RIPE Network Coordination Centre",
+      "grade": 0
+    },
+    {
+      "hash": "69P1PS8Gpikw",
+      "address": "https://www.ripe.net/manage-ips-and-asns/dns/dnssec/",
+      "title": "DNSSEC — RIPE Network Coordination Centre",
+      "grade": 0
+    },
+    {
+      "hash": "Y4VGygdzFIdx",
+      "address": "https://es.wikibooks.org/wiki/Tecnolog%C3%ADas_de_Internet",
+      "title": "Tecnologías de Internet - Wikilibros",
+      "grade": 1
+    },
+    {
+      "hash": "6-mRJ_8Gpikw",
+      "address": "https://www.ripe.net/languages/ru/billing/",
+      "title": "Оформление счетов, взносы и платежи — RIPE Network Coordination Centre",
+      "grade": 0
+    },
+    {
+      "hash": "7vYFN_FZc5Lg",
+      "address": "https://www.elmundo.es/opinion/2017/11/14/5a09eea946163f30628b461c.html",
+      "title": "Internet gratis en Puerto Rico en pleno caos | Opinion Home | EL MUNDO",
+      "grade": 0
+    },
+    {
+      "hash": "Elvh03qHemd4",
+      "address": "https://g1.globo.com/tecnologia/",
+      "title": "G1 Tecnologia - Internet, celular, redes sociais e muita inovação",
+      "grade": 0
+    },
+    {
+      "hash": "NAgBLp8Gpikw",
+      "address": "https://www.ripe.net/meetings/internet-measurement-day/",
+      "title": "Internet Measurement Days — RIPE Network Coordination Centre",
+      "grade": 0
+    },
+    {
+      "hash": "NMBeE_8Gpikw",
+      "address": "https://www.ripe.net/languages/es/governance/",
+      "title": "Cómo funciona el RIPE NCC — RIPE Network Coordination Centre",
+      "grade": 0
+    },
+    {
+      "hash": "vEuKGtoJBRx4",
+      "address": "https://es.wikihow.com/Categor%C3%ADa:Internet",
+      "title": "Internet",
+      "grade": 0
+    },
+    {
       "hash": "Cw4HslsmV32x",
       "address": "https://ca.wikipedia.org/wiki/Viquip%C3%A8dia:Quant_a_la_Viquip%C3%A8dia",
       "title": "Viquipèdia:Quant a la Viquipèdia - Viquipèdia, l'enciclopèdia lliure",
       "grade": 0
+    },
+    {
+      "hash": "VZtMbPMeDwQx",
+      "address": "https://foundation.wikimedia.org/wiki/Policy:Privacy_policy/es",
+      "title": "Política de Privacidad de la Fundación Wikimedia - Wikimedia Foundation Governance Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "-5bDhgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "LsNmTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Association_football",
+      "title": "Association football - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "dpdi89dnKxjx",
+      "address": "https://pt.wikipedia.org/wiki/Internet",
+      "title": "Internet – Wikipédia, a enciclopédia livre",
+      "grade": 1
     },
     {
       "hash": "jGcVglsmV32x",
@@ -160,15 +351,15 @@
       "grade": 0
     },
     {
-      "hash": "6F7hMhMZd7e5",
-      "address": "https://bitterend.com/2021/03/31/back-ads-1971/80571bitterend_edited",
-      "title": "80571bitterend_edited | The Bitter End",
-      "grade": 0
+      "hash": "gOWAugJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Internet",
+      "title": "Internet - Wikipedia, la enciclopedia libre",
+      "grade": 2
     },
     {
-      "hash": "mzsmelewSht6",
-      "address": "https://www.notebookcheck.info/",
-      "title": "Análises e revisões de portáteis e celulares - Notebookcheck.info",
+      "hash": "7sa79lI8elA4",
+      "address": "https://www.genbeta.com/",
+      "title": "Genbeta - Software, internet y productividad",
       "grade": 0
     },
     {
@@ -184,69 +375,21 @@
       "grade": 0
     },
     {
-      "hash": "avZLXl0i5eji",
-      "address": "https://www.businessinsider.es/",
-      "title": "Business Insider España: Actualidad económica, tendencias y mundo global",
+      "hash": "WRL-KH8WlvNx",
+      "address": "https://mwl.wikipedia.org/wiki/Biquip%C3%A9dia:Taberna",
+      "title": "Biquipédia:Taberna - Biquipédia",
       "grade": 0
     },
     {
-      "hash": "84vzxd14cltk",
-      "address": "https://planet.python.org.br/",
-      "title": "Planeta PythonBrasil",
+      "hash": "R9JEPJ7raSJ4",
+      "address": "https://www.shopify.com/br/blog/o-que-e-shopify",
+      "title": "O que é a Shopify? - Shopify Brasil",
       "grade": 0
     },
     {
-      "hash": "3xaeei8Gpikw",
-      "address": "https://www.ripe.net/membership/payment/ripe-ncc-billing-procedure-2026/",
-      "title": "RIPE NCC Billing Procedure 2026 — RIPE Network Coordination Centre",
-      "grade": 0
-    },
-    {
-      "hash": "69P1PS8Gpikw",
-      "address": "https://www.ripe.net/manage-ips-and-asns/dns/dnssec/",
-      "title": "DNSSEC — RIPE Network Coordination Centre",
-      "grade": 0
-    },
-    {
-      "hash": "6-LbKu8Gpikw",
-      "address": "https://www.ripe.net/analyse/archived-projects/rrcc/",
-      "title": "RRCC — RIPE Network Coordination Centre",
-      "grade": 0
-    },
-    {
-      "hash": "6-mRJ_8Gpikw",
-      "address": "https://www.ripe.net/languages/ru/billing/",
-      "title": "Оформление счетов, взносы и платежи — RIPE Network Coordination Centre",
-      "grade": 0
-    },
-    {
-      "hash": "RPA85pAPaXNk",
-      "address": "https://www.sensacine.com.co/",
-      "title": "SensaCine.com.co: Cine colombiano y series. Estrenos, películas en Cartelera, Streaming y últimos Trailers",
-      "grade": 0
-    },
-    {
-      "hash": "A5oLTlFZc5Lg",
-      "address": "https://www.elmundo.es/tecnologia.html",
-      "title": "Tecnología - Píxel | EL MUNDO",
-      "grade": 0
-    },
-    {
-      "hash": "lb6anlFZc5Lg",
-      "address": "https://www.elmundo.es/salud.html",
-      "title": "Noticias de Salud | EL MUNDO",
-      "grade": 0
-    },
-    {
-      "hash": "ZZS5NTG-ATF4",
-      "address": "https://podcasts.apple.com/pt/new",
-      "title": "Apple Podcasts (PT) – Leitor web",
-      "grade": 0
-    },
-    {
-      "hash": "o9u3VFG-ATF4",
-      "address": "https://podcasts.apple.com/cl/new",
-      "title": "Reproductor web de Apple Podcasts (CL)",
+      "hash": "qymJtN7raSJ4",
+      "address": "https://www.shopify.com/es-es/shop-pay",
+      "title": "Shop Pay: el proceso de pago acelerado más rápido de internet - Shopify España",
       "grade": 0
     }
   ]

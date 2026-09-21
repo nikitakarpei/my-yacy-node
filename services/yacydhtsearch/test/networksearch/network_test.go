@@ -535,13 +535,20 @@ func (s spreadAnswering) SpreadOverPeers(
 func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadAnswering {
 	t.Helper()
 
+	commonWordDocument := documentOf(t, commonWordAddress)
+	rareWordDocument := documentOf(t, rareWordAddress)
+
 	return spreadAnswering{answers: queryanswers.AnsweredQuery{
 		QueryWords: []yacymodel.Hash{
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 		},
 		FoundDocuments: []queryanswers.FoundDocument{
-			foundDocumentWithOneHitOf(t, commonWordAddress, "berlin"),
-			foundDocumentWithOneHitOf(t, rareWordAddress, "kelondro"),
+			{Hash: commonWordDocument, Address: commonWordAddress},
+			{Hash: rareWordDocument, Address: rareWordAddress},
+		},
+		FactsPerDocument: queryanswers.FactsPerDocument{
+			commonWordDocument: oneHitOfTheWord("berlin"),
+			rareWordDocument:   oneHitOfTheWord("kelondro"),
 		},
 		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{
 			yacymodel.WordHash("berlin"):   100000,
@@ -550,9 +557,7 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 	}}
 }
 
-func foundDocumentWithOneHitOf(
-	t *testing.T, address string, word string,
-) queryanswers.FoundDocument {
+func documentOf(t *testing.T, address string) yacymodel.URLHash {
 	t.Helper()
 
 	hash, err := yacymodel.URLHashOf(address)
@@ -560,9 +565,11 @@ func foundDocumentWithOneHitOf(
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return queryanswers.FoundDocument{
-		Hash:             hash,
-		Address:          address,
+	return hash
+}
+
+func oneHitOfTheWord(word string) queryanswers.DocumentFacts {
+	return queryanswers.DocumentFacts{
 		HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
 	}
 }

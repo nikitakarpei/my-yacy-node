@@ -6,58 +6,77 @@ import (
 )
 
 const (
-	saturationOfTheHitsOfAWord           = 1.2
-	weightOfTheDocumentLength            = 0.75
-	lengthRatioOfADocumentNoPeerMeasured = 1.0
+	saturationOfTheHitsOfAWord                    = 1.2
+	weightOfTheDocumentLength                     = 0.75
+	lengthRatioOfADocumentNobodyCountedTheWordsOf = 1.0
+
+	shareOfTheRarityOfTheQueryWordsOfATextWithoutAQueryWord = 0.0
 )
 
 func textScoreOf(
-	foundDocument queryanswers.FoundDocument,
+	facts queryanswers.DocumentFacts,
 	rarity queryWordRarity,
-	averageDocumentLength float64,
+	averageAmountOfWordsAnyoneCounted float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
-	textScore := 0.0
+	if rarity.sumOfTheRarityOfTheQueryWords <= 0 {
+		return shareOfTheRarityOfTheQueryWordsOfATextWithoutAQueryWord
+	}
+
+	sumOfTheSaturatedHits := 0.0
 	for _, word := range queryWords {
-		textScore += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
-			foundDocument.HitsPerQueryWord[word],
-			foundDocument.AmountOfWords,
-			averageDocumentLength,
+		sumOfTheSaturatedHits += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
+			facts.HitsPerQueryWord[word],
+			facts.AmountOfWords,
+			averageAmountOfWordsAnyoneCounted,
 		)
 	}
 
-	return textScore
+	return sumOfTheSaturatedHits / rarity.sumOfTheRarityOfTheQueryWords
 }
 
-func averageDocumentLengthOf(foundDocuments []queryanswers.FoundDocument) float64 {
-	sumOfTheAmountsOfWords, amountOfMeasuredDocuments := 0, 0
-	for _, foundDocument := range foundDocuments {
-		if foundDocument.AmountOfWords <= 0 {
+func averageAmountOfWordsAnyoneCountedAmong(
+	factsPerDocument queryanswers.FactsPerDocument,
+) float64 {
+	sumOfTheAmountsOfWords, amountOfCountedDocuments := 0, 0
+	for _, facts := range factsPerDocument {
+		amountOfWords, counted := facts.AmountOfWords.Get()
+		if !counted || amountOfWords <= 0 {
 			continue
 		}
-		sumOfTheAmountsOfWords += foundDocument.AmountOfWords
-		amountOfMeasuredDocuments++
+		sumOfTheAmountsOfWords += amountOfWords
+		amountOfCountedDocuments++
 	}
-	if amountOfMeasuredDocuments == 0 {
+	if amountOfCountedDocuments == 0 {
 		return 0
 	}
 
-	return float64(sumOfTheAmountsOfWords) / float64(amountOfMeasuredDocuments)
+	return float64(sumOfTheAmountsOfWords) / float64(amountOfCountedDocuments)
 }
 
-func saturatedHitsOf(hits int, amountOfWords int, averageDocumentLength float64) float64 {
+func saturatedHitsOf(
+	hits int,
+	amountOfWords yacymodel.Optional[int],
+	averageAmountOfWordsAnyoneCounted float64,
+) float64 {
 	countedHits := float64(hits)
 	saturationForTheDocumentLength := saturationOfTheHitsOfAWord * (1 - weightOfTheDocumentLength +
-		weightOfTheDocumentLength*documentLengthRatioOf(amountOfWords, averageDocumentLength))
+		weightOfTheDocumentLength*documentLengthRatioOf(
+			amountOfWords, averageAmountOfWordsAnyoneCounted,
+		))
 
 	return countedHits * (saturationOfTheHitsOfAWord + 1) /
 		(countedHits + saturationForTheDocumentLength)
 }
 
-func documentLengthRatioOf(amountOfWords int, averageDocumentLength float64) float64 {
-	if amountOfWords <= 0 || averageDocumentLength <= 0 {
-		return lengthRatioOfADocumentNoPeerMeasured
+func documentLengthRatioOf(
+	amountOfWords yacymodel.Optional[int],
+	averageAmountOfWordsAnyoneCounted float64,
+) float64 {
+	countedAmountOfWords, counted := amountOfWords.Get()
+	if !counted || countedAmountOfWords <= 0 || averageAmountOfWordsAnyoneCounted <= 0 {
+		return lengthRatioOfADocumentNobodyCountedTheWordsOf
 	}
 
-	return float64(amountOfWords) / averageDocumentLength
+	return float64(countedAmountOfWords) / averageAmountOfWordsAnyoneCounted
 }

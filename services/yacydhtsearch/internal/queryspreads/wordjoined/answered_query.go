@@ -10,11 +10,20 @@ func answeredQueryFrom(
 	joinedDocuments distinctDocuments,
 	urlMetadataRound urlMetadataRound,
 ) queryanswers.AnsweredQuery {
+	postingReplicasPerDocument := postingReplicasPerDocumentFrom(
+		matchedAndHeldDocumentsRound, joinedDocuments,
+	)
+
 	return queryanswers.AnsweredQuery{
 		QueryWords: matchedAndHeldDocumentsRound.queryWords,
 		FoundDocuments: foundDocumentsFrom(
 			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
 		),
+		PostingReplicasPerDocument: postingReplicasPerDocument,
+		MetadataPerDocument: metadataPerDocumentFrom(
+			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
+		),
+		FactsPerDocument: queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
 		DocumentsHeldPerQueryWord: matchedAndHeldDocumentsRound.
 			amountOfDocumentsHeldPerQueryWord(),
 	}
@@ -26,33 +35,27 @@ func foundDocumentsFrom(
 	urlMetadataRound urlMetadataRound,
 ) []queryanswers.FoundDocument {
 	var foundDocuments []queryanswers.FoundDocument
-	placeOfEachDocument := map[yacymodel.URLHash]int{}
+	alreadyFoundDocuments := map[yacymodel.URLHash]struct{}{}
 	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
 			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
 				continue
 			}
-			place, alreadyFound := placeOfEachDocument[matchedDocument.Metadata.Hash]
-			if !alreadyFound {
-				place = len(foundDocuments)
-				placeOfEachDocument[matchedDocument.Metadata.Hash] = place
-				foundDocuments = append(
-					foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
-				)
+			if _, alreadyFound := alreadyFoundDocuments[matchedDocument.Metadata.Hash]; alreadyFound {
+				continue
 			}
-			keepTheFirstPostingOfTheWord(
-				&foundDocuments[place],
-				answeredAsk.Ask.Word,
-				matchedDocument.Posting,
+			alreadyFoundDocuments[matchedDocument.Metadata.Hash] = struct{}{}
+			foundDocuments = append(
+				foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
 			)
 		}
 	}
 	for _, answeredAsk := range urlMetadataRound.answeredAsks {
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
-			if _, alreadyFound := placeOfEachDocument[metadata.Hash]; alreadyFound {
+			if _, alreadyFound := alreadyFoundDocuments[metadata.Hash]; alreadyFound {
 				continue
 			}
-			placeOfEachDocument[metadata.Hash] = len(foundDocuments)
+			alreadyFoundDocuments[metadata.Hash] = struct{}{}
 			foundDocuments = append(foundDocuments, queryanswers.FoundDocumentFrom(metadata))
 		}
 	}
@@ -60,19 +63,53 @@ func foundDocumentsFrom(
 	return foundDocuments
 }
 
-func keepTheFirstPostingOfTheWord(
-	foundDocument *queryanswers.FoundDocument,
-	word yacymodel.Hash,
-	posting yacymodel.Optional[yacymodel.RWIPosting],
-) {
-	sentPosting, sent := posting.Get()
-	if !sent {
-		return
+func metadataPerDocumentFrom(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinedDocuments distinctDocuments,
+	urlMetadataRound urlMetadataRound,
+) queryanswers.MetadataPerDocument {
+	metadataPerDocument := queryanswers.MetadataPerDocument{}
+	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
+				continue
+			}
+			metadataPerDocument.Keep(matchedDocument.Metadata)
+		}
 	}
-	if _, alreadyCounted := foundDocument.HitsPerQueryWord[word]; alreadyCounted {
-		return
+	for _, answeredAsk := range urlMetadataRound.answeredAsks {
+		for _, metadata := range answeredAsk.MetadataOfEachDocument {
+			metadataPerDocument.Keep(metadata)
+		}
 	}
-	foundDocument.HitsPerQueryWord[word] = sentPosting.Hits
-	foundDocument.AmountOfWords = max(foundDocument.AmountOfWords, sentPosting.TextWords)
-	foundDocument.LinkCounts = yacymodel.Some(queryanswers.LinkCountsFrom(sentPosting))
+
+	return metadataPerDocument
+}
+
+func postingReplicasPerDocumentFrom(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	joinedDocuments distinctDocuments,
+) queryanswers.PostingReplicasPerDocument {
+	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
+	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
+		for _, matchedDocument := range answeredAsk.MatchedDocuments {
+			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
+				continue
+			}
+			posting, sent := matchedDocument.Posting.Get()
+			if !sent {
+				continue
+			}
+			postingReplicasPerDocument.Keep(
+				matchedDocument.Metadata.Hash,
+				queryanswers.PostingReplica{
+					Holder:  answeredAsk.Ask.Peer.Hash,
+					Word:    yacymodel.Some(answeredAsk.Ask.Word),
+					Posting: posting,
+				},
+			)
+		}
+	}
+
+	return postingReplicasPerDocument
 }

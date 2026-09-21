@@ -24,23 +24,25 @@ func deriveOneJudgedQueryFromTheStoredPages(
 	t.Helper()
 
 	answers := recordedAnswersInTheFile(t, answersFile)
-	saturated := extraction.answersSaturatedWithTheStoredPages(
+	answersAndTheirPages := extraction.answersWithTheContentsOfTheStoredPages(
 		t.Context(),
 		t,
 		answers.Query,
 		answers.answeredQuery(),
 		storedPagePerAddress(t, answers.Query),
 	)
-	writeRecordedAnswersFile(t, answersFile, recordedAnswersOf(answers.Query, saturated.answers))
-	judgments := queryJudgmentsOfTheDocumentsToJudge(
-		answers.Query,
-		saturated.answers,
-		saturated.pageContentsPerDocument,
-		queryJudgmentsInTheFile(t, queryJudgmentsFileOf(answers.Query)),
+	writeRecordedAnswersFile(
+		t, answersFile, answers.withThePageContentsReadAgain(answersAndTheirPages),
+	)
+	judgments := queryJudgmentsRecordedFor(t, answers.Query).withTheDocumentsToJudgeIn(
+		answersAndTheirPages.answeredQuery.WithTheContentsOfTheReadPages(
+			answersAndTheirPages.pageContentsPerDocument,
+		),
+		answersAndTheirPages.pageContentsPerDocument,
 	)
 	writeFixtureFile(t, queryJudgmentsFileOf(answers.Query), judgments)
 	t.Logf("%q derived the text of %d documents, %d documents wait for a grade",
 		answers.Query,
-		len(saturated.pageContentsPerDocument),
+		len(answersAndTheirPages.pageContentsPerDocument),
 		judgments.amountOfUngradedDocuments())
 }

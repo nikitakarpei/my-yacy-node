@@ -2,141 +2,9 @@
   "query": "open source search engine",
   "judgedDocuments": [
     {
-      "hash": "cad2Xscvw7Vx",
-      "address": "https://wordpress.org/",
-      "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
-      "grade": 0
-    },
-    {
-      "hash": "jp9IEwSMo4M4",
-      "address": "https://www.zdnet.com/article/github-builds-a-search-engine-for-code-from-scratch-in-rust/",
-      "title": "GitHub built a new search engine for code 'from scratch' in Rust - ZDNET",
-      "grade": 0
-    },
-    {
-      "hash": "OZtxqlSCNQa4",
-      "address": "https://www.redhat.com/en/blog/making-open-source-more-inclusive-eradicating-problematic-language",
-      "title": "Making open source more inclusive by eradicating problematic language",
-      "grade": 0
-    },
-    {
-      "hash": "Vv81ls2xL7A6",
-      "address": "https://corbettreport.com/september-open-thread-2022/",
-      "title": "September Open Thread (2022) | The Corbett Report",
-      "grade": 0
-    },
-    {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
-      "grade": 0
-    },
-    {
-      "hash": "oaPaDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Browser_engine",
-      "title": "Browser engine - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "y8tXOWRMLT-5",
-      "address": "https://canonical.com/solutions/open-source-security",
-      "title": "Open source security | Canonical",
-      "grade": 0
-    },
-    {
-      "hash": "D61ibopg4UCw",
-      "address": "https://www.wikidata.org/wiki/Wikidata:Requests_for_comment/Source_items_and_supporting_Wikipedia_sources",
-      "title": "Wikidata:Requests for comment/Source items and supporting Wikipedia sources - Wikidata",
-      "grade": 0
-    },
-    {
-      "hash": "S2d8PhFozFBx",
-      "address": "https://diff.wikimedia.org/2026/01/08/semantic-search-making-it-easier-to-find-the-information-readers-want/",
-      "title": "Semantic search: making it easier to find the information readers want – Diff",
-      "grade": 1
-    },
-    {
-      "hash": "RRNM9k_MW7i4",
-      "address": "https://www.docker.com/community/open-source/",
-      "title": "Docker and Open Source | Docker",
-      "grade": 0
-    },
-    {
-      "hash": "YTZvAdDZkUL4",
-      "address": "https://www.cnet.com/home/security/best-smoke-detector/",
-      "title": "Best Smoke Detectors and Dual Alarms for 2026: Lab Tested - CNET",
-      "grade": 0
-    },
-    {
-      "hash": "x_XB_vdTeyA4",
-      "address": "https://github.blog/open-source/maintainers/securing-the-supply-chain-at-scale-starting-with-71-important-open-source-projects/",
-      "title": "Securing the supply chain at scale: Starting with 71 important open source projects - The GitHub Blog",
-      "grade": 0
-    },
-    {
-      "hash": "3yo3vyS6MKD4",
-      "address": "https://github.com/openclaw/lobster",
-      "title": "GitHub - openclaw/lobster: Lobster is a Openclaw-native workflow shell: a typed, local-first “macro engine” that turns skills/tools into composable pipelines and safe automations—and lets Openclaw call those workflows in one step. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "bAimuE9Ojva4",
-      "address": "https://docs.docker.com/engine/install/",
-      "title": "Install Docker Engine | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "Tx1E8DF20Rww",
-      "address": "https://ma.tt/category/open-source/",
-      "title": "Open Source | Matt Mullenweg",
-      "grade": 0
-    },
-    {
-      "hash": "VkCPbvdTeyA4",
-      "address": "https://github.blog/open-source/gaming/",
-      "title": "The latest on open source games - The GitHub Blog",
-      "grade": 0
-    },
-    {
-      "hash": "SAX5vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Source_code",
-      "title": "Source code - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "-_ueuGKvmHFw",
-      "address": "https://www.cncf.io/people/ambassadors/?_sft_lf-project=service-mesh-interface",
-      "title": "Ambassadors | CNCF",
-      "grade": 0
-    },
-    {
-      "hash": "_wmsVE9Ojva4",
-      "address": "https://docs.docker.com/engine/release-notes/29/",
-      "title": "Docker Engine version 29 release notes | Docker Docs",
-      "grade": 0
-    },
-    {
-      "hash": "-xqfujRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Google_Search",
-      "title": "Google Search - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "9dnewsdTeyA4",
-      "address": "https://github.blog/",
-      "title": "Home - The GitHub Blog",
-      "grade": 0
-    },
-    {
-      "hash": "T8ZB7sS6MKD4",
-      "address": "https://github.com/yacy/yacy_search_server",
-      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
-      "grade": 2
-    },
-    {
-      "hash": "bY7qBlLqTzM4",
-      "address": "https://www.patreon.com/godotengine",
-      "title": "Godot Engine | Your free, open‑source game engine. | Patreon",
+      "hash": "Qhex8jldhbwx",
+      "address": "https://en.wikibooks.org/wiki/OpenSCAD_User_Manual",
+      "title": "OpenSCAD User Manual - Wikibooks, open books for an open world",
       "grade": 0
     },
     {
@@ -146,9 +14,291 @@
       "grade": 0
     },
     {
-      "hash": "1G79UlSCNQa4",
-      "address": "https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization-engine",
-      "title": "Red Hat OpenShift Virtualization Engine",
+      "hash": "T8ZB7sS6MKD4",
+      "address": "https://github.com/yacy/yacy_search_server",
+      "title": "GitHub - yacy/yacy_search_server: Distributed Peer-to-Peer Web Search Engine and Intranet Search Appliance · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "Y2bPFJUkOwm4",
+      "address": "https://www.zyte.com/blog/llm-benchmark-claude-sonnet-46/",
+      "title": "Claude Sonnet 4.6 is the new best model for writing scrapers",
+      "grade": 0
+    },
+    {
+      "hash": "X1WJexKAn6I5",
+      "address": "https://news.ycombinator.com/item?id=49743097",
+      "title": "Hister: A private search engine for the pages you visit and the files you keep | Hacker News",
+      "grade": 1
+    },
+    {
+      "hash": "57VhtQZchFfZ",
+      "address": "http://www.greenteethmm.com/ukraine-chemical-attack-rumor.shtml",
+      "title": "syria-style-chemical-weapon-false-flag-attacks-coming-soon-to-ukraine-war-russia-greenteeth-digital-publishing",
+      "grade": 0
+    },
+    {
+      "hash": "3Ww3lsFfdPSy",
+      "address": "https://creativecommons.org/faq/",
+      "title": "Frequently Asked Questions - Creative Commons",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "w_vxXsS6MKD4",
+      "address": "https://github.com/why-github",
+      "title": "GitHub · Why Choose GitHub? · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "MijQL0S6MKD4",
+      "address": "https://github.com/resources/events",
+      "title": "Upcoming GitHub events, webinars \u0026 developer conferences · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "2QCBKlBbCobw",
+      "address": "https://www.php.net/",
+      "title": "PHP",
+      "grade": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "153XgsQ2H1F4",
+      "address": "https://wpvip.com/",
+      "title": "WordPress VIP | Enterprise Content Platform \u0026 Managed WordPress",
+      "grade": 0
+    },
+    {
+      "hash": "jfhPzsS6MKD4",
+      "address": "https://github.com/mcp",
+      "title": "MCP Registry · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "t67A0lugLJaw",
+      "address": "https://www.mathjax.org/",
+      "title": "MathJax | Beautiful math in all browsers.",
+      "grade": 0
+    },
+    {
+      "hash": "1dQZgh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Categories",
+      "title": "Commons:Categories - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "B9LxkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/PMID_(identifier)",
+      "title": "PubMed - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "mtii5lQw_dt5",
+      "address": "https://www.cloudflare.com/website-terms/",
+      "title": "Terms of Use | Cloudflare",
+      "grade": 0
+    },
+    {
+      "hash": "rojE7AS6MKD4",
+      "address": "https://github.com/collections/javascript-game-engines",
+      "title": "Collection: JavaScript Game Engines · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "toInrHS6MKD4",
+      "address": "https://github.com/mcp/bytebase/dbhub",
+      "title": "MCP Registry | DBHub · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "yJuijsCG40j4",
+      "address": "https://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "4kPJWsS6MKD4",
+      "address": "https://github.com/marketplace?type=actions\u0026category=game-ci",
+      "title": "Marketplace · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "KrtidjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Israel",
+      "title": "Israel - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "aCdEhHS6MKD4",
+      "address": "https://github.com/mcp/brightdata/brightdata-mcp",
+      "title": "MCP Registry | Brightdata · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "haALMyXjZ9O4",
+      "address": "https://docs.github.com/en/code-security/concepts/code-scanning/code-scanning",
+      "title": "Code scanning - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "kLP5ltS6MKD4",
+      "address": "https://github.com/trending/apollo-guidance-computer?since=daily",
+      "title": "Trending Apollo Guidance Computer repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "lDxQEyXjZ9O4",
+      "address": "https://docs.github.com/en/code-security/responsible-use/security-and-quality-ai-features",
+      "title": "Application card: GitHub security and quality AI features - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "lN89qUb8iyg4",
+      "address": "https://cloud.google.com/",
+      "title": "AI and Cloud Computing Services | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "mDS3StS6MKD4",
+      "address": "https://github.com/trending/xonsh?since=daily",
+      "title": "Trending Xonsh repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "nWMgE7yp6WtY",
+      "address": "http://tantek.com/?skin=vtx",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "rXUw60ADJCy4",
+      "address": "https://securitylab.github.com/advisories/",
+      "title": "Advisories | GitHub Security Lab",
+      "grade": 0
+    },
+    {
+      "hash": "P7qK5DF20Rww",
+      "address": "https://ma.tt/category/wordpress/",
+      "title": "WordPress | Matt Mullenweg",
+      "grade": 0
+    },
+    {
+      "hash": "U2p_HzS6MKD4",
+      "address": "https://github.com/topics/mcp",
+      "title": "mcp · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "XMe-AsS6MKD4",
+      "address": "https://github.com/marketplace?type=actions\u0026category=publishing",
+      "title": "Marketplace · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Z7yHQHS6MKD4",
+      "address": "https://github.com/mcp/com.apify/apify-mcp-server",
+      "title": "MCP Registry | Apify · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "_wWRqHS6MKD4",
+      "address": "https://github.com/mcp/ihor-sokoliuk/mcp-searxng",
+      "title": "MCP Registry | SearXNG Search · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "c0171sS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=jv",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "d880i6dTeyA4",
+      "address": "https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/",
+      "title": "Octoverse: A new developer joins GitHub every second as AI leads TypeScript to #1 - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "dCeAnHS6MKD4",
+      "address": "https://github.com/mcp/com.microsoft/azure",
+      "title": "MCP Registry | Azure MCP Server · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "dFh89sS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=ty",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "IoOoxzS6MKD4",
+      "address": "https://github.com/topics/open-source",
+      "title": "open-source · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "Ch04dlOpC_C5",
+      "address": "https://www.sciencedaily.com/",
+      "title": "ScienceDaily: Your source for the latest research news",
+      "grade": 0
+    },
+    {
+      "hash": "sbCGHsDeYD94",
+      "address": "https://codoh.com/",
+      "title": "Committee for Open Debate on the Holocaust",
+      "grade": 0
+    },
+    {
+      "hash": "Pa8cLZb2NONQ",
+      "address": "http://infolab.stanford.edu/~backrub/google.html",
+      "title": "The Anatomy of a Search Engine",
+      "grade": 1
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "1wK6mE9Ojva4",
+      "address": "https://docs.docker.com/engine/storage/containerd/",
+      "title": "containerd image store with Docker Engine | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "3yo3vyS6MKD4",
+      "address": "https://github.com/openclaw/lobster",
+      "title": "GitHub - openclaw/lobster: Lobster is a Openclaw-native workflow shell: a typed, local-first “macro engine” that turns skills/tools into composable pipelines and safe automations—and lets Openclaw call those workflows in one step. · GitHub",
       "grade": 0
     }
   ]

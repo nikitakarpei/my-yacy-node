@@ -2,117 +2,9 @@
   "query": "static site generator",
   "judgedDocuments": [
     {
-      "hash": "xr6iDzS6MKD4",
-      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
-      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "aR3Mq3WRlFM5",
-      "address": "https://ohdsi.r-universe.dev/PatientGenerator",
-      "title": "PatientGenerator: Generator of Synthetic Patient Data for the OMOP Common Data Model",
-      "grade": 0
-    },
-    {
-      "hash": "ps4tWNkxS534",
-      "address": "https://powerpoint-generator.utils.com/",
-      "title": "PowerPoint Generator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "3DgxkZGR0Is4",
-      "address": "https://slug-generator.utils.com/",
-      "title": "Slug Generator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "by8Ivl_0-Tb4",
-      "address": "https://www.11ty.dev/",
-      "title": "Eleventy is a simpler static site generator",
-      "grade": 1
-    },
-    {
-      "hash": "VMcRUXwA4J44",
-      "address": "https://team-generator.utils.com/",
-      "title": "Random Team Generator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "qg3blaMjkbX4",
-      "address": "https://password-generator.utils.com/",
-      "title": "Secure Password Generator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "Fc0AMlVE8Pt4",
-      "address": "https://token-generator.utils.com/",
-      "title": "Random Token Generator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "NTKSIW8dlWJ4",
-      "address": "https://ics-generator.utils.com/",
-      "title": "ICS File Generator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "iNzCnU5yy4Rk",
-      "address": "https://visme.co/blog/digital-magazine/",
-      "title": "How to Create Your Own Digital Magazine",
-      "grade": 0
-    },
-    {
-      "hash": "jhXbDbLXFVYx",
-      "address": "https://petrapixel.neocities.org/coding/layout-generator",
-      "title": "layout generator | petrapixel",
-      "grade": 0
-    },
-    {
-      "hash": "m-OH2DS6MKD4",
-      "address": "https://github.com/godotengine/godot-website",
-      "title": "GitHub - godotengine/godot-website: The code for the official Godot Engine website. A static site built using Jekyll. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "vPMnw50j8oEw",
-      "address": "https://git.sr.ht/~sircmpwn/openring",
-      "title": "~sircmpwn/openring - A webring for static site generators - sourcehut git",
-      "grade": 0
-    },
-    {
-      "hash": "rtZi4U7V5mo4",
-      "address": "https://alt-text.utils.com/",
-      "title": "Alt Text Generator - Image Accessibility Tool - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "vgOC8IkVtSQ4",
-      "address": "https://tv-signoff.utils.com/",
-      "title": "TV Sign-Off - Color Bars, Test Card \u0026 Analog Static - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "22wd2Ij2CTW4",
-      "address": "https://invoice-generator.utils.com/",
-      "title": "Invoice Generator - Create Professional Invoices with PDF Download - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "ImmtH6WvMIm4",
-      "address": "https://would-you-rather.utils.com/",
-      "title": "Would You Rather Generator - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "mmup3xKAn6I5",
-      "address": "https://news.ycombinator.com/item?id=32730020",
-      "title": "Static site hosting hurdles | Hacker News",
-      "grade": 0
-    },
-    {
-      "hash": "2gBdSK58I4M4",
-      "address": "https://placeholder.utils.com/",
-      "title": "Placeholder Image Editor - Create Custom Placeholder Images - utils.com",
+      "hash": "wvM_TsGxVRn4",
+      "address": "https://codeberg.page/",
+      "title": "Codeberg Pages - static pages for your projects",
       "grade": 0
     },
     {
@@ -122,99 +14,117 @@
       "grade": 2
     },
     {
-      "hash": "lezxDvA4psi4",
-      "address": "https://www.theverge.com/news/718795/xai-grok-imagine-video-generator-spicy-mode",
-      "title": "xAI’s new Grok image and video generator has a ‘spicy’ mode | The Verge",
+      "hash": "Jff73sbhxwSz",
+      "address": "https://staticsitegenerators.net/",
+      "title": "Static Site Generators",
+      "grade": 2
+    },
+    {
+      "hash": "vgOC8IkVtSQ4",
+      "address": "https://tv-signoff.utils.com/",
+      "title": "TV Sign-Off - Color Bars, Test Card \u0026 Analog Static - utils.com",
       "grade": 0
     },
     {
-      "hash": "4iKjkFS6MKD4",
-      "address": "https://github.com/cstate/cstate",
-      "title": "GitHub - cstate/cstate: 🔥 Open source static (serverless) status page. Uses hyperfast Go \u0026 Hugo, minimal HTML/CSS/JS, customizable, outstanding browser support (IE8+), preloaded CMS, read-only API, badges \u0026 more. · GitHub",
+      "hash": "by8Ivl_0-Tb4",
+      "address": "https://www.11ty.dev/",
+      "title": "Eleventy is a simpler static site generator",
+      "grade": 1
+    },
+    {
+      "hash": "WGR29lBxf4j5",
+      "address": "https://www.education.com/",
+      "title": "Education.com | #1 Educational Site for Pre-K to 8th Grade",
       "grade": 0
     },
     {
-      "hash": "_GFZkkgpBPX4",
-      "address": "https://robots.utils.com/",
-      "title": "Robots.txt Generator - Create SEO Robot Files - utils.com",
+      "hash": "Ju6qkQZchFfZ",
+      "address": "http://www.greenteethmm.com/immigration-composite.shtml",
+      "title": "immigration--composite-post-covering-all-aspects-of the-uk-problem-with-reports-from-other-e-u-nations",
       "grade": 0
     },
     {
-      "hash": "Tl3clyW9wAS4",
-      "address": "https://meme-generator.utils.com/",
-      "title": "Meme Generator - utils.com",
+      "hash": "1ZEj2obrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:Scribunto/Lua_reference_manual",
+      "title": "Extension:Scribunto/Lua reference manual - MediaWiki",
       "grade": 0
     },
     {
-      "hash": "zULfQuWyDnvx",
-      "address": "https://jam.wikipedia.org/wiki/Wikipidia:Vilij_skwier",
-      "title": "Wikipidia:Vilij skwier - Wikipidia",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
-      "hash": "PTfRuhy01CE4",
-      "address": "https://phrasebook-generator.utils.com/",
-      "title": "Phrasebook Generator - utils.com",
+      "hash": "46ps9sE9Eiw4",
+      "address": "https://pgp.utils.com/",
+      "title": "PGP Encrypt/Decrypt - utils.com",
       "grade": 0
     },
     {
-      "hash": "jMOthj7fawp4",
-      "address": "https://study-planner.utils.com/",
-      "title": "Study Planner - Spaced Repetition Schedule Generator - utils.com",
+      "hash": "tsBO3hsWTYKx",
+      "address": "https://sourceforge.net/directory/software-development/",
+      "title": "Best Open Source Software Development Software 2026",
       "grade": 0
     },
     {
-      "hash": "vyCjVFs3IbY4",
-      "address": "https://watering-schedule.utils.com/",
-      "title": "Watering Schedule Generator - Plant Watering Plan by Climate \u0026 Soil - utils.com",
+      "hash": "9ygFcssYtAxw",
+      "address": "https://nl.wikinews.org/wiki/2021_Weekberichten_Wikidata",
+      "title": "2021 Weekberichten Wikidata - Wikinieuws",
       "grade": 0
     },
     {
-      "hash": "_bVAd0omXJt4",
-      "address": "https://ripemd160.utils.com/",
-      "title": "RIPEMD-160 Hasher - utils.com",
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
       "grade": 0
     },
     {
-      "hash": "Eno3yUXJd_Y4",
-      "address": "https://number-base.utils.com/",
-      "title": "Number Base Converter - Binary, Octal, Decimal, Hex \u0026 Custom Bases - utils.com",
+      "hash": "qqIgmqWU7_zx",
+      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "F2Mbtsq1kBn4",
-      "address": "https://shellcheck.utils.com/",
-      "title": "Shellcheck Paste Analyzer - Lint Bash \u0026 Zsh Scripts - utils.com",
+      "hash": "qx8JQKYNS_tx",
+      "address": "https://za.wikipedia.org/wiki/Wikipedia:Seqgih",
+      "title": "Wikipedia:Seqgih - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "yqut5p4vsYu4",
-      "address": "https://sql-query.utils.com/",
-      "title": "SQL Query Builder - Visual SQL Generator Online - utils.com",
+      "hash": "5jx-xAS6MKD4",
+      "address": "https://github.com/collections/github-pages-examples",
+      "title": "Collection: GitHub Pages examples · GitHub",
       "grade": 0
     },
     {
-      "hash": "FObfyIti3uS4",
-      "address": "https://rand.utils.com/",
-      "title": "Random Number Generator - utils.com",
+      "hash": "P0YYCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+      "title": "Python (programming language) - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "X_tpr4xbskn4",
-      "address": "https://barcode.utils.com/",
-      "title": "Barcode Generator - utils.com",
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
       "grade": 0
     },
     {
-      "hash": "GuV9GN1uwFW4",
-      "address": "https://pdf-numbers.utils.com/",
-      "title": "PDF Page Numbers - Add Page Numbers to PDF Online - utils.com",
+      "hash": "cfM-rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "XGmXWRcoB-a4",
-      "address": "https://htpasswd.utils.com/",
-      "title": "htpasswd Generator - utils.com",
+      "hash": "lN89qUb8iyg4",
+      "address": "https://cloud.google.com/",
+      "title": "AI and Cloud Computing Services | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "o3BWfKA-JRwx",
+      "address": "https://ks.wikipedia.org/wiki/%D9%88%D9%90%DA%A9%DB%8C%D9%96%D9%BE%DB%8C%D9%96%DA%88%DB%8C%D8%A7:%DA%86%D9%88%DA%A9",
+      "title": "وِکیٖپیٖڈیا:چوک - وِکیٖپیٖڈیا",
       "grade": 0
     },
     {
@@ -224,58 +134,148 @@
       "grade": 0
     },
     {
-      "hash": "4YsOiW-beEs4",
-      "address": "https://unixtime.utils.com/",
-      "title": "Unixtime Converter - utils.com",
+      "hash": "sgghmlAUKsO5",
+      "address": "https://www.findarticles.com/news/",
+      "title": "News Articles - FindArticles",
       "grade": 0
     },
     {
-      "hash": "SrzD7m1QAr_4",
-      "address": "https://ccpa-compliance.utils.com/",
-      "title": "CCPA Compliance Checker - Free Online Assessment Tool - utils.com",
+      "hash": "6V5j2eGIvvyx",
+      "address": "https://arc.wikipedia.org/wiki/%DC%98%DC%9D%DC%A9%DC%9D%DC%A6%DC%95%DC%9D%DC%90:%DC%AC%DC%AA%DC%A5%DC%90_%DC%95%DC%9F%DC%A2%DC%AB%DC%90",
+      "title": "ܘܝܩܝܦܕܝܐ:ܬܪܥܐ ܕܟܢܫܐ - ܘܝܩܝܦܕܝܐ",
       "grade": 0
     },
     {
-      "hash": "gCVBNZ3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/",
-      "title": "OVHcloud Documentation",
+      "hash": "9bBlhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Debian",
+      "title": "Debian - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "qrC8FZ4zksK4",
-      "address": "https://dilution.utils.com/",
-      "title": "Dilution Calculator (C1V1 = C2V2) - utils.com",
+      "hash": "IT7dL5RqYFtx",
+      "address": "https://vo.wikipedia.org/wiki/V%C3%BCkiped:Kafetar",
+      "title": "Vükiped:Kafetar - Vükiped",
       "grade": 0
     },
     {
-      "hash": "iDhWR29G76F4",
-      "address": "https://myip.utils.com/",
-      "title": "My IP - utils.com",
+      "hash": "JX8WHaUTgGPx",
+      "address": "https://ast.wikipedia.org/wiki/Wikipedia:Chigre",
+      "title": "Wikipedia:Chigre - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "QkU46F9yt2X4",
-      "address": "https://table-cards.utils.com/",
-      "title": "Table Card Generator - utils.com",
+      "hash": "P2m_3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Michael_Faraday",
+      "title": "Michael Faraday - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "wtG_rlLO17z5",
-      "address": "https://www.pagetable.com/?p=547",
-      "title": "How many Commodore 64 computers were really sold? – pagetable.com",
+      "hash": "YFCMNBIdQkrx",
+      "address": "https://kg.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "YagNtcMDVVD4",
-      "address": "https://vat.utils.com/",
-      "title": "VAT Calculator - utils.com",
+      "hash": "ckO_3CAp6NRx",
+      "address": "https://yo.wikipedia.org/wiki/Wikipedia:%C3%88b%C3%BAt%C3%A9_%C3%80w%C3%B9j%E1%BB%8D",
+      "title": "Wikipedia:Èbúté Àwùjọ - Wikipedia, ìwé-ìmọ̀ ọ̀fẹ́",
       "grade": 0
     },
     {
-      "hash": "qcSF2cuStRZ4",
-      "address": "https://mock-data.utils.com/",
-      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+      "hash": "czrz__-3l2Cx",
+      "address": "https://lmo.wikipedia.org/wiki/Wikipedia:Grot",
+      "title": "Wikipedia:Grot - Wikipedia",
       "grade": 0
+    },
+    {
+      "hash": "fpbSoeBWb8sx",
+      "address": "https://rn.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "pSjdoiVDQ15x",
+      "address": "https://eo.wikipedia.org/wiki/Vikipedio:Diskutejo",
+      "title": "Vikipedio:Diskutejo - Vikipedio",
+      "grade": 0
+    },
+    {
+      "hash": "tB5rNUb8iyg4",
+      "address": "https://cloud.google.com/?utm_source=marketingplatform.google.com\u0026utm_medium=et\u0026utm_campaign=marketingplatform.google.com%2Fabout%2Fanalytics%2F",
+      "title": "AI and Cloud Computing Services | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "zseHy3wtaI8x",
+      "address": "https://sm.wikipedia.org/wiki/Wikipedia:Puso_o_le_%CA%BBa%CA%BBai",
+      "title": "Wikipedia:Puso o le ʻaʻai - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-DqTnLwtqo7x",
+      "address": "https://am.wikipedia.org/wiki/%E1%8B%8D%E1%8A%AD%E1%8D%94%E1%8B%B2%E1%8B%AB_%E1%8B%8D%E1%8B%AD%E1%8B%AD%E1%89%B5:%E1%88%9D%E1%8A%95%E1%8C%AD%E1%8C%8C",
+      "title": "ውክፔዲያ - ውክፔዲያ ውይይት:ምንጭጌ",
+      "grade": 0
+    },
+    {
+      "hash": "6ADAxbryW_Ax",
+      "address": "https://ky.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%96%D0%B0%D0%BC%D0%B0%D0%B0%D1%82_%D0%BF%D0%BE%D1%80%D1%82%D0%B0%D0%BB%D1%8B",
+      "title": "Википедия:Жамаат порталы - Википедия",
+      "grade": 0
+    },
+    {
+      "hash": "9zxCwcrQtIbx",
+      "address": "https://sw.wikipedia.org/wiki/Wikipedia:Jumuia",
+      "title": "Wikipedia:Jumuiya - Wikipedia, kamusi elezo huru",
+      "grade": 0
+    },
+    {
+      "hash": "D8O53r-5p35x",
+      "address": "https://iu.wikipedia.org/wiki/%E1%90%85%E1%90%83%E1%91%AD%E1%90%B1%E1%91%8E%E1%90%8A:%E1%90%B9%E1%95%90%E1%93%82%E1%96%85",
+      "title": "ᐅᐃᑭᐱᑎᐊ:ᐹᕐᓂᖅ - ᐅᐃᑭᐱᑎᐊ",
+      "grade": 0
+    },
+    {
+      "hash": "EtPUKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/HTTPS",
+      "title": "HTTPS - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "HRFwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GitHub",
+      "title": "GitHub - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PmPpsUp9bpyx",
+      "address": "https://be-tarask.wikipedia.org/wiki/%D0%92%D1%96%D0%BA%D1%96%D0%BF%D1%8D%D0%B4%D1%8B%D1%8F:%D0%A4%D0%BE%D1%80%D1%83%D0%BC",
+      "title": "Вікіпэдыя:Форум — Вікіпэдыя",
+      "grade": 0
+    },
+    {
+      "hash": "WtaH6A9Trf1x",
+      "address": "https://sg.wikipedia.org/wiki/Wikipedia:Da_t%C3%AE_lisoro",
+      "title": "Wikipedia:Da tî lisoro — Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "Commons:Village pump - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "al1D-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Database_download",
+      "title": "Wikipedia:Database download - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tROn_sNdy-a5",
+      "address": "https://getnikola.com/",
+      "title": "Static Site Generator | Nikola",
+      "grade": 1
     }
   ]
 }

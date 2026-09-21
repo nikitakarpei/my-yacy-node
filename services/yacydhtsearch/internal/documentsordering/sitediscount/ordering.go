@@ -1,15 +1,14 @@
-// Package hostdiscount orders the found documents by a relevance that falls by
-// half for each document of the same host it already placed above. One host
+// Package sitediscount orders the found documents by a relevance that falls by
+// half for each document of the same site it already placed above. One site
 // thus holds the whole first page only while its further documents stay the
 // most relevant ones. Documents of equal discounted relevance keep the order of
 // falling relevance, in which documents of equal relevance keep the order the
 // spread found them in.
-package hostdiscount
+package sitediscount
 
 import (
 	"cmp"
 	"math"
-	"net/url"
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
@@ -17,7 +16,7 @@ import (
 )
 
 const (
-	shareOfRelevanceKeptPerPlacedDocumentOfTheSameHost = 0.5
+	shareOfRelevanceKeptPerPlacedDocumentOfTheSameSite = 0.5
 	leastRelevanceTheDiscountTakesFrom                 = 0.0
 )
 
@@ -63,48 +62,48 @@ func documentsInFallingOrderOfDiscountedRelevance(
 	documentsOfFallingRelevance []queryanswers.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 ) []queryanswers.FoundDocument {
-	unplacedHostedDocuments := hostedDocumentsOf(documentsOfFallingRelevance)
-	amountOfPlacedDocumentsPerHost := map[string]int{}
-	placedDocuments := make([]queryanswers.FoundDocument, 0, len(unplacedHostedDocuments))
-	for len(unplacedHostedDocuments) > 0 {
+	unplacedSitedDocuments := sitedDocumentsOf(documentsOfFallingRelevance)
+	amountOfPlacedDocumentsPerSite := map[string]int{}
+	placedDocuments := make([]queryanswers.FoundDocument, 0, len(unplacedSitedDocuments))
+	for len(unplacedSitedDocuments) > 0 {
 		position := positionOfTheHighestDiscountedRelevanceAmong(
-			unplacedHostedDocuments, relevancePerDocument, amountOfPlacedDocumentsPerHost,
+			unplacedSitedDocuments, relevancePerDocument, amountOfPlacedDocumentsPerSite,
 		)
-		placedDocuments = append(placedDocuments, unplacedHostedDocuments[position].document)
-		amountOfPlacedDocumentsPerHost[unplacedHostedDocuments[position].host]++
-		unplacedHostedDocuments = slices.Delete(unplacedHostedDocuments, position, position+1)
+		placedDocuments = append(placedDocuments, unplacedSitedDocuments[position].document)
+		amountOfPlacedDocumentsPerSite[unplacedSitedDocuments[position].site]++
+		unplacedSitedDocuments = slices.Delete(unplacedSitedDocuments, position, position+1)
 	}
 
 	return placedDocuments
 }
 
-type hostedDocument struct {
+type sitedDocument struct {
 	document queryanswers.FoundDocument
-	host     string
+	site     string
 }
 
-func hostedDocumentsOf(foundDocuments []queryanswers.FoundDocument) []hostedDocument {
-	hostedDocuments := make([]hostedDocument, 0, len(foundDocuments))
+func sitedDocumentsOf(foundDocuments []queryanswers.FoundDocument) []sitedDocument {
+	sitedDocuments := make([]sitedDocument, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
-		hostedDocuments = append(hostedDocuments, hostedDocument{
+		sitedDocuments = append(sitedDocuments, sitedDocument{
 			document: foundDocument,
-			host:     hostOf(foundDocument.Address),
+			site:     yacymodel.SiteOf(foundDocument.Address),
 		})
 	}
 
-	return hostedDocuments
+	return sitedDocuments
 }
 
 func positionOfTheHighestDiscountedRelevanceAmong(
-	hostedDocuments []hostedDocument,
+	sitedDocuments []sitedDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-	amountOfPlacedDocumentsPerHost map[string]int,
+	amountOfPlacedDocumentsPerSite map[string]int,
 ) int {
 	positionOfTheHighestDiscountedRelevance := 0
 	highestDiscountedRelevance := math.Inf(-1)
-	for position, hostedDocument := range hostedDocuments {
+	for position, sitedDocument := range sitedDocuments {
 		discountedRelevance := discountedRelevanceOf(
-			hostedDocument, relevancePerDocument, amountOfPlacedDocumentsPerHost,
+			sitedDocument, relevancePerDocument, amountOfPlacedDocumentsPerSite,
 		)
 		if discountedRelevance > highestDiscountedRelevance {
 			highestDiscountedRelevance = discountedRelevance
@@ -116,24 +115,15 @@ func positionOfTheHighestDiscountedRelevanceAmong(
 }
 
 func discountedRelevanceOf(
-	hostedDocument hostedDocument,
+	sitedDocument sitedDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-	amountOfPlacedDocumentsPerHost map[string]int,
+	amountOfPlacedDocumentsPerSite map[string]int,
 ) float64 {
 	return max(
-		relevancePerDocument[hostedDocument.document.Hash],
+		relevancePerDocument[sitedDocument.document.Hash],
 		leastRelevanceTheDiscountTakesFrom,
 	) * math.Pow(
-		shareOfRelevanceKeptPerPlacedDocumentOfTheSameHost,
-		float64(amountOfPlacedDocumentsPerHost[hostedDocument.host]),
+		shareOfRelevanceKeptPerPlacedDocumentOfTheSameSite,
+		float64(amountOfPlacedDocumentsPerSite[sitedDocument.site]),
 	)
-}
-
-func hostOf(address string) string {
-	parsedAddress, err := url.Parse(address)
-	if err != nil || parsedAddress.Hostname() == "" {
-		return address
-	}
-
-	return parsedAddress.Hostname()
 }

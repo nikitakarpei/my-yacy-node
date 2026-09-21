@@ -2,148 +2,64 @@
   "query": "wikipedia",
   "judgedDocuments": [
     {
-      "hash": "YQwbBjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikiversity",
+      "hash": "wP9hhlPEHVf4",
+      "address": "https://www.ssbwiki.com/Template:Wikipedia",
+      "title": "Template:Wikipedia - SmashWiki, the Super Smash Bros. wiki",
+      "grade": 0
+    },
+    {
+      "hash": "pJy8Dh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Interlingua_Wikipedia",
+      "title": "Category:Interlingua Wikipedia - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "AC30wc6VT9z4",
+      "address": "https://vieiros.com/nova/59382/a-wikipedia-en-galego-supera-os-25-000-artigos",
+      "title": "Vieiros: Galiza Hoxe - A wikipedia en galego supera os 25.000 artigos",
       "grade": 1
     },
     {
-      "hash": "EptlzjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Etruscan_civilization",
-      "title": "Etruscan civilization - Wikipedia",
+      "hash": "jCNhPjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Category:Appletons_template_with_Wikipedia_parameter",
+      "title": "Category:Appletons template with Wikipedia parameter - Wikisource, the free online library",
       "grade": 0
     },
     {
-      "hash": "jkIc0rMNx4hl",
-      "address": "https://expansion.mx/tecnologia/2025/10/01/elon-musk-anuncia-grokipedia-para-competir-con-wikipedia",
-      "title": "Elon Musk anuncia Grokipedia para competir con Wikipedia pero sin los “sesgos woke”",
+      "hash": "CV1GVMFozFBx",
+      "address": "https://diff.wikimedia.org/2012/01/26/announcing-the-official-wikipedia-android-app/",
+      "title": "Announcing the Official Wikipedia Android App – Diff",
       "grade": 1
     },
     {
-      "hash": "XsJrXjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_for_Schools",
-      "title": "Wikipedia:Wikipedia for Schools - Wikipedia",
+      "hash": "BzzAt53Gp6b5",
+      "address": "https://www.mentalfloss.com/culture/internet/17-utterly-charming-articles-scots-wikipedia",
+      "title": "17 Utterly Charming Articles on Scots Wikipedia",
       "grade": 1
     },
     {
-      "hash": "5ZYlcjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Who_writes_Wikipedia",
-      "title": "Wikipedia:Who writes Wikipedia? - Wikipedia",
+      "hash": "-KE308KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Key:wikipedia?uselang=en",
+      "title": "Key:wikipedia - OpenStreetMap Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "k0jHhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Sanditon",
+      "title": "Sanditon - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "D1Hz8-DUniK4",
+      "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
+      "title": "Wikipedia and Beyond",
       "grade": 1
     },
     {
-      "hash": "YzjYVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Five_pillars",
-      "title": "Wikipedia:Five pillars - Wikipedia",
+      "hash": "AwptRPsrSOQw",
+      "address": "https://arxiv.org/abs/1501.06307",
+      "title": "[1501.06307] It's a Man's Wikipedia? Assessing Gender Inequality in an Online Encyclopedia",
       "grade": 1
-    },
-    {
-      "hash": "cwuhGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-      "title": "Wikipedia:General disclaimer - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "jr-9W07Yyjex",
-      "address": "https://en.greatfire.org/wikipedia.org/wehufi",
-      "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
-      "grade": 0
-    },
-    {
-      "hash": "3ZEiijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
-      "title": "Wikipedia:About - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "tljzSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_translation_tool",
-      "title": "Wikipedia:Content translation tool - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "5rIs1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/MediaWiki:Citethispage-content",
-      "title": "MediaWiki:Citethispage-content - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "3PTlTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
-      "title": "Help:Introduction - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "6dzwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:WWUS",
-      "title": "Wikipedia:Wiki Workers United solidarity - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "xgze2sqyzXmw",
-      "address": "https://swprs.org/wikipedia-and-propaganda/",
-      "title": "Wikipedia and Propaganda – Swiss Policy Research",
-      "grade": 1
-    },
-    {
-      "hash": "kRBINjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_Signpost/2025-05-14/Comix",
-      "title": "Wikipedia:Wikipedia Signpost/2025-05-14/Comix - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "vBGfKjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikivoyage",
-      "title": "Wikivoyage - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "ZUUXMtlrjgr4",
-      "address": "https://www.techdirt.com/company/wikipedia/",
-      "title": "Wikipedia stories at Techdirt.",
-      "grade": 0
-    },
-    {
-      "hash": "GCAt8jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:List_of_articles_every_Wikipedia_should_have",
-      "title": "Wikipedia:List of articles every Wikipedia should have - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "i6_MRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
-      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "eMWHLjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_disclaimer",
-      "title": "Wikipedia:Content disclaimer - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "DTPX7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
-      "title": "Wikipedia:Featured articles - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "7qXiQoC2Dk-o",
-      "address": "https://wikipedia-android.softonic.cn/android",
-      "title": "Wikipedia APK Android 版 - 下载",
-      "grade": 0
-    },
-    {
-      "hash": "V-hhGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:What_is_an_article%3F",
-      "title": "Wikipedia:What is an article? - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "wVal3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Embassy",
-      "title": "Wikipedia:Local Embassy - Wikipedia",
-      "grade": 0
     },
     {
       "hash": "Fct7Cj-JVcyx",
@@ -152,16 +68,10 @@
       "grade": 1
     },
     {
-      "hash": "iH4v_jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Ideological_bias_on_Wikipedia",
-      "title": "Ideological bias on Wikipedia - Wikipedia",
+      "hash": "JeplmJ_rb6v5",
+      "address": "https://wikipedia-un-mythe.over-blog.com/",
+      "title": "wikipedia ou le mythe de la neutralité - observatoire de wikipedia qui se prétend une encyclopédie, sans spécialistes ni vérification d'experts, chacun peut écrire ce qu'il veut sous anonymat : une pseudo-encyclopédie où prospèrent la propagande et l'irrationnel. Blog de réflexion sur la culture",
       "grade": 1
-    },
-    {
-      "hash": "2DfK_mqjuDq4",
-      "address": "https://offline-wikipedia.fr.softonic.com/pwa",
-      "title": "Offline Wikipedia pour PWA - Télécharger",
-      "grade": 0
     },
     {
       "hash": "eV8_WladqZ_x",
@@ -170,57 +80,21 @@
       "grade": 2
     },
     {
-      "hash": "4N7QFh6tsM8o",
-      "address": "https://wikipedia.softonic.cn/",
-      "title": "Wikipedia 版 - 下载",
+      "hash": "MIaemAyZbNhw",
+      "address": "https://gwern.net/doc/wikipedia/index",
+      "title": "‘Wikipedia’ directory · Gwern.net",
       "grade": 0
     },
     {
-      "hash": "LdyCTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Royal_Pharmaceutical_Society",
-      "title": "Wikipedia:Royal Pharmaceutical Society - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "lHOc2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Stub",
-      "title": "Wikipedia:Stub - Wikipedia",
+      "hash": "YQwbBjcl0ynx",
+      "address": "https://en.wikiversity.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikiversity",
       "grade": 1
     },
     {
-      "hash": "NzGzLjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Credo",
-      "title": "Wikipedia:Credo - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "KAs9AjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Free_content",
-      "title": "Free content - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "1ahuixAorqWw",
-      "address": "https://features.slashdot.org/story/05/04/18/164213/the-early-history-of-nupedia-and-wikipedia-a-memoir",
-      "title": "The Early History of Nupedia and Wikipedia: A Memoir - Slashdot",
-      "grade": 0
-    },
-    {
-      "hash": "SbIsMjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
-      "title": "Researching with Wikipedia - Wikiversity",
-      "grade": 1
-    },
-    {
-      "hash": "HEl15jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-      "title": "Wikipedia:Contents - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Vp7qIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Template:Wikipedia_content",
-      "title": "Template:Wikipedia content - Wikipedia",
+      "hash": "ZUUXMtlrjgr4",
+      "address": "https://www.techdirt.com/company/wikipedia/",
+      "title": "Wikipedia stories at Techdirt.",
       "grade": 0
     },
     {
@@ -230,33 +104,27 @@
       "grade": 0
     },
     {
-      "hash": "JR9m9jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump",
-      "title": "Wikipedia:Village pump - Wikipedia",
+      "hash": "jr-9W07Yyjex",
+      "address": "https://en.greatfire.org/wikipedia.org/wehufi",
+      "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
       "grade": 0
     },
     {
-      "hash": "al1D-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Database_download",
-      "title": "Wikipedia:Database download - Wikipedia",
+      "hash": "iH4v_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Ideological_bias_on_Wikipedia",
+      "title": "Ideological bias on Wikipedia - Wikipedia",
       "grade": 1
     },
     {
-      "hash": "BE07HjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:SELF",
-      "title": "Wikipedia:Manual of Style/Self-references to avoid - Wikipedia",
+      "hash": "OleOcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(technical)/Archive_108",
+      "title": "Wikipedia:Village pump (technical)/Archive 108 - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "djvJKjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Guidance_for_younger_editors",
-      "title": "Wikipedia:Guidance for younger editors - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "G2qROjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_tipster",
-      "title": "Wikipedia:Wikipedia tipster - Wikipedia",
+      "hash": "3lJbJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Maintenance",
+      "title": "Wikipedia:Maintenance - Wikipedia",
       "grade": 0
     },
     {
@@ -266,39 +134,165 @@
       "grade": 1
     },
     {
-      "hash": "wiS6cjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Help:WP_search_protocol",
-      "title": "Help:WP search protocol - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "ImZ4vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Template:Wikipedia_vandalism",
-      "title": "Template:Wikipedia vandalism - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "CiItojRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Sister_projects",
-      "title": "Wikipedia:Wikimedia sister projects - Wikipedia",
+      "hash": "-qx1fopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Q52",
+      "title": "Wikipedia - Wikidata",
       "grade": 1
     },
     {
-      "hash": "QuHotjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:DeGruyter",
-      "title": "Wikipedia:The Wikipedia Library - Wikipedia",
+      "hash": "1cbFAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bruce_Springsteen",
+      "title": "Bruce Springsteen - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "_IT5n1_bylRx",
-      "address": "https://da.wikipedia.org/wiki/Wikipedia:GLAM",
-      "title": "Wikipedia:GLAM - Wikipedia, den frie encyklopædi",
-      "grade": null
+      "hash": "4N7QFh6tsM8o",
+      "address": "https://wikipedia.softonic.cn/",
+      "title": "Wikipedia 版 - 下载",
+      "grade": 0
     },
     {
-      "hash": "LEWIqjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Systemic_bias",
-      "title": "Wikipedia:Systemic bias - Wikipedia",
+      "hash": "7qXiQoC2Dk-o",
+      "address": "https://wikipedia-android.softonic.cn/android",
+      "title": "Wikipedia APK Android 版 - 下载",
+      "grade": 0
+    },
+    {
+      "hash": "-FCq16g7yvNw",
+      "address": "https://handwiki.org/wiki/Wikipedia",
+      "title": "Wikipedia - HandWiki",
+      "grade": 1
+    },
+    {
+      "hash": "3ZEiijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
+      "title": "Wikipedia:About - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "cwuhGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
+      "title": "Wikipedia:General disclaimer - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "j5JkcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Contents",
+      "title": "Help:Contents - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "JlhcNjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Karl_Rove",
+      "title": "Karl Rove - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "XE1xxjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Griffin",
+      "title": "Griffin - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "L9G8MdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "grade": 1
+    },
+    {
+      "hash": "0TNidjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Dina_Powell",
+      "title": "Dina Powell - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DpjGbcosd1Hx",
+      "address": "https://diq.wikipedia.org/wiki/Perest%C4%B1%C5%9Fgey_Artemisi",
+      "title": "Perestışgey Artemisi - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "lHOc2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Stub",
+      "title": "Wikipedia:Stub - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "wB4XdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Dire_Straits",
+      "title": "Dire Straits - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-c3SyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:IPA/English",
+      "title": "Help:IPA/English - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-mPOEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Principal_Snyder",
+      "title": "List of Buffy the Vampire Slayer characters - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "oXGpal_Hj7ch",
+      "address": "https://www.wikipedia.de/",
+      "title": "Wikipedia, die freie Enzyklopädie",
+      "grade": 1
+    },
+    {
+      "hash": "v9u7djRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:ISBN",
+      "title": "Help:ISBN - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "vMaCxjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Page_information",
+      "title": "Help:Page information - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tHYsejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/1859",
+      "title": "1859 - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tSaN31_bylRx",
+      "address": "https://da.wikipedia.org/wiki/A_Rush_of_Blood_to_the_Head",
+      "title": "A Rush of Blood to the Head - Wikipedia, den frie encyklopædi",
+      "grade": 0
+    },
+    {
+      "hash": "t8uVycosd1Hx",
+      "address": "https://diq.wikipedia.org/wiki/Vlad_III",
+      "title": "Vlad III - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "2DfK_mqjuDq4",
+      "address": "https://offline-wikipedia.fr.softonic.com/pwa",
+      "title": "Offline Wikipedia pour PWA - Télécharger",
+      "grade": 0
+    },
+    {
+      "hash": "1yEG4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Good_articles",
+      "title": "Wikipedia:Good articles - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "1ahuixAorqWw",
+      "address": "https://features.slashdot.org/story/05/04/18/164213/the-early-history-of-nupedia-and-wikipedia-a-memoir",
+      "title": "The Early History of Nupedia and Wikipedia: A Memoir - Slashdot",
+      "grade": 0
+    },
+    {
+      "hash": "EptlzjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Etruscan_civilization",
+      "title": "Etruscan civilization - Wikipedia",
       "grade": 0
     },
     {
@@ -308,28 +302,28 @@
       "grade": 1
     },
     {
-      "hash": "nig6JZ-ZDd54",
-      "address": "https://wikipedia-mobile.en.uptodown.com/ios",
-      "title": "Wikipedia Mobile for iOS - Download it from Uptodown for free",
-      "grade": 1
-    },
-    {
-      "hash": "zVPMbjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Divisiveness",
-      "title": "Wikipedia:Divisiveness - Wikipedia",
+      "hash": "ihdjZCR1KeLx",
+      "address": "https://ve.wikipedia.org/wiki/Daiode_i_bvisaho_tshedza",
+      "title": "Daiode i bvisaho tshedza - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "JeplmJ_rb6v5",
-      "address": "https://wikipedia-un-mythe.over-blog.com/",
-      "title": "wikipedia ou le mythe de la neutralité - observatoire de wikipedia qui se prétend une encyclopédie, sans spécialistes ni vérification d'experts, chacun peut écrire ce qu'il veut sous anonymat : une pseudo-encyclopédie où prospèrent la propagande et l'irrationnel. Blog de réflexion sur la culture",
-      "grade": 1
+      "hash": "tbL3wrdZe3lx",
+      "address": "https://dag.wikipedia.org/wiki/%C5%8Aun_su:SA_twenty/Breastfeeding",
+      "title": "Ŋun su:SA twenty/Breastfeeding - Dagbani Wikipedia",
+      "grade": 0
     },
     {
-      "hash": "Oc6Ffsd660dx",
-      "address": "https://nl.wikipedia.org/wiki/Wikipedia:Statistieken",
-      "title": "Wikipedia:Statistieken - Wikipedia",
-      "grade": 1
+      "hash": "WJxPCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Template",
+      "title": "Help:Template - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zH7llh0sW9Sx",
+      "address": "https://sv.wikipedia.org/wiki/Kategori:Debatt%C3%B6rer_och_ess%C3%A4ister_p%C3%A5_Youtube",
+      "title": "Kategori:Debattörer och essäister på Youtube – Wikipedia",
+      "grade": 0
     },
     {
       "hash": "Zk80-q5_AtLx",
@@ -338,16 +332,40 @@
       "grade": 1
     },
     {
-      "hash": "onmRNNVNtdex",
-      "address": "https://fy.wikipedia.org/wiki/Wikipedy:Ynfo",
-      "title": "Wikipedy:Wat is Wikipedia - Wikipedy",
+      "hash": "mFSof81h31Ix",
+      "address": "https://map-bms.wikipedia.org/wiki/2014",
+      "title": "2014 - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "iGqb6C6T-2Kx",
+      "address": "https://mi.wikipedia.org/wiki/KOWHEORI-19",
+      "title": "KOWHEORI-19 - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "_xxakZcUd8rx",
+      "address": "https://kw.wikipedia.org/wiki/Dons",
+      "title": "Dons - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "3PTlTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
+      "title": "Help:Introduction - Wikipedia",
       "grade": 1
     },
     {
-      "hash": "CMjFUZiEKjLx",
-      "address": "https://lb.wikipedia.org/wiki/Wikipedia:W%C3%ABllkomm",
-      "title": "Wikipedia:Wëllkomm – Wikipedia",
+      "hash": "xgze2sqyzXmw",
+      "address": "https://swprs.org/wikipedia-and-propaganda/",
+      "title": "Wikipedia and Propaganda – Swiss Policy Research",
       "grade": 1
+    },
+    {
+      "hash": "_6y0JjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bob_Marley",
+      "title": "Bob Marley - Wikipedia",
+      "grade": 0
     }
   ]
 }

@@ -2,75 +2,27 @@
   "query": "berliner mauer geschichte",
   "judgedDocuments": [
     {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "hash": "vVmkIX5ARWyg",
+      "address": "https://www.spiegel.de/politik/deutschland/",
+      "title": "Deutschland - Politik - DER SPIEGEL",
       "grade": 0
     },
     {
-      "hash": "R1PZSlKDFhNg",
-      "address": "https://www.bpb.de/",
-      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
+      "hash": "2MAAxlM8apTh",
+      "address": "https://www.radiodrei.de/",
+      "title": "radio3 - Das Kulturprogramm vom rbb | radio3",
       "grade": 0
     },
     {
-      "hash": "JvV_6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Cold_War",
-      "title": "Cold War - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "n9Y5MdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Portal:Geschichte",
-      "title": "Portal:Geschichte – Wikipedia",
+      "hash": "vxNtiscqomtg",
+      "address": "https://taz.de/",
+      "title": "taz.de | taz.de",
       "grade": 0
     },
     {
-      "hash": "_STefHUICtcA",
-      "address": "http://www.berlin.de/sen/stadtentwicklung/planung/bebauungsplanverfahren/bebauungsplanverfahren-in-berlin/fachbereiche-stadtplanung-der-berliner-bezirke/",
-      "title": "Fachbereiche Stadtplanung der Berliner Bezirke - Berlin.de",
-      "grade": 0
-    },
-    {
-      "hash": "WsFtevF-RWXj",
-      "address": "https://www.bundesumweltministerium.de/media/berliner-dienstsitz-aktuelle-aufnahmen",
-      "title": "BMUKN: Berliner Dienstsitz: aktuelle Aufnahmen | Bildergalerie",
-      "grade": 0
-    },
-    {
-      "hash": "17zOZjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Germany",
-      "title": "Germany – Travel guide at Wikivoyage",
-      "grade": 0
-    },
-    {
-      "hash": "ybbdrajCKJ9g",
-      "address": "https://www.bva.bund.de/DE/Das-BVA/Rueckblick/rueckblick_node.html",
-      "title": "BVA - Rückblick",
-      "grade": 0
-    },
-    {
-      "hash": "8uW9ql8moajg",
-      "address": "https://www.welt.de/geschichte/",
-      "title": "Geschichte - Von der Antike über das Mittelalter zur Moderne - WELT",
-      "grade": 0
-    },
-    {
-      "hash": "a9ooXjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Berlin",
-      "title": "Berlin - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "hpNx6l0w__jw",
-      "address": "https://www.faz.net/aktuell/",
-      "title": "Aktuelle Nachrichten online - FAZ.NET",
-      "grade": 0
-    },
-    {
-      "hash": "WLeSrl5ARWyg",
-      "address": "https://www.spiegel.de/",
-      "title": "DER SPIEGEL | Online-Nachrichten",
+      "hash": "BKlEylyX5Qug",
+      "address": "https://www.t-online.de/",
+      "title": "News \u0026 E-Mail bei t-online | Politik, Sport, Unterhaltung \u0026 Ratgeber",
       "grade": 0
     },
     {
@@ -80,15 +32,75 @@
       "grade": 0
     },
     {
-      "hash": "3Qt4nC8moajg",
-      "address": "https://www.welt.de/regionales/berlin/",
-      "title": "Berlin \u0026 Brandenburg - News \u0026 aktuelle Nachrichten - WELT",
+      "hash": "TQ5QsllA2Rig",
+      "address": "https://www.n-tv.de/",
+      "title": "Nachrichten, aktuelle Schlagzeilen und Videos - n-tv.de",
       "grade": 0
     },
     {
-      "hash": "68MPWl8moajg",
-      "address": "https://www.welt.de/videos/",
-      "title": "WELT Videos: Aktuelle News \u0026 Nachrichten-Videos",
+      "hash": "RXMx0mcqomtg",
+      "address": "https://taz.de/Kultur/!p4639/",
+      "title": "Kultur | taz.de",
+      "grade": 0
+    },
+    {
+      "hash": "C1nV3l-Qfulg",
+      "address": "https://www.zdf.de/",
+      "title": "ZDF Streaming-Portal: Filme, Serien und Dokus online anschauen",
+      "grade": 0
+    },
+    {
+      "hash": "sxUL2dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
+      "title": "Wikipedia – Die freie Enzyklopädie",
+      "grade": 0
+    },
+    {
+      "hash": "J1UsvdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/U-Bahn",
+      "title": "U-Bahn – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tiMQXlhl_5qi",
+      "address": "https://www.deutschlandfunk.de/nachrichten-100.html",
+      "title": "Die neuesten Nachrichten rund um die Uhr.",
+      "grade": 0
+    },
+    {
+      "hash": "tTs73dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Johannes_Paul_II.",
+      "title": "Johannes Paul II. – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "4px7OdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Kalter_Krieg",
+      "title": "Kalter Krieg – Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "5iJzbdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wien",
+      "title": "Wien – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8uW9ql8moajg",
+      "address": "https://www.welt.de/geschichte/",
+      "title": "Geschichte - Von der Antike über das Mittelalter zur Moderne - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "l_d38H8moajg",
+      "address": "https://www.welt.de/geschichte/weltplus/",
+      "title": "WELTplus Geschichte - Qualitätsjournalismus für Abonnenten",
+      "grade": 0
+    },
+    {
+      "hash": "WLeSrl5ARWyg",
+      "address": "https://www.spiegel.de/",
+      "title": "DER SPIEGEL | Online-Nachrichten",
       "grade": 0
     },
     {
@@ -98,15 +110,45 @@
       "grade": 0
     },
     {
-      "hash": "TR9kflXXOSAg",
-      "address": "https://www.rbb24.de/",
-      "title": "rbb24 - Nachrichten aus Berlin und Brandenburg",
+      "hash": "MnL7SdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Berlin",
+      "title": "Berlin – Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "N7wKcdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Graz",
+      "title": "Graz – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "ATIMylhl_5qi",
-      "address": "https://www.deutschlandfunk.de/sendungen",
-      "title": "Alle Sendungen",
+      "hash": "NXo8vQ8moajg",
+      "address": "https://www.welt.de/kultur/architektur/",
+      "title": "Architektur – News und aktuelle Diskussionen - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "R1PZSlKDFhNg",
+      "address": "https://www.bpb.de/",
+      "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
+      "grade": 0
+    },
+    {
+      "hash": "yabixlgw84xh",
+      "address": "https://www.sueddeutsche.de/kultur",
+      "title": "Kultur - Nachrichten zu Literatur, Kunst und Film - SZ.de",
+      "grade": 0
+    },
+    {
+      "hash": "CZyrIdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Ostblock",
+      "title": "Ostblock – Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "hpNx6l0w__jw",
+      "address": "https://www.faz.net/aktuell/",
+      "title": "Aktuelle Nachrichten online - FAZ.NET",
       "grade": 0
     },
     {
@@ -116,69 +158,129 @@
       "grade": 0
     },
     {
-      "hash": "bWC1SaqeWpa5",
-      "address": "https://www.leverkusen.com/wohin/index.php?view=00000029",
-      "title": "Essen und Trinken in Wiesdorf",
+      "hash": "mvKQwsT2_lBj",
+      "address": "https://kulturstaatsminister.de/",
+      "title": "Startseite | Kulturstaatsminister - Der Beauftragte der Bundesregierung für Kultur und Medien",
       "grade": 0
     },
     {
-      "hash": "XlXr-l5ARWyg",
-      "address": "https://www.spiegel.de/kultur/",
-      "title": "Kultur - DER SPIEGEL",
+      "hash": "yaUd9lhl_5qi",
+      "address": "https://www.deutschlandfunk.de/neue-beitraege-dlf-100.html",
+      "title": "Neue Beiträge auf dlf.de",
       "grade": 0
     },
     {
-      "hash": "cQVvPl5ARWyg",
-      "address": "https://www.spiegel.de/schlagzeilen/",
-      "title": "Schlagzeilen - DER SPIEGEL",
+      "hash": "s3_tUl5ARWyg",
+      "address": "https://www.spiegel.de/video/",
+      "title": "Video - DER SPIEGEL",
       "grade": 0
     },
     {
-      "hash": "vysDFN5ARWyg",
-      "address": "https://www.spiegel.de/thema/spiegel-tv/",
-      "title": "SPIEGEL TV - DER SPIEGEL",
-      "grade": 0
-    },
-    {
-      "hash": "MnL7SdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Berlin",
-      "title": "Berlin – Wikipedia",
+      "hash": "JvV_6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Cold_War",
+      "title": "Cold War - Wikipedia",
       "grade": 1
     },
     {
-      "hash": "PCb0dlhl_5qi",
-      "address": "https://www.deutschlandfunk.de/",
-      "title": "Deutschlandfunk - Alles von Relevanz",
+      "hash": "UGaaTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Central_Europe",
+      "title": "Central Europe - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "bthkIlgw84xh",
-      "address": "https://www.sueddeutsche.de/",
-      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
+      "hash": "Fl0zGdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Deutschland",
+      "title": "Deutschland – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "6BzIDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
-      "title": "Eastern Bloc - Wikipedia",
+      "hash": "a9ooXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Berlin",
+      "title": "Berlin - Wikipedia",
       "grade": 1
     },
     {
-      "hash": "-eJKllXXOSAg",
-      "address": "https://www.rbb24.de/thema/",
-      "title": "Themen von A - Z",
+      "hash": "Md29ZdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Leipzig",
+      "title": "Leipzig – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "LA9XAhoLWSig",
-      "address": "https://www.berlin.de/landesdenkmalamt/veranstaltungen/tag-des-offenen-denkmals/",
-      "title": "Tag des offenen Denkmals - Berlin.de",
+      "hash": "C-iGMdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1961",
+      "title": "1961 – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "QrcPgdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Klassizismus",
-      "title": "Klassizismus – Wikipedia",
+      "hash": "HpdLvdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1981",
+      "title": "1981 – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Mjz9jdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1990",
+      "title": "1990 – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "NYEA8dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1990er",
+      "title": "1990er – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "N_sgsdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Europa",
+      "title": "Europa – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "XupeEdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Stuttgart",
+      "title": "Stuttgart – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "hGw_OdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1966",
+      "title": "1966 – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "nRVCqdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Magdeburg",
+      "title": "Magdeburg – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "yhUFbdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Israel",
+      "title": "Israel – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "0APRzdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1940",
+      "title": "1940 – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "1H2L3dFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/1871",
+      "title": "1871 – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "3jAQsdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Pazifismus",
+      "title": "Pazifismus – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "FvTrgdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Rostock",
+      "title": "Rostock – Wikipedia",
       "grade": 0
     },
     {
@@ -194,45 +296,15 @@
       "grade": 0
     },
     {
-      "hash": "N_sgsdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Europa",
-      "title": "Europa – Wikipedia",
-      "grade": 0
-    },
-    {
       "hash": "VSatEdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Wikipedia:Lesenswerte_Artikel",
       "title": "Wikipedia:Lesenswerte Artikel – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "nFqlndFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Volksrepublik_China",
-      "title": "Volksrepublik China – Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "sxUL2dFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite",
-      "title": "Wikipedia – Die freie Enzyklopädie",
-      "grade": 0
-    },
-    {
-      "hash": "UGaaTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Central_Europe",
-      "title": "Central Europe - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "RXMx0mcqomtg",
-      "address": "https://taz.de/Kultur/!p4639/",
-      "title": "Kultur | taz.de",
-      "grade": 0
-    },
-    {
-      "hash": "VZxGl4cqomtg",
-      "address": "https://taz.de/Gesellschaft/!p4611/",
-      "title": "Gesellschaft | taz.de",
+      "hash": "XlXr-l5ARWyg",
+      "address": "https://www.spiegel.de/kultur/",
+      "title": "Kultur - DER SPIEGEL",
       "grade": 0
     },
     {
@@ -242,51 +314,27 @@
       "grade": 0
     },
     {
-      "hash": "vxNtiscqomtg",
-      "address": "https://taz.de/",
-      "title": "taz.de | taz.de",
+      "hash": "bthkIlgw84xh",
+      "address": "https://www.sueddeutsche.de/",
+      "title": "Aktuelle Nachrichten und Kommentare - SZ.de",
       "grade": 0
     },
     {
-      "hash": "46TeYscqomtg",
-      "address": "https://taz.de/!p5360/",
-      "title": "Themen | taz.de",
-      "grade": 0
-    },
-    {
-      "hash": "0k0HOtcqomtg",
-      "address": "https://taz.de/verlag/aktuelles-aus-der-taz/!v=8f20076f-2be2-41ba-b79b-5a03bb0ecc51/",
-      "title": "Aktuelles | taz.de",
-      "grade": 0
-    },
-    {
-      "hash": "1c6AWlfWll-g",
-      "address": "https://www.3sat.de/",
-      "title": "Startseite - 3sat-Mediathek",
-      "grade": 0
-    },
-    {
-      "hash": "1dN9D7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/294350/die-aufarbeitung-der-aufarbeitung-welche-zukunft-hat-die-ddr-geschichte/",
-      "title": "Die Aufarbeitung der Aufarbeitung - Welche Zukunft hat die DDR-Geschichte? | Deutschland Archiv | bpb.de",
+      "hash": "6BzIDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Eastern_Bloc",
+      "title": "Eastern Bloc - Wikipedia",
       "grade": 1
     },
     {
-      "hash": "1f_Ai7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/324915/die-durchlaufene-mauer/",
-      "title": "Die durchlaufene Mauer | Deutschland Archiv | bpb.de",
-      "grade": 2
-    },
-    {
-      "hash": "-JFhL7KDFhNg",
-      "address": "https://www.bpb.de/themen/deutschlandarchiv/284090/eine-fernsehserie-schreibt-geschichte/",
-      "title": "Eine Fernsehserie schreibt Geschichte | Deutschland Archiv | bpb.de",
+      "hash": "nFqlndFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Volksrepublik_China",
+      "title": "Volksrepublik China – Wikipedia",
       "grade": 0
     },
     {
-      "hash": "_8OCxlkaJR9i",
-      "address": "https://www.berliner-zeitung.de/categories",
-      "title": "Themen A-Z - Berliner Zeitung",
+      "hash": "n9Y5MdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Portal:Geschichte",
+      "title": "Portal:Geschichte – Wikipedia",
       "grade": 0
     }
   ]
