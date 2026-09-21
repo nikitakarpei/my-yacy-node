@@ -196,6 +196,15 @@ func recordedAnswersOf(
 	}
 }
 
+func (r recordedAnswers) withThePageContentsReadAgain(
+	answersAndTheirPages answersAndTheirReadPages,
+) recordedAnswers {
+	readAgain := recordedAnswersOf(r.Query, answersAndTheirPages)
+	readAgain.RecordedAt = r.RecordedAt
+
+	return readAgain
+}
+
 func recordedFoundDocumentsFrom(
 	answersAndTheirPages answersAndTheirReadPages,
 ) []recordedFoundDocument {

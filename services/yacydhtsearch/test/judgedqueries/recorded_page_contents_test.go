@@ -3,11 +3,14 @@ package judgedqueries_test
 import (
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
+
+var timeThePeersAnswered = time.Date(2026, time.September, 21, 0, 15, 42, 0, time.UTC)
 
 func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 	t.Parallel()
@@ -83,6 +86,39 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 			"the recorded document shows the title %q, want the title the peer sent",
 			read.FoundDocuments[0].Title,
 		)
+	}
+}
+
+func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
+	t.Parallel()
+
+	document := hashOfTheWeatherDocument(t)
+	recorded := recordedAnswersOf("berlin", answersAndTheirReadPages{
+		answeredQuery: queryanswers.AnsweredQuery{
+			FoundDocuments: []queryanswers.FoundDocument{{
+				Hash:    document,
+				Address: "https://example.org/weather",
+				Title:   "What a peer calls it",
+			}},
+		},
+	})
+	recorded.RecordedAt = timeThePeersAnswered
+
+	readAgain := recorded.withThePageContentsReadAgain(answersAndTheirReadPages{
+		answeredQuery: recorded.answeredQuery(),
+		pageContentsPerDocument: map[yacymodel.URLHash]pagecontents.PageContents{
+			document: {Title: "Weather in Berlin", AmountOfWords: 1200},
+		},
+	})
+
+	if !readAgain.RecordedAt.Equal(timeThePeersAnswered) {
+		t.Fatalf("the answers read again carry the time %s, want the time %s the peers answered",
+			readAgain.RecordedAt, timeThePeersAnswered)
+	}
+	if readAgain.FoundDocuments[0].Title != "What a peer calls it" ||
+		!readAgain.FoundDocuments[0].PageContents.Present() {
+		t.Fatalf("the answers read again show %+v, want the contents of the page read again",
+			readAgain.FoundDocuments[0])
 	}
 }
 
