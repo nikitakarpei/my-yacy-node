@@ -78,7 +78,7 @@ func everySecondDocumentWhosePageANodeReadOf(
 	documentsRead := 0
 	for _, foundDocument := range answers.FoundDocuments {
 		facts := answers.FactsPerDocument[foundDocument.Hash]
-		if !facts.AmountOfLinks.Present() {
+		if !facts.AmountOfWords.Present() {
 			continue
 		}
 		documentsRead++
@@ -100,6 +100,7 @@ func answersWithoutTheFactsOfThePageReadsOf(
 	for document, facts := range answers.FactsPerDocument {
 		if _, hiddenDocument := hidden[document]; hiddenDocument {
 			facts.QueryPhraseHits = yacymodel.None[int]()
+			facts.AmountOfWords = yacymodel.None[int]()
 			facts.AmountOfLinks = yacymodel.None[int]()
 		}
 		factsPerDocument[document] = facts
