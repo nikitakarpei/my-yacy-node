@@ -2,57 +2,45 @@
   "query": "golang concurrency",
   "judgedDocuments": [
     {
-      "hash": "r6W3km1dafs6",
-      "address": "https://stackoverflow.com/questions/tagged/concurrency",
-      "title": "Newest 'concurrency' Questions - Stack Overflow",
+      "hash": "YOcpwl7JARt4",
+      "address": "https://www.infoq.com/golang/",
+      "title": "Go Language - InfoQ",
       "grade": 0
     },
     {
-      "hash": "G2ygBVZyGij5",
-      "address": "https://technology.riotgames.com/news/leveraging-golang-game-development-and-operations",
-      "title": "Leveraging Golang for Game Development and Operations | Riot Games Technology",
+      "hash": "VM-WmZyt64y5",
+      "address": "https://docs.photoprism.app/release-notes/",
+      "title": "Release Notes - PhotoPrism",
       "grade": 0
     },
     {
-      "hash": "sQDUoleq6ZL5",
-      "address": "https://www.gopherguides.com/",
-      "title": "Go (golang) Training By Community Leaders - Gopher Guides",
+      "hash": "xneCNMyt64y5",
+      "address": "https://docs.photoprism.app/getting-started/troubleshooting/performance/",
+      "title": "Performance - PhotoPrism",
       "grade": 0
     },
     {
-      "hash": "z5ncGsK-xyJ4",
-      "address": "https://go.dev/learn/",
-      "title": "Get Started - The Go Programming Language",
+      "hash": "8gsjosK-xyJ4",
+      "address": "https://go.dev/",
+      "title": "The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "SK7_ZxNzCnSk",
+      "address": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query",
+      "title": "Query string query | Elasticsearch Reference",
       "grade": 0
     },
     {
-      "hash": "gxLAXsu0_jiy",
-      "address": "https://gopherconindia.org/",
-      "title": "GopherCon India 2026 | Go Conference in Hyderabad",
+      "hash": "bEDZ5sb29Eq4",
+      "address": "https://zulip.com/communities/",
+      "title": "Open communities directory | Zulip",
       "grade": 0
     },
     {
-      "hash": "VjwJPv1dafs6",
-      "address": "https://stackoverflow.com/tags/go",
-      "title": "Newest 'go' Questions - Stack Overflow",
-      "grade": 0
-    },
-    {
-      "hash": "V7zmBsK-xyJ4",
-      "address": "https://go.dev/doc/",
-      "title": "Documentation - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "O0YH7sK-xyJ4",
-      "address": "https://go.dev/wiki/",
-      "title": "Go Wiki: Home - The Go Programming Language",
+      "hash": "mY_LrzS6MKD4",
+      "address": "https://github.com/topics/filesystem",
+      "title": "filesystem · GitHub Topics · GitHub",
       "grade": 0
     },
     {
@@ -62,105 +50,69 @@
       "grade": 1
     },
     {
+      "hash": "1ojMPAK-xyJ4",
+      "address": "https://go.dev/doc/effective_go",
+      "title": "Effective Go - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "T_l4-UrNs7-x",
+      "address": "https://getstream.io/blog/switched-python-go/",
+      "title": "Why We Switched from Python to Go",
+      "grade": 1
+    },
+    {
+      "hash": "jenFDsS6MKD4",
+      "address": "https://github.com/hyper0x",
+      "title": "hyper0x (HyL) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "-zyAxuKtJDgx",
+      "address": "https://id.wikipedia.org/wiki/Go_(bahasa_pemrograman)",
+      "title": "Go (bahasa pemrograman) - Wikipedia bahasa Indonesia, ensiklopedia bebas",
+      "grade": 1
+    },
+    {
+      "hash": "9EmqOSU39EL4",
+      "address": "https://pygolang.nexedi.com/",
+      "title": "Pygolang Home",
+      "grade": 1
+    },
+    {
+      "hash": "V7zmBsK-xyJ4",
+      "address": "https://go.dev/doc/",
+      "title": "Documentation - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "sUWcBzS6MKD4",
+      "address": "https://github.com/topics/unicorns",
+      "title": "unicorns · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "u2SnisCRdREw",
+      "address": "https://jvns.ca/",
+      "title": "Julia Evans",
+      "grade": 0
+    },
+    {
       "hash": "wPbQLR1YIUaQ",
       "address": "http://planet.haskell.org/",
       "title": "Planet Haskell",
       "grade": 0
     },
     {
-      "hash": "CDe2DjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Race_condition",
-      "title": "Race condition - Wikipedia",
+      "hash": "C42pLzS6MKD4",
+      "address": "https://github.com/topics/command-line",
+      "title": "command-line · GitHub Topics · GitHub",
       "grade": 0
     },
     {
-      "hash": "G5_NlsS6MKD4",
-      "address": "https://github.com/ArchiveBox",
-      "title": "ArchiveBox · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "gKBydWK-xyJ4",
-      "address": "https://go.dev/solutions/cloud",
-      "title": "Go for Cloud \u0026 Network Services - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "DB7viAK-xyJ4",
-      "address": "https://go.dev/doc/faq",
-      "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "8gsjosK-xyJ4",
-      "address": "https://go.dev/",
-      "title": "The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "lpBw6vmjFlt0",
-      "address": "https://devenv.sh/reference/options/",
-      "title": "Options reference | devenv",
-      "grade": 0
-    },
-    {
-      "hash": "rj3EHAK-xyJ4",
-      "address": "https://go.dev/doc/go1.4",
-      "title": "Go 1.4 Release Notes - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "05FPll_zR1L4",
-      "address": "https://www.meetup.com/Golang-Bangalore/",
-      "title": "Golang Bangalore (Bangalore, India) | Meetup",
-      "grade": 0
-    },
-    {
-      "hash": "oZQa-xNzCnSk",
-      "address": "https://www.elastic.co/docs/reference/integrations/golang",
-      "title": "Golang Integration | Elastic integrations",
-      "grade": 0
-    },
-    {
-      "hash": "fyelQl6Jfwc4",
-      "address": "https://www.guru99.com/google-go-tutorial.html",
-      "title": "Golang Tutorial",
-      "grade": 1
-    },
-    {
-      "hash": "KRP4Evd537ax",
-      "address": "https://www.freecodecamp.org/news/learn-golang-handbook/",
-      "title": "The Golang Handbook – A Beginner's Guide to Learning Go",
-      "grade": 1
-    },
-    {
-      "hash": "8KnFwAK-xyJ4",
-      "address": "https://go.dev/doc/tutorial/",
-      "title": "Tutorials - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "YOcpwl7JARt4",
-      "address": "https://www.infoq.com/golang/",
-      "title": "Go Language - InfoQ",
-      "grade": 0
-    },
-    {
-      "hash": "kDoivJS6MKD4",
-      "address": "https://github.com/dariubs/GoBooks",
-      "title": "GitHub - dariubs/GoBooks: List of Golang books · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "grade": 0
-    },
-    {
-      "hash": "Q2r-ms-UOu6x",
-      "address": "https://thenewstack.io/go/",
-      "title": "Go Programming Language Overview and News - The New Stack",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
@@ -170,39 +122,69 @@
       "grade": 0
     },
     {
-      "hash": "ioDB87f4Pib5",
-      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-      "grade": 0
-    },
-    {
-      "hash": "0vD9hno6iJy4",
-      "address": "https://dropbox.tech/infrastructure/open-sourcing-our-go-libraries",
-      "title": "Open Sourcing Our Go Libraries - Dropbox",
-      "grade": 0
-    },
-    {
       "hash": "3i6sWdxyfg74",
       "address": "https://pkg.go.dev/time",
       "title": "time package - time - Go Packages",
       "grade": 0
     },
     {
-      "hash": "QriquAK-xyJ4",
-      "address": "https://go.dev/doc/devel/weekly",
-      "title": "Weekly Snapshot History - The Go Programming Language",
+      "hash": "CDe2DjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Race_condition",
+      "title": "Race condition - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "0N-aIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Portal:Computer_programming",
-      "title": "Portal:Computer programming - Wikipedia",
+      "hash": "84vzxd14cltk",
+      "address": "https://planet.python.org.br/",
+      "title": "Planeta PythonBrasil",
       "grade": 0
     },
     {
-      "hash": "xN14KsS6MKD4",
-      "address": "https://github.com/golang",
-      "title": "Go · GitHub",
+      "hash": "A_45Olcc31ei",
+      "address": "https://www.gophercon-russia.ru/en",
+      "title": "GopherCon Russia 2021",
+      "grade": 0
+    },
+    {
+      "hash": "NPoTiMvuh6k5",
+      "address": "https://muharem.wordpress.com/",
+      "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
+      "grade": 0
+    },
+    {
+      "hash": "qQ00LfS6MKD4",
+      "address": "https://github.com/affaan-m/ECC",
+      "title": "GitHub - affaan-m/ECC: The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "0hFlpzS6MKD4",
+      "address": "https://github.com/topics/streams",
+      "title": "streams · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Rf_kgMyt64y5",
+      "address": "https://docs.photoprism.app/getting-started/raspberry-pi/",
+      "title": "Requirements - PhotoPrism",
+      "grade": 0
+    },
+    {
+      "hash": "RpFk9zS6MKD4",
+      "address": "https://github.com/topics/dart",
+      "title": "dart · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "7Ev84zS6MKD4",
+      "address": "https://github.com/topics/project",
+      "title": "project · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "jDc0FAK-xyJ4",
+      "address": "https://go.dev/doc/go1.27",
+      "title": "Go 1.27 Release Notes - The Go Programming Language",
       "grade": 0
     },
     {
@@ -212,10 +194,76 @@
       "grade": 0
     },
     {
-      "hash": "r_C2TAK-xyJ4",
-      "address": "https://go.dev/doc/go1.26",
-      "title": "Go 1.26 Release Notes - The Go Programming Language",
+      "hash": "j31VWpS6MKD4",
+      "address": "https://github.com/quozd/awesome-dotnet",
+      "title": "GitHub - quozd/awesome-dotnet: A collection of awesome .NET libraries, tools, frameworks and software · GitHub",
       "grade": 0
+    },
+    {
+      "hash": "6F57CEMW35a4",
+      "address": "https://hub.docker.com/categories/languages-and-frameworks",
+      "title": "Languages \u0026 frameworks | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "3Wv6m2MW35a4",
+      "address": "https://hub.docker.com/u/ppc64le",
+      "title": "DOI: ppc64le",
+      "grade": 0
+    },
+    {
+      "hash": "XNn7M2MW35a4",
+      "address": "https://hub.docker.com/u/riscv64",
+      "title": "DOI: riscv64",
+      "grade": 0
+    },
+    {
+      "hash": "r_HdU2MW35a4",
+      "address": "https://hub.docker.com/u/arm64v8",
+      "title": "DOI: arm64v8",
+      "grade": 0
+    },
+    {
+      "hash": "lnd1bUK-xyJ4",
+      "address": "https://go.dev/blog/context-and-structs",
+      "title": "Contexts and structs - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "4x07skxyfg74",
+      "address": "https://pkg.go.dev/golang.org/x",
+      "title": "Sub-repositories - Go Packages",
+      "grade": 0
+    },
+    {
+      "hash": "6sD4SLK-xyJ4",
+      "address": "https://go.dev/ref/mem",
+      "title": "The Go Memory Model - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "52ikqzS6MKD4",
+      "address": "https://github.com/topics/learning-golang",
+      "title": "learning-golang · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "5qG8l0S6MKD4",
+      "address": "https://github.com/trimstray/nginx-admins-handbook",
+      "title": "GitHub - trimstray/nginx-admins-handbook: How to improve NGINX performance, security, and other important things.",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "DB7viAK-xyJ4",
+      "address": "https://go.dev/doc/faq",
+      "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
+      "grade": 1
     },
     {
       "hash": "_vAEAfxyfg74",
@@ -224,34 +272,82 @@
       "grade": 0
     },
     {
-      "hash": "1ojMPAK-xyJ4",
-      "address": "https://go.dev/doc/effective_go",
-      "title": "Effective Go - The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "jDc0FAK-xyJ4",
-      "address": "https://go.dev/doc/go1.27",
-      "title": "Go 1.27 Release Notes - The Go Programming Language",
+      "hash": "z5ncGsK-xyJ4",
+      "address": "https://go.dev/learn/",
+      "title": "Get Started - The Go Programming Language",
       "grade": 0
     },
     {
-      "hash": "xp5LsAK-xyJ4",
-      "address": "https://go.dev/doc/codewalk/sharemem/",
-      "title": "Codewalk: Share Memory By Communicating - The Go Programming Language",
+      "hash": "PeV3jUK-xyJ4",
+      "address": "https://go.dev/blog/waza-talk",
+      "title": "Concurrency is not parallelism - The Go Programming Language",
       "grade": 2
     },
     {
-      "hash": "5qG8l0S6MKD4",
-      "address": "https://github.com/trimstray/nginx-admins-handbook",
-      "title": "GitHub - trimstray/nginx-admins-handbook: How to improve NGINX performance, security, and other important things. · GitHub",
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "u8KO6UlsMv8w",
+      "address": "https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/",
+      "title": "Notes on structured concurrency, or: Go statement considered harmful — njs blog",
+      "grade": 1
+    },
+    {
+      "hash": "3j9_jsvE6fPw",
+      "address": "https://golangcn.org/",
+      "title": "Golang China Contributors Club",
+      "grade": 0
+    },
+    {
+      "hash": "TzRMZlS6MKD4",
+      "address": "https://github.com/arunsworld/nursery",
+      "title": "GitHub - arunsworld/nursery: Structured Concurrency in Go · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "V3eaVa_rJw_4",
+      "address": "https://gitlab.com/explore/projects/topics/golang",
+      "title": "golang · Topics · GitLab",
+      "grade": 0
+    },
+    {
+      "hash": "0N-aIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Computer_programming",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "Fli12UK-xyJ4",
+      "address": "https://go.dev/blog/context",
+      "title": "Go Concurrency Patterns: Context - The Go Programming Language",
+      "grade": 2
+    },
+    {
+      "hash": "KRP4Evd537ax",
+      "address": "https://www.freecodecamp.org/news/learn-golang-handbook/",
+      "title": "The Golang Handbook – A Beginner's Guide to Learning Go",
+      "grade": 1
+    },
+    {
+      "hash": "r_C2TAK-xyJ4",
+      "address": "https://go.dev/doc/go1.26",
+      "title": "Go 1.26 Release Notes - The Go Programming Language",
       "grade": 0
     },
     {
       "hash": "3xyiPxNzCnSk",
       "address": "https://www.elastic.co/docs/reference/search-connectors/es-connectors-salesforce",
-      "title": "Elastic Salesforce connector reference | Elasticsearch Reference",
+      "title": "Elastic Salesforce connector reference | Reference",
       "grade": 0
+    },
+    {
+      "hash": "RQJHhRDzPvww",
+      "address": "https://tip.golang.org/doc/faq",
+      "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
+      "grade": 1
     }
   ]
 }

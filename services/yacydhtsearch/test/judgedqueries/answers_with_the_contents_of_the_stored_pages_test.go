@@ -10,18 +10,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type saturatedAnswers struct {
-	answers                 queryanswers.AnsweredQuery
+type answersAndTheirReadPages struct {
+	answeredQuery           queryanswers.AnsweredQuery
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
 }
 
-func (e pageExtraction) answersSaturatedWithTheStoredPages(
+func (e pageExtraction) answersWithTheContentsOfTheStoredPages(
 	ctx context.Context,
 	t *testing.T,
 	query string,
 	answers queryanswers.AnsweredQuery,
 	pagePerAddress map[string]storedPage,
-) saturatedAnswers {
+) answersAndTheirReadPages {
 	t.Helper()
 
 	queryWords := searchquery.QueryFrom(query, "").TermHashes()
@@ -44,8 +44,8 @@ func (e pageExtraction) answersSaturatedWithTheStoredPages(
 		)
 	}
 
-	return saturatedAnswers{
-		answers:                 answers.SaturatedWith(pageContentsPerDocument),
+	return answersAndTheirReadPages{
+		answeredQuery:           answers,
 		pageContentsPerDocument: pageContentsPerDocument,
 	}
 }

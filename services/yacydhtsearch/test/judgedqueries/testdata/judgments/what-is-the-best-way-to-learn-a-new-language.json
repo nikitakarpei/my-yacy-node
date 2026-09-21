@@ -2,9 +2,15 @@
   "query": "what is the best way to learn a new language",
   "judgedDocuments": [
     {
-      "hash": "KkVl3jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_Mexico",
-      "title": "New Mexico - Wikipedia",
+      "hash": "7TrZ8eG-ATF4",
+      "address": "https://podcasts.apple.com/us/new?l=fr",
+      "title": "Apple Podcasts – Lecteur web",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "grade": 0
     },
     {
@@ -14,111 +20,51 @@
       "grade": 0
     },
     {
-      "hash": "mcNd2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_Zealand",
-      "title": "New Zealand - Wikipedia",
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
       "grade": 0
     },
     {
-      "hash": "QW8Ojjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/New_York_City",
-      "title": "New York City – Travel guide at Wikivoyage",
+      "hash": "cJtTCzyZ7m65",
+      "address": "https://unmaskingantijehovahpeople.wordpress.com/",
+      "title": "Unmasking anti Jehovah sites and people – Showing the only One True God and the Way to That God",
       "grade": 0
     },
     {
-      "hash": "hNrcdJ-bwreQ",
-      "address": "http://ace.mu.nu/",
-      "title": "Ace of Spades HQ",
+      "hash": "WbJD3QZchFfZ",
+      "address": "http://www.greenteethmm.com/russua-ukraine-crisis22.shtml",
+      "title": "current-ukraine-crisis-the-inevitable-onsequence-of-US-UK-and-EU-foreign-policy- aggression-politics-world-news-daily-stirrer",
       "grade": 0
     },
     {
-      "hash": "gMf9eyEkAvow",
-      "address": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout",
-      "title": "CSS layout - Learn web development | MDN",
+      "hash": "FZiK2z-Tg1lg",
+      "address": "https://www.amazon.it/Trading-Beginners-Technical-Analysis-Mindset/dp/B0D5CY8M1W",
+      "title": "Amazon.it",
       "grade": 0
     },
     {
-      "hash": "YjxoJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/The_New_York_Times",
-      "title": "The New York Times - Wikipedia",
+      "hash": "OEODTljPGrc5",
+      "address": "https://www.rosettastone.com/",
+      "title": "Official Rosetta Stone® | Learn a Language for Real",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
     },
     {
-      "hash": "fbD3NyEkAvow",
-      "address": "https://developer.mozilla.org/en-US/docs/Learn_web_development",
-      "title": "Learn web development | MDN",
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
       "grade": 0
     },
     {
-      "hash": "iT9gFUyeQ4a6",
-      "address": "https://automationdrives.com/blog/best-beauty-products",
-      "title": "Best Beauty Products",
-      "grade": 0
-    },
-    {
-      "hash": "tQXxnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Hungarian_language",
-      "title": "Hungarian language - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "5oUPZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/It%27s_a_Long_Way_to_Tipperary",
-      "title": "It's a Long Way to Tipperary - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "8XfsijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Conspiracy_theory",
-      "title": "Conspiracy theory - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "Qkt5wjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/British_Sign_Language",
-      "title": "British Sign Language - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "vc_PgjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_York_Times",
-      "title": "The New York Times - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "z86LkABQIIm5",
-      "address": "https://www.empireonline.com/movies/features/best-movies-2/",
-      "title": "100 Best Movies of All Time Ranked – Empire Readers' Definitive List",
-      "grade": 0
-    },
-    {
-      "hash": "TmMGljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_York_(state)",
-      "title": "New York (state) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "-ro8qFiwa444",
-      "address": "https://apps.apple.com/us/app/new-york-post-for-ipad/id378590820",
-      "title": "‎New York Post for iPad App - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "Vv81ls2xL7A6",
-      "address": "https://corbettreport.com/september-open-thread-2022/",
-      "title": "September Open Thread (2022) | The Corbett Report",
-      "grade": 0
-    },
-    {
-      "hash": "zQZExyEkAvow",
-      "address": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting",
-      "title": "Dynamic scripting with JavaScript - Learn web development | MDN",
-      "grade": 0
-    },
-    {
-      "hash": "_fFsUjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Language",
-      "title": "Language - Wikipedia",
+      "hash": "s7aghj76mPQ5",
+      "address": "https://witnessed.wordpress.com/2013/12/11/the-bible-and-the-greek-language/",
+      "title": "The Bible and the Greek Language | 1st Wittness",
       "grade": 0
     },
     {
@@ -128,9 +74,21 @@
       "grade": 0
     },
     {
-      "hash": "bx63rjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc",
-      "title": "Apple Inc. - Wikipedia",
+      "hash": "AWq9VQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-october.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "grade": 0
+    },
+    {
+      "hash": "8UTKLj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Last_words",
+      "title": "Last words - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
       "grade": 0
     },
     {
@@ -140,94 +98,149 @@
       "grade": 0
     },
     {
-      "hash": "xr6iDzS6MKD4",
-      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
-      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers · GitHub",
+      "hash": "XEyWzL8hxo35",
+      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
       "grade": 0
     },
     {
-      "hash": "n9jCEkMi4W67",
-      "address": "https://online.worldcasinodirectory.com/greece",
-      "title": "Online casinos accepting players from Greece ➤ (For 2026, September)",
+      "hash": "t2h4nQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2013-november.shtml",
+      "title": "dailystirrer curent month",
+      "grade": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "grade": 0
+    },
+    {
+      "hash": "57VhtQZchFfZ",
+      "address": "http://www.greenteethmm.com/ukraine-chemical-attack-rumor.shtml",
+      "title": "syria-style-chemical-weapon-false-flag-attacks-coming-soon-to-ukraine-war-russia-greenteeth-digital-publishing",
+      "grade": 0
+    },
+    {
+      "hash": "t3rNSQVn-2KY",
+      "address": "http://www.jpost.com/",
+      "title": "The Jerusalem Post - All News from the Middle East, Israel, and the Jewish World",
+      "grade": 0
+    },
+    {
+      "hash": "N6YnisVUrQm6",
+      "address": "https://earthnewspaper.com/Books/",
+      "title": "Books – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "NIR9mQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-november.shtml",
+      "title": "dailystirrer-2021-november-news-comment-opinion-controversy-contrarianism",
       "grade": 0,
       "spam": true
     },
     {
-      "hash": "WJcMZLLc30Qw",
-      "address": "https://www.coursera.org/learn/build-a-computer",
-      "title": "Build a Modern Computer from First Principles: From Nand to Tetris (Project-Centered Course) | Coursera",
+      "hash": "0NAfTleCNvj4",
+      "address": "https://www.firefox.com/en-US/",
+      "title": "Firefox: The fast, private browser that keeps you safe — Firefox.com",
       "grade": 0
     },
     {
-      "hash": "W-koS2S6MKD4",
-      "address": "https://github.com/donnemartin/system-design-primer",
-      "title": "GitHub - donnemartin/system-design-primer: Learn how to design large-scale systems. Prep for the system design interview. Includes Anki flashcards. · GitHub",
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "4QvBLldA5r_4",
+      "address": "https://www.apple.com/",
+      "title": "Apple",
       "grade": 0
     },
     {
-      "hash": "_jIacjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_World_Order_(conspiracy_theory)",
-      "title": "New World Order conspiracy theory - Wikipedia",
+      "hash": "apnDNlEwJpd6",
+      "address": "https://www.elegantthemes.com/",
+      "title": "The Best WordPress Themes In The World",
       "grade": 0
     },
     {
-      "hash": "pZOf2ym_mTBS",
-      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
-      "title": "Best Science Fiction of the Year",
+      "hash": "tgMi4sS6MKD4",
+      "address": "https://github.com/team",
+      "title": "GitHub for teams · Build like the best teams on the planet · GitHub",
       "grade": 0
     },
     {
-      "hash": "Qug-AopGtAW4",
-      "address": "https://www.amazon.com/Rise-Fall-Boeing-Way-Back/dp/1737640538",
-      "title": "The Rise and Fall of Boeing: and The Way Back: Hamilton, Mr. Scott: 9781737640530: Amazon.com: Books",
+      "hash": "xwMhAMS6MKD4",
+      "address": "https://github.com/orgs/community/discussions/",
+      "title": "community · Discussions · GitHub",
       "grade": 0
     },
     {
-      "hash": "_-pdnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Tamil_language",
-      "title": "Tamil language - Wikipedia",
+      "hash": "5dnFKQossVq5",
+      "address": "https://stayinhealth.wordpress.com/",
+      "title": "Healthy Living | get a real life",
       "grade": 0
     },
     {
-      "hash": "Y2pI4jc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/New_Zealand",
-      "title": "New Zealand – Travel guide at Wikivoyage",
+      "hash": "zG_etzSBCthw",
+      "address": "https://publishing.cdlib.org/ucpressebooks/public/book/before-the-nickelodeon-edwin-s-porter-and-the-edison-manufacturing-company.html",
+      "title": "Before the Nickelodeon: Edwin S. Porter and the Edison Manufacturing Company | UC Press E-Books Collection Archive, 1982-2004",
       "grade": 0
     },
     {
-      "hash": "cKq8rb8CAV45",
-      "address": "https://www.encyclopedia.com/places/australia-and-oceania/australian-and-new-zealand-political-geography/new-zealand",
-      "title": "New Zealand | Encyclopedia.com",
+      "hash": "3Ww3lsFfdPSy",
+      "address": "https://creativecommons.org/faq/",
+      "title": "Frequently Asked Questions - Creative Commons",
       "grade": 0
     },
     {
-      "hash": "ifP7FdHU0ZoY",
-      "address": "http://rigint.blogspot.com/",
-      "title": "Rigorous Intuition (v. 2.0)",
+      "hash": "fE4y5sGA_USx",
+      "address": "https://warracket.net/",
+      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO, CORPORATIONS, BANKERS",
       "grade": 0
     },
     {
-      "hash": "vDp29b8CAV45",
-      "address": "https://www.encyclopedia.com/places/united-states-and-canada/us-political-geography/new-york",
-      "title": "New York | Encyclopedia.com",
+      "hash": "vqy9ESS6MKD4",
+      "address": "https://github.com/enterprise/premium-support",
+      "title": "GitHub Premium Support · GitHub",
       "grade": 0
     },
     {
-      "hash": "OGt-S_QzrsJ5",
-      "address": "https://thestingofthescorpion.wordpress.com/tag/texas/",
-      "title": "Texas – The Sting Of The Scorpion Blog (T.S.O.T.S.B.)",
+      "hash": "2kJyJ0S6MKD4",
+      "address": "https://github.com/resources/articles",
+      "title": "GitHub Articles • Technical Guides, Developer Insights \u0026 Best Practices · GitHub",
       "grade": 0
     },
     {
-      "hash": "9dnewsdTeyA4",
-      "address": "https://github.blog/",
-      "title": "Home - The GitHub Blog",
+      "hash": "41KY60S6MKD4",
+      "address": "https://github.com/resources/articles?topic=ai",
+      "title": "GitHub Articles • Technical Guides, Developer Insights \u0026 Best Practices · GitHub",
       "grade": 0
     },
     {
-      "hash": "liVOzMuyvIWY",
-      "address": "http://information-machine.blogspot.com/",
-      "title": "Information Machine",
+      "hash": "KrtidjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Israel",
+      "title": "Israel - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "pRGi4sS6MKD4",
+      "address": "https://github.com/features",
+      "title": "GitHub Features · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "qiJRj7o1FmmR",
+      "address": "http://gutenberg.ca/index.html",
+      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
+      "grade": 0
+    },
+    {
+      "hash": "tsBO3hsWTYKx",
+      "address": "https://sourceforge.net/directory/software-development/",
+      "title": "Best Open Source Software Development Software 2026",
       "grade": 0
     },
     {
@@ -237,27 +250,45 @@
       "grade": 0
     },
     {
-      "hash": "6m4urjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_England",
-      "title": "New England - Wikipedia",
+      "hash": "Z4Wjs0S6MKD4",
+      "address": "https://github.com/resources/articles?topic=devops",
+      "title": "GitHub Articles • Technical Guides, Developer Insights \u0026 Best Practices · GitHub",
       "grade": 0
     },
     {
-      "hash": "S9YMJzCJVaIz",
-      "address": "https://planet.documentfoundation.org/",
-      "title": "The Document Foundation Planet",
+      "hash": "d880i6dTeyA4",
+      "address": "https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/",
+      "title": "Octoverse: A new developer joins GitHub every second as AI leads TypeScript to #1 - The GitHub Blog",
       "grade": 0
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
+      "hash": "Jwqw5lpGtAW4",
+      "address": "https://www.amazon.com/Books/b?ie=UTF8\u0026node=549028\u0026nodl=0\u0026ref=books_dsk_sn_new-york-time-f669d",
+      "title": "Amazon.com: The New York Times® Best Sellers: Books",
       "grade": 0
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
+      "hash": "q43TzKpGtAW4",
+      "address": "https://www.amazon.com/gp/bestsellers/books/ref=pd_zg_ts_books",
+      "title": "Amazon Best Sellers: Best Books",
+      "grade": 0
+    },
+    {
+      "hash": "1yNL6KpGtAW4",
+      "address": "https://www.amazon.com/gp/bestsellers/books?ref=books_dsk_sn_amazon-best-s-c4fd0",
+      "title": "Amazon Best Sellers: Best Books",
+      "grade": 0
+    },
+    {
+      "hash": "L-5DllCWRxx6",
+      "address": "https://www.jesus-is-savior.com/",
+      "title": "Jesus Christ is the ONLY way to Heaven!",
+      "grade": 0
+    },
+    {
+      "hash": "iNxdflJys_85",
+      "address": "https://bijbelvorser.wordpress.com/2019/01/27/the-new-covenant-victim-and-mediator/",
+      "title": "The New Covenant Victim and Mediator | Bijbelvorser = Bible Researcher",
       "grade": 0
     }
   ]

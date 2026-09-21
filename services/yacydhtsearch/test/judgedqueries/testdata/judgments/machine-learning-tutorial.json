@@ -2,58 +2,16 @@
   "query": "machine learning tutorial",
   "judgedDocuments": [
     {
-      "hash": "XhM90s4so94h",
-      "address": "https://microclimat.bg/blog?journal_blog_post_id=1",
-      "title": "Хладилен агент R32, климатици, Фреон ...",
-      "grade": 0
-    },
-    {
-      "hash": "hIjKNwgOlJX5",
-      "address": "https://www.codecademy.com/article/nano-banana-pro-tutorial",
-      "title": "Nano Banana Pro Tutorial: Create \u0026 Edit Images | Codecademy",
-      "grade": 0
-    },
-    {
-      "hash": "pGRD67yp6WtY",
-      "address": "http://tantek.com/",
-      "title": "Tantek Çelik",
-      "grade": 0
-    },
-    {
-      "hash": "VWPgq5c9duY5",
-      "address": "https://azure.microsoft.com/en-us/products/machine-learning",
-      "title": "Azure Machine Learning - ML as a Service | Microsoft Azure",
-      "grade": 1
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "grade": 0
-    },
-    {
       "hash": "Poobl5c9duY5",
       "address": "https://azure.microsoft.com/en-us/products/machine-learning/",
       "title": "Azure Machine Learning - ML as a Service | Microsoft Azure",
       "grade": 1
     },
     {
-      "hash": "2olJgk4eGBC5",
-      "address": "https://www.digitalocean.com/community/tutorials/how-to-write-a-proposal-and-outline-for-a-digitalocean-community-tutorial",
-      "title": "How To Write a Proposal and Outline for a DigitalOcean Community Tutorial | DigitalOcean",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "grade": 0
-    },
-    {
-      "hash": "3iXGeD52F4m7",
-      "address": "https://industrialmonitordirect.com/blogs/knowledgebase/honeywell-dcs-training-resources-and-learning-path-guide",
-      "title": "Honeywell DCS Training Resources and Learning Path Guide – Industrial Monitor Direct",
-      "grade": 0
-    },
-    {
-      "hash": "CsepD3S6MKD4",
-      "address": "https://github.com/ChristosChristofidis/awesome-deep-learning",
-      "title": "GitHub - ChristosChristofidis/awesome-deep-learning: A curated list of awesome Deep Learning tutorials, projects and communities. · GitHub",
-      "grade": 1
     },
     {
       "hash": "9dnewsdTeyA4",
@@ -62,94 +20,34 @@
       "grade": 0
     },
     {
-      "hash": "WsZR54pGtAW4",
-      "address": "https://www.amazon.com/Ruby-Rails-Tutorial-Addison-Wesley-Professional/dp/013804984X/ref=pd_bxgy_d_sccl_2/146-7842358-8605926?pd_rd_w=n4P2W\u0026content-id=amzn1.sym.dcf559c6-d374-405e-a13e-133e852d81e1\u0026pf_rd_p=dcf559c6-d374-405e-a13e-133e852d81e1\u0026pf_rd_r=E2VGS25MFN6KTFW5THJ9\u0026pd_rd_wg=jO0x8\u0026pd_rd_r=b875eb98-89c0-4487-8618-a9810b77ffcc\u0026pd_rd_i=013804984X\u0026psc=1",
-      "title": "Ruby on Rails Tutorial: Learn Web Development with Rails (Addison-Wesley Professional Ruby Series): Hartl, Michael: 9780138049843: Amazon.com: Books",
+      "hash": "Mex80Kf4Pib5",
+      "address": "https://code.visualstudio.com/docs/getstarted/telemetry",
+      "title": "Visual Studio Code Telemetry",
       "grade": 0
     },
     {
-      "hash": "jvtsOhOVXrIx",
-      "address": "https://isprs-annals.copernicus.org/articles/IV-2-W5/179/2019/",
-      "title": "ISPRS-Annals - DETECTING RUMEX OBTUSIFOLIUS WEED PLANTS IN GRASSLANDS FROM UAV RGB IMAGERY USING DEEP LEARNING",
-      "grade": 0
-    },
-    {
-      "hash": "w2JFXUOKqMn4",
-      "address": "https://mathspp.com/blog/python-deque-tutorial",
-      "title": "Python deque tutorial | mathspp",
-      "grade": 0
-    },
-    {
-      "hash": "1Nn18Q3MeyZ4",
-      "address": "https://www0.assets.heroku.com/python/",
-      "title": "Deploy and Scale Python \u0026 Django in the Cloud | Heroku",
-      "grade": 0
-    },
-    {
-      "hash": "6Kcbls6GdY-4",
-      "address": "https://danluu.com/metrics-analytics/",
-      "title": "A simple way to get more value from metrics",
-      "grade": 0
-    },
-    {
-      "hash": "wGK6WJexqsOx",
-      "address": "https://docs.opensearch.org/latest/search-plugins/ubi/ubi-dashboard-tutorial/",
-      "title": "UBI dashboard tutorial | OpenSearch Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "pMFw3Ptl82z5",
-      "address": "https://www.w3schools.com/excel/index.php",
-      "title": "Excel Tutorial",
-      "grade": 0
-    },
-    {
-      "hash": "8ytWdoBB0JD5",
-      "address": "https://siloandsage.com/2011/03/14/maternity-pants-tutorial/",
-      "title": "Maternity Pants Tutorial - Silo \u0026 Sage",
-      "grade": 0
-    },
-    {
-      "hash": "rgpLSKf4Pib5",
-      "address": "https://code.visualstudio.com/docs/datascience/azure-machine-learning",
-      "title": "Azure Machine Learning in VS Code",
+      "hash": "3X8hOyRO6Xx4",
+      "address": "https://docs.redhat.com/en/learn/ai",
+      "title": "Red Hat AI learning hub | Red Hat Documentation",
       "grade": 1
     },
     {
-      "hash": "6zaS72Tusnf4",
-      "address": "https://blackduck.skilljar.com/page/polaris-learning-paths",
-      "title": "Polaris Learning Paths",
+      "hash": "Xcq7BKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/python/python-tutorial",
+      "title": "Getting Started with Python in VS Code",
       "grade": 0
     },
     {
-      "hash": "1NslGKf4Pib5",
-      "address": "https://code.visualstudio.com/docs/python/tutorial-fastapi",
-      "title": "FastAPI Tutorial in Visual Studio Code",
+      "hash": "QLakgl2QeiUy",
+      "address": "https://www.geeksforgeeks.org/",
+      "title": "GeeksforGeeks | Your All-in-One Learning Portal",
       "grade": 0
     },
     {
-      "hash": "niBQ18S6MKD4",
-      "address": "https://github.com/RhetTbull/osxphotos",
-      "title": "GitHub - RhetTbull/osxphotos: Python app to work with pictures and associated metadata from Apple Photos on macOS. Also includes a package to provide programmatic access to the Photos library, pictures, and metadata. · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "kmD2akndz9ox",
-      "address": "https://www.cambridge.org/core/journals/cambridge-materials-circularity/article/extending-graphbased-lattice-kinetic-monte-carlo-simulations-to-polymer-transformations-a-tutorial-perspective/2CEE4DD6FF50D84855B4AE1CCD8C43BA",
-      "title": "Extending graph-based lattice kinetic Monte Carlo simulations to polymer transformations: A tutorial perspective | Cambridge Materials: Circularity | Cambridge Core",
-      "grade": 0
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
+      "hash": "Tk49KDS6MKD4",
+      "address": "https://github.com/guillaume-chevalier/Awesome-Deep-Learning-Resources",
+      "title": "GitHub - guillaume-chevalier/Awesome-Deep-Learning-Resources: Rough list of my favorite deep learning resources, useful for revisiting topics or for reference. I have got through all of the content listed there, carefully. - Guillaume Chevalier · GitHub",
+      "grade": 1
     },
     {
       "hash": "iLQO1sN0ip-w",
@@ -159,9 +57,83 @@
       "spam": true
     },
     {
-      "hash": "BiYCIWOXoHMQ",
-      "address": "http://acecomments.mu.nu/?post=392880%3Futm_source=akdart",
-      "title": "Hobby Thread - September 19, 2026 [TRex]Ace of Spades Pet Thread, September 19Gardening, Home and Nature Thread, Sept. 19 When the other shoe dropsThe Classical Saturday Morning Coffee Break \u0026 Prayer Revival Daily Tech News 19 September 2026No One Can Speak To A Horse, Of Course, Unless, Of Course, The Name Of The Horse Is The Famous ONTWeek's End CafeThe Week in WokeMAHA: Get Your Kids Off Their Screens and Make Them Live Actual Life, Says RFKJr.Jimmy Kimmel, Steven Colbert Whine About How Hard Their Jobs of Not Being Funny AreYork PA Police Repeatedly Refuse to Shut Down a Black \"Teen Takeover\" Near Campus Housing, Even After Four 911 Calls;\u003cbr\u003eEventually the Thugs Drag White Female College Students by the Hair and Beat Them SenselessRabid Left-Wing Students Waved \"Kirkaversary\" Celebration Cakes Smeared with Fake Blood in Conservative Students' Faces. The Conservative Students Filmed This Display. The University Moved to Expel the Students -- For Filming the Death-Celebrants!James Talarico Super PAC Caught Paying $25 Per Vote -- and Admitting Doing It on Hidden Camera VideoBritish Medical Journal: The FDA and CDC Used a Faulty Algorithm to Understate Vaccine Injuries. When One Researcher Pointed Out the Flaw, She Was Told to Mind Her Own Business.THE MORNING RANT: By the Logic of Free Traders, Shouldn't Trump's Tariffs Be \u003ci\u003eGood\u003c/i\u003e for Canada and its ConsumersMid-Morning Art ThreadThe Morning Report — 9/ 18 /26Daily Tech News 18 September 2026Thursday Overnight Open Thread - September 17, 2026",
+      "hash": "zmBhwGKvmHFw",
+      "address": "https://www.cncf.io/people/ambassadors/",
+      "title": "Ambassadors | CNCF",
+      "grade": 0
+    },
+    {
+      "hash": "pD_H6kS6MKD4",
+      "address": "https://github.com/practical-tutorials/project-based-learning",
+      "title": "GitHub - practical-tutorials/project-based-learning: Curated list of project-based tutorials · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "grade": 0
+    },
+    {
+      "hash": "6nsurKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/nodejs/nodejs-tutorial",
+      "title": "Node.js tutorial in Visual Studio Code",
+      "grade": 0
+    },
+    {
+      "hash": "fkZVdKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/typescript/typescript-tutorial",
+      "title": "TypeScript tutorial in Visual Studio Code",
+      "grade": 0
+    },
+    {
+      "hash": "t__fgsvO9Uox",
+      "address": "https://prada-outlet.net/",
+      "title": "prada-outlet.net - Situs Slot Online Terpercaya dengan Server PKV Games Terkini",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "A3q5IzS6MKD4",
+      "address": "https://github.com/topics/python",
+      "title": "python · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "ordCau2QeiUy",
+      "address": "https://www.geeksforgeeks.org/machine-learning/ai-ml-and-data-science-tutorial-learn-ai-ml-and-data-science/",
+      "title": "AI, ML and Data Science Tutorial - GeeksforGeeks",
+      "grade": 2
+    },
+    {
+      "hash": "HAvOGsl5y2D7",
+      "address": "https://bluebonnetcountry.com/",
+      "title": "Bluebonnetcountry.com -",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "o7KtWswWa3d5",
+      "address": "https://nolanlawson.com/",
+      "title": "Read the Tea Leaves | Software and other dark arts, by Nolan Lawson",
+      "grade": 0
+    },
+    {
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
       "grade": 0
     },
     {
@@ -172,22 +144,21 @@
       "spam": true
     },
     {
-      "hash": "sMiPKsnQvdJ6",
-      "address": "https://cassandrasturdy.com/",
-      "title": "cassandrasturdy.com -",
-      "grade": 0,
-      "spam": true
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
+      "hash": "xKp0bzS6MKD4",
+      "address": "https://github.com/topics/deep-learning",
+      "title": "deep-learning · GitHub Topics · GitHub",
       "grade": 0
     },
     {
-      "hash": "1lGoBsyuNlT5",
-      "address": "https://alt-webring.com/",
-      "title": "alt-webring | The (former) alternative webring system",
+      "hash": "PR0mkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Machine_learning",
+      "title": "Machine learning - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "V3s3vzS6MKD4",
+      "address": "https://github.com/topics/learning",
+      "title": "learning · GitHub Topics · GitHub",
       "grade": 0
     },
     {
@@ -197,29 +168,191 @@
       "grade": 0
     },
     {
-      "hash": "9kBrIsCMzuQw",
-      "address": "https://icml.cc/",
-      "title": "2026 Conference",
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
       "grade": 0
     },
     {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
+      "hash": "hb-oFzS6MKD4",
+      "address": "https://github.com/topics/machine-learning",
+      "title": "machine-learning · GitHub Topics · GitHub",
       "grade": 0
     },
     {
-      "hash": "btqgslTg2KM4",
-      "address": "https://www.wikihow.com/Experts",
-      "title": "wikiHow Experts",
+      "hash": "2zhVplSCNQa4",
+      "address": "https://www.redhat.com/en/services/training/learning-subscription/trial",
+      "title": "Red Hat Learning Subscription | Product Trial",
       "grade": 0
     },
     {
-      "hash": "x0uPesUTqyyz",
-      "address": "https://programmingassignmentshelp.net/",
-      "title": "programmingassignmentshelp -",
+      "hash": "JAoUwrtl82z5",
+      "address": "https://www.w3schools.com/html/default.asp",
+      "title": "HTML Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "YKQCejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Deep_learning",
+      "title": "Deep learning - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "toQhi4tl82z5",
+      "address": "https://www.w3schools.com/angular/default.asp",
+      "title": "Angular Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "3iyvzbtl82z5",
+      "address": "https://www.w3schools.com/gen_ai/chatgpt-4/index.php",
+      "title": "ChatGPT-4 Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "6DyznUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2017/12/paddle-paddle-fluid-elastic-learning/",
+      "title": "PaddlePaddle Fluid: Elastic Deep Learning on Kubernetes | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "RzmsuYtl82z5",
+      "address": "https://www.w3schools.com/statistics/index.php",
+      "title": "Statistics Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "SqYHw4tl82z5",
+      "address": "https://www.w3schools.com/cybersecurity/index.php",
+      "title": "Cyber Security Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "dv0WDxtl82z5",
+      "address": "https://www.w3schools.com/git/default.asp",
+      "title": "Git Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "oNUC5Ytl82z5",
+      "address": "https://www.w3schools.com/cs/index.php",
+      "title": "C# Tutorial (C Sharp)",
+      "grade": 0
+    },
+    {
+      "hash": "vM1DmPtl82z5",
+      "address": "https://www.w3schools.com/xml/default.asp",
+      "title": "XML Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "yUHtnFtl82z5",
+      "address": "https://www.w3schools.com/c/index.php",
+      "title": "C Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "SB2OnkS6MKD4",
+      "address": "https://github.com/practical-tutorials/project-based-learning/pulls",
+      "title": "Pull requests · practical-tutorials/project-based-learning · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "zG2w9ZB3Dq_4",
+      "address": "https://developers.redhat.com/learn/openshift-ai",
+      "title": "OpenShift AI learning | Red Hat Developer",
+      "grade": 1
+    },
+    {
+      "hash": "0HH61zS6MKD4",
+      "address": "https://github.com/topics/tutorial",
+      "title": "tutorial · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "25V-ldB3Dq_4",
+      "address": "https://developers.redhat.com/learn",
+      "title": "Red Hat Interactive Learning Portal | Red Hat Developer",
+      "grade": 0
+    },
+    {
+      "hash": "c5ZP_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_neural_network",
+      "title": "Neural network (machine learning) - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "vQ2i0yQ_UtE5",
+      "address": "https://realpython.com/tutorials/machine-learning/",
+      "title": "Python Machine Learning – Real Python",
+      "grade": 2
+    },
+    {
+      "hash": "sMiPKsnQvdJ6",
+      "address": "https://cassandrasturdy.com/",
+      "title": "cassandrasturdy.com -",
       "grade": 0,
       "spam": true
+    },
+    {
+      "hash": "rSfk1QViSgHx",
+      "address": "https://portswigger.net/web-security/ssrf",
+      "title": "What is SSRF (Server-side request forgery)? Tutorial \u0026 Examples | Web Security Academy",
+      "grade": 0
+    },
+    {
+      "hash": "3d9X_m-GALm4",
+      "address": "https://www.wolfram.com/language/fast-introduction-for-programmers/en/",
+      "title": "Wolfram Language Tutorial: Fast Introduction for Programmers",
+      "grade": 0
+    },
+    {
+      "hash": "bO_MoJl5VvmZ",
+      "address": "http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/",
+      "title": "Word2Vec Tutorial - The Skip-Gram Model · Chris McCormick",
+      "grade": 2
+    },
+    {
+      "hash": "jC9s6Y7VXrqw",
+      "address": "https://brennan.io/2015/01/16/write-a-shell-in-c/",
+      "title": "Tutorial - Write a Shell in C • Stephen Brennan",
+      "grade": 0
+    },
+    {
+      "hash": "AQLnijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Neural_network_(machine_learning)",
+      "title": "Neural network (machine learning) - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "kGxoyddTeyA4",
+      "address": "https://github.blog/developer-skills/github-education/teaching-learning-github-classroom-visual-studio-code/",
+      "title": "Seamless teaching and learning through GitHub Classroom and Visual Studio Code - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "rgpLSKf4Pib5",
+      "address": "https://code.visualstudio.com/docs/datascience/azure-machine-learning",
+      "title": "Azure Machine Learning in VS Code",
+      "grade": 1
+    },
+    {
+      "hash": "VWPgq5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/machine-learning",
+      "title": "Azure Machine Learning - ML as a Service | Microsoft Azure",
+      "grade": 1
+    },
+    {
+      "hash": "PsWEDzS6MKD4",
+      "address": "https://github.com/topics/reinforcement-learning",
+      "title": "reinforcement-learning · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "XhM90s4so94h",
+      "address": "https://microclimat.bg/blog?journal_blog_post_id=1",
+      "title": "Хладилен агент R32, климатици, Фреон ...",
+      "grade": 0
     }
   ]
 }

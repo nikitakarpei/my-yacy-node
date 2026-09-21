@@ -2,21 +2,21 @@
   "query": "comment apprendre le français",
   "judgedDocuments": [
     {
-      "hash": "smyaiTKCIhSg",
-      "address": "https://madame.lefigaro.fr/",
-      "title": "Mode, Beauté, Recettes, Société, Horoscope, Célébrités",
+      "hash": "mrjRTHyeYZbg",
+      "address": "https://francaisfacile.rfi.fr/fr/",
+      "title": "Le français facile avec RFI : Apprendre le français avec l'actualité internationale",
+      "grade": 2
+    },
+    {
+      "hash": "FM2NCniwa444",
+      "address": "https://apps.apple.com/ci/iphone/today",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
       "grade": 0
     },
     {
-      "hash": "eLm376G-ATF4",
-      "address": "https://podcasts.apple.com/sn/new",
-      "title": "Apple Podcasts (SN) - Web Player",
-      "grade": 0
-    },
-    {
-      "hash": "trfUglB_OP8y",
-      "address": "https://www.everetttheatre.org/",
-      "title": "Le monde entier à travers un écran | www.everetttheatre.org",
+      "hash": "dOssnQdhdEvR",
+      "address": "http://www.virgo-maria.org/",
+      "title": "Virgo-Maria.org",
       "grade": 0
     },
     {
@@ -26,68 +26,20 @@
       "grade": 0
     },
     {
-      "hash": "yJD_dkiwa444",
-      "address": "https://apps.apple.com/fr/iphone/today",
-      "title": "‎Aujourd’hui sur iPhone - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "WCmv6u-rooKx",
-      "address": "https://fr.wordpress.org/team/",
-      "title": "WordPress en Français",
-      "grade": 0
-    },
-    {
-      "hash": "OwUxul3xy-34",
-      "address": "https://www.android.com/phones/",
-      "title": "Discover the Newest Android Phones and Features | Android",
-      "grade": 0
-    },
-    {
-      "hash": "WNGr8l3xy-34",
-      "address": "https://www.android.com/",
-      "title": "Android | Do More With Google on Android Phones \u0026 Devices",
-      "grade": 0
-    },
-    {
-      "hash": "W3oGBsCpBHR4",
-      "address": "https://plaid.com/legal/",
-      "title": "Privacy and security policies | Plaid",
-      "grade": 0
-    },
-    {
-      "hash": "yPWZmCDLie25",
-      "address": "https://wikilivres.wordpress.com/",
-      "title": "Des nouvelles de Wikilivres | Actualité, réflexions, critiques de Wikilivres",
-      "grade": 0
-    },
-    {
-      "hash": "APxDeoG-ATF4",
-      "address": "https://podcasts.apple.com/mg/new",
-      "title": "Apple Podcasts (MG) - Web Player",
-      "grade": 0
-    },
-    {
-      "hash": "JTVIeCG-ATF4",
-      "address": "https://podcasts.apple.com/mu/new",
-      "title": "Apple Podcasts (MU) - Web Player",
-      "grade": 0
-    },
-    {
-      "hash": "Xe3PCsG-ATF4",
-      "address": "https://podcasts.apple.com/to/new",
-      "title": "Apple Podcasts (TO) - Web Player",
-      "grade": 0
-    },
-    {
-      "hash": "k-cCzHiwa444",
-      "address": "https://apps.apple.com/ga/iphone/today",
-      "title": "‎Aujourd’hui sur iPhone - App Store",
+      "hash": "4bIdHPG-ATF4",
+      "address": "https://podcasts.apple.com/cg/new",
+      "title": "Apple Podcasts (CG) - Web Player",
       "grade": 0
     },
     {
       "hash": "4KF3YZiwa444",
       "address": "https://apps.apple.com/cm/iphone/today",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
+      "grade": 0
+    },
+    {
+      "hash": "k-cCzHiwa444",
+      "address": "https://apps.apple.com/ga/iphone/today",
       "title": "‎Aujourd’hui sur iPhone - App Store",
       "grade": 0
     },
@@ -98,165 +50,255 @@
       "grade": 0
     },
     {
-      "hash": "qiJRj7o1FmmR",
-      "address": "http://gutenberg.ca/index.html",
-      "title": "Project Gutenberg Canada / Projet Gutenberg Canada",
-      "grade": 0
-    },
-    {
-      "hash": "Z-duvlzvQPgh",
-      "address": "https://www.radiofrance.fr/franceinter",
-      "title": "France Inter – Première radio d'actualité généraliste et culturelle",
-      "grade": 0
-    },
-    {
-      "hash": "xyZbBs46lit6",
-      "address": "https://smoothstoneblog.com/",
-      "title": "Votre fenêtre sur le monde",
-      "grade": 0
-    },
-    {
-      "hash": "CQ0EJC8hxo35",
-      "address": "https://www.microsoft.com/fr-fr/power-platform",
-      "title": "Outils de développement basés sur l’IA | Microsoft Power Platform",
-      "grade": 0
-    },
-    {
-      "hash": "tfmiUfG-ATF4",
-      "address": "https://podcasts.apple.com/cm/new",
-      "title": "Apple Podcasts (CM) - Lecteur web",
-      "grade": 0
-    },
-    {
-      "hash": "1vsGBvG-ATF4",
-      "address": "https://podcasts.apple.com/ai/new",
-      "title": "Apple Podcasts (AI) - Web Player",
-      "grade": 0
-    },
-    {
-      "hash": "Vl6aQlNGLHz5",
-      "address": "https://www.salesforce.com/fr-ca/?bc=DF",
-      "title": "Salesforce, le CRM n° 1 intégrant l’IA agentique | Salesforce FR-CA",
-      "grade": 0
-    },
-    {
-      "hash": "LqhCmlxSD0j4",
-      "address": "https://www.bbc.com/afrique",
-      "title": "Accueil - BBC News Afrique",
-      "grade": 0
-    },
-    {
-      "hash": "HjxzUzbpbGvx",
-      "address": "https://species.wikimedia.org/wiki/Wikispecies:Le_bistro",
-      "title": "Wikispecies:Le bistro - Wikispecies",
-      "grade": 0
-    },
-    {
-      "hash": "4a35oAjw1Zlx",
-      "address": "https://kubernetes.io/fr/docs/tasks/inject-data-application/define-interdependent-environment-variables/",
-      "title": "Définir des variables d'environnement dépendantes | Kubernetes",
-      "grade": 0
-    },
-    {
-      "hash": "7M3jVYmVqts4",
-      "address": "https://academy.asana.com/",
-      "title": "Asana Academy",
-      "grade": 0
-    },
-    {
-      "hash": "6dsd-lyMlk9g",
-      "address": "https://www.lumni.fr/",
-      "title": "Lumni | Des vidéos, quiz et jeux gratuits pour réviser tes cours et progresser",
-      "grade": 0
-    },
-    {
-      "hash": "4vZOvlMT2ldg",
-      "address": "https://www.lexpress.fr/",
-      "title": "Actualités Politique, Monde, Economie et Culture - L'Express",
-      "grade": 0
-    },
-    {
-      "hash": "WwjbDlQBeBug",
-      "address": "https://www.webador.fr/contact",
-      "title": "Contactez-nous | Webador.fr",
-      "grade": 0
-    },
-    {
-      "hash": "zXDrWsUJQ2S4",
-      "address": "https://crypto.com/fr-fr",
-      "title": "Crypto.com France : Achetez, vendez et tradez des cryptos en confiance",
-      "grade": 0
-    },
-    {
-      "hash": "vAun5lZ8Ljq5",
-      "address": "https://www.nouvelobs.com/depeche/",
-      "title": "Actualité en direct et en continu sur Le Nouvel Obs",
-      "grade": 0
-    },
-    {
-      "hash": "EgCTRHHSPPD5",
-      "address": "https://actualitte.com/article/12725/auteurs/auteurs",
-      "title": "auteurs",
-      "grade": 0
-    },
-    {
-      "hash": "KmbkN0JPlTDg",
-      "address": "https://europa.eu/youreurope/citizens/work/social-security-and-benefits/unemployment/index_fr.htm",
-      "title": "Chômage à l'étranger - Your Europe",
-      "grade": 0
-    },
-    {
-      "hash": "FM2NCniwa444",
-      "address": "https://apps.apple.com/ci/iphone/today",
+      "hash": "yJD_dkiwa444",
+      "address": "https://apps.apple.com/fr/iphone/today",
       "title": "‎Aujourd’hui sur iPhone - App Store",
       "grade": 0
     },
     {
-      "hash": "t3TqPHHSPPD5",
-      "address": "https://actualitte.com/article/128765/scolarite/ce-que-le-recul-de-l-ecriture-manuscrite-dit-des-inquietudes-educatives",
-      "title": "Ce que le recul de l’écriture manuscrite dit des inquiétudes éducatives",
+      "hash": "5cj1Xcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Latin",
+      "title": "Latin — Wikipédia",
       "grade": 0
     },
     {
-      "hash": "FKOkklst1jsg",
-      "address": "https://www.paris.fr/",
-      "title": "Paris.fr, site officiel de la Ville de Paris",
+      "hash": "A82FzsVnSxbz",
+      "address": "https://wikimediafoundation.org/fr/",
+      "title": "Accueil – Wikimeda Foundation",
       "grade": 0
     },
     {
-      "hash": "XH4WqzxYdD3g",
-      "address": "https://www.ecb.europa.eu/ecb-and-you/explainers/html/monetary_policy.fr.html",
-      "title": "Deep dive into the ECB: 2. Monetary policy",
+      "hash": "d2ZyIFiwa444",
+      "address": "https://apps.apple.com/us/iphone/today?l=fr-FR",
+      "title": "‎Aujourd’hui sur iPhone - App Store",
       "grade": 0
     },
     {
-      "hash": "wjNTVfxYdD3g",
-      "address": "https://www.ecb.europa.eu/ecb/legal/faqs/html/index.fr.html",
-      "title": "EUR-Lex – Questions fréquemment posées",
+      "hash": "0yMWKT6fAnwx",
+      "address": "https://developer.wikimedia.org/fr/",
+      "title": "Découvrir et construire la technologie de Wikimedia - Portail des développeurs Wikimedia",
       "grade": 0
     },
     {
-      "hash": "0Y1u-cG-ATF4",
-      "address": "https://podcasts.apple.com/sc/new",
-      "title": "Apple Podcasts (SC) - Web Player",
+      "hash": "8UgIAcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Chili",
+      "title": "Chili — Wikipédia",
       "grade": 0
     },
     {
-      "hash": "3xsZblqSWIh4",
-      "address": "https://www.be.com/",
-      "title": "Be Magazine : mode, tendance et beauté - Magazine féminin - Be",
+      "hash": "M0kB_cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Citez_vos_sources",
+      "title": "Wikipédia:Citez vos sources — Wikipédia",
       "grade": 0
     },
     {
-      "hash": "Qd1tkyV8T0Eg",
-      "address": "https://citizens-initiative.europa.eu/index_fr",
-      "title": "Signer ou lancer une initiative citoyenne européenne - Initiative citoyenne européenne",
+      "hash": "U-7h4cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Mao_Zedong",
+      "title": "Mao Zedong — Wikipédia",
       "grade": 0
     },
     {
-      "hash": "mcNJwdKCIhSg",
-      "address": "https://madame.lefigaro.fr/celebrites/actu-people/de-jeune-mannequin-a-grande-actrice-comment-melanie-thierry-a-debute-a-13-ans-20260727",
-      "title": "De jeune mannequin à grande actrice : comment Mélanie Thierry a débuté à 13 ans",
+      "hash": "Z6WQZlQX3p_7",
+      "address": "https://www.enable-javascript.com/fr/",
+      "title": "Comment et pourquoi activer JavaScript dans votre navigateur Internet",
+      "grade": 0
+    },
+    {
+      "hash": "2Y1escw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Soudan",
+      "title": "Soudan — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "4HRjBcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Groenland",
+      "title": "Groenland — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "4I1Rccw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Germains",
+      "title": "Germains — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "jtDadcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Portail:Histoire",
+      "title": "Portail:Histoire — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "kAQjZcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Croisade",
+      "title": "Croisade — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "pMXr1cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Oiseau",
+      "title": "Oiseau — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "w4Z2tcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Winston_Churchill",
+      "title": "Winston Churchill — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "xc7ejcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Monaco",
+      "title": "Monaco — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "4GEemcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Donald_Trump",
+      "title": "Donald Trump — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "5e6iAcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Stefan_Zweig",
+      "title": "Stefan Zweig — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "5p8_ycw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/G%C3%A9ographie",
+      "title": "Géographie — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "7ClEtcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Totalitarisme",
+      "title": "Totalitarisme — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "8N9lBcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Assyrie",
+      "title": "Assyrie — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "9eHaXcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Hambourg",
+      "title": "Hambourg — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "BJGJjcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Croate",
+      "title": "Croate — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "DbFdbcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/%C3%89poque_hell%C3%A9nistique",
+      "title": "Époque hellénistique — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "EEdr-cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Espagnol",
+      "title": "Espagnol — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "HlqZxcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Yasser_Arafat",
+      "title": "Yasser Arafat — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "MCoWxcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz",
+      "title": "Gottfried Wilhelm Leibniz — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "NeFNScw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Su%C3%A9dois",
+      "title": "Suédois — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "T4Oq_cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Pays_de_Galles",
+      "title": "Pays de Galles — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "UKms1cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Hongrois",
+      "title": "Hongrois — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "VD3zwcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Jean-Paul_II",
+      "title": "Jean-Paul II — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "Vajb-cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Honor%C3%A9_de_Balzac",
+      "title": "Honoré de Balzac — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "WkGwRcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Iliade",
+      "title": "Iliade — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "YggY-cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/R%C3%A9forme_protestante",
+      "title": "Réforme protestante — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "dwwK8cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Guerre_de_Cent_Ans",
+      "title": "Guerre de Cent Ans — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "eo4_WjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Alain_de_Benoist",
+      "title": "Alain de Benoist - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "hMQ6KlXeBQ6j",
+      "address": "https://www.univ-grenoble-alpes.fr/",
+      "title": "Université Grenoble Alpes",
+      "grade": 0
+    },
+    {
+      "hash": "jZP8mcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Gallois",
+      "title": "Gallois — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "lN0zYcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Richard_Nixon",
+      "title": "Richard Nixon — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "lRk5ncw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Grec_ancien",
+      "title": "Grec ancien — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "oWxLWcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Fidel_Castro",
+      "title": "Fidel Castro — Wikipédia",
       "grade": 0
     }
   ]

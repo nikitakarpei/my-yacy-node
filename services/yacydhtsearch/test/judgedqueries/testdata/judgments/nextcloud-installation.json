@@ -2,39 +2,21 @@
   "query": "nextcloud installation",
   "judgedDocuments": [
     {
+      "hash": "wzmiPtS6MKD4",
+      "address": "https://github.com/trending/php?since=daily",
+      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "1reqmvqO2Dlg",
+      "address": "https://media.ccc.de/podcast-lq.xml",
+      "title": "",
+      "grade": 0
+    },
+    {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "grade": 0
-    },
-    {
-      "hash": "ehUE-qbVMkf5",
-      "address": "https://apps.nextcloud.com/",
-      "title": "All apps - App Store - Nextcloud",
-      "grade": 0
-    },
-    {
-      "hash": "PBHGklNdxz8x",
-      "address": "https://www.freshports.org/",
-      "title": "FreshPorts -- The Place For Ports - Most recent commits",
-      "grade": 0
-    },
-    {
-      "hash": "DkfmwlqvBx1x",
-      "address": "https://www.openproject.org/",
-      "title": "OpenProject - Open Source Project Management Software",
-      "grade": 0
-    },
-    {
-      "hash": "FHioIb1rzS04",
-      "address": "https://community.ovhcloud.com/",
-      "title": "OVHcloud Community",
-      "grade": 0
-    },
-    {
-      "hash": "hrFN1s9r_z8g",
-      "address": "https://gnulinux.ch/",
-      "title": "GNU/Linux.ch - Freie Software, Freie Gesellschaft",
       "grade": 0
     },
     {
@@ -44,111 +26,9 @@
       "grade": 0
     },
     {
-      "hash": "X0gS6jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/LibreOffice",
-      "title": "LibreOffice - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "wZPUHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/KDE_neon",
-      "title": "KDE neon - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "myKVgl2uAu0w",
-      "address": "https://www.linux.org/",
-      "title": "Linux.org",
-      "grade": 0
-    },
-    {
-      "hash": "z6Av1szj0XMi",
-      "address": "https://dasnetzundich.de/youtube-dl-mit-neuem-entwickler-team/",
-      "title": "yt-dlp statt youtube-dl: Installation und Updates unter Linux 2026 | Das Netz und ich",
-      "grade": 0
-    },
-    {
-      "hash": "bPT5aq7AHFOw",
-      "address": "https://apps.kde.org/tokodon/",
-      "title": "Tokodon - KDE Applications",
-      "grade": 0
-    },
-    {
-      "hash": "m84_zxKAn6I5",
-      "address": "https://news.ycombinator.com/item?id=33165836",
-      "title": "I wish my web server were in the corner of my room | Hacker News",
-      "grade": 0
-    },
-    {
-      "hash": "PCpNBzxXGmlz",
-      "address": "https://wiki.documentfoundation.org/ReleaseNotes/5.3",
-      "title": "LibreOffice 5.3: Release Notes - The Document Foundation Wiki",
-      "grade": 0
-    },
-    {
-      "hash": "6plOjszj0XMi",
-      "address": "https://dasnetzundich.de/notiz-app-joplin-mit-nextcloud-integration/",
-      "title": "Joplin mit Nextcloud synchronisieren: aktuelle WebDAV-Anleitung | Das Netz und ich",
-      "grade": 0
-    },
-    {
-      "hash": "X_Gb0yfAodxw",
-      "address": "https://docs.freebsd.org/en/books/porters-handbook/uses/",
-      "title": "Chapter 17. Using USES Macros | FreeBSD Documentation Portal",
-      "grade": 0
-    },
-    {
       "hash": "OqU1klUKWg6g",
       "address": "https://www.manitu.de/webhosting/",
       "title": "Webhosting: Schnell, Sicher \u0026 inkl. SSL + Domain | ab 1 € pro Monat - manitu",
-      "grade": 0
-    },
-    {
-      "hash": "OdWaBD7AHFOw",
-      "address": "https://apps.kde.org/lt/tokodon/",
-      "title": "Tokodon - KDE programos",
-      "grade": 0
-    },
-    {
-      "hash": "w9rUZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Internet_censorship_circumvention",
-      "title": "Internet censorship circumvention - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "bzwX8z_hTtNw",
-      "address": "https://planet.kde.org/",
-      "title": "English - Planet KDE",
-      "grade": 0
-    },
-    {
-      "hash": "1U9VNkPMN02h",
-      "address": "https://www.mardi4nfdi.de/community/newsletter",
-      "title": "Newsletter - MaRDI",
-      "grade": 0
-    },
-    {
-      "hash": "gCVBNZ3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/",
-      "title": "OVHcloud Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "-Hsz5szj0XMi",
-      "address": "https://dasnetzundich.de/nc-downloader-fuer-die-nextcloud/",
-      "title": "NCDownloader für Nextcloud: heute besser Vapor oder eine moderne Alternative nutzen | Das Netz und ich",
-      "grade": 0
-    },
-    {
-      "hash": "faU-Olx2yOxg",
-      "address": "https://www.radiotux.de/",
-      "title": "RadioTux",
-      "grade": 0
-    },
-    {
-      "hash": "zTCfkxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/List_of_applications/Internet",
-      "title": "List of applications/Internet - ArchWiki",
       "grade": 0
     },
     {
@@ -158,69 +38,15 @@
       "grade": 0
     },
     {
-      "hash": "MfYW2-iaMkRw",
-      "address": "https://archive.fosdem.org/2025/schedule/events/",
-      "title": "FOSDEM 2025 - Events",
-      "grade": 0
-    },
-    {
-      "hash": "xIkDby3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
-      "title": "Domains - OVHcloud Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "xxkx6aQ2lNtg",
-      "address": "https://friendica.ginestes.es/display/0a49108d-1469-29f5-fe91-d0e813562323",
-      "title": "Friendica Social Network | Display",
-      "grade": 0
-    },
-    {
       "hash": "S9YMJzCJVaIz",
       "address": "https://planet.documentfoundation.org/",
       "title": "The Document Foundation Planet",
       "grade": 0
     },
     {
-      "hash": "D5UzaAjUmtg5",
-      "address": "https://www.saasworthy.com/list/diagram-software",
-      "title": "Best Diagramming Software for 2026",
-      "grade": 0
-    },
-    {
-      "hash": "EHVbry2kkkww",
-      "address": "https://docs.weblate.org/en/latest/",
-      "title": "Weblate 2026.10 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "Wkx1aJr2pvE4",
-      "address": "https://www.asustor.com/service/downloads?product_id=77",
-      "title": "Downloads | ASUSTOR NAS",
-      "grade": 0
-    },
-    {
-      "hash": "dH4aGswUSuo5",
-      "address": "https://nextcloud.com/instant-trial/",
-      "title": "Request an instant trial - Nextcloud",
-      "grade": 0
-    },
-    {
-      "hash": "lnvzkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Cross-platform",
-      "title": "Cross-platform software - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "xxNsZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_Android_applications",
-      "title": "List of free and open-source Android applications - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "wzmiPtS6MKD4",
-      "address": "https://github.com/trending/php?since=daily",
-      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "hash": "FHioIb1rzS04",
+      "address": "https://community.ovhcloud.com/",
+      "title": "OVHcloud Community",
       "grade": 0
     },
     {
@@ -230,15 +56,105 @@
       "grade": 0
     },
     {
-      "hash": "FZ9QOswUSuo5",
-      "address": "https://nextcloud.com/trademarks/",
-      "title": "Nextcloud trademark guidelines",
+      "hash": "3ObM6LHzph0w",
+      "address": "https://www.freebsd.org/status/report-2025-01-2025-03/",
+      "title": "FreeBSD Status Report First Quarter 2025 | The FreeBSD Project",
       "grade": 0
     },
     {
-      "hash": "cD8T2ChvKhg5",
-      "address": "https://mailvelope.com/en/help/anywhere",
-      "title": "How to set up Mailvelope?",
+      "hash": "LnAl1U29UZro",
+      "address": "https://kalken.in/blog/nextcloud-setup/",
+      "title": "Nextcloud Installation HowTo: Secure Your Data with a Private Cloud | Kalyani Kenekar",
+      "grade": 2
+    },
+    {
+      "hash": "D5UzaAjUmtg5",
+      "address": "https://www.saasworthy.com/list/diagram-software",
+      "title": "Best Diagramming Software for 2026",
+      "grade": 0
+    },
+    {
+      "hash": "DkfmwlqvBx1x",
+      "address": "https://www.openproject.org/",
+      "title": "OpenProject - Open Source Project Management Software",
+      "grade": 0
+    },
+    {
+      "hash": "xxNsZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_Android_applications",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "RAz7ZPKXKxA4",
+      "address": "https://cloud.ionos.com/network/application-load-balancer",
+      "title": "Application Load Balancer as Managed Service | IONOS CLOUD",
+      "grade": 0
+    },
+    {
+      "hash": "TdRNksqGot6w",
+      "address": "https://yunohost.org/",
+      "title": "YunoHost: garden your own piece of the Internet!",
+      "grade": 0
+    },
+    {
+      "hash": "bPT5aq7AHFOw",
+      "address": "https://apps.kde.org/tokodon/",
+      "title": "Tokodon - KDE Applications",
+      "grade": 0
+    },
+    {
+      "hash": "3TFWwl8hA1s6",
+      "address": "https://www.mythic-beasts.com/",
+      "title": "Mythic Beasts - Mythic Beasts",
+      "grade": 0
+    },
+    {
+      "hash": "CDOtDX9Ojva4",
+      "address": "https://docs.docker.com/reference/cli/docker/",
+      "title": "docker | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "evCaGstdUxJw",
+      "address": "https://mariadb.org/about/",
+      "title": "About MariaDB Server - MariaDB.org",
+      "grade": 0
+    },
+    {
+      "hash": "jp9ZzlCSS9c4",
+      "address": "https://www.ionos.com/",
+      "title": "IONOS » Hosting Provider | Websites. Domains. Server.",
+      "grade": 0
+    },
+    {
+      "hash": "ngx06lOVq6Iy",
+      "address": "https://www.agendadulibre.org/",
+      "title": "L'Agenda du Libre",
+      "grade": 0
+    },
+    {
+      "hash": "uVWKZZ3WSkX4",
+      "address": "https://docs.ovhcloud.com/fr/",
+      "title": "OVHcloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "x0u2VZrMzZuw",
+      "address": "https://docs.hedgedoc.org/",
+      "title": "HedgeDoc",
+      "grade": 0
+    },
+    {
+      "hash": "DZHjMLHzph0w",
+      "address": "https://www.freebsd.org/status/report-2022-10-2022-12/",
+      "title": "FreeBSD Status Report Fourth Quarter 2022 | The FreeBSD Project",
+      "grade": 0
+    },
+    {
+      "hash": "wBcifxS6MKD4",
+      "address": "https://github.com/ibizaman/selfhostblocks",
+      "title": "GitHub - ibizaman/selfhostblocks: Modular server management based on NixOS modules and focused on best practices. · GitHub",
       "grade": 0
     },
     {
@@ -248,33 +164,81 @@
       "grade": 0
     },
     {
-      "hash": "tptsBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Lumen_Technologies",
-      "title": "Lumen Technologies - Wikipedia",
+      "hash": "cLNRXZ-N3N0w",
+      "address": "https://lists.freebsd.org/archives/freebsd-stable/2021-November/000330.html",
+      "title": "FreeBSD Quarterly Status Report - Third Quarter 2021",
       "grade": 0
     },
     {
-      "hash": "BDAwvszj0XMi",
-      "address": "https://dasnetzundich.de/was-bietet-die-nextcloud/",
-      "title": "Was bietet Nextcloud 2026? Mehr als nur eine private Cloud | Das Netz und ich",
+      "hash": "w9rUZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Internet_censorship_circumvention",
+      "title": "Internet censorship circumvention - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "5RY-4nNc4Gq4",
+      "address": "https://jvalleroy.fbx.one/wordpress/",
+      "title": "James Valleroy – FreedomBox and Debian",
+      "grade": 0
+    },
+    {
+      "hash": "T9UVezaS0qdw",
+      "address": "https://planet.debian.org/fr/",
+      "title": "Planet Debian French",
+      "grade": 0
+    },
+    {
+      "hash": "xC4NmnSqykzp",
+      "address": "https://blog.sahilister.in/2020/08/how-i-installed-searx-using-yunohost/",
+      "title": "How I Installed Searx Using Yunohost",
+      "grade": 0
+    },
+    {
+      "hash": "BfcNhs7XY2Q6",
+      "address": "https://linuxunplugged.com/489",
+      "title": "LINUX Unplugged 489: Brent's Secret Emails",
+      "grade": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
       "grade": 1
     },
     {
-      "hash": "FLQUcszj0XMi",
-      "address": "https://dasnetzundich.de/nextcloud-installation-von-fulltextsearch/",
-      "title": "Nextcloud Full Text Search einrichten: Dateien durchsuchen mit Elasticsearch oder SQL | Das Netz und ich",
+      "hash": "SbjzAqBQpHng",
+      "address": "https://blog.hboeck.de/plugin/tag/security",
+      "title": "Hanno's blog - Entries tagged as security",
+      "grade": 0
+    },
+    {
+      "hash": "C9IcLyS6MKD4",
+      "address": "https://github.com/openclaw/openclaw",
+      "title": "GitHub - openclaw/openclaw: The AI that really does things. Any OS. Any Platform. The lobster way. 🦞 · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "rvYlfsS6MKD4",
+      "address": "https://github.com/nextcloud",
+      "title": "Nextcloud · GitHub",
       "grade": 1
     },
     {
-      "hash": "IHg31szj0XMi",
-      "address": "https://dasnetzundich.de/redis-caching-richtig-einstellen-fuer-nextcloud/",
-      "title": "Nextcloud mit Redis und APCu beschleunigen: Caching richtig einrichten | Das Netz und ich",
-      "grade": 1
+      "hash": "YbzwIlDOAHJg",
+      "address": "https://www.heise.de/newsticker/",
+      "title": "Newsticker | heise online",
+      "grade": 0
     },
     {
-      "hash": "4A6jVszj0XMi",
-      "address": "https://dasnetzundich.de/ocdownloader-einrichten-fuer-nextcloud-per-init-d-script/",
-      "title": "ocDownloader für Nextcloud nicht mehr nutzen: aktuelle Alternativen | Das Netz und ich",
+      "hash": "-ZFdosyV5lzw",
+      "address": "https://orgmode.org/org.html",
+      "title": "The Org Manual",
+      "grade": 0
+    },
+    {
+      "hash": "EZWaqlDOAHJg",
+      "address": "https://www.heise.de/plus",
+      "title": "heise+ Immer mehr Wissen | heise online",
       "grade": 0
     }
   ]

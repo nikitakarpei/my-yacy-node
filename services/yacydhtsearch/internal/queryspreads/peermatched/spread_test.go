@@ -134,8 +134,12 @@ func searchOf(
 	).FoundDocuments
 }
 
-func searchForTheQuery(network *peerNetwork, query string) []queryanswers.FoundDocument {
-	return answersOfTheQuery(network, query).FoundDocuments
+func factsOfTheFirstDocumentFoundFor(
+	network *peerNetwork, query string,
+) queryanswers.DocumentFacts {
+	answers := answersOfTheQuery(network, query)
+
+	return answers.FactsPerDocument[answers.FoundDocuments[0].Hash]
 }
 
 func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
@@ -238,11 +242,11 @@ func TestADocumentKeepsTheCountOfAPeerThatCountedItsWord(t *testing.T) {
 	})
 	network.peersCountingAWord["second"] = struct{}{}
 
-	foundDocuments := searchForTheQuery(network, "berlin")
+	facts := factsOfTheFirstDocumentFoundFor(network, "berlin")
 
-	if hits := foundDocuments[0].HitsPerQueryWord[yacymodel.WordHash("berlin")]; hits != 3 {
+	if hits := facts.HitsPerQueryWord[yacymodel.WordHash("berlin")]; hits != 3 {
 		t.Fatalf("the found document holds the hits %v, want the hits of the peer that counted "+
-			"them", foundDocuments[0].HitsPerQueryWord)
+			"them", facts.HitsPerQueryWord)
 	}
 }
 
@@ -265,16 +269,16 @@ func TestOnlyAQueryOfOneWordNamesTheWordAPeerCounted(t *testing.T) {
 	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
 	network.peersCountingAWord["first"] = struct{}{}
 
-	ofOneWord := searchForTheQuery(network, "berlin")
-	ofTwoWords := searchForTheQuery(network, "berlin weather")
+	ofOneWord := factsOfTheFirstDocumentFoundFor(network, "berlin")
+	ofTwoWords := factsOfTheFirstDocumentFoundFor(network, "berlin weather")
 
-	if hits := ofOneWord[0].HitsPerQueryWord[yacymodel.WordHash("berlin")]; hits != 3 {
+	if hits := ofOneWord.HitsPerQueryWord[yacymodel.WordHash("berlin")]; hits != 3 {
 		t.Fatalf("the found document of a one word query holds the hits %v, want the hits of "+
-			"that word", ofOneWord[0].HitsPerQueryWord)
+			"that word", ofOneWord.HitsPerQueryWord)
 	}
-	if len(ofTwoWords[0].HitsPerQueryWord) != 0 {
+	if len(ofTwoWords.HitsPerQueryWord) != 0 {
 		t.Fatalf("the found document of a two word query reads %+v, want no hits, because "+
-			"the peer does not say which word it counted", ofTwoWords[0])
+			"the peer does not say which word it counted", ofTwoWords)
 	}
 }
 
@@ -312,32 +316,32 @@ func TestEveryAskCarriesThePartitionOfTheChosenPeer(t *testing.T) {
 	}
 }
 
-func TestADocumentKeepsTheLinkCountsOfAPeerThatCountedItsWord(t *testing.T) {
+func TestADocumentKeepsTheAmountOfLinksOfAPeerThatCountedItsWord(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{"first": {"https://shared.example/"}})
 	network.peersCountingAWord["first"] = struct{}{}
 
-	foundDocuments := searchForTheQuery(network, "berlin")
+	facts := factsOfTheFirstDocumentFoundFor(network, "berlin")
 
-	linkCounts, reported := foundDocuments[0].LinkCounts.Get()
-	if !reported || linkCounts.LocalLinks != 12 || linkCounts.ExternalLinks != 7 {
+	amountOfLinks, reported := facts.AmountOfLinks.Get()
+	if !reported || amountOfLinks != 19 {
 		t.Fatalf(
-			"the found document holds the link counts %+v reported %t, want 12 local and 7 external",
-			linkCounts,
+			"the found document holds %d links reported %t, want the 19 links the peer counted",
+			amountOfLinks,
 			reported,
 		)
 	}
 }
 
-func TestADocumentNoPeerCountedHoldsNoLinkCounts(t *testing.T) {
+func TestADocumentNoPeerCountedHoldsNoAmountOfLinks(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{"first": {"https://shared.example/"}})
 
-	foundDocuments := searchForTheQuery(network, "berlin")
+	facts := factsOfTheFirstDocumentFoundFor(network, "berlin")
 
-	if foundDocuments[0].LinkCounts.Present() {
-		t.Fatal("the found document holds link counts, want none where no peer reported them")
+	if facts.AmountOfLinks.Present() {
+		t.Fatal("the found document holds an amount of links, want none where no peer reported one")
 	}
 }

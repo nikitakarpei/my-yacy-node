@@ -1504,12 +1504,13 @@ func TestAFoundDocumentIsCountedForTheWordThePeerWasAskedAbout(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+	answers := answeredQueryFrom(network, &recordedSpreads{})
+	foundDocuments := answers.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
 	}
-	hitsPerQueryWord := foundDocuments[0].HitsPerQueryWord
+	hitsPerQueryWord := answers.FactsPerDocument[foundDocuments[0].Hash].HitsPerQueryWord
 	_, secondWordHasHits := hitsPerQueryWord[yacymodel.WordHash(secondWord)]
 	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 || secondWordHasHits {
 		t.Fatalf("the found document holds the hits %v, want the hits of the word the ask named",
@@ -1529,12 +1530,13 @@ func TestTheCountsOfEachQueryWordComeTogetherOnTheJoinedDocument(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+	answers := answeredQueryFrom(network, &recordedSpreads{})
+	foundDocuments := answers.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
 	}
-	hitsPerQueryWord := foundDocuments[0].HitsPerQueryWord
+	hitsPerQueryWord := answers.FactsPerDocument[foundDocuments[0].Hash].HitsPerQueryWord
 	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 ||
 		hitsPerQueryWord[yacymodel.WordHash(secondWord)] != 3 {
 		t.Fatalf("the found document holds the hits %v, want the hits of each query word",
@@ -1838,7 +1840,7 @@ func (spread spreadOverChosenPeers) SpreadOverPeers(
 	)
 }
 
-func TestAFoundDocumentCarriesTheLinkCountsThePostingReported(t *testing.T) {
+func TestAFoundDocumentCarriesTheAmountOfLinksThePostingReported(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
@@ -1850,22 +1852,23 @@ func TestAFoundDocumentCarriesTheLinkCountsThePostingReported(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+	answers := answeredQueryFrom(network, &recordedSpreads{})
+	foundDocuments := answers.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
 	}
-	linkCounts, reported := foundDocuments[0].LinkCounts.Get()
-	if !reported || linkCounts.LocalLinks != 12 || linkCounts.ExternalLinks != 7 {
+	amountOfLinks, reported := answers.FactsPerDocument[foundDocuments[0].Hash].AmountOfLinks.Get()
+	if !reported || amountOfLinks != 19 {
 		t.Fatalf(
-			"the found document holds the link counts %+v reported %t, want 12 local and 7 external",
-			linkCounts,
+			"the found document holds %d links reported %t, want the 19 links the posting reported",
+			amountOfLinks,
 			reported,
 		)
 	}
 }
 
-func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoLinkCounts(t *testing.T) {
+func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoAmountOfLinks(t *testing.T) {
 	t.Parallel()
 
 	joined := "https://joined.example/"
@@ -1874,12 +1877,14 @@ func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoLinkCounts(t *testing
 		"second": {firstWord: {joined}, secondWord: {joined}},
 	})
 
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+	answers := answeredQueryFrom(network, &recordedSpreads{})
+	foundDocuments := answers.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
 	}
-	if foundDocuments[0].LinkCounts.Present() {
-		t.Fatal("the joined document holds link counts, want none where no posting reported them")
+	if answers.FactsPerDocument[foundDocuments[0].Hash].AmountOfLinks.Present() {
+		t.Fatal("the joined document holds an amount of links, want none where no posting " +
+			"reported one")
 	}
 }

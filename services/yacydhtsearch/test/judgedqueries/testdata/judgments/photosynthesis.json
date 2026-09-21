@@ -2,315 +2,105 @@
   "query": "photosynthesis",
   "judgedDocuments": [
     {
-      "hash": "AHcMH3ph0Po5",
-      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/pressure-volume.html",
-      "title": "Fitting pressure-volume curves - photosynthesis",
+      "hash": "BDjkdw2-YG1g",
+      "address": "https://www.mpg.de/24879409/boosting-photosynthesis-for-carbon-capture?c=11863511",
+      "title": "Boosting photosynthesis for carbon capture | Max-Planck-Gesellschaft",
       "grade": 1
     },
     {
-      "hash": "JXNStDrP9Fca",
-      "address": "http://sound.photosynthesis.com/TERENCE_M.html",
-      "title": "Sound Photosynthesis: TERENCE McKENNA: videotapes audiotapes publications and more",
+      "hash": "AHcMH3ph0Po5",
+      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/pressure-volume.html",
+      "title": "Fitting pressure-volume curves - photosynthesis",
+      "grade": 0
+    },
+    {
+      "hash": "B87kb_YJ934w",
+      "address": "https://phys.org/news/2026-06-chloroplast-reveals-link-growth-solar.html",
+      "title": "Chloroplast map reveals 'missing link' in plant growth and solar energy",
+      "grade": 1
+    },
+    {
+      "hash": "AWlvWsVUrQm6",
+      "address": "https://earthnewspaper.com/categories/",
+      "title": "Categories – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "BjNwjHWm5g_Q",
+      "address": "http://tm.durusau.net/?cat=1569",
+      "title": "Geography « Another Word For It",
+      "grade": 0
+    },
+    {
+      "hash": "CEEaijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Medicinal_plants",
+      "title": "Medicinal plants - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ChqkEpcyCU34",
+      "address": "https://www.improwis.com/tables/led.webt",
+      "title": "Light Emitting Diodes",
+      "grade": 0
+    },
+    {
+      "hash": "ANEHyWoY3Cf5",
+      "address": "https://alethonews.com/tag/cnn/",
+      "title": "CNN « Aletho News",
+      "grade": 0
+    },
+    {
+      "hash": "DK8w57LMHcrg",
+      "address": "https://www.southampton.ac.uk/courses/2025-26/modules/chem6092",
+      "title": "Medicinal Chemistry | CHEM6092 | University of Southampton",
+      "grade": 0
+    },
+    {
+      "hash": "AfCYvXOzSh0a",
+      "address": "http://wavefunction.fieldofscience.com/2011/03/",
+      "title": "The Curious Wavefunction: March 2011",
       "grade": 0
     },
     {
       "hash": "KD2683ph0Po5",
       "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-response.html",
       "title": "Fitting light response curves - photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "THAWw_YJ934w",
-      "address": "https://phys.org/news/2026-01-protein-network-cooperatively-iron.html",
-      "title": "How protein network cooperatively regulates iron balance in plants",
       "grade": 0
     },
     {
-      "hash": "FwnmusffeXJ5",
-      "address": "https://acalustra.com/rss.xml",
-      "title": "",
+      "hash": "KoQI2xH5RrF5",
+      "address": "https://www.careers360.com/biology/respiration-in-plants-chapter-pge",
+      "title": "Respiration in Plants Class 11 NEET Notes",
+      "grade": 0
+    },
+    {
+      "hash": "Kvs2Flyl9Shw",
+      "address": "https://www.grisda.org/origins-52007",
+      "title": "Geoscience Research Institute | A Baraminological Analysis of Subtribe Flaveriinae (Asteraceae: Helenieae)",
+      "grade": 1
+    },
+    {
+      "hash": "1exprOUcaPK5",
+      "address": "https://noconsensus.wordpress.com/2010/03/06/historic-variations-in-co2-measurements/",
+      "title": "Historic variations in CO2 measurements. – the Air Vent",
       "grade": 0
     },
     {
       "hash": "hDPCBjldhbwx",
       "address": "https://en.wikibooks.org/wiki/Cell_Biology/Plants/Photosynthesis",
       "title": "Botany/Plant cells/Photosynthesis - Wikibooks, open books for an open world",
-      "grade": 1
-    },
-    {
-      "hash": "dChqgxuAbj3Z",
-      "address": "http://www.sciencedaily.com/releases/2026/07/260708022210.htm",
-      "title": "Trees keep absorbing carbon long after they stop growing | ScienceDaily",
-      "grade": 1
-    },
-    {
-      "hash": "2LsQnedufF3h",
-      "address": "https://tu-dresden.de/mn/der-bereich/news/tobias-erb-continues-the-frontiers-in-science-lecture-series",
-      "title": "Tobias Erb zu Gast im Rahmen der Frontiers in Science-Lecture Series — Bereich Mathematik und Naturwissenschaften — TU Dresden",
-      "grade": 0
-    },
-    {
-      "hash": "1vpjMMiwa444",
-      "address": "https://apps.apple.com/pw/iphone/story/id1831017883",
-      "title": "‎Improve your class with AI - App Store",
-      "grade": 0
-    },
-    {
-      "hash": "y8TSo2wcfRow",
-      "address": "https://www.pbs.org/video/fast-forward-teachable-moment-photosynthesis-and-nitrogen-cycle/",
-      "title": "Fast Forward | Teachable Moment: Photosynthesis and Nitrogen Cycle | PBS",
-      "grade": 1
-    },
-    {
-      "hash": "1eBzfJw5aEs5",
-      "address": "https://www.britannica.com/science/photosynthesis",
-      "title": "Photosynthesis | Definition, Formula, Process, Diagram, Reactants, Products, \u0026 Facts | Britannica",
-      "grade": 1
-    },
-    {
-      "hash": "8hMAdnWShwPz",
-      "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
-      "title": "Photosynthesis",
       "grade": 2
     },
     {
-      "hash": "AORjPll7NqL4",
-      "address": "https://www.threads.com/@photosynthesis.camera?xmt=AQG0nCwfM7CxZxiJ3Oq2H4zOxWJ7WuT9XlK_CcHR29qHwak",
-      "title": "Photosynthesis Camera (@photosynthesis.camera) • Threads, Say more",
-      "grade": 0
-    },
-    {
-      "hash": "LLAOq4-Kg3By",
-      "address": "https://southafricatoday.net/environment/boosting-food-crops-capacity-for-photosynthesis-leads-to-higher-yields/",
-      "title": "Boosting food crops' capacity for photosynthesis leads to higher yields - South Africa Today",
-      "grade": 1
-    },
-    {
-      "hash": "ibekE3ph0Po5",
-      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/sensitivity-analysis.html",
-      "title": "Sensitivity analysis - photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "U5cjd3ph0Po5",
-      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-respiration.html",
-      "title": "Fit models to estimate light respiration - photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "qGiyrFV3WCox",
-      "address": "https://cran.r-project.org/web/packages/photosynthesis/index.html",
-      "title": "CRAN: Package photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "tHDPHz0xT8s5",
-      "address": "https://astrobiology.com/2026/08/13/is-a-constitutive-red-shift-an-advantage-for-oxygenic-photosynthesis-under-m-dwarf-starlight-insights-from-acaryochloris-marina-sp-str-moss-beach/",
-      "title": "Is A Constitutive Red-shift An Advantage For Oxygenic Photosynthesis Under M Dwarf Starlight? Insights From Acaryochloris Marina sp. str. Moss Beach - Astrobiology",
-      "grade": 1
-    },
-    {
-      "hash": "7iOzTv3VHIw6",
-      "address": "https://www.singaporestar.com/news/272937647/bringing-back-billion-year-old-enzymes-reveals-how-photosynthesis-adapted-to-rise-of-oxygen",
-      "title": "Bringing back billion-year-old enzymes reveals how photosynthesis adapted to rise of oxygen",
-      "grade": 1
-    },
-    {
-      "hash": "EBN4gNBg07g5",
-      "address": "https://www.straitstimes.com/singapore/health/nus-study-finds-photosynthesis-could-treat-dry-eye-disease",
-      "title": "NUS scientists use photosynthesis to treat dry eye | The Straits Times",
-      "grade": 1
-    },
-    {
-      "hash": "O6XiqqaaTUr5",
-      "address": "https://www.techradar.com/pro/like-photosynthesis-in-plants-this-cpu-uses-solar-power-to-run-computations-without-the-need-for-batteries",
-      "title": "Like photosynthesis in plants: This CPU uses solar power to 'run computations' without the need for batteries | TechRadar",
-      "grade": 0
-    },
-    {
-      "hash": "ZDTXjz0xT8s5",
-      "address": "https://astrobiology.com/2026/07/16/discovery-oxygenic-photosynthesis-is-possible-with-only-one-photosystem/",
-      "title": "Discovery: Oxygenic Photosynthesis Is Possible With Only One Photosystem - Astrobiology",
-      "grade": 1
-    },
-    {
-      "hash": "lVpolCOpC_C5",
-      "address": "https://www.sciencedaily.com/terms/photosynthesis.htm",
-      "title": "Photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "q7AKrlMiaPf5",
-      "address": "https://www.sciencing.com/photosynthesis-equation-6962557/",
-      "title": "What Is The Photosynthesis Equation?",
-      "grade": 1
-    },
-    {
-      "hash": "09ke0jYJ75Zx",
-      "address": "https://en.citizendium.org/wiki/Photosynthesis",
-      "title": "Photosynthesis - Citizendium",
-      "grade": 1
-    },
-    {
-      "hash": "_182FkRzAb95",
-      "address": "https://www.daviddarling.info/encyclopedia/P/photosynthesis.html",
-      "title": "photosynthesis",
+      "hash": "8hv4Vjcl0ynx",
+      "address": "https://en.wikiversity.org/wiki/Photosynthesis",
+      "title": "Photosynthesis - Wikiversity",
       "grade": 2
     },
     {
-      "hash": "T-dNpv3VHIw6",
-      "address": "https://www.singaporestar.com/news/272944139/study-reveals-how-photosynthesis-adapted-to-the-rise-of-oxygen",
-      "title": "Study reveals how photosynthesis adapted to the rise of oxygen",
-      "grade": 1
-    },
-    {
-      "hash": "PnhNO289FcHg",
-      "address": "https://doi.pangaea.de/10.1594/PANGAEA.119128",
-      "title": "Balch, WM (2003): Suspended calcite, calcification and photosynthesis at station TT049_33-1",
-      "grade": 1
-    },
-    {
-      "hash": "gBqOb_YJ934w",
-      "address": "https://phys.org/news/2026-07-tropical-forests-photosynthesis-limits-million.html",
-      "title": "Heat waves push tropical forests past photosynthesis limits across 57 million hectares",
-      "grade": 1
-    },
-    {
-      "hash": "vUZkuyOpC_C5",
-      "address": "https://www.sciencedaily.com/releases/2022/12/221214092441.htm",
-      "title": "Shedding light on photosynthesis at sea | ScienceDaily",
-      "grade": 1
-    },
-    {
-      "hash": "6XjK5yOpC_C5",
-      "address": "https://www.sciencedaily.com/releases/2023/03/230322140357.htm",
-      "title": "Photosynthesis 'hack' could lead to new ways of generating renewable energy | ScienceDaily",
-      "grade": 1
-    },
-    {
-      "hash": "KzGrV3ph0Po5",
-      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/photosynthesis-introduction.html",
-      "title": "Introduction to the photosynthesis package - photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "bYtFGl6N3OQy",
-      "address": "https://www.quantamagazine.org/an-early-step-on-the-long-strange-road-to-photosynthesis-20260610/",
-      "title": "An Early Step on the Long, Strange Road to Photosynthesis | Quanta Magazine",
-      "grade": 1
-    },
-    {
-      "hash": "wYvdrlxhCd9g",
-      "address": "https://www.unibas.ch/en/News-Events/News/Uni-Research/Growth-before-photosynthesis-how-trees-regulate-their-water-balance.html",
-      "title": "Growth before photosynthesis: how trees regulate their water balance | University of Basel",
-      "grade": 1
-    },
-    {
-      "hash": "wc3GulU1tMT5",
-      "address": "https://www.sciencealert.com/ethereal-new-plant-species-doesnt-use-photosynthesis-its-found-something-sneakier",
-      "title": "Ethereal New Plant Species Doesn't Use Photosynthesis - It's Found Something Sneakier : ScienceAlert",
-      "grade": 1
-    },
-    {
-      "hash": "5FLR4vYJ934w",
-      "address": "https://phys.org/tags/photosynthesis/sort/liverank/1m/",
-      "title": "Photosynthesis - latest research news and features",
-      "grade": 1
-    },
-    {
-      "hash": "8wWTqF-hBhnQ",
-      "address": "http://www.3ders.org/articles/20171207-pioneering-russian-scientists-create-pef-3d-printing-material-with-water-co2-photosynthesis.html",
-      "title": "3ders.org - Pioneering Russian scientists create PEF 3D printing material with water, CO2 \u0026 photosynthesis | 3D Printer News \u0026 3D Printing News",
-      "grade": 1
-    },
-    {
-      "hash": "1QyBOYrorAZx",
-      "address": "https://www.eurekalert.org/news-releases/542157",
-      "title": "University of Toronto-led study provides new insight into photosynthesis | EurekAlert!",
-      "grade": 1
-    },
-    {
-      "hash": "gpDDIyOpC_C5",
-      "address": "https://www.sciencedaily.com/releases/2022/11/221115114103.htm",
-      "title": "From cell walls to photosynthesis: How does manganese get to where it needs to go in plants? | ScienceDaily",
-      "grade": 1
-    },
-    {
-      "hash": "tkYxPuWeDWe4",
-      "address": "https://www.popsci.com/technology/ultrafast-spectroscopy-photosynthesis/",
-      "title": "Ultrafast lasers show photosynthesis, up close | Popular Science",
-      "grade": 1
-    },
-    {
-      "hash": "Gs5I9JkVpUp6",
-      "address": "https://www.popularmechanics.com/science/energy/a43620030/artificial-photosynthesis-turns-solar-power-into-hydrogen-fuel/",
-      "title": "Artificial Photosynthesis Turns Solar Power Into Hydrogen Fuel",
-      "grade": 1
-    },
-    {
-      "hash": "xfDpRyOpC_C5",
-      "address": "https://www.sciencedaily.com/releases/2022/10/221014135643.htm",
-      "title": "Back to the future of photosynthesis | ScienceDaily",
-      "grade": 1
-    },
-    {
-      "hash": "ORz0llnFiTD6",
-      "address": "https://www.geoengineering.news/2018-12-07-science-lesson-environmentalists-declare-war-on-photosynthesis.html",
-      "title": "AMAZING science lesson from Adams: Environmentalists declare war on photosynthesis in stupefying effort to exterminate all recognizable life on planet Earth",
-      "grade": 1
-    },
-    {
-      "hash": "31R69yOpC_C5",
-      "address": "https://www.sciencedaily.com/releases/2023/05/230503121254.htm",
-      "title": "Scientists find link between photosynthesis and 'fifth state of matter' | ScienceDaily",
-      "grade": 1
-    },
-    {
-      "hash": "bwl7Kl0vY5X7",
-      "address": "https://www.europeanscientist.com/en/agriculture/project-to-understand-the-dynamics-of-photosynthesis-and-improve-indoor-agriculture/",
-      "title": "Project to understand the dynamics of photosynthesis and improve indoor agriculture",
-      "grade": 1
-    },
-    {
-      "hash": "ytDxnpA4psi4",
-      "address": "https://www.theverge.com/2012/5/10/3011669/nocera-mit-first-low-cost-artificial-leaf",
-      "title": "Cheaper ‘artificial leaf’ mimics photosynthesis for more practical solar power | The Verge",
-      "grade": 1
-    },
-    {
-      "hash": "3sPHrvYJ934w",
-      "address": "https://phys.org/tags/photosynthesis/sort/date/1d/",
-      "title": "Photosynthesis - latest research news and features",
-      "grade": 1
-    },
-    {
-      "hash": "8EtddrYG32-5",
-      "address": "https://www.livescience.com/health/scientists-got-mouse-eyes-to-perform-photosynthesis-and-no-they-didnt-turn-green",
-      "title": "Scientists got mouse eyes to perform photosynthesis ‪—‬ and no, they didn't turn green | Live Science",
-      "grade": 1
-    },
-    {
-      "hash": "YHsgmyOpC_C5",
-      "address": "https://www.sciencedaily.com/releases/2023/05/230503121144.htm",
-      "title": "Researchers capture elusive missing step in the final act of photosynthesis | ScienceDaily",
-      "grade": 1
-    },
-    {
-      "hash": "7LaqYcZQOZP4",
-      "address": "https://finalfantasy.fandom.com/wiki/Photosynthesis",
-      "title": "Photosynthesis | Final Fantasy Wiki | Fandom",
-      "grade": 0
-    },
-    {
-      "hash": "S2dKveMcq6Ew",
-      "address": "https://web.archive.org/web/20120209225717/http:/bioenergy.asu.edu/photosyn/study.html",
-      "title": "Why Study Photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "pM78Ll-4JSLg",
-      "address": "https://sheffield.ac.uk/photosynthesis",
-      "title": "Photosynthesis | Photosynthesis | The University of Sheffield",
+      "hash": "yNPRpjldhbwx",
+      "address": "https://en.wikibooks.org/wiki/High_School_Biology/Photosynthesis",
+      "title": "High School Biology/Photosynthesis - Wikibooks, open books for an open world",
       "grade": 1
     },
     {
@@ -320,28 +110,190 @@
       "grade": 1
     },
     {
-      "hash": "7-uQGJJVa3Ug",
-      "address": "https://www.independent.co.uk/climate-change/news/solar-power-artificial-photosynthesis-fuel-sunlight-b2814882.html",
-      "title": "Scientists hail major breakthrough in developing holy grail of renewable energy: artificial photosynthesis | The Independent",
+      "hash": "0IH9GeMcq6Ew",
+      "address": "https://web.archive.org/web/20160521021252/https:/books.google.com/books?id=0_3XqlcKPpwC\u0026pg=PA725",
+      "title": "Handbook of Photosynthesis, Second Edition - Google Books",
       "grade": 1
     },
     {
-      "hash": "eD9lC_nMM_j5",
-      "address": "https://grokipedia.com/page/Photosynthesis",
-      "title": "Photosynthesis — Grokipedia",
-      "grade": 2
+      "hash": "qnTXSW5zLm04",
+      "address": "https://claude.com/solutions/teachers",
+      "title": "Claude for K-12 Teachers | Claude by Anthropic",
+      "grade": 0
     },
     {
-      "hash": "WRhZ_iIkLb7b",
-      "address": "http://site.humanphotosynthesis.com/",
-      "title": "Medical Modulation of Human Photosynthesis - Home",
+      "hash": "zJgTjO074S3w",
+      "address": "https://www.elyrics.net/read/m/moxy-fruvous-lyrics/photosynthesis-lyrics.html",
+      "title": "PHOTOSYNTHESIS Lyrics - MOXY FRUVOUS | eLyrics.net",
+      "grade": 0
+    },
+    {
+      "hash": "7iOzTv3VHIw6",
+      "address": "https://www.singaporestar.com/news/272937647/bringing-back-billion-year-old-enzymes-reveals-how-photosynthesis-adapted-to-rise-of-oxygen",
+      "title": "Bringing back billion-year-old enzymes reveals how photosynthesis adapted to rise of oxygen",
       "grade": 1
     },
     {
-      "hash": "BM2oUlYG32-5",
-      "address": "https://www.livescience.com/51720-photosynthesis.html",
-      "title": "What is photosynthesis? | Live Science",
+      "hash": "lwuScjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Anoxygenic_photosynthesis",
+      "title": "Anoxygenic photosynthesis - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "beKs7opg4UCw",
+      "address": "https://www.wikidata.org/wiki/Q11982?uselang=eo",
+      "title": "fotosintezo - Wikidata",
+      "grade": 1
+    },
+    {
+      "hash": "JXNStDrP9Fca",
+      "address": "http://sound.photosynthesis.com/TERENCE_M.html",
+      "title": "Sound Photosynthesis: TERENCE McKENNA: videotapes audiotapes publications and more",
+      "grade": 0
+    },
+    {
+      "hash": "R4s2so2JtnE5",
+      "address": "https://www.designboom.com/design/elena-mitro-green-spark-plants-produce-electricity-10-04-2018/",
+      "title": "green spark uses power of photosynthesis to produce renewable energy",
+      "grade": 1
+    },
+    {
+      "hash": "O0aokyOpC_C5",
+      "address": "https://www.sciencedaily.com/releases/2026/06/260611024601.htm",
+      "title": "Scientists built a battery-free device that turns sunlight into fuel | ScienceDaily",
+      "grade": 1
+    },
+    {
+      "hash": "SkQCp22-YG1g",
+      "address": "https://www.mpg.de/26210626/marjory-stephenson-maren-nattermann",
+      "title": "\"There isn't one 'single right way' for a career - and it doesn’t have to be a straight line\" | Max-Planck-Gesellschaft",
+      "grade": 0
+    },
+    {
+      "hash": "O2_P2HT_VPS4",
+      "address": "https://www.nature.com/articles/s41587-026-03046-y?error=cookies_not_supported\u0026code=1b4ee994-19c4-4d11-9eb9-f22a1093900d",
+      "title": "Mapping cis-regulatory mutations at scale in sorghum enables modulation of gene expression | Nature Biotechnology",
+      "grade": 0
+    },
+    {
+      "hash": "C1lucjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Food",
+      "title": "Food - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "bPjzcw2-YG1g",
+      "address": "https://www.mpg.de/24879409/boosting-photosynthesis-for-carbon-capture",
+      "title": "Boosting photosynthesis for carbon capture | Max-Planck-Gesellschaft",
+      "grade": 1
+    },
+    {
+      "hash": "acToylTg6YD7",
+      "address": "https://www.preschoolplayandlearn.com/flower-science-experiment-for-preschoolers/",
+      "title": "🌺 Flower Science Experiment for Preschoolers",
+      "grade": 0
+    },
+    {
+      "hash": "iNEb0lgUBhdQ",
+      "address": "http://www.mobot.org/MOBOT/Research/APweb/orders/caryophyllalesweb.htm",
+      "title": "Caryophyllales",
+      "grade": 0
+    },
+    {
+      "hash": "uA_TXToFvIq5",
+      "address": "https://www.etymonline.com/word/photosynthesis",
+      "title": "Photosynthesis - Etymology, Origin \u0026 Meaning",
+      "grade": 1
+    },
+    {
+      "hash": "sM7WDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Metabolism",
+      "title": "Metabolism - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ZDTXjz0xT8s5",
+      "address": "https://astrobiology.com/2026/07/16/discovery-oxygenic-photosynthesis-is-possible-with-only-one-photosystem/",
+      "title": "Discovery: Oxygenic Photosynthesis Is Possible With Only One Photosystem - Astrobiology",
+      "grade": 1
+    },
+    {
+      "hash": "bwl7Kl0vY5X7",
+      "address": "https://www.europeanscientist.com/en/agriculture/project-to-understand-the-dynamics-of-photosynthesis-and-improve-indoor-agriculture/",
+      "title": "Project to understand the dynamics of photosynthesis and improve indoor agriculture",
+      "grade": 1
+    },
+    {
+      "hash": "atV1QltNwpr4",
+      "address": "https://www.dw.com/en/can-you-replicate-photosynthesis/video-50970762",
+      "title": "Can you replicate photosynthesis?",
+      "grade": 1
+    },
+    {
+      "hash": "bYtFGl6N3OQy",
+      "address": "https://www.quantamagazine.org/an-early-step-on-the-long-strange-road-to-photosynthesis-20260610/",
+      "title": "An Early Step on the Long, Strange Road to Photosynthesis | Quanta Magazine",
+      "grade": 1
+    },
+    {
+      "hash": "YHsgmyOpC_C5",
+      "address": "https://www.sciencedaily.com/releases/2023/05/230503121144.htm",
+      "title": "Researchers capture elusive missing step in the final act of photosynthesis | ScienceDaily",
+      "grade": 1
+    },
+    {
+      "hash": "lRs-k3ph0Po5",
+      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/temperature-response.html",
+      "title": "Fitting temperature response curves - photosynthesis",
+      "grade": 0
+    },
+    {
+      "hash": "moAEp3ph0Po5",
+      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/hydraulic-vulnerability.html",
+      "title": "Fitting hydraulic vulnerability curves - photosynthesis",
+      "grade": 0
+    },
+    {
+      "hash": "6mi4ge_7hlDw",
+      "address": "https://joannenova.com.au/",
+      "title": "JoNova",
+      "grade": 0
+    },
+    {
+      "hash": "hkMowO6liOyQ",
+      "address": "http://www-formal.stanford.edu/jmc/nature/node21.html",
+      "title": "Carbon dioxide",
+      "grade": 0
+    },
+    {
+      "hash": "4rc4VKBAZ7Y4",
+      "address": "https://www.scribd.com/document/699690461/Ngorima-Bio-Notes",
+      "title": "Biology Safety and Chemical Basics | PDF | Enzyme | Stoma",
+      "grade": 0
+    },
+    {
+      "hash": "YdfoOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/C4_plant",
+      "title": "C4 carbon fixation - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "8hMAdnWShwPz",
+      "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
+      "title": "Photosynthesis",
       "grade": 2
+    },
+    {
+      "hash": "qYAzVssqzCN5",
+      "address": "https://microbenotes.com/photosynthetic-pigments/",
+      "title": "Photosynthetic Pigments: Types and Functions",
+      "grade": 1
+    },
+    {
+      "hash": "CqM_kEmUv-3x",
+      "address": "https://bio4climate.org/featured-creature/featured-creature-eastern-emerald-elysia/",
+      "title": "Featured Creature: Eastern Emerald Elysia - Biodiversity for a Livable Climate",
+      "grade": 1
     }
   ]
 }

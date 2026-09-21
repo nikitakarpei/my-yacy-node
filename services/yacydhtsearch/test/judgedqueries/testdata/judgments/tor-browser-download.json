@@ -2,249 +2,9 @@
   "query": "tor browser download",
   "judgedDocuments": [
     {
-      "hash": "GGMS3sobwjLx",
-      "address": "https://www.torproject.org/about/history/",
-      "title": "Tor Project | History",
-      "grade": 0
-    },
-    {
-      "hash": "bdPAIs8BaC94",
-      "address": "https://brave.com/download/",
-      "title": "Brave Browser Download | Brave",
-      "grade": 0
-    },
-    {
-      "hash": "K70q7h3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Tor_project",
-      "title": "Category:Tor project - Wikimedia Commons",
-      "grade": 0
-    },
-    {
-      "hash": "-f3tGEzgE7ix",
-      "address": "https://support.torproject.org/",
-      "title": "Support — Tor",
-      "grade": 1
-    },
-    {
-      "hash": "U_n9MsIq6BFg",
-      "address": "https://proton.me/lumo/download?ref=bannerredirect",
-      "title": "Lumo, the privacy-first AI. Download now | Proton",
-      "grade": 0
-    },
-    {
-      "hash": "JwlpNEzgE7ix",
-      "address": "https://support.torproject.org/tor-browser/",
-      "title": "Tor Browser — Tor",
-      "grade": 1
-    },
-    {
-      "hash": "sJZNEgvNEOe4",
-      "address": "https://progressivekw.weebly.com/blog/tor-7zip-download",
-      "title": "Tor 7zip download - progressivekw",
-      "grade": 1
-    },
-    {
-      "hash": "ub2Kg2RWDb2b",
-      "address": "http://formulasherbolarias.com/notepad/8-quick-ways-to-use-your-browser-as-a-notepad-54/",
-      "title": "8 Quick Ways to Use Your Browser as a Notepad – Formulas Herbolarias Magistrales",
-      "grade": 0
-    },
-    {
-      "hash": "1B49sv4zh206",
-      "address": "https://lsprintingpress.com/product/2024-new-session-school-admission-open-posters-coral-draw-design-download-100-fully-editable-printable-all-font-included-zip-file/",
-      "title": "2024 New Session School Admission Open Posters Coral Draw Design Download 100% Fully Editable \u0026 Printable All Font Included Zip File - L S PRINTING PRESS",
-      "grade": 0
-    },
-    {
-      "hash": "VEd6EjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mercury_Browser",
-      "title": "Mercury Browser - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "_Um5-ezgE7ix",
-      "address": "https://support.torproject.org/tor-browser/features/default-search-engine/",
-      "title": "Default search engine - Features - Tor Browser — Tor",
-      "grade": 1
-    },
-    {
-      "hash": "2fZWe_pFiLix",
-      "address": "https://2019.www.torproject.org/projects/torbrowser/design/",
-      "title": "The Design and Implementation of the Tor Browser [DRAFT]",
-      "grade": 1
-    },
-    {
-      "hash": "whqRStS6MKD4",
-      "address": "https://github.com/trending/developers",
-      "title": "Trending developers on GitHub today · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "eiVLxezgE7ix",
-      "address": "https://support.torproject.org/tor-browser/getting-started/installing/",
-      "title": "Installing - Getting started - Tor Browser — Tor",
-      "grade": 2
-    },
-    {
-      "hash": "8ETQ778cRLz5",
-      "address": "https://www.afterdawn.com/glossary/term.cfm/udif",
-      "title": "What means UDIF? - AfterDawn",
-      "grade": 0
-    },
-    {
-      "hash": "CzzmkezgE7ix",
-      "address": "https://support.torproject.org/tor-browser/features/fingerprinting-protections/",
-      "title": "Fingerprinting protections - Features - Tor Browser — Tor",
-      "grade": 1
-    },
-    {
-      "hash": "s1GgLsIq6BFg",
-      "address": "https://proton.me/lumo/download",
-      "title": "Lumo, the privacy-first AI. Download now | Proton",
-      "grade": 0
-    },
-    {
-      "hash": "yWjiqUwYpnl5",
-      "address": "https://protonvpn.com/blog/what-is-tor-browser",
-      "title": "What is Tor Browser? | Proton VPN",
-      "grade": 1
-    },
-    {
-      "hash": "B1eHQs8BaC94",
-      "address": "https://brave.com/",
-      "title": "The browser that puts you first | Brave",
-      "grade": 0
-    },
-    {
-      "hash": "ZISdac4dOwMx",
-      "address": "https://newsletter.torproject.org/",
-      "title": "Tor Newsletter Archive | The Tor Project",
-      "grade": 0
-    },
-    {
-      "hash": "G82vNKZ1LEAQ",
-      "address": "http://www.webupd8.org/2013/12/tor-browser-bundle-ubuntu-ppa.html",
-      "title": "Tor Browser Bundle Ubuntu PPA ~ Web Upd8: Ubuntu / Linux blog",
-      "grade": 1
-    },
-    {
-      "hash": "K6j1OsobwjLx",
-      "address": "https://www.torproject.org/about/supporters/",
-      "title": "Tor Project | Supporters",
-      "grade": 0
-    },
-    {
-      "hash": "qaAz-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/UC_Browser",
-      "title": "UC Browser - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "7F9Arc8BaC94",
-      "address": "https://brave.com/privacy/browser/",
-      "title": "Browser Privacy Policy | Brave",
-      "grade": 0
-    },
-    {
-      "hash": "okcdlsobwjLx",
-      "address": "https://www.torproject.org/about/people/",
-      "title": "Tor Project | People",
-      "grade": 0
-    },
-    {
-      "hash": "-t3HAjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Firefox",
-      "title": "Firefox - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "-cSx3ezgE7ix",
-      "address": "https://support.torproject.org/tor-browser/getting-started/languages/",
-      "title": "Language support - Getting started - Tor Browser — Tor",
-      "grade": 1
-    },
-    {
-      "hash": "ynNRB80Ns5jx",
-      "address": "https://donate.torproject.org/",
-      "title": "Tor Project",
-      "grade": 0
-    },
-    {
-      "hash": "TfmnDlobwjLx",
-      "address": "https://www.torproject.org/",
-      "title": "Tor Project | Anonymity Online",
-      "grade": 2
-    },
-    {
-      "hash": "VIas57Sq7P5Z",
-      "address": "http://onionurls.com/",
-      "title": ".Onion Tor Urls",
-      "grade": 0
-    },
-    {
-      "hash": "vBvwWFiwa444",
-      "address": "https://apps.apple.com/us/app/onion-browser/id519296448",
-      "title": "‎Onion Browser App - App Store",
-      "grade": 1
-    },
-    {
-      "hash": "NuU3UtYEKFwx",
-      "address": "https://blog.torproject.org/what-tor-supporter-looks-edward-snowden/",
-      "title": "This is What a Tor Supporter Looks Like: Edward Snowden | The Tor Project",
-      "grade": 0
-    },
-    {
-      "hash": "noFgGjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Beaker_(web_browser)",
-      "title": "Beaker (web browser) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "OSEoVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Opera_(web_browser)",
-      "title": "Opera (web browser) - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "EXfKitYEKFwx",
-      "address": "https://blog.torproject.org/what-tor-supporter-looks-molly-crabapple/",
-      "title": "This is what a Tor Supporter looks like: Molly Crabapple | The Tor Project",
-      "grade": 0
-    },
-    {
-      "hash": "Khe206PZ2Wzx",
-      "address": "https://wikileaks.org/wiki/Category:Incomplete_pages",
-      "title": "Category:Incomplete pages - WikiLeaks",
-      "grade": 0
-    },
-    {
-      "hash": "nIE0R7T64v7Y",
-      "address": "http://oniondir.biz/",
-      "title": "Deep Web Links Tor",
-      "grade": 0
-    },
-    {
-      "hash": "6CH5KUIq6BFg",
-      "address": "https://proton.me/blog/clearing-browser-cache",
-      "title": "Clearing Browser Cache | Proton",
-      "grade": 0
-    },
-    {
-      "hash": "QMfrXtYEKFwx",
-      "address": "https://blog.torproject.org/tor-browser-advancing-privacy-innovation/",
-      "title": "Tor Browser: a legacy of advancing private browsing innovation | The Tor Project",
-      "grade": 1
-    },
-    {
-      "hash": "aL6J8UIq6BFg",
-      "address": "https://proton.me/blog/best-browser-for-privacy",
-      "title": "Which is the best browser for privacy in 2026? | Proton",
-      "grade": 0
-    },
-    {
-      "hash": "CiziHp2aOONx",
-      "address": "https://community.torproject.org/relay/community-resources/bad-relays/",
-      "title": "Tor Project | Bad relays",
+      "hash": "ZIpt0ssN9ffw",
+      "address": "https://noscript.net/",
+      "title": "What is it? / NoScript - consensual browsing! - My browser, my choice.",
       "grade": 0
     },
     {
@@ -254,28 +14,262 @@
       "grade": 0
     },
     {
-      "hash": "WNklljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Tor2web",
-      "title": "Tor2web - Wikipedia",
+      "hash": "TfmnDlobwjLx",
+      "address": "https://www.torproject.org/",
+      "title": "Tor Project | Anonymity Online",
+      "grade": 2
+    },
+    {
+      "hash": "k4DY90NYAPqx",
+      "address": "https://our.wikileaks.org/Main_Page",
+      "title": "our.wikileaks.org",
       "grade": 0
     },
     {
-      "hash": "aJD3vmIq6BFg",
-      "address": "https://proton.me/support/2fa-security-key",
-      "title": "Set up two-factor authentication (2FA) with a security key | Proton",
+      "hash": "rVMD7sPZ2Wzx",
+      "address": "https://wikileaks.org/popeorders/",
+      "title": "WikiLeaks - Pope's Orders",
       "grade": 0
     },
     {
-      "hash": "2MFHBtYEKFwx",
-      "address": "https://blog.torproject.org/did-fbi-pay-university-attack-tor-users/",
-      "title": "Did the FBI Pay a University to Attack Tor Users? | The Tor Project",
+      "hash": "ye8arsPZ2Wzx",
+      "address": "https://wikileaks.org/-Partners-.html",
+      "title": "Partners",
       "grade": 0
     },
     {
-      "hash": "6HdcFnA8Y7d4",
-      "address": "https://en.uptodown.com/mac",
-      "title": "App Downloads for Mac - Download, Discover, Share on Uptodown",
+      "hash": "PidGYs8BaC94",
+      "address": "https://brave.com/search/",
+      "title": "What is Brave Search? | Brave",
       "grade": 0
+    },
+    {
+      "hash": "bSqIPlH6Lg34",
+      "address": "https://www.nbcnews.com/tips/",
+      "title": "NBC News Tips - NBC News",
+      "grade": 0
+    },
+    {
+      "hash": "Dvz2SsPZ2Wzx",
+      "address": "https://wikileaks.org/",
+      "title": "WikiLeaks",
+      "grade": 0
+    },
+    {
+      "hash": "O_kF4lnpYua5",
+      "address": "https://www.theguardian.com/securedrop",
+      "title": "The Guardian SecureDrop",
+      "grade": 0
+    },
+    {
+      "hash": "SwWUDsPZ2Wzx",
+      "address": "https://wikileaks.org/opcw-douma/",
+      "title": "WikiLeaks - OPCW Douma Docs",
+      "grade": 0
+    },
+    {
+      "hash": "bdPAIs8BaC94",
+      "address": "https://brave.com/download/",
+      "title": "Brave Browser Download | Brave",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "qbP3DsobwjLx",
+      "address": "https://www.torproject.org/about/trademark/",
+      "title": "Tor Project | Trademark",
+      "grade": 0
+    },
+    {
+      "hash": "QW2_8CXMoDnw",
+      "address": "https://mullvad.net/en/browser",
+      "title": "Free the internet with Mullvad Browser",
+      "grade": 0
+    },
+    {
+      "hash": "-t3HAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Firefox",
+      "title": "Firefox - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "WqA5TXIq6BFg",
+      "address": "https://proton.me/calendar/download",
+      "title": "Download Proton Calendar for Android \u0026 iOS | Proton",
+      "grade": 0
+    },
+    {
+      "hash": "-f3tGEzgE7ix",
+      "address": "https://support.torproject.org/",
+      "title": "Support — Tor",
+      "grade": 1
+    },
+    {
+      "hash": "u9W3gb2aOONx",
+      "address": "https://community.torproject.org/",
+      "title": "Tor Project | Join the Tor Community",
+      "grade": 0
+    },
+    {
+      "hash": "7XxK0tYEKFwx",
+      "address": "https://blog.torproject.org/",
+      "title": "Tor Blog | The Tor Project",
+      "grade": 1
+    },
+    {
+      "hash": "_sYaGlobwjLx",
+      "address": "https://www.torproject.org/press/",
+      "title": "Tor Project | Press",
+      "grade": 0
+    },
+    {
+      "hash": "ly55OlobwjLx",
+      "address": "https://www.torproject.org/contact/",
+      "title": "Tor Project | Contact",
+      "grade": 0
+    },
+    {
+      "hash": "mqiB0lobwjLx",
+      "address": "https://www.torproject.org/privchat/",
+      "title": "Tor Project | PrivChat",
+      "grade": 0
+    },
+    {
+      "hash": "okcdlsobwjLx",
+      "address": "https://www.torproject.org/about/people/",
+      "title": "Tor Project | People",
+      "grade": 0
+    },
+    {
+      "hash": "ynNRB80Ns5jx",
+      "address": "https://donate.torproject.org/",
+      "title": "Tor Project",
+      "grade": 0
+    },
+    {
+      "hash": "3xhUxsobwjLx",
+      "address": "https://www.torproject.org/about/jobs/",
+      "title": "Tor Project | Jobs",
+      "grade": 0
+    },
+    {
+      "hash": "GGMS3sobwjLx",
+      "address": "https://www.torproject.org/about/history/",
+      "title": "Tor Project | History",
+      "grade": 0
+    },
+    {
+      "hash": "xisT8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Web_browser",
+      "title": "Web browser - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "4hTXxWIq6BFg",
+      "address": "https://proton.me/mail/download",
+      "title": "Download the Proton Mail App for iOS, Android \u0026 Desktop | Proton",
+      "grade": 0
+    },
+    {
+      "hash": "K6j1OsobwjLx",
+      "address": "https://www.torproject.org/about/supporters/",
+      "title": "Tor Project | Supporters",
+      "grade": 0
+    },
+    {
+      "hash": "ZISdac4dOwMx",
+      "address": "https://newsletter.torproject.org/",
+      "title": "Tor Newsletter Archive | The Tor Project",
+      "grade": 0
+    },
+    {
+      "hash": "zPcHujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Browser_extension",
+      "title": "Browser extension - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "7-6uDVkFtHU5",
+      "address": "https://www.openculture.com/2014/01/download-over-250-free-art-books-from-the-getty-museum.html",
+      "title": "Download Over 300+ Free Art Books From the Getty Museum | Open Culture",
+      "grade": 0
+    },
+    {
+      "hash": "Vp7QK8kFtHU5",
+      "address": "https://www.openculture.com/2015/03/download-422-free-art-books-from-the-metropolitan-museum-of-art.html",
+      "title": "Download 576 Free Art Books from The Metropolitan Museum of Art | Open Culture",
+      "grade": 0
+    },
+    {
+      "hash": "h4d0CVkFtHU5",
+      "address": "https://www.openculture.com/2014/03/new-york-public-library-puts-20000-hi-res-maps-online.html",
+      "title": "New York Public Library Puts 20,000 Hi-Res Maps Online \u0026 Makes Them Free to Download and Use | Open Culture",
+      "grade": 0
+    },
+    {
+      "hash": "tcmp18kFtHU5",
+      "address": "https://www.openculture.com/2015/06/smithsonian-digitizes-lets-you-download-40000-works-of-asian-and-american-art.html",
+      "title": "Smithsonian Digitizes \u0026 Lets You Download 40,000 Works of Asian and American Art | Open Culture",
+      "grade": 0
+    },
+    {
+      "hash": "wAP7Nsi4sOk5",
+      "address": "https://bitwarden.com/download/",
+      "title": "Download the Bitwarden Password Manager App for iPhone, Android, Chrome, Safari, and More | Bitwarden",
+      "grade": 0
+    },
+    {
+      "hash": "B1eHQs8BaC94",
+      "address": "https://brave.com/",
+      "title": "The browser that puts you first | Brave",
+      "grade": 0
+    },
+    {
+      "hash": "lTW3F2Iq6BFg",
+      "address": "https://proton.me/pass/download",
+      "title": "Proton Pass: Password manager download | Proton",
+      "grade": 0
+    },
+    {
+      "hash": "whqRStS6MKD4",
+      "address": "https://github.com/trending/developers",
+      "title": "Trending developers on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "XkLn9s8BaC94",
+      "address": "https://brave.com/features/",
+      "title": "Brave Browser Features | Brave",
+      "grade": 0
+    },
+    {
+      "hash": "_cm4rPyMcJ14",
+      "address": "https://brave-browser.en.uptodown.com/mac",
+      "title": "Brave Browser for Mac - Download it from Uptodown for free",
+      "grade": 0
+    },
+    {
+      "hash": "4vaCAnA8Y7d4",
+      "address": "https://en.uptodown.com/",
+      "title": "App Downloads for Android - Download, Discover, Share on Uptodown",
+      "grade": 0
+    },
+    {
+      "hash": "LOww0BleNJO6",
+      "address": "https://www.bleepingcomputer.com/virus-removal/how-to-remove-the-pblock-adware-extension",
+      "title": "How to remove the PBlock+ adware browser extension",
+      "grade": 0
+    },
+    {
+      "hash": "HxMEiMDWn_q4",
+      "address": "https://help.kagi.com/kagi/getting-started/accessing-via-tor.html",
+      "title": "Accessing via Tor | Kagi's Docs",
+      "grade": 1
     }
   ]
 }

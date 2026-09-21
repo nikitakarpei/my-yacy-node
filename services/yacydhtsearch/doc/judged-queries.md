@@ -1,43 +1,32 @@
 # Judged queries
 
 The judged query set measures how well the ordering of the service puts the
-documents that answer a query first. It holds 80 queries: one word, two words,
-three or more words, navigational, other languages, and queries no peer answers.
+documents that answer a query first. It holds 80 queries: of one word, of two,
+of three or more, navigational, in other languages, and queries no peer answers.
 Each query has three files in `test/judgedqueries/testdata/`, named by the query
-words in lower case and joined by `-`: `answers/`, `judgments/`, `pagetext/`.
+words in lower case and joined by `-`: `answers/`, `judgments/`, `pages/`.
+`judged-query-grades.md` gives the grades, the language rule and the spam mark.
 
 ## The gate
 
 `TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the first
 ten graded documents of each ordering. The gain of a document is its grade,
 discounted by its place, and discounted by half again for each document of its
-host above it that has the grade 1 or more. The gate divides by the gain of the
-ideal order and drops a document of the grade `null`.
+site above it that has the grade 1 or more. A site is the host of the address
+without the world wide web label. The gate divides by the gain of the ideal
+order and drops a document of the grade `null`.
 
-The mean gain must stay at least the lift of the test above the found order,
-the order in which the service found the documents. It must also stay at or
-above the mean in `testdata/accepted-gain-per-judged-query.json`, less the
-tolerance of the test, over the queries that both hold. A query accepted above
-zero must not fall to zero. The gate logs the spam documents in each first ten.
+The mean gain must stay at least the lift of the test above the found order. It
+must also stay at or above the mean in
+`testdata/accepted-gain-per-judged-query.json`, less the tolerance of the test,
+over the queries that both hold. A query accepted above zero must not fall to
+zero. The gate logs the spam documents in each first ten.
 
-## How to grade
+## How to write the fixtures again
 
-A document is judged when it has a grade, when its page text is stored, or when
-the found order or the ordering of the service puts it in its first ten. A new
-document gets `null`. Grade it from the stored page text, title and address:
-
-- `2` — the page answers the query. For a query that names a site or a
-  product, only the page the name points at gets `2`, not its other pages.
-- `1` — the subject of the query is a main topic of the page, but the page
-  does not answer it.
-- `0` — the page has nothing to do with the query, only shares a word with it,
-  lists many subjects as a tag page does, or is spam, even on the subject.
-  Also give a spam page `"spam": true`.
-
-A document with no stored text gets at most the grade `1`, and few documents
-of a pool reach `2`. Never change a grade or a spam mark a person gave.
-
-## How to record the answers again
+Run each step from `services/yacydhtsearch`. The steps come in this order: a
+recording gives the answers, a capture gives the pages, and the derivation
+gives the contents of the pages to the answers and the judgments.
 
 The recorder asks the live freeworld network and reads the pages of the first
 fifty documents from the web. It needs egress and writes every file again. A
@@ -48,14 +37,21 @@ YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test -timeout 40m -v \
     -run TestRecordWhatThePeersAnswerForTheJudgedQueries ./test/judgedqueries/
 ```
 
-## How to derive the answers again
+The capture reads from the web the page of each document a judgments file
+names, and writes the pages file of every query again. It needs egress.
 
-This step writes the hits, the query phrase hits, the amount of words and the
-snippet of each answers file again from the stored page text.
+```sh
+YACYDHTSEARCH_CAPTURE_JUDGED_QUERY_PAGES=1 go test -timeout 40m -v \
+    -run TestCaptureThePagesOfTheJudgedQueries ./test/judgedqueries/
+```
+
+The derivation writes from the stored page the title, the snippet, the hits,
+the query phrase hits, the amount of words and the links of each kind. It keeps
+the time of the recording.
 
 ```sh
 YACYDHTSEARCH_DERIVE_JUDGED_QUERIES=1 go test -v \
-    -run TestDeriveTheJudgedQueriesFromTheStoredPageText ./test/judgedqueries/
+    -run TestDeriveTheJudgedQueriesFromTheStoredPages ./test/judgedqueries/
 ```
 
 ## How to accept a new baseline
@@ -76,5 +72,3 @@ on one half of the queries to measure on the other, and changes no file.
 YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS=1 go test -timeout 30m -v \
     -run TestTuneTheScoreWeightsOfTheRelevanceOrdering ./test/judgedqueries/
 ```
-
-Run each step from `services/yacydhtsearch`.

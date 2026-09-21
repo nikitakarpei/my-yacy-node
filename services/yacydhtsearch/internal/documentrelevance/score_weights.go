@@ -5,6 +5,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+const scoreOfAnUncountedFact = 0.0
+
 type ScoreWeights struct {
 	WeightOfTheTitleScore          float64
 	WeightOfTheTextScore           float64
@@ -25,8 +27,9 @@ func DefaultScoreWeights() ScoreWeights {
 
 func (weights ScoreWeights) relevanceOf(
 	foundDocument queryanswers.FoundDocument,
+	facts queryanswers.DocumentFacts,
 	rarityOfTheQueryWords queryWordRarity,
-	averageDocumentLength float64,
+	averageFacts averageFactsAnyoneCounted,
 	queryWords []yacymodel.Hash,
 ) float64 {
 	return weights.WeightOfTheTitleScore*titleScoreOf(
@@ -36,19 +39,18 @@ func (weights ScoreWeights) relevanceOf(
 	) +
 		weights.WeightOfTheTextScore*
 			textScoreOf(
-				foundDocument,
+				facts,
 				rarityOfTheQueryWords,
-				averageDocumentLength,
+				averageFacts.amountOfWords,
 				queryWords,
 			) +
-		weights.WeightOfThePhraseScore*phraseScoreOf(
-			foundDocument,
-		) +
+		weights.WeightOfThePhraseScore*phraseScoreOf(facts).
+			OrElse(scoreOfAnUncountedFact) +
 		weights.WeightOfTheNamedSiteEntryScore*namedSiteEntryScoreOf(
 			foundDocument,
 			queryWords,
 		) -
 		weights.WeightOfTheLinkSparsityPenalty*linkSparsityPenaltyOf(
-			foundDocument,
+			facts, averageFacts.linkSparsityPenalty,
 		)
 }
