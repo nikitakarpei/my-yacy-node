@@ -19,15 +19,16 @@ const (
 )
 
 var (
-	weightValuesOfTheGridOfTheTitleScore           = []float64{0, 3, 6, 10, 15}
-	weightValuesOfTheGridOfTheScoresBesideTheTitle = []float64{0, 0.25, 0.5, 1, 3}
-	weightValuesOfTheGridOfTheNamedSiteEntryScore  = []float64{0, 5, 15}
-	weightValuesOfTheGridOfTheLinkSparsityPenalty  = []float64{0, 1.5, 3}
+	weightValuesOfTheGridOfTheTitleScore          = []float64{0, 3, 6, 10, 15}
+	weightValuesOfTheGridOfTheTextScore           = []float64{0, 0.5, 1, 3, 6, 10}
+	weightValuesOfTheGridOfThePhraseScore         = []float64{0, 0.25, 0.5, 1, 3}
+	weightValuesOfTheGridOfTheNamedSiteEntryScore = []float64{0, 5, 15}
+	weightValuesOfTheGridOfTheLinkSparsityPenalty = []float64{0, 1.5, 3}
 
 	weightValuesOfTheGridOfEachScore = [amountOfWeightsOfTheScoreWeights][]float64{
 		weightValuesOfTheGridOfTheTitleScore,
-		weightValuesOfTheGridOfTheScoresBesideTheTitle,
-		weightValuesOfTheGridOfTheScoresBesideTheTitle,
+		weightValuesOfTheGridOfTheTextScore,
+		weightValuesOfTheGridOfThePhraseScore,
 		weightValuesOfTheGridOfTheNamedSiteEntryScore,
 		weightValuesOfTheGridOfTheLinkSparsityPenalty,
 	}
