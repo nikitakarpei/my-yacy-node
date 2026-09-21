@@ -9,19 +9,32 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
+
+const snippetLengthCeiling = 300
+
+type answersAndPageContents struct {
+	answers                 queryanswers.AnsweredQuery
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
+}
+
+func answersAndPageContentsOf(
+	answers queryanswers.AnsweredQuery,
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
+) answersAndPageContents {
+	return answersAndPageContents{
+		answers:                 answers.WithReadPages(pageContentsPerDocument),
+		pageContentsPerDocument: pageContentsPerDocument,
+	}
+}
 
 type pageExtraction struct {
 	formatDerivations pageformats.FormatDerivationCatalog
 }
 
-type extractedPage struct {
-	title      string
-	text       string
-	linkCounts pagecontents.LinkCounts
-}
-
-func pageExtractionOfTheFormats(t *testing.T) pageExtraction {
+func pageExtractionOfEveryFormat(t *testing.T) pageExtraction {
 	t.Helper()
 
 	formatDerivations, err := pageformats.New()
@@ -32,7 +45,42 @@ func pageExtractionOfTheFormats(t *testing.T) pageExtraction {
 	return pageExtraction{formatDerivations: formatDerivations}
 }
 
-func (e pageExtraction) extractedPageOf(ctx context.Context, page storedPage) extractedPage {
+func (extraction pageExtraction) pageContentsPerDocumentOf(
+	ctx context.Context,
+	answers queryanswers.AnsweredQuery,
+	storedPagePerAddress map[string]storedPage,
+) map[yacymodel.URLHash]pagecontents.PageContents {
+	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
+	for _, foundDocument := range answers.FoundDocuments {
+		page, stored := storedPagePerAddress[foundDocument.Address]
+		if !stored {
+			continue
+		}
+		extractedPage := extraction.extractedPageOf(ctx, page)
+		if extractedPage.text == "" {
+			continue
+		}
+		pageContentsPerDocument[foundDocument.Hash] = pagecontents.PageContentsFrom(
+			extractedPage.title,
+			extractedPage.text,
+			extractedPage.linkCounts,
+			answers.QueryWords,
+			snippetLengthCeiling,
+		)
+	}
+
+	return pageContentsPerDocument
+}
+
+type extractedPage struct {
+	title      string
+	text       string
+	linkCounts pagecontents.LinkCounts
+}
+
+func (extraction pageExtraction) extractedPageOf(
+	ctx context.Context, page storedPage,
+) extractedPage {
 	pageURL, err := canonicalurl.CanonicalURLOf(page.address)
 	if err != nil {
 		return extractedPage{}
@@ -44,7 +92,7 @@ func (e pageExtraction) extractedPageOf(ctx context.Context, page storedPage) ex
 
 	return extractedPage{
 		title: document.Title,
-		text:  e.textOfTheDocument(ctx, document, pageURL),
+		text:  extraction.textOf(ctx, document, pageURL),
 		linkCounts: pagecontents.LinkCounts{
 			LocalLinks:    document.LocalLinks,
 			ExternalLinks: document.ExternalLinks,
@@ -52,18 +100,18 @@ func (e pageExtraction) extractedPageOf(ctx context.Context, page storedPage) ex
 	}
 }
 
-func (e pageExtraction) textOfTheDocument(
+func (extraction pageExtraction) textOf(
 	ctx context.Context,
 	document documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) string {
-	readableText, readableTextDerived := e.formatDerivations.BodyIn(
+	readableText, readableTextDerived := extraction.formatDerivations.BodyIn(
 		ctx, documentextraction.FormatReadableText, document, pageURL,
 	)
 	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
 		return string(readableText)
 	}
-	fullText, fullTextDerived := e.formatDerivations.BodyIn(
+	fullText, fullTextDerived := extraction.formatDerivations.BodyIn(
 		ctx, documentextraction.FormatFullText, document, pageURL,
 	)
 	if !fullTextDerived {
