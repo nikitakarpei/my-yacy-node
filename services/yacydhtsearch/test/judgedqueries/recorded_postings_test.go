@@ -31,16 +31,19 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 		},
 	}, metadata)
 
-	read := answersWrittenAndReadBack(
+	readReplicas := answersWrittenAndReadBack(
 		t, answersAndPageContentsOf(answers, nil),
 	).FoundDocuments[0].PostingReplicas
 
-	if len(read) != 2 || !read[0].Posting.WordHash.IsZero() ||
-		read[0].Holder != firstHolder || read[0].Posting.TitleWords != 4 ||
-		read[0].Posting.Phrases != 90 || read[0].Word.OrElse(yacymodel.Hash{}) !=
+	if len(readReplicas) != 2 || !readReplicas[0].Posting.WordHash.IsZero() ||
+		readReplicas[0].Holder != firstHolder || readReplicas[0].Posting.TitleWords != 4 ||
+		readReplicas[0].Posting.Phrases != 90 || readReplicas[0].Word.OrElse(yacymodel.Hash{}) !=
 		yacymodel.WordHash("berlin") ||
-		read[1].Holder != secondHolder || read[1].Word.Present() {
-		t.Fatalf("the recorded document holds the postings %+v, want both holders in order", read)
+		readReplicas[1].Holder != secondHolder || readReplicas[1].Word.Present() {
+		t.Fatalf(
+			"the recorded document holds the postings %+v, want both holders in order",
+			readReplicas,
+		)
 	}
 }
 
@@ -101,15 +104,18 @@ func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
 		ExternalLinks: 7,
 	})
 
-	read := answersWrittenAndReadBack(
+	readReplicas := answersWrittenAndReadBack(
 		t, answersAndPageContentsOf(answers, nil),
 	).FoundDocuments[0].MetadataReplicas
 
-	if len(read) != 1 || read[0].Metadata.Author != "A writer" ||
-		len(read[0].Metadata.Tags) != 2 || read[0].Metadata.WordCount != 1200 ||
-		read[0].Metadata.ImageLinks != 5 ||
-		read[0].Metadata.Language.OrElse(yacymodel.Language{}) != german {
-		t.Fatalf("the recorded document holds the metadata %+v, want what the peer reported", read)
+	if len(readReplicas) != 1 || readReplicas[0].Metadata.Author != "A writer" ||
+		len(readReplicas[0].Metadata.Tags) != 2 || readReplicas[0].Metadata.WordCount != 1200 ||
+		readReplicas[0].Metadata.ImageLinks != 5 ||
+		readReplicas[0].Metadata.Language.OrElse(yacymodel.Language{}) != german {
+		t.Fatalf(
+			"the recorded document holds the metadata %+v, want what the peer reported",
+			readReplicas,
+		)
 	}
 }
 

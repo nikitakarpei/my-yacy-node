@@ -153,13 +153,13 @@ func readWARCVersionLine(t *testing.T, reader *bufio.Reader) bool {
 		if err != nil && err != io.EOF {
 			t.Fatalf("read a warc record: %v", err)
 		}
-		trimmed := string(bytes.TrimSpace([]byte(line)))
-		if trimmed == "" {
+		trimmedLine := string(bytes.TrimSpace([]byte(line)))
+		if trimmedLine == "" {
 			continue
 		}
-		if trimmed != warcVersionLine {
+		if trimmedLine != warcVersionLine {
 			t.Fatalf("read a warc record: the version line reads %q, want %q",
-				trimmed, warcVersionLine)
+				trimmedLine, warcVersionLine)
 		}
 
 		return true

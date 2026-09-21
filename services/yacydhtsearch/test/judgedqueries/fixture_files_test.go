@@ -48,6 +48,9 @@ func indentedJSONOf(t *testing.T, fixture any) []byte {
 func writeGzippedFixtureFile(t *testing.T, path string, content []byte) {
 	t.Helper()
 
+	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
+		t.Fatalf("write %s: %v", path, err)
+	}
 	var compressed bytes.Buffer
 	compressing := gzip.NewWriter(&compressed)
 	if _, err := compressing.Write(content); err != nil {
@@ -83,6 +86,9 @@ func contentOfGzippedFixtureFile(t *testing.T, path string) []byte {
 func writeZstandardFixtureFile(t *testing.T, path string, content []byte) {
 	t.Helper()
 
+	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
+		t.Fatalf("write %s: %v", path, err)
+	}
 	var compressed bytes.Buffer
 	compressing, err := zstd.NewWriter(
 		&compressed, zstd.WithEncoderLevel(zstd.SpeedBestCompression),

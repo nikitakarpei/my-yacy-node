@@ -28,11 +28,11 @@ func (fetching pageFetching) capturePagesOf(t *testing.T, answersFile string) {
 	t.Helper()
 
 	recorded := recordedAnswersAt(t, answersFile)
-	documentsToCapture := judgedDocumentsAmong(t, recorded)
-	pages := fetching.fetchedPagesOf(t.Context(), documentsToCapture)
+	judgedDocuments := judgedDocumentsAmong(t, recorded)
+	pages := fetching.fetchedPagesOf(t.Context(), judgedDocuments)
 	writeStoredPagesOf(t, recorded.Query, pages)
 	t.Logf("%q captured the page of %d of the %d judged documents",
-		recorded.Query, len(pages), len(documentsToCapture))
+		recorded.Query, len(pages), len(judgedDocuments))
 }
 
 func judgedDocumentsAmong(

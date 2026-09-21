@@ -23,11 +23,11 @@ type queryJudgments struct {
 }
 
 type judgedDocument struct {
-	Hash    yacymodel.URLHash `json:"hash"`
-	Address string            `json:"address"`
-	Title   string            `json:"title"`
-	Grade   *int              `json:"grade"`
-	Spam    bool              `json:"spam,omitempty"`
+	Hash    yacymodel.URLHash       `json:"hash"`
+	Address string                  `json:"address"`
+	Title   string                  `json:"title"`
+	Grade   yacymodel.Optional[int] `json:"grade"`
+	Spam    bool                    `json:"spam,omitempty"`
 }
 
 func writeJudgmentsOf(
@@ -103,10 +103,10 @@ func (judgments queryJudgments) judgedDocumentPerHash() map[yacymodel.URLHash]ju
 func (judgments queryJudgments) documentsToJudgeIn(
 	answers queryanswers.AnsweredQuery,
 ) []judgedDocument {
-	documentsToJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
-	maps.Copy(documentsToJudge, documentsAmongTheFirstOf(
+	documentsToJudge := hashesOf(theFirstOf(answers.FoundDocuments))
+	maps.Copy(documentsToJudge, hashesOf(theFirstOf(
 		defaultServiceOrdering().OrderedDocumentsOf(answers),
-	))
+	)))
 	for _, foundDocument := range answers.FoundDocuments {
 		if !foundDocument.Facts.AmountOfWords.Present() {
 			continue
@@ -114,7 +114,7 @@ func (judgments queryJudgments) documentsToJudgeIn(
 		documentsToJudge[foundDocument.Hash] = struct{}{}
 	}
 	for document, judged := range judgments.judgedDocumentPerHash() {
-		if judged.Grade == nil {
+		if !judged.Grade.Present() {
 			continue
 		}
 		documentsToJudge[document] = struct{}{}
@@ -122,7 +122,7 @@ func (judgments queryJudgments) documentsToJudgeIn(
 
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
 	for _, foundDocument := range answers.FoundDocuments {
-		if _, judged := documentsToJudge[foundDocument.Hash]; !judged {
+		if _, toJudge := documentsToJudge[foundDocument.Hash]; !toJudge {
 			continue
 		}
 		judgedDocuments = append(judgedDocuments, judgedDocument{
@@ -135,39 +135,36 @@ func (judgments queryJudgments) documentsToJudgeIn(
 	return judgedDocuments
 }
 
-func documentsAmongTheFirstOf(
-	orderedDocuments []queryanswers.FoundDocument,
-) map[yacymodel.URLHash]struct{} {
-	documentsAmongTheFirst := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
-	for _, orderedDocument := range orderedDocuments[:min(
-		judgedDocumentsCeiling, len(orderedDocuments),
-	)] {
-		documentsAmongTheFirst[orderedDocument.Hash] = struct{}{}
+func hashesOf(documents []queryanswers.FoundDocument) map[yacymodel.URLHash]struct{} {
+	hashes := make(map[yacymodel.URLHash]struct{}, len(documents))
+	for _, document := range documents {
+		hashes[document.Hash] = struct{}{}
 	}
 
-	return documentsAmongTheFirst
+	return hashes
 }
 
 func (judgments queryJudgments) gradedDocuments() gradedDocuments {
-	graded := make(gradedDocuments, len(judgments.JudgedDocuments))
+	gradedPerHash := make(gradedDocuments, len(judgments.JudgedDocuments))
 	for _, judged := range judgments.JudgedDocuments {
-		if judged.Grade == nil {
+		grade, graded := judged.Grade.Get()
+		if !graded {
 			continue
 		}
-		graded[judged.Hash] = gradedDocument{
-			grade: *judged.Grade,
+		gradedPerHash[judged.Hash] = gradedDocument{
+			grade: grade,
 			site:  yacymodel.SiteOf(judged.Address),
 			spam:  judged.Spam,
 		}
 	}
 
-	return graded
+	return gradedPerHash
 }
 
 func (judgments queryJudgments) amountOfUngradedDocuments() int {
 	amountOfUngradedDocuments := 0
 	for _, judged := range judgments.JudgedDocuments {
-		if judged.Grade != nil {
+		if judged.Grade.Present() {
 			continue
 		}
 		amountOfUngradedDocuments++

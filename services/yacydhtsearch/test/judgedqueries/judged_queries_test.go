@@ -50,27 +50,27 @@ func judgedQueriesRecorded(t *testing.T) judgedQueries {
 }
 
 func (queries judgedQueries) ofSeveralRelevantDocuments() judgedQueries {
-	ofSeveralRelevantDocuments := make(judgedQueries, 0, len(queries))
+	queriesOfSeveralRelevantDocuments := make(judgedQueries, 0, len(queries))
 	for _, judgedQuery := range queries {
 		if !judgedQuery.gradedDocuments.holdSeveralRelevantDocuments() {
 			continue
 		}
-		ofSeveralRelevantDocuments = append(ofSeveralRelevantDocuments, judgedQuery)
+		queriesOfSeveralRelevantDocuments = append(queriesOfSeveralRelevantDocuments, judgedQuery)
 	}
 
-	return ofSeveralRelevantDocuments
+	return queriesOfSeveralRelevantDocuments
 }
 
 func (queries judgedQueries) ofOneRelevantDocument() judgedQueries {
-	ofOneRelevantDocument := make(judgedQueries, 0, len(queries))
+	queriesOfOneRelevantDocument := make(judgedQueries, 0, len(queries))
 	for _, judgedQuery := range queries {
 		if judgedQuery.gradedDocuments.holdSeveralRelevantDocuments() {
 			continue
 		}
-		ofOneRelevantDocument = append(ofOneRelevantDocument, judgedQuery)
+		queriesOfOneRelevantDocument = append(queriesOfOneRelevantDocument, judgedQuery)
 	}
 
-	return ofOneRelevantDocument
+	return queriesOfOneRelevantDocument
 }
 
 func (queries judgedQueries) gainPerQueryOf(ordering documentsOrdering) gainPerQuery {
@@ -84,14 +84,7 @@ func (queries judgedQueries) gainPerQueryOf(ordering documentsOrdering) gainPerQ
 }
 
 func (queries judgedQueries) meanGainOf(ordering documentsOrdering) float64 {
-	sumOfNormalizedGains := 0.0
-	for _, judgedQuery := range queries {
-		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainOf(
-			ordering.OrderedDocumentsOf(judgedQuery.answers),
-		)
-	}
-
-	return sumOfNormalizedGains / float64(len(queries))
+	return queries.gainPerQueryOf(ordering).meanGain()
 }
 
 func (queries judgedQueries) meanGainWeighedBy(

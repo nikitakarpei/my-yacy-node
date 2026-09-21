@@ -11,6 +11,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 )
 
+const (
+	budgetPerPage      = 10 * time.Second
+	pageByteCeiling    = 4 * 1024 * 1024
+	pageFetchUserAgent = "yacydhtsearch (+https://yacy.net)"
+)
+
 type pageFetching struct {
 	fetcher     pagefetch.Fetcher
 	pagesBudget time.Duration
@@ -23,7 +29,7 @@ func pageFetchingWithin(pagesBudget time.Duration) pageFetching {
 			pagefetchershttp.ProxyDialTunnel,
 			pageFetchUserAgent,
 			pageByteCeiling,
-			pageBudget,
+			budgetPerPage,
 		),
 		pagesBudget: pagesBudget,
 	}
@@ -33,19 +39,19 @@ func (fetching pageFetching) fetchedPagesOf(
 	ctx context.Context,
 	foundDocuments []queryanswers.FoundDocument,
 ) []storedPage {
-	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, fetching.pagesBudget)
-	defer stopPageReadBudget()
+	budgetedCtx, stopPagesBudget := context.WithTimeout(ctx, fetching.pagesBudget)
+	defer stopPagesBudget()
 
 	pagePerPlace := make([]storedPage, len(foundDocuments))
-	var pagesBeingRead sync.WaitGroup
+	var pagesBeingFetched sync.WaitGroup
 	for place, foundDocument := range foundDocuments {
-		pagesBeingRead.Add(1)
+		pagesBeingFetched.Add(1)
 		go func() {
-			defer pagesBeingRead.Done()
+			defer pagesBeingFetched.Done()
 			pagePerPlace[place] = fetching.fetchedPageAt(budgetedCtx, foundDocument.Address)
 		}()
 	}
-	pagesBeingRead.Wait()
+	pagesBeingFetched.Wait()
 
 	return pagesWithBodyAmong(pagePerPlace)
 }
@@ -55,15 +61,15 @@ func (fetching pageFetching) fetchedPageAt(ctx context.Context, address string) 
 	if err != nil {
 		return storedPage{}
 	}
-	fetched, err := fetching.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
-	if err != nil || fetched.Status != pagefetch.FetchSucceeded {
+	fetchOutcome, err := fetching.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
+	if err != nil || fetchOutcome.Status != pagefetch.FetchSucceeded {
 		return storedPage{}
 	}
 
 	return storedPage{
 		address:     address,
-		contentType: fetched.Page.ContentType,
-		body:        fetched.Page.Body,
+		contentType: fetchOutcome.Page.ContentType,
+		body:        fetchOutcome.Page.Body,
 	}
 }
 

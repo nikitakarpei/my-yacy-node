@@ -36,15 +36,19 @@ func (documents gradedDocuments) normalizedGainOf(
 	return gainOf(documents.inTheOrderOf(orderedDocuments)) / idealGain
 }
 
-func gainOf(rankedDocuments []gradedDocument) float64 {
+func gainOf(documentsInOrder []gradedDocument) float64 {
 	gain := 0.0
 	sites := relevantDocumentsPerSite{}
-	for rank, document := range rankedDocuments[:min(judgedDocumentsCeiling, len(rankedDocuments))] {
-		gain += sites.discountedGainOf(document) / math.Log2(float64(rank)+2)
+	for place, document := range theFirstOf(documentsInOrder) {
+		gain += sites.discountedGainOf(document) / math.Log2(float64(place)+2)
 		sites.count(document)
 	}
 
 	return gain
+}
+
+func theFirstOf[Document any](documentsInOrder []Document) []Document {
+	return documentsInOrder[:min(judgedDocumentsCeiling, len(documentsInOrder))]
 }
 
 type relevantDocumentsPerSite map[string]int
@@ -65,38 +69,38 @@ func (sites relevantDocumentsPerSite) count(document gradedDocument) {
 func (sites relevantDocumentsPerSite) placeOfTheMostGainingAmong(
 	candidates []gradedDocument,
 ) int {
-	mostGaining := 0
-	for candidate := range candidates {
-		if sites.discountedGainOf(candidates[candidate]) >
-			sites.discountedGainOf(candidates[mostGaining]) {
-			mostGaining = candidate
+	mostGainingPlace := 0
+	for place := range candidates {
+		if sites.discountedGainOf(candidates[place]) >
+			sites.discountedGainOf(candidates[mostGainingPlace]) {
+			mostGainingPlace = place
 		}
 	}
 
-	return mostGaining
+	return mostGainingPlace
 }
 
 func (documents gradedDocuments) inTheIdealOrder() []gradedDocument {
 	candidates := documents.inFallingOrderOfGrade()
 
 	sites := relevantDocumentsPerSite{}
-	idealDocuments := make([]gradedDocument, 0, min(judgedDocumentsCeiling, len(candidates)))
+	idealDocuments := make([]gradedDocument, 0, len(theFirstOf(candidates)))
 	for range cap(idealDocuments) {
-		chosen := sites.placeOfTheMostGainingAmong(candidates)
-		idealDocuments = append(idealDocuments, candidates[chosen])
-		sites.count(candidates[chosen])
-		candidates = slices.Delete(candidates, chosen, chosen+1)
+		chosenPlace := sites.placeOfTheMostGainingAmong(candidates)
+		idealDocuments = append(idealDocuments, candidates[chosenPlace])
+		sites.count(candidates[chosenPlace])
+		candidates = slices.Delete(candidates, chosenPlace, chosenPlace+1)
 	}
 
 	return idealDocuments
 }
 
 func (documents gradedDocuments) inFallingOrderOfGrade() []gradedDocument {
-	inFallingOrderOfGrade := make([]gradedDocument, 0, len(documents))
+	documentsInFallingOrderOfGrade := make([]gradedDocument, 0, len(documents))
 	for _, document := range documents {
-		inFallingOrderOfGrade = append(inFallingOrderOfGrade, document)
+		documentsInFallingOrderOfGrade = append(documentsInFallingOrderOfGrade, document)
 	}
-	slices.SortFunc(inFallingOrderOfGrade, func(one, other gradedDocument) int {
+	slices.SortFunc(documentsInFallingOrderOfGrade, func(one, other gradedDocument) int {
 		if one.grade != other.grade {
 			return other.grade - one.grade
 		}
@@ -104,22 +108,22 @@ func (documents gradedDocuments) inFallingOrderOfGrade() []gradedDocument {
 		return strings.Compare(one.site, other.site)
 	})
 
-	return inFallingOrderOfGrade
+	return documentsInFallingOrderOfGrade
 }
 
 func (documents gradedDocuments) inTheOrderOf(
 	orderedDocuments []queryanswers.FoundDocument,
 ) []gradedDocument {
-	inTheOrderOfTheDocuments := make([]gradedDocument, 0, len(orderedDocuments))
+	documentsInTheOrder := make([]gradedDocument, 0, len(orderedDocuments))
 	for _, orderedDocument := range orderedDocuments {
 		document, graded := documents[orderedDocument.Hash]
 		if !graded {
 			continue
 		}
-		inTheOrderOfTheDocuments = append(inTheOrderOfTheDocuments, document)
+		documentsInTheOrder = append(documentsInTheOrder, document)
 	}
 
-	return inTheOrderOfTheDocuments
+	return documentsInTheOrder
 }
 
 func (documents gradedDocuments) holdARelevantDocument() bool {
@@ -156,12 +160,11 @@ func (documents gradedDocuments) amountOfUngradedDocumentsAmong(
 	return amountOfUngradedDocuments
 }
 
-func (documents gradedDocuments) amountOfSpamDocumentsAmongTheFirstOf(
+func (documents gradedDocuments) amountOfSpamDocumentsAmong(
 	orderedDocuments []queryanswers.FoundDocument,
 ) int {
 	amountOfSpamDocuments := 0
-	theFirstDocuments := orderedDocuments[:min(judgedDocumentsCeiling, len(orderedDocuments))]
-	for _, orderedDocument := range theFirstDocuments {
+	for _, orderedDocument := range orderedDocuments {
 		if !documents[orderedDocument.Hash].spam {
 			continue
 		}

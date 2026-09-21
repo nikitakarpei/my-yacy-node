@@ -9,25 +9,41 @@ import (
 func TestAZstandardFixtureFileReadsBackWhatWasWrittenIntoIt(t *testing.T) {
 	t.Parallel()
 
-	written := bytes.Repeat([]byte("Rain in Berlin. \x00\xff"), 4096)
+	writtenContent := bytes.Repeat([]byte("Rain in Berlin. \x00\xff"), 4096)
 	path := filepath.Join(t.TempDir(), "fixture.zst")
 
-	writeZstandardFixtureFile(t, path, written)
+	writeZstandardFixtureFile(t, path, writtenContent)
 
-	if read := contentOfZstandardFixtureFile(t, path); !bytes.Equal(read, written) {
-		t.Fatalf("the fixture file holds %d bytes, want the %d written", len(read), len(written))
+	if readContent := contentOfZstandardFixtureFile(
+		t,
+		path,
+	); !bytes.Equal(
+		readContent,
+		writtenContent,
+	) {
+		t.Fatalf(
+			"the fixture file holds %d bytes, want the %d writtenContent",
+			len(readContent),
+			len(writtenContent),
+		)
 	}
 }
 
 func TestAGzippedFixtureFileReadsBackWhatWasWrittenIntoIt(t *testing.T) {
 	t.Parallel()
 
-	written := []byte("Rain in Berlin.")
+	writtenContent := []byte("Rain in Berlin.")
 	path := filepath.Join(t.TempDir(), "fixture.gz")
 
-	writeGzippedFixtureFile(t, path, written)
+	writeGzippedFixtureFile(t, path, writtenContent)
 
-	if read := contentOfGzippedFixtureFile(t, path); !bytes.Equal(read, written) {
-		t.Fatalf("the fixture file holds %q, want %q", read, written)
+	if readContent := contentOfGzippedFixtureFile(
+		t,
+		path,
+	); !bytes.Equal(
+		readContent,
+		writtenContent,
+	) {
+		t.Fatalf("the fixture file holds %q, want %q", readContent, writtenContent)
 	}
 }

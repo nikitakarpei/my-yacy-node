@@ -16,7 +16,7 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 
 	document := hashOfWeatherDocument(t)
 	word := yacymodel.WordHash("berlin")
-	read := answersWrittenAndReadBack(t, answersAndPageContentsOf(
+	readAnswers := answersWrittenAndReadBack(t, answersAndPageContentsOf(
 		queryanswers.AnsweredQuery{
 			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
 				document,
@@ -41,16 +41,16 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 		},
 	))
 
-	facts := read.FoundDocuments[0].Facts
+	facts := readAnswers.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 9 || facts.QueryPhraseHits.OrElse(0) != 4 ||
 		facts.AmountOfWords.OrElse(0) != 1200 || facts.AmountOfLinks.OrElse(0) != 19 {
 		t.Fatalf("the recorded document counts %+v, want what the read page counted", facts)
 	}
-	if read.FoundDocuments[0].Title != "Weather in Berlin" ||
-		read.FoundDocuments[0].Snippet != "Rain is falling over the whole city today." {
+	if readAnswers.FoundDocuments[0].Title != "Weather in Berlin" ||
+		readAnswers.FoundDocuments[0].Snippet != "Rain is falling over the whole city today." {
 		t.Fatalf(
 			"the recorded document shows %+v, want the title and the snippet of the read page",
-			read.FoundDocuments[0],
+			readAnswers.FoundDocuments[0],
 		)
 	}
 }
@@ -60,7 +60,7 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 
 	document := hashOfWeatherDocument(t)
 	word := yacymodel.WordHash("berlin")
-	read := answersWrittenAndReadBack(t, answersAndPageContentsOf(
+	readAnswers := answersWrittenAndReadBack(t, answersAndPageContentsOf(
 		queryanswers.AnsweredQuery{
 			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
 				document,
@@ -81,15 +81,15 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 		nil,
 	))
 
-	facts := read.FoundDocuments[0].Facts
+	facts := readAnswers.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 22 || facts.AmountOfLinks.OrElse(0) != 29 ||
 		facts.AmountOfWords.Present() || facts.QueryPhraseHits.Present() {
 		t.Fatalf("the recorded document counts %+v, want what the posting counted", facts)
 	}
-	if read.FoundDocuments[0].Title != "What a peer calls it" {
+	if readAnswers.FoundDocuments[0].Title != "What a peer calls it" {
 		t.Fatalf(
 			"the recorded document shows the title %q, want the title the peer sent",
-			read.FoundDocuments[0].Title,
+			readAnswers.FoundDocuments[0].Title,
 		)
 	}
 }

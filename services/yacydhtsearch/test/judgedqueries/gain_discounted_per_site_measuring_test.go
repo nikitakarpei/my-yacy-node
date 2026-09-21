@@ -87,7 +87,7 @@ type documentInTheOrder struct {
 func normalizedGainOf(t *testing.T, documentsInOrder ...documentInTheOrder) float64 {
 	t.Helper()
 
-	graded := make(gradedDocuments, len(documentsInOrder))
+	gradedPerHash := make(gradedDocuments, len(documentsInOrder))
 	orderedDocuments := make([]queryanswers.FoundDocument, 0, len(documentsInOrder))
 	for _, document := range documentsInOrder {
 		hash, err := yacymodel.URLHashOf(document.address)
@@ -95,7 +95,7 @@ func normalizedGainOf(t *testing.T, documentsInOrder ...documentInTheOrder) floa
 			t.Fatalf("hash %s: %v", document.address, err)
 		}
 		if grade, present := document.grade.Get(); present {
-			graded[hash] = gradedDocument{
+			gradedPerHash[hash] = gradedDocument{
 				grade: grade,
 				site:  yacymodel.SiteOf(document.address),
 			}
@@ -105,5 +105,5 @@ func normalizedGainOf(t *testing.T, documentsInOrder ...documentInTheOrder) floa
 		)
 	}
 
-	return graded.normalizedGainOf(orderedDocuments)
+	return gradedPerHash.normalizedGainOf(orderedDocuments)
 }

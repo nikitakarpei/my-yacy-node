@@ -6,8 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -17,11 +15,7 @@ const (
 	recordingSwitch = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
 
 	pagesReadPerQuery    = 50
-	pageBudget           = 10 * time.Second
 	recordingPagesBudget = 10 * time.Second
-	pageByteCeiling      = 4 * 1024 * 1024
-	snippetLengthCeiling = 300
-	pageFetchUserAgent   = "yacydhtsearch (+https://yacy.net)"
 )
 
 var recordedQueries = []string{
@@ -142,7 +136,7 @@ func (recording judgedQueryRecording) recordOne(t *testing.T, query string) {
 	t.Helper()
 
 	answers := recording.answersOf(t, query)
-	pages := recording.pagesOfTheFirstDocumentsIn(t, answers)
+	pages := recording.pagesReadFor(t, answers)
 	writeStoredPagesOf(t, query, pages)
 	answersAndPageContents := answersAndPageContentsOf(
 		answers,
@@ -175,14 +169,12 @@ func (recording judgedQueryRecording) answersOf(
 	)
 }
 
-func (recording judgedQueryRecording) pagesOfTheFirstDocumentsIn(
+func (recording judgedQueryRecording) pagesReadFor(
 	t *testing.T, answers queryanswers.AnsweredQuery,
 ) []storedPage {
 	t.Helper()
 
-	orderedDocuments := relevance.New(
-		documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()),
-	).OrderedDocumentsOf(answers)
+	orderedDocuments := defaultRelevanceOrdering().OrderedDocumentsOf(answers)
 
 	return recording.fetching.fetchedPagesOf(
 		t.Context(), orderedDocuments[:min(pagesReadPerQuery, len(orderedDocuments))],

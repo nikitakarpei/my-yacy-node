@@ -13,6 +13,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+const snippetLengthCeiling = 300
+
 type answersAndPageContents struct {
 	answers                 queryanswers.AnsweredQuery
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents

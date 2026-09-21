@@ -9,7 +9,7 @@ import (
 func TestThePagesOfAWARCReadBackWhatWasWrittenIntoIt(t *testing.T) {
 	t.Parallel()
 
-	written := []storedPage{
+	writtenPages := []storedPage{
 		{
 			address:     "https://example.org/weather",
 			contentType: "text/html; charset=utf-8",
@@ -22,19 +22,25 @@ func TestThePagesOfAWARCReadBackWhatWasWrittenIntoIt(t *testing.T) {
 		},
 	}
 
-	read := pagesOfWARC(t, warcOf(t, written))
+	readPages := pagesOfWARC(t, warcOf(t, writtenPages))
 
-	if len(read) != len(written) {
-		t.Fatalf("the warc holds %d pages, want %d", len(read), len(written))
+	if len(readPages) != len(writtenPages) {
+		t.Fatalf("the warc holds %d pages, want %d", len(readPages), len(writtenPages))
 	}
-	for place, page := range read {
-		if page.address != written[place].address ||
-			page.contentType != written[place].contentType ||
-			!bytes.Equal(page.body, written[place].body) {
-			t.Fatalf("the warc holds the page %q with the content type %q and %d bytes, want "+
-				"%q, %q and %d bytes",
-				page.address, page.contentType, len(page.body),
-				written[place].address, written[place].contentType, len(written[place].body))
+	for place, page := range readPages {
+		if page.address != writtenPages[place].address ||
+			page.contentType != writtenPages[place].contentType ||
+			!bytes.Equal(page.body, writtenPages[place].body) {
+			t.Fatalf(
+				"the warc holds the page %q with the content type %q and %d bytes, want "+
+					"%q, %q and %d bytes",
+				page.address,
+				page.contentType,
+				len(page.body),
+				writtenPages[place].address,
+				writtenPages[place].contentType,
+				len(writtenPages[place].body),
+			)
 		}
 	}
 }
@@ -42,8 +48,8 @@ func TestThePagesOfAWARCReadBackWhatWasWrittenIntoIt(t *testing.T) {
 func TestAWARCOfNoPageHoldsNoPage(t *testing.T) {
 	t.Parallel()
 
-	if read := pagesOfWARC(t, warcOf(t, nil)); len(read) != 0 {
-		t.Fatalf("the warc holds %d pages, want none", len(read))
+	if readPages := pagesOfWARC(t, warcOf(t, nil)); len(readPages) != 0 {
+		t.Fatalf("the warc holds %d pages, want none", len(readPages))
 	}
 }
 

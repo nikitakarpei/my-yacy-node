@@ -2,7 +2,6 @@ package judgedqueries_test
 
 import (
 	"encoding/json"
-	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -150,21 +149,18 @@ func recordedAnswersFileOf(query string) string {
 func recordedAnswersAt(t *testing.T, path string) recordedAnswers {
 	t.Helper()
 
-	var answers recordedAnswers
-	if err := json.Unmarshal(contentOfGzippedFixtureFile(t, path), &answers); err != nil {
+	var recorded recordedAnswers
+	if err := json.Unmarshal(contentOfGzippedFixtureFile(t, path), &recorded); err != nil {
 		t.Fatalf("read %s: %v", path, err)
 	}
 
-	return answers
+	return recorded
 }
 
-func writeRecordedAnswersFile(t *testing.T, path string, answers recordedAnswers) {
+func writeRecordedAnswersFile(t *testing.T, path string, recorded recordedAnswers) {
 	t.Helper()
 
-	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
-	writeGzippedFixtureFile(t, path, append(indentedJSONOf(t, answers), '\n'))
+	writeGzippedFixtureFile(t, path, append(indentedJSONOf(t, recorded), '\n'))
 }
 
 func answersWrittenAndReadBack(

@@ -23,7 +23,7 @@ var (
 	namedSiteEntryScoreWeightGrid = []float64{0, 5, 15}
 	linkSparsityPenaltyWeightGrid = []float64{0, 1.5, 3}
 
-	weightGridPerScore = [amountOfWeightedScores][]float64{
+	gridPerWeight = [amountOfWeightedScores][]float64{
 		titleScoreWeightGrid,
 		textScoreWeightGrid,
 		phraseScoreWeightGrid,
@@ -89,7 +89,7 @@ func everyWeightCombination() []documentrelevance.RelevanceWeights {
 func combinationsWidenedByTheWeight(
 	combinations []documentrelevance.RelevanceWeights, weight int,
 ) []documentrelevance.RelevanceWeights {
-	weightValues := weightGridPerScore[weight]
+	weightValues := gridPerWeight[weight]
 	widened := make([]documentrelevance.RelevanceWeights, 0, len(combinations)*len(weightValues))
 	for _, relevanceWeights := range combinations {
 		for _, weightValue := range weightValues {
@@ -129,7 +129,9 @@ func relevanceWeightsOf(
 func relevanceWeightsOfDistinctRatiosAmong(
 	combinations []documentrelevance.RelevanceWeights,
 ) []documentrelevance.RelevanceWeights {
-	ofDistinctWeightRatios := make([]documentrelevance.RelevanceWeights, 0, len(combinations))
+	relevanceWeightsOfDistinctRatios := make(
+		[]documentrelevance.RelevanceWeights, 0, len(combinations),
+	)
 	alreadyTakenWeightRatios := map[[amountOfWeightedScores]float64]struct{}{}
 	for _, relevanceWeights := range combinations {
 		weightRatios := weightRatiosOf(relevanceWeights)
@@ -137,10 +139,13 @@ func relevanceWeightsOfDistinctRatiosAmong(
 			continue
 		}
 		alreadyTakenWeightRatios[weightRatios] = struct{}{}
-		ofDistinctWeightRatios = append(ofDistinctWeightRatios, relevanceWeights)
+		relevanceWeightsOfDistinctRatios = append(
+			relevanceWeightsOfDistinctRatios,
+			relevanceWeights,
+		)
 	}
 
-	return ofDistinctWeightRatios
+	return relevanceWeightsOfDistinctRatios
 }
 
 func weightRatiosOf(
@@ -151,8 +156,8 @@ func weightRatiosOf(
 	if highestWeight == 0 {
 		return weights
 	}
-	for place, weight := range weights {
-		weights[place] = math.Round(weight / highestWeight * weightRatioRounding)
+	for weight, weightValue := range weights {
+		weights[weight] = math.Round(weightValue / highestWeight * weightRatioRounding)
 	}
 
 	return weights
@@ -174,7 +179,7 @@ func reportRelevanceWeightsTunedOnEachHalf(t *testing.T, queries judgedQueries) 
 
 	halves := halvesOf(queries)
 	for half, queriesOfTheHalf := range halves {
-		heldOut := halves[len(halves)-1-half]
+		heldOutQueries := halves[len(halves)-1-half]
 		tunedRelevanceWeights := bestRelevanceWeightsOver(queriesOfTheHalf)
 		t.Logf(
 			"tuned on half %d of %d queries, %s reaches the mean gain %.4f there and %.4f over "+
@@ -183,9 +188,9 @@ func reportRelevanceWeightsTunedOnEachHalf(t *testing.T, queries judgedQueries) 
 			len(queriesOfTheHalf),
 			spellingOf(tunedRelevanceWeights),
 			queriesOfTheHalf.meanGainWeighedBy(tunedRelevanceWeights),
-			heldOut.meanGainWeighedBy(tunedRelevanceWeights),
-			len(heldOut),
-			heldOut.meanGainWeighedBy(documentrelevance.DefaultRelevanceWeights()),
+			heldOutQueries.meanGainWeighedBy(tunedRelevanceWeights),
+			len(heldOutQueries),
+			heldOutQueries.meanGainWeighedBy(documentrelevance.DefaultRelevanceWeights()),
 		)
 	}
 }

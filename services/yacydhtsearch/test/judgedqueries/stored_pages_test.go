@@ -20,11 +20,7 @@ const (
 func writeStoredPagesOf(t *testing.T, query string, pages []storedPage) {
 	t.Helper()
 
-	path := storedPagesFileOf(query)
-	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
-	writeZstandardFixtureFile(t, path, warcOf(t, pages))
+	writeZstandardFixtureFile(t, storedPagesFileOf(query), warcOf(t, pages))
 }
 
 func storedPagePerAddressOf(t *testing.T, query string) map[string]storedPage {

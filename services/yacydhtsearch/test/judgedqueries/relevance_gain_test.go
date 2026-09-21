@@ -16,7 +16,7 @@ const (
 	toleranceBelowAcceptedMeanGain = 0.01
 )
 
-func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
+func TestTheOrderingOfTheServiceHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	t.Parallel()
 
 	queries := judgedQueriesRecorded(t)
@@ -29,7 +29,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	reportMeanGainPerOrdering(t, queriesOfSeveralRelevantDocuments)
 	reportRelevantDocumentsHeld(t, queries.ofOneRelevantDocument(), gainOfServiceOrdering)
 	failOnAShortLift(t, queriesOfSeveralRelevantDocuments)
-	failIfMeanGainFallsBelowBaseline(
+	failOnAMeanGainBelowTheBaseline(
 		t, queriesOfSeveralRelevantDocuments.gainPerQueryOf(serviceOrdering), acceptedGain,
 	)
 	failOnAQueryWithoutGain(t, gainOfServiceOrdering, acceptedGain)
@@ -45,24 +45,27 @@ func serviceOrderingWeighedBy(
 	return sitediscount.New(documentrelevance.RelevanceScorerWeighedBy(relevanceWeights))
 }
 
+func defaultRelevanceOrdering() relevance.Ordering {
+	return relevance.New(
+		documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()),
+	)
+}
+
 func reportGainPerQuery(
 	t *testing.T, queries judgedQueries, gainOfServiceOrdering gainPerQuery,
 ) {
 	t.Helper()
 
-	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
-		documentrelevance.DefaultRelevanceWeights(),
-	)
-	relevanceOrdering := relevance.New(relevanceScorer)
+	relevanceOrdering := defaultRelevanceOrdering()
 	serviceOrdering := defaultServiceOrdering()
 	amountOfSpamDocumentsAmongTheFirst := 0
 	for _, judgedQuery := range queries {
 		orderedDocuments := serviceOrdering.OrderedDocumentsOf(judgedQuery.answers)
 		amountOfSpamDocumentsAmongTheFirst += judgedQuery.gradedDocuments.
-			amountOfSpamDocumentsAmongTheFirstOf(orderedDocuments)
+			amountOfSpamDocumentsAmong(theFirstOf(orderedDocuments))
 		t.Logf(
 			"%q: site discount %.4f, relevance %.4f, found order %.4f, %d ungraded documents "+
-				"dropped, %d spam documents in the first ten",
+				"dropped, %d spam documents in the first %d",
 			judgedQuery.query,
 			gainOfServiceOrdering[judgedQuery.query],
 			judgedQuery.gradedDocuments.normalizedGainOf(
@@ -72,13 +75,15 @@ func reportGainPerQuery(
 				foundOrder{}.OrderedDocumentsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.amountOfUngradedDocumentsAmong(orderedDocuments),
-			judgedQuery.gradedDocuments.amountOfSpamDocumentsAmongTheFirstOf(orderedDocuments),
+			judgedQuery.gradedDocuments.amountOfSpamDocumentsAmong(theFirstOf(orderedDocuments)),
+			judgedDocumentsCeiling,
 		)
 	}
 	t.Logf(
-		"the ordering of the service puts %d spam documents in the first ten over %d judged "+
+		"the ordering of the service puts %d spam documents in the first %d over %d judged "+
 			"queries",
 		amountOfSpamDocumentsAmongTheFirst,
+		judgedDocumentsCeiling,
 		len(queries),
 	)
 	t.Logf(
@@ -99,15 +104,12 @@ func (foundOrder) OrderedDocumentsOf(
 func reportMeanGainPerOrdering(t *testing.T, queriesOfSeveralRelevantDocuments judgedQueries) {
 	t.Helper()
 
-	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
-		documentrelevance.DefaultRelevanceWeights(),
-	)
 	t.Logf(
 		"the mean over the %d judged queries of several relevant documents: site discount "+
 			"%.4f, relevance %.4f, found order %.4f",
 		len(queriesOfSeveralRelevantDocuments),
 		queriesOfSeveralRelevantDocuments.meanGainOf(defaultServiceOrdering()),
-		queriesOfSeveralRelevantDocuments.meanGainOf(relevance.New(relevanceScorer)),
+		queriesOfSeveralRelevantDocuments.meanGainOf(defaultRelevanceOrdering()),
 		queriesOfSeveralRelevantDocuments.meanGainOf(foundOrder{}),
 	)
 }
@@ -119,17 +121,18 @@ func reportRelevantDocumentsHeld(
 ) {
 	t.Helper()
 
-	heldAmongTheFirst := 0
+	amountOfDocumentsHeldAmongTheFirst := 0
 	for _, judgedQuery := range queriesOfOneRelevantDocument {
 		if gainOfServiceOrdering[judgedQuery.query] > 0 {
-			heldAmongTheFirst++
+			amountOfDocumentsHeldAmongTheFirst++
 		}
 	}
 	t.Logf(
 		"the ordering of the service holds the one relevant document of %d of %d judged "+
-			"queries in the first ten, whose gain measures its place and not an order",
-		heldAmongTheFirst,
+			"queries in the first %d, whose gain measures its place and not an order",
+		amountOfDocumentsHeldAmongTheFirst,
 		len(queriesOfOneRelevantDocument),
+		judgedDocumentsCeiling,
 	)
 }
 
@@ -151,7 +154,7 @@ func failOnAShortLift(t *testing.T, queries judgedQueries) {
 	)
 }
 
-func failIfMeanGainFallsBelowBaseline(
+func failOnAMeanGainBelowTheBaseline(
 	t *testing.T, gainOfServiceOrdering, acceptedGain gainPerQuery,
 ) {
 	t.Helper()
