@@ -22,7 +22,7 @@ func TestThePagesOfAWARCReadBackWhatWasWrittenIntoIt(t *testing.T) {
 		},
 	}
 
-	read := pagesOfTheWARC(t, warcOfThePages(t, written))
+	read := pagesOfWARC(t, warcOf(t, written))
 
 	if len(read) != len(written) {
 		t.Fatalf("the warc holds %d pages, want %d", len(read), len(written))
@@ -42,7 +42,7 @@ func TestThePagesOfAWARCReadBackWhatWasWrittenIntoIt(t *testing.T) {
 func TestAWARCOfNoPageHoldsNoPage(t *testing.T) {
 	t.Parallel()
 
-	if read := pagesOfTheWARC(t, warcOfThePages(t, nil)); len(read) != 0 {
+	if read := pagesOfWARC(t, warcOf(t, nil)); len(read) != 0 {
 		t.Fatalf("the warc holds %d pages, want none", len(read))
 	}
 }
@@ -50,7 +50,7 @@ func TestAWARCOfNoPageHoldsNoPage(t *testing.T) {
 func TestEachRecordOfAWARCNamesItsTypeAndTheAddressItHolds(t *testing.T) {
 	t.Parallel()
 
-	warc := string(warcOfThePages(t, []storedPage{
+	warc := string(warcOf(t, []storedPage{
 		{address: "https://example.org/", contentType: "text/html", body: []byte("hello")},
 	}))
 

@@ -17,20 +17,20 @@ const (
 	storedPagesFileSuffix = ".warc.zst"
 )
 
-func storePagesOfTheQuery(t *testing.T, query string, pages []storedPage) {
+func writeStoredPagesOf(t *testing.T, query string, pages []storedPage) {
 	t.Helper()
 
 	path := storedPagesFileOf(query)
 	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
 		t.Fatalf("write %s: %v", path, err)
 	}
-	writeZstandardFixtureFile(t, path, warcOfThePages(t, pages))
+	writeZstandardFixtureFile(t, path, warcOf(t, pages))
 }
 
-func storedPagePerAddress(t *testing.T, query string) map[string]storedPage {
+func storedPagePerAddressOf(t *testing.T, query string) map[string]storedPage {
 	t.Helper()
 
-	return pagePerAddressOf(storedPagesOfTheQuery(t, query))
+	return pagePerAddressOf(storedPagesOf(t, query))
 }
 
 func pagePerAddressOf(pages []storedPage) map[string]storedPage {
@@ -42,7 +42,7 @@ func pagePerAddressOf(pages []storedPage) map[string]storedPage {
 	return pagePerAddress
 }
 
-func storedPagesOfTheQuery(t *testing.T, query string) []storedPage {
+func storedPagesOf(t *testing.T, query string) []storedPage {
 	t.Helper()
 
 	path := storedPagesFileOf(query)
@@ -50,7 +50,7 @@ func storedPagesOfTheQuery(t *testing.T, query string) []storedPage {
 		return nil
 	}
 
-	return pagesOfTheWARC(t, contentOfTheZstandardFixtureFile(t, path))
+	return pagesOfWARC(t, contentOfZstandardFixtureFile(t, path))
 }
 
 func storedPagesFileOf(query string) string {

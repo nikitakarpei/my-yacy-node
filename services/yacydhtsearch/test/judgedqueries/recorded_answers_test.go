@@ -16,8 +16,6 @@ import (
 const (
 	recordedAnswersDirectory  = "testdata/answers"
 	recordedAnswersFileSuffix = ".json.gz"
-	fixtureFilePermissions    = 0o644
-	fixtureDirPermissions     = 0o755
 )
 
 type recordedAnswers struct {
@@ -34,150 +32,29 @@ type recordedFoundDocument struct {
 	PageContents yacymodel.Optional[recordedPageContents]  `json:"pageContents,omitempty"`
 }
 
-type recordedPageContents struct {
-	Address          string                 `json:"address,omitempty"`
-	Title            string                 `json:"title"`
-	Snippet          string                 `json:"snippet"`
-	HitsPerQueryWord map[yacymodel.Hash]int `json:"hitsPerQueryWord"`
-	QueryPhraseHits  int                    `json:"queryPhraseHits"`
-	AmountOfWords    int                    `json:"amountOfWords"`
-	LocalLinks       int                    `json:"localLinks"`
-	ExternalLinks    int                    `json:"externalLinks"`
-}
-
-func recordedPageContentsOf(pageContents pagecontents.PageContents) recordedPageContents {
-	return recordedPageContents{
-		Address:          pageContents.Address,
-		Title:            pageContents.Title,
-		Snippet:          pageContents.Snippet,
-		HitsPerQueryWord: pageContents.HitsPerQueryWord,
-		QueryPhraseHits:  pageContents.QueryPhraseHits,
-		AmountOfWords:    pageContents.AmountOfWords,
-		LocalLinks:       pageContents.LinkCounts.LocalLinks,
-		ExternalLinks:    pageContents.LinkCounts.ExternalLinks,
-	}
-}
-
-func (r recordedPageContents) pageContents() pagecontents.PageContents {
-	return pagecontents.PageContents{
-		Address:          r.Address,
-		Title:            r.Title,
-		Snippet:          r.Snippet,
-		HitsPerQueryWord: r.HitsPerQueryWord,
-		QueryPhraseHits:  r.QueryPhraseHits,
-		AmountOfWords:    r.AmountOfWords,
-		LinkCounts: pagecontents.LinkCounts{
-			LocalLinks:    r.LocalLinks,
-			ExternalLinks: r.ExternalLinks,
-		},
-	}
-}
-
-type recordedPostingReplica struct {
-	Holder  yacymodel.Hash                     `json:"holder"`
-	Word    yacymodel.Optional[yacymodel.Hash] `json:"word,omitempty"`
-	Posting recordedPosting                    `json:"posting"`
-}
-
-type recordedPosting struct {
-	yacymodel.RWIPosting
-
-	WordHash *yacymodel.Hash `json:"WordHash,omitempty"`
-}
-
-func recordedPostingOf(posting yacymodel.RWIPosting) recordedPosting {
-	recorded := recordedPosting{RWIPosting: posting}
-	if !posting.WordHash.IsZero() {
-		wordHash := posting.WordHash
-		recorded.WordHash = &wordHash
-	}
-	recorded.RWIPosting.WordHash = yacymodel.Hash{}
-
-	return recorded
-}
-
-func (r recordedPosting) posting() yacymodel.RWIPosting {
-	posting := r.RWIPosting
-	if r.WordHash != nil {
-		posting.WordHash = *r.WordHash
-	}
-
-	return posting
-}
-
-func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
-	foundDocuments := make([]queryanswers.FoundDocument, 0, len(r.FoundDocuments))
-	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
-	for _, recorded := range r.FoundDocuments {
-		foundDocuments = append(foundDocuments, queryanswers.FoundDocumentOf(
-			recorded.Hash, recorded.metadataReplicas(), recorded.postingReplicas(),
-		))
-		if pageContentsRecorded, read := recorded.PageContents.Get(); read {
-			pageContentsPerDocument[recorded.Hash] = pageContentsRecorded.pageContents()
-		}
-	}
-
-	return queryanswers.AnsweredQuery{
-		QueryWords:                searchquery.QueryFrom(r.Query, "").TermHashes(),
-		FoundDocuments:            foundDocuments,
-		DocumentsHeldPerQueryWord: r.DocumentsHeldPerQueryWord,
-	}.WithReadPages(pageContentsPerDocument)
-}
-
-func (r recordedFoundDocument) metadataReplicas() []queryanswers.MetadataReplica {
-	metadata, reported := r.Metadata.Get()
-	if !reported {
-		return nil
-	}
-
-	return []queryanswers.MetadataReplica{{Metadata: metadata}}
-}
-
-func (r recordedFoundDocument) postingReplicas() []queryanswers.PostingReplica {
-	postingReplicas := make([]queryanswers.PostingReplica, 0, len(r.Postings))
-	for _, posting := range r.Postings {
-		postingReplicas = append(postingReplicas, queryanswers.PostingReplica{
-			Holder:  posting.Holder,
-			Word:    posting.Word,
-			Posting: posting.Posting.posting(),
-		})
-	}
-
-	return postingReplicas
-}
-
 func recordedAnswersOf(
-	query string, answersAndTheirPages answersAndTheirReadPages,
+	query string, answersAndPageContents answersAndPageContents,
 ) recordedAnswers {
 	return recordedAnswers{
 		Query:                     query,
 		RecordedAt:                time.Now().UTC().Truncate(time.Second),
-		FoundDocuments:            recordedFoundDocumentsFrom(answersAndTheirPages),
-		DocumentsHeldPerQueryWord: answersAndTheirPages.answeredQuery.DocumentsHeldPerQueryWord,
+		FoundDocuments:            recordedFoundDocumentsFrom(answersAndPageContents),
+		DocumentsHeldPerQueryWord: answersAndPageContents.answers.DocumentsHeldPerQueryWord,
 	}
 }
 
-func (r recordedAnswers) withThePageContentsReadAgain(
-	answersAndTheirPages answersAndTheirReadPages,
-) recordedAnswers {
-	readAgain := recordedAnswersOf(r.Query, answersAndTheirPages)
-	readAgain.RecordedAt = r.RecordedAt
-
-	return readAgain
-}
-
 func recordedFoundDocumentsFrom(
-	answersAndTheirPages answersAndTheirReadPages,
+	answersAndPageContents answersAndPageContents,
 ) []recordedFoundDocument {
-	answers := answersAndTheirPages.answeredQuery
+	answers := answersAndPageContents.answers
 	recordedFoundDocuments := make([]recordedFoundDocument, 0, len(answers.FoundDocuments))
 	for _, foundDocument := range answers.FoundDocuments {
 		recordedFoundDocuments = append(recordedFoundDocuments, recordedFoundDocument{
 			Hash:     foundDocument.Hash,
-			Metadata: metadataRecordedOf(foundDocument),
-			Postings: postingsRecordedOf(foundDocument),
-			PageContents: pageContentsRecordedFor(
-				foundDocument.Hash, answersAndTheirPages.pageContentsPerDocument,
+			Metadata: recordedMetadataOf(foundDocument),
+			Postings: recordedPostingsOf(foundDocument),
+			PageContents: recordedPageContentsFor(
+				foundDocument.Hash, answersAndPageContents.pageContentsPerDocument,
 			),
 		})
 	}
@@ -185,7 +62,7 @@ func recordedFoundDocumentsFrom(
 	return recordedFoundDocuments
 }
 
-func metadataRecordedOf(
+func recordedMetadataOf(
 	foundDocument queryanswers.FoundDocument,
 ) yacymodel.Optional[yacymodel.URLMetadata] {
 	if len(foundDocument.MetadataReplicas) == 0 {
@@ -195,31 +72,56 @@ func metadataRecordedOf(
 	return yacymodel.Some(foundDocument.MetadataReplicas[0].Metadata)
 }
 
-func postingsRecordedOf(
-	foundDocument queryanswers.FoundDocument,
-) []recordedPostingReplica {
-	postings := make([]recordedPostingReplica, 0, len(foundDocument.PostingReplicas))
-	for _, replica := range foundDocument.PostingReplicas {
-		postings = append(postings, recordedPostingReplica{
-			Holder:  replica.Holder,
-			Word:    replica.Word,
-			Posting: recordedPostingOf(replica.Posting),
+func (recorded recordedAnswers) withPageContentsReadAgain(
+	answersAndPageContents answersAndPageContents,
+) recordedAnswers {
+	readAgain := recordedAnswersOf(recorded.Query, answersAndPageContents)
+	readAgain.RecordedAt = recorded.RecordedAt
+
+	return readAgain
+}
+
+func (recorded recordedAnswers) answers() queryanswers.AnsweredQuery {
+	foundDocuments := make([]queryanswers.FoundDocument, 0, len(recorded.FoundDocuments))
+	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
+	for _, recordedDocument := range recorded.FoundDocuments {
+		foundDocuments = append(foundDocuments, queryanswers.FoundDocumentOf(
+			recordedDocument.Hash,
+			recordedDocument.metadataReplicas(),
+			recordedDocument.postingReplicas(),
+		))
+		if pageContents, read := recordedDocument.PageContents.Get(); read {
+			pageContentsPerDocument[recordedDocument.Hash] = pageContents.pageContents()
+		}
+	}
+
+	return queryanswers.AnsweredQuery{
+		QueryWords:                searchquery.QueryFrom(recorded.Query, "").TermHashes(),
+		FoundDocuments:            foundDocuments,
+		DocumentsHeldPerQueryWord: recorded.DocumentsHeldPerQueryWord,
+	}.WithReadPages(pageContentsPerDocument)
+}
+
+func (recorded recordedFoundDocument) metadataReplicas() []queryanswers.MetadataReplica {
+	metadata, reported := recorded.Metadata.Get()
+	if !reported {
+		return nil
+	}
+
+	return []queryanswers.MetadataReplica{{Metadata: metadata}}
+}
+
+func (recorded recordedFoundDocument) postingReplicas() []queryanswers.PostingReplica {
+	postingReplicas := make([]queryanswers.PostingReplica, 0, len(recorded.Postings))
+	for _, posting := range recorded.Postings {
+		postingReplicas = append(postingReplicas, queryanswers.PostingReplica{
+			Holder:  posting.Holder,
+			Word:    posting.Word,
+			Posting: posting.Posting.posting(),
 		})
 	}
 
-	return postings
-}
-
-func pageContentsRecordedFor(
-	document yacymodel.URLHash,
-	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
-) yacymodel.Optional[recordedPageContents] {
-	pageContents, read := pageContentsPerDocument[document]
-	if !read {
-		return yacymodel.None[recordedPageContents]()
-	}
-
-	return yacymodel.Some(recordedPageContentsOf(pageContents))
+	return postingReplicas
 }
 
 func recordedAnswersFiles(t *testing.T) []string {
@@ -238,11 +140,18 @@ func recordedAnswersFiles(t *testing.T) []string {
 	return answersFiles
 }
 
-func recordedAnswersInTheFile(t *testing.T, path string) recordedAnswers {
+func recordedAnswersFileOf(query string) string {
+	return filepath.Join(
+		recordedAnswersDirectory,
+		queryInFileNames(query)+recordedAnswersFileSuffix,
+	)
+}
+
+func recordedAnswersAt(t *testing.T, path string) recordedAnswers {
 	t.Helper()
 
 	var answers recordedAnswers
-	if err := json.Unmarshal(contentOfTheGzippedFixtureFile(t, path), &answers); err != nil {
+	if err := json.Unmarshal(contentOfGzippedFixtureFile(t, path), &answers); err != nil {
 		t.Fatalf("read %s: %v", path, err)
 	}
 
@@ -252,27 +161,19 @@ func recordedAnswersInTheFile(t *testing.T, path string) recordedAnswers {
 func writeRecordedAnswersFile(t *testing.T, path string, answers recordedAnswers) {
 	t.Helper()
 
-	content, err := json.MarshalIndent(answers, "", "  ")
-	if err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
 	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
 		t.Fatalf("write %s: %v", path, err)
 	}
-	writeGzippedFixtureFile(t, path, append(content, '\n'))
+	writeGzippedFixtureFile(t, path, append(indentedJSONOf(t, answers), '\n'))
 }
 
-func writeFixtureFile(t *testing.T, path string, fixture any) {
+func answersWrittenAndReadBack(
+	t *testing.T, answersAndPageContents answersAndPageContents,
+) queryanswers.AnsweredQuery {
 	t.Helper()
 
-	content, err := json.MarshalIndent(fixture, "", "  ")
-	if err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
-	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
-	if err := os.WriteFile(path, append(content, '\n'), fixtureFilePermissions); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
+	path := filepath.Join(t.TempDir(), "recorded"+recordedAnswersFileSuffix)
+	writeRecordedAnswersFile(t, path, recordedAnswersOf("berlin", answersAndPageContents))
+
+	return recordedAnswersAt(t, path).answers()
 }

@@ -7,12 +7,41 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func answersWrittenAndReadBack(
-	t *testing.T, answers queryanswers.AnsweredQuery,
-) queryanswers.AnsweredQuery {
-	t.Helper()
+const weatherDocumentAddress = "https://example.org/weather"
 
-	return answersOfADocumentWrittenAndReadBack(t, answersAndTheirReadPages{answeredQuery: answers})
+func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
+	t.Parallel()
+
+	metadata := yacymodel.URLMetadata{Address: weatherDocumentAddress}
+	firstHolder, secondHolder := yacymodel.WordHash("first"), yacymodel.WordHash("second")
+	answers := answersOfOneDocumentHolding(t, []queryanswers.PostingReplica{
+		{
+			Holder: firstHolder,
+			Word:   yacymodel.Some(yacymodel.WordHash("berlin")),
+			Posting: postingOfDocument(
+				hashOfWeatherDocument(t),
+				yacymodel.RWIPosting{Hits: 7, TextWords: 1200, TitleWords: 4, Phrases: 90},
+			),
+		},
+		{
+			Holder: secondHolder,
+			Posting: postingOfDocument(
+				hashOfWeatherDocument(t), yacymodel.RWIPosting{Hits: 3, TextWords: 800},
+			),
+		},
+	}, metadata)
+
+	read := answersWrittenAndReadBack(
+		t, answersAndPageContentsOf(answers, nil),
+	).FoundDocuments[0].PostingReplicas
+
+	if len(read) != 2 || !read[0].Posting.WordHash.IsZero() ||
+		read[0].Holder != firstHolder || read[0].Posting.TitleWords != 4 ||
+		read[0].Posting.Phrases != 90 || read[0].Word.OrElse(yacymodel.Hash{}) !=
+		yacymodel.WordHash("berlin") ||
+		read[1].Holder != secondHolder || read[1].Word.Present() {
+		t.Fatalf("the recorded document holds the postings %+v, want both holders in order", read)
+	}
 }
 
 func answersOfOneDocumentHolding(
@@ -35,18 +64,7 @@ func answersOfOneDocumentHolding(
 	}
 }
 
-func hashOfTheWeatherDocument(t *testing.T) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf("https://example.org/weather")
-	if err != nil {
-		t.Fatalf("URLHashOf: %v", err)
-	}
-
-	return hash
-}
-
-func postingOfTheDocument(
+func postingOfDocument(
 	document yacymodel.URLHash, posting yacymodel.RWIPosting,
 ) yacymodel.RWIPosting {
 	posting.URLHash = document
@@ -54,37 +72,15 @@ func postingOfTheDocument(
 	return posting
 }
 
-func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
-	t.Parallel()
+func hashOfWeatherDocument(t *testing.T) yacymodel.URLHash {
+	t.Helper()
 
-	metadata := yacymodel.URLMetadata{Address: "https://example.org/weather"}
-	firstHolder, secondHolder := yacymodel.WordHash("first"), yacymodel.WordHash("second")
-	answers := answersOfOneDocumentHolding(t, []queryanswers.PostingReplica{
-		{
-			Holder: firstHolder,
-			Word:   yacymodel.Some(yacymodel.WordHash("berlin")),
-			Posting: postingOfTheDocument(
-				hashOfTheWeatherDocument(t),
-				yacymodel.RWIPosting{Hits: 7, TextWords: 1200, TitleWords: 4, Phrases: 90},
-			),
-		},
-		{
-			Holder: secondHolder,
-			Posting: postingOfTheDocument(
-				hashOfTheWeatherDocument(t), yacymodel.RWIPosting{Hits: 3, TextWords: 800},
-			),
-		},
-	}, metadata)
-
-	read := answersWrittenAndReadBack(t, answers).FoundDocuments[0].PostingReplicas
-
-	if len(read) != 2 || !read[0].Posting.WordHash.IsZero() ||
-		read[0].Holder != firstHolder || read[0].Posting.TitleWords != 4 ||
-		read[0].Posting.Phrases != 90 || read[0].Word.OrElse(yacymodel.Hash{}) !=
-		yacymodel.WordHash("berlin") ||
-		read[1].Holder != secondHolder || read[1].Word.Present() {
-		t.Fatalf("the recorded document holds the postings %+v, want both holders in order", read)
+	hash, err := yacymodel.URLHashOf(weatherDocumentAddress)
+	if err != nil {
+		t.Fatalf("URLHashOf: %v", err)
 	}
+
+	return hash
 }
 
 func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
@@ -105,7 +101,9 @@ func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
 		ExternalLinks: 7,
 	})
 
-	read := answersWrittenAndReadBack(t, answers).FoundDocuments[0].MetadataReplicas
+	read := answersWrittenAndReadBack(
+		t, answersAndPageContentsOf(answers, nil),
+	).FoundDocuments[0].MetadataReplicas
 
 	if len(read) != 1 || read[0].Metadata.Author != "A writer" ||
 		len(read[0].Metadata.Tags) != 2 || read[0].Metadata.WordCount != 1200 ||
@@ -113,4 +111,51 @@ func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
 		read[0].Metadata.Language.OrElse(yacymodel.Language{}) != german {
 		t.Fatalf("the recorded document holds the metadata %+v, want what the peer reported", read)
 	}
+}
+
+type recordedPostingReplica struct {
+	Holder  yacymodel.Hash                     `json:"holder"`
+	Word    yacymodel.Optional[yacymodel.Hash] `json:"word,omitempty"`
+	Posting recordedPosting                    `json:"posting"`
+}
+
+type recordedPosting struct {
+	yacymodel.RWIPosting
+
+	WordHash *yacymodel.Hash `json:"WordHash,omitempty"`
+}
+
+func recordedPostingsOf(
+	foundDocument queryanswers.FoundDocument,
+) []recordedPostingReplica {
+	postings := make([]recordedPostingReplica, 0, len(foundDocument.PostingReplicas))
+	for _, replica := range foundDocument.PostingReplicas {
+		postings = append(postings, recordedPostingReplica{
+			Holder:  replica.Holder,
+			Word:    replica.Word,
+			Posting: recordedPostingOf(replica.Posting),
+		})
+	}
+
+	return postings
+}
+
+func recordedPostingOf(posting yacymodel.RWIPosting) recordedPosting {
+	recorded := recordedPosting{RWIPosting: posting}
+	if !posting.WordHash.IsZero() {
+		wordHash := posting.WordHash
+		recorded.WordHash = &wordHash
+	}
+	recorded.RWIPosting.WordHash = yacymodel.Hash{}
+
+	return recorded
+}
+
+func (recorded recordedPosting) posting() yacymodel.RWIPosting {
+	posting := recorded.RWIPosting
+	if recorded.WordHash != nil {
+		posting.WordHash = *recorded.WordHash
+	}
+
+	return posting
 }

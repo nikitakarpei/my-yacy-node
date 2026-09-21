@@ -5,10 +5,9 @@ import (
 	"errors"
 	"maps"
 	"os"
+	"path/filepath"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -31,108 +30,28 @@ type judgedDocument struct {
 	Spam    bool              `json:"spam,omitempty"`
 }
 
-func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
-	graded := make(gradedDocuments, len(j.JudgedDocuments))
-	for _, judged := range j.JudgedDocuments {
-		if judged.Grade == nil {
-			continue
-		}
-		graded[judged.Hash] = gradedDocument{
-			grade: *judged.Grade,
-			site:  yacymodel.SiteOf(judged.Address),
-			spam:  judged.Spam,
-		}
-	}
-
-	return graded
-}
-
-func (j queryJudgments) amountOfUngradedDocuments() int {
-	amountOfUngradedDocuments := 0
-	for _, judged := range j.JudgedDocuments {
-		if judged.Grade != nil {
-			continue
-		}
-		amountOfUngradedDocuments++
-	}
-
-	return amountOfUngradedDocuments
-}
-
-func (j queryJudgments) withTheDocumentsToJudgeIn(
-	answers queryanswers.AnsweredQuery,
-	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
+func writeJudgmentsOf(
+	t *testing.T, query string, answersAndPageContents answersAndPageContents,
 ) queryJudgments {
-	judgedDocumentPerHash := j.judgedDocumentPerHash()
+	t.Helper()
 
-	documentsToJudge := documentsToJudgeOf(answers, pageContentsPerDocument, judgedDocumentPerHash)
-	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
-	for _, documentToJudge := range documentsToJudge {
-		documentToJudge.Grade = judgedDocumentPerHash[documentToJudge.Hash].Grade
-		documentToJudge.Spam = judgedDocumentPerHash[documentToJudge.Hash].Spam
-		judgedDocuments = append(judgedDocuments, documentToJudge)
-	}
+	judgments := queryJudgmentsOf(t, query).
+		withDocumentsToJudgeIn(answersAndPageContents.answers)
+	writeFixtureFile(t, queryJudgmentsFileOf(query), judgments)
 
-	return queryJudgments{Query: j.Query, JudgedDocuments: judgedDocuments}
+	return judgments
 }
 
-func documentsToJudgeOf(
-	answers queryanswers.AnsweredQuery,
-	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
-	judgedDocumentPerHash map[yacymodel.URLHash]judgedDocument,
-) []judgedDocument {
-	toJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
-	maps.Copy(toJudge, documentsAmongTheFirstOf(
-		orderingOfTheServiceFrom(
-			documentrelevance.DefaultRelevanceWeights(),
-		).OrderedDocumentsOf(answers),
-	))
-	for document := range pageContentsPerDocument {
-		toJudge[document] = struct{}{}
-	}
-	for document, judged := range judgedDocumentPerHash {
-		if judged.Grade == nil {
-			continue
-		}
-		toJudge[document] = struct{}{}
-	}
+func queryJudgmentsOf(t *testing.T, query string) queryJudgments {
+	t.Helper()
 
-	documentsToJudge := make([]judgedDocument, 0, len(toJudge))
-	for _, foundDocument := range answers.FoundDocuments {
-		if _, judged := toJudge[foundDocument.Hash]; !judged {
-			continue
-		}
-		documentsToJudge = append(documentsToJudge, judgedDocument{
-			Hash:    foundDocument.Hash,
-			Address: foundDocument.Address,
-			Title:   foundDocument.Title,
-		})
-	}
+	judgments := queryJudgmentsAt(t, queryJudgmentsFileOf(query))
+	judgments.Query = query
 
-	return documentsToJudge
+	return judgments
 }
 
-func documentsAmongTheFirstOf(
-	orderedDocuments []queryanswers.FoundDocument,
-) map[yacymodel.URLHash]struct{} {
-	documentsAmongTheFirst := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
-	for _, orderedDocument := range orderedDocuments[:min(judgedDocumentsCeiling, len(orderedDocuments))] {
-		documentsAmongTheFirst[orderedDocument.Hash] = struct{}{}
-	}
-
-	return documentsAmongTheFirst
-}
-
-func (j queryJudgments) judgedDocumentPerHash() map[yacymodel.URLHash]judgedDocument {
-	judgedDocumentPerHash := make(map[yacymodel.URLHash]judgedDocument, len(j.JudgedDocuments))
-	for _, judged := range j.JudgedDocuments {
-		judgedDocumentPerHash[judged.Hash] = judged
-	}
-
-	return judgedDocumentPerHash
-}
-
-func queryJudgmentsInTheFile(t *testing.T, path string) queryJudgments {
+func queryJudgmentsAt(t *testing.T, path string) queryJudgments {
 	t.Helper()
 
 	content, err := os.ReadFile(path) //nolint:gosec // a fixture path of this test directory
@@ -150,11 +69,125 @@ func queryJudgmentsInTheFile(t *testing.T, path string) queryJudgments {
 	return judgments
 }
 
-func queryJudgmentsRecordedFor(t *testing.T, query string) queryJudgments {
+func queryJudgmentsFileOf(query string) string {
+	return filepath.Join(queryJudgmentsDirectory, queryInFileNames(query)+queryJudgmentsFileSuffix)
+}
+
+func (judgments queryJudgments) withDocumentsToJudgeIn(
+	answers queryanswers.AnsweredQuery,
+) queryJudgments {
+	judgedDocumentPerHash := judgments.judgedDocumentPerHash()
+
+	documentsToJudge := judgments.documentsToJudgeIn(answers)
+	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
+	for _, documentToJudge := range documentsToJudge {
+		documentToJudge.Grade = judgedDocumentPerHash[documentToJudge.Hash].Grade
+		documentToJudge.Spam = judgedDocumentPerHash[documentToJudge.Hash].Spam
+		judgedDocuments = append(judgedDocuments, documentToJudge)
+	}
+
+	return queryJudgments{Query: judgments.Query, JudgedDocuments: judgedDocuments}
+}
+
+func (judgments queryJudgments) judgedDocumentPerHash() map[yacymodel.URLHash]judgedDocument {
+	judgedDocumentPerHash := make(
+		map[yacymodel.URLHash]judgedDocument, len(judgments.JudgedDocuments),
+	)
+	for _, judged := range judgments.JudgedDocuments {
+		judgedDocumentPerHash[judged.Hash] = judged
+	}
+
+	return judgedDocumentPerHash
+}
+
+func (judgments queryJudgments) documentsToJudgeIn(
+	answers queryanswers.AnsweredQuery,
+) []judgedDocument {
+	documentsToJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
+	maps.Copy(documentsToJudge, documentsAmongTheFirstOf(
+		defaultServiceOrdering().OrderedDocumentsOf(answers),
+	))
+	for _, foundDocument := range answers.FoundDocuments {
+		if !foundDocument.Facts.AmountOfWords.Present() {
+			continue
+		}
+		documentsToJudge[foundDocument.Hash] = struct{}{}
+	}
+	for document, judged := range judgments.judgedDocumentPerHash() {
+		if judged.Grade == nil {
+			continue
+		}
+		documentsToJudge[document] = struct{}{}
+	}
+
+	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
+	for _, foundDocument := range answers.FoundDocuments {
+		if _, judged := documentsToJudge[foundDocument.Hash]; !judged {
+			continue
+		}
+		judgedDocuments = append(judgedDocuments, judgedDocument{
+			Hash:    foundDocument.Hash,
+			Address: foundDocument.Address,
+			Title:   foundDocument.Title,
+		})
+	}
+
+	return judgedDocuments
+}
+
+func documentsAmongTheFirstOf(
+	orderedDocuments []queryanswers.FoundDocument,
+) map[yacymodel.URLHash]struct{} {
+	documentsAmongTheFirst := make(map[yacymodel.URLHash]struct{}, judgedDocumentsCeiling)
+	for _, orderedDocument := range orderedDocuments[:min(
+		judgedDocumentsCeiling, len(orderedDocuments),
+	)] {
+		documentsAmongTheFirst[orderedDocument.Hash] = struct{}{}
+	}
+
+	return documentsAmongTheFirst
+}
+
+func (judgments queryJudgments) gradedDocuments() gradedDocuments {
+	graded := make(gradedDocuments, len(judgments.JudgedDocuments))
+	for _, judged := range judgments.JudgedDocuments {
+		if judged.Grade == nil {
+			continue
+		}
+		graded[judged.Hash] = gradedDocument{
+			grade: *judged.Grade,
+			site:  yacymodel.SiteOf(judged.Address),
+			spam:  judged.Spam,
+		}
+	}
+
+	return graded
+}
+
+func (judgments queryJudgments) amountOfUngradedDocuments() int {
+	amountOfUngradedDocuments := 0
+	for _, judged := range judgments.JudgedDocuments {
+		if judged.Grade != nil {
+			continue
+		}
+		amountOfUngradedDocuments++
+	}
+
+	return amountOfUngradedDocuments
+}
+
+func queryJudgmentsFiles(t *testing.T) []string {
 	t.Helper()
 
-	judgments := queryJudgmentsInTheFile(t, queryJudgmentsFileOf(query))
-	judgments.Query = query
+	judgmentsFiles, err := filepath.Glob(
+		filepath.Join(queryJudgmentsDirectory, "*"+queryJudgmentsFileSuffix),
+	)
+	if err != nil {
+		t.Fatalf("read %s: %v", queryJudgmentsDirectory, err)
+	}
+	if len(judgmentsFiles) == 0 {
+		t.Fatalf("no query is judged in %s", queryJudgmentsDirectory)
+	}
 
-	return judgments
+	return judgmentsFiles
 }

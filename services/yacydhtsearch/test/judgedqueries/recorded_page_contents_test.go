@@ -1,7 +1,6 @@
 package judgedqueries_test
 
 import (
-	"path/filepath"
 	"testing"
 	"time"
 
@@ -15,22 +14,22 @@ var timeThePeersAnswered = time.Date(2026, time.September, 21, 0, 15, 42, 0, tim
 func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 	t.Parallel()
 
-	document := hashOfTheWeatherDocument(t)
+	document := hashOfWeatherDocument(t)
 	word := yacymodel.WordHash("berlin")
-	read := answersOfADocumentWrittenAndReadBack(t, answersAndTheirReadPages{
-		answeredQuery: queryanswers.AnsweredQuery{
+	read := answersWrittenAndReadBack(t, answersAndPageContentsOf(
+		queryanswers.AnsweredQuery{
 			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
 				document,
 				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
 					Hash:    document,
-					Address: "https://example.org/weather",
+					Address: weatherDocumentAddress,
 					Title:   "What a peer calls it",
 					Snippet: "What a peer sent",
 				}}},
 				nil,
 			)},
 		},
-		pageContentsPerDocument: map[yacymodel.URLHash]pagecontents.PageContents{
+		map[yacymodel.URLHash]pagecontents.PageContents{
 			document: {
 				Title:            "Weather in Berlin",
 				Snippet:          "Rain is falling over the whole city today.",
@@ -40,7 +39,7 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 				LinkCounts:       pagecontents.LinkCounts{LocalLinks: 12, ExternalLinks: 7},
 			},
 		},
-	})
+	))
 
 	facts := read.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 9 || facts.QueryPhraseHits.OrElse(0) != 4 ||
@@ -59,15 +58,15 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) {
 	t.Parallel()
 
-	document := hashOfTheWeatherDocument(t)
+	document := hashOfWeatherDocument(t)
 	word := yacymodel.WordHash("berlin")
-	read := answersOfADocumentWrittenAndReadBack(t, answersAndTheirReadPages{
-		answeredQuery: queryanswers.AnsweredQuery{
+	read := answersWrittenAndReadBack(t, answersAndPageContentsOf(
+		queryanswers.AnsweredQuery{
 			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
 				document,
 				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
 					Hash:    document,
-					Address: "https://example.org/weather",
+					Address: weatherDocumentAddress,
 					Title:   "What a peer calls it",
 				}}},
 				[]queryanswers.PostingReplica{{
@@ -79,7 +78,8 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 				}},
 			)},
 		},
-	})
+		nil,
+	))
 
 	facts := read.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 22 || facts.AmountOfLinks.OrElse(0) != 29 ||
@@ -97,28 +97,29 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 	t.Parallel()
 
-	document := hashOfTheWeatherDocument(t)
-	recorded := recordedAnswersOf("berlin", answersAndTheirReadPages{
-		answeredQuery: queryanswers.AnsweredQuery{
+	document := hashOfWeatherDocument(t)
+	recorded := recordedAnswersOf("berlin", answersAndPageContentsOf(
+		queryanswers.AnsweredQuery{
 			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
 				document,
 				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
 					Hash:    document,
-					Address: "https://example.org/weather",
+					Address: weatherDocumentAddress,
 					Title:   "What a peer calls it",
 				}}},
 				nil,
 			)},
 		},
-	})
+		nil,
+	))
 	recorded.RecordedAt = timeThePeersAnswered
 
-	readAgain := recorded.withThePageContentsReadAgain(answersAndTheirReadPages{
-		answeredQuery: recorded.answeredQuery(),
-		pageContentsPerDocument: map[yacymodel.URLHash]pagecontents.PageContents{
+	readAgain := recorded.withPageContentsReadAgain(answersAndPageContentsOf(
+		recorded.answers(),
+		map[yacymodel.URLHash]pagecontents.PageContents{
 			document: {Title: "Weather in Berlin", AmountOfWords: 1200},
 		},
-	})
+	))
 
 	if !readAgain.RecordedAt.Equal(timeThePeersAnswered) {
 		t.Fatalf("the answers read again carry the time %s, want the time %s the peers answered",
@@ -132,13 +133,53 @@ func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 	}
 }
 
-func answersOfADocumentWrittenAndReadBack(
-	t *testing.T, answersAndTheirPages answersAndTheirReadPages,
-) queryanswers.AnsweredQuery {
-	t.Helper()
+type recordedPageContents struct {
+	Address          string                 `json:"address,omitempty"`
+	Title            string                 `json:"title"`
+	Snippet          string                 `json:"snippet"`
+	HitsPerQueryWord map[yacymodel.Hash]int `json:"hitsPerQueryWord"`
+	QueryPhraseHits  int                    `json:"queryPhraseHits"`
+	AmountOfWords    int                    `json:"amountOfWords"`
+	LocalLinks       int                    `json:"localLinks"`
+	ExternalLinks    int                    `json:"externalLinks"`
+}
 
-	path := filepath.Join(t.TempDir(), "recorded"+recordedAnswersFileSuffix)
-	writeRecordedAnswersFile(t, path, recordedAnswersOf("berlin", answersAndTheirPages))
+func recordedPageContentsFor(
+	document yacymodel.URLHash,
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
+) yacymodel.Optional[recordedPageContents] {
+	pageContents, read := pageContentsPerDocument[document]
+	if !read {
+		return yacymodel.None[recordedPageContents]()
+	}
 
-	return recordedAnswersInTheFile(t, path).answeredQuery()
+	return yacymodel.Some(recordedPageContentsOf(pageContents))
+}
+
+func recordedPageContentsOf(pageContents pagecontents.PageContents) recordedPageContents {
+	return recordedPageContents{
+		Address:          pageContents.Address,
+		Title:            pageContents.Title,
+		Snippet:          pageContents.Snippet,
+		HitsPerQueryWord: pageContents.HitsPerQueryWord,
+		QueryPhraseHits:  pageContents.QueryPhraseHits,
+		AmountOfWords:    pageContents.AmountOfWords,
+		LocalLinks:       pageContents.LinkCounts.LocalLinks,
+		ExternalLinks:    pageContents.LinkCounts.ExternalLinks,
+	}
+}
+
+func (recorded recordedPageContents) pageContents() pagecontents.PageContents {
+	return pagecontents.PageContents{
+		Address:          recorded.Address,
+		Title:            recorded.Title,
+		Snippet:          recorded.Snippet,
+		HitsPerQueryWord: recorded.HitsPerQueryWord,
+		QueryPhraseHits:  recorded.QueryPhraseHits,
+		AmountOfWords:    recorded.AmountOfWords,
+		LinkCounts: pagecontents.LinkCounts{
+			LocalLinks:    recorded.LocalLinks,
+			ExternalLinks: recorded.ExternalLinks,
+		},
+	}
 }

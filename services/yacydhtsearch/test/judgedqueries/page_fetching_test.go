@@ -12,50 +12,50 @@ import (
 )
 
 type pageFetching struct {
-	pageFetch   pagefetch.Fetcher
+	fetcher     pagefetch.Fetcher
 	pagesBudget time.Duration
 }
 
-func pageFetchingOverTheWeb(pagesBudget time.Duration) pageFetching {
+func pageFetchingWithin(pagesBudget time.Duration) pageFetching {
 	return pageFetching{
-		pageFetch: pagefetchershttp.New(
+		fetcher: pagefetchershttp.New(
 			nil,
 			pagefetchershttp.ProxyDialTunnel,
 			pageFetchUserAgent,
 			pageByteCeiling,
-			pageReadBudget,
+			pageBudget,
 		),
 		pagesBudget: pagesBudget,
 	}
 }
 
-func (f pageFetching) fetchedPagesOf(
+func (fetching pageFetching) fetchedPagesOf(
 	ctx context.Context,
 	foundDocuments []queryanswers.FoundDocument,
 ) []storedPage {
-	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, f.pagesBudget)
+	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, fetching.pagesBudget)
 	defer stopPageReadBudget()
 
-	pageOfEachPlace := make([]storedPage, len(foundDocuments))
+	pagePerPlace := make([]storedPage, len(foundDocuments))
 	var pagesBeingRead sync.WaitGroup
 	for place, foundDocument := range foundDocuments {
 		pagesBeingRead.Add(1)
 		go func() {
 			defer pagesBeingRead.Done()
-			pageOfEachPlace[place] = f.fetchedPageOf(budgetedCtx, foundDocument.Address)
+			pagePerPlace[place] = fetching.fetchedPageAt(budgetedCtx, foundDocument.Address)
 		}()
 	}
 	pagesBeingRead.Wait()
 
-	return pagesThatCarryABody(pageOfEachPlace)
+	return pagesWithBodyAmong(pagePerPlace)
 }
 
-func (f pageFetching) fetchedPageOf(ctx context.Context, address string) storedPage {
+func (fetching pageFetching) fetchedPageAt(ctx context.Context, address string) storedPage {
 	pageURL, err := canonicalurl.CanonicalURLOf(address)
 	if err != nil {
 		return storedPage{}
 	}
-	fetched, err := f.pageFetch.Fetch(ctx, pageURL, pagefetch.PageVersion{})
+	fetched, err := fetching.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
 	if err != nil || fetched.Status != pagefetch.FetchSucceeded {
 		return storedPage{}
 	}
@@ -67,9 +67,9 @@ func (f pageFetching) fetchedPageOf(ctx context.Context, address string) storedP
 	}
 }
 
-func pagesThatCarryABody(pageOfEachPlace []storedPage) []storedPage {
-	pages := make([]storedPage, 0, len(pageOfEachPlace))
-	for _, page := range pageOfEachPlace {
+func pagesWithBodyAmong(pagePerPlace []storedPage) []storedPage {
+	pages := make([]storedPage, 0, len(pagePerPlace))
+	for _, page := range pagePerPlace {
 		if len(page.body) == 0 {
 			continue
 		}

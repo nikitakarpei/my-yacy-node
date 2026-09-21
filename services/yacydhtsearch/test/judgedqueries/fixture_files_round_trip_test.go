@@ -14,7 +14,7 @@ func TestAZstandardFixtureFileReadsBackWhatWasWrittenIntoIt(t *testing.T) {
 
 	writeZstandardFixtureFile(t, path, written)
 
-	if read := contentOfTheZstandardFixtureFile(t, path); !bytes.Equal(read, written) {
+	if read := contentOfZstandardFixtureFile(t, path); !bytes.Equal(read, written) {
 		t.Fatalf("the fixture file holds %d bytes, want the %d written", len(read), len(written))
 	}
 }
@@ -27,7 +27,7 @@ func TestAGzippedFixtureFileReadsBackWhatWasWrittenIntoIt(t *testing.T) {
 
 	writeGzippedFixtureFile(t, path, written)
 
-	if read := contentOfTheGzippedFixtureFile(t, path); !bytes.Equal(read, written) {
+	if read := contentOfGzippedFixtureFile(t, path); !bytes.Equal(read, written) {
 		t.Fatalf("the fixture file holds %q, want %q", read, written)
 	}
 }

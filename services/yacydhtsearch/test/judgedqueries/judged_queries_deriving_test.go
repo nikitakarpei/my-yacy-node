@@ -12,37 +12,29 @@ func TestDeriveTheJudgedQueriesFromTheStoredPages(t *testing.T) {
 		t.Skipf("set %s to derive the judged queries from the stored pages", derivingSwitch)
 	}
 
-	extraction := pageExtractionOfTheFormats(t)
+	extraction := pageExtractionOfEveryFormat(t)
 	for _, answersFile := range recordedAnswersFiles(t) {
-		deriveOneJudgedQueryFromTheStoredPages(t, extraction, answersFile)
+		extraction.deriveJudgedQueryFrom(t, answersFile)
 	}
 }
 
-func deriveOneJudgedQueryFromTheStoredPages(
-	t *testing.T, extraction pageExtraction, answersFile string,
-) {
+func (extraction pageExtraction) deriveJudgedQueryFrom(t *testing.T, answersFile string) {
 	t.Helper()
 
-	answers := recordedAnswersInTheFile(t, answersFile)
-	answersAndTheirPages := extraction.answersWithTheContentsOfTheStoredPages(
-		t.Context(),
-		t,
-		answers.Query,
-		answers.answeredQuery(),
-		storedPagePerAddress(t, answers.Query),
+	recorded := recordedAnswersAt(t, answersFile)
+	answers := recorded.answers()
+	answersAndPageContents := answersAndPageContentsOf(
+		answers,
+		extraction.pageContentsPerDocumentOf(
+			t.Context(), answers, storedPagePerAddressOf(t, recorded.Query),
+		),
 	)
 	writeRecordedAnswersFile(
-		t, answersFile, answers.withThePageContentsReadAgain(answersAndTheirPages),
+		t, answersFile, recorded.withPageContentsReadAgain(answersAndPageContents),
 	)
-	judgments := queryJudgmentsRecordedFor(t, answers.Query).withTheDocumentsToJudgeIn(
-		answersAndTheirPages.answeredQuery.WithReadPages(
-			answersAndTheirPages.pageContentsPerDocument,
-		),
-		answersAndTheirPages.pageContentsPerDocument,
-	)
-	writeFixtureFile(t, queryJudgmentsFileOf(answers.Query), judgments)
+	judgments := writeJudgmentsOf(t, recorded.Query, answersAndPageContents)
 	t.Logf("%q derived the text of %d documents, %d documents wait for a grade",
-		answers.Query,
-		len(answersAndTheirPages.pageContentsPerDocument),
+		recorded.Query,
+		len(answersAndPageContents.pageContentsPerDocument),
 		judgments.amountOfUngradedDocuments())
 }

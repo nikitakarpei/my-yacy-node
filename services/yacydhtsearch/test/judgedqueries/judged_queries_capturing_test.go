@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	capturingSwitch   = "YACYDHTSEARCH_CAPTURE_JUDGED_QUERY_PAGES"
-	pageCaptureBudget = 90 * time.Second
+	capturingSwitch      = "YACYDHTSEARCH_CAPTURE_JUDGED_QUERY_PAGES"
+	capturingPagesBudget = 90 * time.Second
 )
 
 func TestCaptureThePagesOfTheJudgedQueries(t *testing.T) {
@@ -18,40 +18,38 @@ func TestCaptureThePagesOfTheJudgedQueries(t *testing.T) {
 		t.Skipf("set %s to capture the pages of the judged queries over the web", capturingSwitch)
 	}
 
-	fetching := pageFetchingOverTheWeb(pageCaptureBudget)
+	fetching := pageFetchingWithin(capturingPagesBudget)
 	for _, answersFile := range recordedAnswersFiles(t) {
-		captureThePagesOfOneJudgedQuery(t, fetching, answersFile)
+		fetching.capturePagesOf(t, answersFile)
 	}
 }
 
-func captureThePagesOfOneJudgedQuery(
-	t *testing.T, fetching pageFetching, answersFile string,
-) {
+func (fetching pageFetching) capturePagesOf(t *testing.T, answersFile string) {
 	t.Helper()
 
-	answers := recordedAnswersInTheFile(t, answersFile)
-	documentsToCapture := documentsJudgedOf(t, answers)
+	recorded := recordedAnswersAt(t, answersFile)
+	documentsToCapture := judgedDocumentsAmong(t, recorded)
 	pages := fetching.fetchedPagesOf(t.Context(), documentsToCapture)
-	storePagesOfTheQuery(t, answers.Query, pages)
+	writeStoredPagesOf(t, recorded.Query, pages)
 	t.Logf("%q captured the page of %d of the %d judged documents",
-		answers.Query, len(pages), len(documentsToCapture))
+		recorded.Query, len(pages), len(documentsToCapture))
 }
 
-func documentsJudgedOf(
-	t *testing.T, answers recordedAnswers,
+func judgedDocumentsAmong(
+	t *testing.T, recorded recordedAnswers,
 ) []queryanswers.FoundDocument {
 	t.Helper()
 
-	judgedDocumentPerHash := queryJudgmentsInTheFile(t, queryJudgmentsFileOf(answers.Query)).
+	judgedDocumentPerHash := queryJudgmentsAt(t, queryJudgmentsFileOf(recorded.Query)).
 		judgedDocumentPerHash()
-	foundDocuments := answers.answeredQuery().FoundDocuments
-	judged := make([]queryanswers.FoundDocument, 0, len(foundDocuments))
+	foundDocuments := recorded.answers().FoundDocuments
+	judgedDocuments := make([]queryanswers.FoundDocument, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
-		if _, named := judgedDocumentPerHash[foundDocument.Hash]; !named {
+		if _, judged := judgedDocumentPerHash[foundDocument.Hash]; !judged {
 			continue
 		}
-		judged = append(judged, foundDocument)
+		judgedDocuments = append(judgedDocuments, foundDocument)
 	}
 
-	return judged
+	return judgedDocuments
 }
