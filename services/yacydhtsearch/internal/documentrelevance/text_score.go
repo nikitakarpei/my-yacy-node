@@ -13,20 +13,20 @@ const (
 
 func textScoreOf(
 	facts queryanswers.DocumentFacts,
-	rarity queryWordRarity,
+	rarityOfTheQuery queryRarity,
 	averageAmountOfWordsAnyoneCounted float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
-	sumOfTheSaturatedHits := 0.0
+	textScore := 0.0
 	for _, word := range queryWords {
-		sumOfTheSaturatedHits += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
+		textScore += rarityOfTheQuery.shareHeldByTheQueryWord(word) * saturatedHitsOf(
 			facts.HitsPerQueryWord[word],
 			facts.AmountOfWords,
 			averageAmountOfWordsAnyoneCounted,
 		)
 	}
 
-	return sumOfTheSaturatedHits / rarity.sumOfTheRarityOfTheQueryWords
+	return textScore
 }
 
 func averageAmountOfWordsAnyoneCountedAmong(

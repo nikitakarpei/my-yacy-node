@@ -2,17 +2,19 @@ package documentrelevance
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const saturationOfTheQueryPhraseHits = 1.0
+const (
+	saturationOfTheQueryPhraseHits              = 1.0
+	phraseScoreWhenNobodyCountedTheQueryPhrases = 0.0
+)
 
-func phraseScoreOf(facts queryanswers.DocumentFacts) yacymodel.Optional[float64] {
+func phraseScoreOf(facts queryanswers.DocumentFacts) float64 {
 	hits, counted := facts.QueryPhraseHits.Get()
 	if !counted {
-		return yacymodel.None[float64]()
+		return phraseScoreWhenNobodyCountedTheQueryPhrases
 	}
 	queryPhraseHits := float64(hits)
 
-	return yacymodel.Some(queryPhraseHits / (queryPhraseHits + saturationOfTheQueryPhraseHits))
+	return queryPhraseHits / (queryPhraseHits + saturationOfTheQueryPhraseHits)
 }

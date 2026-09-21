@@ -17,11 +17,11 @@ func namedSiteEntryScoreOf(
 	if err != nil {
 		return 0
 	}
-	wordsOfTheSiteName := wordsOfTheSiteNameOf(readAddress.Hostname())
+	wordsInTheSiteName := wordsInTheSiteNameOf(readAddress.Hostname())
 
 	amountOfQueryWordsInTheSiteName := 0
 	for _, word := range queryWords {
-		if _, inTheSiteName := wordsOfTheSiteName[word]; !inTheSiteName {
+		if _, inTheSiteName := wordsInTheSiteName[word]; !inTheSiteName {
 			continue
 		}
 		amountOfQueryWordsInTheSiteName++
@@ -30,24 +30,24 @@ func namedSiteEntryScoreOf(
 		return 0
 	}
 
-	return float64(amountOfQueryWordsInTheSiteName) / float64(len(wordsOfTheSiteName)) *
+	return float64(amountOfQueryWordsInTheSiteName) / float64(len(wordsInTheSiteName)) *
 		float64(amountOfQueryWordsInTheSiteName) / float64(len(queryWords)) /
 		float64(1+amountOfPathSegmentsOf(readAddress.Path))
 }
 
-func wordsOfTheSiteNameOf(host string) map[yacymodel.Hash]struct{} {
+func wordsInTheSiteNameOf(host string) map[yacymodel.Hash]struct{} {
 	siteName := strings.TrimPrefix(host, prefixOfAWorldWideWebHost)
 	if placeOfTheLastDot := strings.LastIndex(siteName, "."); placeOfTheLastDot >= 0 {
 		siteName = siteName[:placeOfTheLastDot]
 	}
 	spelledWords := yacymodel.WordsIn(siteName)
 
-	wordsOfTheSiteName := make(map[yacymodel.Hash]struct{}, len(spelledWords))
+	wordsInTheSiteName := make(map[yacymodel.Hash]struct{}, len(spelledWords))
 	for _, spelledWord := range spelledWords {
-		wordsOfTheSiteName[yacymodel.WordHash(spelledWord)] = struct{}{}
+		wordsInTheSiteName[yacymodel.WordHash(spelledWord)] = struct{}{}
 	}
 
-	return wordsOfTheSiteName
+	return wordsInTheSiteName
 }
 
 func amountOfPathSegmentsOf(path string) int {

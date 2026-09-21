@@ -25,7 +25,7 @@ func (relevance Relevance) RelevancePerDocumentOf(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	foundDocuments := answers.FoundDocuments
-	rarityOfTheQueryWords := queryWordRarityOf(
+	rarityOfTheQuery := queryRarityOf(
 		answers.DocumentsHeldPerQueryWord, answers.QueryWords,
 	)
 	averageFacts := averageFactsAnyoneCountedAmong(answers.FactsPerDocument)
@@ -35,7 +35,7 @@ func (relevance Relevance) RelevancePerDocumentOf(
 		relevancePerDocument[foundDocument.Hash] = relevance.scoreWeights.relevanceOf(
 			foundDocument,
 			answers.FactsPerDocument[foundDocument.Hash],
-			rarityOfTheQueryWords,
+			rarityOfTheQuery,
 			averageFacts,
 			answers.QueryWords,
 		)

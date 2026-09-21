@@ -14,7 +14,7 @@ func linkSparsityPenaltyOf(
 	facts queryanswers.DocumentFacts,
 	averageLinkSparsityPenaltyAnyoneCounted float64,
 ) float64 {
-	return sparsityPenaltyOfTheCountedLinks(facts).
+	return linkSparsityPenaltyOfTheCountedLinks(facts).
 		OrElse(averageLinkSparsityPenaltyAnyoneCounted)
 }
 
@@ -23,7 +23,7 @@ func averageLinkSparsityPenaltyAnyoneCountedAmong(
 ) float64 {
 	sumOfThePenalties, amountOfCountedDocuments := 0.0, 0
 	for _, facts := range factsPerDocument {
-		penalty, counted := sparsityPenaltyOfTheCountedLinks(facts).Get()
+		penalty, counted := linkSparsityPenaltyOfTheCountedLinks(facts).Get()
 		if !counted {
 			continue
 		}
@@ -37,7 +37,7 @@ func averageLinkSparsityPenaltyAnyoneCountedAmong(
 	return sumOfThePenalties / float64(amountOfCountedDocuments)
 }
 
-func sparsityPenaltyOfTheCountedLinks(
+func linkSparsityPenaltyOfTheCountedLinks(
 	facts queryanswers.DocumentFacts,
 ) yacymodel.Optional[float64] {
 	amountOfLinks, countedForTheDocument := facts.AmountOfLinks.Get()
