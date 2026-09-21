@@ -84,7 +84,7 @@ func documentsToJudgeOf(
 	toJudge := documentsAmongTheFirstOf(answers.FoundDocuments)
 	maps.Copy(toJudge, documentsAmongTheFirstOf(
 		orderingOfTheServiceFrom(
-			documentrelevance.DefaultScoreWeights(),
+			documentrelevance.DefaultRelevanceWeights(),
 		).OrderedDocumentsOf(answers),
 	))
 	for document := range pageContentsPerDocument {

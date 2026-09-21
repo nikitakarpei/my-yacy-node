@@ -139,7 +139,7 @@ func factsOfTheFirstDocumentFoundFor(
 ) queryanswers.DocumentFacts {
 	answers := answersOfTheQuery(network, query)
 
-	return answers.FactsPerDocument[answers.FoundDocuments[0].Hash]
+	return answers.FoundDocuments[0].Facts
 }
 
 func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {

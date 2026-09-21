@@ -1510,7 +1510,7 @@ func TestAFoundDocumentIsCountedForTheWordThePeerWasAskedAbout(t *testing.T) {
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
 	}
-	hitsPerQueryWord := answers.FactsPerDocument[foundDocuments[0].Hash].HitsPerQueryWord
+	hitsPerQueryWord := foundDocuments[0].Facts.HitsPerQueryWord
 	_, secondWordHasHits := hitsPerQueryWord[yacymodel.WordHash(secondWord)]
 	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 || secondWordHasHits {
 		t.Fatalf("the found document holds the hits %v, want the hits of the word the ask named",
@@ -1536,7 +1536,7 @@ func TestTheCountsOfEachQueryWordComeTogetherOnTheJoinedDocument(t *testing.T) {
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
 	}
-	hitsPerQueryWord := answers.FactsPerDocument[foundDocuments[0].Hash].HitsPerQueryWord
+	hitsPerQueryWord := foundDocuments[0].Facts.HitsPerQueryWord
 	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 ||
 		hitsPerQueryWord[yacymodel.WordHash(secondWord)] != 3 {
 		t.Fatalf("the found document holds the hits %v, want the hits of each query word",
@@ -1858,7 +1858,7 @@ func TestAFoundDocumentCarriesTheAmountOfLinksThePostingReported(t *testing.T) {
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
 	}
-	amountOfLinks, reported := answers.FactsPerDocument[foundDocuments[0].Hash].AmountOfLinks.Get()
+	amountOfLinks, reported := foundDocuments[0].Facts.AmountOfLinks.Get()
 	if !reported || amountOfLinks != 19 {
 		t.Fatalf(
 			"the found document holds %d links reported %t, want the 19 links the posting reported",
@@ -1883,7 +1883,7 @@ func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoAmountOfLinks(t *test
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
 	}
-	if answers.FactsPerDocument[foundDocuments[0].Hash].AmountOfLinks.Present() {
+	if foundDocuments[0].Facts.AmountOfLinks.Present() {
 		t.Fatal("the joined document holds an amount of links, want none where no posting " +
 			"reported one")
 	}

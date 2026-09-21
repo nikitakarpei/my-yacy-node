@@ -1,4 +1,4 @@
-// Package peerasks holds the asks this node puts to peers and what one peer
+// Package peerasks holds the asks the service puts to peers and what one peer
 // answered for each.
 package peerasks
 

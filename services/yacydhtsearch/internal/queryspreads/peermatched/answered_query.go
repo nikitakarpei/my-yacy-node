@@ -10,74 +10,27 @@ func answeredQueryFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
 ) queryanswers.AnsweredQuery {
-	postingReplicasPerDocument := postingReplicasPerDocumentFrom(answeredAsks, queryWords)
-
 	return queryanswers.AnsweredQuery{
-		QueryWords:                 queryWords,
-		FoundDocuments:             foundDocumentsFrom(answeredAsks),
-		PostingReplicasPerDocument: postingReplicasPerDocument,
-		MetadataPerDocument:        metadataPerDocumentFrom(answeredAsks),
-		FactsPerDocument:           queryanswers.FactsPerDocumentOf(postingReplicasPerDocument),
+		QueryWords:     queryWords,
+		FoundDocuments: foundDocumentsFrom(answeredAsks, queryWords),
 	}
 }
 
 func foundDocumentsFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
-) []queryanswers.FoundDocument {
-	var foundDocuments []queryanswers.FoundDocument
-	alreadyFoundDocuments := map[yacymodel.URLHash]struct{}{}
-	for _, answeredAsk := range answeredAsks {
-		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			if _, alreadyFound := alreadyFoundDocuments[matchedDocument.Metadata.Hash]; alreadyFound {
-				continue
-			}
-			alreadyFoundDocuments[matchedDocument.Metadata.Hash] = struct{}{}
-			foundDocuments = append(
-				foundDocuments, queryanswers.FoundDocumentFrom(matchedDocument.Metadata),
-			)
-		}
-	}
-
-	return foundDocuments
-}
-
-func metadataPerDocumentFrom(
-	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
-) queryanswers.MetadataPerDocument {
-	metadataPerDocument := queryanswers.MetadataPerDocument{}
-	for _, answeredAsk := range answeredAsks {
-		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			metadataPerDocument.Keep(matchedDocument.Metadata)
-		}
-	}
-
-	return metadataPerDocument
-}
-
-func postingReplicasPerDocumentFrom(
-	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
 	queryWords []yacymodel.Hash,
-) queryanswers.PostingReplicasPerDocument {
-	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
+) []queryanswers.FoundDocument {
+	documentsThePeersSent := queryanswers.EmptyDocumentsThePeersSent()
 	countedWord := wordThePeersCountedFor(queryWords)
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			posting, sent := matchedDocument.Posting.Get()
-			if !sent {
-				continue
-			}
-			postingReplicasPerDocument.Keep(
-				matchedDocument.Metadata.Hash,
-				queryanswers.PostingReplica{
-					Holder:  answeredAsk.Ask.Peer.Hash,
-					Word:    countedWord,
-					Posting: posting,
-				},
+			keepTheDocumentThePeerMatched(
+				documentsThePeersSent, matchedDocument, answeredAsk.Ask.Peer.Hash, countedWord,
 			)
 		}
 	}
 
-	return postingReplicasPerDocument
+	return documentsThePeersSent.FoundDocuments()
 }
 
 func wordThePeersCountedFor(
@@ -88,4 +41,20 @@ func wordThePeersCountedFor(
 	}
 
 	return yacymodel.Some(queryWords[0])
+}
+
+func keepTheDocumentThePeerMatched(
+	documentsThePeersSent *queryanswers.DocumentsThePeersSent,
+	matchedDocument peerasks.MatchedDocument,
+	peer yacymodel.Hash,
+	word yacymodel.Optional[yacymodel.Hash],
+) {
+	documentsThePeersSent.KeepMetadataThePeerSent(matchedDocument.Metadata, peer)
+	posting, sent := matchedDocument.Posting.Get()
+	if !sent {
+		return
+	}
+	documentsThePeersSent.KeepPostingThePeerSent(
+		matchedDocument.Metadata.Hash, peer, word, posting,
+	)
 }

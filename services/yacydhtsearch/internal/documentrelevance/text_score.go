@@ -6,77 +6,53 @@ import (
 )
 
 const (
-	saturationOfTheHitsOfAWord                    = 1.2
-	weightOfTheDocumentLength                     = 0.75
-	lengthRatioOfADocumentNobodyCountedTheWordsOf = 1.0
-
-	shareOfTheRarityOfTheQueryWordsOfATextWithoutAQueryWord = 0.0
+	saturationOfHitsOfWord              = 1.2
+	weightOfDocumentLength              = 0.75
+	documentLengthRatioOfUnreadDocument = 1.0
 )
 
-func textScoreOf(
-	facts queryanswers.DocumentFacts,
-	rarity queryWordRarity,
-	averageAmountOfWordsAnyoneCounted float64,
-	queryWords []yacymodel.Hash,
-) float64 {
-	if rarity.sumOfTheRarityOfTheQueryWords <= 0 {
-		return shareOfTheRarityOfTheQueryWordsOfATextWithoutAQueryWord
-	}
-
-	sumOfTheSaturatedHits := 0.0
-	for _, word := range queryWords {
-		sumOfTheSaturatedHits += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(
-			facts.HitsPerQueryWord[word],
-			facts.AmountOfWords,
-			averageAmountOfWordsAnyoneCounted,
-		)
-	}
-
-	return sumOfTheSaturatedHits / rarity.sumOfTheRarityOfTheQueryWords
+type textScorer struct {
+	queryWordRarities    queryWordRarities
+	queryWords           []yacymodel.Hash
+	averageAmountOfWords float64
 }
 
-func averageAmountOfWordsAnyoneCountedAmong(
-	factsPerDocument queryanswers.FactsPerDocument,
-) float64 {
-	sumOfTheAmountsOfWords, amountOfCountedDocuments := 0, 0
-	for _, facts := range factsPerDocument {
-		amountOfWords, counted := facts.AmountOfWords.Get()
-		if !counted || amountOfWords <= 0 {
-			continue
-		}
-		sumOfTheAmountsOfWords += amountOfWords
-		amountOfCountedDocuments++
+func textScorerFrom(statistics answersStatistics) textScorer {
+	return textScorer{
+		queryWordRarities:    statistics.queryWordRarities,
+		queryWords:           statistics.queryWords,
+		averageAmountOfWords: statistics.documentAverages.averageAmountOfWords,
 	}
-	if amountOfCountedDocuments == 0 {
-		return 0
-	}
-
-	return float64(sumOfTheAmountsOfWords) / float64(amountOfCountedDocuments)
 }
 
-func saturatedHitsOf(
-	hits int,
+func (scorer textScorer) scoreOf(document queryanswers.FoundDocument) float64 {
+	textScore := 0.0
+	for _, word := range scorer.queryWords {
+		textScore += scorer.queryWordRarities.rarityShareOfWord(word) *
+			scorer.saturatedHitsOfWordIn(word, document)
+	}
+
+	return textScore
+}
+
+func (scorer textScorer) saturatedHitsOfWordIn(
+	word yacymodel.Hash, document queryanswers.FoundDocument,
+) float64 {
+	hitsOfWord := float64(document.Facts.HitsPerQueryWord[word])
+	saturationForDocumentLength := saturationOfHitsOfWord * (1 - weightOfDocumentLength +
+		weightOfDocumentLength*scorer.documentLengthRatioOf(document.Facts.AmountOfWords))
+
+	return hitsOfWord * (saturationOfHitsOfWord + 1) /
+		(hitsOfWord + saturationForDocumentLength)
+}
+
+func (scorer textScorer) documentLengthRatioOf(
 	amountOfWords yacymodel.Optional[int],
-	averageAmountOfWordsAnyoneCounted float64,
 ) float64 {
-	countedHits := float64(hits)
-	saturationForTheDocumentLength := saturationOfTheHitsOfAWord * (1 - weightOfTheDocumentLength +
-		weightOfTheDocumentLength*documentLengthRatioOf(
-			amountOfWords, averageAmountOfWordsAnyoneCounted,
-		))
-
-	return countedHits * (saturationOfTheHitsOfAWord + 1) /
-		(countedHits + saturationForTheDocumentLength)
-}
-
-func documentLengthRatioOf(
-	amountOfWords yacymodel.Optional[int],
-	averageAmountOfWordsAnyoneCounted float64,
-) float64 {
-	countedAmountOfWords, counted := amountOfWords.Get()
-	if !counted || countedAmountOfWords <= 0 || averageAmountOfWordsAnyoneCounted <= 0 {
-		return lengthRatioOfADocumentNobodyCountedTheWordsOf
+	amountOfWordsCounted, wordsCounted := amountOfWords.Get()
+	if !wordsCounted || amountOfWordsCounted <= 0 || scorer.averageAmountOfWords <= 0 {
+		return documentLengthRatioOfUnreadDocument
 	}
 
-	return float64(countedAmountOfWords) / averageAmountOfWordsAnyoneCounted
+	return float64(amountOfWordsCounted) / scorer.averageAmountOfWords
 }

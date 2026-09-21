@@ -35,7 +35,7 @@ func deriveOneJudgedQueryFromTheStoredPages(
 		t, answersFile, answers.withThePageContentsReadAgain(answersAndTheirPages),
 	)
 	judgments := queryJudgmentsRecordedFor(t, answers.Query).withTheDocumentsToJudgeIn(
-		answersAndTheirPages.answeredQuery.WithTheContentsOfTheReadPages(
+		answersAndTheirPages.answeredQuery.WithReadPages(
 			answersAndTheirPages.pageContentsPerDocument,
 		),
 		answersAndTheirPages.pageContentsPerDocument,

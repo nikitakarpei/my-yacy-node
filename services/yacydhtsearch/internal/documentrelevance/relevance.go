@@ -1,11 +1,7 @@
-// Package documentrelevance tells how well each answered document answers the
-// query. Its relevance adds up the share of the rarity of the query words its
-// title holds, the share its text holds under a BM25 saturation, the query
-// phrases, and how likely it is the entry page of a site the query names. From
-// that sum it takes a penalty for a document that holds few links for the amount
-// of words it holds. A query word nobody counted for a document scores as a word
-// a node counted no hit of. A length or a link density nobody counted scores as
-// the average of the documents a node counted.
+// Package documentrelevance tells how well each document found for a query answers it.
+// It weighs the title, the text, the query phrases and the site name of a document against
+// how few links the document holds, with the relevance weights it is given. It takes the
+// facts the peers sent for a document, or the facts of the page the service read for it.
 package documentrelevance
 
 import (
@@ -13,33 +9,53 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type Relevance struct {
-	scoreWeights ScoreWeights
+type RelevanceScorer struct {
+	relevanceWeights RelevanceWeights
 }
 
-func New(scoreWeights ScoreWeights) Relevance {
-	return Relevance{scoreWeights: scoreWeights}
+func RelevanceScorerWeighedBy(relevanceWeights RelevanceWeights) RelevanceScorer {
+	return RelevanceScorer{relevanceWeights: relevanceWeights}
 }
 
-func (relevance Relevance) RelevancePerDocumentOf(
+func (relevanceScorer RelevanceScorer) RelevancePerDocumentOf(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
-	foundDocuments := answers.FoundDocuments
-	rarityOfTheQueryWords := queryWordRarityOf(
-		answers.DocumentsHeldPerQueryWord, answers.QueryWords,
-	)
-	averageFacts := averageFactsAnyoneCountedAmong(answers.FactsPerDocument)
+	scoring := relevanceScorer.scoringOf(answers)
 
-	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(foundDocuments))
-	for _, foundDocument := range foundDocuments {
-		relevancePerDocument[foundDocument.Hash] = relevance.scoreWeights.relevanceOf(
-			foundDocument,
-			answers.FactsPerDocument[foundDocument.Hash],
-			rarityOfTheQueryWords,
-			averageFacts,
-			answers.QueryWords,
-		)
+	relevancePerDocument := make(map[yacymodel.URLHash]float64, len(answers.FoundDocuments))
+	for _, document := range answers.FoundDocuments {
+		relevancePerDocument[document.Hash] = scoring.relevanceOf(document)
 	}
 
 	return relevancePerDocument
+}
+
+func (relevanceScorer RelevanceScorer) scoringOf(answers queryanswers.AnsweredQuery) scoring {
+	statistics := answersStatisticsFrom(answers)
+
+	return scoring{
+		relevanceWeights:     relevanceScorer.relevanceWeights,
+		titleScorer:          titleScorerFrom(statistics),
+		textScorer:           textScorerFrom(statistics),
+		namedSiteEntryScorer: namedSiteEntryScorerFrom(statistics),
+		linkSparsityPenalty:  linkSparsityPenaltyFrom(statistics),
+	}
+}
+
+type scoring struct {
+	relevanceWeights     RelevanceWeights
+	titleScorer          titleScorer
+	textScorer           textScorer
+	namedSiteEntryScorer namedSiteEntryScorer
+	linkSparsityPenalty  linkSparsityPenalty
+}
+
+func (scoring scoring) relevanceOf(document queryanswers.FoundDocument) float64 {
+	return scoring.relevanceWeights.WeightOfTitleScore*scoring.titleScorer.scoreOf(document) +
+		scoring.relevanceWeights.WeightOfTextScore*scoring.textScorer.scoreOf(document) +
+		scoring.relevanceWeights.WeightOfPhraseScore*phraseScoreOf(document) +
+		scoring.relevanceWeights.WeightOfNamedSiteEntryScore*
+			scoring.namedSiteEntryScorer.scoreOf(document) -
+		scoring.relevanceWeights.WeightOfLinkSparsityPenalty*
+			scoring.linkSparsityPenalty.penaltyOf(document)
 }

@@ -63,12 +63,12 @@ YACYDHTSEARCH_ACCEPT_JUDGED_QUERIES_BASELINE=1 go test -v \
     -run TestAcceptTheGainOfEachJudgedQueryAsTheBaseline ./test/judgedqueries/
 ```
 
-## How to tune the score weights
+## How to tune the relevance weights
 
-This step gives the score weights of the highest mean gain over a grid. It tunes
-on one half of the queries to measure on the other, and changes no file.
+This step gives the relevance weights of the highest mean gain over a grid. It
+tunes on one half of the queries to measure on the other, and changes no file.
 
 ```sh
 YACYDHTSEARCH_TUNE_RELEVANCE_WEIGHTS=1 go test -timeout 30m -v \
-    -run TestTuneTheScoreWeightsOfTheRelevanceOrdering ./test/judgedqueries/
+    -run TestTuneTheRelevanceWeights ./test/judgedqueries/
 ```

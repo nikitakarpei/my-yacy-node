@@ -5,48 +5,51 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses = -1.0
-	shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord   = 0.0
-)
+const titleScoreOfDocumentWithoutTitle = -1.0
 
-func titleScoreOf(
-	foundDocument queryanswers.FoundDocument, rarity queryWordRarity, queryWords []yacymodel.Hash,
-) float64 {
-	if foundDocument.Title == "" {
-		return shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses
-	}
-	if rarity.sumOfTheRarityOfTheQueryWords <= 0 {
-		return shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord
-	}
-
-	return rarity.sumOfTheRarityOf(queryWordsOfTheTitleOf(foundDocument, queryWords)) /
-		rarity.sumOfTheRarityOfTheQueryWords
+type titleScorer struct {
+	queryWordRarities queryWordRarities
+	queryWords        []yacymodel.Hash
 }
 
-func queryWordsOfTheTitleOf(
-	foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash,
-) []yacymodel.Hash {
-	wordsOfTheTitle := wordsOfTheTitleOf(foundDocument.Title)
+func titleScorerFrom(statistics answersStatistics) titleScorer {
+	return titleScorer{
+		queryWordRarities: statistics.queryWordRarities,
+		queryWords:        statistics.queryWords,
+	}
+}
 
-	queryWordsOfTheTitle := make([]yacymodel.Hash, 0, len(queryWords))
-	for _, word := range queryWords {
-		if _, inTheTitle := wordsOfTheTitle[word]; !inTheTitle {
+func (scorer titleScorer) scoreOf(document queryanswers.FoundDocument) float64 {
+	if document.Title == "" {
+		return titleScoreOfDocumentWithoutTitle
+	}
+
+	return scorer.queryWordRarities.rarityShareOfWords(scorer.queryWordsInTitleOf(document))
+}
+
+func (scorer titleScorer) queryWordsInTitleOf(
+	document queryanswers.FoundDocument,
+) []yacymodel.Hash {
+	wordsInTitle := wordsIn(document.Title)
+
+	queryWordsInTitle := make([]yacymodel.Hash, 0, len(scorer.queryWords))
+	for _, word := range scorer.queryWords {
+		if _, inTitle := wordsInTitle[word]; !inTitle {
 			continue
 		}
-		queryWordsOfTheTitle = append(queryWordsOfTheTitle, word)
+		queryWordsInTitle = append(queryWordsInTitle, word)
 	}
 
-	return queryWordsOfTheTitle
+	return queryWordsInTitle
 }
 
-func wordsOfTheTitleOf(title string) map[yacymodel.Hash]struct{} {
-	spelledWords := yacymodel.WordsIn(title)
+func wordsIn(text string) map[yacymodel.Hash]struct{} {
+	spelledWords := yacymodel.WordsIn(text)
 
-	wordsOfTheTitle := make(map[yacymodel.Hash]struct{}, len(spelledWords))
+	words := make(map[yacymodel.Hash]struct{}, len(spelledWords))
 	for _, spelledWord := range spelledWords {
-		wordsOfTheTitle[yacymodel.WordHash(spelledWord)] = struct{}{}
+		words[yacymodel.WordHash(spelledWord)] = struct{}{}
 	}
 
-	return wordsOfTheTitle
+	return words
 }
