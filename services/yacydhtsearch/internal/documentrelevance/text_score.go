@@ -29,25 +29,6 @@ func textScoreOf(
 	return textScore
 }
 
-func averageAmountOfWordsAnyoneCountedAmong(
-	factsPerDocument queryanswers.FactsPerDocument,
-) float64 {
-	sumOfTheAmountsOfWords, amountOfCountedDocuments := 0, 0
-	for _, facts := range factsPerDocument {
-		amountOfWords, counted := facts.AmountOfWords.Get()
-		if !counted || amountOfWords <= 0 {
-			continue
-		}
-		sumOfTheAmountsOfWords += amountOfWords
-		amountOfCountedDocuments++
-	}
-	if amountOfCountedDocuments == 0 {
-		return 0
-	}
-
-	return float64(sumOfTheAmountsOfWords) / float64(amountOfCountedDocuments)
-}
-
 func saturatedHitsOf(
 	hits int,
 	amountOfWords yacymodel.Optional[int],

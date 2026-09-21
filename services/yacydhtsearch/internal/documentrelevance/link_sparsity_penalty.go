@@ -5,10 +5,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	leastLinkDensityWithoutASparsityPenalty = 0.03
-	sparsityPenaltyWhenNobodyCountedALink   = 0.0
-)
+const leastLinkDensityWithoutASparsityPenalty = 0.03
 
 func linkSparsityPenaltyOf(
 	facts queryanswers.DocumentFacts,
@@ -16,25 +13,6 @@ func linkSparsityPenaltyOf(
 ) float64 {
 	return linkSparsityPenaltyOfTheCountedLinks(facts).
 		OrElse(averageLinkSparsityPenaltyAnyoneCounted)
-}
-
-func averageLinkSparsityPenaltyAnyoneCountedAmong(
-	factsPerDocument queryanswers.FactsPerDocument,
-) float64 {
-	sumOfThePenalties, amountOfCountedDocuments := 0.0, 0
-	for _, facts := range factsPerDocument {
-		penalty, counted := linkSparsityPenaltyOfTheCountedLinks(facts).Get()
-		if !counted {
-			continue
-		}
-		sumOfThePenalties += penalty
-		amountOfCountedDocuments++
-	}
-	if amountOfCountedDocuments == 0 {
-		return sparsityPenaltyWhenNobodyCountedALink
-	}
-
-	return sumOfThePenalties / float64(amountOfCountedDocuments)
 }
 
 func linkSparsityPenaltyOfTheCountedLinks(
