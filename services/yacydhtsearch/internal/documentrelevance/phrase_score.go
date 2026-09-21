@@ -5,16 +5,16 @@ import (
 )
 
 const (
-	saturationOfTheQueryPhraseHits              = 1.0
-	phraseScoreWhenNobodyCountedTheQueryPhrases = 0.0
+	saturationOfQueryPhraseHits = 1.0
+	phraseScoreOfUnreadDocument = 0.0
 )
 
-func phraseScoreOf(facts queryanswers.DocumentFacts) float64 {
-	hits, counted := facts.QueryPhraseHits.Get()
-	if !counted {
-		return phraseScoreWhenNobodyCountedTheQueryPhrases
+func phraseScoreOf(foundDocument queryanswers.FoundDocument) float64 {
+	hits, queryPhrasesCounted := foundDocument.Facts.QueryPhraseHits.Get()
+	if !queryPhrasesCounted {
+		return phraseScoreOfUnreadDocument
 	}
 	queryPhraseHits := float64(hits)
 
-	return queryPhraseHits / (queryPhraseHits + saturationOfTheQueryPhraseHits)
+	return queryPhraseHits / (queryPhraseHits + saturationOfQueryPhraseHits)
 }

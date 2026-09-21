@@ -8,23 +8,43 @@ import (
 )
 
 type FoundDocument struct {
-	Hash           yacymodel.URLHash
-	Address        string
-	Title          string
-	Snippet        string
-	PublishedAt    yacymodel.Optional[time.Time]
-	FaviconAddress string
+	Hash             yacymodel.URLHash
+	Address          string
+	Title            string
+	Snippet          string
+	PublishedAt      yacymodel.Optional[time.Time]
+	FaviconAddress   string
+	MetadataReplicas []MetadataReplica
+	PostingReplicas  []PostingReplica
+	Facts            DocumentFacts
 }
 
-func FoundDocumentFrom(metadata yacymodel.URLMetadata) FoundDocument {
+func FoundDocumentOf(
+	document yacymodel.URLHash,
+	metadataReplicas []MetadataReplica,
+	postingReplicas []PostingReplica,
+) FoundDocument {
+	shownMetadata := metadataShownAmong(metadataReplicas)
+
 	return FoundDocument{
-		Hash:           metadata.Hash,
-		Address:        metadata.Address,
-		Title:          metadata.Title,
-		Snippet:        metadata.Snippet,
-		PublishedAt:    publicationInstantOf(metadata),
-		FaviconAddress: metadata.FaviconAddress,
+		Hash:             document,
+		Address:          shownMetadata.Address,
+		Title:            shownMetadata.Title,
+		Snippet:          shownMetadata.Snippet,
+		PublishedAt:      publicationInstantOf(shownMetadata),
+		FaviconAddress:   shownMetadata.FaviconAddress,
+		MetadataReplicas: metadataReplicas,
+		PostingReplicas:  postingReplicas,
+		Facts:            documentFactsOfFirstReplicaOfEachWord(postingReplicas),
 	}
+}
+
+func metadataShownAmong(metadataReplicas []MetadataReplica) yacymodel.URLMetadata {
+	if len(metadataReplicas) == 0 {
+		return yacymodel.URLMetadata{}
+	}
+
+	return metadataReplicas[0].Metadata
 }
 
 func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[time.Time] {
@@ -39,9 +59,7 @@ func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[tim
 	return yacymodel.Some(day.Time())
 }
 
-func (f FoundDocument) withTheContentsOfItsReadPage(
-	pageContents pagecontents.PageContents,
-) FoundDocument {
+func (f FoundDocument) withItsReadPage(pageContents pagecontents.PageContents) FoundDocument {
 	if pageContents.Address != "" {
 		f.Address = pageContents.Address
 	}
@@ -49,6 +67,7 @@ func (f FoundDocument) withTheContentsOfItsReadPage(
 		f.Title = pageContents.Title
 	}
 	f.Snippet = pageContents.Snippet
+	f.Facts = documentFactsOfReadPage(pageContents)
 
 	return f
 }

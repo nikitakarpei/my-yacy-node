@@ -5,30 +5,30 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const leastLinkDensityWithoutASparsityPenalty = 0.03
+const leastLinkDensityWithoutSparsityPenalty = 0.03
 
 func linkSparsityPenaltyOf(
-	facts queryanswers.DocumentFacts,
-	averageLinkSparsityPenaltyAnyoneCounted float64,
+	foundDocument queryanswers.FoundDocument,
+	averageLinkSparsityPenalty float64,
 ) float64 {
-	return linkSparsityPenaltyOfTheCountedLinks(facts).
-		OrElse(averageLinkSparsityPenaltyAnyoneCounted)
+	return countedLinkSparsityPenaltyOf(foundDocument).
+		OrElse(averageLinkSparsityPenalty)
 }
 
-func linkSparsityPenaltyOfTheCountedLinks(
-	facts queryanswers.DocumentFacts,
+func countedLinkSparsityPenaltyOf(
+	foundDocument queryanswers.FoundDocument,
 ) yacymodel.Optional[float64] {
-	amountOfLinks, countedForTheDocument := facts.AmountOfLinks.Get()
-	amountOfWords, counted := facts.AmountOfWords.Get()
-	if !countedForTheDocument || !counted || amountOfWords <= 0 {
+	amountOfLinks, linksCounted := foundDocument.Facts.AmountOfLinks.Get()
+	amountOfWords, wordsCounted := foundDocument.Facts.AmountOfWords.Get()
+	if !linksCounted || !wordsCounted || amountOfWords <= 0 {
 		return yacymodel.None[float64]()
 	}
 	linkDensity := linkDensityOf(amountOfLinks, amountOfWords)
-	if linkDensity >= leastLinkDensityWithoutASparsityPenalty {
+	if linkDensity >= leastLinkDensityWithoutSparsityPenalty {
 		return yacymodel.Some(0.0)
 	}
 
-	return yacymodel.Some(1 - linkDensity/leastLinkDensityWithoutASparsityPenalty)
+	return yacymodel.Some(1 - linkDensity/leastLinkDensityWithoutSparsityPenalty)
 }
 
 func linkDensityOf(amountOfLinks int, amountOfWords int) float64 {

@@ -6,23 +6,23 @@ import (
 )
 
 const (
-	saturationOfTheHitsOfAWord                    = 1.2
-	weightOfTheDocumentLength                     = 0.75
-	lengthRatioOfADocumentNobodyCountedTheWordsOf = 1.0
+	saturationOfHitsOfWord              = 1.2
+	weightOfDocumentLength              = 0.75
+	documentLengthRatioOfUnreadDocument = 1.0
 )
 
 func textScoreOf(
-	facts queryanswers.DocumentFacts,
-	rarityOfTheQuery queryRarity,
-	averageAmountOfWordsAnyoneCounted float64,
+	foundDocument queryanswers.FoundDocument,
+	queryWordRarities queryWordRarities,
+	averageAmountOfWords float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
 	textScore := 0.0
 	for _, word := range queryWords {
-		textScore += rarityOfTheQuery.shareHeldByTheQueryWord(word) * saturatedHitsOf(
-			facts.HitsPerQueryWord[word],
-			facts.AmountOfWords,
-			averageAmountOfWordsAnyoneCounted,
+		textScore += queryWordRarities.rarityShareOfWord(word) * saturatedHitsOf(
+			foundDocument.Facts.HitsPerQueryWord[word],
+			foundDocument.Facts.AmountOfWords,
+			averageAmountOfWords,
 		)
 	}
 
@@ -32,26 +32,25 @@ func textScoreOf(
 func saturatedHitsOf(
 	hits int,
 	amountOfWords yacymodel.Optional[int],
-	averageAmountOfWordsAnyoneCounted float64,
+	averageAmountOfWords float64,
 ) float64 {
-	countedHits := float64(hits)
-	saturationForTheDocumentLength := saturationOfTheHitsOfAWord * (1 - weightOfTheDocumentLength +
-		weightOfTheDocumentLength*documentLengthRatioOf(
-			amountOfWords, averageAmountOfWordsAnyoneCounted,
+	saturationForDocumentLength := saturationOfHitsOfWord * (1 - weightOfDocumentLength +
+		weightOfDocumentLength*documentLengthRatioOf(
+			amountOfWords, averageAmountOfWords,
 		))
 
-	return countedHits * (saturationOfTheHitsOfAWord + 1) /
-		(countedHits + saturationForTheDocumentLength)
+	return float64(hits) * (saturationOfHitsOfWord + 1) /
+		(float64(hits) + saturationForDocumentLength)
 }
 
 func documentLengthRatioOf(
 	amountOfWords yacymodel.Optional[int],
-	averageAmountOfWordsAnyoneCounted float64,
+	averageAmountOfWords float64,
 ) float64 {
-	countedAmountOfWords, counted := amountOfWords.Get()
-	if !counted || countedAmountOfWords <= 0 || averageAmountOfWordsAnyoneCounted <= 0 {
-		return lengthRatioOfADocumentNobodyCountedTheWordsOf
+	amountOfWordsCounted, wordsCounted := amountOfWords.Get()
+	if !wordsCounted || amountOfWordsCounted <= 0 || averageAmountOfWords <= 0 {
+		return documentLengthRatioOfUnreadDocument
 	}
 
-	return float64(countedAmountOfWords) / averageAmountOfWordsAnyoneCounted
+	return float64(amountOfWordsCounted) / averageAmountOfWords
 }

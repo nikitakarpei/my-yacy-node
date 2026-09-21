@@ -14,13 +14,13 @@ func TestTheOrderingReportsThePlacesLostWithoutTheFactsOfAPageRead(t *testing.T)
 	t.Parallel()
 
 	judged := judgedQueriesRecorded(t)
-	ordering := orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights())
+	ordering := orderingOfTheServiceFrom(documentrelevance.DefaultRelevanceWeights())
 	placesLostByThePhrasedDocuments, phrasedDocumentsHidden := 0, 0
 	placesLostByTheOtherDocuments, otherDocumentsHidden := 0, 0
 	documentsLeavingTheFirstTen := 0
 	sumOfGains, sumOfGainsWithoutTheFacts := 0.0, 0.0
 	for _, judgedQuery := range judged {
-		hidden := everySecondDocumentWhosePageANodeReadOf(judgedQuery.answers)
+		hidden := everySecondDocumentWhosePageTheServiceReadAmong(judgedQuery.answers)
 		placesOfTheAnswers := placePerDocumentIn(
 			ordering.OrderedDocumentsOf(judgedQuery.answers),
 		)
@@ -71,13 +71,13 @@ func TestTheOrderingReportsThePlacesLostWithoutTheFactsOfAPageRead(t *testing.T)
 	)
 }
 
-func everySecondDocumentWhosePageANodeReadOf(
+func everySecondDocumentWhosePageTheServiceReadAmong(
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]bool {
 	hidden := map[yacymodel.URLHash]bool{}
 	documentsRead := 0
 	for _, foundDocument := range answers.FoundDocuments {
-		facts := answers.FactsPerDocument[foundDocument.Hash]
+		facts := foundDocument.Facts
 		if !facts.AmountOfWords.Present() {
 			continue
 		}
@@ -96,16 +96,16 @@ func answersWithoutTheFactsOfThePageReadsOf(
 	answers queryanswers.AnsweredQuery,
 	hidden map[yacymodel.URLHash]bool,
 ) queryanswers.AnsweredQuery {
-	factsPerDocument := make(queryanswers.FactsPerDocument, len(answers.FactsPerDocument))
-	for document, facts := range answers.FactsPerDocument {
-		if _, hiddenDocument := hidden[document]; hiddenDocument {
-			facts.QueryPhraseHits = yacymodel.None[int]()
-			facts.AmountOfWords = yacymodel.None[int]()
-			facts.AmountOfLinks = yacymodel.None[int]()
+	foundDocuments := make([]queryanswers.FoundDocument, 0, len(answers.FoundDocuments))
+	for _, foundDocument := range answers.FoundDocuments {
+		if _, hiddenDocument := hidden[foundDocument.Hash]; hiddenDocument {
+			foundDocument.Facts.QueryPhraseHits = yacymodel.None[int]()
+			foundDocument.Facts.AmountOfWords = yacymodel.None[int]()
+			foundDocument.Facts.AmountOfLinks = yacymodel.None[int]()
 		}
-		factsPerDocument[document] = facts
+		foundDocuments = append(foundDocuments, foundDocument)
 	}
-	answers.FactsPerDocument = factsPerDocument
+	answers.FoundDocuments = foundDocuments
 
 	return answers
 }

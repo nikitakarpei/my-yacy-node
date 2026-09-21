@@ -19,12 +19,16 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 	word := yacymodel.WordHash("berlin")
 	read := answersOfADocumentWrittenAndReadBack(t, answersAndTheirReadPages{
 		answeredQuery: queryanswers.AnsweredQuery{
-			FoundDocuments: []queryanswers.FoundDocument{{
-				Hash:    document,
-				Address: "https://example.org/weather",
-				Title:   "What a peer calls it",
-				Snippet: "What a peer sent",
-			}},
+			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
+				document,
+				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
+					Hash:    document,
+					Address: "https://example.org/weather",
+					Title:   "What a peer calls it",
+					Snippet: "What a peer sent",
+				}}},
+				nil,
+			)},
 		},
 		pageContentsPerDocument: map[yacymodel.URLHash]pagecontents.PageContents{
 			document: {
@@ -38,7 +42,7 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 		},
 	})
 
-	facts := read.FactsPerDocument[document]
+	facts := read.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 9 || facts.QueryPhraseHits.OrElse(0) != 4 ||
 		facts.AmountOfWords.OrElse(0) != 1200 || facts.AmountOfLinks.OrElse(0) != 19 {
 		t.Fatalf("the recorded document counts %+v, want what the read page counted", facts)
@@ -59,24 +63,25 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 	word := yacymodel.WordHash("berlin")
 	read := answersOfADocumentWrittenAndReadBack(t, answersAndTheirReadPages{
 		answeredQuery: queryanswers.AnsweredQuery{
-			FoundDocuments: []queryanswers.FoundDocument{{
-				Hash:    document,
-				Address: "https://example.org/weather",
-				Title:   "What a peer calls it",
-			}},
-			PostingReplicasPerDocument: queryanswers.PostingReplicasPerDocument{
-				document: {{
+			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
+				document,
+				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
+					Hash:    document,
+					Address: "https://example.org/weather",
+					Title:   "What a peer calls it",
+				}}},
+				[]queryanswers.PostingReplica{{
 					Holder: yacymodel.WordHash("holder"),
 					Word:   yacymodel.Some(word),
 					Posting: yacymodel.RWIPosting{
 						URLHash: document, Hits: 22, LocalLinks: 15, ExternalLinks: 14,
 					},
 				}},
-			},
+			)},
 		},
 	})
 
-	facts := read.FactsPerDocument[document]
+	facts := read.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 22 || facts.AmountOfLinks.OrElse(0) != 29 ||
 		facts.AmountOfWords.Present() || facts.QueryPhraseHits.Present() {
 		t.Fatalf("the recorded document counts %+v, want what the posting counted", facts)
@@ -95,11 +100,15 @@ func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 	document := hashOfTheWeatherDocument(t)
 	recorded := recordedAnswersOf("berlin", answersAndTheirReadPages{
 		answeredQuery: queryanswers.AnsweredQuery{
-			FoundDocuments: []queryanswers.FoundDocument{{
-				Hash:    document,
-				Address: "https://example.org/weather",
-				Title:   "What a peer calls it",
-			}},
+			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
+				document,
+				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
+					Hash:    document,
+					Address: "https://example.org/weather",
+					Title:   "What a peer calls it",
+				}}},
+				nil,
+			)},
 		},
 	})
 	recorded.RecordedAt = timeThePeersAnswered
@@ -115,7 +124,8 @@ func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 		t.Fatalf("the answers read again carry the time %s, want the time %s the peers answered",
 			readAgain.RecordedAt, timeThePeersAnswered)
 	}
-	if readAgain.FoundDocuments[0].Title != "What a peer calls it" ||
+	metadataReadAgain, reported := readAgain.FoundDocuments[0].Metadata.Get()
+	if !reported || metadataReadAgain.Title != "What a peer calls it" ||
 		!readAgain.FoundDocuments[0].PageContents.Present() {
 		t.Fatalf("the answers read again show %+v, want the contents of the page read again",
 			readAgain.FoundDocuments[0])

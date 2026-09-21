@@ -21,7 +21,7 @@ federated search across one configured YaCy DHT network — any configured netwo
 ## Functional Requirements
 
 * The service SHALL accept search requests on YaCy's public `/yacysearch.json` contract and
-  respond in the same format real YaCy nodes use.
+  respond in the same format real YaCy peers use.
 * The service SHALL allow operators to configure the one YaCy network it searches.
 * The service SHALL allow operators to configure the seedlists it uses to discover peers.
 * The service SHALL allow operators to configure a proxy for outbound connections.

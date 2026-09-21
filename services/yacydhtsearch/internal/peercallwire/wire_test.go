@@ -362,7 +362,7 @@ func TestAPeerAnswerBecomesMatchedDocuments(t *testing.T) {
 	}
 }
 
-func TestAMatchedDocumentsAskCarriesTheQueryAndTheNetworkOfThisNode(t *testing.T) {
+func TestAMatchedDocumentsAskCarriesTheQueryAndTheNetworkTheServiceSearches(t *testing.T) {
 	t.Parallel()
 
 	address, requests := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
@@ -381,12 +381,12 @@ func TestAMatchedDocumentsAskCarriesTheQueryAndTheNetworkOfThisNode(t *testing.T
 	}
 	request := requests.received[0]
 	if request.NetworkName != networkName || request.Partitions != int(ringPartitions) {
-		t.Fatalf("request = %+v, want the network facts of this node", request)
+		t.Fatalf("request = %+v, want the network facts the service searches", request)
 	}
 	grantedAnswerTime := time.Duration(request.Time) * time.Millisecond
 	if grantedAnswerTime <= 0 || grantedAnswerTime >= peerCallBudgetOfTheTests {
 		t.Fatalf(
-			"the peer was granted %v of the %v the call had, want less than this node waits",
+			"the peer was granted %v of the %v the call had, want less than the service waits",
 			grantedAnswerTime,
 			peerCallBudgetOfTheTests,
 		)

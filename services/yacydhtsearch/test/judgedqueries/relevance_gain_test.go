@@ -27,7 +27,7 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	t.Parallel()
 
 	judged := judgedQueriesRecorded(t)
-	orderingOfTheService := orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights())
+	orderingOfTheService := orderingOfTheServiceFrom(documentrelevance.DefaultRelevanceWeights())
 	gainOfTheOrderingOfTheService := gainPerJudgedQueryOf(orderingOfTheService, judged)
 	acceptedGain := acceptedGainPerJudgedQueryInTheFile(t, acceptedGainFile)
 	judgedQueriesOfAnOrder := judgedQueriesOfSeveralRelevantDocuments(judged)
@@ -86,9 +86,9 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 }
 
 func orderingOfTheServiceFrom(
-	scoreWeights documentrelevance.ScoreWeights,
+	relevanceWeights documentrelevance.RelevanceWeights,
 ) sitediscount.Ordering {
-	return sitediscount.New(documentrelevance.New(scoreWeights))
+	return sitediscount.New(documentrelevance.New(relevanceWeights))
 }
 
 type orderingInTheFoundOrder struct{}
@@ -128,7 +128,7 @@ func reportTheGainOfEachJudgedQuery(
 ) {
 	t.Helper()
 
-	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
+	documentRelevance := documentrelevance.New(documentrelevance.DefaultRelevanceWeights())
 	relevanceOrdering := relevance.New(documentRelevance)
 	amountOfSpamDocumentsInTheFirstTen := 0
 	for _, judgedQuery := range judged {
@@ -188,7 +188,7 @@ func reportTheRelevantDocumentsHeldInTheFirstTen(
 func reportTheMeanGainOfEachOrdering(t *testing.T, judgedQueriesOfAnOrder []judgedQuery) {
 	t.Helper()
 
-	documentRelevance := documentrelevance.New(documentrelevance.DefaultScoreWeights())
+	documentRelevance := documentrelevance.New(documentrelevance.DefaultRelevanceWeights())
 	t.Logf(
 		"the mean over the %d judged queries of several relevant documents: site discount "+
 			"%.4f, relevance %.4f, found order %.4f",
@@ -220,7 +220,7 @@ func failIfTheLiftOverTheFoundOrderFallsShort(t *testing.T, judged []judgedQuery
 	t.Helper()
 
 	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerSiteOf(
-		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
+		orderingOfTheServiceFrom(documentrelevance.DefaultRelevanceWeights()), judged,
 	)
 	meanGainOfTheFoundOrder := meanNormalizedGainDiscountedPerSiteOf(
 		orderingInTheFoundOrder{}, judged,

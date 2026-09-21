@@ -9,12 +9,12 @@ import (
 )
 
 const (
-	prefixOfAWorldWideWebHost = "www."
+	prefixOfWorldWideWebHost = "www."
 
-	namedSiteEntryScoreOfAnAddressNoOneCanRead    = 0.0
-	namedSiteEntryScoreOfASiteTheQueryDoesNotName = 0.0
+	namedSiteEntryScoreOfMalformedAddress        = 0.0
+	namedSiteEntryScoreOfSiteTheQueryDoesNotName = 0.0
 
-	stepsFromTheSiteEntryToItself = 1
+	amountOfStepsToSiteEntry = 1
 )
 
 func namedSiteEntryScoreOf(
@@ -22,38 +22,32 @@ func namedSiteEntryScoreOf(
 ) float64 {
 	address, err := url.Parse(foundDocument.Address)
 	if err != nil {
-		return namedSiteEntryScoreOfAnAddressNoOneCanRead
+		return namedSiteEntryScoreOfMalformedAddress
 	}
-	wordsInTheSiteName := wordsInTheSiteNameOf(address.Hostname())
-	amountOfQueryWordsInTheSiteName := amountOfQueryWordsAmong(wordsInTheSiteName, queryWords)
-	if amountOfQueryWordsInTheSiteName == 0 {
-		return namedSiteEntryScoreOfASiteTheQueryDoesNotName
+	wordsInSiteName := wordsInSiteNameOf(address.Hostname())
+	amountOfQueryWordsInSiteName := amountOfQueryWordsAmong(wordsInSiteName, queryWords)
+	if amountOfQueryWordsInSiteName == 0 {
+		return namedSiteEntryScoreOfSiteTheQueryDoesNotName
 	}
 
-	shareOfTheSiteNameTheQueryNames := float64(amountOfQueryWordsInTheSiteName) /
-		float64(len(wordsInTheSiteName))
-	shareOfTheQueryTheSiteNameHolds := float64(amountOfQueryWordsInTheSiteName) /
+	shareOfSiteNameTheQueryNames := float64(amountOfQueryWordsInSiteName) /
+		float64(len(wordsInSiteName))
+	shareOfQueryTheSiteNameHolds := float64(amountOfQueryWordsInSiteName) /
 		float64(len(queryWords))
-	stepsFromTheSiteEntry := stepsFromTheSiteEntryToItself +
+	amountOfStepsToDocument := amountOfStepsToSiteEntry +
 		amountOfPathSegmentsOf(address.Path)
 
-	return shareOfTheSiteNameTheQueryNames * shareOfTheQueryTheSiteNameHolds /
-		float64(stepsFromTheSiteEntry)
+	return shareOfSiteNameTheQueryNames * shareOfQueryTheSiteNameHolds /
+		float64(amountOfStepsToDocument)
 }
 
-func wordsInTheSiteNameOf(host string) map[yacymodel.Hash]struct{} {
-	siteName := strings.TrimPrefix(host, prefixOfAWorldWideWebHost)
-	if placeOfTheLastDot := strings.LastIndex(siteName, "."); placeOfTheLastDot >= 0 {
-		siteName = siteName[:placeOfTheLastDot]
-	}
-	spelledWords := yacymodel.WordsIn(siteName)
-
-	wordsInTheSiteName := make(map[yacymodel.Hash]struct{}, len(spelledWords))
-	for _, spelledWord := range spelledWords {
-		wordsInTheSiteName[yacymodel.WordHash(spelledWord)] = struct{}{}
+func wordsInSiteNameOf(host string) map[yacymodel.Hash]struct{} {
+	siteName := strings.TrimPrefix(host, prefixOfWorldWideWebHost)
+	if placeOfLastDot := strings.LastIndex(siteName, "."); placeOfLastDot >= 0 {
+		siteName = siteName[:placeOfLastDot]
 	}
 
-	return wordsInTheSiteName
+	return wordsIn(siteName)
 }
 
 func amountOfQueryWordsAmong(
@@ -61,7 +55,7 @@ func amountOfQueryWordsAmong(
 ) int {
 	amountOfQueryWords := 0
 	for _, queryWord := range queryWords {
-		if _, amongTheWords := words[queryWord]; !amongTheWords {
+		if _, amongWords := words[queryWord]; !amongWords {
 			continue
 		}
 		amountOfQueryWords++

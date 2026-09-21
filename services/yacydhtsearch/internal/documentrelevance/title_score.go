@@ -5,45 +5,43 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const shareOfTheQueryRarityADocumentWithoutATitleLoses = -1.0
+const titleScoreOfDocumentWithoutTitle = -1.0
 
 func titleScoreOf(
 	foundDocument queryanswers.FoundDocument,
-	rarityOfTheQuery queryRarity,
+	queryWordRarities queryWordRarities,
 	queryWords []yacymodel.Hash,
 ) float64 {
 	if foundDocument.Title == "" {
-		return shareOfTheQueryRarityADocumentWithoutATitleLoses
+		return titleScoreOfDocumentWithoutTitle
 	}
 
-	return rarityOfTheQuery.shareHeldBy(queryWordsInTheTitleOf(foundDocument, queryWords))
+	return queryWordRarities.rarityShareOfWords(queryWordsInTitleOf(foundDocument, queryWords))
 }
 
-func queryWordsInTheTitleOf(
+func queryWordsInTitleOf(
 	foundDocument queryanswers.FoundDocument, queryWords []yacymodel.Hash,
 ) []yacymodel.Hash {
-	wordsInTheTitle := wordsInTheTitleOf(foundDocument)
+	wordsInTitle := wordsIn(foundDocument.Title)
 
-	queryWordsInTheTitle := make([]yacymodel.Hash, 0, len(queryWords))
+	queryWordsInTitle := make([]yacymodel.Hash, 0, len(queryWords))
 	for _, word := range queryWords {
-		if _, inTheTitle := wordsInTheTitle[word]; !inTheTitle {
+		if _, inTitle := wordsInTitle[word]; !inTitle {
 			continue
 		}
-		queryWordsInTheTitle = append(queryWordsInTheTitle, word)
+		queryWordsInTitle = append(queryWordsInTitle, word)
 	}
 
-	return queryWordsInTheTitle
+	return queryWordsInTitle
 }
 
-func wordsInTheTitleOf(
-	foundDocument queryanswers.FoundDocument,
-) map[yacymodel.Hash]struct{} {
-	spelledWords := yacymodel.WordsIn(foundDocument.Title)
+func wordsIn(text string) map[yacymodel.Hash]struct{} {
+	spelledWords := yacymodel.WordsIn(text)
 
-	wordsInTheTitle := make(map[yacymodel.Hash]struct{}, len(spelledWords))
+	words := make(map[yacymodel.Hash]struct{}, len(spelledWords))
 	for _, spelledWord := range spelledWords {
-		wordsInTheTitle[yacymodel.WordHash(spelledWord)] = struct{}{}
+		words[yacymodel.WordHash(spelledWord)] = struct{}{}
 	}
 
-	return wordsInTheTitle
+	return words
 }
