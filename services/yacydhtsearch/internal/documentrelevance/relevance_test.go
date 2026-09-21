@@ -14,6 +14,9 @@ import (
 const (
 	amountOfRunsOfTheSameAnswers   = 50
 	amountOfWordsOfALinkedDocument = 1000
+
+	hitsOfTheQueryWordInEveryUnreadDocument     = 3
+	amountOfWordsAPeerCountedOfAnUnreadDocument = 1200
 )
 
 type answeredDocument struct {
@@ -760,7 +763,20 @@ func foundDocumentThisNodeCountedTheWordsOf(
 func foundDocumentNobodyCountedTheWordsOf(t *testing.T, address string) answeredDocument {
 	t.Helper()
 
-	return foundDocumentWithHitsOf(t, address, "berlin", 3)
+	answered := foundDocumentAt(t, address)
+	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
+	postingReplicasPerDocument.Keep(answered.foundDocument.Hash, queryanswers.PostingReplica{
+		Word: yacymodel.Some(yacymodel.WordHash("berlin")),
+		Posting: yacymodel.RWIPosting{
+			Hits:      hitsOfTheQueryWordInEveryUnreadDocument,
+			TextWords: amountOfWordsAPeerCountedOfAnUnreadDocument,
+		},
+	})
+	answered.facts = queryanswers.FactsPerDocumentOf(
+		postingReplicasPerDocument,
+	)[answered.foundDocument.Hash]
+
+	return answered
 }
 
 func TestTheRelevanceOfAReadDocumentHoldsHoweverManyUnreadDocumentsTheAnswersHold(t *testing.T) {
