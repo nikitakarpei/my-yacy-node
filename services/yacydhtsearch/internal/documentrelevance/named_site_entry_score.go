@@ -11,8 +11,8 @@ import (
 const (
 	prefixOfWorldWideWebHost = "www."
 
-	namedSiteEntryScoreOfMalformedAddress        = 0.0
-	namedSiteEntryScoreOfSiteTheQueryDoesNotName = 0.0
+	namedSiteEntryScoreOfMalformedAddress = 0.0
+	namedSiteEntryScoreOfOtherSite        = 0.0
 
 	amountOfStepsToSiteEntry = 1
 )
@@ -27,17 +27,17 @@ func namedSiteEntryScoreOf(
 	wordsInSiteName := wordsInSiteNameOf(address.Hostname())
 	amountOfQueryWordsInSiteName := amountOfQueryWordsAmong(wordsInSiteName, queryWords)
 	if amountOfQueryWordsInSiteName == 0 {
-		return namedSiteEntryScoreOfSiteTheQueryDoesNotName
+		return namedSiteEntryScoreOfOtherSite
 	}
 
-	shareOfSiteNameTheQueryNames := float64(amountOfQueryWordsInSiteName) /
+	shareOfSiteNameTheQueryHolds := float64(amountOfQueryWordsInSiteName) /
 		float64(len(wordsInSiteName))
 	shareOfQueryTheSiteNameHolds := float64(amountOfQueryWordsInSiteName) /
 		float64(len(queryWords))
 	amountOfStepsToDocument := amountOfStepsToSiteEntry +
 		amountOfPathSegmentsOf(address.Path)
 
-	return shareOfSiteNameTheQueryNames * shareOfQueryTheSiteNameHolds /
+	return shareOfSiteNameTheQueryHolds * shareOfQueryTheSiteNameHolds /
 		float64(amountOfStepsToDocument)
 }
 

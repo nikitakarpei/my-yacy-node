@@ -8,7 +8,7 @@ File layout: one level of abstraction per file. The entry point comes first, the
 
 Naming: read doc/naming.md before naming anything. Name the domain thing, not its construction or destination; spell in full; every name carries its noun (`duePostings`, not `due`); never `util.go`, `helpers.go`, `handler.go`, `types.go`, or umbrella names (Store, Manager, Service, Handler, Util).
 
-Naming — complete, then shortest: a name stands alone, its full meaning readable without the package, type, or nearby arguments in view, in the fewest words that do. A word that only restates the type, the package, an argument, or another word in the name is filler. A long name is filler or a unit doing two jobs.
+Naming — complete, then shortest: a call reads as one phrase at its call site, in the fewest words that do. A word that only restates the type, the package, an argument, or another word in the name is filler. A long name is filler or a unit doing two jobs.
 
 Naming — a collision renames both: when the right name for new code is taken, rename both — the new code gets the name it needs, the existing code the name that fits what it holds.
 

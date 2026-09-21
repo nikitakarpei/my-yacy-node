@@ -604,7 +604,7 @@ func TestTwoDocumentsOfSameCountedHitsHoldSameRelevance(t *testing.T) {
 	}
 }
 
-func TestEntryPageOfSiteTheQueryNamesComesFirst(t *testing.T) {
+func TestEntryPageOfSiteTheQueryHoldsComesFirst(t *testing.T) {
 	t.Parallel()
 
 	answers := answersHoldingDocumentsPerQueryWord(

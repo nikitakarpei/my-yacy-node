@@ -18,15 +18,21 @@ A package that speaks a wire protocol carries the protocol in its name.
 
 ## Words
 
-Name the domain thing, not how it is built or where it goes. No implementation
-terms (count, map, hash, digest, buffer), no destination terms (shared, peer,
-abstract, response). Spell every word in full. Transport vocabulary stays in
-the package that translates it.
+Name the domain thing, not how it is built or where it goes: `duePostings`,
+not `postingBuffer` or `postingsToSend`.
+
+One word has one meaning in a file: `order` is a purchase or a sequence,
+never both.
 
 ## Phrases
 
-A name stands alone: a complete phrase that needs no package, type, or nearby
-code to read. `amountOfItemsAcrossAnswers`, not `answeredItems`.
+Every call reads as one phrase at its call site, with the argument
+expressions as written and without its body: `price := priceOf(item)`. The
+package qualifier and non-domain arguments (`ctx`, `tx`, `t`) are not read.
+
+One domain argument completes a trailing preposition. A second one that owns
+the rule becomes the receiver: `catalog.priceOf(item)`, not
+`priceOfItemIn(item, catalog)`.
 
 Every name carries its noun: `duePostings`, not `due`. Only a boolean that
 reports the outcome of its own call has no noun: `found`, `wasReplaced`.
@@ -56,10 +62,10 @@ jobs: split it into two units or two values.
 Name a function for the value it returns. A function that returns nothing keeps
 its verb.
 
-A name that ends with a preposition is completed by its first argument, the
-first domain value or the receiver: `HoldersOf(posting)`,
-`widenedFrom(previousInterval)`, `spreadWithin(queryBudget)`. A name whose
-value comes from all its arguments has no preposition.
+A name that ends with a preposition is completed by its domain argument:
+`HoldersOf(posting)`, `widenedFrom(previousInterval)`,
+`spreadWithin(queryBudget)`. A name whose value comes from all its arguments
+has no preposition.
 
 `new<Type>` is reserved for a collaborator assembled from injected dependencies.
 
