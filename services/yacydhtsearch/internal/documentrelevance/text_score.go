@@ -9,8 +9,6 @@ const (
 	saturationOfTheHitsOfAWord                    = 1.2
 	weightOfTheDocumentLength                     = 0.75
 	lengthRatioOfADocumentNobodyCountedTheWordsOf = 1.0
-
-	shareOfTheRarityOfTheQueryWordsOfATextWithoutAQueryWord = 0.0
 )
 
 func textScoreOf(
@@ -19,10 +17,6 @@ func textScoreOf(
 	averageAmountOfWordsAnyoneCounted float64,
 	queryWords []yacymodel.Hash,
 ) float64 {
-	if rarity.sumOfTheRarityOfTheQueryWords <= 0 {
-		return shareOfTheRarityOfTheQueryWordsOfATextWithoutAQueryWord
-	}
-
 	sumOfTheSaturatedHits := 0.0
 	for _, word := range queryWords {
 		sumOfTheSaturatedHits += rarity.rarityOfTheQueryWord(word) * saturatedHitsOf(

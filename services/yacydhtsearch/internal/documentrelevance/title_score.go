@@ -5,19 +5,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses = -1.0
-	shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord   = 0.0
-)
+const shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses = -1.0
 
 func titleScoreOf(
 	foundDocument queryanswers.FoundDocument, rarity queryWordRarity, queryWords []yacymodel.Hash,
 ) float64 {
 	if foundDocument.Title == "" {
 		return shareOfTheRarityOfTheQueryWordsADocumentWithoutATitleLoses
-	}
-	if rarity.sumOfTheRarityOfTheQueryWords <= 0 {
-		return shareOfTheRarityOfTheQueryWordsOfATitleWithoutAQueryWord
 	}
 
 	return rarity.sumOfTheRarityOf(queryWordsOfTheTitleOf(foundDocument, queryWords)) /
