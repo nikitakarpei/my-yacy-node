@@ -32,7 +32,8 @@ package qualifier and non-domain arguments (`ctx`, `tx`, `t`) are not read.
 
 One domain argument completes a trailing preposition. A second one that owns
 the rule becomes the receiver: `catalog.priceOf(item)`, not
-`priceOfItemIn(item, catalog)`.
+`priceOfItemIn(item, catalog)`. Peers are each named:
+`shareOfPartIn(part, whole)`.
 
 Every name carries its noun: `duePostings`, not `due`. Only a boolean that
 reports the outcome of its own call has no noun: `found`, `wasReplaced`.
@@ -64,8 +65,7 @@ its verb.
 
 A name that ends with a preposition is completed by its domain argument:
 `HoldersOf(posting)`, `widenedFrom(previousInterval)`,
-`spreadWithin(queryBudget)`. A name whose value comes from all its arguments
-has no preposition.
+`spreadWithin(queryBudget)`.
 
 `new<Type>` is reserved for a collaborator assembled from injected dependencies.
 
