@@ -29,9 +29,9 @@ func answersOfOneDocumentHolding(
 	metadata.Hash = hash
 
 	return queryanswers.AnsweredQuery{
-		FoundDocuments:             []queryanswers.FoundDocument{{Hash: hash}},
-		PostingReplicasPerDocument: queryanswers.PostingReplicasPerDocument{hash: replicas},
-		MetadataPerDocument:        queryanswers.MetadataPerDocument{hash: metadata},
+		FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
+			hash, []queryanswers.MetadataReplica{{Metadata: metadata}}, replicas,
+		)},
 	}
 }
 
@@ -76,8 +76,7 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 		},
 	}, metadata)
 
-	read := answersWrittenAndReadBack(t, answers).
-		PostingReplicasPerDocument[answers.FoundDocuments[0].Hash]
+	read := answersWrittenAndReadBack(t, answers).FoundDocuments[0].PostingReplicas
 
 	if len(read) != 2 || !read[0].Posting.WordHash.IsZero() ||
 		read[0].Holder != firstHolder || read[0].Posting.TitleWords != 4 ||
@@ -106,11 +105,12 @@ func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
 		ExternalLinks: 7,
 	})
 
-	read := answersWrittenAndReadBack(t, answers).
-		MetadataPerDocument[answers.FoundDocuments[0].Hash]
+	read := answersWrittenAndReadBack(t, answers).FoundDocuments[0].MetadataReplicas
 
-	if read.Author != "A writer" || len(read.Tags) != 2 || read.WordCount != 1200 ||
-		read.ImageLinks != 5 || read.Language.OrElse(yacymodel.Language{}) != german {
+	if len(read) != 1 || read[0].Metadata.Author != "A writer" ||
+		len(read[0].Metadata.Tags) != 2 || read[0].Metadata.WordCount != 1200 ||
+		read[0].Metadata.ImageLinks != 5 ||
+		read[0].Metadata.Language.OrElse(yacymodel.Language{}) != german {
 		t.Fatalf("the recorded document holds the metadata %+v, want what the peer reported", read)
 	}
 }

@@ -312,7 +312,7 @@ func (r judgedQueryRecording) recordOneJudgedQuery(t *testing.T, query string) {
 		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersAndTheirPages),
 	)
 	judgments := queryJudgmentsRecordedFor(t, query).withTheDocumentsToJudgeIn(
-		answersAndTheirPages.answeredQuery.WithTheContentsOfTheReadPages(
+		answersAndTheirPages.answeredQuery.WithReadPages(
 			answersAndTheirPages.pageContentsPerDocument,
 		),
 		answersAndTheirPages.pageContentsPerDocument,
@@ -350,7 +350,7 @@ func pagesOfTheFirstAnsweredDocuments(
 	t.Helper()
 
 	candidates := relevance.New(
-		documentrelevance.New(documentrelevance.DefaultScoreWeights()),
+		documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()),
 	).OrderedDocumentsOf(answers)
 
 	return fetching.fetchedPagesOf(

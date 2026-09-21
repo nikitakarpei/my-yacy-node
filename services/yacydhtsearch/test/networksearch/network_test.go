@@ -543,12 +543,16 @@ func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) 
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 		},
 		FoundDocuments: []queryanswers.FoundDocument{
-			{Hash: commonWordDocument, Address: commonWordAddress},
-			{Hash: rareWordDocument, Address: rareWordAddress},
-		},
-		FactsPerDocument: queryanswers.FactsPerDocument{
-			commonWordDocument: oneHitOfTheWord("berlin"),
-			rareWordDocument:   oneHitOfTheWord("kelondro"),
+			{
+				Hash:    commonWordDocument,
+				Address: commonWordAddress,
+				Facts:   oneHitOfTheWord("berlin"),
+			},
+			{
+				Hash:    rareWordDocument,
+				Address: rareWordAddress,
+				Facts:   oneHitOfTheWord("kelondro"),
+			},
 		},
 		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{
 			yacymodel.WordHash("berlin"):   100000,
@@ -583,7 +587,11 @@ func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
 		directoryAnsweringAt(t, peerHolding(t)),
 		&recordedQuery{},
 		answersOfTwoWords(t, common, rare),
-		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
+		relevance.New(
+			documentrelevance.RelevanceScorerWeighedBy(
+				documentrelevance.DefaultRelevanceWeights(),
+			),
+		),
 	)
 
 	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
@@ -627,7 +635,11 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		everyAskablePeer{},
 		answersOfTwoWords(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
-		relevance.New(documentrelevance.New(documentrelevance.DefaultScoreWeights())),
+		relevance.New(
+			documentrelevance.RelevanceScorerWeighedBy(
+				documentrelevance.DefaultRelevanceWeights(),
+			),
+		),
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,

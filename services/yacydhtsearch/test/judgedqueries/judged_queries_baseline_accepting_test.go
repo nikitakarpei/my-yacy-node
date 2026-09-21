@@ -16,7 +16,7 @@ func TestAcceptTheGainOfEachJudgedQueryAsTheBaseline(t *testing.T) {
 
 	judged := judgedQueriesRecorded(t)
 	acceptedGain := gainPerJudgedQueryOf(
-		orderingOfTheServiceFrom(documentrelevance.DefaultScoreWeights()), judged,
+		orderingOfTheServiceFrom(documentrelevance.DefaultRelevanceWeights()), judged,
 	)
 	writeFixtureFile(t, acceptedGainFile, acceptedGain)
 	t.Logf(

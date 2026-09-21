@@ -28,11 +28,7 @@ type recordedAnswers struct {
 }
 
 type recordedFoundDocument struct {
-	Hash    yacymodel.URLHash `json:"hash"`
-	Address string            `json:"address"`
-	Title   string            `json:"title"`
-	Snippet string            `json:"snippet"`
-
+	Hash         yacymodel.URLHash                         `json:"hash"`
 	Metadata     yacymodel.Optional[yacymodel.URLMetadata] `json:"metadata,omitempty"`
 	Postings     []recordedPostingReplica                  `json:"postings,omitempty"`
 	PageContents yacymodel.Optional[recordedPageContents]  `json:"pageContents,omitempty"`
@@ -110,79 +106,44 @@ func (r recordedPosting) posting() yacymodel.RWIPosting {
 }
 
 func (r recordedAnswers) answeredQuery() queryanswers.AnsweredQuery {
+	foundDocuments := make([]queryanswers.FoundDocument, 0, len(r.FoundDocuments))
+	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
+	for _, recorded := range r.FoundDocuments {
+		foundDocuments = append(foundDocuments, queryanswers.FoundDocumentOf(
+			recorded.Hash, recorded.metadataReplicas(), recorded.postingReplicas(),
+		))
+		if pageContentsRecorded, read := recorded.PageContents.Get(); read {
+			pageContentsPerDocument[recorded.Hash] = pageContentsRecorded.pageContents()
+		}
+	}
+
 	return queryanswers.AnsweredQuery{
-		QueryWords:                 searchquery.QueryFrom(r.Query, "").TermHashes(),
-		FoundDocuments:             foundDocumentsFrom(r.FoundDocuments),
-		PostingReplicasPerDocument: postingReplicasPerDocumentFrom(r.FoundDocuments),
-		MetadataPerDocument:        metadataPerDocumentFrom(r.FoundDocuments),
-		FactsPerDocument: queryanswers.FactsPerDocumentOf(
-			postingReplicasPerDocumentFrom(r.FoundDocuments),
-		),
+		QueryWords:                searchquery.QueryFrom(r.Query, "").TermHashes(),
+		FoundDocuments:            foundDocuments,
 		DocumentsHeldPerQueryWord: r.DocumentsHeldPerQueryWord,
-	}.WithTheContentsOfTheReadPages(pageContentsPerDocumentFrom(r.FoundDocuments))
+	}.WithReadPages(pageContentsPerDocument)
 }
 
-func foundDocumentsFrom(
-	recordedFoundDocuments []recordedFoundDocument,
-) []queryanswers.FoundDocument {
-	foundDocuments := make([]queryanswers.FoundDocument, 0, len(recordedFoundDocuments))
-	for _, recorded := range recordedFoundDocuments {
-		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
-			Hash:    recorded.Hash,
-			Address: recorded.Address,
-			Title:   recorded.Title,
-			Snippet: recorded.Snippet,
+func (r recordedFoundDocument) metadataReplicas() []queryanswers.MetadataReplica {
+	metadata, reported := r.Metadata.Get()
+	if !reported {
+		return nil
+	}
+
+	return []queryanswers.MetadataReplica{{Metadata: metadata}}
+}
+
+func (r recordedFoundDocument) postingReplicas() []queryanswers.PostingReplica {
+	postingReplicas := make([]queryanswers.PostingReplica, 0, len(r.Postings))
+	for _, posting := range r.Postings {
+		postingReplicas = append(postingReplicas, queryanswers.PostingReplica{
+			Holder:  posting.Holder,
+			Word:    posting.Word,
+			Posting: posting.Posting.posting(),
 		})
 	}
 
-	return foundDocuments
-}
-
-func pageContentsPerDocumentFrom(
-	recordedFoundDocuments []recordedFoundDocument,
-) map[yacymodel.URLHash]pagecontents.PageContents {
-	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
-	for _, recorded := range recordedFoundDocuments {
-		recordedPageContents, read := recorded.PageContents.Get()
-		if !read {
-			continue
-		}
-		pageContentsPerDocument[recorded.Hash] = recordedPageContents.pageContents()
-	}
-
-	return pageContentsPerDocument
-}
-
-func postingReplicasPerDocumentFrom(
-	recordedFoundDocuments []recordedFoundDocument,
-) queryanswers.PostingReplicasPerDocument {
-	postingReplicasPerDocument := queryanswers.PostingReplicasPerDocument{}
-	for _, recorded := range recordedFoundDocuments {
-		for _, posting := range recorded.Postings {
-			postingReplicasPerDocument.Keep(recorded.Hash, queryanswers.PostingReplica{
-				Holder:  posting.Holder,
-				Word:    posting.Word,
-				Posting: posting.Posting.posting(),
-			})
-		}
-	}
-
-	return postingReplicasPerDocument
-}
-
-func metadataPerDocumentFrom(
-	recordedFoundDocuments []recordedFoundDocument,
-) queryanswers.MetadataPerDocument {
-	metadataPerDocument := queryanswers.MetadataPerDocument{}
-	for _, recorded := range recordedFoundDocuments {
-		metadata, reported := recorded.Metadata.Get()
-		if !reported {
-			continue
-		}
-		metadataPerDocument.Keep(metadata)
-	}
-
-	return metadataPerDocument
+	return postingReplicas
 }
 
 func recordedAnswersOf(
@@ -213,11 +174,8 @@ func recordedFoundDocumentsFrom(
 	for _, foundDocument := range answers.FoundDocuments {
 		recordedFoundDocuments = append(recordedFoundDocuments, recordedFoundDocument{
 			Hash:     foundDocument.Hash,
-			Address:  foundDocument.Address,
-			Title:    foundDocument.Title,
-			Snippet:  foundDocument.Snippet,
-			Metadata: metadataRecordedFor(foundDocument.Hash, answers),
-			Postings: postingsRecordedFor(foundDocument.Hash, answers),
+			Metadata: metadataRecordedOf(foundDocument),
+			Postings: postingsRecordedOf(foundDocument),
 			PageContents: pageContentsRecordedFor(
 				foundDocument.Hash, answersAndTheirPages.pageContentsPerDocument,
 			),
@@ -225,6 +183,31 @@ func recordedFoundDocumentsFrom(
 	}
 
 	return recordedFoundDocuments
+}
+
+func metadataRecordedOf(
+	foundDocument queryanswers.FoundDocument,
+) yacymodel.Optional[yacymodel.URLMetadata] {
+	if len(foundDocument.MetadataReplicas) == 0 {
+		return yacymodel.None[yacymodel.URLMetadata]()
+	}
+
+	return yacymodel.Some(foundDocument.MetadataReplicas[0].Metadata)
+}
+
+func postingsRecordedOf(
+	foundDocument queryanswers.FoundDocument,
+) []recordedPostingReplica {
+	postings := make([]recordedPostingReplica, 0, len(foundDocument.PostingReplicas))
+	for _, replica := range foundDocument.PostingReplicas {
+		postings = append(postings, recordedPostingReplica{
+			Holder:  replica.Holder,
+			Word:    replica.Word,
+			Posting: recordedPostingOf(replica.Posting),
+		})
+	}
+
+	return postings
 }
 
 func pageContentsRecordedFor(
@@ -237,33 +220,6 @@ func pageContentsRecordedFor(
 	}
 
 	return yacymodel.Some(recordedPageContentsOf(pageContents))
-}
-
-func metadataRecordedFor(
-	document yacymodel.URLHash, answers queryanswers.AnsweredQuery,
-) yacymodel.Optional[yacymodel.URLMetadata] {
-	metadata, reported := answers.MetadataPerDocument[document]
-	if !reported {
-		return yacymodel.None[yacymodel.URLMetadata]()
-	}
-
-	return yacymodel.Some(metadata)
-}
-
-func postingsRecordedFor(
-	document yacymodel.URLHash, answers queryanswers.AnsweredQuery,
-) []recordedPostingReplica {
-	replicas := answers.PostingReplicasPerDocument[document]
-	postings := make([]recordedPostingReplica, 0, len(replicas))
-	for _, replica := range replicas {
-		postings = append(postings, recordedPostingReplica{
-			Holder:  replica.Holder,
-			Word:    replica.Word,
-			Posting: recordedPostingOf(replica.Posting),
-		})
-	}
-
-	return postings
 }
 
 func recordedAnswersFiles(t *testing.T) []string {
