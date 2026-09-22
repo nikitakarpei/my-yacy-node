@@ -14,4 +14,5 @@ type CrossCheckedDocumentsAsk struct {
 type AnsweredCrossCheckedDocumentsAsk struct {
 	Ask                     CrossCheckedDocumentsAsk
 	DocumentsHeldForTheWord []yacymodel.URLHash
+	PeerVersion             string
 }

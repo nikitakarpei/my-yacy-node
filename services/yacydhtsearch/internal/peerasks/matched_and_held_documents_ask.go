@@ -21,4 +21,5 @@ type AnsweredMatchedAndHeldDocumentsAsk struct {
 	DocumentsListedForTheWord       []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
+	PeerVersion                     string
 }
