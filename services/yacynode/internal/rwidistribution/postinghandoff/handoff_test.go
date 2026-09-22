@@ -79,8 +79,13 @@ func openHandoff(
 		}
 	})
 
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
 	schedule, err := postingofferschedule.Open(
 		v,
+		partitions,
 		func() time.Time { return time.Unix(1000, 0) },
 		discardedScheduleObservations{},
 	)
@@ -90,10 +95,6 @@ func openHandoff(
 	replicas, err := postingreplicas.Open(v, schedule)
 	if err != nil {
 		t.Fatalf("postingreplicas.Open: %v", err)
-	}
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
-	if err != nil {
-		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
 
 	purger := &fakePostingPurger{}

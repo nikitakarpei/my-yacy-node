@@ -36,7 +36,7 @@ func openPostingRecords(t *testing.T) postingRecordsHarness {
 	})
 
 	schedule, replicas, records, err := rwidistribution.Open(
-		v, frozenNow, discardedScheduleObservations{},
+		v, yacymodel.DHTRingPartitions(1), frozenNow, discardedScheduleObservations{},
 	)
 	if err != nil {
 		t.Fatalf("rwidistribution.Open: %v", err)

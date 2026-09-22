@@ -3,7 +3,7 @@ package yacymodel
 import "math/bits"
 
 // DHTRingSector is one of the equal arcs of the ring. Use the sectors to report
-// where on the ring something sits.
+// where on the ring something sits, and to group work by where it sits.
 type DHTRingSector uint
 
 const MaxDHTRingSector = DHTRingSector(1)<<6 - 1

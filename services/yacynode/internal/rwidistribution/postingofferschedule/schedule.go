@@ -3,6 +3,8 @@
 // without scanning every posting. A posting that misses its redundancy comes
 // back after the offer interval this package stores for it. Postings short of
 // their redundancy are due before postings that only refresh their holders.
+// Each batch of due postings starts in the sector of the earliest due posting
+// and walks the ring from there, so a batch goes to few peers.
 package postingofferschedule
 
 import (
@@ -28,21 +30,32 @@ type Observer interface {
 	ObserveLongestOfferLateness(order string, lateness time.Duration)
 }
 
+type offerDue struct {
+	Sector yacymodel.DHTRingSector
+	At     time.Time
+}
+
 type scheduledPostingOffer struct {
-	At       time.Time
+	Due      offerDue
 	Identity postingidentity.Identity
 }
 
 type Schedule struct {
 	shortfallOrder *vault.Set[scheduledPostingOffer]
 	refreshOrder   *vault.Set[scheduledPostingOffer]
-	dueTimes       *vault.Collection[postingidentity.Identity, time.Time]
+	offerDues      *vault.Collection[postingidentity.Identity, offerDue]
 	offerIntervals *vault.Collection[postingidentity.Identity, time.Duration]
+	partitions     yacymodel.DHTRingPartitions
 	now            func() time.Time
 	observer       Observer
 }
 
-func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, error) {
+func Open(
+	v *vault.Vault,
+	partitions yacymodel.DHTRingPartitions,
+	now func() time.Time,
+	observer Observer,
+) (*Schedule, error) {
 	shortfallOrder, err := registerOfferOrder(v, shortfallOrderBucket)
 	if err != nil {
 		return nil, err
@@ -51,7 +64,7 @@ func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, e
 	if err != nil {
 		return nil, err
 	}
-	dueTimes, err := registerOfferDues(v)
+	offerDues, err := registerOfferDues(v)
 	if err != nil {
 		return nil, err
 	}
@@ -63,8 +76,9 @@ func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, e
 	return &Schedule{
 		shortfallOrder: shortfallOrder,
 		refreshOrder:   refreshOrder,
-		dueTimes:       dueTimes,
+		offerDues:      offerDues,
 		offerIntervals: offerIntervals,
+		partitions:     partitions,
 		now:            now,
 		observer:       observer,
 	}, nil
@@ -80,7 +94,7 @@ func (s *Schedule) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) er
 }
 
 func (s *Schedule) forgetDueAt(tx *vault.Txn, identity postingidentity.Identity) error {
-	dueAt, found, err := s.dueAt(tx, identity)
+	due, found, err := s.dueOf(tx, identity)
 	if err != nil {
 		return err
 	}
@@ -88,33 +102,33 @@ func (s *Schedule) forgetDueAt(tx *vault.Txn, identity postingidentity.Identity)
 		return nil
 	}
 
-	return s.clearDueAt(tx, identity, dueAt)
+	return s.clearDue(tx, identity, due)
 }
 
-func (s *Schedule) dueAt(
+func (s *Schedule) dueOf(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
-) (time.Time, bool, error) {
-	dueAt, found, err := s.dueTimes.Get(tx, identity)
+) (offerDue, bool, error) {
+	due, found, err := s.offerDues.Get(tx, identity)
 	if err != nil {
-		return time.Time{}, false, fmt.Errorf("read offer due: %w", err)
+		return offerDue{}, false, fmt.Errorf("read offer due: %w", err)
 	}
 
-	return dueAt, found, nil
+	return due, found, nil
 }
 
-func (s *Schedule) clearDueAt(
+func (s *Schedule) clearDue(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
-	dueAt time.Time,
+	due offerDue,
 ) error {
-	scheduledOffer := scheduledPostingOffer{At: dueAt, Identity: identity}
+	scheduledOffer := scheduledPostingOffer{Due: due, Identity: identity}
 	for _, order := range []*vault.Set[scheduledPostingOffer]{s.shortfallOrder, s.refreshOrder} {
 		if _, err := order.Remove(tx, scheduledOffer); err != nil {
 			return fmt.Errorf("drop offer order: %w", err)
 		}
 	}
-	if _, err := s.dueTimes.Delete(tx, identity); err != nil {
+	if _, err := s.offerDues.Delete(tx, identity); err != nil {
 		return fmt.Errorf("drop offer due: %w", err)
 	}
 
@@ -127,14 +141,22 @@ func (s *Schedule) setDueAt(
 	identity postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if _, err := order.Add(tx, scheduledPostingOffer{At: dueAt, Identity: identity}); err != nil {
+	due := offerDue{Sector: s.dhtRingSectorOf(identity), At: dueAt}
+	if _, err := order.Add(tx, scheduledPostingOffer{Due: due, Identity: identity}); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
-	if _, err := s.dueTimes.Put(tx, identity, dueAt); err != nil {
+	if _, err := s.offerDues.Put(tx, identity, due); err != nil {
 		return fmt.Errorf("record offer due: %w", err)
 	}
 
 	return nil
+}
+
+func (s *Schedule) dhtRingSectorOf(identity postingidentity.Identity) yacymodel.DHTRingSector {
+	return yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOfPosting(
+		yacymodel.RWIPosting{WordHash: identity.Word, URLHash: identity.URL},
+		s.partitions,
+	))
 }
 
 func (s *Schedule) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
@@ -174,18 +196,18 @@ func (s *Schedule) reschedule(
 	identity postingidentity.Identity,
 	nextDueAtFrom func(previousDueAt time.Time) time.Time,
 ) error {
-	previousDueAt, found, err := s.dueAt(tx, identity)
+	previousDue, found, err := s.dueOf(tx, identity)
 	if err != nil {
 		return fmt.Errorf("reschedule offer: %w", err)
 	}
 	if !found {
 		return nil
 	}
-	if err := s.clearDueAt(tx, identity, previousDueAt); err != nil {
+	if err := s.clearDue(tx, identity, previousDue); err != nil {
 		return fmt.Errorf("reschedule offer: %w", err)
 	}
 
-	return s.setDueAt(tx, order, identity, nextDueAtFrom(previousDueAt))
+	return s.setDueAt(tx, order, identity, nextDueAtFrom(previousDue.At))
 }
 
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
@@ -224,7 +246,7 @@ func (s *Schedule) IsScheduled(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
 ) (bool, error) {
-	_, found, err := s.dueAt(tx, identity)
+	_, found, err := s.dueOf(tx, identity)
 
 	return found, err
 }
@@ -236,38 +258,98 @@ func (s *Schedule) DuePostings(
 	if limit <= 0 {
 		return nil, nil
 	}
+	firstSector, found, err := s.sectorOfEarliestDuePosting(tx)
+	if err != nil || !found {
+		return nil, err
+	}
 
 	duePostings := make([]postingidentity.Identity, 0, limit)
-	duePostings, err := s.appendDuePostingsOf(tx, s.shortfallOrder, duePostings, limit)
+	duePostings, err = s.appendDuePostingsOf(tx, s.shortfallOrder, firstSector, duePostings, limit)
 	if err != nil {
 		return nil, err
 	}
 
-	return s.appendDuePostingsOf(tx, s.refreshOrder, duePostings, limit)
+	return s.appendDuePostingsOf(tx, s.refreshOrder, firstSector, duePostings, limit)
+}
+
+func (s *Schedule) sectorOfEarliestDuePosting(
+	tx *vault.Txn,
+) (yacymodel.DHTRingSector, bool, error) {
+	for _, order := range []*vault.Set[scheduledPostingOffer]{s.shortfallOrder, s.refreshOrder} {
+		earliestOffer, found, err := earliestOfferOf(tx, order)
+		if err != nil {
+			return 0, false, err
+		}
+		if found && !earliestOffer.Due.At.After(s.now()) {
+			return earliestOffer.Due.Sector, true, nil
+		}
+	}
+
+	return 0, false, nil
+}
+
+func earliestOfferOf(
+	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
+) (scheduledPostingOffer, bool, error) {
+	var (
+		earliestOffer scheduledPostingOffer
+		found         bool
+	)
+	for sector := range yacymodel.MaxDHTRingSector + 1 {
+		if err := order.Scan(
+			tx,
+			everyOfferIn(sector),
+			func(scheduledOffer scheduledPostingOffer) (bool, error) {
+				if !found || scheduledOffer.Due.At.Before(earliestOffer.Due.At) {
+					earliestOffer, found = scheduledOffer, true
+				}
+
+				return false, nil
+			},
+		); err != nil {
+			return scheduledPostingOffer{}, false, fmt.Errorf("select earliest offer due: %w", err)
+		}
+	}
+
+	return earliestOffer, found, nil
 }
 
 func (s *Schedule) appendDuePostingsOf(
 	tx *vault.Txn,
 	order *vault.Set[scheduledPostingOffer],
+	firstSector yacymodel.DHTRingSector,
 	duePostings []postingidentity.Identity,
 	limit int,
 ) ([]postingidentity.Identity, error) {
-	if len(duePostings) >= limit {
-		return duePostings, nil
-	}
-	if err := order.Scan(
-		tx,
-		everyOfferDueBy(s.now()),
-		func(scheduledOffer scheduledPostingOffer) (bool, error) {
-			duePostings = append(duePostings, scheduledOffer.Identity)
+	for _, sector := range dhtRingSectorsFrom(firstSector) {
+		if len(duePostings) >= limit {
+			return duePostings, nil
+		}
+		if err := order.Scan(
+			tx,
+			everyOfferInSectorDueBy(sector, s.now()),
+			func(scheduledOffer scheduledPostingOffer) (bool, error) {
+				duePostings = append(duePostings, scheduledOffer.Identity)
 
-			return len(duePostings) < limit, nil
-		},
-	); err != nil {
-		return nil, fmt.Errorf("select due postings: %w", err)
+				return len(duePostings) < limit, nil
+			},
+		); err != nil {
+			return nil, fmt.Errorf("select due postings: %w", err)
+		}
 	}
 
 	return duePostings, nil
+}
+
+func dhtRingSectorsFrom(firstSector yacymodel.DHTRingSector) []yacymodel.DHTRingSector {
+	sectorCount := yacymodel.MaxDHTRingSector + 1
+	sectors := make([]yacymodel.DHTRingSector, 0, sectorCount)
+	for step := range sectorCount {
+		sectors = append(sectors, (firstSector+step)%sectorCount)
+	}
+
+	return sectors
 }
 
 func (s *Schedule) ObserveBacklog(tx *vault.Txn) error {
@@ -302,7 +384,7 @@ func (s *Schedule) longestOfferLatenessOf(
 	tx *vault.Txn,
 	order *vault.Set[scheduledPostingOffer],
 ) (time.Duration, error) {
-	earliestDueAt, found, err := earliestOfferDueAtOf(tx, order)
+	earliestOffer, found, err := earliestOfferOf(tx, order)
 	if err != nil {
 		return 0, err
 	}
@@ -310,31 +392,7 @@ func (s *Schedule) longestOfferLatenessOf(
 		return 0, nil
 	}
 
-	return max(s.now().Sub(earliestDueAt), 0), nil
-}
-
-func earliestOfferDueAtOf(
-	tx *vault.Txn,
-	order *vault.Set[scheduledPostingOffer],
-) (time.Time, bool, error) {
-	var (
-		earliestDueAt time.Time
-		found         bool
-	)
-	if err := order.Scan(
-		tx,
-		vault.EveryKey(),
-		func(scheduledOffer scheduledPostingOffer) (bool, error) {
-			earliestDueAt = scheduledOffer.At
-			found = true
-
-			return false, nil
-		},
-	); err != nil {
-		return time.Time{}, false, fmt.Errorf("select earliest offer due: %w", err)
-	}
-
-	return earliestDueAt, found, nil
+	return max(s.now().Sub(earliestOffer.Due.At), 0), nil
 }
 
 var _ rwipostings.PostingObserver = (*Schedule)(nil)
