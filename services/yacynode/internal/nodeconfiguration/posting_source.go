@@ -2,8 +2,8 @@ package nodeconfiguration
 
 import "fmt"
 
-func requireOneRWISource(identity IdentityConfig, pageOfferIntake PageOfferIntakeConfig) error {
-	acceptsRemoteIndex := identity.Flags.AcceptRemoteIndex
+func requireOnePostingSource(identity IdentityConfig, pageOfferIntake PageOfferIntakeConfig) error {
+	acceptsRemoteIndex := identity.Capabilities.AcceptRemoteIndex
 	if acceptsRemoteIndex == pageOfferIntake.Enabled() {
 		return fmt.Errorf(
 			"%s=%t with %s=%q: exactly one source of postings must be enabled",

@@ -55,7 +55,7 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
-	if err := requireOneRWISource(identity, pageOfferIntake); err != nil {
+	if err := requireOnePostingSource(identity, pageOfferIntake); err != nil {
 		return Settings{}, err
 	}
 

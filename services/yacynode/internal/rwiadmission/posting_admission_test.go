@@ -47,21 +47,6 @@ type harness struct {
 func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	t.Helper()
 
-	return openHarnessWith(t, quotaBytes, escrowCapacity, rwiadmission.Config{
-		AcceptRemoteIndex: true,
-		PostingCap:        postingCap,
-		Pause:             busyPause,
-	})
-}
-
-func openHarnessWith(
-	t *testing.T,
-	quotaBytes int64,
-	escrowCapacity int,
-	config rwiadmission.Config,
-) harness {
-	t.Helper()
-
 	v, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(quotaBytes)),
 		nil,
@@ -88,7 +73,6 @@ func openHarnessWith(
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
 	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
-	config.Refusals = refusals
 
 	return harness{
 		vault:  v,
@@ -100,7 +84,7 @@ func openHarnessWith(
 			urlDirectory,
 			admitter,
 			escrow,
-			config,
+			rwiadmission.Config{PostingCap: postingCap, Pause: busyPause, Observer: refusals},
 		),
 		refusals: refusals,
 	}
@@ -317,26 +301,6 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 	if got := h.refusals.postings[rwiadmission.RefusalEscrowFull]; got != len(refused) {
 		t.Fatalf("postings refused for a full escrow = %d, want all %d received",
 			got, len(refused))
-	}
-}
-
-func TestReceiveRefusesEveryPostingWhenRemoteIndexIsNotAccepted(t *testing.T) {
-	h := openHarnessWith(t, 0, 100, rwiadmission.Config{PostingCap: postingCap, Pause: busyPause})
-	h.storeMetadata(t, "u1")
-	entry := posting("w1", "u1")
-
-	receipt, err := h.receiver.Receive(context.Background(), []yacymodel.RWIPosting{entry})
-	if err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
-	if !receipt.NotAccepted {
-		t.Fatalf("receipt = %+v, want NotAccepted", receipt)
-	}
-	if h.indexed(t, entry) {
-		t.Fatal("posting reached the index of a node that does not accept remote index")
-	}
-	if got := h.refusals.postings[rwiadmission.RefusalRemoteIndexNotAccepted]; got != 1 {
-		t.Fatalf("postings refused as not accepted = %d, want 1", got)
 	}
 }
 

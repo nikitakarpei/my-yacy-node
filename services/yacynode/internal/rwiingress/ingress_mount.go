@@ -17,6 +17,6 @@ func Mount(
 		yacyproto.PathTransferRWI,
 		yacyproto.TransferRWIEndpointMethods,
 		yacyproto.ParseTransferRWIRequest,
-		transferRWIEndpoint{identity: identity, intake: receiver}.Serve,
+		transferRWIEndpoint{identity: identity, receiver: receiver}.Serve,
 	)
 }

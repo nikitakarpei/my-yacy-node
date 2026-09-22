@@ -1,8 +1,7 @@
 // Package rwiadmission decides where an inbound RWI posting lands. A posting
 // whose URL metadata this node already holds joins the index at once; a posting
 // whose URL is still unknown waits in escrow until the sender delivers that
-// metadata. The receipt names the unknown URLs so the sender can send them. A
-// node that does not accept remote index refuses every inbound posting.
+// metadata. The receipt names the unknown URLs so the sender can send them.
 package rwiadmission
 
 import (
@@ -16,7 +15,7 @@ import (
 )
 
 type PostingReceiver interface {
-	Receive(ctx context.Context, entries []yacymodel.RWIPosting) (Receipt, error)
+	Receive(ctx context.Context, postings []yacymodel.RWIPosting) (Receipt, error)
 }
 
 type PostingHolder interface {
@@ -26,10 +25,9 @@ type PostingHolder interface {
 type RefusalReason string
 
 const (
-	RefusalRemoteIndexNotAccepted RefusalReason = "remote_index_not_accepted"
-	RefusalTooManyPostings        RefusalReason = "too_many_postings"
-	RefusalStorageFull            RefusalReason = "storage_full"
-	RefusalEscrowFull             RefusalReason = "escrow_full"
+	RefusalTooManyPostings RefusalReason = "too_many_postings"
+	RefusalStorageFull     RefusalReason = "storage_full"
+	RefusalEscrowFull      RefusalReason = "escrow_full"
 )
 
 type RefusalObserver interface {
@@ -37,17 +35,15 @@ type RefusalObserver interface {
 }
 
 type Receipt struct {
-	NotAccepted bool
-	Busy        bool
-	Pause       time.Duration
-	UnknownURL  []yacymodel.URLHash
+	Busy       bool
+	Pause      time.Duration
+	UnknownURL []yacymodel.URLHash
 }
 
 type Config struct {
-	AcceptRemoteIndex bool
-	PostingCap        int
-	Pause             time.Duration
-	Refusals          RefusalObserver
+	PostingCap int
+	Pause      time.Duration
+	Observer   RefusalObserver
 }
 
 func Open(
@@ -62,10 +58,9 @@ func Open(
 		urls:     urls,
 		admitter: admitter,
 		escrow:   escrow,
-		observer: config.Refusals,
+		observer: config.Observer,
 
-		acceptRemoteIndex: config.AcceptRemoteIndex,
-		postingCap:        config.PostingCap,
-		pause:             config.Pause,
+		postingCap: config.PostingCap,
+		pause:      config.Pause,
 	}
 }

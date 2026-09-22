@@ -14,9 +14,9 @@ import (
 
 func localIdentity() nodeidentity.Identity {
 	return nodeidentity.Identity{
-		Hash:        yacymodel.WordHash("self"),
-		NetworkName: "freeworld",
-		Flags:       yacymodel.PeerCapabilities{AcceptRemoteIndex: true},
+		Hash:         yacymodel.WordHash("self"),
+		NetworkName:  "freeworld",
+		Capabilities: yacymodel.PeerCapabilities{AcceptRemoteIndex: true},
 	}
 }
 

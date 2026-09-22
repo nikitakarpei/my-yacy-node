@@ -51,13 +51,13 @@ func mustPeerName(name string) yacymodel.PeerName {
 
 func testIdentity() nodeidentity.Identity {
 	return nodeidentity.Identity{
-		Hash:        yacymodel.WordHash("self"),
-		NetworkName: "freeworld",
-		Name:        mustPeerName("node"),
-		Host:        "192.0.2.1",
-		Port:        8090,
-		Flags:       yacymodel.PeerCapabilities{},
-		Version:     yacymodel.SoftwareVersion{Release: 1.2},
+		Hash:         yacymodel.WordHash("self"),
+		NetworkName:  "freeworld",
+		Name:         mustPeerName("node"),
+		Host:         "192.0.2.1",
+		Port:         8090,
+		Capabilities: yacymodel.PeerCapabilities{},
+		Version:      yacymodel.SoftwareVersion{Release: 1.2},
 	}
 }
 

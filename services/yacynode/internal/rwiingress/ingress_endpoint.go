@@ -1,6 +1,7 @@
 // Package rwiingress is the YaCy DHT ingress for reverse-word-index postings:
 // it accepts a transferRWI request, checks that the request addresses this
-// node, and hands the batch to the posting receiver.
+// node and that this node accepts a remote index, and hands the batch to the
+// posting receiver.
 package rwiingress
 
 import (
@@ -15,7 +16,7 @@ import (
 
 type transferRWIEndpoint struct {
 	identity nodeidentity.Identity
-	intake   rwiadmission.PostingReceiver
+	receiver rwiadmission.PostingReceiver
 }
 
 func (e transferRWIEndpoint) Serve(
@@ -30,13 +31,22 @@ func (e transferRWIEndpoint) Serve(
 		return resp, nil
 	}
 
+	if !e.identity.Capabilities.AcceptRemoteIndex {
+		resp.Result = yacyproto.ResultNotGranted
+		slog.DebugContext(ctx, "transfer rwi refused: remote index not accepted",
+			slog.Int("entryCount", len(req.Indexes)),
+		)
+
+		return resp, nil
+	}
+
 	slog.DebugContext(ctx, "transfer rwi request received",
 		slog.Int("wordCount", req.WordCount),
 		slog.Int("entryCount", req.EntryCount),
 		slog.Int("receivedEntryCount", len(req.Indexes)),
 	)
 
-	receipt, err := e.intake.Receive(ctx, req.Indexes)
+	receipt, err := e.receiver.Receive(ctx, req.Indexes)
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, fmt.Errorf("receive rwi: %w", err)
 	}
@@ -54,12 +64,9 @@ func (e transferRWIEndpoint) Serve(
 }
 
 func transferRWIResultFrom(receipt rwiadmission.Receipt) yacyproto.TransferRWIResult {
-	switch {
-	case receipt.NotAccepted:
-		return yacyproto.ResultNotGranted
-	case receipt.Busy:
+	if receipt.Busy {
 		return yacyproto.ResultBusy
-	default:
-		return yacyproto.ResultOK
 	}
+
+	return yacyproto.ResultOK
 }

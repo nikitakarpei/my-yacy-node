@@ -11,7 +11,7 @@ import (
 
 type transferURLEndpoint struct {
 	identity nodeidentity.Identity
-	intake   URLReceiver
+	receiver URLReceiver
 }
 
 func (e transferURLEndpoint) Serve(
@@ -26,7 +26,7 @@ func (e transferURLEndpoint) Serve(
 		return resp, nil
 	}
 
-	if !e.identity.Flags.AcceptRemoteIndex {
+	if !e.identity.Capabilities.AcceptRemoteIndex {
 		resp.Result = yacyproto.ResultErrorNotGranted
 		slog.DebugContext(ctx, "transfer url refused: remote index not accepted",
 			slog.Int("urlCount", len(req.URLs)),
@@ -35,7 +35,7 @@ func (e transferURLEndpoint) Serve(
 		return resp, nil
 	}
 
-	receipt, err := e.intake.Receive(ctx, req.URLs)
+	receipt, err := e.receiver.Receive(ctx, req.URLs)
 	if err != nil {
 		return yacyproto.TransferURLResponse{}, fmt.Errorf("receive url: %w", err)
 	}

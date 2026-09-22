@@ -24,15 +24,19 @@ func (stubRuntimeStatus) Version(context.Context) string { return "1.0" }
 func (stubRuntimeStatus) Uptime(context.Context) int { return 0 }
 
 func localIdentity() nodeidentity.Identity {
-	return nodeidentity.Identity{Hash: yacymodel.WordHash("self"), NetworkName: "freeworld"}
+	return nodeidentity.Identity{
+		Hash:         yacymodel.WordHash("self"),
+		NetworkName:  "freeworld",
+		Capabilities: yacymodel.PeerCapabilities{AcceptRemoteIndex: true},
+	}
 }
 
-type recordingIntake struct {
+type recordingReceiver struct {
 	received []yacymodel.RWIPosting
 	answer   rwiadmission.Receipt
 }
 
-func (r *recordingIntake) Receive(
+func (r *recordingReceiver) Receive(
 	_ context.Context,
 	postings []yacymodel.RWIPosting,
 ) (rwiadmission.Receipt, error) {
@@ -41,7 +45,11 @@ func (r *recordingIntake) Receive(
 	return r.answer, nil
 }
 
-func muxWith(intake *recordingIntake) *http.ServeMux {
+func muxWith(receiver *recordingReceiver) *http.ServeMux {
+	return muxAs(localIdentity(), receiver)
+}
+
+func muxAs(identity nodeidentity.Identity, receiver *recordingReceiver) *http.ServeMux {
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
@@ -51,7 +59,7 @@ func muxWith(intake *recordingIntake) *http.ServeMux {
 		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
 		Address: httpguard.NewClientAddressResolver(nil),
 	})
-	rwiingress.Mount(router, localIdentity(), intake)
+	rwiingress.Mount(router, identity, receiver)
 
 	return mux
 }
@@ -115,7 +123,7 @@ func transferRWI(
 }
 
 func TestTransferRWIReportsBusy(t *testing.T) {
-	mux := muxWith(&recordingIntake{
+	mux := muxWith(&recordingReceiver{
 		answer: rwiadmission.Receipt{Busy: true, Pause: 5 * time.Second},
 	})
 
@@ -137,8 +145,8 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 }
 
 func TestTransferRWIStoresAndAnswers(t *testing.T) {
-	intake := &recordingIntake{}
-	mux := muxWith(intake)
+	receiver := &recordingReceiver{}
+	mux := muxWith(receiver)
 
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
@@ -152,13 +160,13 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 	if resp.Result != yacyproto.TransferRWIResult(yacyproto.ResultOK) {
 		t.Fatalf("Result = %q, want ok", resp.Result)
 	}
-	if len(intake.received) != 1 {
-		t.Fatalf("received = %d postings, want 1", len(intake.received))
+	if len(receiver.received) != 1 {
+		t.Fatalf("received = %d postings, want 1", len(receiver.received))
 	}
 }
 
 func TestTransferRWIRejectsWrongNetwork(t *testing.T) {
-	mux := muxWith(&recordingIntake{})
+	mux := muxWith(&recordingReceiver{})
 
 	req := yacyproto.TransferRWIRequest{NetworkName: "othernet", YouAre: localIdentity().Hash}
 
@@ -168,12 +176,15 @@ func TestTransferRWIRejectsWrongNetwork(t *testing.T) {
 	}
 }
 
-func TestTransferRWIAnswersNotGrantedWhenPostingsAreNotAccepted(t *testing.T) {
-	mux := muxWith(&recordingIntake{answer: rwiadmission.Receipt{NotAccepted: true}})
+func TestTransferRWIRefusesWhenRemoteIndexIsNotAccepted(t *testing.T) {
+	identity := localIdentity()
+	identity.Capabilities.AcceptRemoteIndex = false
+	receiver := &recordingReceiver{}
+	mux := muxAs(identity, receiver)
 
 	resp := transferRWI(t, mux, yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
-		YouAre:      localIdentity().Hash,
+		YouAre:      identity.Hash,
 		WordCount:   1,
 		EntryCount:  1,
 		Indexes:     []yacymodel.RWIPosting{posting(t, "w1", "u1")},
@@ -181,5 +192,8 @@ func TestTransferRWIAnswersNotGrantedWhenPostingsAreNotAccepted(t *testing.T) {
 
 	if resp.Result != yacyproto.ResultNotGranted {
 		t.Fatalf("Result = %q, want not granted", resp.Result)
+	}
+	if len(receiver.received) != 0 {
+		t.Fatalf("received = %d postings, want none reach the receiver", len(receiver.received))
 	}
 }

@@ -28,7 +28,7 @@ type IdentityConfig struct {
 	Name          yacymodel.Optional[yacymodel.PeerName]
 	AdvertiseHost string
 	AdvertisePort int
-	Flags         yacymodel.PeerCapabilities
+	Capabilities  yacymodel.PeerCapabilities
 }
 
 func loadIdentityConfig(
@@ -67,7 +67,7 @@ func loadIdentityConfig(
 		Name:          name,
 		AdvertiseHost: host,
 		AdvertisePort: port,
-		Flags:         capabilities,
+		Capabilities:  capabilities,
 	}, nil
 }
 

@@ -122,7 +122,7 @@ func TestTransferURLRejectsWrongNetwork(t *testing.T) {
 func TestTransferURLRefusesWhenRemoteIndexIsNotAccepted(t *testing.T) {
 	v, module := openModule(t, 0)
 	identity := localIdentity()
-	identity.Flags.AcceptRemoteIndex = false
+	identity.Capabilities.AcceptRemoteIndex = false
 	mux := muxAs(t, identity, module.Receiver)
 
 	resp := transferURL(t, mux, yacyproto.TransferURLRequest{

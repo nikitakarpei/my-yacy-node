@@ -68,8 +68,8 @@ const advertisedYaCyRelease = 1.83
 const egressRequestTimeout = 30 * time.Second
 
 const (
-	peerPostingTransferCapacity = 1000
-	postingAdmissionBusyPause   = 30 * time.Second
+	peerPostingTransferCap    = 1000
+	postingAdmissionBusyPause = 30 * time.Second
 )
 
 const (
@@ -106,14 +106,14 @@ func assembleNode(
 	}
 
 	identity := nodeidentity.Identity{
-		Hash:        settledPeerHash,
-		NetworkName: config.Identity.NetworkName,
-		Name:        config.Identity.Name.OrElse(derivedPeerName),
-		Host:        config.Identity.AdvertiseHost,
-		Port:        config.Identity.AdvertisePort,
-		Flags:       config.Identity.Flags,
-		Version:     yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
-		Start:       now(),
+		Hash:         settledPeerHash,
+		NetworkName:  config.Identity.NetworkName,
+		Name:         config.Identity.Name.OrElse(derivedPeerName),
+		Host:         config.Identity.AdvertiseHost,
+		Port:         config.Identity.AdvertisePort,
+		Capabilities: config.Identity.Capabilities,
+		Version:      yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
+		Start:        now(),
 	}
 
 	slog.InfoContext(ctx, "node identity",
@@ -227,10 +227,9 @@ func assembleNode(
 		postingAdmitter,
 		postingEscrow,
 		rwiadmission.Config{
-			AcceptRemoteIndex: identity.Flags.AcceptRemoteIndex,
-			PostingCap:        peerPostingTransferCapacity,
-			Pause:             postingAdmissionBusyPause,
-			Refusals:          admissionRefusals,
+			PostingCap: peerPostingTransferCap,
+			Pause:      postingAdmissionBusyPause,
+			Observer:   admissionRefusals,
 		},
 	)
 

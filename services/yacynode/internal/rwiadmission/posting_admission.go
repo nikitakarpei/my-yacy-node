@@ -20,22 +20,16 @@ type postingAdmission struct {
 	escrow   PostingHolder
 	observer RefusalObserver
 
-	acceptRemoteIndex bool
-	postingCap        int
-	pause             time.Duration
+	postingCap int
+	pause      time.Duration
 }
 
 func (a postingAdmission) Receive(
 	ctx context.Context,
-	entries []yacymodel.RWIPosting,
+	postings []yacymodel.RWIPosting,
 ) (Receipt, error) {
-	if !a.acceptRemoteIndex {
-		a.observer.ObserveRefused(RefusalRemoteIndexNotAccepted, len(entries))
-
-		return Receipt{NotAccepted: true}, nil
-	}
-	if len(entries) > a.postingCap {
-		a.observer.ObserveRefused(RefusalTooManyPostings, len(entries))
+	if len(postings) > a.postingCap {
+		a.observer.ObserveRefused(RefusalTooManyPostings, len(postings))
 
 		return a.busyReceipt(), nil
 	}
@@ -45,12 +39,12 @@ func (a postingAdmission) Receive(
 		return Receipt{}, fmt.Errorf("check capacity: %w", err)
 	}
 	if atCapacity {
-		a.observer.ObserveRefused(RefusalStorageFull, len(entries))
+		a.observer.ObserveRefused(RefusalStorageFull, len(postings))
 
 		return a.busyReceipt(), nil
 	}
 
-	referenced := urlHashesOf(entries)
+	referenced := urlHashesOf(postings)
 
 	var unknown []yacymodel.URLHash
 
@@ -59,7 +53,7 @@ func (a postingAdmission) Receive(
 		if err != nil {
 			return fmt.Errorf("missing urls: %w", err)
 		}
-		if err := a.routeEach(ctx, tx, entries, awaitedURLsOf(missing)); err != nil {
+		if err := a.routeEach(ctx, tx, postings, awaitedURLsOf(missing)); err != nil {
 			return err
 		}
 		unknown = missing
@@ -67,12 +61,12 @@ func (a postingAdmission) Receive(
 		return nil
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
-		a.observer.ObserveRefused(RefusalStorageFull, len(entries))
+		a.observer.ObserveRefused(RefusalStorageFull, len(postings))
 
 		return a.busyReceipt(), nil
 	}
 	if errors.Is(err, rwiescrow.ErrEscrowFull) {
-		a.observer.ObserveRefused(RefusalEscrowFull, len(entries))
+		a.observer.ObserveRefused(RefusalEscrowFull, len(postings))
 
 		return a.busyReceipt(), nil
 	}
@@ -87,10 +81,10 @@ func (a postingAdmission) busyReceipt() Receipt {
 	return Receipt{Busy: true, Pause: a.pause}
 }
 
-func urlHashesOf(entries []yacymodel.RWIPosting) []yacymodel.URLHash {
-	hashes := make([]yacymodel.URLHash, 0, len(entries))
-	for _, entry := range entries {
-		hashes = append(hashes, entry.URLHash)
+func urlHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
+	hashes := make([]yacymodel.URLHash, 0, len(postings))
+	for _, posting := range postings {
+		hashes = append(hashes, posting.URLHash)
 	}
 
 	return hashes
@@ -108,14 +102,14 @@ func awaitedURLsOf(missing []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
 func (a postingAdmission) routeEach(
 	ctx context.Context,
 	tx *vault.Txn,
-	entries []yacymodel.RWIPosting,
+	postings []yacymodel.RWIPosting,
 	awaited map[yacymodel.URLHash]struct{},
 ) error {
-	for _, entry := range entries {
+	for _, posting := range postings {
 		if err := ctx.Err(); err != nil {
 			return fmt.Errorf("context: %w", err)
 		}
-		if err := a.route(tx, entry, awaited); err != nil {
+		if err := a.route(tx, posting, awaited); err != nil {
 			return err
 		}
 	}
@@ -125,17 +119,17 @@ func (a postingAdmission) routeEach(
 
 func (a postingAdmission) route(
 	tx *vault.Txn,
-	entry yacymodel.RWIPosting,
+	posting yacymodel.RWIPosting,
 	awaited map[yacymodel.URLHash]struct{},
 ) error {
-	if _, waits := awaited[entry.URLHash]; waits {
-		if err := a.escrow.Hold(tx, entry); err != nil {
+	if _, waits := awaited[posting.URLHash]; waits {
+		if err := a.escrow.Hold(tx, posting); err != nil {
 			return fmt.Errorf("hold posting: %w", err)
 		}
 
 		return nil
 	}
-	if err := a.admitter.Admit(tx, entry); err != nil {
+	if err := a.admitter.Admit(tx, posting); err != nil {
 		return fmt.Errorf("admit posting: %w", err)
 	}
 
