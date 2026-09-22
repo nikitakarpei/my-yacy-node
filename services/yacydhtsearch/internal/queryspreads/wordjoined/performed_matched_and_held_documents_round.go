@@ -34,9 +34,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 			answeredAsksWithAListedDocument(round.answeredAsks),
 			peerOfAnsweredMatchedAndHeldDocumentsAsk,
 		),
-		LeadingQueryWordChoice: leadingQueryWordChoiceAmong(
-			round.queryWordsFewestDocumentsFirst,
-		),
+		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
 		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documentsListedByPeers(),
 		),

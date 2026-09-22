@@ -20,25 +20,21 @@ type matchedAndHeldDocumentsRound struct {
 }
 
 func (round matchedAndHeldDocumentsRound) leadingQueryWord() queryWordAcrossReplicas {
-	return round.queryWordsFewestDocumentsFirst[round.placeOfTheLeadingQueryWord()]
-}
+	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
+		if queryWord.isFullyListed() {
+			return queryWord
+		}
+	}
 
-func (round matchedAndHeldDocumentsRound) placeOfTheLeadingQueryWord() int {
-	return max(
-		0,
-		slices.IndexFunc(
-			round.queryWordsFewestDocumentsFirst,
-			queryWordAcrossReplicas.isFullyListed,
-		),
-	)
+	return round.queryWordsFewestDocumentsFirst[0]
 }
 
 func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
-	placeOfTheLeadingQueryWord := round.placeOfTheLeadingQueryWord()
+	leadingQueryWord := round.leadingQueryWord().word
 
-	return slices.Concat(
-		round.queryWordsFewestDocumentsFirst[:placeOfTheLeadingQueryWord],
-		round.queryWordsFewestDocumentsFirst[placeOfTheLeadingQueryWord+1:],
+	return slices.DeleteFunc(
+		slices.Clone(round.queryWordsFewestDocumentsFirst),
+		func(queryWord queryWordAcrossReplicas) bool { return queryWord.word == leadingQueryWord },
 	)
 }
 

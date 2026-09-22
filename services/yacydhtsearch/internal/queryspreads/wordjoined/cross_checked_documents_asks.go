@@ -10,27 +10,26 @@ import (
 )
 
 func crossCheckedDocumentsAsksFor(
-	partlyListedQueryWords []queryWordAcrossReplicas,
-	documentsOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
+	candidates []crossCheckCandidatesOfQueryWord,
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 ) []peerasks.CrossCheckedDocumentsAsk {
-	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(partlyListedQueryWords))
-	for _, queryWord := range partlyListedQueryWords {
-		candidateDocuments := queryWord.documentsNotListedByItsPeersAmong(
-			documentsOfTheLeadingQueryWordMostListedFirst,
-		)
+	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(candidates))
+	for _, candidatesOfQueryWord := range candidates {
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
-			peersNotIgnoringAmong(queryWord.replicasThatDidNotListAllTheyHold(), peerStandings),
+			peersNotIgnoringTheCrossCheckAmong(
+				candidatesOfQueryWord.queryWord.replicasThatDidNotListAllTheyHold(), peerStandings,
+			),
 			asks,
 		)
 		amountOfDocumentsToDeal := min(
-			len(candidateDocuments), len(peersNotYetAskedToCrossCheck)*crossCheckedDocumentsCeiling,
+			len(candidatesOfQueryWord.documents),
+			len(peersNotYetAskedToCrossCheck)*crossCheckedDocumentsCeiling,
 		)
 		asks = append(asks, crossCheckedDocumentsAsksDealtAcross(
 			peersNotYetAskedToCrossCheck,
-			queryWord.word,
-			candidateDocuments[:amountOfDocumentsToDeal],
+			candidatesOfQueryWord.queryWord.word,
+			candidatesOfQueryWord.documents[:amountOfDocumentsToDeal],
 		)...)
 	}
 
@@ -58,7 +57,7 @@ func peersThatMayCrossCheckIn(
 	return peers
 }
 
-func peersNotIgnoringAmong(
+func peersNotIgnoringTheCrossCheckAmong(
 	replicas []queryWordOnReplica,
 	peerStandings peerjudgements.PeerStandings,
 ) []peerdirectory.AskablePeer {

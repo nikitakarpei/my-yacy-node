@@ -26,9 +26,12 @@ func performedCrossCheckedDocumentsRoundFrom(
 		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
 			round.asks,
 		),
-		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesIn(
-			matchedAndHeldDocumentsRound,
-		) - amountOfDocumentsSentForCrossCheckingAcross(round.asks),
+		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesAcross(
+			round.candidates,
+		) -
+			amountOfDocumentsSentForCrossCheckingAcross(
+				round.asks,
+			),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
@@ -42,12 +45,10 @@ func performedCrossCheckedDocumentsRoundFrom(
 	}
 }
 
-func amountOfCrossCheckCandidatesIn(matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound) int {
-	documentsOfTheLeadingQueryWord := matchedAndHeldDocumentsRound.
-		documentsOfTheLeadingQueryWordMostListedFirst()
+func amountOfCrossCheckCandidatesAcross(candidates []crossCheckCandidatesOfQueryWord) int {
 	amount := 0
-	for _, queryWord := range matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord() {
-		amount += len(queryWord.documentsNotListedByItsPeersAmong(documentsOfTheLeadingQueryWord))
+	for _, candidatesOfQueryWord := range candidates {
+		amount += len(candidatesOfQueryWord.documents)
 	}
 
 	return amount

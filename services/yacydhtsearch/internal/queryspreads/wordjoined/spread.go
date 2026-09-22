@@ -163,9 +163,9 @@ func (spread Spread) askForCrossCheckedDocuments(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	peerStandings peerjudgements.PeerStandings,
 ) crossCheckedDocumentsRound {
+	candidates := crossCheckCandidatesIn(matchedAndHeldDocumentsRound)
 	asks := crossCheckedDocumentsAsksFor(
-		matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord(),
-		matchedAndHeldDocumentsRound.documentsOfTheLeadingQueryWordMostListedFirst(),
+		candidates,
 		peerStandings,
 		spread.crossCheckedDocumentsCeiling,
 	)
@@ -173,6 +173,7 @@ func (spread Spread) askForCrossCheckedDocuments(
 	defer endRound()
 
 	return crossCheckedDocumentsRound{
+		candidates:   candidates,
 		asks:         asks,
 		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(roundContext, asks),
 	}

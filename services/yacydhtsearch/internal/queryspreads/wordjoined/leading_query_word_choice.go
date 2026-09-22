@@ -1,7 +1,5 @@
 package wordjoined
 
-import "slices"
-
 type LeadingQueryWordChoice string
 
 const (
@@ -10,13 +8,12 @@ const (
 	RarestPartlyListedQueryWord    LeadingQueryWordChoice = "rarest word, partly listed"
 )
 
-func leadingQueryWordChoiceAmong(
-	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas,
-) LeadingQueryWordChoice {
-	switch slices.IndexFunc(queryWordsFewestDocumentsFirst, queryWordAcrossReplicas.isFullyListed) {
-	case -1:
+func leadingQueryWordChoiceOf(round matchedAndHeldDocumentsRound) LeadingQueryWordChoice {
+	leadingQueryWord := round.leadingQueryWord()
+	switch {
+	case !leadingQueryWord.isFullyListed():
 		return RarestPartlyListedQueryWord
-	case 0:
+	case leadingQueryWord.word == round.queryWordsFewestDocumentsFirst[0].word:
 		return RarestFullyListedQueryWord
 	default:
 		return MoreCommonFullyListedQueryWord
