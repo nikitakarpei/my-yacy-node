@@ -57,7 +57,10 @@ func passageTextsIn(pageText string, lengthCeiling int) iter.Seq[string] {
 
 func passageOf(passageText string, queryWords []yacymodel.Hash) passage {
 	counts := textCountsOf(passageText, queryWords)
-	readPassage := passage{text: passageText, queryPhraseHits: counts.queryPhraseHits}
+	readPassage := passage{
+		text:            passageText,
+		queryPhraseHits: queryPhrasesOf(queryWords).hitsIn(passageText),
+	}
 	for _, hits := range counts.hitsPerQueryWord {
 		if hits > 0 {
 			readPassage.amountOfDistinctQueryWords++

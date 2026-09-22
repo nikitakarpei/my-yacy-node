@@ -7,18 +7,34 @@ type queryPhrase struct {
 	secondWord yacymodel.Hash
 }
 
-func queryPhrasesOf(queryWords []yacymodel.Hash) map[queryPhrase]struct{} {
-	queryPhrases := map[queryPhrase]struct{}{}
+type queryPhrases map[queryPhrase]struct{}
+
+func queryPhrasesOf(queryWords []yacymodel.Hash) queryPhrases {
+	phrases := queryPhrases{}
 	for place := range len(queryWords) - 1 {
-		queryPhrases[queryPhrase{
+		phrases[queryPhrase{
 			firstWord:  queryWords[place],
 			secondWord: queryWords[place+1],
 		}] = struct{}{}
-		queryPhrases[queryPhrase{
+		phrases[queryPhrase{
 			firstWord:  queryWords[place+1],
 			secondWord: queryWords[place],
 		}] = struct{}{}
 	}
 
-	return queryPhrases
+	return phrases
+}
+
+func (phrases queryPhrases) hitsIn(text string) int {
+	hits := 0
+	var wordBefore yacymodel.Hash
+	for _, spelledWord := range yacymodel.PlacedWordsIn(text) {
+		word := yacymodel.WordHash(spelledWord)
+		if _, askedFor := phrases[queryPhrase{firstWord: wordBefore, secondWord: word}]; askedFor {
+			hits++
+		}
+		wordBefore = word
+	}
+
+	return hits
 }
