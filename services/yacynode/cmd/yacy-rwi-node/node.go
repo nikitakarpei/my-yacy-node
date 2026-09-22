@@ -321,6 +321,19 @@ func assembleNode(
 	var distributionCycle *distributioncycle.Cycle
 
 	if config.Distribution.Enabled {
+		var handoff distributioncycle.PostingHandoff = postinghandoff.KeepEveryPosting{}
+		if config.Distribution.HandoffEnabled {
+			handoff = postinghandoff.New(
+				postingReplicas,
+				postingPurger,
+				peerRoster,
+				postinghandoff.Config{
+					Partitions: dhtRingPartitions,
+					Self:       identity.Hash,
+					Redundancy: config.Distribution.Redundancy,
+				},
+			)
+		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
 		replicaEligibility := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
@@ -339,14 +352,7 @@ func assembleNode(
 				identity.Hash,
 				config.Distribution.Redundancy,
 			),
-			postinghandoff.New(
-				postingReplicas,
-				postingPurger,
-				peerRoster,
-				dhtRingPartitions,
-				identity.Hash,
-				config.Distribution.Redundancy,
-			),
+			handoff,
 			postingtransfer.New(
 				vault,
 				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),
