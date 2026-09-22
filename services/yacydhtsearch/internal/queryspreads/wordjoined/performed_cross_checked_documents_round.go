@@ -6,13 +6,14 @@ import (
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
-	AmountOfDocumentsSentForCrossChecking           int
-	AmountOfCrossCheckCandidatesNoPeerTook          int
-	AmountOfEmptyCrossCheckedDocumentsAnswers       int
-	AmountOfJoinedDocuments                         int
-	AmountOfJoinedDocumentsFoundOnlyByCrossChecking int
-	PeerStandings                                   []peerjudgements.PeerStanding
-	JudgedPeers                                     []peerjudgements.JudgedPeer
+	AmountOfDocumentsSentForCrossChecking              int
+	AmountOfCrossCheckCandidatesNoPeerTook             int
+	AmountOfCrossCheckCandidatesRuledOutByAFullListing int
+	AmountOfEmptyCrossCheckedDocumentsAnswers          int
+	AmountOfJoinedDocuments                            int
+	AmountOfJoinedDocumentsFoundOnlyByCrossChecking    int
+	PeerStandings                                      []peerjudgements.PeerStanding
+	JudgedPeers                                        []peerjudgements.JudgedPeer
 }
 
 func performedCrossCheckedDocumentsRoundFrom(
@@ -27,11 +28,14 @@ func performedCrossCheckedDocumentsRoundFrom(
 			round.asks,
 		),
 		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesAcross(
-			round.candidates,
+			round.candidates.leftOpenByAPartialListing,
 		) -
 			amountOfDocumentsSentForCrossCheckingAcross(
 				round.asks,
 			),
+		AmountOfCrossCheckCandidatesRuledOutByAFullListing: amountOfCrossCheckCandidatesAcross(
+			round.candidates.ruledOutByAFullListing,
+		),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),

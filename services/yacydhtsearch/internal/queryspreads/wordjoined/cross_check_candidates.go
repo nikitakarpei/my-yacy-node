@@ -2,12 +2,40 @@ package wordjoined
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
+type crossCheckCandidates struct {
+	leftOpenByAPartialListing []crossCheckCandidatesOfWordPartition
+	ruledOutByAFullListing    []crossCheckCandidatesOfWordPartition
+}
+
 type crossCheckCandidatesOfWordPartition struct {
 	wordPartition wordPartition
 	documents     []yacymodel.URLHash
 }
 
 func crossCheckCandidatesIn(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	partitions yacymodel.DHTRingPartitions,
+) crossCheckCandidates {
+	var candidates crossCheckCandidates
+	for _, candidatesOfWordPartition := range crossCheckCandidatesPerWordPartitionIn(
+		matchedAndHeldDocumentsRound, partitions,
+	) {
+		if candidatesOfWordPartition.wordPartition.isFullyListed() {
+			candidates.ruledOutByAFullListing = append(
+				candidates.ruledOutByAFullListing, candidatesOfWordPartition,
+			)
+
+			continue
+		}
+		candidates.leftOpenByAPartialListing = append(
+			candidates.leftOpenByAPartialListing, candidatesOfWordPartition,
+		)
+	}
+
+	return candidates
+}
+
+func crossCheckCandidatesPerWordPartitionIn(
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	partitions yacymodel.DHTRingPartitions,
 ) []crossCheckCandidatesOfWordPartition {
@@ -20,7 +48,7 @@ func crossCheckCandidatesIn(
 			partitions,
 		)
 		for partition, wordPartition := range queryWord.wordPartitions() {
-			if len(documentsPerPartition[partition]) == 0 || wordPartition.isFullyListed() {
+			if len(documentsPerPartition[partition]) == 0 {
 				continue
 			}
 			candidates = append(candidates, crossCheckCandidatesOfWordPartition{

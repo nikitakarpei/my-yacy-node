@@ -78,6 +78,10 @@ func attributesOfCrossCheckedDocumentsRound(
 			round.AmountOfCrossCheckCandidatesNoPeerTook,
 		),
 		slog.Int(
+			"amountOfCrossCheckCandidatesRuledOutByAFullListing",
+			round.AmountOfCrossCheckCandidatesRuledOutByAFullListing,
+		),
+		slog.Int(
 			"amountOfEmptyCrossCheckedDocumentsAnswers",
 			round.AmountOfEmptyCrossCheckedDocumentsAnswers,
 		),

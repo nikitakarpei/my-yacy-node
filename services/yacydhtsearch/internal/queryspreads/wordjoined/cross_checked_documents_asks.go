@@ -10,12 +10,12 @@ import (
 )
 
 func crossCheckedDocumentsAsksFor(
-	candidates []crossCheckCandidatesOfWordPartition,
+	candidates crossCheckCandidates,
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 ) []peerasks.CrossCheckedDocumentsAsk {
-	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(candidates))
-	for _, candidatesOfWordPartition := range candidates {
+	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(candidates.leftOpenByAPartialListing))
+	for _, candidatesOfWordPartition := range candidates.leftOpenByAPartialListing {
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersNotIgnoringTheCrossCheckAmong(
 				candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold(),
@@ -38,10 +38,10 @@ func crossCheckedDocumentsAsksFor(
 }
 
 func peersThatMayCrossCheckIn(
-	candidates []crossCheckCandidatesOfWordPartition,
+	candidates crossCheckCandidates,
 ) []peerjudgements.PeerAtVersion {
 	var peers []peerjudgements.PeerAtVersion
-	for _, candidatesOfWordPartition := range candidates {
+	for _, candidatesOfWordPartition := range candidates.leftOpenByAPartialListing {
 		for _, replica := range candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold() {
 			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
 				return peer.Peer == replica.peer.Hash

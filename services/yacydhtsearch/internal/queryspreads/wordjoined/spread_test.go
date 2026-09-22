@@ -2132,8 +2132,10 @@ func TestADocumentOnlyAReplicaInItsPartitionHoldsIsFound(t *testing.T) {
 	}
 }
 
-func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
-	t.Parallel()
+func networkWhereTheSecondWordIsFullyListedInPartitionZero(
+	t *testing.T,
+) (*peerNetwork, []string) {
+	t.Helper()
 
 	candidateInPartitionZero := addressesInPartition(t, 0, 2)
 	candidateInPartitionOne := addressesInPartition(t, 1, 2)
@@ -2145,6 +2147,14 @@ func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-1": 1}
 	network.documentsHeldByEachPeer = map[string]int{"second-in-0": 1}
+
+	return network, candidateInPartitionOne
+}
+
+func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
+	t.Parallel()
+
+	network, candidateInPartitionOne := networkWhereTheSecondWordIsFullyListedInPartitionZero(t)
 
 	spreadOverTwoPartitions(
 		network,
@@ -2161,6 +2171,31 @@ func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
 			"the asks named %v, want only the candidate of the partition the word is partly listed in %v",
 			got,
 			wanted,
+		)
+	}
+}
+
+func TestTheCandidatesOfAPartitionWhereTheWordIsFullyListedAreReportedAsRuledOut(t *testing.T) {
+	t.Parallel()
+
+	network, _ := networkWhereTheSecondWordIsFullyListedInPartitionZero(t)
+	observer := &recordedSpreads{}
+
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsOfTheCrossCheck(),
+		observer,
+	)
+
+	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
+	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesRuledOutByAFullListing != 1 ||
+		crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking != 1 ||
+		crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 0 {
+		t.Fatalf(
+			"the spread reported %+v, want the candidate of partition 0 ruled out and the one of "+
+				"partition 1 sent",
+			crossCheckedDocumentsRound,
 		)
 	}
 }
