@@ -118,7 +118,12 @@ func openLedger(t *testing.T) (*vault.Vault, *postingreplicas.Replicas) {
 		}
 	})
 
-	schedule, err := postingofferschedule.Open(v, time.Now, discardedScheduleObservations{})
+	schedule, err := postingofferschedule.Open(
+		v,
+		yacymodel.DHTRingPartitions(1),
+		time.Now,
+		discardedScheduleObservations{},
+	)
 	if err != nil {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}

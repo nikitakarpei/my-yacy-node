@@ -2,6 +2,7 @@ package postingofferschedule_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 
@@ -50,6 +51,7 @@ func (o *recordedObservations) ObserveLongestOfferLateness(order string, latenes
 }
 
 type scheduleHarness struct {
+	engine   vault.Engine
 	vault    *vault.Vault
 	schedule *postingofferschedule.Schedule
 	observed *recordedObservations
@@ -59,30 +61,55 @@ type scheduleHarness struct {
 func openSchedule(t *testing.T, clockStart time.Time) *scheduleHarness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
+	engine := memoryvault.OpenEngine(0)
 	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
+		if err := engine.Close(); err != nil {
 			t.Fatalf("Close: %v", err)
 		}
 	})
 
-	harness := &scheduleHarness{vault: v, observed: &recordedObservations{
+	harness := &scheduleHarness{engine: engine, observed: &recordedObservations{
 		scheduled: map[string]int{},
 		lateness:  map[string]time.Duration{},
 	}, clock: clockStart}
-	harness.schedule, err = postingofferschedule.Open(
+	harness.reopenWith(t, yacymodel.DHTRingPartitions(1))
+
+	return harness
+}
+
+func (h *scheduleHarness) reopenWith(t *testing.T, partitions yacymodel.DHTRingPartitions) {
+	t.Helper()
+
+	v, err := vault.New(h.engine, nil)
+	if err != nil {
+		t.Fatalf("New: %v", err)
+	}
+	schedule, err := postingofferschedule.Open(
 		v,
-		func() time.Time { return harness.clock },
-		harness.observed,
+		partitions,
+		func() time.Time { return h.clock },
+		h.observed,
 	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
+	h.vault, h.schedule = v, schedule
+}
 
-	return harness
+func wordIn(sector yacymodel.DHTRingSector) yacymodel.Hash {
+	return wordsIn(sector, 1)[0]
+}
+
+func wordsIn(sector yacymodel.DHTRingSector, count int) []yacymodel.Hash {
+	var words []yacymodel.Hash
+	for attempt := 0; len(words) < count; attempt++ {
+		word := yacymodel.WordHash(fmt.Sprintf("word-%d", attempt))
+		if yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(word)) == sector {
+			words = append(words, word)
+		}
+	}
+
+	return words
 }
 
 func (h *scheduleHarness) store(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {

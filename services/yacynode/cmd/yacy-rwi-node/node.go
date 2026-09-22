@@ -171,6 +171,7 @@ func assembleNode(
 
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
 		vault,
+		dhtRingPartitions,
 		now,
 		distributionObserver,
 	)

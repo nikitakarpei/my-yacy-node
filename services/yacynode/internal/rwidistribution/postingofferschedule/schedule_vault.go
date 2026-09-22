@@ -15,7 +15,7 @@ import (
 const (
 	shortfallOrderBucket vault.Name = "rwidistribution_offer_shortfall_order"
 	refreshOrderBucket   vault.Name = "rwidistribution_offer_refresh_order"
-	dueBucket            vault.Name = "rwidistribution_offer_due"
+	offerPlaceBucket     vault.Name = "rwidistribution_offer_place"
 	offerIntervalBucket  vault.Name = "rwidistribution_offer_interval"
 )
 
@@ -31,19 +31,19 @@ func registerOfferOrder(
 	return order, nil
 }
 
-func registerOfferDues(
+func registerOfferPlaces(
 	v *vault.Vault,
-) (*vault.Collection[postingidentity.Identity, time.Time], error) {
-	dueTimes, err := v.RegisterCollection(
-		dueBucket,
+) (*vault.Collection[postingidentity.Identity, offerPlace], error) {
+	offerPlaces, err := v.RegisterCollection(
+		offerPlaceBucket,
 		postingidentity.KeyLayout,
-		dueAtValueCodec{},
+		offerPlaceValueCodec{},
 	)
 	if err != nil {
-		return nil, fmt.Errorf("register offer due: %w", err)
+		return nil, fmt.Errorf("register offer place: %w", err)
 	}
 
-	return dueTimes, nil
+	return offerPlaces, nil
 }
 
 func registerOfferIntervals(
@@ -61,43 +61,65 @@ func registerOfferIntervals(
 	return offerIntervals, nil
 }
 
-var orderKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)
+var orderKeyParts = vault.QuadKey(
+	vault.IntegerKeyPart,
+	vault.TimeKeyPart,
+	hashkeypart.Hash,
+	hashkeypart.URLHash,
+)
 
 var orderKeyLayout = orderKeyParts.KeyLayoutFor(
-	func(offer scheduledPostingOffer) (time.Time, yacymodel.Hash, yacymodel.URLHash) {
-		return offer.At, offer.Identity.Word, offer.Identity.URL
+	func(offer scheduledPostingOffer) (int64, time.Time, yacymodel.Hash, yacymodel.URLHash) {
+		return sectorKeyOf(
+			offer.Place.Sector,
+		), offer.Place.DueAt, offer.Identity.Word, offer.Identity.URL
 	},
-	func(dueAt time.Time, word yacymodel.Hash, url yacymodel.URLHash) scheduledPostingOffer {
+	func(
+		sector int64,
+		dueAt time.Time,
+		word yacymodel.Hash,
+		url yacymodel.URLHash,
+	) scheduledPostingOffer {
 		return scheduledPostingOffer{
-			At:       dueAt,
+			Place:    offerPlace{Sector: yacymodel.DHTRingSector(sector), DueAt: dueAt},
 			Identity: postingidentity.Identity{Word: word, URL: url},
 		}
 	},
 )
 
-func everyOfferDueBy(dueAt time.Time) vault.KeyRange {
-	return orderKeyParts.KeysThroughFirst(dueAt)
+func sectorKeyOf(sector yacymodel.DHTRingSector) int64 {
+	return int64(sector) //nolint:gosec // a sector is at most MaxDHTRingSector
+}
+
+func everyOfferInSector(sector yacymodel.DHTRingSector) vault.KeyRange {
+	return orderKeyParts.KeysWithFirst(sectorKeyOf(sector))
+}
+
+func everyOfferInSectorDueBy(sector yacymodel.DHTRingSector, dueAt time.Time) vault.KeyRange {
+	return orderKeyParts.KeysWithFirstThroughSecond(sectorKeyOf(sector), dueAt)
 }
 
 var (
-	errBadDueTime       = errors.New("bad offer due time")
+	errBadOfferPlace    = errors.New("bad offer place")
 	errBadOfferInterval = errors.New("bad offer interval")
 )
 
-type dueAtValueCodec struct{}
+type offerPlaceValueCodec struct{}
 
-func (dueAtValueCodec) Encode(at time.Time) ([]byte, error) {
+func (offerPlaceValueCodec) Encode(place offerPlace) ([]byte, error) {
 	var stored storedfields.Writer
-	stored.Time(at)
+	stored.Count(int(place.Sector))
+	stored.Time(place.DueAt)
 
 	return stored.Record(), nil
 }
 
-func (dueAtValueCodec) Decode(raw []byte) (time.Time, error) {
-	stored := storedfields.ReaderOf(raw, errBadDueTime)
+func (offerPlaceValueCodec) Decode(raw []byte) (offerPlace, error) {
+	stored := storedfields.ReaderOf(raw, errBadOfferPlace)
+	sector := stored.Count("sector")
 	dueAt := stored.Time("due at")
 
-	return dueAt, stored.Err()
+	return offerPlace{Sector: yacymodel.DHTRingSector(sector), DueAt: dueAt}, stored.Err()
 }
 
 type offerIntervalValueCodec struct{}

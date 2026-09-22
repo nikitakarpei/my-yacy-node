@@ -14,13 +14,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-func Open(v *vault.Vault, now func() time.Time, observer postingofferschedule.Observer) (
+func Open(
+	v *vault.Vault,
+	partitions yacymodel.DHTRingPartitions,
+	now func() time.Time,
+	observer postingofferschedule.Observer,
+) (
 	*postingofferschedule.Schedule,
 	*postingreplicas.Replicas,
 	rwipostings.PostingObserver,
 	error,
 ) {
-	schedule, err := postingofferschedule.Open(v, now, observer)
+	schedule, err := postingofferschedule.Open(v, partitions, now, observer)
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("open offer schedule: %w", err)
 	}
