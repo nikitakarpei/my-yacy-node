@@ -730,7 +730,7 @@ func TestTheFullyListedWordTheFewestDocumentsAreHeldForLeads(t *testing.T) {
 	}), observer)
 
 	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
-	if matchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.RarestFullyListedQueryWord ||
+	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestFullyListedQueryWord ||
 		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the fully listed word the fewest documents are held for leading",
@@ -761,7 +761,7 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 	}), observer)
 
 	performed := observer.performed[0]
-	if performed.MatchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.MoreCommonFullyListedQueryWord ||
+	if performed.MatchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.MoreCommonFullyListedQueryWord ||
 		performed.MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 5 {
 		t.Fatalf(
 			"the spread reported %+v, want the fully listed word leading over the rarer partly listed word",
@@ -807,7 +807,7 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 	)
 
 	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
-	if matchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.RarestPartlyListedQueryWord ||
+	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
 		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want the partly listed word the fewest documents are counted for leading",
@@ -889,10 +889,10 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 		)
 	}
 	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
-	if crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 0 ||
+	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 0 ||
 		crossCheckedDocumentsRound.AmountOfJoinedDocuments != 3 {
 		t.Fatalf(
-			"the spread reported %+v, want every document listed for the leading query word joined and none past the ceiling",
+			"the spread reported %+v, want every document listed for the leading query word joined and no candidate that no peer took",
 			crossCheckedDocumentsRound,
 		)
 	}
@@ -937,7 +937,7 @@ func TestTwoPartlyListedReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing
 	}
 }
 
-func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDocumentsCeiling(
+func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedAsNoPeerTook(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -969,11 +969,11 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDo
 	)
 
 	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
-	if crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 2 ||
+	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 2 ||
 		crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the two documents the replicas took sent and the two "+
-				"no replica took past the ceiling",
+				"no candidate that no replica took",
 			crossCheckedDocumentsRound,
 		)
 	}
@@ -1022,7 +1022,7 @@ func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T)
 
 	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
 	if crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking != 4 ||
-		crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 0 {
+		crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 0 {
 		t.Fatalf(
 			"the spread reported %+v, want both documents sent once for each of the two other "+
 				"query words",

@@ -48,7 +48,7 @@ func attributesOfMatchedAndHeldDocumentsRound(
 		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
 		slog.Int("amountOfFullyListedQueryWords", round.AmountOfFullyListedQueryWords),
 		slog.Int("amountOfPeersThatListedADocument", round.AmountOfPeersThatListedADocument),
-		slog.String("leadingQueryWordStanding", string(round.LeadingQueryWordStanding)),
+		slog.String("leadingQueryWordChoice", string(round.LeadingQueryWordChoice)),
 		slog.Int(
 			"amountOfDocumentsListedByThePeersOfTheLeadingQueryWord",
 			round.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord,
@@ -74,8 +74,8 @@ func attributesOfCrossCheckedDocumentsRound(
 			round.AmountOfDocumentsSentForCrossChecking,
 		),
 		slog.Int(
-			"amountOfDocumentsPastTheCrossCheckedDocumentsCeiling",
-			round.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
+			"amountOfCrossCheckCandidatesNoPeerTook",
+			round.AmountOfCrossCheckCandidatesNoPeerTook,
 		),
 		slog.Int(
 			"amountOfEmptyCrossCheckedDocumentsAnswers",

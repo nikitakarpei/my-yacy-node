@@ -977,15 +977,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (leading_query_word_standing) (rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])) / scalar(sum(rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])))",
-          "legendFormat": "{{leading_query_word_standing}}"
+          "expr": "sum by (leading_query_word_choice) (rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])) / scalar(sum(rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "{{leading_query_word_choice}}"
         }
       ]
     },
     {
       "id": 59,
-      "title": "Share of the documents to cross-check that no peer could take",
-      "description": "A peer is asked once and takes at most YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING documents.",
+      "title": "Share of the cross-check candidates no peer took",
+      "description": "A peer is asked once and takes at most YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING documents; candidates past that, or with no peer left to ask, are not cross-checked.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1036,7 +1036,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_cross_check_candidates_no_peer_took_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_cross_check_candidates_no_peer_took_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
