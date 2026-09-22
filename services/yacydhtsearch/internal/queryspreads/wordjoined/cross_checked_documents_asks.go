@@ -17,7 +17,7 @@ func crossCheckedDocumentsAsksFor(
 ) []peerasks.CrossCheckedDocumentsAsk {
 	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(partlyListedQueryWords))
 	for _, queryWord := range partlyListedQueryWords {
-		candidateDocuments := queryWord.crossCheckCandidatesAmong(
+		candidateDocuments := queryWord.documentsNotListedByItsPeersAmong(
 			documentsOfTheLeadingQueryWordMostListedFirst,
 		)
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
@@ -35,6 +35,27 @@ func crossCheckedDocumentsAsksFor(
 	}
 
 	return asks
+}
+
+func peersThatMayCrossCheckIn(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+) []peerjudgements.PeerAtVersion {
+	var peers []peerjudgements.PeerAtVersion
+	for _, queryWord := range matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord() {
+		for _, replica := range queryWord.replicasThatDidNotListAllTheyHold() {
+			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
+				return peer.Peer == replica.peer.Hash
+			}) {
+				continue
+			}
+			peers = append(peers, peerjudgements.PeerAtVersion{
+				Peer:    replica.peer.Hash,
+				Version: replica.versionClaimed(),
+			})
+		}
+	}
+
+	return peers
 }
 
 func peersNotIgnoringAmong(

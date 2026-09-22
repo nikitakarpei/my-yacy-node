@@ -92,7 +92,7 @@ func (spread Spread) SpreadOverPeers(
 		chosenPeersPerQueryWord,
 	)
 	peerStandings := spread.peerJudgements.StandingsOf(
-		ctx, peersAtVersionOf(matchedAndHeldDocumentsRound.replicasThatMayCrossCheck()),
+		ctx, peersThatMayCrossCheckIn(matchedAndHeldDocumentsRound),
 	)
 	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
 		ctx,
@@ -156,18 +156,6 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 	}
 
 	return context.WithTimeout(ctx, time.Until(deadline)/time.Duration(roundsLeft))
-}
-
-func peersAtVersionOf(replicas []queryWordOnReplica) []peerjudgements.PeerAtVersion {
-	peers := make([]peerjudgements.PeerAtVersion, 0, len(replicas))
-	for _, replica := range replicas {
-		peers = append(peers, peerjudgements.PeerAtVersion{
-			Peer:    replica.peer.Hash,
-			Version: replica.versionClaimed(),
-		})
-	}
-
-	return peers
 }
 
 func (spread Spread) askForCrossCheckedDocuments(

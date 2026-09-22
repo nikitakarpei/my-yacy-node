@@ -26,8 +26,9 @@ func performedCrossCheckedDocumentsRoundFrom(
 		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
 			round.asks,
 		),
-		AmountOfCrossCheckCandidatesNoPeerTook: matchedAndHeldDocumentsRound.
-			amountOfCrossCheckCandidates() - amountOfDocumentsSentForCrossCheckingAcross(round.asks),
+		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesIn(
+			matchedAndHeldDocumentsRound,
+		) - amountOfDocumentsSentForCrossCheckingAcross(round.asks),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
@@ -39,6 +40,17 @@ func performedCrossCheckedDocumentsRoundFrom(
 		PeerStandings: peerStandings,
 		JudgedPeers:   judgedPeers,
 	}
+}
+
+func amountOfCrossCheckCandidatesIn(matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound) int {
+	documentsOfTheLeadingQueryWord := matchedAndHeldDocumentsRound.
+		documentsOfTheLeadingQueryWordMostListedFirst()
+	amount := 0
+	for _, queryWord := range matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord() {
+		amount += len(queryWord.documentsNotListedByItsPeersAmong(documentsOfTheLeadingQueryWord))
+	}
+
+	return amount
 }
 
 func amountOfJoinedDocumentsFoundOnlyByCrossChecking(

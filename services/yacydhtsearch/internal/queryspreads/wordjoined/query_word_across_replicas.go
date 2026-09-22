@@ -178,19 +178,19 @@ func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocume
 	return documentsListedByPeers
 }
 
-func (queryWord queryWordAcrossReplicas) crossCheckCandidatesAmong(
-	documentsOfTheLeadingQueryWord []yacymodel.URLHash,
+func (queryWord queryWordAcrossReplicas) documentsNotListedByItsPeersAmong(
+	documents []yacymodel.URLHash,
 ) []yacymodel.URLHash {
 	documentsListedByPeers := queryWord.documentsListedByPeers()
-	candidates := make([]yacymodel.URLHash, 0, len(documentsOfTheLeadingQueryWord))
-	for _, document := range documentsOfTheLeadingQueryWord {
+	documentsNotListed := make([]yacymodel.URLHash, 0, len(documents))
+	for _, document := range documents {
 		if documentsListedByPeers.contains(document) {
 			continue
 		}
-		candidates = append(candidates, document)
+		documentsNotListed = append(documentsNotListed, document)
 	}
 
-	return candidates
+	return documentsNotListed
 }
 
 func (queryWord queryWordAcrossReplicas) isFullyListed() bool {

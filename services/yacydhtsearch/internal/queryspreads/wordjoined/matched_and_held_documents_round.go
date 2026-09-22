@@ -54,34 +54,8 @@ func (round matchedAndHeldDocumentsRound) partlyListedQueryWordsBesideTheLeading
 	return partlyListedQueryWords
 }
 
-func (round matchedAndHeldDocumentsRound) replicasThatMayCrossCheck() []queryWordOnReplica {
-	var replicas []queryWordOnReplica
-	for _, queryWord := range round.partlyListedQueryWordsBesideTheLeadingQueryWord() {
-		for _, replica := range queryWord.replicasThatDidNotListAllTheyHold() {
-			if slices.ContainsFunc(replicas, func(known queryWordOnReplica) bool {
-				return known.peer.Hash == replica.peer.Hash
-			}) {
-				continue
-			}
-			replicas = append(replicas, replica)
-		}
-	}
-
-	return replicas
-}
-
 func (round matchedAndHeldDocumentsRound) documentsOfTheLeadingQueryWordMostListedFirst() []yacymodel.URLHash {
 	return round.documentsMostListedFirstAmong(round.leadingQueryWord().documentsListedByPeers())
-}
-
-func (round matchedAndHeldDocumentsRound) amountOfCrossCheckCandidates() int {
-	documentsOfTheLeadingQueryWord := round.documentsOfTheLeadingQueryWordMostListedFirst()
-	amount := 0
-	for _, queryWord := range round.partlyListedQueryWordsBesideTheLeadingQueryWord() {
-		amount += len(queryWord.crossCheckCandidatesAmong(documentsOfTheLeadingQueryWord))
-	}
-
-	return amount
 }
 
 func (round matchedAndHeldDocumentsRound) documentsMostListedFirstAmong(
