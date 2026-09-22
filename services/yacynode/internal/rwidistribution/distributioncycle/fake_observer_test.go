@@ -1,8 +1,14 @@
 package distributioncycle_test
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
+)
 
 const cycleEndBuffer = 16
+
+const shortfall = string(postingofferschedule.OfferOrderShortfall)
 
 type fakeObserver struct {
 	offers                map[string]int
@@ -13,8 +19,8 @@ type fakeObserver struct {
 	staleReplicasDropped  int
 	postingsHandedOff     int
 	gone                  int
-	scheduledPostings     int
-	longestOfferLateness  time.Duration
+	scheduledPostings     map[string]int
+	longestOfferLateness  map[string]time.Duration
 	cyclesSkipped         map[string]int
 	cyclesCompleted       int
 	batchesAborted        map[string]int
@@ -30,6 +36,8 @@ func newFakeObserver() *fakeObserver {
 		urlsDelivered:         make(map[string]int),
 		cyclesSkipped:         make(map[string]int),
 		batchesAborted:        make(map[string]int),
+		scheduledPostings:     make(map[string]int),
+		longestOfferLateness:  make(map[string]time.Duration),
 		cycleEnds:             make(chan struct{}, cycleEndBuffer),
 	}
 }
@@ -52,12 +60,21 @@ func (f *fakeObserver) ObservePostingsGone(gone int) {
 	f.gone = gone
 }
 
-func (f *fakeObserver) ObserveScheduledPostings(postings int) {
-	f.scheduledPostings = postings
+func (f *fakeObserver) ObserveScheduledPostings(order string, postings int) {
+	f.scheduledPostings[order] = postings
 }
 
-func (f *fakeObserver) ObserveLongestOfferLateness(lateness time.Duration) {
-	f.longestOfferLateness = lateness
+func (f *fakeObserver) ObserveLongestOfferLateness(order string, lateness time.Duration) {
+	f.longestOfferLateness[order] = lateness
+}
+
+func (f *fakeObserver) sumOfScheduledPostings() int {
+	var sum int
+	for _, postings := range f.scheduledPostings {
+		sum += postings
+	}
+
+	return sum
 }
 
 func (f *fakeObserver) ObserveStaleReplicasDropped(dropped int) {

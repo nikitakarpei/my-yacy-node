@@ -2218,7 +2218,7 @@
         {
           "refId": "A",
           "expr": "yacynode_rwidistribution_longest_offer_lateness_seconds{instance=~\"$service_instance\"}",
-          "legendFormat": "lateness"
+          "legendFormat": "{{order}}"
         }
       ],
       "interval": "$window"

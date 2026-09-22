@@ -12,13 +12,13 @@ func TestRescheduledOfferLeavesNoRowBehindAtAnyDueTime(t *testing.T) {
 		"far future":     time.Date(2500, time.January, 1, 0, 0, 0, 0, time.UTC),
 	} {
 		t.Run(name, func(t *testing.T) {
-			offers := openOffers(t, storedAt)
+			schedule := openSchedule(t, storedAt)
 			url := urlHash("u1")
 
-			offers.store(t, testWord, url)
-			offers.meetRedundancy(t, testWord, url)
+			schedule.store(t, testWord, url)
+			schedule.meetRedundancy(t, testWord, url)
 
-			if due := offers.duePostings(t, 10); len(due) != 0 {
+			if due := schedule.duePostings(t, 10); len(due) != 0 {
 				t.Fatalf("due = %v, want none once the offer moved off %v", due, storedAt)
 			}
 		})

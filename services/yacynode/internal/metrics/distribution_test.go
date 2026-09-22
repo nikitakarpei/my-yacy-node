@@ -182,12 +182,14 @@ func TestDistributionTracksScheduledPostings(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveScheduledPostings(7)
+	observer.ObserveScheduledPostings("shortfall", 7)
+	observer.ObserveScheduledPostings("refresh", 2)
 
 	expected := `
-# HELP yacynode_rwidistribution_scheduled_postings Postings holding a due entry on the offer schedule.
+# HELP yacynode_rwidistribution_scheduled_postings Postings holding a due entry on the offer schedule, by offer order.
 # TYPE yacynode_rwidistribution_scheduled_postings gauge
-yacynode_rwidistribution_scheduled_postings 7
+yacynode_rwidistribution_scheduled_postings{order="refresh"} 2
+yacynode_rwidistribution_scheduled_postings{order="shortfall"} 7
 `
 	if err := testutil.GatherAndCompare(
 		registry,
@@ -202,12 +204,12 @@ func TestDistributionTracksLongestOfferLateness(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveLongestOfferLateness(90 * time.Second)
+	observer.ObserveLongestOfferLateness("shortfall", 90*time.Second)
 
 	expected := `
-# HELP yacynode_rwidistribution_longest_offer_lateness_seconds Time the most overdue posting offer is past its scheduled time.
+# HELP yacynode_rwidistribution_longest_offer_lateness_seconds Time the most overdue posting offer is past its scheduled time, by offer order.
 # TYPE yacynode_rwidistribution_longest_offer_lateness_seconds gauge
-yacynode_rwidistribution_longest_offer_lateness_seconds 90
+yacynode_rwidistribution_longest_offer_lateness_seconds{order="shortfall"} 90
 `
 	if err := testutil.GatherAndCompare(
 		registry,

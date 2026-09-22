@@ -107,9 +107,9 @@ func urlHash(raw string) yacymodel.URLHash {
 
 type discardedScheduleObservations struct{}
 
-func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
+func (discardedScheduleObservations) ObserveScheduledPostings(string, int) {}
 
-func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
+func (discardedScheduleObservations) ObserveLongestOfferLateness(string, time.Duration) {}
 
 func TestPostingStoredSchedulesPosting(t *testing.T) {
 	harness := openPostingRecords(t)

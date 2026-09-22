@@ -262,6 +262,6 @@ func TestPostingPurgedRemovesLedgerRow(t *testing.T) {
 
 type discardedScheduleObservations struct{}
 
-func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
+func (discardedScheduleObservations) ObserveScheduledPostings(string, int) {}
 
-func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
+func (discardedScheduleObservations) ObserveLongestOfferLateness(string, time.Duration) {}
