@@ -7,6 +7,7 @@ import (
 
 type PerformedMatchedAndHeldDocumentsRound struct {
 	AmountOfQueryWords                                     int
+	AmountOfCompoundWords                                  int
 	AmountOfQueryWordsHeldByNoPeer                         int
 	AmountOfFullyListedQueryWords                          int
 	AmountOfPeersThatListedADocument                       int
@@ -21,7 +22,8 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 	round matchedAndHeldDocumentsRound,
 ) PerformedMatchedAndHeldDocumentsRound {
 	return PerformedMatchedAndHeldDocumentsRound{
-		AmountOfQueryWords: len(round.queryWords),
+		AmountOfQueryWords:    len(round.queryWords),
+		AmountOfCompoundWords: len(round.compoundWords),
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),

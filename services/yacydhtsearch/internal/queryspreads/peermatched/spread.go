@@ -37,7 +37,6 @@ func New(
 	}
 }
 
-// TECHDEBT: vocabulary — searchquery says term, peerasks and the spreads say word, for one fact.
 func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
@@ -52,7 +51,7 @@ func (spread Spread) SpreadOverPeers(
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,
 		performedPeerMatchedSpreadFrom(
-			query.TermHashes(),
+			query.WordHashes(),
 			answeredAsks,
 			time.Since(startedAt),
 		),

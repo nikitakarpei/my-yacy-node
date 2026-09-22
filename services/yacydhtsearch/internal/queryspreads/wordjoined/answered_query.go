@@ -14,8 +14,8 @@ func answeredQueryFrom(
 	urlMetadataRound urlMetadataRound,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:         matchedAndHeldDocumentsRound.queryWords,
-		CompoundQueryWords: queryanswers.CompoundQueryWordsFrom(query.Terms),
+		QueryWords:    matchedAndHeldDocumentsRound.queryWords,
+		CompoundWords: query.CompoundWords,
 		FoundDocuments: foundDocumentsFrom(
 			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
 		),

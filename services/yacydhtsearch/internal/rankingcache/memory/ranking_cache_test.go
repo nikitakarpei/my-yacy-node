@@ -74,9 +74,9 @@ func TestTheOldestRankingGoesWhenTheCapacityIsFull(t *testing.T) {
 	t.Parallel()
 
 	cache := rankingcachememory.New(capacity, lifetime)
-	for _, term := range []string{"berlin", "hamburg", "bremen"} {
+	for _, word := range []string{"berlin", "hamburg", "bremen"} {
 		cache.StoreRanking(
-			t.Context(), searchquery.QueryFrom(term, ""), rankingOver(t, "https://a.example/"+term),
+			t.Context(), searchquery.QueryFrom(word, ""), rankingOver(t, "https://a.example/"+word),
 		)
 	}
 

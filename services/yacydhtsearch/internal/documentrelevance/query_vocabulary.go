@@ -2,18 +2,19 @@ package documentrelevance
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type queryVocabulary struct {
 	words         []yacymodel.Hash
-	compoundWords []queryanswers.CompoundQueryWord
+	compoundWords []searchquery.CompoundWord
 }
 
 func queryVocabularyOf(answers queryanswers.AnsweredQuery) queryVocabulary {
 	return queryVocabulary{
 		words:         answers.QueryWords,
-		compoundWords: answers.CompoundQueryWords,
+		compoundWords: answers.CompoundWords,
 	}
 }
 
@@ -40,11 +41,12 @@ func (vocabulary queryVocabulary) wordsSpelledAsOneAmong(
 ) map[yacymodel.Hash]struct{} {
 	heldWords := make(map[yacymodel.Hash]struct{}, len(vocabulary.words))
 	for _, compoundWord := range vocabulary.compoundWords {
-		if _, held := wordsOfTheText[compoundWord.Word]; !held {
+		if _, held := wordsOfTheText[compoundWord.Hash]; !held {
 			continue
 		}
-		heldWords[compoundWord.FirstWord] = struct{}{}
-		heldWords[compoundWord.SecondWord] = struct{}{}
+		for _, word := range compoundWord.WordHashes {
+			heldWords[word] = struct{}{}
+		}
 	}
 
 	return heldWords

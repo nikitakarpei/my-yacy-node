@@ -21,22 +21,48 @@ type queryWordOnReplica struct {
 }
 
 func queryWordsFewestDocumentsFirstFrom(
+	words []yacymodel.Hash,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	partitions yacymodel.DHTRingPartitions,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []queryWordAcrossReplicas {
-	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(chosenPeersPerQueryWord))
-	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
-		queryWordsAcrossReplicas = append(queryWordsAcrossReplicas, queryWordAcrossReplicas{
-			word: chosenPeersOfQueryWord.QueryWord,
-			queryWordOnReplicasPerPartition: queryWordOnReplicasPerPartitionFrom(
-				chosenPeersOfQueryWord, partitions, answeredAsks,
-			),
-		})
+	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(words))
+	for _, word := range words {
+		chosenPeersOfWord, _ := chosenPeersOf(word, chosenPeersPerQueryWord)
+		queryWordsAcrossReplicas = append(
+			queryWordsAcrossReplicas,
+			queryWordAcrossReplicasFrom(chosenPeersOfWord, partitions, answeredAsks),
+		)
 	}
 	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
 
 	return queryWordsAcrossReplicas
+}
+
+func chosenPeersOf(
+	word yacymodel.Hash,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+) (peerchoice.ChosenPeersOfQueryWord, bool) {
+	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
+		if chosenPeersOfQueryWord.QueryWord == word {
+			return chosenPeersOfQueryWord, true
+		}
+	}
+
+	return peerchoice.ChosenPeersOfQueryWord{QueryWord: word}, false
+}
+
+func queryWordAcrossReplicasFrom(
+	chosenPeersOfQueryWord peerchoice.ChosenPeersOfQueryWord,
+	partitions yacymodel.DHTRingPartitions,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+) queryWordAcrossReplicas {
+	return queryWordAcrossReplicas{
+		word: chosenPeersOfQueryWord.QueryWord,
+		queryWordOnReplicasPerPartition: queryWordOnReplicasPerPartitionFrom(
+			chosenPeersOfQueryWord, partitions, answeredAsks,
+		),
+	}
 }
 
 func queryWordOnReplicasPerPartitionFrom(

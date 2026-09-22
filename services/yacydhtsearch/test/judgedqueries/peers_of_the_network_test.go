@@ -36,6 +36,7 @@ const (
 	peerCallsInFlight              = 48
 	peerCallBudget                 = 5 * time.Second
 	peerItemsCeiling               = 10
+	compoundWordsCeiling           = 4
 	urlMetadataAskDocumentsCeiling = 1000
 	asksForCrossCheckedDocuments   = false
 	crossCheckedDocumentsCeiling   = 1000
@@ -172,7 +173,7 @@ func (spread spreadChoosingPeers) SpreadOverPeers(
 	askablePeers []peerdirectory.AskablePeer,
 ) queryanswers.AnsweredQuery {
 	chosenPeersPerQueryWord := spread.peerChoice.ChosenPeersPerQueryWordFor(
-		ctx, query.TermHashes(), askablePeers,
+		ctx, query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling), askablePeers,
 	)
 
 	return spread.byWordCount.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)

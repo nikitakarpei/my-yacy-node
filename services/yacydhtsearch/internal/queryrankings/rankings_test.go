@@ -196,7 +196,7 @@ func TestARankingThatIsNeverHeldSendsEveryQueryToTheNetwork(t *testing.T) {
 func TestAQueryWithoutAnIndexedTermIsReportedAndLeavesTheCacheEmpty(t *testing.T) {
 	t.Parallel()
 
-	network := &countedNetwork{outcome: networksearch.NoIndexedTermInQuery}
+	network := &countedNetwork{outcome: networksearch.NoIndexedWordInQuery}
 	reports := &recordedReports{}
 	rankings := queryrankings.New(newRememberedRankings(), network, reports)
 
@@ -205,7 +205,7 @@ func TestAQueryWithoutAnIndexedTermIsReportedAndLeavesTheCacheEmpty(t *testing.T
 
 	if reports.amountHoldingNoIndexedTerm != 2 || reports.amountAnsweredFromCache != 0 {
 		t.Fatalf(
-			"reported %d queries without an indexed term and %d from the cache, want two and none",
+			"reported %d queries without an indexed word and %d from the cache, want two and none",
 			reports.amountHoldingNoIndexedTerm,
 			reports.amountAnsweredFromCache,
 		)
@@ -299,7 +299,7 @@ func TestEveryObserverHearsAboutAQueryWithoutAnIndexedTerm(t *testing.T) {
 	first, second := &recordedReports{}, &recordedReports{}
 	rankings := queryrankings.New(
 		newRememberedRankings(),
-		&countedNetwork{outcome: networksearch.NoIndexedTermInQuery},
+		&countedNetwork{outcome: networksearch.NoIndexedWordInQuery},
 		queryrankings.QueryRankingObservers{first, second},
 	)
 

@@ -15,6 +15,7 @@ type matchedAndHeldDocumentsRound struct {
 	asks                           []peerasks.MatchedAndHeldDocumentsAsk
 	answeredAsks                   []peerasks.AnsweredMatchedAndHeldDocumentsAsk
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
+	compoundWords                  []compoundWordAcrossReplicas
 	amountOfPeersPerDocument       map[yacymodel.URLHash]int
 }
 
@@ -104,6 +105,11 @@ func (round matchedAndHeldDocumentsRound) documentsListedByPeersPerQueryWord() d
 	)
 	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
 		documentsListedByPeersPerQueryWord[queryWord.word] = queryWord.documentsListedByPeers()
+	}
+	for _, compoundWord := range round.compoundWords {
+		for _, word := range compoundWord.WordHashes {
+			documentsListedByPeersPerQueryWord.add(word, compoundWord.documentsListedByPeers())
+		}
 	}
 
 	return documentsListedByPeersPerQueryWord

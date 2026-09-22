@@ -370,7 +370,7 @@ func TestAMatchedDocumentsAskCarriesTheQueryAndTheNetworkTheServiceSearches(t *t
 
 	matchedDocumentsOf(t, &recordedOutcome{}, peerasks.MatchedDocumentsAsk{
 		Peer:          peerAt(address),
-		WordsToMatch:  query.TermHashes(),
+		WordsToMatch:  query.WordHashes(),
 		ExcludedWords: query.ExclusionHashes(),
 		Language:      query.Language,
 		ItemsCeiling:  10,
