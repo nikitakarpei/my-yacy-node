@@ -1,7 +1,7 @@
 // Package postinghandoff decides which postings this node may stop holding,
 // and deletes them. A posting may go once at least the redundancy in peers
 // strictly closer to its DHT position than this node hold a replica of it. A
-// node with handoff disabled keeps every posting.
+// node that keeps every posting hands off none.
 package postinghandoff
 
 import (
@@ -21,7 +21,6 @@ type Reachability interface {
 }
 
 type Config struct {
-	Enabled    bool
 	Partitions yacymodel.DHTRingPartitions
 	Self       yacymodel.Hash
 	Redundancy int
@@ -53,10 +52,6 @@ func (h *Handoff) HandOffPostingsHeldByCloserPeers(
 	tx *vault.Txn,
 	postings []yacymodel.RWIPosting,
 ) (int, error) {
-	if !h.config.Enabled {
-		return 0, nil
-	}
-
 	var handedOffPostings int
 	for _, posting := range postings {
 		heldByCloserPeers, err := h.isHeldByCloserPeers(ctx, tx, posting)

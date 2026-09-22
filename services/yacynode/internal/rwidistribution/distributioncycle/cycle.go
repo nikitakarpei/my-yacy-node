@@ -10,7 +10,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
@@ -34,6 +33,14 @@ type ReachablePeers interface {
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 }
 
+type PostingHandoff interface {
+	HandOffPostingsHeldByCloserPeers(
+		ctx context.Context,
+		tx *vault.Txn,
+		postings []yacymodel.RWIPosting,
+	) (int, error)
+}
+
 type Config struct {
 	OfferInterval     postingofferinterval.Bounds
 	PostingsPerBatch  int
@@ -45,7 +52,7 @@ type Config struct {
 type Cycle struct {
 	vault           *vault.Vault
 	postingOffers   *postingoffer.PostingOffers
-	handoff         *postinghandoff.Handoff
+	handoff         PostingHandoff
 	transfers       *postingtransfer.PostingTransfers
 	answers         OfferAnswers
 	replicas        *postingreplicas.Replicas
@@ -61,7 +68,7 @@ type Cycle struct {
 func New(
 	v *vault.Vault,
 	postingOffers *postingoffer.PostingOffers,
-	handoff *postinghandoff.Handoff,
+	handoff PostingHandoff,
 	transfers *postingtransfer.PostingTransfers,
 	answers OfferAnswers,
 	replicas *postingreplicas.Replicas,

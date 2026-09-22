@@ -112,7 +112,6 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		postings,
 		opts.reachability,
 		postinghandoff.Config{
-			Enabled:    true,
 			Partitions: partitions,
 			Self:       opts.self,
 			Redundancy: opts.redundancy,
