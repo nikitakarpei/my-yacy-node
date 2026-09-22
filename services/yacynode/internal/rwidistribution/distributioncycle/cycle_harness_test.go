@@ -111,9 +111,12 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		replicas,
 		postings,
 		opts.reachability,
-		partitions,
-		opts.self,
-		opts.redundancy,
+		postinghandoff.Config{
+			Enabled:    true,
+			Partitions: partitions,
+			Self:       opts.self,
+			Redundancy: opts.redundancy,
+		},
 	)
 
 	courier, metadataCourier, transfers := openTransfers(v, opts, observer)

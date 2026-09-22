@@ -343,9 +343,12 @@ func assembleNode(
 				postingReplicas,
 				postingPurger,
 				peerRoster,
-				dhtRingPartitions,
-				identity.Hash,
-				config.Distribution.Redundancy,
+				postinghandoff.Config{
+					Enabled:    config.Distribution.HandoffEnabled,
+					Partitions: dhtRingPartitions,
+					Self:       identity.Hash,
+					Redundancy: config.Distribution.Redundancy,
+				},
 			),
 			postingtransfer.New(
 				vault,

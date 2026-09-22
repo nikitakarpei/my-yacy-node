@@ -8,6 +8,7 @@ import (
 
 const (
 	EnvDistributionEnabled               = "YACY_DISTRIBUTION_ENABLED"
+	EnvDistributionHandoffEnabled        = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
 	EnvDistributionRedundancy            = "YACY_DISTRIBUTION_REDUNDANCY"
 	EnvDistributionPartitionExponent     = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
 	EnvDistributionPostingsPerBatch      = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
@@ -20,6 +21,7 @@ const (
 	EnvDistributionURLMetadataBatchSize  = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
 	DefaultDistributionEnabled               = false
+	DefaultDistributionHandoffEnabled        = true
 	DefaultDistributionRedundancy            = 3
 	DefaultDistributionPartitionExponent     = 4
 	DefaultDistributionPostingsPerBatch      = 1000
@@ -34,6 +36,7 @@ const (
 
 type DistributionConfig struct {
 	Enabled              bool
+	HandoffEnabled       bool
 	Redundancy           int
 	PartitionExponent    uint
 	PostingsPerBatch     int
@@ -45,8 +48,16 @@ type DistributionConfig struct {
 	URLMetadataBatchSize int
 }
 
+//nolint:funlen // one flat read per distribution setting
 func loadDistributionConfig(getenv func(string) string) (DistributionConfig, error) {
 	enabled, err := envconfig.Bool(getenv, EnvDistributionEnabled, DefaultDistributionEnabled)
+	if err != nil {
+		return DistributionConfig{}, err
+	}
+
+	handoffEnabled, err := envconfig.Bool(
+		getenv, EnvDistributionHandoffEnabled, DefaultDistributionHandoffEnabled,
+	)
 	if err != nil {
 		return DistributionConfig{}, err
 	}
@@ -114,6 +125,7 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 
 	return DistributionConfig{
 		Enabled:              enabled,
+		HandoffEnabled:       handoffEnabled,
 		Redundancy:           redundancy,
 		PartitionExponent:    uint(partitionExponent),
 		PostingsPerBatch:     postingsPerBatch,

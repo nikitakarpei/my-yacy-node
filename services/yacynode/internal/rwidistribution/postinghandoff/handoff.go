@@ -1,6 +1,7 @@
 // Package postinghandoff decides which postings this node may stop holding,
 // and deletes them. A posting may go once at least the redundancy in peers
-// strictly closer to its DHT position than this node hold a replica of it.
+// strictly closer to its DHT position than this node hold a replica of it. A
+// node with handoff disabled keeps every posting.
 package postinghandoff
 
 import (
@@ -19,31 +20,31 @@ type Reachability interface {
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 }
 
+type Config struct {
+	Enabled    bool
+	Partitions yacymodel.DHTRingPartitions
+	Self       yacymodel.Hash
+	Redundancy int
+}
+
 type Handoff struct {
 	replicas     *postingreplicas.Replicas
 	purger       rwipostings.PostingPurger
 	reachability Reachability
-	partitions   yacymodel.DHTRingPartitions
-	self         yacymodel.Hash
-	redundancy   int
+	config       Config
 }
 
-//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func New(
 	replicas *postingreplicas.Replicas,
 	purger rwipostings.PostingPurger,
 	reachability Reachability,
-	partitions yacymodel.DHTRingPartitions,
-	self yacymodel.Hash,
-	redundancy int,
+	config Config,
 ) *Handoff {
 	return &Handoff{
 		replicas:     replicas,
 		purger:       purger,
 		reachability: reachability,
-		partitions:   partitions,
-		self:         self,
-		redundancy:   redundancy,
+		config:       config,
 	}
 }
 
@@ -52,6 +53,10 @@ func (h *Handoff) HandOffPostingsHeldByCloserPeers(
 	tx *vault.Txn,
 	postings []yacymodel.RWIPosting,
 ) (int, error) {
+	if !h.config.Enabled {
+		return 0, nil
+	}
+
 	var handedOffPostings int
 	for _, posting := range postings {
 		heldByCloserPeers, err := h.isHeldByCloserPeers(ctx, tx, posting)
@@ -87,9 +92,9 @@ func (h *Handoff) isHeldByCloserPeers(
 		return false, fmt.Errorf("read replica ledger: %w", err)
 	}
 
-	position := yacymodel.DHTRingPositionOfPosting(posting, h.partitions)
+	position := yacymodel.DHTRingPositionOfPosting(posting, h.config.Partitions)
 
-	return len(h.holdersCloserThanThisNode(ctx, holders, position)) >= h.redundancy, nil
+	return len(h.holdersCloserThanThisNode(ctx, holders, position)) >= h.config.Redundancy, nil
 }
 
 func (h *Handoff) holdersCloserThanThisNode(
@@ -102,7 +107,7 @@ func (h *Handoff) holdersCloserThanThisNode(
 		if !h.reachability.IsReachable(ctx, peer) {
 			continue
 		}
-		if yacymodel.CloserToDHTRingPosition(peer, h.self, position) {
+		if yacymodel.CloserToDHTRingPosition(peer, h.config.Self, position) {
 			closerHolders = append(closerHolders, peer)
 		}
 	}

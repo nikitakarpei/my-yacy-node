@@ -1,7 +1,8 @@
 # RWI distribution
 
 This package offers this node's stored RWI postings to the peers the DHT makes
-responsible for them. It deletes a posting when enough closer peers hold it.
+responsible for them. With handoff enabled, it deletes a posting when enough
+closer peers hold it.
 
 ## Behavior
 

@@ -69,6 +69,9 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if !config.Identity.Capabilities.AcceptRemoteIndex {
 		t.Errorf("AcceptRemoteIndex = false, want the default")
 	}
+	if !config.Distribution.HandoffEnabled {
+		t.Errorf("HandoffEnabled = false, want the default")
+	}
 	if config.PageOfferIntake.Enabled() {
 		t.Errorf(
 			"PageOfferIntake = %+v, want disabled without a broker",
@@ -127,6 +130,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvPageOfferDurable:            "reached-durable",
 		nodeconfiguration.EnvPageOfferIntakeConcurrency:  "9",
 		nodeconfiguration.EnvAcceptRemoteIndex:           "false",
+		nodeconfiguration.EnvDistributionHandoffEnabled:  "false",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -165,6 +169,9 @@ func TestLoadReadsOverrides(t *testing.T) {
 	}
 	if config.Identity.Capabilities.AcceptRemoteIndex {
 		t.Errorf("AcceptRemoteIndex = true, want false")
+	}
+	if config.Distribution.HandoffEnabled {
+		t.Errorf("HandoffEnabled = true, want false")
 	}
 	if config.PageOfferIntake.PageOfferDurable != "reached-durable" ||
 		config.PageOfferIntake.PageOfferIntakeConcurrency != 9 {
