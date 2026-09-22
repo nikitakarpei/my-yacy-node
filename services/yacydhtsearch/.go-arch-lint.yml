@@ -137,6 +137,12 @@ components:
     in: internal/peerjudgements/**
   peerjudgementledgersmemory:
     in: internal/peerjudgementledgers/memory/**
+  peerjudgementledgersjetstream:
+    in: internal/peerjudgementledgers/jetstream/**
+  peerjudgementledgersobserversjetstreamapplog:
+    in: internal/peerjudgementledgersobservers/jetstream/applog/**
+  peerjudgementledgersobserversjetstreamprometheus:
+    in: internal/peerjudgementledgersobservers/jetstream/prometheus/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -261,6 +267,24 @@ deps:
     canUse:
       - yacymodel
       - hashicorplru
+    mayDependOn:
+      - peerjudgements
+  peerjudgementledgersjetstream:
+    canUse:
+      - yacymodel
+      - nats
+    mayDependOn:
+      - peerjudgements
+      - peerjudgementledgersmemory
+  peerjudgementledgersobserversjetstreamapplog:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerjudgements
+  peerjudgementledgersobserversjetstreamprometheus:
+    canUse:
+      - prometheus
+      - yacymodel
     mayDependOn:
       - peerjudgements
   peerchoice:
