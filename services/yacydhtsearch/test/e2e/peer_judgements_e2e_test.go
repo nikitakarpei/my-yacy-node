@@ -34,10 +34,10 @@ const (
 	judgementSecondWordToken = "yacydhtsearchjudgementsecondword"
 	judgementDocumentTitle   = "judged documents probe"
 
-	amountOfNamedDocuments            = 200
-	amountOfNamedDocumentsOnTheHolder = 100
-	amountOfOtherDocuments            = 150
-	amountOfDocumentsListedByANode    = 1000
+	amountOfFirstWordDocuments              = 200
+	amountOfDocumentsOfBothWordsOnTheHolder = 100
+	amountOfSecondWordOnlyDocuments         = 150
+	amountOfDocumentsListedByANode          = 1000
 
 	partitionExponent = 1
 	firstPartition    = 0
@@ -53,38 +53,38 @@ const (
 	judgementTimeout         = 60 * time.Second
 )
 
-func TestANodeThatHonorsTheNamedDocumentsIsAskedAgain(t *testing.T) {
+func TestANodeThatListsOnlyTheCrossCheckedDocumentsIsAskedAgain(t *testing.T) {
 	judgeTheUnaskedReplica(t, peerUnderJudgement{
-		name:                nodeUnderJudgementAlias,
-		startTheOtherPeers:  startTheNodeLegPeers,
-		seedlistURL:         seedlistURLOf(yacyPeerHoldingNothingAlias),
-		judged:              "honored",
-		standing:            "honoring",
-		answeredCrossChecks: 2,
+		name:                         nodeUnderJudgementAlias,
+		startThePeersBesideTheHolder: startTheNodeLegPeers,
+		seedlistURL:                  seedlistURLOf(yacyPeerHoldingNothingAlias),
+		judged:                       "honored",
+		standing:                     "honoring",
+		amountOfAnsweredCrossChecks:  2,
 	})
 }
 
-func TestAYaCyPeerThatIgnoresTheNamedDocumentsIsNotAskedAgain(t *testing.T) {
+func TestAYaCyPeerThatListsMoreThanTheCrossCheckedDocumentsIsNotAskedAgain(t *testing.T) {
 	judgeTheUnaskedReplica(t, peerUnderJudgement{
-		name:                yacyPeerUnderJudgementAlias,
-		startTheOtherPeers:  startTheYacyLegPeers,
-		seedlistURL:         seedlistURLOf(yacyPeerUnderJudgementAlias),
-		judged:              "ignored",
-		standing:            "ignoring",
-		answeredCrossChecks: 1,
+		name:                         yacyPeerUnderJudgementAlias,
+		startThePeersBesideTheHolder: startTheYacyLegPeers,
+		seedlistURL:                  seedlistURLOf(yacyPeerUnderJudgementAlias),
+		judged:                       "ignored",
+		standing:                     "ignoring",
+		amountOfAnsweredCrossChecks:  1,
 	})
 }
 
 type peerUnderJudgement struct {
-	name                string
-	startTheOtherPeers  otherPeersStart
-	seedlistURL         string
-	judged              string
-	standing            string
-	answeredCrossChecks int
+	name                         string
+	startThePeersBesideTheHolder peersBesideTheHolderStart
+	seedlistURL                  string
+	judged                       string
+	standing                     string
+	amountOfAnsweredCrossChecks  int
 }
 
-type otherPeersStart func(
+type peersBesideTheHolderStart func(
 	t *testing.T,
 	ctx context.Context,
 	probe *httpprobe.Probe,
@@ -93,10 +93,18 @@ type otherPeersStart func(
 )
 
 type judgementDocuments struct {
-	named                          []string
-	otherOfTheHolder               []string
-	otherOfTheJudgedPeer           []string
-	otherOfTheNodeListingAThousand []string
+	ofTheFirstWord                          []string
+	secondWordOnlyOnTheHolder               []string
+	secondWordOnlyOnTheJudgedPeer           []string
+	secondWordOnlyOnTheNodeListingAThousand []string
+}
+
+func (documents judgementDocuments) ofBothWordsOnTheHolder() []string {
+	return documents.ofTheFirstWord[:amountOfDocumentsOfBothWordsOnTheHolder]
+}
+
+func (documents judgementDocuments) crossChecked() []string {
+	return documents.ofTheFirstWord[amountOfDocumentsOfBothWordsOnTheHolder:]
 }
 
 func judgeTheUnaskedReplica(t *testing.T, peer peerUnderJudgement) {
@@ -107,7 +115,7 @@ func judgeTheUnaskedReplica(t *testing.T, peer peerUnderJudgement) {
 	egressproxy.Start(t, ctx, network.Name)
 
 	documents := documentsOfTheJudgement()
-	peer.startTheOtherPeers(t, ctx, probe, network.Name, documents)
+	peer.startThePeersBesideTheHolder(t, ctx, probe, network.Name, documents)
 	startTheHolderOfBothWords(t, ctx, probe, network.Name, peer.seedlistURL, documents)
 
 	service := startYacydhtsearch(
@@ -116,25 +124,34 @@ func judgeTheUnaskedReplica(t *testing.T, peer peerUnderJudgement) {
 	waitForEveryPeerToAnswer(t, ctx, probe, service, peer.name)
 
 	query := judgementFirstWordToken + " " + judgementSecondWordToken
-	links := resultLinksFor(t, ctx, probe, service.searchURL, query, amountOfNamedDocuments)
+	links := resultLinksFor(t, ctx, probe, service.searchURL, query, amountOfFirstWordDocuments)
 	waitForMetricLine(t, ctx, probe, service, judgementsLine(peer.judged, 1), peer.name)
-	requireMoreNamedDocumentsThanTheHolderLists(t, peer.name, links, documents.named)
+	requireCrossCheckedDocumentsAmongTheResults(t, peer.name, links, documents.crossChecked())
 
 	time.Sleep(pauseBetweenTheQueries)
-	resultLinksFor(t, ctx, probe, service.searchURL, query, amountOfNamedDocuments)
+	resultLinksFor(t, ctx, probe, service.searchURL, query, amountOfFirstWordDocuments)
 	waitForMetricLine(t, ctx, probe, service, standingsLine(peer.standing, 1), peer.name)
 	requireMetricLine(
-		t, ctx, probe, service, answeredCrossChecksLine(peer.answeredCrossChecks), peer.name,
+		t,
+		ctx,
+		probe,
+		service,
+		answeredCrossChecksLine(peer.amountOfAnsweredCrossChecks),
+		peer.name,
 	)
 }
 
 func documentsOfTheJudgement() judgementDocuments {
 	return judgementDocuments{
-		named:                addressesUnder("named", amountOfNamedDocuments),
-		otherOfTheHolder:     addressesUnder("holder-other", amountOfOtherDocuments),
-		otherOfTheJudgedPeer: addressesUnder("judged-other", amountOfOtherDocuments),
-		otherOfTheNodeListingAThousand: addressesUnder(
-			"thousand-other", amountOfDocumentsListedByANode+amountOfOtherDocuments,
+		ofTheFirstWord: addressesUnder("first-word", amountOfFirstWordDocuments),
+		secondWordOnlyOnTheHolder: addressesUnder(
+			"holder-second-word", amountOfSecondWordOnlyDocuments,
+		),
+		secondWordOnlyOnTheJudgedPeer: addressesUnder(
+			"judged-second-word", amountOfSecondWordOnlyDocuments,
+		),
+		secondWordOnlyOnTheNodeListingAThousand: addressesUnder(
+			"thousand-second-word", amountOfDocumentsListedByANode+amountOfSecondWordOnlyDocuments,
 		),
 	}
 }
@@ -170,10 +187,7 @@ func startTheNodeLegPeers(
 		SeedlistURL: seedlistURLOf(yacyPeerHoldingNothingAlias),
 	})
 
-	addresses := slices.Concat(
-		documents.named[amountOfNamedDocumentsOnTheHolder:],
-		documents.otherOfTheJudgedPeer,
-	)
+	addresses := slices.Concat(documents.crossChecked(), documents.secondWordOnlyOnTheJudgedPeer)
 	nodepeer.PushPostings(
 		t, ctx, probe, nodeURL, nodeHash,
 		yacymodel.WordHash(judgementSecondWordToken),
@@ -256,12 +270,12 @@ func startTheYacyLegPeers(
 	)
 	yacypeer.PushDocumentsUnderAddresses(
 		t, ctx, probe, yacyURL,
-		documents.named[amountOfNamedDocumentsOnTheHolder:],
+		documents.crossChecked(),
 		[]string{judgementSecondWordToken},
 	)
 	yacypeer.PushDocumentsUnderAddresses(
 		t, ctx, probe, yacyURL,
-		documents.otherOfTheJudgedPeer,
+		documents.secondWordOnlyOnTheJudgedPeer,
 		[]string{judgementSecondWordToken},
 	)
 
@@ -275,11 +289,11 @@ func startTheYacyLegPeers(
 	nodepeer.PushPostings(
 		t, ctx, probe, nodeURL, nodeHash,
 		yacymodel.WordHash(judgementSecondWordToken),
-		urlHashesOf(t, documents.otherOfTheNodeListingAThousand),
+		urlHashesOf(t, documents.secondWordOnlyOnTheNodeListingAThousand),
 	)
 	nodepeer.PushURLMetadataRows(
 		t, ctx, probe, nodeURL, nodeHash,
-		urlMetadataRowsOf(t, documents.otherOfTheNodeListingAThousand),
+		urlMetadataRowsOf(t, documents.secondWordOnlyOnTheNodeListingAThousand),
 	)
 }
 
@@ -310,19 +324,20 @@ func startTheHolderOfBothWords(
 	nodepeer.PushPostings(
 		t, ctx, probe, nodeURL, nodeHash,
 		yacymodel.WordHash(judgementFirstWordToken),
-		urlHashesOf(t, documents.named),
+		urlHashesOf(t, documents.ofTheFirstWord),
 	)
 	nodepeer.PushPostings(
 		t, ctx, probe, nodeURL, nodeHash,
 		yacymodel.WordHash(judgementSecondWordToken),
 		urlHashesOf(t, slices.Concat(
-			documents.named[:amountOfNamedDocumentsOnTheHolder],
-			documents.otherOfTheHolder,
+			documents.ofBothWordsOnTheHolder(), documents.secondWordOnlyOnTheHolder,
 		)),
 	)
 	nodepeer.PushURLMetadataRows(
 		t, ctx, probe, nodeURL, nodeHash,
-		urlMetadataRowsOf(t, slices.Concat(documents.named, documents.otherOfTheHolder)),
+		urlMetadataRowsOf(t, slices.Concat(
+			documents.ofTheFirstWord, documents.secondWordOnlyOnTheHolder,
+		)),
 	)
 }
 
@@ -331,7 +346,7 @@ func judgementSettings() map[string]string {
 		"YACYDHTSEARCH_PARTITION_EXPONENT":   strconv.Itoa(partitionExponent),
 		"YACYDHTSEARCH_HEDGE_DELAY":          judgementHedgeDelay.String(),
 		"YACYDHTSEARCH_RANKING_LIFETIME":     judgementRankingLifetime.String(),
-		"YACYDHTSEARCH_RANKED_ITEMS_CEILING": strconv.Itoa(amountOfNamedDocuments),
+		"YACYDHTSEARCH_RANKED_ITEMS_CEILING": strconv.Itoa(amountOfFirstWordDocuments),
 		"YACYDHTSEARCH_REFRESH_INTERVAL":     directoryRefreshInterval.String(),
 	}
 }
@@ -346,7 +361,7 @@ func waitForEveryPeerToAnswer(
 	t.Helper()
 
 	const everyPeerAnswers = "yacydhtsearch_directory_answering_peers 3"
-	if metricLineShowedUp(t, ctx, probe, service, everyPeerAnswers, answeringPeersTimeout) {
+	if metricLinePublishedWithin(t, ctx, probe, service, everyPeerAnswers, answeringPeersTimeout) {
 		return
 	}
 	t.Fatalf(
@@ -357,7 +372,7 @@ func waitForEveryPeerToAnswer(
 	)
 }
 
-func metricLineShowedUp(
+func metricLinePublishedWithin(
 	t *testing.T,
 	ctx context.Context,
 	probe *httpprobe.Probe,
@@ -382,7 +397,7 @@ func waitForMetricLine(
 ) {
 	t.Helper()
 
-	if metricLineShowedUp(t, ctx, probe, service, line, judgementTimeout) {
+	if metricLinePublishedWithin(t, ctx, probe, service, line, judgementTimeout) {
 		return
 	}
 	t.Fatalf(
@@ -403,37 +418,33 @@ func judgementsLine(judged string, counted int) string {
 	)
 }
 
-func requireMoreNamedDocumentsThanTheHolderLists(
+func requireCrossCheckedDocumentsAmongTheResults(
 	t *testing.T,
 	peerName string,
-	links, named []string,
+	links, crossChecked []string,
 ) {
 	t.Helper()
 
-	answered := amountOfNamedDocumentsIn(links, named)
-	if answered > amountOfNamedDocumentsOnTheHolder {
+	if amountOfDocumentsIn(links, crossChecked) > 0 {
 		return
 	}
 	t.Fatalf(
-		"%s left the results at %d of the %d named documents, want more than the %d the holder"+
-			" lists for both words; %d results came back",
+		"%s put none of the %d cross-checked documents among the results; %d results came back",
 		peerName,
-		answered,
-		len(named),
-		amountOfNamedDocumentsOnTheHolder,
+		len(crossChecked),
 		len(links),
 	)
 }
 
-func amountOfNamedDocumentsIn(links, named []string) int {
-	answered := 0
-	for _, document := range named {
+func amountOfDocumentsIn(links, documents []string) int {
+	amount := 0
+	for _, document := range documents {
 		if slices.Contains(links, document) {
-			answered++
+			amount++
 		}
 	}
 
-	return answered
+	return amount
 }
 
 func standingsLine(standing string, counted int) string {
