@@ -1,21 +1,24 @@
 package wordjoined
 
 import (
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
 type PerformedMatchedAndHeldDocumentsRound struct {
-	AmountOfQueryWords                                     int
-	AmountOfCompoundWords                                  int
-	AmountOfQueryWordsHeldByNoPeer                         int
-	AmountOfFullyListedQueryWords                          int
-	AmountOfPeersThatListedADocument                       int
-	LeadingQueryWordChoice                                 LeadingQueryWordChoice
-	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
-	AmountOfMatchedDocumentsAcrossAnswers                  int
-	AmountOfMatchedDocumentsWithAPosting                   int
-	AmountOfDocumentsHeldInEachAnswer                      []int
+	AmountOfQueryWords                                       int
+	AmountOfCompoundWords                                    int
+	AmountOfQueryWordsHeldByNoPeer                           int
+	AmountOfFullyListedQueryWords                            int
+	AmountOfPeersThatListedADocument                         int
+	LeadingQueryWordChoice                                   LeadingQueryWordChoice
+	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord   int
+	AmountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed int
+	AmountOfMatchedDocumentsAcrossAnswers                    int
+	AmountOfMatchedDocumentsWithAPosting                     int
+	AmountOfDocumentsHeldInEachAnswer                        []int
 }
 
 func performedMatchedAndHeldDocumentsRoundFrom(
@@ -37,6 +40,9 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
 		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documentsListedByPeers(),
+		),
+		AmountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed: amountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListedIn(
+			round,
 		),
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
@@ -90,6 +96,29 @@ func answeredAsksWithAListedDocument(
 	}
 
 	return keptAnsweredAsks
+}
+
+func amountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListedIn(
+	round matchedAndHeldDocumentsRound,
+) int {
+	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
+	amount := 0
+	for partition, wordPartition := range round.leadingQueryWord().wordPartitions() {
+		if wordPartition.isFullyListed() {
+			continue
+		}
+		if !slices.ContainsFunc(
+			queryWordsBesideTheLeadingQueryWord,
+			func(queryWord queryWordAcrossReplicas) bool {
+				return queryWord.wordPartitions()[partition].isFullyListed()
+			},
+		) {
+			continue
+		}
+		amount++
+	}
+
+	return amount
 }
 
 func amountOfMatchedDocumentsAcrossAnswers(

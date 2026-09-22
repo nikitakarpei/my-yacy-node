@@ -54,6 +54,10 @@ func attributesOfMatchedAndHeldDocumentsRound(
 			round.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord,
 		),
 		slog.Int(
+			"amountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed",
+			round.AmountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed,
+		),
+		slog.Int(
 			"amountOfMatchedDocumentsAcrossAnswers",
 			round.AmountOfMatchedDocumentsAcrossAnswers,
 		),

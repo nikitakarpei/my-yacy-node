@@ -2275,3 +2275,36 @@ func TestOnlyTheReplicasInAPartitionWithCandidatesAreLookedUp(t *testing.T) {
 		)
 	}
 }
+
+func TestAPartitionWhereOnlyAnotherQueryWordThanTheLeadingOneIsFullyListedIsReported(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	network := networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: addressesInPartition(t, 0, 1)},
+		"first-in-1":  {firstWord: addressesInPartition(t, 1, 2)},
+		"second-in-0": {secondWord: addressesInPartition(t, 0, 5)},
+		"second-in-1": {secondWord: addressesInPartition(t, 1, 1)},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"first-in-1": 0, "second-in-0": 0}
+	network.documentsHeldByEachPeer = map[string]int{"first-in-0": 1, "second-in-1": 1}
+	observer := &recordedSpreads{}
+
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsOfTheCrossCheck(),
+		observer,
+	)
+
+	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
+	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
+		matchedAndHeldDocumentsRound.AmountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed != 1 {
+		t.Fatalf(
+			"the spread reported %+v, want the rarest word leading and partition 1, where only "+
+				"the other word is fully listed",
+			matchedAndHeldDocumentsRound,
+		)
+	}
+}
