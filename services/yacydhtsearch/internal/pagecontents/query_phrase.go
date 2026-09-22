@@ -14,6 +14,10 @@ func queryPhrasesOf(queryWords []yacymodel.Hash) map[queryPhrase]struct{} {
 			firstWord:  queryWords[place],
 			secondWord: queryWords[place+1],
 		}] = struct{}{}
+		queryPhrases[queryPhrase{
+			firstWord:  queryWords[place+1],
+			secondWord: queryWords[place],
+		}] = struct{}{}
 	}
 
 	return queryPhrases

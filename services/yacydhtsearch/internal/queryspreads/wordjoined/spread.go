@@ -96,7 +96,9 @@ func (spread Spread) SpreadOverPeers(
 		time.Since(startedAt),
 	))
 
-	return answeredQueryFrom(matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound)
+	return answeredQueryFrom(
+		query, matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
+	)
 }
 
 func (spread Spread) askForMatchedAndHeldDocuments(

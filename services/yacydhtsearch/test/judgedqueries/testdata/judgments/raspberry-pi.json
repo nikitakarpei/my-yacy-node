@@ -314,6 +314,12 @@
       "grade": 2
     },
     {
+      "hash": "OePQFluwPzox",
+      "address": "https://www.raspberrypi.org/contact/",
+      "title": "Contact us – Raspberry Pi Foundation",
+      "grade": 1
+    },
+    {
       "hash": "g9DI2Kf4Pib5",
       "address": "https://code.visualstudio.com/docs/setup/raspberry-pi",
       "title": "Visual Studio Code on Raspberry Pi",
