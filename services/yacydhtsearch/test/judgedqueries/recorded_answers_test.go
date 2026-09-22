@@ -97,8 +97,8 @@ func (recorded recordedAnswers) answers() queryanswers.AnsweredQuery {
 	query := searchquery.QueryFrom(recorded.Query, "")
 
 	return queryanswers.AnsweredQuery{
-		QueryWords:                query.TermHashes(),
-		CompoundQueryWords:        queryanswers.CompoundQueryWordsFrom(query.Terms),
+		QueryWords:                query.WordHashes(),
+		CompoundWords:             query.CompoundWords,
 		FoundDocuments:            foundDocuments,
 		DocumentsHeldPerQueryWord: recorded.DocumentsHeldPerQueryWord,
 	}.WithReadPages(pageContentsPerDocument)

@@ -2,18 +2,20 @@ package documentrelevance_test
 
 import (
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-func answersOfCompoundQueryWords(
+func answersOfCompoundWords(
 	queryWords []string,
 	foundDocuments []foundDocument,
 	documentsHeldPerWord map[string]int,
 ) queryanswers.AnsweredQuery {
 	answers := answersHoldingDocumentsPerQueryWord(queryWords, foundDocuments, documentsHeldPerWord)
-	answers.CompoundQueryWords = queryanswers.CompoundQueryWordsFrom(queryWords)
+	answers.CompoundWords = searchquery.QueryFrom(strings.Join(queryWords, " "), "").CompoundWords
 
 	return answers
 }
@@ -21,7 +23,7 @@ func answersOfCompoundQueryWords(
 func TestTitleThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundQueryWords(
+	answers := answersOfCompoundWords(
 		[]string{"arch", "wiki"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://beside.example/").
@@ -43,7 +45,7 @@ func TestTitleThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 func TestSiteNameThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundQueryWords(
+	answers := answersOfCompoundWords(
 		[]string{"self", "hosted"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://hosted.example/").matchingWords("self", "hosted"),
@@ -61,7 +63,7 @@ func TestSiteNameThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 func TestTitleThatSpellsQueryWordsInTheOtherOrderAsOneHoldsNeither(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundQueryWords(
+	answers := answersOfCompoundWords(
 		[]string{"arch", "wiki"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://titled.example/").
@@ -83,7 +85,7 @@ func TestTitleThatSpellsQueryWordsInTheOtherOrderAsOneHoldsNeither(t *testing.T)
 func TestTitleThatHoldsTheWholeQueryOutweighsTwoTitlesOfHalfTheQueryEach(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundQueryWords(
+	answers := answersOfCompoundWords(
 		[]string{"linux", "kernel"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://half.example/").

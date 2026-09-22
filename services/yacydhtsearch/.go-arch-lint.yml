@@ -202,6 +202,7 @@ deps:
       - yacymodel
     mayDependOn:
       - queryanswers
+      - searchquery
   documentsorderingrelevance:
     canUse:
       - yacymodel
@@ -220,6 +221,7 @@ deps:
       - yacymodel
     mayDependOn:
       - pagecontents
+      - searchquery
   pagecontents:
     canUse:
       - uax29sentences

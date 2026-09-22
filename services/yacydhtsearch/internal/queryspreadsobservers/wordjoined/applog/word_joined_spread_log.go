@@ -35,6 +35,7 @@ func attributesOfMatchedAndHeldDocumentsRound(
 ) []slog.Attr {
 	return []slog.Attr{
 		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
+		slog.Int("amountOfCompoundWords", round.AmountOfCompoundWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
 		slog.Int("amountOfFullyListedQueryWords", round.AmountOfFullyListedQueryWords),
 		slog.Int("amountOfPeersThatListedADocument", round.AmountOfPeersThatListedADocument),

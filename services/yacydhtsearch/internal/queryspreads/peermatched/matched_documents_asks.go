@@ -16,7 +16,7 @@ func matchedDocumentsAsksFor(
 		asks = append(asks, peerasks.MatchedDocumentsAsk{
 			Peer:          chosenPeer.Peer,
 			Partition:     chosenPeer.Partition,
-			WordsToMatch:  query.TermHashes(),
+			WordsToMatch:  query.WordHashes(),
 			ExcludedWords: query.ExclusionHashes(),
 			Language:      query.Language,
 			ItemsCeiling:  peerItemsCeiling,

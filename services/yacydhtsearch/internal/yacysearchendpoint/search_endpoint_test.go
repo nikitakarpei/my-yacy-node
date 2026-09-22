@@ -109,8 +109,8 @@ func TestTheEndpointReadsTheQueryTheClientAskedFor(t *testing.T) {
 		yacysearchendpoint.Path+"?query=berlin&startRecord=20&maximumRecords=5&lr=lang_de",
 	)
 
-	if len(rankings.query.Terms) != 1 || rankings.query.Terms[0] != "berlin" {
-		t.Fatalf("Terms = %v, want berlin", rankings.query.Terms)
+	if len(rankings.query.Words) != 1 || rankings.query.Words[0] != "berlin" {
+		t.Fatalf("Words = %v, want berlin", rankings.query.Words)
 	}
 	if rankings.query.Language != "lang_de" {
 		t.Fatalf("Language = %q, want lang_de", rankings.query.Language)

@@ -58,7 +58,7 @@ func (rankings Rankings) RankingFor(
 
 	ranking, outcome := rankings.network.Search(ctx, query)
 	switch outcome {
-	case networksearch.NoIndexedTermInQuery:
+	case networksearch.NoIndexedWordInQuery:
 		rankings.observer.QueryHoldsNoIndexedTerm(ctx, query)
 	case networksearch.NoPeerToAsk:
 		rankings.observer.QueryReachedNoPeer(ctx, query)

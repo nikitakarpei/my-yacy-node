@@ -1,6 +1,6 @@
 // Package searchquery holds the words a client asked for outside the stopwords
-// of their language, the word hashes that address them on the DHT ring, and the
-// spelling a held ranking answers to.
+// of their language, their compound words spelled as one, the word hashes that
+// address them on the DHT ring, and the spelling a held ranking answers to.
 package searchquery
 
 import (
@@ -11,31 +11,35 @@ import (
 )
 
 type Query struct {
-	Terms      []string
-	Exclusions []string
-	Language   string
+	Words         []string
+	CompoundWords []CompoundWord
+	Exclusions    []string
+	Language      string
 }
 
 func QueryFrom(raw, language string) Query {
-	var terms, exclusions []string
-	for _, token := range tokensOf(raw) {
+	tokens := tokensOf(raw)
+	var words, exclusions []string
+	for _, token := range tokens {
 		if token.excluded {
 			exclusions = appendUnseen(exclusions, token.word)
 			continue
 		}
-		terms = appendUnseen(terms, token.word)
+		words = appendUnseen(words, token.word)
 	}
+	contentWords := stopwords.ContentWordsOf(words, language)
 
 	return Query{
-		Terms:      stopwords.ContentWordsOf(terms, language),
-		Exclusions: exclusions,
-		Language:   language,
+		Words:         contentWords,
+		CompoundWords: compoundWordsOf(tokens, contentWords),
+		Exclusions:    exclusions,
+		Language:      language,
 	}
 }
 
 func (q Query) String() string {
-	spelled := make([]string, 0, len(q.Terms)+len(q.Exclusions)+1)
-	spelled = append(spelled, q.Terms...)
+	spelled := make([]string, 0, len(q.Words)+len(q.Exclusions)+1)
+	spelled = append(spelled, q.Words...)
 	for _, exclusion := range q.Exclusions {
 		spelled = append(spelled, "-"+exclusion)
 	}
@@ -46,8 +50,17 @@ func (q Query) String() string {
 	return strings.Join(spelled, " ")
 }
 
-func (q Query) TermHashes() []yacymodel.Hash {
-	return hashesOf(q.Terms)
+func (q Query) WordHashes() []yacymodel.Hash {
+	return hashesOf(q.Words)
+}
+
+func (q Query) HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling int) []yacymodel.Hash {
+	hashes := q.WordHashes()
+	for _, compound := range q.CompoundWords[:min(max(compoundWordsCeiling, 0), len(q.CompoundWords))] {
+		hashes = append(hashes, compound.Hash)
+	}
+
+	return hashes
 }
 
 func (q Query) ExclusionHashes() []yacymodel.Hash {
