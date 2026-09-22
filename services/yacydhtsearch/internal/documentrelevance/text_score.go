@@ -20,7 +20,7 @@ type textScorer struct {
 func textScorerFrom(statistics answersStatistics) textScorer {
 	return textScorer{
 		queryWordRarities:    statistics.queryWordRarities,
-		queryWords:           statistics.queryWords,
+		queryWords:           statistics.queryVocabulary.words,
 		averageAmountOfWords: statistics.documentAverages.averageAmountOfWords,
 	}
 }

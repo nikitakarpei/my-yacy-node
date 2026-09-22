@@ -18,11 +18,11 @@ const (
 )
 
 type namedSiteEntryScorer struct {
-	queryWords []yacymodel.Hash
+	queryVocabulary queryVocabulary
 }
 
 func namedSiteEntryScorerFrom(statistics answersStatistics) namedSiteEntryScorer {
-	return namedSiteEntryScorer{queryWords: statistics.queryWords}
+	return namedSiteEntryScorer{queryVocabulary: statistics.queryVocabulary}
 }
 
 func (scorer namedSiteEntryScorer) scoreOf(document queryanswers.FoundDocument) float64 {
@@ -30,16 +30,17 @@ func (scorer namedSiteEntryScorer) scoreOf(document queryanswers.FoundDocument) 
 	if err != nil {
 		return namedSiteEntryScoreOfMalformedAddress
 	}
-	wordsInSiteName := wordsInSiteNameOf(address.Hostname())
-	amountOfQueryWordsInSiteName := scorer.amountOfQueryWordsAmong(wordsInSiteName)
+	siteName := siteNameOf(address.Hostname())
+	amountOfWordsInSiteName := len(yacymodel.WordsIn(siteName))
+	amountOfQueryWordsInSiteName := len(scorer.queryVocabulary.wordsIn(siteName))
 	if amountOfQueryWordsInSiteName == 0 {
 		return namedSiteEntryScoreOfOtherSite
 	}
 
 	shareOfSiteNameTheQueryHolds := float64(amountOfQueryWordsInSiteName) /
-		float64(len(wordsInSiteName))
+		float64(amountOfWordsInSiteName)
 	shareOfQueryTheSiteNameHolds := float64(amountOfQueryWordsInSiteName) /
-		float64(len(scorer.queryWords))
+		float64(len(scorer.queryVocabulary.words))
 	amountOfStepsToDocument := amountOfStepsToSiteEntry +
 		amountOfPathSegmentsOf(address.Path)
 
@@ -47,27 +48,13 @@ func (scorer namedSiteEntryScorer) scoreOf(document queryanswers.FoundDocument) 
 		float64(amountOfStepsToDocument)
 }
 
-func wordsInSiteNameOf(host string) map[yacymodel.Hash]struct{} {
+func siteNameOf(host string) string {
 	siteName := strings.TrimPrefix(host, prefixOfWorldWideWebHost)
 	if placeOfLastDot := strings.LastIndex(siteName, "."); placeOfLastDot >= 0 {
 		siteName = siteName[:placeOfLastDot]
 	}
 
-	return wordsIn(siteName)
-}
-
-func (scorer namedSiteEntryScorer) amountOfQueryWordsAmong(
-	words map[yacymodel.Hash]struct{},
-) int {
-	amountOfQueryWords := 0
-	for _, queryWord := range scorer.queryWords {
-		if _, amongWords := words[queryWord]; !amongWords {
-			continue
-		}
-		amountOfQueryWords++
-	}
-
-	return amountOfQueryWords
+	return siteName
 }
 
 func amountOfPathSegmentsOf(path string) int {

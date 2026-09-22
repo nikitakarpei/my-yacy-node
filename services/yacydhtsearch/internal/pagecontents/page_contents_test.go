@@ -46,7 +46,7 @@ func TestTheTextGivesTheHitsOfEachQueryWordAndNoOtherWord(t *testing.T) {
 	}
 }
 
-func TestTheTextGivesTheHitsOfEachQueryPhraseInTheOrderOfTheQuery(t *testing.T) {
+func TestTheTextGivesTheHitsOfEachQueryPhraseInEitherOrder(t *testing.T) {
 	t.Parallel()
 
 	inOrder := pagecontents.PageContentsFrom(
@@ -67,10 +67,10 @@ func TestTheTextGivesTheHitsOfEachQueryPhraseInTheOrderOfTheQuery(t *testing.T) 
 		"", textOfThePage, pagecontents.LinkCounts{}, wordsOf("berlin"), snippetLengthCeiling,
 	)
 
-	if inOrder.QueryPhraseHits != 2 || inTheOtherOrder.QueryPhraseHits != 0 ||
+	if inOrder.QueryPhraseHits != 2 || inTheOtherOrder.QueryPhraseHits != 2 ||
 		ofOneWord.QueryPhraseHits != 0 {
 		t.Fatalf(
-			"the text gives %d, %d and %d query phrase hits, want 2, 0 and 0",
+			"the text gives %d, %d and %d query phrase hits, want 2, 2 and 0",
 			inOrder.QueryPhraseHits, inTheOtherOrder.QueryPhraseHits, ofOneWord.QueryPhraseHits,
 		)
 	}

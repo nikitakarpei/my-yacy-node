@@ -3,7 +3,7 @@
 // text holds each query word and each query phrase, how many words it holds,
 // the snippet, which is the run of sentences that answers the query best, and
 // how many links of its own site and of other sites it holds. A query phrase is
-// two words the query puts side by side.
+// two words the query puts side by side, in either order.
 package pagecontents
 
 import (
