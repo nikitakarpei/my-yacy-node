@@ -1,0 +1,305 @@
+{
+  "query": "home assistant",
+  "judgedDocuments": [
+    {
+      "hash": "G34vBdDZkUL4",
+      "address": "https://www.cnet.com/home/security/best-outdoor-home-security-cameras/",
+      "title": "The Best Outdoor Home Security Cameras of 2026, Backed by Over 200 Hours of Testing - CNET",
+      "grade": 0
+    },
+    {
+      "hash": "GoHeCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_York_Yankees",
+      "title": "New York Yankees - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "m9RK5zSBCthw",
+      "address": "https://publishing.cdlib.org/ucpressebooks/public/book/technology-as-freedom-the-new-deal-and-the-electrical-modernization-of-the-american-home.html",
+      "title": "Technology as Freedom: The New Deal and the Electrical Modernization of the American Home | UC Press E-Books Collection Archive, 1982-2004",
+      "grade": 0
+    },
+    {
+      "hash": "ePvYx_A4psi4",
+      "address": "https://www.theverge.com/2017/10/4/16405218/new-google-home-mini-max-speakers-photos-video-hands-on",
+      "title": "First look at Google Home Mini and Max | The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "edov_vZEJIoy",
+      "address": "https://www.home-assistant.io/integrations/motionblinds_ble/",
+      "title": "Motionblinds Bluetooth - Home Assistant",
+      "grade": 1
+    },
+    {
+      "hash": "OqeNklZEJIoy",
+      "address": "https://www.home-assistant.io/",
+      "title": "Home Assistant",
+      "grade": 2
+    },
+    {
+      "hash": "TUv3KlA4psi4",
+      "address": "https://www.theverge.com/smart-home-review",
+      "title": "Smart Home Reviews | The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "x4v5Ld75SICx",
+      "address": "https://dictionary.cambridge.org/dictionary/english/home-office",
+      "title": "HOME OFFICE | English meaning - Cambridge Dictionary",
+      "grade": 0
+    },
+    {
+      "hash": "2gmdYIdw03b5",
+      "address": "https://forums.macrumors.com/forums/apple-tv-and-home-theater.100/",
+      "title": "Apple TV and Home Theater | MacRumors Forums",
+      "grade": 0
+    },
+    {
+      "hash": "0mI87jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_York_City",
+      "title": "New York City - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "drCk7l-Ggp25",
+      "address": "https://www.howtogeek.com/how-i-turned-my-echo-show-into-a-home-assistant-control-panel/",
+      "title": "How I turned my Echo Show into a Home Assistant control panel",
+      "grade": 1
+    },
+    {
+      "hash": "KG0LXta0g2fy",
+      "address": "https://alerts.home-assistant.io/",
+      "title": "Alerts | Home Assistant Alerts",
+      "grade": 1
+    },
+    {
+      "hash": "EtDDMX6MaqVw",
+      "address": "https://www.nber.org/career-resources/research-assistant-positions-nber",
+      "title": "Research Assistant Positions – at NBER | NBER",
+      "grade": 0
+    },
+    {
+      "hash": "BXWXzbNRdYbY",
+      "address": "http://assistantvillageidiot.blogspot.com/",
+      "title": "Assistant Village Idiot",
+      "grade": 0
+    },
+    {
+      "hash": "jXaa-yNcDvjw",
+      "address": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0250952",
+      "title": "ai-corona: Radiologist-assistant deep learning framework for COVID-19 diagnosis in chest CT scans | PLOS One",
+      "grade": 0
+    },
+    {
+      "hash": "v0WUKlrM6ey6",
+      "address": "https://www.xda-developers.com/swapped-google-nest-mini-open-source-voice-assistant/",
+      "title": "I swapped my Google Nest Mini for a self-hosted open-source voice assistant, and it’s brilliant",
+      "grade": 1
+    },
+    {
+      "hash": "0n-6-s6UwhOw",
+      "address": "https://openclaw.ai/",
+      "title": "OpenClaw — Open-Source AI Assistant",
+      "grade": 0
+    },
+    {
+      "hash": "xHXurbSIk8o4",
+      "address": "https://support.apple.com/en-ca/102613",
+      "title": "Transfer to a new Mac with Migration Assistant - Apple Support (CA)",
+      "grade": 0
+    },
+    {
+      "hash": "5ylTNY0-FOT4",
+      "address": "https://au.indeed.com/hire/job-description/administration-assistant",
+      "title": "Administration Assistant Job Description [Updated 2026]",
+      "grade": 0
+    },
+    {
+      "hash": "XknMYf-37W64",
+      "address": "https://assistant.google.com/platforms/speakers/",
+      "title": "Google Assistant is ready and built-in to specific speakers",
+      "grade": 0
+    },
+    {
+      "hash": "V58gSXWmNe_4",
+      "address": "https://safety.google/products/assistant/",
+      "title": "Protecting Your Google Assistant Privacy - Google Safety Center",
+      "grade": 0
+    },
+    {
+      "hash": "H2Af3leokJt6",
+      "address": "https://www.boxofficemojo.com/?ref_=amzn_nav_ftr",
+      "title": "Home - Box Office Mojo",
+      "grade": 0
+    },
+    {
+      "hash": "N7OEAlrpYpm4",
+      "address": "https://www.mactech.com/",
+      "title": "Home - MacTech.com",
+      "grade": 0
+    },
+    {
+      "hash": "HJvEFx4LMaSg",
+      "address": "https://www.bbc.co.uk/news",
+      "title": "Home - BBC News",
+      "grade": 0
+    },
+    {
+      "hash": "BKbrzlzEorCw",
+      "address": "https://www.nasa.gov/intelligent-systems-division/",
+      "title": "NASA Ames Intelligent Systems Division home",
+      "grade": 0
+    },
+    {
+      "hash": "McotzsNdsnRy",
+      "address": "https://flhealthsource.gov/",
+      "title": "Home - FL HealthSource • Health Care Resources for Consumers \u0026 Providers",
+      "grade": 0
+    },
+    {
+      "hash": "Nz94yQIpBInR",
+      "address": "http://www.bilderberg.org/sis.htm",
+      "title": "The Secret State: MI5 (Home Office/MoD), The Security Service and MI6 (Foreign Office/MoD), GCHQ signals intelligence, The Secret Intelligence Service",
+      "grade": 0
+    },
+    {
+      "hash": "my4wGlO2YS67",
+      "address": "https://www.jetbrainsmerchandise.com/?utm_campaign=link\u0026utm_medium=banner\u0026utm_source=blog",
+      "title": "Home — JetBrains Merchandise Store",
+      "grade": 0
+    },
+    {
+      "hash": "l9PrCzg21Cuy",
+      "address": "https://jobs.clevelandclinic.org/",
+      "title": "Careers at Cleveland Clinic – Home Page",
+      "grade": 0
+    },
+    {
+      "hash": "udLQZ-22Oo9w",
+      "address": "https://khs.fcusd.org/",
+      "title": "Home - Kinney High School",
+      "grade": 0
+    },
+    {
+      "hash": "18rdOVHXXrs7",
+      "address": "https://asuperiormechanical.com/service-areas/bay-county/lynn-haven/whole-home-backup-solutions-lhbcfl",
+      "title": "Whole Home Backup Solutions in Lynn Haven, FL",
+      "grade": 0
+    },
+    {
+      "hash": "LSF1HlJOKvKw",
+      "address": "https://med.stanford.edu/",
+      "title": "Home | Stanford Medicine",
+      "grade": 0
+    },
+    {
+      "hash": "bGMW5OlNvrB5",
+      "address": "https://www.songfacts.com/facts/lynyrd-skynyrd/sweet-home-alabama",
+      "title": "Sweet Home Alabama by Lynyrd Skynyrd - Songfacts",
+      "grade": 0
+    },
+    {
+      "hash": "g8Xb_tT4jGzw",
+      "address": "https://wre.fcusd.org/",
+      "title": "Home - White Rock Elementary",
+      "grade": 0
+    },
+    {
+      "hash": "C9IcLyS6MKD4",
+      "address": "https://github.com/openclaw/openclaw",
+      "title": "GitHub - openclaw/openclaw: The AI that really does things. Any OS. Any Platform. The lobster way. 🦞 · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "DNkNqgb8iyg4",
+      "address": "https://cloud.google.com/products/gemini/databases",
+      "title": "AI-powered assistance across your database journey | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "Bn9kqES6MKD4",
+      "address": "https://github.com/serhanekicii/openclaw-helm",
+      "title": "GitHub - serhanekicii/openclaw-helm: 🦞 Helm chart for OpenClaw - personal AI assistant · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "CrFFnwSMo4M4",
+      "address": "https://www.zdnet.com/article/i-tested-all-of-edges-new-ai-browser-features-and-it-felt-like-having-a-personal-assistant/",
+      "title": "I tested all of Edge's new AI browser features - and it felt like having a personal assistant - ZDNET",
+      "grade": 0
+    },
+    {
+      "hash": "suIaalFRxQZx",
+      "address": "https://www.silurians.org/",
+      "title": "Home Page of the Silurians Press Club",
+      "grade": 0
+    },
+    {
+      "hash": "2m-jGo5dlbp4",
+      "address": "https://mashable.com/roundup/best-skincare-tech",
+      "title": "The best at-home skincare tools for your 2023 skincare routine | Mashable",
+      "grade": 0
+    },
+    {
+      "hash": "j9jtXXUTggy4",
+      "address": "https://pilates-workout-at-home.en.uptodown.com/android",
+      "title": "Pilates Workout at Home for Android - Download the APK from Uptodown",
+      "grade": 0
+    },
+    {
+      "hash": "dSnI8daaTUr5",
+      "address": "https://www.techradar.com/home/robot-vacuums/best-robot-vacuum",
+      "title": "Best robot vacuum 2026 | TechRadar",
+      "grade": 0
+    },
+    {
+      "hash": "ff3NpMZEJIoy",
+      "address": "https://www.home-assistant.io/actions/huawei_lte.resume_integration/",
+      "title": "Resume integration - Home Assistant",
+      "grade": 1
+    },
+    {
+      "hash": "dU5KRvZEJIoy",
+      "address": "https://www.home-assistant.io/integrations/dormakaba_dkey/",
+      "title": "Dormakaba dKey - Home Assistant",
+      "grade": 1
+    },
+    {
+      "hash": "dfkSl_A4psi4",
+      "address": "https://www.theverge.com/2017/4/10/15242636/google-assistant-shopping-list-update-home-express",
+      "title": "Google Assistant’s shopping lists are moving to the Home app today | The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "e4IirMZEJIoy",
+      "address": "https://www.home-assistant.io/actions/teslemetry.set_scheduled_departure/",
+      "title": "Set scheduled departure - Home Assistant",
+      "grade": 1
+    },
+    {
+      "hash": "eiADdMZEJIoy",
+      "address": "https://www.home-assistant.io/actions/homematic.set_device_value/",
+      "title": "Set device value - Home Assistant",
+      "grade": 1
+    },
+    {
+      "hash": "QAs9gKA4psi4",
+      "address": "https://www.theverge.com/2019/1/18/18187992/microsoft-cortana-satya-nadella-alexa-google-assistant-competitor",
+      "title": "Microsoft no longer sees Cortana as an Alexa or Google Assistant competitor | The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "Y87B2yNcDvjw",
+      "address": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0256767",
+      "title": "Interpreting COVID-19 deaths among nursing home residents in the US: The changing role of facility quality over time | PLOS One",
+      "grade": 0
+    },
+    {
+      "hash": "UJcTLPrgKig4",
+      "address": "https://developers.facebook.com/blog/post/2026/08/04/meta-ai-developer-assistant-now-available/",
+      "title": "Meta AI Developer Assistant Now Available for Developer Support",
+      "grade": 0
+    }
+  ]
+}

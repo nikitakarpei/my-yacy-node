@@ -1,0 +1,348 @@
+{
+  "query": "next cloud",
+  "judgedDocuments": [
+    {
+      "hash": "3K384zBjoTr5",
+      "address": "https://techcrunch.com/2026/08/17/wordpress-com-targets-the-next-generation-of-web-creators-with-a-free-student-plan/",
+      "title": "WordPress.com targets the next generation of web creators with a free student plan | TechCrunch",
+      "grade": 0
+    },
+    {
+      "hash": "1njfJlQw_dt5",
+      "address": "https://www.cloudflare.com/",
+      "title": "Cloudflare: Build for the agent era",
+      "grade": 0
+    },
+    {
+      "hash": "zdJXfCAzeMd4",
+      "address": "https://world.utils.com/",
+      "title": "World Clocks - Configurable Analog \u0026 Digital Time Zone Dashboard - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "153xoj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/The_West_Wing",
+      "title": "The West Wing - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "grade": 0
+    },
+    {
+      "hash": "3Ax04qWOMPlw",
+      "address": "https://www.theage.com.au/",
+      "title": "Latest \u0026 Breaking News Melbourne, Victoria | The Age",
+      "grade": 0
+    },
+    {
+      "hash": "6mVFjsl57iew",
+      "address": "https://nextjs.org/",
+      "title": "Next.js by Vercel - The React Framework",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "2Zo4e4Va7HWA",
+      "address": "http://www.theleeway.co.uk/",
+      "title": "Discover Exciting Adventures in Online Gaming",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "3jF9E3khua85",
+      "address": "https://jwupdate.wordpress.com/",
+      "title": "JWUpdate | JW Current Apostate Status and Final Temple Judgment – Web Witnessing Record; The Bethel Apostasy is Prophecy",
+      "grade": 0
+    },
+    {
+      "hash": "gmQ9QlPEHVf4",
+      "address": "https://www.ssbwiki.com/Cloud",
+      "title": "Cloud Strife - SmashWiki, the Super Smash Bros. wiki",
+      "grade": 0
+    },
+    {
+      "hash": "kISCflEwJpd6",
+      "address": "https://www.elegantthemes.com/divi-cloud/?sale=anniversary-2026",
+      "title": "Divi Cloud - Cloud Storage For Your WordPress Website",
+      "grade": 0
+    },
+    {
+      "hash": "JlZ-_3WLiCHw",
+      "address": "https://dwaves.org/2020/07/15/killer-drones-and-robots-ai-autonomous-weapons-what-is-the-jedi-dod-cloud-project/",
+      "title": "» killer drones and robots – AI autonomous weapons – what is the JEDI DoD cloud project? | dwaves.de",
+      "grade": 0
+    },
+    {
+      "hash": "K6ildMhTaKi5",
+      "address": "https://www.datadoghq.com/product/cloud-security/",
+      "title": "Cloud Security | Datadog",
+      "grade": 0
+    },
+    {
+      "hash": "KxvD8yXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/admin/overview/accessing-compliance-reports-for-your-enterprise",
+      "title": "Accessing compliance reports for your enterprise - GitHub Enterprise Cloud Docs",
+      "grade": 0
+    },
+    {
+      "hash": "taXQMyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/code-security/concepts/code-quality/code-quality",
+      "title": "GitHub Code Quality - GitHub Enterprise Cloud Docs",
+      "grade": 0
+    },
+    {
+      "hash": "AviPTkb8iyg4",
+      "address": "https://cloud.google.com/terms/cloud-privacy-notice?hl=en",
+      "title": "Google Cloud Privacy Notice",
+      "grade": 0
+    },
+    {
+      "hash": "UFid6gb8iyg4",
+      "address": "https://cloud.google.com/products/compute",
+      "title": "Compute Engine | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "7J1GuyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/code-security/responsible-use/security-and-quality-ai-features",
+      "title": "Application card: GitHub security and quality AI features - GitHub Enterprise Cloud Docs",
+      "grade": 0
+    },
+    {
+      "hash": "VRb3OH9Ojva4",
+      "address": "https://docs.docker.com/build-cloud/release-notes/",
+      "title": "Docker Build Cloud release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "d-AX8lPEHVf4",
+      "address": "https://www.ssbwiki.com/Cloud_(SSBU)",
+      "title": "Cloud (SSBU) - SmashWiki, the Super Smash Bros. wiki",
+      "grade": 0
+    },
+    {
+      "hash": "XP3J1zjzqjn4",
+      "address": "https://www.xbox.com/en-US/cloud-gaming?xr=shellnav",
+      "title": "XBOX Cloud Gaming | XBOX",
+      "grade": 0
+    },
+    {
+      "hash": "D0j2PyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/migrations/overview/planning-your-migration-to-github",
+      "title": "Planning your migration to GitHub - GitHub Enterprise Cloud Docs",
+      "grade": 0
+    },
+    {
+      "hash": "FOJL92c9duY5",
+      "address": "https://azure.microsoft.com/en-ca",
+      "title": "Cloud Computing Services | Microsoft Azure",
+      "grade": 0
+    },
+    {
+      "hash": "jjOvryXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/organizations/managing-organization-settings/verifying-or-approving-a-domain-for-your-organization",
+      "title": "Verifying or approving a domain for your organization - GitHub Enterprise Cloud Docs",
+      "grade": 0
+    },
+    {
+      "hash": "vMBMiPfrT8l4",
+      "address": "https://genshin-impact-cloud.en.uptodown.com/windows",
+      "title": "Genshin Impact Cloud for Windows - Download it from Uptodown for free",
+      "grade": 0
+    },
+    {
+      "hash": "I5uYzUb8iyg4",
+      "address": "https://cloud.google.com/blog",
+      "title": "Google Cloud Blog | News, Features and Announcements",
+      "grade": 0
+    },
+    {
+      "hash": "31Z_UgMBI3R4",
+      "address": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/",
+      "title": "Google Cloud news and updates | Google Blog",
+      "grade": 0
+    },
+    {
+      "hash": "691Zi5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/solutions/adaptive-cloud/",
+      "title": "Azure Adaptive Cloud Solutions | Microsoft Azure",
+      "grade": 0
+    },
+    {
+      "hash": "nrHrKl4eGBC5",
+      "address": "https://www.digitalocean.com/",
+      "title": "AI-Native Cloud | DigitalOcean",
+      "grade": 0
+    },
+    {
+      "hash": "yYvRDMhTaKi5",
+      "address": "https://www.datadoghq.com/product/storage-management/",
+      "title": "Storage Management | Cloud Object Storage Monitoring | Datadog",
+      "grade": 0
+    },
+    {
+      "hash": "AsQNGMhTaKi5",
+      "address": "https://www.datadoghq.com/product/byoc-logs/",
+      "title": "Bring Your Own Cloud Log Management | Datadog",
+      "grade": 0
+    },
+    {
+      "hash": "44PVEyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-saml-for-enterprise-iam",
+      "title": "About SAML for enterprise IAM - GitHub Enterprise Cloud Docs",
+      "grade": 0
+    },
+    {
+      "hash": "FV5CesK_Qby4",
+      "address": "https://cyfuture.cloud/",
+      "title": "Cloud Hosting Platform | Fast, Scalable \u0026 Secure Cloud Infrastructure",
+      "grade": 0
+    },
+    {
+      "hash": "Lj9Sl2c9duY5",
+      "address": "https://azure.microsoft.com/en-us",
+      "title": "Cloud Computing Services | Microsoft Azure",
+      "grade": 0
+    },
+    {
+      "hash": "lPhpqL8hxo35",
+      "address": "https://www.microsoft.com/en-us/microsoft-products-and-apps",
+      "title": "Explore Microsoft apps, products, and devices – AI apps, cloud security, and more | Microsoft",
+      "grade": 0
+    },
+    {
+      "hash": "wrEy4L8hxo35",
+      "address": "https://www.microsoft.com/en-us/windows-365",
+      "title": "Windows 365: Secure Cloud PC | Microsoft",
+      "grade": 0
+    },
+    {
+      "hash": "NSe9WL8hxo35",
+      "address": "https://www.microsoft.com/en-us/security",
+      "title": "Cloud Security Solutions | Microsoft Security",
+      "grade": 0
+    },
+    {
+      "hash": "sSLvRQRul9D4",
+      "address": "https://aws.amazon.com/",
+      "title": "Cloud Computing Services - Amazon Web Services (AWS)",
+      "grade": 0
+    },
+    {
+      "hash": "8NEnslqYg_k4",
+      "address": "https://www.heroku.com/",
+      "title": "Heroku | The Cloud Application Platform For Developers",
+      "grade": 0
+    },
+    {
+      "hash": "n9QkE2c9duY5",
+      "address": "https://azure.microsoft.com/en-us?ocid=cmm4r4ppnhp",
+      "title": "Cloud Computing Services | Microsoft Azure",
+      "grade": 0
+    },
+    {
+      "hash": "-Z2SJl8hxo35",
+      "address": "https://www.microsoft.com/en-us",
+      "title": "Microsoft – AI, Cloud, Productivity, Computing, Gaming \u0026 Apps",
+      "grade": 0
+    },
+    {
+      "hash": "lN89qUb8iyg4",
+      "address": "https://cloud.google.com/",
+      "title": "AI and Cloud Computing Services | Google Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "x5K4_L8hxo35",
+      "address": "https://www.microsoft.com/en-us/sovereignty?icid=DSM_More_Sovereignty",
+      "title": "Discover Microsoft Sovereign Cloud | Microsoft",
+      "grade": 0
+    },
+    {
+      "hash": "fZ9UNl8hxo35",
+      "address": "https://www.microsoft.com/en-ca/",
+      "title": "Microsoft – AI, Cloud, Productivity, Computing, Gaming \u0026 Apps",
+      "grade": 0
+    },
+    {
+      "hash": "iyj8R2c9duY5",
+      "address": "https://azure.microsoft.com/en-gb",
+      "title": "Cloud Computing Services | Microsoft Azure",
+      "grade": 0
+    },
+    {
+      "hash": "n1F03swUSuo5",
+      "address": "https://nextcloud.com/",
+      "title": "Nextcloud - Open source content collaboration platform",
+      "grade": 1
+    },
+    {
+      "hash": "02DE0s6t4T7x",
+      "address": "https://serverpilot.io/",
+      "title": "Cloud server management",
+      "grade": 0
+    },
+    {
+      "hash": "0HIWXlqYg_k4",
+      "address": "https://www.heroku.com/python/",
+      "title": "Deploy and Scale Python \u0026 Django in the Cloud | Heroku",
+      "grade": 0
+    },
+    {
+      "hash": "0c2bDv4eGBC5",
+      "address": "https://www.digitalocean.com/solutions/website-hosting",
+      "title": "Cloud Website Hosting - Get Started in Minutes | DigitalOcean",
+      "grade": 0
+    },
+    {
+      "hash": "6Nn5OQ3MeyZ4",
+      "address": "https://www0.assets.heroku.com/",
+      "title": "Heroku | The Cloud Application Platform For Developers",
+      "grade": 0
+    },
+    {
+      "hash": "IhxwDlqYg_k4",
+      "address": "https://www.heroku.com/pricing/",
+      "title": "Cloud Application Platform Pricing \u0026 Plans | Heroku",
+      "grade": 0
+    },
+    {
+      "hash": "YgQ67swUSuo5",
+      "address": "https://nextcloud.com/office/",
+      "title": "Nextcloud Office powered by Euro-Office",
+      "grade": 1
+    },
+    {
+      "hash": "lW75tL8hxo35",
+      "address": "https://www.microsoft.com/en-us/microsoft-cloud/blog/2024/12/09/sustainable-by-design-next-generation-datacenters-consume-zero-water-for-cooling/",
+      "title": "Sustainable by design: Next-generation datacenters consume zero water for cooling | The Microsoft Cloud Blog",
+      "grade": 0
+    },
+    {
+      "hash": "EPwi7kb8iyg4",
+      "address": "https://cloud.google.com/terms/cloud-privacy-notice",
+      "title": "Google Cloud Privacy Notice",
+      "grade": 0
+    },
+    {
+      "hash": "jc_37Uf2OZq4",
+      "address": "https://cloud.redhat.com/",
+      "title": "Develop, deploy, and evolve with Red Hat Hybrid Cloud | Red Hat Hybrid Cloud",
+      "grade": 0
+    },
+    {
+      "hash": "SSMOsUb8iyg4",
+      "address": "https://cloud.google.com/kubernetes-engine",
+      "title": "Google Kubernetes Engine (GKE) | Google Cloud",
+      "grade": 0
+    }
+  ]
+}

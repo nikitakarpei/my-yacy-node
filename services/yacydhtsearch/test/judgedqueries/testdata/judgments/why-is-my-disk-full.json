@@ -1,0 +1,293 @@
+{
+  "query": "why is my disk full",
+  "judgedDocuments": [
+    {
+      "hash": "Hspq72X8YXM4",
+      "address": "https://bun.com/docs/runtime/file-io",
+      "title": "File I/O | Bun Docs",
+      "grade": 0
+    },
+    {
+      "hash": "8s63fG_r5Xzw",
+      "address": "https://archive.org/details/run-magazine-15/Run_Issue_15_1985_Mar?view=theater",
+      "title": "Run Magazine Issue 15 : Free Download, Borrow, and Streaming : Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "9Yy8_sex2X2w",
+      "address": "https://owasp.org/",
+      "title": "OWASP Foundation - The Open Source Foundation for Application Security",
+      "grade": 0
+    },
+    {
+      "hash": "CwMjtxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Dual_boot_with_Windows",
+      "title": "Dual boot with Windows - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "Rtm_pZv-bf35",
+      "address": "https://docs.datadoghq.com/mobile/",
+      "title": "Datadog Mobile App",
+      "grade": 0
+    },
+    {
+      "hash": "NiCw7HS6MKD4",
+      "address": "https://github.com/mcp/basicmachines-co/basic-memory",
+      "title": "MCP Registry | Basicmachines Co Basic Memory · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "lYF1xUV4HSJ0",
+      "address": "https://formulae.brew.sh/formula/",
+      "title": "Homebrew Formulae: homebrew-core",
+      "grade": 0
+    },
+    {
+      "hash": "nCt85J-mQ7uw",
+      "address": "https://csen.dict.cc/",
+      "title": "dict.cc | Czech-English dictionary | Anglicko-český slovník",
+      "grade": 0
+    },
+    {
+      "hash": "tpYwktpkK1ls",
+      "address": "https://www.amazon.com.tr/bilgisayar/b?ie=UTF8\u0026node=12466439031",
+      "title": "Bilgisayar | Amazon.com.tr",
+      "grade": 0
+    },
+    {
+      "hash": "8iNOVG_r5Xzw",
+      "address": "https://archive.org/details/ecgtwostepapproa0000gert",
+      "title": "The ECG : a two-step approach to diagnosis : Gertsch, Marc, 1936- : Free Download, Borrow, and Streaming : Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "EI3SjsYlAY74",
+      "address": "https://ubuntu.com/",
+      "title": "Enterprise Open Source and Linux | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "5lFurG_r5Xzw",
+      "address": "https://archive.org/details/run-magazine-64/Run_Issue_64_1989_Apr?view=theater",
+      "title": "Run Magazine Issue 64 : Free Download, Borrow, and Streaming : Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "tXQ-k2X8YXM4",
+      "address": "https://bun.com/docs/runtime/archive",
+      "title": "Archive | Bun Docs",
+      "grade": 0
+    },
+    {
+      "hash": "8ZUwKfSIk8o4",
+      "address": "https://support.apple.com/en-gb/102650",
+      "title": "Mac keyboard shortcuts – Apple Support (UK)",
+      "grade": 0
+    },
+    {
+      "hash": "G2gqp9gESydx",
+      "address": "https://www.commodore.ca/manuals/128_system_guide/sect-02.htm",
+      "title": "C128 System Guide - Section 2",
+      "grade": 0
+    },
+    {
+      "hash": "6_qTfUZiZVs5",
+      "address": "https://reformedontheweb.wordpress.com/",
+      "title": "Reformedontheweb's Blog | A Site Dedicated to the Reformed Baptist Doctrines",
+      "grade": 0
+    },
+    {
+      "hash": "9zccglPEHVf4",
+      "address": "https://www.ssbwiki.com/Young_Link_(SSBU)",
+      "title": "Young Link (SSBU) - SmashWiki, the Super Smash Bros. wiki",
+      "grade": 0
+    },
+    {
+      "hash": "dCeAnHS6MKD4",
+      "address": "https://github.com/mcp/com.microsoft/azure",
+      "title": "MCP Registry | Azure MCP Server · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "XEyWzL8hxo35",
+      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "grade": 0
+    },
+    {
+      "hash": "yGQoBnA8Y7d4",
+      "address": "https://en.uptodown.com/windows",
+      "title": "App Downloads for Windows - Download, Discover, Share on Uptodown",
+      "grade": 0
+    },
+    {
+      "hash": "zfcCHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Online_video_platform",
+      "title": "Online video platform - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "44hswOxyFvIw",
+      "address": "https://forums.gentoo.org/viewforum.php?f=38",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "5VdgXsUZR6tw",
+      "address": "https://evolt.org/archive.html",
+      "title": "article archive | evolt.org",
+      "grade": 0
+    },
+    {
+      "hash": "5mXnYG_r5Xzw",
+      "address": "https://archive.org/details/gulfwar199100finl",
+      "title": "The Gulf War 1991 : Alastair Finlan : Free Download, Borrow, and Streaming : Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "5um28yXjZ9O4",
+      "address": "https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/scan-from-the-command-line/check-out-source-code",
+      "title": "Checking out the CodeQL CLI source code - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "6VDI6G_r5Xzw",
+      "address": "https://archive.org/details/riseportuguesep00whitgoog/page/n353",
+      "title": "The rise of Portuguese power in India, 1497-1550 : Whiteway, R. S. (Richard Stephen) : Free Download, Borrow, and Streaming : Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "A0SQfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Avengers_(2012_film)",
+      "title": "The Avengers (2012 film) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "RCSEqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/MOS_Technology_6502",
+      "title": "MOS Technology 6502 - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ScmCWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BitTorrent",
+      "title": "BitTorrent - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "eLD0SjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
+      "title": "John von Neumann - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "fV3YmKsrSOQw",
+      "address": "https://arxiv.org/list/cond-mat/new",
+      "title": "Condensed Matter",
+      "grade": 0
+    },
+    {
+      "hash": "gZlAnz8hxo35",
+      "address": "https://www.microsoft.com/en-US/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": 0
+    },
+    {
+      "hash": "jb1jqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Thomas_Jefferson",
+      "title": "Thomas Jefferson - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "lcDBJs5DCs35",
+      "address": "https://wordpress.com/plugins",
+      "title": "Plugins — WordPress.com",
+      "grade": 0
+    },
+    {
+      "hash": "pYT9fjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/MacOS",
+      "title": "macOS - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ppQW8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/The_Daily_Telegraph",
+      "title": "The Daily Telegraph - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ulFvqPtCUALQ",
+      "address": "http://gutenberg.net.au/widger/home.html",
+      "title": "DR. WIDGER'S LIBRARY",
+      "grade": 0
+    },
+    {
+      "hash": "wkV-Y9xyfg74",
+      "address": "https://pkg.go.dev/cmd/go",
+      "title": "go command - cmd/go - Go Packages",
+      "grade": 0
+    },
+    {
+      "hash": "BXjiVqS6MKD4",
+      "address": "https://github.com/netdata/netdata",
+      "title": "GitHub - netdata/netdata: The fastest path to AI-powered full stack observability, even for lean teams. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "jyMTOvd537ax",
+      "address": "https://www.freecodecamp.org/news/learn-linux-for-beginners-book-basic-to-advanced/",
+      "title": "Learn Linux for Beginners: From Basics to Advanced Techniques [Full Book]",
+      "grade": 0
+    },
+    {
+      "hash": "sffwx2-cUg-l",
+      "address": "https://huggingface.co/docs/hub/spaces-storage",
+      "title": "Disk usage on Spaces · Hugging Face",
+      "grade": 0
+    },
+    {
+      "hash": "Nvljov_r5Xzw",
+      "address": "https://archive.org/stream/the-stars-my-destination/The%20Stars%20My%20Destination_djvu.txt",
+      "title": "Full text of \"The Stars My Destination\"",
+      "grade": 0
+    }
+  ]
+}

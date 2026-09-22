@@ -1,0 +1,299 @@
+{
+  "query": "python virtual environment",
+  "judgedDocuments": [
+    {
+      "hash": "SNlGrxbhx54w",
+      "address": "https://packaging.python.org/en/latest/",
+      "title": "Python Packaging User Guide",
+      "grade": 0
+    },
+    {
+      "hash": "5COzjZT71Vl0",
+      "address": "https://docs.astral.sh/uv/concepts/python-versions/",
+      "title": "Python versions | uv",
+      "grade": 0
+    },
+    {
+      "hash": "5hvUJMy1PTn5",
+      "address": "https://developer.microsoft.com/en-us/python",
+      "title": "Python | Microsoft Developer",
+      "grade": 0
+    },
+    {
+      "hash": "x8hZqxbhx54w",
+      "address": "https://packaging.python.org/en/latest/tutorials/installing-packages/",
+      "title": "Installing Packages - Python Packaging User Guide",
+      "grade": 1
+    },
+    {
+      "hash": "irtY9vOpC_C5",
+      "address": "https://www.sciencedaily.com/news/computers_math/computers_and_internet/",
+      "title": "Computers and Internet News -- ScienceDaily",
+      "grade": 0
+    },
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "rHzmhxbhx54w",
+      "address": "https://packaging.python.org/en/latest/tutorials/packaging-projects/",
+      "title": "Packaging Python Projects - Python Packaging User Guide",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "OPxA_itD2jQw",
+      "address": "https://docs.python.org/3/using/windows.html",
+      "title": "4. Using Python on Windows — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "JXOoAobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker",
+      "title": "How to become a MediaWiki hacker - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "B9LxkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/PMID_(identifier)",
+      "title": "PubMed - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "5ylqJ0ADJCy4",
+      "address": "https://securitylab.github.com/events/",
+      "title": "Events | GitHub Security Lab",
+      "grade": 0
+    },
+    {
+      "hash": "ZLCPGlRhEzc4",
+      "address": "https://www.amazon.science/",
+      "title": "Amazon Science homepage",
+      "grade": 0
+    },
+    {
+      "hash": "ZSxO7kRFf6Bx",
+      "address": "https://wikitech.wikimedia.org/wiki/Help:Cloud_Services_introduction",
+      "title": "Help:Cloud Services introduction - Wikitech",
+      "grade": 0
+    },
+    {
+      "hash": "v3JgSzH2Pyiw",
+      "address": "https://ocw.mit.edu/",
+      "title": "MIT OpenCourseWare | Free Online Course Materials",
+      "grade": 0
+    },
+    {
+      "hash": "P0YYCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+      "title": "Python (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Qf_sQjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wiki",
+      "title": "Wiki - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "HRFwejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GitHub",
+      "title": "GitHub - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "NXIDFjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Smalltalk",
+      "title": "Smalltalk - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PdvjqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Ruby_(programming_language)",
+      "title": "Ruby (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "4leiyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pascal_(programming_language)",
+      "title": "Pascal (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "X7H1WjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Time_zone",
+      "title": "Time zone - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "d6IkejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Twitter",
+      "title": "X (social network) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "j5b7mjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/C++",
+      "title": "C++ - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "pE-4M6K2LTm4",
+      "address": "https://ai.google.dev/",
+      "title": "Gemini Developer API | Gemma open models | Google AI for Developers",
+      "grade": 0
+    },
+    {
+      "hash": "qqIgmqWU7_zx",
+      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "wz9hqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Programming_language",
+      "title": "Programming language - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "81srSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/SQL",
+      "title": "SQL - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "Go (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CkVdUjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Digital_rights_management",
+      "title": "Digital rights management - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "BxuWIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Integrated_development_environment",
+      "title": "Integrated development environment - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "0NHyDitD2jQw",
+      "address": "https://docs.python.org/3/glossary.html",
+      "title": "Glossary — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "nWdI4IR2NVbw",
+      "address": "https://devguide.python.org/",
+      "title": "Python Developer’s Guide",
+      "grade": 0
+    },
+    {
+      "hash": "Bc3dcitD2jQw",
+      "address": "https://docs.python.org/3/library/os.html",
+      "title": "os — Miscellaneous operating system interfaces — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "ZJqwwpS6MKD4",
+      "address": "https://github.com/vinta/awesome-python",
+      "title": "GitHub - vinta/awesome-python: The definitive list that answers \"I want to do X in Python, which tool should I use?\" · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "5L2iEVS6MKD4",
+      "address": "https://github.com/Asabeneh/30-Days-Of-Python",
+      "title": "GitHub - Asabeneh/30-Days-Of-Python: The 30 Days of Python programming challenge is a step-by-step guide to learn the Python programming language in 30 days. This challenge may take more than 100 days. Follow your own pace. These videos may help too: https://www.youtube.com/channel/UC7PNRuno1rzYPb1xLa4yktw · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "R-ZT-NS6MKD4",
+      "address": "https://github.com/pypa/pipx",
+      "title": "GitHub - pypa/pipx: Install and Run Python Applications in Isolated Environments · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "R3-rpdS6MKD4",
+      "address": "https://github.com/pyenv/pyenv",
+      "title": "GitHub - pyenv/pyenv: Simple Python version management · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "EQh90rS6MKD4",
+      "address": "https://github.com/gitpython-developers/GitPython",
+      "title": "GitHub - gitpython-developers/GitPython: GitPython is a python library used to interact with Git repositories. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "fYwTDWS6MKD4",
+      "address": "https://github.com/bregman-arie/devops-exercises",
+      "title": "GitHub - bregman-arie/devops-exercises: Linux, Jenkins, AWS, SRE, Prometheus, Docker, Python, Ansible, Git, Kubernetes, Terraform, OpenStack, SQL, NoSQL, Azure, GCP, DNS, Elastic, Network, Virtualization. DevOps Interview Questions · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "7Irg0itD2jQw",
+      "address": "https://docs.python.org/3/library/curses.html",
+      "title": "curses — Terminal handling for character-cell displays — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "0HIWXlqYg_k4",
+      "address": "https://www.heroku.com/python/",
+      "title": "Deploy and Scale Python \u0026 Django in the Cloud | Heroku",
+      "grade": 0
+    }
+  ]
+}

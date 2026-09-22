@@ -1,0 +1,347 @@
+{
+  "query": "rust book",
+  "judgedDocuments": [
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "3jF9E3khua85",
+      "address": "https://jwupdate.wordpress.com/",
+      "title": "JWUpdate | JW Current Apostate Status and Final Temple Judgment – Web Witnessing Record; The Bethel Apostasy is Prophecy",
+      "grade": 0
+    },
+    {
+      "hash": "G0iakwS6MKD4",
+      "address": "https://github.com/rust-lang/rust",
+      "title": "GitHub - rust-lang/rust: Empowering everyone to build reliable and efficient software. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "HTPqzsDi1byx",
+      "address": "https://rust-lang.org/",
+      "title": "Rust Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
+      "grade": 0
+    },
+    {
+      "hash": "Jfiuj0aGfG25",
+      "address": "https://feeds.simplecast.com/BqbsxVfO",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "LW1BGl64SAv5",
+      "address": "https://thehiveindex.com/features/forum/",
+      "title": "3806 Forum Based communities | Hive Index",
+      "grade": 0
+    },
+    {
+      "hash": "gthKLlaZtVHl",
+      "address": "https://www.byrpartners.cl/inteligent-transitions-in-ux-design/",
+      "title": "Byr Partners | Transitions In UX Design",
+      "grade": 0
+    },
+    {
+      "hash": "snZ3UTtKr25k",
+      "address": "https://newsqr.com.mx/?p=23964",
+      "title": "Anuncia Mara Lezama inversión de 23 mdp para construir CAM en Cielo Nuevo Cancún",
+      "grade": 0
+    },
+    {
+      "hash": "Lwwf3yt_mp45",
+      "address": "https://broedersinchristus.wordpress.com/",
+      "title": "Broeders in Christus | Christadelphians or Brethren in Christ",
+      "grade": 0
+    },
+    {
+      "hash": "9Q7LHDd5FrUg",
+      "address": "https://docs.rs/rmp-serde/latest/rmp_serde/",
+      "title": "rmp_serde - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "qlEv-yXjZ9O4",
+      "address": "https://docs.github.com/en/actions/tutorials/build-and-test-code/rust",
+      "title": "Building and testing Rust - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "RZ8hmPGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2010/06/the-bible-is-today-book.html",
+      "title": "Our World: The Bible is a today book",
+      "grade": 0
+    },
+    {
+      "hash": "Kj4O9zS6MKD4",
+      "address": "https://github.com/topics/book",
+      "title": "book · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "V48tajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+      "title": "Rust (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "NssrauS6MKD4",
+      "address": "https://github.com/element-hq/synapse",
+      "title": "GitHub - element-hq/synapse: Synapse: Matrix homeserver written in Python/Twisted + Rust · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "PXi_BzS6MKD4",
+      "address": "https://github.com/topics/rust-lang",
+      "title": "rust-lang · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "0AN1b1DZNRCx",
+      "address": "https://doc.rust-lang.org/stable/book/",
+      "title": "The Rust Programming Language - The Rust Programming Language",
+      "grade": 2
+    },
+    {
+      "hash": "MLxGfRDZNRCx",
+      "address": "https://doc.rust-lang.org/cargo/guide/",
+      "title": "Cargo Guide - The Cargo Book",
+      "grade": 0
+    },
+    {
+      "hash": "OcyOHsDi1byx",
+      "address": "https://rust-lang.org/learn/",
+      "title": "Learn Rust - Rust Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "_4-AysS6MKD4",
+      "address": "https://github.com/rust-lang",
+      "title": "The Rust Programming Language · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "qxT6_qcLuj_Y",
+      "address": "http://rosesandrustblogger.blogspot.com/",
+      "title": "Roses and Rust",
+      "grade": 0
+    },
+    {
+      "hash": "EpBQiRDZNRCx",
+      "address": "https://doc.rust-lang.org/cargo/reference/manifest.html",
+      "title": "The Manifest Format - The Cargo Book",
+      "grade": 0
+    },
+    {
+      "hash": "KLCJH0d5FrUg",
+      "address": "https://docs.rs/rmpv/latest/rmpv/",
+      "title": "rmpv - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "Mf8ufcd5FrUg",
+      "address": "https://docs.rs/rmp/latest/rmp/",
+      "title": "rmp - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "NHDbrEPaiEbx",
+      "address": "https://rustc-dev-guide.rust-lang.org/",
+      "title": "Getting Started - Rust Compiler Development Guide",
+      "grade": 0
+    },
+    {
+      "hash": "Z4Ggc1DZNRCx",
+      "address": "https://doc.rust-lang.org/stable/cargo/",
+      "title": "Introduction - The Cargo Book",
+      "grade": 0
+    },
+    {
+      "hash": "hd4J-PS6MKD4",
+      "address": "https://github.com/leptos-rs/leptos",
+      "title": "GitHub - leptos-rs/leptos: Build fast web applications with Rust. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Ofo_hFd5FrUg",
+      "address": "https://docs.rs/bevy/0.18.0/bevy/dev_tools/index.html",
+      "title": "bevy::dev_tools - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "PXLGSad5FrUg",
+      "address": "https://docs.rs/freya/0.4.0/freya/plot/struct.PlotSkiaBackendError.html",
+      "title": "PlotSkiaBackendError in freya::plot - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "n8ccSIS6MKD4",
+      "address": "https://github.com/rust-embedded/awesome-embedded-rust",
+      "title": "GitHub - rust-embedded/awesome-embedded-rust: Curated list of resources for Embedded and Low-level development in the Rust programming language · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "1dKsoNcwnv3w",
+      "address": "https://rust-lang.github.io/rfcs/",
+      "title": "Introduction - The Rust RFC Book",
+      "grade": 0
+    },
+    {
+      "hash": "8PklasVtK09w",
+      "address": "https://lost-boy.org/joined.php",
+      "title": "LOST-BOY⋅ORG , 𝓽he rust and stardust network",
+      "grade": 0
+    },
+    {
+      "hash": "AZzviNd5FrUg",
+      "address": "https://docs.rs/rustfft/latest/rustfft/",
+      "title": "rustfft - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "CK_Q6BsbWDW5",
+      "address": "https://zackoverflow.dev/writing/unsafe-rust-vs-zig/",
+      "title": "When Zig is safer and faster than Rust",
+      "grade": 0
+    },
+    {
+      "hash": "CSnkVRuuVAJy",
+      "address": "https://docs.rust-embedded.org/book/intro/no-std.html",
+      "title": "no_std - The Embedded Rust Book",
+      "grade": 0
+    },
+    {
+      "hash": "FmZY4Sd5FrUg",
+      "address": "https://docs.rs/ratatui/latest/ratatui/",
+      "title": "ratatui - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "GTwVYtd5FrUg",
+      "address": "https://docs.rs/pitchy/latest/pitchy/",
+      "title": "pitchy - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "HcTVEgDi1byx",
+      "address": "https://rust-lang.org/what/wasm/",
+      "title": "WebAssembly - Rust Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "QZTb9Vd5FrUg",
+      "address": "https://docs.rs/midly/latest/midly/",
+      "title": "midly - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "RMDE4gDi1byx",
+      "address": "https://rust-lang.org/what/embedded/",
+      "title": "Embedded devices - Rust Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "Y87KdOd5FrUg",
+      "address": "https://docs.rs/winnow/latest/winnow/",
+      "title": "winnow - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "cfCpW6d5FrUg",
+      "address": "https://docs.rs/vello/latest/vello/",
+      "title": "vello - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "chI-L_d5FrUg",
+      "address": "https://docs.rs/microfft/latest/microfft/",
+      "title": "microfft - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "fiky8spQnR16",
+      "address": "https://john-millikin.com/notes-on-cross-compiling-rust",
+      "title": "Notes on cross-compiling Rust",
+      "grade": 0
+    },
+    {
+      "hash": "nyKdrgDi1byx",
+      "address": "https://rust-lang.org/what/cli/",
+      "title": "Command-line apps - Rust Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "ocs-Pjd5FrUg",
+      "address": "https://docs.rs/regex/latest/regex/",
+      "title": "regex - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "rhFWVJd5FrUg",
+      "address": "https://docs.rs/embedded-graphics/latest/embedded_graphics/",
+      "title": "embedded_graphics - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "uqKqfs7GyzR4",
+      "address": "https://corrode.dev/",
+      "title": "corrode | Friendly, Professional Rust Consulting",
+      "grade": 0
+    },
+    {
+      "hash": "x3_okJ5f-8e4",
+      "address": "https://www.flowcase.com/blog/using-rust-lambdas-in-production",
+      "title": "Using Rust Lambdas in Production | Flowcase",
+      "grade": 0
+    },
+    {
+      "hash": "yz6FEDe73lbw",
+      "address": "https://book.servo.org/",
+      "title": "The Servo Book - The Servo Book",
+      "grade": 0
+    },
+    {
+      "hash": "zNfjI0d5FrUg",
+      "address": "https://docs.rs/boa_engine/0.20.0/i686-unknown-linux-gnu/boa_engine/job/trait.JobQueue.html",
+      "title": "JobQueue in boa_engine::job - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "ctuHSgS6MKD4",
+      "address": "https://github.com/LuckyTurtleDev/crab-hole",
+      "title": "GitHub - LuckyTurtleDev/crab-hole: 🦀 Pi-Hole clone written in rust using hickory-dns/trust-dns · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "htmJOQd5FrUg",
+      "address": "https://docs.rs/hyper/0.14.12/hyper/server/struct.Builder.html",
+      "title": "Builder in hyper::server - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "smlQoTS6MKD4",
+      "address": "https://github.com/rvben/rumdl",
+      "title": "GitHub - rvben/rumdl: Fast Markdown linter and formatter written in Rust · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "0RAi3DDZNRCx",
+      "address": "https://doc.rust-lang.org/cargo/",
+      "title": "Introduction - The Cargo Book",
+      "grade": 0
+    },
+    {
+      "hash": "0yg93s-UOu6x",
+      "address": "https://thenewstack.io/rust-vs-c-a-modern-take-on-performance-and-safety/",
+      "title": "Rust vs. C++: a Modern Take on Performance and Safety - The New Stack",
+      "grade": 0
+    }
+  ]
+}

@@ -1,0 +1,305 @@
+{
+  "query": "what is a bloom filter",
+  "judgedDocuments": [
+    {
+      "hash": "r4Z50obrsZjx",
+      "address": "https://www.mediawiki.org/wiki/MediaWiki_1.46/wmf.23",
+      "title": "MediaWiki 1.46/wmf.23 - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "4pzA_5UUHeNx",
+      "address": "https://packagist.org/packages/pleonasm/bloom-filter",
+      "title": "pleonasm/bloom-filter - Packagist.org",
+      "grade": 1
+    },
+    {
+      "hash": "R5vzYsOocYRx",
+      "address": "https://murdoconline.net/",
+      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
+      "grade": 0
+    },
+    {
+      "hash": "rmiOZsXcOmMx",
+      "address": "https://neocities.org/browse?tag=solarpunk",
+      "title": "Neocities - Sites tagged solarpunk",
+      "grade": 0
+    },
+    {
+      "hash": "9Gfi7KsrSOQw",
+      "address": "https://arxiv.org/list/cs/new",
+      "title": "Computer Science",
+      "grade": 0
+    },
+    {
+      "hash": "4b-0QzS6MKD4",
+      "address": "https://github.com/topics/containers",
+      "title": "containers · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "RN9hYldIUJMx",
+      "address": "https://www.nobelprize.org/",
+      "title": "The official website of the Nobel Prize - NobelPrize.org",
+      "grade": 0
+    },
+    {
+      "hash": "lfkhCs5dlbp4",
+      "address": "https://mashable.com/feeds/rss/all",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "6vGEdzS6MKD4",
+      "address": "https://github.com/topics/pretrained-models",
+      "title": "pretrained-models · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9z6Lsh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Help:SVG",
+      "title": "Help:SVG - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "3k5o4zS6MKD4",
+      "address": "https://github.com/topics/redis",
+      "title": "redis · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "63bTClDfQeG6",
+      "address": "https://www.computerworld.com/nl/",
+      "title": "Making technology work for business – Netherlands | Computerworld",
+      "grade": 0
+    },
+    {
+      "hash": "BIwUvzS6MKD4",
+      "address": "https://github.com/topics/distributed-locks",
+      "title": "distributed-locks · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "CNhmrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Windows_11",
+      "title": "Windows 11 - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "D7-najRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IPhone",
+      "title": "iPhone - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "GiiyP7ISdjFg",
+      "address": "https://www.gov.uk/search/news-and-communications",
+      "title": "News and communications - GOV.UK",
+      "grade": 0
+    },
+    {
+      "hash": "HRZVYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple,_Inc.",
+      "title": "Apple Inc. - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "LWSxXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Great_Lakes",
+      "title": "Great Lakes - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Sab0gzS6MKD4",
+      "address": "https://github.com/topics/json",
+      "title": "json · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "VqgpssvT04sg",
+      "address": "https://pyo3.rs/v0.29.2/",
+      "title": "Introduction - PyO3 user guide",
+      "grade": 0
+    },
+    {
+      "hash": "WTlapzS6MKD4",
+      "address": "https://github.com/topics/map",
+      "title": "map · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "cxffCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mediterranean_Sea",
+      "title": "Mediterranean Sea - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "jx7rxlDfQeG6",
+      "address": "https://www.computerworld.com/industry/",
+      "title": "Industry | Computerworld",
+      "grade": 0
+    },
+    {
+      "hash": "kJXonFLBkO64",
+      "address": "https://www.target.com/store-locator/find-stores",
+      "title": "Stores Near Me : Target",
+      "grade": 0
+    },
+    {
+      "hash": "w7OK8yEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+      "title": "Function.prototype.bind() - JavaScript | MDN",
+      "grade": 0
+    },
+    {
+      "hash": "ww-gf8cZd9Fw",
+      "address": "https://hackage.haskell.org/packages/",
+      "title": "packages by category | Hackage",
+      "grade": 0
+    },
+    {
+      "hash": "xRsT7n4FjWzo",
+      "address": "https://harpercollins.co.in/",
+      "title": "Leading Book Publisher | HarperCollins India",
+      "grade": 0
+    },
+    {
+      "hash": "-60L9j5sllYz",
+      "address": "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026",
+      "title": "International AI Safety Report 2026 | International AI Safety Report",
+      "grade": 0
+    },
+    {
+      "hash": "1Y3ZrlficvIx",
+      "address": "https://www.mediamatters.org/news-analysis",
+      "title": "News \u0026 Analysis | Media Matters for America",
+      "grade": 0
+    },
+    {
+      "hash": "3d4MdyMm3Ikw",
+      "address": "https://docs.vllm.ai/en/latest/",
+      "title": "vLLM",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "AZC0KzS6MKD4",
+      "address": "https://github.com/topics/algolia-search",
+      "title": "algolia-search · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Cdol2pjnn1kw",
+      "address": "https://www.ncei.noaa.gov/news/quantifying-ocean-carbon-sink",
+      "title": "Quantifying the Ocean Carbon Sink | News | National Centers for Environmental Information (NCEI)",
+      "grade": 0
+    },
+    {
+      "hash": "FrP1yXxuR1X6",
+      "address": "https://www.montereyherald.com/things-to-do/home-garden/",
+      "title": "Home and Garden – Monterey Herald",
+      "grade": 0
+    },
+    {
+      "hash": "HYMd_AqCmQAx",
+      "address": "https://www.justsecurity.org/category/ai-emerging-technology/",
+      "title": "AI \u0026 Emerging Technology | Just Security",
+      "grade": 0
+    },
+    {
+      "hash": "J4JkaTS6MKD4",
+      "address": "https://github.com/trekhleb/javascript-algorithms",
+      "title": "GitHub - trekhleb/javascript-algorithms: 📝 Algorithms and data structures implemented in JavaScript with explanations and links to further readings · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "K9JEejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Large_language_model",
+      "title": "Large language model - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Lxkh1jBtAccw",
+      "address": "https://www.usgs.gov/products/publications",
+      "title": "Publications | U.S. Geological Survey",
+      "grade": 0
+    },
+    {
+      "hash": "QXEnKlficvIx",
+      "address": "https://www.mediamatters.org/audio-video",
+      "title": "Audio \u0026 Video | Media Matters for America",
+      "grade": 0
+    },
+    {
+      "hash": "QaK27jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hash_function",
+      "title": "Hash function - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "QfI2klDfQeG6",
+      "address": "https://www.computerworld.com/",
+      "title": "Computerworld",
+      "grade": 0
+    },
+    {
+      "hash": "RCWKjAqCmQAx",
+      "address": "https://www.justsecurity.org/category/racial-justice/",
+      "title": "Racial Justice Archives - Just Security",
+      "grade": 0
+    },
+    {
+      "hash": "V_kDjsmfrHL4",
+      "address": "https://nerdy.dev/",
+      "title": "Adam Argyle",
+      "grade": 0
+    },
+    {
+      "hash": "XaikRLeyM4c5",
+      "address": "https://www.playstation.com/en-us/accessibility/",
+      "title": "Accessibility features on PS5 and PS4 | PlayStation (US)",
+      "grade": 0
+    },
+    {
+      "hash": "YesoflSALKo4",
+      "address": "https://www.libretro.com/",
+      "title": "Libretro – A crossplatform application API, powering the crossplatform gaming platform RetroArch",
+      "grade": 0
+    },
+    {
+      "hash": "_1c5uzS6MKD4",
+      "address": "https://github.com/topics/inference",
+      "title": "inference · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "oKF8tJqYg_k4",
+      "address": "https://www.heroku.com/blog/heroku-key-value-store-now-supports-valkey-81-json-bloom-modules/",
+      "title": "Heroku Key-Value Store Now Supports Valkey 8.1 w/JSON \u0026 Bloom Modules",
+      "grade": 1
+    }
+  ]
+}

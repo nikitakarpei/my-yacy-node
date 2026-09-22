@@ -1,0 +1,77 @@
+{
+  "query": "как настроить ssh",
+  "judgedDocuments": [
+    {
+      "hash": "nLIemxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/GnuPG_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)",
+      "title": "GnuPG (Русский) - ArchWiki",
+      "grade": 1
+    },
+    {
+      "hash": "n9aV1xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/%D0%A3%D0%B2%D0%B5%D0%BB%D0%B8%D1%87%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8",
+      "title": "Improving performance (Русский) - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "kmBZdxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Domain_name_resolution_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)",
+      "title": "Domain name resolution (Русский) - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "oDjPNxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/%D0%91%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C",
+      "title": "Security (Русский) - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "TPhP2sgP1XC4",
+      "address": "https://tropin.one/setup/",
+      "title": "/setup | Valerio Tropin",
+      "grade": 0
+    },
+    {
+      "hash": "6gSVmPnTPArx",
+      "address": "https://ru.wikipedia.org/wiki/Tor",
+      "title": "Tor — Википедия",
+      "grade": 0
+    },
+    {
+      "hash": "Haa5vshauK46",
+      "address": "https://ru.stackoverflow.com/",
+      "title": "Stack Overflow на русском",
+      "grade": 0
+    },
+    {
+      "hash": "tq0TvPnTPArx",
+      "address": "https://ru.wikipedia.org/wiki/SSL",
+      "title": "SSL — Википедия",
+      "grade": 0
+    },
+    {
+      "hash": "k9LI7xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Rsync_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)",
+      "title": "rsync (Русский) - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "kCP8UxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd-networkd_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)",
+      "title": "systemd-networkd (Русский) - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "lkfh9xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Pacman_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)/Tips_and_tricks_(Русский)",
+      "title": "pacman (Русский)/Tips and tricks (Русский) - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "-h1-AxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/DPMS_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)",
+      "title": "Display Power Management Signaling (Русский) - ArchWiki",
+      "grade": 0
+    }
+  ]
+}

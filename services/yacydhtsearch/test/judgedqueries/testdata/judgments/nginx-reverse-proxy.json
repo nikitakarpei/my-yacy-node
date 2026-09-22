@@ -1,0 +1,299 @@
+{
+  "query": "nginx reverse proxy",
+  "judgedDocuments": [
+    {
+      "hash": "2UvJsjC6AYh4",
+      "address": "https://www.f5.com/products/nginx/nginx-plus",
+      "title": "F5 NGINX Plus | F5",
+      "grade": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "PWXRGzS6MKD4",
+      "address": "https://github.com/topics/api-gateway",
+      "title": "api-gateway · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "090NxB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/unstable/",
+      "title": "NixOS Manual",
+      "grade": 0
+    },
+    {
+      "hash": "WU-RwjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Web_server",
+      "title": "Web server - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "kTgPlPMW35a4",
+      "address": "https://hub.docker.com/_/nginx",
+      "title": "nginx - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "mSPbf7MDQKyQ",
+      "address": "http://nginx.org/",
+      "title": "nginx",
+      "grade": 1
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "EAHs_sJPiKbw",
+      "address": "https://nginx.org/en/",
+      "title": "nginx",
+      "grade": 1
+    },
+    {
+      "hash": "3LKZR19tF3s4",
+      "address": "https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/",
+      "title": "NGINX Reverse Proxy | NGINX Documentation",
+      "grade": 2
+    },
+    {
+      "hash": "lYF1xUV4HSJ0",
+      "address": "https://formulae.brew.sh/formula/",
+      "title": "Homebrew Formulae: homebrew-core",
+      "grade": 0
+    },
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "7fNMGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proxy_server",
+      "title": "Proxy server - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "lIKOisJPiKbw",
+      "address": "https://nginx.org/",
+      "title": "nginx",
+      "grade": 1
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "Lc907sgYLBO5",
+      "address": "https://caddyserver.com/",
+      "title": "Caddy - The Ultimate Server with Automatic HTTPS",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "0UQ4AjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/WebSocket",
+      "title": "WebSocket - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "1bLp4yA1nhp4",
+      "address": "https://docs.pleroma.social/backend/installation/otp_en/",
+      "title": "Installing on Linux using OTP releases - Pleroma Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "6slZ0tS6MKD4",
+      "address": "https://github.com/trending/go?since=daily",
+      "title": "Trending Go repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "XAEdJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/HTTP/2",
+      "title": "HTTP/2 - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "whqRStS6MKD4",
+      "address": "https://github.com/trending/developers",
+      "title": "Trending developers on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "z8pgDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_HTTP_status_codes",
+      "title": "List of HTTP status codes - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "1lEYYsKstbix",
+      "address": "https://writefreely.org/start",
+      "title": "Getting Started with WriteFreely",
+      "grade": 0
+    },
+    {
+      "hash": "DPiyGZDRem8x",
+      "address": "https://docs.invidious.io/instances/",
+      "title": "Invidious Instances - Invidious Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "JOyqiEMW35a4",
+      "address": "https://hub.docker.com/categories/web-servers",
+      "title": "Web servers | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "LzYPSl6e8Pk4",
+      "address": "https://www.haproxy.com/",
+      "title": "HAProxy Technologies | Powering the World's Busiest Applications",
+      "grade": 0
+    },
+    {
+      "hash": "fmkJs7MDQKyQ",
+      "address": "http://nginx.org/en/",
+      "title": "nginx",
+      "grade": 1
+    },
+    {
+      "hash": "ijSa_yrcmStw",
+      "address": "https://defcon.org/html/defcon-32/dc-32-speakers.html",
+      "title": "DEF CON® 32 Hacking Conference Talks",
+      "grade": 0
+    },
+    {
+      "hash": "kM_w-2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/",
+      "title": "Ingress Controllers | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "Dq6Z8tSKkctx",
+      "address": "https://softpanorama.org/WWW/index.shtml",
+      "title": "WWW",
+      "grade": 0
+    },
+    {
+      "hash": "XKZGFsK_xS9w",
+      "address": "https://landchad.net/transmission/",
+      "title": "Transmission | LandChad.net",
+      "grade": 0
+    },
+    {
+      "hash": "_kFgksXVE_0w",
+      "address": "https://traefik.io/pricing",
+      "title": "Compare Traefik Products \u0026 Get Pricing | Traefik Labs",
+      "grade": 0
+    },
+    {
+      "hash": "coAPBlZsb036",
+      "address": "https://www.trackawesomelist.com/",
+      "title": "Track Awesome List - Track your Favorite Github Awesome List Daily",
+      "grade": 0
+    },
+    {
+      "hash": "eWIsz2WuUAFw",
+      "address": "https://baserow.io/docs/installation%2Finstall-with-docker",
+      "title": "Install with Docker",
+      "grade": 0
+    },
+    {
+      "hash": "ucZ1SA0jxin4",
+      "address": "https://docs.gitlab.com/install/self_compiled/",
+      "title": "Self-compiled installation | GitLab Docs",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "_-O4MJcvw7Vx",
+      "address": "https://wordpress.org/plugins/w3-total-cache/",
+      "title": "W3 Total Cache – WordPress plugin | WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "otdf2OxyFvIw",
+      "address": "https://forums.gentoo.org/viewforum.php?f=18",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "YJ11QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Server_Name_Indication",
+      "title": "Server Name Indication - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "MDlehsOKAGq5",
+      "address": "https://pressable.com/sitemap/",
+      "title": "Pressable.com Sitemap",
+      "grade": 0
+    },
+    {
+      "hash": "exJQX2gYLBO5",
+      "address": "https://caddyserver.com/docs/conventions",
+      "title": "Conventions — Caddy Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "PHkzJJcvw7Vx",
+      "address": "https://wordpress.org/plugins/sucuri-scanner/",
+      "title": "Sucuri Security – Auditing, Malware Scanner and Security Hardening – WordPress plugin | WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "qdwCqzS6MKD4",
+      "address": "https://github.com/topics/reverse-proxy",
+      "title": "reverse-proxy · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "MnvOKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
+      "title": "Portal:Free and open-source software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "w8M_GjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apache_HTTP_Server",
+      "title": "Apache HTTP Server - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

@@ -1,0 +1,444 @@
+{
+  "query": "debian wiki",
+  "judgedDocuments": [
+    {
+      "hash": "OgXnxsTGcoY5",
+      "address": "https://ublockorigin.com/",
+      "title": "uBlock Origin - Free, open-source ad blocker extension",
+      "grade": 0
+    },
+    {
+      "hash": "Kc02xl1nrxbw",
+      "address": "https://www.debian.org/",
+      "title": "Debian -- The Universal Operating System",
+      "grade": 1
+    },
+    {
+      "hash": "T2EF52bypRQw",
+      "address": "https://forgejo.org/docs/latest/user/packages/debian/",
+      "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "TSAVas2xL7A6",
+      "address": "https://corbettreport.com/meetgates/",
+      "title": "Episode 380 - Meet Bill Gates | The Corbett Report",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "TgPpe2bypRQw",
+      "address": "https://forgejo.org/docs/latest/contributor/discussions/",
+      "title": "Bugs, features and discussions | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "grade": 0
+    },
+    {
+      "hash": "-G2mj1uNWVxw",
+      "address": "https://linuxfr.org/users/samuel/journaux/faille-d-execution-de-code-a-distance-dans-cups",
+      "title": "Faille d'exécution de code à distance dans cups - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "a_R0bJS6MKD4",
+      "address": "https://github.com/git-lfs/git-lfs",
+      "title": "GitHub - git-lfs/git-lfs: Git extension for versioning large files · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "20FRnwS6MKD4",
+      "address": "https://github.com/google/libphonenumber",
+      "title": "GitHub - google/libphonenumber: Google's common Java, C++ and JavaScript library for parsing, formatting, and validating international phone numbers. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "AbsN3l1nrxbw",
+      "address": "https://www.debian.org/contact",
+      "title": "Debian -- How to contact us",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "sHUU62bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/advanced/signing/",
+      "title": "Instance Commit Signing | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "-ZOgm7OrvekI",
+      "address": "http://moinmo.in/",
+      "title": "MoinMoinWiki - MoinMoin",
+      "grade": 0
+    },
+    {
+      "hash": "DVG385MxNTHw",
+      "address": "https://cgit.freebsd.org/ports/commit/?id=da3162c7c9f01912ba1940e188b253f2b5c7ba77",
+      "title": "graphics/mesa-libs: Bump reverse deps for libglvnd - ports - FreeBSD ports tree",
+      "grade": 0
+    },
+    {
+      "hash": "CRMnc2bypRQw",
+      "address": "https://forgejo.org/docs/latest/",
+      "title": "Forgejo v10.0 documentation | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "35VSb2sWTYKx",
+      "address": "https://sourceforge.net/p/cdesktopenv/wiki/Home/",
+      "title": "CDE - Common Desktop Environment / Wiki / Home",
+      "grade": 0
+    },
+    {
+      "hash": "006tlIFF1ENw",
+      "address": "https://wiki.debian.org/Teams/DebianWiki",
+      "title": "Teams/DebianWiki - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "XN485QFF1ENw",
+      "address": "https://wiki.debian.org/DebianWiki",
+      "title": "DebianWiki - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "ipkB_gxYbxiw",
+      "address": "https://wiki.python.org/moin/WikiAttack2013",
+      "title": "WikiAttack2013",
+      "grade": 0
+    },
+    {
+      "hash": "mcoOrQFhkPCh",
+      "address": "https://wiki.debianforum.de/Links",
+      "title": "Links – DebianforumWiki",
+      "grade": 0
+    },
+    {
+      "hash": "DKNBCeMcq6Ew",
+      "address": "https://web.archive.org/web/20190927235432/https:/www.debian.org/devel/debian-nonprofit/",
+      "title": "Debian -- Debian Non-Profit",
+      "grade": 0
+    },
+    {
+      "hash": "3fxrRQeyuvU5",
+      "address": "https://wiki.hyperbola.info/doku.php?do=export_xhtml\u0026id=en:project:releases",
+      "title": "en:project:releases",
+      "grade": 0
+    },
+    {
+      "hash": "4fqAmeMcq6Ew",
+      "address": "https://web.archive.org/web/20191102210119/https:/wiki.debian.org/FrontPage",
+      "title": "FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "RdTv0jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Public_domain",
+      "title": "Public domain - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Yk0ebs2jvnSw",
+      "address": "https://ffmpeg.org/",
+      "title": "FFmpeg",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "6slZ0tS6MKD4",
+      "address": "https://github.com/trending/go?since=daily",
+      "title": "Trending Go repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "C5DJkPsmDMDx",
+      "address": "https://hu.wikibooks.org/wiki/Kezd%C5%91lap",
+      "title": "Wikikönyvek",
+      "grade": 0
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "grade": 0
+    },
+    {
+      "hash": "p9gdlobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Project:Support_desk",
+      "title": "Project:Support desk - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "8CJLrjAL9Tgx",
+      "address": "https://en.wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource, the free online library",
+      "grade": 0
+    },
+    {
+      "hash": "OYZdJl1nrxbw",
+      "address": "https://www.debian.org/support",
+      "title": "Debian -- User Support",
+      "grade": 1
+    },
+    {
+      "hash": "WT6Pnl1nrxbw",
+      "address": "https://www.debian.org/security/",
+      "title": "Debian -- Security Information",
+      "grade": 0
+    },
+    {
+      "hash": "5fJhMjldhbwx",
+      "address": "https://en.wikibooks.org/wiki/Cryptsetup",
+      "title": "Cryptsetup - Wikibooks, open books for an open world",
+      "grade": 0
+    },
+    {
+      "hash": "MoRYCjBqP5nw",
+      "address": "https://wiki.yacy.net/index.php/En:Start",
+      "title": "En:Start – YaCyWiki",
+      "grade": 0
+    },
+    {
+      "hash": "nchCsxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications/Utilities",
+      "title": "List of applications/Utilities - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "3ufGwxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/AUR_helpers",
+      "title": "AUR helpers - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "4SIJYl1nrxbw",
+      "address": "https://www.debian.org/distrib/",
+      "title": "Download Debian",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "_BwQ1GNQlu2w",
+      "address": "https://bits.debian.org/",
+      "title": "Bits from Debian - Blog from the Debian Project",
+      "grade": 0
+    },
+    {
+      "hash": "eE-MAxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Systemd",
+      "title": "systemd - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "vqp5vg1nrxbw",
+      "address": "https://www.debian.org/distrib/netinst",
+      "title": "Installing Debian via the Internet",
+      "grade": 0
+    },
+    {
+      "hash": "B_6RJy1nrxbw",
+      "address": "https://www.debian.org/releases/buster/",
+      "title": "Debian -- Debian “buster” Release Information",
+      "grade": 0
+    },
+    {
+      "hash": "DxweFz01M8aw",
+      "address": "https://contributors.debian.org/",
+      "title": "Debian Contributors",
+      "grade": 0
+    },
+    {
+      "hash": "vBKIuy1nrxbw",
+      "address": "https://www.debian.org/releases/sid/",
+      "title": "Debian -- The unstable distribution (\"sid\")",
+      "grade": 0
+    },
+    {
+      "hash": "5b3Zyl1nrxbw",
+      "address": "https://www.debian.org/MailingLists/",
+      "title": "Debian -- Mailing Lists",
+      "grade": 0
+    },
+    {
+      "hash": "7OZg5t1nrxbw",
+      "address": "https://www.debian.org/CD/faq/",
+      "title": "Frequently Asked Questions about Debian CD/DVD/USB images",
+      "grade": 0
+    },
+    {
+      "hash": "0Ma2GlFF1ENw",
+      "address": "https://wiki.debian.org/uk/FrontPage",
+      "title": "uk/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "39QXDjFF1ENw",
+      "address": "https://wiki.debian.org/sr/FrontPage",
+      "title": "sr/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "VxH037FF1ENw",
+      "address": "https://wiki.debian.org/sv/FrontPage",
+      "title": "sv/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "aUYQK6FF1ENw",
+      "address": "https://wiki.debian.org/bn/FrontPage",
+      "title": "bn/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "2aYb_QFF1ENw",
+      "address": "https://wiki.debian.org/RecentChanges",
+      "title": "RecentChanges - Debian Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "5LRRKzFF1ENw",
+      "address": "https://wiki.debian.org/pt_BR/FrontPage",
+      "title": "pt_BR/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "MFE_N_FF1ENw",
+      "address": "https://wiki.debian.org/nl/FrontPage",
+      "title": "nl/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "MdF5ptrd9FQw",
+      "address": "https://upsilon.cc/~zack/talks/2010/20101204-versailles.pdf",
+      "title": "Debian: 17 ans de logiciel libre,  ``do-ocracy'' et démocratie",
+      "grade": 0
+    },
+    {
+      "hash": "R27e5QFF1ENw",
+      "address": "https://wiki.debian.org/",
+      "title": "FrontPage - Debian Wiki",
+      "grade": 2
+    },
+    {
+      "hash": "So40KsFF1ENw",
+      "address": "https://wiki.debian.org/vi/FrontPage",
+      "title": "vi/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "XXQ6JAFF1ENw",
+      "address": "https://wiki.debian.org/DebianWiki/Contact",
+      "title": "DebianWiki/Contact - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "ZEEKIQFF1ENw",
+      "address": "https://wiki.debian.org/SystemGroups",
+      "title": "SystemGroups - Debian Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "aQiuRXFF1ENw",
+      "address": "https://wiki.debian.org/ru/FrontPage",
+      "title": "ru/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "fgI9rrFF1ENw",
+      "address": "https://wiki.debian.org/nn/FrontPage",
+      "title": "nn/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "hHd8XQFF1ENw",
+      "address": "https://wiki.debian.org/copyright.html",
+      "title": "copyright.html - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "mxi9VQFF1ENw",
+      "address": "https://wiki.debian.org/FrontPage",
+      "title": "FrontPage - Debian Wiki",
+      "grade": 2
+    },
+    {
+      "hash": "r0lhMQFF1ENw",
+      "address": "https://wiki.debian.org/Services",
+      "title": "Services - Debian Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "rPwa4kFF1ENw",
+      "address": "https://wiki.debian.org/he/FrontPage",
+      "title": "he/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "vGXaRQFF1ENw",
+      "address": "https://wiki.debian.org/DebianMaintainer",
+      "title": "DebianMaintainer - Debian Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "xk9tIfFF1ENw",
+      "address": "https://wiki.debian.org/tr/FrontPage",
+      "title": "tr/FrontPage - Debian Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "BAI1QxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/List_of_applications",
+      "title": "List of applications - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "DQmGAl1nrxbw",
+      "address": "https://www.debian.org/license",
+      "title": "Debian WWW Pages License",
+      "grade": 0
+    },
+    {
+      "hash": "t2b3Ag1nrxbw",
+      "address": "https://www.debian.org/distrib/packages",
+      "title": "Debian -- Packages",
+      "grade": 0
+    },
+    {
+      "hash": "tFspTz50F6Ew",
+      "address": "https://xmpp-team.pages.debian.net/blog/",
+      "title": "Bits from the Debian XMPP Team - Blog of the Debian XMPP Team",
+      "grade": 0
+    },
+    {
+      "hash": "7rU5JfVgGFi4",
+      "address": "https://help.ubuntu.com/community/Games",
+      "title": "Games - Community Help Wiki",
+      "grade": 0
+    }
+  ]
+}

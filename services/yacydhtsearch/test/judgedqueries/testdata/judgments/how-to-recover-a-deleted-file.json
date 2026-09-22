@@ -1,0 +1,277 @@
+{
+  "query": "how to recover a deleted file",
+  "judgedDocuments": [
+    {
+      "hash": "XEyWzL8hxo35",
+      "address": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "title": "Microsoft Privacy Statement – Microsoft privacy",
+      "grade": 0
+    },
+    {
+      "hash": "S8-8qGfVq0pw",
+      "address": "https://httpwg.org/specs/rfc9110.html",
+      "title": "RFC 9110 - HTTP Semantics",
+      "grade": 0
+    },
+    {
+      "hash": "9HOnHyXjZ9O4",
+      "address": "https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication-recovery-methods",
+      "title": "Configuring two-factor authentication recovery methods - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "yJuijsCG40j4",
+      "address": "https://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs - Updates from the Internet Archive",
+      "grade": 0
+    },
+    {
+      "hash": "3zNNPsUPWR96",
+      "address": "https://realitybloger.com/",
+      "title": "REALITY BLOG",
+      "grade": 0
+    },
+    {
+      "hash": "9Gfi7KsrSOQw",
+      "address": "https://arxiv.org/list/cs/new",
+      "title": "Computer Science",
+      "grade": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
+      "grade": 0
+    },
+    {
+      "hash": "_1HE37XOJZp4",
+      "address": "https://help.opera.com/en/latest/web-preferences/",
+      "title": "Web preferences - Opera Help",
+      "grade": 0
+    },
+    {
+      "hash": "g-Uc7lwGqNK5",
+      "address": "https://www.ziffdavis.com/terms-of-use",
+      "title": "Ziff Davis, LLC Terms of Use - Ziff Davis",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "Mtc91HiKrgZ4",
+      "address": "https://vimeo.com/legal/privacy/policy",
+      "title": "Privacy Policy | Vimeo",
+      "grade": 0
+    },
+    {
+      "hash": "LMDpePMeDwQx",
+      "address": "https://foundation.wikimedia.org/wiki/Privacy_policy",
+      "title": "Wikimedia Foundation Privacy Policy - Wikimedia Foundation Governance Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "XwuSSjXxSRFx",
+      "address": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "title": "RFC 9110: HTTP Semantics",
+      "grade": 0
+    },
+    {
+      "hash": "pV-3Tz1OWdFw",
+      "address": "https://www.mozilla.org/en-US/privacy/firefox/",
+      "title": "Firefox Privacy Notice — Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "xdMK9lMWOht5",
+      "address": "https://www.valnetinc.com/en/terms-of-use",
+      "title": "Terms of Use",
+      "grade": 0
+    },
+    {
+      "hash": "67d3QsiKrgZ4",
+      "address": "https://vimeo.com/legal/",
+      "title": "Vimeo Terms of Service | Vimeo",
+      "grade": 0
+    },
+    {
+      "hash": "E_GwOPMeDwQx",
+      "address": "https://foundation.wikimedia.org/wiki/Policy:Privacy_policy",
+      "title": "Wikimedia Foundation Privacy Policy - Wikimedia Foundation Governance Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "J4f55PMeDwQx",
+      "address": "https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy",
+      "title": "Wikimedia Foundation Privacy Policy - Wikimedia Foundation Governance Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "UllpaUNG1pIw",
+      "address": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+      "title": "Brief independent investigation of agents’ behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident - METR",
+      "grade": 0
+    },
+    {
+      "hash": "mz54djRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wayback_Machine",
+      "title": "Wayback Machine - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "3Mlvn3WS8KmZ",
+      "address": "http://timeline.knightlab.com/",
+      "title": "Timeline",
+      "grade": 0
+    },
+    {
+      "hash": "LI1qL8BbCvn5",
+      "address": "https://policies.warnerbros.com/terms/en-us/html/terms_en-us_1.5.1.html",
+      "title": "Terms of Use - Warner Bros. - The Studio",
+      "grade": 0
+    },
+    {
+      "hash": "N5Pjho75NKbx",
+      "address": "https://gom.wikipedia.org/wiki/%E0%A4%B5%E0%A4%BF%E0%A4%95%E0%A4%BF%E0%A4%AA%E0%A5%80%E0%A4%A1%E0%A4%BF%E0%A4%AF%E0%A4%BE:Tintto",
+      "title": "विकिपीडिया:Tintto - विकिपीडिया",
+      "grade": 0
+    },
+    {
+      "hash": "PHkzJJcvw7Vx",
+      "address": "https://wordpress.org/plugins/sucuri-scanner/",
+      "title": "Sucuri Security – Auditing, Malware Scanner and Security Hardening – WordPress plugin | WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "SylAe40jxin4",
+      "address": "https://docs.gitlab.com/user/project/pages/",
+      "title": "GitLab Pages | GitLab Docs",
+      "grade": 0
+    },
+    {
+      "hash": "W8v1XlXEa2U7",
+      "address": "https://www.waybackmachinedownloader.com/en/",
+      "title": "Wayback Machine Downloader - $12/whole domain - Free Trial",
+      "grade": 0
+    },
+    {
+      "hash": "nWMgE7yp6WtY",
+      "address": "http://tantek.com/?skin=vtx",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "rdSjgI10bPWx",
+      "address": "https://www.copyright.gov/title17/92chap1.html",
+      "title": "Chapter 1 - Circular 92 | U.S. Copyright Office",
+      "grade": 0
+    },
+    {
+      "hash": "wcHnrsVUrQm6",
+      "address": "https://earthnewspaper.com/",
+      "title": "EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "z0zNUs709vxy",
+      "address": "https://plutocracycartel.net/",
+      "title": "PLUTOCRACY CARTEL - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, FINANCIAL ELITE, DYNASTIC ELITE, DRUG TRAFFICKING, MONEY LAUNDERING, GLOBALISM, DEEP STATE, CORPORATOCRACY, PLUTOCRACY, KLEPTOCRACY",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Ge5YBWRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc7231",
+      "title": "RFC 7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content",
+      "grade": 0
+    },
+    {
+      "hash": "S5wlF7yp6WtY",
+      "address": "http://tantek.com/?skin=trn",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "TP2O3F6ArEvw",
+      "address": "https://blog.archive.org/category/television-archive/",
+      "title": "Television Archive - Internet Archive Blogs",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "_0C85xah6OC5",
+      "address": "https://terrytao.wordpress.com/",
+      "title": "What's new | Updates on my research and expository papers, discussion of open problems, and other maths-related topics. By Terence Tao",
+      "grade": 0
+    },
+    {
+      "hash": "eY5W1lwGqNK5",
+      "address": "https://www.ziffdavis.com/terms-of-use/",
+      "title": "Ziff Davis, LLC Terms of Use - Ziff Davis",
+      "grade": 0
+    },
+    {
+      "hash": "ehUE-qbVMkf5",
+      "address": "https://apps.nextcloud.com/",
+      "title": "All apps - App Store - Nextcloud",
+      "grade": 0
+    },
+    {
+      "hash": "k--hTF6ArEvw",
+      "address": "https://blog.archive.org/category/software-archive/",
+      "title": "Software Archive - Internet Archive Blogs",
+      "grade": 0
+    }
+  ]
+}

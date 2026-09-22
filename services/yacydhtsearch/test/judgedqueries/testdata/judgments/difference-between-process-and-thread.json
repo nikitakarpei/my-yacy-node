@@ -1,0 +1,305 @@
+{
+  "query": "difference between process and thread",
+  "judgedDocuments": [
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": 0
+    },
+    {
+      "hash": "2sLGtk7R-1v5",
+      "address": "https://lorelle.wordpress.com/",
+      "title": "Lorelle on WordPress",
+      "grade": 0
+    },
+    {
+      "hash": "wXMGJqwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/tag/gas/",
+      "title": "gas | The Original Boggart Blog",
+      "grade": 0
+    },
+    {
+      "hash": "lHyjn7XhHC9Z",
+      "address": "http://bay12games.com/dwarves/",
+      "title": "Bay 12 Games: Dwarf Fortress",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "grade": 0
+    },
+    {
+      "hash": "Fct7Cj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
+      "grade": 0
+    },
+    {
+      "hash": "Z5FWhh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
+      "title": "Commons:Village pump - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "-S1qcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
+      "title": "Wikipedia:Community portal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "GUrZK6QzbYgx",
+      "address": "https://wikisource.org/wiki/Wikisource:Scriptorium",
+      "title": "Wikisource:Scriptorium - Wikisource",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "FMD4sitD2jQw",
+      "address": "https://docs.python.org/3/library/typing.html",
+      "title": "typing — Support for type hints — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "pGRD67yp6WtY",
+      "address": "http://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "0n-6-s6UwhOw",
+      "address": "https://openclaw.ai/",
+      "title": "OpenClaw — Open-Source AI Assistant",
+      "grade": 0
+    },
+    {
+      "hash": "7eYSusLVkley",
+      "address": "https://daringfireball.net/",
+      "title": "Daring Fireball",
+      "grade": 0
+    },
+    {
+      "hash": "CejMClV0L9iy",
+      "address": "https://www.moonofalabama.org/",
+      "title": "Moon of Alabama – And must have whiskey – Oh, you know why",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "ECFsulHrQ4V5",
+      "address": "https://www.macrumors.com/",
+      "title": "MacRumors: Apple News and Rumors",
+      "grade": 0
+    },
+    {
+      "hash": "Qj6oCHl9zMFY",
+      "address": "http://antigreen.blogspot.com/",
+      "title": "GREENIE WATCH",
+      "grade": 0
+    },
+    {
+      "hash": "Qu__XUVM3_EY",
+      "address": "http://bobagard.blogspot.com/",
+      "title": "Bob's Blog",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "_CcHmZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/12/spirit-of-beehive_04.html",
+      "title": "Rigorous Intuition: Spirit of the Beehive",
+      "grade": 0
+    },
+    {
+      "hash": "yJuijsCG40j4",
+      "address": "https://tantek.com/",
+      "title": "Tantek Çelik",
+      "grade": 0
+    },
+    {
+      "hash": "0NHyDitD2jQw",
+      "address": "https://docs.python.org/3/glossary.html",
+      "title": "Glossary — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "BvdzPkK1Oo7x",
+      "address": "https://fj.wikipedia.org/wiki/Wikipedia:Soqosoqo_toso",
+      "title": "Wikipedia:Soqosoqo toso - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "MtbvcNiWmvJx",
+      "address": "https://hak.wikipedia.org/wiki/Wikipedia:Th%C3%A2ng-h%C3%A2",
+      "title": "Wikipedia:Thâng-hâ - 自由編輯个維基百科",
+      "grade": 0
+    },
+    {
+      "hash": "QRPC1sakFVXw",
+      "address": "https://slashdot.org/blog",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "grade": 0
+    },
+    {
+      "hash": "SK-3ZstIP9D5",
+      "address": "https://tanitisis.com/",
+      "title": "Tanit-Isis Sews | because my fingers itch…",
+      "grade": 0
+    },
+    {
+      "hash": "SK8PPQ6AOKEx",
+      "address": "https://co.wikipedia.org/wiki/Wikipedia:Purtone_di_a_cumunit%C3%A0",
+      "title": "Wikipedia:Purtone di a cumunità - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "YFCMNBIdQkrx",
+      "address": "https://kg.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "YmZ4jbXQSSmx",
+      "address": "https://ht.wikipedia.org/wiki/Wikipedya:Kafe",
+      "title": "Wikipedya:Kafe — Wikipedya",
+      "grade": 0
+    },
+    {
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
+      "grade": 0
+    },
+    {
+      "hash": "ckO_3CAp6NRx",
+      "address": "https://yo.wikipedia.org/wiki/Wikipedia:%C3%88b%C3%BAt%C3%A9_%C3%80w%C3%B9j%E1%BB%8D",
+      "title": "Wikipedia:Èbúté Àwùjọ - Wikipedia, ìwé-ìmọ̀ ọ̀fẹ́",
+      "grade": 0
+    },
+    {
+      "hash": "f8PBZ70fl1jw",
+      "address": "https://streams.spec.whatwg.org/",
+      "title": "Streams Standard",
+      "grade": 0
+    },
+    {
+      "hash": "fMp6-81h31Ix",
+      "address": "https://map-bms.wikipedia.org/wiki/Wikipedia:Dopokan",
+      "title": "Wikipedia:Dopokan - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "kdk_feVM3_EY",
+      "address": "http://bobagard.blogspot.com/2022/07/biden-conveniently-reinitiates-strict.html",
+      "title": "Bob's Blog: Biden conveniently reinitiates strict isolation procedures",
+      "grade": 0
+    },
+    {
+      "hash": "o3BWfKA-JRwx",
+      "address": "https://ks.wikipedia.org/wiki/%D9%88%D9%90%DA%A9%DB%8C%D9%96%D9%BE%DB%8C%D9%96%DA%88%DB%8C%D8%A7:%DA%86%D9%88%DA%A9",
+      "title": "وِکیٖپیٖڈیا:چوک - وِکیٖپیٖڈیا",
+      "grade": 0
+    },
+    {
+      "hash": "rr7FxhcAIrWx",
+      "address": "https://wo.wikipedia.org/wiki/Wikipedia:P%C3%A9nc_mi",
+      "title": "Wikipedia:Pénc mi — Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "sAeglsJDpFPw",
+      "address": "https://seclists.org/",
+      "title": "SecLists.Org Security Mailing List Archive",
+      "grade": 0
+    },
+    {
+      "hash": "xNoNG6qCcbex",
+      "address": "https://hsb.wikipedia.org/wiki/Wikipedija:Kor%C4%8Dma",
+      "title": "Wikipedija:Korčma - Wikipedija",
+      "grade": 0
+    },
+    {
+      "hash": "znsKwQb80fXa",
+      "address": "http://www.zippittydodah.com/",
+      "title": "Reflections in a Petri Dish",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "yUPwOE05rw04",
+      "address": "https://www.unz.com/isteve/isteve-open-thread-26-2/",
+      "title": "ISteve Open Thread 26, by iSteve Community - The Unz Review",
+      "grade": 0
+    },
+    {
+      "hash": "n5agDs2xL7A6",
+      "address": "https://corbettreport.com/march-open-thread-2022/",
+      "title": "March Open Thread (2022) | The Corbett Report",
+      "grade": 0
+    },
+    {
+      "hash": "onutos2xL7A6",
+      "address": "https://corbettreport.com/december-open-thread/",
+      "title": "December Open Thread | The Corbett Report",
+      "grade": 0
+    }
+  ]
+}
