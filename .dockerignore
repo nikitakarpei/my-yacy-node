@@ -8,3 +8,7 @@ doc
 .toolchain
 .untracked
 .claude
+test
+**/test
+**/testdata
+**/*_test.go
