@@ -63,7 +63,7 @@ func peersThatMayCrossCheckIn(
 }
 
 func peersNotIgnoringTheCrossCheckAmong(
-	replicas []queryWordOnReplica,
+	replicas []wordReplica,
 	peerStandings peerjudgements.PeerStandings,
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
