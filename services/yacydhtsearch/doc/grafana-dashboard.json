@@ -361,7 +361,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacydhtsearch_searches_total{outcome=~\"answered_from_cache|no_item_from_cache\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacydhtsearch_searches_total{instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum(clamp_min(yacydhtsearch_searches_total{outcome=~\"answered_from_cache|no_item_from_cache\",instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{outcome=~\"answered_from_cache|no_item_from_cache\",instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "answered from cache"
         }
       ]
@@ -757,7 +757,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacydhtsearch_word_joined_spreads_total{join=\"no document\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spreads_total{join=\"no document\",instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spreads_total{join=\"no document\",instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "no document held all query words"
         }
       ]
@@ -977,7 +977,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (leading_query_word_choice) (rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])) / scalar(sum(rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])))",
+          "expr": "sum by (leading_query_word_choice) (clamp_min(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} offset $__interval), 0)) / scalar(sum(clamp_min(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "{{leading_query_word_choice}}"
         }
       ]
@@ -1893,7 +1893,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (activity) (rate(yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"}[$window])) / ignoring(activity) group_left sum(rate(yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum by (activity) (clamp_min(yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"} offset $__interval), 0)) / ignoring(activity) group_left sum(clamp_min(yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_time_spent_seconds_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{activity}}"
         }
       ]
@@ -2306,7 +2306,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(process_cpu_seconds_total{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
+          "expr": "clamp_min(process_cpu_seconds_total{instance=~\"$service_instance\"} - (process_cpu_seconds_total{instance=~\"$service_instance\"} offset $__interval), 0) / ($__interval_ms / 1000) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
       ]
@@ -2426,7 +2426,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(go_gc_duration_seconds_sum{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
+          "expr": "clamp_min(go_gc_duration_seconds_sum{instance=~\"$service_instance\"} - (go_gc_duration_seconds_sum{instance=~\"$service_instance\"} offset $__interval), 0) / ($__interval_ms / 1000) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
       ]
