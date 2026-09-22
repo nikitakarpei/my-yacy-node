@@ -2004,3 +2004,239 @@ func TestADocumentListedForTheCompoundWordOfTwoWordsIsJoinedForBoth(t *testing.T
 		)
 	}
 }
+
+func addressesInPartition(
+	t *testing.T,
+	partition uint,
+	amount int,
+) []string {
+	t.Helper()
+
+	addresses := make([]string, 0, amount)
+	for place := 0; len(addresses) < amount; place++ {
+		address := fmt.Sprintf("https://document-%d.example/", place)
+		if yacymodel.DHTRingPartitions(twoPartitionsOfTheRing).PartitionOf(
+			documentHashOf(t, address),
+		) != partition {
+			continue
+		}
+		addresses = append(addresses, address)
+	}
+
+	return addresses
+}
+
+func replicasOfTwoQueryWordsInTwoPartitions() responsiblePeers {
+	return responsiblePeers{
+		peerAddressesPerWord: map[string][]string{
+			firstWord:  {"first-in-0", "first-in-1"},
+			secondWord: {"second-in-0", "second-in-1"},
+		},
+		partitionOfEachPeer: map[string]uint{
+			"first-in-0":  0,
+			"first-in-1":  1,
+			"second-in-0": 0,
+			"second-in-1": 1,
+		},
+	}
+}
+
+func spreadOverTwoPartitions(
+	network *peerNetwork,
+	choice responsiblePeers,
+	judgements wordjoined.PeerJudgements,
+	observer wordjoined.WordJoinedSpreadObserver,
+) queryanswers.AnsweredQuery {
+	return spreadOverPeers(
+		newSpreadOverChosenPeers(
+			choice,
+			wordjoined.New(
+				network,
+				network,
+				judgements,
+				urlMetadataAskDocumentsCeiling,
+				crossCheckedDocumentsCeiling,
+				peerItemsCeiling,
+				twoPartitionsOfTheRing,
+				peersHoldingOneWord,
+				observer,
+			),
+		),
+		nil,
+	)
+}
+
+func networkWhereTheSecondWordHoldsTheDocumentsOfPartitionOne(
+	t *testing.T,
+) (*peerNetwork, []string) {
+	t.Helper()
+
+	documentsInPartitionOne := addressesInPartition(t, 1, 3)
+	network := networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: {}},
+		"first-in-1":  {firstWord: documentsInPartitionOne[:2]},
+		"second-in-0": {secondWord: addressesInPartition(t, 0, 1)},
+		"second-in-1": {secondWord: documentsInPartitionOne},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-0": 0, "second-in-1": 0}
+
+	return network, documentsInPartitionOne[:2]
+}
+
+func TestACandidateOfOnePartitionIsAskedOnlyOfTheReplicasInThatPartition(t *testing.T) {
+	t.Parallel()
+
+	network, candidates := networkWhereTheSecondWordHoldsTheDocumentsOfPartitionOne(t)
+
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsOfTheCrossCheck(),
+		&recordedSpreads{},
+	)
+
+	if len(network.crossCheckedDocumentsAsks) != 1 ||
+		network.crossCheckedDocumentsAsks[0].Peer.Address != "second-in-1" {
+		t.Fatalf(
+			"the spread put %v, want one cross-checked documents ask to the replica in partition 1",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+	wanted := documentsInTheirHashOrder(documentHashesOf(candidates))
+	got := documentsInTheirHashOrder(documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks))
+	if !slices.Equal(got, wanted) {
+		t.Fatalf("the ask named %v, want every candidate of partition 1 %v", got, wanted)
+	}
+}
+
+func TestADocumentOnlyAReplicaInItsPartitionHoldsIsFound(t *testing.T) {
+	t.Parallel()
+
+	network, candidates := networkWhereTheSecondWordHoldsTheDocumentsOfPartitionOne(t)
+
+	answeredQuery := spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsOfTheCrossCheck(),
+		&recordedSpreads{},
+	)
+
+	foundDocuments := make([]yacymodel.URLHash, 0, len(answeredQuery.FoundDocuments))
+	for _, foundDocument := range answeredQuery.FoundDocuments {
+		foundDocuments = append(foundDocuments, foundDocument.Hash)
+	}
+	wanted := documentsInTheirHashOrder(documentHashesOf(candidates))
+	if got := documentsInTheirHashOrder(foundDocuments); !slices.Equal(got, wanted) {
+		t.Fatalf("the spread found %v, want every document the replica in partition 1 holds %v",
+			got, wanted)
+	}
+}
+
+func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
+	t.Parallel()
+
+	candidateInPartitionZero := addressesInPartition(t, 0, 2)
+	candidateInPartitionOne := addressesInPartition(t, 1, 2)
+	network := networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: candidateInPartitionZero[:1]},
+		"first-in-1":  {firstWord: candidateInPartitionOne[:1]},
+		"second-in-0": {secondWord: candidateInPartitionZero[1:]},
+		"second-in-1": {secondWord: {candidateInPartitionOne[1], candidateInPartitionOne[0]}},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-1": 1}
+	network.documentsHeldByEachPeer = map[string]int{"second-in-0": 1}
+
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsOfTheCrossCheck(),
+		&recordedSpreads{},
+	)
+
+	wanted := documentHashesOf(candidateInPartitionOne[:1])
+	if got := documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, wanted,
+	) {
+		t.Fatalf(
+			"the asks named %v, want only the candidate of the partition the word is partly listed in %v",
+			got,
+			wanted,
+		)
+	}
+}
+
+func TestTheCandidatesOfAPartitionWhoseReplicasAllIgnoreTheCrossCheckAreCountedAsNoPeerTook(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	candidateInPartitionZero := addressesInPartition(t, 0, 1)
+	candidateInPartitionOne := addressesInPartition(t, 1, 2)
+	network := networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: candidateInPartitionZero},
+		"first-in-1":  {firstWord: candidateInPartitionOne[:1]},
+		"second-in-0": {secondWord: candidateInPartitionZero},
+		"second-in-1": {secondWord: candidateInPartitionOne},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-0": 0, "second-in-1": 0}
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second-in-1": {}}
+	judgements := judgementsOfTheCrossCheck()
+	observer := &recordedSpreads{}
+
+	spreadOverTwoPartitions(network, replicasOfTwoQueryWordsInTwoPartitions(), judgements, observer)
+	network.crossCheckedDocumentsAsks = nil
+	spreadOverTwoPartitions(network, replicasOfTwoQueryWordsInTwoPartitions(), judgements, observer)
+
+	if len(network.crossCheckedDocumentsAsks) != 1 ||
+		network.crossCheckedDocumentsAsks[0].Peer.Address != "second-in-0" {
+		t.Fatalf(
+			"the spread put %v, want one ask to the replica in partition 0 that honors the cross-check",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+	crossCheckedDocumentsRound := observer.performed[1].CrossCheckedDocumentsRound
+	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 1 {
+		t.Fatalf(
+			"the spread reported %+v, want the one candidate of partition 1 that no peer took",
+			crossCheckedDocumentsRound,
+		)
+	}
+}
+
+type recordedJudgements struct {
+	wordjoined.PeerJudgements
+
+	peersLookedUp []peerjudgements.PeerAtVersion
+}
+
+func (r *recordedJudgements) StandingsOf(
+	ctx context.Context,
+	peers []peerjudgements.PeerAtVersion,
+) peerjudgements.PeerStandings {
+	r.peersLookedUp = append(r.peersLookedUp, peers...)
+
+	return r.PeerJudgements.StandingsOf(ctx, peers)
+}
+
+func TestOnlyTheReplicasInAPartitionWithCandidatesAreLookedUp(t *testing.T) {
+	t.Parallel()
+
+	network, _ := networkWhereTheSecondWordHoldsTheDocumentsOfPartitionOne(t)
+	judgements := &recordedJudgements{PeerJudgements: judgementsOfTheCrossCheck()}
+
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgements,
+		&recordedSpreads{},
+	)
+
+	wanted := []peerjudgements.PeerAtVersion{{Peer: peerAt("second-in-1").Hash}}
+	if !slices.Equal(judgements.peersLookedUp, wanted) {
+		t.Fatalf(
+			"the spread looked up %v, want only the replica in the partition with candidates %v",
+			judgements.peersLookedUp,
+			wanted,
+		)
+	}
+}

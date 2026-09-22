@@ -10,26 +10,27 @@ import (
 )
 
 func crossCheckedDocumentsAsksFor(
-	candidates []crossCheckCandidatesOfQueryWord,
+	candidates []crossCheckCandidatesOfWordPartition,
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 ) []peerasks.CrossCheckedDocumentsAsk {
 	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(candidates))
-	for _, candidatesOfQueryWord := range candidates {
+	for _, candidatesOfWordPartition := range candidates {
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersNotIgnoringTheCrossCheckAmong(
-				candidatesOfQueryWord.queryWord.replicasThatDidNotListAllTheyHold(), peerStandings,
+				candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold(),
+				peerStandings,
 			),
 			asks,
 		)
 		amountOfDocumentsToDeal := min(
-			len(candidatesOfQueryWord.documents),
+			len(candidatesOfWordPartition.documents),
 			len(peersNotYetAskedToCrossCheck)*crossCheckedDocumentsCeiling,
 		)
 		asks = append(asks, crossCheckedDocumentsAsksDealtAcross(
 			peersNotYetAskedToCrossCheck,
-			candidatesOfQueryWord.queryWord.word,
-			candidatesOfQueryWord.documents[:amountOfDocumentsToDeal],
+			candidatesOfWordPartition.wordPartition.word,
+			candidatesOfWordPartition.documents[:amountOfDocumentsToDeal],
 		)...)
 	}
 
@@ -37,11 +38,11 @@ func crossCheckedDocumentsAsksFor(
 }
 
 func peersThatMayCrossCheckIn(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	candidates []crossCheckCandidatesOfWordPartition,
 ) []peerjudgements.PeerAtVersion {
 	var peers []peerjudgements.PeerAtVersion
-	for _, queryWord := range matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord() {
-		for _, replica := range queryWord.replicasThatDidNotListAllTheyHold() {
+	for _, candidatesOfWordPartition := range candidates {
+		for _, replica := range candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold() {
 			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
 				return peer.Peer == replica.peer.Hash
 			}) {

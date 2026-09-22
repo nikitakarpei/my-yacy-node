@@ -215,15 +215,6 @@ func (queryWord queryWordAcrossReplicas) wordPartitions() []wordPartition {
 	return wordPartitions
 }
 
-func (queryWord queryWordAcrossReplicas) replicasThatDidNotListAllTheyHold() []queryWordOnReplica {
-	var replicas []queryWordOnReplica
-	for _, wordPartition := range queryWord.wordPartitions() {
-		replicas = append(replicas, wordPartition.replicasThatDidNotListAllTheyHold()...)
-	}
-
-	return replicas
-}
-
 func (replica queryWordOnReplica) isFullyListed() bool {
 	answer, answered := replica.answer.Get()
 	if !answered {

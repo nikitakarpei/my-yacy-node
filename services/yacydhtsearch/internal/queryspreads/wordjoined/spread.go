@@ -91,12 +91,13 @@ func (spread Spread) SpreadOverPeers(
 		query,
 		chosenPeersPerQueryWord,
 	)
+	crossCheckCandidates := crossCheckCandidatesIn(matchedAndHeldDocumentsRound, spread.partitions)
 	peerStandings := spread.peerJudgements.StandingsOf(
-		ctx, peersThatMayCrossCheckIn(matchedAndHeldDocumentsRound),
+		ctx, peersThatMayCrossCheckIn(crossCheckCandidates),
 	)
 	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
 		ctx,
-		matchedAndHeldDocumentsRound,
+		crossCheckCandidates,
 		peerStandings,
 	)
 	judgedPeers := judgeAskedPeersIn(crossCheckedDocumentsRound)
@@ -160,10 +161,9 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 
 func (spread Spread) askForCrossCheckedDocuments(
 	ctx context.Context,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	candidates []crossCheckCandidatesOfWordPartition,
 	peerStandings peerjudgements.PeerStandings,
 ) crossCheckedDocumentsRound {
-	candidates := crossCheckCandidatesIn(matchedAndHeldDocumentsRound)
 	asks := crossCheckedDocumentsAsksFor(
 		candidates,
 		peerStandings,

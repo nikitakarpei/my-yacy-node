@@ -45,10 +45,10 @@ func performedCrossCheckedDocumentsRoundFrom(
 	}
 }
 
-func amountOfCrossCheckCandidatesAcross(candidates []crossCheckCandidatesOfQueryWord) int {
+func amountOfCrossCheckCandidatesAcross(candidates []crossCheckCandidatesOfWordPartition) int {
 	amount := 0
-	for _, candidatesOfQueryWord := range candidates {
-		amount += len(candidatesOfQueryWord.documents)
+	for _, candidatesOfWordPartition := range candidates {
+		amount += len(candidatesOfWordPartition.documents)
 	}
 
 	return amount
