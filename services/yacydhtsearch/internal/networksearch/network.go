@@ -49,7 +49,7 @@ type SearchOutcome int
 
 const (
 	PeersAsked SearchOutcome = iota
-	NoIndexedTermInQuery
+	NoIndexedWordInQuery
 	NoPeerToAsk
 )
 
@@ -58,16 +58,17 @@ type NetworkSearchObserver interface {
 }
 
 type Network struct {
-	peerDirectory      *peerdirectory.Directory
-	peerChoice         PeerChoice
-	querySpread        QuerySpread
-	pageReading        PageReading
-	documentsOrdering  DocumentsOrdering
-	queryBudget        time.Duration
-	pageReadBudget     time.Duration
-	pagesReadPerQuery  int
-	rankedItemsCeiling int
-	observer           NetworkSearchObserver
+	peerDirectory        *peerdirectory.Directory
+	peerChoice           PeerChoice
+	querySpread          QuerySpread
+	pageReading          PageReading
+	documentsOrdering    DocumentsOrdering
+	queryBudget          time.Duration
+	pageReadBudget       time.Duration
+	pagesReadPerQuery    int
+	rankedItemsCeiling   int
+	compoundWordsCeiling int
+	observer             NetworkSearchObserver
 }
 
 //nolint:revive // argument-limit: what one network search holds for every query
@@ -81,19 +82,21 @@ func New(
 	pageReadBudget time.Duration,
 	pagesReadPerQuery int,
 	rankedItemsCeiling int,
+	compoundWordsCeiling int,
 	observer NetworkSearchObserver,
 ) Network {
 	return Network{
-		peerDirectory:      peerDirectory,
-		peerChoice:         peerChoice,
-		querySpread:        querySpread,
-		pageReading:        pageReading,
-		documentsOrdering:  documentsOrdering,
-		queryBudget:        queryBudget,
-		pageReadBudget:     pageReadBudget,
-		pagesReadPerQuery:  pagesReadPerQuery,
-		rankedItemsCeiling: rankedItemsCeiling,
-		observer:           observer,
+		peerDirectory:        peerDirectory,
+		peerChoice:           peerChoice,
+		querySpread:          querySpread,
+		pageReading:          pageReading,
+		documentsOrdering:    documentsOrdering,
+		queryBudget:          queryBudget,
+		pageReadBudget:       pageReadBudget,
+		pagesReadPerQuery:    pagesReadPerQuery,
+		rankedItemsCeiling:   rankedItemsCeiling,
+		compoundWordsCeiling: compoundWordsCeiling,
+		observer:             observer,
 	}
 }
 
@@ -101,8 +104,8 @@ func (n Network) Search(
 	ctx context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, SearchOutcome) {
-	if len(query.Terms) == 0 {
-		return searchresult.Ranking{}, NoIndexedTermInQuery
+	if len(query.Words) == 0 {
+		return searchresult.Ranking{}, NoIndexedWordInQuery
 	}
 
 	ctx, stopQueryBudget := context.WithTimeout(ctx, n.queryBudget)
@@ -115,7 +118,7 @@ func (n Network) Search(
 	}
 
 	chosenPeersPerQueryWord := n.peerChoice.ChosenPeersPerQueryWordFor(
-		ctx, query.TermHashes(), askablePeers,
+		ctx, query.HashesOfWordsAndCompoundWordsUpTo(n.compoundWordsCeiling), askablePeers,
 	)
 	querySpreadContext, endTheQuerySpread := contextWithinTheQuerySpreadBudget(
 		ctx, n.queryBudget, n.pageReadBudget,
@@ -127,7 +130,7 @@ func (n Network) Search(
 		n.pagesReadPerQuery,
 	)
 	readPages := n.pageReading.ReadEachPage(
-		ctx, query.TermHashes(), pagesToReadOf(documentsOrderedFirst),
+		ctx, query.WordHashes(), pagesToReadOf(documentsOrderedFirst),
 	)
 	answersWithReadPages := answers.
 		WithReadPages(readPages.PageContentsPerDocument).

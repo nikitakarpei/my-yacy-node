@@ -12,9 +12,9 @@ func answeredQueryFrom(
 	query searchquery.Query,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:         query.TermHashes(),
-		CompoundQueryWords: queryanswers.CompoundQueryWordsFrom(query.Terms),
-		FoundDocuments:     foundDocumentsFrom(answeredAsks, query.TermHashes()),
+		QueryWords:     query.WordHashes(),
+		CompoundWords:  query.CompoundWords,
+		FoundDocuments: foundDocumentsFrom(answeredAsks, query.WordHashes()),
 	}
 }
 

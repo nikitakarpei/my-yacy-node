@@ -1,6 +1,8 @@
 package wordjoined
 
 import (
+	"maps"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -30,4 +32,14 @@ func (documentsOfEachQueryWord documentsPerQueryWord) containForEveryQueryWord(
 	}
 
 	return true
+}
+
+func (documentsOfEachQueryWord documentsPerQueryWord) add(
+	word yacymodel.Hash,
+	documents distinctDocuments,
+) {
+	if documentsOfEachQueryWord[word] == nil {
+		documentsOfEachQueryWord[word] = distinctDocuments{}
+	}
+	maps.Copy(documentsOfEachQueryWord[word], documents)
 }

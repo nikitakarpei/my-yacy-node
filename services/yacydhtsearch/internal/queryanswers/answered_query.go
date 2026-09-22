@@ -1,19 +1,19 @@
 // Package queryanswers holds what a spread answered for one whole query: its
-// words, its compound words, which are two adjacent query words spelled as one,
-// the documents it found with what the peers sent for each of them, and how
-// many documents the peers hold per query word. The facts of a document
+// words, its compound words, the documents it found with what the peers sent
+// for each of them, and how many documents the peers hold per query word. The facts of a document
 // count its query words, its query phrases, its words and its links. A page the
 // service read replaces the facts, the snippet, the title and the address.
 package queryanswers
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type AnsweredQuery struct {
 	QueryWords                []yacymodel.Hash
-	CompoundQueryWords        []CompoundQueryWord
+	CompoundWords             []searchquery.CompoundWord
 	FoundDocuments            []FoundDocument
 	DocumentsHeldPerQueryWord map[yacymodel.Hash]int
 }

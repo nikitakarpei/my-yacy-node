@@ -68,7 +68,6 @@ func New(
 	}
 }
 
-// TECHDEBT: vocabulary — searchquery says term, peerasks and the spreads say word, for one fact.
 func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
@@ -112,11 +111,14 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 	answeredAsks := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
 
 	return matchedAndHeldDocumentsRound{
-		queryWords:   query.TermHashes(),
+		queryWords:   query.WordHashes(),
 		asks:         asks,
 		answeredAsks: answeredAsks,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
-			chosenPeersPerQueryWord, spread.partitions, answeredAsks,
+			query.WordHashes(), chosenPeersPerQueryWord, spread.partitions, answeredAsks,
+		),
+		compoundWords: compoundWordsAcrossReplicasFrom(
+			query.CompoundWords, chosenPeersPerQueryWord, spread.partitions, answeredAsks,
 		),
 		amountOfPeersPerDocument: amountOfPeersPerDocumentOf(answeredAsks),
 	}

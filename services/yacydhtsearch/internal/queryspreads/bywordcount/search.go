@@ -33,7 +33,7 @@ func (s Spread) SpreadOverPeers(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
-	if len(query.TermHashes()) < 2 {
+	if len(query.WordHashes()) < 2 {
 		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 	}
 

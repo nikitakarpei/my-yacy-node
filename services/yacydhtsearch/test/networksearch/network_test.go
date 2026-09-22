@@ -28,16 +28,17 @@ import (
 )
 
 const (
-	networkName       = "freeworld"
-	responseLimit     = 1 << 20
-	peerCallsInFlight = 48
-	peerCallBudget    = 3 * time.Second
-	queryBudget       = 5 * time.Second
-	pageReadBudget    = 3 * time.Second
-	peerResults       = 10
-	directoryLimit    = 16
-	recordCeiling     = 50
-	pagesReadPerQuery = 50
+	networkName          = "freeworld"
+	responseLimit        = 1 << 20
+	peerCallsInFlight    = 48
+	peerCallBudget       = 3 * time.Second
+	queryBudget          = 5 * time.Second
+	pageReadBudget       = 3 * time.Second
+	peerResults          = 10
+	directoryLimit       = 16
+	recordCeiling        = 50
+	compoundWordsCeiling = 4
+	pagesReadPerQuery    = 50
 
 	networkRedundancy            = 2
 	replicasCoveringAPartition   = networkRedundancy
@@ -333,6 +334,7 @@ func networkOrdering(
 		pageReadBudget,
 		pagesReadPerQuery,
 		recordCeiling,
+		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{observer},
 	)
 }
@@ -435,7 +437,7 @@ func TestAQueryThatReachesNoPeerCarriesBackThatOutcome(t *testing.T) {
 	}
 }
 
-func TestAQueryWithoutAnIndexedTermReachesNoPeer(t *testing.T) {
+func TestAQueryWithoutAnIndexedWordReachesNoPeer(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedQuery{}
@@ -451,8 +453,8 @@ func TestAQueryWithoutAnIndexedTermReachesNoPeer(t *testing.T) {
 			observer.performed.AmountOfAskablePeers,
 		)
 	}
-	if outcome != networksearch.NoIndexedTermInQuery {
-		t.Fatalf("Search reached outcome %v, want no indexed term in the query", outcome)
+	if outcome != networksearch.NoIndexedWordInQuery {
+		t.Fatalf("Search reached outcome %v, want no indexed word in the query", outcome)
 	}
 }
 
@@ -644,6 +646,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		pageReadBudget,
 		pagesReadPerQuery,
 		recordCeiling,
+		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
 	)
 
@@ -690,6 +693,7 @@ func TestADocumentWhosePageIsGoneLeavesTheRanking(t *testing.T) {
 		pageReadBudget,
 		pagesReadPerQuery,
 		recordCeiling,
+		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
 	)
 
@@ -766,6 +770,7 @@ func networkRecordingItsBudgets(
 		pageReadBudgetOfTheQuery,
 		pagesReadPerQuery,
 		recordCeiling,
+		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
 	)
 }
@@ -871,6 +876,25 @@ func TestAQueryOfTwoWordsCarriesBackWhatTheReplicasListForBothWords(t *testing.T
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want the one item both words joined on",
 			observer.performed,
+		)
+	}
+}
+
+func TestAQueryOfTwoWordsCarriesBackWhatAReplicaListsForTheirCompoundWord(t *testing.T) {
+	t.Parallel()
+
+	const address = "https://a.example/"
+	directory := directoryAnsweringAt(
+		t, peerListingTheAddressForEachWord(t, address, "berlinkelondro"),
+	)
+	network := networkSearching(t, directory, &recordedQuery{}, wordJoinedSpread(t))
+
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+
+	if len(ranking.Items) != 1 || ranking.Items[0].Address != address {
+		t.Fatalf(
+			"Search = %+v, want the address the replica lists for the compound word",
+			ranking.Items,
 		)
 	}
 }

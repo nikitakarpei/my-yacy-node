@@ -30,6 +30,7 @@ const (
 	peerItemsCeiling                = 10
 	peersHoldingOneWord             = 24
 	onePartitionOfTheRing           = 1
+	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
 )
 
@@ -1836,7 +1837,9 @@ func (spread spreadOverChosenPeers) SpreadOverPeers(
 	return spread.wordJoinedSpread.SpreadOverPeers(
 		ctx,
 		query,
-		spread.responsiblePeers.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
+		spread.responsiblePeers.ChosenPeersPerQueryWordFor(
+			ctx, query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling), askablePeers,
+		),
 	)
 }
 
@@ -1886,5 +1889,25 @@ func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoAmountOfLinks(t *test
 	if foundDocuments[0].Facts.AmountOfLinks.Present() {
 		t.Fatal("the joined document holds an amount of links, want none where no posting " +
 			"reported one")
+	}
+}
+
+func TestADocumentListedForTheCompoundWordOfTwoWordsIsJoinedForBoth(t *testing.T) {
+	t.Parallel()
+
+	compounded := "https://compounded.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {"https://half.example/"}},
+		"second": {firstWord + secondWord: {compounded}},
+	})
+
+	answers := answeredQueryFrom(network, &recordedSpreads{})
+
+	if len(answers.FoundDocuments) != 1 ||
+		answers.FoundDocuments[0].Hash != documentHashesOf([]string{compounded})[0] {
+		t.Fatalf(
+			"the spread found %+v, want the one document listed for the compound word",
+			answers.FoundDocuments,
+		)
 	}
 }

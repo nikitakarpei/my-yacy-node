@@ -161,6 +161,7 @@ func RunService(
 		cfg.PageReadBudget,
 		cfg.PagesReadPerQuery,
 		cfg.RankedItemsCeiling,
+		cfg.CompoundWordsCeiling,
 		networksearch.NetworkSearchObservers{
 			networksearchobserversapplog.NetworkSearchLog{},
 			networksearchobserversprometheus.New(registry, cfg.QueryBudget),

@@ -178,7 +178,7 @@ func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
 	return s.spread.SpreadOverPeers(
 		ctx,
 		query,
-		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.TermHashes(), askablePeers),
+		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.WordHashes(), askablePeers),
 	)
 }
 
