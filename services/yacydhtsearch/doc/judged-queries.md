@@ -28,6 +28,10 @@ Run each step from `services/yacydhtsearch`. The steps come in this order: a
 recording gives the answers, a capture gives the pages, and the derivation
 gives the contents of the pages to the answers and the judgments.
 
+The `pages/` directory is a git submodule, and the gate does not read it. Run
+`git submodule update --init` before a step writes or reads the pages, and
+commit a change to them in the submodule first.
+
 The recorder asks the live freeworld network and reads the pages of the first
 fifty documents from the web. It needs egress and writes every file again. A
 `-run` pattern that ends in the file name of one query records only that query.
