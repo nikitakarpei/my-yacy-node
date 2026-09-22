@@ -66,6 +66,9 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.PeerExchange.SeedlistURLs != nil {
 		t.Errorf("SeedlistURLs = %v, want nil", config.PeerExchange.SeedlistURLs)
 	}
+	if !config.Identity.Capabilities.AcceptRemoteIndex {
+		t.Errorf("AcceptRemoteIndex = false, want the default")
+	}
 	if config.PageOfferIntake.Enabled() {
 		t.Errorf(
 			"PageOfferIntake = %+v, want disabled without a broker",
@@ -76,10 +79,11 @@ func TestLoadAppliesDefaults(t *testing.T) {
 
 func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
-		nodeconfiguration.EnvPeerName:         "node",
-		nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
-		nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerName:          "node",
+		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+		nodeconfiguration.EnvPageOfferNATSURL:  "nats://localhost:4222",
+		nodeconfiguration.EnvAcceptRemoteIndex: "false",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -122,6 +126,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvPageOfferNATSURL:            "nats://broker:4222",
 		nodeconfiguration.EnvPageOfferDurable:            "reached-durable",
 		nodeconfiguration.EnvPageOfferIntakeConcurrency:  "9",
+		nodeconfiguration.EnvAcceptRemoteIndex:           "false",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -157,6 +162,9 @@ func TestLoadReadsOverrides(t *testing.T) {
 	}
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
+	}
+	if config.Identity.Capabilities.AcceptRemoteIndex {
+		t.Errorf("AcceptRemoteIndex = true, want false")
 	}
 	if config.PageOfferIntake.PageOfferDurable != "reached-durable" ||
 		config.PageOfferIntake.PageOfferIntakeConcurrency != 9 {
@@ -214,76 +222,107 @@ func TestLoadLeavesThePeerNameUnstated(t *testing.T) {
 }
 
 func TestLoadRejects(t *testing.T) {
+	for name, env := range rejectedEnvironments {
+		t.Run(name, func(t *testing.T) {
+			if _, err := nodeconfiguration.Load(envFrom(env)); err == nil {
+				t.Fatal("expected error")
+			}
+		})
+	}
+}
+
+var rejectedEnvironments = map[string]map[string]string{
+	"bad hash": {nodeconfiguration.EnvInitialPeerHash: "short"},
+	"bad name": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "has space",
+		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
+	},
+	"announce no host": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "n",
+		nodeconfiguration.EnvSeedlistURLs:    "http://seed",
+	},
+	"bad port": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "n",
+		nodeconfiguration.EnvAdvertisePort:   "-3",
+	},
+	"bad quota": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "n",
+		nodeconfiguration.EnvStorageQuota:    "big",
+	},
+	"bad block cache": {
+		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerName:         "n",
+		nodeconfiguration.EnvPebbleBlockCache: "plenty",
+	},
+	"bad memtable size": {
+		nodeconfiguration.EnvInitialPeerHash:    "0123456789AB",
+		nodeconfiguration.EnvPeerName:           "n",
+		nodeconfiguration.EnvPebbleMemtableSize: "plenty",
+	},
+	"bad compaction concurrency": {
+		nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
+		nodeconfiguration.EnvPeerName:                    "n",
+		nodeconfiguration.EnvPebbleCompactionConcurrency: "0",
+	},
+	"bad open file limit": {
+		nodeconfiguration.EnvInitialPeerHash:     "0123456789AB",
+		nodeconfiguration.EnvPeerName:            "n",
+		nodeconfiguration.EnvPebbleOpenFileLimit: "-1",
+	},
+	"bad announce interval": {
+		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerName:         "n",
+		nodeconfiguration.EnvAnnounceInterval: "nope",
+	},
+	"negative announce interval": {
+		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerName:         "n",
+		nodeconfiguration.EnvAnnounceInterval: "-1s",
+	},
+	"bad trusted proxy ip": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "n",
+		nodeconfiguration.EnvTrustedProxies:  "999.0.0.1",
+	},
+	"bad trusted proxy mask": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "n",
+		nodeconfiguration.EnvTrustedProxies:  "10.0.0.0/99",
+	},
+	"missing proxy url": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "n",
+	},
+	"non-http proxy url": {
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "n",
+		nodeconfiguration.EnvEgressProxyURL:  "socks5://proxy:1080",
+	},
+	"bad accept remote index": {
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerName:          "n",
+		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+		nodeconfiguration.EnvAcceptRemoteIndex: "maybe",
+	},
+}
+
+func TestLoadRejectsAnythingButOneSourceOfPostings(t *testing.T) {
 	cases := map[string]map[string]string{
-		"bad hash": {nodeconfiguration.EnvInitialPeerHash: "short"},
-		"bad name": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "has space",
-			nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
-		},
-		"announce no host": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "n",
-			nodeconfiguration.EnvSeedlistURLs:    "http://seed",
-		},
-		"bad port": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "n",
-			nodeconfiguration.EnvAdvertisePort:   "-3",
-		},
-		"bad quota": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "n",
-			nodeconfiguration.EnvStorageQuota:    "big",
-		},
-		"bad block cache": {
+		"remote index and page offers": {
 			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
 			nodeconfiguration.EnvPeerName:         "n",
-			nodeconfiguration.EnvPebbleBlockCache: "plenty",
+			nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
+			nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
 		},
-		"bad memtable size": {
-			nodeconfiguration.EnvInitialPeerHash:    "0123456789AB",
-			nodeconfiguration.EnvPeerName:           "n",
-			nodeconfiguration.EnvPebbleMemtableSize: "plenty",
-		},
-		"bad compaction concurrency": {
-			nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
-			nodeconfiguration.EnvPeerName:                    "n",
-			nodeconfiguration.EnvPebbleCompactionConcurrency: "0",
-		},
-		"bad open file limit": {
-			nodeconfiguration.EnvInitialPeerHash:     "0123456789AB",
-			nodeconfiguration.EnvPeerName:            "n",
-			nodeconfiguration.EnvPebbleOpenFileLimit: "-1",
-		},
-		"bad announce interval": {
-			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
-			nodeconfiguration.EnvPeerName:         "n",
-			nodeconfiguration.EnvAnnounceInterval: "nope",
-		},
-		"negative announce interval": {
-			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
-			nodeconfiguration.EnvPeerName:         "n",
-			nodeconfiguration.EnvAnnounceInterval: "-1s",
-		},
-		"bad trusted proxy ip": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "n",
-			nodeconfiguration.EnvTrustedProxies:  "999.0.0.1",
-		},
-		"bad trusted proxy mask": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "n",
-			nodeconfiguration.EnvTrustedProxies:  "10.0.0.0/99",
-		},
-		"missing proxy url": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "n",
-		},
-		"non-http proxy url": {
-			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName:        "n",
-			nodeconfiguration.EnvEgressProxyURL:  "socks5://proxy:1080",
+		"neither remote index nor page offers": {
+			nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+			nodeconfiguration.EnvPeerName:          "n",
+			nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+			nodeconfiguration.EnvAcceptRemoteIndex: "false",
 		},
 	}
 	for name, env := range cases {

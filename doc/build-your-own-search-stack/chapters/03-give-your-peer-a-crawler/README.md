@@ -5,6 +5,10 @@
 The peer stores postings that reach it from the network. A crawler lets you
 choose pages and contribute their words to the shared index.
 
+With the crawler, the node stops accepting postings from other peers
+(`YACY_ACCEPT_REMOTE_INDEX: "false"`). It stores the postings of your crawls
+and sends them to the network.
+
 ## What this chapter adds
 
 - `yacycrawler` visits the pages you name and follows links within the limits

@@ -12,11 +12,14 @@ import (
 )
 
 const (
-	EnvInitialPeerHash = "YACY_INITIAL_PEER_HASH"
-	EnvPeerName        = "YACY_PEER_NAME"
-	EnvNetworkName     = "YACY_NETWORK_NAME"
-	EnvAdvertiseHost   = "YACY_ADVERTISE_HOST"
-	EnvAdvertisePort   = "YACY_ADVERTISE_PORT"
+	EnvInitialPeerHash   = "YACY_INITIAL_PEER_HASH"
+	EnvPeerName          = "YACY_PEER_NAME"
+	EnvNetworkName       = "YACY_NETWORK_NAME"
+	EnvAdvertiseHost     = "YACY_ADVERTISE_HOST"
+	EnvAdvertisePort     = "YACY_ADVERTISE_PORT"
+	EnvAcceptRemoteIndex = "YACY_ACCEPT_REMOTE_INDEX"
+
+	DefaultAcceptRemoteIndex = true
 )
 
 type IdentityConfig struct {
@@ -25,7 +28,7 @@ type IdentityConfig struct {
 	Name          yacymodel.Optional[yacymodel.PeerName]
 	AdvertiseHost string
 	AdvertisePort int
-	Flags         yacymodel.PeerCapabilities
+	Capabilities  yacymodel.PeerCapabilities
 }
 
 func loadIdentityConfig(
@@ -53,13 +56,18 @@ func loadIdentityConfig(
 		return IdentityConfig{}, err
 	}
 
+	capabilities, err := peerCapabilities(getenv)
+	if err != nil {
+		return IdentityConfig{}, err
+	}
+
 	return IdentityConfig{
 		InitialHash:   initialHash,
 		NetworkName:   envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork),
 		Name:          name,
 		AdvertiseHost: host,
 		AdvertisePort: port,
-		Flags:         seniorFlags(),
+		Capabilities:  capabilities,
 	}, nil
 }
 
@@ -131,9 +139,14 @@ func listenPortOf(listenAddr string) (int, error) {
 	return port, nil
 }
 
-func seniorFlags() yacymodel.PeerCapabilities {
+func peerCapabilities(getenv func(string) string) (yacymodel.PeerCapabilities, error) {
+	acceptRemoteIndex, err := envconfig.Bool(getenv, EnvAcceptRemoteIndex, DefaultAcceptRemoteIndex)
+	if err != nil {
+		return yacymodel.PeerCapabilities{}, err
+	}
+
 	return yacymodel.PeerCapabilities{
 		DirectConnect:     true,
-		AcceptRemoteIndex: true,
-	}
+		AcceptRemoteIndex: acceptRemoteIndex,
+	}, nil
 }

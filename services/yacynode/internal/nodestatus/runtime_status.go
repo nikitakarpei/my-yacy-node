@@ -51,7 +51,7 @@ func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 		Hash:         id.Hash,
 		Name:         id.Name,
 		Port:         yacymodel.Some(yacymodel.Port(id.Port)),
-		Capabilities: yacymodel.Some(id.Flags),
+		Capabilities: yacymodel.Some(id.Capabilities),
 		PeerType:     yacymodel.PeerSenior,
 		Tags:         yacymodel.MatchAllTags(),
 		Version:      yacymodel.Some(id.Version),

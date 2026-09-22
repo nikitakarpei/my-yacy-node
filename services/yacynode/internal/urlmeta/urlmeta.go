@@ -81,7 +81,7 @@ func MountTransferURL(
 		yacyproto.PathTransferURL,
 		yacyproto.TransferURLEndpointMethods,
 		yacyproto.ParseTransferURLRequest,
-		transferURLEndpoint{identity: identity, intake: receiver}.Serve,
+		transferURLEndpoint{identity: identity, receiver: receiver}.Serve,
 	)
 }
 

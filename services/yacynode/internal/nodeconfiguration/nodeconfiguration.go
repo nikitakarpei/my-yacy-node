@@ -55,6 +55,10 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
+	if err := requireOnePostingSource(identity, pageOfferIntake); err != nil {
+		return Settings{}, err
+	}
+
 	return Settings{
 		Identity:        identity,
 		Serving:         serving,
