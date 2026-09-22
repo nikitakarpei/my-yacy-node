@@ -1,0 +1,299 @@
+{
+  "query": "comment installer linux",
+  "judgedDocuments": [
+    {
+      "hash": "S9YMJzCJVaIz",
+      "address": "https://planet.documentfoundation.org/",
+      "title": "The Document Foundation Planet",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "4E_8IssEYJ15",
+      "address": "https://tailscale.com/changelog",
+      "title": "Changelog · Tailscale",
+      "grade": 0
+    },
+    {
+      "hash": "y3SbilA4psi4",
+      "address": "https://www.theverge.com/",
+      "title": "The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "vEuPECBKFM7w",
+      "address": "https://nodejs.org/en/blog/release/v19.5.0",
+      "title": "Node.js — Node.js 19.5.0 (Current)",
+      "grade": 0
+    },
+    {
+      "hash": "PwIa8mAUFAfQ",
+      "address": "http://www.iana.org/assignments/media-types",
+      "title": "Media Types",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "KjJNkyfAodxw",
+      "address": "https://docs.freebsd.org/en/articles/contributing/",
+      "title": "Contributing to FreeBSD | FreeBSD Documentation Portal",
+      "grade": 0
+    },
+    {
+      "hash": "VjgsZobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Manual:Errors_and_symptoms",
+      "title": "Manual:Common errors and symptoms - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "8856zsuNWVxw",
+      "address": "https://linuxfr.org/",
+      "title": "Accueil - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
+      "grade": 1
+    },
+    {
+      "hash": "TCa4S49Ojva4",
+      "address": "https://docs.docker.com/build/metadata/attestations/",
+      "title": "Build attestations | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "-G2mj1uNWVxw",
+      "address": "https://linuxfr.org/users/samuel/journaux/faille-d-execution-de-code-a-distance-dans-cups",
+      "title": "Faille d'exécution de code à distance dans cups - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "5lwC1YIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2004/12/give-me-good-reason.html",
+      "title": "Rigorous Intuition: \"Give me a good reason\"",
+      "grade": 0
+    },
+    {
+      "hash": "sC0kMlDOAHJg",
+      "address": "https://www.heise.de/en",
+      "title": "heise online – IT news, guides and background information | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "w1kyLluRgmwg",
+      "address": "https://www.zdnet.fr/",
+      "title": "ZDNET - Actualité, business et technologies pour les professionne ...",
+      "grade": 0
+    },
+    {
+      "hash": "-gZasla_7uS5",
+      "address": "https://www.theregister.com/",
+      "title": "Technology news and analysis | The Register",
+      "grade": 0
+    },
+    {
+      "hash": "AoIYEsbMGqiy",
+      "address": "https://simonwillison.net/2003/",
+      "title": "Archive for 2003",
+      "grade": 0
+    },
+    {
+      "hash": "BU1g6X9Ojva4",
+      "address": "https://docs.docker.com/enterprise/security/hardened-desktop/enhanced-container-isolation/limitations/",
+      "title": "Enhanced Container Isolation limitations | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "_wmsVE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/29/",
+      "title": "Docker Engine version 29 release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "l5KGBE9Ojva4",
+      "address": "https://docs.docker.com/engine/storage/drivers/",
+      "title": "Storage drivers | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "md-x8lN9FuBh",
+      "address": "https://www.kaspersky.be/?ignoreredirects=true",
+      "title": "Solutions de cybersécurité Kaspersky pour particuliers et entreprises | Kaspersky",
+      "grade": 0
+    },
+    {
+      "hash": "oMqXY49Ojva4",
+      "address": "https://docs.docker.com/build/concepts/context/",
+      "title": "Build context | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "q0RUes06iyy4",
+      "address": "https://npcap.com/",
+      "title": "Npcap: Windows Packet Capture Library \u0026 Driver",
+      "grade": 0
+    },
+    {
+      "hash": "sAeglsJDpFPw",
+      "address": "https://seclists.org/",
+      "title": "SecLists.Org Security Mailing List Archive",
+      "grade": 0
+    },
+    {
+      "hash": "wDzrRy06iyy4",
+      "address": "https://npcap.com/guide/npcap-devguide.html",
+      "title": "Developing software with Npcap | Npcap Reference Guide",
+      "grade": 0
+    },
+    {
+      "hash": "2woz1CWUVeV5",
+      "address": "https://opensource.com/alternatives/trello",
+      "title": "5 open source alternatives to Trello | Opensource.com",
+      "grade": 0
+    },
+    {
+      "hash": "4Dgbt7uNWVxw",
+      "address": "https://linuxfr.org/sections/programmation-fonctionnelle",
+      "title": "Programmation fonctionnelle - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "5MwmL6uNWVxw",
+      "address": "https://linuxfr.org/wiki/linuxfr-org",
+      "title": "LinuxFr.org - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "5ncsy7uNWVxw",
+      "address": "https://linuxfr.org/sections/freebsd",
+      "title": "FreeBSD - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "63EiQvuNWVxw",
+      "address": "https://linuxfr.org/tags/emmabunt%C3%BCs/public",
+      "title": "Tous les contenus étiquetés avec « emmabuntüs » - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "7fq_osszaIdw",
+      "address": "https://codeheat.org/",
+      "title": "Codeheat: Coding Contest of FOSSASIA | Asia's Open Technology",
+      "grade": 0
+    },
+    {
+      "hash": "7jHCQ7sX4qR4",
+      "address": "https://discourse.ubuntu.com/t/tpm-fde-progress-for-ubuntu-25-10/65146/",
+      "title": "TPM/FDE progress for Ubuntu 25.10 - Desktop - Ubuntu Community Hub",
+      "grade": 0
+    },
+    {
+      "hash": "Ga8VkP9Ojva4",
+      "address": "https://docs.docker.com/docker-hub/repos/manage/webhooks/",
+      "title": "Webhooks | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "LsI6aZIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2005/11/what-about-bob.html",
+      "title": "Rigorous Intuition: What about Bob?",
+      "grade": 0
+    },
+    {
+      "hash": "M4-RKCWUVeV5",
+      "address": "https://opensource.com/alternatives/gmail",
+      "title": "5 open source alternatives to Gmail | Opensource.com",
+      "grade": 0
+    },
+    {
+      "hash": "RdZk6YS6MKD4",
+      "address": "https://github.com/junegunn/vim-plug",
+      "title": "GitHub - junegunn/vim-plug: :hibiscus: Minimalist Vim Plugin Manager · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "SVe-VE9Ojva4",
+      "address": "https://docs.docker.com/engine/daemon/troubleshoot/",
+      "title": "Troubleshooting the Docker daemon | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "TZQoZl10cZ74",
+      "address": "https://www.01net.com/",
+      "title": "01net - Actualité tech, tests produits, astuces \u0026 téléchargements",
+      "grade": 0
+    },
+    {
+      "hash": "TxM0i7uNWVxw",
+      "address": "https://linuxfr.org/sections/mobile",
+      "title": "Mobile - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "VMByPsuNWVxw",
+      "address": "https://linuxfr.org/?page=5",
+      "title": "Accueil - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "iMw_fwSMo4M4",
+      "address": "https://www.zdnet.com/article/linux-mint-vs-zorin-os/",
+      "title": "Linux Mint vs. Zorin OS: I've tried both Windows alternatives, and here's my winner - ZDNET",
+      "grade": 0
+    },
+    {
+      "hash": "MmEMz_uNWVxw",
+      "address": "https://linuxfr.org/news/multiplier-par-4-et-en-4-ans-l-adoption-de-linux-chez-le-particulier",
+      "title": "Multiplier par 4 et en 4 ans l’adoption de Linux chez le particulier ! - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "lat3D7uNWVxw",
+      "address": "https://linuxfr.org/sections/arch-linux",
+      "title": "Arch Linux - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "zPc_w7uNWVxw",
+      "address": "https://linuxfr.org/sections/linux",
+      "title": "Linux - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "dQQADjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_Standard_Base",
+      "title": "Linux Standard Base - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

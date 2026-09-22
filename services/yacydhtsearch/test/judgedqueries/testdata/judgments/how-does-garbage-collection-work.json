@@ -1,0 +1,293 @@
+{
+  "query": "how does garbage collection work",
+  "judgedDocuments": [
+    {
+      "hash": "S9YMJzCJVaIz",
+      "address": "https://planet.documentfoundation.org/",
+      "title": "The Document Foundation Planet",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "XKrwlL8hxo35",
+      "address": "https://www.microsoft.com/en-us/legal/compliance/recycling",
+      "title": "End-of-life management and recycling | Microsoft Legal",
+      "grade": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "grade": 0
+    },
+    {
+      "hash": "DGtbkL6HkQG4",
+      "address": "https://shopping.yahoo.com/",
+      "title": "Yahoo Shopping: The Best Deals and Reviews on Clothing, Beauty, Home essentials, Tech and More",
+      "grade": 0
+    },
+    {
+      "hash": "KSSoYZ9Ojva4",
+      "address": "https://docs.docker.com/retired/",
+      "title": "Deprecated and retired Docker products and features | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "v1NKnitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.8.html",
+      "title": "What’s New In Python 3.8 — Python 3.14.7 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "vzEqYsqPRUWw",
+      "address": "https://wingolog.org/",
+      "title": "wingolog",
+      "grade": 1
+    },
+    {
+      "hash": "spCnKZ9Ojva4",
+      "address": "https://docs.docker.com/compose/",
+      "title": "Docker Compose | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "ufXXOZS6MKD4",
+      "address": "https://github.com/nodejs/nan",
+      "title": "GitHub - nodejs/nan: Native Abstractions for Node.js · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "egDwLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Persistent_data_structure",
+      "title": "Persistent data structure - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "cfM-rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ovwcsZ88_N8Y",
+      "address": "http://wizardthieffighter.blogspot.com/",
+      "title": "Wizard Thief Fighter",
+      "grade": 0
+    },
+    {
+      "hash": "9BIi30qK9QB4",
+      "address": "https://rightdoctrinematters.blogspot.com/",
+      "title": "Right Doctrine Matters",
+      "grade": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
+      "grade": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "grade": 0
+    },
+    {
+      "hash": "153xoj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/The_West_Wing",
+      "title": "The West Wing - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8Cd_Gv1SKU15",
+      "address": "https://www.goodreads.com/genres/horror",
+      "title": "Horror Books",
+      "grade": 0
+    },
+    {
+      "hash": "JN6IYj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Albert_Einstein",
+      "title": "Albert Einstein - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "P0YYCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+      "title": "Python (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "c_fxuopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Wikidata:Project_chat",
+      "title": "Wikidata:Project chat - Wikidata",
+      "grade": 0
+    },
+    {
+      "hash": "qqIgmqWU7_zx",
+      "address": "https://rw.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "rr-EHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/PHP",
+      "title": "PHP - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-zETij-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/George_W._Bush",
+      "title": "George W. Bush - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "52lt4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manhattan",
+      "title": "Manhattan - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "A8AqejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Jamaica",
+      "title": "Jamaica - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "Go (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DPCN7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Qt_(software)",
+      "title": "Qt (software) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "IEbcHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Switzerland",
+      "title": "Switzerland - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PdvjqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Ruby_(programming_language)",
+      "title": "Ruby (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "aFsNlDvXC2J5",
+      "address": "https://jessejarnow.com/category/live-jamz/",
+      "title": "live jamz : Jesse Jarnow",
+      "grade": 0
+    },
+    {
+      "hash": "lG9TsDvXC2J5",
+      "address": "https://jessejarnow.com/category/hippiedom/",
+      "title": "hippiedom : Jesse Jarnow",
+      "grade": 0
+    },
+    {
+      "hash": "m3pRKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Iran",
+      "title": "Iran - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "qYOk35_Mkyj5",
+      "address": "https://darioamodei.com/essay/machines-of-loving-grace",
+      "title": "Dario Amodei — Machines of Loving Grace",
+      "grade": 0
+    },
+    {
+      "hash": "41AwVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Edinburgh",
+      "title": "Edinburgh - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "4iXrUl05rw04",
+      "address": "https://www.unz.com/jfreud/",
+      "title": "Jung-Freud Columns - The Unz Review",
+      "grade": 0
+    },
+    {
+      "hash": "4leiyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pascal_(programming_language)",
+      "title": "Pascal (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "6w_5HjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Augmented_reality",
+      "title": "Augmented reality - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "7fvTjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Texas",
+      "title": "Texas - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "HLtTLBI0P_mw",
+      "address": "https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html",
+      "title": "Optimize Options (Using the GNU Compiler Collection (GCC))",
+      "grade": 0
+    },
+    {
+      "hash": "TX1MEE9Ojva4",
+      "address": "https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/",
+      "title": "How services work | Docker Docs",
+      "grade": 0
+    }
+  ]
+}

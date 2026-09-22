@@ -1,0 +1,221 @@
+{
+  "query": "vim keybindings",
+  "judgedDocuments": [
+    {
+      "hash": "dd3NXss8tdpx",
+      "address": "https://dillinger.io/",
+      "title": "Markdown Editor — Online, Free, with Live Preview | Dillinger",
+      "grade": 0
+    },
+    {
+      "hash": "WleJG_eeomt4",
+      "address": "https://hackaday.com/2016/08/08/editor-wars-the-revenge-of-vim/",
+      "title": "Editor Wars: The Revenge Of Vim | Hackaday",
+      "grade": 1
+    },
+    {
+      "hash": "RdZk6YS6MKD4",
+      "address": "https://github.com/junegunn/vim-plug",
+      "title": "GitHub - junegunn/vim-plug: :hibiscus: Minimalist Vim Plugin Manager · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "1R08LyfAodxw",
+      "address": "https://docs.freebsd.org/en/books/handbook/desktop/",
+      "title": "Chapter 8. Desktop Environments | FreeBSD Documentation Portal",
+      "grade": 0
+    },
+    {
+      "hash": "zNT2usGaZGOw",
+      "address": "https://marimo.io/",
+      "title": "marimo | a next-generation Python notebook",
+      "grade": 0
+    },
+    {
+      "hash": "ff1Owwl-CJ7w",
+      "address": "https://avidseeker.github.io/linux-journey/",
+      "title": "My Linux Journey with some desktips | Avid Seeker",
+      "grade": 0
+    },
+    {
+      "hash": "laRCkU-C-1_5",
+      "address": "https://emacsredux.com/blog/2025/06/03/little-known-macos-keybindings/",
+      "title": "Little known macOS keybindings | Emacs Redux",
+      "grade": 0
+    },
+    {
+      "hash": "1u1kiEEfG50w",
+      "address": "https://ace.c9.io/",
+      "title": "Ace - The High Performance Code Editor for the Web",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "kBZz_jbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi?apropos=1\u0026query=%241",
+      "title": "Apropos $1 - FreeBSD 15.1-RELEASE and Ports.quarterly Manual Pages",
+      "grade": 0
+    },
+    {
+      "hash": "YRPBHxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Cdist",
+      "title": "List of applications/Utilities - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "el2MjhRBYjbw",
+      "address": "https://matrix.org/ecosystem/clients/iamb/",
+      "title": "Matrix.org - iamb",
+      "grade": 0
+    },
+    {
+      "hash": "OIc4AhRBYjbw",
+      "address": "https://matrix.org/ecosystem/clients/",
+      "title": "Matrix.org - Clients",
+      "grade": 0
+    },
+    {
+      "hash": "QcOuVURBYjbw",
+      "address": "https://matrix.org/blog/2023/03/10/this-week-in-matrix-2023-03-10/",
+      "title": "Matrix.org - This Week in Matrix 2023-03-10",
+      "grade": 0
+    },
+    {
+      "hash": "5JsPLUhj4a55",
+      "address": "https://sachachua.com/blog/category/emacs-news/",
+      "title": "category - emacs-news :: Sacha Chua",
+      "grade": 0
+    },
+    {
+      "hash": "9-wN9xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Opera",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "oac-CcIOcPxY",
+      "address": "http://tilde.club/~dini/MostlyLocal/tinyletter.com/MostlyIWrite/letters/mostly-weekly-45-operare-su-una-scala-non-ordinaria.html",
+      "title": "[Mostly Weekly #45] Operare su una scala non ordinaria",
+      "grade": 0
+    },
+    {
+      "hash": "wqKu_wmfexI4",
+      "address": "https://ctrl-c.club/~philips/index.html",
+      "title": "Philips Personal Homepage",
+      "grade": 0
+    },
+    {
+      "hash": "4lWFAD1nrxbw",
+      "address": "https://www.debian.org/devel/wnpp/work_needing",
+      "title": "Debian -- Packages in need of a new maintainer",
+      "grade": 0
+    },
+    {
+      "hash": "Ol-xhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_text_editors",
+      "title": "List of text editors - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CXOCr7S6MKD4",
+      "address": "https://github.com/jlevy/the-art-of-command-line",
+      "title": "GitHub - jlevy/the-art-of-command-line: Master the command line, in one page · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Dlj0XtS6MKD4",
+      "address": "https://github.com/trending/lua?since=daily",
+      "title": "Trending Lua repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "wRafTlW01Crw",
+      "address": "https://www.openbsd.org/51.html",
+      "title": "OpenBSD 5.1",
+      "grade": 0
+    },
+    {
+      "hash": "4Ogl0Kf4Pib5",
+      "address": "https://code.visualstudio.com/docs/terminal/basics",
+      "title": "Terminal Basics",
+      "grade": 0
+    },
+    {
+      "hash": "VOfo5xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Tilda",
+      "title": "List of applications/Utilities - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "5zK7nxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Xterm",
+      "title": "xterm - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "8QZKBxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Web_server",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "A3xDsxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Custom_local_repository",
+      "title": "pacman/Tips and tricks - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "HyjiUxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/IRC_client",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "_G5oPxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Squirrelmail",
+      "title": "List of applications/Internet - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "fic9wxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Darcs_(Portugu%C3%AAs)",
+      "title": "List of applications/Utilities - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "gVOHixtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Local_repository",
+      "title": "pacman/Tips and tricks - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "h0RmIxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/IntelliJ_IDEA",
+      "title": "List of applications/Utilities - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "MY9pp_J_fWhw",
+      "address": "https://www.vim.org/scripts/index.php",
+      "title": "scripts : vim online",
+      "grade": 0
+    },
+    {
+      "hash": "QnNFMnS6MKD4",
+      "address": "https://github.com/1995eaton/chromium-vim",
+      "title": "GitHub - 1995eaton/chromium-vim: Vim bindings for Google Chrome. · GitHub",
+      "grade": 1
+    }
+  ]
+}

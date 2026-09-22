@@ -1,0 +1,305 @@
+{
+  "query": "rust ownership",
+  "judgedDocuments": [
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "3jF9E3khua85",
+      "address": "https://jwupdate.wordpress.com/",
+      "title": "JWUpdate | JW Current Apostate Status and Final Temple Judgment – Web Witnessing Record; The Bethel Apostasy is Prophecy",
+      "grade": 0
+    },
+    {
+      "hash": "G0iakwS6MKD4",
+      "address": "https://github.com/rust-lang/rust",
+      "title": "GitHub - rust-lang/rust: Empowering everyone to build reliable and efficient software. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "HTPqzsDi1byx",
+      "address": "https://rust-lang.org/",
+      "title": "Rust Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "nQTRkUNG1pIw",
+      "address": "https://metr.org/blog/2026-05-19-frontier-risk-report/",
+      "title": "Frontier Risk Report (February to March 2026) - METR",
+      "grade": 0
+    },
+    {
+      "hash": "Qzbt3X9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile/",
+      "title": "Dockerfile reference | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "aEnpV6Gt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/",
+      "title": "Our World",
+      "grade": 0
+    },
+    {
+      "hash": "xjm4OCDZNRCx",
+      "address": "https://doc.rust-lang.org/std/primitive.slice.html",
+      "title": "slice - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "ELIe2QXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-may.shtml",
+      "title": "2021",
+      "grade": 0
+    },
+    {
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "grade": 0
+    },
+    {
+      "hash": "jhpn8JRhEzc4",
+      "address": "https://www.amazon.science/blog/developing-provably-correct-rust-code-with-verus",
+      "title": "Developing provably correct Rust code with Verus - Amazon Science",
+      "grade": 0
+    },
+    {
+      "hash": "v8v9hsaTEPRx",
+      "address": "https://burntsushi.net/transducers/",
+      "title": "Index 1,600,000,000 Keys with Automata and Rust - Andrew Gallant's Blog",
+      "grade": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "grade": 0
+    },
+    {
+      "hash": "uZZMYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_the_Rust_programming_language",
+      "title": "Outline of the Rust programming language - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "grade": 0
+    },
+    {
+      "hash": "F9pb8Os6XluY",
+      "address": "http://maggiesmetawatershed.blogspot.com/",
+      "title": "Meta Watershed",
+      "grade": 0
+    },
+    {
+      "hash": "ZLCPGlRhEzc4",
+      "address": "https://www.amazon.science/",
+      "title": "Amazon Science homepage",
+      "grade": 0
+    },
+    {
+      "hash": "-t3HAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Firefox",
+      "title": "Firefox - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "Go (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "V48tajRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
+      "title": "Rust (programming language) - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "R4WbPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mexico",
+      "title": "Mexico - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "6eQkojRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Milwaukee",
+      "title": "Milwaukee - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "7JTEBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Nazism",
+      "title": "Nazism - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CnKqUjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/COBOL",
+      "title": "COBOL - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DMqpejRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Roman_Empire",
+      "title": "Roman Empire - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "OYa7kjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Democratic_Party_(United_States)",
+      "title": "Democratic Party (United States) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "RHzuYv5zLm04",
+      "address": "https://claude.com/product/cowork",
+      "title": "Claude Cowork | Claude by Anthropic",
+      "grade": 0
+    },
+    {
+      "hash": "UovJ9jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pointer_(computer_programming)",
+      "title": "Pointer (computer programming) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "VELnDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Midwestern_United_States",
+      "title": "Midwestern United States - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "d3ooWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Swift_(programming_language)",
+      "title": "Swift (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ghHKqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_maintenance",
+      "title": "Software maintenance - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "rVEosjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bitumen",
+      "title": "Bitumen - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-S1qcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
+      "title": "Wikipedia:Community portal - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "EXyBtjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Transport_Layer_Security",
+      "title": "Transport Layer Security - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Fd5Xq6XKQKtw",
+      "address": "https://docs.kernel.org/driver-api/aperture.html",
+      "title": "Managing Ownership of the Framebuffer Aperture — The Linux Kernel documentation",
+      "grade": 0
+    },
+    {
+      "hash": "9mdw4sS6MKD4",
+      "address": "https://github.com/ultraworkers/claw-code",
+      "title": "GitHub - ultraworkers/claw-code: An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with no human intervention. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "KLCJH0d5FrUg",
+      "address": "https://docs.rs/rmpv/latest/rmpv/",
+      "title": "rmpv - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "g4eTu2xXzLn4",
+      "address": "https://rfd.shared.oxide.computer/rfd/0400",
+      "title": "400 - Dealing with cancel safety in async Rust | RFD | Oxide",
+      "grade": 0
+    },
+    {
+      "hash": "smlQoTS6MKD4",
+      "address": "https://github.com/rvben/rumdl",
+      "title": "GitHub - rvben/rumdl: Fast Markdown linter and formatter written in Rust · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "S_fghCDZNRCx",
+      "address": "https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html",
+      "title": "BinaryHeap in std::collections - Rust",
+      "grade": 0
+    },
+    {
+      "hash": "26Dq2zC9vUOw",
+      "address": "https://rust-book.cs.brown.edu/",
+      "title": "What's Different About This Book? - The Rust Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "7YDWUGIcxeaw",
+      "address": "https://matklad.github.io/2023/01/26/rusts-ugly-syntax.html",
+      "title": "Rust's Ugly Syntax",
+      "grade": 0
+    },
+    {
+      "hash": "An1o-woCj-7w",
+      "address": "https://rust-unofficial.github.io/too-many-lists/fourth-breaking.html",
+      "title": "Breaking - Learning Rust With Entirely Too Many Linked Lists",
+      "grade": 0
+    },
+    {
+      "hash": "Gox2KsoCj-7w",
+      "address": "https://rust-unofficial.github.io/too-many-lists/",
+      "title": "Introduction - Learning Rust With Entirely Too Many Linked Lists",
+      "grade": 0
+    },
+    {
+      "hash": "UrJ73GkRW1Dz",
+      "address": "https://www.scattered-thoughts.net/writing/assorted-thoughts-on-zig-and-rust/",
+      "title": "Assorted thoughts on zig (and rust)",
+      "grade": 0
+    },
+    {
+      "hash": "jY_nWGjPktFw",
+      "address": "https://ladybird.org/posts/adopting-rust/",
+      "title": "Ladybird adopts Rust, with help from AI - Ladybird",
+      "grade": 0
+    },
+    {
+      "hash": "lcXlZUnyMCIw",
+      "address": "https://dystroy.org/blog/how-not-to-learn-rust/",
+      "title": "How not to learn Rust",
+      "grade": 0
+    },
+    {
+      "hash": "KT8bUtV9oHh4",
+      "address": "https://rust.utils.com/",
+      "title": "Rust Shell - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "oNM5PNDezYp5",
+      "address": "https://security.googleblog.com/2021/04/rust-in-android-platform.html",
+      "title": "Google Online Security Blog: Rust in the Android platform",
+      "grade": 0
+    }
+  ]
+}

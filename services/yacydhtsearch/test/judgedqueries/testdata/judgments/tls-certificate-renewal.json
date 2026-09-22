@@ -1,0 +1,215 @@
+{
+  "query": "tls certificate renewal",
+  "judgedDocuments": [
+    {
+      "hash": "rXUw60ADJCy4",
+      "address": "https://securitylab.github.com/advisories/",
+      "title": "Advisories | GitHub Security Lab",
+      "grade": 0
+    },
+    {
+      "hash": "090NxB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/unstable/",
+      "title": "NixOS Manual",
+      "grade": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": 0
+    },
+    {
+      "hash": "-gZasla_7uS5",
+      "address": "https://www.theregister.com/",
+      "title": "Technology news and analysis | The Register",
+      "grade": 0
+    },
+    {
+      "hash": "QHOQIeMugiRx",
+      "address": "https://docs.chocolatey.org/en-us/information/security/",
+      "title": "Chocolatey Software Docs | Security",
+      "grade": 0
+    },
+    {
+      "hash": "PpheYQvAoINw",
+      "address": "https://docs.cpanel.net/release-notes/release-notes/",
+      "title": "Release Notes | cPanel \u0026 WHM Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "2bgVhlu5WhCw",
+      "address": "https://www.haproxy.org/",
+      "title": "HAProxy - The Reliable, High Perf. TCP/HTTP Load Balancer",
+      "grade": 0
+    },
+    {
+      "hash": "0MpVBfDXr2C5",
+      "address": "https://domains.squarespace.com/",
+      "title": "Buy a Domain Name — Domain Name Search — Squarespace Domains",
+      "grade": 0
+    },
+    {
+      "hash": "k9eJesFbwuxx",
+      "address": "https://letsencrypt.org/",
+      "title": "Let's Encrypt",
+      "grade": 1
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "9j64kj_oppU4",
+      "address": "https://www.ibm.com/products/ns1-connect",
+      "title": "IBM NS1 Connect",
+      "grade": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
+      "grade": 0
+    },
+    {
+      "hash": "sAeglsJDpFPw",
+      "address": "https://seclists.org/",
+      "title": "SecLists.Org Security Mailing List Archive",
+      "grade": 0
+    },
+    {
+      "hash": "NQqeso1J_Myw",
+      "address": "https://www.cloudns.net/wiki/article/29/",
+      "title": "ClouDNS: Master DNS Zone",
+      "grade": 0
+    },
+    {
+      "hash": "n1qzc7XxSRFx",
+      "address": "https://www.rfc-editor.org/info/rfc7030/",
+      "title": "RFC 7030: Enrollment over Secure Transport | RFC Editor",
+      "grade": 1
+    },
+    {
+      "hash": "sKp7-lEzlGFw",
+      "address": "https://www.ssl.org/",
+      "title": "SSL Checker",
+      "grade": 0
+    },
+    {
+      "hash": "mucR_s2ikQ65",
+      "address": "https://languagehat.com/",
+      "title": "languagehat.com",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "DscS3QAUFAfQ",
+      "address": "http://www.iana.org/protocols",
+      "title": "Protocol Registries",
+      "grade": 0
+    },
+    {
+      "hash": "aTkBnbCwqyax",
+      "address": "https://community.letsencrypt.org/",
+      "title": "Let's Encrypt Community Support",
+      "grade": 0
+    },
+    {
+      "hash": "kcSUClFJ4fg5",
+      "address": "https://www.planethoster.com/en",
+      "title": "Web Hosting - Internet Solutions Provider - PlanetHoster",
+      "grade": 0
+    },
+    {
+      "hash": "xlw7WsFbwuxx",
+      "address": "https://letsencrypt.org/about/",
+      "title": "About Let's Encrypt - Let's Encrypt",
+      "grade": 1
+    },
+    {
+      "hash": "8YiNWQOPnpBQ",
+      "address": "http://www.haproxy.org/",
+      "title": "HAProxy - The Reliable, High Perf. TCP/HTTP Load Balancer",
+      "grade": 0
+    },
+    {
+      "hash": "DgrzuhFbwuxx",
+      "address": "https://letsencrypt.org/2014/11/18/announcing-lets-encrypt.html",
+      "title": "Let’s Encrypt: Delivering SSL/TLS Everywhere - Let's Encrypt",
+      "grade": 0
+    },
+    {
+      "hash": "V7d_yzFbwuxx",
+      "address": "https://letsencrypt.org/2026/01/15/6day-and-ip-general-availability",
+      "title": "6-day and IP Address Certificates are Generally Available - Let's Encrypt",
+      "grade": 1
+    },
+    {
+      "hash": "aWXTesixuTsw",
+      "address": "https://chsmc.org/",
+      "title": "Chase McCoy",
+      "grade": 0
+    },
+    {
+      "hash": "kCcDfsehakr5",
+      "address": "https://infisical.com/",
+      "title": "Infisical | The modern security platform for developers and agents",
+      "grade": 0
+    },
+    {
+      "hash": "sRV5AuCwqyax",
+      "address": "https://community.letsencrypt.org/t/march-13-2019-end-of-life-for-all-tls-sni-01-validation-support/74209",
+      "title": "March 13, 2019: End-of-Life for All TLS-SNI-01 Validation Support - API Announcements - Let's Encrypt Community Support",
+      "grade": 0
+    },
+    {
+      "hash": "u2uXQ-Rm8xzw",
+      "address": "https://help.krystal.io/",
+      "title": "Krystal Hosting Knowledge Base",
+      "grade": 0
+    },
+    {
+      "hash": "wsU3kuFbwuxx",
+      "address": "https://letsencrypt.org/2022/09/07/new-life-for-crls",
+      "title": "A New Life for Certificate Revocation Lists - Let's Encrypt",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "-PBoH8ra3eRg",
+      "address": "https://nlnet.nl/project/current.html",
+      "title": "NLnet; Current projects",
+      "grade": 0
+    },
+    {
+      "hash": "nEXJtyfAodxw",
+      "address": "https://docs.freebsd.org/en/books/handbook/advanced-networking/",
+      "title": "Chapter 35. Advanced Networking | FreeBSD Documentation Portal",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "QU5V3swUSuo5",
+      "address": "https://nextcloud.com/changelog/",
+      "title": "Nextcloud changelog",
+      "grade": 0
+    }
+  ]
+}

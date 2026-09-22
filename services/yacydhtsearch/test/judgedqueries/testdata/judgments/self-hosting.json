@@ -1,0 +1,413 @@
+{
+  "query": "self hosting",
+  "judgedDocuments": [
+    {
+      "hash": "01gjSK0M4T84",
+      "address": "https://tilde.club/~mydeardiary/website_self_host.html",
+      "title": "Self hosting my own webspace",
+      "grade": 1
+    },
+    {
+      "hash": "4DV9WsXcOmMx",
+      "address": "https://neocities.org/browse?tag=self",
+      "title": "Neocities - Sites tagged self",
+      "grade": 0
+    },
+    {
+      "hash": "6WpEwaFxAKb5",
+      "address": "https://fromguestwriters.wordpress.com/tag/the-self/",
+      "title": "the Self | From guestwriters",
+      "grade": 0
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "OdcWutIIL7ew",
+      "address": "https://stallman.org/archives/2018-jan-apr.html",
+      "title": "2018: January - April Political Notes - Richard Stallman",
+      "grade": 0
+    },
+    {
+      "hash": "1Y-12jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Factitious_disorder_imposed_on_self",
+      "title": "Factitious disorder imposed on self - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zfsvhzS6MKD4",
+      "address": "https://github.com/topics/self-hosted",
+      "title": "self-hosted · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "7b0gSsUQxb2x",
+      "address": "https://join-lemmy.org/",
+      "title": "Lemmy - A decentralised discussion platform for communities",
+      "grade": 0
+    },
+    {
+      "hash": "PPZiUPNOoCd4",
+      "address": "https://chgowiz-games.blogspot.com/2024/01/last-move-to-self-hosting.html",
+      "title": "Last move - to self-hosting!",
+      "grade": 1
+    },
+    {
+      "hash": "0mm_VsKLa1u4",
+      "address": "https://atproto.com/guides/self-hosting",
+      "title": "Self-hosting - AT Protocol",
+      "grade": 1
+    },
+    {
+      "hash": "cTHTSsp9gzA5",
+      "address": "https://perfectthen.com/see-morocco-one-of-the-worlds-most-popular-tourist-destinations-in-2-weeks-7-2023-stop-10-rabat/",
+      "title": "See Morocco, One Of The World's Most Popular Tourist Destinations In 2 Weeks 7/2023 (Stop 10 - Rabat) - Perfect Then",
+      "grade": 0
+    },
+    {
+      "hash": "0_rhAJ5Disy4",
+      "address": "https://www.forbes.com/vetted/beauty-grooming/wellness-self-care/",
+      "title": "Wellness \u0026 Self Care",
+      "grade": 0
+    },
+    {
+      "hash": "CUzl5obrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Special:MyLanguage/Hosting_services",
+      "title": "Hosting services - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "PlOf3sgKzQ9w",
+      "address": "https://indieweb.org/hosting",
+      "title": "web hosting - IndieWeb",
+      "grade": 0
+    },
+    {
+      "hash": "pxEXZobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Hosting_services",
+      "title": "Hosting services - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "SNCyhipQJH_x",
+      "address": "https://bacardi55.io/categories/selfhosting/",
+      "title": "Selfhosting | Bacardi55's Web Cave",
+      "grade": 0
+    },
+    {
+      "hash": "maUaofTjsTzw",
+      "address": "https://fmhy.net/other/selfhosting",
+      "title": "Selfhosting FMHY • freemediaheckyeah",
+      "grade": 1
+    },
+    {
+      "hash": "RYH8U-rydtHg",
+      "address": "https://events.htu.at/events/4250264b-a455-428d-a063-01f90da6e643",
+      "title": "TU it yourself - a selfhosting journey - Mobilizon",
+      "grade": 1
+    },
+    {
+      "hash": "pqR0hW0w9Gtw",
+      "address": "https://benharri.org/tag/selfhosting/",
+      "title": "Self-hosting – ben blogs",
+      "grade": 0
+    },
+    {
+      "hash": "1TiQDzsJrVm4",
+      "address": "https://www.osnews.com/story/23166/clangbsd-is-selfhosting-we-need-testers-now/",
+      "title": "ClangBSD Is Selfhosting, We Need Testers Now – OSnews",
+      "grade": 0
+    },
+    {
+      "hash": "sDf_5eMcq6Ew",
+      "address": "https://web.archive.org/web/20130502022616/http:/www.osnews.com/story/23166/ClangBSD_Is_Selfhosting_We_Need_Testers_Now",
+      "title": "ClangBSD Is Selfhosting, We Need Testers Now",
+      "grade": 0
+    },
+    {
+      "hash": "8llk00FKPmNg",
+      "address": "https://feddit.fr/c/selfhost@lemmy.ml",
+      "title": "Self Hosted - Self-hosting your services.",
+      "grade": 1
+    },
+    {
+      "hash": "90qHk0FKPmNg",
+      "address": "https://feddit.fr/c/selfhost@lemmy.ml?tag=n8n",
+      "title": "Self Hosted - Self-hosting your services.",
+      "grade": 0
+    },
+    {
+      "hash": "ANrh1_kyg9q0",
+      "address": "https://lemmy.ml/post/38797214?scrollToComments=true",
+      "title": "Nexalta Guardian: Decent self host server? - Lemmy",
+      "grade": 1
+    },
+    {
+      "hash": "EyfF8sySJCJ5",
+      "address": "https://selfhosted.show/episodes",
+      "title": "Self-Hosted - Episodes Archive",
+      "grade": 1
+    },
+    {
+      "hash": "GFxVC5sYQRD5",
+      "address": "https://programming.dev/comment/20621700",
+      "title": "People using Cloudflare, are you still happy with it? Would you consider any self-hosted alternative? - programming.dev",
+      "grade": 1
+    },
+    {
+      "hash": "HxLVs0kyg9q0",
+      "address": "https://lemmy.ml/c/selfhost",
+      "title": "Self Hosted - Self-hosting your services. - Lemmy",
+      "grade": 1
+    },
+    {
+      "hash": "J9k--5kyg9q0",
+      "address": "https://lemmy.ml/comment/22512687",
+      "title": "Self-hosted TinyPNG alternative with Docker (imgcompress - Lemmy",
+      "grade": 0
+    },
+    {
+      "hash": "JTtLx_kyg9q0",
+      "address": "https://lemmy.ml/post/39249768",
+      "title": "People using Cloudflare, are you still happy with it? Would you consider any self-hosted alternative? - Lemmy",
+      "grade": 1
+    },
+    {
+      "hash": "PVDoWlySJCJ5",
+      "address": "https://selfhosted.show/hosts/alexktz",
+      "title": "Self-Hosted - Alex Kretzschmar",
+      "grade": 0
+    },
+    {
+      "hash": "RiLw65PrEqd4",
+      "address": "https://lemmy.zip/comment/22876017",
+      "title": "People using Cloudflare, are you still happy with it? Would you consider any self-hosted alternative? - Lemmy.zip",
+      "grade": 1
+    },
+    {
+      "hash": "W3Spd7ogYTz4",
+      "address": "https://discourse.dawarich.app/t/syntax-error-on-account-spage-0-34-1/32",
+      "title": "Syntax error on account spage (0.34.1) - Dev and Self-hosting - The Dawarich community",
+      "grade": 0
+    },
+    {
+      "hash": "WauTJ0FKPmNg",
+      "address": "https://feddit.fr/c/selfhost@lemmy.ml?tag=self-host",
+      "title": "Self Hosted - Self-hosting your services.",
+      "grade": 0
+    },
+    {
+      "hash": "Wn4To0FKPmNg",
+      "address": "https://feddit.fr/c/selfhost@lemmy.ml?tag=nas",
+      "title": "Self Hosted - Self-hosting your services.",
+      "grade": 0
+    },
+    {
+      "hash": "XBY970ONoJag",
+      "address": "https://feddit.it/c/selfhost@lemmy.ml",
+      "title": "Self Hosted - Self-hosting your services. - Feddit.it",
+      "grade": 1
+    },
+    {
+      "hash": "rbfxW0FKPmNg",
+      "address": "https://feddit.fr/c/selfhost@lemmy.ml?tag=project",
+      "title": "Self Hosted - Self-hosting your services.",
+      "grade": 0
+    },
+    {
+      "hash": "LaH9CzS6MKD4",
+      "address": "https://github.com/topics/self-hosting",
+      "title": "self-hosting · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "n9gLxjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Comparison_of_source-code-hosting_facilities",
+      "title": "Comparison of source-code-hosting facilities - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "u_94cc5Disy4",
+      "address": "https://www.forbes.com/lists/self-made-women/",
+      "title": "Forbes Richest Self-Made Women in America 2026 ",
+      "grade": 0
+    },
+    {
+      "hash": "IJjRIyXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/tutorials/roll-out-at-scale/assign-licenses/set-up-self-serve-licenses",
+      "title": "Setting up a self-serve process for GitHub Copilot licenses - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "-uay3yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/reference/ai-models/model-hosting",
+      "title": "Hosting of models for GitHub Copilot - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "ZQ1aEULcGM44",
+      "address": "https://linderud.dev/blog/self-hosting-dns-for-no-fun-but-a-little-profit/",
+      "title": "Self-hosting DNS for no fun, but a little profit!",
+      "grade": 1
+    },
+    {
+      "hash": "iENt5z4nScL4",
+      "address": "https://www.wired.com/story/uber-self-driving-car-fatal-crash/",
+      "title": "‘I’m the Operator’: The Aftermath of a Self-Driving Tragedy | WIRED",
+      "grade": 0
+    },
+    {
+      "hash": "heMQnPS6MKD4",
+      "address": "https://github.com/m1k1o/neko",
+      "title": "GitHub - m1k1o/neko: A self hosted virtual browser that runs in docker and uses WebRTC.",
+      "grade": 0
+    },
+    {
+      "hash": "jvM8z9oRvHL4",
+      "address": "https://langfuse.com/self-hosting/deployment/infrastructure/clickhouse",
+      "title": "ClickHouse (self-hosted) - Langfuse",
+      "grade": 0
+    },
+    {
+      "hash": "j__s_wSMo4M4",
+      "address": "https://www.zdnet.com/article/free-google-photos-alternative-self-hosted/",
+      "title": "How I ditched Google Photos for my own private self-hosted alternative - for free | ZDNET",
+      "grade": 1
+    },
+    {
+      "hash": "p187rsoRvHL4",
+      "address": "https://langfuse.com/self-hosting",
+      "title": "Self-host Langfuse (Open Source LLM Observability) - Langfuse",
+      "grade": 1
+    },
+    {
+      "hash": "RUWrtCf6LfTw",
+      "address": "https://merics.org/en/report/chinas-drive-toward-self-reliance-artificial-intelligence-chips-large-language-models",
+      "title": "China’s drive toward self-reliance in artificial intelligence: from chips to large language models | Merics",
+      "grade": 0
+    },
+    {
+      "hash": "1WTnvl-uEte4",
+      "address": "https://www.ndic.com/",
+      "title": "WordPress Design, Development, Hosting for San Luis Obispo, Santa Barbara, and Ventura",
+      "grade": 0
+    },
+    {
+      "hash": "ATou79oRvHL4",
+      "address": "https://langfuse.com/self-hosting/deployment/infrastructure/blobstorage",
+      "title": "S3 / Blob Storage Configuration (Self-Hosted) - Langfuse",
+      "grade": 0
+    },
+    {
+      "hash": "V6upl9oRvHL4",
+      "address": "https://langfuse.com/self-hosting/deployment/kubernetes-helm",
+      "title": "Kubernetes (Helm) (self-hosted) - Langfuse",
+      "grade": 0
+    },
+    {
+      "hash": "xJWL0_HcQ7D4",
+      "address": "https://mynews4.com/news/armstrong-army-strong/the-quiet-collapse-of-attention-and-why-it-threatens-self-government",
+      "title": "The quiet collapse of attention and why it threatens self-government",
+      "grade": 0
+    },
+    {
+      "hash": "zfJYO9oRvHL4",
+      "address": "https://langfuse.com/self-hosting/deployment/infrastructure/cache",
+      "title": "Cache (Redis/Valkey) Configuration (Self-Hosted) - Langfuse",
+      "grade": 0
+    },
+    {
+      "hash": "DZe9e26Lt8R4",
+      "address": "https://korben.info/img/icons/self-hosting.svg",
+      "title": "self-hosting.svg",
+      "grade": 0
+    },
+    {
+      "hash": "J5DLLl52JP_4",
+      "address": "https://www.whmcs.com/",
+      "title": "WHMCS Hosting Automation Platform | Billing \u0026 Client Management",
+      "grade": 0
+    },
+    {
+      "hash": "67FCQbdTeyA4",
+      "address": "https://github.blog/enterprise-software/ci-cd/when-to-choose-github-hosted-runners-or-self-hosted-runners-with-github-actions/",
+      "title": "When to choose GitHub-Hosted runners or self-hosted runners with GitHub Actions - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "Ou_mdNS6MKD4",
+      "address": "https://github.com/publify/publify",
+      "title": "GitHub - publify/publify: A self hosted Web publishing platform on Rails. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "4NrEnsFRI314",
+      "address": "https://usememos.com/",
+      "title": "Memos - Open-Source, Self-Hosted Note-Taking App",
+      "grade": 0
+    },
+    {
+      "hash": "OkBMa7S6MKD4",
+      "address": "https://github.com/michaelstaake/LibreKB/",
+      "title": "GitHub - michaelstaake/LibreKB: Knowledge Base Web App - Free, Open Source, Self Hosted, PHP/MySQL · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "RWZDGjsHJ5F4",
+      "address": "https://bsky.social/about/blog/3-6-2022-a-self-authenticating-social-protocol",
+      "title": "A Self-Authenticating Social Protocol - Bluesky",
+      "grade": 0
+    },
+    {
+      "hash": "71t0AsJ50dqx",
+      "address": "https://modelmugging.org/",
+      "title": "Model Mugging Self Defense Classes for Women",
+      "grade": 0
+    },
+    {
+      "hash": "GdStzysrSOQw",
+      "address": "https://arxiv.org/html/2305.00951v2",
+      "title": "Formation of Gaps in Self-gravitating Debris Disks by Secular Resonance in a Single-planet System. II. Towards a Self-consistent Model",
+      "grade": 0
+    },
+    {
+      "hash": "8YZEvC2Ecd34",
+      "address": "https://webhosting.lifetips.com/",
+      "title": "Web Hosting Tips, Advice And Information - What And Who To Choose And More",
+      "grade": 0
+    },
+    {
+      "hash": "Z6OiFnSqykzp",
+      "address": "https://blog.sahilister.in/2020/10/updates-new-domain-new-email-new-hosting/",
+      "title": "Updates: New Domain, New Email, New Hosting",
+      "grade": 0
+    },
+    {
+      "hash": "DXSqtEx55ylx",
+      "address": "https://hostinguk.net/cloud-servers/high-speed-cloud",
+      "title": "High Speed Cloud Servers | Hosting UK",
+      "grade": 0
+    },
+    {
+      "hash": "Hrey8JS6MKD4",
+      "address": "https://github.com/importantimport/hatsu",
+      "title": "GitHub - importantimport/hatsu: 🩵 Self-hosted \u0026 Fully-automated ActivityPub Bridge for Static Sites. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "pJySTswRH687",
+      "address": "https://hostingcontroller.com/",
+      "title": "Hosting Controller | ExSign Email Signature Software - Hybrid Cloud Automation Control Panel - Active Directory \u0026 Exchange",
+      "grade": 0
+    }
+  ]
+}

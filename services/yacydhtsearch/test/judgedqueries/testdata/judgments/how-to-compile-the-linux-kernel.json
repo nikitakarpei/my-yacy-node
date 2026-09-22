@@ -1,0 +1,293 @@
+{
+  "query": "how to compile the linux kernel",
+  "judgedDocuments": [
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "Oj42ZQjpmq6Q",
+      "address": "http://www.gnu.org/",
+      "title": "The GNU Operating System and the Free Software Movement",
+      "grade": 0
+    },
+    {
+      "hash": "twfx4v3Jley5",
+      "address": "https://winworldpc.com/product/linux-kernel/0x",
+      "title": "WinWorld: Linux Kernel 0.x",
+      "grade": 0
+    },
+    {
+      "hash": "2e9TwlSCNQa4",
+      "address": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/migration-process",
+      "title": "Red Hat Enterprise Linux migration process",
+      "grade": 0
+    },
+    {
+      "hash": "3cDBMgThXEF4",
+      "address": "https://source.android.com/docs/core/architecture/android-kernel-file-system-support",
+      "title": "Android kernel file system support | Android Open Source Project",
+      "grade": 0
+    },
+    {
+      "hash": "fK864sueNoX4",
+      "address": "https://itsfoss.com/compile-linux-kernel/",
+      "title": "A Guide to Compiling the Linux Kernel All By Yourself",
+      "grade": 2
+    },
+    {
+      "hash": "A0yfHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gentoo_Linux",
+      "title": "Gentoo Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "5Iwamsscikty",
+      "address": "https://kernelnewbies.org/Linux_2_6_36",
+      "title": "Linux_2_6_36 - Linux Kernel Newbies",
+      "grade": 0
+    },
+    {
+      "hash": "9KNuQjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux",
+      "title": "Red Hat Enterprise Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "UxZv1VGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/process/index.html",
+      "title": "Working with the kernel development community — The Linux Kernel documentation",
+      "grade": 0
+    },
+    {
+      "hash": "__guxsHv8Pkw",
+      "address": "https://freenode.net/",
+      "title": "freenode",
+      "grade": 0
+    },
+    {
+      "hash": "9Gfi7KsrSOQw",
+      "address": "https://arxiv.org/list/cs/new",
+      "title": "Computer Science",
+      "grade": 0
+    },
+    {
+      "hash": "8o3nfspN1dF5",
+      "address": "https://cirosantilli.com/linux-kernel-module-cheat/",
+      "title": "Linux Kernel Module Cheat",
+      "grade": 1
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "wW1eO4d-7T5R",
+      "address": "http://mattmahoney.net/dc/text.html",
+      "title": "Large Text Compression Benchmark",
+      "grade": 0
+    },
+    {
+      "hash": "lmRNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_kernel",
+      "title": "Linux kernel - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "grade": 0
+    },
+    {
+      "hash": "EE3BdlHzph0w",
+      "address": "https://www.freebsd.org/features/",
+      "title": "FreeBSD features | The FreeBSD Project",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "0lxYkHjpmq6Q",
+      "address": "http://www.gnu.org/people/people.html",
+      "title": "GNU's Who - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "CN-RM49Ojva4",
+      "address": "https://docs.docker.com/build/building/multi-platform/",
+      "title": "Multi-platform builds | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "6w-KRsyg0sGw",
+      "address": "https://msgpack.org/",
+      "title": "MessagePack: It's like JSON. but fast and small.",
+      "grade": 0
+    },
+    {
+      "hash": "CWZwFjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/FreeBSD",
+      "title": "FreeBSD - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "_uCaIssyhcfx",
+      "address": "https://archlinux.org/packages/",
+      "title": "Arch Linux - Package Search",
+      "grade": 0
+    },
+    {
+      "hash": "PbqwujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Kernel_(operating_system)",
+      "title": "Kernel (operating system) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "iZvukxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Kernel",
+      "title": "Kernel - ArchWiki",
+      "grade": 1
+    },
+    {
+      "hash": "ePEkcWjhGo95",
+      "address": "https://www.sentinelone.com/labs/tipc-remote-linux-kernel-heap-overflow-allows-arbitrary-code-execution/",
+      "title": "CVE-2021-43267: Remote Linux Kernel Heap Overflow | TIPC Module Allows Arbitrary Code Execution | SentinelOne",
+      "grade": 0
+    },
+    {
+      "hash": "I0XwWF2nMu64",
+      "address": "https://docs.nvidia.com/cuda/cuda-installation-guide-linux/",
+      "title": "CUDA Installation Guide for Linux — Installation Guide for Linux 13.4 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "rRqdtVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html",
+      "title": "Linux Magic System Request Key Hacks — The Linux Kernel documentation",
+      "grade": 0
+    },
+    {
+      "hash": "zJdn5zsJrVm4",
+      "address": "https://www.osnews.com/story/4867/sun-versus-linux-the-x86-smack-down/",
+      "title": "Sun Versus Linux: The x86 Smack-down – OSnews",
+      "grade": 0
+    },
+    {
+      "hash": "QSKqcVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/dev-tools/testing-overview.html",
+      "title": "Kernel Testing Guide — The Linux Kernel documentation",
+      "grade": 0
+    },
+    {
+      "hash": "bDDyvo5FtBWw",
+      "address": "https://www.meebey.net/posts/ethereum_gpu_mining_on_linux_howto/",
+      "title": "Ethereum GPU Mining on Linux How-To",
+      "grade": 0
+    },
+    {
+      "hash": "bbv8uDaBelJw",
+      "address": "https://melissawen.github.io/blog/2025/11/03/kworkflow-talk-at-kernel-recipes-2025",
+      "title": "Kworkflow at Kernel Recipes 2025 | Wen.onweb",
+      "grade": 0
+    },
+    {
+      "hash": "ncOohQhABXNw",
+      "address": "https://security-tracker.debian.org/tracker/source-package/linux",
+      "title": "Information on source package linux",
+      "grade": 0
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tsXpxx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/kernel-resources.html",
+      "title": "PostgreSQL: Documentation: 18: 18.4. Managing Kernel Resources",
+      "grade": 0
+    },
+    {
+      "hash": "1wH23lGTBYhw",
+      "address": "https://www.icculus.org/lgfaq/",
+      "title": "Linux Gamers' FAQ",
+      "grade": 0
+    },
+    {
+      "hash": "UjTkLlj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man5/proc.5.html",
+      "title": "proc(5) - Linux manual page",
+      "grade": 0
+    },
+    {
+      "hash": "apEz9lj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man5/proc_sys_kernel.5.html",
+      "title": "proc_sys_kernel(5) - Linux manual page",
+      "grade": 0
+    },
+    {
+      "hash": "41bZAgThXEF4",
+      "address": "https://source.android.com/docs/core/architecture/kernel/kernel-code",
+      "title": "Develop kernel code for GKI | Android Open Source Project",
+      "grade": 0
+    },
+    {
+      "hash": "M6plfHrhf4Lx",
+      "address": "https://itvision.altervista.org/why.linux.is.not.ready.for.the.desktop.current.html",
+      "title": "Main Linux problems on the desktop, 2023 edition or why Linux sucks on the desktop",
+      "grade": 0
+    },
+    {
+      "hash": "7jVf54OGGCtw",
+      "address": "https://www.linuxdoc.org/HOWTO/Kernel-HOWTO.html",
+      "title": "The Linux Kernel HOWTO",
+      "grade": 1
+    },
+    {
+      "hash": "OMIpd0sJrVm4",
+      "address": "https://www.osnews.com/topic/linux/",
+      "title": "Linux – OSnews",
+      "grade": 0
+    },
+    {
+      "hash": "AS_-MeMcq6Ew",
+      "address": "https://web.archive.org/web/20210118015213/https:/lwn.net/Articles/200422/",
+      "title": "Kernel developers' position on GPLv3 [LWN.net]",
+      "grade": 0
+    },
+    {
+      "hash": "QxyIX4_tHst4",
+      "address": "https://dwheeler.com/sloc/redhat62-v1/redhat62sloc.html",
+      "title": "Estimating Linux's Size",
+      "grade": 0
+    }
+  ]
+}

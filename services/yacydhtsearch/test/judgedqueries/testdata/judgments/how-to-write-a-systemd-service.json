@@ -1,0 +1,191 @@
+{
+  "query": "how to write a systemd service",
+  "judgedDocuments": [
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "InNwUt9jnabw",
+      "address": "https://blog.dowhile0.org/",
+      "title": "Blog | Javier Martinez Canillas | $ cat /dev/random",
+      "grade": 0
+    },
+    {
+      "hash": "iw0dP2bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/installation/binary/",
+      "title": "Installation from binary | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "rXUw60ADJCy4",
+      "address": "https://securitylab.github.com/advisories/",
+      "title": "Advisories | GitHub Security Lab",
+      "grade": 0
+    },
+    {
+      "hash": "DzfED5S6MKD4",
+      "address": "https://github.com/moby/buildkit",
+      "title": "GitHub - moby/buildkit: concurrent, cache-efficient, and Dockerfile-agnostic builder toolkit · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Hb-6EwrBTPJx",
+      "address": "https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html",
+      "title": "systemd.unit",
+      "grade": 1
+    },
+    {
+      "hash": "rgqCtE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/19.03/",
+      "title": "Docker Engine 19.03 release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "wl2ImxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Frequently_asked_questions",
+      "title": "Frequently asked questions - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "Jv3G4M9Ojva4",
+      "address": "https://docs.docker.com/desktop/release-notes/",
+      "title": "Docker Desktop release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "e7MdZE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/27/",
+      "title": "Docker Engine version 27 release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "MocmU2sEYJ15",
+      "address": "https://tailscale.com/docs/reference/tailscale-cli",
+      "title": "Tailscale CLI · Tailscale Docs",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "SfYMcxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/ArchWiki:Contributing",
+      "title": "ArchWiki:Contributing - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "12bb0VaoyK-x",
+      "address": "https://docs.joinmastodon.org/admin/troubleshooting/",
+      "title": "Troubleshooting errors - Mastodon documentation",
+      "grade": 0
+    },
+    {
+      "hash": "2bgVhlu5WhCw",
+      "address": "https://www.haproxy.org/",
+      "title": "HAProxy - The Reliable, High Perf. TCP/HTTP Load Balancer",
+      "grade": 0
+    },
+    {
+      "hash": "Q357ixtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/ArchWiki_talk:Requests",
+      "title": "ArchWiki talk:Requests - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "nnES5sxmRoH6",
+      "address": "https://linuxhandbook.com/",
+      "title": "Linux Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "rWEU2s0BAL4x",
+      "address": "https://healthchecks.io/",
+      "title": "Healthchecks.io: Cron Job Monitoring",
+      "grade": 0
+    },
+    {
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
+      "grade": 0
+    },
+    {
+      "hash": "OGrSx5kvnDhy",
+      "address": "https://docs.fedoraproject.org/en-US/fedora-coreos/sysconfig-network-configuration/",
+      "title": "Host Network Configuration :: Fedora Docs",
+      "grade": 0
+    },
+    {
+      "hash": "4OQiusS6MKD4",
+      "address": "https://github.com/YHNdnzj",
+      "title": "YHNdnzj (Mike Yuan) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "GSQL8lj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/socket.7.html",
+      "title": "socket(7) - Linux manual page",
+      "grade": 0
+    },
+    {
+      "hash": "02cu72jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/architecture/controller/",
+      "title": "Controllers | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "GOC_RsS6MKD4",
+      "address": "https://github.com/mvanhorn",
+      "title": "mvanhorn (Matt Van Horn) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "jcgMP2bypRQw",
+      "address": "https://forgejo.org/docs/latest/admin/troubleshooting/logging/",
+      "title": "Logging Configuration | Forgejo – Beyond coding. We forge.",
+      "grade": 0
+    },
+    {
+      "hash": "6uUv7yXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-server@3.13/admin/release-notes",
+      "title": "Release notes - GitHub Enterprise Server 3.13 Docs",
+      "grade": 0
+    },
+    {
+      "hash": "om89LyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-server@3.14/admin/release-notes",
+      "title": "Release notes - GitHub Enterprise Server 3.14 Docs",
+      "grade": 0
+    },
+    {
+      "hash": "zX2dSyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-server@3.12/admin/release-notes",
+      "title": "Release notes - GitHub Enterprise Server 3.12 Docs",
+      "grade": 0
+    },
+    {
+      "hash": "lnoF6yXjZ9O4",
+      "address": "https://docs.github.com/en/copilot/how-tos/copilot-sdk/setup/backend-services",
+      "title": "Backend services setup - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "kj73wyXjZ9O4",
+      "address": "https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/monitor-and-troubleshoot",
+      "title": "Monitoring and troubleshooting self-hosted runners - GitHub Docs",
+      "grade": 0
+    },
+    {
+      "hash": "6ypqpgYlAY74",
+      "address": "https://ubuntu.com/server/docs/how-to/software/kernel-crash-dump/",
+      "title": "Kernel crash dump - Ubuntu Server documentation",
+      "grade": 0
+    }
+  ]
+}
