@@ -51,7 +51,11 @@ func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, e
 	if err != nil {
 		return nil, err
 	}
-	dueTimes, offerIntervals, err := registerOfferTimes(v)
+	dueTimes, err := registerOfferDues(v)
+	if err != nil {
+		return nil, err
+	}
+	offerIntervals, err := registerOfferIntervals(v)
 	if err != nil {
 		return nil, err
 	}
@@ -144,7 +148,7 @@ func (s *Schedule) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) er
 
 func (s *Schedule) forgetOfferInterval(tx *vault.Txn, identity postingidentity.Identity) error {
 	if _, err := s.offerIntervals.Delete(tx, identity); err != nil {
-		return fmt.Errorf("drop offer retry wait: %w", err)
+		return fmt.Errorf("drop offer interval: %w", err)
 	}
 
 	return nil

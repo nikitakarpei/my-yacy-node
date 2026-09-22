@@ -31,29 +31,34 @@ func registerOfferOrder(
 	return order, nil
 }
 
-func registerOfferTimes(v *vault.Vault) (
-	*vault.Collection[postingidentity.Identity, time.Time],
-	*vault.Collection[postingidentity.Identity, time.Duration],
-	error,
-) {
+func registerOfferDues(
+	v *vault.Vault,
+) (*vault.Collection[postingidentity.Identity, time.Time], error) {
 	dueTimes, err := v.RegisterCollection(
 		dueBucket,
 		postingidentity.KeyLayout,
 		dueAtValueCodec{},
 	)
 	if err != nil {
-		return nil, nil, fmt.Errorf("register offer due: %w", err)
+		return nil, fmt.Errorf("register offer due: %w", err)
 	}
+
+	return dueTimes, nil
+}
+
+func registerOfferIntervals(
+	v *vault.Vault,
+) (*vault.Collection[postingidentity.Identity, time.Duration], error) {
 	offerIntervals, err := v.RegisterCollection(
 		offerIntervalBucket,
 		postingidentity.KeyLayout,
 		offerIntervalValueCodec{},
 	)
 	if err != nil {
-		return nil, nil, fmt.Errorf("register offer interval: %w", err)
+		return nil, fmt.Errorf("register offer interval: %w", err)
 	}
 
-	return dueTimes, offerIntervals, nil
+	return offerIntervals, nil
 }
 
 var orderKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)
