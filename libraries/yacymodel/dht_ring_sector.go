@@ -6,7 +6,10 @@ import "math/bits"
 // where on the ring something sits, and to group work by where it sits.
 type DHTRingSector uint
 
-const MaxDHTRingSector = DHTRingSector(1)<<6 - 1
+const (
+	DHTRingSectorCount DHTRingSector = 1 << 6
+	MaxDHTRingSector                 = DHTRingSectorCount - 1
+)
 
 // DHTRingSectorOf is the sector that holds a position.
 func DHTRingSectorOf(position DHTRingPosition) DHTRingSector {

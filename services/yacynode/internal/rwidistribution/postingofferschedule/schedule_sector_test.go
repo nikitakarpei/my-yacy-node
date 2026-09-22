@@ -21,13 +21,9 @@ func TestABatchTakesTheSectorOfTheEarliestDuePostingFirst(t *testing.T) {
 
 func TestABatchWalksOnFromTheLastSectorToTheFirst(t *testing.T) {
 	schedule := openSchedule(t, testStart)
-	lastSector, middleSector, firstSector := wordIn(
-		yacymodel.MaxDHTRingSector,
-	), wordIn(
-		10,
-	), wordIn(
-		0,
-	)
+	lastSector := wordIn(yacymodel.MaxDHTRingSector)
+	middleSector := wordIn(10)
+	firstSector := wordIn(0)
 	schedule.storeInTurn(t, lastSector, middleSector, firstSector)
 
 	due := schedule.duePostings(t, 2)
@@ -42,12 +38,12 @@ func TestRefreshesFillTheBatchFromTheSectorWhereItStarts(t *testing.T) {
 	schedule.meetRedundancy(t, refreshBefore, urlHash("u1"))
 	schedule.meetRedundancy(t, refreshAfter, urlHash("u1"))
 	schedule.clock = testStart.Add(2 * testInterval.Longest)
-	shortfall := wordIn(20)
-	schedule.store(t, shortfall, urlHash("u1"))
+	shortfallWord := wordIn(20)
+	schedule.store(t, shortfallWord, urlHash("u1"))
 
 	due := schedule.duePostings(t, 2)
 
-	assertWordsInOrder(t, due, shortfall, refreshAfter)
+	assertWordsInOrder(t, due, shortfallWord, refreshAfter)
 }
 
 func TestABatchStartsAtTheEarliestRefreshWhileNoShortfallIsDue(t *testing.T) {

@@ -52,7 +52,7 @@ func SeedsClosestToDHTRingPosition(
 // SeedsPerDHTRingSector counts the seeds in every sector of the DHT ring,
 // including the sectors that hold none.
 func SeedsPerDHTRingSector(seeds []Seed) []int {
-	perSector := make([]int, MaxDHTRingSector+1)
+	perSector := make([]int, DHTRingSectorCount)
 	for _, seed := range seeds {
 		perSector[DHTRingSectorOf(DHTRingPositionOf(seed.Hash))]++
 	}
