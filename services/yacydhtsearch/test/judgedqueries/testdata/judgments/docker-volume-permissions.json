@@ -1,0 +1,353 @@
+{
+  "query": "docker volume permissions",
+  "judgedDocuments": [
+    {
+      "hash": "AYjzb2RnNlC4",
+      "address": "https://supabase.com/docs/guides/self-hosting/docker",
+      "title": "Self-Hosting with Docker | Supabase Docs",
+      "grade": 0
+    },
+    {
+      "hash": "OmcmkE9Ojva4",
+      "address": "https://docs.docker.com/engine/release-notes/24.0/",
+      "title": "Docker Engine 24.0 release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "jshxMn9Ojva4",
+      "address": "https://docs.docker.com/offload/about/",
+      "title": "About Docker Offload | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "y0jdID9Ojva4",
+      "address": "https://docs.docker.com/faqs/subscription-billing/",
+      "title": "Subscription and billing FAQs | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "bvTWYE9Ojva4",
+      "address": "https://docs.docker.com/engine/extend/legacy_plugins/",
+      "title": "Use Docker Engine plugins | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "KJnCcc9Ojva4",
+      "address": "https://docs.docker.com/compose/how-tos/networking/",
+      "title": "Networking in Compose | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "Rtm_pZv-bf35",
+      "address": "https://docs.datadoghq.com/mobile/",
+      "title": "Datadog Mobile App",
+      "grade": 0
+    },
+    {
+      "hash": "g8Xf_J9Ojva4",
+      "address": "https://docs.docker.com/ai/model-runner/",
+      "title": "Docker Model Runner | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "VFD8jZ9Ojva4",
+      "address": "https://docs.docker.com/docker-hub/",
+      "title": "Docker Hub | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "nQTRkUNG1pIw",
+      "address": "https://metr.org/blog/2026-05-19-frontier-risk-report/",
+      "title": "Frontier Risk Report (February to March 2026) - METR",
+      "grade": 0
+    },
+    {
+      "hash": "JyfF0D9Ojva4",
+      "address": "https://docs.docker.com/faqs/platform/",
+      "title": "Platform FAQs | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "KGK2fE9Ojva4",
+      "address": "https://docs.docker.com/engine/daemon/",
+      "title": "Docker daemon configuration overview | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "5qKY8h9Ojva4",
+      "address": "https://docs.docker.com/dhi/tools/",
+      "title": "Tools | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "rPvDwn9Ojva4",
+      "address": "https://docs.docker.com/offload/troubleshoot/",
+      "title": "Troubleshoot Docker Offload | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "QtotYc9Ojva4",
+      "address": "https://docs.docker.com/compose/install/uninstall/",
+      "title": "Uninstall Docker Compose | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "x19JKP9Ojva4",
+      "address": "https://docs.docker.com/docker-hub/release-notes/",
+      "title": "Docker Hub release notes | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "m8bh7E9Ojva4",
+      "address": "https://docs.docker.com/engine/security/non-events/",
+      "title": "Docker security non-events | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "y8DjhJ9Ojva4",
+      "address": "https://docs.docker.com/ai/sandboxes/governance/",
+      "title": "Governance | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "2AhmKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/features/networking/",
+      "title": "Networking on Docker Desktop | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "94DS6X9Ojva4",
+      "address": "https://docs.docker.com/enterprise/security/hardened-desktop/",
+      "title": "Hardened Docker Desktop | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "8aCa-49Ojva4",
+      "address": "https://docs.docker.com/build/exporters/oci-docker/",
+      "title": "OCI and Docker exporters | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "EEIi6R9Ojva4",
+      "address": "https://docs.docker.com/scout/explore/analysis/",
+      "title": "Docker Scout image analysis | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "B_HcaR9Ojva4",
+      "address": "https://docs.docker.com/scout/install/",
+      "title": "Install Docker Scout | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "FLq-1M9Ojva4",
+      "address": "https://docs.docker.com/desktop/use-desktop/kubernetes/",
+      "title": "Explore the Kubernetes view | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "w6YL-49Ojva4",
+      "address": "https://docs.docker.com/build/concepts/overview/",
+      "title": "Docker Build Overview | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "dMmxxM9Ojva4",
+      "address": "https://docs.docker.com/desktop/uninstall/",
+      "title": "Uninstall Docker Desktop | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "ESSuRZ9Ojva4",
+      "address": "https://docs.docker.com/extensions/",
+      "title": "Docker Extensions | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "D6BVzE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/rhel/",
+      "title": "Install Docker Engine on RHEL | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "NTbkPc9Ojva4",
+      "address": "https://docs.docker.com/compose/install/linux/",
+      "title": "Install the Docker Compose plugin | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "KPFHAR9Ojva4",
+      "address": "https://docs.docker.com/scout/integrations/ci/circle-ci/",
+      "title": "Integrate Docker Scout with Circle CI | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "AhqcIZ9Ojva4",
+      "address": "https://docs.docker.com/accounts/individual/",
+      "title": "Docker individual accounts | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "SVe-VE9Ojva4",
+      "address": "https://docs.docker.com/engine/daemon/troubleshoot/",
+      "title": "Troubleshooting the Docker daemon | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "uuE2EZ9Ojva4",
+      "address": "https://docs.docker.com/manuals/",
+      "title": "Manuals | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "1KtcwZ9Ojva4",
+      "address": "https://docs.docker.com/offload/",
+      "title": "Docker Offload | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "75lx7E9Ojva4",
+      "address": "https://docs.docker.com/engine/security/",
+      "title": "Docker Engine security | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "tPY8HEfg20jx",
+      "address": "https://jupyter-docker-stacks.readthedocs.io/en/latest/",
+      "title": "Jupyter Docker Stacks — Docker Stacks documentation",
+      "grade": 0
+    },
+    {
+      "hash": "bQ4bAE9Ojva4",
+      "address": "https://docs.docker.com/engine/security/protect-access/",
+      "title": "Protect the Docker daemon socket | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "LQ87dP9Ojva4",
+      "address": "https://docs.docker.com/docker-hub/repos/",
+      "title": "Repositories | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "nfjeaJ9Ojva4",
+      "address": "https://docs.docker.com/ai/docker-agent/tools/open-url/",
+      "title": "Open URL Tool | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "VS0PKE9Ojva4",
+      "address": "https://docs.docker.com/engine/extend/plugins_volume/",
+      "title": "Docker volume plugins | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "vlvGkQS6MKD4",
+      "address": "https://github.com/docker/compose/releases",
+      "title": "Releases · docker/compose · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "_7_WSE9Ojva4",
+      "address": "https://docs.docker.com/engine/network/",
+      "title": "Networking overview | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "4Ki38c9Ojva4",
+      "address": "https://docs.docker.com/compose/gettingstarted/",
+      "title": "Docker Compose Quickstart | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "AULWgE9Ojva4",
+      "address": "https://docs.docker.com/engine/swarm/",
+      "title": "Swarm mode | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "Qzbt3X9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile/",
+      "title": "Dockerfile reference | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "bAimuE9Ojva4",
+      "address": "https://docs.docker.com/engine/install/",
+      "title": "Install Docker Engine | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "KSSoYZ9Ojva4",
+      "address": "https://docs.docker.com/retired/",
+      "title": "Deprecated and retired Docker products and features | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "a8V_fZ9Ojva4",
+      "address": "https://docs.docker.com/desktop/",
+      "title": "Docker Desktop | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "fsxzgZ9Ojva4",
+      "address": "https://docs.docker.com/engine/",
+      "title": "Docker Engine | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "spCnKZ9Ojva4",
+      "address": "https://docs.docker.com/compose/",
+      "title": "Docker Compose | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "CUlDfPMW35a4",
+      "address": "https://hub.docker.com/_/redis",
+      "title": "redis - Official Image | Docker Hub",
+      "grade": 1
+    },
+    {
+      "hash": "CVF_KUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/",
+      "title": "Don't Panic: Kubernetes and Docker | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "Vj1TQZ9Ojva4",
+      "address": "https://docs.docker.com/release-lifecycle/",
+      "title": "Docker's product release lifecycle | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "5izTqPMW35a4",
+      "address": "https://hub.docker.com/_/mysql",
+      "title": "mysql - Official Image | Docker Hub",
+      "grade": 1
+    },
+    {
+      "hash": "jilUNUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2020/05/21/wsl-docker-kubernetes-on-the-windows-desktop/",
+      "title": "WSL+Docker: Kubernetes on the Windows Desktop | Kubernetes",
+      "grade": 0
+    },
+    {
+      "hash": "BPdiiZ9Ojva4",
+      "address": "https://docs.docker.com/scout/",
+      "title": "Docker Scout | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "NRZFDZ9Ojva4",
+      "address": "https://docs.docker.com/docker-hub",
+      "title": "Docker Hub | Docker Docs",
+      "grade": 0
+    }
+  ]
+}

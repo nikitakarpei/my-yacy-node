@@ -1,0 +1,293 @@
+{
+  "query": "gnome shell extensions",
+  "judgedDocuments": [
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "0lxYkHjpmq6Q",
+      "address": "http://www.gnu.org/people/people.html",
+      "title": "GNU's Who - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "cfM-rjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JavaScript",
+      "title": "JavaScript - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CRermB-c6vHw",
+      "address": "https://nixos.org/manual/nixos/stable/",
+      "title": "NixOS Manual",
+      "grade": 0
+    },
+    {
+      "hash": "zb_oQLzO8gWh",
+      "address": "https://meeksfamily.uk/~michael/blog/2010/index.html",
+      "title": "Stuff Michael Meeks is doing",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "-gZasla_7uS5",
+      "address": "https://www.theregister.com/",
+      "title": "Technology news and analysis | The Register",
+      "grade": 0
+    },
+    {
+      "hash": "0Jl5ylHzph0w",
+      "address": "https://www.freebsd.org/projects/",
+      "title": "FreeBSD Development Projects | The FreeBSD Project",
+      "grade": 0
+    },
+    {
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones] · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "84FlxRrrnsyQ",
+      "address": "http://planet.gnu.org/",
+      "title": "Planet GNU",
+      "grade": 0
+    },
+    {
+      "hash": "-PBoH8ra3eRg",
+      "address": "https://nlnet.nl/project/current.html",
+      "title": "NLnet; Current projects",
+      "grade": 0
+    },
+    {
+      "hash": "5CRG4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Inkscape",
+      "title": "Inkscape - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "5ylDwlXZBhAw",
+      "address": "https://www.openssh.org/releasenotes.html",
+      "title": "OpenSSH: Release Notes",
+      "grade": 0
+    },
+    {
+      "hash": "PBHGklNdxz8x",
+      "address": "https://www.freshports.org/",
+      "title": "FreshPorts -- The Place For Ports - Most recent commits",
+      "grade": 0
+    },
+    {
+      "hash": "bzwX8z_hTtNw",
+      "address": "https://planet.kde.org/",
+      "title": "English - Planet KDE",
+      "grade": 0
+    },
+    {
+      "hash": "w_9jmzX55GGw",
+      "address": "https://planet.jabber.org/",
+      "title": "Planet Jabber",
+      "grade": 0
+    },
+    {
+      "hash": "DX34DTCNM2sY",
+      "address": "http://www.yolinux.com/TUTORIALS/LinuxTutorialCDBurn.html",
+      "title": "Linux Tutorial: Burning a CD or DVD",
+      "grade": 0
+    },
+    {
+      "hash": "FsiEPaa_7uS5",
+      "address": "https://www.theregister.com/tag/open%20source",
+      "title": "Tag: open source",
+      "grade": 0
+    },
+    {
+      "hash": "JfLn7M9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/debian/",
+      "title": "Install Docker Desktop on Debian | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "MN77kHHvMhvw",
+      "address": "https://firefox-source-docs.mozilla.org/mots/index.html",
+      "title": "Governance — Firefox Source Docs documentation",
+      "grade": 0
+    },
+    {
+      "hash": "Oj5aCSS6MKD4",
+      "address": "https://github.com/pop-os/cosmic-epoch",
+      "title": "GitHub - pop-os/cosmic-epoch: Next generation Cosmic desktop environment · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "rr-EHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/PHP",
+      "title": "PHP - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "BBlNLJdV0V94",
+      "address": "https://www.vixalien.com/blog/gjs-dap/",
+      "title": "Midterm Report: Adding Debug Adapter Protocol Support to GJS - vixalien's blog",
+      "grade": 0
+    },
+    {
+      "hash": "__guxsHv8Pkw",
+      "address": "https://freenode.net/",
+      "title": "freenode",
+      "grade": 0
+    },
+    {
+      "hash": "oMfKGUI06aZg",
+      "address": "https://df7cb.de/blog/tags/debian.html",
+      "title": "Myon's Blog",
+      "grade": 0
+    },
+    {
+      "hash": "uG5yila_7uS5",
+      "address": "https://www.theregister.com/software",
+      "title": "Software news | The Register",
+      "grade": 0
+    },
+    {
+      "hash": "wPbQLR1YIUaQ",
+      "address": "http://planet.haskell.org/",
+      "title": "Planet Haskell",
+      "grade": 0
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "VOfo5xtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Tilda",
+      "title": "List of applications/Utilities - ArchWiki",
+      "grade": 0
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "mKjEVzAa-Sqx",
+      "address": "https://planet.freedesktop.org/",
+      "title": "planet.freedesktop.org",
+      "grade": 0
+    },
+    {
+      "hash": "40VvvjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Edge",
+      "title": "Microsoft Edge - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SOAt4sWMnAPx",
+      "address": "https://fedoraplanet.org/",
+      "title": "Fedora People",
+      "grade": 0
+    },
+    {
+      "hash": "Tw2WTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Chrome",
+      "title": "Google Chrome - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "EXyBtjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Transport_Layer_Security",
+      "title": "Transport Layer Security - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "bdbjjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Tor_(network)",
+      "title": "Tor (network) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "LJ3ja0fAZJjR",
+      "address": "http://billposer.org/Linguistics/Computation/Resources.html",
+      "title": "Computational Resources for Linguistic Research",
+      "grade": 0
+    },
+    {
+      "hash": "2DBZIobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Extension:TimedMediaHandler",
+      "title": "Extension:TimedMediaHandler - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "EtPUKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/HTTPS",
+      "title": "HTTPS - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "ckcFfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNOME",
+      "title": "GNOME - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "jLQq6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Sun_Microsystems",
+      "title": "Sun Microsystems - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "k8eWwjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Command-line_interface",
+      "title": "Command-line interface - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "kM4UnjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Computer",
+      "title": "Computer - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "AaiPqcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/GNOME",
+      "title": "GNOME — Wikipédia",
+      "grade": 0
+    }
+  ]
+}

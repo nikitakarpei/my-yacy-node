@@ -1,0 +1,323 @@
+{
+  "query": "gentoo handbook",
+  "judgedDocuments": [
+    {
+      "hash": "_jRa_lmJ800w",
+      "address": "https://www.gentoo.org/downloads/",
+      "title": "Downloads – Gentoo Linux",
+      "grade": 0
+    },
+    {
+      "hash": "0wVX98uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Gentoo_Wiki:Menu-Documentation",
+      "title": "Gentoo Wiki:Menu-Documentation - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "-R7Y98uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/IRC",
+      "title": "IRC - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "9Hzza8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Category:Gentoo_Wiki",
+      "title": "Category:Gentoo Wiki - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "Up-i88uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Infrastructure",
+      "title": "Project:Infrastructure - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "dIoF-8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Gentoo_Wiki:Contributor%27s_guide",
+      "title": "Gentoo Wiki:Contributor's guide - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "s7gLz8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Talk:Main_Page",
+      "title": "Gentoo Wiki:Feedback - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "grade": 0
+    },
+    {
+      "hash": "LyyWD8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Gentoo_Wiki:Feedback",
+      "title": "Gentoo Wiki:Feedback - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "-eQEj8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Gentoo_Wiki:Article_Blueprints",
+      "title": "Article blueprints - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "2CAHw8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/FAQ",
+      "title": "FAQ - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "fueuF8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Gentoo-zh/en",
+      "title": "Gentoo-zh - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "GWCeF8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Category:Server_and_Security",
+      "title": "Category:Server and Security - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "FTa9L8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Help:Contents",
+      "title": "Help:Contents - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "MeaJD8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Gentoo",
+      "title": "Project:Gentoo - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "PSrKH8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Foundation:Privacy_Policy",
+      "title": "Foundation:Privacy Policy - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "O103C8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Category:Hardware",
+      "title": "Category:Hardware - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "Oop4E8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Category:Desktop",
+      "title": "Category:Desktop - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "NlAfI8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Council",
+      "title": "Project:Council - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "ku3ed8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Gentoo_Wiki:Privacy_policy",
+      "title": "Foundation:Privacy Policy - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "pCWnb8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Category:Software",
+      "title": "Category:Software - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "q-kez8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Portage",
+      "title": "Portage - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "qlQlg8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Hardened",
+      "title": "Project:Hardened - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "qul1F8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Category:Gentoo_Projects",
+      "title": "Category:Gentoo Projects - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "yH4nM8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Main_Page",
+      "title": "Gentoo Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "w3z6C8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Prefix",
+      "title": "Project:Prefix - Gentoo wiki",
+      "grade": 0
+    },
+    {
+      "hash": "3jcZ693Y7LMw",
+      "address": "https://blogs.gentoo.org/mgorny/2026/05/28/why-gentoo/",
+      "title": "Why Gentoo? – Michał Górny",
+      "grade": 0
+    },
+    {
+      "hash": "3rWSj8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Handbook:AMD64/Portage/Branches",
+      "title": "Handbook:AMD64/Portage/Branches - Gentoo wiki",
+      "grade": 1
+    },
+    {
+      "hash": "xa0CdOxyFvIw",
+      "address": "https://forums.gentoo.org/",
+      "title": "Gentoo Forums - Index page",
+      "grade": 0
+    },
+    {
+      "hash": "LzgHz8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Handbook:Main_Page",
+      "title": "Handbook:Main Page - Gentoo wiki",
+      "grade": 2
+    },
+    {
+      "hash": "45UanOxyFvIw",
+      "address": "https://forums.gentoo.org/viewforum.php?f=14",
+      "title": "Installing Gentoo - Gentoo Forums",
+      "grade": 0
+    },
+    {
+      "hash": "t8YopOxyFvIw",
+      "address": "https://forums.gentoo.org/viewforum.php?f=57",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "5Km_7OxyFvIw",
+      "address": "https://forums.gentoo.org/viewforum-f-12.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "grade": 0
+    },
+    {
+      "hash": "rmFFm8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Handbook:Main_Page/pl",
+      "title": "Handbook:Main Page/pl - Gentoo wiki",
+      "grade": 1
+    },
+    {
+      "hash": "691gJOxyFvIw",
+      "address": "https://forums.gentoo.org/viewforum-f-44.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "A0yfHjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gentoo_Linux",
+      "title": "Gentoo Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "TTfKKqmJ800w",
+      "address": "https://www.gentoo.org/support/documentation/",
+      "title": "Documentation – Gentoo Linux",
+      "grade": 1
+    },
+    {
+      "hash": "qySgIOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8859943.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "28MeF8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/User:SwifT/Complete_Handbook/Building_the_Linux_kernel",
+      "title": "User:SwifT/Complete Handbook/Building the Linux kernel - Gentoo wiki",
+      "grade": 1
+    },
+    {
+      "hash": "3GD_q7uNWVxw",
+      "address": "https://linuxfr.org/sections/gentoo",
+      "title": "Gentoo - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "4U-lqOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8877493.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "5CM_nOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8857746.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "5spAHOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8868886.html",
+      "title": "Sign the external module with own key on gentoo-kernel-bin - Gentoo Forums",
+      "grade": 0
+    },
+    {
+      "hash": "5ss9xOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8850865.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "6mFyJOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8871837.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "6r2ApOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8870416.html",
+      "title": "Impossible to solve emerge world blockers [solved] - Gentoo Forums",
+      "grade": 0
+    },
+    {
+      "hash": "7URkhOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic.php?p=8888849",
+      "title": "It is incredibly difficult to keep track of your position in the handbook - Page 2 - Gentoo Forums",
+      "grade": 1
+    },
+    {
+      "hash": "7iJAKOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8868344.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "pR5pjOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic-p-8868523.html",
+      "title": "Gentoo Forums - Login",
+      "grade": 0
+    },
+    {
+      "hash": "5wp29hmJ800w",
+      "address": "https://www.gentoo.org/downloads/arm/",
+      "title": "arm (aka ARMv4tl, ARMv5tel, ARMv6j, ARMv7a, ...) – Gentoo Linux",
+      "grade": 0
+    },
+    {
+      "hash": "6RJt7isE1LOw",
+      "address": "https://devmanual.gentoo.org/index.html",
+      "title": "Master index – Gentoo Development Guide",
+      "grade": 0
+    },
+    {
+      "hash": "6dRSbOxyFvIw",
+      "address": "https://forums.gentoo.org/viewtopic.php?p=8883484",
+      "title": "Kernel-install and OpenRC - Gentoo Forums",
+      "grade": 0
+    }
+  ]
+}

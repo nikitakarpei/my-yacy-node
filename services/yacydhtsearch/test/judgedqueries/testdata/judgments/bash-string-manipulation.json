@@ -1,0 +1,107 @@
+{
+  "query": "bash string manipulation",
+  "judgedDocuments": [
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "QFJf8LzO8gWh",
+      "address": "https://meeksfamily.uk/~michael/blog/2000/index.html",
+      "title": "Stuff Michael Meeks is doing",
+      "grade": 0
+    },
+    {
+      "hash": "_XVrRwxrQlU5",
+      "address": "https://steppingtoes.wordpress.com/tag/thinking/",
+      "title": "Thinking | Stepping Toes",
+      "grade": 0
+    },
+    {
+      "hash": "OkJ2Km0h8sSw",
+      "address": "https://tracker.debian.org/pkg/linux",
+      "title": "linux - Debian Package Tracker",
+      "grade": 0
+    },
+    {
+      "hash": "mAfp7BS6MKD4",
+      "address": "https://github.com/ziadoz/awesome-php",
+      "title": "GitHub - ziadoz/awesome-php: A curated list of amazingly awesome PHP libraries, resources and shiny things. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Qa6LYzS6MKD4",
+      "address": "https://github.com/topics/color",
+      "title": "color · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "r_QLCv5zLm04",
+      "address": "https://claude.com/product/claude-code",
+      "title": "Claude Code by Anthropic | AI Coding Agent, Terminal, IDE",
+      "grade": 0
+    },
+    {
+      "hash": "0ttAqB-c6vHw",
+      "address": "https://nixos.org/manual/nixpkgs/unstable/",
+      "title": "Nixpkgs Reference Manual",
+      "grade": 0
+    },
+    {
+      "hash": "rnFI_6UfA8tY",
+      "address": "http://obamacartoon.blogspot.com/",
+      "title": "TRUMP LAND",
+      "grade": 0
+    },
+    {
+      "hash": "zs1QEEjpmq6Q",
+      "address": "http://www.gnu.org/manual/manual.html",
+      "title": "GNU Manuals Online - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "FDbC6B-c6vHw",
+      "address": "https://nixos.org/manual/nixpkgs/stable/",
+      "title": "Nixpkgs Reference Manual",
+      "grade": 0
+    },
+    {
+      "hash": "K96pwhUfA8tY",
+      "address": "http://obamacartoon.blogspot.com/2018/12/robert-mueller-in-fitting-candidate-for.html",
+      "title": "ROBERT MUELLER IN A FITTING CANDIDATE FOR A MIDDLE AGES LORD HIGH INQUISITOR |TRUMP LAND",
+      "grade": 0
+    },
+    {
+      "hash": "yUPwOE05rw04",
+      "address": "https://www.unz.com/isteve/isteve-open-thread-26-2/",
+      "title": "ISteve Open Thread 26, by iSteve Community - The Unz Review",
+      "grade": 0
+    }
+  ]
+}

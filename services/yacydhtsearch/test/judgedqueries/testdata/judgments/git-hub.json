@@ -1,0 +1,467 @@
+{
+  "query": "git hub",
+  "judgedDocuments": [
+    {
+      "hash": "trOoWvdTeyA4",
+      "address": "https://github.blog/open-source/git/",
+      "title": "The latest on Git updates - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "ojpoYsS6MKD4",
+      "address": "https://github.com/git-guides",
+      "title": "Git · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "8ZTTwsb7eV14",
+      "address": "https://infosec.exchange/@GitHubSecurityLab",
+      "title": "GitHub Security Lab (@GitHubSecurityLab@infosec.exchange) - Infosec Exchange",
+      "grade": 1
+    },
+    {
+      "hash": "7sdMbsS6MKD4",
+      "address": "https://github.com/resources",
+      "title": "Resources to help you build, secure, and scale with GitHub · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "nWdI4IR2NVbw",
+      "address": "https://devguide.python.org/",
+      "title": "Python Developer’s Guide",
+      "grade": 0
+    },
+    {
+      "hash": "ryBZztS6MKD4",
+      "address": "https://github.com/trending/uno?since=daily",
+      "title": "Trending Uno repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "rjHshtS6MKD4",
+      "address": "https://github.com/trending/awk?since=daily",
+      "title": "Trending Awk repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "r_Ao3tS6MKD4",
+      "address": "https://github.com/trending/oasv3-yaml?since=daily",
+      "title": "Trending OASv3-yaml repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "r5VKasS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=ur",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "-WrpYv9Ojva4",
+      "address": "https://docs.docker.com/guides/bun/",
+      "title": "Bun language-specific guide | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "9dnewsdTeyA4",
+      "address": "https://github.blog/",
+      "title": "Home - The GitHub Blog",
+      "grade": 1
+    },
+    {
+      "hash": "R80lF49Ojva4",
+      "address": "https://docs.docker.com/build/policies/validate-git/",
+      "title": "Validating Git repositories | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "6k3REsS6MKD4",
+      "address": "https://github.com/wikimedia-bg",
+      "title": "Bulgarian WMF projects · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "ykKdisdTeyA4",
+      "address": "https://github.blog/developer-skills/",
+      "title": "Resources to grow as a software developer - The GitHub Blog",
+      "grade": 0
+    },
+    {
+      "hash": "2Yzfus-cUg-l",
+      "address": "https://huggingface.co/storage",
+      "title": "Storage - Hugging Face",
+      "grade": 0
+    },
+    {
+      "hash": "0kxVzyXjZ9O4",
+      "address": "https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise",
+      "title": "Streaming the audit log for your enterprise - GitHub Enterprise Cloud Docs",
+      "grade": 1
+    },
+    {
+      "hash": "vGOwWkoYEQXx",
+      "address": "https://vi.wikipedia.org/wiki/MediaWiki",
+      "title": "MediaWiki – Wikipedia tiếng Việt",
+      "grade": 0
+    },
+    {
+      "hash": "oMqXY49Ojva4",
+      "address": "https://docs.docker.com/build/concepts/context/",
+      "title": "Build context | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "vN4EJQ9YL6f5",
+      "address": "https://devblogs.microsoft.com/bharry/scaling-git-and-some-back-story/",
+      "title": "Your Privacy Choices Opt-Out Icon",
+      "grade": 0
+    },
+    {
+      "hash": "CUlDfPMW35a4",
+      "address": "https://hub.docker.com/_/redis",
+      "title": "redis - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "a-dOBPMW35a4",
+      "address": "https://hub.docker.com/_/eclipse-temurin",
+      "title": "eclipse-temurin - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "BEVC0UqrG-s4",
+      "address": "https://wellarchitected.github.com/",
+      "title": "GitHub Well-Architected",
+      "grade": 1
+    },
+    {
+      "hash": "JsQr2IV0-6I4",
+      "address": "https://stars.github.com/",
+      "title": "Nominate amazing open source contributors for the GitHub Stars program | GitHub Stars",
+      "grade": 1
+    },
+    {
+      "hash": "WRqqofyLZUz4",
+      "address": "https://skills.github.com/",
+      "title": "Redirecting to GitHub Learn",
+      "grade": 0
+    },
+    {
+      "hash": "KXvXa0ADJCy4",
+      "address": "https://securitylab.github.com/",
+      "title": "GitHub Security Lab | Securing open source software, together.",
+      "grade": 1
+    },
+    {
+      "hash": "_oH0jsS6MKD4",
+      "address": "https://github.com/ChocoChip0519",
+      "title": "ChocoChip0519 (Taeuk Ha) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "6n2lFsS6MKD4",
+      "address": "https://github.com/marketplace?type=actions\u0026category=api-management",
+      "title": "Marketplace · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "6_2JSsS6MKD4",
+      "address": "https://github.com/joakimengerstam",
+      "title": "joakimengerstam (Joakim Engerstam) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "_QuiZsS6MKD4",
+      "address": "https://github.com/OrchardCMS",
+      "title": "OrchardCMS · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "5iL-4sS6MKD4",
+      "address": "https://github.com/thedev09?tab=packages",
+      "title": "thedev09 (Dev) / Packages · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "OMFrFsS6MKD4",
+      "address": "https://github.com/EricJ2190",
+      "title": "EricJ2190 (Eric) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "sxmJYsS6MKD4",
+      "address": "https://github.com/sitemap",
+      "title": "GitHub Sitemap · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "7xki9sS6MKD4",
+      "address": "https://github.com/c19yamamoto?tab=followers",
+      "title": "c19yamamoto (Yamahar) / Followers · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "l3eEl5Pdj_X4",
+      "address": "https://partner.github.com/",
+      "title": "Partner with GitHub | GitHub Partner Portal",
+      "grade": 1
+    },
+    {
+      "hash": "n0wVrl_OfC_4",
+      "address": "https://pages.github.com/",
+      "title": "GitHub Pages | Websites for you and your projects, hosted directly from your GitHub repository. Just edit, push, and your changes are live.",
+      "grade": 1
+    },
+    {
+      "hash": "tgMi4sS6MKD4",
+      "address": "https://github.com/team",
+      "title": "GitHub for teams · Build like the best teams on the planet · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "yetqBlLutU54",
+      "address": "https://www.github.careers/careers-home",
+      "title": "GitHub Careers",
+      "grade": 1
+    },
+    {
+      "hash": "8n1TtsS6MKD4",
+      "address": "https://github.com/mahata",
+      "title": "mahata (Yasunori MAHATA) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "9ixgZsS6MKD4",
+      "address": "https://github.com/phanky1",
+      "title": "phanky1 · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "-xaEisS6MKD4",
+      "address": "https://github.com/raskyld",
+      "title": "raskyld (Enzo Nocera) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "z3T05sS6MKD4",
+      "address": "https://github.com/glozow",
+      "title": "glozow (Gloria Zhao) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "01jOhsS6MKD4",
+      "address": "https://github.com/oliviercrouzet",
+      "title": "oliviercrouzet · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "t8XqjsS6MKD4",
+      "address": "https://github.com/partners",
+      "title": "GitHub Partner Program · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "0eVCEsS6MKD4",
+      "address": "https://github.com/cyberthirst",
+      "title": "cyberthirst · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "cCesxws300K4",
+      "address": "https://resources.github.com/",
+      "title": "Home - GitHub Resources",
+      "grade": 1
+    },
+    {
+      "hash": "70vUusS6MKD4",
+      "address": "https://github.com/enterprise",
+      "title": "GitHub Enterprise · The AI-powered developer platform for the agent-ready enterprise · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "pRGi4sS6MKD4",
+      "address": "https://github.com/features",
+      "title": "GitHub Features · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "3AJfqsS6MKD4",
+      "address": "https://github.com/security",
+      "title": "GitHub Security · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "8pizEsdTeyA4",
+      "address": "https://github.blog/news-insights/",
+      "title": "The latest developer news \u0026 insights - The GitHub Blog",
+      "grade": 1
+    },
+    {
+      "hash": "XPBo3sS6MKD4",
+      "address": "https://github.com/roadmap-webinar-series",
+      "title": "Product Roadmap Webinar Series · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "aaL-fF8x4YKw",
+      "address": "https://htmlpreview.github.io/",
+      "title": "GitHub \u0026 BitBucket HTML Preview",
+      "grade": 0
+    },
+    {
+      "hash": "-EiGesS6MKD4",
+      "address": "https://github.com/hanzoh1",
+      "title": "hanzoh1 (hanzo) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "OzqBtsS6MKD4",
+      "address": "https://github.com/unhappyben",
+      "title": "unhappyben (Ben) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "NxQ-ysS6MKD4",
+      "address": "https://github.com/login?return_to=https%3A%2F%2Fgist.github.com%2Fphaze111%2F59f7370903839168f28e0704a8881b46",
+      "title": "Sign in to GitHub · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "OECWcsS6MKD4",
+      "address": "https://github.com/jbgwu",
+      "title": "jbgwu · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "Nu6xTsS6MKD4",
+      "address": "https://github.com/trust-center",
+      "title": "GitHub Trust Center · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "qtCrdsS6MKD4",
+      "address": "https://github.com/mobile",
+      "title": "GitHub Mobile · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "9_DdisS6MKD4",
+      "address": "https://github.com/GmhLovEDM?tab=projects",
+      "title": "GmhLovEDM (高铭壑) / Projects · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "YZDSAsdTeyA4",
+      "address": "https://github.blog/changelog/",
+      "title": "GitHub Changelog",
+      "grade": 1
+    },
+    {
+      "hash": "ZYUk69uFbdpw",
+      "address": "https://eklem.github.io/",
+      "title": "eklem.github.io | robots.txt for my github.io pages",
+      "grade": 0
+    },
+    {
+      "hash": "yd8YlsS6MKD4",
+      "address": "https://github.com/github",
+      "title": "GitHub · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "ok_ThsS6MKD4",
+      "address": "https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fsponsors%2Fjoestr",
+      "title": "Sign in to GitHub · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "M4rtJ2PCpqc4",
+      "address": "https://www.youtube.com/@GitHub/playlists",
+      "title": "GitHub - YouTube",
+      "grade": 1
+    },
+    {
+      "hash": "AI7ERsS6MKD4",
+      "address": "https://github.com/",
+      "title": "GitHub · Change is constant. GitHub keeps you ahead. · GitHub",
+      "grade": 2
+    },
+    {
+      "hash": "gQ6C1PMW35a4",
+      "address": "https://hub.docker.com/_/node",
+      "title": "node - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "k5CFYeMW35a4",
+      "address": "https://hub.docker.com/",
+      "title": "Docker Hub Container Image Library | App Containerization",
+      "grade": 0
+    },
+    {
+      "hash": "8PsPnyXjZ9O4",
+      "address": "https://docs.github.com/en/get-started/start-your-journey/git-and-github-learning-resources",
+      "title": "Git and GitHub learning resources - GitHub Docs",
+      "grade": 1
+    },
+    {
+      "hash": "sd7Q-PMW35a4",
+      "address": "https://hub.docker.com/_/php",
+      "title": "php - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "EK9AGYVFPD3x",
+      "address": "https://oc.wikibooks.org/wiki/Wikilibres:La_tav%C3%A8rna",
+      "title": "Wikilibres:La tavèrna — Wikilibres",
+      "grade": 0
+    },
+    {
+      "hash": "IhlzzPMW35a4",
+      "address": "https://hub.docker.com/_/ruby",
+      "title": "ruby - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "lWpzMsv4_U9x",
+      "address": "https://bitbucket.org/",
+      "title": "Bitbucket | Git solution for teams using Jira",
+      "grade": 0
+    },
+    {
+      "hash": "Rr5cbzW61vZ4",
+      "address": "https://handbook.gitlab.com/handbook/support/support-pods/git-and-gitaly/",
+      "title": "Git and Gitaly Support Pod | The GitLab Handbook",
+      "grade": 0
+    },
+    {
+      "hash": "7WP56MS6MKD4",
+      "address": "https://github.com/tiimgreen/github-cheat-sheet",
+      "title": "GitHub - tiimgreen/github-cheat-sheet: A list of cool features of Git and GitHub. · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "Eo8WOPMW35a4",
+      "address": "https://hub.docker.com/_/phpmyadmin",
+      "title": "phpmyadmin - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "GAis8PMW35a4",
+      "address": "https://hub.docker.com/_/rust",
+      "title": "rust - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "lNYajPMW35a4",
+      "address": "https://hub.docker.com/_/python",
+      "title": "python - Official Image | Docker Hub",
+      "grade": 0
+    },
+    {
+      "hash": "p5Fc1PMW35a4",
+      "address": "https://hub.docker.com/_/ubuntu/",
+      "title": "ubuntu - Official Image | Docker Hub",
+      "grade": 0
+    }
+  ]
+}

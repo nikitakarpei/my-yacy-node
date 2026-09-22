@@ -1,0 +1,625 @@
+{
+  "query": "open street map",
+  "judgedDocuments": [
+    {
+      "hash": "o9LgOs2xL7A6",
+      "address": "https://corbettreport.com/july-open-thread-2023/",
+      "title": "July Open Thread (2023) | The Corbett Report",
+      "grade": 0
+    },
+    {
+      "hash": "HS2X1s2xL7A6",
+      "address": "https://corbettreport.com/june-open-thread-2022/",
+      "title": "June Open Thread (2022) | The Corbett Report",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "5EIbbs2xL7A6",
+      "address": "https://corbettreport.com/new-year-open-thread-2023/",
+      "title": "New Year Open Thread (2023) | The Corbett Report",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "QErzss2xL7A6",
+      "address": "https://corbettreport.com/july-open-thread-2022/",
+      "title": "July Open Thread (2022) | The Corbett Report",
+      "grade": 0
+    },
+    {
+      "hash": "hQy9paP0TsU6",
+      "address": "https://www.americanthinker.com/author/rick_moran/",
+      "title": "Articles: Rick Moran Archives - American Thinker",
+      "grade": 0
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "ttI19ciUqtB5",
+      "address": "https://www.topoquest.com/place/texas/church/jefferson-street-baptist-church/2025081",
+      "title": "Jefferson Street Baptist Church, TX - TopoQuest",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "o-CKglrF2i05",
+      "address": "https://www.mariowiki.com/Fortune_Street",
+      "title": "Fortune Street - Super Mario Wiki, the Mario encyclopedia",
+      "grade": 0
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "grade": 0
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "grade": 0
+    },
+    {
+      "hash": "hNrcdJ-bwreQ",
+      "address": "http://ace.mu.nu/",
+      "title": "Ace of Spades HQ",
+      "grade": 0
+    },
+    {
+      "hash": "Sa0cW7uRTBFY",
+      "address": "http://dissectleft.blogspot.com/",
+      "title": "Dissecting Leftism",
+      "grade": 0
+    },
+    {
+      "hash": "XTPIBlptNsG4",
+      "address": "https://www.akdart.com/hijrah.html",
+      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
+      "grade": 0
+    },
+    {
+      "hash": "9Gfi7KsrSOQw",
+      "address": "https://arxiv.org/list/cs/new",
+      "title": "Computer Science",
+      "grade": 0
+    },
+    {
+      "hash": "W4ZC98KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Map_features",
+      "title": "Map features - OpenStreetMap Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "fE4y5sGA_USx",
+      "address": "https://warracket.net/",
+      "title": "WAR RACKET - MAINSTREAM MEDIA, CORPORATE MEDIA, WARMONGERS, NEOCONS, DEEP STATE, NATO, NATIONAL SECURITY STATE, MILITARY-INDUSTRIAL-SECURITY-COMPLEX, WEAPONS MANUFACTURERS, NATO,",
+      "grade": 0
+    },
+    {
+      "hash": "1mo1Mlybg-vy",
+      "address": "https://www.openstreetmap.org/",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "kV4tXlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=13.75000\u0026mlon=30.36667\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "UCMPFlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=42.365278\u0026mlon=10.921667\u0026zoom=13",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "FHLZYlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=49.555277777778\u0026mlon=32.754444444444\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "StJ1ylybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=42.365347\u0026mlon=10.9214\u0026zoom=11",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "A6MPrlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=55.36389\u0026mlon=49.99778\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "vqDyxlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=50.847033\u0026mlon=34.483293\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "xM7wolybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=30.2852\u0026mlon=120.924\u0026zoom=10",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "U-Dczlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-5\u0026mlon=55",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "P6RgMlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=39.91555556\u0026mlon=116.39083333\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "Q1F19sQgFy_y",
+      "address": "https://os.openstreetmap.org/?zoom=15\u0026lat=30.336389\u0026lon=112.241389\u0026layers=B0",
+      "title": "OpenStreetMap - Ordnance Survey OpenData - Street View",
+      "grade": 1
+    },
+    {
+      "hash": "YbSrAlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=30.2852\u0026mlon=120.924\u0026zoom=11",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "qvgCPlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=48.146944444444\u0026mlon=11.563611111111\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "f_pUglybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=58.907556406382\u0026mlon=17.944577884697\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "2k2jClybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.3249297\u0026mlon=75.6288528\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "ejG23V7h-FJy",
+      "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=-4.616667\u0026lon=55.45",
+      "title": "OpenStreetMap - The Australian Geographic Reference Image",
+      "grade": 1
+    },
+    {
+      "hash": "nIc3Nlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=33.914444\u0026mlon=-98.489722\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "y_sI2lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=49.4498557\u0026mlon=11.8261169",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "t1sTVlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=30.324444\u0026mlon=112.236111\u0026zoom=11",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "SRWBVlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=8.516667\u0026mlon=-0.8\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "sluB9QralQdC",
+      "address": "http://www.openstreetmap.ch/?lon=-66.458333\u0026lat=80.826389\u0026zoom=15",
+      "title": "OpenStreetMap - The Free Wiki World Map",
+      "grade": 1
+    },
+    {
+      "hash": "dkfYoF9eh9Zy",
+      "address": "https://welcome.openstreetmap.org/",
+      "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "ePCLCl-n3pGi",
+      "address": "https://www.openstreetmap.de/",
+      "title": "Die freie Weltkarte — OpenStreetMap Deutschland",
+      "grade": 1
+    },
+    {
+      "hash": "tNk5Llybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=38.55000\u0026mlon=69.31667\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "AhB1Llybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47.7061\u0026mlon=132.5177\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "EFNxYlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=60.1700846\u0026mlon=24.9439789\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "EalxFlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.7401032\u0026mlon=74.6236038\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "AqS-Elybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=31.761388888889\u0026mlon=35.558333333333\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "EoiJEQralQdC",
+      "address": "http://www.openstreetmap.ch/?lon=179.198611\u0026lat=-8.520833\u0026zoom=15",
+      "title": "OpenStreetMap - The Free Wiki World Map",
+      "grade": 1
+    },
+    {
+      "hash": "cOK1Elybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47.6758858\u0026mlon=9.1631162",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "RS6vFlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=14.29333\u0026mlon=15.14722\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "D58yNlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=35.70000\u0026mlon=139.76667\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "nTP7tlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=48.8643\u0026mlon=2.2978\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "DwmZIlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=42.364722\u0026mlon=10.921111\u0026zoom=11",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "Dsimrlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=55.77389\u0026mlon=37.65139\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "M0DBHlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-8.516667\u0026mlon=179.216667\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "ggpSnlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=30.333333\u0026mlon=112.2\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "M_9ROlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=55.935\u0026mlon=12.3013\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "wFGtmlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=50.101111\u0026mlon=14.4325\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "6TaQElybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=40.126275\u0026mlon=44.18679444\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "0xYpPlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=37.0176\u0026mlon=72.6615\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "URm-jlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=32.4401042\u0026mlon=79.713707\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "dnSQ9lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=48.204722222222\u0026mlon=16.368333333333\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "wiDi7QralQdC",
+      "address": "http://www.openstreetmap.ch/?lon=-66.458333\u0026lat=80.826389\u0026zoom=11",
+      "title": "OpenStreetMap - The Free Wiki World Map",
+      "grade": 1
+    },
+    {
+      "hash": "Cumxxlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=36.565833333333\u0026mlon=53.059722222222\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "3ltvQQralQdC",
+      "address": "http://www.openstreetmap.ch/?lon=-57.666667\u0026lat=-25.266667\u0026zoom=12",
+      "title": "OpenStreetMap - The Free Wiki World Map",
+      "grade": 1
+    },
+    {
+      "hash": "eO3Aulybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=40.009376\u0026mlon=-75.133346\u0026zoom=12",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "AIG1Llybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=55.75139\u0026mlon=37.62889\u0026zoom=15",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "ASMlAlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=40.616666666667\u0026mlon=16.966666666667\u0026zoom=7",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "LUf1mlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=50.4354\u0026mlon=30.5418\u0026zoom=17",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "IsKLmlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=30.336\u0026mlon=112.242\u0026zoom=11",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "y4tvglybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=53.555\u0026mlon=10.003055555556\u0026zoom=14",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "mbf0jlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=30\u0026mlon=112",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "1RY973qZQGWi",
+      "address": "https://karte.openstreetmap.de/",
+      "title": "OpenStreetMap Landkarte",
+      "grade": 1
+    },
+    {
+      "hash": "wnnlIlpGJz8q",
+      "address": "https://www.openstreetmap.in/",
+      "title": "OpenStreetMap India",
+      "grade": 1
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
+    },
+    {
+      "hash": "AWq9VQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-october.shtml",
+      "title": "the_daily_stirrer-2012-june-opinion-comment-controversy-news-events-politics",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "HgJ9BQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2012-february.shtml",
+      "title": "the_daily_stirrer-2011-may-opinion-comment-controversy-news-events-politics",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "aEnpV6Gt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/",
+      "title": "Our World",
+      "grade": 0
+    },
+    {
+      "hash": "rn1pmcAJSBi5",
+      "address": "https://acollaborationwiththeunknown.wordpress.com/",
+      "title": "Collaboration, the Secret of the Unknown | Being able to explore the world with a radical camera. The reason the government lost control of the 60's.",
+      "grade": 0
+    },
+    {
+      "hash": "Y01WO2cHOkWx",
+      "address": "https://www.gutenberg.org/files/40641/40641-h/40641-h.htm",
+      "title": "The Project Gutenberg eBook of Encyclopædia Britannica, Volume XV Slice VIII - Kite-Flying to Kyshtym.",
+      "grade": 0
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "grade": 0
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "grade": 0
+    },
+    {
+      "hash": "BiYCIWOXoHMQ",
+      "address": "http://acecomments.mu.nu/?post=392880%3Futm_source=akdart",
+      "title": "The Morning Report — 9/ 2 /26Daily Tech News 2 September 2026Tuesday Overnight Open Thread - September 1, 2026Cats \u0026 Dogs CafeIranian-Descended Loudmouth Communist Moron Mark",
+      "grade": 0
+    },
+    {
+      "hash": "60CsWocHOkWx",
+      "address": "https://www.gutenberg.org/browse/authors/b",
+      "title": "Browse By Author: B | Project Gutenberg",
+      "grade": 0
+    },
+    {
+      "hash": "zG_etzSBCthw",
+      "address": "https://publishing.cdlib.org/ucpressebooks/public/book/before-the-nickelodeon-edwin-s-porter-and-the-edison-manufacturing-company.html",
+      "title": "UC Press E-Books Collection, 1982-2004",
+      "grade": 0
+    },
+    {
+      "hash": "gRHfjs2xL7A6",
+      "address": "https://corbettreport.com/holidayopenthread/",
+      "title": "Holiday Open Thread | The Corbett Report",
+      "grade": 0
+    },
+    {
+      "hash": "WQL_hPGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2010/05/ransom-for-all.html",
+      "title": "Our World: Ransom for all",
+      "grade": 0
+    },
+    {
+      "hash": "46WxTqwMR4F5",
+      "address": "https://originalboggartblog.wordpress.com/tag/resources/",
+      "title": "resources | The Original Boggart Blog",
+      "grade": 0
+    },
+    {
+      "hash": "QW8Ojjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/New_York_City",
+      "title": "New York City – Travel guide at Wikivoyage",
+      "grade": 0
+    },
+    {
+      "hash": "Q4SEOs3rpWVz",
+      "address": "https://inconvenienttruths.net/",
+      "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "sI9aJs2xL7A6",
+      "address": "https://corbettreport.com/december-open-thread-2022/",
+      "title": "December Open Thread (2022) | The Corbett Report",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "wcHnrsVUrQm6",
+      "address": "https://earthnewspaper.com/",
+      "title": "EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "NZw84jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Hamburg",
+      "title": "Hamburg - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "KrtidjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Israel",
+      "title": "Israel - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "sbCGHsDeYD94",
+      "address": "https://codoh.com/",
+      "title": "Committee for Open Debate on the Holocaust",
+      "grade": 0
+    },
+    {
+      "hash": "wtIPMgGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2012/12/ember-and-light-ransomed-of.html",
+      "title": "Our World: Ember and light the ransomed of Jehovah",
+      "grade": 0
+    },
+    {
+      "hash": "Ts6QMaOd2d55",
+      "address": "https://www.fadedpage.com/books/20160812/html.php",
+      "title": "The Distributed Proofreaders Canada eBook of The Open Window: Tales of the Months",
+      "grade": 0
+    },
+    {
+      "hash": "MEC8btgcGDHy",
+      "address": "https://blog.openstreetmap.org/",
+      "title": "OpenStreetMap Blog | Supporting the OpenStreetMap project",
+      "grade": 1
+    },
+    {
+      "hash": "HhguQs2xL7A6",
+      "address": "https://corbettreport.com/november-open-thread-2021/",
+      "title": "November Open Thread (2021) | The Corbett Report",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "I58ohld_oSSi",
+      "address": "https://www.openstreetmap.fr/",
+      "title": "Accueil - OpenStreetMap France",
+      "grade": 1
+    },
+    {
+      "hash": "j6BdJlkFtHU5",
+      "address": "https://www.openculture.com/",
+      "title": "The best free cultural \u0026 educational media on the web - Open Culture",
+      "grade": 0
+    },
+    {
+      "hash": "BHYrLs2xL7A6",
+      "address": "https://corbettreport.com/bill-melinda-gates-an-open-source-investigation/",
+      "title": "Bill \u0026 Melinda Gates: An Open Source Investigation | The Corbett Report",
+      "grade": 0
+    }
+  ]
+}

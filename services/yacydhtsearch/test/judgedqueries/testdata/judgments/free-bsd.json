@@ -1,0 +1,515 @@
+{
+  "query": "free bsd",
+  "judgedDocuments": [
+    {
+      "hash": "9n1rhjjEZfvx",
+      "address": "https://en.wiktionary.org/wiki/free",
+      "title": "free - Wiktionary, the free dictionary",
+      "grade": 0
+    },
+    {
+      "hash": "rfZmph3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Free_software",
+      "title": "Category:Free software - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "5qBCujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License",
+      "title": "GNU Free Documentation License - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SD9B1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft_Store",
+      "title": "Microsoft Store - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "H8QppswoC5vh",
+      "address": "https://servernews.ru/",
+      "title": "Обзор последних событий / ServerNews",
+      "grade": 0
+    },
+    {
+      "hash": "2tE_2sbENtew",
+      "address": "https://spdx.org/licenses/",
+      "title": "SPDX License List | Software Package Data Exchange (SPDX)",
+      "grade": 0
+    },
+    {
+      "hash": "6y7ro5kvnDhy",
+      "address": "https://docs.fedoraproject.org/en-US/legal/allowed-licenses/",
+      "title": "Allowed Licenses :: Fedora Docs",
+      "grade": 0
+    },
+    {
+      "hash": "ebKvljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BSD_licenses",
+      "title": "BSD licenses - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "85-3fvc3KFbx",
+      "address": "https://opensource.org/license/bsd-2-clause",
+      "title": "The 2-Clause BSD License – Open Source Initiative",
+      "grade": 0
+    },
+    {
+      "hash": "Esx50zS6MKD4",
+      "address": "https://github.com/topics/bsd",
+      "title": "bsd · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "8856zsuNWVxw",
+      "address": "https://linuxfr.org/",
+      "title": "Accueil - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "iVhC8zS6MKD4",
+      "address": "https://github.com/topics/apple-silicon",
+      "title": "apple-silicon · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "vK69shBCurR4",
+      "address": "https://cbmonzon.com/2021/03/03/comienzo-competicion/",
+      "title": "COMIENZO COMPETICION",
+      "grade": 0
+    },
+    {
+      "hash": "PNI_usKD8I1w",
+      "address": "https://mpv.io/",
+      "title": "mpv.io",
+      "grade": 0
+    },
+    {
+      "hash": "16GhNswDvzb5",
+      "address": "https://distrowatch.com/weekly.php?issue=20201221",
+      "title": "DistroWatch.com: Put the fun back into computing. Use Linux, BSD.",
+      "grade": 0
+    },
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+      "grade": 0
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "grade": 0
+    },
+    {
+      "hash": "tntDEQfcJrGw",
+      "address": "https://wiki.freebsd.org/",
+      "title": "FrontPage - FreeBSD Wiki",
+      "grade": 1
+    },
+    {
+      "hash": "TW6DUZfAodxw",
+      "address": "https://docs.freebsd.org/en/",
+      "title": "FreeBSD Documentation Portal",
+      "grade": 1
+    },
+    {
+      "hash": "eXLcclHzph0w",
+      "address": "https://www.freebsd.org/press/",
+      "title": "FreeBSD in the Press | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "QNd6VOuD3Iyw",
+      "address": "https://forums.freebsd.org/",
+      "title": "The FreeBSD Forums",
+      "grade": 1
+    },
+    {
+      "hash": "SsF_LrIlVJ5w",
+      "address": "https://papers.freebsd.org/",
+      "title": "FreeBSD Presentations and Papers :: FreeBSD Presentations and Papers",
+      "grade": 1
+    },
+    {
+      "hash": "Rd46FljUVmgw",
+      "address": "https://bugs.freebsd.org/bugzilla/",
+      "title": "FreeBSD Bugzilla Main Page",
+      "grade": 1
+    },
+    {
+      "hash": "TxPU3QfcJrGw",
+      "address": "https://wiki.freebsd.org/riscv",
+      "title": "riscv - FreeBSD Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "Ry-IuyHzph0w",
+      "address": "https://www.freebsd.org/releases/13.1R/announce/",
+      "title": "FreeBSD 13.1-RELEASE Announcement | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "jMyxCyHzph0w",
+      "address": "https://www.freebsd.org/releases/2.1.5R/announce/",
+      "title": "FreeBSD 1.0 Announcement | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "nNN3jZfAodxw",
+      "address": "https://docs.freebsd.org/ja/",
+      "title": "FreeBSD Documentation Portal",
+      "grade": 1
+    },
+    {
+      "hash": "kT6_oZfAodxw",
+      "address": "https://docs.freebsd.org/id/",
+      "title": "FreeBSD Documentation Portal",
+      "grade": 1
+    },
+    {
+      "hash": "OpYpBZfAodxw",
+      "address": "https://docs.freebsd.org/da/",
+      "title": "FreeBSD Documentation Portal",
+      "grade": 1
+    },
+    {
+      "hash": "v0qAYZfAodxw",
+      "address": "https://docs.freebsd.org/pl/",
+      "title": "FreeBSD Documentation Portal",
+      "grade": 1
+    },
+    {
+      "hash": "iv468QTE92UA",
+      "address": "http://www.freebsd.cz/press/",
+      "title": "FreeBSD in the Press | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "4lS-NZfAodxw",
+      "address": "https://docs.freebsd.org/zh-tw/",
+      "title": "FreeBSD Documentation Portal",
+      "grade": 1
+    },
+    {
+      "hash": "7AOCslHzph0w",
+      "address": "https://www.freebsd.org/zh-tw/",
+      "title": "The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "6e9S81avlROw",
+      "address": "https://www.hk.freebsd.org/",
+      "title": "The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "ywU_TyHzph0w",
+      "address": "https://www.freebsd.org/releases/11.0R/relnotes/",
+      "title": "FreeBSD 11.0-RELEASE Release Notes | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "x604mlHzph0w",
+      "address": "https://www.freebsd.org/about/",
+      "title": "About FreeBSD | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "9Q7HIQfcJrGw",
+      "address": "https://wiki.freebsd.org/Linuxulator",
+      "title": "Linuxulator - FreeBSD Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "JTzklZfAodxw",
+      "address": "https://docs.freebsd.org/",
+      "title": "https://docs.freebsd.org/en/",
+      "grade": 0
+    },
+    {
+      "hash": "ycvh-quzPn6w",
+      "address": "https://reviews.freebsd.org/",
+      "title": "FreeBSD Dashboard",
+      "grade": 1
+    },
+    {
+      "hash": "9vS4yyHzph0w",
+      "address": "https://www.freebsd.org/releases/5.4R/hardware-amd64/",
+      "title": "FreeBSD/amd64 5.4-RELEASE Hardware Notes | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "l5IysQfcJrGw",
+      "address": "https://wiki.freebsd.org/JuniorJobs",
+      "title": "JuniorJobs - FreeBSD Wiki",
+      "grade": 0
+    },
+    {
+      "hash": "21sGSlHzph0w",
+      "address": "https://www.freebsd.org/copyright/",
+      "title": "FreeBSD Copyright and Legal Information | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "RymPwjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Comparison_of_free_software_for_audio",
+      "title": "Comparison of free software for audio - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "T43VtjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_and_open-source_graphics_device_driver",
+      "title": "Free and open-source graphics device driver - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tZhaQlHzph0w",
+      "address": "https://www.freebsd.org/",
+      "title": "The FreeBSD Project",
+      "grade": 2
+    },
+    {
+      "hash": "xxNsZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_Android_applications",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "J_2PslHzph0w",
+      "address": "https://www.freebsd.org/support/",
+      "title": "FreeBSD Support | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "OK49SyHzph0w",
+      "address": "https://www.freebsd.org/releases/13.5R/announce/",
+      "title": "FreeBSD 13.5-RELEASE Announcement | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "gI2F0jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_Software_Foundation",
+      "title": "Free Software Foundation - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "r_vtwDrC7Zxw",
+      "address": "https://www.gnu.org/licenses/licenses.html",
+      "title": "Licenses - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "-t9fTDrC7Zxw",
+      "address": "https://www.gnu.org/licenses/gpl-faq.html",
+      "title": "Frequently Asked Questions about the GNU Licenses - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "Bqd3IRghbs4w",
+      "address": "https://directory.fsf.org/wiki/Free_Software_Directory:Free_software_replacements",
+      "title": "Free Software Directory:Free software replacements - Free Software Directory",
+      "grade": 0
+    },
+    {
+      "hash": "OPLsoyHzph0w",
+      "address": "https://www.freebsd.org/releases/12.2R/announce/",
+      "title": "FreeBSD 12.2-RELEASE Announcement | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "c_TC2KrC7Zxw",
+      "address": "https://www.gnu.org/server/sitemap.html",
+      "title": "Site map of www.gnu.org - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "50KzdQjpmq6Q",
+      "address": "http://www.gnu.org/licenses/",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "M52tryHzph0w",
+      "address": "https://www.freebsd.org/releases/11.1R/readme/",
+      "title": "FreeBSD 11.1-RELEASE README | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "Ml18xyHzph0w",
+      "address": "https://www.freebsd.org/releases/5.0R/relnotes/",
+      "title": "FreeBSD 5.0-RELEASE Release Notes | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "MtndyyHzph0w",
+      "address": "https://www.freebsd.org/releases/2.2.8R/notes/",
+      "title": "FreeBSD 2.2.8 Release Notes | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "N0K-uyHzph0w",
+      "address": "https://www.freebsd.org/releases/11.4R/installation/",
+      "title": "FreeBSD 11.4-RELEASE Installation Instructions | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "ih5mtDrC7Zxw",
+      "address": "https://www.gnu.org/licenses/licenses.en.html",
+      "title": "Licenses - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "mCpq5KS6MKD4",
+      "address": "https://github.com/johnjago/awesome-free-software",
+      "title": "GitHub - johnjago/awesome-free-software: Curated list of open-source, free as in freedom software. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "qkToObjpmq6Q",
+      "address": "http://www.gnu.org/server/sitemap.html",
+      "title": "Site map of www.gnu.org - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "wjdrLNrC7Zxw",
+      "address": "https://www.gnu.org/philosophy/words-to-avoid.html",
+      "title": "Words to Avoid (or Use with Care) Because They Are Loaded or Confusing - GNU Project - Free Software Foundation",
+      "grade": 0
+    },
+    {
+      "hash": "x2znGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_Software_Directory",
+      "title": "Free Software Directory - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "yBMaQL1nrxbw",
+      "address": "https://www.debian.org/intro/free",
+      "title": "Debian -- What does free mean?",
+      "grade": 0
+    },
+    {
+      "hash": "geYfHl8FjD04",
+      "address": "https://www.httrack.com/",
+      "title": "HTTrack Website Copier - Free Software Offline Browser (GNU GPL)",
+      "grade": 0
+    },
+    {
+      "hash": "903b2PXcOmMx",
+      "address": "https://neocities.org/site/read-bsd-wan/stats",
+      "title": "Neocities - Site stats for read-bsd-wan.neocities.org",
+      "grade": 0
+    },
+    {
+      "hash": "2aIx_lHzph0w",
+      "address": "https://www.freebsd.org/usergroups/",
+      "title": "User Groups | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "YunE7qHzph0w",
+      "address": "https://www.freebsd.org/support/webresources/",
+      "title": "Web Resources | The FreeBSD Project",
+      "grade": 0
+    },
+    {
+      "hash": "8LrG3lHzph0w",
+      "address": "https://www.freebsd.org/donations/",
+      "title": "FreeBSD Donations Liaison | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "cloXiNH-MEIw",
+      "address": "https://freebsd.kde.org/",
+      "title": "Welcome to the KDE/FreeBSD initiative",
+      "grade": 0
+    },
+    {
+      "hash": "lxCuLnHzph0w",
+      "address": "https://www.freebsd.org/internal/code-of-conduct/",
+      "title": "FreeBSD Community Code of Conduct | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "mseKglHzph0w",
+      "address": "https://www.freebsd.org/events/",
+      "title": "FreeBSD Events | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "V0XNMLHzph0w",
+      "address": "https://www.freebsd.org/status/report-2010-07-2010-09.html",
+      "title": "FreeBSD Quarterly Status Report",
+      "grade": 1
+    },
+    {
+      "hash": "YTbI2LHzph0w",
+      "address": "https://www.freebsd.org/status/report-2015-01-2015-03.html",
+      "title": "FreeBSD Quarterly Status Report",
+      "grade": 1
+    },
+    {
+      "hash": "bypTXLHzph0w",
+      "address": "https://www.freebsd.org/status/report-2010-10-2010-12.html",
+      "title": "FreeBSD Quarterly Status Report",
+      "grade": 1
+    },
+    {
+      "hash": "fEiazzHzph0w",
+      "address": "https://www.freebsd.org/commercial/consult/",
+      "title": "Consulting Services | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "m7vbWLHzph0w",
+      "address": "https://www.freebsd.org/status/report-2016-04-2016-06.html",
+      "title": "FreeBSD Quarterly Status Report",
+      "grade": 1
+    },
+    {
+      "hash": "m8vXizHzph0w",
+      "address": "https://www.freebsd.org/commercial/hardware/",
+      "title": "Hardware Vendors | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "mWqjklHzph0w",
+      "address": "https://www.freebsd.org/applications/",
+      "title": "About Applications for FreeBSD | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "zXVzQLHzph0w",
+      "address": "https://www.freebsd.org/status/report-2013-01-2013-03.html",
+      "title": "FreeBSD Quarterly Status Report",
+      "grade": 1
+    },
+    {
+      "hash": "KWPWzlHzph0w",
+      "address": "https://www.freebsd.org/where/",
+      "title": "Get FreeBSD | The FreeBSD Project",
+      "grade": 1
+    },
+    {
+      "hash": "e_kNmlHzph0w",
+      "address": "https://www.freebsd.org/search/",
+      "title": "Search | The FreeBSD Project",
+      "grade": 0
+    },
+    {
+      "hash": "-KsPLRghbs4w",
+      "address": "https://directory.fsf.org/wiki/Main_Page",
+      "title": "Free Software Directory",
+      "grade": 0
+    },
+    {
+      "hash": "IXMefAT9hatx",
+      "address": "https://freesoftwareresistance.neocities.org/",
+      "title": "free software resistance",
+      "grade": 0
+    }
+  ]
+}

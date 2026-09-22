@@ -1,0 +1,175 @@
+{
+  "query": "wie funktioniert eine wärmepumpe",
+  "judgedDocuments": [
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "NwETwJlA2Rig",
+      "address": "https://www.n-tv.de/ratgeber/Wer-fuer-eine-Waermepumpe-bis-zu-22-400-Euro-Zuschuss-erhalten-kann-id31217878.html",
+      "title": "Heizungsförderung 2026: Wer für eine Wärmepumpe bis zu 22.400 Euro Zuschuss erhalten kann - n-tv.de",
+      "grade": 1
+    },
+    {
+      "hash": "NbA0slHjdLqg",
+      "address": "https://www.focus.de/",
+      "title": "FOCUS online - Aktuelle Nachrichten",
+      "grade": 0
+    },
+    {
+      "hash": "A2rEcUNVBxfg",
+      "address": "https://article.chip.de/",
+      "title": "Chip",
+      "grade": 0
+    },
+    {
+      "hash": "AzZhZlXB13ng",
+      "address": "https://www.forbes.at/",
+      "title": "Forbes Austria",
+      "grade": 0
+    },
+    {
+      "hash": "uVX_5JqHIcfg",
+      "address": "https://www.kelag.at/blog/artikel/waermepumpe/441/altbau-sanieren-mit-waermepumpe-und-photovoltaik-kaernten",
+      "title": "Altbau sanieren mit Wärmepumpe: Praxisbeispiel aus Kärnten | Kelag Energie Blog",
+      "grade": 1
+    },
+    {
+      "hash": "2sCngPHjdLqg",
+      "address": "https://www.focus.de/immobilien/warum-sie-in-dieser-saison-alufolie-an-ihre-wand-kleben-sollten_adffdb10-c229-44aa-beb6-1e5bce5346f4.html",
+      "title": "Warum Sie in dieser Saison Alufolie an Ihre Wand kleben sollten - FOCUS online",
+      "grade": 0
+    },
+    {
+      "hash": "0kHsN50w__jw",
+      "address": "https://www.faz.net/aktuell/technik-motor/energie/",
+      "title": "Energie - FAZ",
+      "grade": 0
+    },
+    {
+      "hash": "2RTWrl8moajg",
+      "address": "https://www.welt.de/",
+      "title": "WELT - Aktuelle Nachrichten, News, Hintergründe \u0026 Videos",
+      "grade": 0
+    },
+    {
+      "hash": "3KI3Qh8moajg",
+      "address": "https://www.welt.de/finanzen/weltplus/",
+      "title": "WELTplus Finanzen - Qualitätsjournalismus für Abonnenten",
+      "grade": 0
+    },
+    {
+      "hash": "VYaXgl8moajg",
+      "address": "https://www.welt.de/finanzen/",
+      "title": "Finanzen - Aktuelle Nachrichten, News \u0026 Ratgeber - WELT",
+      "grade": 0
+    },
+    {
+      "hash": "k1dSkZfjI1Dh",
+      "address": "https://www.tagesschau.de/wirtschaft/verbraucher",
+      "title": "Nachrichten zu Verbraucher-Themen | tagesschau.de",
+      "grade": 0
+    },
+    {
+      "hash": "3fuRCZ8moajg",
+      "address": "https://www.welt.de/wirtschaft/weltplus/",
+      "title": "WELTplus Wirtschaft - Qualitätsjournalismus für Abonnenten",
+      "grade": 0
+    },
+    {
+      "hash": "4F41al9xuny6",
+      "address": "https://www.anderweltonline.com/klartext/",
+      "title": "Anderweltonline.com: Klartext",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "6Z1TGlO3KPNi",
+      "address": "https://www.anderweltonline.de/",
+      "title": "Anderweltonline.com: Home",
+      "grade": 0
+    },
+    {
+      "hash": "6ztu8-tHD_1g",
+      "address": "https://immo.swp.de/kaufen/ulm",
+      "title": "Immobilie kaufen in Ulm | Südwest Presse",
+      "grade": 0
+    },
+    {
+      "hash": "IvczsyR3H2qg",
+      "address": "https://www.oekotest.de/hefte/OeKO-TEST-Ratgeber_N_1.html",
+      "title": "Hefte aus ÖKO-TEST Ratgeber - ÖKO-TEST",
+      "grade": 0
+    },
+    {
+      "hash": "TSHiOO9xuny6",
+      "address": "https://www.anderweltonline.com/klartext/klartext-20251/",
+      "title": "Anderweltonline.com: Klartext 2025/1",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "-p8iBdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Wikipedia:Auskunft",
+      "title": "Wikipedia:Auskunft – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "6IYuYJlA2Rig",
+      "address": "https://www.n-tv.de/ratgeber/tests/",
+      "title": "Tests - n-tv.de",
+      "grade": 0
+    },
+    {
+      "hash": "sUeEFP9BgZ3g",
+      "address": "https://www.swr.de/specials/besser-wohnen/index.html",
+      "title": "#besserwohnen: Wie wohnt Deutschland?",
+      "grade": 0
+    },
+    {
+      "hash": "m-i5kdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Elektroauto",
+      "title": "Elektroauto – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "29RckdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Waschmaschine",
+      "title": "Waschmaschine – Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "mk0Fkr2U_21j",
+      "address": "https://www.bundesnetzagentur.de/DE/Allgemeines/DieBundesnetzagentur/Insight/Blog/start.html",
+      "title": "Bundesnetzagentur - Insight Blog",
+      "grade": 0
+    },
+    {
+      "hash": "3YvId7yX5Qug",
+      "address": "https://www.t-online.de/themen/energiewende/",
+      "title": "Energiewende | Aktuelle News \u0026 Infos",
+      "grade": 0
+    },
+    {
+      "hash": "Cvasj7yX5Qug",
+      "address": "https://www.t-online.de/themen/einkommen/",
+      "title": "Einkommen: Aktuelle News und Infos zu Einkommen",
+      "grade": 0
+    },
+    {
+      "hash": "P9FhYyyX5Qug",
+      "address": "https://www.t-online.de/heim-garten/energie/",
+      "title": "Energie: Infos und Tipps zu erneuerbarer Energie, Energieverbrauch und Energiekosten",
+      "grade": 0
+    },
+    {
+      "hash": "n5kUnlyX5Qug",
+      "address": "https://www.t-online.de/heim-garten/",
+      "title": "Kreative Ideen für Haus, Garten und Wohnen",
+      "grade": 0
+    }
+  ]
+}

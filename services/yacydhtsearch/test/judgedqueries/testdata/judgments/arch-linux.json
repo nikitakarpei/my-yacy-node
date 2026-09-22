@@ -1,0 +1,569 @@
+{
+  "query": "arch linux",
+  "judgedDocuments": [
+    {
+      "hash": "vK2-rsqBIpS6",
+      "address": "https://xn--gckvb8fzb.com/a-word-on-omarchy/",
+      "title": "A Word on Omarchy",
+      "grade": 1
+    },
+    {
+      "hash": "DjABDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/MariaDB",
+      "title": "MariaDB - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "EBOoBJ01Fnqx",
+      "address": "https://gitlab.archlinux.org/archlinux",
+      "title": "Arch Linux · GitLab",
+      "grade": 1
+    },
+    {
+      "hash": "GACSIssyhcfx",
+      "address": "https://archlinux.org/download/",
+      "title": "Arch Linux - Downloads",
+      "grade": 1
+    },
+    {
+      "hash": "tcDxJ49Ojva4",
+      "address": "https://docs.docker.com/build/buildkit/",
+      "title": "BuildKit | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "RsP9s1G9imOx",
+      "address": "https://terms.archlinux.org/docs/trademark-policy/",
+      "title": "Trademark Policy | Arch Linux Terms",
+      "grade": 1
+    },
+    {
+      "hash": "Q_7_os7rDor4",
+      "address": "https://pkgbuild.com/~bgyorgy/",
+      "title": "My official Arch Linux packages – Balló György",
+      "grade": 1
+    },
+    {
+      "hash": "VSvcQjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Microsoft",
+      "title": "Microsoft - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8856zsuNWVxw",
+      "address": "https://linuxfr.org/",
+      "title": "Accueil - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "FMEK11G9imOx",
+      "address": "https://terms.archlinux.org/docs/terms-of-service/",
+      "title": "Terms of Service | Arch Linux Terms",
+      "grade": 1
+    },
+    {
+      "hash": "nBatga9Ojva4",
+      "address": "https://docs.docker.com/extensions/extensions-sdk/extensions/multi-arch/",
+      "title": "Build multi-arch extensions | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "_Hi381G9imOx",
+      "address": "https://terms.archlinux.org/docs/code-of-conduct/",
+      "title": "Code of Conduct | Arch Linux Terms",
+      "grade": 1
+    },
+    {
+      "hash": "6hQ8nsscikty",
+      "address": "https://kernelnewbies.org/Linux_5.16",
+      "title": "Linux_5.16 - Linux Kernel Newbies",
+      "grade": 0
+    },
+    {
+      "hash": "4jjoguismpm5",
+      "address": "https://arch2013.hatenablog.com/entry/2013/05/16/221654",
+      "title": "fcitx-mozc - arch linux(はてな)",
+      "grade": 0
+    },
+    {
+      "hash": "65x0M_syhcfx",
+      "address": "https://archlinux.org/news/install-medium-20121006-introduces-systemd/",
+      "title": "Arch Linux - News: Install medium 2012.10.06 introduces systemd",
+      "grade": 1
+    },
+    {
+      "hash": "52FRPB01Fnqx",
+      "address": "https://gitlab.archlinux.org/archlinux/aurweb/-/commits/v6.4.2",
+      "title": "Commits · v6.4.2 · Arch Linux / aurweb · GitLab",
+      "grade": 0
+    },
+    {
+      "hash": "_uCaIssyhcfx",
+      "address": "https://archlinux.org/packages/",
+      "title": "Arch Linux - Package Search",
+      "grade": 1
+    },
+    {
+      "hash": "CY9ER137aaK4",
+      "address": "https://elixir.bootlin.com/linux/v6.10.5/source/CREDITS",
+      "title": "CREDITS - Linux source code v6.10.5 - Bootlin",
+      "grade": 0
+    },
+    {
+      "hash": "Bnpe1sIUF6yx",
+      "address": "https://linux1394.org/",
+      "title": "Linux1394 - Master Linux: From Beginner to Expert | Complete Learning Hub",
+      "grade": 0
+    },
+    {
+      "hash": "DecYAlrM6ey6",
+      "address": "https://www.xda-developers.com/linux-hub/",
+      "title": "Linux | XDA",
+      "grade": 0
+    },
+    {
+      "hash": "uTbha7qvfVDx",
+      "address": "https://security.archlinux.org/",
+      "title": "Vulnerable issues - Arch Linux",
+      "grade": 0
+    },
+    {
+      "hash": "ycf-xeSLKN4x",
+      "address": "https://bbs.archlinux.org/",
+      "title": "Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "Uw6Ot1G9imOx",
+      "address": "https://terms.archlinux.org/docs/code-of-conduct/?rdfrom=https%3A%2F%2Fwiki.archlinux.org%2Findex.php%3Ftitle%3DCode_of_conduct%26redirect%3Dno",
+      "title": "Code of Conduct | Arch Linux Terms",
+      "grade": 1
+    },
+    {
+      "hash": "jeiQmRVKSRB5",
+      "address": "https://www.collabora.com/news-and-blog/news-and-events/building-an-arch-linux-aarch64-port-for-holo-core.html",
+      "title": "Building an Arch Linux aarch64 port for Holo Core",
+      "grade": 1
+    },
+    {
+      "hash": "5R8cWULcGM44",
+      "address": "https://linderud.dev/blog/resigning-from-arch-linux/",
+      "title": "Resigning from Arch Linux",
+      "grade": 1
+    },
+    {
+      "hash": "tRFhdxCtKNbh",
+      "address": "https://wiki.archlinux.de/title/Arch_User_Repository",
+      "title": "Arch User Repository – wiki.archlinux.de",
+      "grade": 1
+    },
+    {
+      "hash": "h0hX0xw7vvo5",
+      "address": "https://www.sublimetext.com/docs/linux_repositories.html",
+      "title": "Linux Package Manager Repositories",
+      "grade": 0
+    },
+    {
+      "hash": "-8IONxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Arch_compared_to_other_distributions",
+      "title": "Arch compared to other distributions - ArchWiki",
+      "grade": 1
+    },
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "PdMV9PJbQgT4",
+      "address": "https://all-things-linux.blogspot.com/",
+      "title": "Linux, BSD, and everything else...",
+      "grade": 0
+    },
+    {
+      "hash": "u21s0lA4psi4",
+      "address": "https://www.theverge.com/linux",
+      "title": "Linux | The Verge",
+      "grade": 0
+    },
+    {
+      "hash": "tkjftsqO4EOy",
+      "address": "https://linux-hardware.org/",
+      "title": "Linux Hardware Database",
+      "grade": 0
+    },
+    {
+      "hash": "5B8rQ3H8M7Hx",
+      "address": "https://snapcraft.io/install/msedit/arch",
+      "title": "Install Microsoft Edit on Arch Linux using the Snap Store | Snapcraft",
+      "grade": 0
+    },
+    {
+      "hash": "VQt9kRVlacDh",
+      "address": "https://pkgstats.archlinux.de/compare/packages",
+      "title": "pkgstats.archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "ihYzZeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?id=163190",
+      "title": "[SOLVED] [lxc] Problems with archlinux template (and systemd) / Applications \u0026 Desktop Environments / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "grade": 2
+    },
+    {
+      "hash": "DL4cLlaVRyih",
+      "address": "https://www.archlinux.de/?",
+      "title": "Start - archlinux.de",
+      "grade": 1
+    },
+    {
+      "hash": "DjgXhlaVRyih",
+      "address": "https://www.archlinux.de/releases",
+      "title": "Releases - archlinux.de",
+      "grade": 1
+    },
+    {
+      "hash": "RYw2-laVRyih",
+      "address": "https://www.archlinux.de/download",
+      "title": "Arch Linux herunterladen - archlinux.de",
+      "grade": 1
+    },
+    {
+      "hash": "ImjSKlaVRyih",
+      "address": "https://www.archlinux.de/impressum",
+      "title": "Impressum - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "wwf-2laVRyih",
+      "address": "https://www.archlinux.de/packages?search=Ruby",
+      "title": "Ruby - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "N_s_8laVRyih",
+      "address": "https://www.archlinux.de/packages?search=php",
+      "title": "php - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "XuD2KlaVRyih",
+      "address": "https://www.archlinux.de/news",
+      "title": "Neuigkeiten - archlinux.de",
+      "grade": 1
+    },
+    {
+      "hash": "boJAslaVRyih",
+      "address": "https://www.archlinux.de/",
+      "title": "Start - archlinux.de",
+      "grade": 1
+    },
+    {
+      "hash": "ux7vtzb5tWPh",
+      "address": "https://planet.archlinux.de/",
+      "title": "planet.archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "2fH_6eSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?id=289151",
+      "title": "[SOLVED] Chromium Does Not Launch / Applications \u0026 Desktop Environments / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "6wHBWlaVRyih",
+      "address": "https://www.archlinux.de/packages",
+      "title": "Paket-Suche - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "8vwrbeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewforum.php?id=35\u0026p=50",
+      "title": "Other Architectures (Page 50) / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "Cz_0CeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?id=163124",
+      "title": "Is -Syy safe? [SOLVED] / Pacman \u0026 Package Upgrade Issues / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "Ix25svaVRyih",
+      "address": "https://www.archlinux.de/news/6093-Neuer-Treiber-fuer-Grafikchips-von-Intel-in-testing",
+      "title": "Neuer Treiber für Grafikchips von Intel in [testing] - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "KxFgtvaVRyih",
+      "address": "https://www.archlinux.de/news/13356-2009-08-archboot-ISO-hybrid-image-und-torrent",
+      "title": "2009.08 archboot ISO hybrid image und torrent - archlinux.de",
+      "grade": 1
+    },
+    {
+      "hash": "QaB78laVRyih",
+      "address": "https://www.archlinux.de/packages?search=pulseaudio",
+      "title": "pulseaudio - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "Qaai-_syhcfx",
+      "address": "https://archlinux.org/news/cleaning-up-old-repositories/",
+      "title": "Arch Linux - News: Cleaning up old repositories",
+      "grade": 1
+    },
+    {
+      "hash": "Qb8RzeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?id=237067",
+      "title": "IWD: the new WPA-Supplicant Replacement / Announcements, Package \u0026 Security Advisories / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "R8dOklaVRyih",
+      "address": "https://www.archlinux.de/packages?search=kde-applications",
+      "title": "kde-applications - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "Rbyv_laVRyih",
+      "address": "https://www.archlinux.de/packages?search=bridge-utils",
+      "title": "bridge-utils - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "RwWCbeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1909570",
+      "title": "[SOLVED] AMD SFH driver does not provide accelerometer / Kernel \u0026 Hardware / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "wHmCJJPx95Gx",
+      "address": "https://aur.archlinux.org/rpc/?v=5\u0026type=search\u0026arg=foobar\u0026callback=jsonp1192244621103",
+      "title": "aur archlinux org rpc v 5 type search arg foobar callback jsonp1192244621103 jsonp 1192244621103",
+      "grade": 0
+    },
+    {
+      "hash": "MSwEC_syhcfx",
+      "address": "https://archlinux.org/news/move-of-official-irc-channels-to-liberachat/",
+      "title": "Arch Linux - News: Move of official IRC channels to libera.chat",
+      "grade": 1
+    },
+    {
+      "hash": "r-AGUssyhcfx",
+      "address": "https://archlinux.org/packages/?name=corectrl",
+      "title": "Arch Linux - Package Search",
+      "grade": 0
+    },
+    {
+      "hash": "RooXWssyhcfx",
+      "address": "https://archlinux.org/packages/?name=kbibtex",
+      "title": "Arch Linux - Package Search",
+      "grade": 0
+    },
+    {
+      "hash": "hVBnXssyhcfx",
+      "address": "https://archlinux.org/packages/?name=castget",
+      "title": "Arch Linux - Package Search",
+      "grade": 0
+    },
+    {
+      "hash": "rnPsMssyhcfx",
+      "address": "https://archlinux.org/packages/?name=arch-install-scripts",
+      "title": "Arch Linux - Package Search",
+      "grade": 0
+    },
+    {
+      "hash": "_7_WSE9Ojva4",
+      "address": "https://docs.docker.com/engine/network/",
+      "title": "Networking overview | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "4_0sbzeeomt4",
+      "address": "https://hackaday.com/2026/06/19/this-week-in-security-arch-aur-steam-marketplace-wordpress-all-face-issues-taco-themed-coding-and-mythos-makes-national-news/",
+      "title": "This Week In Security: Arch AUR, Steam Marketplace, WordPress All Face Issues, Taco-Themed Coding, And Mythos Makes National News | Hackaday",
+      "grade": 0
+    },
+    {
+      "hash": "4kgMdRLPB-C6",
+      "address": "https://www.linux-magazine.com/tags/view/Operating+Systems/Windows",
+      "title": "Windows » Operating%20Systems » Linux Magazine",
+      "grade": 0
+    },
+    {
+      "hash": "4bbqI_JJheBx",
+      "address": "https://man.archlinux.org/man/sln.8",
+      "title": "sln(8) — Arch manual pages",
+      "grade": 0
+    },
+    {
+      "hash": "5hgaK7qvfVDx",
+      "address": "https://security.archlinux.org/AVG-1269",
+      "title": "AVG-1269 - linux-hardened - Arch Linux",
+      "grade": 0
+    },
+    {
+      "hash": "5mUqNB01Fnqx",
+      "address": "https://gitlab.archlinux.org/archlinux/aurweb/-/commits/v6.2.17",
+      "title": "Commits · v6.2.17 · Arch Linux / aurweb · GitLab",
+      "grade": 0
+    },
+    {
+      "hash": "5y4QflK7PFUx",
+      "address": "https://www.archlinuxcn.org/dovecot-24-requires-manual-intervention/",
+      "title": "dovecot \u003e= 2.4 需要手动干预 « Arch Linux",
+      "grade": 0
+    },
+    {
+      "hash": "6QfE0_JJheBx",
+      "address": "https://man.archlinux.org/man/mencoder.1",
+      "title": "mencoder(1) — Arch manual pages",
+      "grade": 0
+    },
+    {
+      "hash": "6wZ1oB01Fnqx",
+      "address": "https://gitlab.archlinux.org/archlinux/packaging/packages/pacman/-/commit/e151844c10fab9f8ea070f9cb24a63675298303c",
+      "title": "pacman.conf: enable ParallelDownloads by default (e151844c) · Commits · Arch Linux / Packaging / Packages / pacman · GitLab",
+      "grade": 0
+    },
+    {
+      "hash": "74iwNisyhcfx",
+      "address": "https://archlinux.org/releng/releases/0.1/",
+      "title": "Arch Linux - Release: 0.1",
+      "grade": 1
+    },
+    {
+      "hash": "7sX6pveO1lx5",
+      "address": "https://cran.r-universe.dev/spGARCH",
+      "title": "spGARCH: Spatial ARCH and GARCH Models (spGARCH)",
+      "grade": 0
+    },
+    {
+      "hash": "DsfGKhW4vJ7w",
+      "address": "https://dev.to/t/archlinux",
+      "title": "Arch Linux - DEV Community",
+      "grade": 0
+    },
+    {
+      "hash": "7Ye0G_syhcfx",
+      "address": "https://archlinux.org/news/the-end-of-i686-support/",
+      "title": "Arch Linux - News: The end of i686 support",
+      "grade": 1
+    },
+    {
+      "hash": "iCZLms98xLWx",
+      "address": "https://linuxreviews.org/Arch_Conf_2020",
+      "title": "Arch Conf 2020 - LinuxReviews",
+      "grade": 1
+    },
+    {
+      "hash": "DCEaeULcGM44",
+      "address": "https://linderud.dev/blog/packaging-lxd-for-arch-linux/",
+      "title": "Packaging LXD for Arch Linux",
+      "grade": 1
+    },
+    {
+      "hash": "OrB-NsJYLi8x",
+      "address": "https://reproducible.archlinux.org/",
+      "title": "Arch Linux Reproducible Status",
+      "grade": 1
+    },
+    {
+      "hash": "PYAXdloHjkRx",
+      "address": "https://bugs.archlinux.org/",
+      "title": "Site moved!",
+      "grade": 0
+    },
+    {
+      "hash": "Ns77blaVRyih",
+      "address": "https://www.archlinux.de/packages?search=bind",
+      "title": "bind - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "OEh6olaVRyih",
+      "address": "https://www.archlinux.de/packages?search=openssl",
+      "title": "openssl - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "P-Zd1laVRyih",
+      "address": "https://www.archlinux.de/packages?search=gnome",
+      "title": "gnome - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "PGnI1laVRyih",
+      "address": "https://www.archlinux.de/packages?search=awk",
+      "title": "awk - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "PHlHUlaVRyih",
+      "address": "https://www.archlinux.de/packages?search=ifplugd",
+      "title": "ifplugd - archlinux.de",
+      "grade": 0
+    },
+    {
+      "hash": "l1FCQBsyhcfx",
+      "address": "https://archlinux.org/people/package-maintainers/",
+      "title": "Arch Linux - Package Maintainers",
+      "grade": 1
+    },
+    {
+      "hash": "mqC38yG9imOx",
+      "address": "https://terms.archlinux.org/",
+      "title": "Arch Linux Terms",
+      "grade": 1
+    },
+    {
+      "hash": "p_LHisAbKjYx",
+      "address": "https://asus-linux.org/faq/",
+      "title": "Linux for ROG Notebooks",
+      "grade": 0
+    },
+    {
+      "hash": "_soCyeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=910195",
+      "title": "Asus N53SV suspend to RAM - solution / Laptop Issues / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "uSTQksoHjkRx",
+      "address": "https://bugs.archlinux.org/user/17076.html",
+      "title": "Arch Linux Bugtracker:: View Profile",
+      "grade": 0
+    },
+    {
+      "hash": "uigyqeSLKN4x",
+      "address": "https://bbs.archlinux.org/login.php",
+      "title": "Login / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "sLCmLzK7PFUx",
+      "address": "https://www.archlinuxcn.org/2022/02/",
+      "title": "2 月 « 2022 « Arch Linux",
+      "grade": 0
+    },
+    {
+      "hash": "tQBf15syhcfx",
+      "address": "https://archlinux.org/packages/extra/x86_64/haskell-scientific/",
+      "title": "Arch Linux - haskell-scientific 0.3.7.0-126 (x86_64)",
+      "grade": 0
+    },
+    {
+      "hash": "txvzSlf4UL4w",
+      "address": "https://www.freewear.org/FW0461--Arch-Linux-Sticker",
+      "title": "Arch Linux sticker | FreeWear.org",
+      "grade": 0
+    }
+  ]
+}

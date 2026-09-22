@@ -1,0 +1,107 @@
+{
+  "query": "sqlite full text search",
+  "judgedDocuments": [
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "grade": 0
+    },
+    {
+      "hash": "wzmiPtS6MKD4",
+      "address": "https://github.com/trending/php?since=daily",
+      "title": "Trending PHP repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "-xqfujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Google_Search",
+      "title": "Google Search - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "4AItjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JSON",
+      "title": "JSON - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8vgIrobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Download",
+      "title": "Download - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "zSc6gjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/WhatsApp",
+      "title": "WhatsApp - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "81srSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/SQL",
+      "title": "SQL - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "whqRStS6MKD4",
+      "address": "https://github.com/trending/developers",
+      "title": "Trending developers on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "JXOoAobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker",
+      "title": "How to become a MediaWiki hacker - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "BeT83xSM1QY4",
+      "address": "https://registry.opendata.aws/",
+      "title": "Registry of Open Data on AWS",
+      "grade": 0
+    },
+    {
+      "hash": "P7qK5DF20Rww",
+      "address": "https://ma.tt/category/wordpress/",
+      "title": "WordPress | Matt Mullenweg",
+      "grade": 0
+    },
+    {
+      "hash": "GOC_RsS6MKD4",
+      "address": "https://github.com/mvanhorn",
+      "title": "mvanhorn (Matt Van Horn) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "GCr_MjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/SPARQL",
+      "title": "SPARQL - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "QHa2YjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gmail",
+      "title": "Gmail - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

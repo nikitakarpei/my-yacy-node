@@ -1,0 +1,491 @@
+{
+  "query": "pi hole",
+  "judgedDocuments": [
+    {
+      "hash": "WkKrz7FYueiw",
+      "address": "https://discourse.pi-hole.net/t/migrating-pi-hole-from-lighttpd-to-apache/152",
+      "title": "Migrating Pi-Hole from lighttpd to apache - Customizing Pi-hole - Pi-hole Userspace",
+      "grade": 1
+    },
+    {
+      "hash": "nes3nh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Guitar",
+      "title": "Guitar - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "FAJMXysrSOQw",
+      "address": "https://arxiv.org/html/2311.01911v1",
+      "title": "Astrophysical black holes: theory and observations",
+      "grade": 0
+    },
+    {
+      "hash": "bes3EZ_FhCOw",
+      "address": "https://docs.pi-hole.net/",
+      "title": "Overview of Pi-hole - Pi-hole documentation",
+      "grade": 1
+    },
+    {
+      "hash": "MBnExsosFRqw",
+      "address": "https://pi-hole.net/",
+      "title": "Pi-hole – Network-wide Ad Blocking",
+      "grade": 1
+    },
+    {
+      "hash": "qDjcTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Black_hole_thermodynamics",
+      "title": "Black hole thermodynamics - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "M-JEDKsrSOQw",
+      "address": "https://arxiv.org/list/astro-ph/new",
+      "title": "Astrophysics",
+      "grade": 0
+    },
+    {
+      "hash": "-PQiOlPCpqc4",
+      "address": "https://www.youtube.com/watch?v=661pi6K-8WQ",
+      "title": "EAT THE RICH! - YouTube",
+      "grade": 0
+    },
+    {
+      "hash": "nN7cPsM6tXf4",
+      "address": "https://josh.works/atom.xml",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "9Gfi7KsrSOQw",
+      "address": "https://arxiv.org/list/cs/new",
+      "title": "Computer Science",
+      "grade": 0
+    },
+    {
+      "hash": "CoBxiZS6MKD4",
+      "address": "https://github.com/pi-hole/pi-hole/discussions",
+      "title": "pi-hole pi-hole · Discussions · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "BgMhFfs7j0L4",
+      "address": "https://dietpi.com/forum/t/pihole-weirdness/24560",
+      "title": "Pihole weirdness? - Troubleshooting - DietPi Community Forum",
+      "grade": 1
+    },
+    {
+      "hash": "B2QrMfs7j0L4",
+      "address": "https://dietpi.com/forum/t/pihole-dns-resolution-is-unavailable/17311",
+      "title": "PiHole (DNS resolution is unavailable) - General Discussion - DietPi Community Forum",
+      "grade": 1
+    },
+    {
+      "hash": "DgbnVfs7j0L4",
+      "address": "https://dietpi.com/forum/t/grav-cms-admin-tool-in-addition-to-pihole/5908",
+      "title": "Grav CMS Admin Tool in addition to Pihole - General Discussion - DietPi Community Forum",
+      "grade": 0
+    },
+    {
+      "hash": "BcDngfs7j0L4",
+      "address": "https://dietpi.com/forum/t/dietpi-und-pihole-v6-dashboard-problem/22873/1",
+      "title": "Dietpi und pihole v6 Dashboard Problem - Troubleshooting - DietPi Community Forum",
+      "grade": 1
+    },
+    {
+      "hash": "BlrmDfs7j0L4",
+      "address": "https://dietpi.com/forum/t/pivpn-w-pihole-unbound-cannot-reach-lan-or-internet/23329",
+      "title": "PiVPN w Pihole + Unbound Cannot Reach LAN or Internet - General Discussion - DietPi Community Forum",
+      "grade": 0
+    },
+    {
+      "hash": "BY1xHfs7j0L4",
+      "address": "https://dietpi.com/forum/t/pihole-6-0-is-out-with-built-in-web-server/22802/65",
+      "title": "Pihole 6.0 is out with built in web server - #65 by Joulinar - General Discussion - DietPi Community Forum",
+      "grade": 1
+    },
+    {
+      "hash": "CEsmhfs7j0L4",
+      "address": "https://dietpi.com/forum/t/pihole-in-a-docker-container/17430/8",
+      "title": "Pihole in a Docker Container - #8 by Qlumzy - Troubleshooting - DietPi Community Forum",
+      "grade": 1
+    },
+    {
+      "hash": "B783hfs7j0L4",
+      "address": "https://dietpi.com/forum/t/pihole-in-a-docker-container/17430/6",
+      "title": "Pihole in a Docker Container - #6 by Qlumzy - Troubleshooting - DietPi Community Forum",
+      "grade": 1
+    },
+    {
+      "hash": "A8nE_fs7j0L4",
+      "address": "https://dietpi.com/forum/t/wireguard-pivpn-pihole-suddently-stop-working/14488",
+      "title": "Wireguard+pivpn+pihole suddently stop working - Troubleshooting - DietPi Community Forum",
+      "grade": 0
+    },
+    {
+      "hash": "AlVYWfs7j0L4",
+      "address": "https://dietpi.com/forum/t/accessing-pihole-installed-on-dietpi-via-domain-using-traefik-reverse-proxy/21620/6",
+      "title": "Accessing Pihole installed on Dietpi via domain using Traefik reverse proxy - #6 by Joulinar - General Discussion - DietPi Community Forum",
+      "grade": 1
+    },
+    {
+      "hash": "zcSgLss6BKx4",
+      "address": "https://kevquirk.com/how-to-restore-the-default-pihole-block-list",
+      "title": "How To Restore The Default PiHole Block List - Kev Quirk",
+      "grade": 1
+    },
+    {
+      "hash": "NkPlzGPyN0_6",
+      "address": "https://nathanshobbies.com/posts/systemdresolv_pihole/",
+      "title": "Quick note on Pihole or other self hosted DNS services with Ubuntu or OpenmediaVault 6",
+      "grade": 1
+    },
+    {
+      "hash": "RBrZmv7XY2Q6",
+      "address": "https://linuxunplugged.com/tags/pihole",
+      "title": "LINUX Unplugged - Episodes Tagged with “pihole”",
+      "grade": 0
+    },
+    {
+      "hash": "duD_oGp0F_Y4",
+      "address": "https://m4iler.cloud/posts/home-dns/",
+      "title": "DNS on VPN or how I left PiHole | m4iler",
+      "grade": 1
+    },
+    {
+      "hash": "JpmN4lVjuhIw",
+      "address": "https://next.openhab.org/addons/bindings/pihole/",
+      "title": "Pi-hole - Bindings | openHAB",
+      "grade": 1
+    },
+    {
+      "hash": "aVPh2OzUKRu5",
+      "address": "https://microsoftedge.microsoft.com/addons/detail/pihole-in-one/hbigjlhijpiegpnbdhmdgdlfbcgljdao",
+      "title": "Pi-hole In One - Microsoft Edge Add-ons",
+      "grade": 1
+    },
+    {
+      "hash": "hoWtno_FhCOw",
+      "address": "https://docs.pi-hole.net/docker/upgrading/",
+      "title": "Upgrading - Pi-hole documentation",
+      "grade": 1
+    },
+    {
+      "hash": "BjamPUosFRqw",
+      "address": "https://pi-hole.net/blog/2024/02/15/dnssec-fix-generally-released/",
+      "title": "DNSSEC fix generally released. – Pi-hole",
+      "grade": 1
+    },
+    {
+      "hash": "vl7M3zS6MKD4",
+      "address": "https://github.com/topics/pihole-blocklists?o=desc\u0026s=stars",
+      "title": "pihole-blocklists · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "TZUY0UosFRqw",
+      "address": "https://pi-hole.net/blog/2022/07/",
+      "title": "July 2022 – Pi-hole",
+      "grade": 1
+    },
+    {
+      "hash": "RzD1T-_FhCOw",
+      "address": "https://docs.pi-hole.net/database/query-database/",
+      "title": "Query Database - Pi-hole documentation",
+      "grade": 1
+    },
+    {
+      "hash": "Qu1pzZS6MKD4",
+      "address": "https://github.com/pi-hole/docker-pi-hole",
+      "title": "GitHub - pi-hole/docker-pi-hole: The official Pi-hole Docker image from pi-hole.net · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "RLr9hUosFRqw",
+      "address": "https://pi-hole.net/blog/2024/02/",
+      "title": "February 2024 – Pi-hole",
+      "grade": 1
+    },
+    {
+      "hash": "5CvyqZS6MKD4",
+      "address": "https://github.com/pi-hole/pi-hole/commits/master",
+      "title": "Commits · pi-hole/pi-hole · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "f4-MDiQ2YKr4",
+      "address": "https://grafana.com/grafana/dashboards/15501-pihole-exporter/",
+      "title": "pihole Exporter | Grafana Labs",
+      "grade": 1
+    },
+    {
+      "hash": "m5reMxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Talk:Pi-hole",
+      "title": "Talk:Pi-hole - ArchWiki",
+      "grade": 1
+    },
+    {
+      "hash": "_Hs1siQ2YKr4",
+      "address": "https://grafana.com/grafana/dashboards/15505-mo-server/",
+      "title": "PiHole | Grafana Labs",
+      "grade": 1
+    },
+    {
+      "hash": "A-C4qfs7j0L4",
+      "address": "https://dietpi.com/forum/t/possible-to-specify-hostapd-use-pi-hole/3881/2",
+      "title": "Possible to specify Hostapd use Pi-hole? - #2 by Joulinar - General Discussion - DietPi Community Forum",
+      "grade": 0
+    },
+    {
+      "hash": "Yk0ebs2jvnSw",
+      "address": "https://ffmpeg.org/",
+      "title": "FFmpeg",
+      "grade": 0
+    },
+    {
+      "hash": "L5g71lLGiM-w",
+      "address": "https://www.ffmpeg.org/",
+      "title": "FFmpeg",
+      "grade": 0
+    },
+    {
+      "hash": "4huXqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Standard_deviation",
+      "title": "Standard deviation - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Lp497jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/New_York_University",
+      "title": "New York University - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "OLrrKlPxQXyy",
+      "address": "https://www.typescriptlang.org/tsconfig/",
+      "title": "TypeScript: TSConfig Reference - Docs on every TSConfig option",
+      "grade": 0
+    },
+    {
+      "hash": "acX9KjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/PostgreSQL",
+      "title": "PostgreSQL - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "nnGZEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Minecraft",
+      "title": "Minecraft - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "F_qIao_FhCOw",
+      "address": "https://docs.pi-hole.net/docker/configuration/",
+      "title": "Configuration - Pi-hole documentation",
+      "grade": 1
+    },
+    {
+      "hash": "Hf6605_FhCOw",
+      "address": "https://docs.pi-hole.net/routers/fritzbox/",
+      "title": "Fritz!Box (EN) - Pi-hole documentation",
+      "grade": 1
+    },
+    {
+      "hash": "TzXdOJ_FhCOw",
+      "address": "https://docs.pi-hole.net/ftldns/dns-resolver/",
+      "title": "DNS resolver - Pi-hole documentation",
+      "grade": 1
+    },
+    {
+      "hash": "ZTBqdsoh_uX6",
+      "address": "https://paulstamatiou.com/getting-started-raspberry-pi",
+      "title": "Getting started with Raspberry Pi | Paul Stamatiou",
+      "grade": 0
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8R0LhjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/F-number",
+      "title": "F-number - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "DTPX7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
+      "title": "Wikipedia:Featured articles - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "iMYe6ysrSOQw",
+      "address": "https://arxiv.org/html/2609.20761v1",
+      "title": "Agile-WAM: An Agile Tactile World Action Model for Contact-Rich Robot Control",
+      "grade": 0
+    },
+    {
+      "hash": "7WS-zjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Optical_fiber",
+      "title": "Optical fiber - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "LJd8tKsrSOQw",
+      "address": "https://arxiv.org/list/hep-th/new",
+      "title": "High Energy Physics - Theory",
+      "grade": 0
+    },
+    {
+      "hash": "MexI6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_Wikipedias",
+      "title": "List of Wikipedias - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Rq87BjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proton",
+      "title": "Proton - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "RtgM3jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Light-emitting_diode",
+      "title": "Light-emitting diode - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SlwjljRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/NOAA",
+      "title": "National Oceanic and Atmospheric Administration - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "YVlpJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Sunlight",
+      "title": "Sunlight - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "k1KqxjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Physics",
+      "title": "Physics - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "lmRNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_kernel",
+      "title": "Linux kernel - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "3IbxJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Christiaan_Huygens",
+      "title": "Christiaan Huygens - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "6tcmKjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Heat_sink",
+      "title": "Heat sink - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "9L14cjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Black_hole",
+      "title": "Black hole - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "GL-NdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mass",
+      "title": "Mass - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "SVD9kjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/2001:_A_Space_Odyssey",
+      "title": "2001: A Space Odyssey - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "p88VmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Neutron_generator",
+      "title": "Neutron generator - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "tlA9h7tgxKqT",
+      "address": "http://greatpyramidofgiza.net/",
+      "title": "GreatPyramidOfGiza.net - The Great Pyramid Of Giza Encodes The Speed Of Light At Least Six Different Ways by Mark R. Elsis",
+      "grade": 0
+    },
+    {
+      "hash": "fhlBCsS6MKD4",
+      "address": "https://github.com/pi-hole",
+      "title": "Pi-hole · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "qTN7fX9Ojva4",
+      "address": "https://docs.docker.com/reference/samples/pi-hole/",
+      "title": "Pi-hole samples | Docker Docs",
+      "grade": 1
+    },
+    {
+      "hash": "GEY3RUosFRqw",
+      "address": "https://pi-hole.net/blog/2016/12/",
+      "title": "December 2016 – Pi-hole",
+      "grade": 1
+    },
+    {
+      "hash": "GP36fUosFRqw",
+      "address": "https://pi-hole.net/blog/2019/09/",
+      "title": "September 2019 – Pi-hole",
+      "grade": 1
+    },
+    {
+      "hash": "bCbrdUosFRqw",
+      "address": "https://pi-hole.net/blog/2021/10/",
+      "title": "October 2021 – Pi-hole",
+      "grade": 1
+    },
+    {
+      "hash": "R2xiTq_FhCOw",
+      "address": "https://docs.pi-hole.net/api/auth/",
+      "title": "Authentication - Pi-hole documentation",
+      "grade": 1
+    },
+    {
+      "hash": "TYm2HUosFRqw",
+      "address": "https://pi-hole.net/blog/2025/06/",
+      "title": "June 2025 – Pi-hole",
+      "grade": 1
+    },
+    {
+      "hash": "5lwmCvDOAHJg",
+      "address": "https://www.heise.de/news/IPFire-Neue-DNS-Firewall-soll-URL-Filter-und-Pi-hole-abloesen-11283482.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+      "title": "IPFire: Neue DNS Firewall soll URL-Filter und Pi-hole ablösen | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "5J5zBvDOAHJg",
+      "address": "https://www.heise.de/news/IPFire-Neue-DNS-Firewall-soll-URL-Filter-und-Pi-hole-abloesen-11283482.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
+      "title": "IPFire: Neue DNS Firewall soll URL-Filter und Pi-hole ablösen | heise online",
+      "grade": 0
+    },
+    {
+      "hash": "7A7zHmvd5Ox6",
+      "address": "https://www.physicsforums.com/threads/find-hole-size-for-allowable-leak-in-pressure-vessel.1009794/",
+      "title": "Find hole size for allowable leak in pressure vessel",
+      "grade": 0
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+{
+  "query": "libre office",
+  "judgedDocuments": [
+    {
+      "hash": "M2bZOvuNWVxw",
+      "address": "https://linuxfr.org/tags/logiciel_libre/public",
+      "title": "Tous les contenus étiquetés avec « logiciel_libre » - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "HDiJeopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Q1042",
+      "title": "Seychelles - Wikidata",
+      "grade": 0
+    },
+    {
+      "hash": "5A_T-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Uber_app",
+      "title": "Uber - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8856zsuNWVxw",
+      "address": "https://linuxfr.org/",
+      "title": "Accueil - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "P3twIcw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal",
+      "title": "Wikipédia, l'encyclopédie libre",
+      "grade": 0
+    },
+    {
+      "hash": "dC8Tg_uNWVxw",
+      "address": "https://linuxfr.org/news/editer-de-la-litterature-libre-les-editions-du-renard-spatial",
+      "title": "Éditer de la littérature libre : les Éditions du Renard Spatial - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "Kaq8KlH6Lg34",
+      "address": "https://www.nbcnews.com/select",
+      "title": "NBC Selected | Deals, Tips and Product Reviews | NBC News",
+      "grade": 0
+    },
+    {
+      "hash": "JxYT3cw63Csx",
+      "address": "https://fr.wikipedia.org/wiki/C%C3%A9ramique",
+      "title": "Céramique — Wikipédia",
+      "grade": 0
+    },
+    {
+      "hash": "i8cOrBBj_ynx",
+      "address": "https://essd.copernicus.org/articles/12/1561/2020/",
+      "title": "ESSD - The Global Methane Budget 2000–2017",
+      "grade": 0
+    },
+    {
+      "hash": "A8BLfu9heOmx",
+      "address": "https://fr.libreoffice.org/",
+      "title": "Free and private office suite, no forced AI — LibreOffice",
+      "grade": 2
+    },
+    {
+      "hash": "1dti-FXPz0xx",
+      "address": "https://cbk-zam.wikipedia.org/wiki/Wikipedia:Tambayan_De_Los_Chavacanos",
+      "title": "Wikipedia:Tambayan De Los Chavacanos - Chavacano de Zamboanga Wikipedia - El Libre Enciclopedia",
+      "grade": 0
+    },
+    {
+      "hash": "1mFAG_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Lingua_inglesa",
+      "title": "Lingua inglesa - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "8hcBngJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Estados_Unidos",
+      "title": "Estados Unidos - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "ftls8gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Google",
+      "title": "Google - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "hoJHQgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Vacuna",
+      "title": "Vacuna - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "iyb8HgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Reino_Unido",
+      "title": "Reino Unido - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "pq_LngJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Navegador_web",
+      "title": "Navegador web - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "prETngJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Tailandia",
+      "title": "Tailandia - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "-5bDhgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "0ZM8S_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/JSTOR",
+      "title": "JSTOR - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "4a2GkgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Wikipedia:Informes_de_error",
+      "title": "Wikipedia:Informes de error - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "AYvFN_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Tornado",
+      "title": "Tornado - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "HWbbCgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Idioma_chino",
+      "title": "Idioma chino - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "ZrUPQgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Jyutping",
+      "title": "Jyutping - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "_JJX7gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Wikipedia:Portada",
+      "title": "Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "b5y3lgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Luxemburgo",
+      "title": "Luxemburgo - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "mPTR6_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Uni%C3%B3n_Europea",
+      "title": "Unión Europea - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "uGYzigJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Mozilla_Firefox",
+      "title": "Mozilla Firefox - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "uVG45gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Rep%C3%BAblica_del_Congo",
+      "title": "República del Congo - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "-LH1wgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Jeffrey_Epstein",
+      "title": "Jeffrey Epstein - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "DgequgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Liberia",
+      "title": "Liberia - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "V3mOHgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Eslovaquia",
+      "title": "Eslovaquia - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "jpqa2gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Gran_Sello_de_los_Estados_Unidos",
+      "title": "Gran sello de los Estados Unidos - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "lFjRK_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Islam",
+      "title": "Islam - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "uXfX7gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Taiw%C3%A1n",
+      "title": "República de China - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "2ITuJgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Jap%C3%B3n",
+      "title": "Japón - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "4Cn9MgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Guerra_civil_espa%C3%B1ola",
+      "title": "Guerra civil española - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "6PVSQgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Suicidio",
+      "title": "Suicidio - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "Mw_LgzwmF0yx",
+      "address": "https://an.wikipedia.org/wiki/Polonia",
+      "title": "Polonia - Biquipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "NILVHgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Egipto",
+      "title": "Egipto - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "TDam2gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Arabia_Saudita",
+      "title": "Arabia Saudita - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "_7lN9gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Los_Simpson",
+      "title": "Los Simpson - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "cr-KHgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Winston_Churchill",
+      "title": "Winston Churchill - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "dW8f6gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Guayana_Francesa",
+      "title": "Guayana Francesa - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "vLDOKgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Portal:Astronom%C3%ADa",
+      "title": "Portal:Astronomía - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "4DB5bgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Tecnolog%C3%ADa_de_la_informaci%C3%B3n",
+      "title": "Tecnología de la información - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "eroBj_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Su%C3%ADza",
+      "title": "Suíza - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "m0zZxgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/19_de_enero",
+      "title": "19 de enero - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "-A0EngJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/14_de_marzo",
+      "title": "14 de marzo - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "5i-5egJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/12_de_marzo",
+      "title": "12 de marzo - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "8FQENgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/11_de_noviembre",
+      "title": "11 de noviembre - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "9xPIWgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/15_de_enero",
+      "title": "15 de enero - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "FK_Cz_qoHJ8x",
+      "address": "https://gl.wikipedia.org/wiki/Ano_(astronom%C3%ADa)",
+      "title": "Ano (astronomía) - Wikipedia, a enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "SONK_gJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/Alaska",
+      "title": "Alaska - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "qEsrggJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/8_de_noviembre",
+      "title": "8 de noviembre - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "4AEkJgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/0_de_marzo",
+      "title": "0 de marzo - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "4J0jLgJPjR4x",
+      "address": "https://es.wikipedia.org/wiki/24_de_marzo",
+      "title": "24 de marzo - Wikipedia, la enciclopedia libre",
+      "grade": 0
+    },
+    {
+      "hash": "_m36L8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/LibreOffice",
+      "title": "LibreOffice - Gentoo wiki",
+      "grade": 1
+    },
+    {
+      "hash": "bmLtGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mercado_Libre",
+      "title": "MercadoLibre - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Dzty_gDOAHJg",
+      "address": "https://www.heise.de/download/product/libreoffice-76509",
+      "title": "LibreOffice - Gratis-Download von heise.de",
+      "grade": 1
+    },
+    {
+      "hash": "FSDAyja_7uS5",
+      "address": "https://www.theregister.com/Tag/LibreOffice/",
+      "title": "LibreOffice • Page 1 • Tag • The Register",
+      "grade": 0
+    },
+    {
+      "hash": "X0gS6jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/LibreOffice",
+      "title": "LibreOffice - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "UWQYB8ra3eRg",
+      "address": "https://nlnet.nl/project/LibreSilicon-compiler/",
+      "title": "NLnet; Libre Silicon compiler",
+      "grade": 0
+    }
+  ]
+}
