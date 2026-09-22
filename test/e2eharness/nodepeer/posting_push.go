@@ -11,6 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
+const postingsPerTransfer = 1000
+
 var pushSenderHash = mustHash("PUSHSENDER01")
 
 func mustHash(raw string) yacymodel.Hash {
@@ -39,9 +41,28 @@ func PushPosting(
 }
 
 // PushPostings delivers the RWI postings of one word over every named document
-// to the node under test, in one transferRWI wire call, so the node holds a
-// word over more documents than it lists in an index abstract.
+// to the node under test, over as many transferRWI wire calls as the node admits,
+// so the node can hold a word over more documents than it lists in an index abstract.
 func PushPostings(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	nodeURL string,
+	nodeHash yacymodel.Hash,
+	word yacymodel.Hash,
+	documents []yacymodel.URLHash,
+) {
+	t.Helper()
+
+	for first := 0; first < len(documents); first += postingsPerTransfer {
+		transferPostings(
+			t, ctx, probe, nodeURL, nodeHash, word,
+			documents[first:min(first+postingsPerTransfer, len(documents))],
+		)
+	}
+}
+
+func transferPostings(
 	t *testing.T,
 	ctx context.Context,
 	probe *httpprobe.Probe,
