@@ -9,70 +9,41 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type crossCheckedDocumentsAsksWithinTheCeiling struct {
-	asks                                                 []peerasks.CrossCheckedDocumentsAsk
-	amountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
-}
-
-func crossCheckedDocumentsAsksWithinTheCeilingFor(
-	queryWordsBesideTheLeadingQueryWord []queryWordAcrossReplicas,
-	documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
-	standings []peerjudgements.PeerStanding,
+func crossCheckedDocumentsAsksFor(
+	partlyListedQueryWords []queryWordAcrossReplicas,
+	documentsOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
+	peerStandings []peerjudgements.PeerStanding,
 	crossCheckedDocumentsCeiling int,
-) crossCheckedDocumentsAsksWithinTheCeiling {
-	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeiling{}
-	for _, queryWord := range queryWordsBesideTheLeadingQueryWord {
-		if queryWord.isFullyListed() {
-			continue
-		}
-		candidateDocuments := documentsNotListedByPeersAmong(
-			documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst,
-			queryWord.documentsListedByPeers(),
+) []peerasks.CrossCheckedDocumentsAsk {
+	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(partlyListedQueryWords))
+	for _, queryWord := range partlyListedQueryWords {
+		candidateDocuments := queryWord.crossCheckCandidatesAmong(
+			documentsOfTheLeadingQueryWordMostListedFirst,
 		)
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
-			peersNotIgnoringAmong(queryWord.replicasThatDidNotListAllTheyHold(), standings),
-			asksWithinTheCeiling.asks,
+			peersNotIgnoringAmong(queryWord.replicasThatDidNotListAllTheyHold(), peerStandings),
+			asks,
 		)
 		amountOfDocumentsToDeal := min(
 			len(candidateDocuments), len(peersNotYetAskedToCrossCheck)*crossCheckedDocumentsCeiling,
 		)
-		asksWithinTheCeiling.asks = append(
-			asksWithinTheCeiling.asks,
-			crossCheckedDocumentsAsksDealtAcross(
-				peersNotYetAskedToCrossCheck,
-				queryWord.word,
-				candidateDocuments[:amountOfDocumentsToDeal],
-			)...)
-		asksWithinTheCeiling.amountOfDocumentsPastTheCrossCheckedDocumentsCeiling += len(
-			candidateDocuments,
-		) - amountOfDocumentsToDeal
+		asks = append(asks, crossCheckedDocumentsAsksDealtAcross(
+			peersNotYetAskedToCrossCheck,
+			queryWord.word,
+			candidateDocuments[:amountOfDocumentsToDeal],
+		)...)
 	}
 
-	return asksWithinTheCeiling
-}
-
-func documentsNotListedByPeersAmong(
-	documents []yacymodel.URLHash,
-	documentsListedByPeers distinctDocuments,
-) []yacymodel.URLHash {
-	keptDocuments := make([]yacymodel.URLHash, 0, len(documents))
-	for _, document := range documents {
-		if documentsListedByPeers.contains(document) {
-			continue
-		}
-		keptDocuments = append(keptDocuments, document)
-	}
-
-	return keptDocuments
+	return asks
 }
 
 func peersNotIgnoringAmong(
 	replicas []queryWordOnReplica,
-	standings []peerjudgements.PeerStanding,
+	peerStandings []peerjudgements.PeerStanding,
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
 	for _, replica := range replicas {
-		if standingOf(replica.peer, standings) == peerjudgements.Ignoring {
+		if standingOf(replica.peer, peerStandings) == peerjudgements.Ignoring {
 			continue
 		}
 		keptPeers = append(keptPeers, replica.peer)
@@ -83,16 +54,13 @@ func peersNotIgnoringAmong(
 
 func standingOf(
 	peer peerdirectory.AskablePeer,
-	standings []peerjudgements.PeerStanding,
+	peerStandings []peerjudgements.PeerStanding,
 ) peerjudgements.Standing {
-	place := slices.IndexFunc(standings, func(standing peerjudgements.PeerStanding) bool {
-		return standing.Peer == peer.Hash
+	place := slices.IndexFunc(peerStandings, func(peerStanding peerjudgements.PeerStanding) bool {
+		return peerStanding.Peer == peer.Hash
 	})
-	if place < 0 {
-		return peerjudgements.NeverJudged
-	}
 
-	return standings[place].Standing
+	return peerStandings[place].Standing
 }
 
 func peersNotYetAskedToCrossCheckAmong(

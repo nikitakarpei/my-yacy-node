@@ -6,25 +6,22 @@ import (
 )
 
 type crossCheckedDocumentsRound struct {
-	asks                                                 []peerasks.CrossCheckedDocumentsAsk
-	answeredAsks                                         []peerasks.AnsweredCrossCheckedDocumentsAsk
-	amountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
-	peerStandings                                        []peerjudgements.PeerStanding
-	judgedPeers                                          []peerjudgements.JudgedPeer
+	asks          []peerasks.CrossCheckedDocumentsAsk
+	answeredAsks  []peerasks.AnsweredCrossCheckedDocumentsAsk
+	peerStandings []peerjudgements.PeerStanding
+	judgedPeers   []peerjudgements.JudgedPeer
 }
 
 func crossCheckedDocumentsRoundFrom(
-	asksWithinTheCeiling crossCheckedDocumentsAsksWithinTheCeiling,
+	asks []peerasks.CrossCheckedDocumentsAsk,
 	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk,
 	peerStandings []peerjudgements.PeerStanding,
 ) crossCheckedDocumentsRound {
 	return crossCheckedDocumentsRound{
-		asks:         asksWithinTheCeiling.asks,
-		answeredAsks: answeredAsks,
-		amountOfDocumentsPastTheCrossCheckedDocumentsCeiling: asksWithinTheCeiling.
-			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
+		asks:          asks,
+		answeredAsks:  answeredAsks,
 		peerStandings: peerStandings,
-		judgedPeers:   judgedPeersOfTheCrossCheck(asksWithinTheCeiling.asks, answeredAsks),
+		judgedPeers:   judgedPeersOfTheCrossCheck(asks, answeredAsks),
 	}
 }
 

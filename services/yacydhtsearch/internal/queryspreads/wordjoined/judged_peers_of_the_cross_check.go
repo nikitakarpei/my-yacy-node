@@ -26,7 +26,7 @@ func judgedPeerOf(
 	ask peerasks.CrossCheckedDocumentsAsk,
 	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk,
 ) peerjudgements.JudgedPeer {
-	answeredAsk, answered := answerToTheAskAmong(ask, answeredAsks).Get()
+	answeredAsk, answered := answerToTheCrossCheckedDocumentsAskAmong(ask, answeredAsks).Get()
 	if !answered {
 		return peerjudgements.JudgedPeer{
 			PeerAtVersion: peerjudgements.PeerAtVersion{Peer: ask.Peer.Hash},
@@ -45,7 +45,7 @@ func judgedPeerOf(
 	}
 }
 
-func answerToTheAskAmong(
+func answerToTheCrossCheckedDocumentsAskAmong(
 	ask peerasks.CrossCheckedDocumentsAsk,
 	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk,
 ) yacymodel.Optional[peerasks.AnsweredCrossCheckedDocumentsAsk] {

@@ -76,7 +76,7 @@ func queryWordOnReplicasPerPartitionFrom(
 			queryWordOnReplicasPerPartition[chosenPeer.Partition],
 			queryWordOnReplica{
 				peer: chosenPeer.Peer,
-				answer: answerOfPeerFor(
+				answer: answerToTheMatchedAndHeldDocumentsAskAmong(
 					chosenPeer.Peer,
 					chosenPeersOfQueryWord.QueryWord,
 					answeredAsks,
@@ -88,7 +88,7 @@ func queryWordOnReplicasPerPartitionFrom(
 	return queryWordOnReplicasPerPartition
 }
 
-func answerOfPeerFor(
+func answerToTheMatchedAndHeldDocumentsAskAmong(
 	peer peerdirectory.AskablePeer,
 	queryWord yacymodel.Hash,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
@@ -190,6 +190,21 @@ func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocume
 	return documentsListedByPeers
 }
 
+func (queryWord queryWordAcrossReplicas) crossCheckCandidatesAmong(
+	documentsOfTheLeadingQueryWord []yacymodel.URLHash,
+) []yacymodel.URLHash {
+	documentsListedByPeers := queryWord.documentsListedByPeers()
+	candidates := make([]yacymodel.URLHash, 0, len(documentsOfTheLeadingQueryWord))
+	for _, document := range documentsOfTheLeadingQueryWord {
+		if documentsListedByPeers.contains(document) {
+			continue
+		}
+		candidates = append(candidates, document)
+	}
+
+	return candidates
+}
+
 func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
 	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
 		if !slices.ContainsFunc(queryWordOnReplicasOfPartition, queryWordOnReplica.isFullyListed) {
@@ -214,8 +229,8 @@ func (queryWord queryWordAcrossReplicas) replicasThatDidNotListAllTheyHold() []q
 	return replicas
 }
 
-func (queryWord queryWordOnReplica) isFullyListed() bool {
-	answer, answered := queryWord.answer.Get()
+func (replica queryWordOnReplica) isFullyListed() bool {
+	answer, answered := replica.answer.Get()
 	if !answered {
 		return false
 	}
@@ -224,8 +239,8 @@ func (queryWord queryWordOnReplica) isFullyListed() bool {
 	return counted && amountOfDocumentsHeld <= len(answer.DocumentsListedForTheWord)
 }
 
-func (queryWord queryWordOnReplica) versionClaimed() string {
-	answer, answered := queryWord.answer.Get()
+func (replica queryWordOnReplica) versionClaimed() string {
+	answer, answered := replica.answer.Get()
 	if !answered {
 		return ""
 	}

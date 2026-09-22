@@ -24,6 +24,16 @@ func (round matchedAndHeldDocumentsRound) leadingQueryWord() queryWordAcrossRepl
 	return round.queryWordsFewestDocumentsFirst[round.placeOfTheLeadingQueryWord()]
 }
 
+func (round matchedAndHeldDocumentsRound) placeOfTheLeadingQueryWord() int {
+	return max(
+		0,
+		slices.IndexFunc(
+			round.queryWordsFewestDocumentsFirst,
+			queryWordAcrossReplicas.isFullyListed,
+		),
+	)
+}
+
 func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
 	placeOfTheLeadingQueryWord := round.placeOfTheLeadingQueryWord()
 
@@ -33,12 +43,21 @@ func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() 
 	)
 }
 
-func (round matchedAndHeldDocumentsRound) peersThatDidNotListAllTheyHold() []peerjudgements.PeerAtVersion {
-	var peers []peerjudgements.PeerAtVersion
+func (round matchedAndHeldDocumentsRound) partlyListedQueryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
+	var partlyListedQueryWords []queryWordAcrossReplicas
 	for _, queryWord := range round.queryWordsBesideTheLeadingQueryWord() {
 		if queryWord.isFullyListed() {
 			continue
 		}
+		partlyListedQueryWords = append(partlyListedQueryWords, queryWord)
+	}
+
+	return partlyListedQueryWords
+}
+
+func (round matchedAndHeldDocumentsRound) peersThatMayCrossCheck() []peerjudgements.PeerAtVersion {
+	var peers []peerjudgements.PeerAtVersion
+	for _, queryWord := range round.partlyListedQueryWordsBesideTheLeadingQueryWord() {
 		for _, replica := range queryWord.replicasThatDidNotListAllTheyHold() {
 			peerAtVersion := peerjudgements.PeerAtVersion{
 				Peer:    replica.peer.Hash,
@@ -56,14 +75,18 @@ func (round matchedAndHeldDocumentsRound) peersThatDidNotListAllTheyHold() []pee
 	return peers
 }
 
-func (round matchedAndHeldDocumentsRound) placeOfTheLeadingQueryWord() int {
-	return max(
-		0,
-		slices.IndexFunc(
-			round.queryWordsFewestDocumentsFirst,
-			queryWordAcrossReplicas.isFullyListed,
-		),
-	)
+func (round matchedAndHeldDocumentsRound) documentsOfTheLeadingQueryWordMostListedFirst() []yacymodel.URLHash {
+	return round.documentsMostListedFirstAmong(round.leadingQueryWord().documentsListedByPeers())
+}
+
+func (round matchedAndHeldDocumentsRound) amountOfCrossCheckCandidates() int {
+	documentsOfTheLeadingQueryWord := round.documentsOfTheLeadingQueryWordMostListedFirst()
+	amount := 0
+	for _, queryWord := range round.partlyListedQueryWordsBesideTheLeadingQueryWord() {
+		amount += len(queryWord.crossCheckCandidatesAmong(documentsOfTheLeadingQueryWord))
+	}
+
+	return amount
 }
 
 func (round matchedAndHeldDocumentsRound) documentsMostListedFirstAmong(

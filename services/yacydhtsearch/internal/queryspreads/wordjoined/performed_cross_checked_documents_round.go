@@ -24,19 +24,29 @@ func performedCrossCheckedDocumentsRoundFrom(
 		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
 			round.asks,
 		),
-		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: round.
-			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
+		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: matchedAndHeldDocumentsRound.
+			amountOfCrossCheckCandidates() - amountOfDocumentsSentForCrossCheckingAcross(round.asks),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
 		AmountOfJoinedDocuments: len(joinedDocuments),
-		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: len(joinedDocuments) - len(
-			matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord().
-				documentsOfEveryQueryWord(),
+		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: amountOfJoinedDocumentsFoundOnlyByCrossChecking(
+			joinedDocuments,
+			matchedAndHeldDocumentsRound,
 		),
 		PeerStandings: round.peerStandings,
 		JudgedPeers:   round.judgedPeers,
 	}
+}
+
+func amountOfJoinedDocumentsFoundOnlyByCrossChecking(
+	joinedDocuments distinctDocuments,
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+) int {
+	documentsOfEveryQueryWordListedByPeers := matchedAndHeldDocumentsRound.
+		documentsListedByPeersPerQueryWord().documentsOfEveryQueryWord()
+
+	return len(joinedDocuments) - len(documentsOfEveryQueryWordListedByPeers)
 }
 
 func amountOfDocumentsSentForCrossCheckingAcross(
