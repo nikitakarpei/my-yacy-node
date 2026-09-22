@@ -3,16 +3,18 @@ package peermatched
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func answeredQueryFrom(
 	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
-	queryWords []yacymodel.Hash,
+	query searchquery.Query,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:     queryWords,
-		FoundDocuments: foundDocumentsFrom(answeredAsks, queryWords),
+		QueryWords:         query.TermHashes(),
+		CompoundQueryWords: queryanswers.CompoundQueryWordsFrom(query.Terms),
+		FoundDocuments:     foundDocumentsFrom(answeredAsks, query.TermHashes()),
 	}
 }
 

@@ -3,16 +3,19 @@ package wordjoined
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func answeredQueryFrom(
+	query searchquery.Query,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	joinedDocuments distinctDocuments,
 	urlMetadataRound urlMetadataRound,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords: matchedAndHeldDocumentsRound.queryWords,
+		QueryWords:         matchedAndHeldDocumentsRound.queryWords,
+		CompoundQueryWords: queryanswers.CompoundQueryWordsFrom(query.Terms),
 		FoundDocuments: foundDocumentsFrom(
 			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
 		),

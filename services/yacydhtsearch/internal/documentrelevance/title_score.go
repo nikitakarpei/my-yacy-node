@@ -1,21 +1,21 @@
 package documentrelevance
 
-import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 
-const titleScoreOfDocumentWithoutTitle = -1.0
+const (
+	titleScoreOfDocumentWithoutTitle    = -1.0
+	titleScoreFactorOfWholeQueryInTitle = 1.5
+)
 
 type titleScorer struct {
 	queryWordRarities queryWordRarities
-	queryWords        []yacymodel.Hash
+	queryVocabulary   queryVocabulary
 }
 
 func titleScorerFrom(statistics answersStatistics) titleScorer {
 	return titleScorer{
 		queryWordRarities: statistics.queryWordRarities,
-		queryWords:        statistics.queryWords,
+		queryVocabulary:   statistics.queryVocabulary,
 	}
 }
 
@@ -23,33 +23,11 @@ func (scorer titleScorer) scoreOf(document queryanswers.FoundDocument) float64 {
 	if document.Title == "" {
 		return titleScoreOfDocumentWithoutTitle
 	}
-
-	return scorer.queryWordRarities.rarityShareOfWords(scorer.queryWordsInTitleOf(document))
-}
-
-func (scorer titleScorer) queryWordsInTitleOf(
-	document queryanswers.FoundDocument,
-) []yacymodel.Hash {
-	wordsInTitle := wordsIn(document.Title)
-
-	queryWordsInTitle := make([]yacymodel.Hash, 0, len(scorer.queryWords))
-	for _, word := range scorer.queryWords {
-		if _, inTitle := wordsInTitle[word]; !inTitle {
-			continue
-		}
-		queryWordsInTitle = append(queryWordsInTitle, word)
+	queryWordsInTitle := scorer.queryVocabulary.wordsIn(document.Title)
+	titleScore := scorer.queryWordRarities.rarityShareOfWords(queryWordsInTitle)
+	if len(queryWordsInTitle) == len(scorer.queryVocabulary.words) {
+		return titleScore * titleScoreFactorOfWholeQueryInTitle
 	}
 
-	return queryWordsInTitle
-}
-
-func wordsIn(text string) map[yacymodel.Hash]struct{} {
-	spelledWords := yacymodel.WordsIn(text)
-
-	words := make(map[yacymodel.Hash]struct{}, len(spelledWords))
-	for _, spelledWord := range spelledWords {
-		words[yacymodel.WordHash(spelledWord)] = struct{}{}
-	}
-
-	return words
+	return titleScore
 }

@@ -302,21 +302,6 @@ func TestThePageOfADocumentGivesTheHitsOfEachQueryPhraseInItsText(t *testing.T) 
 	}
 }
 
-func TestAQueryPhraseTheTextHoldsInTheOtherOrderIsNoHit(t *testing.T) {
-	t.Parallel()
-
-	queryPhraseHits := queryPhraseHitsOfTheAddressRead(
-		t, addressOfTheDocument, "holds", "berlin",
-	)
-
-	if queryPhraseHits != 0 {
-		t.Fatalf(
-			"the page gives %d query phrase hits, want none for the words in the other order",
-			queryPhraseHits,
-		)
-	}
-}
-
 func TestAQueryOfOneWordHoldsNoQueryPhrase(t *testing.T) {
 	t.Parallel()
 

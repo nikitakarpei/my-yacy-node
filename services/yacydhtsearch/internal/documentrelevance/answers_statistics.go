@@ -1,19 +1,16 @@
 package documentrelevance
 
-import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 
 type answersStatistics struct {
-	queryWords        []yacymodel.Hash
+	queryVocabulary   queryVocabulary
 	queryWordRarities queryWordRarities
 	documentAverages  documentAverages
 }
 
 func answersStatisticsFrom(answers queryanswers.AnsweredQuery) answersStatistics {
 	return answersStatistics{
-		queryWords:        answers.QueryWords,
+		queryVocabulary:   queryVocabularyOf(answers),
 		queryWordRarities: queryWordRaritiesFrom(answers),
 		documentAverages:  documentAveragesAmong(answers.FoundDocuments),
 	}
