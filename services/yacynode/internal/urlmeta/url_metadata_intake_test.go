@@ -13,7 +13,11 @@ import (
 )
 
 func localIdentity() nodeidentity.Identity {
-	return nodeidentity.Identity{Hash: yacymodel.WordHash("self"), NetworkName: "freeworld"}
+	return nodeidentity.Identity{
+		Hash:         yacymodel.WordHash("self"),
+		NetworkName:  "freeworld",
+		Capabilities: yacymodel.PeerCapabilities{AcceptRemoteIndex: true},
+	}
 }
 
 type urlPorts struct {

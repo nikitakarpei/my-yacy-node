@@ -85,12 +85,11 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	opts = withCycleDefaults(opts)
 
 	observer := newFakeObserver()
-	v, schedule, replicas := openCycleVault(t, clk.now, observer)
-
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
+	v, schedule, replicas := openCycleVault(t, partitions, clk.now, observer)
 
 	eligibility := replicaeligibility.New(opts.cooldown, clk.now)
 	postings := &fakePostingIndex{postings: opts.postings, unread: opts.postingsErr}
@@ -111,9 +110,11 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		replicas,
 		postings,
 		opts.reachability,
-		partitions,
-		opts.self,
-		opts.redundancy,
+		postinghandoff.Config{
+			Partitions: partitions,
+			Self:       opts.self,
+			Redundancy: opts.redundancy,
+		},
 	)
 
 	courier, metadataCourier, transfers := openTransfers(v, opts, observer)
@@ -225,6 +226,7 @@ func purgeBookkeeping(
 
 func openCycleVault(
 	t *testing.T,
+	partitions yacymodel.DHTRingPartitions,
 	now func() time.Time,
 	observer postingofferschedule.Observer,
 ) (
@@ -247,7 +249,7 @@ func openCycleVault(
 		}
 	})
 
-	schedule, err := postingofferschedule.Open(v, now, observer)
+	schedule, err := postingofferschedule.Open(v, partitions, now, observer)
 	if err != nil {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}

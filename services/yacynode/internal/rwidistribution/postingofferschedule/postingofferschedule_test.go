@@ -2,6 +2,7 @@ package postingofferschedule_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 
@@ -31,73 +32,107 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
+const (
+	shortfall = string(postingofferschedule.OfferOrderShortfall)
+	refresh   = string(postingofferschedule.OfferOrderRefresh)
+)
+
 type recordedObservations struct {
-	scheduled int
-	lateness  time.Duration
+	scheduled map[string]int
+	lateness  map[string]time.Duration
 }
 
-func (o *recordedObservations) ObserveScheduledPostings(postings int) {
-	o.scheduled = postings
+func (o *recordedObservations) ObserveScheduledPostings(order string, postings int) {
+	o.scheduled[order] = postings
 }
 
-func (o *recordedObservations) ObserveLongestOfferLateness(lateness time.Duration) {
-	o.lateness = lateness
+func (o *recordedObservations) ObserveLongestOfferLateness(order string, lateness time.Duration) {
+	o.lateness[order] = lateness
 }
 
-type postingOffers struct {
+type scheduleHarness struct {
+	engine   vault.Engine
 	vault    *vault.Vault
 	schedule *postingofferschedule.Schedule
 	observed *recordedObservations
 	clock    time.Time
 }
 
-func openOffers(t *testing.T, clockStart time.Time) *postingOffers {
+func openSchedule(t *testing.T, clockStart time.Time) *scheduleHarness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
+	engine := memoryvault.OpenEngine(0)
 	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
+		if err := engine.Close(); err != nil {
 			t.Fatalf("Close: %v", err)
 		}
 	})
 
-	offers := &postingOffers{vault: v, observed: &recordedObservations{}, clock: clockStart}
-	offers.schedule, err = postingofferschedule.Open(
+	harness := &scheduleHarness{engine: engine, observed: &recordedObservations{
+		scheduled: map[string]int{},
+		lateness:  map[string]time.Duration{},
+	}, clock: clockStart}
+	harness.reopenWith(t, yacymodel.DHTRingPartitions(1))
+
+	return harness
+}
+
+func (h *scheduleHarness) reopenWith(t *testing.T, partitions yacymodel.DHTRingPartitions) {
+	t.Helper()
+
+	v, err := vault.New(h.engine, nil)
+	if err != nil {
+		t.Fatalf("New: %v", err)
+	}
+	schedule, err := postingofferschedule.Open(
 		v,
-		func() time.Time { return offers.clock },
-		offers.observed,
+		partitions,
+		func() time.Time { return h.clock },
+		h.observed,
 	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-
-	return offers
+	h.vault, h.schedule = v, schedule
 }
 
-func (o *postingOffers) store(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
+func wordIn(sector yacymodel.DHTRingSector) yacymodel.Hash {
+	return wordsIn(sector, 1)[0]
+}
+
+func wordsIn(sector yacymodel.DHTRingSector, count int) []yacymodel.Hash {
+	var words []yacymodel.Hash
+	for attempt := 0; len(words) < count; attempt++ {
+		word := yacymodel.WordHash(fmt.Sprintf("word-%d", attempt))
+		if yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(word)) == sector {
+			words = append(words, word)
+		}
+	}
+
+	return words
+}
+
+func (h *scheduleHarness) store(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
 	t.Helper()
 
-	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
 	}
 }
 
-func (o *postingOffers) purge(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
+func (h *scheduleHarness) purge(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
 	t.Helper()
 
-	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.schedule.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	}); err != nil {
 		t.Fatalf("PostingPurged: %v", err)
 	}
 }
 
-func (o *postingOffers) pauseOffer(
+func (h *scheduleHarness) pauseOffer(
 	t *testing.T,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -105,8 +140,8 @@ func (o *postingOffers) pauseOffer(
 ) {
 	t.Helper()
 
-	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.SetNextOfferAfterRedundancyMissed(
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.schedule.SetNextOfferAfterRedundancyMissed(
 			tx,
 			postingidentity.Identity{Word: word, URL: url},
 			testInterval,
@@ -117,11 +152,11 @@ func (o *postingOffers) pauseOffer(
 	}
 }
 
-func (o *postingOffers) meetRedundancy(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
+func (h *scheduleHarness) meetRedundancy(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
 	t.Helper()
 
-	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.SetNextOfferAfterRedundancyMet(
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.schedule.SetNextOfferAfterRedundancyMet(
 			tx,
 			postingidentity.Identity{Word: word, URL: url},
 			testInterval,
@@ -131,7 +166,7 @@ func (o *postingOffers) meetRedundancy(t *testing.T, word yacymodel.Hash, url ya
 	}
 }
 
-func (o *postingOffers) isScheduled(
+func (h *scheduleHarness) isScheduled(
 	t *testing.T,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -139,9 +174,9 @@ func (o *postingOffers) isScheduled(
 	t.Helper()
 
 	var postingScheduled bool
-	if err := o.vault.View(context.Background(), func(tx *vault.Txn) error {
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		postingScheduled, err = o.schedule.IsScheduled(
+		postingScheduled, err = h.schedule.IsScheduled(
 			tx,
 			postingidentity.Identity{Word: word, URL: url},
 		)
@@ -154,23 +189,23 @@ func (o *postingOffers) isScheduled(
 	return postingScheduled
 }
 
-func (o *postingOffers) observeBacklog(t *testing.T) {
+func (h *scheduleHarness) observeBacklog(t *testing.T) {
 	t.Helper()
 
-	if err := o.vault.View(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.ObserveBacklog(tx)
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		return h.schedule.ObserveBacklog(tx)
 	}); err != nil {
 		t.Fatalf("ObserveBacklog: %v", err)
 	}
 }
 
-func (o *postingOffers) duePostings(t *testing.T, limit int) []postingidentity.Identity {
+func (h *scheduleHarness) duePostings(t *testing.T, limit int) []postingidentity.Identity {
 	t.Helper()
 
 	var due []postingidentity.Identity
-	if err := o.vault.View(context.Background(), func(tx *vault.Txn) error {
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		due, err = o.schedule.DuePostings(tx, limit)
+		due, err = h.schedule.DuePostings(tx, limit)
 
 		return err
 	}); err != nil {
@@ -178,12 +213,4 @@ func (o *postingOffers) duePostings(t *testing.T, limit int) []postingidentity.I
 	}
 
 	return due
-}
-
-func (o *postingOffers) duePostingsAt(t *testing.T, at time.Time) int {
-	t.Helper()
-
-	o.clock = at
-
-	return len(o.duePostings(t, 10))
 }

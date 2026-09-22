@@ -3,6 +3,7 @@ package rwiadmission_test
 import (
 	"context"
 	"net/url"
+	"strconv"
 	"testing"
 	"time"
 
@@ -16,7 +17,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-const busyPause = 5 * time.Second
+const (
+	busyPause  = 5 * time.Second
+	postingCap = 3
+)
 
 type discardedHolds struct{}
 
@@ -80,7 +84,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 			urlDirectory,
 			admitter,
 			escrow,
-			rwiadmission.Config{Pause: busyPause, Refusals: refusals},
+			rwiadmission.Config{PostingCap: postingCap, Pause: busyPause, Observer: refusals},
 		),
 		refusals: refusals,
 	}
@@ -269,7 +273,7 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
 	if got := h.refusals.postings[rwiadmission.RefusalStorageFull]; got != 1 {
-		t.Fatalf("postings refused for a full storage = %d, want the whole request of 1", got)
+		t.Fatalf("postings refused for a full storage = %d, want all 1 received", got)
 	}
 }
 
@@ -292,11 +296,34 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
 	if got := h.heldCount(t); got != 1 {
-		t.Fatalf("held count = %d, want the refused request to leave no posting behind", got)
+		t.Fatalf("held count = %d, want the refused postings to leave nothing behind", got)
 	}
 	if got := h.refusals.postings[rwiadmission.RefusalEscrowFull]; got != len(refused) {
-		t.Fatalf("postings refused for a full escrow = %d, want the whole request of %d",
+		t.Fatalf("postings refused for a full escrow = %d, want all %d received",
 			got, len(refused))
+	}
+}
+
+func TestReceiveBusyWithMorePostingsThanTheCap(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.storeMetadata(t, "u1")
+	oversized := make([]yacymodel.RWIPosting, 0, postingCap+1)
+	for seed := 0; seed <= postingCap; seed++ {
+		oversized = append(oversized, posting("w"+strconv.Itoa(seed), "u1"))
+	}
+
+	receipt, err := h.receiver.Receive(context.Background(), oversized)
+	if err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+	if !receipt.Busy || receipt.Pause != busyPause {
+		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
+	}
+	if h.indexed(t, oversized[0]) {
+		t.Fatal("a posting of an oversized batch reached the index")
+	}
+	if got := h.refusals.postings[rwiadmission.RefusalTooManyPostings]; got != len(oversized) {
+		t.Fatalf("postings refused as too many = %d, want %d", got, len(oversized))
 	}
 }
 

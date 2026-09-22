@@ -1,7 +1,8 @@
 # RWI distribution
 
 This package offers this node's stored RWI postings to the peers the DHT makes
-responsible for them. It deletes a posting when enough closer peers hold it.
+responsible for them. With handoff enabled, it deletes a posting when enough
+closer peers hold it.
 
 ## Behavior
 
@@ -22,6 +23,13 @@ reached its redundancy is next due after the longest offer interval, and its
 holders get it again. A posting that fell short is next due after a shorter
 interval, which starts at the shortest, doubles on each further shortfall up to
 the longest, and returns to the shortest when redundancy is met.
+
+A cycle first offers the postings that need more holders. Postings that have
+enough holders get only the time that is left.
+
+The ring is divided into equal sectors. A batch starts in the sector that holds
+the posting that is most late. It then takes the postings from the next sectors
+of the ring. Thus each batch goes to a small number of peers.
 
 A peer that declines an offer gets no new replicas, and the postings it holds are
 still offered to it. When it asks for a pause, the posting waits that pause if
@@ -46,4 +54,4 @@ transfer. This node deletes a posting only after enough closer peers hold it.
 YaCy keeps no record of which peer holds which posting. This node keeps the
 record and offers the posting again when a replica is lost. YaCy takes work from
 a random range of the word hash space. This node takes work from a due-time
-schedule.
+schedule, one sector of the ring after the next.

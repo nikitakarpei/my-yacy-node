@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -23,6 +24,16 @@ func (stubRuntimeStatus) Uptime(context.Context) int { return 0 }
 func muxWith(t *testing.T, receiver urlmeta.URLReceiver) *http.ServeMux {
 	t.Helper()
 
+	return muxAs(t, localIdentity(), receiver)
+}
+
+func muxAs(
+	t *testing.T,
+	identity nodeidentity.Identity,
+	receiver urlmeta.URLReceiver,
+) *http.ServeMux {
+	t.Helper()
+
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
@@ -32,7 +43,7 @@ func muxWith(t *testing.T, receiver urlmeta.URLReceiver) *http.ServeMux {
 		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
 		Address: httpguard.NewClientAddressResolver(nil),
 	})
-	urlmeta.MountTransferURL(router, localIdentity(), receiver)
+	urlmeta.MountTransferURL(router, identity, receiver)
 
 	return mux
 }
@@ -105,5 +116,26 @@ func TestTransferURLRejectsWrongNetwork(t *testing.T) {
 
 	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultWrongTarget) {
 		t.Fatalf("Result = %q, want wrong target", resp.Result)
+	}
+}
+
+func TestTransferURLRefusesWhenRemoteIndexIsNotAccepted(t *testing.T) {
+	v, module := openModule(t, 0)
+	identity := localIdentity()
+	identity.Capabilities.AcceptRemoteIndex = false
+	mux := muxAs(t, identity, module.Receiver)
+
+	resp := transferURL(t, mux, yacyproto.TransferURLRequest{
+		NetworkName: "freeworld",
+		YouAre:      identity.Hash,
+		URLCount:    1,
+		URLs:        []yacymodel.URLMetadata{urlMetadata(t, "a")},
+	})
+
+	if resp.Result != yacyproto.ResultErrorNotGranted {
+		t.Fatalf("Result = %q, want error not granted", resp.Result)
+	}
+	if count := storedURLCount(t, v, module.Directory); count != 0 {
+		t.Fatalf("Count = %d, want no url stored", count)
 	}
 }

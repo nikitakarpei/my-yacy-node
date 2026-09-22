@@ -101,8 +101,17 @@ func DHTRingPositionOfPosting(
 	posting RWIPosting,
 	partitions DHTRingPartitions,
 ) DHTRingPosition {
-	wordPosition := DHTRingPositionOf(posting.WordHash)
-	urlPosition := DHTRingPositionOf(posting.URLHash.hash)
+	return DHTRingPositionOfWordAndURL(posting.WordHash, posting.URLHash, partitions)
+}
+
+// DHTRingPositionOfWordAndURL puts the posting of a word on a url on the ring.
+func DHTRingPositionOfWordAndURL(
+	word Hash,
+	url URLHash,
+	partitions DHTRingPartitions,
+) DHTRingPosition {
+	wordPosition := DHTRingPositionOf(word)
+	urlPosition := DHTRingPositionOf(url.hash)
 	mask := DHTRingPosition(uint64(1)<<partitions.shiftLength() - 1)
 
 	return wordPosition&mask | urlPosition&^mask

@@ -36,7 +36,7 @@ func openPostingRecords(t *testing.T) postingRecordsHarness {
 	})
 
 	schedule, replicas, records, err := rwidistribution.Open(
-		v, frozenNow, discardedScheduleObservations{},
+		v, yacymodel.DHTRingPartitions(1), frozenNow, discardedScheduleObservations{},
 	)
 	if err != nil {
 		t.Fatalf("rwidistribution.Open: %v", err)
@@ -107,9 +107,9 @@ func urlHash(raw string) yacymodel.URLHash {
 
 type discardedScheduleObservations struct{}
 
-func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
+func (discardedScheduleObservations) ObserveScheduledPostings(string, int) {}
 
-func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
+func (discardedScheduleObservations) ObserveLongestOfferLateness(string, time.Duration) {}
 
 func TestPostingStoredSchedulesPosting(t *testing.T) {
 	harness := openPostingRecords(t)

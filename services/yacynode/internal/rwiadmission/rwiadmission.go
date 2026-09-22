@@ -15,7 +15,7 @@ import (
 )
 
 type PostingReceiver interface {
-	Receive(ctx context.Context, entries []yacymodel.RWIPosting) (Receipt, error)
+	Receive(ctx context.Context, postings []yacymodel.RWIPosting) (Receipt, error)
 }
 
 type PostingHolder interface {
@@ -25,7 +25,7 @@ type PostingHolder interface {
 type RefusalReason string
 
 const (
-	RefusalRequestTooLarge RefusalReason = "request_too_large"
+	RefusalTooManyPostings RefusalReason = "too_many_postings"
 	RefusalStorageFull     RefusalReason = "storage_full"
 	RefusalEscrowFull      RefusalReason = "escrow_full"
 )
@@ -41,8 +41,9 @@ type Receipt struct {
 }
 
 type Config struct {
-	Pause    time.Duration
-	Refusals RefusalObserver
+	PostingCap int
+	Pause      time.Duration
+	Observer   RefusalObserver
 }
 
 func Open(
@@ -57,7 +58,9 @@ func Open(
 		urls:     urls,
 		admitter: admitter,
 		escrow:   escrow,
-		observer: config.Refusals,
-		pause:    config.Pause,
+		observer: config.Observer,
+
+		postingCap: config.PostingCap,
+		pause:      config.Pause,
 	}
 }

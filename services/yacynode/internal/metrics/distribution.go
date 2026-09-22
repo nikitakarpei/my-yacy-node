@@ -9,6 +9,7 @@ import (
 const (
 	labelOutcome = "result"
 	labelReason  = "reason"
+	labelOrder   = "order"
 )
 
 type DistributionMetrics struct {
@@ -18,8 +19,8 @@ type DistributionMetrics struct {
 	urlsDelivered         *prometheus.CounterVec
 	urlsUnknownToUs       prometheus.Counter
 	postingsGone          prometheus.Counter
-	scheduledPostings     prometheus.Gauge
-	longestOfferLateness  prometheus.Gauge
+	scheduledPostings     *prometheus.GaugeVec
+	longestOfferLateness  *prometheus.GaugeVec
 	staleReplicasDropped  prometheus.Counter
 	postingsHandedOff     prometheus.Counter
 	cyclesSkipped         *prometheus.CounterVec
@@ -64,13 +65,15 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_postings_gone_total",
 			"Due postings missing from the index when the cycle read them.",
 		),
-		scheduledPostings: gaugeFor(
+		scheduledPostings: gaugePerLabelFor(
 			"yacynode_rwidistribution_scheduled_postings",
-			"Postings holding a due entry on the offer schedule.",
+			"Postings holding a due entry on the offer schedule, by offer order.",
+			labelOrder,
 		),
-		longestOfferLateness: gaugeFor(
+		longestOfferLateness: gaugePerLabelFor(
 			"yacynode_rwidistribution_longest_offer_lateness_seconds",
-			"Time the most overdue posting offer is past its scheduled time.",
+			"Time the most overdue posting offer is past its scheduled time, by offer order.",
+			labelOrder,
 		),
 		staleReplicasDropped: counterFor(
 			"yacynode_rwidistribution_stale_replicas_dropped_total",
@@ -123,8 +126,8 @@ func counterFor(name string, help string) prometheus.Counter {
 	return prometheus.NewCounter(prometheus.CounterOpts{Name: name, Help: help})
 }
 
-func gaugeFor(name string, help string) prometheus.Gauge {
-	return prometheus.NewGauge(prometheus.GaugeOpts{Name: name, Help: help})
+func gaugePerLabelFor(name string, help string, label string) *prometheus.GaugeVec {
+	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, []string{label})
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
@@ -145,12 +148,12 @@ func (d *DistributionMetrics) ObservePostingsGone(gone int) {
 	d.postingsGone.Add(float64(gone))
 }
 
-func (d *DistributionMetrics) ObserveScheduledPostings(postings int) {
-	d.scheduledPostings.Set(float64(postings))
+func (d *DistributionMetrics) ObserveScheduledPostings(order string, postings int) {
+	d.scheduledPostings.WithLabelValues(order).Set(float64(postings))
 }
 
-func (d *DistributionMetrics) ObserveLongestOfferLateness(lateness time.Duration) {
-	d.longestOfferLateness.Set(lateness.Seconds())
+func (d *DistributionMetrics) ObserveLongestOfferLateness(order string, lateness time.Duration) {
+	d.longestOfferLateness.WithLabelValues(order).Set(lateness.Seconds())
 }
 
 func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {

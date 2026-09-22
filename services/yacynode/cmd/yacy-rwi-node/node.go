@@ -68,8 +68,8 @@ const advertisedYaCyRelease = 1.83
 const egressRequestTimeout = 30 * time.Second
 
 const (
-	peerPostingTransferCapacity = 1000
-	postingAdmissionBusyPause   = 30 * time.Second
+	peerPostingTransferCap    = 1000
+	postingAdmissionBusyPause = 30 * time.Second
 )
 
 const (
@@ -106,14 +106,14 @@ func assembleNode(
 	}
 
 	identity := nodeidentity.Identity{
-		Hash:        settledPeerHash,
-		NetworkName: config.Identity.NetworkName,
-		Name:        config.Identity.Name.OrElse(derivedPeerName),
-		Host:        config.Identity.AdvertiseHost,
-		Port:        config.Identity.AdvertisePort,
-		Flags:       config.Identity.Flags,
-		Version:     yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
-		Start:       now(),
+		Hash:         settledPeerHash,
+		NetworkName:  config.Identity.NetworkName,
+		Name:         config.Identity.Name.OrElse(derivedPeerName),
+		Host:         config.Identity.AdvertiseHost,
+		Port:         config.Identity.AdvertisePort,
+		Capabilities: config.Identity.Capabilities,
+		Version:      yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
+		Start:        now(),
 	}
 
 	slog.InfoContext(ctx, "node identity",
@@ -171,6 +171,7 @@ func assembleNode(
 
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
 		vault,
+		dhtRingPartitions,
 		now,
 		distributionObserver,
 	)
@@ -227,8 +228,9 @@ func assembleNode(
 		postingAdmitter,
 		postingEscrow,
 		rwiadmission.Config{
-			Pause:    postingAdmissionBusyPause,
-			Refusals: admissionRefusals,
+			PostingCap: peerPostingTransferCap,
+			Pause:      postingAdmissionBusyPause,
+			Observer:   admissionRefusals,
 		},
 	)
 
@@ -261,11 +263,7 @@ func assembleNode(
 		urlDirectory,
 		servedURLMetadataPerRequest,
 	)
-	rwiingress.Mount(router, identity, postingReceiver, rwiingress.Config{
-		PostingCap: peerPostingTransferCapacity,
-		Pause:      postingAdmissionBusyPause,
-		Refusals:   admissionRefusals,
-	})
+	rwiingress.Mount(router, identity, postingReceiver)
 	nodestatus.MountQuery(router, identity, vault, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
 		vault,
@@ -324,6 +322,19 @@ func assembleNode(
 	var distributionCycle *distributioncycle.Cycle
 
 	if config.Distribution.Enabled {
+		var handoff distributioncycle.PostingHandoff = postinghandoff.KeepEveryPosting{}
+		if config.Distribution.HandoffEnabled {
+			handoff = postinghandoff.New(
+				postingReplicas,
+				postingPurger,
+				peerRoster,
+				postinghandoff.Config{
+					Partitions: dhtRingPartitions,
+					Self:       identity.Hash,
+					Redundancy: config.Distribution.Redundancy,
+				},
+			)
+		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
 		replicaEligibility := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
@@ -342,14 +353,7 @@ func assembleNode(
 				identity.Hash,
 				config.Distribution.Redundancy,
 			),
-			postinghandoff.New(
-				postingReplicas,
-				postingPurger,
-				peerRoster,
-				dhtRingPartitions,
-				identity.Hash,
-				config.Distribution.Redundancy,
-			),
+			handoff,
 			postingtransfer.New(
 				vault,
 				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),

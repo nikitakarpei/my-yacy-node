@@ -51,17 +51,22 @@ func openPostingOffers(t *testing.T, options postingOfferOptions) postingOfferHa
 		}
 	})
 
-	schedule, err := postingofferschedule.Open(v, frozenNow, discardedScheduleObservations{})
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+	schedule, err := postingofferschedule.Open(
+		v,
+		partitions,
+		frozenNow,
+		discardedScheduleObservations{},
+	)
 	if err != nil {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}
 	replicas, err := postingreplicas.Open(v, schedule)
 	if err != nil {
 		t.Fatalf("postingreplicas.Open: %v", err)
-	}
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
-	if err != nil {
-		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
 	eligibility := replicaeligibility.New(recipientCooldown, frozenNow)
 
@@ -320,9 +325,9 @@ func (r *recordedRingSectorObservations) ObservePeersAcceptingRemoteIndexPerDHTR
 
 type discardedScheduleObservations struct{}
 
-func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
+func (discardedScheduleObservations) ObserveScheduledPostings(string, int) {}
 
-func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
+func (discardedScheduleObservations) ObserveLongestOfferLateness(string, time.Duration) {}
 
 func TestDueReportsMissingReplicaForDuePosting(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()

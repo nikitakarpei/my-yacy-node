@@ -24,6 +24,7 @@ Every peer publishes a seed that says who it is and where to reach it.
 | `YACY_NETWORK_NAME` | `freeworld` | YaCy network to join. Only peers on the same network exchange data. |
 | `YACY_ADVERTISE_HOST` | _(empty)_ | Public IP or DNS name other peers use to reach you. Required when `YACY_SEEDLIST_URLS` is set. |
 | `YACY_ADVERTISE_PORT` | _(the `YACY_PEER_ADDR` port)_ | Port other peers use to reach you. |
+| `YACY_ACCEPT_REMOTE_INDEX` | `true` | Accept the postings that other peers transfer to you. Set it to `false` when `SCRAPE_PAGE_OFFER_NATS_URL` is set: the node does not start with both sources of postings or with no source. |
 
 ## Peer exchange
 
@@ -65,7 +66,8 @@ The node can offer its stored postings to the peers the DHT makes responsible fo
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `YACY_DISTRIBUTION_ENABLED` | `false` | Turns on outbound posting distribution. The node then also deletes a posting that enough closer peers hold. |
+| `YACY_DISTRIBUTION_ENABLED` | `false` | Turns on outbound posting distribution. |
+| `YACY_DISTRIBUTION_HANDOFF_ENABLED` | `true` | While distribution is on, delete a posting that enough closer peers hold. Set it to `false` to keep every posting. |
 | `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must hold a posting before it counts as distributed. This node is one of them when the DHT makes it responsible. |
 | `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
 | `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | How many due postings to offer in one batch. A cycle offers batch after batch until no posting is due. |
