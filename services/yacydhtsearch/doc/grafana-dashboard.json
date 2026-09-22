@@ -1143,7 +1143,7 @@
     },
     {
       "id": 68,
-      "title": "How the peers stood on the named documents of a cross-check, by standing",
+      "title": "How the peers stood on the cross-check question, by standing",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1176,7 +1176,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (standing) (clamp_min(yacydhtsearch_peer_standings_total{form=\"named documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_standings_total{form=\"named documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (standing) (clamp_min(yacydhtsearch_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{standing}}"
         }
       ]
@@ -1216,7 +1216,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (judged) (clamp_min(yacydhtsearch_peer_judgements_total{form=\"named documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_judgements_total{form=\"named documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (judged) (clamp_min(yacydhtsearch_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{judged}}"
         }
       ]

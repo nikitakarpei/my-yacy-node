@@ -28,7 +28,7 @@ const (
 	yacyPeerHoldingNothingAlias = "yacy-judgement-empty-e2e"
 	judgementSearchAlias        = "yacydhtsearch-judgement"
 
-	namedDocumentsForm = "named documents"
+	judgementQuestion = "lists only the cross-checked documents"
 
 	judgementFirstWordToken  = "yacydhtsearchjudgementfirstword"
 	judgementSecondWordToken = "yacydhtsearchjudgementsecondword"
@@ -396,9 +396,9 @@ func waitForMetricLine(
 
 func judgementsLine(judged string, counted int) string {
 	return fmt.Sprintf(
-		`yacydhtsearch_peer_judgements_total{form=%q,judged=%q} %d`,
-		namedDocumentsForm,
+		`yacydhtsearch_peer_judgements_total{judged=%q,question=%q} %d`,
 		judged,
+		judgementQuestion,
 		counted,
 	)
 }
@@ -438,8 +438,8 @@ func amountOfNamedDocumentsIn(links, named []string) int {
 
 func standingsLine(standing string, counted int) string {
 	return fmt.Sprintf(
-		`yacydhtsearch_peer_standings_total{form=%q,standing=%q} %d`,
-		namedDocumentsForm,
+		`yacydhtsearch_peer_standings_total{question=%q,standing=%q} %d`,
+		judgementQuestion,
 		standing,
 		counted,
 	)

@@ -8,10 +8,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func judgedPeersOfTheCrossCheck(round crossCheckedDocumentsRound) []peerjudgements.JudgedPeer {
-	judgedPeers := make([]peerjudgements.JudgedPeer, 0, len(round.asks))
-	for _, ask := range round.asks {
-		judgedPeers = append(judgedPeers, judgedPeerOf(ask, round.answeredAsks))
+const ListsOnlyTheCrossCheckedDocuments peerjudgements.Question = "lists only the cross-checked documents"
+
+func judgedPeersOfTheCrossCheck(
+	asks []peerasks.CrossCheckedDocumentsAsk,
+	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk,
+) []peerjudgements.JudgedPeer {
+	judgedPeers := make([]peerjudgements.JudgedPeer, 0, len(asks))
+	for _, ask := range asks {
+		judgedPeers = append(judgedPeers, judgedPeerOf(ask, answeredAsks))
 	}
 
 	return judgedPeers
@@ -59,13 +64,13 @@ func answerToTheAskAmong(
 
 func judgementOfTheDocumentsHeld(
 	documentsHeld []yacymodel.URLHash,
-	namedDocuments []yacymodel.URLHash,
+	crossCheckedDocuments []yacymodel.URLHash,
 ) peerjudgements.Judgement {
 	if len(documentsHeld) == 0 {
 		return peerjudgements.NoEvidence
 	}
 	for _, document := range documentsHeld {
-		if !slices.Contains(namedDocuments, document) {
+		if !slices.Contains(crossCheckedDocuments, document) {
 			return peerjudgements.Ignored
 		}
 	}

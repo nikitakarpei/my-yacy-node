@@ -1,56 +1,34 @@
 # Peer judgements
 
-The service learns, for each peer and for each form of an ask, if the peer
-honors that form. A peer tells nothing about itself. Its answer is the
-evidence.
+The service judges a peer by its answer to a cross-check. A cross-check names
+the documents the service wants a peer to confirm for one word. A peer that
+lists only those documents honors the cross-check. A peer that lists documents
+the cross-check did not name ignores it.
 
-The only form today is the named documents of a cross-check ask. The service
-asks a peer about a word and names the documents it wants. A peer that honors
-the form lists only the named documents. A peer that ignores the form lists
-every document it holds for the word. The service keeps the documents of both
-answers.
+The service does not ask a peer that ignores the cross-check to cross-check
+again until the software version the peer claims changes. When the answers of
+a peer claim no version, the service asks the peer again after the retrial
+interval. `YACYDHTSEARCH_PEER_RETRIAL_INTERVAL` in `configuration.md` sets
+that interval.
 
-An answer can carry the software version of the peer. The service records that
-version with the judgement. A judgement holds until the peer claims a different
-version. The service asks only the peers that honor the form and the peers it
-must judge again.
-
-## The standing of one peer in one form
-
-| Recorded judgement | Version the peer claims now | Standing |
-|---|---|---|
-| None | any | never judged: the service asks the peer |
-| Judged at version `v` | `v` | as judged: the service asks a peer that honors, and does not ask a peer that ignores |
-| Judged at version `v` | a different version | version changed: the service asks the peer |
-| Judged, and one of the two versions is empty, less than `YACYDHTSEARCH_PEER_RETRIAL_INTERVAL` ago | | as judged |
-| Judged, and one of the two versions is empty, `YACYDHTSEARCH_PEER_RETRIAL_INTERVAL` ago or more | | interval passed: the service asks the peer |
-
-A peer that gave no answer to the first ask of the query claims no version.
-
-## The judgement of one answer
-
-| The answer | Judgement |
-|---|---|
-| Lists a document that the ask did not name | ignored |
-| Lists one or more documents, and the ask named all of them | honored |
-| Lists no document, or no answer came | no evidence: the recorded judgement stays |
-
-## Configuration
-
-`YACYDHTSEARCH_PEER_RETRIAL_INTERVAL` has the default `24h`. It is the time
-after which the service asks a peer again in a form it judged the peer on, when
-the answers of the peer claim no software version. When the answers of a peer
-claim a version, the service judges the peer again only after that version
-changes. `configuration.md` gives this variable with the other variables.
+The service holds the judgements in memory. An instance that starts again
+holds no judgement and judges each peer again.
 
 ## Metrics
 
-| Metric | Labels | Answers |
-|---|---|---|
-| `yacydhtsearch_peer_standings_total` | `form`; `standing`: honoring, ignoring, never judged, version changed, interval passed | how many asks the recorded judgements decide, how many asks learn, and if the versions or the interval cause the new asks |
-| `yacydhtsearch_peer_judgements_total` | `form`; `judged`: honored, ignored, no evidence | how much of the network honors each form |
+Both counters carry the label `question`, with the value
+`lists only the cross-checked documents`.
 
-## Lifetime
+| Metric | Label | Value | Meaning |
+|---|---|---|---|
+| `yacydhtsearch_peer_standings_total` | `standing` | `honoring` | the recorded judgement lets the service ask the peer |
+| | | `ignoring` | the recorded judgement stops the service from asking the peer |
+| | | `never judged` | no judgement is recorded, the service asks the peer to judge it |
+| | | `version changed` | the peer claims a version other than the judged one, the service asks the peer again |
+| | | `interval passed` | the retrial interval passed for a peer that claims no version, the service asks the peer again |
+| `yacydhtsearch_peer_judgements_total` | `judged` | `honored` | the answer listed only named documents |
+| | | `ignored` | the answer listed a document the cross-check did not name |
+| | | `no evidence` | the answer listed no document, the recorded judgement stays |
 
-The service holds the judgements in memory. An instance that starts again holds
-no judgement, and judges each peer again.
+A standing is counted each time the service decides if it asks a peer. A
+judgement is counted for each cross-check the service put to a peer.

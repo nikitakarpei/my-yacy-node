@@ -1,7 +1,6 @@
 package peerjudgements_test
 
 import (
-	"context"
 	"testing"
 	"time"
 
@@ -15,6 +14,8 @@ const (
 	ledgerCapacity        = 16
 	versionOfThePeer      = "yacy_v1.925"
 	versionAfterAnUpgrade = "yacy_v1.930"
+
+	question peerjudgements.Question = "a question about the peer"
 )
 
 type clock struct {
@@ -33,42 +34,13 @@ func clockAtTheStartOfTheJudging() *clock {
 	return &clock{reading: time.Date(2026, time.September, 22, 12, 0, 0, 0, time.UTC)}
 }
 
-type recordedReports struct {
-	standings   []peerjudgements.PeerStanding
-	judgedPeers []peerjudgements.JudgedPeer
-}
-
-func (r *recordedReports) PeerStood(
-	_ context.Context,
-	_ peerjudgements.Form,
-	standing peerjudgements.PeerStanding,
-) {
-	r.standings = append(r.standings, standing)
-}
-
-func (r *recordedReports) PeerJudged(
-	_ context.Context,
-	_ peerjudgements.Form,
-	judgedPeer peerjudgements.JudgedPeer,
-) {
-	r.judgedPeers = append(r.judgedPeers, judgedPeer)
-}
-
-func newJudgements(
-	now *clock,
-	observer peerjudgements.JudgementsObserver,
-) peerjudgements.Judgements {
+func newJudgements(now *clock) peerjudgements.Judgements {
 	return peerjudgements.New(
-		peerjudgements.NamedDocuments,
+		question,
 		memory.New(ledgerCapacity),
 		retrialInterval,
 		now.Now,
-		observer,
 	)
-}
-
-func noReports() peerjudgements.JudgementsObservers {
-	return peerjudgements.JudgementsObservers{}
 }
 
 func peerAtVersion(version string) peerjudgements.PeerAtVersion {
@@ -100,7 +72,7 @@ func standingOf(
 func TestAPeerThatWasNeverJudgedStandsAsNeverJudged(t *testing.T) {
 	t.Parallel()
 
-	judgements := newJudgements(clockAtTheStartOfTheJudging(), noReports())
+	judgements := newJudgements(clockAtTheStartOfTheJudging())
 
 	standing := standingOf(t, judgements, peerAtVersion(versionOfThePeer))
 
@@ -112,7 +84,7 @@ func TestAPeerThatWasNeverJudgedStandsAsNeverJudged(t *testing.T) {
 func TestAPeerJudgedHonoredAtTheVersionItStillClaimsStandsAsHonoring(t *testing.T) {
 	t.Parallel()
 
-	judgements := newJudgements(clockAtTheStartOfTheJudging(), noReports())
+	judgements := newJudgements(clockAtTheStartOfTheJudging())
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.Honored),
 	})
@@ -127,7 +99,7 @@ func TestAPeerJudgedHonoredAtTheVersionItStillClaimsStandsAsHonoring(t *testing.
 func TestAPeerJudgedIgnoredAtTheVersionItStillClaimsStandsAsIgnoring(t *testing.T) {
 	t.Parallel()
 
-	judgements := newJudgements(clockAtTheStartOfTheJudging(), noReports())
+	judgements := newJudgements(clockAtTheStartOfTheJudging())
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.Ignored),
 	})
@@ -142,7 +114,7 @@ func TestAPeerJudgedIgnoredAtTheVersionItStillClaimsStandsAsIgnoring(t *testing.
 func TestAPeerThatClaimsAnotherVersionStandsAsVersionChanged(t *testing.T) {
 	t.Parallel()
 
-	judgements := newJudgements(clockAtTheStartOfTheJudging(), noReports())
+	judgements := newJudgements(clockAtTheStartOfTheJudging())
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.Ignored),
 	})
@@ -158,7 +130,7 @@ func TestAPeerJudgedAtAVersionItKeepsStandsAsJudgedAfterTheRetrialInterval(t *te
 	t.Parallel()
 
 	now := clockAtTheStartOfTheJudging()
-	judgements := newJudgements(now, noReports())
+	judgements := newJudgements(now)
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.Ignored),
 	})
@@ -175,7 +147,7 @@ func TestAPeerThatClaimsNoVersionStandsAsJudgedWithinTheRetrialInterval(t *testi
 	t.Parallel()
 
 	now := clockAtTheStartOfTheJudging()
-	judgements := newJudgements(now, noReports())
+	judgements := newJudgements(now)
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.Honored),
 	})
@@ -192,7 +164,7 @@ func TestAPeerJudgedWithoutAVersionStandsAsJudgedWithinTheRetrialInterval(t *tes
 	t.Parallel()
 
 	now := clockAtTheStartOfTheJudging()
-	judgements := newJudgements(now, noReports())
+	judgements := newJudgements(now)
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer("", peerjudgements.Ignored),
 	})
@@ -209,7 +181,7 @@ func TestAPeerThatClaimsNoVersionStandsAsIntervalPassedAfterTheRetrialInterval(t
 	t.Parallel()
 
 	now := clockAtTheStartOfTheJudging()
-	judgements := newJudgements(now, noReports())
+	judgements := newJudgements(now)
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.Honored),
 	})
@@ -225,7 +197,7 @@ func TestAPeerThatClaimsNoVersionStandsAsIntervalPassedAfterTheRetrialInterval(t
 func TestAJudgementOfNoEvidenceLeavesTheJudgementAsItWas(t *testing.T) {
 	t.Parallel()
 
-	judgements := newJudgements(clockAtTheStartOfTheJudging(), noReports())
+	judgements := newJudgements(clockAtTheStartOfTheJudging())
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.Honored),
 	})
@@ -243,7 +215,7 @@ func TestAJudgementOfNoEvidenceLeavesTheJudgementAsItWas(t *testing.T) {
 func TestAJudgementOfNoEvidenceOnAPeerNeverJudgedLeavesItNeverJudged(t *testing.T) {
 	t.Parallel()
 
-	judgements := newJudgements(clockAtTheStartOfTheJudging(), noReports())
+	judgements := newJudgements(clockAtTheStartOfTheJudging())
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
 		judgedPeer(versionOfThePeer, peerjudgements.NoEvidence),
 	})
@@ -252,32 +224,5 @@ func TestAJudgementOfNoEvidenceOnAPeerNeverJudgedLeavesItNeverJudged(t *testing.
 
 	if standing != peerjudgements.NeverJudged {
 		t.Fatalf("standing = %q, want %q", standing, peerjudgements.NeverJudged)
-	}
-}
-
-func TestEveryStandingAndEveryJudgementIsReported(t *testing.T) {
-	t.Parallel()
-
-	reports := &recordedReports{}
-	judgements := newJudgements(
-		clockAtTheStartOfTheJudging(),
-		peerjudgements.JudgementsObservers{reports},
-	)
-
-	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
-		judgedPeer(versionOfThePeer, peerjudgements.Honored),
-		judgedPeer(versionOfThePeer, peerjudgements.NoEvidence),
-	})
-	judgements.StandingsOf(t.Context(), []peerjudgements.PeerAtVersion{
-		peerAtVersion(versionOfThePeer),
-	})
-
-	if len(reports.judgedPeers) != 2 || len(reports.standings) != 1 ||
-		reports.standings[0].Standing != peerjudgements.Honoring {
-		t.Fatalf(
-			"reported %d judgements and the standings %+v, want both judgements and one honoring",
-			len(reports.judgedPeers),
-			reports.standings,
-		)
 	}
 }

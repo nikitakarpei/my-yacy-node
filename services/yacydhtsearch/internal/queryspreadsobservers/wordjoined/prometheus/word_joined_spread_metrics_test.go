@@ -10,6 +10,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
 )
@@ -210,5 +211,70 @@ func TestASpreadWithNoDocumentToCrossCheckPublishesNoSharePastTheCrossCheckedDoc
 				"document to cross-check:\n%s",
 			body,
 		)
+	}
+}
+
+func spreadJudgingThePeers(
+	peerStandings []peerjudgements.PeerStanding,
+	judgedPeers []peerjudgements.JudgedPeer,
+) wordjoined.PerformedWordJoinedSpread {
+	spread := spreadOfQueryWords(2)
+	spread.CrossCheckedDocumentsRound.PeerStandings = peerStandings
+	spread.CrossCheckedDocumentsRound.JudgedPeers = judgedPeers
+
+	return spread
+}
+
+func TestTheStandingAndTheJudgementOfAPeerAreCountedUnderTheQuestion(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	metrics.WordJoinedSpreadPerformed(t.Context(), spreadJudgingThePeers(
+		[]peerjudgements.PeerStanding{
+			{Standing: peerjudgements.NeverJudged},
+			{Standing: peerjudgements.Ignoring},
+			{Standing: peerjudgements.NeverJudged},
+		},
+		[]peerjudgements.JudgedPeer{
+			{Judgement: peerjudgements.Honored},
+			{Judgement: peerjudgements.NoEvidence},
+		},
+	))
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 2`,
+		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 1`,
+		`yacydhtsearch_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 1`,
+		`yacydhtsearch_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 1`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
+
+func TestEveryStandingAndEveryJudgementIsPublishedBeforeTheFirstSpread(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="honoring"} 0`,
+		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 0`,
+		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 0`,
+		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="version changed"} 0`,
+		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="interval passed"} 0`,
+		`yacydhtsearch_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 0`,
+		`yacydhtsearch_peer_judgements_total{judged="ignored",question="lists only the cross-checked documents"} 0`,
+		`yacydhtsearch_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
 	}
 }

@@ -26,6 +26,7 @@ type WordJoinedSpreadMetrics struct {
 	joinsPerLeadingQueryWordStanding map[wordjoined.LeadingQueryWordStanding]leadingQueryWordStandingJoins
 	matchedAndHeldDocumentsRound     matchedAndHeldDocumentsRoundMetrics
 	crossCheckedDocumentsRound       crossCheckedDocumentsRoundMetrics
+	peerJudgements                   peerJudgementsMetrics
 	urlMetadataRound                 urlMetadataRoundMetrics
 	wordJoinedSpreadDurationSeconds  prometheusclient.Histogram
 }
@@ -55,6 +56,7 @@ func New(
 		joinsPerLeadingQueryWordStanding: joinsPerLeadingQueryWordStanding,
 		matchedAndHeldDocumentsRound:     matchedAndHeldDocumentsRoundMetricsRegisteredIn(registry),
 		crossCheckedDocumentsRound:       crossCheckedDocumentsRoundMetricsRegisteredIn(registry),
+		peerJudgements:                   peerJudgementsMetricsRegisteredIn(registry),
 		urlMetadataRound:                 urlMetadataRoundMetricsRegisteredIn(registry),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
@@ -110,6 +112,7 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	m.crossCheckedDocumentsRound.observeCrossCheckedDocumentsRound(
 		spread.CrossCheckedDocumentsRound,
 	)
+	m.peerJudgements.countStandingsAndJudgements(spread.CrossCheckedDocumentsRound)
 	m.urlMetadataRound.observeURLMetadataRound(
 		spread.URLMetadataRound,
 		spread.CrossCheckedDocumentsRound,

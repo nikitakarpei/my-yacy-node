@@ -6,10 +6,14 @@ import (
 	"log/slog"
 	"slices"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
-const msgWordJoinedSpreadPerformed = "word joined spread performed"
+const (
+	msgWordJoinedSpreadPerformed = "word joined spread performed"
+	msgPeerJudged                = "peer judged"
+)
 
 type WordJoinedSpreadLog struct{}
 
@@ -17,6 +21,11 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	ctx context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
+	logPerformedSpread(ctx, spread)
+	logJudgedPeers(ctx, spread.CrossCheckedDocumentsRound.JudgedPeers)
+}
+
+func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoinedSpread) {
 	slog.LogAttrs(
 		ctx,
 		slog.LevelDebug,
@@ -77,7 +86,27 @@ func attributesOfCrossCheckedDocumentsRound(
 			"amountOfJoinedDocumentsFoundOnlyByCrossChecking",
 			round.AmountOfJoinedDocumentsFoundOnlyByCrossChecking,
 		),
+		slog.Any("amountOfPeersPerStanding", amountOfPeersPerStandingOf(round.PeerStandings)),
+		slog.Any("amountOfPeersPerJudgement", amountOfPeersPerJudgementOf(round.JudgedPeers)),
 	}
+}
+
+func amountOfPeersPerStandingOf(peerStandings []peerjudgements.PeerStanding) map[string]int {
+	amountOfPeersPerStanding := map[string]int{}
+	for _, peerStanding := range peerStandings {
+		amountOfPeersPerStanding[string(peerStanding.Standing)]++
+	}
+
+	return amountOfPeersPerStanding
+}
+
+func amountOfPeersPerJudgementOf(judgedPeers []peerjudgements.JudgedPeer) map[string]int {
+	amountOfPeersPerJudgement := map[string]int{}
+	for _, judgedPeer := range judgedPeers {
+		amountOfPeersPerJudgement[string(judgedPeer.Judgement)]++
+	}
+
+	return amountOfPeersPerJudgement
 }
 
 func attributesOfURLMetadataRound(round wordjoined.PerformedURLMetadataRound) []slog.Attr {
@@ -91,5 +120,16 @@ func attributesOfURLMetadataRound(round wordjoined.PerformedURLMetadataRound) []
 			"amountOfLookedUpDocumentsWithMetadata",
 			round.AmountOfLookedUpDocumentsWithMetadata,
 		),
+	}
+}
+
+func logJudgedPeers(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer) {
+	for _, judgedPeer := range judgedPeers {
+		slog.LogAttrs(ctx, slog.LevelDebug, msgPeerJudged,
+			slog.String("peer", judgedPeer.Peer.String()),
+			slog.String("versionClaimed", judgedPeer.Version),
+			slog.String("judgement", string(judgedPeer.Judgement)),
+			slog.String("question", string(wordjoined.ListsOnlyTheCrossCheckedDocuments)),
+		)
 	}
 }

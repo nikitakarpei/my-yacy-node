@@ -41,8 +41,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
 	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
-	peerjudgementsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementsobservers/applog"
-	peerjudgementsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementsobservers/prometheus"
 	peerlivenessobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenessobservers/applog"
 	peerlivenessobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenessobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
@@ -248,7 +246,7 @@ func querySpreadFor(
 		wordjoined.New(
 			replicaAsks,
 			peers,
-			namedDocumentsJudgementsFor(cfg, registry),
+			crossCheckedDocumentsJudgementsFor(cfg),
 			cfg.URLMetadataAskDocumentsCeiling,
 			cfg.CrossCheckedDocumentsCeiling,
 			cfg.PeerItemsCeiling,
@@ -270,19 +268,12 @@ func querySpreadFor(
 	)
 }
 
-func namedDocumentsJudgementsFor(
-	cfg ServiceConfig,
-	registry *prometheus.Registry,
-) peerjudgements.Judgements {
+func crossCheckedDocumentsJudgementsFor(cfg ServiceConfig) peerjudgements.Judgements {
 	return peerjudgements.New(
-		peerjudgements.NamedDocuments,
+		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(cfg.DirectoryCapacity),
 		cfg.PeerRetrialInterval,
 		time.Now,
-		peerjudgements.JudgementsObservers{
-			peerjudgementsobserversapplog.JudgementsLog{},
-			peerjudgementsobserversprometheus.New(registry),
-		},
 	)
 }
 

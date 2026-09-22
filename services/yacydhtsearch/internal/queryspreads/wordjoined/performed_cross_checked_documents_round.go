@@ -2,6 +2,7 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
@@ -10,6 +11,8 @@ type PerformedCrossCheckedDocumentsRound struct {
 	AmountOfEmptyCrossCheckedDocumentsAnswers            int
 	AmountOfJoinedDocuments                              int
 	AmountOfJoinedDocumentsFoundOnlyByCrossChecking      int
+	PeerStandings                                        []peerjudgements.PeerStanding
+	JudgedPeers                                          []peerjudgements.JudgedPeer
 }
 
 func performedCrossCheckedDocumentsRoundFrom(
@@ -31,6 +34,8 @@ func performedCrossCheckedDocumentsRoundFrom(
 			matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord().
 				documentsOfEveryQueryWord(),
 		),
+		PeerStandings: round.peerStandings,
+		JudgedPeers:   round.judgedPeers,
 	}
 }
 

@@ -3,7 +3,7 @@ package peerjudgements
 import "time"
 
 type RecordedJudgement struct {
-	Form Form
+	Question Question
 	JudgedPeer
 	JudgedAt time.Time
 }

@@ -1,7 +1,7 @@
-// Package peerjudgements records, per peer and per form of an ask, whether the
-// peer honors the form, and turns a recorded judgement and the version the peer
-// claims now into the standing of the peer. One Judgements is built per form
-// over one shared ledger.
+// Package peerjudgements records, per peer and per question about the peer, the
+// judgement its answers gave, and turns a recorded judgement and the version
+// the peer claims now into the standing of the peer. One Judgements is built
+// per question over one shared ledger.
 package peerjudgements
 
 import (
@@ -9,40 +9,33 @@ import (
 	"time"
 )
 
-type Form string
-
-const NamedDocuments Form = "named documents"
+type Question string
 
 type Judgements struct {
-	form            Form
+	question        Question
 	ledger          JudgementLedger
 	retrialInterval time.Duration
 	now             func() time.Time
-	observer        JudgementsObserver
 }
 
 func New(
-	form Form,
+	question Question,
 	ledger JudgementLedger,
 	retrialInterval time.Duration,
 	now func() time.Time,
-	observer JudgementsObserver,
 ) Judgements {
 	return Judgements{
-		form:            form,
+		question:        question,
 		ledger:          ledger,
 		retrialInterval: retrialInterval,
 		now:             now,
-		observer:        observer,
 	}
 }
 
 func (j Judgements) StandingsOf(ctx context.Context, peers []PeerAtVersion) []PeerStanding {
 	standings := make([]PeerStanding, 0, len(peers))
 	for _, peer := range peers {
-		standing := j.standingOf(ctx, peer)
-		j.observer.PeerStood(ctx, j.form, standing)
-		standings = append(standings, standing)
+		standings = append(standings, j.standingOf(ctx, peer))
 	}
 
 	return standings
@@ -52,7 +45,7 @@ func (j Judgements) standingOf(ctx context.Context, peer PeerAtVersion) PeerStan
 	return PeerStanding{
 		PeerAtVersion: peer,
 		Standing: standingFrom(
-			j.ledger.JudgementOf(ctx, j.form, peer.Peer),
+			j.ledger.JudgementOf(ctx, peer.Peer, j.question),
 			peer.Version,
 			j.retrialInterval,
 			j.now(),
@@ -62,12 +55,11 @@ func (j Judgements) standingOf(ctx context.Context, peer PeerAtVersion) PeerStan
 
 func (j Judgements) Add(ctx context.Context, judgedPeers []JudgedPeer) {
 	for _, judgedPeer := range judgedPeers {
-		j.observer.PeerJudged(ctx, j.form, judgedPeer)
 		if judgedPeer.Judgement == NoEvidence {
 			continue
 		}
 		j.ledger.HoldJudgement(ctx, RecordedJudgement{
-			Form:       j.form,
+			Question:   j.question,
 			JudgedPeer: judgedPeer,
 			JudgedAt:   j.now(),
 		})

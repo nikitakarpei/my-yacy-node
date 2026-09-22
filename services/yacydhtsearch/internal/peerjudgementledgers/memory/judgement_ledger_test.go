@@ -9,9 +9,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+const question peerjudgements.Question = "a question about the peer"
+
 func honoredJudgementOf(peer string) peerjudgements.RecordedJudgement {
 	return peerjudgements.RecordedJudgement{
-		Form: peerjudgements.NamedDocuments,
+		Question: question,
 		JudgedPeer: peerjudgements.JudgedPeer{
 			PeerAtVersion: peerjudgements.PeerAtVersion{
 				Peer:    yacymodel.WordHash(peer),
@@ -23,7 +25,7 @@ func honoredJudgementOf(peer string) peerjudgements.RecordedJudgement {
 	}
 }
 
-func TestAHeldJudgementIsGivenBackForItsFormAndPeer(t *testing.T) {
+func TestAHeldJudgementIsGivenBackForItsPeerAndQuestion(t *testing.T) {
 	t.Parallel()
 
 	ledger := memory.New(2)
@@ -31,9 +33,7 @@ func TestAHeldJudgementIsGivenBackForItsFormAndPeer(t *testing.T) {
 
 	ledger.HoldJudgement(t.Context(), judgement)
 
-	heldJudgement, held := ledger.JudgementOf(
-		t.Context(), peerjudgements.NamedDocuments, judgement.Peer,
-	).Get()
+	heldJudgement, held := ledger.JudgementOf(t.Context(), judgement.Peer, question).Get()
 	if !held || heldJudgement != judgement {
 		t.Fatalf("JudgementOf = %+v, %v, want the judgement held", heldJudgement, held)
 	}
@@ -48,9 +48,7 @@ func TestTheJudgementOfAPeerBeyondTheCapacityIsDropped(t *testing.T) {
 	ledger.HoldJudgement(t.Context(), droppedJudgement)
 	ledger.HoldJudgement(t.Context(), honoredJudgementOf("two"))
 
-	held := ledger.JudgementOf(
-		t.Context(), peerjudgements.NamedDocuments, droppedJudgement.Peer,
-	).Present()
+	held := ledger.JudgementOf(t.Context(), droppedJudgement.Peer, question).Present()
 	if held {
 		t.Fatalf("JudgementOf gave back the judgement of %+v, want none", droppedJudgement.Peer)
 	}

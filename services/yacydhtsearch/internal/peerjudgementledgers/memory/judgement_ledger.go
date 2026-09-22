@@ -1,6 +1,6 @@
 // Package memory holds the judgements of the peers in this process, for as
-// many peers and forms as its capacity allows and for as long as the process
-// runs. An instance that restarts starts from no judgement at all.
+// many peers and questions as its capacity allows and for as long as the
+// process runs. An instance that restarts starts from no judgement at all.
 package memory
 
 import (
@@ -12,18 +12,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type formAndPeer struct {
-	form peerjudgements.Form
-	peer yacymodel.Hash
+type peerAndQuestion struct {
+	peer     yacymodel.Hash
+	question peerjudgements.Question
 }
 
 type JudgementLedger struct {
-	judgements *expirable.LRU[formAndPeer, peerjudgements.RecordedJudgement]
+	judgements *expirable.LRU[peerAndQuestion, peerjudgements.RecordedJudgement]
 }
 
 func New(capacity int) *JudgementLedger {
 	return &JudgementLedger{
-		judgements: expirable.NewLRU[formAndPeer, peerjudgements.RecordedJudgement](
+		judgements: expirable.NewLRU[peerAndQuestion, peerjudgements.RecordedJudgement](
 			capacity, nil, 0,
 		),
 	}
@@ -31,10 +31,10 @@ func New(capacity int) *JudgementLedger {
 
 func (l *JudgementLedger) JudgementOf(
 	_ context.Context,
-	form peerjudgements.Form,
 	peer yacymodel.Hash,
+	question peerjudgements.Question,
 ) yacymodel.Optional[peerjudgements.RecordedJudgement] {
-	judgement, held := l.judgements.Get(formAndPeer{form: form, peer: peer})
+	judgement, held := l.judgements.Get(peerAndQuestion{peer: peer, question: question})
 	if !held {
 		return yacymodel.None[peerjudgements.RecordedJudgement]()
 	}
@@ -46,5 +46,8 @@ func (l *JudgementLedger) HoldJudgement(
 	_ context.Context,
 	judgement peerjudgements.RecordedJudgement,
 ) {
-	l.judgements.Add(formAndPeer{form: judgement.Form, peer: judgement.Peer}, judgement)
+	l.judgements.Add(
+		peerAndQuestion{peer: judgement.Peer, question: judgement.Question},
+		judgement,
+	)
 }

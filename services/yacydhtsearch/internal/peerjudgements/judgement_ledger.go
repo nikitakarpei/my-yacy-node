@@ -9,8 +9,8 @@ import (
 type JudgementLedger interface {
 	JudgementOf(
 		ctx context.Context,
-		form Form,
 		peer yacymodel.Hash,
+		question Question,
 	) yacymodel.Optional[RecordedJudgement]
 	HoldJudgement(ctx context.Context, judgement RecordedJudgement)
 }

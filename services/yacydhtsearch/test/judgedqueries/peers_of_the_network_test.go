@@ -137,7 +137,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 			wordjoined.New(
 				calledPeers,
 				calledPeers,
-				namedDocumentsJudgements(),
+				crossCheckedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -154,13 +154,12 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 	}
 }
 
-func namedDocumentsJudgements() peerjudgements.Judgements {
+func crossCheckedDocumentsJudgements() peerjudgements.Judgements {
 	return peerjudgements.New(
-		peerjudgements.NamedDocuments,
+		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),
 		peerRetrialInterval,
 		time.Now,
-		peerjudgements.JudgementsObservers{},
 	)
 }
 
