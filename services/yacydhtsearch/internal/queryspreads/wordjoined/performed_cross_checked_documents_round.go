@@ -2,36 +2,66 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
-	AmountOfDocumentsSentForCrossChecking                int
-	AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
-	AmountOfEmptyCrossCheckedDocumentsAnswers            int
-	AmountOfJoinedDocuments                              int
-	AmountOfJoinedDocumentsFoundOnlyByCrossChecking      int
+	AmountOfDocumentsSentForCrossChecking           int
+	AmountOfCrossCheckCandidatesNoPeerTook          int
+	AmountOfEmptyCrossCheckedDocumentsAnswers       int
+	AmountOfJoinedDocuments                         int
+	AmountOfJoinedDocumentsFoundOnlyByCrossChecking int
+	PeerStandings                                   []peerjudgements.PeerStanding
+	JudgedPeers                                     []peerjudgements.JudgedPeer
 }
 
 func performedCrossCheckedDocumentsRoundFrom(
 	round crossCheckedDocumentsRound,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	peerStandings peerjudgements.PeerStandings,
+	judgedPeers []peerjudgements.JudgedPeer,
 	joinedDocuments distinctDocuments,
 ) PerformedCrossCheckedDocumentsRound {
 	return PerformedCrossCheckedDocumentsRound{
 		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
 			round.asks,
 		),
-		AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling: round.
-			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
+		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesAcross(
+			round.candidates,
+		) -
+			amountOfDocumentsSentForCrossCheckingAcross(
+				round.asks,
+			),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
 		),
 		AmountOfJoinedDocuments: len(joinedDocuments),
-		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: len(joinedDocuments) - len(
-			matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord().
-				documentsOfEveryQueryWord(),
+		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: amountOfJoinedDocumentsFoundOnlyByCrossChecking(
+			joinedDocuments,
+			matchedAndHeldDocumentsRound,
 		),
+		PeerStandings: peerStandings,
+		JudgedPeers:   judgedPeers,
 	}
+}
+
+func amountOfCrossCheckCandidatesAcross(candidates []crossCheckCandidatesOfQueryWord) int {
+	amount := 0
+	for _, candidatesOfQueryWord := range candidates {
+		amount += len(candidatesOfQueryWord.documents)
+	}
+
+	return amount
+}
+
+func amountOfJoinedDocumentsFoundOnlyByCrossChecking(
+	joinedDocuments distinctDocuments,
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+) int {
+	documentsOfEveryQueryWordListedByPeers := matchedAndHeldDocumentsRound.
+		documentsListedByPeersPerQueryWord().documentsOfEveryQueryWord()
+
+	return len(joinedDocuments) - len(documentsOfEveryQueryWordListedByPeers)
 }
 
 func amountOfDocumentsSentForCrossCheckingAcross(
@@ -50,7 +80,7 @@ func amountOfEmptyCrossCheckedDocumentsAnswers(
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.DocumentsHeldForTheWord) > 0 {
+		if len(answeredAsk.DocumentsListedForTheWord) > 0 {
 			continue
 		}
 		amount++

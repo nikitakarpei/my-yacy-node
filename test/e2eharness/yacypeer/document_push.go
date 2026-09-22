@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -60,16 +61,27 @@ func PushDocumentUnderAddress(
 ) string {
 	t.Helper()
 
+	PushDocumentsUnderAddresses(t, ctx, probe, yacyURL, []string{documentAddress}, tokens)
+
+	return documentAddress
+}
+
+// PushDocumentsUnderAddresses indexes one HTML document of the given tokens
+// under each address the caller names, in one push, so that a peer takes a
+// batch of documents in the time one document costs.
+func PushDocumentsUnderAddresses(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	yacyURL string,
+	documentAddresses []string,
+	tokens []string,
+) {
+	t.Helper()
+
 	body, contentType := buildMultipart(
-		map[string]string{
-			"count":         "1",
-			"url-0":         documentAddress,
-			"contentType-0": "text/html",
-			"collection-0":  "transfer",
-			"synchronous":   "true",
-			"commit":        "true",
-		},
-		map[string]string{"data-0": htmlPageOf(tokens)},
+		pushFieldsOf(documentAddresses),
+		pushFilesOf(documentAddresses, tokens),
 	)
 
 	result := probe.PostRaw(ctx, yacyURL+"/api/push_p.json", body,
@@ -80,8 +92,31 @@ func PushDocumentUnderAddress(
 	if !strings.Contains(result.Body, "successall") {
 		t.Fatalf("push_p.json did not report success: %s", result.Body)
 	}
+}
 
-	return documentAddress
+func pushFieldsOf(documentAddresses []string) map[string]string {
+	fields := map[string]string{
+		"count":       strconv.Itoa(len(documentAddresses)),
+		"synchronous": "true",
+		"commit":      "true",
+	}
+	for i, documentAddress := range documentAddresses {
+		fields["url-"+strconv.Itoa(i)] = documentAddress
+		fields["contentType-"+strconv.Itoa(i)] = "text/html"
+		fields["collection-"+strconv.Itoa(i)] = "transfer"
+	}
+
+	return fields
+}
+
+func pushFilesOf(documentAddresses []string, tokens []string) map[string]string {
+	page := htmlPageOf(tokens)
+	files := make(map[string]string, len(documentAddresses))
+	for i := range documentAddresses {
+		files["data-"+strconv.Itoa(i)] = page
+	}
+
+	return files
 }
 
 func htmlPageOf(tokens []string) string {

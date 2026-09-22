@@ -11,7 +11,7 @@ type PerformedMatchedAndHeldDocumentsRound struct {
 	AmountOfQueryWordsHeldByNoPeer                         int
 	AmountOfFullyListedQueryWords                          int
 	AmountOfPeersThatListedADocument                       int
-	LeadingQueryWordStanding                               LeadingQueryWordStanding
+	LeadingQueryWordChoice                                 LeadingQueryWordChoice
 	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
 	AmountOfMatchedDocumentsAcrossAnswers                  int
 	AmountOfMatchedDocumentsWithAPosting                   int
@@ -34,9 +34,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 			answeredAsksWithAListedDocument(round.answeredAsks),
 			peerOfAnsweredMatchedAndHeldDocumentsAsk,
 		),
-		LeadingQueryWordStanding: leadingQueryWordStandingAmong(
-			round.queryWordsFewestDocumentsFirst,
-		),
+		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
 		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documentsListedByPeers(),
 		),

@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"net/url"
 	"slices"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -38,6 +39,8 @@ const (
 	readingSearchAlias = "yacydhtsearch-reading"
 
 	answerTimeout = 180 * time.Second
+
+	linksPerQuery = 10
 )
 
 func TestSearXNGFindsAPeerDocumentThroughYacydhtsearch(t *testing.T) {
@@ -111,7 +114,9 @@ func TestASecondServiceAnswersFromTheRankingHeldInNATS(t *testing.T) {
 	)
 
 	found := pollwait.For(answerTimeout, func() bool {
-		for _, link := range resultLinksFor(t, ctx, probe, asking.searchURL, cacheProbeToken) {
+		for _, link := range resultLinksFor(
+			t, ctx, probe, asking.searchURL, cacheProbeToken, linksPerQuery,
+		) {
 			if link == documentAddress {
 				return true
 			}
@@ -122,7 +127,7 @@ func TestASecondServiceAnswersFromTheRankingHeldInNATS(t *testing.T) {
 		t.Fatalf("%s never returned %s for %q", askingSearchAlias, documentAddress, cacheProbeToken)
 	}
 
-	links := resultLinksFor(t, ctx, probe, reading.searchURL, cacheProbeToken)
+	links := resultLinksFor(t, ctx, probe, reading.searchURL, cacheProbeToken, linksPerQuery)
 	if len(links) != 1 || links[0] != documentAddress {
 		t.Fatalf("%s returned %v, want the cached %s", readingSearchAlias, links, documentAddress)
 	}
@@ -149,12 +154,12 @@ func TestTwoPeersThatHoldOneQueryWordEachStillAnswerWithTheDocuments(t *testing.
 	_, secondWordHolderURL := yacypeer.Start(
 		t, ctx, probe, network.Name, secondWordHolderAlias, yacypeer.RemoteSearchOverrides()...,
 	)
-	for _, document := range firstWordDocuments() {
+	for _, document := range crossPeerFirstWordDocuments() {
 		yacypeer.PushDocumentUnderAddress(
 			t, ctx, probe, firstWordHolderURL, document, []string{firstWordToken},
 		)
 	}
-	for _, document := range secondWordDocuments() {
+	for _, document := range crossPeerSecondWordDocuments() {
 		yacypeer.PushDocumentUnderAddress(
 			t, ctx, probe, secondWordHolderURL, document, []string{secondWordToken},
 		)
@@ -172,10 +177,10 @@ func TestTwoPeersThatHoldOneQueryWordEachStillAnswerWithTheDocuments(t *testing.
 	)
 
 	query := firstWordToken + " " + secondWordToken
-	wanted := documentsOfBothWords()
+	wanted := crossPeerDocumentsOfBothWords()
 	var links []string
 	answered := pollwait.For(answerTimeout, func() bool {
-		links = resultLinksFor(t, ctx, probe, service.searchURL, query)
+		links = resultLinksFor(t, ctx, probe, service.searchURL, query, linksPerQuery)
 
 		return containsEach(links, wanted)
 	})
@@ -200,7 +205,7 @@ func TestTwoPeersThatHoldOneQueryWordEachStillAnswerWithTheDocuments(t *testing.
 	}
 }
 
-func firstWordDocuments() []string {
+func crossPeerFirstWordDocuments() []string {
 	return []string{
 		crossPeerDocumentAt("both-words-one.html"),
 		crossPeerDocumentAt("both-words-two.html"),
@@ -208,7 +213,7 @@ func firstWordDocuments() []string {
 	}
 }
 
-func secondWordDocuments() []string {
+func crossPeerSecondWordDocuments() []string {
 	return []string{
 		crossPeerDocumentAt("both-words-one.html"),
 		crossPeerDocumentAt("both-words-two.html"),
@@ -216,7 +221,7 @@ func secondWordDocuments() []string {
 	}
 }
 
-func documentsOfBothWords() []string {
+func crossPeerDocumentsOfBothWords() []string {
 	return []string{
 		crossPeerDocumentAt("both-words-one.html"),
 		crossPeerDocumentAt("both-words-two.html"),
@@ -246,12 +251,13 @@ func resultLinksFor(
 	ctx context.Context,
 	probe *httpprobe.Probe,
 	searchURL, query string,
+	linkCeiling int,
 ) []string {
 	t.Helper()
 
 	result := probe.Get(ctx, searchURL+"/yacysearch.json?"+url.Values{
 		"query":          {query},
-		"maximumRecords": {"10"},
+		"maximumRecords": {strconv.Itoa(linkCeiling)},
 		"startRecord":    {"0"},
 	}.Encode())
 	if !result.OK {

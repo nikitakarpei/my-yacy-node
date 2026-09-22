@@ -1,13 +1,11 @@
 package wordjoined
 
-import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 
 type crossCheckedDocumentsRound struct {
-	asks                                                 []peerasks.CrossCheckedDocumentsAsk
-	answeredAsks                                         []peerasks.AnsweredCrossCheckedDocumentsAsk
-	amountOfDocumentsPastTheCrossCheckedDocumentsCeiling int
+	candidates   []crossCheckCandidatesOfQueryWord
+	asks         []peerasks.CrossCheckedDocumentsAsk
+	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk
 }
 
 func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWord() documentsPerQueryWord {
@@ -16,7 +14,7 @@ func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWor
 		if documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] == nil {
 			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] = distinctDocuments{}
 		}
-		for _, document := range answeredAsk.DocumentsHeldForTheWord {
+		for _, document := range answeredAsk.DocumentsListedForTheWord {
 			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word].add(document)
 		}
 	}

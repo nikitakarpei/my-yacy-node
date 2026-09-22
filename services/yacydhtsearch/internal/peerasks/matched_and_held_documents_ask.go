@@ -21,4 +21,12 @@ type AnsweredMatchedAndHeldDocumentsAsk struct {
 	DocumentsListedForTheWord       []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
+	PeerVersion                     string
+}
+
+func (answeredAsk AnsweredMatchedAndHeldDocumentsAsk) AnswersTheAskTo(
+	peer peerdirectory.AskablePeer,
+	word yacymodel.Hash,
+) bool {
+	return answeredAsk.Ask.Peer.Hash == peer.Hash && answeredAsk.Ask.Word == word
 }

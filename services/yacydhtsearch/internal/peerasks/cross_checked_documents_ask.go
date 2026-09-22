@@ -12,6 +12,11 @@ type CrossCheckedDocumentsAsk struct {
 }
 
 type AnsweredCrossCheckedDocumentsAsk struct {
-	Ask                     CrossCheckedDocumentsAsk
-	DocumentsHeldForTheWord []yacymodel.URLHash
+	Ask                       CrossCheckedDocumentsAsk
+	DocumentsListedForTheWord []yacymodel.URLHash
+	PeerVersion               string
+}
+
+func (answeredAsk AnsweredCrossCheckedDocumentsAsk) Answers(ask CrossCheckedDocumentsAsk) bool {
+	return answeredAsk.Ask.Peer.Hash == ask.Peer.Hash && answeredAsk.Ask.Word == ask.Word
 }

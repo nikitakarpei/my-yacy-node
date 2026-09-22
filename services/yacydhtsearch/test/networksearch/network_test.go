@@ -18,6 +18,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
@@ -44,6 +46,8 @@ const (
 	replicasCoveringAPartition   = networkRedundancy
 	hedgeDelay                   = 50 * time.Millisecond
 	crossCheckedDocumentsCeiling = 64
+	judgementLedgerCapacity      = 16
+	peerRetrialInterval          = 24 * time.Hour
 )
 
 type silentDirectoryObserver struct{}
@@ -249,13 +253,22 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	return wordjoined.New(
 		replicaAsks(t),
 		peerCalls(t),
+		judgementsOfTheCrossCheck(),
 		recordCeiling,
-		false,
 		crossCheckedDocumentsCeiling,
 		peerResults,
 		ringPartitions(t),
 		yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
 		wordjoined.WordJoinedSpreadObservers{},
+	)
+}
+
+func judgementsOfTheCrossCheck() peerjudgements.Judgements {
+	return peerjudgements.New(
+		wordjoined.ListsOnlyTheCrossCheckedDocuments,
+		peerjudgementledgersmemory.New(judgementLedgerCapacity),
+		peerRetrialInterval,
+		time.Now,
 	)
 }
 

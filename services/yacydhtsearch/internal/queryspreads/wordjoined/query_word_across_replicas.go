@@ -72,38 +72,26 @@ func queryWordOnReplicasPerPartitionFrom(
 ) [][]queryWordOnReplica {
 	queryWordOnReplicasPerPartition := make([][]queryWordOnReplica, partitions)
 	for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
-		queryWordOnReplicasPerPartition[chosenPeer.Partition] = append(
-			queryWordOnReplicasPerPartition[chosenPeer.Partition],
-			queryWordOnReplica{
-				peer: chosenPeer.Peer,
-				answer: answerOfPeerFor(
+		answer := yacymodel.None[peerasks.AnsweredMatchedAndHeldDocumentsAsk]()
+		place := slices.IndexFunc(
+			answeredAsks,
+			func(answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk) bool {
+				return answeredAsk.AnswersTheAskTo(
 					chosenPeer.Peer,
 					chosenPeersOfQueryWord.QueryWord,
-					answeredAsks,
-				),
+				)
 			},
+		)
+		if place >= 0 {
+			answer = yacymodel.Some(answeredAsks[place])
+		}
+		queryWordOnReplicasPerPartition[chosenPeer.Partition] = append(
+			queryWordOnReplicasPerPartition[chosenPeer.Partition],
+			queryWordOnReplica{peer: chosenPeer.Peer, answer: answer},
 		)
 	}
 
 	return queryWordOnReplicasPerPartition
-}
-
-func answerOfPeerFor(
-	peer peerdirectory.AskablePeer,
-	queryWord yacymodel.Hash,
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) yacymodel.Optional[peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
-	place := slices.IndexFunc(
-		answeredAsks,
-		func(answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk) bool {
-			return answeredAsk.Ask.Peer.Hash == peer.Hash && answeredAsk.Ask.Word == queryWord
-		},
-	)
-	if place < 0 {
-		return yacymodel.None[peerasks.AnsweredMatchedAndHeldDocumentsAsk]()
-	}
-
-	return yacymodel.Some(answeredAsks[place])
 }
 
 func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {
@@ -190,6 +178,21 @@ func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocume
 	return documentsListedByPeers
 }
 
+func (queryWord queryWordAcrossReplicas) documentsNotListedByItsPeersAmong(
+	documents []yacymodel.URLHash,
+) []yacymodel.URLHash {
+	documentsListedByPeers := queryWord.documentsListedByPeers()
+	documentsNotListed := make([]yacymodel.URLHash, 0, len(documents))
+	for _, document := range documents {
+		if documentsListedByPeers.contains(document) {
+			continue
+		}
+		documentsNotListed = append(documentsNotListed, document)
+	}
+
+	return documentsNotListed
+}
+
 func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
 	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
 		if !slices.ContainsFunc(queryWordOnReplicasOfPartition, queryWordOnReplica.isFullyListed) {
@@ -200,26 +203,35 @@ func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
 	return true
 }
 
-func (queryWord queryWordAcrossReplicas) peersThatDidNotListAllTheyHold() []peerdirectory.AskablePeer {
-	var peers []peerdirectory.AskablePeer
+func (queryWord queryWordAcrossReplicas) replicasThatDidNotListAllTheyHold() []queryWordOnReplica {
+	var replicas []queryWordOnReplica
 	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
 		for _, queryWordOnOneReplica := range queryWordOnReplicasOfPartition {
 			if queryWordOnOneReplica.isFullyListed() {
 				continue
 			}
-			peers = append(peers, queryWordOnOneReplica.peer)
+			replicas = append(replicas, queryWordOnOneReplica)
 		}
 	}
 
-	return peers
+	return replicas
 }
 
-func (queryWord queryWordOnReplica) isFullyListed() bool {
-	answer, answered := queryWord.answer.Get()
+func (replica queryWordOnReplica) isFullyListed() bool {
+	answer, answered := replica.answer.Get()
 	if !answered {
 		return false
 	}
 	amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
 
 	return counted && amountOfDocumentsHeld <= len(answer.DocumentsListedForTheWord)
+}
+
+func (replica queryWordOnReplica) versionClaimed() string {
+	answer, answered := replica.answer.Get()
+	if !answered {
+		return ""
+	}
+
+	return answer.PeerVersion
 }

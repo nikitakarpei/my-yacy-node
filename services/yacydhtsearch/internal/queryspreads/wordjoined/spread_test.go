@@ -12,6 +12,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -25,13 +27,15 @@ const (
 	urlMetadataAskDocumentsCeiling  = 10
 	documentsOneURLMetadataAskNames = 1
 	crossCheckedDocumentsCeiling    = 10
-	asksForCrossCheckedDocuments    = true
-	asksForNoCrossCheckedDocuments  = false
 	peerItemsCeiling                = 10
 	peersHoldingOneWord             = 24
 	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
+	judgementLedgerCapacity         = 16
+	peerRetrialInterval             = 24 * time.Hour
+	versionOfThePeer                = "yacy_v1.925"
+	versionAfterAnUpgrade           = "yacy_v1.930"
 )
 
 type peerNetwork struct {
@@ -48,6 +52,8 @@ type peerNetwork struct {
 	silentPeers                           map[string]struct{}
 	peersSilentInTheCrossCheckedDocuments map[string]struct{}
 	peersHoldingNoNamedDocument           map[string]struct{}
+	peersListingDocumentsTheAskDidNotName map[string]struct{}
+	versionOfEachPeer                     map[string]string
 	timeLeftInEachRoundInTheirOrder       []time.Duration
 }
 
@@ -58,6 +64,8 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 		silentPeers:                           map[string]struct{}{},
 		peersSilentInTheCrossCheckedDocuments: map[string]struct{}{},
 		peersHoldingNoNamedDocument:           map[string]struct{}{},
+		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
+		versionOfEachPeer:                     map[string]string{},
 	}
 }
 
@@ -80,6 +88,7 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 				documentsPerWordOf(n.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
 			),
 			AmountOfDocumentsHeldForTheWord: n.documentsCountedBy(ask.Peer.Address, ask.Word),
+			PeerVersion:                     n.versionOfEachPeer[ask.Peer.Address],
 		})
 	}
 
@@ -99,8 +108,9 @@ func (n *peerNetwork) AskForCrossCheckedDocuments(
 			continue
 		}
 		answeredAsks = append(answeredAsks, peerasks.AnsweredCrossCheckedDocumentsAsk{
-			Ask:                     ask,
-			DocumentsHeldForTheWord: n.namedDocumentsHeldBy(ask),
+			Ask:                       ask,
+			DocumentsListedForTheWord: n.namedDocumentsHeldBy(ask),
+			PeerVersion:               n.versionOfEachPeer[ask.Peer.Address],
 		})
 	}
 
@@ -115,6 +125,10 @@ func (n *peerNetwork) namedDocumentsHeldBy(
 	}
 
 	heldDocuments := documentsPerWordOf(n.documentsPerWordPerPeer, ask.Peer.Address, ask.Word)
+	if _, listsMore := n.peersListingDocumentsTheAskDidNotName[ask.Peer.Address]; listsMore {
+		return heldDocuments
+	}
+
 	namedDocumentsHeld := make([]yacymodel.URLHash, 0, len(ask.Documents))
 	for _, document := range ask.Documents {
 		if !slices.Contains(heldDocuments, document) {
@@ -377,8 +391,8 @@ func answeredQueryUnder(
 			wordjoined.New(
 				network,
 				network,
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
@@ -413,36 +427,13 @@ func spreadUnder(
 			wordjoined.New(
 				network,
 				network,
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
 				peersHoldingOneWord,
 				observer,
-			),
-		),
-		peersAt([]string{"first", "second"}),
-	)
-}
-
-func spreadNotAskingForCrossCheckedDocuments(
-	network *peerNetwork,
-	choice responsiblePeers,
-) {
-	spreadOverPeers(
-		newSpreadOverChosenPeers(
-			choice,
-			wordjoined.New(
-				network,
-				network,
-				urlMetadataAskDocumentsCeiling,
-				asksForNoCrossCheckedDocuments,
-				crossCheckedDocumentsCeiling,
-				peerItemsCeiling,
-				onePartitionOfTheRing,
-				peersHoldingOneWord,
-				&recordedSpreads{},
 			),
 		),
 		peersAt([]string{"first", "second"}),
@@ -460,8 +451,8 @@ func spreadTheQuery(
 		wordjoined.New(
 			network,
 			network,
+			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
-			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
@@ -484,8 +475,8 @@ func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 		wordjoined.New(
 			network,
 			network,
+			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
-			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
@@ -523,30 +514,56 @@ func documentsInTheirHashOrder(documents []yacymodel.URLHash) []yacymodel.URLHas
 	return documentsInOrder
 }
 
-func TestASpreadThatAsksForNoCrossCheckedDocumentsLeavesTheSecondRoundOut(t *testing.T) {
-	t.Parallel()
+func judgementsOfTheCrossCheck() peerjudgements.Judgements {
+	return peerjudgements.New(
+		wordjoined.ListsOnlyTheCrossCheckedDocuments,
+		peerjudgementledgersmemory.New(judgementLedgerCapacity),
+		peerRetrialInterval,
+		time.Now,
+	)
+}
 
+func spreadJudgingThePeers(
+	network *peerNetwork,
+	choice responsiblePeers,
+	judgements wordjoined.PeerJudgements,
+) {
+	newSpreadOverChosenPeers(
+		choice,
+		wordjoined.New(
+			network,
+			network,
+			judgements,
+			urlMetadataAskDocumentsCeiling,
+			crossCheckedDocumentsCeiling,
+			peerItemsCeiling,
+			onePartitionOfTheRing,
+			peersHoldingOneWord,
+			&recordedSpreads{},
+		),
+	).SpreadOverPeers(
+		context.Background(),
+		searchquery.QueryFrom(firstWord+" "+secondWord, ""),
+		peersAt([]string{"first", "second"}),
+	)
+}
+
+func networkOfAPeerThatDidNotListAllItHolds() *peerNetwork {
 	network := networkOf(map[string]map[string][]string{
 		"first":  {firstWord: {"https://anchored.example/", "https://answered.example/"}},
 		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network.versionOfEachPeer = map[string]string{"second": versionOfThePeer}
 
-	spreadNotAskingForCrossCheckedDocuments(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second"},
-		}),
-	)
+	return network
+}
 
-	if len(network.crossCheckedDocumentsAsks) != 0 || len(network.urlMetadataAsks) == 0 {
-		t.Fatalf(
-			"the spread put %d cross-checked documents asks and %d metadata asks, want none and some",
-			len(network.crossCheckedDocumentsAsks),
-			len(network.urlMetadataAsks),
-		)
-	}
+func peersOfTheTwoQueryWords() responsiblePeers {
+	return peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second"},
+	})
 }
 
 func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheLeadingQueryWordItLeftOut(
@@ -583,6 +600,82 @@ func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheLeadingQueryW
 		t.Fatalf(
 			"the ask named %v, want the document listed for the leading query word that the answer left out",
 			got,
+		)
+	}
+}
+
+func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedByTheNextQuery(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	judgements := judgementsOfTheCrossCheck()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 1 {
+		t.Fatalf(
+			"the spreads put %v, want only the ask that judged the peer",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+}
+
+func TestAPeerThatListedOnlyTheNamedDocumentsIsAskedByTheNextQuery(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	judgements := judgementsOfTheCrossCheck()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spreads put %v, want one ask of each query",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+}
+
+func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	judgements := judgementsOfTheCrossCheck()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spreads put %v, want the peer asked again at the version it claims now",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+}
+
+func TestAnEmptyAnswerLeavesTheStandingOfThePeerAsItWas(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	judgements := judgementsOfTheCrossCheck()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
+	network.peersHoldingNoNamedDocument = map[string]struct{}{"second": {}}
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	network.versionOfEachPeer = map[string]string{"second": versionOfThePeer}
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spreads put %v, want the empty answer to leave the peer as it was judged",
+			network.crossCheckedDocumentsAsks,
 		)
 	}
 }
@@ -637,7 +730,7 @@ func TestTheFullyListedWordTheFewestDocumentsAreHeldForLeads(t *testing.T) {
 	}), observer)
 
 	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
-	if matchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.RarestFullyListedQueryWord ||
+	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestFullyListedQueryWord ||
 		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the fully listed word the fewest documents are held for leading",
@@ -668,7 +761,7 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 	}), observer)
 
 	performed := observer.performed[0]
-	if performed.MatchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.MoreCommonFullyListedQueryWord ||
+	if performed.MatchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.MoreCommonFullyListedQueryWord ||
 		performed.MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 5 {
 		t.Fatalf(
 			"the spread reported %+v, want the fully listed word leading over the rarer partly listed word",
@@ -714,7 +807,7 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 	)
 
 	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
-	if matchedAndHeldDocumentsRound.LeadingQueryWordStanding != wordjoined.RarestPartlyListedQueryWord ||
+	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
 		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want the partly listed word the fewest documents are counted for leading",
@@ -796,10 +889,10 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 		)
 	}
 	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
-	if crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 0 ||
+	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 0 ||
 		crossCheckedDocumentsRound.AmountOfJoinedDocuments != 3 {
 		t.Fatalf(
-			"the spread reported %+v, want every document listed for the leading query word joined and none past the ceiling",
+			"the spread reported %+v, want every document listed for the leading query word joined and no candidate that no peer took",
 			crossCheckedDocumentsRound,
 		)
 	}
@@ -844,7 +937,7 @@ func TestTwoPartlyListedReplicasOfAQueryWordAreAskedDisjointDocuments(t *testing
 	}
 }
 
-func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDocumentsCeiling(
+func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedAsNoPeerTook(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -876,11 +969,11 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedPastTheCrossCheckedDo
 	)
 
 	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
-	if crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 2 ||
+	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 2 ||
 		crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the two documents the replicas took sent and the two "+
-				"no replica took past the ceiling",
+				"no candidate that no replica took",
 			crossCheckedDocumentsRound,
 		)
 	}
@@ -929,7 +1022,7 @@ func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T)
 
 	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
 	if crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking != 4 ||
-		crossCheckedDocumentsRound.AmountOfDocumentsPastTheCrossCheckedDocumentsCeiling != 0 {
+		crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 0 {
 		t.Fatalf(
 			"the spread reported %+v, want both documents sent once for each of the two other "+
 				"query words",
@@ -1401,8 +1494,8 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 			wordjoined.New(
 				network,
 				network,
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
@@ -1672,8 +1765,8 @@ func documentsHeldPerQueryWordAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				partitions,
@@ -1783,8 +1876,8 @@ func spreadAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				partitions,

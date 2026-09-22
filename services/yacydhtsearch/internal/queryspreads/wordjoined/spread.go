@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -31,11 +32,21 @@ type PeerAsks interface {
 	) []peerasks.AnsweredURLMetadataAsk
 }
 
+const ListsOnlyTheCrossCheckedDocuments peerjudgements.Question = "lists only the cross-checked documents"
+
+type PeerJudgements interface {
+	StandingsOf(
+		ctx context.Context,
+		peers []peerjudgements.PeerAtVersion,
+	) peerjudgements.PeerStandings
+	Add(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer)
+}
+
 type Spread struct {
 	replicaAsks                    ReplicaAsks
 	peerAsks                       PeerAsks
+	peerJudgements                 PeerJudgements
 	urlMetadataAskDocumentsCeiling int
-	asksForCrossCheckedDocuments   bool
 	crossCheckedDocumentsCeiling   int
 	peerItemsCeiling               int
 	partitions                     yacymodel.DHTRingPartitions
@@ -43,12 +54,12 @@ type Spread struct {
 	observer                       WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the rounds, ceilings and ring one word joined spread stays within
+//nolint:revive // argument-limit: the spread takes its asks, judgements, ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
+	peerJudgements PeerJudgements,
 	urlMetadataAskDocumentsCeiling int,
-	asksForCrossCheckedDocuments bool,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
@@ -58,8 +69,8 @@ func New(
 	return Spread{
 		replicaAsks:                    replicaAsks,
 		peerAsks:                       peerAsks,
+		peerJudgements:                 peerJudgements,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
-		asksForCrossCheckedDocuments:   asksForCrossCheckedDocuments,
 		crossCheckedDocumentsCeiling:   crossCheckedDocumentsCeiling,
 		peerItemsCeiling:               peerItemsCeiling,
 		partitions:                     partitions,
@@ -80,16 +91,24 @@ func (spread Spread) SpreadOverPeers(
 		query,
 		chosenPeersPerQueryWord,
 	)
+	peerStandings := spread.peerJudgements.StandingsOf(
+		ctx, peersThatMayCrossCheckIn(matchedAndHeldDocumentsRound),
+	)
 	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
 		ctx,
 		matchedAndHeldDocumentsRound,
+		peerStandings,
 	)
+	judgedPeers := judgeAskedPeersIn(crossCheckedDocumentsRound)
+	spread.peerJudgements.Add(ctx, judgedPeers)
 	joinedDocuments := joinedDocumentsFrom(matchedAndHeldDocumentsRound, crossCheckedDocumentsRound)
 	urlMetadataRound := spread.askForURLMetadata(ctx, matchedAndHeldDocumentsRound, joinedDocuments)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		matchedAndHeldDocumentsRound,
 		crossCheckedDocumentsRound,
+		peerStandings,
+		judgedPeers,
 		joinedDocuments,
 		urlMetadataRound,
 		time.Since(startedAt),
@@ -106,7 +125,7 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) matchedAndHeldDocumentsRound {
 	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
-	roundContext, endRound := contextOfRound(ctx, amountOfRoundsOfPeerCalls)
+	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheMatchedAndHeldDocuments)
 	defer endRound()
 	answeredAsks := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
 
@@ -125,9 +144,9 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 }
 
 const (
-	amountOfRoundsOfPeerCalls            = 3
-	roundsLeftAtTheCrossCheckedDocuments = 2
-	roundsLeftAtTheURLMetadata           = 1
+	roundsLeftAtTheMatchedAndHeldDocuments = 3
+	roundsLeftAtTheCrossCheckedDocuments   = 2
+	roundsLeftAtTheURLMetadata             = 1
 )
 
 func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, context.CancelFunc) {
@@ -142,28 +161,21 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 func (spread Spread) askForCrossCheckedDocuments(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	peerStandings peerjudgements.PeerStandings,
 ) crossCheckedDocumentsRound {
-	if !spread.asksForCrossCheckedDocuments {
-		return crossCheckedDocumentsRound{}
-	}
-	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeilingFor(
-		matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord(),
-		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(
-			matchedAndHeldDocumentsRound.leadingQueryWord().documentsListedByPeers(),
-		),
+	candidates := crossCheckCandidatesIn(matchedAndHeldDocumentsRound)
+	asks := crossCheckedDocumentsAsksFor(
+		candidates,
+		peerStandings,
 		spread.crossCheckedDocumentsCeiling,
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
 	defer endRound()
 
 	return crossCheckedDocumentsRound{
-		asks: asksWithinTheCeiling.asks,
-		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(
-			roundContext,
-			asksWithinTheCeiling.asks,
-		),
-		amountOfDocumentsPastTheCrossCheckedDocumentsCeiling: asksWithinTheCeiling.
-			amountOfDocumentsPastTheCrossCheckedDocumentsCeiling,
+		candidates:   candidates,
+		asks:         asks,
+		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(roundContext, asks),
 	}
 }
 

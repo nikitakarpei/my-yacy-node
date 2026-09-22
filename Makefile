@@ -263,7 +263,7 @@ E2E_SUITE_IMAGES_webarchivescrape             := webarchivescrape corpustext pag
 E2E_SUITE_IMAGES_webresearchmcp              := corpusmarkdown webresearchmcp pagescrape
 E2E_SUITE_IMAGES_pageofferfanout             := corpustext corpusmarkdown pagescrape
 E2E_SUITE_IMAGES_pagescrape                  := pagescrape
-E2E_SUITE_IMAGES_yacydhtsearch               := yacydhtsearch
+E2E_SUITE_IMAGES_yacydhtsearch               := yacydhtsearch yacynode
 
 # A suite reads the tag of each image it needs from that image's env var.
 e2e_suite_image_env = $(foreach i,$(E2E_SUITE_IMAGES_$(1)),$(E2E_IMAGE_ENV_$(i))=$(E2E_IMAGE_$(i)))

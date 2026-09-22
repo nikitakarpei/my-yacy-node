@@ -977,15 +977,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (leading_query_word_standing) (rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])) / scalar(sum(rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])))",
-          "legendFormat": "{{leading_query_word_standing}}"
+          "expr": "sum by (leading_query_word_choice) (rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])) / scalar(sum(rate(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "{{leading_query_word_choice}}"
         }
       ]
     },
     {
       "id": 59,
-      "title": "Share of the documents to cross-check that no peer could take",
-      "description": "A peer is asked once and takes at most YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING documents.",
+      "title": "Share of the cross-check candidates no peer took",
+      "description": "A peer is asked once and takes at most YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING documents; candidates past that, or with no peer left to ask, are not cross-checked.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1036,7 +1036,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_documents_past_the_cross_checked_documents_ceiling_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_cross_check_candidates_no_peer_took_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_cross_check_candidates_no_peer_took_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -1142,6 +1142,86 @@
       ]
     },
     {
+      "id": 68,
+      "title": "How the peers stood on the cross-check question, by standing",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 88
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (standing) (clamp_min(yacydhtsearch_word_joined_spread_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{standing}}"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "title": "How the cross-check answers were judged, by judgement",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 88
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (judged) (clamp_min(yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{judged}}"
+        }
+      ]
+    },
+    {
       "id": 57,
       "title": "Joined queries: document metadata lookup",
       "type": "row",
@@ -1150,7 +1230,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 88
+        "y": 96
       },
       "panels": []
     },
@@ -1167,7 +1247,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 89
+        "y": 97
       },
       "fieldConfig": {
         "defaults": {
@@ -1226,7 +1306,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 89
+        "y": 97
       },
       "fieldConfig": {
         "defaults": {
@@ -1266,7 +1346,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 89
+        "y": 97
       },
       "fieldConfig": {
         "defaults": {
@@ -1322,7 +1402,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 97
+        "y": 105
       },
       "panels": []
     },
@@ -1339,7 +1419,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 98
+        "y": 106
       },
       "fieldConfig": {
         "defaults": {
@@ -1383,7 +1463,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 98
+        "y": 106
       },
       "fieldConfig": {
         "defaults": {
@@ -1420,7 +1500,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 106
+        "y": 114
       },
       "panels": []
     },
@@ -1437,7 +1517,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 107
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1481,7 +1561,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 107
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1525,7 +1605,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 107
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1568,7 +1648,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 115
+        "y": 123
       },
       "fieldConfig": {
         "defaults": {
@@ -1611,7 +1691,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 115
+        "y": 123
       },
       "fieldConfig": {
         "defaults": {
@@ -1667,7 +1747,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 123
+        "y": 131
       },
       "panels": []
     },
@@ -1684,7 +1764,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 124
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -1743,7 +1823,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 124
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -1786,7 +1866,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 124
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -1827,7 +1907,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 132
+        "y": 140
       },
       "panels": []
     },
@@ -1844,7 +1924,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 133
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -1895,7 +1975,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 133
+        "y": 141
       },
       "fieldConfig": {
         "defaults": {
@@ -1934,7 +2014,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 141
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -1975,7 +2055,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 141
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -2034,7 +2114,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 141
+        "y": 149
       },
       "fieldConfig": {
         "defaults": {
@@ -2081,7 +2161,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 149
+        "y": 157
       },
       "fieldConfig": {
         "defaults": {
@@ -2137,7 +2217,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 157
+        "y": 165
       },
       "panels": []
     },
@@ -2153,7 +2233,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 158
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {
@@ -2203,7 +2283,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 158
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {
@@ -2243,7 +2323,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 158
+        "y": 166
       },
       "fieldConfig": {
         "defaults": {
@@ -2283,7 +2363,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 166
+        "y": 174
       },
       "fieldConfig": {
         "defaults": {
@@ -2323,7 +2403,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 166
+        "y": 174
       },
       "fieldConfig": {
         "defaults": {
@@ -2363,7 +2443,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 166
+        "y": 174
       },
       "fieldConfig": {
         "defaults": {

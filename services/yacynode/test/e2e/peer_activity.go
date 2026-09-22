@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/nodepeer"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/nodepeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerdirectory"
 )
 

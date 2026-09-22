@@ -310,10 +310,17 @@ func searchAnswerHolding(t *testing.T, addresses ...string) string {
 		})
 	}
 
-	return yacyproto.SearchResponse{
+	return searchAnswerFrom(yacyproto.SearchResponse{
 		Count:     len(resources),
 		Resources: resources,
-	}.Encode().Encode()
+	})
+}
+
+func searchAnswerFrom(response yacyproto.SearchResponse) string {
+	message := response.Encode()
+	yacyproto.InjectResponseHeader(message, response.Version, response.Uptime)
+
+	return message.Encode()
 }
 
 func mustParseURLHash(t *testing.T, raw string) yacymodel.URLHash {
@@ -888,11 +895,11 @@ func TestACrossCheckedDocumentsAnswerReadsTheDocumentsOfTheAbstractAlone(t *test
 		},
 	)
 
-	if !replied || len(answeredAsk.DocumentsHeldForTheWord) != 1 ||
-		answeredAsk.DocumentsHeldForTheWord[0] != document {
+	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 1 ||
+		answeredAsk.DocumentsListedForTheWord[0] != document {
 		t.Fatalf(
 			"AskForCrossCheckedDocuments = %+v, %v, want the document the peer holds",
-			answeredAsk.DocumentsHeldForTheWord,
+			answeredAsk.DocumentsListedForTheWord,
 			replied,
 		)
 	}
@@ -938,10 +945,10 @@ func TestAPeerThatHoldsNoCrossCheckedDocumentStillReplies(t *testing.T) {
 		},
 	)
 
-	if !replied || len(answeredAsk.DocumentsHeldForTheWord) != 0 {
+	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 0 {
 		t.Fatalf(
 			"AskForCrossCheckedDocuments = %+v, %v, want a reply that carries no document",
-			answeredAsk.DocumentsHeldForTheWord,
+			answeredAsk.DocumentsListedForTheWord,
 			replied,
 		)
 	}
@@ -950,6 +957,74 @@ func TestAPeerThatHoldsNoCrossCheckedDocumentStillReplies(t *testing.T) {
 			"PeerAnsweredCrossCheckedDocuments reported %d times with %d documents, want once with none",
 			observer.answeredCrossCheckedDocuments,
 			observer.amountOfCrossCheckedDocuments,
+		)
+	}
+}
+
+func TestTheAnswersOfAPeerCarryTheVersionItClaimed(t *testing.T) {
+	t.Parallel()
+
+	address, _ := peerAnswering(t, answerClaimingTheVersion("yacy_v1.925"), http.StatusOK)
+
+	matchedAndHeldAnswer, crossCheckedAnswer := answersOfThePeerAt(t, address)
+
+	if matchedAndHeldAnswer.PeerVersion != "yacy_v1.925" ||
+		crossCheckedAnswer.PeerVersion != "yacy_v1.925" {
+		t.Fatalf(
+			"the answers claim the versions %q and %q, want the one the peer sent",
+			matchedAndHeldAnswer.PeerVersion,
+			crossCheckedAnswer.PeerVersion,
+		)
+	}
+}
+
+func answerClaimingTheVersion(version string) string {
+	return searchAnswerFrom(yacyproto.SearchResponse{
+		ResponseHeader: yacyproto.ResponseHeader{Version: version},
+	})
+}
+
+func answersOfThePeerAt(t *testing.T, address string) (
+	peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	peerasks.AnsweredCrossCheckedDocumentsAsk,
+) {
+	t.Helper()
+
+	word := yacymodel.WordHash("berlin")
+	matchedAndHeldAnswer, matchedAndHeldReplied := matchedAndHeldDocumentsAnswerOf(
+		t,
+		&recordedOutcome{},
+		peerasks.MatchedAndHeldDocumentsAsk{Peer: peerAt(address), Word: word},
+	)
+	crossCheckedAnswer, crossCheckedReplied := crossCheckedDocumentsAnswerOf(
+		t,
+		&recordedOutcome{},
+		peerasks.CrossCheckedDocumentsAsk{
+			Peer:      peerAt(address),
+			Word:      word,
+			Documents: []yacymodel.URLHash{mustParseURLHash(t, "bbbbbbAAAAAA")},
+		},
+	)
+	if !matchedAndHeldReplied || !crossCheckedReplied {
+		t.Fatalf("the peer replied to %v and to %v, want both",
+			matchedAndHeldReplied, crossCheckedReplied)
+	}
+
+	return matchedAndHeldAnswer, crossCheckedAnswer
+}
+
+func TestTheAnswersOfAPeerThatClaimsNoVersionCarryNone(t *testing.T) {
+	t.Parallel()
+
+	address, _ := peerAnswering(t, answerClaimingTheVersion(""), http.StatusOK)
+
+	matchedAndHeldAnswer, crossCheckedAnswer := answersOfThePeerAt(t, address)
+
+	if matchedAndHeldAnswer.PeerVersion != "" || crossCheckedAnswer.PeerVersion != "" {
+		t.Fatalf(
+			"the answers claim the versions %q and %q, want none",
+			matchedAndHeldAnswer.PeerVersion,
+			crossCheckedAnswer.PeerVersion,
 		)
 	}
 }
