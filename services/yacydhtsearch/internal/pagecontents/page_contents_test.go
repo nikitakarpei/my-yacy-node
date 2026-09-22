@@ -76,6 +76,28 @@ func TestTheTextGivesTheHitsOfEachQueryPhraseInEitherOrder(t *testing.T) {
 	}
 }
 
+func TestTheTitleGivesTheHitsOfEachQueryPhraseAndNoWordHit(t *testing.T) {
+	t.Parallel()
+
+	contents := pagecontents.PageContentsFrom(
+		"Berlin holds",
+		"The city holds a wall.",
+		pagecontents.LinkCounts{},
+		wordsOf("berlin", "holds"),
+		snippetLengthCeiling,
+	)
+
+	if contents.QueryPhraseHits != 1 || contents.HitsPerQueryWord[wordsOf("berlin")[0]] != 0 ||
+		contents.AmountOfWords != 4 {
+		t.Fatalf(
+			"the title gives %d query phrase hits, %d hits of berlin and %d words, want 1, 0 and 4",
+			contents.QueryPhraseHits,
+			contents.HitsPerQueryWord[wordsOf("berlin")[0]],
+			contents.AmountOfWords,
+		)
+	}
+}
+
 func TestTheSnippetIsThePassageThatHoldsMoreOfTheQueryWords(t *testing.T) {
 	t.Parallel()
 
