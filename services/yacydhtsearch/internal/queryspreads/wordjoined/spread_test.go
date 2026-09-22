@@ -108,9 +108,9 @@ func (n *peerNetwork) AskForCrossCheckedDocuments(
 			continue
 		}
 		answeredAsks = append(answeredAsks, peerasks.AnsweredCrossCheckedDocumentsAsk{
-			Ask:                     ask,
-			DocumentsHeldForTheWord: n.namedDocumentsHeldBy(ask),
-			PeerVersion:             n.versionOfEachPeer[ask.Peer.Address],
+			Ask:                       ask,
+			DocumentsListedForTheWord: n.namedDocumentsHeldBy(ask),
+			PeerVersion:               n.versionOfEachPeer[ask.Peer.Address],
 		})
 	}
 
@@ -391,7 +391,7 @@ func answeredQueryUnder(
 			wordjoined.New(
 				network,
 				network,
-				peerJudgements(),
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -427,7 +427,7 @@ func spreadUnder(
 			wordjoined.New(
 				network,
 				network,
-				peerJudgements(),
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -451,7 +451,7 @@ func spreadTheQuery(
 		wordjoined.New(
 			network,
 			network,
-			peerJudgements(),
+			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
@@ -475,7 +475,7 @@ func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 		wordjoined.New(
 			network,
 			network,
-			peerJudgements(),
+			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
@@ -514,7 +514,7 @@ func documentsInTheirHashOrder(documents []yacymodel.URLHash) []yacymodel.URLHas
 	return documentsInOrder
 }
 
-func peerJudgements() peerjudgements.Judgements {
+func judgementsOfTheCrossCheck() peerjudgements.Judgements {
 	return peerjudgements.New(
 		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),
@@ -609,7 +609,7 @@ func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedByTheNextQuery(t *tes
 
 	network := networkOfAPeerThatDidNotListAllItHolds()
 	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
-	judgements := peerJudgements()
+	judgements := judgementsOfTheCrossCheck()
 
 	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
 	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
@@ -626,7 +626,7 @@ func TestAPeerThatListedOnlyTheNamedDocumentsIsAskedByTheNextQuery(t *testing.T)
 	t.Parallel()
 
 	network := networkOfAPeerThatDidNotListAllItHolds()
-	judgements := peerJudgements()
+	judgements := judgementsOfTheCrossCheck()
 
 	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
 	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
@@ -644,7 +644,7 @@ func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
 
 	network := networkOfAPeerThatDidNotListAllItHolds()
 	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
-	judgements := peerJudgements()
+	judgements := judgementsOfTheCrossCheck()
 
 	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
 	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
@@ -663,7 +663,7 @@ func TestAnEmptyAnswerLeavesTheStandingOfThePeerAsItWas(t *testing.T) {
 
 	network := networkOfAPeerThatDidNotListAllItHolds()
 	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
-	judgements := peerJudgements()
+	judgements := judgementsOfTheCrossCheck()
 
 	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
 	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
@@ -1494,7 +1494,7 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 			wordjoined.New(
 				network,
 				network,
-				peerJudgements(),
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -1765,7 +1765,7 @@ func documentsHeldPerQueryWordAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
-				peerJudgements(),
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
@@ -1876,7 +1876,7 @@ func spreadAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
-				peerJudgements(),
+				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,

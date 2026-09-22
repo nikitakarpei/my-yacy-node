@@ -372,9 +372,9 @@ func (w Wire) putCrossCheckedDocumentsAsk(
 	)
 
 	return peerasks.AnsweredCrossCheckedDocumentsAsk{
-		Ask:                     ask,
-		DocumentsHeldForTheWord: documentsHeldForTheWord,
-		PeerVersion:             response.Version,
+		Ask:                       ask,
+		DocumentsListedForTheWord: documentsHeldForTheWord,
+		PeerVersion:               response.Version,
 	}, true
 }
 

@@ -91,16 +91,24 @@ func (spread Spread) SpreadOverPeers(
 		query,
 		chosenPeersPerQueryWord,
 	)
+	peerStandings := spread.peerJudgements.StandingsOf(
+		ctx, peersAtVersionOf(matchedAndHeldDocumentsRound.replicasThatMayCrossCheck()),
+	)
 	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
 		ctx,
 		matchedAndHeldDocumentsRound,
+		peerStandings,
 	)
+	judgedPeers := judgeAskedPeersIn(crossCheckedDocumentsRound)
+	spread.peerJudgements.Add(ctx, judgedPeers)
 	joinedDocuments := joinedDocumentsFrom(matchedAndHeldDocumentsRound, crossCheckedDocumentsRound)
 	urlMetadataRound := spread.askForURLMetadata(ctx, matchedAndHeldDocumentsRound, joinedDocuments)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		matchedAndHeldDocumentsRound,
 		crossCheckedDocumentsRound,
+		peerStandings,
+		judgedPeers,
 		joinedDocuments,
 		urlMetadataRound,
 		time.Since(startedAt),
@@ -150,31 +158,6 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 	return context.WithTimeout(ctx, time.Until(deadline)/time.Duration(roundsLeft))
 }
 
-func (spread Spread) askForCrossCheckedDocuments(
-	ctx context.Context,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-) crossCheckedDocumentsRound {
-	peerStandings := spread.peerJudgements.StandingsOf(
-		ctx, peersAtVersionOf(matchedAndHeldDocumentsRound.replicasThatMayCrossCheck()),
-	)
-	asks := crossCheckedDocumentsAsksFor(
-		matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord(),
-		matchedAndHeldDocumentsRound.documentsOfTheLeadingQueryWordMostListedFirst(),
-		peerStandings,
-		spread.crossCheckedDocumentsCeiling,
-	)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
-	defer endRound()
-	round := crossCheckedDocumentsRoundFrom(
-		asks,
-		spread.peerAsks.AskForCrossCheckedDocuments(roundContext, asks),
-		peerStandings,
-	)
-	spread.peerJudgements.Add(ctx, round.judgedPeers())
-
-	return round
-}
-
 func peersAtVersionOf(replicas []queryWordOnReplica) []peerjudgements.PeerAtVersion {
 	peers := make([]peerjudgements.PeerAtVersion, 0, len(replicas))
 	for _, replica := range replicas {
@@ -185,6 +168,26 @@ func peersAtVersionOf(replicas []queryWordOnReplica) []peerjudgements.PeerAtVers
 	}
 
 	return peers
+}
+
+func (spread Spread) askForCrossCheckedDocuments(
+	ctx context.Context,
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	peerStandings peerjudgements.PeerStandings,
+) crossCheckedDocumentsRound {
+	asks := crossCheckedDocumentsAsksFor(
+		matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord(),
+		matchedAndHeldDocumentsRound.documentsOfTheLeadingQueryWordMostListedFirst(),
+		peerStandings,
+		spread.crossCheckedDocumentsCeiling,
+	)
+	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
+	defer endRound()
+
+	return crossCheckedDocumentsRound{
+		asks:         asks,
+		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(roundContext, asks),
+	}
 }
 
 func (spread Spread) askForURLMetadata(

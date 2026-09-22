@@ -246,7 +246,7 @@ func querySpreadFor(
 		wordjoined.New(
 			replicaAsks,
 			peers,
-			peerJudgementsFor(cfg),
+			judgementsOfTheCrossCheckFor(cfg),
 			cfg.URLMetadataAskDocumentsCeiling,
 			cfg.CrossCheckedDocumentsCeiling,
 			cfg.PeerItemsCeiling,
@@ -268,7 +268,7 @@ func querySpreadFor(
 	)
 }
 
-func peerJudgementsFor(cfg ServiceConfig) peerjudgements.Judgements {
+func judgementsOfTheCrossCheckFor(cfg ServiceConfig) peerjudgements.Judgements {
 	return peerjudgements.New(
 		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(cfg.DirectoryCapacity),

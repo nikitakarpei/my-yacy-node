@@ -18,6 +18,8 @@ type PerformedCrossCheckedDocumentsRound struct {
 func performedCrossCheckedDocumentsRoundFrom(
 	round crossCheckedDocumentsRound,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	peerStandings peerjudgements.PeerStandings,
+	judgedPeers []peerjudgements.JudgedPeer,
 	joinedDocuments distinctDocuments,
 ) PerformedCrossCheckedDocumentsRound {
 	return PerformedCrossCheckedDocumentsRound{
@@ -34,8 +36,8 @@ func performedCrossCheckedDocumentsRoundFrom(
 			joinedDocuments,
 			matchedAndHeldDocumentsRound,
 		),
-		PeerStandings: round.peerStandings,
-		JudgedPeers:   round.judgedPeers(),
+		PeerStandings: peerStandings,
+		JudgedPeers:   judgedPeers,
 	}
 }
 
@@ -65,7 +67,7 @@ func amountOfEmptyCrossCheckedDocumentsAnswers(
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.DocumentsHeldForTheWord) > 0 {
+		if len(answeredAsk.DocumentsListedForTheWord) > 0 {
 			continue
 		}
 		amount++

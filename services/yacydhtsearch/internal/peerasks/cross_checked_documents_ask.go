@@ -12,9 +12,9 @@ type CrossCheckedDocumentsAsk struct {
 }
 
 type AnsweredCrossCheckedDocumentsAsk struct {
-	Ask                     CrossCheckedDocumentsAsk
-	DocumentsHeldForTheWord []yacymodel.URLHash
-	PeerVersion             string
+	Ask                       CrossCheckedDocumentsAsk
+	DocumentsListedForTheWord []yacymodel.URLHash
+	PeerVersion               string
 }
 
 func (answeredAsk AnsweredCrossCheckedDocumentsAsk) Answers(ask CrossCheckedDocumentsAsk) bool {
