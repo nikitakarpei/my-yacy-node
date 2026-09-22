@@ -133,6 +133,10 @@ components:
     in: internal/peerpresence/memory/**
   peerreliability:
     in: internal/peerreliability/**
+  peerjudgements:
+    in: internal/peerjudgements/**
+  peerjudgementledgersmemory:
+    in: internal/peerjudgementledgers/memory/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -250,6 +254,15 @@ deps:
     mayDependOn:
       - peerdirectory
       - peerreliability
+  peerjudgements:
+    canUse:
+      - yacymodel
+  peerjudgementledgersmemory:
+    canUse:
+      - yacymodel
+      - hashicorplru
+    mayDependOn:
+      - peerjudgements
   peerchoice:
     canUse:
       - yacymodel
