@@ -1176,7 +1176,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (standing) (clamp_min(yacydhtsearch_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (standing) (clamp_min(yacydhtsearch_word_joined_spread_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{standing}}"
         }
       ]
@@ -1216,7 +1216,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (judged) (clamp_min(yacydhtsearch_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (judged) (clamp_min(yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{judged}}"
         }
       ]

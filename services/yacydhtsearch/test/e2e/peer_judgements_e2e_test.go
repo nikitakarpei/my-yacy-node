@@ -396,7 +396,7 @@ func waitForMetricLine(
 
 func judgementsLine(judged string, counted int) string {
 	return fmt.Sprintf(
-		`yacydhtsearch_peer_judgements_total{judged=%q,question=%q} %d`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged=%q,question=%q} %d`,
 		judged,
 		judgementQuestion,
 		counted,
@@ -438,7 +438,7 @@ func amountOfNamedDocumentsIn(links, named []string) int {
 
 func standingsLine(standing string, counted int) string {
 	return fmt.Sprintf(
-		`yacydhtsearch_peer_standings_total{question=%q,standing=%q} %d`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question=%q,standing=%q} %d`,
 		judgementQuestion,
 		standing,
 		counted,

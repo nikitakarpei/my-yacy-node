@@ -21,12 +21,12 @@ Both counters carry the label `question`, with the value
 
 | Metric | Label | Value | Meaning |
 |---|---|---|---|
-| `yacydhtsearch_peer_standings_total` | `standing` | `honoring` | the recorded judgement lets the service ask the peer |
+| `yacydhtsearch_word_joined_spread_peer_standings_total` | `standing` | `honoring` | the recorded judgement lets the service ask the peer |
 | | | `ignoring` | the recorded judgement stops the service from asking the peer |
 | | | `never judged` | no judgement is recorded, the service asks the peer to judge it |
 | | | `version changed` | the peer claims a version other than the judged one, the service asks the peer again |
 | | | `interval passed` | the retrial interval passed for a peer that claims no version, the service asks the peer again |
-| `yacydhtsearch_peer_judgements_total` | `judged` | `honored` | the answer listed only named documents |
+| `yacydhtsearch_word_joined_spread_peer_judgements_total` | `judged` | `honored` | the answer listed only named documents |
 | | | `ignored` | the answer listed a document the cross-check did not name |
 | | | `no evidence` | the answer listed no document, the recorded judgement stays |
 

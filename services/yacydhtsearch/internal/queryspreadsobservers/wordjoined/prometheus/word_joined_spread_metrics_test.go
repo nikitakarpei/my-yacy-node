@@ -245,10 +245,10 @@ func TestTheStandingAndTheJudgementOfAPeerAreCountedUnderTheQuestion(t *testing.
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 2`,
-		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 1`,
-		`yacydhtsearch_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 1`,
-		`yacydhtsearch_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 2`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -264,14 +264,14 @@ func TestEveryStandingAndEveryJudgementIsPublishedBeforeTheFirstSpread(t *testin
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="honoring"} 0`,
-		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 0`,
-		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 0`,
-		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="version changed"} 0`,
-		`yacydhtsearch_peer_standings_total{question="lists only the cross-checked documents",standing="interval passed"} 0`,
-		`yacydhtsearch_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 0`,
-		`yacydhtsearch_peer_judgements_total{judged="ignored",question="lists only the cross-checked documents"} 0`,
-		`yacydhtsearch_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="honoring"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="version changed"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="interval passed"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="ignored",question="lists only the cross-checked documents"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
