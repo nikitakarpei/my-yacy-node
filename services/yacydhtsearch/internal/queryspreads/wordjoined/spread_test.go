@@ -2276,7 +2276,7 @@ func TestOnlyTheReplicasInAPartitionWithCandidatesAreLookedUp(t *testing.T) {
 	}
 }
 
-func TestAPartitionWhereOnlyAnotherQueryWordThanTheLeadingOneIsFullyListedIsReported(
+func TestAPartitionWithABetterLeadingQueryWordIsReported(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -2300,10 +2300,10 @@ func TestAPartitionWhereOnlyAnotherQueryWordThanTheLeadingOneIsFullyListedIsRepo
 
 	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
 	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
-		matchedAndHeldDocumentsRound.AmountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed != 1 {
+		matchedAndHeldDocumentsRound.AmountOfPartitionsWithABetterLeadingQueryWord != 1 {
 		t.Fatalf(
-			"the spread reported %+v, want the rarest word leading and partition 1, where only "+
-				"the other word is fully listed",
+			"the spread reported %+v, want the rarest word leading and partition 1, where the "+
+				"other word is fully listed, as the one with a better leading word",
 			matchedAndHeldDocumentsRound,
 		)
 	}

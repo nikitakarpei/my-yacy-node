@@ -8,17 +8,17 @@ import (
 )
 
 type PerformedMatchedAndHeldDocumentsRound struct {
-	AmountOfQueryWords                                       int
-	AmountOfCompoundWords                                    int
-	AmountOfQueryWordsHeldByNoPeer                           int
-	AmountOfFullyListedQueryWords                            int
-	AmountOfPeersThatListedADocument                         int
-	LeadingQueryWordChoice                                   LeadingQueryWordChoice
-	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord   int
-	AmountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed int
-	AmountOfMatchedDocumentsAcrossAnswers                    int
-	AmountOfMatchedDocumentsWithAPosting                     int
-	AmountOfDocumentsHeldInEachAnswer                        []int
+	AmountOfQueryWords                                     int
+	AmountOfCompoundWords                                  int
+	AmountOfQueryWordsHeldByNoPeer                         int
+	AmountOfFullyListedQueryWords                          int
+	AmountOfPeersThatListedADocument                       int
+	LeadingQueryWordChoice                                 LeadingQueryWordChoice
+	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
+	AmountOfPartitionsWithABetterLeadingQueryWord          int
+	AmountOfMatchedDocumentsAcrossAnswers                  int
+	AmountOfMatchedDocumentsWithAPosting                   int
+	AmountOfDocumentsHeldInEachAnswer                      []int
 }
 
 func performedMatchedAndHeldDocumentsRoundFrom(
@@ -41,7 +41,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documentsListedByPeers(),
 		),
-		AmountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListed: amountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListedIn(
+		AmountOfPartitionsWithABetterLeadingQueryWord: amountOfPartitionsWithABetterLeadingQueryWordIn(
 			round,
 		),
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
@@ -98,7 +98,7 @@ func answeredAsksWithAListedDocument(
 	return keptAnsweredAsks
 }
 
-func amountOfPartitionsWhereOnlyAnotherQueryWordIsFullyListedIn(
+func amountOfPartitionsWithABetterLeadingQueryWordIn(
 	round matchedAndHeldDocumentsRound,
 ) int {
 	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
