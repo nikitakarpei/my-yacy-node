@@ -8,6 +8,7 @@ package sitediscount
 
 import (
 	"cmp"
+	"container/heap"
 	"math"
 	"slices"
 
@@ -62,68 +63,93 @@ func documentsInFallingOrderOfDiscountedRelevance(
 	documentsOfFallingRelevance []queryanswers.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 ) []queryanswers.FoundDocument {
-	unplacedSitedDocuments := sitedDocumentsOf(documentsOfFallingRelevance)
+	positionsPerSite := positionsPerSiteOf(documentsOfFallingRelevance)
 	amountOfPlacedDocumentsPerSite := map[string]int{}
-	placedDocuments := make([]queryanswers.FoundDocument, 0, len(unplacedSitedDocuments))
-	for len(unplacedSitedDocuments) > 0 {
-		position := positionOfTheHighestDiscountedRelevanceAmong(
-			unplacedSitedDocuments, relevancePerDocument, amountOfPlacedDocumentsPerSite,
-		)
-		placedDocuments = append(placedDocuments, unplacedSitedDocuments[position].document)
-		amountOfPlacedDocumentsPerSite[unplacedSitedDocuments[position].site]++
-		unplacedSitedDocuments = slices.Delete(unplacedSitedDocuments, position, position+1)
+	nextDocumentsOfEachSite := &nextDocumentsOfEachSite{}
+	for site, positions := range positionsPerSite {
+		heap.Push(nextDocumentsOfEachSite, nextDocumentOfSite{
+			site:     site,
+			position: positions[0],
+			discountedRelevance: relevanceOf(
+				documentsOfFallingRelevance[positions[0]],
+				relevancePerDocument,
+			),
+		})
+	}
+	placedDocuments := make([]queryanswers.FoundDocument, 0, len(documentsOfFallingRelevance))
+	for nextDocumentsOfEachSite.Len() > 0 {
+		placed, _ := heap.Pop(nextDocumentsOfEachSite).(nextDocumentOfSite)
+		placedDocuments = append(placedDocuments, documentsOfFallingRelevance[placed.position])
+		amountOfPlacedDocumentsPerSite[placed.site]++
+		positionsPerSite[placed.site] = positionsPerSite[placed.site][1:]
+		if len(positionsPerSite[placed.site]) == 0 {
+			continue
+		}
+		position := positionsPerSite[placed.site][0]
+		heap.Push(nextDocumentsOfEachSite, nextDocumentOfSite{
+			site:     placed.site,
+			position: position,
+			discountedRelevance: relevanceOf(
+				documentsOfFallingRelevance[position],
+				relevancePerDocument,
+			) *
+				math.Pow(
+					shareOfRelevanceKeptPerPlacedDocumentOfTheSameSite,
+					float64(amountOfPlacedDocumentsPerSite[placed.site]),
+				),
+		})
 	}
 
 	return placedDocuments
 }
 
-type sitedDocument struct {
-	document queryanswers.FoundDocument
-	site     string
-}
-
-func sitedDocumentsOf(foundDocuments []queryanswers.FoundDocument) []sitedDocument {
-	sitedDocuments := make([]sitedDocument, 0, len(foundDocuments))
-	for _, foundDocument := range foundDocuments {
-		sitedDocuments = append(sitedDocuments, sitedDocument{
-			document: foundDocument,
-			site:     yacymodel.SiteOf(foundDocument.Address),
-		})
+func positionsPerSiteOf(foundDocuments []queryanswers.FoundDocument) map[string][]int {
+	positionsPerSite := map[string][]int{}
+	for position, foundDocument := range foundDocuments {
+		site := yacymodel.SiteOf(foundDocument.Address)
+		positionsPerSite[site] = append(positionsPerSite[site], position)
 	}
 
-	return sitedDocuments
+	return positionsPerSite
 }
 
-func positionOfTheHighestDiscountedRelevanceAmong(
-	sitedDocuments []sitedDocument,
+func relevanceOf(
+	document queryanswers.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-	amountOfPlacedDocumentsPerSite map[string]int,
-) int {
-	positionOfTheHighestDiscountedRelevance := 0
-	highestDiscountedRelevance := math.Inf(-1)
-	for position, sitedDocument := range sitedDocuments {
-		discountedRelevance := discountedRelevanceOf(
-			sitedDocument, relevancePerDocument, amountOfPlacedDocumentsPerSite,
-		)
-		if discountedRelevance > highestDiscountedRelevance {
-			highestDiscountedRelevance = discountedRelevance
-			positionOfTheHighestDiscountedRelevance = position
-		}
-	}
-
-	return positionOfTheHighestDiscountedRelevance
-}
-
-func discountedRelevanceOf(
-	sitedDocument sitedDocument,
-	relevancePerDocument map[yacymodel.URLHash]float64,
-	amountOfPlacedDocumentsPerSite map[string]int,
 ) float64 {
-	return max(
-		relevancePerDocument[sitedDocument.document.Hash],
-		leastRelevanceTheDiscountTakesFrom,
-	) * math.Pow(
-		shareOfRelevanceKeptPerPlacedDocumentOfTheSameSite,
-		float64(amountOfPlacedDocumentsPerSite[sitedDocument.site]),
-	)
+	return max(relevancePerDocument[document.Hash], leastRelevanceTheDiscountTakesFrom)
+}
+
+type nextDocumentOfSite struct {
+	site                string
+	position            int
+	discountedRelevance float64
+}
+
+type nextDocumentsOfEachSite []nextDocumentOfSite
+
+func (next nextDocumentsOfEachSite) Len() int { return len(next) }
+
+func (next nextDocumentsOfEachSite) Less(one, other int) bool {
+	if next[one].discountedRelevance != next[other].discountedRelevance {
+		return next[one].discountedRelevance > next[other].discountedRelevance
+	}
+
+	return next[one].position < next[other].position
+}
+
+func (next nextDocumentsOfEachSite) Swap(one, other int) {
+	next[one], next[other] = next[other], next[one]
+}
+
+func (next *nextDocumentsOfEachSite) Push(item any) {
+	nextDocument, _ := item.(nextDocumentOfSite)
+	*next = append(*next, nextDocument)
+}
+
+func (next *nextDocumentsOfEachSite) Pop() any {
+	last := (*next)[len(*next)-1]
+	*next = (*next)[:len(*next)-1]
+
+	return last
 }
