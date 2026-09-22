@@ -199,10 +199,9 @@ func pushInBatches(
 
 func judgementSettings() map[string]string {
 	return map[string]string{
-		"YACYDHTSEARCH_RANKING_LIFETIME":                 judgementRankingLifetime.String(),
-		"YACYDHTSEARCH_ASKS_FOR_CROSS_CHECKED_DOCUMENTS": "true",
-		"YACYDHTSEARCH_RANKED_ITEMS_CEILING":             strconv.Itoa(namedDocuments),
-		"YACYDHTSEARCH_REFRESH_INTERVAL":                 directoryRefreshInterval.String(),
+		"YACYDHTSEARCH_RANKING_LIFETIME":     judgementRankingLifetime.String(),
+		"YACYDHTSEARCH_RANKED_ITEMS_CEILING": strconv.Itoa(namedDocuments),
+		"YACYDHTSEARCH_REFRESH_INTERVAL":     directoryRefreshInterval.String(),
 	}
 }
 

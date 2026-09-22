@@ -27,8 +27,6 @@ const (
 	urlMetadataAskDocumentsCeiling  = 10
 	documentsOneURLMetadataAskNames = 1
 	crossCheckedDocumentsCeiling    = 10
-	asksForCrossCheckedDocuments    = true
-	asksForNoCrossCheckedDocuments  = false
 	peerItemsCeiling                = 10
 	peersHoldingOneWord             = 24
 	onePartitionOfTheRing           = 1
@@ -395,7 +393,6 @@ func answeredQueryUnder(
 				network,
 				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
@@ -432,36 +429,11 @@ func spreadUnder(
 				network,
 				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
 				peersHoldingOneWord,
 				observer,
-			),
-		),
-		peersAt([]string{"first", "second"}),
-	)
-}
-
-func spreadNotAskingForCrossCheckedDocuments(
-	network *peerNetwork,
-	choice responsiblePeers,
-) {
-	spreadOverPeers(
-		newSpreadOverChosenPeers(
-			choice,
-			wordjoined.New(
-				network,
-				network,
-				namedDocumentsJudgements(),
-				urlMetadataAskDocumentsCeiling,
-				asksForNoCrossCheckedDocuments,
-				crossCheckedDocumentsCeiling,
-				peerItemsCeiling,
-				onePartitionOfTheRing,
-				peersHoldingOneWord,
-				&recordedSpreads{},
 			),
 		),
 		peersAt([]string{"first", "second"}),
@@ -481,7 +453,6 @@ func spreadTheQuery(
 			network,
 			namedDocumentsJudgements(),
 			urlMetadataAskDocumentsCeiling,
-			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
@@ -506,7 +477,6 @@ func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 			network,
 			namedDocumentsJudgements(),
 			urlMetadataAskDocumentsCeiling,
-			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
@@ -566,7 +536,6 @@ func spreadJudgingThePeers(
 			network,
 			judgements,
 			urlMetadataAskDocumentsCeiling,
-			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
@@ -596,32 +565,6 @@ func peersOfTheTwoQueryWords() responsiblePeers {
 		firstWord:  {"first"},
 		secondWord: {"second"},
 	})
-}
-
-func TestASpreadThatAsksForNoCrossCheckedDocumentsLeavesTheSecondRoundOut(t *testing.T) {
-	t.Parallel()
-
-	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: {"https://anchored.example/", "https://answered.example/"}},
-		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
-	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
-
-	spreadNotAskingForCrossCheckedDocuments(
-		network,
-		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
-			secondWord: {"second"},
-		}),
-	)
-
-	if len(network.crossCheckedDocumentsAsks) != 0 || len(network.urlMetadataAsks) == 0 {
-		t.Fatalf(
-			"the spread put %d cross-checked documents asks and %d metadata asks, want none and some",
-			len(network.crossCheckedDocumentsAsks),
-			len(network.urlMetadataAsks),
-		)
-	}
 }
 
 func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheLeadingQueryWordItLeftOut(
@@ -1554,7 +1497,6 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 				network,
 				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
@@ -1826,7 +1768,6 @@ func documentsHeldPerQueryWordAcrossPartitions(
 				network,
 				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				partitions,
@@ -1938,7 +1879,6 @@ func spreadAcrossPartitions(
 				network,
 				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				partitions,

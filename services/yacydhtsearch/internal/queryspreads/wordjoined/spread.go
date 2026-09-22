@@ -45,7 +45,6 @@ type Spread struct {
 	peerAsks                       PeerAsks
 	namedDocumentsJudgements       NamedDocumentsJudgements
 	urlMetadataAskDocumentsCeiling int
-	asksForCrossCheckedDocuments   bool
 	crossCheckedDocumentsCeiling   int
 	peerItemsCeiling               int
 	partitions                     yacymodel.DHTRingPartitions
@@ -59,7 +58,6 @@ func New(
 	peerAsks PeerAsks,
 	namedDocumentsJudgements NamedDocumentsJudgements,
 	urlMetadataAskDocumentsCeiling int,
-	asksForCrossCheckedDocuments bool,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
@@ -71,7 +69,6 @@ func New(
 		peerAsks:                       peerAsks,
 		namedDocumentsJudgements:       namedDocumentsJudgements,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
-		asksForCrossCheckedDocuments:   asksForCrossCheckedDocuments,
 		crossCheckedDocumentsCeiling:   crossCheckedDocumentsCeiling,
 		peerItemsCeiling:               peerItemsCeiling,
 		partitions:                     partitions,
@@ -155,9 +152,6 @@ func (spread Spread) askForCrossCheckedDocuments(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 ) crossCheckedDocumentsRound {
-	if !spread.asksForCrossCheckedDocuments {
-		return crossCheckedDocumentsRound{}
-	}
 	standings := spread.namedDocumentsJudgements.StandingsOf(
 		ctx, matchedAndHeldDocumentsRound.peersThatDidNotListAllTheyHold(),
 	)

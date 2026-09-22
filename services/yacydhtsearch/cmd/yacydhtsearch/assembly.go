@@ -250,7 +250,6 @@ func querySpreadFor(
 			peers,
 			namedDocumentsJudgementsFor(cfg, registry),
 			cfg.URLMetadataAskDocumentsCeiling,
-			cfg.AsksForCrossCheckedDocuments,
 			cfg.CrossCheckedDocumentsCeiling,
 			cfg.PeerItemsCeiling,
 			cfg.Partitions,

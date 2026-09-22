@@ -43,7 +43,6 @@ const (
 	EnvPeerItemsCeiling               = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
 	EnvCrossCheckedDocumentsCeiling   = "YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING"
 	EnvURLMetadataAskDocumentsCeiling = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING"
-	EnvAsksForCrossCheckedDocuments   = "YACYDHTSEARCH_ASKS_FOR_CROSS_CHECKED_DOCUMENTS"
 	EnvRankedItemsCeiling             = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL                        = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity           = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
@@ -77,7 +76,6 @@ const (
 	DefaultPeerItemsCeiling               = 10
 	DefaultCrossCheckedDocumentsCeiling   = 1000
 	DefaultURLMetadataAskDocumentsCeiling = 1000
-	DefaultAsksForCrossCheckedDocuments   = false
 	DefaultRankedItemsCeiling             = 50
 	DefaultCompoundWordsCeiling           = 4
 	DefaultRankingCacheCapacity           = 1024
@@ -120,7 +118,6 @@ type ServiceConfig struct {
 	PeerItemsCeiling               int
 	CrossCheckedDocumentsCeiling   int
 	URLMetadataAskDocumentsCeiling int
-	AsksForCrossCheckedDocuments   bool
 	RankedItemsCeiling             int
 	NATSURL                        string
 	RankingCache                   int
@@ -186,12 +183,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	asksForCrossCheckedDocuments, err := envconfig.Bool(
-		getenv, EnvAsksForCrossCheckedDocuments, DefaultAsksForCrossCheckedDocuments,
-	)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 
 	return ServiceConfig{
 		ListenAddr: envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
@@ -227,7 +218,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PeerItemsCeiling:               counts.peerItemsCeiling,
 		CrossCheckedDocumentsCeiling:   counts.crossCheckedDocumentsCeiling,
 		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
-		AsksForCrossCheckedDocuments:   asksForCrossCheckedDocuments,
 		RankedItemsCeiling:             counts.rankedItemsCeiling,
 		NATSURL:                        strings.TrimSpace(getenv(EnvNATSURL)),
 		RankingCache:                   counts.rankingCacheCapacity,

@@ -40,7 +40,6 @@ const (
 	peerItemsCeiling               = 10
 	compoundWordsCeiling           = 4
 	urlMetadataAskDocumentsCeiling = 1000
-	asksForCrossCheckedDocuments   = false
 	crossCheckedDocumentsCeiling   = 1000
 	queryBudget                    = 15 * time.Second
 	judgementLedgerCapacity        = 4096
@@ -140,7 +139,6 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 				calledPeers,
 				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
-				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
 				peerItemsCeiling,
 				partitions,

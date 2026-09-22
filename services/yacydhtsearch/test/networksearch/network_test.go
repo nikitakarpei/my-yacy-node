@@ -255,7 +255,6 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 		peerCalls(t),
 		namedDocumentsJudgements(),
 		recordCeiling,
-		false,
 		crossCheckedDocumentsCeiling,
 		peerResults,
 		ringPartitions(t),
