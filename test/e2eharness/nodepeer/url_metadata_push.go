@@ -24,12 +24,28 @@ func PushURLMetadata(
 ) {
 	t.Helper()
 
+	PushURLMetadataRows(t, ctx, probe, nodeURL, nodeHash, []yacymodel.URLMetadata{metadata})
+}
+
+// PushURLMetadataRows delivers every named URL metadata row to the node under
+// test in one transferURL wire call, so the node can describe a batch of
+// documents it holds postings for.
+func PushURLMetadataRows(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	nodeURL string,
+	nodeHash yacymodel.Hash,
+	rows []yacymodel.URLMetadata,
+) {
+	t.Helper()
+
 	req := yacyproto.TransferURLRequest{
 		NetworkName: yacyproto.DefaultNetwork,
 		Iam:         pushSenderHash,
 		YouAre:      nodeHash,
-		URLCount:    1,
-		URLs:        []yacymodel.URLMetadata{metadata},
+		URLCount:    len(rows),
+		URLs:        rows,
 	}
 
 	result := probe.PostRaw(
@@ -39,6 +55,6 @@ func PushURLMetadata(
 		"Content-Type: application/x-www-form-urlencoded",
 	)
 	if !result.OK {
-		t.Fatalf("push url metadata to node failed: %s", result.Diag())
+		t.Fatalf("push %d url metadata rows to node failed: %s", len(rows), result.Diag())
 	}
 }

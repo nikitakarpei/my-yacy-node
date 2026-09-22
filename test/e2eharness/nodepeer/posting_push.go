@@ -35,20 +35,30 @@ func PushPosting(
 ) {
 	t.Helper()
 
-	language, err := yacymodel.ParseLanguage("en")
-	if err != nil {
-		t.Fatalf("posting language: %v", err)
-	}
+	PushPostings(t, ctx, probe, nodeURL, nodeHash, word, []yacymodel.URLHash{docURL})
+}
+
+// PushPostings delivers the RWI postings of one word over every named document
+// to the node under test, in one transferRWI wire call, so the node holds a
+// word over more documents than it lists in an index abstract.
+func PushPostings(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	nodeURL string,
+	nodeHash yacymodel.Hash,
+	word yacymodel.Hash,
+	documents []yacymodel.URLHash,
+) {
+	t.Helper()
 
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: yacyproto.DefaultNetwork,
 		Iam:         pushSenderHash,
 		YouAre:      nodeHash,
 		WordCount:   1,
-		EntryCount:  1,
-		Indexes: []yacymodel.RWIPosting{
-			{WordHash: word, URLHash: docURL, Language: language},
-		},
+		EntryCount:  len(documents),
+		Indexes:     postingsOf(t, word, documents),
 	}
 
 	result := probe.PostRaw(
@@ -58,6 +68,30 @@ func PushPosting(
 		"Content-Type: application/x-www-form-urlencoded",
 	)
 	if !result.OK {
-		t.Fatalf("push posting to node failed: %s", result.Diag())
+		t.Fatalf("push %d postings to node failed: %s", len(documents), result.Diag())
 	}
+}
+
+func postingsOf(
+	t *testing.T,
+	word yacymodel.Hash,
+	documents []yacymodel.URLHash,
+) []yacymodel.RWIPosting {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage("en")
+	if err != nil {
+		t.Fatalf("posting language: %v", err)
+	}
+
+	postings := make([]yacymodel.RWIPosting, 0, len(documents))
+	for _, document := range documents {
+		postings = append(postings, yacymodel.RWIPosting{
+			WordHash: word,
+			URLHash:  document,
+			Language: language,
+		})
+	}
+
+	return postings
 }
