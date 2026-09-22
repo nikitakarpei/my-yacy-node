@@ -194,8 +194,8 @@ func (queryWord queryWordAcrossReplicas) documentsNotListedByItsPeersAmong(
 }
 
 func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
-	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
-		if !slices.ContainsFunc(queryWordOnReplicasOfPartition, queryWordOnReplica.isFullyListed) {
+	for _, wordPartition := range queryWord.wordPartitions() {
+		if !wordPartition.isFullyListed() {
 			return false
 		}
 	}
@@ -203,15 +203,22 @@ func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
 	return true
 }
 
+func (queryWord queryWordAcrossReplicas) wordPartitions() []wordPartition {
+	wordPartitions := make([]wordPartition, 0, len(queryWord.queryWordOnReplicasPerPartition))
+	for _, replicas := range queryWord.queryWordOnReplicasPerPartition {
+		wordPartitions = append(
+			wordPartitions,
+			wordPartition{word: queryWord.word, replicas: replicas},
+		)
+	}
+
+	return wordPartitions
+}
+
 func (queryWord queryWordAcrossReplicas) replicasThatDidNotListAllTheyHold() []queryWordOnReplica {
 	var replicas []queryWordOnReplica
-	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
-		for _, queryWordOnOneReplica := range queryWordOnReplicasOfPartition {
-			if queryWordOnOneReplica.isFullyListed() {
-				continue
-			}
-			replicas = append(replicas, queryWordOnOneReplica)
-		}
+	for _, wordPartition := range queryWord.wordPartitions() {
+		replicas = append(replicas, wordPartition.replicasThatDidNotListAllTheyHold()...)
 	}
 
 	return replicas
