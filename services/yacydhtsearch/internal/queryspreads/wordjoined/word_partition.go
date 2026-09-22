@@ -11,13 +11,13 @@ type wordPartition struct {
 	replicas []queryWordOnReplica
 }
 
-func (partition wordPartition) isFullyListed() bool {
-	return slices.ContainsFunc(partition.replicas, queryWordOnReplica.isFullyListed)
+func (wordPartition wordPartition) isFullyListed() bool {
+	return slices.ContainsFunc(wordPartition.replicas, queryWordOnReplica.isFullyListed)
 }
 
-func (partition wordPartition) replicasThatDidNotListAllTheyHold() []queryWordOnReplica {
+func (wordPartition wordPartition) replicasThatDidNotListAllTheyHold() []queryWordOnReplica {
 	var replicas []queryWordOnReplica
-	for _, replica := range partition.replicas {
+	for _, replica := range wordPartition.replicas {
 		if replica.isFullyListed() {
 			continue
 		}

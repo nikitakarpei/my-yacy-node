@@ -2137,24 +2137,24 @@ func networkWhereTheSecondWordIsFullyListedInPartitionZero(
 ) (*peerNetwork, []string) {
 	t.Helper()
 
-	candidateInPartitionZero := addressesInPartition(t, 0, 2)
-	candidateInPartitionOne := addressesInPartition(t, 1, 2)
+	documentsInPartitionZero := addressesInPartition(t, 0, 2)
+	documentsInPartitionOne := addressesInPartition(t, 1, 2)
 	network := networkOf(map[string]map[string][]string{
-		"first-in-0":  {firstWord: candidateInPartitionZero[:1]},
-		"first-in-1":  {firstWord: candidateInPartitionOne[:1]},
-		"second-in-0": {secondWord: candidateInPartitionZero[1:]},
-		"second-in-1": {secondWord: {candidateInPartitionOne[1], candidateInPartitionOne[0]}},
+		"first-in-0":  {firstWord: documentsInPartitionZero[:1]},
+		"first-in-1":  {firstWord: documentsInPartitionOne[:1]},
+		"second-in-0": {secondWord: documentsInPartitionZero[1:]},
+		"second-in-1": {secondWord: {documentsInPartitionOne[1], documentsInPartitionOne[0]}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-1": 1}
 	network.documentsHeldByEachPeer = map[string]int{"second-in-0": 1}
 
-	return network, candidateInPartitionOne
+	return network, documentsInPartitionOne
 }
 
 func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
 	t.Parallel()
 
-	network, candidateInPartitionOne := networkWhereTheSecondWordIsFullyListedInPartitionZero(t)
+	network, documentsInPartitionOne := networkWhereTheSecondWordIsFullyListedInPartitionZero(t)
 
 	spreadOverTwoPartitions(
 		network,
@@ -2163,7 +2163,7 @@ func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
 		&recordedSpreads{},
 	)
 
-	wanted := documentHashesOf(candidateInPartitionOne[:1])
+	wanted := documentHashesOf(documentsInPartitionOne[:1])
 	if got := documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
 		got, wanted,
 	) {
@@ -2205,13 +2205,13 @@ func TestTheCandidatesOfAPartitionWhoseReplicasAllIgnoreTheCrossCheckAreCountedA
 ) {
 	t.Parallel()
 
-	candidateInPartitionZero := addressesInPartition(t, 0, 1)
-	candidateInPartitionOne := addressesInPartition(t, 1, 2)
+	documentsInPartitionZero := addressesInPartition(t, 0, 1)
+	documentsInPartitionOne := addressesInPartition(t, 1, 2)
 	network := networkOf(map[string]map[string][]string{
-		"first-in-0":  {firstWord: candidateInPartitionZero},
-		"first-in-1":  {firstWord: candidateInPartitionOne[:1]},
-		"second-in-0": {secondWord: candidateInPartitionZero},
-		"second-in-1": {secondWord: candidateInPartitionOne},
+		"first-in-0":  {firstWord: documentsInPartitionZero},
+		"first-in-1":  {firstWord: documentsInPartitionOne[:1]},
+		"second-in-0": {secondWord: documentsInPartitionZero},
+		"second-in-1": {secondWord: documentsInPartitionOne},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-0": 0, "second-in-1": 0}
 	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second-in-1": {}}

@@ -3,8 +3,8 @@ package wordjoined
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type crossCheckCandidates struct {
-	leftOpenByAPartialListing []crossCheckCandidatesOfWordPartition
-	ruledOutByAFullListing    []crossCheckCandidatesOfWordPartition
+	ofPartlyListedWordPartitions []crossCheckCandidatesOfWordPartition
+	ofFullyListedWordPartitions  []crossCheckCandidatesOfWordPartition
 }
 
 type crossCheckCandidatesOfWordPartition struct {
@@ -21,14 +21,14 @@ func crossCheckCandidatesIn(
 		matchedAndHeldDocumentsRound, partitions,
 	) {
 		if candidatesOfWordPartition.wordPartition.isFullyListed() {
-			candidates.ruledOutByAFullListing = append(
-				candidates.ruledOutByAFullListing, candidatesOfWordPartition,
+			candidates.ofFullyListedWordPartitions = append(
+				candidates.ofFullyListedWordPartitions, candidatesOfWordPartition,
 			)
 
 			continue
 		}
-		candidates.leftOpenByAPartialListing = append(
-			candidates.leftOpenByAPartialListing, candidatesOfWordPartition,
+		candidates.ofPartlyListedWordPartitions = append(
+			candidates.ofPartlyListedWordPartitions, candidatesOfWordPartition,
 		)
 	}
 

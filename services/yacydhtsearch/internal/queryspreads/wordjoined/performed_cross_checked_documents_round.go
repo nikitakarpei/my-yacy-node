@@ -28,13 +28,13 @@ func performedCrossCheckedDocumentsRoundFrom(
 			round.asks,
 		),
 		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesAcross(
-			round.candidates.leftOpenByAPartialListing,
+			round.candidates.ofPartlyListedWordPartitions,
 		) -
 			amountOfDocumentsSentForCrossCheckingAcross(
 				round.asks,
 			),
 		AmountOfCrossCheckCandidatesRuledOutByAFullListing: amountOfCrossCheckCandidatesAcross(
-			round.candidates.ruledOutByAFullListing,
+			round.candidates.ofFullyListedWordPartitions,
 		),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
