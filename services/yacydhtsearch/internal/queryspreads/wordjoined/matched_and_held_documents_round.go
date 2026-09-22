@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -30,6 +31,29 @@ func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() 
 		round.queryWordsFewestDocumentsFirst[:placeOfTheLeadingQueryWord],
 		round.queryWordsFewestDocumentsFirst[placeOfTheLeadingQueryWord+1:],
 	)
+}
+
+func (round matchedAndHeldDocumentsRound) peersThatDidNotListAllTheyHold() []peerjudgements.PeerAtVersion {
+	var peers []peerjudgements.PeerAtVersion
+	for _, queryWord := range round.queryWordsBesideTheLeadingQueryWord() {
+		if queryWord.isFullyListed() {
+			continue
+		}
+		for _, replica := range queryWord.replicasThatDidNotListAllTheyHold() {
+			peerAtVersion := peerjudgements.PeerAtVersion{
+				Peer:    replica.peer.Hash,
+				Version: replica.versionClaimed(),
+			}
+			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
+				return peer.Peer == peerAtVersion.Peer
+			}) {
+				continue
+			}
+			peers = append(peers, peerAtVersion)
+		}
+	}
+
+	return peers
 }
 
 func (round matchedAndHeldDocumentsRound) placeOfTheLeadingQueryWord() int {

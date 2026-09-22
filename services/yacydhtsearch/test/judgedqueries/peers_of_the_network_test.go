@@ -10,6 +10,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
+	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
 	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
@@ -41,6 +43,8 @@ const (
 	asksForCrossCheckedDocuments   = false
 	crossCheckedDocumentsCeiling   = 1000
 	queryBudget                    = 15 * time.Second
+	judgementLedgerCapacity        = 4096
+	peerRetrialInterval            = 24 * time.Hour
 )
 
 var seedlistURLs = []string{
@@ -134,6 +138,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 			wordjoined.New(
 				calledPeers,
 				calledPeers,
+				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
@@ -149,6 +154,16 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 			),
 		),
 	}
+}
+
+func namedDocumentsJudgements() peerjudgements.Judgements {
+	return peerjudgements.New(
+		peerjudgements.NamedDocuments,
+		peerjudgementledgersmemory.New(judgementLedgerCapacity),
+		peerRetrialInterval,
+		time.Now,
+		peerjudgements.JudgementsObservers{},
+	)
 }
 
 func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {

@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -16,6 +17,7 @@ type crossCheckedDocumentsAsksWithinTheCeiling struct {
 func crossCheckedDocumentsAsksWithinTheCeilingFor(
 	queryWordsBesideTheLeadingQueryWord []queryWordAcrossReplicas,
 	documentsListedByThePeersOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
+	standings []peerjudgements.PeerStanding,
 	crossCheckedDocumentsCeiling int,
 ) crossCheckedDocumentsAsksWithinTheCeiling {
 	asksWithinTheCeiling := crossCheckedDocumentsAsksWithinTheCeiling{}
@@ -28,7 +30,7 @@ func crossCheckedDocumentsAsksWithinTheCeilingFor(
 			queryWord.documentsListedByPeers(),
 		)
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
-			queryWord.peersThatDidNotListAllTheyHold(),
+			peersNotIgnoringAmong(queryWord.replicasThatDidNotListAllTheyHold(), standings),
 			asksWithinTheCeiling.asks,
 		)
 		amountOfDocumentsToDeal := min(
@@ -62,6 +64,35 @@ func documentsNotListedByPeersAmong(
 	}
 
 	return keptDocuments
+}
+
+func peersNotIgnoringAmong(
+	replicas []queryWordOnReplica,
+	standings []peerjudgements.PeerStanding,
+) []peerdirectory.AskablePeer {
+	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
+	for _, replica := range replicas {
+		if standingOf(replica.peer, standings) == peerjudgements.Ignoring {
+			continue
+		}
+		keptPeers = append(keptPeers, replica.peer)
+	}
+
+	return keptPeers
+}
+
+func standingOf(
+	peer peerdirectory.AskablePeer,
+	standings []peerjudgements.PeerStanding,
+) peerjudgements.Standing {
+	place := slices.IndexFunc(standings, func(standing peerjudgements.PeerStanding) bool {
+		return standing.Peer == peer.Hash
+	})
+	if place < 0 {
+		return peerjudgements.NeverJudged
+	}
+
+	return standings[place].Standing
 }
 
 func peersNotYetAskedToCrossCheckAmong(

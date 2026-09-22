@@ -12,6 +12,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -32,6 +34,10 @@ const (
 	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
+	judgementLedgerCapacity         = 16
+	peerRetrialInterval             = 24 * time.Hour
+	versionOfThePeer                = "yacy_v1.925"
+	versionAfterAnUpgrade           = "yacy_v1.930"
 )
 
 type peerNetwork struct {
@@ -48,6 +54,8 @@ type peerNetwork struct {
 	silentPeers                           map[string]struct{}
 	peersSilentInTheCrossCheckedDocuments map[string]struct{}
 	peersHoldingNoNamedDocument           map[string]struct{}
+	peersListingDocumentsTheAskDidNotName map[string]struct{}
+	versionOfEachPeer                     map[string]string
 	timeLeftInEachRoundInTheirOrder       []time.Duration
 }
 
@@ -58,6 +66,8 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 		silentPeers:                           map[string]struct{}{},
 		peersSilentInTheCrossCheckedDocuments: map[string]struct{}{},
 		peersHoldingNoNamedDocument:           map[string]struct{}{},
+		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
+		versionOfEachPeer:                     map[string]string{},
 	}
 }
 
@@ -80,6 +90,7 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 				documentsPerWordOf(n.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
 			),
 			AmountOfDocumentsHeldForTheWord: n.documentsCountedBy(ask.Peer.Address, ask.Word),
+			PeerVersion:                     n.versionOfEachPeer[ask.Peer.Address],
 		})
 	}
 
@@ -101,6 +112,7 @@ func (n *peerNetwork) AskForCrossCheckedDocuments(
 		answeredAsks = append(answeredAsks, peerasks.AnsweredCrossCheckedDocumentsAsk{
 			Ask:                     ask,
 			DocumentsHeldForTheWord: n.namedDocumentsHeldBy(ask),
+			PeerVersion:             n.versionOfEachPeer[ask.Peer.Address],
 		})
 	}
 
@@ -115,6 +127,10 @@ func (n *peerNetwork) namedDocumentsHeldBy(
 	}
 
 	heldDocuments := documentsPerWordOf(n.documentsPerWordPerPeer, ask.Peer.Address, ask.Word)
+	if _, listsMore := n.peersListingDocumentsTheAskDidNotName[ask.Peer.Address]; listsMore {
+		return heldDocuments
+	}
+
 	namedDocumentsHeld := make([]yacymodel.URLHash, 0, len(ask.Documents))
 	for _, document := range ask.Documents {
 		if !slices.Contains(heldDocuments, document) {
@@ -377,6 +393,7 @@ func answeredQueryUnder(
 			wordjoined.New(
 				network,
 				network,
+				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
@@ -413,6 +430,7 @@ func spreadUnder(
 			wordjoined.New(
 				network,
 				network,
+				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
@@ -436,6 +454,7 @@ func spreadNotAskingForCrossCheckedDocuments(
 			wordjoined.New(
 				network,
 				network,
+				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				asksForNoCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
@@ -460,6 +479,7 @@ func spreadTheQuery(
 		wordjoined.New(
 			network,
 			network,
+			namedDocumentsJudgements(),
 			urlMetadataAskDocumentsCeiling,
 			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
@@ -484,6 +504,7 @@ func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 		wordjoined.New(
 			network,
 			network,
+			namedDocumentsJudgements(),
 			urlMetadataAskDocumentsCeiling,
 			asksForCrossCheckedDocuments,
 			crossCheckedDocumentsCeiling,
@@ -521,6 +542,60 @@ func documentsInTheirHashOrder(documents []yacymodel.URLHash) []yacymodel.URLHas
 	})
 
 	return documentsInOrder
+}
+
+func namedDocumentsJudgements() peerjudgements.Judgements {
+	return peerjudgements.New(
+		peerjudgements.NamedDocuments,
+		peerjudgementledgersmemory.New(judgementLedgerCapacity),
+		peerRetrialInterval,
+		time.Now,
+		peerjudgements.JudgementsObservers{},
+	)
+}
+
+func spreadJudgingThePeers(
+	network *peerNetwork,
+	choice responsiblePeers,
+	judgements wordjoined.NamedDocumentsJudgements,
+) {
+	newSpreadOverChosenPeers(
+		choice,
+		wordjoined.New(
+			network,
+			network,
+			judgements,
+			urlMetadataAskDocumentsCeiling,
+			asksForCrossCheckedDocuments,
+			crossCheckedDocumentsCeiling,
+			peerItemsCeiling,
+			onePartitionOfTheRing,
+			peersHoldingOneWord,
+			&recordedSpreads{},
+		),
+	).SpreadOverPeers(
+		context.Background(),
+		searchquery.QueryFrom(firstWord+" "+secondWord, ""),
+		peersAt([]string{"first", "second"}),
+	)
+}
+
+func networkOfAPeerThatDidNotListAllItHolds() *peerNetwork {
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {"https://anchored.example/", "https://answered.example/"}},
+		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network.versionOfEachPeer = map[string]string{"second": versionOfThePeer}
+
+	return network
+}
+
+func peersOfTheTwoQueryWords() responsiblePeers {
+	return peersOfEachQueryWord(map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"second"},
+	})
 }
 
 func TestASpreadThatAsksForNoCrossCheckedDocumentsLeavesTheSecondRoundOut(t *testing.T) {
@@ -583,6 +658,82 @@ func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheLeadingQueryW
 		t.Fatalf(
 			"the ask named %v, want the document listed for the leading query word that the answer left out",
 			got,
+		)
+	}
+}
+
+func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedByTheNextQuery(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	judgements := namedDocumentsJudgements()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 1 {
+		t.Fatalf(
+			"the spreads put %v, want only the ask that judged the peer",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+}
+
+func TestAPeerThatListedOnlyTheNamedDocumentsIsAskedByTheNextQuery(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	judgements := namedDocumentsJudgements()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spreads put %v, want one ask of each query",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+}
+
+func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	judgements := namedDocumentsJudgements()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spreads put %v, want the peer asked again at the version it claims now",
+			network.crossCheckedDocumentsAsks,
+		)
+	}
+}
+
+func TestAnEmptyAnswerLeavesTheStandingOfThePeerAsItWas(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAPeerThatDidNotListAllItHolds()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	judgements := namedDocumentsJudgements()
+
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
+	network.peersHoldingNoNamedDocument = map[string]struct{}{"second": {}}
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	network.versionOfEachPeer = map[string]string{"second": versionOfThePeer}
+	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+
+	if len(network.crossCheckedDocumentsAsks) != 2 {
+		t.Fatalf(
+			"the spreads put %v, want the empty answer to leave the peer as it was judged",
+			network.crossCheckedDocumentsAsks,
 		)
 	}
 }
@@ -1401,6 +1552,7 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 			wordjoined.New(
 				network,
 				network,
+				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
@@ -1672,6 +1824,7 @@ func documentsHeldPerQueryWordAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
+				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,
@@ -1783,6 +1936,7 @@ func spreadAcrossPartitions(
 			wordjoined.New(
 				network,
 				network,
+				namedDocumentsJudgements(),
 				urlMetadataAskDocumentsCeiling,
 				asksForCrossCheckedDocuments,
 				crossCheckedDocumentsCeiling,

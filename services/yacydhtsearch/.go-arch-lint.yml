@@ -137,6 +137,10 @@ components:
     in: internal/peerjudgements/**
   peerjudgementledgersmemory:
     in: internal/peerjudgementledgers/memory/**
+  peerjudgementsobserversapplog:
+    in: internal/peerjudgementsobservers/applog/**
+  peerjudgementsobserversprometheus:
+    in: internal/peerjudgementsobservers/prometheus/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -313,6 +317,7 @@ deps:
       - peerchoice
       - peerdirectory
       - peerasks
+      - peerjudgements
       - searchquery
   bywordcount:
     mayDependOn:
@@ -403,6 +408,14 @@ deps:
     canUse:
       - prometheus
       - yacymodel
+  peerjudgementsobserversapplog:
+    mayDependOn:
+      - peerjudgements
+  peerjudgementsobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - peerjudgements
   peerpresenceobserversjetstreamprometheus:
     canUse:
       - prometheus

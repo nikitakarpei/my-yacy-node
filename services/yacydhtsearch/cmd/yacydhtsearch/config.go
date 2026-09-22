@@ -37,6 +37,7 @@ const (
 	EnvMaturationDuration             = "YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION"
 	EnvStalenessHorizon               = "YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON"
 	EnvSnapshotInterval               = "YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL"
+	EnvPeerRetrialInterval            = "YACYDHTSEARCH_PEER_RETRIAL_INTERVAL"
 	EnvPartitionExponent              = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvMaxResponseBytes               = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
 	EnvPeerItemsCeiling               = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
@@ -70,6 +71,7 @@ const (
 	DefaultContinuityLimit                = 15 * time.Minute
 	DefaultProbeAnswerHistoryKeptFor      = 24 * time.Hour
 	DefaultSnapshotInterval               = 10 * time.Minute
+	DefaultPeerRetrialInterval            = 24 * time.Hour
 	DefaultPartitionExponent              = 4
 	DefaultMaxResponseBytes               = 4 * 1024 * 1024
 	DefaultPeerItemsCeiling               = 10
@@ -112,6 +114,7 @@ type ServiceConfig struct {
 	MaturationDuration             time.Duration
 	StalenessHorizon               time.Duration
 	SnapshotInterval               time.Duration
+	PeerRetrialInterval            time.Duration
 	Partitions                     yacymodel.DHTRingPartitions
 	MaxResponseBytes               int64
 	PeerItemsCeiling               int
@@ -218,6 +221,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		MaturationDuration:             durations.maturationDuration,
 		StalenessHorizon:               durations.stalenessHorizon,
 		SnapshotInterval:               durations.snapshotInterval,
+		PeerRetrialInterval:            durations.peerRetrialInterval,
 		Partitions:                     partitions,
 		MaxResponseBytes:               maxResponseBytes,
 		PeerItemsCeiling:               counts.peerItemsCeiling,
@@ -249,6 +253,7 @@ type configuredDurations struct {
 	maturationDuration        time.Duration
 	stalenessHorizon          time.Duration
 	snapshotInterval          time.Duration
+	peerRetrialInterval       time.Duration
 	rankingLifetime           time.Duration
 	pageReadBudget            time.Duration
 }
@@ -279,6 +284,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 			&durations.stalenessHorizon,
 		},
 		{EnvSnapshotInterval, DefaultSnapshotInterval, &durations.snapshotInterval},
+		{EnvPeerRetrialInterval, DefaultPeerRetrialInterval, &durations.peerRetrialInterval},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
 		{EnvPageReadBudget, DefaultPageReadBudget, &durations.pageReadBudget},
 	} {

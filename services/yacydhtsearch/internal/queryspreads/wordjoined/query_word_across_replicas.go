@@ -200,18 +200,18 @@ func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
 	return true
 }
 
-func (queryWord queryWordAcrossReplicas) peersThatDidNotListAllTheyHold() []peerdirectory.AskablePeer {
-	var peers []peerdirectory.AskablePeer
+func (queryWord queryWordAcrossReplicas) replicasThatDidNotListAllTheyHold() []queryWordOnReplica {
+	var replicas []queryWordOnReplica
 	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
 		for _, queryWordOnOneReplica := range queryWordOnReplicasOfPartition {
 			if queryWordOnOneReplica.isFullyListed() {
 				continue
 			}
-			peers = append(peers, queryWordOnOneReplica.peer)
+			replicas = append(replicas, queryWordOnOneReplica)
 		}
 	}
 
-	return peers
+	return replicas
 }
 
 func (queryWord queryWordOnReplica) isFullyListed() bool {
@@ -222,4 +222,13 @@ func (queryWord queryWordOnReplica) isFullyListed() bool {
 	amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
 
 	return counted && amountOfDocumentsHeld <= len(answer.DocumentsListedForTheWord)
+}
+
+func (queryWord queryWordOnReplica) versionClaimed() string {
+	answer, answered := queryWord.answer.Get()
+	if !answered {
+		return ""
+	}
+
+	return answer.PeerVersion
 }
