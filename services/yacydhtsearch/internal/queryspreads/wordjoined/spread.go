@@ -32,31 +32,33 @@ type PeerAsks interface {
 	) []peerasks.AnsweredURLMetadataAsk
 }
 
-type CrossCheckedDocumentsJudgements interface {
+const ListsOnlyTheCrossCheckedDocuments peerjudgements.Question = "lists only the cross-checked documents"
+
+type PeerJudgements interface {
 	StandingsOf(
 		ctx context.Context,
 		peers []peerjudgements.PeerAtVersion,
-	) []peerjudgements.PeerStanding
+	) peerjudgements.PeerStandings
 	Add(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer)
 }
 
 type Spread struct {
-	replicaAsks                     ReplicaAsks
-	peerAsks                        PeerAsks
-	crossCheckedDocumentsJudgements CrossCheckedDocumentsJudgements
-	urlMetadataAskDocumentsCeiling  int
-	crossCheckedDocumentsCeiling    int
-	peerItemsCeiling                int
-	partitions                      yacymodel.DHTRingPartitions
-	amountOfPeersHoldingOneWord     int
-	observer                        WordJoinedSpreadObserver
+	replicaAsks                    ReplicaAsks
+	peerAsks                       PeerAsks
+	peerJudgements                 PeerJudgements
+	urlMetadataAskDocumentsCeiling int
+	crossCheckedDocumentsCeiling   int
+	peerItemsCeiling               int
+	partitions                     yacymodel.DHTRingPartitions
+	amountOfPeersHoldingOneWord    int
+	observer                       WordJoinedSpreadObserver
 }
 
 //nolint:revive // argument-limit: the spread takes its asks, judgements, ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
-	crossCheckedDocumentsJudgements CrossCheckedDocumentsJudgements,
+	peerJudgements PeerJudgements,
 	urlMetadataAskDocumentsCeiling int,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
@@ -65,15 +67,15 @@ func New(
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
-		replicaAsks:                     replicaAsks,
-		peerAsks:                        peerAsks,
-		crossCheckedDocumentsJudgements: crossCheckedDocumentsJudgements,
-		urlMetadataAskDocumentsCeiling:  urlMetadataAskDocumentsCeiling,
-		crossCheckedDocumentsCeiling:    crossCheckedDocumentsCeiling,
-		peerItemsCeiling:                peerItemsCeiling,
-		partitions:                      partitions,
-		amountOfPeersHoldingOneWord:     amountOfPeersHoldingOneWord,
-		observer:                        observer,
+		replicaAsks:                    replicaAsks,
+		peerAsks:                       peerAsks,
+		peerJudgements:                 peerJudgements,
+		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
+		crossCheckedDocumentsCeiling:   crossCheckedDocumentsCeiling,
+		peerItemsCeiling:               peerItemsCeiling,
+		partitions:                     partitions,
+		amountOfPeersHoldingOneWord:    amountOfPeersHoldingOneWord,
+		observer:                       observer,
 	}
 }
 
@@ -152,8 +154,8 @@ func (spread Spread) askForCrossCheckedDocuments(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 ) crossCheckedDocumentsRound {
-	peerStandings := spread.crossCheckedDocumentsJudgements.StandingsOf(
-		ctx, matchedAndHeldDocumentsRound.peersThatMayCrossCheck(),
+	peerStandings := spread.peerJudgements.StandingsOf(
+		ctx, peersAtVersionOf(matchedAndHeldDocumentsRound.replicasThatMayCrossCheck()),
 	)
 	asks := crossCheckedDocumentsAsksFor(
 		matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord(),
@@ -168,9 +170,21 @@ func (spread Spread) askForCrossCheckedDocuments(
 		spread.peerAsks.AskForCrossCheckedDocuments(roundContext, asks),
 		peerStandings,
 	)
-	spread.crossCheckedDocumentsJudgements.Add(ctx, round.judgedPeers)
+	spread.peerJudgements.Add(ctx, round.judgedPeers())
 
 	return round
+}
+
+func peersAtVersionOf(replicas []queryWordOnReplica) []peerjudgements.PeerAtVersion {
+	peers := make([]peerjudgements.PeerAtVersion, 0, len(replicas))
+	for _, replica := range replicas {
+		peers = append(peers, peerjudgements.PeerAtVersion{
+			Peer:    replica.peer.Hash,
+			Version: replica.versionClaimed(),
+		})
+	}
+
+	return peers
 }
 
 func (spread Spread) askForURLMetadata(

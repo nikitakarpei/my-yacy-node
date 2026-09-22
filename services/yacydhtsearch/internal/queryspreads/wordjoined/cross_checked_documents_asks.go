@@ -12,7 +12,7 @@ import (
 func crossCheckedDocumentsAsksFor(
 	partlyListedQueryWords []queryWordAcrossReplicas,
 	documentsOfTheLeadingQueryWordMostListedFirst []yacymodel.URLHash,
-	peerStandings []peerjudgements.PeerStanding,
+	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 ) []peerasks.CrossCheckedDocumentsAsk {
 	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(partlyListedQueryWords))
@@ -39,28 +39,17 @@ func crossCheckedDocumentsAsksFor(
 
 func peersNotIgnoringAmong(
 	replicas []queryWordOnReplica,
-	peerStandings []peerjudgements.PeerStanding,
+	peerStandings peerjudgements.PeerStandings,
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
 	for _, replica := range replicas {
-		if standingOf(replica.peer, peerStandings) == peerjudgements.Ignoring {
+		if peerStandings.StandingOf(replica.peer.Hash) == peerjudgements.Ignoring {
 			continue
 		}
 		keptPeers = append(keptPeers, replica.peer)
 	}
 
 	return keptPeers
-}
-
-func standingOf(
-	peer peerdirectory.AskablePeer,
-	peerStandings []peerjudgements.PeerStanding,
-) peerjudgements.Standing {
-	place := slices.IndexFunc(peerStandings, func(peerStanding peerjudgements.PeerStanding) bool {
-		return peerStanding.Peer == peer.Hash
-	})
-
-	return peerStandings[place].Standing
 }
 
 func peersNotYetAskedToCrossCheckAmong(

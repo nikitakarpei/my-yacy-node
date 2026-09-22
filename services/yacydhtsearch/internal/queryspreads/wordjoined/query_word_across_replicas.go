@@ -72,38 +72,26 @@ func queryWordOnReplicasPerPartitionFrom(
 ) [][]queryWordOnReplica {
 	queryWordOnReplicasPerPartition := make([][]queryWordOnReplica, partitions)
 	for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
-		queryWordOnReplicasPerPartition[chosenPeer.Partition] = append(
-			queryWordOnReplicasPerPartition[chosenPeer.Partition],
-			queryWordOnReplica{
-				peer: chosenPeer.Peer,
-				answer: answerToTheMatchedAndHeldDocumentsAskAmong(
+		answer := yacymodel.None[peerasks.AnsweredMatchedAndHeldDocumentsAsk]()
+		place := slices.IndexFunc(
+			answeredAsks,
+			func(answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk) bool {
+				return answeredAsk.AnswersTheAskTo(
 					chosenPeer.Peer,
 					chosenPeersOfQueryWord.QueryWord,
-					answeredAsks,
-				),
+				)
 			},
+		)
+		if place >= 0 {
+			answer = yacymodel.Some(answeredAsks[place])
+		}
+		queryWordOnReplicasPerPartition[chosenPeer.Partition] = append(
+			queryWordOnReplicasPerPartition[chosenPeer.Partition],
+			queryWordOnReplica{peer: chosenPeer.Peer, answer: answer},
 		)
 	}
 
 	return queryWordOnReplicasPerPartition
-}
-
-func answerToTheMatchedAndHeldDocumentsAskAmong(
-	peer peerdirectory.AskablePeer,
-	queryWord yacymodel.Hash,
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) yacymodel.Optional[peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
-	place := slices.IndexFunc(
-		answeredAsks,
-		func(answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk) bool {
-			return answeredAsk.Ask.Peer.Hash == peer.Hash && answeredAsk.Ask.Word == queryWord
-		},
-	)
-	if place < 0 {
-		return yacymodel.None[peerasks.AnsweredMatchedAndHeldDocumentsAsk]()
-	}
-
-	return yacymodel.Some(answeredAsks[place])
 }
 
 func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {

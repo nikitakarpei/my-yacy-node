@@ -35,7 +35,7 @@ func performedCrossCheckedDocumentsRoundFrom(
 			matchedAndHeldDocumentsRound,
 		),
 		PeerStandings: round.peerStandings,
-		JudgedPeers:   round.judgedPeers,
+		JudgedPeers:   round.judgedPeers(),
 	}
 }
 

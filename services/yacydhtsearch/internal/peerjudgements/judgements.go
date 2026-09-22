@@ -32,8 +32,8 @@ func New(
 	}
 }
 
-func (j Judgements) StandingsOf(ctx context.Context, peers []PeerAtVersion) []PeerStanding {
-	standings := make([]PeerStanding, 0, len(peers))
+func (j Judgements) StandingsOf(ctx context.Context, peers []PeerAtVersion) PeerStandings {
+	standings := make(PeerStandings, 0, len(peers))
 	for _, peer := range peers {
 		standings = append(standings, j.standingOf(ctx, peer))
 	}

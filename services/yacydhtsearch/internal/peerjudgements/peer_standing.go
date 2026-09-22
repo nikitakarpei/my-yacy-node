@@ -1,6 +1,7 @@
 package peerjudgements
 
 import (
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -24,6 +25,16 @@ type PeerAtVersion struct {
 type PeerStanding struct {
 	PeerAtVersion
 	Standing Standing
+}
+
+type PeerStandings []PeerStanding
+
+func (standings PeerStandings) StandingOf(peer yacymodel.Hash) Standing {
+	place := slices.IndexFunc(standings, func(standing PeerStanding) bool {
+		return standing.Peer == peer
+	})
+
+	return standings[place].Standing
 }
 
 func standingFrom(

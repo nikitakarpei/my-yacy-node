@@ -253,7 +253,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	return wordjoined.New(
 		replicaAsks(t),
 		peerCalls(t),
-		crossCheckedDocumentsJudgements(),
+		peerJudgements(),
 		recordCeiling,
 		crossCheckedDocumentsCeiling,
 		peerResults,
@@ -263,7 +263,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	)
 }
 
-func crossCheckedDocumentsJudgements() peerjudgements.Judgements {
+func peerJudgements() peerjudgements.Judgements {
 	return peerjudgements.New(
 		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),

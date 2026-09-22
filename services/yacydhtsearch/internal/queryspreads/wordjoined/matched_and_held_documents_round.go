@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -55,24 +54,20 @@ func (round matchedAndHeldDocumentsRound) partlyListedQueryWordsBesideTheLeading
 	return partlyListedQueryWords
 }
 
-func (round matchedAndHeldDocumentsRound) peersThatMayCrossCheck() []peerjudgements.PeerAtVersion {
-	var peers []peerjudgements.PeerAtVersion
+func (round matchedAndHeldDocumentsRound) replicasThatMayCrossCheck() []queryWordOnReplica {
+	var replicas []queryWordOnReplica
 	for _, queryWord := range round.partlyListedQueryWordsBesideTheLeadingQueryWord() {
 		for _, replica := range queryWord.replicasThatDidNotListAllTheyHold() {
-			peerAtVersion := peerjudgements.PeerAtVersion{
-				Peer:    replica.peer.Hash,
-				Version: replica.versionClaimed(),
-			}
-			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
-				return peer.Peer == peerAtVersion.Peer
+			if slices.ContainsFunc(replicas, func(known queryWordOnReplica) bool {
+				return known.peer.Hash == replica.peer.Hash
 			}) {
 				continue
 			}
-			peers = append(peers, peerAtVersion)
+			replicas = append(replicas, replica)
 		}
 	}
 
-	return peers
+	return replicas
 }
 
 func (round matchedAndHeldDocumentsRound) documentsOfTheLeadingQueryWordMostListedFirst() []yacymodel.URLHash {
