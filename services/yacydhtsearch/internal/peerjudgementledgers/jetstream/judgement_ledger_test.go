@@ -2,6 +2,7 @@ package jetstream_test
 
 import (
 	"context"
+	"sync"
 	"testing"
 	"time"
 
@@ -9,29 +10,36 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	peerjudgementledgersjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/jetstream"
+	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	bucketName                              = "peer-judgements"
-	question        peerjudgements.Question = "a question about the peer"
-	anotherQuestion peerjudgements.Question = "another question about the peer"
-	valueCeiling                            = 16
+	bucketName                                          = "peer-judgements"
+	question                    peerjudgements.Question = "a question about the peer"
+	anotherQuestion             peerjudgements.Question = "another question about the peer"
+	mirrorCapacity                                      = 16
+	valueCeiling                                        = 16
+	amountOfHoldsBeyondAnyQueue                         = 1 << 16
+	waitLimit                                           = 10 * time.Second
 )
 
 type recordedFailures struct {
-	lookups int
-	holds   int
+	mutex sync.Mutex
+	drops int
+	holds int
+	other int
 }
 
-func (r *recordedFailures) JudgementLookupFailed(
+func (r *recordedFailures) JudgementDropped(
 	context.Context,
 	yacymodel.Hash,
 	peerjudgements.Question,
-	error,
 ) {
-	r.lookups++
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.drops++
 }
 
 func (r *recordedFailures) JudgementHoldFailed(
@@ -40,15 +48,56 @@ func (r *recordedFailures) JudgementHoldFailed(
 	peerjudgements.Question,
 	error,
 ) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
 	r.holds++
 }
 
-func judgementOfThePeer(judgement peerjudgements.Judgement) peerjudgements.RecordedJudgement {
+func (r *recordedFailures) WatchFailed(context.Context, error) {
+	r.countOther()
+}
+
+func (r *recordedFailures) JudgementUndecodable(context.Context, string, error) {
+	r.countOther()
+}
+
+func (r *recordedFailures) WatchEnded(context.Context) {
+	r.countOther()
+}
+
+func (r *recordedFailures) countOther() {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.other++
+}
+
+func (r *recordedFailures) amountOfDrops() int {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	return r.drops
+}
+
+func (r *recordedFailures) amountOfHolds() int {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	return r.holds
+}
+
+func (r *recordedFailures) amountOfFailures() int {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	return r.drops + r.holds + r.other
+}
+
+func judgementOf(peer string, judgement peerjudgements.Judgement) peerjudgements.RecordedJudgement {
 	return peerjudgements.RecordedJudgement{
 		Question: question,
 		JudgedPeer: peerjudgements.JudgedPeer{
 			PeerAtVersion: peerjudgements.PeerAtVersion{
-				Peer:    yacymodel.WordHash("one"),
+				Peer:    yacymodel.WordHash(peer),
 				Version: "yacy_v1.925",
 			},
 			Judgement: judgement,
@@ -57,11 +106,7 @@ func judgementOfThePeer(judgement peerjudgements.Judgement) peerjudgements.Recor
 	}
 }
 
-func ledgerOver(
-	t *testing.T,
-	config natsjetstream.KeyValueConfig,
-	failures *recordedFailures,
-) *peerjudgementledgersjetstream.JudgementLedger {
+func bucketWith(t *testing.T, config natsjetstream.KeyValueConfig) natsjetstream.KeyValue {
 	t.Helper()
 
 	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
@@ -71,18 +116,38 @@ func ledgerOver(
 		t.Fatalf("create bucket: %v", err)
 	}
 
+	return bucket
+}
+
+func ledgerOver(
+	bucket natsjetstream.KeyValue,
+	failures *recordedFailures,
+) *peerjudgementledgersjetstream.JudgementLedger {
 	return peerjudgementledgersjetstream.New(
 		bucket,
+		peerjudgementledgersmemory.New(mirrorCapacity),
 		peerjudgementledgersjetstream.JudgementLedgerObservers{failures},
 	)
 }
 
-func TestAHeldJudgementIsGivenBackForItsPeerAndQuestion(t *testing.T) {
+func waitUntil(t *testing.T, condition func() bool) {
+	t.Helper()
+
+	deadline := time.Now().Add(waitLimit)
+	for !condition() {
+		if time.Now().After(deadline) {
+			t.Fatal("the condition did not hold before the deadline")
+		}
+		time.Sleep(time.Millisecond)
+	}
+}
+
+func TestAHeldJudgementIsGivenBackAtOnce(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailures{}
-	ledger := ledgerOver(t, natsjetstream.KeyValueConfig{}, failures)
-	judgement := judgementOfThePeer(peerjudgements.Honored)
+	ledger := ledgerOver(bucketWith(t, natsjetstream.KeyValueConfig{}), failures)
+	judgement := judgementOf("one", peerjudgements.Honored)
 
 	ledger.HoldJudgement(t.Context(), judgement)
 
@@ -90,28 +155,26 @@ func TestAHeldJudgementIsGivenBackForItsPeerAndQuestion(t *testing.T) {
 	if !held || heldJudgement != judgement {
 		t.Fatalf("JudgementOf = %+v, %v, want the judgement held", heldJudgement, held)
 	}
-	if *failures != (recordedFailures{}) {
-		t.Fatalf("failures reported %+v, want none", failures)
+	if failures.amountOfFailures() != 0 {
+		t.Fatalf("failures reported %d, want none", failures.amountOfFailures())
 	}
 }
 
 func TestNoJudgementIsGivenBackForAPeerNeverJudged(t *testing.T) {
 	t.Parallel()
 
-	failures := &recordedFailures{}
-	ledger := ledgerOver(t, natsjetstream.KeyValueConfig{}, failures)
+	ledger := ledgerOver(bucketWith(t, natsjetstream.KeyValueConfig{}), &recordedFailures{})
 
-	held := ledger.JudgementOf(t.Context(), yacymodel.WordHash("one"), question).Present()
-	if held || failures.lookups != 0 {
-		t.Fatalf("JudgementOf held %v with %d failures, want a plain miss", held, failures.lookups)
+	if ledger.JudgementOf(t.Context(), yacymodel.WordHash("one"), question).Present() {
+		t.Fatal("JudgementOf gave back a judgement of a peer never judged")
 	}
 }
 
 func TestAJudgementOnOneQuestionDoesNotAnswerAnother(t *testing.T) {
 	t.Parallel()
 
-	ledger := ledgerOver(t, natsjetstream.KeyValueConfig{}, &recordedFailures{})
-	judgement := judgementOfThePeer(peerjudgements.Honored)
+	ledger := ledgerOver(bucketWith(t, natsjetstream.KeyValueConfig{}), &recordedFailures{})
+	judgement := judgementOf("one", peerjudgements.Honored)
 
 	ledger.HoldJudgement(t.Context(), judgement)
 
@@ -120,18 +183,73 @@ func TestAJudgementOnOneQuestionDoesNotAnswerAnother(t *testing.T) {
 	}
 }
 
-func TestTheLatestJudgementOfAPeerReplacesTheEarlierOne(t *testing.T) {
+func TestAJudgementHeldByAnotherInstanceIsGivenBackOnceWatched(t *testing.T) {
 	t.Parallel()
 
-	ledger := ledgerOver(t, natsjetstream.KeyValueConfig{History: 1}, &recordedFailures{})
-	latestJudgement := judgementOfThePeer(peerjudgements.Ignored)
+	bucket := bucketWith(t, natsjetstream.KeyValueConfig{})
+	judgingLedger := ledgerOver(bucket, &recordedFailures{})
+	readingLedger := ledgerOver(bucket, &recordedFailures{})
+	go judgingLedger.ShareTheJudgements(t.Context())
+	go readingLedger.ShareTheJudgements(t.Context())
+	judgement := judgementOf("one", peerjudgements.Honored)
 
-	ledger.HoldJudgement(t.Context(), judgementOfThePeer(peerjudgements.Honored))
-	ledger.HoldJudgement(t.Context(), latestJudgement)
+	judgingLedger.HoldJudgement(t.Context(), judgement)
 
-	heldJudgement, _ := ledger.JudgementOf(t.Context(), latestJudgement.Peer, question).Get()
-	if heldJudgement != latestJudgement {
-		t.Fatalf("JudgementOf = %+v, want the latest judgement %+v", heldJudgement, latestJudgement)
+	waitUntil(t, func() bool {
+		heldJudgement, held := readingLedger.JudgementOf(t.Context(), judgement.Peer, question).
+			Get()
+
+		return held && heldJudgement == judgement
+	})
+}
+
+func TestAJudgementHeldBeforeTheSharingStartsReachesTheBucket(t *testing.T) {
+	t.Parallel()
+
+	bucket := bucketWith(t, natsjetstream.KeyValueConfig{})
+	ledger := ledgerOver(bucket, &recordedFailures{})
+	judgement := judgementOf("one", peerjudgements.Honored)
+
+	ledger.HoldJudgement(t.Context(), judgement)
+	go ledger.ShareTheJudgements(t.Context())
+
+	waitUntil(t, func() bool {
+		keys, err := bucket.ListKeys(t.Context())
+		if err != nil {
+			return false
+		}
+		amountOfKeys := 0
+		for range keys.Keys() {
+			amountOfKeys++
+		}
+
+		return amountOfKeys == 1
+	})
+}
+
+func TestAnEarlierJudgementFromTheBucketDoesNotReplaceALaterOne(t *testing.T) {
+	t.Parallel()
+
+	bucket := bucketWith(t, natsjetstream.KeyValueConfig{History: 1})
+	readingLedger := ledgerOver(bucket, &recordedFailures{})
+	judgingLedger := ledgerOver(bucket, &recordedFailures{})
+	go readingLedger.ShareTheJudgements(t.Context())
+	go judgingLedger.ShareTheJudgements(t.Context())
+	earlierJudgement := judgementOf("one", peerjudgements.Honored)
+	laterJudgement := judgementOf("one", peerjudgements.Ignored)
+	laterJudgement.JudgedAt = earlierJudgement.JudgedAt.Add(time.Hour)
+	judgementWatchedLast := judgementOf("two", peerjudgements.Honored)
+
+	readingLedger.HoldJudgement(t.Context(), laterJudgement)
+	judgingLedger.HoldJudgement(t.Context(), earlierJudgement)
+	judgingLedger.HoldJudgement(t.Context(), judgementWatchedLast)
+	waitUntil(t, func() bool {
+		return readingLedger.JudgementOf(t.Context(), judgementWatchedLast.Peer, question).Present()
+	})
+
+	heldJudgement, _ := readingLedger.JudgementOf(t.Context(), laterJudgement.Peer, question).Get()
+	if heldJudgement != laterJudgement {
+		t.Fatalf("JudgementOf = %+v, want the later judgement %+v", heldJudgement, laterJudgement)
 	}
 }
 
@@ -139,15 +257,29 @@ func TestAJudgementTheBucketRefusesIsReported(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailures{}
-	ledger := ledgerOver(t, natsjetstream.KeyValueConfig{MaxValueSize: valueCeiling}, failures)
-	judgement := judgementOfThePeer(peerjudgements.Honored)
+	ledger := ledgerOver(
+		bucketWith(t, natsjetstream.KeyValueConfig{MaxValueSize: valueCeiling}),
+		failures,
+	)
+	go ledger.ShareTheJudgements(t.Context())
 
-	ledger.HoldJudgement(t.Context(), judgement)
+	ledger.HoldJudgement(t.Context(), judgementOf("one", peerjudgements.Honored))
 
-	if failures.holds != 1 {
-		t.Fatalf("hold failures = %d, want one", failures.holds)
+	waitUntil(t, func() bool { return failures.amountOfHolds() == 1 })
+}
+
+func TestAJudgementBeyondAFullQueueIsReportedDropped(t *testing.T) {
+	t.Parallel()
+
+	failures := &recordedFailures{}
+	ledger := ledgerOver(bucketWith(t, natsjetstream.KeyValueConfig{}), failures)
+	judgement := judgementOf("one", peerjudgements.Honored)
+
+	for range amountOfHoldsBeyondAnyQueue {
+		ledger.HoldJudgement(t.Context(), judgement)
 	}
-	if ledger.JudgementOf(t.Context(), judgement.Peer, question).Present() {
-		t.Fatal("JudgementOf gave back a judgement the bucket refused")
+
+	if failures.amountOfDrops() == 0 {
+		t.Fatal("no judgement was reported dropped, want the ones beyond the queue")
 	}
 }

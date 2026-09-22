@@ -29,7 +29,7 @@ func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
 	return recorder.Body.String()
 }
 
-func TestAFailedHoldIsPublishedApartFromAFailedLookup(t *testing.T) {
+func TestEachFailureIsPublishedUnderItsAction(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
@@ -37,13 +37,18 @@ func TestAFailedHoldIsPublishedApartFromAFailedLookup(t *testing.T) {
 	peer := yacymodel.WordHash("one")
 	refused := errors.New("bucket refused")
 
-	metrics.JudgementLookupFailed(t.Context(), peer, question, refused)
+	metrics.JudgementDropped(t.Context(), peer, question)
 	metrics.JudgementHoldFailed(t.Context(), peer, question, refused)
+	metrics.WatchFailed(t.Context(), refused)
+	metrics.WatchEnded(t.Context())
+	metrics.JudgementUndecodable(t.Context(), "key", refused)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_judgement_ledger_failures_total{action="lookup"} 1`,
+		`yacydhtsearch_peer_judgement_ledger_failures_total{action="queue"} 1`,
 		`yacydhtsearch_peer_judgement_ledger_failures_total{action="hold"} 1`,
+		`yacydhtsearch_peer_judgement_ledger_failures_total{action="watch"} 2`,
+		`yacydhtsearch_peer_judgement_ledger_failures_total{action="decode"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -59,8 +64,10 @@ func TestEveryJudgementLedgerFailureIsPublishedBeforeTheFirstFailure(t *testing.
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_judgement_ledger_failures_total{action="lookup"} 0`,
+		`yacydhtsearch_peer_judgement_ledger_failures_total{action="queue"} 0`,
 		`yacydhtsearch_peer_judgement_ledger_failures_total{action="hold"} 0`,
+		`yacydhtsearch_peer_judgement_ledger_failures_total{action="watch"} 0`,
+		`yacydhtsearch_peer_judgement_ledger_failures_total{action="decode"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

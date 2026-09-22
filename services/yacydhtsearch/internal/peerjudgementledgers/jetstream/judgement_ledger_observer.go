@@ -8,30 +8,27 @@ import (
 )
 
 type JudgementLedgerObserver interface {
-	JudgementLookupFailed(
-		ctx context.Context,
-		peer yacymodel.Hash,
-		question peerjudgements.Question,
-		err error,
-	)
+	JudgementDropped(ctx context.Context, peer yacymodel.Hash, question peerjudgements.Question)
 	JudgementHoldFailed(
 		ctx context.Context,
 		peer yacymodel.Hash,
 		question peerjudgements.Question,
 		err error,
 	)
+	WatchFailed(ctx context.Context, err error)
+	JudgementUndecodable(ctx context.Context, key string, err error)
+	WatchEnded(ctx context.Context)
 }
 
 type JudgementLedgerObservers []JudgementLedgerObserver
 
-func (observers JudgementLedgerObservers) JudgementLookupFailed(
+func (observers JudgementLedgerObservers) JudgementDropped(
 	ctx context.Context,
 	peer yacymodel.Hash,
 	question peerjudgements.Question,
-	err error,
 ) {
 	for _, observer := range observers {
-		observer.JudgementLookupFailed(ctx, peer, question, err)
+		observer.JudgementDropped(ctx, peer, question)
 	}
 }
 
@@ -43,5 +40,27 @@ func (observers JudgementLedgerObservers) JudgementHoldFailed(
 ) {
 	for _, observer := range observers {
 		observer.JudgementHoldFailed(ctx, peer, question, err)
+	}
+}
+
+func (observers JudgementLedgerObservers) WatchFailed(ctx context.Context, err error) {
+	for _, observer := range observers {
+		observer.WatchFailed(ctx, err)
+	}
+}
+
+func (observers JudgementLedgerObservers) JudgementUndecodable(
+	ctx context.Context,
+	key string,
+	err error,
+) {
+	for _, observer := range observers {
+		observer.JudgementUndecodable(ctx, key, err)
+	}
+}
+
+func (observers JudgementLedgerObservers) WatchEnded(ctx context.Context) {
+	for _, observer := range observers {
+		observer.WatchEnded(ctx)
 	}
 }

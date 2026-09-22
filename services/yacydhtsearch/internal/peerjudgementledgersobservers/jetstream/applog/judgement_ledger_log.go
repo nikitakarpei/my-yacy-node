@@ -11,22 +11,23 @@ import (
 )
 
 const (
-	msgJudgementLookupFailed = "the judgement of a peer could not be read"
-	msgJudgementHoldFailed   = "the judgement of a peer could not be held"
+	msgJudgementDropped     = "the judgement of a peer was dropped because too many wait to be held"
+	msgJudgementHoldFailed  = "the judgement of a peer could not be held"
+	msgWatchFailed          = "the judgements of the peers could not be watched"
+	msgJudgementUndecodable = "a judgement of a peer could not be decoded"
+	msgWatchEnded           = "the watch of the judgements of the peers ended"
 )
 
 type JudgementLedgerLog struct{}
 
-func (JudgementLedgerLog) JudgementLookupFailed(
+func (JudgementLedgerLog) JudgementDropped(
 	ctx context.Context,
 	peer yacymodel.Hash,
 	question peerjudgements.Question,
-	err error,
 ) {
-	slog.WarnContext(ctx, msgJudgementLookupFailed,
+	slog.WarnContext(ctx, msgJudgementDropped,
 		slog.String("peer", peer.String()),
 		slog.String("question", string(question)),
-		slog.Any("error", err),
 	)
 }
 
@@ -41,4 +42,19 @@ func (JudgementLedgerLog) JudgementHoldFailed(
 		slog.String("question", string(question)),
 		slog.Any("error", err),
 	)
+}
+
+func (JudgementLedgerLog) WatchFailed(ctx context.Context, err error) {
+	slog.WarnContext(ctx, msgWatchFailed, slog.Any("error", err))
+}
+
+func (JudgementLedgerLog) JudgementUndecodable(ctx context.Context, key string, err error) {
+	slog.WarnContext(ctx, msgJudgementUndecodable,
+		slog.String("key", key),
+		slog.Any("error", err),
+	)
+}
+
+func (JudgementLedgerLog) WatchEnded(ctx context.Context) {
+	slog.WarnContext(ctx, msgWatchEnded)
 }

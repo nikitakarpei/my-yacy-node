@@ -275,6 +275,7 @@ deps:
       - nats
     mayDependOn:
       - peerjudgements
+      - peerjudgementledgersmemory
   peerjudgementledgersobserversjetstreamapplog:
     canUse:
       - yacymodel

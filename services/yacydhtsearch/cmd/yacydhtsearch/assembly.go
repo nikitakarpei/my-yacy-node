@@ -304,13 +304,17 @@ func judgementLedgerFor(
 		return nil, err
 	}
 
-	return peerjudgementledgersjetstream.New(
+	ledger := peerjudgementledgersjetstream.New(
 		bucket,
+		peerjudgementledgersmemory.New(cfg.DirectoryCapacity),
 		peerjudgementledgersjetstream.JudgementLedgerObservers{
 			peerjudgementledgersobserversjetstreamapplog.JudgementLedgerLog{},
 			peerjudgementledgersobserversjetstreamprometheus.New(registry),
 		},
-	), nil
+	)
+	go ledger.ShareTheJudgements(ctx)
+
+	return ledger, nil
 }
 
 func peerJudgementsBucketAt(

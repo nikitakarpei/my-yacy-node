@@ -13,13 +13,17 @@ import (
 
 const (
 	labelAction  = "action"
-	actionLookup = "lookup"
+	actionQueue  = "queue"
 	actionHold   = "hold"
+	actionWatch  = "watch"
+	actionDecode = "decode"
 )
 
 type JudgementLedgerMetrics struct {
-	lookupFailures prometheusclient.Counter
+	queueFailures  prometheusclient.Counter
 	holdFailures   prometheusclient.Counter
+	watchFailures  prometheusclient.Counter
+	decodeFailures prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *JudgementLedgerMetrics {
@@ -30,18 +34,19 @@ func New(registry prometheusclient.Registerer) *JudgementLedgerMetrics {
 	registry.MustRegister(failures)
 
 	return &JudgementLedgerMetrics{
-		lookupFailures: failures.WithLabelValues(actionLookup),
+		queueFailures:  failures.WithLabelValues(actionQueue),
 		holdFailures:   failures.WithLabelValues(actionHold),
+		watchFailures:  failures.WithLabelValues(actionWatch),
+		decodeFailures: failures.WithLabelValues(actionDecode),
 	}
 }
 
-func (m *JudgementLedgerMetrics) JudgementLookupFailed(
+func (m *JudgementLedgerMetrics) JudgementDropped(
 	context.Context,
 	yacymodel.Hash,
 	peerjudgements.Question,
-	error,
 ) {
-	m.lookupFailures.Inc()
+	m.queueFailures.Inc()
 }
 
 func (m *JudgementLedgerMetrics) JudgementHoldFailed(
@@ -51,4 +56,16 @@ func (m *JudgementLedgerMetrics) JudgementHoldFailed(
 	error,
 ) {
 	m.holdFailures.Inc()
+}
+
+func (m *JudgementLedgerMetrics) WatchFailed(context.Context, error) {
+	m.watchFailures.Inc()
+}
+
+func (m *JudgementLedgerMetrics) JudgementUndecodable(context.Context, string, error) {
+	m.decodeFailures.Inc()
+}
+
+func (m *JudgementLedgerMetrics) WatchEnded(context.Context) {
+	m.watchFailures.Inc()
 }
