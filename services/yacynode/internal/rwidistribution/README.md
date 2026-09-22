@@ -24,6 +24,9 @@ holders get it again. A posting that fell short is next due after a shorter
 interval, which starts at the shortest, doubles on each further shortfall up to
 the longest, and returns to the shortest when redundancy is met.
 
+A cycle first offers the postings that need more holders. Postings that have
+enough holders get only the time that is left.
+
 A peer that declines an offer gets no new replicas, and the postings it holds are
 still offered to it. When it asks for a pause, the posting waits that pause if
 the pause is longer than the interval.

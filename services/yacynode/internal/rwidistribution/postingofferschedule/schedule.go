@@ -1,7 +1,8 @@
 // Package postingofferschedule tracks when each stored posting is next due for
 // a distribution offer, ordered so the earliest-due posting can be found
 // without scanning every posting. A posting that misses its redundancy comes
-// back after the offer interval this package stores for it.
+// back after the offer interval this package stores for it. Postings short of
+// their redundancy are due before postings that only refresh their holders.
 package postingofferschedule
 
 import (
@@ -15,9 +16,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
+type OfferOrder string
+
+const (
+	OfferOrderShortfall OfferOrder = "shortfall"
+	OfferOrderRefresh   OfferOrder = "refresh"
+)
+
 type Observer interface {
-	ObserveScheduledPostings(postings int)
-	ObserveLongestOfferLateness(lateness time.Duration)
+	ObserveScheduledPostings(order string, postings int)
+	ObserveLongestOfferLateness(order string, lateness time.Duration)
 }
 
 type scheduledPostingOffer struct {
@@ -26,7 +34,8 @@ type scheduledPostingOffer struct {
 }
 
 type Schedule struct {
-	order          *vault.Set[scheduledPostingOffer]
+	shortfallOrder *vault.Set[scheduledPostingOffer]
+	refreshOrder   *vault.Set[scheduledPostingOffer]
 	dueTimes       *vault.Collection[postingidentity.Identity, time.Time]
 	offerIntervals *vault.Collection[postingidentity.Identity, time.Duration]
 	now            func() time.Time
@@ -34,13 +43,22 @@ type Schedule struct {
 }
 
 func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, error) {
-	order, dueTimes, offerIntervals, err := registerSchedule(v)
+	shortfallOrder, err := registerOfferOrder(v, shortfallOrderBucket)
+	if err != nil {
+		return nil, err
+	}
+	refreshOrder, err := registerOfferOrder(v, refreshOrderBucket)
+	if err != nil {
+		return nil, err
+	}
+	dueTimes, offerIntervals, err := registerOfferTimes(v)
 	if err != nil {
 		return nil, err
 	}
 
 	return &Schedule{
-		order:          order,
+		shortfallOrder: shortfallOrder,
+		refreshOrder:   refreshOrder,
 		dueTimes:       dueTimes,
 		offerIntervals: offerIntervals,
 		now:            now,
@@ -54,7 +72,7 @@ func (s *Schedule) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) er
 		return err
 	}
 
-	return s.setDueAt(tx, identity, s.now())
+	return s.setDueAt(tx, s.shortfallOrder, identity, s.now())
 }
 
 func (s *Schedule) forgetDueAt(tx *vault.Txn, identity postingidentity.Identity) error {
@@ -86,11 +104,11 @@ func (s *Schedule) clearDueAt(
 	identity postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if _, err := s.order.Remove(
-		tx,
-		scheduledPostingOffer{At: dueAt, Identity: identity},
-	); err != nil {
-		return fmt.Errorf("drop offer order: %w", err)
+	scheduledOffer := scheduledPostingOffer{At: dueAt, Identity: identity}
+	for _, order := range []*vault.Set[scheduledPostingOffer]{s.shortfallOrder, s.refreshOrder} {
+		if _, err := order.Remove(tx, scheduledOffer); err != nil {
+			return fmt.Errorf("drop offer order: %w", err)
+		}
 	}
 	if _, err := s.dueTimes.Delete(tx, identity); err != nil {
 		return fmt.Errorf("drop offer due: %w", err)
@@ -101,10 +119,11 @@ func (s *Schedule) clearDueAt(
 
 func (s *Schedule) setDueAt(
 	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
 	identity postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if _, err := s.order.Add(tx, scheduledPostingOffer{At: dueAt, Identity: identity}); err != nil {
+	if _, err := order.Add(tx, scheduledPostingOffer{At: dueAt, Identity: identity}); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
 	if _, err := s.dueTimes.Put(tx, identity, dueAt); err != nil {
@@ -140,13 +159,14 @@ func (s *Schedule) SetNextOfferAfterRedundancyMet(
 		return err
 	}
 
-	return s.reschedule(tx, identity, func(previousDueAt time.Time) time.Time {
+	return s.reschedule(tx, s.refreshOrder, identity, func(previousDueAt time.Time) time.Time {
 		return bounds.NextOfferDueFrom(previousDueAt, s.now())
 	})
 }
 
 func (s *Schedule) reschedule(
 	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
 	identity postingidentity.Identity,
 	nextDueAtFrom func(previousDueAt time.Time) time.Time,
 ) error {
@@ -161,7 +181,7 @@ func (s *Schedule) reschedule(
 		return fmt.Errorf("reschedule offer: %w", err)
 	}
 
-	return s.setDueAt(tx, identity, nextDueAtFrom(previousDueAt))
+	return s.setDueAt(tx, order, identity, nextDueAtFrom(previousDueAt))
 }
 
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
@@ -191,7 +211,7 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	}
 	pause := bounds.PauseFrom(previousInterval, requestedPause)
 
-	return s.reschedule(tx, identity, func(time.Time) time.Time {
+	return s.reschedule(tx, s.shortfallOrder, identity, func(time.Time) time.Time {
 		return s.now().Add(pause)
 	})
 }
@@ -214,7 +234,24 @@ func (s *Schedule) DuePostings(
 	}
 
 	duePostings := make([]postingidentity.Identity, 0, limit)
-	if err := s.order.Scan(
+	duePostings, err := s.appendDuePostingsOf(tx, s.shortfallOrder, duePostings, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.appendDuePostingsOf(tx, s.refreshOrder, duePostings, limit)
+}
+
+func (s *Schedule) appendDuePostingsOf(
+	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
+	duePostings []postingidentity.Identity,
+	limit int,
+) ([]postingidentity.Identity, error) {
+	if len(duePostings) >= limit {
+		return duePostings, nil
+	}
+	if err := order.Scan(
 		tx,
 		everyOfferDueBy(s.now()),
 		func(scheduledOffer scheduledPostingOffer) (bool, error) {
@@ -230,23 +267,38 @@ func (s *Schedule) DuePostings(
 }
 
 func (s *Schedule) ObserveBacklog(tx *vault.Txn) error {
-	scheduledPostings, err := s.order.Len(tx)
+	if err := s.observeBacklogOf(tx, OfferOrderShortfall, s.shortfallOrder); err != nil {
+		return err
+	}
+
+	return s.observeBacklogOf(tx, OfferOrderRefresh, s.refreshOrder)
+}
+
+func (s *Schedule) observeBacklogOf(
+	tx *vault.Txn,
+	orderName OfferOrder,
+	order *vault.Set[scheduledPostingOffer],
+) error {
+	scheduledPostings, err := order.Len(tx)
 	if err != nil {
 		return fmt.Errorf("count scheduled postings: %w", err)
 	}
-	longestLateness, err := s.longestOfferLateness(tx)
+	longestLateness, err := s.longestOfferLatenessOf(tx, order)
 	if err != nil {
 		return err
 	}
 
-	s.observer.ObserveScheduledPostings(scheduledPostings)
-	s.observer.ObserveLongestOfferLateness(longestLateness)
+	s.observer.ObserveScheduledPostings(string(orderName), scheduledPostings)
+	s.observer.ObserveLongestOfferLateness(string(orderName), longestLateness)
 
 	return nil
 }
 
-func (s *Schedule) longestOfferLateness(tx *vault.Txn) (time.Duration, error) {
-	earliestDueAt, found, err := s.earliestOfferDueAt(tx)
+func (s *Schedule) longestOfferLatenessOf(
+	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
+) (time.Duration, error) {
+	earliestDueAt, found, err := earliestOfferDueAtOf(tx, order)
 	if err != nil {
 		return 0, err
 	}
@@ -257,12 +309,15 @@ func (s *Schedule) longestOfferLateness(tx *vault.Txn) (time.Duration, error) {
 	return max(s.now().Sub(earliestDueAt), 0), nil
 }
 
-func (s *Schedule) earliestOfferDueAt(tx *vault.Txn) (time.Time, bool, error) {
+func earliestOfferDueAtOf(
+	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
+) (time.Time, bool, error) {
 	var (
 		earliestDueAt time.Time
 		found         bool
 	)
-	if err := s.order.Scan(
+	if err := order.Scan(
 		tx,
 		vault.EveryKey(),
 		func(scheduledOffer scheduledPostingOffer) (bool, error) {

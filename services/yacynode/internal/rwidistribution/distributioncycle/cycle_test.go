@@ -93,8 +93,8 @@ func TestCycleReportsLongestOfferLatenessOnSkippedCycle(t *testing.T) {
 	if len(h.courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers on a skipped cycle", h.courier.offered)
 	}
-	if h.observer.longestOfferLateness != 90*time.Second {
-		t.Fatalf("longestOfferLateness = %v, want 90s", h.observer.longestOfferLateness)
+	if got := h.observer.longestOfferLateness[shortfall]; got != 90*time.Second {
+		t.Fatalf("shortfall longestOfferLateness = %v, want 90s", got)
 	}
 }
 
@@ -463,21 +463,15 @@ func TestCycleReportsAnEmptyScheduleAsNoLateness(t *testing.T) {
 	h := openCycle(t, &clock{at: now}, cycleOptions{
 		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.observer.longestOfferLateness = time.Hour
+	h.observer.longestOfferLateness[shortfall] = time.Hour
 
 	h.runCycle(t)
 
-	if h.observer.longestOfferLateness != 0 {
-		t.Fatalf(
-			"longestOfferLateness = %v, want 0 while nothing is scheduled",
-			h.observer.longestOfferLateness,
-		)
+	if got := h.observer.longestOfferLateness[shortfall]; got != 0 {
+		t.Fatalf("shortfall longestOfferLateness = %v, want 0 while nothing is scheduled", got)
 	}
-	if h.observer.scheduledPostings != 0 {
-		t.Fatalf(
-			"scheduledPostings = %d, want 0 while nothing is scheduled",
-			h.observer.scheduledPostings,
-		)
+	if got := h.observer.sumOfScheduledPostings(); got != 0 {
+		t.Fatalf("scheduledPostings = %d, want 0 while nothing is scheduled", got)
 	}
 }
 
@@ -497,11 +491,8 @@ func TestCycleReportsScheduledPostings(t *testing.T) {
 
 	h.runCycle(t)
 
-	if h.observer.scheduledPostings != 1 {
-		t.Fatalf(
-			"scheduledPostings = %d, want 1 for the single stored posting",
-			h.observer.scheduledPostings,
-		)
+	if got := h.observer.sumOfScheduledPostings(); got != 1 {
+		t.Fatalf("scheduledPostings = %d, want 1 for the single stored posting", got)
 	}
 }
 
@@ -764,11 +755,8 @@ func TestCycleHandsOffPostingAcceptedByACloserPeer(t *testing.T) {
 
 	h.runCycle(t)
 
-	if h.observer.scheduledPostings != 0 {
-		t.Fatalf(
-			"scheduled = %d, want none: a handed-off posting leaves the schedule",
-			h.observer.scheduledPostings,
-		)
+	if got := h.observer.sumOfScheduledPostings(); got != 0 {
+		t.Fatalf("scheduled = %d, want none: a handed-off posting leaves the schedule", got)
 	}
 	replicas := holdersOf(t, h, word, url)
 	if len(replicas) != 0 {

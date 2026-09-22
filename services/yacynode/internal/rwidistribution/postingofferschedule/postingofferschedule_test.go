@@ -31,17 +31,22 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
+const (
+	shortfall = string(postingofferschedule.OfferOrderShortfall)
+	refresh   = string(postingofferschedule.OfferOrderRefresh)
+)
+
 type recordedObservations struct {
-	scheduled int
-	lateness  time.Duration
+	scheduled map[string]int
+	lateness  map[string]time.Duration
 }
 
-func (o *recordedObservations) ObserveScheduledPostings(postings int) {
-	o.scheduled = postings
+func (o *recordedObservations) ObserveScheduledPostings(order string, postings int) {
+	o.scheduled[order] = postings
 }
 
-func (o *recordedObservations) ObserveLongestOfferLateness(lateness time.Duration) {
-	o.lateness = lateness
+func (o *recordedObservations) ObserveLongestOfferLateness(order string, lateness time.Duration) {
+	o.lateness[order] = lateness
 }
 
 type postingOffers struct {
@@ -64,7 +69,10 @@ func openOffers(t *testing.T, clockStart time.Time) *postingOffers {
 		}
 	})
 
-	offers := &postingOffers{vault: v, observed: &recordedObservations{}, clock: clockStart}
+	offers := &postingOffers{vault: v, observed: &recordedObservations{
+		scheduled: map[string]int{},
+		lateness:  map[string]time.Duration{},
+	}, clock: clockStart}
 	offers.schedule, err = postingofferschedule.Open(
 		v,
 		func() time.Time { return offers.clock },

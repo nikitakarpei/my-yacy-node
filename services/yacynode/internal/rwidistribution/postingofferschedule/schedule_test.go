@@ -125,17 +125,17 @@ func missRedundancy(t *testing.T, offers *postingOffers) time.Duration {
 	offers.clock = testStart
 	offers.pauseOffer(t, testWord, urlHash("u1"), 0)
 
-	return nextOfferIn(t, offers)
+	return nextShortfallOfferIn(t, offers)
 }
 
-func nextOfferIn(t *testing.T, offers *postingOffers) time.Duration {
+func nextShortfallOfferIn(t *testing.T, offers *postingOffers) time.Duration {
 	t.Helper()
 
 	wellAfterAnyOffer := 24 * time.Hour
 	offers.clock = testStart.Add(wellAfterAnyOffer)
 	offers.observeBacklog(t)
 
-	return wellAfterAnyOffer - offers.observed.lateness
+	return wellAfterAnyOffer - offers.observed.lateness[shortfall]
 }
 
 func TestPurgedPostingReturnsToTheShortestOfferInterval(t *testing.T) {
@@ -168,15 +168,19 @@ func TestObserveCountsScheduledPostings(t *testing.T) {
 	offers := openOffers(t, testStart)
 
 	offers.observeBacklog(t)
-	if offers.observed.scheduled != 0 {
-		t.Fatalf("scheduled = %d, want 0 for an empty schedule", offers.observed.scheduled)
+	if offers.observed.scheduled[shortfall] != 0 || offers.observed.scheduled[refresh] != 0 {
+		t.Fatalf("scheduled = %v, want 0 in each order for an empty schedule",
+			offers.observed.scheduled)
 	}
 
 	offers.store(t, testWord, urlHash("u1"))
+	offers.store(t, testWord, urlHash("u2"))
+	offers.meetRedundancy(t, testWord, urlHash("u2"))
 
 	offers.observeBacklog(t)
-	if offers.observed.scheduled != 1 {
-		t.Fatalf("scheduled = %d, want 1 after a posting is stored", offers.observed.scheduled)
+	if offers.observed.scheduled[shortfall] != 1 || offers.observed.scheduled[refresh] != 1 {
+		t.Fatalf("scheduled = %v, want 1 short of redundancy and 1 at it",
+			offers.observed.scheduled)
 	}
 }
 
@@ -185,8 +189,9 @@ func TestObserveReportsNoLatenessForEmptySchedule(t *testing.T) {
 
 	offers.observeBacklog(t)
 
-	if offers.observed.lateness != 0 {
-		t.Fatalf("lateness = %v, want 0 for an empty schedule", offers.observed.lateness)
+	if offers.observed.lateness[shortfall] != 0 || offers.observed.lateness[refresh] != 0 {
+		t.Fatalf("lateness = %v, want 0 in each order for an empty schedule",
+			offers.observed.lateness)
 	}
 }
 
@@ -200,7 +205,66 @@ func TestObserveReportsLatenessOfEarliestEntry(t *testing.T) {
 
 	offers.observeBacklog(t)
 
-	if offers.observed.lateness != time.Hour {
-		t.Fatalf("lateness = %v, want %v", offers.observed.lateness, time.Hour)
+	if offers.observed.lateness[shortfall] != time.Hour {
+		t.Fatalf("shortfall lateness = %v, want %v", offers.observed.lateness[shortfall], time.Hour)
+	}
+}
+
+func TestDuePostingsShortOfRedundancyComeBeforeRefreshes(t *testing.T) {
+	offers := openOffers(t, testStart)
+	refreshed, stored := urlHash("u1"), urlHash("u2")
+	offers.store(t, testWord, refreshed)
+	offers.meetRedundancy(t, testWord, refreshed)
+	offers.clock = testStart.Add(2 * testInterval.Longest)
+	offers.store(t, testWord, stored)
+
+	due := offers.duePostings(t, 1)
+
+	if len(due) != 1 || due[0].URL != stored {
+		t.Fatalf("due = %v, want only the posting short of redundancy", due)
+	}
+}
+
+func TestDuePostingsFillTheRestOfTheBatchFromRefreshes(t *testing.T) {
+	offers := openOffers(t, testStart)
+	refreshed, stored := urlHash("u1"), urlHash("u2")
+	offers.store(t, testWord, refreshed)
+	offers.meetRedundancy(t, testWord, refreshed)
+	offers.clock = testStart.Add(2 * testInterval.Longest)
+	offers.store(t, testWord, stored)
+
+	due := offers.duePostings(t, 10)
+
+	if len(due) != 2 || due[0].URL != stored || due[1].URL != refreshed {
+		t.Fatalf("due = %v, want the short posting, then the refresh", due)
+	}
+}
+
+func TestMissedRedundancyMovesARefreshBackToTheShortfall(t *testing.T) {
+	offers := openOffers(t, testStart)
+	url := urlHash("u1")
+	offers.store(t, testWord, url)
+	offers.meetRedundancy(t, testWord, url)
+	offers.pauseOffer(t, testWord, url, 0)
+
+	offers.observeBacklog(t)
+
+	if offers.observed.scheduled[shortfall] != 1 || offers.observed.scheduled[refresh] != 0 {
+		t.Fatalf("scheduled = %v, want the posting back short of redundancy",
+			offers.observed.scheduled)
+	}
+}
+
+func TestPurgedRefreshLeavesNothingScheduled(t *testing.T) {
+	offers := openOffers(t, testStart)
+	url := urlHash("u1")
+	offers.store(t, testWord, url)
+	offers.meetRedundancy(t, testWord, url)
+	offers.purge(t, testWord, url)
+
+	offers.observeBacklog(t)
+
+	if offers.observed.scheduled[shortfall] != 0 || offers.observed.scheduled[refresh] != 0 {
+		t.Fatalf("scheduled = %v, want nothing left in either order", offers.observed.scheduled)
 	}
 }

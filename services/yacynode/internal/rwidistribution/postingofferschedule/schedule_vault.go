@@ -13,28 +13,36 @@ import (
 )
 
 const (
-	orderBucket         vault.Name = "rwidistribution_offer_order"
-	dueBucket           vault.Name = "rwidistribution_offer_due"
-	offerIntervalBucket vault.Name = "rwidistribution_offer_interval"
+	shortfallOrderBucket vault.Name = "rwidistribution_offer_shortfall_order"
+	refreshOrderBucket   vault.Name = "rwidistribution_offer_refresh_order"
+	dueBucket            vault.Name = "rwidistribution_offer_due"
+	offerIntervalBucket  vault.Name = "rwidistribution_offer_interval"
 )
 
-func registerSchedule(v *vault.Vault) (
-	*vault.Set[scheduledPostingOffer],
+func registerOfferOrder(
+	v *vault.Vault,
+	bucket vault.Name,
+) (*vault.Set[scheduledPostingOffer], error) {
+	order, err := v.RegisterSet(bucket, orderKeyLayout)
+	if err != nil {
+		return nil, fmt.Errorf("register offer order %s: %w", bucket, err)
+	}
+
+	return order, nil
+}
+
+func registerOfferTimes(v *vault.Vault) (
 	*vault.Collection[postingidentity.Identity, time.Time],
 	*vault.Collection[postingidentity.Identity, time.Duration],
 	error,
 ) {
-	order, err := v.RegisterSet(orderBucket, orderKeyLayout)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("register offer order: %w", err)
-	}
 	dueTimes, err := v.RegisterCollection(
 		dueBucket,
 		postingidentity.KeyLayout,
 		dueAtValueCodec{},
 	)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("register offer due: %w", err)
+		return nil, nil, fmt.Errorf("register offer due: %w", err)
 	}
 	offerIntervals, err := v.RegisterCollection(
 		offerIntervalBucket,
@@ -42,10 +50,10 @@ func registerSchedule(v *vault.Vault) (
 		offerIntervalValueCodec{},
 	)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("register offer interval: %w", err)
+		return nil, nil, fmt.Errorf("register offer interval: %w", err)
 	}
 
-	return order, dueTimes, offerIntervals, nil
+	return dueTimes, offerIntervals, nil
 }
 
 var orderKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)
