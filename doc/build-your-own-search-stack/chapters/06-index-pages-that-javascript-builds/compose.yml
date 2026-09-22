@@ -208,6 +208,7 @@ services:
       YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
       EGRESS_PROXY_URL: http://smokescreen:4750
       SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
+      YACY_ACCEPT_REMOTE_INDEX: "false"
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data

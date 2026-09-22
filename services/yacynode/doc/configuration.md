@@ -24,6 +24,7 @@ Every peer publishes a seed that says who it is and where to reach it.
 | `YACY_NETWORK_NAME` | `freeworld` | YaCy network to join. Only peers on the same network exchange data. |
 | `YACY_ADVERTISE_HOST` | _(empty)_ | Public IP or DNS name other peers use to reach you. Required when `YACY_SEEDLIST_URLS` is set. |
 | `YACY_ADVERTISE_PORT` | _(the `YACY_PEER_ADDR` port)_ | Port other peers use to reach you. |
+| `YACY_ACCEPT_REMOTE_INDEX` | `true` | Accept the postings that other peers transfer to you. Set it to `false` when `SCRAPE_PAGE_OFFER_NATS_URL` is set: the node does not start with both sources of postings or with no source. |
 
 ## Peer exchange
 

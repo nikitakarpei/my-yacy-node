@@ -5,7 +5,6 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
-	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -30,39 +29,19 @@ func localIdentity() nodeidentity.Identity {
 
 type recordingIntake struct {
 	received []yacymodel.RWIPosting
-	busy     bool
+	answer   rwiadmission.Receipt
 }
 
 func (r *recordingIntake) Receive(
 	_ context.Context,
 	postings []yacymodel.RWIPosting,
 ) (rwiadmission.Receipt, error) {
-	if r.busy {
-		return rwiadmission.Receipt{Busy: true, Pause: 5 * time.Second}, nil
-	}
 	r.received = append(r.received, postings...)
 
-	return rwiadmission.Receipt{}, nil
-}
-
-const (
-	peerPostingCap = 2
-	refusalPause   = 30 * time.Second
-)
-
-type recordedRefusals struct {
-	postings map[rwiadmission.RefusalReason]int
-}
-
-func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, postings int) {
-	r.postings[reason] += postings
+	return r.answer, nil
 }
 
 func muxWith(intake *recordingIntake) *http.ServeMux {
-	return muxRefusing(intake, &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}})
-}
-
-func muxRefusing(intake *recordingIntake, refusals *recordedRefusals) *http.ServeMux {
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
@@ -72,11 +51,7 @@ func muxRefusing(intake *recordingIntake, refusals *recordedRefusals) *http.Serv
 		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
 		Address: httpguard.NewClientAddressResolver(nil),
 	})
-	rwiingress.Mount(router, localIdentity(), intake, rwiingress.Config{
-		PostingCap: peerPostingCap,
-		Pause:      refusalPause,
-		Refusals:   refusals,
-	})
+	rwiingress.Mount(router, localIdentity(), intake)
 
 	return mux
 }
@@ -140,7 +115,9 @@ func transferRWI(
 }
 
 func TestTransferRWIReportsBusy(t *testing.T) {
-	mux := muxWith(&recordingIntake{busy: true})
+	mux := muxWith(&recordingIntake{
+		answer: rwiadmission.Receipt{Busy: true, Pause: 5 * time.Second},
+	})
 
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
@@ -191,34 +168,18 @@ func TestTransferRWIRejectsWrongNetwork(t *testing.T) {
 	}
 }
 
-func TestTransferRWIRefusesMorePostingsThanTheCap(t *testing.T) {
-	intake := &recordingIntake{}
-	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
-	mux := muxRefusing(intake, refusals)
-
-	oversized := make([]yacymodel.RWIPosting, 0, peerPostingCap+1)
-	for seed := 0; seed <= peerPostingCap; seed++ {
-		oversized = append(oversized, posting(t, "w"+strconv.Itoa(seed), "u"+strconv.Itoa(seed)))
-	}
+func TestTransferRWIAnswersNotGrantedWhenPostingsAreNotAccepted(t *testing.T) {
+	mux := muxWith(&recordingIntake{answer: rwiadmission.Receipt{NotAccepted: true}})
 
 	resp := transferRWI(t, mux, yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
 		YouAre:      localIdentity().Hash,
-		WordCount:   len(oversized),
-		EntryCount:  len(oversized),
-		Indexes:     oversized,
+		WordCount:   1,
+		EntryCount:  1,
+		Indexes:     []yacymodel.RWIPosting{posting(t, "w1", "u1")},
 	})
 
-	if resp.Result != yacyproto.ResultBusy {
-		t.Fatalf("Result = %q, want busy", resp.Result)
-	}
-	if resp.Pause != refusalPause {
-		t.Fatalf("Pause = %v, want %v", resp.Pause, refusalPause)
-	}
-	if len(intake.received) != 0 {
-		t.Fatalf("received = %d postings, want none admitted", len(intake.received))
-	}
-	if got := refusals.postings[rwiadmission.RefusalRequestTooLarge]; got != len(oversized) {
-		t.Fatalf("postings refused as too large = %d, want %d", got, len(oversized))
+	if resp.Result != yacyproto.ResultNotGranted {
+		t.Fatalf("Result = %q, want not granted", resp.Result)
 	}
 }

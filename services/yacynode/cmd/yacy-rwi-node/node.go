@@ -227,8 +227,10 @@ func assembleNode(
 		postingAdmitter,
 		postingEscrow,
 		rwiadmission.Config{
-			Pause:    postingAdmissionBusyPause,
-			Refusals: admissionRefusals,
+			AcceptRemoteIndex: identity.Flags.AcceptRemoteIndex,
+			PostingCap:        peerPostingTransferCapacity,
+			Pause:             postingAdmissionBusyPause,
+			Refusals:          admissionRefusals,
 		},
 	)
 
@@ -261,11 +263,7 @@ func assembleNode(
 		urlDirectory,
 		servedURLMetadataPerRequest,
 	)
-	rwiingress.Mount(router, identity, postingReceiver, rwiingress.Config{
-		PostingCap: peerPostingTransferCapacity,
-		Pause:      postingAdmissionBusyPause,
-		Refusals:   admissionRefusals,
-	})
+	rwiingress.Mount(router, identity, postingReceiver)
 	nodestatus.MountQuery(router, identity, vault, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
 		vault,

@@ -26,6 +26,15 @@ func (e transferURLEndpoint) Serve(
 		return resp, nil
 	}
 
+	if !e.identity.Flags.AcceptRemoteIndex {
+		resp.Result = yacyproto.ResultErrorNotGranted
+		slog.DebugContext(ctx, "transfer url refused: remote index not accepted",
+			slog.Int("urlCount", len(req.URLs)),
+		)
+
+		return resp, nil
+	}
+
 	receipt, err := e.intake.Receive(ctx, req.URLs)
 	if err != nil {
 		return yacyproto.TransferURLResponse{}, fmt.Errorf("receive url: %w", err)

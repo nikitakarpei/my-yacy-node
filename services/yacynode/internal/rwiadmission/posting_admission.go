@@ -19,13 +19,27 @@ type postingAdmission struct {
 	admitter rwipostings.PostingAdmitter
 	escrow   PostingHolder
 	observer RefusalObserver
-	pause    time.Duration
+
+	acceptRemoteIndex bool
+	postingCap        int
+	pause             time.Duration
 }
 
 func (a postingAdmission) Receive(
 	ctx context.Context,
 	entries []yacymodel.RWIPosting,
 ) (Receipt, error) {
+	if !a.acceptRemoteIndex {
+		a.observer.ObserveRefused(RefusalRemoteIndexNotAccepted, len(entries))
+
+		return Receipt{NotAccepted: true}, nil
+	}
+	if len(entries) > a.postingCap {
+		a.observer.ObserveRefused(RefusalTooManyPostings, len(entries))
+
+		return a.busyReceipt(), nil
+	}
+
 	atCapacity, err := a.vault.AtCapacity(ctx)
 	if err != nil {
 		return Receipt{}, fmt.Errorf("check capacity: %w", err)
@@ -33,7 +47,7 @@ func (a postingAdmission) Receive(
 	if atCapacity {
 		a.observer.ObserveRefused(RefusalStorageFull, len(entries))
 
-		return Receipt{Busy: true, Pause: a.pause}, nil
+		return a.busyReceipt(), nil
 	}
 
 	referenced := urlHashesOf(entries)
@@ -55,18 +69,22 @@ func (a postingAdmission) Receive(
 	if errors.Is(err, vault.ErrAtCapacity) {
 		a.observer.ObserveRefused(RefusalStorageFull, len(entries))
 
-		return Receipt{Busy: true, Pause: a.pause}, nil
+		return a.busyReceipt(), nil
 	}
 	if errors.Is(err, rwiescrow.ErrEscrowFull) {
 		a.observer.ObserveRefused(RefusalEscrowFull, len(entries))
 
-		return Receipt{Busy: true, Pause: a.pause}, nil
+		return a.busyReceipt(), nil
 	}
 	if err != nil {
 		return Receipt{}, fmt.Errorf("receive rwi: %w", err)
 	}
 
 	return Receipt{UnknownURL: unknown}, nil
+}
+
+func (a postingAdmission) busyReceipt() Receipt {
+	return Receipt{Busy: true, Pause: a.pause}
 }
 
 func urlHashesOf(entries []yacymodel.RWIPosting) []yacymodel.URLHash {

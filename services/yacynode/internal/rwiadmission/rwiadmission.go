@@ -1,7 +1,8 @@
 // Package rwiadmission decides where an inbound RWI posting lands. A posting
 // whose URL metadata this node already holds joins the index at once; a posting
 // whose URL is still unknown waits in escrow until the sender delivers that
-// metadata. The receipt names the unknown URLs so the sender can send them.
+// metadata. The receipt names the unknown URLs so the sender can send them. A
+// node that does not accept remote index refuses every inbound posting.
 package rwiadmission
 
 import (
@@ -25,9 +26,10 @@ type PostingHolder interface {
 type RefusalReason string
 
 const (
-	RefusalRequestTooLarge RefusalReason = "request_too_large"
-	RefusalStorageFull     RefusalReason = "storage_full"
-	RefusalEscrowFull      RefusalReason = "escrow_full"
+	RefusalRemoteIndexNotAccepted RefusalReason = "remote_index_not_accepted"
+	RefusalTooManyPostings        RefusalReason = "too_many_postings"
+	RefusalStorageFull            RefusalReason = "storage_full"
+	RefusalEscrowFull             RefusalReason = "escrow_full"
 )
 
 type RefusalObserver interface {
@@ -35,14 +37,17 @@ type RefusalObserver interface {
 }
 
 type Receipt struct {
-	Busy       bool
-	Pause      time.Duration
-	UnknownURL []yacymodel.URLHash
+	NotAccepted bool
+	Busy        bool
+	Pause       time.Duration
+	UnknownURL  []yacymodel.URLHash
 }
 
 type Config struct {
-	Pause    time.Duration
-	Refusals RefusalObserver
+	AcceptRemoteIndex bool
+	PostingCap        int
+	Pause             time.Duration
+	Refusals          RefusalObserver
 }
 
 func Open(
@@ -58,6 +63,9 @@ func Open(
 		admitter: admitter,
 		escrow:   escrow,
 		observer: config.Refusals,
-		pause:    config.Pause,
+
+		acceptRemoteIndex: config.AcceptRemoteIndex,
+		postingCap:        config.PostingCap,
+		pause:             config.Pause,
 	}
 }

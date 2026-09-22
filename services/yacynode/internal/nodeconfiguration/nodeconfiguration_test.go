@@ -66,6 +66,9 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.PeerExchange.SeedlistURLs != nil {
 		t.Errorf("SeedlistURLs = %v, want nil", config.PeerExchange.SeedlistURLs)
 	}
+	if !config.Identity.Flags.AcceptRemoteIndex {
+		t.Errorf("AcceptRemoteIndex = false, want the default")
+	}
 	if config.PageOfferIntake.Enabled() {
 		t.Errorf(
 			"PageOfferIntake = %+v, want disabled without a broker",
@@ -76,10 +79,11 @@ func TestLoadAppliesDefaults(t *testing.T) {
 
 func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
-		nodeconfiguration.EnvPeerName:         "node",
-		nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
-		nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerName:          "node",
+		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+		nodeconfiguration.EnvPageOfferNATSURL:  "nats://localhost:4222",
+		nodeconfiguration.EnvAcceptRemoteIndex: "false",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -122,6 +126,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvPageOfferNATSURL:            "nats://broker:4222",
 		nodeconfiguration.EnvPageOfferDurable:            "reached-durable",
 		nodeconfiguration.EnvPageOfferIntakeConcurrency:  "9",
+		nodeconfiguration.EnvAcceptRemoteIndex:           "false",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -157,6 +162,9 @@ func TestLoadReadsOverrides(t *testing.T) {
 	}
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
+	}
+	if config.Identity.Flags.AcceptRemoteIndex {
+		t.Errorf("AcceptRemoteIndex = true, want false")
 	}
 	if config.PageOfferIntake.PageOfferDurable != "reached-durable" ||
 		config.PageOfferIntake.PageOfferIntakeConcurrency != 9 {
@@ -284,6 +292,36 @@ func TestLoadRejects(t *testing.T) {
 			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 			nodeconfiguration.EnvPeerName:        "n",
 			nodeconfiguration.EnvEgressProxyURL:  "socks5://proxy:1080",
+		},
+	}
+	for name, env := range cases {
+		t.Run(name, func(t *testing.T) {
+			if _, err := nodeconfiguration.Load(envFrom(env)); err == nil {
+				t.Fatal("expected error")
+			}
+		})
+	}
+}
+
+func TestLoadRejectsAnythingButOneSourceOfPostings(t *testing.T) {
+	cases := map[string]map[string]string{
+		"bad accept remote index": {
+			nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+			nodeconfiguration.EnvPeerName:          "n",
+			nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+			nodeconfiguration.EnvAcceptRemoteIndex: "maybe",
+		},
+		"remote index and page offers": {
+			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+			nodeconfiguration.EnvPeerName:         "n",
+			nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
+			nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
+		},
+		"neither remote index nor page offers": {
+			nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+			nodeconfiguration.EnvPeerName:          "n",
+			nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+			nodeconfiguration.EnvAcceptRemoteIndex: "false",
 		},
 	}
 	for name, env := range cases {

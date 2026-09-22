@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
@@ -15,11 +14,8 @@ import (
 )
 
 type transferRWIEndpoint struct {
-	identity   nodeidentity.Identity
-	intake     rwiadmission.PostingReceiver
-	postingCap int
-	pause      time.Duration
-	refusals   rwiadmission.RefusalObserver
+	identity nodeidentity.Identity
+	intake   rwiadmission.PostingReceiver
 }
 
 func (e transferRWIEndpoint) Serve(
@@ -34,18 +30,10 @@ func (e transferRWIEndpoint) Serve(
 		return resp, nil
 	}
 
-	if len(req.Indexes) > e.postingCap {
-		e.refusals.ObserveRefused(rwiadmission.RefusalRequestTooLarge, len(req.Indexes))
-		resp.Result = yacyproto.ResultBusy
-		resp.Pause = e.pause
-
-		return resp, nil
-	}
-
-	slog.DebugContext(ctx, "transfer rwi request accepted",
+	slog.DebugContext(ctx, "transfer rwi request received",
 		slog.Int("wordCount", req.WordCount),
 		slog.Int("entryCount", req.EntryCount),
-		slog.Int("acceptedEntryCount", len(req.Indexes)),
+		slog.Int("receivedEntryCount", len(req.Indexes)),
 	)
 
 	receipt, err := e.intake.Receive(ctx, req.Indexes)
@@ -53,18 +41,25 @@ func (e transferRWIEndpoint) Serve(
 		return yacyproto.TransferRWIResponse{}, fmt.Errorf("receive rwi: %w", err)
 	}
 
-	if receipt.Busy {
-		resp.Result = yacyproto.ResultBusy
-	} else {
-		resp.Result = yacyproto.ResultOK
-	}
+	resp.Result = transferRWIResultFrom(receipt)
 	resp.Pause = receipt.Pause
 	resp.UnknownURL = receipt.UnknownURL
 
-	slog.DebugContext(ctx, "transfer rwi stored",
-		slog.Bool("busy", receipt.Busy),
+	slog.DebugContext(ctx, "transfer rwi answered",
+		slog.String("result", string(resp.Result)),
 		slog.Int("unknownUrlCount", len(receipt.UnknownURL)),
 	)
 
 	return resp, nil
+}
+
+func transferRWIResultFrom(receipt rwiadmission.Receipt) yacyproto.TransferRWIResult {
+	switch {
+	case receipt.NotAccepted:
+		return yacyproto.ResultNotGranted
+	case receipt.Busy:
+		return yacyproto.ResultBusy
+	default:
+		return yacyproto.ResultOK
+	}
 }
