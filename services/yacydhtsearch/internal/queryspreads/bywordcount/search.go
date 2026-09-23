@@ -1,8 +1,7 @@
-// Package byheldwords spreads a query with the peer matched spread when every
-// chosen peer holds every query word, and with the word joined spread when it
-// does not. Every peer holds every word when the network has no more peers
-// than the network redundancy.
-package byheldwords
+// Package bywordcount spreads a query with the word joined spread when the
+// query has more than one word, and with the peer matched spread when the query
+// has one word.
+package bywordcount
 
 import (
 	"context"
@@ -23,15 +22,10 @@ type QuerySpread interface {
 type Spread struct {
 	wordJoinedSpread  QuerySpread
 	peerMatchedSpread QuerySpread
-	networkRedundancy int
 }
 
-func New(wordJoinedSpread, peerMatchedSpread QuerySpread, networkRedundancy int) Spread {
-	return Spread{
-		wordJoinedSpread:  wordJoinedSpread,
-		peerMatchedSpread: peerMatchedSpread,
-		networkRedundancy: networkRedundancy,
-	}
+func New(wordJoinedSpread, peerMatchedSpread QuerySpread) Spread {
+	return Spread{wordJoinedSpread: wordJoinedSpread, peerMatchedSpread: peerMatchedSpread}
 }
 
 func (s Spread) SpreadOverPeers(
@@ -39,17 +33,9 @@ func (s Spread) SpreadOverPeers(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) queryanswers.AnsweredQuery {
-	if s.peersHoldTheWholeQuery(query, chosenPeersPerQueryWord) {
+	if len(query.WordHashes()) < 2 {
 		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 	}
 
 	return s.wordJoinedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
-}
-
-func (s Spread) peersHoldTheWholeQuery(
-	query searchquery.Query,
-	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) bool {
-	return len(query.WordHashes()) < 2 ||
-		len(chosenPeersPerQueryWord.ChosenPeersAcrossQueryWords()) <= s.networkRedundancy
 }

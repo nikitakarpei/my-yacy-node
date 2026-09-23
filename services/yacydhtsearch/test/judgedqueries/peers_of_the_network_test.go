@@ -18,7 +18,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/byheldwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
@@ -141,7 +141,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		peerChoice: peerchoice.New(
 			partitions, networkRedundancy, peers.reliability, peerchoice.PeerChoiceObservers{},
 		),
-		byHeldWords: byheldwords.New(
+		byWordCount: bywordcount.New(
 			wordjoined.New(
 				everyReplica,
 				calledPeers,
@@ -158,7 +158,6 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 				peerItemsCeiling,
 				peermatched.PeerMatchedSpreadObservers{},
 			),
-			networkRedundancy,
 		),
 	}
 }
@@ -185,7 +184,7 @@ func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
 
 type spreadChoosingPeers struct {
 	peerChoice  peerchoice.Choice
-	byHeldWords byheldwords.Spread
+	byWordCount bywordcount.Spread
 }
 
 func (spread spreadChoosingPeers) SpreadOverPeers(
@@ -197,5 +196,5 @@ func (spread spreadChoosingPeers) SpreadOverPeers(
 		ctx, query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling), askablePeers,
 	)
 
-	return spread.byHeldWords.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
+	return spread.byWordCount.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 }

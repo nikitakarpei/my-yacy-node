@@ -67,8 +67,8 @@ components:
     in: internal/queryspreads/peermatched/**
   wordjoined:
     in: internal/queryspreads/wordjoined/**
-  byheldwords:
-    in: internal/queryspreads/byheldwords/**
+  bywordcount:
+    in: internal/queryspreads/bywordcount/**
   queryrankings:
     in: internal/queryrankings/**
   rankingcachememory:
@@ -339,7 +339,7 @@ deps:
       - peerasks
       - peerjudgements
       - searchquery
-  byheldwords:
+  bywordcount:
     mayDependOn:
       - queryanswers
       - peerchoice

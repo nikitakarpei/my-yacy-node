@@ -60,7 +60,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
 	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
 	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/byheldwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	queryspreadsobserverspeermatchedapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/peermatched/applog"
@@ -252,7 +252,7 @@ func querySpreadFor(
 		},
 	)
 
-	return byheldwords.New(
+	return bywordcount.New(
 		wordjoined.New(
 			replicaAsks,
 			peers,
@@ -275,7 +275,6 @@ func querySpreadFor(
 				queryspreadsobserverspeermatchedprometheus.New(registry, cfg.QueryBudget),
 			},
 		),
-		cfg.NetworkRedundancy,
 	)
 }
 

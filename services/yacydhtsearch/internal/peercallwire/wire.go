@@ -269,7 +269,7 @@ func (w Wire) requestForSearchDocuments(
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
 	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
-	request.Query = append([]yacymodel.Hash{ask.Word}, ask.OtherWordsToMatch...)
+	request.Query = []yacymodel.Hash{ask.Word}
 	request.URLs = ask.DocumentsToMatch
 	request.Count = ask.ItemsCeiling
 

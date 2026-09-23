@@ -11,19 +11,18 @@ func searchDocumentsAsksFor(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	peerItemsCeiling int,
 ) []peerasks.SearchDocumentsAsk {
-	queryWords := query.WordHashes()
-	chosenPeers := chosenPeersPerQueryWord.ChosenPeersOf(queryWords[0])
-	asks := make([]peerasks.SearchDocumentsAsk, 0, len(chosenPeers))
-	for _, chosenPeer := range chosenPeers {
-		asks = append(asks, peerasks.SearchDocumentsAsk{
-			Peer:              chosenPeer.Peer,
-			Partition:         chosenPeer.Partition,
-			Word:              queryWords[0],
-			OtherWordsToMatch: queryWords[1:],
-			ExcludedWords:     query.ExclusionHashes(),
-			Language:          query.Language,
-			ItemsCeiling:      peerItemsCeiling,
-		})
+	var asks []peerasks.SearchDocumentsAsk
+	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
+		for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
+			asks = append(asks, peerasks.SearchDocumentsAsk{
+				Peer:          chosenPeer.Peer,
+				Partition:     chosenPeer.Partition,
+				Word:          chosenPeersOfQueryWord.QueryWord,
+				ExcludedWords: query.ExclusionHashes(),
+				Language:      query.Language,
+				ItemsCeiling:  peerItemsCeiling,
+			})
+		}
 	}
 
 	return asks

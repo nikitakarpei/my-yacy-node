@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"slices"
 	"sync"
 	"testing"
 	"time"
@@ -439,38 +438,6 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 			"PeerSearchedDocuments reported %d times with %d listed documents, want once with one",
 			observer.answeredSearchDocuments,
 			observer.amountOfListedDocuments,
-		)
-	}
-}
-
-func TestASearchDocumentsAskAsksForTheItemsOfTheOtherWordsToMatchTooButForTheAbstractOfItsWord(
-	t *testing.T,
-) {
-	t.Parallel()
-
-	word, otherWord := yacymodel.WordHash("berlin"), yacymodel.WordHash("weather")
-	address, requests := peerAnswering(
-		t,
-		yacyproto.SearchResponse{}.Encode().Encode(),
-		http.StatusOK,
-	)
-
-	searchDocumentsAnswerOf(
-		t,
-		&recordedOutcome{},
-		peerasks.SearchDocumentsAsk{
-			Peer:              peerAt(address),
-			Word:              word,
-			OtherWordsToMatch: []yacymodel.Hash{otherWord},
-		},
-	)
-
-	request := requests.received[0]
-	if !slices.Equal(request.Query, []yacymodel.Hash{word, otherWord}) ||
-		!slices.Equal(request.Abstracts.Hashes(), []yacymodel.Hash{word}) {
-		t.Fatalf(
-			"request = %+v, want the items of both words and the abstract of the word",
-			request,
 		)
 	}
 }

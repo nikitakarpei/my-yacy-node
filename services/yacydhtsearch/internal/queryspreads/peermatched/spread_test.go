@@ -311,38 +311,3 @@ func TestADocumentNoPeerCountedHoldsNoAmountOfLinks(t *testing.T) {
 		t.Fatal("the found document holds an amount of links, want none where no peer reported one")
 	}
 }
-
-func TestAQueryOfTwoWordsAsksEveryChosenPeerOnceToMatchBothWords(t *testing.T) {
-	t.Parallel()
-
-	network := networkOf(map[string][]string{})
-
-	answersOfTheQuery(network, "berlin weather")
-
-	if len(network.asks) != 2 {
-		t.Fatalf("%d asks were put, want one for each chosen peer", len(network.asks))
-	}
-	for _, ask := range network.asks {
-		otherWords := []yacymodel.Hash{yacymodel.WordHash("weather")}
-		if ask.Word != yacymodel.WordHash("berlin") ||
-			!slices.Equal(ask.OtherWordsToMatch, otherWords) {
-			t.Fatalf("ask = %+v, want the first query word and the other words to match", ask)
-		}
-	}
-}
-
-func TestADocumentMatchedForTwoWordsKeepsNoHitsOfOneWord(t *testing.T) {
-	t.Parallel()
-
-	network := networkOf(map[string][]string{"first": {"https://shared.example/"}})
-	network.peersCountingAWord["first"] = struct{}{}
-
-	facts := factsOfTheFirstDocumentFoundFor(network, "berlin weather")
-
-	if len(facts.HitsPerQueryWord) != 0 {
-		t.Fatalf(
-			"the found document holds the hits %v, want none for a document matched for both words",
-			facts.HitsPerQueryWord,
-		)
-	}
-}

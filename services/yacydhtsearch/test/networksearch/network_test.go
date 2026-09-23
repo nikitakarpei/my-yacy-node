@@ -22,7 +22,6 @@ import (
 	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/byheldwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
@@ -907,26 +906,5 @@ func TestAQueryOfTwoWordsCarriesBackWhatAReplicaListsForTheirCompoundWord(t *tes
 			"Search = %+v, want the address the replica lists for the compound word",
 			ranking.Items,
 		)
-	}
-}
-
-func TestAQueryOfTwoWordsInANetworkOfOnePeerCarriesBackWhatThePeerMatchedForBothWords(
-	t *testing.T,
-) {
-	t.Parallel()
-
-	const address = "https://a.example/"
-	directory := directoryAnsweringAt(t, peerHolding(t, address))
-	network := networkSearching(
-		t,
-		directory,
-		&recordedQuery{},
-		byheldwords.New(wordJoinedSpread(t), peerMatchedSpread(t), networkRedundancy),
-	)
-
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
-
-	if len(ranking.Items) != 1 || ranking.Items[0].Address != address {
-		t.Fatalf("Search = %+v, want the address the peer matched for both words", ranking.Items)
 	}
 }

@@ -413,25 +413,3 @@ func TestAPeerChosenForTwoQueryWordsKeepsThePartitionOfItsFirstQueryWord(t *test
 		t.Fatalf("the query words chose %v, want %v", chosenPeersAcrossQueryWords, want)
 	}
 }
-
-func TestThePeersChosenForOneQueryWordLeaveOutThePeersOfTheOthers(t *testing.T) {
-	t.Parallel()
-
-	chosenPeersPerQueryWord := peerchoice.ChosenPeersPerQueryWord{
-		{
-			QueryWord:   yacymodel.WordHash("berlin"),
-			ChosenPeers: []peerchoice.ChosenPeer{{Peer: askablePeers(t, 2)[0], Partition: 3}},
-		},
-		{
-			QueryWord:   yacymodel.WordHash("weather"),
-			ChosenPeers: []peerchoice.ChosenPeer{{Peer: askablePeers(t, 2)[1], Partition: 11}},
-		},
-	}
-
-	chosenPeers := chosenPeersPerQueryWord.ChosenPeersOf(yacymodel.WordHash("weather"))
-
-	want := []peerchoice.ChosenPeer{{Peer: askablePeers(t, 2)[1], Partition: 11}}
-	if !slices.Equal(chosenPeers, want) {
-		t.Fatalf("the query word chose %v, want %v", chosenPeers, want)
-	}
-}

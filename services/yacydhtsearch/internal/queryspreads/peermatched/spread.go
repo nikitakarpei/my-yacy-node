@@ -1,6 +1,5 @@
-// Package peermatched collects the documents each peer matched for the whole
-// query on its own. A document matched for more than one word keeps no count
-// of a single word.
+// Package peermatched collects the documents each peer matched for a query of
+// one word.
 package peermatched
 
 import (

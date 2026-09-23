@@ -29,11 +29,11 @@ const (
 	cacheProbeAlias = "yacy-holder-ranking-cache-e2e"
 	cacheProbeToken = "yacydhtsearchrankingcacheprobe"
 
-	firstSmallNetworkPeerAlias  = "yacy-first-small-network-peer-e2e"
-	secondSmallNetworkPeerAlias = "yacy-second-small-network-peer-e2e"
-	firstWordToken              = "yacydhtsearchfirstwordprobe"
-	secondWordToken             = "yacydhtsearchsecondwordprobe"
-	smallNetworkSearchAlias     = "yacydhtsearch-small-network"
+	firstWordHolderAlias  = "yacy-first-word-holder-e2e"
+	secondWordHolderAlias = "yacy-second-word-holder-e2e"
+	firstWordToken        = "yacydhtsearchfirstwordprobe"
+	secondWordToken       = "yacydhtsearchsecondwordprobe"
+	crossPeerSearchAlias  = "yacydhtsearch-cross-peer"
 
 	askingSearchAlias  = "yacydhtsearch-asking"
 	readingSearchAlias = "yacydhtsearch-reading"
@@ -141,61 +141,43 @@ func TestASecondServiceAnswersFromTheRankingHeldInNATS(t *testing.T) {
 	}
 }
 
-func TestEachPeerOfANetworkOfTwoPeersMatchesBothQueryWordsOnItsOwn(t *testing.T) {
+func TestTwoPeersThatHoldOneQueryWordEachStillAnswerWithTheDocuments(t *testing.T) {
 	ctx := context.Background()
 	probe := httpprobe.New(t)
 
 	network := hermeticnetwork.New(t, ctx)
 	egressproxy.Start(t, ctx, network.Name)
 
-	_, firstPeerURL := yacypeer.Start(
-		t,
-		ctx,
-		probe,
-		network.Name,
-		firstSmallNetworkPeerAlias,
-		yacypeer.RemoteSearchOverrides()...,
+	_, firstWordHolderURL := yacypeer.Start(
+		t, ctx, probe, network.Name, firstWordHolderAlias, yacypeer.RemoteSearchOverrides()...,
 	)
-	_, secondPeerURL := yacypeer.Start(
-		t,
-		ctx,
-		probe,
-		network.Name,
-		secondSmallNetworkPeerAlias,
-		yacypeer.RemoteSearchOverrides()...,
+	_, secondWordHolderURL := yacypeer.Start(
+		t, ctx, probe, network.Name, secondWordHolderAlias, yacypeer.RemoteSearchOverrides()...,
 	)
-	bothWords := []string{firstWordToken, secondWordToken}
-	yacypeer.PushDocumentUnderAddress(
-		t, ctx, probe, firstPeerURL, smallNetworkDocumentAt("both-words-one.html"), bothWords,
-	)
-	yacypeer.PushDocumentUnderAddress(
-		t, ctx, probe, firstPeerURL, smallNetworkDocumentAt("first-word-only.html"),
-		[]string{firstWordToken},
-	)
-	yacypeer.PushDocumentUnderAddress(
-		t, ctx, probe, secondPeerURL, smallNetworkDocumentAt("both-words-two.html"), bothWords,
-	)
-	yacypeer.PushDocumentUnderAddress(
-		t, ctx, probe, secondPeerURL, smallNetworkDocumentAt("second-word-only.html"),
-		[]string{secondWordToken},
-	)
+	for _, document := range crossPeerFirstWordDocuments() {
+		yacypeer.PushDocumentUnderAddress(
+			t, ctx, probe, firstWordHolderURL, document, []string{firstWordToken},
+		)
+	}
+	for _, document := range crossPeerSecondWordDocuments() {
+		yacypeer.PushDocumentUnderAddress(
+			t, ctx, probe, secondWordHolderURL, document, []string{secondWordToken},
+		)
+	}
 
 	service := startYacydhtsearch(
 		t,
 		ctx,
 		network.Name,
-		smallNetworkSearchAlias,
-		seedlistURLOf(firstSmallNetworkPeerAlias)+","+seedlistURLOf(secondSmallNetworkPeerAlias),
+		crossPeerSearchAlias,
+		seedlistURLOf(firstWordHolderAlias)+","+seedlistURLOf(secondWordHolderAlias),
 		map[string]string{
 			"YACYDHTSEARCH_RANKING_LIFETIME": "5s",
 		},
 	)
 
 	query := firstWordToken + " " + secondWordToken
-	wanted := []string{
-		smallNetworkDocumentAt("both-words-one.html"),
-		smallNetworkDocumentAt("both-words-two.html"),
-	}
+	wanted := crossPeerDocumentsOfBothWords()
 	var links []string
 	answered := pollwait.For(answerTimeout, func() bool {
 		links = resultLinksFor(t, ctx, probe, service.searchURL, query, linksPerQuery)
@@ -204,8 +186,8 @@ func TestEachPeerOfANetworkOfTwoPeersMatchesBothQueryWordsOnItsOwn(t *testing.T)
 	})
 	if !answered {
 		t.Fatalf(
-			"%s returned %v for %q, want every document a peer holds both words for: %v",
-			smallNetworkSearchAlias,
+			"%s returned %v for %q, want every document both words are held for: %v",
+			crossPeerSearchAlias,
 			links,
 			query,
 			wanted,
@@ -214,8 +196,8 @@ func TestEachPeerOfANetworkOfTwoPeersMatchesBothQueryWordsOnItsOwn(t *testing.T)
 	for _, link := range links {
 		if !slices.Contains(wanted, link) {
 			t.Fatalf(
-				"%s returned %s, which a peer holds only one query word for; all links %v",
-				smallNetworkSearchAlias,
+				"%s returned %s, which only one peer holds a query word for; all links %v",
+				crossPeerSearchAlias,
 				link,
 				links,
 			)
@@ -223,7 +205,30 @@ func TestEachPeerOfANetworkOfTwoPeersMatchesBothQueryWordsOnItsOwn(t *testing.T)
 	}
 }
 
-func smallNetworkDocumentAt(path string) string {
+func crossPeerFirstWordDocuments() []string {
+	return []string{
+		crossPeerDocumentAt("both-words-one.html"),
+		crossPeerDocumentAt("both-words-two.html"),
+		crossPeerDocumentAt("first-word-only.html"),
+	}
+}
+
+func crossPeerSecondWordDocuments() []string {
+	return []string{
+		crossPeerDocumentAt("both-words-one.html"),
+		crossPeerDocumentAt("both-words-two.html"),
+		crossPeerDocumentAt("second-word-only.html"),
+	}
+}
+
+func crossPeerDocumentsOfBothWords() []string {
+	return []string{
+		crossPeerDocumentAt("both-words-one.html"),
+		crossPeerDocumentAt("both-words-two.html"),
+	}
+}
+
+func crossPeerDocumentAt(path string) string {
 	return "http://transfer.example.invalid/" + path
 }
 

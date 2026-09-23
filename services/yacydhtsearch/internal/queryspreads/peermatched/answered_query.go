@@ -4,7 +4,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func answeredQueryFrom(
@@ -28,21 +27,10 @@ func foundDocumentsFrom(
 				answeredAsk.Ask.Peer.Hash,
 				answeredAsk.Ask.Word,
 				matchedDocument.Metadata,
-				postingOfTheWordIn(answeredAsk, matchedDocument),
+				matchedDocument.Posting,
 			)
 		}
 	}
 
 	return documentsThePeersSent.FoundDocuments()
-}
-
-func postingOfTheWordIn(
-	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
-	matchedDocument peerasks.MatchedDocument,
-) yacymodel.Optional[yacymodel.RWIPosting] {
-	if len(answeredAsk.Ask.OtherWordsToMatch) > 0 {
-		return yacymodel.None[yacymodel.RWIPosting]()
-	}
-
-	return matchedDocument.Posting
 }
