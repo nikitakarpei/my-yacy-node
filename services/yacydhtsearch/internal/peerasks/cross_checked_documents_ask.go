@@ -6,15 +6,18 @@ import (
 )
 
 type CrossCheckedDocumentsAsk struct {
-	Peer      peerdirectory.AskablePeer
-	Word      yacymodel.Hash
-	Documents []yacymodel.URLHash
+	Peer         peerdirectory.AskablePeer
+	Partition    uint
+	Word         yacymodel.Hash
+	Documents    []yacymodel.URLHash
+	ItemsCeiling int
 }
 
 type AnsweredCrossCheckedDocumentsAsk struct {
-	Ask                       CrossCheckedDocumentsAsk
-	DocumentsListedForTheWord []yacymodel.URLHash
-	PeerVersion               string
+	Ask                             CrossCheckedDocumentsAsk
+	DocumentsListedForTheWord       []yacymodel.URLHash
+	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
+	PeerVersion                     string
 }
 
 func (answeredAsk AnsweredCrossCheckedDocumentsAsk) Answers(ask CrossCheckedDocumentsAsk) bool {

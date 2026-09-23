@@ -366,15 +366,16 @@ func (w Wire) putCrossCheckedDocumentsAsk(
 		return peerasks.AnsweredCrossCheckedDocumentsAsk{}, false
 	}
 
-	documentsHeldForTheWord := response.IndexAbstract[ask.Word]
+	documentsListedForTheWord := response.IndexAbstract[ask.Word]
 	w.observer.PeerAnsweredCrossCheckedDocuments(
-		ctx, ask.Peer.Address, len(documentsHeldForTheWord), time.Since(startedAt),
+		ctx, ask.Peer.Address, len(documentsListedForTheWord), time.Since(startedAt),
 	)
 
 	return peerasks.AnsweredCrossCheckedDocumentsAsk{
-		Ask:                       ask,
-		DocumentsListedForTheWord: documentsHeldForTheWord,
-		PeerVersion:               response.Version,
+		Ask:                             ask,
+		DocumentsListedForTheWord:       documentsListedForTheWord,
+		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
+		PeerVersion:                     response.Version,
 	}, true
 }
 
@@ -384,7 +385,9 @@ func (w Wire) requestForCrossCheckedDocuments(
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, nil, "")
 	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
+	request.Query = []yacymodel.Hash{ask.Word}
 	request.URLs = ask.Documents
+	request.Count = ask.ItemsCeiling
 
 	return request
 }

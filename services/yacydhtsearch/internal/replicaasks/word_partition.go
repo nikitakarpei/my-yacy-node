@@ -11,14 +11,15 @@ type wordPartition[Ask any, Answered any] struct {
 	replicasCoveringAPartition int
 }
 
-type answeredWordPartition[Answered any] struct {
+type answeredWordPartition[Ask any, Answered any] struct {
 	settled SettledWordPartition
+	asksPut []Ask
 	answers []Answered
 }
 
 func (partition wordPartition[Ask, Answered]) settle(
 	ctx context.Context,
-) answeredWordPartition[Answered] {
+) answeredWordPartition[Ask, Answered] {
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
@@ -42,7 +43,7 @@ type wordPartitionAsking[Ask any, Answered any] struct {
 	callsEnded               []bool
 	hedgeTimers              []*time.Timer
 	amountOfCallsOutstanding int
-	amountOfListings         int
+	amountOfCoveringAnswers  int
 	answers                  []Answered
 }
 
@@ -114,13 +115,13 @@ func (asking *wordPartitionAsking[Ask, Answered]) coverOrAskTheNextReplica(
 		return
 	}
 	asking.answers = append(asking.answers, outcome.answer)
-	if !outcome.listsDocuments {
-		asking.askTheNextReplica(ctx, PutOnEmptyAnswer)
+	if !outcome.covers {
+		asking.askTheNextReplica(ctx, PutOnNonCoveringAnswer)
 
 		return
 	}
-	asking.amountOfListings++
-	if asking.amountOfListings == asking.partition.replicasCoveringAPartition {
+	asking.amountOfCoveringAnswers++
+	if asking.amountOfCoveringAnswers == asking.partition.replicasCoveringAPartition {
 		asking.settledBy = SettledByCoverage
 		asking.coveringAskPutOn = asking.putOnPerReplica[outcome.replica]
 	}
@@ -152,10 +153,10 @@ func (asking *wordPartitionAsking[Ask, Answered]) putTheAsk(
 ) {
 	answer, answered := asking.partition.kind.putAsk(ctx, ask)
 	asking.callOutcomes <- replicaCallOutcome[Answered]{
-		replica:        replica,
-		answered:       answered,
-		answer:         answer,
-		listsDocuments: answered && asking.partition.kind.amountOfDocumentsListedIn(answer) > 0,
+		replica:  replica,
+		answered: answered,
+		answer:   answer,
+		covers:   answered && asking.partition.kind.isCovering(answer),
 	}
 }
 
@@ -169,26 +170,27 @@ func (asking *wordPartitionAsking[Ask, Answered]) stopTheHedgeTimers() {
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) answeredWordPartition() answeredWordPartition[Answered] {
+func (asking *wordPartitionAsking[Ask, Answered]) answeredWordPartition() answeredWordPartition[Ask, Answered] {
 	amountOfDocumentsListed := 0
 	for _, answer := range asking.answers {
 		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
 	}
 
-	return answeredWordPartition[Answered]{
+	return answeredWordPartition[Ask, Answered]{
 		settled: SettledWordPartition{
 			SettledBy:               asking.settledBy,
 			CoveringAskPutOn:        asking.coveringAskPutOn,
 			AmountOfDocumentsListed: amountOfDocumentsListed,
 			AsksPutOn:               asking.putOnPerReplica,
 		},
+		asksPut: asking.partition.asksInReplicaOrder[:len(asking.putOnPerReplica)],
 		answers: asking.answers,
 	}
 }
 
 type replicaCallOutcome[Answered any] struct {
-	replica        int
-	answered       bool
-	listsDocuments bool
-	answer         Answered
+	replica  int
+	answered bool
+	covers   bool
+	answer   Answered
 }

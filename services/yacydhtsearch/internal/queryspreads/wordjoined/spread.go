@@ -18,7 +18,10 @@ type ReplicaAsks interface {
 	AskForMatchedAndHeldDocuments(
 		ctx context.Context,
 		asks []peerasks.MatchedAndHeldDocumentsAsk,
-	) []peerasks.AnsweredMatchedAndHeldDocumentsAsk
+	) peerasks.AsksPut[
+		peerasks.MatchedAndHeldDocumentsAsk,
+		peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	]
 }
 
 type PeerAsks interface {
@@ -128,7 +131,10 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheMatchedAndHeldDocuments)
 	defer endRound()
-	answeredAsks := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
+	answeredAsks := spread.replicaAsks.AskForMatchedAndHeldDocuments(
+		roundContext,
+		asks,
+	).AnsweredAsks
 
 	return matchedAndHeldDocumentsRound{
 		queryWords:   query.WordHashes(),

@@ -72,7 +72,7 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 	ctx context.Context,
 	asks []peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+) peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
 	n.matchedAndHeldDocumentsAsks = append(n.matchedAndHeldDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
@@ -92,7 +92,10 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 		})
 	}
 
-	return answeredAsks
+	return peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk]{
+		Asks:         asks,
+		AnsweredAsks: answeredAsks,
+	}
 }
 
 func (n *peerNetwork) AskForCrossCheckedDocuments(

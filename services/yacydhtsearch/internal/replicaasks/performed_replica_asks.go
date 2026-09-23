@@ -38,8 +38,8 @@ const (
 type PutOn string
 
 const (
-	PutOnStart       PutOn = "start"
-	PutOnHedgeDelay  PutOn = "hedge delay"
-	PutOnEmptyAnswer PutOn = "empty answer"
-	PutOnFailure     PutOn = "failure"
+	PutOnStart             PutOn = "start"
+	PutOnHedgeDelay        PutOn = "hedge delay"
+	PutOnNonCoveringAnswer PutOn = "non-covering answer"
+	PutOnFailure           PutOn = "failure"
 )

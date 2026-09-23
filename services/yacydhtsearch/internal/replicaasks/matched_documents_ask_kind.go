@@ -44,6 +44,12 @@ func (kind matchedDocumentsAskKind) putAsk(
 	return answeredAsks[0], true
 }
 
+func (kind matchedDocumentsAskKind) isCovering(
+	answeredAsk peerasks.AnsweredMatchedDocumentsAsk,
+) bool {
+	return kind.amountOfDocumentsListedIn(answeredAsk) > 0
+}
+
 func (matchedDocumentsAskKind) amountOfDocumentsListedIn(
 	answeredAsk peerasks.AnsweredMatchedDocumentsAsk,
 ) int {

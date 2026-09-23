@@ -35,7 +35,7 @@ func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 func (n *peerNetwork) AskForMatchedDocuments(
 	_ context.Context,
 	asks []peerasks.MatchedDocumentsAsk,
-) []peerasks.AnsweredMatchedDocumentsAsk {
+) peerasks.AsksPut[peerasks.MatchedDocumentsAsk, peerasks.AnsweredMatchedDocumentsAsk] {
 	n.asks = append(n.asks, asks...)
 
 	answeredAsks := make([]peerasks.AnsweredMatchedDocumentsAsk, 0, len(asks))
@@ -46,7 +46,10 @@ func (n *peerNetwork) AskForMatchedDocuments(
 		})
 	}
 
-	return answeredAsks
+	return peerasks.AsksPut[peerasks.MatchedDocumentsAsk, peerasks.AnsweredMatchedDocumentsAsk]{
+		Asks:         asks,
+		AnsweredAsks: answeredAsks,
+	}
 }
 
 func (n *peerNetwork) matchedDocumentsOf(

@@ -186,10 +186,10 @@ func wordPartitionsCoveredPerAskPutOnFrom(
 	}
 	//exhaustive:enforce
 	return map[replicaasks.PutOn]prometheusclient.Counter{
-		replicaasks.PutOnStart:       covered(replicaasks.PutOnStart),
-		replicaasks.PutOnHedgeDelay:  covered(replicaasks.PutOnHedgeDelay),
-		replicaasks.PutOnEmptyAnswer: covered(replicaasks.PutOnEmptyAnswer),
-		replicaasks.PutOnFailure:     covered(replicaasks.PutOnFailure),
+		replicaasks.PutOnStart:             covered(replicaasks.PutOnStart),
+		replicaasks.PutOnHedgeDelay:        covered(replicaasks.PutOnHedgeDelay),
+		replicaasks.PutOnNonCoveringAnswer: covered(replicaasks.PutOnNonCoveringAnswer),
+		replicaasks.PutOnFailure:           covered(replicaasks.PutOnFailure),
 	}
 }
 
@@ -202,8 +202,8 @@ func replicaAsksPerPutOnFrom(
 		replicaasks.PutOnHedgeDelay: replicaAsks.WithLabelValues(
 			string(replicaasks.PutOnHedgeDelay),
 		),
-		replicaasks.PutOnEmptyAnswer: replicaAsks.WithLabelValues(
-			string(replicaasks.PutOnEmptyAnswer),
+		replicaasks.PutOnNonCoveringAnswer: replicaAsks.WithLabelValues(
+			string(replicaasks.PutOnNonCoveringAnswer),
 		),
 		replicaasks.PutOnFailure: replicaAsks.WithLabelValues(string(replicaasks.PutOnFailure)),
 	}

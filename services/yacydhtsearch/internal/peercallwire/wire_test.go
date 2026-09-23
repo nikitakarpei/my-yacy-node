@@ -821,7 +821,7 @@ func TestAPeerThatRejectsTheURLMetadataCallYieldsNoItems(t *testing.T) {
 	}
 }
 
-func TestACrossCheckedDocumentsAskNamesTheWordAndTheDocumentsAndAsksForNoItem(t *testing.T) {
+func TestACrossCheckedDocumentsAskNamesTheWordTheDocumentsAndTheItemsCeiling(t *testing.T) {
 	t.Parallel()
 
 	word := yacymodel.WordHash("berlin")
@@ -834,7 +834,7 @@ func TestACrossCheckedDocumentsAskNamesTheWordAndTheDocumentsAndAsksForNoItem(t 
 	wireTo(&recordedOutcome{}).AskForCrossCheckedDocuments(
 		callWithin(t, spreadBudgetOfTheTests),
 		[]peerasks.CrossCheckedDocumentsAsk{
-			{Peer: peerAt(address), Word: word, Documents: documents},
+			{Peer: peerAt(address), Word: word, Documents: documents, ItemsCeiling: 7},
 		},
 	)
 
@@ -842,8 +842,8 @@ func TestACrossCheckedDocumentsAskNamesTheWordAndTheDocumentsAndAsksForNoItem(t 
 		t.Fatalf("the peer was called at %v, want %q", calls.paths, yacyproto.PathSearch)
 	}
 	form := calls.forms[0]
-	if got := form.Get(yacyproto.FieldQuery); got != "" {
-		t.Errorf("query = %q, want no word to match", got)
+	if got := form.Get(yacyproto.FieldQuery); got != word.String() {
+		t.Errorf("query = %q, want the one word the ask named", got)
 	}
 	if got := form.Get(yacyproto.FieldAbstracts); got != word.String() {
 		t.Errorf("abstracts = %q, want the one word the ask named", got)
@@ -851,8 +851,8 @@ func TestACrossCheckedDocumentsAskNamesTheWordAndTheDocumentsAndAsksForNoItem(t 
 	if got := form.Get(yacyproto.FieldURLs); got != documents[0].String()+documents[1].String() {
 		t.Errorf("urls = %q, want the documents the ask named", got)
 	}
-	if got := form.Get(yacyproto.FieldCount); got != "" && got != "0" {
-		t.Errorf("count = %q, want no item", got)
+	if got := form.Get(yacyproto.FieldCount); got != "7" {
+		t.Errorf("count = %q, want the items ceiling of the ask", got)
 	}
 }
 
@@ -908,6 +908,34 @@ func TestACrossCheckedDocumentsAnswerReadsTheDocumentsOfTheAbstractAlone(t *test
 			"PeerAnsweredCrossCheckedDocuments reported %d times with %d documents, want once with one",
 			observer.answeredCrossCheckedDocuments,
 			observer.amountOfCrossCheckedDocuments,
+		)
+	}
+}
+
+func TestACrossCheckedDocumentsAnswerReadsTheDocumentsThePeerHoldsForTheWord(t *testing.T) {
+	t.Parallel()
+
+	word := yacymodel.WordHash("berlin")
+	body := yacyproto.SearchResponse{
+		IndexCount: map[yacymodel.Hash]int{word: 4096},
+	}.Encode().Encode()
+	address, _ := peerAnswering(t, body, http.StatusOK)
+
+	answeredAsk, replied := crossCheckedDocumentsAnswerOf(
+		t,
+		&recordedOutcome{},
+		peerasks.CrossCheckedDocumentsAsk{
+			Peer:      peerAt(address),
+			Word:      word,
+			Documents: []yacymodel.URLHash{mustParseURLHash(t, "bbbbbbAAAAAA")},
+		},
+	)
+
+	documentsHeld, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
+	if !replied || !counted || documentsHeld != 4096 {
+		t.Fatalf(
+			"the answer carries %+v documents held for the word, want 4096",
+			answeredAsk.AmountOfDocumentsHeldForTheWord,
 		)
 	}
 }

@@ -1,6 +1,6 @@
 // Package replicaasks puts the asks of a word partition to its replicas in
-// turn, and settles the partition as soon as enough replicas have listed
-// documents for the word.
+// turn, settles the partition as soon as enough answers of the replicas cover
+// it, and reports the asks it put beside the answers.
 package replicaasks
 
 import (
@@ -20,6 +20,10 @@ type PeerCalls interface {
 		ctx context.Context,
 		asks []peerasks.MatchedDocumentsAsk,
 	) []peerasks.AnsweredMatchedDocumentsAsk
+	AskForCrossCheckedDocuments(
+		ctx context.Context,
+		asks []peerasks.CrossCheckedDocumentsAsk,
+	) []peerasks.AnsweredCrossCheckedDocumentsAsk
 }
 
 type HedgeDelay interface {
@@ -50,7 +54,10 @@ func New(
 func (asks Asks) AskForMatchedAndHeldDocuments(
 	ctx context.Context,
 	asksInReplicaOrder []peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+) peerasks.AsksPut[
+	peerasks.MatchedAndHeldDocumentsAsk,
+	peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+] {
 	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,
@@ -63,11 +70,24 @@ func (asks Asks) AskForMatchedAndHeldDocuments(
 func (asks Asks) AskForMatchedDocuments(
 	ctx context.Context,
 	asksInReplicaOrder []peerasks.MatchedDocumentsAsk,
-) []peerasks.AnsweredMatchedDocumentsAsk {
+) peerasks.AsksPut[peerasks.MatchedDocumentsAsk, peerasks.AnsweredMatchedDocumentsAsk] {
 	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,
 		matchedDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
+		asks.replicasCoveringAPartition,
+		asks.observer,
+	)
+}
+
+func (asks Asks) AskForCrossCheckedDocuments(
+	ctx context.Context,
+	asksInReplicaOrder []peerasks.CrossCheckedDocumentsAsk,
+) peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk] {
+	return askTheWordPartitions(
+		ctx,
+		asksInReplicaOrder,
+		crossCheckedDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
 		asks.replicasCoveringAPartition,
 		asks.observer,
 	)
