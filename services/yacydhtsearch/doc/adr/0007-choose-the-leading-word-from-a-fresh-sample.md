@@ -19,8 +19,7 @@ peers ignore `urls`, so peer judgements skip them. The round mostly works around
 ## Decision
 
 1. Ask every word in one random partition. The rarest word with a complete answer there
-   leads, if its sample predicts a saving above a configured minimum. A word with no
-   answer cannot lead.
+   leads. If no word has one, ask every word in all partitions without `urls`.
 2. Ask the leading word and the compound words that contain it in all partitions. Their
    documents are the candidates.
 3. As each partition answers, ask the other words and compound words there with the
