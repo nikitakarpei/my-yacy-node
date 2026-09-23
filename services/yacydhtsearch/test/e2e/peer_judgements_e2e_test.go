@@ -45,12 +45,13 @@ const (
 
 	smallestStepOnTheRing = 8
 
-	judgementHedgeDelay      = 2 * time.Second
-	judgementRankingLifetime = time.Second
-	pauseBetweenTheQueries   = 5 * time.Second
-	directoryRefreshInterval = 10 * time.Second
-	answeringPeersTimeout    = 5 * time.Minute
-	judgementTimeout         = 60 * time.Second
+	judgementHedgeDelay       = 2 * time.Second
+	judgementRankingLifetime  = time.Second
+	judgementStalenessHorizon = time.Nanosecond
+	pauseBetweenTheQueries    = 5 * time.Second
+	directoryRefreshInterval  = 10 * time.Second
+	answeringPeersTimeout     = 5 * time.Minute
+	judgementTimeout          = 60 * time.Second
 )
 
 func TestANodeThatListsOnlyTheCrossCheckedDocumentsIsAskedAgain(t *testing.T) {
@@ -363,11 +364,14 @@ func startTheHolderOfBothWords(
 
 func judgementSettings() map[string]string {
 	return map[string]string{
-		"YACYDHTSEARCH_PARTITION_EXPONENT":   strconv.Itoa(partitionExponent),
-		"YACYDHTSEARCH_HEDGE_DELAY":          judgementHedgeDelay.String(),
-		"YACYDHTSEARCH_RANKING_LIFETIME":     judgementRankingLifetime.String(),
-		"YACYDHTSEARCH_RANKED_ITEMS_CEILING": strconv.Itoa(amountOfFirstWordDocuments),
-		"YACYDHTSEARCH_REFRESH_INTERVAL":     directoryRefreshInterval.String(),
+		"YACYDHTSEARCH_PARTITION_EXPONENT":                 strconv.Itoa(partitionExponent),
+		"YACYDHTSEARCH_HEDGE_DELAY":                        judgementHedgeDelay.String(),
+		"YACYDHTSEARCH_RANKING_LIFETIME":                   judgementRankingLifetime.String(),
+		"YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON": judgementStalenessHorizon.String(),
+		"YACYDHTSEARCH_RANKED_ITEMS_CEILING": strconv.Itoa(
+			amountOfFirstWordDocuments,
+		),
+		"YACYDHTSEARCH_REFRESH_INTERVAL": directoryRefreshInterval.String(),
 	}
 }
 
