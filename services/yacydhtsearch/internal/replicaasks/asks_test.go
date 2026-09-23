@@ -255,7 +255,7 @@ func TestTheAnswersComeBackInTheOrderTheWordPartitionsWereFirstAsked(t *testing.
 	asking.observer.wantAskedFor(t, peerasks.MatchedDocuments)
 }
 
-func TestAnEmptyCrossCheckAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.T) {
+func TestAnEmptyAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
@@ -263,75 +263,40 @@ func TestAnEmptyCrossCheckAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t
 		"berlin-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.crossCheckedDocumentsAsksPut(
-		t.Context(), crossChecksOfTheWord("berlin", 1, "berlin-one", "berlin-two"),
+	asksPut := asking.matchedAndHeldDocumentsAsksPut(
+		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if !slices.Equal(addressesOf(asksPut.Asks), []string{"berlin-one"}) ||
 		len(asksPut.AnsweredAsks) != 1 {
-		t.Fatalf("AskForCrossCheckedDocuments = %+v, want the first replica only", asksPut)
+		t.Fatalf("AskForMatchedAndHeldDocuments = %+v, want the first replica only", asksPut)
 	}
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
-	asking.observer.wantAskedFor(t, peerasks.CrossCheckedDocuments)
-}
-
-func TestAnEmptyCrossCheckAnswerWithoutACountAsksTheNextReplica(t *testing.T) {
-	t.Parallel()
-
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
-		"berlin-one": {}, "berlin-two": {documentsListed: 1},
-	}, noHedgeOfTheTests, 1)
-
-	asksPut := asking.crossCheckedDocumentsAsksPut(
-		t.Context(), crossChecksOfTheWord("berlin", 1, "berlin-one", "berlin-two"),
-	)
-
-	if !slices.Equal(addressesOf(asksPut.Asks), []string{"berlin-one", "berlin-two"}) {
-		t.Fatalf("AskForCrossCheckedDocuments put %+v, want both replicas", asksPut.Asks)
-	}
-	asking.observer.wantPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnNonCoveringAnswer)
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
 }
 
-func TestACrossCheckAnswerListingADocumentTheAskDidNotNameAsksTheNextReplica(t *testing.T) {
+func TestAnAnswerListingADocumentOutsideTheDocumentsToMatchAsksTheNextReplica(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
-		"berlin-one": {listsDocumentsTheAskDidNotName: true, documentsHeld: yacymodel.Some(5)},
+		"berlin-one": {
+			listsADocumentOutsideTheDocumentsToMatch: true,
+			documentsHeld:                            yacymodel.Some(5),
+		},
 		"berlin-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.crossCheckedDocumentsAsksPut(
-		t.Context(), crossChecksOfTheWord("berlin", 1, "berlin-one", "berlin-two"),
+	asksPut := asking.matchedAndHeldDocumentsAsksPut(
+		t.Context(), asksToMatchTheDocumentsOfTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if !slices.Equal(addressesOf(asksPut.Asks), []string{"berlin-one", "berlin-two"}) ||
 		len(asksPut.AnsweredAsks) != 2 {
 		t.Fatalf(
-			"AskForCrossCheckedDocuments = %+v, want both replicas asked and answered",
+			"AskForMatchedAndHeldDocuments = %+v, want both replicas asked and answered",
 			asksPut,
 		)
 	}
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnNonCoveringAnswer)
-}
-
-func TestASilentReplicaOfACrossCheckIsHedgedAfterTheDelay(t *testing.T) {
-	t.Parallel()
-
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
-		"berlin-one": {documentsListed: 1, answersAfter: slowAnswerOfTheTests},
-		"berlin-two": {documentsListed: 1},
-	}, hedgeDelayOfTheTests, 1)
-
-	asksPut := asking.crossCheckedDocumentsAsksPut(
-		t.Context(), crossChecksOfTheWord("berlin", 1, "berlin-one", "berlin-two"),
-	)
-
-	if len(asksPut.AnsweredAsks) != 1 || asksPut.AnsweredAsks[0].Ask.Peer.Address != "berlin-two" {
-		t.Fatalf("AskForCrossCheckedDocuments = %+v, want the hedged replica only", asksPut)
-	}
-	asking.calls.wantAddressesCancelled(t, "berlin-one")
-	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnHedgeDelay)
 }
 
 func TestTheAsksPutAreReportedBesideTheAnswersAndTheAsksNeverPutAreLeftOut(t *testing.T) {
@@ -343,27 +308,27 @@ func TestTheAsksPutAreReportedBesideTheAnswersAndTheAsksNeverPutAreLeftOut(t *te
 		"weather-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.crossCheckedDocumentsAsksPut(t.Context(), append(
-		crossChecksOfTheWord("berlin", 1, "berlin-one", "berlin-two", "berlin-three"),
-		crossChecksOfTheWord("weather", 2, "weather-one", "weather-two")...,
+	asksPut := asking.matchedAndHeldDocumentsAsksPut(t.Context(), append(
+		asksForTheWord("berlin", 1, "berlin-one", "berlin-two", "berlin-three"),
+		asksForTheWord("weather", 2, "weather-one", "weather-two")...,
 	))
 
 	wanted := []string{"berlin-one", "berlin-two", "weather-one"}
 	if got := addressesOf(asksPut.Asks); !slices.Equal(got, wanted) {
-		t.Fatalf("AskForCrossCheckedDocuments put %v, want %v", got, wanted)
+		t.Fatalf("AskForMatchedAndHeldDocuments put %v, want %v", got, wanted)
 	}
 	if len(asksPut.AnsweredAsks) != 2 {
-		t.Fatalf("AskForCrossCheckedDocuments answered %+v, want the two that answered",
+		t.Fatalf("AskForMatchedAndHeldDocuments answered %+v, want the two that answered",
 			asksPut.AnsweredAsks)
 	}
 }
 
 type scriptedPeerCall struct {
-	documentsListed                int
-	documentsHeld                  yacymodel.Optional[int]
-	listsDocumentsTheAskDidNotName bool
-	fails                          bool
-	answersAfter                   time.Duration
+	documentsListed                          int
+	documentsHeld                            yacymodel.Optional[int]
+	listsADocumentOutsideTheDocumentsToMatch bool
+	fails                                    bool
+	answersAfter                             time.Duration
 }
 
 type peerCallsOfTheTests struct {
@@ -385,9 +350,18 @@ func (calls *peerCallsOfTheTests) AskForMatchedAndHeldDocuments(
 	}
 
 	return []peerasks.AnsweredMatchedAndHeldDocumentsAsk{{
-		Ask:                       asks[0],
-		DocumentsListedForTheWord: make([]yacymodel.URLHash, script.documentsListed),
+		Ask:                             asks[0],
+		DocumentsListedForTheWord:       documentsListedBy(script),
+		AmountOfDocumentsHeldForTheWord: script.documentsHeld,
 	}}
+}
+
+func documentsListedBy(script scriptedPeerCall) []yacymodel.URLHash {
+	if script.listsADocumentOutsideTheDocumentsToMatch {
+		return []yacymodel.URLHash{documentOutsideTheDocumentsToMatch}
+	}
+
+	return slices.Repeat([]yacymodel.URLHash{documentToMatch}, script.documentsListed)
 }
 
 func (calls *peerCallsOfTheTests) AskForMatchedDocuments(
@@ -403,33 +377,6 @@ func (calls *peerCallsOfTheTests) AskForMatchedDocuments(
 		Ask:              asks[0],
 		MatchedDocuments: make([]peerasks.MatchedDocument, script.documentsListed),
 	}}
-}
-
-func (calls *peerCallsOfTheTests) AskForCrossCheckedDocuments(
-	ctx context.Context,
-	asks []peerasks.CrossCheckedDocumentsAsk,
-) []peerasks.AnsweredCrossCheckedDocumentsAsk {
-	script, answered := calls.answered(ctx, asks[0].Peer.Address)
-	if !answered {
-		return nil
-	}
-
-	return []peerasks.AnsweredCrossCheckedDocumentsAsk{{
-		Ask:                             asks[0],
-		DocumentsListedForTheWord:       documentsListedFor(asks[0], script),
-		AmountOfDocumentsHeldForTheWord: script.documentsHeld,
-	}}
-}
-
-func documentsListedFor(
-	ask peerasks.CrossCheckedDocumentsAsk,
-	script scriptedPeerCall,
-) []yacymodel.URLHash {
-	if script.listsDocumentsTheAskDidNotName {
-		return []yacymodel.URLHash{documentTheAskDidNotName}
-	}
-
-	return ask.Documents[:script.documentsListed]
 }
 
 func (calls *peerCallsOfTheTests) answered(
@@ -678,13 +625,13 @@ func (asking askingUnderTest) matchedDocumentsAnswers(
 	return asking.asks.AskForMatchedDocuments(ctx, asks).AnsweredAsks
 }
 
-func (asking askingUnderTest) crossCheckedDocumentsAsksPut(
+func (asking askingUnderTest) matchedAndHeldDocumentsAsksPut(
 	ctx context.Context,
-	asks []peerasks.CrossCheckedDocumentsAsk,
-) peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk] {
+	asks []peerasks.MatchedAndHeldDocumentsAsk,
+) peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
 	asking.calls.startedAt = time.Now()
 
-	return asking.asks.AskForCrossCheckedDocuments(ctx, asks)
+	return asking.asks.AskForMatchedAndHeldDocuments(ctx, asks)
 }
 
 func asksForTheWord(
@@ -705,29 +652,24 @@ func asksForTheWord(
 }
 
 var (
-	namedDocument, _            = yacymodel.URLHashOf("https://named.example/")
-	documentTheAskDidNotName, _ = yacymodel.URLHashOf("https://other.example/")
+	documentToMatch, _                    = yacymodel.URLHashOf("https://named.example/")
+	documentOutsideTheDocumentsToMatch, _ = yacymodel.URLHashOf("https://other.example/")
 )
 
-func crossChecksOfTheWord(
+func asksToMatchTheDocumentsOfTheWord(
 	word string,
 	partition uint,
 	addresses ...string,
-) []peerasks.CrossCheckedDocumentsAsk {
-	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(addresses))
-	for _, address := range addresses {
-		asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peerAt(address),
-			Partition: partition,
-			Word:      yacymodel.WordHash(word),
-			Documents: []yacymodel.URLHash{namedDocument},
-		})
+) []peerasks.MatchedAndHeldDocumentsAsk {
+	asks := asksForTheWord(word, partition, addresses...)
+	for index := range asks {
+		asks[index].DocumentsToMatch = []yacymodel.URLHash{documentToMatch}
 	}
 
 	return asks
 }
 
-func addressesOf(asks []peerasks.CrossCheckedDocumentsAsk) []string {
+func addressesOf(asks []peerasks.MatchedAndHeldDocumentsAsk) []string {
 	addresses := make([]string, 0, len(asks))
 	for _, ask := range asks {
 		addresses = append(addresses, ask.Peer.Address)

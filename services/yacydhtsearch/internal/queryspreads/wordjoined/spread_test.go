@@ -42,33 +42,33 @@ var (
 )
 
 type peerNetwork struct {
-	documentsPerWordPerPeer               map[string]map[string][]string
-	answeredItemsPerWordPerPeer           map[string]map[string][]string
-	countsAWordWithEachItem               bool
-	documentsHeldForEveryWord             int
-	documentsHeldByEachPeer               map[string]int
-	documentsPerAnswerOfEachPeer          map[string]int
-	peersCountingNoDocument               map[string]struct{}
-	replicasPutPerWord                    map[string]int
-	matchedAndHeldDocumentsAsks           []peerasks.MatchedAndHeldDocumentsAsk
-	matchedAndHeldDocumentsAsksPut        []peerasks.MatchedAndHeldDocumentsAsk
-	crossCheckedDocumentsAsks             []peerasks.CrossCheckedDocumentsAsk
-	urlMetadataAsks                       []peerasks.URLMetadataAsk
-	silentPeers                           map[string]struct{}
-	peersSilentInTheCrossCheckedDocuments map[string]struct{}
-	peersHoldingNoNamedDocument           map[string]struct{}
-	peersListingDocumentsTheAskDidNotName map[string]struct{}
-	timeLeftInEachRoundInTheirOrder       []time.Duration
+	documentsPerWordPerPeer                         map[string]map[string][]string
+	answeredItemsPerWordPerPeer                     map[string]map[string][]string
+	countsAWordWithEachItem                         bool
+	documentsHeldForEveryWord                       int
+	documentsHeldByEachPeer                         map[string]int
+	documentsPerAnswerOfEachPeer                    map[string]int
+	peersCountingNoDocument                         map[string]struct{}
+	replicasPutPerWord                              map[string]int
+	matchedAndHeldDocumentsAsks                     []peerasks.MatchedAndHeldDocumentsAsk
+	matchedAndHeldDocumentsAsksPut                  []peerasks.MatchedAndHeldDocumentsAsk
+	crossCheckedDocumentsAsks                       []peerasks.MatchedAndHeldDocumentsAsk
+	urlMetadataAsks                                 []peerasks.URLMetadataAsk
+	silentPeers                                     map[string]struct{}
+	peersSilentInTheCrossCheckedDocuments           map[string]struct{}
+	peersHoldingNoDocumentToMatch                   map[string]struct{}
+	peersListingDocumentsOutsideTheDocumentsToMatch map[string]struct{}
+	timeLeftInEachRoundInTheirOrder                 []time.Duration
 }
 
 func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetwork {
 	return &peerNetwork{
-		documentsPerWordPerPeer:               documentsPerWordPerPeer,
-		peersCountingNoDocument:               map[string]struct{}{},
-		silentPeers:                           map[string]struct{}{},
-		peersSilentInTheCrossCheckedDocuments: map[string]struct{}{},
-		peersHoldingNoNamedDocument:           map[string]struct{}{},
-		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
+		documentsPerWordPerPeer:                         documentsPerWordPerPeer,
+		peersCountingNoDocument:                         map[string]struct{}{},
+		silentPeers:                                     map[string]struct{}{},
+		peersSilentInTheCrossCheckedDocuments:           map[string]struct{}{},
+		peersHoldingNoDocumentToMatch:                   map[string]struct{}{},
+		peersListingDocumentsOutsideTheDocumentsToMatch: map[string]struct{}{},
 	}
 }
 
@@ -76,6 +76,9 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 	ctx context.Context,
 	asks []peerasks.MatchedAndHeldDocumentsAsk,
 ) peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
+	if len(asks) > 0 && len(asks[0].DocumentsToMatch) > 0 {
+		return n.crossCheckedDocumentsAsksPut(ctx, asks)
+	}
 	n.matchedAndHeldDocumentsAsks = append(n.matchedAndHeldDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 	asksPut := n.matchedAndHeldDocumentsAsksPutAmong(asks)
@@ -135,51 +138,51 @@ func (n *peerNetwork) replicasPutFor(word yacymodel.Hash) (int, bool) {
 	return 0, false
 }
 
-func (n *peerNetwork) AskForCrossCheckedDocuments(
+func (n *peerNetwork) crossCheckedDocumentsAsksPut(
 	ctx context.Context,
-	asks []peerasks.CrossCheckedDocumentsAsk,
-) peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk] {
+	asks []peerasks.MatchedAndHeldDocumentsAsk,
+) peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
 	n.crossCheckedDocumentsAsks = append(n.crossCheckedDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
-	answeredAsks := make([]peerasks.AnsweredCrossCheckedDocumentsAsk, 0, len(asks))
+	answeredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
 		if _, silent := n.peersSilentInTheCrossCheckedDocuments[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredCrossCheckedDocumentsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedAndHeldDocumentsAsk{
 			Ask:                       ask,
-			DocumentsListedForTheWord: n.namedDocumentsHeldBy(ask),
+			DocumentsListedForTheWord: n.documentsToMatchHeldBy(ask),
 		})
 	}
 
-	return peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk]{
+	return peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk]{
 		Asks:         asks,
 		AnsweredAsks: answeredAsks,
 	}
 }
 
-func (n *peerNetwork) namedDocumentsHeldBy(
-	ask peerasks.CrossCheckedDocumentsAsk,
+func (n *peerNetwork) documentsToMatchHeldBy(
+	ask peerasks.MatchedAndHeldDocumentsAsk,
 ) []yacymodel.URLHash {
-	if _, holdsNothing := n.peersHoldingNoNamedDocument[ask.Peer.Address]; holdsNothing {
+	if _, holdsNothing := n.peersHoldingNoDocumentToMatch[ask.Peer.Address]; holdsNothing {
 		return nil
 	}
 
 	heldDocuments := documentsPerWordOf(n.documentsPerWordPerPeer, ask.Peer.Address, ask.Word)
-	if _, listsMore := n.peersListingDocumentsTheAskDidNotName[ask.Peer.Address]; listsMore {
+	if _, listsMore := n.peersListingDocumentsOutsideTheDocumentsToMatch[ask.Peer.Address]; listsMore {
 		return heldDocuments
 	}
 
-	namedDocumentsHeld := make([]yacymodel.URLHash, 0, len(ask.Documents))
-	for _, document := range ask.Documents {
+	documentsToMatchHeld := make([]yacymodel.URLHash, 0, len(ask.DocumentsToMatch))
+	for _, document := range ask.DocumentsToMatch {
 		if !slices.Contains(heldDocuments, document) {
 			continue
 		}
-		namedDocumentsHeld = append(namedDocumentsHeld, document)
+		documentsToMatchHeld = append(documentsToMatchHeld, document)
 	}
 
-	return namedDocumentsHeld
+	return documentsToMatchHeld
 }
 
 func (n *peerNetwork) recordTimeLeftIn(ctx context.Context) {
@@ -540,10 +543,10 @@ func peersOfEachQueryWord(
 	return responsiblePeers{peerAddressesPerWord: peerAddressesPerWord}
 }
 
-func documentsAskedToCrossCheck(asks []peerasks.CrossCheckedDocumentsAsk) []yacymodel.URLHash {
+func documentsAskedToCrossCheck(asks []peerasks.MatchedAndHeldDocumentsAsk) []yacymodel.URLHash {
 	documents := make([]yacymodel.URLHash, 0, len(asks))
 	for _, ask := range asks {
-		documents = append(documents, ask.Documents...)
+		documents = append(documents, ask.DocumentsToMatch...)
 	}
 
 	return documents
@@ -634,7 +637,7 @@ func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
 	t.Parallel()
 
 	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
-	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"third": {}}
+	network.peersListingDocumentsOutsideTheDocumentsToMatch = map[string]struct{}{"third": {}}
 	judgements := judgementsOfTheCrossCheck()
 	replicas := replicasOfTheTwoQueryWords()
 
@@ -652,7 +655,7 @@ func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
 	}
 }
 
-func addressesAskedToCrossCheck(asks []peerasks.CrossCheckedDocumentsAsk) []string {
+func addressesAskedToCrossCheck(asks []peerasks.MatchedAndHeldDocumentsAsk) []string {
 	addresses := make([]string, 0, len(asks))
 	for _, ask := range asks {
 		addresses = append(addresses, ask.Peer.Address)
@@ -661,7 +664,7 @@ func addressesAskedToCrossCheck(asks []peerasks.CrossCheckedDocumentsAsk) []stri
 	return addresses
 }
 
-func amountOfCrossChecksPutTo(address string, asks []peerasks.CrossCheckedDocumentsAsk) int {
+func amountOfCrossChecksPutTo(address string, asks []peerasks.MatchedAndHeldDocumentsAsk) int {
 	amount := 0
 	for _, ask := range asks {
 		if ask.Peer.Address == address {
@@ -693,7 +696,7 @@ func TestAReplicaTheFirstRoundLeftUnaskedIsAskedAboutTheDocumentsItsPartitionLef
 	}
 	ask := network.crossCheckedDocumentsAsks[0]
 	wanted := documentHashesOf([]string{"https://anchored.example/"})
-	if !slices.Equal(ask.Documents, wanted) || ask.ItemsCeiling != peerItemsCeiling ||
+	if !slices.Equal(ask.DocumentsToMatch, wanted) || ask.ItemsCeiling != peerItemsCeiling ||
 		ask.Partition != 0 {
 		t.Fatalf(
 			"the ask reads %+v, want the document the partition left out, the partition and "+
@@ -833,13 +836,13 @@ func TestHonoringPeersAreAskedFirstInTheSecondRound(t *testing.T) {
 	}
 }
 
-func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedToCrossCheckByTheNextQuery(
+func TestAPeerThatListedADocumentOutsideTheDocumentsToMatchIsNotAskedToCrossCheckByTheNextQuery(
 	t *testing.T,
 ) {
 	t.Parallel()
 
 	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
-	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"third": {}}
+	network.peersListingDocumentsOutsideTheDocumentsToMatch = map[string]struct{}{"third": {}}
 	judgements := judgementsOfTheCrossCheck()
 
 	spreadJudgingThePeers(network, replicasOfTheTwoQueryWords(), judgements, &recordedSpreads{})
@@ -853,7 +856,7 @@ func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedToCrossCheckByTheNext
 	}
 }
 
-func TestAPeerThatListedOnlyTheNamedDocumentsIsAskedByTheNextQuery(t *testing.T) {
+func TestAPeerThatListedOnlyTheDocumentsToMatchIsAskedByTheNextQuery(t *testing.T) {
 	t.Parallel()
 
 	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
@@ -893,7 +896,7 @@ func TestAnEmptyCrossCheckAnswerLeavesThePeerUnjudged(t *testing.T) {
 	t.Parallel()
 
 	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
-	network.peersHoldingNoNamedDocument = map[string]struct{}{"third": {}}
+	network.peersHoldingNoDocumentToMatch = map[string]struct{}{"third": {}}
 	judgements := judgementsOfTheCrossCheck()
 	observer := &recordedSpreads{}
 
@@ -1161,7 +1164,7 @@ func TestEveryReplicaTheFirstRoundLeftUnaskedIsAskedTheSameDocuments(t *testing.
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsListedForTheLeadingQueryWord[1:]))
 	for _, ask := range network.crossCheckedDocumentsAsks {
-		if got := documentsInTheirHashOrder(ask.Documents); !slices.Equal(got, wanted) {
+		if got := documentsInTheirHashOrder(ask.DocumentsToMatch); !slices.Equal(got, wanted) {
 			t.Fatalf(
 				"the ask to peer %q named %v, want every candidate %v",
 				ask.Peer.Address,
@@ -1221,12 +1224,12 @@ func TestTheCandidatesOverTheCeilingAreCountedAsNoPeerTook(
 		)
 	}
 	firstAsk, secondAsk := network.crossCheckedDocumentsAsks[0], network.crossCheckedDocumentsAsks[1]
-	if len(firstAsk.Documents) != documentsOneCrossCheckedDocumentsAskNames ||
-		!slices.Equal(firstAsk.Documents, secondAsk.Documents) {
+	if len(firstAsk.DocumentsToMatch) != documentsOneCrossCheckedDocumentsAskNames ||
+		!slices.Equal(firstAsk.DocumentsToMatch, secondAsk.DocumentsToMatch) {
 		t.Fatalf(
 			"the asks named %v and %v, want the same one document the ceiling allows",
-			firstAsk.Documents,
-			secondAsk.Documents,
+			firstAsk.DocumentsToMatch,
+			secondAsk.DocumentsToMatch,
 		)
 	}
 }
@@ -1297,11 +1300,11 @@ func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T)
 	}
 }
 
-func TestAPeerThatHoldsNoneOfTheNamedDocumentsLeavesTheJoinOfTheFirstRoundWhole(t *testing.T) {
+func TestAPeerThatHoldsNoneOfTheDocumentsToMatchLeavesTheJoinOfTheFirstRoundWhole(t *testing.T) {
 	t.Parallel()
 
 	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
-	network.peersHoldingNoNamedDocument = map[string]struct{}{"third": {}}
+	network.peersHoldingNoDocumentToMatch = map[string]struct{}{"third": {}}
 	observer := &recordedSpreads{}
 
 	spreadTheQuery(firstWord+" "+secondWord, network, replicasOfTheTwoQueryWords(), observer)

@@ -37,12 +37,6 @@ type PeerCallObserver interface {
 		amountOfDocuments int,
 		spent time.Duration,
 	)
-	PeerAnsweredCrossCheckedDocuments(
-		ctx context.Context,
-		address string,
-		amountOfDocuments int,
-		spent time.Duration,
-	)
 	PeerRefused(
 		ctx context.Context,
 		address string,
@@ -125,17 +119,6 @@ func (observers PeerCallObservers) PeerAnsweredMatchedAndHeldDocuments(
 ) {
 	for _, observer := range observers {
 		observer.PeerAnsweredMatchedAndHeldDocuments(ctx, address, amountOfDocuments, spent)
-	}
-}
-
-func (observers PeerCallObservers) PeerAnsweredCrossCheckedDocuments(
-	ctx context.Context,
-	address string,
-	amountOfDocuments int,
-	spent time.Duration,
-) {
-	for _, observer := range observers {
-		observer.PeerAnsweredCrossCheckedDocuments(ctx, address, amountOfDocuments, spent)
 	}
 }
 

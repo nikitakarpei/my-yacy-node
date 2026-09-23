@@ -72,11 +72,11 @@ type documentOfWord struct {
 }
 
 func amountOfDocumentsSentForCrossCheckingAcross(
-	asks []peerasks.CrossCheckedDocumentsAsk,
+	asks []peerasks.MatchedAndHeldDocumentsAsk,
 ) int {
 	documentsSent := map[documentOfWord]struct{}{}
 	for _, ask := range asks {
-		for _, document := range ask.Documents {
+		for _, document := range ask.DocumentsToMatch {
 			documentsSent[documentOfWord{word: ask.Word, document: document}] = struct{}{}
 		}
 	}
@@ -85,7 +85,7 @@ func amountOfDocumentsSentForCrossCheckingAcross(
 }
 
 func amountOfEmptyCrossCheckedDocumentsAnswers(
-	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk,
+	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {

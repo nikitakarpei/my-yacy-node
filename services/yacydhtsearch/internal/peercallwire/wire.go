@@ -322,69 +322,7 @@ func (w Wire) requestForMatchedAndHeldDocuments(
 	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
 	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
 	request.Query = []yacymodel.Hash{ask.Word}
-	request.Count = ask.ItemsCeiling
-
-	return request
-}
-
-func (w Wire) AskForCrossCheckedDocuments(
-	ctx context.Context,
-	asks []peerasks.CrossCheckedDocumentsAsk,
-) []peerasks.AnsweredCrossCheckedDocumentsAsk {
-	return putAsksToPeers(
-		ctx,
-		w.callsInFlight,
-		asks,
-		func(ask peerasks.CrossCheckedDocumentsAsk) (string, peerasks.AskedFor) {
-			return ask.Peer.Address, peerasks.CrossCheckedDocuments
-		},
-		func(ask peerasks.CrossCheckedDocumentsAsk) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
-			return w.putCrossCheckedDocumentsAsk(ctx, ask)
-		},
-	)
-}
-
-func (w Wire) putCrossCheckedDocumentsAsk(
-	ctx context.Context,
-	ask peerasks.CrossCheckedDocumentsAsk,
-) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
-	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
-	defer endPeerCall()
-	startedAt := time.Now()
-	response, ok := w.searchResponse(
-		ctx,
-		peerCall{
-			address:  ask.Peer.Address,
-			path:     yacyproto.PathSearch,
-			askedFor: peerasks.CrossCheckedDocuments,
-			form:     w.requestForCrossCheckedDocuments(ctx, ask).Form(),
-		},
-		startedAt,
-	)
-	if !ok {
-		return peerasks.AnsweredCrossCheckedDocumentsAsk{}, false
-	}
-
-	documentsListedForTheWord := response.IndexAbstract[ask.Word]
-	w.observer.PeerAnsweredCrossCheckedDocuments(
-		ctx, ask.Peer.Address, len(documentsListedForTheWord), time.Since(startedAt),
-	)
-
-	return peerasks.AnsweredCrossCheckedDocumentsAsk{
-		Ask:                             ask,
-		DocumentsListedForTheWord:       documentsListedForTheWord,
-		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
-	}, true
-}
-
-func (w Wire) requestForCrossCheckedDocuments(
-	ctx context.Context,
-	ask peerasks.CrossCheckedDocumentsAsk,
-) yacyproto.SearchRequest {
-	request := w.requestFor(ctx, nil, "")
-	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
-	request.Query = []yacymodel.Hash{ask.Word}
-	request.URLs = ask.Documents
+	request.URLs = ask.DocumentsToMatch
 	request.Count = ask.ItemsCeiling
 
 	return request

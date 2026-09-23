@@ -73,9 +73,6 @@ func New(
 		peerasks.MatchedAndHeldDocuments: peerCallsOfOneAskFrom(
 			peerCalls, peerCallDurationSeconds, peerasks.MatchedAndHeldDocuments,
 		),
-		peerasks.CrossCheckedDocuments: peerCallsOfOneAskFrom(
-			peerCalls, peerCallDurationSeconds, peerasks.CrossCheckedDocuments,
-		),
 		peerasks.URLMetadata: peerCallsOfOneAskFrom(
 			peerCalls, peerCallDurationSeconds, peerasks.URLMetadata,
 		),
@@ -181,15 +178,6 @@ func (m *PeerCallMetrics) PeerAnsweredMatchedAndHeldDocuments(
 	spent time.Duration,
 ) {
 	m.peerCallsPerAskedFor[peerasks.MatchedAndHeldDocuments].countAnswer(amountOfDocuments, spent)
-}
-
-func (m *PeerCallMetrics) PeerAnsweredCrossCheckedDocuments(
-	_ context.Context,
-	_ string,
-	amountOfDocuments int,
-	spent time.Duration,
-) {
-	m.peerCallsPerAskedFor[peerasks.CrossCheckedDocuments].countAnswer(amountOfDocuments, spent)
 }
 
 func (calls peerCallsOfOneAsk) countAnswer(amountAnswered int, spent time.Duration) {

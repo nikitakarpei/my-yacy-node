@@ -22,10 +22,6 @@ type ReplicaAsks interface {
 		peerasks.MatchedAndHeldDocumentsAsk,
 		peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 	]
-	AskForCrossCheckedDocuments(
-		ctx context.Context,
-		asks []peerasks.CrossCheckedDocumentsAsk,
-	) peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk]
 }
 
 type PeerAsks interface {
@@ -179,7 +175,7 @@ func (spread Spread) askForCrossCheckedDocuments(
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
 	defer endRound()
-	asksPut := spread.replicaAsks.AskForCrossCheckedDocuments(roundContext, asks)
+	asksPut := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
 
 	return crossCheckedDocumentsRound{
 		candidates:   candidates,

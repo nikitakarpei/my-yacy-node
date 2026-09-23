@@ -74,11 +74,6 @@ func (silentOutcome) PeerAnsweredMatchedAndHeldDocuments(
 ) {
 }
 
-func (silentOutcome) PeerAnsweredCrossCheckedDocuments(
-	context.Context, string, int, time.Duration,
-) {
-}
-
 func (silentOutcome) PeerRefused(
 	context.Context, string, peerasks.AskedFor, int, time.Duration,
 ) {

@@ -35,8 +35,6 @@ type recordedOutcome struct {
 	amountOfDescribedDocuments      int
 	answeredMatchedAndHeldDocuments int
 	amountOfDocuments               int
-	answeredCrossCheckedDocuments   int
-	amountOfCrossCheckedDocuments   int
 	refused                         int
 	unreachable                     int
 	unreadable                      int
@@ -113,20 +111,6 @@ func (r *recordedOutcome) PeerAnsweredMatchedAndHeldDocuments(
 
 	r.answeredMatchedAndHeldDocuments++
 	r.amountOfDocuments = amountOfDocuments
-	r.spent = spent
-}
-
-func (r *recordedOutcome) PeerAnsweredCrossCheckedDocuments(
-	_ context.Context,
-	_ string,
-	amountOfCrossCheckedDocuments int,
-	spent time.Duration,
-) {
-	r.mutex.Lock()
-	defer r.mutex.Unlock()
-
-	r.answeredCrossCheckedDocuments++
-	r.amountOfCrossCheckedDocuments = amountOfCrossCheckedDocuments
 	r.spent = spent
 }
 
@@ -821,7 +805,7 @@ func TestAPeerThatRejectsTheURLMetadataCallYieldsNoItems(t *testing.T) {
 	}
 }
 
-func TestACrossCheckedDocumentsAskNamesTheWordTheDocumentsAndTheItemsCeiling(t *testing.T) {
+func TestAMatchedAndHeldDocumentsAskNamesTheDocumentsToMatch(t *testing.T) {
 	t.Parallel()
 
 	word := yacymodel.WordHash("berlin")
@@ -831,28 +815,20 @@ func TestACrossCheckedDocumentsAskNamesTheWordTheDocumentsAndTheItemsCeiling(t *
 	}
 	address, calls := peerRecordingTheFormPosted(t, "")
 
-	wireTo(&recordedOutcome{}).AskForCrossCheckedDocuments(
+	wireTo(&recordedOutcome{}).AskForMatchedAndHeldDocuments(
 		callWithin(t, spreadBudgetOfTheTests),
-		[]peerasks.CrossCheckedDocumentsAsk{
-			{Peer: peerAt(address), Word: word, Documents: documents, ItemsCeiling: 7},
+		[]peerasks.MatchedAndHeldDocumentsAsk{
+			{Peer: peerAt(address), Word: word, DocumentsToMatch: documents},
 		},
 	)
 
 	if len(calls.paths) != 1 || calls.paths[0] != yacyproto.PathSearch {
 		t.Fatalf("the peer was called at %v, want %q", calls.paths, yacyproto.PathSearch)
 	}
-	form := calls.forms[0]
-	if got := form.Get(yacyproto.FieldQuery); got != word.String() {
-		t.Errorf("query = %q, want the one word the ask named", got)
-	}
-	if got := form.Get(yacyproto.FieldAbstracts); got != word.String() {
-		t.Errorf("abstracts = %q, want the one word the ask named", got)
-	}
-	if got := form.Get(yacyproto.FieldURLs); got != documents[0].String()+documents[1].String() {
-		t.Errorf("urls = %q, want the documents the ask named", got)
-	}
-	if got := form.Get(yacyproto.FieldCount); got != "7" {
-		t.Errorf("count = %q, want the items ceiling of the ask", got)
+	if got := calls.forms[0].Get(
+		yacyproto.FieldURLs,
+	); got != documents[0].String()+documents[1].String() {
+		t.Fatalf("urls = %q, want the documents to match", got)
 	}
 }
 
@@ -872,121 +848,6 @@ func peerRecordingTheFormPosted(t *testing.T, body string) (string, *peerCalls) 
 	t.Cleanup(server.Close)
 
 	return server.URL, calls
-}
-
-func TestACrossCheckedDocumentsAnswerReadsTheDocumentsOfTheAbstractAlone(t *testing.T) {
-	t.Parallel()
-
-	word := yacymodel.WordHash("berlin")
-	document := mustParseURLHash(t, "bbbbbbAAAAAA")
-	body := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{word: {document}},
-	}.Encode().Encode()
-	address, _ := peerAnswering(t, body, http.StatusOK)
-	observer := &recordedOutcome{}
-
-	answeredAsk, replied := crossCheckedDocumentsAnswerOf(
-		t,
-		observer,
-		peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peerAt(address),
-			Word:      word,
-			Documents: []yacymodel.URLHash{document},
-		},
-	)
-
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 1 ||
-		answeredAsk.DocumentsListedForTheWord[0] != document {
-		t.Fatalf(
-			"AskForCrossCheckedDocuments = %+v, %v, want the document the peer holds",
-			answeredAsk.DocumentsListedForTheWord,
-			replied,
-		)
-	}
-	if observer.answeredCrossCheckedDocuments != 1 || observer.amountOfCrossCheckedDocuments != 1 {
-		t.Fatalf(
-			"PeerAnsweredCrossCheckedDocuments reported %d times with %d documents, want once with one",
-			observer.answeredCrossCheckedDocuments,
-			observer.amountOfCrossCheckedDocuments,
-		)
-	}
-}
-
-func TestACrossCheckedDocumentsAnswerReadsTheDocumentsThePeerHoldsForTheWord(t *testing.T) {
-	t.Parallel()
-
-	word := yacymodel.WordHash("berlin")
-	body := yacyproto.SearchResponse{
-		IndexCount: map[yacymodel.Hash]int{word: 4096},
-	}.Encode().Encode()
-	address, _ := peerAnswering(t, body, http.StatusOK)
-
-	answeredAsk, replied := crossCheckedDocumentsAnswerOf(
-		t,
-		&recordedOutcome{},
-		peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peerAt(address),
-			Word:      word,
-			Documents: []yacymodel.URLHash{mustParseURLHash(t, "bbbbbbAAAAAA")},
-		},
-	)
-
-	documentsHeld, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
-	if !replied || !counted || documentsHeld != 4096 {
-		t.Fatalf(
-			"the answer carries %+v documents held for the word, want 4096",
-			answeredAsk.AmountOfDocumentsHeldForTheWord,
-		)
-	}
-}
-
-func crossCheckedDocumentsAnswerOf(
-	t *testing.T,
-	observer peercallwire.PeerCallObserver,
-	ask peerasks.CrossCheckedDocumentsAsk,
-) (peerasks.AnsweredCrossCheckedDocumentsAsk, bool) {
-	t.Helper()
-
-	answeredAsks := wireTo(observer).AskForCrossCheckedDocuments(
-		callWithin(t, spreadBudgetOfTheTests), []peerasks.CrossCheckedDocumentsAsk{ask},
-	)
-	if len(answeredAsks) == 0 {
-		return peerasks.AnsweredCrossCheckedDocumentsAsk{}, false
-	}
-
-	return answeredAsks[0], true
-}
-
-func TestAPeerThatHoldsNoCrossCheckedDocumentStillReplies(t *testing.T) {
-	t.Parallel()
-
-	address, _ := peerAnswering(t, "", http.StatusOK)
-	observer := &recordedOutcome{}
-
-	answeredAsk, replied := crossCheckedDocumentsAnswerOf(
-		t,
-		observer,
-		peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peerAt(address),
-			Word:      yacymodel.WordHash("berlin"),
-			Documents: []yacymodel.URLHash{mustParseURLHash(t, "bbbbbbAAAAAA")},
-		},
-	)
-
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 0 {
-		t.Fatalf(
-			"AskForCrossCheckedDocuments = %+v, %v, want a reply that carries no document",
-			answeredAsk.DocumentsListedForTheWord,
-			replied,
-		)
-	}
-	if observer.answeredCrossCheckedDocuments != 1 || observer.amountOfCrossCheckedDocuments != 0 {
-		t.Fatalf(
-			"PeerAnsweredCrossCheckedDocuments reported %d times with %d documents, want once with none",
-			observer.answeredCrossCheckedDocuments,
-			observer.amountOfCrossCheckedDocuments,
-		)
-	}
 }
 
 func TestAPeerCallWaitsForAnInFlightSlotBeforeItTakesOne(t *testing.T) {

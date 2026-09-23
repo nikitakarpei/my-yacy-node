@@ -60,8 +60,7 @@ func New(
 			peerasks.MatchedAndHeldDocuments: vectors.metricsOf(
 				peerasks.MatchedAndHeldDocuments,
 			),
-			peerasks.CrossCheckedDocuments: vectors.metricsOf(peerasks.CrossCheckedDocuments),
-			peerasks.URLMetadata:           vectors.metricsOf(peerasks.URLMetadata),
+			peerasks.URLMetadata: vectors.metricsOf(peerasks.URLMetadata),
 		},
 	}
 }

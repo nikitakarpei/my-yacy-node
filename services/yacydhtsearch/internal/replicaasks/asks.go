@@ -20,10 +20,6 @@ type PeerCalls interface {
 		ctx context.Context,
 		asks []peerasks.MatchedDocumentsAsk,
 	) []peerasks.AnsweredMatchedDocumentsAsk
-	AskForCrossCheckedDocuments(
-		ctx context.Context,
-		asks []peerasks.CrossCheckedDocumentsAsk,
-	) []peerasks.AnsweredCrossCheckedDocumentsAsk
 }
 
 type HedgeDelay interface {
@@ -75,19 +71,6 @@ func (asks Asks) AskForMatchedDocuments(
 		ctx,
 		asksInReplicaOrder,
 		matchedDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
-		asks.replicasCoveringAPartition,
-		asks.observer,
-	)
-}
-
-func (asks Asks) AskForCrossCheckedDocuments(
-	ctx context.Context,
-	asksInReplicaOrder []peerasks.CrossCheckedDocumentsAsk,
-) peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk] {
-	return askTheWordPartitions(
-		ctx,
-		asksInReplicaOrder,
-		crossCheckedDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
 		asks.replicasCoveringAPartition,
 		asks.observer,
 	)

@@ -1043,46 +1043,6 @@
       ]
     },
     {
-      "id": 56,
-      "title": "Calls that asked a peer to cross-check documents, by outcome",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 80
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
-        }
-      ]
-    },
-    {
       "id": 50,
       "title": "Share of the joined documents found only by cross-checking",
       "type": "heatmap",
@@ -1092,8 +1052,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 24,
+        "x": 0,
         "y": 80
       },
       "fieldConfig": {

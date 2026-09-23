@@ -18,11 +18,13 @@ func judgeAnsweringPeersIn(round crossCheckedDocumentsRound) []peerjudgements.Ju
 	return judgedPeers
 }
 
-func judgementFrom(answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk) peerjudgements.Judgement {
+func judgementFrom(
+	answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+) peerjudgements.Judgement {
 	if len(answeredAsk.DocumentsListedForTheWord) == 0 {
 		return peerjudgements.NoEvidence
 	}
-	if !answeredAsk.ListsOnlyTheDocumentsAsked() {
+	if !answeredAsk.ListsOnlyTheDocumentsToMatch() {
 		return peerjudgements.Ignored
 	}
 

@@ -10,9 +10,9 @@ The replicas hold the same postings, so most of those calls added nothing.
 
 This package asks the replicas of one word partition in turn. The first `n`
 answers that cover the partition settle it, and the other calls are cancelled.
-An answer covers when it lists or counts a document of the word, and a
-cross-check answer lists no document the ask did not name. A replica that does
-not cover, fails, or stays silent past a hedge delay gets the next one asked.
+An answer covers when it lists or counts a document of the word, and lists no
+document outside the documents to match. A replica that does not cover, fails,
+or stays silent past a hedge delay gets the next one asked.
 
 ## Prior art
 

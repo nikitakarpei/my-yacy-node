@@ -167,8 +167,8 @@ func TestEveryAskedForStartsAtZero(t *testing.T) {
 	requirePublished(t, publishedBy(t, registry), []string{
 		`yacydhtsearch_replica_asks_total{asked_for="matched documents",put_on="start"} 0`,
 		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="start"} 0`,
-		`yacydhtsearch_replica_asks_total{asked_for="cross-checked documents",put_on="start"} 0`,
-		`yacydhtsearch_word_partition_documents_listed_count{asked_for="cross-checked documents"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="url metadata",put_on="start"} 0`,
+		`yacydhtsearch_word_partition_documents_listed_count{asked_for="url metadata"} 0`,
 	})
 }
 
