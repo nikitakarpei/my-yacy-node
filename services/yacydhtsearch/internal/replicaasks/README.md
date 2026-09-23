@@ -11,8 +11,11 @@ The replicas hold the same postings, so most of those calls added nothing.
 This package asks the replicas of one word partition in turn. The first `n`
 answers that cover the partition settle it, and the other calls are cancelled.
 An answer covers when it lists, counts or matches a document of the word, and
-lists no document outside the documents to match. A replica that does not cover, fails,
-or stays silent past a hedge delay gets the next one asked.
+lists no document outside the documents to match. A replica that does not cover,
+fails, or stays silent past a hedge delay gets the next one asked.
+
+A peer gets one ask at most. A replica already asked for another word partition
+is skipped.
 
 ## Prior art
 

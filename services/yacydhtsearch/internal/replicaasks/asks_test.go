@@ -342,6 +342,55 @@ func TestTheAsksPutAreReportedBesideTheAnswersAndTheAsksNeverPutAreLeftOut(t *te
 	}
 }
 
+func TestAPeerAskedForOneWordPartitionIsNotAskedForAnotherOne(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"shared": {documentsListed: 3}, "berlin-two": {documentsListed: 2},
+		"weather-two": {documentsListed: 4},
+	}, noHedgeOfTheTests, 1)
+
+	answers := asking.searchDocumentsAnswers(t.Context(), append(
+		asksForTheWord("berlin", 1, "shared", "berlin-two"),
+		asksForTheWord("weather", 2, "shared", "weather-two")...,
+	))
+
+	if len(answers) != 2 || answers[0].Ask.Peer.Address != "shared" ||
+		answers[0].Ask.Word != yacymodel.WordHash("berlin") ||
+		answers[1].Ask.Peer.Address != "weather-two" {
+		t.Fatalf(
+			"AskForSearchDocuments = %+v, want the shared peer for the first word partition "+
+				"and the next replica for the second",
+			answers,
+		)
+	}
+	asking.calls.wantAddressesPut(t, "shared", "weather-two")
+	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnStart)
+}
+
+func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLeft(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"shared": {documentsListed: 3},
+	}, noHedgeOfTheTests, 1)
+
+	asksPut := asking.searchDocumentsAsksPut(t.Context(), append(
+		asksForTheWord("berlin", 1, "shared"),
+		asksForTheWord("weather", 2, "shared")...,
+	))
+
+	if got := addressesOf(asksPut.Asks); !slices.Equal(got, []string{"shared"}) {
+		t.Fatalf("the asks put went to %v, want the shared peer once", got)
+	}
+	asking.calls.wantAddressesPut(t, "shared")
+	asking.observer.wantSettledBy(
+		t, replicaasks.SettledByCoverage, replicaasks.SettledByNoReplicaLeft,
+	)
+}
+
 type scriptedPeerCall struct {
 	documentsListed                          int
 	documentsMatched                         int
@@ -676,5 +725,5 @@ func addressesOf(asks []peerasks.SearchDocumentsAsk) []string {
 }
 
 func peerAt(address string) peerdirectory.AskablePeer {
-	return peerdirectory.AskablePeer{Address: address}
+	return peerdirectory.AskablePeer{Hash: yacymodel.WordHash(address), Address: address}
 }

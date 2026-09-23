@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type searchDocumentsAskKind struct {
@@ -20,6 +21,10 @@ func (searchDocumentsAskKind) wordPartitionKeyOf(
 	ask peerasks.SearchDocumentsAsk,
 ) wordPartitionKey {
 	return wordPartitionKey{word: ask.Word.String(), partition: ask.Partition}
+}
+
+func (searchDocumentsAskKind) peerOf(ask peerasks.SearchDocumentsAsk) yacymodel.Hash {
+	return ask.Peer.Hash
 }
 
 func (kind searchDocumentsAskKind) hedgeDelayOf(
