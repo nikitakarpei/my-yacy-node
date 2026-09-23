@@ -9,28 +9,28 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func crossCheckedDocumentsAsksFor(
+func crossCheckAsksFor(
 	candidates crossCheckCandidates,
 	peerStandings peerjudgements.PeerStandings,
-	crossCheckedDocumentsCeiling int,
+	documentsToMatchCeiling int,
 ) []peerasks.CrossCheckedDocumentsAsk {
 	asks := make(
 		[]peerasks.CrossCheckedDocumentsAsk,
 		0,
-		len(candidates.ofPartlyListedWordPartitions),
+		len(candidates.ofWordPartitionsWithoutACompleteAbstract),
 	)
-	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
+	for _, candidatesOfWordPartition := range candidates.ofWordPartitionsWithoutACompleteAbstract {
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersNotIgnoringTheCrossCheckAmong(
-				candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold(),
+				candidatesOfWordPartition.wordPartition.replicasWithoutACompleteAbstract(),
 				peerStandings,
 			),
 			asks,
 		)
-		asks = append(asks, crossCheckedDocumentsAsksOfEach(
+		asks = append(asks, crossCheckAsksOfEach(
 			peersNotYetAskedToCrossCheck,
 			candidatesOfWordPartition.wordPartition.word,
-			candidatesOfWordPartition.mostListedDocumentsUpTo(crossCheckedDocumentsCeiling),
+			candidatesOfWordPartition.mostHeldDocumentsUpTo(documentsToMatchCeiling),
 		)...)
 	}
 
@@ -41,8 +41,8 @@ func peersThatMayCrossCheckIn(
 	candidates crossCheckCandidates,
 ) []peerjudgements.PeerAtVersion {
 	var peers []peerjudgements.PeerAtVersion
-	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
-		for _, replica := range candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold() {
+	for _, candidatesOfWordPartition := range candidates.ofWordPartitionsWithoutACompleteAbstract {
+		for _, replica := range candidatesOfWordPartition.wordPartition.replicasWithoutACompleteAbstract() {
 			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
 				return peer.Peer == replica.peer.Hash
 			}) {
@@ -90,7 +90,7 @@ func peersNotYetAskedToCrossCheckAmong(
 	return keptPeers
 }
 
-func crossCheckedDocumentsAsksOfEach(
+func crossCheckAsksOfEach(
 	peers []peerdirectory.AskablePeer,
 	queryWord yacymodel.Hash,
 	documents []yacymodel.URLHash,

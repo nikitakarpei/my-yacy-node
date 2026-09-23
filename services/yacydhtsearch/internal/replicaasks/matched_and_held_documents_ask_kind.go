@@ -43,8 +43,8 @@ func (kind matchedAndHeldDocumentsAskKind) putAsk(
 func (matchedAndHeldDocumentsAskKind) amountOfDocumentsListedIn(
 	answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) int {
-	if len(answeredAsk.DocumentsListedForTheWord) > 0 {
-		return len(answeredAsk.DocumentsListedForTheWord)
+	if len(answeredAsk.Abstract) > 0 {
+		return len(answeredAsk.Abstract)
 	}
 	amountHeld, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
 	if !counted {

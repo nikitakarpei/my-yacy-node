@@ -6,44 +6,44 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PerformedCrossCheckedDocumentsRound struct {
+type PerformedCrossCheckRound struct {
 	AmountOfDocumentsSentForCrossChecking              int
 	AmountOfCrossCheckCandidatesNoPeerTook             int
 	AmountOfCrossCheckCandidatesRuledOutByAFullListing int
-	AmountOfEmptyCrossCheckedDocumentsAnswers          int
+	AmountOfEmptyCrossCheckAnswers                     int
 	AmountOfJoinedDocuments                            int
 	AmountOfJoinedDocumentsFoundOnlyByCrossChecking    int
 	PeerStandings                                      []peerjudgements.PeerStanding
 	JudgedPeers                                        []peerjudgements.JudgedPeer
 }
 
-func performedCrossCheckedDocumentsRoundFrom(
-	round crossCheckedDocumentsRound,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+func performedCrossCheckRoundFrom(
+	round crossCheckRound,
+	discoveryRound discoveryRound,
 	peerStandings peerjudgements.PeerStandings,
 	judgedPeers []peerjudgements.JudgedPeer,
 	joinedDocuments distinctDocuments,
-) PerformedCrossCheckedDocumentsRound {
-	return PerformedCrossCheckedDocumentsRound{
+) PerformedCrossCheckRound {
+	return PerformedCrossCheckRound{
 		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
 			round.asks,
 		),
 		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesAcross(
-			round.candidates.ofPartlyListedWordPartitions,
+			round.candidates.ofWordPartitionsWithoutACompleteAbstract,
 		) -
 			amountOfDocumentsSentForCrossCheckingAcross(
 				round.asks,
 			),
 		AmountOfCrossCheckCandidatesRuledOutByAFullListing: amountOfCrossCheckCandidatesAcross(
-			round.candidates.ofFullyListedWordPartitions,
+			round.candidates.ofWordPartitionsWithACompleteAbstract,
 		),
-		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
+		AmountOfEmptyCrossCheckAnswers: amountOfEmptyCrossCheckAnswers(
 			round.answeredAsks,
 		),
 		AmountOfJoinedDocuments: len(joinedDocuments),
 		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: amountOfJoinedDocumentsFoundOnlyByCrossChecking(
 			joinedDocuments,
-			matchedAndHeldDocumentsRound,
+			discoveryRound,
 		),
 		PeerStandings: peerStandings,
 		JudgedPeers:   judgedPeers,
@@ -61,12 +61,12 @@ func amountOfCrossCheckCandidatesAcross(candidates []crossCheckCandidatesOfWordP
 
 func amountOfJoinedDocumentsFoundOnlyByCrossChecking(
 	joinedDocuments distinctDocuments,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	discoveryRound discoveryRound,
 ) int {
-	documentsOfEveryQueryWordListedByPeers := matchedAndHeldDocumentsRound.
-		documentsListedByPeersPerQueryWord().documentsOfEveryQueryWord()
+	documentsOfEveryQueryWord := discoveryRound.
+		documentsPerQueryWord().documentsOfEveryQueryWord()
 
-	return len(joinedDocuments) - len(documentsOfEveryQueryWordListedByPeers)
+	return len(joinedDocuments) - len(documentsOfEveryQueryWord)
 }
 
 type documentOfWord struct {
@@ -87,12 +87,12 @@ func amountOfDocumentsSentForCrossCheckingAcross(
 	return len(documentsSent)
 }
 
-func amountOfEmptyCrossCheckedDocumentsAnswers(
+func amountOfEmptyCrossCheckAnswers(
 	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.DocumentsListedForTheWord) > 0 {
+		if len(answeredAsk.Abstract) > 0 {
 			continue
 		}
 		amount++

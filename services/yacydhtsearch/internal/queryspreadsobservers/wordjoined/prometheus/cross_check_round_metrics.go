@@ -6,15 +6,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
-type crossCheckedDocumentsRoundMetrics struct {
+type crossCheckRoundMetrics struct {
 	crossCheckCandidatesNoPeerTookRatio          prometheusclient.Histogram
 	joinedDocumentsFoundOnlyByCrossCheckingRatio prometheusclient.Histogram
 }
 
-func crossCheckedDocumentsRoundMetricsRegisteredIn(
+func crossCheckRoundMetricsRegisteredIn(
 	registry prometheusclient.Registerer,
-) crossCheckedDocumentsRoundMetrics {
-	metrics := crossCheckedDocumentsRoundMetrics{
+) crossCheckRoundMetrics {
+	metrics := crossCheckRoundMetrics{
 		crossCheckCandidatesNoPeerTookRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_cross_check_candidates_no_peer_took_ratio",
 			"Share of the cross-check candidates no peer took, in the spreads that had a "+
@@ -34,23 +34,23 @@ func crossCheckedDocumentsRoundMetricsRegisteredIn(
 	return metrics
 }
 
-func (m crossCheckedDocumentsRoundMetrics) observeCrossCheckedDocumentsRound(
-	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
+func (m crossCheckRoundMetrics) observeCrossCheckRound(
+	crossCheckRound wordjoined.PerformedCrossCheckRound,
 ) {
-	amountOfCandidatesNoPeerTook := crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook
-	amountOfCandidates := crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking +
+	amountOfCandidatesNoPeerTook := crossCheckRound.AmountOfCrossCheckCandidatesNoPeerTook
+	amountOfCandidates := crossCheckRound.AmountOfDocumentsSentForCrossChecking +
 		amountOfCandidatesNoPeerTook
 	if amountOfCandidates > 0 {
 		m.crossCheckCandidatesNoPeerTookRatio.Observe(
 			float64(amountOfCandidatesNoPeerTook) / float64(amountOfCandidates),
 		)
 	}
-	if crossCheckedDocumentsRound.AmountOfDocumentsSentForCrossChecking == 0 ||
-		crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
+	if crossCheckRound.AmountOfDocumentsSentForCrossChecking == 0 ||
+		crossCheckRound.AmountOfJoinedDocuments == 0 {
 		return
 	}
 	m.joinedDocumentsFoundOnlyByCrossCheckingRatio.Observe(
-		float64(crossCheckedDocumentsRound.AmountOfJoinedDocumentsFoundOnlyByCrossChecking) /
-			float64(crossCheckedDocumentsRound.AmountOfJoinedDocuments),
+		float64(crossCheckRound.AmountOfJoinedDocumentsFoundOnlyByCrossChecking) /
+			float64(crossCheckRound.AmountOfJoinedDocuments),
 	)
 }

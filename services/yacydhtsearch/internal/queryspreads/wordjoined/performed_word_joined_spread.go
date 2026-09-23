@@ -8,35 +8,38 @@ import (
 )
 
 type PerformedWordJoinedSpread struct {
-	MatchedAndHeldDocumentsRound PerformedMatchedAndHeldDocumentsRound
-	CrossCheckedDocumentsRound   PerformedCrossCheckedDocumentsRound
-	URLMetadataRound             PerformedURLMetadataRound
-	TimeSpent                    time.Duration
+	DiscoveryRound         PerformedDiscoveryRound
+	CrossCheckRound        PerformedCrossCheckRound
+	URLMetadataLookupRound PerformedURLMetadataLookupRound
+	TimeSpent              time.Duration
 }
 
 //nolint:revive // argument-limit: the report takes the three rounds, the judging and the join
 func performedWordJoinedSpreadFrom(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	crossCheckedDocumentsRound crossCheckedDocumentsRound,
+	discoveryRound discoveryRound,
+	crossCheckRound crossCheckRound,
 	peerStandings peerjudgements.PeerStandings,
 	judgedPeers []peerjudgements.JudgedPeer,
 	joinedDocuments distinctDocuments,
-	urlMetadataRound urlMetadataRound,
+	urlMetadataLookupRound urlMetadataLookupRound,
 	timeSpent time.Duration,
 ) PerformedWordJoinedSpread {
 	return PerformedWordJoinedSpread{
-		MatchedAndHeldDocumentsRound: performedMatchedAndHeldDocumentsRoundFrom(
-			matchedAndHeldDocumentsRound,
+		DiscoveryRound: performedDiscoveryRoundFrom(
+			discoveryRound,
 		),
-		CrossCheckedDocumentsRound: performedCrossCheckedDocumentsRoundFrom(
-			crossCheckedDocumentsRound,
-			matchedAndHeldDocumentsRound,
+		CrossCheckRound: performedCrossCheckRoundFrom(
+			crossCheckRound,
+			discoveryRound,
 			peerStandings,
 			judgedPeers,
 			joinedDocuments,
 		),
-		URLMetadataRound: performedURLMetadataRoundFrom(urlMetadataRound, joinedDocuments),
-		TimeSpent:        timeSpent,
+		URLMetadataLookupRound: performedURLMetadataLookupRoundFrom(
+			urlMetadataLookupRound,
+			joinedDocuments,
+		),
+		TimeSpent: timeSpent,
 	}
 }
 

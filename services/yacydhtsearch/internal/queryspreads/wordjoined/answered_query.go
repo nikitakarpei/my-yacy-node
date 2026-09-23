@@ -9,28 +9,28 @@ import (
 
 func answeredQueryFrom(
 	query searchquery.Query,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
-	urlMetadataRound urlMetadataRound,
+	urlMetadataLookupRound urlMetadataLookupRound,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:    matchedAndHeldDocumentsRound.queryWords,
+		QueryWords:    discoveryRound.queryWords,
 		CompoundWords: query.CompoundWords,
 		FoundDocuments: foundDocumentsFrom(
-			matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
+			discoveryRound, joinedDocuments, urlMetadataLookupRound,
 		),
-		DocumentsHeldPerQueryWord: matchedAndHeldDocumentsRound.
+		DocumentsHeldPerQueryWord: discoveryRound.
 			amountOfDocumentsHeldPerQueryWord(),
 	}
 }
 
 func foundDocumentsFrom(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
-	urlMetadataRound urlMetadataRound,
+	urlMetadataLookupRound urlMetadataLookupRound,
 ) []queryanswers.FoundDocument {
 	documentsThePeersSent := queryanswers.EmptyDocumentsThePeersSent()
-	for _, answeredAsk := range matchedAndHeldDocumentsRound.answeredAsks {
+	for _, answeredAsk := range discoveryRound.answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
 			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
 				continue
@@ -43,7 +43,7 @@ func foundDocumentsFrom(
 			)
 		}
 	}
-	for _, answeredAsk := range urlMetadataRound.answeredAsks {
+	for _, answeredAsk := range urlMetadataLookupRound.answeredAsks {
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
 			documentsThePeersSent.KeepMetadataThePeerSent(
 				metadata, answeredAsk.Ask.Peer.Hash,

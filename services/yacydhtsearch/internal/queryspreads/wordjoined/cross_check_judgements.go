@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func judgeAskedPeersIn(round crossCheckedDocumentsRound) []peerjudgements.JudgedPeer {
+func crossCheckJudgementsIn(round crossCheckRound) []peerjudgements.JudgedPeer {
 	judgedPeers := make([]peerjudgements.JudgedPeer, 0, len(round.asks))
 	for _, ask := range round.asks {
 		judgedPeers = append(judgedPeers, judgeAskedPeer(ask, round.answeredAsks))
@@ -35,19 +35,19 @@ func judgeAskedPeer(
 	return peerjudgements.JudgedPeerFrom(
 		ask.Peer.Hash,
 		answeredAsk.PeerVersion,
-		judgementFromTheDocumentsListed(answeredAsk.DocumentsListedForTheWord, ask.Documents),
+		crossCheckJudgementOf(answeredAsk.Abstract, ask.Documents),
 	)
 }
 
-func judgementFromTheDocumentsListed(
-	documentsListed []yacymodel.URLHash,
-	crossCheckedDocuments []yacymodel.URLHash,
+func crossCheckJudgementOf(
+	abstract []yacymodel.URLHash,
+	documentsToMatch []yacymodel.URLHash,
 ) peerjudgements.Judgement {
-	if len(documentsListed) == 0 {
+	if len(abstract) == 0 {
 		return peerjudgements.NoEvidence
 	}
-	for _, document := range documentsListed {
-		if !slices.Contains(crossCheckedDocuments, document) {
+	for _, document := range abstract {
+		if !slices.Contains(documentsToMatch, document) {
 			return peerjudgements.Ignored
 		}
 	}

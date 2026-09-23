@@ -3,19 +3,19 @@ package wordjoined
 type LeadingQueryWordChoice string
 
 const (
-	RarestFullyListedQueryWord     LeadingQueryWordChoice = "rarest word, fully listed"
-	MoreCommonFullyListedQueryWord LeadingQueryWordChoice = "more common word, fully listed"
-	RarestPartlyListedQueryWord    LeadingQueryWordChoice = "rarest word, partly listed"
+	RarestQueryWordWithCompleteAbstracts     LeadingQueryWordChoice = "rarest word, complete abstracts"
+	MoreCommonQueryWordWithCompleteAbstracts LeadingQueryWordChoice = "more common word, complete abstracts"
+	RarestQueryWordWithoutCompleteAbstracts  LeadingQueryWordChoice = "rarest word, partial abstracts"
 )
 
-func leadingQueryWordChoiceOf(round matchedAndHeldDocumentsRound) LeadingQueryWordChoice {
+func leadingQueryWordChoiceOf(round discoveryRound) LeadingQueryWordChoice {
 	leadingQueryWord := round.leadingQueryWord()
 	switch {
-	case !leadingQueryWord.isFullyListed():
-		return RarestPartlyListedQueryWord
+	case !leadingQueryWord.hasCompleteAbstracts():
+		return RarestQueryWordWithoutCompleteAbstracts
 	case leadingQueryWord.word == round.queryWordsFewestDocumentsFirst[0].word:
-		return RarestFullyListedQueryWord
+		return RarestQueryWordWithCompleteAbstracts
 	default:
-		return MoreCommonFullyListedQueryWord
+		return MoreCommonQueryWordWithCompleteAbstracts
 	}
 }

@@ -11,14 +11,14 @@ type wordPartition struct {
 	replicas []wordReplica
 }
 
-func (wordPartition wordPartition) isFullyListed() bool {
-	return slices.ContainsFunc(wordPartition.replicas, wordReplica.isFullyListed)
+func (wordPartition wordPartition) hasACompleteAbstract() bool {
+	return slices.ContainsFunc(wordPartition.replicas, wordReplica.hasACompleteAbstract)
 }
 
-func (wordPartition wordPartition) replicasThatDidNotListAllTheyHold() []wordReplica {
+func (wordPartition wordPartition) replicasWithoutACompleteAbstract() []wordReplica {
 	var replicas []wordReplica
 	for _, replica := range wordPartition.replicas {
-		if replica.isFullyListed() {
+		if replica.hasACompleteAbstract() {
 			continue
 		}
 		replicas = append(replicas, replica)

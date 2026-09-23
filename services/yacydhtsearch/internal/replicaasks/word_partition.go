@@ -32,7 +32,7 @@ func (partition wordPartition[Ask, Answered]) settle(
 	return asking.answeredWordPartition()
 }
 
-type wordPartitionAsking[Ask any, Answered any] struct {
+type unsettledWordPartition[Ask any, Answered any] struct {
 	partition                wordPartition[Ask, Answered]
 	hedgesDue                chan int
 	callOutcomes             chan replicaCallOutcome[Answered]
@@ -46,15 +46,15 @@ type wordPartitionAsking[Ask any, Answered any] struct {
 	answers                  []Answered
 }
 
-func (partition wordPartition[Ask, Answered]) asking() *wordPartitionAsking[Ask, Answered] {
-	return &wordPartitionAsking[Ask, Answered]{
+func (partition wordPartition[Ask, Answered]) asking() *unsettledWordPartition[Ask, Answered] {
+	return &unsettledWordPartition[Ask, Answered]{
 		partition:    partition,
 		hedgesDue:    make(chan int, len(partition.asksInReplicaOrder)),
 		callOutcomes: make(chan replicaCallOutcome[Answered], len(partition.asksInReplicaOrder)),
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) askTheFirstReplicas(ctx context.Context) {
+func (asking *unsettledWordPartition[Ask, Answered]) askTheFirstReplicas(ctx context.Context) {
 	for range min(
 		asking.partition.replicasCoveringAPartition, len(asking.partition.asksInReplicaOrder),
 	) {
@@ -62,11 +62,11 @@ func (asking *wordPartitionAsking[Ask, Answered]) askTheFirstReplicas(ctx contex
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) settled() bool {
+func (asking *unsettledWordPartition[Ask, Answered]) settled() bool {
 	return asking.settledBy != ""
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
+func (asking *unsettledWordPartition[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
 	if ctx.Err() != nil {
 		asking.settledBy = SettledByDeadline
 
@@ -82,7 +82,7 @@ func (asking *wordPartitionAsking[Ask, Answered]) takeTheNextEvent(ctx context.C
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) takeTheHedgeDue(
+func (asking *unsettledWordPartition[Ask, Answered]) takeTheHedgeDue(
 	ctx context.Context,
 	replica int,
 ) {
@@ -92,7 +92,7 @@ func (asking *wordPartitionAsking[Ask, Answered]) takeTheHedgeDue(
 	asking.askTheNextReplica(ctx, PutOnHedgeDelay)
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) takeTheCallOutcome(
+func (asking *unsettledWordPartition[Ask, Answered]) takeTheCallOutcome(
 	ctx context.Context,
 	outcome replicaCallOutcome[Answered],
 ) {
@@ -104,7 +104,7 @@ func (asking *wordPartitionAsking[Ask, Answered]) takeTheCallOutcome(
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) coverOrAskTheNextReplica(
+func (asking *unsettledWordPartition[Ask, Answered]) coverOrAskTheNextReplica(
 	ctx context.Context,
 	outcome replicaCallOutcome[Answered],
 ) {
@@ -126,7 +126,7 @@ func (asking *wordPartitionAsking[Ask, Answered]) coverOrAskTheNextReplica(
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) askTheNextReplica(
+func (asking *unsettledWordPartition[Ask, Answered]) askTheNextReplica(
 	ctx context.Context,
 	putOn PutOn,
 ) {
@@ -145,7 +145,7 @@ func (asking *wordPartitionAsking[Ask, Answered]) askTheNextReplica(
 	go asking.putTheAsk(ctx, replica, ask)
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) putTheAsk(
+func (asking *unsettledWordPartition[Ask, Answered]) putTheAsk(
 	ctx context.Context,
 	replica int,
 	ask Ask,
@@ -159,17 +159,17 @@ func (asking *wordPartitionAsking[Ask, Answered]) putTheAsk(
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) noReplicaIsLeft() bool {
+func (asking *unsettledWordPartition[Ask, Answered]) noReplicaIsLeft() bool {
 	return len(asking.putOnPerReplica) == len(asking.partition.asksInReplicaOrder)
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) stopTheHedgeTimers() {
+func (asking *unsettledWordPartition[Ask, Answered]) stopTheHedgeTimers() {
 	for _, hedgeTimer := range asking.hedgeTimers {
 		hedgeTimer.Stop()
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) answeredWordPartition() answeredWordPartition[Answered] {
+func (asking *unsettledWordPartition[Ask, Answered]) answeredWordPartition() answeredWordPartition[Answered] {
 	amountOfDocumentsListed := 0
 	for _, answer := range asking.answers {
 		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)

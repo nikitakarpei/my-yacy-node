@@ -6,7 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
-type urlMetadataRound struct {
+type urlMetadataLookupRound struct {
 	documentsWithoutMetadata distinctDocuments
 	asks                     []peerasks.URLMetadataAsk
 	answeredAsks             []peerasks.AnsweredURLMetadataAsk

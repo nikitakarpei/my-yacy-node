@@ -28,7 +28,7 @@ const (
 	yacyPeerHoldingNothingAlias = "yacy-judgement-empty-e2e"
 	judgementSearchAlias        = "yacydhtsearch-judgement"
 
-	judgementQuestion = "lists only the cross-checked documents"
+	judgementQuestion = "abstract holds only the documents to match"
 
 	judgementFirstWordToken  = "yacydhtsearchjudgementfirstword"
 	judgementSecondWordToken = "yacydhtsearchjudgementsecondword"

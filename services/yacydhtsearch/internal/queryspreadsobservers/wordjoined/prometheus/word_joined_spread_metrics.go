@@ -24,10 +24,10 @@ const (
 
 type WordJoinedSpreadMetrics struct {
 	joinsPerLeadingQueryWordChoice  map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins
-	matchedAndHeldDocumentsRound    matchedAndHeldDocumentsRoundMetrics
-	crossCheckedDocumentsRound      crossCheckedDocumentsRoundMetrics
+	discoveryRound                  discoveryRoundMetrics
+	crossCheckRound                 crossCheckRoundMetrics
 	peerJudgements                  peerJudgementsMetrics
-	urlMetadataRound                urlMetadataRoundMetrics
+	urlMetadataLookupRound          urlMetadataLookupRoundMetrics
 	wordJoinedSpreadDurationSeconds prometheusclient.Histogram
 }
 
@@ -42,22 +42,22 @@ func New(
 	}, []string{labelJoin, labelLeadingQueryWordChoice})
 	//exhaustive:enforce
 	joinsPerLeadingQueryWordChoice := map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins{
-		wordjoined.RarestFullyListedQueryWord: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestFullyListedQueryWord,
+		wordjoined.RarestQueryWordWithCompleteAbstracts: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.RarestQueryWordWithCompleteAbstracts,
 		),
-		wordjoined.MoreCommonFullyListedQueryWord: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.MoreCommonFullyListedQueryWord,
+		wordjoined.MoreCommonQueryWordWithCompleteAbstracts: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.MoreCommonQueryWordWithCompleteAbstracts,
 		),
-		wordjoined.RarestPartlyListedQueryWord: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestPartlyListedQueryWord,
+		wordjoined.RarestQueryWordWithoutCompleteAbstracts: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.RarestQueryWordWithoutCompleteAbstracts,
 		),
 	}
 	metrics := &WordJoinedSpreadMetrics{
 		joinsPerLeadingQueryWordChoice: joinsPerLeadingQueryWordChoice,
-		matchedAndHeldDocumentsRound:   matchedAndHeldDocumentsRoundMetricsRegisteredIn(registry),
-		crossCheckedDocumentsRound:     crossCheckedDocumentsRoundMetricsRegisteredIn(registry),
+		discoveryRound:                 discoveryRoundMetricsRegisteredIn(registry),
+		crossCheckRound:                crossCheckRoundMetricsRegisteredIn(registry),
 		peerJudgements:                 peerJudgementsMetricsRegisteredIn(registry),
-		urlMetadataRound:               urlMetadataRoundMetricsRegisteredIn(registry),
+		urlMetadataLookupRound:         urlMetadataLookupRoundMetricsRegisteredIn(registry),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
 				Name: "yacydhtsearch_word_joined_spread_duration_seconds",
@@ -106,30 +106,30 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	m.matchedAndHeldDocumentsRound.observeMatchedAndHeldDocumentsRound(
-		spread.MatchedAndHeldDocumentsRound,
+	m.discoveryRound.observeDiscoveryRound(
+		spread.DiscoveryRound,
 	)
-	m.crossCheckedDocumentsRound.observeCrossCheckedDocumentsRound(
-		spread.CrossCheckedDocumentsRound,
+	m.crossCheckRound.observeCrossCheckRound(
+		spread.CrossCheckRound,
 	)
-	m.peerJudgements.countStandingsAndJudgements(spread.CrossCheckedDocumentsRound)
-	m.urlMetadataRound.observeURLMetadataRound(
-		spread.URLMetadataRound,
-		spread.CrossCheckedDocumentsRound,
+	m.peerJudgements.countStandingsAndJudgements(spread.CrossCheckRound)
+	m.urlMetadataLookupRound.observeURLMetadataLookupRound(
+		spread.URLMetadataLookupRound,
+		spread.CrossCheckRound,
 	)
 	m.countJoin(
-		spread.MatchedAndHeldDocumentsRound.LeadingQueryWordChoice,
-		spread.CrossCheckedDocumentsRound,
+		spread.DiscoveryRound.LeadingQueryWordChoice,
+		spread.CrossCheckRound,
 	)
 	m.observeWordJoinedSpreadDuration(spread.TimeSpent)
 }
 
 func (m *WordJoinedSpreadMetrics) countJoin(
 	leadingQueryWordChoice wordjoined.LeadingQueryWordChoice,
-	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
+	crossCheckRound wordjoined.PerformedCrossCheckRound,
 ) {
 	joinsOfTheLeadingQueryWordChoice := m.joinsPerLeadingQueryWordChoice[leadingQueryWordChoice]
-	if crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
+	if crossCheckRound.AmountOfJoinedDocuments == 0 {
 		joinsOfTheLeadingQueryWordChoice.joinsThatFoundNoDocument.Inc()
 
 		return
