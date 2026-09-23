@@ -3,7 +3,7 @@ package wordjoined
 import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 
 type crossCheckedDocumentsRound struct {
-	candidates   []crossCheckCandidatesOfQueryWord
+	candidates   crossCheckCandidates
 	asks         []peerasks.CrossCheckedDocumentsAsk
 	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk
 }

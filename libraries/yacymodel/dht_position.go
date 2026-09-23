@@ -142,3 +142,7 @@ func DHTRingPositionOfWordInPartition(
 
 	return DHTRingPositionOf(word)&mask | DHTRingPosition(uint64(partition)<<shift)&^mask
 }
+
+func (p DHTRingPartitions) PartitionOf(url URLHash) uint {
+	return uint(uint64(DHTRingPositionOf(url.hash)) >> p.shiftLength())
+}

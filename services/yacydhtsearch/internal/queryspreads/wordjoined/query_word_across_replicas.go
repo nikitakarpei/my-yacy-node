@@ -6,18 +6,12 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type queryWordAcrossReplicas struct {
-	word                            yacymodel.Hash
-	queryWordOnReplicasPerPartition [][]queryWordOnReplica
-}
-
-type queryWordOnReplica struct {
-	peer   peerdirectory.AskablePeer
-	answer yacymodel.Optional[peerasks.AnsweredMatchedAndHeldDocumentsAsk]
+	word                 yacymodel.Hash
+	replicasPerPartition [][]wordReplica
 }
 
 func queryWordsFewestDocumentsFirstFrom(
@@ -59,18 +53,18 @@ func queryWordAcrossReplicasFrom(
 ) queryWordAcrossReplicas {
 	return queryWordAcrossReplicas{
 		word: chosenPeersOfQueryWord.QueryWord,
-		queryWordOnReplicasPerPartition: queryWordOnReplicasPerPartitionFrom(
+		replicasPerPartition: replicasPerPartitionFrom(
 			chosenPeersOfQueryWord, partitions, answeredAsks,
 		),
 	}
 }
 
-func queryWordOnReplicasPerPartitionFrom(
+func replicasPerPartitionFrom(
 	chosenPeersOfQueryWord peerchoice.ChosenPeersOfQueryWord,
 	partitions yacymodel.DHTRingPartitions,
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) [][]queryWordOnReplica {
-	queryWordOnReplicasPerPartition := make([][]queryWordOnReplica, partitions)
+) [][]wordReplica {
+	replicasPerPartition := make([][]wordReplica, partitions)
 	for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
 		answer := yacymodel.None[peerasks.AnsweredMatchedAndHeldDocumentsAsk]()
 		place := slices.IndexFunc(
@@ -85,13 +79,13 @@ func queryWordOnReplicasPerPartitionFrom(
 		if place >= 0 {
 			answer = yacymodel.Some(answeredAsks[place])
 		}
-		queryWordOnReplicasPerPartition[chosenPeer.Partition] = append(
-			queryWordOnReplicasPerPartition[chosenPeer.Partition],
-			queryWordOnReplica{peer: chosenPeer.Peer, answer: answer},
+		replicasPerPartition[chosenPeer.Partition] = append(
+			replicasPerPartition[chosenPeer.Partition],
+			wordReplica{peer: chosenPeer.Peer, answer: answer},
 		)
 	}
 
-	return queryWordOnReplicasPerPartition
+	return replicasPerPartition
 }
 
 func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {
@@ -114,7 +108,7 @@ func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymo
 		return yacymodel.None[int]()
 	}
 
-	amountOfPartitionsWhereNoPeerCounted := len(queryWord.queryWordOnReplicasPerPartition) -
+	amountOfPartitionsWhereNoPeerCounted := len(queryWord.replicasPerPartition) -
 		len(amountsHeldInPartitionsWhereAPeerCounted)
 	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted *
 		lowerMedianOf(amountsHeldInPartitionsWhereAPeerCounted)
@@ -126,9 +120,9 @@ func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymo
 }
 
 func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
-	amountsHeld := make([]int, 0, len(queryWord.queryWordOnReplicasPerPartition))
-	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
-		countedAmounts := amountsOfDocumentsHeldCountedBy(queryWordOnReplicasOfPartition)
+	amountsHeld := make([]int, 0, len(queryWord.replicasPerPartition))
+	for _, replicasOfPartition := range queryWord.replicasPerPartition {
+		countedAmounts := amountsOfDocumentsHeldCountedBy(replicasOfPartition)
 		if len(countedAmounts) == 0 {
 			continue
 		}
@@ -138,10 +132,10 @@ func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhere
 	return amountsHeld
 }
 
-func amountsOfDocumentsHeldCountedBy(queryWordOnReplicas []queryWordOnReplica) []int {
-	countedAmounts := make([]int, 0, len(queryWordOnReplicas))
-	for _, queryWordOnOneReplica := range queryWordOnReplicas {
-		answer, answered := queryWordOnOneReplica.answer.Get()
+func amountsOfDocumentsHeldCountedBy(replicas []wordReplica) []int {
+	countedAmounts := make([]int, 0, len(replicas))
+	for _, replica := range replicas {
+		answer, answered := replica.answer.Get()
 		if !answered {
 			continue
 		}
@@ -163,9 +157,9 @@ func lowerMedianOf(amounts []int) int {
 
 func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocuments {
 	documentsListedByPeers := distinctDocuments{}
-	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
-		for _, queryWordOnOneReplica := range queryWordOnReplicasOfPartition {
-			answer, answered := queryWordOnOneReplica.answer.Get()
+	for _, replicasOfPartition := range queryWord.replicasPerPartition {
+		for _, replica := range replicasOfPartition {
+			answer, answered := replica.answer.Get()
 			if !answered {
 				continue
 			}
@@ -194,8 +188,8 @@ func (queryWord queryWordAcrossReplicas) documentsNotListedByItsPeersAmong(
 }
 
 func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
-	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
-		if !slices.ContainsFunc(queryWordOnReplicasOfPartition, queryWordOnReplica.isFullyListed) {
+	for _, wordPartition := range queryWord.wordPartitions() {
+		if !wordPartition.isFullyListed() {
 			return false
 		}
 	}
@@ -203,35 +197,14 @@ func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
 	return true
 }
 
-func (queryWord queryWordAcrossReplicas) replicasThatDidNotListAllTheyHold() []queryWordOnReplica {
-	var replicas []queryWordOnReplica
-	for _, queryWordOnReplicasOfPartition := range queryWord.queryWordOnReplicasPerPartition {
-		for _, queryWordOnOneReplica := range queryWordOnReplicasOfPartition {
-			if queryWordOnOneReplica.isFullyListed() {
-				continue
-			}
-			replicas = append(replicas, queryWordOnOneReplica)
-		}
+func (queryWord queryWordAcrossReplicas) wordPartitions() []wordPartition {
+	wordPartitions := make([]wordPartition, 0, len(queryWord.replicasPerPartition))
+	for _, replicas := range queryWord.replicasPerPartition {
+		wordPartitions = append(
+			wordPartitions,
+			wordPartition{word: queryWord.word, replicas: replicas},
+		)
 	}
 
-	return replicas
-}
-
-func (replica queryWordOnReplica) isFullyListed() bool {
-	answer, answered := replica.answer.Get()
-	if !answered {
-		return false
-	}
-	amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
-
-	return counted && amountOfDocumentsHeld <= len(answer.DocumentsListedForTheWord)
-}
-
-func (replica queryWordOnReplica) versionClaimed() string {
-	answer, answered := replica.answer.Get()
-	if !answered {
-		return ""
-	}
-
-	return answer.PeerVersion
+	return wordPartitions
 }
