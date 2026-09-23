@@ -31,7 +31,7 @@ func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoin
 		slog.LevelDebug,
 		msgWordJoinedSpreadPerformed,
 		slices.Concat(
-			attributesOfAbstractsRound(spread.AbstractsRound),
+			attributesOfDiscoveryRound(spread.DiscoveryRound),
 			attributesOfCrossCheckRound(spread.CrossCheckRound),
 			attributesOfURLMetadataRound(spread.URLMetadataRound),
 			[]slog.Attr{
@@ -44,8 +44,8 @@ func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoin
 	)
 }
 
-func attributesOfAbstractsRound(
-	round wordjoined.PerformedAbstractsRound,
+func attributesOfDiscoveryRound(
+	round wordjoined.PerformedDiscoveryRound,
 ) []slog.Attr {
 	return []slog.Attr{
 		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
@@ -58,8 +58,8 @@ func attributesOfAbstractsRound(
 		slog.Int("amountOfPeersWithANonEmptyAbstract", round.AmountOfPeersWithANonEmptyAbstract),
 		slog.String("leadingQueryWordChoice", string(round.LeadingQueryWordChoice)),
 		slog.Int(
-			"amountOfDocumentsInTheAbstractsOfTheLeadingQueryWord",
-			round.AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord,
+			"amountOfDocumentsOfTheLeadingQueryWord",
+			round.AmountOfDocumentsOfTheLeadingQueryWord,
 		),
 		slog.Int(
 			"amountOfPartitionsWithABetterLeadingQueryWord",

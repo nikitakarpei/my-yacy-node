@@ -7,24 +7,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
-type PerformedAbstractsRound struct {
-	AmountOfQueryWords                                   int
-	AmountOfCompoundWords                                int
-	AmountOfQueryWordsHeldByNoPeer                       int
-	AmountOfQueryWordsWithCompleteAbstracts              int
-	AmountOfPeersWithANonEmptyAbstract                   int
-	LeadingQueryWordChoice                               LeadingQueryWordChoice
-	AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord int
-	AmountOfPartitionsWithABetterLeadingQueryWord        int
-	AmountOfMatchedDocumentsAcrossAnswers                int
-	AmountOfMatchedDocumentsWithAPosting                 int
-	AmountOfDocumentsHeldInEachAnswer                    []int
+type PerformedDiscoveryRound struct {
+	AmountOfQueryWords                            int
+	AmountOfCompoundWords                         int
+	AmountOfQueryWordsHeldByNoPeer                int
+	AmountOfQueryWordsWithCompleteAbstracts       int
+	AmountOfPeersWithANonEmptyAbstract            int
+	LeadingQueryWordChoice                        LeadingQueryWordChoice
+	AmountOfDocumentsOfTheLeadingQueryWord        int
+	AmountOfPartitionsWithABetterLeadingQueryWord int
+	AmountOfMatchedDocumentsAcrossAnswers         int
+	AmountOfMatchedDocumentsWithAPosting          int
+	AmountOfDocumentsHeldInEachAnswer             []int
 }
 
-func performedAbstractsRoundFrom(
-	round abstractsRound,
-) PerformedAbstractsRound {
-	return PerformedAbstractsRound{
+func performedDiscoveryRoundFrom(
+	round discoveryRound,
+) PerformedDiscoveryRound {
+	return PerformedDiscoveryRound{
 		AmountOfQueryWords:    len(round.queryWords),
 		AmountOfCompoundWords: len(round.compoundWords),
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
@@ -35,11 +35,11 @@ func performedAbstractsRoundFrom(
 		),
 		AmountOfPeersWithANonEmptyAbstract: amountOfPeersAcross(
 			answeredAsksWithANonEmptyAbstract(round.answeredAsks),
-			peerOfAnsweredAbstractsAsk,
+			peerOfAnsweredDiscoveryAsk,
 		),
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
-		AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord: len(
-			round.leadingQueryWord().documentsInTheAbstracts(),
+		AmountOfDocumentsOfTheLeadingQueryWord: len(
+			round.leadingQueryWord().documents(),
 		),
 		AmountOfPartitionsWithABetterLeadingQueryWord: amountOfPartitionsWithABetterLeadingQueryWordIn(
 			round,
@@ -57,7 +57,7 @@ func performedAbstractsRoundFrom(
 func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
-		if len(queryWord.documentsInTheAbstracts()) > 0 {
+		if len(queryWord.documents()) > 0 {
 			continue
 		}
 		amount++
@@ -78,7 +78,7 @@ func amountOfQueryWordsWithCompleteAbstractsAmong(queryWords []queryWordAcrossRe
 	return amount
 }
 
-func peerOfAnsweredAbstractsAsk(
+func peerOfAnsweredDiscoveryAsk(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) peerdirectory.AskablePeer {
 	return answeredAsk.Ask.Peer
@@ -99,7 +99,7 @@ func answeredAsksWithANonEmptyAbstract(
 }
 
 func amountOfPartitionsWithABetterLeadingQueryWordIn(
-	round abstractsRound,
+	round discoveryRound,
 ) int {
 	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
 	amount := 0

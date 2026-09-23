@@ -34,13 +34,13 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AbstractsRound: wordjoined.PerformedAbstractsRound{
-			AmountOfQueryWords:                                   4,
-			AmountOfQueryWordsHeldByNoPeer:                       1,
-			AmountOfQueryWordsWithCompleteAbstracts:              2,
-			AmountOfPeersWithANonEmptyAbstract:                   4,
-			LeadingQueryWordChoice:                               wordjoined.MoreCommonQueryWordWithCompleteAbstracts,
-			AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord: 12,
+		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
+			AmountOfQueryWords:                      4,
+			AmountOfQueryWordsHeldByNoPeer:          1,
+			AmountOfQueryWordsWithCompleteAbstracts: 2,
+			AmountOfPeersWithANonEmptyAbstract:      4,
+			LeadingQueryWordChoice:                  wordjoined.MoreCommonQueryWordWithCompleteAbstracts,
+			AmountOfDocumentsOfTheLeadingQueryWord:  12,
 		},
 		CrossCheckRound: wordjoined.PerformedCrossCheckRound{
 			AmountOfDocumentsSentForCrossChecking:           9,
@@ -96,7 +96,7 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 
 func spreadOfQueryWords(amountOfQueryWords int) wordjoined.PerformedWordJoinedSpread {
 	return wordjoined.PerformedWordJoinedSpread{
-		AbstractsRound: wordjoined.PerformedAbstractsRound{
+		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
 			AmountOfQueryWords:     amountOfQueryWords,
 			LeadingQueryWordChoice: wordjoined.RarestQueryWordWithoutCompleteAbstracts,
 		},

@@ -7,14 +7,14 @@ import (
 )
 
 func urlMetadataAsksFor(
-	documentsWithoutMetadataInTheMostAbstractsFirst []yacymodel.URLHash,
+	documentsWithoutMetadataMostHeldFirst []yacymodel.URLHash,
 	answeredSearchDocumentsAsks []peerasks.AnsweredSearchDocumentsAsk,
 	urlMetadataAskDocumentsCeiling int,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
 	peers := peersWithTheirAbstractsFrom(answeredSearchDocumentsAsks)
 	asksOfEachPeer := peers.urlMetadataAsks(
-		documentsWithoutMetadataInTheMostAbstractsFirst,
+		documentsWithoutMetadataMostHeldFirst,
 		urlMetadataAskDocumentsCeiling,
 	)
 
@@ -47,13 +47,13 @@ func peersWithTheirAbstractsFrom(
 }
 
 func (peers peersWithTheirAbstracts) urlMetadataAsks(
-	documentsInTheMostAbstractsFirst []yacymodel.URLHash,
+	documentsMostHeldFirst []yacymodel.URLHash,
 	urlMetadataAskDocumentsCeiling int,
 ) []peerasks.URLMetadataAsk {
 	asks := make([]peerasks.URLMetadataAsk, 0, len(peers))
 	for _, peer := range peers {
 		ask := peer.urlMetadataAsk(
-			documentsInTheMostAbstractsFirst, urlMetadataAskDocumentsCeiling,
+			documentsMostHeldFirst, urlMetadataAskDocumentsCeiling,
 		)
 		if len(ask.Documents) == 0 {
 			continue
@@ -70,13 +70,13 @@ type peerWithItsAbstracts struct {
 }
 
 func (peer peerWithItsAbstracts) urlMetadataAsk(
-	documentsInTheMostAbstractsFirst []yacymodel.URLHash,
+	documentsMostHeldFirst []yacymodel.URLHash,
 	urlMetadataAskDocumentsCeiling int,
 ) peerasks.URLMetadataAsk {
 	askDocuments := make([]yacymodel.URLHash, 0, min(
 		len(peer.documentsInItsAbstracts), urlMetadataAskDocumentsCeiling,
 	))
-	for _, document := range documentsInTheMostAbstractsFirst {
+	for _, document := range documentsMostHeldFirst {
 		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
 			break
 		}

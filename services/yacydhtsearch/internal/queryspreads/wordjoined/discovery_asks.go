@@ -6,7 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-func abstractsAsksFor(
+func discoveryAsksFor(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	itemsCeiling int,

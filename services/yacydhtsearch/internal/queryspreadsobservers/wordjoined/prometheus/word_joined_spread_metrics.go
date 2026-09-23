@@ -24,7 +24,7 @@ const (
 
 type WordJoinedSpreadMetrics struct {
 	joinsPerLeadingQueryWordChoice  map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins
-	abstractsRound                  abstractsRoundMetrics
+	discoveryRound                  discoveryRoundMetrics
 	crossCheckRound                 crossCheckRoundMetrics
 	peerJudgements                  peerJudgementsMetrics
 	urlMetadataRound                urlMetadataRoundMetrics
@@ -54,7 +54,7 @@ func New(
 	}
 	metrics := &WordJoinedSpreadMetrics{
 		joinsPerLeadingQueryWordChoice: joinsPerLeadingQueryWordChoice,
-		abstractsRound:                 abstractsRoundMetricsRegisteredIn(registry),
+		discoveryRound:                 discoveryRoundMetricsRegisteredIn(registry),
 		crossCheckRound:                crossCheckRoundMetricsRegisteredIn(registry),
 		peerJudgements:                 peerJudgementsMetricsRegisteredIn(registry),
 		urlMetadataRound:               urlMetadataRoundMetricsRegisteredIn(registry),
@@ -106,8 +106,8 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	m.abstractsRound.observeAbstractsRound(
-		spread.AbstractsRound,
+	m.discoveryRound.observeDiscoveryRound(
+		spread.DiscoveryRound,
 	)
 	m.crossCheckRound.observeCrossCheckRound(
 		spread.CrossCheckRound,
@@ -118,7 +118,7 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 		spread.CrossCheckRound,
 	)
 	m.countJoin(
-		spread.AbstractsRound.LeadingQueryWordChoice,
+		spread.DiscoveryRound.LeadingQueryWordChoice,
 		spread.CrossCheckRound,
 	)
 	m.observeWordJoinedSpreadDuration(spread.TimeSpent)

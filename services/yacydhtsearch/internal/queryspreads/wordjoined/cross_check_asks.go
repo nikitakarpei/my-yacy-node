@@ -11,7 +11,7 @@ import (
 
 func crossCheckAsksFor(
 	candidates crossCheckCandidates,
-	peersAskedForAbstracts map[yacymodel.Hash]struct{},
+	peersAskedToDiscover map[yacymodel.Hash]struct{},
 	peerStandings peerjudgements.PeerStandings,
 	documentsToMatchCeiling int,
 	peerItemsCeiling int,
@@ -20,9 +20,9 @@ func crossCheckAsksFor(
 	for _, candidatesOfWordPartition := range candidates.ofWordPartitionsWithoutACompleteAbstract {
 		peersThatMayCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersUsefulForTheCrossCheckAmong(
-				peersNotAskedForAbstractsAmong(
+				peersNotAskedToDiscoverAmong(
 					candidatesOfWordPartition.wordPartition.replicas,
-					peersAskedForAbstracts,
+					peersAskedToDiscover,
 				),
 				peerStandings,
 			),
@@ -33,7 +33,7 @@ func crossCheckAsksFor(
 				Peer:      peer,
 				Partition: candidatesOfWordPartition.wordPartition.partition,
 				Word:      candidatesOfWordPartition.wordPartition.word,
-				DocumentsToMatch: candidatesOfWordPartition.documentsInTheMostAbstractsUpTo(
+				DocumentsToMatch: candidatesOfWordPartition.mostHeldDocumentsUpTo(
 					documentsToMatchCeiling,
 				),
 				ItemsCeiling: peerItemsCeiling,
@@ -44,13 +44,13 @@ func crossCheckAsksFor(
 	return asks
 }
 
-func peersNotAskedForAbstractsAmong(
+func peersNotAskedToDiscoverAmong(
 	replicas []wordReplica,
-	peersAskedForAbstracts map[yacymodel.Hash]struct{},
+	peersAskedToDiscover map[yacymodel.Hash]struct{},
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
 	for _, replica := range replicas {
-		if _, asked := peersAskedForAbstracts[replica.peer.Hash]; asked {
+		if _, asked := peersAskedToDiscover[replica.peer.Hash]; asked {
 			continue
 		}
 		keptPeers = append(keptPeers, replica.peer)

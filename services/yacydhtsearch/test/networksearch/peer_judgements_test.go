@@ -42,7 +42,7 @@ const (
 	amountOfDocumentsOfTheLister = 1150
 )
 
-func TestAPeerThatAbstractHoldsOnlyTheDocumentsToMatchIsJudgedHonoringAndAskedAgain(
+func TestAPeerWhoseAbstractHoldsOnlyTheDocumentsToMatchIsJudgedHonoringAndAskedAgain(
 	t *testing.T,
 ) {
 	t.Parallel()

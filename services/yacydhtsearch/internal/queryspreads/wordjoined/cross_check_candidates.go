@@ -13,12 +13,12 @@ type crossCheckCandidatesOfWordPartition struct {
 }
 
 func crossCheckCandidatesIn(
-	abstractsRound abstractsRound,
+	discoveryRound discoveryRound,
 	partitions yacymodel.DHTRingPartitions,
 ) crossCheckCandidates {
 	var candidates crossCheckCandidates
 	for _, candidatesOfWordPartition := range crossCheckCandidatesPerWordPartitionIn(
-		abstractsRound, partitions,
+		discoveryRound, partitions,
 	) {
 		if candidatesOfWordPartition.wordPartition.hasACompleteAbstract() {
 			candidates.ofWordPartitionsWithACompleteAbstract = append(
@@ -36,15 +36,16 @@ func crossCheckCandidatesIn(
 }
 
 func crossCheckCandidatesPerWordPartitionIn(
-	abstractsRound abstractsRound,
+	discoveryRound discoveryRound,
 	partitions yacymodel.DHTRingPartitions,
 ) []crossCheckCandidatesOfWordPartition {
-	documentsOfTheLeadingQueryWord := abstractsRound.
-		documentsOfTheLeadingQueryWordInTheMostAbstractsFirst()
+	documentsOfTheLeadingQueryWord := discoveryRound.holdersPerDocument.mostHeldFirst(
+		discoveryRound.leadingQueryWord().documents(),
+	)
 	var candidates []crossCheckCandidatesOfWordPartition
-	for _, queryWord := range abstractsRound.queryWordsBesideTheLeadingQueryWord() {
+	for _, queryWord := range discoveryRound.queryWordsBesideTheLeadingQueryWord() {
 		documentsPerPartition := documentsPerPartitionFrom(
-			queryWord.documentsOutsideItsAbstractsAmong(documentsOfTheLeadingQueryWord),
+			queryWord.documentsOutsideAmong(documentsOfTheLeadingQueryWord),
 			partitions,
 		)
 		for partition, wordPartition := range queryWord.wordPartitions() {
@@ -74,7 +75,7 @@ func documentsPerPartitionFrom(
 	return documentsPerPartition
 }
 
-func (candidatesOfWordPartition crossCheckCandidatesOfWordPartition) documentsInTheMostAbstractsUpTo(
+func (candidatesOfWordPartition crossCheckCandidatesOfWordPartition) mostHeldDocumentsUpTo(
 	documentsToMatchCeiling int,
 ) []yacymodel.URLHash {
 	return candidatesOfWordPartition.documents[:min(

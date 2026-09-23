@@ -84,30 +84,30 @@ func (spread Spread) SpreadOverPeers(
 	peerStandings := spread.peerJudgements.StandingsOf(
 		ctx, peersAtTheirVersionFrom(chosenPeersPerQueryWord),
 	)
-	abstractsRound := spread.askForAbstracts(
+	discoveryRound := spread.askToDiscover(
 		ctx,
 		query,
 		chosenPeersLeastUsefulForTheCrossCheckFirst(chosenPeersPerQueryWord, peerStandings),
 	)
-	crossCheckCandidates := crossCheckCandidatesIn(abstractsRound, spread.partitions)
+	crossCheckCandidates := crossCheckCandidatesIn(discoveryRound, spread.partitions)
 	crossCheckRound := spread.askToCrossCheck(
 		ctx,
 		crossCheckCandidates,
-		abstractsRound,
+		discoveryRound,
 		peerStandings,
 	)
 	judgedPeers := crossCheckJudgementsIn(crossCheckRound)
 	spread.peerJudgements.Add(ctx, judgedPeers)
-	joinedDocuments := joinedDocumentsFrom(abstractsRound, crossCheckRound)
+	joinedDocuments := joinedDocumentsFrom(discoveryRound, crossCheckRound)
 	answeredSearchDocumentsAsks := answeredSearchDocumentsAsksAcross(
-		abstractsRound, crossCheckRound,
+		discoveryRound, crossCheckRound,
 	)
 	urlMetadataRound := spread.askForURLMetadata(
-		ctx, abstractsRound, answeredSearchDocumentsAsks, joinedDocuments,
+		ctx, discoveryRound, answeredSearchDocumentsAsks, joinedDocuments,
 	)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
-		abstractsRound,
+		discoveryRound,
 		crossCheckRound,
 		peerStandings,
 		judgedPeers,
@@ -118,25 +118,25 @@ func (spread Spread) SpreadOverPeers(
 
 	return answeredQueryFrom(
 		query,
-		abstractsRound,
+		discoveryRound,
 		answeredSearchDocumentsAsks,
 		joinedDocuments,
 		urlMetadataRound,
 	)
 }
 
-func (spread Spread) askForAbstracts(
+func (spread Spread) askToDiscover(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) abstractsRound {
-	asks := abstractsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheAbstracts)
+) discoveryRound {
+	asks := discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
+	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
 	defer endRound()
 	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
 	answeredAsks := askOutcomes.AnsweredAsks()
 
-	return abstractsRound{
+	return discoveryRound{
 		queryWords:   query.WordHashes(),
 		peersAsked:   peersAskedIn(askOutcomes.AsksPut()),
 		answeredAsks: answeredAsks,
@@ -146,12 +146,12 @@ func (spread Spread) askForAbstracts(
 		compoundWords: compoundWordsAcrossReplicasFrom(
 			query.CompoundWords, askOutcomes, spread.partitions,
 		),
-		amountOfPeersPerDocument: amountOfPeersPerDocumentOf(answeredAsks),
+		holdersPerDocument: holdersPerDocumentOf(answeredAsks),
 	}
 }
 
 const (
-	roundsLeftAtTheAbstracts   = 3
+	roundsLeftAtTheDiscovery   = 3
 	roundsLeftAtTheCrossCheck  = 2
 	roundsLeftAtTheURLMetadata = 1
 )
@@ -168,12 +168,12 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 func (spread Spread) askToCrossCheck(
 	ctx context.Context,
 	candidates crossCheckCandidates,
-	abstractsRound abstractsRound,
+	discoveryRound discoveryRound,
 	peerStandings peerjudgements.PeerStandings,
 ) crossCheckRound {
 	asks := crossCheckAsksFor(
 		candidates,
-		abstractsRound.peersAsked,
+		discoveryRound.peersAsked,
 		peerStandings,
 		spread.documentsToMatchCeiling,
 		spread.peerItemsCeiling,
@@ -190,17 +190,17 @@ func (spread Spread) askToCrossCheck(
 }
 
 func answeredSearchDocumentsAsksAcross(
-	abstractsRound abstractsRound,
+	discoveryRound discoveryRound,
 	crossCheckRound crossCheckRound,
 ) []peerasks.AnsweredSearchDocumentsAsk {
 	return slices.Concat(
-		abstractsRound.answeredAsks, crossCheckRound.answeredAsks,
+		discoveryRound.answeredAsks, crossCheckRound.answeredAsks,
 	)
 }
 
 func (spread Spread) askForURLMetadata(
 	ctx context.Context,
-	abstractsRound abstractsRound,
+	discoveryRound discoveryRound,
 	answeredSearchDocumentsAsks []peerasks.AnsweredSearchDocumentsAsk,
 	joinedDocuments distinctDocuments,
 ) urlMetadataRound {
@@ -208,8 +208,8 @@ func (spread Spread) askForURLMetadata(
 		joinedDocuments, answeredSearchDocumentsAsks,
 	)
 	asks := urlMetadataAsksFor(
-		abstractsRound.documentsInTheMostAbstractsFirstAmong(documentsWithoutMetadata),
-		abstractsRound.answeredAsks,
+		discoveryRound.holdersPerDocument.mostHeldFirst(documentsWithoutMetadata),
+		discoveryRound.answeredAsks,
 		spread.urlMetadataAskDocumentsCeiling,
 		spread.amountOfPeersHoldingOneWord,
 	)

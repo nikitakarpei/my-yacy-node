@@ -116,8 +116,8 @@ func lowerMedianOf(amounts []int) int {
 	return sortedAmounts[(len(sortedAmounts)-1)/2]
 }
 
-func (queryWord queryWordAcrossReplicas) documentsInTheAbstracts() distinctDocuments {
-	documentsInTheAbstracts := distinctDocuments{}
+func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
+	documents := distinctDocuments{}
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
 		for _, replica := range replicasOfPartition {
 			answer, answered := replica.answer.Get()
@@ -125,27 +125,27 @@ func (queryWord queryWordAcrossReplicas) documentsInTheAbstracts() distinctDocum
 				continue
 			}
 			for _, document := range answer.Abstract {
-				documentsInTheAbstracts.add(document)
+				documents.add(document)
 			}
 		}
 	}
 
-	return documentsInTheAbstracts
+	return documents
 }
 
-func (queryWord queryWordAcrossReplicas) documentsOutsideItsAbstractsAmong(
+func (queryWord queryWordAcrossReplicas) documentsOutsideAmong(
 	documents []yacymodel.URLHash,
 ) []yacymodel.URLHash {
-	documentsInTheAbstracts := queryWord.documentsInTheAbstracts()
-	documentsOutsideTheAbstracts := make([]yacymodel.URLHash, 0, len(documents))
+	documentsOfTheWord := queryWord.documents()
+	documentsOutside := make([]yacymodel.URLHash, 0, len(documents))
 	for _, document := range documents {
-		if documentsInTheAbstracts.contains(document) {
+		if documentsOfTheWord.contains(document) {
 			continue
 		}
-		documentsOutsideTheAbstracts = append(documentsOutsideTheAbstracts, document)
+		documentsOutside = append(documentsOutside, document)
 	}
 
-	return documentsOutsideTheAbstracts
+	return documentsOutside
 }
 
 func (queryWord queryWordAcrossReplicas) hasCompleteAbstracts() bool {

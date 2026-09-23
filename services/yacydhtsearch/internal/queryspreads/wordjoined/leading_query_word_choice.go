@@ -8,7 +8,7 @@ const (
 	RarestQueryWordWithoutCompleteAbstracts  LeadingQueryWordChoice = "rarest word, partial abstracts"
 )
 
-func leadingQueryWordChoiceOf(round abstractsRound) LeadingQueryWordChoice {
+func leadingQueryWordChoiceOf(round discoveryRound) LeadingQueryWordChoice {
 	leadingQueryWord := round.leadingQueryWord()
 	switch {
 	case !leadingQueryWord.hasCompleteAbstracts():

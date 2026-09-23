@@ -9,7 +9,7 @@ import (
 
 type PerformedWordJoinedSpread struct {
 	PeerStandings    []peerjudgements.PeerStanding
-	AbstractsRound   PerformedAbstractsRound
+	DiscoveryRound   PerformedDiscoveryRound
 	CrossCheckRound  PerformedCrossCheckRound
 	URLMetadataRound PerformedURLMetadataRound
 	TimeSpent        time.Duration
@@ -17,7 +17,7 @@ type PerformedWordJoinedSpread struct {
 
 //nolint:revive // argument-limit: the report takes the three rounds, the judging and the join
 func performedWordJoinedSpreadFrom(
-	abstractsRound abstractsRound,
+	discoveryRound discoveryRound,
 	crossCheckRound crossCheckRound,
 	peerStandings peerjudgements.PeerStandings,
 	judgedPeers []peerjudgements.JudgedPeer,
@@ -27,12 +27,12 @@ func performedWordJoinedSpreadFrom(
 ) PerformedWordJoinedSpread {
 	return PerformedWordJoinedSpread{
 		PeerStandings: peerStandings,
-		AbstractsRound: performedAbstractsRoundFrom(
-			abstractsRound,
+		DiscoveryRound: performedDiscoveryRoundFrom(
+			discoveryRound,
 		),
 		CrossCheckRound: performedCrossCheckRoundFrom(
 			crossCheckRound,
-			abstractsRound,
+			discoveryRound,
 			judgedPeers,
 			joinedDocuments,
 		),

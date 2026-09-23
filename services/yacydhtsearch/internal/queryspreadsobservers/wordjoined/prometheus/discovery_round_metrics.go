@@ -6,15 +6,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
-type abstractsRoundMetrics struct {
+type discoveryRoundMetrics struct {
 	unheldQueryWordsRatio                prometheusclient.Histogram
 	queryWordsWithCompleteAbstractsRatio prometheusclient.Histogram
 }
 
-func abstractsRoundMetricsRegisteredIn(
+func discoveryRoundMetricsRegisteredIn(
 	registry prometheusclient.Registerer,
-) abstractsRoundMetrics {
-	metrics := abstractsRoundMetrics{
+) discoveryRoundMetrics {
+	metrics := discoveryRoundMetrics{
 		unheldQueryWordsRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_unheld_query_words_ratio",
 			"Share of query words that no asked peer held a document for.",
@@ -32,18 +32,18 @@ func abstractsRoundMetricsRegisteredIn(
 	return metrics
 }
 
-func (m abstractsRoundMetrics) observeAbstractsRound(
-	abstractsRound wordjoined.PerformedAbstractsRound,
+func (m discoveryRoundMetrics) observeDiscoveryRound(
+	discoveryRound wordjoined.PerformedDiscoveryRound,
 ) {
-	if abstractsRound.AmountOfQueryWords == 0 {
+	if discoveryRound.AmountOfQueryWords == 0 {
 		return
 	}
 	m.unheldQueryWordsRatio.Observe(
-		float64(abstractsRound.AmountOfQueryWordsHeldByNoPeer) /
-			float64(abstractsRound.AmountOfQueryWords),
+		float64(discoveryRound.AmountOfQueryWordsHeldByNoPeer) /
+			float64(discoveryRound.AmountOfQueryWords),
 	)
 	m.queryWordsWithCompleteAbstractsRatio.Observe(
-		float64(abstractsRound.AmountOfQueryWordsWithCompleteAbstracts) /
-			float64(abstractsRound.AmountOfQueryWords),
+		float64(discoveryRound.AmountOfQueryWordsWithCompleteAbstracts) /
+			float64(discoveryRound.AmountOfQueryWords),
 	)
 }

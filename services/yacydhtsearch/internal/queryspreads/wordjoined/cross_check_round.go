@@ -8,16 +8,16 @@ type crossCheckRound struct {
 	answeredAsks []peerasks.AnsweredSearchDocumentsAsk
 }
 
-func (round crossCheckRound) documentsFoundByCrossCheckingPerQueryWord() documentsPerQueryWord {
-	documentsFoundByCrossCheckingPerQueryWord := documentsPerQueryWord{}
+func (round crossCheckRound) documentsPerQueryWord() documentsPerQueryWord {
+	documentsOfEachQueryWord := documentsPerQueryWord{}
 	for _, answeredAsk := range round.answeredAsks {
-		if documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] == nil {
-			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] = distinctDocuments{}
+		if documentsOfEachQueryWord[answeredAsk.Ask.Word] == nil {
+			documentsOfEachQueryWord[answeredAsk.Ask.Word] = distinctDocuments{}
 		}
 		for _, document := range answeredAsk.Abstract {
-			documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word].add(document)
+			documentsOfEachQueryWord[answeredAsk.Ask.Word].add(document)
 		}
 	}
 
-	return documentsFoundByCrossCheckingPerQueryWord
+	return documentsOfEachQueryWord
 }
