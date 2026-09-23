@@ -56,11 +56,8 @@ func New(
 	//exhaustive:enforce
 	return &ReplicaAsksMetrics{
 		metricsPerAskedFor: map[peerasks.AskedFor]replicaAsksMetricsOfAskedFor{
-			peerasks.MatchedDocuments: vectors.metricsOf(peerasks.MatchedDocuments),
-			peerasks.MatchedAndHeldDocuments: vectors.metricsOf(
-				peerasks.MatchedAndHeldDocuments,
-			),
-			peerasks.URLMetadata: vectors.metricsOf(peerasks.URLMetadata),
+			peerasks.SearchDocuments: vectors.metricsOf(peerasks.SearchDocuments),
+			peerasks.URLMetadata:     vectors.metricsOf(peerasks.URLMetadata),
 		},
 	}
 }

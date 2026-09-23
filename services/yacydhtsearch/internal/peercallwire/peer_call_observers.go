@@ -19,22 +19,17 @@ type PeerCallObserver interface {
 		askedFor peerasks.AskedFor,
 		waited time.Duration,
 	)
-	PeerAnsweredMatchedDocuments(
-		ctx context.Context,
-		address string,
-		amountOfMatchedDocuments int,
-		spent time.Duration,
-	)
 	PeerAnsweredURLMetadata(
 		ctx context.Context,
 		address string,
 		amountOfDescribedDocuments int,
 		spent time.Duration,
 	)
-	PeerAnsweredMatchedAndHeldDocuments(
+	PeerAnsweredSearchDocuments(
 		ctx context.Context,
 		address string,
-		amountOfDocuments int,
+		amountOfListedDocuments int,
+		amountOfMatchedDocuments int,
 		spent time.Duration,
 	)
 	PeerRefused(
@@ -89,17 +84,6 @@ func (observers PeerCallObservers) PeerCallTookASlot(
 	}
 }
 
-func (observers PeerCallObservers) PeerAnsweredMatchedDocuments(
-	ctx context.Context,
-	address string,
-	amountOfMatchedDocuments int,
-	spent time.Duration,
-) {
-	for _, observer := range observers {
-		observer.PeerAnsweredMatchedDocuments(ctx, address, amountOfMatchedDocuments, spent)
-	}
-}
-
 func (observers PeerCallObservers) PeerAnsweredURLMetadata(
 	ctx context.Context,
 	address string,
@@ -111,14 +95,17 @@ func (observers PeerCallObservers) PeerAnsweredURLMetadata(
 	}
 }
 
-func (observers PeerCallObservers) PeerAnsweredMatchedAndHeldDocuments(
+func (observers PeerCallObservers) PeerAnsweredSearchDocuments(
 	ctx context.Context,
 	address string,
-	amountOfDocuments int,
+	amountOfListedDocuments int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnsweredMatchedAndHeldDocuments(ctx, address, amountOfDocuments, spent)
+		observer.PeerAnsweredSearchDocuments(
+			ctx, address, amountOfListedDocuments, amountOfMatchedDocuments, spent,
+		)
 	}
 }
 

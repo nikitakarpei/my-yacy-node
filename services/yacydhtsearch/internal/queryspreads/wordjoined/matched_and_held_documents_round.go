@@ -13,13 +13,13 @@ import (
 type matchedAndHeldDocumentsRound struct {
 	queryWords                     []yacymodel.Hash
 	peersAsked                     map[yacymodel.Hash]struct{}
-	answeredAsks                   []peerasks.AnsweredMatchedAndHeldDocumentsAsk
+	answeredAsks                   []peerasks.AnsweredSearchDocumentsAsk
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	amountOfPeersPerDocument       map[yacymodel.URLHash]int
 }
 
-func peersAskedIn(asks []peerasks.MatchedAndHeldDocumentsAsk) map[yacymodel.Hash]struct{} {
+func peersAskedIn(asks []peerasks.SearchDocumentsAsk) map[yacymodel.Hash]struct{} {
 	peersAsked := make(map[yacymodel.Hash]struct{}, len(asks))
 	for _, ask := range asks {
 		peersAsked[ask.Peer.Hash] = struct{}{}
@@ -89,7 +89,7 @@ type peerOfDocument struct {
 }
 
 func amountOfPeersPerDocumentOf(
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) map[yacymodel.URLHash]int {
 	countedPeers := map[peerOfDocument]struct{}{}
 	amountOfPeersPerDocument := map[yacymodel.URLHash]int{}

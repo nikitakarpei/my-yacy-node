@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type MatchedAndHeldDocumentsAsk struct {
+type SearchDocumentsAsk struct {
 	Peer             peerdirectory.AskablePeer
 	Partition        uint
 	Word             yacymodel.Hash
@@ -19,21 +19,21 @@ type MatchedAndHeldDocumentsAsk struct {
 	ItemsCeiling     int
 }
 
-type AnsweredMatchedAndHeldDocumentsAsk struct {
-	Ask                             MatchedAndHeldDocumentsAsk
+type AnsweredSearchDocumentsAsk struct {
+	Ask                             SearchDocumentsAsk
 	DocumentsListedForTheWord       []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
 }
 
-func (answeredAsk AnsweredMatchedAndHeldDocumentsAsk) AnswersTheAskTo(
+func (answeredAsk AnsweredSearchDocumentsAsk) AnswersTheAskTo(
 	peer peerdirectory.AskablePeer,
 	word yacymodel.Hash,
 ) bool {
 	return answeredAsk.Ask.Peer.Hash == peer.Hash && answeredAsk.Ask.Word == word
 }
 
-func (answeredAsk AnsweredMatchedAndHeldDocumentsAsk) ListsOnlyTheDocumentsToMatch() bool {
+func (answeredAsk AnsweredSearchDocumentsAsk) ListsOnlyTheDocumentsToMatch() bool {
 	if len(answeredAsk.Ask.DocumentsToMatch) == 0 {
 		return true
 	}

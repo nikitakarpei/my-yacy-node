@@ -564,7 +564,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 45
       },
@@ -610,47 +610,6 @@
           "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 36,
-      "title": "Calls that asked which documents match the query, by outcome",
-      "description": "Unreadable means an answer arrived that did not parse.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 45
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
         }
       ]
     },
@@ -776,46 +735,6 @@
       "panels": []
     },
     {
-      "id": 45,
-      "title": "Calls that asked a peer which documents it holds for a query word, by outcome",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 63
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"matched and held documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"matched and held documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
-        }
-      ]
-    },
-    {
       "id": 26,
       "title": "Share of the query words no peer listed a document for",
       "type": "heatmap",
@@ -825,8 +744,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 0,
         "y": 63
       },
       "fieldConfig": {
@@ -884,8 +803,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
+        "w": 12,
+        "x": 12,
         "y": 63
       },
       "fieldConfig": {
@@ -1377,7 +1296,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 106
       },
@@ -1421,8 +1340,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 106
       },
       "fieldConfig": {
@@ -1448,6 +1367,47 @@
           "refId": "A",
           "expr": "sum(yacydhtsearch_peer_calls_waiting_for_a_slot{instance=~\"$service_instance\"})",
           "legendFormat": "waiting"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "title": "Calls that asked a peer to search documents, by outcome",
+      "description": "Unreadable means an answer arrived that did not parse.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 106
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{asked_for=\"search documents\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{asked_for=\"search documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
         }
       ]
     },

@@ -11,15 +11,14 @@ import (
 )
 
 const (
-	msgPeerCallWaitsForASlot               = "peer call waits for an in-flight slot"
-	msgPeerCallTookASlot                   = "peer call took an in-flight slot"
-	msgPeerCallCancelled                   = "peer call was cancelled before the peer answered"
-	msgPeerAnsweredMatchedDocuments        = "peer answered the documents it matched"
-	msgPeerAnsweredURLMetadata             = "peer answered the metadata it holds for the documents"
-	msgPeerAnsweredMatchedAndHeldDocuments = "peer answered the documents it matched and holds for a word"
-	msgPeerRefused                         = "peer refused a search"
-	msgPeerUnreachable                     = "peer could not be reached for a search"
-	msgPeerAnswerUnreadable                = "peer answered a search unreadably"
+	msgPeerCallWaitsForASlot       = "peer call waits for an in-flight slot"
+	msgPeerCallTookASlot           = "peer call took an in-flight slot"
+	msgPeerCallCancelled           = "peer call was cancelled before the peer answered"
+	msgPeerAnsweredURLMetadata     = "peer answered the metadata it holds for the documents"
+	msgPeerAnsweredSearchDocuments = "peer answered the documents it lists and matches for a word"
+	msgPeerRefused                 = "peer refused a search"
+	msgPeerUnreachable             = "peer could not be reached for a search"
+	msgPeerAnswerUnreadable        = "peer answered a search unreadably"
 )
 
 type PeerCallLog struct{}
@@ -48,19 +47,6 @@ func (PeerCallLog) PeerCallTookASlot(
 	)
 }
 
-func (PeerCallLog) PeerAnsweredMatchedDocuments(
-	ctx context.Context,
-	address string,
-	amountOfMatchedDocuments int,
-	spent time.Duration,
-) {
-	slog.DebugContext(ctx, msgPeerAnsweredMatchedDocuments,
-		slog.String("address", address),
-		slog.Int("amountOfMatchedDocuments", amountOfMatchedDocuments),
-		slog.Duration("spent", spent),
-	)
-}
-
 func (PeerCallLog) PeerAnsweredURLMetadata(
 	ctx context.Context,
 	address string,
@@ -74,15 +60,17 @@ func (PeerCallLog) PeerAnsweredURLMetadata(
 	)
 }
 
-func (PeerCallLog) PeerAnsweredMatchedAndHeldDocuments(
+func (PeerCallLog) PeerAnsweredSearchDocuments(
 	ctx context.Context,
 	address string,
-	amountOfDocuments int,
+	amountOfListedDocuments int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
-	slog.DebugContext(ctx, msgPeerAnsweredMatchedAndHeldDocuments,
+	slog.DebugContext(ctx, msgPeerAnsweredSearchDocuments,
 		slog.String("address", address),
-		slog.Int("amountOfDocuments", amountOfDocuments),
+		slog.Int("amountOfListedDocuments", amountOfListedDocuments),
+		slog.Int("amountOfMatchedDocuments", amountOfMatchedDocuments),
 		slog.Duration("spent", spent),
 	)
 }

@@ -16,7 +16,7 @@ func compoundWordsAcrossReplicasFrom(
 	compoundWords []searchquery.CompoundWord,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	partitions yacymodel.DHTRingPartitions,
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) []compoundWordAcrossReplicas {
 	var compoundWordsAcrossReplicas []compoundWordAcrossReplicas
 	for _, compoundWord := range compoundWords {

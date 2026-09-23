@@ -79,15 +79,15 @@ func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) in
 }
 
 func peerOfAnsweredMatchedAndHeldDocumentsAsk(
-	answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) peerdirectory.AskablePeer {
 	return answeredAsk.Ask.Peer
 }
 
 func answeredAsksWithAListedDocument(
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
-) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
-	keptAnsweredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(answeredAsks))
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+) []peerasks.AnsweredSearchDocumentsAsk {
+	keptAnsweredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
 		if len(answeredAsk.DocumentsListedForTheWord) == 0 {
 			continue
@@ -122,7 +122,7 @@ func amountOfPartitionsWithABetterLeadingQueryWordIn(
 }
 
 func amountOfMatchedDocumentsAcrossAnswers(
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
@@ -133,7 +133,7 @@ func amountOfMatchedDocumentsAcrossAnswers(
 }
 
 func amountOfMatchedDocumentsWithAPosting(
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
@@ -149,7 +149,7 @@ func amountOfMatchedDocumentsWithAPosting(
 }
 
 func amountOfDocumentsHeldInEachAnswer(
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) []int {
 	amountOfDocumentsHeldInEachAnswer := make([]int, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {

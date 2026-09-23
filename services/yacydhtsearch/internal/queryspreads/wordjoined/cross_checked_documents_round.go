@@ -4,8 +4,8 @@ import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 
 type crossCheckedDocumentsRound struct {
 	candidates   crossCheckCandidates
-	asks         []peerasks.MatchedAndHeldDocumentsAsk
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk
+	asks         []peerasks.SearchDocumentsAsk
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk
 }
 
 func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWord() documentsPerQueryWord {

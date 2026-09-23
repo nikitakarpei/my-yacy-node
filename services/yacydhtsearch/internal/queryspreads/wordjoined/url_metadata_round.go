@@ -14,7 +14,7 @@ type urlMetadataRound struct {
 
 func documentsWithoutMetadataAmong(
 	joinedDocuments distinctDocuments,
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) distinctDocuments {
 	documentsWithoutMetadata := maps.Clone(joinedDocuments)
 	for _, answeredAsk := range answeredAsks {

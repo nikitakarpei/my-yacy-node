@@ -15,12 +15,12 @@ import (
 )
 
 type ReplicaAsks interface {
-	AskForMatchedAndHeldDocuments(
+	AskForSearchDocuments(
 		ctx context.Context,
-		asks []peerasks.MatchedAndHeldDocumentsAsk,
+		asks []peerasks.SearchDocumentsAsk,
 	) peerasks.AsksPut[
-		peerasks.MatchedAndHeldDocumentsAsk,
-		peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+		peerasks.SearchDocumentsAsk,
+		peerasks.AnsweredSearchDocumentsAsk,
 	]
 }
 
@@ -128,7 +128,7 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheMatchedAndHeldDocuments)
 	defer endRound()
-	asksPut := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
+	asksPut := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
 	answeredAsks := asksPut.AnsweredAsks
 
 	return matchedAndHeldDocumentsRound{
@@ -175,7 +175,7 @@ func (spread Spread) askForCrossCheckedDocuments(
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
 	defer endRound()
-	asksPut := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
+	asksPut := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
 
 	return crossCheckedDocumentsRound{
 		candidates:   candidates,

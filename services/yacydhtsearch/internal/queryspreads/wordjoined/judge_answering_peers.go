@@ -19,7 +19,7 @@ func judgeAnsweringPeersIn(round crossCheckedDocumentsRound) []peerjudgements.Ju
 }
 
 func judgementFrom(
-	answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) peerjudgements.Judgement {
 	if len(answeredAsk.DocumentsListedForTheWord) == 0 {
 		return peerjudgements.NoEvidence

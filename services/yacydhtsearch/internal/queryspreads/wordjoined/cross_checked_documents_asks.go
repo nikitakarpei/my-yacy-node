@@ -15,8 +15,8 @@ func crossCheckedDocumentsAsksFor(
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
-) []peerasks.MatchedAndHeldDocumentsAsk {
-	var asks []peerasks.MatchedAndHeldDocumentsAsk
+) []peerasks.SearchDocumentsAsk {
+	var asks []peerasks.SearchDocumentsAsk
 	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
 		peersThatMayCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersNotIgnoringTheCrossCheckAmong(
@@ -29,7 +29,7 @@ func crossCheckedDocumentsAsksFor(
 			asks,
 		)
 		for _, peer := range peersInCrossCheckedDocumentsAskOrder(peersThatMayCrossCheck, peerStandings) {
-			asks = append(asks, peerasks.MatchedAndHeldDocumentsAsk{
+			asks = append(asks, peerasks.SearchDocumentsAsk{
 				Peer:      peer,
 				Partition: candidatesOfWordPartition.wordPartition.partition,
 				Word:      candidatesOfWordPartition.wordPartition.word,
@@ -76,11 +76,11 @@ func peersNotIgnoringTheCrossCheckAmong(
 
 func peersNotYetAskedToCrossCheckAmong(
 	peers []peerdirectory.AskablePeer,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
+	asks []peerasks.SearchDocumentsAsk,
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(peers))
 	for _, peer := range peers {
-		if slices.ContainsFunc(asks, func(ask peerasks.MatchedAndHeldDocumentsAsk) bool {
+		if slices.ContainsFunc(asks, func(ask peerasks.SearchDocumentsAsk) bool {
 			return ask.Peer.Hash == peer.Hash
 		}) {
 			continue

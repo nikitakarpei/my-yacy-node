@@ -18,7 +18,7 @@ func queryWordsFewestDocumentsFirstFrom(
 	words []yacymodel.Hash,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	partitions yacymodel.DHTRingPartitions,
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) []queryWordAcrossReplicas {
 	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(words))
 	for _, word := range words {
@@ -49,7 +49,7 @@ func chosenPeersOf(
 func queryWordAcrossReplicasFrom(
 	chosenPeersOfQueryWord peerchoice.ChosenPeersOfQueryWord,
 	partitions yacymodel.DHTRingPartitions,
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) queryWordAcrossReplicas {
 	return queryWordAcrossReplicas{
 		word: chosenPeersOfQueryWord.QueryWord,
@@ -62,14 +62,14 @@ func queryWordAcrossReplicasFrom(
 func replicasPerPartitionFrom(
 	chosenPeersOfQueryWord peerchoice.ChosenPeersOfQueryWord,
 	partitions yacymodel.DHTRingPartitions,
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) [][]wordReplica {
 	replicasPerPartition := make([][]wordReplica, partitions)
 	for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
-		answer := yacymodel.None[peerasks.AnsweredMatchedAndHeldDocumentsAsk]()
+		answer := yacymodel.None[peerasks.AnsweredSearchDocumentsAsk]()
 		place := slices.IndexFunc(
 			answeredAsks,
-			func(answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk) bool {
+			func(answeredAsk peerasks.AnsweredSearchDocumentsAsk) bool {
 				return answeredAsk.AnswersTheAskTo(
 					chosenPeer.Peer,
 					chosenPeersOfQueryWord.QueryWord,

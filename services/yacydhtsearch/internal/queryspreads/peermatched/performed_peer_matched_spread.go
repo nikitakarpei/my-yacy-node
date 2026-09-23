@@ -15,7 +15,7 @@ type PerformedPeerMatchedSpread struct {
 
 func performedPeerMatchedSpreadFrom(
 	queryWords []yacymodel.Hash,
-	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 	timeSpent time.Duration,
 ) PerformedPeerMatchedSpread {
 	return PerformedPeerMatchedSpread{
@@ -25,7 +25,7 @@ func performedPeerMatchedSpreadFrom(
 	}
 }
 
-func amountOfPeersThatMatchedNothing(answeredAsks []peerasks.AnsweredMatchedDocumentsAsk) int {
+func amountOfPeersThatMatchedNothing(answeredAsks []peerasks.AnsweredSearchDocumentsAsk) int {
 	var peersThatMatchedNothing int
 	for _, answeredAsk := range answeredAsks {
 		if len(answeredAsk.MatchedDocuments) != 0 {

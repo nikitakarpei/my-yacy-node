@@ -1,5 +1,5 @@
-// Package peermatched collects the documents each peer matched for the whole
-// query on its own.
+// Package peermatched collects the documents each peer matched for a query of
+// one word.
 package peermatched
 
 import (
@@ -13,10 +13,10 @@ import (
 )
 
 type PeerAsks interface {
-	AskForMatchedDocuments(
+	AskForSearchDocuments(
 		ctx context.Context,
-		asks []peerasks.MatchedDocumentsAsk,
-	) peerasks.AsksPut[peerasks.MatchedDocumentsAsk, peerasks.AnsweredMatchedDocumentsAsk]
+		asks []peerasks.SearchDocumentsAsk,
+	) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]
 }
 
 type Spread struct {
@@ -44,9 +44,8 @@ func (spread Spread) SpreadOverPeers(
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	chosenPeers := chosenPeersPerQueryWord.ChosenPeersAcrossQueryWords()
-	asks := matchedDocumentsAsksFor(query, chosenPeers, spread.peerItemsCeiling)
-	answeredAsks := spread.peerAsks.AskForMatchedDocuments(ctx, asks).AnsweredAsks
+	asks := searchDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
+	answeredAsks := spread.peerAsks.AskForSearchDocuments(ctx, asks).AnsweredAsks
 
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,

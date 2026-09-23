@@ -22,7 +22,7 @@ const (
 type peerNetwork struct {
 	itemsPerPeer       map[string][]string
 	peersCountingAWord map[string]struct{}
-	asks               []peerasks.MatchedDocumentsAsk
+	asks               []peerasks.SearchDocumentsAsk
 }
 
 func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
@@ -32,21 +32,21 @@ func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	}
 }
 
-func (n *peerNetwork) AskForMatchedDocuments(
+func (n *peerNetwork) AskForSearchDocuments(
 	_ context.Context,
-	asks []peerasks.MatchedDocumentsAsk,
-) peerasks.AsksPut[peerasks.MatchedDocumentsAsk, peerasks.AnsweredMatchedDocumentsAsk] {
+	asks []peerasks.SearchDocumentsAsk,
+) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
 	n.asks = append(n.asks, asks...)
 
-	answeredAsks := make([]peerasks.AnsweredMatchedDocumentsAsk, 0, len(asks))
+	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
-		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedDocumentsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
 			Ask:              ask,
 			MatchedDocuments: n.matchedDocumentsOf(ask.Peer),
 		})
 	}
 
-	return peerasks.AsksPut[peerasks.MatchedDocumentsAsk, peerasks.AnsweredMatchedDocumentsAsk]{
+	return peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]{
 		Asks:         asks,
 		AnsweredAsks: answeredAsks,
 	}
@@ -132,7 +132,7 @@ func searchOf(
 ) []queryanswers.FoundDocument {
 	return spreadOf(network, observer).SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom("berlin weather", ""),
+		searchquery.QueryFrom("berlin", ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	).FoundDocuments
 }
@@ -185,25 +185,7 @@ func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
 	)
 }
 
-func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {
-	t.Parallel()
-
-	network := networkOf(map[string][]string{})
-
-	spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
-		context.Background(),
-		searchquery.QueryFrom("berlin weather", ""),
-		[]peerdirectory.AskablePeer{
-			peerAt("first"), peerAt("second"), peerAt("third"), peerAt("fourth"),
-		},
-	)
-
-	if len(network.asks) != 4 {
-		t.Fatalf("%d asks were put, want one for each chosen peer", len(network.asks))
-	}
-}
-
-func TestEveryChosenPeerIsAskedToMatchTheWholeQueryOnce(t *testing.T) {
+func TestEveryChosenPeerIsAskedToMatchTheQueryWordOnce(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{})
@@ -214,8 +196,8 @@ func TestEveryChosenPeerIsAskedToMatchTheWholeQueryOnce(t *testing.T) {
 		t.Fatalf("%d asks were put, want one for each chosen peer", len(network.asks))
 	}
 	for _, ask := range network.asks {
-		if len(ask.WordsToMatch) != 2 || ask.ItemsCeiling != itemsCeiling {
-			t.Fatalf("ask = %+v, want both query words", ask)
+		if ask.Word != yacymodel.WordHash("berlin") || ask.ItemsCeiling != itemsCeiling {
+			t.Fatalf("ask = %+v, want the query word", ask)
 		}
 	}
 }
@@ -258,30 +240,11 @@ func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
 
 	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
 
-	answers := answersOfTheQuery(network, "berlin weather")
+	answers := answersOfTheQuery(network, "berlin")
 
-	want := []yacymodel.Hash{yacymodel.WordHash("berlin"), yacymodel.WordHash("weather")}
+	want := []yacymodel.Hash{yacymodel.WordHash("berlin")}
 	if !slices.Equal(answers.QueryWords, want) {
 		t.Fatalf("the answers carry the query words %v, want %v", answers.QueryWords, want)
-	}
-}
-
-func TestOnlyAQueryOfOneWordNamesTheWordAPeerCounted(t *testing.T) {
-	t.Parallel()
-
-	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
-	network.peersCountingAWord["first"] = struct{}{}
-
-	ofOneWord := factsOfTheFirstDocumentFoundFor(network, "berlin")
-	ofTwoWords := factsOfTheFirstDocumentFoundFor(network, "berlin weather")
-
-	if hits := ofOneWord.HitsPerQueryWord[yacymodel.WordHash("berlin")]; hits != 3 {
-		t.Fatalf("the found document of a one word query holds the hits %v, want the hits of "+
-			"that word", ofOneWord.HitsPerQueryWord)
-	}
-	if len(ofTwoWords.HitsPerQueryWord) != 0 {
-		t.Fatalf("the found document of a two word query reads %+v, want no hits, because "+
-			"the peer does not say which word it counted", ofTwoWords)
 	}
 }
 

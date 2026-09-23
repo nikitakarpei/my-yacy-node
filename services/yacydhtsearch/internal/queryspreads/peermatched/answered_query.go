@@ -8,26 +8,27 @@ import (
 )
 
 func answeredQueryFrom(
-	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 	query searchquery.Query,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
 		QueryWords:     query.WordHashes(),
 		CompoundWords:  query.CompoundWords,
-		FoundDocuments: foundDocumentsFrom(answeredAsks, query.WordHashes()),
+		FoundDocuments: foundDocumentsFrom(answeredAsks),
 	}
 }
 
 func foundDocumentsFrom(
-	answeredAsks []peerasks.AnsweredMatchedDocumentsAsk,
-	queryWords []yacymodel.Hash,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) []queryanswers.FoundDocument {
 	documentsThePeersSent := queryanswers.EmptyDocumentsThePeersSent()
-	countedWord := wordThePeersCountedFor(queryWords)
 	for _, answeredAsk := range answeredAsks {
 		for _, matchedDocument := range answeredAsk.MatchedDocuments {
 			keepTheDocumentThePeerMatched(
-				documentsThePeersSent, matchedDocument, answeredAsk.Ask.Peer.Hash, countedWord,
+				documentsThePeersSent,
+				matchedDocument,
+				answeredAsk.Ask.Peer.Hash,
+				answeredAsk.Ask.Word,
 			)
 		}
 	}
@@ -35,21 +36,11 @@ func foundDocumentsFrom(
 	return documentsThePeersSent.FoundDocuments()
 }
 
-func wordThePeersCountedFor(
-	queryWords []yacymodel.Hash,
-) yacymodel.Optional[yacymodel.Hash] {
-	if len(queryWords) != 1 {
-		return yacymodel.None[yacymodel.Hash]()
-	}
-
-	return yacymodel.Some(queryWords[0])
-}
-
 func keepTheDocumentThePeerMatched(
 	documentsThePeersSent *queryanswers.DocumentsThePeersSent,
 	matchedDocument peerasks.MatchedDocument,
 	peer yacymodel.Hash,
-	word yacymodel.Optional[yacymodel.Hash],
+	word yacymodel.Hash,
 ) {
 	documentsThePeersSent.KeepMetadataThePeerSent(matchedDocument.Metadata, peer)
 	posting, sent := matchedDocument.Posting.Get()
@@ -57,6 +48,6 @@ func keepTheDocumentThePeerMatched(
 		return
 	}
 	documentsThePeersSent.KeepPostingThePeerSent(
-		matchedDocument.Metadata.Hash, peer, word, posting,
+		matchedDocument.Metadata.Hash, peer, yacymodel.Some(word), posting,
 	)
 }

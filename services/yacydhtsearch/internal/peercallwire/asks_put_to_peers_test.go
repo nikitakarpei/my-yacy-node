@@ -126,10 +126,10 @@ func (n *peerNetwork) leaveCall() {
 	n.callsInFlight--
 }
 
-func asksOfPeersAt(addresses ...string) []peerasks.MatchedDocumentsAsk {
-	asks := make([]peerasks.MatchedDocumentsAsk, 0, len(addresses))
+func asksOfPeersAt(addresses ...string) []peerasks.SearchDocumentsAsk {
+	asks := make([]peerasks.SearchDocumentsAsk, 0, len(addresses))
 	for _, address := range addresses {
-		asks = append(asks, peerasks.MatchedDocumentsAsk{Peer: peerAt(address)})
+		asks = append(asks, peerasks.SearchDocumentsAsk{Peer: peerAt(address)})
 	}
 
 	return asks
@@ -142,14 +142,14 @@ func TestEveryAskThatCameBackCarriesTheAskItAnswers(t *testing.T) {
 	first := network.peerHolding(t, "https://a.example/")
 	second := network.peerHolding(t, "https://b.example/")
 
-	answeredAsks := wireTo(&recordedOutcome{}).AskForMatchedDocuments(
+	answeredAsks := wireTo(&recordedOutcome{}).AskForSearchDocuments(
 		t.Context(),
 		asksOfPeersAt(first, second),
 	)
 
 	if len(answeredAsks) != 2 {
 		t.Fatalf(
-			"AskForMatchedDocuments collected %d answers, want one for each ask",
+			"AskForSearchDocuments collected %d answers, want one for each ask",
 			len(answeredAsks),
 		)
 	}
@@ -178,15 +178,15 @@ func TestAPeerThatOutlastsTheTimeTheAskHasLeftIsNoAnswer(t *testing.T) {
 
 	startedAt := time.Now()
 	answeredAsks := wireTo(&recordedOutcome{}).
-		AskForMatchedDocuments(callWithin(t, shortSpreadBudget), asksOfPeersAt(slow, holder))
+		AskForSearchDocuments(callWithin(t, shortSpreadBudget), asksOfPeersAt(slow, holder))
 
 	if len(answeredAsks) != 1 ||
 		answeredAsks[0].MatchedDocuments[0].Metadata.Address != "https://a.example/" {
-		t.Fatalf("AskForMatchedDocuments = %+v, want only the peer inside the budget", answeredAsks)
+		t.Fatalf("AskForSearchDocuments = %+v, want only the peer inside the budget", answeredAsks)
 	}
 	if time.Since(startedAt) < shortSpreadBudget {
 		t.Fatalf(
-			"AskForMatchedDocuments returned after %v, want it to wait out the budget",
+			"AskForSearchDocuments returned after %v, want it to wait out the budget",
 			time.Since(startedAt),
 		)
 	}
@@ -201,15 +201,15 @@ func TestAPeerThatOutlastsThePeerCallBudgetIsNoAnswer(t *testing.T) {
 
 	startedAt := time.Now()
 	answeredAsks := wireSpendingAtMost(shortPeerCallBudget, &recordedOutcome{}).
-		AskForMatchedDocuments(callWithin(t, spreadBudgetOfTheTests), asksOfPeersAt(slow, holder))
+		AskForSearchDocuments(callWithin(t, spreadBudgetOfTheTests), asksOfPeersAt(slow, holder))
 
 	if len(answeredAsks) != 1 ||
 		answeredAsks[0].MatchedDocuments[0].Metadata.Address != "https://a.example/" {
-		t.Fatalf("AskForMatchedDocuments = %+v, want only the peer inside the budget", answeredAsks)
+		t.Fatalf("AskForSearchDocuments = %+v, want only the peer inside the budget", answeredAsks)
 	}
 	if time.Since(startedAt) > 2*shortPeerCallBudget {
 		t.Fatalf(
-			"AskForMatchedDocuments returned after %v, want it to drop the slow peer at %v",
+			"AskForSearchDocuments returned after %v, want it to drop the slow peer at %v",
 			time.Since(startedAt),
 			shortPeerCallBudget,
 		)
@@ -226,11 +226,11 @@ func TestTheWireHoldsItsCallsInFlightAndPutsTheAsksInTheOrderGiven(t *testing.T)
 
 	network := &peerNetwork{}
 	network.awaitsCallsInFlight(callsInFlight)
-	asks := make([]peerasks.MatchedDocumentsAsk, 0, asksOfTheRound)
+	asks := make([]peerasks.SearchDocumentsAsk, 0, asksOfTheRound)
 	for range asksOfTheRound {
 		asks = append(
 			asks,
-			peerasks.MatchedDocumentsAsk{
+			peerasks.SearchDocumentsAsk{
 				Peer: peerAt(
 					network.peerAnsweringWhenTheAwaitedCallsAreInFlight(
 						t, searchAnswerHolding(t),
@@ -241,7 +241,7 @@ func TestTheWireHoldsItsCallsInFlightAndPutsTheAsksInTheOrderGiven(t *testing.T)
 	}
 
 	answeredAsks := wireHolding(callsInFlight, &recordedOutcome{}).
-		AskForMatchedDocuments(callWithin(t, spreadBudgetOfTheTests), asks)
+		AskForSearchDocuments(callWithin(t, spreadBudgetOfTheTests), asks)
 
 	if len(answeredAsks) != asksOfTheRound {
 		t.Fatalf(
@@ -264,7 +264,7 @@ func TestTheWireHoldsItsCallsInFlightAndPutsTheAsksInTheOrderGiven(t *testing.T)
 	}
 }
 
-func askIndicesOf(hosts []string, asks []peerasks.MatchedDocumentsAsk) []int {
+func askIndicesOf(hosts []string, asks []peerasks.SearchDocumentsAsk) []int {
 	indexPerHost := map[string]int{}
 	for index, ask := range asks {
 		indexPerHost[strings.TrimPrefix(ask.Peer.Address, "http://")] = index
@@ -281,9 +281,9 @@ func askIndicesOf(hosts []string, asks []peerasks.MatchedDocumentsAsk) []int {
 func TestAskingNoPeerCollectsNoAnswer(t *testing.T) {
 	t.Parallel()
 
-	answeredAsks := wireTo(&recordedOutcome{}).AskForMatchedDocuments(t.Context(), nil)
+	answeredAsks := wireTo(&recordedOutcome{}).AskForSearchDocuments(t.Context(), nil)
 
 	if len(answeredAsks) != 0 {
-		t.Fatalf("AskForMatchedDocuments = %+v, want no answers", answeredAsks)
+		t.Fatalf("AskForSearchDocuments = %+v, want no answers", answeredAsks)
 	}
 }

@@ -50,9 +50,9 @@ type peerNetwork struct {
 	documentsPerAnswerOfEachPeer                    map[string]int
 	peersCountingNoDocument                         map[string]struct{}
 	replicasPutPerWord                              map[string]int
-	matchedAndHeldDocumentsAsks                     []peerasks.MatchedAndHeldDocumentsAsk
-	matchedAndHeldDocumentsAsksPut                  []peerasks.MatchedAndHeldDocumentsAsk
-	crossCheckedDocumentsAsks                       []peerasks.MatchedAndHeldDocumentsAsk
+	matchedAndHeldDocumentsAsks                     []peerasks.SearchDocumentsAsk
+	matchedAndHeldDocumentsAsksPut                  []peerasks.SearchDocumentsAsk
+	crossCheckedDocumentsAsks                       []peerasks.SearchDocumentsAsk
 	urlMetadataAsks                                 []peerasks.URLMetadataAsk
 	silentPeers                                     map[string]struct{}
 	peersSilentInTheCrossCheckedDocuments           map[string]struct{}
@@ -72,10 +72,10 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 	}
 }
 
-func (n *peerNetwork) AskForMatchedAndHeldDocuments(
+func (n *peerNetwork) AskForSearchDocuments(
 	ctx context.Context,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
-) peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
+	asks []peerasks.SearchDocumentsAsk,
+) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
 	if len(asks) > 0 && len(asks[0].DocumentsToMatch) > 0 {
 		return n.crossCheckedDocumentsAsksPut(ctx, asks)
 	}
@@ -84,12 +84,12 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 	asksPut := n.matchedAndHeldDocumentsAsksPutAmong(asks)
 	n.matchedAndHeldDocumentsAsksPut = append(n.matchedAndHeldDocumentsAsksPut, asksPut...)
 
-	answeredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(asksPut))
+	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asksPut))
 	for _, ask := range asksPut {
 		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedAndHeldDocumentsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
 			Ask:                       ask,
 			DocumentsListedForTheWord: n.documentsListedBy(ask.Peer.Address, ask.Word),
 			MatchedDocuments: n.matchedDocumentsOf(
@@ -99,7 +99,7 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 		})
 	}
 
-	return peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk]{
+	return peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]{
 		Asks:         asksPut,
 		AnsweredAsks: answeredAsks,
 	}
@@ -111,10 +111,10 @@ type wordInPartition struct {
 }
 
 func (n *peerNetwork) matchedAndHeldDocumentsAsksPutAmong(
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.MatchedAndHeldDocumentsAsk {
+	asks []peerasks.SearchDocumentsAsk,
+) []peerasks.SearchDocumentsAsk {
 	asksPutPerWordInPartition := map[wordInPartition]int{}
-	asksPut := make([]peerasks.MatchedAndHeldDocumentsAsk, 0, len(asks))
+	asksPut := make([]peerasks.SearchDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
 		key := wordInPartition{word: ask.Word, partition: ask.Partition}
 		replicasPut, limited := n.replicasPutFor(ask.Word)
@@ -140,30 +140,30 @@ func (n *peerNetwork) replicasPutFor(word yacymodel.Hash) (int, bool) {
 
 func (n *peerNetwork) crossCheckedDocumentsAsksPut(
 	ctx context.Context,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
-) peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
+	asks []peerasks.SearchDocumentsAsk,
+) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
 	n.crossCheckedDocumentsAsks = append(n.crossCheckedDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
-	answeredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(asks))
+	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
 		if _, silent := n.peersSilentInTheCrossCheckedDocuments[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedAndHeldDocumentsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
 			Ask:                       ask,
 			DocumentsListedForTheWord: n.documentsToMatchHeldBy(ask),
 		})
 	}
 
-	return peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk]{
+	return peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]{
 		Asks:         asks,
 		AnsweredAsks: answeredAsks,
 	}
 }
 
 func (n *peerNetwork) documentsToMatchHeldBy(
-	ask peerasks.MatchedAndHeldDocumentsAsk,
+	ask peerasks.SearchDocumentsAsk,
 ) []yacymodel.URLHash {
 	if _, holdsNothing := n.peersHoldingNoDocumentToMatch[ask.Peer.Address]; holdsNothing {
 		return nil
@@ -543,7 +543,7 @@ func peersOfEachQueryWord(
 	return responsiblePeers{peerAddressesPerWord: peerAddressesPerWord}
 }
 
-func documentsAskedToCrossCheck(asks []peerasks.MatchedAndHeldDocumentsAsk) []yacymodel.URLHash {
+func documentsAskedToCrossCheck(asks []peerasks.SearchDocumentsAsk) []yacymodel.URLHash {
 	documents := make([]yacymodel.URLHash, 0, len(asks))
 	for _, ask := range asks {
 		documents = append(documents, ask.DocumentsToMatch...)
@@ -655,7 +655,7 @@ func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
 	}
 }
 
-func addressesAskedToCrossCheck(asks []peerasks.MatchedAndHeldDocumentsAsk) []string {
+func addressesAskedToCrossCheck(asks []peerasks.SearchDocumentsAsk) []string {
 	addresses := make([]string, 0, len(asks))
 	for _, ask := range asks {
 		addresses = append(addresses, ask.Peer.Address)
@@ -664,7 +664,7 @@ func addressesAskedToCrossCheck(asks []peerasks.MatchedAndHeldDocumentsAsk) []st
 	return addresses
 }
 
-func amountOfCrossChecksPutTo(address string, asks []peerasks.MatchedAndHeldDocumentsAsk) int {
+func amountOfCrossChecksPutTo(address string, asks []peerasks.SearchDocumentsAsk) int {
 	amount := 0
 	for _, ask := range asks {
 		if ask.Peer.Address == address {
@@ -2145,7 +2145,7 @@ func spreadAcrossPartitions(
 
 func replicasAskedForTheWordInOrder(
 	word yacymodel.Hash,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
+	asks []peerasks.SearchDocumentsAsk,
 ) []string {
 	var replicasAsked []string
 	for _, ask := range asks {

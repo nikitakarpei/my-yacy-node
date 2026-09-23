@@ -46,25 +46,25 @@ func TestEveryLabelValueOfTheReplicaAsksStartsAtZero(t *testing.T) {
 	replicaasksobserversprometheus.New(registry, queryBudget)
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="matched and held documents",ended_by="coverage"} 0`,
-		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="matched and held documents",ended_by="deadline"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="start",settled_by="coverage"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="hedge delay",settled_by="coverage"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="non-covering answer",settled_by="coverage"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="failure",settled_by="coverage"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="",settled_by="no replica left"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="",settled_by="deadline"} 0`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="start"} 0`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="hedge delay"} 0`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="non-covering answer"} 0`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="failure"} 0`,
-		`yacydhtsearch_word_partition_documents_listed_count{asked_for="matched and held documents"} 0`,
+		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="search documents",ended_by="coverage"} 0`,
+		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="search documents",ended_by="deadline"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="start",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="hedge delay",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="non-covering answer",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="failure",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="",settled_by="no replica left"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="",settled_by="deadline"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="start"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="hedge delay"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="non-covering answer"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="failure"} 0`,
+		`yacydhtsearch_word_partition_documents_listed_count{asked_for="search documents"} 0`,
 	})
 }
 
 func performedReplicaAsks() replicaasks.PerformedReplicaAsks {
 	return replicaasks.PerformedReplicaAsks{
-		AskedFor:  peerasks.MatchedAndHeldDocuments,
+		AskedFor:  peerasks.SearchDocuments,
 		EndedBy:   replicaasks.EndedByCoverage,
 		TimeSpent: 250 * time.Millisecond,
 		WordPartitions: []replicaasks.SettledWordPartition{
@@ -104,12 +104,12 @@ func TestEveryWordPartitionIsCountedUnderWhatSettledIt(t *testing.T) {
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="start",settled_by="coverage"} 1`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="hedge delay",settled_by="coverage"} 1`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="non-covering answer",settled_by="coverage"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="failure",settled_by="coverage"} 0`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="",settled_by="no replica left"} 1`,
-		`yacydhtsearch_word_partitions_total{asked_for="matched and held documents",covering_ask_put_on="",settled_by="deadline"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="start",settled_by="coverage"} 1`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="hedge delay",settled_by="coverage"} 1`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="non-covering answer",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="failure",settled_by="coverage"} 0`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="",settled_by="no replica left"} 1`,
+		`yacydhtsearch_word_partitions_total{asked_for="search documents",covering_ask_put_on="",settled_by="deadline"} 0`,
 	})
 }
 
@@ -122,10 +122,10 @@ func TestEveryReplicaAskIsCountedUnderWhatPutIt(t *testing.T) {
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="start"} 3`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="hedge delay"} 1`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="failure"} 1`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="non-covering answer"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="start"} 3`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="hedge delay"} 1`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="failure"} 1`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="non-covering answer"} 0`,
 	})
 }
 
@@ -138,8 +138,8 @@ func TestTheDocumentsOfEverySettledWordPartitionAreMeasured(t *testing.T) {
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_word_partition_documents_listed_count{asked_for="matched and held documents"} 3`,
-		`yacydhtsearch_word_partition_documents_listed_sum{asked_for="matched and held documents"} 7`,
+		`yacydhtsearch_word_partition_documents_listed_count{asked_for="search documents"} 3`,
+		`yacydhtsearch_word_partition_documents_listed_sum{asked_for="search documents"} 7`,
 	})
 }
 
@@ -152,9 +152,9 @@ func TestTheTimeTheReplicaAsksSpentIsMeasuredUnderWhatEndedThem(t *testing.T) {
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="matched and held documents",ended_by="coverage"} 1`,
-		`yacydhtsearch_replica_asks_duration_seconds_sum{asked_for="matched and held documents",ended_by="coverage"} 0.25`,
-		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="matched and held documents",ended_by="deadline"} 0`,
+		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="search documents",ended_by="coverage"} 1`,
+		`yacydhtsearch_replica_asks_duration_seconds_sum{asked_for="search documents",ended_by="coverage"} 0.25`,
+		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="search documents",ended_by="deadline"} 0`,
 	})
 }
 
@@ -165,8 +165,7 @@ func TestEveryAskedForStartsAtZero(t *testing.T) {
 	replicaasksobserversprometheus.New(registry, queryBudget)
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_total{asked_for="matched documents",put_on="start"} 0`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="start"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="start"} 0`,
 		`yacydhtsearch_replica_asks_total{asked_for="url metadata",put_on="start"} 0`,
 		`yacydhtsearch_word_partition_documents_listed_count{asked_for="url metadata"} 0`,
 	})
@@ -181,8 +180,8 @@ func TestTheReplicaAsksAreCountedUnderWhatTheyAskedFor(t *testing.T) {
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_total{asked_for="matched and held documents",put_on="start"} 3`,
-		`yacydhtsearch_replica_asks_total{asked_for="matched documents",put_on="start"} 0`,
-		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="matched documents",ended_by="coverage"} 0`,
+		`yacydhtsearch_replica_asks_total{asked_for="search documents",put_on="start"} 3`,
+		`yacydhtsearch_replica_asks_total{asked_for="url metadata",put_on="start"} 0`,
+		`yacydhtsearch_replica_asks_duration_seconds_count{asked_for="url metadata",ended_by="coverage"} 0`,
 	})
 }

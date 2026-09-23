@@ -1,4 +1,4 @@
-package wordjoined
+package peermatched
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
@@ -6,10 +6,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-func matchedAndHeldDocumentsAsksFor(
+func searchDocumentsAsksFor(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	itemsCeiling int,
+	peerItemsCeiling int,
 ) []peerasks.SearchDocumentsAsk {
 	var asks []peerasks.SearchDocumentsAsk
 	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
@@ -20,7 +20,7 @@ func matchedAndHeldDocumentsAsksFor(
 				Word:          chosenPeersOfQueryWord.QueryWord,
 				ExcludedWords: query.ExclusionHashes(),
 				Language:      query.Language,
-				ItemsCeiling:  itemsCeiling,
+				ItemsCeiling:  peerItemsCeiling,
 			})
 		}
 	}

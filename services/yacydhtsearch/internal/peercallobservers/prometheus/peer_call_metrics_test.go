@@ -35,46 +35,46 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredMatchedDocuments(t.Context(), "http://peer.example", 3, time.Second)
+	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
 	metrics.PeerRefused(
 		t.Context(),
 		"http://peer.example",
-		peerasks.MatchedDocuments,
+		peerasks.SearchDocuments,
 		http.StatusServiceUnavailable,
 		time.Second,
 	)
 	metrics.PeerUnreachable(
 		t.Context(),
 		"http://peer.example",
-		peerasks.MatchedDocuments,
+		peerasks.SearchDocuments,
 		errors.New("no route"),
 		queryBudget,
 	)
 	metrics.PeerAnswerUnreadable(
 		t.Context(),
 		"http://peer.example",
-		peerasks.MatchedDocuments,
+		peerasks.SearchDocuments,
 		errors.New("bad row"),
 		time.Second,
 	)
 	metrics.PeerCallCancelled(
 		t.Context(),
 		"http://peer.example",
-		peerasks.MatchedDocuments,
+		peerasks.SearchDocuments,
 		time.Second,
 	)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="answered"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="refused"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="unreachable"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="unreadable"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="cancelled"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="refused"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="unreachable"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="unreadable"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="cancelled"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="cancelled"} 0`,
-		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched documents",outcome="cancelled"} 1`,
-		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched documents",outcome="answered"} 1`,
-		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched documents",outcome="unreachable"} 3`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="cancelled"} 1`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="unreachable"} 3`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -88,17 +88,15 @@ func TestAPeerCallThatBroughtNothingIsCountedApartFromOneThatBroughtSomething(t 
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredMatchedDocuments(t.Context(), "http://peer.example", 0, time.Second)
-	metrics.PeerAnsweredMatchedAndHeldDocuments(t.Context(), "http://peer.example", 0, time.Second)
+	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 0, 0, time.Second)
 	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 0, time.Second)
-	metrics.PeerAnsweredMatchedDocuments(t.Context(), "http://peer.example", 3, time.Second)
+	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="answered nothing"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="matched and held documents",outcome="answered nothing"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="answered nothing"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="answered nothing"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="answered"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -118,8 +116,8 @@ func TestAnAnsweredMetadataCallIsCountedUnderWhatItAskedFor(t *testing.T) {
 	for _, published := range []string{
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="answered"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="url metadata",outcome="answered"} 1`,
-		`yacydhtsearch_peer_calls_total{asked_for="matched documents",outcome="answered"} 0`,
-		`yacydhtsearch_peer_call_duration_seconds_count{asked_for="matched documents",outcome="answered"} 0`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="answered"} 0`,
+		`yacydhtsearch_peer_call_duration_seconds_count{asked_for="search documents",outcome="answered"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -133,13 +131,13 @@ func TestAnAnsweredWordIsCountedUnderWhatItAskedFor(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredMatchedAndHeldDocuments(t.Context(), "http://peer.example", 7, time.Second)
+	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 7, 0, time.Second)
 	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 2, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_calls_total{asked_for="matched and held documents",outcome="answered"} 1`,
-		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="matched and held documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="answered"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="answered"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="url metadata",outcome="answered"} 1`,
 	} {
@@ -161,10 +159,10 @@ func TestPeerCallsWaitingForASlotAreCountedWhileTheyWait(t *testing.T) {
 		t.Fatalf("metrics do not start the waiting calls at zero:\n%s", publishedBy(t, registry))
 	}
 
-	metrics.PeerCallWaitsForASlot(t.Context(), "http://peer.example", peerasks.MatchedDocuments)
+	metrics.PeerCallWaitsForASlot(t.Context(), "http://peer.example", peerasks.SearchDocuments)
 	metrics.PeerCallWaitsForASlot(t.Context(), "http://peer.example", peerasks.URLMetadata)
 	metrics.PeerCallTookASlot(
-		t.Context(), "http://peer.example", peerasks.MatchedDocuments, time.Second,
+		t.Context(), "http://peer.example", peerasks.SearchDocuments, time.Second,
 	)
 
 	body := publishedBy(t, registry)
