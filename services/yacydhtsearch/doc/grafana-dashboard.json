@@ -1749,8 +1749,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.90, sum by (le, ended_by) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{ended_by}}"
+          "expr": "histogram_quantile(0.90, sum by (le, asked_for, ended_by) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{asked_for}}: {{ended_by}}"
         }
       ]
     },
@@ -1792,8 +1792,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (settled_by) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{settled_by}}"
+          "expr": "sum by (asked_for, settled_by) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{asked_for}}: {{settled_by}}"
         }
       ]
     },
@@ -1836,8 +1836,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (covering_ask_put_on) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} offset $__interval), 0))",
-          "legendFormat": "{{covering_ask_put_on}}"
+          "expr": "sum by (asked_for, covering_ask_put_on) (clamp_min(yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} - (yacydhtsearch_word_partitions_total{instance=~\"$service_instance\",settled_by=\"coverage\"} offset $__interval), 0))",
+          "legendFormat": "{{asked_for}}: {{covering_ask_put_on}}"
         }
       ]
     },
@@ -1879,8 +1879,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (put_on) (clamp_min(yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{put_on}}"
+          "expr": "sum by (asked_for, put_on) (clamp_min(yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{asked_for}}: {{put_on}}"
         }
       ]
     },
@@ -1937,7 +1937,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\",asked_for=\"search documents\"} - (yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\",asked_for=\"search documents\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }

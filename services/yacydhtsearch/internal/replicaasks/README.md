@@ -14,6 +14,11 @@ An answer covers when it lists, counts or matches a document of the word, and
 lists no document outside the documents to match. A replica that does not cover,
 fails, or stays silent past a hedge delay gets the next one asked.
 
+The URL metadata of the documents of one partition is asked the same way. The
+replicas are the peers whose abstracts listed a document of the partition, the
+peer that listed the most first. One answer that carries the metadata of every
+document asked settles the partition.
+
 A peer gets one ask at most. A replica already asked for another word partition
 is skipped.
 

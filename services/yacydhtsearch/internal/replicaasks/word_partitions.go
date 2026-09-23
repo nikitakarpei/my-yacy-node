@@ -11,7 +11,7 @@ import (
 
 type askKind[Ask any, Answered any] interface {
 	askedFor() peerasks.AskedFor
-	wordPartitionKeyOf(ask Ask) wordPartitionKey
+	partitionKeyOf(ask Ask) partitionKey
 	peerOf(ask Ask) yacymodel.Hash
 	hedgeDelayOf(ctx context.Context, ask Ask) time.Duration
 	putAsk(ctx context.Context, ask Ask) (Answered, bool)
@@ -19,7 +19,7 @@ type askKind[Ask any, Answered any] interface {
 	amountOfDocumentsListedIn(answer Answered) int
 }
 
-type wordPartitionKey struct {
+type partitionKey struct {
 	word      string
 	partition uint
 }
@@ -55,9 +55,9 @@ func wordPartitionsOf[Ask any, Answered any](
 ) []wordPartition[Ask, Answered] {
 	wordPartitions := make([]wordPartition[Ask, Answered], 0, len(asksInReplicaOrder))
 	peersAskedInTheRun := noAskedPeers()
-	placeOfKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
+	placeOfKey := make(map[partitionKey]int, len(asksInReplicaOrder))
 	for placeInTheRun, ask := range asksInReplicaOrder {
-		key := kind.wordPartitionKeyOf(ask)
+		key := kind.partitionKeyOf(ask)
 		place, known := placeOfKey[key]
 		if !known {
 			place = len(wordPartitions)

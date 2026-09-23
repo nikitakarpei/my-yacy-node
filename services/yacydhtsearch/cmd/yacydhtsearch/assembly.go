@@ -78,7 +78,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	yacyseedlistobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlistobservers/applog"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -255,13 +254,11 @@ func querySpreadFor(
 	return bywordcount.New(
 		wordjoined.New(
 			replicaAsks,
-			peers,
 			judgementsOfTheCrossCheckFor(cfg, judgementLedger),
 			cfg.URLMetadataAskDocumentsCeiling,
 			cfg.DocumentsToMatchCeiling,
 			cfg.PeerItemsCeiling,
 			cfg.Partitions,
-			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{
 				queryspreadsobserverswordjoinedapplog.WordJoinedSpreadLog{},
 				queryspreadsobserverswordjoinedprometheus.New(registry, cfg.QueryBudget),

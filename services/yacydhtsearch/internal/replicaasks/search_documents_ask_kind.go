@@ -17,10 +17,10 @@ func (searchDocumentsAskKind) askedFor() peerasks.AskedFor {
 	return peerasks.SearchDocuments
 }
 
-func (searchDocumentsAskKind) wordPartitionKeyOf(
+func (searchDocumentsAskKind) partitionKeyOf(
 	ask peerasks.SearchDocumentsAsk,
-) wordPartitionKey {
-	return wordPartitionKey{word: ask.Word.String(), partition: ask.Partition}
+) partitionKey {
+	return partitionKey{word: ask.Word.String(), partition: ask.Partition}
 }
 
 func (searchDocumentsAskKind) peerOf(ask peerasks.SearchDocumentsAsk) yacymodel.Hash {

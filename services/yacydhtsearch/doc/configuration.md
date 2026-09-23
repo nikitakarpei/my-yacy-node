@@ -75,7 +75,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 |---|---|---|
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls at the same time, over all queries. |
 | `YACYDHTSEARCH_PEER_CALL_BUDGET` | `3s` | Time one peer call may take. |
-| `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time to wait for a peer before the search asks another peer for the same words. |
+| `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time to wait for a peer before the search asks another peer for the same words or the same URL metadata. |
 | `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Peers that must find documents of the same words before the search stops asking. It must not be above the redundancy. |
 | `YACYDHTSEARCH_COMPOUND_WORDS_CEILING` | `4` | Most compound words asked per query, such as `wordpress` for `word press`. |
 | `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING` | `1000` | Most documents one peer call names when it asks a peer which of them also hold another query word. |

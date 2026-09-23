@@ -144,13 +144,11 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		byWordCount: bywordcount.New(
 			wordjoined.New(
 				everyReplica,
-				calledPeers,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
 				peerItemsCeiling,
 				partitions,
-				yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 				wordjoined.WordJoinedSpreadObservers{},
 			),
 			peermatched.New(

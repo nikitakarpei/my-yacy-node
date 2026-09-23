@@ -239,7 +239,6 @@ func judgingSpreadOver(
 			judgementReplicasCovering,
 			replicaasks.ReplicaAsksObservers{},
 		),
-		wire,
 		peerjudgements.New(
 			wordjoined.AbstractHoldsOnlyTheDocumentsToMatch,
 			peerjudgementledgersmemory.New(judgementLedgerCapacity),
@@ -250,7 +249,6 @@ func judgingSpreadOver(
 		judgementDocumentsCeiling,
 		judgementItemsCeiling,
 		partitions,
-		yacymodel.PeersHoldingOneWordOf(partitions, judgementNetworkRedundancy),
 		wordjoined.WordJoinedSpreadObservers{spreads},
 	)
 }

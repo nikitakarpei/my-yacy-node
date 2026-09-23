@@ -7,8 +7,13 @@ import (
 
 type URLMetadataAsk struct {
 	Peer      peerdirectory.AskablePeer
+	Partition uint
 	Documents []yacymodel.URLHash
 }
+
+type URLMetadataAskOutcome = AskOutcome[URLMetadataAsk, AnsweredURLMetadataAsk]
+
+type URLMetadataAskOutcomes = AskOutcomes[URLMetadataAsk, AnsweredURLMetadataAsk]
 
 type AnsweredURLMetadataAsk struct {
 	Ask                    URLMetadataAsk

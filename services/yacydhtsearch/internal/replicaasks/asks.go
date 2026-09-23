@@ -1,6 +1,6 @@
-// Package replicaasks puts the asks of a word partition to its replicas in
-// turn, settles the partition as soon as enough answers of the replicas cover
-// it, and reports for each ask whether it was put and what the peer answered.
+// Package replicaasks puts the asks of a partition to its replicas in turn,
+// settles the partition as soon as enough answers of the replicas cover it,
+// and reports for each ask whether it was put and what the peer answered.
 package replicaasks
 
 import (
@@ -16,6 +16,10 @@ type PeerCalls interface {
 		ctx context.Context,
 		asks []peerasks.SearchDocumentsAsk,
 	) []peerasks.AnsweredSearchDocumentsAsk
+	AskForURLMetadata(
+		ctx context.Context,
+		asks []peerasks.URLMetadataAsk,
+	) []peerasks.AnsweredURLMetadataAsk
 }
 
 type HedgeDelay interface {
@@ -52,6 +56,21 @@ func (asks Asks) AskForSearchDocuments(
 		asksInReplicaOrder,
 		searchDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
 		asks.replicasCoveringAPartition,
+		asks.observer,
+	)
+}
+
+const replicasCoveringTheURLMetadataOfAPartition = 1
+
+func (asks Asks) AskForURLMetadata(
+	ctx context.Context,
+	asksInReplicaOrder []peerasks.URLMetadataAsk,
+) peerasks.URLMetadataAskOutcomes {
+	return askTheWordPartitions(
+		ctx,
+		asksInReplicaOrder,
+		urlMetadataAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
+		replicasCoveringTheURLMetadataOfAPartition,
 		asks.observer,
 	)
 }

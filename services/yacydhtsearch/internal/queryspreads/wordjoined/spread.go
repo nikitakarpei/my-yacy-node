@@ -20,13 +20,10 @@ type ReplicaAsks interface {
 		ctx context.Context,
 		asks []peerasks.SearchDocumentsAsk,
 	) peerasks.SearchDocumentsAskOutcomes
-}
-
-type PeerAsks interface {
 	AskForURLMetadata(
 		ctx context.Context,
 		asks []peerasks.URLMetadataAsk,
-	) []peerasks.AnsweredURLMetadataAsk
+	) peerasks.URLMetadataAskOutcomes
 }
 
 type PeerJudgements interface {
@@ -39,37 +36,31 @@ type PeerJudgements interface {
 
 type Spread struct {
 	replicaAsks                    ReplicaAsks
-	peerAsks                       PeerAsks
 	peerJudgements                 PeerJudgements
 	urlMetadataAskDocumentsCeiling int
 	documentsToMatchCeiling        int
 	peerItemsCeiling               int
 	partitions                     yacymodel.DHTRingPartitions
-	amountOfPeersHoldingOneWord    int
 	observer                       WordJoinedSpreadObserver
 }
 
 //nolint:revive // argument-limit: the spread takes its asks, judgements, ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
-	peerAsks PeerAsks,
 	peerJudgements PeerJudgements,
 	urlMetadataAskDocumentsCeiling int,
 	documentsToMatchCeiling int,
 	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
-	amountOfPeersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
 		replicaAsks:                    replicaAsks,
-		peerAsks:                       peerAsks,
 		peerJudgements:                 peerJudgements,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
 		peerItemsCeiling:               peerItemsCeiling,
 		partitions:                     partitions,
-		amountOfPeersHoldingOneWord:    amountOfPeersHoldingOneWord,
 		observer:                       observer,
 	}
 }
@@ -198,19 +189,19 @@ func (spread Spread) askForURLMetadata(
 	)
 	asks := urlMetadataAsksFor(
 		discoveryRound.holdersPerDocument.mostHeldFirst(documentsWithoutMetadata),
-		discoveryRound.answeredAsks,
+		answeredSearchDocumentsAsks,
+		spread.partitions,
 		spread.urlMetadataAskDocumentsCeiling,
-		spread.amountOfPeersHoldingOneWord,
 	)
 	clock := roundClockStartedWithin(ctx, roundsLeftAtTheURLMetadata)
 	roundContext, endRound := clock.contextWithinTheBudget(ctx)
 	defer endRound()
-	answeredAsks := spread.peerAsks.AskForURLMetadata(roundContext, asks)
+	askOutcomes := spread.replicaAsks.AskForURLMetadata(roundContext, asks)
 
 	return urlMetadataRound{
 		documentsWithoutMetadata: documentsWithoutMetadata,
-		asks:                     asks,
-		answeredAsks:             answeredAsks,
+		asks:                     askOutcomes.AsksPut(),
+		answeredAsks:             askOutcomes.AnsweredAsks(),
 		time:                     clock.roundTimeOf(len(asks)),
 	}
 }

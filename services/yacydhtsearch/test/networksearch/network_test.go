@@ -247,13 +247,11 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 
 	return wordjoined.New(
 		replicaAsks(t),
-		peerCalls(t),
 		judgementsOfTheCrossCheck(),
 		recordCeiling,
 		documentsToMatchCeiling,
 		peerResults,
 		ringPartitions(t),
-		yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
 		wordjoined.WordJoinedSpreadObservers{},
 	)
 }

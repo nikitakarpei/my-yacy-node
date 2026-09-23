@@ -28,7 +28,6 @@ const (
 	documentsOneURLMetadataAskNames = 1
 	documentsToMatchCeiling         = 10
 	peerItemsCeiling                = 10
-	peersHoldingOneWord             = 24
 	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
@@ -56,6 +55,7 @@ type peerNetwork struct {
 	urlMetadataAsks                                 []peerasks.URLMetadataAsk
 	silentPeers                                     map[string]struct{}
 	peersSilentInTheCrossCheck                      map[string]struct{}
+	peersMatchingNoDocumentInTheCrossCheck          map[string]struct{}
 	peersHoldingNoDocumentToMatch                   map[string]struct{}
 	peersListingDocumentsOutsideTheDocumentsToMatch map[string]struct{}
 	timeLeftInEachRoundInTheirOrder                 []time.Duration
@@ -67,6 +67,7 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 		peersCountingNoDocument:                         map[string]struct{}{},
 		silentPeers:                                     map[string]struct{}{},
 		peersSilentInTheCrossCheck:                      map[string]struct{}{},
+		peersMatchingNoDocumentInTheCrossCheck:          map[string]struct{}{},
 		peersHoldingNoDocumentToMatch:                   map[string]struct{}{},
 		peersListingDocumentsOutsideTheDocumentsToMatch: map[string]struct{}{},
 	}
@@ -155,15 +156,29 @@ func (n *peerNetwork) crossCheckAskOutcomes(
 		if _, silent := n.peersSilentInTheCrossCheck[ask.Peer.Address]; !silent {
 			documentsToMatchHeld := n.documentsToMatchHeldBy(ask)
 			askOutcome.Answer = yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
-				Ask:              ask,
-				Abstract:         documentsToMatchHeld,
-				MatchedDocuments: n.matchedDocumentsOf(documentsToMatchHeld),
+				Ask:      ask,
+				Abstract: documentsToMatchHeld,
+				MatchedDocuments: n.crossCheckMatchedDocumentsOf(
+					ask.Peer.Address,
+					documentsToMatchHeld,
+				),
 			})
 		}
 		askOutcomes = append(askOutcomes, askOutcome)
 	}
 
 	return askOutcomes
+}
+
+func (n *peerNetwork) crossCheckMatchedDocumentsOf(
+	address string,
+	documentsToMatchHeld []yacymodel.URLHash,
+) []peerasks.MatchedDocument {
+	if _, matchesNothing := n.peersMatchingNoDocumentInTheCrossCheck[address]; matchesNothing {
+		return nil
+	}
+
+	return n.matchedDocumentsOf(documentsToMatchHeld)
 }
 
 func (n *peerNetwork) documentsToMatchHeldBy(
@@ -270,19 +285,23 @@ func documentsPerWordOf(
 func (n *peerNetwork) AskForURLMetadata(
 	ctx context.Context,
 	asks []peerasks.URLMetadataAsk,
-) []peerasks.AnsweredURLMetadataAsk {
+) peerasks.URLMetadataAskOutcomes {
 	n.urlMetadataAsks = append(n.urlMetadataAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
-	answeredAsks := make([]peerasks.AnsweredURLMetadataAsk, 0, len(asks))
+	askOutcomes := make(peerasks.URLMetadataAskOutcomes, 0, len(asks))
 	for _, ask := range asks {
-		answeredAsks = append(answeredAsks, peerasks.AnsweredURLMetadataAsk{
-			Ask:                    ask,
-			MetadataOfEachDocument: metadataOfEachDocument(ask.Documents),
+		askOutcomes = append(askOutcomes, peerasks.URLMetadataAskOutcome{
+			Ask: ask,
+			Put: true,
+			Answer: yacymodel.Some(peerasks.AnsweredURLMetadataAsk{
+				Ask:                    ask,
+				MetadataOfEachDocument: metadataOfEachDocument(ask.Documents),
+			}),
 		})
 	}
 
-	return answeredAsks
+	return askOutcomes
 }
 
 func documentHashesOf(addresses []string) []yacymodel.URLHash {
@@ -441,13 +460,11 @@ func answeredQueryUnder(
 			choice,
 			wordjoined.New(
 				network,
-				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
-				peersHoldingOneWord,
 				observer,
 			),
 		),
@@ -477,13 +494,11 @@ func spreadUnder(
 			choice,
 			wordjoined.New(
 				network,
-				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
 				peerItemsCeiling,
 				onePartitionOfTheRing,
-				peersHoldingOneWord,
 				observer,
 			),
 		),
@@ -501,13 +516,11 @@ func spreadTheQuery(
 		choice,
 		wordjoined.New(
 			network,
-			network,
 			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
 			documentsToMatchCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
-			peersHoldingOneWord,
 			observer,
 		),
 	).SpreadOverPeers(
@@ -529,13 +542,11 @@ func spreadWithin(
 		responsiblePeers{},
 		wordjoined.New(
 			network,
-			network,
 			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
 			documentsToMatchCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
-			peersHoldingOneWord,
 			observer,
 		),
 	).SpreadOverPeers(
@@ -603,13 +614,11 @@ func spreadJudgingThePeers(
 		choice,
 		wordjoined.New(
 			network,
-			network,
 			judgements,
 			urlMetadataAskDocumentsCeiling,
 			documentsToMatchCeiling,
 			peerItemsCeiling,
 			onePartitionOfTheRing,
-			peersHoldingOneWord,
 			observer,
 		),
 	).SpreadOverPeers(
@@ -1522,7 +1531,7 @@ func TestOnlyDocumentsThatEveryQueryWordCameBackForAreAskedAbout(t *testing.T) {
 	}
 }
 
-func TestEachPeerIsAskedOnlyAboutTheDocumentsItHolds(t *testing.T) {
+func TestEveryPeerThatListedADocumentOfAPartitionIsAskedForEveryDocumentOfIt(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string]map[string][]string{
@@ -1538,16 +1547,77 @@ func TestEachPeerIsAskedOnlyAboutTheDocumentsItHolds(t *testing.T) {
 
 	answeredQueryFrom(network, &recordedSpreads{})
 
+	wanted := documentsInTheirHashOrder(
+		documentHashesOf([]string{"https://shared.example/", "https://other.example/"}),
+	)
+	if len(network.urlMetadataAsks) != 2 {
+		t.Fatalf("%d peers were asked for metadata, want both", len(network.urlMetadataAsks))
+	}
 	for _, ask := range network.urlMetadataAsks {
-		held := network.documentsPerWordPerPeer[ask.Peer.Address][firstWord]
-		if !slices.Equal(ask.Documents, documentHashesOf(held)) {
+		if got := documentsInTheirHashOrder(ask.Documents); !slices.Equal(got, wanted) {
 			t.Fatalf(
-				"peer %q was asked about %v, want only %v",
-				ask.Peer.Address,
-				ask.Documents,
-				held,
+				"peer %q was asked about %v, want every document of the partition %v",
+				ask.Peer.Address, got, wanted,
 			)
 		}
+	}
+}
+
+func TestThePeerThatListedTheMostDocumentsOfAPartitionIsAskedForTheirMetadataFirst(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	both := []string{"https://shared.example/", "https://other.example/"}
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: both[:1], secondWord: both[:1]},
+		"second": {firstWord: both, secondWord: both},
+	})
+
+	answeredQueryFrom(network, &recordedSpreads{})
+
+	got := make([]string, 0, len(network.urlMetadataAsks))
+	for _, ask := range network.urlMetadataAsks {
+		got = append(got, ask.Peer.Address)
+	}
+	if !slices.Equal(got, []string{"second", "first"}) {
+		t.Fatalf("the peers were asked for metadata in the order %v, want second first", got)
+	}
+}
+
+func TestTheMetadataOfAPartitionIsAskedOnlyOfThePeersThatListedItsDocuments(t *testing.T) {
+	t.Parallel()
+
+	documentInPartitionZero := addressesInPartition(t, 0, 1)
+	documentInPartitionOne := addressesInPartition(t, 1, 1)
+	network := networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: documentInPartitionZero},
+		"first-in-1":  {firstWord: documentInPartitionOne},
+		"second-in-0": {secondWord: documentInPartitionZero},
+		"second-in-1": {secondWord: documentInPartitionOne},
+	})
+
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsOfTheCrossCheck(),
+		&recordedSpreads{},
+	)
+
+	partitionOfEachPeer := replicasOfTwoQueryWordsInTwoPartitions().partitionOfEachPeer
+	for _, ask := range network.urlMetadataAsks {
+		wanted := documentHashesOf(addressesInPartition(t, ask.Partition, 1))
+		if partitionOfEachPeer[ask.Peer.Address] != ask.Partition ||
+			!slices.Equal(ask.Documents, wanted) {
+			t.Fatalf(
+				"peer %q was asked for %v in partition %d, want only the document of its partition",
+				ask.Peer.Address, ask.Documents, ask.Partition,
+			)
+		}
+	}
+	if len(network.urlMetadataAsks) != 4 {
+		t.Fatalf("%d asks for metadata were built, want two for each partition",
+			len(network.urlMetadataAsks))
 	}
 }
 
@@ -1727,8 +1797,8 @@ func TestNoPeerIsAskedMetadataForMoreDocumentsThanTheCeiling(t *testing.T) {
 		&recordedSpreads{},
 	)
 
-	if len(network.urlMetadataAsks) != 2 {
-		t.Fatalf("%d peers were asked for metadata, want both", len(network.urlMetadataAsks))
+	if len(network.urlMetadataAsks) == 0 {
+		t.Fatal("no peer was asked for metadata, want the holders of the document asked")
 	}
 	for _, ask := range network.urlMetadataAsks {
 		if len(ask.Documents) != 1 {
@@ -1819,55 +1889,6 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 			"the spread reported %d documents back, want the one it asked metadata for",
 			performed.URLMetadataRound.AmountOfLookedUpDocumentsWithMetadata,
 		)
-	}
-}
-
-func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
-	t.Parallel()
-
-	const peersOfOneWord = 2
-
-	bothDocuments := []string{"https://first.example/", "https://second.example/"}
-	firstDocument, secondDocument := bothDocuments[:1], bothDocuments[1:]
-	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: firstDocument, secondWord: firstDocument},
-		"second": {firstWord: secondDocument, secondWord: secondDocument},
-		"third":  {firstWord: firstDocument, secondWord: firstDocument},
-		"fourth": {firstWord: secondDocument, secondWord: secondDocument},
-	})
-
-	spreadOverPeers(
-		newSpreadOverChosenPeers(
-			responsiblePeers{},
-			wordjoined.New(
-				network,
-				network,
-				judgementsOfTheCrossCheck(),
-				urlMetadataAskDocumentsCeiling,
-				documentsToMatchCeiling,
-				peerItemsCeiling,
-				onePartitionOfTheRing,
-				peersOfOneWord,
-				&recordedSpreads{},
-			),
-		),
-		peersAt([]string{"first", "second", "third", "fourth"}),
-	)
-
-	if len(network.urlMetadataAsks) != peersOfOneWord {
-		t.Fatalf(
-			"%d peers were asked for metadata, want %d",
-			len(network.urlMetadataAsks),
-			peersOfOneWord,
-		)
-	}
-	wanted := documentHashesOf(bothDocuments)
-	got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks)
-	slices.SortFunc(wanted, func(first, second yacymodel.URLHash) int {
-		return strings.Compare(first.String(), second.String())
-	})
-	if !slices.Equal(got, wanted) {
-		t.Fatalf("asked about %v, want every joined document %v", got, wanted)
 	}
 }
 
@@ -2139,13 +2160,11 @@ func documentsHeldPerQueryWordAcrossPartitions(
 			choice,
 			wordjoined.New(
 				network,
-				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
 				peerItemsCeiling,
 				partitions,
-				peersHoldingOneWord,
 				&recordedSpreads{},
 			),
 		),
@@ -2250,13 +2269,11 @@ func spreadAcrossPartitions(
 			choice,
 			wordjoined.New(
 				network,
-				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
 				peerItemsCeiling,
 				partitions,
-				peersHoldingOneWord,
 				&recordedSpreads{},
 			),
 		),
@@ -2431,13 +2448,11 @@ func spreadOverTwoPartitions(
 			choice,
 			wordjoined.New(
 				network,
-				network,
 				judgements,
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
 				peerItemsCeiling,
 				twoPartitionsOfTheRing,
-				peersHoldingOneWord,
 				observer,
 			),
 		),
@@ -2512,6 +2527,31 @@ func TestADocumentOnlyAReplicaInItsPartitionHoldsIsFound(t *testing.T) {
 	if got := documentsInTheirHashOrder(foundDocuments); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread found %v, want every document the replica in partition 1 holds %v",
 			got, wanted)
+	}
+}
+
+func TestAPeerThatAnsweredOnlyTheCrossCheckIsAskedForTheMetadataItListed(t *testing.T) {
+	t.Parallel()
+
+	network, _ := networkWhereTheSecondWordHoldsTheDocumentsOfPartitionOne(t)
+	network.peersMatchingNoDocumentInTheCrossCheck = map[string]struct{}{
+		"unasked-second-in-1": {},
+	}
+
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsOfTheCrossCheck(),
+		&recordedSpreads{},
+	)
+
+	if !slices.ContainsFunc(network.urlMetadataAsks, func(ask peerasks.URLMetadataAsk) bool {
+		return ask.Peer.Address == "unasked-second-in-1"
+	}) {
+		t.Fatalf(
+			"the peers asked for metadata were %v, want the peer that answered the cross-check",
+			network.urlMetadataAsks,
+		)
 	}
 }
 

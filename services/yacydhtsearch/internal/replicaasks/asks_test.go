@@ -345,6 +345,63 @@ func TestTheOutcomesTellWhichAsksWerePutAndWhichWereAnswered(t *testing.T) {
 	}
 }
 
+func TestTheMetadataOfEveryDocumentOfAPartitionSettlesItWithOneReplica(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"holder-one": {}, "holder-two": {}, "other-one": {}, "other-two": {},
+	}, noHedgeOfTheTests, 2)
+
+	answers := asking.urlMetadataAnswers(t.Context(), append(
+		urlMetadataAsksOfThePartition(1, "holder-one", "holder-two"),
+		urlMetadataAsksOfThePartition(2, "other-one", "other-two")...,
+	))
+
+	if len(answers) != 2 {
+		t.Fatalf("AskForURLMetadata answered %d asks, want one for each partition", len(answers))
+	}
+	asking.calls.wantAddressesPut(t, "holder-one", "other-one")
+	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
+	asking.observer.wantAskedFor(t, peerasks.URLMetadata)
+	asking.observer.wantAmountOfDocumentsListed(t, 2, 2)
+}
+
+func TestAnAnswerMissingTheMetadataOfADocumentAsksTheNextReplica(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"holder-one": {lacksTheMetadataOfADocument: true}, "holder-two": {},
+	}, noHedgeOfTheTests, 1)
+
+	answers := asking.urlMetadataAnswers(
+		t.Context(), urlMetadataAsksOfThePartition(1, "holder-one", "holder-two"),
+	)
+
+	if len(answers) != 2 {
+		t.Fatalf("AskForURLMetadata answered %d asks, want both replicas", len(answers))
+	}
+	asking.calls.wantAddressesPut(t, "holder-one", "holder-two")
+	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnNonCoveringAnswer)
+}
+
+func TestAURLMetadataCallPastTheHedgeDelayAsksTheNextReplica(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"holder-one": {answersAfter: slowAnswerOfTheTests}, "holder-two": {},
+	}, hedgeDelayOfTheTests, 1)
+
+	answers := asking.urlMetadataAnswers(
+		t.Context(), urlMetadataAsksOfThePartition(1, "holder-one", "holder-two"),
+	)
+
+	if len(answers) != 1 || answers[0].Ask.Peer.Address != "holder-two" {
+		t.Fatalf("AskForURLMetadata = %+v, want the hedged replica only", answers)
+	}
+	asking.calls.wantAddressesCancelled(t, "holder-one")
+	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnHedgeDelay)
+}
+
 func TestAPeerAskedForOneWordPartitionIsNotAskedForAnotherOne(t *testing.T) {
 	t.Parallel()
 
@@ -399,6 +456,7 @@ type scriptedPeerCall struct {
 	documentsMatched                         int
 	documentsHeld                            yacymodel.Optional[int]
 	listsADocumentOutsideTheDocumentsToMatch bool
+	lacksTheMetadataOfADocument              bool
 	fails                                    bool
 	answersAfter                             time.Duration
 }
@@ -427,6 +485,36 @@ func (calls *peerCallsOfTheTests) AskForSearchDocuments(
 		MatchedDocuments:                make([]peerasks.MatchedDocument, script.documentsMatched),
 		AmountOfDocumentsHeldForTheWord: script.documentsHeld,
 	}}
+}
+
+func (calls *peerCallsOfTheTests) AskForURLMetadata(
+	ctx context.Context,
+	asks []peerasks.URLMetadataAsk,
+) []peerasks.AnsweredURLMetadataAsk {
+	script, answered := calls.answered(ctx, asks[0].Peer.Address)
+	if !answered {
+		return nil
+	}
+
+	return []peerasks.AnsweredURLMetadataAsk{{
+		Ask:                    asks[0],
+		MetadataOfEachDocument: metadataSentBy(script, asks[0].Documents),
+	}}
+}
+
+func metadataSentBy(
+	script scriptedPeerCall,
+	documents []yacymodel.URLHash,
+) []yacymodel.URLMetadata {
+	if script.lacksTheMetadataOfADocument {
+		documents = documents[1:]
+	}
+	metadataSent := make([]yacymodel.URLMetadata, 0, len(documents))
+	for _, document := range documents {
+		metadataSent = append(metadataSent, yacymodel.URLMetadata{Hash: document})
+	}
+
+	return metadataSent
 }
 
 func documentsListedBy(script scriptedPeerCall) []yacymodel.URLHash {
@@ -716,6 +804,31 @@ func asksToMatchTheDocumentsOfTheWord(
 	}
 
 	return asks
+}
+
+func urlMetadataAsksOfThePartition(
+	partition uint,
+	addresses ...string,
+) []peerasks.URLMetadataAsk {
+	asks := make([]peerasks.URLMetadataAsk, 0, len(addresses))
+	for _, address := range addresses {
+		asks = append(asks, peerasks.URLMetadataAsk{
+			Peer:      peerAt(address),
+			Partition: partition,
+			Documents: []yacymodel.URLHash{documentToMatch, documentOutsideTheDocumentsToMatch},
+		})
+	}
+
+	return asks
+}
+
+func (asking askingUnderTest) urlMetadataAnswers(
+	ctx context.Context,
+	asks []peerasks.URLMetadataAsk,
+) []peerasks.AnsweredURLMetadataAsk {
+	asking.calls.startedAt = time.Now()
+
+	return asking.asks.AskForURLMetadata(ctx, asks).AnsweredAsks()
 }
 
 func addressesOf(asks []peerasks.SearchDocumentsAsk) []string {

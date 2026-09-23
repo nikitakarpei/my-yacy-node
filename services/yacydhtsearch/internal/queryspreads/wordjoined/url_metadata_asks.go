@@ -1,6 +1,9 @@
 package wordjoined
 
 import (
+	"cmp"
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -9,19 +12,36 @@ import (
 func urlMetadataAsksFor(
 	documentsWithoutMetadataMostHeldFirst []yacymodel.URLHash,
 	answeredSearchDocumentsAsks []peerasks.AnsweredSearchDocumentsAsk,
+	partitions yacymodel.DHTRingPartitions,
 	urlMetadataAskDocumentsCeiling int,
-	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
 	peers := peersWithTheirAbstractsFrom(answeredSearchDocumentsAsks)
-	asksOfEachPeer := peers.urlMetadataAsks(
-		documentsWithoutMetadataMostHeldFirst,
-		urlMetadataAskDocumentsCeiling,
-	)
+	var asks []peerasks.URLMetadataAsk
+	for partition, documents := range documentsPerPartitionFrom(
+		documentsWithoutMetadataMostHeldFirst, partitions,
+	) {
+		if len(documents) == 0 {
+			continue
+		}
+		askDocuments := documents[:min(len(documents), urlMetadataAskDocumentsCeiling)]
+		for _, peer := range peers.holdersOfTheMostFirstAmong(askDocuments) {
+			asks = append(asks, peerasks.URLMetadataAsk{
+				Peer:      peer,
+				Partition: uint(partition),
+				Documents: askDocuments,
+			})
+		}
+	}
 
-	return asksCoveringMostDocuments(asksOfEachPeer, amountOfPeersHoldingOneWord)
+	return asks
 }
 
 type peersWithTheirAbstracts []peerWithItsAbstracts
+
+type peerWithItsAbstracts struct {
+	askablePeer             peerdirectory.AskablePeer
+	documentsInItsAbstracts distinctDocuments
+}
 
 func peersWithTheirAbstractsFrom(
 	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
@@ -46,100 +66,36 @@ func peersWithTheirAbstractsFrom(
 	return peers
 }
 
-func (peers peersWithTheirAbstracts) urlMetadataAsks(
-	documentsMostHeldFirst []yacymodel.URLHash,
-	urlMetadataAskDocumentsCeiling int,
-) []peerasks.URLMetadataAsk {
-	asks := make([]peerasks.URLMetadataAsk, 0, len(peers))
-	for _, peer := range peers {
-		ask := peer.urlMetadataAsk(
-			documentsMostHeldFirst, urlMetadataAskDocumentsCeiling,
-		)
-		if len(ask.Documents) == 0 {
-			continue
-		}
-		asks = append(asks, ask)
-	}
-
-	return asks
-}
-
-type peerWithItsAbstracts struct {
-	askablePeer             peerdirectory.AskablePeer
-	documentsInItsAbstracts distinctDocuments
-}
-
-func (peer peerWithItsAbstracts) urlMetadataAsk(
-	documentsMostHeldFirst []yacymodel.URLHash,
-	urlMetadataAskDocumentsCeiling int,
-) peerasks.URLMetadataAsk {
-	askDocuments := make([]yacymodel.URLHash, 0, min(
-		len(peer.documentsInItsAbstracts), urlMetadataAskDocumentsCeiling,
-	))
-	for _, document := range documentsMostHeldFirst {
-		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
-			break
-		}
-		if !peer.documentsInItsAbstracts.contains(document) {
-			continue
-		}
-		askDocuments = append(askDocuments, document)
-	}
-
-	return peerasks.URLMetadataAsk{
-		Peer:      peer.askablePeer,
-		Documents: askDocuments,
-	}
-}
-
-func asksCoveringMostDocuments(
-	asks []peerasks.URLMetadataAsk,
-	amountOfPeersHoldingOneWord int,
-) []peerasks.URLMetadataAsk {
-	if len(asks) <= amountOfPeersHoldingOneWord {
-		return asks
-	}
-
-	coveringAsks := make([]peerasks.URLMetadataAsk, 0, amountOfPeersHoldingOneWord)
-	coveredDocuments := distinctDocuments{}
-	for len(coveringAsks) < amountOfPeersHoldingOneWord {
-		place, found := placeOfMostCoveringAskAmong(asks, coveredDocuments)
-		if !found {
-			break
-		}
-		coveringAsks = append(coveringAsks, asks[place])
-		for _, document := range asks[place].Documents {
-			coveredDocuments.add(document)
-		}
-	}
-
-	return coveringAsks
-}
-
-func placeOfMostCoveringAskAmong(
-	asks []peerasks.URLMetadataAsk,
-	coveredDocuments distinctDocuments,
-) (int, bool) {
-	placeOfMostCoveringAsk := 0
-	mostUncoveredDocuments := 0
-	for place, ask := range asks {
-		amountOfUncoveredDocuments := amountOfDocumentsNotCovered(ask.Documents, coveredDocuments)
-		if amountOfUncoveredDocuments > mostUncoveredDocuments {
-			placeOfMostCoveringAsk = place
-			mostUncoveredDocuments = amountOfUncoveredDocuments
-		}
-	}
-
-	return placeOfMostCoveringAsk, mostUncoveredDocuments > 0
-}
-
-func amountOfDocumentsNotCovered(
+func (peers peersWithTheirAbstracts) holdersOfTheMostFirstAmong(
 	documents []yacymodel.URLHash,
-	coveredDocuments distinctDocuments,
-) int {
+) []peerdirectory.AskablePeer {
+	type holder struct {
+		askablePeer  peerdirectory.AskablePeer
+		amountOfHeld int
+	}
+	var holders []holder
+	for _, peer := range peers {
+		amountOfHeld := peer.amountOfDocumentsHeldAmong(documents)
+		if amountOfHeld == 0 {
+			continue
+		}
+		holders = append(holders, holder{askablePeer: peer.askablePeer, amountOfHeld: amountOfHeld})
+	}
+	slices.SortStableFunc(holders, func(first, second holder) int {
+		return cmp.Compare(second.amountOfHeld, first.amountOfHeld)
+	})
+	askablePeers := make([]peerdirectory.AskablePeer, 0, len(holders))
+	for _, holder := range holders {
+		askablePeers = append(askablePeers, holder.askablePeer)
+	}
+
+	return askablePeers
+}
+
+func (peer peerWithItsAbstracts) amountOfDocumentsHeldAmong(documents []yacymodel.URLHash) int {
 	amount := 0
 	for _, document := range documents {
-		if coveredDocuments.contains(document) {
+		if !peer.documentsInItsAbstracts.contains(document) {
 			continue
 		}
 		amount++
