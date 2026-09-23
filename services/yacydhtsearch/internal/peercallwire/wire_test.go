@@ -85,7 +85,7 @@ func (r *recordedOutcome) PeerAnsweredURLMetadata(
 	r.spent = spent
 }
 
-func (r *recordedOutcome) PeerAnsweredSearchDocuments(
+func (r *recordedOutcome) PeerSearchedDocuments(
 	_ context.Context,
 	_ string,
 	amountOfListedDocuments int,
@@ -327,14 +327,14 @@ func TestAPeerAnswerBecomesMatchedDocuments(t *testing.T) {
 	}
 	if observer.answeredSearchDocuments != 1 || observer.amountOfMatchedDocuments != 1 {
 		t.Fatalf(
-			"PeerAnsweredSearchDocuments reported %d times with %d matched documents, want once with one",
+			"PeerSearchedDocuments reported %d times with %d matched documents, want once with one",
 			observer.answeredSearchDocuments,
 			observer.amountOfMatchedDocuments,
 		)
 	}
 	if observer.spent <= 0 {
 		t.Fatalf(
-			"PeerAnsweredSearchDocuments reported %v spent, want the time the call took",
+			"PeerSearchedDocuments reported %v spent, want the time the call took",
 			observer.spent,
 		)
 	}
@@ -435,7 +435,7 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 	}
 	if observer.answeredSearchDocuments != 1 || observer.amountOfListedDocuments != 1 {
 		t.Fatalf(
-			"PeerAnsweredSearchDocuments reported %d times with %d listed documents, want once with one",
+			"PeerSearchedDocuments reported %d times with %d listed documents, want once with one",
 			observer.answeredSearchDocuments,
 			observer.amountOfListedDocuments,
 		)

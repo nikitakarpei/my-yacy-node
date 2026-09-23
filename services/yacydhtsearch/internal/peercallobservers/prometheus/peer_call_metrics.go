@@ -159,7 +159,7 @@ func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
 	m.peerCallsPerAskedFor[peerasks.URLMetadata].countAnswer(amountOfDescribedDocuments, spent)
 }
 
-func (m *PeerCallMetrics) PeerAnsweredSearchDocuments(
+func (m *PeerCallMetrics) PeerSearchedDocuments(
 	_ context.Context,
 	_ string,
 	amountOfListedDocuments int,

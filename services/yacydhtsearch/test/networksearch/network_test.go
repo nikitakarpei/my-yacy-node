@@ -68,7 +68,7 @@ func (silentOutcome) PeerCallTookASlot(
 }
 
 func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration) {}
-func (silentOutcome) PeerAnsweredSearchDocuments(
+func (silentOutcome) PeerSearchedDocuments(
 	context.Context, string, int, int, time.Duration,
 ) {
 }

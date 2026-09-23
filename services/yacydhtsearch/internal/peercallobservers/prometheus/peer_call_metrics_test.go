@@ -35,7 +35,7 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
+	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
 	metrics.PeerRefused(
 		t.Context(),
 		"http://peer.example",
@@ -88,9 +88,9 @@ func TestAPeerCallThatBroughtNothingIsCountedApartFromOneThatBroughtSomething(t 
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 0, 0, time.Second)
+	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 0, 0, time.Second)
 	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 0, time.Second)
-	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
+	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
@@ -131,7 +131,7 @@ func TestAnAnsweredWordIsCountedUnderWhatItAskedFor(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredSearchDocuments(t.Context(), "http://peer.example", 7, 0, time.Second)
+	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 7, 0, time.Second)
 	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 2, time.Second)
 
 	body := publishedBy(t, registry)

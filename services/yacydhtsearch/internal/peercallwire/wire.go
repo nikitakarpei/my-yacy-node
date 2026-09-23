@@ -235,7 +235,7 @@ func (w Wire) putSearchDocumentsAsk(
 
 	documentsListedForTheWord := response.IndexAbstract[ask.Word]
 	matchedDocuments := matchedDocumentsOf(response)
-	w.observer.PeerAnsweredSearchDocuments(
+	w.observer.PeerSearchedDocuments(
 		ctx,
 		ask.Peer.Address,
 		len(documentsListedForTheWord),

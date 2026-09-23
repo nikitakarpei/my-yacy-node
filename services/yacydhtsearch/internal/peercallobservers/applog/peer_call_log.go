@@ -11,14 +11,14 @@ import (
 )
 
 const (
-	msgPeerCallWaitsForASlot       = "peer call waits for an in-flight slot"
-	msgPeerCallTookASlot           = "peer call took an in-flight slot"
-	msgPeerCallCancelled           = "peer call was cancelled before the peer answered"
-	msgPeerAnsweredURLMetadata     = "peer answered the metadata it holds for the documents"
-	msgPeerAnsweredSearchDocuments = "peer answered the documents it lists and matches for a word"
-	msgPeerRefused                 = "peer refused a search"
-	msgPeerUnreachable             = "peer could not be reached for a search"
-	msgPeerAnswerUnreadable        = "peer answered a search unreadably"
+	msgPeerCallWaitsForASlot   = "peer call waits for an in-flight slot"
+	msgPeerCallTookASlot       = "peer call took an in-flight slot"
+	msgPeerCallCancelled       = "peer call was cancelled before the peer answered"
+	msgPeerAnsweredURLMetadata = "peer answered the metadata it holds for the documents"
+	msgPeerSearchedDocuments   = "peer searched its documents for the word"
+	msgPeerRefused             = "peer refused a search"
+	msgPeerUnreachable         = "peer could not be reached for a search"
+	msgPeerAnswerUnreadable    = "peer answered a search unreadably"
 )
 
 type PeerCallLog struct{}
@@ -60,14 +60,14 @@ func (PeerCallLog) PeerAnsweredURLMetadata(
 	)
 }
 
-func (PeerCallLog) PeerAnsweredSearchDocuments(
+func (PeerCallLog) PeerSearchedDocuments(
 	ctx context.Context,
 	address string,
 	amountOfListedDocuments int,
 	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
-	slog.DebugContext(ctx, msgPeerAnsweredSearchDocuments,
+	slog.DebugContext(ctx, msgPeerSearchedDocuments,
 		slog.String("address", address),
 		slog.Int("amountOfListedDocuments", amountOfListedDocuments),
 		slog.Int("amountOfMatchedDocuments", amountOfMatchedDocuments),
