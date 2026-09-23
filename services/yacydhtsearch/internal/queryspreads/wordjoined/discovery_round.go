@@ -14,6 +14,7 @@ type discoveryRound struct {
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	holdersPerDocument             holdersPerDocument
+	time                           yacymodel.Optional[RoundTime]
 }
 
 func peersAskedIn(asks []peerasks.SearchDocumentsAsk) map[yacymodel.Hash]struct{} {

@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
@@ -272,6 +273,96 @@ func TestEveryStandingAndEveryJudgementIsPublishedBeforeTheFirstSpread(t *testin
 		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="abstract holds only the documents to match"} 0`,
 		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="ignored",question="abstract holds only the documents to match"} 0`,
 		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="abstract holds only the documents to match"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
+
+func TestEachRoundThatAskedPublishesTheTimeItTookAndTheTimeItWasGiven(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
+		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
+			LeadingQueryWordChoice: wordjoined.RarestQueryWordWithCompleteAbstracts,
+			Time: yacymodel.Some(wordjoined.RoundTime{
+				Budget:    yacymodel.Some(1500 * time.Millisecond),
+				TimeSpent: 500 * time.Millisecond,
+			}),
+		},
+		CrossCheckRound: wordjoined.PerformedCrossCheckRound{
+			Time: yacymodel.Some(wordjoined.RoundTime{
+				Budget:    yacymodel.Some(2 * time.Second),
+				TimeSpent: 2 * time.Second,
+			}),
+		},
+		URLMetadataRound: wordjoined.PerformedURLMetadataRound{
+			Time: yacymodel.Some(wordjoined.RoundTime{
+				Budget:    yacymodel.Some(1250 * time.Millisecond),
+				TimeSpent: 250 * time.Millisecond,
+			}),
+		},
+	})
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_sum{round="discovery"} 0.5`,
+		`yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round="discovery"} 1.5`,
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_sum{round="cross-check"} 2`,
+		`yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round="cross-check"} 2`,
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_sum{round="URL metadata"} 0.25`,
+		`yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round="URL metadata"} 1.25`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
+
+func TestARoundThatAskedNoPeerPublishesNoTime(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	metrics.WordJoinedSpreadPerformed(t.Context(), spreadOfQueryWords(2))
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_count{round="discovery"} 0`,
+		`yacydhtsearch_word_joined_spread_round_budget_seconds_count{round="discovery"} 0`,
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_count{round="cross-check"} 0`,
+		`yacydhtsearch_word_joined_spread_round_budget_seconds_count{round="cross-check"} 0`,
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_count{round="URL metadata"} 0`,
+		`yacydhtsearch_word_joined_spread_round_budget_seconds_count{round="URL metadata"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q for rounds that asked no peer:\n%s", published, body)
+		}
+	}
+}
+
+func TestARoundOfAQueryWithoutADeadlinePublishesItsTimeButNoBudget(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	spread := spreadOfQueryWords(2)
+	spread.DiscoveryRound.Time = yacymodel.Some(wordjoined.RoundTime{
+		Budget:    yacymodel.None[time.Duration](),
+		TimeSpent: 500 * time.Millisecond,
+	})
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_sum{round="discovery"} 0.5`,
+		`yacydhtsearch_word_joined_spread_round_budget_seconds_count{round="discovery"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

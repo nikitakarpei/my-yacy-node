@@ -4,12 +4,14 @@ import (
 	"maps"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type urlMetadataRound struct {
 	documentsWithoutMetadata distinctDocuments
 	asks                     []peerasks.URLMetadataAsk
 	answeredAsks             []peerasks.AnsweredURLMetadataAsk
+	time                     yacymodel.Optional[RoundTime]
 }
 
 func documentsWithoutMetadataAmong(

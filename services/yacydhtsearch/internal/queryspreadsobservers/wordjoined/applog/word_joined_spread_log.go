@@ -74,7 +74,28 @@ func attributesOfDiscoveryRound(
 			round.AmountOfMatchedDocumentsWithAPosting,
 		),
 		slog.Any("amountOfDocumentsHeldInEachAnswer", round.AmountOfDocumentsHeldInEachAnswer),
+		attributeOfRoundTime("discoveryRoundTime", round.Time),
 	}
+}
+
+type reportedRoundTime interface {
+	Get() (wordjoined.RoundTime, bool)
+}
+
+func attributeOfRoundTime(key string, roundTime reportedRoundTime) slog.Attr {
+	timeOfTheRound, asked := roundTime.Get()
+	if !asked {
+		return slog.Attr{Key: key, Value: slog.GroupValue()}
+	}
+	budget, bounded := timeOfTheRound.Budget.Get()
+	if !bounded {
+		return slog.Group(key, slog.Duration("timeSpent", timeOfTheRound.TimeSpent))
+	}
+
+	return slog.Group(key,
+		slog.Duration("timeSpent", timeOfTheRound.TimeSpent),
+		slog.Duration("budget", budget),
+	)
 }
 
 func attributesOfCrossCheckRound(
@@ -103,6 +124,7 @@ func attributesOfCrossCheckRound(
 			round.AmountOfJoinedDocumentsFoundOnlyByCrossChecking,
 		),
 		slog.Any("amountOfPeersPerJudgement", amountOfPeersPerJudgementOf(round.JudgedPeers)),
+		attributeOfRoundTime("crossCheckRoundTime", round.Time),
 	}
 }
 
@@ -126,6 +148,7 @@ func attributesOfURLMetadataRound(round wordjoined.PerformedURLMetadataRound) []
 			"amountOfLookedUpDocumentsWithMetadata",
 			round.AmountOfLookedUpDocumentsWithMetadata,
 		),
+		attributeOfRoundTime("urlMetadataRoundTime", round.Time),
 	}
 }
 

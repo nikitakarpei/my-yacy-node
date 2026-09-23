@@ -517,9 +517,13 @@ func spreadTheQuery(
 	)
 }
 
-func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
+func spreadWithin(
+	queryBudget time.Duration,
+	network *peerNetwork,
+) wordjoined.PerformedWordJoinedSpread {
 	ctx, endQuery := context.WithTimeout(context.Background(), queryBudget)
 	defer endQuery()
+	observer := &recordedSpreads{}
 
 	newSpreadOverChosenPeers(
 		responsiblePeers{},
@@ -532,13 +536,15 @@ func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 			peerItemsCeiling,
 			onePartitionOfTheRing,
 			peersHoldingOneWord,
-			&recordedSpreads{},
+			observer,
 		),
 	).SpreadOverPeers(
 		ctx,
 		searchquery.QueryFrom(firstWord+" "+secondWord, ""),
 		peersAt([]string{"first", "second"}),
 	)
+
+	return observer.performed[0]
 }
 
 func peersOfEachQueryWord(
@@ -1413,6 +1419,80 @@ func TestTheFirstRoundKeepsOnlyAThirdOfTheTimeTheQueryHasLeft(t *testing.T) {
 			"the first round kept %s of the %s the query has, want a third",
 			timeLeftInTheFirstRound,
 			queryBudget,
+		)
+	}
+}
+
+func TestARoundThatAskedReportsTheShareOfTheTimeLeftItWasGivenAndTheTimeItTook(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	const queryBudget = 3 * time.Second
+
+	performed := spreadWithin(queryBudget, networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {"https://shared.example/"}},
+		"second": {secondWord: {"https://shared.example/"}},
+	}))
+
+	for _, round := range []struct {
+		name      string
+		roundTime yacymodel.Optional[wordjoined.RoundTime]
+		budget    time.Duration
+	}{
+		{name: "discovery", roundTime: performed.DiscoveryRound.Time, budget: queryBudget / 3},
+		{name: "URL metadata", roundTime: performed.URLMetadataRound.Time, budget: queryBudget},
+	} {
+		timeOfTheRound, asked := round.roundTime.Get()
+		if !asked {
+			t.Fatalf("the %s round reported no time, want the time it took", round.name)
+		}
+		budget, bounded := timeOfTheRound.Budget.Get()
+		if !bounded || budget < round.budget-queryBudget/10 || budget > round.budget {
+			t.Fatalf(
+				"the %s round was given %s of the %s the query has, want about %s",
+				round.name, budget, queryBudget, round.budget,
+			)
+		}
+		if timeOfTheRound.TimeSpent > budget {
+			t.Fatalf(
+				"the %s round took %s of the %s it was given, want no more",
+				round.name, timeOfTheRound.TimeSpent, budget,
+			)
+		}
+	}
+}
+
+func TestARoundThatAskedNoPeerReportsNoTime(t *testing.T) {
+	t.Parallel()
+
+	performed := spreadWithin(3*time.Second, networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {"https://shared.example/"}},
+		"second": {secondWord: {"https://shared.example/"}},
+	}))
+
+	if roundTime, asked := performed.CrossCheckRound.Time.Get(); asked {
+		t.Fatalf("the cross-check round asked no peer and reported %+v, want no time", roundTime)
+	}
+}
+
+func TestARoundOfAQueryWithoutADeadlineReportsNoBudget(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedSpreads{}
+	answeredQueryFrom(networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {"https://shared.example/"}},
+		"second": {secondWord: {"https://shared.example/"}},
+	}), observer)
+
+	roundTime, asked := observer.performed[0].DiscoveryRound.Time.Get()
+	if !asked {
+		t.Fatal("the discovery round reported no time, want the time it took")
+	}
+	if budget, bounded := roundTime.Budget.Get(); bounded {
+		t.Fatalf(
+			"the discovery round of a query without a deadline was given %s, want no budget",
+			budget,
 		)
 	}
 }

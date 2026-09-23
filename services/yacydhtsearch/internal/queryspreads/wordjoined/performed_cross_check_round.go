@@ -14,6 +14,7 @@ type PerformedCrossCheckRound struct {
 	AmountOfJoinedDocuments                            int
 	AmountOfJoinedDocumentsFoundOnlyByCrossChecking    int
 	JudgedPeers                                        []peerjudgements.JudgedPeer
+	Time                                               yacymodel.Optional[RoundTime]
 }
 
 func performedCrossCheckRoundFrom(
@@ -44,6 +45,7 @@ func performedCrossCheckRoundFrom(
 			discoveryRound,
 		),
 		JudgedPeers: judgedPeers,
+		Time:        round.time,
 	}
 }
 

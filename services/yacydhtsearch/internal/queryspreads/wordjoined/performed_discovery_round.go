@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedDiscoveryRound struct {
@@ -19,6 +20,7 @@ type PerformedDiscoveryRound struct {
 	AmountOfMatchedDocumentsAcrossAnswers         int
 	AmountOfMatchedDocumentsWithAPosting          int
 	AmountOfDocumentsHeldInEachAnswer             []int
+	Time                                          yacymodel.Optional[RoundTime]
 }
 
 func performedDiscoveryRoundFrom(
@@ -51,6 +53,7 @@ func performedDiscoveryRoundFrom(
 			round.answeredAsks,
 		),
 		AmountOfDocumentsHeldInEachAnswer: amountOfDocumentsHeldInEachAnswer(round.answeredAsks),
+		Time:                              round.time,
 	}
 }
 

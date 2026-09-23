@@ -2,12 +2,14 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedURLMetadataRound struct {
 	AmountOfJoinedDocumentsWithMetadata   int
 	AmountOfLookedUpDocuments             int
 	AmountOfLookedUpDocumentsWithMetadata int
+	Time                                  yacymodel.Optional[RoundTime]
 }
 
 func performedURLMetadataRoundFrom(
@@ -21,6 +23,7 @@ func performedURLMetadataRoundFrom(
 		AmountOfLookedUpDocumentsWithMetadata: amountOfLookedUpDocumentsWithMetadata(
 			round.asks, round.answeredAsks,
 		),
+		Time: round.time,
 	}
 }
 

@@ -28,6 +28,7 @@ type WordJoinedSpreadMetrics struct {
 	crossCheckRound                 crossCheckRoundMetrics
 	peerJudgements                  peerJudgementsMetrics
 	urlMetadataRound                urlMetadataRoundMetrics
+	roundTimes                      roundTimeMetrics
 	wordJoinedSpreadDurationSeconds prometheusclient.Histogram
 }
 
@@ -58,15 +59,12 @@ func New(
 		crossCheckRound:                crossCheckRoundMetricsRegisteredIn(registry),
 		peerJudgements:                 peerJudgementsMetricsRegisteredIn(registry),
 		urlMetadataRound:               urlMetadataRoundMetricsRegisteredIn(registry),
+		roundTimes:                     roundTimeMetricsRegisteredIn(registry, queryBudget),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
-				Name: "yacydhtsearch_word_joined_spread_duration_seconds",
-				Help: "Word joined spread duration in seconds.",
-				Buckets: prometheusclient.ExponentialBucketsRange(
-					queryBudget.Seconds()*shortestDurationBucketShareOfQueryBudget,
-					queryBudget.Seconds()*longestDurationBucketShareOfQueryBudget,
-					amountOfDurationBuckets,
-				),
+				Name:    "yacydhtsearch_word_joined_spread_duration_seconds",
+				Help:    "Word joined spread duration in seconds.",
+				Buckets: durationBucketsWithin(queryBudget),
 			},
 		),
 	}
@@ -92,6 +90,14 @@ func leadingQueryWordChoiceJoinsFrom(
 			joinFoundNoDocument, string(leadingQueryWordChoice),
 		),
 	}
+}
+
+func durationBucketsWithin(queryBudget time.Duration) []float64 {
+	return prometheusclient.ExponentialBucketsRange(
+		queryBudget.Seconds()*shortestDurationBucketShareOfQueryBudget,
+		queryBudget.Seconds()*longestDurationBucketShareOfQueryBudget,
+		amountOfDurationBuckets,
+	)
 }
 
 func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
@@ -121,6 +127,7 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 		spread.DiscoveryRound.LeadingQueryWordChoice,
 		spread.CrossCheckRound,
 	)
+	m.roundTimes.observeRoundTimes(spread)
 	m.observeWordJoinedSpreadDuration(spread.TimeSpent)
 }
 

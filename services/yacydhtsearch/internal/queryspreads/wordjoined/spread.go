@@ -131,7 +131,8 @@ func (spread Spread) askToDiscover(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) discoveryRound {
 	asks := discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
+	clock := roundClockStartedWithin(ctx, roundsLeftAtTheDiscovery)
+	roundContext, endRound := clock.contextWithinTheBudget(ctx)
 	defer endRound()
 	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
 	answeredAsks := askOutcomes.AnsweredAsks()
@@ -147,22 +148,8 @@ func (spread Spread) askToDiscover(
 			query.CompoundWords, askOutcomes, spread.partitions,
 		),
 		holdersPerDocument: holdersPerDocumentOf(answeredAsks),
+		time:               clock.roundTimeOf(len(asks)),
 	}
-}
-
-const (
-	roundsLeftAtTheDiscovery   = 3
-	roundsLeftAtTheCrossCheck  = 2
-	roundsLeftAtTheURLMetadata = 1
-)
-
-func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, context.CancelFunc) {
-	deadline, bounded := ctx.Deadline()
-	if !bounded {
-		return ctx, func() {}
-	}
-
-	return context.WithTimeout(ctx, time.Until(deadline)/time.Duration(roundsLeft))
 }
 
 func (spread Spread) askToCrossCheck(
@@ -178,7 +165,8 @@ func (spread Spread) askToCrossCheck(
 		spread.documentsToMatchCeiling,
 		spread.peerItemsCeiling,
 	)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheck)
+	clock := roundClockStartedWithin(ctx, roundsLeftAtTheCrossCheck)
+	roundContext, endRound := clock.contextWithinTheBudget(ctx)
 	defer endRound()
 	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
 
@@ -186,6 +174,7 @@ func (spread Spread) askToCrossCheck(
 		candidates:   candidates,
 		asks:         askOutcomes.AsksPut(),
 		answeredAsks: askOutcomes.AnsweredAsks(),
+		time:         clock.roundTimeOf(len(asks)),
 	}
 }
 
@@ -213,12 +202,15 @@ func (spread Spread) askForURLMetadata(
 		spread.urlMetadataAskDocumentsCeiling,
 		spread.amountOfPeersHoldingOneWord,
 	)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadata)
+	clock := roundClockStartedWithin(ctx, roundsLeftAtTheURLMetadata)
+	roundContext, endRound := clock.contextWithinTheBudget(ctx)
 	defer endRound()
+	answeredAsks := spread.peerAsks.AskForURLMetadata(roundContext, asks)
 
 	return urlMetadataRound{
 		documentsWithoutMetadata: documentsWithoutMetadata,
 		asks:                     asks,
-		answeredAsks:             spread.peerAsks.AskForURLMetadata(roundContext, asks),
+		answeredAsks:             answeredAsks,
+		time:                     clock.roundTimeOf(len(asks)),
 	}
 }

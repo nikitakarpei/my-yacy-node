@@ -1,11 +1,15 @@
 package wordjoined
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
 
 type crossCheckRound struct {
 	candidates   crossCheckCandidates
 	asks         []peerasks.SearchDocumentsAsk
 	answeredAsks []peerasks.AnsweredSearchDocumentsAsk
+	time         yacymodel.Optional[RoundTime]
 }
 
 func (round crossCheckRound) documentsPerQueryWord() documentsPerQueryWord {
