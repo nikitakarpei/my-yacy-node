@@ -79,7 +79,7 @@ func (d *Directory) holdAdmittedPeers(
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
-	d.refreshTheAddressesOfHeldPeers(seeds)
+	d.refreshTheHeldPeersFrom(seeds)
 	candidates := d.candidatesAmong(seeds)
 	peersOverTheCapacity := d.peersOverTheCapacity(ctx, candidates)
 	droppedPeers := d.drop(peersOverTheCapacity)
@@ -87,14 +87,16 @@ func (d *Directory) holdAdmittedPeers(
 	return d.hold(candidates, peersOverTheCapacity), droppedPeers
 }
 
-func (d *Directory) refreshTheAddressesOfHeldPeers(seeds []yacymodel.Seed) {
+func (d *Directory) refreshTheHeldPeersFrom(seeds []yacymodel.Seed) {
 	for _, seed := range seeds {
-		addresses := addressesOf(seed)
 		held, isHeld := d.peers[seed.Hash]
-		if len(addresses) == 0 || !isHeld {
+		if !isHeld {
 			continue
 		}
-		held.Addresses = addressesLedBy(held.AnsweredAddress, addresses)
+		held.Version = seed.Version
+		if addresses := addressesOf(seed); len(addresses) > 0 {
+			held.Addresses = addressesLedBy(held.AnsweredAddress, addresses)
+		}
 		d.peers[seed.Hash] = held
 	}
 }
@@ -110,7 +112,11 @@ func (d *Directory) candidatesAmong(seeds []yacymodel.Seed) []CandidatePeer {
 			continue
 		}
 		offered[seed.Hash] = struct{}{}
-		candidates = append(candidates, CandidatePeer{Hash: seed.Hash, Addresses: addresses})
+		candidates = append(candidates, CandidatePeer{
+			Hash:      seed.Hash,
+			Version:   seed.Version,
+			Addresses: addresses,
+		})
 	}
 
 	return candidates
@@ -190,6 +196,7 @@ func (d *Directory) hold(
 		}
 		d.peers[candidate.Hash] = KnownPeer{
 			Hash:       candidate.Hash,
+			Version:    candidate.Version,
 			Addresses:  candidate.Addresses,
 			AdmittedAt: d.now(),
 		}
@@ -215,7 +222,11 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 		if !peer.answersNow() {
 			continue
 		}
-		askable = append(askable, AskablePeer{Hash: peer.Hash, Address: peer.AnsweredAddress})
+		askable = append(askable, AskablePeer{
+			Hash:    peer.Hash,
+			Version: peer.Version,
+			Address: peer.AnsweredAddress,
+		})
 	}
 
 	return askable

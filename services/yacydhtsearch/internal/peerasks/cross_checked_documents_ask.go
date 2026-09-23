@@ -19,7 +19,6 @@ type AnsweredCrossCheckedDocumentsAsk struct {
 	Ask                             CrossCheckedDocumentsAsk
 	DocumentsListedForTheWord       []yacymodel.URLHash
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
-	PeerVersion                     string
 }
 
 func (answeredAsk AnsweredCrossCheckedDocumentsAsk) ListsOnlyTheDocumentsAsked() bool {

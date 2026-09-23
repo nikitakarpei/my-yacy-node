@@ -139,7 +139,7 @@ func logJudgedPeers(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer
 	for _, judgedPeer := range judgedPeers {
 		slog.LogAttrs(ctx, slog.LevelDebug, msgPeerJudged,
 			slog.String("peer", judgedPeer.Peer.String()),
-			slog.String("versionClaimed", judgedPeer.Version),
+			slog.Any("versionClaimed", judgedPeer.Version),
 			slog.String("judgement", string(judgedPeer.Judgement)),
 			slog.String("question", string(wordjoined.ListsOnlyTheCrossCheckedDocuments)),
 		)

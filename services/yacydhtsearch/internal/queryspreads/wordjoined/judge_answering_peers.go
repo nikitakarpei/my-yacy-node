@@ -10,7 +10,7 @@ func judgeAnsweringPeersIn(round crossCheckedDocumentsRound) []peerjudgements.Ju
 	for _, answeredAsk := range round.answeredAsks {
 		judgedPeers = append(judgedPeers, peerjudgements.JudgedPeerFrom(
 			answeredAsk.Ask.Peer.Hash,
-			answeredAsk.PeerVersion,
+			answeredAsk.Ask.Peer.Version,
 			judgementFrom(answeredAsk),
 		))
 	}

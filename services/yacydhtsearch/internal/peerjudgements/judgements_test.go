@@ -10,12 +10,15 @@ import (
 )
 
 const (
-	retrialInterval       = 24 * time.Hour
-	ledgerCapacity        = 16
-	versionOfThePeer      = "yacy_v1.925"
-	versionAfterAnUpgrade = "yacy_v1.930"
+	retrialInterval                         = 24 * time.Hour
+	ledgerCapacity                          = 16
+	question        peerjudgements.Question = "a question about the peer"
+)
 
-	question peerjudgements.Question = "a question about the peer"
+var (
+	versionOfThePeer      = yacymodel.Some(yacymodel.SoftwareVersion{Release: 1.925})
+	versionAfterAnUpgrade = yacymodel.Some(yacymodel.SoftwareVersion{Release: 1.93})
+	noVersion             = yacymodel.None[yacymodel.SoftwareVersion]()
 )
 
 type clock struct {
@@ -43,11 +46,16 @@ func newJudgements(now *clock) peerjudgements.Judgements {
 	)
 }
 
-func peerAtVersion(version string) peerjudgements.PeerAtVersion {
+func peerAtVersion(
+	version yacymodel.Optional[yacymodel.SoftwareVersion],
+) peerjudgements.PeerAtVersion {
 	return peerjudgements.PeerAtVersion{Peer: yacymodel.WordHash("peer"), Version: version}
 }
 
-func judgedPeer(version string, judgement peerjudgements.Judgement) peerjudgements.JudgedPeer {
+func judgedPeer(
+	version yacymodel.Optional[yacymodel.SoftwareVersion],
+	judgement peerjudgements.Judgement,
+) peerjudgements.JudgedPeer {
 	return peerjudgements.JudgedPeer{
 		PeerAtVersion: peerAtVersion(version),
 		Judgement:     judgement,
@@ -153,7 +161,7 @@ func TestAPeerThatClaimsNoVersionStandsAsJudgedWithinTheRetrialInterval(t *testi
 	})
 	now.moveOn(retrialInterval - time.Minute)
 
-	standing := standingOf(t, judgements, peerAtVersion(""))
+	standing := standingOf(t, judgements, peerAtVersion(noVersion))
 
 	if standing != peerjudgements.Honoring {
 		t.Fatalf("standing = %q, want %q", standing, peerjudgements.Honoring)
@@ -166,7 +174,7 @@ func TestAPeerJudgedWithoutAVersionStandsAsJudgedWithinTheRetrialInterval(t *tes
 	now := clockAtTheStartOfTheJudging()
 	judgements := newJudgements(now)
 	judgements.Add(t.Context(), []peerjudgements.JudgedPeer{
-		judgedPeer("", peerjudgements.Ignored),
+		judgedPeer(noVersion, peerjudgements.Ignored),
 	})
 	now.moveOn(retrialInterval - time.Minute)
 
@@ -187,7 +195,7 @@ func TestAPeerThatClaimsNoVersionStandsAsIntervalPassedAfterTheRetrialInterval(t
 	})
 	now.moveOn(retrialInterval)
 
-	standing := standingOf(t, judgements, peerAtVersion(""))
+	standing := standingOf(t, judgements, peerAtVersion(noVersion))
 
 	if standing != peerjudgements.IntervalPassed {
 		t.Fatalf("standing = %q, want %q", standing, peerjudgements.IntervalPassed)

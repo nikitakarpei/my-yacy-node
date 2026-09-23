@@ -15,6 +15,7 @@ import (
 
 type KnownPeer struct {
 	Hash            yacymodel.Hash
+	Version         yacymodel.Optional[yacymodel.SoftwareVersion]
 	Addresses       []string
 	AnsweredAddress string
 	AdmittedAt      time.Time
@@ -28,10 +29,12 @@ func (peer KnownPeer) answersNow() bool {
 
 type CandidatePeer struct {
 	Hash      yacymodel.Hash
+	Version   yacymodel.Optional[yacymodel.SoftwareVersion]
 	Addresses []string
 }
 
 type AskablePeer struct {
 	Hash    yacymodel.Hash
+	Version yacymodel.Optional[yacymodel.SoftwareVersion]
 	Address string
 }

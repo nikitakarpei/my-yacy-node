@@ -34,8 +34,11 @@ const (
 	twoPartitionsOfTheRing          = 2
 	judgementLedgerCapacity         = 16
 	peerRetrialInterval             = 24 * time.Hour
-	versionOfThePeer                = "yacy_v1.925"
-	versionAfterAnUpgrade           = "yacy_v1.930"
+)
+
+var (
+	versionOfThePeer      = yacymodel.Some(yacymodel.SoftwareVersion{Release: 1.925})
+	versionAfterAnUpgrade = yacymodel.Some(yacymodel.SoftwareVersion{Release: 1.93})
 )
 
 type peerNetwork struct {
@@ -55,7 +58,6 @@ type peerNetwork struct {
 	peersSilentInTheCrossCheckedDocuments map[string]struct{}
 	peersHoldingNoNamedDocument           map[string]struct{}
 	peersListingDocumentsTheAskDidNotName map[string]struct{}
-	versionOfEachPeer                     map[string]string
 	timeLeftInEachRoundInTheirOrder       []time.Duration
 }
 
@@ -67,7 +69,6 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 		peersSilentInTheCrossCheckedDocuments: map[string]struct{}{},
 		peersHoldingNoNamedDocument:           map[string]struct{}{},
 		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
-		versionOfEachPeer:                     map[string]string{},
 	}
 }
 
@@ -92,7 +93,6 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 				documentsPerWordOf(n.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
 			),
 			AmountOfDocumentsHeldForTheWord: n.documentsCountedBy(ask.Peer.Address, ask.Word),
-			PeerVersion:                     n.versionOfEachPeer[ask.Peer.Address],
 		})
 	}
 
@@ -150,7 +150,6 @@ func (n *peerNetwork) AskForCrossCheckedDocuments(
 		answeredAsks = append(answeredAsks, peerasks.AnsweredCrossCheckedDocumentsAsk{
 			Ask:                       ask,
 			DocumentsListedForTheWord: n.namedDocumentsHeldBy(ask),
-			PeerVersion:               n.versionOfEachPeer[ask.Peer.Address],
 		})
 	}
 
@@ -306,6 +305,7 @@ func metadataOfEachDocument(documents []yacymodel.URLHash) []yacymodel.URLMetada
 type responsiblePeers struct {
 	peerAddressesPerWord map[string][]string
 	partitionOfEachPeer  map[string]uint
+	versionOfEachPeer    map[string]yacymodel.Optional[yacymodel.SoftwareVersion]
 }
 
 func (r responsiblePeers) ChosenPeersPerQueryWordFor(
@@ -329,6 +329,7 @@ func (r responsiblePeers) chosenPeersOf(
 ) []peerchoice.ChosenPeer {
 	chosenPeers := make([]peerchoice.ChosenPeer, 0, len(askablePeers))
 	for _, peer := range askablePeers {
+		peer.Version = r.versionOfEachPeer[peer.Address]
 		chosenPeers = append(chosenPeers, peerchoice.ChosenPeer{
 			Peer:      peer,
 			Partition: r.partitionOfEachPeer[peer.Address],
@@ -574,7 +575,9 @@ func judgementsWhere(judgedPeers ...peerjudgements.JudgedPeer) peerjudgements.Ju
 }
 
 func peerJudged(address string, judgement peerjudgements.Judgement) peerjudgements.JudgedPeer {
-	return peerjudgements.JudgedPeerFrom(peerAt(address).Hash, "", judgement)
+	return peerjudgements.JudgedPeerFrom(
+		peerAt(address).Hash, yacymodel.None[yacymodel.SoftwareVersion](), judgement,
+	)
 }
 
 func spreadJudgingThePeers(
@@ -611,16 +614,42 @@ func networkOfAReplicaTheFirstRoundLeavesUnasked() *peerNetwork {
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 1}
 	network.replicasPutPerWord = map[string]int{secondWord: 1}
-	network.versionOfEachPeer = map[string]string{"third": versionOfThePeer}
 
 	return network
 }
 
 func replicasOfTheTwoQueryWords() responsiblePeers {
-	return peersOfEachQueryWord(map[string][]string{
+	replicas := peersOfEachQueryWord(map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"second", "third"},
 	})
+	replicas.versionOfEachPeer = map[string]yacymodel.Optional[yacymodel.SoftwareVersion]{
+		"third": versionOfThePeer,
+	}
+
+	return replicas
+}
+
+func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"third": {}}
+	judgements := judgementsOfTheCrossCheck()
+	replicas := replicasOfTheTwoQueryWords()
+
+	spreadJudgingThePeers(network, replicas, judgements, &recordedSpreads{})
+	replicas.versionOfEachPeer = map[string]yacymodel.Optional[yacymodel.SoftwareVersion]{
+		"third": versionAfterAnUpgrade,
+	}
+	spreadJudgingThePeers(network, replicas, judgements, &recordedSpreads{})
+
+	if amount := amountOfCrossChecksPutTo("third", network.crossCheckedDocumentsAsks); amount != 2 {
+		t.Fatalf(
+			"the spreads asked the peer to cross-check %d times, want again at the version it claims now",
+			amount,
+		)
+	}
 }
 
 func addressesAskedToCrossCheck(asks []peerasks.CrossCheckedDocumentsAsk) []string {
@@ -733,11 +762,13 @@ func TestTheStandingsOfEveryChosenPeerAreLookedUpOnceBeforeTheFirstRound(t *test
 	)
 
 	wanted := []peerjudgements.PeerAtVersion{
-		{Peer: peerAt("first").Hash}, {Peer: peerAt("second").Hash}, {Peer: peerAt("third").Hash},
+		{Peer: peerAt("first").Hash},
+		{Peer: peerAt("second").Hash},
+		{Peer: peerAt("third").Hash, Version: versionOfThePeer},
 	}
 	if judgements.amountOfLookups != 1 || !slices.Equal(judgements.peersLookedUp, wanted) {
 		t.Fatalf(
-			"the spread looked up %v in %d lookups, want every chosen peer at no version in one",
+			"the spread looked up %v in %d lookups, want every chosen peer at the version it claims in one",
 			judgements.peersLookedUp,
 			judgements.amountOfLookups,
 		)

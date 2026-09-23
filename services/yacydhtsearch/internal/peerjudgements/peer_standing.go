@@ -19,7 +19,7 @@ const (
 
 type PeerAtVersion struct {
 	Peer    yacymodel.Hash
-	Version string
+	Version yacymodel.Optional[yacymodel.SoftwareVersion]
 }
 
 type PeerStanding struct {
@@ -39,7 +39,7 @@ func (standings PeerStandings) StandingOf(peer yacymodel.Hash) Standing {
 
 func standingFrom(
 	recordedJudgement yacymodel.Optional[RecordedJudgement],
-	versionClaimed string,
+	versionClaimed yacymodel.Optional[yacymodel.SoftwareVersion],
 	retrialInterval time.Duration,
 	now time.Time,
 ) Standing {
@@ -47,7 +47,7 @@ func standingFrom(
 	switch {
 	case !wasJudged:
 		return NeverJudged
-	case judgement.Version == "" || versionClaimed == "":
+	case !judgement.Version.Present() || !versionClaimed.Present():
 		return standingByTheRetrialInterval(judgement, retrialInterval, now)
 	case judgement.Version != versionClaimed:
 		return VersionChanged

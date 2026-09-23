@@ -9,19 +9,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 )
 
-func peersClaimingNoVersionFrom(
+func peersAtTheirVersionFrom(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) []peerjudgements.PeerAtVersion {
 	peers := chosenPeersPerQueryWord.PeersAcrossQueryWords()
-	peersClaimingNoVersion := make([]peerjudgements.PeerAtVersion, 0, len(peers))
+	peersAtTheirVersion := make([]peerjudgements.PeerAtVersion, 0, len(peers))
 	for _, peer := range peers {
-		peersClaimingNoVersion = append(
-			peersClaimingNoVersion,
-			peerjudgements.PeerAtVersion{Peer: peer.Hash},
+		peersAtTheirVersion = append(
+			peersAtTheirVersion,
+			peerjudgements.PeerAtVersion{Peer: peer.Hash, Version: peer.Version},
 		)
 	}
 
-	return peersClaimingNoVersion
+	return peersAtTheirVersion
 }
 
 func chosenPeersInMatchedAndHeldDocumentsAskOrder(

@@ -300,7 +300,6 @@ func (w Wire) putMatchedAndHeldDocumentsAsk(
 		DocumentsListedForTheWord:       documentsListedForTheWord,
 		MatchedDocuments:                matchedDocumentsOf(response),
 		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
-		PeerVersion:                     response.Version,
 	}, true
 }
 
@@ -375,7 +374,6 @@ func (w Wire) putCrossCheckedDocumentsAsk(
 		Ask:                             ask,
 		DocumentsListedForTheWord:       documentsListedForTheWord,
 		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
-		PeerVersion:                     response.Version,
 	}, true
 }
 

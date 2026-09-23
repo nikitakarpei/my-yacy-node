@@ -98,7 +98,7 @@ func judgementOf(peer string, judgement peerjudgements.Judgement) peerjudgements
 		JudgedPeer: peerjudgements.JudgedPeer{
 			PeerAtVersion: peerjudgements.PeerAtVersion{
 				Peer:    yacymodel.WordHash(peer),
-				Version: "yacy_v1.925",
+				Version: yacymodel.Some(yacymodel.SoftwareVersion{Release: 1.925}),
 			},
 			Judgement: judgement,
 		},

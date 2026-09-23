@@ -147,6 +147,32 @@ func TestAPeerBecomesAskableOnTheAddressThatAnswered(t *testing.T) {
 	}
 }
 
+func TestAnAskablePeerClaimsTheVersionOfItsLatestSeed(t *testing.T) {
+	t.Parallel()
+
+	directory := directoryAt(&testClock{instant: time.Unix(0, 0)}, wideCapacity)
+	peer := hashOf(t, 'a')
+	directory.Admit(t.Context(), []yacymodel.Seed{seedAtVersion(t, peer, 1.925)})
+	directory.ConfirmAnswering(t.Context(), peer, "http://10.0.0.1:8090")
+
+	directory.Admit(t.Context(), []yacymodel.Seed{seedAtVersion(t, peer, 1.93)})
+
+	askable := directory.AskablePeers(t.Context())
+	upgraded := yacymodel.Some(yacymodel.SoftwareVersion{Release: 1.93})
+	if len(askable) != 1 || askable[0].Version != upgraded {
+		t.Fatalf("AskablePeers = %+v, want the version the latest seed claims", askable)
+	}
+}
+
+func seedAtVersion(t *testing.T, hash yacymodel.Hash, release float64) yacymodel.Seed {
+	t.Helper()
+
+	seed := seedOf(t, hash, "10.0.0.1")
+	seed.Version = yacymodel.Some(yacymodel.SoftwareVersion{Release: release})
+
+	return seed
+}
+
 func TestASilentPeerLeavesTheAskableSet(t *testing.T) {
 	t.Parallel()
 

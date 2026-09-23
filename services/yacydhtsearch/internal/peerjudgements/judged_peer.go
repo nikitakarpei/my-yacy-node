@@ -15,7 +15,11 @@ type JudgedPeer struct {
 	Judgement Judgement
 }
 
-func JudgedPeerFrom(peer yacymodel.Hash, version string, judgement Judgement) JudgedPeer {
+func JudgedPeerFrom(
+	peer yacymodel.Hash,
+	version yacymodel.Optional[yacymodel.SoftwareVersion],
+	judgement Judgement,
+) JudgedPeer {
 	return JudgedPeer{
 		PeerAtVersion: PeerAtVersion{Peer: peer, Version: version},
 		Judgement:     judgement,

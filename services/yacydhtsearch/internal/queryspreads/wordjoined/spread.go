@@ -90,7 +90,7 @@ func (spread Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	peerStandings := spread.peerJudgements.StandingsOf(
-		ctx, peersClaimingNoVersionFrom(chosenPeersPerQueryWord),
+		ctx, peersAtTheirVersionFrom(chosenPeersPerQueryWord),
 	)
 	matchedAndHeldDocumentsRound := spread.askForMatchedAndHeldDocuments(
 		ctx,
