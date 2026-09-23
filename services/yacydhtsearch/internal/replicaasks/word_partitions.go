@@ -84,13 +84,13 @@ func settleTheWordPartitions[Ask any, Answered any](
 	wordPartitions []wordPartition[Ask, Answered],
 ) []answeredWordPartition[Ask, Answered] {
 	answeredWordPartitions := make([]answeredWordPartition[Ask, Answered], len(wordPartitions))
-	askings, firstReplicasOfEachAsking := askingsWithTheirFirstReplicasOf(wordPartitions)
+	unsettledWordPartitions, firstReplicasOfEachUnsettled := unsettledWordPartitionsWithTheirFirstReplicasOf(wordPartitions)
 	var settling sync.WaitGroup
-	for place, asking := range askings {
+	for place, unsettled := range unsettledWordPartitions {
 		settling.Add(1)
 		go func() {
 			defer settling.Done()
-			answeredWordPartitions[place] = asking.settle(ctx, firstReplicasOfEachAsking[place])
+			answeredWordPartitions[place] = unsettled.settle(ctx, firstReplicasOfEachUnsettled[place])
 		}()
 	}
 	settling.Wait()
@@ -98,21 +98,21 @@ func settleTheWordPartitions[Ask any, Answered any](
 	return answeredWordPartitions
 }
 
-func askingsWithTheirFirstReplicasOf[Ask any, Answered any](
+func unsettledWordPartitionsWithTheirFirstReplicasOf[Ask any, Answered any](
 	wordPartitions []wordPartition[Ask, Answered],
-) ([]*wordPartitionAsking[Ask, Answered], [][]int) {
-	askings := make([]*wordPartitionAsking[Ask, Answered], 0, len(wordPartitions))
-	firstReplicasOfEachAsking := make([][]int, 0, len(wordPartitions))
+) ([]*unsettledWordPartition[Ask, Answered], [][]int) {
+	unsettledWordPartitions := make([]*unsettledWordPartition[Ask, Answered], 0, len(wordPartitions))
+	firstReplicasOfEachUnsettled := make([][]int, 0, len(wordPartitions))
 	for _, partition := range wordPartitions {
-		asking := partition.asking()
-		askings = append(askings, asking)
-		firstReplicasOfEachAsking = append(
-			firstReplicasOfEachAsking,
-			asking.reserveTheFirstReplicas(),
+		unsettled := partition.unsettled()
+		unsettledWordPartitions = append(unsettledWordPartitions, unsettled)
+		firstReplicasOfEachUnsettled = append(
+			firstReplicasOfEachUnsettled,
+			unsettled.reserveTheFirstReplicas(),
 		)
 	}
 
-	return askings, firstReplicasOfEachAsking
+	return unsettledWordPartitions, firstReplicasOfEachUnsettled
 }
 
 func performedReplicaAsksFrom[Ask any, Answered any](
