@@ -64,7 +64,7 @@ func New(
 			prometheusclient.HistogramOpts{
 				Name:    "yacydhtsearch_word_joined_spread_duration_seconds",
 				Help:    "Word joined spread duration in seconds.",
-				Buckets: durationBucketsWithin(queryBudget),
+				Buckets: durationBucketsWithin(queryBudget, amountOfDurationBuckets),
 			},
 		),
 	}
@@ -92,11 +92,11 @@ func leadingQueryWordChoiceJoinsFrom(
 	}
 }
 
-func durationBucketsWithin(queryBudget time.Duration) []float64 {
+func durationBucketsWithin(queryBudget time.Duration, amountOfBuckets int) []float64 {
 	return prometheusclient.ExponentialBucketsRange(
 		queryBudget.Seconds()*shortestDurationBucketShareOfQueryBudget,
 		queryBudget.Seconds()*longestDurationBucketShareOfQueryBudget,
-		amountOfDurationBuckets,
+		amountOfBuckets,
 	)
 }
 

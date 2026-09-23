@@ -736,7 +736,7 @@
     },
     {
       "id": 70,
-      "title": "How long the discovery round took, against the time it was given (p90)",
+      "title": "How long the discovery round took (p90), against the time it was given (mean)",
       "description": "One discovery round of a joined query, from its first ask until every ask is settled or its time is over. A round that asks no peer is not shown.",
       "type": "timeseries",
       "datasource": {
@@ -824,7 +824,7 @@
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"discovery\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"discovery\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round=\"discovery\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round=\"discovery\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_count{round=\"discovery\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_count{round=\"discovery\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "was given"
         }
       ]
@@ -962,7 +962,7 @@
     },
     {
       "id": 71,
-      "title": "How long the cross-check round took, against the time it was given (p90)",
+      "title": "How long the cross-check round took (p90), against the time it was given (mean)",
       "description": "One cross-check round of a joined query, from its first ask until every ask is settled or its time is over. A round that asks no peer is not shown.",
       "type": "timeseries",
       "datasource": {
@@ -1050,7 +1050,7 @@
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"cross-check\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"cross-check\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round=\"cross-check\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round=\"cross-check\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_count{round=\"cross-check\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_count{round=\"cross-check\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "was given"
         }
       ]
@@ -1305,7 +1305,7 @@
     },
     {
       "id": 72,
-      "title": "How long the URL metadata round took, against the time it was given (p90)",
+      "title": "How long the URL metadata round took (p90), against the time it was given (mean)",
       "description": "One URL metadata round of a joined query, from its first ask until every ask is settled or its time is over. A round that asks no peer is not shown.",
       "type": "timeseries",
       "datasource": {
@@ -1393,7 +1393,7 @@
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"URL metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"URL metadata\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round=\"URL metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_sum{round=\"URL metadata\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_count{round=\"URL metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_count{round=\"URL metadata\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "was given"
         }
       ]

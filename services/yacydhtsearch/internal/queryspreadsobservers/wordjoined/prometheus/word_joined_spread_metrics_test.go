@@ -3,6 +3,7 @@ package prometheus_test
 import (
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -368,4 +369,53 @@ func TestARoundOfAQueryWithoutADeadlinePublishesItsTimeButNoBudget(t *testing.T)
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
 	}
+}
+
+func TestTheTimeOfARoundIsPublishedInABucketAtMostAQuarterAboveIt(t *testing.T) {
+	t.Parallel()
+
+	const timeSpent = 4 * time.Second
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 15*time.Second)
+
+	spread := spreadOfQueryWords(2)
+	spread.DiscoveryRound.Time = yacymodel.Some(wordjoined.RoundTime{
+		Budget:    yacymodel.Some(timeSpent),
+		TimeSpent: timeSpent,
+	})
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
+
+	upperEdge := upperEdgeOfTheFirstBucketHolding(
+		t, publishedBy(t, registry),
+		`yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{round="discovery",le="`,
+	)
+	if upperEdge > timeSpent.Seconds()*1.25 {
+		t.Fatalf(
+			"a round of %s was published under a bucket up to %gs, want at most a quarter above",
+			timeSpent,
+			upperEdge,
+		)
+	}
+}
+
+func upperEdgeOfTheFirstBucketHolding(t *testing.T, body string, bucketPrefix string) float64 {
+	t.Helper()
+
+	for line := range strings.Lines(body) {
+		rest, isBucket := strings.CutPrefix(line, bucketPrefix)
+		if !isBucket || !strings.HasSuffix(strings.TrimSpace(rest), "} 1") {
+			continue
+		}
+		edge, _, _ := strings.Cut(rest, `"`)
+		upperEdge, err := strconv.ParseFloat(edge, 64)
+		if err != nil {
+			t.Fatalf("bucket %q has no upper edge: %v", line, err)
+		}
+
+		return upperEdge
+	}
+	t.Fatalf("no bucket %q holds the round:\n%s", bucketPrefix, body)
+
+	return 0
 }

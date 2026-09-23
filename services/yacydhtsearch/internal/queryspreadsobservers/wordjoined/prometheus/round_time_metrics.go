@@ -9,10 +9,11 @@ import (
 )
 
 const (
-	labelRound       = "round"
-	roundDiscovery   = "discovery"
-	roundCrossCheck  = "cross-check"
-	roundURLMetadata = "URL metadata"
+	amountOfRoundDurationBuckets = 35
+	labelRound                   = "round"
+	roundDiscovery               = "discovery"
+	roundCrossCheck              = "cross-check"
+	roundURLMetadata             = "URL metadata"
 )
 
 type reportedRoundTime interface {
@@ -33,13 +34,13 @@ func roundTimeMetricsRegisteredIn(
 		Name: "yacydhtsearch_word_joined_spread_round_duration_seconds",
 		Help: "Time one round of a word joined spread took, in seconds, by the round. " +
 			"A round that asks no peer is not counted.",
-		Buckets: durationBucketsWithin(queryBudget),
+		Buckets: durationBucketsWithin(queryBudget, amountOfRoundDurationBuckets),
 	}, []string{labelRound})
 	roundBudgetSeconds := prometheusclient.NewHistogramVec(prometheusclient.HistogramOpts{
 		Name: "yacydhtsearch_word_joined_spread_round_budget_seconds",
 		Help: "Time one round of a word joined spread was given, in seconds, by the round. " +
 			"A round that asks no peer is not counted.",
-		Buckets: durationBucketsWithin(queryBudget),
+		Buckets: durationBucketsWithin(queryBudget, amountOfRoundDurationBuckets),
 	}, []string{labelRound})
 	registry.MustRegister(roundDurationSeconds, roundBudgetSeconds)
 
