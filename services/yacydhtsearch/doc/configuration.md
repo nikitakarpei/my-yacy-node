@@ -78,7 +78,7 @@ A query asks the replicas of each word partition in turn, until their answers co
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_PEER_CALL_BUDGET` | `3s` | Time one peer call may take once it runs. |
 | `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time a replica call stays unanswered before the next replica of its word partition is asked. |
-| `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Replicas that must list or count documents of one word partition, and list no document the second call did not name, before the search stops asking its other replicas. A value above the redundancy stops the service from starting. |
+| `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Replicas that must list or count documents of one word partition before the search stops asking its other replicas. A value above the redundancy stops the service from starting. |
 | `YACYDHTSEARCH_COMPOUND_WORDS_CEILING` | `4` | Most compound words asked per query. A compound word is two or three adjacent query words spelled as one (`wordpress` for `word press`). |
 | `YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING` | `1000` | Most documents one second call asks a peer about. A lower value puts less load on a peer, and the query can miss results. |
 | `YACYDHTSEARCH_PEER_RETRIAL_INTERVAL` | `24h` | Time after which a judged peer whose seed claims no software version is asked again. A peer is asked again when the version its seed claims changes. With `YACYDHTSEARCH_NATS_URL` set, the judgements are shared by all instances and kept over a restart. |
