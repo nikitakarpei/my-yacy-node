@@ -123,7 +123,8 @@ func (unsettled *unsettledWordPartition[Ask, Answered]) takeTheCallOutcome(
 }
 
 func (unsettled *unsettledWordPartition[Ask, Answered]) settleWhenNoReplicaIsLeft() {
-	if !unsettled.settled() && unsettled.amountOfCallsOutstanding == 0 && unsettled.noReplicaIsLeft() {
+	if !unsettled.settled() && unsettled.amountOfCallsOutstanding == 0 &&
+		unsettled.noReplicaIsLeft() {
 		unsettled.settledBy = SettledByNoReplicaLeft
 	}
 }
@@ -244,7 +245,11 @@ func (unsettled *unsettledWordPartition[Ask, Answered]) amountOfDocumentsListed(
 }
 
 func (unsettled *unsettledWordPartition[Ask, Answered]) placedAskOutcomes() []placedAskOutcome[Ask, Answered] {
-	placedAskOutcomes := make([]placedAskOutcome[Ask, Answered], 0, len(unsettled.replicaOfEachCall))
+	placedAskOutcomes := make(
+		[]placedAskOutcome[Ask, Answered],
+		0,
+		len(unsettled.replicaOfEachCall),
+	)
 	for callPlace, replica := range unsettled.replicaOfEachCall {
 		placedAskOutcomes = append(placedAskOutcomes, placedAskOutcome[Ask, Answered]{
 			placeInTheRun: unsettled.partition.placeOfEachAskInTheRun[replica],

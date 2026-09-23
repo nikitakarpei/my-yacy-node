@@ -961,7 +961,9 @@ func TestTheWordWithCompleteAbstractsTheFewestDocumentsAreHeldForLeads(t *testin
 	}
 }
 
-func TestAWordWithCompleteAbstractsLeadsOverAWordWithPartialAbstractsFewerDocumentsAreCountedFor(t *testing.T) {
+func TestAWordWithCompleteAbstractsLeadsOverAWordWithPartialAbstractsFewerDocumentsAreCountedFor(
+	t *testing.T,
+) {
 	t.Parallel()
 
 	anchored := "https://anchored.example/"
@@ -1094,7 +1096,9 @@ func TestAReplicaOfTwoQueryWordsWithPartialAbstractsIsAskedToCrossCheckOnce(t *t
 	}
 }
 
-func TestADocumentInTheAbstractOfOneReplicaOfAWordWithPartialAbstractsIsAskedOfNoOtherReplica(t *testing.T) {
+func TestADocumentInTheAbstractOfOneReplicaOfAWordWithPartialAbstractsIsAskedOfNoOtherReplica(
+	t *testing.T,
+) {
 	t.Parallel()
 
 	inAnAbstract := "https://in-an-abstract.example/"
@@ -1166,7 +1170,9 @@ func TestEveryReplicaTheFirstRoundLeftUnaskedIsAskedTheSameDocuments(t *testing.
 	) {
 		t.Fatalf("the spread asked %v to cross-check, want each replica left unasked", got)
 	}
-	wanted := documentsInTheirHashOrder(documentHashesOf(documentsInTheAbstractsOfTheLeadingQueryWord[1:]))
+	wanted := documentsInTheirHashOrder(
+		documentHashesOf(documentsInTheAbstractsOfTheLeadingQueryWord[1:]),
+	)
 	for _, ask := range network.crossCheckedDocumentsAsks {
 		if got := documentsInTheirHashOrder(ask.DocumentsToMatch); !slices.Equal(got, wanted) {
 			t.Fatalf(
@@ -1260,7 +1266,11 @@ func TestTheCeilingKeepsTheCandidatesInTheAbstractsOfTheMostPeers(t *testing.T) 
 	if got := documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
 		got, wanted,
 	) {
-		t.Fatalf("the asks named %v, want only the candidate in the abstracts of both peers %v", got, wanted)
+		t.Fatalf(
+			"the asks named %v, want only the candidate in the abstracts of both peers %v",
+			got,
+			wanted,
+		)
 	}
 }
 
@@ -2450,7 +2460,9 @@ func networkWhereTheSecondWordHasACompleteAbstractInPartitionZero(
 func TestNoCandidateOfAPartitionWhereTheWordHasACompleteAbstractIsAsked(t *testing.T) {
 	t.Parallel()
 
-	network, documentsInPartitionOne := networkWhereTheSecondWordHasACompleteAbstractInPartitionZero(t)
+	network, documentsInPartitionOne := networkWhereTheSecondWordHasACompleteAbstractInPartitionZero(
+		t,
+	)
 
 	spreadOverTwoPartitions(
 		network,
@@ -2472,7 +2484,9 @@ func TestNoCandidateOfAPartitionWhereTheWordHasACompleteAbstractIsAsked(t *testi
 	}
 }
 
-func TestTheCandidatesOfAPartitionWhereTheWordHasACompleteAbstractAreReportedAsRuledOut(t *testing.T) {
+func TestTheCandidatesOfAPartitionWhereTheWordHasACompleteAbstractAreReportedAsRuledOut(
+	t *testing.T,
+) {
 	t.Parallel()
 
 	network, _ := networkWhereTheSecondWordHasACompleteAbstractInPartitionZero(t)

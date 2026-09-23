@@ -48,7 +48,9 @@ func (round abstractsRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcr
 }
 
 func (round abstractsRound) documentsOfTheLeadingQueryWordInTheMostAbstractsFirst() []yacymodel.URLHash {
-	return round.documentsInTheMostAbstractsFirstAmong(round.leadingQueryWord().documentsInTheAbstracts())
+	return round.documentsInTheMostAbstractsFirstAmong(
+		round.leadingQueryWord().documentsInTheAbstracts(),
+	)
 }
 
 func (round abstractsRound) documentsInTheMostAbstractsFirstAmong(
