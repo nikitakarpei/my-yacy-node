@@ -7,39 +7,39 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
-type PerformedMatchedAndHeldDocumentsRound struct {
-	AmountOfQueryWords                                     int
-	AmountOfCompoundWords                                  int
-	AmountOfQueryWordsHeldByNoPeer                         int
-	AmountOfFullyListedQueryWords                          int
-	AmountOfPeersThatListedADocument                       int
-	LeadingQueryWordChoice                                 LeadingQueryWordChoice
-	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
-	AmountOfPartitionsWithABetterLeadingQueryWord          int
-	AmountOfMatchedDocumentsAcrossAnswers                  int
-	AmountOfMatchedDocumentsWithAPosting                   int
-	AmountOfDocumentsHeldInEachAnswer                      []int
+type PerformedDiscoveryRound struct {
+	AmountOfQueryWords                            int
+	AmountOfCompoundWords                         int
+	AmountOfQueryWordsHeldByNoPeer                int
+	AmountOfQueryWordsWithCompleteAbstracts       int
+	AmountOfPeersWithANonEmptyAbstract            int
+	LeadingQueryWordChoice                        LeadingQueryWordChoice
+	AmountOfDocumentsOfTheLeadingQueryWord        int
+	AmountOfPartitionsWithABetterLeadingQueryWord int
+	AmountOfMatchedDocumentsAcrossAnswers         int
+	AmountOfMatchedDocumentsWithAPosting          int
+	AmountOfDocumentsHeldInEachAnswer             []int
 }
 
-func performedMatchedAndHeldDocumentsRoundFrom(
-	round matchedAndHeldDocumentsRound,
-) PerformedMatchedAndHeldDocumentsRound {
-	return PerformedMatchedAndHeldDocumentsRound{
+func performedDiscoveryRoundFrom(
+	round discoveryRound,
+) PerformedDiscoveryRound {
+	return PerformedDiscoveryRound{
 		AmountOfQueryWords:    len(round.queryWords),
 		AmountOfCompoundWords: len(round.compoundWords),
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfFullyListedQueryWords: amountOfFullyListedQueryWordsAmong(
+		AmountOfQueryWordsWithCompleteAbstracts: amountOfQueryWordsWithCompleteAbstractsAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfPeersThatListedADocument: amountOfPeersAcross(
-			answeredAsksWithAListedDocument(round.answeredAsks),
-			peerOfAnsweredMatchedAndHeldDocumentsAsk,
+		AmountOfPeersWithANonEmptyAbstract: amountOfPeersAcross(
+			answeredAsksWithANonEmptyAbstract(round.answeredAsks),
+			peerOfAnsweredDiscoveryAsk,
 		),
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
-		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
-			round.leadingQueryWord().documentsListedByPeers(),
+		AmountOfDocumentsOfTheLeadingQueryWord: len(
+			round.leadingQueryWord().documents(),
 		),
 		AmountOfPartitionsWithABetterLeadingQueryWord: amountOfPartitionsWithABetterLeadingQueryWordIn(
 			round,
@@ -57,7 +57,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
-		if len(queryWord.documentsListedByPeers()) > 0 {
+		if len(queryWord.documents()) > 0 {
 			continue
 		}
 		amount++
@@ -66,10 +66,10 @@ func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) i
 	return amount
 }
 
-func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) int {
+func amountOfQueryWordsWithCompleteAbstractsAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
-		if !queryWord.isFullyListed() {
+		if !queryWord.hasCompleteAbstracts() {
 			continue
 		}
 		amount++
@@ -78,18 +78,18 @@ func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) in
 	return amount
 }
 
-func peerOfAnsweredMatchedAndHeldDocumentsAsk(
+func peerOfAnsweredDiscoveryAsk(
 	answeredAsk peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) peerdirectory.AskablePeer {
 	return answeredAsk.Ask.Peer
 }
 
-func answeredAsksWithAListedDocument(
+func answeredAsksWithANonEmptyAbstract(
 	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 ) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
 	keptAnsweredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.DocumentsListedForTheWord) == 0 {
+		if len(answeredAsk.Abstract) == 0 {
 			continue
 		}
 		keptAnsweredAsks = append(keptAnsweredAsks, answeredAsk)
@@ -99,18 +99,18 @@ func answeredAsksWithAListedDocument(
 }
 
 func amountOfPartitionsWithABetterLeadingQueryWordIn(
-	round matchedAndHeldDocumentsRound,
+	round discoveryRound,
 ) int {
 	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
 	amount := 0
 	for partition, wordPartition := range round.leadingQueryWord().wordPartitions() {
-		if wordPartition.isFullyListed() {
+		if wordPartition.hasACompleteAbstract() {
 			continue
 		}
 		if !slices.ContainsFunc(
 			queryWordsBesideTheLeadingQueryWord,
 			func(queryWord queryWordAcrossReplicas) bool {
-				return queryWord.wordPartitions()[partition].isFullyListed()
+				return queryWord.wordPartitions()[partition].hasACompleteAbstract()
 			},
 		) {
 			continue

@@ -278,8 +278,8 @@ func (calls *peerCallsOfTheTests) AskForMatchedAndHeldDocuments(
 	}
 
 	return []peerasks.AnsweredMatchedAndHeldDocumentsAsk{{
-		Ask:                       asks[0],
-		DocumentsListedForTheWord: make([]yacymodel.URLHash, script.documentsListed),
+		Ask:      asks[0],
+		Abstract: make([]yacymodel.URLHash, script.documentsListed),
 	}}
 }
 

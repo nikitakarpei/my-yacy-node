@@ -4,17 +4,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
-type PerformedURLMetadataRound struct {
+type PerformedURLMetadataLookupRound struct {
 	AmountOfJoinedDocumentsWithMetadata   int
 	AmountOfLookedUpDocuments             int
 	AmountOfLookedUpDocumentsWithMetadata int
 }
 
-func performedURLMetadataRoundFrom(
-	round urlMetadataRound,
+func performedURLMetadataLookupRoundFrom(
+	round urlMetadataLookupRound,
 	joinedDocuments distinctDocuments,
-) PerformedURLMetadataRound {
-	return PerformedURLMetadataRound{
+) PerformedURLMetadataLookupRound {
+	return PerformedURLMetadataLookupRound{
 		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) -
 			len(round.documentsWithoutMetadata),
 		AmountOfLookedUpDocuments: len(lookedUpDocumentsAcross(round.asks)),

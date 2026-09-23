@@ -41,7 +41,7 @@ const (
 	EnvPartitionExponent              = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvMaxResponseBytes               = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
 	EnvPeerItemsCeiling               = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
-	EnvCrossCheckedDocumentsCeiling   = "YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING"
+	EnvDocumentsToMatchCeiling        = "YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING"
 	EnvURLMetadataAskDocumentsCeiling = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING"
 	EnvRankedItemsCeiling             = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL                        = "YACYDHTSEARCH_NATS_URL"
@@ -74,7 +74,7 @@ const (
 	DefaultPartitionExponent              = 4
 	DefaultMaxResponseBytes               = 4 * 1024 * 1024
 	DefaultPeerItemsCeiling               = 10
-	DefaultCrossCheckedDocumentsCeiling   = 1000
+	DefaultDocumentsToMatchCeiling        = 1000
 	DefaultURLMetadataAskDocumentsCeiling = 1000
 	DefaultRankedItemsCeiling             = 50
 	DefaultCompoundWordsCeiling           = 4
@@ -116,7 +116,7 @@ type ServiceConfig struct {
 	Partitions                     yacymodel.DHTRingPartitions
 	MaxResponseBytes               int64
 	PeerItemsCeiling               int
-	CrossCheckedDocumentsCeiling   int
+	DocumentsToMatchCeiling        int
 	URLMetadataAskDocumentsCeiling int
 	RankedItemsCeiling             int
 	NATSURL                        string
@@ -216,7 +216,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		Partitions:                     partitions,
 		MaxResponseBytes:               maxResponseBytes,
 		PeerItemsCeiling:               counts.peerItemsCeiling,
-		CrossCheckedDocumentsCeiling:   counts.crossCheckedDocumentsCeiling,
+		DocumentsToMatchCeiling:        counts.documentsToMatchCeiling,
 		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
 		RankedItemsCeiling:             counts.rankedItemsCeiling,
 		NATSURL:                        strings.TrimSpace(getenv(EnvNATSURL)),
@@ -292,7 +292,7 @@ type configuredCounts struct {
 	probesInFlight                 int
 	directoryCapacity              int
 	peerItemsCeiling               int
-	crossCheckedDocumentsCeiling   int
+	documentsToMatchCeiling        int
 	urlMetadataAskDocumentsCeiling int
 	rankedItemsCeiling             int
 	rankingCacheCapacity           int
@@ -315,7 +315,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvProbesInFlight, DefaultProbesInFlight, &counts.probesInFlight},
 		{EnvDirectoryCapacity, DefaultDirectoryCapacity, &counts.directoryCapacity},
 		{EnvPeerItemsCeiling, DefaultPeerItemsCeiling, &counts.peerItemsCeiling},
-		{EnvCrossCheckedDocumentsCeiling, DefaultCrossCheckedDocumentsCeiling, &counts.crossCheckedDocumentsCeiling},
+		{EnvDocumentsToMatchCeiling, DefaultDocumentsToMatchCeiling, &counts.documentsToMatchCeiling},
 		{EnvURLMetadataAskDocumentsCeiling, DefaultURLMetadataAskDocumentsCeiling, &counts.urlMetadataAskDocumentsCeiling},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},

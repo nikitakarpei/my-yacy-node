@@ -33,7 +33,7 @@ func peerJudgementsMetricsRegisteredIn(
 	registry.MustRegister(peerStandings, peerJudgements)
 
 	question := prometheusclient.Labels{
-		labelQuestion: string(wordjoined.ListsOnlyTheCrossCheckedDocuments),
+		labelQuestion: string(wordjoined.AbstractHoldsOnlyTheDocumentsToMatch),
 	}
 	standings := peerStandings.MustCurryWith(question)
 	judgements := peerJudgements.MustCurryWith(question)
@@ -69,12 +69,12 @@ func peerJudgementsMetricsRegisteredIn(
 }
 
 func (m peerJudgementsMetrics) countStandingsAndJudgements(
-	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
+	crossCheckRound wordjoined.PerformedCrossCheckRound,
 ) {
-	for _, peerStanding := range crossCheckedDocumentsRound.PeerStandings {
+	for _, peerStanding := range crossCheckRound.PeerStandings {
 		m.standingCounters[peerStanding.Standing].Inc()
 	}
-	for _, judgedPeer := range crossCheckedDocumentsRound.JudgedPeers {
+	for _, judgedPeer := range crossCheckRound.JudgedPeers {
 		m.judgementCounters[judgedPeer.Judgement].Inc()
 	}
 }

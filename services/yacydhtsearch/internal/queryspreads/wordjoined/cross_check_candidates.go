@@ -3,8 +3,8 @@ package wordjoined
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type crossCheckCandidates struct {
-	ofPartlyListedWordPartitions []crossCheckCandidatesOfWordPartition
-	ofFullyListedWordPartitions  []crossCheckCandidatesOfWordPartition
+	ofWordPartitionsWithoutACompleteAbstract []crossCheckCandidatesOfWordPartition
+	ofWordPartitionsWithACompleteAbstract    []crossCheckCandidatesOfWordPartition
 }
 
 type crossCheckCandidatesOfWordPartition struct {
@@ -13,22 +13,22 @@ type crossCheckCandidatesOfWordPartition struct {
 }
 
 func crossCheckCandidatesIn(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	discoveryRound discoveryRound,
 	partitions yacymodel.DHTRingPartitions,
 ) crossCheckCandidates {
 	var candidates crossCheckCandidates
 	for _, candidatesOfWordPartition := range crossCheckCandidatesPerWordPartitionIn(
-		matchedAndHeldDocumentsRound, partitions,
+		discoveryRound, partitions,
 	) {
-		if candidatesOfWordPartition.wordPartition.isFullyListed() {
-			candidates.ofFullyListedWordPartitions = append(
-				candidates.ofFullyListedWordPartitions, candidatesOfWordPartition,
+		if candidatesOfWordPartition.wordPartition.hasACompleteAbstract() {
+			candidates.ofWordPartitionsWithACompleteAbstract = append(
+				candidates.ofWordPartitionsWithACompleteAbstract, candidatesOfWordPartition,
 			)
 
 			continue
 		}
-		candidates.ofPartlyListedWordPartitions = append(
-			candidates.ofPartlyListedWordPartitions, candidatesOfWordPartition,
+		candidates.ofWordPartitionsWithoutACompleteAbstract = append(
+			candidates.ofWordPartitionsWithoutACompleteAbstract, candidatesOfWordPartition,
 		)
 	}
 
@@ -36,15 +36,16 @@ func crossCheckCandidatesIn(
 }
 
 func crossCheckCandidatesPerWordPartitionIn(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	discoveryRound discoveryRound,
 	partitions yacymodel.DHTRingPartitions,
 ) []crossCheckCandidatesOfWordPartition {
-	documentsOfTheLeadingQueryWord := matchedAndHeldDocumentsRound.
-		documentsOfTheLeadingQueryWordMostListedFirst()
+	documentsOfTheLeadingQueryWord := discoveryRound.holdersPerDocument.mostHeldFirst(
+		discoveryRound.leadingQueryWord().documents(),
+	)
 	var candidates []crossCheckCandidatesOfWordPartition
-	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord() {
+	for _, queryWord := range discoveryRound.queryWordsBesideTheLeadingQueryWord() {
 		documentsPerPartition := documentsPerPartitionFrom(
-			queryWord.documentsNotListedByItsPeersAmong(documentsOfTheLeadingQueryWord),
+			queryWord.documentsOutsideAmong(documentsOfTheLeadingQueryWord),
 			partitions,
 		)
 		for partition, wordPartition := range queryWord.wordPartitions() {
@@ -74,10 +75,10 @@ func documentsPerPartitionFrom(
 	return documentsPerPartition
 }
 
-func (candidatesOfWordPartition crossCheckCandidatesOfWordPartition) mostListedDocumentsUpTo(
-	crossCheckedDocumentsCeiling int,
+func (candidatesOfWordPartition crossCheckCandidatesOfWordPartition) mostHeldDocumentsUpTo(
+	documentsToMatchCeiling int,
 ) []yacymodel.URLHash {
 	return candidatesOfWordPartition.documents[:min(
-		len(candidatesOfWordPartition.documents), crossCheckedDocumentsCeiling,
+		len(candidatesOfWordPartition.documents), documentsToMatchCeiling,
 	)]
 }

@@ -449,11 +449,11 @@ func TestAMatchedAndHeldDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t
 		peerasks.MatchedAndHeldDocumentsAsk{Peer: peerAt(address), Word: word, ItemsCeiling: 7},
 	)
 
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 1 ||
-		answeredAsk.DocumentsListedForTheWord[0] != document {
+	if !replied || len(answeredAsk.Abstract) != 1 ||
+		answeredAsk.Abstract[0] != document {
 		t.Fatalf(
 			"AskForMatchedAndHeldDocuments = %+v, %v, want the document the peer listed",
-			answeredAsk.DocumentsListedForTheWord,
+			answeredAsk.Abstract,
 			replied,
 		)
 	}
@@ -578,10 +578,10 @@ func TestAMatchedAndHeldDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
 		},
 	)
 
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 0 {
+	if !replied || len(answeredAsk.Abstract) != 0 {
 		t.Fatalf(
 			"AskForMatchedAndHeldDocuments = %+v, want no document of the word it did not ask for",
-			answeredAsk.DocumentsListedForTheWord,
+			answeredAsk.Abstract,
 		)
 	}
 }
@@ -895,11 +895,11 @@ func TestACrossCheckedDocumentsAnswerReadsTheDocumentsOfTheAbstractAlone(t *test
 		},
 	)
 
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 1 ||
-		answeredAsk.DocumentsListedForTheWord[0] != document {
+	if !replied || len(answeredAsk.Abstract) != 1 ||
+		answeredAsk.Abstract[0] != document {
 		t.Fatalf(
 			"AskForCrossCheckedDocuments = %+v, %v, want the document the peer holds",
-			answeredAsk.DocumentsListedForTheWord,
+			answeredAsk.Abstract,
 			replied,
 		)
 	}
@@ -945,10 +945,10 @@ func TestAPeerThatHoldsNoCrossCheckedDocumentStillReplies(t *testing.T) {
 		},
 	)
 
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 0 {
+	if !replied || len(answeredAsk.Abstract) != 0 {
 		t.Fatalf(
 			"AskForCrossCheckedDocuments = %+v, %v, want a reply that carries no document",
-			answeredAsk.DocumentsListedForTheWord,
+			answeredAsk.Abstract,
 			replied,
 		)
 	}

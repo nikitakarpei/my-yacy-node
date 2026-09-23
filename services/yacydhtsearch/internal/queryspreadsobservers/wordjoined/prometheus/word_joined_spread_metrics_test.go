@@ -34,21 +34,21 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		MatchedAndHeldDocumentsRound: wordjoined.PerformedMatchedAndHeldDocumentsRound{
-			AmountOfQueryWords:                                     4,
-			AmountOfQueryWordsHeldByNoPeer:                         1,
-			AmountOfFullyListedQueryWords:                          2,
-			AmountOfPeersThatListedADocument:                       4,
-			LeadingQueryWordChoice:                                 wordjoined.MoreCommonFullyListedQueryWord,
-			AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: 12,
+		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
+			AmountOfQueryWords:                      4,
+			AmountOfQueryWordsHeldByNoPeer:          1,
+			AmountOfQueryWordsWithCompleteAbstracts: 2,
+			AmountOfPeersWithANonEmptyAbstract:      4,
+			LeadingQueryWordChoice:                  wordjoined.MoreCommonQueryWordWithCompleteAbstracts,
+			AmountOfDocumentsOfTheLeadingQueryWord:  12,
 		},
-		CrossCheckedDocumentsRound: wordjoined.PerformedCrossCheckedDocumentsRound{
+		CrossCheckRound: wordjoined.PerformedCrossCheckRound{
 			AmountOfDocumentsSentForCrossChecking:           9,
 			AmountOfCrossCheckCandidatesNoPeerTook:          3,
 			AmountOfJoinedDocumentsFoundOnlyByCrossChecking: 6,
 			AmountOfJoinedDocuments:                         10,
 		},
-		URLMetadataRound: wordjoined.PerformedURLMetadataRound{
+		URLMetadataLookupRound: wordjoined.PerformedURLMetadataLookupRound{
 			AmountOfJoinedDocumentsWithMetadata:   2,
 			AmountOfLookedUpDocuments:             4,
 			AmountOfLookedUpDocumentsWithMetadata: 3,
@@ -58,8 +58,8 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="more common word, fully listed"} 1`,
-		"yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_sum 0.5",
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="more common word, complete abstracts"} 1`,
+		"yacydhtsearch_word_joined_spread_query_words_with_complete_abstracts_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_joined_documents_found_only_by_cross_checking_ratio_sum 0.6",
 		"yacydhtsearch_word_joined_spread_cross_check_candidates_no_peer_took_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum 0.5",
@@ -81,12 +81,12 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, partly listed"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="more common word, fully listed"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, fully listed"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, partly listed"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="more common word, fully listed"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, fully listed"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, partial abstracts"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="more common word, complete abstracts"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, complete abstracts"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, partial abstracts"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="more common word, complete abstracts"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, complete abstracts"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -96,9 +96,9 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 
 func spreadOfQueryWords(amountOfQueryWords int) wordjoined.PerformedWordJoinedSpread {
 	return wordjoined.PerformedWordJoinedSpread{
-		MatchedAndHeldDocumentsRound: wordjoined.PerformedMatchedAndHeldDocumentsRound{
+		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
 			AmountOfQueryWords:     amountOfQueryWords,
-			LeadingQueryWordChoice: wordjoined.RarestPartlyListedQueryWord,
+			LeadingQueryWordChoice: wordjoined.RarestQueryWordWithoutCompleteAbstracts,
 		},
 	}
 }
@@ -137,7 +137,7 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, partly listed"} 1`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, partial abstracts"} 1`,
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count 0",
 	} {
 		if !strings.Contains(body, published) {
@@ -155,7 +155,7 @@ func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoShareDroppedBeforeLoo
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	spread := spreadJoiningDocuments(4)
-	spread.URLMetadataRound.AmountOfJoinedDocumentsWithMetadata = 4
+	spread.URLMetadataLookupRound.AmountOfJoinedDocumentsWithMetadata = 4
 	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 
 	body := publishedBy(t, registry)
@@ -169,7 +169,7 @@ func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoShareDroppedBeforeLoo
 
 func spreadJoiningDocuments(amountOfJoinedDocuments int) wordjoined.PerformedWordJoinedSpread {
 	spread := spreadOfQueryWords(2)
-	spread.CrossCheckedDocumentsRound.AmountOfJoinedDocuments = amountOfJoinedDocuments
+	spread.CrossCheckRound.AmountOfJoinedDocuments = amountOfJoinedDocuments
 
 	return spread
 }
@@ -219,8 +219,8 @@ func spreadJudgingThePeers(
 	judgedPeers []peerjudgements.JudgedPeer,
 ) wordjoined.PerformedWordJoinedSpread {
 	spread := spreadOfQueryWords(2)
-	spread.CrossCheckedDocumentsRound.PeerStandings = peerStandings
-	spread.CrossCheckedDocumentsRound.JudgedPeers = judgedPeers
+	spread.CrossCheckRound.PeerStandings = peerStandings
+	spread.CrossCheckRound.JudgedPeers = judgedPeers
 
 	return spread
 }
@@ -245,10 +245,10 @@ func TestTheStandingAndTheJudgementOfAPeerAreCountedUnderTheQuestion(t *testing.
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 2`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 1`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 1`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="never judged"} 2`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="ignoring"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="abstract holds only the documents to match"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="abstract holds only the documents to match"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -264,14 +264,14 @@ func TestEveryStandingAndEveryJudgementIsPublishedBeforeTheFirstSpread(t *testin
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="honoring"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="version changed"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="interval passed"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="ignored",question="lists only the cross-checked documents"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="honoring"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="ignoring"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="never judged"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="version changed"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="interval passed"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="abstract holds only the documents to match"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="ignored",question="abstract holds only the documents to match"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="abstract holds only the documents to match"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

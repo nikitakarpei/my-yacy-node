@@ -84,7 +84,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvPeerCallBudget] = "2s"
 	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
-	environment[main.EnvCrossCheckedDocumentsCeiling] = "64"
+	environment[main.EnvDocumentsToMatchCeiling] = "64"
 	environment[main.EnvURLMetadataAskDocumentsCeiling] = "128"
 	environment[main.EnvReplicasCoveringAPartition] = "2"
 	environment[main.EnvHedgeDelay] = "250ms"
@@ -97,7 +97,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.NetworkRedundancy != 7 || cfg.PeerCallsInFlight != 9 ||
 		cfg.PeerCallBudget != 2*time.Second ||
 		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 ||
-		cfg.CrossCheckedDocumentsCeiling != 64 ||
+		cfg.DocumentsToMatchCeiling != 64 ||
 		cfg.URLMetadataAskDocumentsCeiling != 128 ||
 		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond {
 		t.Fatalf("config = %+v, want the overrides", cfg)

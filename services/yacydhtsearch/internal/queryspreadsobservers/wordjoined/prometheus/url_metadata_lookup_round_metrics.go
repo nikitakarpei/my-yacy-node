@@ -6,15 +6,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
-type urlMetadataRoundMetrics struct {
+type urlMetadataLookupRoundMetrics struct {
 	joinedDocumentsDroppedBeforeMetadataLookupRatio prometheusclient.Histogram
 	lookedUpDocumentsWithoutMetadataRatio           prometheusclient.Histogram
 }
 
-func urlMetadataRoundMetricsRegisteredIn(
+func urlMetadataLookupRoundMetricsRegisteredIn(
 	registry prometheusclient.Registerer,
-) urlMetadataRoundMetrics {
-	metrics := urlMetadataRoundMetrics{
+) urlMetadataLookupRoundMetrics {
+	metrics := urlMetadataLookupRoundMetrics{
 		joinedDocumentsDroppedBeforeMetadataLookupRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio",
 			"Share of the joined documents without metadata that the spread dropped before "+
@@ -34,31 +34,31 @@ func urlMetadataRoundMetricsRegisteredIn(
 	return metrics
 }
 
-func (m urlMetadataRoundMetrics) observeURLMetadataRound(
-	urlMetadataRound wordjoined.PerformedURLMetadataRound,
-	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
+func (m urlMetadataLookupRoundMetrics) observeURLMetadataLookupRound(
+	urlMetadataLookupRound wordjoined.PerformedURLMetadataLookupRound,
+	crossCheckRound wordjoined.PerformedCrossCheckRound,
 ) {
-	amountOfJoinedDocumentsWithoutMetadata := crossCheckedDocumentsRound.AmountOfJoinedDocuments -
-		urlMetadataRound.AmountOfJoinedDocumentsWithMetadata
+	amountOfJoinedDocumentsWithoutMetadata := crossCheckRound.AmountOfJoinedDocuments -
+		urlMetadataLookupRound.AmountOfJoinedDocumentsWithMetadata
 	if amountOfJoinedDocumentsWithoutMetadata > 0 {
 		m.joinedDocumentsDroppedBeforeMetadataLookupRatio.Observe(
 			float64(
-				amountOfJoinedDocumentsWithoutMetadata-urlMetadataRound.AmountOfLookedUpDocuments,
+				amountOfJoinedDocumentsWithoutMetadata-urlMetadataLookupRound.AmountOfLookedUpDocuments,
 			) /
 				float64(
 					amountOfJoinedDocumentsWithoutMetadata,
 				),
 		)
 	}
-	if urlMetadataRound.AmountOfLookedUpDocuments == 0 {
+	if urlMetadataLookupRound.AmountOfLookedUpDocuments == 0 {
 		return
 	}
 	m.lookedUpDocumentsWithoutMetadataRatio.Observe(
 		float64(
-			urlMetadataRound.AmountOfLookedUpDocuments-urlMetadataRound.AmountOfLookedUpDocumentsWithMetadata,
+			urlMetadataLookupRound.AmountOfLookedUpDocuments-urlMetadataLookupRound.AmountOfLookedUpDocumentsWithMetadata,
 		) /
 			float64(
-				urlMetadataRound.AmountOfLookedUpDocuments,
+				urlMetadataLookupRound.AmountOfLookedUpDocuments,
 			),
 	)
 }

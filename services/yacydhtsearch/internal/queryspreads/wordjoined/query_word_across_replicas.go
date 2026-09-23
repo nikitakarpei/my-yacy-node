@@ -155,41 +155,41 @@ func lowerMedianOf(amounts []int) int {
 	return sortedAmounts[(len(sortedAmounts)-1)/2]
 }
 
-func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocuments {
-	documentsListedByPeers := distinctDocuments{}
+func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
+	documents := distinctDocuments{}
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
 		for _, replica := range replicasOfPartition {
 			answer, answered := replica.answer.Get()
 			if !answered {
 				continue
 			}
-			for _, document := range answer.DocumentsListedForTheWord {
-				documentsListedByPeers.add(document)
+			for _, document := range answer.Abstract {
+				documents.add(document)
 			}
 		}
 	}
 
-	return documentsListedByPeers
+	return documents
 }
 
-func (queryWord queryWordAcrossReplicas) documentsNotListedByItsPeersAmong(
+func (queryWord queryWordAcrossReplicas) documentsOutsideAmong(
 	documents []yacymodel.URLHash,
 ) []yacymodel.URLHash {
-	documentsListedByPeers := queryWord.documentsListedByPeers()
-	documentsNotListed := make([]yacymodel.URLHash, 0, len(documents))
+	documentsOfTheWord := queryWord.documents()
+	documentsOutside := make([]yacymodel.URLHash, 0, len(documents))
 	for _, document := range documents {
-		if documentsListedByPeers.contains(document) {
+		if documentsOfTheWord.contains(document) {
 			continue
 		}
-		documentsNotListed = append(documentsNotListed, document)
+		documentsOutside = append(documentsOutside, document)
 	}
 
-	return documentsNotListed
+	return documentsOutside
 }
 
-func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
+func (queryWord queryWordAcrossReplicas) hasCompleteAbstracts() bool {
 	for _, wordPartition := range queryWord.wordPartitions() {
-		if !wordPartition.isFullyListed() {
+		if !wordPartition.hasACompleteAbstract() {
 			return false
 		}
 	}
