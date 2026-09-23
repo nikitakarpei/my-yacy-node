@@ -594,7 +594,7 @@ type askingUnderTest struct {
 func askingOfTheTests(
 	scripts map[string]scriptedPeerCall,
 	hedgeDelay time.Duration,
-	replicasCoveringAPartition int,
+	amountOfReplicasCoveringAPartition int,
 ) askingUnderTest {
 	calls := &peerCallsOfTheTests{
 		scripts:   scripts,
@@ -609,7 +609,7 @@ func askingOfTheTests(
 		asks: replicaasks.New(
 			calls,
 			hedgeDelayOfTheTestsPeers(hedgeDelay),
-			replicasCoveringAPartition,
+			amountOfReplicasCoveringAPartition,
 			observer,
 		),
 	}

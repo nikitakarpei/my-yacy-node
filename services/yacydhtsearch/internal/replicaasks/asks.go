@@ -24,23 +24,23 @@ type HedgeDelay interface {
 }
 
 type Asks struct {
-	peerCalls                  PeerCalls
-	hedgeDelay                 HedgeDelay
-	replicasCoveringAPartition int
-	observer                   ReplicaAsksObserver
+	peerCalls                          PeerCalls
+	hedgeDelay                         HedgeDelay
+	amountOfReplicasCoveringAPartition int
+	observer                           ReplicaAsksObserver
 }
 
 func New(
 	peerCalls PeerCalls,
 	hedgeDelay HedgeDelay,
-	replicasCoveringAPartition int,
+	amountOfReplicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
 ) Asks {
 	return Asks{
-		peerCalls:                  peerCalls,
-		hedgeDelay:                 hedgeDelay,
-		replicasCoveringAPartition: replicasCoveringAPartition,
-		observer:                   observer,
+		peerCalls:                          peerCalls,
+		hedgeDelay:                         hedgeDelay,
+		amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
+		observer:                           observer,
 	}
 }
 
@@ -52,7 +52,7 @@ func (asks Asks) AskForSearchDocuments(
 		ctx,
 		asksInReplicaOrder,
 		searchDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
-		asks.replicasCoveringAPartition,
+		asks.amountOfReplicasCoveringAPartition,
 		asks.observer,
 	)
 }
