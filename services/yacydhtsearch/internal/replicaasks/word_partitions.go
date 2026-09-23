@@ -52,7 +52,7 @@ func wordPartitionsOf[Ask any, Answered any](
 	amountOfReplicasCoveringAPartition int,
 ) []wordPartition[Ask, Answered] {
 	wordPartitions := make([]wordPartition[Ask, Answered], 0, len(asksInReplicaOrder))
-	reservedPeers := noReservedPeers()
+	chosenPeers := noChosenPeers()
 	placeOfKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
 	for placeInTheRun, ask := range asksInReplicaOrder {
 		key := kind.wordPartitionKeyOf(ask)
@@ -63,7 +63,7 @@ func wordPartitionsOf[Ask any, Answered any](
 			wordPartitions = append(wordPartitions, wordPartition[Ask, Answered]{
 				kind:                               kind,
 				amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
-				reservedPeers:                      reservedPeers,
+				chosenPeers:                        chosenPeers,
 			})
 		}
 		wordPartitions[place].asksInReplicaOrder = append(
@@ -81,7 +81,7 @@ func settleTheWordPartitions[Ask any, Answered any](
 ) []askedWordPartition[Ask, Answered] {
 	askings := askingsOf(wordPartitions)
 	for _, asking := range askings {
-		asking.reserveTheFirstAsks()
+		asking.chooseTheFirstAsks()
 	}
 	askedWordPartitions := make([]askedWordPartition[Ask, Answered], len(askings))
 	var settling sync.WaitGroup
@@ -89,7 +89,7 @@ func settleTheWordPartitions[Ask any, Answered any](
 		settling.Add(1)
 		go func() {
 			defer settling.Done()
-			askedWordPartitions[place] = asking.settle(ctx)
+			askedWordPartitions[place] = asking.askUntilSettled(ctx)
 		}()
 	}
 	settling.Wait()
