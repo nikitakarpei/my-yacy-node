@@ -9,19 +9,22 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 )
 
-func peersAtNoVersionAmong(
+func peersClaimingNoVersionFrom(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) []peerjudgements.PeerAtVersion {
 	peers := chosenPeersPerQueryWord.PeersAcrossQueryWords()
-	peersAtNoVersion := make([]peerjudgements.PeerAtVersion, 0, len(peers))
+	peersClaimingNoVersion := make([]peerjudgements.PeerAtVersion, 0, len(peers))
 	for _, peer := range peers {
-		peersAtNoVersion = append(peersAtNoVersion, peerjudgements.PeerAtVersion{Peer: peer.Hash})
+		peersClaimingNoVersion = append(
+			peersClaimingNoVersion,
+			peerjudgements.PeerAtVersion{Peer: peer.Hash},
+		)
 	}
 
-	return peersAtNoVersion
+	return peersClaimingNoVersion
 }
 
-func chosenPeersInFirstRoundOrder(
+func chosenPeersInMatchedAndHeldDocumentsAskOrder(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 	peerStandings peerjudgements.PeerStandings,
 ) peerchoice.ChosenPeersPerQueryWord {
@@ -30,8 +33,8 @@ func chosenPeersInFirstRoundOrder(
 		chosenPeers := slices.Clone(chosenPeersOfQueryWord.ChosenPeers)
 		slices.SortStableFunc(chosenPeers, func(first, second peerchoice.ChosenPeer) int {
 			return cmp.Compare(
-				firstRoundRankOf(peerStandings.StandingOf(first.Peer.Hash)),
-				firstRoundRankOf(peerStandings.StandingOf(second.Peer.Hash)),
+				matchedAndHeldDocumentsAskRankOf(peerStandings.StandingOf(first.Peer.Hash)),
+				matchedAndHeldDocumentsAskRankOf(peerStandings.StandingOf(second.Peer.Hash)),
 			)
 		})
 		chosenPeersInOrder = append(chosenPeersInOrder, peerchoice.ChosenPeersOfQueryWord{
@@ -49,7 +52,7 @@ const (
 	rankAskedLast
 )
 
-func firstRoundRankOf(standing peerjudgements.Standing) int {
+func matchedAndHeldDocumentsAskRankOf(standing peerjudgements.Standing) int {
 	switch standing {
 	case peerjudgements.Ignoring:
 		return rankAskedFirst
@@ -60,25 +63,25 @@ func firstRoundRankOf(standing peerjudgements.Standing) int {
 	}
 }
 
-func peersInSecondRoundOrder(
+func peersInCrossCheckedDocumentsAskOrder(
 	peers []peerdirectory.AskablePeer,
 	peerStandings peerjudgements.PeerStandings,
 ) []peerdirectory.AskablePeer {
 	peersInOrder := slices.Clone(peers)
 	slices.SortStableFunc(peersInOrder, func(first, second peerdirectory.AskablePeer) int {
 		return cmp.Compare(
-			secondRoundRankOf(peerStandings.StandingOf(first.Hash)),
-			secondRoundRankOf(peerStandings.StandingOf(second.Hash)),
+			crossCheckedDocumentsAskRankOf(peerStandings.StandingOf(first.Hash)),
+			crossCheckedDocumentsAskRankOf(peerStandings.StandingOf(second.Hash)),
 		)
 	})
 
 	return peersInOrder
 }
 
-func secondRoundRankOf(standing peerjudgements.Standing) int {
+func crossCheckedDocumentsAskRankOf(standing peerjudgements.Standing) int {
 	if standing == peerjudgements.Honoring {
 		return rankAskedFirst
 	}
 
-	return rankAskedBetween
+	return rankAskedLast
 }

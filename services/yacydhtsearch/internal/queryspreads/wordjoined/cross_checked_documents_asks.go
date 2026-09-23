@@ -11,7 +11,7 @@ import (
 
 func crossCheckedDocumentsAsksFor(
 	candidates crossCheckCandidates,
-	peersAskedInTheFirstRound map[yacymodel.Hash]struct{},
+	peersAskedForMatchedAndHeldDocuments map[yacymodel.Hash]struct{},
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
@@ -20,14 +20,15 @@ func crossCheckedDocumentsAsksFor(
 	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
 		peersThatMayCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersNotIgnoringTheCrossCheckAmong(
-				peersNotAskedInTheFirstRoundAmong(
-					candidatesOfWordPartition.wordPartition.replicas, peersAskedInTheFirstRound,
+				peersNotAskedForMatchedAndHeldDocumentsAmong(
+					candidatesOfWordPartition.wordPartition.replicas,
+					peersAskedForMatchedAndHeldDocuments,
 				),
 				peerStandings,
 			),
 			asks,
 		)
-		for _, peer := range peersInSecondRoundOrder(peersThatMayCrossCheck, peerStandings) {
+		for _, peer := range peersInCrossCheckedDocumentsAskOrder(peersThatMayCrossCheck, peerStandings) {
 			asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
 				Peer:      peer,
 				Partition: candidatesOfWordPartition.wordPartition.partition,
@@ -43,13 +44,13 @@ func crossCheckedDocumentsAsksFor(
 	return asks
 }
 
-func peersNotAskedInTheFirstRoundAmong(
+func peersNotAskedForMatchedAndHeldDocumentsAmong(
 	replicas []wordReplica,
-	peersAskedInTheFirstRound map[yacymodel.Hash]struct{},
+	peersAskedForMatchedAndHeldDocuments map[yacymodel.Hash]struct{},
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
 	for _, replica := range replicas {
-		if _, asked := peersAskedInTheFirstRound[replica.peer.Hash]; asked {
+		if _, asked := peersAskedForMatchedAndHeldDocuments[replica.peer.Hash]; asked {
 			continue
 		}
 		keptPeers = append(keptPeers, replica.peer)

@@ -2,7 +2,6 @@ package replicaasks
 
 import (
 	"context"
-	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
@@ -48,18 +47,8 @@ func (kind crossCheckedDocumentsAskKind) putAsk(
 func (kind crossCheckedDocumentsAskKind) isCovering(
 	answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk,
 ) bool {
-	return listsOnlyTheDocumentsTheAskNamed(answeredAsk) &&
+	return answeredAsk.ListsOnlyTheDocumentsAsked() &&
 		(kind.amountOfDocumentsListedIn(answeredAsk) > 0 || holdsADocumentForTheWord(answeredAsk))
-}
-
-func listsOnlyTheDocumentsTheAskNamed(answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk) bool {
-	for _, document := range answeredAsk.DocumentsListedForTheWord {
-		if !slices.Contains(answeredAsk.Ask.Documents, document) {
-			return false
-		}
-	}
-
-	return true
 }
 
 func holdsADocumentForTheWord(answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk) bool {

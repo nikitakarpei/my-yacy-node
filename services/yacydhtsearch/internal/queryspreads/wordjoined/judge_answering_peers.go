@@ -1,10 +1,8 @@
 package wordjoined
 
 import (
-	"slices"
-
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func judgeAnsweringPeersIn(round crossCheckedDocumentsRound) []peerjudgements.JudgedPeer {
@@ -13,26 +11,19 @@ func judgeAnsweringPeersIn(round crossCheckedDocumentsRound) []peerjudgements.Ju
 		judgedPeers = append(judgedPeers, peerjudgements.JudgedPeerFrom(
 			answeredAsk.Ask.Peer.Hash,
 			answeredAsk.PeerVersion,
-			judgementFromTheDocumentsListed(
-				answeredAsk.DocumentsListedForTheWord, answeredAsk.Ask.Documents,
-			),
+			judgementFrom(answeredAsk),
 		))
 	}
 
 	return judgedPeers
 }
 
-func judgementFromTheDocumentsListed(
-	documentsListed []yacymodel.URLHash,
-	crossCheckedDocuments []yacymodel.URLHash,
-) peerjudgements.Judgement {
-	if len(documentsListed) == 0 {
+func judgementFrom(answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk) peerjudgements.Judgement {
+	if len(answeredAsk.DocumentsListedForTheWord) == 0 {
 		return peerjudgements.NoEvidence
 	}
-	for _, document := range documentsListed {
-		if !slices.Contains(crossCheckedDocuments, document) {
-			return peerjudgements.Ignored
-		}
+	if !answeredAsk.ListsOnlyTheDocumentsAsked() {
+		return peerjudgements.Ignored
 	}
 
 	return peerjudgements.Honored

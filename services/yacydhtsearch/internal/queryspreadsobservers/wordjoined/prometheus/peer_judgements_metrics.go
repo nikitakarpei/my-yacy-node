@@ -23,8 +23,8 @@ func peerJudgementsMetricsRegisteredIn(
 ) peerJudgementsMetrics {
 	peerStandings := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spread_peer_standings_total",
-		Help: "Chosen peers of a spread, by the question and their standing on it before the " +
-			"first round.",
+		Help: "Chosen peers of a spread, by the question and their standing on it when the " +
+			"spread starts.",
 	}, []string{labelQuestion, labelStanding})
 	peerJudgements := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spread_peer_judgements_total",

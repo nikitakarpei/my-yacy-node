@@ -71,7 +71,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 
 ## Peer calls
 
-A query asks the replicas of each word partition in turn, until their answers cover the partition. A query of more than one word can make a second call, in turn to the replicas of a word partition that got no first call, to find which documents of another word they also hold. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left.
+A query asks the replicas of each word partition in turn, until their answers cover the partition. A query of more than one word can make a second call to replicas that got no first call, to find which documents of another word they also hold. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left.
 
 | Variable | Default | Meaning |
 |---|---|---|

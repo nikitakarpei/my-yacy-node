@@ -30,10 +30,10 @@ const (
 var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type ReplicaAsksMetrics struct {
-	metricsPerAskedFor map[peerasks.AskedFor]replicaAsksMetricsOfOneAsk
+	metricsPerAskedFor map[peerasks.AskedFor]replicaAsksMetricsOfAskedFor
 }
 
-type replicaAsksMetricsOfOneAsk struct {
+type replicaAsksMetricsOfAskedFor struct {
 	replicaAsksDurationSecondsPerEndedBy map[replicaasks.EndedBy]prometheusclient.Observer
 	wordPartitionsPerSettledBy           map[replicaasks.SettledBy]map[replicaasks.PutOn]prometheusclient.Counter
 	replicaAsksPerPutOn                  map[replicaasks.PutOn]prometheusclient.Counter
@@ -54,14 +54,16 @@ func New(
 	vectors := replicaAsksVectorsRegisteredIn(registry, queryBudget)
 
 	//exhaustive:enforce
-	return &ReplicaAsksMetrics{metricsPerAskedFor: map[peerasks.AskedFor]replicaAsksMetricsOfOneAsk{
-		peerasks.MatchedDocuments: vectors.metricsOf(peerasks.MatchedDocuments),
-		peerasks.MatchedAndHeldDocuments: vectors.metricsOf(
-			peerasks.MatchedAndHeldDocuments,
-		),
-		peerasks.CrossCheckedDocuments: vectors.metricsOf(peerasks.CrossCheckedDocuments),
-		peerasks.URLMetadata:           vectors.metricsOf(peerasks.URLMetadata),
-	}}
+	return &ReplicaAsksMetrics{
+		metricsPerAskedFor: map[peerasks.AskedFor]replicaAsksMetricsOfAskedFor{
+			peerasks.MatchedDocuments: vectors.metricsOf(peerasks.MatchedDocuments),
+			peerasks.MatchedAndHeldDocuments: vectors.metricsOf(
+				peerasks.MatchedAndHeldDocuments,
+			),
+			peerasks.CrossCheckedDocuments: vectors.metricsOf(peerasks.CrossCheckedDocuments),
+			peerasks.URLMetadata:           vectors.metricsOf(peerasks.URLMetadata),
+		},
+	}
 }
 
 func replicaAsksVectorsRegisteredIn(
@@ -130,10 +132,12 @@ func bucketsFromNoneTo(ceiling float64, amountOfBuckets int) []float64 {
 	)
 }
 
-func (vectors replicaAsksVectors) metricsOf(askedFor peerasks.AskedFor) replicaAsksMetricsOfOneAsk {
+func (vectors replicaAsksVectors) metricsOf(
+	askedFor peerasks.AskedFor,
+) replicaAsksMetricsOfAskedFor {
 	askedForLabel := prometheusclient.Labels{labelAskedFor: string(askedFor)}
 
-	return replicaAsksMetricsOfOneAsk{
+	return replicaAsksMetricsOfAskedFor{
 		replicaAsksDurationSecondsPerEndedBy: replicaAsksDurationSecondsPerEndedByFrom(
 			vectors.replicaAsksDurationSeconds.MustCurryWith(askedForLabel),
 		),
@@ -222,7 +226,7 @@ func (m *ReplicaAsksMetrics) ReplicaAsksPerformed(
 	}
 }
 
-func (m replicaAsksMetricsOfOneAsk) countWordPartition(
+func (m replicaAsksMetricsOfAskedFor) countWordPartition(
 	wordPartition replicaasks.SettledWordPartition,
 ) {
 	m.wordPartitionsPerSettledBy[wordPartition.SettledBy][wordPartition.CoveringAskPutOn].Inc()
