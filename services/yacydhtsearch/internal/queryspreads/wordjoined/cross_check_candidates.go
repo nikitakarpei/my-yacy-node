@@ -73,3 +73,11 @@ func documentsPerPartitionFrom(
 
 	return documentsPerPartition
 }
+
+func (candidatesOfWordPartition crossCheckCandidatesOfWordPartition) mostListedDocumentsUpTo(
+	crossCheckedDocumentsCeiling int,
+) []yacymodel.URLHash {
+	return candidatesOfWordPartition.documents[:min(
+		len(candidatesOfWordPartition.documents), crossCheckedDocumentsCeiling,
+	)]
+}

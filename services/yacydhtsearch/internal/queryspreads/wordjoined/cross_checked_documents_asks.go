@@ -27,14 +27,10 @@ func crossCheckedDocumentsAsksFor(
 			),
 			asks,
 		)
-		amountOfDocumentsToDeal := min(
-			len(candidatesOfWordPartition.documents),
-			len(peersNotYetAskedToCrossCheck)*crossCheckedDocumentsCeiling,
-		)
-		asks = append(asks, crossCheckedDocumentsAsksDealtAcross(
+		asks = append(asks, crossCheckedDocumentsAsksOfEach(
 			peersNotYetAskedToCrossCheck,
 			candidatesOfWordPartition.wordPartition.word,
-			candidatesOfWordPartition.documents[:amountOfDocumentsToDeal],
+			candidatesOfWordPartition.mostListedDocumentsUpTo(crossCheckedDocumentsCeiling),
 		)...)
 	}
 
@@ -94,26 +90,17 @@ func peersNotYetAskedToCrossCheckAmong(
 	return keptPeers
 }
 
-func crossCheckedDocumentsAsksDealtAcross(
+func crossCheckedDocumentsAsksOfEach(
 	peers []peerdirectory.AskablePeer,
 	queryWord yacymodel.Hash,
 	documents []yacymodel.URLHash,
 ) []peerasks.CrossCheckedDocumentsAsk {
-	documentsDealtToEachPeer := make([][]yacymodel.URLHash, len(peers))
-	for turn, document := range documents {
-		place := turn % len(peers)
-		documentsDealtToEachPeer[place] = append(documentsDealtToEachPeer[place], document)
-	}
-
 	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(peers))
-	for place, documentsDealtToOnePeer := range documentsDealtToEachPeer {
-		if len(documentsDealtToOnePeer) == 0 {
-			continue
-		}
+	for _, peer := range peers {
 		asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peers[place],
+			Peer:      peer,
 			Word:      queryWord,
-			Documents: documentsDealtToOnePeer,
+			Documents: documents,
 		})
 	}
 

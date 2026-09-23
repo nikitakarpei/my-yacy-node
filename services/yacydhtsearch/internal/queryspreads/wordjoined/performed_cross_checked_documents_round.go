@@ -3,6 +3,7 @@ package wordjoined
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedCrossCheckedDocumentsRound struct {
@@ -68,15 +69,22 @@ func amountOfJoinedDocumentsFoundOnlyByCrossChecking(
 	return len(joinedDocuments) - len(documentsOfEveryQueryWordListedByPeers)
 }
 
+type documentOfWord struct {
+	word     yacymodel.Hash
+	document yacymodel.URLHash
+}
+
 func amountOfDocumentsSentForCrossCheckingAcross(
 	asks []peerasks.CrossCheckedDocumentsAsk,
 ) int {
-	amount := 0
+	documentsSent := map[documentOfWord]struct{}{}
 	for _, ask := range asks {
-		amount += len(ask.Documents)
+		for _, document := range ask.Documents {
+			documentsSent[documentOfWord{word: ask.Word, document: document}] = struct{}{}
+		}
 	}
 
-	return amount
+	return len(documentsSent)
 }
 
 func amountOfEmptyCrossCheckedDocumentsAnswers(
