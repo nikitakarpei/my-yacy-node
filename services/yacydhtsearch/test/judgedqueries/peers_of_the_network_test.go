@@ -45,7 +45,7 @@ const (
 	crossCheckedDocumentsCeiling   = 1000
 	queryBudget                    = 15 * time.Second
 	judgementLedgerCapacity        = 4096
-	peerRetrialInterval            = 24 * time.Hour
+	crossCheckRetrialInterval      = 24 * time.Hour
 )
 
 var seedlistURLs = []string{
@@ -166,7 +166,7 @@ func judgementsOfTheCrossCheck() peerjudgements.Judgements {
 	return peerjudgements.New(
 		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),
-		peerRetrialInterval,
+		crossCheckRetrialInterval,
 		time.Now,
 	)
 }

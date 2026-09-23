@@ -243,7 +243,7 @@ func judgingSpreadOver(
 		peerjudgements.New(
 			wordjoined.ListsOnlyTheCrossCheckedDocuments,
 			peerjudgementledgersmemory.New(judgementLedgerCapacity),
-			peerRetrialInterval,
+			crossCheckRetrialInterval,
 			time.Now,
 		),
 		judgementDocumentsCeiling,

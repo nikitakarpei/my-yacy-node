@@ -48,7 +48,7 @@ const (
 	hedgeDelay                   = 50 * time.Millisecond
 	crossCheckedDocumentsCeiling = 64
 	judgementLedgerCapacity      = 16
-	peerRetrialInterval          = 24 * time.Hour
+	crossCheckRetrialInterval    = 24 * time.Hour
 )
 
 type silentDirectoryObserver struct{}
@@ -262,7 +262,7 @@ func judgementsOfTheCrossCheck() peerjudgements.Judgements {
 	return peerjudgements.New(
 		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),
-		peerRetrialInterval,
+		crossCheckRetrialInterval,
 		time.Now,
 	)
 }
