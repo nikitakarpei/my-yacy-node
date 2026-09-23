@@ -2,6 +2,7 @@
 package natstestserver
 
 import (
+	"os"
 	"testing"
 	"time"
 
@@ -10,14 +11,19 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 )
 
-const unreachableServerURL = "nats://127.0.0.1:1"
+const (
+	unreachableServerURL = "nats://127.0.0.1:1"
+
+	storeRemovalWait       = 5 * time.Second
+	storeRemovalRetryDelay = 10 * time.Millisecond
+)
 
 func Start(t *testing.T) string {
 	t.Helper()
 	srv, err := natsserver.NewServer(&natsserver.Options{
 		Port:      -1,
 		JetStream: true,
-		StoreDir:  t.TempDir(),
+		StoreDir:  storeDirectoryFor(t),
 	})
 	if err != nil {
 		t.Fatalf("new nats server: %v", err)
@@ -31,6 +37,32 @@ func Start(t *testing.T) string {
 		srv.WaitForShutdown()
 	})
 	return srv.ClientURL()
+}
+
+func storeDirectoryFor(t *testing.T) string {
+	t.Helper()
+	directory, err := os.MkdirTemp("", "natstestserver")
+	if err != nil {
+		t.Fatalf("create the jetstream store directory: %v", err)
+	}
+	t.Cleanup(func() { removeStoreDirectory(t, directory) })
+	return directory
+}
+
+func removeStoreDirectory(t *testing.T, directory string) {
+	t.Helper()
+	deadline := time.Now().Add(storeRemovalWait)
+	for {
+		err := os.RemoveAll(directory)
+		if err == nil {
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Errorf("remove the jetstream store directory: %v", err)
+			return
+		}
+		time.Sleep(storeRemovalRetryDelay)
+	}
 }
 
 func ConnectWithoutServer(t *testing.T) *nats.Conn {

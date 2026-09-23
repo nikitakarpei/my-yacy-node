@@ -115,6 +115,7 @@ func (n *peerNetwork) enterCall(host string) {
 	n.mostCallsInFlight = max(n.mostCallsInFlight, n.callsInFlight)
 	if n.awaitedCallsInFlight != 0 && n.callsInFlight == n.awaitedCallsInFlight {
 		close(n.awaitedCallsAreInFlight)
+		n.awaitedCallsInFlight = 0
 	}
 }
 

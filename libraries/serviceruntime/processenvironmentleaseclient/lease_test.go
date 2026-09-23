@@ -66,17 +66,10 @@ func TestLeaseKeepsTryingWhileTheProducerIsAbsent(t *testing.T) {
 	ctx, cancel := context.WithTimeout(t.Context(), acquisitionBudget)
 	defer cancel()
 
-	begun := time.Now()
-	if _, err := processenvironmentleaseclient.Acquire(ctx, socketPath); err == nil {
-		t.Fatal("Acquire returned a lease with no producer listening")
-	}
+	_, err := processenvironmentleaseclient.Acquire(ctx, socketPath)
 
-	if waited := time.Since(begun); waited < acquisitionBudget {
-		t.Errorf(
-			"Acquire gave up after %v, want it to keep trying for %v",
-			waited,
-			acquisitionBudget,
-		)
+	if !errors.Is(err, context.DeadlineExceeded) {
+		t.Errorf("Acquire = %v, want it to keep trying until the context ends", err)
 	}
 }
 
