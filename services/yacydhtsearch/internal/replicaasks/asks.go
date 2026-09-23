@@ -44,15 +44,18 @@ func New(
 	}
 }
 
-func (asks Asks) AskForSearchDocuments(
+func (replicaAsks Asks) AskForSearchDocuments(
 	ctx context.Context,
 	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
 ) peerasks.SearchDocumentsAskOutcomes {
 	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,
-		searchDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
-		asks.amountOfReplicasCoveringAPartition,
-		asks.observer,
+		searchDocumentsAskKind{
+			peerCalls:  replicaAsks.peerCalls,
+			hedgeDelay: replicaAsks.hedgeDelay,
+		},
+		replicaAsks.amountOfReplicasCoveringAPartition,
+		replicaAsks.observer,
 	)
 }

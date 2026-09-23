@@ -8,21 +8,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type wordPartition[Ask any, Answered any] struct {
-	asksInReplicaOrder                 []placedAsk[Ask]
-	kind                               askKind[Ask, Answered]
-	amountOfReplicasCoveringAPartition int
-	chosenPeers                        *chosenPeers
-}
-
 type placedAsk[Ask any] struct {
 	ask           Ask
 	placeInTheRun int
-}
-
-type askedWordPartition[Ask any, Answered any] struct {
-	settledWordPartition SettledWordPartition
-	placedAskOutcomes    []placedAskOutcome[Ask, Answered]
 }
 
 type placedAskOutcome[Ask any, Answered any] struct {
@@ -30,17 +18,19 @@ type placedAskOutcome[Ask any, Answered any] struct {
 	outcome       peerasks.AskOutcome[Ask, Answered]
 }
 
-type wordPartitionAsking[Ask any, Answered any] struct {
-	partition                wordPartition[Ask, Answered]
-	asksLeft                 []placedAsk[Ask]
-	firstAsks                []placedAsk[Ask]
-	calls                    []*replicaCall[Ask, Answered]
-	hedgesDue                chan *replicaCall[Ask, Answered]
-	callOutcomes             chan replicaCallOutcome[Ask, Answered]
-	settledBy                SettledBy
-	coveringAskPutOn         PutOn
-	amountOfCallsOutstanding int
-	amountOfListingAnswers   int
+type wordPartition[Ask any, Answered any] struct {
+	kind                               askKind[Ask, Answered]
+	amountOfReplicasCoveringAPartition int
+	chosenPeers                        *chosenPeers
+	asksLeft                           []placedAsk[Ask]
+	firstAsks                          []placedAsk[Ask]
+	calls                              []*replicaCall[Ask, Answered]
+	hedgesDue                          chan *replicaCall[Ask, Answered]
+	callOutcomes                       chan replicaCallOutcome[Ask, Answered]
+	settledBy                          SettledBy
+	coveringAskPutOn                   PutOn
+	amountOfCallsOutstanding           int
+	amountOfListingAnswers             int
 }
 
 type replicaCall[Ask any, Answered any] struct {
@@ -58,33 +48,43 @@ type replicaCallOutcome[Ask any, Answered any] struct {
 	answer         Answered
 }
 
-func (partition wordPartition[Ask, Answered]) asking() *wordPartitionAsking[Ask, Answered] {
-	return &wordPartitionAsking[Ask, Answered]{
-		partition: partition,
-		asksLeft:  partition.asksInReplicaOrder,
-		hedgesDue: make(chan *replicaCall[Ask, Answered], len(partition.asksInReplicaOrder)),
+func wordPartitionOf[Ask any, Answered any](
+	asksInReplicaOrder []placedAsk[Ask],
+	kind askKind[Ask, Answered],
+	amountOfReplicasCoveringAPartition int,
+	chosenPeers *chosenPeers,
+) *wordPartition[Ask, Answered] {
+	return &wordPartition[Ask, Answered]{
+		kind:                               kind,
+		amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
+		chosenPeers:                        chosenPeers,
+		asksLeft:                           asksInReplicaOrder,
+		hedgesDue: make(
+			chan *replicaCall[Ask, Answered],
+			len(asksInReplicaOrder),
+		),
 		callOutcomes: make(
 			chan replicaCallOutcome[Ask, Answered],
-			len(partition.asksInReplicaOrder),
+			len(asksInReplicaOrder),
 		),
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) chooseTheFirstAsks() {
-	for range asking.partition.amountOfReplicasCoveringAPartition {
-		placedAsk, chosen := asking.chooseTheNextAsk()
+func (partition *wordPartition[Ask, Answered]) chooseTheFirstAsks() {
+	for range partition.amountOfReplicasCoveringAPartition {
+		placedAsk, chosen := partition.chooseTheNextAsk()
 		if !chosen {
 			return
 		}
-		asking.firstAsks = append(asking.firstAsks, placedAsk)
+		partition.firstAsks = append(partition.firstAsks, placedAsk)
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) chooseTheNextAsk() (placedAsk[Ask], bool) {
-	for !asking.noAskIsLeft() {
-		placedAsk := asking.asksLeft[0]
-		asking.asksLeft = asking.asksLeft[1:]
-		if asking.partition.chosenPeers.choose(asking.partition.peerOf(placedAsk)) {
+func (partition *wordPartition[Ask, Answered]) chooseTheNextAsk() (placedAsk[Ask], bool) {
+	for !partition.noAskIsLeft() {
+		placedAsk := partition.asksLeft[0]
+		partition.asksLeft = partition.asksLeft[1:]
+		if partition.chosenPeers.choose(partition.peerOf(placedAsk)) {
 			return placedAsk, true
 		}
 	}
@@ -92,33 +92,29 @@ func (asking *wordPartitionAsking[Ask, Answered]) chooseTheNextAsk() (placedAsk[
 	return placedAsk[Ask]{}, false
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) noAskIsLeft() bool {
-	return len(asking.asksLeft) == 0
+func (partition *wordPartition[Ask, Answered]) noAskIsLeft() bool {
+	return len(partition.asksLeft) == 0
 }
 
-func (partition wordPartition[Ask, Answered]) peerOf(placedAsk placedAsk[Ask]) yacymodel.Hash {
+func (partition *wordPartition[Ask, Answered]) peerOf(placedAsk placedAsk[Ask]) yacymodel.Hash {
 	return partition.kind.peerOf(placedAsk.ask)
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) askUntilSettled(
-	ctx context.Context,
-) askedWordPartition[Ask, Answered] {
+func (partition *wordPartition[Ask, Answered]) askUntilSettled(ctx context.Context) {
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
-	for _, placedAsk := range asking.firstAsks {
-		asking.putTheAsk(askingContext, placedAsk, PutOnStart)
+	for _, placedAsk := range partition.firstAsks {
+		partition.putTheAsk(askingContext, placedAsk, PutOnStart)
 	}
-	asking.settleWhenNothingIsLeftToAsk()
-	for !asking.isSettled() {
-		asking.takeTheNextEvent(askingContext)
+	partition.settleWhenNothingIsLeftToAsk()
+	for !partition.isSettled() {
+		partition.takeTheNextEvent(askingContext)
 	}
-	asking.stopTheHedgeTimers()
-
-	return asking.askedWordPartition()
+	partition.stopTheHedgeTimers()
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) putTheAsk(
+func (partition *wordPartition[Ask, Answered]) putTheAsk(
 	ctx context.Context,
 	placedAsk placedAsk[Ask],
 	putOn PutOn,
@@ -129,94 +125,95 @@ func (asking *wordPartitionAsking[Ask, Answered]) putTheAsk(
 		answer:    yacymodel.None[Answered](),
 	}
 	call.hedgeTimer = time.AfterFunc(
-		asking.partition.kind.hedgeDelayOf(ctx, placedAsk.ask),
-		func() { asking.hedgesDue <- call },
+		partition.kind.hedgeDelayOf(ctx, placedAsk.ask),
+		func() { partition.hedgesDue <- call },
 	)
-	asking.calls = append(asking.calls, call)
-	asking.amountOfCallsOutstanding++
-	go asking.callTheReplica(ctx, call, placedAsk.ask)
+	partition.calls = append(partition.calls, call)
+	partition.amountOfCallsOutstanding++
+	go partition.callTheReplica(ctx, call, placedAsk.ask)
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) callTheReplica(
+func (partition *wordPartition[Ask, Answered]) callTheReplica(
 	ctx context.Context,
 	call *replicaCall[Ask, Answered],
 	ask Ask,
 ) {
-	answer, answered := asking.partition.kind.putAsk(ctx, ask)
-	asking.callOutcomes <- replicaCallOutcome[Ask, Answered]{
+	answer, answered := partition.kind.putAsk(ctx, ask)
+	partition.callOutcomes <- replicaCallOutcome[Ask, Answered]{
 		call:           call,
 		answered:       answered,
 		answer:         answer,
-		listsDocuments: answered && asking.partition.kind.amountOfDocumentsListedIn(answer) > 0,
+		listsDocuments: answered && partition.kind.amountOfDocumentsListedIn(answer) > 0,
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) settleWhenNothingIsLeftToAsk() {
-	if !asking.isSettled() && asking.amountOfCallsOutstanding == 0 && asking.noAskIsLeft() {
-		asking.settledBy = SettledByNoReplicaLeft
+func (partition *wordPartition[Ask, Answered]) settleWhenNothingIsLeftToAsk() {
+	if !partition.isSettled() && partition.amountOfCallsOutstanding == 0 &&
+		partition.noAskIsLeft() {
+		partition.settledBy = SettledByNoReplicaLeft
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) isSettled() bool {
-	return asking.settledBy != ""
+func (partition *wordPartition[Ask, Answered]) isSettled() bool {
+	return partition.settledBy != ""
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
+func (partition *wordPartition[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
 	if ctx.Err() != nil {
-		asking.settledBy = SettledByDeadline
+		partition.settledBy = SettledByDeadline
 
 		return
 	}
 	select {
-	case call := <-asking.hedgesDue:
-		asking.takeTheHedgeDue(ctx, call)
-	case outcome := <-asking.callOutcomes:
-		asking.takeTheCallOutcome(ctx, outcome)
+	case call := <-partition.hedgesDue:
+		partition.takeTheHedgeDue(ctx, call)
+	case outcome := <-partition.callOutcomes:
+		partition.takeTheCallOutcome(ctx, outcome)
 	case <-ctx.Done():
-		asking.settledBy = SettledByDeadline
+		partition.settledBy = SettledByDeadline
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) takeTheHedgeDue(
+func (partition *wordPartition[Ask, Answered]) takeTheHedgeDue(
 	ctx context.Context,
 	call *replicaCall[Ask, Answered],
 ) {
 	if call.ended {
 		return
 	}
-	asking.askTheNextReplica(ctx, PutOnHedgeDelay)
+	partition.askTheNextReplica(ctx, PutOnHedgeDelay)
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) askTheNextReplica(
+func (partition *wordPartition[Ask, Answered]) askTheNextReplica(
 	ctx context.Context,
 	putOn PutOn,
 ) {
-	placedAsk, chosen := asking.chooseTheNextAsk()
+	placedAsk, chosen := partition.chooseTheNextAsk()
 	if !chosen {
 		return
 	}
-	asking.putTheAsk(ctx, placedAsk, putOn)
+	partition.putTheAsk(ctx, placedAsk, putOn)
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) takeTheCallOutcome(
+func (partition *wordPartition[Ask, Answered]) takeTheCallOutcome(
 	ctx context.Context,
 	outcome replicaCallOutcome[Ask, Answered],
 ) {
-	asking.endTheCall(outcome)
-	asking.recordTheAnswer(outcome)
-	asking.askTheNextReplicaWhenNotListing(ctx, outcome)
-	asking.countTheListingAnswer(outcome)
-	asking.settleWhenNothingIsLeftToAsk()
+	partition.endTheCall(outcome)
+	partition.recordTheAnswer(outcome)
+	partition.askTheNextReplicaWhenNotListing(ctx, outcome)
+	partition.countTheListingAnswer(outcome)
+	partition.settleWhenNothingIsLeftToAsk()
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) endTheCall(
+func (partition *wordPartition[Ask, Answered]) endTheCall(
 	outcome replicaCallOutcome[Ask, Answered],
 ) {
-	asking.amountOfCallsOutstanding--
+	partition.amountOfCallsOutstanding--
 	outcome.call.ended = true
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) recordTheAnswer(
+func (partition *wordPartition[Ask, Answered]) recordTheAnswer(
 	outcome replicaCallOutcome[Ask, Answered],
 ) {
 	if outcome.answered {
@@ -224,74 +221,71 @@ func (asking *wordPartitionAsking[Ask, Answered]) recordTheAnswer(
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) askTheNextReplicaWhenNotListing(
+func (partition *wordPartition[Ask, Answered]) askTheNextReplicaWhenNotListing(
 	ctx context.Context,
 	outcome replicaCallOutcome[Ask, Answered],
 ) {
 	switch {
 	case !outcome.answered:
-		asking.askTheNextReplica(ctx, PutOnFailure)
+		partition.askTheNextReplica(ctx, PutOnFailure)
 	case !outcome.listsDocuments:
-		asking.askTheNextReplica(ctx, PutOnEmptyAnswer)
+		partition.askTheNextReplica(ctx, PutOnEmptyAnswer)
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) countTheListingAnswer(
+func (partition *wordPartition[Ask, Answered]) countTheListingAnswer(
 	outcome replicaCallOutcome[Ask, Answered],
 ) {
 	if !outcome.listsDocuments {
 		return
 	}
-	asking.amountOfListingAnswers++
-	if asking.amountOfListingAnswers == asking.partition.amountOfReplicasCoveringAPartition {
-		asking.settledBy = SettledByCoverage
-		asking.coveringAskPutOn = outcome.call.putOn
+	partition.amountOfListingAnswers++
+	if partition.amountOfListingAnswers == partition.amountOfReplicasCoveringAPartition {
+		partition.settledBy = SettledByCoverage
+		partition.coveringAskPutOn = outcome.call.putOn
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) stopTheHedgeTimers() {
-	for _, call := range asking.calls {
+func (partition *wordPartition[Ask, Answered]) stopTheHedgeTimers() {
+	for _, call := range partition.calls {
 		call.hedgeTimer.Stop()
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) askedWordPartition() askedWordPartition[Ask, Answered] {
-	return askedWordPartition[Ask, Answered]{
-		settledWordPartition: SettledWordPartition{
-			SettledBy:               asking.settledBy,
-			CoveringAskPutOn:        asking.coveringAskPutOn,
-			AmountOfDocumentsListed: asking.amountOfDocumentsListed(),
-			AsksPutOn:               asking.asksPutOn(),
-		},
-		placedAskOutcomes: asking.placedAskOutcomes(),
+func (partition *wordPartition[Ask, Answered]) settledWordPartition() SettledWordPartition {
+	return SettledWordPartition{
+		SettledBy:               partition.settledBy,
+		CoveringAskPutOn:        partition.coveringAskPutOn,
+		AmountOfDocumentsListed: partition.amountOfDocumentsListed(),
+		AsksPutOn:               partition.asksPutOn(),
 	}
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) amountOfDocumentsListed() int {
+func (partition *wordPartition[Ask, Answered]) amountOfDocumentsListed() int {
 	amountOfDocumentsListed := 0
-	for _, call := range asking.calls {
+	for _, call := range partition.calls {
 		answer, answered := call.answer.Get()
 		if !answered {
 			continue
 		}
-		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
+		amountOfDocumentsListed += partition.kind.amountOfDocumentsListedIn(answer)
 	}
 
 	return amountOfDocumentsListed
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) asksPutOn() []PutOn {
-	asksPutOn := make([]PutOn, 0, len(asking.calls))
-	for _, call := range asking.calls {
+func (partition *wordPartition[Ask, Answered]) asksPutOn() []PutOn {
+	asksPutOn := make([]PutOn, 0, len(partition.calls))
+	for _, call := range partition.calls {
 		asksPutOn = append(asksPutOn, call.putOn)
 	}
 
 	return asksPutOn
 }
 
-func (asking *wordPartitionAsking[Ask, Answered]) placedAskOutcomes() []placedAskOutcome[Ask, Answered] {
-	placedAskOutcomes := make([]placedAskOutcome[Ask, Answered], 0, len(asking.calls))
-	for _, call := range asking.calls {
+func (partition *wordPartition[Ask, Answered]) placedAskOutcomes() []placedAskOutcome[Ask, Answered] {
+	placedAskOutcomes := make([]placedAskOutcome[Ask, Answered], 0, len(partition.calls))
+	for _, call := range partition.calls {
 		placedAskOutcomes = append(placedAskOutcomes, placedAskOutcome[Ask, Answered]{
 			placeInTheRun: call.placedAsk.placeInTheRun,
 			outcome: peerasks.AskOutcome[Ask, Answered]{
