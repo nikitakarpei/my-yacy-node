@@ -24,7 +24,7 @@ func judgementFrom(
 	if len(answeredAsk.DocumentsListedForTheWord) == 0 {
 		return peerjudgements.NoEvidence
 	}
-	if !answeredAsk.ListsOnlyTheDocumentsToMatch() {
+	if answeredAsk.IgnoredTheDocumentsToMatch() {
 		return peerjudgements.Ignored
 	}
 

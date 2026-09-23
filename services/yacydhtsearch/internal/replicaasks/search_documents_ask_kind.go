@@ -52,7 +52,7 @@ func (kind searchDocumentsAskKind) putAsk(
 func (kind searchDocumentsAskKind) isCovering(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) bool {
-	return answeredAsk.ListsOnlyTheDocumentsToMatch() &&
+	return !answeredAsk.IgnoredTheDocumentsToMatch() &&
 		kind.amountOfDocumentsListedIn(answeredAsk) > 0
 }
 

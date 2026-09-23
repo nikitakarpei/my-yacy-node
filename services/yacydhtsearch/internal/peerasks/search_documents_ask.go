@@ -33,15 +33,15 @@ func (answeredAsk AnsweredSearchDocumentsAsk) AnswersTheAskTo(
 	return answeredAsk.Ask.Peer.Hash == peer.Hash && answeredAsk.Ask.Word == word
 }
 
-func (answeredAsk AnsweredSearchDocumentsAsk) ListsOnlyTheDocumentsToMatch() bool {
+func (answeredAsk AnsweredSearchDocumentsAsk) IgnoredTheDocumentsToMatch() bool {
 	if len(answeredAsk.Ask.DocumentsToMatch) == 0 {
-		return true
+		return false
 	}
 	for _, document := range answeredAsk.DocumentsListedForTheWord {
 		if !slices.Contains(answeredAsk.Ask.DocumentsToMatch, document) {
-			return false
+			return true
 		}
 	}
 
-	return true
+	return false
 }
