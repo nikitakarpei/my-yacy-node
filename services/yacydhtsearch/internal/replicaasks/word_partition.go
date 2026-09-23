@@ -8,16 +8,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type wordPartition[Ask any, Answered any] struct {
-	asksInReplicaOrder         []Ask
-	placeOfEachAskInTheRun     []int
-	kind                       askKind[Ask, Answered]
-	replicasCoveringAPartition int
-}
-
-type answeredWordPartition[Ask any, Answered any] struct {
-	settled           SettledWordPartition
-	placedAskOutcomes []placedAskOutcome[Ask, Answered]
+type placedAsk[Ask any] struct {
+	ask           Ask
+	placeInTheRun int
 }
 
 type placedAskOutcome[Ask any, Answered any] struct {
@@ -25,204 +18,283 @@ type placedAskOutcome[Ask any, Answered any] struct {
 	outcome       peerasks.AskOutcome[Ask, Answered]
 }
 
-func (partition wordPartition[Ask, Answered]) settle(
-	ctx context.Context,
-) answeredWordPartition[Ask, Answered] {
+type wordPartition[Ask any, Answered any] struct {
+	kind                               askKind[Ask, Answered]
+	amountOfReplicasCoveringAPartition int
+	chosenPeers                        *chosenPeers
+	asksLeft                           []placedAsk[Ask]
+	firstAsks                          []placedAsk[Ask]
+	calls                              []*replicaCall[Ask, Answered]
+	hedgesDue                          chan *replicaCall[Ask, Answered]
+	callOutcomes                       chan replicaCallOutcome[Ask, Answered]
+	settledBy                          SettledBy
+	coveringAskPutOn                   PutOn
+	amountOfCallsOutstanding           int
+	amountOfListingAnswers             int
+}
+
+type replicaCall[Ask any, Answered any] struct {
+	placedAsk  placedAsk[Ask]
+	putOn      PutOn
+	ended      bool
+	hedgeTimer *time.Timer
+	answer     yacymodel.Optional[Answered]
+}
+
+type replicaCallOutcome[Ask any, Answered any] struct {
+	call           *replicaCall[Ask, Answered]
+	answered       bool
+	listsDocuments bool
+	answer         Answered
+}
+
+func wordPartitionOf[Ask any, Answered any](
+	asksInReplicaOrder []placedAsk[Ask],
+	kind askKind[Ask, Answered],
+	amountOfReplicasCoveringAPartition int,
+	chosenPeers *chosenPeers,
+) *wordPartition[Ask, Answered] {
+	return &wordPartition[Ask, Answered]{
+		kind:                               kind,
+		amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
+		chosenPeers:                        chosenPeers,
+		asksLeft:                           asksInReplicaOrder,
+		hedgesDue: make(
+			chan *replicaCall[Ask, Answered],
+			len(asksInReplicaOrder),
+		),
+		callOutcomes: make(
+			chan replicaCallOutcome[Ask, Answered],
+			len(asksInReplicaOrder),
+		),
+	}
+}
+
+func (partition *wordPartition[Ask, Answered]) chooseTheFirstAsks() {
+	for range partition.amountOfReplicasCoveringAPartition {
+		placedAsk, chosen := partition.chooseTheNextAsk()
+		if !chosen {
+			return
+		}
+		partition.firstAsks = append(partition.firstAsks, placedAsk)
+	}
+}
+
+func (partition *wordPartition[Ask, Answered]) chooseTheNextAsk() (placedAsk[Ask], bool) {
+	for !partition.noAskIsLeft() {
+		placedAsk := partition.asksLeft[0]
+		partition.asksLeft = partition.asksLeft[1:]
+		if partition.chosenPeers.choose(partition.peerOf(placedAsk)) {
+			return placedAsk, true
+		}
+	}
+
+	return placedAsk[Ask]{}, false
+}
+
+func (partition *wordPartition[Ask, Answered]) noAskIsLeft() bool {
+	return len(partition.asksLeft) == 0
+}
+
+func (partition *wordPartition[Ask, Answered]) peerOf(placedAsk placedAsk[Ask]) yacymodel.Hash {
+	return partition.kind.peerOf(placedAsk.ask)
+}
+
+func (partition *wordPartition[Ask, Answered]) askUntilSettled(ctx context.Context) {
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
-	asking := partition.asking()
-	asking.askTheFirstReplicas(askingContext)
-	for !asking.settled() {
-		asking.takeTheNextEvent(askingContext)
+	for _, placedAsk := range partition.firstAsks {
+		partition.putTheAsk(askingContext, placedAsk, PutOnStart)
 	}
-	asking.stopTheHedgeTimers()
-
-	return asking.answeredWordPartition()
+	partition.settleWhenNothingIsLeftToAsk()
+	for !partition.isSettled() {
+		partition.takeTheNextEvent(askingContext)
+	}
+	partition.stopTheHedgeTimers()
 }
 
-type unsettledWordPartition[Ask any, Answered any] struct {
-	partition                wordPartition[Ask, Answered]
-	hedgesDue                chan int
-	callOutcomes             chan replicaCallOutcome[Answered]
-	settledBy                SettledBy
-	coveringAskPutOn         PutOn
-	putOnPerReplica          []PutOn
-	callsEnded               []bool
-	hedgeTimers              []*time.Timer
-	amountOfCallsOutstanding int
-	amountOfListings         int
-	answerOfEachReplica      []yacymodel.Optional[Answered]
+func (partition *wordPartition[Ask, Answered]) putTheAsk(
+	ctx context.Context,
+	placedAsk placedAsk[Ask],
+	putOn PutOn,
+) {
+	call := &replicaCall[Ask, Answered]{
+		placedAsk: placedAsk,
+		putOn:     putOn,
+		answer:    yacymodel.None[Answered](),
+	}
+	call.hedgeTimer = time.AfterFunc(
+		partition.kind.hedgeDelayOf(ctx, placedAsk.ask),
+		func() { partition.hedgesDue <- call },
+	)
+	partition.calls = append(partition.calls, call)
+	partition.amountOfCallsOutstanding++
+	go partition.callTheReplica(ctx, call, placedAsk.ask)
 }
 
-func (partition wordPartition[Ask, Answered]) asking() *unsettledWordPartition[Ask, Answered] {
-	return &unsettledWordPartition[Ask, Answered]{
-		partition:    partition,
-		hedgesDue:    make(chan int, len(partition.asksInReplicaOrder)),
-		callOutcomes: make(chan replicaCallOutcome[Answered], len(partition.asksInReplicaOrder)),
+func (partition *wordPartition[Ask, Answered]) callTheReplica(
+	ctx context.Context,
+	call *replicaCall[Ask, Answered],
+	ask Ask,
+) {
+	answer, answered := partition.kind.putAsk(ctx, ask)
+	partition.callOutcomes <- replicaCallOutcome[Ask, Answered]{
+		call:           call,
+		answered:       answered,
+		answer:         answer,
+		listsDocuments: answered && partition.kind.amountOfDocumentsListedIn(answer) > 0,
 	}
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) askTheFirstReplicas(ctx context.Context) {
-	for range min(
-		asking.partition.replicasCoveringAPartition, len(asking.partition.asksInReplicaOrder),
-	) {
-		asking.askTheNextReplica(ctx, PutOnStart)
+func (partition *wordPartition[Ask, Answered]) settleWhenNothingIsLeftToAsk() {
+	if !partition.isSettled() && partition.amountOfCallsOutstanding == 0 &&
+		partition.noAskIsLeft() {
+		partition.settledBy = SettledByNoReplicaLeft
 	}
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) settled() bool {
-	return asking.settledBy != ""
+func (partition *wordPartition[Ask, Answered]) isSettled() bool {
+	return partition.settledBy != ""
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
+func (partition *wordPartition[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
 	if ctx.Err() != nil {
-		asking.settledBy = SettledByDeadline
+		partition.settledBy = SettledByDeadline
 
 		return
 	}
 	select {
-	case replica := <-asking.hedgesDue:
-		asking.takeTheHedgeDue(ctx, replica)
-	case outcome := <-asking.callOutcomes:
-		asking.takeTheCallOutcome(ctx, outcome)
+	case call := <-partition.hedgesDue:
+		partition.takeTheHedgeDue(ctx, call)
+	case outcome := <-partition.callOutcomes:
+		partition.takeTheCallOutcome(ctx, outcome)
 	case <-ctx.Done():
-		asking.settledBy = SettledByDeadline
+		partition.settledBy = SettledByDeadline
 	}
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) takeTheHedgeDue(
+func (partition *wordPartition[Ask, Answered]) takeTheHedgeDue(
 	ctx context.Context,
-	replica int,
+	call *replicaCall[Ask, Answered],
 ) {
-	if asking.callsEnded[replica] {
+	if call.ended {
 		return
 	}
-	asking.askTheNextReplica(ctx, PutOnHedgeDelay)
+	partition.askTheNextReplica(ctx, PutOnHedgeDelay)
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) takeTheCallOutcome(
-	ctx context.Context,
-	outcome replicaCallOutcome[Answered],
-) {
-	asking.amountOfCallsOutstanding--
-	asking.callsEnded[outcome.replica] = true
-	asking.coverOrAskTheNextReplica(ctx, outcome)
-	if !asking.settled() && asking.amountOfCallsOutstanding == 0 && asking.noReplicaIsLeft() {
-		asking.settledBy = SettledByNoReplicaLeft
-	}
-}
-
-func (asking *unsettledWordPartition[Ask, Answered]) coverOrAskTheNextReplica(
-	ctx context.Context,
-	outcome replicaCallOutcome[Answered],
-) {
-	if !outcome.answered {
-		asking.askTheNextReplica(ctx, PutOnFailure)
-
-		return
-	}
-	asking.answerOfEachReplica[outcome.replica] = yacymodel.Some(outcome.answer)
-	if !outcome.listsDocuments {
-		asking.askTheNextReplica(ctx, PutOnEmptyAnswer)
-
-		return
-	}
-	asking.amountOfListings++
-	if asking.amountOfListings == asking.partition.replicasCoveringAPartition {
-		asking.settledBy = SettledByCoverage
-		asking.coveringAskPutOn = asking.putOnPerReplica[outcome.replica]
-	}
-}
-
-func (asking *unsettledWordPartition[Ask, Answered]) askTheNextReplica(
+func (partition *wordPartition[Ask, Answered]) askTheNextReplica(
 	ctx context.Context,
 	putOn PutOn,
 ) {
-	if asking.noReplicaIsLeft() {
+	placedAsk, chosen := partition.chooseTheNextAsk()
+	if !chosen {
 		return
 	}
-	replica := len(asking.putOnPerReplica)
-	ask := asking.partition.asksInReplicaOrder[replica]
-	asking.putOnPerReplica = append(asking.putOnPerReplica, putOn)
-	asking.answerOfEachReplica = append(asking.answerOfEachReplica, yacymodel.None[Answered]())
-	asking.callsEnded = append(asking.callsEnded, false)
-	asking.amountOfCallsOutstanding++
-	asking.hedgeTimers = append(asking.hedgeTimers, time.AfterFunc(
-		asking.partition.kind.hedgeDelayOf(ctx, ask),
-		func() { asking.hedgesDue <- replica },
-	))
-	go asking.putTheAsk(ctx, replica, ask)
+	partition.putTheAsk(ctx, placedAsk, putOn)
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) putTheAsk(
+func (partition *wordPartition[Ask, Answered]) takeTheCallOutcome(
 	ctx context.Context,
-	replica int,
-	ask Ask,
+	outcome replicaCallOutcome[Ask, Answered],
 ) {
-	answer, answered := asking.partition.kind.putAsk(ctx, ask)
-	asking.callOutcomes <- replicaCallOutcome[Answered]{
-		replica:        replica,
-		answered:       answered,
-		answer:         answer,
-		listsDocuments: answered && asking.partition.kind.amountOfDocumentsListedIn(answer) > 0,
+	partition.endTheCall(outcome)
+	partition.recordTheAnswer(outcome)
+	partition.askTheNextReplicaWhenNotListing(ctx, outcome)
+	partition.countTheListingAnswer(outcome)
+	partition.settleWhenNothingIsLeftToAsk()
+}
+
+func (partition *wordPartition[Ask, Answered]) endTheCall(
+	outcome replicaCallOutcome[Ask, Answered],
+) {
+	partition.amountOfCallsOutstanding--
+	outcome.call.ended = true
+}
+
+func (partition *wordPartition[Ask, Answered]) recordTheAnswer(
+	outcome replicaCallOutcome[Ask, Answered],
+) {
+	if outcome.answered {
+		outcome.call.answer = yacymodel.Some(outcome.answer)
 	}
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) noReplicaIsLeft() bool {
-	return len(asking.putOnPerReplica) == len(asking.partition.asksInReplicaOrder)
-}
-
-func (asking *unsettledWordPartition[Ask, Answered]) stopTheHedgeTimers() {
-	for _, hedgeTimer := range asking.hedgeTimers {
-		hedgeTimer.Stop()
+func (partition *wordPartition[Ask, Answered]) askTheNextReplicaWhenNotListing(
+	ctx context.Context,
+	outcome replicaCallOutcome[Ask, Answered],
+) {
+	switch {
+	case !outcome.answered:
+		partition.askTheNextReplica(ctx, PutOnFailure)
+	case !outcome.listsDocuments:
+		partition.askTheNextReplica(ctx, PutOnEmptyAnswer)
 	}
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) answeredWordPartition() answeredWordPartition[Ask, Answered] {
-	return answeredWordPartition[Ask, Answered]{
-		settled: SettledWordPartition{
-			SettledBy:               asking.settledBy,
-			CoveringAskPutOn:        asking.coveringAskPutOn,
-			AmountOfDocumentsListed: asking.amountOfDocumentsListed(),
-			AsksPutOn:               asking.putOnPerReplica,
-		},
-		placedAskOutcomes: asking.placedAskOutcomes(),
+func (partition *wordPartition[Ask, Answered]) countTheListingAnswer(
+	outcome replicaCallOutcome[Ask, Answered],
+) {
+	if !outcome.listsDocuments {
+		return
+	}
+	partition.amountOfListingAnswers++
+	if partition.amountOfListingAnswers == partition.amountOfReplicasCoveringAPartition {
+		partition.settledBy = SettledByCoverage
+		partition.coveringAskPutOn = outcome.call.putOn
 	}
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) amountOfDocumentsListed() int {
+func (partition *wordPartition[Ask, Answered]) stopTheHedgeTimers() {
+	for _, call := range partition.calls {
+		call.hedgeTimer.Stop()
+	}
+}
+
+func (partition *wordPartition[Ask, Answered]) settledWordPartition() SettledWordPartition {
+	return SettledWordPartition{
+		SettledBy:               partition.settledBy,
+		CoveringAskPutOn:        partition.coveringAskPutOn,
+		AmountOfDocumentsListed: partition.amountOfDocumentsListed(),
+		AsksPutOn:               partition.asksPutOn(),
+	}
+}
+
+func (partition *wordPartition[Ask, Answered]) amountOfDocumentsListed() int {
 	amountOfDocumentsListed := 0
-	for _, answerOfReplica := range asking.answerOfEachReplica {
-		answer, answered := answerOfReplica.Get()
+	for _, call := range partition.calls {
+		answer, answered := call.answer.Get()
 		if !answered {
 			continue
 		}
-		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
+		amountOfDocumentsListed += partition.kind.amountOfDocumentsListedIn(answer)
 	}
 
 	return amountOfDocumentsListed
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) placedAskOutcomes() []placedAskOutcome[Ask, Answered] {
-	placedAskOutcomes := make([]placedAskOutcome[Ask, Answered], 0, len(asking.answerOfEachReplica))
-	for replica, answer := range asking.answerOfEachReplica {
+func (partition *wordPartition[Ask, Answered]) asksPutOn() []PutOn {
+	asksPutOn := make([]PutOn, 0, len(partition.calls))
+	for _, call := range partition.calls {
+		asksPutOn = append(asksPutOn, call.putOn)
+	}
+
+	return asksPutOn
+}
+
+func (partition *wordPartition[Ask, Answered]) placedAskOutcomes() []placedAskOutcome[Ask, Answered] {
+	placedAskOutcomes := make([]placedAskOutcome[Ask, Answered], 0, len(partition.calls))
+	for _, call := range partition.calls {
 		placedAskOutcomes = append(placedAskOutcomes, placedAskOutcome[Ask, Answered]{
-			placeInTheRun: asking.partition.placeOfEachAskInTheRun[replica],
+			placeInTheRun: call.placedAsk.placeInTheRun,
 			outcome: peerasks.AskOutcome[Ask, Answered]{
-				Ask:    asking.partition.asksInReplicaOrder[replica],
+				Ask:    call.placedAsk.ask,
 				Put:    true,
-				Answer: answer,
+				Answer: call.answer,
 			},
 		})
 	}
 
 	return placedAskOutcomes
-}
-
-type replicaCallOutcome[Answered any] struct {
-	replica        int
-	answered       bool
-	listsDocuments bool
-	answer         Answered
 }

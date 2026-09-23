@@ -24,35 +24,38 @@ type HedgeDelay interface {
 }
 
 type Asks struct {
-	peerCalls                  PeerCalls
-	hedgeDelay                 HedgeDelay
-	replicasCoveringAPartition int
-	observer                   ReplicaAsksObserver
+	peerCalls                          PeerCalls
+	hedgeDelay                         HedgeDelay
+	amountOfReplicasCoveringAPartition int
+	observer                           ReplicaAsksObserver
 }
 
 func New(
 	peerCalls PeerCalls,
 	hedgeDelay HedgeDelay,
-	replicasCoveringAPartition int,
+	amountOfReplicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
 ) Asks {
 	return Asks{
-		peerCalls:                  peerCalls,
-		hedgeDelay:                 hedgeDelay,
-		replicasCoveringAPartition: replicasCoveringAPartition,
-		observer:                   observer,
+		peerCalls:                          peerCalls,
+		hedgeDelay:                         hedgeDelay,
+		amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
+		observer:                           observer,
 	}
 }
 
-func (asks Asks) AskForSearchDocuments(
+func (replicaAsks Asks) AskForSearchDocuments(
 	ctx context.Context,
 	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
 ) peerasks.SearchDocumentsAskOutcomes {
 	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,
-		searchDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
-		asks.replicasCoveringAPartition,
-		asks.observer,
+		searchDocumentsAskKind{
+			peerCalls:  replicaAsks.peerCalls,
+			hedgeDelay: replicaAsks.hedgeDelay,
+		},
+		replicaAsks.amountOfReplicasCoveringAPartition,
+		replicaAsks.observer,
 	)
 }

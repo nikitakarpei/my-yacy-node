@@ -317,6 +317,52 @@ func TestAnAnswerThatOnlyMatchesDocumentsSettlesTheWordPartition(t *testing.T) {
 	asking.observer.wantAmountOfDocumentsListed(t, 2)
 }
 
+func TestAPeerAskedForOneWordPartitionIsNotAskedForAnotherOne(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"shared": {documentsListed: 3}, "berlin-two": {documentsListed: 2},
+		"weather-two": {documentsListed: 4},
+	}, noHedgeOfTheTests, 1)
+
+	askOutcomes := asking.searchDocumentsAskOutcomes(t.Context(), append(
+		asksForTheWord("berlin", 1, "shared", "berlin-two"),
+		asksForTheWord("weather", 2, "shared", "weather-two")...,
+	))
+
+	wanted := []string{
+		"shared answered", "berlin-two not put", "shared not put", "weather-two answered",
+	}
+	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
+		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
+	}
+	asking.calls.wantAddressesPut(t, "shared", "weather-two")
+	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnStart)
+}
+
+func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLeft(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"shared": {documentsListed: 3},
+	}, noHedgeOfTheTests, 1)
+
+	askOutcomes := asking.searchDocumentsAskOutcomes(t.Context(), append(
+		asksForTheWord("berlin", 1, "shared"),
+		asksForTheWord("weather", 2, "shared")...,
+	))
+
+	if got := addressesOf(askOutcomes.AsksPut()); !slices.Equal(got, []string{"shared"}) {
+		t.Fatalf("the asks put went to %v, want the shared peer once", got)
+	}
+	asking.calls.wantAddressesPut(t, "shared")
+	asking.observer.wantSettledBy(
+		t, replicaasks.SettledByCoverage, replicaasks.SettledByNoReplicaLeft,
+	)
+}
+
 type scriptedPeerCall struct {
 	documentsListed  int
 	documentsMatched int
@@ -548,7 +594,7 @@ type askingUnderTest struct {
 func askingOfTheTests(
 	scripts map[string]scriptedPeerCall,
 	hedgeDelay time.Duration,
-	replicasCoveringAPartition int,
+	amountOfReplicasCoveringAPartition int,
 ) askingUnderTest {
 	calls := &peerCallsOfTheTests{
 		scripts:   scripts,
@@ -563,7 +609,7 @@ func askingOfTheTests(
 		asks: replicaasks.New(
 			calls,
 			hedgeDelayOfTheTestsPeers(hedgeDelay),
-			replicasCoveringAPartition,
+			amountOfReplicasCoveringAPartition,
 			observer,
 		),
 	}
@@ -630,5 +676,5 @@ func outcomesOf(askOutcomes peerasks.SearchDocumentsAskOutcomes) []string {
 }
 
 func peerAt(address string) peerdirectory.AskablePeer {
-	return peerdirectory.AskablePeer{Address: address}
+	return peerdirectory.AskablePeer{Hash: yacymodel.WordHash(address), Address: address}
 }

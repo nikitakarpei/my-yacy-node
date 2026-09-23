@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"strconv"
 	"testing"
 	"time"
@@ -37,7 +38,7 @@ const (
 	queryBudget          = 5 * time.Second
 	pageReadBudget       = 3 * time.Second
 	peerResults          = 10
-	directoryLimit       = 16
+	directoryLimit       = 64
 	recordCeiling        = 50
 	compoundWordsCeiling = 4
 	pagesReadPerQuery    = 50
@@ -866,9 +867,10 @@ func TestAQueryOfTwoWordsCarriesBackWhatTheReplicasListForBothWords(t *testing.T
 
 	const address = "https://a.example/"
 	observer := &recordedQuery{}
-	directory := directoryAnsweringAt(
-		t, peerListingTheAddressForEachWord(t, address, "berlin", "kelondro"),
-	)
+	directory := directoryAnsweringAt(t, slices.Repeat(
+		[]string{peerListingTheAddressForEachWord(t, address, "berlin", "kelondro")},
+		directoryLimit,
+	)...)
 	network := networkSearching(t, directory, observer, wordJoinedSpread(t))
 
 	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
@@ -891,9 +893,10 @@ func TestAQueryOfTwoWordsCarriesBackWhatAReplicaListsForTheirCompoundWord(t *tes
 	t.Parallel()
 
 	const address = "https://a.example/"
-	directory := directoryAnsweringAt(
-		t, peerListingTheAddressForEachWord(t, address, "berlinkelondro"),
-	)
+	directory := directoryAnsweringAt(t, slices.Repeat(
+		[]string{peerListingTheAddressForEachWord(t, address, "berlinkelondro")},
+		directoryLimit,
+	)...)
 	network := networkSearching(t, directory, &recordedQuery{}, wordJoinedSpread(t))
 
 	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
