@@ -186,6 +186,36 @@ func TestAWordWithoutASampleCannotLead(t *testing.T) {
 	}
 }
 
+func TestAWordAPeerSearchedAndHoldsNothingForIsASampleOfNoDocuments(t *testing.T) {
+	t.Parallel()
+
+	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
+	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 3)
+	network := networkOf(map[string]map[string][]string{
+		"first-in-1":  {firstWord: documentsInPartitionOne},
+		"second-in-0": {secondWord: documentsInPartitionZero},
+		"second-in-1": {secondWord: documentsInPartitionOne},
+	})
+	network.peersCountingNoDocument = map[string]struct{}{"first-in-0": {}}
+	network.peersThatSearched = map[string]struct{}{"first-in-0": {}}
+	observer := &recordedSpreads{}
+
+	settingsOfTwoPartitions().spread(network, observer)
+
+	discoveryRound := observer.performed[0].DiscoveryRound
+	if discoveryRound.AmountOfQueryWordsWithASample != 2 {
+		t.Fatalf("the spread reported %+v, want both words with a sample", discoveryRound)
+	}
+	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
+	if len(asksNamingDocuments) != 1 ||
+		asksNamingDocuments[0].Word != yacymodel.WordHash(secondWord) {
+		t.Fatalf(
+			"the spread put %v with documents to match, want the word with no documents leading",
+			asksNamingDocuments,
+		)
+	}
+}
+
 func TestWithoutASampleEveryWordIsAskedWholeInEveryPartition(t *testing.T) {
 	t.Parallel()
 

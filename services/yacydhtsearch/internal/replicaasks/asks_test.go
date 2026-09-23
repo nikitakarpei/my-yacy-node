@@ -65,7 +65,7 @@ func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T)
 	asking.observer.wantAmountOfDocumentsListed(t, 3)
 }
 
-func TestAnEmptyAnswerAsksTheNextReplicaAtOnce(t *testing.T) {
+func TestAnEmptyAnswerWithoutASearchAsksTheNextReplicaAtOnce(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
@@ -82,6 +82,25 @@ func TestAnEmptyAnswerAsksTheNextReplicaAtOnce(t *testing.T) {
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnEmptyAnswer)
 	asking.observer.wantPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnEmptyAnswer)
+}
+
+func TestAnEmptyAnswerOfAPeerThatSearchedSettlesTheWordPartition(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"bananaphotos-one": {searched: true}, "bananaphotos-two": {documentsListed: 2},
+	}, noHedgeOfTheTests, 1)
+
+	answers := asking.searchDocumentsAnswers(
+		t.Context(), asksForTheWord("bananaphotos", 1, "bananaphotos-one", "bananaphotos-two"),
+	)
+
+	if len(answers) != 1 || answers[0].Ask.Peer.Address != "bananaphotos-one" {
+		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", answers)
+	}
+	asking.calls.wantAddressesPut(t, "bananaphotos-one")
+	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
+	asking.observer.wantAmountOfDocumentsListed(t, 0)
 }
 
 func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
@@ -488,6 +507,7 @@ type scriptedPeerCall struct {
 	documentsListed  int
 	documentsMatched int
 	documentsHeld    yacymodel.Optional[int]
+	searched         bool
 	fails            bool
 	answersAfter     time.Duration
 }
@@ -515,6 +535,7 @@ func (calls *peerCallsOfTheTests) AskForSearchDocuments(
 		Abstract:                        make([]yacymodel.URLHash, script.documentsListed),
 		MatchedDocuments:                make([]peerasks.MatchedDocument, script.documentsMatched),
 		AmountOfDocumentsHeldForTheWord: script.documentsHeld,
+		PeerSearched:                    script.searched,
 	}}
 }
 

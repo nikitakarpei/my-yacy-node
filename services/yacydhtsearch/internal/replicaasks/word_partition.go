@@ -25,7 +25,7 @@ type wordPartition struct {
 	settledBy                SettledBy
 	coveringAskPutOn         PutOn
 	amountOfCallsOutstanding int
-	amountOfListingAnswers   int
+	amountOfCoveringAnswers  int
 }
 
 type replicaCall struct {
@@ -37,10 +37,10 @@ type replicaCall struct {
 }
 
 type replicaCallOutcome struct {
-	call           *replicaCall
-	answered       bool
-	listsDocuments bool
-	answer         peerasks.AnsweredSearchDocumentsAsk
+	call               *replicaCall
+	answered           bool
+	coversThePartition bool
+	answer             peerasks.AnsweredSearchDocumentsAsk
 }
 
 func wordPartitionOf(
@@ -132,11 +132,15 @@ func (partition *wordPartition) callTheReplica(
 		return
 	}
 	partition.callOutcomes <- replicaCallOutcome{
-		call:           call,
-		answered:       true,
-		answer:         answeredAsks[0],
-		listsDocuments: amountOfDocumentsListedIn(answeredAsks[0]) > 0,
+		call:               call,
+		answered:           true,
+		answer:             answeredAsks[0],
+		coversThePartition: coversThePartition(answeredAsks[0]),
 	}
+}
+
+func coversThePartition(answeredAsk peerasks.AnsweredSearchDocumentsAsk) bool {
+	return amountOfDocumentsListedIn(answeredAsk) > 0 || answeredAsk.PeerSearched
 }
 
 func amountOfDocumentsListedIn(answeredAsk peerasks.AnsweredSearchDocumentsAsk) int {
@@ -202,8 +206,8 @@ func (partition *wordPartition) takeTheCallOutcome(
 ) {
 	partition.endTheCall(outcome)
 	partition.recordTheAnswer(outcome)
-	partition.askTheNextReplicaWhenNotListing(ctx, outcome)
-	partition.countTheListingAnswer(outcome)
+	partition.askTheNextReplicaWhenNotCovering(ctx, outcome)
+	partition.countTheCoveringAnswer(outcome)
 	partition.settleWhenNothingIsLeftToAsk()
 }
 
@@ -218,24 +222,24 @@ func (partition *wordPartition) recordTheAnswer(outcome replicaCallOutcome) {
 	}
 }
 
-func (partition *wordPartition) askTheNextReplicaWhenNotListing(
+func (partition *wordPartition) askTheNextReplicaWhenNotCovering(
 	ctx context.Context,
 	outcome replicaCallOutcome,
 ) {
 	switch {
 	case !outcome.answered:
 		partition.askTheNextReplica(ctx, PutOnFailure)
-	case !outcome.listsDocuments:
+	case !outcome.coversThePartition:
 		partition.askTheNextReplica(ctx, PutOnEmptyAnswer)
 	}
 }
 
-func (partition *wordPartition) countTheListingAnswer(outcome replicaCallOutcome) {
-	if !outcome.listsDocuments {
+func (partition *wordPartition) countTheCoveringAnswer(outcome replicaCallOutcome) {
+	if !outcome.coversThePartition {
 		return
 	}
-	partition.amountOfListingAnswers++
-	if partition.amountOfListingAnswers ==
+	partition.amountOfCoveringAnswers++
+	if partition.amountOfCoveringAnswers ==
 		partition.replicaAsks.amountOfReplicasCoveringAPartition {
 		partition.settledBy = SettledByCoverage
 		partition.coveringAskPutOn = outcome.call.putOn
