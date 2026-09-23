@@ -1062,12 +1062,12 @@ func TestACallCancelledWhileThePeerAnswersIsNotReportedAsAnUnreachablePeer(t *te
 		},
 	))
 	t.Cleanup(server.Close)
+	t.Cleanup(func() { close(searchEnded) })
 	ctx, endSearch := context.WithCancel(t.Context())
 	t.Cleanup(endSearch)
 	go func() {
 		<-askReachedThePeer
 		endSearch()
-		close(searchEnded)
 	}()
 
 	answeredAsks := wireTo(observer).AskForMatchedDocuments(
