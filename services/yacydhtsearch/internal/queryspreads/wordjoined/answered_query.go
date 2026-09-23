@@ -1,10 +1,8 @@
 package wordjoined
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func answeredQueryFrom(
@@ -35,11 +33,11 @@ func foundDocumentsFrom(
 			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
 				continue
 			}
-			keepTheDocumentThePeerMatched(
-				documentsThePeersSent,
-				matchedDocument,
+			documentsThePeersSent.KeepDocumentThePeerMatched(
 				answeredAsk.Ask.Peer.Hash,
-				yacymodel.Some(answeredAsk.Ask.Word),
+				answeredAsk.Ask.Word,
+				matchedDocument.Metadata,
+				matchedDocument.Posting,
 			)
 		}
 	}
@@ -52,20 +50,4 @@ func foundDocumentsFrom(
 	}
 
 	return documentsThePeersSent.FoundDocuments()
-}
-
-func keepTheDocumentThePeerMatched(
-	documentsThePeersSent *queryanswers.DocumentsThePeersSent,
-	matchedDocument peerasks.MatchedDocument,
-	peer yacymodel.Hash,
-	word yacymodel.Optional[yacymodel.Hash],
-) {
-	documentsThePeersSent.KeepMetadataThePeerSent(matchedDocument.Metadata, peer)
-	posting, sent := matchedDocument.Posting.Get()
-	if !sent {
-		return
-	}
-	documentsThePeersSent.KeepPostingThePeerSent(
-		matchedDocument.Metadata.Hash, peer, word, posting,
-	)
 }

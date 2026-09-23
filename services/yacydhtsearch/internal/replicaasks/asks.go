@@ -1,6 +1,7 @@
 // Package replicaasks puts the asks of a word partition to its replicas in
-// turn, and settles the partition as soon as enough replicas have listed
-// documents for the word.
+// turn, settles the partition as soon as enough replicas have listed
+// documents for the word, and reports for each ask whether it was put and
+// what the peer answered.
 package replicaasks
 
 import (
@@ -12,14 +13,10 @@ import (
 )
 
 type PeerCalls interface {
-	AskForMatchedAndHeldDocuments(
+	AskForSearchDocuments(
 		ctx context.Context,
-		asks []peerasks.MatchedAndHeldDocumentsAsk,
-	) []peerasks.AnsweredMatchedAndHeldDocumentsAsk
-	AskForMatchedDocuments(
-		ctx context.Context,
-		asks []peerasks.MatchedDocumentsAsk,
-	) []peerasks.AnsweredMatchedDocumentsAsk
+		asks []peerasks.SearchDocumentsAsk,
+	) []peerasks.AnsweredSearchDocumentsAsk
 }
 
 type HedgeDelay interface {
@@ -47,27 +44,14 @@ func New(
 	}
 }
 
-func (asks Asks) AskForMatchedAndHeldDocuments(
+func (asks Asks) AskForSearchDocuments(
 	ctx context.Context,
-	asksInReplicaOrder []peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
+) peerasks.SearchDocumentsAskOutcomes {
 	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,
-		matchedAndHeldDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
-		asks.replicasCoveringAPartition,
-		asks.observer,
-	)
-}
-
-func (asks Asks) AskForMatchedDocuments(
-	ctx context.Context,
-	asksInReplicaOrder []peerasks.MatchedDocumentsAsk,
-) []peerasks.AnsweredMatchedDocumentsAsk {
-	return askTheWordPartitions(
-		ctx,
-		asksInReplicaOrder,
-		matchedDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
+		searchDocumentsAskKind{peerCalls: asks.peerCalls, hedgeDelay: asks.hedgeDelay},
 		asks.replicasCoveringAPartition,
 		asks.observer,
 	)

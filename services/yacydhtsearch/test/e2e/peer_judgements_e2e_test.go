@@ -140,7 +140,7 @@ func judgeTheUnaskedReplica(t *testing.T, peer peerUnderJudgement) {
 		ctx,
 		probe,
 		service,
-		answeredCrossChecksLine(peer.amountOfAnsweredCrossChecks),
+		judgementsLine(peer.judged, peer.amountOfAnsweredCrossChecks),
 		peer.name,
 	)
 }
@@ -504,12 +504,5 @@ func requireMetricLine(
 		line,
 		peerName,
 		metrics,
-	)
-}
-
-func answeredCrossChecksLine(counted int) string {
-	return fmt.Sprintf(
-		`yacydhtsearch_peer_calls_total{asked_for="cross-checked documents",outcome="answered"} %d`,
-		counted,
 	)
 }

@@ -13,9 +13,9 @@ func crossCheckAsksFor(
 	candidates crossCheckCandidates,
 	peerStandings peerjudgements.PeerStandings,
 	documentsToMatchCeiling int,
-) []peerasks.CrossCheckedDocumentsAsk {
+) []peerasks.SearchDocumentsAsk {
 	asks := make(
-		[]peerasks.CrossCheckedDocumentsAsk,
+		[]peerasks.SearchDocumentsAsk,
 		0,
 		len(candidates.ofWordPartitionsWithoutACompleteAbstract),
 	)
@@ -29,7 +29,7 @@ func crossCheckAsksFor(
 		)
 		asks = append(asks, crossCheckAsksOfEach(
 			peersNotYetAskedToCrossCheck,
-			candidatesOfWordPartition.wordPartition.word,
+			candidatesOfWordPartition.wordPartition,
 			candidatesOfWordPartition.mostHeldDocumentsUpTo(documentsToMatchCeiling),
 		)...)
 	}
@@ -75,11 +75,11 @@ func peersNotIgnoringTheCrossCheckAmong(
 
 func peersNotYetAskedToCrossCheckAmong(
 	peers []peerdirectory.AskablePeer,
-	asks []peerasks.CrossCheckedDocumentsAsk,
+	asks []peerasks.SearchDocumentsAsk,
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(peers))
 	for _, peer := range peers {
-		if slices.ContainsFunc(asks, func(ask peerasks.CrossCheckedDocumentsAsk) bool {
+		if slices.ContainsFunc(asks, func(ask peerasks.SearchDocumentsAsk) bool {
 			return ask.Peer.Hash == peer.Hash
 		}) {
 			continue
@@ -92,15 +92,16 @@ func peersNotYetAskedToCrossCheckAmong(
 
 func crossCheckAsksOfEach(
 	peers []peerdirectory.AskablePeer,
-	queryWord yacymodel.Hash,
-	documents []yacymodel.URLHash,
-) []peerasks.CrossCheckedDocumentsAsk {
-	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(peers))
+	wordPartition wordPartition,
+	documentsToMatch []yacymodel.URLHash,
+) []peerasks.SearchDocumentsAsk {
+	asks := make([]peerasks.SearchDocumentsAsk, 0, len(peers))
 	for _, peer := range peers {
-		asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peer,
-			Word:      queryWord,
-			Documents: documents,
+		asks = append(asks, peerasks.SearchDocumentsAsk{
+			Peer:             peer,
+			Partition:        wordPartition.partition,
+			Word:             wordPartition.word,
+			DocumentsToMatch: documentsToMatch,
 		})
 	}
 

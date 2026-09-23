@@ -3,22 +3,31 @@ package replicaasks
 import (
 	"context"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type wordPartition[Ask any, Answered any] struct {
 	asksInReplicaOrder         []Ask
+	placeOfEachAskInTheRun     []int
 	kind                       askKind[Ask, Answered]
 	replicasCoveringAPartition int
 }
 
-type answeredWordPartition[Answered any] struct {
-	settled SettledWordPartition
-	answers []Answered
+type answeredWordPartition[Ask any, Answered any] struct {
+	settled           SettledWordPartition
+	placedAskOutcomes []placedAskOutcome[Ask, Answered]
+}
+
+type placedAskOutcome[Ask any, Answered any] struct {
+	placeInTheRun int
+	outcome       peerasks.AskOutcome[Ask, Answered]
 }
 
 func (partition wordPartition[Ask, Answered]) settle(
 	ctx context.Context,
-) answeredWordPartition[Answered] {
+) answeredWordPartition[Ask, Answered] {
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
@@ -43,7 +52,7 @@ type unsettledWordPartition[Ask any, Answered any] struct {
 	hedgeTimers              []*time.Timer
 	amountOfCallsOutstanding int
 	amountOfListings         int
-	answers                  []Answered
+	answerOfEachReplica      []yacymodel.Optional[Answered]
 }
 
 func (partition wordPartition[Ask, Answered]) asking() *unsettledWordPartition[Ask, Answered] {
@@ -113,7 +122,7 @@ func (asking *unsettledWordPartition[Ask, Answered]) coverOrAskTheNextReplica(
 
 		return
 	}
-	asking.answers = append(asking.answers, outcome.answer)
+	asking.answerOfEachReplica[outcome.replica] = yacymodel.Some(outcome.answer)
 	if !outcome.listsDocuments {
 		asking.askTheNextReplica(ctx, PutOnEmptyAnswer)
 
@@ -136,6 +145,7 @@ func (asking *unsettledWordPartition[Ask, Answered]) askTheNextReplica(
 	replica := len(asking.putOnPerReplica)
 	ask := asking.partition.asksInReplicaOrder[replica]
 	asking.putOnPerReplica = append(asking.putOnPerReplica, putOn)
+	asking.answerOfEachReplica = append(asking.answerOfEachReplica, yacymodel.None[Answered]())
 	asking.callsEnded = append(asking.callsEnded, false)
 	asking.amountOfCallsOutstanding++
 	asking.hedgeTimers = append(asking.hedgeTimers, time.AfterFunc(
@@ -169,21 +179,45 @@ func (asking *unsettledWordPartition[Ask, Answered]) stopTheHedgeTimers() {
 	}
 }
 
-func (asking *unsettledWordPartition[Ask, Answered]) answeredWordPartition() answeredWordPartition[Answered] {
-	amountOfDocumentsListed := 0
-	for _, answer := range asking.answers {
-		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
-	}
-
-	return answeredWordPartition[Answered]{
+func (asking *unsettledWordPartition[Ask, Answered]) answeredWordPartition() answeredWordPartition[Ask, Answered] {
+	return answeredWordPartition[Ask, Answered]{
 		settled: SettledWordPartition{
 			SettledBy:               asking.settledBy,
 			CoveringAskPutOn:        asking.coveringAskPutOn,
-			AmountOfDocumentsListed: amountOfDocumentsListed,
+			AmountOfDocumentsListed: asking.amountOfDocumentsListed(),
 			AsksPutOn:               asking.putOnPerReplica,
 		},
-		answers: asking.answers,
+		placedAskOutcomes: asking.placedAskOutcomes(),
 	}
+}
+
+func (asking *unsettledWordPartition[Ask, Answered]) amountOfDocumentsListed() int {
+	amountOfDocumentsListed := 0
+	for _, answerOfReplica := range asking.answerOfEachReplica {
+		answer, answered := answerOfReplica.Get()
+		if !answered {
+			continue
+		}
+		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
+	}
+
+	return amountOfDocumentsListed
+}
+
+func (asking *unsettledWordPartition[Ask, Answered]) placedAskOutcomes() []placedAskOutcome[Ask, Answered] {
+	placedAskOutcomes := make([]placedAskOutcome[Ask, Answered], 0, len(asking.answerOfEachReplica))
+	for replica, answer := range asking.answerOfEachReplica {
+		placedAskOutcomes = append(placedAskOutcomes, placedAskOutcome[Ask, Answered]{
+			placeInTheRun: asking.partition.placeOfEachAskInTheRun[replica],
+			outcome: peerasks.AskOutcome[Ask, Answered]{
+				Ask:    asking.partition.asksInReplicaOrder[replica],
+				Put:    true,
+				Answer: answer,
+			},
+		})
+	}
+
+	return placedAskOutcomes
 }
 
 type replicaCallOutcome[Answered any] struct {

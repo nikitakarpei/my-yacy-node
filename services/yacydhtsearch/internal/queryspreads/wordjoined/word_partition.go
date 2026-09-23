@@ -7,8 +7,9 @@ import (
 )
 
 type wordPartition struct {
-	word     yacymodel.Hash
-	replicas []wordReplica
+	word      yacymodel.Hash
+	partition uint
+	replicas  []wordReplica
 }
 
 func (wordPartition wordPartition) hasACompleteAbstract() bool {

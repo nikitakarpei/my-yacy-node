@@ -34,7 +34,7 @@ func answersOfDocumentAPeerMatchedForWord(
 				Address: address, Title: "The title a peer sent",
 			}}},
 			[]queryanswers.PostingReplica{{
-				Word:    yacymodel.Some(yacymodel.WordHash(word)),
+				Word:    yacymodel.WordHash(word),
 				Posting: yacymodel.RWIPosting{Hits: 1, LocalLinks: 2},
 			}},
 		)},

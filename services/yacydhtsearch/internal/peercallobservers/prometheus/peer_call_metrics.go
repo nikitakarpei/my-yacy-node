@@ -67,14 +67,8 @@ func New(
 
 	//exhaustive:enforce
 	peerCallsPerAskedFor := map[peerasks.AskedFor]peerCallsOfOneAsk{
-		peerasks.MatchedDocuments: peerCallsOfOneAskFrom(
-			peerCalls, peerCallDurationSeconds, peerasks.MatchedDocuments,
-		),
-		peerasks.MatchedAndHeldDocuments: peerCallsOfOneAskFrom(
-			peerCalls, peerCallDurationSeconds, peerasks.MatchedAndHeldDocuments,
-		),
-		peerasks.CrossCheckedDocuments: peerCallsOfOneAskFrom(
-			peerCalls, peerCallDurationSeconds, peerasks.CrossCheckedDocuments,
+		peerasks.SearchDocuments: peerCallsOfOneAskFrom(
+			peerCalls, peerCallDurationSeconds, peerasks.SearchDocuments,
 		),
 		peerasks.URLMetadata: peerCallsOfOneAskFrom(
 			peerCalls, peerCallDurationSeconds, peerasks.URLMetadata,
@@ -156,15 +150,6 @@ func (m *PeerCallMetrics) PeerCallTookASlot(
 	m.peerCallsWaitingForASlot.Dec()
 }
 
-func (m *PeerCallMetrics) PeerAnsweredMatchedDocuments(
-	_ context.Context,
-	_ string,
-	amountOfMatchedDocuments int,
-	spent time.Duration,
-) {
-	m.peerCallsPerAskedFor[peerasks.MatchedDocuments].countAnswer(amountOfMatchedDocuments, spent)
-}
-
 func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
 	_ context.Context,
 	_ string,
@@ -174,22 +159,16 @@ func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
 	m.peerCallsPerAskedFor[peerasks.URLMetadata].countAnswer(amountOfDescribedDocuments, spent)
 }
 
-func (m *PeerCallMetrics) PeerAnsweredMatchedAndHeldDocuments(
+func (m *PeerCallMetrics) PeerSearchedDocuments(
 	_ context.Context,
 	_ string,
-	amountOfDocuments int,
+	amountOfDocumentsInTheAbstract int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
-	m.peerCallsPerAskedFor[peerasks.MatchedAndHeldDocuments].countAnswer(amountOfDocuments, spent)
-}
-
-func (m *PeerCallMetrics) PeerAnsweredCrossCheckedDocuments(
-	_ context.Context,
-	_ string,
-	amountOfDocuments int,
-	spent time.Duration,
-) {
-	m.peerCallsPerAskedFor[peerasks.CrossCheckedDocuments].countAnswer(amountOfDocuments, spent)
+	m.peerCallsPerAskedFor[peerasks.SearchDocuments].countAnswer(
+		amountOfDocumentsInTheAbstract+amountOfMatchedDocuments, spent,
+	)
 }
 
 func (calls peerCallsOfOneAsk) countAnswer(amountAnswered int, spent time.Duration) {

@@ -19,28 +19,17 @@ type PeerCallObserver interface {
 		askedFor peerasks.AskedFor,
 		waited time.Duration,
 	)
-	PeerAnsweredMatchedDocuments(
-		ctx context.Context,
-		address string,
-		amountOfMatchedDocuments int,
-		spent time.Duration,
-	)
 	PeerAnsweredURLMetadata(
 		ctx context.Context,
 		address string,
 		amountOfDescribedDocuments int,
 		spent time.Duration,
 	)
-	PeerAnsweredMatchedAndHeldDocuments(
+	PeerSearchedDocuments(
 		ctx context.Context,
 		address string,
-		amountOfDocuments int,
-		spent time.Duration,
-	)
-	PeerAnsweredCrossCheckedDocuments(
-		ctx context.Context,
-		address string,
-		amountOfDocuments int,
+		amountOfDocumentsInTheAbstract int,
+		amountOfMatchedDocuments int,
 		spent time.Duration,
 	)
 	PeerRefused(
@@ -95,17 +84,6 @@ func (observers PeerCallObservers) PeerCallTookASlot(
 	}
 }
 
-func (observers PeerCallObservers) PeerAnsweredMatchedDocuments(
-	ctx context.Context,
-	address string,
-	amountOfMatchedDocuments int,
-	spent time.Duration,
-) {
-	for _, observer := range observers {
-		observer.PeerAnsweredMatchedDocuments(ctx, address, amountOfMatchedDocuments, spent)
-	}
-}
-
 func (observers PeerCallObservers) PeerAnsweredURLMetadata(
 	ctx context.Context,
 	address string,
@@ -117,25 +95,17 @@ func (observers PeerCallObservers) PeerAnsweredURLMetadata(
 	}
 }
 
-func (observers PeerCallObservers) PeerAnsweredMatchedAndHeldDocuments(
+func (observers PeerCallObservers) PeerSearchedDocuments(
 	ctx context.Context,
 	address string,
-	amountOfDocuments int,
+	amountOfDocumentsInTheAbstract int,
+	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnsweredMatchedAndHeldDocuments(ctx, address, amountOfDocuments, spent)
-	}
-}
-
-func (observers PeerCallObservers) PeerAnsweredCrossCheckedDocuments(
-	ctx context.Context,
-	address string,
-	amountOfDocuments int,
-	spent time.Duration,
-) {
-	for _, observer := range observers {
-		observer.PeerAnsweredCrossCheckedDocuments(ctx, address, amountOfDocuments, spent)
+		observer.PeerSearchedDocuments(
+			ctx, address, amountOfDocumentsInTheAbstract, amountOfMatchedDocuments, spent,
+		)
 	}
 }
 

@@ -8,7 +8,7 @@ import (
 
 type wordReplica struct {
 	peer   peerdirectory.AskablePeer
-	answer yacymodel.Optional[peerasks.AnsweredMatchedAndHeldDocumentsAsk]
+	answer yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
 }
 
 func (replica wordReplica) hasACompleteAbstract() bool {

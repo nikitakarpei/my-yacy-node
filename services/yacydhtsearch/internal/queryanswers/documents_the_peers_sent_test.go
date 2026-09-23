@@ -74,26 +74,24 @@ func TestPostingsOfDocumentComeBackOnThatDocumentAlone(t *testing.T) {
 	t.Parallel()
 
 	documents := queryanswers.EmptyDocumentsThePeersSent()
-	documents.KeepMetadataThePeerSent(
+	documents.KeepDocumentThePeerMatched(
+		yacymodel.WordHash("the first peer"),
+		yacymodel.WordHash(countedWord),
 		metadataOfDocumentAt(t, "https://counted.example/", "Counted"),
-		yacymodel.WordHash("the first peer"),
+		yacymodel.Some(yacymodel.RWIPosting{Hits: 7}),
 	)
-	documents.KeepMetadataThePeerSent(
+	documents.KeepDocumentThePeerMatched(
+		yacymodel.WordHash("the first peer"),
+		yacymodel.WordHash(countedWord),
 		metadataOfDocumentAt(t, "https://uncounted.example/", "Uncounted"),
-		yacymodel.WordHash("the first peer"),
-	)
-	documents.KeepPostingThePeerSent(
-		documentOf(t, "https://counted.example/"),
-		yacymodel.WordHash("the second peer"),
-		yacymodel.Some(yacymodel.WordHash(countedWord)),
-		yacymodel.RWIPosting{Hits: 7},
+		yacymodel.None[yacymodel.RWIPosting](),
 	)
 
 	foundDocuments := documents.FoundDocuments()
 
 	postingReplicas := foundDocuments[0].PostingReplicas
 	if len(postingReplicas) != 1 ||
-		postingReplicas[0].Holder != yacymodel.WordHash("the second peer") ||
+		postingReplicas[0].Holder != yacymodel.WordHash("the first peer") ||
 		postingReplicas[0].Posting.Hits != 7 ||
 		len(foundDocuments[1].PostingReplicas) != 0 {
 		t.Fatalf(

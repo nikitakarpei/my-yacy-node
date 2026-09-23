@@ -46,8 +46,8 @@ type peerNetwork struct {
 	documentsHeldByEachPeer               map[string]int
 	documentsPerAnswerOfEachPeer          map[string]int
 	peersCountingNoDocument               map[string]struct{}
-	discoveryAsks                         []peerasks.MatchedAndHeldDocumentsAsk
-	crossCheckAsks                        []peerasks.CrossCheckedDocumentsAsk
+	discoveryAsks                         []peerasks.SearchDocumentsAsk
+	crossCheckAsks                        []peerasks.SearchDocumentsAsk
 	urlMetadataAsks                       []peerasks.URLMetadataAsk
 	silentPeers                           map[string]struct{}
 	peersSilentInTheCrossCheck            map[string]struct{}
@@ -69,19 +69,51 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 	}
 }
 
-func (n *peerNetwork) AskForMatchedAndHeldDocuments(
+type replicasOfTheNetwork struct {
+	network *peerNetwork
+}
+
+func replicasOf(network *peerNetwork) replicasOfTheNetwork {
+	return replicasOfTheNetwork{network: network}
+}
+
+func (replicas replicasOfTheNetwork) AskForSearchDocuments(
 	ctx context.Context,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+	asks []peerasks.SearchDocumentsAsk,
+) peerasks.SearchDocumentsAskOutcomes {
+	answeredAsks := replicas.network.discover(ctx, asks)
+	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(asks))
+	for _, ask := range asks {
+		askOutcome := peerasks.SearchDocumentsAskOutcome{Ask: ask, Put: true}
+		place := slices.IndexFunc(
+			answeredAsks,
+			func(answeredAsk peerasks.AnsweredSearchDocumentsAsk) bool {
+				return answeredAsk.Ask.Peer.Hash == ask.Peer.Hash &&
+					answeredAsk.Ask.Word == ask.Word
+			},
+		)
+		if place >= 0 {
+			askOutcome.Answer = yacymodel.Some(answeredAsks[place])
+		}
+		askOutcomes = append(askOutcomes, askOutcome)
+	}
+
+	return askOutcomes
+}
+
+func (n *peerNetwork) discover(
+	ctx context.Context,
+	asks []peerasks.SearchDocumentsAsk,
+) []peerasks.AnsweredSearchDocumentsAsk {
 	n.discoveryAsks = append(n.discoveryAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
-	answeredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(asks))
+	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
 		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredMatchedAndHeldDocumentsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
 			Ask:      ask,
 			Abstract: n.abstractOf(ask.Peer.Address, ask.Word),
 			MatchedDocuments: n.matchedDocumentsOf(
@@ -95,19 +127,19 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 	return answeredAsks
 }
 
-func (n *peerNetwork) AskForCrossCheckedDocuments(
+func (n *peerNetwork) AskForSearchDocuments(
 	ctx context.Context,
-	asks []peerasks.CrossCheckedDocumentsAsk,
-) []peerasks.AnsweredCrossCheckedDocumentsAsk {
+	asks []peerasks.SearchDocumentsAsk,
+) []peerasks.AnsweredSearchDocumentsAsk {
 	n.crossCheckAsks = append(n.crossCheckAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
-	answeredAsks := make([]peerasks.AnsweredCrossCheckedDocumentsAsk, 0, len(asks))
+	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asks))
 	for _, ask := range asks {
 		if _, silent := n.peersSilentInTheCrossCheck[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredCrossCheckedDocumentsAsk{
+		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
 			Ask:         ask,
 			Abstract:    n.namedDocumentsHeldBy(ask),
 			PeerVersion: n.versionOfEachPeer[ask.Peer.Address],
@@ -118,7 +150,7 @@ func (n *peerNetwork) AskForCrossCheckedDocuments(
 }
 
 func (n *peerNetwork) namedDocumentsHeldBy(
-	ask peerasks.CrossCheckedDocumentsAsk,
+	ask peerasks.SearchDocumentsAsk,
 ) []yacymodel.URLHash {
 	if _, holdsNothing := n.peersHoldingNoNamedDocument[ask.Peer.Address]; holdsNothing {
 		return nil
@@ -129,8 +161,8 @@ func (n *peerNetwork) namedDocumentsHeldBy(
 		return heldDocuments
 	}
 
-	namedDocumentsHeld := make([]yacymodel.URLHash, 0, len(ask.Documents))
-	for _, document := range ask.Documents {
+	namedDocumentsHeld := make([]yacymodel.URLHash, 0, len(ask.DocumentsToMatch))
+	for _, document := range ask.DocumentsToMatch {
 		if !slices.Contains(heldDocuments, document) {
 			continue
 		}
@@ -389,7 +421,7 @@ func answeredQueryUnder(
 		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
-				network,
+				replicasOf(network),
 				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
@@ -425,7 +457,7 @@ func spreadUnder(
 		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
-				network,
+				replicasOf(network),
 				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
@@ -449,7 +481,7 @@ func spreadTheQuery(
 	newSpreadOverChosenPeers(
 		choice,
 		wordjoined.New(
-			network,
+			replicasOf(network),
 			network,
 			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
@@ -473,7 +505,7 @@ func spreadWithin(queryBudget time.Duration, network *peerNetwork) {
 	newSpreadOverChosenPeers(
 		responsiblePeers{},
 		wordjoined.New(
-			network,
+			replicasOf(network),
 			network,
 			judgementsOfTheCrossCheck(),
 			urlMetadataAskDocumentsCeiling,
@@ -496,10 +528,10 @@ func peersOfEachQueryWord(
 	return responsiblePeers{peerAddressesPerWord: peerAddressesPerWord}
 }
 
-func documentsAskedToCrossCheck(asks []peerasks.CrossCheckedDocumentsAsk) []yacymodel.URLHash {
+func documentsAskedToCrossCheck(asks []peerasks.SearchDocumentsAsk) []yacymodel.URLHash {
 	documents := make([]yacymodel.URLHash, 0, len(asks))
 	for _, ask := range asks {
-		documents = append(documents, ask.Documents...)
+		documents = append(documents, ask.DocumentsToMatch...)
 	}
 
 	return documents
@@ -531,7 +563,7 @@ func spreadJudgingThePeers(
 	newSpreadOverChosenPeers(
 		choice,
 		wordjoined.New(
-			network,
+			replicasOf(network),
 			network,
 			judgements,
 			urlMetadataAskDocumentsCeiling,
@@ -934,7 +966,7 @@ func TestEveryReplicaWithAPartialAbstractOfAWordPartitionIsAskedTheSameDocuments
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsOfTheLeadingQueryWord[1:]))
 	for _, ask := range network.crossCheckAsks {
-		if got := documentsInTheirHashOrder(ask.Documents); !slices.Equal(got, wanted) {
+		if got := documentsInTheirHashOrder(ask.DocumentsToMatch); !slices.Equal(got, wanted) {
 			t.Fatalf(
 				"the ask to peer %q named %v, want every candidate %v",
 				ask.Peer.Address,
@@ -992,12 +1024,12 @@ func TestTheDocumentsNoReplicaWithAPartialAbstractCanTakeAreCountedAsNoPeerTook(
 		)
 	}
 	firstAsk, secondAsk := network.crossCheckAsks[0], network.crossCheckAsks[1]
-	if len(firstAsk.Documents) != documentsOneCrossCheckAskNames ||
-		!slices.Equal(firstAsk.Documents, secondAsk.Documents) {
+	if len(firstAsk.DocumentsToMatch) != documentsOneCrossCheckAskNames ||
+		!slices.Equal(firstAsk.DocumentsToMatch, secondAsk.DocumentsToMatch) {
 		t.Fatalf(
 			"the asks named %v and %v, want the same one document the ceiling allows",
-			firstAsk.Documents,
-			secondAsk.Documents,
+			firstAsk.DocumentsToMatch,
+			secondAsk.DocumentsToMatch,
 		)
 	}
 }
@@ -1524,7 +1556,7 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 		newSpreadOverChosenPeers(
 			responsiblePeers{},
 			wordjoined.New(
-				network,
+				replicasOf(network),
 				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
@@ -1795,7 +1827,7 @@ func documentsHeldPerQueryWordAcrossPartitions(
 		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
-				network,
+				replicasOf(network),
 				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
@@ -1906,7 +1938,7 @@ func spreadAcrossPartitions(
 		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
-				network,
+				replicasOf(network),
 				network,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
@@ -1923,7 +1955,7 @@ func spreadAcrossPartitions(
 
 func replicasAskedForTheWordInOrder(
 	word yacymodel.Hash,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
+	asks []peerasks.SearchDocumentsAsk,
 ) []string {
 	var replicasAsked []string
 	for _, ask := range asks {
@@ -2083,7 +2115,7 @@ func spreadOverTwoPartitions(
 		newSpreadOverChosenPeers(
 			choice,
 			wordjoined.New(
-				network,
+				replicasOf(network),
 				network,
 				judgements,
 				urlMetadataAskDocumentsCeiling,
