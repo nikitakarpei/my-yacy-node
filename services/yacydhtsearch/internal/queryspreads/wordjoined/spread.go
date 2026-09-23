@@ -15,17 +15,17 @@ import (
 )
 
 type ReplicaAsks interface {
-	AskForMatchedAndHeldDocuments(
+	AskForSearchDocuments(
 		ctx context.Context,
-		asks []peerasks.MatchedAndHeldDocumentsAsk,
-	) []peerasks.AnsweredMatchedAndHeldDocumentsAsk
+		asks []peerasks.SearchDocumentsAsk,
+	) peerasks.SearchDocumentsAskOutcomes
 }
 
 type PeerAsks interface {
-	AskForCrossCheckedDocuments(
+	AskForSearchDocuments(
 		ctx context.Context,
-		asks []peerasks.CrossCheckedDocumentsAsk,
-	) []peerasks.AnsweredCrossCheckedDocumentsAsk
+		asks []peerasks.SearchDocumentsAsk,
+	) []peerasks.AnsweredSearchDocumentsAsk
 	AskForURLMetadata(
 		ctx context.Context,
 		asks []peerasks.URLMetadataAsk,
@@ -128,17 +128,17 @@ func (spread Spread) askToDiscover(
 	asks := discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
 	defer endRound()
-	answeredAsks := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
+	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
+	answeredAsks := askOutcomes.AnsweredAsks()
 
 	return discoveryRound{
 		queryWords:   query.WordHashes(),
-		asks:         asks,
 		answeredAsks: answeredAsks,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
-			query.WordHashes(), chosenPeersPerQueryWord, spread.partitions, answeredAsks,
+			query.WordHashes(), askOutcomes, spread.partitions,
 		),
 		compoundWords: compoundWordsAcrossReplicasFrom(
-			query.CompoundWords, chosenPeersPerQueryWord, spread.partitions, answeredAsks,
+			query.CompoundWords, askOutcomes, spread.partitions,
 		),
 		holdersPerDocument: holdersPerDocumentOf(answeredAsks),
 	}
@@ -175,7 +175,7 @@ func (spread Spread) askToCrossCheck(
 	return crossCheckRound{
 		candidates:   candidates,
 		asks:         asks,
-		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(roundContext, asks),
+		answeredAsks: spread.peerAsks.AskForSearchDocuments(roundContext, asks),
 	}
 }
 

@@ -4,6 +4,8 @@ import (
 	"context"
 	"sync"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
 type askKind[Ask any, Answered any] interface {
@@ -24,7 +26,7 @@ func askTheWordPartitions[Ask any, Answered any](
 	kind askKind[Ask, Answered],
 	replicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
-) []Answered {
+) peerasks.AskOutcomes[Ask, Answered] {
 	startedAt := time.Now()
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
@@ -39,7 +41,7 @@ func askTheWordPartitions[Ask any, Answered any](
 		performedReplicaAsksFrom(answeredWordPartitions, time.Since(startedAt)),
 	)
 
-	return answersOf(answeredWordPartitions)
+	return askOutcomesFrom(asksInReplicaOrder, answeredWordPartitions)
 }
 
 func wordPartitionsOf[Ask any, Answered any](
@@ -49,7 +51,7 @@ func wordPartitionsOf[Ask any, Answered any](
 ) []wordPartition[Ask, Answered] {
 	wordPartitions := make([]wordPartition[Ask, Answered], 0, len(asksInReplicaOrder))
 	placeOfKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
-	for _, ask := range asksInReplicaOrder {
+	for placeInTheRun, ask := range asksInReplicaOrder {
 		key := kind.wordPartitionKeyOf(ask)
 		place, known := placeOfKey[key]
 		if !known {
@@ -63,6 +65,9 @@ func wordPartitionsOf[Ask any, Answered any](
 		wordPartitions[place].asksInReplicaOrder = append(
 			wordPartitions[place].asksInReplicaOrder, ask,
 		)
+		wordPartitions[place].placeOfEachAskInTheRun = append(
+			wordPartitions[place].placeOfEachAskInTheRun, placeInTheRun,
+		)
 	}
 
 	return wordPartitions
@@ -71,8 +76,8 @@ func wordPartitionsOf[Ask any, Answered any](
 func settleTheWordPartitions[Ask any, Answered any](
 	ctx context.Context,
 	wordPartitions []wordPartition[Ask, Answered],
-) []answeredWordPartition[Answered] {
-	answeredWordPartitions := make([]answeredWordPartition[Answered], len(wordPartitions))
+) []answeredWordPartition[Ask, Answered] {
+	answeredWordPartitions := make([]answeredWordPartition[Ask, Answered], len(wordPartitions))
 	var settling sync.WaitGroup
 	for place, partition := range wordPartitions {
 		settling.Add(1)
@@ -86,8 +91,8 @@ func settleTheWordPartitions[Ask any, Answered any](
 	return answeredWordPartitions
 }
 
-func performedReplicaAsksFrom[Answered any](
-	answeredWordPartitions []answeredWordPartition[Answered],
+func performedReplicaAsksFrom[Ask any, Answered any](
+	answeredWordPartitions []answeredWordPartition[Ask, Answered],
 	timeSpent time.Duration,
 ) PerformedReplicaAsks {
 	settledWordPartitions := make([]SettledWordPartition, 0, len(answeredWordPartitions))
@@ -102,7 +107,9 @@ func performedReplicaAsksFrom[Answered any](
 	}
 }
 
-func endedByOf[Answered any](answeredWordPartitions []answeredWordPartition[Answered]) EndedBy {
+func endedByOf[Ask any, Answered any](
+	answeredWordPartitions []answeredWordPartition[Ask, Answered],
+) EndedBy {
 	for _, answered := range answeredWordPartitions {
 		if answered.settled.SettledBy == SettledByDeadline {
 			return EndedByDeadline
@@ -112,13 +119,19 @@ func endedByOf[Answered any](answeredWordPartitions []answeredWordPartition[Answ
 	return EndedByCoverage
 }
 
-func answersOf[Answered any](
-	answeredWordPartitions []answeredWordPartition[Answered],
-) []Answered {
-	answers := make([]Answered, 0, len(answeredWordPartitions))
+func askOutcomesFrom[Ask any, Answered any](
+	asksInReplicaOrder []Ask,
+	answeredWordPartitions []answeredWordPartition[Ask, Answered],
+) peerasks.AskOutcomes[Ask, Answered] {
+	askOutcomes := make(peerasks.AskOutcomes[Ask, Answered], 0, len(asksInReplicaOrder))
+	for _, ask := range asksInReplicaOrder {
+		askOutcomes = append(askOutcomes, peerasks.AskOutcome[Ask, Answered]{Ask: ask})
+	}
 	for _, answered := range answeredWordPartitions {
-		answers = append(answers, answered.answers...)
+		for _, placed := range answered.placedAskOutcomes {
+			askOutcomes[placed.placeInTheRun] = placed.outcome
+		}
 	}
 
-	return answers
+	return askOutcomes
 }

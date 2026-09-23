@@ -5,7 +5,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func crossCheckJudgementsIn(round crossCheckRound) []peerjudgements.JudgedPeer {
@@ -18,13 +17,13 @@ func crossCheckJudgementsIn(round crossCheckRound) []peerjudgements.JudgedPeer {
 }
 
 func judgeAskedPeer(
-	ask peerasks.CrossCheckedDocumentsAsk,
-	answeredAsks []peerasks.AnsweredCrossCheckedDocumentsAsk,
+	ask peerasks.SearchDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) peerjudgements.JudgedPeer {
 	place := slices.IndexFunc(
 		answeredAsks,
-		func(answeredAsk peerasks.AnsweredCrossCheckedDocumentsAsk) bool {
-			return answeredAsk.Answers(ask)
+		func(answeredAsk peerasks.AnsweredSearchDocumentsAsk) bool {
+			return answeredAsk.Ask.Peer.Hash == ask.Peer.Hash && answeredAsk.Ask.Word == ask.Word
 		},
 	)
 	if place < 0 {
@@ -35,21 +34,18 @@ func judgeAskedPeer(
 	return peerjudgements.JudgedPeerFrom(
 		ask.Peer.Hash,
 		answeredAsk.PeerVersion,
-		crossCheckJudgementOf(answeredAsk.Abstract, ask.Documents),
+		crossCheckJudgementOf(answeredAsk),
 	)
 }
 
 func crossCheckJudgementOf(
-	abstract []yacymodel.URLHash,
-	documentsToMatch []yacymodel.URLHash,
+	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) peerjudgements.Judgement {
-	if len(abstract) == 0 {
+	if len(answeredAsk.Abstract) == 0 {
 		return peerjudgements.NoEvidence
 	}
-	for _, document := range abstract {
-		if !slices.Contains(documentsToMatch, document) {
-			return peerjudgements.Ignored
-		}
+	if answeredAsk.IgnoredTheDocumentsToMatch() {
+		return peerjudgements.Ignored
 	}
 
 	return peerjudgements.Honored

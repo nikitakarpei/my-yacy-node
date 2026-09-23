@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -20,6 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
@@ -128,6 +130,12 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		},
 		peercallwire.PeerCallObservers{},
 	)
+	everyReplica := replicaasks.New(
+		calledPeers,
+		hedgedelaysconstant.New(peerCallBudget),
+		networkRedundancy,
+		replicaasks.ReplicaAsksObservers{},
+	)
 
 	return spreadChoosingPeers{
 		peerChoice: peerchoice.New(
@@ -135,7 +143,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		),
 		byWordCount: bywordcount.New(
 			wordjoined.New(
-				calledPeers,
+				everyReplica,
 				calledPeers,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
@@ -146,7 +154,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 				wordjoined.WordJoinedSpreadObservers{},
 			),
 			peermatched.New(
-				calledPeers,
+				everyReplica,
 				peerItemsCeiling,
 				peermatched.PeerMatchedSpreadObservers{},
 			),

@@ -17,7 +17,7 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 	answers := answersOfOneDocumentHolding(t, []queryanswers.PostingReplica{
 		{
 			Holder: firstHolder,
-			Word:   yacymodel.Some(yacymodel.WordHash("berlin")),
+			Word:   yacymodel.WordHash("berlin"),
 			Posting: postingOfDocument(
 				hashOfWeatherDocument(t),
 				yacymodel.RWIPosting{Hits: 7, TextWords: 1200, TitleWords: 4, Phrases: 90},
@@ -25,6 +25,7 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 		},
 		{
 			Holder: secondHolder,
+			Word:   yacymodel.WordHash("weather"),
 			Posting: postingOfDocument(
 				hashOfWeatherDocument(t), yacymodel.RWIPosting{Hits: 3, TextWords: 800},
 			),
@@ -37,9 +38,9 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 
 	if len(readReplicas) != 2 || !readReplicas[0].Posting.WordHash.IsZero() ||
 		readReplicas[0].Holder != firstHolder || readReplicas[0].Posting.TitleWords != 4 ||
-		readReplicas[0].Posting.Phrases != 90 || readReplicas[0].Word.OrElse(yacymodel.Hash{}) !=
-		yacymodel.WordHash("berlin") ||
-		readReplicas[1].Holder != secondHolder || readReplicas[1].Word.Present() {
+		readReplicas[0].Posting.Phrases != 90 || readReplicas[0].Word != yacymodel.WordHash("berlin") ||
+		readReplicas[1].Holder != secondHolder ||
+		readReplicas[1].Word != yacymodel.WordHash("weather") {
 		t.Fatalf(
 			"the recorded document holds the postings %+v, want both holders in order",
 			readReplicas,
@@ -120,9 +121,9 @@ func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
 }
 
 type recordedPostingReplica struct {
-	Holder  yacymodel.Hash                     `json:"holder"`
-	Word    yacymodel.Optional[yacymodel.Hash] `json:"word,omitempty"`
-	Posting recordedPosting                    `json:"posting"`
+	Holder  yacymodel.Hash  `json:"holder"`
+	Word    yacymodel.Hash  `json:"word"`
+	Posting recordedPosting `json:"posting"`
 }
 
 type recordedPosting struct {

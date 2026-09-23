@@ -34,7 +34,7 @@ func replicaOfCountedWord(
 ) queryanswers.PostingReplica {
 	return queryanswers.PostingReplica{
 		Holder: yacymodel.WordHash("a holder"),
-		Word:   yacymodel.Some(yacymodel.WordHash(countedWord)),
+		Word:   yacymodel.WordHash(countedWord),
 		Posting: yacymodel.RWIPosting{
 			Hits:          hits,
 			TextWords:     1200,
@@ -175,19 +175,6 @@ func TestNoPeerCountsWordsOrQueryPhrasesOfDocument(t *testing.T) {
 			"the document reads %+v, want no amount of words and no query phrase hits of a peer",
 			facts,
 		)
-	}
-}
-
-func TestPostingOfWordNoAskNamedCountsForNoDocument(t *testing.T) {
-	t.Parallel()
-
-	replica := replicaOfCountedWord(7, 20, 9)
-	replica.Word = yacymodel.None[yacymodel.Hash]()
-
-	facts := factsOfDocumentOf(t, replica)
-
-	if len(facts.HitsPerQueryWord) != 0 || facts.AmountOfLinks.Present() {
-		t.Fatalf("the document reads %+v, want no fact of a posting no ask named a word for", facts)
 	}
 }
 

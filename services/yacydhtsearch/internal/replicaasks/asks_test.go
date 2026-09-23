@@ -30,13 +30,13 @@ func TestTheFirstReplicasOfEveryWordPartitionAreAskedAndNoMore(t *testing.T) {
 		"weather-two": {documentsListed: 5}, "weather-three": {documentsListed: 6},
 	}, noHedgeOfTheTests, 2)
 
-	answers := asking.matchedAndHeldDocumentsAnswers(t.Context(), append(
+	answers := asking.searchDocumentsAnswers(t.Context(), append(
 		asksForTheWord("berlin", 1, "berlin-one", "berlin-two", "berlin-three"),
 		asksForTheWord("weather", 2, "weather-one", "weather-two", "weather-three")...,
 	))
 
 	if len(answers) != 4 {
-		t.Fatalf("AskForMatchedAndHeldDocuments answered %d asks, want four", len(answers))
+		t.Fatalf("AskForSearchDocuments answered %d asks, want four", len(answers))
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two", "weather-one", "weather-two")
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
@@ -51,12 +51,12 @@ func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T)
 		"berlin-one": {documentsListed: 3}, "berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
-	answers := asking.matchedAndHeldDocumentsAnswers(
+	answers := asking.searchDocumentsAnswers(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-one" {
-		t.Fatalf("AskForMatchedAndHeldDocuments = %+v, want the first replica only", answers)
+		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one")
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
@@ -71,12 +71,12 @@ func TestAnEmptyAnswerAsksTheNextReplicaAtOnce(t *testing.T) {
 		"berlin-one": {documentsListed: 0}, "berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
-	answers := asking.matchedAndHeldDocumentsAnswers(
+	answers := asking.searchDocumentsAnswers(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if len(answers) != 2 {
-		t.Fatalf("AskForMatchedAndHeldDocuments answered %d asks, want both replicas", len(answers))
+		t.Fatalf("AskForSearchDocuments answered %d asks, want both replicas", len(answers))
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnEmptyAnswer)
@@ -90,12 +90,12 @@ func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
 		"berlin-one": {fails: true}, "berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
-	answers := asking.matchedAndHeldDocumentsAnswers(
+	answers := asking.searchDocumentsAnswers(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-two" {
-		t.Fatalf("AskForMatchedAndHeldDocuments = %+v, want the second replica only", answers)
+		t.Fatalf("AskForSearchDocuments = %+v, want the second replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnFailure)
@@ -110,12 +110,12 @@ func TestACallPastTheHedgeDelayAsksTheNextReplicaAndTheFirstListingWins(t *testi
 		"berlin-two": {documentsListed: 2},
 	}, hedgeDelayOfTheTests, 1)
 
-	answers := asking.matchedAndHeldDocumentsAnswers(
+	answers := asking.searchDocumentsAnswers(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-two" {
-		t.Fatalf("AskForMatchedAndHeldDocuments = %+v, want the hedged replica only", answers)
+		t.Fatalf("AskForSearchDocuments = %+v, want the hedged replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.calls.wantAddressesCancelled(t, "berlin-one")
@@ -131,7 +131,7 @@ func TestAHedgeIsDueWhileTheFirstReplicaStillHoldsTheCall(t *testing.T) {
 		"berlin-two": {documentsListed: 2, answersAfter: slowAnswerOfTheTests},
 	}, hedgeDelayOfTheTests, 1)
 
-	asking.matchedAndHeldDocumentsAnswers(
+	asking.searchDocumentsAnswers(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
@@ -151,13 +151,13 @@ func TestNoReplicaLeftSettlesTheWordPartition(t *testing.T) {
 		"berlin-one": {documentsListed: 3}, "berlin-two": {documentsListed: 0},
 	}, noHedgeOfTheTests, 2)
 
-	answers := asking.matchedAndHeldDocumentsAnswers(
+	answers := asking.searchDocumentsAnswers(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if len(answers) != 2 {
 		t.Fatalf(
-			"AskForMatchedAndHeldDocuments answered %d asks, want both answers kept",
+			"AskForSearchDocuments answered %d asks, want both answers kept",
 			len(answers),
 		)
 	}
@@ -173,12 +173,12 @@ func TestAsksPerWordPartitionNeverExceedTheReplicasGiven(t *testing.T) {
 		"berlin-one": {fails: true}, "berlin-two": {fails: true},
 	}, noHedgeOfTheTests, 2)
 
-	answers := asking.matchedAndHeldDocumentsAnswers(
+	answers := asking.searchDocumentsAnswers(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if len(answers) != 0 {
-		t.Fatalf("AskForMatchedAndHeldDocuments = %+v, want no answer", answers)
+		t.Fatalf("AskForSearchDocuments = %+v, want no answer", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.observer.wantSettledBy(t, replicaasks.SettledByNoReplicaLeft)
@@ -195,13 +195,13 @@ func TestTheDeadlineOfTheAsksSettlesTheWordPartitionAndKeepsItsAnswers(t *testin
 	ctx, endTheAsks := context.WithTimeout(t.Context(), deadlineOfTheTests)
 	defer endTheAsks()
 
-	answers := asking.matchedAndHeldDocumentsAnswers(ctx, append(
+	answers := asking.searchDocumentsAnswers(ctx, append(
 		asksForTheWord("berlin", 1, "berlin-one"),
 		asksForTheWord("weather", 2, "weather-one")...,
 	))
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-one" {
-		t.Fatalf("AskForMatchedAndHeldDocuments = %+v, want the answer that came in time", answers)
+		t.Fatalf("AskForSearchDocuments = %+v, want the answer that came in time", answers)
 	}
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByDeadline)
 	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
@@ -217,46 +217,112 @@ func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t 
 	ctx, endTheAsks := context.WithCancel(t.Context())
 	endTheAsks()
 
-	answers := asking.matchedAndHeldDocumentsAnswers(
+	answers := asking.searchDocumentsAnswers(
 		ctx, asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
 	if len(answers) != 0 {
-		t.Fatalf("AskForMatchedAndHeldDocuments = %+v, want no answer", answers)
+		t.Fatalf("AskForSearchDocuments = %+v, want no answer", answers)
 	}
 	asking.observer.wantSettledBy(t, replicaasks.SettledByDeadline)
 	asking.observer.wantPutOn(t, replicaasks.PutOnStart)
 	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
 }
 
-func TestTheAnswersComeBackInTheOrderTheWordPartitionsWereFirstAsked(t *testing.T) {
+func TestEachOutcomeComesBackInThePlaceOfItsAsk(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
-		"seven-one": {documentsListed: 1}, "three-one": {documentsListed: 2},
+		"seven-one": {documentsListed: 1}, "seven-two": {documentsListed: 1},
+		"three-one": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
-	answers := asking.matchedDocumentsAnswers(t.Context(), []peerasks.MatchedDocumentsAsk{
-		{Peer: peerAt("seven-one"), Partition: 7},
-		{Peer: peerAt("three-one"), Partition: 3},
-	})
+	askOutcomes := asking.searchDocumentsAskOutcomes(t.Context(), append(
+		asksForTheWord("berlin", 7, "seven-one", "seven-two"),
+		asksForTheWord("berlin", 3, "three-one")...,
+	))
 
-	if len(answers) != 2 {
-		t.Fatalf("AskForMatchedDocuments answered %d asks, want two", len(answers))
-	}
-	if answers[0].Ask.Partition != 7 || answers[1].Ask.Partition != 3 {
-		t.Fatalf(
-			"AskForMatchedDocuments = %+v, want partition seven before partition three",
-			answers,
-		)
+	wanted := []string{"seven-one answered", "seven-two not put", "three-one answered"}
+	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
+		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
 	}
 	asking.observer.wantAmountOfDocumentsListed(t, 1, 2)
 }
 
+func TestTheOutcomesTellWhichAsksWerePutAndWhichWereAnswered(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"berlin-one": {fails: true}, "berlin-two": {documentsListed: 1},
+		"weather-one": {documentsListed: 1}, "weather-two": {documentsListed: 1},
+	}, noHedgeOfTheTests, 1)
+
+	askOutcomes := asking.searchDocumentsAskOutcomes(t.Context(), append(
+		asksForTheWord("berlin", 1, "berlin-one", "berlin-two", "berlin-three"),
+		asksForTheWord("weather", 2, "weather-one", "weather-two")...,
+	))
+
+	wanted := []string{
+		"berlin-one put", "berlin-two answered", "berlin-three not put",
+		"weather-one answered", "weather-two not put",
+	}
+	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
+		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
+	}
+	if got := addressesOf(askOutcomes.AsksPut()); !slices.Equal(
+		got, []string{"berlin-one", "berlin-two", "weather-one"},
+	) {
+		t.Fatalf("AsksPut = %v, want the three asks put", got)
+	}
+	if len(askOutcomes.AnsweredAsks()) != 2 {
+		t.Fatalf("AnsweredAsks = %+v, want the two that answered", askOutcomes.AnsweredAsks())
+	}
+}
+
+func TestAnEmptyAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"berlin-one": {documentsHeld: yacymodel.Some(5)},
+		"berlin-two": {documentsListed: 1},
+	}, noHedgeOfTheTests, 1)
+
+	askOutcomes := asking.searchDocumentsAskOutcomes(
+		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
+	)
+
+	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
+		len(askOutcomes.AnsweredAsks()) != 1 {
+		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", askOutcomes)
+	}
+	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
+}
+
+func TestAnAnswerThatOnlyMatchesDocumentsSettlesTheWordPartition(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"berlin-one": {documentsMatched: 2},
+		"berlin-two": {documentsListed: 1},
+	}, noHedgeOfTheTests, 1)
+
+	askOutcomes := asking.searchDocumentsAskOutcomes(
+		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
+	)
+
+	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
+		len(askOutcomes.AnsweredAsks()) != 1 {
+		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", askOutcomes)
+	}
+	asking.observer.wantAmountOfDocumentsListed(t, 2)
+}
+
 type scriptedPeerCall struct {
-	documentsListed int
-	fails           bool
-	answersAfter    time.Duration
+	documentsListed  int
+	documentsMatched int
+	documentsHeld    yacymodel.Optional[int]
+	fails            bool
+	answersAfter     time.Duration
 }
 
 type peerCallsOfTheTests struct {
@@ -268,33 +334,20 @@ type peerCallsOfTheTests struct {
 	addressesCancelled []string
 }
 
-func (calls *peerCallsOfTheTests) AskForMatchedAndHeldDocuments(
+func (calls *peerCallsOfTheTests) AskForSearchDocuments(
 	ctx context.Context,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+	asks []peerasks.SearchDocumentsAsk,
+) []peerasks.AnsweredSearchDocumentsAsk {
 	script, answered := calls.answered(ctx, asks[0].Peer.Address)
 	if !answered {
 		return nil
 	}
 
-	return []peerasks.AnsweredMatchedAndHeldDocumentsAsk{{
-		Ask:      asks[0],
-		Abstract: make([]yacymodel.URLHash, script.documentsListed),
-	}}
-}
-
-func (calls *peerCallsOfTheTests) AskForMatchedDocuments(
-	ctx context.Context,
-	asks []peerasks.MatchedDocumentsAsk,
-) []peerasks.AnsweredMatchedDocumentsAsk {
-	script, answered := calls.answered(ctx, asks[0].Peer.Address)
-	if !answered {
-		return nil
-	}
-
-	return []peerasks.AnsweredMatchedDocumentsAsk{{
-		Ask:              asks[0],
-		MatchedDocuments: make([]peerasks.MatchedDocument, script.documentsListed),
+	return []peerasks.AnsweredSearchDocumentsAsk{{
+		Ask:                             asks[0],
+		Abstract:                        make([]yacymodel.URLHash, script.documentsListed),
+		MatchedDocuments:                make([]peerasks.MatchedDocument, script.documentsMatched),
+		AmountOfDocumentsHeldForTheWord: script.documentsHeld,
 	}}
 }
 
@@ -516,32 +569,32 @@ func askingOfTheTests(
 	}
 }
 
-func (asking askingUnderTest) matchedAndHeldDocumentsAnswers(
+func (asking askingUnderTest) searchDocumentsAnswers(
 	ctx context.Context,
-	asks []peerasks.MatchedAndHeldDocumentsAsk,
-) []peerasks.AnsweredMatchedAndHeldDocumentsAsk {
+	asks []peerasks.SearchDocumentsAsk,
+) []peerasks.AnsweredSearchDocumentsAsk {
 	asking.calls.startedAt = time.Now()
 
-	return asking.asks.AskForMatchedAndHeldDocuments(ctx, asks)
+	return asking.asks.AskForSearchDocuments(ctx, asks).AnsweredAsks()
 }
 
-func (asking askingUnderTest) matchedDocumentsAnswers(
+func (asking askingUnderTest) searchDocumentsAskOutcomes(
 	ctx context.Context,
-	asks []peerasks.MatchedDocumentsAsk,
-) []peerasks.AnsweredMatchedDocumentsAsk {
+	asks []peerasks.SearchDocumentsAsk,
+) peerasks.SearchDocumentsAskOutcomes {
 	asking.calls.startedAt = time.Now()
 
-	return asking.asks.AskForMatchedDocuments(ctx, asks)
+	return asking.asks.AskForSearchDocuments(ctx, asks)
 }
 
 func asksForTheWord(
 	word string,
 	partition uint,
 	addresses ...string,
-) []peerasks.MatchedAndHeldDocumentsAsk {
-	asks := make([]peerasks.MatchedAndHeldDocumentsAsk, 0, len(addresses))
+) []peerasks.SearchDocumentsAsk {
+	asks := make([]peerasks.SearchDocumentsAsk, 0, len(addresses))
 	for _, address := range addresses {
-		asks = append(asks, peerasks.MatchedAndHeldDocumentsAsk{
+		asks = append(asks, peerasks.SearchDocumentsAsk{
 			Peer:      peerAt(address),
 			Partition: partition,
 			Word:      yacymodel.WordHash(word),
@@ -549,6 +602,31 @@ func asksForTheWord(
 	}
 
 	return asks
+}
+
+func addressesOf(asks []peerasks.SearchDocumentsAsk) []string {
+	addresses := make([]string, 0, len(asks))
+	for _, ask := range asks {
+		addresses = append(addresses, ask.Peer.Address)
+	}
+
+	return addresses
+}
+
+func outcomesOf(askOutcomes peerasks.SearchDocumentsAskOutcomes) []string {
+	outcomes := make([]string, 0, len(askOutcomes))
+	for _, askOutcome := range askOutcomes {
+		switch {
+		case askOutcome.Answer.Present():
+			outcomes = append(outcomes, askOutcome.Ask.Peer.Address+" answered")
+		case askOutcome.Put:
+			outcomes = append(outcomes, askOutcome.Ask.Peer.Address+" put")
+		default:
+			outcomes = append(outcomes, askOutcome.Ask.Peer.Address+" not put")
+		}
+	}
+
+	return outcomes
 }
 
 func peerAt(address string) peerdirectory.AskablePeer {

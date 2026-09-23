@@ -29,15 +29,20 @@ func (documents *DocumentsThePeersSent) KeepMetadataThePeerSent(
 	)
 }
 
-func (documents *DocumentsThePeersSent) KeepPostingThePeerSent(
-	document yacymodel.URLHash,
+func (documents *DocumentsThePeersSent) KeepDocumentThePeerMatched(
 	peer yacymodel.Hash,
-	word yacymodel.Optional[yacymodel.Hash],
-	posting yacymodel.RWIPosting,
+	word yacymodel.Hash,
+	metadata yacymodel.URLMetadata,
+	posting yacymodel.Optional[yacymodel.RWIPosting],
 ) {
-	documents.postingReplicasPerDocument[document] = append(
-		documents.postingReplicasPerDocument[document],
-		PostingReplica{Holder: peer, Word: word, Posting: posting},
+	documents.KeepMetadataThePeerSent(metadata, peer)
+	sentPosting, sent := posting.Get()
+	if !sent {
+		return
+	}
+	documents.postingReplicasPerDocument[metadata.Hash] = append(
+		documents.postingReplicasPerDocument[metadata.Hash],
+		PostingReplica{Holder: peer, Word: word, Posting: sentPosting},
 	)
 }
 

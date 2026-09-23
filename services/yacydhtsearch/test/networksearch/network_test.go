@@ -67,15 +67,9 @@ func (silentOutcome) PeerCallTookASlot(
 ) {
 }
 
-func (silentOutcome) PeerAnsweredMatchedDocuments(context.Context, string, int, time.Duration) {}
-func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration)      {}
-func (silentOutcome) PeerAnsweredMatchedAndHeldDocuments(
-	context.Context, string, int, time.Duration,
-) {
-}
-
-func (silentOutcome) PeerAnsweredCrossCheckedDocuments(
-	context.Context, string, int, time.Duration,
+func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration) {}
+func (silentOutcome) PeerSearchedDocuments(
+	context.Context, string, int, int, time.Duration,
 ) {
 }
 

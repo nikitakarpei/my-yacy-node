@@ -71,7 +71,7 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 				}}},
 				[]queryanswers.PostingReplica{{
 					Holder: yacymodel.WordHash("holder"),
-					Word:   yacymodel.Some(word),
+					Word:   word,
 					Posting: yacymodel.RWIPosting{
 						URLHash: document, Hits: 22, LocalLinks: 15, ExternalLinks: 14,
 					},

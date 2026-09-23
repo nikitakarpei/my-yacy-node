@@ -13,7 +13,7 @@ import (
 type holdersPerDocument map[yacymodel.URLHash]map[yacymodel.Hash]struct{}
 
 func holdersPerDocumentOf(
-	answeredAsks []peerasks.AnsweredMatchedAndHeldDocumentsAsk,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) holdersPerDocument {
 	holders := holdersPerDocument{}
 	for _, answeredAsk := range answeredAsks {

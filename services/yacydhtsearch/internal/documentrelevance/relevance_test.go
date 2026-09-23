@@ -86,7 +86,7 @@ func (document foundDocument) withHitsAPeerCounted(word string, hits int) foundD
 	document.PostingReplicas = append(
 		slices.Clone(document.PostingReplicas),
 		queryanswers.PostingReplica{
-			Word:    yacymodel.Some(yacymodel.WordHash(word)),
+			Word:    yacymodel.WordHash(word),
 			Posting: yacymodel.RWIPosting{Hits: hits},
 		},
 	)
