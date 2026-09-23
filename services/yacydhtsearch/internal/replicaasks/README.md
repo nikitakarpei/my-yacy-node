@@ -9,16 +9,10 @@ almost always a slow one, so every search paid the tail latency of the network.
 The replicas hold the same postings, so most of those calls added nothing.
 
 This package asks the replicas of one word partition in turn. The first `n`
-answers that cover the partition settle it and the other calls are cancelled.
-A replica whose answer does not cover the partition, or that fails, is
-replaced at once. A replica that stays silent past a hedge delay gets a second
-replica asked beside it. Coverage ends the asks instead of the slowest peer.
-
-An answer covers the partition when it lists or counts a document of it. A
-cross-check answer covers it only when it lists no document the ask did not
-name, and it lists a document or counts a document held for the word. The
-asks return the asks put beside the answers, because a peer receives a call
-even when the call fails or is cancelled.
+answers that cover the partition settle it, and the other calls are cancelled.
+An answer covers when it lists or counts a document of the word, and a
+cross-check answer lists no document the ask did not name. A replica that does
+not cover, fails, or stays silent past a hedge delay gets the next one asked.
 
 ## Prior art
 
