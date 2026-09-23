@@ -16,14 +16,10 @@ func documentFactsOfFirstReplicaOfEachWord(replicas []PostingReplica) DocumentFa
 	hitsPerQueryWord := map[yacymodel.Hash]int{}
 	amountOfLinks := yacymodel.None[int]()
 	for _, replica := range replicas {
-		word, wordIsKnown := replica.Word.Get()
-		if !wordIsKnown {
+		if _, alreadyCounted := hitsPerQueryWord[replica.Word]; alreadyCounted {
 			continue
 		}
-		if _, alreadyCounted := hitsPerQueryWord[word]; alreadyCounted {
-			continue
-		}
-		hitsPerQueryWord[word] = replica.Posting.Hits
+		hitsPerQueryWord[replica.Word] = replica.Posting.Hits
 		amountOfLinks = yacymodel.Some(replica.Posting.LocalLinks + replica.Posting.ExternalLinks)
 	}
 	if len(hitsPerQueryWord) == 0 {
