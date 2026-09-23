@@ -6,10 +6,12 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type askKind[Ask any, Answered any] interface {
 	wordPartitionKeyOf(ask Ask) wordPartitionKey
+	peerOf(ask Ask) yacymodel.Hash
 	hedgeDelayOf(ctx context.Context, ask Ask) time.Duration
 	putAsk(ctx context.Context, ask Ask) (Answered, bool)
 	amountOfDocumentsListedIn(answer Answered) int
@@ -50,6 +52,7 @@ func wordPartitionsOf[Ask any, Answered any](
 	replicasCoveringAPartition int,
 ) []wordPartition[Ask, Answered] {
 	wordPartitions := make([]wordPartition[Ask, Answered], 0, len(asksInReplicaOrder))
+	peersAskedInTheRun := noAskedPeers()
 	placeOfKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
 	for placeInTheRun, ask := range asksInReplicaOrder {
 		key := kind.wordPartitionKeyOf(ask)
@@ -60,6 +63,7 @@ func wordPartitionsOf[Ask any, Answered any](
 			wordPartitions = append(wordPartitions, wordPartition[Ask, Answered]{
 				kind:                       kind,
 				replicasCoveringAPartition: replicasCoveringAPartition,
+				askedPeers:                 peersAskedInTheRun,
 			})
 		}
 		wordPartitions[place].asksInReplicaOrder = append(
@@ -78,17 +82,35 @@ func settleTheWordPartitions[Ask any, Answered any](
 	wordPartitions []wordPartition[Ask, Answered],
 ) []answeredWordPartition[Ask, Answered] {
 	answeredWordPartitions := make([]answeredWordPartition[Ask, Answered], len(wordPartitions))
+	askings, firstReplicasOfEachAsking := askingsWithTheirFirstReplicasOf(wordPartitions)
 	var settling sync.WaitGroup
-	for place, partition := range wordPartitions {
+	for place, asking := range askings {
 		settling.Add(1)
 		go func() {
 			defer settling.Done()
-			answeredWordPartitions[place] = partition.settle(ctx)
+			answeredWordPartitions[place] = asking.settle(ctx, firstReplicasOfEachAsking[place])
 		}()
 	}
 	settling.Wait()
 
 	return answeredWordPartitions
+}
+
+func askingsWithTheirFirstReplicasOf[Ask any, Answered any](
+	wordPartitions []wordPartition[Ask, Answered],
+) ([]*unsettledWordPartition[Ask, Answered], [][]int) {
+	askings := make([]*unsettledWordPartition[Ask, Answered], 0, len(wordPartitions))
+	firstReplicasOfEachAsking := make([][]int, 0, len(wordPartitions))
+	for _, partition := range wordPartitions {
+		asking := partition.asking()
+		askings = append(askings, asking)
+		firstReplicasOfEachAsking = append(
+			firstReplicasOfEachAsking,
+			asking.reserveTheFirstReplicas(),
+		)
+	}
+
+	return askings, firstReplicasOfEachAsking
 }
 
 func performedReplicaAsksFrom[Ask any, Answered any](

@@ -14,6 +14,9 @@ lists nothing or fails is replaced at once. A replica that stays silent past a
 hedge delay gets a second replica asked beside it. Coverage ends the asks
 instead of the slowest peer.
 
+A peer gets one ask at most in one run of the asks. A replica already asked
+for another word partition is skipped.
+
 ## Prior art
 
 - **Hedged requests** from Dean and Barroso, "The Tail at Scale" (2013). Send
