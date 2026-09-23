@@ -1,8 +1,13 @@
 package replicaasks
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+)
 
 type PerformedReplicaAsks struct {
+	AskedFor       peerasks.AskedFor
 	EndedBy        EndedBy
 	TimeSpent      time.Duration
 	WordPartitions []SettledWordPartition

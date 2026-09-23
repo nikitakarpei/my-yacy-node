@@ -394,6 +394,7 @@ deps:
     canUse:
       - prometheus
     mayDependOn:
+      - peerasks
       - replicaasks
   peercallwire:
     canUse:

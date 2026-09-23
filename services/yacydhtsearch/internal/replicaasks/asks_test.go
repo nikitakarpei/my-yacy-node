@@ -42,6 +42,7 @@ func TestTheFirstReplicasOfEveryWordPartitionAreAskedAndNoMore(t *testing.T) {
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnStart)
 	asking.observer.wantEndedBy(t, replicaasks.EndedByCoverage)
+	asking.observer.wantAskedFor(t, peerasks.MatchedAndHeldDocuments)
 }
 
 func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T) {
@@ -251,6 +252,7 @@ func TestTheAnswersComeBackInTheOrderTheWordPartitionsWereFirstAsked(t *testing.
 		)
 	}
 	asking.observer.wantAmountOfDocumentsListed(t, 1, 2)
+	asking.observer.wantAskedFor(t, peerasks.MatchedDocuments)
 }
 
 type scriptedPeerCall struct {
@@ -460,6 +462,16 @@ func (recorded *recordedReplicaAsks) wantEndedBy(t *testing.T, endedBy replicaas
 	}
 	if recorded.performed.TimeSpent <= 0 {
 		t.Fatalf("the replica asks spent %v, want the time they took", recorded.performed.TimeSpent)
+	}
+}
+
+func (recorded *recordedReplicaAsks) wantAskedFor(t *testing.T, askedFor peerasks.AskedFor) {
+	t.Helper()
+	recorded.mutex.Lock()
+	defer recorded.mutex.Unlock()
+
+	if recorded.performed.AskedFor != askedFor {
+		t.Fatalf("the replica asks asked for %q, want %q", recorded.performed.AskedFor, askedFor)
 	}
 }
 

@@ -12,6 +12,10 @@ type matchedDocumentsAskKind struct {
 	hedgeDelay HedgeDelay
 }
 
+func (matchedDocumentsAskKind) askedFor() peerasks.AskedFor {
+	return peerasks.MatchedDocuments
+}
+
 func (matchedDocumentsAskKind) wordPartitionKeyOf(
 	ask peerasks.MatchedDocumentsAsk,
 ) wordPartitionKey {

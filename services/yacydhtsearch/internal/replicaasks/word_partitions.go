@@ -4,9 +4,12 @@ import (
 	"context"
 	"sync"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
 type askKind[Ask any, Answered any] interface {
+	askedFor() peerasks.AskedFor
 	wordPartitionKeyOf(ask Ask) wordPartitionKey
 	hedgeDelayOf(ctx context.Context, ask Ask) time.Duration
 	putAsk(ctx context.Context, ask Ask) (Answered, bool)
@@ -36,7 +39,7 @@ func askTheWordPartitions[Ask any, Answered any](
 
 	observer.ReplicaAsksPerformed(
 		ctx,
-		performedReplicaAsksFrom(answeredWordPartitions, time.Since(startedAt)),
+		performedReplicaAsksFrom(kind.askedFor(), answeredWordPartitions, time.Since(startedAt)),
 	)
 
 	return answersOf(answeredWordPartitions)
@@ -87,6 +90,7 @@ func settleTheWordPartitions[Ask any, Answered any](
 }
 
 func performedReplicaAsksFrom[Answered any](
+	askedFor peerasks.AskedFor,
 	answeredWordPartitions []answeredWordPartition[Answered],
 	timeSpent time.Duration,
 ) PerformedReplicaAsks {
@@ -96,6 +100,7 @@ func performedReplicaAsksFrom[Answered any](
 	}
 
 	return PerformedReplicaAsks{
+		AskedFor:       askedFor,
 		EndedBy:        endedByOf(answeredWordPartitions),
 		TimeSpent:      timeSpent,
 		WordPartitions: settledWordPartitions,

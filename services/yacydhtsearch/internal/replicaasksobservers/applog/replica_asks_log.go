@@ -21,6 +21,7 @@ func (ReplicaAsksLog) ReplicaAsksPerformed(
 		ctx,
 		slog.LevelDebug,
 		msgReplicaAsksPerformed,
+		slog.String("askedFor", string(replicaAsks.AskedFor)),
 		slog.String("endedBy", string(replicaAsks.EndedBy)),
 		slog.Duration("timeSpent", replicaAsks.TimeSpent),
 		slog.Any(
