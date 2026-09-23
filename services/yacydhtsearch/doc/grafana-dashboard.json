@@ -722,9 +722,22 @@
       ]
     },
     {
+      "id": 54,
+      "title": "Joined queries: listing each query word's documents",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 62
+      },
+      "panels": []
+    },
+    {
       "id": 70,
-      "title": "How long each round took, against the time it was given, by round (p90)",
-      "description": "One round of a joined query, from its first ask until every ask is settled or its time is over. A round that asks no peer is not shown.",
+      "title": "How long the discovery round took, against the time it was given (p90)",
+      "description": "One discovery round of a joined query, from its first ask until every ask is settled or its time is over. A round that asks no peer is not shown.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -734,7 +747,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 62
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -749,7 +762,52 @@
             }
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "took"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "was given"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "dash",
+                  "dash": [
+                    10,
+                    10
+                  ]
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
+        ]
       },
       "interval": "$window",
       "options": {
@@ -761,28 +819,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.90, sum by (le, round) (clamp_min(yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{round}} took"
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{round=\"discovery\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{round=\"discovery\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "took"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le, round) (clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{round}} was given"
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"discovery\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"discovery\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "was given"
         }
       ]
-    },
-    {
-      "id": 54,
-      "title": "Joined queries: listing each query word's documents",
-      "type": "row",
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 70
-      },
-      "panels": []
     },
     {
       "id": 26,
@@ -916,6 +961,101 @@
       "panels": []
     },
     {
+      "id": 71,
+      "title": "How long the cross-check round took, against the time it was given (p90)",
+      "description": "One cross-check round of a joined query, from its first ask until every ask is settled or its time is over. A round that asks no peer is not shown.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 80
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "always",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "took"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "was given"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "dash",
+                  "dash": [
+                    10,
+                    10
+                  ]
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{round=\"cross-check\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{round=\"cross-check\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "took"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"cross-check\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"cross-check\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "was given"
+        }
+      ]
+    },
+    {
       "id": 58,
       "title": "Share of joined queries, by which word led the join",
       "type": "timeseries",
@@ -927,7 +1067,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 80
+        "y": 88
       },
       "fieldConfig": {
         "defaults": {
@@ -964,7 +1104,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 80
+        "y": 88
       },
       "fieldConfig": {
         "defaults": {
@@ -1023,7 +1163,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 88
+        "y": 96
       },
       "fieldConfig": {
         "defaults": {
@@ -1082,7 +1222,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 96
+        "y": 104
       },
       "fieldConfig": {
         "defaults": {
@@ -1122,7 +1262,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 96
+        "y": 104
       },
       "fieldConfig": {
         "defaults": {
@@ -1159,9 +1299,104 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 104
+        "y": 112
       },
       "panels": []
+    },
+    {
+      "id": 72,
+      "title": "How long the URL metadata round took, against the time it was given (p90)",
+      "description": "One URL metadata round of a joined query, from its first ask until every ask is settled or its time is over. A round that asks no peer is not shown.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 113
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "always",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "took"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "was given"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "dash",
+                  "dash": [
+                    10,
+                    10
+                  ]
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{round=\"URL metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_duration_seconds_bucket{round=\"URL metadata\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "took"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"URL metadata\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_round_budget_seconds_bucket{round=\"URL metadata\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "was given"
+        }
+      ]
     },
     {
       "id": 20,
@@ -1176,7 +1411,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 105
+        "y": 121
       },
       "fieldConfig": {
         "defaults": {
@@ -1235,7 +1470,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 105
+        "y": 121
       },
       "fieldConfig": {
         "defaults": {
@@ -1275,7 +1510,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 105
+        "y": 121
       },
       "fieldConfig": {
         "defaults": {
@@ -1331,7 +1566,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 129
       },
       "panels": []
     },
@@ -1348,7 +1583,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 114
+        "y": 130
       },
       "fieldConfig": {
         "defaults": {
@@ -1392,7 +1627,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 114
+        "y": 130
       },
       "fieldConfig": {
         "defaults": {
@@ -1433,7 +1668,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 114
+        "y": 130
       },
       "fieldConfig": {
         "defaults": {
@@ -1470,7 +1705,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 122
+        "y": 138
       },
       "panels": []
     },
@@ -1487,7 +1722,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 123
+        "y": 139
       },
       "fieldConfig": {
         "defaults": {
@@ -1531,7 +1766,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 123
+        "y": 139
       },
       "fieldConfig": {
         "defaults": {
@@ -1575,7 +1810,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 123
+        "y": 139
       },
       "fieldConfig": {
         "defaults": {
@@ -1618,7 +1853,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 131
+        "y": 147
       },
       "fieldConfig": {
         "defaults": {
@@ -1661,7 +1896,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 131
+        "y": 147
       },
       "fieldConfig": {
         "defaults": {
@@ -1717,7 +1952,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 139
+        "y": 155
       },
       "panels": []
     },
@@ -1734,7 +1969,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 140
+        "y": 156
       },
       "fieldConfig": {
         "defaults": {
@@ -1793,7 +2028,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 140
+        "y": 156
       },
       "fieldConfig": {
         "defaults": {
@@ -1836,7 +2071,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 140
+        "y": 156
       },
       "fieldConfig": {
         "defaults": {
@@ -1877,7 +2112,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 148
+        "y": 164
       },
       "panels": []
     },
@@ -1894,7 +2129,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 149
+        "y": 165
       },
       "fieldConfig": {
         "defaults": {
@@ -1945,7 +2180,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 149
+        "y": 165
       },
       "fieldConfig": {
         "defaults": {
@@ -1984,7 +2219,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 157
+        "y": 173
       },
       "fieldConfig": {
         "defaults": {
@@ -2025,7 +2260,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 157
+        "y": 173
       },
       "fieldConfig": {
         "defaults": {
@@ -2084,7 +2319,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 157
+        "y": 173
       },
       "fieldConfig": {
         "defaults": {
@@ -2131,7 +2366,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 165
+        "y": 181
       },
       "fieldConfig": {
         "defaults": {
@@ -2187,7 +2422,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 173
+        "y": 189
       },
       "panels": []
     },
@@ -2203,7 +2438,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 174
+        "y": 190
       },
       "fieldConfig": {
         "defaults": {
@@ -2253,7 +2488,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 174
+        "y": 190
       },
       "fieldConfig": {
         "defaults": {
@@ -2293,7 +2528,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 174
+        "y": 190
       },
       "fieldConfig": {
         "defaults": {
@@ -2333,7 +2568,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 182
+        "y": 198
       },
       "fieldConfig": {
         "defaults": {
@@ -2373,7 +2608,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 182
+        "y": 198
       },
       "fieldConfig": {
         "defaults": {
@@ -2413,7 +2648,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 182
+        "y": 198
       },
       "fieldConfig": {
         "defaults": {
