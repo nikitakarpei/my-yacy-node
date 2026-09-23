@@ -114,7 +114,7 @@ func crossCheckJudgementsIn(round crossCheckedDocumentsRound) []peerjudgements.J
 func crossCheckJudgementOf(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) peerjudgements.Judgement {
-	if len(answeredAsk.DocumentsListedForTheWord) == 0 {
+	if len(answeredAsk.Abstract) == 0 {
 		return peerjudgements.NoEvidence
 	}
 	if answeredAsk.IgnoredTheDocumentsToMatch() {

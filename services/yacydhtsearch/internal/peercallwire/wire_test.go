@@ -28,21 +28,21 @@ const (
 )
 
 type recordedOutcome struct {
-	mutex                      sync.Mutex
-	answeredURLMetadata        int
-	amountOfDescribedDocuments int
-	answeredSearchDocuments    int
-	amountOfListedDocuments    int
-	amountOfMatchedDocuments   int
-	refused                    int
-	unreachable                int
-	unreadable                 int
-	cancelled                  int
-	waitedForASlot             int
-	tookASlot                  int
-	waitsBeforeTheSlotWasTaken int
-	askedFor                   peerasks.AskedFor
-	spent                      time.Duration
+	mutex                          sync.Mutex
+	answeredURLMetadata            int
+	amountOfDescribedDocuments     int
+	answeredSearchDocuments        int
+	amountOfDocumentsInTheAbstract int
+	amountOfMatchedDocuments       int
+	refused                        int
+	unreachable                    int
+	unreadable                     int
+	cancelled                      int
+	waitedForASlot                 int
+	tookASlot                      int
+	waitsBeforeTheSlotWasTaken     int
+	askedFor                       peerasks.AskedFor
+	spent                          time.Duration
 }
 
 func (r *recordedOutcome) PeerCallWaitsForASlot(
@@ -88,7 +88,7 @@ func (r *recordedOutcome) PeerAnsweredURLMetadata(
 func (r *recordedOutcome) PeerSearchedDocuments(
 	_ context.Context,
 	_ string,
-	amountOfListedDocuments int,
+	amountOfDocumentsInTheAbstract int,
 	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
@@ -96,7 +96,7 @@ func (r *recordedOutcome) PeerSearchedDocuments(
 	defer r.mutex.Unlock()
 
 	r.answeredSearchDocuments++
-	r.amountOfListedDocuments = amountOfListedDocuments
+	r.amountOfDocumentsInTheAbstract = amountOfDocumentsInTheAbstract
 	r.amountOfMatchedDocuments = amountOfMatchedDocuments
 	r.spent = spent
 }
@@ -420,11 +420,11 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 		peerasks.SearchDocumentsAsk{Peer: peerAt(address), Word: word, ItemsCeiling: 7},
 	)
 
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 1 ||
-		answeredAsk.DocumentsListedForTheWord[0] != document {
+	if !replied || len(answeredAsk.Abstract) != 1 ||
+		answeredAsk.Abstract[0] != document {
 		t.Fatalf(
-			"AskForSearchDocuments = %+v, %v, want the document the peer listed",
-			answeredAsk.DocumentsListedForTheWord,
+			"AskForSearchDocuments = %+v, %v, want the document in the abstract of the peer",
+			answeredAsk.Abstract,
 			replied,
 		)
 	}
@@ -433,11 +433,11 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 		len(request.Query) != 1 || request.Query[0] != word || request.Count != 7 {
 		t.Fatalf("request = %+v, want the abstract and the items of the one word", request)
 	}
-	if observer.answeredSearchDocuments != 1 || observer.amountOfListedDocuments != 1 {
+	if observer.answeredSearchDocuments != 1 || observer.amountOfDocumentsInTheAbstract != 1 {
 		t.Fatalf(
-			"PeerSearchedDocuments reported %d times with %d listed documents, want once with one",
+			"PeerSearchedDocuments reported %d times with %d documents in the abstract, want once with one",
 			observer.answeredSearchDocuments,
-			observer.amountOfListedDocuments,
+			observer.amountOfDocumentsInTheAbstract,
 		)
 	}
 }
@@ -549,10 +549,10 @@ func TestASearchDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
 		},
 	)
 
-	if !replied || len(answeredAsk.DocumentsListedForTheWord) != 0 {
+	if !replied || len(answeredAsk.Abstract) != 0 {
 		t.Fatalf(
 			"AskForSearchDocuments = %+v, want no document of the word it did not ask for",
-			answeredAsk.DocumentsListedForTheWord,
+			answeredAsk.Abstract,
 		)
 	}
 }

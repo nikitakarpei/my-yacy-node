@@ -12,6 +12,6 @@ type wordPartition struct {
 	replicas  []wordReplica
 }
 
-func (wordPartition wordPartition) isFullyListed() bool {
-	return slices.ContainsFunc(wordPartition.replicas, wordReplica.isFullyListed)
+func (wordPartition wordPartition) hasACompleteAbstract() bool {
+	return slices.ContainsFunc(wordPartition.replicas, wordReplica.hasACompleteAbstract)
 }

@@ -116,41 +116,41 @@ func lowerMedianOf(amounts []int) int {
 	return sortedAmounts[(len(sortedAmounts)-1)/2]
 }
 
-func (queryWord queryWordAcrossReplicas) documentsListedByPeers() distinctDocuments {
-	documentsListedByPeers := distinctDocuments{}
+func (queryWord queryWordAcrossReplicas) documentsInTheAbstracts() distinctDocuments {
+	documentsInTheAbstracts := distinctDocuments{}
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
 		for _, replica := range replicasOfPartition {
 			answer, answered := replica.answer.Get()
 			if !answered {
 				continue
 			}
-			for _, document := range answer.DocumentsListedForTheWord {
-				documentsListedByPeers.add(document)
+			for _, document := range answer.Abstract {
+				documentsInTheAbstracts.add(document)
 			}
 		}
 	}
 
-	return documentsListedByPeers
+	return documentsInTheAbstracts
 }
 
-func (queryWord queryWordAcrossReplicas) documentsNotListedByItsPeersAmong(
+func (queryWord queryWordAcrossReplicas) documentsOutsideItsAbstractsAmong(
 	documents []yacymodel.URLHash,
 ) []yacymodel.URLHash {
-	documentsListedByPeers := queryWord.documentsListedByPeers()
-	documentsNotListed := make([]yacymodel.URLHash, 0, len(documents))
+	documentsInTheAbstracts := queryWord.documentsInTheAbstracts()
+	documentsOutsideTheAbstracts := make([]yacymodel.URLHash, 0, len(documents))
 	for _, document := range documents {
-		if documentsListedByPeers.contains(document) {
+		if documentsInTheAbstracts.contains(document) {
 			continue
 		}
-		documentsNotListed = append(documentsNotListed, document)
+		documentsOutsideTheAbstracts = append(documentsOutsideTheAbstracts, document)
 	}
 
-	return documentsNotListed
+	return documentsOutsideTheAbstracts
 }
 
-func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
+func (queryWord queryWordAcrossReplicas) hasCompleteAbstracts() bool {
 	for _, wordPartition := range queryWord.wordPartitions() {
-		if !wordPartition.isFullyListed() {
+		if !wordPartition.hasACompleteAbstract() {
 			return false
 		}
 	}

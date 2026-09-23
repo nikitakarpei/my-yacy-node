@@ -42,14 +42,14 @@ func New(
 	}, []string{labelJoin, labelLeadingQueryWordChoice})
 	//exhaustive:enforce
 	joinsPerLeadingQueryWordChoice := map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins{
-		wordjoined.RarestFullyListedQueryWord: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestFullyListedQueryWord,
+		wordjoined.RarestQueryWordWithCompleteAbstracts: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.RarestQueryWordWithCompleteAbstracts,
 		),
-		wordjoined.MoreCommonFullyListedQueryWord: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.MoreCommonFullyListedQueryWord,
+		wordjoined.MoreCommonQueryWordWithCompleteAbstracts: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.MoreCommonQueryWordWithCompleteAbstracts,
 		),
-		wordjoined.RarestPartlyListedQueryWord: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestPartlyListedQueryWord,
+		wordjoined.RarestQueryWordWithoutCompleteAbstracts: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.RarestQueryWordWithoutCompleteAbstracts,
 		),
 	}
 	metrics := &WordJoinedSpreadMetrics{

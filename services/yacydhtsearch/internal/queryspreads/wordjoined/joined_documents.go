@@ -4,7 +4,7 @@ func joinedDocumentsFrom(
 	abstractsRound abstractsRound,
 	crossCheckedDocumentsRound crossCheckedDocumentsRound,
 ) distinctDocuments {
-	return abstractsRound.documentsListedByPeersPerQueryWord().
+	return abstractsRound.documentsInTheAbstractsPerQueryWord().
 		unitedWith(crossCheckedDocumentsRound.documentsFoundByCrossCheckingPerQueryWord()).
 		documentsOfEveryQueryWord()
 }

@@ -364,7 +364,7 @@ func (peer *peerHoldingDocuments) answerTo(
 			continue
 		}
 		response.IndexCount[word] = len(documents)
-		response.IndexAbstract[word] = peer.documentsListedAmong(t, documents, searchRequest)
+		response.IndexAbstract[word] = peer.abstractAmong(t, documents, searchRequest)
 		response.Resources = matchedResourcesAmong(t, documents, searchRequest)
 	}
 	response.Count = len(response.Resources)
@@ -372,27 +372,27 @@ func (peer *peerHoldingDocuments) answerTo(
 	return response
 }
 
-func (peer *peerHoldingDocuments) documentsListedAmong(
+func (peer *peerHoldingDocuments) abstractAmong(
 	t *testing.T,
 	documents []string,
 	searchRequest yacyproto.SearchRequest,
 ) []yacymodel.URLHash {
 	t.Helper()
 
-	listed := make([]yacymodel.URLHash, 0, len(documents))
+	abstract := make([]yacymodel.URLHash, 0, len(documents))
 	for _, address := range documents {
 		document := documentAt(t, address)
 		if peer.honorsTheFilter && len(searchRequest.URLs) > 0 &&
 			!slices.Contains(searchRequest.URLs, document) {
 			continue
 		}
-		listed = append(listed, document)
-		if len(searchRequest.URLs) == 0 && len(listed) == judgementAbstractCeiling {
+		abstract = append(abstract, document)
+		if len(searchRequest.URLs) == 0 && len(abstract) == judgementAbstractCeiling {
 			break
 		}
 	}
 
-	return listed
+	return abstract
 }
 
 func matchedResourcesAmong(

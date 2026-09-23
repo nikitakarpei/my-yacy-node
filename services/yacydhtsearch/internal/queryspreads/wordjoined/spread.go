@@ -208,7 +208,7 @@ func (spread Spread) askForURLMetadata(
 		joinedDocuments, answeredSearchDocumentsAsks,
 	)
 	asks := urlMetadataAsksFor(
-		abstractsRound.documentsMostListedFirstAmong(documentsWithoutMetadata),
+		abstractsRound.documentsInTheMostAbstractsFirstAmong(documentsWithoutMetadata),
 		abstractsRound.answeredAsks,
 		spread.urlMetadataAskDocumentsCeiling,
 		spread.amountOfPeersHoldingOneWord,

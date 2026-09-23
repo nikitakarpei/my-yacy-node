@@ -59,8 +59,8 @@ func (kind searchDocumentsAskKind) isCovering(
 func (searchDocumentsAskKind) amountOfDocumentsListedIn(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) int {
-	if len(answeredAsk.DocumentsListedForTheWord) > 0 {
-		return len(answeredAsk.DocumentsListedForTheWord)
+	if len(answeredAsk.Abstract) > 0 {
+		return len(answeredAsk.Abstract)
 	}
 	if len(answeredAsk.MatchedDocuments) > 0 {
 		return len(answeredAsk.MatchedDocuments)

@@ -27,13 +27,13 @@ func performedCrossCheckedDocumentsRoundFrom(
 			round.asks,
 		),
 		AmountOfCrossCheckCandidatesNoPeerTook: amountOfCrossCheckCandidatesAcross(
-			round.candidates.ofPartlyListedWordPartitions,
+			round.candidates.ofWordPartitionsWithoutACompleteAbstract,
 		) -
 			amountOfDocumentsSentForCrossCheckingAcross(
 				round.asks,
 			),
 		AmountOfCrossCheckCandidatesRuledOutByAFullListing: amountOfCrossCheckCandidatesAcross(
-			round.candidates.ofFullyListedWordPartitions,
+			round.candidates.ofWordPartitionsWithACompleteAbstract,
 		),
 		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
 			round.answeredAsks,
@@ -60,10 +60,10 @@ func amountOfJoinedDocumentsFoundOnlyByCrossChecking(
 	joinedDocuments distinctDocuments,
 	abstractsRound abstractsRound,
 ) int {
-	documentsOfEveryQueryWordListedByPeers := abstractsRound.
-		documentsListedByPeersPerQueryWord().documentsOfEveryQueryWord()
+	documentsInTheAbstractsOfEveryQueryWord := abstractsRound.
+		documentsInTheAbstractsPerQueryWord().documentsOfEveryQueryWord()
 
-	return len(joinedDocuments) - len(documentsOfEveryQueryWordListedByPeers)
+	return len(joinedDocuments) - len(documentsInTheAbstractsOfEveryQueryWord)
 }
 
 type documentOfWord struct {
@@ -89,7 +89,7 @@ func amountOfEmptyCrossCheckedDocumentsAnswers(
 ) int {
 	amount := 0
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.DocumentsListedForTheWord) > 0 {
+		if len(answeredAsk.Abstract) > 0 {
 			continue
 		}
 		amount++

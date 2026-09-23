@@ -162,12 +162,12 @@ func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
 func (m *PeerCallMetrics) PeerSearchedDocuments(
 	_ context.Context,
 	_ string,
-	amountOfListedDocuments int,
+	amountOfDocumentsInTheAbstract int,
 	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
 	m.peerCallsPerAskedFor[peerasks.SearchDocuments].countAnswer(
-		amountOfListedDocuments+amountOfMatchedDocuments, spent,
+		amountOfDocumentsInTheAbstract+amountOfMatchedDocuments, spent,
 	)
 }
 

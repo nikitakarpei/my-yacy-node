@@ -17,7 +17,7 @@ func crossCheckedDocumentsAsksFor(
 	peerItemsCeiling int,
 ) []peerasks.SearchDocumentsAsk {
 	var asks []peerasks.SearchDocumentsAsk
-	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
+	for _, candidatesOfWordPartition := range candidates.ofWordPartitionsWithoutACompleteAbstract {
 		peersThatMayCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersUsefulForTheCrossCheckAmong(
 				peersNotAskedForAbstractsAmong(
@@ -33,7 +33,7 @@ func crossCheckedDocumentsAsksFor(
 				Peer:      peer,
 				Partition: candidatesOfWordPartition.wordPartition.partition,
 				Word:      candidatesOfWordPartition.wordPartition.word,
-				DocumentsToMatch: candidatesOfWordPartition.mostListedDocumentsUpTo(
+				DocumentsToMatch: candidatesOfWordPartition.documentsInTheMostAbstractsUpTo(
 					crossCheckedDocumentsCeiling,
 				),
 				ItemsCeiling: peerItemsCeiling,

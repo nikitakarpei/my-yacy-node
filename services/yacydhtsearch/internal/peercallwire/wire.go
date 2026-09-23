@@ -233,19 +233,19 @@ func (w Wire) putSearchDocumentsAsk(
 		return peerasks.AnsweredSearchDocumentsAsk{}, false
 	}
 
-	documentsListedForTheWord := response.IndexAbstract[ask.Word]
+	abstract := response.IndexAbstract[ask.Word]
 	matchedDocuments := matchedDocumentsOf(response)
 	w.observer.PeerSearchedDocuments(
 		ctx,
 		ask.Peer.Address,
-		len(documentsListedForTheWord),
+		len(abstract),
 		len(matchedDocuments),
 		time.Since(startedAt),
 	)
 
 	return peerasks.AnsweredSearchDocumentsAsk{
 		Ask:                             ask,
-		DocumentsListedForTheWord:       documentsListedForTheWord,
+		Abstract:                        abstract,
 		MatchedDocuments:                matchedDocuments,
 		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
 	}, true

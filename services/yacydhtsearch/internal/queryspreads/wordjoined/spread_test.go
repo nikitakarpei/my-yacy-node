@@ -97,8 +97,8 @@ func (n *peerNetwork) AskForSearchDocuments(
 			continue
 		}
 		askOutcomes[place].Answer = yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
-			Ask:                       ask,
-			DocumentsListedForTheWord: n.documentsListedBy(ask.Peer.Address, ask.Word),
+			Ask:      ask,
+			Abstract: n.abstractOf(ask.Peer.Address, ask.Word),
 			MatchedDocuments: n.matchedDocumentsOf(
 				documentsPerWordOf(n.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
 			),
@@ -155,9 +155,9 @@ func (n *peerNetwork) crossCheckedDocumentsAskOutcomes(
 		if _, silent := n.peersSilentInTheCrossCheckedDocuments[ask.Peer.Address]; !silent {
 			documentsToMatchHeld := n.documentsToMatchHeldBy(ask)
 			askOutcome.Answer = yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
-				Ask:                       ask,
-				DocumentsListedForTheWord: documentsToMatchHeld,
-				MatchedDocuments:          n.matchedDocumentsOf(documentsToMatchHeld),
+				Ask:              ask,
+				Abstract:         documentsToMatchHeld,
+				MatchedDocuments: n.matchedDocumentsOf(documentsToMatchHeld),
 			})
 		}
 		askOutcomes = append(askOutcomes, askOutcome)
@@ -241,7 +241,7 @@ func (n *peerNetwork) documentsCountedBy(
 	return yacymodel.Some(n.documentsHeldForEveryWord)
 }
 
-func (n *peerNetwork) documentsListedBy(address string, word yacymodel.Hash) []yacymodel.URLHash {
+func (n *peerNetwork) abstractOf(address string, word yacymodel.Hash) []yacymodel.URLHash {
 	documents := documentsPerWordOf(n.documentsPerWordPerPeer, address, word)
 	documentsPerAnswer, answersInPart := n.documentsPerAnswerOfEachPeer[address]
 	if !answersInPart || len(documents) <= documentsPerAnswer {
@@ -840,7 +840,7 @@ func TestHonoringPeersAreAskedFirstInTheSecondRound(t *testing.T) {
 	}
 }
 
-func TestAPeerThatListedADocumentOutsideTheDocumentsToMatchIsNotAskedToCrossCheckByTheNextQuery(
+func TestAPeerWhoseAbstractHeldADocumentOutsideTheDocumentsToMatchIsNotAskedToCrossCheckByTheNextQuery(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -860,7 +860,7 @@ func TestAPeerThatListedADocumentOutsideTheDocumentsToMatchIsNotAskedToCrossChec
 	}
 }
 
-func TestAPeerThatListedOnlyTheDocumentsToMatchIsAskedByTheNextQuery(t *testing.T) {
+func TestAPeerWhoseAbstractHeldOnlyTheDocumentsToMatchIsAskedByTheNextQuery(t *testing.T) {
 	t.Parallel()
 
 	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
@@ -927,12 +927,12 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 		t.Fatalf("the spread reported %+v, want cross-checking adding one document to the join",
 			performed)
 	}
-	if performed.AbstractsRound.AmountOfFullyListedQueryWords != 1 {
-		t.Fatalf("the spread reported %+v, want one fully listed word", performed)
+	if performed.AbstractsRound.AmountOfQueryWordsWithCompleteAbstracts != 1 {
+		t.Fatalf("the spread reported %+v, want one word with complete abstracts", performed)
 	}
 }
 
-func TestTheFullyListedWordTheFewestDocumentsAreHeldForLeads(t *testing.T) {
+func TestTheWordWithCompleteAbstractsTheFewestDocumentsAreHeldForLeads(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string]map[string][]string{
@@ -952,25 +952,25 @@ func TestTheFullyListedWordTheFewestDocumentsAreHeldForLeads(t *testing.T) {
 	}), observer)
 
 	abstractsRound := observer.performed[0].AbstractsRound
-	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestFullyListedQueryWord ||
-		abstractsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 2 {
+	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestQueryWordWithCompleteAbstracts ||
+		abstractsRound.AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord != 2 {
 		t.Fatalf(
-			"the spread reported %+v, want the fully listed word the fewest documents are held for leading",
+			"the spread reported %+v, want the word with complete abstracts the fewest documents are held for leading",
 			abstractsRound,
 		)
 	}
 }
 
-func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t *testing.T) {
+func TestAWordWithCompleteAbstractsLeadsOverAWordWithPartialAbstractsFewerDocumentsAreCountedFor(t *testing.T) {
 	t.Parallel()
 
 	anchored := "https://anchored.example/"
-	unlisted := "https://unlisted.example/"
+	outsideAnAbstract := "https://outside-an-abstract.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: {anchored, unlisted, "https://other.example/"}},
-		"fourth": {firstWord: {anchored, unlisted, "https://other.example/"}},
+		"first":  {firstWord: {anchored, outsideAnAbstract, "https://other.example/"}},
+		"fourth": {firstWord: {anchored, outsideAnAbstract, "https://other.example/"}},
 		"second": {secondWord: {
-			anchored, unlisted, "https://third.example/",
+			anchored, outsideAnAbstract, "https://third.example/",
 			"https://fourth.example/", "https://fifth.example/",
 		}},
 	})
@@ -985,22 +985,22 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 	}), observer)
 
 	performed := observer.performed[0]
-	if performed.AbstractsRound.LeadingQueryWordChoice != wordjoined.MoreCommonFullyListedQueryWord ||
-		performed.AbstractsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 5 {
+	if performed.AbstractsRound.LeadingQueryWordChoice != wordjoined.MoreCommonQueryWordWithCompleteAbstracts ||
+		performed.AbstractsRound.AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord != 5 {
 		t.Fatalf(
-			"the spread reported %+v, want the fully listed word leading over the rarer partly listed word",
+			"the spread reported %+v, want the word with complete abstracts leading over the rarer word with partial abstracts",
 			performed.AbstractsRound,
 		)
 	}
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 {
 		t.Fatalf(
-			"the spread joined %d documents, want the one both words listed and the one the partly listed word left out",
+			"the spread joined %d documents, want the one in the abstracts of both words and the one the partial abstracts left out",
 			performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments,
 		)
 	}
 }
 
-func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFullyListed(
+func TestTheWordWithPartialAbstractsTheFewestDocumentsAreCountedForLeadsWhenNoWordHasCompleteAbstracts(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -1036,10 +1036,10 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 	)
 
 	abstractsRound := observer.performed[0].AbstractsRound
-	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
-		abstractsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 1 {
+	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestQueryWordWithoutCompleteAbstracts ||
+		abstractsRound.AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord != 1 {
 		t.Fatalf(
-			"the spread reported %+v, want the partly listed word the fewest documents are counted for leading",
+			"the spread reported %+v, want the word with partial abstracts the fewest documents are counted for leading",
 			abstractsRound,
 		)
 	}
@@ -1048,14 +1048,14 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 		got, wanted,
 	) {
 		t.Fatalf(
-			"the asks named %v, want the document the leading query word listed, once per "+
+			"the asks named %v, want the document in the abstracts of the leading query word, once per "+
 				"other word",
 			got,
 		)
 	}
 }
 
-func TestAReplicaOfTwoPartlyListedQueryWordsIsAskedToCrossCheckOnce(t *testing.T) {
+func TestAReplicaOfTwoQueryWordsWithPartialAbstractsIsAskedToCrossCheckOnce(t *testing.T) {
 	t.Parallel()
 
 	both := []string{"https://answered.example/", "https://anchored.example/"}
@@ -1094,18 +1094,18 @@ func TestAReplicaOfTwoPartlyListedQueryWordsIsAskedToCrossCheckOnce(t *testing.T
 	}
 }
 
-func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t *testing.T) {
+func TestADocumentInTheAbstractOfOneReplicaOfAWordWithPartialAbstractsIsAskedOfNoOtherReplica(t *testing.T) {
 	t.Parallel()
 
-	listed := "https://listed.example/"
+	inAnAbstract := "https://in-an-abstract.example/"
 	named := "https://named.example/"
 	other := "https://other.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: {listed, named, other}},
+		"first":  {firstWord: {inAnAbstract, named, other}},
 		"fourth": {firstWord: {named, other}},
 		"fifth":  {firstWord: {named, other}},
-		"second": {secondWord: {listed, named, other}},
-		"third":  {secondWord: {listed, named, other}},
+		"second": {secondWord: {inAnAbstract, named, other}},
+		"third":  {secondWord: {inAnAbstract, named, other}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
 	network.replicasPutPerWord = map[string]int{secondWord: 1}
@@ -1120,10 +1120,10 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 		documentsAskedToCrossCheck(
 			network.crossCheckedDocumentsAsks,
 		),
-		documentHashesOf([]string{listed})[0],
+		documentHashesOf([]string{inAnAbstract})[0],
 	) {
 		t.Fatalf(
-			"the spread put %v, want no ask naming the document a replica already listed",
+			"the spread put %v, want no ask naming the document already in the abstract of a replica",
 			network.crossCheckedDocumentsAsks,
 		)
 	}
@@ -1131,7 +1131,7 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 0 ||
 		crossCheckedDocumentsRound.AmountOfJoinedDocuments != 3 {
 		t.Fatalf(
-			"the spread reported %+v, want every document listed for the leading query word joined and no candidate that no peer took",
+			"the spread reported %+v, want every document in the abstracts of the leading query word joined and no candidate that no peer took",
 			crossCheckedDocumentsRound,
 		)
 	}
@@ -1141,17 +1141,17 @@ func TestEveryReplicaTheFirstRoundLeftUnaskedIsAskedTheSameDocuments(t *testing.
 	t.Parallel()
 
 	answered := "https://answered.example/"
-	documentsListedForTheLeadingQueryWord := []string{
+	documentsInTheAbstractsOfTheLeadingQueryWord := []string{
 		answered,
 		"https://first.example/",
 		"https://second.example/",
 		"https://third.example/",
 	}
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
-		"second": {secondWord: documentsListedForTheLeadingQueryWord},
-		"third":  {secondWord: documentsListedForTheLeadingQueryWord},
-		"fourth": {secondWord: documentsListedForTheLeadingQueryWord},
+		"first":  {firstWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"second": {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"third":  {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"fourth": {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
 	network.replicasPutPerWord = map[string]int{secondWord: 1}
@@ -1166,7 +1166,7 @@ func TestEveryReplicaTheFirstRoundLeftUnaskedIsAskedTheSameDocuments(t *testing.
 	) {
 		t.Fatalf("the spread asked %v to cross-check, want each replica left unasked", got)
 	}
-	wanted := documentsInTheirHashOrder(documentHashesOf(documentsListedForTheLeadingQueryWord[1:]))
+	wanted := documentsInTheirHashOrder(documentHashesOf(documentsInTheAbstractsOfTheLeadingQueryWord[1:]))
 	for _, ask := range network.crossCheckedDocumentsAsks {
 		if got := documentsInTheirHashOrder(ask.DocumentsToMatch); !slices.Equal(got, wanted) {
 			t.Fatalf(
@@ -1186,17 +1186,17 @@ func TestTheCandidatesOverTheCeilingAreCountedAsNoPeerTook(
 
 	const documentsOneCrossCheckedDocumentsAskNames = 1
 
-	documentsListedForTheLeadingQueryWord := []string{
+	documentsInTheAbstractsOfTheLeadingQueryWord := []string{
 		"https://first.example/",
 		"https://second.example/",
 		"https://third.example/",
 		"https://fourth.example/",
 	}
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
-		"second": {secondWord: documentsListedForTheLeadingQueryWord},
-		"third":  {secondWord: documentsListedForTheLeadingQueryWord},
-		"fourth": {secondWord: documentsListedForTheLeadingQueryWord},
+		"first":  {firstWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"second": {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"third":  {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"fourth": {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0}
 	network.replicasPutPerWord = map[string]int{secondWord: 1}
@@ -1238,15 +1238,15 @@ func TestTheCandidatesOverTheCeilingAreCountedAsNoPeerTook(
 	}
 }
 
-func TestTheCeilingKeepsTheCandidatesListedByTheMostPeers(t *testing.T) {
+func TestTheCeilingKeepsTheCandidatesInTheAbstractsOfTheMostPeers(t *testing.T) {
 	t.Parallel()
 
-	listedByBoth := "https://listed-by-both.example/"
+	inBothAbstracts := "https://in-both-abstracts.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: {"https://listed-by-one.example/", listedByBoth}},
-		"fourth": {firstWord: {listedByBoth}},
-		"second": {secondWord: {"https://listed-by-one.example/", listedByBoth}},
-		"third":  {secondWord: {"https://listed-by-one.example/", listedByBoth}},
+		"first":  {firstWord: {"https://in-one-abstract.example/", inBothAbstracts}},
+		"fourth": {firstWord: {inBothAbstracts}},
+		"second": {secondWord: {"https://in-one-abstract.example/", inBothAbstracts}},
+		"third":  {secondWord: {"https://in-one-abstract.example/", inBothAbstracts}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0}
 	network.replicasPutPerWord = map[string]int{secondWord: 1}
@@ -1256,27 +1256,27 @@ func TestTheCeilingKeepsTheCandidatesListedByTheMostPeers(t *testing.T) {
 		secondWord: {"second", "third"},
 	}), &recordedSpreads{})
 
-	wanted := documentHashesOf([]string{listedByBoth})
+	wanted := documentHashesOf([]string{inBothAbstracts})
 	if got := documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
 		got, wanted,
 	) {
-		t.Fatalf("the asks named %v, want only the candidate both peers listed %v", got, wanted)
+		t.Fatalf("the asks named %v, want only the candidate in the abstracts of both peers %v", got, wanted)
 	}
 }
 
 func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T) {
 	t.Parallel()
 
-	documentsListedForTheLeadingQueryWord := []string{
+	documentsInTheAbstractsOfTheLeadingQueryWord := []string{
 		"https://first.example/",
 		"https://second.example/",
 	}
 	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
-		"second": {secondWord: documentsListedForTheLeadingQueryWord},
-		"fourth": {secondWord: documentsListedForTheLeadingQueryWord},
-		"third":  {thirdWord: documentsListedForTheLeadingQueryWord},
-		"fifth":  {thirdWord: documentsListedForTheLeadingQueryWord},
+		"first":  {firstWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"second": {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"fourth": {secondWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"third":  {thirdWord: documentsInTheAbstractsOfTheLeadingQueryWord},
+		"fifth":  {thirdWord: documentsInTheAbstractsOfTheLeadingQueryWord},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
 	network.replicasPutPerWord = map[string]int{secondWord: 1, thirdWord: 1}
@@ -1327,7 +1327,7 @@ func TestAPeerThatHoldsNoneOfTheDocumentsToMatchLeavesTheJoinOfTheFirstRoundWhol
 	}
 }
 
-func TestAQueryWhoseWordsAreAllFullyListedCrossChecksNoDocument(t *testing.T) {
+func TestAQueryWhoseWordsAllHaveCompleteAbstractsCrossChecksNoDocument(t *testing.T) {
 	t.Parallel()
 
 	shared := []string{"https://shared.example/"}
@@ -1346,10 +1346,10 @@ func TestAQueryWhoseWordsAreAllFullyListedCrossChecksNoDocument(t *testing.T) {
 			len(network.urlMetadataAsks),
 		)
 	}
-	if observer.performed[0].AbstractsRound.AmountOfFullyListedQueryWords != 2 {
+	if observer.performed[0].AbstractsRound.AmountOfQueryWordsWithCompleteAbstracts != 2 {
 		t.Fatalf(
-			"the spread reported %d fully listed query words, want both",
-			observer.performed[0].AbstractsRound.AmountOfFullyListedQueryWords,
+			"the spread reported %d query words with complete abstracts, want both",
+			observer.performed[0].AbstractsRound.AmountOfQueryWordsWithCompleteAbstracts,
 		)
 	}
 }
@@ -2270,7 +2270,7 @@ func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoAmountOfLinks(t *test
 	}
 }
 
-func TestADocumentListedForTheCompoundWordOfTwoWordsIsJoinedForBoth(t *testing.T) {
+func TestADocumentInTheAbstractOfTheCompoundWordOfTwoWordsIsJoinedForBoth(t *testing.T) {
 	t.Parallel()
 
 	compounded := "https://compounded.example/"
@@ -2284,7 +2284,7 @@ func TestADocumentListedForTheCompoundWordOfTwoWordsIsJoinedForBoth(t *testing.T
 	if len(answers.FoundDocuments) != 1 ||
 		answers.FoundDocuments[0].Hash != documentHashesOf([]string{compounded})[0] {
 		t.Fatalf(
-			"the spread found %+v, want the one document listed for the compound word",
+			"the spread found %+v, want the one document in the abstract of the compound word",
 			answers.FoundDocuments,
 		)
 	}
@@ -2425,7 +2425,7 @@ func TestADocumentOnlyAReplicaInItsPartitionHoldsIsFound(t *testing.T) {
 	}
 }
 
-func networkWhereTheSecondWordIsFullyListedInPartitionZero(
+func networkWhereTheSecondWordHasACompleteAbstractInPartitionZero(
 	t *testing.T,
 ) (*peerNetwork, []string) {
 	t.Helper()
@@ -2447,10 +2447,10 @@ func networkWhereTheSecondWordIsFullyListedInPartitionZero(
 	return network, documentsInPartitionOne
 }
 
-func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
+func TestNoCandidateOfAPartitionWhereTheWordHasACompleteAbstractIsAsked(t *testing.T) {
 	t.Parallel()
 
-	network, documentsInPartitionOne := networkWhereTheSecondWordIsFullyListedInPartitionZero(t)
+	network, documentsInPartitionOne := networkWhereTheSecondWordHasACompleteAbstractInPartitionZero(t)
 
 	spreadOverTwoPartitions(
 		network,
@@ -2464,18 +2464,18 @@ func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
 		got, wanted,
 	) {
 		t.Fatalf(
-			"the asks named %v, want only the candidate of the partition the word is partly "+
-				"listed in %v",
+			"the asks named %v, want only the candidate of the partition where the word "+
+				"has partial abstracts %v",
 			got,
 			wanted,
 		)
 	}
 }
 
-func TestTheCandidatesOfAPartitionWhereTheWordIsFullyListedAreReportedAsRuledOut(t *testing.T) {
+func TestTheCandidatesOfAPartitionWhereTheWordHasACompleteAbstractAreReportedAsRuledOut(t *testing.T) {
 	t.Parallel()
 
-	network, _ := networkWhereTheSecondWordIsFullyListedInPartitionZero(t)
+	network, _ := networkWhereTheSecondWordHasACompleteAbstractInPartitionZero(t)
 	observer := &recordedSpreads{}
 
 	spreadOverTwoPartitions(
@@ -2584,11 +2584,11 @@ func TestAPartitionWithABetterLeadingQueryWordIsReported(
 	)
 
 	abstractsRound := observer.performed[0].AbstractsRound
-	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
+	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestQueryWordWithoutCompleteAbstracts ||
 		abstractsRound.AmountOfPartitionsWithABetterLeadingQueryWord != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want the rarest word leading and partition 1, where the "+
-				"other word is fully listed, as the one with a better leading word",
+				"other word has complete abstracts, as the one with a better leading word",
 			abstractsRound,
 		)
 	}

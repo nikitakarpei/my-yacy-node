@@ -11,12 +11,12 @@ type wordReplica struct {
 	answer yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
 }
 
-func (replica wordReplica) isFullyListed() bool {
+func (replica wordReplica) hasACompleteAbstract() bool {
 	answer, answered := replica.answer.Get()
 	if !answered {
 		return false
 	}
 	amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
 
-	return counted && amountOfDocumentsHeld <= len(answer.DocumentsListedForTheWord)
+	return counted && amountOfDocumentsHeld <= len(answer.Abstract)
 }

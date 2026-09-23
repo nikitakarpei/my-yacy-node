@@ -736,7 +736,7 @@
     },
     {
       "id": 26,
-      "title": "Share of the query words no peer listed a document for",
+      "title": "Share of the query words with no document in any abstract",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -795,7 +795,7 @@
     },
     {
       "id": 52,
-      "title": "Share of the query words whose peers listed every document they hold",
+      "title": "Share of the query words whose peers sent complete abstracts",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -846,7 +846,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_query_words_with_complete_abstracts_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_with_complete_abstracts_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }

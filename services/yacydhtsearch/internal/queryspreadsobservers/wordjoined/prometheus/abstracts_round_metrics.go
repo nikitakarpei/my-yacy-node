@@ -7,8 +7,8 @@ import (
 )
 
 type abstractsRoundMetrics struct {
-	unheldQueryWordsRatio      prometheusclient.Histogram
-	fullyListedQueryWordsRatio prometheusclient.Histogram
+	unheldQueryWordsRatio                prometheusclient.Histogram
+	queryWordsWithCompleteAbstractsRatio prometheusclient.Histogram
 }
 
 func abstractsRoundMetricsRegisteredIn(
@@ -19,14 +19,14 @@ func abstractsRoundMetricsRegisteredIn(
 			"yacydhtsearch_word_joined_spread_unheld_query_words_ratio",
 			"Share of query words that no asked peer held a document for.",
 		),
-		fullyListedQueryWordsRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_fully_listed_query_words_ratio",
-			"Share of query words whose peers listed every document they hold for the word.",
+		queryWordsWithCompleteAbstractsRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_spread_query_words_with_complete_abstracts_ratio",
+			"Share of query words whose peers sent complete abstracts.",
 		),
 	}
 	registry.MustRegister(
 		metrics.unheldQueryWordsRatio,
-		metrics.fullyListedQueryWordsRatio,
+		metrics.queryWordsWithCompleteAbstractsRatio,
 	)
 
 	return metrics
@@ -42,8 +42,8 @@ func (m abstractsRoundMetrics) observeAbstractsRound(
 		float64(abstractsRound.AmountOfQueryWordsHeldByNoPeer) /
 			float64(abstractsRound.AmountOfQueryWords),
 	)
-	m.fullyListedQueryWordsRatio.Observe(
-		float64(abstractsRound.AmountOfFullyListedQueryWords) /
+	m.queryWordsWithCompleteAbstractsRatio.Observe(
+		float64(abstractsRound.AmountOfQueryWordsWithCompleteAbstracts) /
 			float64(abstractsRound.AmountOfQueryWords),
 	)
 }

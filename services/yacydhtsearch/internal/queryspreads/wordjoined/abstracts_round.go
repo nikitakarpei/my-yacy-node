@@ -30,7 +30,7 @@ func peersAskedIn(asks []peerasks.SearchDocumentsAsk) map[yacymodel.Hash]struct{
 
 func (round abstractsRound) leadingQueryWord() queryWordAcrossReplicas {
 	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
-		if queryWord.isFullyListed() {
+		if queryWord.hasCompleteAbstracts() {
 			return queryWord
 		}
 	}
@@ -47,11 +47,11 @@ func (round abstractsRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcr
 	)
 }
 
-func (round abstractsRound) documentsOfTheLeadingQueryWordMostListedFirst() []yacymodel.URLHash {
-	return round.documentsMostListedFirstAmong(round.leadingQueryWord().documentsListedByPeers())
+func (round abstractsRound) documentsOfTheLeadingQueryWordInTheMostAbstractsFirst() []yacymodel.URLHash {
+	return round.documentsInTheMostAbstractsFirstAmong(round.leadingQueryWord().documentsInTheAbstracts())
 }
 
-func (round abstractsRound) documentsMostListedFirstAmong(
+func (round abstractsRound) documentsInTheMostAbstractsFirstAmong(
 	documents distinctDocuments,
 ) []yacymodel.URLHash {
 	return slices.SortedFunc(
@@ -94,7 +94,7 @@ func amountOfPeersPerDocumentOf(
 	countedPeers := map[peerOfDocument]struct{}{}
 	amountOfPeersPerDocument := map[yacymodel.URLHash]int{}
 	for _, answeredAsk := range answeredAsks {
-		for _, document := range answeredAsk.DocumentsListedForTheWord {
+		for _, document := range answeredAsk.Abstract {
 			peerOfDocument := peerOfDocument{document: document, peer: answeredAsk.Ask.Peer.Hash}
 			if _, counted := countedPeers[peerOfDocument]; counted {
 				continue
@@ -107,19 +107,19 @@ func amountOfPeersPerDocumentOf(
 	return amountOfPeersPerDocument
 }
 
-func (round abstractsRound) documentsListedByPeersPerQueryWord() documentsPerQueryWord {
-	documentsListedByPeersPerQueryWord := make(
+func (round abstractsRound) documentsInTheAbstractsPerQueryWord() documentsPerQueryWord {
+	documentsInTheAbstractsPerQueryWord := make(
 		documentsPerQueryWord,
 		len(round.queryWordsFewestDocumentsFirst),
 	)
 	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
-		documentsListedByPeersPerQueryWord[queryWord.word] = queryWord.documentsListedByPeers()
+		documentsInTheAbstractsPerQueryWord[queryWord.word] = queryWord.documentsInTheAbstracts()
 	}
 	for _, compoundWord := range round.compoundWords {
 		for _, word := range compoundWord.WordHashes {
-			documentsListedByPeersPerQueryWord.add(word, compoundWord.documentsListedByPeers())
+			documentsInTheAbstractsPerQueryWord.add(word, compoundWord.documentsInTheAbstracts())
 		}
 	}
 
-	return documentsListedByPeersPerQueryWord
+	return documentsInTheAbstractsPerQueryWord
 }

@@ -28,7 +28,7 @@ type PeerCallObserver interface {
 	PeerSearchedDocuments(
 		ctx context.Context,
 		address string,
-		amountOfListedDocuments int,
+		amountOfDocumentsInTheAbstract int,
 		amountOfMatchedDocuments int,
 		spent time.Duration,
 	)
@@ -98,13 +98,13 @@ func (observers PeerCallObservers) PeerAnsweredURLMetadata(
 func (observers PeerCallObservers) PeerSearchedDocuments(
 	ctx context.Context,
 	address string,
-	amountOfListedDocuments int,
+	amountOfDocumentsInTheAbstract int,
 	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
 		observer.PeerSearchedDocuments(
-			ctx, address, amountOfListedDocuments, amountOfMatchedDocuments, spent,
+			ctx, address, amountOfDocumentsInTheAbstract, amountOfMatchedDocuments, spent,
 		)
 	}
 }

@@ -51,12 +51,12 @@ func attributesOfAbstractsRound(
 		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
 		slog.Int("amountOfCompoundWords", round.AmountOfCompoundWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
-		slog.Int("amountOfFullyListedQueryWords", round.AmountOfFullyListedQueryWords),
-		slog.Int("amountOfPeersThatListedADocument", round.AmountOfPeersThatListedADocument),
+		slog.Int("amountOfQueryWordsWithCompleteAbstracts", round.AmountOfQueryWordsWithCompleteAbstracts),
+		slog.Int("amountOfPeersWithANonEmptyAbstract", round.AmountOfPeersWithANonEmptyAbstract),
 		slog.String("leadingQueryWordChoice", string(round.LeadingQueryWordChoice)),
 		slog.Int(
-			"amountOfDocumentsListedByThePeersOfTheLeadingQueryWord",
-			round.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord,
+			"amountOfDocumentsInTheAbstractsOfTheLeadingQueryWord",
+			round.AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord,
 		),
 		slog.Int(
 			"amountOfPartitionsWithABetterLeadingQueryWord",

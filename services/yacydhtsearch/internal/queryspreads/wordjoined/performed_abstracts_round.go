@@ -8,17 +8,17 @@ import (
 )
 
 type PerformedAbstractsRound struct {
-	AmountOfQueryWords                                     int
-	AmountOfCompoundWords                                  int
-	AmountOfQueryWordsHeldByNoPeer                         int
-	AmountOfFullyListedQueryWords                          int
-	AmountOfPeersThatListedADocument                       int
-	LeadingQueryWordChoice                                 LeadingQueryWordChoice
-	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
-	AmountOfPartitionsWithABetterLeadingQueryWord          int
-	AmountOfMatchedDocumentsAcrossAnswers                  int
-	AmountOfMatchedDocumentsWithAPosting                   int
-	AmountOfDocumentsHeldInEachAnswer                      []int
+	AmountOfQueryWords                                   int
+	AmountOfCompoundWords                                int
+	AmountOfQueryWordsHeldByNoPeer                       int
+	AmountOfQueryWordsWithCompleteAbstracts              int
+	AmountOfPeersWithANonEmptyAbstract                   int
+	LeadingQueryWordChoice                               LeadingQueryWordChoice
+	AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord int
+	AmountOfPartitionsWithABetterLeadingQueryWord        int
+	AmountOfMatchedDocumentsAcrossAnswers                int
+	AmountOfMatchedDocumentsWithAPosting                 int
+	AmountOfDocumentsHeldInEachAnswer                    []int
 }
 
 func performedAbstractsRoundFrom(
@@ -30,16 +30,16 @@ func performedAbstractsRoundFrom(
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfFullyListedQueryWords: amountOfFullyListedQueryWordsAmong(
+		AmountOfQueryWordsWithCompleteAbstracts: amountOfQueryWordsWithCompleteAbstractsAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfPeersThatListedADocument: amountOfPeersAcross(
-			answeredAsksWithAListedDocument(round.answeredAsks),
+		AmountOfPeersWithANonEmptyAbstract: amountOfPeersAcross(
+			answeredAsksWithANonEmptyAbstract(round.answeredAsks),
 			peerOfAnsweredAbstractsAsk,
 		),
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
-		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
-			round.leadingQueryWord().documentsListedByPeers(),
+		AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord: len(
+			round.leadingQueryWord().documentsInTheAbstracts(),
 		),
 		AmountOfPartitionsWithABetterLeadingQueryWord: amountOfPartitionsWithABetterLeadingQueryWordIn(
 			round,
@@ -57,7 +57,7 @@ func performedAbstractsRoundFrom(
 func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
-		if len(queryWord.documentsListedByPeers()) > 0 {
+		if len(queryWord.documentsInTheAbstracts()) > 0 {
 			continue
 		}
 		amount++
@@ -66,10 +66,10 @@ func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) i
 	return amount
 }
 
-func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) int {
+func amountOfQueryWordsWithCompleteAbstractsAmong(queryWords []queryWordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
-		if !queryWord.isFullyListed() {
+		if !queryWord.hasCompleteAbstracts() {
 			continue
 		}
 		amount++
@@ -84,12 +84,12 @@ func peerOfAnsweredAbstractsAsk(
 	return answeredAsk.Ask.Peer
 }
 
-func answeredAsksWithAListedDocument(
+func answeredAsksWithANonEmptyAbstract(
 	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) []peerasks.AnsweredSearchDocumentsAsk {
 	keptAnsweredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.DocumentsListedForTheWord) == 0 {
+		if len(answeredAsk.Abstract) == 0 {
 			continue
 		}
 		keptAnsweredAsks = append(keptAnsweredAsks, answeredAsk)
@@ -104,13 +104,13 @@ func amountOfPartitionsWithABetterLeadingQueryWordIn(
 	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
 	amount := 0
 	for partition, wordPartition := range round.leadingQueryWord().wordPartitions() {
-		if wordPartition.isFullyListed() {
+		if wordPartition.hasACompleteAbstract() {
 			continue
 		}
 		if !slices.ContainsFunc(
 			queryWordsBesideTheLeadingQueryWord,
 			func(queryWord queryWordAcrossReplicas) bool {
-				return queryWord.wordPartitions()[partition].isFullyListed()
+				return queryWord.wordPartitions()[partition].hasACompleteAbstract()
 			},
 		) {
 			continue

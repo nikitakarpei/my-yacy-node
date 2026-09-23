@@ -25,7 +25,7 @@ type SearchDocumentsAskOutcomes = AskOutcomes[SearchDocumentsAsk, AnsweredSearch
 
 type AnsweredSearchDocumentsAsk struct {
 	Ask                             SearchDocumentsAsk
-	DocumentsListedForTheWord       []yacymodel.URLHash
+	Abstract                        []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
 }
@@ -34,7 +34,7 @@ func (answeredAsk AnsweredSearchDocumentsAsk) IgnoredTheDocumentsToMatch() bool 
 	if len(answeredAsk.Ask.DocumentsToMatch) == 0 {
 		return false
 	}
-	for _, document := range answeredAsk.DocumentsListedForTheWord {
+	for _, document := range answeredAsk.Abstract {
 		if !slices.Contains(answeredAsk.Ask.DocumentsToMatch, document) {
 			return true
 		}

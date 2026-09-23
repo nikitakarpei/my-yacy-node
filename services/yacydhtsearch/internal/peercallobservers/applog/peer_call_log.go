@@ -63,13 +63,13 @@ func (PeerCallLog) PeerAnsweredURLMetadata(
 func (PeerCallLog) PeerSearchedDocuments(
 	ctx context.Context,
 	address string,
-	amountOfListedDocuments int,
+	amountOfDocumentsInTheAbstract int,
 	amountOfMatchedDocuments int,
 	spent time.Duration,
 ) {
 	slog.DebugContext(ctx, msgPeerSearchedDocuments,
 		slog.String("address", address),
-		slog.Int("amountOfListedDocuments", amountOfListedDocuments),
+		slog.Int("amountOfDocumentsInTheAbstract", amountOfDocumentsInTheAbstract),
 		slog.Int("amountOfMatchedDocuments", amountOfMatchedDocuments),
 		slog.Duration("spent", spent),
 	)

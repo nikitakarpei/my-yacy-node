@@ -423,7 +423,7 @@ func (calls *peerCallsOfTheTests) AskForSearchDocuments(
 
 	return []peerasks.AnsweredSearchDocumentsAsk{{
 		Ask:                             asks[0],
-		DocumentsListedForTheWord:       documentsListedBy(script),
+		Abstract:                        documentsListedBy(script),
 		MatchedDocuments:                make([]peerasks.MatchedDocument, script.documentsMatched),
 		AmountOfDocumentsHeldForTheWord: script.documentsHeld,
 	}}
