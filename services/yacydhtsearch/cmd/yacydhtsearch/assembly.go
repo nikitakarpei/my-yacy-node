@@ -285,7 +285,7 @@ func judgementsOfTheCrossCheckFor(
 	return peerjudgements.New(
 		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		judgementLedger,
-		cfg.PeerRetrialInterval,
+		cfg.CrossCheckRetrialInterval,
 		time.Now,
 	)
 }

@@ -33,7 +33,7 @@ const (
 	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
 	judgementLedgerCapacity         = 16
-	peerRetrialInterval             = 24 * time.Hour
+	crossCheckRetrialInterval       = 24 * time.Hour
 	versionOfThePeer                = "yacy_v1.925"
 	versionAfterAnUpgrade           = "yacy_v1.930"
 )
@@ -518,7 +518,7 @@ func judgementsOfTheCrossCheck() peerjudgements.Judgements {
 	return peerjudgements.New(
 		wordjoined.ListsOnlyTheCrossCheckedDocuments,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),
-		peerRetrialInterval,
+		crossCheckRetrialInterval,
 		time.Now,
 	)
 }
