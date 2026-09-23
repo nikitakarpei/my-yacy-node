@@ -21,31 +21,22 @@ peers ignore `urls`, so peer judgements skip them. The round mostly works around
 1. Ask every word in one random partition. The rarest word with a complete answer there
    leads, if its sample predicts a saving above a configured minimum. A word with no
    answer cannot lead.
-2. Ask the leading word and every compound word in all partitions.
-3. As each partition of the leading word answers, ask the other words there with its
-   documents in `urls`. Skip partitions where the leading word has no documents.
-4. Ask without `urls` when a partition has more documents than
+2. Ask the leading word and the compound words that contain it in all partitions. Their
+   documents are the candidates.
+3. As each partition answers, ask the other words and compound words there with the
+   candidates in `urls`. Skip partitions without candidates.
+4. Ask without `urls` when a partition has more candidates than
    `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING`, or when the leading word's answer there is
    incomplete.
 5. Join all answers locally. An answer that ignored `urls` is used as it is.
 6. Ask URL metadata only for joined documents that no answer carried metadata for.
 
-Discovery becomes one round. Counts that peers claim may now choose which peers are asked.
-Every count used is fresh, from a peer that today's plan asks anyway. Nothing is kept
-between queries.
-
-Rollout:
-
-1. Replace the 1000-document cap of `yacynode` with a byte budget per answer.
-2. Run the new discovery in shadow beside today's discovery.
-3. Switch when the shadow shows no more calls than today, the same joined documents, and
-   almost no documents found only by the cross-check.
-4. Remove the cross-check round, peer judgements, their bucket and
-   `YACYDHTSEARCH_CROSS_CHECK_RETRIAL_INTERVAL`.
+Discovery becomes one round. The cross-check round and peer judgements are removed. Counts
+that peers claim may now choose which peers are asked. Every count used is fresh, from a
+peer that today's plan asks anyway. Nothing is kept between queries.
 
 ## Consequences
 
-* One round, peer judgements and their state go away.
 * Calls stay at or below today. Queries save calls only when the rarest word has fewer
   than about 50 documents; the judged queries of 2026-09-21 save 0.2 % to 3.5 %.
 * The sample adds one step before the leading word.
