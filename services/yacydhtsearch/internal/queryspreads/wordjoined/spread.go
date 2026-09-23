@@ -42,7 +42,7 @@ type Spread struct {
 	peerAsks                       PeerAsks
 	peerJudgements                 PeerJudgements
 	urlMetadataAskDocumentsCeiling int
-	crossCheckedDocumentsCeiling   int
+	documentsToMatchCeiling        int
 	peerItemsCeiling               int
 	partitions                     yacymodel.DHTRingPartitions
 	amountOfPeersHoldingOneWord    int
@@ -55,7 +55,7 @@ func New(
 	peerAsks PeerAsks,
 	peerJudgements PeerJudgements,
 	urlMetadataAskDocumentsCeiling int,
-	crossCheckedDocumentsCeiling int,
+	documentsToMatchCeiling int,
 	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
 	amountOfPeersHoldingOneWord int,
@@ -66,7 +66,7 @@ func New(
 		peerAsks:                       peerAsks,
 		peerJudgements:                 peerJudgements,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
-		crossCheckedDocumentsCeiling:   crossCheckedDocumentsCeiling,
+		documentsToMatchCeiling:        documentsToMatchCeiling,
 		peerItemsCeiling:               peerItemsCeiling,
 		partitions:                     partitions,
 		amountOfPeersHoldingOneWord:    amountOfPeersHoldingOneWord,
@@ -90,17 +90,17 @@ func (spread Spread) SpreadOverPeers(
 		chosenPeersLeastUsefulForTheCrossCheckFirst(chosenPeersPerQueryWord, peerStandings),
 	)
 	crossCheckCandidates := crossCheckCandidatesIn(abstractsRound, spread.partitions)
-	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
+	crossCheckRound := spread.askToCrossCheck(
 		ctx,
 		crossCheckCandidates,
 		abstractsRound,
 		peerStandings,
 	)
-	judgedPeers := crossCheckJudgementsIn(crossCheckedDocumentsRound)
+	judgedPeers := crossCheckJudgementsIn(crossCheckRound)
 	spread.peerJudgements.Add(ctx, judgedPeers)
-	joinedDocuments := joinedDocumentsFrom(abstractsRound, crossCheckedDocumentsRound)
+	joinedDocuments := joinedDocumentsFrom(abstractsRound, crossCheckRound)
 	answeredSearchDocumentsAsks := answeredSearchDocumentsAsksAcross(
-		abstractsRound, crossCheckedDocumentsRound,
+		abstractsRound, crossCheckRound,
 	)
 	urlMetadataRound := spread.askForURLMetadata(
 		ctx, abstractsRound, answeredSearchDocumentsAsks, joinedDocuments,
@@ -108,7 +108,7 @@ func (spread Spread) SpreadOverPeers(
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		abstractsRound,
-		crossCheckedDocumentsRound,
+		crossCheckRound,
 		peerStandings,
 		judgedPeers,
 		joinedDocuments,
@@ -151,9 +151,9 @@ func (spread Spread) askForAbstracts(
 }
 
 const (
-	roundsLeftAtTheAbstracts             = 3
-	roundsLeftAtTheCrossCheckedDocuments = 2
-	roundsLeftAtTheURLMetadata           = 1
+	roundsLeftAtTheAbstracts   = 3
+	roundsLeftAtTheCrossCheck  = 2
+	roundsLeftAtTheURLMetadata = 1
 )
 
 func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, context.CancelFunc) {
@@ -165,24 +165,24 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 	return context.WithTimeout(ctx, time.Until(deadline)/time.Duration(roundsLeft))
 }
 
-func (spread Spread) askForCrossCheckedDocuments(
+func (spread Spread) askToCrossCheck(
 	ctx context.Context,
 	candidates crossCheckCandidates,
 	abstractsRound abstractsRound,
 	peerStandings peerjudgements.PeerStandings,
-) crossCheckedDocumentsRound {
-	asks := crossCheckedDocumentsAsksFor(
+) crossCheckRound {
+	asks := crossCheckAsksFor(
 		candidates,
 		abstractsRound.peersAsked,
 		peerStandings,
-		spread.crossCheckedDocumentsCeiling,
+		spread.documentsToMatchCeiling,
 		spread.peerItemsCeiling,
 	)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
+	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheck)
 	defer endRound()
 	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
 
-	return crossCheckedDocumentsRound{
+	return crossCheckRound{
 		candidates:   candidates,
 		asks:         askOutcomes.AsksPut(),
 		answeredAsks: askOutcomes.AnsweredAsks(),
@@ -191,10 +191,10 @@ func (spread Spread) askForCrossCheckedDocuments(
 
 func answeredSearchDocumentsAsksAcross(
 	abstractsRound abstractsRound,
-	crossCheckedDocumentsRound crossCheckedDocumentsRound,
+	crossCheckRound crossCheckRound,
 ) []peerasks.AnsweredSearchDocumentsAsk {
 	return slices.Concat(
-		abstractsRound.answeredAsks, crossCheckedDocumentsRound.answeredAsks,
+		abstractsRound.answeredAsks, crossCheckRound.answeredAsks,
 	)
 }
 

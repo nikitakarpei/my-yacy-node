@@ -78,7 +78,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time to wait for a peer before the search asks another peer for the same words. |
 | `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Peers that must find documents of the same words before the search stops asking. It must not be above the redundancy. |
 | `YACYDHTSEARCH_COMPOUND_WORDS_CEILING` | `4` | Most compound words asked per query, such as `wordpress` for `word press`. |
-| `YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING` | `1000` | Most documents one peer call names when it asks a peer which of them also hold another query word. |
+| `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING` | `1000` | Most documents one peer call names when it asks a peer which of them also hold another query word. |
 | `YACYDHTSEARCH_CROSS_CHECK_RETRIAL_INTERVAL` | `24h` | Time for which the search keeps its record that a peer ignored the documents given in a cross-check. The search uses this time only for a peer that does not send its version. |
 | `YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING` | `1000` | Most documents for which one peer call asks the URL metadata. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |

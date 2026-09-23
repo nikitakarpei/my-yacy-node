@@ -25,7 +25,7 @@ const (
 type WordJoinedSpreadMetrics struct {
 	joinsPerLeadingQueryWordChoice  map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins
 	abstractsRound                  abstractsRoundMetrics
-	crossCheckedDocumentsRound      crossCheckedDocumentsRoundMetrics
+	crossCheckRound                 crossCheckRoundMetrics
 	peerJudgements                  peerJudgementsMetrics
 	urlMetadataRound                urlMetadataRoundMetrics
 	wordJoinedSpreadDurationSeconds prometheusclient.Histogram
@@ -55,7 +55,7 @@ func New(
 	metrics := &WordJoinedSpreadMetrics{
 		joinsPerLeadingQueryWordChoice: joinsPerLeadingQueryWordChoice,
 		abstractsRound:                 abstractsRoundMetricsRegisteredIn(registry),
-		crossCheckedDocumentsRound:     crossCheckedDocumentsRoundMetricsRegisteredIn(registry),
+		crossCheckRound:                crossCheckRoundMetricsRegisteredIn(registry),
 		peerJudgements:                 peerJudgementsMetricsRegisteredIn(registry),
 		urlMetadataRound:               urlMetadataRoundMetricsRegisteredIn(registry),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
@@ -109,27 +109,27 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	m.abstractsRound.observeAbstractsRound(
 		spread.AbstractsRound,
 	)
-	m.crossCheckedDocumentsRound.observeCrossCheckedDocumentsRound(
-		spread.CrossCheckedDocumentsRound,
+	m.crossCheckRound.observeCrossCheckRound(
+		spread.CrossCheckRound,
 	)
 	m.peerJudgements.countStandingsAndJudgements(spread)
 	m.urlMetadataRound.observeURLMetadataRound(
 		spread.URLMetadataRound,
-		spread.CrossCheckedDocumentsRound,
+		spread.CrossCheckRound,
 	)
 	m.countJoin(
 		spread.AbstractsRound.LeadingQueryWordChoice,
-		spread.CrossCheckedDocumentsRound,
+		spread.CrossCheckRound,
 	)
 	m.observeWordJoinedSpreadDuration(spread.TimeSpent)
 }
 
 func (m *WordJoinedSpreadMetrics) countJoin(
 	leadingQueryWordChoice wordjoined.LeadingQueryWordChoice,
-	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
+	crossCheckRound wordjoined.PerformedCrossCheckRound,
 ) {
 	joinsOfTheLeadingQueryWordChoice := m.joinsPerLeadingQueryWordChoice[leadingQueryWordChoice]
-	if crossCheckedDocumentsRound.AmountOfJoinedDocuments == 0 {
+	if crossCheckRound.AmountOfJoinedDocuments == 0 {
 		joinsOfTheLeadingQueryWordChoice.joinsThatFoundNoDocument.Inc()
 
 		return

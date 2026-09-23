@@ -42,7 +42,7 @@ const (
 	peerItemsCeiling               = 10
 	compoundWordsCeiling           = 4
 	urlMetadataAskDocumentsCeiling = 1000
-	crossCheckedDocumentsCeiling   = 1000
+	documentsToMatchCeiling        = 1000
 	queryBudget                    = 15 * time.Second
 	judgementLedgerCapacity        = 4096
 	crossCheckRetrialInterval      = 24 * time.Hour
@@ -147,7 +147,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 				calledPeers,
 				judgementsOfTheCrossCheck(),
 				urlMetadataAskDocumentsCeiling,
-				crossCheckedDocumentsCeiling,
+				documentsToMatchCeiling,
 				peerItemsCeiling,
 				partitions,
 				yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
@@ -164,7 +164,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 
 func judgementsOfTheCrossCheck() peerjudgements.Judgements {
 	return peerjudgements.New(
-		wordjoined.ListsOnlyTheCrossCheckedDocuments,
+		wordjoined.AbstractHoldsOnlyTheDocumentsToMatch,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),
 		crossCheckRetrialInterval,
 		time.Now,

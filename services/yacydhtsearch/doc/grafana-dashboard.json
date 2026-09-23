@@ -904,7 +904,7 @@
     {
       "id": 59,
       "title": "Share of the cross-check candidates no peer took",
-      "description": "A peer is asked once and takes at most YACYDHTSEARCH_CROSS_CHECKED_DOCUMENTS_CEILING documents; candidates past that, or with no peer left to ask, are not cross-checked.",
+      "description": "A peer is asked once and takes at most YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING documents; candidates past that, or with no peer left to ask, are not cross-checked.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1055,7 +1055,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (standing) (clamp_min(yacydhtsearch_word_joined_spread_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_standings_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (standing) (clamp_min(yacydhtsearch_word_joined_spread_peer_standings_total{question=\"abstract holds only the documents to match\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_standings_total{question=\"abstract holds only the documents to match\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{standing}}"
         }
       ]
@@ -1095,7 +1095,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (judged) (clamp_min(yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"lists only the cross-checked documents\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (judged) (clamp_min(yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"abstract holds only the documents to match\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_peer_judgements_total{question=\"abstract holds only the documents to match\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{judged}}"
         }
       ]

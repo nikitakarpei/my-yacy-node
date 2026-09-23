@@ -9,11 +9,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func crossCheckedDocumentsAsksFor(
+func crossCheckAsksFor(
 	candidates crossCheckCandidates,
 	peersAskedForAbstracts map[yacymodel.Hash]struct{},
 	peerStandings peerjudgements.PeerStandings,
-	crossCheckedDocumentsCeiling int,
+	documentsToMatchCeiling int,
 	peerItemsCeiling int,
 ) []peerasks.SearchDocumentsAsk {
 	var asks []peerasks.SearchDocumentsAsk
@@ -34,7 +34,7 @@ func crossCheckedDocumentsAsksFor(
 				Partition: candidatesOfWordPartition.wordPartition.partition,
 				Word:      candidatesOfWordPartition.wordPartition.word,
 				DocumentsToMatch: candidatesOfWordPartition.documentsInTheMostAbstractsUpTo(
-					crossCheckedDocumentsCeiling,
+					documentsToMatchCeiling,
 				),
 				ItemsCeiling: peerItemsCeiling,
 			})

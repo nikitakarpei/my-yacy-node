@@ -258,7 +258,7 @@ func querySpreadFor(
 			peers,
 			judgementsOfTheCrossCheckFor(cfg, judgementLedger),
 			cfg.URLMetadataAskDocumentsCeiling,
-			cfg.CrossCheckedDocumentsCeiling,
+			cfg.DocumentsToMatchCeiling,
 			cfg.PeerItemsCeiling,
 			cfg.Partitions,
 			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
@@ -283,7 +283,7 @@ func judgementsOfTheCrossCheckFor(
 	judgementLedger peerjudgements.JudgementLedger,
 ) peerjudgements.Judgements {
 	return peerjudgements.New(
-		wordjoined.ListsOnlyTheCrossCheckedDocuments,
+		wordjoined.AbstractHoldsOnlyTheDocumentsToMatch,
 		judgementLedger,
 		cfg.CrossCheckRetrialInterval,
 		time.Now,

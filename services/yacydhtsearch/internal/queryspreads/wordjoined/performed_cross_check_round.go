@@ -6,23 +6,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PerformedCrossCheckedDocumentsRound struct {
+type PerformedCrossCheckRound struct {
 	AmountOfDocumentsSentForCrossChecking              int
 	AmountOfCrossCheckCandidatesNoPeerTook             int
 	AmountOfCrossCheckCandidatesRuledOutByAFullListing int
-	AmountOfEmptyCrossCheckedDocumentsAnswers          int
+	AmountOfEmptyCrossCheckAnswers                     int
 	AmountOfJoinedDocuments                            int
 	AmountOfJoinedDocumentsFoundOnlyByCrossChecking    int
 	JudgedPeers                                        []peerjudgements.JudgedPeer
 }
 
-func performedCrossCheckedDocumentsRoundFrom(
-	round crossCheckedDocumentsRound,
+func performedCrossCheckRoundFrom(
+	round crossCheckRound,
 	abstractsRound abstractsRound,
 	judgedPeers []peerjudgements.JudgedPeer,
 	joinedDocuments distinctDocuments,
-) PerformedCrossCheckedDocumentsRound {
-	return PerformedCrossCheckedDocumentsRound{
+) PerformedCrossCheckRound {
+	return PerformedCrossCheckRound{
 		AmountOfDocumentsSentForCrossChecking: amountOfDocumentsSentForCrossCheckingAcross(
 			round.asks,
 		),
@@ -35,7 +35,7 @@ func performedCrossCheckedDocumentsRoundFrom(
 		AmountOfCrossCheckCandidatesRuledOutByAFullListing: amountOfCrossCheckCandidatesAcross(
 			round.candidates.ofWordPartitionsWithACompleteAbstract,
 		),
-		AmountOfEmptyCrossCheckedDocumentsAnswers: amountOfEmptyCrossCheckedDocumentsAnswers(
+		AmountOfEmptyCrossCheckAnswers: amountOfEmptyCrossCheckAnswers(
 			round.answeredAsks,
 		),
 		AmountOfJoinedDocuments: len(joinedDocuments),
@@ -84,7 +84,7 @@ func amountOfDocumentsSentForCrossCheckingAcross(
 	return len(documentsSent)
 }
 
-func amountOfEmptyCrossCheckedDocumentsAnswers(
+func amountOfEmptyCrossCheckAnswers(
 	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) int {
 	amount := 0

@@ -43,12 +43,12 @@ const (
 	compoundWordsCeiling = 4
 	pagesReadPerQuery    = 50
 
-	networkRedundancy            = 2
-	replicasCoveringAPartition   = networkRedundancy
-	hedgeDelay                   = 50 * time.Millisecond
-	crossCheckedDocumentsCeiling = 64
-	judgementLedgerCapacity      = 16
-	crossCheckRetrialInterval    = 24 * time.Hour
+	networkRedundancy          = 2
+	replicasCoveringAPartition = networkRedundancy
+	hedgeDelay                 = 50 * time.Millisecond
+	documentsToMatchCeiling    = 64
+	judgementLedgerCapacity    = 16
+	crossCheckRetrialInterval  = 24 * time.Hour
 )
 
 type silentDirectoryObserver struct{}
@@ -250,7 +250,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 		peerCalls(t),
 		judgementsOfTheCrossCheck(),
 		recordCeiling,
-		crossCheckedDocumentsCeiling,
+		documentsToMatchCeiling,
 		peerResults,
 		ringPartitions(t),
 		yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
@@ -260,7 +260,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 
 func judgementsOfTheCrossCheck() peerjudgements.Judgements {
 	return peerjudgements.New(
-		wordjoined.ListsOnlyTheCrossCheckedDocuments,
+		wordjoined.AbstractHoldsOnlyTheDocumentsToMatch,
 		peerjudgementledgersmemory.New(judgementLedgerCapacity),
 		crossCheckRetrialInterval,
 		time.Now,

@@ -2,9 +2,9 @@ package wordjoined
 
 func joinedDocumentsFrom(
 	abstractsRound abstractsRound,
-	crossCheckedDocumentsRound crossCheckedDocumentsRound,
+	crossCheckRound crossCheckRound,
 ) distinctDocuments {
 	return abstractsRound.documentsInTheAbstractsPerQueryWord().
-		unitedWith(crossCheckedDocumentsRound.documentsFoundByCrossCheckingPerQueryWord()).
+		unitedWith(crossCheckRound.documentsFoundByCrossCheckingPerQueryWord()).
 		documentsOfEveryQueryWord()
 }

@@ -2,13 +2,13 @@ package wordjoined
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 
-type crossCheckedDocumentsRound struct {
+type crossCheckRound struct {
 	candidates   crossCheckCandidates
 	asks         []peerasks.SearchDocumentsAsk
 	answeredAsks []peerasks.AnsweredSearchDocumentsAsk
 }
 
-func (round crossCheckedDocumentsRound) documentsFoundByCrossCheckingPerQueryWord() documentsPerQueryWord {
+func (round crossCheckRound) documentsFoundByCrossCheckingPerQueryWord() documentsPerQueryWord {
 	documentsFoundByCrossCheckingPerQueryWord := documentsPerQueryWord{}
 	for _, answeredAsk := range round.answeredAsks {
 		if documentsFoundByCrossCheckingPerQueryWord[answeredAsk.Ask.Word] == nil {

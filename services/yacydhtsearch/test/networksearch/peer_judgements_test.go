@@ -42,7 +42,7 @@ const (
 	amountOfDocumentsOfTheLister = 1150
 )
 
-func TestAPeerThatListsOnlyTheCrossCheckedDocumentsIsJudgedHonoringAndAskedAgain(
+func TestAPeerThatAbstractHoldsOnlyTheDocumentsToMatchIsJudgedHonoringAndAskedAgain(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -62,7 +62,7 @@ func TestAPeerThatListsOnlyTheCrossCheckedDocumentsIsJudgedHonoringAndAskedAgain
 	}
 }
 
-func TestAPeerThatListsMoreThanTheCrossCheckedDocumentsIsJudgedIgnoringAndNotAskedAgain(
+func TestAPeerWhoseAbstractHoldsMoreThanTheDocumentsToMatchIsJudgedIgnoringAndNotAskedAgain(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -241,7 +241,7 @@ func judgingSpreadOver(
 		),
 		wire,
 		peerjudgements.New(
-			wordjoined.ListsOnlyTheCrossCheckedDocuments,
+			wordjoined.AbstractHoldsOnlyTheDocumentsToMatch,
 			peerjudgementledgersmemory.New(judgementLedgerCapacity),
 			crossCheckRetrialInterval,
 			time.Now,
@@ -278,14 +278,14 @@ func (network judgementNetwork) requireJudgedIn(
 ) {
 	t.Helper()
 
-	for _, judgedPeer := range spread.CrossCheckedDocumentsRound.JudgedPeers {
+	for _, judgedPeer := range spread.CrossCheckRound.JudgedPeers {
 		if judgedPeer.Peer == network.peerUnderJudgement.hash && judgedPeer.Judgement == judgement {
 			return
 		}
 	}
 	t.Fatalf(
 		"the first query judged %+v, want the peer under judgement %s",
-		spread.CrossCheckedDocumentsRound.JudgedPeers,
+		spread.CrossCheckRound.JudgedPeers,
 		judgement,
 	)
 }

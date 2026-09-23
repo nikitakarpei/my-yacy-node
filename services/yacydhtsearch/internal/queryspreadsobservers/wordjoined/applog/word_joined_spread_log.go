@@ -22,7 +22,7 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
 	logPerformedSpread(ctx, spread)
-	logJudgedPeers(ctx, spread.CrossCheckedDocumentsRound.JudgedPeers)
+	logJudgedPeers(ctx, spread.CrossCheckRound.JudgedPeers)
 }
 
 func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoinedSpread) {
@@ -32,7 +32,7 @@ func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoin
 		msgWordJoinedSpreadPerformed,
 		slices.Concat(
 			attributesOfAbstractsRound(spread.AbstractsRound),
-			attributesOfCrossCheckedDocumentsRound(spread.CrossCheckedDocumentsRound),
+			attributesOfCrossCheckRound(spread.CrossCheckRound),
 			attributesOfURLMetadataRound(spread.URLMetadataRound),
 			[]slog.Attr{
 				slog.Any(
@@ -77,8 +77,8 @@ func attributesOfAbstractsRound(
 	}
 }
 
-func attributesOfCrossCheckedDocumentsRound(
-	round wordjoined.PerformedCrossCheckedDocumentsRound,
+func attributesOfCrossCheckRound(
+	round wordjoined.PerformedCrossCheckRound,
 ) []slog.Attr {
 	return []slog.Attr{
 		slog.Int(
@@ -94,8 +94,8 @@ func attributesOfCrossCheckedDocumentsRound(
 			round.AmountOfCrossCheckCandidatesRuledOutByAFullListing,
 		),
 		slog.Int(
-			"amountOfEmptyCrossCheckedDocumentsAnswers",
-			round.AmountOfEmptyCrossCheckedDocumentsAnswers,
+			"amountOfEmptyCrossCheckAnswers",
+			round.AmountOfEmptyCrossCheckAnswers,
 		),
 		slog.Int("amountOfJoinedDocuments", round.AmountOfJoinedDocuments),
 		slog.Int(
@@ -144,7 +144,7 @@ func logJudgedPeers(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer
 			slog.String("peer", judgedPeer.Peer.String()),
 			slog.Any("versionClaimed", judgedPeer.Version),
 			slog.String("judgement", string(judgedPeer.Judgement)),
-			slog.String("question", string(wordjoined.ListsOnlyTheCrossCheckedDocuments)),
+			slog.String("question", string(wordjoined.AbstractHoldsOnlyTheDocumentsToMatch)),
 		)
 	}
 }

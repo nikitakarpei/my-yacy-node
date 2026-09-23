@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 )
 
-const ListsOnlyTheCrossCheckedDocuments peerjudgements.Question = "lists only the cross-checked documents"
+const AbstractHoldsOnlyTheDocumentsToMatch peerjudgements.Question = "abstract holds only the documents to match"
 
 func peersAtTheirVersionFrom(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
@@ -98,7 +98,7 @@ func peersMostUsefulForTheCrossCheckFirst(
 	return peersInOrder
 }
 
-func crossCheckJudgementsIn(round crossCheckedDocumentsRound) []peerjudgements.JudgedPeer {
+func crossCheckJudgementsIn(round crossCheckRound) []peerjudgements.JudgedPeer {
 	judgedPeers := make([]peerjudgements.JudgedPeer, 0, len(round.answeredAsks))
 	for _, answeredAsk := range round.answeredAsks {
 		judgedPeers = append(judgedPeers, peerjudgements.JudgedPeerFrom(

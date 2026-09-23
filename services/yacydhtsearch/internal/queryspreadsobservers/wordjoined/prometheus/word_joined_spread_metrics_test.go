@@ -42,7 +42,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 			LeadingQueryWordChoice:                               wordjoined.MoreCommonQueryWordWithCompleteAbstracts,
 			AmountOfDocumentsInTheAbstractsOfTheLeadingQueryWord: 12,
 		},
-		CrossCheckedDocumentsRound: wordjoined.PerformedCrossCheckedDocumentsRound{
+		CrossCheckRound: wordjoined.PerformedCrossCheckRound{
 			AmountOfDocumentsSentForCrossChecking:           9,
 			AmountOfCrossCheckCandidatesNoPeerTook:          3,
 			AmountOfJoinedDocumentsFoundOnlyByCrossChecking: 6,
@@ -169,7 +169,7 @@ func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoShareDroppedBeforeLoo
 
 func spreadJoiningDocuments(amountOfJoinedDocuments int) wordjoined.PerformedWordJoinedSpread {
 	spread := spreadOfQueryWords(2)
-	spread.CrossCheckedDocumentsRound.AmountOfJoinedDocuments = amountOfJoinedDocuments
+	spread.CrossCheckRound.AmountOfJoinedDocuments = amountOfJoinedDocuments
 
 	return spread
 }
@@ -220,7 +220,7 @@ func spreadJudgingThePeers(
 ) wordjoined.PerformedWordJoinedSpread {
 	spread := spreadOfQueryWords(2)
 	spread.PeerStandings = peerStandings
-	spread.CrossCheckedDocumentsRound.JudgedPeers = judgedPeers
+	spread.CrossCheckRound.JudgedPeers = judgedPeers
 
 	return spread
 }
@@ -245,10 +245,10 @@ func TestTheStandingAndTheJudgementOfAPeerAreCountedUnderTheQuestion(t *testing.
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 2`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 1`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 1`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="never judged"} 2`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="ignoring"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="abstract holds only the documents to match"} 1`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="abstract holds only the documents to match"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -264,14 +264,14 @@ func TestEveryStandingAndEveryJudgementIsPublishedBeforeTheFirstSpread(t *testin
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="honoring"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="ignoring"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="never judged"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="version changed"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_standings_total{question="lists only the cross-checked documents",standing="interval passed"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="lists only the cross-checked documents"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="ignored",question="lists only the cross-checked documents"} 0`,
-		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="lists only the cross-checked documents"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="honoring"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="ignoring"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="never judged"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="version changed"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_standings_total{question="abstract holds only the documents to match",standing="interval passed"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="honored",question="abstract holds only the documents to match"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="ignored",question="abstract holds only the documents to match"} 0`,
+		`yacydhtsearch_word_joined_spread_peer_judgements_total{judged="no evidence",question="abstract holds only the documents to match"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
