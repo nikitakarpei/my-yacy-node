@@ -8,18 +8,18 @@ import (
 
 func answeredQueryFrom(
 	query searchquery.Query,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	abstractsRound abstractsRound,
 	answeredSearchDocumentsAsks []peerasks.AnsweredSearchDocumentsAsk,
 	joinedDocuments distinctDocuments,
 	urlMetadataRound urlMetadataRound,
 ) queryanswers.AnsweredQuery {
 	return queryanswers.AnsweredQuery{
-		QueryWords:    matchedAndHeldDocumentsRound.queryWords,
+		QueryWords:    abstractsRound.queryWords,
 		CompoundWords: query.CompoundWords,
 		FoundDocuments: foundDocumentsFrom(
 			answeredSearchDocumentsAsks, joinedDocuments, urlMetadataRound,
 		),
-		DocumentsHeldPerQueryWord: matchedAndHeldDocumentsRound.
+		DocumentsHeldPerQueryWord: abstractsRound.
 			amountOfDocumentsHeldPerQueryWord(),
 	}
 }

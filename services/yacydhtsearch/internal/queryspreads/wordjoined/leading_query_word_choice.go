@@ -8,7 +8,7 @@ const (
 	RarestPartlyListedQueryWord    LeadingQueryWordChoice = "rarest word, partly listed"
 )
 
-func leadingQueryWordChoiceOf(round matchedAndHeldDocumentsRound) LeadingQueryWordChoice {
+func leadingQueryWordChoiceOf(round abstractsRound) LeadingQueryWordChoice {
 	leadingQueryWord := round.leadingQueryWord()
 	switch {
 	case !leadingQueryWord.isFullyListed():

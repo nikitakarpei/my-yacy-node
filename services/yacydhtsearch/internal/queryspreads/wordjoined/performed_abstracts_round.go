@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
-type PerformedMatchedAndHeldDocumentsRound struct {
+type PerformedAbstractsRound struct {
 	AmountOfQueryWords                                     int
 	AmountOfCompoundWords                                  int
 	AmountOfQueryWordsHeldByNoPeer                         int
@@ -21,10 +21,10 @@ type PerformedMatchedAndHeldDocumentsRound struct {
 	AmountOfDocumentsHeldInEachAnswer                      []int
 }
 
-func performedMatchedAndHeldDocumentsRoundFrom(
-	round matchedAndHeldDocumentsRound,
-) PerformedMatchedAndHeldDocumentsRound {
-	return PerformedMatchedAndHeldDocumentsRound{
+func performedAbstractsRoundFrom(
+	round abstractsRound,
+) PerformedAbstractsRound {
+	return PerformedAbstractsRound{
 		AmountOfQueryWords:    len(round.queryWords),
 		AmountOfCompoundWords: len(round.compoundWords),
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
@@ -35,7 +35,7 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		),
 		AmountOfPeersThatListedADocument: amountOfPeersAcross(
 			answeredAsksWithAListedDocument(round.answeredAsks),
-			peerOfAnsweredMatchedAndHeldDocumentsAsk,
+			peerOfAnsweredAbstractsAsk,
 		),
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
 		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
@@ -78,7 +78,7 @@ func amountOfFullyListedQueryWordsAmong(queryWords []queryWordAcrossReplicas) in
 	return amount
 }
 
-func peerOfAnsweredMatchedAndHeldDocumentsAsk(
+func peerOfAnsweredAbstractsAsk(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) peerdirectory.AskablePeer {
 	return answeredAsk.Ask.Peer
@@ -99,7 +99,7 @@ func answeredAsksWithAListedDocument(
 }
 
 func amountOfPartitionsWithABetterLeadingQueryWordIn(
-	round matchedAndHeldDocumentsRound,
+	round abstractsRound,
 ) int {
 	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
 	amount := 0

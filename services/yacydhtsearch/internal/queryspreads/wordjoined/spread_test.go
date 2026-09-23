@@ -50,8 +50,8 @@ type peerNetwork struct {
 	documentsPerAnswerOfEachPeer                    map[string]int
 	peersCountingNoDocument                         map[string]struct{}
 	replicasPutPerWord                              map[string]int
-	matchedAndHeldDocumentsAsks                     []peerasks.SearchDocumentsAsk
-	matchedAndHeldDocumentsAsksPut                  []peerasks.SearchDocumentsAsk
+	abstractsAsks                                   []peerasks.SearchDocumentsAsk
+	abstractsAsksPut                                []peerasks.SearchDocumentsAsk
 	crossCheckedDocumentsAsks                       []peerasks.SearchDocumentsAsk
 	urlMetadataAsks                                 []peerasks.URLMetadataAsk
 	silentPeers                                     map[string]struct{}
@@ -79,19 +79,19 @@ func (n *peerNetwork) AskForSearchDocuments(
 	if len(asks) > 0 && len(asks[0].DocumentsToMatch) > 0 {
 		return n.crossCheckedDocumentsAskOutcomes(ctx, asks)
 	}
-	n.matchedAndHeldDocumentsAsks = append(n.matchedAndHeldDocumentsAsks, asks...)
+	n.abstractsAsks = append(n.abstractsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
 	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(asks))
 	for _, ask := range asks {
 		askOutcomes = append(askOutcomes, peerasks.SearchDocumentsAskOutcome{Ask: ask})
 	}
-	placesPut := n.placesOfTheMatchedAndHeldDocumentsAsksPutAmong(asks)
+	placesPut := n.placesOfTheAbstractsAsksPutAmong(asks)
 	for place, ask := range asks {
 		if _, put := placesPut[place]; !put {
 			continue
 		}
-		n.matchedAndHeldDocumentsAsksPut = append(n.matchedAndHeldDocumentsAsksPut, ask)
+		n.abstractsAsksPut = append(n.abstractsAsksPut, ask)
 		askOutcomes[place].Put = true
 		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
 			continue
@@ -114,7 +114,7 @@ type wordInPartition struct {
 	partition uint
 }
 
-func (n *peerNetwork) placesOfTheMatchedAndHeldDocumentsAsksPutAmong(
+func (n *peerNetwork) placesOfTheAbstractsAsksPutAmong(
 	asks []peerasks.SearchDocumentsAsk,
 ) map[int]struct{} {
 	asksPutPerWordInPartition := map[wordInPartition]int{}
@@ -738,7 +738,7 @@ func TestEachPeerGetsAtMostOneSearchCallPerQuery(t *testing.T) {
 	)
 
 	searchCallsPerPeer := map[string]int{}
-	for _, ask := range network.matchedAndHeldDocumentsAsksPut {
+	for _, ask := range network.abstractsAsksPut {
 		searchCallsPerPeer[ask.Peer.Address]++
 	}
 	for _, ask := range network.crossCheckedDocumentsAsks {
@@ -804,7 +804,7 @@ func TestIgnoringPeersAreAskedFirstAndHonoringPeersLastInTheFirstRound(t *testin
 		"ignoring in partition 0", "second in partition 0", "honoring in partition 0",
 	}
 	if got := replicasAskedForTheWordInOrder(
-		yacymodel.WordHash(secondWord), network.matchedAndHeldDocumentsAsks,
+		yacymodel.WordHash(secondWord), network.abstractsAsks,
 	); !slices.Equal(got, wanted) {
 		t.Fatalf("the first round asked %v for the word, want %v", got, wanted)
 	}
@@ -927,7 +927,7 @@ func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) 
 		t.Fatalf("the spread reported %+v, want cross-checking adding one document to the join",
 			performed)
 	}
-	if performed.MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords != 1 {
+	if performed.AbstractsRound.AmountOfFullyListedQueryWords != 1 {
 		t.Fatalf("the spread reported %+v, want one fully listed word", performed)
 	}
 }
@@ -951,12 +951,12 @@ func TestTheFullyListedWordTheFewestDocumentsAreHeldForLeads(t *testing.T) {
 		secondWord: {"second"},
 	}), observer)
 
-	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
-	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestFullyListedQueryWord ||
-		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 2 {
+	abstractsRound := observer.performed[0].AbstractsRound
+	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestFullyListedQueryWord ||
+		abstractsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the fully listed word the fewest documents are held for leading",
-			matchedAndHeldDocumentsRound,
+			abstractsRound,
 		)
 	}
 }
@@ -985,11 +985,11 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 	}), observer)
 
 	performed := observer.performed[0]
-	if performed.MatchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.MoreCommonFullyListedQueryWord ||
-		performed.MatchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 5 {
+	if performed.AbstractsRound.LeadingQueryWordChoice != wordjoined.MoreCommonFullyListedQueryWord ||
+		performed.AbstractsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 5 {
 		t.Fatalf(
 			"the spread reported %+v, want the fully listed word leading over the rarer partly listed word",
-			performed.MatchedAndHeldDocumentsRound,
+			performed.AbstractsRound,
 		)
 	}
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 2 {
@@ -1035,12 +1035,12 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 		observer,
 	)
 
-	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
-	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
-		matchedAndHeldDocumentsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 1 {
+	abstractsRound := observer.performed[0].AbstractsRound
+	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
+		abstractsRound.AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want the partly listed word the fewest documents are counted for leading",
-			matchedAndHeldDocumentsRound,
+			abstractsRound,
 		)
 	}
 	wanted := documentHashesOf([]string{anchored, anchored})
@@ -1346,10 +1346,10 @@ func TestAQueryWhoseWordsAreAllFullyListedCrossChecksNoDocument(t *testing.T) {
 			len(network.urlMetadataAsks),
 		)
 	}
-	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords != 2 {
+	if observer.performed[0].AbstractsRound.AmountOfFullyListedQueryWords != 2 {
 		t.Fatalf(
 			"the spread reported %d fully listed query words, want both",
-			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfFullyListedQueryWords,
+			observer.performed[0].AbstractsRound.AmountOfFullyListedQueryWords,
 		)
 	}
 }
@@ -1521,7 +1521,7 @@ func TestOnlyThePeersResponsibleForAWordAreAskedWhatTheyHoldForIt(t *testing.T) 
 		secondWord: {"second"},
 	}}, network, observer)
 
-	for _, ask := range network.matchedAndHeldDocumentsAsks {
+	for _, ask := range network.abstractsAsks {
 		if ask.Peer.Address == "first" && ask.Word != yacymodel.WordHash(firstWord) {
 			t.Fatalf("peer %q was asked what it holds for a word it is not responsible for",
 				ask.Peer.Address)
@@ -1531,10 +1531,10 @@ func TestOnlyThePeersResponsibleForAWordAreAskedWhatTheyHoldForIt(t *testing.T) 
 				ask.Peer.Address)
 		}
 	}
-	if len(network.matchedAndHeldDocumentsAsks) != 2 {
+	if len(network.abstractsAsks) != 2 {
 		t.Fatalf(
 			"%d matched and cross-checked documents asks were put, want one for each responsible peer",
-			len(network.matchedAndHeldDocumentsAsks),
+			len(network.abstractsAsks),
 		)
 	}
 }
@@ -1559,12 +1559,12 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 		t.Fatalf("the observer saw %d spreads, want one", len(observer.performed))
 	}
 	performed := observer.performed[0]
-	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWords != 2 ||
+	if performed.AbstractsRound.AmountOfQueryWords != 2 ||
 		performed.CrossCheckedDocumentsRound.AmountOfJoinedDocuments != 1 {
 		t.Fatalf("the spread reported %+v, want two words and one joined document",
 			performed)
 	}
-	if performed.MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer != 0 ||
+	if performed.AbstractsRound.AmountOfQueryWordsHeldByNoPeer != 0 ||
 		performed.URLMetadataRound.AmountOfLookedUpDocumentsWithMetadata != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want every word held and the joined document back",
@@ -1584,10 +1584,10 @@ func TestAQueryWordHeldByNoPeerIsReported(t *testing.T) {
 
 	answeredQueryFrom(network, observer)
 
-	if observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer != 1 {
+	if observer.performed[0].AbstractsRound.AmountOfQueryWordsHeldByNoPeer != 1 {
 		t.Fatalf(
 			"the spread reported %d query words held by no peer, want the one word nobody held",
-			observer.performed[0].MatchedAndHeldDocumentsRound.AmountOfQueryWordsHeldByNoPeer,
+			observer.performed[0].AbstractsRound.AmountOfQueryWordsHeldByNoPeer,
 		)
 	}
 }
@@ -2106,21 +2106,21 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	}}, network, observer)
 
 	performed := observer.performed[0]
-	matchedAndHeldDocumentsRound := performed.MatchedAndHeldDocumentsRound
+	abstractsRound := performed.AbstractsRound
 	if performed.URLMetadataRound.AmountOfJoinedDocumentsWithMetadata != 1 ||
-		matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsAcrossAnswers != 2 ||
-		matchedAndHeldDocumentsRound.AmountOfMatchedDocumentsWithAPosting != 2 {
+		abstractsRound.AmountOfMatchedDocumentsAcrossAnswers != 2 ||
+		abstractsRound.AmountOfMatchedDocumentsWithAPosting != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the joined document answered once and two counts",
 			performed,
 		)
 	}
 	if !slices.Equal(
-		matchedAndHeldDocumentsRound.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
+		abstractsRound.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
 	) {
 		t.Fatalf(
 			"the spread reported %v documents held per query word, want 512 for each answer",
-			matchedAndHeldDocumentsRound.AmountOfDocumentsHeldInEachAnswer,
+			abstractsRound.AmountOfDocumentsHeldInEachAnswer,
 		)
 	}
 }
@@ -2144,7 +2144,7 @@ func TestTheAsksOfAQueryWordNameItsReplicasInChoiceOrderWithTheirPartitions(t *t
 
 	wanted := []string{"nearest-of-first in partition 1", "next-of-first in partition 0"}
 	if got := replicasAskedForTheWordInOrder(
-		yacymodel.WordHash(firstWord), network.matchedAndHeldDocumentsAsks,
+		yacymodel.WordHash(firstWord), network.abstractsAsks,
 	); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread asked %v for the word, want %v", got, wanted)
 	}
@@ -2583,13 +2583,13 @@ func TestAPartitionWithABetterLeadingQueryWordIsReported(
 		observer,
 	)
 
-	matchedAndHeldDocumentsRound := observer.performed[0].MatchedAndHeldDocumentsRound
-	if matchedAndHeldDocumentsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
-		matchedAndHeldDocumentsRound.AmountOfPartitionsWithABetterLeadingQueryWord != 1 {
+	abstractsRound := observer.performed[0].AbstractsRound
+	if abstractsRound.LeadingQueryWordChoice != wordjoined.RarestPartlyListedQueryWord ||
+		abstractsRound.AmountOfPartitionsWithABetterLeadingQueryWord != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want the rarest word leading and partition 1, where the "+
 				"other word is fully listed, as the one with a better leading word",
-			matchedAndHeldDocumentsRound,
+			abstractsRound,
 		)
 	}
 }

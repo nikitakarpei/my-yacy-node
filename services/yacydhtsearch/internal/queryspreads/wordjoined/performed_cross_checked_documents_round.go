@@ -18,7 +18,7 @@ type PerformedCrossCheckedDocumentsRound struct {
 
 func performedCrossCheckedDocumentsRoundFrom(
 	round crossCheckedDocumentsRound,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	abstractsRound abstractsRound,
 	judgedPeers []peerjudgements.JudgedPeer,
 	joinedDocuments distinctDocuments,
 ) PerformedCrossCheckedDocumentsRound {
@@ -41,7 +41,7 @@ func performedCrossCheckedDocumentsRoundFrom(
 		AmountOfJoinedDocuments: len(joinedDocuments),
 		AmountOfJoinedDocumentsFoundOnlyByCrossChecking: amountOfJoinedDocumentsFoundOnlyByCrossChecking(
 			joinedDocuments,
-			matchedAndHeldDocumentsRound,
+			abstractsRound,
 		),
 		JudgedPeers: judgedPeers,
 	}
@@ -58,9 +58,9 @@ func amountOfCrossCheckCandidatesAcross(candidates []crossCheckCandidatesOfWordP
 
 func amountOfJoinedDocumentsFoundOnlyByCrossChecking(
 	joinedDocuments distinctDocuments,
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	abstractsRound abstractsRound,
 ) int {
-	documentsOfEveryQueryWordListedByPeers := matchedAndHeldDocumentsRound.
+	documentsOfEveryQueryWordListedByPeers := abstractsRound.
 		documentsListedByPeersPerQueryWord().documentsOfEveryQueryWord()
 
 	return len(joinedDocuments) - len(documentsOfEveryQueryWordListedByPeers)

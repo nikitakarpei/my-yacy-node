@@ -34,7 +34,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		MatchedAndHeldDocumentsRound: wordjoined.PerformedMatchedAndHeldDocumentsRound{
+		AbstractsRound: wordjoined.PerformedAbstractsRound{
 			AmountOfQueryWords:                                     4,
 			AmountOfQueryWordsHeldByNoPeer:                         1,
 			AmountOfFullyListedQueryWords:                          2,
@@ -96,7 +96,7 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 
 func spreadOfQueryWords(amountOfQueryWords int) wordjoined.PerformedWordJoinedSpread {
 	return wordjoined.PerformedWordJoinedSpread{
-		MatchedAndHeldDocumentsRound: wordjoined.PerformedMatchedAndHeldDocumentsRound{
+		AbstractsRound: wordjoined.PerformedAbstractsRound{
 			AmountOfQueryWords:     amountOfQueryWords,
 			LeadingQueryWordChoice: wordjoined.RarestPartlyListedQueryWord,
 		},

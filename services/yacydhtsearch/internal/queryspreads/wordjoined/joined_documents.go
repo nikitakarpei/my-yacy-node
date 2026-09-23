@@ -1,10 +1,10 @@
 package wordjoined
 
 func joinedDocumentsFrom(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	abstractsRound abstractsRound,
 	crossCheckedDocumentsRound crossCheckedDocumentsRound,
 ) distinctDocuments {
-	return matchedAndHeldDocumentsRound.documentsListedByPeersPerQueryWord().
+	return abstractsRound.documentsListedByPeersPerQueryWord().
 		unitedWith(crossCheckedDocumentsRound.documentsFoundByCrossCheckingPerQueryWord()).
 		documentsOfEveryQueryWord()
 }

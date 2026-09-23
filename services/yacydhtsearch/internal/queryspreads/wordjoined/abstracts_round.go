@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type matchedAndHeldDocumentsRound struct {
+type abstractsRound struct {
 	queryWords                     []yacymodel.Hash
 	peersAsked                     map[yacymodel.Hash]struct{}
 	answeredAsks                   []peerasks.AnsweredSearchDocumentsAsk
@@ -28,7 +28,7 @@ func peersAskedIn(asks []peerasks.SearchDocumentsAsk) map[yacymodel.Hash]struct{
 	return peersAsked
 }
 
-func (round matchedAndHeldDocumentsRound) leadingQueryWord() queryWordAcrossReplicas {
+func (round abstractsRound) leadingQueryWord() queryWordAcrossReplicas {
 	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
 		if queryWord.isFullyListed() {
 			return queryWord
@@ -38,7 +38,7 @@ func (round matchedAndHeldDocumentsRound) leadingQueryWord() queryWordAcrossRepl
 	return round.queryWordsFewestDocumentsFirst[0]
 }
 
-func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
+func (round abstractsRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
 	leadingQueryWord := round.leadingQueryWord().word
 
 	return slices.DeleteFunc(
@@ -47,11 +47,11 @@ func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() 
 	)
 }
 
-func (round matchedAndHeldDocumentsRound) documentsOfTheLeadingQueryWordMostListedFirst() []yacymodel.URLHash {
+func (round abstractsRound) documentsOfTheLeadingQueryWordMostListedFirst() []yacymodel.URLHash {
 	return round.documentsMostListedFirstAmong(round.leadingQueryWord().documentsListedByPeers())
 }
 
-func (round matchedAndHeldDocumentsRound) documentsMostListedFirstAmong(
+func (round abstractsRound) documentsMostListedFirstAmong(
 	documents distinctDocuments,
 ) []yacymodel.URLHash {
 	return slices.SortedFunc(
@@ -68,7 +68,7 @@ func (round matchedAndHeldDocumentsRound) documentsMostListedFirstAmong(
 	)
 }
 
-func (round matchedAndHeldDocumentsRound) amountOfDocumentsHeldPerQueryWord() map[yacymodel.Hash]int {
+func (round abstractsRound) amountOfDocumentsHeldPerQueryWord() map[yacymodel.Hash]int {
 	amountOfDocumentsHeldPerQueryWord := make(
 		map[yacymodel.Hash]int, len(round.queryWordsFewestDocumentsFirst),
 	)
@@ -107,7 +107,7 @@ func amountOfPeersPerDocumentOf(
 	return amountOfPeersPerDocument
 }
 
-func (round matchedAndHeldDocumentsRound) documentsListedByPeersPerQueryWord() documentsPerQueryWord {
+func (round abstractsRound) documentsListedByPeersPerQueryWord() documentsPerQueryWord {
 	documentsListedByPeersPerQueryWord := make(
 		documentsPerQueryWord,
 		len(round.queryWordsFewestDocumentsFirst),

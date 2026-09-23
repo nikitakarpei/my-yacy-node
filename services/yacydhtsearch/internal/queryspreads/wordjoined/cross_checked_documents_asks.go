@@ -11,7 +11,7 @@ import (
 
 func crossCheckedDocumentsAsksFor(
 	candidates crossCheckCandidates,
-	peersAskedForMatchedAndHeldDocuments map[yacymodel.Hash]struct{},
+	peersAskedForAbstracts map[yacymodel.Hash]struct{},
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 	peerItemsCeiling int,
@@ -19,16 +19,16 @@ func crossCheckedDocumentsAsksFor(
 	var asks []peerasks.SearchDocumentsAsk
 	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
 		peersThatMayCrossCheck := peersNotYetAskedToCrossCheckAmong(
-			peersNotIgnoringTheCrossCheckAmong(
-				peersNotAskedForMatchedAndHeldDocumentsAmong(
+			peersUsefulForTheCrossCheckAmong(
+				peersNotAskedForAbstractsAmong(
 					candidatesOfWordPartition.wordPartition.replicas,
-					peersAskedForMatchedAndHeldDocuments,
+					peersAskedForAbstracts,
 				),
 				peerStandings,
 			),
 			asks,
 		)
-		for _, peer := range peersInCrossCheckedDocumentsAskOrder(peersThatMayCrossCheck, peerStandings) {
+		for _, peer := range peersMostUsefulForTheCrossCheckFirst(peersThatMayCrossCheck, peerStandings) {
 			asks = append(asks, peerasks.SearchDocumentsAsk{
 				Peer:      peer,
 				Partition: candidatesOfWordPartition.wordPartition.partition,
@@ -44,31 +44,16 @@ func crossCheckedDocumentsAsksFor(
 	return asks
 }
 
-func peersNotAskedForMatchedAndHeldDocumentsAmong(
+func peersNotAskedForAbstractsAmong(
 	replicas []wordReplica,
-	peersAskedForMatchedAndHeldDocuments map[yacymodel.Hash]struct{},
+	peersAskedForAbstracts map[yacymodel.Hash]struct{},
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
 	for _, replica := range replicas {
-		if _, asked := peersAskedForMatchedAndHeldDocuments[replica.peer.Hash]; asked {
+		if _, asked := peersAskedForAbstracts[replica.peer.Hash]; asked {
 			continue
 		}
 		keptPeers = append(keptPeers, replica.peer)
-	}
-
-	return keptPeers
-}
-
-func peersNotIgnoringTheCrossCheckAmong(
-	peers []peerdirectory.AskablePeer,
-	peerStandings peerjudgements.PeerStandings,
-) []peerdirectory.AskablePeer {
-	keptPeers := make([]peerdirectory.AskablePeer, 0, len(peers))
-	for _, peer := range peers {
-		if peerStandings.StandingOf(peer.Hash) == peerjudgements.Ignoring {
-			continue
-		}
-		keptPeers = append(keptPeers, peer)
 	}
 
 	return keptPeers

@@ -31,7 +31,7 @@ func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoin
 		slog.LevelDebug,
 		msgWordJoinedSpreadPerformed,
 		slices.Concat(
-			attributesOfMatchedAndHeldDocumentsRound(spread.MatchedAndHeldDocumentsRound),
+			attributesOfAbstractsRound(spread.AbstractsRound),
 			attributesOfCrossCheckedDocumentsRound(spread.CrossCheckedDocumentsRound),
 			attributesOfURLMetadataRound(spread.URLMetadataRound),
 			[]slog.Attr{
@@ -44,8 +44,8 @@ func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoin
 	)
 }
 
-func attributesOfMatchedAndHeldDocumentsRound(
-	round wordjoined.PerformedMatchedAndHeldDocumentsRound,
+func attributesOfAbstractsRound(
+	round wordjoined.PerformedAbstractsRound,
 ) []slog.Attr {
 	return []slog.Attr{
 		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),

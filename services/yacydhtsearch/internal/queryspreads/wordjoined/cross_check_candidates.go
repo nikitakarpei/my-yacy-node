@@ -13,12 +13,12 @@ type crossCheckCandidatesOfWordPartition struct {
 }
 
 func crossCheckCandidatesIn(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	abstractsRound abstractsRound,
 	partitions yacymodel.DHTRingPartitions,
 ) crossCheckCandidates {
 	var candidates crossCheckCandidates
 	for _, candidatesOfWordPartition := range crossCheckCandidatesPerWordPartitionIn(
-		matchedAndHeldDocumentsRound, partitions,
+		abstractsRound, partitions,
 	) {
 		if candidatesOfWordPartition.wordPartition.isFullyListed() {
 			candidates.ofFullyListedWordPartitions = append(
@@ -36,13 +36,13 @@ func crossCheckCandidatesIn(
 }
 
 func crossCheckCandidatesPerWordPartitionIn(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	abstractsRound abstractsRound,
 	partitions yacymodel.DHTRingPartitions,
 ) []crossCheckCandidatesOfWordPartition {
-	documentsOfTheLeadingQueryWord := matchedAndHeldDocumentsRound.
+	documentsOfTheLeadingQueryWord := abstractsRound.
 		documentsOfTheLeadingQueryWordMostListedFirst()
 	var candidates []crossCheckCandidatesOfWordPartition
-	for _, queryWord := range matchedAndHeldDocumentsRound.queryWordsBesideTheLeadingQueryWord() {
+	for _, queryWord := range abstractsRound.queryWordsBesideTheLeadingQueryWord() {
 		documentsPerPartition := documentsPerPartitionFrom(
 			queryWord.documentsNotListedByItsPeersAmong(documentsOfTheLeadingQueryWord),
 			partitions,
