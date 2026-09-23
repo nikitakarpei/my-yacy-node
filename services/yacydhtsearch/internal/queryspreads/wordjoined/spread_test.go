@@ -150,9 +150,11 @@ func (n *peerNetwork) crossCheckedDocumentsAsksPut(
 		if _, silent := n.peersSilentInTheCrossCheckedDocuments[ask.Peer.Address]; silent {
 			continue
 		}
+		documentsToMatchHeld := n.documentsToMatchHeldBy(ask)
 		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
 			Ask:                       ask,
-			DocumentsListedForTheWord: n.documentsToMatchHeldBy(ask),
+			DocumentsListedForTheWord: documentsToMatchHeld,
+			MatchedDocuments:          n.matchedDocumentsOf(documentsToMatchHeld),
 		})
 	}
 
@@ -1797,6 +1799,33 @@ func TestAJoinedDocumentAPeerAlreadyAnsweredIsNotAskedMetadataFor(t *testing.T) 
 		got, wanted,
 	) {
 		t.Fatalf("asked about %v, want only the joined document no peer answered", got)
+	}
+}
+
+func TestAJoinedDocumentACrossCheckAnswerMatchedIsFoundAndNotAskedMetadataFor(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
+	network.countsAWordWithEachItem = true
+
+	foundDocuments := answeredQueryUnder(
+		urlMetadataAskDocumentsCeiling, network, replicasOfTheTwoQueryWords(), &recordedSpreads{},
+	).FoundDocuments
+
+	crossChecked := documentHashOf(t, "https://anchored.example/")
+	if slices.Contains(distinctDocumentsAskedMetadataFor(network.urlMetadataAsks), crossChecked) {
+		t.Fatalf("asked metadata for %v, want none for the document the cross-check matched",
+			network.urlMetadataAsks)
+	}
+	place := slices.IndexFunc(foundDocuments, func(foundDocument queryanswers.FoundDocument) bool {
+		return foundDocument.Hash == crossChecked
+	})
+	if place < 0 {
+		t.Fatalf("the spread found %+v, want the document the cross-check matched", foundDocuments)
+	}
+	if hits := foundDocuments[place].Facts.HitsPerQueryWord[yacymodel.WordHash(secondWord)]; hits != 3 {
+		t.Fatalf("the found document holds the hits %v, want the hits the cross-check counted",
+			foundDocuments[place].Facts.HitsPerQueryWord)
 	}
 }
 

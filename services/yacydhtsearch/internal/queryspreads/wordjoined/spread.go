@@ -4,6 +4,7 @@ package wordjoined
 
 import (
 	"context"
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
@@ -103,7 +104,12 @@ func (spread Spread) SpreadOverPeers(
 	judgedPeers := judgeAnsweringPeersIn(crossCheckedDocumentsRound)
 	spread.peerJudgements.Add(ctx, judgedPeers)
 	joinedDocuments := joinedDocumentsFrom(matchedAndHeldDocumentsRound, crossCheckedDocumentsRound)
-	urlMetadataRound := spread.askForURLMetadata(ctx, matchedAndHeldDocumentsRound, joinedDocuments)
+	answeredSearchDocumentsAsks := answeredSearchDocumentsAsksAcross(
+		matchedAndHeldDocumentsRound, crossCheckedDocumentsRound,
+	)
+	urlMetadataRound := spread.askForURLMetadata(
+		ctx, matchedAndHeldDocumentsRound, answeredSearchDocumentsAsks, joinedDocuments,
+	)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		matchedAndHeldDocumentsRound,
@@ -116,7 +122,11 @@ func (spread Spread) SpreadOverPeers(
 	))
 
 	return answeredQueryFrom(
-		query, matchedAndHeldDocumentsRound, joinedDocuments, urlMetadataRound,
+		query,
+		matchedAndHeldDocumentsRound,
+		answeredSearchDocumentsAsks,
+		joinedDocuments,
+		urlMetadataRound,
 	)
 }
 
@@ -184,13 +194,23 @@ func (spread Spread) askForCrossCheckedDocuments(
 	}
 }
 
+func answeredSearchDocumentsAsksAcross(
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	crossCheckedDocumentsRound crossCheckedDocumentsRound,
+) []peerasks.AnsweredSearchDocumentsAsk {
+	return slices.Concat(
+		matchedAndHeldDocumentsRound.answeredAsks, crossCheckedDocumentsRound.answeredAsks,
+	)
+}
+
 func (spread Spread) askForURLMetadata(
 	ctx context.Context,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	answeredSearchDocumentsAsks []peerasks.AnsweredSearchDocumentsAsk,
 	joinedDocuments distinctDocuments,
 ) urlMetadataRound {
 	documentsWithoutMetadata := documentsWithoutMetadataAmong(
-		joinedDocuments, matchedAndHeldDocumentsRound.answeredAsks,
+		joinedDocuments, answeredSearchDocumentsAsks,
 	)
 	asks := urlMetadataAsksFor(
 		matchedAndHeldDocumentsRound.documentsMostListedFirstAmong(documentsWithoutMetadata),
