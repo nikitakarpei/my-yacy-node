@@ -58,6 +58,7 @@ func TestANodeThatListsOnlyTheCrossCheckedDocumentsIsAskedAgain(t *testing.T) {
 		name:                         nodeUnderJudgementAlias,
 		startThePeersBesideTheHolder: startTheNodeLegPeers,
 		seedlistURL:                  seedlistURLOf(yacyPeerHoldingNothingAlias),
+		amountOfAnsweringPeers:       4,
 		judged:                       "honored",
 		standing:                     "honoring",
 		amountOfAnsweredCrossChecks:  2,
@@ -69,6 +70,7 @@ func TestAYaCyPeerThatListsMoreThanTheCrossCheckedDocumentsIsNotAskedAgain(t *te
 		name:                         yacyPeerUnderJudgementAlias,
 		startThePeersBesideTheHolder: startTheYacyLegPeers,
 		seedlistURL:                  seedlistURLOf(yacyPeerUnderJudgementAlias),
+		amountOfAnsweringPeers:       3,
 		judged:                       "ignored",
 		standing:                     "ignoring",
 		amountOfAnsweredCrossChecks:  1,
@@ -79,6 +81,7 @@ type peerUnderJudgement struct {
 	name                         string
 	startThePeersBesideTheHolder peersBesideTheHolderStart
 	seedlistURL                  string
+	amountOfAnsweringPeers       int
 	judged                       string
 	standing                     string
 	amountOfAnsweredCrossChecks  int
@@ -121,7 +124,7 @@ func judgeTheUnaskedReplica(t *testing.T, peer peerUnderJudgement) {
 	service := startYacydhtsearch(
 		t, ctx, network.Name, judgementSearchAlias, peer.seedlistURL, judgementSettings(),
 	)
-	waitForEveryPeerToAnswer(t, ctx, probe, service, peer.name)
+	waitForEveryPeerToAnswer(t, ctx, probe, service, peer.amountOfAnsweringPeers, peer.name)
 
 	query := judgementFirstWordToken + " " + judgementSecondWordToken
 	links := resultLinksFor(t, ctx, probe, service.searchURL, query, amountOfFirstWordDocuments)
@@ -178,8 +181,11 @@ func startTheNodeLegPeers(
 		t, ctx, probe, networkName, yacyPeerHoldingNothingAlias,
 		yacypeer.RemoteSearchOverrides()...,
 	)
+	startTheNodeListingAThousand(
+		t, ctx, probe, networkName, seedlistURLOf(yacyPeerHoldingNothingAlias), documents,
+	)
 
-	nodeHash := peerHashJustBeforeTheSecondWordIn(t, secondPartition)
+	nodeHash := peerHashJustAfterTheSecondWordIn(t, firstPartition)
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: networkName,
 		Alias:       nodeUnderJudgementAlias,
@@ -196,12 +202,38 @@ func startTheNodeLegPeers(
 	nodepeer.PushURLMetadataRows(t, ctx, probe, nodeURL, nodeHash, urlMetadataRowsOf(t, addresses))
 }
 
-func peerHashJustBeforeTheSecondWordIn(t *testing.T, partition uint) yacymodel.Hash {
+func startTheNodeListingAThousand(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	networkName string,
+	seedlistURL string,
+	documents judgementDocuments,
+) {
 	t.Helper()
 
-	return yacymodel.HashFromDHTRingPosition(
-		positionOfTheSecondWordIn(t, partition) - smallestStepOnTheRing,
+	nodeHash := peerHashAtTheSecondWordIn(t, firstPartition)
+	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
+		NetworkName: networkName,
+		Alias:       nodeListingAThousandAlias,
+		Hash:        nodeHash,
+		SeedlistURL: seedlistURL,
+	})
+	nodepeer.PushPostings(
+		t, ctx, probe, nodeURL, nodeHash,
+		yacymodel.WordHash(judgementSecondWordToken),
+		urlHashesOf(t, documents.secondWordOnlyOnTheNodeListingAThousand),
 	)
+	nodepeer.PushURLMetadataRows(
+		t, ctx, probe, nodeURL, nodeHash,
+		urlMetadataRowsOf(t, documents.secondWordOnlyOnTheNodeListingAThousand),
+	)
+}
+
+func peerHashAtTheSecondWordIn(t *testing.T, partition uint) yacymodel.Hash {
+	t.Helper()
+
+	return yacymodel.HashFromDHTRingPosition(positionOfTheSecondWordIn(t, partition))
 }
 
 func positionOfTheSecondWordIn(t *testing.T, partition uint) yacymodel.DHTRingPosition {
@@ -255,6 +287,14 @@ func urlMetadataRowsOf(t *testing.T, addresses []string) []yacymodel.URLMetadata
 	return rows
 }
 
+func peerHashJustAfterTheSecondWordIn(t *testing.T, partition uint) yacymodel.Hash {
+	t.Helper()
+
+	return yacymodel.HashFromDHTRingPosition(
+		positionOfTheSecondWordIn(t, partition) + smallestStepOnTheRing,
+	)
+}
+
 func startTheYacyLegPeers(
 	t *testing.T,
 	ctx context.Context,
@@ -278,29 +318,9 @@ func startTheYacyLegPeers(
 		documents.secondWordOnlyOnTheJudgedPeer,
 		[]string{judgementSecondWordToken},
 	)
-
-	nodeHash := peerHashAtTheSecondWordIn(t, secondPartition)
-	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
-		NetworkName: networkName,
-		Alias:       nodeListingAThousandAlias,
-		Hash:        nodeHash,
-		SeedlistURL: seedlistURLOf(yacyPeerUnderJudgementAlias),
-	})
-	nodepeer.PushPostings(
-		t, ctx, probe, nodeURL, nodeHash,
-		yacymodel.WordHash(judgementSecondWordToken),
-		urlHashesOf(t, documents.secondWordOnlyOnTheNodeListingAThousand),
+	startTheNodeListingAThousand(
+		t, ctx, probe, networkName, seedlistURLOf(yacyPeerUnderJudgementAlias), documents,
 	)
-	nodepeer.PushURLMetadataRows(
-		t, ctx, probe, nodeURL, nodeHash,
-		urlMetadataRowsOf(t, documents.secondWordOnlyOnTheNodeListingAThousand),
-	)
-}
-
-func peerHashAtTheSecondWordIn(t *testing.T, partition uint) yacymodel.Hash {
-	t.Helper()
-
-	return yacymodel.HashFromDHTRingPosition(positionOfTheSecondWordIn(t, partition))
 }
 
 func startTheHolderOfBothWords(
@@ -313,7 +333,7 @@ func startTheHolderOfBothWords(
 ) {
 	t.Helper()
 
-	nodeHash := peerHashAtTheSecondWordIn(t, firstPartition)
+	nodeHash := peerHashAtTheSecondWordIn(t, secondPartition)
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: networkName,
 		Alias:       judgementHolderAlias,
@@ -356,17 +376,21 @@ func waitForEveryPeerToAnswer(
 	ctx context.Context,
 	probe *httpprobe.Probe,
 	service yacydhtsearchService,
+	amountOfAnsweringPeers int,
 	peerName string,
 ) {
 	t.Helper()
 
-	const everyPeerAnswers = "yacydhtsearch_directory_answering_peers 3"
+	everyPeerAnswers := fmt.Sprintf(
+		"yacydhtsearch_directory_answering_peers %d", amountOfAnsweringPeers,
+	)
 	if metricLinePublishedWithin(t, ctx, probe, service, everyPeerAnswers, answeringPeersTimeout) {
 		return
 	}
 	t.Fatalf(
-		"%s never held the holder and the two peers beside %s as answering peers:\n%s",
+		"%s never held the %d peers beside and including %s as answering peers:\n%s",
 		judgementSearchAlias,
+		amountOfAnsweringPeers,
 		peerName,
 		publishedBy(t, ctx, probe, service),
 	)

@@ -1,6 +1,8 @@
 package wordjoined
 
 import (
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
@@ -13,6 +15,7 @@ type PerformedMatchedAndHeldDocumentsRound struct {
 	AmountOfPeersThatListedADocument                       int
 	LeadingQueryWordChoice                                 LeadingQueryWordChoice
 	AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord int
+	AmountOfPartitionsWithABetterLeadingQueryWord          int
 	AmountOfMatchedDocumentsAcrossAnswers                  int
 	AmountOfMatchedDocumentsWithAPosting                   int
 	AmountOfDocumentsHeldInEachAnswer                      []int
@@ -37,6 +40,9 @@ func performedMatchedAndHeldDocumentsRoundFrom(
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
 		AmountOfDocumentsListedByThePeersOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documentsListedByPeers(),
+		),
+		AmountOfPartitionsWithABetterLeadingQueryWord: amountOfPartitionsWithABetterLeadingQueryWordIn(
+			round,
 		),
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
@@ -90,6 +96,29 @@ func answeredAsksWithAListedDocument(
 	}
 
 	return keptAnsweredAsks
+}
+
+func amountOfPartitionsWithABetterLeadingQueryWordIn(
+	round matchedAndHeldDocumentsRound,
+) int {
+	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
+	amount := 0
+	for partition, wordPartition := range round.leadingQueryWord().wordPartitions() {
+		if wordPartition.isFullyListed() {
+			continue
+		}
+		if !slices.ContainsFunc(
+			queryWordsBesideTheLeadingQueryWord,
+			func(queryWord queryWordAcrossReplicas) bool {
+				return queryWord.wordPartitions()[partition].isFullyListed()
+			},
+		) {
+			continue
+		}
+		amount++
+	}
+
+	return amount
 }
 
 func amountOfMatchedDocumentsAcrossAnswers(

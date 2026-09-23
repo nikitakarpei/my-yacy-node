@@ -10,26 +10,27 @@ import (
 )
 
 func crossCheckedDocumentsAsksFor(
-	candidates []crossCheckCandidatesOfQueryWord,
+	candidates crossCheckCandidates,
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
 ) []peerasks.CrossCheckedDocumentsAsk {
-	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(candidates))
-	for _, candidatesOfQueryWord := range candidates {
+	asks := make(
+		[]peerasks.CrossCheckedDocumentsAsk,
+		0,
+		len(candidates.ofPartlyListedWordPartitions),
+	)
+	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
 		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersNotIgnoringTheCrossCheckAmong(
-				candidatesOfQueryWord.queryWord.replicasThatDidNotListAllTheyHold(), peerStandings,
+				candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold(),
+				peerStandings,
 			),
 			asks,
 		)
-		amountOfDocumentsToDeal := min(
-			len(candidatesOfQueryWord.documents),
-			len(peersNotYetAskedToCrossCheck)*crossCheckedDocumentsCeiling,
-		)
-		asks = append(asks, crossCheckedDocumentsAsksDealtAcross(
+		asks = append(asks, crossCheckedDocumentsAsksOfEach(
 			peersNotYetAskedToCrossCheck,
-			candidatesOfQueryWord.queryWord.word,
-			candidatesOfQueryWord.documents[:amountOfDocumentsToDeal],
+			candidatesOfWordPartition.wordPartition.word,
+			candidatesOfWordPartition.mostListedDocumentsUpTo(crossCheckedDocumentsCeiling),
 		)...)
 	}
 
@@ -37,11 +38,11 @@ func crossCheckedDocumentsAsksFor(
 }
 
 func peersThatMayCrossCheckIn(
-	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
+	candidates crossCheckCandidates,
 ) []peerjudgements.PeerAtVersion {
 	var peers []peerjudgements.PeerAtVersion
-	for _, queryWord := range matchedAndHeldDocumentsRound.partlyListedQueryWordsBesideTheLeadingQueryWord() {
-		for _, replica := range queryWord.replicasThatDidNotListAllTheyHold() {
+	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
+		for _, replica := range candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold() {
 			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
 				return peer.Peer == replica.peer.Hash
 			}) {
@@ -58,7 +59,7 @@ func peersThatMayCrossCheckIn(
 }
 
 func peersNotIgnoringTheCrossCheckAmong(
-	replicas []queryWordOnReplica,
+	replicas []wordReplica,
 	peerStandings peerjudgements.PeerStandings,
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
@@ -89,26 +90,17 @@ func peersNotYetAskedToCrossCheckAmong(
 	return keptPeers
 }
 
-func crossCheckedDocumentsAsksDealtAcross(
+func crossCheckedDocumentsAsksOfEach(
 	peers []peerdirectory.AskablePeer,
 	queryWord yacymodel.Hash,
 	documents []yacymodel.URLHash,
 ) []peerasks.CrossCheckedDocumentsAsk {
-	documentsDealtToEachPeer := make([][]yacymodel.URLHash, len(peers))
-	for turn, document := range documents {
-		place := turn % len(peers)
-		documentsDealtToEachPeer[place] = append(documentsDealtToEachPeer[place], document)
-	}
-
 	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(peers))
-	for place, documentsDealtToOnePeer := range documentsDealtToEachPeer {
-		if len(documentsDealtToOnePeer) == 0 {
-			continue
-		}
+	for _, peer := range peers {
 		asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peers[place],
+			Peer:      peer,
 			Word:      queryWord,
-			Documents: documentsDealtToOnePeer,
+			Documents: documents,
 		})
 	}
 

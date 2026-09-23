@@ -38,18 +38,6 @@ func (round matchedAndHeldDocumentsRound) queryWordsBesideTheLeadingQueryWord() 
 	)
 }
 
-func (round matchedAndHeldDocumentsRound) partlyListedQueryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
-	var partlyListedQueryWords []queryWordAcrossReplicas
-	for _, queryWord := range round.queryWordsBesideTheLeadingQueryWord() {
-		if queryWord.isFullyListed() {
-			continue
-		}
-		partlyListedQueryWords = append(partlyListedQueryWords, queryWord)
-	}
-
-	return partlyListedQueryWords
-}
-
 func (round matchedAndHeldDocumentsRound) documentsOfTheLeadingQueryWordMostListedFirst() []yacymodel.URLHash {
 	return round.documentsMostListedFirstAmong(round.leadingQueryWord().documentsListedByPeers())
 }

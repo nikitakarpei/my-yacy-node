@@ -205,3 +205,52 @@ func TestDHTRingPositionOfWordInPartitionHoldsEveryPostingOfThatWord(t *testing.
 		}
 	}
 }
+
+func TestPartitionOfPutsThePostingOfEveryWordOnTheURLInThatPartition(t *testing.T) {
+	for exponent := range uint(5) {
+		partitions, err := yacymodel.DHTRingPartitionsFromExponent(exponent)
+		if err != nil {
+			t.Fatalf("dht ring partitions: %v", err)
+		}
+		for wordIndex := range 8 {
+			word := yacymodel.WordHash("word" + strconv.Itoa(wordIndex))
+			for document := range 256 {
+				url, err := yacymodel.ParseURLHash(
+					yacymodel.WordHash(strconv.Itoa(document)).String(),
+				)
+				if err != nil {
+					t.Fatalf("url hash: %v", err)
+				}
+				partition := partitions.PartitionOf(url)
+
+				posting := yacymodel.DHTRingPositionOfWordAndURL(word, url, partitions)
+				wordInPartition := yacymodel.DHTRingPositionOfWordInPartition(
+					word,
+					partition,
+					partitions,
+				)
+				if posting != wordInPartition {
+					t.Fatalf(
+						"%d partitions: posting of %v on %v sits at %d, partition %d names %d",
+						partitions, word, url, posting, partition, wordInPartition,
+					)
+				}
+			}
+		}
+	}
+}
+
+func TestPartitionOfTheWholeRingIsTheFirstPartition(t *testing.T) {
+	wholeRing, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatalf("dht ring partitions: %v", err)
+	}
+	url, err := yacymodel.ParseURLHash("____________")
+	if err != nil {
+		t.Fatalf("url hash: %v", err)
+	}
+
+	if partition := wholeRing.PartitionOf(url); partition != 0 {
+		t.Fatalf("PartitionOf on the whole ring = %d, want 0", partition)
+	}
+}
