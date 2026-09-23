@@ -86,7 +86,7 @@ func (e endpoint) Serve(
 		}
 		e.observation.observeServed(result)
 
-		resp.SearchTime = int(result.Duration / time.Millisecond)
+		resp.SearchTime = searchTimeFrom(result.Duration)
 		resp.References = strings.Join(result.Topics, ",")
 		resp.JoinCount = result.TotalDocumentsMatchingEveryTerm
 		resp.Resources = searchResourcesFrom(result)
@@ -103,6 +103,10 @@ func (e endpoint) Serve(
 	)
 
 	return resp, nil
+}
+
+func searchTimeFrom(duration time.Duration) int {
+	return int((duration + time.Millisecond - 1) / time.Millisecond)
 }
 
 func searchResourcesFrom(result searchresult.Result) []yacyproto.SearchResource {
