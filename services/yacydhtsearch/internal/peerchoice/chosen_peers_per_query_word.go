@@ -7,6 +7,18 @@ import (
 
 type ChosenPeersPerQueryWord []ChosenPeersOfQueryWord
 
+func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) ChosenPeersOf(
+	queryWord yacymodel.Hash,
+) []ChosenPeer {
+	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
+		if chosenPeersOfQueryWord.QueryWord == queryWord {
+			return chosenPeersOfQueryWord.ChosenPeers
+		}
+	}
+
+	return nil
+}
+
 func (chosenPeersPerQueryWord ChosenPeersPerQueryWord) PeersAcrossQueryWords() []peerdirectory.AskablePeer {
 	chosenPeersAcrossQueryWords := chosenPeersPerQueryWord.ChosenPeersAcrossQueryWords()
 

@@ -10,13 +10,14 @@ import (
 )
 
 type SearchDocumentsAsk struct {
-	Peer             peerdirectory.AskablePeer
-	Partition        uint
-	Word             yacymodel.Hash
-	ExcludedWords    []yacymodel.Hash
-	Language         string
-	DocumentsToMatch []yacymodel.URLHash
-	ItemsCeiling     int
+	Peer              peerdirectory.AskablePeer
+	Partition         uint
+	Word              yacymodel.Hash
+	OtherWordsToMatch []yacymodel.Hash
+	ExcludedWords     []yacymodel.Hash
+	Language          string
+	DocumentsToMatch  []yacymodel.URLHash
+	ItemsCeiling      int
 }
 
 type AnsweredSearchDocumentsAsk struct {
