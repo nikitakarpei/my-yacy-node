@@ -19,18 +19,15 @@ type SearchDocumentsAsk struct {
 	ItemsCeiling     int
 }
 
+type SearchDocumentsAskOutcome = AskOutcome[SearchDocumentsAsk, AnsweredSearchDocumentsAsk]
+
+type SearchDocumentsAskOutcomes = AskOutcomes[SearchDocumentsAsk, AnsweredSearchDocumentsAsk]
+
 type AnsweredSearchDocumentsAsk struct {
 	Ask                             SearchDocumentsAsk
 	DocumentsListedForTheWord       []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
-}
-
-func (answeredAsk AnsweredSearchDocumentsAsk) AnswersTheAskTo(
-	peer peerdirectory.AskablePeer,
-	word yacymodel.Hash,
-) bool {
-	return answeredAsk.Ask.Peer.Hash == peer.Hash && answeredAsk.Ask.Word == word
 }
 
 func (answeredAsk AnsweredSearchDocumentsAsk) IgnoredTheDocumentsToMatch() bool {

@@ -1,6 +1,6 @@
 // Package replicaasks puts the asks of a word partition to its replicas in
 // turn, settles the partition as soon as enough answers of the replicas cover
-// it, and reports the asks it put beside the answers.
+// it, and reports for each ask whether it was put and what the peer answered.
 package replicaasks
 
 import (
@@ -46,10 +46,7 @@ func New(
 func (asks Asks) AskForSearchDocuments(
 	ctx context.Context,
 	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
-) peerasks.AsksPut[
-	peerasks.SearchDocumentsAsk,
-	peerasks.AnsweredSearchDocumentsAsk,
-] {
+) peerasks.SearchDocumentsAskOutcomes {
 	return askTheWordPartitions(
 		ctx,
 		asksInReplicaOrder,

@@ -3,19 +3,27 @@ package replicaasks
 import (
 	"context"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type wordPartition[Ask any, Answered any] struct {
 	asksInReplicaOrder         []Ask
+	placeOfEachAskInTheRun     []int
 	kind                       askKind[Ask, Answered]
 	replicasCoveringAPartition int
 	askedPeers                 *askedPeers
 }
 
 type answeredWordPartition[Ask any, Answered any] struct {
-	settled SettledWordPartition
-	asksPut []Ask
-	answers []Answered
+	settled           SettledWordPartition
+	placedAskOutcomes []placedAskOutcome[Ask, Answered]
+}
+
+type placedAskOutcome[Ask any, Answered any] struct {
+	placeInTheRun int
+	outcome       peerasks.AskOutcome[Ask, Answered]
 }
 
 func (asking *wordPartitionAsking[Ask, Answered]) settle(
@@ -49,8 +57,8 @@ type wordPartitionAsking[Ask any, Answered any] struct {
 	amountOfCallsOutstanding int
 	amountOfCoveringAnswers  int
 	nextReplica              int
-	asksPut                  []Ask
-	answers                  []Answered
+	replicaOfEachCall        []int
+	answerOfEachCall         []yacymodel.Optional[Answered]
 }
 
 func (partition wordPartition[Ask, Answered]) asking() *wordPartitionAsking[Ask, Answered] {
@@ -129,7 +137,7 @@ func (asking *wordPartitionAsking[Ask, Answered]) coverOrAskTheNextReplica(
 
 		return
 	}
-	asking.answers = append(asking.answers, outcome.answer)
+	asking.answerOfEachCall[outcome.callPlace] = yacymodel.Some(outcome.answer)
 	if !outcome.covers {
 		asking.askTheNextReplica(ctx, PutOnNonCoveringAnswer)
 
@@ -174,7 +182,8 @@ func (asking *wordPartitionAsking[Ask, Answered]) putTheReplica(
 ) {
 	ask := asking.partition.asksInReplicaOrder[replica]
 	callPlace := len(asking.putOnPerCall)
-	asking.asksPut = append(asking.asksPut, ask)
+	asking.replicaOfEachCall = append(asking.replicaOfEachCall, replica)
+	asking.answerOfEachCall = append(asking.answerOfEachCall, yacymodel.None[Answered]())
 	asking.putOnPerCall = append(asking.putOnPerCall, putOn)
 	asking.callsEnded = append(asking.callsEnded, false)
 	asking.amountOfCallsOutstanding++
@@ -210,21 +219,44 @@ func (asking *wordPartitionAsking[Ask, Answered]) stopTheHedgeTimers() {
 }
 
 func (asking *wordPartitionAsking[Ask, Answered]) answeredWordPartition() answeredWordPartition[Ask, Answered] {
-	amountOfDocumentsListed := 0
-	for _, answer := range asking.answers {
-		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
-	}
-
 	return answeredWordPartition[Ask, Answered]{
 		settled: SettledWordPartition{
 			SettledBy:               asking.settledBy,
 			CoveringAskPutOn:        asking.coveringAskPutOn,
-			AmountOfDocumentsListed: amountOfDocumentsListed,
+			AmountOfDocumentsListed: asking.amountOfDocumentsListed(),
 			AsksPutOn:               asking.putOnPerCall,
 		},
-		asksPut: asking.asksPut,
-		answers: asking.answers,
+		placedAskOutcomes: asking.placedAskOutcomes(),
 	}
+}
+
+func (asking *wordPartitionAsking[Ask, Answered]) amountOfDocumentsListed() int {
+	amountOfDocumentsListed := 0
+	for _, answerOfCall := range asking.answerOfEachCall {
+		answer, answered := answerOfCall.Get()
+		if !answered {
+			continue
+		}
+		amountOfDocumentsListed += asking.partition.kind.amountOfDocumentsListedIn(answer)
+	}
+
+	return amountOfDocumentsListed
+}
+
+func (asking *wordPartitionAsking[Ask, Answered]) placedAskOutcomes() []placedAskOutcome[Ask, Answered] {
+	placedAskOutcomes := make([]placedAskOutcome[Ask, Answered], 0, len(asking.replicaOfEachCall))
+	for callPlace, replica := range asking.replicaOfEachCall {
+		placedAskOutcomes = append(placedAskOutcomes, placedAskOutcome[Ask, Answered]{
+			placeInTheRun: asking.partition.placeOfEachAskInTheRun[replica],
+			outcome: peerasks.AskOutcome[Ask, Answered]{
+				Ask:    asking.partition.asksInReplicaOrder[replica],
+				Put:    true,
+				Answer: asking.answerOfEachCall[callPlace],
+			},
+		})
+	}
+
+	return placedAskOutcomes
 }
 
 type replicaCallOutcome[Answered any] struct {

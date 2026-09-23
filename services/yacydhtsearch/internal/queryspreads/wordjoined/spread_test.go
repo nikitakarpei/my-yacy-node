@@ -75,21 +75,28 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 func (n *peerNetwork) AskForSearchDocuments(
 	ctx context.Context,
 	asks []peerasks.SearchDocumentsAsk,
-) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
+) peerasks.SearchDocumentsAskOutcomes {
 	if len(asks) > 0 && len(asks[0].DocumentsToMatch) > 0 {
-		return n.crossCheckedDocumentsAsksPut(ctx, asks)
+		return n.crossCheckedDocumentsAskOutcomes(ctx, asks)
 	}
 	n.matchedAndHeldDocumentsAsks = append(n.matchedAndHeldDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
-	asksPut := n.matchedAndHeldDocumentsAsksPutAmong(asks)
-	n.matchedAndHeldDocumentsAsksPut = append(n.matchedAndHeldDocumentsAsksPut, asksPut...)
 
-	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asksPut))
-	for _, ask := range asksPut {
+	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(asks))
+	for _, ask := range asks {
+		askOutcomes = append(askOutcomes, peerasks.SearchDocumentsAskOutcome{Ask: ask})
+	}
+	placesPut := n.placesOfTheMatchedAndHeldDocumentsAsksPutAmong(asks)
+	for place, ask := range asks {
+		if _, put := placesPut[place]; !put {
+			continue
+		}
+		n.matchedAndHeldDocumentsAsksPut = append(n.matchedAndHeldDocumentsAsksPut, ask)
+		askOutcomes[place].Put = true
 		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
 			continue
 		}
-		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
+		askOutcomes[place].Answer = yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
 			Ask:                       ask,
 			DocumentsListedForTheWord: n.documentsListedBy(ask.Peer.Address, ask.Word),
 			MatchedDocuments: n.matchedDocumentsOf(
@@ -99,10 +106,7 @@ func (n *peerNetwork) AskForSearchDocuments(
 		})
 	}
 
-	return peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]{
-		Asks:         asksPut,
-		AnsweredAsks: answeredAsks,
-	}
+	return askOutcomes
 }
 
 type wordInPartition struct {
@@ -110,22 +114,22 @@ type wordInPartition struct {
 	partition uint
 }
 
-func (n *peerNetwork) matchedAndHeldDocumentsAsksPutAmong(
+func (n *peerNetwork) placesOfTheMatchedAndHeldDocumentsAsksPutAmong(
 	asks []peerasks.SearchDocumentsAsk,
-) []peerasks.SearchDocumentsAsk {
+) map[int]struct{} {
 	asksPutPerWordInPartition := map[wordInPartition]int{}
-	asksPut := make([]peerasks.SearchDocumentsAsk, 0, len(asks))
-	for _, ask := range asks {
+	placesPut := make(map[int]struct{}, len(asks))
+	for place, ask := range asks {
 		key := wordInPartition{word: ask.Word, partition: ask.Partition}
 		replicasPut, limited := n.replicasPutFor(ask.Word)
 		if limited && asksPutPerWordInPartition[key] == replicasPut {
 			continue
 		}
 		asksPutPerWordInPartition[key]++
-		asksPut = append(asksPut, ask)
+		placesPut[place] = struct{}{}
 	}
 
-	return asksPut
+	return placesPut
 }
 
 func (n *peerNetwork) replicasPutFor(word yacymodel.Hash) (int, bool) {
@@ -138,30 +142,28 @@ func (n *peerNetwork) replicasPutFor(word yacymodel.Hash) (int, bool) {
 	return 0, false
 }
 
-func (n *peerNetwork) crossCheckedDocumentsAsksPut(
+func (n *peerNetwork) crossCheckedDocumentsAskOutcomes(
 	ctx context.Context,
 	asks []peerasks.SearchDocumentsAsk,
-) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
+) peerasks.SearchDocumentsAskOutcomes {
 	n.crossCheckedDocumentsAsks = append(n.crossCheckedDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
-	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asks))
+	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(asks))
 	for _, ask := range asks {
-		if _, silent := n.peersSilentInTheCrossCheckedDocuments[ask.Peer.Address]; silent {
-			continue
+		askOutcome := peerasks.SearchDocumentsAskOutcome{Ask: ask, Put: true}
+		if _, silent := n.peersSilentInTheCrossCheckedDocuments[ask.Peer.Address]; !silent {
+			documentsToMatchHeld := n.documentsToMatchHeldBy(ask)
+			askOutcome.Answer = yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
+				Ask:                       ask,
+				DocumentsListedForTheWord: documentsToMatchHeld,
+				MatchedDocuments:          n.matchedDocumentsOf(documentsToMatchHeld),
+			})
 		}
-		documentsToMatchHeld := n.documentsToMatchHeldBy(ask)
-		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
-			Ask:                       ask,
-			DocumentsListedForTheWord: documentsToMatchHeld,
-			MatchedDocuments:          n.matchedDocumentsOf(documentsToMatchHeld),
-		})
+		askOutcomes = append(askOutcomes, askOutcome)
 	}
 
-	return peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]{
-		Asks:         asks,
-		AnsweredAsks: answeredAsks,
-	}
+	return askOutcomes
 }
 
 func (n *peerNetwork) documentsToMatchHeldBy(

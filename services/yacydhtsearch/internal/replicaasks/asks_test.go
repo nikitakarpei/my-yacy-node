@@ -230,26 +230,22 @@ func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t 
 	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
 }
 
-func TestTheAnswersComeBackInTheOrderTheWordPartitionsWereFirstAsked(t *testing.T) {
+func TestEachOutcomeComesBackInThePlaceOfItsAsk(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
-		"seven-one": {documentsListed: 1}, "three-one": {documentsListed: 2},
+		"seven-one": {documentsListed: 1}, "seven-two": {documentsListed: 1},
+		"three-one": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
-	answers := asking.searchDocumentsAnswers(t.Context(), append(
-		asksForTheWord("berlin", 7, "seven-one"),
+	askOutcomes := asking.searchDocumentsAskOutcomes(t.Context(), append(
+		asksForTheWord("berlin", 7, "seven-one", "seven-two"),
 		asksForTheWord("berlin", 3, "three-one")...,
 	))
 
-	if len(answers) != 2 {
-		t.Fatalf("AskForSearchDocuments answered %d asks, want two", len(answers))
-	}
-	if answers[0].Ask.Partition != 7 || answers[1].Ask.Partition != 3 {
-		t.Fatalf(
-			"AskForSearchDocuments = %+v, want partition seven before partition three",
-			answers,
-		)
+	wanted := []string{"seven-one answered", "seven-two not put", "three-one answered"}
+	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
+		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
 	}
 	asking.observer.wantAmountOfDocumentsListed(t, 1, 2)
 	asking.observer.wantAskedFor(t, peerasks.SearchDocuments)
@@ -263,13 +259,13 @@ func TestAnEmptyAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.
 		"berlin-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.searchDocumentsAsksPut(
+	askOutcomes := asking.searchDocumentsAskOutcomes(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
-	if !slices.Equal(addressesOf(asksPut.Asks), []string{"berlin-one"}) ||
-		len(asksPut.AnsweredAsks) != 1 {
-		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", asksPut)
+	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
+		len(askOutcomes.AnsweredAsks()) != 1 {
+		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", askOutcomes)
 	}
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
 }
@@ -282,13 +278,13 @@ func TestAnAnswerThatOnlyMatchesDocumentsSettlesTheWordPartition(t *testing.T) {
 		"berlin-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.searchDocumentsAsksPut(
+	askOutcomes := asking.searchDocumentsAskOutcomes(
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
-	if !slices.Equal(addressesOf(asksPut.Asks), []string{"berlin-one"}) ||
-		len(asksPut.AnsweredAsks) != 1 {
-		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", asksPut)
+	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
+		len(askOutcomes.AnsweredAsks()) != 1 {
+		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", askOutcomes)
 	}
 	asking.observer.wantAmountOfDocumentsListed(t, 2)
 }
@@ -304,21 +300,21 @@ func TestAnAnswerListingADocumentOutsideTheDocumentsToMatchAsksTheNextReplica(t 
 		"berlin-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.searchDocumentsAsksPut(
+	askOutcomes := asking.searchDocumentsAskOutcomes(
 		t.Context(), asksToMatchTheDocumentsOfTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
-	if !slices.Equal(addressesOf(asksPut.Asks), []string{"berlin-one", "berlin-two"}) ||
-		len(asksPut.AnsweredAsks) != 2 {
+	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one", "berlin-two"}) ||
+		len(askOutcomes.AnsweredAsks()) != 2 {
 		t.Fatalf(
 			"AskForSearchDocuments = %+v, want both replicas asked and answered",
-			asksPut,
+			askOutcomes,
 		)
 	}
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnNonCoveringAnswer)
 }
 
-func TestTheAsksPutAreReportedBesideTheAnswersAndTheAsksNeverPutAreLeftOut(t *testing.T) {
+func TestTheOutcomesTellWhichAsksWerePutAndWhichWereAnswered(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
@@ -327,18 +323,25 @@ func TestTheAsksPutAreReportedBesideTheAnswersAndTheAsksNeverPutAreLeftOut(t *te
 		"weather-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.searchDocumentsAsksPut(t.Context(), append(
+	askOutcomes := asking.searchDocumentsAskOutcomes(t.Context(), append(
 		asksForTheWord("berlin", 1, "berlin-one", "berlin-two", "berlin-three"),
 		asksForTheWord("weather", 2, "weather-one", "weather-two")...,
 	))
 
-	wanted := []string{"berlin-one", "berlin-two", "weather-one"}
-	if got := addressesOf(asksPut.Asks); !slices.Equal(got, wanted) {
-		t.Fatalf("AskForSearchDocuments put %v, want %v", got, wanted)
+	wanted := []string{
+		"berlin-one put", "berlin-two answered", "berlin-three not put",
+		"weather-one answered", "weather-two not put",
 	}
-	if len(asksPut.AnsweredAsks) != 2 {
-		t.Fatalf("AskForSearchDocuments answered %+v, want the two that answered",
-			asksPut.AnsweredAsks)
+	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
+		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
+	}
+	if got := addressesOf(askOutcomes.AsksPut()); !slices.Equal(
+		got, []string{"berlin-one", "berlin-two", "weather-one"},
+	) {
+		t.Fatalf("AsksPut = %v, want the three asks put", got)
+	}
+	if len(askOutcomes.AnsweredAsks()) != 2 {
+		t.Fatalf("AnsweredAsks = %+v, want the two that answered", askOutcomes.AnsweredAsks())
 	}
 }
 
@@ -377,12 +380,12 @@ func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLef
 		"shared": {documentsListed: 3},
 	}, noHedgeOfTheTests, 1)
 
-	asksPut := asking.searchDocumentsAsksPut(t.Context(), append(
+	askOutcomes := asking.searchDocumentsAskOutcomes(t.Context(), append(
 		asksForTheWord("berlin", 1, "shared"),
 		asksForTheWord("weather", 2, "shared")...,
 	))
 
-	if got := addressesOf(asksPut.Asks); !slices.Equal(got, []string{"shared"}) {
+	if got := addressesOf(askOutcomes.AsksPut()); !slices.Equal(got, []string{"shared"}) {
 		t.Fatalf("the asks put went to %v, want the shared peer once", got)
 	}
 	asking.calls.wantAddressesPut(t, "shared")
@@ -668,13 +671,13 @@ func (asking askingUnderTest) searchDocumentsAnswers(
 ) []peerasks.AnsweredSearchDocumentsAsk {
 	asking.calls.startedAt = time.Now()
 
-	return asking.asks.AskForSearchDocuments(ctx, asks).AnsweredAsks
+	return asking.asks.AskForSearchDocuments(ctx, asks).AnsweredAsks()
 }
 
-func (asking askingUnderTest) searchDocumentsAsksPut(
+func (asking askingUnderTest) searchDocumentsAskOutcomes(
 	ctx context.Context,
 	asks []peerasks.SearchDocumentsAsk,
-) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
+) peerasks.SearchDocumentsAskOutcomes {
 	asking.calls.startedAt = time.Now()
 
 	return asking.asks.AskForSearchDocuments(ctx, asks)
@@ -722,6 +725,22 @@ func addressesOf(asks []peerasks.SearchDocumentsAsk) []string {
 	}
 
 	return addresses
+}
+
+func outcomesOf(askOutcomes peerasks.SearchDocumentsAskOutcomes) []string {
+	outcomes := make([]string, 0, len(askOutcomes))
+	for _, askOutcome := range askOutcomes {
+		switch {
+		case askOutcome.Answer.Present():
+			outcomes = append(outcomes, askOutcome.Ask.Peer.Address+" answered")
+		case askOutcome.Put:
+			outcomes = append(outcomes, askOutcome.Ask.Peer.Address+" put")
+		default:
+			outcomes = append(outcomes, askOutcome.Ask.Peer.Address+" not put")
+		}
+	}
+
+	return outcomes
 }
 
 func peerAt(address string) peerdirectory.AskablePeer {

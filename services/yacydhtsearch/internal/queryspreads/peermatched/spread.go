@@ -16,7 +16,7 @@ type PeerAsks interface {
 	AskForSearchDocuments(
 		ctx context.Context,
 		asks []peerasks.SearchDocumentsAsk,
-	) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]
+	) peerasks.SearchDocumentsAskOutcomes
 }
 
 type Spread struct {
@@ -45,7 +45,7 @@ func (spread Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	asks := searchDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
-	answeredAsks := spread.peerAsks.AskForSearchDocuments(ctx, asks).AnsweredAsks
+	answeredAsks := spread.peerAsks.AskForSearchDocuments(ctx, asks).AnsweredAsks()
 
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,

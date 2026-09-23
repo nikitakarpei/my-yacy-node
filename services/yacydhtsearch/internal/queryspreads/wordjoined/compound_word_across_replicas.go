@@ -1,8 +1,9 @@
 package wordjoined
 
 import (
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -14,17 +15,17 @@ type compoundWordAcrossReplicas struct {
 
 func compoundWordsAcrossReplicasFrom(
 	compoundWords []searchquery.CompoundWord,
-	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+	askOutcomes peerasks.SearchDocumentsAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) []compoundWordAcrossReplicas {
 	var compoundWordsAcrossReplicas []compoundWordAcrossReplicas
 	for _, compoundWord := range compoundWords {
-		chosenPeersOfCompoundWord, asked := chosenPeersOf(
-			compoundWord.Hash,
-			chosenPeersPerQueryWord,
-		)
-		if !asked {
+		if !slices.ContainsFunc(
+			askOutcomes,
+			func(askOutcome peerasks.SearchDocumentsAskOutcome) bool {
+				return askOutcome.Ask.Word == compoundWord.Hash
+			},
+		) {
 			continue
 		}
 		compoundWordsAcrossReplicas = append(
@@ -32,7 +33,9 @@ func compoundWordsAcrossReplicasFrom(
 			compoundWordAcrossReplicas{
 				CompoundWord: compoundWord,
 				queryWordAcrossReplicas: queryWordAcrossReplicasFrom(
-					chosenPeersOfCompoundWord, partitions, answeredAsks,
+					compoundWord.Hash,
+					askOutcomes,
+					partitions,
 				),
 			},
 		)

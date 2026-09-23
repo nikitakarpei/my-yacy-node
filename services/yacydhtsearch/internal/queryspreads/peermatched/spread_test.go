@@ -35,21 +35,22 @@ func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 func (n *peerNetwork) AskForSearchDocuments(
 	_ context.Context,
 	asks []peerasks.SearchDocumentsAsk,
-) peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
+) peerasks.SearchDocumentsAskOutcomes {
 	n.asks = append(n.asks, asks...)
 
-	answeredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(asks))
+	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(asks))
 	for _, ask := range asks {
-		answeredAsks = append(answeredAsks, peerasks.AnsweredSearchDocumentsAsk{
-			Ask:              ask,
-			MatchedDocuments: n.matchedDocumentsOf(ask.Peer),
+		askOutcomes = append(askOutcomes, peerasks.SearchDocumentsAskOutcome{
+			Ask: ask,
+			Put: true,
+			Answer: yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
+				Ask:              ask,
+				MatchedDocuments: n.matchedDocumentsOf(ask.Peer),
+			}),
 		})
 	}
 
-	return peerasks.AsksPut[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]{
-		Asks:         asks,
-		AnsweredAsks: answeredAsks,
-	}
+	return askOutcomes
 }
 
 func (n *peerNetwork) matchedDocumentsOf(

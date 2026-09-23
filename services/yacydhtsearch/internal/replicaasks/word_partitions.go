@@ -30,7 +30,7 @@ func askTheWordPartitions[Ask any, Answered any](
 	kind askKind[Ask, Answered],
 	replicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
-) peerasks.AsksPut[Ask, Answered] {
+) peerasks.AskOutcomes[Ask, Answered] {
 	startedAt := time.Now()
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
@@ -45,7 +45,7 @@ func askTheWordPartitions[Ask any, Answered any](
 		performedReplicaAsksFrom(kind.askedFor(), answeredWordPartitions, time.Since(startedAt)),
 	)
 
-	return asksPutFrom(answeredWordPartitions)
+	return askOutcomesFrom(asksInReplicaOrder, answeredWordPartitions)
 }
 
 func wordPartitionsOf[Ask any, Answered any](
@@ -56,7 +56,7 @@ func wordPartitionsOf[Ask any, Answered any](
 	wordPartitions := make([]wordPartition[Ask, Answered], 0, len(asksInReplicaOrder))
 	peersAskedInTheRun := noAskedPeers()
 	placeOfKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
-	for _, ask := range asksInReplicaOrder {
+	for placeInTheRun, ask := range asksInReplicaOrder {
 		key := kind.wordPartitionKeyOf(ask)
 		place, known := placeOfKey[key]
 		if !known {
@@ -70,6 +70,9 @@ func wordPartitionsOf[Ask any, Answered any](
 		}
 		wordPartitions[place].asksInReplicaOrder = append(
 			wordPartitions[place].asksInReplicaOrder, ask,
+		)
+		wordPartitions[place].placeOfEachAskInTheRun = append(
+			wordPartitions[place].placeOfEachAskInTheRun, placeInTheRun,
 		)
 	}
 
@@ -142,17 +145,19 @@ func endedByOf[Ask any, Answered any](
 	return EndedByCoverage
 }
 
-func asksPutFrom[Ask any, Answered any](
+func askOutcomesFrom[Ask any, Answered any](
+	asksInReplicaOrder []Ask,
 	answeredWordPartitions []answeredWordPartition[Ask, Answered],
-) peerasks.AsksPut[Ask, Answered] {
-	asksPut := peerasks.AsksPut[Ask, Answered]{
-		Asks:         make([]Ask, 0, len(answeredWordPartitions)),
-		AnsweredAsks: make([]Answered, 0, len(answeredWordPartitions)),
+) peerasks.AskOutcomes[Ask, Answered] {
+	askOutcomes := make(peerasks.AskOutcomes[Ask, Answered], 0, len(asksInReplicaOrder))
+	for _, ask := range asksInReplicaOrder {
+		askOutcomes = append(askOutcomes, peerasks.AskOutcome[Ask, Answered]{Ask: ask})
 	}
 	for _, answered := range answeredWordPartitions {
-		asksPut.Asks = append(asksPut.Asks, answered.asksPut...)
-		asksPut.AnsweredAsks = append(asksPut.AnsweredAsks, answered.answers...)
+		for _, placed := range answered.placedAskOutcomes {
+			askOutcomes[placed.placeInTheRun] = placed.outcome
+		}
 	}
 
-	return asksPut
+	return askOutcomes
 }

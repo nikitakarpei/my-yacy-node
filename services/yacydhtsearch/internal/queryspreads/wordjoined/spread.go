@@ -19,10 +19,7 @@ type ReplicaAsks interface {
 	AskForSearchDocuments(
 		ctx context.Context,
 		asks []peerasks.SearchDocumentsAsk,
-	) peerasks.AsksPut[
-		peerasks.SearchDocumentsAsk,
-		peerasks.AnsweredSearchDocumentsAsk,
-	]
+	) peerasks.SearchDocumentsAskOutcomes
 }
 
 type PeerAsks interface {
@@ -138,18 +135,18 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheMatchedAndHeldDocuments)
 	defer endRound()
-	asksPut := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
-	answeredAsks := asksPut.AnsweredAsks
+	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
+	answeredAsks := askOutcomes.AnsweredAsks()
 
 	return matchedAndHeldDocumentsRound{
 		queryWords:   query.WordHashes(),
-		peersAsked:   peersAskedIn(asksPut.Asks),
+		peersAsked:   peersAskedIn(askOutcomes.AsksPut()),
 		answeredAsks: answeredAsks,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
-			query.WordHashes(), chosenPeersPerQueryWord, spread.partitions, answeredAsks,
+			query.WordHashes(), askOutcomes, spread.partitions,
 		),
 		compoundWords: compoundWordsAcrossReplicasFrom(
-			query.CompoundWords, chosenPeersPerQueryWord, spread.partitions, answeredAsks,
+			query.CompoundWords, askOutcomes, spread.partitions,
 		),
 		amountOfPeersPerDocument: amountOfPeersPerDocumentOf(answeredAsks),
 	}
@@ -185,12 +182,12 @@ func (spread Spread) askForCrossCheckedDocuments(
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
 	defer endRound()
-	asksPut := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
+	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
 
 	return crossCheckedDocumentsRound{
 		candidates:   candidates,
-		asks:         asksPut.Asks,
-		answeredAsks: asksPut.AnsweredAsks,
+		asks:         askOutcomes.AsksPut(),
+		answeredAsks: askOutcomes.AnsweredAsks(),
 	}
 }
 
