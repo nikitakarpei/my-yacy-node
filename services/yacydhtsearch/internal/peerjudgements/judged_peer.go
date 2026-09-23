@@ -21,7 +21,3 @@ func JudgedPeerFrom(peer yacymodel.Hash, version string, judgement Judgement) Ju
 		Judgement:     judgement,
 	}
 }
-
-func NoEvidenceFrom(peer yacymodel.Hash) JudgedPeer {
-	return JudgedPeer{PeerAtVersion: PeerAtVersion{Peer: peer}, Judgement: NoEvidence}
-}

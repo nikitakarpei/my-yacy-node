@@ -13,14 +13,12 @@ type PerformedCrossCheckedDocumentsRound struct {
 	AmountOfEmptyCrossCheckedDocumentsAnswers          int
 	AmountOfJoinedDocuments                            int
 	AmountOfJoinedDocumentsFoundOnlyByCrossChecking    int
-	PeerStandings                                      []peerjudgements.PeerStanding
 	JudgedPeers                                        []peerjudgements.JudgedPeer
 }
 
 func performedCrossCheckedDocumentsRoundFrom(
 	round crossCheckedDocumentsRound,
 	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
-	peerStandings peerjudgements.PeerStandings,
 	judgedPeers []peerjudgements.JudgedPeer,
 	joinedDocuments distinctDocuments,
 ) PerformedCrossCheckedDocumentsRound {
@@ -45,8 +43,7 @@ func performedCrossCheckedDocumentsRoundFrom(
 			joinedDocuments,
 			matchedAndHeldDocumentsRound,
 		),
-		PeerStandings: peerStandings,
-		JudgedPeers:   judgedPeers,
+		JudgedPeers: judgedPeers,
 	}
 }
 

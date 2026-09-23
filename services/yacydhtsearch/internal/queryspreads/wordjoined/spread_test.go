@@ -46,7 +46,9 @@ type peerNetwork struct {
 	documentsHeldByEachPeer               map[string]int
 	documentsPerAnswerOfEachPeer          map[string]int
 	peersCountingNoDocument               map[string]struct{}
+	replicasPutPerWord                    map[string]int
 	matchedAndHeldDocumentsAsks           []peerasks.MatchedAndHeldDocumentsAsk
+	matchedAndHeldDocumentsAsksPut        []peerasks.MatchedAndHeldDocumentsAsk
 	crossCheckedDocumentsAsks             []peerasks.CrossCheckedDocumentsAsk
 	urlMetadataAsks                       []peerasks.URLMetadataAsk
 	silentPeers                           map[string]struct{}
@@ -75,9 +77,11 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 ) peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk] {
 	n.matchedAndHeldDocumentsAsks = append(n.matchedAndHeldDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
+	asksPut := n.matchedAndHeldDocumentsAsksPutAmong(asks)
+	n.matchedAndHeldDocumentsAsksPut = append(n.matchedAndHeldDocumentsAsksPut, asksPut...)
 
-	answeredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(asks))
-	for _, ask := range asks {
+	answeredAsks := make([]peerasks.AnsweredMatchedAndHeldDocumentsAsk, 0, len(asksPut))
+	for _, ask := range asksPut {
 		if _, silent := n.silentPeers[ask.Peer.Address]; silent {
 			continue
 		}
@@ -93,15 +97,48 @@ func (n *peerNetwork) AskForMatchedAndHeldDocuments(
 	}
 
 	return peerasks.AsksPut[peerasks.MatchedAndHeldDocumentsAsk, peerasks.AnsweredMatchedAndHeldDocumentsAsk]{
-		Asks:         asks,
+		Asks:         asksPut,
 		AnsweredAsks: answeredAsks,
 	}
+}
+
+type wordInPartition struct {
+	word      yacymodel.Hash
+	partition uint
+}
+
+func (n *peerNetwork) matchedAndHeldDocumentsAsksPutAmong(
+	asks []peerasks.MatchedAndHeldDocumentsAsk,
+) []peerasks.MatchedAndHeldDocumentsAsk {
+	asksPutPerWordInPartition := map[wordInPartition]int{}
+	asksPut := make([]peerasks.MatchedAndHeldDocumentsAsk, 0, len(asks))
+	for _, ask := range asks {
+		key := wordInPartition{word: ask.Word, partition: ask.Partition}
+		replicasPut, limited := n.replicasPutFor(ask.Word)
+		if limited && asksPutPerWordInPartition[key] == replicasPut {
+			continue
+		}
+		asksPutPerWordInPartition[key]++
+		asksPut = append(asksPut, ask)
+	}
+
+	return asksPut
+}
+
+func (n *peerNetwork) replicasPutFor(word yacymodel.Hash) (int, bool) {
+	for spelledWord, replicasPut := range n.replicasPutPerWord {
+		if yacymodel.WordHash(spelledWord) == word {
+			return replicasPut, true
+		}
+	}
+
+	return 0, false
 }
 
 func (n *peerNetwork) AskForCrossCheckedDocuments(
 	ctx context.Context,
 	asks []peerasks.CrossCheckedDocumentsAsk,
-) []peerasks.AnsweredCrossCheckedDocumentsAsk {
+) peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk] {
 	n.crossCheckedDocumentsAsks = append(n.crossCheckedDocumentsAsks, asks...)
 	n.recordTimeLeftIn(ctx)
 
@@ -117,7 +154,10 @@ func (n *peerNetwork) AskForCrossCheckedDocuments(
 		})
 	}
 
-	return answeredAsks
+	return peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk]{
+		Asks:         asks,
+		AnsweredAsks: answeredAsks,
+	}
 }
 
 func (n *peerNetwork) namedDocumentsHeldBy(
@@ -526,10 +566,22 @@ func judgementsOfTheCrossCheck() peerjudgements.Judgements {
 	)
 }
 
+func judgementsWhere(judgedPeers ...peerjudgements.JudgedPeer) peerjudgements.Judgements {
+	judgements := judgementsOfTheCrossCheck()
+	judgements.Add(context.Background(), judgedPeers)
+
+	return judgements
+}
+
+func peerJudged(address string, judgement peerjudgements.Judgement) peerjudgements.JudgedPeer {
+	return peerjudgements.JudgedPeerFrom(peerAt(address).Hash, "", judgement)
+}
+
 func spreadJudgingThePeers(
 	network *peerNetwork,
 	choice responsiblePeers,
 	judgements wordjoined.PeerJudgements,
+	observer wordjoined.WordJoinedSpreadObserver,
 ) {
 	newSpreadOverChosenPeers(
 		choice,
@@ -542,7 +594,7 @@ func spreadJudgingThePeers(
 			peerItemsCeiling,
 			onePartitionOfTheRing,
 			peersHoldingOneWord,
-			&recordedSpreads{},
+			observer,
 		),
 	).SpreadOverPeers(
 		context.Background(),
@@ -551,76 +603,221 @@ func spreadJudgingThePeers(
 	)
 }
 
-func networkOfAPeerThatDidNotListAllItHolds() *peerNetwork {
+func networkOfAReplicaTheFirstRoundLeavesUnasked() *peerNetwork {
 	network := networkOf(map[string]map[string][]string{
 		"first":  {firstWord: {"https://anchored.example/", "https://answered.example/"}},
 		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
+		"third":  {secondWord: {"https://answered.example/", "https://anchored.example/"}},
 	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
-	network.versionOfEachPeer = map[string]string{"second": versionOfThePeer}
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
+	network.versionOfEachPeer = map[string]string{"third": versionOfThePeer}
 
 	return network
 }
 
-func peersOfTheTwoQueryWords() responsiblePeers {
+func replicasOfTheTwoQueryWords() responsiblePeers {
 	return peersOfEachQueryWord(map[string][]string{
 		firstWord:  {"first"},
-		secondWord: {"second"},
+		secondWord: {"second", "third"},
 	})
 }
 
-func TestAPeerThatDidNotListAllItHoldsIsAskedAboutTheDocumentsOfTheLeadingQueryWordItLeftOut(
+func addressesAskedToCrossCheck(asks []peerasks.CrossCheckedDocumentsAsk) []string {
+	addresses := make([]string, 0, len(asks))
+	for _, ask := range asks {
+		addresses = append(addresses, ask.Peer.Address)
+	}
+
+	return addresses
+}
+
+func amountOfCrossChecksPutTo(address string, asks []peerasks.CrossCheckedDocumentsAsk) int {
+	amount := 0
+	for _, ask := range asks {
+		if ask.Peer.Address == address {
+			amount++
+		}
+	}
+
+	return amount
+}
+
+func TestAReplicaTheFirstRoundLeftUnaskedIsAskedAboutTheDocumentsItsPartitionLeftOut(
 	t *testing.T,
 ) {
 	t.Parallel()
 
-	documentsListedForTheLeadingQueryWord := []string{
-		"https://anchored.example/",
-		"https://answered.example/",
-	}
-	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
-		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
-	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
 
-	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
-		firstWord:  {"first"},
-		secondWord: {"second"},
-	}), &recordedSpreads{})
+	spreadTheQuery(
+		firstWord+" "+secondWord, network, replicasOfTheTwoQueryWords(), &recordedSpreads{},
+	)
 
-	if len(network.crossCheckedDocumentsAsks) != 1 ||
-		network.crossCheckedDocumentsAsks[0].Peer.Address != "second" {
-		t.Fatalf(
-			"the spread put %v, want one cross-checked documents ask to the peer that did not list all it holds",
-			network.crossCheckedDocumentsAsks,
-		)
-	}
-	wanted := documentHashesOf([]string{"https://anchored.example/"})
-	if got := documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
-		got, wanted,
+	if got := addressesAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, []string{"third"},
 	) {
 		t.Fatalf(
-			"the ask named %v, want the document listed for the leading query word that the answer left out",
+			"the spread asked %v to cross-check, want only the replica the first round left unasked",
 			got,
+		)
+	}
+	ask := network.crossCheckedDocumentsAsks[0]
+	wanted := documentHashesOf([]string{"https://anchored.example/"})
+	if !slices.Equal(ask.Documents, wanted) || ask.ItemsCeiling != peerItemsCeiling ||
+		ask.Partition != 0 {
+		t.Fatalf(
+			"the ask reads %+v, want the document the partition left out, the partition and "+
+				"the items ceiling of a peer",
+			ask,
 		)
 	}
 }
 
-func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedByTheNextQuery(t *testing.T) {
+func TestEachPeerGetsAtMostOneSearchCallPerQuery(t *testing.T) {
 	t.Parallel()
 
-	network := networkOfAPeerThatDidNotListAllItHolds()
-	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	both := []string{"https://anchored.example/", "https://answered.example/"}
+	reversed := []string{both[1], both[0]}
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: both},
+		"second": {secondWord: reversed},
+		"third":  {secondWord: both, thirdWord: both},
+		"fourth": {secondWord: both},
+		"fifth":  {thirdWord: reversed},
+		"sixth":  {thirdWord: both},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "fifth": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1, thirdWord: 1}
+
+	spreadTheQuery(
+		firstWord+" "+secondWord+" "+thirdWord,
+		network,
+		peersOfEachQueryWord(map[string][]string{
+			firstWord:  {"first"},
+			secondWord: {"second", "third", "fourth"},
+			thirdWord:  {"fifth", "third", "sixth"},
+		}),
+		&recordedSpreads{},
+	)
+
+	searchCallsPerPeer := map[string]int{}
+	for _, ask := range network.matchedAndHeldDocumentsAsksPut {
+		searchCallsPerPeer[ask.Peer.Address]++
+	}
+	for _, ask := range network.crossCheckedDocumentsAsks {
+		searchCallsPerPeer[ask.Peer.Address]++
+	}
+	for address, searchCalls := range searchCallsPerPeer {
+		if searchCalls > 1 {
+			t.Fatalf("peer %q got %d search calls, want at most one", address, searchCalls)
+		}
+	}
+	if got := addressesAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, []string{"third", "fourth", "sixth"},
+	) {
+		t.Fatalf("the spread asked %v to cross-check, want each unasked replica once", got)
+	}
+}
+
+func TestTheStandingsOfEveryChosenPeerAreLookedUpOnceBeforeTheFirstRound(t *testing.T) {
+	t.Parallel()
+
+	judgements := &recordedJudgements{PeerJudgements: judgementsOfTheCrossCheck()}
+
+	spreadJudgingThePeers(
+		networkOfAReplicaTheFirstRoundLeavesUnasked(),
+		replicasOfTheTwoQueryWords(),
+		judgements,
+		&recordedSpreads{},
+	)
+
+	wanted := []peerjudgements.PeerAtVersion{
+		{Peer: peerAt("first").Hash}, {Peer: peerAt("second").Hash}, {Peer: peerAt("third").Hash},
+	}
+	if judgements.amountOfLookups != 1 || !slices.Equal(judgements.peersLookedUp, wanted) {
+		t.Fatalf(
+			"the spread looked up %v in %d lookups, want every chosen peer at no version in one",
+			judgements.peersLookedUp,
+			judgements.amountOfLookups,
+		)
+	}
+}
+
+func TestIgnoringPeersAreAskedFirstAndHonoringPeersLastInTheFirstRound(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string]map[string][]string{})
+
+	spreadJudgingThePeers(
+		network,
+		peersOfEachQueryWord(map[string][]string{
+			firstWord:  {"first"},
+			secondWord: {"honoring", "second", "ignoring"},
+		}),
+		judgementsWhere(
+			peerJudged("honoring", peerjudgements.Honored),
+			peerJudged("ignoring", peerjudgements.Ignored),
+		),
+		&recordedSpreads{},
+	)
+
+	wanted := []string{
+		"ignoring in partition 0", "second in partition 0", "honoring in partition 0",
+	}
+	if got := replicasAskedForTheWordInOrder(
+		yacymodel.WordHash(secondWord), network.matchedAndHeldDocumentsAsks,
+	); !slices.Equal(got, wanted) {
+		t.Fatalf("the first round asked %v for the word, want %v", got, wanted)
+	}
+}
+
+func TestHonoringPeersAreAskedFirstInTheSecondRound(t *testing.T) {
+	t.Parallel()
+
+	both := []string{"https://answered.example/", "https://anchored.example/"}
+	network := networkOf(map[string]map[string][]string{
+		"first":    {firstWord: both},
+		"second":   {secondWord: both},
+		"plain":    {secondWord: both},
+		"honoring": {secondWord: both},
+	})
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
+
+	spreadJudgingThePeers(
+		network,
+		peersOfEachQueryWord(map[string][]string{
+			firstWord:  {"first"},
+			secondWord: {"second", "plain", "honoring"},
+		}),
+		judgementsWhere(peerJudged("honoring", peerjudgements.Honored)),
+		&recordedSpreads{},
+	)
+
+	if got := addressesAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, []string{"honoring", "plain"},
+	) {
+		t.Fatalf("the second round asked %v, want the honoring peer first", got)
+	}
+}
+
+func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedToCrossCheckByTheNextQuery(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
+	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"third": {}}
 	judgements := judgementsOfTheCrossCheck()
 
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	spreadJudgingThePeers(network, replicasOfTheTwoQueryWords(), judgements, &recordedSpreads{})
+	spreadJudgingThePeers(network, replicasOfTheTwoQueryWords(), judgements, &recordedSpreads{})
 
-	if len(network.crossCheckedDocumentsAsks) != 1 {
+	if amount := amountOfCrossChecksPutTo("third", network.crossCheckedDocumentsAsks); amount != 1 {
 		t.Fatalf(
-			"the spreads put %v, want only the ask that judged the peer",
-			network.crossCheckedDocumentsAsks,
+			"the spreads asked the peer to cross-check %d times, want only the ask that judged it",
+			amount,
 		)
 	}
 }
@@ -628,79 +825,63 @@ func TestAPeerThatListedADocumentTheAskDidNotNameIsNotAskedByTheNextQuery(t *tes
 func TestAPeerThatListedOnlyTheNamedDocumentsIsAskedByTheNextQuery(t *testing.T) {
 	t.Parallel()
 
-	network := networkOfAPeerThatDidNotListAllItHolds()
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
 	judgements := judgementsOfTheCrossCheck()
+	observer := &recordedSpreads{}
 
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	spreadJudgingThePeers(network, replicasOfTheTwoQueryWords(), judgements, observer)
+	spreadJudgingThePeers(network, replicasOfTheTwoQueryWords(), judgements, observer)
 
-	if len(network.crossCheckedDocumentsAsks) != 2 {
-		t.Fatalf(
-			"the spreads put %v, want one ask of each query",
-			network.crossCheckedDocumentsAsks,
-		)
+	if amount := amountOfCrossChecksPutTo("third", network.crossCheckedDocumentsAsks); amount != 2 {
+		t.Fatalf("the spreads asked the peer to cross-check %d times, want once per query", amount)
+	}
+	if standing := standingReportedFor(t, observer.performed[1], "third"); standing !=
+		peerjudgements.Honoring {
+		t.Fatalf("the next query reported the peer %q, want honoring", standing)
 	}
 }
 
-func TestAPeerThatClaimsAnotherVersionIsAskedAgain(t *testing.T) {
-	t.Parallel()
+func standingReportedFor(
+	t *testing.T,
+	performed wordjoined.PerformedWordJoinedSpread,
+	address string,
+) peerjudgements.Standing {
+	t.Helper()
 
-	network := networkOfAPeerThatDidNotListAllItHolds()
-	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
-	judgements := judgementsOfTheCrossCheck()
-
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
-	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
-
-	if len(network.crossCheckedDocumentsAsks) != 2 {
-		t.Fatalf(
-			"the spreads put %v, want the peer asked again at the version it claims now",
-			network.crossCheckedDocumentsAsks,
-		)
+	for _, peerStanding := range performed.PeerStandings {
+		if peerStanding.Peer == peerAt(address).Hash {
+			return peerStanding.Standing
+		}
 	}
+	t.Fatalf("the spread reported no standing of %q among %v", address, performed.PeerStandings)
+
+	return ""
 }
 
-func TestAnEmptyAnswerLeavesTheStandingOfThePeerAsItWas(t *testing.T) {
+func TestAnEmptyCrossCheckAnswerLeavesThePeerUnjudged(t *testing.T) {
 	t.Parallel()
 
-	network := networkOfAPeerThatDidNotListAllItHolds()
-	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second": {}}
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
+	network.peersHoldingNoNamedDocument = map[string]struct{}{"third": {}}
 	judgements := judgementsOfTheCrossCheck()
+	observer := &recordedSpreads{}
 
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
-	network.versionOfEachPeer = map[string]string{"second": versionAfterAnUpgrade}
-	network.peersHoldingNoNamedDocument = map[string]struct{}{"second": {}}
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
-	network.versionOfEachPeer = map[string]string{"second": versionOfThePeer}
-	spreadJudgingThePeers(network, peersOfTheTwoQueryWords(), judgements)
+	spreadJudgingThePeers(network, replicasOfTheTwoQueryWords(), judgements, observer)
+	spreadJudgingThePeers(network, replicasOfTheTwoQueryWords(), judgements, observer)
 
-	if len(network.crossCheckedDocumentsAsks) != 2 {
-		t.Fatalf(
-			"the spreads put %v, want the empty answer to leave the peer as it was judged",
-			network.crossCheckedDocumentsAsks,
-		)
+	if standing := standingReportedFor(t, observer.performed[1], "third"); standing !=
+		peerjudgements.NeverJudged {
+		t.Fatalf("the next query reported the peer %q, want never judged", standing)
 	}
 }
 
 func TestADocumentTheSecondRoundProvesJoinsTheDocumentsOfTheFirst(t *testing.T) {
 	t.Parallel()
 
-	documentsListedForTheLeadingQueryWord := []string{
-		"https://anchored.example/",
-		"https://answered.example/",
-	}
-	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
-		"second": {secondWord: {"https://answered.example/", "https://anchored.example/"}},
-	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
 	observer := &recordedSpreads{}
 
-	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
-		firstWord:  {"first"},
-		secondWord: {"second"},
-	}), observer)
+	spreadTheQuery(firstWord+" "+secondWord, network, replicasOfTheTwoQueryWords(), observer)
 
 	performed := observer.performed[0]
 	if performed.CrossCheckedDocumentsRound.AmountOfJoinedDocumentsFoundOnlyByCrossChecking != 1 ||
@@ -748,7 +929,8 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 	anchored := "https://anchored.example/"
 	unlisted := "https://unlisted.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {anchored, unlisted, "https://other.example/"}},
+		"first":  {firstWord: {anchored, unlisted, "https://other.example/"}},
+		"fourth": {firstWord: {anchored, unlisted, "https://other.example/"}},
 		"second": {secondWord: {
 			anchored, unlisted, "https://third.example/",
 			"https://fourth.example/", "https://fifth.example/",
@@ -756,10 +938,11 @@ func TestAFullyListedWordLeadsOverAPartlyListedWordFewerDocumentsAreCountedFor(t
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"first": 1}
 	network.documentsHeldByEachPeer = map[string]int{"second": 5}
+	network.replicasPutPerWord = map[string]int{firstWord: 1}
 	observer := &recordedSpreads{}
 
 	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
-		firstWord:  {"first"},
+		firstWord:  {"first", "fourth"},
 		secondWord: {"second"},
 	}), observer)
 
@@ -790,21 +973,26 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 			firstWord: {"https://second.example/", anchored, "https://third.example/"},
 		},
 		"second": {secondWord: {anchored, "https://second.example/"}},
+		"fourth": {
+			firstWord: {"https://second.example/", anchored, "https://third.example/"},
+		},
 		"third": {thirdWord: {
 			"https://fourth.example/", anchored, "https://second.example/",
 			"https://third.example/", "https://fifth.example/",
 		}},
+		"fifth": {thirdWord: {anchored}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"first": 1, "second": 1, "third": 1}
+	network.replicasPutPerWord = map[string]int{firstWord: 1, thirdWord: 1}
 	observer := &recordedSpreads{}
 
 	spreadTheQuery(
 		firstWord+" "+secondWord+" "+thirdWord,
 		network,
 		peersOfEachQueryWord(map[string][]string{
-			firstWord:  {"first"},
+			firstWord:  {"first", "fourth"},
 			secondWord: {"second"},
-			thirdWord:  {"third"},
+			thirdWord:  {"third", "fifth"},
 		}),
 		observer,
 	)
@@ -822,39 +1010,48 @@ func TestThePartlyListedWordTheFewestDocumentsAreCountedForLeadsWhenNoWordIsFull
 		got, wanted,
 	) {
 		t.Fatalf(
-			"the asks named %v, want the document the leading query word listed, once per other word",
+			"the asks named %v, want the document the leading query word listed, once per "+
+				"other word",
 			got,
 		)
 	}
 }
 
-func TestAPeerThatDidNotListAllItHoldsForTwoQueryWordsIsAskedOnce(t *testing.T) {
+func TestAReplicaOfTwoPartlyListedQueryWordsIsAskedToCrossCheckOnce(t *testing.T) {
 	t.Parallel()
 
+	both := []string{"https://answered.example/", "https://anchored.example/"}
 	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {"https://anchored.example/"}},
-		"second": {
-			secondWord: {"https://answered.example/", "https://anchored.example/"},
-			thirdWord:  {"https://answered.example/", "https://anchored.example/"},
-		},
+		"first":  {firstWord: {"https://anchored.example/"}},
+		"second": {secondWord: both, thirdWord: both},
+		"third":  {secondWord: both, thirdWord: both},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1, thirdWord: 1}
+	observer := &recordedSpreads{}
 
 	spreadTheQuery(
 		firstWord+" "+secondWord+" "+thirdWord,
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first"},
-			secondWord: {"second"},
-			thirdWord:  {"second"},
+			secondWord: {"second", "third"},
+			thirdWord:  {"second", "third"},
 		}),
-		&recordedSpreads{},
+		observer,
 	)
 
-	if len(network.crossCheckedDocumentsAsks) != 1 {
+	if got := addressesAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, []string{"third"},
+	) {
+		t.Fatalf("the spread asked %v to cross-check, want the unasked replica once", got)
+	}
+	if amount := observer.performed[0].CrossCheckedDocumentsRound.
+		AmountOfCrossCheckCandidatesNoPeerTook; amount != 1 {
 		t.Fatalf(
-			"the spread put %v, want one cross-checked documents ask to the peer that did not list all it holds for both words",
-			network.crossCheckedDocumentsAsks,
+			"the spread reported %d candidates no peer took, want the one of the word left "+
+				"with no replica to ask",
+			amount,
 		)
 	}
 }
@@ -872,7 +1069,8 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 		"second": {secondWord: {listed, named, other}},
 		"third":  {secondWord: {listed, named, other}},
 	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 0}
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 	observer := &recordedSpreads{}
 
 	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
@@ -901,7 +1099,7 @@ func TestADocumentOneReplicaListedForAPartlyListedWordIsAskedOfNoOtherReplica(t 
 	}
 }
 
-func TestEveryPartlyListedReplicaOfAWordPartitionIsAskedTheSameDocuments(t *testing.T) {
+func TestEveryReplicaTheFirstRoundLeftUnaskedIsAskedTheSameDocuments(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
@@ -915,19 +1113,20 @@ func TestEveryPartlyListedReplicaOfAWordPartitionIsAskedTheSameDocuments(t *test
 		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
 		"second": {secondWord: documentsListedForTheLeadingQueryWord},
 		"third":  {secondWord: documentsListedForTheLeadingQueryWord},
+		"fourth": {secondWord: documentsListedForTheLeadingQueryWord},
 	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1, "third": 1}
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 
 	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
 		firstWord:  {"first"},
-		secondWord: {"second", "third"},
+		secondWord: {"second", "third", "fourth"},
 	}), &recordedSpreads{})
 
-	if len(network.crossCheckedDocumentsAsks) != 2 {
-		t.Fatalf(
-			"the spread put %v, want a cross-checked documents ask to each partly listed replica",
-			network.crossCheckedDocumentsAsks,
-		)
+	if got := addressesAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, []string{"third", "fourth"},
+	) {
+		t.Fatalf("the spread asked %v to cross-check, want each replica left unasked", got)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsListedForTheLeadingQueryWord[1:]))
 	for _, ask := range network.crossCheckedDocumentsAsks {
@@ -942,7 +1141,7 @@ func TestEveryPartlyListedReplicaOfAWordPartitionIsAskedTheSameDocuments(t *test
 	}
 }
 
-func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedAsNoPeerTook(
+func TestTheCandidatesOverTheCeilingAreCountedAsNoPeerTook(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -959,8 +1158,10 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedAsNoPeerTook(
 		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
 		"second": {secondWord: documentsListedForTheLeadingQueryWord},
 		"third":  {secondWord: documentsListedForTheLeadingQueryWord},
+		"fourth": {secondWord: documentsListedForTheLeadingQueryWord},
 	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
+	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 	observer := &recordedSpreads{}
 
 	spreadUnder(
@@ -968,7 +1169,7 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedAsNoPeerTook(
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first"},
-			secondWord: {"second", "third"},
+			secondWord: {"second", "third", "fourth"},
 		}),
 		observer,
 	)
@@ -984,7 +1185,7 @@ func TestTheDocumentsNoPartlyListedReplicaCanTakeAreCountedAsNoPeerTook(
 	}
 	if len(network.crossCheckedDocumentsAsks) != 2 {
 		t.Fatalf(
-			"the spread put %v, want a cross-checked documents ask to each partly listed replica",
+			"the spread put %v, want a cross-checked documents ask to each replica left unasked",
 			network.crossCheckedDocumentsAsks,
 		)
 	}
@@ -1007,12 +1208,14 @@ func TestTheCeilingKeepsTheCandidatesListedByTheMostPeers(t *testing.T) {
 		"first":  {firstWord: {"https://listed-by-one.example/", listedByBoth}},
 		"fourth": {firstWord: {listedByBoth}},
 		"second": {secondWord: {"https://listed-by-one.example/", listedByBoth}},
+		"third":  {secondWord: {"https://listed-by-one.example/", listedByBoth}},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 
 	spreadUnder(1, network, peersOfEachQueryWord(map[string][]string{
 		firstWord:  {"first", "fourth"},
-		secondWord: {"second"},
+		secondWord: {"second", "third"},
 	}), &recordedSpreads{})
 
 	wanted := documentHashesOf([]string{listedByBoth})
@@ -1033,9 +1236,12 @@ func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T)
 	network := networkOf(map[string]map[string][]string{
 		"first":  {firstWord: documentsListedForTheLeadingQueryWord},
 		"second": {secondWord: documentsListedForTheLeadingQueryWord},
+		"fourth": {secondWord: documentsListedForTheLeadingQueryWord},
 		"third":  {thirdWord: documentsListedForTheLeadingQueryWord},
+		"fifth":  {thirdWord: documentsListedForTheLeadingQueryWord},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 0, "third": 0}
+	network.replicasPutPerWord = map[string]int{secondWord: 1, thirdWord: 1}
 	observer := &recordedSpreads{}
 
 	spreadTheQuery(
@@ -1043,8 +1249,8 @@ func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T)
 		network,
 		peersOfEachQueryWord(map[string][]string{
 			firstWord:  {"first"},
-			secondWord: {"second"},
-			thirdWord:  {"third"},
+			secondWord: {"second", "fourth"},
+			thirdWord:  {"third", "fifth"},
 		}),
 		observer,
 	)
@@ -1063,20 +1269,11 @@ func TestADocumentSentToCrossCheckForTwoQueryWordsIsCountedForEach(t *testing.T)
 func TestAPeerThatHoldsNoneOfTheNamedDocumentsLeavesTheJoinOfTheFirstRoundWhole(t *testing.T) {
 	t.Parallel()
 
-	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {"https://answered.example/", "https://anchored.example/"}},
-		"second": {
-			secondWord: {"https://answered.example/", "https://anchored.example/"},
-		},
-	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"second": 1}
-	network.peersHoldingNoNamedDocument = map[string]struct{}{"second": {}}
+	network := networkOfAReplicaTheFirstRoundLeavesUnasked()
+	network.peersHoldingNoNamedDocument = map[string]struct{}{"third": {}}
 	observer := &recordedSpreads{}
 
-	spreadTheQuery(firstWord+" "+secondWord, network, peersOfEachQueryWord(map[string][]string{
-		firstWord:  {"first"},
-		secondWord: {"second"},
-	}), observer)
+	spreadTheQuery(firstWord+" "+secondWord, network, replicasOfTheTwoQueryWords(), observer)
 
 	wanted := documentHashesOf([]string{"https://answered.example/"})
 	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); !slices.Equal(
@@ -1119,7 +1316,7 @@ func TestAQueryWhoseWordsAreAllFullyListedCrossChecksNoDocument(t *testing.T) {
 	}
 }
 
-func TestAPeerThatAnsweredNothingInTheFirstRoundIsAskedInTheSecond(t *testing.T) {
+func TestAPeerThatStayedSilentInTheFirstRoundIsNotAskedAgain(t *testing.T) {
 	t.Parallel()
 
 	shared := []string{"https://shared.example/"}
@@ -1134,18 +1331,12 @@ func TestAPeerThatAnsweredNothingInTheFirstRoundIsAskedInTheSecond(t *testing.T)
 		secondWord: {"second"},
 	}), network, &recordedSpreads{})
 
-	if len(network.crossCheckedDocumentsAsks) != 1 ||
-		network.crossCheckedDocumentsAsks[0].Peer.Address != "second" {
+	if len(network.crossCheckedDocumentsAsks) != 0 || len(network.urlMetadataAsks) != 0 {
 		t.Fatalf(
-			"the spread put %v, want one cross-checked documents ask to the peer that stayed silent",
+			"the spread put %v and %v, want no second call to the peer the first round asked",
 			network.crossCheckedDocumentsAsks,
+			network.urlMetadataAsks,
 		)
-	}
-	wanted := documentHashesOf(shared)
-	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); !slices.Equal(
-		got, wanted,
-	) {
-		t.Fatalf("the join kept %v, want the document the silent peer answered for", got)
 	}
 }
 
@@ -2058,14 +2249,18 @@ func addressesInPartition(
 func replicasOfTwoQueryWordsInTwoPartitions() responsiblePeers {
 	return responsiblePeers{
 		peerAddressesPerWord: map[string][]string{
-			firstWord:  {"first-in-0", "first-in-1"},
-			secondWord: {"second-in-0", "second-in-1"},
+			firstWord: {"first-in-0", "first-in-1"},
+			secondWord: {
+				"second-in-0", "second-in-1", "unasked-second-in-0", "unasked-second-in-1",
+			},
 		},
 		partitionOfEachPeer: map[string]uint{
-			"first-in-0":  0,
-			"first-in-1":  1,
-			"second-in-0": 0,
-			"second-in-1": 1,
+			"first-in-0":          0,
+			"first-in-1":          1,
+			"second-in-0":         0,
+			"second-in-1":         1,
+			"unasked-second-in-0": 0,
+			"unasked-second-in-1": 1,
 		},
 	}
 }
@@ -2102,12 +2297,15 @@ func networkWhereTheSecondWordHoldsTheDocumentsOfPartitionOne(
 
 	documentsInPartitionOne := addressesInPartition(t, 1, 3)
 	network := networkOf(map[string]map[string][]string{
-		"first-in-0":  {firstWord: {}},
-		"first-in-1":  {firstWord: documentsInPartitionOne[:2]},
-		"second-in-0": {secondWord: addressesInPartition(t, 0, 1)},
-		"second-in-1": {secondWord: documentsInPartitionOne},
+		"first-in-0":          {firstWord: {}},
+		"first-in-1":          {firstWord: documentsInPartitionOne[:2]},
+		"second-in-0":         {secondWord: addressesInPartition(t, 0, 1)},
+		"second-in-1":         {secondWord: documentsInPartitionOne},
+		"unasked-second-in-0": {secondWord: addressesInPartition(t, 0, 1)},
+		"unasked-second-in-1": {secondWord: documentsInPartitionOne},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-0": 0, "second-in-1": 0}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 
 	return network, documentsInPartitionOne[:2]
 }
@@ -2124,16 +2322,17 @@ func TestACandidateOfOnePartitionIsAskedOnlyOfTheReplicasInThatPartition(t *test
 		&recordedSpreads{},
 	)
 
-	if len(network.crossCheckedDocumentsAsks) != 1 ||
-		network.crossCheckedDocumentsAsks[0].Peer.Address != "second-in-1" {
+	if got := addressesAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, []string{"unasked-second-in-1"},
+	) {
 		t.Fatalf(
-			"the spread put %v, want one cross-checked documents ask to the replica in partition 1",
-			network.crossCheckedDocumentsAsks,
+			"the spread asked %v to cross-check, want the unasked replica in partition 1",
+			got,
 		)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(candidates))
 	got := documentsInTheirHashOrder(documentsAskedToCrossCheck(network.crossCheckedDocumentsAsks))
-	if !slices.Equal(got, wanted) {
+	if !slices.Equal(got, wanted) || network.crossCheckedDocumentsAsks[0].Partition != 1 {
 		t.Fatalf("the ask named %v, want every candidate of partition 1 %v", got, wanted)
 	}
 }
@@ -2168,14 +2367,17 @@ func networkWhereTheSecondWordIsFullyListedInPartitionZero(
 
 	documentsInPartitionZero := addressesInPartition(t, 0, 2)
 	documentsInPartitionOne := addressesInPartition(t, 1, 2)
+	secondWordInPartitionOne := []string{documentsInPartitionOne[1], documentsInPartitionOne[0]}
 	network := networkOf(map[string]map[string][]string{
-		"first-in-0":  {firstWord: documentsInPartitionZero[:1]},
-		"first-in-1":  {firstWord: documentsInPartitionOne[:1]},
-		"second-in-0": {secondWord: documentsInPartitionZero[1:]},
-		"second-in-1": {secondWord: {documentsInPartitionOne[1], documentsInPartitionOne[0]}},
+		"first-in-0":          {firstWord: documentsInPartitionZero[:1]},
+		"first-in-1":          {firstWord: documentsInPartitionOne[:1]},
+		"second-in-0":         {secondWord: documentsInPartitionZero[1:]},
+		"second-in-1":         {secondWord: secondWordInPartitionOne},
+		"unasked-second-in-1": {secondWord: secondWordInPartitionOne},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-1": 1}
 	network.documentsHeldByEachPeer = map[string]int{"second-in-0": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 
 	return network, documentsInPartitionOne
 }
@@ -2197,7 +2399,8 @@ func TestNoCandidateOfAPartitionWhereTheWordIsFullyListedIsAsked(t *testing.T) {
 		got, wanted,
 	) {
 		t.Fatalf(
-			"the asks named %v, want only the candidate of the partition the word is partly listed in %v",
+			"the asks named %v, want only the candidate of the partition the word is partly "+
+				"listed in %v",
 			got,
 			wanted,
 		)
@@ -2229,7 +2432,7 @@ func TestTheCandidatesOfAPartitionWhereTheWordIsFullyListedAreReportedAsRuledOut
 	}
 }
 
-func TestTheCandidatesOfAPartitionWhoseReplicasAllIgnoreTheCrossCheckAreCountedAsNoPeerTook(
+func TestTheCandidatesOfAPartitionWithNoReplicaLeftToAskAreCountedAsNoPeerTook(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -2237,28 +2440,36 @@ func TestTheCandidatesOfAPartitionWhoseReplicasAllIgnoreTheCrossCheckAreCountedA
 	documentsInPartitionZero := addressesInPartition(t, 0, 1)
 	documentsInPartitionOne := addressesInPartition(t, 1, 2)
 	network := networkOf(map[string]map[string][]string{
-		"first-in-0":  {firstWord: documentsInPartitionZero},
-		"first-in-1":  {firstWord: documentsInPartitionOne[:1]},
-		"second-in-0": {secondWord: documentsInPartitionZero},
-		"second-in-1": {secondWord: documentsInPartitionOne},
+		"first-in-0":          {firstWord: documentsInPartitionZero},
+		"first-in-1":          {firstWord: documentsInPartitionOne[:1]},
+		"second-in-0":         {secondWord: documentsInPartitionZero},
+		"second-in-1":         {secondWord: documentsInPartitionOne},
+		"unasked-second-in-0": {secondWord: documentsInPartitionZero},
+		"unasked-second-in-1": {secondWord: documentsInPartitionOne},
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"second-in-0": 0, "second-in-1": 0}
-	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second-in-1": {}}
-	judgements := judgementsOfTheCrossCheck()
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 	observer := &recordedSpreads{}
 
-	spreadOverTwoPartitions(network, replicasOfTwoQueryWordsInTwoPartitions(), judgements, observer)
-	network.crossCheckedDocumentsAsks = nil
-	spreadOverTwoPartitions(network, replicasOfTwoQueryWordsInTwoPartitions(), judgements, observer)
+	spreadOverTwoPartitions(
+		network,
+		replicasOfTwoQueryWordsInTwoPartitions(),
+		judgementsWhere(
+			peerJudged("second-in-1", peerjudgements.Ignored),
+			peerJudged("unasked-second-in-1", peerjudgements.Ignored),
+		),
+		observer,
+	)
 
-	if len(network.crossCheckedDocumentsAsks) != 1 ||
-		network.crossCheckedDocumentsAsks[0].Peer.Address != "second-in-0" {
+	if got := addressesAskedToCrossCheck(network.crossCheckedDocumentsAsks); !slices.Equal(
+		got, []string{"unasked-second-in-0"},
+	) {
 		t.Fatalf(
-			"the spread put %v, want one ask to the replica in partition 0 that honors the cross-check",
-			network.crossCheckedDocumentsAsks,
+			"the spread asked %v to cross-check, want only the replica in partition 0 left to ask",
+			got,
 		)
 	}
-	crossCheckedDocumentsRound := observer.performed[1].CrossCheckedDocumentsRound
+	crossCheckedDocumentsRound := observer.performed[0].CrossCheckedDocumentsRound
 	if crossCheckedDocumentsRound.AmountOfCrossCheckCandidatesNoPeerTook != 1 {
 		t.Fatalf(
 			"the spread reported %+v, want the one candidate of partition 1 that no peer took",
@@ -2270,39 +2481,18 @@ func TestTheCandidatesOfAPartitionWhoseReplicasAllIgnoreTheCrossCheckAreCountedA
 type recordedJudgements struct {
 	wordjoined.PeerJudgements
 
-	peersLookedUp []peerjudgements.PeerAtVersion
+	amountOfLookups int
+	peersLookedUp   []peerjudgements.PeerAtVersion
 }
 
 func (r *recordedJudgements) StandingsOf(
 	ctx context.Context,
 	peers []peerjudgements.PeerAtVersion,
 ) peerjudgements.PeerStandings {
+	r.amountOfLookups++
 	r.peersLookedUp = append(r.peersLookedUp, peers...)
 
 	return r.PeerJudgements.StandingsOf(ctx, peers)
-}
-
-func TestOnlyTheReplicasInAPartitionWithCandidatesAreLookedUp(t *testing.T) {
-	t.Parallel()
-
-	network, _ := networkWhereTheSecondWordHoldsTheDocumentsOfPartitionOne(t)
-	judgements := &recordedJudgements{PeerJudgements: judgementsOfTheCrossCheck()}
-
-	spreadOverTwoPartitions(
-		network,
-		replicasOfTwoQueryWordsInTwoPartitions(),
-		judgements,
-		&recordedSpreads{},
-	)
-
-	wanted := []peerjudgements.PeerAtVersion{{Peer: peerAt("second-in-1").Hash}}
-	if !slices.Equal(judgements.peersLookedUp, wanted) {
-		t.Fatalf(
-			"the spread looked up %v, want only the replica in the partition with candidates %v",
-			judgements.peersLookedUp,
-			wanted,
-		)
-	}
 }
 
 func TestAPartitionWithABetterLeadingQueryWordIsReported(
@@ -2318,6 +2508,7 @@ func TestAPartitionWithABetterLeadingQueryWordIsReported(
 	})
 	network.documentsPerAnswerOfEachPeer = map[string]int{"first-in-1": 0, "second-in-0": 0}
 	network.documentsHeldByEachPeer = map[string]int{"first-in-0": 1, "second-in-1": 1}
+	network.replicasPutPerWord = map[string]int{secondWord: 1}
 	observer := &recordedSpreads{}
 
 	spreadOverTwoPartitions(

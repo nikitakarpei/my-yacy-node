@@ -11,63 +11,63 @@ import (
 
 func crossCheckedDocumentsAsksFor(
 	candidates crossCheckCandidates,
+	peersAskedInTheFirstRound map[yacymodel.Hash]struct{},
 	peerStandings peerjudgements.PeerStandings,
 	crossCheckedDocumentsCeiling int,
+	peerItemsCeiling int,
 ) []peerasks.CrossCheckedDocumentsAsk {
-	asks := make(
-		[]peerasks.CrossCheckedDocumentsAsk,
-		0,
-		len(candidates.ofPartlyListedWordPartitions),
-	)
+	var asks []peerasks.CrossCheckedDocumentsAsk
 	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
-		peersNotYetAskedToCrossCheck := peersNotYetAskedToCrossCheckAmong(
+		peersThatMayCrossCheck := peersNotYetAskedToCrossCheckAmong(
 			peersNotIgnoringTheCrossCheckAmong(
-				candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold(),
+				peersNotAskedInTheFirstRoundAmong(
+					candidatesOfWordPartition.wordPartition.replicas, peersAskedInTheFirstRound,
+				),
 				peerStandings,
 			),
 			asks,
 		)
-		asks = append(asks, crossCheckedDocumentsAsksOfEach(
-			peersNotYetAskedToCrossCheck,
-			candidatesOfWordPartition.wordPartition.word,
-			candidatesOfWordPartition.mostListedDocumentsUpTo(crossCheckedDocumentsCeiling),
-		)...)
+		for _, peer := range peersInSecondRoundOrder(peersThatMayCrossCheck, peerStandings) {
+			asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
+				Peer:      peer,
+				Partition: candidatesOfWordPartition.wordPartition.partition,
+				Word:      candidatesOfWordPartition.wordPartition.word,
+				Documents: candidatesOfWordPartition.mostListedDocumentsUpTo(
+					crossCheckedDocumentsCeiling,
+				),
+				ItemsCeiling: peerItemsCeiling,
+			})
+		}
 	}
 
 	return asks
 }
 
-func peersThatMayCrossCheckIn(
-	candidates crossCheckCandidates,
-) []peerjudgements.PeerAtVersion {
-	var peers []peerjudgements.PeerAtVersion
-	for _, candidatesOfWordPartition := range candidates.ofPartlyListedWordPartitions {
-		for _, replica := range candidatesOfWordPartition.wordPartition.replicasThatDidNotListAllTheyHold() {
-			if slices.ContainsFunc(peers, func(peer peerjudgements.PeerAtVersion) bool {
-				return peer.Peer == replica.peer.Hash
-			}) {
-				continue
-			}
-			peers = append(peers, peerjudgements.PeerAtVersion{
-				Peer:    replica.peer.Hash,
-				Version: replica.versionClaimed(),
-			})
-		}
-	}
-
-	return peers
-}
-
-func peersNotIgnoringTheCrossCheckAmong(
+func peersNotAskedInTheFirstRoundAmong(
 	replicas []wordReplica,
-	peerStandings peerjudgements.PeerStandings,
+	peersAskedInTheFirstRound map[yacymodel.Hash]struct{},
 ) []peerdirectory.AskablePeer {
 	keptPeers := make([]peerdirectory.AskablePeer, 0, len(replicas))
 	for _, replica := range replicas {
-		if peerStandings.StandingOf(replica.peer.Hash) == peerjudgements.Ignoring {
+		if _, asked := peersAskedInTheFirstRound[replica.peer.Hash]; asked {
 			continue
 		}
 		keptPeers = append(keptPeers, replica.peer)
+	}
+
+	return keptPeers
+}
+
+func peersNotIgnoringTheCrossCheckAmong(
+	peers []peerdirectory.AskablePeer,
+	peerStandings peerjudgements.PeerStandings,
+) []peerdirectory.AskablePeer {
+	keptPeers := make([]peerdirectory.AskablePeer, 0, len(peers))
+	for _, peer := range peers {
+		if peerStandings.StandingOf(peer.Hash) == peerjudgements.Ignoring {
+			continue
+		}
+		keptPeers = append(keptPeers, peer)
 	}
 
 	return keptPeers
@@ -88,21 +88,4 @@ func peersNotYetAskedToCrossCheckAmong(
 	}
 
 	return keptPeers
-}
-
-func crossCheckedDocumentsAsksOfEach(
-	peers []peerdirectory.AskablePeer,
-	queryWord yacymodel.Hash,
-	documents []yacymodel.URLHash,
-) []peerasks.CrossCheckedDocumentsAsk {
-	asks := make([]peerasks.CrossCheckedDocumentsAsk, 0, len(peers))
-	for _, peer := range peers {
-		asks = append(asks, peerasks.CrossCheckedDocumentsAsk{
-			Peer:      peer,
-			Word:      queryWord,
-			Documents: documents,
-		})
-	}
-
-	return asks
 }

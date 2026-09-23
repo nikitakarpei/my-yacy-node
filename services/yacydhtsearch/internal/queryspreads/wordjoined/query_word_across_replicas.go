@@ -199,10 +199,10 @@ func (queryWord queryWordAcrossReplicas) isFullyListed() bool {
 
 func (queryWord queryWordAcrossReplicas) wordPartitions() []wordPartition {
 	wordPartitions := make([]wordPartition, 0, len(queryWord.replicasPerPartition))
-	for _, replicas := range queryWord.replicasPerPartition {
+	for partition, replicas := range queryWord.replicasPerPartition {
 		wordPartitions = append(
 			wordPartitions,
-			wordPartition{word: queryWord.word, replicas: replicas},
+			wordPartition{word: queryWord.word, partition: uint(partition), replicas: replicas},
 		)
 	}
 

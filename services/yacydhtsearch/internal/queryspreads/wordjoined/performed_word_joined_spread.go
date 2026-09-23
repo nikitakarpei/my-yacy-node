@@ -8,6 +8,7 @@ import (
 )
 
 type PerformedWordJoinedSpread struct {
+	PeerStandings                []peerjudgements.PeerStanding
 	MatchedAndHeldDocumentsRound PerformedMatchedAndHeldDocumentsRound
 	CrossCheckedDocumentsRound   PerformedCrossCheckedDocumentsRound
 	URLMetadataRound             PerformedURLMetadataRound
@@ -25,13 +26,13 @@ func performedWordJoinedSpreadFrom(
 	timeSpent time.Duration,
 ) PerformedWordJoinedSpread {
 	return PerformedWordJoinedSpread{
+		PeerStandings: peerStandings,
 		MatchedAndHeldDocumentsRound: performedMatchedAndHeldDocumentsRoundFrom(
 			matchedAndHeldDocumentsRound,
 		),
 		CrossCheckedDocumentsRound: performedCrossCheckedDocumentsRoundFrom(
 			crossCheckedDocumentsRound,
 			matchedAndHeldDocumentsRound,
-			peerStandings,
 			judgedPeers,
 			joinedDocuments,
 		),

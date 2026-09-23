@@ -23,8 +23,8 @@ func peerJudgementsMetricsRegisteredIn(
 ) peerJudgementsMetrics {
 	peerStandings := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spread_peer_standings_total",
-		Help: "Peers the spread considered for the cross-check, by the question and their " +
-			"standing on it.",
+		Help: "Chosen peers of a spread, by the question and their standing on it before the " +
+			"first round.",
 	}, []string{labelQuestion, labelStanding})
 	peerJudgements := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spread_peer_judgements_total",
@@ -69,12 +69,12 @@ func peerJudgementsMetricsRegisteredIn(
 }
 
 func (m peerJudgementsMetrics) countStandingsAndJudgements(
-	crossCheckedDocumentsRound wordjoined.PerformedCrossCheckedDocumentsRound,
+	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	for _, peerStanding := range crossCheckedDocumentsRound.PeerStandings {
+	for _, peerStanding := range spread.PeerStandings {
 		m.standingCounters[peerStanding.Standing].Inc()
 	}
-	for _, judgedPeer := range crossCheckedDocumentsRound.JudgedPeers {
+	for _, judgedPeer := range spread.CrossCheckedDocumentsRound.JudgedPeers {
 		m.judgementCounters[judgedPeer.Judgement].Inc()
 	}
 }

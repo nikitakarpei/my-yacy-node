@@ -20,12 +20,3 @@ func (replica wordReplica) isFullyListed() bool {
 
 	return counted && amountOfDocumentsHeld <= len(answer.DocumentsListedForTheWord)
 }
-
-func (replica wordReplica) versionClaimed() string {
-	answer, answered := replica.answer.Get()
-	if !answered {
-		return ""
-	}
-
-	return answer.PeerVersion
-}

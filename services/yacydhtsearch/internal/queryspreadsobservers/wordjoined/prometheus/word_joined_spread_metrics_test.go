@@ -219,7 +219,7 @@ func spreadJudgingThePeers(
 	judgedPeers []peerjudgements.JudgedPeer,
 ) wordjoined.PerformedWordJoinedSpread {
 	spread := spreadOfQueryWords(2)
-	spread.CrossCheckedDocumentsRound.PeerStandings = peerStandings
+	spread.PeerStandings = peerStandings
 	spread.CrossCheckedDocumentsRound.JudgedPeers = judgedPeers
 
 	return spread

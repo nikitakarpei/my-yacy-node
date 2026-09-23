@@ -34,7 +34,12 @@ func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoin
 			attributesOfMatchedAndHeldDocumentsRound(spread.MatchedAndHeldDocumentsRound),
 			attributesOfCrossCheckedDocumentsRound(spread.CrossCheckedDocumentsRound),
 			attributesOfURLMetadataRound(spread.URLMetadataRound),
-			[]slog.Attr{slog.Duration("timeSpent", spread.TimeSpent)},
+			[]slog.Attr{
+				slog.Any(
+					"amountOfPeersPerStanding", amountOfPeersPerStandingOf(spread.PeerStandings),
+				),
+				slog.Duration("timeSpent", spread.TimeSpent),
+			},
 		)...,
 	)
 }
@@ -94,18 +99,8 @@ func attributesOfCrossCheckedDocumentsRound(
 			"amountOfJoinedDocumentsFoundOnlyByCrossChecking",
 			round.AmountOfJoinedDocumentsFoundOnlyByCrossChecking,
 		),
-		slog.Any("amountOfPeersPerStanding", amountOfPeersPerStandingOf(round.PeerStandings)),
 		slog.Any("amountOfPeersPerJudgement", amountOfPeersPerJudgementOf(round.JudgedPeers)),
 	}
-}
-
-func amountOfPeersPerStandingOf(peerStandings []peerjudgements.PeerStanding) map[string]int {
-	amountOfPeersPerStanding := map[string]int{}
-	for _, peerStanding := range peerStandings {
-		amountOfPeersPerStanding[string(peerStanding.Standing)]++
-	}
-
-	return amountOfPeersPerStanding
 }
 
 func amountOfPeersPerJudgementOf(judgedPeers []peerjudgements.JudgedPeer) map[string]int {
@@ -129,6 +124,15 @@ func attributesOfURLMetadataRound(round wordjoined.PerformedURLMetadataRound) []
 			round.AmountOfLookedUpDocumentsWithMetadata,
 		),
 	}
+}
+
+func amountOfPeersPerStandingOf(peerStandings []peerjudgements.PeerStanding) map[string]int {
+	amountOfPeersPerStanding := map[string]int{}
+	for _, peerStanding := range peerStandings {
+		amountOfPeersPerStanding[string(peerStanding.Standing)]++
+	}
+
+	return amountOfPeersPerStanding
 }
 
 func logJudgedPeers(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer) {

@@ -12,11 +12,20 @@ import (
 
 type matchedAndHeldDocumentsRound struct {
 	queryWords                     []yacymodel.Hash
-	asks                           []peerasks.MatchedAndHeldDocumentsAsk
+	peersAsked                     map[yacymodel.Hash]struct{}
 	answeredAsks                   []peerasks.AnsweredMatchedAndHeldDocumentsAsk
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	amountOfPeersPerDocument       map[yacymodel.URLHash]int
+}
+
+func peersAskedIn(asks []peerasks.MatchedAndHeldDocumentsAsk) map[yacymodel.Hash]struct{} {
+	peersAsked := make(map[yacymodel.Hash]struct{}, len(asks))
+	for _, ask := range asks {
+		peersAsked[ask.Peer.Hash] = struct{}{}
+	}
+
+	return peersAsked
 }
 
 func (round matchedAndHeldDocumentsRound) leadingQueryWord() queryWordAcrossReplicas {

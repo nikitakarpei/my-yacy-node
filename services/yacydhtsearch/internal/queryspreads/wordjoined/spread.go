@@ -22,13 +22,13 @@ type ReplicaAsks interface {
 		peerasks.MatchedAndHeldDocumentsAsk,
 		peerasks.AnsweredMatchedAndHeldDocumentsAsk,
 	]
-}
-
-type PeerAsks interface {
 	AskForCrossCheckedDocuments(
 		ctx context.Context,
 		asks []peerasks.CrossCheckedDocumentsAsk,
-	) []peerasks.AnsweredCrossCheckedDocumentsAsk
+	) peerasks.AsksPut[peerasks.CrossCheckedDocumentsAsk, peerasks.AnsweredCrossCheckedDocumentsAsk]
+}
+
+type PeerAsks interface {
 	AskForURLMetadata(
 		ctx context.Context,
 		asks []peerasks.URLMetadataAsk,
@@ -89,21 +89,22 @@ func (spread Spread) SpreadOverPeers(
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
+	peerStandings := spread.peerJudgements.StandingsOf(
+		ctx, peersAtNoVersionAmong(chosenPeersPerQueryWord),
+	)
 	matchedAndHeldDocumentsRound := spread.askForMatchedAndHeldDocuments(
 		ctx,
 		query,
-		chosenPeersPerQueryWord,
+		chosenPeersInFirstRoundOrder(chosenPeersPerQueryWord, peerStandings),
 	)
 	crossCheckCandidates := crossCheckCandidatesIn(matchedAndHeldDocumentsRound, spread.partitions)
-	peerStandings := spread.peerJudgements.StandingsOf(
-		ctx, peersThatMayCrossCheckIn(crossCheckCandidates),
-	)
 	crossCheckedDocumentsRound := spread.askForCrossCheckedDocuments(
 		ctx,
 		crossCheckCandidates,
+		matchedAndHeldDocumentsRound,
 		peerStandings,
 	)
-	judgedPeers := judgeAskedPeersIn(crossCheckedDocumentsRound)
+	judgedPeers := judgeAnsweringPeersIn(crossCheckedDocumentsRound)
 	spread.peerJudgements.Add(ctx, judgedPeers)
 	joinedDocuments := joinedDocumentsFrom(matchedAndHeldDocumentsRound, crossCheckedDocumentsRound)
 	urlMetadataRound := spread.askForURLMetadata(ctx, matchedAndHeldDocumentsRound, joinedDocuments)
@@ -131,14 +132,12 @@ func (spread Spread) askForMatchedAndHeldDocuments(
 	asks := matchedAndHeldDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheMatchedAndHeldDocuments)
 	defer endRound()
-	answeredAsks := spread.replicaAsks.AskForMatchedAndHeldDocuments(
-		roundContext,
-		asks,
-	).AnsweredAsks
+	asksPut := spread.replicaAsks.AskForMatchedAndHeldDocuments(roundContext, asks)
+	answeredAsks := asksPut.AnsweredAsks
 
 	return matchedAndHeldDocumentsRound{
 		queryWords:   query.WordHashes(),
-		asks:         asks,
+		peersAsked:   peersAskedIn(asksPut.Asks),
 		answeredAsks: answeredAsks,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
 			query.WordHashes(), chosenPeersPerQueryWord, spread.partitions, answeredAsks,
@@ -168,20 +167,24 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 func (spread Spread) askForCrossCheckedDocuments(
 	ctx context.Context,
 	candidates crossCheckCandidates,
+	matchedAndHeldDocumentsRound matchedAndHeldDocumentsRound,
 	peerStandings peerjudgements.PeerStandings,
 ) crossCheckedDocumentsRound {
 	asks := crossCheckedDocumentsAsksFor(
 		candidates,
+		matchedAndHeldDocumentsRound.peersAsked,
 		peerStandings,
 		spread.crossCheckedDocumentsCeiling,
+		spread.peerItemsCeiling,
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheckedDocuments)
 	defer endRound()
+	asksPut := spread.replicaAsks.AskForCrossCheckedDocuments(roundContext, asks)
 
 	return crossCheckedDocumentsRound{
 		candidates:   candidates,
-		asks:         asks,
-		answeredAsks: spread.peerAsks.AskForCrossCheckedDocuments(roundContext, asks),
+		asks:         asksPut.Asks,
+		answeredAsks: asksPut.AnsweredAsks,
 	}
 }
 

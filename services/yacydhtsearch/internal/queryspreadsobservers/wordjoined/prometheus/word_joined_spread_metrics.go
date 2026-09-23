@@ -112,7 +112,7 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	m.crossCheckedDocumentsRound.observeCrossCheckedDocumentsRound(
 		spread.CrossCheckedDocumentsRound,
 	)
-	m.peerJudgements.countStandingsAndJudgements(spread.CrossCheckedDocumentsRound)
+	m.peerJudgements.countStandingsAndJudgements(spread)
 	m.urlMetadataRound.observeURLMetadataRound(
 		spread.URLMetadataRound,
 		spread.CrossCheckedDocumentsRound,
