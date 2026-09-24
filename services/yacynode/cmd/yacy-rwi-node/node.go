@@ -80,7 +80,8 @@ const (
 
 const servedURLMetadataPerRequest = 1000
 
-const documentsPerIndexAbstract = 1000
+// (200000-byte YaCy answer limit − about 40000 bytes for 10 resources and other fields) / 14 bytes per document on a distinct host
+const indexAbstractDocumentsPerAnswer = 10000
 
 func assembleNode(
 	ctx context.Context,
@@ -275,7 +276,7 @@ func assembleNode(
 		urlDirectory,
 		searchmetrics.NewSearchMetrics(registry),
 		dhtRingPartitions,
-		documentsPerIndexAbstract,
+		indexAbstractDocumentsPerAnswer,
 	)
 
 	peerRoster, err := peerroster.Open(

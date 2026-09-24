@@ -25,19 +25,19 @@ type IndexAbstractQuery interface {
 func New(
 	postings rwipostings.PostingIndex,
 	impactOrder rwipostingimpactorder.ImpactOrderQuery,
-	documentsPerIndexAbstract int,
+	documentsPerAnswer DocumentsPerAnswer,
 ) IndexAbstractQuery {
 	return indexAbstractQuery{
-		postings:                  postings,
-		impactOrder:               impactOrder,
-		documentsPerIndexAbstract: documentsPerIndexAbstract,
+		postings:           postings,
+		impactOrder:        impactOrder,
+		documentsPerAnswer: documentsPerAnswer,
 	}
 }
 
 type indexAbstractQuery struct {
-	postings                  rwipostings.PostingIndex
-	impactOrder               rwipostingimpactorder.ImpactOrderQuery
-	documentsPerIndexAbstract int
+	postings           rwipostings.PostingIndex
+	impactOrder        rwipostingimpactorder.ImpactOrderQuery
+	documentsPerAnswer DocumentsPerAnswer
 }
 
 func (q indexAbstractQuery) IndexAbstractsFor(
@@ -48,10 +48,11 @@ func (q indexAbstractQuery) IndexAbstractsFor(
 	amountOfPostingsPerTerm map[yacymodel.Hash]int,
 ) (IndexAbstracts, error) {
 	terms := termsCoveredBy(requested, criteria.Terms, amountOfPostingsPerTerm)
+	documentsPerIndexAbstract := q.documentsPerAnswer.sharedAmong(terms)
 
 	abstracts := make(IndexAbstracts, len(terms))
 	for _, term := range terms {
-		abstract, err := q.indexAbstractOf(ctx, tx, term, criteria)
+		abstract, err := q.indexAbstractOf(ctx, tx, term, criteria, documentsPerIndexAbstract)
 		if err != nil {
 			return nil, err
 		}
@@ -66,6 +67,7 @@ func (q indexAbstractQuery) indexAbstractOf(
 	tx *vault.Txn,
 	term yacymodel.Hash,
 	criteria searchcriteria.Criteria,
+	documentsPerIndexAbstract int,
 ) ([]yacymodel.URLHash, error) {
 	filter := postingfilter.FilterForSearch(criteria)
 
@@ -86,7 +88,7 @@ func (q indexAbstractQuery) indexAbstractOf(
 				documents = append(documents, document)
 			}
 
-			return len(documents) < q.documentsPerIndexAbstract, nil
+			return len(documents) < documentsPerIndexAbstract, nil
 		},
 	)
 	if err != nil {

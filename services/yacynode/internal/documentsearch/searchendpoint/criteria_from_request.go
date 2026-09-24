@@ -23,6 +23,7 @@ const (
 	siteFTPScheme  = "ftp://"
 )
 
+// TECHDEBT: comments — an explanatory comment on the Language field is not an allowed comment form
 func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, error) {
 	operators := queryOperatorsIn(req.Modifier)
 	siteHash, err := siteHashFromRequest(req, operators)

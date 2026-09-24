@@ -1,7 +1,8 @@
 // Package indexabstract owns the index abstracts of one search request: which
 // terms they cover, and the documents each one names, the most relevant first
-// and up to a cap, read from the index of this node. A peer reads them to plan
-// which peers to ask next, so they carry document hashes only.
+// and up to an equal share of the documents one answer may list, read from the
+// index of this node. A peer reads them to plan which peers to ask next, so they
+// carry document hashes only.
 package indexabstract
 
 import (

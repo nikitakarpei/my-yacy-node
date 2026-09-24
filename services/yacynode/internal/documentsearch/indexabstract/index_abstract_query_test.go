@@ -3,6 +3,7 @@ package indexabstract_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -15,7 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-const documentsPerIndexAbstract = 1000
+const documentsPerAnswer = 10000
 
 type termIndex interface {
 	rwipostings.PostingIndex
@@ -29,7 +30,7 @@ func TestIndexAbstractsNameTheMostRelevantDocumentFirst(t *testing.T) {
 	}}
 
 	documents, err := documentsInIndexAbstractOfTerm(
-		t, index, word, searchcriteria.Criteria{}, documentsPerIndexAbstract,
+		t, index, word, searchcriteria.Criteria{}, documentsPerAnswer,
 	)
 	if err != nil {
 		t.Fatalf("IndexAbstractsFor: %v", err)
@@ -39,7 +40,7 @@ func TestIndexAbstractsNameTheMostRelevantDocumentFirst(t *testing.T) {
 	}
 }
 
-func TestIndexAbstractsStopAtTheDocumentsOneOfThemCovers(t *testing.T) {
+func TestIndexAbstractOfASingleTermListsUpToTheDocumentsPerAnswer(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingOf(word, "u1", 1), postingOf(word, "u2", 9), postingOf(word, "u3", 5)},
@@ -54,6 +55,51 @@ func TestIndexAbstractsStopAtTheDocumentsOneOfThemCovers(t *testing.T) {
 	}
 }
 
+func TestIndexAbstractsOfSeveralTermsShareTheDocumentsPerAnswer(t *testing.T) {
+	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word1: {postingOf(word1, "u1", 1), postingOf(word1, "u2", 9), postingOf(word1, "u3", 5)},
+		word2: {postingOf(word2, "u1", 1), postingOf(word2, "u2", 9), postingOf(word2, "u3", 5)},
+	}}
+
+	abstracts, err := indexAbstractsFrom(
+		t,
+		indexabstract.New(index, index, 5),
+		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}},
+		indexabstract.RequestedIndexAbstracts{
+			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{word1, word2}},
+		},
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("IndexAbstractsFor: %v", err)
+	}
+	if len(abstracts[word1]) != 2 || len(abstracts[word2]) != 2 {
+		t.Errorf("abstracts = %v, want two documents per term", abstracts)
+	}
+}
+
+func TestIndexAbstractListsEveryDocumentOfATermWithinItsShare(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	postings := make([]yacymodel.RWIPosting, 0, 1500)
+	for document := range cap(postings) {
+		postings = append(postings, postingOf(word, fmt.Sprintf("u%d", document), 1))
+	}
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: postings,
+	}}
+
+	documents, err := documentsInIndexAbstractOfTerm(
+		t, index, word, searchcriteria.Criteria{}, documentsPerAnswer,
+	)
+	if err != nil {
+		t.Fatalf("IndexAbstractsFor: %v", err)
+	}
+	if len(documents) != len(postings) {
+		t.Errorf("documents = %d, want all %d", len(documents), len(postings))
+	}
+}
+
 func TestIndexAbstractsOutnumberTheResultsTheRequestAsksFor(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
@@ -65,7 +111,7 @@ func TestIndexAbstractsOutnumberTheResultsTheRequestAsksFor(t *testing.T) {
 		index,
 		word,
 		searchcriteria.Criteria{MaxResults: 1},
-		documentsPerIndexAbstract,
+		documentsPerAnswer,
 	)
 	if err != nil {
 		t.Fatalf("IndexAbstractsFor: %v", err)
@@ -88,7 +134,7 @@ func TestIndexAbstractsSkipDocumentsTheCriteriaReject(t *testing.T) {
 		searchcriteria.Criteria{
 			RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u1")},
 		},
-		documentsPerIndexAbstract,
+		documentsPerAnswer,
 	)
 	if err != nil {
 		t.Fatalf("IndexAbstractsFor: %v", err)
@@ -106,7 +152,7 @@ func TestIndexAbstractsSurfaceIndexFailures(t *testing.T) {
 		index,
 		searchtest.HashFor("w1"),
 		searchcriteria.Criteria{},
-		documentsPerIndexAbstract,
+		documentsPerAnswer,
 	)
 	if !errors.Is(err, errIndexBroken) {
 		t.Fatalf("error = %v, want %v", err, errIndexBroken)
@@ -128,14 +174,14 @@ func documentsInIndexAbstractOfTerm(
 	index termIndex,
 	term yacymodel.Hash,
 	criteria searchcriteria.Criteria,
-	documentsPerIndexAbstract int,
+	documentsPerAnswer indexabstract.DocumentsPerAnswer,
 ) ([]yacymodel.URLHash, error) {
 	t.Helper()
 
 	criteria.Terms = []yacymodel.Hash{term}
 	abstracts, err := indexAbstractsFrom(
 		t,
-		indexabstract.New(index, index, documentsPerIndexAbstract),
+		indexabstract.New(index, index, documentsPerAnswer),
 		criteria,
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{term}},
