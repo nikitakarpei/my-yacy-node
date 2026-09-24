@@ -828,40 +828,6 @@ func peerRecordingTheFormPosted(t *testing.T, body string) (string, *peerCalls) 
 	return server.URL, calls
 }
 
-func TestASearchDocumentsAnswerCarriesTheVersionThePeerClaimed(t *testing.T) {
-	t.Parallel()
-
-	address, _ := peerAnswering(t, answerClaimingTheVersion("yacy_v1.925"), http.StatusOK)
-
-	answer, replied := searchDocumentsAnswerOf(
-		t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{Peer: peerAt(address)},
-	)
-
-	if !replied || answer.PeerVersion != "yacy_v1.925" {
-		t.Fatalf("the answer claims the version %q, want the one the peer sent", answer.PeerVersion)
-	}
-}
-
-func TestASearchDocumentsAnswerOfAPeerThatClaimsNoVersionCarriesNone(t *testing.T) {
-	t.Parallel()
-
-	address, _ := peerAnswering(t, answerClaimingTheVersion(""), http.StatusOK)
-
-	answer, replied := searchDocumentsAnswerOf(
-		t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{Peer: peerAt(address)},
-	)
-
-	if !replied || answer.PeerVersion != "" {
-		t.Fatalf("the answer claims the version %q, want none", answer.PeerVersion)
-	}
-}
-
-func answerClaimingTheVersion(version string) string {
-	return searchAnswerFrom(yacyproto.SearchResponse{
-		ResponseHeader: yacyproto.ResponseHeader{Version: version},
-	})
-}
-
 func TestAPeerCallWaitsForAnInFlightSlotBeforeItTakesOne(t *testing.T) {
 	t.Parallel()
 

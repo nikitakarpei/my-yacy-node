@@ -6,6 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+// TECHDEBT: Naming — complete, then shortest: the parameter answeredMatchedAndHeldDocumentsAsks runs past four words.
 func urlMetadataAsksFor(
 	documentsWithoutMetadataMostHeldFirst []yacymodel.URLHash,
 	answeredMatchedAndHeldDocumentsAsks []peerasks.AnsweredSearchDocumentsAsk,

@@ -13,25 +13,25 @@ type discoveryRound struct {
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	holdersPerDocument             holdersPerDocument
+	sampledPartition               uint
+	amountOfQueryWordsWithASample  int
+	leadingQueryWordFromTheSample  yacymodel.Optional[yacymodel.Hash]
+	otherWordAsksPerPartition      map[uint]OtherWordAsks
 }
 
 func (round discoveryRound) leadingQueryWord() queryWordAcrossReplicas {
-	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
-		if queryWord.hasCompleteAbstracts() {
-			return queryWord
-		}
+	leadingQueryWordFromTheSample, chosen := round.leadingQueryWordFromTheSample.Get()
+	if !chosen {
+		return round.queryWordsFewestDocumentsFirst[0]
 	}
-
-	return round.queryWordsFewestDocumentsFirst[0]
-}
-
-func (round discoveryRound) queryWordsBesideTheLeadingQueryWord() []queryWordAcrossReplicas {
-	leadingQueryWord := round.leadingQueryWord().word
-
-	return slices.DeleteFunc(
-		slices.Clone(round.queryWordsFewestDocumentsFirst),
-		func(queryWord queryWordAcrossReplicas) bool { return queryWord.word == leadingQueryWord },
+	place := slices.IndexFunc(
+		round.queryWordsFewestDocumentsFirst,
+		func(queryWord queryWordAcrossReplicas) bool {
+			return queryWord.word == leadingQueryWordFromTheSample
+		},
 	)
+
+	return round.queryWordsFewestDocumentsFirst[place]
 }
 
 func (round discoveryRound) amountOfDocumentsHeldPerQueryWord() map[yacymodel.Hash]int {
@@ -47,6 +47,10 @@ func (round discoveryRound) amountOfDocumentsHeldPerQueryWord() map[yacymodel.Ha
 	}
 
 	return amountOfDocumentsHeldPerQueryWord
+}
+
+func (round discoveryRound) joinedDocuments() distinctDocuments {
+	return round.documentsPerQueryWord().documentsOfEveryQueryWord()
 }
 
 func (round discoveryRound) documentsPerQueryWord() documentsPerQueryWord {

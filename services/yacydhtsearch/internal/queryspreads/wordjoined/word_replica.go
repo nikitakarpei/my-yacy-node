@@ -2,12 +2,10 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type wordReplica struct {
-	peer   peerdirectory.AskablePeer
 	answer yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
 }
 
@@ -19,13 +17,4 @@ func (replica wordReplica) hasACompleteAbstract() bool {
 	amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
 
 	return counted && amountOfDocumentsHeld <= len(answer.Abstract)
-}
-
-func (replica wordReplica) versionClaimed() string {
-	answer, answered := replica.answer.Get()
-	if !answered {
-		return ""
-	}
-
-	return answer.PeerVersion
 }

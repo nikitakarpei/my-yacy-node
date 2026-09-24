@@ -2,6 +2,7 @@ package judgedqueries_test
 
 import (
 	"context"
+	"math/rand/v2"
 	"net/http"
 	"testing"
 	"time"
@@ -11,8 +12,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
-	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
 	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
@@ -44,8 +43,6 @@ const (
 	urlMetadataAskDocumentsCeiling = 1000
 	documentsToMatchCeiling        = 1000
 	queryBudget                    = 15 * time.Second
-	judgementLedgerCapacity        = 4096
-	crossCheckRetrialInterval      = 24 * time.Hour
 )
 
 var seedlistURLs = []string{
@@ -145,7 +142,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 			wordjoined.New(
 				everyReplica,
 				calledPeers,
-				judgementsOfTheCrossCheck(),
+				rand.UintN,
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
 				peerItemsCeiling,
@@ -160,15 +157,6 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 			),
 		),
 	}
-}
-
-func judgementsOfTheCrossCheck() peerjudgements.Judgements {
-	return peerjudgements.New(
-		wordjoined.AbstractHoldsOnlyTheDocumentsToMatch,
-		peerjudgementledgersmemory.New(judgementLedgerCapacity),
-		crossCheckRetrialInterval,
-		time.Now,
-	)
 }
 
 func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {

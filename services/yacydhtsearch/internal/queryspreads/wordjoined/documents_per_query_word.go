@@ -43,17 +43,3 @@ func (documentsOfEachQueryWord documentsPerQueryWord) add(
 	}
 	maps.Copy(documentsOfEachQueryWord[word], documents)
 }
-
-func (documentsOfEachQueryWord documentsPerQueryWord) unitedWith(
-	other documentsPerQueryWord,
-) documentsPerQueryWord {
-	united := make(documentsPerQueryWord, len(documentsOfEachQueryWord))
-	for word, documents := range documentsOfEachQueryWord {
-		united[word] = maps.Clone(documents)
-	}
-	for word, documents := range other {
-		united.add(word, documents)
-	}
-
-	return united
-}

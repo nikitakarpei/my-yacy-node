@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"math/rand/v2"
 	"net/http"
 	"time"
 
@@ -39,11 +40,6 @@ import (
 	peerdirectoryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/applog"
 	peerdirectoryobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
-	peerjudgementledgersjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/jetstream"
-	peerjudgementledgersmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgers/memory"
-	peerjudgementledgersobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgersobservers/jetstream/applog"
-	peerjudgementledgersobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgementledgersobservers/jetstream/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	peerlivenessobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenessobservers/applog"
 	peerlivenessobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenessobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
@@ -89,8 +85,6 @@ const (
 	probeAnswerHistoryStream = "yacydhtsearch-probe-answer-history"
 	peerPresenceBucket       = "yacydhtsearch-peer-presence"
 	presenceByteCeiling      = 512
-	peerJudgementsBucket     = "yacydhtsearch-peer-judgements"
-	judgementByteCeiling     = 512
 	msgServiceStarted        = "yacydhtsearch started"
 	msgServiceStopped        = "yacydhtsearch stopped"
 	pageFetchUserAgent       = "yacydhtsearch (+https://yacy.net)"
@@ -154,14 +148,10 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	judgementLedger, err := judgementLedgerFor(ctx, cfg, registry)
-	if err != nil {
-		return err
-	}
 	network := networksearch.New(
 		directory,
 		choice,
-		querySpreadFor(cfg, peers, judgementLedger, registry),
+		querySpreadFor(cfg, peers, registry),
 		pageReading,
 		sitediscount.New(
 			documentrelevance.RelevanceScorerWeighedBy(
@@ -239,7 +229,6 @@ func RunService(
 func querySpreadFor(
 	cfg ServiceConfig,
 	peers peercallwire.Wire,
-	judgementLedger peerjudgements.JudgementLedger,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
 	replicaAsks := replicaasks.New(
@@ -256,7 +245,7 @@ func querySpreadFor(
 		wordjoined.New(
 			replicaAsks,
 			peers,
-			judgementsOfTheCrossCheckFor(cfg, judgementLedger),
+			rand.UintN,
 			cfg.URLMetadataAskDocumentsCeiling,
 			cfg.DocumentsToMatchCeiling,
 			cfg.PeerItemsCeiling,
@@ -276,67 +265,6 @@ func querySpreadFor(
 			},
 		),
 	)
-}
-
-func judgementsOfTheCrossCheckFor(
-	cfg ServiceConfig,
-	judgementLedger peerjudgements.JudgementLedger,
-) peerjudgements.Judgements {
-	return peerjudgements.New(
-		wordjoined.AbstractHoldsOnlyTheDocumentsToMatch,
-		judgementLedger,
-		cfg.CrossCheckRetrialInterval,
-		time.Now,
-	)
-}
-
-func judgementLedgerFor(
-	ctx context.Context,
-	cfg ServiceConfig,
-	registry *prometheus.Registry,
-) (peerjudgements.JudgementLedger, error) {
-	if cfg.NATSURL == "" {
-		return peerjudgementledgersmemory.New(cfg.DirectoryCapacity), nil
-	}
-
-	bucket, err := peerJudgementsBucketAt(ctx, cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	ledger := peerjudgementledgersjetstream.New(
-		bucket,
-		peerjudgementledgersmemory.New(cfg.DirectoryCapacity),
-		peerjudgementledgersjetstream.JudgementLedgerObservers{
-			peerjudgementledgersobserversjetstreamapplog.JudgementLedgerLog{},
-			peerjudgementledgersobserversjetstreamprometheus.New(registry),
-		},
-	)
-	go ledger.ShareTheJudgements(ctx)
-
-	return ledger, nil
-}
-
-func peerJudgementsBucketAt(
-	ctx context.Context,
-	cfg ServiceConfig,
-) (natsjetstream.KeyValue, error) {
-	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
-	if err != nil {
-		return nil, fmt.Errorf("%s: %w", EnvNATSURL, err)
-	}
-
-	bucket, err := stream.CreateOrUpdateKeyValue(ctx, natsjetstream.KeyValueConfig{
-		Bucket:       peerJudgementsBucket,
-		MaxBytes:     int64(cfg.DirectoryCapacity) * judgementByteCeiling,
-		MaxValueSize: judgementByteCeiling,
-		History:      1,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("open bucket %s: %w", peerJudgementsBucket, err)
-	}
-
-	return bucket, nil
 }
 
 func pageReadingFor(

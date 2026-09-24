@@ -18,6 +18,17 @@ func queryWordsFewestDocumentsFirstFrom(
 	askOutcomes peerasks.SearchDocumentsAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
 ) []queryWordAcrossReplicas {
+	queryWordsAcrossReplicas := queryWordsAcrossReplicasFrom(words, askOutcomes, partitions)
+	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
+
+	return queryWordsAcrossReplicas
+}
+
+func queryWordsAcrossReplicasFrom(
+	words []yacymodel.Hash,
+	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	partitions yacymodel.DHTRingPartitions,
+) []queryWordAcrossReplicas {
 	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(words))
 	for _, word := range words {
 		queryWordsAcrossReplicas = append(
@@ -25,7 +36,6 @@ func queryWordsFewestDocumentsFirstFrom(
 			queryWordAcrossReplicasFrom(word, askOutcomes, partitions),
 		)
 	}
-	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
 
 	return queryWordsAcrossReplicas
 }
@@ -42,7 +52,7 @@ func queryWordAcrossReplicasFrom(
 		}
 		replicasPerPartition[askOutcome.Ask.Partition] = append(
 			replicasPerPartition[askOutcome.Ask.Partition],
-			wordReplica{peer: askOutcome.Ask.Peer, answer: askOutcome.Answer},
+			wordReplica{answer: askOutcome.Answer},
 		)
 	}
 
@@ -80,6 +90,7 @@ func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymo
 	return yacymodel.Some(sumOfAmountsHeld)
 }
 
+// TECHDEBT: Naming — a name past four words names two facts: amountsOfDocumentsHeldInPartitionsWhereAPeerCounted.
 func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
 	amountsHeld := make([]int, 0, len(queryWord.replicasPerPartition))
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
@@ -133,39 +144,28 @@ func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 	return documents
 }
 
-func (queryWord queryWordAcrossReplicas) documentsOutsideAmong(
-	documents []yacymodel.URLHash,
-) []yacymodel.URLHash {
-	documentsOfTheWord := queryWord.documents()
-	documentsOutside := make([]yacymodel.URLHash, 0, len(documents))
-	for _, document := range documents {
-		if documentsOfTheWord.contains(document) {
+func (queryWord queryWordAcrossReplicas) sampleIn(
+	partition uint,
+	partitions yacymodel.DHTRingPartitions,
+) yacymodel.Optional[int] {
+	documentsInThePartition := distinctDocuments{}
+	complete := false
+	for _, replica := range queryWord.replicasPerPartition[partition] {
+		answer, answered := replica.answer.Get()
+		if !answered || !replica.hasACompleteAbstract() {
 			continue
 		}
-		documentsOutside = append(documentsOutside, document)
-	}
-
-	return documentsOutside
-}
-
-func (queryWord queryWordAcrossReplicas) hasCompleteAbstracts() bool {
-	for _, wordPartition := range queryWord.wordPartitions() {
-		if !wordPartition.hasACompleteAbstract() {
-			return false
+		complete = true
+		for _, document := range answer.Abstract {
+			if partitions.PartitionOf(document) != partition {
+				continue
+			}
+			documentsInThePartition.add(document)
 		}
 	}
-
-	return true
-}
-
-func (queryWord queryWordAcrossReplicas) wordPartitions() []wordPartition {
-	wordPartitions := make([]wordPartition, 0, len(queryWord.replicasPerPartition))
-	for partition, replicas := range queryWord.replicasPerPartition {
-		wordPartitions = append(
-			wordPartitions,
-			wordPartition{word: queryWord.word, partition: uint(partition), replicas: replicas},
-		)
+	if !complete {
+		return yacymodel.None[int]()
 	}
 
-	return wordPartitions
+	return yacymodel.Some(len(documentsInThePartition))
 }

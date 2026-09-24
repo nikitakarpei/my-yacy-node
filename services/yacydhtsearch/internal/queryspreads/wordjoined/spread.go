@@ -8,7 +8,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -20,30 +19,16 @@ type ReplicaAsks interface {
 }
 
 type PeerAsks interface {
-	AskForSearchDocuments(
-		ctx context.Context,
-		asks []peerasks.SearchDocumentsAsk,
-	) []peerasks.AnsweredSearchDocumentsAsk
 	AskForURLMetadata(
 		ctx context.Context,
 		asks []peerasks.URLMetadataAsk,
 	) []peerasks.AnsweredURLMetadataAsk
 }
 
-const AbstractHoldsOnlyTheDocumentsToMatch peerjudgements.Question = "abstract holds only the documents to match"
-
-type PeerJudgements interface {
-	StandingsOf(
-		ctx context.Context,
-		peers []peerjudgements.PeerAtVersion,
-	) peerjudgements.PeerStandings
-	Add(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer)
-}
-
 type Spread struct {
 	replicaAsks                    ReplicaAsks
 	peerAsks                       PeerAsks
-	peerJudgements                 PeerJudgements
+	partitionToSample              func(amountOfPartitions uint) uint
 	urlMetadataAskDocumentsCeiling int
 	documentsToMatchCeiling        int
 	peerItemsCeiling               int
@@ -52,11 +37,11 @@ type Spread struct {
 	observer                       WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, judgements, ceilings, ring and observer
+//nolint:revive // argument-limit: the spread takes its asks, partition to sample, ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
-	peerJudgements PeerJudgements,
+	partitionToSample func(amountOfPartitions uint) uint,
 	urlMetadataAskDocumentsCeiling int,
 	documentsToMatchCeiling int,
 	peerItemsCeiling int,
@@ -67,7 +52,7 @@ func New(
 	return Spread{
 		replicaAsks:                    replicaAsks,
 		peerAsks:                       peerAsks,
-		peerJudgements:                 peerJudgements,
+		partitionToSample:              partitionToSample,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
 		peerItemsCeiling:               peerItemsCeiling,
@@ -84,30 +69,12 @@ func (spread Spread) SpreadOverPeers(
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	discoveryRound := spread.askToDiscover(
-		ctx,
-		query,
-		chosenPeersPerQueryWord,
-	)
-	crossCheckCandidates := crossCheckCandidatesIn(discoveryRound, spread.partitions)
-	peerStandings := spread.peerJudgements.StandingsOf(
-		ctx, peersThatMayCrossCheckIn(crossCheckCandidates),
-	)
-	crossCheckRound := spread.askToCrossCheck(
-		ctx,
-		crossCheckCandidates,
-		peerStandings,
-	)
-	judgedPeers := crossCheckJudgementsIn(crossCheckRound)
-	spread.peerJudgements.Add(ctx, judgedPeers)
-	joinedDocuments := joinedDocumentsFrom(discoveryRound, crossCheckRound)
+	discoveryRound := spread.askToDiscover(ctx, query, chosenPeersPerQueryWord)
+	joinedDocuments := discoveryRound.joinedDocuments()
 	urlMetadataLookupRound := spread.askForURLMetadata(ctx, discoveryRound, joinedDocuments)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		discoveryRound,
-		crossCheckRound,
-		peerStandings,
-		judgedPeers,
 		joinedDocuments,
 		urlMetadataLookupRound,
 		time.Since(startedAt),
@@ -123,31 +90,21 @@ func (spread Spread) askToDiscover(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) discoveryRound {
-	asks := discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
+	sampledPartition := spread.partitionToSample(uint(spread.partitions))
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
 	defer endRound()
-	run := spread.replicaAsks.Start(roundContext)
-	run.Asks <- asks
-	close(run.Asks)
-	askOutcomes := askOutcomesFrom(run.SettledWordPartitions)
-	answeredAsks := askOutcomes.AnsweredAsks()
 
-	return discoveryRound{
-		queryWords:   query.WordHashes(),
-		answeredAsks: answeredAsks,
-		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
-			query.WordHashes(), askOutcomes, spread.partitions,
-		),
-		compoundWords: compoundWordsAcrossReplicasFrom(
-			query.CompoundWords, askOutcomes, spread.partitions,
-		),
-		holdersPerDocument: holdersPerDocumentOf(answeredAsks),
-	}
+	return discoveryOver(
+		startAskRun(roundContext, spread.replicaAsks),
+		discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling),
+		query,
+		spread.partitions,
+		spread.documentsToMatchCeiling,
+	).askFromTheSampleIn(sampledPartition)
 }
 
 const (
-	roundsLeftAtTheDiscovery         = 3
-	roundsLeftAtTheCrossCheck        = 2
+	roundsLeftAtTheDiscovery         = 2
 	roundsLeftAtTheURLMetadataLookup = 1
 )
 
@@ -158,26 +115,6 @@ func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, conte
 	}
 
 	return context.WithTimeout(ctx, time.Until(deadline)/time.Duration(roundsLeft))
-}
-
-func (spread Spread) askToCrossCheck(
-	ctx context.Context,
-	candidates crossCheckCandidates,
-	peerStandings peerjudgements.PeerStandings,
-) crossCheckRound {
-	asks := crossCheckAsksFor(
-		candidates,
-		peerStandings,
-		spread.documentsToMatchCeiling,
-	)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheCrossCheck)
-	defer endRound()
-
-	return crossCheckRound{
-		candidates:   candidates,
-		asks:         asks,
-		answeredAsks: spread.peerAsks.AskForSearchDocuments(roundContext, asks),
-	}
 }
 
 func (spread Spread) askForURLMetadata(

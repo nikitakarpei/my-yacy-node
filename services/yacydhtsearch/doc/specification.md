@@ -45,7 +45,9 @@ federated search across one configured YaCy DHT network — any configured netwo
 * The service SHALL preserve compatibility with YaCy's public `/yacysearch.json` contract closely
   enough that any compliant client, including SearXNG's native YaCy engine, can use it unmodified.
 * Peer selection and peer-directory eviction SHALL be replaceable behind narrow interfaces.
-* Peer selection SHALL use nothing a peer claims about itself or about another peer.
+* Peer selection SHALL use nothing a peer claims about itself or about another peer, except the
+  document counts that peers claim in the same query. These counts MAY choose which peers that
+  query asks.
 * Operational behavior SHALL be observable through machine-readable metrics, including per-query
   completeness.
 * The service SHOULD track peer liveness and refresh its peer directory to reduce the likelihood

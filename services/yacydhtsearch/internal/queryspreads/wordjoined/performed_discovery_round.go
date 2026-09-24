@@ -1,24 +1,23 @@
 package wordjoined
 
 import (
-	"slices"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
 type PerformedDiscoveryRound struct {
-	AmountOfQueryWords                            int
-	AmountOfCompoundWords                         int
-	AmountOfQueryWordsHeldByNoPeer                int
-	AmountOfQueryWordsWithCompleteAbstracts       int
-	AmountOfPeersWithANonEmptyAbstract            int
-	LeadingQueryWordChoice                        LeadingQueryWordChoice
-	AmountOfDocumentsOfTheLeadingQueryWord        int
-	AmountOfPartitionsWithABetterLeadingQueryWord int
-	AmountOfMatchedDocumentsAcrossAnswers         int
-	AmountOfMatchedDocumentsWithAPosting          int
-	AmountOfDocumentsHeldInEachAnswer             []int
+	AmountOfQueryWords                     int
+	AmountOfCompoundWords                  int
+	AmountOfQueryWordsHeldByNoPeer         int
+	SampledPartition                       uint
+	AmountOfQueryWordsWithASample          int
+	AmountOfPeersWithANonEmptyAbstract     int
+	LeadingQueryWordChoice                 LeadingQueryWordChoice
+	AmountOfDocumentsOfTheLeadingQueryWord int
+	OtherWordAsksPerPartition              map[uint]OtherWordAsks
+	AmountOfMatchedDocumentsAcrossAnswers  int
+	AmountOfMatchedDocumentsWithAPosting   int
+	AmountOfDocumentsHeldInEachAnswer      []int
 }
 
 func performedDiscoveryRoundFrom(
@@ -30,20 +29,16 @@ func performedDiscoveryRoundFrom(
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		AmountOfQueryWordsWithCompleteAbstracts: amountOfQueryWordsWithCompleteAbstractsAmong(
-			round.queryWordsFewestDocumentsFirst,
-		),
-		AmountOfPeersWithANonEmptyAbstract: amountOfPeersAcross(
-			answeredAsksWithANonEmptyAbstract(round.answeredAsks),
-			peerOfAnsweredDiscoveryAsk,
+		SampledPartition:              round.sampledPartition,
+		AmountOfQueryWordsWithASample: round.amountOfQueryWordsWithASample,
+		AmountOfPeersWithANonEmptyAbstract: amountOfPeersWithANonEmptyAbstractAmong(
+			round.answeredAsks,
 		),
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
 		AmountOfDocumentsOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documents(),
 		),
-		AmountOfPartitionsWithABetterLeadingQueryWord: amountOfPartitionsWithABetterLeadingQueryWordIn(
-			round,
-		),
+		OtherWordAsksPerPartition: round.otherWordAsksPerPartition,
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
 		),
@@ -66,59 +61,18 @@ func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) i
 	return amount
 }
 
-func amountOfQueryWordsWithCompleteAbstractsAmong(queryWords []queryWordAcrossReplicas) int {
-	amount := 0
-	for _, queryWord := range queryWords {
-		if !queryWord.hasCompleteAbstracts() {
-			continue
-		}
-		amount++
-	}
-
-	return amount
-}
-
-func peerOfAnsweredDiscoveryAsk(
-	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return answeredAsk.Ask.Peer
-}
-
-func answeredAsksWithANonEmptyAbstract(
+func amountOfPeersWithANonEmptyAbstractAmong(
 	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
-) []peerasks.AnsweredSearchDocumentsAsk {
-	keptAnsweredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(answeredAsks))
+) int {
+	peers := map[peerdirectory.AskablePeer]struct{}{}
 	for _, answeredAsk := range answeredAsks {
 		if len(answeredAsk.Abstract) == 0 {
 			continue
 		}
-		keptAnsweredAsks = append(keptAnsweredAsks, answeredAsk)
+		peers[answeredAsk.Ask.Peer] = struct{}{}
 	}
 
-	return keptAnsweredAsks
-}
-
-func amountOfPartitionsWithABetterLeadingQueryWordIn(
-	round discoveryRound,
-) int {
-	queryWordsBesideTheLeadingQueryWord := round.queryWordsBesideTheLeadingQueryWord()
-	amount := 0
-	for partition, wordPartition := range round.leadingQueryWord().wordPartitions() {
-		if wordPartition.hasACompleteAbstract() {
-			continue
-		}
-		if !slices.ContainsFunc(
-			queryWordsBesideTheLeadingQueryWord,
-			func(queryWord queryWordAcrossReplicas) bool {
-				return queryWord.wordPartitions()[partition].hasACompleteAbstract()
-			},
-		) {
-			continue
-		}
-		amount++
-	}
-
-	return amount
+	return len(peers)
 }
 
 func amountOfMatchedDocumentsAcrossAnswers(
