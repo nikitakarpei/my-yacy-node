@@ -49,6 +49,7 @@ const (
 	EnvRankingCacheCapacity           = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
 	EnvRankingLifetime                = "YACYDHTSEARCH_RANKING_LIFETIME"
 	EnvPagesReadPerQuery              = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
+	EnvPagesReadPerSite               = "YACYDHTSEARCH_PAGES_READ_PER_SITE"
 	EnvCompoundWordsCeiling           = "YACYDHTSEARCH_COMPOUND_WORDS_CEILING"
 	EnvPageReadBudget                 = "YACYDHTSEARCH_PAGE_READ_BUDGET"
 	EnvPageByteCeiling                = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
@@ -83,6 +84,7 @@ const (
 	DefaultRankingCacheCapacity           = 1024
 	DefaultRankingLifetime                = 2 * time.Minute
 	DefaultPagesReadPerQuery              = 50
+	DefaultPagesReadPerSite               = 3
 	DefaultPageReadBudget                 = 3 * time.Second
 	DefaultPageByteCeiling                = 4 * 1024 * 1024
 	DefaultPageReadMaxRedirectHops        = 3
@@ -127,6 +129,7 @@ type ServiceConfig struct {
 	RankingLifetime                time.Duration
 
 	PagesReadPerQuery       int
+	PagesReadPerSite        int
 	CompoundWordsCeiling    int
 	PageReadBudget          time.Duration
 	PageByteCeiling         int64
@@ -232,6 +235,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		RankingLifetime:                durations.rankingLifetime,
 
 		PagesReadPerQuery:       counts.pagesReadPerQuery,
+		PagesReadPerSite:        counts.pagesReadPerSite,
 		CompoundWordsCeiling:    counts.compoundWordsCeiling,
 		PageReadBudget:          durations.pageReadBudget,
 		PageByteCeiling:         pageByteCeiling,
@@ -305,6 +309,7 @@ type configuredCounts struct {
 	rankedItemsCeiling             int
 	rankingCacheCapacity           int
 	pagesReadPerQuery              int
+	pagesReadPerSite               int
 	compoundWordsCeiling           int
 	pageReadMaxRedirectHops        int
 	snippetLengthCeiling           int
@@ -328,6 +333,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 		{EnvPagesReadPerQuery, DefaultPagesReadPerQuery, &counts.pagesReadPerQuery},
+		{EnvPagesReadPerSite, DefaultPagesReadPerSite, &counts.pagesReadPerSite},
 		{EnvCompoundWordsCeiling, DefaultCompoundWordsCeiling, &counts.compoundWordsCeiling},
 		{EnvPageReadMaxRedirectHops, DefaultPageReadMaxRedirectHops, &counts.pageReadMaxRedirectHops},
 		{EnvSnippetLengthCeiling, DefaultSnippetLengthCeiling, &counts.snippetLengthCeiling},

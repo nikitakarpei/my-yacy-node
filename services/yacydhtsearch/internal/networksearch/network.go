@@ -66,6 +66,7 @@ type Network struct {
 	queryBudget          time.Duration
 	pageReadBudget       time.Duration
 	pagesReadPerQuery    int
+	pagesReadPerSite     int
 	rankedItemsCeiling   int
 	compoundWordsCeiling int
 	observer             NetworkSearchObserver
@@ -81,6 +82,7 @@ func New(
 	queryBudget time.Duration,
 	pageReadBudget time.Duration,
 	pagesReadPerQuery int,
+	pagesReadPerSite int,
 	rankedItemsCeiling int,
 	compoundWordsCeiling int,
 	observer NetworkSearchObserver,
@@ -94,6 +96,7 @@ func New(
 		queryBudget:          queryBudget,
 		pageReadBudget:       pageReadBudget,
 		pagesReadPerQuery:    pagesReadPerQuery,
+		pagesReadPerSite:     pagesReadPerSite,
 		rankedItemsCeiling:   rankedItemsCeiling,
 		compoundWordsCeiling: compoundWordsCeiling,
 		observer:             observer,
@@ -125,12 +128,13 @@ func (n Network) Search(
 	)
 	defer endTheQuerySpread()
 	answers := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
-	documentsOrderedFirst := documentsUpTo(
+	documentsToRead := documentsToReadAmong(
 		n.documentsOrdering.OrderedDocumentsOf(answers),
 		n.pagesReadPerQuery,
+		n.pagesReadPerSite,
 	)
 	readPages := n.pageReading.ReadEachPage(
-		ctx, query.WordHashes(), pagesToReadOf(documentsOrderedFirst),
+		ctx, query.WordHashes(), pagesToReadOf(documentsToRead),
 	)
 	answersWithReadPages := answers.
 		WithReadPages(readPages.PageContentsPerDocument).
