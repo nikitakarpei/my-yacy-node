@@ -5,6 +5,8 @@ import (
 	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 )
 
 const (
@@ -21,7 +23,7 @@ type RenderMetrics struct {
 	renderDurationSecs prometheusclient.Histogram
 }
 
-func New(registry prometheusclient.Registerer) *RenderMetrics {
+func New(registry prometheusclient.Registerer, requestDeadline time.Duration) *RenderMetrics {
 	metrics := &RenderMetrics{
 		rendersProcessed: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "renderproxy_renders_processed_total",
@@ -30,7 +32,7 @@ func New(registry prometheusclient.Registerer) *RenderMetrics {
 		renderDurationSecs: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "renderproxy_render_duration_seconds",
 			Help:    "Render duration in seconds.",
-			Buckets: prometheusclient.DefBuckets,
+			Buckets: budgetbuckets.DurationBucketsFor(requestDeadline),
 		}),
 	}
 	registry.MustRegister(metrics.rendersProcessed, metrics.renderDurationSecs)

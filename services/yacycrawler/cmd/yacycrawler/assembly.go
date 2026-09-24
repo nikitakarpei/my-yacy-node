@@ -71,7 +71,8 @@ func RunService(
 		pendingpagevisitobserversprometheus.New(registry),
 	}
 	pageFetchObservers := pagevisit.PageFetchObservers{
-		pagefetchobserversapplog.PageFetchLog{}, pagefetchobserversprometheus.New(registry),
+		pagefetchobserversapplog.PageFetchLog{},
+		pagefetchobserversprometheus.New(registry, cfg.FetchDeadline),
 	}
 	htmlPageReading := pagehtmlreading.NewHTMLPageReading(
 		pagehtml.NewHTMLParser(pagehtml.MediaTypeObservers{

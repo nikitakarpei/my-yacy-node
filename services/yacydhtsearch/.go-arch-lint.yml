@@ -13,8 +13,6 @@ commonComponents:
   - presenceaccrual
 
 components:
-  budgetbuckets:
-    in: internal/budgetbuckets/**
   queryspreadsobserverspeermatchedapplog:
     in: internal/queryspreadsobservers/peermatched/applog/**
   queryspreadsobserverspeermatchedprometheus:
@@ -139,6 +137,9 @@ components:
     in: cmd/yacydhtsearch/**
 
 vendors:
+  budgetbuckets:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets
   yacymodel:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacymodel
@@ -192,9 +193,9 @@ deps:
   queryspreadsobserverspeermatchedprometheus:
     canUse:
       - prometheus
+      - budgetbuckets
     mayDependOn:
       - peermatched
-      - budgetbuckets
   searchquery:
     canUse:
       - yacymodel
@@ -284,9 +285,9 @@ deps:
   pagereadingobserversprometheus:
     canUse:
       - prometheus
+      - budgetbuckets
     mayDependOn:
       - pagereading
-      - budgetbuckets
   peermatched:
     canUse:
       - yacymodel
@@ -361,9 +362,9 @@ deps:
   replicaasksobserversprometheus:
     canUse:
       - prometheus
+      - budgetbuckets
     mayDependOn:
       - replicaasks
-      - budgetbuckets
   peercallwire:
     canUse:
       - yacymodel
@@ -409,27 +410,27 @@ deps:
   networksearchobserversprometheus:
     canUse:
       - prometheus
+      - budgetbuckets
     mayDependOn:
       - networksearch
-      - budgetbuckets
   queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
   queryspreadsobserverswordjoinedprometheus:
     canUse:
       - prometheus
+      - budgetbuckets
     mayDependOn:
       - wordjoined
-      - budgetbuckets
   peercallobserversapplog:
     mayDependOn:
       - peerasks
   peercallobserversprometheus:
     canUse:
       - prometheus
+      - budgetbuckets
     mayDependOn:
       - peerasks
-      - budgetbuckets
   peerdirectoryobserversapplog:
     canUse:
       - yacymodel

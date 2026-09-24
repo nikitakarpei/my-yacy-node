@@ -38,7 +38,7 @@ func RunService(
 ) error {
 	renderObservers := rendergate.RenderObservers{
 		renderobserversapplog.RenderLog{},
-		renderobserversprometheus.New(registry),
+		renderobserversprometheus.New(registry, cfg.RequestDeadline),
 	}
 	renderCapacityObservers := rendergate.RenderCapacityObservers{
 		rendercapacityobserversapplog.RenderCapacityLog{},

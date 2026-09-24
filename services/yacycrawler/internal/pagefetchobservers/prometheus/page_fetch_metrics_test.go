@@ -3,20 +3,24 @@ package prometheus_test
 import (
 	"context"
 	"errors"
+	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	pagefetchmetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
 )
 
+const fetchDeadline = 30 * time.Second
+
 func TestPageFetchMetricsCountConcreteFetchFacts(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics := pagefetchmetricsprometheus.New(registry)
+	metrics := pagefetchmetricsprometheus.New(registry, fetchDeadline)
 	pageURL := canonicalurl.CanonicalURL{}
 	fetchDuration := time.Second
 
@@ -64,5 +68,21 @@ yacycrawler_page_fetches_processed_total{outcome="succeeded"} 1
 		"yacycrawler_page_fetch_duration_seconds",
 	); got != 1 {
 		t.Errorf("fetch duration metrics = %d, want 1", got)
+	}
+}
+
+func TestAFetchUpToTheFetchDeadlineIsTimedInsideIt(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	metrics := pagefetchmetricsprometheus.New(registry, fetchDeadline)
+
+	metrics.PageFetchSucceeded(context.Background(), canonicalurl.CanonicalURL{}, 20*time.Second)
+
+	recorder := httptest.NewRecorder()
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).ServeHTTP(
+		recorder, httptest.NewRequestWithContext(context.Background(), "GET", "/metrics", nil),
+	)
+	expected := `yacycrawler_page_fetch_duration_seconds_bucket{le="30"} 1`
+	if !strings.Contains(recorder.Body.String(), expected) {
+		t.Fatalf("metrics do not carry %q:\n%s", expected, recorder.Body.String())
 	}
 }

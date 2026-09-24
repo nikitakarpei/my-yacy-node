@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 )
 
 const budget = 3 * time.Second

@@ -6,6 +6,8 @@ allow:
   deepScan: false
 
 components:
+  budgetbuckets:
+    in: budgetbuckets/**
   applog:
     in: applog/**
   envconfig:

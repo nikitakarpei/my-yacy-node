@@ -14,9 +14,11 @@ import (
 	renderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderobservers/prometheus"
 )
 
+const requestDeadline = 30 * time.Second
+
 func TestRenderMetricsRecordExplicitRenderFacts(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
-	metrics := renderobserversprometheus.New(registry)
+	metrics := renderobserversprometheus.New(registry, requestDeadline)
 	metrics.RenderSucceeded(t.Context(), "https://example.com", time.Second)
 	metrics.RenderPageTooLarge(
 		t.Context(),
@@ -37,5 +39,24 @@ func TestRenderMetricsRecordExplicitRenderFacts(t *testing.T) {
 		if !strings.Contains(body, expected) {
 			t.Fatalf("metrics output does not contain %q:\n%s", expected, body)
 		}
+	}
+}
+
+func TestARenderUpToTheRequestDeadlineIsTimedInsideIt(t *testing.T) {
+	registry := prometheusclient.NewRegistry()
+	metrics := renderobserversprometheus.New(registry, requestDeadline)
+	metrics.RenderTimedOut(
+		t.Context(),
+		"https://example.com",
+		20*time.Second,
+		errors.New("timed out"),
+	)
+
+	req := httptest.NewRequestWithContext(context.Background(), "GET", "/metrics", nil)
+	rec := httptest.NewRecorder()
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).ServeHTTP(rec, req)
+	expected := `renderproxy_render_duration_seconds_bucket{le="30"} 1`
+	if !strings.Contains(rec.Body.String(), expected) {
+		t.Fatalf("metrics output does not contain %q:\n%s", expected, rec.Body.String())
 	}
 }
