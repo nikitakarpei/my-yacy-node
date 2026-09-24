@@ -438,6 +438,43 @@ type spreadSettings struct {
 	urlMetadataAskDocumentsCeiling int
 	peersHoldingOneWord            int
 	queryBudget                    time.Duration
+	queryWordDocumentAmounts       *rememberedQueryWordDocumentAmounts
+}
+
+type rememberedQueryWordDocumentAmounts struct {
+	amountOfEachWord map[yacymodel.Hash]int
+}
+
+func queryWordDocumentAmountsOf(
+	amountOfEachWord map[string]int,
+) *rememberedQueryWordDocumentAmounts {
+	remembered := &rememberedQueryWordDocumentAmounts{amountOfEachWord: map[yacymodel.Hash]int{}}
+	for spelledWord, amount := range amountOfEachWord {
+		remembered.amountOfEachWord[yacymodel.WordHash(spelledWord)] = amount
+	}
+
+	return remembered
+}
+
+func (remembered *rememberedQueryWordDocumentAmounts) DocumentAmountsOf(
+	_ context.Context,
+	words []yacymodel.Hash,
+) map[yacymodel.Hash]int {
+	amounts := map[yacymodel.Hash]int{}
+	for _, word := range words {
+		if amount, known := remembered.amountOfEachWord[word]; known {
+			amounts[word] = amount
+		}
+	}
+
+	return amounts
+}
+
+func (remembered *rememberedQueryWordDocumentAmounts) Remember(
+	_ context.Context,
+	documentAmounts map[yacymodel.Hash]int,
+) {
+	maps.Copy(remembered.amountOfEachWord, documentAmounts)
 }
 
 func settingsOfOnePartition() spreadSettings {
@@ -462,10 +499,15 @@ func (settings spreadSettings) spread(
 		defer endQuery()
 	}
 	query := searchquery.QueryFrom(settings.query, "")
+	queryWordDocumentAmounts := settings.queryWordDocumentAmounts
+	if queryWordDocumentAmounts == nil {
+		queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
+	}
 
 	return wordjoined.New(
 		replicasOf(network),
 		network,
+		queryWordDocumentAmounts,
 		func(uint) uint { return settings.sampledPartition },
 		settings.urlMetadataAskDocumentsCeiling,
 		settings.documentsToMatchCeiling,
@@ -1399,5 +1441,109 @@ func TestADocumentInTheAbstractOfTheCompoundWordOfTwoWordsIsJoinedForBoth(t *tes
 			"the spread found %+v, want the one document in the abstract of the compound word",
 			answers.FoundDocuments,
 		)
+	}
+}
+
+func networkWhereTheSecondWordLeadsFromTheSampleInPartitionZero(t *testing.T) *peerNetwork {
+	t.Helper()
+
+	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
+	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 3)
+
+	return networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: documentsInPartitionZero},
+		"first-in-1":  {firstWord: documentsInPartitionOne},
+		"second-in-0": {secondWord: documentsInPartitionZero[:1]},
+		"second-in-1": {secondWord: documentsInPartitionOne},
+	})
+}
+
+func TestAQueryWhoseWordsAllHaveAnAmountLeadsWithTheRarestAndTakesNoSample(t *testing.T) {
+	t.Parallel()
+
+	network := networkWhereTheSecondWordLeadsFromTheSampleInPartitionZero(t)
+	settings := settingsOfTwoPartitions()
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(
+		map[string]int{firstWord: 1, secondWord: 5},
+	)
+	observer := &recordedSpreads{}
+
+	settings.spread(network, observer)
+
+	if choice := observer.performed[0].DiscoveryRound.LeadingQueryWordChoice; choice !=
+		wordjoined.RarestQueryWordRemembered {
+		t.Fatalf("the spread chose the leading word by %q, want the remembered amounts", choice)
+	}
+	asksOfTheOtherWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
+	if got := asksNamingDocumentsToMatchAmong(asksOfTheOtherWord); len(got) !=
+		len(asksOfTheOtherWord) || !slices.Equal(partitionsAskedAmong(got), []uint{0, 1}) {
+		t.Fatalf(
+			"the spread asked the other word %v, want it asked for the documents to match "+
+				"in every partition and never whole in a sample",
+			asksOfTheOtherWord,
+		)
+	}
+	if got := asksNamingDocumentsToMatchAmong(
+		asksOfTheWord(firstWord, network.searchDocumentsAsks),
+	); len(got) != 0 {
+		t.Fatalf("the spread asked the leading word %v naming documents, want it asked whole", got)
+	}
+}
+
+func TestAQueryWithAWordWithoutAnAmountTakesTheSample(t *testing.T) {
+	t.Parallel()
+
+	network := networkWhereTheSecondWordLeadsFromTheSampleInPartitionZero(t)
+	settings := settingsOfTwoPartitions()
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{firstWord: 1})
+	observer := &recordedSpreads{}
+
+	settings.spread(network, observer)
+
+	if choice := observer.performed[0].DiscoveryRound.LeadingQueryWordChoice; choice !=
+		wordjoined.RarestQueryWordWithASample {
+		t.Fatalf("the spread chose the leading word by %q, want a sample", choice)
+	}
+	if got := asksNamingDocumentsToMatchAmong(
+		asksOfTheWord(secondWord, network.searchDocumentsAsks),
+	); len(got) != 0 {
+		t.Fatalf("the spread asked %v naming documents, want the rarest sampled word leading", got)
+	}
+}
+
+func TestTheSpreadRemembersTheDocumentsHeldAcrossTheRingForEachWordAPeerCounted(t *testing.T) {
+	t.Parallel()
+
+	network := networkWhereTheSecondWordLeadsFromTheSampleInPartitionZero(t)
+	network.documentsHeldByEachPeer = map[string]int{
+		"first-in-0": 10, "first-in-1": 30, "second-in-0": 4, "second-in-1": 6,
+	}
+	settings := settingsOfTwoPartitions()
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
+
+	settings.spread(network, &recordedSpreads{})
+
+	want := map[yacymodel.Hash]int{
+		yacymodel.WordHash(firstWord): 10 + 30, yacymodel.WordHash(secondWord): 4 + 6,
+	}
+	if got := settings.queryWordDocumentAmounts.amountOfEachWord; !maps.Equal(got, want) {
+		t.Fatalf("the spread remembered %v, want %v", got, want)
+	}
+}
+
+func TestAWordNoPeerCountedIsNotRemembered(t *testing.T) {
+	t.Parallel()
+
+	network := networkWhereTheSecondWordLeadsFromTheSampleInPartitionZero(t)
+	network.peersCountingNoDocument = map[string]struct{}{"first-in-0": {}, "first-in-1": {}}
+	settings := settingsOfTwoPartitions()
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
+
+	settings.spread(network, &recordedSpreads{})
+
+	if _, remembered := settings.queryWordDocumentAmounts.amountOfEachWord[yacymodel.WordHash(
+		firstWord,
+	)]; remembered {
+		t.Fatal("the spread remembered an amount for a word no peer counted")
 	}
 }

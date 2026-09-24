@@ -25,9 +25,15 @@ type PeerAsks interface {
 	) <-chan peerasks.URLMetadataAskOutcome
 }
 
+type QueryWordDocumentAmounts interface {
+	DocumentAmountsOf(ctx context.Context, words []yacymodel.Hash) map[yacymodel.Hash]int
+	Remember(ctx context.Context, documentAmounts map[yacymodel.Hash]int)
+}
+
 type Spread struct {
 	replicaAsks                    ReplicaAsks
 	peerAsks                       PeerAsks
+	queryWordDocumentAmounts       QueryWordDocumentAmounts
 	partitionToSample              func(amountOfPartitions uint) uint
 	urlMetadataAskDocumentsCeiling int
 	documentsToMatchCeiling        int
@@ -37,10 +43,11 @@ type Spread struct {
 	observer                       WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, partition to sample, ceilings, ring and observer
+//nolint:revive // argument-limit: the spread takes its asks, word amounts, partition to sample, ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
+	queryWordDocumentAmounts QueryWordDocumentAmounts,
 	partitionToSample func(amountOfPartitions uint) uint,
 	urlMetadataAskDocumentsCeiling int,
 	documentsToMatchCeiling int,
@@ -52,6 +59,7 @@ func New(
 	return Spread{
 		replicaAsks:                    replicaAsks,
 		peerAsks:                       peerAsks,
+		queryWordDocumentAmounts:       queryWordDocumentAmounts,
 		partitionToSample:              partitionToSample,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
@@ -70,6 +78,10 @@ func (spread Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	discoveryRound := spread.askToDiscover(ctx, query, chosenPeersPerQueryWord)
+	spread.queryWordDocumentAmounts.Remember(
+		ctx,
+		discoveryRound.amountOfDocumentsHeldPerQueryWord(),
+	)
 	joinedDocuments := discoveryRound.joinedDocuments()
 	urlMetadataLookupRound := spread.askForURLMetadata(ctx, discoveryRound, joinedDocuments)
 
@@ -91,6 +103,10 @@ func (spread Spread) askToDiscover(
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) discoveryRound {
 	sampledPartition := spread.partitionToSample(uint(spread.partitions))
+	rememberedDocumentAmounts := spread.queryWordDocumentAmounts.DocumentAmountsOf(
+		ctx,
+		query.WordHashes(),
+	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
 	defer endRound()
 
@@ -98,9 +114,10 @@ func (spread Spread) askToDiscover(
 		startAskRun(roundContext, spread.replicaAsks),
 		discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling),
 		query,
+		rememberedDocumentAmounts,
 		spread.partitions,
 		spread.documentsToMatchCeiling,
-	).askFromTheSampleIn(sampledPartition)
+	).askTheQueryWords(sampledPartition)
 }
 
 const (

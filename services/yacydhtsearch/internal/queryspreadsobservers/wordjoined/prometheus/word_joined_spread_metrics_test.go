@@ -92,6 +92,8 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 0`,
 		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, no sample"} 0`,
 		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, no sample"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, remembered"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, remembered"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="coverage"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 	} {
@@ -190,5 +192,24 @@ func TestALookupThatAskedNoPeerIsNotCountedByWhatEndedIt(t *testing.T) {
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 	) {
 		t.Fatalf("metrics count a lookup that asked no peer:\n%s", body)
+	}
+}
+
+func TestASpreadLedByARememberedWordIsCountedApart(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	spread := spreadJoiningDocuments(1)
+	spread.DiscoveryRound.LeadingQueryWordChoice = wordjoined.RarestQueryWordRemembered
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
+
+	body := publishedBy(t, registry)
+	if !strings.Contains(
+		body,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, remembered"} 1`,
+	) {
+		t.Fatalf("metrics do not count the spread led by a remembered word:\n%s", body)
 	}
 }

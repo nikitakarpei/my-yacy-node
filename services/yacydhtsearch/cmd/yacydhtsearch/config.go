@@ -15,123 +15,129 @@ import (
 )
 
 const (
-	EnvListenAddr                     = "YACYDHTSEARCH_LISTEN_ADDR"
-	EnvOpsAddr                        = "YACYDHTSEARCH_OPS_ADDR"
-	EnvServeProfiler                  = "YACYDHTSEARCH_SERVE_PROFILER"
-	EnvNetworkName                    = "YACYDHTSEARCH_NETWORK_NAME"
-	EnvSeedlistURLs                   = "YACYDHTSEARCH_SEEDLIST_URLS"
-	EnvEgressProxyURL                 = "EGRESS_PROXY_URL"
-	EnvPageReadProxyURL               = "YACYDHTSEARCH_PAGE_READ_PROXY_URL"
-	EnvPageReadProxyDialMode          = "YACYDHTSEARCH_PAGE_READ_PROXY_DIAL_MODE"
-	EnvQueryBudget                    = "YACYDHTSEARCH_QUERY_BUDGET"
-	EnvNetworkRedundancy              = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
-	EnvReplicasCoveringAPartition     = "YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION"
-	EnvHedgeDelay                     = "YACYDHTSEARCH_HEDGE_DELAY"
-	EnvPeerCallsInFlight              = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
-	EnvURLMetadataCallBudget          = "YACYDHTSEARCH_URL_METADATA_CALL_BUDGET"
-	EnvSearchCallBudget               = "YACYDHTSEARCH_SEARCH_CALL_BUDGET"
-	EnvProbesInFlight                 = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
-	EnvDirectoryCapacity              = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
-	EnvRefreshInterval                = "YACYDHTSEARCH_REFRESH_INTERVAL"
-	EnvNewcomerShare                  = "YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE"
-	EnvProbeBudget                    = "YACYDHTSEARCH_PROBE_BUDGET"
-	EnvContinuityLimit                = "YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT"
-	EnvProbeAnswerHistoryKeptFor      = "YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR"
-	EnvMaturationDuration             = "YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION"
-	EnvStalenessHorizon               = "YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON"
-	EnvSnapshotInterval               = "YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL"
-	EnvPartitionExponent              = "YACYDHTSEARCH_PARTITION_EXPONENT"
-	EnvMaxResponseBytes               = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
-	EnvPeerItemsCeiling               = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
-	EnvDocumentsToMatchCeiling        = "YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING"
-	EnvURLMetadataAskDocumentsCeiling = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING"
-	EnvRankedItemsCeiling             = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
-	EnvNATSURL                        = "YACYDHTSEARCH_NATS_URL"
-	EnvRankingCacheCapacity           = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
-	EnvRankingLifetime                = "YACYDHTSEARCH_RANKING_LIFETIME"
-	EnvPagesReadPerQuery              = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
-	EnvPagesReadPerSite               = "YACYDHTSEARCH_PAGES_READ_PER_SITE"
-	EnvCompoundWordsCeiling           = "YACYDHTSEARCH_COMPOUND_WORDS_CEILING"
-	EnvPageReadBudget                 = "YACYDHTSEARCH_PAGE_READ_BUDGET"
-	EnvPageReadCutoffPercent          = "YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT"
-	EnvPageReadCutoffGrace            = "YACYDHTSEARCH_PAGE_READ_CUTOFF_GRACE"
-	EnvPageByteCeiling                = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
-	EnvPageReadMaxRedirectHops        = "YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS"
-	EnvSnippetLengthCeiling           = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
+	EnvListenAddr                       = "YACYDHTSEARCH_LISTEN_ADDR"
+	EnvOpsAddr                          = "YACYDHTSEARCH_OPS_ADDR"
+	EnvServeProfiler                    = "YACYDHTSEARCH_SERVE_PROFILER"
+	EnvNetworkName                      = "YACYDHTSEARCH_NETWORK_NAME"
+	EnvSeedlistURLs                     = "YACYDHTSEARCH_SEEDLIST_URLS"
+	EnvEgressProxyURL                   = "EGRESS_PROXY_URL"
+	EnvPageReadProxyURL                 = "YACYDHTSEARCH_PAGE_READ_PROXY_URL"
+	EnvPageReadProxyDialMode            = "YACYDHTSEARCH_PAGE_READ_PROXY_DIAL_MODE"
+	EnvQueryBudget                      = "YACYDHTSEARCH_QUERY_BUDGET"
+	EnvNetworkRedundancy                = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
+	EnvReplicasCoveringAPartition       = "YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION"
+	EnvHedgeDelay                       = "YACYDHTSEARCH_HEDGE_DELAY"
+	EnvPeerCallsInFlight                = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
+	EnvURLMetadataCallBudget            = "YACYDHTSEARCH_URL_METADATA_CALL_BUDGET"
+	EnvSearchCallBudget                 = "YACYDHTSEARCH_SEARCH_CALL_BUDGET"
+	EnvProbesInFlight                   = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
+	EnvDirectoryCapacity                = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
+	EnvRefreshInterval                  = "YACYDHTSEARCH_REFRESH_INTERVAL"
+	EnvNewcomerShare                    = "YACYDHTSEARCH_DIRECTORY_NEWCOMER_SHARE"
+	EnvProbeBudget                      = "YACYDHTSEARCH_PROBE_BUDGET"
+	EnvContinuityLimit                  = "YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT"
+	EnvProbeAnswerHistoryKeptFor        = "YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR"
+	EnvMaturationDuration               = "YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION"
+	EnvStalenessHorizon                 = "YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON"
+	EnvSnapshotInterval                 = "YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL"
+	EnvPartitionExponent                = "YACYDHTSEARCH_PARTITION_EXPONENT"
+	EnvMaxResponseBytes                 = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
+	EnvPeerItemsCeiling                 = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
+	EnvDocumentsToMatchCeiling          = "YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING"
+	EnvURLMetadataAskDocumentsCeiling   = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING"
+	EnvRankedItemsCeiling               = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
+	EnvNATSURL                          = "YACYDHTSEARCH_NATS_URL"
+	EnvRankingCacheCapacity             = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
+	EnvRankingLifetime                  = "YACYDHTSEARCH_RANKING_LIFETIME"
+	EnvQueryWordDocumentAmountLifetime  = "YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNT_LIFETIME"
+	EnvQueryWordDocumentAmountsCapacity = "YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNTS_CAPACITY"
+	EnvPagesReadPerQuery                = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
+	EnvPagesReadPerSite                 = "YACYDHTSEARCH_PAGES_READ_PER_SITE"
+	EnvCompoundWordsCeiling             = "YACYDHTSEARCH_COMPOUND_WORDS_CEILING"
+	EnvPageReadBudget                   = "YACYDHTSEARCH_PAGE_READ_BUDGET"
+	EnvPageReadCutoffPercent            = "YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT"
+	EnvPageReadCutoffGrace              = "YACYDHTSEARCH_PAGE_READ_CUTOFF_GRACE"
+	EnvPageByteCeiling                  = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
+	EnvPageReadMaxRedirectHops          = "YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS"
+	EnvSnippetLengthCeiling             = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
 
-	DefaultListenAddr                     = ":8080"
-	DefaultOpsAddr                        = ":9090"
-	DefaultServeProfiler                  = false
-	DefaultQueryBudget                    = 10 * time.Second
-	DefaultNetworkRedundancy              = 3
-	DefaultHedgeDelay                     = 500 * time.Millisecond
-	DefaultReplicasCoveringAPartition     = 1
-	DefaultPeerCallsInFlight              = 48
-	DefaultURLMetadataCallBudget          = 3 * time.Second
-	DefaultSearchCallBudget               = 2 * time.Second
-	DefaultProbesInFlight                 = 24
-	DefaultDirectoryCapacity              = 4096
-	DefaultRefreshInterval                = 5 * time.Minute
-	DefaultNewcomerShare                  = 0.05
-	DefaultProbeBudget                    = 3 * time.Second
-	DefaultContinuityLimit                = 15 * time.Minute
-	DefaultProbeAnswerHistoryKeptFor      = 24 * time.Hour
-	DefaultSnapshotInterval               = 10 * time.Minute
-	DefaultPartitionExponent              = 4
-	DefaultMaxResponseBytes               = 4 * 1024 * 1024
-	DefaultPeerItemsCeiling               = 10
-	DefaultDocumentsToMatchCeiling        = 1000
-	DefaultURLMetadataAskDocumentsCeiling = 1000
-	DefaultRankedItemsCeiling             = 50
-	DefaultCompoundWordsCeiling           = 4
-	DefaultRankingCacheCapacity           = 1024
-	DefaultRankingLifetime                = 2 * time.Minute
-	DefaultPagesReadPerQuery              = 50
-	DefaultPagesReadPerSite               = 3
-	DefaultPageReadBudget                 = 3 * time.Second
-	DefaultPageReadCutoffPercent          = 90
-	DefaultPageReadCutoffGrace            = 250 * time.Millisecond
-	DefaultPageByteCeiling                = 4 * 1024 * 1024
-	DefaultPageReadMaxRedirectHops        = 3
-	DefaultSnippetLengthCeiling           = 300
-	DefaultPageReadProxyDialMode          = "tunnel"
+	DefaultListenAddr                       = ":8080"
+	DefaultOpsAddr                          = ":9090"
+	DefaultServeProfiler                    = false
+	DefaultQueryBudget                      = 10 * time.Second
+	DefaultNetworkRedundancy                = 3
+	DefaultHedgeDelay                       = 500 * time.Millisecond
+	DefaultReplicasCoveringAPartition       = 1
+	DefaultPeerCallsInFlight                = 48
+	DefaultURLMetadataCallBudget            = 3 * time.Second
+	DefaultSearchCallBudget                 = 2 * time.Second
+	DefaultProbesInFlight                   = 24
+	DefaultDirectoryCapacity                = 4096
+	DefaultRefreshInterval                  = 5 * time.Minute
+	DefaultNewcomerShare                    = 0.05
+	DefaultProbeBudget                      = 3 * time.Second
+	DefaultContinuityLimit                  = 15 * time.Minute
+	DefaultProbeAnswerHistoryKeptFor        = 24 * time.Hour
+	DefaultSnapshotInterval                 = 10 * time.Minute
+	DefaultPartitionExponent                = 4
+	DefaultMaxResponseBytes                 = 4 * 1024 * 1024
+	DefaultPeerItemsCeiling                 = 10
+	DefaultDocumentsToMatchCeiling          = 1000
+	DefaultURLMetadataAskDocumentsCeiling   = 1000
+	DefaultRankedItemsCeiling               = 50
+	DefaultCompoundWordsCeiling             = 4
+	DefaultRankingCacheCapacity             = 1024
+	DefaultRankingLifetime                  = 2 * time.Minute
+	DefaultQueryWordDocumentAmountLifetime  = 6 * time.Hour
+	DefaultQueryWordDocumentAmountsCapacity = 100000
+	DefaultPagesReadPerQuery                = 50
+	DefaultPagesReadPerSite                 = 3
+	DefaultPageReadBudget                   = 3 * time.Second
+	DefaultPageReadCutoffPercent            = 90
+	DefaultPageReadCutoffGrace              = 250 * time.Millisecond
+	DefaultPageByteCeiling                  = 4 * 1024 * 1024
+	DefaultPageReadMaxRedirectHops          = 3
+	DefaultSnippetLengthCeiling             = 300
+	DefaultPageReadProxyDialMode            = "tunnel"
 )
 
 type ServiceConfig struct {
-	ListenAddr                     string
-	OpsAddr                        string
-	ServeProfiler                  bool
-	NetworkName                    string
-	SeedlistURLs                   []string
-	EgressProxyURL                 *url.URL
-	PageReadProxyURL               *url.URL
-	PageReadProxyDialMode          pagefetchershttp.ProxyDialMode
-	QueryBudget                    time.Duration
-	NetworkRedundancy              int
-	ReplicasCoveringAPartition     int
-	HedgeDelay                     time.Duration
-	PeerCallsInFlight              int
-	URLMetadataCallBudget          time.Duration
-	SearchCallBudget               time.Duration
-	ProbesInFlight                 int
-	DirectoryCapacity              int
-	NewcomerShare                  float64
-	RefreshInterval                time.Duration
-	ProbeBudget                    time.Duration
-	ContinuityLimit                time.Duration
-	ProbeAnswerHistoryKeptFor      time.Duration
-	MaturationDuration             time.Duration
-	StalenessHorizon               time.Duration
-	SnapshotInterval               time.Duration
-	Partitions                     yacymodel.DHTRingPartitions
-	MaxResponseBytes               int64
-	PeerItemsCeiling               int
-	DocumentsToMatchCeiling        int
-	URLMetadataAskDocumentsCeiling int
-	RankedItemsCeiling             int
-	NATSURL                        string
-	RankingCache                   int
-	RankingLifetime                time.Duration
+	ListenAddr                       string
+	OpsAddr                          string
+	ServeProfiler                    bool
+	NetworkName                      string
+	SeedlistURLs                     []string
+	EgressProxyURL                   *url.URL
+	PageReadProxyURL                 *url.URL
+	PageReadProxyDialMode            pagefetchershttp.ProxyDialMode
+	QueryBudget                      time.Duration
+	NetworkRedundancy                int
+	ReplicasCoveringAPartition       int
+	HedgeDelay                       time.Duration
+	PeerCallsInFlight                int
+	URLMetadataCallBudget            time.Duration
+	SearchCallBudget                 time.Duration
+	ProbesInFlight                   int
+	DirectoryCapacity                int
+	NewcomerShare                    float64
+	RefreshInterval                  time.Duration
+	ProbeBudget                      time.Duration
+	ContinuityLimit                  time.Duration
+	ProbeAnswerHistoryKeptFor        time.Duration
+	MaturationDuration               time.Duration
+	StalenessHorizon                 time.Duration
+	SnapshotInterval                 time.Duration
+	Partitions                       yacymodel.DHTRingPartitions
+	MaxResponseBytes                 int64
+	PeerItemsCeiling                 int
+	DocumentsToMatchCeiling          int
+	URLMetadataAskDocumentsCeiling   int
+	RankedItemsCeiling               int
+	NATSURL                          string
+	RankingCache                     int
+	RankingLifetime                  time.Duration
+	QueryWordDocumentAmountLifetime  time.Duration
+	QueryWordDocumentAmountsCapacity int
 
 	PagesReadPerQuery       int
 	PagesReadPerSite        int
@@ -209,36 +215,38 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			EnvNetworkName,
 			yacyproto.DefaultNetwork,
 		),
-		SeedlistURLs:                   seedlistURLs,
-		EgressProxyURL:                 egressProxyURL,
-		PageReadProxyURL:               pageReadProxyURL,
-		PageReadProxyDialMode:          pageReadProxyDialMode,
-		QueryBudget:                    durations.queryBudget,
-		NetworkRedundancy:              counts.networkRedundancy,
-		ReplicasCoveringAPartition:     replicasCoveringAPartition,
-		HedgeDelay:                     durations.hedgeDelay,
-		PeerCallsInFlight:              counts.peerCallsInFlight,
-		URLMetadataCallBudget:          durations.urlMetadataCallBudget,
-		SearchCallBudget:               durations.searchCallBudget,
-		ProbesInFlight:                 counts.probesInFlight,
-		DirectoryCapacity:              counts.directoryCapacity,
-		NewcomerShare:                  newcomerShare,
-		RefreshInterval:                durations.refreshInterval,
-		ProbeBudget:                    durations.probeBudget,
-		ContinuityLimit:                durations.continuityLimit,
-		ProbeAnswerHistoryKeptFor:      durations.probeAnswerHistoryKeptFor,
-		MaturationDuration:             durations.maturationDuration,
-		StalenessHorizon:               durations.stalenessHorizon,
-		SnapshotInterval:               durations.snapshotInterval,
-		Partitions:                     partitions,
-		MaxResponseBytes:               maxResponseBytes,
-		PeerItemsCeiling:               counts.peerItemsCeiling,
-		DocumentsToMatchCeiling:        counts.documentsToMatchCeiling,
-		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
-		RankedItemsCeiling:             counts.rankedItemsCeiling,
-		NATSURL:                        strings.TrimSpace(getenv(EnvNATSURL)),
-		RankingCache:                   counts.rankingCacheCapacity,
-		RankingLifetime:                durations.rankingLifetime,
+		SeedlistURLs:                     seedlistURLs,
+		EgressProxyURL:                   egressProxyURL,
+		PageReadProxyURL:                 pageReadProxyURL,
+		PageReadProxyDialMode:            pageReadProxyDialMode,
+		QueryBudget:                      durations.queryBudget,
+		NetworkRedundancy:                counts.networkRedundancy,
+		ReplicasCoveringAPartition:       replicasCoveringAPartition,
+		HedgeDelay:                       durations.hedgeDelay,
+		PeerCallsInFlight:                counts.peerCallsInFlight,
+		URLMetadataCallBudget:            durations.urlMetadataCallBudget,
+		SearchCallBudget:                 durations.searchCallBudget,
+		ProbesInFlight:                   counts.probesInFlight,
+		DirectoryCapacity:                counts.directoryCapacity,
+		NewcomerShare:                    newcomerShare,
+		RefreshInterval:                  durations.refreshInterval,
+		ProbeBudget:                      durations.probeBudget,
+		ContinuityLimit:                  durations.continuityLimit,
+		ProbeAnswerHistoryKeptFor:        durations.probeAnswerHistoryKeptFor,
+		MaturationDuration:               durations.maturationDuration,
+		StalenessHorizon:                 durations.stalenessHorizon,
+		SnapshotInterval:                 durations.snapshotInterval,
+		Partitions:                       partitions,
+		MaxResponseBytes:                 maxResponseBytes,
+		PeerItemsCeiling:                 counts.peerItemsCeiling,
+		DocumentsToMatchCeiling:          counts.documentsToMatchCeiling,
+		URLMetadataAskDocumentsCeiling:   counts.urlMetadataAskDocumentsCeiling,
+		RankedItemsCeiling:               counts.rankedItemsCeiling,
+		NATSURL:                          strings.TrimSpace(getenv(EnvNATSURL)),
+		RankingCache:                     counts.rankingCacheCapacity,
+		RankingLifetime:                  durations.rankingLifetime,
+		QueryWordDocumentAmountLifetime:  durations.queryWordDocumentAmountLifetime,
+		QueryWordDocumentAmountsCapacity: counts.queryWordDocumentAmountsCapacity,
 
 		PagesReadPerQuery:    counts.pagesReadPerQuery,
 		PagesReadPerSite:     counts.pagesReadPerSite,
@@ -255,20 +263,21 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 }
 
 type configuredDurations struct {
-	queryBudget               time.Duration
-	hedgeDelay                time.Duration
-	urlMetadataCallBudget     time.Duration
-	searchCallBudget          time.Duration
-	refreshInterval           time.Duration
-	probeBudget               time.Duration
-	continuityLimit           time.Duration
-	probeAnswerHistoryKeptFor time.Duration
-	maturationDuration        time.Duration
-	stalenessHorizon          time.Duration
-	snapshotInterval          time.Duration
-	rankingLifetime           time.Duration
-	pageReadBudget            time.Duration
-	pageReadCutoffGrace       time.Duration
+	queryBudget                     time.Duration
+	hedgeDelay                      time.Duration
+	urlMetadataCallBudget           time.Duration
+	searchCallBudget                time.Duration
+	refreshInterval                 time.Duration
+	probeBudget                     time.Duration
+	continuityLimit                 time.Duration
+	probeAnswerHistoryKeptFor       time.Duration
+	maturationDuration              time.Duration
+	stalenessHorizon                time.Duration
+	snapshotInterval                time.Duration
+	rankingLifetime                 time.Duration
+	queryWordDocumentAmountLifetime time.Duration
+	pageReadBudget                  time.Duration
+	pageReadCutoffGrace             time.Duration
 }
 
 func durationsOf(getenv func(string) string) (configuredDurations, error) {
@@ -299,6 +308,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		},
 		{EnvSnapshotInterval, DefaultSnapshotInterval, &durations.snapshotInterval},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
+		{EnvQueryWordDocumentAmountLifetime, DefaultQueryWordDocumentAmountLifetime, &durations.queryWordDocumentAmountLifetime},
 		{EnvPageReadBudget, DefaultPageReadBudget, &durations.pageReadBudget},
 		{EnvPageReadCutoffGrace, DefaultPageReadCutoffGrace, &durations.pageReadCutoffGrace},
 	} {
@@ -311,21 +321,22 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 }
 
 type configuredCounts struct {
-	networkRedundancy              int
-	peerCallsInFlight              int
-	probesInFlight                 int
-	directoryCapacity              int
-	peerItemsCeiling               int
-	documentsToMatchCeiling        int
-	urlMetadataAskDocumentsCeiling int
-	rankedItemsCeiling             int
-	rankingCacheCapacity           int
-	pagesReadPerQuery              int
-	pagesReadPerSite               int
-	compoundWordsCeiling           int
-	pageReadMaxRedirectHops        int
-	pageReadCutoffPercent          int
-	snippetLengthCeiling           int
+	networkRedundancy                int
+	peerCallsInFlight                int
+	probesInFlight                   int
+	directoryCapacity                int
+	peerItemsCeiling                 int
+	documentsToMatchCeiling          int
+	urlMetadataAskDocumentsCeiling   int
+	rankedItemsCeiling               int
+	rankingCacheCapacity             int
+	queryWordDocumentAmountsCapacity int
+	pagesReadPerQuery                int
+	pagesReadPerSite                 int
+	compoundWordsCeiling             int
+	pageReadMaxRedirectHops          int
+	pageReadCutoffPercent            int
+	snippetLengthCeiling             int
 }
 
 func countsOf(getenv func(string) string) (configuredCounts, error) {
@@ -345,6 +356,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvURLMetadataAskDocumentsCeiling, DefaultURLMetadataAskDocumentsCeiling, &counts.urlMetadataAskDocumentsCeiling},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
+		{EnvQueryWordDocumentAmountsCapacity, DefaultQueryWordDocumentAmountsCapacity, &counts.queryWordDocumentAmountsCapacity},
 		{EnvPagesReadPerQuery, DefaultPagesReadPerQuery, &counts.pagesReadPerQuery},
 		{EnvPagesReadPerSite, DefaultPagesReadPerSite, &counts.pagesReadPerSite},
 		{EnvCompoundWordsCeiling, DefaultCompoundWordsCeiling, &counts.compoundWordsCeiling},

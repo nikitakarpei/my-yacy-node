@@ -23,14 +23,16 @@
 
 ## Ranking cache
 
-Without a NATS address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking. An address that does not answer stops the service from starting.
+Without a NATS address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking and share the query word document amounts. An address that does not answer stops the service from starting.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_RANKING_LIFETIME` | `2m` | Time one ranking answers a repeated query. |
 | `YACYDHTSEARCH_RANKED_ITEMS_CEILING` | `50` | Most items one ranking holds. A client cannot get more than this. |
 | `YACYDHTSEARCH_RANKING_CACHE_CAPACITY` | `1024` | Most rankings the cache keeps at one time. |
-| `YACYDHTSEARCH_NATS_URL` | in-memory | NATS address that caches rankings for every instance. |
+| `YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNT_LIFETIME` | `6h` | Time the service remembers how many documents the peers hold for a query word. A query whose words all have a remembered document amount takes no sample. |
+| `YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNTS_CAPACITY` | `100000` | Most query words whose document amount the service remembers. |
+| `YACYDHTSEARCH_NATS_URL` | in-memory | NATS address that caches rankings and query word document amounts for every instance. |
 
 ## Peer directory
 

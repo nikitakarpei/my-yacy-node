@@ -34,7 +34,7 @@ func performedDiscoveryRoundFrom(
 		AmountOfPeersWithANonEmptyAbstract: amountOfPeersWithANonEmptyAbstractAmong(
 			round.answeredAsks,
 		),
-		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
+		LeadingQueryWordChoice: round.chosenLeadingQueryWord.choice,
 		AmountOfDocumentsOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documents(),
 		),

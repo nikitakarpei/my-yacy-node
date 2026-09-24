@@ -11,15 +11,18 @@ type discovery struct {
 	askRun                    *askRun
 	asks                      discoveryAsks
 	query                     searchquery.Query
+	rememberedDocumentAmounts map[yacymodel.Hash]int
 	partitions                yacymodel.DHTRingPartitions
 	documentsToMatchCeiling   int
 	otherWordAsksPerPartition map[uint]OtherWordAsks
 }
 
+//nolint:revive // argument-limit: the discovery takes its run, asks, query, remembered document amounts, ring and ceiling
 func discoveryOver(
 	askRun *askRun,
 	asks discoveryAsks,
 	query searchquery.Query,
+	rememberedDocumentAmounts map[yacymodel.Hash]int,
 	partitions yacymodel.DHTRingPartitions,
 	documentsToMatchCeiling int,
 ) *discovery {
@@ -27,18 +30,47 @@ func discoveryOver(
 		askRun:                    askRun,
 		asks:                      asks,
 		query:                     query,
+		rememberedDocumentAmounts: rememberedDocumentAmounts,
 		partitions:                partitions,
 		documentsToMatchCeiling:   documentsToMatchCeiling,
 		otherWordAsksPerPartition: map[uint]OtherWordAsks{},
 	}
 }
 
-func (discovery *discovery) askFromTheSampleIn(sampledPartition uint) discoveryRound {
-	leadingQueryWordFromTheSample := discovery.takeTheSampleIn(sampledPartition)
-	discovery.askTheRestAfter(leadingQueryWordFromTheSample)
+func (discovery *discovery) askTheQueryWords(sampledPartition uint) discoveryRound {
+	leadingQueryWord := discovery.leadingQueryWordRememberedOrSampledIn(sampledPartition)
+	discovery.askTheRestAfter(leadingQueryWord)
 	discovery.askRun.finish()
 
-	return discovery.roundFrom(sampledPartition, leadingQueryWordFromTheSample)
+	return discovery.roundFrom(sampledPartition, leadingQueryWord)
+}
+
+func (discovery *discovery) leadingQueryWordRememberedOrSampledIn(
+	sampledPartition uint,
+) chosenLeadingQueryWord {
+	rememberedLeadingQueryWord := discovery.rememberedLeadingQueryWord()
+	if rememberedLeadingQueryWord.Present() {
+		return chosenLeadingQueryWord{
+			word:   rememberedLeadingQueryWord,
+			choice: RarestQueryWordRemembered,
+		}
+	}
+	sampledLeadingQueryWord := discovery.takeTheSampleIn(sampledPartition)
+	if sampledLeadingQueryWord.Present() {
+		return chosenLeadingQueryWord{
+			word:   sampledLeadingQueryWord,
+			choice: RarestQueryWordWithASample,
+		}
+	}
+
+	return chosenLeadingQueryWord{
+		word:   yacymodel.None[yacymodel.Hash](),
+		choice: RarestQueryWordWithoutASample,
+	}
+}
+
+func (discovery *discovery) rememberedLeadingQueryWord() yacymodel.Optional[yacymodel.Hash] {
+	return rarestQueryWordAmong(discovery.query.WordHashes(), discovery.rememberedDocumentAmounts)
 }
 
 func (discovery *discovery) takeTheSampleIn(
@@ -60,16 +92,14 @@ func (discovery *discovery) takeTheSampleIn(
 	)
 }
 
-func (discovery *discovery) askTheRestAfter(
-	leadingQueryWordFromTheSample yacymodel.Optional[yacymodel.Hash],
-) {
-	leadingQueryWord, chosen := leadingQueryWordFromTheSample.Get()
+func (discovery *discovery) askTheRestAfter(leadingQueryWord chosenLeadingQueryWord) {
+	word, chosen := leadingQueryWord.word.Get()
 	if !chosen {
 		discovery.askRun.put(discovery.asks)
 
 		return
 	}
-	discovery.askAroundTheLeadingWord(queryWordRolesAround(leadingQueryWord, discovery.query))
+	discovery.askAroundTheLeadingWord(queryWordRolesAround(word, discovery.query))
 }
 
 func (discovery *discovery) askAroundTheLeadingWord(roles queryWordRoles) {
@@ -155,7 +185,7 @@ func (discovery *discovery) documentsToMatchIn(
 
 func (discovery *discovery) roundFrom(
 	sampledPartition uint,
-	leadingQueryWordFromTheSample yacymodel.Optional[yacymodel.Hash],
+	leadingQueryWord chosenLeadingQueryWord,
 ) discoveryRound {
 	askOutcomes := discovery.askRun.askOutcomes
 	answeredAsks := askOutcomes.AnsweredAsks()
@@ -175,7 +205,7 @@ func (discovery *discovery) roundFrom(
 		amountOfQueryWordsWithASample: amountOfQueryWordsWithASampleIn(
 			sampledPartition, queryWordsFewestDocumentsFirst, discovery.partitions,
 		),
-		leadingQueryWordFromTheSample: leadingQueryWordFromTheSample,
-		otherWordAsksPerPartition:     discovery.otherWordAsksPerPartition,
+		chosenLeadingQueryWord:    leadingQueryWord,
+		otherWordAsksPerPartition: discovery.otherWordAsksPerPartition,
 	}
 }
