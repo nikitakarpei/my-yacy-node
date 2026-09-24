@@ -7,13 +7,10 @@ import (
 
 func askOutcomesFrom(
 	settledWordPartitions <-chan replicaasks.SettledWordPartition,
-	amountOfAsks int,
 ) peerasks.SearchDocumentsAskOutcomes {
-	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, amountOfAsks)
+	askOutcomes := peerasks.SearchDocumentsAskOutcomes{}
 	for settledWordPartition := range settledWordPartitions {
-		for _, placed := range settledWordPartition.AskOutcomes {
-			askOutcomes[placed.PlaceInTheRun] = placed.AskOutcome
-		}
+		askOutcomes = append(askOutcomes, settledWordPartition.AskOutcomes...)
 	}
 
 	return askOutcomes

@@ -93,17 +93,12 @@ func (replicas replicasOfTheNetwork) answerEachAsk(
 	settledWordPartitions chan<- replicaasks.SettledWordPartition,
 ) {
 	defer close(settledWordPartitions)
-	placeOfTheFirstAsk := 0
 	for addedAsks := range asks {
-		for place, askOutcome := range slices.Backward(replicas.askOutcomesOf(ctx, addedAsks)) {
+		for _, askOutcome := range slices.Backward(replicas.askOutcomesOf(ctx, addedAsks)) {
 			settledWordPartitions <- replicaasks.SettledWordPartition{
-				AskOutcomes: []replicaasks.PlacedAskOutcome{{
-					PlaceInTheRun: placeOfTheFirstAsk + place,
-					AskOutcome:    askOutcome,
-				}},
+				AskOutcomes: peerasks.SearchDocumentsAskOutcomes{askOutcome},
 			}
 		}
-		placeOfTheFirstAsk += len(addedAsks)
 	}
 }
 

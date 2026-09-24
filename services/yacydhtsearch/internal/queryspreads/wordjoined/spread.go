@@ -129,7 +129,7 @@ func (spread Spread) askToDiscover(
 	run := spread.replicaAsks.Start(roundContext)
 	run.Asks <- asks
 	close(run.Asks)
-	askOutcomes := askOutcomesFrom(run.SettledWordPartitions, len(asks))
+	askOutcomes := askOutcomesFrom(run.SettledWordPartitions)
 	answeredAsks := askOutcomes.AnsweredAsks()
 
 	return discoveryRound{

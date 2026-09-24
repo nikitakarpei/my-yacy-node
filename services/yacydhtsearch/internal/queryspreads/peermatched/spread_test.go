@@ -47,28 +47,23 @@ func (network *peerNetwork) answerEachAsk(
 ) {
 	defer close(settledWordPartitions)
 	for addedAsks := range asks {
-		placeOfTheFirstAsk := len(network.asks)
 		network.asks = append(network.asks, addedAsks...)
-		for place, ask := range slices.Backward(addedAsks) {
-			settledWordPartitions <- network.settledWordPartitionOf(ask, placeOfTheFirstAsk+place)
+		for _, ask := range slices.Backward(addedAsks) {
+			settledWordPartitions <- network.settledWordPartitionOf(ask)
 		}
 	}
 }
 
 func (network *peerNetwork) settledWordPartitionOf(
 	ask peerasks.SearchDocumentsAsk,
-	placeInTheRun int,
 ) replicaasks.SettledWordPartition {
-	return replicaasks.SettledWordPartition{AskOutcomes: []replicaasks.PlacedAskOutcome{{
-		PlaceInTheRun: placeInTheRun,
-		AskOutcome: peerasks.SearchDocumentsAskOutcome{
-			Ask: ask,
-			Put: true,
-			Answer: yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
-				Ask:              ask,
-				MatchedDocuments: network.matchedDocumentsOf(ask.Peer),
-			}),
-		},
+	return replicaasks.SettledWordPartition{AskOutcomes: peerasks.SearchDocumentsAskOutcomes{{
+		Ask: ask,
+		Put: true,
+		Answer: yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
+			Ask:              ask,
+			MatchedDocuments: network.matchedDocumentsOf(ask.Peer),
+		}),
 	}}}
 }
 
@@ -232,8 +227,8 @@ func TestADocumentSeveralPeersMatchedIsFoundOnce(t *testing.T) {
 
 	foundDocuments := searchOf(network, &recordedSpreads{})
 
-	want := []string{"https://a.example/", "https://shared.example/", "https://c.example/"}
-	if got := addressesOf(foundDocuments); !slices.Equal(got, want) {
+	want := []string{"https://a.example/", "https://c.example/", "https://shared.example/"}
+	if got := slices.Sorted(slices.Values(addressesOf(foundDocuments))); !slices.Equal(got, want) {
 		t.Fatalf("the spread found %v, want %v", got, want)
 	}
 }

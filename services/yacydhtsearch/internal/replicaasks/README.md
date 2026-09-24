@@ -35,8 +35,8 @@ settles when enough replicas listed documents, when no replica is left, or at
 the deadline. It comes with the outcome of each of its asks. An outcome tells
 if the run put the ask and what the peer answered.
 
-Each outcome has the place of its ask in the run. The place counts all asks
-that you sent, in the order you sent them, from zero.
+The outcomes of a word partition come in the order of its replicas. The word
+partitions come in the order they settle.
 
 Read the settled word partitions until they close. They close when you closed
 the asks and every word partition settled. Before they close, the observer

@@ -16,7 +16,6 @@ type openRun struct {
 	chosenPeers                     *chosenPeers
 	wordPartitions                  []*wordPartition
 	wordPartitionKeys               map[wordPartitionKey]struct{}
-	amountOfAsksAdded               int
 	amountOfWordPartitionsUnsettled int
 	settledWordPartitionsUnread     []SettledWordPartition
 }
@@ -108,8 +107,6 @@ func (run *openRun) asksOfEachNewWordPartitionIn(
 	asksOfEachWordPartition := make([][]placedAsk, 0, len(asksInReplicaOrder))
 	placeOfNewKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
 	for _, ask := range asksInReplicaOrder {
-		placeInTheRun := run.amountOfAsksAdded
-		run.amountOfAsksAdded++
 		key := wordPartitionKeyOf(ask)
 		place, isNew := placeOfNewKey[key]
 		if !isNew {
@@ -123,7 +120,7 @@ func (run *openRun) asksOfEachNewWordPartitionIn(
 		}
 		asksOfEachWordPartition[place] = append(
 			asksOfEachWordPartition[place],
-			placedAsk{ask: ask, placeInTheRun: placeInTheRun},
+			placedAsk{ask: ask, placeInReplicaOrder: len(asksOfEachWordPartition[place])},
 		)
 	}
 

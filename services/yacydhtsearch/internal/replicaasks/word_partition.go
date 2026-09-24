@@ -9,8 +9,8 @@ import (
 )
 
 type placedAsk struct {
-	ask           peerasks.SearchDocumentsAsk
-	placeInTheRun int
+	ask                 peerasks.SearchDocumentsAsk
+	placeInReplicaOrder int
 }
 
 type wordPartition struct {
@@ -251,19 +251,16 @@ func (partition *wordPartition) stopTheHedgeTimers() {
 func (partition *wordPartition) settledWordPartition() SettledWordPartition {
 	callOfEachPlace := make(map[int]*replicaCall, len(partition.calls))
 	for _, call := range partition.calls {
-		callOfEachPlace[call.placedAsk.placeInTheRun] = call
+		callOfEachPlace[call.placedAsk.placeInReplicaOrder] = call
 	}
-	askOutcomes := make([]PlacedAskOutcome, 0, len(partition.asksInReplicaOrder))
+	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(partition.asksInReplicaOrder))
 	for _, placedAsk := range partition.asksInReplicaOrder {
 		askOutcome := peerasks.SearchDocumentsAskOutcome{Ask: placedAsk.ask}
-		if call, put := callOfEachPlace[placedAsk.placeInTheRun]; put {
+		if call, put := callOfEachPlace[placedAsk.placeInReplicaOrder]; put {
 			askOutcome.Put = true
 			askOutcome.Answer = call.answer
 		}
-		askOutcomes = append(askOutcomes, PlacedAskOutcome{
-			PlaceInTheRun: placedAsk.placeInTheRun,
-			AskOutcome:    askOutcome,
-		})
+		askOutcomes = append(askOutcomes, askOutcome)
 	}
 
 	return SettledWordPartition{AskOutcomes: askOutcomes}

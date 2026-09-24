@@ -45,7 +45,7 @@ func (spread Spread) SpreadOverPeers(
 	run := spread.replicaAsks.Start(ctx)
 	run.Asks <- asks
 	close(run.Asks)
-	answeredAsks := answeredAsksFrom(run.SettledWordPartitions, len(asks))
+	answeredAsks := answeredAsksFrom(run.SettledWordPartitions)
 
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,

@@ -1,6 +1,7 @@
 package replicaasks_test
 
 import (
+	"cmp"
 	"context"
 	"slices"
 	"sync"
@@ -229,7 +230,7 @@ func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t 
 	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
 }
 
-func TestEachOutcomeComesBackInThePlaceOfItsAsk(t *testing.T) {
+func TestEachWordPartitionTellsTheOutcomesOfItsAsksInReplicaOrder(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
@@ -242,7 +243,7 @@ func TestEachOutcomeComesBackInThePlaceOfItsAsk(t *testing.T) {
 		asksForTheWord("berlin", 3, "three-one")...,
 	))
 
-	wanted := []string{"seven-one answered", "seven-two not put", "three-one answered"}
+	wanted := []string{"three-one answered", "seven-one answered", "seven-two not put"}
 	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
 		t.Fatalf("the run = %v, want %v", got, wanted)
 	}
@@ -379,12 +380,6 @@ func TestAsksAddedToARunningRunAreAsked(t *testing.T) {
 
 	wantOutcomesIn(t, firstWordPartition, "berlin-one answered")
 	wantOutcomesIn(t, secondWordPartition, "weather-one answered")
-	if secondWordPartition.AskOutcomes[0].PlaceInTheRun != 1 {
-		t.Fatalf(
-			"the ask added second has place %d in the run, want 1",
-			secondWordPartition.AskOutcomes[0].PlaceInTheRun,
-		)
-	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "weather-one")
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
 }
@@ -755,12 +750,13 @@ func (asking askingUnderTest) searchDocumentsAskOutcomes(
 	run := asking.startedRun(ctx)
 	run.Asks <- asks
 	close(run.Asks)
-	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, len(asks))
+	askOutcomes := peerasks.SearchDocumentsAskOutcomes{}
 	for settledWordPartition := range run.SettledWordPartitions {
-		for _, placed := range settledWordPartition.AskOutcomes {
-			askOutcomes[placed.PlaceInTheRun] = placed.AskOutcome
-		}
+		askOutcomes = append(askOutcomes, settledWordPartition.AskOutcomes...)
 	}
+	slices.SortStableFunc(askOutcomes, func(first, second peerasks.SearchDocumentsAskOutcome) int {
+		return cmp.Compare(first.Ask.Partition, second.Ask.Partition)
+	})
 
 	return askOutcomes
 }
@@ -784,13 +780,7 @@ func wantOutcomesIn(
 }
 
 func outcomesIn(settledWordPartition replicaasks.SettledWordPartition) []string {
-	placedAskOutcomes := settledWordPartition.AskOutcomes
-	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(placedAskOutcomes))
-	for _, placed := range placedAskOutcomes {
-		askOutcomes = append(askOutcomes, placed.AskOutcome)
-	}
-
-	return outcomesOf(askOutcomes)
+	return outcomesOf(settledWordPartition.AskOutcomes)
 }
 
 func wantTheRunOver(t *testing.T, run replicaasks.Run) {
