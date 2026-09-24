@@ -80,6 +80,7 @@ func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymo
 	return yacymodel.Some(sumOfAmountsHeld)
 }
 
+// TECHDEBT: Naming — a name past four words names two facts: amountsOfDocumentsHeldInPartitionsWhereAPeerCounted.
 func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
 	amountsHeld := make([]int, 0, len(queryWord.replicasPerPartition))
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
