@@ -20,9 +20,9 @@ import (
 )
 
 const (
-	defaultSearchResultCount = 10
-	defaultSearchTimeLimit   = 3 * time.Second
-	maxSearchTimeLimit       = 3 * time.Second
+	maxSearchResultCount   = 10
+	defaultSearchTimeLimit = 3 * time.Second
+	maxSearchTimeLimit     = 3 * time.Second
 )
 
 var searchWord = searchtest.HashFor("w1")
@@ -308,8 +308,8 @@ func TestContentDomainFiltersByTheAppearanceItNames(t *testing.T) {
 	}
 }
 
-func TestMissingCountTakesTheDefaultResultCount(t *testing.T) {
-	documents := make([]searchDocument, defaultSearchResultCount+5)
+func TestResultCountIsCappedAtTheMaximum(t *testing.T) {
+	documents := make([]searchDocument, maxSearchResultCount+5)
 	for position := range documents {
 		documents[position] = searchDocument{
 			Address: fmt.Sprintf("http://example.com/u%02d", position),
@@ -317,10 +317,23 @@ func TestMissingCountTakesTheDefaultResultCount(t *testing.T) {
 	}
 	mux := mountedSearchFor(t, searchWord, documents...)
 
-	resp := search(t, mux, searchRequestFor(searchWord, yacyproto.SearchRequest{}))
+	for _, testCase := range []struct {
+		name  string
+		count int
+	}{
+		{name: "missing count", count: 0},
+		{name: "count above the maximum", count: maxSearchResultCount + 5},
+	} {
+		t.Run(testCase.name, func(t *testing.T) {
+			resp := search(t, mux, searchRequestFor(
+				searchWord,
+				yacyproto.SearchRequest{Count: testCase.count},
+			))
 
-	if resp.Count != defaultSearchResultCount {
-		t.Errorf("Count = %d, want the default of %d", resp.Count, defaultSearchResultCount)
+			if resp.Count != maxSearchResultCount {
+				t.Errorf("Count = %d, want the maximum of %d", resp.Count, maxSearchResultCount)
+			}
+		})
 	}
 }
 
