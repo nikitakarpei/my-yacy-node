@@ -34,7 +34,7 @@ type searchIndex interface {
 	rwipostingamount.PostingAmountQuery
 }
 
-const documentsPerIndexAbstract = 1000
+const indexAbstractDocumentsPerAnswer = 10000
 
 func searchResultsFor(
 	t *testing.T,
@@ -46,7 +46,7 @@ func searchResultsFor(
 	return searchresult.New(
 		openVault(t),
 		documentmatch.New(index, index),
-		indexabstract.New(index, index, documentsPerIndexAbstract),
+		indexabstract.New(index, index, indexAbstractDocumentsPerAnswer),
 		index,
 		documents,
 	)

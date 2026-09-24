@@ -195,7 +195,7 @@ func TestIndexAbstractsNameACoveredTermTheNodeHoldsNoDocumentsFor(t *testing.T) 
 
 	abstracts, err := indexAbstractsFrom(
 		t,
-		indexabstract.New(index, index, documentsPerIndexAbstract),
+		indexabstract.New(index, index, documentsPerAnswer),
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word, related}},
 		indexabstract.RequestedIndexAbstracts{
 			indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{word, related}},
@@ -224,7 +224,7 @@ func termsCoveredByRequest(
 	abstracts, err := indexAbstractsFrom(
 		t,
 		indexabstract.New(
-			searchtest.PostingIndex{}, searchtest.PostingIndex{}, documentsPerIndexAbstract,
+			searchtest.PostingIndex{}, searchtest.PostingIndex{}, documentsPerAnswer,
 		),
 		searchcriteria.Criteria{Terms: queryTerms},
 		requested,

@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	defaultSearchCount = 10
-	defaultSearchTime  = 3 * time.Second
-	maxSearchTime      = 3 * time.Second
+	maxSearchCount    = 10
+	defaultSearchTime = 3 * time.Second
+	maxSearchTime     = 3 * time.Second
 )
 
 const (
@@ -23,21 +23,18 @@ const (
 	siteFTPScheme  = "ftp://"
 )
 
+// TECHDEBT: comments — an explanatory comment on the Language field is not an allowed comment form
 func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, error) {
 	operators := queryOperatorsIn(req.Modifier)
 	siteHash, err := siteHashFromRequest(req, operators)
 	if err != nil {
 		return searchcriteria.Criteria{}, err
 	}
-	maxResults := req.Count
-	if maxResults <= 0 {
-		maxResults = defaultSearchCount
-	}
 	return searchcriteria.Criteria{
 		Terms:              req.Query,
 		ExcludedTerms:      req.Exclude,
 		RequiredDocuments:  req.URLs,
-		MaxResults:         maxResults,
+		MaxResults:         resultCountFromRequest(req),
 		MaxTermSpread:      req.MaxDist,
 		TimeLimit:          timeLimitFromRequest(req),
 		ContentKind:        contentKindFromDomain(req.ContentDom),
@@ -122,6 +119,14 @@ func hostHashOfSite(site string) (yacymodel.HostHash, error) {
 	}
 
 	return yacymodel.URLNormalformOf(address).HostHash(), nil
+}
+
+func resultCountFromRequest(req yacyproto.SearchRequest) int {
+	if req.Count <= 0 {
+		return maxSearchCount
+	}
+
+	return min(req.Count, maxSearchCount)
 }
 
 func timeLimitFromRequest(req yacyproto.SearchRequest) time.Duration {

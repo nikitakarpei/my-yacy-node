@@ -50,6 +50,7 @@ type endpoint struct {
 	observation  searchObservation
 }
 
+// TECHDEBT: abstraction — Serve orchestrates and works: it names steps and also assembles the response and log attributes
 func (e endpoint) Serve(
 	ctx context.Context,
 	req yacyproto.SearchRequest,
