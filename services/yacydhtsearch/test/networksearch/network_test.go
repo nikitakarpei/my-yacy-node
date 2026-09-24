@@ -42,6 +42,7 @@ const (
 	recordCeiling         = 50
 	compoundWordsCeiling  = 4
 	pagesReadPerQuery     = 50
+	pagesReadPerSite      = pagesReadPerQuery
 
 	networkRedundancy          = 2
 	replicasCoveringAPartition = networkRedundancy
@@ -331,6 +332,7 @@ func networkOrdering(
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,
+		pagesReadPerSite,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{observer},
@@ -643,6 +645,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,
+		pagesReadPerSite,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
@@ -654,6 +657,70 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		t.Fatalf(
 			"the ranking reads %+v, want the document whose page holds the rarer word first",
 			ranking.Items,
+		)
+	}
+}
+
+type pagesRecordingTheirAddresses struct {
+	addresses *[]string
+}
+
+func (p pagesRecordingTheirAddresses) ReadEachPage(
+	_ context.Context,
+	_ []yacymodel.Hash,
+	pagesToRead []pagereading.PageToRead,
+) pagereading.ReadPages {
+	for _, pageToRead := range pagesToRead {
+		*p.addresses = append(*p.addresses, pageToRead.Address)
+	}
+
+	return pagereading.ReadPages{}
+}
+
+func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
+	t.Parallel()
+
+	addresses := []string{
+		"https://spam.example/1",
+		"https://spam.example/2",
+		"https://spam.example/3",
+		"https://other.example/",
+	}
+	foundDocuments := make([]queryanswers.FoundDocument, 0, len(addresses))
+	for _, address := range addresses {
+		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
+			Hash:    documentOf(t, address),
+			Address: address,
+			Facts:   oneHitOfTheWord("berlin"),
+		})
+	}
+	var addressesRead []string
+	network := networksearch.New(
+		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
+		spreadAnswering{answers: queryanswers.AnsweredQuery{
+			QueryWords:     []yacymodel.Hash{yacymodel.WordHash("berlin")},
+			FoundDocuments: foundDocuments,
+		}},
+		pagesRecordingTheirAddresses{addresses: &addressesRead},
+		orderingInTheFoundOrder{},
+		queryBudget,
+		pageReadBudget,
+		pagesReadPerQuery,
+		2,
+		recordCeiling,
+		compoundWordsCeiling,
+		networksearch.NetworkSearchObservers{&recordedQuery{}},
+	)
+
+	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+
+	if !slices.Equal(addressesRead, []string{
+		"https://spam.example/1", "https://spam.example/2", "https://other.example/",
+	}) {
+		t.Fatalf(
+			"the pages read are %v, want two of the one site and the other site",
+			addressesRead,
 		)
 	}
 }
@@ -690,6 +757,7 @@ func TestADocumentWhosePageIsGoneLeavesTheRanking(t *testing.T) {
 		queryBudget,
 		pageReadBudget,
 		pagesReadPerQuery,
+		pagesReadPerSite,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
@@ -767,6 +835,7 @@ func networkRecordingItsBudgets(
 		queryBudget,
 		pageReadBudgetOfTheQuery,
 		pagesReadPerQuery,
+		pagesReadPerSite,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
