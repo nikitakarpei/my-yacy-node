@@ -220,7 +220,7 @@
     },
     {
       "id": 4,
-      "title": "How long a request took, by endpoint (p90)",
+      "title": "How long a request took, by endpoint",
       "description": "The search endpoint includes searches the cache answered.",
       "type": "timeseries",
       "datasource": {
@@ -258,8 +258,18 @@
       "targets": [
         {
           "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le, endpoint) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{endpoint}} p50"
+        },
+        {
+          "refId": "B",
           "expr": "histogram_quantile(0.90, sum by (le, endpoint) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{endpoint}}"
+          "legendFormat": "{{endpoint}} p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le, endpoint) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{endpoint}} p99"
         }
       ]
     },
@@ -429,7 +439,7 @@
     {
       "id": 11,
       "title": "How long a network search took",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -442,46 +452,41 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "s",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p99"
         }
       ]
     },
@@ -489,7 +494,7 @@
       "id": 13,
       "title": "Unique items in the final ranking",
       "description": "The ranking limit applies after duplicate items are removed.",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -508,40 +513,21 @@
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "short",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_items_ranked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_items_ranked_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_network_search_items_ranked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_items_ranked_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_network_search_items_ranked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_items_ranked_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
         }
       ]
     },
@@ -549,7 +535,7 @@
       "id": 34,
       "title": "Ring distance from a query word to the peer picked for it",
       "description": "Zero means the picked peer sits exactly where the query word belongs on the ring.",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -562,52 +548,42 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit"
+          "unit": "percentunit",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
         }
       ]
     },
     {
       "id": 68,
-      "title": "Peers askable when a network search started (p10, p50)",
+      "title": "Peers askable when a network search started",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -662,7 +638,7 @@
     {
       "id": 16,
       "title": "How long a query sent whole took",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -675,46 +651,41 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "s",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_matched_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p99"
         }
       ]
     },
@@ -734,7 +705,7 @@
     {
       "id": 22,
       "title": "How long a word-by-word query took",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -747,46 +718,41 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "s",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p99"
         }
       ]
     },
@@ -829,7 +795,7 @@
     {
       "id": 26,
       "title": "Share of the query words with no document in any abstract",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -842,46 +808,24 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit"
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_unheld_query_words_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_unheld_query_words_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_unheld_query_words_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_unheld_query_words_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "mean"
         }
       ]
     },
@@ -901,7 +845,7 @@
     {
       "id": 52,
       "title": "Share of the query words with a sample",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -914,46 +858,24 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit"
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "mean"
         }
       ],
       "description": "A word has a sample when an answer in the random partition lists all the documents it counts."
@@ -1067,7 +989,7 @@
       "id": 20,
       "title": "Share of the joined documents dropped before their URL metadata was looked up",
       "description": "One peer call asks about at most YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING documents.",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1080,53 +1002,36 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit"
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "mean"
+        },
+        {
+          "refId": "B",
+          "expr": "1 - sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "queries that dropped any"
         }
       ]
     },
     {
       "id": 21,
       "title": "Share of the looked-up documents no peer sent URL metadata for",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1139,46 +1044,29 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit"
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "mean"
+        },
+        {
+          "refId": "B",
+          "expr": "1 - sum(clamp_min(yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "queries with any document without it"
         }
       ]
     },
@@ -1197,7 +1085,7 @@
     },
     {
       "id": 37,
-      "title": "How long an answered peer call took, by what it asked for (p90)",
+      "title": "How long an answered peer call took, by what it asked for",
       "description": "The peer call budget bounds it.",
       "type": "timeseries",
       "datasource": {
@@ -1215,8 +1103,8 @@
           "unit": "s",
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "always",
+            "fillOpacity": 0,
+            "showPoints": "auto",
             "scaleDistribution": {
               "type": "log",
               "log": 10
@@ -1235,8 +1123,18 @@
       "targets": [
         {
           "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le, asked_for) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{asked_for}} p50"
+        },
+        {
+          "refId": "B",
           "expr": "histogram_quantile(0.90, sum by (le, asked_for) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{asked_for}}"
+          "legendFormat": "{{asked_for}} p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le, asked_for) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=~\"answered|answered nothing\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{asked_for}} p99"
         }
       ]
     },
@@ -1379,8 +1277,8 @@
     },
     {
       "id": 61,
-      "title": "How long the replica asks of a search took, by what ended them (p90)",
-      "description": "From the first ask until every word partition is covered or the deadline comes.",
+      "title": "How long the replica asks ended by coverage took",
+      "description": "From the first ask until every word partition is covered.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1397,8 +1295,8 @@
           "unit": "s",
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "always",
+            "fillOpacity": 0,
+            "showPoints": "auto",
             "scaleDistribution": {
               "type": "log",
               "log": 10
@@ -1417,8 +1315,50 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.90, sum by (le, ended_by) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{ended_by}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "title": "Share of replica asks ended by the deadline",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 115
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacydhtsearch_replica_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_replica_asks_duration_seconds_count{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "ended by the deadline"
         }
       ]
     },
@@ -1434,7 +1374,7 @@
       "gridPos": {
         "h": 8,
         "w": 8,
-        "x": 8,
+        "x": 16,
         "y": 115
       },
       "fieldConfig": {
@@ -1478,8 +1418,8 @@
       "gridPos": {
         "h": 8,
         "w": 8,
-        "x": 16,
-        "y": 115
+        "x": 0,
+        "y": 123
       },
       "fieldConfig": {
         "defaults": {
@@ -1521,8 +1461,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
+        "w": 8,
+        "x": 8,
         "y": 123
       },
       "fieldConfig": {
@@ -1558,15 +1498,15 @@
     {
       "id": 64,
       "title": "Documents a word partition listed",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 16,
         "y": 123
       },
       "fieldConfig": {
@@ -1577,40 +1517,21 @@
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "short",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_documents_listed_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
         }
       ]
     },
@@ -1631,7 +1552,7 @@
       "id": 30,
       "title": "How long reading all the pages of one query took",
       "description": "The page read budget bounds it.",
-      "type": "heatmap",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1644,46 +1565,41 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "s",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
         "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p99"
         }
       ]
     },
