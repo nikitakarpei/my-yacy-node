@@ -8,6 +8,7 @@ import (
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -52,6 +53,8 @@ const (
 	EnvPagesReadPerSite               = "YACYDHTSEARCH_PAGES_READ_PER_SITE"
 	EnvCompoundWordsCeiling           = "YACYDHTSEARCH_COMPOUND_WORDS_CEILING"
 	EnvPageReadBudget                 = "YACYDHTSEARCH_PAGE_READ_BUDGET"
+	EnvPageReadCutoffPercent          = "YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT"
+	EnvPageReadCutoffGrace            = "YACYDHTSEARCH_PAGE_READ_CUTOFF_GRACE"
 	EnvPageByteCeiling                = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
 	EnvPageReadMaxRedirectHops        = "YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS"
 	EnvSnippetLengthCeiling           = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
@@ -86,6 +89,8 @@ const (
 	DefaultPagesReadPerQuery              = 50
 	DefaultPagesReadPerSite               = 3
 	DefaultPageReadBudget                 = 3 * time.Second
+	DefaultPageReadCutoffPercent          = 90
+	DefaultPageReadCutoffGrace            = 250 * time.Millisecond
 	DefaultPageByteCeiling                = 4 * 1024 * 1024
 	DefaultPageReadMaxRedirectHops        = 3
 	DefaultSnippetLengthCeiling           = 300
@@ -132,6 +137,7 @@ type ServiceConfig struct {
 	PagesReadPerSite        int
 	CompoundWordsCeiling    int
 	PageReadBudget          time.Duration
+	PageReadCutoff          pagereading.PageReadCutoff
 	PageByteCeiling         int64
 	PageReadMaxRedirectHops int
 	SnippetLengthCeiling    int
@@ -234,10 +240,14 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		RankingCache:                   counts.rankingCacheCapacity,
 		RankingLifetime:                durations.rankingLifetime,
 
-		PagesReadPerQuery:       counts.pagesReadPerQuery,
-		PagesReadPerSite:        counts.pagesReadPerSite,
-		CompoundWordsCeiling:    counts.compoundWordsCeiling,
-		PageReadBudget:          durations.pageReadBudget,
+		PagesReadPerQuery:    counts.pagesReadPerQuery,
+		PagesReadPerSite:     counts.pagesReadPerSite,
+		CompoundWordsCeiling: counts.compoundWordsCeiling,
+		PageReadBudget:       durations.pageReadBudget,
+		PageReadCutoff: pagereading.PageReadCutoff{
+			PercentOfPages: counts.pageReadCutoffPercent,
+			Grace:          durations.pageReadCutoffGrace,
+		},
 		PageByteCeiling:         pageByteCeiling,
 		PageReadMaxRedirectHops: counts.pageReadMaxRedirectHops,
 		SnippetLengthCeiling:    counts.snippetLengthCeiling,
@@ -258,6 +268,7 @@ type configuredDurations struct {
 	snapshotInterval          time.Duration
 	rankingLifetime           time.Duration
 	pageReadBudget            time.Duration
+	pageReadCutoffGrace       time.Duration
 }
 
 func durationsOf(getenv func(string) string) (configuredDurations, error) {
@@ -289,6 +300,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		{EnvSnapshotInterval, DefaultSnapshotInterval, &durations.snapshotInterval},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
 		{EnvPageReadBudget, DefaultPageReadBudget, &durations.pageReadBudget},
+		{EnvPageReadCutoffGrace, DefaultPageReadCutoffGrace, &durations.pageReadCutoffGrace},
 	} {
 		if *field.into, err = envconfig.Duration(getenv, field.key, field.fallback); err != nil {
 			return configuredDurations{}, err
@@ -312,6 +324,7 @@ type configuredCounts struct {
 	pagesReadPerSite               int
 	compoundWordsCeiling           int
 	pageReadMaxRedirectHops        int
+	pageReadCutoffPercent          int
 	snippetLengthCeiling           int
 }
 
@@ -336,6 +349,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvPagesReadPerSite, DefaultPagesReadPerSite, &counts.pagesReadPerSite},
 		{EnvCompoundWordsCeiling, DefaultCompoundWordsCeiling, &counts.compoundWordsCeiling},
 		{EnvPageReadMaxRedirectHops, DefaultPageReadMaxRedirectHops, &counts.pageReadMaxRedirectHops},
+		{EnvPageReadCutoffPercent, DefaultPageReadCutoffPercent, &counts.pageReadCutoffPercent},
 		{EnvSnippetLengthCeiling, DefaultSnippetLengthCeiling, &counts.snippetLengthCeiling},
 	} {
 		if *field.into, err = envconfig.PositiveInt(getenv, field.key, field.fallback); err != nil {

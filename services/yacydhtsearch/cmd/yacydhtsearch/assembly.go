@@ -296,6 +296,7 @@ func pageReadingFor(
 		),
 		formatDerivations,
 		cfg.PageReadBudget,
+		cfg.PageReadCutoff,
 		cfg.SnippetLengthCeiling,
 		pagereading.PageReadingObservers{
 			pagereadingobserversapplog.PageReadingLog{},
