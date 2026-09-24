@@ -120,7 +120,7 @@ func partitionsWithout(partitions []uint, partitionsLeftOut []uint) []uint {
 }
 
 func (discovery *discovery) askForTheOtherWordsIn(partition uint, roles queryWordRoles) {
-	asksOfTheOtherWords := discovery.askRun.notPutAmong(
+	asksOfTheOtherWords := discovery.askRun.notAskedAmong(
 		discovery.asks.ofWordsIn(roles.otherWords, partition),
 	)
 	if len(asksOfTheOtherWords) == 0 {

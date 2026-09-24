@@ -95,7 +95,7 @@ func (spread Spread) askToDiscover(
 	defer endRound()
 
 	return discoveryOver(
-		askRunOf(spread.replicaAsks.Start(roundContext)),
+		startAskRun(roundContext, spread.replicaAsks),
 		discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling),
 		query,
 		spread.partitions,
