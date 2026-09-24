@@ -57,6 +57,9 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 	if len(cfg.SeedlistURLs) != 1 {
 		t.Fatalf("SeedlistURLs = %v, want one", cfg.SeedlistURLs)
 	}
+	if cfg.ServeProfiler {
+		t.Fatal("ServeProfiler = true, want the profiler off by default")
+	}
 }
 
 func TestAnOperatorNamesSeveralSeedlistsInOneSetting(t *testing.T) {
@@ -88,6 +91,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvURLMetadataAskDocumentsCeiling] = "128"
 	environment[main.EnvReplicasCoveringAPartition] = "2"
 	environment[main.EnvHedgeDelay] = "250ms"
+	environment[main.EnvServeProfiler] = "true"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
@@ -99,7 +103,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 ||
 		cfg.DocumentsToMatchCeiling != 64 ||
 		cfg.URLMetadataAskDocumentsCeiling != 128 ||
-		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond {
+		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond ||
+		!cfg.ServeProfiler {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }
@@ -169,6 +174,17 @@ func TestTheServiceRefusesABudgetThatIsNotADuration(t *testing.T) {
 
 	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
 		t.Fatal("LoadServiceConfig accepted a budget that is not a duration")
+	}
+}
+
+func TestTheServiceRefusesAProfilerSettingThatIsNotABoolean(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvServeProfiler] = "sometimes"
+
+	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
+		t.Fatal("LoadServiceConfig accepted a profiler setting that is not a boolean")
 	}
 }
 

@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"math/rand/v2"
 	"net/http"
+	"net/http/pprof"
 	"time"
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
@@ -206,9 +207,13 @@ func RunService(
 		),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
+	opsMux := opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
+	if cfg.ServeProfiler {
+		serveProfilerOn(opsMux)
+	}
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
-		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
+		Handler:           opsMux,
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
@@ -437,6 +442,14 @@ func rankingBucketAt(ctx context.Context, cfg ServiceConfig) (natsjetstream.KeyV
 	}
 
 	return bucket, nil
+}
+
+func serveProfilerOn(mux *http.ServeMux) {
+	mux.HandleFunc("/debug/pprof/", pprof.Index)
+	mux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
+	mux.HandleFunc("/debug/pprof/profile", pprof.Profile)
+	mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
+	mux.HandleFunc("/debug/pprof/trace", pprof.Trace)
 }
 
 func outboundClient(cfg ServiceConfig) *http.Client {

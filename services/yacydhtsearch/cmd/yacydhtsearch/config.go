@@ -16,6 +16,7 @@ import (
 const (
 	EnvListenAddr                     = "YACYDHTSEARCH_LISTEN_ADDR"
 	EnvOpsAddr                        = "YACYDHTSEARCH_OPS_ADDR"
+	EnvServeProfiler                  = "YACYDHTSEARCH_SERVE_PROFILER"
 	EnvNetworkName                    = "YACYDHTSEARCH_NETWORK_NAME"
 	EnvSeedlistURLs                   = "YACYDHTSEARCH_SEEDLIST_URLS"
 	EnvEgressProxyURL                 = "EGRESS_PROXY_URL"
@@ -55,6 +56,7 @@ const (
 
 	DefaultListenAddr                     = ":8080"
 	DefaultOpsAddr                        = ":9090"
+	DefaultServeProfiler                  = false
 	DefaultQueryBudget                    = 10 * time.Second
 	DefaultNetworkRedundancy              = 3
 	DefaultHedgeDelay                     = 500 * time.Millisecond
@@ -89,6 +91,7 @@ const (
 type ServiceConfig struct {
 	ListenAddr                     string
 	OpsAddr                        string
+	ServeProfiler                  bool
 	NetworkName                    string
 	SeedlistURLs                   []string
 	EgressProxyURL                 *url.URL
@@ -180,10 +183,15 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	serveProfiler, err := envconfig.Bool(getenv, EnvServeProfiler, DefaultServeProfiler)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 
 	return ServiceConfig{
-		ListenAddr: envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
-		OpsAddr:    envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		ListenAddr:    envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
+		OpsAddr:       envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		ServeProfiler: serveProfiler,
 		NetworkName: envconfig.String(
 			getenv,
 			EnvNetworkName,
