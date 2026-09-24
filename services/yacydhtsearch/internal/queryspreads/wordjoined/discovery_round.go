@@ -14,20 +14,20 @@ type discoveryRound struct {
 	compoundWords                  []compoundWordAcrossReplicas
 	holdersPerDocument             holdersPerDocument
 	sampledPartition               uint
-	amountOfSampledQueryWords      int
-	sampledLeadingQueryWord        yacymodel.Optional[yacymodel.Hash]
+	amountOfQueryWordsWithASample  int
+	leadingQueryWordFromTheSample  yacymodel.Optional[yacymodel.Hash]
 	otherWordAsksPerPartition      map[uint]OtherWordAsks
 }
 
 func (round discoveryRound) leadingQueryWord() queryWordAcrossReplicas {
-	sampledLeadingQueryWord, sampled := round.sampledLeadingQueryWord.Get()
-	if !sampled {
+	leadingQueryWordFromTheSample, chosen := round.leadingQueryWordFromTheSample.Get()
+	if !chosen {
 		return round.queryWordsFewestDocumentsFirst[0]
 	}
 	place := slices.IndexFunc(
 		round.queryWordsFewestDocumentsFirst,
 		func(queryWord queryWordAcrossReplicas) bool {
-			return queryWord.word == sampledLeadingQueryWord
+			return queryWord.word == leadingQueryWordFromTheSample
 		},
 	)
 

@@ -34,11 +34,11 @@ func discoveryOver(
 }
 
 func (discovery *discovery) askFromTheSampleIn(sampledPartition uint) discoveryRound {
-	sampledLeadingQueryWord := discovery.takeTheSampleIn(sampledPartition)
-	discovery.askTheRestAfter(sampledLeadingQueryWord)
+	leadingQueryWordFromTheSample := discovery.takeTheSampleIn(sampledPartition)
+	discovery.askTheRestAfter(leadingQueryWordFromTheSample)
 	discovery.askRun.finish()
 
-	return discovery.roundFrom(sampledPartition, sampledLeadingQueryWord)
+	return discovery.roundFrom(sampledPartition, leadingQueryWordFromTheSample)
 }
 
 func (discovery *discovery) takeTheSampleIn(
@@ -61,10 +61,10 @@ func (discovery *discovery) takeTheSampleIn(
 }
 
 func (discovery *discovery) askTheRestAfter(
-	sampledLeadingQueryWord yacymodel.Optional[yacymodel.Hash],
+	leadingQueryWordFromTheSample yacymodel.Optional[yacymodel.Hash],
 ) {
-	leadingQueryWord, sampled := sampledLeadingQueryWord.Get()
-	if !sampled {
+	leadingQueryWord, chosen := leadingQueryWordFromTheSample.Get()
+	if !chosen {
 		discovery.askRun.put(discovery.asks)
 
 		return
@@ -128,7 +128,7 @@ func (discovery *discovery) askForTheOtherWordsIn(partition uint, roles queryWor
 	}
 	documentsToMatch := discovery.documentsToMatchIn(partition, roles.wordsOfTheDocumentsToMatch)
 	otherWordAsks := otherWordAsksFrom(documentsToMatch, discovery.documentsToMatchCeiling)
-	discovery.askRun.put(otherWordAsks.asksFrom(asksOfTheOtherWords, documentsToMatch))
+	discovery.askRun.put(otherWordAsks.appliedTo(asksOfTheOtherWords, documentsToMatch))
 	discovery.otherWordAsksPerPartition[partition] = otherWordAsks
 }
 
@@ -155,7 +155,7 @@ func (discovery *discovery) documentsToMatchIn(
 
 func (discovery *discovery) roundFrom(
 	sampledPartition uint,
-	sampledLeadingQueryWord yacymodel.Optional[yacymodel.Hash],
+	leadingQueryWordFromTheSample yacymodel.Optional[yacymodel.Hash],
 ) discoveryRound {
 	askOutcomes := discovery.askRun.askOutcomes
 	answeredAsks := askOutcomes.AnsweredAsks()
@@ -172,10 +172,10 @@ func (discovery *discovery) roundFrom(
 		),
 		holdersPerDocument: holdersPerDocumentOf(answeredAsks),
 		sampledPartition:   sampledPartition,
-		amountOfSampledQueryWords: amountOfQueryWordsSampledIn(
+		amountOfQueryWordsWithASample: amountOfQueryWordsWithASampleIn(
 			sampledPartition, queryWordsFewestDocumentsFirst, discovery.partitions,
 		),
-		sampledLeadingQueryWord:   sampledLeadingQueryWord,
-		otherWordAsksPerPartition: discovery.otherWordAsksPerPartition,
+		leadingQueryWordFromTheSample: leadingQueryWordFromTheSample,
+		otherWordAsksPerPartition:     discovery.otherWordAsksPerPartition,
 	}
 }

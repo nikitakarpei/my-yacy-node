@@ -90,7 +90,7 @@ func asksNamingDocumentsToMatchAmong(
 	return asksNamingDocuments
 }
 
-func TestTheRarestSampledWordLeads(t *testing.T) {
+func TestTheRarestWordWithASampleLeads(t *testing.T) {
 	t.Parallel()
 
 	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
@@ -106,11 +106,11 @@ func TestTheRarestSampledWordLeads(t *testing.T) {
 	settingsOfTwoPartitions().spread(network, observer)
 
 	discoveryRound := observer.performed[0].DiscoveryRound
-	if discoveryRound.LeadingQueryWordChoice != wordjoined.RarestSampledQueryWord ||
-		discoveryRound.AmountOfSampledQueryWords != 2 ||
+	if discoveryRound.LeadingQueryWordChoice != wordjoined.RarestQueryWordWithASample ||
+		discoveryRound.AmountOfQueryWordsWithASample != 2 ||
 		discoveryRound.SampledPartition != 0 {
 		t.Fatalf(
-			"the spread reported %+v, want both words sampled in partition 0 and the rarest leading",
+			"the spread reported %+v, want both words with a sample in partition 0 and the rarest leading",
 			discoveryRound,
 		)
 	}
@@ -151,7 +151,7 @@ func TestOnlyTheDocumentsOfTheSampledPartitionCountInASample(t *testing.T) {
 	}
 }
 
-func TestAWordWithoutACompleteSampleCannotLead(t *testing.T) {
+func TestAWordWithoutASampleCannotLead(t *testing.T) {
 	t.Parallel()
 
 	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
@@ -167,10 +167,12 @@ func TestAWordWithoutACompleteSampleCannotLead(t *testing.T) {
 
 	settingsOfTwoPartitions().spread(network, observer)
 
-	if sampled := observer.performed[0].DiscoveryRound.AmountOfSampledQueryWords; sampled != 1 {
+	if amountOfQueryWordsWithASample := observer.performed[0].DiscoveryRound.
+		AmountOfQueryWordsWithASample; amountOfQueryWordsWithASample != 1 {
 		t.Fatalf(
-			"the spread sampled %d words, want only the word with a complete abstract",
-			sampled,
+			"the spread reported %d words with a sample, want only the word whose answer lists "+
+				"all it counts",
+			amountOfQueryWordsWithASample,
 		)
 	}
 	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)

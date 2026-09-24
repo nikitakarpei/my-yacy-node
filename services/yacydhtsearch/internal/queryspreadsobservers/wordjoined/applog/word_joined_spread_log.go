@@ -38,7 +38,7 @@ func attributesOfDiscoveryRound(
 		slog.Int("amountOfCompoundWords", round.AmountOfCompoundWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
 		slog.Uint64("sampledPartition", uint64(round.SampledPartition)),
-		slog.Int("amountOfSampledQueryWords", round.AmountOfSampledQueryWords),
+		slog.Int("amountOfQueryWordsWithASample", round.AmountOfQueryWordsWithASample),
 		slog.Int("amountOfPeersWithANonEmptyAbstract", round.AmountOfPeersWithANonEmptyAbstract),
 		slog.String("leadingQueryWordChoice", string(round.LeadingQueryWordChoice)),
 		slog.Int(

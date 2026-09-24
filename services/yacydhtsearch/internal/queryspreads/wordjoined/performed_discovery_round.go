@@ -10,7 +10,7 @@ type PerformedDiscoveryRound struct {
 	AmountOfCompoundWords                  int
 	AmountOfQueryWordsHeldByNoPeer         int
 	SampledPartition                       uint
-	AmountOfSampledQueryWords              int
+	AmountOfQueryWordsWithASample          int
 	AmountOfPeersWithANonEmptyAbstract     int
 	LeadingQueryWordChoice                 LeadingQueryWordChoice
 	AmountOfDocumentsOfTheLeadingQueryWord int
@@ -29,8 +29,8 @@ func performedDiscoveryRoundFrom(
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		SampledPartition:          round.sampledPartition,
-		AmountOfSampledQueryWords: round.amountOfSampledQueryWords,
+		SampledPartition:              round.sampledPartition,
+		AmountOfQueryWordsWithASample: round.amountOfQueryWordsWithASample,
 		AmountOfPeersWithANonEmptyAbstract: amountOfPeersWithANonEmptyAbstractAmong(
 			round.answeredAsks,
 		),

@@ -40,8 +40,8 @@ func New(
 	}, []string{labelJoin, labelLeadingQueryWordChoice})
 	//exhaustive:enforce
 	joinsPerLeadingQueryWordChoice := map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins{
-		wordjoined.RarestSampledQueryWord: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestSampledQueryWord,
+		wordjoined.RarestQueryWordWithASample: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.RarestQueryWordWithASample,
 		),
 		wordjoined.RarestQueryWordWithoutASample: leadingQueryWordChoiceJoinsFrom(
 			wordJoinedSpreads, wordjoined.RarestQueryWordWithoutASample,

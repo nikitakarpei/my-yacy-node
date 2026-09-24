@@ -144,7 +144,7 @@ func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 	return documents
 }
 
-func (queryWord queryWordAcrossReplicas) amountOfDocumentsIn(
+func (queryWord queryWordAcrossReplicas) sampleIn(
 	partition uint,
 	partitions yacymodel.DHTRingPartitions,
 ) yacymodel.Optional[int] {

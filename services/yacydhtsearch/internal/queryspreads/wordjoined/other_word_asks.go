@@ -24,16 +24,17 @@ func otherWordAsksFrom(
 	}
 }
 
-func (otherWordAsks OtherWordAsks) asksFrom(
+func (otherWordAsks OtherWordAsks) appliedTo(
 	asksOfTheOtherWords discoveryAsks,
 	documentsToMatch []yacymodel.URLHash,
 ) discoveryAsks {
 	switch otherWordAsks {
-	case OtherWordAsksSkipped:
-		return nil
 	case OtherWordAsksNamingTheDocumentsToMatch:
 		return asksOfTheOtherWords.forDocumentsToMatch(documentsToMatch)
-	default:
+	case OtherWordAsksOverTheCeiling:
 		return asksOfTheOtherWords
+	case OtherWordAsksSkipped:
 	}
+
+	return nil
 }

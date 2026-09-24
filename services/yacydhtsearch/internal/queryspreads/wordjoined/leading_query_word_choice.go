@@ -3,13 +3,13 @@ package wordjoined
 type LeadingQueryWordChoice string
 
 const (
-	RarestSampledQueryWord        LeadingQueryWordChoice = "rarest sampled word"
+	RarestQueryWordWithASample    LeadingQueryWordChoice = "rarest word with a sample"
 	RarestQueryWordWithoutASample LeadingQueryWordChoice = "rarest word, no sample"
 )
 
 func leadingQueryWordChoiceOf(round discoveryRound) LeadingQueryWordChoice {
-	if round.sampledLeadingQueryWord.Present() {
-		return RarestSampledQueryWord
+	if round.leadingQueryWordFromTheSample.Present() {
+		return RarestQueryWordWithASample
 	}
 
 	return RarestQueryWordWithoutASample

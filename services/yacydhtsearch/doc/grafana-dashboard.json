@@ -846,7 +846,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_sampled_query_words_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_sampled_query_words_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }

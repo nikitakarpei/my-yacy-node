@@ -10,7 +10,7 @@ func rarestQueryWordIn(
 	rarestQueryWord := yacymodel.None[yacymodel.Hash]()
 	fewestDocuments := 0
 	for _, queryWord := range queryWords {
-		amountOfDocuments, complete := queryWord.amountOfDocumentsIn(sampledPartition, partitions).
+		amountOfDocuments, complete := queryWord.sampleIn(sampledPartition, partitions).
 			Get()
 		if !complete || rarestQueryWord.Present() && amountOfDocuments >= fewestDocuments {
 			continue
@@ -22,17 +22,17 @@ func rarestQueryWordIn(
 	return rarestQueryWord
 }
 
-func amountOfQueryWordsSampledIn(
+func amountOfQueryWordsWithASampleIn(
 	sampledPartition uint,
 	queryWords []queryWordAcrossReplicas,
 	partitions yacymodel.DHTRingPartitions,
 ) int {
-	amountOfQueryWordsSampled := 0
+	amountOfQueryWordsWithASample := 0
 	for _, queryWord := range queryWords {
-		if queryWord.amountOfDocumentsIn(sampledPartition, partitions).Present() {
-			amountOfQueryWordsSampled++
+		if queryWord.sampleIn(sampledPartition, partitions).Present() {
+			amountOfQueryWordsWithASample++
 		}
 	}
 
-	return amountOfQueryWordsSampled
+	return amountOfQueryWordsWithASample
 }

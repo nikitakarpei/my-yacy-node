@@ -36,9 +36,9 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
 			AmountOfQueryWords:                     4,
 			AmountOfQueryWordsHeldByNoPeer:         1,
-			AmountOfSampledQueryWords:              2,
+			AmountOfQueryWordsWithASample:          2,
 			AmountOfPeersWithANonEmptyAbstract:     4,
-			LeadingQueryWordChoice:                 wordjoined.RarestSampledQueryWord,
+			LeadingQueryWordChoice:                 wordjoined.RarestQueryWordWithASample,
 			AmountOfDocumentsOfTheLeadingQueryWord: 12,
 			OtherWordAsksPerPartition: map[uint]wordjoined.OtherWordAsks{
 				0: wordjoined.OtherWordAsksNamingTheDocumentsToMatch,
@@ -58,8 +58,8 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest sampled word"} 1`,
-		"yacydhtsearch_word_joined_spread_sampled_query_words_ratio_sum 0.5",
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word with a sample"} 1`,
+		"yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_sum 0.5",
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming the documents to match"} 2`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="skipped, no documents to match"} 1`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 1`,
@@ -82,8 +82,8 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest sampled word"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest sampled word"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word with a sample"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word with a sample"} 0`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming the documents to match"} 0`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="skipped, no documents to match"} 0`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 0`,
