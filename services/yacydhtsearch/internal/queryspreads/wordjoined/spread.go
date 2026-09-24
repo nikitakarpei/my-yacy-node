@@ -10,15 +10,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type ReplicaAsks interface {
-	AskForSearchDocuments(
-		ctx context.Context,
-		asks []peerasks.SearchDocumentsAsk,
-	) peerasks.SearchDocumentsAskOutcomes
+	Start(ctx context.Context) replicaasks.Run
 }
 
 type PeerAsks interface {
@@ -128,7 +126,10 @@ func (spread Spread) askToDiscover(
 	asks := discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
 	defer endRound()
-	askOutcomes := spread.replicaAsks.AskForSearchDocuments(roundContext, asks)
+	run := spread.replicaAsks.Start(roundContext)
+	run.Asks <- asks
+	close(run.Asks)
+	askOutcomes := askOutcomesFrom(run.SettledWordPartitions)
 	answeredAsks := askOutcomes.AnsweredAsks()
 
 	return discoveryRound{

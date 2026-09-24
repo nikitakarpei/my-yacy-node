@@ -5,10 +5,10 @@ import "time"
 type PerformedReplicaAsks struct {
 	EndedBy        EndedBy
 	TimeSpent      time.Duration
-	WordPartitions []SettledWordPartition
+	WordPartitions []PerformedWordPartition
 }
 
-type SettledWordPartition struct {
+type PerformedWordPartition struct {
 	SettledBy               SettledBy
 	CoveringAskPutOn        PutOn
 	AmountOfDocumentsListed int

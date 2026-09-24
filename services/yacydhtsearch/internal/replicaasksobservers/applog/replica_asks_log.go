@@ -43,7 +43,7 @@ func (ReplicaAsksLog) ReplicaAsksPerformed(
 }
 
 func amountOfWordPartitionsPerSettledBy(
-	wordPartitions []replicaasks.SettledWordPartition,
+	wordPartitions []replicaasks.PerformedWordPartition,
 ) map[replicaasks.SettledBy]int {
 	amountOfWordPartitions := make(map[replicaasks.SettledBy]int, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
@@ -54,7 +54,7 @@ func amountOfWordPartitionsPerSettledBy(
 }
 
 func amountOfWordPartitionsCoveredPerAskPutOn(
-	wordPartitions []replicaasks.SettledWordPartition,
+	wordPartitions []replicaasks.PerformedWordPartition,
 ) map[replicaasks.PutOn]int {
 	amountOfWordPartitions := make(map[replicaasks.PutOn]int, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
@@ -67,7 +67,7 @@ func amountOfWordPartitionsCoveredPerAskPutOn(
 }
 
 func amountOfReplicaAsksPerPutOn(
-	wordPartitions []replicaasks.SettledWordPartition,
+	wordPartitions []replicaasks.PerformedWordPartition,
 ) map[replicaasks.PutOn]int {
 	amountOfReplicaAsks := make(map[replicaasks.PutOn]int, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
@@ -80,7 +80,7 @@ func amountOfReplicaAsksPerPutOn(
 }
 
 func amountOfDocumentsListedAcrossWordPartitions(
-	wordPartitions []replicaasks.SettledWordPartition,
+	wordPartitions []replicaasks.PerformedWordPartition,
 ) int {
 	amountOfDocuments := 0
 	for _, wordPartition := range wordPartitions {

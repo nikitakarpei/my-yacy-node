@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -38,6 +39,7 @@ const (
 	versionAfterAnUpgrade           = "yacy_v1.930"
 )
 
+// TECHDEBT: Naming — spell in full: the methods of peerNetwork name their receiver n.
 type peerNetwork struct {
 	documentsPerWordPerPeer               map[string]map[string][]string
 	answeredItemsPerWordPerPeer           map[string]map[string][]string
@@ -77,7 +79,30 @@ func replicasOf(network *peerNetwork) replicasOfTheNetwork {
 	return replicasOfTheNetwork{network: network}
 }
 
-func (replicas replicasOfTheNetwork) AskForSearchDocuments(
+func (replicas replicasOfTheNetwork) Start(ctx context.Context) replicaasks.Run {
+	asks := make(chan []peerasks.SearchDocumentsAsk)
+	settledWordPartitions := make(chan replicaasks.SettledWordPartition)
+	go replicas.answerEachAsk(ctx, asks, settledWordPartitions)
+
+	return replicaasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+}
+
+func (replicas replicasOfTheNetwork) answerEachAsk(
+	ctx context.Context,
+	asks <-chan []peerasks.SearchDocumentsAsk,
+	settledWordPartitions chan<- replicaasks.SettledWordPartition,
+) {
+	defer close(settledWordPartitions)
+	for addedAsks := range asks {
+		for _, askOutcome := range slices.Backward(replicas.askOutcomesOf(ctx, addedAsks)) {
+			settledWordPartitions <- replicaasks.SettledWordPartition{
+				AskOutcomes: peerasks.SearchDocumentsAskOutcomes{askOutcome},
+			}
+		}
+	}
+}
+
+func (replicas replicasOfTheNetwork) askOutcomesOf(
 	ctx context.Context,
 	asks []peerasks.SearchDocumentsAsk,
 ) peerasks.SearchDocumentsAskOutcomes {

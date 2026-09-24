@@ -329,6 +329,7 @@ deps:
       - peerdirectory
       - peerasks
       - searchquery
+      - replicaasks
   wordjoined:
     canUse:
       - yacymodel
@@ -339,6 +340,7 @@ deps:
       - peerasks
       - peerjudgements
       - searchquery
+      - replicaasks
   bywordcount:
     mayDependOn:
       - queryanswers

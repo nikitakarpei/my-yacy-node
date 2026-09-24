@@ -6,32 +6,29 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-type PeerAsks interface {
-	AskForSearchDocuments(
-		ctx context.Context,
-		asks []peerasks.SearchDocumentsAsk,
-	) peerasks.SearchDocumentsAskOutcomes
+type ReplicaAsks interface {
+	Start(ctx context.Context) replicaasks.Run
 }
 
 type Spread struct {
-	peerAsks         PeerAsks
+	replicaAsks      ReplicaAsks
 	peerItemsCeiling int
 	observer         PeerMatchedSpreadObserver
 }
 
 func New(
-	peerAsks PeerAsks,
+	replicaAsks ReplicaAsks,
 	peerItemsCeiling int,
 	observer PeerMatchedSpreadObserver,
 ) Spread {
 	return Spread{
-		peerAsks:         peerAsks,
+		replicaAsks:      replicaAsks,
 		peerItemsCeiling: peerItemsCeiling,
 		observer:         observer,
 	}
@@ -45,7 +42,10 @@ func (spread Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	asks := searchDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
-	answeredAsks := spread.peerAsks.AskForSearchDocuments(ctx, asks).AnsweredAsks()
+	run := spread.replicaAsks.Start(ctx)
+	run.Asks <- asks
+	close(run.Asks)
+	answeredAsks := answeredAsksFrom(run.SettledWordPartitions)
 
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,

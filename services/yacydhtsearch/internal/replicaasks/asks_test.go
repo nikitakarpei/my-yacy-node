@@ -1,6 +1,7 @@
 package replicaasks_test
 
 import (
+	"cmp"
 	"context"
 	"slices"
 	"sync"
@@ -36,7 +37,7 @@ func TestTheFirstReplicasOfEveryWordPartitionAreAskedAndNoMore(t *testing.T) {
 	))
 
 	if len(answers) != 4 {
-		t.Fatalf("AskForSearchDocuments answered %d asks, want four", len(answers))
+		t.Fatalf("the run answered %d asks, want four", len(answers))
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two", "weather-one", "weather-two")
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
@@ -56,7 +57,7 @@ func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T)
 	)
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-one" {
-		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", answers)
+		t.Fatalf("the run = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one")
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
@@ -76,7 +77,7 @@ func TestAnEmptyAnswerAsksTheNextReplicaAtOnce(t *testing.T) {
 	)
 
 	if len(answers) != 2 {
-		t.Fatalf("AskForSearchDocuments answered %d asks, want both replicas", len(answers))
+		t.Fatalf("the run answered %d asks, want both replicas", len(answers))
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnEmptyAnswer)
@@ -95,7 +96,7 @@ func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
 	)
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-two" {
-		t.Fatalf("AskForSearchDocuments = %+v, want the second replica only", answers)
+		t.Fatalf("the run = %+v, want the second replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnFailure)
@@ -115,7 +116,7 @@ func TestACallPastTheHedgeDelayAsksTheNextReplicaAndTheFirstListingWins(t *testi
 	)
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-two" {
-		t.Fatalf("AskForSearchDocuments = %+v, want the hedged replica only", answers)
+		t.Fatalf("the run = %+v, want the hedged replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.calls.wantAddressesCancelled(t, "berlin-one")
@@ -157,7 +158,7 @@ func TestNoReplicaLeftSettlesTheWordPartition(t *testing.T) {
 
 	if len(answers) != 2 {
 		t.Fatalf(
-			"AskForSearchDocuments answered %d asks, want both answers kept",
+			"the run answered %d asks, want both answers kept",
 			len(answers),
 		)
 	}
@@ -178,7 +179,7 @@ func TestAsksPerWordPartitionNeverExceedTheReplicasGiven(t *testing.T) {
 	)
 
 	if len(answers) != 0 {
-		t.Fatalf("AskForSearchDocuments = %+v, want no answer", answers)
+		t.Fatalf("the run = %+v, want no answer", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.observer.wantSettledBy(t, replicaasks.SettledByNoReplicaLeft)
@@ -201,7 +202,7 @@ func TestTheDeadlineOfTheAsksSettlesTheWordPartitionAndKeepsItsAnswers(t *testin
 	))
 
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-one" {
-		t.Fatalf("AskForSearchDocuments = %+v, want the answer that came in time", answers)
+		t.Fatalf("the run = %+v, want the answer that came in time", answers)
 	}
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByDeadline)
 	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
@@ -222,14 +223,14 @@ func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t 
 	)
 
 	if len(answers) != 0 {
-		t.Fatalf("AskForSearchDocuments = %+v, want no answer", answers)
+		t.Fatalf("the run = %+v, want no answer", answers)
 	}
 	asking.observer.wantSettledBy(t, replicaasks.SettledByDeadline)
 	asking.observer.wantPutOn(t, replicaasks.PutOnStart)
 	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
 }
 
-func TestEachOutcomeComesBackInThePlaceOfItsAsk(t *testing.T) {
+func TestEachWordPartitionTellsTheOutcomesOfItsAsksInReplicaOrder(t *testing.T) {
 	t.Parallel()
 
 	asking := askingOfTheTests(map[string]scriptedPeerCall{
@@ -242,9 +243,9 @@ func TestEachOutcomeComesBackInThePlaceOfItsAsk(t *testing.T) {
 		asksForTheWord("berlin", 3, "three-one")...,
 	))
 
-	wanted := []string{"seven-one answered", "seven-two not put", "three-one answered"}
+	wanted := []string{"three-one answered", "seven-one answered", "seven-two not put"}
 	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
-		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
+		t.Fatalf("the run = %v, want %v", got, wanted)
 	}
 	asking.observer.wantAmountOfDocumentsListed(t, 1, 2)
 }
@@ -267,7 +268,7 @@ func TestTheOutcomesTellWhichAsksWerePutAndWhichWereAnswered(t *testing.T) {
 		"weather-one answered", "weather-two not put",
 	}
 	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
-		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
+		t.Fatalf("the run = %v, want %v", got, wanted)
 	}
 	if got := addressesOf(askOutcomes.AsksPut()); !slices.Equal(
 		got, []string{"berlin-one", "berlin-two", "weather-one"},
@@ -293,7 +294,7 @@ func TestAnEmptyAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.
 
 	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
 		len(askOutcomes.AnsweredAsks()) != 1 {
-		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", askOutcomes)
+		t.Fatalf("the run = %+v, want the first replica only", askOutcomes)
 	}
 	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
 }
@@ -312,7 +313,7 @@ func TestAnAnswerThatOnlyMatchesDocumentsSettlesTheWordPartition(t *testing.T) {
 
 	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
 		len(askOutcomes.AnsweredAsks()) != 1 {
-		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", askOutcomes)
+		t.Fatalf("the run = %+v, want the first replica only", askOutcomes)
 	}
 	asking.observer.wantAmountOfDocumentsListed(t, 2)
 }
@@ -334,7 +335,7 @@ func TestAPeerAskedForOneWordPartitionIsNotAskedForAnotherOne(t *testing.T) {
 		"shared answered", "berlin-two not put", "shared not put", "weather-two answered",
 	}
 	if got := outcomesOf(askOutcomes); !slices.Equal(got, wanted) {
-		t.Fatalf("AskForSearchDocuments = %v, want %v", got, wanted)
+		t.Fatalf("the run = %v, want %v", got, wanted)
 	}
 	asking.calls.wantAddressesPut(t, "shared", "weather-two")
 	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnStart)
@@ -361,6 +362,126 @@ func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLef
 	asking.observer.wantSettledBy(
 		t, replicaasks.SettledByCoverage, replicaasks.SettledByNoReplicaLeft,
 	)
+}
+
+func TestAsksAddedToARunningRunAreAsked(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"berlin-one": {documentsListed: 3}, "weather-one": {documentsListed: 2},
+	}, noHedgeOfTheTests, 1)
+	run := asking.startedRun(t.Context())
+
+	run.Asks <- asksForTheWord("berlin", 1, "berlin-one")
+	firstWordPartition := <-run.SettledWordPartitions
+	run.Asks <- asksForTheWord("weather", 2, "weather-one")
+	secondWordPartition := <-run.SettledWordPartitions
+	wantTheRunOver(t, run)
+
+	wantOutcomesIn(t, firstWordPartition, "berlin-one answered")
+	wantOutcomesIn(t, secondWordPartition, "weather-one answered")
+	asking.calls.wantAddressesPut(t, "berlin-one", "weather-one")
+	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
+}
+
+func TestAPeerAskedEarlierInTheRunIsNotAskedForAnAskAddedLater(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"shared": {documentsListed: 3}, "weather-two": {documentsListed: 2},
+	}, noHedgeOfTheTests, 1)
+	run := asking.startedRun(t.Context())
+
+	run.Asks <- asksForTheWord("berlin", 1, "shared")
+	<-run.SettledWordPartitions
+	run.Asks <- asksForTheWord("weather", 2, "shared", "weather-two")
+	laterWordPartition := <-run.SettledWordPartitions
+	wantTheRunOver(t, run)
+
+	wantOutcomesIn(t, laterWordPartition, "shared not put", "weather-two answered")
+	asking.calls.wantAddressesPut(t, "shared", "weather-two")
+}
+
+func TestAWordPartitionAlreadyInTheRunIsNotAskedAgain(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"berlin-one": {documentsListed: 0}, "berlin-two": {documentsListed: 2},
+	}, noHedgeOfTheTests, 1)
+	run := asking.startedRun(t.Context())
+
+	run.Asks <- asksForTheWord("berlin", 1, "berlin-one")
+	<-run.SettledWordPartitions
+	run.Asks <- asksForTheWord("berlin", 1, "berlin-two")
+	wantTheRunOver(t, run)
+
+	asking.calls.wantAddressesPut(t, "berlin-one")
+	asking.observer.wantSettledBy(t, replicaasks.SettledByNoReplicaLeft)
+}
+
+func TestEachWordPartitionIsSentAsSoonAsItSettles(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"weather-one": {documentsListed: 2, answersAfter: slowAnswerOfTheTests},
+		"berlin-one":  {documentsListed: 3},
+	}, noHedgeOfTheTests, 1)
+	run := asking.startedRun(t.Context())
+	startedAt := time.Now()
+
+	run.Asks <- append(
+		asksForTheWord("weather", 2, "weather-one"),
+		asksForTheWord("berlin", 1, "berlin-one")...,
+	)
+	firstWordPartition := <-run.SettledWordPartitions
+	firstSettledAfter := time.Since(startedAt)
+	secondWordPartition := <-run.SettledWordPartitions
+	wantTheRunOver(t, run)
+
+	wantOutcomesIn(t, firstWordPartition, "berlin-one answered")
+	if firstSettledAfter >= slowAnswerOfTheTests {
+		t.Fatalf(
+			"the first word partition came after %v, want it before the slow one at %v",
+			firstSettledAfter, slowAnswerOfTheTests,
+		)
+	}
+	wantOutcomesIn(t, secondWordPartition, "weather-one answered")
+}
+
+func TestTheDeadlineEndsTheRunAndSendsTheUnsettledWordPartitions(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{
+		"berlin-one": {documentsListed: 3, answersAfter: slowAnswerOfTheTests},
+	}, noHedgeOfTheTests, 1)
+	ctx, endTheRun := context.WithTimeout(t.Context(), deadlineOfTheTests)
+	defer endTheRun()
+	run := asking.startedRun(ctx)
+	startedAt := time.Now()
+
+	run.Asks <- asksForTheWord("berlin", 1, "berlin-one")
+	settledWordPartition := <-run.SettledWordPartitions
+	settledAfter := time.Since(startedAt)
+	wantTheRunOver(t, run)
+
+	wantOutcomesIn(t, settledWordPartition, "berlin-one put")
+	if settledAfter >= slowAnswerOfTheTests {
+		t.Fatalf("the word partition came after %v, want it at the deadline", settledAfter)
+	}
+	asking.observer.wantSettledBy(t, replicaasks.SettledByDeadline)
+	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
+}
+
+func TestARunWithoutAsksIsOverOnceTheAsksClose(t *testing.T) {
+	t.Parallel()
+
+	asking := askingOfTheTests(map[string]scriptedPeerCall{}, noHedgeOfTheTests, 1)
+	run := asking.startedRun(t.Context())
+
+	wantTheRunOver(t, run)
+
+	asking.observer.wantSettledBy(t)
+	asking.observer.wantEndedBy(t, replicaasks.EndedByCoverage)
 }
 
 type scriptedPeerCall struct {
@@ -564,7 +685,7 @@ func (recorded *recordedReplicaAsks) wantEndedBy(t *testing.T, endedBy replicaas
 
 func (recorded *recordedReplicaAsks) wordPartitions(
 	t *testing.T,
-) []replicaasks.SettledWordPartition {
+) []replicaasks.PerformedWordPartition {
 	t.Helper()
 	recorded.mutex.Lock()
 	defer recorded.mutex.Unlock()
@@ -619,18 +740,59 @@ func (asking askingUnderTest) searchDocumentsAnswers(
 	ctx context.Context,
 	asks []peerasks.SearchDocumentsAsk,
 ) []peerasks.AnsweredSearchDocumentsAsk {
-	asking.calls.startedAt = time.Now()
-
-	return asking.asks.AskForSearchDocuments(ctx, asks).AnsweredAsks()
+	return asking.searchDocumentsAskOutcomes(ctx, asks).AnsweredAsks()
 }
 
 func (asking askingUnderTest) searchDocumentsAskOutcomes(
 	ctx context.Context,
 	asks []peerasks.SearchDocumentsAsk,
 ) peerasks.SearchDocumentsAskOutcomes {
+	run := asking.startedRun(ctx)
+	run.Asks <- asks
+	close(run.Asks)
+	askOutcomes := peerasks.SearchDocumentsAskOutcomes{}
+	for settledWordPartition := range run.SettledWordPartitions {
+		askOutcomes = append(askOutcomes, settledWordPartition.AskOutcomes...)
+	}
+	slices.SortStableFunc(askOutcomes, func(first, second peerasks.SearchDocumentsAskOutcome) int {
+		return cmp.Compare(first.Ask.Partition, second.Ask.Partition)
+	})
+
+	return askOutcomes
+}
+
+func (asking askingUnderTest) startedRun(ctx context.Context) replicaasks.Run {
 	asking.calls.startedAt = time.Now()
 
-	return asking.asks.AskForSearchDocuments(ctx, asks)
+	return asking.asks.Start(ctx)
+}
+
+func wantOutcomesIn(
+	t *testing.T,
+	settledWordPartition replicaasks.SettledWordPartition,
+	outcomes ...string,
+) {
+	t.Helper()
+
+	if got := outcomesIn(settledWordPartition); !slices.Equal(got, outcomes) {
+		t.Fatalf("the settled word partition = %v, want %v", got, outcomes)
+	}
+}
+
+func outcomesIn(settledWordPartition replicaasks.SettledWordPartition) []string {
+	return outcomesOf(settledWordPartition.AskOutcomes)
+}
+
+func wantTheRunOver(t *testing.T, run replicaasks.Run) {
+	t.Helper()
+
+	close(run.Asks)
+	for settledWordPartition := range run.SettledWordPartitions {
+		t.Fatalf(
+			"the run sent %v after its last word partition, want none",
+			outcomesIn(settledWordPartition),
+		)
+	}
 }
 
 func asksForTheWord(
