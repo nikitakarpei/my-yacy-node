@@ -30,6 +30,9 @@ func urlMetadataLookupRoundMetricsRegisteredIn(
 			wordjoined.URLMetadataLookupEndedByEveryAskSettled: urlMetadataLookups.WithLabelValues(
 				string(wordjoined.URLMetadataLookupEndedByEveryAskSettled),
 			),
+			wordjoined.URLMetadataLookupEndedByCutoff: urlMetadataLookups.WithLabelValues(
+				string(wordjoined.URLMetadataLookupEndedByCutoff),
+			),
 		},
 		joinedDocumentsDroppedBeforeMetadataLookupRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio",

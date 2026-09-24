@@ -2,6 +2,7 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedURLMetadataLookupRound struct {
@@ -9,6 +10,7 @@ type PerformedURLMetadataLookupRound struct {
 	AmountOfLookedUpDocuments             int
 	AmountOfLookedUpDocumentsWithMetadata int
 	EndReason                             URLMetadataLookupEndReason
+	AmountOfDocumentsCutOffDuringLookup   int
 }
 
 func performedURLMetadataLookupRoundFrom(
@@ -22,8 +24,22 @@ func performedURLMetadataLookupRoundFrom(
 		AmountOfLookedUpDocumentsWithMetadata: amountOfLookedUpDocumentsWithMetadata(
 			round.asks, round.answeredAsks,
 		),
-		EndReason: round.endReason,
+		EndReason:                           round.endReason,
+		AmountOfDocumentsCutOffDuringLookup: round.amountOfDocumentsCutOffDuringLookup,
 	}
+}
+
+func lookedUpDocumentsAcross(
+	asks []peerasks.URLMetadataAsk,
+) distinctDocuments {
+	documents := distinctDocuments{}
+	for _, ask := range asks {
+		for _, document := range ask.Documents {
+			documents.add(document)
+		}
+	}
+
+	return documents
 }
 
 func amountOfLookedUpDocumentsWithMetadata(
@@ -39,4 +55,18 @@ func amountOfLookedUpDocumentsWithMetadata(
 	}
 
 	return len(documentsWithMetadata)
+}
+
+func lookedUpDocumentsWithMetadataIn(
+	answeredAsk peerasks.AnsweredURLMetadataAsk,
+	lookedUpDocuments distinctDocuments,
+) []yacymodel.URLHash {
+	var documentsWithMetadata []yacymodel.URLHash
+	for _, metadata := range answeredAsk.MetadataOfEachDocument {
+		if lookedUpDocuments.contains(metadata.Hash) {
+			documentsWithMetadata = append(documentsWithMetadata, metadata.Hash)
+		}
+	}
+
+	return documentsWithMetadata
 }
