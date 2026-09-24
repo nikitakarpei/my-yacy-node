@@ -778,10 +778,10 @@ func TestTheDocumentsTheMostPeersHoldAreTheOnesEachPeerIsAskedMetadataFor(t *tes
 	second := "https://second.example/"
 
 	if got := theOneDocumentAskedMetadataFor(t, first, second); got != documentHashOf(t, first) {
-		t.Fatalf("%v went out to be matched, want the document both peers hold", got)
+		t.Fatalf("%v was asked metadata for, want the document both peers hold", got)
 	}
 	if got := theOneDocumentAskedMetadataFor(t, second, first); got != documentHashOf(t, second) {
-		t.Fatalf("%v went out to be matched, want the document both peers hold", got)
+		t.Fatalf("%v was asked metadata for, want the document both peers hold", got)
 	}
 }
 
@@ -804,7 +804,7 @@ func theOneDocumentAskedMetadataFor(
 
 	documents := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks)
 	if len(documents) != 1 {
-		t.Fatalf("%d documents went out to be matched, want the one the ceiling allows",
+		t.Fatalf("%d documents were asked metadata for, want the one the ceiling allows",
 			len(documents))
 	}
 

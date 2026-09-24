@@ -14,7 +14,7 @@ type PerformedDiscoveryRound struct {
 	AmountOfPeersWithANonEmptyAbstract     int
 	LeadingQueryWordChoice                 LeadingQueryWordChoice
 	AmountOfDocumentsOfTheLeadingQueryWord int
-	OtherWordAsksPerPartition              []OtherWordAsks
+	OtherWordAsksPerPartition              map[uint]OtherWordAsks
 	AmountOfMatchedDocumentsAcrossAnswers  int
 	AmountOfMatchedDocumentsWithAPosting   int
 	AmountOfDocumentsHeldInEachAnswer      []int
@@ -31,9 +31,8 @@ func performedDiscoveryRoundFrom(
 		),
 		SampledPartition:          round.sampledPartition,
 		AmountOfSampledQueryWords: round.amountOfSampledQueryWords,
-		AmountOfPeersWithANonEmptyAbstract: amountOfPeersAcross(
-			answeredAsksWithANonEmptyAbstract(round.answeredAsks),
-			peerOfAnsweredDiscoveryAsk,
+		AmountOfPeersWithANonEmptyAbstract: amountOfPeersWithANonEmptyAbstractAmong(
+			round.answeredAsks,
 		),
 		LeadingQueryWordChoice: leadingQueryWordChoiceOf(round),
 		AmountOfDocumentsOfTheLeadingQueryWord: len(
@@ -62,36 +61,18 @@ func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) i
 	return amount
 }
 
-func amountOfPeersAcross[Ask any](
-	asks []Ask,
-	peerOfAsk func(Ask) peerdirectory.AskablePeer,
+func amountOfPeersWithANonEmptyAbstractAmong(
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
 ) int {
 	peers := map[peerdirectory.AskablePeer]struct{}{}
-	for _, ask := range asks {
-		peers[peerOfAsk(ask)] = struct{}{}
-	}
-
-	return len(peers)
-}
-
-func peerOfAnsweredDiscoveryAsk(
-	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
-) peerdirectory.AskablePeer {
-	return answeredAsk.Ask.Peer
-}
-
-func answeredAsksWithANonEmptyAbstract(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
-) []peerasks.AnsweredSearchDocumentsAsk {
-	keptAnsweredAsks := make([]peerasks.AnsweredSearchDocumentsAsk, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
 		if len(answeredAsk.Abstract) == 0 {
 			continue
 		}
-		keptAnsweredAsks = append(keptAnsweredAsks, answeredAsk)
+		peers[answeredAsk.Ask.Peer] = struct{}{}
 	}
 
-	return keptAnsweredAsks
+	return len(peers)
 }
 
 func amountOfMatchedDocumentsAcrossAnswers(

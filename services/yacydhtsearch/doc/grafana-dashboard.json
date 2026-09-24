@@ -851,11 +851,11 @@
           "legendFormat": "{{le}}"
         }
       ],
-      "description": "A sample is the count of one word in one random partition, from an answer that lists all the documents it counts. The word with the fewest documents in its sample leads the join."
+      "description": "A word has a sample when an answer in the random partition lists all the documents it counts."
     },
     {
       "id": 55,
-      "title": "Joined queries: asking the other query words for the leading word's documents",
+      "title": "Joined queries: asking the other query words for the documents to match",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -905,7 +905,7 @@
     {
       "id": 59,
       "title": "Partitions, by what the other word asks named",
-      "description": "Only queries with a sampled leading word count. A partition where the leading word has no documents is not asked for the other words. A partition with more documents to match than YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING is asked for all documents of the other words.",
+      "description": "One count for each partition where the other words were asked, in queries with a sample.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -938,7 +938,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (other_word_asks) (clamp_min(yacydhtsearch_word_joined_spread_partitions_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_partitions_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (other_word_asks) (clamp_min(yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{other_word_asks}}"
         }
       ]

@@ -28,7 +28,7 @@ type PeerAsks interface {
 type Spread struct {
 	replicaAsks                    ReplicaAsks
 	peerAsks                       PeerAsks
-	randomNumberBelow              func(ceiling uint) uint
+	partitionToSample              func(amountOfPartitions uint) uint
 	urlMetadataAskDocumentsCeiling int
 	documentsToMatchCeiling        int
 	peerItemsCeiling               int
@@ -37,11 +37,11 @@ type Spread struct {
 	observer                       WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, random source, ceilings, ring and observer
+//nolint:revive // argument-limit: the spread takes its asks, partition to sample, ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
-	randomNumberBelow func(ceiling uint) uint,
+	partitionToSample func(amountOfPartitions uint) uint,
 	urlMetadataAskDocumentsCeiling int,
 	documentsToMatchCeiling int,
 	peerItemsCeiling int,
@@ -52,7 +52,7 @@ func New(
 	return Spread{
 		replicaAsks:                    replicaAsks,
 		peerAsks:                       peerAsks,
-		randomNumberBelow:              randomNumberBelow,
+		partitionToSample:              partitionToSample,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
 		peerItemsCeiling:               peerItemsCeiling,
@@ -90,7 +90,7 @@ func (spread Spread) askToDiscover(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) discoveryRound {
-	sampledPartition := spread.randomNumberBelow(uint(spread.partitions))
+	sampledPartition := spread.partitionToSample(uint(spread.partitions))
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
 	defer endRound()
 

@@ -7,7 +7,7 @@ type OtherWordAsks string
 const (
 	OtherWordAsksNamingTheDocumentsToMatch OtherWordAsks = "naming the documents to match"
 	OtherWordAsksOverTheCeiling            OtherWordAsks = "naming none, over the ceiling"
-	OtherWordAsksSkipped                   OtherWordAsks = "skipped, the leading word lists no documents"
+	OtherWordAsksSkipped                   OtherWordAsks = "skipped, no documents to match"
 )
 
 func otherWordAsksFrom(

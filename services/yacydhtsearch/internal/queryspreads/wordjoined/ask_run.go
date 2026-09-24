@@ -9,6 +9,7 @@ import (
 type askRun struct {
 	run                   replicaasks.Run
 	askOutcomes           peerasks.SearchDocumentsAskOutcomes
+	putWordPartitions     map[wordPartitionKey]struct{}
 	settledWordPartitions map[wordPartitionKey]struct{}
 }
 
@@ -18,14 +19,37 @@ type wordPartitionKey struct {
 }
 
 func askRunOf(run replicaasks.Run) *askRun {
-	return &askRun{run: run, settledWordPartitions: map[wordPartitionKey]struct{}{}}
+	return &askRun{
+		run:                   run,
+		putWordPartitions:     map[wordPartitionKey]struct{}{},
+		settledWordPartitions: map[wordPartitionKey]struct{}{},
+	}
 }
 
 func (askRun *askRun) put(asks discoveryAsks) {
 	if len(asks) == 0 {
 		return
 	}
+	for _, ask := range asks {
+		askRun.putWordPartitions[wordPartitionKeyOf(ask)] = struct{}{}
+	}
 	askRun.run.Asks <- asks
+}
+
+func wordPartitionKeyOf(ask peerasks.SearchDocumentsAsk) wordPartitionKey {
+	return wordPartitionKey{word: ask.Word, partition: ask.Partition}
+}
+
+func (askRun *askRun) notPutAmong(asks discoveryAsks) discoveryAsks {
+	var asksNotPut discoveryAsks
+	for _, ask := range asks {
+		if _, put := askRun.putWordPartitions[wordPartitionKeyOf(ask)]; put {
+			continue
+		}
+		asksNotPut = append(asksNotPut, ask)
+	}
+
+	return asksNotPut
 }
 
 func (askRun *askRun) readUntilSettled(asks discoveryAsks) {
@@ -42,10 +66,6 @@ func (askRun *askRun) haveSettled(asks discoveryAsks) bool {
 	}
 
 	return true
-}
-
-func wordPartitionKeyOf(ask peerasks.SearchDocumentsAsk) wordPartitionKey {
-	return wordPartitionKey{word: ask.Word, partition: ask.Partition}
 }
 
 func (askRun *askRun) readTheNextSettledWordPartition() {

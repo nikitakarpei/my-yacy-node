@@ -16,7 +16,7 @@ type discoveryRound struct {
 	sampledPartition               uint
 	amountOfSampledQueryWords      int
 	sampledLeadingQueryWord        yacymodel.Optional[yacymodel.Hash]
-	otherWordAsksPerPartition      []OtherWordAsks
+	otherWordAsksPerPartition      map[uint]OtherWordAsks
 }
 
 func (round discoveryRound) leadingQueryWord() queryWordAcrossReplicas {

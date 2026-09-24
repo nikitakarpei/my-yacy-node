@@ -2,6 +2,7 @@ package wordjoined_test
 
 import (
 	"fmt"
+	"maps"
 	"slices"
 	"testing"
 
@@ -260,10 +261,10 @@ func TestTheOtherWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(t *
 			wanted,
 		)
 	}
-	wantedAsks := []wordjoined.OtherWordAsks{
-		wordjoined.OtherWordAsksSkipped, wordjoined.OtherWordAsksNamingTheDocumentsToMatch,
+	wantedAsks := map[uint]wordjoined.OtherWordAsks{
+		1: wordjoined.OtherWordAsksNamingTheDocumentsToMatch,
 	}
-	if got := observer.performed[0].DiscoveryRound.OtherWordAsksPerPartition; !slices.Equal(
+	if got := observer.performed[0].DiscoveryRound.OtherWordAsksPerPartition; !maps.Equal(
 		got, wantedAsks,
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)

@@ -17,8 +17,8 @@ type discoveryRoundMetrics struct {
 func discoveryRoundMetricsRegisteredIn(
 	registry prometheusclient.Registerer,
 ) discoveryRoundMetrics {
-	partitions := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-		Name: "yacydhtsearch_word_joined_spread_partitions_total",
+	otherWordAskPartitions := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_word_joined_spread_other_word_ask_partitions_total",
 		Help: "Partitions of the ring in the word joined spreads with a sampled leading word, " +
 			"by what the asks for the other query words named there.",
 	}, []string{labelOtherWordAsks})
@@ -33,13 +33,13 @@ func discoveryRoundMetricsRegisteredIn(
 		),
 		//exhaustive:enforce
 		partitionsPerOtherWordAsks: map[wordjoined.OtherWordAsks]prometheusclient.Counter{
-			wordjoined.OtherWordAsksNamingTheDocumentsToMatch: partitions.WithLabelValues(
+			wordjoined.OtherWordAsksNamingTheDocumentsToMatch: otherWordAskPartitions.WithLabelValues(
 				string(wordjoined.OtherWordAsksNamingTheDocumentsToMatch),
 			),
-			wordjoined.OtherWordAsksOverTheCeiling: partitions.WithLabelValues(
+			wordjoined.OtherWordAsksOverTheCeiling: otherWordAskPartitions.WithLabelValues(
 				string(wordjoined.OtherWordAsksOverTheCeiling),
 			),
-			wordjoined.OtherWordAsksSkipped: partitions.WithLabelValues(
+			wordjoined.OtherWordAsksSkipped: otherWordAskPartitions.WithLabelValues(
 				string(wordjoined.OtherWordAsksSkipped),
 			),
 		},
@@ -47,7 +47,7 @@ func discoveryRoundMetricsRegisteredIn(
 	registry.MustRegister(
 		metrics.unheldQueryWordsRatio,
 		metrics.sampledQueryWordsRatio,
-		partitions,
+		otherWordAskPartitions,
 	)
 
 	return metrics

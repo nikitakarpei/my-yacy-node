@@ -62,7 +62,7 @@ func attributesOfDiscoveryRound(
 }
 
 func amountOfPartitionsPerOtherWordAsksFrom(
-	otherWordAsksPerPartition []wordjoined.OtherWordAsks,
+	otherWordAsksPerPartition map[uint]wordjoined.OtherWordAsks,
 ) map[string]int {
 	amountOfPartitionsPerOtherWordAsks := map[string]int{}
 	for _, otherWordAsks := range otherWordAsksPerPartition {
