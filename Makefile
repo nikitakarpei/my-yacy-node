@@ -13,10 +13,9 @@ COVER_PROFILE := coverage.out
 COVER_PATTERN := $(CURDIR)/tools/covignore-pattern
 COVER_GATE := $(CURDIR)/tools/gate-coverage
 COVER_PACKAGES := $(CURDIR)/tools/coverage-packages
-# -count=1 because the test cache merges stale and fresh coverage under -coverpkg (golang/go#74873).
-COVER_FLAGS := -count=1
+RACE_FLAG ?=
 
-export GO COVERAGE_MIN COVER_PROFILE COVER_PATTERN COVER_PACKAGES COVER_FLAGS
+export GO COVERAGE_MIN COVER_PROFILE COVER_PATTERN COVER_PACKAGES RACE_FLAG
 
 JOBS ?= $(shell nproc 2>/dev/null || echo 4)
 
@@ -144,7 +143,7 @@ build-go: $(TOOLS_STAMP)
 cover-go: $(TOOLS_STAMP)
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
-		( cd $$m && $(GO) test -coverpkg=$$($(COVER_PACKAGES)) $(COVER_FLAGS) -coverprofile=$(COVER_PROFILE) ./... && \
+		( cd $$m && $(GO) test -coverpkg=$$($(COVER_PACKAGES)) -coverprofile=$(COVER_PROFILE) ./... && \
 			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
 	done

@@ -25,6 +25,15 @@ func acceptedGainPerQuery(t *testing.T) gainPerQuery {
 	return acceptedGain
 }
 
+func (gain gainPerQuery) over(queries judgedQueries) gainPerQuery {
+	gainOverTheQueries := make(gainPerQuery, len(queries))
+	for _, judgedQuery := range queries {
+		gainOverTheQueries[judgedQuery.query] = gain[judgedQuery.query]
+	}
+
+	return gainOverTheQueries
+}
+
 func (gain gainPerQuery) meanGain() float64 {
 	if len(gain) == 0 {
 		return 0
