@@ -3,7 +3,7 @@
 // each document it could read: its text, and how many links of its own site and
 // of other sites it holds. It takes the readable text of the page, and the whole text
 // when the page holds no readable article. A page it cannot fetch, read, or
-// finish inside the budget gives back nothing for its document. A page whose
+// finish inside the budget or before the cutoff gives back nothing for its document. A page whose
 // site answers that it is not found or gone gives back its document as gone.
 // It follows the redirects of a page, and a page that moved gives back the
 // address it moved to.
@@ -13,7 +13,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -50,14 +49,17 @@ type Reading struct {
 	pageFetch            PageFetcher
 	formatDerivations    FormatDerivations
 	pageReadBudget       time.Duration
+	cutoff               PageReadCutoff
 	snippetLengthCeiling int
 	observer             PageReadingObserver
 }
 
+//nolint:revive // argument-limit: the reading takes its fetch, formats, budget, cutoff, snippet ceiling and observer
 func New(
 	pageFetch PageFetcher,
 	formatDerivations FormatDerivations,
 	pageReadBudget time.Duration,
+	cutoff PageReadCutoff,
 	snippetLengthCeiling int,
 	observer PageReadingObserver,
 ) Reading {
@@ -65,6 +67,7 @@ func New(
 		pageFetch:            pageFetch,
 		formatDerivations:    formatDerivations,
 		pageReadBudget:       pageReadBudget,
+		cutoff:               cutoff,
 		snippetLengthCeiling: snippetLengthCeiling,
 		observer:             observer,
 	}
@@ -93,18 +96,24 @@ func (r Reading) readEachPageAtOnce(
 	queryWords []yacymodel.Hash,
 	pagesToRead []PageToRead,
 ) []pageReadResult {
-	pageReadResults := make([]pageReadResult, len(pagesToRead))
-	var pagesBeingRead sync.WaitGroup
+	readingCtx, stopReading := context.WithCancel(ctx)
+	defer stopReading()
+	settledPages := make(chan settledPage, len(pagesToRead))
 	for place, pageToRead := range pagesToRead {
-		pagesBeingRead.Add(1)
 		go func() {
-			defer pagesBeingRead.Done()
-			pageReadResults[place] = r.readThePage(ctx, queryWords, pageToRead)
+			settledPages <- settledPage{
+				place:          place,
+				pageReadResult: r.readThePage(readingCtx, queryWords, pageToRead),
+			}
 		}()
 	}
-	pagesBeingRead.Wait()
 
-	return pageReadResults
+	return r.cutoff.pageReadResultsFrom(settledPages, pagesToRead)
+}
+
+type settledPage struct {
+	place          int
+	pageReadResult pageReadResult
 }
 
 func (r Reading) readThePage(

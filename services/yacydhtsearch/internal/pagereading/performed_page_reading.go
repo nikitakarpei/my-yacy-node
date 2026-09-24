@@ -11,6 +11,7 @@ type PerformedPageReading struct {
 	AmountOfPagesUnreadable          int
 	AmountOfPagesOfAnUnsupportedKind int
 	AmountOfPagesOutOfBudget         int
+	AmountOfPagesCutOff              int
 	TimeSpent                        time.Duration
 	TimeSpentFetching                time.Duration
 	TimeSpentReading                 time.Duration
@@ -42,6 +43,8 @@ func performedPageReadingFrom(
 			performed.AmountOfPagesOfAnUnsupportedKind++
 		case pageWasOutOfBudget:
 			performed.AmountOfPagesOutOfBudget++
+		case pageWasCutOff:
+			performed.AmountOfPagesCutOff++
 		}
 	}
 

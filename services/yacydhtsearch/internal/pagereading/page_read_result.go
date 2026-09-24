@@ -25,4 +25,5 @@ const (
 	pageWasUnreadable
 	pageWasOfAnUnsupportedKind
 	pageWasOutOfBudget
+	pageWasCutOff
 )

@@ -69,6 +69,10 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 	if cfg.PagesReadPerSite != main.DefaultPagesReadPerSite {
 		t.Fatalf("pages read per site = %d, want the default", cfg.PagesReadPerSite)
 	}
+	if cfg.PageReadCutoff.PercentOfPages != main.DefaultPageReadCutoffPercent ||
+		cfg.PageReadCutoff.Grace != main.DefaultPageReadCutoffGrace {
+		t.Fatalf("page read cutoff = %+v, want the default", cfg.PageReadCutoff)
+	}
 }
 
 func TestAnOperatorNamesSeveralSeedlistsInOneSetting(t *testing.T) {
@@ -103,6 +107,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvHedgeDelay] = "250ms"
 	environment[main.EnvServeProfiler] = "true"
 	environment[main.EnvPagesReadPerSite] = "5"
+	environment[main.EnvPageReadCutoffPercent] = "80"
+	environment[main.EnvPageReadCutoffGrace] = "400ms"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
@@ -116,7 +122,9 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.DocumentsToMatchCeiling != 64 ||
 		cfg.URLMetadataAskDocumentsCeiling != 128 ||
 		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond ||
-		!cfg.ServeProfiler || cfg.PagesReadPerSite != 5 {
+		!cfg.ServeProfiler || cfg.PagesReadPerSite != 5 ||
+		cfg.PageReadCutoff.PercentOfPages != 80 ||
+		cfg.PageReadCutoff.Grace != 400*time.Millisecond {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }
