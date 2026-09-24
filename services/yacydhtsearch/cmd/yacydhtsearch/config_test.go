@@ -33,13 +33,19 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 		t.Fatalf("query budget = %v, want the default", cfg.QueryBudget)
 	}
 	if cfg.NetworkRedundancy != main.DefaultNetworkRedundancy ||
-		cfg.PeerCallsInFlight != main.DefaultPeerCallsInFlight ||
-		cfg.PeerCallBudget != main.DefaultPeerCallBudget {
+		cfg.PeerCallsInFlight != main.DefaultPeerCallsInFlight {
 		t.Fatalf(
-			"network redundancy = %d, peer calls in flight = %d and budget = %v, want the defaults",
+			"network redundancy = %d and peer calls in flight = %d, want the defaults",
 			cfg.NetworkRedundancy,
 			cfg.PeerCallsInFlight,
-			cfg.PeerCallBudget,
+		)
+	}
+	if cfg.URLMetadataCallBudget != main.DefaultURLMetadataCallBudget ||
+		cfg.SearchCallBudget != main.DefaultSearchCallBudget {
+		t.Fatalf(
+			"URL metadata call budget = %v and search call budget = %v, want the defaults",
+			cfg.URLMetadataCallBudget,
+			cfg.SearchCallBudget,
 		)
 	}
 	if cfg.HedgeDelay != main.DefaultHedgeDelay {
@@ -84,7 +90,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvQueryBudget] = "9s"
 	environment[main.EnvNetworkRedundancy] = "7"
 	environment[main.EnvPeerCallsInFlight] = "9"
-	environment[main.EnvPeerCallBudget] = "2s"
+	environment[main.EnvURLMetadataCallBudget] = "4s"
+	environment[main.EnvSearchCallBudget] = "1500ms"
 	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
 	environment[main.EnvDocumentsToMatchCeiling] = "64"
@@ -99,7 +106,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	}
 	if cfg.QueryBudget != 9*time.Second ||
 		cfg.NetworkRedundancy != 7 || cfg.PeerCallsInFlight != 9 ||
-		cfg.PeerCallBudget != 2*time.Second ||
+		cfg.URLMetadataCallBudget != 4*time.Second ||
+		cfg.SearchCallBudget != 1500*time.Millisecond ||
 		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 ||
 		cfg.DocumentsToMatchCeiling != 64 ||
 		cfg.URLMetadataAskDocumentsCeiling != 128 ||

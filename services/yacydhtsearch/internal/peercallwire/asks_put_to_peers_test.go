@@ -10,11 +10,12 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	shortSpreadBudget   = 500 * time.Millisecond
-	shortPeerCallBudget = 500 * time.Millisecond
+	shortSpreadBudget     = 500 * time.Millisecond
+	shortSearchCallBudget = 500 * time.Millisecond
 )
 
 type peerNetwork struct {
@@ -182,7 +183,10 @@ func TestAPeerThatOutlastsTheTimeTheAskHasLeftIsNoAnswer(t *testing.T) {
 
 	if len(answeredAsks) != 1 ||
 		answeredAsks[0].MatchedDocuments[0].Metadata.Address != "https://a.example/" {
-		t.Fatalf("AskForSearchDocuments = %+v, want only the peer inside the budget", answeredAsks)
+		t.Fatalf(
+			"AskForSearchDocuments = %+v, want only the peer inside the search call budget",
+			answeredAsks,
+		)
 	}
 	if time.Since(startedAt) < shortSpreadBudget {
 		t.Fatalf(
@@ -192,26 +196,57 @@ func TestAPeerThatOutlastsTheTimeTheAskHasLeftIsNoAnswer(t *testing.T) {
 	}
 }
 
-func TestAPeerThatOutlastsThePeerCallBudgetIsNoAnswer(t *testing.T) {
+func TestASearchAskThatOutlastsTheSearchCallBudgetIsNoAnswer(t *testing.T) {
 	t.Parallel()
 
 	network := &peerNetwork{}
-	slow := network.peerAnsweringAfter(t, 4*shortPeerCallBudget, searchAnswerHolding(t))
+	slow := network.peerAnsweringAfter(t, 4*shortSearchCallBudget, searchAnswerHolding(t))
 	holder := network.peerHolding(t, "https://a.example/")
 
 	startedAt := time.Now()
-	answeredAsks := wireSpendingAtMost(shortPeerCallBudget, &recordedOutcome{}).
+	answeredAsks := wireSearchingAtMost(shortSearchCallBudget, &recordedOutcome{}).
 		AskForSearchDocuments(callWithin(t, spreadBudgetOfTheTests), asksOfPeersAt(slow, holder))
 
 	if len(answeredAsks) != 1 ||
 		answeredAsks[0].MatchedDocuments[0].Metadata.Address != "https://a.example/" {
-		t.Fatalf("AskForSearchDocuments = %+v, want only the peer inside the budget", answeredAsks)
+		t.Fatalf(
+			"AskForSearchDocuments = %+v, want only the peer inside the search call budget",
+			answeredAsks,
+		)
 	}
-	if time.Since(startedAt) > 2*shortPeerCallBudget {
+	if time.Since(startedAt) > 2*shortSearchCallBudget {
 		t.Fatalf(
 			"AskForSearchDocuments returned after %v, want it to drop the slow peer at %v",
 			time.Since(startedAt),
-			shortPeerCallBudget,
+			shortSearchCallBudget,
+		)
+	}
+}
+
+func TestAURLMetadataAskThatOutlastsTheSearchCallBudgetIsStillAnswered(t *testing.T) {
+	t.Parallel()
+
+	network := &peerNetwork{}
+	slow := network.peerAnsweringAfter(t, 2*shortSearchCallBudget,
+		`<rss><yacy><response>ok</response></yacy><channel><item>`+
+			`<title>Weather</title><link>https://example.org/weather</link>`+
+			`<guid isPermaLink="false">Q_ylfl--9bK5</guid>`+
+			`</item></channel></rss>`,
+	)
+
+	answeredAsks := wireSearchingAtMost(shortSearchCallBudget, &recordedOutcome{}).
+		AskForURLMetadata(
+			callWithin(t, spreadBudgetOfTheTests),
+			[]peerasks.URLMetadataAsk{{
+				Peer:      peerAt(slow),
+				Documents: []yacymodel.URLHash{mustParseURLHash(t, "Q_ylfl--9bK5")},
+			}},
+		)
+
+	if len(answeredAsks) != 1 {
+		t.Fatalf(
+			"AskForURLMetadata = %+v, want the answer the peer sent after the search call budget",
+			answeredAsks,
 		)
 	}
 }

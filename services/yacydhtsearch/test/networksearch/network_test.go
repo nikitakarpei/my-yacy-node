@@ -30,17 +30,18 @@ import (
 )
 
 const (
-	networkName          = "freeworld"
-	responseLimit        = 1 << 20
-	peerCallsInFlight    = 48
-	peerCallBudget       = 3 * time.Second
-	queryBudget          = 5 * time.Second
-	pageReadBudget       = 3 * time.Second
-	peerResults          = 10
-	directoryLimit       = 64
-	recordCeiling        = 50
-	compoundWordsCeiling = 4
-	pagesReadPerQuery    = 50
+	networkName           = "freeworld"
+	responseLimit         = 1 << 20
+	peerCallsInFlight     = 48
+	urlMetadataCallBudget = 3 * time.Second
+	searchCallBudget      = 3 * time.Second
+	queryBudget           = 5 * time.Second
+	pageReadBudget        = 3 * time.Second
+	peerResults           = 10
+	directoryLimit        = 64
+	recordCeiling         = 50
+	compoundWordsCeiling  = 4
+	pagesReadPerQuery     = 50
 
 	networkRedundancy          = 2
 	replicasCoveringAPartition = networkRedundancy
@@ -273,9 +274,10 @@ func peerCalls(t *testing.T) peercallwire.Wire {
 		http.DefaultClient,
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions(t)},
 		peercallwire.PeerCallLimits{
-			MaxResponseBytes:  responseLimit,
-			PeerCallsInFlight: peerCallsInFlight,
-			PeerCallBudget:    peerCallBudget,
+			MaxResponseBytes:      responseLimit,
+			PeerCallsInFlight:     peerCallsInFlight,
+			URLMetadataCallBudget: urlMetadataCallBudget,
+			SearchCallBudget:      searchCallBudget,
 		},
 		silentOutcome{},
 	)
