@@ -3,8 +3,6 @@
 package peerasks
 
 import (
-	"slices"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -28,18 +26,4 @@ type AnsweredSearchDocumentsAsk struct {
 	Abstract                        []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
-	PeerVersion                     string
-}
-
-func (answeredAsk AnsweredSearchDocumentsAsk) IgnoredTheDocumentsToMatch() bool {
-	if len(answeredAsk.Ask.DocumentsToMatch) == 0 {
-		return false
-	}
-	for _, document := range answeredAsk.Abstract {
-		if !slices.Contains(answeredAsk.Ask.DocumentsToMatch, document) {
-			return true
-		}
-	}
-
-	return false
 }
