@@ -18,13 +18,14 @@ peers ignore `urls`, so peer judgements skip them. The round mostly works around
 
 ## Decision
 
-1. Ask every word in one random partition. The rarest word with a complete answer there
-   leads. If no word has one, ask every word in all partitions without `urls`.
+1. Ask every word in one random partition. A word has a sample there when an answer lists
+   all the documents it counts. The rarest word with a sample leads. If no word has a
+   sample, ask every word in all partitions without `urls`.
 2. Ask the leading word and the compound words that contain it in all partitions. Their
-   documents are the candidates.
+   documents are the documents to match.
 3. As each partition answers, ask the other words and compound words there with the
-   candidates in `urls`. Skip partitions without candidates.
-4. Ask without `urls` when a partition has more candidates than
+   documents to match in `urls`. Skip partitions without documents to match.
+4. Ask without `urls` when a partition has more documents to match than
    `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING`.
 5. Join all answers locally. An answer that ignored `urls` is used as it is.
 6. Ask URL metadata only for joined documents that no answer carried metadata for.
