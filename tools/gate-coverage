@@ -10,7 +10,7 @@ packages=$($COVER_PACKAGES)
 rm -f "$profile" "$gated"
 
 # shellcheck disable=SC2086
-if ! output=$($go test -race -coverpkg="$packages" $COVER_FLAGS -coverprofile="$profile" ./... 2>&1); then
+if ! output=$($go test $RACE_FLAG -coverpkg="$packages" -coverprofile="$profile" ./... 2>&1); then
 	printf '%s\n' "$output"
 	exit 1
 fi

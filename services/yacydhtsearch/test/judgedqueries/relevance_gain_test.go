@@ -20,19 +20,35 @@ func TestTheOrderingOfTheServiceHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	t.Parallel()
 
 	queries := judgedQueriesRecorded(t)
-	serviceOrdering := defaultServiceOrdering()
-	gainOfServiceOrdering := queries.gainPerQueryOf(serviceOrdering)
+	serviceOrder := queries.orderedBy(defaultServiceOrdering())
+	gain := gainPerOrdering{
+		service:   serviceOrder.gainPerQuery(),
+		relevance: queries.gainPerQueryOf(defaultRelevanceOrdering()),
+		found:     queries.gainPerQueryOf(foundOrder{}),
+	}
 	acceptedGain := acceptedGainPerQuery(t)
-	queriesOfSeveralRelevantDocuments := queries.ofSeveralRelevantDocuments()
+	gainOverSeveralRelevantDocuments := gain.over(queries.ofSeveralRelevantDocuments())
 
-	reportGainPerQuery(t, queries, gainOfServiceOrdering)
-	reportMeanGainPerOrdering(t, queriesOfSeveralRelevantDocuments)
-	reportRelevantDocumentsHeld(t, queries.ofOneRelevantDocument(), gainOfServiceOrdering)
-	failOnAShortLift(t, queriesOfSeveralRelevantDocuments)
-	failOnAMeanGainBelowTheBaseline(
-		t, queriesOfSeveralRelevantDocuments.gainPerQueryOf(serviceOrdering), acceptedGain,
-	)
-	failOnAQueryWithoutGain(t, gainOfServiceOrdering, acceptedGain)
+	reportGainPerQuery(t, serviceOrder, gain)
+	reportMeanGainPerOrdering(t, gainOverSeveralRelevantDocuments)
+	reportRelevantDocumentsHeld(t, queries.ofOneRelevantDocument(), gain.service)
+	failOnAShortLift(t, gainOverSeveralRelevantDocuments)
+	failOnAMeanGainBelowTheBaseline(t, gainOverSeveralRelevantDocuments.service, acceptedGain)
+	failOnAQueryWithoutGain(t, gain.service, acceptedGain)
+}
+
+type gainPerOrdering struct {
+	service   gainPerQuery
+	relevance gainPerQuery
+	found     gainPerQuery
+}
+
+func (gain gainPerOrdering) over(queries judgedQueries) gainPerOrdering {
+	return gainPerOrdering{
+		service:   gain.service.over(queries),
+		relevance: gain.relevance.over(queries),
+		found:     gain.found.over(queries),
+	}
 }
 
 func defaultServiceOrdering() sitediscount.Ordering {
@@ -51,31 +67,25 @@ func defaultRelevanceOrdering() relevance.Ordering {
 	)
 }
 
-func reportGainPerQuery(
-	t *testing.T, queries judgedQueries, gainOfServiceOrdering gainPerQuery,
-) {
+func reportGainPerQuery(t *testing.T, serviceOrder orderedQueries, gain gainPerOrdering) {
 	t.Helper()
 
-	relevanceOrdering := defaultRelevanceOrdering()
-	serviceOrdering := defaultServiceOrdering()
 	amountOfSpamDocumentsAmongTheFirst := 0
-	for _, judgedQuery := range queries {
-		orderedDocuments := serviceOrdering.OrderedDocumentsOf(judgedQuery.answers)
-		amountOfSpamDocumentsAmongTheFirst += judgedQuery.gradedDocuments.
-			amountOfSpamDocumentsAmong(theFirstOf(orderedDocuments))
+	for _, orderedQuery := range serviceOrder {
+		query := orderedQuery.judgedQuery.query
+		gradedDocuments := orderedQuery.judgedQuery.gradedDocuments
+		amountOfSpamDocuments := gradedDocuments.
+			amountOfSpamDocumentsAmong(theFirstOf(orderedQuery.orderedDocuments))
+		amountOfSpamDocumentsAmongTheFirst += amountOfSpamDocuments
 		t.Logf(
 			"%q: site discount %.4f, relevance %.4f, found order %.4f, %d ungraded documents "+
 				"dropped, %d spam documents in the first %d",
-			judgedQuery.query,
-			gainOfServiceOrdering[judgedQuery.query],
-			judgedQuery.gradedDocuments.normalizedGainOf(
-				relevanceOrdering.OrderedDocumentsOf(judgedQuery.answers),
-			),
-			judgedQuery.gradedDocuments.normalizedGainOf(
-				foundOrder{}.OrderedDocumentsOf(judgedQuery.answers),
-			),
-			judgedQuery.gradedDocuments.amountOfUngradedDocumentsAmong(orderedDocuments),
-			judgedQuery.gradedDocuments.amountOfSpamDocumentsAmong(theFirstOf(orderedDocuments)),
+			query,
+			gain.service[query],
+			gain.relevance[query],
+			gain.found[query],
+			gradedDocuments.amountOfUngradedDocumentsAmong(orderedQuery.orderedDocuments),
+			amountOfSpamDocuments,
 			judgedDocumentsCeiling,
 		)
 	}
@@ -84,12 +94,12 @@ func reportGainPerQuery(
 			"queries",
 		amountOfSpamDocumentsAmongTheFirst,
 		judgedDocumentsCeiling,
-		len(queries),
+		len(serviceOrder),
 	)
 	t.Logf(
 		"the ordering of the service reaches no gain on %d of %d judged queries",
-		gainOfServiceOrdering.amountOfQueriesWithoutGain(),
-		len(queries),
+		gain.service.amountOfQueriesWithoutGain(),
+		len(serviceOrder),
 	)
 }
 
@@ -101,16 +111,16 @@ func (foundOrder) OrderedDocumentsOf(
 	return answers.FoundDocuments
 }
 
-func reportMeanGainPerOrdering(t *testing.T, queriesOfSeveralRelevantDocuments judgedQueries) {
+func reportMeanGainPerOrdering(t *testing.T, gainOverSeveralRelevantDocuments gainPerOrdering) {
 	t.Helper()
 
 	t.Logf(
 		"the mean over the %d judged queries of several relevant documents: site discount "+
 			"%.4f, relevance %.4f, found order %.4f",
-		len(queriesOfSeveralRelevantDocuments),
-		queriesOfSeveralRelevantDocuments.meanGainOf(defaultServiceOrdering()),
-		queriesOfSeveralRelevantDocuments.meanGainOf(defaultRelevanceOrdering()),
-		queriesOfSeveralRelevantDocuments.meanGainOf(foundOrder{}),
+		len(gainOverSeveralRelevantDocuments.service),
+		gainOverSeveralRelevantDocuments.service.meanGain(),
+		gainOverSeveralRelevantDocuments.relevance.meanGain(),
+		gainOverSeveralRelevantDocuments.found.meanGain(),
 	)
 }
 
@@ -136,11 +146,11 @@ func reportRelevantDocumentsHeld(
 	)
 }
 
-func failOnAShortLift(t *testing.T, queries judgedQueries) {
+func failOnAShortLift(t *testing.T, gain gainPerOrdering) {
 	t.Helper()
 
-	meanGainOfServiceOrdering := queries.meanGainOf(defaultServiceOrdering())
-	meanGainOfFoundOrder := queries.meanGainOf(foundOrder{})
+	meanGainOfServiceOrdering := gain.service.meanGain()
+	meanGainOfFoundOrder := gain.found.meanGain()
 	if meanGainOfServiceOrdering-meanGainOfFoundOrder >= leastLiftOverFoundOrder {
 		return
 	}
@@ -149,7 +159,7 @@ func failOnAShortLift(t *testing.T, queries judgedQueries) {
 			"queries, want a lift of at least %.2f",
 		meanGainOfFoundOrder,
 		meanGainOfServiceOrdering,
-		len(queries),
+		len(gain.service),
 		leastLiftOverFoundOrder,
 	)
 }

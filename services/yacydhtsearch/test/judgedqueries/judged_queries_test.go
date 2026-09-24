@@ -74,13 +74,19 @@ func (queries judgedQueries) ofOneRelevantDocument() judgedQueries {
 }
 
 func (queries judgedQueries) gainPerQueryOf(ordering documentsOrdering) gainPerQuery {
-	gain := make(gainPerQuery, len(queries))
+	return queries.orderedBy(ordering).gainPerQuery()
+}
+
+func (queries judgedQueries) orderedBy(ordering documentsOrdering) orderedQueries {
+	ordered := make(orderedQueries, 0, len(queries))
 	for _, judgedQuery := range queries {
-		gain[judgedQuery.query] = judgedQuery.gradedDocuments.
-			normalizedGainOf(ordering.OrderedDocumentsOf(judgedQuery.answers))
+		ordered = append(ordered, orderedQuery{
+			judgedQuery:      judgedQuery,
+			orderedDocuments: ordering.OrderedDocumentsOf(judgedQuery.answers),
+		})
 	}
 
-	return gain
+	return ordered
 }
 
 func (queries judgedQueries) meanGainOf(ordering documentsOrdering) float64 {
