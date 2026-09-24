@@ -11,15 +11,18 @@ type discovery struct {
 	askRun                    *askRun
 	asks                      discoveryAsks
 	query                     searchquery.Query
+	rememberedAmounts         map[yacymodel.Hash]int
 	partitions                yacymodel.DHTRingPartitions
 	documentsToMatchCeiling   int
 	otherWordAsksPerPartition map[uint]OtherWordAsks
 }
 
+//nolint:revive // argument-limit: the discovery takes its run, asks, query, remembered amounts, ring and ceiling
 func discoveryOver(
 	askRun *askRun,
 	asks discoveryAsks,
 	query searchquery.Query,
+	rememberedAmounts map[yacymodel.Hash]int,
 	partitions yacymodel.DHTRingPartitions,
 	documentsToMatchCeiling int,
 ) *discovery {
@@ -27,18 +30,34 @@ func discoveryOver(
 		askRun:                    askRun,
 		asks:                      asks,
 		query:                     query,
+		rememberedAmounts:         rememberedAmounts,
 		partitions:                partitions,
 		documentsToMatchCeiling:   documentsToMatchCeiling,
 		otherWordAsksPerPartition: map[uint]OtherWordAsks{},
 	}
 }
 
-func (discovery *discovery) askFromTheSampleIn(sampledPartition uint) discoveryRound {
-	leadingQueryWordFromTheSample := discovery.takeTheSampleIn(sampledPartition)
-	discovery.askTheRestAfter(leadingQueryWordFromTheSample)
+func (discovery *discovery) askTheQueryWords(sampledPartition uint) discoveryRound {
+	chosenLeadingQueryWord := discovery.leadingQueryWordRememberedOrSampledIn(sampledPartition)
+	discovery.askTheRestAfter(chosenLeadingQueryWord)
 	discovery.askRun.finish()
 
-	return discovery.roundFrom(sampledPartition, leadingQueryWordFromTheSample)
+	return discovery.roundFrom(sampledPartition, chosenLeadingQueryWord)
+}
+
+func (discovery *discovery) leadingQueryWordRememberedOrSampledIn(
+	sampledPartition uint,
+) yacymodel.Optional[yacymodel.Hash] {
+	rememberedLeadingQueryWord := discovery.rememberedLeadingQueryWord()
+	if rememberedLeadingQueryWord.Present() {
+		return rememberedLeadingQueryWord
+	}
+
+	return discovery.takeTheSampleIn(sampledPartition)
+}
+
+func (discovery *discovery) rememberedLeadingQueryWord() yacymodel.Optional[yacymodel.Hash] {
+	return rarestQueryWordAmong(discovery.query.WordHashes(), discovery.rememberedAmounts)
 }
 
 func (discovery *discovery) takeTheSampleIn(
@@ -61,9 +80,9 @@ func (discovery *discovery) takeTheSampleIn(
 }
 
 func (discovery *discovery) askTheRestAfter(
-	leadingQueryWordFromTheSample yacymodel.Optional[yacymodel.Hash],
+	chosenLeadingQueryWord yacymodel.Optional[yacymodel.Hash],
 ) {
-	leadingQueryWord, chosen := leadingQueryWordFromTheSample.Get()
+	leadingQueryWord, chosen := chosenLeadingQueryWord.Get()
 	if !chosen {
 		discovery.askRun.put(discovery.asks)
 
@@ -155,7 +174,7 @@ func (discovery *discovery) documentsToMatchIn(
 
 func (discovery *discovery) roundFrom(
 	sampledPartition uint,
-	leadingQueryWordFromTheSample yacymodel.Optional[yacymodel.Hash],
+	chosenLeadingQueryWord yacymodel.Optional[yacymodel.Hash],
 ) discoveryRound {
 	askOutcomes := discovery.askRun.askOutcomes
 	answeredAsks := askOutcomes.AnsweredAsks()
@@ -175,7 +194,8 @@ func (discovery *discovery) roundFrom(
 		amountOfQueryWordsWithASample: amountOfQueryWordsWithASampleIn(
 			sampledPartition, queryWordsFewestDocumentsFirst, discovery.partitions,
 		),
-		leadingQueryWordFromTheSample: leadingQueryWordFromTheSample,
-		otherWordAsksPerPartition:     discovery.otherWordAsksPerPartition,
+		chosenLeadingQueryWord:     chosenLeadingQueryWord,
+		leadingQueryWordRemembered: discovery.rememberedLeadingQueryWord().Present(),
+		otherWordAsksPerPartition:  discovery.otherWordAsksPerPartition,
 	}
 }

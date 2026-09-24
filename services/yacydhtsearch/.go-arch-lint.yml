@@ -83,6 +83,14 @@ components:
     in: internal/rankingcacheobservers/jetstream/applog/**
   rankingcacheobserversjetstreamprometheus:
     in: internal/rankingcacheobservers/jetstream/prometheus/**
+  querywordamountsmemory:
+    in: internal/querywordamounts/memory/**
+  querywordamountsjetstream:
+    in: internal/querywordamounts/jetstream/**
+  querywordamountsobserversjetstreamapplog:
+    in: internal/querywordamountsobservers/jetstream/applog/**
+  querywordamountsobserversjetstreamprometheus:
+    in: internal/querywordamountsobservers/jetstream/prometheus/**
   peerasks:
     in: internal/peerasks/**
   peerchoice:
@@ -346,6 +354,21 @@ deps:
       - prometheus
     mayDependOn:
       - searchquery
+  querywordamountsmemory:
+    canUse:
+      - hashicorplru
+      - yacymodel
+  querywordamountsjetstream:
+    canUse:
+      - nats
+      - yacymodel
+  querywordamountsobserversjetstreamapplog:
+    canUse:
+      - yacymodel
+  querywordamountsobserversjetstreamprometheus:
+    canUse:
+      - prometheus
+      - yacymodel
   peerasks:
     canUse:
       - yacymodel

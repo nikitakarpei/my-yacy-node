@@ -73,6 +73,14 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 		cfg.PageReadCutoff.Grace != main.DefaultPageReadCutoffGrace {
 		t.Fatalf("page read cutoff = %+v, want the default", cfg.PageReadCutoff)
 	}
+	if cfg.QueryWordAmountLifetime != main.DefaultQueryWordAmountLifetime ||
+		cfg.QueryWordAmountsCapacity != main.DefaultQueryWordAmountsCapacity {
+		t.Fatalf(
+			"query word amount lifetime = %v and capacity = %d, want the defaults",
+			cfg.QueryWordAmountLifetime,
+			cfg.QueryWordAmountsCapacity,
+		)
+	}
 }
 
 func TestAnOperatorNamesSeveralSeedlistsInOneSetting(t *testing.T) {
@@ -109,6 +117,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvPagesReadPerSite] = "5"
 	environment[main.EnvPageReadCutoffPercent] = "80"
 	environment[main.EnvPageReadCutoffGrace] = "400ms"
+	environment[main.EnvQueryWordAmountLifetime] = "90m"
+	environment[main.EnvQueryWordAmountsCapacity] = "500"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
@@ -124,7 +134,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond ||
 		!cfg.ServeProfiler || cfg.PagesReadPerSite != 5 ||
 		cfg.PageReadCutoff.PercentOfPages != 80 ||
-		cfg.PageReadCutoff.Grace != 400*time.Millisecond {
+		cfg.PageReadCutoff.Grace != 400*time.Millisecond ||
+		cfg.QueryWordAmountLifetime != 90*time.Minute || cfg.QueryWordAmountsCapacity != 500 {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }

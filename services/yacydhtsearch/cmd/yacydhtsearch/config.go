@@ -49,6 +49,8 @@ const (
 	EnvNATSURL                        = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity           = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
 	EnvRankingLifetime                = "YACYDHTSEARCH_RANKING_LIFETIME"
+	EnvQueryWordAmountLifetime        = "YACYDHTSEARCH_QUERY_WORD_AMOUNT_LIFETIME"
+	EnvQueryWordAmountsCapacity       = "YACYDHTSEARCH_QUERY_WORD_AMOUNTS_CAPACITY"
 	EnvPagesReadPerQuery              = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
 	EnvPagesReadPerSite               = "YACYDHTSEARCH_PAGES_READ_PER_SITE"
 	EnvCompoundWordsCeiling           = "YACYDHTSEARCH_COMPOUND_WORDS_CEILING"
@@ -86,6 +88,8 @@ const (
 	DefaultCompoundWordsCeiling           = 4
 	DefaultRankingCacheCapacity           = 1024
 	DefaultRankingLifetime                = 2 * time.Minute
+	DefaultQueryWordAmountLifetime        = 6 * time.Hour
+	DefaultQueryWordAmountsCapacity       = 100000
 	DefaultPagesReadPerQuery              = 50
 	DefaultPagesReadPerSite               = 3
 	DefaultPageReadBudget                 = 3 * time.Second
@@ -132,6 +136,8 @@ type ServiceConfig struct {
 	NATSURL                        string
 	RankingCache                   int
 	RankingLifetime                time.Duration
+	QueryWordAmountLifetime        time.Duration
+	QueryWordAmountsCapacity       int
 
 	PagesReadPerQuery       int
 	PagesReadPerSite        int
@@ -239,6 +245,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		NATSURL:                        strings.TrimSpace(getenv(EnvNATSURL)),
 		RankingCache:                   counts.rankingCacheCapacity,
 		RankingLifetime:                durations.rankingLifetime,
+		QueryWordAmountLifetime:        durations.queryWordAmountLifetime,
+		QueryWordAmountsCapacity:       counts.queryWordAmountsCapacity,
 
 		PagesReadPerQuery:    counts.pagesReadPerQuery,
 		PagesReadPerSite:     counts.pagesReadPerSite,
@@ -267,6 +275,7 @@ type configuredDurations struct {
 	stalenessHorizon          time.Duration
 	snapshotInterval          time.Duration
 	rankingLifetime           time.Duration
+	queryWordAmountLifetime   time.Duration
 	pageReadBudget            time.Duration
 	pageReadCutoffGrace       time.Duration
 }
@@ -299,6 +308,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		},
 		{EnvSnapshotInterval, DefaultSnapshotInterval, &durations.snapshotInterval},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
+		{EnvQueryWordAmountLifetime, DefaultQueryWordAmountLifetime, &durations.queryWordAmountLifetime},
 		{EnvPageReadBudget, DefaultPageReadBudget, &durations.pageReadBudget},
 		{EnvPageReadCutoffGrace, DefaultPageReadCutoffGrace, &durations.pageReadCutoffGrace},
 	} {
@@ -320,6 +330,7 @@ type configuredCounts struct {
 	urlMetadataAskDocumentsCeiling int
 	rankedItemsCeiling             int
 	rankingCacheCapacity           int
+	queryWordAmountsCapacity       int
 	pagesReadPerQuery              int
 	pagesReadPerSite               int
 	compoundWordsCeiling           int
@@ -345,6 +356,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvURLMetadataAskDocumentsCeiling, DefaultURLMetadataAskDocumentsCeiling, &counts.urlMetadataAskDocumentsCeiling},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
+		{EnvQueryWordAmountsCapacity, DefaultQueryWordAmountsCapacity, &counts.queryWordAmountsCapacity},
 		{EnvPagesReadPerQuery, DefaultPagesReadPerQuery, &counts.pagesReadPerQuery},
 		{EnvPagesReadPerSite, DefaultPagesReadPerSite, &counts.pagesReadPerSite},
 		{EnvCompoundWordsCeiling, DefaultCompoundWordsCeiling, &counts.compoundWordsCeiling},
