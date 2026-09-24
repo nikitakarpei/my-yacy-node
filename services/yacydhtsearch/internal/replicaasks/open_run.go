@@ -87,7 +87,7 @@ func (run *openRun) takeTheAsks(
 func (run *openRun) wordPartitionsOf(
 	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
 ) []*wordPartition {
-	asksOfEachWordPartition := run.asksOfEachNewWordPartitionIn(asksInReplicaOrder)
+	asksOfEachWordPartition := run.asksOfEachAddedWordPartitionIn(asksInReplicaOrder)
 	addedWordPartitions := make([]*wordPartition, 0, len(asksOfEachWordPartition))
 	for _, asksOfTheWordPartition := range asksOfEachWordPartition {
 		addedWordPartitions = append(addedWordPartitions, wordPartitionOf(
@@ -101,26 +101,26 @@ func (run *openRun) wordPartitionsOf(
 	return addedWordPartitions
 }
 
-func (run *openRun) asksOfEachNewWordPartitionIn(
+func (run *openRun) asksOfEachAddedWordPartitionIn(
 	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
 ) [][]placedAsk {
 	asksOfEachWordPartition := make([][]placedAsk, 0, len(asksInReplicaOrder))
-	placeOfNewKey := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
+	indexOfEachAddedWordPartition := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
 	for _, ask := range asksInReplicaOrder {
 		key := wordPartitionKeyOf(ask)
-		place, isNew := placeOfNewKey[key]
-		if !isNew {
+		index, added := indexOfEachAddedWordPartition[key]
+		if !added {
 			if _, alreadyInTheRun := run.wordPartitionKeys[key]; alreadyInTheRun {
 				continue
 			}
 			run.wordPartitionKeys[key] = struct{}{}
-			place = len(asksOfEachWordPartition)
-			placeOfNewKey[key] = place
+			index = len(asksOfEachWordPartition)
+			indexOfEachAddedWordPartition[key] = index
 			asksOfEachWordPartition = append(asksOfEachWordPartition, nil)
 		}
-		asksOfEachWordPartition[place] = append(
-			asksOfEachWordPartition[place],
-			placedAsk{ask: ask, placeInReplicaOrder: len(asksOfEachWordPartition[place])},
+		asksOfEachWordPartition[index] = append(
+			asksOfEachWordPartition[index],
+			placedAsk{ask: ask, placeInReplicaOrder: len(asksOfEachWordPartition[index])},
 		)
 	}
 
