@@ -8,15 +8,13 @@ import (
 )
 
 type wordSplit struct {
-	leadingQueryWord yacymodel.Hash
-	candidateWords   []yacymodel.Hash
-	otherWords       []yacymodel.Hash
+	candidateWords []yacymodel.Hash
+	otherWords     []yacymodel.Hash
 }
 
 func wordSplitBy(leadingQueryWord yacymodel.Hash, query searchquery.Query) wordSplit {
 	split := wordSplit{
-		leadingQueryWord: leadingQueryWord,
-		candidateWords:   []yacymodel.Hash{leadingQueryWord},
+		candidateWords: []yacymodel.Hash{leadingQueryWord},
 	}
 	for _, queryWord := range query.WordHashes() {
 		if queryWord == leadingQueryWord {

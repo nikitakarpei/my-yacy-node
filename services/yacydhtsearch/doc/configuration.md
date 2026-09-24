@@ -45,15 +45,15 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 ## Peer presence and reliability
 
-Peer presence is the time a peer stayed reachable at one address. Each probe answer adds the time since the previous answer of that peer. Peer reliability comes from presence and from the age of the last answer. Among the peers that hold a word, a search asks the reliable peers first. A full directory drops its least reliable peers first.
+Peer reliability grows with the time a peer stays reachable at one address, and falls as its last answer gets older. A search asks the reliable peers first. A full directory drops its least reliable peers first.
 
 With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the peer presence in NATS and share them. Without it, an instance keeps peer presence only while it runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one probe answer can add. |
-| `YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time NATS keeps one probe answer. If all instances stop for longer, they lose the presence from the answers after the last write of the peer presence. |
-| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence to NATS. A starting instance reads the last write, then the answers after it, so a longer time makes the start slower. |
+| `YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time NATS keeps one probe answer. If all instances stop for longer, they lose some presence. |
+| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence to NATS. A longer time makes the start slower. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION` | `168h` | Presence a peer must earn for the highest reliability. More presence adds no more. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON` | `6h` | Time after the last answer of a peer at which its reliability becomes zero. |
 
@@ -64,22 +64,22 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | `YACYDHTSEARCH_QUERY_BUDGET` | `10s` | Time one client query may take, end to end. |
 | `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
-| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. A page that is not read leaves its result as the peers answered it. |
+| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. |
 | `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `4194304` | Most bytes read from one page. |
-| `YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS` | `3` | Most redirects followed to read one page. A result whose page moved links to the address the page moved to. |
+| `YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS` | `3` | Most redirects followed to read one page. |
 | `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |
 
 ## Peer calls
 
-A query of one word asks the peers that hold the word in each partition of the ring. A query of more words first asks each word in one random partition. The word with the fewest documents there leads. The query asks the leading word in each partition, and the other words only in the partitions where the leading word has documents. If no answer in the random partition lists all the documents that it counts, the query asks each word in each partition. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left.
+A query asks the peers that hold its words in each partition of the ring. A query of more words asks some words only in the partitions where they can add results. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more calls at the same time, and lower it to put less load on the network. A call that waits for its turn uses the time of its query.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_PEER_CALL_BUDGET` | `3s` | Time one peer call may take once it runs. |
-| `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time a replica call stays unanswered before the next replica of its word partition is asked. |
-| `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Replicas that must list documents for one word partition before the search stops asking its other replicas. A value above the redundancy stops the service from starting. |
+| `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time a peer call stays unanswered before the service also asks another peer that holds the same postings. |
+| `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Peers that must send documents for a word in one partition before the search stops asking the other peers that hold them. A value above the redundancy stops the service from starting. |
 | `YACYDHTSEARCH_COMPOUND_WORDS_CEILING` | `4` | Most compound words asked per query. A compound word is two or three adjacent query words spelled as one (`wordpress` for `word press`). |
-| `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING` | `1000` | Most documents of the leading word that one peer call names for the peer to match. In a partition where the leading word has more documents, the call names no documents, and the peer sends all its documents for the word. |
+| `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING` | `1000` | Most documents one peer call names for the peer to match. Above it, the call names none, and the answers get larger. |
 | `YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING` | `1000` | Most documents one URL metadata call asks a peer about. A lower value puts less load on a peer, and the query can miss results. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |

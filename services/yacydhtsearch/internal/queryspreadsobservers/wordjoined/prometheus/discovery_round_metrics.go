@@ -42,9 +42,6 @@ func discoveryRoundMetricsRegisteredIn(
 			wordjoined.OtherWordsAskedOverTheCeiling: partitions.WithLabelValues(
 				string(wordjoined.OtherWordsAskedOverTheCeiling),
 			),
-			wordjoined.OtherWordsAskedBesideAPartialLeadingWord: partitions.WithLabelValues(
-				string(wordjoined.OtherWordsAskedBesideAPartialLeadingWord),
-			),
 			wordjoined.OtherWordsAskedWithoutASample: partitions.WithLabelValues(
 				string(wordjoined.OtherWordsAskedWithoutASample),
 			),

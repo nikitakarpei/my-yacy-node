@@ -140,7 +140,6 @@ func (discovery *discovery) askTheOtherWordsWhereTheLeadSettled(split wordSplit)
 func (discovery *discovery) askTheOtherWordsIn(partition uint, split wordSplit) OtherWordsAsking {
 	candidates := discovery.candidatesIn(partition, split.candidateWords)
 	otherWordsAsking := otherWordsAskingFor(
-		discovery.wordPartitionOf(split.leadingQueryWord, partition),
 		candidates,
 		discovery.documentsToMatchCeiling,
 	)
@@ -183,11 +182,6 @@ func documentsPerPartitionFrom(
 	}
 
 	return documentsPerPartition
-}
-
-func (discovery *discovery) wordPartitionOf(word yacymodel.Hash, partition uint) wordPartition {
-	return queryWordAcrossReplicasFrom(word, discovery.askOutcomes, discovery.partitions).
-		wordPartitions()[partition]
 }
 
 func (discovery *discovery) settleEveryWordPartition() {

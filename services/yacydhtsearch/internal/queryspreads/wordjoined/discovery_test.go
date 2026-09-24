@@ -300,23 +300,26 @@ func TestAPartitionWithMoreCandidatesThanTheCeilingIsAskedWhole(t *testing.T) {
 	}
 }
 
-func TestAPartitionWhereTheLeadingWordIsPartialIsAskedWhole(t *testing.T) {
+func TestAPartitionWhereTheLeadingWordIsPartialIsAskedForTheDocumentsItListed(t *testing.T) {
 	t.Parallel()
 
-	network, _ := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
+	network, candidates := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
 	network.documentsPerAnswerOfEachPeer = map[string]int{"first-in-1": 1}
 	observer := &recordedSpreads{}
 
 	settingsOfTwoPartitions().spread(network, observer)
 
-	if asksNamingDocuments := asksNamingDocumentsToMatchAmong(
-		network.searchDocumentsAsks,
-	); len(asksNamingDocuments) != 0 {
-		t.Fatalf("the spread put %v, want no ask naming documents to match", asksNamingDocuments)
+	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
+	if len(asksNamingDocuments) != 1 ||
+		!slices.Equal(asksNamingDocuments[0].DocumentsToMatch, documentHashesOf(candidates[:1])) {
+		t.Fatalf(
+			"the spread put %v, want one ask naming the listed document %v",
+			asksNamingDocuments, candidates[:1],
+		)
 	}
 	if got := observer.performed[0].DiscoveryRound.OtherWordsAskingPerPartition[1]; got !=
-		wordjoined.OtherWordsAskedBesideAPartialLeadingWord {
-		t.Fatalf("the spread reported partition 1 as %q, want the leading word partial", got)
+		wordjoined.OtherWordsAskedForTheCandidates {
+		t.Fatalf("the spread reported partition 1 as %q, want it asked for the candidates", got)
 	}
 }
 
