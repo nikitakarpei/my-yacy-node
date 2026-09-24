@@ -51,6 +51,7 @@ type peerNetwork struct {
 	timeLeftAtEachCallInTheirOrder        []time.Duration
 	metadataDelayOfEachPeer               map[string]time.Duration
 	peersFailingTheURLMetadataCall        map[string]struct{}
+	urlMetadataLookupContextOfEachPeer    map[string]context.Context
 }
 
 func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetwork {
@@ -62,6 +63,7 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
 		metadataDelayOfEachPeer:               map[string]time.Duration{},
 		peersFailingTheURLMetadataCall:        map[string]struct{}{},
+		urlMetadataLookupContextOfEachPeer:    map[string]context.Context{},
 	}
 }
 
@@ -292,6 +294,7 @@ func (network *peerNetwork) AskForURLMetadata(
 	outcomesAsTheySettle := make(chan peerasks.URLMetadataAskOutcome, len(asks))
 	var askSettlings sync.WaitGroup
 	for _, ask := range asks {
+		network.urlMetadataLookupContextOfEachPeer[ask.Peer.Address] = ctx
 		delay := network.metadataDelayOfEachPeer[ask.Peer.Address]
 		outcome := network.urlMetadataAskOutcomeOf(ask)
 		askSettlings.Go(func() {
@@ -439,6 +442,7 @@ type spreadSettings struct {
 	peersHoldingOneWord            int
 	queryBudget                    time.Duration
 	queryWordAmounts               *rememberedQueryWordAmounts
+	urlMetadataLookupCutoff        wordjoined.URLMetadataLookupCutoff
 }
 
 type rememberedQueryWordAmounts struct {
@@ -506,6 +510,7 @@ func (settings spreadSettings) spread(
 		replicasOf(network),
 		network,
 		queryWordAmounts,
+		settings.urlMetadataLookupCutoff,
 		func(uint) uint { return settings.sampledPartition },
 		settings.urlMetadataAskDocumentsCeiling,
 		settings.documentsToMatchCeiling,
@@ -1139,6 +1144,205 @@ func TestTheLookupWaitsForTheStuckPeerWhoseDocumentNoOtherPeerSent(t *testing.T)
 			"the lookup reported %+v, want it to end once every ask settled, "+
 				"with the document only the stuck peer sent",
 			performed,
+		)
+	}
+}
+
+const (
+	answerDelayOfAStuckPeer         = time.Hour
+	queryBudgetOfALookupWithACutoff = 10 * time.Second
+	shortGrace                      = 50 * time.Millisecond
+)
+
+var cutoffAtNinetyPercent = wordjoined.URLMetadataLookupCutoff{
+	PercentOfDocuments: 90,
+	Grace:              shortGrace,
+}
+
+func addressesOfDocuments(site string, amountOfDocuments int) []string {
+	addresses := make([]string, 0, amountOfDocuments)
+	for number := range amountOfDocuments {
+		addresses = append(addresses, fmt.Sprintf("https://%s.example/%d", site, number))
+	}
+
+	return addresses
+}
+
+func networkOfPeersHoldingBothWords(documentsOfEachPeer map[string][]string) *peerNetwork {
+	documentsPerWordPerPeer := map[string]map[string][]string{}
+	for address, documents := range documentsOfEachPeer {
+		documentsPerWordPerPeer[address] = map[string][]string{
+			firstWord: documents, secondWord: documents,
+		}
+	}
+
+	return networkOf(documentsPerWordPerPeer)
+}
+
+type lookupWithACutoff struct {
+	performed      wordjoined.PerformedURLMetadataLookupRound
+	foundDocuments []yacymodel.URLHash
+	timeSpent      time.Duration
+}
+
+func lookupOver(
+	network *peerNetwork,
+	cutoff wordjoined.URLMetadataLookupCutoff,
+	queryBudget time.Duration,
+) lookupWithACutoff {
+	settings := settingsOfOnePartition()
+	settings.askablePeers = slices.Sorted(maps.Keys(network.documentsPerWordPerPeer))
+	settings.urlMetadataAskDocumentsCeiling = 20
+	settings.documentsToMatchCeiling = 20
+	settings.queryBudget = queryBudget
+	settings.urlMetadataLookupCutoff = cutoff
+	observer := &recordedSpreads{}
+
+	startedAt := time.Now()
+	answeredQuery := settings.spread(network, observer)
+
+	return lookupWithACutoff{
+		performed:      observer.performed[0].URLMetadataLookupRound,
+		foundDocuments: foundDocumentsIn(answeredQuery),
+		timeSpent:      time.Since(startedAt),
+	}
+}
+
+func networkWithTenDocumentsOneOnlyAStuckPeerHolds() *peerNetwork {
+	network := networkOfPeersHoldingBothWords(map[string][]string{
+		"fast":  addressesOfDocuments("fast", 9),
+		"stuck": addressesOfDocuments("stuck", 1),
+	})
+	network.metadataDelayOfEachPeer["stuck"] = answerDelayOfAStuckPeer
+
+	return network
+}
+
+func TestTheLookupIsCutOffAGraceAfterMostDocumentsSettled(t *testing.T) {
+	t.Parallel()
+
+	network := networkWithTenDocumentsOneOnlyAStuckPeerHolds()
+
+	lookup := lookupOver(network, cutoffAtNinetyPercent, queryBudgetOfALookupWithACutoff)
+
+	if lookup.performed.End != wordjoined.URLMetadataLookupEndedByCutoff ||
+		lookup.performed.AmountOfLookedUpDocumentsCutOff != 1 ||
+		lookup.timeSpent < shortGrace || lookup.timeSpent >= queryBudgetOfALookupWithACutoff/2 {
+		t.Fatalf(
+			"the lookup reported %+v after %v, want it cut off a grace of %v after most "+
+				"documents settled, with the document of the stuck peer cut off",
+			lookup.performed, lookup.timeSpent, shortGrace,
+		)
+	}
+	if want := documentsInTheirHashOrder(
+		documentHashesOf(addressesOfDocuments("fast", 9)),
+	); !slices.Equal(lookup.foundDocuments, want) {
+		t.Fatalf(
+			"the spread found %v, want the nine documents the fast peer sent",
+			lookup.foundDocuments,
+		)
+	}
+	if network.urlMetadataLookupContextOfEachPeer["stuck"].Err() == nil {
+		t.Fatal("the ask of the stuck peer is still in flight, want it cancelled")
+	}
+}
+
+func TestTheLookupWithTheCutoffOffWaitsUntilItsRoundEnds(t *testing.T) {
+	t.Parallel()
+
+	const queryBudget = 400 * time.Millisecond
+
+	lookup := lookupOver(
+		networkWithTenDocumentsOneOnlyAStuckPeerHolds(),
+		wordjoined.URLMetadataLookupCutoff{Grace: shortGrace},
+		queryBudget,
+	)
+
+	if lookup.performed.End != wordjoined.URLMetadataLookupEndedByEveryAskSettled ||
+		lookup.performed.AmountOfLookedUpDocumentsCutOff != 0 ||
+		lookup.timeSpent < queryBudget/2 {
+		t.Fatalf(
+			"the lookup reported %+v after %v, want it to wait for the stuck peer until "+
+				"the round of the %v query ends",
+			lookup.performed, lookup.timeSpent, queryBudget,
+		)
+	}
+}
+
+func TestADocumentOnlyARefusingPeerHoldsCountsAsSettled(t *testing.T) {
+	t.Parallel()
+
+	network := networkOfPeersHoldingBothWords(map[string][]string{
+		"fast":     addressesOfDocuments("fast", 16),
+		"refusing": addressesOfDocuments("refusing", 3),
+		"stuck":    addressesOfDocuments("stuck", 1),
+	})
+	network.peersFailingTheURLMetadataCall["refusing"] = struct{}{}
+	network.metadataDelayOfEachPeer["stuck"] = answerDelayOfAStuckPeer
+
+	lookup := lookupOver(network, cutoffAtNinetyPercent, queryBudgetOfALookupWithACutoff)
+
+	if lookup.performed.End != wordjoined.URLMetadataLookupEndedByCutoff ||
+		lookup.performed.AmountOfLookedUpDocumentsCutOff != 1 ||
+		lookup.performed.AmountOfLookedUpDocumentsWithMetadata != 16 {
+		t.Fatalf(
+			"the lookup reported %+v, want it cut off with the documents of the refusing "+
+				"peer settled and only the document of the stuck peer cut off",
+			lookup.performed,
+		)
+	}
+}
+
+func TestADocumentAnsweredByOnePeerIsSettledWhileAnotherPeerIsStuck(t *testing.T) {
+	t.Parallel()
+
+	fastDocuments := addressesOfDocuments("fast", 9)
+	network := networkOfPeersHoldingBothWords(map[string][]string{
+		"fast":  fastDocuments,
+		"stuck": {fastDocuments[0], "https://only-stuck.example/"},
+	})
+	network.metadataDelayOfEachPeer["stuck"] = answerDelayOfAStuckPeer
+
+	lookup := lookupOver(network, cutoffAtNinetyPercent, queryBudgetOfALookupWithACutoff)
+
+	if lookup.performed.End != wordjoined.URLMetadataLookupEndedByCutoff ||
+		lookup.performed.AmountOfLookedUpDocumentsCutOff != 1 ||
+		lookup.performed.AmountOfLookedUpDocumentsWithMetadata != 9 {
+		t.Fatalf(
+			"the lookup reported %+v, want the document the fast peer sent settled and "+
+				"only the document of the stuck peer cut off",
+			lookup.performed,
+		)
+	}
+}
+
+func TestTheLookupEndsByCoverageWhenTheLastDocumentComesBeforeTheGraceEnds(t *testing.T) {
+	t.Parallel()
+
+	const longGrace = 5 * time.Second
+
+	fastDocuments := addressesOfDocuments("fast", 9)
+	slowDocument := "https://slow.example/"
+	network := networkOfPeersHoldingBothWords(map[string][]string{
+		"fast":  fastDocuments,
+		"slow":  {slowDocument},
+		"stuck": {fastDocuments[0], slowDocument},
+	})
+	network.metadataDelayOfEachPeer["slow"] = 30 * time.Millisecond
+	network.metadataDelayOfEachPeer["stuck"] = answerDelayOfAStuckPeer
+
+	lookup := lookupOver(
+		network,
+		wordjoined.URLMetadataLookupCutoff{PercentOfDocuments: 90, Grace: longGrace},
+		queryBudgetOfALookupWithACutoff,
+	)
+
+	if lookup.performed.End != wordjoined.URLMetadataLookupEndedByCoverage ||
+		lookup.performed.AmountOfLookedUpDocumentsCutOff != 0 ||
+		lookup.timeSpent >= longGrace {
+		t.Fatalf(
+			"the lookup reported %+v after %v, want it to end by coverage before the %v grace",
+			lookup.performed, lookup.timeSpent, longGrace,
 		)
 	}
 }

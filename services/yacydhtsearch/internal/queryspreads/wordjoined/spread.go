@@ -34,6 +34,7 @@ type Spread struct {
 	replicaAsks                    ReplicaAsks
 	peerAsks                       PeerAsks
 	queryWordAmounts               QueryWordAmounts
+	urlMetadataLookupCutoff        URLMetadataLookupCutoff
 	partitionToSample              func(amountOfPartitions uint) uint
 	urlMetadataAskDocumentsCeiling int
 	documentsToMatchCeiling        int
@@ -43,11 +44,12 @@ type Spread struct {
 	observer                       WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, word amounts, partition to sample, ceilings, ring and observer
+//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
 	queryWordAmounts QueryWordAmounts,
+	urlMetadataLookupCutoff URLMetadataLookupCutoff,
 	partitionToSample func(amountOfPartitions uint) uint,
 	urlMetadataAskDocumentsCeiling int,
 	documentsToMatchCeiling int,
@@ -60,6 +62,7 @@ func New(
 		replicaAsks:                    replicaAsks,
 		peerAsks:                       peerAsks,
 		queryWordAmounts:               queryWordAmounts,
+		urlMetadataLookupCutoff:        urlMetadataLookupCutoff,
 		partitionToSample:              partitionToSample,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
@@ -145,16 +148,15 @@ func (spread Spread) askForURLMetadata(
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadataLookup)
 	defer endRound()
 	lookupContext, endLookup := context.WithCancel(roundContext)
-	answeredAsks, end := answeredAsksUntilCoverageFrom(
+	endedLookup := spread.urlMetadataLookupCutoff.endedLookupFrom(
 		spread.peerAsks.AskForURLMetadata(lookupContext, asks),
-		lookedUpDocumentsAcross(asks),
+		urlMetadataLookupInFlightOf(asks),
 	)
 	endLookup()
 
 	return urlMetadataLookupRound{
 		documentsWithoutMetadata: documentsWithoutMetadata,
 		asks:                     asks,
-		answeredAsks:             answeredAsks,
-		end:                      end,
+		endedURLMetadataLookup:   endedLookup,
 	}
 }

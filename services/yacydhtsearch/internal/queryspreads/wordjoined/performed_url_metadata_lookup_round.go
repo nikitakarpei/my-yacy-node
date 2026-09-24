@@ -9,6 +9,7 @@ type PerformedURLMetadataLookupRound struct {
 	AmountOfLookedUpDocuments             int
 	AmountOfLookedUpDocumentsWithMetadata int
 	End                                   URLMetadataLookupEnd
+	AmountOfLookedUpDocumentsCutOff       int
 }
 
 func performedURLMetadataLookupRoundFrom(
@@ -22,8 +23,22 @@ func performedURLMetadataLookupRoundFrom(
 		AmountOfLookedUpDocumentsWithMetadata: amountOfLookedUpDocumentsWithMetadata(
 			round.asks, round.answeredAsks,
 		),
-		End: round.end,
+		End:                             round.end,
+		AmountOfLookedUpDocumentsCutOff: round.amountOfLookedUpDocumentsCutOff,
 	}
+}
+
+func lookedUpDocumentsAcross(
+	asks []peerasks.URLMetadataAsk,
+) distinctDocuments {
+	documents := distinctDocuments{}
+	for _, ask := range asks {
+		for _, document := range ask.Documents {
+			documents.add(document)
+		}
+	}
+
+	return documents
 }
 
 func amountOfLookedUpDocumentsWithMetadata(
@@ -37,4 +52,17 @@ func amountOfLookedUpDocumentsWithMetadata(
 	}
 
 	return len(documentsWithMetadata)
+}
+
+func addLookedUpDocumentsOf(
+	answeredAsk peerasks.AnsweredURLMetadataAsk,
+	lookedUpDocuments distinctDocuments,
+	documentsWithMetadata distinctDocuments,
+) {
+	for _, metadata := range answeredAsk.MetadataOfEachDocument {
+		if !lookedUpDocuments.contains(metadata.Hash) {
+			continue
+		}
+		documentsWithMetadata.add(metadata.Hash)
+	}
 }

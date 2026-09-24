@@ -86,5 +86,6 @@ func attributesOfURLMetadataLookupRound(
 			round.AmountOfLookedUpDocumentsWithMetadata,
 		),
 		slog.String("urlMetadataLookupEnd", string(round.End)),
+		slog.Int("amountOfLookedUpDocumentsCutOff", round.AmountOfLookedUpDocumentsCutOff),
 	}
 }

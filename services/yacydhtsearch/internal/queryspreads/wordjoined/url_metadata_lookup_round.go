@@ -4,13 +4,19 @@ import (
 	"maps"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type urlMetadataLookupRound struct {
 	documentsWithoutMetadata distinctDocuments
 	asks                     []peerasks.URLMetadataAsk
-	answeredAsks             []peerasks.AnsweredURLMetadataAsk
-	end                      URLMetadataLookupEnd
+	endedURLMetadataLookup
+}
+
+type endedURLMetadataLookup struct {
+	answeredAsks                    []peerasks.AnsweredURLMetadataAsk
+	end                             URLMetadataLookupEnd
+	amountOfLookedUpDocumentsCutOff int
 }
 
 type URLMetadataLookupEnd string
@@ -18,6 +24,7 @@ type URLMetadataLookupEnd string
 const (
 	URLMetadataLookupEndedByCoverage        URLMetadataLookupEnd = "coverage"
 	URLMetadataLookupEndedByEveryAskSettled URLMetadataLookupEnd = "every ask settled"
+	URLMetadataLookupEndedByCutoff          URLMetadataLookupEnd = "cut off"
 )
 
 func documentsWithoutMetadataAmong(
@@ -34,49 +41,77 @@ func documentsWithoutMetadataAmong(
 	return documentsWithoutMetadata
 }
 
-func lookedUpDocumentsAcross(
-	asks []peerasks.URLMetadataAsk,
-) distinctDocuments {
-	documents := distinctDocuments{}
+type urlMetadataLookupInFlight struct {
+	amountOfLookedUpDocuments     int
+	asksInFlightPerOpenDocument   map[yacymodel.URLHash]int
+	lookedUpDocumentsWithMetadata distinctDocuments
+	answeredAsks                  []peerasks.AnsweredURLMetadataAsk
+}
+
+func urlMetadataLookupInFlightOf(asks []peerasks.URLMetadataAsk) urlMetadataLookupInFlight {
+	asksInFlightPerOpenDocument := map[yacymodel.URLHash]int{}
 	for _, ask := range asks {
 		for _, document := range ask.Documents {
-			documents.add(document)
+			asksInFlightPerOpenDocument[document]++
 		}
 	}
 
-	return documents
+	return urlMetadataLookupInFlight{
+		amountOfLookedUpDocuments:     len(asksInFlightPerOpenDocument),
+		asksInFlightPerOpenDocument:   asksInFlightPerOpenDocument,
+		lookedUpDocumentsWithMetadata: distinctDocuments{},
+	}
 }
 
-func answeredAsksUntilCoverageFrom(
-	outcomesAsTheySettle <-chan peerasks.URLMetadataAskOutcome,
-	lookedUpDocuments distinctDocuments,
-) ([]peerasks.AnsweredURLMetadataAsk, URLMetadataLookupEnd) {
-	var answeredAsks []peerasks.AnsweredURLMetadataAsk
-	documentsWithMetadata := distinctDocuments{}
-	for outcome := range outcomesAsTheySettle {
-		answeredAsk, answered := outcome.Answer.Get()
-		if !answered {
-			continue
-		}
-		answeredAsks = append(answeredAsks, answeredAsk)
-		addLookedUpDocumentsOf(answeredAsk, lookedUpDocuments, documentsWithMetadata)
-		if len(documentsWithMetadata) == len(lookedUpDocuments) {
-			return answeredAsks, URLMetadataLookupEndedByCoverage
+func (lookup *urlMetadataLookupInFlight) settle(outcome peerasks.URLMetadataAskOutcome) {
+	if answeredAsk, answered := outcome.Answer.Get(); answered {
+		lookup.answeredAsks = append(lookup.answeredAsks, answeredAsk)
+		for _, metadata := range answeredAsk.MetadataOfEachDocument {
+			lookup.settleWithMetadata(metadata.Hash)
 		}
 	}
-
-	return answeredAsks, URLMetadataLookupEndedByEveryAskSettled
+	for _, document := range outcome.Ask.Documents {
+		lookup.settleOneAskNaming(document)
+	}
 }
 
-func addLookedUpDocumentsOf(
-	answeredAsk peerasks.AnsweredURLMetadataAsk,
-	lookedUpDocuments distinctDocuments,
-	documentsWithMetadata distinctDocuments,
-) {
-	for _, metadata := range answeredAsk.MetadataOfEachDocument {
-		if !lookedUpDocuments.contains(metadata.Hash) {
-			continue
-		}
-		documentsWithMetadata.add(metadata.Hash)
+func (lookup *urlMetadataLookupInFlight) settleWithMetadata(document yacymodel.URLHash) {
+	if _, open := lookup.asksInFlightPerOpenDocument[document]; !open {
+		return
+	}
+	delete(lookup.asksInFlightPerOpenDocument, document)
+	lookup.lookedUpDocumentsWithMetadata.add(document)
+}
+
+func (lookup *urlMetadataLookupInFlight) settleOneAskNaming(document yacymodel.URLHash) {
+	if _, open := lookup.asksInFlightPerOpenDocument[document]; !open {
+		return
+	}
+	lookup.asksInFlightPerOpenDocument[document]--
+	if lookup.asksInFlightPerOpenDocument[document] == 0 {
+		delete(lookup.asksInFlightPerOpenDocument, document)
+	}
+}
+
+func (lookup *urlMetadataLookupInFlight) covered() bool {
+	return len(lookup.lookedUpDocumentsWithMetadata) == lookup.amountOfLookedUpDocuments
+}
+
+func (lookup *urlMetadataLookupInFlight) settledShare() float64 {
+	return float64(lookup.amountOfLookedUpDocuments-len(lookup.asksInFlightPerOpenDocument)) /
+		float64(lookup.amountOfLookedUpDocuments)
+}
+
+func (lookup *urlMetadataLookupInFlight) endedBy(
+	end URLMetadataLookupEnd,
+) endedURLMetadataLookup {
+	return endedURLMetadataLookup{answeredAsks: lookup.answeredAsks, end: end}
+}
+
+func (lookup *urlMetadataLookupInFlight) cutOff() endedURLMetadataLookup {
+	return endedURLMetadataLookup{
+		answeredAsks:                    lookup.answeredAsks,
+		end:                             URLMetadataLookupEndedByCutoff,
+		amountOfLookedUpDocumentsCutOff: len(lookup.asksInFlightPerOpenDocument),
 	}
 }

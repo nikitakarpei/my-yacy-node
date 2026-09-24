@@ -96,10 +96,35 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, remembered"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="coverage"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
+		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="cut off"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
+	}
+}
+
+func TestALookupThatWasCutOffIsCountedByItsCutoff(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	spread := spreadJoiningDocuments(4)
+	spread.URLMetadataLookupRound = wordjoined.PerformedURLMetadataLookupRound{
+		AmountOfLookedUpDocuments:             4,
+		AmountOfLookedUpDocumentsWithMetadata: 3,
+		End:                                   wordjoined.URLMetadataLookupEndedByCutoff,
+		AmountOfLookedUpDocumentsCutOff:       1,
+	}
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
+
+	body := publishedBy(t, registry)
+	if !strings.Contains(
+		body,
+		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="cut off"} 1`,
+	) {
+		t.Fatalf("metrics do not count the lookup that was cut off:\n%s", body)
 	}
 }
 
