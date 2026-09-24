@@ -42,7 +42,7 @@ func queryWordAcrossReplicasFrom(
 		}
 		replicasPerPartition[askOutcome.Ask.Partition] = append(
 			replicasPerPartition[askOutcome.Ask.Partition],
-			wordReplica{peer: askOutcome.Ask.Peer, answer: askOutcome.Answer},
+			wordReplica{answer: askOutcome.Answer},
 		)
 	}
 
@@ -131,31 +131,6 @@ func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 	}
 
 	return documents
-}
-
-func (queryWord queryWordAcrossReplicas) documentsOutsideAmong(
-	documents []yacymodel.URLHash,
-) []yacymodel.URLHash {
-	documentsOfTheWord := queryWord.documents()
-	documentsOutside := make([]yacymodel.URLHash, 0, len(documents))
-	for _, document := range documents {
-		if documentsOfTheWord.contains(document) {
-			continue
-		}
-		documentsOutside = append(documentsOutside, document)
-	}
-
-	return documentsOutside
-}
-
-func (queryWord queryWordAcrossReplicas) hasCompleteAbstracts() bool {
-	for _, wordPartition := range queryWord.wordPartitions() {
-		if !wordPartition.hasACompleteAbstract() {
-			return false
-		}
-	}
-
-	return true
 }
 
 func (queryWord queryWordAcrossReplicas) wordPartitions() []wordPartition {

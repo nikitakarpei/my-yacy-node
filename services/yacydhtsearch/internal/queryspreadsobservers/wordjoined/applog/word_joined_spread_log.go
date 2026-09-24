@@ -6,14 +6,10 @@ import (
 	"log/slog"
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerjudgements"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
-const (
-	msgWordJoinedSpreadPerformed = "word joined spread performed"
-	msgPeerJudged                = "peer judged"
-)
+const msgWordJoinedSpreadPerformed = "word joined spread performed"
 
 type WordJoinedSpreadLog struct{}
 
@@ -21,18 +17,13 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 	ctx context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	logPerformedSpread(ctx, spread)
-	logJudgedPeers(ctx, spread.CrossCheckRound.JudgedPeers)
-}
-
-func logPerformedSpread(ctx context.Context, spread wordjoined.PerformedWordJoinedSpread) {
 	slog.LogAttrs(
 		ctx,
 		slog.LevelDebug,
 		msgWordJoinedSpreadPerformed,
 		slices.Concat(
 			attributesOfDiscoveryRound(spread.DiscoveryRound),
-			attributesOfCrossCheckRound(spread.CrossCheckRound),
+			[]slog.Attr{slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments)},
 			attributesOfURLMetadataLookupRound(spread.URLMetadataLookupRound),
 			[]slog.Attr{slog.Duration("timeSpent", spread.TimeSpent)},
 		)...,
@@ -46,19 +37,17 @@ func attributesOfDiscoveryRound(
 		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
 		slog.Int("amountOfCompoundWords", round.AmountOfCompoundWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
-		slog.Int(
-			"amountOfQueryWordsWithCompleteAbstracts",
-			round.AmountOfQueryWordsWithCompleteAbstracts,
-		),
+		slog.Uint64("sampledPartition", uint64(round.SampledPartition)),
+		slog.Int("amountOfSampledQueryWords", round.AmountOfSampledQueryWords),
 		slog.Int("amountOfPeersWithANonEmptyAbstract", round.AmountOfPeersWithANonEmptyAbstract),
 		slog.String("leadingQueryWordChoice", string(round.LeadingQueryWordChoice)),
 		slog.Int(
 			"amountOfDocumentsOfTheLeadingQueryWord",
 			round.AmountOfDocumentsOfTheLeadingQueryWord,
 		),
-		slog.Int(
-			"amountOfPartitionsWithABetterLeadingQueryWord",
-			round.AmountOfPartitionsWithABetterLeadingQueryWord,
+		slog.Any(
+			"amountOfPartitionsPerOtherWordsAsking",
+			amountOfPartitionsPerOtherWordsAskingOf(round.OtherWordsAskingPerPartition),
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsAcrossAnswers",
@@ -72,52 +61,15 @@ func attributesOfDiscoveryRound(
 	}
 }
 
-func attributesOfCrossCheckRound(
-	round wordjoined.PerformedCrossCheckRound,
-) []slog.Attr {
-	return []slog.Attr{
-		slog.Int(
-			"amountOfDocumentsSentForCrossChecking",
-			round.AmountOfDocumentsSentForCrossChecking,
-		),
-		slog.Int(
-			"amountOfCrossCheckCandidatesNoPeerTook",
-			round.AmountOfCrossCheckCandidatesNoPeerTook,
-		),
-		slog.Int(
-			"amountOfCrossCheckCandidatesRuledOutByAFullListing",
-			round.AmountOfCrossCheckCandidatesRuledOutByAFullListing,
-		),
-		slog.Int(
-			"amountOfEmptyCrossCheckAnswers",
-			round.AmountOfEmptyCrossCheckAnswers,
-		),
-		slog.Int("amountOfJoinedDocuments", round.AmountOfJoinedDocuments),
-		slog.Int(
-			"amountOfJoinedDocumentsFoundOnlyByCrossChecking",
-			round.AmountOfJoinedDocumentsFoundOnlyByCrossChecking,
-		),
-		slog.Any("amountOfPeersPerStanding", amountOfPeersPerStandingOf(round.PeerStandings)),
-		slog.Any("amountOfPeersPerJudgement", amountOfPeersPerJudgementOf(round.JudgedPeers)),
-	}
-}
-
-func amountOfPeersPerStandingOf(peerStandings []peerjudgements.PeerStanding) map[string]int {
-	amountOfPeersPerStanding := map[string]int{}
-	for _, peerStanding := range peerStandings {
-		amountOfPeersPerStanding[string(peerStanding.Standing)]++
+func amountOfPartitionsPerOtherWordsAskingOf(
+	otherWordsAskingPerPartition []wordjoined.OtherWordsAsking,
+) map[string]int {
+	amountOfPartitionsPerOtherWordsAsking := map[string]int{}
+	for _, otherWordsAsking := range otherWordsAskingPerPartition {
+		amountOfPartitionsPerOtherWordsAsking[string(otherWordsAsking)]++
 	}
 
-	return amountOfPeersPerStanding
-}
-
-func amountOfPeersPerJudgementOf(judgedPeers []peerjudgements.JudgedPeer) map[string]int {
-	amountOfPeersPerJudgement := map[string]int{}
-	for _, judgedPeer := range judgedPeers {
-		amountOfPeersPerJudgement[string(judgedPeer.Judgement)]++
-	}
-
-	return amountOfPeersPerJudgement
+	return amountOfPartitionsPerOtherWordsAsking
 }
 
 func attributesOfURLMetadataLookupRound(
@@ -133,16 +85,5 @@ func attributesOfURLMetadataLookupRound(
 			"amountOfLookedUpDocumentsWithMetadata",
 			round.AmountOfLookedUpDocumentsWithMetadata,
 		),
-	}
-}
-
-func logJudgedPeers(ctx context.Context, judgedPeers []peerjudgements.JudgedPeer) {
-	for _, judgedPeer := range judgedPeers {
-		slog.LogAttrs(ctx, slog.LevelDebug, msgPeerJudged,
-			slog.String("peer", judgedPeer.Peer.String()),
-			slog.String("versionClaimed", judgedPeer.Version),
-			slog.String("judgement", string(judgedPeer.Judgement)),
-			slog.String("question", string(wordjoined.AbstractHoldsOnlyTheDocumentsToMatch)),
-		)
 	}
 }

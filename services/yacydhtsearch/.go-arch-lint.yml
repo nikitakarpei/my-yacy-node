@@ -133,16 +133,6 @@ components:
     in: internal/peerpresence/memory/**
   peerreliability:
     in: internal/peerreliability/**
-  peerjudgements:
-    in: internal/peerjudgements/**
-  peerjudgementledgersmemory:
-    in: internal/peerjudgementledgers/memory/**
-  peerjudgementledgersjetstream:
-    in: internal/peerjudgementledgers/jetstream/**
-  peerjudgementledgersobserversjetstreamapplog:
-    in: internal/peerjudgementledgersobservers/jetstream/applog/**
-  peerjudgementledgersobserversjetstreamprometheus:
-    in: internal/peerjudgementledgersobservers/jetstream/prometheus/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -260,33 +250,6 @@ deps:
     mayDependOn:
       - peerdirectory
       - peerreliability
-  peerjudgements:
-    canUse:
-      - yacymodel
-  peerjudgementledgersmemory:
-    canUse:
-      - yacymodel
-      - hashicorplru
-    mayDependOn:
-      - peerjudgements
-  peerjudgementledgersjetstream:
-    canUse:
-      - yacymodel
-      - nats
-    mayDependOn:
-      - peerjudgements
-      - peerjudgementledgersmemory
-  peerjudgementledgersobserversjetstreamapplog:
-    canUse:
-      - yacymodel
-    mayDependOn:
-      - peerjudgements
-  peerjudgementledgersobserversjetstreamprometheus:
-    canUse:
-      - prometheus
-      - yacymodel
-    mayDependOn:
-      - peerjudgements
   peerchoice:
     canUse:
       - yacymodel
@@ -338,7 +301,6 @@ deps:
       - peerchoice
       - peerdirectory
       - peerasks
-      - peerjudgements
       - searchquery
       - replicaasks
   bywordcount:
@@ -447,13 +409,11 @@ deps:
   queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
-      - peerjudgements
   queryspreadsobserverswordjoinedprometheus:
     canUse:
       - prometheus
     mayDependOn:
       - wordjoined
-      - peerjudgements
   peercallobserversapplog:
     mayDependOn:
       - peerasks
