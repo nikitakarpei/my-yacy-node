@@ -36,6 +36,9 @@ components:
     in: cmd/renderproxy/**
 
 vendors:
+  budgetbuckets:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets
   chromedp:
     in:
       - github.com/chromedp/chromedp
@@ -73,6 +76,7 @@ deps:
       - rendergate
     canUse:
       - prometheus
+      - budgetbuckets
   rendercapacityobserversapplog:
     mayDependOn:
       - rendergate

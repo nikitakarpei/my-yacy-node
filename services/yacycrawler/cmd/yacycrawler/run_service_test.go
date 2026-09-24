@@ -47,6 +47,7 @@ func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	cfg := yacycrawler.ServiceConfig{
 		CrawlNATSURL:     "nats://127.0.0.1:1",
 		FetchConcurrency: 2,
+		FetchDeadline:    time.Second,
 		OpsAddr:          "127.0.0.1:0",
 	}
 	registry := prometheus.NewRegistry()

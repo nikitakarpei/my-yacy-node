@@ -90,6 +90,9 @@ components:
     in: cmd/yacycrawler/**
 
 vendors:
+  budgetbuckets:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -259,6 +262,7 @@ deps:
   pagefetchobserversprometheus:
     canUse:
       - prometheus
+      - budgetbuckets
       - canonicalurl
       - pagefetch
   mediatypeobserversprometheus:

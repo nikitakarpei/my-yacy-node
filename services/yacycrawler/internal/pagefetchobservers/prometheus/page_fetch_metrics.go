@@ -7,6 +7,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 )
 
 const (
@@ -44,15 +45,16 @@ type PageFetchMetrics struct {
 	pageFetchSeconds prometheusclient.Histogram
 }
 
-func New(registry prometheusclient.Registerer) *PageFetchMetrics {
+func New(registry prometheusclient.Registerer, fetchDeadline time.Duration) *PageFetchMetrics {
 	metrics := &PageFetchMetrics{
 		pagesProcessed: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "yacycrawler_page_fetches_processed_total",
 			Help: "Page fetches processed, by outcome.",
 		}, []string{labelOutcome}),
 		pageFetchSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name: "yacycrawler_page_fetch_duration_seconds",
-			Help: "Page fetch duration in seconds.",
+			Name:    "yacycrawler_page_fetch_duration_seconds",
+			Help:    "Page fetch duration in seconds.",
+			Buckets: budgetbuckets.DurationBucketsFor(fetchDeadline),
 		}),
 	}
 	for _, outcome := range pageFetchOutcomes {

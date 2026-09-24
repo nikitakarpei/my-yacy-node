@@ -8,7 +8,7 @@ import (
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
