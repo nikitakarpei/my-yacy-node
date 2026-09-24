@@ -6,7 +6,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
+const labelEndedBy = "ended_by"
+
 type urlMetadataLookupRoundMetrics struct {
+	urlMetadataLookupsPerEnd                        map[wordjoined.URLMetadataLookupEnd]prometheusclient.Counter
 	joinedDocumentsDroppedBeforeMetadataLookupRatio prometheusclient.Histogram
 	lookedUpDocumentsWithoutMetadataRatio           prometheusclient.Histogram
 }
@@ -14,7 +17,20 @@ type urlMetadataLookupRoundMetrics struct {
 func urlMetadataLookupRoundMetricsRegisteredIn(
 	registry prometheusclient.Registerer,
 ) urlMetadataLookupRoundMetrics {
+	urlMetadataLookups := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_word_joined_spread_url_metadata_lookups_total",
+		Help: "URL metadata lookups that asked at least one peer, by what ended them.",
+	}, []string{labelEndedBy})
 	metrics := urlMetadataLookupRoundMetrics{
+		//exhaustive:enforce
+		urlMetadataLookupsPerEnd: map[wordjoined.URLMetadataLookupEnd]prometheusclient.Counter{
+			wordjoined.URLMetadataLookupEndedByCoverage: urlMetadataLookups.WithLabelValues(
+				string(wordjoined.URLMetadataLookupEndedByCoverage),
+			),
+			wordjoined.URLMetadataLookupEndedByEveryAskSettled: urlMetadataLookups.WithLabelValues(
+				string(wordjoined.URLMetadataLookupEndedByEveryAskSettled),
+			),
+		},
 		joinedDocumentsDroppedBeforeMetadataLookupRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio",
 			"Share of the joined documents without metadata that the spread dropped before "+
@@ -27,6 +43,7 @@ func urlMetadataLookupRoundMetricsRegisteredIn(
 		),
 	}
 	registry.MustRegister(
+		urlMetadataLookups,
 		metrics.joinedDocumentsDroppedBeforeMetadataLookupRatio,
 		metrics.lookedUpDocumentsWithoutMetadataRatio,
 	)
@@ -53,6 +70,7 @@ func (m urlMetadataLookupRoundMetrics) observeURLMetadataLookupRound(
 	if urlMetadataLookupRound.AmountOfLookedUpDocuments == 0 {
 		return
 	}
+	m.urlMetadataLookupsPerEnd[urlMetadataLookupRound.End].Inc()
 	m.lookedUpDocumentsWithoutMetadataRatio.Observe(
 		float64(
 			urlMetadataLookupRound.AmountOfLookedUpDocuments-urlMetadataLookupRound.AmountOfLookedUpDocumentsWithMetadata,

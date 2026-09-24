@@ -674,13 +674,13 @@ func TestAURLMetadataAskFetchesTheDocumentsItNames(t *testing.T) {
 			`</item></channel></rss>`,
 	)
 
-	answeredAsks := wireTo(&recordedOutcome{}).AskForURLMetadata(
+	answeredAsks := outcomesOf(wireTo(&recordedOutcome{}).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
 			Documents: []yacymodel.URLHash{document},
 		}},
-	)
+	)).AnsweredAsks()
 
 	if len(answeredAsks) != 1 || len(answeredAsks[0].MetadataOfEachDocument) != 1 {
 		t.Fatalf("AskForURLMetadata = %+v, want the one document the ask named", answeredAsks)
@@ -689,6 +689,17 @@ func TestAURLMetadataAskFetchesTheDocumentsItNames(t *testing.T) {
 	if metadata.Hash != document || metadata.Address != "https://example.org/weather" {
 		t.Fatalf("metadata = %+v, want the document the peer named", metadata)
 	}
+}
+
+func outcomesOf(
+	outcomesAsTheySettle <-chan peerasks.URLMetadataAskOutcome,
+) peerasks.URLMetadataAskOutcomes {
+	outcomes := peerasks.URLMetadataAskOutcomes{}
+	for outcome := range outcomesAsTheySettle {
+		outcomes = append(outcomes, outcome)
+	}
+
+	return outcomes
 }
 
 func TestAnAnsweredURLMetadataAskIsReportedAsTheMetadataItIs(t *testing.T) {
@@ -704,13 +715,13 @@ func TestAnAnsweredURLMetadataAskIsReportedAsTheMetadataItIs(t *testing.T) {
 	)
 
 	observer := &recordedOutcome{}
-	wireTo(observer).AskForURLMetadata(
+	outcomesOf(wireTo(observer).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
 			Documents: []yacymodel.URLHash{document},
 		}},
-	)
+	))
 
 	if observer.answeredURLMetadata != 1 || observer.amountOfDescribedDocuments != 1 {
 		t.Fatalf(
@@ -733,13 +744,13 @@ func TestAURLMetadataAskGoesToTheURLsEndpointWithTheNamesAndTheNetwork(t *testin
 		`<rss><yacy><response>ok</response></yacy><channel></channel></rss>`,
 	)
 
-	wireTo(&recordedOutcome{}).AskForURLMetadata(
+	outcomesOf(wireTo(&recordedOutcome{}).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
 			Documents: []yacymodel.URLHash{document},
 		}},
-	)
+	))
 
 	if len(calls.paths) != 1 || calls.paths[0] != yacyproto.PathURLMetadata {
 		t.Fatalf("the peer was called at %v, want %q", calls.paths, yacyproto.PathURLMetadata)
@@ -765,13 +776,13 @@ func TestAPeerThatRejectsTheURLMetadataCallYieldsNoItems(t *testing.T) {
 			`<channel></channel></rss>`,
 	)
 
-	answeredAsks := wireTo(observer).AskForURLMetadata(
+	answeredAsks := outcomesOf(wireTo(observer).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
 			Documents: []yacymodel.URLHash{mustParseURLHash(t, "Q_ylfl--9bK5")},
 		}},
-	)
+	)).AnsweredAsks()
 
 	if len(answeredAsks) != 0 {
 		t.Fatalf("AskForURLMetadata = %+v, want nothing from a peer that rejected it", answeredAsks)
@@ -782,6 +793,45 @@ func TestAPeerThatRejectsTheURLMetadataCallYieldsNoItems(t *testing.T) {
 			observer.askedFor,
 			peerasks.URLMetadata,
 		)
+	}
+}
+
+func TestEveryURLMetadataAskHandsOverItsOutcomeOnceItSettled(t *testing.T) {
+	t.Parallel()
+
+	document := mustParseURLHash(t, "Q_ylfl--9bK5")
+	answering, _ := peerAnsweringURLMetadata(
+		t,
+		`<rss><yacy><response>ok</response></yacy><channel><item>`+
+			`<title>Weather</title><link>https://example.org/weather</link>`+
+			`<guid isPermaLink="false">Q_ylfl--9bK5</guid>`+
+			`</item></channel></rss>`,
+	)
+	rejecting, _ := peerAnsweringURLMetadata(
+		t,
+		`<rss><yacy><response>rejected - insufficient call parameters</response></yacy>`+
+			`<channel></channel></rss>`,
+	)
+
+	outcomes := outcomesOf(wireTo(&recordedOutcome{}).AskForURLMetadata(
+		t.Context(),
+		[]peerasks.URLMetadataAsk{
+			{Peer: peerAt(answering), Documents: []yacymodel.URLHash{document}},
+			{Peer: peerAt(rejecting), Documents: []yacymodel.URLHash{document}},
+		},
+	))
+
+	if len(outcomes) != 2 || len(outcomes.AsksPut()) != 2 {
+		t.Fatalf("AskForURLMetadata handed over %+v, want one put ask per peer", outcomes)
+	}
+	for _, outcome := range outcomes {
+		_, answered := outcome.Answer.Get()
+		if answered != (outcome.Ask.Peer.Address == answering) {
+			t.Fatalf(
+				"the ask to %s was answered: %t, want only the ask to %s answered",
+				outcome.Ask.Peer.Address, answered, answering,
+			)
+		}
 	}
 }
 
