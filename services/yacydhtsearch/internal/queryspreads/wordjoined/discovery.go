@@ -150,7 +150,7 @@ func (discovery *discovery) documentsToMatchIn(
 		}
 	}
 
-	return holdersPerDocumentOf(answeredAsks).mostHeldFirst(documentsToMatch)
+	return discovery.askRun.holdersPerDocument.mostHeldFirst(documentsToMatch)
 }
 
 func (discovery *discovery) roundFrom(
@@ -170,7 +170,7 @@ func (discovery *discovery) roundFrom(
 		compoundWords: compoundWordsAcrossReplicasFrom(
 			discovery.query.CompoundWords, askOutcomes, discovery.partitions,
 		),
-		holdersPerDocument: holdersPerDocumentOf(answeredAsks),
+		holdersPerDocument: discovery.askRun.holdersPerDocument,
 		sampledPartition:   sampledPartition,
 		amountOfQueryWordsWithASample: amountOfQueryWordsWithASampleIn(
 			sampledPartition, queryWordsFewestDocumentsFirst, discovery.partitions,

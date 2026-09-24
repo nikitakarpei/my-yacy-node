@@ -12,11 +12,10 @@ import (
 
 type holdersPerDocument map[yacymodel.URLHash]map[yacymodel.Hash]struct{}
 
-func holdersPerDocumentOf(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
-) holdersPerDocument {
-	holders := holdersPerDocument{}
-	for _, answeredAsk := range answeredAsks {
+func (holders holdersPerDocument) addHoldersIn(
+	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+) {
+	for _, answeredAsk := range askOutcomes.AnsweredAsks() {
 		for _, document := range answeredAsk.Abstract {
 			if holders[document] == nil {
 				holders[document] = map[yacymodel.Hash]struct{}{}
@@ -24,8 +23,6 @@ func holdersPerDocumentOf(
 			holders[document][answeredAsk.Ask.Peer.Hash] = struct{}{}
 		}
 	}
-
-	return holders
 }
 
 func (holders holdersPerDocument) mostHeldFirst(documents distinctDocuments) []yacymodel.URLHash {
