@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -32,32 +33,50 @@ func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	}
 }
 
-func (n *peerNetwork) AskForSearchDocuments(
-	_ context.Context,
-	asks []peerasks.SearchDocumentsAsk,
-) peerasks.SearchDocumentsAskOutcomes {
-	n.asks = append(n.asks, asks...)
+func (network *peerNetwork) Start(_ context.Context) replicaasks.Run {
+	asks := make(chan []peerasks.SearchDocumentsAsk)
+	settledWordPartitions := make(chan replicaasks.SettledWordPartition)
+	go network.answerEachAsk(asks, settledWordPartitions)
 
-	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(asks))
-	for _, ask := range asks {
-		askOutcomes = append(askOutcomes, peerasks.SearchDocumentsAskOutcome{
+	return replicaasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+}
+
+func (network *peerNetwork) answerEachAsk(
+	asks <-chan []peerasks.SearchDocumentsAsk,
+	settledWordPartitions chan<- replicaasks.SettledWordPartition,
+) {
+	defer close(settledWordPartitions)
+	for addedAsks := range asks {
+		placeOfTheFirstAsk := len(network.asks)
+		network.asks = append(network.asks, addedAsks...)
+		for place, ask := range slices.Backward(addedAsks) {
+			settledWordPartitions <- network.settledWordPartitionOf(ask, placeOfTheFirstAsk+place)
+		}
+	}
+}
+
+func (network *peerNetwork) settledWordPartitionOf(
+	ask peerasks.SearchDocumentsAsk,
+	placeInTheRun int,
+) replicaasks.SettledWordPartition {
+	return replicaasks.SettledWordPartition{AskOutcomes: []replicaasks.PlacedAskOutcome{{
+		PlaceInTheRun: placeInTheRun,
+		AskOutcome: peerasks.SearchDocumentsAskOutcome{
 			Ask: ask,
 			Put: true,
 			Answer: yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
 				Ask:              ask,
-				MatchedDocuments: n.matchedDocumentsOf(ask.Peer),
+				MatchedDocuments: network.matchedDocumentsOf(ask.Peer),
 			}),
-		})
-	}
-
-	return askOutcomes
+		},
+	}}}
 }
 
-func (n *peerNetwork) matchedDocumentsOf(
+func (network *peerNetwork) matchedDocumentsOf(
 	peer peerdirectory.AskablePeer,
 ) []peerasks.MatchedDocument {
-	_, countsAWord := n.peersCountingAWord[peer.Address]
-	addresses := n.itemsPerPeer[peer.Address]
+	_, countsAWord := network.peersCountingAWord[peer.Address]
+	addresses := network.itemsPerPeer[peer.Address]
 	matchedDocuments := make([]peerasks.MatchedDocument, 0, len(addresses))
 	for _, address := range addresses {
 		hash, err := yacymodel.URLHashOf(address)

@@ -65,7 +65,7 @@ func performedReplicaAsks() replicaasks.PerformedReplicaAsks {
 	return replicaasks.PerformedReplicaAsks{
 		EndedBy:   replicaasks.EndedByCoverage,
 		TimeSpent: 250 * time.Millisecond,
-		WordPartitions: []replicaasks.SettledWordPartition{
+		WordPartitions: []replicaasks.PerformedWordPartition{
 			{
 				SettledBy:               replicaasks.SettledByCoverage,
 				CoveringAskPutOn:        replicaasks.PutOnStart,

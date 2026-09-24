@@ -171,7 +171,7 @@ func (m *ReplicaAsksMetrics) ReplicaAsksPerformed(
 }
 
 func (m *ReplicaAsksMetrics) countWordPartition(
-	wordPartition replicaasks.SettledWordPartition,
+	wordPartition replicaasks.PerformedWordPartition,
 ) {
 	m.wordPartitionsPerSettledBy[wordPartition.SettledBy][wordPartition.CoveringAskPutOn].Inc()
 	m.wordPartitionDocumentsListed.Observe(float64(wordPartition.AmountOfDocumentsListed))

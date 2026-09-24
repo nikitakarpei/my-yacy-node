@@ -1,7 +1,9 @@
-// Package replicaasks puts the asks of a word partition to its replicas in
-// turn, settles the partition as soon as enough replicas have listed
-// documents for the word, and reports for each ask whether it was put and
-// what the peer answered.
+// Package replicaasks runs the asks of one query as one run. The consumer
+// sends asks to the run at any time and closes the asks when it has no more.
+// The run puts the asks of each word partition to its replicas in turn,
+// settles the partition as soon as enough replicas have listed documents for
+// the word, and sends each settled word partition with the outcome of each of
+// its asks. The consumer reads the settled word partitions until they close.
 package replicaasks
 
 import (
@@ -44,18 +46,15 @@ func New(
 	}
 }
 
-func (replicaAsks Asks) AskForSearchDocuments(
-	ctx context.Context,
-	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
-) peerasks.SearchDocumentsAskOutcomes {
-	return askTheWordPartitions(
-		ctx,
-		asksInReplicaOrder,
-		searchDocumentsAskKind{
-			peerCalls:  replicaAsks.peerCalls,
-			hedgeDelay: replicaAsks.hedgeDelay,
-		},
-		replicaAsks.amountOfReplicasCoveringAPartition,
-		replicaAsks.observer,
-	)
+type Run struct {
+	Asks                  chan<- []peerasks.SearchDocumentsAsk
+	SettledWordPartitions <-chan SettledWordPartition
+}
+
+func (replicaAsks Asks) Start(ctx context.Context) Run {
+	asks := make(chan []peerasks.SearchDocumentsAsk)
+	settledWordPartitions := make(chan SettledWordPartition)
+	go openRunOf(replicaAsks, asks, settledWordPartitions).askUntilOver(ctx)
+
+	return Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
 }
