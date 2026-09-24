@@ -26,4 +26,5 @@ type AnsweredSearchDocumentsAsk struct {
 	Abstract                        []yacymodel.URLHash
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
+	PeerSearched                    bool
 }

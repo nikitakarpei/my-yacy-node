@@ -1,9 +1,9 @@
 // Package replicaasks runs the asks of one query as one run. The consumer
 // sends asks to the run at any time and closes the asks when it has no more.
 // The run puts the asks of each word partition to its replicas in turn,
-// settles the partition as soon as enough replicas have listed documents for
-// the word, and sends each settled word partition with the outcome of each of
-// its asks. The consumer reads the settled word partitions until they close.
+// settles the partition as soon as enough replicas have searched for the word
+// or listed documents for it, and sends each settled word partition with the
+// outcome of each of its asks. The consumer reads the settled word partitions until they close.
 package replicaasks
 
 import (

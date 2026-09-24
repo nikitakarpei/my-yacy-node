@@ -828,6 +828,40 @@ func peerRecordingTheFormPosted(t *testing.T, body string) (string, *peerCalls) 
 	return server.URL, calls
 }
 
+func TestASearchDocumentsAnswerOfAPeerThatSpentTimeSearchingTellsThePeerSearched(t *testing.T) {
+	t.Parallel()
+
+	address, _ := peerAnswering(
+		t, searchAnswerFrom(yacyproto.SearchResponse{SearchTime: 12}), http.StatusOK,
+	)
+
+	answer, replied := searchDocumentsAnswerOf(
+		t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{Peer: peerAt(address)},
+	)
+
+	if !replied || !answer.PeerSearched {
+		t.Fatalf("the answer tells the peer searched: %v, want true", answer.PeerSearched)
+	}
+}
+
+func TestASearchDocumentsAnswerOfAPeerThatSpentNoTimeSearchingTellsThePeerDidNotSearch(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	address, _ := peerAnswering(
+		t, searchAnswerFrom(yacyproto.SearchResponse{}), http.StatusOK,
+	)
+
+	answer, replied := searchDocumentsAnswerOf(
+		t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{Peer: peerAt(address)},
+	)
+
+	if !replied || answer.PeerSearched {
+		t.Fatalf("the answer tells the peer searched: %v, want false", answer.PeerSearched)
+	}
+}
+
 func TestAPeerCallWaitsForAnInFlightSlotBeforeItTakesOne(t *testing.T) {
 	t.Parallel()
 

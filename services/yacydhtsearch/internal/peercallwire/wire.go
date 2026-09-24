@@ -248,6 +248,7 @@ func (w Wire) putSearchDocumentsAsk(
 		Abstract:                        abstract,
 		MatchedDocuments:                matchedDocuments,
 		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
+		PeerSearched:                    response.SearchTime > 0,
 	}, true
 }
 

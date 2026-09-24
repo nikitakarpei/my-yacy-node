@@ -249,6 +249,23 @@ func TestEndpointRejectsWrongNetwork(t *testing.T) {
 	if resp.Count != 0 {
 		t.Errorf("Count = %d, want 0 on network mismatch", resp.Count)
 	}
+	if resp.SearchTime != 0 {
+		t.Errorf("SearchTime = %d, want 0 on network mismatch", resp.SearchTime)
+	}
+}
+
+func TestEndpointReportsASearchTimeForASearchThatFoundNothing(t *testing.T) {
+	mux := mountedSearch(t, searchtest.PostingIndex{}, searchtest.URLDirectory{})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		Query:       []yacymodel.Hash{searchtest.HashFor("bananaphotos")},
+	})
+
+	if resp.JoinCount != 0 || resp.SearchTime <= 0 {
+		t.Errorf("JoinCount = %d, SearchTime = %d, want 0 and above 0",
+			resp.JoinCount, resp.SearchTime)
+	}
 }
 
 func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {

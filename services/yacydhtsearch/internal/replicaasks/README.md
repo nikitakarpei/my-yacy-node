@@ -9,10 +9,10 @@ almost always a slow one, so every search paid the tail latency of the network.
 The replicas hold the same postings, so most of those calls added nothing.
 
 This package asks the replicas of one word partition in turn. The first `n`
-listings cover the partition and the other calls are cancelled. A replica that
-lists nothing or fails is replaced at once. A replica that stays silent past a
-hedge delay gets a second replica asked beside it. Coverage ends the asks
-instead of the slowest peer.
+covering answers cover the partition and the other calls are cancelled. An
+answer covers when it lists documents or when the peer searched. A replica
+that fails, or that answers without a search, is replaced at once. A replica
+that stays silent past a hedge delay gets a second replica asked beside it.
 
 ## One run for one query
 

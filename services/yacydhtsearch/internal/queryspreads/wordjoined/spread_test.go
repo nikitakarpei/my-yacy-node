@@ -43,6 +43,7 @@ type peerNetwork struct {
 	documentsHeldByEachPeer               map[string]int
 	documentsPerAnswerOfEachPeer          map[string]int
 	peersCountingNoDocument               map[string]struct{}
+	peersThatSearched                     map[string]struct{}
 	searchDocumentsAsks                   []peerasks.SearchDocumentsAsk
 	urlMetadataAsks                       []peerasks.URLMetadataAsk
 	silentPeers                           map[string]struct{}
@@ -54,6 +55,7 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 	return &peerNetwork{
 		documentsPerWordPerPeer:               documentsPerWordPerPeer,
 		peersCountingNoDocument:               map[string]struct{}{},
+		peersThatSearched:                     map[string]struct{}{},
 		silentPeers:                           map[string]struct{}{},
 		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
 	}
@@ -160,9 +162,16 @@ func (network *peerNetwork) askOutcomeOf(
 			documentsPerWordOf(network.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
 		)),
 		AmountOfDocumentsHeldForTheWord: network.documentsCountedBy(ask.Peer.Address, ask.Word),
+		PeerSearched:                    network.searchedBy(ask.Peer.Address),
 	})
 
 	return askOutcome
+}
+
+func (network *peerNetwork) searchedBy(address string) bool {
+	_, searched := network.peersThatSearched[address]
+
+	return searched
 }
 
 func (network *peerNetwork) recordTimeLeftIn(ctx context.Context) {

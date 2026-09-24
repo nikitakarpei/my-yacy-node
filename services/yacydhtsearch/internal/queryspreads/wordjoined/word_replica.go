@@ -15,6 +15,9 @@ func (replica wordReplica) hasACompleteAbstract() bool {
 		return false
 	}
 	amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
+	if !counted {
+		return answer.PeerSearched && len(answer.Abstract) == 0
+	}
 
-	return counted && amountOfDocumentsHeld <= len(answer.Abstract)
+	return amountOfDocumentsHeld <= len(answer.Abstract)
 }
