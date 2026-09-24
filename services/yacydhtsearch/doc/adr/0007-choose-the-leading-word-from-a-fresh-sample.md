@@ -25,8 +25,7 @@ peers ignore `urls`, so peer judgements skip them. The round mostly works around
 3. As each partition answers, ask the other words and compound words there with the
    candidates in `urls`. Skip partitions without candidates.
 4. Ask without `urls` when a partition has more candidates than
-   `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING`, or when the leading word's answer there is
-   incomplete.
+   `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING`.
 5. Join all answers locally. An answer that ignored `urls` is used as it is.
 6. Ask URL metadata only for joined documents that no answer carried metadata for.
 
