@@ -100,7 +100,7 @@ func (spread Spread) askToDiscover(
 		query,
 		spread.partitions,
 		spread.documentsToMatchCeiling,
-	).roundStartingIn(sampledPartition)
+	).askFromTheSampleIn(sampledPartition)
 }
 
 const (

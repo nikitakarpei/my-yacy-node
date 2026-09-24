@@ -13,7 +13,8 @@ type discoveryRound struct {
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	holdersPerDocument             holdersPerDocument
-	sample                         queryWordSample
+	sampledPartition               uint
+	amountOfSampledQueryWords      int
 	sampledLeadingQueryWord        yacymodel.Optional[yacymodel.Hash]
 	otherWordAsksPerPartition      []OtherWordAsks
 }

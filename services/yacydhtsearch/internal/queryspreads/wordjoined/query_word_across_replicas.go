@@ -18,6 +18,17 @@ func queryWordsFewestDocumentsFirstFrom(
 	askOutcomes peerasks.SearchDocumentsAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
 ) []queryWordAcrossReplicas {
+	queryWordsAcrossReplicas := queryWordsAcrossReplicasFrom(words, askOutcomes, partitions)
+	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
+
+	return queryWordsAcrossReplicas
+}
+
+func queryWordsAcrossReplicasFrom(
+	words []yacymodel.Hash,
+	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	partitions yacymodel.DHTRingPartitions,
+) []queryWordAcrossReplicas {
 	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(words))
 	for _, word := range words {
 		queryWordsAcrossReplicas = append(
@@ -25,7 +36,6 @@ func queryWordsFewestDocumentsFirstFrom(
 			queryWordAcrossReplicasFrom(word, askOutcomes, partitions),
 		)
 	}
-	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
 
 	return queryWordsAcrossReplicas
 }
@@ -132,4 +142,30 @@ func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 	}
 
 	return documents
+}
+
+func (queryWord queryWordAcrossReplicas) amountOfDocumentsIn(
+	partition uint,
+	partitions yacymodel.DHTRingPartitions,
+) yacymodel.Optional[int] {
+	documentsInThePartition := distinctDocuments{}
+	complete := false
+	for _, replica := range queryWord.replicasPerPartition[partition] {
+		answer, answered := replica.answer.Get()
+		if !answered || !replica.hasACompleteAbstract() {
+			continue
+		}
+		complete = true
+		for _, document := range answer.Abstract {
+			if partitions.PartitionOf(document) != partition {
+				continue
+			}
+			documentsInThePartition.add(document)
+		}
+	}
+	if !complete {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(len(documentsInThePartition))
 }

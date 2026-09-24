@@ -29,8 +29,8 @@ func performedDiscoveryRoundFrom(
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		SampledPartition:          round.sample.partition,
-		AmountOfSampledQueryWords: round.sample.amountOfSampledQueryWords(),
+		SampledPartition:          round.sampledPartition,
+		AmountOfSampledQueryWords: round.amountOfSampledQueryWords,
 		AmountOfPeersWithANonEmptyAbstract: amountOfPeersAcross(
 			answeredAsksWithANonEmptyAbstract(round.answeredAsks),
 			peerOfAnsweredDiscoveryAsk,

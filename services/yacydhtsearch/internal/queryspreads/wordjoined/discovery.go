@@ -33,23 +33,30 @@ func discoveryOver(
 	}
 }
 
-func (discovery *discovery) roundStartingIn(sampledPartition uint) discoveryRound {
-	sample := discovery.askForTheSampleIn(sampledPartition)
-	sampledLeadingQueryWord := sample.rarestQueryWord()
+func (discovery *discovery) askFromTheSampleIn(sampledPartition uint) discoveryRound {
+	sampledLeadingQueryWord := discovery.takeTheSampleIn(sampledPartition)
 	discovery.askTheRestAfter(sampledLeadingQueryWord)
 	discovery.askRun.finish()
 
-	return discovery.roundFrom(sample, sampledLeadingQueryWord)
+	return discovery.roundFrom(sampledPartition, sampledLeadingQueryWord)
 }
 
-func (discovery *discovery) askForTheSampleIn(sampledPartition uint) queryWordSample {
+func (discovery *discovery) takeTheSampleIn(
+	sampledPartition uint,
+) yacymodel.Optional[yacymodel.Hash] {
 	queryWords := discovery.query.WordHashes()
 	asksOfTheSample := discovery.asks.ofWordsIn(queryWords, sampledPartition)
 	discovery.askRun.put(asksOfTheSample)
 	discovery.askRun.readUntilSettled(asksOfTheSample)
 
-	return queryWordSampleIn(
-		sampledPartition, queryWords, discovery.askRun.askOutcomes, discovery.partitions,
+	return rarestQueryWordIn(
+		sampledPartition,
+		queryWordsAcrossReplicasFrom(
+			queryWords,
+			discovery.askRun.askOutcomes,
+			discovery.partitions,
+		),
+		discovery.partitions,
 	)
 }
 
@@ -136,23 +143,27 @@ func documentsPerPartitionFrom(
 }
 
 func (discovery *discovery) roundFrom(
-	sample queryWordSample,
+	sampledPartition uint,
 	sampledLeadingQueryWord yacymodel.Optional[yacymodel.Hash],
 ) discoveryRound {
 	askOutcomes := discovery.askRun.askOutcomes
 	answeredAsks := askOutcomes.AnsweredAsks()
+	queryWordsFewestDocumentsFirst := queryWordsFewestDocumentsFirstFrom(
+		discovery.query.WordHashes(), askOutcomes, discovery.partitions,
+	)
 
 	return discoveryRound{
-		queryWords:   discovery.query.WordHashes(),
-		answeredAsks: answeredAsks,
-		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
-			discovery.query.WordHashes(), askOutcomes, discovery.partitions,
-		),
+		queryWords:                     discovery.query.WordHashes(),
+		answeredAsks:                   answeredAsks,
+		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirst,
 		compoundWords: compoundWordsAcrossReplicasFrom(
 			discovery.query.CompoundWords, askOutcomes, discovery.partitions,
 		),
-		holdersPerDocument:        holdersPerDocumentOf(answeredAsks),
-		sample:                    sample,
+		holdersPerDocument: holdersPerDocumentOf(answeredAsks),
+		sampledPartition:   sampledPartition,
+		amountOfSampledQueryWords: amountOfQueryWordsSampledIn(
+			sampledPartition, queryWordsFewestDocumentsFirst, discovery.partitions,
+		),
 		sampledLeadingQueryWord:   sampledLeadingQueryWord,
 		otherWordAsksPerPartition: discovery.otherWordAsksInPartitionOrder(),
 	}
