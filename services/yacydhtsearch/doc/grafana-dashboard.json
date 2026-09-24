@@ -361,7 +361,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacydhtsearch_searches_total{outcome=~\"answered_from_cache|no_item_from_cache\",instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{outcome=~\"answered_from_cache|no_item_from_cache\",instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum(clamp_min(yacydhtsearch_searches_total{outcome=~\"answered from cache|no item from cache\",instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{outcome=~\"answered from cache|no item from cache\",instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "answered from cache"
         }
       ]
