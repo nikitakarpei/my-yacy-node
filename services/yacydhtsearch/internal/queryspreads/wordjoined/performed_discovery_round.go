@@ -14,7 +14,7 @@ type PerformedDiscoveryRound struct {
 	AmountOfPeersWithANonEmptyAbstract     int
 	LeadingQueryWordChoice                 LeadingQueryWordChoice
 	AmountOfDocumentsOfTheLeadingQueryWord int
-	OtherWordsAskingPerPartition           []OtherWordsAsking
+	OtherWordAsksPerPartition              []OtherWordAsks
 	AmountOfMatchedDocumentsAcrossAnswers  int
 	AmountOfMatchedDocumentsWithAPosting   int
 	AmountOfDocumentsHeldInEachAnswer      []int
@@ -29,8 +29,8 @@ func performedDiscoveryRoundFrom(
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,
 		),
-		SampledPartition:          round.samples.partition,
-		AmountOfSampledQueryWords: round.samples.amountOfSampledQueryWords(),
+		SampledPartition:          round.sample.partition,
+		AmountOfSampledQueryWords: round.sample.amountOfSampledQueryWords(),
 		AmountOfPeersWithANonEmptyAbstract: amountOfPeersAcross(
 			answeredAsksWithANonEmptyAbstract(round.answeredAsks),
 			peerOfAnsweredDiscoveryAsk,
@@ -39,7 +39,7 @@ func performedDiscoveryRoundFrom(
 		AmountOfDocumentsOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documents(),
 		),
-		OtherWordsAskingPerPartition: round.otherWordsAskingPerPartition,
+		OtherWordAsksPerPartition: round.otherWordAsksPerPartition,
 		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
 			round.answeredAsks,
 		),

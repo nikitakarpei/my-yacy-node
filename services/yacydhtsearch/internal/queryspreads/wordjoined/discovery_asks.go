@@ -57,12 +57,12 @@ func (asks discoveryAsks) ofWordsIn(words []yacymodel.Hash, partition uint) disc
 	return asksOfTheWords
 }
 
-func (asks discoveryAsks) matching(documentsToMatch []yacymodel.URLHash) discoveryAsks {
-	asksMatching := make(discoveryAsks, 0, len(asks))
+func (asks discoveryAsks) forDocumentsToMatch(documentsToMatch []yacymodel.URLHash) discoveryAsks {
+	asksForTheDocuments := make(discoveryAsks, 0, len(asks))
 	for _, ask := range asks {
 		ask.DocumentsToMatch = documentsToMatch
-		asksMatching = append(asksMatching, ask)
+		asksForTheDocuments = append(asksForTheDocuments, ask)
 	}
 
-	return asksMatching
+	return asksForTheDocuments
 }

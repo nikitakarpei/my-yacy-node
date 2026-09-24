@@ -5,7 +5,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type queryWordSamples struct {
+type queryWordSample struct {
 	partition         uint
 	sampledQueryWords []sampledQueryWord
 }
@@ -15,61 +15,64 @@ type sampledQueryWord struct {
 	amountOfDocuments int
 }
 
-func queryWordSamplesIn(
+func queryWordSampleIn(
 	partition uint,
 	queryWords []yacymodel.Hash,
 	askOutcomes peerasks.SearchDocumentsAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
-) queryWordSamples {
-	samples := queryWordSamples{partition: partition}
+) queryWordSample {
+	sample := queryWordSample{partition: partition}
 	for _, queryWord := range queryWords {
-		wordPartition := queryWordAcrossReplicasFrom(queryWord, askOutcomes, partitions).
-			wordPartitions()[partition]
-		amountOfDocuments, sampled := sampleFrom(wordPartition, partitions).Get()
-		if !sampled {
+		replicas := queryWordAcrossReplicasFrom(queryWord, askOutcomes, partitions).
+			replicasPerPartition[partition]
+		amountOfDocuments, complete := amountOfDocumentsSampledIn(
+			replicas, partition, partitions,
+		).Get()
+		if !complete {
 			continue
 		}
-		samples.sampledQueryWords = append(samples.sampledQueryWords, sampledQueryWord{
+		sample.sampledQueryWords = append(sample.sampledQueryWords, sampledQueryWord{
 			word:              queryWord,
 			amountOfDocuments: amountOfDocuments,
 		})
 	}
 
-	return samples
+	return sample
 }
 
-func sampleFrom(
-	wordPartition wordPartition,
+func amountOfDocumentsSampledIn(
+	replicas []wordReplica,
+	partition uint,
 	partitions yacymodel.DHTRingPartitions,
 ) yacymodel.Optional[int] {
 	documentsInThePartition := distinctDocuments{}
-	sampled := false
-	for _, replica := range wordPartition.replicas {
+	complete := false
+	for _, replica := range replicas {
 		answer, answered := replica.answer.Get()
 		if !answered || !replica.hasACompleteAbstract() {
 			continue
 		}
-		sampled = true
+		complete = true
 		for _, document := range answer.Abstract {
-			if partitions.PartitionOf(document) != wordPartition.partition {
+			if partitions.PartitionOf(document) != partition {
 				continue
 			}
 			documentsInThePartition.add(document)
 		}
 	}
-	if !sampled {
+	if !complete {
 		return yacymodel.None[int]()
 	}
 
 	return yacymodel.Some(len(documentsInThePartition))
 }
 
-func (samples queryWordSamples) rarestQueryWord() yacymodel.Optional[yacymodel.Hash] {
-	if len(samples.sampledQueryWords) == 0 {
+func (sample queryWordSample) rarestQueryWord() yacymodel.Optional[yacymodel.Hash] {
+	if len(sample.sampledQueryWords) == 0 {
 		return yacymodel.None[yacymodel.Hash]()
 	}
-	rarestSampledQueryWord := samples.sampledQueryWords[0]
-	for _, otherSampledQueryWord := range samples.sampledQueryWords[1:] {
+	rarestSampledQueryWord := sample.sampledQueryWords[0]
+	for _, otherSampledQueryWord := range sample.sampledQueryWords[1:] {
 		if otherSampledQueryWord.amountOfDocuments < rarestSampledQueryWord.amountOfDocuments {
 			rarestSampledQueryWord = otherSampledQueryWord
 		}
@@ -78,6 +81,6 @@ func (samples queryWordSamples) rarestQueryWord() yacymodel.Optional[yacymodel.H
 	return yacymodel.Some(rarestSampledQueryWord.word)
 }
 
-func (samples queryWordSamples) amountOfSampledQueryWords() int {
-	return len(samples.sampledQueryWords)
+func (sample queryWordSample) amountOfSampledQueryWords() int {
+	return len(sample.sampledQueryWords)
 }

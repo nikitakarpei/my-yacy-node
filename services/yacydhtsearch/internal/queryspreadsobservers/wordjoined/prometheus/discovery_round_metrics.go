@@ -6,12 +6,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
-const labelOtherWordsAsking = "other_words_asking"
+const labelOtherWordAsks = "other_word_asks"
 
 type discoveryRoundMetrics struct {
-	unheldQueryWordsRatio         prometheusclient.Histogram
-	sampledQueryWordsRatio        prometheusclient.Histogram
-	partitionsPerOtherWordsAsking map[wordjoined.OtherWordsAsking]prometheusclient.Counter
+	unheldQueryWordsRatio      prometheusclient.Histogram
+	sampledQueryWordsRatio     prometheusclient.Histogram
+	partitionsPerOtherWordAsks map[wordjoined.OtherWordAsks]prometheusclient.Counter
 }
 
 func discoveryRoundMetricsRegisteredIn(
@@ -19,9 +19,9 @@ func discoveryRoundMetricsRegisteredIn(
 ) discoveryRoundMetrics {
 	partitions := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spread_partitions_total",
-		Help: "Partitions of the ring in the word joined spreads, by how the spread asked " +
-			"the other query words there.",
-	}, []string{labelOtherWordsAsking})
+		Help: "Partitions of the ring in the word joined spreads with a sampled leading word, " +
+			"by what the asks for the other query words named there.",
+	}, []string{labelOtherWordAsks})
 	metrics := discoveryRoundMetrics{
 		unheldQueryWordsRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_unheld_query_words_ratio",
@@ -32,18 +32,15 @@ func discoveryRoundMetricsRegisteredIn(
 			"Share of query words whose answers in the sampled partition gave a sample.",
 		),
 		//exhaustive:enforce
-		partitionsPerOtherWordsAsking: map[wordjoined.OtherWordsAsking]prometheusclient.Counter{
-			wordjoined.OtherWordsAskedForTheCandidates: partitions.WithLabelValues(
-				string(wordjoined.OtherWordsAskedForTheCandidates),
+		partitionsPerOtherWordAsks: map[wordjoined.OtherWordAsks]prometheusclient.Counter{
+			wordjoined.OtherWordAsksNamingTheDocumentsToMatch: partitions.WithLabelValues(
+				string(wordjoined.OtherWordAsksNamingTheDocumentsToMatch),
 			),
-			wordjoined.OtherWordsNotAsked: partitions.WithLabelValues(
-				string(wordjoined.OtherWordsNotAsked),
+			wordjoined.OtherWordAsksOverTheCeiling: partitions.WithLabelValues(
+				string(wordjoined.OtherWordAsksOverTheCeiling),
 			),
-			wordjoined.OtherWordsAskedOverTheCeiling: partitions.WithLabelValues(
-				string(wordjoined.OtherWordsAskedOverTheCeiling),
-			),
-			wordjoined.OtherWordsAskedWithoutASample: partitions.WithLabelValues(
-				string(wordjoined.OtherWordsAskedWithoutASample),
+			wordjoined.OtherWordAsksSkipped: partitions.WithLabelValues(
+				string(wordjoined.OtherWordAsksSkipped),
 			),
 		},
 	}
@@ -59,8 +56,8 @@ func discoveryRoundMetricsRegisteredIn(
 func (m discoveryRoundMetrics) observeDiscoveryRound(
 	discoveryRound wordjoined.PerformedDiscoveryRound,
 ) {
-	for _, otherWordsAsking := range discoveryRound.OtherWordsAskingPerPartition {
-		m.partitionsPerOtherWordsAsking[otherWordsAsking].Inc()
+	for _, otherWordAsks := range discoveryRound.OtherWordAsksPerPartition {
+		m.partitionsPerOtherWordAsks[otherWordAsks].Inc()
 	}
 	if discoveryRound.AmountOfQueryWords == 0 {
 		return

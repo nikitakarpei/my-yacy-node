@@ -95,12 +95,12 @@ func (spread Spread) askToDiscover(
 	defer endRound()
 
 	return discoveryOver(
-		spread.replicaAsks.Start(roundContext),
+		askRunOf(spread.replicaAsks.Start(roundContext)),
 		discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling),
 		query,
 		spread.partitions,
 		spread.documentsToMatchCeiling,
-	).askToDiscoverSampling(sampledPartition)
+	).roundStartingIn(sampledPartition)
 }
 
 const (

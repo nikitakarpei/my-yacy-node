@@ -133,15 +133,3 @@ func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 
 	return documents
 }
-
-func (queryWord queryWordAcrossReplicas) wordPartitions() []wordPartition {
-	wordPartitions := make([]wordPartition, 0, len(queryWord.replicasPerPartition))
-	for partition, replicas := range queryWord.replicasPerPartition {
-		wordPartitions = append(
-			wordPartitions,
-			wordPartition{word: queryWord.word, partition: uint(partition), replicas: replicas},
-		)
-	}
-
-	return wordPartitions
-}

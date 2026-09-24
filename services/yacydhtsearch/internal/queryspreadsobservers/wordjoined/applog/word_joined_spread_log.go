@@ -46,8 +46,8 @@ func attributesOfDiscoveryRound(
 			round.AmountOfDocumentsOfTheLeadingQueryWord,
 		),
 		slog.Any(
-			"amountOfPartitionsPerOtherWordsAsking",
-			amountOfPartitionsPerOtherWordsAskingOf(round.OtherWordsAskingPerPartition),
+			"amountOfPartitionsPerOtherWordAsks",
+			amountOfPartitionsPerOtherWordAsksFrom(round.OtherWordAsksPerPartition),
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsAcrossAnswers",
@@ -61,15 +61,15 @@ func attributesOfDiscoveryRound(
 	}
 }
 
-func amountOfPartitionsPerOtherWordsAskingOf(
-	otherWordsAskingPerPartition []wordjoined.OtherWordsAsking,
+func amountOfPartitionsPerOtherWordAsksFrom(
+	otherWordAsksPerPartition []wordjoined.OtherWordAsks,
 ) map[string]int {
-	amountOfPartitionsPerOtherWordsAsking := map[string]int{}
-	for _, otherWordsAsking := range otherWordsAskingPerPartition {
-		amountOfPartitionsPerOtherWordsAsking[string(otherWordsAsking)]++
+	amountOfPartitionsPerOtherWordAsks := map[string]int{}
+	for _, otherWordAsks := range otherWordAsksPerPartition {
+		amountOfPartitionsPerOtherWordAsks[string(otherWordAsks)]++
 	}
 
-	return amountOfPartitionsPerOtherWordsAsking
+	return amountOfPartitionsPerOtherWordAsks
 }
 
 func attributesOfURLMetadataLookupRound(

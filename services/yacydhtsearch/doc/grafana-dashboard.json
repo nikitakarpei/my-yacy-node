@@ -904,8 +904,8 @@
     },
     {
       "id": 59,
-      "title": "Partitions, by how the other query words were asked",
-      "description": "A partition where the leading word has no documents is not asked for the other words. A partition with more documents than YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING, or where the answer of the leading word is partial, is asked for all documents of the other words.",
+      "title": "Partitions, by what the other word asks named",
+      "description": "Only queries with a sampled leading word count. A partition where the leading word has no documents is not asked for the other words. A partition with more documents to match than YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING is asked for all documents of the other words.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -938,8 +938,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (other_words_asking) (clamp_min(yacydhtsearch_word_joined_spread_partitions_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_partitions_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{other_words_asking}}"
+          "expr": "sum by (other_word_asks) (clamp_min(yacydhtsearch_word_joined_spread_partitions_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_partitions_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{other_word_asks}}"
         }
       ]
     },

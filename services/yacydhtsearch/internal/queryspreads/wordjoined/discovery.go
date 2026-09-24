@@ -3,170 +3,121 @@ package wordjoined
 import (
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type discovery struct {
-	run                          replicaasks.Run
-	asks                         discoveryAsks
-	query                        searchquery.Query
-	partitions                   yacymodel.DHTRingPartitions
-	documentsToMatchCeiling      int
-	askOutcomes                  peerasks.SearchDocumentsAskOutcomes
-	settledWordPartitions        map[wordPartitionKey]struct{}
-	otherWordsAskingPerPartition map[uint]OtherWordsAsking
-}
-
-type wordPartitionKey struct {
-	word      yacymodel.Hash
-	partition uint
+	askRun                    *askRun
+	asks                      discoveryAsks
+	query                     searchquery.Query
+	partitions                yacymodel.DHTRingPartitions
+	documentsToMatchCeiling   int
+	otherWordAsksPerPartition map[uint]OtherWordAsks
 }
 
 func discoveryOver(
-	run replicaasks.Run,
+	askRun *askRun,
 	asks discoveryAsks,
 	query searchquery.Query,
 	partitions yacymodel.DHTRingPartitions,
 	documentsToMatchCeiling int,
 ) *discovery {
 	return &discovery{
-		run:                          run,
-		asks:                         asks,
-		query:                        query,
-		partitions:                   partitions,
-		documentsToMatchCeiling:      documentsToMatchCeiling,
-		settledWordPartitions:        map[wordPartitionKey]struct{}{},
-		otherWordsAskingPerPartition: map[uint]OtherWordsAsking{},
+		askRun:                    askRun,
+		asks:                      asks,
+		query:                     query,
+		partitions:                partitions,
+		documentsToMatchCeiling:   documentsToMatchCeiling,
+		otherWordAsksPerPartition: map[uint]OtherWordAsks{},
 	}
 }
 
-func (discovery *discovery) askToDiscoverSampling(sampledPartition uint) discoveryRound {
-	samples := discovery.askForTheSamplesIn(sampledPartition)
-	discovery.askTheOtherWordPartitionsAfter(samples)
-	discovery.settleEveryWordPartition()
+func (discovery *discovery) roundStartingIn(sampledPartition uint) discoveryRound {
+	sample := discovery.askForTheSampleIn(sampledPartition)
+	sampledLeadingQueryWord := sample.rarestQueryWord()
+	discovery.askTheRestAfter(sampledLeadingQueryWord)
+	discovery.askRun.finish()
 
-	return discovery.roundOf(samples)
+	return discovery.roundFrom(sample, sampledLeadingQueryWord)
 }
 
-func (discovery *discovery) askForTheSamplesIn(sampledPartition uint) queryWordSamples {
+func (discovery *discovery) askForTheSampleIn(sampledPartition uint) queryWordSample {
 	queryWords := discovery.query.WordHashes()
-	discovery.send(discovery.asks.ofWordsIn(queryWords, sampledPartition))
-	discovery.readUntilSettled(queryWords, sampledPartition)
+	asksOfTheSample := discovery.asks.ofWordsIn(queryWords, sampledPartition)
+	discovery.askRun.put(asksOfTheSample)
+	discovery.askRun.readUntilSettled(asksOfTheSample)
 
-	return queryWordSamplesIn(
-		sampledPartition, queryWords, discovery.askOutcomes, discovery.partitions,
+	return queryWordSampleIn(
+		sampledPartition, queryWords, discovery.askRun.askOutcomes, discovery.partitions,
 	)
 }
 
-func (discovery *discovery) send(asks discoveryAsks) {
-	if len(asks) == 0 {
-		return
-	}
-	discovery.run.Asks <- asks
-}
-
-func (discovery *discovery) readUntilSettled(words []yacymodel.Hash, partition uint) {
-	for !discovery.haveSettled(words, partition) {
-		discovery.readTheNextSettledWordPartition()
-	}
-}
-
-func (discovery *discovery) haveSettled(words []yacymodel.Hash, partition uint) bool {
-	for _, ask := range discovery.asks.ofWordsIn(words, partition) {
-		if _, settled := discovery.settledWordPartitions[wordPartitionKeyOf(ask)]; !settled {
-			return false
-		}
-	}
-
-	return true
-}
-
-func wordPartitionKeyOf(ask peerasks.SearchDocumentsAsk) wordPartitionKey {
-	return wordPartitionKey{word: ask.Word, partition: ask.Partition}
-}
-
-func (discovery *discovery) readTheNextSettledWordPartition() {
-	discovery.record(<-discovery.run.SettledWordPartitions)
-}
-
-func (discovery *discovery) record(settledWordPartition replicaasks.SettledWordPartition) {
-	discovery.askOutcomes = append(discovery.askOutcomes, settledWordPartition.AskOutcomes...)
-	for _, askOutcome := range settledWordPartition.AskOutcomes {
-		discovery.settledWordPartitions[wordPartitionKeyOf(askOutcome.Ask)] = struct{}{}
-	}
-}
-
-func (discovery *discovery) askTheOtherWordPartitionsAfter(samples queryWordSamples) {
-	leadingQueryWord, sampled := samples.rarestQueryWord().Get()
+func (discovery *discovery) askTheRestAfter(
+	sampledLeadingQueryWord yacymodel.Optional[yacymodel.Hash],
+) {
+	leadingQueryWord, sampled := sampledLeadingQueryWord.Get()
 	if !sampled {
-		discovery.askEveryWordPartitionWithoutASample()
+		discovery.askRun.put(discovery.asks)
 
 		return
 	}
-	discovery.askTheOtherWordsAsTheLeadSettles(wordSplitBy(leadingQueryWord, discovery.query))
+	discovery.askAroundTheLeadingWord(queryWordRolesAround(leadingQueryWord, discovery.query))
 }
 
-func (discovery *discovery) askEveryWordPartitionWithoutASample() {
-	discovery.send(discovery.asks)
-	for partition := range uint(discovery.partitions) {
-		discovery.otherWordsAskingPerPartition[partition] = OtherWordsAskedWithoutASample
+func (discovery *discovery) askAroundTheLeadingWord(roles queryWordRoles) {
+	discovery.askRun.put(discovery.asks.ofWords(roles.wordsOfTheDocumentsToMatch))
+	discovery.askForTheOtherWordsInNewlySettledPartitions(roles)
+	for len(discovery.otherWordAsksPerPartition) < int(discovery.partitions) {
+		discovery.askRun.readTheNextSettledWordPartition()
+		discovery.askForTheOtherWordsInNewlySettledPartitions(roles)
 	}
 }
 
-func (discovery *discovery) askTheOtherWordsAsTheLeadSettles(split wordSplit) {
-	discovery.send(discovery.asks.ofWords(split.candidateWords))
-	discovery.askTheOtherWordsWhereTheLeadSettled(split)
-	for len(discovery.otherWordsAskingPerPartition) < int(discovery.partitions) {
-		discovery.readTheNextSettledWordPartition()
-		discovery.askTheOtherWordsWhereTheLeadSettled(split)
-	}
-}
-
-func (discovery *discovery) askTheOtherWordsWhereTheLeadSettled(split wordSplit) {
+func (discovery *discovery) askForTheOtherWordsInNewlySettledPartitions(roles queryWordRoles) {
 	for partition := range uint(discovery.partitions) {
-		if _, asked := discovery.otherWordsAskingPerPartition[partition]; asked ||
-			!discovery.haveSettled(split.candidateWords, partition) {
+		if _, asked := discovery.otherWordAsksPerPartition[partition]; asked ||
+			!discovery.askRun.haveSettled(
+				discovery.asks.ofWordsIn(roles.wordsOfTheDocumentsToMatch, partition),
+			) {
 			continue
 		}
-		discovery.otherWordsAskingPerPartition[partition] = discovery.askTheOtherWordsIn(
-			partition, split,
+		discovery.otherWordAsksPerPartition[partition] = discovery.askForTheOtherWordsIn(
+			partition, roles,
 		)
 	}
 }
 
-func (discovery *discovery) askTheOtherWordsIn(partition uint, split wordSplit) OtherWordsAsking {
-	candidates := discovery.candidatesIn(partition, split.candidateWords)
-	otherWordsAsking := otherWordsAskingFor(
-		candidates,
-		discovery.documentsToMatchCeiling,
-	)
-	discovery.send(otherWordsAsking.asksAmong(
-		discovery.asks.ofWordsIn(split.otherWords, partition), candidates,
+func (discovery *discovery) askForTheOtherWordsIn(
+	partition uint,
+	roles queryWordRoles,
+) OtherWordAsks {
+	documentsToMatch := discovery.documentsToMatchIn(partition, roles.wordsOfTheDocumentsToMatch)
+	otherWordAsks := otherWordAsksFrom(documentsToMatch, discovery.documentsToMatchCeiling)
+	discovery.askRun.put(otherWordAsks.asksFrom(
+		discovery.asks.ofWordsIn(roles.otherWords, partition), documentsToMatch,
 	))
 
-	return otherWordsAsking
+	return otherWordAsks
 }
 
-func (discovery *discovery) candidatesIn(
+func (discovery *discovery) documentsToMatchIn(
 	partition uint,
-	candidateWords []yacymodel.Hash,
+	wordsOfTheDocumentsToMatch []yacymodel.Hash,
 ) []yacymodel.URLHash {
-	answeredAsks := discovery.askOutcomes.AnsweredAsks()
-	documentsOfTheCandidateWords := distinctDocuments{}
+	answeredAsks := discovery.askRun.askOutcomes.AnsweredAsks()
+	documentsOfTheWords := distinctDocuments{}
 	for _, answeredAsk := range answeredAsks {
-		if !slices.Contains(candidateWords, answeredAsk.Ask.Word) {
+		if !slices.Contains(wordsOfTheDocumentsToMatch, answeredAsk.Ask.Word) {
 			continue
 		}
 		for _, document := range answeredAsk.Abstract {
-			documentsOfTheCandidateWords.add(document)
+			documentsOfTheWords.add(document)
 		}
 	}
 
 	return documentsPerPartitionFrom(
-		holdersPerDocumentOf(answeredAsks).mostHeldFirst(documentsOfTheCandidateWords),
+		holdersPerDocumentOf(answeredAsks).mostHeldFirst(documentsOfTheWords),
 		discovery.partitions,
 	)[partition]
 }
@@ -184,15 +135,11 @@ func documentsPerPartitionFrom(
 	return documentsPerPartition
 }
 
-func (discovery *discovery) settleEveryWordPartition() {
-	close(discovery.run.Asks)
-	for settledWordPartition := range discovery.run.SettledWordPartitions {
-		discovery.record(settledWordPartition)
-	}
-}
-
-func (discovery *discovery) roundOf(samples queryWordSamples) discoveryRound {
-	askOutcomes := discovery.askOutcomes
+func (discovery *discovery) roundFrom(
+	sample queryWordSample,
+	sampledLeadingQueryWord yacymodel.Optional[yacymodel.Hash],
+) discoveryRound {
+	askOutcomes := discovery.askRun.askOutcomes
 	answeredAsks := askOutcomes.AnsweredAsks()
 
 	return discoveryRound{
@@ -204,20 +151,26 @@ func (discovery *discovery) roundOf(samples queryWordSamples) discoveryRound {
 		compoundWords: compoundWordsAcrossReplicasFrom(
 			discovery.query.CompoundWords, askOutcomes, discovery.partitions,
 		),
-		holdersPerDocument:           holdersPerDocumentOf(answeredAsks),
-		samples:                      samples,
-		otherWordsAskingPerPartition: discovery.otherWordsAskingInPartitionOrder(),
+		holdersPerDocument:        holdersPerDocumentOf(answeredAsks),
+		sample:                    sample,
+		sampledLeadingQueryWord:   sampledLeadingQueryWord,
+		otherWordAsksPerPartition: discovery.otherWordAsksInPartitionOrder(),
 	}
 }
 
-func (discovery *discovery) otherWordsAskingInPartitionOrder() []OtherWordsAsking {
-	otherWordsAskingInPartitionOrder := make([]OtherWordsAsking, 0, discovery.partitions)
+func (discovery *discovery) otherWordAsksInPartitionOrder() []OtherWordAsks {
+	otherWordAsksInPartitionOrder := make(
+		[]OtherWordAsks,
+		0,
+		len(discovery.otherWordAsksPerPartition),
+	)
 	for partition := range uint(discovery.partitions) {
-		otherWordsAskingInPartitionOrder = append(
-			otherWordsAskingInPartitionOrder,
-			discovery.otherWordsAskingPerPartition[partition],
-		)
+		otherWordAsks, asked := discovery.otherWordAsksPerPartition[partition]
+		if !asked {
+			continue
+		}
+		otherWordAsksInPartitionOrder = append(otherWordAsksInPartitionOrder, otherWordAsks)
 	}
 
-	return otherWordsAskingInPartitionOrder
+	return otherWordAsksInPartitionOrder
 }

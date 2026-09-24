@@ -40,11 +40,11 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 			AmountOfPeersWithANonEmptyAbstract:     4,
 			LeadingQueryWordChoice:                 wordjoined.RarestSampledQueryWord,
 			AmountOfDocumentsOfTheLeadingQueryWord: 12,
-			OtherWordsAskingPerPartition: []wordjoined.OtherWordsAsking{
-				wordjoined.OtherWordsAskedForTheCandidates,
-				wordjoined.OtherWordsNotAsked,
-				wordjoined.OtherWordsAskedForTheCandidates,
-				wordjoined.OtherWordsAskedOverTheCeiling,
+			OtherWordAsksPerPartition: []wordjoined.OtherWordAsks{
+				wordjoined.OtherWordAsksNamingTheDocumentsToMatch,
+				wordjoined.OtherWordAsksSkipped,
+				wordjoined.OtherWordAsksNamingTheDocumentsToMatch,
+				wordjoined.OtherWordAsksOverTheCeiling,
 			},
 		},
 		AmountOfJoinedDocuments: 10,
@@ -60,9 +60,9 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest sampled word"} 1`,
 		"yacydhtsearch_word_joined_spread_sampled_query_words_ratio_sum 0.5",
-		`yacydhtsearch_word_joined_spread_partitions_total{other_words_asking="for the candidates"} 2`,
-		`yacydhtsearch_word_joined_spread_partitions_total{other_words_asking="no candidates"} 1`,
-		`yacydhtsearch_word_joined_spread_partitions_total{other_words_asking="whole, candidates over the ceiling"} 1`,
+		`yacydhtsearch_word_joined_spread_partitions_total{other_word_asks="naming the documents to match"} 2`,
+		`yacydhtsearch_word_joined_spread_partitions_total{other_word_asks="skipped, the leading word lists no documents"} 1`,
+		`yacydhtsearch_word_joined_spread_partitions_total{other_word_asks="naming none, over the ceiling"} 1`,
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum 0.25",
@@ -84,12 +84,11 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest sampled word"} 0`,
 		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest sampled word"} 0`,
-		`yacydhtsearch_word_joined_spread_partitions_total{other_words_asking="for the candidates"} 0`,
-		`yacydhtsearch_word_joined_spread_partitions_total{other_words_asking="no candidates"} 0`,
-		`yacydhtsearch_word_joined_spread_partitions_total{other_words_asking="whole, candidates over the ceiling"} 0`,
-		`yacydhtsearch_word_joined_spread_partitions_total{other_words_asking="whole, no sample"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, partial abstracts"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, partial abstracts"} 0`,
+		`yacydhtsearch_word_joined_spread_partitions_total{other_word_asks="naming the documents to match"} 0`,
+		`yacydhtsearch_word_joined_spread_partitions_total{other_word_asks="skipped, the leading word lists no documents"} 0`,
+		`yacydhtsearch_word_joined_spread_partitions_total{other_word_asks="naming none, over the ceiling"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, no sample"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, no sample"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -101,7 +100,7 @@ func spreadOfQueryWords(amountOfQueryWords int) wordjoined.PerformedWordJoinedSp
 	return wordjoined.PerformedWordJoinedSpread{
 		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
 			AmountOfQueryWords:     amountOfQueryWords,
-			LeadingQueryWordChoice: wordjoined.RarestQueryWordWithoutCompleteAbstracts,
+			LeadingQueryWordChoice: wordjoined.RarestQueryWordWithoutASample,
 		},
 	}
 }
@@ -116,7 +115,7 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, partial abstracts"} 1`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, no sample"} 1`,
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count 0",
 	} {
 		if !strings.Contains(body, published) {
