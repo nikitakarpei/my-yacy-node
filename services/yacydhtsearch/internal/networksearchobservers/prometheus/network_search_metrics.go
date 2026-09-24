@@ -4,24 +4,20 @@ package prometheus
 
 import (
 	"context"
-	"math"
 	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 )
 
 const (
-	durationBucketRatio = 1.6
-	bucketsUpToBudget   = 15
-	itemBucketCeiling   = 10000.0
-	itemBuckets         = 10
-	peerBucketCeiling   = 128.0
-	peerBuckets         = 8
+	itemBucketCeiling = 10000.0
+	itemBuckets       = 10
+	peerBucketCeiling = 128.0
+	peerBuckets       = 8
 )
-
-var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type NetworkSearchMetrics struct {
 	itemsRankedPerNetworkSearch  prometheusclient.Histogram
@@ -44,7 +40,7 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 		networkSearchDurationSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_network_search_duration_seconds",
 			Help:    "Network search duration in seconds.",
-			Buckets: networkSearchDurationBucketsFor(queryBudget),
+			Buckets: budgetbuckets.DurationBucketsFor(queryBudget),
 		}),
 	}
 	registry.MustRegister(
@@ -61,19 +57,6 @@ func bucketsFromNoneTo(ceiling float64, buckets int) []float64 {
 		[]float64{0},
 		prometheusclient.ExponentialBucketsRange(1, ceiling, buckets)...,
 	)
-}
-
-func networkSearchDurationBucketsFor(queryBudget time.Duration) []float64 {
-	seconds := queryBudget.Seconds()
-	buckets := make([]float64, 0, bucketsUpToBudget+len(overBudgetShares))
-	for step := bucketsUpToBudget - 1; step >= 0; step-- {
-		buckets = append(buckets, seconds/math.Pow(durationBucketRatio, float64(step)))
-	}
-	for _, share := range overBudgetShares {
-		buckets = append(buckets, seconds*share)
-	}
-
-	return buckets
 }
 
 func (m *NetworkSearchMetrics) NetworkSearchPerformed(

@@ -6,11 +6,11 @@ package prometheus
 
 import (
 	"context"
-	"math"
 	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 )
 
@@ -19,13 +19,9 @@ const (
 	labelSettledBy                 = "settled_by"
 	labelCoveringAskPutOn          = "covering_ask_put_on"
 	labelPutOn                     = "put_on"
-	durationBucketRatio            = 1.6
-	bucketsUpToBudget              = 15
 	documentsListedBucketCeiling   = 1024.0
 	amountOfDocumentsListedBuckets = 11
 )
-
-var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type ReplicaAsksMetrics struct {
 	replicaAsksDurationSecondsPerEndedBy map[replicaasks.EndedBy]prometheusclient.Observer
@@ -42,7 +38,7 @@ func New(
 		prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_replica_asks_duration_seconds",
 			Help:    "Time the replica asks of one spread call took, by what ended them.",
-			Buckets: replicaAsksDurationBucketsFor(queryBudget),
+			Buckets: budgetbuckets.DurationBucketsFor(queryBudget),
 		},
 		[]string{labelEndedBy},
 	)
@@ -76,19 +72,6 @@ func New(
 		replicaAsksPerPutOn:          replicaAsksPerPutOnFrom(replicaAsks),
 		wordPartitionDocumentsListed: wordPartitionDocumentsListed,
 	}
-}
-
-func replicaAsksDurationBucketsFor(queryBudget time.Duration) []float64 {
-	seconds := queryBudget.Seconds()
-	buckets := make([]float64, 0, bucketsUpToBudget+len(overBudgetShares))
-	for step := bucketsUpToBudget - 1; step >= 0; step-- {
-		buckets = append(buckets, seconds/math.Pow(durationBucketRatio, float64(step)))
-	}
-	for _, share := range overBudgetShares {
-		buckets = append(buckets, seconds*share)
-	}
-
-	return buckets
 }
 
 func bucketsFromNoneTo(ceiling float64, amountOfBuckets int) []float64 {

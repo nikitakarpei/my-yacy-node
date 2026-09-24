@@ -7,12 +7,8 @@ import (
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
-)
-
-const (
-	durationBuckets = 12
-	budgetShare     = 1024
 )
 
 type PeerMatchedSpreadMetrics struct {
@@ -26,13 +22,9 @@ func New(
 	metrics := &PeerMatchedSpreadMetrics{
 		peerMatchedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
-				Name: "yacydhtsearch_peer_matched_spread_duration_seconds",
-				Help: "Peer matched spread duration in seconds.",
-				Buckets: prometheusclient.ExponentialBucketsRange(
-					queryBudget.Seconds()/budgetShare,
-					queryBudget.Seconds()*2,
-					durationBuckets,
-				),
+				Name:    "yacydhtsearch_peer_matched_spread_duration_seconds",
+				Help:    "Peer matched spread duration in seconds.",
+				Buckets: budgetbuckets.DurationBucketsFor(queryBudget),
 			},
 		),
 	}

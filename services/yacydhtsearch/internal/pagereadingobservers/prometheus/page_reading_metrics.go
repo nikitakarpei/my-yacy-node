@@ -8,6 +8,7 @@ import (
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 )
 
@@ -23,9 +24,6 @@ const (
 	outcomePageUnreadable      = "unreadable"
 	outcomePageUnsupportedKind = "unsupported kind"
 	outcomePageOutOfBudget     = "out of budget"
-	durationBuckets            = 12
-	budgetShare                = 1024
-	overThePageReadBudget      = 2
 )
 
 type PageReadingMetrics struct {
@@ -51,13 +49,9 @@ func New(
 	}, []string{labelOutcome})
 	pageReadingDurationSeconds := prometheusclient.NewHistogram(
 		prometheusclient.HistogramOpts{
-			Name: "yacydhtsearch_page_reading_duration_seconds",
-			Help: "Time the reading of the pages of one query took, in seconds.",
-			Buckets: prometheusclient.ExponentialBucketsRange(
-				pageReadBudget.Seconds()/budgetShare,
-				pageReadBudget.Seconds()*overThePageReadBudget,
-				durationBuckets,
-			),
+			Name:    "yacydhtsearch_page_reading_duration_seconds",
+			Help:    "Time the reading of the pages of one query took, in seconds.",
+			Buckets: budgetbuckets.DurationBucketsFor(pageReadBudget),
 		},
 	)
 	timeSpentSeconds := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{

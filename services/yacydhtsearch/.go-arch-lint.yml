@@ -13,6 +13,8 @@ commonComponents:
   - presenceaccrual
 
 components:
+  budgetbuckets:
+    in: internal/budgetbuckets/**
   queryspreadsobserverspeermatchedapplog:
     in: internal/queryspreadsobservers/peermatched/applog/**
   queryspreadsobserverspeermatchedprometheus:
@@ -192,6 +194,7 @@ deps:
       - prometheus
     mayDependOn:
       - peermatched
+      - budgetbuckets
   searchquery:
     canUse:
       - yacymodel
@@ -283,6 +286,7 @@ deps:
       - prometheus
     mayDependOn:
       - pagereading
+      - budgetbuckets
   peermatched:
     canUse:
       - yacymodel
@@ -359,6 +363,7 @@ deps:
       - prometheus
     mayDependOn:
       - replicaasks
+      - budgetbuckets
   peercallwire:
     canUse:
       - yacymodel
@@ -406,6 +411,7 @@ deps:
       - prometheus
     mayDependOn:
       - networksearch
+      - budgetbuckets
   queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
@@ -414,6 +420,7 @@ deps:
       - prometheus
     mayDependOn:
       - wordjoined
+      - budgetbuckets
   peercallobserversapplog:
     mayDependOn:
       - peerasks
@@ -422,6 +429,7 @@ deps:
       - prometheus
     mayDependOn:
       - peerasks
+      - budgetbuckets
   peerdirectoryobserversapplog:
     canUse:
       - yacymodel
