@@ -9,11 +9,11 @@ import (
 
 const (
 	labelFailure            = "failure"
-	failureUnusableAddress  = "unusableAddress"
-	failureNoAnswer         = "noAnswer"
+	failureUnusableAddress  = "unusable address"
+	failureNoAnswer         = "no answer"
 	failureRefused          = "refused"
-	failureAnswerIncomplete = "answerIncomplete"
-	failureNoRWICount       = "noRWICount"
+	failureAnswerIncomplete = "answer incomplete"
+	failureNoRWICount       = "no RWI count"
 )
 
 type PeerLivenessMetrics struct {

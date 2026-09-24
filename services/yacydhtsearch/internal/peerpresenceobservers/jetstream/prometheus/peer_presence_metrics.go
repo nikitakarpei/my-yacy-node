@@ -10,9 +10,9 @@ import (
 
 const (
 	labelFailure               = "failure"
-	failureSnapshotsUnread     = "snapshotsUnread"
-	failureSnapshotUndecodable = "snapshotUndecodable"
-	failureSnapshotUnwritten   = "snapshotUnwritten"
+	failureSnapshotsUnread     = "snapshots unread"
+	failureSnapshotUndecodable = "snapshot undecodable"
+	failureSnapshotUnwritten   = "snapshot unwritten"
 )
 
 type PeerPresenceMetrics struct {

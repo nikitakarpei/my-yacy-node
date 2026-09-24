@@ -11,12 +11,12 @@ import (
 
 const (
 	labelOutcome             = "outcome"
-	outcomeAnsweredFromCache = "answered_from_cache"
-	outcomeNoItemFromCache   = "no_item_from_cache"
-	outcomeAnsweredByPeers   = "answered_by_peers"
-	outcomeNoItemFromPeers   = "no_item_from_peers"
-	outcomeNoIndexedTerm     = "no_indexed_term"
-	outcomeNoPeerReached     = "no_peer_reached"
+	outcomeAnsweredFromCache = "answered from cache"
+	outcomeNoItemFromCache   = "no item from cache"
+	outcomeAnsweredByPeers   = "answered by peers"
+	outcomeNoItemFromPeers   = "no item from peers"
+	outcomeNoIndexedTerm     = "no indexed term"
+	outcomeNoPeerReached     = "no peer reached"
 )
 
 type QueryRankingMetrics struct {

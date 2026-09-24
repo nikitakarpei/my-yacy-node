@@ -40,10 +40,10 @@ func TestEveryOutcomeOfASearchIsPublishedApart(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_searches_total{outcome="answered_from_cache"} 2`,
-		`yacydhtsearch_searches_total{outcome="answered_by_peers"} 1`,
-		`yacydhtsearch_searches_total{outcome="no_indexed_term"} 1`,
-		`yacydhtsearch_searches_total{outcome="no_peer_reached"} 1`,
+		`yacydhtsearch_searches_total{outcome="answered from cache"} 2`,
+		`yacydhtsearch_searches_total{outcome="answered by peers"} 1`,
+		`yacydhtsearch_searches_total{outcome="no indexed term"} 1`,
+		`yacydhtsearch_searches_total{outcome="no peer reached"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -63,10 +63,10 @@ func TestASearchThatCameBackWithNoItemIsCountedApartFromOneThatHeldItems(t *test
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_searches_total{outcome="no_item_from_peers"} 1`,
-		`yacydhtsearch_searches_total{outcome="no_item_from_cache"} 1`,
-		`yacydhtsearch_searches_total{outcome="answered_by_peers"} 0`,
-		`yacydhtsearch_searches_total{outcome="answered_from_cache"} 0`,
+		`yacydhtsearch_searches_total{outcome="no item from peers"} 1`,
+		`yacydhtsearch_searches_total{outcome="no item from cache"} 1`,
+		`yacydhtsearch_searches_total{outcome="answered by peers"} 0`,
+		`yacydhtsearch_searches_total{outcome="answered from cache"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

@@ -7,19 +7,17 @@ import (
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 )
 
 const (
-	amountOfDurationBuckets                  = 12
-	shortestDurationBucketShareOfQueryBudget = 1.0 / 1024
-	longestDurationBucketShareOfQueryBudget  = 2.0
-	amountOfRatioBuckets                     = 11
-	ratioBucketWidth                         = 0.1
-	labelJoin                                = "join"
-	joinFoundNoDocument                      = "no document"
-	joinFoundDocuments                       = "documents"
-	labelLeadingQueryWordChoice              = "leading_query_word_choice"
+	amountOfRatioBuckets        = 11
+	ratioBucketWidth            = 0.1
+	labelJoin                   = "join"
+	joinFoundNoDocument         = "no document"
+	joinFoundDocuments          = "documents"
+	labelLeadingQueryWordChoice = "leading_query_word_choice"
 )
 
 type WordJoinedSpreadMetrics struct {
@@ -53,13 +51,9 @@ func New(
 		urlMetadataLookupRound:         urlMetadataLookupRoundMetricsRegisteredIn(registry),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
-				Name: "yacydhtsearch_word_joined_spread_duration_seconds",
-				Help: "Word joined spread duration in seconds.",
-				Buckets: prometheusclient.ExponentialBucketsRange(
-					queryBudget.Seconds()*shortestDurationBucketShareOfQueryBudget,
-					queryBudget.Seconds()*longestDurationBucketShareOfQueryBudget,
-					amountOfDurationBuckets,
-				),
+				Name:    "yacydhtsearch_word_joined_spread_duration_seconds",
+				Help:    "Word joined spread duration in seconds.",
+				Buckets: budgetbuckets.DurationBucketsFor(queryBudget),
 			},
 		),
 	}

@@ -4,11 +4,11 @@ package prometheus
 
 import (
 	"context"
-	"math"
 	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
@@ -21,11 +21,7 @@ const (
 	outcomePeerUnreachable     = "unreachable"
 	outcomePeerUnreadable      = "unreadable"
 	outcomePeerCallCancelled   = "cancelled"
-	durationBucketRatio        = 1.6
-	bucketsUpToBudget          = 15
 )
-
-var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type PeerCallMetrics struct {
 	peerCallsPerAskedFor     map[peerasks.AskedFor]peerCallsOfOneAsk
@@ -57,7 +53,7 @@ func New(
 	peerCallDurationSeconds := prometheusclient.NewHistogramVec(prometheusclient.HistogramOpts{
 		Name:    "yacydhtsearch_peer_call_duration_seconds",
 		Help:    "One peer call in seconds, by outcome and by what it asked for.",
-		Buckets: peerCallDurationBucketsFor(queryBudget),
+		Buckets: budgetbuckets.DurationBucketsFor(queryBudget),
 	}, []string{labelOutcome, labelAskedFor})
 	peerCallsWaitingForASlot := prometheusclient.NewGauge(prometheusclient.GaugeOpts{
 		Name: "yacydhtsearch_peer_calls_waiting_for_a_slot",
@@ -79,19 +75,6 @@ func New(
 		peerCallsPerAskedFor:     peerCallsPerAskedFor,
 		peerCallsWaitingForASlot: peerCallsWaitingForASlot,
 	}
-}
-
-func peerCallDurationBucketsFor(queryBudget time.Duration) []float64 {
-	seconds := queryBudget.Seconds()
-	buckets := make([]float64, 0, bucketsUpToBudget+len(overBudgetShares))
-	for step := bucketsUpToBudget - 1; step >= 0; step-- {
-		buckets = append(buckets, seconds/math.Pow(durationBucketRatio, float64(step)))
-	}
-	for _, share := range overBudgetShares {
-		buckets = append(buckets, seconds*share)
-	}
-
-	return buckets
 }
 
 func peerCallsOfOneAskFrom(

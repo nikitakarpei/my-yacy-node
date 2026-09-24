@@ -43,7 +43,7 @@ func TestEveryReasonAProbeFoundNoPeerIsPublishedApart(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, failure := range []string{
-		"unusableAddress", "noAnswer", "refused", "answerIncomplete", "noRWICount",
+		"unusable address", "no answer", "refused", "answer incomplete", "no RWI count",
 	} {
 		published := `yacydhtsearch_probe_failures_total{failure="` + failure + `"} 1`
 		if !strings.Contains(body, published) {
@@ -60,11 +60,11 @@ func TestEveryReasonAProbeFoundNoPeerIsPublishedBeforeTheFirstProbe(t *testing.T
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_probe_failures_total{failure="unusableAddress"} 0`,
-		`yacydhtsearch_probe_failures_total{failure="noAnswer"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="unusable address"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="no answer"} 0`,
 		`yacydhtsearch_probe_failures_total{failure="refused"} 0`,
-		`yacydhtsearch_probe_failures_total{failure="answerIncomplete"} 0`,
-		`yacydhtsearch_probe_failures_total{failure="noRWICount"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="answer incomplete"} 0`,
+		`yacydhtsearch_probe_failures_total{failure="no RWI count"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

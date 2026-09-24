@@ -40,9 +40,9 @@ func TestEverySnapshotFailureIsPublishedApartFromTheSnapshotsWritten(t *testing.
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotsUnread"} 1`,
-		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotUndecodable"} 1`,
-		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotUnwritten"} 1`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshots unread"} 1`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshot undecodable"} 1`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshot unwritten"} 1`,
 		"yacydhtsearch_peer_presence_snapshots_written_total 12",
 	} {
 		if !strings.Contains(body, published) {
@@ -59,9 +59,9 @@ func TestEverySnapshotFailureIsPublishedBeforeTheFirstSnapshot(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotsUnread"} 0`,
-		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotUndecodable"} 0`,
-		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshotUnwritten"} 0`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshots unread"} 0`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshot undecodable"} 0`,
+		`yacydhtsearch_peer_presence_snapshot_failures_total{failure="snapshot unwritten"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
