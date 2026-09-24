@@ -126,27 +126,31 @@ func grantedAnswerTimeOf(ctx context.Context) int {
 func (w Wire) AskForURLMetadata(
 	ctx context.Context,
 	asks []peerasks.URLMetadataAsk,
-) []peerasks.AnsweredURLMetadataAsk {
-	return putAsksToPeers(
-		ctx,
-		w.callsInFlight,
-		asks,
-		func(ask peerasks.URLMetadataAsk) (string, peerasks.AskedFor) {
-			return ask.Peer.Address, peerasks.URLMetadata
-		},
-		func(ask peerasks.URLMetadataAsk) (peerasks.AnsweredURLMetadataAsk, bool) {
-			return w.putURLMetadataAsk(ctx, ask)
-		},
-	)
+) <-chan peerasks.URLMetadataAskOutcome {
+	outcomesAsTheySettle := make(chan peerasks.URLMetadataAskOutcome, len(asks))
+	go func() {
+		defer close(outcomesAsTheySettle)
+		w.callsInFlight.putEveryPeerCallInTheOrderGiven(
+			ctx,
+			len(asks),
+			func(index int) (string, peerasks.AskedFor) {
+				return asks[index].Peer.Address, peerasks.URLMetadata
+			},
+			func(index int) { outcomesAsTheySettle <- w.putURLMetadataAsk(ctx, asks[index]) },
+		)
+	}()
+
+	return outcomesAsTheySettle
 }
 
 func (w Wire) putURLMetadataAsk(
 	ctx context.Context,
 	ask peerasks.URLMetadataAsk,
-) (peerasks.AnsweredURLMetadataAsk, bool) {
+) peerasks.URLMetadataAskOutcome {
 	ctx, endPeerCall := context.WithTimeout(ctx, w.urlMetadataCallBudget)
 	defer endPeerCall()
 	startedAt := time.Now()
+	outcome := peerasks.URLMetadataAskOutcome{Ask: ask, Put: true}
 	response, ok := w.urlMetadataResponse(
 		ctx,
 		peerCall{
@@ -158,14 +162,17 @@ func (w Wire) putURLMetadataAsk(
 		startedAt,
 	)
 	if !ok {
-		return peerasks.AnsweredURLMetadataAsk{}, false
+		return outcome
 	}
 
 	w.observer.PeerAnsweredURLMetadata(
 		ctx, ask.Peer.Address, len(response.URLs), time.Since(startedAt),
 	)
+	outcome.Answer = yacymodel.Some(
+		peerasks.AnsweredURLMetadataAsk{Ask: ask, MetadataOfEachDocument: response.URLs},
+	)
 
-	return peerasks.AnsweredURLMetadataAsk{Ask: ask, MetadataOfEachDocument: response.URLs}, true
+	return outcome
 }
 
 func (w Wire) requestForURLMetadata(ask peerasks.URLMetadataAsk) yacyproto.URLMetadataRequest {

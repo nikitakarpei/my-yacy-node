@@ -85,5 +85,6 @@ func attributesOfURLMetadataLookupRound(
 			"amountOfLookedUpDocumentsWithMetadata",
 			round.AmountOfLookedUpDocumentsWithMetadata,
 		),
+		slog.String("urlMetadataLookupEndReason", string(round.EndReason)),
 	}
 }

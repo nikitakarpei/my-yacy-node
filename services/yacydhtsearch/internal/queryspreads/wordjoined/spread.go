@@ -22,7 +22,7 @@ type PeerAsks interface {
 	AskForURLMetadata(
 		ctx context.Context,
 		asks []peerasks.URLMetadataAsk,
-	) []peerasks.AnsweredURLMetadataAsk
+	) <-chan peerasks.URLMetadataAskOutcome
 }
 
 type Spread struct {
@@ -133,10 +133,17 @@ func (spread Spread) askForURLMetadata(
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadataLookup)
 	defer endRound()
+	lookupContext, endLookup := context.WithCancel(roundContext)
+	lookupInFlight := urlMetadataLookupInFlightOf(asks)
+	answeredAsks, endReason := lookupInFlight.settleUntilCoverage(
+		spread.peerAsks.AskForURLMetadata(lookupContext, asks),
+	)
+	endLookup()
 
 	return urlMetadataLookupRound{
 		documentsWithoutMetadata: documentsWithoutMetadata,
 		asks:                     asks,
-		answeredAsks:             spread.peerAsks.AskForURLMetadata(roundContext, asks),
+		answeredAsks:             answeredAsks,
+		endReason:                endReason,
 	}
 }
