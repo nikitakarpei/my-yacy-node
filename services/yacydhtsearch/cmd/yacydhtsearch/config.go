@@ -74,7 +74,7 @@ const (
 	DefaultNetworkRedundancy                = 3
 	DefaultHedgeDelay                       = 500 * time.Millisecond
 	DefaultReplicasCoveringAPartition       = 1
-	DefaultPeerCallsInFlight                = 48
+	DefaultPeerCallsInFlight                = 160
 	DefaultURLMetadataCallBudget            = 3 * time.Second
 	DefaultSearchCallBudget                 = 2 * time.Second
 	DefaultProbesInFlight                   = 24

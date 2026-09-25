@@ -42,6 +42,9 @@ func discoveryRoundMetricsRegisteredIn(
 			wordjoined.OtherWordAsksSkipped: otherWordAskPartitions.WithLabelValues(
 				string(wordjoined.OtherWordAsksSkipped),
 			),
+			wordjoined.OtherWordAsksPredictedOverTheCeiling: otherWordAskPartitions.WithLabelValues(
+				string(wordjoined.OtherWordAsksPredictedOverTheCeiling),
+			),
 		},
 	}
 	registry.MustRegister(

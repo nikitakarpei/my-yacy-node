@@ -84,7 +84,7 @@ A query asks the peers that hold its words in each partition of the ring. A quer
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
+| `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `160` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_URL_METADATA_CALL_BUDGET` | `3s` | Time one peer call for URL metadata may take once it runs. |
 | `YACYDHTSEARCH_SEARCH_CALL_BUDGET` | `2s` | Time one peer call for a search may take once it runs. |
 | `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time a peer call stays unanswered before the service also asks another peer that holds the same postings. |
