@@ -1,6 +1,7 @@
 package sitediscount_test
 
 import (
+	"context"
 	"slices"
 	"testing"
 
@@ -14,6 +15,7 @@ type relevanceOfTheGivenDocuments struct {
 }
 
 func (given relevanceOfTheGivenDocuments) RelevancePerDocumentOf(
+	_ context.Context,
 	_ queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	return given.relevancePerDocument
@@ -47,7 +49,7 @@ func addressesOrderedWithTheSiteDiscount(
 
 	orderedDocuments := sitediscount.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
-	).OrderedDocumentsOf(queryanswers.AnsweredQuery{
+	).OrderedDocumentsOf(t.Context(), queryanswers.AnsweredQuery{
 		FoundDocuments: foundDocuments,
 	})
 	orderedAddresses := make([]string, 0, len(orderedDocuments))
@@ -222,7 +224,7 @@ func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
 		},
 	}
 
-	sitediscount.New(relevanceByFoundPlace{}).OrderedDocumentsOf(answers)
+	sitediscount.New(relevanceByFoundPlace{}).OrderedDocumentsOf(t.Context(), answers)
 
 	if answers.FoundDocuments[0].Address != "https://less.example/" {
 		t.Fatalf("the answers read %v after ordering, want the order they were found in",
@@ -244,6 +246,7 @@ func foundDocumentAt(t *testing.T, address string) queryanswers.FoundDocument {
 type relevanceByFoundPlace struct{}
 
 func (relevanceByFoundPlace) RelevancePerDocumentOf(
+	_ context.Context,
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	relevancePerDocument := map[yacymodel.URLHash]float64{}

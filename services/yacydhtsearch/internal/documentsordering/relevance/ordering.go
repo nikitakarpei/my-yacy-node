@@ -5,6 +5,7 @@ package relevance
 
 import (
 	"cmp"
+	"context"
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
@@ -12,7 +13,10 @@ import (
 )
 
 type DocumentRelevance interface {
-	RelevancePerDocumentOf(answers queryanswers.AnsweredQuery) map[yacymodel.URLHash]float64
+	RelevancePerDocumentOf(
+		ctx context.Context,
+		answers queryanswers.AnsweredQuery,
+	) map[yacymodel.URLHash]float64
 }
 
 type Ordering struct {
@@ -24,11 +28,12 @@ func New(documentRelevance DocumentRelevance) Ordering {
 }
 
 func (ordering Ordering) OrderedDocumentsOf(
+	ctx context.Context,
 	answers queryanswers.AnsweredQuery,
 ) []queryanswers.FoundDocument {
 	return documentsInFallingOrderOfRelevance(
 		slices.Clone(answers.FoundDocuments),
-		ordering.documentRelevance.RelevancePerDocumentOf(answers),
+		ordering.documentRelevance.RelevancePerDocumentOf(ctx, answers),
 	)
 }
 

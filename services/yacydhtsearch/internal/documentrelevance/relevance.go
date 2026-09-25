@@ -5,6 +5,8 @@
 package documentrelevance
 
 import (
+	"context"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -18,6 +20,7 @@ func RelevanceScorerWeighedBy(relevanceWeights RelevanceWeights) RelevanceScorer
 }
 
 func (relevanceScorer RelevanceScorer) RelevancePerDocumentOf(
+	_ context.Context,
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	scoring := relevanceScorer.scoringOf(answers)

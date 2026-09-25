@@ -1,6 +1,7 @@
 package relevance_test
 
 import (
+	"context"
 	"slices"
 	"testing"
 
@@ -14,6 +15,7 @@ type relevanceOfTheGivenDocuments struct {
 }
 
 func (given relevanceOfTheGivenDocuments) RelevancePerDocumentOf(
+	_ context.Context,
 	_ queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	return given.relevancePerDocument
@@ -45,7 +47,7 @@ func addressesOrderedByRelevance(
 
 	orderedDocuments := relevance.New(
 		relevanceOfTheGivenDocuments{relevancePerDocument: relevancePerDocument},
-	).OrderedDocumentsOf(queryanswers.AnsweredQuery{
+	).OrderedDocumentsOf(t.Context(), queryanswers.AnsweredQuery{
 		FoundDocuments: foundDocuments,
 	})
 
@@ -111,7 +113,7 @@ func TestOrderingLeavesTheFoundDocumentsOfTheAnswersInTheirOrder(t *testing.T) {
 		},
 	}
 
-	relevance.New(relevanceByFoundPlace{}).OrderedDocumentsOf(answers)
+	relevance.New(relevanceByFoundPlace{}).OrderedDocumentsOf(t.Context(), answers)
 
 	if answers.FoundDocuments[0].Address != "https://less.example/" {
 		t.Fatalf("the answers read %v after ordering, want the order they were found in",
@@ -133,6 +135,7 @@ func foundDocumentAt(t *testing.T, address string) queryanswers.FoundDocument {
 type relevanceByFoundPlace struct{}
 
 func (relevanceByFoundPlace) RelevancePerDocumentOf(
+	_ context.Context,
 	answers queryanswers.AnsweredQuery,
 ) map[yacymodel.URLHash]float64 {
 	relevancePerDocument := map[yacymodel.URLHash]float64{}

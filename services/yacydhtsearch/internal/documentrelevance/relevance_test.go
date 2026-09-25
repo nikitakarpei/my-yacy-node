@@ -2,6 +2,7 @@ package documentrelevance_test
 
 import (
 	"cmp"
+	"context"
 	"maps"
 	"slices"
 	"testing"
@@ -154,7 +155,7 @@ func addressesInFallingOrderOfRelevanceBy(
 	relevanceWeights documentrelevance.RelevanceWeights, answers queryanswers.AnsweredQuery,
 ) []string {
 	relevancePerDocument := documentrelevance.RelevanceScorerWeighedBy(relevanceWeights).
-		RelevancePerDocumentOf(answers)
+		RelevancePerDocumentOf(context.Background(), answers)
 	foundDocuments := slices.Clone(answers.FoundDocuments)
 	slices.SortStableFunc(foundDocuments, func(one, other queryanswers.FoundDocument) int {
 		return cmp.Compare(
@@ -295,7 +296,7 @@ func relevanceOfDocumentAt(
 	}
 
 	return documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()).
-		RelevancePerDocumentOf(answers)[hash]
+		RelevancePerDocumentOf(t.Context(), answers)[hash]
 }
 
 func TestDocumentOfHitOfEveryQueryWordHoldsSameRelevanceHoweverLongTheQueryIs(t *testing.T) {
@@ -603,7 +604,7 @@ func TestTwoDocumentsOfSameCountedHitsHoldSameRelevance(t *testing.T) {
 	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
 		documentrelevance.DefaultRelevanceWeights(),
 	)
-	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(t.Context(), answers)
 	relevanceOfDocuments := slices.Collect(maps.Values(relevancePerDocument))
 	if len(relevanceOfDocuments) != 2 ||
 		relevanceOfDocuments[0] != relevanceOfDocuments[1] {
@@ -710,7 +711,7 @@ func TestDocumentOfLinksEnoughKeepsRelevanceOfFurtherLinkedDocument(t *testing.T
 	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
 		documentrelevance.DefaultRelevanceWeights(),
 	)
-	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(t.Context(), answers)
 	linked := relevancePerDocument[answers.FoundDocuments[0].Hash]
 	furtherLinked := relevancePerDocument[answers.FoundDocuments[1].Hash]
 	if linked != furtherLinked {
@@ -742,7 +743,7 @@ func TestUnreadDocumentKeepsRelevanceOfApartDocument(t *testing.T) {
 	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
 		documentrelevance.DefaultRelevanceWeights(),
 	)
-	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(t.Context(), answers)
 	apart := relevancePerDocument[answers.FoundDocuments[1].Hash]
 	if unreadRelevance := relevancePerDocument[unread.Hash]; unreadRelevance < apart {
 		t.Fatalf(
@@ -791,11 +792,11 @@ func TestRelevanceOfReadDocumentHoldsHoweverManyUnreadDocumentsTheAnswersHold(t 
 		documentrelevance.DefaultRelevanceWeights(),
 	)
 	amongReadDocuments := relevanceScorer.
-		RelevancePerDocumentOf(answersHoldingDocumentsPerQueryWord(
+		RelevancePerDocumentOf(t.Context(), answersHoldingDocumentsPerQueryWord(
 			[]string{"berlin"}, readDocuments, documentsHeldPerWord,
 		))
 	amongUnreadDocumentsToo := relevanceScorer.
-		RelevancePerDocumentOf(answersHoldingDocumentsPerQueryWord(
+		RelevancePerDocumentOf(t.Context(), answersHoldingDocumentsPerQueryWord(
 			[]string{"berlin"},
 			append(
 				slices.Clone(readDocuments),

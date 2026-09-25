@@ -1,6 +1,7 @@
 package judgedqueries_test
 
 import (
+	"context"
 	"maps"
 	"slices"
 	"testing"
@@ -106,6 +107,7 @@ func reportGainPerQuery(t *testing.T, serviceOrder orderedQueries, gain gainPerO
 type foundOrder struct{}
 
 func (foundOrder) OrderedDocumentsOf(
+	_ context.Context,
 	answers queryanswers.AnsweredQuery,
 ) []queryanswers.FoundDocument {
 	return answers.FoundDocuments

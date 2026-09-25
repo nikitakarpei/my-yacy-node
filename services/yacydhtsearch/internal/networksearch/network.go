@@ -34,7 +34,10 @@ type QuerySpread interface {
 }
 
 type DocumentsOrdering interface {
-	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
+	OrderedDocumentsOf(
+		ctx context.Context,
+		answers queryanswers.AnsweredQuery,
+	) []queryanswers.FoundDocument
 }
 
 type PageReading interface {
@@ -129,7 +132,7 @@ func (n Network) Search(
 	defer endTheQuerySpread()
 	answers := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
 	documentsToRead := documentsToReadAmong(
-		n.documentsOrdering.OrderedDocumentsOf(answers),
+		n.documentsOrdering.OrderedDocumentsOf(ctx, answers),
 		n.pagesReadPerQuery,
 		n.pagesReadPerSite,
 	)
@@ -140,7 +143,7 @@ func (n Network) Search(
 		WithReadPages(readPages.PageContentsPerDocument).
 		WithoutDocuments(readPages.GoneDocuments)
 	rankedDocuments := documentsUpTo(
-		n.documentsOrdering.OrderedDocumentsOf(answersWithReadPages),
+		n.documentsOrdering.OrderedDocumentsOf(ctx, answersWithReadPages),
 		n.rankedItemsCeiling,
 	)
 	n.observer.NetworkSearchPerformed(

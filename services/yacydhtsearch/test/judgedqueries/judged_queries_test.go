@@ -1,6 +1,7 @@
 package judgedqueries_test
 
 import (
+	"context"
 	"runtime"
 	"sync"
 	"testing"
@@ -18,7 +19,10 @@ type judgedQuery struct {
 type judgedQueries []judgedQuery
 
 type documentsOrdering interface {
-	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
+	OrderedDocumentsOf(
+		ctx context.Context,
+		answers queryanswers.AnsweredQuery,
+	) []queryanswers.FoundDocument
 }
 
 func judgedQueriesRecorded(t *testing.T) judgedQueries {
@@ -81,8 +85,11 @@ func (queries judgedQueries) orderedBy(ordering documentsOrdering) orderedQuerie
 	ordered := make(orderedQueries, 0, len(queries))
 	for _, judgedQuery := range queries {
 		ordered = append(ordered, orderedQuery{
-			judgedQuery:      judgedQuery,
-			orderedDocuments: ordering.OrderedDocumentsOf(judgedQuery.answers),
+			judgedQuery: judgedQuery,
+			orderedDocuments: ordering.OrderedDocumentsOf(
+				context.Background(),
+				judgedQuery.answers,
+			),
 		})
 	}
 

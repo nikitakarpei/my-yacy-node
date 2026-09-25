@@ -1,6 +1,7 @@
 package judgedqueries_test
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"maps"
@@ -105,7 +106,7 @@ func (judgments queryJudgments) documentsToJudgeIn(
 ) []judgedDocument {
 	documentsToJudge := hashesOf(theFirstOf(answers.FoundDocuments))
 	maps.Copy(documentsToJudge, hashesOf(theFirstOf(
-		defaultServiceOrdering().OrderedDocumentsOf(answers),
+		defaultServiceOrdering().OrderedDocumentsOf(context.Background(), answers),
 	)))
 	for _, foundDocument := range answers.FoundDocuments {
 		if !foundDocument.Facts.AmountOfWords.Present() {

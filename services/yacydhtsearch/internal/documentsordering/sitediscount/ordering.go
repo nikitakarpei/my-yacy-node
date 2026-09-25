@@ -9,6 +9,7 @@ package sitediscount
 import (
 	"cmp"
 	"container/heap"
+	"context"
 	"math"
 	"slices"
 
@@ -22,7 +23,10 @@ const (
 )
 
 type DocumentRelevance interface {
-	RelevancePerDocumentOf(answers queryanswers.AnsweredQuery) map[yacymodel.URLHash]float64
+	RelevancePerDocumentOf(
+		ctx context.Context,
+		answers queryanswers.AnsweredQuery,
+	) map[yacymodel.URLHash]float64
 }
 
 type Ordering struct {
@@ -34,9 +38,10 @@ func New(documentRelevance DocumentRelevance) Ordering {
 }
 
 func (ordering Ordering) OrderedDocumentsOf(
+	ctx context.Context,
 	answers queryanswers.AnsweredQuery,
 ) []queryanswers.FoundDocument {
-	relevancePerDocument := ordering.documentRelevance.RelevancePerDocumentOf(answers)
+	relevancePerDocument := ordering.documentRelevance.RelevancePerDocumentOf(ctx, answers)
 
 	return documentsInFallingOrderOfDiscountedRelevance(
 		documentsInFallingOrderOfRelevance(

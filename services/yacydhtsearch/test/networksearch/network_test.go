@@ -311,6 +311,7 @@ func networkSearching(
 type orderingInTheFoundOrder struct{}
 
 func (orderingInTheFoundOrder) OrderedDocumentsOf(
+	_ context.Context,
 	answers queryanswers.AnsweredQuery,
 ) []queryanswers.FoundDocument {
 	return answers.FoundDocuments

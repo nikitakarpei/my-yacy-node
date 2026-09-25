@@ -214,7 +214,7 @@ func (recording judgedQueryRecording) pagesReadFor(
 ) []storedPage {
 	t.Helper()
 
-	orderedDocuments := defaultRelevanceOrdering().OrderedDocumentsOf(answers)
+	orderedDocuments := defaultRelevanceOrdering().OrderedDocumentsOf(t.Context(), answers)
 
 	return recording.fetching.fetchedPagesOf(
 		t.Context(), orderedDocuments[:min(pagesReadPerQuery, len(orderedDocuments))],
