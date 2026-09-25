@@ -11,7 +11,7 @@
       "hash": "Kc02xl1nrxbw",
       "address": "https://www.debian.org/",
       "title": "Debian -- The Universal Operating System",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "T2EF52bypRQw",
@@ -197,7 +197,7 @@
       "hash": "OYZdJl1nrxbw",
       "address": "https://www.debian.org/support",
       "title": "Debian -- User Support",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "WT6Pnl1nrxbw",
@@ -377,7 +377,7 @@
       "hash": "hHd8XQFF1ENw",
       "address": "https://wiki.debian.org/copyright.html",
       "title": "copyright.html - Debian Wiki",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "mxi9VQFF1ENw",

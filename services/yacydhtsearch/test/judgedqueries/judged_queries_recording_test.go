@@ -159,6 +159,20 @@ var recordedQueries = []string{
 	"how to spot a fake watch",
 	"essay writing service",
 	"how to write an essay",
+	"nhs online pharmacy",
+	"credit union personal loan",
+	"bitcoin exchange",
+	"gamstop",
+	"gamcare",
+	"gambling commission",
+	"coinbase",
+	"binance",
+	"experian credit report",
+	"best unsecured loans",
+	"erectile dysfunction",
+	"prescription prices",
+	"glp-1 medicines",
+	"essay writing guide",
 }
 
 func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {

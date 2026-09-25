@@ -311,7 +311,7 @@
       "hash": "CUlDfPMW35a4",
       "address": "https://hub.docker.com/_/redis",
       "title": "redis - Official Image | Docker Hub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "CVF_KUjw1Zlx",
@@ -329,7 +329,7 @@
       "hash": "5izTqPMW35a4",
       "address": "https://hub.docker.com/_/mysql",
       "title": "mysql - Official Image | Docker Hub",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "jilUNUjw1Zlx",

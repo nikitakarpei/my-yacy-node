@@ -33,12 +33,15 @@ the page does not change the grade.
 ## The spam mark
 
 `"spam": true` marks a page that deceives the reader or the search engine
-about what it is: a doorway page, a link farm, a blog network page, a clone, a
-reused domain, a seller of medicines or fake goods, or a page full of spam.
+about what it is: a doorway page, a link farm, a blog network page, a copy of
+a site of a different owner, a reused domain, a seller of fake goods sold as
+genuine, a template affiliate page, a review that claims to be independent but
+is not, a page with hidden words its owner put there, a page stuffed with
+keywords or links, or a page that a different person added to a real site.
 
-The claims of a page, true or false, get no mark. Injected words, footer links
-or some spam comments on a real page get no mark.
+The claims of a page, true or false, get no mark. Words, footer links or spam
+comments that a different person put on a real page get no mark.
 
-## Health queries
+## Health claims
 
-A page against medical knowledge gets the grade `0`.
+A page with health claims against medical knowledge gets the grade `0`.

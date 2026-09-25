@@ -65,7 +65,7 @@
       "hash": "uEZoLvXKQKtw",
       "address": "https://docs.kernel.org/leds/index.html",
       "title": "LEDs — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "JLITKVI-vZCw",
@@ -149,7 +149,7 @@
       "hash": "QE4NFNXKQKtw",
       "address": "https://docs.kernel.org/netlabel/index.html",
       "title": "NetLabel — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "QZaZy0g5sCUy",
@@ -197,7 +197,7 @@
       "hash": "NsqhDqXKQKtw",
       "address": "https://docs.kernel.org/fpga/index.html",
       "title": "FPGA — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "PeoycG1ajpq5",
@@ -233,7 +233,7 @@
       "hash": "0qHLKIXKQKtw",
       "address": "https://docs.kernel.org/arch/arm/index.html",
       "title": "ARM Architecture — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "2oBoWVGZ4FKw",
@@ -269,7 +269,7 @@
       "hash": "CrsApVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/livepatch/index.html",
       "title": "Kernel Livepatching — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "ezt0MRLPB-C6",
@@ -305,13 +305,13 @@
       "hash": "6QS8lVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/dev-tools/index.html",
       "title": "Development tools for the kernel — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "SJBZeIXKQKtw",
       "address": "https://docs.kernel.org/arch/index.html",
       "title": "CPU Architectures — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "FJclwl6plxQx",
@@ -353,7 +353,7 @@
       "hash": "fq3pBVGZ4FKw",
       "address": "https://www.kernel.org/doc/html/latest/kbuild/index.html",
       "title": "Kernel Build System — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "fs8ziVGZ4FKw",
@@ -413,7 +413,7 @@
       "hash": "2j87xrXKQKtw",
       "address": "https://docs.kernel.org/wmi/index.html",
       "title": "WMI Subsystem — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "7yh0lVGZ4FKw",
@@ -431,7 +431,7 @@
       "hash": "k94uERXKQKtw",
       "address": "https://docs.kernel.org/input/index.html",
       "title": "Input Documentation — The Linux Kernel documentation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "omgCZMZ5FD3x",
