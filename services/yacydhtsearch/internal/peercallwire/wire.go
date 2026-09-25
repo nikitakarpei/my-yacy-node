@@ -19,10 +19,11 @@ import (
 const grantedAnswerMargin = time.Second
 
 type peerCall struct {
-	address  string
-	path     string
-	askedFor peerasks.AskedFor
-	form     url.Values
+	address                string
+	path                   string
+	askedFor               peerasks.AskedFor
+	amountOfDocumentsAsked int
+	form                   url.Values
 }
 
 type Wire struct {
@@ -154,10 +155,11 @@ func (w Wire) putURLMetadataAsk(
 	response, ok := w.urlMetadataResponse(
 		ctx,
 		peerCall{
-			address:  ask.Peer.Address,
-			path:     yacyproto.PathURLMetadata,
-			askedFor: peerasks.URLMetadata,
-			form:     w.requestForURLMetadata(ask).Form(),
+			address:                ask.Peer.Address,
+			path:                   yacyproto.PathURLMetadata,
+			askedFor:               peerasks.URLMetadata,
+			amountOfDocumentsAsked: len(ask.Documents),
+			form:                   w.requestForURLMetadata(ask).Form(),
 		},
 		startedAt,
 	)
@@ -166,7 +168,7 @@ func (w Wire) putURLMetadataAsk(
 	}
 
 	w.observer.PeerAnsweredURLMetadata(
-		ctx, ask.Peer.Address, len(response.URLs), time.Since(startedAt),
+		ctx, ask.Peer.Address, len(ask.Documents), len(response.URLs), time.Since(startedAt),
 	)
 	outcome.Answer = yacymodel.Some(
 		peerasks.AnsweredURLMetadataAsk{Ask: ask, MetadataOfEachDocument: response.URLs},
@@ -195,7 +197,12 @@ func (w Wire) urlMetadataResponse(
 	response, err := yacyproto.ParseURLMetadataResponse(ctx, []byte(body))
 	if err != nil {
 		w.observer.PeerAnswerUnreadable(
-			ctx, call.address, call.askedFor, err, time.Since(startedAt),
+			ctx,
+			call.address,
+			call.askedFor,
+			call.amountOfDocumentsAsked,
+			err,
+			time.Since(startedAt),
 		)
 
 		return yacyproto.URLMetadataResponse{}, false
@@ -231,10 +238,11 @@ func (w Wire) putSearchDocumentsAsk(
 	response, ok := w.searchResponse(
 		ctx,
 		peerCall{
-			address:  ask.Peer.Address,
-			path:     yacyproto.PathSearch,
-			askedFor: peerasks.SearchDocuments,
-			form:     w.requestForSearchDocuments(ctx, ask).Form(),
+			address:                ask.Peer.Address,
+			path:                   yacyproto.PathSearch,
+			askedFor:               peerasks.SearchDocuments,
+			amountOfDocumentsAsked: len(ask.DocumentsToMatch),
+			form:                   w.requestForSearchDocuments(ctx, ask).Form(),
 		},
 		startedAt,
 	)
@@ -299,7 +307,12 @@ func (w Wire) searchResponse(
 	response, err := yacyproto.ParseSearchResponse(ctx, yacyproto.ParseMessage(body))
 	if err != nil {
 		w.observer.PeerAnswerUnreadable(
-			ctx, call.address, call.askedFor, err, time.Since(startedAt),
+			ctx,
+			call.address,
+			call.askedFor,
+			call.amountOfDocumentsAsked,
+			err,
+			time.Since(startedAt),
 		)
 
 		return yacyproto.SearchResponse{}, false
@@ -331,7 +344,12 @@ func (w Wire) answerBody(
 
 	if resp.StatusCode != http.StatusOK {
 		w.observer.PeerRefused(
-			ctx, call.address, call.askedFor, resp.StatusCode, time.Since(startedAt),
+			ctx,
+			call.address,
+			call.askedFor,
+			call.amountOfDocumentsAsked,
+			resp.StatusCode,
+			time.Since(startedAt),
 		)
 		return "", false
 	}
@@ -351,11 +369,24 @@ func (w Wire) reportUnansweredPeerCall(
 	spent time.Duration,
 ) {
 	if callWasCancelled(ctx) {
-		w.observer.PeerCallCancelled(ctx, call.address, call.askedFor, spent)
+		w.observer.PeerCallCancelled(
+			ctx,
+			call.address,
+			call.askedFor,
+			call.amountOfDocumentsAsked,
+			spent,
+		)
 
 		return
 	}
-	w.observer.PeerUnreachable(ctx, call.address, call.askedFor, cause, spent)
+	w.observer.PeerUnreachable(
+		ctx,
+		call.address,
+		call.askedFor,
+		call.amountOfDocumentsAsked,
+		cause,
+		spent,
+	)
 }
 
 func callWasCancelled(ctx context.Context) bool {
@@ -369,9 +400,22 @@ func (w Wire) reportUnreadAnswer(
 	spent time.Duration,
 ) {
 	if callWasCancelled(ctx) {
-		w.observer.PeerCallCancelled(ctx, call.address, call.askedFor, spent)
+		w.observer.PeerCallCancelled(
+			ctx,
+			call.address,
+			call.askedFor,
+			call.amountOfDocumentsAsked,
+			spent,
+		)
 
 		return
 	}
-	w.observer.PeerAnswerUnreadable(ctx, call.address, call.askedFor, cause, spent)
+	w.observer.PeerAnswerUnreadable(
+		ctx,
+		call.address,
+		call.askedFor,
+		call.amountOfDocumentsAsked,
+		cause,
+		spent,
+	)
 }

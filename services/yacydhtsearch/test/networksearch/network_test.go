@@ -67,29 +67,29 @@ func (silentOutcome) PeerCallTookASlot(
 ) {
 }
 
-func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, time.Duration) {}
+func (silentOutcome) PeerAnsweredURLMetadata(context.Context, string, int, int, time.Duration) {}
 func (silentOutcome) PeerSearchedDocuments(
 	context.Context, string, int, int, time.Duration,
 ) {
 }
 
 func (silentOutcome) PeerRefused(
-	context.Context, string, peerasks.AskedFor, int, time.Duration,
+	context.Context, string, peerasks.AskedFor, int, int, time.Duration,
 ) {
 }
 
 func (silentOutcome) PeerUnreachable(
-	context.Context, string, peerasks.AskedFor, error, time.Duration,
+	context.Context, string, peerasks.AskedFor, int, error, time.Duration,
 ) {
 }
 
 func (silentOutcome) PeerAnswerUnreadable(
-	context.Context, string, peerasks.AskedFor, error, time.Duration,
+	context.Context, string, peerasks.AskedFor, int, error, time.Duration,
 ) {
 }
 
 func (silentOutcome) PeerCallCancelled(
-	context.Context, string, peerasks.AskedFor, time.Duration,
+	context.Context, string, peerasks.AskedFor, int, time.Duration,
 ) {
 }
 

@@ -44,6 +44,7 @@ type recordedOutcome struct {
 	tookASlot                      int
 	waitsBeforeTheSlotWasTaken     int
 	askedFor                       peerasks.AskedFor
+	amountOfDocumentsAsked         int
 	spent                          time.Duration
 }
 
@@ -76,6 +77,7 @@ func (r *recordedOutcome) PeerCallTookASlot(
 func (r *recordedOutcome) PeerAnsweredURLMetadata(
 	_ context.Context,
 	_ string,
+	amountOfDocumentsAsked int,
 	amountOfDescribedDocuments int,
 	spent time.Duration,
 ) {
@@ -84,6 +86,7 @@ func (r *recordedOutcome) PeerAnsweredURLMetadata(
 
 	r.answeredURLMetadata++
 	r.amountOfDescribedDocuments = amountOfDescribedDocuments
+	r.amountOfDocumentsAsked = amountOfDocumentsAsked
 	r.spent = spent
 }
 
@@ -103,10 +106,12 @@ func (r *recordedOutcome) PeerSearchedDocuments(
 	r.spent = spent
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (r *recordedOutcome) PeerRefused(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	_ int,
 	spent time.Duration,
 ) {
@@ -115,13 +120,16 @@ func (r *recordedOutcome) PeerRefused(
 
 	r.refused++
 	r.askedFor = askedFor
+	r.amountOfDocumentsAsked = amountOfDocumentsAsked
 	r.spent = spent
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (r *recordedOutcome) PeerUnreachable(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	_ error,
 	spent time.Duration,
 ) {
@@ -130,13 +138,16 @@ func (r *recordedOutcome) PeerUnreachable(
 
 	r.unreachable++
 	r.askedFor = askedFor
+	r.amountOfDocumentsAsked = amountOfDocumentsAsked
 	r.spent = spent
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (r *recordedOutcome) PeerAnswerUnreadable(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	_ error,
 	spent time.Duration,
 ) {
@@ -145,6 +156,7 @@ func (r *recordedOutcome) PeerAnswerUnreadable(
 
 	r.unreadable++
 	r.askedFor = askedFor
+	r.amountOfDocumentsAsked = amountOfDocumentsAsked
 	r.spent = spent
 }
 
@@ -152,6 +164,7 @@ func (r *recordedOutcome) PeerCallCancelled(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	spent time.Duration,
 ) {
 	r.mutex.Lock()
@@ -159,6 +172,7 @@ func (r *recordedOutcome) PeerCallCancelled(
 
 	r.cancelled++
 	r.askedFor = askedFor
+	r.amountOfDocumentsAsked = amountOfDocumentsAsked
 	r.spent = spent
 }
 
@@ -733,7 +747,7 @@ func TestAnAnsweredURLMetadataAskIsReportedAsTheMetadataItIs(t *testing.T) {
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
-			Documents: []yacymodel.URLHash{document},
+			Documents: []yacymodel.URLHash{document, mustParseURLHash(t, "bbbbbbAAAAAA")},
 		}},
 	))
 
@@ -742,6 +756,12 @@ func TestAnAnsweredURLMetadataAskIsReportedAsTheMetadataItIs(t *testing.T) {
 			"PeerAnsweredURLMetadata reported %d times with %d documents, want once with one",
 			observer.answeredURLMetadata,
 			observer.amountOfDescribedDocuments,
+		)
+	}
+	if observer.amountOfDocumentsAsked != 2 {
+		t.Fatalf(
+			"the answer was reported for %d documents asked, want the two the ask named",
+			observer.amountOfDocumentsAsked,
 		)
 	}
 	if observer.answeredSearchDocuments != 0 {
@@ -970,7 +990,13 @@ func TestACallCancelledWhileThePeerAnswersIsNotReportedAsAnUnreachablePeer(t *te
 	}()
 
 	answeredAsks := wireTo(observer).AskForSearchDocuments(
-		ctx, []peerasks.SearchDocumentsAsk{{Peer: peerAt(server.URL)}},
+		ctx, []peerasks.SearchDocumentsAsk{{
+			Peer: peerAt(server.URL),
+			DocumentsToMatch: []yacymodel.URLHash{
+				mustParseURLHash(t, "bbbbbbAAAAAA"),
+				mustParseURLHash(t, "Q_ylfl--9bK5"),
+			},
+		}},
 	)
 
 	if len(answeredAsks) != 0 || observer.cancelled != 1 || observer.unreachable != 0 {
@@ -986,6 +1012,12 @@ func TestACallCancelledWhileThePeerAnswersIsNotReportedAsAnUnreachablePeer(t *te
 		t.Fatalf(
 			"the cancelled call named %q, want the search documents",
 			observer.askedFor,
+		)
+	}
+	if observer.amountOfDocumentsAsked != 2 {
+		t.Fatalf(
+			"the cancelled call was reported for %d documents asked, want the two it named",
+			observer.amountOfDocumentsAsked,
 		)
 	}
 }
