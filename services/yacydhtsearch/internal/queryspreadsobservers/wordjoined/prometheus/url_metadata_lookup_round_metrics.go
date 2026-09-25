@@ -12,6 +12,7 @@ type urlMetadataLookupRoundMetrics struct {
 	urlMetadataLookupsPerEndReason                  map[wordjoined.URLMetadataLookupEndReason]prometheusclient.Counter
 	joinedDocumentsDroppedBeforeMetadataLookupRatio prometheusclient.Histogram
 	lookedUpDocumentsWithoutMetadataRatio           prometheusclient.Histogram
+	urlMetadataAskDocuments                         prometheusclient.Histogram
 }
 
 func urlMetadataLookupRoundMetricsRegisteredIn(
@@ -44,11 +45,17 @@ func urlMetadataLookupRoundMetricsRegisteredIn(
 			"Share of the documents the spread looked metadata up for that no peer sent "+
 				"metadata for.",
 		),
+		urlMetadataAskDocuments: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacydhtsearch_word_joined_spread_url_metadata_ask_documents",
+			Help:    "Documents one URL metadata ask names, per ask sent.",
+			Buckets: []float64{25, 50, 100, 200, 400, 700, 1000},
+		}),
 	}
 	registry.MustRegister(
 		urlMetadataLookups,
 		metrics.joinedDocumentsDroppedBeforeMetadataLookupRatio,
 		metrics.lookedUpDocumentsWithoutMetadataRatio,
+		metrics.urlMetadataAskDocuments,
 	)
 
 	return metrics
@@ -82,4 +89,7 @@ func (m urlMetadataLookupRoundMetrics) observeURLMetadataLookupRound(
 				urlMetadataLookupRound.AmountOfLookedUpDocuments,
 			),
 	)
+	for _, amountOfDocuments := range urlMetadataLookupRound.AmountOfDocumentsPerAsk {
+		m.urlMetadataAskDocuments.Observe(float64(amountOfDocuments))
+	}
 }

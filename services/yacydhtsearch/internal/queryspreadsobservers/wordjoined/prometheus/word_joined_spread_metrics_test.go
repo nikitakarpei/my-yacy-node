@@ -128,6 +128,34 @@ func TestALookupThatWasCutOffIsCountedByItsCutoff(t *testing.T) {
 	}
 }
 
+func TestEachSentURLMetadataAskIsCountedByItsSize(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	spread := spreadJoiningDocuments(425)
+	spread.URLMetadataLookupRound = wordjoined.PerformedURLMetadataLookupRound{
+		AmountOfLookedUpDocuments:             425,
+		AmountOfLookedUpDocumentsWithMetadata: 425,
+		EndReason:                             wordjoined.URLMetadataLookupEndedByCoverage,
+		AmountOfDocumentsPerAsk:               []int{25, 400},
+	}
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_word_joined_spread_url_metadata_ask_documents_bucket{le="25"} 1`,
+		`yacydhtsearch_word_joined_spread_url_metadata_ask_documents_bucket{le="200"} 1`,
+		`yacydhtsearch_word_joined_spread_url_metadata_ask_documents_bucket{le="400"} 2`,
+		"yacydhtsearch_word_joined_spread_url_metadata_ask_documents_count 2",
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
+
 func spreadOfQueryWords(amountOfQueryWords int) wordjoined.PerformedWordJoinedSpread {
 	return wordjoined.PerformedWordJoinedSpread{
 		DiscoveryRound: wordjoined.PerformedDiscoveryRound{

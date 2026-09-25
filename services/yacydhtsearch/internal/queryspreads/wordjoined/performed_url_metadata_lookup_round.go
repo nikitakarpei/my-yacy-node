@@ -11,6 +11,7 @@ type PerformedURLMetadataLookupRound struct {
 	AmountOfLookedUpDocumentsWithMetadata int
 	EndReason                             URLMetadataLookupEndReason
 	AmountOfDocumentsCutOffDuringLookup   int
+	AmountOfDocumentsPerAsk               []int
 }
 
 func performedURLMetadataLookupRoundFrom(
@@ -26,7 +27,17 @@ func performedURLMetadataLookupRoundFrom(
 		),
 		EndReason:                           round.endReason,
 		AmountOfDocumentsCutOffDuringLookup: round.amountOfDocumentsCutOffDuringLookup,
+		AmountOfDocumentsPerAsk:             amountOfDocumentsPerAskIn(round.asks),
 	}
+}
+
+func amountOfDocumentsPerAskIn(asks []peerasks.URLMetadataAsk) []int {
+	amountOfDocumentsPerAsk := make([]int, 0, len(asks))
+	for _, ask := range asks {
+		amountOfDocumentsPerAsk = append(amountOfDocumentsPerAsk, len(ask.Documents))
+	}
+
+	return amountOfDocumentsPerAsk
 }
 
 func lookedUpDocumentsAcross(
