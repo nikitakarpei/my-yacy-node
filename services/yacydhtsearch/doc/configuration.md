@@ -78,6 +78,14 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | `YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS` | `3` | Most redirects followed to read one page. |
 | `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |
 
+## Ranking
+
+Without a list of well-linked hosts, the service ranks results by relevance alone. With one, a result of a host that is not on the list ranks lower. [well-linked-hosts.md](well-linked-hosts.md) tells how to make the list. A file that the service cannot read stops the service from starting. Give the same file to all instances that share one NATS address.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `YACYDHTSEARCH_WELL_LINKED_HOSTS_FILE` | none | Text file of well-linked host names, one on each line. |
+
 ## Peer calls
 
 A query asks the peers that hold its words in each partition of the ring. A query of more words asks some words only in the partitions where they can add results. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more calls at the same time, and lower it to put less load on the network. A call that waits for its turn uses the time of its query.

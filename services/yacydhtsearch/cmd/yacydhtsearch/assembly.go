@@ -7,6 +7,7 @@ import (
 	"math/rand/v2"
 	"net/http"
 	"net/http/pprof"
+	"os"
 	"time"
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
@@ -80,6 +81,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings"
 	peerpacesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings/peerpaces/memory"
 	urlmetadataaskceilingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilingsobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/welllinkedhostrelevance"
+	welllinkedhostrelevanceobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/welllinkedhostrelevanceobservers/applog"
+	welllinkedhostrelevanceobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/welllinkedhostrelevanceobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/welllinkedhosts/binaryfuse"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	yacyseedlistobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlistobservers/applog"
@@ -98,6 +103,7 @@ const (
 	presenceByteCeiling                = 512
 	msgServiceStarted                  = "yacydhtsearch started"
 	msgServiceStopped                  = "yacydhtsearch stopped"
+	msgWellLinkedHostsRead             = "well-linked hosts read"
 	pageFetchUserAgent                 = "yacydhtsearch (+https://yacy.net)"
 )
 
@@ -174,16 +180,16 @@ func RunService(
 	if err != nil {
 		return err
 	}
+	documentRelevance, err := documentRelevanceFor(ctx, cfg, registry)
+	if err != nil {
+		return err
+	}
 	network := networksearch.New(
 		directory,
 		choice,
 		querySpreadFor(cfg, peers, queryWordDocumentAmounts, urlMetadataAskCeilings, registry),
 		pageReading,
-		sitediscount.New(
-			documentrelevance.RelevanceScorerWeighedBy(
-				documentrelevance.DefaultRelevanceWeights(),
-			),
-		),
+		sitediscount.New(documentRelevance),
 		cfg.QueryBudget,
 		cfg.PageReadBudget,
 		cfg.PagesReadPerQuery,
@@ -484,6 +490,48 @@ func peerPresenceBucketAt(
 	}
 
 	return bucket, nil
+}
+
+func documentRelevanceFor(
+	ctx context.Context,
+	cfg ServiceConfig,
+	registry *prometheus.Registry,
+) (sitediscount.DocumentRelevance, error) {
+	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
+		documentrelevance.DefaultRelevanceWeights(),
+	)
+	if cfg.WellLinkedHostsFile == "" {
+		return relevanceScorer, nil
+	}
+
+	wellLinkedHosts, err := wellLinkedHostsIn(cfg.WellLinkedHostsFile)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", EnvWellLinkedHostsFile, err)
+	}
+	slog.InfoContext(ctx, msgWellLinkedHostsRead,
+		slog.String("wellLinkedHostsFile", cfg.WellLinkedHostsFile),
+		slog.Int("amountOfHosts", wellLinkedHosts.AmountOfHosts()),
+	)
+
+	return welllinkedhostrelevance.New(
+		relevanceScorer,
+		wellLinkedHosts,
+		welllinkedhostrelevance.RelevanceObservers{
+			welllinkedhostrelevanceobserversapplog.RelevanceLog{},
+			welllinkedhostrelevanceobserversprometheus.New(registry),
+		},
+	), nil
+}
+
+func wellLinkedHostsIn(file string) (binaryfuse.WellLinkedHosts, error) {
+	//nolint:gosec // G304: reading the file the operator names is the whole job.
+	hostList, err := os.Open(file)
+	if err != nil {
+		return binaryfuse.WellLinkedHosts{}, fmt.Errorf("open the host list: %w", err)
+	}
+	defer func() { _ = hostList.Close() }()
+
+	return binaryfuse.New(hostList)
 }
 
 func rankingCacheFor(

@@ -340,3 +340,25 @@ func TestTheServiceRefusesAPageReadDialModeItCannotSpeak(t *testing.T) {
 		t.Fatal("LoadServiceConfig accepted a dial mode the fetcher cannot speak")
 	}
 }
+
+func TestTheServiceRanksWithoutWellLinkedHostsUntilAnOperatorNamesThem(t *testing.T) {
+	t.Parallel()
+
+	cfg, err := main.LoadServiceConfig(environmentOf(minimalEnvironment()))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.WellLinkedHostsFile != "" {
+		t.Fatalf("well-linked hosts file = %q, want none", cfg.WellLinkedHostsFile)
+	}
+
+	environment := minimalEnvironment()
+	environment[main.EnvWellLinkedHostsFile] = " /data/well-linked-hosts.txt "
+	cfg, err = main.LoadServiceConfig(environmentOf(environment))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.WellLinkedHostsFile != "/data/well-linked-hosts.txt" {
+		t.Fatalf("well-linked hosts file = %q, want the one named", cfg.WellLinkedHostsFile)
+	}
+}

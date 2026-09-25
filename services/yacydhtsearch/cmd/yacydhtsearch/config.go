@@ -58,6 +58,7 @@ const (
 	EnvPagesReadPerQuery                = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
 	EnvPagesReadPerSite                 = "YACYDHTSEARCH_PAGES_READ_PER_SITE"
 	EnvCompoundWordsCeiling             = "YACYDHTSEARCH_COMPOUND_WORDS_CEILING"
+	EnvWellLinkedHostsFile              = "YACYDHTSEARCH_WELL_LINKED_HOSTS_FILE"
 	EnvPageReadBudget                   = "YACYDHTSEARCH_PAGE_READ_BUDGET"
 	EnvPageReadCutoffPercent            = "YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT"
 	EnvPageReadCutoffGrace              = "YACYDHTSEARCH_PAGE_READ_CUTOFF_GRACE"
@@ -153,6 +154,7 @@ type ServiceConfig struct {
 	RankingLifetime                  time.Duration
 	QueryWordDocumentAmountLifetime  time.Duration
 	QueryWordDocumentAmountsCapacity int
+	WellLinkedHostsFile              string
 
 	PagesReadPerQuery       int
 	PagesReadPerSite        int
@@ -269,6 +271,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		RankingLifetime:                  durations.rankingLifetime,
 		QueryWordDocumentAmountLifetime:  durations.queryWordDocumentAmountLifetime,
 		QueryWordDocumentAmountsCapacity: counts.queryWordDocumentAmountsCapacity,
+		WellLinkedHostsFile:              strings.TrimSpace(getenv(EnvWellLinkedHostsFile)),
 
 		PagesReadPerQuery:    counts.pagesReadPerQuery,
 		PagesReadPerSite:     counts.pagesReadPerSite,

@@ -6,6 +6,8 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -42,6 +44,40 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 
 	stop()
 	awaitStop(t, stopped)
+}
+
+func TestTheServicePublishesTheDocumentsItDemotesWhenGivenWellLinkedHosts(t *testing.T) {
+	cfg := serviceConfigOnReservedPorts(t)
+	cfg.WellLinkedHostsFile = filepath.Join(t.TempDir(), "well-linked-hosts.txt")
+	if err := os.WriteFile(cfg.WellLinkedHostsFile, []byte("kernel.org\n"), 0o600); err != nil {
+		t.Fatalf("write the host list: %v", err)
+	}
+
+	ctx, stop := context.WithCancel(t.Context())
+	stopped := make(chan error, 1)
+	go func() { stopped <- yacydhtsearch.RunService(ctx, cfg, prometheus.NewRegistry()) }()
+
+	metrics := bodyOnceServed(t, "http://"+cfg.OpsAddr+"/metrics")
+	if !strings.Contains(metrics, "yacydhtsearch_well_linked_host_demoted_documents_total") {
+		t.Fatalf("/metrics does not publish the demoted documents:\n%s", metrics)
+	}
+
+	stop()
+	awaitStop(t, stopped)
+}
+
+func TestTheServiceRefusesToStartWithoutTheWellLinkedHostsItIsGiven(t *testing.T) {
+	cfg := serviceConfigOnReservedPorts(t)
+	cfg.WellLinkedHostsFile = filepath.Join(t.TempDir(), "missing.txt")
+
+	err := yacydhtsearch.RunService(t.Context(), cfg, prometheus.NewRegistry())
+	if err == nil || !strings.Contains(err.Error(), yacydhtsearch.EnvWellLinkedHostsFile) {
+		t.Fatalf(
+			"RunService = %v, want an error naming %s",
+			err,
+			yacydhtsearch.EnvWellLinkedHostsFile,
+		)
+	}
 }
 
 func serviceConfigOnReservedPorts(t *testing.T) yacydhtsearch.ServiceConfig {
