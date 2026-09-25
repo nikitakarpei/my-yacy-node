@@ -67,6 +67,13 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		2,
 		time.Second,
 	)
+	metrics.PeerHeadersLate(
+		t.Context(),
+		"http://peer.example",
+		peerasks.SearchDocuments,
+		2,
+		time.Second,
+	)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
@@ -75,8 +82,10 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="unreachable"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="unreadable"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="cancelled"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="headers late"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="cancelled"} 0`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="cancelled"} 1`,
+		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="headers late"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="answered"} 1`,
 		`yacydhtsearch_peer_call_duration_seconds_sum{asked_for="search documents",outcome="unreachable"} 3`,
 	} {

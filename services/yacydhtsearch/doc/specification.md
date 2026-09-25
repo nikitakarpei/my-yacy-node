@@ -40,6 +40,8 @@ federated search across one configured YaCy DHT network — any configured netwo
   calls one query may put, and the per-query time budget.
 * The service SHALL end every peer call when the query's budget ends, and SHALL tell each peer
   how much of that budget its answer has, so one unresponsive peer cannot delay the answer.
+* The service SHALL fail a search call whose peer sends no headers within an operator-configured
+  time.
 * The service SHALL keep memory usage bounded independently of network size.
 * The service SHALL preserve compatibility with standard YaCy peer-to-peer contracts.
 * The service SHALL preserve compatibility with YaCy's public `/yacysearch.json` contract closely

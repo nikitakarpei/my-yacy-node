@@ -1,4 +1,5 @@
-// Package wallclock reads the operating system clock and sleeps against it.
+// Package wallclock reads the operating system clock, sleeps against it, and
+// runs a function once a timeout passed on it.
 package wallclock
 
 import (
@@ -25,6 +26,12 @@ func (Clock) Sleep(ctx context.Context, d time.Duration) error {
 	case <-timer.C:
 		return nil
 	}
+}
+
+func (Clock) After(timeout time.Duration, expire func()) (stop func()) {
+	timer := time.AfterFunc(timeout, expire)
+
+	return func() { timer.Stop() }
 }
 
 func cancellation(ctx context.Context) error {

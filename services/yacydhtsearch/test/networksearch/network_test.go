@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
@@ -85,6 +86,11 @@ func (silentOutcome) PeerUnreachable(
 
 func (silentOutcome) PeerAnswerUnreadable(
 	context.Context, string, peerasks.AskedFor, int, error, time.Duration,
+) {
+}
+
+func (silentOutcome) PeerHeadersLate(
+	context.Context, string, peerasks.AskedFor, int, time.Duration,
 ) {
 }
 
@@ -275,6 +281,7 @@ func peerCalls(t *testing.T) peercallwire.Wire {
 
 	return peercallwire.New(
 		http.DefaultClient,
+		wallclock.Clock{},
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions(t)},
 		peercallwire.PeerCallLimits{
 			MaxResponseBytes:      responseLimit,

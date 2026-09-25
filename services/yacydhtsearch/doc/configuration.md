@@ -87,6 +87,7 @@ A query asks the peers that hold its words in each partition of the ring. A quer
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `160` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_URL_METADATA_CALL_BUDGET` | `3s` | Time one peer call for URL metadata may take once it runs. |
 | `YACYDHTSEARCH_SEARCH_CALL_BUDGET` | `2s` | Time one peer call for a search may take once it runs. |
+| `YACYDHTSEARCH_SEARCH_CALL_HEADERS_TIMEOUT` | `1s` | Time a search call may wait for the peer's headers. A call without headers by then fails. `0` turns it off. |
 | `YACYDHTSEARCH_HEDGE_DELAY` | `500ms` | Time a peer call stays unanswered before the service also asks another peer that holds the same postings. |
 | `YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION` | `1` | Peers that must send documents for a word in one partition before the search stops asking the other peers that hold them. A value above the redundancy stops the service from starting. |
 | `YACYDHTSEARCH_COMPOUND_WORDS_CEILING` | `4` | Most compound words asked per query. A compound word is two or three adjacent query words spelled as one (`wordpress` for `word press`). |

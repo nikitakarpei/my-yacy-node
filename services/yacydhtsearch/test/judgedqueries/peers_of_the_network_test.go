@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
@@ -122,6 +123,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 	partitions := ringPartitions(t)
 	calledPeers := peercallwire.New(
 		http.DefaultClient,
+		wallclock.Clock{},
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: partitions},
 		peercallwire.PeerCallLimits{
 			MaxResponseBytes:      maxResponseBytes,

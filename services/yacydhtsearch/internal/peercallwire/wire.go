@@ -24,32 +24,38 @@ type peerCall struct {
 	askedFor               peerasks.AskedFor
 	amountOfDocumentsAsked int
 	form                   url.Values
+	headersTimeout         time.Duration
 }
 
 type Wire struct {
-	client                *http.Client
-	searchedNetwork       SearchedNetwork
-	maxResponseBytes      int64
-	callsInFlight         peerCallsInFlight
-	urlMetadataCallBudget time.Duration
-	searchCallBudget      time.Duration
-	observer              PeerCallObserver
+	client                   *http.Client
+	clock                    Clock
+	searchedNetwork          SearchedNetwork
+	maxResponseBytes         int64
+	callsInFlight            peerCallsInFlight
+	urlMetadataCallBudget    time.Duration
+	searchCallBudget         time.Duration
+	searchCallHeadersTimeout time.Duration
+	observer                 PeerCallObserver
 }
 
 func New(
 	client *http.Client,
+	clock Clock,
 	searchedNetwork SearchedNetwork,
 	limits PeerCallLimits,
 	observer PeerCallObserver,
 ) Wire {
 	return Wire{
-		client:                client,
-		searchedNetwork:       searchedNetwork,
-		maxResponseBytes:      limits.MaxResponseBytes,
-		callsInFlight:         newPeerCallsInFlight(limits.PeerCallsInFlight, observer),
-		urlMetadataCallBudget: limits.URLMetadataCallBudget,
-		searchCallBudget:      limits.SearchCallBudget,
-		observer:              observer,
+		client:                   client,
+		clock:                    clock,
+		searchedNetwork:          searchedNetwork,
+		maxResponseBytes:         limits.MaxResponseBytes,
+		callsInFlight:            newPeerCallsInFlight(limits.PeerCallsInFlight, observer),
+		urlMetadataCallBudget:    limits.URLMetadataCallBudget,
+		searchCallBudget:         limits.SearchCallBudget,
+		searchCallHeadersTimeout: limits.SearchCallHeadersTimeout,
+		observer:                 observer,
 	}
 }
 
@@ -243,6 +249,7 @@ func (w Wire) putSearchDocumentsAsk(
 			askedFor:               peerasks.SearchDocuments,
 			amountOfDocumentsAsked: len(ask.DocumentsToMatch),
 			form:                   w.requestForSearchDocuments(ctx, ask).Form(),
+			headersTimeout:         w.searchCallHeadersTimeout,
 		},
 		startedAt,
 	)
@@ -330,14 +337,23 @@ func (w Wire) answerBody(
 		ctx, http.MethodPost, call.address+call.path, strings.NewReader(call.form.Encode()),
 	)
 	if err != nil {
-		w.reportUnansweredPeerCall(ctx, call, err, time.Since(startedAt))
+		w.observer.PeerUnreachable(
+			ctx,
+			call.address,
+			call.askedFor,
+			call.amountOfDocumentsAsked,
+			err,
+			time.Since(startedAt),
+		)
 		return "", false
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	resp, err := w.client.Do(req)
+	headersWait := headersWaitWithin(ctx, call.headersTimeout, w.clock)
+	defer headersWait.end()
+	resp, err := headersWait.responseTo(w.client, req)
 	if err != nil {
-		w.reportUnansweredPeerCall(ctx, call, err, time.Since(startedAt))
+		w.reportUnansweredPeerCall(ctx, call, headersWait, err, time.Since(startedAt))
 		return "", false
 	}
 	defer func() { _ = resp.Body.Close() }()
@@ -365,9 +381,21 @@ func (w Wire) answerBody(
 func (w Wire) reportUnansweredPeerCall(
 	ctx context.Context,
 	call peerCall,
+	headersWait *headersWait,
 	cause error,
 	spent time.Duration,
 ) {
+	if headersWait.headersLate.Load() {
+		w.observer.PeerHeadersLate(
+			ctx,
+			call.address,
+			call.askedFor,
+			call.amountOfDocumentsAsked,
+			spent,
+		)
+
+		return
+	}
 	if callWasCancelled(ctx) {
 		w.observer.PeerCallCancelled(
 			ctx,

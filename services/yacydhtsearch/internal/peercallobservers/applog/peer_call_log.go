@@ -19,6 +19,7 @@ const (
 	msgPeerRefused             = "peer refused a search"
 	msgPeerUnreachable         = "peer could not be reached for a search"
 	msgPeerAnswerUnreadable    = "peer answered a search unreadably"
+	msgPeerHeadersLate         = "peer sent no headers within the headers timeout"
 )
 
 type PeerCallLog struct{}
@@ -127,6 +128,21 @@ func (PeerCallLog) PeerAnswerUnreadable(
 		slog.String("askedFor", string(askedFor)),
 		slog.Int("amountOfDocumentsAsked", amountOfDocumentsAsked),
 		slog.Any("error", cause),
+		slog.Duration("spent", spent),
+	)
+}
+
+func (PeerCallLog) PeerHeadersLate(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
+	spent time.Duration,
+) {
+	slog.WarnContext(ctx, msgPeerHeadersLate,
+		slog.String("address", address),
+		slog.String("askedFor", string(askedFor)),
+		slog.Int("amountOfDocumentsAsked", amountOfDocumentsAsked),
 		slog.Duration("spent", spent),
 	)
 }
