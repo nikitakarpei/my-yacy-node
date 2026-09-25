@@ -33,6 +33,7 @@ import (
 	pagereadingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereadingobservers/prometheus"
 	peercallobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/applog"
 	peercallobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/prometheus"
+	peercallobserversurlmetadataaskceilings "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/urlmetadataaskceilings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	peerchoiceobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoiceobservers/applog"
@@ -76,6 +77,9 @@ import (
 	replicaasksobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/applog"
 	replicaasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings"
+	peerpacesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings/peerpaces/memory"
+	urlmetadataaskceilingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilingsobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	yacyseedlistobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlistobservers/applog"
@@ -129,6 +133,13 @@ func RunService(
 			presence,
 		},
 	)
+	urlMetadataAskCeilings := urlmetadataaskceilings.New(
+		cfg.URLMetadataAskDocumentsCeiling,
+		cfg.URLMetadataAskDocumentsFloor,
+		cfg.URLMetadataAskTargetTime,
+		peerpacesmemory.New(),
+		urlmetadataaskceilingsobserversapplog.AskCeilingLog{},
+	)
 	peers := peercallwire.New(
 		outbound,
 		peercallwire.SearchedNetwork{Name: cfg.NetworkName, RingPartitions: cfg.Partitions},
@@ -141,6 +152,7 @@ func RunService(
 		peercallwire.PeerCallObservers{
 			peercallobserversapplog.PeerCallLog{},
 			peercallobserversprometheus.New(registry, cfg.QueryBudget),
+			peercallobserversurlmetadataaskceilings.New(urlMetadataAskCeilings),
 		},
 	)
 	choice := peerchoice.New(
@@ -165,7 +177,7 @@ func RunService(
 	network := networksearch.New(
 		directory,
 		choice,
-		querySpreadFor(cfg, peers, queryWordDocumentAmounts, registry),
+		querySpreadFor(cfg, peers, queryWordDocumentAmounts, urlMetadataAskCeilings, registry),
 		pageReading,
 		sitediscount.New(
 			documentrelevance.RelevanceScorerWeighedBy(
@@ -249,6 +261,7 @@ func querySpreadFor(
 	cfg ServiceConfig,
 	peers peercallwire.Wire,
 	queryWordDocumentAmounts wordjoined.QueryWordDocumentAmounts,
+	urlMetadataAskCeilings wordjoined.URLMetadataAskCeilings,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
 	replicaAsks := replicaasks.New(
@@ -268,7 +281,7 @@ func querySpreadFor(
 			queryWordDocumentAmounts,
 			cfg.URLMetadataLookupCutoff,
 			rand.UintN,
-			cfg.URLMetadataAskDocumentsCeiling,
+			urlMetadataAskCeilings,
 			cfg.DocumentsToMatchCeiling,
 			cfg.PeerItemsCeiling,
 			cfg.Partitions,
