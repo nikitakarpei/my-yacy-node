@@ -27,7 +27,8 @@ const (
 	EnvReplicasCoveringAPartition     = "YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION"
 	EnvHedgeDelay                     = "YACYDHTSEARCH_HEDGE_DELAY"
 	EnvPeerCallsInFlight              = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
-	EnvPeerCallBudget                 = "YACYDHTSEARCH_PEER_CALL_BUDGET"
+	EnvURLMetadataCallBudget          = "YACYDHTSEARCH_URL_METADATA_CALL_BUDGET"
+	EnvSearchCallBudget               = "YACYDHTSEARCH_SEARCH_CALL_BUDGET"
 	EnvProbesInFlight                 = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
 	EnvDirectoryCapacity              = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval                = "YACYDHTSEARCH_REFRESH_INTERVAL"
@@ -62,7 +63,8 @@ const (
 	DefaultHedgeDelay                     = 500 * time.Millisecond
 	DefaultReplicasCoveringAPartition     = 1
 	DefaultPeerCallsInFlight              = 48
-	DefaultPeerCallBudget                 = 3 * time.Second
+	DefaultURLMetadataCallBudget          = 3 * time.Second
+	DefaultSearchCallBudget               = 2 * time.Second
 	DefaultProbesInFlight                 = 24
 	DefaultDirectoryCapacity              = 4096
 	DefaultRefreshInterval                = 5 * time.Minute
@@ -102,7 +104,8 @@ type ServiceConfig struct {
 	ReplicasCoveringAPartition     int
 	HedgeDelay                     time.Duration
 	PeerCallsInFlight              int
-	PeerCallBudget                 time.Duration
+	URLMetadataCallBudget          time.Duration
+	SearchCallBudget               time.Duration
 	ProbesInFlight                 int
 	DirectoryCapacity              int
 	NewcomerShare                  float64
@@ -206,7 +209,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		ReplicasCoveringAPartition:     replicasCoveringAPartition,
 		HedgeDelay:                     durations.hedgeDelay,
 		PeerCallsInFlight:              counts.peerCallsInFlight,
-		PeerCallBudget:                 durations.peerCallBudget,
+		URLMetadataCallBudget:          durations.urlMetadataCallBudget,
+		SearchCallBudget:               durations.searchCallBudget,
 		ProbesInFlight:                 counts.probesInFlight,
 		DirectoryCapacity:              counts.directoryCapacity,
 		NewcomerShare:                  newcomerShare,
@@ -239,7 +243,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 type configuredDurations struct {
 	queryBudget               time.Duration
 	hedgeDelay                time.Duration
-	peerCallBudget            time.Duration
+	urlMetadataCallBudget     time.Duration
+	searchCallBudget          time.Duration
 	refreshInterval           time.Duration
 	probeBudget               time.Duration
 	continuityLimit           time.Duration
@@ -261,7 +266,8 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 	}{
 		{EnvQueryBudget, DefaultQueryBudget, &durations.queryBudget},
 		{EnvHedgeDelay, DefaultHedgeDelay, &durations.hedgeDelay},
-		{EnvPeerCallBudget, DefaultPeerCallBudget, &durations.peerCallBudget},
+		{EnvURLMetadataCallBudget, DefaultURLMetadataCallBudget, &durations.urlMetadataCallBudget},
+		{EnvSearchCallBudget, DefaultSearchCallBudget, &durations.searchCallBudget},
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
 		{EnvContinuityLimit, DefaultContinuityLimit, &durations.continuityLimit},

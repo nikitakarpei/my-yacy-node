@@ -37,7 +37,8 @@ const (
 	probesInFlight                 = 24
 	networkRedundancy              = 3
 	peerCallsInFlight              = 48
-	peerCallBudget                 = 5 * time.Second
+	urlMetadataCallBudget          = 5 * time.Second
+	searchCallBudget               = 5 * time.Second
 	peerItemsCeiling               = 10
 	compoundWordsCeiling           = 4
 	urlMetadataAskDocumentsCeiling = 1000
@@ -121,15 +122,16 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		http.DefaultClient,
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: partitions},
 		peercallwire.PeerCallLimits{
-			MaxResponseBytes:  maxResponseBytes,
-			PeerCallsInFlight: peerCallsInFlight,
-			PeerCallBudget:    peerCallBudget,
+			MaxResponseBytes:      maxResponseBytes,
+			PeerCallsInFlight:     peerCallsInFlight,
+			URLMetadataCallBudget: urlMetadataCallBudget,
+			SearchCallBudget:      searchCallBudget,
 		},
 		peercallwire.PeerCallObservers{},
 	)
 	everyReplica := replicaasks.New(
 		calledPeers,
-		hedgedelaysconstant.New(peerCallBudget),
+		hedgedelaysconstant.New(searchCallBudget),
 		networkRedundancy,
 		replicaasks.ReplicaAsksObservers{},
 	)

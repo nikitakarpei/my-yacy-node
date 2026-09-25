@@ -22,9 +22,10 @@ const (
 	networkName    = "freeworld"
 	ringPartitions = yacymodel.DHTRingPartitions(16)
 
-	spreadBudgetOfTheTests   = 8 * time.Second
-	peerCallBudgetOfTheTests = 4 * time.Second
-	callsInFlightOfTheTests  = 48
+	spreadBudgetOfTheTests          = 8 * time.Second
+	urlMetadataCallBudgetOfTheTests = 4 * time.Second
+	searchCallBudgetOfTheTests      = 4 * time.Second
+	callsInFlightOfTheTests         = 48
 )
 
 type recordedOutcome struct {
@@ -168,28 +169,29 @@ func wireHolding(
 	callsInFlight int,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
-	return wireCalling(callsInFlight, peerCallBudgetOfTheTests, observer)
+	return wireCalling(callsInFlight, searchCallBudgetOfTheTests, observer)
 }
 
-func wireSpendingAtMost(
-	peerCallBudget time.Duration,
+func wireSearchingAtMost(
+	searchCallBudget time.Duration,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
-	return wireCalling(callsInFlightOfTheTests, peerCallBudget, observer)
+	return wireCalling(callsInFlightOfTheTests, searchCallBudget, observer)
 }
 
 func wireCalling(
 	callsInFlight int,
-	peerCallBudget time.Duration,
+	searchCallBudget time.Duration,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
 	return peercallwire.New(
 		http.DefaultClient,
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions},
 		peercallwire.PeerCallLimits{
-			MaxResponseBytes:  responseLimit,
-			PeerCallsInFlight: callsInFlight,
-			PeerCallBudget:    peerCallBudget,
+			MaxResponseBytes:      responseLimit,
+			PeerCallsInFlight:     callsInFlight,
+			URLMetadataCallBudget: urlMetadataCallBudgetOfTheTests,
+			SearchCallBudget:      searchCallBudget,
 		},
 		observer,
 	)
@@ -362,11 +364,11 @@ func TestASearchDocumentsAskCarriesTheQueryAndTheNetworkTheServiceSearches(t *te
 		t.Fatalf("request = %+v, want the network facts the service searches", request)
 	}
 	grantedAnswerTime := time.Duration(request.Time) * time.Millisecond
-	if grantedAnswerTime <= 0 || grantedAnswerTime >= peerCallBudgetOfTheTests {
+	if grantedAnswerTime <= 0 || grantedAnswerTime >= searchCallBudgetOfTheTests {
 		t.Fatalf(
 			"the peer was granted %v of the %v the call had, want less than the service waits",
 			grantedAnswerTime,
-			peerCallBudgetOfTheTests,
+			searchCallBudgetOfTheTests,
 		)
 	}
 	if len(request.Query) != 1 || request.Query[0] != yacymodel.WordHash("berlin") ||
@@ -379,12 +381,12 @@ func TestAPeerIsGrantedTheCallBudgetLessTheMarginTheAnswerNeeds(t *testing.T) {
 	t.Parallel()
 
 	const (
-		peerCallBudget   = 3 * time.Second
+		searchCallBudget = 3 * time.Second
 		answerMarginRoom = time.Second
 	)
 	address, requests := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
 
-	wireSpendingAtMost(peerCallBudget, &recordedOutcome{}).AskForSearchDocuments(
+	wireSearchingAtMost(searchCallBudget, &recordedOutcome{}).AskForSearchDocuments(
 		callWithin(t, spreadBudgetOfTheTests),
 		[]peerasks.SearchDocumentsAsk{{Peer: peerAt(address)}},
 	)
@@ -393,12 +395,12 @@ func TestAPeerIsGrantedTheCallBudgetLessTheMarginTheAnswerNeeds(t *testing.T) {
 		t.Fatalf("the peer received %d requests, want one", len(requests.received))
 	}
 	grantedAnswerTime := time.Duration(requests.received[0].Time) * time.Millisecond
-	if grantedAnswerTime <= 0 || grantedAnswerTime > peerCallBudget-answerMarginRoom {
+	if grantedAnswerTime <= 0 || grantedAnswerTime > searchCallBudget-answerMarginRoom {
 		t.Fatalf(
 			"the peer was granted %v of the %v budget, want at most %v",
 			grantedAnswerTime,
-			peerCallBudget,
-			peerCallBudget-answerMarginRoom,
+			searchCallBudget,
+			searchCallBudget-answerMarginRoom,
 		)
 	}
 }

@@ -127,9 +127,10 @@ func RunService(
 		outbound,
 		peercallwire.SearchedNetwork{Name: cfg.NetworkName, RingPartitions: cfg.Partitions},
 		peercallwire.PeerCallLimits{
-			MaxResponseBytes:  cfg.MaxResponseBytes,
-			PeerCallsInFlight: cfg.PeerCallsInFlight,
-			PeerCallBudget:    cfg.PeerCallBudget,
+			MaxResponseBytes:      cfg.MaxResponseBytes,
+			PeerCallsInFlight:     cfg.PeerCallsInFlight,
+			URLMetadataCallBudget: cfg.URLMetadataCallBudget,
+			SearchCallBudget:      cfg.SearchCallBudget,
 		},
 		peercallwire.PeerCallObservers{
 			peercallobserversapplog.PeerCallLog{},

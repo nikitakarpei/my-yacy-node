@@ -26,12 +26,13 @@ type peerCall struct {
 }
 
 type Wire struct {
-	client           *http.Client
-	searchedNetwork  SearchedNetwork
-	maxResponseBytes int64
-	callsInFlight    peerCallsInFlight
-	peerCallBudget   time.Duration
-	observer         PeerCallObserver
+	client                *http.Client
+	searchedNetwork       SearchedNetwork
+	maxResponseBytes      int64
+	callsInFlight         peerCallsInFlight
+	urlMetadataCallBudget time.Duration
+	searchCallBudget      time.Duration
+	observer              PeerCallObserver
 }
 
 func New(
@@ -41,12 +42,13 @@ func New(
 	observer PeerCallObserver,
 ) Wire {
 	return Wire{
-		client:           client,
-		searchedNetwork:  searchedNetwork,
-		maxResponseBytes: limits.MaxResponseBytes,
-		callsInFlight:    newPeerCallsInFlight(limits.PeerCallsInFlight, observer),
-		peerCallBudget:   limits.PeerCallBudget,
-		observer:         observer,
+		client:                client,
+		searchedNetwork:       searchedNetwork,
+		maxResponseBytes:      limits.MaxResponseBytes,
+		callsInFlight:         newPeerCallsInFlight(limits.PeerCallsInFlight, observer),
+		urlMetadataCallBudget: limits.URLMetadataCallBudget,
+		searchCallBudget:      limits.SearchCallBudget,
+		observer:              observer,
 	}
 }
 
@@ -142,7 +144,7 @@ func (w Wire) putURLMetadataAsk(
 	ctx context.Context,
 	ask peerasks.URLMetadataAsk,
 ) (peerasks.AnsweredURLMetadataAsk, bool) {
-	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
+	ctx, endPeerCall := context.WithTimeout(ctx, w.urlMetadataCallBudget)
 	defer endPeerCall()
 	startedAt := time.Now()
 	response, ok := w.urlMetadataResponse(
@@ -216,7 +218,7 @@ func (w Wire) putSearchDocumentsAsk(
 	ctx context.Context,
 	ask peerasks.SearchDocumentsAsk,
 ) (peerasks.AnsweredSearchDocumentsAsk, bool) {
-	ctx, endPeerCall := context.WithTimeout(ctx, w.peerCallBudget)
+	ctx, endPeerCall := context.WithTimeout(ctx, w.searchCallBudget)
 	defer endPeerCall()
 	startedAt := time.Now()
 	response, ok := w.searchResponse(
