@@ -52,6 +52,7 @@ func serviceConfigOnReservedPorts(t *testing.T) yacydhtsearch.ServiceConfig {
 		OpsAddr:                        reservedPort(t),
 		NetworkName:                    "freeworld",
 		SeedlistURLs:                   []string{"http://127.0.0.1:1/yacy/seedlist.html"},
+		SeedlistReadBudget:             time.Second,
 		EgressProxyURL:                 &url.URL{Scheme: "http", Host: "127.0.0.1:1"},
 		QueryBudget:                    time.Second,
 		NetworkRedundancy:              2,

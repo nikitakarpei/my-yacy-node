@@ -34,6 +34,7 @@ const (
 	directoryCapacity              = 4096
 	refreshInterval                = 5 * time.Minute
 	probeBudget                    = 3 * time.Second
+	seedlistReadBudget             = 10 * time.Second
 	probesInFlight                 = 24
 	networkRedundancy              = 3
 	peerCallsInFlight              = 48
@@ -84,6 +85,7 @@ func peersOfTheNetworkRefreshedOnce(t *testing.T) peersOfTheNetwork {
 			http.DefaultClient,
 			seedlistURLs,
 			maxResponseBytes,
+			seedlistReadBudget,
 			silentSeedlistObserver{},
 		),
 		directory,

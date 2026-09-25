@@ -209,6 +209,7 @@ func RunService(
 			outbound,
 			cfg.SeedlistURLs,
 			cfg.MaxResponseBytes,
+			cfg.SeedlistReadBudget,
 			yacyseedlistobserversapplog.SeedlistLog{},
 		),
 		directory,

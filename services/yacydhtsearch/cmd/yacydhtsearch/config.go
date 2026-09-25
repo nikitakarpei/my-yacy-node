@@ -21,6 +21,7 @@ const (
 	EnvServeProfiler                    = "YACYDHTSEARCH_SERVE_PROFILER"
 	EnvNetworkName                      = "YACYDHTSEARCH_NETWORK_NAME"
 	EnvSeedlistURLs                     = "YACYDHTSEARCH_SEEDLIST_URLS"
+	EnvSeedlistReadBudget               = "YACYDHTSEARCH_SEEDLIST_READ_BUDGET"
 	EnvEgressProxyURL                   = "EGRESS_PROXY_URL"
 	EnvPageReadProxyURL                 = "YACYDHTSEARCH_PAGE_READ_PROXY_URL"
 	EnvPageReadProxyDialMode            = "YACYDHTSEARCH_PAGE_READ_PROXY_DIAL_MODE"
@@ -79,6 +80,7 @@ const (
 	DefaultProbesInFlight                   = 24
 	DefaultDirectoryCapacity                = 4096
 	DefaultRefreshInterval                  = 5 * time.Minute
+	DefaultSeedlistReadBudget               = 10 * time.Second
 	DefaultNewcomerShare                    = 0.05
 	DefaultProbeBudget                      = 3 * time.Second
 	DefaultContinuityLimit                  = 15 * time.Minute
@@ -116,6 +118,7 @@ type ServiceConfig struct {
 	ServeProfiler                    bool
 	NetworkName                      string
 	SeedlistURLs                     []string
+	SeedlistReadBudget               time.Duration
 	EgressProxyURL                   *url.URL
 	PageReadProxyURL                 *url.URL
 	PageReadProxyDialMode            pagefetchershttp.ProxyDialMode
@@ -228,6 +231,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			yacyproto.DefaultNetwork,
 		),
 		SeedlistURLs:                   seedlistURLs,
+		SeedlistReadBudget:             durations.seedlistReadBudget,
 		EgressProxyURL:                 egressProxyURL,
 		PageReadProxyURL:               pageReadProxyURL,
 		PageReadProxyDialMode:          pageReadProxyDialMode,
@@ -286,6 +290,7 @@ type configuredDurations struct {
 	urlMetadataCallBudget           time.Duration
 	searchCallBudget                time.Duration
 	refreshInterval                 time.Duration
+	seedlistReadBudget              time.Duration
 	probeBudget                     time.Duration
 	continuityLimit                 time.Duration
 	probeAnswerHistoryKeptFor       time.Duration
@@ -313,6 +318,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		{EnvURLMetadataCallBudget, DefaultURLMetadataCallBudget, &durations.urlMetadataCallBudget},
 		{EnvSearchCallBudget, DefaultSearchCallBudget, &durations.searchCallBudget},
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
+		{EnvSeedlistReadBudget, DefaultSeedlistReadBudget, &durations.seedlistReadBudget},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
 		{EnvContinuityLimit, DefaultContinuityLimit, &durations.continuityLimit},
 		{EnvProbeAnswerHistoryKeptFor, DefaultProbeAnswerHistoryKeptFor, &durations.probeAnswerHistoryKeptFor},
