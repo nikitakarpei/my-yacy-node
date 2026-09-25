@@ -149,10 +149,15 @@ components:
     in: internal/peerpresence/memory/**
   peerreliability:
     in: internal/peerreliability/**
+  welllinkedhostsbinaryfuse:
+    in: internal/welllinkedhosts/binaryfuse/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
 vendors:
+  xorfilter:
+    in:
+      - github.com/FastFilter/xorfilter
   budgetbuckets:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets
@@ -479,6 +484,10 @@ deps:
     canUse:
       - yacymodel
       - prometheus
+  welllinkedhostsbinaryfuse:
+    canUse:
+      - xorfilter
+      - yacymodel
   yacydhtsearchcmd:
     anyProjectDeps: true
     anyVendorDeps: true

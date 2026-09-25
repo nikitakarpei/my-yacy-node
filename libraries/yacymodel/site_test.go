@@ -33,3 +33,19 @@ func TestTheSiteOfAnAddressWithoutAHostIsTheAddress(t *testing.T) {
 		}
 	}
 }
+
+func TestTheSiteOfAHostIsTheSiteOfEveryAddressItServes(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]string{
+		"www.kernel.org":     "https://www.kernel.org/",
+		"WWW.Kernel.ORG":     "http://WWW.Kernel.ORG/sub/dir",
+		"kernel.org.":        "https://kernel.org./",
+		"wwwtest.kernel.org": "https://wwwtest.kernel.org/",
+	}
+	for host, address := range cases {
+		if got, want := yacymodel.SiteOfHost(host), yacymodel.SiteOf(address); got != want {
+			t.Errorf("the site of host %q is %q, want %q as for %q", host, got, want, address)
+		}
+	}
+}

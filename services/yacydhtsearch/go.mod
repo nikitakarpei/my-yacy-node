@@ -3,6 +3,7 @@ module github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch
 go 1.27
 
 require (
+	github.com/FastFilter/xorfilter v0.5.1
 	github.com/clipperhouse/uax29/v2 v2.7.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/klauspost/compress v1.18.6
