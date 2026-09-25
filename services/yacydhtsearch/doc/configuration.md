@@ -91,4 +91,6 @@ A query asks the peers that hold its words in each partition of the ring. A quer
 | `YACYDHTSEARCH_COMPOUND_WORDS_CEILING` | `4` | Most compound words asked per query. A compound word is two or three adjacent query words spelled as one (`wordpress` for `word press`). |
 | `YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING` | `1000` | Most documents one peer call names for the peer to match. Above it, the call names none, and the answers get larger. |
 | `YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING` | `1000` | Most documents one URL metadata call asks a peer about. A lower value puts less load on a peer, and the query can miss results. |
+| `YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_FLOOR` | `25` | Fewest documents one URL metadata call asks a peer about. |
+| `YACYDHTSEARCH_URL_METADATA_ASK_TARGET_TIME` | `1s` | Answer time that the service plans for one URL metadata call. A peer that answers slowly or fails gets calls about fewer documents, down to the floor. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |

@@ -432,17 +432,18 @@ func (recorded *recordedSpreads) WordJoinedSpreadPerformed(
 }
 
 type spreadSettings struct {
-	query                          string
-	choice                         responsiblePeers
-	askablePeers                   []string
-	partitions                     yacymodel.DHTRingPartitions
-	sampledPartition               uint
-	documentsToMatchCeiling        int
-	urlMetadataAskDocumentsCeiling int
-	peersHoldingOneWord            int
-	queryBudget                    time.Duration
-	queryWordDocumentAmounts       *rememberedQueryWordDocumentAmounts
-	urlMetadataLookupCutoff        wordjoined.URLMetadataLookupCutoff
+	query                           string
+	choice                          responsiblePeers
+	askablePeers                    []string
+	partitions                      yacymodel.DHTRingPartitions
+	sampledPartition                uint
+	documentsToMatchCeiling         int
+	urlMetadataAskDocumentsCeiling  int
+	urlMetadataAskCeilingOfEachPeer map[string]int
+	peersHoldingOneWord             int
+	queryBudget                     time.Duration
+	queryWordDocumentAmounts        *rememberedQueryWordDocumentAmounts
+	urlMetadataLookupCutoff         wordjoined.URLMetadataLookupCutoff
 }
 
 type rememberedQueryWordDocumentAmounts struct {
@@ -481,6 +482,19 @@ func (remembered *rememberedQueryWordDocumentAmounts) Remember(
 	maps.Copy(remembered.amountOfEachWord, documentAmounts)
 }
 
+type urlMetadataAskCeilingsOfThePeers struct {
+	mostDocuments                   int
+	urlMetadataAskCeilingOfEachPeer map[string]int
+}
+
+func (ceilings urlMetadataAskCeilingsOfThePeers) CeilingOf(_ context.Context, address string) int {
+	if askCeiling, lowered := ceilings.urlMetadataAskCeilingOfEachPeer[address]; lowered {
+		return askCeiling
+	}
+
+	return ceilings.mostDocuments
+}
+
 func settingsOfOnePartition() spreadSettings {
 	return spreadSettings{
 		query:                          firstWord + " " + secondWord,
@@ -514,7 +528,10 @@ func (settings spreadSettings) spread(
 		queryWordDocumentAmounts,
 		settings.urlMetadataLookupCutoff,
 		func(uint) uint { return settings.sampledPartition },
-		settings.urlMetadataAskDocumentsCeiling,
+		urlMetadataAskCeilingsOfThePeers{
+			mostDocuments:                   settings.urlMetadataAskDocumentsCeiling,
+			urlMetadataAskCeilingOfEachPeer: settings.urlMetadataAskCeilingOfEachPeer,
+		},
 		settings.documentsToMatchCeiling,
 		peerItemsCeiling,
 		settings.partitions,
@@ -853,6 +870,39 @@ func TestNoPeerIsAskedMetadataForMoreDocumentsThanTheCeiling(t *testing.T) {
 				len(ask.Documents),
 			)
 		}
+	}
+}
+
+func TestAPeerWithALoweredCeilingIsAskedMetadataForAtMostThatManyDocuments(t *testing.T) {
+	t.Parallel()
+
+	held := []string{
+		"https://first.example/",
+		"https://second.example/",
+		"https://third.example/",
+	}
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: held, secondWord: held},
+		"second": {firstWord: held, secondWord: held},
+	})
+
+	settings := settingsOfOnePartition()
+	settings.urlMetadataAskCeilingOfEachPeer = map[string]int{
+		"second": documentsOneURLMetadataAskNames,
+	}
+	settings.spread(network, &recordedSpreads{})
+
+	documentsOfEachPeer := map[string]int{}
+	for _, ask := range network.urlMetadataAsks {
+		documentsOfEachPeer[ask.Peer.Address] = len(ask.Documents)
+	}
+	if documentsOfEachPeer["first"] != len(held) ||
+		documentsOfEachPeer["second"] != documentsOneURLMetadataAskNames {
+		t.Fatalf(
+			"the peers were asked metadata for %v documents, want every held one of the first "+
+				"and the one its lowered ceiling allows of the second",
+			documentsOfEachPeer,
+		)
 	}
 }
 

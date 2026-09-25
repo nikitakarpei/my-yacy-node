@@ -1,22 +1,25 @@
 package wordjoined
 
 import (
+	"context"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-// TECHDEBT: Naming — complete, then shortest: the parameter answeredMatchedAndHeldDocumentsAsks runs past four words.
 func urlMetadataAsksFor(
+	ctx context.Context,
 	documentsWithoutMetadataMostHeldFirst []yacymodel.URLHash,
-	answeredMatchedAndHeldDocumentsAsks []peerasks.AnsweredSearchDocumentsAsk,
-	urlMetadataAskDocumentsCeiling int,
+	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	askCeilings URLMetadataAskCeilings,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
-	peers := peersWithTheirAbstractsFrom(answeredMatchedAndHeldDocumentsAsks)
+	peers := peersWithTheirAbstractsFrom(answeredAsks)
 	asksOfEachPeer := peers.urlMetadataAsks(
+		ctx,
 		documentsWithoutMetadataMostHeldFirst,
-		urlMetadataAskDocumentsCeiling,
+		askCeilings,
 	)
 
 	return asksCoveringMostDocuments(asksOfEachPeer, amountOfPeersHoldingOneWord)
@@ -48,13 +51,14 @@ func peersWithTheirAbstractsFrom(
 }
 
 func (peers peersWithTheirAbstracts) urlMetadataAsks(
+	ctx context.Context,
 	documentsMostHeldFirst []yacymodel.URLHash,
-	urlMetadataAskDocumentsCeiling int,
+	askCeilings URLMetadataAskCeilings,
 ) []peerasks.URLMetadataAsk {
 	asks := make([]peerasks.URLMetadataAsk, 0, len(peers))
 	for _, peer := range peers {
 		ask := peer.urlMetadataAsk(
-			documentsMostHeldFirst, urlMetadataAskDocumentsCeiling,
+			documentsMostHeldFirst, askCeilings.CeilingOf(ctx, peer.askablePeer.Address),
 		)
 		if len(ask.Documents) == 0 {
 			continue
@@ -72,13 +76,13 @@ type peerWithItsAbstracts struct {
 
 func (peer peerWithItsAbstracts) urlMetadataAsk(
 	documentsMostHeldFirst []yacymodel.URLHash,
-	urlMetadataAskDocumentsCeiling int,
+	askCeiling int,
 ) peerasks.URLMetadataAsk {
 	askDocuments := make([]yacymodel.URLHash, 0, min(
-		len(peer.documentsInItsAbstracts), urlMetadataAskDocumentsCeiling,
+		len(peer.documentsInItsAbstracts), askCeiling,
 	))
 	for _, document := range documentsMostHeldFirst {
-		if len(askDocuments) == urlMetadataAskDocumentsCeiling {
+		if len(askDocuments) == askCeiling {
 			break
 		}
 		if !peer.documentsInItsAbstracts.contains(document) {
