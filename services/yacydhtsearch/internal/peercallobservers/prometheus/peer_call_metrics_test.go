@@ -40,6 +40,7 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		t.Context(),
 		"http://peer.example",
 		peerasks.SearchDocuments,
+		2,
 		http.StatusServiceUnavailable,
 		time.Second,
 	)
@@ -47,6 +48,7 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		t.Context(),
 		"http://peer.example",
 		peerasks.SearchDocuments,
+		2,
 		errors.New("no route"),
 		queryBudget,
 	)
@@ -54,6 +56,7 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		t.Context(),
 		"http://peer.example",
 		peerasks.SearchDocuments,
+		2,
 		errors.New("bad row"),
 		time.Second,
 	)
@@ -61,6 +64,7 @@ func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 		t.Context(),
 		"http://peer.example",
 		peerasks.SearchDocuments,
+		2,
 		time.Second,
 	)
 
@@ -89,7 +93,7 @@ func TestAPeerCallThatBroughtNothingIsCountedApartFromOneThatBroughtSomething(t 
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
 	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 0, 0, time.Second)
-	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 0, time.Second)
+	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 5, 0, time.Second)
 	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
 
 	body := publishedBy(t, registry)
@@ -110,7 +114,7 @@ func TestAnAnsweredMetadataCallIsCountedUnderWhatItAskedFor(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
-	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 4, time.Second)
+	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 5, 4, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
@@ -132,7 +136,7 @@ func TestAnAnsweredWordIsCountedUnderWhatItAskedFor(t *testing.T) {
 	metrics := peercallobserversprometheus.New(registry, queryBudget)
 
 	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 7, 0, time.Second)
-	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 2, time.Second)
+	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 5, 2, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{

@@ -22,6 +22,7 @@ type PeerCallObserver interface {
 	PeerAnsweredURLMetadata(
 		ctx context.Context,
 		address string,
+		amountOfDocumentsAsked int,
 		amountOfDescribedDocuments int,
 		spent time.Duration,
 	)
@@ -36,6 +37,7 @@ type PeerCallObserver interface {
 		ctx context.Context,
 		address string,
 		askedFor peerasks.AskedFor,
+		amountOfDocumentsAsked int,
 		status int,
 		spent time.Duration,
 	)
@@ -43,6 +45,7 @@ type PeerCallObserver interface {
 		ctx context.Context,
 		address string,
 		askedFor peerasks.AskedFor,
+		amountOfDocumentsAsked int,
 		cause error,
 		spent time.Duration,
 	)
@@ -50,6 +53,7 @@ type PeerCallObserver interface {
 		ctx context.Context,
 		address string,
 		askedFor peerasks.AskedFor,
+		amountOfDocumentsAsked int,
 		cause error,
 		spent time.Duration,
 	)
@@ -57,6 +61,7 @@ type PeerCallObserver interface {
 		ctx context.Context,
 		address string,
 		askedFor peerasks.AskedFor,
+		amountOfDocumentsAsked int,
 		spent time.Duration,
 	)
 }
@@ -87,11 +92,14 @@ func (observers PeerCallObservers) PeerCallTookASlot(
 func (observers PeerCallObservers) PeerAnsweredURLMetadata(
 	ctx context.Context,
 	address string,
+	amountOfDocumentsAsked int,
 	amountOfDescribedDocuments int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnsweredURLMetadata(ctx, address, amountOfDescribedDocuments, spent)
+		observer.PeerAnsweredURLMetadata(
+			ctx, address, amountOfDocumentsAsked, amountOfDescribedDocuments, spent,
+		)
 	}
 }
 
@@ -109,39 +117,45 @@ func (observers PeerCallObservers) PeerSearchedDocuments(
 	}
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (observers PeerCallObservers) PeerRefused(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	status int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerRefused(ctx, address, askedFor, status, spent)
+		observer.PeerRefused(ctx, address, askedFor, amountOfDocumentsAsked, status, spent)
 	}
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (observers PeerCallObservers) PeerUnreachable(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	cause error,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerUnreachable(ctx, address, askedFor, cause, spent)
+		observer.PeerUnreachable(ctx, address, askedFor, amountOfDocumentsAsked, cause, spent)
 	}
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (observers PeerCallObservers) PeerAnswerUnreadable(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	cause error,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnswerUnreadable(ctx, address, askedFor, cause, spent)
+		observer.PeerAnswerUnreadable(ctx, address, askedFor, amountOfDocumentsAsked, cause, spent)
 	}
 }
 
@@ -149,9 +163,10 @@ func (observers PeerCallObservers) PeerCallCancelled(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerCallCancelled(ctx, address, askedFor, spent)
+		observer.PeerCallCancelled(ctx, address, askedFor, amountOfDocumentsAsked, spent)
 	}
 }

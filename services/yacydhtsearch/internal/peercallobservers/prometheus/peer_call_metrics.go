@@ -136,6 +136,7 @@ func (m *PeerCallMetrics) PeerCallTookASlot(
 func (m *PeerCallMetrics) PeerAnsweredURLMetadata(
 	_ context.Context,
 	_ string,
+	_ int,
 	amountOfDescribedDocuments int,
 	spent time.Duration,
 ) {
@@ -168,30 +169,36 @@ func (calls peerCallsOfOneOutcome) count(spent time.Duration) {
 	calls.peerCallDurationSeconds.Observe(spent.Seconds())
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (m *PeerCallMetrics) PeerRefused(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	_ int,
 	_ int,
 	spent time.Duration,
 ) {
 	m.peerCallsPerAskedFor[askedFor].refused.count(spent)
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (m *PeerCallMetrics) PeerUnreachable(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	_ int,
 	_ error,
 	spent time.Duration,
 ) {
 	m.peerCallsPerAskedFor[askedFor].unreachable.count(spent)
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (m *PeerCallMetrics) PeerAnswerUnreadable(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	_ int,
 	_ error,
 	spent time.Duration,
 ) {
@@ -202,6 +209,7 @@ func (m *PeerCallMetrics) PeerCallCancelled(
 	_ context.Context,
 	_ string,
 	askedFor peerasks.AskedFor,
+	_ int,
 	spent time.Duration,
 ) {
 	m.peerCallsPerAskedFor[askedFor].cancelled.count(spent)

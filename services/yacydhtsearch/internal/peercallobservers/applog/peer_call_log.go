@@ -50,11 +50,13 @@ func (PeerCallLog) PeerCallTookASlot(
 func (PeerCallLog) PeerAnsweredURLMetadata(
 	ctx context.Context,
 	address string,
+	amountOfDocumentsAsked int,
 	amountOfDescribedDocuments int,
 	spent time.Duration,
 ) {
 	slog.DebugContext(ctx, msgPeerAnsweredURLMetadata,
 		slog.String("address", address),
+		slog.Int("amountOfDocumentsAsked", amountOfDocumentsAsked),
 		slog.Int("amountOfDescribedDocuments", amountOfDescribedDocuments),
 		slog.Duration("spent", spent),
 	)
@@ -75,46 +77,55 @@ func (PeerCallLog) PeerSearchedDocuments(
 	)
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (PeerCallLog) PeerRefused(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	status int,
 	spent time.Duration,
 ) {
 	slog.WarnContext(ctx, msgPeerRefused,
 		slog.String("address", address),
 		slog.String("askedFor", string(askedFor)),
+		slog.Int("amountOfDocumentsAsked", amountOfDocumentsAsked),
 		slog.Int("status", status),
 		slog.Duration("spent", spent),
 	)
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (PeerCallLog) PeerUnreachable(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	cause error,
 	spent time.Duration,
 ) {
 	slog.WarnContext(ctx, msgPeerUnreachable,
 		slog.String("address", address),
 		slog.String("askedFor", string(askedFor)),
+		slog.Int("amountOfDocumentsAsked", amountOfDocumentsAsked),
 		slog.Any("error", cause),
 		slog.Duration("spent", spent),
 	)
 }
 
+//nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (PeerCallLog) PeerAnswerUnreadable(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	cause error,
 	spent time.Duration,
 ) {
 	slog.WarnContext(ctx, msgPeerAnswerUnreadable,
 		slog.String("address", address),
 		slog.String("askedFor", string(askedFor)),
+		slog.Int("amountOfDocumentsAsked", amountOfDocumentsAsked),
 		slog.Any("error", cause),
 		slog.Duration("spent", spent),
 	)
@@ -124,11 +135,13 @@ func (PeerCallLog) PeerCallCancelled(
 	ctx context.Context,
 	address string,
 	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
 	spent time.Duration,
 ) {
 	slog.DebugContext(ctx, msgPeerCallCancelled,
 		slog.String("address", address),
 		slog.String("askedFor", string(askedFor)),
+		slog.Int("amountOfDocumentsAsked", amountOfDocumentsAsked),
 		slog.Duration("spent", spent),
 	)
 }
