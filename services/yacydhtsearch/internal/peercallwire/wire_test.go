@@ -2,6 +2,7 @@ package peercallwire_test
 
 import (
 	"context"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -169,23 +170,36 @@ func wireHolding(
 	callsInFlight int,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
-	return wireCalling(callsInFlight, searchCallBudgetOfTheTests, observer)
+	return wireCalling(http.DefaultClient, callsInFlight, searchCallBudgetOfTheTests, observer)
 }
 
 func wireSearchingAtMost(
 	searchCallBudget time.Duration,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
-	return wireCalling(callsInFlightOfTheTests, searchCallBudget, observer)
+	return wireCalling(http.DefaultClient, callsInFlightOfTheTests, searchCallBudget, observer)
+}
+
+func wireThrough(
+	transport http.RoundTripper,
+	observer peercallwire.PeerCallObserver,
+) peercallwire.Wire {
+	return wireCalling(
+		&http.Client{Transport: transport},
+		callsInFlightOfTheTests,
+		searchCallBudgetOfTheTests,
+		observer,
+	)
 }
 
 func wireCalling(
+	client *http.Client,
 	callsInFlight int,
 	searchCallBudget time.Duration,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
 	return peercallwire.New(
-		http.DefaultClient,
+		client,
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions},
 		peercallwire.PeerCallLimits{
 			MaxResponseBytes:      responseLimit,
@@ -974,4 +988,85 @@ func TestACallCancelledWhileThePeerAnswersIsNotReportedAsAnUnreachablePeer(t *te
 			observer.askedFor,
 		)
 	}
+}
+
+func TestACallCancelledWhileItsAnswerIsReadIsNotReportedAsAnUnreadableAnswer(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedOutcome{}
+	lookupEnded := make(chan struct{})
+	server := httptest.NewServer(http.HandlerFunc(
+		func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Length", "4096")
+			_, _ = w.Write([]byte("<rss>"))
+			w.(http.Flusher).Flush()
+			<-lookupEnded
+		},
+	))
+	t.Cleanup(server.Close)
+	t.Cleanup(func() { close(lookupEnded) })
+	answerReadStarted := make(chan struct{})
+	ctx, endLookup := context.WithCancel(t.Context())
+	t.Cleanup(endLookup)
+	go func() {
+		<-answerReadStarted
+		endLookup()
+	}()
+
+	outcomes := outcomesOf(wireThrough(
+		transportSignallingTheFirstAnswerRead{startedReading: answerReadStarted},
+		observer,
+	).AskForURLMetadata(
+		ctx,
+		[]peerasks.URLMetadataAsk{{
+			Peer:      peerAt(server.URL),
+			Documents: []yacymodel.URLHash{mustParseURLHash(t, "Q_ylfl--9bK5")},
+		}},
+	))
+
+	if len(outcomes) != 1 || len(outcomes.AnsweredAsks()) != 0 {
+		t.Fatalf("AskForURLMetadata = %+v, want one outcome without an answer", outcomes)
+	}
+	if observer.cancelled != 1 || observer.unreadable != 0 {
+		t.Fatalf(
+			"%d cancelled and %d unreadable calls, want one cancelled and none unreadable",
+			observer.cancelled,
+			observer.unreadable,
+		)
+	}
+	if observer.askedFor != peerasks.URLMetadata {
+		t.Fatalf("the cancelled call named %q, want %q", observer.askedFor, peerasks.URLMetadata)
+	}
+}
+
+type transportSignallingTheFirstAnswerRead struct {
+	startedReading chan struct{}
+}
+
+func (transport transportSignallingTheFirstAnswerRead) RoundTrip(
+	request *http.Request,
+) (*http.Response, error) {
+	response, err := http.DefaultTransport.RoundTrip(request)
+	if err != nil {
+		return nil, err //nolint:wrapcheck // the wire reads the failure of the call as it came
+	}
+	response.Body = &answerSignallingItsFirstRead{
+		ReadCloser:     response.Body,
+		startedReading: transport.startedReading,
+	}
+
+	return response, nil
+}
+
+type answerSignallingItsFirstRead struct {
+	io.ReadCloser
+	startedReading chan struct{}
+	firstRead      sync.Once
+}
+
+func (a *answerSignallingItsFirstRead) Read(buffer []byte) (int, error) {
+	a.firstRead.Do(func() { close(a.startedReading) })
+
+	//nolint:wrapcheck // the wire reads the end of the answer as it came
+	return a.ReadCloser.Read(buffer)
 }
