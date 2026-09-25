@@ -1,0 +1,251 @@
+{
+  "query": "glp-1 medicines",
+  "judgedDocuments": [
+    {
+      "hash": "wNB4FW0Urqm4",
+      "address": "https://www.gsk.com/en-gb/responsibility/product-governance/",
+      "title": "Product governance | GSK",
+      "grade": 0
+    },
+    {
+      "hash": "lSAIVvLs9H_5",
+      "address": "https://www.nbcbayarea.com/news/local/unapproved-glp-1-drugs/4136537/",
+      "title": "Surge in unapproved GLP-1 drugs alarming poison control, safe medicine advocates – NBC Bay Area",
+      "grade": 1
+    },
+    {
+      "hash": "x0Kxqv05SSS5",
+      "address": "https://www.nbcnewyork.com/news/health/vision-loss-ozempic-semaglutide-glp-1-lawsuit/6551120/",
+      "title": "Woman details losing vision as patients sue GLP-1 drug companies – NBC New York",
+      "grade": 1
+    },
+    {
+      "hash": "W-L3H0M4J3So",
+      "address": "https://www.pmda.go.jp/english/review-services/reviews/0002.html",
+      "title": "New Drug Review with Electronic Data | Pharmaceuticals and Medical Devices Agency",
+      "grade": 0
+    },
+    {
+      "hash": "FlO9f1N3usF4",
+      "address": "https://palexander.substack.com/p/i-have-warned-you-about-glp-1s-wegovy",
+      "title": "I have warned you about GLP-1s, Wegovy, Ozempic, Mounjaro, semaglutides etc., these are DANGEROUS, never were weight loss medications, no proper studies on safety have been DONE",
+      "grade": 0
+    },
+    {
+      "hash": "HmPnU7ISdjFg",
+      "address": "https://www.gov.uk/search/research-and-statistics",
+      "title": "Research and statistics - GOV.UK",
+      "grade": 0
+    },
+    {
+      "hash": "SBw7pvtKSJIx",
+      "address": "https://www.kidneyfund.org/treatments/medicines-kidney-disease/glp-1-ras",
+      "title": "Glucagon-like peptide-1 receptor agonists (GLP-1 RAs) | American Kidney Fund",
+      "grade": 2
+    },
+    {
+      "hash": "4S71SlISdjFg",
+      "address": "https://www.gov.uk/official-documents",
+      "title": "Official documents - GOV.UK",
+      "grade": 0
+    },
+    {
+      "hash": "3c2Y5vmMQij4",
+      "address": "https://www.who.int/news/item/01-12-2025-who-issues-global-guideline-on-the-use-of-glp-1-medicines-in-treating-obesity",
+      "title": "WHO issues global guideline on the use of GLP-1 medicines in treating obesity",
+      "grade": 2
+    },
+    {
+      "hash": "8gndkOJk5G47",
+      "address": "https://regulatoryaffairs.pharmaceuticalconferences.com/2015",
+      "title": "Regulatory Affairs Global Events | USA | Europe | Asia | Middle East | 2015 | 2016",
+      "grade": 0
+    },
+    {
+      "hash": "J-oXilNYxeUw",
+      "address": "https://www.paho.org/en/documents/epidemiological-alert-misuse-glp-1-receptor-agonist-medications-and-considerations",
+      "title": "Epidemiological Alert: Misuse of GLP-1 receptor agonist medications and considerations for the Americas Region - 27 February 2026 - PAHO/WHO | Pan American Health Organization",
+      "grade": 1
+    },
+    {
+      "hash": "U9cXB7A4psi4",
+      "address": "https://www.theverge.com/column/846406/optimizer-wellness-wild-west-glp-3-retatrutide",
+      "title": "The wellness wild west makes it easy to buy unapproved weight loss drugs | The Verge",
+      "grade": 1
+    },
+    {
+      "hash": "biHMMlNYxeUw",
+      "address": "https://www.paho.org/en/topics/obesity-prevention",
+      "title": "Obesity Prevention - PAHO/WHO | Pan American Health Organization",
+      "grade": 0
+    },
+    {
+      "hash": "y2d2Q7btTxu4",
+      "address": "https://issuu.com/wainscotmedia/docs/rwjbh_nj_health_summer_2026",
+      "title": "Issuu",
+      "grade": 0
+    },
+    {
+      "hash": "-s23xlNYxeUw",
+      "address": "https://www.paho.org/en/topics/leprosy-hansen-disease",
+      "title": "Leprosy (Hansen disease) - PAHO/WHO | Pan American Health Organization",
+      "grade": 0
+    },
+    {
+      "hash": "ZJddqdxBVl84",
+      "address": "https://www.iqvia.com/insights/the-iqvia-institute/reports-and-publications/reports/us-medicine-use-trends-2026",
+      "title": "U.S. Medicine Use Trends 2026 | IQVIA",
+      "grade": 0
+    },
+    {
+      "hash": "ijWgArYG32-5",
+      "address": "https://www.livescience.com/health/fertility-pregnancy-birth/study-links-glp-1-use-to-some-pregnancy-risks-but-the-study-has-key-caveats",
+      "title": "Study links GLP-1 use to some pregnancy risks — but the research has key caveats | Live Science",
+      "grade": 1
+    },
+    {
+      "hash": "GUuJgFbrEWug",
+      "address": "https://www.ema.europa.eu/en/news/emer-cooke-emas-executive-director-2025-achievements-medicine-regulation",
+      "title": "Emer Cooke, EMA’s Executive Director: 2025 achievements in medicine regulation | European Medicines Agency (EMA)",
+      "grade": 0
+    },
+    {
+      "hash": "9Rmefl9GLRc4",
+      "address": "https://www.rroij.com/pharmaceutical-quality-assurance.php",
+      "title": "Research \u0026 Reviews | Pharmaceutical Quality Assurance Journals",
+      "grade": 0
+    },
+    {
+      "hash": "xhjuLlmMQij4",
+      "address": "https://www.who.int/southeastasia",
+      "title": "World Health Organization South-East Asia (WHO) - Home",
+      "grade": 0
+    },
+    {
+      "hash": "EM1m8DuJwpwg",
+      "address": "https://www.basg.gv.at/marktbeobachtung/meldewesen/qualitaetsmaengel",
+      "title": "Qualitätsmängel - BASG",
+      "grade": 0
+    },
+    {
+      "hash": "X24pR2mMQij4",
+      "address": "https://www.who.int/teams/regulation-prequalification/regulation-and-safety/pharmacovigilance",
+      "title": "Regulation and Prequalification",
+      "grade": 0
+    },
+    {
+      "hash": "K8kod5LY6FT7",
+      "address": "https://industrialpharmacy.pharmaceuticalconferences.com/2016",
+      "title": "Pharmacy conferences |Pharmaceutical conferences |Events |Dubai |Europe |USA |2016 |2017",
+      "grade": 0
+    },
+    {
+      "hash": "g6nt17ISdjFg",
+      "address": "https://www.gov.uk/search/guidance-and-regulation",
+      "title": "Guidance and regulation - GOV.UK",
+      "grade": 0
+    },
+    {
+      "hash": "u89A_7ISdjFg",
+      "address": "https://www.gov.uk/search/policy-papers-and-consultations",
+      "title": "Policy papers and consultations - GOV.UK",
+      "grade": 0
+    },
+    {
+      "hash": "5LeVp7ISdjFg",
+      "address": "https://www.gov.uk/search/transparency-and-freedom-of-information-releases",
+      "title": "Transparency and freedom of information releases - GOV.UK",
+      "grade": 0
+    },
+    {
+      "hash": "73FW5lE37Ia5",
+      "address": "https://www.novonordisk.com/",
+      "title": "Novo Nordisk",
+      "grade": 0
+    },
+    {
+      "hash": "F61BuvISdjFg",
+      "address": "https://www.gov.uk/government/collections/mhra-guidance-on-coronavirus-covid-19",
+      "title": "MHRA guidance on coronavirus (COVID-19) - GOV.UK",
+      "grade": 0
+    },
+    {
+      "hash": "FkhabTJVa3Ug",
+      "address": "https://www.independent.co.uk/life-style/health-and-families",
+      "title": "Health \u0026 Families | The Independent",
+      "grade": 0
+    },
+    {
+      "hash": "ksdqHuuFrqNg",
+      "address": "https://www.efsa.europa.eu/en/news/titanium-dioxide-e171-no-longer-considered-safe-when-used-food-additive",
+      "title": "Titanium dioxide: E171 no longer considered safe when used as a food additive | EFSA",
+      "grade": 0
+    },
+    {
+      "hash": "qGHCb0M4J3So",
+      "address": "https://www.pmda.go.jp/english/rs-sb-std/standards-development/jp/0009.html",
+      "title": "Japanese Pharmacopoeia | Pharmaceuticals and Medical Devices Agency",
+      "grade": 0
+    },
+    {
+      "hash": "ucurhslMqYb5",
+      "address": "https://freerepublic.com/~candor7/",
+      "title": "Candor7",
+      "grade": 0
+    },
+    {
+      "hash": "vClOi0M4J3So",
+      "address": "https://www.pmda.go.jp/english/review-services/reviews/0001.html",
+      "title": "Reviews | Pharmaceuticals and Medical Devices Agency",
+      "grade": 0
+    },
+    {
+      "hash": "z6HMhssDFM6z",
+      "address": "https://genesynthesisconsortium.org/",
+      "title": "Home | International Gene Synthesis Consortium",
+      "grade": 0
+    },
+    {
+      "hash": "zWyyU0M4J3So",
+      "address": "https://www.pmda.go.jp/english/review-services/gmp-qms-gctp/0001.html",
+      "title": "GMP compliance inspection | Pharmaceuticals and Medical Devices Agency",
+      "grade": 0
+    },
+    {
+      "hash": "EKw8zlmMQij4",
+      "address": "https://www.who.int/southeastasia/",
+      "title": "World Health Organization South-East Asia (WHO) - Home",
+      "grade": 0
+    },
+    {
+      "hash": "8GXWyv6owqx6",
+      "address": "https://www.thailandmedical.news/news/study-shockingly-finds-that-glp-1-drugs-used-for-diabetes-or-weight-loss-increases-risk-of-macular-degeneration",
+      "title": "Study Shockingly Finds That GLP-1 Drugs Used for Diabetes or Weight Loss Increases Risk of Macular Degeneration! - Thailand Medical News",
+      "grade": 1
+    },
+    {
+      "hash": "CHxMNv6owqx6",
+      "address": "https://www.thailandmedical.news/news/new-study-links-glp-1-receptor-agonists-such-as-ozempic-wegovy-trulicity-mounjaro-to-chronic-cough",
+      "title": "New Study Links GLP-1 Receptor Agonists Such as Ozempic, Wegovy, Trulicity, Mounjaro to Chronic Cough! - Thailand Medical News",
+      "grade": 1
+    },
+    {
+      "hash": "FZxyTUISdjFg",
+      "address": "https://www.gov.uk/drug-safety-update/glp-1-receptor-agonists-reminder-of-the-potential-side-effects-and-to-be-aware-of-the-potential-for-misuse",
+      "title": "GLP-1 receptor agonists: reminder of the potential side effects and to be aware of the potential for misuse - GOV.UK",
+      "grade": 2
+    },
+    {
+      "hash": "s31HKz4nScL4",
+      "address": "https://www.wired.com/story/glp-1-compounding-fda-lawsuits/",
+      "title": "Eli Lilly Sues 4 GLP-1 Telehealth Startups, Escalating War on Knockoff Drugs | WIRED",
+      "grade": 1
+    },
+    {
+      "hash": "fpPsslWlnMr4",
+      "address": "https://www.ibtimes.com/ozempic-other-glp-1-drugs-may-altering-brain-researchers-say-3803439",
+      "title": "Ozempic And Other GLP-1 Drugs May Be Altering The Brain, researchers say | IBTimes",
+      "grade": 1
+    }
+  ]
+}

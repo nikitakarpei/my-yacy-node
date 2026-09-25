@@ -1,0 +1,355 @@
+{
+  "query": "coinbase",
+  "judgedDocuments": [
+    {
+      "hash": "CG9-c2S5IvA4",
+      "address": "https://www.bitchute.com/video/Rkv4rrdFBU0/",
+      "title": "The Proper Way to Do Web Searches (Searx)",
+      "grade": 0
+    },
+    {
+      "hash": "bcCXujka-ITk",
+      "address": "https://www.theblock.co/data/on-chain-metrics/base",
+      "title": "Base",
+      "grade": 0
+    },
+    {
+      "hash": "PG77slPCpqc4",
+      "address": "https://www.youtube.com/watch?v=Kx_vfKvS95U",
+      "title": "Live From Rare Evo: What’s Stopping DeFi from Going Mainstream? - YouTube",
+      "grade": 0
+    },
+    {
+      "hash": "zczAqtbD0zn4",
+      "address": "https://stripe.com/en-es/sessions/2026/stablecoins-and-the-new",
+      "title": "Stablecoins and the new regulatory reality | Stripe Sessions",
+      "grade": 0
+    },
+    {
+      "hash": "Vcs129S6MKD4",
+      "address": "https://github.com/mctrinh/awesome-mcp-servers",
+      "title": "GitHub - mctrinh/awesome-mcp-servers: A curated list of excellent Model Context Protocol (MCP) servers. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "qKEI3aHrQ4V5",
+      "address": "https://www.macrumors.com/author/steve-moser/",
+      "title": "Articles on MacRumors by Steve Moser",
+      "grade": 0
+    },
+    {
+      "hash": "DuUh7K_wyst4",
+      "address": "https://observer.com/list/2026-ai-power-index/",
+      "title": "Observer’s 2026 A.I. Power Index: Who Controls the Capital Flow in A.I | Observer",
+      "grade": 0
+    },
+    {
+      "hash": "jyelnsKRWug5",
+      "address": "https://blogreborn.com/",
+      "title": "blogreborn.com - Situs Slot Online dengan Deposit Pulsa dan E-Wallet OVO",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "uKz_GxGEf_84",
+      "address": "https://www.coindesk.com/price/stock/clsk",
+      "title": "CLSK Stock Price Today | CoinDesk",
+      "grade": 0
+    },
+    {
+      "hash": "knllxlH4MyS4",
+      "address": "https://www.circle.com/multi-chain-usdc",
+      "title": "Multichain USDC | Experience the power of Multichain USDC | Circle",
+      "grade": 0
+    },
+    {
+      "hash": "vXAmFblCQfD4",
+      "address": "https://www.coinbase.com/en-fr/legal/privacy?locale=en-US",
+      "title": "Coinbase Global Privacy Policy",
+      "grade": 0
+    },
+    {
+      "hash": "BEQWQOHc7VYw",
+      "address": "https://metamask.io/en-GB/converter/cbbtc/pln",
+      "title": "CBBTC to PLN: Convert Coinbase Wrapped BTC to Polish Zloty",
+      "grade": 0
+    },
+    {
+      "hash": "11YLsllCQfD4",
+      "address": "https://www.coinbase.com/accounts",
+      "title": "Coinbase",
+      "grade": 0
+    },
+    {
+      "hash": "9EZqXHEGL1f5",
+      "address": "https://www.techtimes.com/articles/326728/20260904/coinbase-files-bring-stock-perps-us-court-battle-could-sink-them-first.htm",
+      "title": "Coinbase Files to Bring Stock Perps to US: Court Battle Could Sink Them First",
+      "grade": 1
+    },
+    {
+      "hash": "6rMAUvM9rDb4",
+      "address": "https://builtin.com/company/coinbase",
+      "title": "Coinbase Careers, Perks + Culture | Built In",
+      "grade": 1
+    },
+    {
+      "hash": "ycqF9u_wyst4",
+      "address": "https://observer.com/2022/11/coinbase-wants-you-to-think-its-immune-from-ftx-contagion-heres-why-its-not/",
+      "title": "Coinbase Wants You to Think It’s Immune From FTX Contagion. Here’s Why It’s Not. | Observer",
+      "grade": 1
+    },
+    {
+      "hash": "n97mMQHc7VYw",
+      "address": "https://metamask.io/converter/coinon/usd",
+      "title": "COINon to USD: Convert Coinbase (Ondo Tokenized) to US Dollar",
+      "grade": 0
+    },
+    {
+      "hash": "g39TSQHc7VYw",
+      "address": "https://metamask.io/converter/cbbtc/krw",
+      "title": "CBBTC to KRW: Convert Coinbase Wrapped BTC to South Korean Won",
+      "grade": 0
+    },
+    {
+      "hash": "YuxRWqyiDYm6",
+      "address": "https://unit42.paloaltonetworks.com/github-actions-supply-chain-attack/",
+      "title": "GitHub Actions Supply Chain Attack: A Targeted Attack on Coinbase Expanded to the Widespread tj-actions/changed-files Incident: Threat Assessment (Updated 4/2)",
+      "grade": 0
+    },
+    {
+      "hash": "KPLx5vlCQfD4",
+      "address": "https://www.coinbase.com/en-in/blog/coinbase-for-agents",
+      "title": "Coinbase for Agents: Your AI Agent Can Now Trade and Pay with Coinbase",
+      "grade": 1
+    },
+    {
+      "hash": "BnEdTHEGL1f5",
+      "address": "https://www.techtimes.com/articles/326705/20260904/coinbase-files-domestic-stock-perps-under-security-futures-cme-suit-clouds-launch.htm",
+      "title": "Coinbase Files for Domestic Stock Perps Under Security Futures: CME Suit Clouds Launch",
+      "grade": 1
+    },
+    {
+      "hash": "76QyPZT39Fkw",
+      "address": "https://www.osc.ca/fr/droit-valeurs-mobilieres/ordonnances-decisions/coinbase-canada-inc-and-coinbase-inc",
+      "title": "Coinbase Canada Inc. and Coinbase, Inc. | OSC",
+      "grade": 1
+    },
+    {
+      "hash": "IzhcNjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Coinbase",
+      "title": "Coinbase - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "_v416zCroMZ6",
+      "address": "https://stockanalysis.com/stocks/coin/transcripts/485140-coinbase-system-update-2025/",
+      "title": "Coinbase (COIN) Transcript: Coinbase System Update 2025",
+      "grade": 1
+    },
+    {
+      "hash": "LSUOyzCroMZ6",
+      "address": "https://stockanalysis.com/stocks/coin/transcripts/355648-coinbase-state-of-crypto-summit-2025/",
+      "title": "Coinbase (COIN) Transcript: Coinbase State of Crypto Summit 2025",
+      "grade": 1
+    },
+    {
+      "hash": "AYL8McCroMZ6",
+      "address": "https://stockanalysis.com/quote/etr/1QZ/",
+      "title": "Coinbase Global (ETR:1QZ) Stock Price \u0026 Overview",
+      "grade": 1
+    },
+    {
+      "hash": "308vZcCroMZ6",
+      "address": "https://stockanalysis.com/quote/bcba/COIN/",
+      "title": "Coinbase Global (BCBA:COIN) Stock Price \u0026 Overview",
+      "grade": 1
+    },
+    {
+      "hash": "8AkpQzCroMZ6",
+      "address": "https://stockanalysis.com/stocks/coin/transcripts/198209-ama/",
+      "title": "Coinbase (COIN) Transcript: AMA",
+      "grade": 1
+    },
+    {
+      "hash": "HQYxEzCroMZ6",
+      "address": "https://stockanalysis.com/stocks/coin/transcripts/662661-q2-2026/",
+      "title": "Coinbase (COIN) Q2 2026 Earnings Call Transcript \u0026 Audio",
+      "grade": 1
+    },
+    {
+      "hash": "tw7-YzCroMZ6",
+      "address": "https://stockanalysis.com/stocks/coin/transcripts/41050-q4-2022/",
+      "title": "Coinbase (COIN) Q4 2022 Earnings Call Transcript \u0026 Audio",
+      "grade": 1
+    },
+    {
+      "hash": "OPFXTzCroMZ6",
+      "address": "https://stockanalysis.com/stocks/coin/transcripts/8688-q1-2021/",
+      "title": "Coinbase (COIN) Q1 2021 Earnings Call Transcript \u0026 Audio",
+      "grade": 1
+    },
+    {
+      "hash": "xdOlWzCroMZ6",
+      "address": "https://stockanalysis.com/stocks/coin/transcripts/369428-q3-2025/",
+      "title": "Coinbase (COIN) Q3 2025 Earnings Call Transcript \u0026 Audio",
+      "grade": 1
+    },
+    {
+      "hash": "5S3RiblCQfD4",
+      "address": "https://www.coinbase.com/en-fr/tokenmanager",
+      "title": "Launch \u0026 Distribute Tokens | Coinbase Token Manager",
+      "grade": 1
+    },
+    {
+      "hash": "skUSedE1ETA5",
+      "address": "https://www.handelsblatt.com/vergleich/coinbase-oder-kraken-krypto-test/",
+      "title": "Coinbase 2026 gegen Kraken bei Kosten und Auswahl der Coins",
+      "grade": 1
+    },
+    {
+      "hash": "FZ_7CdqHlJ7g",
+      "address": "https://www.wiwo.de/vergleich/coinbase-oder-kraken/",
+      "title": "Coinbase oder Kraken: Maximaler Komfort versus günstiger Handel",
+      "grade": 1
+    },
+    {
+      "hash": "XOAIbdqHlJ7g",
+      "address": "https://www.wiwo.de/vergleich/coinbase-kosten/",
+      "title": "Coinbase: Was kosten SEPA, PayPal und Co.?",
+      "grade": 1
+    },
+    {
+      "hash": "KxPPydqHlJ7g",
+      "address": "https://www.wiwo.de/vergleich/coinbase-bitpanda-krypto-vergleich/",
+      "title": "Coinbase oder Bitpanda: Die Krypto Börsen im Vergleich",
+      "grade": 1
+    },
+    {
+      "hash": "gLMISdqHlJ7g",
+      "address": "https://www.wiwo.de/vergleich/binance-oder-coinbase/",
+      "title": "Binance oder Coinbase: Die Krypto Börsen im Vergleich",
+      "grade": 1
+    },
+    {
+      "hash": "auRRvdE1ETA5",
+      "address": "https://www.handelsblatt.com/vergleich/bitpanda-oder-coinbase/",
+      "title": "Bitpanda oder Coinbase 2026 bei Gebühren und Regulierung",
+      "grade": 1
+    },
+    {
+      "hash": "KDiCMdqHlJ7g",
+      "address": "https://www.wiwo.de/vergleich/coinbase-seriositaet-was-die-krypto-boerse-auszeichnet/",
+      "title": "Coinbase Seriosität: Was die Krypto Börse auszeichnet",
+      "grade": 1
+    },
+    {
+      "hash": "kEpWcdE1ETA5",
+      "address": "https://www.handelsblatt.com/vergleich/bison-vs-coinbase/",
+      "title": "Bison vs. Coinbase im Krypto-Vergleich 2026",
+      "grade": 1
+    },
+    {
+      "hash": "UGj0UblCQfD4",
+      "address": "https://www.coinbase.com/en-fr/legal/privacy",
+      "title": "Coinbase Global Privacy Policy",
+      "grade": 0
+    },
+    {
+      "hash": "3WaykWlCQfD4",
+      "address": "https://www.coinbase.com/en-gb/blog/coinbase-establishes-its-tokenization-hub-in-abu-dhabi",
+      "title": "Coinbase establishes its tokenization hub in Abu Dhabi, with Financial Services Permission from the Financial Services Regulatory Authority (FSRA)",
+      "grade": 1
+    },
+    {
+      "hash": "wMvVDh4XFNR7",
+      "address": "https://www.thebureauinvestigates.com/stories/2026-06-30/how-westminster-rolled-out-the-red-carpet-for-cryptos-savviest-ceo",
+      "title": "Coinbase has been lobbying the UK government for looser crypto… | TBIJ",
+      "grade": 1
+    },
+    {
+      "hash": "jd6fXNZKAoo4",
+      "address": "https://www.fool.com/money/cryptocurrency/coinbase-review/?luri=%2Fmortgages%2F\u0026furi=%2Fmortgages%2F\u0026fref=https%3A%2F%2Fwww.fool.com%2Finvesting%2F2026%2F09%2F24%2Fgoogle-is-taking-a-major-step-forward-toward-space-based-ai-data-centers%2F\u0026fuuid=604b6d84-08c4-4549-863e-1fd71abe5054\u0026luuid=604b6d84-08c4-4549-863e-1fd71abe5054\u0026ltyp=txt",
+      "title": "Coinbase Review: Kinda Clunky, Still the Safest",
+      "grade": 1
+    },
+    {
+      "hash": "RTC__blCQfD4",
+      "address": "https://www.coinbase.com/en-fr/legal/coinbase-payments/terms-of-service",
+      "title": "Coinbase - Legal - Coinbase Payments - Terms of Service",
+      "grade": 0
+    },
+    {
+      "hash": "0m8biNZKAoo4",
+      "address": "https://www.fool.com/money/cryptocurrency/coinbase-review/?luri=%2Fpersonal-loans%2F\u0026furi=%2Fpersonal-loans%2F\u0026fref=https%3A%2F%2Fwww.fool.com%2Finvesting%2F2026%2F09%2F24%2Fgoogle-is-taking-a-major-step-forward-toward-space-based-ai-data-centers%2F\u0026fuuid=18df5b55-1c8f-4349-ade9-92e34cbe932a\u0026luuid=18df5b55-1c8f-4349-ade9-92e34cbe932a\u0026ltyp=txt",
+      "title": "Coinbase Review: Kinda Clunky, Still the Safest",
+      "grade": 1
+    },
+    {
+      "hash": "U2rnCKr03Es4",
+      "address": "https://status.coinbase.com/",
+      "title": "Coinbase Status",
+      "grade": 1
+    },
+    {
+      "hash": "JQlWukxwsSy4",
+      "address": "https://docs.cdp.coinbase.com/international-exchange/introduction/welcome",
+      "title": "Welcome to International Exchange APIs - Coinbase Developer Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "Suc9JblCQfD4",
+      "address": "https://www.coinbase.com/en-fr/affiliates",
+      "title": "Affiliates - Coinbase",
+      "grade": 1
+    },
+    {
+      "hash": "CpXEmDxwsSy4",
+      "address": "https://docs.cdp.coinbase.com/prime/introduction/welcome",
+      "title": "Welcome to Coinbase Prime APIs - Coinbase Developer Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "AxCWXhJ1RhH6",
+      "address": "https://krebsonsecurity.com/2021/10/how-coinbase-phishers-steal-one-time-passwords/",
+      "title": "How Coinbase Phishers Steal One-Time Passwords – Krebs on Security",
+      "grade": 1
+    },
+    {
+      "hash": "amA3rblCQfD4",
+      "address": "https://www.coinbase.com/en-fr/developer-platform/discover/launches/exa",
+      "title": "Exa Search, Now Discoverable by Agents Over HTTP with x402 | Coinbase",
+      "grade": 1
+    },
+    {
+      "hash": "UiyAqsFftlUw",
+      "address": "https://unblock.net/coinbase-review/",
+      "title": "An In-depth Coinbase Review and Everything You Need to Know",
+      "grade": 1
+    },
+    {
+      "hash": "oWEB09-28qXg",
+      "address": "https://newsbit.de/kaufen-verkaufen/coinbase/",
+      "title": "Was ist Coinbase? \u003e Überprüfung der Krypto-Börse – Newsbit.de",
+      "grade": 1
+    },
+    {
+      "hash": "9TD3Kh6nLSQg",
+      "address": "https://www.bild.de/trading/coinbase/",
+      "title": "Coinbase Test: Erfahrungen mit der US-Kryptobörse (2024)",
+      "grade": 1
+    },
+    {
+      "hash": "_mh7xhCpKsK4",
+      "address": "https://nypost.com/business/next-big-crypto-coinbase-listings/",
+      "title": "How to find the next big crypto before it lists on Coinbase",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "57SrLtS6MKD4",
+      "address": "https://github.com/coinbase/omniauth-coinbase",
+      "title": "GitHub - coinbase/omniauth-coinbase: DEPRECATED — Coinbase OAuth 2 Strategy for Omniauth · GitHub",
+      "grade": 1
+    }
+  ]
+}

@@ -1,0 +1,312 @@
+{
+  "query": "bitcoin exchange",
+  "judgedDocuments": [
+    {
+      "hash": "BJWmljka-ITk",
+      "address": "https://www.theblock.co/data/treasuries/bitcoin-treasuries",
+      "title": "Bitcoin Treasury Holdings by Public Companies | The Block",
+      "grade": 0
+    },
+    {
+      "hash": "ojBY1CUbiSqw",
+      "address": "https://bitcoin.org/en/press",
+      "title": "Press - Bitcoin",
+      "grade": 0
+    },
+    {
+      "hash": "8W4ZBShxdHw6",
+      "address": "https://www.journaldugeek.com/crypto/acheter/bitcoin/",
+      "title": "Comment acheter du Bitcoin en 2025 ? (Tutoriel étape par étape)",
+      "grade": 0,
+      "spam": true
+    },
+    {
+      "hash": "zdlH8l7o3RC4",
+      "address": "https://www.ig.com/en/trading-strategies/how-to-hedge-bitcoin-risk-190726",
+      "title": "How to Hedge Bitcoin Risk | Cryptocurrency Hedging Explained | IG International",
+      "grade": 0
+    },
+    {
+      "hash": "-3LesMZKAoo4",
+      "address": "https://www.fool.com/investing/how-to-invest/stocks/how-to-invest-in-arm-stock/",
+      "title": "How to Buy Arm Stock (NASDAQ:ARM) | The Motley Fool",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "fjsEMl65bs_4",
+      "address": "https://www.bitcoin.com/tools/",
+      "title": "Bitcoin Tools - Free online tools and crypto apps | Bitcoin.com",
+      "grade": 0
+    },
+    {
+      "hash": "bPQ5wc_mg3l6",
+      "address": "https://bitcoinmagazine.com/print/the-other-satoshis-bitcoins-most-important-early-contributors",
+      "title": "The Other Satoshis: Bitcoin's Most Important Early Contributors",
+      "grade": 0
+    },
+    {
+      "hash": "fosc8eMcq6Ew",
+      "address": "https://web.archive.org/web/20220818075949/https:/twitter.com/hashtag/crowdfunding?src=hashtag_click",
+      "title": "#crowdfunding - Twitter Search / Twitter",
+      "grade": 0
+    },
+    {
+      "hash": "QOKmuj7s71u5",
+      "address": "https://www.bullionstar.com/blogs/ronan-manly/dawn-of-bitcoin-price-discovery-2009-2011-the-very-early-bitcoin-exchanges/",
+      "title": "The Very Early Bitcoin Exchanges of 2009 to 2011",
+      "grade": 1
+    },
+    {
+      "hash": "Obbe7O_mg3l6",
+      "address": "https://bitcoinmagazine.com/technical/what-happened-when-bitcoin-creator-satoshi-nakamoto-disappeared",
+      "title": "The Last Days Of Satoshi: What Happened When Bitcoin’s Creator Disappeared",
+      "grade": 0
+    },
+    {
+      "hash": "9YF9vskgXpS4",
+      "address": "https://money.com/bitcoin-el-salvador-national-currency/",
+      "title": "Bitcoin Recognized as National Currency in El Salvador | Money",
+      "grade": 0
+    },
+    {
+      "hash": "wW51dxGEf_84",
+      "address": "https://www.coindesk.com/price/bitcoin",
+      "title": "Bitcoin price today, BTC to USD live price, marketcap and chart | CoinDesk",
+      "grade": 0
+    },
+    {
+      "hash": "F8pNex9-2fJ4",
+      "address": "https://news.bitcoin.com/",
+      "title": "Bitcoin News Today: Latest BTC News \u0026 Live Updates | Bitcoin.com",
+      "grade": 0
+    },
+    {
+      "hash": "ZcKHCblCQfD4",
+      "address": "https://www.coinbase.com/en-fr/price/bitcoin",
+      "title": "Bitcoin Price, BTC Price, Live Charts, and Marketcap: bitcoin price, bitcoin price usd, btc live price - Coinbase France",
+      "grade": 0
+    },
+    {
+      "hash": "C0pDTxGEf_84",
+      "address": "https://www.coindesk.com/price/bitcoin-cash",
+      "title": "Bitcoin Cash price today, BCH to USD live price, marketcap and chart | CoinDesk",
+      "grade": 0
+    },
+    {
+      "hash": "v7oUodBzQQh4",
+      "address": "https://crypto.games/slot/bitcoin",
+      "title": "Bitcoin Slot | Crypto.Games",
+      "grade": 0
+    },
+    {
+      "hash": "dEtSVSk8Keg4",
+      "address": "https://www.ledger.com/coin/wallet/bitcoin",
+      "title": "Bitcoin Wallet App: Secure BTC via Ledger Wallet",
+      "grade": 0
+    },
+    {
+      "hash": "f6pk6l65bs_4",
+      "address": "https://www.bitcoin.com/",
+      "title": "Bitcoin for Everyone – The Home of Crypto | Bitcoin.com",
+      "grade": 1
+    },
+    {
+      "hash": "4FiP7s_mg3l6",
+      "address": "https://bitcoinmagazine.com/bitcoin-price",
+      "title": "Bitcoin Price Chart (BTC-USD): Live Update (July 2025)",
+      "grade": 0
+    },
+    {
+      "hash": "AhRsEH5dlbp4",
+      "address": "https://mashable.com/article/bitcoin-drops-below-100000-heres-why",
+      "title": "Bitcoin price plunges below 6-month low. This is why. | Mashable",
+      "grade": 0
+    },
+    {
+      "hash": "SQ0AUx65bs_4",
+      "address": "https://www.bitcoin.com/price/bitcoin/",
+      "title": "Bitcoin (BTC) Price, Chart \u0026 Market Data | Bitcoin.com",
+      "grade": 0
+    },
+    {
+      "hash": "TIT545Aq1kNZ",
+      "address": "http://dailybail.com/home/holy-currency-bitcoin-up-1500-in-9-months.html",
+      "title": "HOLY CURRENCY: Bitcoin Up 1500% In 9 Months! - Home - The Daily Bail",
+      "grade": 0
+    },
+    {
+      "hash": "Zasf8sHc7VYw",
+      "address": "https://metamask.io/",
+      "title": "MetaMask Crypto Wallet. Buy and Sell Bitcoin, Ethereum, Solana",
+      "grade": 0
+    },
+    {
+      "hash": "tD6ndsUbiSqw",
+      "address": "https://bitcoin.org/bips/",
+      "title": "Bitcoin Improvement Proposals",
+      "grade": 0
+    },
+    {
+      "hash": "-BNi92_mg3l6",
+      "address": "https://bitcoinmagazine.com/takes/bitcoin-magazine-introduces-opinion-takes",
+      "title": "Bitcoin Magazine Introduces New Short Form Opinion Format: Takes",
+      "grade": 0
+    },
+    {
+      "hash": "hIcjS0Zltg14",
+      "address": "https://podcast.bitcoin.com/",
+      "title": "The Bitcoin.com Podcast Network – Bitcoin.com",
+      "grade": 0
+    },
+    {
+      "hash": "vX2KGiv33yKw",
+      "address": "https://bitcoin.com.au/",
+      "title": "Australian Crypto \u0026 Bitcoin Exchange - Easy \u0026 Secure | bitcoin.com.au",
+      "grade": 2
+    },
+    {
+      "hash": "gBaASxtpAPv4",
+      "address": "https://www.bitget.com/price/bitcoin-cash/kzt",
+      "title": "Bitcoin Cash Calculator: Convert Bitcoin Cash (BCH) to Kazakhstani Tenge (KZT) — Bitget",
+      "grade": 0
+    },
+    {
+      "hash": "2AUfHl2Ckzh4",
+      "address": "https://www.okx.com/en-eu",
+      "title": "Buy Bitcoin \u0026 Crypto | Crypto Exchange, App \u0026 Wallet | OKX Europe",
+      "grade": 2
+    },
+    {
+      "hash": "EkwJYl51P594",
+      "address": "https://www.binance.com/en/trade?ref=RJHUURX2",
+      "title": "Bitcoin Exchange | Cryptocurrency Exchange | Binance",
+      "grade": 1
+    },
+    {
+      "hash": "xMAp9L2ijeC4",
+      "address": "https://www.kucoin.com/learn/crypto/top-crypto-projects-in-base-network-ecosystem?lang=en_US\u0026x=fr_FR",
+      "title": "Crypto Exchange | Bitcoin Exchange | Bitcoin Trading | KuCoin",
+      "grade": 0
+    },
+    {
+      "hash": "DpCfTl65bs_4",
+      "address": "https://www.bitcoin.com/buy/",
+      "title": "Buy Crypto with Credit Card or Debit Card | Bitcoin.com",
+      "grade": 1
+    },
+    {
+      "hash": "EpG9X__mg3l6",
+      "address": "https://bitcoinmagazine.com/news/treasury-sanctions-iran-bitcoin-exchange",
+      "title": "Treasury Sanctions Iranian Bitcoin Exchange BitBank",
+      "grade": 1
+    },
+    {
+      "hash": "btweyCUbiSqw",
+      "address": "https://bitcoin.org/en/scams",
+      "title": "Avoid Scams - Bitcoin",
+      "grade": 0
+    },
+    {
+      "hash": "iLqe6l65bs_4",
+      "address": "https://www.bitcoin.com/research/",
+      "title": "Bitcoin.com Research | Blockchain \u0026 Crypto Analysis",
+      "grade": 0
+    },
+    {
+      "hash": "HwteEXUbiSqw",
+      "address": "https://bitcoin.org/hi/exchanges",
+      "title": "Exchanges - Bitcoin",
+      "grade": 1
+    },
+    {
+      "hash": "wFs0Vl65bs_4",
+      "address": "https://www.bitcoin.com/exchange/",
+      "title": "Bitcoin Exchange \u0026 Crypto Swaps | Self-Custodial DEX | Bitcoin.com",
+      "grade": 1
+    },
+    {
+      "hash": "xVVF0q2ijeC4",
+      "address": "https://www.kucoin.com/support/47497300093764?lang=en_US\u0026x=fr_FR",
+      "title": "Crypto Exchange | Bitcoin Exchange | Bitcoin Trading | KuCoin",
+      "grade": 0
+    },
+    {
+      "hash": "tHvOrqjE4rU4",
+      "address": "https://c2c.binance.com/en/merchantApplication",
+      "title": "Buy and Sell Bitcoin on P2P | Local Bitcoin Exchange | Binance",
+      "grade": 1
+    },
+    {
+      "hash": "unsEvy65bs_4",
+      "address": "https://www.bitcoin.com/legal/user-agreement/",
+      "title": "User Agreement | Bitcoin.com",
+      "grade": 0
+    },
+    {
+      "hash": "ARzAnl65bs_4",
+      "address": "https://www.bitcoin.com/bitcoin-atm/",
+      "title": "Bitcoin ATM | Find BTC ATM Locations Near You Today",
+      "grade": 0
+    },
+    {
+      "hash": "6iadEXUbiSqw",
+      "address": "https://bitcoin.org/hi/faq",
+      "title": "प्र:उ - Bitcoin",
+      "grade": 0
+    },
+    {
+      "hash": "vJzgzvUbiSqw",
+      "address": "https://bitcoin.org/zh_TW/exchanges",
+      "title": "Exchanges - Bitcoin",
+      "grade": 1
+    },
+    {
+      "hash": "YjlCRCUbiSqw",
+      "address": "https://bitcoin.org/en/exchanges",
+      "title": "Exchanges - Bitcoin",
+      "grade": 1
+    },
+    {
+      "hash": "jgwPgl65bs_4",
+      "address": "https://www.bitcoin.com/about-us/",
+      "title": "About Us | Bitcoin.com",
+      "grade": 0
+    },
+    {
+      "hash": "K43X0xUbiSqw",
+      "address": "https://bitcoin.org/sl/izmenjave",
+      "title": "Exchanges - Bitcoin",
+      "grade": 1
+    },
+    {
+      "hash": "6lySdCUbiSqw",
+      "address": "https://bitcoin.org/en/faq",
+      "title": "FAQ - Bitcoin",
+      "grade": 0
+    },
+    {
+      "hash": "mr2qKTIvdFuw",
+      "address": "https://developer.bitcoin.org/",
+      "title": "Getting Started — Bitcoin",
+      "grade": 0
+    },
+    {
+      "hash": "Vp7bLsK7YVk4",
+      "address": "https://bisq.network/",
+      "title": "Bisq - A decentralized bitcoin exchange network",
+      "grade": 2
+    },
+    {
+      "hash": "zbUERx9-2fJ4",
+      "address": "https://news.bitcoin.com/more-players-choose-pokies-in-online-casinos-slotozilla/",
+      "title": "More Players Choose Pokies in Online Casinos - Slotozilla – Bitcoin News",
+      "grade": 0
+    }
+  ]
+}

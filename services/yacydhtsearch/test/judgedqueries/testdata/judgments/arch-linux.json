@@ -17,7 +17,7 @@
       "hash": "EBOoBJ01Fnqx",
       "address": "https://gitlab.archlinux.org/archlinux",
       "title": "Arch Linux · GitLab",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "GACSIssyhcfx",
@@ -59,7 +59,7 @@
       "hash": "FMEK11G9imOx",
       "address": "https://terms.archlinux.org/docs/terms-of-service/",
       "title": "Terms of Service | Arch Linux Terms",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "nBatga9Ojva4",
@@ -257,7 +257,7 @@
       "hash": "XuD2KlaVRyih",
       "address": "https://www.archlinux.de/news",
       "title": "Neuigkeiten - archlinux.de",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "boJAslaVRyih",
@@ -521,7 +521,7 @@
       "hash": "mqC38yG9imOx",
       "address": "https://terms.archlinux.org/",
       "title": "Arch Linux Terms",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "p_LHisAbKjYx",

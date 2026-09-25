@@ -137,7 +137,7 @@
       "hash": "F77-_X9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/compose/logs/",
       "title": "docker compose logs | Docker Docs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "k93SLX9Ojva4",
@@ -221,7 +221,7 @@
       "hash": "R8J8sJ_MW7i4",
       "address": "https://www.docker.com/blog/build-ai-agents-with-docker-compose/",
       "title": "Docker Brings Compose to the AI Agent Era | Docker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "6PUUbj_MW7i4",
@@ -269,7 +269,7 @@
       "hash": "i_7p7X9Ojva4",
       "address": "https://docs.docker.com/reference/cli/docker/compose/port/",
       "title": "docker compose port | Docker Docs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "Td7m9X9Ojva4",
@@ -419,7 +419,7 @@
       "hash": "TKx8dJ_MW7i4",
       "address": "https://www.docker.com/blog/announcing-compose-v2-general-availability/",
       "title": "Announcing Compose V2 General Availability | Docker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "RgD2Uc9Ojva4",

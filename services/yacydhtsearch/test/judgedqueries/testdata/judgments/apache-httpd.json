@@ -77,7 +77,7 @@
       "hash": "OtQmQXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "A8UIrXyzSDzw",
@@ -245,7 +245,7 @@
       "hash": "YOsk6XyzSDzw",
       "address": "https://httpd.apache.org/docs/trunk/",
       "title": "Apache HTTP Server Version 2.5 Documentation - Apache HTTP Server Version 2.5",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "jZqlPXyzSDzw",
@@ -383,7 +383,7 @@
       "hash": "nJH-hXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/",
       "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "yu99cXyzSDzw",

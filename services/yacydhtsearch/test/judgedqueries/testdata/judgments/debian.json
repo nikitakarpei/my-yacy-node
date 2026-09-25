@@ -77,7 +77,7 @@
       "hash": "LphQq3piq92w",
       "address": "https://packages.debian.org/squeeze/system-config-lvm",
       "title": "Debian -- Error",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "Kc02xl1nrxbw",
@@ -95,7 +95,7 @@
       "hash": "KZ3knTp4ogvw",
       "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
       "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "TJ3KcE1nrxbw",
@@ -125,7 +125,7 @@
       "hash": "k6fRrm0h8sSw",
       "address": "https://tracker.debian.org/pkg/python-openai",
       "title": "python-openai - Debian Package Tracker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "7bh5_V1nrxbw",
@@ -137,7 +137,7 @@
       "hash": "Au_ktTp4ogvw",
       "address": "https://qa.debian.org/developer.php?login=wolfgang%40silbermayr.at",
       "title": "DDPO: Wolfgang Silbermayr -- Debian Quality Assurance",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "28RfxB5exHdw",
@@ -161,13 +161,13 @@
       "hash": "7CFiyMpiq92w",
       "address": "https://packages.debian.org/bookworm/firefox-esr",
       "title": "Debian -- Details of package firefox-esr in bookworm",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "9wxXSfpiq92w",
       "address": "https://packages.debian.org/buster/python-pysrt",
       "title": "Debian -- Error",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "_GDrky1nrxbw",
@@ -185,13 +185,13 @@
       "hash": "__nmrtpiq92w",
       "address": "https://packages.debian.org/source/trixie/tea4cups",
       "title": "Debian -- Details of source package tea4cups in trixie",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "_aNHCSpiq92w",
       "address": "https://packages.debian.org/sid/schroot",
       "title": "Debian -- Details of package schroot in sid",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "AbsN3l1nrxbw",
@@ -203,7 +203,7 @@
       "hash": "8RwYwSpiq92w",
       "address": "https://packages.debian.org/sid/ethstatus",
       "title": "Debian -- Details of package ethstatus in sid",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "uuzH__nUgebw",
@@ -227,25 +227,25 @@
       "hash": "O8nK5BYgUcBw",
       "address": "https://salsa.debian.org/java-team/svnkit",
       "title": "Debian Java Maintainers / svnkit · GitLab",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "ODVEim0h8sSw",
       "address": "https://tracker.debian.org/pkg/jama",
       "title": "jama - Debian Package Tracker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "OJ0QvTp4ogvw",
       "address": "https://qa.debian.org/debcheck.php?dist=testing\u0026package=apache-directory-server",
       "title": "debcheck -- Debian Quality Assurance",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "m1-2Wtpiq92w",
       "address": "https://packages.debian.org/source/sid/libsidplay",
       "title": "Debian -- Details of source package libsidplay in sid",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "ldzk0N1nrxbw",
@@ -257,13 +257,13 @@
       "hash": "nIXyutpiq92w",
       "address": "https://packages.debian.org/source/bullseye/simplesamlphp",
       "title": "Debian -- Details of source package simplesamlphp in bullseye",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "mr-k9tpiq92w",
       "address": "https://packages.debian.org/source/sid/ruby-redis-rails",
       "title": "Debian -- Error",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "upQ3-t1nrxbw",
@@ -275,37 +275,37 @@
       "hash": "2t3zf5piq92w",
       "address": "https://packages.debian.org/search?lang=pl\u0026suite=sid\u0026searchon=names\u0026keywords=libgnome",
       "title": "Debian -- Wyniki wyszukiwania pakietu -- libgnome",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "xwiJmm0h8sSw",
       "address": "https://tracker.debian.org/pkg/lua-posix",
       "title": "lua-posix - Debian Package Tracker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "p4s4g5piq92w",
       "address": "https://packages.debian.org/search?lang=ja\u0026suite=sid\u0026searchon=names\u0026keywords=libgnome",
       "title": "Debian -- パッケージ検索結果 -- libgnome",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "yQGiJ18Iy73w",
       "address": "https://sources.debian.org/patches/afterstep/2.2.12-15/",
       "title": "Package: afterstep | Debian Sources",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "rUiPF5piq92w",
       "address": "https://packages.debian.org/search?lang=uk\u0026suite=sid\u0026searchon=names\u0026keywords=libgnome",
       "title": "Debian -- Package Search Results -- libgnome",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "sq9mPm0h8sSw",
       "address": "https://tracker.debian.org/pkg/mgltools-pybabel",
       "title": "mgltools-pybabel - Debian Package Tracker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "YAZ8YE1nrxbw",
@@ -317,7 +317,7 @@
       "hash": "aan2nSpiq92w",
       "address": "https://packages.debian.org/sid/source/llvm-toolchain-19",
       "title": "Debian -- Details of source package llvm-toolchain-19 in sid",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "aG2uqB7dZj5w",
@@ -335,7 +335,7 @@
       "hash": "eAGXPm0h8sSw",
       "address": "https://tracker.debian.org/pkg/llama.cpp",
       "title": "llama.cpp - Debian Package Tracker",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "ojdnMD1nrxbw",
@@ -347,7 +347,7 @@
       "hash": "iKGIZtpiq92w",
       "address": "https://packages.debian.org/source/testing/rust-parking-lot-core",
       "title": "Debian -- Details of source package rust-parking-lot-core in forky",
-      "grade": 1
+      "grade": 0
     }
   ]
 }

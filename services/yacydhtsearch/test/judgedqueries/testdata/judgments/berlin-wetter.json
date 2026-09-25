@@ -59,13 +59,13 @@
       "hash": "cXuUfl_5-JKg",
       "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_tn",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "gIN3Al_5-JKg",
       "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_txc",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "qEpb6HfjI1Dh",
@@ -101,7 +101,7 @@
       "hash": "8P9zIl_5-JKg",
       "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_txca",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "-5YtplfjI1Dh",
@@ -137,7 +137,7 @@
       "hash": "wrxZml_5-JKg",
       "address": "https://www.mtwetter.de/regionales_tagesmittel.php?par=mx_tnc",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "RA7PGPPVWAXw",
@@ -149,7 +149,7 @@
       "hash": "SMcXIlvmeA6g",
       "address": "https://www.wetter.at/",
       "title": "Wetter in Österreich - wetter.at",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "WjrUKyCK9lK4",
@@ -197,7 +197,7 @@
       "hash": "qUyO80yX5Qug",
       "address": "https://www.t-online.de/nachrichten/panorama/wetter/",
       "title": "Wetter heute und morgen, Vorhersagen und Trends",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "uj2IelfjI1Dh",
@@ -407,7 +407,7 @@
       "hash": "8T7bUlWgkBXg",
       "address": "https://www.wetter.de/news.html",
       "title": "News und Nachrichten zu Wetter Ereignissen | wetter.de",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "BOfydPPVWAXw",
@@ -455,7 +455,7 @@
       "hash": "u3hDSgWgkBXg",
       "address": "https://www.wetter.de/deutschland/unwetter-karte-deutschland-c49.html",
       "title": "Aktuelle Unwetter für Deutschland | wetter.de",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "SH2v_lfjI1Dh",
@@ -479,13 +479,13 @@
       "hash": "gkxerl_5-JKg",
       "address": "https://www.mtwetter.de/regionales_mittel.php?par=mx_tdn\u0026datum=09",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "hm_hoz_5-JKg",
       "address": "https://www.mtwetter.de/monatstabelle/date_mx_umx-2026-09-1-date_mx_umx.html",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "h-LXAjyX5Qug",
@@ -497,7 +497,7 @@
       "hash": "_GcBIz_5-JKg",
       "address": "https://www.mtwetter.de/monatstabelle/mx_spx-2026-09-1-mx_spx.html",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "ySJH8lvSGqr4",
@@ -509,19 +509,19 @@
       "hash": "wEciXz_5-JKg",
       "address": "https://www.mtwetter.de/monatstabelle/mx_tdn-2026-09-2-mx_tdn.html",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "yEIOMl_5-JKg",
       "address": "https://www.mtwetter.de/regionales_mittel.php?par=date_mx_umx\u0026datum=09",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "qEXjel_5-JKg",
       "address": "https://www.mtwetter.de/regionales_mittel.php?par=mo_sd\u0026datum=09",
       "title": "Wetter- und Klimakarten",
-      "grade": 1
+      "grade": 0
     }
   ]
 }
