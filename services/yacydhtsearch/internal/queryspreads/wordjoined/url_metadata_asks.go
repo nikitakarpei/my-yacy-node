@@ -2,6 +2,7 @@ package wordjoined
 
 import (
 	"context"
+	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -78,23 +79,39 @@ func (peer peerWithItsAbstracts) urlMetadataAsk(
 	documentsMostHeldFirst []yacymodel.URLHash,
 	askCeiling int,
 ) peerasks.URLMetadataAsk {
-	askDocuments := make([]yacymodel.URLHash, 0, min(
-		len(peer.documentsInItsAbstracts), askCeiling,
-	))
-	for _, document := range documentsMostHeldFirst {
-		if len(askDocuments) == askCeiling {
-			break
-		}
-		if !peer.documentsInItsAbstracts.contains(document) {
-			continue
-		}
-		askDocuments = append(askDocuments, document)
-	}
+	heldDocumentsMostHeldFirst := peer.documentsHeldAmong(documentsMostHeldFirst)
 
 	return peerasks.URLMetadataAsk{
 		Peer:      peer.askablePeer,
-		Documents: askDocuments,
+		Documents: chosenDocumentsAmong(heldDocumentsMostHeldFirst, askCeiling),
 	}
+}
+
+func (peer peerWithItsAbstracts) documentsHeldAmong(
+	documentsMostHeldFirst []yacymodel.URLHash,
+) []yacymodel.URLHash {
+	heldDocuments := make([]yacymodel.URLHash, 0, len(peer.documentsInItsAbstracts))
+	for _, document := range documentsMostHeldFirst {
+		if !peer.documentsInItsAbstracts.contains(document) {
+			continue
+		}
+		heldDocuments = append(heldDocuments, document)
+	}
+
+	return heldDocuments
+}
+
+func chosenDocumentsAmong(
+	heldDocumentsMostHeldFirst []yacymodel.URLHash,
+	askCeiling int,
+) []yacymodel.URLHash {
+	if len(heldDocumentsMostHeldFirst) <= askCeiling {
+		return heldDocumentsMostHeldFirst
+	}
+	heldDocumentsLeastHeldFirst := slices.Clone(heldDocumentsMostHeldFirst)
+	slices.Reverse(heldDocumentsLeastHeldFirst)
+
+	return heldDocumentsLeastHeldFirst[:askCeiling]
 }
 
 func asksCoveringMostDocuments(

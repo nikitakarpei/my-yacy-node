@@ -906,44 +906,73 @@ func TestAPeerWithALoweredCeilingIsAskedMetadataForAtMostThatManyDocuments(t *te
 	}
 }
 
-func TestTheDocumentsTheMostPeersHoldAreTheOnesEachPeerIsAskedMetadataFor(t *testing.T) {
+func TestAPeerTheCeilingLimitsIsAskedMetadataForTheLeastHeldDocuments(t *testing.T) {
 	t.Parallel()
 
 	first := "https://first.example/"
 	second := "https://second.example/"
 
-	if got := theOneDocumentAskedMetadataFor(t, first, second); got != documentHashOf(t, first) {
-		t.Fatalf("%v was asked metadata for, want the document both peers hold", got)
-	}
-	if got := theOneDocumentAskedMetadataFor(t, second, first); got != documentHashOf(t, second) {
-		t.Fatalf("%v was asked metadata for, want the document both peers hold", got)
+	for _, heldByBothPeers := range []string{first, second} {
+		heldByOnePeer := first
+		if heldByBothPeers == first {
+			heldByOnePeer = second
+		}
+		settings := settingsOfOnePartition()
+		settings.urlMetadataAskCeilingOfEachPeer = map[string]int{
+			"first": documentsOneURLMetadataAskNames,
+		}
+
+		got := documentsEachPeerIsAskedMetadataFor(settings, heldByBothPeers, heldByOnePeer)
+
+		want := map[string][]yacymodel.URLHash{
+			"first":  {documentHashOf(t, heldByOnePeer)},
+			"second": {documentHashOf(t, heldByBothPeers)},
+		}
+		if !maps.EqualFunc(got, want, slices.Equal) {
+			t.Fatalf("the peers were asked metadata for %v, want %v", got, want)
+		}
 	}
 }
 
-func theOneDocumentAskedMetadataFor(
-	t *testing.T,
+func TestAPeerTheCeilingDoesNotLimitIsAskedMetadataForEveryDocumentItHolds(t *testing.T) {
+	t.Parallel()
+
+	heldByBothPeers := "https://first.example/"
+	heldByOnePeer := "https://second.example/"
+	settings := settingsOfOnePartition()
+	settings.urlMetadataAskCeilingOfEachPeer = map[string]int{"first": 2}
+
+	got := documentsEachPeerIsAskedMetadataFor(settings, heldByBothPeers, heldByOnePeer)
+
+	want := map[string][]yacymodel.URLHash{
+		"first": documentsInTheirHashOrder(
+			documentHashesOf([]string{heldByBothPeers, heldByOnePeer}),
+		),
+		"second": {documentHashOf(t, heldByBothPeers)},
+	}
+	if !maps.EqualFunc(got, want, slices.Equal) {
+		t.Fatalf("the peers were asked metadata for %v, want %v", got, want)
+	}
+}
+
+func documentsEachPeerIsAskedMetadataFor(
+	settings spreadSettings,
 	heldByBothPeers string,
 	heldByOnePeer string,
-) yacymodel.URLHash {
-	t.Helper()
-
+) map[string][]yacymodel.URLHash {
 	joined := []string{heldByBothPeers, heldByOnePeer}
 	network := networkOf(map[string]map[string][]string{
 		"first":  {firstWord: joined, secondWord: joined},
 		"second": {firstWord: {heldByBothPeers}, secondWord: {heldByBothPeers}},
 	})
-
-	settings := settingsOfOnePartition()
-	settings.urlMetadataAskDocumentsCeiling = documentsOneURLMetadataAskNames
 	settings.spread(network, &recordedSpreads{})
 
-	documents := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks)
-	if len(documents) != 1 {
-		t.Fatalf("%d documents were asked metadata for, want the one the ceiling allows",
-			len(documents))
+	documentsOfEachPeer := map[string][]yacymodel.URLHash{}
+	for _, ask := range network.urlMetadataAsks {
+		documentsOfEachPeer[ask.Peer.Address] = documentsInTheirHashOrder(ask.Documents)
 	}
 
-	return documents[0]
+	return documentsOfEachPeer
 }
 
 func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *testing.T) {
