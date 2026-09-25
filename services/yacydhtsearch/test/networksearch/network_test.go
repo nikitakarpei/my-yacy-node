@@ -248,6 +248,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 		replicaAsks(t),
 		peerCalls(t),
 		noRememberedQueryWordDocumentAmounts{},
+		wordjoined.URLMetadataLookupCutoff{},
 		rand.UintN,
 		recordCeiling,
 		documentsToMatchCeiling,

@@ -145,6 +145,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 				everyReplica,
 				calledPeers,
 				noRememberedQueryWordDocumentAmounts{},
+				wordjoined.URLMetadataLookupCutoff{},
 				rand.UintN,
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,

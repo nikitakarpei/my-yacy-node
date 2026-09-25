@@ -266,6 +266,7 @@ func querySpreadFor(
 			replicaAsks,
 			peers,
 			queryWordDocumentAmounts,
+			cfg.URLMetadataLookupCutoff,
 			rand.UintN,
 			cfg.URLMetadataAskDocumentsCeiling,
 			cfg.DocumentsToMatchCeiling,

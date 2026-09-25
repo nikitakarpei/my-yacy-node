@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -57,6 +58,8 @@ const (
 	EnvPageReadBudget                   = "YACYDHTSEARCH_PAGE_READ_BUDGET"
 	EnvPageReadCutoffPercent            = "YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT"
 	EnvPageReadCutoffGrace              = "YACYDHTSEARCH_PAGE_READ_CUTOFF_GRACE"
+	EnvURLMetadataLookupCutoffPercent   = "YACYDHTSEARCH_URL_METADATA_LOOKUP_CUTOFF_PERCENT"
+	EnvURLMetadataLookupCutoffGrace     = "YACYDHTSEARCH_URL_METADATA_LOOKUP_CUTOFF_GRACE"
 	EnvPageByteCeiling                  = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
 	EnvPageReadMaxRedirectHops          = "YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS"
 	EnvSnippetLengthCeiling             = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
@@ -95,6 +98,8 @@ const (
 	DefaultPageReadBudget                   = 3 * time.Second
 	DefaultPageReadCutoffPercent            = 90
 	DefaultPageReadCutoffGrace              = 250 * time.Millisecond
+	DefaultURLMetadataLookupCutoffPercent   = 90
+	DefaultURLMetadataLookupCutoffGrace     = 250 * time.Millisecond
 	DefaultPageByteCeiling                  = 4 * 1024 * 1024
 	DefaultPageReadMaxRedirectHops          = 3
 	DefaultSnippetLengthCeiling             = 300
@@ -132,6 +137,7 @@ type ServiceConfig struct {
 	PeerItemsCeiling                 int
 	DocumentsToMatchCeiling          int
 	URLMetadataAskDocumentsCeiling   int
+	URLMetadataLookupCutoff          wordjoined.URLMetadataLookupCutoff
 	RankedItemsCeiling               int
 	NATSURL                          string
 	RankingCache                     int
@@ -215,32 +221,36 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			EnvNetworkName,
 			yacyproto.DefaultNetwork,
 		),
-		SeedlistURLs:                     seedlistURLs,
-		EgressProxyURL:                   egressProxyURL,
-		PageReadProxyURL:                 pageReadProxyURL,
-		PageReadProxyDialMode:            pageReadProxyDialMode,
-		QueryBudget:                      durations.queryBudget,
-		NetworkRedundancy:                counts.networkRedundancy,
-		ReplicasCoveringAPartition:       replicasCoveringAPartition,
-		HedgeDelay:                       durations.hedgeDelay,
-		PeerCallsInFlight:                counts.peerCallsInFlight,
-		URLMetadataCallBudget:            durations.urlMetadataCallBudget,
-		SearchCallBudget:                 durations.searchCallBudget,
-		ProbesInFlight:                   counts.probesInFlight,
-		DirectoryCapacity:                counts.directoryCapacity,
-		NewcomerShare:                    newcomerShare,
-		RefreshInterval:                  durations.refreshInterval,
-		ProbeBudget:                      durations.probeBudget,
-		ContinuityLimit:                  durations.continuityLimit,
-		ProbeAnswerHistoryKeptFor:        durations.probeAnswerHistoryKeptFor,
-		MaturationDuration:               durations.maturationDuration,
-		StalenessHorizon:                 durations.stalenessHorizon,
-		SnapshotInterval:                 durations.snapshotInterval,
-		Partitions:                       partitions,
-		MaxResponseBytes:                 maxResponseBytes,
-		PeerItemsCeiling:                 counts.peerItemsCeiling,
-		DocumentsToMatchCeiling:          counts.documentsToMatchCeiling,
-		URLMetadataAskDocumentsCeiling:   counts.urlMetadataAskDocumentsCeiling,
+		SeedlistURLs:                   seedlistURLs,
+		EgressProxyURL:                 egressProxyURL,
+		PageReadProxyURL:               pageReadProxyURL,
+		PageReadProxyDialMode:          pageReadProxyDialMode,
+		QueryBudget:                    durations.queryBudget,
+		NetworkRedundancy:              counts.networkRedundancy,
+		ReplicasCoveringAPartition:     replicasCoveringAPartition,
+		HedgeDelay:                     durations.hedgeDelay,
+		PeerCallsInFlight:              counts.peerCallsInFlight,
+		URLMetadataCallBudget:          durations.urlMetadataCallBudget,
+		SearchCallBudget:               durations.searchCallBudget,
+		ProbesInFlight:                 counts.probesInFlight,
+		DirectoryCapacity:              counts.directoryCapacity,
+		NewcomerShare:                  newcomerShare,
+		RefreshInterval:                durations.refreshInterval,
+		ProbeBudget:                    durations.probeBudget,
+		ContinuityLimit:                durations.continuityLimit,
+		ProbeAnswerHistoryKeptFor:      durations.probeAnswerHistoryKeptFor,
+		MaturationDuration:             durations.maturationDuration,
+		StalenessHorizon:               durations.stalenessHorizon,
+		SnapshotInterval:               durations.snapshotInterval,
+		Partitions:                     partitions,
+		MaxResponseBytes:               maxResponseBytes,
+		PeerItemsCeiling:               counts.peerItemsCeiling,
+		DocumentsToMatchCeiling:        counts.documentsToMatchCeiling,
+		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
+		URLMetadataLookupCutoff: wordjoined.URLMetadataLookupCutoff{
+			PercentOfDocuments: counts.urlMetadataLookupCutoffPercent,
+			Grace:              durations.urlMetadataLookupCutoffGrace,
+		},
 		RankedItemsCeiling:               counts.rankedItemsCeiling,
 		NATSURL:                          strings.TrimSpace(getenv(EnvNATSURL)),
 		RankingCache:                     counts.rankingCacheCapacity,
@@ -278,6 +288,7 @@ type configuredDurations struct {
 	queryWordDocumentAmountLifetime time.Duration
 	pageReadBudget                  time.Duration
 	pageReadCutoffGrace             time.Duration
+	urlMetadataLookupCutoffGrace    time.Duration
 }
 
 func durationsOf(getenv func(string) string) (configuredDurations, error) {
@@ -311,6 +322,11 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		{EnvQueryWordDocumentAmountLifetime, DefaultQueryWordDocumentAmountLifetime, &durations.queryWordDocumentAmountLifetime},
 		{EnvPageReadBudget, DefaultPageReadBudget, &durations.pageReadBudget},
 		{EnvPageReadCutoffGrace, DefaultPageReadCutoffGrace, &durations.pageReadCutoffGrace},
+		{
+			EnvURLMetadataLookupCutoffGrace,
+			DefaultURLMetadataLookupCutoffGrace,
+			&durations.urlMetadataLookupCutoffGrace,
+		},
 	} {
 		if *field.into, err = envconfig.Duration(getenv, field.key, field.fallback); err != nil {
 			return configuredDurations{}, err
@@ -336,6 +352,7 @@ type configuredCounts struct {
 	compoundWordsCeiling             int
 	pageReadMaxRedirectHops          int
 	pageReadCutoffPercent            int
+	urlMetadataLookupCutoffPercent   int
 	snippetLengthCeiling             int
 }
 
@@ -362,6 +379,11 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvCompoundWordsCeiling, DefaultCompoundWordsCeiling, &counts.compoundWordsCeiling},
 		{EnvPageReadMaxRedirectHops, DefaultPageReadMaxRedirectHops, &counts.pageReadMaxRedirectHops},
 		{EnvPageReadCutoffPercent, DefaultPageReadCutoffPercent, &counts.pageReadCutoffPercent},
+		{
+			EnvURLMetadataLookupCutoffPercent,
+			DefaultURLMetadataLookupCutoffPercent,
+			&counts.urlMetadataLookupCutoffPercent,
+		},
 		{EnvSnippetLengthCeiling, DefaultSnippetLengthCeiling, &counts.snippetLengthCeiling},
 	} {
 		if *field.into, err = envconfig.PositiveInt(getenv, field.key, field.fallback); err != nil {

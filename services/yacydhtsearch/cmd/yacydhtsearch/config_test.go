@@ -73,6 +73,10 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 		cfg.PageReadCutoff.Grace != main.DefaultPageReadCutoffGrace {
 		t.Fatalf("page read cutoff = %+v, want the default", cfg.PageReadCutoff)
 	}
+	if cfg.URLMetadataLookupCutoff.PercentOfDocuments != main.DefaultURLMetadataLookupCutoffPercent ||
+		cfg.URLMetadataLookupCutoff.Grace != main.DefaultURLMetadataLookupCutoffGrace {
+		t.Fatalf("URL metadata lookup cutoff = %+v, want the default", cfg.URLMetadataLookupCutoff)
+	}
 	if cfg.QueryWordDocumentAmountLifetime != main.DefaultQueryWordDocumentAmountLifetime ||
 		cfg.QueryWordDocumentAmountsCapacity != main.DefaultQueryWordDocumentAmountsCapacity {
 		t.Fatalf(
@@ -117,6 +121,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvPagesReadPerSite] = "5"
 	environment[main.EnvPageReadCutoffPercent] = "80"
 	environment[main.EnvPageReadCutoffGrace] = "400ms"
+	environment[main.EnvURLMetadataLookupCutoffPercent] = "75"
+	environment[main.EnvURLMetadataLookupCutoffGrace] = "500ms"
 	environment[main.EnvQueryWordDocumentAmountLifetime] = "90m"
 	environment[main.EnvQueryWordDocumentAmountsCapacity] = "500"
 
@@ -135,6 +141,8 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		!cfg.ServeProfiler || cfg.PagesReadPerSite != 5 ||
 		cfg.PageReadCutoff.PercentOfPages != 80 ||
 		cfg.PageReadCutoff.Grace != 400*time.Millisecond ||
+		cfg.URLMetadataLookupCutoff.PercentOfDocuments != 75 ||
+		cfg.URLMetadataLookupCutoff.Grace != 500*time.Millisecond ||
 		cfg.QueryWordDocumentAmountLifetime != 90*time.Minute || cfg.QueryWordDocumentAmountsCapacity != 500 {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
