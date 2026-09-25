@@ -10,6 +10,10 @@ type URLMetadataAsk struct {
 	Documents []yacymodel.URLHash
 }
 
+type URLMetadataAskOutcome = AskOutcome[URLMetadataAsk, AnsweredURLMetadataAsk]
+
+type URLMetadataAskOutcomes = AskOutcomes[URLMetadataAsk, AnsweredURLMetadataAsk]
+
 type AnsweredURLMetadataAsk struct {
 	Ask                    URLMetadataAsk
 	MetadataOfEachDocument []yacymodel.URLMetadata

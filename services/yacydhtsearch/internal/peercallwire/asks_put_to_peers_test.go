@@ -234,14 +234,14 @@ func TestAURLMetadataAskThatOutlastsTheSearchCallBudgetIsStillAnswered(t *testin
 			`</item></channel></rss>`,
 	)
 
-	answeredAsks := wireSearchingAtMost(shortSearchCallBudget, &recordedOutcome{}).
+	answeredAsks := outcomesOf(wireSearchingAtMost(shortSearchCallBudget, &recordedOutcome{}).
 		AskForURLMetadata(
 			callWithin(t, spreadBudgetOfTheTests),
 			[]peerasks.URLMetadataAsk{{
 				Peer:      peerAt(slow),
 				Documents: []yacymodel.URLHash{mustParseURLHash(t, "Q_ylfl--9bK5")},
 			}},
-		)
+		)).AnsweredAsks()
 
 	if len(answeredAsks) != 1 {
 		t.Fatalf(

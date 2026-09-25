@@ -49,6 +49,8 @@ type peerNetwork struct {
 	silentPeers                           map[string]struct{}
 	peersListingDocumentsTheAskDidNotName map[string]struct{}
 	timeLeftAtEachCallInTheirOrder        []time.Duration
+	metadataDelayOfEachPeer               map[string]time.Duration
+	peersFailingTheURLMetadataCall        map[string]struct{}
 }
 
 func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetwork {
@@ -58,6 +60,8 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 		peersThatSearched:                     map[string]struct{}{},
 		silentPeers:                           map[string]struct{}{},
 		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
+		metadataDelayOfEachPeer:               map[string]time.Duration{},
+		peersFailingTheURLMetadataCall:        map[string]struct{}{},
 	}
 }
 
@@ -128,7 +132,7 @@ func (run *runOfTheNetwork) answer(
 		}
 		askOutcomesOfEachNewWordPartition[wordPartition] = append(
 			askOutcomesOfEachNewWordPartition[wordPartition],
-			network.askOutcomeOf(ctx, ask),
+			network.outcomeOfTheSearchAsk(ctx, ask),
 		)
 	}
 	for _, wordPartition := range newWordPartitionsInOrder {
@@ -141,7 +145,7 @@ func (run *runOfTheNetwork) answer(
 	}
 }
 
-func (network *peerNetwork) askOutcomeOf(
+func (network *peerNetwork) outcomeOfTheSearchAsk(
 	ctx context.Context,
 	ask peerasks.SearchDocumentsAsk,
 ) peerasks.SearchDocumentsAskOutcome {
@@ -278,22 +282,47 @@ func documentsPerWordOf(
 func (network *peerNetwork) AskForURLMetadata(
 	ctx context.Context,
 	asks []peerasks.URLMetadataAsk,
-) []peerasks.AnsweredURLMetadataAsk {
+) <-chan peerasks.URLMetadataAskOutcome {
 	network.mutex.Lock()
 	defer network.mutex.Unlock()
 
 	network.urlMetadataAsks = append(network.urlMetadataAsks, asks...)
 	network.recordTimeLeftIn(ctx)
 
-	answeredAsks := make([]peerasks.AnsweredURLMetadataAsk, 0, len(asks))
+	outcomesAsTheySettle := make(chan peerasks.URLMetadataAskOutcome, len(asks))
+	var askSettlings sync.WaitGroup
 	for _, ask := range asks {
-		answeredAsks = append(answeredAsks, peerasks.AnsweredURLMetadataAsk{
-			Ask:                    ask,
-			MetadataOfEachDocument: metadataOfEachDocument(ask.Documents),
+		delay := network.metadataDelayOfEachPeer[ask.Peer.Address]
+		outcome := network.outcomeOfTheURLMetadataAsk(ask)
+		askSettlings.Go(func() {
+			select {
+			case <-ctx.Done():
+			case <-time.After(delay):
+				outcomesAsTheySettle <- outcome
+			}
 		})
 	}
+	go func() {
+		askSettlings.Wait()
+		close(outcomesAsTheySettle)
+	}()
 
-	return answeredAsks
+	return outcomesAsTheySettle
+}
+
+func (network *peerNetwork) outcomeOfTheURLMetadataAsk(
+	ask peerasks.URLMetadataAsk,
+) peerasks.URLMetadataAskOutcome {
+	outcome := peerasks.URLMetadataAskOutcome{Ask: ask, Put: true}
+	if _, fails := network.peersFailingTheURLMetadataCall[ask.Peer.Address]; fails {
+		return outcome
+	}
+	outcome.Answer = yacymodel.Some(peerasks.AnsweredURLMetadataAsk{
+		Ask:                    ask,
+		MetadataOfEachDocument: metadataOfEachDocument(ask.Documents),
+	})
+
+	return outcome
 }
 
 func documentHashesOf(addresses []string) []yacymodel.URLHash {
@@ -1013,6 +1042,64 @@ func TestAJoinedDocumentNoPeerAnsweredIsFoundThroughItsMetadata(t *testing.T) {
 
 	if len(foundDocuments) != 1 || foundDocuments[0].Hash != documentHashOf(t, joined) {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
+	}
+}
+
+func TestTheLookupEndsOnceItsAnswersCoverEveryDocumentWithoutTheStuckPeer(t *testing.T) {
+	t.Parallel()
+
+	const answerDelayOfAStuckPeer = 2 * time.Second
+
+	joined := []string{"https://joined.example/"}
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: joined, secondWord: joined},
+		"second": {firstWord: joined, secondWord: joined},
+	})
+	network.metadataDelayOfEachPeer["second"] = answerDelayOfAStuckPeer
+	observer := &recordedSpreads{}
+
+	startedAt := time.Now()
+	answeredQueryFrom(network, observer)
+	timeSpent := time.Since(startedAt)
+
+	performed := observer.performed[0].URLMetadataLookupRound
+	if performed.EndReason != wordjoined.URLMetadataLookupEndedByCoverage ||
+		performed.AmountOfLookedUpDocumentsWithMetadata != 1 ||
+		timeSpent >= answerDelayOfAStuckPeer {
+		t.Fatalf(
+			"the lookup reported %+v after %v, want it to end by coverage with the document "+
+				"before the %v the stuck peer takes",
+			performed, timeSpent, answerDelayOfAStuckPeer,
+		)
+	}
+}
+
+func TestTheLookupWaitsForTheStuckPeerWhoseDocumentNoOtherPeerSent(t *testing.T) {
+	t.Parallel()
+
+	shared, onlyStuck, onlyFailing := "https://shared.example/",
+		"https://only-stuck.example/", "https://only-failing.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first":   {firstWord: {shared}, secondWord: {shared}},
+		"stuck":   {firstWord: {shared, onlyStuck}, secondWord: {shared, onlyStuck}},
+		"failing": {firstWord: {onlyFailing}, secondWord: {onlyFailing}},
+	})
+	network.metadataDelayOfEachPeer["stuck"] = 200 * time.Millisecond
+	network.peersFailingTheURLMetadataCall["failing"] = struct{}{}
+	settings := settingsOfOnePartition()
+	settings.askablePeers = []string{"first", "stuck", "failing"}
+	observer := &recordedSpreads{}
+
+	settings.spread(network, observer)
+
+	performed := observer.performed[0].URLMetadataLookupRound
+	if performed.EndReason != wordjoined.URLMetadataLookupEndedByEveryAskSettled ||
+		performed.AmountOfLookedUpDocumentsWithMetadata != 2 {
+		t.Fatalf(
+			"the lookup reported %+v, want it to end once every ask settled, "+
+				"with the document only the stuck peer sent",
+			performed,
+		)
 	}
 }
 

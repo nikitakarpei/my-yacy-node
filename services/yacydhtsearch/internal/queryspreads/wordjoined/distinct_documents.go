@@ -15,3 +15,9 @@ func (documents distinctDocuments) contains(document yacymodel.URLHash) bool {
 func (documents distinctDocuments) add(document yacymodel.URLHash) {
 	documents[document] = struct{}{}
 }
+
+func (documents distinctDocuments) addEach(addedDocuments []yacymodel.URLHash) {
+	for _, document := range addedDocuments {
+		documents.add(document)
+	}
+}

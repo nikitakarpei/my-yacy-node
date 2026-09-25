@@ -52,6 +52,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 			AmountOfJoinedDocumentsWithMetadata:   2,
 			AmountOfLookedUpDocuments:             4,
 			AmountOfLookedUpDocumentsWithMetadata: 3,
+			EndReason:                             wordjoined.URLMetadataLookupEndedByCoverage,
 		},
 		TimeSpent: 250 * time.Millisecond,
 	})
@@ -67,6 +68,8 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_duration_seconds_sum 0.25",
+		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="coverage"} 1`,
+		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -89,6 +92,8 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 0`,
 		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, no sample"} 0`,
 		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, no sample"} 0`,
+		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="coverage"} 0`,
+		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
@@ -166,5 +171,24 @@ func TestASpreadThatLookedUpNoMetadataPublishesNoShareWithoutMetadata(t *testing
 		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_count 0",
 	) {
 		t.Fatalf("metrics carry a share for a spread that looked up no metadata:\n%s", body)
+	}
+}
+
+func TestALookupThatAskedNoPeerIsNotCountedByWhatEndedIt(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	spread := spreadJoiningDocuments(4)
+	spread.URLMetadataLookupRound.EndReason = wordjoined.URLMetadataLookupEndedByEveryAskSettled
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
+
+	body := publishedBy(t, registry)
+	if !strings.Contains(
+		body,
+		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
+	) {
+		t.Fatalf("metrics count a lookup that asked no peer:\n%s", body)
 	}
 }
