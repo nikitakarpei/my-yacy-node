@@ -151,6 +151,12 @@ components:
     in: internal/peerreliability/**
   welllinkedhostsbinaryfuse:
     in: internal/welllinkedhosts/binaryfuse/**
+  welllinkedhostrelevance:
+    in: internal/welllinkedhostrelevance/**
+  welllinkedhostrelevanceobserversapplog:
+    in: internal/welllinkedhostrelevanceobservers/applog/**
+  welllinkedhostrelevanceobserversprometheus:
+    in: internal/welllinkedhostrelevanceobservers/prometheus/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -488,6 +494,14 @@ deps:
     canUse:
       - xorfilter
       - yacymodel
+  welllinkedhostrelevance:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - queryanswers
+  welllinkedhostrelevanceobserversprometheus:
+    canUse:
+      - prometheus
   yacydhtsearchcmd:
     anyProjectDeps: true
     anyVendorDeps: true
