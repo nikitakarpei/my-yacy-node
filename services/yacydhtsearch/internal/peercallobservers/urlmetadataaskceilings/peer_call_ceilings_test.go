@@ -129,6 +129,9 @@ func TestASearchOutcomeChangesNothing(t *testing.T) {
 				ctx, peerAddress, peerasks.SearchDocuments, 3, errCall, time.Second,
 			)
 		},
+		"headers late": func(ctx context.Context, peerCalls peercallobserversurlmetadataaskceilings.PeerCallCeilings) {
+			peerCalls.PeerHeadersLate(ctx, peerAddress, peerasks.SearchDocuments, 3, time.Second)
+		},
 	} {
 		if ceiling := ceilingAfter(t, outcome); ceiling != mostDocuments {
 			t.Fatalf("ceiling after a %s search call = %d, want %d", name, ceiling, mostDocuments)

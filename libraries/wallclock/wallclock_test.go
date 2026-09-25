@@ -42,3 +42,9 @@ func TestSleepWrapsCancelledContext(t *testing.T) {
 		t.Fatal("cancelled context should interrupt a pending sleep")
 	}
 }
+
+func TestAfterRunsExpireOnceTheTimeoutPassed(t *testing.T) {
+	expired := make(chan struct{})
+	wallclock.Clock{}.After(time.Millisecond, func() { close(expired) })
+	<-expired
+}

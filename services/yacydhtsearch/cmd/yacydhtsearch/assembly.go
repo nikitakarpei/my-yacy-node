@@ -22,6 +22,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
@@ -142,12 +143,14 @@ func RunService(
 	)
 	peers := peercallwire.New(
 		outbound,
+		wallclock.Clock{},
 		peercallwire.SearchedNetwork{Name: cfg.NetworkName, RingPartitions: cfg.Partitions},
 		peercallwire.PeerCallLimits{
-			MaxResponseBytes:      cfg.MaxResponseBytes,
-			PeerCallsInFlight:     cfg.PeerCallsInFlight,
-			URLMetadataCallBudget: cfg.URLMetadataCallBudget,
-			SearchCallBudget:      cfg.SearchCallBudget,
+			MaxResponseBytes:         cfg.MaxResponseBytes,
+			PeerCallsInFlight:        cfg.PeerCallsInFlight,
+			URLMetadataCallBudget:    cfg.URLMetadataCallBudget,
+			SearchCallBudget:         cfg.SearchCallBudget,
+			SearchCallHeadersTimeout: cfg.SearchCallHeadersTimeout,
 		},
 		peercallwire.PeerCallObservers{
 			peercallobserversapplog.PeerCallLog{},

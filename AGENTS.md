@@ -34,4 +34,8 @@ Arch-lint: the composition root may use anything; every other component lists wh
 
 Dependencies: record each new third-party dependency in its own ADR before use. Pin all versions — runtime deps in go.mod, build and lint tools in Go tool directives; make verify uses only pinned tools, never PATH versions.
 
-Testing: code lands with tests. A test asserts the observable behavior of one cohesive unit, never its internals, which may change while the behavior stays the same. Every test file declares `package <name>_test` and reaches the code through its exported surface only. A test that needs an unexported identifier has found a unit that is not extracted yet; extract it, and never widen an exported surface to let a test in. A test that spans packages lives under `test/`, in a directory that holds no code. make verify is the only gate; a change is done only when it is green. If coverage drops, first delete dead or defensive-only code or collapse unexercised branches; filler tests written only to raise coverage fail the change.
+Testing: code lands with tests. A test asserts the observable behavior of one unit through its exported surface, never its internals. A test that needs an unexported identifier has found a unit not extracted yet: extract it; never widen an exported surface for a test. A test that spans packages lives under `test/`, in a directory that holds no code.
+
+Testing — time: a test never races a real clock. A unit that waits on time takes a clock port; the test fires or reads the timer through a fake. Widening a timing margin is not a fix.
+
+Gate: make verify is the only gate; a change is done only when it is green. If coverage drops, delete dead or defensive-only code or collapse unexercised branches first; filler tests fail the change.

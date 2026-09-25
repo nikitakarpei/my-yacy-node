@@ -20,6 +20,7 @@ const (
 	outcomePeerRefused         = "refused"
 	outcomePeerUnreachable     = "unreachable"
 	outcomePeerUnreadable      = "unreadable"
+	outcomePeerHeadersLate     = "headers late"
 	outcomePeerCallCancelled   = "cancelled"
 )
 
@@ -34,6 +35,7 @@ type peerCallsOfOneAsk struct {
 	refused         peerCallsOfOneOutcome
 	unreachable     peerCallsOfOneOutcome
 	unreadable      peerCallsOfOneOutcome
+	headersLate     peerCallsOfOneOutcome
 	cancelled       peerCallsOfOneOutcome
 }
 
@@ -97,6 +99,9 @@ func peerCallsOfOneAskFrom(
 		),
 		unreadable: peerCallsOfOneOutcomeFrom(
 			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerUnreadable,
+		),
+		headersLate: peerCallsOfOneOutcomeFrom(
+			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerHeadersLate,
 		),
 		cancelled: peerCallsOfOneOutcomeFrom(
 			peerCalls, peerCallDurationSeconds, askedFor, outcomePeerCallCancelled,
@@ -203,6 +208,16 @@ func (m *PeerCallMetrics) PeerAnswerUnreadable(
 	spent time.Duration,
 ) {
 	m.peerCallsPerAskedFor[askedFor].unreadable.count(spent)
+}
+
+func (m *PeerCallMetrics) PeerHeadersLate(
+	_ context.Context,
+	_ string,
+	askedFor peerasks.AskedFor,
+	_ int,
+	spent time.Duration,
+) {
+	m.peerCallsPerAskedFor[askedFor].headersLate.count(spent)
 }
 
 func (m *PeerCallMetrics) PeerCallCancelled(

@@ -57,6 +57,13 @@ type PeerCallObserver interface {
 		cause error,
 		spent time.Duration,
 	)
+	PeerHeadersLate(
+		ctx context.Context,
+		address string,
+		askedFor peerasks.AskedFor,
+		amountOfDocumentsAsked int,
+		spent time.Duration,
+	)
 	PeerCallCancelled(
 		ctx context.Context,
 		address string,
@@ -156,6 +163,18 @@ func (observers PeerCallObservers) PeerAnswerUnreadable(
 ) {
 	for _, observer := range observers {
 		observer.PeerAnswerUnreadable(ctx, address, askedFor, amountOfDocumentsAsked, cause, spent)
+	}
+}
+
+func (observers PeerCallObservers) PeerHeadersLate(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+	amountOfDocumentsAsked int,
+	spent time.Duration,
+) {
+	for _, observer := range observers {
+		observer.PeerHeadersLate(ctx, address, askedFor, amountOfDocumentsAsked, spent)
 	}
 }
 

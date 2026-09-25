@@ -41,11 +41,14 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 		)
 	}
 	if cfg.URLMetadataCallBudget != main.DefaultURLMetadataCallBudget ||
-		cfg.SearchCallBudget != main.DefaultSearchCallBudget {
+		cfg.SearchCallBudget != main.DefaultSearchCallBudget ||
+		cfg.SearchCallHeadersTimeout != main.DefaultSearchCallHeadersTimeout {
 		t.Fatalf(
-			"URL metadata call budget = %v and search call budget = %v, want the defaults",
+			"URL metadata call budget = %v, search call budget = %v and headers timeout = %v, "+
+				"want the defaults",
 			cfg.URLMetadataCallBudget,
 			cfg.SearchCallBudget,
+			cfg.SearchCallHeadersTimeout,
 		)
 	}
 	if cfg.HedgeDelay != main.DefaultHedgeDelay {
@@ -125,6 +128,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvPeerCallsInFlight] = "9"
 	environment[main.EnvURLMetadataCallBudget] = "4s"
 	environment[main.EnvSearchCallBudget] = "1500ms"
+	environment[main.EnvSearchCallHeadersTimeout] = "0s"
 	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
 	environment[main.EnvDocumentsToMatchCeiling] = "64"
@@ -150,6 +154,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.NetworkRedundancy != 7 || cfg.PeerCallsInFlight != 9 ||
 		cfg.URLMetadataCallBudget != 4*time.Second ||
 		cfg.SearchCallBudget != 1500*time.Millisecond ||
+		cfg.SearchCallHeadersTimeout != 0 ||
 		cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 ||
 		cfg.DocumentsToMatchCeiling != 64 ||
 		cfg.URLMetadataAskDocumentsCeiling != 128 ||

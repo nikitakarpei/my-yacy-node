@@ -32,6 +32,7 @@ const (
 	EnvPeerCallsInFlight                = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
 	EnvURLMetadataCallBudget            = "YACYDHTSEARCH_URL_METADATA_CALL_BUDGET"
 	EnvSearchCallBudget                 = "YACYDHTSEARCH_SEARCH_CALL_BUDGET"
+	EnvSearchCallHeadersTimeout         = "YACYDHTSEARCH_SEARCH_CALL_HEADERS_TIMEOUT"
 	EnvProbesInFlight                   = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
 	EnvDirectoryCapacity                = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval                  = "YACYDHTSEARCH_REFRESH_INTERVAL"
@@ -77,6 +78,7 @@ const (
 	DefaultPeerCallsInFlight                = 160
 	DefaultURLMetadataCallBudget            = 3 * time.Second
 	DefaultSearchCallBudget                 = 2 * time.Second
+	DefaultSearchCallHeadersTimeout         = time.Second
 	DefaultProbesInFlight                   = 24
 	DefaultDirectoryCapacity                = 4096
 	DefaultRefreshInterval                  = 5 * time.Minute
@@ -129,6 +131,7 @@ type ServiceConfig struct {
 	PeerCallsInFlight                int
 	URLMetadataCallBudget            time.Duration
 	SearchCallBudget                 time.Duration
+	SearchCallHeadersTimeout         time.Duration
 	ProbesInFlight                   int
 	DirectoryCapacity                int
 	NewcomerShare                    float64
@@ -242,6 +245,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PeerCallsInFlight:              counts.peerCallsInFlight,
 		URLMetadataCallBudget:          durations.urlMetadataCallBudget,
 		SearchCallBudget:               durations.searchCallBudget,
+		SearchCallHeadersTimeout:       durations.searchCallHeadersTimeout,
 		ProbesInFlight:                 counts.probesInFlight,
 		DirectoryCapacity:              counts.directoryCapacity,
 		NewcomerShare:                  newcomerShare,
@@ -289,6 +293,7 @@ type configuredDurations struct {
 	hedgeDelay                      time.Duration
 	urlMetadataCallBudget           time.Duration
 	searchCallBudget                time.Duration
+	searchCallHeadersTimeout        time.Duration
 	refreshInterval                 time.Duration
 	seedlistReadBudget              time.Duration
 	probeBudget                     time.Duration
@@ -347,6 +352,12 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		if *field.into, err = envconfig.Duration(getenv, field.key, field.fallback); err != nil {
 			return configuredDurations{}, err
 		}
+	}
+	durations.searchCallHeadersTimeout, err = envconfig.NonNegativeDuration(
+		getenv, EnvSearchCallHeadersTimeout, DefaultSearchCallHeadersTimeout,
+	)
+	if err != nil {
+		return configuredDurations{}, err
 	}
 
 	return durations, nil

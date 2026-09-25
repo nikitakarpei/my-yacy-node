@@ -87,6 +87,16 @@ func (peerCalls PeerCallCeilings) PeerAnswerUnreadable(
 	peerCalls.urlMetadataCallFailed(ctx, address, askedFor)
 }
 
+func (peerCalls PeerCallCeilings) PeerHeadersLate(
+	ctx context.Context,
+	address string,
+	askedFor peerasks.AskedFor,
+	_ int,
+	_ time.Duration,
+) {
+	peerCalls.urlMetadataCallFailed(ctx, address, askedFor)
+}
+
 func (peerCalls PeerCallCeilings) PeerCallCancelled(
 	ctx context.Context,
 	address string,
