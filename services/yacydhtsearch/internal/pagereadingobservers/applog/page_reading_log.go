@@ -28,6 +28,7 @@ func (PageReadingLog) PageReadingPerformed(
 			pageReading.AmountOfPagesOfAnUnsupportedKind,
 		),
 		slog.Int("amountOfPagesOutOfBudget", pageReading.AmountOfPagesOutOfBudget),
+		slog.Int("amountOfPagesCutOff", pageReading.AmountOfPagesCutOff),
 		slog.Duration("timeSpent", pageReading.TimeSpent),
 		slog.Duration("timeSpentFetching", pageReading.TimeSpentFetching),
 		slog.Duration("timeSpentReading", pageReading.TimeSpentReading),

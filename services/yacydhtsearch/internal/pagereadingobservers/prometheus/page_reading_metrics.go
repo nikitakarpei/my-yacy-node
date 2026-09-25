@@ -24,6 +24,7 @@ const (
 	outcomePageUnreadable      = "unreadable"
 	outcomePageUnsupportedKind = "unsupported kind"
 	outcomePageOutOfBudget     = "out of budget"
+	outcomePageCutOff          = "cut off"
 )
 
 type PageReadingMetrics struct {
@@ -34,6 +35,7 @@ type PageReadingMetrics struct {
 	pagesUnreadable            prometheusclient.Counter
 	pagesOfAnUnsupportedKind   prometheusclient.Counter
 	pagesOutOfBudget           prometheusclient.Counter
+	pagesCutOff                prometheusclient.Counter
 	pageReadingDurationSeconds prometheusclient.Histogram
 	timeSpentFetchingSeconds   prometheusclient.Counter
 	timeSpentReadingSeconds    prometheusclient.Counter
@@ -68,6 +70,7 @@ func New(
 		pagesUnreadable:            pages.WithLabelValues(outcomePageUnreadable),
 		pagesOfAnUnsupportedKind:   pages.WithLabelValues(outcomePageUnsupportedKind),
 		pagesOutOfBudget:           pages.WithLabelValues(outcomePageOutOfBudget),
+		pagesCutOff:                pages.WithLabelValues(outcomePageCutOff),
 		pageReadingDurationSeconds: pageReadingDurationSeconds,
 		timeSpentFetchingSeconds:   timeSpentSeconds.WithLabelValues(activityFetching),
 		timeSpentReadingSeconds:    timeSpentSeconds.WithLabelValues(activityReading),
@@ -88,4 +91,5 @@ func (m *PageReadingMetrics) PageReadingPerformed(
 	m.pagesUnreadable.Add(float64(pageReading.AmountOfPagesUnreadable))
 	m.pagesOfAnUnsupportedKind.Add(float64(pageReading.AmountOfPagesOfAnUnsupportedKind))
 	m.pagesOutOfBudget.Add(float64(pageReading.AmountOfPagesOutOfBudget))
+	m.pagesCutOff.Add(float64(pageReading.AmountOfPagesCutOff))
 }

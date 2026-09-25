@@ -157,10 +157,23 @@ func (r *recordedPageReading) PageReadingPerformed(
 	r.performed = performed
 }
 
+var cutoffNever = pagereading.PageReadCutoff{PercentOfPages: 100}
+
 func readingOfThePages(
 	t *testing.T,
 	pageFetch pagefetch.Fetcher,
 	observer pagereading.PageReadingObserver,
+) pagereading.Reading {
+	t.Helper()
+
+	return readingCutOffBy(t, pageFetch, observer, cutoffNever)
+}
+
+func readingCutOffBy(
+	t *testing.T,
+	pageFetch pagefetch.Fetcher,
+	observer pagereading.PageReadingObserver,
+	cutoff pagereading.PageReadCutoff,
 ) pagereading.Reading {
 	t.Helper()
 
@@ -173,6 +186,7 @@ func readingOfThePages(
 		redirectfollowingfetch.New(pageFetch, maxRedirectHops),
 		formatDerivations,
 		pageReadBudget,
+		cutoff,
 		snippetLengthCeiling,
 		pagereading.PageReadingObservers{observer},
 	)
@@ -411,6 +425,7 @@ func TestTheWholeTextOfAPageIsReadWhenItHoldsNoReadableText(t *testing.T) {
 		redirectfollowingfetch.New(pagesHoldingTheDocuments(t), maxRedirectHops),
 		documentsThatHoldNoReadableText{},
 		pageReadBudget,
+		cutoffNever,
 		snippetLengthCeiling,
 		pagereading.PageReadingObservers{observer},
 	)
@@ -553,6 +568,7 @@ func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) 
 		redirectfollowingfetch.New(pagesThatOutlastTheBudget{}, maxRedirectHops),
 		formatDerivations,
 		time.Millisecond,
+		cutoffNever,
 		snippetLengthCeiling,
 		pagereading.PageReadingObservers{observer},
 	)
@@ -647,6 +663,85 @@ func TestThePageReadingTellsTheTimeItSpentFetchingApartFromReading(t *testing.T)
 	if performed.TimeSpentFetching+performed.TimeSpentReading > performed.TimeSpent {
 		t.Fatalf(
 			"PageReadingPerformed = %+v, want fetching and reading inside the time spent",
+			performed,
+		)
+	}
+}
+
+type pagesThatOutlastTheBudgetAtOneAddress struct {
+	pages       pagesHeldAtTheirAddress
+	slowAddress string
+}
+
+func (p pagesThatOutlastTheBudgetAtOneAddress) Fetch(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	if pageURL.String() == p.slowAddress {
+		return pagesThatOutlastTheBudget{}.Fetch(ctx, pageURL, knownVersion)
+	}
+
+	return p.pages.Fetch(ctx, pageURL, knownVersion)
+}
+
+func performedReadingWithOnePageThatOutlastsTheBudget(
+	t *testing.T,
+	cutoff pagereading.PageReadCutoff,
+) pagereading.PerformedPageReading {
+	t.Helper()
+
+	observer := &recordedPageReading{}
+	reading := readingCutOffBy(
+		t,
+		pagesThatOutlastTheBudgetAtOneAddress{
+			pages:       pagesHoldingTheDocuments(t),
+			slowAddress: addressOfTheArticle,
+		},
+		observer,
+		cutoff,
+	)
+
+	reading.ReadEachPage(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{
+			pageToReadOfTheAddress(t, addressOfTheDocument),
+			pageToReadOfTheAddress(t, addressOfTheLinkingDocument),
+			pageToReadOfTheAddress(t, addressOfTheArticle),
+		},
+	)
+
+	return observer.performed
+}
+
+func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
+	t.Parallel()
+
+	performed := performedReadingWithOnePageThatOutlastsTheBudget(
+		t,
+		pagereading.PageReadCutoff{PercentOfPages: 50, Grace: 10 * time.Millisecond},
+	)
+
+	if performed.AmountOfPagesRead != 2 || performed.AmountOfPagesCutOff != 1 ||
+		performed.AmountOfPagesOutOfBudget != 0 || performed.TimeSpent >= pageReadBudget/2 {
+		t.Fatalf(
+			"PageReadingPerformed = %+v, want two pages read and the slow page cut off "+
+				"well before the page read budget ends",
+			performed,
+		)
+	}
+}
+
+func TestAPageStillBeingReadIsOutOfBudgetWhenTheCutoffIsOff(t *testing.T) {
+	t.Parallel()
+
+	performed := performedReadingWithOnePageThatOutlastsTheBudget(t, cutoffNever)
+
+	if performed.AmountOfPagesRead != 2 || performed.AmountOfPagesOutOfBudget != 1 ||
+		performed.AmountOfPagesCutOff != 0 || performed.TimeSpent < pageReadBudget {
+		t.Fatalf(
+			"PageReadingPerformed = %+v, want two pages read and the slow page out of budget",
 			performed,
 		)
 	}
