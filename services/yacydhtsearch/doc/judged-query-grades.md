@@ -32,19 +32,13 @@ the page does not change the grade.
 
 ## The spam mark
 
-The spam mark protects the person who searches. A page gets the mark for one of
-two causes: the page deceives the reader about what it is, or the page can
-cause harm to the health of the reader.
+`"spam": true` marks a page that deceives the reader or the search engine
+about what it is: a doorway page, a link farm, a blog network page, a clone, a
+reused domain, a seller of medicines or fake goods, or a page full of spam.
 
-Give `"spam": true` to a page that deceives the reader: a fake page, a doorway
-page, a hijacked domain, a link farm, or a seller of medicines. Give the mark
-also to a page that speaks against vaccines in its own text, because such a
-page can cause the reader to refuse a medical treatment.
+The claims of a page, true or false, get no mark. Injected words, footer links
+or some spam comments on a real page get no mark.
 
-Give no spam mark for a different opinion, such as a text against the climate
-science or against a historical record. Such a page can be incorrect, but it
-shows the reader what it is, and it gives no medical advice.
+## Health queries
 
-Give no spam mark when the page shows such headlines only in a list, in a
-sidebar, or in an archive of a month. Give no spam mark to a page that reports
-on the persons who make the claims.
+A page against medical knowledge gets the grade `0`.
