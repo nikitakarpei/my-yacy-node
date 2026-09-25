@@ -80,7 +80,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 
 ## Ranking
 
-Without a list of well-linked hosts, the service ranks results by relevance alone. With one, a result of a host that is not on the list ranks lower. [well-linked-hosts.md](well-linked-hosts.md) tells how to make the list. A file that the service cannot read stops the service from starting. Give the same file to all instances that share one NATS address.
+Without a list of well-linked hosts, the service ranks results by relevance alone. With one, a result of a host that is not on the list ranks lower. [well-linked-hosts.md](well-linked-hosts.md) tells how to make the list. The service reads the list when it starts, so a new list needs a restart. A file that the service cannot read stops the service from starting. Give the same file to all instances that share one NATS address.
 
 | Variable | Default | Meaning |
 |---|---|---|

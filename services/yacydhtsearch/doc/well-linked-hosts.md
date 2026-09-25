@@ -1,9 +1,6 @@
 # Well-linked hosts
 
-Many other hosts link to a well-linked host. When you give the service a list of well-linked
-hosts, a result of a host that is not on the list ranks lower. The service reads the list when it
-starts. To use a new list, restart the service. Set the list with
-`YACYDHTSEARCH_WELL_LINKED_HOSTS_FILE`, as [configuration.md](configuration.md) tells.
+A list of well-linked hosts names the hosts that many other hosts link to.
 
 ## File format
 
