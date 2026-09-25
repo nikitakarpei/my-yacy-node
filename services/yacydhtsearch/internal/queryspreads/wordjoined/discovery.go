@@ -99,11 +99,58 @@ func (discovery *discovery) askTheRestAfter(leadingQueryWord chosenLeadingQueryW
 
 		return
 	}
-	discovery.askAroundTheLeadingWord(queryWordRolesAround(word, discovery.query))
+	discovery.askAroundTheLeadingWord(leadingQueryWord, queryWordRolesAround(word, discovery.query))
 }
 
-func (discovery *discovery) askAroundTheLeadingWord(roles queryWordRoles) {
+func (discovery *discovery) askAroundTheLeadingWord(
+	leadingQueryWord chosenLeadingQueryWord,
+	roles queryWordRoles,
+) {
 	discovery.askRun.put(discovery.asks.ofWords(roles.wordsOfTheDocumentsToMatch))
+	if discovery.leadingWordPredictsTheOtherWordsOverTheCeiling(
+		leadingQueryWord,
+		roles.otherWords,
+	) {
+		discovery.askTheOtherWordsWholeInEveryPartition(roles.otherWords)
+
+		return
+	}
+	discovery.askTheOtherWordsAsEachPartitionSettles(roles)
+}
+
+func (discovery *discovery) leadingWordPredictsTheOtherWordsOverTheCeiling(
+	leadingQueryWord chosenLeadingQueryWord,
+	otherWords []yacymodel.Hash,
+) bool {
+	if leadingQueryWord.choice != RarestQueryWordRemembered || len(otherWords) == 0 {
+		return false
+	}
+	word, _ := leadingQueryWord.word.Get()
+
+	return predictsTheOtherWordsOverTheCeiling(
+		discovery.rememberedDocumentAmounts[word],
+		discovery.partitions,
+		discovery.documentsToMatchCeiling,
+	)
+}
+
+func (discovery *discovery) askTheOtherWordsWholeInEveryPartition(otherWords []yacymodel.Hash) {
+	discovery.askRun.put(discovery.asks.ofWords(otherWords))
+	for _, partition := range partitionsOfTheRing(discovery.partitions) {
+		discovery.otherWordAsksPerPartition[partition] = OtherWordAsksPredictedOverTheCeiling
+	}
+}
+
+func partitionsOfTheRing(partitions yacymodel.DHTRingPartitions) []uint {
+	partitionsOfTheRing := make([]uint, 0, partitions)
+	for partition := range uint(partitions) {
+		partitionsOfTheRing = append(partitionsOfTheRing, partition)
+	}
+
+	return partitionsOfTheRing
+}
+
+func (discovery *discovery) askTheOtherWordsAsEachPartitionSettles(roles queryWordRoles) {
 	partitionsLeft := partitionsOfTheRing(discovery.partitions)
 	for {
 		settledPartitions := discovery.partitionsSettledAmong(
@@ -118,15 +165,6 @@ func (discovery *discovery) askAroundTheLeadingWord(roles queryWordRoles) {
 		}
 		discovery.askRun.readTheNextSettledWordPartition()
 	}
-}
-
-func partitionsOfTheRing(partitions yacymodel.DHTRingPartitions) []uint {
-	partitionsOfTheRing := make([]uint, 0, partitions)
-	for partition := range uint(partitions) {
-		partitionsOfTheRing = append(partitionsOfTheRing, partition)
-	}
-
-	return partitionsOfTheRing
 }
 
 func (discovery *discovery) partitionsSettledAmong(

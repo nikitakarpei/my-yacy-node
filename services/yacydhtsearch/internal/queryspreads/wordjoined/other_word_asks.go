@@ -8,6 +8,7 @@ const (
 	OtherWordAsksNamingTheDocumentsToMatch OtherWordAsks = "naming the documents to match"
 	OtherWordAsksOverTheCeiling            OtherWordAsks = "naming none, over the ceiling"
 	OtherWordAsksSkipped                   OtherWordAsks = "skipped, no documents to match"
+	OtherWordAsksPredictedOverTheCeiling   OtherWordAsks = "naming none, predicted over the ceiling"
 )
 
 func otherWordAsksFrom(
@@ -24,6 +25,14 @@ func otherWordAsksFrom(
 	}
 }
 
+func predictsTheOtherWordsOverTheCeiling(
+	rememberedAmountOfTheLeadingWord int,
+	partitions yacymodel.DHTRingPartitions,
+	documentsToMatchCeiling int,
+) bool {
+	return rememberedAmountOfTheLeadingWord/int(partitions) > documentsToMatchCeiling
+}
+
 func (otherWordAsks OtherWordAsks) appliedTo(
 	asksOfTheOtherWords discoveryAsks,
 	documentsToMatch []yacymodel.URLHash,
@@ -31,7 +40,7 @@ func (otherWordAsks OtherWordAsks) appliedTo(
 	switch otherWordAsks {
 	case OtherWordAsksNamingTheDocumentsToMatch:
 		return asksOfTheOtherWords.forDocumentsToMatch(documentsToMatch)
-	case OtherWordAsksOverTheCeiling:
+	case OtherWordAsksOverTheCeiling, OtherWordAsksPredictedOverTheCeiling:
 		return asksOfTheOtherWords
 	case OtherWordAsksSkipped:
 	}

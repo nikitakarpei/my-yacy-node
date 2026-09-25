@@ -515,3 +515,102 @@ func TestTheSpreadAsksEveryWordPartitionAtMostOnce(t *testing.T) {
 		)
 	}
 }
+
+func settledWordPartitionsReadAtTheAsksOf(spelledWord string, network *peerNetwork) []int {
+	var settledWordPartitionsRead []int
+	for place, ask := range network.searchDocumentsAsks {
+		if ask.Word != yacymodel.WordHash(spelledWord) {
+			continue
+		}
+		settledWordPartitionsRead = append(
+			settledWordPartitionsRead, network.settledWordPartitionsReadAtEachAsk[place],
+		)
+	}
+
+	return settledWordPartitionsRead
+}
+
+func settingsWithTheLeadingWordRemembered(rememberedAmountOfTheLeadingWord int) spreadSettings {
+	settings := settingsOfTwoPartitions()
+	settings.documentsToMatchCeiling = 1
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{
+		firstWord: rememberedAmountOfTheLeadingWord, secondWord: 100,
+	})
+
+	return settings
+}
+
+func TestARememberedLeadingWordOverTheCeilingInEveryPartitionHasTheOtherWordsAskedAtTheStart(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	network, documentsToMatch := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
+	observer := &recordedSpreads{}
+
+	answeredQuery := settingsWithTheLeadingWordRemembered(4).spread(network, observer)
+
+	asksOfTheOtherWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
+	if got := settledWordPartitionsReadAtTheAsksOf(secondWord, network); !slices.Equal(
+		got, []int{0, 0},
+	) || len(asksNamingDocumentsToMatchAmong(asksOfTheOtherWord)) != 0 {
+		t.Fatalf(
+			"the spread put %v after %v settled word partitions, want the other word asked "+
+				"whole in both partitions before any partition settled",
+			asksOfTheOtherWord, got,
+		)
+	}
+	wantedAsks := map[uint]wordjoined.OtherWordAsks{
+		0: wordjoined.OtherWordAsksPredictedOverTheCeiling,
+		1: wordjoined.OtherWordAsksPredictedOverTheCeiling,
+	}
+	if got := observer.performed[0].DiscoveryRound.OtherWordAsksPerPartition; !maps.Equal(
+		got, wantedAsks,
+	) {
+		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
+	}
+	wanted := documentsInTheirHashOrder(documentHashesOf(documentsToMatch))
+	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+		t.Fatalf("the spread found %v, want the documents to match both words hold %v", got, wanted)
+	}
+}
+
+func TestARememberedLeadingWordAtTheCeilingInEveryPartitionHasTheOtherWordsWaitForThePartition(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	network, _ := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
+
+	settingsWithTheLeadingWordRemembered(2).spread(network, &recordedSpreads{})
+
+	if got := settledWordPartitionsReadAtTheAsksOf(secondWord, network); len(got) != 1 ||
+		got[0] == 0 {
+		t.Fatalf(
+			"the spread asked the other word after %v settled word partitions, want one ask "+
+				"after its partition settled",
+			got,
+		)
+	}
+}
+
+func TestASampledLeadingWordHasTheOtherWordsWaitForThePartitionWhateverItsRememberedAmount(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	network, _ := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
+	settings := settingsOfTwoPartitions()
+	settings.documentsToMatchCeiling = 1
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{firstWord: 100})
+	observer := &recordedSpreads{}
+
+	settings.spread(network, observer)
+
+	wantedAsks := map[uint]wordjoined.OtherWordAsks{1: wordjoined.OtherWordAsksOverTheCeiling}
+	if got := observer.performed[0].DiscoveryRound.OtherWordAsksPerPartition; !maps.Equal(
+		got, wantedAsks,
+	) {
+		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
+	}
+}

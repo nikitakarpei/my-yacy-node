@@ -45,6 +45,7 @@ type peerNetwork struct {
 	peersCountingNoDocument               map[string]struct{}
 	peersThatSearched                     map[string]struct{}
 	searchDocumentsAsks                   []peerasks.SearchDocumentsAsk
+	settledWordPartitionsReadAtEachAsk    []int
 	urlMetadataAsks                       []peerasks.URLMetadataAsk
 	silentPeers                           map[string]struct{}
 	peersListingDocumentsTheAskDidNotName map[string]struct{}
@@ -107,6 +108,7 @@ func (replicas replicasOfTheNetwork) answerEachWordPartition(
 			run.answer(ctx, replicas.network, addedAsks)
 		case reader <- nextSettledWordPartition:
 			run.settledWordPartitionsUnread = run.settledWordPartitionsUnread[1:]
+			run.settledWordPartitionsRead++
 		}
 	}
 }
@@ -114,6 +116,7 @@ func (replicas replicasOfTheNetwork) answerEachWordPartition(
 type runOfTheNetwork struct {
 	wordPartitionsInTheRun      map[string]struct{}
 	settledWordPartitionsUnread []replicaasks.SettledWordPartition
+	settledWordPartitionsRead   int
 }
 
 func (run *runOfTheNetwork) answer(
@@ -134,7 +137,7 @@ func (run *runOfTheNetwork) answer(
 		}
 		askOutcomesOfEachNewWordPartition[wordPartition] = append(
 			askOutcomesOfEachNewWordPartition[wordPartition],
-			network.outcomeOfTheSearchAsk(ctx, ask),
+			network.outcomeOfTheSearchAsk(ctx, ask, run.settledWordPartitionsRead),
 		)
 	}
 	for _, wordPartition := range newWordPartitionsInOrder {
@@ -150,11 +153,15 @@ func (run *runOfTheNetwork) answer(
 func (network *peerNetwork) outcomeOfTheSearchAsk(
 	ctx context.Context,
 	ask peerasks.SearchDocumentsAsk,
+	settledWordPartitionsRead int,
 ) peerasks.SearchDocumentsAskOutcome {
 	network.mutex.Lock()
 	defer network.mutex.Unlock()
 
 	network.searchDocumentsAsks = append(network.searchDocumentsAsks, ask)
+	network.settledWordPartitionsReadAtEachAsk = append(
+		network.settledWordPartitionsReadAtEachAsk, settledWordPartitionsRead,
+	)
 	network.recordTimeLeftIn(ctx)
 	askOutcome := peerasks.SearchDocumentsAskOutcome{Ask: ask, Put: true}
 	if _, silent := network.silentPeers[ask.Peer.Address]; silent {
