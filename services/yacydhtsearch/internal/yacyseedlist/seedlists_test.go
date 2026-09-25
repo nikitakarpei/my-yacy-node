@@ -5,11 +5,15 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 )
 
-const responseLimit = 1 << 20
+const (
+	responseLimit = 1 << 20
+	readBudget    = 10 * time.Second
+)
 
 type recordedRead struct {
 	seeds       int
@@ -50,6 +54,7 @@ func TestEverySeedlistAddsItsSeeds(t *testing.T) {
 			seedlistServing(t, seedLine("bbbbbbbbbbbb", "second", "10.0.0.2"), http.StatusOK),
 		},
 		responseLimit,
+		readBudget,
 		observer,
 	)
 
@@ -71,6 +76,7 @@ func TestASeedlistThatRefusesToAnswerAddsNoSeed(t *testing.T) {
 		http.DefaultClient,
 		[]string{seedlistServing(t, "", http.StatusNotFound)},
 		responseLimit,
+		readBudget,
 		observer,
 	)
 
@@ -90,6 +96,33 @@ func TestASeedlistThatCannotBeReachedAddsNoSeed(t *testing.T) {
 		http.DefaultClient,
 		[]string{"http://127.0.0.1:1/yacy/seedlist.html"},
 		responseLimit,
+		readBudget,
+		observer,
+	)
+
+	if seeds := seedlists.Fetch(t.Context()); len(seeds) != 0 {
+		t.Fatalf("Fetch = %+v, want no seeds", seeds)
+	}
+	if observer.unreachable != 1 {
+		t.Fatalf("SeedlistUnreachable reported %d times, want once", observer.unreachable)
+	}
+}
+
+func TestASeedlistThatNeverAnswersAddsNoSeedOnceItsBudgetIsSpent(t *testing.T) {
+	t.Parallel()
+
+	release := make(chan struct{})
+	server := httptest.NewServer(http.HandlerFunc(
+		func(http.ResponseWriter, *http.Request) { <-release },
+	))
+	t.Cleanup(server.Close)
+	t.Cleanup(func() { close(release) })
+	observer := &recordedRead{}
+	seedlists := yacyseedlist.New(
+		http.DefaultClient,
+		[]string{server.URL},
+		responseLimit,
+		10*time.Millisecond,
 		observer,
 	)
 

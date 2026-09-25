@@ -5,6 +5,7 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -20,6 +21,7 @@ type Seedlists struct {
 	client           *http.Client
 	addresses        []string
 	maxResponseBytes int64
+	readBudget       time.Duration
 	observer         SeedlistObserver
 }
 
@@ -27,12 +29,14 @@ func New(
 	client *http.Client,
 	addresses []string,
 	maxResponseBytes int64,
+	readBudget time.Duration,
 	observer SeedlistObserver,
 ) Seedlists {
 	return Seedlists{
 		client:           client,
 		addresses:        addresses,
 		maxResponseBytes: maxResponseBytes,
+		readBudget:       readBudget,
 		observer:         observer,
 	}
 }
@@ -47,7 +51,9 @@ func (s Seedlists) Fetch(ctx context.Context) []yacymodel.Seed {
 }
 
 func (s Seedlists) fetchOne(ctx context.Context, address string) []yacymodel.Seed {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, address, nil)
+	readCtx, endRead := context.WithTimeout(ctx, s.readBudget)
+	defer endRead()
+	req, err := http.NewRequestWithContext(readCtx, http.MethodGet, address, nil)
 	if err != nil {
 		s.observer.SeedlistUnreachable(ctx, address, err)
 		return nil

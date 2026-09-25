@@ -17,13 +17,14 @@ import (
 )
 
 const (
-	responseLimit  = 1 << 20
-	directoryLimit = 16
-	refreshEvery   = time.Hour
-	probeBudget    = 3 * time.Second
-	probesInFlight = 4
-	rwiCountAnswer = "version=1.83\nuptime=1200\nresponse=42\n"
-	seededHash     = "aaaaaaaaaaaa"
+	responseLimit      = 1 << 20
+	directoryLimit     = 16
+	refreshEvery       = time.Hour
+	probeBudget        = 3 * time.Second
+	seedlistReadBudget = 10 * time.Second
+	probesInFlight     = 4
+	rwiCountAnswer     = "version=1.83\nuptime=1200\nresponse=42\n"
+	seededHash         = "aaaaaaaaaaaa"
 )
 
 type silentDirectoryObserver struct{}
@@ -114,6 +115,7 @@ func refreshOver(
 			http.DefaultClient,
 			[]string{seedlistURL},
 			responseLimit,
+			seedlistReadBudget,
 			silentSeedlistObserver{},
 		),
 		directory,
