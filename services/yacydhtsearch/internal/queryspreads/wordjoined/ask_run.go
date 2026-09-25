@@ -12,6 +12,7 @@ type askRun struct {
 	asks                     chan<- []peerasks.SearchDocumentsAsk
 	settledWordPartitions    <-chan replicaasks.SettledWordPartition
 	askOutcomes              peerasks.SearchDocumentsAskOutcomes
+	holdersPerDocument       holdersPerDocument
 	askedWordPartitionKeys   map[wordPartitionKey]struct{}
 	settledWordPartitionKeys map[wordPartitionKey]struct{}
 }
@@ -27,6 +28,7 @@ func startAskRun(ctx context.Context, replicaAsks ReplicaAsks) *askRun {
 	return &askRun{
 		asks:                     run.Asks,
 		settledWordPartitions:    run.SettledWordPartitions,
+		holdersPerDocument:       holdersPerDocument{},
 		askedWordPartitionKeys:   map[wordPartitionKey]struct{}{},
 		settledWordPartitionKeys: map[wordPartitionKey]struct{}{},
 	}
@@ -80,6 +82,7 @@ func (askRun *askRun) readTheNextSettledWordPartition() {
 
 func (askRun *askRun) record(settledWordPartition replicaasks.SettledWordPartition) {
 	askRun.askOutcomes = append(askRun.askOutcomes, settledWordPartition.AskOutcomes...)
+	askRun.holdersPerDocument.addHoldersIn(settledWordPartition.AskOutcomes)
 	for _, askOutcome := range settledWordPartition.AskOutcomes {
 		askRun.settledWordPartitionKeys[wordPartitionKeyOf(askOutcome.Ask)] = struct{}{}
 	}
