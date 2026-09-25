@@ -147,7 +147,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 				noRememberedQueryWordAmounts{},
 				wordjoined.URLMetadataLookupCutoff{},
 				rand.UintN,
-				urlMetadataAskDocumentsCeiling,
+				askCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
 				documentsToMatchCeiling,
 				peerItemsCeiling,
 				partitions,
@@ -201,3 +201,11 @@ func (noRememberedQueryWordAmounts) AmountsOf(
 }
 
 func (noRememberedQueryWordAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}
+
+type askCeilingsAtTheMost int
+
+func (mostDocuments askCeilingsAtTheMost) CeilingOf(context.Context, string) (int, bool) {
+	return int(mostDocuments), false
+}
+
+func (askCeilingsAtTheMost) Asked(string, int) {}

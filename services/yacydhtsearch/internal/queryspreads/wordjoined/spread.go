@@ -30,28 +30,33 @@ type QueryWordAmounts interface {
 	Remember(ctx context.Context, amounts map[yacymodel.Hash]int)
 }
 
-type Spread struct {
-	replicaAsks                    ReplicaAsks
-	peerAsks                       PeerAsks
-	queryWordAmounts               QueryWordAmounts
-	urlMetadataLookupCutoff        URLMetadataLookupCutoff
-	partitionToSample              func(amountOfPartitions uint) uint
-	urlMetadataAskDocumentsCeiling int
-	documentsToMatchCeiling        int
-	peerItemsCeiling               int
-	partitions                     yacymodel.DHTRingPartitions
-	amountOfPeersHoldingOneWord    int
-	observer                       WordJoinedSpreadObserver
+type URLMetadataAskCeilings interface {
+	CeilingOf(ctx context.Context, address string) (int, bool)
+	Asked(address string, amountOfDocuments int)
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, ceilings, ring and observer
+type Spread struct {
+	replicaAsks                 ReplicaAsks
+	peerAsks                    PeerAsks
+	queryWordAmounts            QueryWordAmounts
+	urlMetadataLookupCutoff     URLMetadataLookupCutoff
+	partitionToSample           func(amountOfPartitions uint) uint
+	urlMetadataAskCeilings      URLMetadataAskCeilings
+	documentsToMatchCeiling     int
+	peerItemsCeiling            int
+	partitions                  yacymodel.DHTRingPartitions
+	amountOfPeersHoldingOneWord int
+	observer                    WordJoinedSpreadObserver
+}
+
+//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, URL metadata ask ceilings, other ceilings, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
 	queryWordAmounts QueryWordAmounts,
 	urlMetadataLookupCutoff URLMetadataLookupCutoff,
 	partitionToSample func(amountOfPartitions uint) uint,
-	urlMetadataAskDocumentsCeiling int,
+	urlMetadataAskCeilings URLMetadataAskCeilings,
 	documentsToMatchCeiling int,
 	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
@@ -59,17 +64,17 @@ func New(
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
-		replicaAsks:                    replicaAsks,
-		peerAsks:                       peerAsks,
-		queryWordAmounts:               queryWordAmounts,
-		urlMetadataLookupCutoff:        urlMetadataLookupCutoff,
-		partitionToSample:              partitionToSample,
-		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
-		documentsToMatchCeiling:        documentsToMatchCeiling,
-		peerItemsCeiling:               peerItemsCeiling,
-		partitions:                     partitions,
-		amountOfPeersHoldingOneWord:    amountOfPeersHoldingOneWord,
-		observer:                       observer,
+		replicaAsks:                 replicaAsks,
+		peerAsks:                    peerAsks,
+		queryWordAmounts:            queryWordAmounts,
+		urlMetadataLookupCutoff:     urlMetadataLookupCutoff,
+		partitionToSample:           partitionToSample,
+		urlMetadataAskCeilings:      urlMetadataAskCeilings,
+		documentsToMatchCeiling:     documentsToMatchCeiling,
+		peerItemsCeiling:            peerItemsCeiling,
+		partitions:                  partitions,
+		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
+		observer:                    observer,
 	}
 }
 
@@ -140,9 +145,10 @@ func (spread Spread) askForURLMetadata(
 		joinedDocuments, discoveryRound.answeredAsks,
 	)
 	asks := urlMetadataAsksFor(
+		ctx,
 		discoveryRound.holdersPerDocument.mostHeldFirst(documentsWithoutMetadata),
 		discoveryRound.answeredAsks,
-		spread.urlMetadataAskDocumentsCeiling,
+		spread.urlMetadataAskCeilings,
 		spread.amountOfPeersHoldingOneWord,
 	)
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadataLookup)

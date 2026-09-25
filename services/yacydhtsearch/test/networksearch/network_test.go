@@ -250,7 +250,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 		noRememberedQueryWordAmounts{},
 		wordjoined.URLMetadataLookupCutoff{},
 		rand.UintN,
-		recordCeiling,
+		askCeilingsAtTheMost(recordCeiling),
 		documentsToMatchCeiling,
 		peerResults,
 		ringPartitions(t),
@@ -980,3 +980,11 @@ func (noRememberedQueryWordAmounts) AmountsOf(
 }
 
 func (noRememberedQueryWordAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}
+
+type askCeilingsAtTheMost int
+
+func (mostDocuments askCeilingsAtTheMost) CeilingOf(context.Context, string) (int, bool) {
+	return int(mostDocuments), false
+}
+
+func (askCeilingsAtTheMost) Asked(string, int) {}

@@ -441,8 +441,28 @@ type spreadSettings struct {
 	urlMetadataAskDocumentsCeiling int
 	peersHoldingOneWord            int
 	queryBudget                    time.Duration
+	loweredAskCeilingOfEachPeer    map[string]int
+	askedDocumentsOfEachPeer       map[string]int
 	queryWordAmounts               *rememberedQueryWordAmounts
 	urlMetadataLookupCutoff        wordjoined.URLMetadataLookupCutoff
+}
+
+type askCeilingsOfThePeers struct {
+	mostDocuments               int
+	loweredAskCeilingOfEachPeer map[string]int
+	askedDocumentsOfEachPeer    map[string]int
+}
+
+func (ceilings askCeilingsOfThePeers) CeilingOf(_ context.Context, address string) (int, bool) {
+	if loweredCeiling, lowered := ceilings.loweredAskCeilingOfEachPeer[address]; lowered {
+		return loweredCeiling, true
+	}
+
+	return ceilings.mostDocuments, false
+}
+
+func (ceilings askCeilingsOfThePeers) Asked(address string, amountOfDocuments int) {
+	ceilings.askedDocumentsOfEachPeer[address] = amountOfDocuments
 }
 
 type rememberedQueryWordAmounts struct {
@@ -505,6 +525,10 @@ func (settings spreadSettings) spread(
 	if queryWordAmounts == nil {
 		queryWordAmounts = queryWordAmountsOf(map[string]int{})
 	}
+	askedDocumentsOfEachPeer := settings.askedDocumentsOfEachPeer
+	if askedDocumentsOfEachPeer == nil {
+		askedDocumentsOfEachPeer = map[string]int{}
+	}
 
 	return wordjoined.New(
 		replicasOf(network),
@@ -512,7 +536,11 @@ func (settings spreadSettings) spread(
 		queryWordAmounts,
 		settings.urlMetadataLookupCutoff,
 		func(uint) uint { return settings.sampledPartition },
-		settings.urlMetadataAskDocumentsCeiling,
+		askCeilingsOfThePeers{
+			mostDocuments:               settings.urlMetadataAskDocumentsCeiling,
+			loweredAskCeilingOfEachPeer: settings.loweredAskCeilingOfEachPeer,
+			askedDocumentsOfEachPeer:    askedDocumentsOfEachPeer,
+		},
 		settings.documentsToMatchCeiling,
 		peerItemsCeiling,
 		settings.partitions,
@@ -892,6 +920,65 @@ func theOneDocumentAskedMetadataFor(
 	}
 
 	return documents[0]
+}
+
+func TestAPeerUnderALoweredCeilingIsAskedTheDocumentsFewestPeersHoldFirst(t *testing.T) {
+	t.Parallel()
+
+	heldByBoth := []string{"https://first.example/", "https://second.example/"}
+	heldBySecond := append(slices.Clone(heldByBoth), "https://only-second.example/")
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: heldByBoth, secondWord: heldByBoth},
+		"second": {firstWord: heldBySecond, secondWord: heldBySecond},
+	})
+	settings := settingsOfOnePartition()
+	settings.loweredAskCeilingOfEachPeer = map[string]int{"second": 2}
+
+	settings.spread(network, &recordedSpreads{})
+
+	askOfEachPeer := map[string]peerasks.URLMetadataAsk{}
+	for _, ask := range network.urlMetadataAsks {
+		askOfEachPeer[ask.Peer.Address] = ask
+	}
+	askOfSecond := askOfEachPeer["second"]
+	if len(askOfSecond.Documents) != 2 ||
+		askOfSecond.Documents[0] != documentHashOf(t, "https://only-second.example/") {
+		t.Fatalf("second was asked %v, want two documents, the one only it holds first",
+			askOfSecond.Documents)
+	}
+	if !slices.Equal(
+		documentsInTheirHashOrder(askOfEachPeer["first"].Documents),
+		documentsInTheirHashOrder(documentHashesOf(heldByBoth)),
+	) {
+		t.Fatalf("first was asked %v, want every document it holds",
+			askOfEachPeer["first"].Documents)
+	}
+}
+
+func TestTheSpreadTellsTheCeilingsHowManyDocumentsItAskedEachPeer(t *testing.T) {
+	t.Parallel()
+
+	heldByBoth := []string{"https://first.example/", "https://second.example/"}
+	heldBySecond := append(slices.Clone(heldByBoth), "https://only-second.example/")
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: heldByBoth, secondWord: heldByBoth},
+		"second": {firstWord: heldBySecond, secondWord: heldBySecond},
+	})
+	settings := settingsOfOnePartition()
+	settings.loweredAskCeilingOfEachPeer = map[string]int{"second": 2}
+	settings.askedDocumentsOfEachPeer = map[string]int{}
+
+	settings.spread(network, &recordedSpreads{})
+
+	documentsAskedOfEachPeer := map[string]int{}
+	for _, ask := range network.urlMetadataAsks {
+		documentsAskedOfEachPeer[ask.Peer.Address] = len(ask.Documents)
+	}
+	if !maps.Equal(settings.askedDocumentsOfEachPeer, documentsAskedOfEachPeer) ||
+		len(documentsAskedOfEachPeer) != 2 {
+		t.Fatalf("the ceilings were told %v, want the amounts asked, %v",
+			settings.askedDocumentsOfEachPeer, documentsAskedOfEachPeer)
+	}
 }
 
 func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *testing.T) {

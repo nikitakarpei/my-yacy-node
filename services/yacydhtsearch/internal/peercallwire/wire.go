@@ -337,9 +337,7 @@ func (w Wire) answerBody(
 	}
 	body, err := io.ReadAll(io.LimitReader(resp.Body, w.maxResponseBytes))
 	if err != nil {
-		w.observer.PeerAnswerUnreadable(
-			ctx, call.address, call.askedFor, err, time.Since(startedAt),
-		)
+		w.reportUnreadAnswer(ctx, call, err, time.Since(startedAt))
 		return "", false
 	}
 
@@ -352,10 +350,28 @@ func (w Wire) reportUnansweredPeerCall(
 	cause error,
 	spent time.Duration,
 ) {
-	if errors.Is(ctx.Err(), context.Canceled) {
+	if callWasCancelled(ctx) {
 		w.observer.PeerCallCancelled(ctx, call.address, call.askedFor, spent)
 
 		return
 	}
 	w.observer.PeerUnreachable(ctx, call.address, call.askedFor, cause, spent)
+}
+
+func callWasCancelled(ctx context.Context) bool {
+	return errors.Is(ctx.Err(), context.Canceled)
+}
+
+func (w Wire) reportUnreadAnswer(
+	ctx context.Context,
+	call peerCall,
+	cause error,
+	spent time.Duration,
+) {
+	if callWasCancelled(ctx) {
+		w.observer.PeerCallCancelled(ctx, call.address, call.askedFor, spent)
+
+		return
+	}
+	w.observer.PeerAnswerUnreadable(ctx, call.address, call.askedFor, cause, spent)
 }

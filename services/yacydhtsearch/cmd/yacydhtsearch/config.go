@@ -46,6 +46,8 @@ const (
 	EnvPeerItemsCeiling               = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
 	EnvDocumentsToMatchCeiling        = "YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING"
 	EnvURLMetadataAskDocumentsCeiling = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING"
+	EnvURLMetadataAskDocumentsFloor   = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_FLOOR"
+	EnvURLMetadataAskTargetTime       = "YACYDHTSEARCH_URL_METADATA_ASK_TARGET_TIME"
 	EnvRankedItemsCeiling             = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL                        = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity           = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
@@ -87,6 +89,8 @@ const (
 	DefaultPeerItemsCeiling               = 10
 	DefaultDocumentsToMatchCeiling        = 1000
 	DefaultURLMetadataAskDocumentsCeiling = 1000
+	DefaultURLMetadataAskDocumentsFloor   = 25
+	DefaultURLMetadataAskTargetTime       = time.Second
 	DefaultRankedItemsCeiling             = 50
 	DefaultCompoundWordsCeiling           = 4
 	DefaultRankingCacheCapacity           = 1024
@@ -137,6 +141,8 @@ type ServiceConfig struct {
 	PeerItemsCeiling               int
 	DocumentsToMatchCeiling        int
 	URLMetadataAskDocumentsCeiling int
+	URLMetadataAskDocumentsFloor   int
+	URLMetadataAskTargetTime       time.Duration
 	URLMetadataLookupCutoff        wordjoined.URLMetadataLookupCutoff
 	RankedItemsCeiling             int
 	NATSURL                        string
@@ -247,6 +253,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PeerItemsCeiling:               counts.peerItemsCeiling,
 		DocumentsToMatchCeiling:        counts.documentsToMatchCeiling,
 		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
+		URLMetadataAskDocumentsFloor:   counts.urlMetadataAskDocumentsFloor,
+		URLMetadataAskTargetTime:       durations.urlMetadataAskTargetTime,
 		URLMetadataLookupCutoff: wordjoined.URLMetadataLookupCutoff{
 			PercentOfDocuments: counts.urlMetadataLookupCutoffPercent,
 			Grace:              durations.urlMetadataLookupCutoffGrace,
@@ -289,6 +297,7 @@ type configuredDurations struct {
 	pageReadBudget               time.Duration
 	pageReadCutoffGrace          time.Duration
 	urlMetadataLookupCutoffGrace time.Duration
+	urlMetadataAskTargetTime     time.Duration
 }
 
 func durationsOf(getenv func(string) string) (configuredDurations, error) {
@@ -327,6 +336,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 			DefaultURLMetadataLookupCutoffGrace,
 			&durations.urlMetadataLookupCutoffGrace,
 		},
+		{EnvURLMetadataAskTargetTime, DefaultURLMetadataAskTargetTime, &durations.urlMetadataAskTargetTime},
 	} {
 		if *field.into, err = envconfig.Duration(getenv, field.key, field.fallback); err != nil {
 			return configuredDurations{}, err
@@ -344,6 +354,7 @@ type configuredCounts struct {
 	peerItemsCeiling               int
 	documentsToMatchCeiling        int
 	urlMetadataAskDocumentsCeiling int
+	urlMetadataAskDocumentsFloor   int
 	rankedItemsCeiling             int
 	rankingCacheCapacity           int
 	queryWordAmountsCapacity       int
@@ -371,6 +382,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvPeerItemsCeiling, DefaultPeerItemsCeiling, &counts.peerItemsCeiling},
 		{EnvDocumentsToMatchCeiling, DefaultDocumentsToMatchCeiling, &counts.documentsToMatchCeiling},
 		{EnvURLMetadataAskDocumentsCeiling, DefaultURLMetadataAskDocumentsCeiling, &counts.urlMetadataAskDocumentsCeiling},
+		{EnvURLMetadataAskDocumentsFloor, DefaultURLMetadataAskDocumentsFloor, &counts.urlMetadataAskDocumentsFloor},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 		{EnvQueryWordAmountsCapacity, DefaultQueryWordAmountsCapacity, &counts.queryWordAmountsCapacity},

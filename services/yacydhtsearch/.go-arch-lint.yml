@@ -125,6 +125,14 @@ components:
     in: internal/peercallobservers/applog/**
   peercallobserversprometheus:
     in: internal/peercallobservers/prometheus/**
+  peercallobserversaskceilings:
+    in: internal/peercallobservers/askceilings/**
+  urlmetadataaskceilings:
+    in: internal/urlmetadataaskceilings/**
+  urlmetadataaskceilingsobserversapplog:
+    in: internal/urlmetadataaskceilingsobservers/applog/**
+  urlmetadataaskceilingsobserversprometheus:
+    in: internal/urlmetadataaskceilingsobservers/prometheus/**
   peerdirectoryobserversapplog:
     in: internal/peerdirectoryobservers/applog/**
   peerdirectoryobserversprometheus:
@@ -454,6 +462,13 @@ deps:
       - budgetbuckets
     mayDependOn:
       - peerasks
+  peercallobserversaskceilings:
+    mayDependOn:
+      - peerasks
+      - urlmetadataaskceilings
+  urlmetadataaskceilingsobserversprometheus:
+    canUse:
+      - prometheus
   peerdirectoryobserversapplog:
     canUse:
       - yacymodel

@@ -2,6 +2,7 @@ package peercallwire_test
 
 import (
 	"context"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -974,4 +975,91 @@ func TestACallCancelledWhileThePeerAnswersIsNotReportedAsAnUnreachablePeer(t *te
 			observer.askedFor,
 		)
 	}
+}
+
+func TestACallCancelledWhileItsAnswerIsReadIsNotReportedAsAnUnreadableAnswer(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedOutcome{}
+	lookupEnded := make(chan struct{})
+	server := httptest.NewServer(http.HandlerFunc(
+		func(writer http.ResponseWriter, _ *http.Request) {
+			writer.Header().Set("Content-Length", "4096")
+			writer.WriteHeader(http.StatusOK)
+			_, _ = writer.Write([]byte(`<rss><yacy><response>ok</response></yacy>`))
+			_ = http.NewResponseController(writer).Flush()
+			<-lookupEnded
+		},
+	))
+	t.Cleanup(server.Close)
+	t.Cleanup(func() { close(lookupEnded) })
+	ctx, endLookup := context.WithCancel(t.Context())
+	t.Cleanup(endLookup)
+	answerRead := &answerReadOnce{started: make(chan struct{})}
+	go func() {
+		<-answerRead.started
+		endLookup()
+	}()
+
+	outcomes := outcomesOf(wireWith(answerRead, observer).AskForURLMetadata(
+		ctx,
+		[]peerasks.URLMetadataAsk{{
+			Peer:      peerAt(server.URL),
+			Documents: []yacymodel.URLHash{mustParseURLHash(t, "Q_ylfl--9bK5")},
+		}},
+	))
+
+	if len(outcomes) != 1 || outcomes[0].Answer.Present() {
+		t.Fatalf("AskForURLMetadata = %+v, want one outcome without an answer", outcomes)
+	}
+	if observer.cancelled != 1 || observer.unreadable != 0 ||
+		observer.askedFor != peerasks.URLMetadata {
+		t.Fatalf(
+			"%d cancelled and %d unreadable calls for %q, want one cancelled URL metadata call",
+			observer.cancelled, observer.unreadable, observer.askedFor,
+		)
+	}
+}
+
+type answerReadOnce struct {
+	started     chan struct{}
+	startedOnce sync.Once
+}
+
+func (answerRead *answerReadOnce) RoundTrip(request *http.Request) (*http.Response, error) {
+	response, err := http.DefaultTransport.RoundTrip(request)
+	if err != nil {
+		return nil, err //nolint:wrapcheck // a transport hands the error of the one it wraps through
+	}
+	response.Body = answerBodyRead{ReadCloser: response.Body, answerRead: answerRead}
+
+	return response, nil
+}
+
+type answerBodyRead struct {
+	io.ReadCloser
+	answerRead *answerReadOnce
+}
+
+func (body answerBodyRead) Read(bytes []byte) (int, error) {
+	body.answerRead.startedOnce.Do(func() { close(body.answerRead.started) })
+
+	return body.ReadCloser.Read(bytes) //nolint:wrapcheck // io.EOF passes as it is
+}
+
+func wireWith(
+	transport http.RoundTripper,
+	observer peercallwire.PeerCallObserver,
+) peercallwire.Wire {
+	return peercallwire.New(
+		&http.Client{Transport: transport},
+		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions},
+		peercallwire.PeerCallLimits{
+			MaxResponseBytes:      responseLimit,
+			PeerCallsInFlight:     callsInFlightOfTheTests,
+			URLMetadataCallBudget: urlMetadataCallBudgetOfTheTests,
+			SearchCallBudget:      searchCallBudgetOfTheTests,
+		},
+		observer,
+	)
 }
