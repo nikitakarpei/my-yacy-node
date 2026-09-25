@@ -22,6 +22,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	replicacallssearchdocuments "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/searchdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
@@ -134,7 +135,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		peercallwire.PeerCallObservers{},
 	)
 	everyReplica := replicaasks.New(
-		calledPeers,
+		replicacallssearchdocuments.New(calledPeers),
 		hedgedelaysconstant.New(searchCallBudget),
 		networkRedundancy,
 		replicaasks.ReplicaAsksObservers{},

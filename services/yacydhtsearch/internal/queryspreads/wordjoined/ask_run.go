@@ -9,8 +9,10 @@ import (
 )
 
 type askRun struct {
-	asks                     chan<- []peerasks.SearchDocumentsAsk
-	settledWordPartitions    <-chan replicaasks.SettledWordPartition
+	asks                  chan<- []peerasks.SearchDocumentsAsk
+	settledWordPartitions <-chan replicaasks.SettledWordPartition[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
 	askOutcomes              peerasks.SearchDocumentsAskOutcomes
 	holdersPerDocument       holdersPerDocument
 	askedWordPartitionKeys   map[wordPartitionKey]struct{}
@@ -80,7 +82,11 @@ func (askRun *askRun) readTheNextSettledWordPartition() {
 	askRun.record(<-askRun.settledWordPartitions)
 }
 
-func (askRun *askRun) record(settledWordPartition replicaasks.SettledWordPartition) {
+func (askRun *askRun) record(
+	settledWordPartition replicaasks.SettledWordPartition[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	],
+) {
 	askRun.askOutcomes = append(askRun.askOutcomes, settledWordPartition.AskOutcomes...)
 	askRun.holdersPerDocument.addHoldersIn(settledWordPartition.AskOutcomes)
 	for _, askOutcome := range settledWordPartition.AskOutcomes {

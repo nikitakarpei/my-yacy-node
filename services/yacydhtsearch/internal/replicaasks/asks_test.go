@@ -25,7 +25,7 @@ const (
 func TestTheFirstReplicasOfEveryWordPartitionAreAskedAndNoMore(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3}, "berlin-two": {documentsListed: 2},
 		"berlin-three": {documentsListed: 1}, "weather-one": {documentsListed: 4},
 		"weather-two": {documentsListed: 5}, "weather-three": {documentsListed: 6},
@@ -48,7 +48,7 @@ func TestTheFirstReplicasOfEveryWordPartitionAreAskedAndNoMore(t *testing.T) {
 func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3}, "berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
@@ -68,7 +68,7 @@ func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T)
 func TestAnEmptyAnswerWithoutASearchAsksTheNextReplicaAtOnce(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 0}, "berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
@@ -87,7 +87,7 @@ func TestAnEmptyAnswerWithoutASearchAsksTheNextReplicaAtOnce(t *testing.T) {
 func TestAnEmptyAnswerOfAPeerThatSearchedSettlesTheWordPartition(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"bananaphotos-one": {searched: true}, "bananaphotos-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
@@ -106,7 +106,7 @@ func TestAnEmptyAnswerOfAPeerThatSearchedSettlesTheWordPartition(t *testing.T) {
 func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {fails: true}, "berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 
@@ -125,7 +125,7 @@ func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
 func TestACallPastTheHedgeDelayAsksTheNextReplicaAndTheFirstListingWins(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3, answersAfter: slowAnswerOfTheTests},
 		"berlin-two": {documentsListed: 2},
 	}, hedgeDelayOfTheTests, 1)
@@ -146,7 +146,7 @@ func TestACallPastTheHedgeDelayAsksTheNextReplicaAndTheFirstListingWins(t *testi
 func TestAHedgeIsDueWhileTheFirstReplicaStillHoldsTheCall(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3, answersAfter: answerAfterTheHedgeIsDue},
 		"berlin-two": {documentsListed: 2, answersAfter: slowAnswerOfTheTests},
 	}, hedgeDelayOfTheTests, 1)
@@ -167,7 +167,7 @@ func TestAHedgeIsDueWhileTheFirstReplicaStillHoldsTheCall(t *testing.T) {
 func TestNoReplicaLeftSettlesTheWordPartition(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3}, "berlin-two": {documentsListed: 0},
 	}, noHedgeOfTheTests, 2)
 
@@ -189,7 +189,7 @@ func TestNoReplicaLeftSettlesTheWordPartition(t *testing.T) {
 func TestAsksPerWordPartitionNeverExceedTheReplicasGiven(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {fails: true}, "berlin-two": {fails: true},
 	}, noHedgeOfTheTests, 2)
 
@@ -208,7 +208,7 @@ func TestAsksPerWordPartitionNeverExceedTheReplicasGiven(t *testing.T) {
 func TestTheDeadlineOfTheAsksSettlesTheWordPartitionAndKeepsItsAnswers(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one":  {documentsListed: 3},
 		"weather-one": {documentsListed: 2, answersAfter: slowAnswerOfTheTests},
 	}, noHedgeOfTheTests, 1)
@@ -230,7 +230,7 @@ func TestTheDeadlineOfTheAsksSettlesTheWordPartitionAndKeepsItsAnswers(t *testin
 func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3, answersAfter: slowAnswerOfTheTests},
 		"berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
@@ -252,7 +252,7 @@ func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t 
 func TestEachWordPartitionTellsTheOutcomesOfItsAsksInReplicaOrder(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"seven-one": {documentsListed: 1}, "seven-two": {documentsListed: 1},
 		"three-one": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
@@ -272,7 +272,7 @@ func TestEachWordPartitionTellsTheOutcomesOfItsAsksInReplicaOrder(t *testing.T) 
 func TestTheOutcomesTellWhichAsksWerePutAndWhichWereAnswered(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {fails: true}, "berlin-two": {documentsListed: 1},
 		"weather-one": {documentsListed: 1}, "weather-two": {documentsListed: 1},
 	}, noHedgeOfTheTests, 1)
@@ -299,48 +299,10 @@ func TestTheOutcomesTellWhichAsksWerePutAndWhichWereAnswered(t *testing.T) {
 	}
 }
 
-func TestAnEmptyAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.T) {
-	t.Parallel()
-
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
-		"berlin-one": {documentsHeld: yacymodel.Some(5)},
-		"berlin-two": {documentsListed: 1},
-	}, noHedgeOfTheTests, 1)
-
-	askOutcomes := asking.searchDocumentsAskOutcomes(
-		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
-	)
-
-	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
-		len(askOutcomes.AnsweredAsks()) != 1 {
-		t.Fatalf("the run = %+v, want the first replica only", askOutcomes)
-	}
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
-}
-
-func TestAnAnswerThatOnlyMatchesDocumentsSettlesTheWordPartition(t *testing.T) {
-	t.Parallel()
-
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
-		"berlin-one": {documentsMatched: 2},
-		"berlin-two": {documentsListed: 1},
-	}, noHedgeOfTheTests, 1)
-
-	askOutcomes := asking.searchDocumentsAskOutcomes(
-		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
-	)
-
-	if !slices.Equal(addressesOf(askOutcomes.AsksPut()), []string{"berlin-one"}) ||
-		len(askOutcomes.AnsweredAsks()) != 1 {
-		t.Fatalf("the run = %+v, want the first replica only", askOutcomes)
-	}
-	asking.observer.wantAmountOfDocumentsListed(t, 2)
-}
-
 func TestAPeerAskedForOneWordPartitionIsNotAskedForAnotherOne(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"shared": {documentsListed: 3}, "berlin-two": {documentsListed: 2},
 		"weather-two": {documentsListed: 4},
 	}, noHedgeOfTheTests, 1)
@@ -365,7 +327,7 @@ func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLef
 ) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"shared": {documentsListed: 3},
 	}, noHedgeOfTheTests, 1)
 
@@ -386,7 +348,7 @@ func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLef
 func TestAsksAddedToARunningRunAreAsked(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3}, "weather-one": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 	run := asking.startedRun(t.Context())
@@ -406,7 +368,7 @@ func TestAsksAddedToARunningRunAreAsked(t *testing.T) {
 func TestAPeerAskedEarlierInTheRunIsNotAskedForAnAskAddedLater(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"shared": {documentsListed: 3}, "weather-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 	run := asking.startedRun(t.Context())
@@ -424,7 +386,7 @@ func TestAPeerAskedEarlierInTheRunIsNotAskedForAnAskAddedLater(t *testing.T) {
 func TestAWordPartitionAlreadyInTheRunIsNotAskedAgain(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 0}, "berlin-two": {documentsListed: 2},
 	}, noHedgeOfTheTests, 1)
 	run := asking.startedRun(t.Context())
@@ -441,7 +403,7 @@ func TestAWordPartitionAlreadyInTheRunIsNotAskedAgain(t *testing.T) {
 func TestEachWordPartitionIsSentAsSoonAsItSettles(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"weather-one": {documentsListed: 2, answersAfter: slowAnswerOfTheTests},
 		"berlin-one":  {documentsListed: 3},
 	}, noHedgeOfTheTests, 1)
@@ -470,7 +432,7 @@ func TestEachWordPartitionIsSentAsSoonAsItSettles(t *testing.T) {
 func TestTheDeadlineEndsTheRunAndSendsTheUnsettledWordPartitions(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{
 		"berlin-one": {documentsListed: 3, answersAfter: slowAnswerOfTheTests},
 	}, noHedgeOfTheTests, 1)
 	ctx, endTheRun := context.WithTimeout(t.Context(), deadlineOfTheTests)
@@ -494,7 +456,7 @@ func TestTheDeadlineEndsTheRunAndSendsTheUnsettledWordPartitions(t *testing.T) {
 func TestARunWithoutAsksIsOverOnceTheAsksClose(t *testing.T) {
 	t.Parallel()
 
-	asking := askingOfTheTests(map[string]scriptedPeerCall{}, noHedgeOfTheTests, 1)
+	asking := askingOfTheTests(map[string]scriptedReplicaCall{}, noHedgeOfTheTests, 1)
 	run := asking.startedRun(t.Context())
 
 	wantTheRunOver(t, run)
@@ -503,17 +465,15 @@ func TestARunWithoutAsksIsOverOnceTheAsksClose(t *testing.T) {
 	asking.observer.wantEndedBy(t, replicaasks.EndedByCoverage)
 }
 
-type scriptedPeerCall struct {
-	documentsListed  int
-	documentsMatched int
-	documentsHeld    yacymodel.Optional[int]
-	searched         bool
-	fails            bool
-	answersAfter     time.Duration
+type scriptedReplicaCall struct {
+	documentsListed int
+	searched        bool
+	fails           bool
+	answersAfter    time.Duration
 }
 
-type peerCallsOfTheTests struct {
-	scripts            map[string]scriptedPeerCall
+type replicaCallsOfTheTests struct {
+	scripts            map[string]scriptedReplicaCall
 	startedAt          time.Time
 	mutex              sync.Mutex
 	addressesPut       []string
@@ -521,28 +481,35 @@ type peerCallsOfTheTests struct {
 	addressesCancelled []string
 }
 
-func (calls *peerCallsOfTheTests) AskForSearchDocuments(
-	ctx context.Context,
-	asks []peerasks.SearchDocumentsAsk,
-) []peerasks.AnsweredSearchDocumentsAsk {
-	script, answered := calls.answered(ctx, asks[0].Peer.Address)
-	if !answered {
-		return nil
-	}
-
-	return []peerasks.AnsweredSearchDocumentsAsk{{
-		Ask:                             asks[0],
-		Abstract:                        make([]yacymodel.URLHash, script.documentsListed),
-		MatchedDocuments:                make([]peerasks.MatchedDocument, script.documentsMatched),
-		AmountOfDocumentsHeldForTheWord: script.documentsHeld,
-		PeerSearched:                    script.searched,
-	}}
+func (*replicaCallsOfTheTests) ReplicaOf(
+	ask peerasks.SearchDocumentsAsk,
+) replicaasks.Replica {
+	return replicaasks.Replica{Peer: ask.Peer, Word: ask.Word, Partition: ask.Partition}
 }
 
-func (calls *peerCallsOfTheTests) answered(
+func (calls *replicaCallsOfTheTests) AnswerTo(
 	ctx context.Context,
-	address string,
-) (scriptedPeerCall, bool) {
+	ask peerasks.SearchDocumentsAsk,
+) (peerasks.AnsweredSearchDocumentsAsk, bool) {
+	if !calls.answered(ctx, ask.Peer.Address) {
+		return peerasks.AnsweredSearchDocumentsAsk{}, false
+	}
+
+	return peerasks.AnsweredSearchDocumentsAsk{Ask: ask}, true
+}
+
+func (calls *replicaCallsOfTheTests) CoverageFrom(
+	answer peerasks.AnsweredSearchDocumentsAsk,
+) replicaasks.Coverage {
+	script := calls.scripts[answer.Ask.Peer.Address]
+
+	return replicaasks.Coverage{
+		AmountOfDocumentsListed: script.documentsListed,
+		PeerSearched:            script.searched,
+	}
+}
+
+func (calls *replicaCallsOfTheTests) answered(ctx context.Context, address string) bool {
 	script := calls.recordThePut(address)
 	if script.answersAfter > 0 {
 		answerTimer := time.NewTimer(script.answersAfter)
@@ -552,14 +519,14 @@ func (calls *peerCallsOfTheTests) answered(
 		case <-ctx.Done():
 			calls.recordTheCancel(address)
 
-			return script, false
+			return false
 		}
 	}
 
-	return script, !script.fails
+	return !script.fails
 }
 
-func (calls *peerCallsOfTheTests) recordThePut(address string) scriptedPeerCall {
+func (calls *replicaCallsOfTheTests) recordThePut(address string) scriptedReplicaCall {
 	calls.mutex.Lock()
 	defer calls.mutex.Unlock()
 
@@ -569,14 +536,14 @@ func (calls *peerCallsOfTheTests) recordThePut(address string) scriptedPeerCall 
 	return calls.scripts[address]
 }
 
-func (calls *peerCallsOfTheTests) recordTheCancel(address string) {
+func (calls *replicaCallsOfTheTests) recordTheCancel(address string) {
 	calls.mutex.Lock()
 	defer calls.mutex.Unlock()
 
 	calls.addressesCancelled = append(calls.addressesCancelled, address)
 }
 
-func (calls *peerCallsOfTheTests) wantAddressesPut(t *testing.T, addresses ...string) {
+func (calls *replicaCallsOfTheTests) wantAddressesPut(t *testing.T, addresses ...string) {
 	t.Helper()
 	calls.mutex.Lock()
 	defer calls.mutex.Unlock()
@@ -591,7 +558,7 @@ func (calls *peerCallsOfTheTests) wantAddressesPut(t *testing.T, addresses ...st
 	}
 }
 
-func (calls *peerCallsOfTheTests) wantAddressesCancelled(t *testing.T, addresses ...string) {
+func (calls *replicaCallsOfTheTests) wantAddressesCancelled(t *testing.T, addresses ...string) {
 	t.Helper()
 
 	for range int(slowAnswerOfTheTests / time.Millisecond) {
@@ -603,14 +570,14 @@ func (calls *peerCallsOfTheTests) wantAddressesCancelled(t *testing.T, addresses
 	t.Fatalf("the calls cancelled were %v, want %v", calls.addressesCancelledSoFar(), addresses)
 }
 
-func (calls *peerCallsOfTheTests) addressesCancelledSoFar() []string {
+func (calls *replicaCallsOfTheTests) addressesCancelledSoFar() []string {
 	calls.mutex.Lock()
 	defer calls.mutex.Unlock()
 
 	return append([]string{}, calls.addressesCancelled...)
 }
 
-func (calls *peerCallsOfTheTests) putAfterOf(t *testing.T, address string) time.Duration {
+func (calls *replicaCallsOfTheTests) putAfterOf(t *testing.T, address string) time.Duration {
 	t.Helper()
 	calls.mutex.Lock()
 	defer calls.mutex.Unlock()
@@ -727,18 +694,30 @@ func (hedgeDelay hedgeDelayOfTheTestsPeers) HedgeDelayOf(
 	return time.Duration(hedgeDelay)
 }
 
+type (
+	searchDocumentsAsks = replicaasks.Asks[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
+	searchDocumentsRun = replicaasks.Run[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
+	searchDocumentsSettledWordPartition = replicaasks.SettledWordPartition[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
+)
+
 type askingUnderTest struct {
-	calls    *peerCallsOfTheTests
+	calls    *replicaCallsOfTheTests
 	observer *recordedReplicaAsks
-	asks     replicaasks.Asks
+	asks     searchDocumentsAsks
 }
 
 func askingOfTheTests(
-	scripts map[string]scriptedPeerCall,
+	scripts map[string]scriptedReplicaCall,
 	hedgeDelay time.Duration,
 	amountOfReplicasCoveringAPartition int,
 ) askingUnderTest {
-	calls := &peerCallsOfTheTests{
+	calls := &replicaCallsOfTheTests{
 		scripts:   scripts,
 		startedAt: time.Now(),
 		putAfter:  map[string]time.Duration{},
@@ -782,7 +761,7 @@ func (asking askingUnderTest) searchDocumentsAskOutcomes(
 	return askOutcomes
 }
 
-func (asking askingUnderTest) startedRun(ctx context.Context) replicaasks.Run {
+func (asking askingUnderTest) startedRun(ctx context.Context) searchDocumentsRun {
 	asking.calls.startedAt = time.Now()
 
 	return asking.asks.Start(ctx)
@@ -790,7 +769,7 @@ func (asking askingUnderTest) startedRun(ctx context.Context) replicaasks.Run {
 
 func wantOutcomesIn(
 	t *testing.T,
-	settledWordPartition replicaasks.SettledWordPartition,
+	settledWordPartition searchDocumentsSettledWordPartition,
 	outcomes ...string,
 ) {
 	t.Helper()
@@ -800,11 +779,11 @@ func wantOutcomesIn(
 	}
 }
 
-func outcomesIn(settledWordPartition replicaasks.SettledWordPartition) []string {
+func outcomesIn(settledWordPartition searchDocumentsSettledWordPartition) []string {
 	return outcomesOf(settledWordPartition.AskOutcomes)
 }
 
-func wantTheRunOver(t *testing.T, run replicaasks.Run) {
+func wantTheRunOver(t *testing.T, run searchDocumentsRun) {
 	t.Helper()
 
 	close(run.Asks)

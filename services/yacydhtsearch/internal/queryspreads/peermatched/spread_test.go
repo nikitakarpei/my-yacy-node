@@ -20,6 +20,15 @@ const (
 	itemsCeiling = 10
 )
 
+type (
+	searchDocumentsRun = replicaasks.Run[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
+	searchDocumentsSettledWordPartition = replicaasks.SettledWordPartition[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
+)
+
 type peerNetwork struct {
 	itemsPerPeer       map[string][]string
 	peersCountingAWord map[string]struct{}
@@ -33,17 +42,17 @@ func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	}
 }
 
-func (network *peerNetwork) Start(_ context.Context) replicaasks.Run {
+func (network *peerNetwork) Start(_ context.Context) searchDocumentsRun {
 	asks := make(chan []peerasks.SearchDocumentsAsk)
-	settledWordPartitions := make(chan replicaasks.SettledWordPartition)
+	settledWordPartitions := make(chan searchDocumentsSettledWordPartition)
 	go network.answerEachAsk(asks, settledWordPartitions)
 
-	return replicaasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+	return searchDocumentsRun{Asks: asks, SettledWordPartitions: settledWordPartitions}
 }
 
 func (network *peerNetwork) answerEachAsk(
 	asks <-chan []peerasks.SearchDocumentsAsk,
-	settledWordPartitions chan<- replicaasks.SettledWordPartition,
+	settledWordPartitions chan<- searchDocumentsSettledWordPartition,
 ) {
 	defer close(settledWordPartitions)
 	for addedAsks := range asks {
@@ -56,8 +65,8 @@ func (network *peerNetwork) answerEachAsk(
 
 func (network *peerNetwork) settledWordPartitionOf(
 	ask peerasks.SearchDocumentsAsk,
-) replicaasks.SettledWordPartition {
-	return replicaasks.SettledWordPartition{AskOutcomes: peerasks.SearchDocumentsAskOutcomes{{
+) searchDocumentsSettledWordPartition {
+	return searchDocumentsSettledWordPartition{AskOutcomes: peerasks.SearchDocumentsAskOutcomes{{
 		Ask: ask,
 		Put: true,
 		Answer: yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{

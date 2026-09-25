@@ -103,6 +103,8 @@ components:
     in: internal/replicaasksobservers/applog/**
   replicaasksobserversprometheus:
     in: internal/replicaasksobservers/prometheus/**
+  replicacallssearchdocuments:
+    in: internal/replicacalls/searchdocuments/**
   peercallwire:
     in: internal/peercallwire/**
   peerlivenesswire:
@@ -395,6 +397,10 @@ deps:
       - prometheus
       - budgetbuckets
     mayDependOn:
+      - replicaasks
+  replicacallssearchdocuments:
+    mayDependOn:
+      - peerasks
       - replicaasks
   peercallwire:
     canUse:

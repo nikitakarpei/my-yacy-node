@@ -10,51 +10,49 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
-type PeerCalls interface {
-	AskForSearchDocuments(
-		ctx context.Context,
-		asks []peerasks.SearchDocumentsAsk,
-	) []peerasks.AnsweredSearchDocumentsAsk
+type ReplicaCalls[Ask any, Answered any] interface {
+	ReplicaOf(ask Ask) Replica
+	AnswerTo(ctx context.Context, ask Ask) (Answered, bool)
+	CoverageFrom(answer Answered) Coverage
 }
 
 type HedgeDelay interface {
 	HedgeDelayOf(ctx context.Context, peer peerdirectory.AskablePeer) time.Duration
 }
 
-type Asks struct {
-	peerCalls                          PeerCalls
+type Asks[Ask any, Answered any] struct {
+	replicaCalls                       ReplicaCalls[Ask, Answered]
 	hedgeDelay                         HedgeDelay
 	amountOfReplicasCoveringAPartition int
 	observer                           ReplicaAsksObserver
 }
 
-func New(
-	peerCalls PeerCalls,
+func New[Ask any, Answered any](
+	replicaCalls ReplicaCalls[Ask, Answered],
 	hedgeDelay HedgeDelay,
 	amountOfReplicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
-) Asks {
-	return Asks{
-		peerCalls:                          peerCalls,
+) Asks[Ask, Answered] {
+	return Asks[Ask, Answered]{
+		replicaCalls:                       replicaCalls,
 		hedgeDelay:                         hedgeDelay,
 		amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
 		observer:                           observer,
 	}
 }
 
-type Run struct {
-	Asks                  chan<- []peerasks.SearchDocumentsAsk
-	SettledWordPartitions <-chan SettledWordPartition
+type Run[Ask any, Answered any] struct {
+	Asks                  chan<- []Ask
+	SettledWordPartitions <-chan SettledWordPartition[Ask, Answered]
 }
 
-func (replicaAsks Asks) Start(ctx context.Context) Run {
-	asks := make(chan []peerasks.SearchDocumentsAsk)
-	settledWordPartitions := make(chan SettledWordPartition)
+func (replicaAsks Asks[Ask, Answered]) Start(ctx context.Context) Run[Ask, Answered] {
+	asks := make(chan []Ask)
+	settledWordPartitions := make(chan SettledWordPartition[Ask, Answered])
 	go openRunOf(replicaAsks, asks, settledWordPartitions).askUntilOver(ctx)
 
-	return Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+	return Run[Ask, Answered]{Asks: asks, SettledWordPartitions: settledWordPartitions}
 }

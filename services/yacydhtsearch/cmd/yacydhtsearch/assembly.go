@@ -77,6 +77,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	replicaasksobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/applog"
 	replicaasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/prometheus"
+	replicacallssearchdocuments "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/searchdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings"
 	peerpacesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings/peerpaces/memory"
@@ -269,7 +270,7 @@ func querySpreadFor(
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
 	replicaAsks := replicaasks.New(
-		peers,
+		replicacallssearchdocuments.New(peers),
 		hedgedelaysconstant.New(cfg.HedgeDelay),
 		cfg.ReplicasCoveringAPartition,
 		replicaasks.ReplicaAsksObservers{

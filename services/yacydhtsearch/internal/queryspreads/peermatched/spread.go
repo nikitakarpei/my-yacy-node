@@ -6,6 +6,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
@@ -13,7 +14,9 @@ import (
 )
 
 type ReplicaAsks interface {
-	Start(ctx context.Context) replicaasks.Run
+	Start(
+		ctx context.Context,
+	) replicaasks.Run[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]
 }
 
 type Spread struct {

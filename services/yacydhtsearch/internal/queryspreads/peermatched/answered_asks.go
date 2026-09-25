@@ -6,7 +6,9 @@ import (
 )
 
 func answeredAsksFrom(
-	settledWordPartitions <-chan replicaasks.SettledWordPartition,
+	settledWordPartitions <-chan replicaasks.SettledWordPartition[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	],
 ) []peerasks.AnsweredSearchDocumentsAsk {
 	askOutcomes := peerasks.SearchDocumentsAskOutcomes{}
 	for settledWordPartition := range settledWordPartitions {

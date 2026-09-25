@@ -25,6 +25,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	replicacallssearchdocuments "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/searchdocuments"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -265,11 +266,13 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	)
 }
 
-func replicaAsks(t *testing.T) replicaasks.Asks {
+func replicaAsks(
+	t *testing.T,
+) replicaasks.Asks[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
 	t.Helper()
 
 	return replicaasks.New(
-		peerCalls(t),
+		replicacallssearchdocuments.New(peerCalls(t)),
 		hedgedelaysconstant.New(hedgeDelay),
 		replicasCoveringAPartition,
 		replicaasks.ReplicaAsksObservers{},

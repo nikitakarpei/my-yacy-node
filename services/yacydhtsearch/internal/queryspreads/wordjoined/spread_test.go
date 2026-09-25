@@ -68,6 +68,15 @@ func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetw
 	}
 }
 
+type (
+	searchDocumentsRun = replicaasks.Run[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
+	searchDocumentsSettledWordPartition = replicaasks.SettledWordPartition[
+		peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk,
+	]
+)
+
 type replicasOfTheNetwork struct {
 	network *peerNetwork
 }
@@ -76,24 +85,24 @@ func replicasOf(network *peerNetwork) replicasOfTheNetwork {
 	return replicasOfTheNetwork{network: network}
 }
 
-func (replicas replicasOfTheNetwork) Start(ctx context.Context) replicaasks.Run {
+func (replicas replicasOfTheNetwork) Start(ctx context.Context) searchDocumentsRun {
 	asks := make(chan []peerasks.SearchDocumentsAsk)
-	settledWordPartitions := make(chan replicaasks.SettledWordPartition)
+	settledWordPartitions := make(chan searchDocumentsSettledWordPartition)
 	go replicas.answerEachWordPartition(ctx, asks, settledWordPartitions)
 
-	return replicaasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+	return searchDocumentsRun{Asks: asks, SettledWordPartitions: settledWordPartitions}
 }
 
 func (replicas replicasOfTheNetwork) answerEachWordPartition(
 	ctx context.Context,
 	asks <-chan []peerasks.SearchDocumentsAsk,
-	settledWordPartitions chan<- replicaasks.SettledWordPartition,
+	settledWordPartitions chan<- searchDocumentsSettledWordPartition,
 ) {
 	defer close(settledWordPartitions)
 	run := &runOfTheNetwork{wordPartitionsInTheRun: map[string]struct{}{}}
 	for asks != nil || len(run.settledWordPartitionsUnread) > 0 {
-		var reader chan<- replicaasks.SettledWordPartition
-		var nextSettledWordPartition replicaasks.SettledWordPartition
+		var reader chan<- searchDocumentsSettledWordPartition
+		var nextSettledWordPartition searchDocumentsSettledWordPartition
 		if len(run.settledWordPartitionsUnread) > 0 {
 			reader = settledWordPartitions
 			nextSettledWordPartition = run.settledWordPartitionsUnread[0]
@@ -115,7 +124,7 @@ func (replicas replicasOfTheNetwork) answerEachWordPartition(
 
 type runOfTheNetwork struct {
 	wordPartitionsInTheRun      map[string]struct{}
-	settledWordPartitionsUnread []replicaasks.SettledWordPartition
+	settledWordPartitionsUnread []searchDocumentsSettledWordPartition
 	settledWordPartitionsRead   int
 }
 
@@ -143,7 +152,7 @@ func (run *runOfTheNetwork) answer(
 	for _, wordPartition := range newWordPartitionsInOrder {
 		run.settledWordPartitionsUnread = append(
 			run.settledWordPartitionsUnread,
-			replicaasks.SettledWordPartition{
+			searchDocumentsSettledWordPartition{
 				AskOutcomes: askOutcomesOfEachNewWordPartition[wordPartition],
 			},
 		)

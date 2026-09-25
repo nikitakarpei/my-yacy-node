@@ -2,6 +2,6 @@ package replicaasks
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 
-type SettledWordPartition struct {
-	AskOutcomes peerasks.SearchDocumentsAskOutcomes
+type SettledWordPartition[Ask any, Answered any] struct {
+	AskOutcomes peerasks.AskOutcomes[Ask, Answered]
 }

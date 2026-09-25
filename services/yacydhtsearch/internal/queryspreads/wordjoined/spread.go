@@ -15,7 +15,9 @@ import (
 )
 
 type ReplicaAsks interface {
-	Start(ctx context.Context) replicaasks.Run
+	Start(
+		ctx context.Context,
+	) replicaasks.Run[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]
 }
 
 type PeerAsks interface {

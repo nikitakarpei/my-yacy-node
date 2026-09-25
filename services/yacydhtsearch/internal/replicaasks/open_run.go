@@ -3,21 +3,19 @@ package replicaasks
 import (
 	"context"
 	"time"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 )
 
-type openRun struct {
-	replicaAsks                     Asks
+type openRun[Ask any, Answered any] struct {
+	replicaAsks                     Asks[Ask, Answered]
 	startedAt                       time.Time
-	asks                            <-chan []peerasks.SearchDocumentsAsk
-	settledWordPartitions           chan<- SettledWordPartition
-	askedWordPartitions             chan *wordPartition
+	asks                            <-chan []Ask
+	settledWordPartitions           chan<- SettledWordPartition[Ask, Answered]
+	askedWordPartitions             chan *wordPartition[Ask, Answered]
 	chosenPeers                     *chosenPeers
-	wordPartitions                  []*wordPartition
+	wordPartitions                  []*wordPartition[Ask, Answered]
 	wordPartitionKeys               map[wordPartitionKey]struct{}
 	amountOfWordPartitionsUnsettled int
-	settledWordPartitionsUnread     []SettledWordPartition
+	settledWordPartitionsUnread     []SettledWordPartition[Ask, Answered]
 }
 
 type wordPartitionKey struct {
@@ -25,23 +23,23 @@ type wordPartitionKey struct {
 	partition uint
 }
 
-func openRunOf(
-	replicaAsks Asks,
-	asks <-chan []peerasks.SearchDocumentsAsk,
-	settledWordPartitions chan<- SettledWordPartition,
-) *openRun {
-	return &openRun{
+func openRunOf[Ask any, Answered any](
+	replicaAsks Asks[Ask, Answered],
+	asks <-chan []Ask,
+	settledWordPartitions chan<- SettledWordPartition[Ask, Answered],
+) *openRun[Ask, Answered] {
+	return &openRun[Ask, Answered]{
 		replicaAsks:           replicaAsks,
 		startedAt:             time.Now(),
 		asks:                  asks,
 		settledWordPartitions: settledWordPartitions,
-		askedWordPartitions:   make(chan *wordPartition),
+		askedWordPartitions:   make(chan *wordPartition[Ask, Answered]),
 		chosenPeers:           noChosenPeers(),
 		wordPartitionKeys:     map[wordPartitionKey]struct{}{},
 	}
 }
 
-func (run *openRun) askUntilOver(ctx context.Context) {
+func (run *openRun[Ask, Answered]) askUntilOver(ctx context.Context) {
 	for !run.isOver() {
 		run.takeTheNextEvent(ctx)
 	}
@@ -49,12 +47,12 @@ func (run *openRun) askUntilOver(ctx context.Context) {
 	close(run.settledWordPartitions)
 }
 
-func (run *openRun) isOver() bool {
+func (run *openRun[Ask, Answered]) isOver() bool {
 	return run.asks == nil && run.amountOfWordPartitionsUnsettled == 0 &&
 		len(run.settledWordPartitionsUnread) == 0
 }
 
-func (run *openRun) takeTheNextEvent(ctx context.Context) {
+func (run *openRun[Ask, Answered]) takeTheNextEvent(ctx context.Context) {
 	select {
 	case asks, open := <-run.asks:
 		run.takeTheAsks(ctx, asks, open)
@@ -65,9 +63,9 @@ func (run *openRun) takeTheNextEvent(ctx context.Context) {
 	}
 }
 
-func (run *openRun) takeTheAsks(
+func (run *openRun[Ask, Answered]) takeTheAsks(
 	ctx context.Context,
-	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
+	asksInReplicaOrder []Ask,
 	open bool,
 ) {
 	if !open {
@@ -84,11 +82,11 @@ func (run *openRun) takeTheAsks(
 	}
 }
 
-func (run *openRun) wordPartitionsOf(
-	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
-) []*wordPartition {
+func (run *openRun[Ask, Answered]) wordPartitionsOf(
+	asksInReplicaOrder []Ask,
+) []*wordPartition[Ask, Answered] {
 	asksOfEachWordPartition := run.asksOfEachAddedWordPartitionIn(asksInReplicaOrder)
-	addedWordPartitions := make([]*wordPartition, 0, len(asksOfEachWordPartition))
+	addedWordPartitions := make([]*wordPartition[Ask, Answered], 0, len(asksOfEachWordPartition))
 	for _, asksOfTheWordPartition := range asksOfEachWordPartition {
 		addedWordPartitions = append(addedWordPartitions, wordPartitionOf(
 			asksOfTheWordPartition,
@@ -101,13 +99,14 @@ func (run *openRun) wordPartitionsOf(
 	return addedWordPartitions
 }
 
-func (run *openRun) asksOfEachAddedWordPartitionIn(
-	asksInReplicaOrder []peerasks.SearchDocumentsAsk,
-) [][]placedAsk {
-	asksOfEachWordPartition := make([][]placedAsk, 0, len(asksInReplicaOrder))
+func (run *openRun[Ask, Answered]) asksOfEachAddedWordPartitionIn(
+	asksInReplicaOrder []Ask,
+) [][]placedAsk[Ask] {
+	asksOfEachWordPartition := make([][]placedAsk[Ask], 0, len(asksInReplicaOrder))
 	indexOfEachAddedWordPartition := make(map[wordPartitionKey]int, len(asksInReplicaOrder))
 	for _, ask := range asksInReplicaOrder {
-		key := wordPartitionKeyOf(ask)
+		replica := run.replicaAsks.replicaCalls.ReplicaOf(ask)
+		key := wordPartitionKeyOf(replica)
 		index, added := indexOfEachAddedWordPartition[key]
 		if !added {
 			if _, alreadyInTheRun := run.wordPartitionKeys[key]; alreadyInTheRun {
@@ -120,18 +119,25 @@ func (run *openRun) asksOfEachAddedWordPartitionIn(
 		}
 		asksOfEachWordPartition[index] = append(
 			asksOfEachWordPartition[index],
-			placedAsk{ask: ask, placeInReplicaOrder: len(asksOfEachWordPartition[index])},
+			placedAsk[Ask]{
+				ask:                 ask,
+				replica:             replica,
+				placeInReplicaOrder: len(asksOfEachWordPartition[index]),
+			},
 		)
 	}
 
 	return asksOfEachWordPartition
 }
 
-func wordPartitionKeyOf(ask peerasks.SearchDocumentsAsk) wordPartitionKey {
-	return wordPartitionKey{word: ask.Word.String(), partition: ask.Partition}
+func wordPartitionKeyOf(replica Replica) wordPartitionKey {
+	return wordPartitionKey{word: replica.Word.String(), partition: replica.Partition}
 }
 
-func (run *openRun) startAsking(ctx context.Context, partition *wordPartition) {
+func (run *openRun[Ask, Answered]) startAsking(
+	ctx context.Context,
+	partition *wordPartition[Ask, Answered],
+) {
 	run.amountOfWordPartitionsUnsettled++
 	go func() {
 		partition.askUntilSettled(ctx)
@@ -139,7 +145,9 @@ func (run *openRun) startAsking(ctx context.Context, partition *wordPartition) {
 	}()
 }
 
-func (run *openRun) takeTheSettledWordPartition(partition *wordPartition) {
+func (run *openRun[Ask, Answered]) takeTheSettledWordPartition(
+	partition *wordPartition[Ask, Answered],
+) {
 	run.amountOfWordPartitionsUnsettled--
 	run.settledWordPartitionsUnread = append(
 		run.settledWordPartitionsUnread,
@@ -147,7 +155,9 @@ func (run *openRun) takeTheSettledWordPartition(partition *wordPartition) {
 	)
 }
 
-func (run *openRun) readerOfTheNextSettledWordPartition() chan<- SettledWordPartition {
+func (
+	run *openRun[Ask, Answered],
+) readerOfTheNextSettledWordPartition() chan<- SettledWordPartition[Ask, Answered] {
 	if len(run.settledWordPartitionsUnread) == 0 {
 		return nil
 	}
@@ -155,15 +165,15 @@ func (run *openRun) readerOfTheNextSettledWordPartition() chan<- SettledWordPart
 	return run.settledWordPartitions
 }
 
-func (run *openRun) nextSettledWordPartition() SettledWordPartition {
+func (run *openRun[Ask, Answered]) nextSettledWordPartition() SettledWordPartition[Ask, Answered] {
 	if len(run.settledWordPartitionsUnread) == 0 {
-		return SettledWordPartition{}
+		return SettledWordPartition[Ask, Answered]{}
 	}
 
 	return run.settledWordPartitionsUnread[0]
 }
 
-func (run *openRun) performedReplicaAsks() PerformedReplicaAsks {
+func (run *openRun[Ask, Answered]) performedReplicaAsks() PerformedReplicaAsks {
 	performedWordPartitions := make([]PerformedWordPartition, 0, len(run.wordPartitions))
 	for _, partition := range run.wordPartitions {
 		performedWordPartitions = append(
@@ -179,7 +189,7 @@ func (run *openRun) performedReplicaAsks() PerformedReplicaAsks {
 	}
 }
 
-func (run *openRun) endedBy() EndedBy {
+func (run *openRun[Ask, Answered]) endedBy() EndedBy {
 	for _, partition := range run.wordPartitions {
 		if partition.settledBy == SettledByDeadline {
 			return EndedByDeadline
