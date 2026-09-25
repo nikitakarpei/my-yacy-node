@@ -44,6 +44,9 @@ func New(
 		wordjoined.RarestQueryWordWithoutASample: leadingQueryWordChoiceJoinsFrom(
 			wordJoinedSpreads, wordjoined.RarestQueryWordWithoutASample,
 		),
+		wordjoined.RarestQueryWordRemembered: leadingQueryWordChoiceJoinsFrom(
+			wordJoinedSpreads, wordjoined.RarestQueryWordRemembered,
+		),
 	}
 	metrics := &WordJoinedSpreadMetrics{
 		joinsPerLeadingQueryWordChoice: joinsPerLeadingQueryWordChoice,

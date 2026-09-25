@@ -64,6 +64,10 @@ import (
 	queryspreadsobserverspeermatchedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/peermatched/prometheus"
 	queryspreadsobserverswordjoinedapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/applog"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
+	queryworddocumentamountsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/jetstream"
+	queryworddocumentamountsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/memory"
+	queryworddocumentamountsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/applog"
+	queryworddocumentamountsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/prometheus"
 	rankingcachejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/jetstream"
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/applog"
@@ -79,16 +83,18 @@ import (
 )
 
 const (
-	opsReadHeaderLimit       = 10 * time.Second
-	shutdownLimit            = 15 * time.Second
-	rankingBucket            = "yacydhtsearch-rankings"
-	rankingByteCeiling       = 32 * 1024
-	probeAnswerHistoryStream = "yacydhtsearch-probe-answer-history"
-	peerPresenceBucket       = "yacydhtsearch-peer-presence"
-	presenceByteCeiling      = 512
-	msgServiceStarted        = "yacydhtsearch started"
-	msgServiceStopped        = "yacydhtsearch stopped"
-	pageFetchUserAgent       = "yacydhtsearch (+https://yacy.net)"
+	opsReadHeaderLimit                 = 10 * time.Second
+	shutdownLimit                      = 15 * time.Second
+	rankingBucket                      = "yacydhtsearch-rankings"
+	rankingByteCeiling                 = 32 * 1024
+	queryWordDocumentAmountsBucket     = "yacydhtsearch-query-word-document-amounts"
+	queryWordDocumentAmountByteCeiling = 64
+	probeAnswerHistoryStream           = "yacydhtsearch-probe-answer-history"
+	peerPresenceBucket                 = "yacydhtsearch-peer-presence"
+	presenceByteCeiling                = 512
+	msgServiceStarted                  = "yacydhtsearch started"
+	msgServiceStopped                  = "yacydhtsearch stopped"
+	pageFetchUserAgent                 = "yacydhtsearch (+https://yacy.net)"
 )
 
 func RunService(
@@ -150,10 +156,16 @@ func RunService(
 	if err != nil {
 		return err
 	}
+	queryWordDocumentAmounts, err := queryWordDocumentAmountsFor(
+		ctx, cfg, queryworddocumentamountsobserversjetstreamprometheus.New(registry),
+	)
+	if err != nil {
+		return err
+	}
 	network := networksearch.New(
 		directory,
 		choice,
-		querySpreadFor(cfg, peers, registry),
+		querySpreadFor(cfg, peers, queryWordDocumentAmounts, registry),
 		pageReading,
 		sitediscount.New(
 			documentrelevance.RelevanceScorerWeighedBy(
@@ -236,6 +248,7 @@ func RunService(
 func querySpreadFor(
 	cfg ServiceConfig,
 	peers peercallwire.Wire,
+	queryWordDocumentAmounts wordjoined.QueryWordDocumentAmounts,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
 	replicaAsks := replicaasks.New(
@@ -252,6 +265,7 @@ func querySpreadFor(
 		wordjoined.New(
 			replicaAsks,
 			peers,
+			queryWordDocumentAmounts,
 			rand.UintN,
 			cfg.URLMetadataAskDocumentsCeiling,
 			cfg.DocumentsToMatchCeiling,
@@ -272,6 +286,56 @@ func querySpreadFor(
 			},
 		),
 	)
+}
+
+func queryWordDocumentAmountsFor(
+	ctx context.Context,
+	cfg ServiceConfig,
+	metrics *queryworddocumentamountsobserversjetstreamprometheus.QueryWordDocumentAmountsMetrics,
+) (wordjoined.QueryWordDocumentAmounts, error) {
+	if cfg.NATSURL == "" {
+		return queryworddocumentamountsmemory.New(
+			cfg.QueryWordDocumentAmountsCapacity, cfg.QueryWordDocumentAmountLifetime,
+		), nil
+	}
+
+	bucket, err := queryWordDocumentAmountsBucketAt(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return queryworddocumentamountsjetstream.New(
+		bucket,
+		queryworddocumentamountsjetstream.QueryWordDocumentAmountsObservers{
+			queryworddocumentamountsobserversjetstreamapplog.QueryWordDocumentAmountsLog{},
+			metrics,
+		},
+	), nil
+}
+
+func queryWordDocumentAmountsBucketAt(
+	ctx context.Context,
+	cfg ServiceConfig,
+) (natsjetstream.KeyValue, error) {
+	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", EnvNATSURL, err)
+	}
+
+	bucket, err := stream.CreateOrUpdateKeyValue(ctx, natsjetstream.KeyValueConfig{
+		Bucket: queryWordDocumentAmountsBucket,
+		TTL:    cfg.QueryWordDocumentAmountLifetime,
+		MaxBytes: int64(
+			cfg.QueryWordDocumentAmountsCapacity,
+		) * queryWordDocumentAmountByteCeiling,
+		MaxValueSize: queryWordDocumentAmountByteCeiling,
+		History:      1,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("open bucket %s: %w", queryWordDocumentAmountsBucket, err)
+	}
+
+	return bucket, nil
 }
 
 func pageReadingFor(

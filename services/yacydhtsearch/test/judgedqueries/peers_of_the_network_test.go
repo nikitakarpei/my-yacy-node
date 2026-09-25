@@ -144,6 +144,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 			wordjoined.New(
 				everyReplica,
 				calledPeers,
+				noRememberedQueryWordDocumentAmounts{},
 				rand.UintN,
 				urlMetadataAskDocumentsCeiling,
 				documentsToMatchCeiling,
@@ -188,3 +189,14 @@ func (spread spreadChoosingPeers) SpreadOverPeers(
 
 	return spread.byWordCount.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 }
+
+type noRememberedQueryWordDocumentAmounts struct{}
+
+func (noRememberedQueryWordDocumentAmounts) DocumentAmountsOf(
+	context.Context,
+	[]yacymodel.Hash,
+) map[yacymodel.Hash]int {
+	return nil
+}
+
+func (noRememberedQueryWordDocumentAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}

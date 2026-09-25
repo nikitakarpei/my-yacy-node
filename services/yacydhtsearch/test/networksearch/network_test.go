@@ -247,6 +247,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	return wordjoined.New(
 		replicaAsks(t),
 		peerCalls(t),
+		noRememberedQueryWordDocumentAmounts{},
 		rand.UintN,
 		recordCeiling,
 		documentsToMatchCeiling,
@@ -967,3 +968,14 @@ func TestAQueryOfTwoWordsCarriesBackWhatAReplicaListsForTheirCompoundWord(t *tes
 		)
 	}
 }
+
+type noRememberedQueryWordDocumentAmounts struct{}
+
+func (noRememberedQueryWordDocumentAmounts) DocumentAmountsOf(
+	context.Context,
+	[]yacymodel.Hash,
+) map[yacymodel.Hash]int {
+	return nil
+}
+
+func (noRememberedQueryWordDocumentAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}
