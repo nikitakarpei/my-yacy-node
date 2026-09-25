@@ -9,7 +9,7 @@ words in lower case and joined by `-`: `answers/`, `judgments/`, `pages/`.
 
 ## The gate
 
-`TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the first
+`TestTheOrderingOfTheServiceHoldsItsGainOverTheJudgedQueries` measures the first
 ten graded documents of each ordering. The gain of a document is its grade,
 discounted by its place, and discounted by half again for each document of its
 site above it that has the grade 1 or more. A site is the host of the address

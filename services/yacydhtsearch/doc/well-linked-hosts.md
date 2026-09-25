@@ -31,3 +31,23 @@ curl -sS https://data.commoncrawl.org/projects/hyperlinkgraph/cc-main-2026-jun-j
 ```
 
 Use the newest release.
+
+## Check a list against the judged queries
+
+`TestResultsOfHostsOffTheWellLinkedListRankLowerWithFewerSpamAndNoLessGain` orders the judged
+queries with the hosts in `test/judgedqueries/testdata/well-linked-hosts.txt`. That file holds the
+hosts of the Common Crawl list above that have a result in the judged queries. The test fails
+when the mean gain falls by more than the tolerance of the gate, or when the spam documents in
+the first ten do not become fewer. [judged-queries.md](judged-queries.md) tells how it measures.
+
+Before you use another source, another measure or another number of hosts, write the file again
+from your list and run the test from `services/yacydhtsearch`:
+
+```sh
+zcat test/judgedqueries/testdata/answers/*.json.gz \
+| grep -oE '"Address": ?"[a-z]+://[^/:"]+' | cut -d/ -f3 \
+| awk 'NR == FNR { site = tolower($0); sub(/\.$/, "", site); sub(/^www\./, "", site); sites[site]; next }
+  { site = tolower($0); sub(/\.$/, "", site); sub(/^www\./, "", site); if (site in sites) print }' \
+  - well-linked-hosts.txt | sort -u > test/judgedqueries/testdata/well-linked-hosts.txt
+go test -v -run TestResultsOfHostsOffTheWellLinkedList ./test/judgedqueries/
+```

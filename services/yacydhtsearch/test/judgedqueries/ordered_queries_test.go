@@ -18,3 +18,13 @@ func (queries orderedQueries) gainPerQuery() gainPerQuery {
 
 	return gain
 }
+
+func (queries orderedQueries) amountOfSpamDocumentsAmongTheFirst() int {
+	amountOfSpamDocuments := 0
+	for _, orderedQuery := range queries {
+		amountOfSpamDocuments += orderedQuery.judgedQuery.gradedDocuments.
+			amountOfSpamDocumentsAmong(theFirstOf(orderedQuery.orderedDocuments))
+	}
+
+	return amountOfSpamDocuments
+}
