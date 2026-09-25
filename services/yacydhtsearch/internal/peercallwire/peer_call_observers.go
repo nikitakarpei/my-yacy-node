@@ -33,6 +33,12 @@ type PeerCallObserver interface {
 		amountOfMatchedDocuments int,
 		spent time.Duration,
 	)
+	PeerListedTheAbstract(
+		ctx context.Context,
+		address string,
+		amountOfDocumentsInTheAbstract int,
+		spent time.Duration,
+	)
 	PeerRefused(
 		ctx context.Context,
 		address string,
@@ -121,6 +127,17 @@ func (observers PeerCallObservers) PeerSearchedDocuments(
 		observer.PeerSearchedDocuments(
 			ctx, address, amountOfDocumentsInTheAbstract, amountOfMatchedDocuments, spent,
 		)
+	}
+}
+
+func (observers PeerCallObservers) PeerListedTheAbstract(
+	ctx context.Context,
+	address string,
+	amountOfDocumentsInTheAbstract int,
+	spent time.Duration,
+) {
+	for _, observer := range observers {
+		observer.PeerListedTheAbstract(ctx, address, amountOfDocumentsInTheAbstract, spent)
 	}
 }
 

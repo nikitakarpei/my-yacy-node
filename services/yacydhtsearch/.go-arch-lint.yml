@@ -105,6 +105,8 @@ components:
     in: internal/replicaasksobservers/prometheus/**
   replicacallssearchdocuments:
     in: internal/replicacalls/searchdocuments/**
+  replicacallswordabstract:
+    in: internal/replicacalls/wordabstract/**
   peercallwire:
     in: internal/peercallwire/**
   peerlivenesswire:
@@ -399,6 +401,10 @@ deps:
     mayDependOn:
       - replicaasks
   replicacallssearchdocuments:
+    mayDependOn:
+      - peerasks
+      - replicaasks
+  replicacallswordabstract:
     mayDependOn:
       - peerasks
       - replicaasks

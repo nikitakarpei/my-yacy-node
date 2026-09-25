@@ -9,23 +9,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type discoveryAsks []peerasks.SearchDocumentsAsk
+type discoveryAsks []peerasks.WordAbstractAsk
 
 func discoveryAsksFor(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	itemsCeiling int,
 ) discoveryAsks {
 	var asks discoveryAsks
 	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
 		for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
-			asks = append(asks, peerasks.SearchDocumentsAsk{
+			asks = append(asks, peerasks.WordAbstractAsk{
 				Peer:          chosenPeer.Peer,
 				Partition:     chosenPeer.Partition,
 				Word:          chosenPeersOfQueryWord.QueryWord,
 				ExcludedWords: query.ExclusionHashes(),
 				Language:      query.Language,
-				ItemsCeiling:  itemsCeiling,
 			})
 		}
 	}

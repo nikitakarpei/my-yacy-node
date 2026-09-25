@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"slices"
 	"sync"
 	"testing"
 	"time"
@@ -35,6 +36,7 @@ type recordedOutcome struct {
 	answeredURLMetadata            int
 	amountOfDescribedDocuments     int
 	answeredSearchDocuments        int
+	listedTheAbstract              int
 	amountOfDocumentsInTheAbstract int
 	amountOfMatchedDocuments       int
 	refused                        int
@@ -105,6 +107,20 @@ func (r *recordedOutcome) PeerSearchedDocuments(
 	r.answeredSearchDocuments++
 	r.amountOfDocumentsInTheAbstract = amountOfDocumentsInTheAbstract
 	r.amountOfMatchedDocuments = amountOfMatchedDocuments
+	r.spent = spent
+}
+
+func (r *recordedOutcome) PeerListedTheAbstract(
+	_ context.Context,
+	_ string,
+	amountOfDocumentsInTheAbstract int,
+	spent time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	r.listedTheAbstract++
+	r.amountOfDocumentsInTheAbstract = amountOfDocumentsInTheAbstract
 	r.spent = spent
 }
 
@@ -1279,6 +1295,106 @@ func TestASearchCallWithoutAHeadersTimeoutIsNotTimedOnItsHeaders(t *testing.T) {
 			"AskForSearchDocuments = %+v with %d timers started, want one answered and no timer",
 			answeredAsks,
 			len(clock.started),
+		)
+	}
+}
+
+func TestAWordAbstractAskPostsTheWordAndTheDocumentsToMatchWithoutAQuery(t *testing.T) {
+	t.Parallel()
+
+	word := yacymodel.WordHash("berlin")
+	documents := []yacymodel.URLHash{
+		mustParseURLHash(t, "bbbbbbAAAAAA"),
+		mustParseURLHash(t, "Q_ylfl--9bK5"),
+	}
+	address, calls := peerRecordingTheFormPosted(t, "")
+
+	wireTo(&recordedOutcome{}).AskForWordAbstracts(
+		callWithin(t, spreadBudgetOfTheTests),
+		[]peerasks.WordAbstractAsk{
+			{Peer: peerAt(address), Word: word, DocumentsToMatch: documents},
+		},
+	)
+
+	if len(calls.paths) != 1 || calls.paths[0] != yacyproto.PathSearch {
+		t.Fatalf("the peer was called at %v, want %q", calls.paths, yacyproto.PathSearch)
+	}
+	form := calls.forms[0]
+	if got, want := form.Get(yacyproto.FieldAbstracts), string(
+		yacyproto.SearchAbstractsOf([]yacymodel.Hash{word}),
+	); got != want {
+		t.Fatalf("abstracts = %q, want %q", got, want)
+	}
+	if got := form.Get(yacyproto.FieldURLs); got != documents[0].String()+documents[1].String() {
+		t.Fatalf("urls = %q, want the documents to match", got)
+	}
+	if form.Has(yacyproto.FieldQuery) || form.Has(yacyproto.FieldCount) {
+		t.Fatalf("the form %v names a query or a count, want neither", form)
+	}
+}
+
+func TestAWordAbstractAnswerCarriesTheAbstractOfTheWordOnly(t *testing.T) {
+	t.Parallel()
+
+	word := yacymodel.WordHash("berlin")
+	document := mustParseURLHash(t, "bbbbbbAAAAAA")
+	body := yacyproto.SearchResponse{
+		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{
+			word:                         {document},
+			yacymodel.WordHash("munich"): {mustParseURLHash(t, "Q_ylfl--9bK5")},
+		},
+	}.Encode().Encode()
+	address, _ := peerAnswering(t, body, http.StatusOK)
+	observer := &recordedOutcome{}
+
+	answeredAsks := wireTo(observer).AskForWordAbstracts(
+		callWithin(t, spreadBudgetOfTheTests),
+		[]peerasks.WordAbstractAsk{{Peer: peerAt(address), Word: word}},
+	)
+
+	if len(answeredAsks) != 1 || !slices.Equal(answeredAsks[0].Abstract, []yacymodel.URLHash{
+		document,
+	}) {
+		t.Fatalf("AskForWordAbstracts = %+v, want the abstract of the word", answeredAsks)
+	}
+	if observer.listedTheAbstract != 1 || observer.amountOfDocumentsInTheAbstract != 1 ||
+		observer.spent <= 0 {
+		t.Fatalf(
+			"PeerListedTheAbstract reported %d times with %d documents after %v, "+
+				"want once with one document and the time the call took",
+			observer.listedTheAbstract,
+			observer.amountOfDocumentsInTheAbstract,
+			observer.spent,
+		)
+	}
+}
+
+func TestAWordAbstractCallWithoutHeadersWithinTheTimeoutIsReportedAsLate(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedOutcome{}
+	server := httptest.NewServer(http.HandlerFunc(
+		func(_ http.ResponseWriter, reader *http.Request) { <-reader.Context().Done() },
+	))
+	t.Cleanup(server.Close)
+	clock := newClockTheTestFires()
+	ctx := callWithin(t, spreadBudgetOfTheTests)
+	answered := make(chan []peerasks.AnsweredWordAbstractAsk)
+	go func() {
+		answered <- wireWaitingForHeadersAtMost(searchCallHeadersTimeoutOfTheTests, clock, observer).
+			AskForWordAbstracts(ctx, []peerasks.WordAbstractAsk{{Peer: peerAt(server.URL)}})
+	}()
+	expire := <-clock.started
+	expire()
+
+	if answeredAsks := <-answered; len(answeredAsks) != 0 || observer.headersLate != 1 ||
+		observer.askedFor != peerasks.WordAbstract {
+		t.Fatalf(
+			"AskForWordAbstracts = %+v with %d late headers for %q, want none answered "+
+				"and one late for the word abstract",
+			answeredAsks,
+			observer.headersLate,
+			observer.askedFor,
 		)
 	}
 }

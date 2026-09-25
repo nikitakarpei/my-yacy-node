@@ -11,15 +11,15 @@ import (
 
 func urlMetadataAsksFor(
 	ctx context.Context,
-	documentsWithoutMetadataMostHeldFirst []yacymodel.URLHash,
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	joinedDocumentsMostHeldFirst []yacymodel.URLHash,
+	answeredAsks []peerasks.AnsweredWordAbstractAsk,
 	askCeilings URLMetadataAskCeilings,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
 	peers := peersWithTheirAbstractsFrom(answeredAsks)
 	asksOfEachPeer := peers.urlMetadataAsks(
 		ctx,
-		documentsWithoutMetadataMostHeldFirst,
+		joinedDocumentsMostHeldFirst,
 		askCeilings,
 	)
 
@@ -29,7 +29,7 @@ func urlMetadataAsksFor(
 type peersWithTheirAbstracts []peerWithItsAbstracts
 
 func peersWithTheirAbstractsFrom(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	answeredAsks []peerasks.AnsweredWordAbstractAsk,
 ) peersWithTheirAbstracts {
 	peers := make(peersWithTheirAbstracts, 0, len(answeredAsks))
 	placeOfPeer := map[yacymodel.Hash]int{}

@@ -6,7 +6,6 @@ import (
 )
 
 type PerformedURLMetadataLookupRound struct {
-	AmountOfJoinedDocumentsWithMetadata   int
 	AmountOfLookedUpDocuments             int
 	AmountOfLookedUpDocumentsWithMetadata int
 	EndReason                             URLMetadataLookupEndReason
@@ -16,11 +15,8 @@ type PerformedURLMetadataLookupRound struct {
 
 func performedURLMetadataLookupRoundFrom(
 	round urlMetadataLookupRound,
-	joinedDocuments distinctDocuments,
 ) PerformedURLMetadataLookupRound {
 	return PerformedURLMetadataLookupRound{
-		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) -
-			len(round.documentsWithoutMetadata),
 		AmountOfLookedUpDocuments: len(lookedUpDocumentsAcross(round.asks)),
 		AmountOfLookedUpDocumentsWithMetadata: amountOfLookedUpDocumentsWithMetadata(
 			round.asks, round.answeredAsks,

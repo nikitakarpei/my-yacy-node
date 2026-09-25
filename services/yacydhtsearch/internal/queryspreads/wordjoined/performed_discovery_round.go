@@ -15,9 +15,7 @@ type PerformedDiscoveryRound struct {
 	LeadingQueryWordChoice                 LeadingQueryWordChoice
 	AmountOfDocumentsOfTheLeadingQueryWord int
 	OtherWordAsksPerPartition              map[uint]OtherWordAsks
-	AmountOfMatchedDocumentsAcrossAnswers  int
-	AmountOfMatchedDocumentsWithAPosting   int
-	AmountOfDocumentsHeldInEachAnswer      []int
+	AmountOfDocumentsInEachAbstract        []int
 }
 
 func performedDiscoveryRoundFrom(
@@ -38,14 +36,8 @@ func performedDiscoveryRoundFrom(
 		AmountOfDocumentsOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documents(),
 		),
-		OtherWordAsksPerPartition: round.otherWordAsksPerPartition,
-		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(
-			round.answeredAsks,
-		),
-		AmountOfMatchedDocumentsWithAPosting: amountOfMatchedDocumentsWithAPosting(
-			round.answeredAsks,
-		),
-		AmountOfDocumentsHeldInEachAnswer: amountOfDocumentsHeldInEachAnswer(round.answeredAsks),
+		OtherWordAsksPerPartition:       round.otherWordAsksPerPartition,
+		AmountOfDocumentsInEachAbstract: amountOfDocumentsInEachAbstractOf(round.answeredAsks),
 	}
 }
 
@@ -62,7 +54,7 @@ func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) i
 }
 
 func amountOfPeersWithANonEmptyAbstractAmong(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	answeredAsks []peerasks.AnsweredWordAbstractAsk,
 ) int {
 	peers := map[peerdirectory.AskablePeer]struct{}{}
 	for _, answeredAsk := range answeredAsks {
@@ -75,46 +67,15 @@ func amountOfPeersWithANonEmptyAbstractAmong(
 	return len(peers)
 }
 
-func amountOfMatchedDocumentsAcrossAnswers(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
-) int {
-	amount := 0
-	for _, answeredAsk := range answeredAsks {
-		amount += len(answeredAsk.MatchedDocuments)
-	}
-
-	return amount
-}
-
-func amountOfMatchedDocumentsWithAPosting(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
-) int {
-	amount := 0
-	for _, answeredAsk := range answeredAsks {
-		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			if !matchedDocument.Posting.Present() {
-				continue
-			}
-			amount++
-		}
-	}
-
-	return amount
-}
-
-func amountOfDocumentsHeldInEachAnswer(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+func amountOfDocumentsInEachAbstractOf(
+	answeredAsks []peerasks.AnsweredWordAbstractAsk,
 ) []int {
-	amountOfDocumentsHeldInEachAnswer := make([]int, 0, len(answeredAsks))
+	amountOfDocumentsInEachAbstract := make([]int, 0, len(answeredAsks))
 	for _, answeredAsk := range answeredAsks {
-		amountOfDocumentsHeldForTheWord, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
-		if !counted {
-			continue
-		}
-		amountOfDocumentsHeldInEachAnswer = append(
-			amountOfDocumentsHeldInEachAnswer, amountOfDocumentsHeldForTheWord,
+		amountOfDocumentsInEachAbstract = append(
+			amountOfDocumentsInEachAbstract, len(answeredAsk.Abstract),
 		)
 	}
 
-	return amountOfDocumentsHeldInEachAnswer
+	return amountOfDocumentsInEachAbstract
 }

@@ -15,14 +15,14 @@ type compoundWordAcrossReplicas struct {
 
 func compoundWordsAcrossReplicasFrom(
 	compoundWords []searchquery.CompoundWord,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	askOutcomes peerasks.WordAbstractAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
 ) []compoundWordAcrossReplicas {
 	var compoundWordsAcrossReplicas []compoundWordAcrossReplicas
 	for _, compoundWord := range compoundWords {
 		if !slices.ContainsFunc(
 			askOutcomes,
-			func(askOutcome peerasks.SearchDocumentsAskOutcome) bool {
+			func(askOutcome peerasks.WordAbstractAskOutcome) bool {
 				return askOutcome.Ask.Word == compoundWord.Hash
 			},
 		) {

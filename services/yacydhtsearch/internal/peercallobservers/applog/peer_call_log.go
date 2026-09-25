@@ -16,6 +16,7 @@ const (
 	msgPeerCallCancelled       = "peer call was cancelled before the peer answered"
 	msgPeerAnsweredURLMetadata = "peer answered the metadata it holds for the documents"
 	msgPeerSearchedDocuments   = "peer searched its documents for the word"
+	msgPeerListedTheAbstract   = "peer listed the abstract of the word"
 	msgPeerRefused             = "peer refused a search"
 	msgPeerUnreachable         = "peer could not be reached for a search"
 	msgPeerAnswerUnreadable    = "peer answered a search unreadably"
@@ -74,6 +75,19 @@ func (PeerCallLog) PeerSearchedDocuments(
 		slog.String("address", address),
 		slog.Int("amountOfDocumentsInTheAbstract", amountOfDocumentsInTheAbstract),
 		slog.Int("amountOfMatchedDocuments", amountOfMatchedDocuments),
+		slog.Duration("spent", spent),
+	)
+}
+
+func (PeerCallLog) PeerListedTheAbstract(
+	ctx context.Context,
+	address string,
+	amountOfDocumentsInTheAbstract int,
+	spent time.Duration,
+) {
+	slog.DebugContext(ctx, msgPeerListedTheAbstract,
+		slog.String("address", address),
+		slog.Int("amountOfDocumentsInTheAbstract", amountOfDocumentsInTheAbstract),
 		slog.Duration("spent", spent),
 	)
 }

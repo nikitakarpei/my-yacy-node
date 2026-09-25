@@ -71,6 +71,9 @@ func New(
 		peerasks.URLMetadata: peerCallsOfOneAskFrom(
 			peerCalls, peerCallDurationSeconds, peerasks.URLMetadata,
 		),
+		peerasks.WordAbstract: peerCallsOfOneAskFrom(
+			peerCalls, peerCallDurationSeconds, peerasks.WordAbstract,
+		),
 	}
 
 	return &PeerCallMetrics{
@@ -158,6 +161,15 @@ func (m *PeerCallMetrics) PeerSearchedDocuments(
 	m.peerCallsPerAskedFor[peerasks.SearchDocuments].countAnswer(
 		amountOfDocumentsInTheAbstract+amountOfMatchedDocuments, spent,
 	)
+}
+
+func (m *PeerCallMetrics) PeerListedTheAbstract(
+	_ context.Context,
+	_ string,
+	amountOfDocumentsInTheAbstract int,
+	spent time.Duration,
+) {
+	m.peerCallsPerAskedFor[peerasks.WordAbstract].countAnswer(amountOfDocumentsInTheAbstract, spent)
 }
 
 func (calls peerCallsOfOneAsk) countAnswer(amountAnswered int, spent time.Duration) {

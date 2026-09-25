@@ -447,3 +447,60 @@ func (w Wire) reportUnreadAnswer(
 		spent,
 	)
 }
+
+func (w Wire) AskForWordAbstracts(
+	ctx context.Context,
+	asks []peerasks.WordAbstractAsk,
+) []peerasks.AnsweredWordAbstractAsk {
+	return putAsksToPeers(
+		ctx,
+		w.callsInFlight,
+		asks,
+		func(ask peerasks.WordAbstractAsk) (string, peerasks.AskedFor) {
+			return ask.Peer.Address, peerasks.WordAbstract
+		},
+		func(ask peerasks.WordAbstractAsk) (peerasks.AnsweredWordAbstractAsk, bool) {
+			return w.putWordAbstractAsk(ctx, ask)
+		},
+	)
+}
+
+func (w Wire) putWordAbstractAsk(
+	ctx context.Context,
+	ask peerasks.WordAbstractAsk,
+) (peerasks.AnsweredWordAbstractAsk, bool) {
+	ctx, endPeerCall := context.WithTimeout(ctx, w.searchCallBudget)
+	defer endPeerCall()
+	startedAt := time.Now()
+	response, ok := w.searchResponse(
+		ctx,
+		peerCall{
+			address:                ask.Peer.Address,
+			path:                   yacyproto.PathSearch,
+			askedFor:               peerasks.WordAbstract,
+			amountOfDocumentsAsked: len(ask.DocumentsToMatch),
+			form:                   w.requestForWordAbstract(ctx, ask).Form(),
+			headersTimeout:         w.searchCallHeadersTimeout,
+		},
+		startedAt,
+	)
+	if !ok {
+		return peerasks.AnsweredWordAbstractAsk{}, false
+	}
+
+	abstract := response.IndexAbstract[ask.Word]
+	w.observer.PeerListedTheAbstract(ctx, ask.Peer.Address, len(abstract), time.Since(startedAt))
+
+	return peerasks.AnsweredWordAbstractAsk{Ask: ask, Abstract: abstract}, true
+}
+
+func (w Wire) requestForWordAbstract(
+	ctx context.Context,
+	ask peerasks.WordAbstractAsk,
+) yacyproto.SearchRequest {
+	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
+	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
+	request.URLs = ask.DocumentsToMatch
+
+	return request
+}

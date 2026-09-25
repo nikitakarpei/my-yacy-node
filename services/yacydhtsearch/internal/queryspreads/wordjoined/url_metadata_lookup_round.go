@@ -1,7 +1,6 @@
 package wordjoined
 
 import (
-	"maps"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
@@ -9,8 +8,7 @@ import (
 )
 
 type urlMetadataLookupRound struct {
-	documentsWithoutMetadata distinctDocuments
-	asks                     []peerasks.URLMetadataAsk
+	asks []peerasks.URLMetadataAsk
 	endedURLMetadataLookup
 }
 
@@ -27,20 +25,6 @@ const (
 	URLMetadataLookupEndedByEveryAskSettled URLMetadataLookupEndReason = "every ask settled"
 	URLMetadataLookupEndedByCutoff          URLMetadataLookupEndReason = "cut off"
 )
-
-func documentsWithoutMetadataAmong(
-	joinedDocuments distinctDocuments,
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
-) distinctDocuments {
-	documentsWithoutMetadata := maps.Clone(joinedDocuments)
-	for _, answeredAsk := range answeredAsks {
-		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			delete(documentsWithoutMetadata, matchedDocument.Metadata.Hash)
-		}
-	}
-
-	return documentsWithoutMetadata
-}
 
 type urlMetadataLookupInFlight struct {
 	amountOfLookedUpDocuments     int

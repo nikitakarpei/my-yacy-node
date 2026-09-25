@@ -20,10 +20,7 @@ func performedWordJoinedSpreadFrom(
 			discoveryRound,
 		),
 		AmountOfJoinedDocuments: len(joinedDocuments),
-		URLMetadataLookupRound: performedURLMetadataLookupRoundFrom(
-			urlMetadataLookupRound,
-			joinedDocuments,
-		),
-		TimeSpent: timeSpent,
+		URLMetadataLookupRound:  performedURLMetadataLookupRoundFrom(urlMetadataLookupRound),
+		TimeSpent:               timeSpent,
 	}
 }

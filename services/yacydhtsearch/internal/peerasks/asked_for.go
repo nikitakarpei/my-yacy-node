@@ -5,4 +5,5 @@ type AskedFor string
 const (
 	SearchDocuments AskedFor = "search documents"
 	URLMetadata     AskedFor = "url metadata"
+	WordAbstract    AskedFor = "word abstract"
 )

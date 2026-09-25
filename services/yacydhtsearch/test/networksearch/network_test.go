@@ -26,6 +26,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	replicacallssearchdocuments "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/searchdocuments"
+	replicacallswordabstract "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/wordabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -74,6 +75,8 @@ func (silentOutcome) PeerSearchedDocuments(
 	context.Context, string, int, int, time.Duration,
 ) {
 }
+
+func (silentOutcome) PeerListedTheAbstract(context.Context, string, int, time.Duration) {}
 
 func (silentOutcome) PeerRefused(
 	context.Context, string, peerasks.AskedFor, int, int, time.Duration,
@@ -242,7 +245,7 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 	t.Helper()
 
 	return peermatched.New(
-		replicaAsks(t),
+		searchDocumentsReplicaAsks(t),
 		peerResults,
 		peermatched.PeerMatchedSpreadObservers{},
 	)
@@ -252,27 +255,39 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	t.Helper()
 
 	return wordjoined.New(
-		replicaAsks(t),
+		wordAbstractReplicaAsks(t),
 		peerCalls(t),
 		noRememberedQueryWordDocumentAmounts{},
 		wordjoined.URLMetadataLookupCutoff{},
 		rand.UintN,
 		urlMetadataAskCeilingsAtTheMost(recordCeiling),
 		documentsToMatchCeiling,
-		peerResults,
 		ringPartitions(t),
 		yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
 		wordjoined.WordJoinedSpreadObservers{},
 	)
 }
 
-func replicaAsks(
+func searchDocumentsReplicaAsks(
 	t *testing.T,
 ) replicaasks.Asks[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk] {
 	t.Helper()
 
 	return replicaasks.New(
 		replicacallssearchdocuments.New(peerCalls(t)),
+		hedgedelaysconstant.New(hedgeDelay),
+		replicasCoveringAPartition,
+		replicaasks.ReplicaAsksObservers{},
+	)
+}
+
+func wordAbstractReplicaAsks(
+	t *testing.T,
+) replicaasks.Asks[peerasks.WordAbstractAsk, peerasks.AnsweredWordAbstractAsk] {
+	t.Helper()
+
+	return replicaasks.New(
+		replicacallswordabstract.New(peerCalls(t)),
 		hedgedelaysconstant.New(hedgeDelay),
 		replicasCoveringAPartition,
 		replicaasks.ReplicaAsksObservers{},
@@ -907,25 +922,24 @@ func peerListingTheAddressForEachWord(t *testing.T, address string, words ...str
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 	documentsPerWord := make(map[yacymodel.Hash][]yacymodel.URLHash, len(words))
-	documentsHeldPerWord := make(map[yacymodel.Hash]int, len(words))
 	for _, word := range words {
 		documentsPerWord[yacymodel.WordHash(word)] = []yacymodel.URLHash{documentHash}
-		documentsHeldPerWord[yacymodel.WordHash(word)] = 1
 	}
-	body := yacyproto.SearchResponse{
-		Count: 1,
-		Resources: []yacyproto.SearchResource{{
-			Metadata: yacymodel.URLMetadata{
-				Hash: documentHash, Address: address, Title: "Weather",
-			},
-		}},
-		IndexAbstract: documentsPerWord,
-		IndexCount:    documentsHeldPerWord,
-	}.Encode().Encode()
+	abstracts := []byte(
+		yacyproto.SearchResponse{IndexAbstract: documentsPerWord}.Encode().Encode(),
+	)
+	metadata := yacyproto.URLMetadataResponse{URLs: []yacymodel.URLMetadata{
+		{Hash: documentHash, Address: address, Title: "Weather"},
+	}}.Encode()
 
 	server := httptest.NewServer(http.HandlerFunc(
-		func(writer http.ResponseWriter, _ *http.Request) {
-			_, _ = writer.Write([]byte(body))
+		func(writer http.ResponseWriter, reader *http.Request) {
+			if reader.URL.Path == yacyproto.PathURLMetadata {
+				_, _ = writer.Write(metadata)
+
+				return
+			}
+			_, _ = writer.Write(abstracts)
 		},
 	))
 	t.Cleanup(server.Close)

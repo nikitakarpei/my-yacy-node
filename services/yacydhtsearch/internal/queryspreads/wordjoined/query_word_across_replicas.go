@@ -15,7 +15,7 @@ type queryWordAcrossReplicas struct {
 
 func queryWordsFewestDocumentsFirstFrom(
 	words []yacymodel.Hash,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	askOutcomes peerasks.WordAbstractAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
 ) []queryWordAcrossReplicas {
 	queryWordsAcrossReplicas := queryWordsAcrossReplicasFrom(words, askOutcomes, partitions)
@@ -26,7 +26,7 @@ func queryWordsFewestDocumentsFirstFrom(
 
 func queryWordsAcrossReplicasFrom(
 	words []yacymodel.Hash,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	askOutcomes peerasks.WordAbstractAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
 ) []queryWordAcrossReplicas {
 	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(words))
@@ -42,7 +42,7 @@ func queryWordsAcrossReplicasFrom(
 
 func queryWordAcrossReplicasFrom(
 	word yacymodel.Hash,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	askOutcomes peerasks.WordAbstractAskOutcomes,
 	partitions yacymodel.DHTRingPartitions,
 ) queryWordAcrossReplicas {
 	replicasPerPartition := make([][]wordReplica, partitions)
@@ -74,51 +74,47 @@ func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {
 }
 
 func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymodel.Optional[int] {
-	amountsHeldInPartitionsWhereAPeerCounted := queryWord.amountsOfDocumentsHeldInPartitionsWhereAPeerCounted()
-	if len(amountsHeldInPartitionsWhereAPeerCounted) == 0 {
+	amountsHeldInCompletePartitions := queryWord.amountsHeldInCompletePartitions()
+	if len(amountsHeldInCompletePartitions) == 0 {
 		return yacymodel.None[int]()
 	}
 
-	amountOfPartitionsWhereNoPeerCounted := len(queryWord.replicasPerPartition) -
-		len(amountsHeldInPartitionsWhereAPeerCounted)
-	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted *
-		lowerMedianOf(amountsHeldInPartitionsWhereAPeerCounted)
-	for _, amountHeld := range amountsHeldInPartitionsWhereAPeerCounted {
+	amountOfIncompletePartitions := len(queryWord.replicasPerPartition) -
+		len(amountsHeldInCompletePartitions)
+	sumOfAmountsHeld := amountOfIncompletePartitions * lowerMedianOf(
+		amountsHeldInCompletePartitions,
+	)
+	for _, amountHeld := range amountsHeldInCompletePartitions {
 		sumOfAmountsHeld += amountHeld
 	}
 
 	return yacymodel.Some(sumOfAmountsHeld)
 }
 
-// TECHDEBT: Naming — a name past four words names two facts: amountsOfDocumentsHeldInPartitionsWhereAPeerCounted.
-func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
+func (queryWord queryWordAcrossReplicas) amountsHeldInCompletePartitions() []int {
 	amountsHeld := make([]int, 0, len(queryWord.replicasPerPartition))
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
-		countedAmounts := amountsOfDocumentsHeldCountedBy(replicasOfPartition)
-		if len(countedAmounts) == 0 {
+		amountsHeldInThePartition := amountsOfDocumentsHeldIn(replicasOfPartition)
+		if len(amountsHeldInThePartition) == 0 {
 			continue
 		}
-		amountsHeld = append(amountsHeld, lowerMedianOf(countedAmounts))
+		amountsHeld = append(amountsHeld, lowerMedianOf(amountsHeldInThePartition))
 	}
 
 	return amountsHeld
 }
 
-func amountsOfDocumentsHeldCountedBy(replicas []wordReplica) []int {
-	countedAmounts := make([]int, 0, len(replicas))
+func amountsOfDocumentsHeldIn(replicas []wordReplica) []int {
+	amountsHeld := make([]int, 0, len(replicas))
 	for _, replica := range replicas {
-		answer, answered := replica.answer.Get()
-		if !answered {
+		if !replica.hasACompleteAbstract() {
 			continue
 		}
-		amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
-		if !counted {
-			continue
-		}
-		countedAmounts = append(countedAmounts, amountOfDocumentsHeld)
+		answer, _ := replica.answer.Get()
+		amountsHeld = append(amountsHeld, len(answer.Abstract))
 	}
 
-	return countedAmounts
+	return amountsHeld
 }
 
 func lowerMedianOf(amounts []int) int {
@@ -151,10 +147,10 @@ func (queryWord queryWordAcrossReplicas) sampleIn(
 	documentsInThePartition := distinctDocuments{}
 	complete := false
 	for _, replica := range queryWord.replicasPerPartition[partition] {
-		answer, answered := replica.answer.Get()
-		if !answered || !replica.hasACompleteAbstract() {
+		if !replica.hasACompleteAbstract() {
 			continue
 		}
+		answer, _ := replica.answer.Get()
 		complete = true
 		for _, document := range answer.Abstract {
 			if partitions.PartitionOf(document) != partition {

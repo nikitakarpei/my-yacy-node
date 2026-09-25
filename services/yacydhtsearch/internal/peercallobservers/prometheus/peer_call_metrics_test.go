@@ -104,12 +104,16 @@ func TestAPeerCallThatBroughtNothingIsCountedApartFromOneThatBroughtSomething(t 
 	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 0, 0, time.Second)
 	metrics.PeerAnsweredURLMetadata(t.Context(), "http://peer.example", 5, 0, time.Second)
 	metrics.PeerSearchedDocuments(t.Context(), "http://peer.example", 0, 3, time.Second)
+	metrics.PeerListedTheAbstract(t.Context(), "http://peer.example", 0, time.Second)
+	metrics.PeerListedTheAbstract(t.Context(), "http://peer.example", 4, time.Second)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="answered nothing"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="url metadata",outcome="answered nothing"} 1`,
 		`yacydhtsearch_peer_calls_total{asked_for="search documents",outcome="answered"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="word abstract",outcome="answered nothing"} 1`,
+		`yacydhtsearch_peer_calls_total{asked_for="word abstract",outcome="answered"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

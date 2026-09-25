@@ -113,6 +113,9 @@ func TestASearchOutcomeChangesNothing(t *testing.T) {
 		"searched": func(ctx context.Context, peerCalls peercallobserversurlmetadataaskceilings.PeerCallCeilings) {
 			peerCalls.PeerSearchedDocuments(ctx, peerAddress, 3, 2, 10*time.Second)
 		},
+		"listed the abstract": func(ctx context.Context, peerCalls peercallobserversurlmetadataaskceilings.PeerCallCeilings) {
+			peerCalls.PeerListedTheAbstract(ctx, peerAddress, 3, 10*time.Second)
+		},
 		"cancelled": func(ctx context.Context, peerCalls peercallobserversurlmetadataaskceilings.PeerCallCeilings) {
 			peerCalls.PeerCallCancelled(ctx, peerAddress, peerasks.SearchDocuments, 3, time.Second)
 		},

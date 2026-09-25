@@ -9,7 +9,7 @@ import (
 
 type discoveryRound struct {
 	queryWords                     []yacymodel.Hash
-	answeredAsks                   []peerasks.AnsweredSearchDocumentsAsk
+	answeredAsks                   []peerasks.AnsweredWordAbstractAsk
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	holdersPerDocument             holdersPerDocument

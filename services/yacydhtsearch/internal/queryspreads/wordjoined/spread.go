@@ -17,7 +17,7 @@ import (
 type ReplicaAsks interface {
 	Start(
 		ctx context.Context,
-	) replicaasks.Run[peerasks.SearchDocumentsAsk, peerasks.AnsweredSearchDocumentsAsk]
+	) replicaasks.Run[peerasks.WordAbstractAsk, peerasks.AnsweredWordAbstractAsk]
 }
 
 type PeerAsks interface {
@@ -44,13 +44,12 @@ type Spread struct {
 	partitionToSample           func(amountOfPartitions uint) uint
 	urlMetadataAskCeilings      URLMetadataAskCeilings
 	documentsToMatchCeiling     int
-	peerItemsCeiling            int
 	partitions                  yacymodel.DHTRingPartitions
 	amountOfPeersHoldingOneWord int
 	observer                    WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, ask ceilings, ceilings, ring and observer
+//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, ask ceilings, documents to match ceiling, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
@@ -59,7 +58,6 @@ func New(
 	partitionToSample func(amountOfPartitions uint) uint,
 	urlMetadataAskCeilings URLMetadataAskCeilings,
 	documentsToMatchCeiling int,
-	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
 	amountOfPeersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
@@ -72,7 +70,6 @@ func New(
 		partitionToSample:           partitionToSample,
 		urlMetadataAskCeilings:      urlMetadataAskCeilings,
 		documentsToMatchCeiling:     documentsToMatchCeiling,
-		peerItemsCeiling:            peerItemsCeiling,
 		partitions:                  partitions,
 		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
 		observer:                    observer,
@@ -101,9 +98,7 @@ func (spread Spread) SpreadOverPeers(
 		time.Since(startedAt),
 	))
 
-	return answeredQueryFrom(
-		query, discoveryRound, joinedDocuments, urlMetadataLookupRound,
-	)
+	return answeredQueryFrom(query, discoveryRound, urlMetadataLookupRound)
 }
 
 func (spread Spread) askToDiscover(
@@ -121,7 +116,7 @@ func (spread Spread) askToDiscover(
 
 	return discoveryOver(
 		startAskRun(roundContext, spread.replicaAsks),
-		discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling),
+		discoveryAsksFor(query, chosenPeersPerQueryWord),
 		query,
 		rememberedDocumentAmounts,
 		spread.partitions,
@@ -148,12 +143,9 @@ func (spread Spread) askForURLMetadata(
 	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
 ) urlMetadataLookupRound {
-	documentsWithoutMetadata := documentsWithoutMetadataAmong(
-		joinedDocuments, discoveryRound.answeredAsks,
-	)
 	asks := urlMetadataAsksFor(
 		ctx,
-		discoveryRound.holdersPerDocument.mostHeldFirst(documentsWithoutMetadata),
+		discoveryRound.holdersPerDocument.mostHeldFirst(joinedDocuments),
 		discoveryRound.answeredAsks,
 		spread.urlMetadataAskCeilings,
 		spread.amountOfPeersHoldingOneWord,
@@ -168,9 +160,5 @@ func (spread Spread) askForURLMetadata(
 	)
 	endLookup()
 
-	return urlMetadataLookupRound{
-		documentsWithoutMetadata: documentsWithoutMetadata,
-		asks:                     asks,
-		endedURLMetadataLookup:   endedLookup,
-	}
+	return urlMetadataLookupRound{asks: asks, endedURLMetadataLookup: endedLookup}
 }

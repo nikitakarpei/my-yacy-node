@@ -78,6 +78,7 @@ import (
 	replicaasksobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/applog"
 	replicaasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/prometheus"
 	replicacallssearchdocuments "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/searchdocuments"
+	replicacallswordabstract "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/wordabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings"
 	peerpacesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings/peerpaces/memory"
@@ -269,26 +270,26 @@ func querySpreadFor(
 	urlMetadataAskCeilings wordjoined.URLMetadataAskCeilings,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
-	replicaAsks := replicaasks.New(
-		replicacallssearchdocuments.New(peers),
-		hedgedelaysconstant.New(cfg.HedgeDelay),
-		cfg.ReplicasCoveringAPartition,
-		replicaasks.ReplicaAsksObservers{
-			replicaasksobserversapplog.ReplicaAsksLog{},
-			replicaasksobserversprometheus.New(registry, cfg.QueryBudget),
-		},
-	)
+	hedgeDelay := hedgedelaysconstant.New(cfg.HedgeDelay)
+	replicaAsksObservers := replicaasks.ReplicaAsksObservers{
+		replicaasksobserversapplog.ReplicaAsksLog{},
+		replicaasksobserversprometheus.New(registry, cfg.QueryBudget),
+	}
 
 	return bywordcount.New(
 		wordjoined.New(
-			replicaAsks,
+			replicaasks.New(
+				replicacallswordabstract.New(peers),
+				hedgeDelay,
+				cfg.ReplicasCoveringAPartition,
+				replicaAsksObservers,
+			),
 			peers,
 			queryWordDocumentAmounts,
 			cfg.URLMetadataLookupCutoff,
 			rand.UintN,
 			urlMetadataAskCeilings,
 			cfg.DocumentsToMatchCeiling,
-			cfg.PeerItemsCeiling,
 			cfg.Partitions,
 			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{
@@ -297,7 +298,12 @@ func querySpreadFor(
 			},
 		),
 		peermatched.New(
-			replicaAsks,
+			replicaasks.New(
+				replicacallssearchdocuments.New(peers),
+				hedgeDelay,
+				cfg.ReplicasCoveringAPartition,
+				replicaAsksObservers,
+			),
 			cfg.PeerItemsCeiling,
 			peermatched.PeerMatchedSpreadObservers{
 				queryspreadsobserverspeermatchedapplog.PeerMatchedSpreadLog{},

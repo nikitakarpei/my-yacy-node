@@ -23,6 +23,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	replicacallssearchdocuments "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/searchdocuments"
+	replicacallswordabstract "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/wordabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
@@ -134,12 +135,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		},
 		peercallwire.PeerCallObservers{},
 	)
-	everyReplica := replicaasks.New(
-		replicacallssearchdocuments.New(calledPeers),
-		hedgedelaysconstant.New(searchCallBudget),
-		networkRedundancy,
-		replicaasks.ReplicaAsksObservers{},
-	)
+	hedgeDelay := hedgedelaysconstant.New(searchCallBudget)
 
 	return spreadChoosingPeers{
 		peerChoice: peerchoice.New(
@@ -147,20 +143,29 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		),
 		byWordCount: bywordcount.New(
 			wordjoined.New(
-				everyReplica,
+				replicaasks.New(
+					replicacallswordabstract.New(calledPeers),
+					hedgeDelay,
+					networkRedundancy,
+					replicaasks.ReplicaAsksObservers{},
+				),
 				calledPeers,
 				noRememberedQueryWordDocumentAmounts{},
 				wordjoined.URLMetadataLookupCutoff{},
 				rand.UintN,
 				urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
 				documentsToMatchCeiling,
-				peerItemsCeiling,
 				partitions,
 				yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 				wordjoined.WordJoinedSpreadObservers{},
 			),
 			peermatched.New(
-				everyReplica,
+				replicaasks.New(
+					replicacallssearchdocuments.New(calledPeers),
+					hedgeDelay,
+					networkRedundancy,
+					replicaasks.ReplicaAsksObservers{},
+				),
 				peerItemsCeiling,
 				peermatched.PeerMatchedSpreadObservers{},
 			),

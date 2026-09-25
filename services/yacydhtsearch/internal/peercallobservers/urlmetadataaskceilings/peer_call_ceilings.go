@@ -40,6 +40,8 @@ func (PeerCallCeilings) PeerSearchedDocuments(
 ) {
 }
 
+func (PeerCallCeilings) PeerListedTheAbstract(context.Context, string, int, time.Duration) {}
+
 //nolint:revive // argument-limit: an outcome names its peer, ask, documents asked, failure and time
 func (peerCalls PeerCallCeilings) PeerRefused(
 	ctx context.Context,

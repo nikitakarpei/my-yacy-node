@@ -13,7 +13,7 @@ import (
 type holdersPerDocument map[yacymodel.URLHash]map[yacymodel.Hash]struct{}
 
 func (holders holdersPerDocument) addHoldersIn(
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	askOutcomes peerasks.WordAbstractAskOutcomes,
 ) {
 	for _, answeredAsk := range askOutcomes.AnsweredAsks() {
 		for _, document := range answeredAsk.Abstract {
