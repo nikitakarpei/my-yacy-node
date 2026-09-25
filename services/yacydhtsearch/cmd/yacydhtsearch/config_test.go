@@ -66,6 +66,9 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 	if cfg.ServeProfiler {
 		t.Fatal("ServeProfiler = true, want the profiler off by default")
 	}
+	if cfg.PagesReadPerSite != main.DefaultPagesReadPerSite {
+		t.Fatalf("pages read per site = %d, want the default", cfg.PagesReadPerSite)
+	}
 }
 
 func TestAnOperatorNamesSeveralSeedlistsInOneSetting(t *testing.T) {
@@ -99,6 +102,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvReplicasCoveringAPartition] = "2"
 	environment[main.EnvHedgeDelay] = "250ms"
 	environment[main.EnvServeProfiler] = "true"
+	environment[main.EnvPagesReadPerSite] = "5"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
@@ -112,7 +116,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.DocumentsToMatchCeiling != 64 ||
 		cfg.URLMetadataAskDocumentsCeiling != 128 ||
 		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond ||
-		!cfg.ServeProfiler {
+		!cfg.ServeProfiler || cfg.PagesReadPerSite != 5 {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }
