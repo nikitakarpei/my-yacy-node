@@ -430,11 +430,11 @@ func TestASearchDocumentsAskCarriesTheQueryAndTheNetworkTheServiceSearches(t *te
 	query := searchquery.QueryFrom("berlin -rain", "de")
 
 	matchedDocumentsOf(t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{
-		Peer:          peerAt(address),
-		Word:          query.WordHashes()[0],
-		ExcludedWords: query.ExclusionHashes(),
-		Language:      query.Language,
-		ItemsCeiling:  10,
+		Peer:                    peerAt(address),
+		Word:                    query.WordHashes()[0],
+		ExcludedWords:           query.ExclusionHashes(),
+		Language:                query.Language,
+		MatchedDocumentsCeiling: yacymodel.Some(10),
 	})
 
 	if len(requests.received) != 1 {
@@ -500,7 +500,12 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 	answeredAsk, replied := searchDocumentsAnswerOf(
 		t,
 		observer,
-		peerasks.SearchDocumentsAsk{Peer: peerAt(address), Word: word, ItemsCeiling: 7},
+		peerasks.SearchDocumentsAsk{
+			Peer:                    peerAt(address),
+			Word:                    word,
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(7),
+		},
 	)
 
 	if !replied || len(answeredAsk.Abstract) != 1 ||
@@ -522,6 +527,44 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 			observer.answeredSearchDocuments,
 			observer.amountOfDocumentsInTheAbstract,
 		)
+	}
+}
+
+func TestASearchDocumentsAskForTheAbstractOnlyAsksNoMatchedDocuments(t *testing.T) {
+	t.Parallel()
+
+	word := yacymodel.WordHash("berlin")
+	address, requests := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
+
+	matchedDocumentsOf(t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{
+		Peer:     peerAt(address),
+		Word:     word,
+		Abstract: true,
+	})
+
+	request := requests.received[0]
+	if len(request.Abstracts.Hashes()) != 1 || request.Abstracts.Hashes()[0] != word ||
+		len(request.Query) != 0 || request.Count != 0 {
+		t.Fatalf("request = %+v, want the abstract of the word and no resources", request)
+	}
+}
+
+func TestASearchDocumentsAskForMatchedDocumentsOnlyAsksNoAbstract(t *testing.T) {
+	t.Parallel()
+
+	word := yacymodel.WordHash("berlin")
+	address, requests := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
+
+	matchedDocumentsOf(t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{
+		Peer:                    peerAt(address),
+		Word:                    word,
+		MatchedDocumentsCeiling: yacymodel.Some(7),
+	})
+
+	request := requests.received[0]
+	if len(request.Abstracts.Hashes()) != 0 ||
+		len(request.Query) != 1 || request.Query[0] != word || request.Count != 7 {
+		t.Fatalf("request = %+v, want the resources of the word and no abstract", request)
 	}
 }
 
@@ -1160,18 +1203,16 @@ func TestASearchCallWithoutHeadersWithinTheTimeoutIsReportedAsLate(t *testing.T)
 	t.Parallel()
 
 	observer := &recordedOutcome{}
-	server := httptest.NewServer(http.HandlerFunc(
-		func(_ http.ResponseWriter, reader *http.Request) { <-reader.Context().Done() },
-	))
-	t.Cleanup(server.Close)
+	address, requested := peerHoldingItsHeaders(t)
 	clock := newClockTheTestFires()
 	ctx := callWithin(t, spreadBudgetOfTheTests)
 	answered := make(chan []peerasks.AnsweredSearchDocumentsAsk)
 	go func() {
 		answered <- wireWaitingForHeadersAtMost(searchCallHeadersTimeoutOfTheTests, clock, observer).
-			AskForSearchDocuments(ctx, []peerasks.SearchDocumentsAsk{{Peer: peerAt(server.URL)}})
+			AskForSearchDocuments(ctx, []peerasks.SearchDocumentsAsk{{Peer: peerAt(address)}})
 	}()
 	expire := <-clock.started
+	<-requested
 	expire()
 	answeredAsks := <-answered
 
@@ -1192,6 +1233,26 @@ func TestASearchCallWithoutHeadersWithinTheTimeoutIsReportedAsLate(t *testing.T)
 	if observer.askedFor != peerasks.SearchDocuments {
 		t.Fatalf("the late headers named %q, want the search documents", observer.askedFor)
 	}
+}
+
+func peerHoldingItsHeaders(t *testing.T) (string, <-chan struct{}) {
+	t.Helper()
+
+	requested := make(chan struct{})
+	released := make(chan struct{})
+	server := httptest.NewServer(http.HandlerFunc(
+		func(_ http.ResponseWriter, reader *http.Request) {
+			close(requested)
+			select {
+			case <-reader.Context().Done():
+			case <-released:
+			}
+		},
+	))
+	t.Cleanup(server.Close)
+	t.Cleanup(func() { close(released) })
+
+	return server.URL, requested
 }
 
 func TestASearchAnswerThatArrivesSlowlyAfterItsHeadersIsStillRead(t *testing.T) {

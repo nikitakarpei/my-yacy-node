@@ -20,12 +20,13 @@ func discoveryAsksFor(
 	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
 		for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
 			asks = append(asks, peerasks.SearchDocumentsAsk{
-				Peer:          chosenPeer.Peer,
-				Partition:     chosenPeer.Partition,
-				Word:          chosenPeersOfQueryWord.QueryWord,
-				ExcludedWords: query.ExclusionHashes(),
-				Language:      query.Language,
-				ItemsCeiling:  itemsCeiling,
+				Peer:                    chosenPeer.Peer,
+				Partition:               chosenPeer.Partition,
+				Word:                    chosenPeersOfQueryWord.QueryWord,
+				ExcludedWords:           query.ExclusionHashes(),
+				Language:                query.Language,
+				Abstract:                true,
+				MatchedDocumentsCeiling: yacymodel.Some(itemsCeiling),
 			})
 		}
 	}
