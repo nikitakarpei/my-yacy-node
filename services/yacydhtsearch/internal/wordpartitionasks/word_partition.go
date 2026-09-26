@@ -107,8 +107,9 @@ func (partition *wordPartition) putTheAsk(
 		putOn:     putOn,
 		answer:    yacymodel.None[peerasks.AnsweredSearchDocumentsAsk](),
 	}
-	call.stopHedgeTimer = partition.replicaAsks.clock.After(
-		partition.replicaAsks.hedgeDelay.HedgeDelayOf(ctx, placedAsk.ask.Peer),
+	call.stopHedgeTimer = partition.replicaAsks.startTheHedgeTimer(
+		ctx,
+		placedAsk.ask.Peer,
 		func() { partition.hedgesDue <- call },
 	)
 	partition.calls = append(partition.calls, call)
@@ -121,11 +122,8 @@ func (partition *wordPartition) callTheReplica(
 	call *replicaCall,
 	ask peerasks.SearchDocumentsAsk,
 ) {
-	answeredAsks := partition.replicaAsks.peerCalls.AskForSearchDocuments(
-		ctx,
-		[]peerasks.SearchDocumentsAsk{ask},
-	)
-	if len(answeredAsks) == 0 {
+	answer, answered := partition.replicaAsks.askTheReplica(ctx, ask)
+	if !answered {
 		partition.callOutcomes <- replicaCallOutcome{call: call}
 
 		return
@@ -133,8 +131,8 @@ func (partition *wordPartition) callTheReplica(
 	partition.callOutcomes <- replicaCallOutcome{
 		call:               call,
 		answered:           true,
-		answer:             answeredAsks[0],
-		coversThePartition: coversThePartition(answeredAsks[0]),
+		answer:             answer,
+		coversThePartition: coversThePartition(answer),
 	}
 }
 

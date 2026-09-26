@@ -61,3 +61,30 @@ func (replicaAsks Asks) Start(ctx context.Context) Run {
 
 	return Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
 }
+
+func (replicaAsks Asks) startTheHedgeTimer(
+	ctx context.Context,
+	peer peerdirectory.AskablePeer,
+	hedgeDue func(),
+) (stop func()) {
+	return replicaAsks.clock.After(replicaAsks.hedgeDelay.HedgeDelayOf(ctx, peer), hedgeDue)
+}
+
+func (replicaAsks Asks) askTheReplica(
+	ctx context.Context,
+	ask peerasks.SearchDocumentsAsk,
+) (peerasks.AnsweredSearchDocumentsAsk, bool) {
+	answeredAsks := replicaAsks.peerCalls.AskForSearchDocuments(
+		ctx,
+		[]peerasks.SearchDocumentsAsk{ask},
+	)
+	if len(answeredAsks) == 0 {
+		return peerasks.AnsweredSearchDocumentsAsk{}, false
+	}
+
+	return answeredAsks[0], true
+}
+
+func (replicaAsks Asks) reportPerformed(ctx context.Context, performed PerformedReplicaAsks) {
+	replicaAsks.observer.ReplicaAsksPerformed(ctx, performed)
+}

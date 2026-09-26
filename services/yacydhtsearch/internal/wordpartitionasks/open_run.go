@@ -45,7 +45,7 @@ func (run *openRun) askUntilOver(ctx context.Context) {
 	for !run.isOver() {
 		run.takeTheNextEvent(ctx)
 	}
-	run.replicaAsks.observer.ReplicaAsksPerformed(ctx, run.performedReplicaAsks())
+	run.replicaAsks.reportPerformed(ctx, run.performedReplicaAsks())
 	close(run.settledWordPartitions)
 }
 
