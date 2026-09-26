@@ -2,7 +2,6 @@ package wordpartitionasks
 
 import (
 	"context"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -29,11 +28,11 @@ type wordPartition struct {
 }
 
 type replicaCall struct {
-	placedAsk  placedAsk
-	putOn      PutOn
-	ended      bool
-	hedgeTimer *time.Timer
-	answer     yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
+	placedAsk      placedAsk
+	putOn          PutOn
+	ended          bool
+	stopHedgeTimer func()
+	answer         yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
 }
 
 type replicaCallOutcome struct {
@@ -108,8 +107,9 @@ func (partition *wordPartition) putTheAsk(
 		putOn:     putOn,
 		answer:    yacymodel.None[peerasks.AnsweredSearchDocumentsAsk](),
 	}
-	call.hedgeTimer = time.AfterFunc(
-		partition.replicaAsks.hedgeDelay.HedgeDelayOf(ctx, placedAsk.ask.Peer),
+	call.stopHedgeTimer = partition.replicaAsks.startTheHedgeTimer(
+		ctx,
+		placedAsk.ask.Peer,
 		func() { partition.hedgesDue <- call },
 	)
 	partition.calls = append(partition.calls, call)
@@ -122,11 +122,8 @@ func (partition *wordPartition) callTheReplica(
 	call *replicaCall,
 	ask peerasks.SearchDocumentsAsk,
 ) {
-	answeredAsks := partition.replicaAsks.peerCalls.AskForSearchDocuments(
-		ctx,
-		[]peerasks.SearchDocumentsAsk{ask},
-	)
-	if len(answeredAsks) == 0 {
+	answer, answered := partition.replicaAsks.askTheReplica(ctx, ask)
+	if !answered {
 		partition.callOutcomes <- replicaCallOutcome{call: call}
 
 		return
@@ -134,8 +131,8 @@ func (partition *wordPartition) callTheReplica(
 	partition.callOutcomes <- replicaCallOutcome{
 		call:               call,
 		answered:           true,
-		answer:             answeredAsks[0],
-		coversThePartition: coversThePartition(answeredAsks[0]),
+		answer:             answer,
+		coversThePartition: coversThePartition(answer),
 	}
 }
 
@@ -248,7 +245,7 @@ func (partition *wordPartition) countTheCoveringAnswer(outcome replicaCallOutcom
 
 func (partition *wordPartition) stopTheHedgeTimers() {
 	for _, call := range partition.calls {
-		call.hedgeTimer.Stop()
+		call.stopHedgeTimer()
 	}
 }
 

@@ -136,6 +136,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 	everyReplica := wordpartitionasks.New(
 		calledPeers,
 		hedgedelaysconstant.New(searchCallBudget),
+		wallclock.Clock{},
 		networkRedundancy,
 		wordpartitionasks.ReplicaAsksObservers{},
 	)
