@@ -28,17 +28,20 @@ func foundDocumentsFrom(
 	urlMetadataLookupRound urlMetadataLookupRound,
 ) []queryanswers.FoundDocument {
 	documentsThePeersSent := queryanswers.EmptyDocumentsThePeersSent()
-	for _, answeredAsk := range discoveryRound.answeredAsks {
-		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			if !joinedDocuments.contains(matchedDocument.Metadata.Hash) {
-				continue
+	for _, settledAsk := range discoveryRound.settledAsks {
+		for _, answer := range settledAsk.Answers {
+			for _, listedDocument := range answer.ListedDocuments {
+				metadata, matched := listedDocument.Metadata.Get()
+				if !matched || !joinedDocuments.contains(listedDocument.Hash) {
+					continue
+				}
+				documentsThePeersSent.KeepDocumentThePeerMatched(
+					answer.Replica.Hash,
+					settledAsk.Word,
+					metadata,
+					listedDocument.Posting,
+				)
 			}
-			documentsThePeersSent.KeepDocumentThePeerMatched(
-				answeredAsk.Ask.Peer.Hash,
-				answeredAsk.Ask.Word,
-				matchedDocument.Metadata,
-				matchedDocument.Posting,
-			)
 		}
 	}
 	for _, answeredAsk := range urlMetadataLookupRound.answeredAsks {

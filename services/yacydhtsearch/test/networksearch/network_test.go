@@ -24,6 +24,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -240,11 +241,7 @@ func networkOver(
 func peerMatchedSpread(t *testing.T) peermatched.Spread {
 	t.Helper()
 
-	return peermatched.New(
-		replicaAsks(t),
-		peerResults,
-		peermatched.PeerMatchedSpreadObservers{},
-	)
+	return peermatched.New(replicaAsks(t), peermatched.PeerMatchedSpreadObservers{})
 }
 
 func wordJoinedSpread(t *testing.T) wordjoined.Spread {
@@ -258,7 +255,6 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 		rand.UintN,
 		urlMetadataAskCeilingsAtTheMost(recordCeiling),
 		documentsToMatchCeiling,
-		peerResults,
 		ringPartitions(t),
 		yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
 		wordjoined.WordJoinedSpreadObservers{},
@@ -269,7 +265,10 @@ func replicaAsks(t *testing.T) wordpartitionasks.Asks {
 	t.Helper()
 
 	return wordpartitionasks.New(
-		peerCalls(t),
+		replicacallsyacysearch.New(peerCalls(t), replicacallsyacysearch.Wants{
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(peerResults),
+		}),
 		hedgedelaysconstant.New(hedgeDelay),
 		wallclock.Clock{},
 		replicasCoveringAPartition,

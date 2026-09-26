@@ -6,7 +6,6 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -54,9 +53,9 @@ func settingsOfTwoPartitions() spreadSettings {
 
 func asksOfTheWord(
 	spelledWord string,
-	asks []peerasks.SearchDocumentsAsk,
-) []peerasks.SearchDocumentsAsk {
-	var asksOfTheWord []peerasks.SearchDocumentsAsk
+	asks []replicaAsk,
+) []replicaAsk {
+	var asksOfTheWord []replicaAsk
 	for _, ask := range asks {
 		if ask.Word != yacymodel.WordHash(spelledWord) {
 			continue
@@ -67,7 +66,7 @@ func asksOfTheWord(
 	return asksOfTheWord
 }
 
-func partitionsAskedAmong(asks []peerasks.SearchDocumentsAsk) []uint {
+func partitionsAskedAmong(asks []replicaAsk) []uint {
 	partitionsAsked := make([]uint, 0, len(asks))
 	for _, ask := range asks {
 		partitionsAsked = append(partitionsAsked, ask.Partition)
@@ -77,9 +76,9 @@ func partitionsAskedAmong(asks []peerasks.SearchDocumentsAsk) []uint {
 }
 
 func asksNamingDocumentsToMatchAmong(
-	asks []peerasks.SearchDocumentsAsk,
-) []peerasks.SearchDocumentsAsk {
-	var asksNamingDocuments []peerasks.SearchDocumentsAsk
+	asks []replicaAsk,
+) []replicaAsk {
+	var asksNamingDocuments []replicaAsk
 	for _, ask := range asks {
 		if len(ask.DocumentsToMatch) == 0 {
 			continue

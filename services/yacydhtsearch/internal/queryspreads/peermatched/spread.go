@@ -17,21 +17,12 @@ type ReplicaAsks interface {
 }
 
 type Spread struct {
-	replicaAsks      ReplicaAsks
-	peerItemsCeiling int
-	observer         PeerMatchedSpreadObserver
+	replicaAsks ReplicaAsks
+	observer    PeerMatchedSpreadObserver
 }
 
-func New(
-	replicaAsks ReplicaAsks,
-	peerItemsCeiling int,
-	observer PeerMatchedSpreadObserver,
-) Spread {
-	return Spread{
-		replicaAsks:      replicaAsks,
-		peerItemsCeiling: peerItemsCeiling,
-		observer:         observer,
-	}
+func New(replicaAsks ReplicaAsks, observer PeerMatchedSpreadObserver) Spread {
+	return Spread{replicaAsks: replicaAsks, observer: observer}
 }
 
 func (spread Spread) SpreadOverPeers(
@@ -41,20 +32,20 @@ func (spread Spread) SpreadOverPeers(
 ) queryanswers.AnsweredQuery {
 	startedAt := time.Now()
 
-	asks := searchDocumentsAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling)
+	asks := wordPartitionAsksFor(query, chosenPeersPerQueryWord)
 	run := spread.replicaAsks.Start(ctx)
 	run.Asks <- asks
 	close(run.Asks)
-	answeredAsks := answeredAsksFrom(run.SettledWordPartitions)
+	settledAsks := settledAsksFrom(run.SettledAsks)
 
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,
 		performedPeerMatchedSpreadFrom(
 			query.WordHashes(),
-			answeredAsks,
+			settledAsks,
 			time.Since(startedAt),
 		),
 	)
 
-	return answeredQueryFrom(answeredAsks, query)
+	return answeredQueryFrom(settledAsks, query)
 }

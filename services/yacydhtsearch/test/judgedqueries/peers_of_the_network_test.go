@@ -21,6 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
@@ -133,9 +134,21 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		},
 		peercallwire.PeerCallObservers{},
 	)
-	everyReplica := wordpartitionasks.New(
-		calledPeers,
-		hedgedelaysconstant.New(searchCallBudget),
+	hedgeDelay := hedgedelaysconstant.New(searchCallBudget)
+	wants := replicacallsyacysearch.Wants{
+		Abstract:                true,
+		MatchedDocumentsCeiling: yacymodel.Some(peerItemsCeiling),
+	}
+	everyReplicaOfTheWordJoinedSpread := wordpartitionasks.New(
+		replicacallsyacysearch.New(calledPeers, wants),
+		hedgeDelay,
+		wallclock.Clock{},
+		networkRedundancy,
+		wordpartitionasks.ReplicaAsksObservers{},
+	)
+	everyReplicaOfThePeerMatchedSpread := wordpartitionasks.New(
+		replicacallsyacysearch.New(calledPeers, wants),
+		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
 		wordpartitionasks.ReplicaAsksObservers{},
@@ -147,21 +160,19 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		),
 		byWordCount: bywordcount.New(
 			wordjoined.New(
-				everyReplica,
+				everyReplicaOfTheWordJoinedSpread,
 				calledPeers,
 				noRememberedQueryWordDocumentAmounts{},
 				wordjoined.URLMetadataLookupCutoff{},
 				rand.UintN,
 				urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
 				documentsToMatchCeiling,
-				peerItemsCeiling,
 				partitions,
 				yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 				wordjoined.WordJoinedSpreadObservers{},
 			),
 			peermatched.New(
-				everyReplica,
-				peerItemsCeiling,
+				everyReplicaOfThePeerMatchedSpread,
 				peermatched.PeerMatchedSpreadObservers{},
 			),
 		),

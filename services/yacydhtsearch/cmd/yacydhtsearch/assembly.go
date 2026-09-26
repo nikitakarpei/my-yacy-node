@@ -74,6 +74,7 @@ import (
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/applog"
 	rankingcacheobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/prometheus"
+	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings"
 	peerpacesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings/peerpaces/memory"
@@ -268,27 +269,41 @@ func querySpreadFor(
 	urlMetadataAskCeilings wordjoined.URLMetadataAskCeilings,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
-	replicaAsks := wordpartitionasks.New(
-		peers,
-		hedgedelaysconstant.New(cfg.HedgeDelay),
+	hedgeDelay := hedgedelaysconstant.New(cfg.HedgeDelay)
+	replicaAsksObservers := wordpartitionasks.ReplicaAsksObservers{
+		wordpartitionasksobserversapplog.ReplicaAsksLog{},
+		wordpartitionasksobserversprometheus.New(registry, cfg.QueryBudget),
+	}
+	wordJoinedReplicaAsks := wordpartitionasks.New(
+		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(cfg.PeerItemsCeiling),
+		}),
+		hedgeDelay,
 		wallclock.Clock{},
 		cfg.ReplicasCoveringAPartition,
-		wordpartitionasks.ReplicaAsksObservers{
-			wordpartitionasksobserversapplog.ReplicaAsksLog{},
-			wordpartitionasksobserversprometheus.New(registry, cfg.QueryBudget),
-		},
+		replicaAsksObservers,
+	)
+	peerMatchedReplicaAsks := wordpartitionasks.New(
+		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(cfg.PeerItemsCeiling),
+		}),
+		hedgeDelay,
+		wallclock.Clock{},
+		cfg.ReplicasCoveringAPartition,
+		replicaAsksObservers,
 	)
 
 	return bywordcount.New(
 		wordjoined.New(
-			replicaAsks,
+			wordJoinedReplicaAsks,
 			peers,
 			queryWordDocumentAmounts,
 			cfg.URLMetadataLookupCutoff,
 			rand.UintN,
 			urlMetadataAskCeilings,
 			cfg.DocumentsToMatchCeiling,
-			cfg.PeerItemsCeiling,
 			cfg.Partitions,
 			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{
@@ -297,8 +312,7 @@ func querySpreadFor(
 			},
 		),
 		peermatched.New(
-			replicaAsks,
-			cfg.PeerItemsCeiling,
+			peerMatchedReplicaAsks,
 			peermatched.PeerMatchedSpreadObservers{
 				queryspreadsobserverspeermatchedapplog.PeerMatchedSpreadLog{},
 				queryspreadsobserverspeermatchedprometheus.New(registry, cfg.QueryBudget),

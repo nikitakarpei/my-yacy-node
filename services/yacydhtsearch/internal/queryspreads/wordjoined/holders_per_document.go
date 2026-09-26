@@ -6,21 +6,19 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type holdersPerDocument map[yacymodel.URLHash]map[yacymodel.Hash]struct{}
 
-func (holders holdersPerDocument) addHoldersIn(
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
-) {
-	for _, answeredAsk := range askOutcomes.AnsweredAsks() {
-		for _, document := range answeredAsk.Abstract {
-			if holders[document] == nil {
-				holders[document] = map[yacymodel.Hash]struct{}{}
+func (holders holdersPerDocument) addHoldersIn(answers []wordpartitionasks.ReplicaAnswer) {
+	for _, answer := range answers {
+		for _, listedDocument := range answer.ListedDocuments {
+			if holders[listedDocument.Hash] == nil {
+				holders[listedDocument.Hash] = map[yacymodel.Hash]struct{}{}
 			}
-			holders[document][answeredAsk.Ask.Peer.Hash] = struct{}{}
+			holders[listedDocument.Hash][answer.Replica.Hash] = struct{}{}
 		}
 	}
 }

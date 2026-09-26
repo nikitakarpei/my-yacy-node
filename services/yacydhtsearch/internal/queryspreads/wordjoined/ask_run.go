@@ -3,15 +3,14 @@ package wordjoined
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type askRun struct {
-	asks                     chan<- []peerasks.SearchDocumentsAsk
-	settledWordPartitions    <-chan wordpartitionasks.SettledWordPartition
-	askOutcomes              peerasks.SearchDocumentsAskOutcomes
+	asks                     chan<- []wordpartitionasks.Ask
+	settledAsksAsTheySettle  <-chan wordpartitionasks.SettledAsk
+	settledAsks              settledAsks
 	holdersPerDocument       holdersPerDocument
 	askedWordPartitionKeys   map[wordPartitionKey]struct{}
 	settledWordPartitionKeys map[wordPartitionKey]struct{}
@@ -27,7 +26,7 @@ func startAskRun(ctx context.Context, replicaAsks ReplicaAsks) *askRun {
 
 	return &askRun{
 		asks:                     run.Asks,
-		settledWordPartitions:    run.SettledWordPartitions,
+		settledAsksAsTheySettle:  run.SettledAsks,
 		holdersPerDocument:       holdersPerDocument{},
 		askedWordPartitionKeys:   map[wordPartitionKey]struct{}{},
 		settledWordPartitionKeys: map[wordPartitionKey]struct{}{},
@@ -44,7 +43,7 @@ func (askRun *askRun) put(asks discoveryAsks) {
 	askRun.asks <- asks
 }
 
-func wordPartitionKeyOf(ask peerasks.SearchDocumentsAsk) wordPartitionKey {
+func wordPartitionKeyOf(ask wordpartitionasks.Ask) wordPartitionKey {
 	return wordPartitionKey{word: ask.Word, partition: ask.Partition}
 }
 
@@ -62,7 +61,7 @@ func (askRun *askRun) notAskedAmong(asks discoveryAsks) discoveryAsks {
 
 func (askRun *askRun) readUntilSettled(asks discoveryAsks) {
 	for !askRun.haveSettled(asks) {
-		askRun.readTheNextSettledWordPartition()
+		askRun.readTheNextSettledAsk()
 	}
 }
 
@@ -76,21 +75,19 @@ func (askRun *askRun) haveSettled(asks discoveryAsks) bool {
 	return true
 }
 
-func (askRun *askRun) readTheNextSettledWordPartition() {
-	askRun.record(<-askRun.settledWordPartitions)
+func (askRun *askRun) readTheNextSettledAsk() {
+	askRun.record(<-askRun.settledAsksAsTheySettle)
 }
 
-func (askRun *askRun) record(settledWordPartition wordpartitionasks.SettledWordPartition) {
-	askRun.askOutcomes = append(askRun.askOutcomes, settledWordPartition.AskOutcomes...)
-	askRun.holdersPerDocument.addHoldersIn(settledWordPartition.AskOutcomes)
-	for _, askOutcome := range settledWordPartition.AskOutcomes {
-		askRun.settledWordPartitionKeys[wordPartitionKeyOf(askOutcome.Ask)] = struct{}{}
-	}
+func (askRun *askRun) record(settledAsk wordpartitionasks.SettledAsk) {
+	askRun.settledAsks = append(askRun.settledAsks, settledAsk)
+	askRun.holdersPerDocument.addHoldersIn(settledAsk.Answers)
+	askRun.settledWordPartitionKeys[wordPartitionKeyOf(settledAsk.Ask)] = struct{}{}
 }
 
 func (askRun *askRun) finish() {
 	close(askRun.asks)
-	for settledWordPartition := range askRun.settledWordPartitions {
-		askRun.record(settledWordPartition)
+	for settledAsk := range askRun.settledAsksAsTheySettle {
+		askRun.record(settledAsk)
 	}
 }

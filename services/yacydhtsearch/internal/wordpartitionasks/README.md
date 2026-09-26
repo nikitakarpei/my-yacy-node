@@ -20,27 +20,27 @@ A query starts one run. The deadline of the run context is the deadline of
 the run. Send asks to the run at any time. Close the asks when you have no
 more asks to send.
 
-The run groups the asks by word partition. The asks of a word partition name
-its replicas in the order you send them. When a word partition is already in
-the run from an earlier send, the run ignores its asks in a later send.
+Send one ask for each word partition. An ask names the replicas of its word
+partition in order. When a word partition is already in the run, the run
+ignores a later ask for it.
 
 A peer gets one ask at most in one run. A replica already asked for another
 word partition is skipped. This rule applies to all asks of the run, also to
 asks that you send later.
 
-## Settled word partitions
+## Settled asks
 
-The run sends each word partition as soon as it settles. A word partition
-settles when enough replicas listed documents, when no replica is left, or at
-the deadline. It comes with the outcome of each of its asks. An outcome tells
-if the run put the ask and what the peer answered.
+The run sends each ask as soon as it settles. An ask settles when enough
+replicas listed documents, when no replica is left, or at the deadline. It
+comes with the answers of its replicas. A replica that gave no answer is not
+in the answers.
 
-The outcomes of a word partition come in the order of its replicas. The word
-partitions come in the order they settle.
+The answers of an ask come in the order of its replicas. The asks come in the
+order they settle.
 
-Read the settled word partitions until they close. They close when you closed
-the asks and every word partition settled. Before they close, the observer
-gets one report of the run.
+Read the settled asks until they close. They close when you closed the asks
+and every ask settled. Before they close, the observer gets one report of the
+run.
 
 ## Prior art
 
