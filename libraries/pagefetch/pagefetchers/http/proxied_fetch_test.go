@@ -274,6 +274,7 @@ func TestFetchForwardsXRobotsTag(t *testing.T) {
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Add("X-Robots-Tag", "noindex")
 		w.Header().Add("X-Robots-Tag", "nofollow")
+		w.Header().Add("X-Robots-Tag", "googlebot: noindex, nofollow")
 		_, _ = w.Write([]byte("hi"))
 	})
 	defer closeFn()
@@ -283,7 +284,10 @@ func TestFetchForwardsXRobotsTag(t *testing.T) {
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
 			pagefetch.PageVersion{})
-	if !slices.Equal(outcome.Page.RobotsDirectives, []string{"noindex", "nofollow"}) {
+	if !slices.Equal(
+		outcome.Page.RobotsTagValues,
+		[]string{"noindex", "nofollow", "googlebot: noindex, nofollow"},
+	) {
 		t.Fatalf("x-robots-tag not forwarded: %+v", outcome)
 	}
 }

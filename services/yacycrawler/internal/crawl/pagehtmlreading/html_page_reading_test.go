@@ -117,7 +117,7 @@ func TestReadingOfPageReportsNoLinksWhenThePageRefusesLinkDiscovery(t *testing.T
 
 func TestReadingOfPageHonorsARefusalStatedOutsideTheHTML(t *testing.T) {
 	page := pageHolding(t, pageLinkingNext)
-	page.RobotsDirectives = []string{"nofollow"}
+	page.RobotsTagValues = []string{"nofollow"}
 
 	reading := readingOf(t, page)
 

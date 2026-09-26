@@ -22,6 +22,7 @@ const (
 	pageWasUnreachable
 	pageWasRefused
 	pageWasGone
+	pageRefusesIndexing
 	pageWasUnreadable
 	pageWasOfAnUnsupportedKind
 	pageWasOutOfBudget

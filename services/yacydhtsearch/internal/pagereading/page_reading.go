@@ -1,12 +1,6 @@
-// Package pagereading reads the page of each document one query puts first,
-// all at once inside one read budget, and gives back the contents of the page of
-// each document it could read: its text, and how many links of its own site and
-// of other sites it holds. It takes the readable text of the page, and the whole text
-// when the page holds no readable article. A page it cannot fetch, read, or
-// finish inside the budget or before the cutoff gives back nothing for its document. A page whose
-// site answers that it is not found or gone gives back its document as gone.
-// It follows the redirects of a page, and a page that moved gives back the
-// address it moved to.
+// Package pagereading reads the pages of the documents one query puts first, all
+// at once inside one budget. It gives back the text and link counts of each page
+// it read, and withdraws the documents whose pages are gone or refuse indexing.
 package pagereading
 
 import (
@@ -19,6 +13,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
+	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/htmlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -185,6 +182,9 @@ func (r Reading) pageContentsOfTheFetchedPage(
 	fetchedPage pagefetch.FetchedPage,
 	pageURL canonicalurl.CanonicalURL,
 ) (pagecontents.PageContents, readOutcome) {
+	if robotsRefusalsOf(fetchedPage).RefusesIndexing {
+		return pagecontents.PageContents{}, pageRefusesIndexing
+	}
 	extractedDocument, err := documentextraction.DocumentFrom(
 		ctx, fetchedPage.Body, fetchedPage.ContentType, pageURL,
 	)
@@ -203,6 +203,11 @@ func (r Reading) pageContentsOfTheFetchedPage(
 		queryWords,
 		r.snippetLengthCeiling,
 	), pageWasRead
+}
+
+func robotsRefusalsOf(fetchedPage pagefetch.FetchedPage) robotsmeta.Refusals {
+	return httpheader.RefusalsOf(fetchedPage.RobotsTagValues).
+		With(htmlmeta.RefusalsOf(fetchedPage.ContentType, fetchedPage.Body))
 }
 
 func linkCountsOfTheExtractedDocument(

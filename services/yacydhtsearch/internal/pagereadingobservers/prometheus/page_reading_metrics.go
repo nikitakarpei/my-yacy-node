@@ -13,18 +13,19 @@ import (
 )
 
 const (
-	labelOutcome               = "outcome"
-	labelActivity              = "activity"
-	activityFetching           = "fetching"
-	activityReading            = "reading"
-	outcomePageRead            = "read"
-	outcomePageUnreachable     = "unreachable"
-	outcomePageRefused         = "refused"
-	outcomePageGone            = "gone"
-	outcomePageUnreadable      = "unreadable"
-	outcomePageUnsupportedKind = "unsupported kind"
-	outcomePageOutOfBudget     = "out of budget"
-	outcomePageCutOff          = "cut off"
+	labelOutcome                = "outcome"
+	labelActivity               = "activity"
+	activityFetching            = "fetching"
+	activityReading             = "reading"
+	outcomePageRead             = "read"
+	outcomePageUnreachable      = "unreachable"
+	outcomePageRefused          = "refused"
+	outcomePageGone             = "gone"
+	outcomePageRefusingIndexing = "refusing indexing"
+	outcomePageUnreadable       = "unreadable"
+	outcomePageUnsupportedKind  = "unsupported kind"
+	outcomePageOutOfBudget      = "out of budget"
+	outcomePageCutOff           = "cut off"
 )
 
 type PageReadingMetrics struct {
@@ -32,6 +33,7 @@ type PageReadingMetrics struct {
 	pagesUnreachable           prometheusclient.Counter
 	pagesRefused               prometheusclient.Counter
 	pagesGone                  prometheusclient.Counter
+	pagesRefusingIndexing      prometheusclient.Counter
 	pagesUnreadable            prometheusclient.Counter
 	pagesOfAnUnsupportedKind   prometheusclient.Counter
 	pagesOutOfBudget           prometheusclient.Counter
@@ -67,6 +69,7 @@ func New(
 		pagesUnreachable:           pages.WithLabelValues(outcomePageUnreachable),
 		pagesRefused:               pages.WithLabelValues(outcomePageRefused),
 		pagesGone:                  pages.WithLabelValues(outcomePageGone),
+		pagesRefusingIndexing:      pages.WithLabelValues(outcomePageRefusingIndexing),
 		pagesUnreadable:            pages.WithLabelValues(outcomePageUnreadable),
 		pagesOfAnUnsupportedKind:   pages.WithLabelValues(outcomePageUnsupportedKind),
 		pagesOutOfBudget:           pages.WithLabelValues(outcomePageOutOfBudget),
@@ -88,6 +91,7 @@ func (m *PageReadingMetrics) PageReadingPerformed(
 	m.pagesUnreachable.Add(float64(pageReading.AmountOfPagesUnreachable))
 	m.pagesRefused.Add(float64(pageReading.AmountOfPagesRefused))
 	m.pagesGone.Add(float64(pageReading.AmountOfPagesGone))
+	m.pagesRefusingIndexing.Add(float64(pageReading.AmountOfPagesRefusingIndexing))
 	m.pagesUnreadable.Add(float64(pageReading.AmountOfPagesUnreadable))
 	m.pagesOfAnUnsupportedKind.Add(float64(pageReading.AmountOfPagesOfAnUnsupportedKind))
 	m.pagesOutOfBudget.Add(float64(pageReading.AmountOfPagesOutOfBudget))

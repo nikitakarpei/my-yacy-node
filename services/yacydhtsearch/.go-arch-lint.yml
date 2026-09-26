@@ -184,6 +184,10 @@ vendors:
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  robotsmeta:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/robotsmeta
+      - github.com/nikitakarpei/yacy-rwi-node/robotsmeta/**
   uax29sentences:
     in:
       - github.com/clipperhouse/uax29/v2/sentences
@@ -294,6 +298,7 @@ deps:
       - documentextraction
       - pagefetch
       - redirectfollowingfetch
+      - robotsmeta
       - yacymodel
     mayDependOn:
       - pagecontents

@@ -157,9 +157,9 @@ func (f *ProxiedFetch) fetched(
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			ContentType:      response.Header.Get(headerContentType),
-			Body:             body,
-			RobotsDirectives: response.Header.Values(headerXRobotsTag),
+			ContentType:     response.Header.Get(headerContentType),
+			Body:            body,
+			RobotsTagValues: response.Header.Values(headerXRobotsTag),
 		},
 		Version: pageVersionOf(response),
 	}

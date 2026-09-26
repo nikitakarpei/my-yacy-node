@@ -477,7 +477,7 @@ func (pagesGone) Fetch(
 	return pagefetch.FetchOutcome{Status: pagefetch.FetchGone}, nil
 }
 
-func TestAPageTheSiteSaysIsGoneGivesItsDocumentAsGone(t *testing.T) {
+func TestAPageTheSiteSaysIsGoneGivesItsDocumentAsWithdrawn(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
@@ -489,16 +489,99 @@ func TestAPageTheSiteSaysIsGoneGivesItsDocumentAsGone(t *testing.T) {
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	if _, gone := readPages.GoneDocuments[documentOfTheAddress(t, addressOfTheDocument)]; !gone ||
+	if _, withdrawn := readPages.WithdrawnDocuments[documentOfTheAddress(t, addressOfTheDocument)]; !withdrawn ||
 		len(readPages.PageContentsPerDocument) != 0 {
-		t.Fatalf("the reading gives %+v, want the document as gone and no text", readPages)
+		t.Fatalf("the reading gives %+v, want the document as withdrawn and no text", readPages)
 	}
 	if observer.performed.AmountOfPagesGone != 1 {
 		t.Fatalf("PageReadingPerformed = %+v, want one gone page", observer.performed)
 	}
 }
 
-func TestAPageTheSiteRefusesIsNotGone(t *testing.T) {
+type pagesStatingRobotsRules struct {
+	robotsTagValues []string
+	body            string
+}
+
+func (pages pagesStatingRobotsRules) Fetch(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	return pagefetch.FetchOutcome{
+		Status: pagefetch.FetchSucceeded,
+		Page: pagefetch.FetchedPage{
+			ContentType:     "text/html; charset=utf-8",
+			Body:            []byte(pages.body),
+			RobotsTagValues: pages.robotsTagValues,
+		},
+	}, nil
+}
+
+func TestAPageThatRefusesIndexingGivesItsDocumentAsWithdrawn(t *testing.T) {
+	t.Parallel()
+
+	for name, pages := range map[string]pagesStatingRobotsRules{
+		"in the header": {
+			robotsTagValues: []string{"noindex"},
+			body:            pageOfBerlin,
+		},
+		"in the page": {
+			body: strings.Replace(
+				pageOfBerlin, "<title>", `<meta name="robots" content="none"><title>`, 1,
+			),
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			observer := &recordedPageReading{}
+			reading := readingOfThePages(t, pages, observer)
+
+			readPages := reading.ReadEachPage(
+				t.Context(),
+				[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+				[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+			)
+
+			document := documentOfTheAddress(t, addressOfTheDocument)
+			if _, withdrawn := readPages.WithdrawnDocuments[document]; !withdrawn ||
+				len(readPages.PageContentsPerDocument) != 0 {
+				t.Fatalf(
+					"the reading gives %+v, want the document as withdrawn and no text",
+					readPages,
+				)
+			}
+			if observer.performed.AmountOfPagesRefusingIndexing != 1 {
+				t.Fatalf(
+					"PageReadingPerformed = %+v, want one page refusing indexing",
+					observer.performed,
+				)
+			}
+		})
+	}
+}
+
+func TestAPageThatAllowsIndexingIsRead(t *testing.T) {
+	t.Parallel()
+
+	reading := readingOfThePages(t, pagesStatingRobotsRules{
+		robotsTagValues: []string{"nofollow", "googlebot: noindex"},
+		body:            pageOfBerlin,
+	}, &recordedPageReading{})
+
+	readPages := reading.ReadEachPage(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	)
+
+	if len(readPages.WithdrawnDocuments) != 0 || len(readPages.PageContentsPerDocument) != 1 {
+		t.Fatalf("the reading gives %+v, want the page read", readPages)
+	}
+}
+
+func TestAPageTheSiteRefusesIsNotWithdrawn(t *testing.T) {
 	t.Parallel()
 
 	reading := readingOfThePages(t, pagesHeldAtTheirAddress{}, &recordedPageReading{})
@@ -509,8 +592,8 @@ func TestAPageTheSiteRefusesIsNotGone(t *testing.T) {
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	if len(readPages.GoneDocuments) != 0 {
-		t.Fatalf("the reading gives %+v, want no gone document", readPages)
+	if len(readPages.WithdrawnDocuments) != 0 {
+		t.Fatalf("the reading gives %+v, want no withdrawn document", readPages)
 	}
 }
 

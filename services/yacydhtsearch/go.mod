@@ -12,6 +12,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
@@ -65,5 +66,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../librar
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
 replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
+
+replace github.com/nikitakarpei/yacy-rwi-node/robotsmeta => ../../libraries/robotsmeta
 
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock

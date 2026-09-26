@@ -138,7 +138,7 @@ func (n Network) Search(
 	)
 	answersWithReadPages := answers.
 		WithReadPages(readPages.PageContentsPerDocument).
-		WithoutDocuments(readPages.GoneDocuments)
+		WithoutDocuments(readPages.WithdrawnDocuments)
 	rankedDocuments := documentsUpTo(
 		n.documentsOrdering.OrderedDocumentsOf(answersWithReadPages),
 		n.rankedItemsCeiling,
