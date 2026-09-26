@@ -4,13 +4,13 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type askRun struct {
 	asks                     chan<- []peerasks.SearchDocumentsAsk
-	settledWordPartitions    <-chan replicaasks.SettledWordPartition
+	settledWordPartitions    <-chan wordpartitionasks.SettledWordPartition
 	askOutcomes              peerasks.SearchDocumentsAskOutcomes
 	holdersPerDocument       holdersPerDocument
 	askedWordPartitionKeys   map[wordPartitionKey]struct{}
@@ -80,7 +80,7 @@ func (askRun *askRun) readTheNextSettledWordPartition() {
 	askRun.record(<-askRun.settledWordPartitions)
 }
 
-func (askRun *askRun) record(settledWordPartition replicaasks.SettledWordPartition) {
+func (askRun *askRun) record(settledWordPartition wordpartitionasks.SettledWordPartition) {
 	askRun.askOutcomes = append(askRun.askOutcomes, settledWordPartition.AskOutcomes...)
 	askRun.holdersPerDocument.addHoldersIn(settledWordPartition.AskOutcomes)
 	for _, askOutcome := range settledWordPartition.AskOutcomes {

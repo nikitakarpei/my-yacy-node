@@ -97,12 +97,12 @@ components:
     in: internal/peerchoice/**
   hedgedelaysconstant:
     in: internal/hedgedelays/constant/**
-  replicaasks:
-    in: internal/replicaasks/**
-  replicaasksobserversapplog:
-    in: internal/replicaasksobservers/applog/**
-  replicaasksobserversprometheus:
-    in: internal/replicaasksobservers/prometheus/**
+  wordpartitionasks:
+    in: internal/wordpartitionasks/**
+  wordpartitionasksobserversapplog:
+    in: internal/wordpartitionasksobservers/applog/**
+  wordpartitionasksobserversprometheus:
+    in: internal/wordpartitionasksobservers/prometheus/**
   peercallwire:
     in: internal/peercallwire/**
   peerlivenesswire:
@@ -313,7 +313,7 @@ deps:
       - peerdirectory
       - peerasks
       - searchquery
-      - replicaasks
+      - wordpartitionasks
   wordjoined:
     canUse:
       - yacymodel
@@ -323,7 +323,7 @@ deps:
       - peerdirectory
       - peerasks
       - searchquery
-      - replicaasks
+      - wordpartitionasks
   bywordcount:
     mayDependOn:
       - queryanswers
@@ -382,20 +382,20 @@ deps:
       - yacymodel
     mayDependOn:
       - peerdirectory
-  replicaasks:
+  wordpartitionasks:
     canUse:
       - yacymodel
     mayDependOn:
       - peerasks
-  replicaasksobserversapplog:
+  wordpartitionasksobserversapplog:
     mayDependOn:
-      - replicaasks
-  replicaasksobserversprometheus:
+      - wordpartitionasks
+  wordpartitionasksobserversprometheus:
     canUse:
       - prometheus
       - budgetbuckets
     mayDependOn:
-      - replicaasks
+      - wordpartitionasks
   peercallwire:
     canUse:
       - yacymodel

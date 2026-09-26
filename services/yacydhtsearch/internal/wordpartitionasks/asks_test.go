@@ -1,4 +1,4 @@
-package replicaasks_test
+package wordpartitionasks_test
 
 import (
 	"cmp"
@@ -10,7 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -40,9 +40,17 @@ func TestTheFirstReplicasOfEveryWordPartitionAreAskedAndNoMore(t *testing.T) {
 		t.Fatalf("the run answered %d asks, want four", len(answers))
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two", "weather-one", "weather-two")
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
-	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnStart)
-	asking.observer.wantEndedBy(t, replicaasks.EndedByCoverage)
+	asking.observer.wantSettledBy(
+		t,
+		wordpartitionasks.SettledByCoverage,
+		wordpartitionasks.SettledByCoverage,
+	)
+	asking.observer.wantCoveringAskPutOn(
+		t,
+		wordpartitionasks.PutOnStart,
+		wordpartitionasks.PutOnStart,
+	)
+	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByCoverage)
 }
 
 func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T) {
@@ -60,8 +68,8 @@ func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T)
 		t.Fatalf("the run = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one")
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
-	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnStart)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByCoverage)
+	asking.observer.wantCoveringAskPutOn(t, wordpartitionasks.PutOnStart)
 	asking.observer.wantAmountOfDocumentsListed(t, 3)
 }
 
@@ -80,8 +88,8 @@ func TestAnEmptyAnswerWithoutASearchAsksTheNextReplicaAtOnce(t *testing.T) {
 		t.Fatalf("the run answered %d asks, want both replicas", len(answers))
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
-	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnEmptyAnswer)
-	asking.observer.wantPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnEmptyAnswer)
+	asking.observer.wantCoveringAskPutOn(t, wordpartitionasks.PutOnEmptyAnswer)
+	asking.observer.wantPutOn(t, wordpartitionasks.PutOnStart, wordpartitionasks.PutOnEmptyAnswer)
 }
 
 func TestAnEmptyAnswerOfAPeerThatSearchedSettlesTheWordPartition(t *testing.T) {
@@ -99,7 +107,7 @@ func TestAnEmptyAnswerOfAPeerThatSearchedSettlesTheWordPartition(t *testing.T) {
 		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "bananaphotos-one")
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByCoverage)
 	asking.observer.wantAmountOfDocumentsListed(t, 0)
 }
 
@@ -118,8 +126,8 @@ func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
 		t.Fatalf("the run = %+v, want the second replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
-	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnFailure)
-	asking.observer.wantPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnFailure)
+	asking.observer.wantCoveringAskPutOn(t, wordpartitionasks.PutOnFailure)
+	asking.observer.wantPutOn(t, wordpartitionasks.PutOnStart, wordpartitionasks.PutOnFailure)
 }
 
 func TestACallPastTheHedgeDelayAsksTheNextReplicaAndTheFirstListingWins(t *testing.T) {
@@ -139,8 +147,8 @@ func TestACallPastTheHedgeDelayAsksTheNextReplicaAndTheFirstListingWins(t *testi
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
 	asking.calls.wantAddressesCancelled(t, "berlin-one")
-	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnHedgeDelay)
-	asking.observer.wantPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnHedgeDelay)
+	asking.observer.wantCoveringAskPutOn(t, wordpartitionasks.PutOnHedgeDelay)
+	asking.observer.wantPutOn(t, wordpartitionasks.PutOnStart, wordpartitionasks.PutOnHedgeDelay)
 }
 
 func TestAHedgeIsDueWhileTheFirstReplicaStillHoldsTheCall(t *testing.T) {
@@ -181,7 +189,7 @@ func TestNoReplicaLeftSettlesTheWordPartition(t *testing.T) {
 			len(answers),
 		)
 	}
-	asking.observer.wantSettledBy(t, replicaasks.SettledByNoReplicaLeft)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByNoReplicaLeft)
 	asking.observer.wantCoveringAskPutOn(t, "")
 	asking.observer.wantAmountOfDocumentsListed(t, 3)
 }
@@ -201,8 +209,8 @@ func TestAsksPerWordPartitionNeverExceedTheReplicasGiven(t *testing.T) {
 		t.Fatalf("the run = %+v, want no answer", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
-	asking.observer.wantSettledBy(t, replicaasks.SettledByNoReplicaLeft)
-	asking.observer.wantPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnStart)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByNoReplicaLeft)
+	asking.observer.wantPutOn(t, wordpartitionasks.PutOnStart, wordpartitionasks.PutOnStart)
 }
 
 func TestTheDeadlineOfTheAsksSettlesTheWordPartitionAndKeepsItsAnswers(t *testing.T) {
@@ -223,8 +231,12 @@ func TestTheDeadlineOfTheAsksSettlesTheWordPartitionAndKeepsItsAnswers(t *testin
 	if len(answers) != 1 || answers[0].Ask.Peer.Address != "berlin-one" {
 		t.Fatalf("the run = %+v, want the answer that came in time", answers)
 	}
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByDeadline)
-	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
+	asking.observer.wantSettledBy(
+		t,
+		wordpartitionasks.SettledByCoverage,
+		wordpartitionasks.SettledByDeadline,
+	)
+	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByDeadline)
 }
 
 func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t *testing.T) {
@@ -244,9 +256,9 @@ func TestAFailureThatArrivesAfterTheDeadlineSettlesTheWordPartitionAsDeadline(t 
 	if len(answers) != 0 {
 		t.Fatalf("the run = %+v, want no answer", answers)
 	}
-	asking.observer.wantSettledBy(t, replicaasks.SettledByDeadline)
-	asking.observer.wantPutOn(t, replicaasks.PutOnStart)
-	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByDeadline)
+	asking.observer.wantPutOn(t, wordpartitionasks.PutOnStart)
+	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByDeadline)
 }
 
 func TestEachWordPartitionTellsTheOutcomesOfItsAsksInReplicaOrder(t *testing.T) {
@@ -315,7 +327,7 @@ func TestAnEmptyAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.
 		len(askOutcomes.AnsweredAsks()) != 1 {
 		t.Fatalf("the run = %+v, want the first replica only", askOutcomes)
 	}
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByCoverage)
 }
 
 func TestAnAnswerThatOnlyMatchesDocumentsSettlesTheWordPartition(t *testing.T) {
@@ -357,7 +369,11 @@ func TestAPeerAskedForOneWordPartitionIsNotAskedForAnotherOne(t *testing.T) {
 		t.Fatalf("the run = %v, want %v", got, wanted)
 	}
 	asking.calls.wantAddressesPut(t, "shared", "weather-two")
-	asking.observer.wantCoveringAskPutOn(t, replicaasks.PutOnStart, replicaasks.PutOnStart)
+	asking.observer.wantCoveringAskPutOn(
+		t,
+		wordpartitionasks.PutOnStart,
+		wordpartitionasks.PutOnStart,
+	)
 }
 
 func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLeft(
@@ -379,7 +395,7 @@ func TestAWordPartitionWhoseReplicasWereAllAskedForOthersSettlesWithNoReplicaLef
 	}
 	asking.calls.wantAddressesPut(t, "shared")
 	asking.observer.wantSettledBy(
-		t, replicaasks.SettledByCoverage, replicaasks.SettledByNoReplicaLeft,
+		t, wordpartitionasks.SettledByCoverage, wordpartitionasks.SettledByNoReplicaLeft,
 	)
 }
 
@@ -400,7 +416,11 @@ func TestAsksAddedToARunningRunAreAsked(t *testing.T) {
 	wantOutcomesIn(t, firstWordPartition, "berlin-one answered")
 	wantOutcomesIn(t, secondWordPartition, "weather-one answered")
 	asking.calls.wantAddressesPut(t, "berlin-one", "weather-one")
-	asking.observer.wantSettledBy(t, replicaasks.SettledByCoverage, replicaasks.SettledByCoverage)
+	asking.observer.wantSettledBy(
+		t,
+		wordpartitionasks.SettledByCoverage,
+		wordpartitionasks.SettledByCoverage,
+	)
 }
 
 func TestAPeerAskedEarlierInTheRunIsNotAskedForAnAskAddedLater(t *testing.T) {
@@ -435,7 +455,7 @@ func TestAWordPartitionAlreadyInTheRunIsNotAskedAgain(t *testing.T) {
 	wantTheRunOver(t, run)
 
 	asking.calls.wantAddressesPut(t, "berlin-one")
-	asking.observer.wantSettledBy(t, replicaasks.SettledByNoReplicaLeft)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByNoReplicaLeft)
 }
 
 func TestEachWordPartitionIsSentAsSoonAsItSettles(t *testing.T) {
@@ -487,8 +507,8 @@ func TestTheDeadlineEndsTheRunAndSendsTheUnsettledWordPartitions(t *testing.T) {
 	if settledAfter >= slowAnswerOfTheTests {
 		t.Fatalf("the word partition came after %v, want it at the deadline", settledAfter)
 	}
-	asking.observer.wantSettledBy(t, replicaasks.SettledByDeadline)
-	asking.observer.wantEndedBy(t, replicaasks.EndedByDeadline)
+	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByDeadline)
+	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByDeadline)
 }
 
 func TestARunWithoutAsksIsOverOnceTheAsksClose(t *testing.T) {
@@ -500,7 +520,7 @@ func TestARunWithoutAsksIsOverOnceTheAsksClose(t *testing.T) {
 	wantTheRunOver(t, run)
 
 	asking.observer.wantSettledBy(t)
-	asking.observer.wantEndedBy(t, replicaasks.EndedByCoverage)
+	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByCoverage)
 }
 
 type scriptedPeerCall struct {
@@ -626,12 +646,12 @@ func (calls *peerCallsOfTheTests) putAfterOf(t *testing.T, address string) time.
 type recordedReplicaAsks struct {
 	mutex           sync.Mutex
 	amountOfReports int
-	performed       replicaasks.PerformedReplicaAsks
+	performed       wordpartitionasks.PerformedReplicaAsks
 }
 
 func (recorded *recordedReplicaAsks) ReplicaAsksPerformed(
 	_ context.Context,
-	replicaAsks replicaasks.PerformedReplicaAsks,
+	replicaAsks wordpartitionasks.PerformedReplicaAsks,
 ) {
 	recorded.mutex.Lock()
 	defer recorded.mutex.Unlock()
@@ -642,11 +662,11 @@ func (recorded *recordedReplicaAsks) ReplicaAsksPerformed(
 
 func (recorded *recordedReplicaAsks) wantSettledBy(
 	t *testing.T,
-	settledBy ...replicaasks.SettledBy,
+	settledBy ...wordpartitionasks.SettledBy,
 ) {
 	t.Helper()
 	wordPartitions := recorded.wordPartitions(t)
-	settledByReported := make([]replicaasks.SettledBy, 0, len(wordPartitions))
+	settledByReported := make([]wordpartitionasks.SettledBy, 0, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
 		settledByReported = append(settledByReported, wordPartition.SettledBy)
 	}
@@ -657,11 +677,11 @@ func (recorded *recordedReplicaAsks) wantSettledBy(
 
 func (recorded *recordedReplicaAsks) wantCoveringAskPutOn(
 	t *testing.T,
-	putOn ...replicaasks.PutOn,
+	putOn ...wordpartitionasks.PutOn,
 ) {
 	t.Helper()
 	wordPartitions := recorded.wordPartitions(t)
-	putOnReported := make([]replicaasks.PutOn, 0, len(wordPartitions))
+	putOnReported := make([]wordpartitionasks.PutOn, 0, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
 		putOnReported = append(putOnReported, wordPartition.CoveringAskPutOn)
 	}
@@ -670,7 +690,7 @@ func (recorded *recordedReplicaAsks) wantCoveringAskPutOn(
 	}
 }
 
-func (recorded *recordedReplicaAsks) wantPutOn(t *testing.T, putOn ...replicaasks.PutOn) {
+func (recorded *recordedReplicaAsks) wantPutOn(t *testing.T, putOn ...wordpartitionasks.PutOn) {
 	t.Helper()
 	putOnReported := recorded.wordPartitions(t)[0].AsksPutOn
 	if !slices.Equal(putOnReported, putOn) {
@@ -691,7 +711,7 @@ func (recorded *recordedReplicaAsks) wantAmountOfDocumentsListed(t *testing.T, a
 	}
 }
 
-func (recorded *recordedReplicaAsks) wantEndedBy(t *testing.T, endedBy replicaasks.EndedBy) {
+func (recorded *recordedReplicaAsks) wantEndedBy(t *testing.T, endedBy wordpartitionasks.EndedBy) {
 	t.Helper()
 	recorded.mutex.Lock()
 	defer recorded.mutex.Unlock()
@@ -706,7 +726,7 @@ func (recorded *recordedReplicaAsks) wantEndedBy(t *testing.T, endedBy replicaas
 
 func (recorded *recordedReplicaAsks) wordPartitions(
 	t *testing.T,
-) []replicaasks.PerformedWordPartition {
+) []wordpartitionasks.PerformedWordPartition {
 	t.Helper()
 	recorded.mutex.Lock()
 	defer recorded.mutex.Unlock()
@@ -730,7 +750,7 @@ func (hedgeDelay hedgeDelayOfTheTestsPeers) HedgeDelayOf(
 type askingUnderTest struct {
 	calls    *peerCallsOfTheTests
 	observer *recordedReplicaAsks
-	asks     replicaasks.Asks
+	asks     wordpartitionasks.Asks
 }
 
 func askingOfTheTests(
@@ -748,7 +768,7 @@ func askingOfTheTests(
 	return askingUnderTest{
 		calls:    calls,
 		observer: observer,
-		asks: replicaasks.New(
+		asks: wordpartitionasks.New(
 			calls,
 			hedgeDelayOfTheTestsPeers(hedgeDelay),
 			amountOfReplicasCoveringAPartition,
@@ -782,7 +802,7 @@ func (asking askingUnderTest) searchDocumentsAskOutcomes(
 	return askOutcomes
 }
 
-func (asking askingUnderTest) startedRun(ctx context.Context) replicaasks.Run {
+func (asking askingUnderTest) startedRun(ctx context.Context) wordpartitionasks.Run {
 	asking.calls.startedAt = time.Now()
 
 	return asking.asks.Start(ctx)
@@ -790,7 +810,7 @@ func (asking askingUnderTest) startedRun(ctx context.Context) replicaasks.Run {
 
 func wantOutcomesIn(
 	t *testing.T,
-	settledWordPartition replicaasks.SettledWordPartition,
+	settledWordPartition wordpartitionasks.SettledWordPartition,
 	outcomes ...string,
 ) {
 	t.Helper()
@@ -800,11 +820,11 @@ func wantOutcomesIn(
 	}
 }
 
-func outcomesIn(settledWordPartition replicaasks.SettledWordPartition) []string {
+func outcomesIn(settledWordPartition wordpartitionasks.SettledWordPartition) []string {
 	return outcomesOf(settledWordPartition.AskOutcomes)
 }
 
-func wantTheRunOver(t *testing.T, run replicaasks.Run) {
+func wantTheRunOver(t *testing.T, run wordpartitionasks.Run) {
 	t.Helper()
 
 	close(run.Asks)

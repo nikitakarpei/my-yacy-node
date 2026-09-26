@@ -2,11 +2,11 @@ package peermatched
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
 func answeredAsksFrom(
-	settledWordPartitions <-chan replicaasks.SettledWordPartition,
+	settledWordPartitions <-chan wordpartitionasks.SettledWordPartition,
 ) []peerasks.AnsweredSearchDocumentsAsk {
 	askOutcomes := peerasks.SearchDocumentsAskOutcomes{}
 	for settledWordPartition := range settledWordPartitions {

@@ -11,8 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -33,17 +33,17 @@ func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	}
 }
 
-func (network *peerNetwork) Start(_ context.Context) replicaasks.Run {
+func (network *peerNetwork) Start(_ context.Context) wordpartitionasks.Run {
 	asks := make(chan []peerasks.SearchDocumentsAsk)
-	settledWordPartitions := make(chan replicaasks.SettledWordPartition)
+	settledWordPartitions := make(chan wordpartitionasks.SettledWordPartition)
 	go network.answerEachAsk(asks, settledWordPartitions)
 
-	return replicaasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+	return wordpartitionasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
 }
 
 func (network *peerNetwork) answerEachAsk(
 	asks <-chan []peerasks.SearchDocumentsAsk,
-	settledWordPartitions chan<- replicaasks.SettledWordPartition,
+	settledWordPartitions chan<- wordpartitionasks.SettledWordPartition,
 ) {
 	defer close(settledWordPartitions)
 	for addedAsks := range asks {
@@ -56,8 +56,8 @@ func (network *peerNetwork) answerEachAsk(
 
 func (network *peerNetwork) settledWordPartitionOf(
 	ask peerasks.SearchDocumentsAsk,
-) replicaasks.SettledWordPartition {
-	return replicaasks.SettledWordPartition{AskOutcomes: peerasks.SearchDocumentsAskOutcomes{{
+) wordpartitionasks.SettledWordPartition {
+	return wordpartitionasks.SettledWordPartition{AskOutcomes: peerasks.SearchDocumentsAskOutcomes{{
 		Ask: ask,
 		Put: true,
 		Answer: yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
