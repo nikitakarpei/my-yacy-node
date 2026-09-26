@@ -1,4 +1,4 @@
-package replicaasks
+package wordpartitionasks
 
 import "time"
 

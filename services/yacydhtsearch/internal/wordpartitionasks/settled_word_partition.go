@@ -1,4 +1,4 @@
-package replicaasks
+package wordpartitionasks
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 

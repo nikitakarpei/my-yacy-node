@@ -6,7 +6,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
 const msgReplicaAsksPerformed = "replica asks performed"
@@ -15,7 +15,7 @@ type ReplicaAsksLog struct{}
 
 func (ReplicaAsksLog) ReplicaAsksPerformed(
 	ctx context.Context,
-	replicaAsks replicaasks.PerformedReplicaAsks,
+	replicaAsks wordpartitionasks.PerformedReplicaAsks,
 ) {
 	slog.LogAttrs(
 		ctx,
@@ -43,9 +43,9 @@ func (ReplicaAsksLog) ReplicaAsksPerformed(
 }
 
 func amountOfWordPartitionsPerSettledBy(
-	wordPartitions []replicaasks.PerformedWordPartition,
-) map[replicaasks.SettledBy]int {
-	amountOfWordPartitions := make(map[replicaasks.SettledBy]int, len(wordPartitions))
+	wordPartitions []wordpartitionasks.PerformedWordPartition,
+) map[wordpartitionasks.SettledBy]int {
+	amountOfWordPartitions := make(map[wordpartitionasks.SettledBy]int, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
 		amountOfWordPartitions[wordPartition.SettledBy]++
 	}
@@ -54,11 +54,11 @@ func amountOfWordPartitionsPerSettledBy(
 }
 
 func amountOfWordPartitionsCoveredPerAskPutOn(
-	wordPartitions []replicaasks.PerformedWordPartition,
-) map[replicaasks.PutOn]int {
-	amountOfWordPartitions := make(map[replicaasks.PutOn]int, len(wordPartitions))
+	wordPartitions []wordpartitionasks.PerformedWordPartition,
+) map[wordpartitionasks.PutOn]int {
+	amountOfWordPartitions := make(map[wordpartitionasks.PutOn]int, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
-		if wordPartition.SettledBy == replicaasks.SettledByCoverage {
+		if wordPartition.SettledBy == wordpartitionasks.SettledByCoverage {
 			amountOfWordPartitions[wordPartition.CoveringAskPutOn]++
 		}
 	}
@@ -67,9 +67,9 @@ func amountOfWordPartitionsCoveredPerAskPutOn(
 }
 
 func amountOfReplicaAsksPerPutOn(
-	wordPartitions []replicaasks.PerformedWordPartition,
-) map[replicaasks.PutOn]int {
-	amountOfReplicaAsks := make(map[replicaasks.PutOn]int, len(wordPartitions))
+	wordPartitions []wordpartitionasks.PerformedWordPartition,
+) map[wordpartitionasks.PutOn]int {
+	amountOfReplicaAsks := make(map[wordpartitionasks.PutOn]int, len(wordPartitions))
 	for _, wordPartition := range wordPartitions {
 		for _, putOn := range wordPartition.AsksPutOn {
 			amountOfReplicaAsks[putOn]++
@@ -80,7 +80,7 @@ func amountOfReplicaAsksPerPutOn(
 }
 
 func amountOfDocumentsListedAcrossWordPartitions(
-	wordPartitions []replicaasks.PerformedWordPartition,
+	wordPartitions []wordpartitionasks.PerformedWordPartition,
 ) int {
 	amountOfDocuments := 0
 	for _, wordPartition := range wordPartitions {

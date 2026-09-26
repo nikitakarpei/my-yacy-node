@@ -74,13 +74,13 @@ import (
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/applog"
 	rankingcacheobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
-	replicaasksobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/applog"
-	replicaasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings"
 	peerpacesmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings/peerpaces/memory"
 	urlmetadataaskceilingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilingsobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
+	wordpartitionasksobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasksobservers/applog"
+	wordpartitionasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasksobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	yacyseedlistobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlistobservers/applog"
@@ -268,13 +268,13 @@ func querySpreadFor(
 	urlMetadataAskCeilings wordjoined.URLMetadataAskCeilings,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
-	replicaAsks := replicaasks.New(
+	replicaAsks := wordpartitionasks.New(
 		peers,
 		hedgedelaysconstant.New(cfg.HedgeDelay),
 		cfg.ReplicasCoveringAPartition,
-		replicaasks.ReplicaAsksObservers{
-			replicaasksobserversapplog.ReplicaAsksLog{},
-			replicaasksobserversprometheus.New(registry, cfg.QueryBudget),
+		wordpartitionasks.ReplicaAsksObservers{
+			wordpartitionasksobserversapplog.ReplicaAsksLog{},
+			wordpartitionasksobserversprometheus.New(registry, cfg.QueryBudget),
 		},
 	)
 

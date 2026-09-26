@@ -10,8 +10,8 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
-	replicaasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasksobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
+	wordpartitionasksobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasksobservers/prometheus"
 )
 
 const queryBudget = 3 * time.Second
@@ -42,7 +42,7 @@ func TestEveryLabelValueOfTheReplicaAsksStartsAtZero(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	replicaasksobserversprometheus.New(registry, queryBudget)
+	wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
 	requirePublished(t, publishedBy(t, registry), []string{
 		`yacydhtsearch_replica_asks_duration_seconds_count{ended_by="coverage"} 0`,
@@ -61,32 +61,32 @@ func TestEveryLabelValueOfTheReplicaAsksStartsAtZero(t *testing.T) {
 	})
 }
 
-func performedReplicaAsks() replicaasks.PerformedReplicaAsks {
-	return replicaasks.PerformedReplicaAsks{
-		EndedBy:   replicaasks.EndedByCoverage,
+func performedReplicaAsks() wordpartitionasks.PerformedReplicaAsks {
+	return wordpartitionasks.PerformedReplicaAsks{
+		EndedBy:   wordpartitionasks.EndedByCoverage,
 		TimeSpent: 250 * time.Millisecond,
-		WordPartitions: []replicaasks.PerformedWordPartition{
+		WordPartitions: []wordpartitionasks.PerformedWordPartition{
 			{
-				SettledBy:               replicaasks.SettledByCoverage,
-				CoveringAskPutOn:        replicaasks.PutOnStart,
+				SettledBy:               wordpartitionasks.SettledByCoverage,
+				CoveringAskPutOn:        wordpartitionasks.PutOnStart,
 				AmountOfDocumentsListed: 5,
-				AsksPutOn:               []replicaasks.PutOn{replicaasks.PutOnStart},
+				AsksPutOn:               []wordpartitionasks.PutOn{wordpartitionasks.PutOnStart},
 			},
 			{
-				SettledBy:               replicaasks.SettledByCoverage,
-				CoveringAskPutOn:        replicaasks.PutOnHedgeDelay,
+				SettledBy:               wordpartitionasks.SettledByCoverage,
+				CoveringAskPutOn:        wordpartitionasks.PutOnHedgeDelay,
 				AmountOfDocumentsListed: 0,
-				AsksPutOn: []replicaasks.PutOn{
-					replicaasks.PutOnStart,
-					replicaasks.PutOnHedgeDelay,
+				AsksPutOn: []wordpartitionasks.PutOn{
+					wordpartitionasks.PutOnStart,
+					wordpartitionasks.PutOnHedgeDelay,
 				},
 			},
 			{
-				SettledBy:               replicaasks.SettledByNoReplicaLeft,
+				SettledBy:               wordpartitionasks.SettledByNoReplicaLeft,
 				AmountOfDocumentsListed: 2,
-				AsksPutOn: []replicaasks.PutOn{
-					replicaasks.PutOnStart,
-					replicaasks.PutOnFailure,
+				AsksPutOn: []wordpartitionasks.PutOn{
+					wordpartitionasks.PutOnStart,
+					wordpartitionasks.PutOnFailure,
 				},
 			},
 		},
@@ -97,7 +97,7 @@ func TestEveryWordPartitionIsCountedUnderWhatSettledIt(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := replicaasksobserversprometheus.New(registry, queryBudget)
+	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
@@ -115,7 +115,7 @@ func TestEveryReplicaAskIsCountedUnderWhatPutIt(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := replicaasksobserversprometheus.New(registry, queryBudget)
+	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
@@ -131,7 +131,7 @@ func TestTheDocumentsOfEverySettledWordPartitionAreMeasured(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := replicaasksobserversprometheus.New(registry, queryBudget)
+	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 
@@ -145,7 +145,7 @@ func TestTheTimeTheReplicaAsksSpentIsMeasuredUnderWhatEndedThem(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := replicaasksobserversprometheus.New(registry, queryBudget)
+	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
 	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
 

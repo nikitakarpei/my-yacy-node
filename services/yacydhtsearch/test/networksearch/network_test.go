@@ -24,8 +24,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -265,14 +265,14 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	)
 }
 
-func replicaAsks(t *testing.T) replicaasks.Asks {
+func replicaAsks(t *testing.T) wordpartitionasks.Asks {
 	t.Helper()
 
-	return replicaasks.New(
+	return wordpartitionasks.New(
 		peerCalls(t),
 		hedgedelaysconstant.New(hedgeDelay),
 		replicasCoveringAPartition,
-		replicaasks.ReplicaAsksObservers{},
+		wordpartitionasks.ReplicaAsksObservers{},
 	)
 }
 

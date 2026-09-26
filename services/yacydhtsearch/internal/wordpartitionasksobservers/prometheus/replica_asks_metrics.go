@@ -11,7 +11,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicaasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
 const (
@@ -24,9 +24,9 @@ const (
 )
 
 type ReplicaAsksMetrics struct {
-	replicaAsksDurationSecondsPerEndedBy map[replicaasks.EndedBy]prometheusclient.Observer
-	wordPartitionsPerSettledBy           map[replicaasks.SettledBy]map[replicaasks.PutOn]prometheusclient.Counter
-	replicaAsksPerPutOn                  map[replicaasks.PutOn]prometheusclient.Counter
+	replicaAsksDurationSecondsPerEndedBy map[wordpartitionasks.EndedBy]prometheusclient.Observer
+	wordPartitionsPerSettledBy           map[wordpartitionasks.SettledBy]map[wordpartitionasks.PutOn]prometheusclient.Counter
+	replicaAsksPerPutOn                  map[wordpartitionasks.PutOn]prometheusclient.Counter
 	wordPartitionDocumentsListed         prometheusclient.Histogram
 }
 
@@ -83,67 +83,77 @@ func bucketsFromNoneTo(ceiling float64, amountOfBuckets int) []float64 {
 
 func replicaAsksDurationSecondsPerEndedByFrom(
 	replicaAsksDurationSeconds *prometheusclient.HistogramVec,
-) map[replicaasks.EndedBy]prometheusclient.Observer {
+) map[wordpartitionasks.EndedBy]prometheusclient.Observer {
 	//exhaustive:enforce
-	return map[replicaasks.EndedBy]prometheusclient.Observer{
-		replicaasks.EndedByCoverage: replicaAsksDurationSeconds.WithLabelValues(
-			string(replicaasks.EndedByCoverage),
+	return map[wordpartitionasks.EndedBy]prometheusclient.Observer{
+		wordpartitionasks.EndedByCoverage: replicaAsksDurationSeconds.WithLabelValues(
+			string(wordpartitionasks.EndedByCoverage),
 		),
-		replicaasks.EndedByDeadline: replicaAsksDurationSeconds.WithLabelValues(
-			string(replicaasks.EndedByDeadline),
+		wordpartitionasks.EndedByDeadline: replicaAsksDurationSeconds.WithLabelValues(
+			string(wordpartitionasks.EndedByDeadline),
 		),
 	}
 }
 
 func wordPartitionsPerSettledByFrom(
 	wordPartitions *prometheusclient.CounterVec,
-) map[replicaasks.SettledBy]map[replicaasks.PutOn]prometheusclient.Counter {
+) map[wordpartitionasks.SettledBy]map[wordpartitionasks.PutOn]prometheusclient.Counter {
 	//exhaustive:enforce
-	return map[replicaasks.SettledBy]map[replicaasks.PutOn]prometheusclient.Counter{
-		replicaasks.SettledByCoverage: wordPartitionsCoveredPerAskPutOnFrom(wordPartitions),
-		replicaasks.SettledByNoReplicaLeft: {
-			"": wordPartitions.WithLabelValues(string(replicaasks.SettledByNoReplicaLeft), ""),
+	return map[wordpartitionasks.SettledBy]map[wordpartitionasks.PutOn]prometheusclient.Counter{
+		wordpartitionasks.SettledByCoverage: wordPartitionsCoveredPerAskPutOnFrom(wordPartitions),
+		wordpartitionasks.SettledByNoReplicaLeft: {
+			"": wordPartitions.WithLabelValues(
+				string(wordpartitionasks.SettledByNoReplicaLeft),
+				"",
+			),
 		},
-		replicaasks.SettledByDeadline: {
-			"": wordPartitions.WithLabelValues(string(replicaasks.SettledByDeadline), ""),
+		wordpartitionasks.SettledByDeadline: {
+			"": wordPartitions.WithLabelValues(string(wordpartitionasks.SettledByDeadline), ""),
 		},
 	}
 }
 
 func wordPartitionsCoveredPerAskPutOnFrom(
 	wordPartitions *prometheusclient.CounterVec,
-) map[replicaasks.PutOn]prometheusclient.Counter {
-	covered := func(putOn replicaasks.PutOn) prometheusclient.Counter {
-		return wordPartitions.WithLabelValues(string(replicaasks.SettledByCoverage), string(putOn))
+) map[wordpartitionasks.PutOn]prometheusclient.Counter {
+	covered := func(putOn wordpartitionasks.PutOn) prometheusclient.Counter {
+		return wordPartitions.WithLabelValues(
+			string(wordpartitionasks.SettledByCoverage),
+			string(putOn),
+		)
 	}
 	//exhaustive:enforce
-	return map[replicaasks.PutOn]prometheusclient.Counter{
-		replicaasks.PutOnStart:       covered(replicaasks.PutOnStart),
-		replicaasks.PutOnHedgeDelay:  covered(replicaasks.PutOnHedgeDelay),
-		replicaasks.PutOnEmptyAnswer: covered(replicaasks.PutOnEmptyAnswer),
-		replicaasks.PutOnFailure:     covered(replicaasks.PutOnFailure),
+	return map[wordpartitionasks.PutOn]prometheusclient.Counter{
+		wordpartitionasks.PutOnStart:       covered(wordpartitionasks.PutOnStart),
+		wordpartitionasks.PutOnHedgeDelay:  covered(wordpartitionasks.PutOnHedgeDelay),
+		wordpartitionasks.PutOnEmptyAnswer: covered(wordpartitionasks.PutOnEmptyAnswer),
+		wordpartitionasks.PutOnFailure:     covered(wordpartitionasks.PutOnFailure),
 	}
 }
 
 func replicaAsksPerPutOnFrom(
 	replicaAsks *prometheusclient.CounterVec,
-) map[replicaasks.PutOn]prometheusclient.Counter {
+) map[wordpartitionasks.PutOn]prometheusclient.Counter {
 	//exhaustive:enforce
-	return map[replicaasks.PutOn]prometheusclient.Counter{
-		replicaasks.PutOnStart: replicaAsks.WithLabelValues(string(replicaasks.PutOnStart)),
-		replicaasks.PutOnHedgeDelay: replicaAsks.WithLabelValues(
-			string(replicaasks.PutOnHedgeDelay),
+	return map[wordpartitionasks.PutOn]prometheusclient.Counter{
+		wordpartitionasks.PutOnStart: replicaAsks.WithLabelValues(
+			string(wordpartitionasks.PutOnStart),
 		),
-		replicaasks.PutOnEmptyAnswer: replicaAsks.WithLabelValues(
-			string(replicaasks.PutOnEmptyAnswer),
+		wordpartitionasks.PutOnHedgeDelay: replicaAsks.WithLabelValues(
+			string(wordpartitionasks.PutOnHedgeDelay),
 		),
-		replicaasks.PutOnFailure: replicaAsks.WithLabelValues(string(replicaasks.PutOnFailure)),
+		wordpartitionasks.PutOnEmptyAnswer: replicaAsks.WithLabelValues(
+			string(wordpartitionasks.PutOnEmptyAnswer),
+		),
+		wordpartitionasks.PutOnFailure: replicaAsks.WithLabelValues(
+			string(wordpartitionasks.PutOnFailure),
+		),
 	}
 }
 
 func (m *ReplicaAsksMetrics) ReplicaAsksPerformed(
 	_ context.Context,
-	replicaAsks replicaasks.PerformedReplicaAsks,
+	replicaAsks wordpartitionasks.PerformedReplicaAsks,
 ) {
 	m.replicaAsksDurationSecondsPerEndedBy[replicaAsks.EndedBy].Observe(
 		replicaAsks.TimeSpent.Seconds(),
@@ -154,7 +164,7 @@ func (m *ReplicaAsksMetrics) ReplicaAsksPerformed(
 }
 
 func (m *ReplicaAsksMetrics) countWordPartition(
-	wordPartition replicaasks.PerformedWordPartition,
+	wordPartition wordpartitionasks.PerformedWordPartition,
 ) {
 	m.wordPartitionsPerSettledBy[wordPartition.SettledBy][wordPartition.CoveringAskPutOn].Inc()
 	m.wordPartitionDocumentsListed.Observe(float64(wordPartition.AmountOfDocumentsListed))

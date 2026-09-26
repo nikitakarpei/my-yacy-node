@@ -1,4 +1,4 @@
-# Replica asks
+# Word partition asks
 
 ## Why this package exists
 
