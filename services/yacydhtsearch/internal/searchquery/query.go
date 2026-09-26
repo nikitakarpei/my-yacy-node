@@ -17,8 +17,11 @@ type Query struct {
 }
 
 func (q Query) String() string {
-	spelled := make([]string, 0, len(q.Words)+len(q.Exclusions)+1)
+	spelled := make([]string, 0, len(q.Words)+len(q.CompoundWords)+len(q.Exclusions)+1)
 	spelled = append(spelled, q.Words...)
+	for _, compound := range q.CompoundWords {
+		spelled = append(spelled, strings.Join(compound.Parts, "+"))
+	}
 	for _, exclusion := range q.Exclusions {
 		spelled = append(spelled, "-"+exclusion)
 	}

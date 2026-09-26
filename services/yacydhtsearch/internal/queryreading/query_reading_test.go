@@ -92,3 +92,25 @@ func TestQueryFromKeepsAStopwordAmongTheExclusions(t *testing.T) {
 		t.Fatalf("Exclusions = %v, want the", query.Exclusions)
 	}
 }
+
+func TestAQueryThatAsksForACompoundWordIsSpelledApartFromOneThatDoesNot(t *testing.T) {
+	t.Parallel()
+
+	joined := queryreading.QueryFrom("state art", "en")
+	broken := queryreading.QueryFrom("state of the art", "en")
+
+	if joined.String() == broken.String() {
+		t.Fatalf("both queries are spelled %q, want different spellings", joined.String())
+	}
+}
+
+func TestQueriesThatDifferOnlyInTheirStopwordsAreSpelledAlike(t *testing.T) {
+	t.Parallel()
+
+	shorter := queryreading.QueryFrom("reset router", "en")
+	longer := queryreading.QueryFrom("how do i reset router", "en")
+
+	if shorter.String() != longer.String() {
+		t.Fatalf("spellings %q and %q, want one spelling", shorter.String(), longer.String())
+	}
+}

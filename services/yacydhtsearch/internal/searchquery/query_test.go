@@ -22,6 +22,21 @@ func TestTheSpellingOfAQuerySpellsItsWordsExclusionsAndLanguage(t *testing.T) {
 	}
 }
 
+func TestTheSpellingOfAQuerySpellsEachCompoundWordByItsParts(t *testing.T) {
+	t.Parallel()
+
+	query := searchquery.Query{
+		Words: []string{"state", "art"},
+		CompoundWords: []searchquery.CompoundWord{
+			{Word: "stateart", Parts: []string{"state", "art"}},
+		},
+	}
+
+	if query.String() != "state art state+art" {
+		t.Fatalf("String = %q, want state art state+art", query.String())
+	}
+}
+
 func TestWordHashesAddressTheWordsOnTheRing(t *testing.T) {
 	t.Parallel()
 
