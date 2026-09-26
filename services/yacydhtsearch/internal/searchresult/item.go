@@ -1,6 +1,5 @@
 // Package searchresult holds what the client reads of one search: one item per
-// document, the ranking of those items, and the pages cut from the ranking;
-// and the outcome that tells whether the peers were asked for the ranking.
+// document, the ranking of those items, and the pages cut from the ranking.
 package searchresult
 
 import (

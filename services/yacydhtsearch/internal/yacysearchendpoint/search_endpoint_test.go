@@ -26,10 +26,10 @@ type recordedRankings struct {
 func (r *recordedRankings) Search(
 	_ context.Context,
 	query searchquery.Query,
-) (searchresult.Ranking, searchresult.Outcome) {
+) (searchresult.Ranking, bool) {
 	r.query = query
 
-	return r.ranking, searchresult.PeersAsked
+	return r.ranking, true
 }
 
 type searchPage struct {

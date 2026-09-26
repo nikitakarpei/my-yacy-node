@@ -28,7 +28,7 @@ type Network interface {
 	Search(
 		ctx context.Context,
 		query searchquery.Query,
-	) (searchresult.Ranking, searchresult.Outcome)
+	) (searchresult.Ranking, bool)
 }
 
 type SearchEndpoint struct {

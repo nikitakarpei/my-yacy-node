@@ -6,9 +6,14 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-const msgNetworkSearchPerformed = "network search performed"
+const (
+	msgNetworkSearchPerformed  = "network search performed"
+	msgQueryHoldsNoIndexedWord = "query holds no word long enough to be indexed"
+	msgQueryReachedNoPeer      = "query reached no peer, because the directory held none to ask"
+)
 
 type NetworkSearchLog struct{}
 
@@ -24,4 +29,12 @@ func (NetworkSearchLog) NetworkSearchPerformed(
 		slog.Int("amountOfItemsInRanking", search.AmountOfItemsInRanking),
 		slog.Duration("timeSpent", search.TimeSpent),
 	)
+}
+
+func (NetworkSearchLog) QueryHoldsNoIndexedWord(ctx context.Context, query searchquery.Query) {
+	slog.DebugContext(ctx, msgQueryHoldsNoIndexedWord, slog.String("query", query.String()))
+}
+
+func (NetworkSearchLog) QueryReachedNoPeer(ctx context.Context, query searchquery.Query) {
+	slog.WarnContext(ctx, msgQueryReachedNoPeer, slog.String("query", query.String()))
 }

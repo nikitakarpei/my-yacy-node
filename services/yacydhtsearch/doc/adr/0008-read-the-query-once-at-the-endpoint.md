@@ -24,7 +24,9 @@ not have to know that.
 ## Decision
 
 A search passes through three stages in one process, each wrapping the next behind the same
-interface: give it a query, get back a ranking and the outcome of the search.
+interface: give it a query, get back a ranking and whether a ranking was made. Each stage
+reports only what it sees itself: the cache whether it answered, the network search why it
+made no ranking.
 
 The endpoint is the only stage that sees what the client typed. It drops the stopwords, finds
 the compound words, and hands on a canonical query. It also cuts the requested page out of the
@@ -40,8 +42,8 @@ three-word ones. The guessed language only picks the stopword list and goes no f
 No two different queries share the spelling of a canonical query.
 
 The ranking cache wraps the network search. It uses the canonical query's spelling as an
-opaque key and never looks inside it. It only keeps a ranking when peers were actually asked,
-and it stores rankings in memory or in NATS, as ADR 3 and ADR 4 describe.
+opaque key and never looks inside it. It only keeps a ranking the network search made, and it
+stores rankings in memory or in NATS, as ADR 3 and ADR 4 describe.
 
 The network search reads the canonical query without needing stopwords or the rule that finds
 compounds. It still needs each compound and its parts: it asks the peers for the compound, and

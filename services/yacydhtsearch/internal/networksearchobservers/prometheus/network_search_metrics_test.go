@@ -12,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
 const queryBudget = 5 * time.Second
@@ -71,6 +72,30 @@ func TestAQueryOverTheBudgetIsCountedApartFromOneInsideIt(t *testing.T) {
 	for _, published := range []string{
 		`yacydhtsearch_network_search_duration_seconds_bucket{le="5"} 1`,
 		`yacydhtsearch_network_search_duration_seconds_bucket{le="6.25"} 2`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
+
+func TestEveryOutcomeOfANetworkSearchIsPublishedApart(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := networksearchobserversprometheus.New(registry, queryBudget)
+	query := searchquery.Query{Words: []string{"berlin"}}
+
+	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{})
+	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{})
+	metrics.QueryHoldsNoIndexedWord(t.Context(), query)
+	metrics.QueryReachedNoPeer(t.Context(), query)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_network_searches_total{outcome="peers asked"} 2`,
+		`yacydhtsearch_network_searches_total{outcome="no indexed word"} 1`,
+		`yacydhtsearch_network_searches_total{outcome="no peer to ask"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

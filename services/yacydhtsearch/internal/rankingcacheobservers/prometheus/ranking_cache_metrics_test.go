@@ -25,48 +25,21 @@ func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
 	return recorder.Body.String()
 }
 
-func TestEveryOutcomeOfASearchIsPublishedApart(t *testing.T) {
+func TestHitsAndMissesArePublishedApart(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := rankingcacheobserversprometheus.New(registry)
 	query := searchquery.Query{Words: []string{"berlin"}}
 
-	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
-	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
-	metrics.QueryAnsweredByPeers(t.Context(), query, 12)
-	metrics.QueryHoldsNoIndexedTerm(t.Context(), query)
-	metrics.QueryReachedNoPeer(t.Context(), query)
+	metrics.QueryAnsweredFromCache(t.Context(), query)
+	metrics.QueryAnsweredFromCache(t.Context(), query)
+	metrics.QueryMissedCache(t.Context(), query)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_searches_total{outcome="answered from cache"} 2`,
-		`yacydhtsearch_searches_total{outcome="answered by peers"} 1`,
-		`yacydhtsearch_searches_total{outcome="no indexed term"} 1`,
-		`yacydhtsearch_searches_total{outcome="no peer reached"} 1`,
-	} {
-		if !strings.Contains(body, published) {
-			t.Fatalf("metrics do not carry %q:\n%s", published, body)
-		}
-	}
-}
-
-func TestASearchThatCameBackWithNoItemIsCountedApartFromOneThatHeldItems(t *testing.T) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := rankingcacheobserversprometheus.New(registry)
-	query := searchquery.Query{Words: []string{"berlin"}}
-
-	metrics.QueryAnsweredByPeers(t.Context(), query, 0)
-	metrics.QueryAnsweredFromCache(t.Context(), query, 0)
-
-	body := publishedBy(t, registry)
-	for _, published := range []string{
-		`yacydhtsearch_searches_total{outcome="no item from peers"} 1`,
-		`yacydhtsearch_searches_total{outcome="no item from cache"} 1`,
-		`yacydhtsearch_searches_total{outcome="answered by peers"} 0`,
-		`yacydhtsearch_searches_total{outcome="answered from cache"} 0`,
+		`yacydhtsearch_ranking_cache_lookups_total{result="hit"} 2`,
+		`yacydhtsearch_ranking_cache_lookups_total{result="miss"} 1`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

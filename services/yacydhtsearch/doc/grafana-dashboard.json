@@ -313,7 +313,7 @@
     },
     {
       "id": 6,
-      "title": "Searches, by outcome",
+      "title": "Network searches, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -349,11 +349,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_network_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_network_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],
-      "description": "Every search reaches exactly one outcome."
+      "description": "Every network search reaches exactly one outcome."
     },
     {
       "id": 7,
@@ -399,8 +399,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacydhtsearch_searches_total{outcome=~\"answered from cache|no item from cache\",instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{outcome=~\"answered from cache|no item from cache\",instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "answered from cache"
+          "expr": "sum(clamp_min(yacydhtsearch_ranking_cache_lookups_total{result=\"hit\",instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_lookups_total{result=\"hit\",instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_ranking_cache_lookups_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_lookups_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "hit"
         }
       ]
     },

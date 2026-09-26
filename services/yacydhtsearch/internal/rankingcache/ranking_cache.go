@@ -13,7 +13,7 @@ type Network interface {
 	Search(
 		ctx context.Context,
 		query searchquery.Query,
-	) (searchresult.Ranking, searchresult.Outcome)
+	) (searchresult.Ranking, bool)
 }
 
 type CachedRankings interface {
@@ -29,10 +29,8 @@ type CachedRankings interface {
 }
 
 type RankingCacheObserver interface {
-	QueryAnsweredFromCache(ctx context.Context, query searchquery.Query, amountOfItems int)
-	QueryAnsweredByPeers(ctx context.Context, query searchquery.Query, amountOfItems int)
-	QueryHoldsNoIndexedTerm(ctx context.Context, query searchquery.Query)
-	QueryReachedNoPeer(ctx context.Context, query searchquery.Query)
+	QueryAnsweredFromCache(ctx context.Context, query searchquery.Query)
+	QueryMissedCache(ctx context.Context, query searchquery.Query)
 }
 
 type RankingCache struct {
@@ -52,23 +50,18 @@ func New(
 func (cache RankingCache) Search(
 	ctx context.Context,
 	query searchquery.Query,
-) (searchresult.Ranking, searchresult.Outcome) {
+) (searchresult.Ranking, bool) {
 	if cachedRanking, cached := cache.cachedRankings.RankingFor(ctx, query); cached {
-		cache.observer.QueryAnsweredFromCache(ctx, query, len(cachedRanking.Items))
+		cache.observer.QueryAnsweredFromCache(ctx, query)
 
-		return cachedRanking, searchresult.PeersAsked
+		return cachedRanking, true
 	}
+	cache.observer.QueryMissedCache(ctx, query)
 
-	ranking, outcome := cache.network.Search(ctx, query)
-	switch outcome {
-	case searchresult.NoIndexedWordInQuery:
-		cache.observer.QueryHoldsNoIndexedTerm(ctx, query)
-	case searchresult.NoPeerToAsk:
-		cache.observer.QueryReachedNoPeer(ctx, query)
-	case searchresult.PeersAsked:
+	ranking, ranked := cache.network.Search(ctx, query)
+	if ranked {
 		cache.cachedRankings.Store(ctx, query, ranking)
-		cache.observer.QueryAnsweredByPeers(ctx, query, len(ranking.Items))
 	}
 
-	return ranking, outcome
+	return ranking, ranked
 }
