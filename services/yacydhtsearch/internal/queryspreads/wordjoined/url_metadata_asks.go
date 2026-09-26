@@ -6,17 +6,18 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func urlMetadataAsksFor(
 	ctx context.Context,
 	documentsWithoutMetadataMostHeldFirst []yacymodel.URLHash,
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	answers []wordpartitionasks.ReplicaAnswer,
 	askCeilings URLMetadataAskCeilings,
 	amountOfPeersHoldingOneWord int,
 ) []peerasks.URLMetadataAsk {
-	peers := peersWithTheirAbstractsFrom(answeredAsks)
+	peers := peersWithTheirAbstractsFrom(answers)
 	asksOfEachPeer := peers.urlMetadataAsks(
 		ctx,
 		documentsWithoutMetadataMostHeldFirst,
@@ -29,22 +30,22 @@ func urlMetadataAsksFor(
 type peersWithTheirAbstracts []peerWithItsAbstracts
 
 func peersWithTheirAbstractsFrom(
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	answers []wordpartitionasks.ReplicaAnswer,
 ) peersWithTheirAbstracts {
-	peers := make(peersWithTheirAbstracts, 0, len(answeredAsks))
+	peers := make(peersWithTheirAbstracts, 0, len(answers))
 	placeOfPeer := map[yacymodel.Hash]int{}
-	for _, answeredAsk := range answeredAsks {
-		place, placed := placeOfPeer[answeredAsk.Ask.Peer.Hash]
+	for _, answer := range answers {
+		place, placed := placeOfPeer[answer.Replica.Hash]
 		if !placed {
 			place = len(peers)
-			placeOfPeer[answeredAsk.Ask.Peer.Hash] = place
+			placeOfPeer[answer.Replica.Hash] = place
 			peers = append(peers, peerWithItsAbstracts{
-				askablePeer:             answeredAsk.Ask.Peer,
+				askablePeer:             answer.Replica,
 				documentsInItsAbstracts: distinctDocuments{},
 			})
 		}
-		for _, document := range answeredAsk.Abstract {
-			peers[place].documentsInItsAbstracts.add(document)
+		for _, listedDocument := range answer.ListedDocuments {
+			peers[place].documentsInItsAbstracts.add(listedDocument.Hash)
 		}
 	}
 

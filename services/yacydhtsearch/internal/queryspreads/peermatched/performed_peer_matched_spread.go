@@ -1,9 +1,10 @@
 package peermatched
 
 import (
+	"slices"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,24 +16,30 @@ type PerformedPeerMatchedSpread struct {
 
 func performedPeerMatchedSpreadFrom(
 	queryWords []yacymodel.Hash,
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	settledAsks []wordpartitionasks.SettledAsk,
 	timeSpent time.Duration,
 ) PerformedPeerMatchedSpread {
 	return PerformedPeerMatchedSpread{
 		AmountOfQueryWords:              len(queryWords),
-		AmountOfPeersThatMatchedNothing: amountOfPeersThatMatchedNothing(answeredAsks),
+		AmountOfPeersThatMatchedNothing: amountOfPeersThatMatchedNothing(settledAsks),
 		TimeSpent:                       timeSpent,
 	}
 }
 
-func amountOfPeersThatMatchedNothing(answeredAsks []peerasks.AnsweredSearchDocumentsAsk) int {
+func amountOfPeersThatMatchedNothing(settledAsks []wordpartitionasks.SettledAsk) int {
 	var peersThatMatchedNothing int
-	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.MatchedDocuments) != 0 {
-			continue
+	for _, settledAsk := range settledAsks {
+		for _, answer := range settledAsk.Answers {
+			if slices.ContainsFunc(answer.ListedDocuments, isMatched) {
+				continue
+			}
+			peersThatMatchedNothing++
 		}
-		peersThatMatchedNothing++
 	}
 
 	return peersThatMatchedNothing
+}
+
+func isMatched(listedDocument wordpartitionasks.ListedDocument) bool {
+	return listedDocument.Metadata.Present()
 }

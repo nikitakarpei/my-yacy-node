@@ -42,13 +42,12 @@ type Spread struct {
 	partitionToSample           func(amountOfPartitions uint) uint
 	urlMetadataAskCeilings      URLMetadataAskCeilings
 	documentsToMatchCeiling     int
-	peerItemsCeiling            int
 	partitions                  yacymodel.DHTRingPartitions
 	amountOfPeersHoldingOneWord int
 	observer                    WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, ask ceilings, ceilings, ring and observer
+//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, ask ceilings, documents to match ceiling, ring and observer
 func New(
 	replicaAsks ReplicaAsks,
 	peerAsks PeerAsks,
@@ -57,7 +56,6 @@ func New(
 	partitionToSample func(amountOfPartitions uint) uint,
 	urlMetadataAskCeilings URLMetadataAskCeilings,
 	documentsToMatchCeiling int,
-	peerItemsCeiling int,
 	partitions yacymodel.DHTRingPartitions,
 	amountOfPeersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
@@ -70,7 +68,6 @@ func New(
 		partitionToSample:           partitionToSample,
 		urlMetadataAskCeilings:      urlMetadataAskCeilings,
 		documentsToMatchCeiling:     documentsToMatchCeiling,
-		peerItemsCeiling:            peerItemsCeiling,
 		partitions:                  partitions,
 		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
 		observer:                    observer,
@@ -119,7 +116,7 @@ func (spread Spread) askToDiscover(
 
 	return discoveryOver(
 		startAskRun(roundContext, spread.replicaAsks),
-		discoveryAsksFor(query, chosenPeersPerQueryWord, spread.peerItemsCeiling),
+		discoveryAsksFor(query, chosenPeersPerQueryWord),
 		query,
 		rememberedDocumentAmounts,
 		spread.partitions,
@@ -147,12 +144,12 @@ func (spread Spread) askForURLMetadata(
 	joinedDocuments distinctDocuments,
 ) urlMetadataLookupRound {
 	documentsWithoutMetadata := documentsWithoutMetadataAmong(
-		joinedDocuments, discoveryRound.answeredAsks,
+		joinedDocuments, discoveryRound.settledAsks.answers(),
 	)
 	asks := urlMetadataAsksFor(
 		ctx,
 		discoveryRound.holdersPerDocument.mostHeldFirst(documentsWithoutMetadata),
-		discoveryRound.answeredAsks,
+		discoveryRound.settledAsks.answers(),
 		spread.urlMetadataAskCeilings,
 		spread.amountOfPeersHoldingOneWord,
 	)

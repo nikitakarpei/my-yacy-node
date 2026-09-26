@@ -99,6 +99,8 @@ components:
     in: internal/hedgedelays/constant/**
   wordpartitionasks:
     in: internal/wordpartitionasks/**
+  replicacallsyacysearch:
+    in: internal/replicacalls/yacysearch/**
   wordpartitionasksobserversapplog:
     in: internal/wordpartitionasksobservers/applog/**
   wordpartitionasksobserversprometheus:
@@ -311,7 +313,6 @@ deps:
       - queryanswers
       - peerchoice
       - peerdirectory
-      - peerasks
       - searchquery
       - wordpartitionasks
   wordjoined:
@@ -385,8 +386,12 @@ deps:
   wordpartitionasks:
     canUse:
       - yacymodel
+  replicacallsyacysearch:
+    canUse:
+      - yacymodel
     mayDependOn:
       - peerasks
+      - wordpartitionasks
   wordpartitionasksobserversapplog:
     mayDependOn:
       - wordpartitionasks

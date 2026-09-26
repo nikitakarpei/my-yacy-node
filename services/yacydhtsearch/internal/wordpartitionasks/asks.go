@@ -1,24 +1,20 @@
 // Package wordpartitionasks runs the asks of one query as one run. The consumer
 // sends asks to the run at any time and closes the asks when it has no more.
-// The run puts the asks of each word partition to its replicas in turn,
-// settles the partition as soon as enough replicas have searched for the word
-// or listed documents for it, and sends each settled word partition with the
-// outcome of each of its asks. The consumer reads the settled word partitions until they close.
+// The run puts the ask of each word partition to its replicas in turn,
+// settles the ask as soon as enough replicas have searched for the word
+// or listed documents for it, and sends each settled ask with the answers of
+// its replicas. The consumer reads the settled asks until they close.
 package wordpartitionasks
 
 import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 )
 
-type PeerCalls interface {
-	AskForSearchDocuments(
-		ctx context.Context,
-		asks []peerasks.SearchDocumentsAsk,
-	) []peerasks.AnsweredSearchDocumentsAsk
+type ReplicaCalls interface {
+	Put(ctx context.Context, ask Ask, replica peerdirectory.AskablePeer) (ReplicaAnswer, bool)
 }
 
 type HedgeDelay interface {
@@ -26,7 +22,7 @@ type HedgeDelay interface {
 }
 
 type Asks struct {
-	peerCalls                          PeerCalls
+	replicaCalls                       ReplicaCalls
 	hedgeDelay                         HedgeDelay
 	clock                              Clock
 	amountOfReplicasCoveringAPartition int
@@ -34,14 +30,14 @@ type Asks struct {
 }
 
 func New(
-	peerCalls PeerCalls,
+	replicaCalls ReplicaCalls,
 	hedgeDelay HedgeDelay,
 	clock Clock,
 	amountOfReplicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
 ) Asks {
 	return Asks{
-		peerCalls:                          peerCalls,
+		replicaCalls:                       replicaCalls,
 		hedgeDelay:                         hedgeDelay,
 		clock:                              clock,
 		amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
@@ -50,16 +46,16 @@ func New(
 }
 
 type Run struct {
-	Asks                  chan<- []peerasks.SearchDocumentsAsk
-	SettledWordPartitions <-chan SettledWordPartition
+	Asks        chan<- []Ask
+	SettledAsks <-chan SettledAsk
 }
 
 func (replicaAsks Asks) Start(ctx context.Context) Run {
-	asks := make(chan []peerasks.SearchDocumentsAsk)
-	settledWordPartitions := make(chan SettledWordPartition)
-	go openRunOf(replicaAsks, asks, settledWordPartitions).askUntilOver(ctx)
+	asks := make(chan []Ask)
+	settledAsks := make(chan SettledAsk)
+	go openRunOf(replicaAsks, asks, settledAsks).askUntilOver(ctx)
 
-	return Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+	return Run{Asks: asks, SettledAsks: settledAsks}
 }
 
 func (replicaAsks Asks) startTheHedgeTimer(
@@ -72,17 +68,10 @@ func (replicaAsks Asks) startTheHedgeTimer(
 
 func (replicaAsks Asks) askTheReplica(
 	ctx context.Context,
-	ask peerasks.SearchDocumentsAsk,
-) (peerasks.AnsweredSearchDocumentsAsk, bool) {
-	answeredAsks := replicaAsks.peerCalls.AskForSearchDocuments(
-		ctx,
-		[]peerasks.SearchDocumentsAsk{ask},
-	)
-	if len(answeredAsks) == 0 {
-		return peerasks.AnsweredSearchDocumentsAsk{}, false
-	}
-
-	return answeredAsks[0], true
+	ask Ask,
+	replica peerdirectory.AskablePeer,
+) (ReplicaAnswer, bool) {
+	return replicaAsks.replicaCalls.Put(ctx, ask, replica)
 }
 
 func (replicaAsks Asks) reportPerformed(ctx context.Context, performed PerformedReplicaAsks) {

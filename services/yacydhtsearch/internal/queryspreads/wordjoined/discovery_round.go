@@ -3,13 +3,12 @@ package wordjoined
 import (
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type discoveryRound struct {
 	queryWords                     []yacymodel.Hash
-	answeredAsks                   []peerasks.AnsweredSearchDocumentsAsk
+	settledAsks                    settledAsks
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	holdersPerDocument             holdersPerDocument

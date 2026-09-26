@@ -3,21 +3,16 @@ package wordpartitionasks
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-type placedAsk struct {
-	ask                 peerasks.SearchDocumentsAsk
-	placeInReplicaOrder int
-}
 
 type wordPartition struct {
 	replicaAsks              Asks
 	chosenPeers              *chosenPeers
-	asksInReplicaOrder       []placedAsk
-	asksLeft                 []placedAsk
-	firstAsks                []placedAsk
+	ask                      Ask
+	replicasLeft             []peerdirectory.AskablePeer
+	firstReplicas            []peerdirectory.AskablePeer
 	calls                    []*replicaCall
 	hedgesDue                chan *replicaCall
 	callOutcomes             chan replicaCallOutcome
@@ -28,67 +23,63 @@ type wordPartition struct {
 }
 
 type replicaCall struct {
-	placedAsk      placedAsk
+	replica        peerdirectory.AskablePeer
 	putOn          PutOn
 	ended          bool
 	stopHedgeTimer func()
-	answer         yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
+	answer         yacymodel.Optional[ReplicaAnswer]
 }
 
 type replicaCallOutcome struct {
 	call               *replicaCall
 	answered           bool
 	coversThePartition bool
-	answer             peerasks.AnsweredSearchDocumentsAsk
+	answer             ReplicaAnswer
 }
 
-func wordPartitionOf(
-	asksInReplicaOrder []placedAsk,
-	replicaAsks Asks,
-	chosenPeers *chosenPeers,
-) *wordPartition {
+func wordPartitionOf(ask Ask, replicaAsks Asks, chosenPeers *chosenPeers) *wordPartition {
 	return &wordPartition{
-		replicaAsks:        replicaAsks,
-		chosenPeers:        chosenPeers,
-		asksInReplicaOrder: asksInReplicaOrder,
-		asksLeft:           asksInReplicaOrder,
-		hedgesDue:          make(chan *replicaCall, len(asksInReplicaOrder)),
-		callOutcomes:       make(chan replicaCallOutcome, len(asksInReplicaOrder)),
+		replicaAsks:  replicaAsks,
+		chosenPeers:  chosenPeers,
+		ask:          ask,
+		replicasLeft: ask.ReplicasInOrder,
+		hedgesDue:    make(chan *replicaCall, len(ask.ReplicasInOrder)),
+		callOutcomes: make(chan replicaCallOutcome, len(ask.ReplicasInOrder)),
 	}
 }
 
-func (partition *wordPartition) chooseTheFirstAsks() {
+func (partition *wordPartition) chooseTheFirstReplicas() {
 	for range partition.replicaAsks.amountOfReplicasCoveringAPartition {
-		placedAsk, chosen := partition.chooseTheNextAsk()
+		replica, chosen := partition.chooseTheNextReplica()
 		if !chosen {
 			return
 		}
-		partition.firstAsks = append(partition.firstAsks, placedAsk)
+		partition.firstReplicas = append(partition.firstReplicas, replica)
 	}
 }
 
-func (partition *wordPartition) chooseTheNextAsk() (placedAsk, bool) {
-	for !partition.noAskIsLeft() {
-		placedAsk := partition.asksLeft[0]
-		partition.asksLeft = partition.asksLeft[1:]
-		if partition.chosenPeers.choose(placedAsk.ask.Peer.Hash) {
-			return placedAsk, true
+func (partition *wordPartition) chooseTheNextReplica() (peerdirectory.AskablePeer, bool) {
+	for !partition.noReplicaIsLeft() {
+		replica := partition.replicasLeft[0]
+		partition.replicasLeft = partition.replicasLeft[1:]
+		if partition.chosenPeers.choose(replica.Hash) {
+			return replica, true
 		}
 	}
 
-	return placedAsk{}, false
+	return peerdirectory.AskablePeer{}, false
 }
 
-func (partition *wordPartition) noAskIsLeft() bool {
-	return len(partition.asksLeft) == 0
+func (partition *wordPartition) noReplicaIsLeft() bool {
+	return len(partition.replicasLeft) == 0
 }
 
 func (partition *wordPartition) askUntilSettled(ctx context.Context) {
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
-	for _, placedAsk := range partition.firstAsks {
-		partition.putTheAsk(askingContext, placedAsk, PutOnStart)
+	for _, replica := range partition.firstReplicas {
+		partition.putTheAsk(askingContext, replica, PutOnStart)
 	}
 	partition.settleWhenNothingIsLeftToAsk()
 	for !partition.isSettled() {
@@ -99,30 +90,26 @@ func (partition *wordPartition) askUntilSettled(ctx context.Context) {
 
 func (partition *wordPartition) putTheAsk(
 	ctx context.Context,
-	placedAsk placedAsk,
+	replica peerdirectory.AskablePeer,
 	putOn PutOn,
 ) {
 	call := &replicaCall{
-		placedAsk: placedAsk,
-		putOn:     putOn,
-		answer:    yacymodel.None[peerasks.AnsweredSearchDocumentsAsk](),
+		replica: replica,
+		putOn:   putOn,
+		answer:  yacymodel.None[ReplicaAnswer](),
 	}
 	call.stopHedgeTimer = partition.replicaAsks.startTheHedgeTimer(
 		ctx,
-		placedAsk.ask.Peer,
+		replica,
 		func() { partition.hedgesDue <- call },
 	)
 	partition.calls = append(partition.calls, call)
 	partition.amountOfCallsOutstanding++
-	go partition.callTheReplica(ctx, call, placedAsk.ask)
+	go partition.callTheReplica(ctx, call)
 }
 
-func (partition *wordPartition) callTheReplica(
-	ctx context.Context,
-	call *replicaCall,
-	ask peerasks.SearchDocumentsAsk,
-) {
-	answer, answered := partition.replicaAsks.askTheReplica(ctx, ask)
+func (partition *wordPartition) callTheReplica(ctx context.Context, call *replicaCall) {
+	answer, answered := partition.replicaAsks.askTheReplica(ctx, partition.ask, call.replica)
 	if !answered {
 		partition.callOutcomes <- replicaCallOutcome{call: call}
 
@@ -136,18 +123,15 @@ func (partition *wordPartition) callTheReplica(
 	}
 }
 
-func coversThePartition(answeredAsk peerasks.AnsweredSearchDocumentsAsk) bool {
-	return amountOfDocumentsListedIn(answeredAsk) > 0 || answeredAsk.PeerSearched
+func coversThePartition(answer ReplicaAnswer) bool {
+	return amountOfDocumentsListedIn(answer) > 0 || answer.Searched
 }
 
-func amountOfDocumentsListedIn(answeredAsk peerasks.AnsweredSearchDocumentsAsk) int {
-	if len(answeredAsk.Abstract) > 0 {
-		return len(answeredAsk.Abstract)
+func amountOfDocumentsListedIn(answer ReplicaAnswer) int {
+	if len(answer.ListedDocuments) > 0 {
+		return len(answer.ListedDocuments)
 	}
-	if len(answeredAsk.MatchedDocuments) > 0 {
-		return len(answeredAsk.MatchedDocuments)
-	}
-	amountHeld, counted := answeredAsk.AmountOfDocumentsHeldForTheWord.Get()
+	amountHeld, counted := answer.AmountOfDocumentsHeld.Get()
 	if !counted {
 		return 0
 	}
@@ -157,7 +141,7 @@ func amountOfDocumentsListedIn(answeredAsk peerasks.AnsweredSearchDocumentsAsk) 
 
 func (partition *wordPartition) settleWhenNothingIsLeftToAsk() {
 	if !partition.isSettled() && partition.amountOfCallsOutstanding == 0 &&
-		partition.noAskIsLeft() {
+		partition.noReplicaIsLeft() {
 		partition.settledBy = SettledByNoReplicaLeft
 	}
 }
@@ -190,11 +174,11 @@ func (partition *wordPartition) takeTheHedgeDue(ctx context.Context, call *repli
 }
 
 func (partition *wordPartition) askTheNextReplica(ctx context.Context, putOn PutOn) {
-	placedAsk, chosen := partition.chooseTheNextAsk()
+	replica, chosen := partition.chooseTheNextReplica()
 	if !chosen {
 		return
 	}
-	partition.putTheAsk(ctx, placedAsk, putOn)
+	partition.putTheAsk(ctx, replica, putOn)
 }
 
 func (partition *wordPartition) takeTheCallOutcome(
@@ -249,22 +233,17 @@ func (partition *wordPartition) stopTheHedgeTimers() {
 	}
 }
 
-func (partition *wordPartition) settledWordPartition() SettledWordPartition {
-	callOfEachPlace := make(map[int]*replicaCall, len(partition.calls))
+func (partition *wordPartition) settledAsk() SettledAsk {
+	answers := make([]ReplicaAnswer, 0, len(partition.calls))
 	for _, call := range partition.calls {
-		callOfEachPlace[call.placedAsk.placeInReplicaOrder] = call
-	}
-	askOutcomes := make(peerasks.SearchDocumentsAskOutcomes, 0, len(partition.asksInReplicaOrder))
-	for _, placedAsk := range partition.asksInReplicaOrder {
-		askOutcome := peerasks.SearchDocumentsAskOutcome{Ask: placedAsk.ask}
-		if call, put := callOfEachPlace[placedAsk.placeInReplicaOrder]; put {
-			askOutcome.Put = true
-			askOutcome.Answer = call.answer
+		answer, answered := call.answer.Get()
+		if !answered {
+			continue
 		}
-		askOutcomes = append(askOutcomes, askOutcome)
+		answers = append(answers, answer)
 	}
 
-	return SettledWordPartition{AskOutcomes: askOutcomes}
+	return SettledAsk{Ask: partition.ask, Answers: answers}
 }
 
 func (partition *wordPartition) performedWordPartition() PerformedWordPartition {

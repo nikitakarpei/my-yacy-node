@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -30,12 +31,15 @@ const (
 
 func documentsWithoutMetadataAmong(
 	joinedDocuments distinctDocuments,
-	answeredAsks []peerasks.AnsweredSearchDocumentsAsk,
+	answers []wordpartitionasks.ReplicaAnswer,
 ) distinctDocuments {
 	documentsWithoutMetadata := maps.Clone(joinedDocuments)
-	for _, answeredAsk := range answeredAsks {
-		for _, matchedDocument := range answeredAsk.MatchedDocuments {
-			delete(documentsWithoutMetadata, matchedDocument.Metadata.Hash)
+	for _, answer := range answers {
+		for _, listedDocument := range answer.ListedDocuments {
+			if !listedDocument.Metadata.Present() {
+				continue
+			}
+			delete(documentsWithoutMetadata, listedDocument.Hash)
 		}
 	}
 

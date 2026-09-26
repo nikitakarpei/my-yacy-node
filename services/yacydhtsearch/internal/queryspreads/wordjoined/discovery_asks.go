@@ -3,30 +3,27 @@ package wordjoined
 import (
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type discoveryAsks []peerasks.SearchDocumentsAsk
+type discoveryAsks []wordpartitionasks.Ask
 
 func discoveryAsksFor(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	itemsCeiling int,
 ) discoveryAsks {
 	var asks discoveryAsks
 	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
-		for _, chosenPeer := range chosenPeersOfQueryWord.ChosenPeers {
-			asks = append(asks, peerasks.SearchDocumentsAsk{
-				Peer:                    chosenPeer.Peer,
-				Partition:               chosenPeer.Partition,
-				Word:                    chosenPeersOfQueryWord.QueryWord,
-				ExcludedWords:           query.ExclusionHashes(),
-				Language:                query.Language,
-				Abstract:                true,
-				MatchedDocumentsCeiling: yacymodel.Some(itemsCeiling),
+		for _, chosenPeersOfPartition := range chosenPeersOfQueryWord.ChosenPeersPerPartition() {
+			asks = append(asks, wordpartitionasks.Ask{
+				Word:            chosenPeersOfQueryWord.QueryWord,
+				Partition:       chosenPeersOfPartition.Partition,
+				ReplicasInOrder: chosenPeersOfPartition.Peers,
+				ExcludedWords:   query.ExclusionHashes(),
+				Language:        query.Language,
 			})
 		}
 	}

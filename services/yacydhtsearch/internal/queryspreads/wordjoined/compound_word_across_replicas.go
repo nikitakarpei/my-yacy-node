@@ -3,8 +3,8 @@ package wordjoined
 import (
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,15 +15,15 @@ type compoundWordAcrossReplicas struct {
 
 func compoundWordsAcrossReplicasFrom(
 	compoundWords []searchquery.CompoundWord,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	settledAsks settledAsks,
 	partitions yacymodel.DHTRingPartitions,
 ) []compoundWordAcrossReplicas {
 	var compoundWordsAcrossReplicas []compoundWordAcrossReplicas
 	for _, compoundWord := range compoundWords {
 		if !slices.ContainsFunc(
-			askOutcomes,
-			func(askOutcome peerasks.SearchDocumentsAskOutcome) bool {
-				return askOutcome.Ask.Word == compoundWord.Hash
+			settledAsks,
+			func(settledAsk wordpartitionasks.SettledAsk) bool {
+				return settledAsk.Word == compoundWord.Hash
 			},
 		) {
 			continue
@@ -34,7 +34,7 @@ func compoundWordsAcrossReplicasFrom(
 				CompoundWord: compoundWord,
 				queryWordAcrossReplicas: queryWordAcrossReplicasFrom(
 					compoundWord.Hash,
-					askOutcomes,
+					settledAsks,
 					partitions,
 				),
 			},

@@ -27,7 +27,6 @@ const (
 	urlMetadataAskDocumentsCeiling  = 10
 	documentsOneURLMetadataAskNames = 1
 	documentsToMatchCeiling         = 10
-	peerItemsCeiling                = 10
 	peersHoldingOneWord             = 24
 	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
@@ -44,7 +43,7 @@ type peerNetwork struct {
 	documentsPerAnswerOfEachPeer          map[string]int
 	peersCountingNoDocument               map[string]struct{}
 	peersThatSearched                     map[string]struct{}
-	searchDocumentsAsks                   []peerasks.SearchDocumentsAsk
+	searchDocumentsAsks                   []replicaAsk
 	settledWordPartitionsReadAtEachAsk    []int
 	urlMetadataAsks                       []peerasks.URLMetadataAsk
 	silentPeers                           map[string]struct{}
@@ -77,26 +76,26 @@ func replicasOf(network *peerNetwork) replicasOfTheNetwork {
 }
 
 func (replicas replicasOfTheNetwork) Start(ctx context.Context) wordpartitionasks.Run {
-	asks := make(chan []peerasks.SearchDocumentsAsk)
-	settledWordPartitions := make(chan wordpartitionasks.SettledWordPartition)
-	go replicas.answerEachWordPartition(ctx, asks, settledWordPartitions)
+	asks := make(chan []wordpartitionasks.Ask)
+	settledAsks := make(chan wordpartitionasks.SettledAsk)
+	go replicas.answerEachWordPartition(ctx, asks, settledAsks)
 
-	return wordpartitionasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+	return wordpartitionasks.Run{Asks: asks, SettledAsks: settledAsks}
 }
 
 func (replicas replicasOfTheNetwork) answerEachWordPartition(
 	ctx context.Context,
-	asks <-chan []peerasks.SearchDocumentsAsk,
-	settledWordPartitions chan<- wordpartitionasks.SettledWordPartition,
+	asks <-chan []wordpartitionasks.Ask,
+	settledAsks chan<- wordpartitionasks.SettledAsk,
 ) {
-	defer close(settledWordPartitions)
+	defer close(settledAsks)
 	run := &runOfTheNetwork{wordPartitionsInTheRun: map[string]struct{}{}}
-	for asks != nil || len(run.settledWordPartitionsUnread) > 0 {
-		var reader chan<- wordpartitionasks.SettledWordPartition
-		var nextSettledWordPartition wordpartitionasks.SettledWordPartition
-		if len(run.settledWordPartitionsUnread) > 0 {
-			reader = settledWordPartitions
-			nextSettledWordPartition = run.settledWordPartitionsUnread[0]
+	for asks != nil || len(run.settledAsksUnread) > 0 {
+		var reader chan<- wordpartitionasks.SettledAsk
+		var nextSettledAsk wordpartitionasks.SettledAsk
+		if len(run.settledAsksUnread) > 0 {
+			reader = settledAsks
+			nextSettledAsk = run.settledAsksUnread[0]
 		}
 		select {
 		case addedAsks, open := <-asks:
@@ -106,79 +105,104 @@ func (replicas replicasOfTheNetwork) answerEachWordPartition(
 				continue
 			}
 			run.answer(ctx, replicas.network, addedAsks)
-		case reader <- nextSettledWordPartition:
-			run.settledWordPartitionsUnread = run.settledWordPartitionsUnread[1:]
-			run.settledWordPartitionsRead++
+		case reader <- nextSettledAsk:
+			run.settledAsksUnread = run.settledAsksUnread[1:]
+			run.settledAsksRead++
 		}
 	}
 }
 
 type runOfTheNetwork struct {
-	wordPartitionsInTheRun      map[string]struct{}
-	settledWordPartitionsUnread []wordpartitionasks.SettledWordPartition
-	settledWordPartitionsRead   int
+	wordPartitionsInTheRun map[string]struct{}
+	settledAsksUnread      []wordpartitionasks.SettledAsk
+	settledAsksRead        int
 }
 
 func (run *runOfTheNetwork) answer(
 	ctx context.Context,
 	network *peerNetwork,
-	asks []peerasks.SearchDocumentsAsk,
+	asks []wordpartitionasks.Ask,
 ) {
-	askOutcomesOfEachNewWordPartition := map[string]peerasks.SearchDocumentsAskOutcomes{}
-	var newWordPartitionsInOrder []string
 	for _, ask := range asks {
 		wordPartition := fmt.Sprintf("%s in %d", ask.Word, ask.Partition)
-		if _, seen := askOutcomesOfEachNewWordPartition[wordPartition]; !seen {
-			if _, inTheRun := run.wordPartitionsInTheRun[wordPartition]; inTheRun {
+		if _, inTheRun := run.wordPartitionsInTheRun[wordPartition]; inTheRun {
+			continue
+		}
+		run.wordPartitionsInTheRun[wordPartition] = struct{}{}
+		settledAsk := wordpartitionasks.SettledAsk{Ask: ask}
+		for _, replica := range ask.ReplicasInOrder {
+			answer, answered := network.answerOfTheReplica(
+				ctx, replicaAsk{Ask: ask, Peer: replica}, run.settledAsksRead,
+			)
+			if !answered {
 				continue
 			}
-			run.wordPartitionsInTheRun[wordPartition] = struct{}{}
-			newWordPartitionsInOrder = append(newWordPartitionsInOrder, wordPartition)
+			settledAsk.Answers = append(settledAsk.Answers, answer)
 		}
-		askOutcomesOfEachNewWordPartition[wordPartition] = append(
-			askOutcomesOfEachNewWordPartition[wordPartition],
-			network.outcomeOfTheSearchAsk(ctx, ask, run.settledWordPartitionsRead),
-		)
-	}
-	for _, wordPartition := range newWordPartitionsInOrder {
-		run.settledWordPartitionsUnread = append(
-			run.settledWordPartitionsUnread,
-			wordpartitionasks.SettledWordPartition{
-				AskOutcomes: askOutcomesOfEachNewWordPartition[wordPartition],
-			},
-		)
+		run.settledAsksUnread = append(run.settledAsksUnread, settledAsk)
 	}
 }
 
-func (network *peerNetwork) outcomeOfTheSearchAsk(
+type replicaAsk struct {
+	wordpartitionasks.Ask
+	Peer peerdirectory.AskablePeer
+}
+
+func (network *peerNetwork) answerOfTheReplica(
 	ctx context.Context,
-	ask peerasks.SearchDocumentsAsk,
-	settledWordPartitionsRead int,
-) peerasks.SearchDocumentsAskOutcome {
+	ask replicaAsk,
+	settledAsksRead int,
+) (wordpartitionasks.ReplicaAnswer, bool) {
 	network.mutex.Lock()
 	defer network.mutex.Unlock()
 
 	network.searchDocumentsAsks = append(network.searchDocumentsAsks, ask)
 	network.settledWordPartitionsReadAtEachAsk = append(
-		network.settledWordPartitionsReadAtEachAsk, settledWordPartitionsRead,
+		network.settledWordPartitionsReadAtEachAsk, settledAsksRead,
 	)
 	network.recordTimeLeftIn(ctx)
-	askOutcome := peerasks.SearchDocumentsAskOutcome{Ask: ask, Put: true}
 	if _, silent := network.silentPeers[ask.Peer.Address]; silent {
-		return askOutcome
+		return wordpartitionasks.ReplicaAnswer{}, false
 	}
-	askOutcome.Answer = yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
-		Ask:      ask,
-		Abstract: network.abstractFor(ask),
-		MatchedDocuments: network.matchedDocumentsOf(network.namedAmong(
-			ask,
-			documentsPerWordOf(network.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
-		)),
-		AmountOfDocumentsHeldForTheWord: network.documentsCountedBy(ask.Peer.Address, ask.Word),
-		PeerSearched:                    network.searchedBy(ask.Peer.Address),
-	})
 
-	return askOutcome
+	return wordpartitionasks.ReplicaAnswer{
+		Replica: ask.Peer,
+		ListedDocuments: listedDocumentsFrom(
+			network.abstractFor(ask),
+			network.matchedDocumentsOf(network.namedAmong(
+				ask,
+				documentsPerWordOf(network.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
+			)),
+		),
+		AmountOfDocumentsHeld: network.documentsCountedBy(ask.Peer.Address, ask.Word),
+		Searched:              network.searchedBy(ask.Peer.Address),
+	}, true
+}
+
+func listedDocumentsFrom(
+	abstract []yacymodel.URLHash,
+	matchedDocuments []wordpartitionasks.ListedDocument,
+) []wordpartitionasks.ListedDocument {
+	listedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(abstract))
+	for _, document := range abstract {
+		listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocument{Hash: document})
+	}
+	for _, matchedDocument := range matchedDocuments {
+		place := slices.IndexFunc(
+			listedDocuments,
+			func(listedDocument wordpartitionasks.ListedDocument) bool {
+				return listedDocument.Hash == matchedDocument.Hash
+			},
+		)
+		if place < 0 {
+			listedDocuments = append(listedDocuments, matchedDocument)
+
+			continue
+		}
+		listedDocuments[place] = matchedDocument
+	}
+
+	return listedDocuments
 }
 
 func (network *peerNetwork) searchedBy(address string) bool {
@@ -199,7 +223,7 @@ func (network *peerNetwork) recordTimeLeftIn(ctx context.Context) {
 	)
 }
 
-func (network *peerNetwork) abstractFor(ask peerasks.SearchDocumentsAsk) []yacymodel.URLHash {
+func (network *peerNetwork) abstractFor(ask replicaAsk) []yacymodel.URLHash {
 	documents := documentsPerWordOf(network.documentsPerWordPerPeer, ask.Peer.Address, ask.Word)
 	if len(ask.DocumentsToMatch) > 0 {
 		return network.namedAmong(ask, documents)
@@ -213,7 +237,7 @@ func (network *peerNetwork) abstractFor(ask peerasks.SearchDocumentsAsk) []yacym
 }
 
 func (network *peerNetwork) namedAmong(
-	ask peerasks.SearchDocumentsAsk,
+	ask replicaAsk,
 	documents []yacymodel.URLHash,
 ) []yacymodel.URLHash {
 	_, listsMore := network.peersListingDocumentsTheAskDidNotName[ask.Peer.Address]
@@ -234,11 +258,12 @@ func (network *peerNetwork) namedAmong(
 
 func (network *peerNetwork) matchedDocumentsOf(
 	documents []yacymodel.URLHash,
-) []peerasks.MatchedDocument {
-	matchedDocuments := make([]peerasks.MatchedDocument, 0, len(documents))
+) []wordpartitionasks.ListedDocument {
+	matchedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(documents))
 	for _, document := range documents {
-		matchedDocument := peerasks.MatchedDocument{
-			Metadata: yacymodel.URLMetadata{Hash: document},
+		matchedDocument := wordpartitionasks.ListedDocument{
+			Hash:     document,
+			Metadata: yacymodel.Some(yacymodel.URLMetadata{Hash: document}),
 		}
 		if network.countsAWordWithEachItem {
 			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
@@ -540,7 +565,6 @@ func (settings spreadSettings) spread(
 			urlMetadataAskCeilingOfEachPeer: settings.urlMetadataAskCeilingOfEachPeer,
 		},
 		settings.documentsToMatchCeiling,
-		peerItemsCeiling,
 		settings.partitions,
 		settings.peersHoldingOneWord,
 		observer,
@@ -1649,7 +1673,7 @@ func spreadAcrossPartitions(
 
 func replicasAskedForTheWord(
 	word yacymodel.Hash,
-	asks []peerasks.SearchDocumentsAsk,
+	asks []replicaAsk,
 ) []string {
 	var replicasAsked []string
 	for _, ask := range asks {

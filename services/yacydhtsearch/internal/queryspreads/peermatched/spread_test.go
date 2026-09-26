@@ -6,7 +6,6 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
@@ -16,82 +15,83 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	itemsCeiling = 10
-)
-
 type peerNetwork struct {
-	itemsPerPeer       map[string][]string
-	peersCountingAWord map[string]struct{}
-	asks               []peerasks.SearchDocumentsAsk
+	itemsPerPeer           map[string][]string
+	peersCountingAWord     map[string]struct{}
+	peersListingOnlyHashes map[string]struct{}
+	asks                   []wordpartitionasks.Ask
 }
 
 func networkOf(itemsPerPeer map[string][]string) *peerNetwork {
 	return &peerNetwork{
-		itemsPerPeer:       itemsPerPeer,
-		peersCountingAWord: map[string]struct{}{},
+		itemsPerPeer:           itemsPerPeer,
+		peersCountingAWord:     map[string]struct{}{},
+		peersListingOnlyHashes: map[string]struct{}{},
 	}
 }
 
 func (network *peerNetwork) Start(_ context.Context) wordpartitionasks.Run {
-	asks := make(chan []peerasks.SearchDocumentsAsk)
-	settledWordPartitions := make(chan wordpartitionasks.SettledWordPartition)
-	go network.answerEachAsk(asks, settledWordPartitions)
+	asks := make(chan []wordpartitionasks.Ask)
+	settledAsks := make(chan wordpartitionasks.SettledAsk)
+	go network.answerEachAsk(asks, settledAsks)
 
-	return wordpartitionasks.Run{Asks: asks, SettledWordPartitions: settledWordPartitions}
+	return wordpartitionasks.Run{Asks: asks, SettledAsks: settledAsks}
 }
 
 func (network *peerNetwork) answerEachAsk(
-	asks <-chan []peerasks.SearchDocumentsAsk,
-	settledWordPartitions chan<- wordpartitionasks.SettledWordPartition,
+	asks <-chan []wordpartitionasks.Ask,
+	settledAsks chan<- wordpartitionasks.SettledAsk,
 ) {
-	defer close(settledWordPartitions)
+	defer close(settledAsks)
 	for addedAsks := range asks {
 		network.asks = append(network.asks, addedAsks...)
 		for _, ask := range slices.Backward(addedAsks) {
-			settledWordPartitions <- network.settledWordPartitionOf(ask)
+			settledAsks <- network.settledAskOf(ask)
 		}
 	}
 }
 
-func (network *peerNetwork) settledWordPartitionOf(
-	ask peerasks.SearchDocumentsAsk,
-) wordpartitionasks.SettledWordPartition {
-	return wordpartitionasks.SettledWordPartition{AskOutcomes: peerasks.SearchDocumentsAskOutcomes{{
-		Ask: ask,
-		Put: true,
-		Answer: yacymodel.Some(peerasks.AnsweredSearchDocumentsAsk{
-			Ask:              ask,
-			MatchedDocuments: network.matchedDocumentsOf(ask.Peer),
-		}),
-	}}}
+func (network *peerNetwork) settledAskOf(ask wordpartitionasks.Ask) wordpartitionasks.SettledAsk {
+	answers := make([]wordpartitionasks.ReplicaAnswer, 0, len(ask.ReplicasInOrder))
+	for _, replica := range ask.ReplicasInOrder {
+		answers = append(answers, wordpartitionasks.ReplicaAnswer{
+			Replica:         replica,
+			ListedDocuments: network.listedDocumentsOf(replica),
+		})
+	}
+
+	return wordpartitionasks.SettledAsk{Ask: ask, Answers: answers}
 }
 
-func (network *peerNetwork) matchedDocumentsOf(
+func (network *peerNetwork) listedDocumentsOf(
 	peer peerdirectory.AskablePeer,
-) []peerasks.MatchedDocument {
+) []wordpartitionasks.ListedDocument {
 	_, countsAWord := network.peersCountingAWord[peer.Address]
+	_, listsOnlyHashes := network.peersListingOnlyHashes[peer.Address]
 	addresses := network.itemsPerPeer[peer.Address]
-	matchedDocuments := make([]peerasks.MatchedDocument, 0, len(addresses))
+	listedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(addresses))
 	for _, address := range addresses {
 		hash, err := yacymodel.URLHashOf(address)
 		if err != nil {
 			continue
 		}
-		matchedDocument := peerasks.MatchedDocument{
-			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
+		listedDocument := wordpartitionasks.ListedDocument{Hash: hash}
+		if !listsOnlyHashes {
+			listedDocument.Metadata = yacymodel.Some(
+				yacymodel.URLMetadata{Hash: hash, Address: address},
+			)
 		}
 		if countsAWord {
-			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
+			listedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,
 			})
 		}
-		matchedDocuments = append(matchedDocuments, matchedDocument)
+		listedDocuments = append(listedDocuments, listedDocument)
 	}
 
-	return matchedDocuments
+	return listedDocuments
 }
 
 type everyAskablePeer struct{}
@@ -181,7 +181,7 @@ func spreadOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
 ) spreadChoosingEveryAskablePeer {
-	return spreadChoosingEveryAskablePeer{spread: peermatched.New(network, itemsCeiling, observer)}
+	return spreadChoosingEveryAskablePeer{spread: peermatched.New(network, observer)}
 }
 
 type spreadChoosingEveryAskablePeer struct {
@@ -211,9 +211,8 @@ func TestEveryChosenPeerIsAskedToMatchTheQueryWordOnce(t *testing.T) {
 		t.Fatalf("%d asks were put, want one for each chosen peer", len(network.asks))
 	}
 	for _, ask := range network.asks {
-		if ask.Word != yacymodel.WordHash("berlin") || !ask.Abstract ||
-			ask.MatchedDocumentsCeiling != yacymodel.Some(itemsCeiling) {
-			t.Fatalf("ask = %+v, want the query word", ask)
+		if ask.Word != yacymodel.WordHash("berlin") || len(ask.ReplicasInOrder) != 1 {
+			t.Fatalf("ask = %+v, want the query word to one replica", ask)
 		}
 	}
 }
@@ -290,7 +289,9 @@ func TestEveryAskCarriesThePartitionOfTheChosenPeer(t *testing.T) {
 
 	partitionsAsked := map[string]uint{}
 	for _, ask := range network.asks {
-		partitionsAsked[ask.Peer.Address] = ask.Partition
+		for _, replica := range ask.ReplicasInOrder {
+			partitionsAsked[replica.Address] = ask.Partition
+		}
 	}
 	want := map[string]uint{"first": 0, "second": 1}
 	if !maps.Equal(partitionsAsked, want) {
@@ -325,5 +326,64 @@ func TestADocumentNoPeerCountedHoldsNoAmountOfLinks(t *testing.T) {
 
 	if facts.AmountOfLinks.Present() {
 		t.Fatal("the found document holds an amount of links, want none where no peer reported one")
+	}
+}
+
+func TestTheChosenPeersOfOnePartitionAreTheReplicasOfOneAskInTheirOrder(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{})
+	chosenPeers := []peerchoice.ChosenPeer{
+		{Peer: peerAt("second"), Partition: 0},
+		{Peer: peerAt("third"), Partition: 1},
+		{Peer: peerAt("first"), Partition: 0},
+	}
+
+	peermatched.New(network, &recordedSpreads{}).SpreadOverPeers(
+		context.Background(),
+		searchquery.QueryFrom("berlin", ""),
+		peerchoice.ChosenPeersPerQueryWord{{
+			QueryWord: yacymodel.WordHash("berlin"), ChosenPeers: chosenPeers,
+		}},
+	)
+
+	wanted := [][]peerdirectory.AskablePeer{
+		{peerAt("second"), peerAt("first")},
+		{peerAt("third")},
+	}
+	if got := replicasOfEachAsk(network.asks); !slices.EqualFunc(
+		got, wanted, slices.Equal[[]peerdirectory.AskablePeer],
+	) {
+		t.Fatalf("the spread asked the replicas %v, want %v", got, wanted)
+	}
+}
+
+func replicasOfEachAsk(asks []wordpartitionasks.Ask) [][]peerdirectory.AskablePeer {
+	replicas := make([][]peerdirectory.AskablePeer, 0, len(asks))
+	for _, ask := range asks {
+		replicas = append(replicas, ask.ReplicasInOrder)
+	}
+
+	return replicas
+}
+
+func TestADocumentListedWithoutMetadataIsNotFound(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{
+		"first":  {"https://listed.example/"},
+		"second": {"https://matched.example/"},
+	})
+	network.peersListingOnlyHashes["first"] = struct{}{}
+
+	foundDocuments := searchOf(network, &recordedSpreads{})
+
+	if got := addressesOf(
+		foundDocuments,
+	); !slices.Equal(
+		got,
+		[]string{"https://matched.example/"},
+	) {
+		t.Fatalf("the spread found %v, want only the document listed with its metadata", got)
 	}
 }

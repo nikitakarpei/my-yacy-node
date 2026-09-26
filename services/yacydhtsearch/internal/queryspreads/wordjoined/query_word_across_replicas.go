@@ -4,7 +4,6 @@ import (
 	"cmp"
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,10 +14,10 @@ type queryWordAcrossReplicas struct {
 
 func queryWordsFewestDocumentsFirstFrom(
 	words []yacymodel.Hash,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	settledAsks settledAsks,
 	partitions yacymodel.DHTRingPartitions,
 ) []queryWordAcrossReplicas {
-	queryWordsAcrossReplicas := queryWordsAcrossReplicasFrom(words, askOutcomes, partitions)
+	queryWordsAcrossReplicas := queryWordsAcrossReplicasFrom(words, settledAsks, partitions)
 	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
 
 	return queryWordsAcrossReplicas
@@ -26,14 +25,14 @@ func queryWordsFewestDocumentsFirstFrom(
 
 func queryWordsAcrossReplicasFrom(
 	words []yacymodel.Hash,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	settledAsks settledAsks,
 	partitions yacymodel.DHTRingPartitions,
 ) []queryWordAcrossReplicas {
 	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(words))
 	for _, word := range words {
 		queryWordsAcrossReplicas = append(
 			queryWordsAcrossReplicas,
-			queryWordAcrossReplicasFrom(word, askOutcomes, partitions),
+			queryWordAcrossReplicasFrom(word, settledAsks, partitions),
 		)
 	}
 
@@ -42,18 +41,20 @@ func queryWordsAcrossReplicasFrom(
 
 func queryWordAcrossReplicasFrom(
 	word yacymodel.Hash,
-	askOutcomes peerasks.SearchDocumentsAskOutcomes,
+	settledAsks settledAsks,
 	partitions yacymodel.DHTRingPartitions,
 ) queryWordAcrossReplicas {
 	replicasPerPartition := make([][]wordReplica, partitions)
-	for _, askOutcome := range askOutcomes {
-		if askOutcome.Ask.Word != word {
+	for _, settledAsk := range settledAsks {
+		if settledAsk.Word != word {
 			continue
 		}
-		replicasPerPartition[askOutcome.Ask.Partition] = append(
-			replicasPerPartition[askOutcome.Ask.Partition],
-			wordReplica{answer: askOutcome.Answer},
-		)
+		for _, answer := range settledAsk.Answers {
+			replicasPerPartition[settledAsk.Partition] = append(
+				replicasPerPartition[settledAsk.Partition],
+				wordReplica{answer: answer},
+			)
+		}
 	}
 
 	return queryWordAcrossReplicas{word: word, replicasPerPartition: replicasPerPartition}
@@ -107,11 +108,7 @@ func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhere
 func amountsOfDocumentsHeldCountedBy(replicas []wordReplica) []int {
 	countedAmounts := make([]int, 0, len(replicas))
 	for _, replica := range replicas {
-		answer, answered := replica.answer.Get()
-		if !answered {
-			continue
-		}
-		amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeldForTheWord.Get()
+		amountOfDocumentsHeld, counted := replica.answer.AmountOfDocumentsHeld.Get()
 		if !counted {
 			continue
 		}
@@ -131,12 +128,8 @@ func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 	documents := distinctDocuments{}
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
 		for _, replica := range replicasOfPartition {
-			answer, answered := replica.answer.Get()
-			if !answered {
-				continue
-			}
-			for _, document := range answer.Abstract {
-				documents.add(document)
+			for _, listedDocument := range replica.answer.ListedDocuments {
+				documents.add(listedDocument.Hash)
 			}
 		}
 	}
@@ -151,16 +144,15 @@ func (queryWord queryWordAcrossReplicas) sampleIn(
 	documentsInThePartition := distinctDocuments{}
 	complete := false
 	for _, replica := range queryWord.replicasPerPartition[partition] {
-		answer, answered := replica.answer.Get()
-		if !answered || !replica.hasACompleteAbstract() {
+		if !replica.hasACompleteAbstract() {
 			continue
 		}
 		complete = true
-		for _, document := range answer.Abstract {
-			if partitions.PartitionOf(document) != partition {
+		for _, listedDocument := range replica.answer.ListedDocuments {
+			if partitions.PartitionOf(listedDocument.Hash) != partition {
 				continue
 			}
-			documentsInThePartition.add(document)
+			documentsInThePartition.add(listedDocument.Hash)
 		}
 	}
 	if !complete {

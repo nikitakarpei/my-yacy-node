@@ -85,7 +85,7 @@ func (discovery *discovery) takeTheSampleIn(
 		sampledPartition,
 		queryWordsAcrossReplicasFrom(
 			queryWords,
-			discovery.askRun.askOutcomes,
+			discovery.askRun.settledAsks,
 			discovery.partitions,
 		),
 		discovery.partitions,
@@ -163,7 +163,7 @@ func (discovery *discovery) askTheOtherWordsAsEachPartitionSettles(roles queryWo
 		if len(partitionsLeft) == 0 {
 			return
 		}
-		discovery.askRun.readTheNextSettledWordPartition()
+		discovery.askRun.readTheNextSettledAsk()
 	}
 }
 
@@ -204,17 +204,18 @@ func (discovery *discovery) documentsToMatchIn(
 	partition uint,
 	wordsOfTheDocumentsToMatch []yacymodel.Hash,
 ) []yacymodel.URLHash {
-	answeredAsks := discovery.askRun.askOutcomes.AnsweredAsks()
 	documentsToMatch := distinctDocuments{}
-	for _, answeredAsk := range answeredAsks {
-		if !slices.Contains(wordsOfTheDocumentsToMatch, answeredAsk.Ask.Word) {
+	for _, settledAsk := range discovery.askRun.settledAsks {
+		if !slices.Contains(wordsOfTheDocumentsToMatch, settledAsk.Word) {
 			continue
 		}
-		for _, document := range answeredAsk.Abstract {
-			if discovery.partitions.PartitionOf(document) != partition {
-				continue
+		for _, answer := range settledAsk.Answers {
+			for _, listedDocument := range answer.ListedDocuments {
+				if discovery.partitions.PartitionOf(listedDocument.Hash) != partition {
+					continue
+				}
+				documentsToMatch.add(listedDocument.Hash)
 			}
-			documentsToMatch.add(document)
 		}
 	}
 
@@ -225,18 +226,17 @@ func (discovery *discovery) roundFrom(
 	sampledPartition uint,
 	leadingQueryWord chosenLeadingQueryWord,
 ) discoveryRound {
-	askOutcomes := discovery.askRun.askOutcomes
-	answeredAsks := askOutcomes.AnsweredAsks()
+	settledAsks := discovery.askRun.settledAsks
 	queryWordsFewestDocumentsFirst := queryWordsFewestDocumentsFirstFrom(
-		discovery.query.WordHashes(), askOutcomes, discovery.partitions,
+		discovery.query.WordHashes(), settledAsks, discovery.partitions,
 	)
 
 	return discoveryRound{
 		queryWords:                     discovery.query.WordHashes(),
-		answeredAsks:                   answeredAsks,
+		settledAsks:                    settledAsks,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirst,
 		compoundWords: compoundWordsAcrossReplicasFrom(
-			discovery.query.CompoundWords, askOutcomes, discovery.partitions,
+			discovery.query.CompoundWords, settledAsks, discovery.partitions,
 		),
 		holdersPerDocument: discovery.askRun.holdersPerDocument,
 		sampledPartition:   sampledPartition,
