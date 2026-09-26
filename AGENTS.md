@@ -4,6 +4,8 @@ Shared state: the service that owns a stream, bucket, or table is the only one t
 
 Abstraction: a function orchestrates or it works, never both. An orchestrator only names steps and reads as the scenario in plain language; log attributes, struct assembly, and error wrapping are detail. A call chain deeper than one step means the middle level speaks its own vocabulary and needs its own unit.
 
+Abstraction — collaborators: a unit calls only its own fields, its parameters, and what it builds. `a.b.c()` means `a` owes a method that does the work.
+
 File layout: one level of abstraction per file. The entry point comes first, then each function it names in call order, each followed the same way; a helper called twice goes under its first caller. A type's methods and the private functions only it calls live in the file that declares it, never split.
 
 Naming: read doc/naming.md before naming anything. Name the domain thing, not its construction or destination; spell in full; every name carries its noun (`duePostings`, not `due`); never `util.go`, `helpers.go`, `handler.go`, `types.go`, or umbrella names (Store, Manager, Service, Handler, Util).
