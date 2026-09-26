@@ -10,7 +10,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	rankingcacheobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/prometheus"
+	cachedrankingsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/jetstream/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
@@ -30,8 +30,8 @@ func TestAFailedHoldIsPublishedApartFromAFailedLookup(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := rankingcacheobserversjetstreamprometheus.New(registry)
-	query := searchquery.QueryFrom("berlin", "")
+	metrics := cachedrankingsobserversjetstreamprometheus.New(registry)
+	query := searchquery.Query{Words: []string{"berlin"}}
 	refused := errors.New("bucket refused")
 
 	metrics.RankingLookupFailed(t.Context(), query, refused)
@@ -52,7 +52,7 @@ func TestEveryRankingCacheFailureIsPublishedBeforeTheFirstFailure(t *testing.T) 
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	rankingcacheobserversjetstreamprometheus.New(registry)
+	cachedrankingsobserversjetstreamprometheus.New(registry)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{

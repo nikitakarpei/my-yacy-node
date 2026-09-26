@@ -41,10 +41,10 @@ func (vocabulary queryVocabulary) wordsSpelledAsOneAmong(
 ) map[yacymodel.Hash]struct{} {
 	heldWords := make(map[yacymodel.Hash]struct{}, len(vocabulary.words))
 	for _, compoundWord := range vocabulary.compoundWords {
-		if _, held := wordsOfTheText[compoundWord.Hash]; !held {
+		if _, held := wordsOfTheText[compoundWord.Hash()]; !held {
 			continue
 		}
-		for _, word := range compoundWord.WordHashes {
+		for _, word := range compoundWord.PartHashes() {
 			heldWords[word] = struct{}{}
 		}
 	}

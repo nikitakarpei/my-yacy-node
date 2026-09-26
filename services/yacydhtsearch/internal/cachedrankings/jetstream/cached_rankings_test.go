@@ -8,7 +8,7 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	rankingcachejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/jetstream"
+	cachedrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -63,21 +63,21 @@ func bucketFor(t *testing.T, config natsjetstream.KeyValueConfig) natsjetstream.
 	return bucket
 }
 
-func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
+func TestARankingIsReadBackForTheQueryItWasCachedFor(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := rankingcachejetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{}),
-		rankingcachejetstream.RankingCacheObservers{failures},
+		cachedrankingsjetstream.CachedRankingsObservers{failures},
 	)
-	query := searchquery.QueryFrom("berlin", "")
-	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
+	query := searchquery.Query{Words: []string{"berlin"}}
+	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
-	ranking, found := cache.CachedRankingFor(t.Context(), query)
+	ranking, found := cache.RankingFor(t.Context(), query)
 
 	if !found || len(ranking.Items) != 1 {
-		t.Fatalf("CachedRankingFor = %+v (found %t), want the ranking cache", ranking, found)
+		t.Fatalf("RankingFor = %+v (found %t), want the ranking cache", ranking, found)
 	}
 	item := ranking.Items[0]
 	if item.Address != "https://a.example/" || item.Title != "Weather" || item.Hash.IsZero() {
@@ -88,20 +88,20 @@ func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
 	}
 }
 
-func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
+func TestNoRankingIsCachedForAQueryNobodyAsked(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := rankingcachejetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{}),
-		rankingcachejetstream.RankingCacheObservers{failures},
+		cachedrankingsjetstream.CachedRankingsObservers{failures},
 	)
 
-	_, found := cache.CachedRankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	_, found := cache.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if found || failures.lookups != 0 {
 		t.Fatalf(
-			"CachedRankingFor found %t with %d failures, want a plain miss",
+			"RankingFor found %t with %d failures, want a plain miss",
 			found,
 			failures.lookups,
 		)
@@ -111,17 +111,17 @@ func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
 func TestARankingIsGoneOnceItsLifetimeIsSpent(t *testing.T) {
 	t.Parallel()
 
-	cache := rankingcachejetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{TTL: 100 * time.Millisecond}),
-		rankingcachejetstream.RankingCacheObservers{&recordedFailure{}},
+		cachedrankingsjetstream.CachedRankingsObservers{&recordedFailure{}},
 	)
-	query := searchquery.QueryFrom("berlin", "")
-	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
+	query := searchquery.Query{Words: []string{"berlin"}}
+	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
 	time.Sleep(time.Second)
 
-	if _, found := cache.CachedRankingFor(t.Context(), query); found {
-		t.Fatal("CachedRankingFor still stores a ranking past its lifetime")
+	if _, found := cache.RankingFor(t.Context(), query); found {
+		t.Fatal("RankingFor still stores a ranking past its lifetime")
 	}
 }
 
@@ -129,22 +129,22 @@ func TestARankingTheBucketRefusesIsReported(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := rankingcachejetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{MaxValueSize: valueCeiling}),
-		rankingcachejetstream.RankingCacheObservers{failures},
+		cachedrankingsjetstream.CachedRankingsObservers{failures},
 	)
-	query := searchquery.QueryFrom("berlin", "")
+	query := searchquery.Query{Words: []string{"berlin"}}
 
 	items := make([]searchresult.Item, 0, 100)
 	for range 100 {
 		items = append(items, rankingOver(t, "https://a.example/").Items[0])
 	}
-	cache.StoreRanking(t.Context(), query, searchresult.Ranking{Items: items})
+	cache.Store(t.Context(), query, searchresult.Ranking{Items: items})
 
 	if failures.stores != 1 {
 		t.Fatalf("store failures = %d, want one", failures.stores)
 	}
-	if _, found := cache.CachedRankingFor(t.Context(), query); found {
-		t.Fatal("CachedRankingFor stores a ranking the bucket refused")
+	if _, found := cache.RankingFor(t.Context(), query); found {
+		t.Fatal("RankingFor stores a ranking the bucket refused")
 	}
 }

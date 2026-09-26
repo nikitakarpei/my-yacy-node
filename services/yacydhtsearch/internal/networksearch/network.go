@@ -45,16 +45,9 @@ type PageReading interface {
 	) pagereading.ReadPages
 }
 
-type SearchOutcome int
-
-const (
-	PeersAsked SearchOutcome = iota
-	NoIndexedWordInQuery
-	NoPeerToAsk
-)
-
 type NetworkSearchObserver interface {
 	NetworkSearchPerformed(ctx context.Context, search PerformedNetworkSearch)
+	QueryReachedNoPeer(ctx context.Context, query searchquery.Query)
 }
 
 type Network struct {
@@ -106,18 +99,16 @@ func New(
 func (n Network) Search(
 	ctx context.Context,
 	query searchquery.Query,
-) (searchresult.Ranking, SearchOutcome) {
-	if len(query.Words) == 0 {
-		return searchresult.Ranking{}, NoIndexedWordInQuery
-	}
-
+) (searchresult.Ranking, bool) {
 	ctx, stopQueryBudget := context.WithTimeout(ctx, n.queryBudget)
 	defer stopQueryBudget()
 	startedAt := time.Now()
 
 	askablePeers := n.peerDirectory.AskablePeers(ctx)
 	if len(askablePeers) == 0 {
-		return searchresult.Ranking{}, NoPeerToAsk
+		n.observer.QueryReachedNoPeer(ctx, query)
+
+		return searchresult.Ranking{}, false
 	}
 
 	chosenPeersPerQueryWord := n.peerChoice.ChosenPeersPerQueryWordFor(
@@ -153,7 +144,7 @@ func (n Network) Search(
 		),
 	)
 
-	return rankingOf(rankedDocuments), PeersAsked
+	return rankingOf(rankedDocuments), true
 }
 
 func contextWithinTheQuerySpreadBudget(

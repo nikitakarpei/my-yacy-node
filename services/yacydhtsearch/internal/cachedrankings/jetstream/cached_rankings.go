@@ -15,21 +15,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
 
-type RankingCacheObserver interface {
+type CachedRankingsObserver interface {
 	RankingLookupFailed(ctx context.Context, query searchquery.Query, err error)
 	RankingStoreFailed(ctx context.Context, query searchquery.Query, err error)
 }
 
-type RankingCache struct {
+type CachedRankings struct {
 	bucket   natsjetstream.KeyValue
-	observer RankingCacheObserver
+	observer CachedRankingsObserver
 }
 
-func New(bucket natsjetstream.KeyValue, observer RankingCacheObserver) *RankingCache {
-	return &RankingCache{bucket: bucket, observer: observer}
+func New(bucket natsjetstream.KeyValue, observer CachedRankingsObserver) *CachedRankings {
+	return &CachedRankings{bucket: bucket, observer: observer}
 }
 
-func (h *RankingCache) CachedRankingFor(
+func (h *CachedRankings) RankingFor(
 	ctx context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, bool) {
@@ -53,7 +53,7 @@ func (h *RankingCache) CachedRankingFor(
 	return ranking, true
 }
 
-func (h *RankingCache) StoreRanking(
+func (h *CachedRankings) Store(
 	ctx context.Context,
 	query searchquery.Query,
 	ranking searchresult.Ranking,
@@ -75,9 +75,9 @@ func keyFor(query searchquery.Query) string {
 	return base64.RawURLEncoding.EncodeToString(spelled[:])
 }
 
-type RankingCacheObservers []RankingCacheObserver
+type CachedRankingsObservers []CachedRankingsObserver
 
-func (observers RankingCacheObservers) RankingLookupFailed(
+func (observers CachedRankingsObservers) RankingLookupFailed(
 	ctx context.Context,
 	query searchquery.Query,
 	err error,
@@ -87,7 +87,7 @@ func (observers RankingCacheObservers) RankingLookupFailed(
 	}
 }
 
-func (observers RankingCacheObservers) RankingStoreFailed(
+func (observers CachedRankingsObservers) RankingStoreFailed(
 	ctx context.Context,
 	query searchquery.Query,
 	err error,

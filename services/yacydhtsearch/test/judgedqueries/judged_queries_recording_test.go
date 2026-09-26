@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 )
 
 const (
@@ -239,7 +239,7 @@ func (recording judgedQueryRecording) answersOf(
 	defer stopQueryBudget()
 
 	return recording.spread.SpreadOverPeers(
-		ctx, searchquery.QueryFrom(query, ""), recording.directory.AskablePeers(ctx),
+		ctx, queryreading.QueryFrom(query, ""), recording.directory.AskablePeers(ctx),
 	)
 }
 

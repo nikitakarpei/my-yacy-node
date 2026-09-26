@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
@@ -30,7 +31,7 @@ func searchesOf(t *testing.T, spelledQuery string) (int, int) {
 	wordJoinedSpread, peerMatchedSpread := &countedSpread{}, &countedSpread{}
 	bywordcount.New(wordJoinedSpread, peerMatchedSpread).SpreadOverPeers(
 		t.Context(),
-		searchquery.QueryFrom(spelledQuery, ""),
+		queryreading.QueryFrom(spelledQuery, ""),
 		nil,
 	)
 

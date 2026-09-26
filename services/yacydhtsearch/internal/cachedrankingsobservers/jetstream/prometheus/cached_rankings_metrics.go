@@ -1,4 +1,4 @@
-// Package prometheus reports how often the ranking cache failed.
+// Package prometheus reports how often caching rankings in NATS failed.
 package prometheus
 
 import (
@@ -15,28 +15,28 @@ const (
 	actionStore  = "store"
 )
 
-type RankingMetrics struct {
+type CachedRankingsMetrics struct {
 	lookupFailures prometheusclient.Counter
 	storeFailures  prometheusclient.Counter
 }
 
-func New(registry prometheusclient.Registerer) *RankingMetrics {
+func New(registry prometheusclient.Registerer) *CachedRankingsMetrics {
 	failures := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_ranking_cache_failures_total",
 		Help: "Failures against the ranking cache, by action.",
 	}, []string{labelAction})
 	registry.MustRegister(failures)
 
-	return &RankingMetrics{
+	return &CachedRankingsMetrics{
 		lookupFailures: failures.WithLabelValues(actionLookup),
 		storeFailures:  failures.WithLabelValues(actionStore),
 	}
 }
 
-func (m *RankingMetrics) RankingLookupFailed(context.Context, searchquery.Query, error) {
+func (m *CachedRankingsMetrics) RankingLookupFailed(context.Context, searchquery.Query, error) {
 	m.lookupFailures.Inc()
 }
 
-func (m *RankingMetrics) RankingStoreFailed(context.Context, searchquery.Query, error) {
+func (m *CachedRankingsMetrics) RankingStoreFailed(context.Context, searchquery.Query, error) {
 	m.storeFailures.Inc()
 }

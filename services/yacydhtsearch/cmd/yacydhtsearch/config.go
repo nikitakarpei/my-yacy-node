@@ -152,7 +152,7 @@ type ServiceConfig struct {
 	URLMetadataLookupCutoff          wordjoined.URLMetadataLookupCutoff
 	RankedItemsCeiling               int
 	NATSURL                          string
-	RankingCache                     int
+	RankingCacheCapacity             int
 	RankingLifetime                  time.Duration
 	QueryWordDocumentAmountLifetime  time.Duration
 	QueryWordDocumentAmountsCapacity int
@@ -269,7 +269,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		},
 		RankedItemsCeiling:               counts.rankedItemsCeiling,
 		NATSURL:                          strings.TrimSpace(getenv(EnvNATSURL)),
-		RankingCache:                     counts.rankingCacheCapacity,
+		RankingCacheCapacity:             counts.rankingCacheCapacity,
 		RankingLifetime:                  durations.rankingLifetime,
 		QueryWordDocumentAmountLifetime:  durations.queryWordDocumentAmountLifetime,
 		QueryWordDocumentAmountsCapacity: counts.queryWordDocumentAmountsCapacity,

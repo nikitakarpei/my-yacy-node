@@ -19,6 +19,8 @@ components:
     in: internal/queryspreadsobservers/peermatched/prometheus/**
   searchquery:
     in: internal/searchquery/**
+  queryreading:
+    in: internal/queryreading/**
   stopwords:
     in: internal/stopwords/**
   searchresult:
@@ -69,20 +71,20 @@ components:
     in: internal/queryspreads/wordjoined/**
   bywordcount:
     in: internal/queryspreads/bywordcount/**
-  queryrankings:
-    in: internal/queryrankings/**
-  rankingcachememory:
-    in: internal/rankingcache/memory/**
-  rankingcachejetstream:
-    in: internal/rankingcache/jetstream/**
-  queryrankingsobserversapplog:
-    in: internal/queryrankingsobservers/applog/**
-  queryrankingsobserversprometheus:
-    in: internal/queryrankingsobservers/prometheus/**
-  rankingcacheobserversjetstreamapplog:
-    in: internal/rankingcacheobservers/jetstream/applog/**
-  rankingcacheobserversjetstreamprometheus:
-    in: internal/rankingcacheobservers/jetstream/prometheus/**
+  rankingcache:
+    in: internal/rankingcache/**
+  cachedrankingsmemory:
+    in: internal/cachedrankings/memory/**
+  cachedrankingsjetstream:
+    in: internal/cachedrankings/jetstream/**
+  rankingcacheobserversapplog:
+    in: internal/rankingcacheobservers/applog/**
+  rankingcacheobserversprometheus:
+    in: internal/rankingcacheobservers/prometheus/**
+  cachedrankingsobserversjetstreamapplog:
+    in: internal/cachedrankingsobservers/jetstream/applog/**
+  cachedrankingsobserversjetstreamprometheus:
+    in: internal/cachedrankingsobservers/jetstream/prometheus/**
   queryworddocumentamountsmemory:
     in: internal/queryworddocumentamounts/memory/**
   queryworddocumentamountsjetstream:
@@ -221,6 +223,9 @@ deps:
   searchquery:
     canUse:
       - yacymodel
+  queryreading:
+    canUse:
+      - yacymodel
     mayDependOn:
       - stopwords
   documentrelevance:
@@ -335,35 +340,34 @@ deps:
       - queryanswers
       - peerchoice
       - searchquery
-  queryrankings:
+  rankingcache:
     mayDependOn:
-      - networksearch
       - searchquery
       - searchresult
-  rankingcachememory:
+  cachedrankingsmemory:
     canUse:
       - hashicorplru
     mayDependOn:
       - searchquery
       - searchresult
-  rankingcachejetstream:
+  cachedrankingsjetstream:
     canUse:
       - nats
     mayDependOn:
       - searchquery
       - searchresult
-  queryrankingsobserversapplog:
+  rankingcacheobserversapplog:
     mayDependOn:
       - searchquery
-  queryrankingsobserversprometheus:
+  rankingcacheobserversprometheus:
     canUse:
       - prometheus
     mayDependOn:
       - searchquery
-  rankingcacheobserversjetstreamapplog:
+  cachedrankingsobserversjetstreamapplog:
     mayDependOn:
       - searchquery
-  rankingcacheobserversjetstreamprometheus:
+  cachedrankingsobserversjetstreamprometheus:
     canUse:
       - prometheus
     mayDependOn:
@@ -427,6 +431,7 @@ deps:
       - yacyseedlist
   yacysearchendpoint:
     mayDependOn:
+      - queryreading
       - searchquery
       - searchresult
   peerchoiceobserversprometheus:

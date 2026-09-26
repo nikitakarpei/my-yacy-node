@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strconv"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
@@ -23,37 +24,47 @@ const (
 	defaultMaximumRecords = 10
 )
 
-type QueryRankings interface {
-	RankingFor(ctx context.Context, query searchquery.Query) searchresult.Ranking
+type Network interface {
+	Search(
+		ctx context.Context,
+		query searchquery.Query,
+	) (searchresult.Ranking, bool)
 }
 
 type SearchEndpoint struct {
-	rankings QueryRankings
+	network Network
 }
 
-func NewMux(rankings QueryRankings) *http.ServeMux {
+func NewMux(network Network) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle(Path, New(rankings))
+	mux.Handle(Path, New(network))
 
 	return mux
 }
 
-func New(rankings QueryRankings) SearchEndpoint {
-	return SearchEndpoint{rankings: rankings}
+func New(network Network) SearchEndpoint {
+	return SearchEndpoint{network: network}
 }
 
 func (e SearchEndpoint) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
-	form := request.URL.Query()
-
-	ranking := e.rankings.RankingFor(request.Context(), queryOf(form))
-	page := ranking.PageFrom(startRecordOf(form), maximumRecordsOf(form))
+	page := e.pageFor(request.Context(), request.URL.Query())
 
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	_ = json.NewEncoder(writer).Encode(searchPageFrom(page))
 }
 
+func (e SearchEndpoint) pageFor(ctx context.Context, form url.Values) searchresult.Page {
+	query := queryOf(form)
+	if len(query.Words) == 0 {
+		return searchresult.Page{}
+	}
+	ranking, _ := e.network.Search(ctx, query)
+
+	return ranking.PageFrom(startRecordOf(form), maximumRecordsOf(form))
+}
+
 func queryOf(form url.Values) searchquery.Query {
-	return searchquery.QueryFrom(form.Get(fieldQuery), form.Get(fieldLanguage))
+	return queryreading.QueryFrom(form.Get(fieldQuery), form.Get(fieldLanguage))
 }
 
 func startRecordOf(form url.Values) int {

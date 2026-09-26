@@ -22,6 +22,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
@@ -101,7 +102,8 @@ func (silentOutcome) PeerCallCancelled(
 }
 
 type recordedQuery struct {
-	performed networksearch.PerformedNetworkSearch
+	performed     networksearch.PerformedNetworkSearch
+	reachedNoPeer bool
 }
 
 func (r *recordedQuery) NetworkSearchPerformed(
@@ -109,6 +111,10 @@ func (r *recordedQuery) NetworkSearchPerformed(
 	search networksearch.PerformedNetworkSearch,
 ) {
 	r.performed = search
+}
+
+func (r *recordedQuery) QueryReachedNoPeer(context.Context, searchquery.Query) {
+	r.reachedNoPeer = true
 }
 
 type everyAskablePeer struct{}
@@ -365,10 +371,10 @@ func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
 	network := networkOver(t, directory, observer)
 
-	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+	ranking, ranked := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
-	if outcome != networksearch.PeersAsked {
-		t.Fatalf("Search reached outcome %v, want peers asked", outcome)
+	if !ranked {
+		t.Fatal("Search made no ranking, want one after asking the peers")
 	}
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != "https://a.example/" {
 		t.Fatalf("Search = %+v, want the address the peer holds", ranking.Items)
@@ -400,7 +406,7 @@ func TestARankedItemCarriesWhatThePeerReportedOfItsDocument(t *testing.T) {
 	}))
 	network := networkOver(t, directory, &recordedQuery{})
 
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
 	if len(ranking.Items) != 1 {
 		t.Fatalf("Search = %+v, want the one document the peer holds", ranking.Items)
@@ -423,47 +429,26 @@ func TestARankingStopsAtTheRecordCeiling(t *testing.T) {
 	directory := directoryAnsweringAt(t, peerHolding(t, addresses...))
 	network := networkOver(t, directory, &recordedQuery{})
 
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
 	if len(ranking.Items) != recordCeiling {
 		t.Fatalf("Search carried %d items, want the ceiling %d", len(ranking.Items), recordCeiling)
 	}
 }
 
-func TestAQueryThatReachesNoPeerCarriesBackThatOutcome(t *testing.T) {
-	t.Parallel()
-
-	network := networkOver(t, directoryAnsweringAt(t), &recordedQuery{})
-
-	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
-
-	if len(ranking.Items) != 0 || outcome != networksearch.NoPeerToAsk {
-		t.Fatalf(
-			"Search = %+v with outcome %v, want an empty ranking and no peer to ask",
-			ranking.Items,
-			outcome,
-		)
-	}
-}
-
-func TestAQueryWithoutAnIndexedWordReachesNoPeer(t *testing.T) {
+func TestAQueryThatReachesNoPeerMakesNoRankingAndReportsIt(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedQuery{}
-	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
-	network := networkOver(t, directory, observer)
+	network := networkOver(t, directoryAnsweringAt(t), observer)
 
-	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("1", ""))
+	ranking, ranked := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
-	if len(ranking.Items) != 0 || observer.performed.AmountOfAskablePeers != 0 {
-		t.Fatalf(
-			"Search = %+v after asking %d peers, want an empty ranking and no peer asked",
-			ranking.Items,
-			observer.performed.AmountOfAskablePeers,
-		)
+	if ranked || len(ranking.Items) != 0 {
+		t.Fatalf("Search = %+v, %t, want no ranking", ranking.Items, ranked)
 	}
-	if outcome != networksearch.NoIndexedWordInQuery {
-		t.Fatalf("Search reached outcome %v, want no indexed word in the query", outcome)
+	if !observer.reachedNoPeer {
+		t.Fatal("the observer heard nothing, want a query that reached no peer")
 	}
 }
 
@@ -477,7 +462,7 @@ func TestAnAddressTwoPeersHoldIsRankedOnce(t *testing.T) {
 	)
 	network := networkOver(t, directory, observer)
 
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
 	if len(ranking.Items) != 3 {
 		t.Fatalf("Search = %+v, want the three addresses the two peers hold", ranking.Items)
@@ -501,7 +486,7 @@ func TestAPeerThatRepliedHoldingNothingAnswersButSendsNoItem(t *testing.T) {
 	)
 	network := networkOver(t, directory, observer)
 
-	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
 	if observer.performed.AmountOfAskablePeers != 2 ||
 		observer.performed.AmountOfFoundDocuments != 1 {
@@ -519,7 +504,7 @@ func TestADocumentOnePeerListsTwiceIsFoundOnce(t *testing.T) {
 	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/", "https://a.example/"))
 	network := networkSearching(t, directory, observer, peerMatchedSpread(t))
 
-	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
 	if observer.performed.AmountOfAskablePeers != 1 ||
 		observer.performed.AmountOfItemsInRanking != 1 ||
@@ -605,7 +590,7 @@ func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
 		),
 	)
 
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
 	if len(ranking.Items) != 2 || ranking.Items[0].Address != rare {
 		t.Fatalf("the ranking reads %+v, want the document of the rarer word first", ranking.Items)
@@ -660,7 +645,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
 	)
 
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
 	if len(ranking.Items) != 2 || ranking.Items[0].Address != common {
 		t.Fatalf(
@@ -722,7 +707,7 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
 	)
 
-	network.Search(t.Context(), searchquery.QueryFrom("berlin", ""))
+	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
 	if !slices.Equal(addressesRead, []string{
 		"https://spam.example/1", "https://spam.example/2", "https://other.example/",
@@ -772,7 +757,7 @@ func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
 	)
 
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != rare {
 		t.Fatalf(
@@ -859,7 +844,7 @@ func TestTheQuerySpreadLeavesThePageReadBudgetToThePages(t *testing.T) {
 	recorded := &recordedBudgets{}
 	network := networkRecordingItsBudgets(t, recorded, pageReadBudget)
 
-	network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+	network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
 	spreadBudget := queryBudget - pageReadBudget
 	if recorded.spread > spreadBudget ||
@@ -883,7 +868,7 @@ func TestAPageReadBudgetOfTheWholeQueryLeavesTheQuerySpreadNothing(t *testing.T)
 	recorded := &recordedBudgets{}
 	network := networkRecordingItsBudgets(t, recorded, queryBudget)
 
-	network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+	network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
 	if recorded.spread > 0 {
 		t.Fatalf("the spread got %v, want nothing left for it", recorded.spread)
@@ -941,10 +926,10 @@ func TestAQueryOfTwoWordsCarriesBackWhatTheReplicasListForBothWords(t *testing.T
 	)...)
 	network := networkSearching(t, directory, observer, wordJoinedSpread(t))
 
-	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+	ranking, ranked := network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
-	if outcome != networksearch.PeersAsked {
-		t.Fatalf("Search reached outcome %v, want peers asked", outcome)
+	if !ranked {
+		t.Fatal("Search made no ranking, want one after asking the peers")
 	}
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != address {
 		t.Fatalf("Search = %+v, want the address the replicas list for both words", ranking.Items)
@@ -967,7 +952,7 @@ func TestAQueryOfTwoWordsCarriesBackWhatAReplicaListsForTheirCompoundWord(t *tes
 	)...)
 	network := networkSearching(t, directory, &recordedQuery{}, wordJoinedSpread(t))
 
-	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro", ""))
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != address {
 		t.Fatalf(

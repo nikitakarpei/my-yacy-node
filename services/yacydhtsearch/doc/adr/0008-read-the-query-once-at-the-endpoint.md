@@ -4,7 +4,7 @@ Date: 2026-09-26
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
@@ -24,11 +24,13 @@ not have to know that.
 ## Decision
 
 A search passes through three stages in one process, each wrapping the next behind the same
-interface: give it a query, get back a ranking and the outcome of the search.
+interface: give it a query, get back a ranking and whether a ranking was made. Each stage
+reports only what it sees itself: the cache whether it answered, the network search why it
+made no ranking.
 
 The endpoint is the only stage that sees what the client typed. It drops the stopwords, finds
 the compound words, and hands on a canonical query. It also cuts the requested page out of the
-ranking, as ADR 2 describes.
+ranking, as ADR 2 describes. A query that keeps no word gets an empty page and goes no further.
 
 A compound word is two or three adjacent words spelled as one, and a stopword between them
 prevents it. Finding compounds is part of reading the text, like dropping stopwords, so it
@@ -37,11 +39,11 @@ happens in the same place.
 The canonical query holds the words, each compound word with the words it is made of, the
 exclusions, and the language exactly as the client sent it. Two-word compounds come before
 three-word ones. The guessed language only picks the stopword list and goes no further.
-Reading the canonical query again gives back the same query.
+No two different queries share the spelling of a canonical query.
 
 The ranking cache wraps the network search. It uses the canonical query's spelling as an
-opaque key and never looks inside it. It only keeps a ranking when peers were actually asked,
-and it stores rankings in memory or in NATS, as ADR 3 and ADR 4 describe.
+opaque key and never looks inside it. It only keeps a ranking the network search made, and it
+stores rankings in memory or in NATS, as ADR 3 and ADR 4 describe.
 
 The network search reads the canonical query without needing stopwords or the rule that finds
 compounds. It still needs each compound and its parts: it asks the peers for the compound, and

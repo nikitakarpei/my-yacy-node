@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 )
 
 func answersOfCompoundWords(
@@ -15,7 +15,7 @@ func answersOfCompoundWords(
 	documentsHeldPerWord map[string]int,
 ) queryanswers.AnsweredQuery {
 	answers := answersHoldingDocumentsPerQueryWord(queryWords, foundDocuments, documentsHeldPerWord)
-	answers.CompoundWords = searchquery.QueryFrom(strings.Join(queryWords, " "), "").CompoundWords
+	answers.CompoundWords = queryreading.QueryFrom(strings.Join(queryWords, " "), "").CompoundWords
 
 	return answers
 }
