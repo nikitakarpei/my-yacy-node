@@ -734,26 +734,26 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 	}
 }
 
-type pagesOfOneDocumentGone struct {
+type pagesOfOneDocumentWithdrawn struct {
 	address string
 }
 
-func (p pagesOfOneDocumentGone) ReadEachPage(
+func (p pagesOfOneDocumentWithdrawn) ReadEachPage(
 	_ context.Context,
 	_ []yacymodel.Hash,
 	pagesToRead []pagereading.PageToRead,
 ) pagereading.ReadPages {
-	goneDocuments := map[yacymodel.URLHash]struct{}{}
+	withdrawnDocuments := map[yacymodel.URLHash]struct{}{}
 	for _, pageToRead := range pagesToRead {
 		if pageToRead.Address == p.address {
-			goneDocuments[pageToRead.Document] = struct{}{}
+			withdrawnDocuments[pageToRead.Document] = struct{}{}
 		}
 	}
 
-	return pagereading.ReadPages{GoneDocuments: goneDocuments}
+	return pagereading.ReadPages{WithdrawnDocuments: withdrawnDocuments}
 }
 
-func TestADocumentWhosePageIsGoneLeavesTheRanking(t *testing.T) {
+func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 	t.Parallel()
 
 	common, rare := "https://common.example/", "https://rare.example/"
@@ -761,7 +761,7 @@ func TestADocumentWhosePageIsGoneLeavesTheRanking(t *testing.T) {
 		directoryAnsweringAt(t, peerHolding(t)),
 		everyAskablePeer{},
 		answersOfTwoWords(t, common, rare),
-		pagesOfOneDocumentGone{address: common},
+		pagesOfOneDocumentWithdrawn{address: common},
 		orderingInTheFoundOrder{},
 		queryBudget,
 		pageReadBudget,

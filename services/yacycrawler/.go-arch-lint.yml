@@ -28,8 +28,6 @@ components:
     in: internal/crawl/pagevisit/**
   pagehtml:
     in: internal/crawl/pagehtml/**
-  pagerefusals:
-    in: internal/crawl/pagerefusals/**
   linkdiscovery:
     in: internal/crawl/linkdiscovery/**
   pagehtmlreading:
@@ -114,6 +112,10 @@ vendors:
   pagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  robotsmeta:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/robotsmeta
+      - github.com/nikitakarpei/yacy-rwi-node/robotsmeta/**
   nethtml:
     in:
       - golang.org/x/net/html
@@ -159,9 +161,6 @@ deps:
   pagehtml:
     canUse:
       - nethtml
-  pagerefusals:
-    mayDependOn:
-      - pagehtml
   linkdiscovery:
     mayDependOn:
       - pagehtml
@@ -171,18 +170,18 @@ deps:
     mayDependOn:
       - disposal
       - pagehtmlreading
-      - pagerefusals
     canUse:
       - canonicalurl
       - pagefetch
+      - robotsmeta
   pagehtmlreading:
     mayDependOn:
       - pagehtml
-      - pagerefusals
       - linkdiscovery
     canUse:
       - canonicalurl
       - pagefetch
+      - robotsmeta
   pagevisitallowance:
     mayDependOn:
       - disposal

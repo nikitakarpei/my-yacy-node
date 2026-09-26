@@ -35,11 +35,12 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 	metrics := pagereadingobserversprometheus.New(registry, pageReadBudget)
 
 	metrics.PageReadingPerformed(t.Context(), pagereading.PerformedPageReading{
-		AmountOfPagesToRead:              18,
+		AmountOfPagesToRead:              21,
 		AmountOfPagesRead:                4,
 		AmountOfPagesUnreachable:         5,
 		AmountOfPagesRefused:             3,
 		AmountOfPagesGone:                2,
+		AmountOfPagesRefusingIndexing:    3,
 		AmountOfPagesUnreadable:          2,
 		AmountOfPagesOfAnUnsupportedKind: 1,
 		AmountOfPagesOutOfBudget:         1,
@@ -55,6 +56,7 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		`yacydhtsearch_page_reading_pages_total{outcome="unreachable"} 5`,
 		`yacydhtsearch_page_reading_pages_total{outcome="refused"} 3`,
 		`yacydhtsearch_page_reading_pages_total{outcome="gone"} 2`,
+		`yacydhtsearch_page_reading_pages_total{outcome="refusing indexing"} 3`,
 		`yacydhtsearch_page_reading_pages_total{outcome="unreadable"} 2`,
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 1`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 1`,
@@ -81,6 +83,7 @@ func TestEveryOutcomeOfAPageIsPublishedBeforeTheFirstPageReading(t *testing.T) {
 		`yacydhtsearch_page_reading_pages_total{outcome="unreachable"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="refused"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="gone"} 0`,
+		`yacydhtsearch_page_reading_pages_total{outcome="refusing indexing"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="unreadable"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 0`,

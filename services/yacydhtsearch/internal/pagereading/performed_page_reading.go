@@ -8,6 +8,7 @@ type PerformedPageReading struct {
 	AmountOfPagesUnreachable         int
 	AmountOfPagesRefused             int
 	AmountOfPagesGone                int
+	AmountOfPagesRefusingIndexing    int
 	AmountOfPagesUnreadable          int
 	AmountOfPagesOfAnUnsupportedKind int
 	AmountOfPagesOutOfBudget         int
@@ -37,6 +38,8 @@ func performedPageReadingFrom(
 			performed.AmountOfPagesRefused++
 		case pageWasGone:
 			performed.AmountOfPagesGone++
+		case pageRefusesIndexing:
+			performed.AmountOfPagesRefusingIndexing++
 		case pageWasUnreadable:
 			performed.AmountOfPagesUnreadable++
 		case pageWasOfAnUnsupportedKind:

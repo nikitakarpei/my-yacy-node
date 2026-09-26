@@ -9,8 +9,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/htmlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
 
 var ErrPageNotHTML = errors.New("page is not html")
@@ -32,7 +34,7 @@ type LinkDiscovery interface {
 }
 
 type Reading struct {
-	Refusals       pagerefusals.Refusals
+	Refusals       robotsmeta.Refusals
 	DiscoveredURLs []canonicalurl.CanonicalURL
 }
 
@@ -60,7 +62,8 @@ func (reading *HTMLPageReading) ReadingOfPage(
 	if err != nil {
 		return Reading{}, err
 	}
-	refusals := pagerefusals.RefusalsOfPage(page.RobotsDirectives, elementTree)
+	refusals := httpheader.RefusalsOf(page.RobotsDirectives).
+		With(htmlmeta.RefusalsOf(page.ContentType, page.Body))
 	return Reading{
 		Refusals: refusals,
 		DiscoveredURLs: reading.discoveredURLsFrom(
@@ -73,7 +76,7 @@ func (reading *HTMLPageReading) discoveredURLsFrom(
 	ctx context.Context,
 	elementTree pagehtml.ElementTree,
 	pageURL canonicalurl.CanonicalURL,
-	refusals pagerefusals.Refusals,
+	refusals robotsmeta.Refusals,
 ) []canonicalurl.CanonicalURL {
 	if refusals.RefusesLinkDiscovery {
 		return nil

@@ -7,9 +7,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
 
 type PageVisitor interface {
@@ -116,7 +116,7 @@ func (visitor *pageVisitor) outcomeOfPageHTML(
 func (visitor *pageVisitor) publishCrawledPage(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-	refusals pagerefusals.Refusals,
+	refusals robotsmeta.Refusals,
 ) {
 	if refusals.RefusesIndexing {
 		visitor.crawledPages.PublishIndexingRefusedPage(ctx, pageURL)

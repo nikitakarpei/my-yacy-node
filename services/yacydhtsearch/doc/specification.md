@@ -31,6 +31,7 @@ federated search across one configured YaCy DHT network — any configured netwo
 * The service SHALL bound the total time spent on a query by an operator-configured budget.
 * The service SHALL read the text of the page of each candidate result inside its own budget,
   count the query words in that text, and cut the description of the result from that text.
+* The service SHALL NOT return a result whose page is not found, is gone, or refuses indexing.
 * The service SHALL NOT return duplicate results for the same URL within a query's response.
 * The service SHALL return merged results in best-effort order.
 
