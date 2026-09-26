@@ -1,6 +1,6 @@
-// Package queryrankings answers a query from the ranking already cached for
-// it, and asks the network for a ranking only when none is cached.
-package queryrankings
+// Package rankingcache answers a repeated query from the ranking it holds for
+// it, and asks the network only when it holds none.
+package rankingcache
 
 import (
 	"context"
@@ -16,54 +16,58 @@ type Network interface {
 	) (searchresult.Ranking, searchresult.Outcome)
 }
 
-type RankingCache interface {
-	CachedRankingFor(
+type HeldRankings interface {
+	RankingFor(
 		ctx context.Context,
 		query searchquery.Query,
 	) (searchresult.Ranking, bool)
-	StoreRanking(
+	Store(
 		ctx context.Context,
 		query searchquery.Query,
 		ranking searchresult.Ranking,
 	)
 }
 
-type QueryRankingObserver interface {
+type RankingCacheObserver interface {
 	QueryAnsweredFromCache(ctx context.Context, query searchquery.Query, amountOfItems int)
 	QueryAnsweredByPeers(ctx context.Context, query searchquery.Query, amountOfItems int)
 	QueryHoldsNoIndexedTerm(ctx context.Context, query searchquery.Query)
 	QueryReachedNoPeer(ctx context.Context, query searchquery.Query)
 }
 
-type Rankings struct {
-	cache    RankingCache
-	network  Network
-	observer QueryRankingObserver
+type RankingCache struct {
+	heldRankings HeldRankings
+	network      Network
+	observer     RankingCacheObserver
 }
 
-func New(cache RankingCache, network Network, observer QueryRankingObserver) Rankings {
-	return Rankings{cache: cache, network: network, observer: observer}
+func New(
+	heldRankings HeldRankings,
+	network Network,
+	observer RankingCacheObserver,
+) RankingCache {
+	return RankingCache{heldRankings: heldRankings, network: network, observer: observer}
 }
 
-func (rankings Rankings) Search(
+func (cache RankingCache) Search(
 	ctx context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, searchresult.Outcome) {
-	if cachedRanking, cached := rankings.cache.CachedRankingFor(ctx, query); cached {
-		rankings.observer.QueryAnsweredFromCache(ctx, query, len(cachedRanking.Items))
+	if heldRanking, held := cache.heldRankings.RankingFor(ctx, query); held {
+		cache.observer.QueryAnsweredFromCache(ctx, query, len(heldRanking.Items))
 
-		return cachedRanking, searchresult.PeersAsked
+		return heldRanking, searchresult.PeersAsked
 	}
 
-	ranking, outcome := rankings.network.Search(ctx, query)
+	ranking, outcome := cache.network.Search(ctx, query)
 	switch outcome {
 	case searchresult.NoIndexedWordInQuery:
-		rankings.observer.QueryHoldsNoIndexedTerm(ctx, query)
+		cache.observer.QueryHoldsNoIndexedTerm(ctx, query)
 	case searchresult.NoPeerToAsk:
-		rankings.observer.QueryReachedNoPeer(ctx, query)
+		cache.observer.QueryReachedNoPeer(ctx, query)
 	case searchresult.PeersAsked:
-		rankings.cache.StoreRanking(ctx, query, ranking)
-		rankings.observer.QueryAnsweredByPeers(ctx, query, len(ranking.Items))
+		cache.heldRankings.Store(ctx, query, ranking)
+		cache.observer.QueryAnsweredByPeers(ctx, query, len(ranking.Items))
 	}
 
 	return ranking, outcome

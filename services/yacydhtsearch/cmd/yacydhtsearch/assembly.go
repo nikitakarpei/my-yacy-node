@@ -26,6 +26,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
+	heldrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankings/jetstream"
+	heldrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankings/memory"
+	heldrankingsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankingsobservers/jetstream/applog"
+	heldrankingsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankingsobservers/jetstream/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
 	networksearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/prometheus"
@@ -56,9 +60,6 @@ import (
 	presenceaccrualobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrualobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	probeanswerhistoryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistoryobservers/applog"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
-	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
-	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
@@ -70,10 +71,9 @@ import (
 	queryworddocumentamountsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/memory"
 	queryworddocumentamountsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/applog"
 	queryworddocumentamountsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/prometheus"
-	rankingcachejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/jetstream"
-	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
-	rankingcacheobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/applog"
-	rankingcacheobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/jetstream/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache"
+	rankingcacheobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/applog"
+	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
 	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/urlmetadataaskceilings"
@@ -199,14 +199,14 @@ func RunService(
 			networksearchobserversprometheus.New(registry, cfg.QueryBudget),
 		},
 	)
-	rankingCacheMetrics := rankingcacheobserversjetstreamprometheus.New(registry)
-	cache, err := rankingCacheFor(ctx, cfg, rankingCacheMetrics)
+	heldRankingsMetrics := heldrankingsobserversjetstreamprometheus.New(registry)
+	heldRankings, err := heldRankingsFor(ctx, cfg, heldRankingsMetrics)
 	if err != nil {
 		return err
 	}
-	rankings := queryrankings.New(cache, network, queryrankings.QueryRankingObservers{
-		queryrankingsobserversapplog.QueryRankingLog{},
-		queryrankingsobserversprometheus.New(registry),
+	rankingCache := rankingcache.New(heldRankings, network, rankingcache.RankingCacheObservers{
+		rankingcacheobserversapplog.RankingCacheLog{},
+		rankingcacheobserversprometheus.New(registry),
 	})
 	refresh := peerdirectoryrefresh.New(
 		yacyseedlist.New(
@@ -232,7 +232,7 @@ func RunService(
 	searchServer := &http.Server{
 		Addr: cfg.ListenAddr,
 		Handler: httpobservation.NewHandler(
-			yacysearchendpoint.NewMux(rankings),
+			yacysearchendpoint.NewMux(rankingCache),
 			httpaccesslog.New(),
 			httpmetrics.NewEndpointMetrics(registry, "yacydhtsearch"),
 		),
@@ -504,13 +504,13 @@ func peerPresenceBucketAt(
 	return bucket, nil
 }
 
-func rankingCacheFor(
+func heldRankingsFor(
 	ctx context.Context,
 	cfg ServiceConfig,
-	metrics *rankingcacheobserversjetstreamprometheus.RankingMetrics,
-) (queryrankings.RankingCache, error) {
+	metrics *heldrankingsobserversjetstreamprometheus.HeldRankingsMetrics,
+) (rankingcache.HeldRankings, error) {
 	if cfg.NATSURL == "" {
-		return rankingcachememory.New(cfg.RankingCache, cfg.RankingLifetime), nil
+		return heldrankingsmemory.New(cfg.RankingCacheCapacity, cfg.RankingLifetime), nil
 	}
 
 	bucket, err := rankingBucketAt(ctx, cfg)
@@ -518,8 +518,8 @@ func rankingCacheFor(
 		return nil, err
 	}
 
-	return rankingcachejetstream.New(bucket, rankingcachejetstream.RankingCacheObservers{
-		rankingcacheobserversjetstreamapplog.RankingLog{},
+	return heldrankingsjetstream.New(bucket, heldrankingsjetstream.HeldRankingsObservers{
+		heldrankingsobserversjetstreamapplog.HeldRankingsLog{},
 		metrics,
 	}), nil
 }
@@ -533,7 +533,7 @@ func rankingBucketAt(ctx context.Context, cfg ServiceConfig) (natsjetstream.KeyV
 	bucket, err := stream.CreateOrUpdateKeyValue(ctx, natsjetstream.KeyValueConfig{
 		Bucket:       rankingBucket,
 		TTL:          cfg.RankingLifetime,
-		MaxBytes:     int64(cfg.RankingCache) * rankingByteCeiling,
+		MaxBytes:     int64(cfg.RankingCacheCapacity) * rankingByteCeiling,
 		MaxValueSize: rankingByteCeiling,
 		History:      1,
 	})

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
+	heldrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankings/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -33,84 +33,84 @@ func rankingOver(t *testing.T, address string) searchresult.Ranking {
 func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
 	t.Parallel()
 
-	cache := rankingcachememory.New(capacity, lifetime)
+	cache := heldrankingsmemory.New(capacity, lifetime)
 	query := searchquery.Query{Words: []string{"berlin"}}
-	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
+	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
-	ranking, found := cache.CachedRankingFor(t.Context(), query)
+	ranking, found := cache.RankingFor(t.Context(), query)
 
 	if !found || len(ranking.Items) != 1 || ranking.Items[0].Address != "https://a.example/" {
-		t.Fatalf("CachedRankingFor = %+v (found %t), want the ranking cache", ranking, found)
+		t.Fatalf("RankingFor = %+v (found %t), want the ranking cache", ranking, found)
 	}
 }
 
 func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
 	t.Parallel()
 
-	cache := rankingcachememory.New(capacity, lifetime)
+	cache := heldrankingsmemory.New(capacity, lifetime)
 
-	if _, found := cache.CachedRankingFor(
+	if _, found := cache.RankingFor(
 		t.Context(),
 		searchquery.Query{Words: []string{"berlin"}},
 	); found {
-		t.Fatal("CachedRankingFor found a ranking nobody cache")
+		t.Fatal("RankingFor found a ranking nobody cache")
 	}
 }
 
 func TestOneQueryDoesNotAnswerAnother(t *testing.T) {
 	t.Parallel()
 
-	cache := rankingcachememory.New(capacity, lifetime)
-	cache.StoreRanking(
+	cache := heldrankingsmemory.New(capacity, lifetime)
+	cache.Store(
 		t.Context(),
 		searchquery.Query{Words: []string{"berlin"}},
 		rankingOver(t, "https://a.example/"),
 	)
 
-	if _, found := cache.CachedRankingFor(
+	if _, found := cache.RankingFor(
 		t.Context(),
 		searchquery.Query{Words: []string{"hamburg"}},
 	); found {
-		t.Fatal("CachedRankingFor answered one query with another query's ranking")
+		t.Fatal("RankingFor answered one query with another query's ranking")
 	}
 }
 
 func TestTheOldestRankingGoesWhenTheCapacityIsFull(t *testing.T) {
 	t.Parallel()
 
-	cache := rankingcachememory.New(capacity, lifetime)
+	cache := heldrankingsmemory.New(capacity, lifetime)
 	for _, word := range []string{"berlin", "hamburg", "bremen"} {
-		cache.StoreRanking(
+		cache.Store(
 			t.Context(),
 			searchquery.Query{Words: []string{word}},
 			rankingOver(t, "https://a.example/"+word),
 		)
 	}
 
-	if _, found := cache.CachedRankingFor(
+	if _, found := cache.RankingFor(
 		t.Context(),
 		searchquery.Query{Words: []string{"berlin"}},
 	); found {
-		t.Fatal("CachedRankingFor still returns the oldest ranking past the capacity")
+		t.Fatal("RankingFor still returns the oldest ranking past the capacity")
 	}
-	if _, found := cache.CachedRankingFor(
+	if _, found := cache.RankingFor(
 		t.Context(),
 		searchquery.Query{Words: []string{"bremen"}},
 	); !found {
-		t.Fatal("CachedRankingFor dropped the newest ranking")
+		t.Fatal("RankingFor dropped the newest ranking")
 	}
 }
 
 func TestARankingIsGoneOnceItsLifetimeIsSpent(t *testing.T) {
 	t.Parallel()
 
-	cache := rankingcachememory.New(capacity, 20*time.Millisecond)
+	cache := heldrankingsmemory.New(capacity, 20*time.Millisecond)
 	query := searchquery.Query{Words: []string{"berlin"}}
-	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
+	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
 	time.Sleep(200 * time.Millisecond)
 
-	if _, found := cache.CachedRankingFor(t.Context(), query); found {
-		t.Fatal("CachedRankingFor still returns a ranking past its lifetime")
+	if _, found := cache.RankingFor(t.Context(), query); found {
+		t.Fatal("RankingFor still returns a ranking past its lifetime")
 	}
 }

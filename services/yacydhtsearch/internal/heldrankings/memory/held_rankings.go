@@ -1,4 +1,4 @@
-// Package memory caches query rankings in this process, for as long as their
+// Package memory holds query rankings in this process, for as long as their
 // lifetime allows and as many as its capacity allows.
 package memory
 
@@ -12,24 +12,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
 
-type RankingCache struct {
+type HeldRankings struct {
 	rankings *expirable.LRU[string, searchresult.Ranking]
 }
 
-func New(capacity int, lifetime time.Duration) *RankingCache {
-	return &RankingCache{
+func New(capacity int, lifetime time.Duration) *HeldRankings {
+	return &HeldRankings{
 		rankings: expirable.NewLRU[string, searchresult.Ranking](capacity, nil, lifetime),
 	}
 }
 
-func (h *RankingCache) CachedRankingFor(
+func (h *HeldRankings) RankingFor(
 	_ context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, bool) {
 	return h.rankings.Get(query.String())
 }
 
-func (h *RankingCache) StoreRanking(
+func (h *HeldRankings) Store(
 	_ context.Context,
 	query searchquery.Query,
 	ranking searchresult.Ranking,

@@ -9,7 +9,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
+	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
@@ -29,7 +29,7 @@ func TestEveryOutcomeOfASearchIsPublishedApart(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := queryrankingsobserversprometheus.New(registry)
+	metrics := rankingcacheobserversprometheus.New(registry)
 	query := searchquery.Query{Words: []string{"berlin"}}
 
 	metrics.QueryAnsweredFromCache(t.Context(), query, 12)
@@ -55,7 +55,7 @@ func TestASearchThatCameBackWithNoItemIsCountedApartFromOneThatHeldItems(t *test
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := queryrankingsobserversprometheus.New(registry)
+	metrics := rankingcacheobserversprometheus.New(registry)
 	query := searchquery.Query{Words: []string{"berlin"}}
 
 	metrics.QueryAnsweredByPeers(t.Context(), query, 0)

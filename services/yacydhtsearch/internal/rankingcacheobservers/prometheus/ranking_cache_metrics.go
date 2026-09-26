@@ -19,7 +19,7 @@ const (
 	outcomeNoPeerReached     = "no peer reached"
 )
 
-type QueryRankingMetrics struct {
+type RankingCacheMetrics struct {
 	searchesAnsweredFromCache   prometheusclient.Counter
 	searchesWithNoItemFromCache prometheusclient.Counter
 	searchesAnsweredByPeers     prometheusclient.Counter
@@ -28,14 +28,14 @@ type QueryRankingMetrics struct {
 	searchesThatReachedNoPeer   prometheusclient.Counter
 }
 
-func New(registry prometheusclient.Registerer) *QueryRankingMetrics {
+func New(registry prometheusclient.Registerer) *RankingCacheMetrics {
 	searches := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_searches_total",
 		Help: "Searches answered, by the outcome each search reached.",
 	}, []string{labelOutcome})
 	registry.MustRegister(searches)
 
-	return &QueryRankingMetrics{
+	return &RankingCacheMetrics{
 		searchesAnsweredFromCache:   searches.WithLabelValues(outcomeAnsweredFromCache),
 		searchesWithNoItemFromCache: searches.WithLabelValues(outcomeNoItemFromCache),
 		searchesAnsweredByPeers:     searches.WithLabelValues(outcomeAnsweredByPeers),
@@ -45,7 +45,7 @@ func New(registry prometheusclient.Registerer) *QueryRankingMetrics {
 	}
 }
 
-func (m *QueryRankingMetrics) QueryAnsweredFromCache(
+func (m *RankingCacheMetrics) QueryAnsweredFromCache(
 	_ context.Context,
 	_ searchquery.Query,
 	amountOfItems int,
@@ -58,7 +58,7 @@ func (m *QueryRankingMetrics) QueryAnsweredFromCache(
 	m.searchesAnsweredFromCache.Inc()
 }
 
-func (m *QueryRankingMetrics) QueryAnsweredByPeers(
+func (m *RankingCacheMetrics) QueryAnsweredByPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	amountOfItems int,
@@ -71,10 +71,10 @@ func (m *QueryRankingMetrics) QueryAnsweredByPeers(
 	m.searchesAnsweredByPeers.Inc()
 }
 
-func (m *QueryRankingMetrics) QueryHoldsNoIndexedTerm(context.Context, searchquery.Query) {
+func (m *RankingCacheMetrics) QueryHoldsNoIndexedTerm(context.Context, searchquery.Query) {
 	m.searchesWithNoIndexedTerm.Inc()
 }
 
-func (m *QueryRankingMetrics) QueryReachedNoPeer(context.Context, searchquery.Query) {
+func (m *RankingCacheMetrics) QueryReachedNoPeer(context.Context, searchquery.Query) {
 	m.searchesThatReachedNoPeer.Inc()
 }

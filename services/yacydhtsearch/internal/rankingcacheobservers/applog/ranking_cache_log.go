@@ -15,9 +15,9 @@ const (
 	msgQueryReachedNoPeer      = "query reached no peer, because the directory held none to ask"
 )
 
-type QueryRankingLog struct{}
+type RankingCacheLog struct{}
 
-func (QueryRankingLog) QueryAnsweredFromCache(
+func (RankingCacheLog) QueryAnsweredFromCache(
 	ctx context.Context,
 	query searchquery.Query,
 	amountOfItems int,
@@ -28,7 +28,7 @@ func (QueryRankingLog) QueryAnsweredFromCache(
 	)
 }
 
-func (QueryRankingLog) QueryAnsweredByPeers(
+func (RankingCacheLog) QueryAnsweredByPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	amountOfItems int,
@@ -39,10 +39,10 @@ func (QueryRankingLog) QueryAnsweredByPeers(
 	)
 }
 
-func (QueryRankingLog) QueryHoldsNoIndexedTerm(ctx context.Context, query searchquery.Query) {
+func (RankingCacheLog) QueryHoldsNoIndexedTerm(ctx context.Context, query searchquery.Query) {
 	slog.DebugContext(ctx, msgQueryHoldsNoIndexedTerm, slog.String("query", query.String()))
 }
 
-func (QueryRankingLog) QueryReachedNoPeer(ctx context.Context, query searchquery.Query) {
+func (RankingCacheLog) QueryReachedNoPeer(ctx context.Context, query searchquery.Query) {
 	slog.WarnContext(ctx, msgQueryReachedNoPeer, slog.String("query", query.String()))
 }

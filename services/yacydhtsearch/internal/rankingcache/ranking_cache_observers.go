@@ -1,4 +1,4 @@
-package queryrankings
+package rankingcache
 
 import (
 	"context"
@@ -6,9 +6,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-type QueryRankingObservers []QueryRankingObserver
+type RankingCacheObservers []RankingCacheObserver
 
-func (observers QueryRankingObservers) QueryAnsweredFromCache(
+func (observers RankingCacheObservers) QueryAnsweredFromCache(
 	ctx context.Context,
 	query searchquery.Query,
 	amountOfItems int,
@@ -18,7 +18,7 @@ func (observers QueryRankingObservers) QueryAnsweredFromCache(
 	}
 }
 
-func (observers QueryRankingObservers) QueryAnsweredByPeers(
+func (observers RankingCacheObservers) QueryAnsweredByPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	amountOfItems int,
@@ -28,7 +28,7 @@ func (observers QueryRankingObservers) QueryAnsweredByPeers(
 	}
 }
 
-func (observers QueryRankingObservers) QueryHoldsNoIndexedTerm(
+func (observers RankingCacheObservers) QueryHoldsNoIndexedTerm(
 	ctx context.Context,
 	query searchquery.Query,
 ) {
@@ -37,7 +37,7 @@ func (observers QueryRankingObservers) QueryHoldsNoIndexedTerm(
 	}
 }
 
-func (observers QueryRankingObservers) QueryReachedNoPeer(
+func (observers RankingCacheObservers) QueryReachedNoPeer(
 	ctx context.Context,
 	query searchquery.Query,
 ) {
