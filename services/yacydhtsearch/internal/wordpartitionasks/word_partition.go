@@ -2,7 +2,6 @@ package wordpartitionasks
 
 import (
 	"context"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -29,11 +28,11 @@ type wordPartition struct {
 }
 
 type replicaCall struct {
-	placedAsk  placedAsk
-	putOn      PutOn
-	ended      bool
-	hedgeTimer *time.Timer
-	answer     yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
+	placedAsk      placedAsk
+	putOn          PutOn
+	ended          bool
+	stopHedgeTimer func()
+	answer         yacymodel.Optional[peerasks.AnsweredSearchDocumentsAsk]
 }
 
 type replicaCallOutcome struct {
@@ -108,7 +107,7 @@ func (partition *wordPartition) putTheAsk(
 		putOn:     putOn,
 		answer:    yacymodel.None[peerasks.AnsweredSearchDocumentsAsk](),
 	}
-	call.hedgeTimer = time.AfterFunc(
+	call.stopHedgeTimer = partition.replicaAsks.clock.After(
 		partition.replicaAsks.hedgeDelay.HedgeDelayOf(ctx, placedAsk.ask.Peer),
 		func() { partition.hedgesDue <- call },
 	)
@@ -248,7 +247,7 @@ func (partition *wordPartition) countTheCoveringAnswer(outcome replicaCallOutcom
 
 func (partition *wordPartition) stopTheHedgeTimers() {
 	for _, call := range partition.calls {
-		call.hedgeTimer.Stop()
+		call.stopHedgeTimer()
 	}
 }
 

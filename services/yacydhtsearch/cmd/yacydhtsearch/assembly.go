@@ -271,6 +271,7 @@ func querySpreadFor(
 	replicaAsks := wordpartitionasks.New(
 		peers,
 		hedgedelaysconstant.New(cfg.HedgeDelay),
+		wallclock.Clock{},
 		cfg.ReplicasCoveringAPartition,
 		wordpartitionasks.ReplicaAsksObservers{
 			wordpartitionasksobserversapplog.ReplicaAsksLog{},

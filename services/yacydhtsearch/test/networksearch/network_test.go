@@ -271,6 +271,7 @@ func replicaAsks(t *testing.T) wordpartitionasks.Asks {
 	return wordpartitionasks.New(
 		peerCalls(t),
 		hedgedelaysconstant.New(hedgeDelay),
+		wallclock.Clock{},
 		replicasCoveringAPartition,
 		wordpartitionasks.ReplicaAsksObservers{},
 	)

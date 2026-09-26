@@ -28,6 +28,7 @@ type HedgeDelay interface {
 type Asks struct {
 	peerCalls                          PeerCalls
 	hedgeDelay                         HedgeDelay
+	clock                              Clock
 	amountOfReplicasCoveringAPartition int
 	observer                           ReplicaAsksObserver
 }
@@ -35,12 +36,14 @@ type Asks struct {
 func New(
 	peerCalls PeerCalls,
 	hedgeDelay HedgeDelay,
+	clock Clock,
 	amountOfReplicasCoveringAPartition int,
 	observer ReplicaAsksObserver,
 ) Asks {
 	return Asks{
 		peerCalls:                          peerCalls,
 		hedgeDelay:                         hedgeDelay,
+		clock:                              clock,
 		amountOfReplicasCoveringAPartition: amountOfReplicasCoveringAPartition,
 		observer:                           observer,
 	}
