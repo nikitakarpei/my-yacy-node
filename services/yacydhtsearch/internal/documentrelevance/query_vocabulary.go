@@ -44,7 +44,7 @@ func (vocabulary queryVocabulary) wordsSpelledAsOneAmong(
 		if _, held := wordsOfTheText[compoundWord.Hash()]; !held {
 			continue
 		}
-		for _, word := range compoundWord.WordHashes() {
+		for _, word := range compoundWord.PartHashes() {
 			heldWords[word] = struct{}{}
 		}
 	}

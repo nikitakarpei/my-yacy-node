@@ -61,7 +61,7 @@ func (round discoveryRound) documentsPerQueryWord() documentsPerQueryWord {
 		documentsOfEachQueryWord[queryWord.word] = queryWord.documents()
 	}
 	for _, compoundWord := range round.compoundWords {
-		for _, word := range compoundWord.WordHashes() {
+		for _, word := range compoundWord.PartHashes() {
 			documentsOfEachQueryWord.add(word, compoundWord.documents())
 		}
 	}

@@ -11,6 +11,6 @@ func (c CompoundWord) Hash() yacymodel.Hash {
 	return yacymodel.WordHash(c.Word)
 }
 
-func (c CompoundWord) WordHashes() []yacymodel.Hash {
+func (c CompoundWord) PartHashes() []yacymodel.Hash {
 	return hashesOf(c.Parts)
 }

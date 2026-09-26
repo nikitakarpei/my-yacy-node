@@ -26,7 +26,7 @@ func queryWordRolesAround(
 		roles.otherWords = append(roles.otherWords, queryWord)
 	}
 	for _, compoundWord := range query.CompoundWords {
-		if slices.Contains(compoundWord.WordHashes(), leadingQueryWord) {
+		if slices.Contains(compoundWord.PartHashes(), leadingQueryWord) {
 			roles.wordsOfTheDocumentsToMatch = append(
 				roles.wordsOfTheDocumentsToMatch, compoundWord.Hash(),
 			)

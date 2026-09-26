@@ -58,8 +58,8 @@ func TestACompoundWordIsAddressedByItsWordAndCountsForItsParts(t *testing.T) {
 	if compound.Hash() != yacymodel.WordHash("openstreet") {
 		t.Fatalf("Hash = %v, want the hash of openstreet", compound.Hash())
 	}
-	if !slices.Equal(compound.WordHashes(), hashesOf("open", "street")) {
-		t.Fatalf("WordHashes = %v, want the hashes of open and street", compound.WordHashes())
+	if !slices.Equal(compound.PartHashes(), hashesOf("open", "street")) {
+		t.Fatalf("PartHashes = %v, want the hashes of open and street", compound.PartHashes())
 	}
 }
 
