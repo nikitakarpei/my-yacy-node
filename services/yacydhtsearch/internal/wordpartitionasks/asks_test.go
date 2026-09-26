@@ -341,26 +341,6 @@ func TestTheSettledAsksHoldOnlyTheAnswersThatCameBack(t *testing.T) {
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two", "weather-one")
 }
 
-func TestAnEmptyAnswerThatCountsDocumentsHeldSettlesTheWordPartition(t *testing.T) {
-	t.Parallel()
-
-	asking := askingOfTheTests(t, map[string]scriptedReplicaCall{
-		"berlin-one": {documentsHeld: yacymodel.Some(5)},
-		"berlin-two": {documentsListed: 1},
-	}, 1)
-
-	answers := asking.answersOf(
-		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
-	)
-
-	if got := addressesOf(answers); !slices.Equal(got, []string{"berlin-one"}) {
-		t.Fatalf("the run answered from %v, want the first replica only", got)
-	}
-	asking.calls.wantAddressesPut(t, "berlin-one")
-	asking.observer.wantSettledBy(t, wordpartitionasks.SettledByCoverage)
-	asking.observer.wantAmountOfDocumentsListed(t, 5)
-}
-
 func TestAPeerAskedForOneWordPartitionIsNotAskedForAnotherOne(t *testing.T) {
 	t.Parallel()
 
@@ -525,7 +505,6 @@ func TestARunWithoutAsksIsOverOnceTheAsksClose(t *testing.T) {
 
 type scriptedReplicaCall struct {
 	documentsListed     int
-	documentsHeld       yacymodel.Optional[int]
 	searched            bool
 	fails               bool
 	answersWhenReleased bool
@@ -581,10 +560,9 @@ func (calls *replicaCallsOfTheTests) Put(
 	}
 
 	return wordpartitionasks.ReplicaAnswer{
-		Replica:               replica,
-		ListedDocuments:       make([]wordpartitionasks.ListedDocument, script.documentsListed),
-		AmountOfDocumentsHeld: script.documentsHeld,
-		Searched:              script.searched,
+		Replica:         replica,
+		ListedDocuments: make([]wordpartitionasks.ListedDocument, script.documentsListed),
+		Searched:        script.searched,
 	}, true
 }
 

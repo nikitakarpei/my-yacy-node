@@ -37,8 +37,8 @@ func urlMetadataLookupRoundMetricsRegisteredIn(
 		},
 		joinedDocumentsDroppedBeforeMetadataLookupRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio",
-			"Share of the joined documents without metadata that the spread dropped before "+
-				"looking their metadata up.",
+			"Share of the joined documents that the spread dropped before looking their "+
+				"metadata up.",
 		),
 		lookedUpDocumentsWithoutMetadataRatio: ratioHistogramNamed(
 			"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio",
@@ -65,16 +65,10 @@ func (m urlMetadataLookupRoundMetrics) observeURLMetadataLookupRound(
 	urlMetadataLookupRound wordjoined.PerformedURLMetadataLookupRound,
 	amountOfJoinedDocuments int,
 ) {
-	amountOfJoinedDocumentsWithoutMetadata := amountOfJoinedDocuments -
-		urlMetadataLookupRound.AmountOfJoinedDocumentsWithMetadata
-	if amountOfJoinedDocumentsWithoutMetadata > 0 {
+	if amountOfJoinedDocuments > 0 {
 		m.joinedDocumentsDroppedBeforeMetadataLookupRatio.Observe(
-			float64(
-				amountOfJoinedDocumentsWithoutMetadata-urlMetadataLookupRound.AmountOfLookedUpDocuments,
-			) /
-				float64(
-					amountOfJoinedDocumentsWithoutMetadata,
-				),
+			float64(amountOfJoinedDocuments-urlMetadataLookupRound.AmountOfLookedUpDocuments) /
+				float64(amountOfJoinedDocuments),
 		)
 	}
 	if urlMetadataLookupRound.AmountOfLookedUpDocuments == 0 {

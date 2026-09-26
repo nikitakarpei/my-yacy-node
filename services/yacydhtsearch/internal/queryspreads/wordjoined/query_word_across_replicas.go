@@ -52,7 +52,10 @@ func queryWordAcrossReplicasFrom(
 		for _, answer := range settledAsk.Answers {
 			replicasPerPartition[settledAsk.Partition] = append(
 				replicasPerPartition[settledAsk.Partition],
-				wordReplica{answer: answer},
+				wordReplica{
+					listedDocuments:  answer.ListedDocuments,
+					documentsToMatch: settledAsk.DocumentsToMatch,
+				},
 			)
 		}
 	}
@@ -75,47 +78,45 @@ func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {
 }
 
 func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymodel.Optional[int] {
-	amountsHeldInPartitionsWhereAPeerCounted := queryWord.amountsOfDocumentsHeldInPartitionsWhereAPeerCounted()
-	if len(amountsHeldInPartitionsWhereAPeerCounted) == 0 {
+	amountsHeldInCompletePartitions := queryWord.amountsHeldInCompletePartitions()
+	if len(amountsHeldInCompletePartitions) == 0 {
 		return yacymodel.None[int]()
 	}
 
-	amountOfPartitionsWhereNoPeerCounted := len(queryWord.replicasPerPartition) -
-		len(amountsHeldInPartitionsWhereAPeerCounted)
-	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted *
-		lowerMedianOf(amountsHeldInPartitionsWhereAPeerCounted)
-	for _, amountHeld := range amountsHeldInPartitionsWhereAPeerCounted {
+	amountOfIncompletePartitions := len(queryWord.replicasPerPartition) -
+		len(amountsHeldInCompletePartitions)
+	sumOfAmountsHeld := amountOfIncompletePartitions *
+		lowerMedianOf(amountsHeldInCompletePartitions)
+	for _, amountHeld := range amountsHeldInCompletePartitions {
 		sumOfAmountsHeld += amountHeld
 	}
 
 	return yacymodel.Some(sumOfAmountsHeld)
 }
 
-// TECHDEBT: Naming — a name past four words names two facts: amountsOfDocumentsHeldInPartitionsWhereAPeerCounted.
-func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
+func (queryWord queryWordAcrossReplicas) amountsHeldInCompletePartitions() []int {
 	amountsHeld := make([]int, 0, len(queryWord.replicasPerPartition))
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
-		countedAmounts := amountsOfDocumentsHeldCountedBy(replicasOfPartition)
-		if len(countedAmounts) == 0 {
+		amountsHeldInThePartition := amountsHeldBy(replicasOfPartition)
+		if len(amountsHeldInThePartition) == 0 {
 			continue
 		}
-		amountsHeld = append(amountsHeld, lowerMedianOf(countedAmounts))
+		amountsHeld = append(amountsHeld, lowerMedianOf(amountsHeldInThePartition))
 	}
 
 	return amountsHeld
 }
 
-func amountsOfDocumentsHeldCountedBy(replicas []wordReplica) []int {
-	countedAmounts := make([]int, 0, len(replicas))
+func amountsHeldBy(replicas []wordReplica) []int {
+	amountsHeld := make([]int, 0, len(replicas))
 	for _, replica := range replicas {
-		amountOfDocumentsHeld, counted := replica.answer.AmountOfDocumentsHeld.Get()
-		if !counted {
+		if !replica.hasACompleteAbstract() {
 			continue
 		}
-		countedAmounts = append(countedAmounts, amountOfDocumentsHeld)
+		amountsHeld = append(amountsHeld, len(replica.listedDocuments))
 	}
 
-	return countedAmounts
+	return amountsHeld
 }
 
 func lowerMedianOf(amounts []int) int {
@@ -128,7 +129,7 @@ func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 	documents := distinctDocuments{}
 	for _, replicasOfPartition := range queryWord.replicasPerPartition {
 		for _, replica := range replicasOfPartition {
-			for _, listedDocument := range replica.answer.ListedDocuments {
+			for _, listedDocument := range replica.listedDocuments {
 				documents.add(listedDocument.Hash)
 			}
 		}
@@ -148,7 +149,7 @@ func (queryWord queryWordAcrossReplicas) sampleIn(
 			continue
 		}
 		complete = true
-		for _, listedDocument := range replica.answer.ListedDocuments {
+		for _, listedDocument := range replica.listedDocuments {
 			if partitions.PartitionOf(listedDocument.Hash) != partition {
 				continue
 			}

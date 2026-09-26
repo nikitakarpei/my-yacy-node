@@ -1,17 +1,14 @@
 package wordjoined
 
 import (
-	"maps"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type urlMetadataLookupRound struct {
-	documentsWithoutMetadata distinctDocuments
-	asks                     []peerasks.URLMetadataAsk
+	asks []peerasks.URLMetadataAsk
 	endedURLMetadataLookup
 }
 
@@ -28,23 +25,6 @@ const (
 	URLMetadataLookupEndedByEveryAskSettled URLMetadataLookupEndReason = "every ask settled"
 	URLMetadataLookupEndedByCutoff          URLMetadataLookupEndReason = "cut off"
 )
-
-func documentsWithoutMetadataAmong(
-	joinedDocuments distinctDocuments,
-	answers []wordpartitionasks.ReplicaAnswer,
-) distinctDocuments {
-	documentsWithoutMetadata := maps.Clone(joinedDocuments)
-	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			if !listedDocument.Metadata.Present() {
-				continue
-			}
-			delete(documentsWithoutMetadata, listedDocument.Hash)
-		}
-	}
-
-	return documentsWithoutMetadata
-}
 
 type urlMetadataLookupInFlight struct {
 	amountOfLookedUpDocuments     int
@@ -68,6 +48,7 @@ func urlMetadataLookupInFlightOf(asks []peerasks.URLMetadataAsk) urlMetadataLook
 	}
 }
 
+// TECHDEBT: Testing — time: the grace waits on time.NewTimer, not on a clock port.
 func (lookup *urlMetadataLookupInFlight) settleUntilEnded(
 	outcomesAsTheySettle <-chan peerasks.URLMetadataAskOutcome,
 	cutoff URLMetadataLookupCutoff,

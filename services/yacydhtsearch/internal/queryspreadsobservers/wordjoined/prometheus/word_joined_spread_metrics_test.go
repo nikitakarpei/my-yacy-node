@@ -47,9 +47,8 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 				3: wordjoined.OtherWordAsksOverTheCeiling,
 			},
 		},
-		AmountOfJoinedDocuments: 10,
+		AmountOfJoinedDocuments: 8,
 		URLMetadataLookupRound: wordjoined.PerformedURLMetadataLookupRound{
-			AmountOfJoinedDocumentsWithMetadata:   2,
 			AmountOfLookedUpDocuments:             4,
 			AmountOfLookedUpDocumentsWithMetadata: 3,
 			EndReason:                             wordjoined.URLMetadataLookupEndedByCoverage,
@@ -181,27 +180,6 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
-	}
-}
-
-func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoShareDroppedBeforeLookup(
-	t *testing.T,
-) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
-
-	spread := spreadJoiningDocuments(4)
-	spread.URLMetadataLookupRound.AmountOfJoinedDocumentsWithMetadata = 4
-	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
-
-	body := publishedBy(t, registry)
-	if !strings.Contains(
-		body,
-		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count 0",
-	) {
-		t.Fatalf("metrics carry a share dropped before lookup for a spread missing none:\n%s", body)
 	}
 }
 

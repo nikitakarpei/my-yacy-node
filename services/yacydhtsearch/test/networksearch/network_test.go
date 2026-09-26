@@ -241,14 +241,20 @@ func networkOver(
 func peerMatchedSpread(t *testing.T) peermatched.Spread {
 	t.Helper()
 
-	return peermatched.New(replicaAsks(t), peermatched.PeerMatchedSpreadObservers{})
+	return peermatched.New(
+		replicaAsksWanting(t, replicacallsyacysearch.Wants{
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(peerResults),
+		}),
+		peermatched.PeerMatchedSpreadObservers{},
+	)
 }
 
 func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	t.Helper()
 
 	return wordjoined.New(
-		replicaAsks(t),
+		replicaAsksWanting(t, replicacallsyacysearch.Wants{Abstract: true}),
 		peerCalls(t),
 		noRememberedQueryWordDocumentAmounts{},
 		wordjoined.URLMetadataLookupCutoff{},
@@ -261,14 +267,14 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	)
 }
 
-func replicaAsks(t *testing.T) wordpartitionasks.Asks {
+func replicaAsksWanting(
+	t *testing.T,
+	wants replicacallsyacysearch.Wants,
+) wordpartitionasks.Asks {
 	t.Helper()
 
 	return wordpartitionasks.New(
-		replicacallsyacysearch.New(peerCalls(t), replicacallsyacysearch.Wants{
-			Abstract:                true,
-			MatchedDocumentsCeiling: yacymodel.Some(peerResults),
-		}),
+		replicacallsyacysearch.New(peerCalls(t), wants),
 		hedgedelaysconstant.New(hedgeDelay),
 		wallclock.Clock{},
 		replicasCoveringAPartition,
@@ -904,25 +910,24 @@ func peerListingTheAddressForEachWord(t *testing.T, address string, words ...str
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 	documentsPerWord := make(map[yacymodel.Hash][]yacymodel.URLHash, len(words))
-	documentsHeldPerWord := make(map[yacymodel.Hash]int, len(words))
 	for _, word := range words {
 		documentsPerWord[yacymodel.WordHash(word)] = []yacymodel.URLHash{documentHash}
-		documentsHeldPerWord[yacymodel.WordHash(word)] = 1
 	}
-	body := yacyproto.SearchResponse{
-		Count: 1,
-		Resources: []yacyproto.SearchResource{{
-			Metadata: yacymodel.URLMetadata{
-				Hash: documentHash, Address: address, Title: "Weather",
-			},
-		}},
-		IndexAbstract: documentsPerWord,
-		IndexCount:    documentsHeldPerWord,
-	}.Encode().Encode()
+	abstracts := []byte(
+		yacyproto.SearchResponse{IndexAbstract: documentsPerWord}.Encode().Encode(),
+	)
+	metadata := yacyproto.URLMetadataResponse{URLs: []yacymodel.URLMetadata{
+		{Hash: documentHash, Address: address, Title: "Weather"},
+	}}.Encode()
 
 	server := httptest.NewServer(http.HandlerFunc(
-		func(writer http.ResponseWriter, _ *http.Request) {
-			_, _ = writer.Write([]byte(body))
+		func(writer http.ResponseWriter, request *http.Request) {
+			if request.URL.Path == yacyproto.PathURLMetadata {
+				_, _ = writer.Write(metadata)
+
+				return
+			}
+			_, _ = writer.Write(abstracts)
 		},
 	))
 	t.Cleanup(server.Close)

@@ -124,19 +124,7 @@ func (partition *wordPartition) callTheReplica(ctx context.Context, call *replic
 }
 
 func coversThePartition(answer ReplicaAnswer) bool {
-	return amountOfDocumentsListedIn(answer) > 0 || answer.Searched
-}
-
-func amountOfDocumentsListedIn(answer ReplicaAnswer) int {
-	if len(answer.ListedDocuments) > 0 {
-		return len(answer.ListedDocuments)
-	}
-	amountHeld, counted := answer.AmountOfDocumentsHeld.Get()
-	if !counted {
-		return 0
-	}
-
-	return max(0, amountHeld)
+	return len(answer.ListedDocuments) > 0 || answer.Searched
 }
 
 func (partition *wordPartition) settleWhenNothingIsLeftToAsk() {
@@ -262,7 +250,7 @@ func (partition *wordPartition) amountOfDocumentsListed() int {
 		if !answered {
 			continue
 		}
-		amountOfDocumentsListed += amountOfDocumentsListedIn(answer)
+		amountOfDocumentsListed += len(answer.ListedDocuments)
 	}
 
 	return amountOfDocumentsListed

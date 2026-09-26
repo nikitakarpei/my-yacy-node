@@ -96,9 +96,7 @@ func (spread Spread) SpreadOverPeers(
 		time.Since(startedAt),
 	))
 
-	return answeredQueryFrom(
-		query, discoveryRound, joinedDocuments, urlMetadataLookupRound,
-	)
+	return answeredQueryFrom(query, discoveryRound, urlMetadataLookupRound)
 }
 
 func (spread Spread) askToDiscover(
@@ -129,6 +127,7 @@ const (
 	roundsLeftAtTheURLMetadataLookup = 1
 )
 
+// TECHDEBT: Testing — time: the time left comes from time.Until, not from a clock port.
 func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, context.CancelFunc) {
 	deadline, bounded := ctx.Deadline()
 	if !bounded {
@@ -143,12 +142,9 @@ func (spread Spread) askForURLMetadata(
 	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
 ) urlMetadataLookupRound {
-	documentsWithoutMetadata := documentsWithoutMetadataAmong(
-		joinedDocuments, discoveryRound.settledAsks.answers(),
-	)
 	asks := urlMetadataAsksFor(
 		ctx,
-		discoveryRound.holdersPerDocument.mostHeldFirst(documentsWithoutMetadata),
+		discoveryRound.holdersPerDocument.mostHeldFirst(joinedDocuments),
 		discoveryRound.settledAsks.answers(),
 		spread.urlMetadataAskCeilings,
 		spread.amountOfPeersHoldingOneWord,
@@ -163,9 +159,5 @@ func (spread Spread) askForURLMetadata(
 	)
 	endLookup()
 
-	return urlMetadataLookupRound{
-		documentsWithoutMetadata: documentsWithoutMetadata,
-		asks:                     asks,
-		endedURLMetadataLookup:   endedLookup,
-	}
+	return urlMetadataLookupRound{asks: asks, endedURLMetadataLookup: endedLookup}
 }

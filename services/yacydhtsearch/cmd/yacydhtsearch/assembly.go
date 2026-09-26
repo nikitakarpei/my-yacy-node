@@ -275,10 +275,7 @@ func querySpreadFor(
 		wordpartitionasksobserversprometheus.New(registry, cfg.QueryBudget),
 	}
 	wordJoinedReplicaAsks := wordpartitionasks.New(
-		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{
-			Abstract:                true,
-			MatchedDocumentsCeiling: yacymodel.Some(cfg.PeerItemsCeiling),
-		}),
+		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{Abstract: true}),
 		hedgeDelay,
 		wallclock.Clock{},
 		cfg.ReplicasCoveringAPartition,

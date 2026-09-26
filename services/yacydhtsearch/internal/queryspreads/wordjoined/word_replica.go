@@ -1,16 +1,15 @@
 package wordjoined
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
 
 type wordReplica struct {
-	answer wordpartitionasks.ReplicaAnswer
+	listedDocuments  []wordpartitionasks.ListedDocument
+	documentsToMatch []yacymodel.URLHash
 }
 
 func (replica wordReplica) hasACompleteAbstract() bool {
-	amountOfDocumentsHeld, counted := replica.answer.AmountOfDocumentsHeld.Get()
-	if !counted {
-		return replica.answer.Searched && len(replica.answer.ListedDocuments) == 0
-	}
-
-	return amountOfDocumentsHeld <= len(replica.answer.ListedDocuments)
+	return len(replica.documentsToMatch) == 0
 }

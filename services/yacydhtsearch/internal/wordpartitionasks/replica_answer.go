@@ -1,13 +1,9 @@
 package wordpartitionasks
 
-import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 
 type ReplicaAnswer struct {
-	Replica               peerdirectory.AskablePeer
-	ListedDocuments       []ListedDocument
-	AmountOfDocumentsHeld yacymodel.Optional[int]
-	Searched              bool
+	Replica         peerdirectory.AskablePeer
+	ListedDocuments []ListedDocument
+	Searched        bool
 }

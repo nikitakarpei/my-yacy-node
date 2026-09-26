@@ -15,9 +15,7 @@ type PerformedDiscoveryRound struct {
 	LeadingQueryWordChoice                 LeadingQueryWordChoice
 	AmountOfDocumentsOfTheLeadingQueryWord int
 	OtherWordAsksPerPartition              map[uint]OtherWordAsks
-	AmountOfMatchedDocumentsAcrossAnswers  int
-	AmountOfMatchedDocumentsWithAPosting   int
-	AmountOfDocumentsHeldInEachAnswer      []int
+	AmountOfDocumentsInEachAbstract        []int
 }
 
 func performedDiscoveryRoundFrom(
@@ -38,10 +36,8 @@ func performedDiscoveryRoundFrom(
 		AmountOfDocumentsOfTheLeadingQueryWord: len(
 			round.leadingQueryWord().documents(),
 		),
-		OtherWordAsksPerPartition:             round.otherWordAsksPerPartition,
-		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAcrossAnswers(answers),
-		AmountOfMatchedDocumentsWithAPosting:  amountOfMatchedDocumentsWithAPosting(answers),
-		AmountOfDocumentsHeldInEachAnswer:     amountOfDocumentsHeldInEachAnswer(answers),
+		OtherWordAsksPerPartition:       round.otherWordAsksPerPartition,
+		AmountOfDocumentsInEachAbstract: amountOfDocumentsInEachAbstractOf(answers),
 	}
 }
 
@@ -69,45 +65,13 @@ func amountOfPeersWithANonEmptyAbstractAmong(answers []wordpartitionasks.Replica
 	return len(peers)
 }
 
-func amountOfMatchedDocumentsAcrossAnswers(answers []wordpartitionasks.ReplicaAnswer) int {
-	amount := 0
+func amountOfDocumentsInEachAbstractOf(answers []wordpartitionasks.ReplicaAnswer) []int {
+	amountOfDocumentsInEachAbstract := make([]int, 0, len(answers))
 	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			if !listedDocument.Metadata.Present() {
-				continue
-			}
-			amount++
-		}
-	}
-
-	return amount
-}
-
-func amountOfMatchedDocumentsWithAPosting(answers []wordpartitionasks.ReplicaAnswer) int {
-	amount := 0
-	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			if !listedDocument.Posting.Present() {
-				continue
-			}
-			amount++
-		}
-	}
-
-	return amount
-}
-
-func amountOfDocumentsHeldInEachAnswer(answers []wordpartitionasks.ReplicaAnswer) []int {
-	amountOfDocumentsHeldInEachAnswer := make([]int, 0, len(answers))
-	for _, answer := range answers {
-		amountOfDocumentsHeldForTheWord, counted := answer.AmountOfDocumentsHeld.Get()
-		if !counted {
-			continue
-		}
-		amountOfDocumentsHeldInEachAnswer = append(
-			amountOfDocumentsHeldInEachAnswer, amountOfDocumentsHeldForTheWord,
+		amountOfDocumentsInEachAbstract = append(
+			amountOfDocumentsInEachAbstract, len(answer.ListedDocuments),
 		)
 	}
 
-	return amountOfDocumentsHeldInEachAnswer
+	return amountOfDocumentsInEachAbstract
 }
