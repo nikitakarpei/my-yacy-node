@@ -34,7 +34,7 @@ func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
 	t.Parallel()
 
 	cache := rankingcachememory.New(capacity, lifetime)
-	query := searchquery.QueryFrom("berlin", "")
+	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
 
 	ranking, found := cache.CachedRankingFor(t.Context(), query)
@@ -49,7 +49,10 @@ func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
 
 	cache := rankingcachememory.New(capacity, lifetime)
 
-	if _, found := cache.CachedRankingFor(t.Context(), searchquery.QueryFrom("berlin", "")); found {
+	if _, found := cache.CachedRankingFor(
+		t.Context(),
+		searchquery.Query{Words: []string{"berlin"}},
+	); found {
 		t.Fatal("CachedRankingFor found a ranking nobody cache")
 	}
 }
@@ -59,12 +62,14 @@ func TestOneQueryDoesNotAnswerAnother(t *testing.T) {
 
 	cache := rankingcachememory.New(capacity, lifetime)
 	cache.StoreRanking(
-		t.Context(), searchquery.QueryFrom("berlin", ""), rankingOver(t, "https://a.example/"),
+		t.Context(),
+		searchquery.Query{Words: []string{"berlin"}},
+		rankingOver(t, "https://a.example/"),
 	)
 
 	if _, found := cache.CachedRankingFor(
 		t.Context(),
-		searchquery.QueryFrom("hamburg", ""),
+		searchquery.Query{Words: []string{"hamburg"}},
 	); found {
 		t.Fatal("CachedRankingFor answered one query with another query's ranking")
 	}
@@ -76,16 +81,21 @@ func TestTheOldestRankingGoesWhenTheCapacityIsFull(t *testing.T) {
 	cache := rankingcachememory.New(capacity, lifetime)
 	for _, word := range []string{"berlin", "hamburg", "bremen"} {
 		cache.StoreRanking(
-			t.Context(), searchquery.QueryFrom(word, ""), rankingOver(t, "https://a.example/"+word),
+			t.Context(),
+			searchquery.Query{Words: []string{word}},
+			rankingOver(t, "https://a.example/"+word),
 		)
 	}
 
-	if _, found := cache.CachedRankingFor(t.Context(), searchquery.QueryFrom("berlin", "")); found {
+	if _, found := cache.CachedRankingFor(
+		t.Context(),
+		searchquery.Query{Words: []string{"berlin"}},
+	); found {
 		t.Fatal("CachedRankingFor still returns the oldest ranking past the capacity")
 	}
 	if _, found := cache.CachedRankingFor(
 		t.Context(),
-		searchquery.QueryFrom("bremen", ""),
+		searchquery.Query{Words: []string{"bremen"}},
 	); !found {
 		t.Fatal("CachedRankingFor dropped the newest ranking")
 	}
@@ -95,7 +105,7 @@ func TestARankingIsGoneOnceItsLifetimeIsSpent(t *testing.T) {
 	t.Parallel()
 
 	cache := rankingcachememory.New(capacity, 20*time.Millisecond)
-	query := searchquery.QueryFrom("berlin", "")
+	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.StoreRanking(t.Context(), query, rankingOver(t, "https://a.example/"))
 
 	time.Sleep(200 * time.Millisecond)

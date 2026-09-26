@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
@@ -147,7 +148,7 @@ func searchOf(
 ) []queryanswers.FoundDocument {
 	return spreadOf(network, observer).SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom("berlin", ""),
+		searchquery.Query{Words: []string{"berlin"}},
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	).FoundDocuments
 }
@@ -172,7 +173,7 @@ func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
 func answersOfTheQuery(network *peerNetwork, query string) queryanswers.AnsweredQuery {
 	return spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom(query, ""),
+		queryreading.QueryFrom(query, ""),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	)
 }
@@ -341,7 +342,7 @@ func TestTheChosenPeersOfOnePartitionAreTheReplicasOfOneAskInTheirOrder(t *testi
 
 	peermatched.New(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
-		searchquery.QueryFrom("berlin", ""),
+		searchquery.Query{Words: []string{"berlin"}},
 		peerchoice.ChosenPeersPerQueryWord{{
 			QueryWord: yacymodel.WordHash("berlin"), ChosenPeers: chosenPeers,
 		}},

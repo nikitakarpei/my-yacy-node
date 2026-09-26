@@ -19,6 +19,8 @@ components:
     in: internal/queryspreadsobservers/peermatched/prometheus/**
   searchquery:
     in: internal/searchquery/**
+  queryreading:
+    in: internal/queryreading/**
   stopwords:
     in: internal/stopwords/**
   searchresult:
@@ -219,6 +221,9 @@ deps:
     mayDependOn:
       - peermatched
   searchquery:
+    canUse:
+      - yacymodel
+  queryreading:
     canUse:
       - yacymodel
     mayDependOn:
@@ -427,6 +432,7 @@ deps:
       - yacyseedlist
   yacysearchendpoint:
     mayDependOn:
+      - queryreading
       - searchquery
       - searchresult
   peerchoiceobserversprometheus:

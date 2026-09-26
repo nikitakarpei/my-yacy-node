@@ -129,7 +129,7 @@ func TestThePeersAnswerAQueryNoRankingIsHeldFor(t *testing.T) {
 	reports := &recordedReports{}
 	rankings := queryrankings.New(newRememberedRankings(), network, reports)
 
-	ranking := rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	ranking := rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != answeredAddress {
 		t.Fatalf("RankingFor = %+v, want what the peers hold", ranking.Items)
@@ -150,8 +150,8 @@ func TestARepeatedQueryReachesTheNetworkOnce(t *testing.T) {
 	reports := &recordedReports{}
 	rankings := queryrankings.New(newRememberedRankings(), network, reports)
 
-	first := rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
-	second := rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	first := rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+	second := rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if network.searches != 1 {
 		t.Fatalf("network searched %d times, want once", network.searches)
@@ -171,8 +171,8 @@ func TestAnotherQueryReachesTheNetworkOfItsOwn(t *testing.T) {
 	network := networkAnsweringOneAddress(t)
 	rankings := queryrankings.New(newRememberedRankings(), network, &recordedReports{})
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("hamburg", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"hamburg"}})
 
 	if network.searches != 2 {
 		t.Fatalf("network searched %d times, want one per query", network.searches)
@@ -185,8 +185,8 @@ func TestARankingThatIsNeverHeldSendsEveryQueryToTheNetwork(t *testing.T) {
 	network := networkAnsweringOneAddress(t)
 	rankings := queryrankings.New(cacheHoldingNothing{}, network, &recordedReports{})
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if network.searches != 2 {
 		t.Fatalf("network searched %d times, want one per query", network.searches)
@@ -200,8 +200,8 @@ func TestAQueryWithoutAnIndexedTermIsReportedAndLeavesTheCacheEmpty(t *testing.T
 	reports := &recordedReports{}
 	rankings := queryrankings.New(newRememberedRankings(), network, reports)
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if reports.amountHoldingNoIndexedTerm != 2 || reports.amountAnsweredFromCache != 0 {
 		t.Fatalf(
@@ -219,8 +219,8 @@ func TestAQueryThatReachedNoPeerIsReportedAndLeavesTheCacheEmpty(t *testing.T) {
 	reports := &recordedReports{}
 	rankings := queryrankings.New(newRememberedRankings(), network, reports)
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
-	second := rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+	second := rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if network.searches != 2 || reports.amountReachedNoPeer != 2 {
 		t.Fatalf(
@@ -245,8 +245,8 @@ func TestAnEmptyRankingThePeersAnsweredIsHeldForTheNextQuery(t *testing.T) {
 	reports := &recordedReports{}
 	rankings := queryrankings.New(newRememberedRankings(), network, reports)
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if network.searches != 1 || reports.amountAnsweredFromCache != 1 {
 		t.Fatalf(
@@ -267,8 +267,8 @@ func TestEveryObserverHearsAboutOneRanking(t *testing.T) {
 		queryrankings.QueryRankingObservers{first, second},
 	)
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if first.amountAnsweredByPeers != 1 || second.amountAnsweredByPeers != 1 ||
 		first.amountAnsweredFromCache != 1 || second.amountAnsweredFromCache != 1 {
@@ -286,7 +286,7 @@ func TestEveryObserverHearsAboutAQueryThatReachedNoPeer(t *testing.T) {
 		queryrankings.QueryRankingObservers{first, second},
 	)
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if first.amountReachedNoPeer != 1 || second.amountReachedNoPeer != 1 {
 		t.Fatalf("observers heard %+v and %+v, want one report each", first, second)
@@ -303,7 +303,7 @@ func TestEveryObserverHearsAboutAQueryWithoutAnIndexedTerm(t *testing.T) {
 		queryrankings.QueryRankingObservers{first, second},
 	)
 
-	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin", ""))
+	rankings.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
 	if first.amountHoldingNoIndexedTerm != 1 || second.amountHoldingNoIndexedTerm != 1 {
 		t.Fatalf("observers heard %+v and %+v, want one report each", first, second)

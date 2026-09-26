@@ -31,7 +31,7 @@ func TestAFailedHoldIsPublishedApartFromAFailedLookup(t *testing.T) {
 
 	registry := prometheusclient.NewRegistry()
 	metrics := rankingcacheobserversjetstreamprometheus.New(registry)
-	query := searchquery.QueryFrom("berlin", "")
+	query := searchquery.Query{Words: []string{"berlin"}}
 	refused := errors.New("bucket refused")
 
 	metrics.RankingLookupFailed(t.Context(), query, refused)

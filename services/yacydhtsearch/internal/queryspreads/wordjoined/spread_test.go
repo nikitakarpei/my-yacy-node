@@ -14,8 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -548,7 +548,7 @@ func (settings spreadSettings) spread(
 		ctx, endQuery = context.WithTimeout(ctx, settings.queryBudget)
 		defer endQuery()
 	}
-	query := searchquery.QueryFrom(settings.query, "")
+	query := queryreading.QueryFrom(settings.query, "")
 	queryWordDocumentAmounts := settings.queryWordDocumentAmounts
 	if queryWordDocumentAmounts == nil {
 		queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})

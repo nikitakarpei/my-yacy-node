@@ -23,7 +23,7 @@ func compoundWordsAcrossReplicasFrom(
 		if !slices.ContainsFunc(
 			settledAsks,
 			func(settledAsk wordpartitionasks.SettledAsk) bool {
-				return settledAsk.Word == compoundWord.Hash
+				return settledAsk.Word == compoundWord.Hash()
 			},
 		) {
 			continue
@@ -33,7 +33,7 @@ func compoundWordsAcrossReplicasFrom(
 			compoundWordAcrossReplicas{
 				CompoundWord: compoundWord,
 				queryWordAcrossReplicas: queryWordAcrossReplicasFrom(
-					compoundWord.Hash,
+					compoundWord.Hash(),
 					settledAsks,
 					partitions,
 				),

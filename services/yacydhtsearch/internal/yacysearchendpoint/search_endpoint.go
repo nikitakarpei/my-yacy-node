@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strconv"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
@@ -53,7 +54,7 @@ func (e SearchEndpoint) ServeHTTP(writer http.ResponseWriter, request *http.Requ
 }
 
 func queryOf(form url.Values) searchquery.Query {
-	return searchquery.QueryFrom(form.Get(fieldQuery), form.Get(fieldLanguage))
+	return queryreading.QueryFrom(form.Get(fieldQuery), form.Get(fieldLanguage))
 }
 
 func startRecordOf(form url.Values) int {

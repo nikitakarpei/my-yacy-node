@@ -1,12 +1,11 @@
-// Package searchquery holds the words a client asked for outside the stopwords
-// of their language, their compound words spelled as one, the word hashes that
-// address them on the DHT ring, and the spelling a held ranking answers to.
+// Package searchquery holds the words a query asks for, its compound words, its
+// exclusions and its language, the word hashes that address them on the DHT
+// ring, and the spelling a held ranking answers to.
 package searchquery
 
 import (
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stopwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,26 +14,6 @@ type Query struct {
 	CompoundWords []CompoundWord
 	Exclusions    []string
 	Language      string
-}
-
-func QueryFrom(raw, language string) Query {
-	tokens := tokensOf(raw)
-	var words, exclusions []string
-	for _, token := range tokens {
-		if token.excluded {
-			exclusions = appendUnseen(exclusions, token.word)
-			continue
-		}
-		words = appendUnseen(words, token.word)
-	}
-	contentWords := stopwords.ContentWordsOf(words, language)
-
-	return Query{
-		Words:         contentWords,
-		CompoundWords: compoundWordsOf(tokens, contentWords),
-		Exclusions:    exclusions,
-		Language:      language,
-	}
 }
 
 func (q Query) String() string {
@@ -57,7 +36,7 @@ func (q Query) WordHashes() []yacymodel.Hash {
 func (q Query) HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling int) []yacymodel.Hash {
 	hashes := q.WordHashes()
 	for _, compound := range q.CompoundWords[:min(max(compoundWordsCeiling, 0), len(q.CompoundWords))] {
-		hashes = append(hashes, compound.Hash)
+		hashes = append(hashes, compound.Hash())
 	}
 
 	return hashes
@@ -74,31 +53,4 @@ func hashesOf(words []string) []yacymodel.Hash {
 	}
 
 	return hashes
-}
-
-type token struct {
-	word     string
-	excluded bool
-}
-
-func tokensOf(raw string) []token {
-	var tokens []token
-	for _, field := range strings.Fields(raw) {
-		excluded := strings.HasPrefix(field, "-")
-		for _, word := range yacymodel.WordsIn(field) {
-			tokens = append(tokens, token{word: word, excluded: excluded})
-		}
-	}
-
-	return tokens
-}
-
-func appendUnseen(words []string, word string) []string {
-	for _, seen := range words {
-		if seen == word {
-			return words
-		}
-	}
-
-	return append(words, word)
 }

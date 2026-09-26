@@ -427,7 +427,11 @@ func TestASearchDocumentsAskCarriesTheQueryAndTheNetworkTheServiceSearches(t *te
 	t.Parallel()
 
 	address, requests := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
-	query := searchquery.QueryFrom("berlin -rain", "de")
+	query := searchquery.Query{
+		Words:      []string{"berlin"},
+		Exclusions: []string{"rain"},
+		Language:   "de",
+	}
 
 	matchedDocumentsOf(t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{
 		Peer:                    peerAt(address),

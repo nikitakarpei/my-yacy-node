@@ -8,96 +8,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func TestQueryFromKeepsEachSpokenWordOnce(t *testing.T) {
+func TestTheSpellingOfAQuerySpellsItsWordsExclusionsAndLanguage(t *testing.T) {
 	t.Parallel()
 
-	query := searchquery.QueryFrom(`Berlin  "Weather" berlin +forecast`, "")
-
-	if !slices.Equal(query.Words, []string{"berlin", "weather", "forecast"}) {
-		t.Fatalf("Words = %v, want berlin weather forecast", query.Words)
+	query := searchquery.Query{
+		Words:      []string{"reset", "router"},
+		Exclusions: []string{"windows"},
+		Language:   "lang_en",
 	}
-}
-
-func TestQueryFromPutsAMinusWordUnderExclusions(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("berlin -rain", "")
-
-	if !slices.Equal(query.Words, []string{"berlin"}) {
-		t.Fatalf("Words = %v, want berlin", query.Words)
-	}
-	if !slices.Equal(query.Exclusions, []string{"rain"}) {
-		t.Fatalf("Exclusions = %v, want rain", query.Exclusions)
-	}
-}
-
-func TestQueryFromDropsAWordTooShortForAnIndex(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("berlin 1", "")
-
-	if !slices.Equal(query.Words, []string{"berlin"}) {
-		t.Fatalf("Words = %v, want berlin alone", query.Words)
-	}
-}
-
-func TestQueryFromDropsAWordTooShortForAnIndexWhenItStandsAlone(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("1", "")
-
-	if len(query.Words) != 0 {
-		t.Fatalf("Words = %v, want no word", query.Words)
-	}
-}
-
-func TestQueryFromDropsAnExclusionTooShortForAnIndex(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("berlin -a", "")
-
-	if len(query.Exclusions) != 0 {
-		t.Fatalf("Exclusions = %v, want no exclusion", query.Exclusions)
-	}
-}
-
-func TestQueryFromReadsNothingOutOfPunctuationAlone(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom(`- "" +`, "")
-
-	if len(query.Words) != 0 || len(query.Exclusions) != 0 {
-		t.Fatalf("QueryFrom = %+v, want no words and no exclusions", query)
-	}
-}
-
-func TestQueryFromLeavesTheStopwordsOfTheQueryLanguageOut(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("how do i reset my router", "")
-
-	if !slices.Equal(query.Words, []string{"reset", "router"}) {
-		t.Fatalf("Words = %v, want reset router", query.Words)
-	}
-}
-
-func TestQueryFromKeepsAStopwordAmongTheExclusions(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("how to install debian -the", "")
-
-	if !slices.Equal(query.Words, []string{"install", "debian"}) {
-		t.Fatalf("Words = %v, want install debian", query.Words)
-	}
-	if !slices.Equal(query.Exclusions, []string{"the"}) {
-		t.Fatalf("Exclusions = %v, want the", query.Exclusions)
-	}
-}
-
-func TestTheSpellingOfAQuerySpellsTheWordsItKept(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("how do i reset my router -windows", "lang_en")
 
 	if query.String() != "reset router -windows lr:lang_en" {
 		t.Fatalf("String = %q, want reset router -windows lr:lang_en", query.String())
@@ -107,7 +25,7 @@ func TestTheSpellingOfAQuerySpellsTheWordsItKept(t *testing.T) {
 func TestWordHashesAddressTheWordsOnTheRing(t *testing.T) {
 	t.Parallel()
 
-	query := searchquery.QueryFrom("berlin -rain", "")
+	query := searchquery.Query{Words: []string{"berlin"}, Exclusions: []string{"rain"}}
 
 	if !slices.Equal(query.WordHashes(), []yacymodel.Hash{yacymodel.WordHash("berlin")}) {
 		t.Fatalf("WordHashes = %v, want the hash of berlin", query.WordHashes())
@@ -117,40 +35,16 @@ func TestWordHashesAddressTheWordsOnTheRing(t *testing.T) {
 	}
 }
 
-func TestTheCompoundWordsOfAQueryJoinItsSpokenNeighboursInPairsThenTriples(t *testing.T) {
+func TestACompoundWordIsAddressedByItsWordAndCountsForItsParts(t *testing.T) {
 	t.Parallel()
 
-	query := searchquery.QueryFrom("open street map", "")
+	compound := searchquery.CompoundWord{Word: "openstreet", Parts: []string{"open", "street"}}
 
-	want := []searchquery.CompoundWord{
-		{Hash: yacymodel.WordHash("openstreet"), WordHashes: hashesOf("open", "street")},
-		{Hash: yacymodel.WordHash("streetmap"), WordHashes: hashesOf("street", "map")},
-		{Hash: yacymodel.WordHash("openstreetmap"), WordHashes: hashesOf("open", "street", "map")},
+	if compound.Hash() != yacymodel.WordHash("openstreet") {
+		t.Fatalf("Hash = %v, want the hash of openstreet", compound.Hash())
 	}
-	if !slices.EqualFunc(query.CompoundWords, want, compoundWordsEqual) {
-		t.Fatalf("CompoundWords = %v, want %v", query.CompoundWords, want)
-	}
-}
-
-func TestADroppedStopwordBreaksACompoundWord(t *testing.T) {
-	t.Parallel()
-
-	query := searchquery.QueryFrom("yacy peer to peer search", "en")
-
-	want := []searchquery.CompoundWord{
-		{Hash: yacymodel.WordHash("yacypeer"), WordHashes: hashesOf("yacy", "peer")},
-		{Hash: yacymodel.WordHash("peersearch"), WordHashes: hashesOf("peer", "search")},
-	}
-	if !slices.EqualFunc(query.CompoundWords, want, compoundWordsEqual) {
-		t.Fatalf("CompoundWords = %v, want %v", query.CompoundWords, want)
-	}
-}
-
-func TestAQueryOfOneWordHasNoCompoundWord(t *testing.T) {
-	t.Parallel()
-
-	if compounds := searchquery.QueryFrom("berlin", "").CompoundWords; len(compounds) != 0 {
-		t.Fatalf("CompoundWords = %v, want none", compounds)
+	if !slices.Equal(compound.WordHashes(), hashesOf("open", "street")) {
+		t.Fatalf("WordHashes = %v, want the hashes of open and street", compound.WordHashes())
 	}
 }
 
@@ -159,7 +53,13 @@ func TestTheHashesOfWordsAndCompoundWordsHoldTheWordsThenTheCompoundWordsUpToThe
 ) {
 	t.Parallel()
 
-	query := searchquery.QueryFrom("open street map", "")
+	query := searchquery.Query{
+		Words: []string{"open", "street", "map"},
+		CompoundWords: []searchquery.CompoundWord{
+			{Word: "openstreet", Parts: []string{"open", "street"}},
+			{Word: "streetmap", Parts: []string{"street", "map"}},
+		},
+	}
 
 	want := append(hashesOf("open", "street", "map"), yacymodel.WordHash("openstreet"))
 	if got := query.HashesOfWordsAndCompoundWordsUpTo(1); !slices.Equal(got, want) {
@@ -174,8 +74,4 @@ func hashesOf(words ...string) []yacymodel.Hash {
 	}
 
 	return hashes
-}
-
-func compoundWordsEqual(one, other searchquery.CompoundWord) bool {
-	return one.Hash == other.Hash && slices.Equal(one.WordHashes, other.WordHashes)
 }

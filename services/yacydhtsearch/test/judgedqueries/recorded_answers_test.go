@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -94,7 +94,7 @@ func (recorded recordedAnswers) answers() queryanswers.AnsweredQuery {
 		}
 	}
 
-	query := searchquery.QueryFrom(recorded.Query, "")
+	query := queryreading.QueryFrom(recorded.Query, "")
 
 	return queryanswers.AnsweredQuery{
 		QueryWords:                query.WordHashes(),
