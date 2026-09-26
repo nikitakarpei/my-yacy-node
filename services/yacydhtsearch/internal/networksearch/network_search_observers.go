@@ -17,15 +17,6 @@ func (observers NetworkSearchObservers) NetworkSearchPerformed(
 	}
 }
 
-func (observers NetworkSearchObservers) QueryHoldsNoIndexedWord(
-	ctx context.Context,
-	query searchquery.Query,
-) {
-	for _, observer := range observers {
-		observer.QueryHoldsNoIndexedWord(ctx, query)
-	}
-}
-
 func (observers NetworkSearchObservers) QueryReachedNoPeer(
 	ctx context.Context,
 	query searchquery.Query,

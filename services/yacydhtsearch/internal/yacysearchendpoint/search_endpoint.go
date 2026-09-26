@@ -47,13 +47,20 @@ func New(network Network) SearchEndpoint {
 }
 
 func (e SearchEndpoint) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
-	form := request.URL.Query()
-
-	ranking, _ := e.network.Search(request.Context(), queryOf(form))
-	page := ranking.PageFrom(startRecordOf(form), maximumRecordsOf(form))
+	page := e.pageFor(request.Context(), request.URL.Query())
 
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	_ = json.NewEncoder(writer).Encode(searchPageFrom(page))
+}
+
+func (e SearchEndpoint) pageFor(ctx context.Context, form url.Values) searchresult.Page {
+	query := queryOf(form)
+	if len(query.Words) == 0 {
+		return searchresult.Page{}
+	}
+	ranking, _ := e.network.Search(ctx, query)
+
+	return ranking.PageFrom(startRecordOf(form), maximumRecordsOf(form))
 }
 
 func queryOf(form url.Values) searchquery.Query {

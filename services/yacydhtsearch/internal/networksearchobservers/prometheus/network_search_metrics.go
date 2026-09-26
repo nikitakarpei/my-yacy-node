@@ -14,19 +14,17 @@ import (
 )
 
 const (
-	labelOutcome         = "outcome"
-	outcomePeersAsked    = "peers asked"
-	outcomeNoIndexedWord = "no indexed word"
-	outcomeNoPeerToAsk   = "no peer to ask"
-	itemBucketCeiling    = 10000.0
-	itemBuckets          = 10
-	peerBucketCeiling    = 128.0
-	peerBuckets          = 8
+	labelOutcome       = "outcome"
+	outcomePeersAsked  = "peers asked"
+	outcomeNoPeerToAsk = "no peer to ask"
+	itemBucketCeiling  = 10000.0
+	itemBuckets        = 10
+	peerBucketCeiling  = 128.0
+	peerBuckets        = 8
 )
 
 type NetworkSearchMetrics struct {
 	searchesThatAskedPeers       prometheusclient.Counter
-	searchesWithNoIndexedWord    prometheusclient.Counter
 	searchesWithNoPeerToAsk      prometheusclient.Counter
 	itemsRankedPerNetworkSearch  prometheusclient.Histogram
 	askablePeersPerNetworkSearch prometheusclient.Histogram
@@ -39,9 +37,8 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 		Help: "Network searches, by the outcome each search reached.",
 	}, []string{labelOutcome})
 	metrics := &NetworkSearchMetrics{
-		searchesThatAskedPeers:    searches.WithLabelValues(outcomePeersAsked),
-		searchesWithNoIndexedWord: searches.WithLabelValues(outcomeNoIndexedWord),
-		searchesWithNoPeerToAsk:   searches.WithLabelValues(outcomeNoPeerToAsk),
+		searchesThatAskedPeers:  searches.WithLabelValues(outcomePeersAsked),
+		searchesWithNoPeerToAsk: searches.WithLabelValues(outcomeNoPeerToAsk),
 		itemsRankedPerNetworkSearch: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_network_search_items_ranked",
 			Help:    "Unique items in the final ranking after the ranking limit.",
@@ -83,10 +80,6 @@ func (m *NetworkSearchMetrics) NetworkSearchPerformed(
 	m.itemsRankedPerNetworkSearch.Observe(float64(search.AmountOfItemsInRanking))
 	m.askablePeersPerNetworkSearch.Observe(float64(search.AmountOfAskablePeers))
 	m.networkSearchDurationSeconds.Observe(search.TimeSpent.Seconds())
-}
-
-func (m *NetworkSearchMetrics) QueryHoldsNoIndexedWord(context.Context, searchquery.Query) {
-	m.searchesWithNoIndexedWord.Inc()
 }
 
 func (m *NetworkSearchMetrics) QueryReachedNoPeer(context.Context, searchquery.Query) {

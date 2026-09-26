@@ -102,9 +102,8 @@ func (silentOutcome) PeerCallCancelled(
 }
 
 type recordedQuery struct {
-	performed          networksearch.PerformedNetworkSearch
-	holdsNoIndexedWord bool
-	reachedNoPeer      bool
+	performed     networksearch.PerformedNetworkSearch
+	reachedNoPeer bool
 }
 
 func (r *recordedQuery) NetworkSearchPerformed(
@@ -112,10 +111,6 @@ func (r *recordedQuery) NetworkSearchPerformed(
 	search networksearch.PerformedNetworkSearch,
 ) {
 	r.performed = search
-}
-
-func (r *recordedQuery) QueryHoldsNoIndexedWord(context.Context, searchquery.Query) {
-	r.holdsNoIndexedWord = true
 }
 
 func (r *recordedQuery) QueryReachedNoPeer(context.Context, searchquery.Query) {
@@ -454,27 +449,6 @@ func TestAQueryThatReachesNoPeerMakesNoRankingAndReportsIt(t *testing.T) {
 	}
 	if !observer.reachedNoPeer {
 		t.Fatal("the observer heard nothing, want a query that reached no peer")
-	}
-}
-
-func TestAQueryWithoutAnIndexedWordReachesNoPeer(t *testing.T) {
-	t.Parallel()
-
-	observer := &recordedQuery{}
-	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
-	network := networkOver(t, directory, observer)
-
-	ranking, ranked := network.Search(t.Context(), queryreading.QueryFrom("1", ""))
-
-	if ranked || len(ranking.Items) != 0 || observer.performed.AmountOfAskablePeers != 0 {
-		t.Fatalf(
-			"Search = %+v after asking %d peers, want an empty ranking and no peer asked",
-			ranking.Items,
-			observer.performed.AmountOfAskablePeers,
-		)
-	}
-	if !observer.holdsNoIndexedWord {
-		t.Fatal("the observer heard nothing, want a query without an indexed word")
 	}
 }
 

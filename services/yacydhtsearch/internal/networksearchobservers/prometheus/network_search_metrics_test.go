@@ -88,13 +88,11 @@ func TestEveryOutcomeOfANetworkSearchIsPublishedApart(t *testing.T) {
 
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{})
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{})
-	metrics.QueryHoldsNoIndexedWord(t.Context(), query)
 	metrics.QueryReachedNoPeer(t.Context(), query)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_network_searches_total{outcome="peers asked"} 2`,
-		`yacydhtsearch_network_searches_total{outcome="no indexed word"} 1`,
 		`yacydhtsearch_network_searches_total{outcome="no peer to ask"} 1`,
 	} {
 		if !strings.Contains(body, published) {

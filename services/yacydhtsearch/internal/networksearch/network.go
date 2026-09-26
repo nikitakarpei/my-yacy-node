@@ -47,7 +47,6 @@ type PageReading interface {
 
 type NetworkSearchObserver interface {
 	NetworkSearchPerformed(ctx context.Context, search PerformedNetworkSearch)
-	QueryHoldsNoIndexedWord(ctx context.Context, query searchquery.Query)
 	QueryReachedNoPeer(ctx context.Context, query searchquery.Query)
 }
 
@@ -101,12 +100,6 @@ func (n Network) Search(
 	ctx context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, bool) {
-	if len(query.Words) == 0 {
-		n.observer.QueryHoldsNoIndexedWord(ctx, query)
-
-		return searchresult.Ranking{}, false
-	}
-
 	ctx, stopQueryBudget := context.WithTimeout(ctx, n.queryBudget)
 	defer stopQueryBudget()
 	startedAt := time.Now()

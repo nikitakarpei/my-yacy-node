@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"slices"
 	"strconv"
 	"testing"
@@ -19,6 +20,7 @@ import (
 const rankedItems = 50
 
 type recordedRankings struct {
+	asked   bool
 	query   searchquery.Query
 	ranking searchresult.Ranking
 }
@@ -27,6 +29,7 @@ func (r *recordedRankings) Search(
 	_ context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, bool) {
+	r.asked = true
 	r.query = query
 
 	return r.ranking, true
@@ -114,6 +117,27 @@ func TestTheEndpointReadsTheQueryTheClientAskedFor(t *testing.T) {
 	}
 	if rankings.query.Language != "lang_de" {
 		t.Fatalf("Language = %q, want lang_de", rankings.query.Language)
+	}
+}
+
+func TestAQueryWithoutAWordGetsAnEmptyPageAndNeverReachesTheNetwork(t *testing.T) {
+	t.Parallel()
+
+	for _, text := range []string{"", "-+!", "a 1 x", "-rain"} {
+		rankings := &recordedRankings{ranking: rankingOver(t, "https://a.example/")}
+
+		recorder := answerTo(
+			t,
+			yacysearchendpoint.New(rankings),
+			yacysearchendpoint.Path+"?query="+url.QueryEscape(text),
+		)
+
+		if rankings.asked {
+			t.Fatalf("query %q reached the network, want it answered at the endpoint", text)
+		}
+		if links := linksIn(t, recorder); len(links) != 0 {
+			t.Fatalf("query %q got %v, want an empty page", text, links)
+		}
 	}
 }
 

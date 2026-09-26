@@ -30,7 +30,7 @@ made no ranking.
 
 The endpoint is the only stage that sees what the client typed. It drops the stopwords, finds
 the compound words, and hands on a canonical query. It also cuts the requested page out of the
-ranking, as ADR 2 describes.
+ranking, as ADR 2 describes. A query that keeps no word gets an empty page and goes no further.
 
 A compound word is two or three adjacent words spelled as one, and a stopword between them
 prevents it. Finding compounds is part of reading the text, like dropping stopwords, so it
