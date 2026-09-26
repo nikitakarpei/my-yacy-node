@@ -1,4 +1,4 @@
-// Package jetstream holds query rankings in a NATS key-value bucket, so that
+// Package jetstream caches query rankings in a NATS key-value bucket, so that
 // every service instance answers a repeated query from the same ranking.
 package jetstream
 
@@ -15,21 +15,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
 
-type HeldRankingsObserver interface {
+type CachedRankingsObserver interface {
 	RankingLookupFailed(ctx context.Context, query searchquery.Query, err error)
 	RankingStoreFailed(ctx context.Context, query searchquery.Query, err error)
 }
 
-type HeldRankings struct {
+type CachedRankings struct {
 	bucket   natsjetstream.KeyValue
-	observer HeldRankingsObserver
+	observer CachedRankingsObserver
 }
 
-func New(bucket natsjetstream.KeyValue, observer HeldRankingsObserver) *HeldRankings {
-	return &HeldRankings{bucket: bucket, observer: observer}
+func New(bucket natsjetstream.KeyValue, observer CachedRankingsObserver) *CachedRankings {
+	return &CachedRankings{bucket: bucket, observer: observer}
 }
 
-func (h *HeldRankings) RankingFor(
+func (h *CachedRankings) RankingFor(
 	ctx context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, bool) {
@@ -53,7 +53,7 @@ func (h *HeldRankings) RankingFor(
 	return ranking, true
 }
 
-func (h *HeldRankings) Store(
+func (h *CachedRankings) Store(
 	ctx context.Context,
 	query searchquery.Query,
 	ranking searchresult.Ranking,
@@ -75,9 +75,9 @@ func keyFor(query searchquery.Query) string {
 	return base64.RawURLEncoding.EncodeToString(spelled[:])
 }
 
-type HeldRankingsObservers []HeldRankingsObserver
+type CachedRankingsObservers []CachedRankingsObserver
 
-func (observers HeldRankingsObservers) RankingLookupFailed(
+func (observers CachedRankingsObservers) RankingLookupFailed(
 	ctx context.Context,
 	query searchquery.Query,
 	err error,
@@ -87,7 +87,7 @@ func (observers HeldRankingsObservers) RankingLookupFailed(
 	}
 }
 
-func (observers HeldRankingsObservers) RankingStoreFailed(
+func (observers CachedRankingsObservers) RankingStoreFailed(
 	ctx context.Context,
 	query searchquery.Query,
 	err error,

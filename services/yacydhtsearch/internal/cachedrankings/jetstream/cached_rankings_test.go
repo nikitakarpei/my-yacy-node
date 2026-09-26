@@ -8,7 +8,7 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	heldrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankings/jetstream"
+	cachedrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -63,13 +63,13 @@ func bucketFor(t *testing.T, config natsjetstream.KeyValueConfig) natsjetstream.
 	return bucket
 }
 
-func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
+func TestARankingIsReadBackForTheQueryItWasCachedFor(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := heldrankingsjetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{}),
-		heldrankingsjetstream.HeldRankingsObservers{failures},
+		cachedrankingsjetstream.CachedRankingsObservers{failures},
 	)
 	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
@@ -88,13 +88,13 @@ func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
 	}
 }
 
-func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
+func TestNoRankingIsCachedForAQueryNobodyAsked(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := heldrankingsjetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{}),
-		heldrankingsjetstream.HeldRankingsObservers{failures},
+		cachedrankingsjetstream.CachedRankingsObservers{failures},
 	)
 
 	_, found := cache.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
@@ -111,9 +111,9 @@ func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
 func TestARankingIsGoneOnceItsLifetimeIsSpent(t *testing.T) {
 	t.Parallel()
 
-	cache := heldrankingsjetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{TTL: 100 * time.Millisecond}),
-		heldrankingsjetstream.HeldRankingsObservers{&recordedFailure{}},
+		cachedrankingsjetstream.CachedRankingsObservers{&recordedFailure{}},
 	)
 	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
@@ -129,9 +129,9 @@ func TestARankingTheBucketRefusesIsReported(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := heldrankingsjetstream.New(
+	cache := cachedrankingsjetstream.New(
 		bucketFor(t, natsjetstream.KeyValueConfig{MaxValueSize: valueCeiling}),
-		heldrankingsjetstream.HeldRankingsObservers{failures},
+		cachedrankingsjetstream.CachedRankingsObservers{failures},
 	)
 	query := searchquery.Query{Words: []string{"berlin"}}
 

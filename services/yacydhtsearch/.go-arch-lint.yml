@@ -73,18 +73,18 @@ components:
     in: internal/queryspreads/bywordcount/**
   rankingcache:
     in: internal/rankingcache/**
-  heldrankingsmemory:
-    in: internal/heldrankings/memory/**
-  heldrankingsjetstream:
-    in: internal/heldrankings/jetstream/**
+  cachedrankingsmemory:
+    in: internal/cachedrankings/memory/**
+  cachedrankingsjetstream:
+    in: internal/cachedrankings/jetstream/**
   rankingcacheobserversapplog:
     in: internal/rankingcacheobservers/applog/**
   rankingcacheobserversprometheus:
     in: internal/rankingcacheobservers/prometheus/**
-  heldrankingsobserversjetstreamapplog:
-    in: internal/heldrankingsobservers/jetstream/applog/**
-  heldrankingsobserversjetstreamprometheus:
-    in: internal/heldrankingsobservers/jetstream/prometheus/**
+  cachedrankingsobserversjetstreamapplog:
+    in: internal/cachedrankingsobservers/jetstream/applog/**
+  cachedrankingsobserversjetstreamprometheus:
+    in: internal/cachedrankingsobservers/jetstream/prometheus/**
   queryworddocumentamountsmemory:
     in: internal/queryworddocumentamounts/memory/**
   queryworddocumentamountsjetstream:
@@ -344,13 +344,13 @@ deps:
     mayDependOn:
       - searchquery
       - searchresult
-  heldrankingsmemory:
+  cachedrankingsmemory:
     canUse:
       - hashicorplru
     mayDependOn:
       - searchquery
       - searchresult
-  heldrankingsjetstream:
+  cachedrankingsjetstream:
     canUse:
       - nats
     mayDependOn:
@@ -364,10 +364,10 @@ deps:
       - prometheus
     mayDependOn:
       - searchquery
-  heldrankingsobserversjetstreamapplog:
+  cachedrankingsobserversjetstreamapplog:
     mayDependOn:
       - searchquery
-  heldrankingsobserversjetstreamprometheus:
+  cachedrankingsobserversjetstreamprometheus:
     canUse:
       - prometheus
     mayDependOn:

@@ -1,4 +1,4 @@
-// Package applog reports to the service log where holding rankings in NATS failed.
+// Package applog reports to the service log where caching rankings in NATS failed.
 package applog
 
 import (
@@ -13,9 +13,9 @@ const (
 	msgRankingStoreFailed  = "ranking could not be cached"
 )
 
-type HeldRankingsLog struct{}
+type CachedRankingsLog struct{}
 
-func (HeldRankingsLog) RankingLookupFailed(
+func (CachedRankingsLog) RankingLookupFailed(
 	ctx context.Context,
 	query searchquery.Query,
 	err error,
@@ -26,7 +26,11 @@ func (HeldRankingsLog) RankingLookupFailed(
 	)
 }
 
-func (HeldRankingsLog) RankingStoreFailed(ctx context.Context, query searchquery.Query, err error) {
+func (CachedRankingsLog) RankingStoreFailed(
+	ctx context.Context,
+	query searchquery.Query,
+	err error,
+) {
 	slog.WarnContext(ctx, msgRankingStoreFailed,
 		slog.String("query", query.String()),
 		slog.Any("error", err),

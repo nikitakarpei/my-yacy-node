@@ -1,5 +1,5 @@
-// Package rankingcache answers a repeated query from the ranking it holds for
-// it, and asks the network only when it holds none.
+// Package rankingcache answers a repeated query from the ranking cached for
+// it, and asks the network only when none is cached.
 package rankingcache
 
 import (
@@ -16,7 +16,7 @@ type Network interface {
 	) (searchresult.Ranking, searchresult.Outcome)
 }
 
-type HeldRankings interface {
+type CachedRankings interface {
 	RankingFor(
 		ctx context.Context,
 		query searchquery.Query,
@@ -36,27 +36,27 @@ type RankingCacheObserver interface {
 }
 
 type RankingCache struct {
-	heldRankings HeldRankings
-	network      Network
-	observer     RankingCacheObserver
+	cachedRankings CachedRankings
+	network        Network
+	observer       RankingCacheObserver
 }
 
 func New(
-	heldRankings HeldRankings,
+	cachedRankings CachedRankings,
 	network Network,
 	observer RankingCacheObserver,
 ) RankingCache {
-	return RankingCache{heldRankings: heldRankings, network: network, observer: observer}
+	return RankingCache{cachedRankings: cachedRankings, network: network, observer: observer}
 }
 
 func (cache RankingCache) Search(
 	ctx context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, searchresult.Outcome) {
-	if heldRanking, held := cache.heldRankings.RankingFor(ctx, query); held {
-		cache.observer.QueryAnsweredFromCache(ctx, query, len(heldRanking.Items))
+	if cachedRanking, cached := cache.cachedRankings.RankingFor(ctx, query); cached {
+		cache.observer.QueryAnsweredFromCache(ctx, query, len(cachedRanking.Items))
 
-		return heldRanking, searchresult.PeersAsked
+		return cachedRanking, searchresult.PeersAsked
 	}
 
 	ranking, outcome := cache.network.Search(ctx, query)
@@ -66,7 +66,7 @@ func (cache RankingCache) Search(
 	case searchresult.NoPeerToAsk:
 		cache.observer.QueryReachedNoPeer(ctx, query)
 	case searchresult.PeersAsked:
-		cache.heldRankings.Store(ctx, query, ranking)
+		cache.cachedRankings.Store(ctx, query, ranking)
 		cache.observer.QueryAnsweredByPeers(ctx, query, len(ranking.Items))
 	}
 

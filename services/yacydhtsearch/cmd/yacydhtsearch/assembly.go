@@ -23,13 +23,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	cachedrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/jetstream"
+	cachedrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/memory"
+	cachedrankingsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/jetstream/applog"
+	cachedrankingsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/jetstream/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
-	heldrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankings/jetstream"
-	heldrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankings/memory"
-	heldrankingsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankingsobservers/jetstream/applog"
-	heldrankingsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankingsobservers/jetstream/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
 	networksearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/prometheus"
@@ -199,12 +199,12 @@ func RunService(
 			networksearchobserversprometheus.New(registry, cfg.QueryBudget),
 		},
 	)
-	heldRankingsMetrics := heldrankingsobserversjetstreamprometheus.New(registry)
-	heldRankings, err := heldRankingsFor(ctx, cfg, heldRankingsMetrics)
+	cachedRankingsMetrics := cachedrankingsobserversjetstreamprometheus.New(registry)
+	cachedRankings, err := cachedRankingsFor(ctx, cfg, cachedRankingsMetrics)
 	if err != nil {
 		return err
 	}
-	rankingCache := rankingcache.New(heldRankings, network, rankingcache.RankingCacheObservers{
+	rankingCache := rankingcache.New(cachedRankings, network, rankingcache.RankingCacheObservers{
 		rankingcacheobserversapplog.RankingCacheLog{},
 		rankingcacheobserversprometheus.New(registry),
 	})
@@ -504,13 +504,13 @@ func peerPresenceBucketAt(
 	return bucket, nil
 }
 
-func heldRankingsFor(
+func cachedRankingsFor(
 	ctx context.Context,
 	cfg ServiceConfig,
-	metrics *heldrankingsobserversjetstreamprometheus.HeldRankingsMetrics,
-) (rankingcache.HeldRankings, error) {
+	metrics *cachedrankingsobserversjetstreamprometheus.CachedRankingsMetrics,
+) (rankingcache.CachedRankings, error) {
 	if cfg.NATSURL == "" {
-		return heldrankingsmemory.New(cfg.RankingCacheCapacity, cfg.RankingLifetime), nil
+		return cachedrankingsmemory.New(cfg.RankingCacheCapacity, cfg.RankingLifetime), nil
 	}
 
 	bucket, err := rankingBucketAt(ctx, cfg)
@@ -518,8 +518,8 @@ func heldRankingsFor(
 		return nil, err
 	}
 
-	return heldrankingsjetstream.New(bucket, heldrankingsjetstream.HeldRankingsObservers{
-		heldrankingsobserversjetstreamapplog.HeldRankingsLog{},
+	return cachedrankingsjetstream.New(bucket, cachedrankingsjetstream.CachedRankingsObservers{
+		cachedrankingsobserversjetstreamapplog.CachedRankingsLog{},
 		metrics,
 	}), nil
 }

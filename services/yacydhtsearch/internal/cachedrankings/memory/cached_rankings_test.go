@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	heldrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/heldrankings/memory"
+	cachedrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -30,10 +30,10 @@ func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	}
 }
 
-func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
+func TestARankingIsReadBackForTheQueryItWasCachedFor(t *testing.T) {
 	t.Parallel()
 
-	cache := heldrankingsmemory.New(capacity, lifetime)
+	cache := cachedrankingsmemory.New(capacity, lifetime)
 	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
@@ -44,10 +44,10 @@ func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {
 	}
 }
 
-func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
+func TestNoRankingIsCachedForAQueryNobodyAsked(t *testing.T) {
 	t.Parallel()
 
-	cache := heldrankingsmemory.New(capacity, lifetime)
+	cache := cachedrankingsmemory.New(capacity, lifetime)
 
 	if _, found := cache.RankingFor(
 		t.Context(),
@@ -60,7 +60,7 @@ func TestNoRankingIsHeldForAQueryNobodyAsked(t *testing.T) {
 func TestOneQueryDoesNotAnswerAnother(t *testing.T) {
 	t.Parallel()
 
-	cache := heldrankingsmemory.New(capacity, lifetime)
+	cache := cachedrankingsmemory.New(capacity, lifetime)
 	cache.Store(
 		t.Context(),
 		searchquery.Query{Words: []string{"berlin"}},
@@ -78,7 +78,7 @@ func TestOneQueryDoesNotAnswerAnother(t *testing.T) {
 func TestTheOldestRankingGoesWhenTheCapacityIsFull(t *testing.T) {
 	t.Parallel()
 
-	cache := heldrankingsmemory.New(capacity, lifetime)
+	cache := cachedrankingsmemory.New(capacity, lifetime)
 	for _, word := range []string{"berlin", "hamburg", "bremen"} {
 		cache.Store(
 			t.Context(),
@@ -104,7 +104,7 @@ func TestTheOldestRankingGoesWhenTheCapacityIsFull(t *testing.T) {
 func TestARankingIsGoneOnceItsLifetimeIsSpent(t *testing.T) {
 	t.Parallel()
 
-	cache := heldrankingsmemory.New(capacity, 20*time.Millisecond)
+	cache := cachedrankingsmemory.New(capacity, 20*time.Millisecond)
 	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
