@@ -93,24 +93,47 @@ func TestAnAnswerThatOnlyMatchesDocumentsListsThem(t *testing.T) {
 	}
 }
 
-func TestTheAnswerTellsTheReplicaTheAmountHeldAndTheSearch(t *testing.T) {
+func TestTheAnswerTellsTheReplicaAndTheSearch(t *testing.T) {
 	t.Parallel()
 
-	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
-		AmountOfDocumentsHeldForTheWord: yacymodel.Some(5),
-		PeerSearched:                    true,
-	}}
+	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{PeerSearched: true}}
 
 	answer, answered := replicaCallsOf(peers).Put(t.Context(), askForBerlin(), peerAt("first"))
 
-	if !answered || answer.Replica != peerAt("first") ||
-		answer.AmountOfDocumentsHeld != yacymodel.Some(5) || !answer.Searched ||
+	if !answered || answer.Replica != peerAt("first") || !answer.Searched ||
 		len(answer.ListedDocuments) != 0 {
 		t.Fatalf(
-			"the replica answered %+v %t, want the first replica holding five documents after "+
-				"a search",
+			"the replica answered %+v %t, want the first replica after a search",
 			answer,
 			answered,
+		)
+	}
+}
+
+func TestAnAnswerWithoutASearchToAnAskForMatchedDocumentsIsNotSearched(t *testing.T) {
+	t.Parallel()
+
+	answer, _ := replicaCallsOf(&peersOfTheTests{}).Put(
+		t.Context(), askForBerlin(), peerAt("first"),
+	)
+
+	if answer.Searched {
+		t.Fatalf("the replica answered %+v, want no search", answer)
+	}
+}
+
+func TestAnAnswerToAnAskForTheAbstractOnlyIsSearched(t *testing.T) {
+	t.Parallel()
+
+	peers := &peersOfTheTests{}
+	calls := yacysearch.New(peers, yacysearch.Wants{Abstract: true})
+
+	answer, _ := calls.Put(t.Context(), askForBerlin(), peerAt("first"))
+
+	if !answer.Searched {
+		t.Fatalf(
+			"the replica answered %+v, want a search: the peer read its index for the word",
+			answer,
 		)
 	}
 }

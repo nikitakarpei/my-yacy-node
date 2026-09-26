@@ -12,7 +12,7 @@ import (
 
 func urlMetadataAsksFor(
 	ctx context.Context,
-	documentsWithoutMetadataMostHeldFirst []yacymodel.URLHash,
+	joinedDocumentsMostHeldFirst []yacymodel.URLHash,
 	answers []wordpartitionasks.ReplicaAnswer,
 	askCeilings URLMetadataAskCeilings,
 	amountOfPeersHoldingOneWord int,
@@ -20,7 +20,7 @@ func urlMetadataAsksFor(
 	peers := peersWithTheirAbstractsFrom(answers)
 	asksOfEachPeer := peers.urlMetadataAsks(
 		ctx,
-		documentsWithoutMetadataMostHeldFirst,
+		joinedDocumentsMostHeldFirst,
 		askCeilings,
 	)
 

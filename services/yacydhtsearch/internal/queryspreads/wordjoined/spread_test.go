@@ -36,14 +36,7 @@ const (
 type peerNetwork struct {
 	mutex                                 sync.Mutex
 	documentsPerWordPerPeer               map[string]map[string][]string
-	answeredItemsPerWordPerPeer           map[string]map[string][]string
-	countsAWordWithEachItem               bool
-	documentsHeldForEveryWord             int
-	documentsHeldByEachPeer               map[string]int
-	documentsPerAnswerOfEachPeer          map[string]int
-	peersCountingNoDocument               map[string]struct{}
-	peersThatSearched                     map[string]struct{}
-	searchDocumentsAsks                   []replicaAsk
+	replicaAsks                           []replicaAsk
 	settledWordPartitionsReadAtEachAsk    []int
 	urlMetadataAsks                       []peerasks.URLMetadataAsk
 	silentPeers                           map[string]struct{}
@@ -57,8 +50,6 @@ type peerNetwork struct {
 func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetwork {
 	return &peerNetwork{
 		documentsPerWordPerPeer:               documentsPerWordPerPeer,
-		peersCountingNoDocument:               map[string]struct{}{},
-		peersThatSearched:                     map[string]struct{}{},
 		silentPeers:                           map[string]struct{}{},
 		peersListingDocumentsTheAskDidNotName: map[string]struct{}{},
 		metadataDelayOfEachPeer:               map[string]time.Duration{},
@@ -156,7 +147,7 @@ func (network *peerNetwork) answerOfTheReplica(
 	network.mutex.Lock()
 	defer network.mutex.Unlock()
 
-	network.searchDocumentsAsks = append(network.searchDocumentsAsks, ask)
+	network.replicaAsks = append(network.replicaAsks, ask)
 	network.settledWordPartitionsReadAtEachAsk = append(
 		network.settledWordPartitionsReadAtEachAsk, settledAsksRead,
 	)
@@ -166,49 +157,18 @@ func (network *peerNetwork) answerOfTheReplica(
 	}
 
 	return wordpartitionasks.ReplicaAnswer{
-		Replica: ask.Peer,
-		ListedDocuments: listedDocumentsFrom(
-			network.abstractFor(ask),
-			network.matchedDocumentsOf(network.namedAmong(
-				ask,
-				documentsPerWordOf(network.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
-			)),
-		),
-		AmountOfDocumentsHeld: network.documentsCountedBy(ask.Peer.Address, ask.Word),
-		Searched:              network.searchedBy(ask.Peer.Address),
+		Replica:         ask.Peer,
+		ListedDocuments: listedDocumentsOf(network.abstractFor(ask)),
 	}, true
 }
 
-func listedDocumentsFrom(
-	abstract []yacymodel.URLHash,
-	matchedDocuments []wordpartitionasks.ListedDocument,
-) []wordpartitionasks.ListedDocument {
+func listedDocumentsOf(abstract []yacymodel.URLHash) []wordpartitionasks.ListedDocument {
 	listedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(abstract))
 	for _, document := range abstract {
 		listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocument{Hash: document})
 	}
-	for _, matchedDocument := range matchedDocuments {
-		place := slices.IndexFunc(
-			listedDocuments,
-			func(listedDocument wordpartitionasks.ListedDocument) bool {
-				return listedDocument.Hash == matchedDocument.Hash
-			},
-		)
-		if place < 0 {
-			listedDocuments = append(listedDocuments, matchedDocument)
-
-			continue
-		}
-		listedDocuments[place] = matchedDocument
-	}
 
 	return listedDocuments
-}
-
-func (network *peerNetwork) searchedBy(address string) bool {
-	_, searched := network.peersThatSearched[address]
-
-	return searched
 }
 
 func (network *peerNetwork) recordTimeLeftIn(ctx context.Context) {
@@ -225,21 +185,6 @@ func (network *peerNetwork) recordTimeLeftIn(ctx context.Context) {
 
 func (network *peerNetwork) abstractFor(ask replicaAsk) []yacymodel.URLHash {
 	documents := documentsPerWordOf(network.documentsPerWordPerPeer, ask.Peer.Address, ask.Word)
-	if len(ask.DocumentsToMatch) > 0 {
-		return network.namedAmong(ask, documents)
-	}
-	documentsPerAnswer, answersInPart := network.documentsPerAnswerOfEachPeer[ask.Peer.Address]
-	if !answersInPart || len(documents) <= documentsPerAnswer {
-		return documents
-	}
-
-	return documents[:documentsPerAnswer]
-}
-
-func (network *peerNetwork) namedAmong(
-	ask replicaAsk,
-	documents []yacymodel.URLHash,
-) []yacymodel.URLHash {
 	_, listsMore := network.peersListingDocumentsTheAskDidNotName[ask.Peer.Address]
 	if len(ask.DocumentsToMatch) == 0 || listsMore {
 		return documents
@@ -254,47 +199,6 @@ func (network *peerNetwork) namedAmong(
 	}
 
 	return namedDocuments
-}
-
-func (network *peerNetwork) matchedDocumentsOf(
-	documents []yacymodel.URLHash,
-) []wordpartitionasks.ListedDocument {
-	matchedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(documents))
-	for _, document := range documents {
-		matchedDocument := wordpartitionasks.ListedDocument{
-			Hash:     document,
-			Metadata: yacymodel.Some(yacymodel.URLMetadata{Hash: document}),
-		}
-		if network.countsAWordWithEachItem {
-			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
-				Hits:          3,
-				LocalLinks:    12,
-				ExternalLinks: 7,
-			})
-		}
-		matchedDocuments = append(matchedDocuments, matchedDocument)
-	}
-
-	return matchedDocuments
-}
-
-func (network *peerNetwork) documentsCountedBy(
-	address string,
-	word yacymodel.Hash,
-) yacymodel.Optional[int] {
-	if _, countsNoDocument := network.peersCountingNoDocument[address]; countsNoDocument {
-		return yacymodel.None[int]()
-	}
-	if _, answersInPart := network.documentsPerAnswerOfEachPeer[address]; answersInPart {
-		return yacymodel.Some(
-			len(documentsPerWordOf(network.documentsPerWordPerPeer, address, word)),
-		)
-	}
-	if documentsHeld, countsItsOwn := network.documentsHeldByEachPeer[address]; countsItsOwn {
-		return yacymodel.Some(documentsHeld)
-	}
-
-	return yacymodel.Some(network.documentsHeldForEveryWord)
 }
 
 func documentsPerWordOf(
@@ -777,7 +681,7 @@ func TestOnlyThePeersResponsibleForAWordAreAskedWhatTheyHoldForIt(t *testing.T) 
 		secondWord: {"second"},
 	}}, network, observer)
 
-	for _, ask := range network.searchDocumentsAsks {
+	for _, ask := range network.replicaAsks {
 		if ask.Peer.Address == "first" && ask.Word != yacymodel.WordHash(firstWord) {
 			t.Fatalf("peer %q was asked what it holds for a word it is not responsible for",
 				ask.Peer.Address)
@@ -787,10 +691,10 @@ func TestOnlyThePeersResponsibleForAWordAreAskedWhatTheyHoldForIt(t *testing.T) 
 				ask.Peer.Address)
 		}
 	}
-	if len(network.searchDocumentsAsks) != 2 {
+	if len(network.replicaAsks) != 2 {
 		t.Fatalf(
 			"%d asks were put, want one for each responsible peer",
-			len(network.searchDocumentsAsks),
+			len(network.replicaAsks),
 		)
 	}
 }
@@ -1071,50 +975,20 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 	}
 }
 
-func TestAJoinedDocumentAPeerAlreadyAnsweredIsNotAskedMetadataFor(t *testing.T) {
+func TestOnlyTheJoinedDocumentsAreFound(t *testing.T) {
 	t.Parallel()
 
-	answered := "https://answered.example/"
-	unanswered := "https://unanswered.example/"
-	joined := []string{answered, unanswered}
+	joined := "https://joined.example/"
 	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: joined, secondWord: joined},
+		"first": {firstWord: {joined, "https://unjoined.example/"}, secondWord: {joined}},
 	})
-	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
-		"first": {firstWord: {answered}},
-	}
 
-	answeredQueryFrom(network, &recordedSpreads{})
+	answeredQuery := answeredQueryFrom(network, &recordedSpreads{})
 
-	wanted := documentHashesOf([]string{unanswered})
-	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); !slices.Equal(
-		got, wanted,
-	) {
-		t.Fatalf("asked about %v, want only the joined document no peer answered", got)
-	}
-}
-
-func TestOnlyTheJoinedDocumentsAPeerAnsweredAreFound(t *testing.T) {
-	t.Parallel()
-
-	answered := "https://answered.example/"
-	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {answered}, secondWord: {answered}},
-	})
-	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
-		"first": {firstWord: {answered, "https://unjoined.example/"}},
-	}
-
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
-
-	wanted := documentHashOf(t, answered)
-	documents := map[yacymodel.URLHash]struct{}{}
-	for _, foundDocument := range foundDocuments {
-		documents[foundDocument.Hash] = struct{}{}
-	}
-	if _, cameBack := documents[wanted]; !cameBack || len(documents) != 1 {
-		t.Fatalf("the spread answered %v, want only the joined document the peer answered",
-			documents)
+	if got, wanted := foundDocumentsIn(
+		answeredQuery,
+	), documentHashesOf([]string{joined}); !slices.Equal(got, wanted) {
+		t.Fatalf("the spread found %v, want only the joined document %v", got, wanted)
 	}
 }
 
@@ -1134,59 +1008,7 @@ func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
 	}
 }
 
-func TestAFoundDocumentIsCountedForTheWordThePeerWasAskedAbout(t *testing.T) {
-	t.Parallel()
-
-	answered := "https://answered.example/"
-	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {answered}, secondWord: {answered}},
-	})
-	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
-		"first": {firstWord: {answered}},
-	}
-	network.countsAWordWithEachItem = true
-
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-	foundDocuments := answers.FoundDocuments
-
-	if len(foundDocuments) != 1 {
-		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
-	}
-	hitsPerQueryWord := foundDocuments[0].Facts.HitsPerQueryWord
-	_, secondWordHasHits := hitsPerQueryWord[yacymodel.WordHash(secondWord)]
-	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 || secondWordHasHits {
-		t.Fatalf("the found document holds the hits %v, want the hits of the word the ask named",
-			hitsPerQueryWord)
-	}
-}
-
-func TestTheCountsOfEachQueryWordComeTogetherOnTheJoinedDocument(t *testing.T) {
-	t.Parallel()
-
-	answered := "https://answered.example/"
-	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {answered}, secondWord: {answered}},
-	})
-	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
-		"first": {firstWord: {answered}, secondWord: {answered}},
-	}
-	network.countsAWordWithEachItem = true
-
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-	foundDocuments := answers.FoundDocuments
-
-	if len(foundDocuments) != 1 {
-		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
-	}
-	hitsPerQueryWord := foundDocuments[0].Facts.HitsPerQueryWord
-	if hitsPerQueryWord[yacymodel.WordHash(firstWord)] != 3 ||
-		hitsPerQueryWord[yacymodel.WordHash(secondWord)] != 3 {
-		t.Fatalf("the found document holds the hits %v, want the hits of each query word",
-			hitsPerQueryWord)
-	}
-}
-
-func TestAJoinedDocumentNoPeerAnsweredIsFoundThroughItsMetadata(t *testing.T) {
+func TestAJoinedDocumentIsFoundThroughItsMetadata(t *testing.T) {
 	t.Parallel()
 
 	joined := "https://joined.example/"
@@ -1462,39 +1284,21 @@ func TestTheLookupEndsByCoverageWhenTheLastDocumentComesBeforeTheGraceEnds(t *te
 func TestTheAnswersCarryTheDocumentsTheNetworkHoldsForEachQueryWord(t *testing.T) {
 	t.Parallel()
 
-	joined := []string{"https://joined.example/"}
+	joined := addressesOfDocuments("joined", 3)
 	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: joined, secondWord: joined},
+		"first":  {firstWord: joined, secondWord: joined},
+		"second": {firstWord: joined, secondWord: joined},
 	})
-	network.documentsHeldForEveryWord = 512
 
 	answers := answeredQueryFrom(network, &recordedSpreads{})
 
-	want := documentsHeldForBothQueryWords(512)
+	want := documentsHeldForBothQueryWords(len(joined))
 	if got := answers.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
 		t.Fatalf("the answers carry %v documents per query word, want %v", got, want)
 	}
 }
 
-func TestAPeerThatCountsNoDocumentForAWordSaysNothingOfWhatTheNetworkHolds(t *testing.T) {
-	t.Parallel()
-
-	joined := []string{"https://joined.example/"}
-	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: joined, secondWord: joined},
-	})
-	network.documentsHeldForEveryWord = 512
-	network.peersCountingNoDocument = map[string]struct{}{"second": {}}
-
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-
-	want := documentsHeldForBothQueryWords(512)
-	if got := answers.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
-		t.Fatalf("the answers carry %v documents per query word, want %v", got, want)
-	}
-}
-
-func TestEveryPartitionOfAQueryWordAddsWhatItsReplicasCounted(t *testing.T) {
+func TestEveryPartitionOfAQueryWordAddsWhatTheAbstractsOfItsReplicasList(t *testing.T) {
 	t.Parallel()
 
 	got := documentsHeldPerQueryWordAcrossPartitions(
@@ -1509,7 +1313,7 @@ func TestEveryPartitionOfAQueryWordAddsWhatItsReplicasCounted(t *testing.T) {
 	}
 }
 
-func TestAPartitionOfAnEvenAmountOfCountsTakesTheLowerMiddleOne(t *testing.T) {
+func TestAPartitionOfAnEvenAmountOfAbstractsTakesTheLowerMiddleOne(t *testing.T) {
 	t.Parallel()
 
 	got := documentsHeldPerQueryWordAcrossPartitions(
@@ -1524,7 +1328,7 @@ func TestAPartitionOfAnEvenAmountOfCountsTakesTheLowerMiddleOne(t *testing.T) {
 	}
 }
 
-func TestAPartitionNoPeerCountedTakesTheMiddleOfThePartitionsThatWereCounted(t *testing.T) {
+func TestAPartitionNoReplicaAnsweredTakesTheMiddleOfTheAnsweredPartitions(t *testing.T) {
 	t.Parallel()
 
 	got := documentsHeldPerQueryWordAcrossPartitions(
@@ -1539,7 +1343,7 @@ func TestAPartitionNoPeerCountedTakesTheMiddleOfThePartitionsThatWereCounted(t *
 	}
 }
 
-func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
+func TestAQueryWordNoReplicaAnsweredCarriesNoDocumentsHeld(t *testing.T) {
 	t.Parallel()
 
 	got := documentsHeldPerQueryWordAcrossPartitions(
@@ -1556,31 +1360,35 @@ func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
 
 func documentsHeldPerQueryWordAcrossPartitions(
 	documentsHeldByEachPeer map[string]int,
-	peersCountingNoDocument map[string]struct{},
+	silentPeers map[string]struct{},
 	partitions yacymodel.DHTRingPartitions,
 	choice responsiblePeers,
 ) map[yacymodel.Hash]int {
-	network := networkOf(map[string]map[string][]string{})
-	network.documentsHeldByEachPeer = documentsHeldByEachPeer
-	network.peersCountingNoDocument = peersCountingNoDocument
+	documentsOfEachPeer := map[string][]string{}
+	for address, documentsHeld := range documentsHeldByEachPeer {
+		documentsOfEachPeer[address] = addressesOfDocuments(address, documentsHeld)
+	}
+	network := networkOfPeersHoldingBothWords(documentsOfEachPeer)
+	network.silentPeers = silentPeers
 
 	settings := settingsOfOnePartition()
 	settings.choice = choice
 	settings.partitions = partitions
-	settings.askablePeers = addressesAcross(documentsHeldByEachPeer, peersCountingNoDocument)
+	settings.documentsToMatchCeiling = 0
+	settings.askablePeers = addressesAcross(documentsHeldByEachPeer, silentPeers)
 
 	return settings.spread(network, &recordedSpreads{}).DocumentsHeldPerQueryWord
 }
 
 func addressesAcross(
 	documentsHeldByEachPeer map[string]int,
-	peersCountingNoDocument map[string]struct{},
+	silentPeers map[string]struct{},
 ) []string {
-	addresses := make([]string, 0, len(documentsHeldByEachPeer)+len(peersCountingNoDocument))
+	addresses := make([]string, 0, len(documentsHeldByEachPeer)+len(silentPeers))
 	for address := range documentsHeldByEachPeer {
 		addresses = append(addresses, address)
 	}
-	for address := range peersCountingNoDocument {
+	for address := range silentPeers {
 		addresses = append(addresses, address)
 	}
 	slices.Sort(addresses)
@@ -1595,18 +1403,13 @@ func documentsHeldForBothQueryWords(documentsHeld int) map[yacymodel.Hash]int {
 	}
 }
 
-func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testing.T) {
+func TestTheSpreadReportsTheAmountOfDocumentsInEachAbstract(t *testing.T) {
 	t.Parallel()
 
-	answered := "https://answered.example/"
+	held := addressesOfDocuments("held", 2)
 	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {answered}, secondWord: {answered}},
+		"first": {firstWord: held, secondWord: held[:1]},
 	})
-	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
-		"first": {firstWord: {answered}, secondWord: {answered}},
-	}
-	network.countsAWordWithEachItem = true
-	network.documentsHeldForEveryWord = 512
 	observer := &recordedSpreads{}
 
 	spreadOver(responsiblePeers{peerAddressesPerWord: map[string][]string{
@@ -1614,23 +1417,10 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 		secondWord: {"first"},
 	}}, network, observer)
 
-	performed := observer.performed[0]
-	discoveryRound := performed.DiscoveryRound
-	if performed.URLMetadataLookupRound.AmountOfJoinedDocumentsWithMetadata != 1 ||
-		discoveryRound.AmountOfMatchedDocumentsAcrossAnswers != 2 ||
-		discoveryRound.AmountOfMatchedDocumentsWithAPosting != 2 {
-		t.Fatalf(
-			"the spread reported %+v, want the joined document answered once and two counts",
-			performed,
-		)
-	}
-	if !slices.Equal(
-		discoveryRound.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
+	if got := observer.performed[0].DiscoveryRound.AmountOfDocumentsInEachAbstract; !slices.Equal(
+		slices.Sorted(slices.Values(got)), []int{1, 2},
 	) {
-		t.Fatalf(
-			"the spread reported %v documents held per query word, want 512 for each answer",
-			discoveryRound.AmountOfDocumentsHeldInEachAnswer,
-		)
+		t.Fatalf("the spread reported %v documents in each abstract, want 1 and 2", got)
 	}
 }
 
@@ -1653,7 +1443,7 @@ func TestEachAskOfAQueryWordNamesThePartitionOfItsReplica(t *testing.T) {
 
 	wanted := []string{"nearest-of-first in partition 1", "next-of-first in partition 0"}
 	if got := replicasAskedForTheWord(
-		yacymodel.WordHash(firstWord), network.searchDocumentsAsks,
+		yacymodel.WordHash(firstWord), network.replicaAsks,
 	); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread asked %v for the word, want %v", got, wanted)
 	}
@@ -1689,35 +1479,7 @@ func replicasAskedForTheWord(
 	return slices.Sorted(slices.Values(replicasAsked))
 }
 
-func TestAFoundDocumentCarriesTheAmountOfLinksThePostingReported(t *testing.T) {
-	t.Parallel()
-
-	answered := "https://answered.example/"
-	network := networkOf(map[string]map[string][]string{
-		"first": {firstWord: {answered}, secondWord: {answered}},
-	})
-	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
-		"first": {firstWord: {answered}},
-	}
-	network.countsAWordWithEachItem = true
-
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-	foundDocuments := answers.FoundDocuments
-
-	if len(foundDocuments) != 1 {
-		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
-	}
-	amountOfLinks, reported := foundDocuments[0].Facts.AmountOfLinks.Get()
-	if !reported || amountOfLinks != 19 {
-		t.Fatalf(
-			"the found document holds %d links reported %t, want the 19 links the posting reported",
-			amountOfLinks,
-			reported,
-		)
-	}
-}
-
-func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoAmountOfLinks(t *testing.T) {
+func TestAFoundDocumentHoldsNoAmountOfLinks(t *testing.T) {
 	t.Parallel()
 
 	joined := "https://joined.example/"
@@ -1788,7 +1550,7 @@ func TestAQueryWhoseWordsAllHaveAnAmountLeadsWithTheRarestAndTakesNoSample(t *te
 		wordjoined.RarestQueryWordRemembered {
 		t.Fatalf("the spread chose the leading word by %q, want the remembered amounts", choice)
 	}
-	asksOfTheOtherWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
+	asksOfTheOtherWord := asksOfTheWord(secondWord, network.replicaAsks)
 	if got := asksNamingDocumentsToMatchAmong(asksOfTheOtherWord); len(got) !=
 		len(asksOfTheOtherWord) || !slices.Equal(partitionsAskedAmong(got), []uint{0, 1}) {
 		t.Fatalf(
@@ -1798,7 +1560,7 @@ func TestAQueryWhoseWordsAllHaveAnAmountLeadsWithTheRarestAndTakesNoSample(t *te
 		)
 	}
 	if got := asksNamingDocumentsToMatchAmong(
-		asksOfTheWord(firstWord, network.searchDocumentsAsks),
+		asksOfTheWord(firstWord, network.replicaAsks),
 	); len(got) != 0 {
 		t.Fatalf("the spread asked the leading word %v naming documents, want it asked whole", got)
 	}
@@ -1819,37 +1581,64 @@ func TestAQueryWithAWordWithoutAnAmountTakesTheSample(t *testing.T) {
 		t.Fatalf("the spread chose the leading word by %q, want a sample", choice)
 	}
 	if got := asksNamingDocumentsToMatchAmong(
-		asksOfTheWord(secondWord, network.searchDocumentsAsks),
+		asksOfTheWord(secondWord, network.replicaAsks),
 	); len(got) != 0 {
 		t.Fatalf("the spread asked %v naming documents, want the rarest sampled word leading", got)
 	}
 }
 
-func TestTheSpreadRemembersTheDocumentsHeldAcrossTheRingForEachWordAPeerCounted(t *testing.T) {
+func TestTheSpreadRemembersTheDocumentsHeldAcrossTheRingForEachWordAReplicaListed(t *testing.T) {
 	t.Parallel()
 
 	network := networkWhereTheSecondWordLeadsFromTheSampleInPartitionZero(t)
-	network.documentsHeldByEachPeer = map[string]int{
-		"first-in-0": 10, "first-in-1": 30, "second-in-0": 4, "second-in-1": 6,
-	}
 	settings := settingsOfTwoPartitions()
 	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
 
 	settings.spread(network, &recordedSpreads{})
 
 	want := map[yacymodel.Hash]int{
-		yacymodel.WordHash(firstWord): 10 + 30, yacymodel.WordHash(secondWord): 4 + 6,
+		yacymodel.WordHash(firstWord): 3 + 3, yacymodel.WordHash(secondWord): 1 + 3,
 	}
 	if got := settings.queryWordDocumentAmounts.amountOfEachWord; !maps.Equal(got, want) {
 		t.Fatalf("the spread remembered %v, want %v", got, want)
 	}
 }
 
-func TestAWordNoPeerCountedIsNotRemembered(t *testing.T) {
+func TestAnAbstractOfAnAskNamingTheDocumentsToMatchSaysNothingOfWhatTheWordHolds(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
+	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 5)
+	network := networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: documentsInPartitionZero},
+		"first-in-1":  {firstWord: documentsInPartitionOne},
+		"second-in-0": {secondWord: documentsInPartitionZero[:1]},
+		"second-in-1": {secondWord: documentsInPartitionOne[:1]},
+	})
+	settings := settingsOfTwoPartitions()
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
+
+	settings.spread(network, &recordedSpreads{})
+
+	want := map[yacymodel.Hash]int{
+		yacymodel.WordHash(firstWord): 3 + 3, yacymodel.WordHash(secondWord): 1 + 1,
+	}
+	if got := settings.queryWordDocumentAmounts.amountOfEachWord; !maps.Equal(got, want) {
+		t.Fatalf(
+			"the spread remembered %v, want %v, with the partition asked for the documents "+
+				"to match taking the middle of the others",
+			got, want,
+		)
+	}
+}
+
+func TestAWordNoReplicaAnsweredIsNotRemembered(t *testing.T) {
 	t.Parallel()
 
 	network := networkWhereTheSecondWordLeadsFromTheSampleInPartitionZero(t)
-	network.peersCountingNoDocument = map[string]struct{}{"first-in-0": {}, "first-in-1": {}}
+	network.silentPeers = map[string]struct{}{"first-in-0": {}, "first-in-1": {}}
 	settings := settingsOfTwoPartitions()
 	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
 
@@ -1858,6 +1647,6 @@ func TestAWordNoPeerCountedIsNotRemembered(t *testing.T) {
 	if _, remembered := settings.queryWordDocumentAmounts.amountOfEachWord[yacymodel.WordHash(
 		firstWord,
 	)]; remembered {
-		t.Fatal("the spread remembered an amount for a word no peer counted")
+		t.Fatal("the spread remembered an amount for a word no replica answered")
 	}
 }

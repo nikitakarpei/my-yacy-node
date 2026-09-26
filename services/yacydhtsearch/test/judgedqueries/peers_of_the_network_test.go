@@ -135,19 +135,18 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		peercallwire.PeerCallObservers{},
 	)
 	hedgeDelay := hedgedelaysconstant.New(searchCallBudget)
-	wants := replicacallsyacysearch.Wants{
-		Abstract:                true,
-		MatchedDocumentsCeiling: yacymodel.Some(peerItemsCeiling),
-	}
 	everyReplicaOfTheWordJoinedSpread := wordpartitionasks.New(
-		replicacallsyacysearch.New(calledPeers, wants),
+		replicacallsyacysearch.New(calledPeers, replicacallsyacysearch.Wants{Abstract: true}),
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
 		wordpartitionasks.ReplicaAsksObservers{},
 	)
 	everyReplicaOfThePeerMatchedSpread := wordpartitionasks.New(
-		replicacallsyacysearch.New(calledPeers, wants),
+		replicacallsyacysearch.New(calledPeers, replicacallsyacysearch.Wants{
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(peerItemsCeiling),
+		}),
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
