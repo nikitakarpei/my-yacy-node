@@ -498,12 +498,12 @@ func TestAPageTheSiteSaysIsGoneGivesItsDocumentAsWithdrawn(t *testing.T) {
 	}
 }
 
-type pagesStatingRobotsDirectives struct {
-	robotsDirectivesOfTheFetch []string
-	body                       string
+type pagesStatingRobotsRules struct {
+	robotsTagValues []string
+	body            string
 }
 
-func (pages pagesStatingRobotsDirectives) Fetch(
+func (pages pagesStatingRobotsRules) Fetch(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ pagefetch.PageVersion,
@@ -511,9 +511,9 @@ func (pages pagesStatingRobotsDirectives) Fetch(
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			ContentType:      "text/html; charset=utf-8",
-			Body:             []byte(pages.body),
-			RobotsDirectives: pages.robotsDirectivesOfTheFetch,
+			ContentType:     "text/html; charset=utf-8",
+			Body:            []byte(pages.body),
+			RobotsTagValues: pages.robotsTagValues,
 		},
 	}, nil
 }
@@ -521,10 +521,10 @@ func (pages pagesStatingRobotsDirectives) Fetch(
 func TestAPageThatRefusesIndexingGivesItsDocumentAsWithdrawn(t *testing.T) {
 	t.Parallel()
 
-	for name, pages := range map[string]pagesStatingRobotsDirectives{
+	for name, pages := range map[string]pagesStatingRobotsRules{
 		"in the header": {
-			robotsDirectivesOfTheFetch: []string{"noindex"},
-			body:                       pageOfBerlin,
+			robotsTagValues: []string{"noindex"},
+			body:            pageOfBerlin,
 		},
 		"in the page": {
 			body: strings.Replace(
@@ -565,9 +565,9 @@ func TestAPageThatRefusesIndexingGivesItsDocumentAsWithdrawn(t *testing.T) {
 func TestAPageThatAllowsIndexingIsRead(t *testing.T) {
 	t.Parallel()
 
-	reading := readingOfThePages(t, pagesStatingRobotsDirectives{
-		robotsDirectivesOfTheFetch: []string{"nofollow", "googlebot: noindex"},
-		body:                       pageOfBerlin,
+	reading := readingOfThePages(t, pagesStatingRobotsRules{
+		robotsTagValues: []string{"nofollow", "googlebot: noindex"},
+		body:            pageOfBerlin,
 	}, &recordedPageReading{})
 
 	readPages := reading.ReadEachPage(

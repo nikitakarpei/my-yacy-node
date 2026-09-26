@@ -10,12 +10,12 @@ import (
 )
 
 type OfferedPage struct {
-	PageURL          canonicalurl.CanonicalURL `json:"PageURL"`
-	LandedURL        canonicalurl.CanonicalURL `json:"LandedURL"`
-	ContentType      string                    `json:"ContentType"`
-	Body             []byte                    `json:"Body"`
-	RobotsDirectives []string                  `json:"RobotsDirectives,omitzero"`
-	PageModifiedAt   time.Time                 `json:"PageModifiedAt,omitzero"`
+	PageURL         canonicalurl.CanonicalURL `json:"PageURL"`
+	LandedURL       canonicalurl.CanonicalURL `json:"LandedURL"`
+	ContentType     string                    `json:"ContentType"`
+	Body            []byte                    `json:"Body"`
+	RobotsTagValues []string                  `json:"RobotsTagValues,omitzero"`
+	PageModifiedAt  time.Time                 `json:"PageModifiedAt,omitzero"`
 }
 
 func OfferedPageFrom(
@@ -25,12 +25,12 @@ func OfferedPageFrom(
 	landedURL canonicalurl.CanonicalURL,
 ) OfferedPage {
 	return OfferedPage{
-		PageURL:          request.PageURL,
-		LandedURL:        landedURL,
-		ContentType:      fetchedPage.ContentType,
-		Body:             fetchedPage.Body,
-		RobotsDirectives: fetchedPage.RobotsDirectives,
-		PageModifiedAt:   pageVersion.ModifiedAt,
+		PageURL:         request.PageURL,
+		LandedURL:       landedURL,
+		ContentType:     fetchedPage.ContentType,
+		Body:            fetchedPage.Body,
+		RobotsTagValues: fetchedPage.RobotsTagValues,
+		PageModifiedAt:  pageVersion.ModifiedAt,
 	}
 }
 

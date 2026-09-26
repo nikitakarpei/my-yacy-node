@@ -285,7 +285,7 @@ func TestFetchForwardsXRobotsTag(t *testing.T) {
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
 			pagefetch.PageVersion{})
 	if !slices.Equal(
-		outcome.Page.RobotsDirectives,
+		outcome.Page.RobotsTagValues,
 		[]string{"noindex", "nofollow", "googlebot: noindex, nofollow"},
 	) {
 		t.Fatalf("x-robots-tag not forwarded: %+v", outcome)

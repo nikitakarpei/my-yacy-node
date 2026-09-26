@@ -206,7 +206,7 @@ func (r Reading) pageContentsOfTheFetchedPage(
 }
 
 func robotsRefusalsOf(fetchedPage pagefetch.FetchedPage) robotsmeta.Refusals {
-	return httpheader.RefusalsOf(fetchedPage.RobotsDirectives).
+	return httpheader.RefusalsOf(fetchedPage.RobotsTagValues).
 		With(htmlmeta.RefusalsOf(fetchedPage.ContentType, fetchedPage.Body))
 }
 

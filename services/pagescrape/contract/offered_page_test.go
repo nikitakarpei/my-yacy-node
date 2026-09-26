@@ -102,12 +102,12 @@ func TestOfferedPageFromLeavesThePageModifiedAtZeroWhenTheOriginSaidNothing(t *t
 
 func TestOfferedPageRoundTrip(t *testing.T) {
 	page := pagescrapecontract.OfferedPage{
-		PageURL:          canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
-		LandedURL:        canonicalurltest.CanonicalURLOf(t, "https://example.org/b"),
-		ContentType:      "text/html",
-		Body:             []byte("hello"),
-		RobotsDirectives: []string{"noindex"},
-		PageModifiedAt:   time.Date(2024, time.March, 2, 10, 0, 0, 0, time.UTC),
+		PageURL:         canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
+		LandedURL:       canonicalurltest.CanonicalURLOf(t, "https://example.org/b"),
+		ContentType:     "text/html",
+		Body:            []byte("hello"),
+		RobotsTagValues: []string{"noindex"},
+		PageModifiedAt:  time.Date(2024, time.March, 2, 10, 0, 0, 0, time.UTC),
 	}
 
 	data, err := pagescrapecontract.MarshalOfferedPage(page)

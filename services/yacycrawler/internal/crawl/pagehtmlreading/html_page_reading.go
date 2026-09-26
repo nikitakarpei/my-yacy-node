@@ -62,7 +62,7 @@ func (reading *HTMLPageReading) ReadingOfPage(
 	if err != nil {
 		return Reading{}, err
 	}
-	refusals := httpheader.RefusalsOf(page.RobotsDirectives).
+	refusals := httpheader.RefusalsOf(page.RobotsTagValues).
 		With(htmlmeta.RefusalsOf(page.ContentType, page.Body))
 	return Reading{
 		Refusals: refusals,
