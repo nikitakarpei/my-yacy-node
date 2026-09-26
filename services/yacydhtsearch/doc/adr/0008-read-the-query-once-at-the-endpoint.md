@@ -26,28 +26,35 @@ not have to know that.
 A search passes through three stages in one process, each wrapping the next behind the same
 interface: give it a query, get back a ranking and the outcome of the search.
 
-The endpoint is the only stage that sees what the client typed. It drops the stopwords, keeps
-the places where they broke a run, and hands on a canonical query. It also cuts the requested
-page out of the ranking, as ADR 2 describes.
+The endpoint is the only stage that sees what the client typed. It drops the stopwords, finds
+the compound words, and hands on a canonical query. It also cuts the requested page out of the
+ranking, as ADR 2 describes.
 
-The canonical query holds the runs in order, the exclusions, and the language exactly as the
-client sent it. The guessed language only picks the stopword list and goes no further.
+A compound word is two or three adjacent words spelled as one, and a stopword between them
+prevents it. Finding compounds is part of reading the text, like dropping stopwords, so it
+happens in the same place.
+
+The canonical query holds the words, each compound word with the words it is made of, the
+exclusions, and the language exactly as the client sent it. Two-word compounds come before
+three-word ones. The guessed language only picks the stopword list and goes no further.
 Reading the canonical query again gives back the same query.
 
 The ranking cache wraps the network search. It uses the canonical query's spelling as an
 opaque key and never looks inside it. It only keeps a ranking when peers were actually asked,
 and it stores rankings in memory or in NATS, as ADR 3 and ADR 4 describe.
 
-The network search reads the canonical query without needing stopwords, builds compound words
-from its runs, and asks the peers.
+The network search reads the canonical query without needing stopwords or the rule that finds
+compounds. It still needs each compound and its parts: it asks the peers for the compound, and
+it counts a document found under the compound as holding each part. It asks for compounds in
+the order given, up to `YACYDHTSEARCH_COMPOUND_WORDS_CEILING`.
 
 ## Consequences
 
 Queries that differ only in their stopwords now share a ranking, and queries that ask for
 different compound words no longer do.
 
-Stopwords live in one place. The cache and the network search no longer depend on them, so
-changing the stopword lists only touches the endpoint.
+Reading the text lives in one place. Changing the stopword lists or the compound rule only
+touches the endpoint; the cache and the network search do not depend on either.
 
 The keys change on upgrade. Rankings stored in NATS under the old keys are simply never found
 again and expire after `YACYDHTSEARCH_RANKING_LIFETIME`.
