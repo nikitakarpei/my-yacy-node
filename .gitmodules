@@ -1,3 +1,0 @@
-[submodule "services/yacydhtsearch/test/judgedqueries/testdata/pages"]
-	path = services/yacydhtsearch/test/judgedqueries/testdata/pages
-	url = ../judged-query-pages.git

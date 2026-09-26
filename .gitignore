@@ -19,3 +19,6 @@ __pycache__/
 # Editor workspace; run make workspace to write it.
 go.work
 go.work.sum
+
+# Local clone of the private judged-query-pages repo for the opt-in judged query tests.
+services/yacydhtsearch/test/judgedqueries/testdata/pages/
