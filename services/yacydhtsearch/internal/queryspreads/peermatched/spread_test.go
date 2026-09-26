@@ -211,7 +211,8 @@ func TestEveryChosenPeerIsAskedToMatchTheQueryWordOnce(t *testing.T) {
 		t.Fatalf("%d asks were put, want one for each chosen peer", len(network.asks))
 	}
 	for _, ask := range network.asks {
-		if ask.Word != yacymodel.WordHash("berlin") || ask.ItemsCeiling != itemsCeiling {
+		if ask.Word != yacymodel.WordHash("berlin") || !ask.Abstract ||
+			ask.MatchedDocumentsCeiling != yacymodel.Some(itemsCeiling) {
 			t.Fatalf("ask = %+v, want the query word", ask)
 		}
 	}

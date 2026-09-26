@@ -293,10 +293,14 @@ func (w Wire) requestForSearchDocuments(
 	ask peerasks.SearchDocumentsAsk,
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
-	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
-	request.Query = []yacymodel.Hash{ask.Word}
+	if ask.Abstract {
+		request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
+	}
+	if matchedDocumentsCeiling, asked := ask.MatchedDocumentsCeiling.Get(); asked {
+		request.Query = []yacymodel.Hash{ask.Word}
+		request.Count = matchedDocumentsCeiling
+	}
 	request.URLs = ask.DocumentsToMatch
-	request.Count = ask.ItemsCeiling
 
 	return request
 }
