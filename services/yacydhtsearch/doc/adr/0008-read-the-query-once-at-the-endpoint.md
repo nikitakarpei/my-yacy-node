@@ -4,7 +4,7 @@ Date: 2026-09-26
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
@@ -37,7 +37,7 @@ happens in the same place.
 The canonical query holds the words, each compound word with the words it is made of, the
 exclusions, and the language exactly as the client sent it. Two-word compounds come before
 three-word ones. The guessed language only picks the stopword list and goes no further.
-Reading the canonical query again gives back the same query.
+No two different queries share the spelling of a canonical query.
 
 The ranking cache wraps the network search. It uses the canonical query's spelling as an
 opaque key and never looks inside it. It only keeps a ranking when peers were actually asked,

@@ -23,13 +23,13 @@ type recordedRankings struct {
 	ranking searchresult.Ranking
 }
 
-func (r *recordedRankings) RankingFor(
+func (r *recordedRankings) Search(
 	_ context.Context,
 	query searchquery.Query,
-) searchresult.Ranking {
+) (searchresult.Ranking, searchresult.Outcome) {
 	r.query = query
 
-	return r.ranking
+	return r.ranking, searchresult.PeersAsked
 }
 
 type searchPage struct {

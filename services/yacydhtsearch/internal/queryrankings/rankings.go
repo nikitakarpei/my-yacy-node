@@ -5,7 +5,6 @@ package queryrankings
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
@@ -14,7 +13,7 @@ type Network interface {
 	Search(
 		ctx context.Context,
 		query searchquery.Query,
-	) (searchresult.Ranking, networksearch.SearchOutcome)
+	) (searchresult.Ranking, searchresult.Outcome)
 }
 
 type RankingCache interface {
@@ -46,26 +45,26 @@ func New(cache RankingCache, network Network, observer QueryRankingObserver) Ran
 	return Rankings{cache: cache, network: network, observer: observer}
 }
 
-func (rankings Rankings) RankingFor(
+func (rankings Rankings) Search(
 	ctx context.Context,
 	query searchquery.Query,
-) searchresult.Ranking {
+) (searchresult.Ranking, searchresult.Outcome) {
 	if cachedRanking, cached := rankings.cache.CachedRankingFor(ctx, query); cached {
 		rankings.observer.QueryAnsweredFromCache(ctx, query, len(cachedRanking.Items))
 
-		return cachedRanking
+		return cachedRanking, searchresult.PeersAsked
 	}
 
 	ranking, outcome := rankings.network.Search(ctx, query)
 	switch outcome {
-	case networksearch.NoIndexedWordInQuery:
+	case searchresult.NoIndexedWordInQuery:
 		rankings.observer.QueryHoldsNoIndexedTerm(ctx, query)
-	case networksearch.NoPeerToAsk:
+	case searchresult.NoPeerToAsk:
 		rankings.observer.QueryReachedNoPeer(ctx, query)
-	case networksearch.PeersAsked:
+	case searchresult.PeersAsked:
 		rankings.cache.StoreRanking(ctx, query, ranking)
 		rankings.observer.QueryAnsweredByPeers(ctx, query, len(ranking.Items))
 	}
 
-	return ranking
+	return ranking, outcome
 }

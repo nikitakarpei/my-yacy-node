@@ -27,6 +27,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -368,7 +369,7 @@ func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 
 	ranking, outcome := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
-	if outcome != networksearch.PeersAsked {
+	if outcome != searchresult.PeersAsked {
 		t.Fatalf("Search reached outcome %v, want peers asked", outcome)
 	}
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != "https://a.example/" {
@@ -438,7 +439,7 @@ func TestAQueryThatReachesNoPeerCarriesBackThatOutcome(t *testing.T) {
 
 	ranking, outcome := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
-	if len(ranking.Items) != 0 || outcome != networksearch.NoPeerToAsk {
+	if len(ranking.Items) != 0 || outcome != searchresult.NoPeerToAsk {
 		t.Fatalf(
 			"Search = %+v with outcome %v, want an empty ranking and no peer to ask",
 			ranking.Items,
@@ -463,7 +464,7 @@ func TestAQueryWithoutAnIndexedWordReachesNoPeer(t *testing.T) {
 			observer.performed.AmountOfAskablePeers,
 		)
 	}
-	if outcome != networksearch.NoIndexedWordInQuery {
+	if outcome != searchresult.NoIndexedWordInQuery {
 		t.Fatalf("Search reached outcome %v, want no indexed word in the query", outcome)
 	}
 }
@@ -944,7 +945,7 @@ func TestAQueryOfTwoWordsCarriesBackWhatTheReplicasListForBothWords(t *testing.T
 
 	ranking, outcome := network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
-	if outcome != networksearch.PeersAsked {
+	if outcome != searchresult.PeersAsked {
 		t.Fatalf("Search reached outcome %v, want peers asked", outcome)
 	}
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != address {

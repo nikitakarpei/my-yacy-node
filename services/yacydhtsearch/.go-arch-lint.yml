@@ -342,7 +342,6 @@ deps:
       - searchquery
   queryrankings:
     mayDependOn:
-      - networksearch
       - searchquery
       - searchresult
   rankingcachememory:
