@@ -74,7 +74,7 @@ fetch_go() {
 }
 
 # Shells reach the toolchain through `. .toolchain/activate`, which points GOROOT
-# at the pinned tree and keeps every cache inside .toolchain.
+# at the pinned tree and keeps every cache and the uv-managed Python inside .toolchain.
 write_activate() {
 	cat > "$toolchain/activate" <<'EOF'
 # Source this: . .toolchain/activate
@@ -86,6 +86,9 @@ export GOMODCACHE="$TOOLCHAIN_DIR/gomodcache"
 export GOTMPDIR="$TOOLCHAIN_DIR/gotmp"
 export GOLANGCI_LINT_CACHE="$TOOLCHAIN_DIR/golangci-lint-cache"
 export GOTOOLCHAIN=local
+export UV_PYTHON_INSTALL_DIR="$TOOLCHAIN_DIR/python"
+export UV_CACHE_DIR="$TOOLCHAIN_DIR/uvcache"
+export UV_PYTHON_PREFERENCE=only-managed
 export PATH="$TOOLCHAIN_DIR/bin:$GOROOT/bin:$GOPATH/bin:$PATH"
 EOF
 }
@@ -120,6 +123,12 @@ ver="$1"; sum="$2"
 fetch ruff \
 	"https://github.com/astral-sh/ruff/releases/download/$ver/ruff-$triple.tar.gz" \
 	"$sum" "ruff-$triple/ruff"
+
+set -- $(lookup uv)
+ver="$1"; sum="$2"
+fetch uv \
+	"https://github.com/astral-sh/uv/releases/download/$ver/uv-$triple.tar.gz" \
+	"$sum" "uv-$triple/uv"
 
 case "$platform" in
 	linux-amd64) mado_os=Linux-gnu; mado_arch=x86_64 ;;

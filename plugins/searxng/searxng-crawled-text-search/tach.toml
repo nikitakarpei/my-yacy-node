@@ -1,0 +1,8 @@
+source_roots = ["."]
+exclude = ["test", ".venv"]
+exact = true
+
+[[modules]]
+path = "crawled_text_search"
+depends_on = []
+depends_on_external = []

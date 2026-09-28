@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import json
+from typing import Any, Protocol
 
-about = {}
+about: dict[str, Any] = {}
 categories = ["general"]
 paging = True
 
@@ -17,7 +18,11 @@ _content_fragment_length = 300
 _title_weight = 3
 
 
-def request(query, params):
+class SearchResponse(Protocol):
+    def json(self) -> Any: ...
+
+
+def request(query: str, params: dict[str, Any]) -> dict[str, Any]:
     params["method"] = "POST"
     params["headers"]["Content-Type"] = "application/json"
     if search_index_engine == "manticore":
@@ -25,11 +30,11 @@ def request(query, params):
     elif search_index_engine == "elasticsearch":
         _elasticsearch_request(query, params)
     else:
-        raise ValueError("unknown search_index_engine: {}".format(search_index_engine))
+        raise ValueError(f"unknown search_index_engine: {search_index_engine}")
     return params
 
 
-def response(resp):
+def response(resp: SearchResponse) -> list[dict[str, str]]:
     try:
         hits = resp.json()["hits"]["hits"]
     except (ValueError, KeyError, TypeError):
@@ -52,7 +57,7 @@ def response(resp):
     return results
 
 
-def _elasticsearch_request(query, params):
+def _elasticsearch_request(query: str, params: dict[str, Any]) -> None:
     params["url"] = "{}/{}_*/_search".format(
         elasticsearch_url.rstrip("/"), elasticsearch_index
     )
@@ -70,11 +75,11 @@ def _elasticsearch_request(query, params):
     )
 
 
-def _elasticsearch_query(query, language):
+def _elasticsearch_query(query: str, language: str) -> dict[str, Any]:
     match = {
         "combined_fields": {
             "query": query,
-            "fields": ["title^{}".format(_title_weight), "content"],
+            "fields": [f"title^{_title_weight}", "content"],
             "operator": "and",
         }
     }
@@ -83,7 +88,7 @@ def _elasticsearch_query(query, language):
     return {"bool": {"must": [match], "filter": [{"term": {"language": language}}]}}
 
 
-def _manticore_request(query, params):
+def _manticore_request(query: str, params: dict[str, Any]) -> None:
     params["url"] = "{}/search".format(manticore_url.rstrip("/"))
     params["data"] = json.dumps(
         {
@@ -103,25 +108,25 @@ def _manticore_request(query, params):
     )
 
 
-def _manticore_query(query, language):
+def _manticore_query(query: str, language: str) -> dict[str, Any]:
     match = {"match": {"title,content": {"query": query, "operator": "and"}}}
     if not language:
         return match
     return {"bool": {"must": [match, {"equals": {"language": language}}]}}
 
 
-def _search_language(params):
+def _search_language(params: dict[str, Any]) -> str:
     language = str(params.get("language") or "").strip().lower()
     if language in ("", "all"):
         return ""
     return language.split("-")[0]
 
 
-def _result_offset(params):
+def _result_offset(params: dict[str, Any]) -> int:
     return (params["pageno"] - 1) * results_per_page
 
 
-def _matched_content(hit, source):
+def _matched_content(hit: dict[str, Any], source: dict[str, Any]) -> str:
     fragments = hit.get("highlight", {}).get("content")
     if fragments:
         return " … ".join(fragments)

@@ -1,2 +1,11 @@
+[project]
+name = "searxng-crawled-text-search"
+version = "0"
+requires-python = "==3.13.*"
+dependencies = []
+
+[tool.uv]
+package = false
+
 [tool.coverage.run]
 source = ["crawled_text_search"]

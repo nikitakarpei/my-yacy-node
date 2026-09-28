@@ -1,0 +1,11 @@
+source_roots = ["."]
+exclude = ["test", ".venv"]
+exact = true
+
+[[modules]]
+path = "result_link_router"
+depends_on = []
+depends_on_external = ["searx"]
+
+[external]
+exclude = ["searx"]

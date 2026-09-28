@@ -1,5 +1,4 @@
 GO ?= $(CURDIR)/.toolchain/go/bin/go
-PYTHON ?= python3
 COVERAGE_MIN ?= 80
 
 # make workspace writes go.work for the editor; every target here builds each module as a standalone consumer sees it.
@@ -7,7 +6,7 @@ export GOWORK := off
 
 GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod test/contracts/*/go.mod))
 GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod test/*/go.mod))
-PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
+PY_MODULES := $(patsubst %/pyproject.toml,%,$(wildcard libraries/*/pyproject.toml services/*/pyproject.toml plugins/*/*/pyproject.toml))
 
 COVER_PROFILE := coverage.out
 COVER_PATTERN := $(CURDIR)/tools/covignore-pattern
@@ -27,8 +26,15 @@ GOLANGCI_LINT := $(TOOLS_BIN)/golangci-lint
 GO_ARCH_LINT := $(TOOLS_BIN)/go-arch-lint
 RUFF := $(TOOLS_BIN)/ruff
 MADO := $(TOOLS_BIN)/mado
+UV := $(TOOLS_BIN)/uv
 
-PY_VENV_STAMPS := $(foreach m,$(PY_MODULES),$(m)/.venv/.installed)
+export UV_PYTHON_INSTALL_DIR := $(CURDIR)/.toolchain/python
+export UV_CACHE_DIR := $(CURDIR)/.toolchain/uvcache
+export UV_PYTHON_PREFERENCE := only-managed
+
+PY_VENV := $(CURDIR)/.venv
+PY_VENV_STAMP := $(PY_VENV)/.installed
+PY_CONFIG := $(CURDIR)/pyproject.toml
 
 define for_each_go
 echo "==> $(1)"; \
@@ -59,11 +65,11 @@ endef
 .PHONY: tools \
 	fmt fmt-go fmt-go-e2e fmt-py \
 	fmt-check fmt-check-go fmt-check-go-e2e fmt-check-py \
-	tidy tidy-go tidy-go-e2e \
-	tidy-check tidy-check-go tidy-check-go-e2e \
+	tidy tidy-go tidy-go-e2e tidy-py \
+	tidy-check tidy-check-go tidy-check-go-e2e tidy-check-py \
 	workspace \
 	lint lint-go lint-go-e2e lint-py lint-md \
-	arch arch-diagram \
+	arch arch-go arch-py arch-diagram \
 	test test-go test-py \
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
@@ -72,9 +78,10 @@ endef
 
 fmt:         fmt-go fmt-go-e2e fmt-py
 fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py
-tidy:        tidy-go tidy-go-e2e
-tidy-check:  tidy-check-go tidy-check-go-e2e
+tidy:        tidy-go tidy-go-e2e tidy-py
+tidy-check:  tidy-check-go tidy-check-go-e2e tidy-check-py
 lint:        lint-go lint-go-e2e lint-py lint-md
+arch:        arch-go arch-py
 test:        test-go test-py
 cover:       cover-go cover-py
 cover-check: cover-check-go cover-check-py
@@ -88,9 +95,8 @@ $(TOOLS_STAMP): tools/install tools/tools.lock
 
 tools: $(TOOLS_STAMP)
 
-$(PY_VENV_STAMPS): %/.venv/.installed: %/requirements-dev.txt
-	$(PYTHON) -m venv $*/.venv
-	$*/.venv/bin/pip install --quiet -r $*/requirements-dev.txt
+$(PY_VENV_STAMP): $(TOOLS_STAMP) .python-version pyproject.toml uv.lock $(PY_MODULES:%=%/pyproject.toml)
+	$(UV) sync --locked --all-packages --quiet
 	@touch $@
 
 # ---- Go stack ----
@@ -125,8 +131,8 @@ lint-go: $(TOOLS_STAMP)
 lint-go-e2e: $(TOOLS_STAMP)
 	@$(call for_each_go_e2e,lint-go-e2e,$(GOLANGCI_LINT) run --build-tags e2e ./...)
 
-arch: $(TOOLS_STAMP)
-	@$(call for_each_go,arch,$(GO_ARCH_LINT) check)
+arch-go: $(TOOLS_STAMP)
+	@$(call for_each_go,arch-go,$(GO_ARCH_LINT) check)
 
 arch-diagram: $(TOOLS_STAMP)
 	@mkdir -p $(ARCH_DIAGRAM_DIR)
@@ -159,17 +165,28 @@ fmt-py: $(TOOLS_STAMP)
 fmt-check-py: $(TOOLS_STAMP)
 	@$(call for_each_py,fmt-check-py,$(RUFF) format --check .)
 
-lint-py: $(TOOLS_STAMP)
-	@$(call for_each_py,lint-py,$(RUFF) check .)
+tidy-py: $(TOOLS_STAMP)
+	@echo "==> tidy-py"
+	@$(UV) lock --quiet
 
-test-py: $(PY_VENV_STAMPS)
-	@$(call for_each_py,test-py,.venv/bin/python -m pytest -q)
+tidy-check-py: $(TOOLS_STAMP)
+	@echo "==> tidy-check-py"
+	@$(UV) lock --check --quiet
 
-cover-py: $(PY_VENV_STAMPS)
-	@$(call for_each_py,cover-py,.venv/bin/python -m pytest -q --cov --cov-report=term-missing)
+lint-py: $(TOOLS_STAMP) $(PY_VENV_STAMP)
+	@$(call for_each_py,lint-py,$(RUFF) check . && $(PY_VENV)/bin/mypy --config-file $(PY_CONFIG) .)
 
-cover-check-py: $(PY_VENV_STAMPS)
-	@$(call for_each_py,cover-check-py,.venv/bin/python -m pytest -q --cov --cov-fail-under=$(COVERAGE_MIN))
+arch-py: $(PY_VENV_STAMP)
+	@$(call for_each_py,arch-py,$(PY_VENV)/bin/tach check && $(PY_VENV)/bin/tach check-external)
+
+test-py: $(PY_VENV_STAMP)
+	@$(call for_each_py,test-py,$(PY_VENV)/bin/python -m pytest -q)
+
+cover-py: $(PY_VENV_STAMP)
+	@$(call for_each_py,cover-py,$(PY_VENV)/bin/python -m pytest -q --cov --cov-report=term-missing)
+
+cover-check-py: $(PY_VENV_STAMP)
+	@$(call for_each_py,cover-check-py,$(PY_VENV)/bin/python -m pytest -q --cov --cov-fail-under=$(COVERAGE_MIN))
 
 # ---- Markdown ----
 

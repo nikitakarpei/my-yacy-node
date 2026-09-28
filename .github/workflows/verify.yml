@@ -30,12 +30,14 @@ jobs:
             go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
             go-${{ runner.os }}-
 
-      - name: Cache Python packages
+      - name: Cache pinned Python and its packages
         uses: actions/cache@v6
         with:
-          path: ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('**/requirements-dev.txt') }}
-          restore-keys: pip-${{ runner.os }}-
+          path: |
+            .toolchain/python
+            .toolchain/uvcache
+          key: uv-${{ runner.os }}-${{ hashFiles('tools/tools.lock', '.python-version', 'uv.lock') }}
+          restore-keys: uv-${{ runner.os }}-
 
       - name: Run make verify
         run: make verify RACE_FLAG=-race

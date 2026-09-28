@@ -1,2 +1,11 @@
+[project]
+name = "searxng-result-router"
+version = "0"
+requires-python = "==3.13.*"
+dependencies = []
+
+[tool.uv]
+package = false
+
 [tool.coverage.run]
 source = ["result_link_router"]
