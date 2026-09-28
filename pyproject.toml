@@ -1,0 +1,21 @@
+[tool.uv.workspace]
+members = ["plugins/searxng/*"]
+
+[dependency-groups]
+dev = [
+    "mypy==2.3.1",
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "tach==0.35.1",
+]
+
+[tool.mypy]
+python_version = "3.13"
+explicit_package_bases = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["searx.*"]
+ignore_missing_imports = true

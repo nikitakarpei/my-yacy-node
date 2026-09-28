@@ -2,6 +2,7 @@
 
 import importlib
 import json
+from typing import Any
 
 import pytest
 
@@ -9,7 +10,7 @@ crawled_text_search = importlib.import_module("crawled_text_search")
 
 
 @pytest.fixture(autouse=True)
-def configured(monkeypatch):
+def configured(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(crawled_text_search, "search_index_engine", "elasticsearch")
     monkeypatch.setattr(
         crawled_text_search, "elasticsearch_url", "http://elasticsearch:9200"
@@ -17,27 +18,33 @@ def configured(monkeypatch):
     monkeypatch.setattr(crawled_text_search, "elasticsearch_index", "yacy_text_v1")
 
 
-def build_params(pageno=1, language=None):
-    params = {"pageno": pageno, "headers": {}, "url": "", "method": "GET", "data": ""}
+def build_params(pageno: int = 1, language: str | None = None) -> dict[str, Any]:
+    params: dict[str, Any] = {
+        "pageno": pageno,
+        "headers": {},
+        "url": "",
+        "method": "GET",
+        "data": "",
+    }
     if language is not None:
         params["language"] = language
     return params
 
 
 @pytest.fixture
-def manticore(monkeypatch):
+def manticore(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(crawled_text_search, "search_index_engine", "manticore")
     monkeypatch.setattr(crawled_text_search, "manticore_url", "http://manticore:9308")
     monkeypatch.setattr(crawled_text_search, "manticore_table", "yacy_text_v1")
 
 
-def test_request_fans_out_over_every_language_index():
+def test_request_fans_out_over_every_language_index() -> None:
     params = crawled_text_search.request("wildflower", build_params())
     assert params["url"] == "http://elasticsearch:9200/yacy_text_v1_*/_search"
     assert params["method"] == "POST"
 
 
-def test_request_body_carries_combined_fields_query():
+def test_request_body_carries_combined_fields_query() -> None:
     params = crawled_text_search.request("wildflower", build_params())
     body = json.loads(params["data"])
     assert body["query"]["combined_fields"]["query"] == "wildflower"
@@ -45,7 +52,7 @@ def test_request_body_carries_combined_fields_query():
     assert body["query"]["combined_fields"]["operator"] == "and"
 
 
-def test_request_paginates_from_pageno(monkeypatch):
+def test_request_paginates_from_pageno(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(crawled_text_search, "results_per_page", 7)
     params = crawled_text_search.request("wildflower", build_params(pageno=3))
     body = json.loads(params["data"])
@@ -53,7 +60,7 @@ def test_request_paginates_from_pageno(monkeypatch):
     assert body["size"] == 7
 
 
-def test_manticore_request_targets_configured_table(manticore):
+def test_manticore_request_targets_configured_table(manticore: None) -> None:
     params = crawled_text_search.request("wildflower", build_params())
     assert params["url"] == "http://manticore:9308/search"
     assert params["method"] == "POST"
@@ -61,7 +68,9 @@ def test_manticore_request_targets_configured_table(manticore):
     assert body["table"] == "yacy_text_v1"
 
 
-def test_manticore_request_matches_both_fields_with_title_weight(manticore):
+def test_manticore_request_matches_both_fields_with_title_weight(
+    manticore: None,
+) -> None:
     params = crawled_text_search.request("wildflower", build_params())
     body = json.loads(params["data"])
     assert body["query"]["match"]["title,content"] == {
@@ -71,7 +80,9 @@ def test_manticore_request_matches_both_fields_with_title_weight(manticore):
     assert body["options"]["field_weights"]["title"] == 3
 
 
-def test_manticore_request_paginates_from_pageno(manticore, monkeypatch):
+def test_manticore_request_paginates_from_pageno(
+    manticore: None, monkeypatch: pytest.MonkeyPatch
+) -> None:
     monkeypatch.setattr(crawled_text_search, "results_per_page", 7)
     params = crawled_text_search.request("wildflower", build_params(pageno=3))
     body = json.loads(params["data"])
@@ -80,7 +91,9 @@ def test_manticore_request_paginates_from_pageno(manticore, monkeypatch):
 
 
 @pytest.mark.parametrize("language", ["en", "en-US", "EN"])
-def test_request_filters_elasticsearch_by_the_search_language(language):
+def test_request_filters_elasticsearch_by_the_search_language(
+    language: str | None,
+) -> None:
     params = crawled_text_search.request("wildflower", build_params(language=language))
     body = json.loads(params["data"])
     assert body["query"]["bool"]["filter"] == [{"term": {"language": "en"}}]
@@ -88,7 +101,9 @@ def test_request_filters_elasticsearch_by_the_search_language(language):
 
 
 @pytest.mark.parametrize("language", [None, "", "all"])
-def test_request_without_a_search_language_filters_nothing(language):
+def test_request_without_a_search_language_filters_nothing(
+    language: str | None,
+) -> None:
     params = crawled_text_search.request("wildflower", build_params(language=language))
     body = json.loads(params["data"])
     assert "combined_fields" in body["query"]
@@ -96,13 +111,17 @@ def test_request_without_a_search_language_filters_nothing(language):
 
 
 @pytest.mark.parametrize("language", ["ru", "ru-RU"])
-def test_manticore_request_filters_by_the_search_language(manticore, language):
+def test_manticore_request_filters_by_the_search_language(
+    manticore: None, language: str | None
+) -> None:
     params = crawled_text_search.request("wildflower", build_params(language=language))
     body = json.loads(params["data"])
     assert {"equals": {"language": "ru"}} in body["query"]["bool"]["must"]
 
 
-def test_manticore_request_without_a_search_language_filters_nothing(manticore):
+def test_manticore_request_without_a_search_language_filters_nothing(
+    manticore: None,
+) -> None:
     params = crawled_text_search.request("wildflower", build_params(language="all"))
     body = json.loads(params["data"])
     assert "match" in body["query"]
@@ -110,21 +129,23 @@ def test_manticore_request_without_a_search_language_filters_nothing(manticore):
 
 
 @pytest.mark.parametrize("engine", ["", "sphinx"])
-def test_request_rejects_unset_or_unknown_engine(monkeypatch, engine):
+def test_request_rejects_unset_or_unknown_engine(
+    monkeypatch: pytest.MonkeyPatch, engine: str
+) -> None:
     monkeypatch.setattr(crawled_text_search, "search_index_engine", engine)
     with pytest.raises(ValueError):
         crawled_text_search.request("wildflower", build_params())
 
 
 class FakeResponse:
-    def __init__(self, payload):
+    def __init__(self, payload: Any) -> None:
         self._payload = payload
 
-    def json(self):
+    def json(self) -> Any:
         return self._payload
 
 
-def test_response_maps_hit_to_result_with_highlight():
+def test_response_maps_hit_to_result_with_highlight() -> None:
     resp = FakeResponse(
         {
             "hits": {
@@ -153,7 +174,7 @@ def test_response_maps_hit_to_result_with_highlight():
     ]
 
 
-def test_response_falls_back_to_truncated_content_without_highlight():
+def test_response_falls_back_to_truncated_content_without_highlight() -> None:
     content = "wildflower " * 100
     resp = FakeResponse(
         {
@@ -174,7 +195,7 @@ def test_response_falls_back_to_truncated_content_without_highlight():
     assert results[0]["content"] == content[:300]
 
 
-def test_response_maps_a_manticore_hit_with_its_highlight():
+def test_response_maps_a_manticore_hit_with_its_highlight() -> None:
     resp = FakeResponse(
         {
             "took": 0,
@@ -208,20 +229,20 @@ def test_response_maps_a_manticore_hit_with_its_highlight():
     ]
 
 
-def test_response_skips_hit_missing_title_or_url():
+def test_response_skips_hit_missing_title_or_url() -> None:
     resp = FakeResponse(
         {"hits": {"hits": [{"_source": {"content": "no title or url"}}]}}
     )
     assert crawled_text_search.response(resp) == []
 
 
-def test_response_returns_empty_list_on_malformed_body():
+def test_response_returns_empty_list_on_malformed_body() -> None:
     assert crawled_text_search.response(FakeResponse({"unexpected": "shape"})) == []
 
 
-def test_response_returns_empty_list_when_json_raises():
+def test_response_returns_empty_list_when_json_raises() -> None:
     class RaisingResponse:
-        def json(self):
+        def json(self) -> Any:
             raise ValueError("not json")
 
     assert crawled_text_search.response(RaisingResponse()) == []

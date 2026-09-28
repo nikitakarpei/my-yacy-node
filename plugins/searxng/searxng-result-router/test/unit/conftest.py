@@ -3,7 +3,6 @@
 import dataclasses
 import sys
 import types
-import typing as t
 
 
 def _install_searx_plugins_stub() -> None:
@@ -19,7 +18,7 @@ def _install_searx_plugins_stub() -> None:
         id: str
         name: str
         description: str
-        preference_section: t.Optional[str] = "general"
+        preference_section: str | None = "general"
         examples: list = dataclasses.field(default_factory=list)
         keywords: list = dataclasses.field(default_factory=list)
 

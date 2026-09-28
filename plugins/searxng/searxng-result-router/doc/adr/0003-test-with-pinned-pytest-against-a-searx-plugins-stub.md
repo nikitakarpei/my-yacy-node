@@ -4,7 +4,7 @@ Date: 2026-07-07
 
 ## Status
 
-Accepted
+Superseded in part by [Manage Python and its packages with a pinned uv](../../../../../doc/adr/0001-manage-python-and-its-packages-with-a-pinned-uv.md): uv installs pytest and pytest-cov from the root `uv.lock`.
 
 ## Context
 
