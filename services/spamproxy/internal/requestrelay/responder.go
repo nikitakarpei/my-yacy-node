@@ -20,7 +20,7 @@ type Egress interface {
 	RoundTrip(request *http.Request) (*http.Response, error)
 }
 
-type Assessor interface {
+type AssessmentRunner interface {
 	Assess(
 		ctx context.Context,
 		address canonicalurl.CanonicalURL,
@@ -49,33 +49,28 @@ type Limits struct {
 }
 
 type Responder struct {
-	egress       Egress
-	pageAssessor pageAssessor
-	observers    Observers
-	limits       Limits
-	clock        Clock
-	readingSlots readingSlots
+	egress           Egress
+	assessmentRunner AssessmentRunner
+	observers        Observers
+	limits           Limits
+	clock            Clock
+	readingSlots     readingSlots
 }
 
 func New(
 	egress Egress,
-	assessor Assessor,
+	assessmentRunner AssessmentRunner,
 	observers Observers,
 	limits Limits,
 	clock Clock,
 ) *Responder {
 	return &Responder{
-		egress: egress,
-		pageAssessor: pageAssessor{
-			assessor:        assessor,
-			observers:       observers,
-			clock:           clock,
-			pageByteCeiling: limits.PageByteCeiling,
-		},
-		observers:    observers,
-		limits:       limits,
-		clock:        clock,
-		readingSlots: make(readingSlots, limits.MaxPagesReadAtOnce),
+		egress:           egress,
+		assessmentRunner: assessmentRunner,
+		observers:        observers,
+		limits:           limits,
+		clock:            clock,
+		readingSlots:     make(readingSlots, limits.MaxPagesReadAtOnce),
 	}
 }
 
@@ -135,16 +130,16 @@ func (r *Responder) upstreamResponseRelayerFor(
 	responseSender responseSender,
 ) upstreamResponseRelayer {
 	return upstreamResponseRelayer{
-		observers:       r.observers,
-		pageAssessor:    r.pageAssessor,
-		clock:           r.clock,
-		readingSlots:    r.readingSlots,
-		pageByteCeiling: r.limits.PageByteCeiling,
-		method:          method,
-		address:         address,
-		headersDueAt:    headersDueAt,
-		canceller:       canceller,
-		responseSender:  responseSender,
+		observers:        r.observers,
+		assessmentRunner: r.assessmentRunner,
+		clock:            r.clock,
+		readingSlots:     r.readingSlots,
+		pageByteCeiling:  r.limits.PageByteCeiling,
+		method:           method,
+		address:          address,
+		headersDueAt:     headersDueAt,
+		canceller:        canceller,
+		responseSender:   responseSender,
 	}
 }
 

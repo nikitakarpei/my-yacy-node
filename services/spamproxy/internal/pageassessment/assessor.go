@@ -11,15 +11,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/spamfeatures"
 )
 
-type PageAssessor struct {
+type Assessor struct {
 	model spammodel.Model
 }
 
-func NewPageAssessor(model spammodel.Model) PageAssessor {
-	return PageAssessor{model: model}
+func New(model spammodel.Model) Assessor {
+	return Assessor{model: model}
 }
 
-func (p PageAssessor) AssessmentFrom(
+func (a Assessor) AssessmentFrom(
 	address canonicalurl.CanonicalURL,
 	body []byte,
 	responseHeaders http.Header,
@@ -33,8 +33,8 @@ func (p PageAssessor) AssessmentFrom(
 		responseHeaders,
 	)
 	return spamassessment.Assessment{
-		Score:        p.model.ScoreOf(row),
-		Threshold:    p.model.Threshold,
-		ModelVersion: p.model.Version,
+		Score:        a.model.ScoreOf(row),
+		Threshold:    a.model.Threshold,
+		ModelVersion: a.model.Version,
 	}
 }

@@ -152,14 +152,14 @@ type assessedBody struct {
 	headers http.Header
 }
 
-type fakeAssessor struct {
+type fakeAssessmentRunner struct {
 	mutex         sync.Mutex
 	assessedPages []assessedBody
 	outcome       assessmentgate.Outcome
 	during        func()
 }
 
-func (a *fakeAssessor) Assess(
+func (a *fakeAssessmentRunner) Assess(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	body []byte,
@@ -281,27 +281,27 @@ func (r *observerRecord) ClientClosedRequest(context.Context, canonicalurl.Canon
 }
 
 type responderFixture struct {
-	egress    *fakeEgress
-	assessor  *fakeAssessor
-	clock     *fakeClock
-	observers *observerRecord
-	limits    requestrelay.Limits
+	egress           *fakeEgress
+	assessmentRunner *fakeAssessmentRunner
+	clock            *fakeClock
+	observers        *observerRecord
+	limits           requestrelay.Limits
 }
 
 func newResponderFixture() *responderFixture {
 	return &responderFixture{
-		egress:    &fakeEgress{upstreamResponse: htmlUpstreamResponseWith(pageBody)},
-		assessor:  &fakeAssessor{},
-		clock:     newFakeClock(),
-		observers: &observerRecord{},
-		limits:    testLimits,
+		egress:           &fakeEgress{upstreamResponse: htmlUpstreamResponseWith(pageBody)},
+		assessmentRunner: &fakeAssessmentRunner{},
+		clock:            newFakeClock(),
+		observers:        &observerRecord{},
+		limits:           testLimits,
 	}
 }
 
 func (f *responderFixture) responder() *requestrelay.Responder {
 	return requestrelay.New(
 		f.egress,
-		f.assessor,
+		f.assessmentRunner,
 		requestrelay.Observers{f.observers},
 		f.limits,
 		f.clock,
@@ -357,8 +357,8 @@ func TestAnHTMLPageCarriesTheVerdictAndItsBody(t *testing.T) {
 		response.String() != pageBody {
 		t.Fatalf("response %d %v %q", response.status, response.headers, response.String())
 	}
-	if string(fixture.assessor.assessedPages[0].body) != pageBody {
-		t.Fatalf("assessed body %q", fixture.assessor.assessedPages[0].body)
+	if string(fixture.assessmentRunner.assessedPages[0].body) != pageBody {
+		t.Fatalf("assessed body %q", fixture.assessmentRunner.assessedPages[0].body)
 	}
 }
 
@@ -453,8 +453,8 @@ func TestAGzipPageIsAssessedDecodedAndRelayedAsTheOriginSentIt(t *testing.T) {
 		response.String() != encodedBody.String() {
 		t.Fatalf("response %v %q", response.headers, response.String())
 	}
-	if string(fixture.assessor.assessedPages[0].body) != pageBody {
-		t.Fatalf("assessed body %q", fixture.assessor.assessedPages[0].body)
+	if string(fixture.assessmentRunner.assessedPages[0].body) != pageBody {
+		t.Fatalf("assessed body %q", fixture.assessmentRunner.assessedPages[0].body)
 	}
 }
 
@@ -489,7 +489,7 @@ func TestAPageOverTheByteCeilingIsAssessedOnItsFirstBytesAndRelayedWhole(t *test
 		t.Fatalf("response %v, %d bytes", response.headers, response.Len())
 	}
 	if assessedBytes := len(
-		fixture.assessor.assessedPages[0].body,
+		fixture.assessmentRunner.assessedPages[0].body,
 	); assessedBytes != pageByteCeiling {
 		t.Fatalf("assessed %d bytes", assessedBytes)
 	}
@@ -502,7 +502,7 @@ func TestAPageOverTheByteCeilingAssessedPastTheEndOfReadingIsRelayedWhole(t *tes
 	fixture.egress.upstreamResponse.body = func(ctx context.Context) io.Reader {
 		return cancellableBody{ctx: ctx, body: strings.NewReader(body)}
 	}
-	fixture.assessor.during = func() { (<-fixture.clock.expirations)() }
+	fixture.assessmentRunner.during = func() { (<-fixture.clock.expirations)() }
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
@@ -671,7 +671,7 @@ func TestAPageWaitingForAReadingSlotIsRelayedOnceTheSlotFrees(t *testing.T) {
 	fixture := newResponderFixture()
 	fixture.limits.MaxPagesReadAtOnce = 1
 	started, released := make(chan struct{}), make(chan struct{})
-	fixture.assessor.during = heldOnFirstAssessment(started, released)
+	fixture.assessmentRunner.during = heldOnFirstAssessment(started, released)
 	responder := fixture.responder()
 	heldResponses := fixture.respondInBackgroundTo(t, responder)
 	<-started
@@ -694,7 +694,7 @@ func TestAPageWithoutAReadingSlotWhenTheHeadersAreDueGivesServiceUnavailable(t *
 	fixture := newResponderFixture()
 	fixture.limits.MaxPagesReadAtOnce = 1
 	started, released := make(chan struct{}), make(chan struct{})
-	fixture.assessor.during = heldOnFirstAssessment(started, released)
+	fixture.assessmentRunner.during = heldOnFirstAssessment(started, released)
 	responder := fixture.responder()
 	heldResponses := fixture.respondInBackgroundTo(t, responder)
 	<-started
@@ -743,7 +743,7 @@ func TestAnUpstreamResponseThatStartsAfterTheHeadersAreDueGivesGatewayTimeout(t 
 	}
 }
 
-func TestAPageThatTheAssessorDidNotAssessIsRefused(t *testing.T) {
+func TestAPageThatWasNotAssessedIsRefused(t *testing.T) {
 	refusals := map[assessmentgate.Outcome]struct {
 		reason requestrelay.RefusalReason
 		status int
@@ -763,7 +763,7 @@ func TestAPageThatTheAssessorDidNotAssessIsRefused(t *testing.T) {
 	}
 	for outcome, refusal := range refusals {
 		fixture := newResponderFixture()
-		fixture.assessor.outcome = outcome
+		fixture.assessmentRunner.outcome = outcome
 
 		response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
@@ -777,7 +777,7 @@ func TestAPageThatTheAssessorDidNotAssessIsRefused(t *testing.T) {
 
 func TestAPageAssessedPastTheResponseHeaderDeadlineGivesGatewayTimeout(t *testing.T) {
 	fixture := newResponderFixture()
-	fixture.assessor.during = func() { fixture.clock.passTo(time.Second) }
+	fixture.assessmentRunner.during = func() { fixture.clock.passTo(time.Second) }
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 

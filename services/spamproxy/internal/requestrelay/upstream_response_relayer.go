@@ -8,21 +8,22 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/contentencoding"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 )
 
 type upstreamResponseRelayer struct {
-	observers       Observers
-	pageAssessor    pageAssessor
-	clock           Clock
-	readingSlots    readingSlots
-	pageByteCeiling int
-	method          string
-	address         canonicalurl.CanonicalURL
-	headersDueAt    time.Time
-	canceller       *readingcancel.Canceller
-	responseSender  responseSender
+	observers        Observers
+	assessmentRunner AssessmentRunner
+	clock            Clock
+	readingSlots     readingSlots
+	pageByteCeiling  int
+	method           string
+	address          canonicalurl.CanonicalURL
+	headersDueAt     time.Time
+	canceller        *readingcancel.Canceller
+	responseSender   responseSender
 }
 
 func (r upstreamResponseRelayer) relay(
@@ -76,8 +77,8 @@ func (r upstreamResponseRelayer) assessInReadingSlot(
 		r.responseSender.failReading(ctx, PageReadDeadline, BodyPrefixReadFailed, readFailure)
 		return assessedPage{}, false
 	}
-	page, refusal := r.pageAssessor.assess(
-		ctx, r.address, bodyPrefix, upstreamResponse.Header, r.headersDueAt,
+	page, refusal := r.assessedPageFrom(
+		ctx, bodyPrefix, upstreamResponse.Header,
 	)
 	if refusal != "" {
 		r.responseSender.refuse(ctx, refusal)
@@ -104,4 +105,38 @@ func (r upstreamResponseRelayer) bodyPrefixFrom(
 	)
 	r.canceller.Stop()
 	return bodyPrefix, err //nolint:wrapcheck // the relay reports the cause as the egress proxy gave it
+}
+
+func (r upstreamResponseRelayer) assessedPageFrom(
+	ctx context.Context,
+	bodyPrefix []byte,
+	upstreamResponseHeaders http.Header,
+) (assessedPage, RefusalReason) {
+	body, decoded := contentencoding.DecodedBodyFrom(
+		bodyPrefix,
+		contentEncodingOf(upstreamResponseHeaders),
+		r.pageByteCeiling,
+	)
+	if !decoded {
+		return assessedPage{}, UndecodableBody
+	}
+	assessment, outcome := r.assessmentRunner.Assess(
+		ctx,
+		r.address,
+		body,
+		upstreamResponseHeaders,
+		r.headersDueAt,
+	)
+	if outcome != assessmentgate.Assessed {
+		return assessedPage{}, refusalsPerOutcome[outcome]
+	}
+	r.observers.PageAssessed(ctx, r.address, assessment)
+	if !r.clock.Now().Before(r.headersDueAt) {
+		return assessedPage{}, AssessmentDeadline
+	}
+	return assessedPage{
+		bodyPrefix:   bodyPrefix,
+		wasBodyWhole: len(bodyPrefix) < r.pageByteCeiling,
+		assessment:   assessment,
+	}, ""
 }

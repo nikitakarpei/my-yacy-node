@@ -31,7 +31,7 @@ func TestAPageIsAssessedWithTheScoreOfTheModel(t *testing.T) {
 		},
 	}
 
-	assessment := pageassessment.NewPageAssessor(model).AssessmentFrom(address, body, headers)
+	assessment := pageassessment.New(model).AssessmentFrom(address, body, headers)
 
 	row := spamfeatures.RowFrom(
 		htmlreading.ReadingFrom(address, body, headers.Get("Content-Type")),

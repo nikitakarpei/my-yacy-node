@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 )
 
-type PageAssessor interface {
+type Assessor interface {
 	AssessmentFrom(
 		address canonicalurl.CanonicalURL,
 		body []byte,
@@ -33,23 +33,23 @@ type Clock interface {
 	After(timeout time.Duration, expire func()) (stop func())
 }
 
-type Assessor struct {
-	pageAssessor    PageAssessor
+type Runner struct {
+	assessor        Assessor
 	assessmentSlots chan struct{}
 	clock           Clock
 	observers       Observers
 }
 
-func New(pageAssessor PageAssessor, slotAmount int, clock Clock, observers Observers) *Assessor {
-	return &Assessor{
-		pageAssessor:    pageAssessor,
+func New(assessor Assessor, slotAmount int, clock Clock, observers Observers) *Runner {
+	return &Runner{
+		assessor:        assessor,
 		assessmentSlots: make(chan struct{}, slotAmount),
 		clock:           clock,
 		observers:       observers,
 	}
 }
 
-func (a *Assessor) Assess(
+func (r *Runner) Assess(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	body []byte,
@@ -57,13 +57,13 @@ func (a *Assessor) Assess(
 	deadline time.Time,
 ) (spamassessment.Assessment, Outcome) {
 	expired := make(chan struct{})
-	stop := a.clock.After(deadline.Sub(a.clock.Now()), func() { close(expired) })
+	stop := r.clock.After(deadline.Sub(r.clock.Now()), func() { close(expired) })
 	defer stop()
-	if !a.reserveSlot(ctx, address, expired) {
+	if !r.reserveSlot(ctx, address, expired) {
 		return spamassessment.Assessment{}, SlotWaitDeadline
 	}
 	assessments := make(chan spamassessment.Assessment, 1)
-	go a.assessInSlot(ctx, address, body, responseHeaders, assessments)
+	go r.assessInSlot(ctx, address, body, responseHeaders, assessments)
 	select {
 	case assessment, assessed := <-assessments:
 		if !assessed {
@@ -75,37 +75,37 @@ func (a *Assessor) Assess(
 	}
 }
 
-func (a *Assessor) reserveSlot(
+func (r *Runner) reserveSlot(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	expired <-chan struct{},
 ) bool {
-	slotWaitStarted := a.clock.Now()
-	defer func() { a.observers.SlotWaited(ctx, address, a.clock.Now().Sub(slotWaitStarted)) }()
+	slotWaitStarted := r.clock.Now()
+	defer func() { r.observers.SlotWaited(ctx, address, r.clock.Now().Sub(slotWaitStarted)) }()
 	select {
-	case a.assessmentSlots <- struct{}{}:
+	case r.assessmentSlots <- struct{}{}:
 		return true
 	case <-expired:
 		return false
 	}
 }
 
-func (a *Assessor) assessInSlot(
+func (r *Runner) assessInSlot(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	body []byte,
 	responseHeaders http.Header,
 	assessments chan<- spamassessment.Assessment,
 ) {
-	defer func() { <-a.assessmentSlots }()
+	defer func() { <-r.assessmentSlots }()
 	defer func() {
 		if panicValue := recover(); panicValue != nil {
-			a.observers.AssessmentPanicked(ctx, address, panicValue)
+			r.observers.AssessmentPanicked(ctx, address, panicValue)
 			close(assessments)
 		}
 	}()
-	assessmentStarted := a.clock.Now()
-	assessment := a.pageAssessor.AssessmentFrom(address, body, responseHeaders)
-	a.observers.AssessmentFinished(ctx, address, len(body), a.clock.Now().Sub(assessmentStarted))
+	assessmentStarted := r.clock.Now()
+	assessment := r.assessor.AssessmentFrom(address, body, responseHeaders)
+	r.observers.AssessmentFinished(ctx, address, len(body), r.clock.Now().Sub(assessmentStarted))
 	assessments <- assessment
 }
