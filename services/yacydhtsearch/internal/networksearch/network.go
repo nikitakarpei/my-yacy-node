@@ -129,6 +129,7 @@ func (n Network) Search(
 	)
 	answersWithReadPages := answers.
 		WithReadPages(readPages.PageContentsPerDocument).
+		WithSpamVerdicts(readPages.SpamVerdictPerDocument).
 		WithoutDocuments(readPages.WithdrawnDocuments)
 	rankedDocuments := documentsUpTo(
 		n.documentsOrdering.OrderedDocumentsOf(answersWithReadPages),

@@ -1,7 +1,8 @@
 package pagefetch
 
 type FetchedPage struct {
-	ContentType     string
-	Body            []byte
-	RobotsTagValues []string
+	ContentType         string
+	Body                []byte
+	RobotsTagValues     []string
+	SpamAssessmentValue string
 }

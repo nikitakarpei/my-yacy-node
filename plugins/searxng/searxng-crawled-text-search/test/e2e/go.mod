@@ -86,3 +86,5 @@ require (
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../../../../services/pagescrape/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../../../../libraries/pagefetch
+
+replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../../libraries/spamassessment

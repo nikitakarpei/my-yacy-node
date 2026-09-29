@@ -34,3 +34,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../servic
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
+
+replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment

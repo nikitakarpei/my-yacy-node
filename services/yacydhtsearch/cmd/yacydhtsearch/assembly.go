@@ -29,6 +29,7 @@ import (
 	cachedrankingsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/jetstream/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/spamlast"
 	hedgedelaysconstant "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/hedgedelays/constant"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
@@ -183,9 +184,11 @@ func RunService(
 		choice,
 		querySpreadFor(cfg, peers, queryWordDocumentAmounts, urlMetadataAskCeilings, registry),
 		pageReading,
-		sitediscount.New(
-			documentrelevance.RelevanceScorerWeighedBy(
-				documentrelevance.DefaultRelevanceWeights(),
+		spamlast.New(
+			sitediscount.New(
+				documentrelevance.RelevanceScorerWeighedBy(
+					documentrelevance.DefaultRelevanceWeights(),
+				),
 			),
 		),
 		cfg.QueryBudget,

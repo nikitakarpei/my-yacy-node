@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -578,6 +579,59 @@ func TestAPageThatAllowsIndexingIsRead(t *testing.T) {
 
 	if len(readPages.WithdrawnDocuments) != 0 || len(readPages.PageContentsPerDocument) != 1 {
 		t.Fatalf("the reading gives %+v, want the page read", readPages)
+	}
+}
+
+type pagesAssessedForSpam struct {
+	spamAssessmentValue string
+}
+
+func (pages pagesAssessedForSpam) Fetch(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	return pagefetch.FetchOutcome{
+		Status: pagefetch.FetchSucceeded,
+		Page: pagefetch.FetchedPage{
+			ContentType:         "text/html; charset=utf-8",
+			Body:                []byte(pageOfBerlin),
+			SpamAssessmentValue: pages.spamAssessmentValue,
+		},
+	}, nil
+}
+
+func TestAReadPageGivesTheSpamVerdictOfItsHeader(t *testing.T) {
+	t.Parallel()
+
+	for spamAssessmentValue, wantedVerdict := range map[string]spamassessment.Verdict{
+		`spam;score=0.935;threshold=0.8;model="2026-09"`:  spamassessment.Spam,
+		`clean;score=0.007;threshold=0.8;model="2026-09"`: spamassessment.Clean,
+		"": spamassessment.Unassessed,
+	} {
+		t.Run(spamAssessmentValue, func(t *testing.T) {
+			t.Parallel()
+
+			observer := &recordedPageReading{}
+			reading := readingOfThePages(t, pagesAssessedForSpam{spamAssessmentValue}, observer)
+
+			readPages := reading.ReadEachPage(
+				t.Context(),
+				[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+				[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+			)
+
+			document := documentOfTheAddress(t, addressOfTheDocument)
+			if verdict := readPages.SpamVerdictPerDocument[document]; verdict != wantedVerdict {
+				t.Fatalf("the reading gives the verdict %v, want %v", verdict, wantedVerdict)
+			}
+			if observer.performed.AmountOfPagesReadPerSpamVerdict[wantedVerdict] != 1 {
+				t.Fatalf(
+					"PageReadingPerformed = %+v, want one read page of the verdict %v",
+					observer.performed, wantedVerdict,
+				)
+			}
+		})
 	}
 }
 

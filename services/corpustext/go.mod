@@ -47,6 +47,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
+replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
+
 replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl

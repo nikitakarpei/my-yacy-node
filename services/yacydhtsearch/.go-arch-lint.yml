@@ -35,6 +35,8 @@ components:
     in: internal/documentsordering/relevance/**
   documentsorderingsitediscount:
     in: internal/documentsordering/sitediscount/**
+  documentsorderingspamlast:
+    in: internal/documentsordering/spamlast/**
   peerdirectory:
     in: internal/peerdirectory/**
   stalepeersourcesleastreliable:
@@ -190,6 +192,10 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/robotsmeta
       - github.com/nikitakarpei/yacy-rwi-node/robotsmeta/**
+  spamassessment:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/spamassessment
+      - github.com/nikitakarpei/yacy-rwi-node/spamassessment/**
   uax29sentences:
     in:
       - github.com/clipperhouse/uax29/v2/sentences
@@ -244,11 +250,17 @@ deps:
       - yacymodel
     mayDependOn:
       - queryanswers
+  documentsorderingspamlast:
+    canUse:
+      - spamassessment
+    mayDependOn:
+      - queryanswers
   searchresult:
     canUse:
       - yacymodel
   queryanswers:
     canUse:
+      - spamassessment
       - yacymodel
     mayDependOn:
       - pagecontents
@@ -304,16 +316,20 @@ deps:
       - pagefetch
       - redirectfollowingfetch
       - robotsmeta
+      - spamassessment
       - yacymodel
     mayDependOn:
       - pagecontents
   pagereadingobserversapplog:
+    canUse:
+      - spamassessment
     mayDependOn:
       - pagereading
   pagereadingobserversprometheus:
     canUse:
       - prometheus
       - budgetbuckets
+      - spamassessment
     mayDependOn:
       - pagereading
   peermatched:

@@ -10,6 +10,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	pagereadingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereadingobservers/prometheus"
 )
@@ -45,9 +46,14 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		AmountOfPagesOfAnUnsupportedKind: 1,
 		AmountOfPagesOutOfBudget:         1,
 		AmountOfPagesCutOff:              2,
-		TimeSpent:                        250 * time.Millisecond,
-		TimeSpentFetching:                200 * time.Millisecond,
-		TimeSpentReading:                 50 * time.Millisecond,
+		AmountOfPagesReadPerSpamVerdict: map[spamassessment.Verdict]int{
+			spamassessment.Spam:       1,
+			spamassessment.Clean:      2,
+			spamassessment.Unassessed: 1,
+		},
+		TimeSpent:         250 * time.Millisecond,
+		TimeSpentFetching: 200 * time.Millisecond,
+		TimeSpentReading:  50 * time.Millisecond,
 	})
 
 	body := publishedBy(t, registry)
@@ -61,6 +67,9 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 1`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 1`,
 		`yacydhtsearch_page_reading_pages_total{outcome="cut off"} 2`,
+		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="spam"} 1`,
+		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="clean"} 2`,
+		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="unassessed"} 1`,
 		"yacydhtsearch_page_reading_duration_seconds_sum 0.25",
 		`yacydhtsearch_page_reading_time_spent_seconds_total{activity="fetching"} 0.2`,
 		`yacydhtsearch_page_reading_time_spent_seconds_total{activity="reading"} 0.05`,
@@ -88,6 +97,9 @@ func TestEveryOutcomeOfAPageIsPublishedBeforeTheFirstPageReading(t *testing.T) {
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="cut off"} 0`,
+		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="spam"} 0`,
+		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="clean"} 0`,
+		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="unassessed"} 0`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

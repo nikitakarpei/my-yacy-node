@@ -20,6 +20,7 @@ var htmlMediaTypes = map[string]struct{}{
 	"application/xhtml+xml": {},
 }
 
+// TECHDEBT: naming — derivation: RefusalsOf names refusals parsed from the page body as an attribute the body has.
 func RefusalsOf(contentType string, body []byte) robotsmeta.Refusals {
 	if !isHTML(contentType) {
 		return robotsmeta.Refusals{}

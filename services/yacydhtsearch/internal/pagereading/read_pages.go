@@ -1,12 +1,14 @@
 package pagereading
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type ReadPages struct {
 	PageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
+	SpamVerdictPerDocument  map[yacymodel.URLHash]spamassessment.Verdict
 	WithdrawnDocuments      map[yacymodel.URLHash]struct{}
 }
 
@@ -15,12 +17,16 @@ func readPagesFrom(pageReadResults []pageReadResult) ReadPages {
 		PageContentsPerDocument: make(
 			map[yacymodel.URLHash]pagecontents.PageContents, len(pageReadResults),
 		),
+		SpamVerdictPerDocument: make(
+			map[yacymodel.URLHash]spamassessment.Verdict, len(pageReadResults),
+		),
 		WithdrawnDocuments: map[yacymodel.URLHash]struct{}{},
 	}
 	for _, pageReadResult := range pageReadResults {
 		switch pageReadResult.outcome {
 		case pageWasRead:
 			readPages.PageContentsPerDocument[pageReadResult.document] = pageReadResult.pageContents
+			readPages.SpamVerdictPerDocument[pageReadResult.document] = pageReadResult.spamVerdict
 		case pageWasGone, pageRefusesIndexing:
 			readPages.WithdrawnDocuments[pageReadResult.document] = struct{}{}
 		default:
