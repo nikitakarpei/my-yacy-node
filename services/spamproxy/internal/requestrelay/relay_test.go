@@ -15,9 +15,10 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
 const pageBody = "<html><title>Cheap pills</title><p>Buy cheap pills now</p></html>"
@@ -192,6 +193,7 @@ type observerRecord struct {
 	skippedAssessments []requestrelay.SkipReason
 	readingFailures    []error
 	cutShortCauses     []error
+	departedClients    int
 	assessed           []spamassessment.Assessment
 }
 
@@ -244,6 +246,12 @@ func (r *observerRecord) ReplyCutShort(
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 	r.cutShortCauses = append(r.cutShortCauses, cause)
+}
+
+func (r *observerRecord) ClientLeft(context.Context, canonicalurl.CanonicalURL) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.departedClients++
 }
 
 type relayFixture struct {
@@ -311,7 +319,7 @@ func TestAnHTMLPageCarriesTheVerdictAndItsBody(t *testing.T) {
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
 	if reply.status != http.StatusOK ||
-		reply.headers.Get("Spam-Assessment") != spamAssessment.HeaderValue() ||
+		reply.headers.Get("Spam-Assessment") != spamassessmenthttpheader.ValueOf(spamAssessment) ||
 		reply.String() != pageBody {
 		t.Fatalf("reply %d %v %q", reply.status, reply.headers, reply.String())
 	}
@@ -344,7 +352,7 @@ func TestTheVerdictOfTheOriginIsReplaced(t *testing.T) {
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
 	if verdicts := reply.headers.Values("Spam-Assessment"); len(verdicts) != 1 ||
-		verdicts[0] != spamAssessment.HeaderValue() {
+		verdicts[0] != spamassessmenthttpheader.ValueOf(spamAssessment) {
 		t.Fatalf("verdicts %v", verdicts)
 	}
 }
@@ -545,6 +553,42 @@ func TestAnAnswerWhoseAssessmentIsSkippedCutShortEndsWhereTheEgressStopped(t *te
 	if reply.status != http.StatusOK || reply.String() != "png" || !reply.wasCutShort ||
 		!errors.Is(fixture.observers.cutShortCauses[0], io.ErrUnexpectedEOF) {
 		t.Fatalf("reply %d %q, cut short %v", reply.status, reply.String(), reply.wasCutShort)
+	}
+}
+
+func TestAClientThatLeavesBeforeTheAnswerIsReportedAsLeft(t *testing.T) {
+	fixture := newRelayFixture()
+	fixture.egress.answer.body = nil
+	clientCtx, leave := context.WithCancel(t.Context())
+	leave()
+
+	fixture.relay().ReplyTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, &fakeReply{})
+
+	if fixture.observers.departedClients != 1 || len(fixture.observers.readingFailures) != 0 {
+		t.Fatalf("departed %d, reading failures %v",
+			fixture.observers.departedClients, fixture.observers.readingFailures)
+	}
+}
+
+func TestAClientThatLeavesDuringTheBodyIsReportedAsLeft(t *testing.T) {
+	fixture := newRelayFixture()
+	clientCtx, leave := context.WithCancel(t.Context())
+	fixture.egress.answer = originAnswer{
+		status:  http.StatusOK,
+		headers: http.Header{"Content-Type": {"image/png"}},
+		body: func(context.Context) io.Reader {
+			leave()
+			return io.MultiReader(strings.NewReader("png"), failingBody{io.ErrUnexpectedEOF})
+		},
+	}
+	reply := &fakeReply{}
+
+	fixture.relay().ReplyTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, reply)
+
+	if !reply.wasCutShort || fixture.observers.departedClients != 1 ||
+		len(fixture.observers.cutShortCauses) != 0 {
+		t.Fatalf("cut short %v, departed %d, cut short causes %v", reply.wasCutShort,
+			fixture.observers.departedClients, fixture.observers.cutShortCauses)
 	}
 }
 

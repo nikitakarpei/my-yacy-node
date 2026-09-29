@@ -24,3 +24,30 @@ func TestTheTokenOfTheValueIsTheVerdict(t *testing.T) {
 		}
 	}
 }
+
+func TestTheValueCarriesTheVerdictScoreThresholdAndModel(t *testing.T) {
+	t.Parallel()
+
+	assessment := spamassessment.Assessment{Score: 0.93549, Threshold: 0.8, ModelVersion: "2026-09"}
+
+	if value, want := httpheader.ValueOf(
+		assessment,
+	), `spam;score=0.935;threshold=0.8;model="2026-09"`; value != want {
+		t.Fatalf("value = %s, want %s", value, want)
+	}
+}
+
+func TestTheVerdictReadFromAValueIsTheVerdictWritten(t *testing.T) {
+	t.Parallel()
+
+	for _, assessment := range []spamassessment.Assessment{
+		{Score: 0.9, Threshold: 0.8, ModelVersion: "2026-09"},
+		{Score: 0.1, Threshold: 0.8, ModelVersion: "2026-09"},
+	} {
+		if verdict := httpheader.VerdictFrom(
+			httpheader.ValueOf(assessment),
+		); verdict != assessment.Verdict() {
+			t.Errorf("%+v reads back as %v", assessment, verdict)
+		}
+	}
+}

@@ -8,13 +8,25 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
 var (
 	scoreBuckets             = prometheusclient.LinearBuckets(0.1, 0.1, 10)
-	assessmentSecondsBuckets = []float64{0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5}
+	assessmentSecondsBuckets = []float64{
+		0.001,
+		0.0025,
+		0.005,
+		0.01,
+		0.025,
+		0.05,
+		0.1,
+		0.25,
+		0.5,
+		1,
+		2.5,
+	}
 )
 
 type RelayMetrics struct {
@@ -25,6 +37,7 @@ type RelayMetrics struct {
 	refusals              *prometheusclient.CounterVec
 	answerReadingFailures prometheusclient.Counter
 	cutShortReplies       prometheusclient.Counter
+	departedClients       prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *RelayMetrics {
@@ -39,7 +52,7 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 			Buckets: scoreBuckets,
 		}),
 		assessmentSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "spamproxy_assessment_seconds",
+			Name:    "spamproxy_assessment_duration_seconds",
 			Help:    "Time to assess one page.",
 			Buckets: assessmentSecondsBuckets,
 		}),
@@ -59,6 +72,10 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 			Name: "spamproxy_cut_short_replies_total",
 			Help: "Replies that ended before the whole body.",
 		}),
+		departedClients: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "spamproxy_departed_clients_total",
+			Help: "Clients that left before the reply ended.",
+		}),
 	}
 	registry.MustRegister(
 		metrics.verdicts,
@@ -68,6 +85,7 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 		metrics.refusals,
 		metrics.answerReadingFailures,
 		metrics.cutShortReplies,
+		metrics.departedClients,
 	)
 	return metrics
 }
@@ -78,7 +96,7 @@ func (m *RelayMetrics) PageAssessed(
 	assessment spamassessment.Assessment,
 	assessmentDuration time.Duration,
 ) {
-	m.verdicts.WithLabelValues(assessment.Verdict()).Inc()
+	m.verdicts.WithLabelValues(assessment.Verdict().String()).Inc()
 	m.scores.Observe(assessment.Score)
 	m.assessmentSeconds.Observe(assessmentDuration.Seconds())
 }
@@ -105,4 +123,8 @@ func (m *RelayMetrics) AnswerReadingFailed(context.Context, canonicalurl.Canonic
 
 func (m *RelayMetrics) ReplyCutShort(context.Context, canonicalurl.CanonicalURL, error) {
 	m.cutShortReplies.Inc()
+}
+
+func (m *RelayMetrics) ClientLeft(context.Context, canonicalurl.CanonicalURL) {
+	m.departedClients.Inc()
 }

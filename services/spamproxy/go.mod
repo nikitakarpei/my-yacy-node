@@ -5,6 +5,7 @@ go 1.27
 require (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/spammodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -32,6 +33,7 @@ replace (
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
 	github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../libraries/processenvironmentlease
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
+	github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
 	github.com/nikitakarpei/yacy-rwi-node/spammodel => ../../libraries/spammodel
 	github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
 )

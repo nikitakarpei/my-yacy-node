@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/contentencoding"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
 const (
@@ -52,6 +52,6 @@ func EndToEndHeadersOf(responseHeaders http.Header) http.Header {
 	for _, name := range hopByHopHeaderNames {
 		endToEndHeaders.Del(name)
 	}
-	endToEndHeaders.Del(spamassessment.HeaderName)
+	endToEndHeaders.Del(spamassessmenthttpheader.Name)
 	return endToEndHeaders
 }

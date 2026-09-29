@@ -9,11 +9,11 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readtimer"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadline"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
 type Egress interface {

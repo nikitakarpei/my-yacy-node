@@ -5,12 +5,12 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
-commonComponents:
+commonVendors:
   - spamassessment
 
 components:
-  spamassessment:
-    in: internal/spamassessment/**
+  pageassessment:
+    in: internal/pageassessment/**
   replydeadline:
     in: internal/replydeadline/**
   contentencoding:
@@ -41,6 +41,10 @@ components:
     in: cmd/spamproxy/**
 
 vendors:
+  spamassessment:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/spamassessment
+      - github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -54,7 +58,7 @@ vendors:
       - github.com/prometheus/client_golang/**
 
 deps:
-  spamassessment:
+  pageassessment:
     canUse:
       - canonicalurl
       - spammodel

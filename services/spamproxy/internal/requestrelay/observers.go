@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 )
 
 type Observer interface {
@@ -19,6 +19,7 @@ type Observer interface {
 	RequestRefused(ctx context.Context, address canonicalurl.CanonicalURL, reason RefusalReason)
 	AnswerReadingFailed(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
 	ReplyCutShort(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
+	ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL)
 }
 
 type Observers []Observer
@@ -71,5 +72,11 @@ func (observers Observers) ReplyCutShort(
 ) {
 	for _, observer := range observers {
 		observer.ReplyCutShort(ctx, address, cause)
+	}
+}
+
+func (observers Observers) ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL) {
+	for _, observer := range observers {
+		observer.ClientLeft(ctx, address)
 	}
 }

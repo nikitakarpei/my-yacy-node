@@ -1,31 +1,16 @@
-package spamassessment_test
+package pageassessment_test
 
 import (
 	"net/http"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/htmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/spamfeatures"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pageassessment"
 )
-
-func TestTheHeaderCarriesTheVerdictScoreThresholdAndModel(t *testing.T) {
-	assessment := spamassessment.Assessment{Score: 0.93549, Threshold: 0.8, ModelVersion: "2026-09"}
-
-	if want := `spam;score=0.935;threshold=0.8;model="2026-09"`; assessment.HeaderValue() != want {
-		t.Fatalf("header = %s, want %s", assessment.HeaderValue(), want)
-	}
-}
-
-func TestAScoreAtTheThresholdIsClean(t *testing.T) {
-	assessment := spamassessment.Assessment{Score: 0.8, Threshold: 0.8, ModelVersion: "2026-09"}
-
-	if assessment.Verdict() != spamassessment.VerdictClean {
-		t.Fatalf("verdict = %s, want clean", assessment.Verdict())
-	}
-}
 
 func TestAPageIsAssessedWithTheScoreOfTheModel(t *testing.T) {
 	address, err := canonicalurl.CanonicalURLOf("http://site.example/page")
@@ -46,7 +31,7 @@ func TestAPageIsAssessedWithTheScoreOfTheModel(t *testing.T) {
 		},
 	}
 
-	assessment := spamassessment.NewPageAssessor(model).AssessmentFrom(address, body, headers)
+	assessment := pageassessment.NewPageAssessor(model).AssessmentFrom(address, body, headers)
 
 	row := spamfeatures.RowFrom(
 		htmlreading.ReadingFrom(address, body, headers.Get("Content-Type")),

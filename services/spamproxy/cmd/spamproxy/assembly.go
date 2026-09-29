@@ -19,12 +19,12 @@ import (
 	assessmentgateobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgateobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/absoluteurl"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/tunnel"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pageassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/proxyintake"
 	proxyintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/proxyintakeobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 	requestrelayobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/applog"
 	requestrelayobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
@@ -46,7 +46,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 	}
 	clock := wallclock.Clock{}
 	gate := assessmentgate.New(
-		spamassessment.NewPageAssessor(model),
+		pageassessment.NewPageAssessor(model),
 		runtime.GOMAXPROCS(0),
 		clock,
 		assessmentgateobserversapplog.GateLog{},

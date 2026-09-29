@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 )
 
 type PageAssessor interface {

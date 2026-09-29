@@ -36,8 +36,16 @@ func (c replier) failReading(ctx context.Context, expiryReason RefusalReason, ca
 		c.refuse(ctx, expiryReason)
 		return
 	}
-	c.observers.AnswerReadingFailed(ctx, c.address, cause)
+	c.reportReadingFailure(ctx, cause)
 	c.reply.SendHead(http.StatusBadGateway, http.Header{"Content-Length": {"0"}})
+}
+
+func (c replier) reportReadingFailure(ctx context.Context, cause error) {
+	if ctx.Err() != nil {
+		c.observers.ClientLeft(ctx, c.address)
+		return
+	}
+	c.observers.AnswerReadingFailed(ctx, c.address, cause)
 }
 
 func (c replier) passThrough(ctx context.Context, reason SkipReason, answer *http.Response) {
@@ -54,7 +62,15 @@ func (c replier) sendPage(ctx context.Context, answer *http.Response, page asses
 func (c replier) relayRest(ctx context.Context, answerBody io.Reader, bodyPrefix []byte) {
 	rest := c.timer.IdleLimitedFrom(answerBody, c.relayIdleTimeout)
 	if _, err := io.Copy(c.reply, io.MultiReader(bytes.NewReader(bodyPrefix), rest)); err != nil {
-		c.observers.ReplyCutShort(ctx, c.address, err)
+		c.reportCutShort(ctx, err)
 		c.reply.CutShort()
 	}
+}
+
+func (c replier) reportCutShort(ctx context.Context, cause error) {
+	if ctx.Err() != nil {
+		c.observers.ClientLeft(ctx, c.address)
+		return
+	}
+	c.observers.ReplyCutShort(ctx, c.address, cause)
 }

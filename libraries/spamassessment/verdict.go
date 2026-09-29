@@ -1,5 +1,5 @@
-// Package spamassessment holds the verdict that a spam assessment gives a page.
-// Its subpackages read the verdict from one carrier each.
+// Package spamassessment holds the spam assessment of a page and the verdict
+// that it gives. Its subpackages carry the assessment in one medium each.
 package spamassessment
 
 type Verdict int
@@ -9,3 +9,9 @@ const (
 	Clean
 	Spam
 )
+
+var verdictNames = map[Verdict]string{Unassessed: "unassessed", Clean: "clean", Spam: "spam"}
+
+func (v Verdict) String() string {
+	return verdictNames[v]
+}

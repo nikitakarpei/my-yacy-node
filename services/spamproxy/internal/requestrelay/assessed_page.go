@@ -7,10 +7,11 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/contentencoding"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
 type assessedPage struct {
@@ -81,6 +82,6 @@ func (p assessedPage) headersFrom(answerHeaders http.Header) http.Header {
 	if p.wasBodyWhole {
 		headers.Set("Content-Length", strconv.Itoa(len(p.bodyPrefix)))
 	}
-	headers.Set(spamassessment.HeaderName, p.assessment.HeaderValue())
+	headers.Set(spamassessmenthttpheader.Name, spamassessmenthttpheader.ValueOf(p.assessment))
 	return headers
 }
