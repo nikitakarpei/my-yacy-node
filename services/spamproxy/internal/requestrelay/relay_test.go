@@ -300,7 +300,7 @@ func newRelayFixture() *relayFixture {
 	}
 }
 
-func (f *relayFixture) relay() *requestrelay.Relay {
+func (f *relayFixture) relay() *requestrelay.Relayer {
 	return requestrelay.New(
 		f.egress,
 		f.assessor,
@@ -319,7 +319,7 @@ func (f *relayFixture) replyTo(t *testing.T, method string, requestHeaders http.
 
 func (f *relayFixture) replyInBackgroundTo(
 	t *testing.T,
-	relay *requestrelay.Relay,
+	relay *requestrelay.Relayer,
 ) <-chan *fakeReply {
 	t.Helper()
 	replies := make(chan *fakeReply, 1)

@@ -12,40 +12,29 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readtimer"
 )
 
-type relayer struct {
-	egress          Egress
+type answerRelayer struct {
 	observers       Observers
 	pageAssessor    pageAssessor
 	clock           Clock
 	readingSlots    readingSlots
 	pageByteCeiling int
+	method          string
 	address         canonicalurl.CanonicalURL
 	headersDueAt    time.Time
 	timer           *readtimer.Timer
 	replier         replier
 }
 
-func (r relayer) relayAnswerTo(ctx context.Context, egressRequest *http.Request) {
-	r.timer.EndReadingAt(r.headersDueAt)
-	answer, err := r.egress.RoundTrip(egressRequest)
-	if err != nil {
-		r.replier.failReading(ctx, PageReadDeadline, err)
-		return
-	}
-	defer func() { _ = answer.Body.Close() }()
-	r.relayAnswer(ctx, egressRequest, answer)
-}
-
-func (r relayer) relayAnswer(
+func (r answerRelayer) relay(
 	ctx context.Context,
-	egressRequest *http.Request,
+	readingCtx context.Context,
 	answer *http.Response,
 ) {
 	if r.clock.Now().After(r.headersDueAt) {
 		r.replier.refuse(ctx, PageReadDeadline)
 		return
 	}
-	if reason, skipped := skipReasonOf(egressRequest.Method, answer); skipped {
+	if reason, skipped := skipReasonOf(r.method, answer); skipped {
 		r.replier.passThrough(ctx, reason, answer)
 		return
 	}
@@ -53,14 +42,14 @@ func (r relayer) relayAnswer(
 		r.replier.refuse(ctx, UndecodableEncoding)
 		return
 	}
-	r.relayPage(ctx, egressRequest.Context(), answer)
+	r.relayPage(ctx, readingCtx, answer)
 }
 
 func contentEncodingOf(headers http.Header) string {
 	return strings.ToLower(strings.TrimSpace(headers.Get("Content-Encoding")))
 }
 
-func (r relayer) relayPage(
+func (r answerRelayer) relayPage(
 	ctx context.Context,
 	readingCtx context.Context,
 	answer *http.Response,
@@ -86,14 +75,14 @@ func (r relayer) relayPage(
 	r.replier.sendPage(ctx, answer, page)
 }
 
-func (r relayer) reserveReadingSlot(ctx context.Context, readingCtx context.Context) bool {
+func (r answerRelayer) reserveReadingSlot(ctx context.Context, readingCtx context.Context) bool {
 	slotWaitStarted := r.clock.Now()
 	reserved := r.readingSlots.reserve(readingCtx)
 	r.observers.ReadingSlotWaited(ctx, r.address, r.clock.Now().Sub(slotWaitStarted))
 	return reserved
 }
 
-func (r relayer) bodyPrefixFrom(answerBody io.Reader) ([]byte, error) {
+func (r answerRelayer) bodyPrefixFrom(answerBody io.Reader) ([]byte, error) {
 	bodyPrefix, err := io.ReadAll(io.LimitReader(answerBody, int64(r.pageByteCeiling)))
 	r.timer.Stop()
 	return bodyPrefix, err //nolint:wrapcheck // the relay reports the cause as the egress gave it

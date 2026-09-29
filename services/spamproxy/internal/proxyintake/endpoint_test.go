@@ -15,12 +15,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 )
 
-type scriptedRelay struct {
+type scriptedRelayer struct {
 	addresses []canonicalurl.CanonicalURL
 	cutsShort bool
 }
 
-func (r *scriptedRelay) ReplyTo(
+func (r *scriptedRelayer) ReplyTo(
 	_ context.Context,
 	_ string,
 	address canonicalurl.CanonicalURL,
@@ -49,7 +49,7 @@ func (r *refusalRecord) TargetRefused(_ context.Context, target string, _ error)
 }
 
 func TestAnAbsoluteWebAddressIsRelayed(t *testing.T) {
-	relay := &scriptedRelay{}
+	relay := &scriptedRelayer{}
 	server := httptest.NewServer(proxyintake.New(relay, &refusalRecord{}))
 	defer server.Close()
 
@@ -66,7 +66,7 @@ func TestAnAbsoluteWebAddressIsRelayed(t *testing.T) {
 }
 
 func TestOnlyGetAndHeadAreRelayed(t *testing.T) {
-	relay := &scriptedRelay{}
+	relay := &scriptedRelayer{}
 	refusals := &refusalRecord{}
 	server := httptest.NewServer(proxyintake.New(relay, refusals))
 	defer server.Close()
@@ -83,7 +83,7 @@ func TestOnlyGetAndHeadAreRelayed(t *testing.T) {
 
 func TestATargetThatIsNotAnAbsoluteWebAddressIsABadRequest(t *testing.T) {
 	for _, target := range []string{"/page", "ftp://site.example/page"} {
-		relay := &scriptedRelay{}
+		relay := &scriptedRelayer{}
 		refusals := &refusalRecord{}
 		server := httptest.NewServer(proxyintake.New(relay, refusals))
 
@@ -100,7 +100,7 @@ func TestATargetThatIsNotAnAbsoluteWebAddressIsABadRequest(t *testing.T) {
 }
 
 func TestAReplyCutShortEndsTheAnswerEarly(t *testing.T) {
-	relay := &scriptedRelay{cutsShort: true}
+	relay := &scriptedRelayer{cutsShort: true}
 	server := httptest.NewServer(proxyintake.New(relay, &refusalRecord{}))
 	defer server.Close()
 

@@ -15,7 +15,7 @@ const (
 	EnvEgressProxyDialMode   = "SPAMPROXY_EGRESS_PROXY_DIAL_MODE"
 	EnvResponseHeaderTimeout = "SPAMPROXY_RESPONSE_HEADER_TIMEOUT"
 	EnvRelayIdleTimeout      = "SPAMPROXY_RELAY_IDLE_TIMEOUT"
-	EnvModelPath             = "SPAMPROXY_MODEL_PATH"
+	EnvSafetensorsModelPath  = "SPAMPROXY_SAFETENSORS_MODEL_PATH"
 	EnvPageByteCeiling       = "SPAMPROXY_PAGE_BYTE_CEILING"
 	EnvMaxPagesReadAtOnce    = "SPAMPROXY_MAX_PAGES_READ_AT_ONCE"
 	EnvOpsAddr               = "SPAMPROXY_OPS_ADDR"
@@ -35,7 +35,7 @@ type ServiceConfig struct {
 	ListenAddr            string
 	EgressProxyURL        *url.URL
 	EgressProxyDialMode   string
-	ModelPath             string
+	SafetensorsModelPath  string
 	PageByteCeiling       int
 	MaxPagesReadAtOnce    int
 	ResponseHeaderTimeout time.Duration
@@ -46,7 +46,10 @@ type ServiceConfig struct {
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	egressProxyURL, urlErr := envconfig.RequiredHTTPURL(getenv, EnvEgressProxyURL)
 	dialMode, dialModeErr := dialModeFrom(getenv)
-	modelPath, modelPathErr := envconfig.Required(getenv, EnvModelPath)
+	safetensorsModelPath, safetensorsModelPathErr := envconfig.Required(
+		getenv,
+		EnvSafetensorsModelPath,
+	)
 	pageByteCeiling, ceilingErr := envconfig.PositiveInt(
 		getenv,
 		EnvPageByteCeiling,
@@ -64,7 +67,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		DefaultRelayIdleTimeout,
 	)
 	if err := errors.Join(
-		urlErr, dialModeErr, modelPathErr, ceilingErr, maxPagesErr, headerErr, idleErr,
+		urlErr, dialModeErr, safetensorsModelPathErr, ceilingErr, maxPagesErr, headerErr, idleErr,
 	); err != nil {
 		return ServiceConfig{}, err
 	}
@@ -72,7 +75,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		ListenAddr:            envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
 		EgressProxyURL:        egressProxyURL,
 		EgressProxyDialMode:   dialMode,
-		ModelPath:             modelPath,
+		SafetensorsModelPath:  safetensorsModelPath,
 		PageByteCeiling:       pageByteCeiling,
 		MaxPagesReadAtOnce:    maxPagesReadAtOnce,
 		ResponseHeaderTimeout: responseHeaderTimeout,

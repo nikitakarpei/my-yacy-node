@@ -48,7 +48,7 @@ type Limits struct {
 	RelayIdleTimeout      time.Duration
 }
 
-type Relay struct {
+type Relayer struct {
 	egress       Egress
 	pageAssessor pageAssessor
 	observers    Observers
@@ -57,8 +57,14 @@ type Relay struct {
 	readingSlots readingSlots
 }
 
-func New(egress Egress, assessor Assessor, observers Observers, limits Limits, clock Clock) *Relay {
-	return &Relay{
+func New(
+	egress Egress,
+	assessor Assessor,
+	observers Observers,
+	limits Limits,
+	clock Clock,
+) *Relayer {
+	return &Relayer{
 		egress: egress,
 		pageAssessor: pageAssessor{
 			assessor:        assessor,
@@ -73,7 +79,7 @@ func New(egress Egress, assessor Assessor, observers Observers, limits Limits, c
 	}
 }
 
-func (r *Relay) ReplyTo(
+func (r *Relayer) ReplyTo(
 	ctx context.Context,
 	method string,
 	address canonicalurl.CanonicalURL,
@@ -95,13 +101,18 @@ func (r *Relay) ReplyTo(
 		replier.refuse(ctx, WaitTooShort)
 		return
 	}
-	r.relayerFor(address, headersDueAt, timer, replier).relayAnswerTo(
-		ctx,
-		egressRequestFor(readingCtx, method, address, requestHeaders),
-	)
+	egressRequest := egressRequestFor(readingCtx, method, address, requestHeaders)
+	timer.EndReadingAt(headersDueAt)
+	answer, err := r.egress.RoundTrip(egressRequest)
+	if err != nil {
+		replier.failReading(ctx, PageReadDeadline, err)
+		return
+	}
+	defer func() { _ = answer.Body.Close() }()
+	r.answerRelayerFor(method, address, headersDueAt, timer, replier).relay(ctx, readingCtx, answer)
 }
 
-func (r *Relay) replierFor(
+func (r *Relayer) replierFor(
 	address canonicalurl.CanonicalURL,
 	requestArrivedAt time.Time,
 	timer *readtimer.Timer,
@@ -118,19 +129,20 @@ func (r *Relay) replierFor(
 	}
 }
 
-func (r *Relay) relayerFor(
+func (r *Relayer) answerRelayerFor(
+	method string,
 	address canonicalurl.CanonicalURL,
 	headersDueAt time.Time,
 	timer *readtimer.Timer,
 	replier replier,
-) relayer {
-	return relayer{
-		egress:          r.egress,
+) answerRelayer {
+	return answerRelayer{
 		observers:       r.observers,
 		pageAssessor:    r.pageAssessor,
 		clock:           r.clock,
 		readingSlots:    r.readingSlots,
 		pageByteCeiling: r.limits.PageByteCeiling,
+		method:          method,
 		address:         address,
 		headersDueAt:    headersDueAt,
 		timer:           timer,

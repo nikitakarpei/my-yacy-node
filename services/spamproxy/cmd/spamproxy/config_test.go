@@ -10,8 +10,8 @@ import (
 )
 
 var requiredEnvironment = map[string]string{
-	spamproxy.EnvEgressProxyURL: "http://squid:3128",
-	spamproxy.EnvModelPath:      "/model/spam-model.safetensors",
+	spamproxy.EnvEgressProxyURL:       "http://squid:3128",
+	spamproxy.EnvSafetensorsModelPath: "/model/spam-model.safetensors",
 }
 
 func getenvFrom(environments ...map[string]string) func(string) string {
@@ -35,7 +35,7 @@ func TestUnsetSettingsTakeTheirDefaults(t *testing.T) {
 		ListenAddr:            ":8080",
 		EgressProxyURL:        &url.URL{Scheme: "http", Host: "squid:3128"},
 		EgressProxyDialMode:   spamproxy.DialModeTunnel,
-		ModelPath:             "/model/spam-model.safetensors",
+		SafetensorsModelPath:  "/model/spam-model.safetensors",
 		PageByteCeiling:       1048576,
 		MaxPagesReadAtOnce:    64,
 		ResponseHeaderTimeout: 10 * time.Second,

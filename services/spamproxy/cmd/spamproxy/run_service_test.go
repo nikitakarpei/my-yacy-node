@@ -61,7 +61,7 @@ func TestTheServiceDoesNotStartWithAModelFileOfAnotherRecipe(t *testing.T) {
 
 func TestTheServiceDoesNotStartWithoutItsModelFile(t *testing.T) {
 	cfg := serviceConfigFor(t, "http://127.0.0.1:1", nil)
-	cfg.ModelPath = filepath.Join(t.TempDir(), "absent.safetensors")
+	cfg.SafetensorsModelPath = filepath.Join(t.TempDir(), "absent.safetensors")
 
 	if err := spamproxy.RunService(
 		t.Context(),
@@ -81,8 +81,8 @@ func spamModel() spammodel.Model {
 
 func serviceConfigFor(t *testing.T, egressURL string, modelFile []byte) spamproxy.ServiceConfig {
 	t.Helper()
-	modelPath := filepath.Join(t.TempDir(), "spam-model.safetensors")
-	if err := os.WriteFile(modelPath, modelFile, 0o600); err != nil {
+	safetensorsModelPath := filepath.Join(t.TempDir(), "spam-model.safetensors")
+	if err := os.WriteFile(safetensorsModelPath, modelFile, 0o600); err != nil {
 		t.Fatal(err)
 	}
 	egressProxyURL, err := url.Parse(egressURL)
@@ -93,7 +93,7 @@ func serviceConfigFor(t *testing.T, egressURL string, modelFile []byte) spamprox
 		ListenAddr:            reservedAddress(t),
 		EgressProxyURL:        egressProxyURL,
 		EgressProxyDialMode:   spamproxy.DialModeTunnel,
-		ModelPath:             modelPath,
+		SafetensorsModelPath:  safetensorsModelPath,
 		PageByteCeiling:       1000,
 		MaxPagesReadAtOnce:    4,
 		ResponseHeaderTimeout: 5 * time.Second,

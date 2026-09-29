@@ -37,7 +37,7 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Registry) error {
-	modelFile, err := os.ReadFile(cfg.ModelPath)
+	modelFile, err := os.ReadFile(cfg.SafetensorsModelPath)
 	if err != nil {
 		return fmt.Errorf("read spam model: %w", err)
 	}
@@ -55,7 +55,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 			assessmentgateobserversprometheus.New(registry),
 		},
 	)
-	relay := requestrelay.New(
+	relayer := requestrelay.New(
 		egressTransportFor(cfg),
 		gate,
 		requestrelay.Observers{
@@ -72,7 +72,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 	)
 	proxyServer := &http.Server{
 		Addr:              cfg.ListenAddr,
-		Handler:           proxyintake.New(relay, proxyintakeobserversapplog.IntakeLog{}),
+		Handler:           proxyintake.New(relayer, proxyintakeobserversapplog.IntakeLog{}),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 	opsServer := &http.Server{

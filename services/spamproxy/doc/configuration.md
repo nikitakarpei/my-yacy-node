@@ -16,7 +16,7 @@ You configure spamproxy through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SPAMPROXY_MODEL_PATH` | required | Model file. The service does not start without a usable model file. |
+| `SPAMPROXY_SAFETENSORS_MODEL_PATH` | required | Spam model file in safetensors format. The service does not start without a usable model file. |
 
 ## Limits
 
