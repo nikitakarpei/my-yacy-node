@@ -1,0 +1,20 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  spamassessment:
+    in: .
+  httpheader:
+    in: httpheader/**
+
+deps:
+  httpheader:
+    mayDependOn:
+      - spamassessment
+
+excludeFiles:
+  - "_test\\.go"
