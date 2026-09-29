@@ -1,0 +1,67 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  spammodel:
+    in: .
+  featurehashing:
+    in: featurehashing/**
+  spamfeatures:
+    in: spamfeatures/**
+  safetensorsmodel:
+    in: safetensorsmodel/**
+  pagesite:
+    in: pagesite/**
+  htmlreading:
+    in: htmlreading/**
+  pagelinks:
+    in: pagelinks/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  xnet:
+    in:
+      - golang.org/x/net/**
+  xtext:
+    in:
+      - golang.org/x/text/**
+
+deps:
+  spammodel:
+    mayDependOn:
+      - spamfeatures
+  spamfeatures:
+    mayDependOn:
+      - featurehashing
+      - htmlreading
+      - pagesite
+      - pagelinks
+    canUse:
+      - canonicalurl
+  safetensorsmodel:
+    mayDependOn:
+      - spammodel
+      - spamfeatures
+  pagesite:
+    canUse:
+      - canonicalurl
+      - xnet
+  htmlreading:
+    mayDependOn:
+      - pagelinks
+    canUse:
+      - canonicalurl
+      - xnet
+      - xtext
+  pagelinks:
+    canUse:
+      - canonicalurl
+
+excludeFiles:
+  - "_test\\.go"

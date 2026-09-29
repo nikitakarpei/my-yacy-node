@@ -1,0 +1,99 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonComponents:
+  - spamassessment
+
+components:
+  spamassessment:
+    in: internal/spamassessment/**
+  replydeadlines:
+    in: internal/replydeadlines/**
+  contentencoding:
+    in: internal/contentencoding/**
+  relayedheaders:
+    in: internal/relayedheaders/**
+  readtimer:
+    in: internal/readtimer/**
+  assessmentgate:
+    in: internal/assessmentgate/**
+  egresstransportstunnel:
+    in: internal/egresstransports/tunnel/**
+  egresstransportsabsoluteurl:
+    in: internal/egresstransports/absoluteurl/**
+  pagerelay:
+    in: internal/pagerelay/**
+  proxyintake:
+    in: internal/proxyintake/**
+  relayobserversapplog:
+    in: internal/relayobservers/applog/**
+  relayobserversprometheus:
+    in: internal/relayobservers/prometheus/**
+  gateobserversapplog:
+    in: internal/gateobservers/applog/**
+  intakeobserversapplog:
+    in: internal/intakeobservers/applog/**
+  spamproxycmd:
+    in: cmd/spamproxy/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  spammodel:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/spammodel
+      - github.com/nikitakarpei/yacy-rwi-node/spammodel/htmlreading
+      - github.com/nikitakarpei/yacy-rwi-node/spammodel/spamfeatures
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+
+deps:
+  spamassessment:
+    canUse:
+      - canonicalurl
+      - spammodel
+  relayedheaders:
+    mayDependOn:
+      - contentencoding
+  assessmentgate:
+    canUse:
+      - canonicalurl
+  pagerelay:
+    mayDependOn:
+      - contentencoding
+      - readtimer
+      - relayedheaders
+      - replydeadlines
+    canUse:
+      - canonicalurl
+  proxyintake:
+    mayDependOn:
+      - pagerelay
+    canUse:
+      - canonicalurl
+  relayobserversapplog:
+    mayDependOn:
+      - pagerelay
+    canUse:
+      - canonicalurl
+  relayobserversprometheus:
+    mayDependOn:
+      - pagerelay
+    canUse:
+      - canonicalurl
+      - prometheus
+  gateobserversapplog:
+    canUse:
+      - canonicalurl
+  spamproxycmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
