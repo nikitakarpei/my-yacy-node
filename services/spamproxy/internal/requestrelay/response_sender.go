@@ -3,6 +3,7 @@ package requestrelay
 import (
 	"bytes"
 	"context"
+	"errors"
 	"io"
 	"net/http"
 	"time"
@@ -17,8 +18,9 @@ const retryAfterSeconds = "1"
 type responseSender struct {
 	responseWriter   ResponseWriter
 	observers        Observers
+	clock            Clock
 	address          canonicalurl.CanonicalURL
-	canceller        *readingcancel.Canceller
+	cancelReading    context.CancelCauseFunc
 	relayIdleTimeout time.Duration
 }
 
@@ -32,42 +34,45 @@ func (s responseSender) refuse(ctx context.Context, reason RefusalReason) {
 }
 
 func (s responseSender) failReading(
-	ctx context.Context,
+	readingCtx context.Context,
 	expiryReason RefusalReason,
 	failure UpstreamResponseFailure,
 	cause error,
 ) {
-	if s.canceller.Cancelled() || ctx.Err() != nil {
-		s.endCancelledReading(ctx, expiryReason)
+	if readingCtx.Err() != nil {
+		s.endCancelledReading(readingCtx, expiryReason)
 		return
 	}
-	s.observers.UpstreamResponseFailed(ctx, s.address, failure, cause)
+	s.observers.UpstreamResponseFailed(readingCtx, s.address, failure, cause)
 	s.responseWriter.SendHeaders(http.StatusBadGateway, http.Header{"Content-Length": {"0"}})
 }
 
-func (s responseSender) endCancelledReading(ctx context.Context, expiryReason RefusalReason) {
-	if s.canceller.Cancelled() {
-		s.refuse(ctx, expiryReason)
+func (s responseSender) endCancelledReading(
+	readingCtx context.Context,
+	expiryReason RefusalReason,
+) {
+	if errors.Is(context.Cause(readingCtx), readingcancel.ErrDeadlinePassed) {
+		s.refuse(readingCtx, expiryReason)
 		return
 	}
-	s.observers.ClientClosedRequest(ctx, s.address)
+	s.observers.ClientClosedRequest(readingCtx, s.address)
 }
 
 func (s responseSender) passThrough(
-	ctx context.Context,
+	readingCtx context.Context,
 	reason SkipReason,
 	upstreamResponse *http.Response,
 ) {
-	s.observers.AssessmentSkipped(ctx, s.address, reason)
+	s.observers.AssessmentSkipped(readingCtx, s.address, reason)
 	s.responseWriter.SendHeaders(
 		upstreamResponse.StatusCode,
 		relayedheaders.ResponseHeadersFrom(upstreamResponse.Header),
 	)
-	s.relayRest(ctx, upstreamResponse.Body, nil)
+	s.relayRest(readingCtx, upstreamResponse.Body, nil)
 }
 
 func (s responseSender) sendPage(
-	ctx context.Context,
+	readingCtx context.Context,
 	upstreamResponse *http.Response,
 	page assessedPage,
 ) {
@@ -75,17 +80,18 @@ func (s responseSender) sendPage(
 		upstreamResponse.StatusCode,
 		page.headersFrom(upstreamResponse.Header),
 	)
-	s.relayRest(ctx, upstreamResponse.Body, page.bodyPrefix)
+	s.relayRest(readingCtx, upstreamResponse.Body, page.bodyPrefix)
 }
 
 func (s responseSender) relayRest(
-	ctx context.Context,
+	readingCtx context.Context,
 	upstreamResponseBodyReader io.Reader,
 	bodyPrefix []byte,
 ) {
 	unreadBodyReader := readingcancel.IdleCancellingReaderFrom(
 		upstreamResponseBodyReader,
-		s.canceller,
+		s.clock,
+		s.cancelReading,
 		s.relayIdleTimeout,
 	)
 	clientWrites := &clientWriter{responseWriter: s.responseWriter}
@@ -94,23 +100,24 @@ func (s responseSender) relayRest(
 		io.MultiReader(bytes.NewReader(bodyPrefix), unreadBodyReader),
 	); err != nil {
 		s.observers.ResponseLeftIncomplete(
-			ctx,
+			readingCtx,
 			s.address,
-			s.incompleteResponseCauseOf(ctx, clientWrites.writeFailed),
+			incompleteResponseCauseOf(readingCtx, clientWrites.writeFailed),
 			err,
 		)
 		s.responseWriter.Abort()
 	}
 }
 
-func (s responseSender) incompleteResponseCauseOf(
-	ctx context.Context,
+func incompleteResponseCauseOf(
+	readingCtx context.Context,
 	clientWriteFailed bool,
 ) IncompleteResponseCause {
+	readingCancelCause := context.Cause(readingCtx)
 	switch {
-	case clientWriteFailed || ctx.Err() != nil:
+	case clientWriteFailed || errors.Is(readingCancelCause, context.Canceled):
 		return ClientClosedRequest
-	case s.canceller.Cancelled():
+	case errors.Is(readingCancelCause, readingcancel.ErrIdleTimeoutPassed):
 		return RelayIdleTimeout
 	default:
 		return BodyRestReadFailed

@@ -87,37 +87,38 @@ func (r *Responder) RespondTo(
 		requestHeaders.Values("Prefer"),
 		r.limits.ResponseHeaderTimeout,
 	)
-	readingCtx, cancelReading := context.WithCancel(ctx)
-	defer cancelReading()
-	canceller := readingcancel.New(r.clock, cancelReading)
-	defer canceller.Stop()
-	responseSender := r.responseSenderFor(address, canceller, responseWriter)
+	readingCtx, cancelReading := context.WithCancelCause(ctx)
+	defer cancelReading(nil)
+	responseSender := r.responseSenderFor(address, cancelReading, responseWriter)
 	if !headersDueAt.After(requestArrivedAt) {
 		responseSender.refuse(ctx, WaitTooShort)
 		return
 	}
 	upstreamRequest := upstreamRequestFor(readingCtx, method, address, requestHeaders)
-	canceller.CancelAt(headersDueAt)
+	stopPageReadDeadline := readingcancel.CancelAt(r.clock, headersDueAt, cancelReading)
+	defer stopPageReadDeadline()
 	upstreamResponse, err := r.egress.RoundTrip(upstreamRequest)
 	if err != nil {
-		responseSender.failReading(ctx, PageReadDeadline, NoResponse, err)
+		responseSender.failReading(readingCtx, PageReadDeadline, NoResponse, err)
 		return
 	}
 	defer func() { _ = upstreamResponse.Body.Close() }()
-	r.upstreamResponseRelayerFor(method, address, headersDueAt, canceller, responseSender).
-		relay(ctx, readingCtx, upstreamResponse)
+	r.upstreamResponseRelayerFor(
+		method, address, headersDueAt, stopPageReadDeadline, responseSender,
+	).relay(ctx, readingCtx, upstreamResponse)
 }
 
 func (r *Responder) responseSenderFor(
 	address canonicalurl.CanonicalURL,
-	canceller *readingcancel.Canceller,
+	cancelReading context.CancelCauseFunc,
 	responseWriter ResponseWriter,
 ) responseSender {
 	return responseSender{
 		responseWriter:   responseWriter,
 		observers:        r.observers,
+		clock:            r.clock,
 		address:          address,
-		canceller:        canceller,
+		cancelReading:    cancelReading,
 		relayIdleTimeout: r.limits.RelayIdleTimeout,
 	}
 }
@@ -126,20 +127,20 @@ func (r *Responder) upstreamResponseRelayerFor(
 	method string,
 	address canonicalurl.CanonicalURL,
 	headersDueAt time.Time,
-	canceller *readingcancel.Canceller,
+	stopPageReadDeadline func(),
 	responseSender responseSender,
 ) upstreamResponseRelayer {
 	return upstreamResponseRelayer{
-		observers:        r.observers,
-		assessmentRunner: r.assessmentRunner,
-		clock:            r.clock,
-		readingSlots:     r.readingSlots,
-		pageByteCeiling:  r.limits.PageByteCeiling,
-		method:           method,
-		address:          address,
-		headersDueAt:     headersDueAt,
-		canceller:        canceller,
-		responseSender:   responseSender,
+		observers:            r.observers,
+		assessmentRunner:     r.assessmentRunner,
+		clock:                r.clock,
+		readingSlots:         r.readingSlots,
+		pageByteCeiling:      r.limits.PageByteCeiling,
+		method:               method,
+		address:              address,
+		headersDueAt:         headersDueAt,
+		stopPageReadDeadline: stopPageReadDeadline,
+		responseSender:       responseSender,
 	}
 }
 

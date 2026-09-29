@@ -10,20 +10,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/contentencoding"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 )
 
 type upstreamResponseRelayer struct {
-	observers        Observers
-	assessmentRunner AssessmentRunner
-	clock            Clock
-	readingSlots     readingSlots
-	pageByteCeiling  int
-	method           string
-	address          canonicalurl.CanonicalURL
-	headersDueAt     time.Time
-	canceller        *readingcancel.Canceller
-	responseSender   responseSender
+	observers            Observers
+	assessmentRunner     AssessmentRunner
+	clock                Clock
+	readingSlots         readingSlots
+	pageByteCeiling      int
+	method               string
+	address              canonicalurl.CanonicalURL
+	headersDueAt         time.Time
+	stopPageReadDeadline func()
+	responseSender       responseSender
 }
 
 func (r upstreamResponseRelayer) relay(
@@ -36,7 +35,8 @@ func (r upstreamResponseRelayer) relay(
 		return
 	}
 	if reason, skipped := skipReasonOf(r.method, upstreamResponse); skipped {
-		r.responseSender.passThrough(ctx, reason, upstreamResponse)
+		r.stopPageReadDeadline()
+		r.responseSender.passThrough(readingCtx, reason, upstreamResponse)
 		return
 	}
 	if !contentencoding.IsDecodable(contentEncodingOf(upstreamResponse.Header)) {
@@ -59,7 +59,7 @@ func (r upstreamResponseRelayer) relayPage(
 	if !assessed {
 		return
 	}
-	r.responseSender.sendPage(ctx, upstreamResponse, page)
+	r.responseSender.sendPage(readingCtx, upstreamResponse, page)
 }
 
 func (r upstreamResponseRelayer) assessInReadingSlot(
@@ -68,13 +68,19 @@ func (r upstreamResponseRelayer) assessInReadingSlot(
 	upstreamResponse *http.Response,
 ) (assessedPage, bool) {
 	if !r.reserveReadingSlot(ctx, readingCtx) {
-		r.responseSender.endCancelledReading(ctx, SlotWaitDeadline)
+		r.responseSender.endCancelledReading(readingCtx, SlotWaitDeadline)
 		return assessedPage{}, false
 	}
 	defer r.readingSlots.release()
 	bodyPrefix, readFailure := r.bodyPrefixFrom(upstreamResponse.Body)
+	r.stopPageReadDeadline()
 	if readFailure != nil {
-		r.responseSender.failReading(ctx, PageReadDeadline, BodyPrefixReadFailed, readFailure)
+		r.responseSender.failReading(
+			readingCtx,
+			PageReadDeadline,
+			BodyPrefixReadFailed,
+			readFailure,
+		)
 		return assessedPage{}, false
 	}
 	page, refusal := r.assessedPageFrom(
@@ -103,7 +109,6 @@ func (r upstreamResponseRelayer) bodyPrefixFrom(
 	bodyPrefix, err := io.ReadAll(
 		io.LimitReader(upstreamResponseBodyReader, int64(r.pageByteCeiling)),
 	)
-	r.canceller.Stop()
 	return bodyPrefix, err //nolint:wrapcheck // the relay reports the cause as the egress proxy gave it
 }
 
