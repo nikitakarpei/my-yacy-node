@@ -26,13 +26,14 @@ func TestVerdictsSkippedAssessmentsRefusalsAndFailuresAreCounted(t *testing.T) {
 		t.Context(),
 		address,
 		spamassessment.Assessment{Score: 0.9, Threshold: 0.8},
-		0,
 	)
 	metrics.AssessmentSkipped(t.Context(), address, requestrelay.NotHTML)
 	metrics.RequestRefused(t.Context(), address, requestrelay.SlotWaitDeadline)
 	metrics.AnswerReadingFailed(t.Context(), address, errors.New("egress proxy down"))
 	metrics.ReplyCutShort(t.Context(), address, errors.New("egress stopped"))
 	metrics.ClientLeft(t.Context(), address)
+	metrics.HeadersSent(t.Context(), address, requestrelay.AssessedReply, 0)
+	metrics.ReadingSlotWaited(t.Context(), address, 0)
 
 	want := `
 # HELP spamproxy_answer_reading_failures_total Answers of the egress proxy that failed before the response headers.
@@ -47,15 +48,15 @@ spamproxy_departed_clients_total 1
 # HELP spamproxy_skipped_assessments_total Answers relayed without an assessment.
 # TYPE spamproxy_skipped_assessments_total counter
 spamproxy_skipped_assessments_total{reason="not_html"} 1
-# HELP spamproxy_refusals_total Answers refused with an error status.
-# TYPE spamproxy_refusals_total counter
-spamproxy_refusals_total{reason="slot_wait_deadline"} 1
+# HELP spamproxy_refused_requests_total Requests that the proxy answers with its own error status.
+# TYPE spamproxy_refused_requests_total counter
+spamproxy_refused_requests_total{reason="slot_wait_deadline"} 1
 # HELP spamproxy_verdicts_total Assessed pages by verdict.
 # TYPE spamproxy_verdicts_total counter
 spamproxy_verdicts_total{verdict="spam"} 1
 `
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(want),
-		"spamproxy_skipped_assessments_total", "spamproxy_refusals_total",
+		"spamproxy_skipped_assessments_total", "spamproxy_refused_requests_total",
 		"spamproxy_answer_reading_failures_total", "spamproxy_cut_short_replies_total",
 		"spamproxy_departed_clients_total",
 		"spamproxy_verdicts_total"); err != nil {
@@ -64,8 +65,9 @@ spamproxy_verdicts_total{verdict="spam"} 1
 	if series := testutil.CollectAndCount(
 		registry,
 		"spamproxy_scores",
-		"spamproxy_assessment_duration_seconds",
-	); series != 2 {
-		t.Fatalf("histograms %d, want 2", series)
+		"spamproxy_reading_slot_wait_duration_seconds",
+		"spamproxy_response_header_duration_seconds",
+	); series != 3 {
+		t.Fatalf("histograms %d, want 3", series)
 	}
 }

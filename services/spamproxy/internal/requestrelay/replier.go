@@ -15,9 +15,11 @@ import (
 const retryAfterSeconds = "1"
 
 type replier struct {
-	reply            Reply
+	replyWriter      ReplyWriter
 	observers        Observers
+	clock            Clock
 	address          canonicalurl.CanonicalURL
+	requestArrivedAt time.Time
 	timer            *readtimer.Timer
 	relayIdleTimeout time.Duration
 }
@@ -28,7 +30,17 @@ func (c replier) refuse(ctx context.Context, reason RefusalReason) {
 	if reason.isRetryable() {
 		headers.Set("Retry-After", retryAfterSeconds)
 	}
-	c.reply.SendHead(httpStatusesPerRefusal[reason], headers)
+	c.sendHead(ctx, RefusedReply, httpStatusesPerRefusal[reason], headers)
+}
+
+func (c replier) sendHead(
+	ctx context.Context,
+	replyKind ReplyKind,
+	status int,
+	headers http.Header,
+) {
+	c.observers.HeadersSent(ctx, c.address, replyKind, c.clock.Now().Sub(c.requestArrivedAt))
+	c.replyWriter.SendHead(status, headers)
 }
 
 func (c replier) failReading(ctx context.Context, expiryReason RefusalReason, cause error) {
@@ -37,7 +49,7 @@ func (c replier) failReading(ctx context.Context, expiryReason RefusalReason, ca
 		return
 	}
 	c.reportReadingFailure(ctx, cause)
-	c.reply.SendHead(http.StatusBadGateway, http.Header{"Content-Length": {"0"}})
+	c.sendHead(ctx, FailedReply, http.StatusBadGateway, http.Header{"Content-Length": {"0"}})
 }
 
 func (c replier) reportReadingFailure(ctx context.Context, cause error) {
@@ -50,20 +62,28 @@ func (c replier) reportReadingFailure(ctx context.Context, cause error) {
 
 func (c replier) passThrough(ctx context.Context, reason SkipReason, answer *http.Response) {
 	c.observers.AssessmentSkipped(ctx, c.address, reason)
-	c.reply.SendHead(answer.StatusCode, relayedheaders.EndToEndHeadersOf(answer.Header))
+	c.sendHead(
+		ctx,
+		SkippedReply,
+		answer.StatusCode,
+		relayedheaders.EndToEndHeadersOf(answer.Header),
+	)
 	c.relayRest(ctx, answer.Body, nil)
 }
 
 func (c replier) sendPage(ctx context.Context, answer *http.Response, page assessedPage) {
-	c.reply.SendHead(answer.StatusCode, page.headersFrom(answer.Header))
+	c.sendHead(ctx, AssessedReply, answer.StatusCode, page.headersFrom(answer.Header))
 	c.relayRest(ctx, answer.Body, page.bodyPrefix)
 }
 
 func (c replier) relayRest(ctx context.Context, answerBody io.Reader, bodyPrefix []byte) {
 	rest := c.timer.IdleLimitedFrom(answerBody, c.relayIdleTimeout)
-	if _, err := io.Copy(c.reply, io.MultiReader(bytes.NewReader(bodyPrefix), rest)); err != nil {
+	if _, err := io.Copy(
+		c.replyWriter,
+		io.MultiReader(bytes.NewReader(bodyPrefix), rest),
+	); err != nil {
 		c.reportCutShort(ctx, err)
-		c.reply.CutShort()
+		c.replyWriter.CutShort()
 	}
 }
 

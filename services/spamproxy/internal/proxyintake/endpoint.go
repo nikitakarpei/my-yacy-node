@@ -17,7 +17,7 @@ type Relay interface {
 		method string,
 		address canonicalurl.CanonicalURL,
 		requestHeaders http.Header,
-		reply requestrelay.Reply,
+		replyWriter requestrelay.ReplyWriter,
 	)
 }
 
@@ -52,16 +52,16 @@ func (e *Endpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		r.Method,
 		address,
 		r.Header,
-		clientReply{Writer: w, responseWriter: w},
+		replyWriter{Writer: w, responseWriter: w},
 	)
 }
 
-type clientReply struct {
+type replyWriter struct {
 	io.Writer
 	responseWriter http.ResponseWriter
 }
 
-func (c clientReply) SendHead(status int, headers http.Header) {
+func (c replyWriter) SendHead(status int, headers http.Header) {
 	replyHeaders := c.responseWriter.Header()
 	for name, values := range headers {
 		replyHeaders[name] = values
@@ -74,7 +74,7 @@ func (c clientReply) SendHead(status int, headers http.Header) {
 	c.responseWriter.WriteHeader(status)
 }
 
-func (c clientReply) CutShort() {
+func (c replyWriter) CutShort() {
 	_ = http.NewResponseController(c.responseWriter).Flush()
 	panic(http.ErrAbortHandler)
 }

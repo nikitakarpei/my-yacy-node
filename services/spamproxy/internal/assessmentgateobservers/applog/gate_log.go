@@ -5,6 +5,7 @@ package applog
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
@@ -19,5 +20,27 @@ func (GateLog) AssessmentPanicked(
 	slog.ErrorContext(ctx, "assessment panicked",
 		slog.String("address", address.String()),
 		slog.Any("panic", panicValue),
+	)
+}
+
+func (GateLog) SlotWaited(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	slotWait time.Duration,
+) {
+	slog.DebugContext(ctx, "assessment slot waited",
+		slog.String("address", address.String()),
+		slog.Duration("slotWait", slotWait),
+	)
+}
+
+func (GateLog) AssessmentFinished(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	assessmentDuration time.Duration,
+) {
+	slog.DebugContext(ctx, "assessment finished",
+		slog.String("address", address.String()),
+		slog.Duration("assessmentDuration", assessmentDuration),
 	)
 }

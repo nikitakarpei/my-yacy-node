@@ -33,23 +33,19 @@ type Clock interface {
 	After(timeout time.Duration, expire func()) (stop func())
 }
 
-type Observer interface {
-	AssessmentPanicked(ctx context.Context, address canonicalurl.CanonicalURL, panicValue any)
-}
-
 type Gate struct {
 	assessor        PageAssessor
 	assessmentSlots chan struct{}
 	clock           Clock
-	observer        Observer
+	observers       Observers
 }
 
-func New(assessor PageAssessor, slotAmount int, clock Clock, observer Observer) *Gate {
+func New(assessor PageAssessor, slotAmount int, clock Clock, observers Observers) *Gate {
 	return &Gate{
 		assessor:        assessor,
 		assessmentSlots: make(chan struct{}, slotAmount),
 		clock:           clock,
-		observer:        observer,
+		observers:       observers,
 	}
 }
 
@@ -63,9 +59,7 @@ func (g *Gate) AssessmentFrom(
 	expired := make(chan struct{})
 	stop := g.clock.After(deadline.Sub(g.clock.Now()), func() { close(expired) })
 	defer stop()
-	select {
-	case g.assessmentSlots <- struct{}{}:
-	case <-expired:
+	if !g.reserveSlot(ctx, address, expired) {
 		return spamassessment.Assessment{}, SlotWaitDeadline
 	}
 	assessments := make(chan spamassessment.Assessment, 1)
@@ -81,6 +75,21 @@ func (g *Gate) AssessmentFrom(
 	}
 }
 
+func (g *Gate) reserveSlot(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	expired <-chan struct{},
+) bool {
+	slotWaitStarted := g.clock.Now()
+	defer func() { g.observers.SlotWaited(ctx, address, g.clock.Now().Sub(slotWaitStarted)) }()
+	select {
+	case g.assessmentSlots <- struct{}{}:
+		return true
+	case <-expired:
+		return false
+	}
+}
+
 func (g *Gate) assess(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
@@ -91,9 +100,12 @@ func (g *Gate) assess(
 	defer func() { <-g.assessmentSlots }()
 	defer func() {
 		if panicValue := recover(); panicValue != nil {
-			g.observer.AssessmentPanicked(ctx, address, panicValue)
+			g.observers.AssessmentPanicked(ctx, address, panicValue)
 			close(assessments)
 		}
 	}()
-	assessments <- g.assessor.AssessmentFrom(address, body, responseHeaders)
+	assessmentStarted := g.clock.Now()
+	assessment := g.assessor.AssessmentFrom(address, body, responseHeaders)
+	g.observers.AssessmentFinished(ctx, address, g.clock.Now().Sub(assessmentStarted))
+	assessments <- assessment
 }

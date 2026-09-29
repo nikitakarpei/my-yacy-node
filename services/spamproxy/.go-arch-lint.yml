@@ -35,6 +35,8 @@ components:
     in: internal/requestrelayobservers/prometheus/**
   assessmentgateobserversapplog:
     in: internal/assessmentgateobservers/applog/**
+  assessmentgateobserversprometheus:
+    in: internal/assessmentgateobservers/prometheus/**
   proxyintakeobserversapplog:
     in: internal/proxyintakeobservers/applog/**
   spamproxycmd:
@@ -96,6 +98,10 @@ deps:
   assessmentgateobserversapplog:
     canUse:
       - canonicalurl
+  assessmentgateobserversprometheus:
+    canUse:
+      - canonicalurl
+      - prometheus
   spamproxycmd:
     anyProjectDeps: true
     anyVendorDeps: true

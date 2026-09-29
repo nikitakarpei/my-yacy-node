@@ -35,7 +35,7 @@ type Clock interface {
 	After(timeout time.Duration, expire func()) (stop func())
 }
 
-type Reply interface {
+type ReplyWriter interface {
 	io.Writer
 	SendHead(status int, headers http.Header)
 	CutShort()
@@ -78,7 +78,7 @@ func (r *Relay) ReplyTo(
 	method string,
 	address canonicalurl.CanonicalURL,
 	requestHeaders http.Header,
-	reply Reply,
+	replyWriter ReplyWriter,
 ) {
 	requestArrivedAt := r.clock.Now()
 	headersDueAt := replydeadline.HeadersDueAtFrom(
@@ -90,7 +90,7 @@ func (r *Relay) ReplyTo(
 	defer cancelReading()
 	timer := readtimer.New(r.clock, cancelReading)
 	defer timer.Stop()
-	replier := r.replierFor(address, timer, reply)
+	replier := r.replierFor(address, requestArrivedAt, timer, replyWriter)
 	if !headersDueAt.After(requestArrivedAt) {
 		replier.refuse(ctx, WaitTooShort)
 		return
@@ -103,13 +103,16 @@ func (r *Relay) ReplyTo(
 
 func (r *Relay) replierFor(
 	address canonicalurl.CanonicalURL,
+	requestArrivedAt time.Time,
 	timer *readtimer.Timer,
-	reply Reply,
+	replyWriter ReplyWriter,
 ) replier {
 	return replier{
-		reply:            reply,
+		replyWriter:      replyWriter,
 		observers:        r.observers,
+		clock:            r.clock,
 		address:          address,
+		requestArrivedAt: requestArrivedAt,
 		timer:            timer,
 		relayIdleTimeout: r.limits.RelayIdleTimeout,
 	}
@@ -123,6 +126,7 @@ func (r *Relay) relayerFor(
 ) relayer {
 	return relayer{
 		egress:          r.egress,
+		observers:       r.observers,
 		pageAssessor:    r.pageAssessor,
 		clock:           r.clock,
 		readingSlots:    r.readingSlots,

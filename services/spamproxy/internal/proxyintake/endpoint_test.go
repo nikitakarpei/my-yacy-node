@@ -25,13 +25,13 @@ func (r *scriptedRelay) ReplyTo(
 	_ string,
 	address canonicalurl.CanonicalURL,
 	_ http.Header,
-	reply requestrelay.Reply,
+	replyWriter requestrelay.ReplyWriter,
 ) {
 	r.addresses = append(r.addresses, address)
-	reply.SendHead(http.StatusOK, http.Header{"Content-Length": {"10"}})
-	_, _ = reply.Write([]byte("page"))
+	replyWriter.SendHead(http.StatusOK, http.Header{"Content-Length": {"10"}})
+	_, _ = replyWriter.Write([]byte("page"))
 	if r.cutsShort {
-		reply.CutShort()
+		replyWriter.CutShort()
 	}
 }
 

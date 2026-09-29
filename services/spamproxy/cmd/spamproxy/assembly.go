@@ -17,6 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/safetensorsmodel"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	assessmentgateobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgateobservers/applog"
+	assessmentgateobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgateobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/absoluteurl"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/tunnel"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pageassessment"
@@ -49,7 +50,10 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 		pageassessment.NewPageAssessor(model),
 		runtime.GOMAXPROCS(0),
 		clock,
-		assessmentgateobserversapplog.GateLog{},
+		assessmentgate.Observers{
+			assessmentgateobserversapplog.GateLog{},
+			assessmentgateobserversprometheus.New(registry),
+		},
 	)
 	relay := requestrelay.New(
 		egressTransportFor(cfg),

@@ -14,6 +14,7 @@ import (
 
 type relayer struct {
 	egress          Egress
+	observers       Observers
 	pageAssessor    pageAssessor
 	clock           Clock
 	readingSlots    readingSlots
@@ -64,7 +65,7 @@ func (r relayer) relayPage(
 	readingCtx context.Context,
 	answer *http.Response,
 ) {
-	if !r.readingSlots.reserve(readingCtx) {
+	if !r.reserveReadingSlot(ctx, readingCtx) {
 		r.replier.failReading(ctx, SlotWaitDeadline, context.Cause(readingCtx))
 		return
 	}
@@ -83,6 +84,13 @@ func (r relayer) relayPage(
 		return
 	}
 	r.replier.sendPage(ctx, answer, page)
+}
+
+func (r relayer) reserveReadingSlot(ctx context.Context, readingCtx context.Context) bool {
+	slotWaitStarted := r.clock.Now()
+	reserved := r.readingSlots.reserve(readingCtx)
+	r.observers.ReadingSlotWaited(ctx, r.address, r.clock.Now().Sub(slotWaitStarted))
+	return reserved
 }
 
 func (r relayer) bodyPrefixFrom(answerBody io.Reader) ([]byte, error) {

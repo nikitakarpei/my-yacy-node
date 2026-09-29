@@ -17,13 +17,22 @@ func (RelayLog) PageAssessed(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	assessment spamassessment.Assessment,
-	assessmentDuration time.Duration,
 ) {
 	slog.DebugContext(ctx, "page assessed",
 		slog.String("address", address.String()),
 		slog.String("verdict", assessment.Verdict().String()),
 		slog.Float64("score", assessment.Score),
-		slog.Duration("assessmentDuration", assessmentDuration),
+	)
+}
+
+func (RelayLog) ReadingSlotWaited(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	slotWait time.Duration,
+) {
+	slog.DebugContext(ctx, "reading slot waited",
+		slog.String("address", address.String()),
+		slog.Duration("slotWait", slotWait),
 	)
 }
 
@@ -69,4 +78,17 @@ func (RelayLog) ReplyCutShort(ctx context.Context, address canonicalurl.Canonica
 
 func (RelayLog) ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL) {
 	slog.DebugContext(ctx, "client left", slog.String("address", address.String()))
+}
+
+func (RelayLog) HeadersSent(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	replyKind requestrelay.ReplyKind,
+	headersDelay time.Duration,
+) {
+	slog.DebugContext(ctx, "headers sent",
+		slog.String("address", address.String()),
+		slog.String("reply", string(replyKind)),
+		slog.Duration("headersDelay", headersDelay),
+	)
 }

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"slices"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -194,18 +195,29 @@ type observerRecord struct {
 	readingFailures    []error
 	cutShortCauses     []error
 	departedClients    int
+	sentHeaders        []sentHeaders
 	assessed           []spamassessment.Assessment
+	readingSlotWaits   []time.Duration
 }
 
 func (r *observerRecord) PageAssessed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	assessment spamassessment.Assessment,
-	_ time.Duration,
 ) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 	r.assessed = append(r.assessed, assessment)
+}
+
+func (r *observerRecord) ReadingSlotWaited(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	slotWait time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.readingSlotWaits = append(r.readingSlotWaits, slotWait)
 }
 
 func (r *observerRecord) AssessmentSkipped(
@@ -252,6 +264,22 @@ func (r *observerRecord) ClientLeft(context.Context, canonicalurl.CanonicalURL) 
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 	r.departedClients++
+}
+
+type sentHeaders struct {
+	replyKind    requestrelay.ReplyKind
+	headersDelay time.Duration
+}
+
+func (r *observerRecord) HeadersSent(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	replyKind requestrelay.ReplyKind,
+	headersDelay time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.sentHeaders = append(r.sentHeaders, sentHeaders{replyKind, headersDelay})
 }
 
 type relayFixture struct {
@@ -592,6 +620,18 @@ func TestAClientThatLeavesDuringTheBodyIsReportedAsLeft(t *testing.T) {
 	}
 }
 
+func TestTheTimeUntilTheHeadersIsReportedWithTheKindOfReply(t *testing.T) {
+	fixture := newRelayFixture()
+	fixture.egress.answer.before = func() { fixture.clock.passTo(300 * time.Millisecond) }
+
+	fixture.replyTo(t, http.MethodGet, http.Header{})
+
+	want := []sentHeaders{{requestrelay.AssessedReply, 300 * time.Millisecond}}
+	if !slices.Equal(fixture.observers.sentHeaders, want) {
+		t.Fatalf("sent headers %v, want %v", fixture.observers.sentHeaders, want)
+	}
+}
+
 func TestAPageWhoseRestStallsIsCutShortAfterTheIdleTimeout(t *testing.T) {
 	fixture := newRelayFixture()
 	fixture.limits.PageByteCeiling = 8
@@ -658,6 +698,9 @@ func TestAPageWithoutAReadingSlotWhenTheHeadersAreDueGivesServiceUnavailable(t *
 	if refusals := fixture.observers.refusals; len(refusals) != 1 ||
 		refusals[0] != requestrelay.SlotWaitDeadline {
 		t.Fatalf("refusals %v", refusals)
+	}
+	if slotWaits := fixture.observers.readingSlotWaits; len(slotWaits) != 2 {
+		t.Fatalf("reading slot waits %v, want one for each page", slotWaits)
 	}
 }
 

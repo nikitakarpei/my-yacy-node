@@ -42,10 +42,17 @@ func (a pageAssessor) assessedPageFrom(
 	if !decoded {
 		return assessedPage{}, UndecodableBody
 	}
-	assessment, outcome := a.assessmentFrom(ctx, address, body, answerHeaders, headersDueAt)
+	assessment, outcome := a.assessor.AssessmentFrom(
+		ctx,
+		address,
+		body,
+		answerHeaders,
+		headersDueAt,
+	)
 	if outcome != assessmentgate.Assessed {
 		return assessedPage{}, refusalsPerOutcome[outcome]
 	}
+	a.observers.PageAssessed(ctx, address, assessment)
 	if !a.clock.Now().Before(headersDueAt) {
 		return assessedPage{}, AssessmentDeadline
 	}
@@ -54,27 +61,6 @@ func (a pageAssessor) assessedPageFrom(
 		wasBodyWhole: len(bodyPrefix) < a.pageByteCeiling,
 		assessment:   assessment,
 	}, ""
-}
-
-func (a pageAssessor) assessmentFrom(
-	ctx context.Context,
-	address canonicalurl.CanonicalURL,
-	body []byte,
-	answerHeaders http.Header,
-	headersDueAt time.Time,
-) (spamassessment.Assessment, assessmentgate.Outcome) {
-	assessmentStarted := a.clock.Now()
-	assessment, outcome := a.assessor.AssessmentFrom(
-		ctx,
-		address,
-		body,
-		answerHeaders,
-		headersDueAt,
-	)
-	if outcome == assessmentgate.Assessed {
-		a.observers.PageAssessed(ctx, address, assessment, a.clock.Now().Sub(assessmentStarted))
-	}
-	return assessment, outcome
 }
 
 func (p assessedPage) headersFrom(answerHeaders http.Header) http.Header {

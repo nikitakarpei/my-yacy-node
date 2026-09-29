@@ -13,13 +13,23 @@ type Observer interface {
 		ctx context.Context,
 		address canonicalurl.CanonicalURL,
 		assessment spamassessment.Assessment,
-		assessmentDuration time.Duration,
+	)
+	ReadingSlotWaited(
+		ctx context.Context,
+		address canonicalurl.CanonicalURL,
+		slotWait time.Duration,
 	)
 	AssessmentSkipped(ctx context.Context, address canonicalurl.CanonicalURL, reason SkipReason)
 	RequestRefused(ctx context.Context, address canonicalurl.CanonicalURL, reason RefusalReason)
 	AnswerReadingFailed(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
 	ReplyCutShort(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
 	ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL)
+	HeadersSent(
+		ctx context.Context,
+		address canonicalurl.CanonicalURL,
+		replyKind ReplyKind,
+		headersDelay time.Duration,
+	)
 }
 
 type Observers []Observer
@@ -28,10 +38,19 @@ func (observers Observers) PageAssessed(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	assessment spamassessment.Assessment,
-	assessmentDuration time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PageAssessed(ctx, address, assessment, assessmentDuration)
+		observer.PageAssessed(ctx, address, assessment)
+	}
+}
+
+func (observers Observers) ReadingSlotWaited(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	slotWait time.Duration,
+) {
+	for _, observer := range observers {
+		observer.ReadingSlotWaited(ctx, address, slotWait)
 	}
 }
 
@@ -78,5 +97,16 @@ func (observers Observers) ReplyCutShort(
 func (observers Observers) ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL) {
 	for _, observer := range observers {
 		observer.ClientLeft(ctx, address)
+	}
+}
+
+func (observers Observers) HeadersSent(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	replyKind ReplyKind,
+	headersDelay time.Duration,
+) {
+	for _, observer := range observers {
+		observer.HeadersSent(ctx, address, replyKind, headersDelay)
 	}
 }

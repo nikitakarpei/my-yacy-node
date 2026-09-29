@@ -13,31 +13,23 @@ import (
 )
 
 var (
-	scoreBuckets             = prometheusclient.LinearBuckets(0.1, 0.1, 10)
-	assessmentSecondsBuckets = []float64{
-		0.001,
-		0.0025,
-		0.005,
-		0.01,
-		0.025,
-		0.05,
-		0.1,
-		0.25,
-		0.5,
-		1,
-		2.5,
+	scoreBuckets               = prometheusclient.LinearBuckets(0.1, 0.1, 10)
+	headersDelaySecondsBuckets = []float64{0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10}
+	slotWaitSecondsBuckets     = []float64{
+		0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10,
 	}
 )
 
 type RelayMetrics struct {
-	verdicts              *prometheusclient.CounterVec
-	scores                prometheusclient.Histogram
-	assessmentSeconds     prometheusclient.Histogram
-	skippedAssessments    *prometheusclient.CounterVec
-	refusals              *prometheusclient.CounterVec
-	answerReadingFailures prometheusclient.Counter
-	cutShortReplies       prometheusclient.Counter
-	departedClients       prometheusclient.Counter
+	verdicts               *prometheusclient.CounterVec
+	scores                 prometheusclient.Histogram
+	readingSlotWaitSeconds prometheusclient.Histogram
+	skippedAssessments     *prometheusclient.CounterVec
+	refusedRequests        *prometheusclient.CounterVec
+	answerReadingFailures  prometheusclient.Counter
+	cutShortReplies        prometheusclient.Counter
+	departedClients        prometheusclient.Counter
+	headersDelaySeconds    *prometheusclient.HistogramVec
 }
 
 func New(registry prometheusclient.Registerer) *RelayMetrics {
@@ -51,18 +43,18 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 			Help:    "Scores of the assessed pages.",
 			Buckets: scoreBuckets,
 		}),
-		assessmentSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "spamproxy_assessment_duration_seconds",
-			Help:    "Time to assess one page.",
-			Buckets: assessmentSecondsBuckets,
+		readingSlotWaitSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "spamproxy_reading_slot_wait_duration_seconds",
+			Help:    "Time that a page waits for a place among the pages read at once.",
+			Buckets: slotWaitSecondsBuckets,
 		}),
 		skippedAssessments: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "spamproxy_skipped_assessments_total",
 			Help: "Answers relayed without an assessment.",
 		}, []string{"reason"}),
-		refusals: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "spamproxy_refusals_total",
-			Help: "Answers refused with an error status.",
+		refusedRequests: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+			Name: "spamproxy_refused_requests_total",
+			Help: "Requests that the proxy answers with its own error status.",
 		}, []string{"reason"}),
 		answerReadingFailures: prometheusclient.NewCounter(prometheusclient.CounterOpts{
 			Name: "spamproxy_answer_reading_failures_total",
@@ -76,16 +68,22 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 			Name: "spamproxy_departed_clients_total",
 			Help: "Clients that left before the reply ended.",
 		}),
+		headersDelaySeconds: prometheusclient.NewHistogramVec(prometheusclient.HistogramOpts{
+			Name:    "spamproxy_response_header_duration_seconds",
+			Help:    "Time from a request until the proxy sends the response headers.",
+			Buckets: headersDelaySecondsBuckets,
+		}, []string{"reply"}),
 	}
 	registry.MustRegister(
 		metrics.verdicts,
 		metrics.scores,
-		metrics.assessmentSeconds,
+		metrics.readingSlotWaitSeconds,
 		metrics.skippedAssessments,
-		metrics.refusals,
+		metrics.refusedRequests,
 		metrics.answerReadingFailures,
 		metrics.cutShortReplies,
 		metrics.departedClients,
+		metrics.headersDelaySeconds,
 	)
 	return metrics
 }
@@ -94,11 +92,17 @@ func (m *RelayMetrics) PageAssessed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	assessment spamassessment.Assessment,
-	assessmentDuration time.Duration,
 ) {
 	m.verdicts.WithLabelValues(assessment.Verdict().String()).Inc()
 	m.scores.Observe(assessment.Score)
-	m.assessmentSeconds.Observe(assessmentDuration.Seconds())
+}
+
+func (m *RelayMetrics) ReadingSlotWaited(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	slotWait time.Duration,
+) {
+	m.readingSlotWaitSeconds.Observe(slotWait.Seconds())
 }
 
 func (m *RelayMetrics) AssessmentSkipped(
@@ -114,7 +118,7 @@ func (m *RelayMetrics) RequestRefused(
 	_ canonicalurl.CanonicalURL,
 	reason requestrelay.RefusalReason,
 ) {
-	m.refusals.WithLabelValues(string(reason)).Inc()
+	m.refusedRequests.WithLabelValues(string(reason)).Inc()
 }
 
 func (m *RelayMetrics) AnswerReadingFailed(context.Context, canonicalurl.CanonicalURL, error) {
@@ -127,4 +131,13 @@ func (m *RelayMetrics) ReplyCutShort(context.Context, canonicalurl.CanonicalURL,
 
 func (m *RelayMetrics) ClientLeft(context.Context, canonicalurl.CanonicalURL) {
 	m.departedClients.Inc()
+}
+
+func (m *RelayMetrics) HeadersSent(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	replyKind requestrelay.ReplyKind,
+	headersDelay time.Duration,
+) {
+	m.headersDelaySeconds.WithLabelValues(string(replyKind)).Observe(headersDelay.Seconds())
 }

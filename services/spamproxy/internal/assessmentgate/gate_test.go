@@ -3,6 +3,7 @@ package assessmentgate_test
 import (
 	"context"
 	"net/http"
+	"slices"
 	"sync"
 	"testing"
 	"time"
@@ -24,18 +25,30 @@ type result struct {
 }
 
 type fakeClock struct {
+	mutex       sync.Mutex
+	now         time.Time
 	expirations chan func()
 }
 
-func newFakeClock() fakeClock {
-	return fakeClock{expirations: make(chan func(), 4)}
+func newFakeClock() *fakeClock {
+	return &fakeClock{now: now, expirations: make(chan func(), 4)}
 }
 
-func (c fakeClock) Now() time.Time { return now }
+func (c *fakeClock) Now() time.Time {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+	return c.now
+}
 
-func (c fakeClock) After(_ time.Duration, expire func()) func() {
+func (c *fakeClock) After(_ time.Duration, expire func()) func() {
 	c.expirations <- expire
 	return func() {}
+}
+
+func (c *fakeClock) passTo(elapsed time.Duration) {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+	c.now = now.Add(elapsed)
 }
 
 type heldAssessor struct {
@@ -67,6 +80,20 @@ func (fixedAssessor) AssessmentFrom(
 	return assessment
 }
 
+type slowAssessor struct {
+	clock    *fakeClock
+	duration time.Duration
+}
+
+func (a slowAssessor) AssessmentFrom(
+	canonicalurl.CanonicalURL,
+	[]byte,
+	http.Header,
+) spamassessment.Assessment {
+	a.clock.passTo(a.duration)
+	return assessment
+}
+
 type panickingAssessor struct{}
 
 func (panickingAssessor) AssessmentFrom(
@@ -77,12 +104,34 @@ func (panickingAssessor) AssessmentFrom(
 	panic("broken page")
 }
 
-type panicRecord struct {
-	mutex       sync.Mutex
-	panicValues []any
+type observerRecord struct {
+	mutex               sync.Mutex
+	slotWaits           []time.Duration
+	assessmentDurations []time.Duration
+	panicValues         []any
 }
 
-func (r *panicRecord) AssessmentPanicked(
+func (r *observerRecord) SlotWaited(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	slotWait time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.slotWaits = append(r.slotWaits, slotWait)
+}
+
+func (r *observerRecord) AssessmentFinished(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	assessmentDuration time.Duration,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.assessmentDurations = append(r.assessmentDurations, assessmentDuration)
+}
+
+func (r *observerRecord) AssessmentPanicked(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	panicValue any,
@@ -93,7 +142,12 @@ func (r *panicRecord) AssessmentPanicked(
 }
 
 func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfTheAssessor(t *testing.T) {
-	gate := assessmentgate.New(fixedAssessor{}, 1, newFakeClock(), &panicRecord{})
+	gate := assessmentgate.New(
+		fixedAssessor{},
+		1,
+		newFakeClock(),
+		assessmentgate.Observers{&observerRecord{}},
+	)
 
 	got, outcome := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
 
@@ -105,7 +159,7 @@ func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfTheAssessor(t *testing.T)
 func TestAnAssessmentPastTheDeadlineIsGivenUp(t *testing.T) {
 	clock := newFakeClock()
 	assessor := newHeldAssessor()
-	gate := assessmentgate.New(assessor, 1, clock, &panicRecord{})
+	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{&observerRecord{}})
 	results := assessmentsInBackground(t, gate)
 
 	<-assessor.started
@@ -120,7 +174,7 @@ func TestAnAssessmentPastTheDeadlineIsGivenUp(t *testing.T) {
 func TestAPageWaitingForAFreeSlotPastTheDeadlineMissesItsTurn(t *testing.T) {
 	clock := newFakeClock()
 	assessor := newHeldAssessor()
-	gate := assessmentgate.New(assessor, 1, clock, &panicRecord{})
+	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{&observerRecord{}})
 	firstResults := assessmentsInBackground(t, gate)
 	<-clock.expirations
 	<-assessor.started
@@ -137,9 +191,51 @@ func TestAPageWaitingForAFreeSlotPastTheDeadlineMissesItsTurn(t *testing.T) {
 	}
 }
 
+func TestTheTimeOfAnAssessmentIsReported(t *testing.T) {
+	clock := newFakeClock()
+	observers := &observerRecord{}
+	assessor := slowAssessor{clock: clock, duration: 30 * time.Millisecond}
+	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
+
+	gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
+
+	if !slices.Equal(observers.assessmentDurations, []time.Duration{30 * time.Millisecond}) ||
+		!slices.Equal(observers.slotWaits, []time.Duration{0}) {
+		t.Fatalf("assessments took %v, slot waits %v",
+			observers.assessmentDurations, observers.slotWaits)
+	}
+}
+
+func TestTheSlotWaitOfAPageThatMissedItsTurnIsReported(t *testing.T) {
+	clock := newFakeClock()
+	observers := &observerRecord{}
+	assessor := newHeldAssessor()
+	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
+	firstResults := assessmentsInBackground(t, gate)
+	<-clock.expirations
+	<-assessor.started
+
+	waitingResults := assessmentsInBackground(t, gate)
+	expireWaiting := <-clock.expirations
+	clock.passTo(time.Second)
+	expireWaiting()
+	<-waitingResults
+	close(assessor.released)
+	<-firstResults
+
+	if !slices.Equal(observers.slotWaits, []time.Duration{0, time.Second}) {
+		t.Fatalf("slot waits %v", observers.slotWaits)
+	}
+}
+
 func TestAPanickingAssessmentIsUnassessedAndReported(t *testing.T) {
-	panics := &panicRecord{}
-	gate := assessmentgate.New(panickingAssessor{}, 1, newFakeClock(), panics)
+	panics := &observerRecord{}
+	gate := assessmentgate.New(
+		panickingAssessor{},
+		1,
+		newFakeClock(),
+		assessmentgate.Observers{panics},
+	)
 
 	_, outcome := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
 	_, outcomeAfterwards := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
