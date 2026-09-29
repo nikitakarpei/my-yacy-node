@@ -37,10 +37,12 @@ func (GateLog) SlotWaited(
 func (GateLog) AssessmentFinished(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
+	pageSize int,
 	assessmentDuration time.Duration,
 ) {
 	slog.DebugContext(ctx, "assessment finished",
 		slog.String("address", address.String()),
+		slog.Int("pageSize", pageSize),
 		slog.Duration("assessmentDuration", assessmentDuration),
 	)
 }

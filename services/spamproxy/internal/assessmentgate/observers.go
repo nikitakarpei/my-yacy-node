@@ -12,6 +12,7 @@ type Observer interface {
 	AssessmentFinished(
 		ctx context.Context,
 		address canonicalurl.CanonicalURL,
+		pageSize int,
 		assessmentDuration time.Duration,
 	)
 	AssessmentPanicked(ctx context.Context, address canonicalurl.CanonicalURL, panicValue any)
@@ -32,10 +33,11 @@ func (observers Observers) SlotWaited(
 func (observers Observers) AssessmentFinished(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
+	pageSize int,
 	assessmentDuration time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.AssessmentFinished(ctx, address, assessmentDuration)
+		observer.AssessmentFinished(ctx, address, pageSize, assessmentDuration)
 	}
 }
 

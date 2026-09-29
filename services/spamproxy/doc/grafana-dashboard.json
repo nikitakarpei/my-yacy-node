@@ -558,7 +558,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
+        "w": 8,
         "x": 0,
         "y": 35
       },
@@ -612,8 +612,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 6,
+        "w": 8,
+        "x": 8,
         "y": 35
       },
       "fieldConfig": {
@@ -657,61 +657,7 @@
       ]
     },
     {
-      "id": 14,
-      "title": "How long an assessment took",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 12,
-        "y": 35
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "showPoints": "auto",
-            "scaleDistribution": {
-              "type": "log",
-              "log": 10
-            }
-          }
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "p90"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "p99"
-        }
-      ]
-    },
-    {
-      "id": 15,
+      "id": 17,
       "title": "Assessment panics",
       "type": "timeseries",
       "datasource": {
@@ -720,8 +666,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 18,
+        "w": 8,
+        "x": 16,
         "y": 35
       },
       "fieldConfig": {
@@ -755,7 +701,139 @@
       ]
     },
     {
+      "id": 14,
+      "title": "How long an assessment took, p50 by page size",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 43
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le, page_size) (clamp_min(spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{page_size}}"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "How long an assessment took, p90 by page size",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 43
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.90, sum by (le, page_size) (clamp_min(spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{page_size}}"
+        }
+      ]
+    },
+    {
       "id": 16,
+      "title": "How long an assessment took, p99 by page size",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 43
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.99, sum by (le, page_size) (clamp_min(spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_assessment_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{page_size}}"
+        }
+      ]
+    },
+    {
+      "id": 18,
       "title": "Go process",
       "type": "row",
       "collapsed": false,
@@ -763,12 +841,12 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 51
       },
       "panels": []
     },
     {
-      "id": 17,
+      "id": 19,
       "title": "Process memory",
       "type": "timeseries",
       "datasource": {
@@ -779,7 +857,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -818,7 +896,7 @@
       ]
     },
     {
-      "id": 18,
+      "id": 20,
       "title": "CPU cores used",
       "type": "timeseries",
       "datasource": {
@@ -829,7 +907,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 44
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -858,7 +936,7 @@
       ]
     },
     {
-      "id": 19,
+      "id": 21,
       "title": "Goroutines",
       "type": "timeseries",
       "datasource": {
@@ -869,7 +947,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 44
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -898,7 +976,7 @@
       ]
     },
     {
-      "id": 20,
+      "id": 22,
       "title": "Garbage collections",
       "type": "timeseries",
       "datasource": {
@@ -909,7 +987,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 52
+        "y": 60
       },
       "fieldConfig": {
         "defaults": {
@@ -939,7 +1017,7 @@
       ]
     },
     {
-      "id": 21,
+      "id": 23,
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
       "datasource": {
@@ -950,7 +1028,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 52
+        "y": 60
       },
       "fieldConfig": {
         "defaults": {
@@ -979,7 +1057,7 @@
       ]
     },
     {
-      "id": 22,
+      "id": 24,
       "title": "Share of the file descriptor limit in use",
       "type": "timeseries",
       "datasource": {
@@ -990,7 +1068,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 52
+        "y": 60
       },
       "fieldConfig": {
         "defaults": {

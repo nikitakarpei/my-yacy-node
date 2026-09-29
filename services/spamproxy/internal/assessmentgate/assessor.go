@@ -106,6 +106,6 @@ func (a *Assessor) assessInSlot(
 	}()
 	assessmentStarted := a.clock.Now()
 	assessment := a.pageAssessor.AssessmentFrom(address, body, responseHeaders)
-	a.observers.AssessmentFinished(ctx, address, a.clock.Now().Sub(assessmentStarted))
+	a.observers.AssessmentFinished(ctx, address, len(body), a.clock.Now().Sub(assessmentStarted))
 	assessments <- assessment
 }

@@ -108,6 +108,7 @@ type observerRecord struct {
 	mutex               sync.Mutex
 	slotWaits           []time.Duration
 	assessmentDurations []time.Duration
+	pageSizes           []int
 	panicValues         []any
 }
 
@@ -124,10 +125,12 @@ func (r *observerRecord) SlotWaited(
 func (r *observerRecord) AssessmentFinished(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
+	pageSize int,
 	assessmentDuration time.Duration,
 ) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
+	r.pageSizes = append(r.pageSizes, pageSize)
 	r.assessmentDurations = append(r.assessmentDurations, assessmentDuration)
 }
 
@@ -201,18 +204,19 @@ func TestAPageWaitingForAFreeSlotPastTheDeadlineMissesItsTurn(t *testing.T) {
 	}
 }
 
-func TestTheTimeOfAnAssessmentIsReported(t *testing.T) {
+func TestTheTimeAndPageSizeOfAnAssessmentAreReported(t *testing.T) {
 	clock := newFakeClock()
 	observers := &observerRecord{}
 	assessor := slowAssessor{clock: clock, duration: 30 * time.Millisecond}
 	gatedAssessor := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
 
-	gatedAssessor.Assess(t.Context(), address(t), nil, nil, deadline)
+	gatedAssessor.Assess(t.Context(), address(t), []byte("<p>page</p>"), nil, deadline)
 
 	if !slices.Equal(observers.assessmentDurations, []time.Duration{30 * time.Millisecond}) ||
+		!slices.Equal(observers.pageSizes, []int{len("<p>page</p>")}) ||
 		!slices.Equal(observers.slotWaits, []time.Duration{0}) {
-		t.Fatalf("assessments took %v, slot waits %v",
-			observers.assessmentDurations, observers.slotWaits)
+		t.Fatalf("assessments took %v of pages sized %v, slot waits %v",
+			observers.assessmentDurations, observers.pageSizes, observers.slotWaits)
 	}
 }
 
