@@ -64,8 +64,10 @@ func TestAnHTTPSPageGoesThroughATunnelToItsOrigin(t *testing.T) {
 		nil,
 	)
 
-	response, err := tunnel.New(proxyURL, &tls.Config{RootCAs: roots, MinVersion: tls.VersionTLS12}).
-		RoundTrip(request)
+	transport := tunnel.New(proxyURL)
+	transport.TLSClientConfig = &tls.Config{RootCAs: roots, MinVersion: tls.VersionTLS12}
+
+	response, err := transport.RoundTrip(request)
 	if err != nil {
 		t.Fatal(err)
 	}

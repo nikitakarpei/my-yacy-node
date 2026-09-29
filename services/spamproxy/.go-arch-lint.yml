@@ -11,8 +11,8 @@ commonComponents:
 components:
   spamassessment:
     in: internal/spamassessment/**
-  replydeadlines:
-    in: internal/replydeadlines/**
+  replydeadline:
+    in: internal/replydeadline/**
   contentencoding:
     in: internal/contentencoding/**
   relayedheaders:
@@ -25,18 +25,18 @@ components:
     in: internal/egresstransports/tunnel/**
   egresstransportsabsoluteurl:
     in: internal/egresstransports/absoluteurl/**
-  pagerelay:
-    in: internal/pagerelay/**
+  requestrelay:
+    in: internal/requestrelay/**
   proxyintake:
     in: internal/proxyintake/**
-  relayobserversapplog:
-    in: internal/relayobservers/applog/**
-  relayobserversprometheus:
-    in: internal/relayobservers/prometheus/**
-  gateobserversapplog:
-    in: internal/gateobservers/applog/**
-  intakeobserversapplog:
-    in: internal/intakeobservers/applog/**
+  requestrelayobserversapplog:
+    in: internal/requestrelayobservers/applog/**
+  requestrelayobserversprometheus:
+    in: internal/requestrelayobservers/prometheus/**
+  assessmentgateobserversapplog:
+    in: internal/assessmentgateobservers/applog/**
+  proxyintakeobserversapplog:
+    in: internal/proxyintakeobservers/applog/**
   spamproxycmd:
     in: cmd/spamproxy/**
 
@@ -64,31 +64,32 @@ deps:
   assessmentgate:
     canUse:
       - canonicalurl
-  pagerelay:
+  requestrelay:
     mayDependOn:
+      - assessmentgate
       - contentencoding
       - readtimer
       - relayedheaders
-      - replydeadlines
+      - replydeadline
     canUse:
       - canonicalurl
   proxyintake:
     mayDependOn:
-      - pagerelay
+      - requestrelay
     canUse:
       - canonicalurl
-  relayobserversapplog:
+  requestrelayobserversapplog:
     mayDependOn:
-      - pagerelay
+      - requestrelay
     canUse:
       - canonicalurl
-  relayobserversprometheus:
+  requestrelayobserversprometheus:
     mayDependOn:
-      - pagerelay
+      - requestrelay
     canUse:
       - canonicalurl
       - prometheus
-  gateobserversapplog:
+  assessmentgateobserversapplog:
     canUse:
       - canonicalurl
   spamproxycmd:

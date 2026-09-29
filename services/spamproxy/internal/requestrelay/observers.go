@@ -1,4 +1,4 @@
-package pagerelay
+package requestrelay
 
 import (
 	"context"
@@ -15,9 +15,10 @@ type Observer interface {
 		assessment spamassessment.Assessment,
 		assessmentDuration time.Duration,
 	)
-	NonPageRelayed(ctx context.Context, address canonicalurl.CanonicalURL, reason NonPageReason)
-	AnswerRefused(ctx context.Context, address canonicalurl.CanonicalURL, reason RefusalReason)
-	RelayFailed(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
+	AssessmentSkipped(ctx context.Context, address canonicalurl.CanonicalURL, reason SkipReason)
+	RequestRefused(ctx context.Context, address canonicalurl.CanonicalURL, reason RefusalReason)
+	AnswerReadingFailed(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
+	ReplyCutShort(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
 }
 
 type Observers []Observer
@@ -33,32 +34,42 @@ func (observers Observers) PageAssessed(
 	}
 }
 
-func (observers Observers) NonPageRelayed(
+func (observers Observers) AssessmentSkipped(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
-	reason NonPageReason,
+	reason SkipReason,
 ) {
 	for _, observer := range observers {
-		observer.NonPageRelayed(ctx, address, reason)
+		observer.AssessmentSkipped(ctx, address, reason)
 	}
 }
 
-func (observers Observers) AnswerRefused(
+func (observers Observers) RequestRefused(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	reason RefusalReason,
 ) {
 	for _, observer := range observers {
-		observer.AnswerRefused(ctx, address, reason)
+		observer.RequestRefused(ctx, address, reason)
 	}
 }
 
-func (observers Observers) RelayFailed(
+func (observers Observers) AnswerReadingFailed(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.RelayFailed(ctx, address, cause)
+		observer.AnswerReadingFailed(ctx, address, cause)
+	}
+}
+
+func (observers Observers) ReplyCutShort(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	cause error,
+) {
+	for _, observer := range observers {
+		observer.ReplyCutShort(ctx, address, cause)
 	}
 }

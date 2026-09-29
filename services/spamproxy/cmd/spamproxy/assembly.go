@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -17,14 +16,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/safetensorsmodel"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
+	assessmentgateobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgateobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/absoluteurl"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/tunnel"
-	gateobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/gateobservers/applog"
-	intakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/intakeobservers/applog"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pagerelay"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/proxyintake"
-	relayobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayobservers/applog"
-	relayobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayobservers/prometheus"
+	proxyintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/proxyintakeobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
+	requestrelayobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/applog"
+	requestrelayobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
@@ -50,26 +49,26 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 		spamassessment.NewPageAssessor(model),
 		runtime.GOMAXPROCS(0),
 		clock,
-		gateobserversapplog.GateLog{},
+		assessmentgateobserversapplog.GateLog{},
 	)
-	relay := pagerelay.New(
+	relay := requestrelay.New(
 		egressTransportFor(cfg),
 		gate,
-		pagerelay.Observers{
-			relayobserversapplog.RelayLog{},
-			relayobserversprometheus.New(registry),
+		requestrelay.Observers{
+			requestrelayobserversapplog.RelayLog{},
+			requestrelayobserversprometheus.New(registry),
 		},
-		pagerelay.Limits{
-			PageByteCeiling:        cfg.PageByteCeiling,
-			MaxPagesAssessedAtOnce: cfg.MaxPagesAssessedAtOnce,
-			ReplyTimeouts:          cfg.ReplyTimeouts,
-			RelayIdleTimeout:       cfg.RelayIdleTimeout,
+		requestrelay.Limits{
+			PageByteCeiling:       cfg.PageByteCeiling,
+			MaxPagesReadAtOnce:    cfg.MaxPagesReadAtOnce,
+			ResponseHeaderTimeout: cfg.ResponseHeaderTimeout,
+			RelayIdleTimeout:      cfg.RelayIdleTimeout,
 		},
 		clock,
 	)
 	proxyServer := &http.Server{
 		Addr:              cfg.ListenAddr,
-		Handler:           proxyintake.New(relay, intakeobserversapplog.IntakeLog{}),
+		Handler:           proxyintake.New(relay, proxyintakeobserversapplog.IntakeLog{}),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 	opsServer := &http.Server{
@@ -90,9 +89,9 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 	return err
 }
 
-func egressTransportFor(cfg ServiceConfig) pagerelay.Egress {
+func egressTransportFor(cfg ServiceConfig) requestrelay.Egress {
 	if cfg.EgressProxyDialMode == DialModeAbsoluteURL {
 		return absoluteurl.New(cfg.EgressProxyURL)
 	}
-	return tunnel.New(cfg.EgressProxyURL, &tls.Config{MinVersion: tls.VersionTLS12})
+	return tunnel.New(cfg.EgressProxyURL)
 }

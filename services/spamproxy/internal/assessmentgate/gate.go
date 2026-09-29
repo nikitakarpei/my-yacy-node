@@ -1,5 +1,5 @@
 // Package assessmentgate runs page assessments on a bounded number of
-// goroutines, and gives up on an assessment that misses its deadline.
+// goroutines, and gives up on a page that misses its deadline.
 package assessmentgate
 
 import (
@@ -18,6 +18,15 @@ type PageAssessor interface {
 		responseHeaders http.Header,
 	) spamassessment.Assessment
 }
+
+type Outcome int
+
+const (
+	Assessed Outcome = iota
+	SlotWaitDeadline
+	AssessmentDeadline
+	Panicked
+)
 
 type Clock interface {
 	Now() time.Time
@@ -50,22 +59,25 @@ func (g *Gate) AssessmentFrom(
 	body []byte,
 	responseHeaders http.Header,
 	deadline time.Time,
-) (spamassessment.Assessment, bool) {
+) (spamassessment.Assessment, Outcome) {
 	expired := make(chan struct{})
 	stop := g.clock.After(deadline.Sub(g.clock.Now()), func() { close(expired) })
 	defer stop()
 	select {
 	case g.assessmentSlots <- struct{}{}:
 	case <-expired:
-		return spamassessment.Assessment{}, false
+		return spamassessment.Assessment{}, SlotWaitDeadline
 	}
 	assessments := make(chan spamassessment.Assessment, 1)
 	go g.assess(ctx, address, body, responseHeaders, assessments)
 	select {
 	case assessment, assessed := <-assessments:
-		return assessment, assessed
+		if !assessed {
+			return spamassessment.Assessment{}, Panicked
+		}
+		return assessment, Assessed
 	case <-expired:
-		return spamassessment.Assessment{}, false
+		return spamassessment.Assessment{}, AssessmentDeadline
 	}
 }
 

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pagerelay"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
@@ -27,30 +27,41 @@ func (RelayLog) PageAssessed(
 	)
 }
 
-func (RelayLog) NonPageRelayed(
+func (RelayLog) AssessmentSkipped(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
-	reason pagerelay.NonPageReason,
+	reason requestrelay.SkipReason,
 ) {
-	slog.DebugContext(ctx, "non-page relayed",
+	slog.DebugContext(ctx, "assessment skipped",
 		slog.String("address", address.String()),
 		slog.String("reason", string(reason)),
 	)
 }
 
-func (RelayLog) AnswerRefused(
+func (RelayLog) RequestRefused(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
-	reason pagerelay.RefusalReason,
+	reason requestrelay.RefusalReason,
 ) {
-	slog.WarnContext(ctx, "answer refused",
+	slog.WarnContext(ctx, "request refused",
 		slog.String("address", address.String()),
 		slog.String("reason", string(reason)),
 	)
 }
 
-func (RelayLog) RelayFailed(ctx context.Context, address canonicalurl.CanonicalURL, cause error) {
-	slog.WarnContext(ctx, "relay failed",
+func (RelayLog) AnswerReadingFailed(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	cause error,
+) {
+	slog.WarnContext(ctx, "answer reading failed",
+		slog.String("address", address.String()),
+		slog.Any("error", cause),
+	)
+}
+
+func (RelayLog) ReplyCutShort(ctx context.Context, address canonicalurl.CanonicalURL, cause error) {
+	slog.WarnContext(ctx, "reply cut short",
 		slog.String("address", address.String()),
 		slog.Any("error", cause),
 	)

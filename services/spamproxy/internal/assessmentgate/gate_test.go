@@ -18,9 +18,9 @@ var (
 	assessment = spamassessment.Assessment{Score: 0.9, Threshold: 0.8, ModelVersion: "2026-09"}
 )
 
-type outcome struct {
+type result struct {
 	assessment spamassessment.Assessment
-	assessed   bool
+	outcome    assessmentgate.Outcome
 }
 
 type fakeClock struct {
@@ -95,10 +95,10 @@ func (r *panicRecord) AssessmentPanicked(
 func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfTheAssessor(t *testing.T) {
 	gate := assessmentgate.New(fixedAssessor{}, 1, newFakeClock(), &panicRecord{})
 
-	got, assessed := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
+	got, outcome := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
 
-	if !assessed || got != assessment {
-		t.Fatalf("assessment = %+v, assessed %v", got, assessed)
+	if outcome != assessmentgate.Assessed || got != assessment {
+		t.Fatalf("assessment = %+v, outcome %v", got, outcome)
 	}
 }
 
@@ -106,34 +106,34 @@ func TestAnAssessmentPastTheDeadlineIsGivenUp(t *testing.T) {
 	clock := newFakeClock()
 	assessor := newHeldAssessor()
 	gate := assessmentgate.New(assessor, 1, clock, &panicRecord{})
-	outcomes := assessmentsInBackground(t, gate)
+	results := assessmentsInBackground(t, gate)
 
 	<-assessor.started
 	(<-clock.expirations)()
 
-	if got := <-outcomes; got.assessed {
-		t.Fatalf("assessed %+v", got.assessment)
+	if got := <-results; got.outcome != assessmentgate.AssessmentDeadline {
+		t.Fatalf("outcome %v, assessment %+v", got.outcome, got.assessment)
 	}
 	close(assessor.released)
 }
 
-func TestAPageWaitingForAFreeSlotPastTheDeadlineIsGivenUp(t *testing.T) {
+func TestAPageWaitingForAFreeSlotPastTheDeadlineMissesItsTurn(t *testing.T) {
 	clock := newFakeClock()
 	assessor := newHeldAssessor()
 	gate := assessmentgate.New(assessor, 1, clock, &panicRecord{})
-	firstOutcomes := assessmentsInBackground(t, gate)
+	firstResults := assessmentsInBackground(t, gate)
 	<-clock.expirations
 	<-assessor.started
 
-	waitingOutcomes := assessmentsInBackground(t, gate)
+	waitingResults := assessmentsInBackground(t, gate)
 	(<-clock.expirations)()
 
-	if got := <-waitingOutcomes; got.assessed {
-		t.Fatalf("assessed %+v", got.assessment)
+	if got := <-waitingResults; got.outcome != assessmentgate.SlotWaitDeadline {
+		t.Fatalf("outcome %v, assessment %+v", got.outcome, got.assessment)
 	}
 	close(assessor.released)
-	if got := <-firstOutcomes; !got.assessed {
-		t.Fatal("the first page is unassessed")
+	if got := <-firstResults; got.outcome != assessmentgate.Assessed {
+		t.Fatalf("the first page ended %v", got.outcome)
 	}
 }
 
@@ -141,23 +141,24 @@ func TestAPanickingAssessmentIsUnassessedAndReported(t *testing.T) {
 	panics := &panicRecord{}
 	gate := assessmentgate.New(panickingAssessor{}, 1, newFakeClock(), panics)
 
-	_, assessed := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
-	_, assessedAfterwards := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
+	_, outcome := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
+	_, outcomeAfterwards := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
 
-	if assessed || assessedAfterwards || len(panics.panicValues) != 2 {
-		t.Fatalf("assessed %v then %v, panics %v", assessed, assessedAfterwards, panics.panicValues)
+	if outcome != assessmentgate.Panicked || outcomeAfterwards != assessmentgate.Panicked ||
+		len(panics.panicValues) != 2 {
+		t.Fatalf("outcomes %v then %v, panics %v", outcome, outcomeAfterwards, panics.panicValues)
 	}
 }
 
-func assessmentsInBackground(t *testing.T, gate *assessmentgate.Gate) <-chan outcome {
+func assessmentsInBackground(t *testing.T, gate *assessmentgate.Gate) <-chan result {
 	t.Helper()
-	outcomes := make(chan outcome, 1)
+	results := make(chan result, 1)
 	pageAddress := address(t)
 	go func() {
-		got, assessed := gate.AssessmentFrom(context.Background(), pageAddress, nil, nil, deadline)
-		outcomes <- outcome{got, assessed}
+		got, outcome := gate.AssessmentFrom(context.Background(), pageAddress, nil, nil, deadline)
+		results <- result{got, outcome}
 	}()
-	return outcomes
+	return results
 }
 
 func address(t *testing.T) canonicalurl.CanonicalURL {

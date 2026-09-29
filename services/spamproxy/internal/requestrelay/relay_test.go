@@ -1,4 +1,4 @@
-package pagerelay_test
+package requestrelay_test
 
 import (
 	"bytes"
@@ -15,8 +15,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pagerelay"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadlines"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
@@ -32,14 +32,11 @@ var (
 		ModelVersion: "2026-09",
 	}
 	errEgressDown = errors.New("egress proxy down")
-	testLimits    = pagerelay.Limits{
-		PageByteCeiling:        pageByteCeiling,
-		MaxPagesAssessedAtOnce: 4,
-		ReplyTimeouts: replydeadlines.Timeouts{
-			ResponseHeader:   time.Second,
-			AssessmentBudget: 500 * time.Millisecond,
-		},
-		RelayIdleTimeout: 500 * time.Millisecond,
+	testLimits    = requestrelay.Limits{
+		PageByteCeiling:       pageByteCeiling,
+		MaxPagesReadAtOnce:    4,
+		ResponseHeaderTimeout: time.Second,
+		RelayIdleTimeout:      500 * time.Millisecond,
 	}
 )
 
@@ -156,12 +153,8 @@ type assessedBody struct {
 type fakeAssessor struct {
 	mutex         sync.Mutex
 	assessedPages []assessedBody
-	assessed      bool
+	outcome       assessmentgate.Outcome
 	during        func()
-}
-
-func newFakeAssessor() *fakeAssessor {
-	return &fakeAssessor{assessed: true}
 }
 
 func (a *fakeAssessor) AssessmentFrom(
@@ -170,14 +163,14 @@ func (a *fakeAssessor) AssessmentFrom(
 	body []byte,
 	responseHeaders http.Header,
 	_ time.Time,
-) (spamassessment.Assessment, bool) {
+) (spamassessment.Assessment, assessmentgate.Outcome) {
 	a.mutex.Lock()
 	a.assessedPages = append(a.assessedPages, assessedBody{body: body, headers: responseHeaders})
 	a.mutex.Unlock()
 	if a.during != nil {
 		a.during()
 	}
-	return spamAssessment, a.assessed
+	return spamAssessment, a.outcome
 }
 
 type fakeReply struct {
@@ -194,11 +187,12 @@ func (r *fakeReply) SendHead(status int, headers http.Header) {
 func (r *fakeReply) CutShort() { r.wasCutShort = true }
 
 type observerRecord struct {
-	mutex    sync.Mutex
-	refusals []pagerelay.RefusalReason
-	nonPages []pagerelay.NonPageReason
-	failures []error
-	assessed []spamassessment.Assessment
+	mutex              sync.Mutex
+	refusals           []requestrelay.RefusalReason
+	skippedAssessments []requestrelay.SkipReason
+	readingFailures    []error
+	cutShortCauses     []error
+	assessed           []spamassessment.Assessment
 }
 
 func (r *observerRecord) PageAssessed(
@@ -212,30 +206,44 @@ func (r *observerRecord) PageAssessed(
 	r.assessed = append(r.assessed, assessment)
 }
 
-func (r *observerRecord) NonPageRelayed(
+func (r *observerRecord) AssessmentSkipped(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	reason pagerelay.NonPageReason,
+	reason requestrelay.SkipReason,
 ) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
-	r.nonPages = append(r.nonPages, reason)
+	r.skippedAssessments = append(r.skippedAssessments, reason)
 }
 
-func (r *observerRecord) AnswerRefused(
+func (r *observerRecord) RequestRefused(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	reason pagerelay.RefusalReason,
+	reason requestrelay.RefusalReason,
 ) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 	r.refusals = append(r.refusals, reason)
 }
 
-func (r *observerRecord) RelayFailed(_ context.Context, _ canonicalurl.CanonicalURL, cause error) {
+func (r *observerRecord) AnswerReadingFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	cause error,
+) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
-	r.failures = append(r.failures, cause)
+	r.readingFailures = append(r.readingFailures, cause)
+}
+
+func (r *observerRecord) ReplyCutShort(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	cause error,
+) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.cutShortCauses = append(r.cutShortCauses, cause)
 }
 
 type relayFixture struct {
@@ -243,21 +251,27 @@ type relayFixture struct {
 	assessor  *fakeAssessor
 	clock     *fakeClock
 	observers *observerRecord
-	limits    pagerelay.Limits
+	limits    requestrelay.Limits
 }
 
 func newRelayFixture() *relayFixture {
 	return &relayFixture{
 		egress:    &fakeEgress{answer: htmlAnswerWith(pageBody)},
-		assessor:  newFakeAssessor(),
+		assessor:  &fakeAssessor{},
 		clock:     newFakeClock(),
 		observers: &observerRecord{},
 		limits:    testLimits,
 	}
 }
 
-func (f *relayFixture) relay() *pagerelay.Relay {
-	return pagerelay.New(f.egress, f.assessor, pagerelay.Observers{f.observers}, f.limits, f.clock)
+func (f *relayFixture) relay() *requestrelay.Relay {
+	return requestrelay.New(
+		f.egress,
+		f.assessor,
+		requestrelay.Observers{f.observers},
+		f.limits,
+		f.clock,
+	)
 }
 
 func (f *relayFixture) replyTo(t *testing.T, method string, requestHeaders http.Header) *fakeReply {
@@ -267,7 +281,10 @@ func (f *relayFixture) replyTo(t *testing.T, method string, requestHeaders http.
 	return reply
 }
 
-func (f *relayFixture) replyInBackgroundTo(t *testing.T, relay *pagerelay.Relay) <-chan *fakeReply {
+func (f *relayFixture) replyInBackgroundTo(
+	t *testing.T,
+	relay *requestrelay.Relay,
+) <-chan *fakeReply {
 	t.Helper()
 	replies := make(chan *fakeReply, 1)
 	address := pageAddress(t)
@@ -332,17 +349,17 @@ func TestTheVerdictOfTheOriginIsReplaced(t *testing.T) {
 	}
 }
 
-func TestAnAnswerThatIsNotAPageIsRelayedWithoutAVerdict(t *testing.T) {
-	answers := map[pagerelay.NonPageReason]struct {
+func TestAnAnswerWhoseAssessmentIsSkippedIsRelayedWithoutAVerdict(t *testing.T) {
+	answers := map[requestrelay.SkipReason]struct {
 		method string
 		answer originAnswer
 	}{
-		pagerelay.NotHTML: {http.MethodGet, originAnswer{
+		requestrelay.NotHTML: {http.MethodGet, originAnswer{
 			status:  http.StatusOK,
 			headers: http.Header{"Content-Type": {"image/png"}, "Spam-Assessment": {"clean"}},
 			body:    func(context.Context) io.Reader { return strings.NewReader("png") },
 		}},
-		pagerelay.Not2xx: {
+		requestrelay.Not2xx: {
 			http.MethodGet,
 			originAnswer{
 				status: http.StatusFound,
@@ -353,25 +370,25 @@ func TestAnAnswerThatIsNotAPageIsRelayedWithoutAVerdict(t *testing.T) {
 				body: func(context.Context) io.Reader { return strings.NewReader("png") },
 			},
 		},
-		pagerelay.HeadRequest: {http.MethodHead, htmlAnswerWith("png")},
+		requestrelay.HeadRequest: {http.MethodHead, htmlAnswerWith("png")},
 	}
-	for reason, nonPage := range answers {
+	for reason, skippedAnswer := range answers {
 		t.Run(string(reason), func(t *testing.T) {
 			fixture := newRelayFixture()
-			fixture.egress.answer = nonPage.answer
+			fixture.egress.answer = skippedAnswer.answer
 
-			reply := fixture.replyTo(t, nonPage.method, http.Header{})
+			reply := fixture.replyTo(t, skippedAnswer.method, http.Header{})
 
-			if reply.status != nonPage.answer.status ||
+			if reply.status != skippedAnswer.answer.status ||
 				reply.headers.Get("Spam-Assessment") != "" ||
 				reply.String() != "png" ||
-				fixture.observers.nonPages[0] != reason {
+				fixture.observers.skippedAssessments[0] != reason {
 				t.Fatalf(
 					"reply %d %v %q, reasons %v",
 					reply.status,
 					reply.headers,
 					reply.String(),
-					fixture.observers.nonPages,
+					fixture.observers.skippedAssessments,
 				)
 			}
 		})
@@ -400,9 +417,9 @@ func TestAGzipPageIsAssessedDecodedAndRelayedAsTheOriginSentIt(t *testing.T) {
 }
 
 func TestAPageThatCannotBeDecodedGivesBadGateway(t *testing.T) {
-	for encoding, reason := range map[string]pagerelay.RefusalReason{
-		"br":   pagerelay.UndecodableEncoding,
-		"gzip": pagerelay.UndecodableBody,
+	for encoding, reason := range map[string]requestrelay.RefusalReason{
+		"br":   requestrelay.UndecodableEncoding,
+		"gzip": requestrelay.UndecodableBody,
 	} {
 		t.Run(encoding, func(t *testing.T) {
 			fixture := newRelayFixture()
@@ -469,8 +486,8 @@ func TestAFailedEgressGivesBadGateway(t *testing.T) {
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
 	if reply.status != http.StatusBadGateway ||
-		!errors.Is(fixture.observers.failures[0], errEgressDown) {
-		t.Fatalf("status %d, failures %v", reply.status, fixture.observers.failures)
+		!errors.Is(fixture.observers.readingFailures[0], errEgressDown) {
+		t.Fatalf("status %d, failures %v", reply.status, fixture.observers.readingFailures)
 	}
 }
 
@@ -494,7 +511,7 @@ func TestAPageWhoseBodyStallsGivesGatewayTimeoutWhenReadingEnds(t *testing.T) {
 	(<-fixture.clock.expirations)()
 
 	if reply := <-replies; reply.status != http.StatusGatewayTimeout ||
-		fixture.observers.refusals[0] != pagerelay.PageReadTimeout {
+		fixture.observers.refusals[0] != requestrelay.PageReadDeadline {
 		t.Fatalf("status %d, refusals %v", reply.status, fixture.observers.refusals)
 	}
 }
@@ -508,12 +525,12 @@ func TestAPageCutShortByTheEgressGivesBadGateway(t *testing.T) {
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
 	if reply.status != http.StatusBadGateway ||
-		!errors.Is(fixture.observers.failures[0], io.ErrUnexpectedEOF) {
-		t.Fatalf("status %d, failures %v", reply.status, fixture.observers.failures)
+		!errors.Is(fixture.observers.readingFailures[0], io.ErrUnexpectedEOF) {
+		t.Fatalf("status %d, failures %v", reply.status, fixture.observers.readingFailures)
 	}
 }
 
-func TestAnAnswerThatIsNotAPageCutShortEndsWhereTheEgressStopped(t *testing.T) {
+func TestAnAnswerWhoseAssessmentIsSkippedCutShortEndsWhereTheEgressStopped(t *testing.T) {
 	fixture := newRelayFixture()
 	fixture.egress.answer = originAnswer{
 		status:  http.StatusOK,
@@ -525,7 +542,8 @@ func TestAnAnswerThatIsNotAPageCutShortEndsWhereTheEgressStopped(t *testing.T) {
 
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusOK || reply.String() != "png" || !reply.wasCutShort {
+	if reply.status != http.StatusOK || reply.String() != "png" || !reply.wasCutShort ||
+		!errors.Is(fixture.observers.cutShortCauses[0], io.ErrUnexpectedEOF) {
 		t.Fatalf("reply %d %q, cut short %v", reply.status, reply.String(), reply.wasCutShort)
 	}
 }
@@ -548,52 +566,108 @@ func TestAPageWhoseRestStallsIsCutShortAfterTheIdleTimeout(t *testing.T) {
 	}
 }
 
-func TestAPagePastTheMaxPagesAssessedAtOnceGivesServiceUnavailable(t *testing.T) {
+func TestAPageWaitingForAReadingSlotIsRelayedOnceTheSlotFrees(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.limits.MaxPagesAssessedAtOnce = 1
+	fixture.limits.MaxPagesReadAtOnce = 1
 	started, released := make(chan struct{}), make(chan struct{})
-	fixture.assessor.during = func() {
-		close(started)
-		<-released
-	}
+	fixture.assessor.during = heldOnFirstAssessment(started, released)
 	relay := fixture.relay()
 	heldReplies := fixture.replyInBackgroundTo(t, relay)
 	<-started
+	waitingReplies := fixture.replyInBackgroundTo(t, relay)
+	<-fixture.clock.expirations
+	<-fixture.clock.expirations
 
-	passedReply := &fakeReply{}
-	relay.ReplyTo(t.Context(), http.MethodGet, pageAddress(t), http.Header{}, passedReply)
 	close(released)
 
-	if passedReply.status != http.StatusServiceUnavailable ||
-		passedReply.headers.Get("Retry-After") != "1" {
-		t.Fatalf("passed reply %d %v", passedReply.status, passedReply.headers)
+	if waitingReply := <-waitingReplies; waitingReply.status != http.StatusOK ||
+		waitingReply.headers.Get("Spam-Assessment") == "" {
+		t.Fatalf("waiting reply %d %v", waitingReply.status, waitingReply.headers)
 	}
 	if heldReply := <-heldReplies; heldReply.headers.Get("Spam-Assessment") == "" {
 		t.Fatalf("held reply %v", heldReply.headers)
 	}
 }
 
-func TestAnAnswerThatStartsAfterReadingEndsGivesGatewayTimeout(t *testing.T) {
+func TestAPageWithoutAReadingSlotWhenTheHeadersAreDueGivesServiceUnavailable(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer.before = func() { fixture.clock.passTo(600 * time.Millisecond) }
+	fixture.limits.MaxPagesReadAtOnce = 1
+	started, released := make(chan struct{}), make(chan struct{})
+	fixture.assessor.during = heldOnFirstAssessment(started, released)
+	relay := fixture.relay()
+	heldReplies := fixture.replyInBackgroundTo(t, relay)
+	<-started
+	waitingReplies := fixture.replyInBackgroundTo(t, relay)
+	<-fixture.clock.expirations
+
+	(<-fixture.clock.expirations)()
+	waitingReply := <-waitingReplies
+	close(released)
+
+	if waitingReply.status != http.StatusServiceUnavailable ||
+		waitingReply.headers.Get("Retry-After") != "1" {
+		t.Fatalf("waiting reply %d %v", waitingReply.status, waitingReply.headers)
+	}
+	if heldReply := <-heldReplies; heldReply.headers.Get("Spam-Assessment") == "" {
+		t.Fatalf("held reply %v", heldReply.headers)
+	}
+	if refusals := fixture.observers.refusals; len(refusals) != 1 ||
+		refusals[0] != requestrelay.SlotWaitDeadline {
+		t.Fatalf("refusals %v", refusals)
+	}
+}
+
+func heldOnFirstAssessment(started chan<- struct{}, released <-chan struct{}) func() {
+	var assessments atomic.Int32
+	return func() {
+		if assessments.Add(1) == 1 {
+			close(started)
+			<-released
+		}
+	}
+}
+
+func TestAnAnswerThatStartsAfterTheHeadersAreDueGivesGatewayTimeout(t *testing.T) {
+	fixture := newRelayFixture()
+	fixture.egress.answer.before = func() { fixture.clock.passTo(1100 * time.Millisecond) }
 
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
 	if reply.status != http.StatusGatewayTimeout ||
-		fixture.observers.refusals[0] != pagerelay.PageReadTimeout {
+		fixture.observers.refusals[0] != requestrelay.PageReadDeadline {
 		t.Fatalf("status %d, refusals %v", reply.status, fixture.observers.refusals)
 	}
 }
 
-func TestAPageLeftUnassessedGivesServiceUnavailable(t *testing.T) {
-	fixture := newRelayFixture()
-	fixture.assessor.assessed = false
+func TestAPageThatTheAssessorDidNotAssessIsRefused(t *testing.T) {
+	refusals := map[assessmentgate.Outcome]struct {
+		reason requestrelay.RefusalReason
+		status int
+	}{
+		assessmentgate.SlotWaitDeadline: {
+			requestrelay.SlotWaitDeadline,
+			http.StatusServiceUnavailable,
+		},
+		assessmentgate.AssessmentDeadline: {
+			requestrelay.AssessmentDeadline,
+			http.StatusGatewayTimeout,
+		},
+		assessmentgate.Panicked: {
+			requestrelay.UnassessedPage,
+			http.StatusServiceUnavailable,
+		},
+	}
+	for outcome, refusal := range refusals {
+		fixture := newRelayFixture()
+		fixture.assessor.outcome = outcome
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+		reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusServiceUnavailable || reply.headers.Get("Retry-After") != "1" ||
-		reply.headers.Get("Spam-Assessment") != "" {
-		t.Fatalf("reply %d %v", reply.status, reply.headers)
+		if reply.status != refusal.status || reply.headers.Get("Spam-Assessment") != "" ||
+			fixture.observers.refusals[0] != refusal.reason {
+			t.Errorf("outcome %v: reply %d %v, refusals %v",
+				outcome, reply.status, reply.headers, fixture.observers.refusals)
+		}
 	}
 }
 
@@ -603,12 +677,18 @@ func TestAPageAssessedPastTheResponseHeaderDeadlineGivesGatewayTimeout(t *testin
 
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusGatewayTimeout || reply.headers.Get("Spam-Assessment") != "" {
-		t.Fatalf("reply %d %v", reply.status, reply.headers)
+	if reply.status != http.StatusGatewayTimeout || reply.headers.Get("Spam-Assessment") != "" ||
+		fixture.observers.refusals[0] != requestrelay.AssessmentDeadline {
+		t.Fatalf(
+			"reply %d %v, refusals %v",
+			reply.status,
+			reply.headers,
+			fixture.observers.refusals,
+		)
 	}
 }
 
-func TestAWaitPreferenceTooShortForReadingGivesGatewayTimeoutWithoutAskingTheEgress(t *testing.T) {
+func TestAWaitPreferenceOfZeroGivesGatewayTimeoutWithoutAskingTheEgress(t *testing.T) {
 	fixture := newRelayFixture()
 
 	reply := fixture.replyTo(t, http.MethodGet, http.Header{"Prefer": {"wait=0"}})

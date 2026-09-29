@@ -1,6 +1,6 @@
-// Package pagerelay relays the answer of the egress proxy to the client, and
+// Package requestrelay relays the answer of the egress proxy to the client, and
 // adds a spam verdict to each page.
-package pagerelay
+package requestrelay
 
 import (
 	"context"
@@ -9,9 +9,10 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readtimer"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadlines"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadline"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
@@ -26,7 +27,7 @@ type Assessor interface {
 		body []byte,
 		responseHeaders http.Header,
 		deadline time.Time,
-	) (spamassessment.Assessment, bool)
+	) (spamassessment.Assessment, assessmentgate.Outcome)
 }
 
 type Clock interface {
@@ -41,29 +42,34 @@ type Reply interface {
 }
 
 type Limits struct {
-	PageByteCeiling        int
-	MaxPagesAssessedAtOnce int
-	ReplyTimeouts          replydeadlines.Timeouts
-	RelayIdleTimeout       time.Duration
+	PageByteCeiling       int
+	MaxPagesReadAtOnce    int
+	ResponseHeaderTimeout time.Duration
+	RelayIdleTimeout      time.Duration
 }
 
 type Relay struct {
-	egress          Egress
-	assessor        Assessor
-	observers       Observers
-	limits          Limits
-	clock           Clock
-	assessmentSlots assessmentSlots
+	egress       Egress
+	pageAssessor pageAssessor
+	observers    Observers
+	limits       Limits
+	clock        Clock
+	readingSlots readingSlots
 }
 
 func New(egress Egress, assessor Assessor, observers Observers, limits Limits, clock Clock) *Relay {
 	return &Relay{
-		egress:          egress,
-		assessor:        assessor,
-		observers:       observers,
-		limits:          limits,
-		clock:           clock,
-		assessmentSlots: make(assessmentSlots, limits.MaxPagesAssessedAtOnce),
+		egress: egress,
+		pageAssessor: pageAssessor{
+			assessor:        assessor,
+			observers:       observers,
+			clock:           clock,
+			pageByteCeiling: limits.PageByteCeiling,
+		},
+		observers:    observers,
+		limits:       limits,
+		clock:        clock,
+		readingSlots: make(readingSlots, limits.MaxPagesReadAtOnce),
 	}
 }
 
@@ -75,41 +81,56 @@ func (r *Relay) ReplyTo(
 	reply Reply,
 ) {
 	requestArrivedAt := r.clock.Now()
-	deadlines := replydeadlines.DeadlinesFrom(
+	headersDueAt := replydeadline.HeadersDueAtFrom(
 		requestArrivedAt,
 		requestHeaders.Values("Prefer"),
-		r.limits.ReplyTimeouts,
+		r.limits.ResponseHeaderTimeout,
 	)
 	readingCtx, cancelReading := context.WithCancel(ctx)
 	defer cancelReading()
-	pageExchange := r.exchangeFor(address, readtimer.New(r.clock, cancelReading), reply)
-	defer pageExchange.timer.Stop()
-	if !deadlines.ReadingEndsAt.After(requestArrivedAt) {
-		pageExchange.refuse(ctx, WaitTooShort)
+	timer := readtimer.New(r.clock, cancelReading)
+	defer timer.Stop()
+	replier := r.replierFor(address, timer, reply)
+	if !headersDueAt.After(requestArrivedAt) {
+		replier.refuse(ctx, WaitTooShort)
 		return
 	}
-	pageExchange.relayFromEgress(
+	r.relayerFor(address, headersDueAt, timer, replier).relayAnswerTo(
 		ctx,
 		egressRequestFor(readingCtx, method, address, requestHeaders),
-		deadlines,
 	)
 }
 
-func (r *Relay) exchangeFor(
+func (r *Relay) replierFor(
 	address canonicalurl.CanonicalURL,
 	timer *readtimer.Timer,
 	reply Reply,
-) exchange {
-	return exchange{
+) replier {
+	return replier{
+		reply:            reply,
+		observers:        r.observers,
+		address:          address,
+		timer:            timer,
+		relayIdleTimeout: r.limits.RelayIdleTimeout,
+	}
+}
+
+func (r *Relay) relayerFor(
+	address canonicalurl.CanonicalURL,
+	headersDueAt time.Time,
+	timer *readtimer.Timer,
+	replier replier,
+) relayer {
+	return relayer{
 		egress:          r.egress,
-		assessor:        r.assessor,
-		observers:       r.observers,
-		limits:          r.limits,
+		pageAssessor:    r.pageAssessor,
 		clock:           r.clock,
-		assessmentSlots: r.assessmentSlots,
+		readingSlots:    r.readingSlots,
+		pageByteCeiling: r.limits.PageByteCeiling,
 		address:         address,
+		headersDueAt:    headersDueAt,
 		timer:           timer,
-		reply:           reply,
+		replier:         replier,
 	}
 }
 

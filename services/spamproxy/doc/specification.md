@@ -45,14 +45,13 @@ exists so that each consumer can apply its own spam policy without scoring pages
 * The service SHALL assess a `gzip` or `deflate` page on its decoded body.
 * The service SHALL answer `502` for a page in another encoding, such as `br`, or with a body
   that does not decode.
-* The service SHALL answer `503` with `Retry-After` when it already assesses the maximum
-  number of pages at once, or when the assessment of a page fails.
+* The service SHALL answer `503` with `Retry-After` when a page waits for the page limit or
+  for a free assessment until the response header timeout ends, or when the assessment of a
+  page fails.
 * The service SHALL answer `502` when the egress proxy fails, or stops before the service has
   read the part of a page that it assesses.
-* The service SHALL answer `504` when it cannot send the response headers within the response
-  header timeout after the request arrives.
-* The service SHALL answer `504` when the origin answer, or the part of a page that it
-  assesses, arrives later than the response header timeout minus the assessment budget.
+* The service SHALL answer `504` when the origin answer, the part of a page that it assesses,
+  or the assessment does not end within the response header timeout after the request arrives.
 * The service SHALL use the `wait` of a `Prefer` header as the response header timeout when
   the `wait` is shorter.
 * The service SHALL fail startup when the recipe version of the model file is not the recipe

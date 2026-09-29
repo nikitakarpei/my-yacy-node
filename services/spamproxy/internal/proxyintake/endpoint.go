@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pagerelay"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 )
 
 type Relay interface {
@@ -17,7 +17,7 @@ type Relay interface {
 		method string,
 		address canonicalurl.CanonicalURL,
 		requestHeaders http.Header,
-		reply pagerelay.Reply,
+		reply requestrelay.Reply,
 	)
 }
 

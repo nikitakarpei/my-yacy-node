@@ -7,7 +7,6 @@ import (
 	"time"
 
 	spamproxy "github.com/nikitakarpei/yacy-rwi-node/spamproxy/cmd/spamproxy"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadlines"
 )
 
 var requiredEnvironment = map[string]string{
@@ -33,18 +32,15 @@ func TestUnsetSettingsTakeTheirDefaults(t *testing.T) {
 	}
 
 	want := spamproxy.ServiceConfig{
-		ListenAddr:             ":8080",
-		EgressProxyURL:         &url.URL{Scheme: "http", Host: "squid:3128"},
-		EgressProxyDialMode:    spamproxy.DialModeTunnel,
-		ModelPath:              "/model/spam-model.safetensors",
-		PageByteCeiling:        1048576,
-		MaxPagesAssessedAtOnce: 64,
-		ReplyTimeouts: replydeadlines.Timeouts{
-			ResponseHeader:   10 * time.Second,
-			AssessmentBudget: time.Second,
-		},
-		RelayIdleTimeout: 30 * time.Second,
-		OpsAddr:          ":9090",
+		ListenAddr:            ":8080",
+		EgressProxyURL:        &url.URL{Scheme: "http", Host: "squid:3128"},
+		EgressProxyDialMode:   spamproxy.DialModeTunnel,
+		ModelPath:             "/model/spam-model.safetensors",
+		PageByteCeiling:       1048576,
+		MaxPagesReadAtOnce:    64,
+		ResponseHeaderTimeout: 10 * time.Second,
+		RelayIdleTimeout:      30 * time.Second,
+		OpsAddr:               ":9090",
 	}
 	if !reflect.DeepEqual(cfg, want) {
 		t.Fatalf("config = %+v, want %+v", cfg, want)
@@ -53,19 +49,18 @@ func TestUnsetSettingsTakeTheirDefaults(t *testing.T) {
 
 func TestSetSettingsReplaceTheirDefaults(t *testing.T) {
 	cfg, err := spamproxy.LoadServiceConfig(getenvFrom(map[string]string{
-		spamproxy.EnvEgressProxyDialMode:    "absolute-url",
-		spamproxy.EnvMaxPagesAssessedAtOnce: "2",
-		spamproxy.EnvResponseHeaderTimeout:  "1m",
-		spamproxy.EnvAssessmentBudget:       "2s",
-		spamproxy.EnvRelayIdleTimeout:       "1500ms",
+		spamproxy.EnvEgressProxyDialMode:   "absolute-url",
+		spamproxy.EnvMaxPagesReadAtOnce:    "2",
+		spamproxy.EnvResponseHeaderTimeout: "1m",
+		spamproxy.EnvRelayIdleTimeout:      "1500ms",
 	}, requiredEnvironment))
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	if cfg.EgressProxyDialMode != spamproxy.DialModeAbsoluteURL ||
-		cfg.MaxPagesAssessedAtOnce != 2 ||
-		cfg.ReplyTimeouts != (replydeadlines.Timeouts{ResponseHeader: time.Minute, AssessmentBudget: 2 * time.Second}) ||
+		cfg.MaxPagesReadAtOnce != 2 ||
+		cfg.ResponseHeaderTimeout != time.Minute ||
 		cfg.RelayIdleTimeout != 1500*time.Millisecond {
 		t.Fatalf("config = %+v", cfg)
 	}
@@ -83,11 +78,11 @@ func TestAMissingRequiredSettingIsRefused(t *testing.T) {
 
 func TestAMalformedSettingIsRefused(t *testing.T) {
 	malformedSettings := map[string]string{
-		spamproxy.EnvPageByteCeiling:        "0",
-		spamproxy.EnvMaxPagesAssessedAtOnce: "many",
-		spamproxy.EnvRelayIdleTimeout:       "30",
-		spamproxy.EnvAssessmentBudget:       "soon",
-		spamproxy.EnvEgressProxyDialMode:    "socks",
+		spamproxy.EnvPageByteCeiling:       "0",
+		spamproxy.EnvMaxPagesReadAtOnce:    "many",
+		spamproxy.EnvRelayIdleTimeout:      "30",
+		spamproxy.EnvResponseHeaderTimeout: "soon",
+		spamproxy.EnvEgressProxyDialMode:   "socks",
 	}
 	for name, value := range malformedSettings {
 		if _, err := spamproxy.LoadServiceConfig(
@@ -95,15 +90,5 @@ func TestAMalformedSettingIsRefused(t *testing.T) {
 		); err == nil {
 			t.Errorf("%s=%s: config loaded", name, value)
 		}
-	}
-}
-
-func TestAnAssessmentBudgetOfTheWholeResponseHeaderTimeoutIsRefused(t *testing.T) {
-	_, err := spamproxy.LoadServiceConfig(
-		getenvFrom(map[string]string{spamproxy.EnvAssessmentBudget: "10s"}, requiredEnvironment),
-	)
-
-	if err == nil {
-		t.Fatal("config loaded")
 	}
 }

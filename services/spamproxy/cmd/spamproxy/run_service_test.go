@@ -20,7 +20,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/safetensorsmodel"
 	spamproxy "github.com/nikitakarpei/yacy-rwi-node/spamproxy/cmd/spamproxy"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadlines"
 )
 
 const pageBody = "<html><title>Cheap pills</title><p>Buy cheap pills now</p></html>"
@@ -91,18 +90,15 @@ func serviceConfigFor(t *testing.T, egressURL string, modelFile []byte) spamprox
 		t.Fatal(err)
 	}
 	return spamproxy.ServiceConfig{
-		ListenAddr:             reservedAddress(t),
-		EgressProxyURL:         egressProxyURL,
-		EgressProxyDialMode:    spamproxy.DialModeTunnel,
-		ModelPath:              modelPath,
-		PageByteCeiling:        1000,
-		MaxPagesAssessedAtOnce: 4,
-		ReplyTimeouts: replydeadlines.Timeouts{
-			ResponseHeader:   5 * time.Second,
-			AssessmentBudget: time.Second,
-		},
-		RelayIdleTimeout: 5 * time.Second,
-		OpsAddr:          reservedAddress(t),
+		ListenAddr:            reservedAddress(t),
+		EgressProxyURL:        egressProxyURL,
+		EgressProxyDialMode:   spamproxy.DialModeTunnel,
+		ModelPath:             modelPath,
+		PageByteCeiling:       1000,
+		MaxPagesReadAtOnce:    4,
+		ResponseHeaderTimeout: 5 * time.Second,
+		RelayIdleTimeout:      5 * time.Second,
+		OpsAddr:               reservedAddress(t),
 	}
 }
 

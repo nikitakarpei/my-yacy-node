@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pagerelay"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/proxyintake"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 )
 
 type scriptedRelay struct {
@@ -25,7 +25,7 @@ func (r *scriptedRelay) ReplyTo(
 	_ string,
 	address canonicalurl.CanonicalURL,
 	_ http.Header,
-	reply pagerelay.Reply,
+	reply requestrelay.Reply,
 ) {
 	r.addresses = append(r.addresses, address)
 	reply.SendHead(http.StatusOK, http.Header{"Content-Length": {"10"}})

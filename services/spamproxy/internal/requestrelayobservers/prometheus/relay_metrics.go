@@ -8,7 +8,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pagerelay"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/spamassessment"
 )
 
@@ -18,12 +18,13 @@ var (
 )
 
 type RelayMetrics struct {
-	verdicts          *prometheusclient.CounterVec
-	scores            prometheusclient.Histogram
-	assessmentSeconds prometheusclient.Histogram
-	nonPages          *prometheusclient.CounterVec
-	refusals          *prometheusclient.CounterVec
-	relayFailures     prometheusclient.Counter
+	verdicts              *prometheusclient.CounterVec
+	scores                prometheusclient.Histogram
+	assessmentSeconds     prometheusclient.Histogram
+	skippedAssessments    *prometheusclient.CounterVec
+	refusals              *prometheusclient.CounterVec
+	answerReadingFailures prometheusclient.Counter
+	cutShortReplies       prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *RelayMetrics {
@@ -42,26 +43,31 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 			Help:    "Time to assess one page.",
 			Buckets: assessmentSecondsBuckets,
 		}),
-		nonPages: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "spamproxy_non_pages_total",
-			Help: "Answers relayed without a verdict because they are not pages.",
+		skippedAssessments: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+			Name: "spamproxy_skipped_assessments_total",
+			Help: "Answers relayed without an assessment.",
 		}, []string{"reason"}),
 		refusals: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "spamproxy_refusals_total",
 			Help: "Answers refused with an error status.",
 		}, []string{"reason"}),
-		relayFailures: prometheusclient.NewCounter(prometheusclient.CounterOpts{
-			Name: "spamproxy_relay_failures_total",
-			Help: "Relays that failed.",
+		answerReadingFailures: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "spamproxy_answer_reading_failures_total",
+			Help: "Answers of the egress proxy that failed before the response headers.",
+		}),
+		cutShortReplies: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "spamproxy_cut_short_replies_total",
+			Help: "Replies that ended before the whole body.",
 		}),
 	}
 	registry.MustRegister(
 		metrics.verdicts,
 		metrics.scores,
 		metrics.assessmentSeconds,
-		metrics.nonPages,
+		metrics.skippedAssessments,
 		metrics.refusals,
-		metrics.relayFailures,
+		metrics.answerReadingFailures,
+		metrics.cutShortReplies,
 	)
 	return metrics
 }
@@ -77,22 +83,26 @@ func (m *RelayMetrics) PageAssessed(
 	m.assessmentSeconds.Observe(assessmentDuration.Seconds())
 }
 
-func (m *RelayMetrics) NonPageRelayed(
+func (m *RelayMetrics) AssessmentSkipped(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	reason pagerelay.NonPageReason,
+	reason requestrelay.SkipReason,
 ) {
-	m.nonPages.WithLabelValues(string(reason)).Inc()
+	m.skippedAssessments.WithLabelValues(string(reason)).Inc()
 }
 
-func (m *RelayMetrics) AnswerRefused(
+func (m *RelayMetrics) RequestRefused(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	reason pagerelay.RefusalReason,
+	reason requestrelay.RefusalReason,
 ) {
 	m.refusals.WithLabelValues(string(reason)).Inc()
 }
 
-func (m *RelayMetrics) RelayFailed(context.Context, canonicalurl.CanonicalURL, error) {
-	m.relayFailures.Inc()
+func (m *RelayMetrics) AnswerReadingFailed(context.Context, canonicalurl.CanonicalURL, error) {
+	m.answerReadingFailures.Inc()
+}
+
+func (m *RelayMetrics) ReplyCutShort(context.Context, canonicalurl.CanonicalURL, error) {
+	m.cutShortReplies.Inc()
 }
