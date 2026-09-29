@@ -13,9 +13,8 @@ import (
 )
 
 var (
-	scoreBuckets               = prometheusclient.LinearBuckets(0.1, 0.1, 10)
-	headersDelaySecondsBuckets = []float64{0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10}
-	slotWaitSecondsBuckets     = []float64{
+	scoreBuckets           = prometheusclient.LinearBuckets(0.1, 0.1, 10)
+	slotWaitSecondsBuckets = []float64{
 		0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10,
 	}
 )
@@ -29,7 +28,6 @@ type RelayMetrics struct {
 	answerReadingFailures  prometheusclient.Counter
 	cutShortReplies        prometheusclient.Counter
 	departedClients        prometheusclient.Counter
-	headersDelaySeconds    *prometheusclient.HistogramVec
 }
 
 func New(registry prometheusclient.Registerer) *RelayMetrics {
@@ -68,11 +66,6 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 			Name: "spamproxy_departed_clients_total",
 			Help: "Clients that left before the reply ended.",
 		}),
-		headersDelaySeconds: prometheusclient.NewHistogramVec(prometheusclient.HistogramOpts{
-			Name:    "spamproxy_response_header_duration_seconds",
-			Help:    "Time from a request until the proxy sends the response headers.",
-			Buckets: headersDelaySecondsBuckets,
-		}, []string{"reply"}),
 	}
 	registry.MustRegister(
 		metrics.verdicts,
@@ -83,7 +76,6 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 		metrics.answerReadingFailures,
 		metrics.cutShortReplies,
 		metrics.departedClients,
-		metrics.headersDelaySeconds,
 	)
 	return metrics
 }
@@ -131,13 +123,4 @@ func (m *RelayMetrics) ReplyCutShort(context.Context, canonicalurl.CanonicalURL,
 
 func (m *RelayMetrics) ClientLeft(context.Context, canonicalurl.CanonicalURL) {
 	m.departedClients.Inc()
-}
-
-func (m *RelayMetrics) HeadersSent(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	replyKind requestrelay.ReplyKind,
-	headersDelay time.Duration,
-) {
-	m.headersDelaySeconds.WithLabelValues(string(replyKind)).Observe(headersDelay.Seconds())
 }

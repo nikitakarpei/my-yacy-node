@@ -32,7 +32,6 @@ func TestVerdictsSkippedAssessmentsRefusalsAndFailuresAreCounted(t *testing.T) {
 	metrics.AnswerReadingFailed(t.Context(), address, errors.New("egress proxy down"))
 	metrics.ReplyCutShort(t.Context(), address, errors.New("egress stopped"))
 	metrics.ClientLeft(t.Context(), address)
-	metrics.HeadersSent(t.Context(), address, requestrelay.AssessedReply, 0)
 	metrics.ReadingSlotWaited(t.Context(), address, 0)
 
 	want := `
@@ -66,8 +65,7 @@ spamproxy_verdicts_total{verdict="spam"} 1
 		registry,
 		"spamproxy_scores",
 		"spamproxy_reading_slot_wait_duration_seconds",
-		"spamproxy_response_header_duration_seconds",
-	); series != 3 {
-		t.Fatalf("histograms %d, want 3", series)
+	); series != 2 {
+		t.Fatalf("histograms %d, want 2", series)
 	}
 }

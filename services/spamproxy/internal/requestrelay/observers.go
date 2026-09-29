@@ -24,12 +24,6 @@ type Observer interface {
 	AnswerReadingFailed(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
 	ReplyCutShort(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
 	ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL)
-	HeadersSent(
-		ctx context.Context,
-		address canonicalurl.CanonicalURL,
-		replyKind ReplyKind,
-		headersDelay time.Duration,
-	)
 }
 
 type Observers []Observer
@@ -97,16 +91,5 @@ func (observers Observers) ReplyCutShort(
 func (observers Observers) ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL) {
 	for _, observer := range observers {
 		observer.ClientLeft(ctx, address)
-	}
-}
-
-func (observers Observers) HeadersSent(
-	ctx context.Context,
-	address canonicalurl.CanonicalURL,
-	replyKind ReplyKind,
-	headersDelay time.Duration,
-) {
-	for _, observer := range observers {
-		observer.HeadersSent(ctx, address, replyKind, headersDelay)
 	}
 }

@@ -96,7 +96,7 @@ func (r *Relayer) ReplyTo(
 	defer cancelReading()
 	canceller := readingcancel.New(r.clock, cancelReading)
 	defer canceller.Stop()
-	replier := r.replierFor(address, requestArrivedAt, canceller, replyWriter)
+	replier := r.replierFor(address, canceller, replyWriter)
 	if !headersDueAt.After(requestArrivedAt) {
 		replier.refuse(ctx, WaitTooShort)
 		return
@@ -115,16 +115,13 @@ func (r *Relayer) ReplyTo(
 
 func (r *Relayer) replierFor(
 	address canonicalurl.CanonicalURL,
-	requestArrivedAt time.Time,
 	canceller *readingcancel.Canceller,
 	replyWriter ReplyWriter,
 ) replier {
 	return replier{
 		replyWriter:      replyWriter,
 		observers:        r.observers,
-		clock:            r.clock,
 		address:          address,
-		requestArrivedAt: requestArrivedAt,
 		canceller:        canceller,
 		relayIdleTimeout: r.limits.RelayIdleTimeout,
 	}

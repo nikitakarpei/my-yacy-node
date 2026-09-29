@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"slices"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -195,7 +194,6 @@ type observerRecord struct {
 	readingFailures    []error
 	cutShortCauses     []error
 	departedClients    int
-	sentHeaders        []sentHeaders
 	assessed           []spamassessment.Assessment
 	readingSlotWaits   []time.Duration
 }
@@ -264,22 +262,6 @@ func (r *observerRecord) ClientLeft(context.Context, canonicalurl.CanonicalURL) 
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 	r.departedClients++
-}
-
-type sentHeaders struct {
-	replyKind    requestrelay.ReplyKind
-	headersDelay time.Duration
-}
-
-func (r *observerRecord) HeadersSent(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	replyKind requestrelay.ReplyKind,
-	headersDelay time.Duration,
-) {
-	r.mutex.Lock()
-	defer r.mutex.Unlock()
-	r.sentHeaders = append(r.sentHeaders, sentHeaders{replyKind, headersDelay})
 }
 
 type relayFixture struct {
@@ -617,18 +599,6 @@ func TestAClientThatLeavesDuringTheBodyIsReportedAsLeft(t *testing.T) {
 		len(fixture.observers.cutShortCauses) != 0 {
 		t.Fatalf("cut short %v, departed %d, cut short causes %v", reply.wasCutShort,
 			fixture.observers.departedClients, fixture.observers.cutShortCauses)
-	}
-}
-
-func TestTheTimeUntilTheHeadersIsReportedWithTheKindOfReply(t *testing.T) {
-	fixture := newRelayFixture()
-	fixture.egress.answer.before = func() { fixture.clock.passTo(300 * time.Millisecond) }
-
-	fixture.replyTo(t, http.MethodGet, http.Header{})
-
-	want := []sentHeaders{{requestrelay.AssessedReply, 300 * time.Millisecond}}
-	if !slices.Equal(fixture.observers.sentHeaders, want) {
-		t.Fatalf("sent headers %v, want %v", fixture.observers.sentHeaders, want)
 	}
 }
 
