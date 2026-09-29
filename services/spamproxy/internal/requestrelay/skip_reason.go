@@ -15,15 +15,16 @@ const (
 
 var htmlMediaTypes = map[string]bool{"text/html": true, "application/xhtml+xml": true}
 
-func skipReasonOf(method string, answer *http.Response) (SkipReason, bool) {
+func skipReasonOf(method string, upstreamResponse *http.Response) (SkipReason, bool) {
 	if method == http.MethodHead {
 		return HeadRequest, true
 	}
-	if answer.StatusCode < http.StatusOK || answer.StatusCode >= http.StatusMultipleChoices {
+	if upstreamResponse.StatusCode < http.StatusOK ||
+		upstreamResponse.StatusCode >= http.StatusMultipleChoices {
 		return Not2xx, true
 	}
 	if mediaType, _, _ := mime.ParseMediaType(
-		answer.Header.Get("Content-Type"),
+		upstreamResponse.Header.Get("Content-Type"),
 	); !htmlMediaTypes[mediaType] {
 		return NotHTML, true
 	}

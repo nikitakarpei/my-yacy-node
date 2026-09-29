@@ -9,6 +9,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"net/http/httptrace"
 	"net/url"
 )
 
@@ -33,6 +34,7 @@ func (t *Transport) RoundTrip(request *http.Request) (*http.Response, error) {
 	if err != nil {
 		return nil, fmt.Errorf("dial egress proxy: %w", err)
 	}
+	announceConnection(request.Context(), connection)
 	stopClosing := context.AfterFunc(request.Context(), func() { _ = connection.Close() })
 	response, err := responseOver(connection, request)
 	if err != nil {
@@ -48,17 +50,31 @@ func (t *Transport) RoundTrip(request *http.Request) (*http.Response, error) {
 	return response, nil
 }
 
+func announceConnection(ctx context.Context, connection net.Conn) {
+	if trace := httptrace.ContextClientTrace(ctx); trace != nil && trace.GotConn != nil {
+		trace.GotConn(httptrace.GotConnInfo{Conn: connection})
+	}
+}
+
 func responseOver(connection net.Conn, request *http.Request) (*http.Response, error) {
 	closingRequest := request.Clone(request.Context())
 	closingRequest.Close = true
-	if err := closingRequest.WriteProxy(connection); err != nil {
+	err := closingRequest.WriteProxy(connection)
+	announceWrittenRequest(request.Context(), err)
+	if err != nil {
 		return nil, fmt.Errorf("write request to egress proxy: %w", err)
 	}
 	response, err := http.ReadResponse(bufio.NewReader(connection), closingRequest)
 	if err != nil {
-		return nil, fmt.Errorf("read answer of egress proxy: %w", err)
+		return nil, fmt.Errorf("read response headers of egress proxy: %w", err)
 	}
 	return response, nil
+}
+
+func announceWrittenRequest(ctx context.Context, writeFailure error) {
+	if trace := httptrace.ContextClientTrace(ctx); trace != nil && trace.WroteRequest != nil {
+		trace.WroteRequest(httptrace.WroteRequestInfo{Err: writeFailure})
+	}
 }
 
 type connectionBody struct {

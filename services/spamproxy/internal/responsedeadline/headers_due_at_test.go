@@ -1,10 +1,10 @@
-package replydeadline_test
+package responsedeadline_test
 
 import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadline"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/responsedeadline"
 )
 
 const responseHeaderTimeout = 10 * time.Second
@@ -12,7 +12,7 @@ const responseHeaderTimeout = 10 * time.Second
 var requestArrivedAt = time.Date(2026, 9, 29, 12, 0, 0, 0, time.UTC)
 
 func TestTheHeadersAreDueOneResponseHeaderTimeoutAfterTheRequest(t *testing.T) {
-	headersDueAt := replydeadline.HeadersDueAtFrom(requestArrivedAt, nil, responseHeaderTimeout)
+	headersDueAt := responsedeadline.HeadersDueAtFrom(requestArrivedAt, nil, responseHeaderTimeout)
 
 	if want := requestArrivedAt.Add(10 * time.Second); !headersDueAt.Equal(want) {
 		t.Fatalf("headers due at %v, want %v", headersDueAt, want)
@@ -20,7 +20,7 @@ func TestTheHeadersAreDueOneResponseHeaderTimeoutAfterTheRequest(t *testing.T) {
 }
 
 func TestAShorterPreferredWaitBringsTheHeadersForward(t *testing.T) {
-	headersDueAt := replydeadline.HeadersDueAtFrom(
+	headersDueAt := responsedeadline.HeadersDueAtFrom(
 		requestArrivedAt,
 		[]string{"respond-async", "Wait=4, handling=lenient"},
 		responseHeaderTimeout,
@@ -32,7 +32,7 @@ func TestAShorterPreferredWaitBringsTheHeadersForward(t *testing.T) {
 }
 
 func TestALongerPreferredWaitKeepsTheResponseHeaderTimeout(t *testing.T) {
-	headersDueAt := replydeadline.HeadersDueAtFrom(
+	headersDueAt := responsedeadline.HeadersDueAtFrom(
 		requestArrivedAt,
 		[]string{"wait=60"},
 		responseHeaderTimeout,
@@ -44,7 +44,7 @@ func TestALongerPreferredWaitKeepsTheResponseHeaderTimeout(t *testing.T) {
 }
 
 func TestAWaitTooLargeToReadIsIgnored(t *testing.T) {
-	headersDueAt := replydeadline.HeadersDueAtFrom(
+	headersDueAt := responsedeadline.HeadersDueAtFrom(
 		requestArrivedAt,
 		[]string{"wait=99999999999"},
 		responseHeaderTimeout,

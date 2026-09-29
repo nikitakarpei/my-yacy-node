@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"slices"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -73,15 +74,15 @@ func (c *fakeClock) passTo(elapsed time.Duration) {
 	c.now = requestArrivedAt.Add(elapsed)
 }
 
-type originAnswer struct {
+type upstreamResponse struct {
 	status  int
 	headers http.Header
 	body    func(ctx context.Context) io.Reader
 	before  func()
 }
 
-func htmlAnswerWith(body string) originAnswer {
-	return originAnswer{
+func htmlUpstreamResponseWith(body string) upstreamResponse {
+	return upstreamResponse{
 		status:  http.StatusOK,
 		headers: http.Header{"Content-Type": {"text/html; charset=utf-8"}},
 		body:    func(context.Context) io.Reader { return strings.NewReader(body) },
@@ -89,10 +90,10 @@ func htmlAnswerWith(body string) originAnswer {
 }
 
 type fakeEgress struct {
-	mutex    sync.Mutex
-	answer   originAnswer
-	requests []*http.Request
-	failure  error
+	mutex            sync.Mutex
+	upstreamResponse upstreamResponse
+	requests         []*http.Request
+	failure          error
 }
 
 func (e *fakeEgress) RoundTrip(request *http.Request) (*http.Response, error) {
@@ -102,17 +103,17 @@ func (e *fakeEgress) RoundTrip(request *http.Request) (*http.Response, error) {
 	if e.failure != nil {
 		return nil, e.failure
 	}
-	if e.answer.before != nil {
-		e.answer.before()
+	if e.upstreamResponse.before != nil {
+		e.upstreamResponse.before()
 	}
-	if e.answer.body == nil {
+	if e.upstreamResponse.body == nil {
 		<-request.Context().Done()
 		return nil, fmt.Errorf("silent egress: %w", request.Context().Err())
 	}
 	return &http.Response{
-		StatusCode: e.answer.status,
-		Header:     e.answer.headers,
-		Body:       io.NopCloser(e.answer.body(request.Context())),
+		StatusCode: e.upstreamResponse.status,
+		Header:     e.upstreamResponse.headers,
+		Body:       io.NopCloser(e.upstreamResponse.body(request.Context())),
 	}, nil
 }
 
@@ -174,26 +175,34 @@ func (a *fakeAssessor) Assess(
 	return spamAssessment, a.outcome
 }
 
-type fakeReply struct {
+type recordedResponse struct {
 	status  int
 	headers http.Header
 	bytes.Buffer
-	wasCutShort bool
+	writeFailure error
+	wasAborted   bool
 }
 
-func (r *fakeReply) SendHead(status int, headers http.Header) {
+func (r *recordedResponse) SendHeaders(status int, headers http.Header) {
 	r.status, r.headers = status, headers
 }
 
-func (r *fakeReply) CutShort() { r.wasCutShort = true }
+func (r *recordedResponse) Write(chunk []byte) (int, error) {
+	if r.writeFailure != nil {
+		return 0, r.writeFailure
+	}
+	return r.Buffer.Write(chunk) //nolint:wrapcheck // the buffer never fails
+}
+
+func (r *recordedResponse) Abort() { r.wasAborted = true }
 
 type observerRecord struct {
 	mutex              sync.Mutex
 	refusals           []requestrelay.RefusalReason
 	skippedAssessments []requestrelay.SkipReason
-	readingFailures    []error
-	cutShortCauses     []error
-	departedClients    int
+	upstreamFailures   []upstreamFailure
+	incompleteCauses   []requestrelay.IncompleteResponseCause
+	closedRequests     int
 	assessed           []spamassessment.Assessment
 	readingSlotWaits   []time.Duration
 }
@@ -238,30 +247,37 @@ func (r *observerRecord) RequestRefused(
 	r.refusals = append(r.refusals, reason)
 }
 
-func (r *observerRecord) AnswerReadingFailed(
+type upstreamFailure struct {
+	failure requestrelay.UpstreamResponseFailure
+	cause   error
+}
+
+func (r *observerRecord) UpstreamResponseFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
+	failure requestrelay.UpstreamResponseFailure,
 	cause error,
 ) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
-	r.readingFailures = append(r.readingFailures, cause)
+	r.upstreamFailures = append(r.upstreamFailures, upstreamFailure{failure, cause})
 }
 
-func (r *observerRecord) ReplyCutShort(
+func (r *observerRecord) ResponseLeftIncomplete(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	cause error,
+	incompleteResponseCause requestrelay.IncompleteResponseCause,
+	_ error,
 ) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
-	r.cutShortCauses = append(r.cutShortCauses, cause)
+	r.incompleteCauses = append(r.incompleteCauses, incompleteResponseCause)
 }
 
-func (r *observerRecord) ClientLeft(context.Context, canonicalurl.CanonicalURL) {
+func (r *observerRecord) ClientClosedRequest(context.Context, canonicalurl.CanonicalURL) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
-	r.departedClients++
+	r.closedRequests++
 }
 
 type relayFixture struct {
@@ -274,7 +290,7 @@ type relayFixture struct {
 
 func newRelayFixture() *relayFixture {
 	return &relayFixture{
-		egress:    &fakeEgress{answer: htmlAnswerWith(pageBody)},
+		egress:    &fakeEgress{upstreamResponse: htmlUpstreamResponseWith(pageBody)},
 		assessor:  &fakeAssessor{},
 		clock:     newFakeClock(),
 		observers: &observerRecord{},
@@ -292,26 +308,30 @@ func (f *relayFixture) relay() *requestrelay.Relayer {
 	)
 }
 
-func (f *relayFixture) replyTo(t *testing.T, method string, requestHeaders http.Header) *fakeReply {
+func (f *relayFixture) respondTo(
+	t *testing.T,
+	method string,
+	requestHeaders http.Header,
+) *recordedResponse {
 	t.Helper()
-	reply := &fakeReply{}
-	f.relay().ReplyTo(t.Context(), method, pageAddress(t), requestHeaders, reply)
-	return reply
+	response := &recordedResponse{}
+	f.relay().RespondTo(t.Context(), method, pageAddress(t), requestHeaders, response)
+	return response
 }
 
-func (f *relayFixture) replyInBackgroundTo(
+func (f *relayFixture) respondInBackgroundTo(
 	t *testing.T,
 	relay *requestrelay.Relayer,
-) <-chan *fakeReply {
+) <-chan *recordedResponse {
 	t.Helper()
-	replies := make(chan *fakeReply, 1)
+	responses := make(chan *recordedResponse, 1)
 	address := pageAddress(t)
 	go func() {
-		reply := &fakeReply{}
-		relay.ReplyTo(context.Background(), http.MethodGet, address, http.Header{}, reply)
-		replies <- reply
+		response := &recordedResponse{}
+		relay.RespondTo(context.Background(), http.MethodGet, address, http.Header{}, response)
+		responses <- response
 	}()
-	return replies
+	return responses
 }
 
 func pageAddress(t *testing.T) canonicalurl.CanonicalURL {
@@ -326,12 +346,16 @@ func pageAddress(t *testing.T) canonicalurl.CanonicalURL {
 func TestAnHTMLPageCarriesTheVerdictAndItsBody(t *testing.T) {
 	fixture := newRelayFixture()
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusOK ||
-		reply.headers.Get("Spam-Assessment") != spamassessmenthttpheader.ValueOf(spamAssessment) ||
-		reply.String() != pageBody {
-		t.Fatalf("reply %d %v %q", reply.status, reply.headers, reply.String())
+	if response.status != http.StatusOK ||
+		response.headers.Get(
+			"Spam-Assessment",
+		) != spamassessmenthttpheader.ValueOf(
+			spamAssessment,
+		) ||
+		response.String() != pageBody {
+		t.Fatalf("response %d %v %q", response.status, response.headers, response.String())
 	}
 	if string(fixture.assessor.assessedPages[0].body) != pageBody {
 		t.Fatalf("assessed body %q", fixture.assessor.assessedPages[0].body)
@@ -341,7 +365,7 @@ func TestAnHTMLPageCarriesTheVerdictAndItsBody(t *testing.T) {
 func TestTheEgressIsAskedForTheAddressWithTheForwardedHeaders(t *testing.T) {
 	fixture := newRelayFixture()
 
-	fixture.replyTo(
+	fixture.respondTo(
 		t,
 		http.MethodGet,
 		http.Header{"User-Agent": {"crawler"}, "Cookie": {"session=1"}},
@@ -351,35 +375,35 @@ func TestTheEgressIsAskedForTheAddressWithTheForwardedHeaders(t *testing.T) {
 	if request.URL.String() != "http://site.example/page" ||
 		request.Header.Get("User-Agent") != "crawler" ||
 		request.Header.Get("Cookie") != "" {
-		t.Fatalf("egress request %s %v", request.URL, request.Header)
+		t.Fatalf("upstream request %s %v", request.URL, request.Header)
 	}
 }
 
 func TestTheVerdictOfTheOriginIsReplaced(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer.headers.Set("Spam-Assessment", "clean")
+	fixture.egress.upstreamResponse.headers.Set("Spam-Assessment", "clean")
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if verdicts := reply.headers.Values("Spam-Assessment"); len(verdicts) != 1 ||
+	if verdicts := response.headers.Values("Spam-Assessment"); len(verdicts) != 1 ||
 		verdicts[0] != spamassessmenthttpheader.ValueOf(spamAssessment) {
 		t.Fatalf("verdicts %v", verdicts)
 	}
 }
 
-func TestAnAnswerWhoseAssessmentIsSkippedIsRelayedWithoutAVerdict(t *testing.T) {
-	answers := map[requestrelay.SkipReason]struct {
-		method string
-		answer originAnswer
+func TestAnUpstreamResponseWhoseAssessmentIsSkippedIsRelayedWithoutAVerdict(t *testing.T) {
+	upstreamResponses := map[requestrelay.SkipReason]struct {
+		method           string
+		upstreamResponse upstreamResponse
 	}{
-		requestrelay.NotHTML: {http.MethodGet, originAnswer{
+		requestrelay.NotHTML: {http.MethodGet, upstreamResponse{
 			status:  http.StatusOK,
 			headers: http.Header{"Content-Type": {"image/png"}, "Spam-Assessment": {"clean"}},
 			body:    func(context.Context) io.Reader { return strings.NewReader("png") },
 		}},
 		requestrelay.Not2xx: {
 			http.MethodGet,
-			originAnswer{
+			upstreamResponse{
 				status: http.StatusFound,
 				headers: http.Header{
 					"Content-Type": {"text/html"},
@@ -388,24 +412,24 @@ func TestAnAnswerWhoseAssessmentIsSkippedIsRelayedWithoutAVerdict(t *testing.T) 
 				body: func(context.Context) io.Reader { return strings.NewReader("png") },
 			},
 		},
-		requestrelay.HeadRequest: {http.MethodHead, htmlAnswerWith("png")},
+		requestrelay.HeadRequest: {http.MethodHead, htmlUpstreamResponseWith("png")},
 	}
-	for reason, skippedAnswer := range answers {
+	for reason, skippedResponse := range upstreamResponses {
 		t.Run(string(reason), func(t *testing.T) {
 			fixture := newRelayFixture()
-			fixture.egress.answer = skippedAnswer.answer
+			fixture.egress.upstreamResponse = skippedResponse.upstreamResponse
 
-			reply := fixture.replyTo(t, skippedAnswer.method, http.Header{})
+			response := fixture.respondTo(t, skippedResponse.method, http.Header{})
 
-			if reply.status != skippedAnswer.answer.status ||
-				reply.headers.Get("Spam-Assessment") != "" ||
-				reply.String() != "png" ||
+			if response.status != skippedResponse.upstreamResponse.status ||
+				response.headers.Get("Spam-Assessment") != "" ||
+				response.String() != "png" ||
 				fixture.observers.skippedAssessments[0] != reason {
 				t.Fatalf(
-					"reply %d %v %q, reasons %v",
-					reply.status,
-					reply.headers,
-					reply.String(),
+					"response %d %v %q, reasons %v",
+					response.status,
+					response.headers,
+					response.String(),
 					fixture.observers.skippedAssessments,
 				)
 			}
@@ -419,15 +443,15 @@ func TestAGzipPageIsAssessedDecodedAndRelayedAsTheOriginSentIt(t *testing.T) {
 	writer := gzip.NewWriter(&encodedBody)
 	_, _ = writer.Write([]byte(pageBody))
 	_ = writer.Close()
-	fixture.egress.answer = htmlAnswerWith(encodedBody.String())
-	fixture.egress.answer.headers.Set("Content-Encoding", "gzip")
+	fixture.egress.upstreamResponse = htmlUpstreamResponseWith(encodedBody.String())
+	fixture.egress.upstreamResponse.headers.Set("Content-Encoding", "gzip")
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.headers.Get("Spam-Assessment") == "" ||
-		reply.headers.Get("Content-Encoding") != "gzip" ||
-		reply.String() != encodedBody.String() {
-		t.Fatalf("reply %v %q", reply.headers, reply.String())
+	if response.headers.Get("Spam-Assessment") == "" ||
+		response.headers.Get("Content-Encoding") != "gzip" ||
+		response.String() != encodedBody.String() {
+		t.Fatalf("response %v %q", response.headers, response.String())
 	}
 	if string(fixture.assessor.assessedPages[0].body) != pageBody {
 		t.Fatalf("assessed body %q", fixture.assessor.assessedPages[0].body)
@@ -441,13 +465,13 @@ func TestAPageThatCannotBeDecodedGivesBadGateway(t *testing.T) {
 	} {
 		t.Run(encoding, func(t *testing.T) {
 			fixture := newRelayFixture()
-			fixture.egress.answer = htmlAnswerWith("zipped")
-			fixture.egress.answer.headers.Set("Content-Encoding", encoding)
+			fixture.egress.upstreamResponse = htmlUpstreamResponseWith("zipped")
+			fixture.egress.upstreamResponse.headers.Set("Content-Encoding", encoding)
 
-			reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+			response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-			if reply.status != http.StatusBadGateway || fixture.observers.refusals[0] != reason {
-				t.Fatalf("status %d, refusals %v", reply.status, fixture.observers.refusals)
+			if response.status != http.StatusBadGateway || fixture.observers.refusals[0] != reason {
+				t.Fatalf("status %d, refusals %v", response.status, fixture.observers.refusals)
 			}
 		})
 	}
@@ -456,13 +480,13 @@ func TestAPageThatCannotBeDecodedGivesBadGateway(t *testing.T) {
 func TestAPageOverTheByteCeilingIsAssessedOnItsFirstBytesAndRelayedWhole(t *testing.T) {
 	fixture := newRelayFixture()
 	body := "<p>" + strings.Repeat("x", pageByteCeiling) + "</p>"
-	fixture.egress.answer = htmlAnswerWith(body)
-	fixture.egress.answer.headers.Set("Content-Length", "1007")
+	fixture.egress.upstreamResponse = htmlUpstreamResponseWith(body)
+	fixture.egress.upstreamResponse.headers.Set("Content-Length", "1007")
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.headers.Get("Content-Length") != "1007" || reply.String() != body {
-		t.Fatalf("reply %v, %d bytes", reply.headers, reply.Len())
+	if response.headers.Get("Content-Length") != "1007" || response.String() != body {
+		t.Fatalf("response %v, %d bytes", response.headers, response.Len())
 	}
 	if assessedBytes := len(
 		fixture.assessor.assessedPages[0].body,
@@ -474,26 +498,26 @@ func TestAPageOverTheByteCeilingIsAssessedOnItsFirstBytesAndRelayedWhole(t *test
 func TestAPageOverTheByteCeilingAssessedPastTheEndOfReadingIsRelayedWhole(t *testing.T) {
 	fixture := newRelayFixture()
 	body := "<p>" + strings.Repeat("x", pageByteCeiling) + "</p>"
-	fixture.egress.answer = htmlAnswerWith(body)
-	fixture.egress.answer.body = func(ctx context.Context) io.Reader {
+	fixture.egress.upstreamResponse = htmlUpstreamResponseWith(body)
+	fixture.egress.upstreamResponse.body = func(ctx context.Context) io.Reader {
 		return cancellableBody{ctx: ctx, body: strings.NewReader(body)}
 	}
 	fixture.assessor.during = func() { (<-fixture.clock.expirations)() }
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.wasCutShort || reply.String() != body {
-		t.Fatalf("cut short %v, %d bytes", reply.wasCutShort, reply.Len())
+	if response.wasAborted || response.String() != body {
+		t.Fatalf("aborted %v, %d bytes", response.wasAborted, response.Len())
 	}
 }
 
 func TestAWholePageOfUnknownLengthGetsItsLength(t *testing.T) {
 	fixture := newRelayFixture()
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.headers.Get("Content-Length") != "65" {
-		t.Fatalf("content length %q", reply.headers.Get("Content-Length"))
+	if response.headers.Get("Content-Length") != "65" {
+		t.Fatalf("content length %q", response.headers.Get("Content-Length"))
 	}
 }
 
@@ -501,56 +525,57 @@ func TestAFailedEgressGivesBadGateway(t *testing.T) {
 	fixture := newRelayFixture()
 	fixture.egress.failure = errEgressDown
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusBadGateway ||
-		!errors.Is(fixture.observers.readingFailures[0], errEgressDown) {
-		t.Fatalf("status %d, failures %v", reply.status, fixture.observers.readingFailures)
+	if failures := fixture.observers.upstreamFailures; response.status != http.StatusBadGateway ||
+		failures[0].failure != requestrelay.NoResponse || !errors.Is(failures[0].cause, errEgressDown) {
+		t.Fatalf("status %d, failures %v", response.status, failures)
 	}
 }
 
 func TestASilentEgressGivesGatewayTimeoutWhenReadingEnds(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer.body = nil
-	replies := fixture.replyInBackgroundTo(t, fixture.relay())
+	fixture.egress.upstreamResponse.body = nil
+	responses := fixture.respondInBackgroundTo(t, fixture.relay())
 
 	(<-fixture.clock.expirations)()
 
-	if reply := <-replies; reply.status != http.StatusGatewayTimeout {
-		t.Fatalf("status %d", reply.status)
+	if response := <-responses; response.status != http.StatusGatewayTimeout {
+		t.Fatalf("status %d", response.status)
 	}
 }
 
 func TestAPageWhoseBodyStallsGivesGatewayTimeoutWhenReadingEnds(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer.body = func(ctx context.Context) io.Reader { return stallingBody{ctx} }
-	replies := fixture.replyInBackgroundTo(t, fixture.relay())
+	fixture.egress.upstreamResponse.body = func(ctx context.Context) io.Reader { return stallingBody{ctx} }
+	responses := fixture.respondInBackgroundTo(t, fixture.relay())
 
 	(<-fixture.clock.expirations)()
 
-	if reply := <-replies; reply.status != http.StatusGatewayTimeout ||
+	if response := <-responses; response.status != http.StatusGatewayTimeout ||
 		fixture.observers.refusals[0] != requestrelay.PageReadDeadline {
-		t.Fatalf("status %d, refusals %v", reply.status, fixture.observers.refusals)
+		t.Fatalf("status %d, refusals %v", response.status, fixture.observers.refusals)
 	}
 }
 
-func TestAPageCutShortByTheEgressGivesBadGateway(t *testing.T) {
+func TestAPageWhoseBodyPrefixFailsToReadGivesBadGateway(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer.body = func(context.Context) io.Reader {
+	fixture.egress.upstreamResponse.body = func(context.Context) io.Reader {
 		return io.MultiReader(strings.NewReader("<p>short</p>"), failingBody{io.ErrUnexpectedEOF})
 	}
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusBadGateway ||
-		!errors.Is(fixture.observers.readingFailures[0], io.ErrUnexpectedEOF) {
-		t.Fatalf("status %d, failures %v", reply.status, fixture.observers.readingFailures)
+	if failures := fixture.observers.upstreamFailures; response.status != http.StatusBadGateway ||
+		failures[0].failure != requestrelay.BodyPrefixReadFailed ||
+		!errors.Is(failures[0].cause, io.ErrUnexpectedEOF) {
+		t.Fatalf("status %d, failures %v", response.status, failures)
 	}
 }
 
-func TestAnAnswerWhoseAssessmentIsSkippedCutShortEndsWhereTheEgressStopped(t *testing.T) {
+func TestASkippedUpstreamResponseWhoseBodyFailsToReadIsLeftIncomplete(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer = originAnswer{
+	fixture.egress.upstreamResponse = upstreamResponse{
 		status:  http.StatusOK,
 		headers: http.Header{"Content-Type": {"image/png"}},
 		body: func(context.Context) io.Reader {
@@ -558,65 +583,84 @@ func TestAnAnswerWhoseAssessmentIsSkippedCutShortEndsWhereTheEgressStopped(t *te
 		},
 	}
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusOK || reply.String() != "png" || !reply.wasCutShort ||
-		!errors.Is(fixture.observers.cutShortCauses[0], io.ErrUnexpectedEOF) {
-		t.Fatalf("reply %d %q, cut short %v", reply.status, reply.String(), reply.wasCutShort)
+	if response.status != http.StatusOK || response.String() != "png" || !response.wasAborted ||
+		!slices.Equal(fixture.observers.incompleteCauses,
+			[]requestrelay.IncompleteResponseCause{requestrelay.BodyRestReadFailed}) {
+		t.Fatalf("response %d %q, aborted %v, causes %v", response.status, response.String(),
+			response.wasAborted, fixture.observers.incompleteCauses)
 	}
 }
 
-func TestAClientThatLeavesBeforeTheAnswerIsReportedAsLeft(t *testing.T) {
+func TestARequestThatTheClientClosesBeforeTheHeadersGetsNoResponse(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer.body = nil
-	clientCtx, leave := context.WithCancel(t.Context())
-	leave()
+	fixture.egress.upstreamResponse.body = nil
+	clientCtx, closeRequest := context.WithCancel(t.Context())
+	closeRequest()
+	response := &recordedResponse{}
 
-	fixture.relay().ReplyTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, &fakeReply{})
+	fixture.relay().RespondTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, response)
 
-	if fixture.observers.departedClients != 1 || len(fixture.observers.readingFailures) != 0 {
-		t.Fatalf("departed %d, reading failures %v",
-			fixture.observers.departedClients, fixture.observers.readingFailures)
+	if response.status != 0 || fixture.observers.closedRequests != 1 ||
+		len(fixture.observers.upstreamFailures) != 0 {
+		t.Fatalf("status %d, closed requests %d, upstream failures %v", response.status,
+			fixture.observers.closedRequests, fixture.observers.upstreamFailures)
 	}
 }
 
-func TestAClientThatLeavesDuringTheBodyIsReportedAsLeft(t *testing.T) {
+func TestARequestThatTheClientClosesDuringTheBodyIsLeftIncomplete(t *testing.T) {
 	fixture := newRelayFixture()
-	clientCtx, leave := context.WithCancel(t.Context())
-	fixture.egress.answer = originAnswer{
+	clientCtx, closeRequest := context.WithCancel(t.Context())
+	fixture.egress.upstreamResponse = upstreamResponse{
 		status:  http.StatusOK,
 		headers: http.Header{"Content-Type": {"image/png"}},
 		body: func(context.Context) io.Reader {
-			leave()
+			closeRequest()
 			return io.MultiReader(strings.NewReader("png"), failingBody{io.ErrUnexpectedEOF})
 		},
 	}
-	reply := &fakeReply{}
+	response := &recordedResponse{}
 
-	fixture.relay().ReplyTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, reply)
+	fixture.relay().RespondTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, response)
 
-	if !reply.wasCutShort || fixture.observers.departedClients != 1 ||
-		len(fixture.observers.cutShortCauses) != 0 {
-		t.Fatalf("cut short %v, departed %d, cut short causes %v", reply.wasCutShort,
-			fixture.observers.departedClients, fixture.observers.cutShortCauses)
+	if !response.wasAborted || fixture.observers.closedRequests != 0 ||
+		!slices.Equal(fixture.observers.incompleteCauses,
+			[]requestrelay.IncompleteResponseCause{requestrelay.ClientClosedRequest}) {
+		t.Fatalf("aborted %v, closed requests %d, causes %v", response.wasAborted,
+			fixture.observers.closedRequests, fixture.observers.incompleteCauses)
 	}
 }
 
-func TestAPageWhoseRestStallsIsCutShortAfterTheIdleTimeout(t *testing.T) {
+func TestAResponseThatTheClientStopsTakingIsLeftIncomplete(t *testing.T) {
+	fixture := newRelayFixture()
+	response := &recordedResponse{writeFailure: errors.New("broken pipe")}
+
+	fixture.relay().RespondTo(t.Context(), http.MethodGet, pageAddress(t), http.Header{}, response)
+
+	if !response.wasAborted || !slices.Equal(fixture.observers.incompleteCauses,
+		[]requestrelay.IncompleteResponseCause{requestrelay.ClientClosedRequest}) {
+		t.Fatalf("aborted %v, causes %v", response.wasAborted, fixture.observers.incompleteCauses)
+	}
+}
+
+func TestAPageWhoseRestStallsIsLeftIncompleteAfterTheIdleTimeout(t *testing.T) {
 	fixture := newRelayFixture()
 	fixture.limits.PageByteCeiling = 8
-	fixture.egress.answer.body = func(ctx context.Context) io.Reader {
+	fixture.egress.upstreamResponse.body = func(ctx context.Context) io.Reader {
 		return io.MultiReader(strings.NewReader(pageBody), stallingBody{ctx})
 	}
-	replies := fixture.replyInBackgroundTo(t, fixture.relay())
+	responses := fixture.respondInBackgroundTo(t, fixture.relay())
 
 	<-fixture.clock.expirations
 	<-fixture.clock.expirations
 	(<-fixture.clock.expirations)()
 
-	if reply := <-replies; reply.status != http.StatusOK || reply.String() != pageBody ||
-		!reply.wasCutShort {
-		t.Fatalf("reply %d %q, cut short %v", reply.status, reply.String(), reply.wasCutShort)
+	if response := <-responses; response.status != http.StatusOK || response.String() != pageBody ||
+		!response.wasAborted || !slices.Equal(fixture.observers.incompleteCauses,
+		[]requestrelay.IncompleteResponseCause{requestrelay.RelayIdleTimeout}) {
+		t.Fatalf("response %d %q, aborted %v, causes %v", response.status, response.String(),
+			response.wasAborted, fixture.observers.incompleteCauses)
 	}
 }
 
@@ -626,20 +670,20 @@ func TestAPageWaitingForAReadingSlotIsRelayedOnceTheSlotFrees(t *testing.T) {
 	started, released := make(chan struct{}), make(chan struct{})
 	fixture.assessor.during = heldOnFirstAssessment(started, released)
 	relay := fixture.relay()
-	heldReplies := fixture.replyInBackgroundTo(t, relay)
+	heldResponses := fixture.respondInBackgroundTo(t, relay)
 	<-started
-	waitingReplies := fixture.replyInBackgroundTo(t, relay)
+	waitingResponses := fixture.respondInBackgroundTo(t, relay)
 	<-fixture.clock.expirations
 	<-fixture.clock.expirations
 
 	close(released)
 
-	if waitingReply := <-waitingReplies; waitingReply.status != http.StatusOK ||
-		waitingReply.headers.Get("Spam-Assessment") == "" {
-		t.Fatalf("waiting reply %d %v", waitingReply.status, waitingReply.headers)
+	if waitingResponse := <-waitingResponses; waitingResponse.status != http.StatusOK ||
+		waitingResponse.headers.Get("Spam-Assessment") == "" {
+		t.Fatalf("waiting response %d %v", waitingResponse.status, waitingResponse.headers)
 	}
-	if heldReply := <-heldReplies; heldReply.headers.Get("Spam-Assessment") == "" {
-		t.Fatalf("held reply %v", heldReply.headers)
+	if heldResponse := <-heldResponses; heldResponse.headers.Get("Spam-Assessment") == "" {
+		t.Fatalf("held response %v", heldResponse.headers)
 	}
 }
 
@@ -649,21 +693,21 @@ func TestAPageWithoutAReadingSlotWhenTheHeadersAreDueGivesServiceUnavailable(t *
 	started, released := make(chan struct{}), make(chan struct{})
 	fixture.assessor.during = heldOnFirstAssessment(started, released)
 	relay := fixture.relay()
-	heldReplies := fixture.replyInBackgroundTo(t, relay)
+	heldResponses := fixture.respondInBackgroundTo(t, relay)
 	<-started
-	waitingReplies := fixture.replyInBackgroundTo(t, relay)
+	waitingResponses := fixture.respondInBackgroundTo(t, relay)
 	<-fixture.clock.expirations
 
 	(<-fixture.clock.expirations)()
-	waitingReply := <-waitingReplies
+	waitingResponse := <-waitingResponses
 	close(released)
 
-	if waitingReply.status != http.StatusServiceUnavailable ||
-		waitingReply.headers.Get("Retry-After") != "1" {
-		t.Fatalf("waiting reply %d %v", waitingReply.status, waitingReply.headers)
+	if waitingResponse.status != http.StatusServiceUnavailable ||
+		waitingResponse.headers.Get("Retry-After") != "1" {
+		t.Fatalf("waiting response %d %v", waitingResponse.status, waitingResponse.headers)
 	}
-	if heldReply := <-heldReplies; heldReply.headers.Get("Spam-Assessment") == "" {
-		t.Fatalf("held reply %v", heldReply.headers)
+	if heldResponse := <-heldResponses; heldResponse.headers.Get("Spam-Assessment") == "" {
+		t.Fatalf("held response %v", heldResponse.headers)
 	}
 	if refusals := fixture.observers.refusals; len(refusals) != 1 ||
 		refusals[0] != requestrelay.SlotWaitDeadline {
@@ -684,15 +728,15 @@ func heldOnFirstAssessment(started chan<- struct{}, released <-chan struct{}) fu
 	}
 }
 
-func TestAnAnswerThatStartsAfterTheHeadersAreDueGivesGatewayTimeout(t *testing.T) {
+func TestAnUpstreamResponseThatStartsAfterTheHeadersAreDueGivesGatewayTimeout(t *testing.T) {
 	fixture := newRelayFixture()
-	fixture.egress.answer.before = func() { fixture.clock.passTo(1100 * time.Millisecond) }
+	fixture.egress.upstreamResponse.before = func() { fixture.clock.passTo(1100 * time.Millisecond) }
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusGatewayTimeout ||
+	if response.status != http.StatusGatewayTimeout ||
 		fixture.observers.refusals[0] != requestrelay.PageReadDeadline {
-		t.Fatalf("status %d, refusals %v", reply.status, fixture.observers.refusals)
+		t.Fatalf("status %d, refusals %v", response.status, fixture.observers.refusals)
 	}
 }
 
@@ -718,12 +762,12 @@ func TestAPageThatTheAssessorDidNotAssessIsRefused(t *testing.T) {
 		fixture := newRelayFixture()
 		fixture.assessor.outcome = outcome
 
-		reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+		response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-		if reply.status != refusal.status || reply.headers.Get("Spam-Assessment") != "" ||
+		if response.status != refusal.status || response.headers.Get("Spam-Assessment") != "" ||
 			fixture.observers.refusals[0] != refusal.reason {
-			t.Errorf("outcome %v: reply %d %v, refusals %v",
-				outcome, reply.status, reply.headers, fixture.observers.refusals)
+			t.Errorf("outcome %v: response %d %v, refusals %v",
+				outcome, response.status, response.headers, fixture.observers.refusals)
 		}
 	}
 }
@@ -732,14 +776,15 @@ func TestAPageAssessedPastTheResponseHeaderDeadlineGivesGatewayTimeout(t *testin
 	fixture := newRelayFixture()
 	fixture.assessor.during = func() { fixture.clock.passTo(time.Second) }
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
-	if reply.status != http.StatusGatewayTimeout || reply.headers.Get("Spam-Assessment") != "" ||
+	if response.status != http.StatusGatewayTimeout ||
+		response.headers.Get("Spam-Assessment") != "" ||
 		fixture.observers.refusals[0] != requestrelay.AssessmentDeadline {
 		t.Fatalf(
-			"reply %d %v, refusals %v",
-			reply.status,
-			reply.headers,
+			"response %d %v, refusals %v",
+			response.status,
+			response.headers,
 			fixture.observers.refusals,
 		)
 	}
@@ -748,9 +793,9 @@ func TestAPageAssessedPastTheResponseHeaderDeadlineGivesGatewayTimeout(t *testin
 func TestAWaitPreferenceOfZeroGivesGatewayTimeoutWithoutAskingTheEgress(t *testing.T) {
 	fixture := newRelayFixture()
 
-	reply := fixture.replyTo(t, http.MethodGet, http.Header{"Prefer": {"wait=0"}})
+	response := fixture.respondTo(t, http.MethodGet, http.Header{"Prefer": {"wait=0"}})
 
-	if reply.status != http.StatusGatewayTimeout || len(fixture.egress.requests) != 0 {
-		t.Fatalf("status %d, egress requests %d", reply.status, len(fixture.egress.requests))
+	if response.status != http.StatusGatewayTimeout || len(fixture.egress.requests) != 0 {
+		t.Fatalf("status %d, egress requests %d", response.status, len(fixture.egress.requests))
 	}
 }

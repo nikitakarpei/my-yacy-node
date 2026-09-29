@@ -29,22 +29,24 @@ func TestVerdictsSkippedAssessmentsRefusalsAndFailuresAreCounted(t *testing.T) {
 	)
 	metrics.AssessmentSkipped(t.Context(), address, requestrelay.NotHTML)
 	metrics.RequestRefused(t.Context(), address, requestrelay.SlotWaitDeadline)
-	metrics.AnswerReadingFailed(t.Context(), address, errors.New("egress proxy down"))
-	metrics.ReplyCutShort(t.Context(), address, errors.New("egress stopped"))
-	metrics.ClientLeft(t.Context(), address)
+	metrics.UpstreamResponseFailed(t.Context(), address, requestrelay.NoResponse,
+		errors.New("egress proxy down"))
+	metrics.ResponseLeftIncomplete(t.Context(), address, requestrelay.RelayIdleTimeout,
+		errors.New("upstream response stalled"))
+	metrics.ClientClosedRequest(t.Context(), address)
 	metrics.ReadingSlotWaited(t.Context(), address, 0)
 
 	want := `
-# HELP spamproxy_answer_reading_failures_total Answers of the egress proxy that failed before the response headers.
-# TYPE spamproxy_answer_reading_failures_total counter
-spamproxy_answer_reading_failures_total 1
-# HELP spamproxy_cut_short_replies_total Replies that ended before the whole body.
-# TYPE spamproxy_cut_short_replies_total counter
-spamproxy_cut_short_replies_total 1
-# HELP spamproxy_departed_clients_total Clients that left before the reply ended.
-# TYPE spamproxy_departed_clients_total counter
-spamproxy_departed_clients_total 1
-# HELP spamproxy_skipped_assessments_total Answers relayed without an assessment.
+# HELP spamproxy_upstream_response_failures_total Upstream responses that failed before the response headers, by cause.
+# TYPE spamproxy_upstream_response_failures_total counter
+spamproxy_upstream_response_failures_total{cause="no_response"} 1
+# HELP spamproxy_incomplete_responses_total Responses that ended before the whole body, by cause.
+# TYPE spamproxy_incomplete_responses_total counter
+spamproxy_incomplete_responses_total{cause="relay_idle_timeout"} 1
+# HELP spamproxy_client_closed_requests_total Requests that the client closed before the response headers.
+# TYPE spamproxy_client_closed_requests_total counter
+spamproxy_client_closed_requests_total 1
+# HELP spamproxy_skipped_assessments_total Upstream responses relayed without an assessment.
 # TYPE spamproxy_skipped_assessments_total counter
 spamproxy_skipped_assessments_total{reason="not_html"} 1
 # HELP spamproxy_refused_requests_total Requests that the proxy answers with its own error status.
@@ -56,8 +58,8 @@ spamproxy_verdicts_total{verdict="spam"} 1
 `
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(want),
 		"spamproxy_skipped_assessments_total", "spamproxy_refused_requests_total",
-		"spamproxy_answer_reading_failures_total", "spamproxy_cut_short_replies_total",
-		"spamproxy_departed_clients_total",
+		"spamproxy_upstream_response_failures_total", "spamproxy_incomplete_responses_total",
+		"spamproxy_client_closed_requests_total",
 		"spamproxy_verdicts_total"); err != nil {
 		t.Fatal(err)
 	}

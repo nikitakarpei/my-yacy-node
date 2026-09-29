@@ -35,7 +35,7 @@ type cancelRecord struct {
 
 func (r *cancelRecord) cancel() { r.cancellations++ }
 
-func TestReadingPastTheDeadlineCancelsTheAnswer(t *testing.T) {
+func TestReadingPastTheDeadlineCancelsTheUpstreamResponse(t *testing.T) {
 	clock := &fakeClock{}
 	cancels := &cancelRecord{}
 	canceller := readingcancel.New(clock, cancels.cancel)

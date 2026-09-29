@@ -1,5 +1,5 @@
-// Package requestrelay relays the answer of the egress proxy to the client, and
-// adds a spam verdict to each page.
+// Package requestrelay relays the upstream response of the egress proxy to the
+// client, and adds a spam verdict to each page.
 package requestrelay
 
 import (
@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadline"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/responsedeadline"
 )
 
 type Egress interface {
@@ -35,10 +35,10 @@ type Clock interface {
 	After(timeout time.Duration, expire func()) (stop func())
 }
 
-type ReplyWriter interface {
+type ResponseWriter interface {
 	io.Writer
-	SendHead(status int, headers http.Header)
-	CutShort()
+	SendHeaders(status int, headers http.Header)
+	Abort()
 }
 
 type Limits struct {
@@ -79,15 +79,15 @@ func New(
 	}
 }
 
-func (r *Relayer) ReplyTo(
+func (r *Relayer) RespondTo(
 	ctx context.Context,
 	method string,
 	address canonicalurl.CanonicalURL,
 	requestHeaders http.Header,
-	replyWriter ReplyWriter,
+	responseWriter ResponseWriter,
 ) {
 	requestArrivedAt := r.clock.Now()
-	headersDueAt := replydeadline.HeadersDueAtFrom(
+	headersDueAt := responsedeadline.HeadersDueAtFrom(
 		requestArrivedAt,
 		requestHeaders.Values("Prefer"),
 		r.limits.ResponseHeaderTimeout,
@@ -96,30 +96,30 @@ func (r *Relayer) ReplyTo(
 	defer cancelReading()
 	canceller := readingcancel.New(r.clock, cancelReading)
 	defer canceller.Stop()
-	replier := r.replierFor(address, canceller, replyWriter)
+	responder := r.responderFor(address, canceller, responseWriter)
 	if !headersDueAt.After(requestArrivedAt) {
-		replier.refuse(ctx, WaitTooShort)
+		responder.refuse(ctx, WaitTooShort)
 		return
 	}
-	egressRequest := egressRequestFor(readingCtx, method, address, requestHeaders)
+	upstreamRequest := upstreamRequestFor(readingCtx, method, address, requestHeaders)
 	canceller.CancelAt(headersDueAt)
-	answer, err := r.egress.RoundTrip(egressRequest)
+	upstreamResponse, err := r.egress.RoundTrip(upstreamRequest)
 	if err != nil {
-		replier.failReading(ctx, PageReadDeadline, err)
+		responder.failReading(ctx, PageReadDeadline, NoResponse, err)
 		return
 	}
-	defer func() { _ = answer.Body.Close() }()
-	r.answerRelayerFor(method, address, headersDueAt, canceller, replier).
-		relay(ctx, readingCtx, answer)
+	defer func() { _ = upstreamResponse.Body.Close() }()
+	r.upstreamResponseRelayerFor(method, address, headersDueAt, canceller, responder).
+		relay(ctx, readingCtx, upstreamResponse)
 }
 
-func (r *Relayer) replierFor(
+func (r *Relayer) responderFor(
 	address canonicalurl.CanonicalURL,
 	canceller *readingcancel.Canceller,
-	replyWriter ReplyWriter,
-) replier {
-	return replier{
-		replyWriter:      replyWriter,
+	responseWriter ResponseWriter,
+) responder {
+	return responder{
+		responseWriter:   responseWriter,
 		observers:        r.observers,
 		address:          address,
 		canceller:        canceller,
@@ -127,14 +127,14 @@ func (r *Relayer) replierFor(
 	}
 }
 
-func (r *Relayer) answerRelayerFor(
+func (r *Relayer) upstreamResponseRelayerFor(
 	method string,
 	address canonicalurl.CanonicalURL,
 	headersDueAt time.Time,
 	canceller *readingcancel.Canceller,
-	replier replier,
-) answerRelayer {
-	return answerRelayer{
+	responder responder,
+) upstreamResponseRelayer {
+	return upstreamResponseRelayer{
 		observers:       r.observers,
 		pageAssessor:    r.pageAssessor,
 		clock:           r.clock,
@@ -144,11 +144,11 @@ func (r *Relayer) answerRelayerFor(
 		address:         address,
 		headersDueAt:    headersDueAt,
 		canceller:       canceller,
-		replier:         replier,
+		responder:       responder,
 	}
 }
 
-func egressRequestFor(
+func upstreamRequestFor(
 	ctx context.Context,
 	method string,
 	address canonicalurl.CanonicalURL,

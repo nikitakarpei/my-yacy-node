@@ -11,8 +11,8 @@ commonVendors:
 components:
   pageassessment:
     in: internal/pageassessment/**
-  replydeadline:
-    in: internal/replydeadline/**
+  responsedeadline:
+    in: internal/responsedeadline/**
   contentencoding:
     in: internal/contentencoding/**
   relayedheaders:
@@ -39,6 +39,12 @@ components:
     in: internal/assessmentgateobservers/prometheus/**
   proxyintakeobserversapplog:
     in: internal/proxyintakeobservers/applog/**
+  upstreamrequest:
+    in: internal/upstreamrequest/**
+  upstreamrequestobserversapplog:
+    in: internal/upstreamrequestobservers/applog/**
+  upstreamrequestobserversprometheus:
+    in: internal/upstreamrequestobservers/prometheus/**
   spamproxycmd:
     in: cmd/spamproxy/**
 
@@ -76,7 +82,7 @@ deps:
       - contentencoding
       - readingcancel
       - relayedheaders
-      - replydeadline
+      - responsedeadline
     canUse:
       - canonicalurl
   proxyintake:
@@ -101,6 +107,14 @@ deps:
   assessmentgateobserversprometheus:
     canUse:
       - canonicalurl
+      - prometheus
+  upstreamrequestobserversapplog:
+    mayDependOn:
+      - upstreamrequest
+  upstreamrequestobserversprometheus:
+    mayDependOn:
+      - upstreamrequest
+    canUse:
       - prometheus
   spamproxycmd:
     anyProjectDeps: true

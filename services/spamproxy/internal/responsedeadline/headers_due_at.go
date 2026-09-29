@@ -1,6 +1,6 @@
-// Package replydeadline holds when the response headers are due, from the
+// Package responsedeadline holds when the response headers are due, from the
 // arrival of the request.
-package replydeadline
+package responsedeadline
 
 import (
 	"regexp"

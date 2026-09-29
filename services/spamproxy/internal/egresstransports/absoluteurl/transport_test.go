@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/http/httptrace"
 	"net/url"
 	"testing"
 
@@ -45,7 +46,7 @@ func TestAnHTTPSPageIsAskedOfTheProxyByItsAbsoluteURL(t *testing.T) {
 	}
 }
 
-func TestACancelledRequestStopsReadingTheAnswer(t *testing.T) {
+func TestACancelledRequestStopsReadingTheResponse(t *testing.T) {
 	proxy := newRequestRecord()
 	server := httptest.NewServer(proxy)
 	defer server.Close()
@@ -57,7 +58,26 @@ func TestACancelledRequestStopsReadingTheAnswer(t *testing.T) {
 	_, err := io.ReadAll(response.Body)
 
 	if err == nil {
-		t.Fatal("the answer read to its end")
+		t.Fatal("the response read to its end")
+	}
+}
+
+func TestTheConnectionAndTheWrittenRequestAreTraced(t *testing.T) {
+	proxy := newRequestRecord()
+	server := httptest.NewServer(proxy)
+	defer server.Close()
+	var wasConnected, wasRequestWritten bool
+	ctx := httptrace.WithClientTrace(t.Context(), &httptrace.ClientTrace{
+		GotConn: func(httptrace.GotConnInfo) { wasConnected = true },
+		WroteRequest: func(written httptrace.WroteRequestInfo) {
+			wasRequestWritten = written.Err == nil
+		},
+	})
+
+	bodyOf(t, server, "http://site.example/page", ctx)
+
+	if !wasConnected || !wasRequestWritten {
+		t.Fatalf("connected %v, request written %v", wasConnected, wasRequestWritten)
 	}
 }
 

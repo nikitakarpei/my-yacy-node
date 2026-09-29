@@ -31,12 +31,12 @@ func (a pageAssessor) assess(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	bodyPrefix []byte,
-	answerHeaders http.Header,
+	upstreamResponseHeaders http.Header,
 	headersDueAt time.Time,
 ) (assessedPage, RefusalReason) {
 	body, decoded := contentencoding.DecodedBodyFrom(
 		bodyPrefix,
-		contentEncodingOf(answerHeaders),
+		contentEncodingOf(upstreamResponseHeaders),
 		a.pageByteCeiling,
 	)
 	if !decoded {
@@ -46,7 +46,7 @@ func (a pageAssessor) assess(
 		ctx,
 		address,
 		body,
-		answerHeaders,
+		upstreamResponseHeaders,
 		headersDueAt,
 	)
 	if outcome != assessmentgate.Assessed {
@@ -63,8 +63,8 @@ func (a pageAssessor) assess(
 	}, ""
 }
 
-func (p assessedPage) headersFrom(answerHeaders http.Header) http.Header {
-	headers := relayedheaders.EndToEndHeadersOf(answerHeaders)
+func (p assessedPage) headersFrom(upstreamResponseHeaders http.Header) http.Header {
+	headers := relayedheaders.EndToEndHeadersOf(upstreamResponseHeaders)
 	if p.wasBodyWhole {
 		headers.Set("Content-Length", strconv.Itoa(len(p.bodyPrefix)))
 	}

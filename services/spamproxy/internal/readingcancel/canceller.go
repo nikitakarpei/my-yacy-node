@@ -1,5 +1,5 @@
-// Package readingcancel cancels reading an answer that passes its deadline or
-// waits too long for its next bytes.
+// Package readingcancel cancels reading an upstream response that passes its
+// deadline or waits too long for its next bytes.
 package readingcancel
 
 import (
@@ -31,8 +31,15 @@ func (c *Canceller) CancelAt(deadline time.Time) {
 	c.cancelAfter(deadline.Sub(c.clock.Now()))
 }
 
-func (c *Canceller) IdleLimitedFrom(answerBody io.Reader, idleTimeout time.Duration) io.Reader {
-	return idleLimitedReader{canceller: c, answerBody: answerBody, idleTimeout: idleTimeout}
+func (c *Canceller) IdleLimitedFrom(
+	upstreamResponseBody io.Reader,
+	idleTimeout time.Duration,
+) io.Reader {
+	return idleLimitedReader{
+		canceller:            c,
+		upstreamResponseBody: upstreamResponseBody,
+		idleTimeout:          idleTimeout,
+	}
 }
 
 func (c *Canceller) Cancelled() bool {
@@ -58,14 +65,14 @@ func (c *Canceller) cancel() {
 }
 
 type idleLimitedReader struct {
-	canceller   *Canceller
-	answerBody  io.Reader
-	idleTimeout time.Duration
+	canceller            *Canceller
+	upstreamResponseBody io.Reader
+	idleTimeout          time.Duration
 }
 
 func (r idleLimitedReader) Read(chunk []byte) (int, error) {
 	r.canceller.cancelAfter(r.idleTimeout)
 	defer r.canceller.Stop()
 	//nolint:wrapcheck // io.EOF reaches the caller of a reader unwrapped
-	return r.answerBody.Read(chunk)
+	return r.upstreamResponseBody.Read(chunk)
 }

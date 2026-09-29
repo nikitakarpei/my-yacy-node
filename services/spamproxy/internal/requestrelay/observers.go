@@ -21,9 +21,19 @@ type Observer interface {
 	)
 	AssessmentSkipped(ctx context.Context, address canonicalurl.CanonicalURL, reason SkipReason)
 	RequestRefused(ctx context.Context, address canonicalurl.CanonicalURL, reason RefusalReason)
-	AnswerReadingFailed(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
-	ReplyCutShort(ctx context.Context, address canonicalurl.CanonicalURL, cause error)
-	ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL)
+	UpstreamResponseFailed(
+		ctx context.Context,
+		address canonicalurl.CanonicalURL,
+		failure UpstreamResponseFailure,
+		cause error,
+	)
+	ResponseLeftIncomplete(
+		ctx context.Context,
+		address canonicalurl.CanonicalURL,
+		incompleteResponseCause IncompleteResponseCause,
+		cause error,
+	)
+	ClientClosedRequest(ctx context.Context, address canonicalurl.CanonicalURL)
 }
 
 type Observers []Observer
@@ -68,28 +78,33 @@ func (observers Observers) RequestRefused(
 	}
 }
 
-func (observers Observers) AnswerReadingFailed(
+func (observers Observers) UpstreamResponseFailed(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
+	failure UpstreamResponseFailure,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.AnswerReadingFailed(ctx, address, cause)
+		observer.UpstreamResponseFailed(ctx, address, failure, cause)
 	}
 }
 
-func (observers Observers) ReplyCutShort(
+func (observers Observers) ResponseLeftIncomplete(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
+	incompleteResponseCause IncompleteResponseCause,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.ReplyCutShort(ctx, address, cause)
+		observer.ResponseLeftIncomplete(ctx, address, incompleteResponseCause, cause)
 	}
 }
 
-func (observers Observers) ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL) {
+func (observers Observers) ClientClosedRequest(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+) {
 	for _, observer := range observers {
-		observer.ClientLeft(ctx, address)
+		observer.ClientClosedRequest(ctx, address)
 	}
 }

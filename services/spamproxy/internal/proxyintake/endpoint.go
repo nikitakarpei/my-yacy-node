@@ -12,12 +12,12 @@ import (
 )
 
 type Relayer interface {
-	ReplyTo(
+	RespondTo(
 		ctx context.Context,
 		method string,
 		address canonicalurl.CanonicalURL,
 		requestHeaders http.Header,
-		replyWriter requestrelay.ReplyWriter,
+		responseWriter requestrelay.ResponseWriter,
 	)
 }
 
@@ -47,34 +47,34 @@ func (e *Endpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	e.relayer.ReplyTo(
+	e.relayer.RespondTo(
 		r.Context(),
 		r.Method,
 		address,
 		r.Header,
-		replyWriter{Writer: w, responseWriter: w},
+		clientResponseWriter{Writer: w, httpResponseWriter: w},
 	)
 }
 
-type replyWriter struct {
+type clientResponseWriter struct {
 	io.Writer
-	responseWriter http.ResponseWriter
+	httpResponseWriter http.ResponseWriter
 }
 
-func (c replyWriter) SendHead(status int, headers http.Header) {
-	replyHeaders := c.responseWriter.Header()
+func (c clientResponseWriter) SendHeaders(status int, headers http.Header) {
+	responseHeaders := c.httpResponseWriter.Header()
 	for name, values := range headers {
-		replyHeaders[name] = values
+		responseHeaders[name] = values
 	}
 	for _, name := range []string{"Content-Type", "Date"} {
-		if _, found := replyHeaders[name]; !found {
-			replyHeaders[name] = nil
+		if _, found := responseHeaders[name]; !found {
+			responseHeaders[name] = nil
 		}
 	}
-	c.responseWriter.WriteHeader(status)
+	c.httpResponseWriter.WriteHeader(status)
 }
 
-func (c replyWriter) CutShort() {
-	_ = http.NewResponseController(c.responseWriter).Flush()
+func (c clientResponseWriter) Abort() {
+	_ = http.NewResponseController(c.httpResponseWriter).Flush()
 	panic(http.ErrAbortHandler)
 }

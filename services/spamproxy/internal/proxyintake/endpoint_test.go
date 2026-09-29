@@ -17,21 +17,21 @@ import (
 
 type scriptedRelayer struct {
 	addresses []canonicalurl.CanonicalURL
-	cutsShort bool
+	aborts    bool
 }
 
-func (r *scriptedRelayer) ReplyTo(
+func (r *scriptedRelayer) RespondTo(
 	_ context.Context,
 	_ string,
 	address canonicalurl.CanonicalURL,
 	_ http.Header,
-	replyWriter requestrelay.ReplyWriter,
+	responseWriter requestrelay.ResponseWriter,
 ) {
 	r.addresses = append(r.addresses, address)
-	replyWriter.SendHead(http.StatusOK, http.Header{"Content-Length": {"10"}})
-	_, _ = replyWriter.Write([]byte("page"))
-	if r.cutsShort {
-		replyWriter.CutShort()
+	responseWriter.SendHeaders(http.StatusOK, http.Header{"Content-Length": {"10"}})
+	_, _ = responseWriter.Write([]byte("page"))
+	if r.aborts {
+		responseWriter.Abort()
 	}
 }
 
@@ -99,8 +99,8 @@ func TestATargetThatIsNotAnAbsoluteWebAddressIsABadRequest(t *testing.T) {
 	}
 }
 
-func TestAReplyCutShortEndsTheAnswerEarly(t *testing.T) {
-	relay := &scriptedRelayer{cutsShort: true}
+func TestAnAbortedResponseEndsEarly(t *testing.T) {
+	relay := &scriptedRelayer{aborts: true}
 	server := httptest.NewServer(proxyintake.New(relay, &refusalRecord{}))
 	defer server.Close()
 

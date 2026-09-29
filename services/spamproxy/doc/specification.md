@@ -7,13 +7,13 @@ exists so that each consumer can apply its own spam policy without scoring pages
 
 ## Glossary
 
-* **Page** — a `2xx` answer to `GET` with a `text/html` or `application/xhtml+xml` body.
+* **Page** — a `2xx` response to `GET` with a `text/html` or `application/xhtml+xml` body.
 * **Verdict** — `spam` when the page score is above the model threshold, else `clean`.
 
 ## Non-Goals
 
 * Blocking, rewriting, or ranking pages.
-* Caching answers.
+* Caching responses.
 * Terminating client TLS.
 * Enforcing target-safety, host politeness, or robots policy; those stay with the egress
   proxy.
@@ -38,8 +38,8 @@ exists so that each consumer can apply its own spam policy without scoring pages
   `spam;score=0.935;threshold=0.8;model="2026-09"`.
 * The header SHALL carry the verdict as its token, the score to three decimals, the model
   threshold, and the model file version.
-* The service SHALL remove every `Spam-Assessment` header that the origin sends, so an answer
-  that is not a page has no such header.
+* The service SHALL remove every `Spam-Assessment` header that the origin sends, so a
+  response that is not a page has no such header.
 * The service SHALL assess a page larger than the page byte ceiling on its first bytes up to
   the ceiling.
 * The service SHALL assess a `gzip` or `deflate` page on its decoded body.
@@ -50,8 +50,9 @@ exists so that each consumer can apply its own spam policy without scoring pages
   page fails.
 * The service SHALL answer `502` when the egress proxy fails, or stops before the service has
   read the part of a page that it assesses.
-* The service SHALL answer `504` when the origin answer, the part of a page that it assesses,
-  or the assessment does not end within the response header timeout after the request arrives.
+* The service SHALL answer `504` when the upstream response, the part of a page that it
+  assesses, or the assessment does not end within the response header timeout after the
+  request arrives.
 * The service SHALL use the `wait` of a `Prefer` header as the response header timeout when
   the `wait` is shorter.
 * The service SHALL fail startup when the recipe version of the model file is not the recipe

@@ -118,7 +118,7 @@
   "panels": [
     {
       "id": 1,
-      "title": "Replies to proxied requests",
+      "title": "Proxied requests: until the response headers",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -131,7 +131,7 @@
     },
     {
       "id": 2,
-      "title": "Replies",
+      "title": "Requests, by outcome",
       "description": "A page assessed after its deadline counts both with a verdict and as refused.",
       "type": "timeseries",
       "datasource": {
@@ -140,7 +140,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 24,
         "x": 0,
         "y": 1
       },
@@ -170,28 +170,33 @@
         {
           "refId": "A",
           "expr": "sum(clamp_min(spamproxy_verdicts_total{instance=~\"$service_instance\"} - (spamproxy_verdicts_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "pages with a verdict"
+          "legendFormat": "relayed with a verdict"
         },
         {
           "refId": "B",
           "expr": "sum(clamp_min(spamproxy_skipped_assessments_total{instance=~\"$service_instance\"} - (spamproxy_skipped_assessments_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "answers skipped"
+          "legendFormat": "relayed without a verdict"
         },
         {
           "refId": "C",
           "expr": "sum(clamp_min(spamproxy_refused_requests_total{instance=~\"$service_instance\"} - (spamproxy_refused_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "requests refused"
+          "legendFormat": "refused by spamproxy"
         },
         {
           "refId": "D",
-          "expr": "sum(clamp_min(spamproxy_answer_reading_failures_total{instance=~\"$service_instance\"} - (spamproxy_answer_reading_failures_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "answers that failed"
+          "expr": "sum(clamp_min(spamproxy_upstream_response_failures_total{instance=~\"$service_instance\"} - (spamproxy_upstream_response_failures_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "upstream failure"
+        },
+        {
+          "refId": "E",
+          "expr": "sum(clamp_min(spamproxy_client_closed_requests_total{instance=~\"$service_instance\"} - (spamproxy_client_closed_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "closed by the client"
         }
       ]
     },
     {
       "id": 3,
-      "title": "Refused requests, by reason",
+      "title": "Responses with a verdict, by verdict",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -199,9 +204,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 1
+        "w": 6,
+        "x": 0,
+        "y": 9
       },
       "fieldConfig": {
         "defaults": {
@@ -228,15 +233,14 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (clamp_min(spamproxy_refused_requests_total{instance=~\"$service_instance\"} - (spamproxy_refused_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{reason}}"
+          "expr": "sum by (verdict) (clamp_min(spamproxy_verdicts_total{instance=~\"$service_instance\"} - (spamproxy_verdicts_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{verdict}}"
         }
       ]
     },
     {
       "id": 4,
-      "title": "Skipped assessments, by reason",
-      "description": "A skipped answer goes to the client without a verdict.",
+      "title": "Responses without a verdict, by reason",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -244,9 +248,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 1
+        "w": 6,
+        "x": 6,
+        "y": 9
       },
       "fieldConfig": {
         "defaults": {
@@ -280,20 +284,7 @@
     },
     {
       "id": 5,
-      "title": "Page bodies read and relayed",
-      "type": "row",
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 9
-      },
-      "panels": []
-    },
-    {
-      "id": 6,
-      "title": "How long a page waited for a reading slot",
+      "title": "Refused requests, by reason",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -301,63 +292,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 10
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "showPoints": "auto",
-            "scaleDistribution": {
-              "type": "log",
-              "log": 10
-            }
-          }
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "p90"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "p99"
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "title": "Answers that failed, replies cut short, and clients that left",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
+        "w": 6,
         "x": 12,
-        "y": 10
+        "y": 9
       },
       "fieldConfig": {
         "defaults": {
@@ -384,23 +321,119 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(spamproxy_answer_reading_failures_total{instance=~\"$service_instance\"} - (spamproxy_answer_reading_failures_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "answers that failed"
-        },
-        {
-          "refId": "B",
-          "expr": "sum(clamp_min(spamproxy_cut_short_replies_total{instance=~\"$service_instance\"} - (spamproxy_cut_short_replies_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "replies cut short"
-        },
-        {
-          "refId": "C",
-          "expr": "sum(clamp_min(spamproxy_departed_clients_total{instance=~\"$service_instance\"} - (spamproxy_departed_clients_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "clients that left"
+          "expr": "sum by (reason) (clamp_min(spamproxy_refused_requests_total{instance=~\"$service_instance\"} - (spamproxy_refused_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{reason}}"
         }
       ]
     },
     {
+      "id": 6,
+      "title": "Upstream failures, by cause",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 9
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "axisLabel": "per interval",
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (step) (clamp_min(spamproxy_upstream_request_failures_total{instance=~\"$service_instance\"} - (spamproxy_upstream_request_failures_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{step}}"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(clamp_min(spamproxy_upstream_response_failures_total{instance=~\"$service_instance\", cause=\"body_read_failed\"} - (spamproxy_upstream_response_failures_total{instance=~\"$service_instance\", cause=\"body_read_failed\"} offset $__interval), 0))",
+          "legendFormat": "body_read_failed"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Proxied requests: sending the response body",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "panels": []
+    },
+    {
       "id": 8,
+      "title": "Incomplete response bodies, by cause",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "axisLabel": "per interval",
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (cause) (clamp_min(spamproxy_incomplete_responses_total{instance=~\"$service_instance\"} - (spamproxy_incomplete_responses_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{cause}}"
+        }
+      ]
+    },
+    {
+      "id": 9,
       "title": "Pages assessed for spam",
       "type": "row",
       "collapsed": false,
@@ -408,12 +441,12 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 26
       },
       "panels": []
     },
     {
-      "id": 9,
+      "id": 10,
       "title": "Share of the assessed pages, by verdict",
       "type": "timeseries",
       "datasource": {
@@ -424,7 +457,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 19
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -457,7 +490,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": 11,
       "title": "Assessed pages, by score",
       "type": "heatmap",
       "datasource": {
@@ -468,7 +501,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 19
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -516,7 +549,61 @@
       ]
     },
     {
-      "id": 11,
+      "id": 12,
+      "title": "How long a page waited for a reading slot",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 35
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} - (spamproxy_reading_slot_wait_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p99"
+        }
+      ]
+    },
+    {
+      "id": 13,
       "title": "How long a page waited for a CPU slot",
       "type": "timeseries",
       "datasource": {
@@ -525,9 +612,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 27
+        "w": 6,
+        "x": 6,
+        "y": 35
       },
       "fieldConfig": {
         "defaults": {
@@ -570,7 +657,7 @@
       ]
     },
     {
-      "id": 12,
+      "id": 14,
       "title": "How long an assessment took",
       "type": "timeseries",
       "datasource": {
@@ -579,9 +666,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 27
+        "w": 6,
+        "x": 12,
+        "y": 35
       },
       "fieldConfig": {
         "defaults": {
@@ -624,7 +711,7 @@
       ]
     },
     {
-      "id": 13,
+      "id": 15,
       "title": "Assessment panics",
       "type": "timeseries",
       "datasource": {
@@ -633,9 +720,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 27
+        "w": 6,
+        "x": 18,
+        "y": 35
       },
       "fieldConfig": {
         "defaults": {
@@ -668,7 +755,7 @@
       ]
     },
     {
-      "id": 14,
+      "id": 16,
       "title": "Go process",
       "type": "row",
       "collapsed": false,
@@ -676,12 +763,12 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 35
+        "y": 43
       },
       "panels": []
     },
     {
-      "id": 15,
+      "id": 17,
       "title": "Process memory",
       "type": "timeseries",
       "datasource": {
@@ -692,7 +779,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 36
+        "y": 44
       },
       "fieldConfig": {
         "defaults": {
@@ -731,7 +818,7 @@
       ]
     },
     {
-      "id": 16,
+      "id": 18,
       "title": "CPU cores used",
       "type": "timeseries",
       "datasource": {
@@ -742,7 +829,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 36
+        "y": 44
       },
       "fieldConfig": {
         "defaults": {
@@ -771,7 +858,7 @@
       ]
     },
     {
-      "id": 17,
+      "id": 19,
       "title": "Goroutines",
       "type": "timeseries",
       "datasource": {
@@ -782,7 +869,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 36
+        "y": 44
       },
       "fieldConfig": {
         "defaults": {
@@ -811,7 +898,7 @@
       ]
     },
     {
-      "id": 18,
+      "id": 20,
       "title": "Garbage collections",
       "type": "timeseries",
       "datasource": {
@@ -822,7 +909,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 44
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -852,7 +939,7 @@
       ]
     },
     {
-      "id": 19,
+      "id": 21,
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
       "datasource": {
@@ -863,7 +950,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 44
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -892,7 +979,7 @@
       ]
     },
     {
-      "id": 20,
+      "id": 22,
       "title": "Share of the file descriptor limit in use",
       "type": "timeseries",
       "datasource": {
@@ -903,7 +990,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 44
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {

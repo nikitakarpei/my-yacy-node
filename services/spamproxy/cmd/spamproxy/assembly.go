@@ -26,6 +26,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 	requestrelayobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/applog"
 	requestrelayobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/upstreamrequest"
+	upstreamrequestobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/upstreamrequestobservers/applog"
+	upstreamrequestobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/upstreamrequestobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
@@ -55,8 +58,15 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 			assessmentgateobserversprometheus.New(registry),
 		},
 	)
-	relayer := requestrelay.New(
+	upstreamRequestSender := upstreamrequest.New(
 		egressTransportFor(cfg),
+		upstreamrequest.Observers{
+			upstreamrequestobserversapplog.UpstreamRequestLog{},
+			upstreamrequestobserversprometheus.New(registry),
+		},
+	)
+	relayer := requestrelay.New(
+		upstreamRequestSender,
 		gatedAssessor,
 		requestrelay.Observers{
 			requestrelayobserversapplog.RelayLog{},

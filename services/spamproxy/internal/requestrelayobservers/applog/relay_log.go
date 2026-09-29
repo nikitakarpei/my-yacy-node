@@ -58,24 +58,36 @@ func (RelayLog) RequestRefused(
 	)
 }
 
-func (RelayLog) AnswerReadingFailed(
+func (RelayLog) UpstreamResponseFailed(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
+	failure requestrelay.UpstreamResponseFailure,
 	cause error,
 ) {
-	slog.WarnContext(ctx, "answer reading failed",
+	slog.WarnContext(ctx, "upstream response failed",
 		slog.String("address", address.String()),
+		slog.String("failure", string(failure)),
 		slog.Any("error", cause),
 	)
 }
 
-func (RelayLog) ReplyCutShort(ctx context.Context, address canonicalurl.CanonicalURL, cause error) {
-	slog.WarnContext(ctx, "reply cut short",
+func (RelayLog) ResponseLeftIncomplete(
+	ctx context.Context,
+	address canonicalurl.CanonicalURL,
+	incompleteResponseCause requestrelay.IncompleteResponseCause,
+	cause error,
+) {
+	level := slog.LevelWarn
+	if incompleteResponseCause == requestrelay.ClientClosedRequest {
+		level = slog.LevelDebug
+	}
+	slog.Log(ctx, level, "response left incomplete",
 		slog.String("address", address.String()),
+		slog.String("cause", string(incompleteResponseCause)),
 		slog.Any("error", cause),
 	)
 }
 
-func (RelayLog) ClientLeft(ctx context.Context, address canonicalurl.CanonicalURL) {
-	slog.DebugContext(ctx, "client left", slog.String("address", address.String()))
+func (RelayLog) ClientClosedRequest(ctx context.Context, address canonicalurl.CanonicalURL) {
+	slog.DebugContext(ctx, "client closed request", slog.String("address", address.String()))
 }

@@ -25,9 +25,9 @@ type RelayMetrics struct {
 	readingSlotWaitSeconds prometheusclient.Histogram
 	skippedAssessments     *prometheusclient.CounterVec
 	refusedRequests        *prometheusclient.CounterVec
-	answerReadingFailures  prometheusclient.Counter
-	cutShortReplies        prometheusclient.Counter
-	departedClients        prometheusclient.Counter
+	upstreamFailures       *prometheusclient.CounterVec
+	incompleteResponses    *prometheusclient.CounterVec
+	closedRequests         prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *RelayMetrics {
@@ -48,23 +48,23 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 		}),
 		skippedAssessments: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "spamproxy_skipped_assessments_total",
-			Help: "Answers relayed without an assessment.",
+			Help: "Upstream responses relayed without an assessment.",
 		}, []string{"reason"}),
 		refusedRequests: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "spamproxy_refused_requests_total",
 			Help: "Requests that the proxy answers with its own error status.",
 		}, []string{"reason"}),
-		answerReadingFailures: prometheusclient.NewCounter(prometheusclient.CounterOpts{
-			Name: "spamproxy_answer_reading_failures_total",
-			Help: "Answers of the egress proxy that failed before the response headers.",
-		}),
-		cutShortReplies: prometheusclient.NewCounter(prometheusclient.CounterOpts{
-			Name: "spamproxy_cut_short_replies_total",
-			Help: "Replies that ended before the whole body.",
-		}),
-		departedClients: prometheusclient.NewCounter(prometheusclient.CounterOpts{
-			Name: "spamproxy_departed_clients_total",
-			Help: "Clients that left before the reply ended.",
+		upstreamFailures: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+			Name: "spamproxy_upstream_response_failures_total",
+			Help: "Upstream responses that failed before the response headers, by cause.",
+		}, []string{"cause"}),
+		incompleteResponses: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+			Name: "spamproxy_incomplete_responses_total",
+			Help: "Responses that ended before the whole body, by cause.",
+		}, []string{"cause"}),
+		closedRequests: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "spamproxy_client_closed_requests_total",
+			Help: "Requests that the client closed before the response headers.",
 		}),
 	}
 	registry.MustRegister(
@@ -73,9 +73,9 @@ func New(registry prometheusclient.Registerer) *RelayMetrics {
 		metrics.readingSlotWaitSeconds,
 		metrics.skippedAssessments,
 		metrics.refusedRequests,
-		metrics.answerReadingFailures,
-		metrics.cutShortReplies,
-		metrics.departedClients,
+		metrics.upstreamFailures,
+		metrics.incompleteResponses,
+		metrics.closedRequests,
 	)
 	return metrics
 }
@@ -113,14 +113,24 @@ func (m *RelayMetrics) RequestRefused(
 	m.refusedRequests.WithLabelValues(string(reason)).Inc()
 }
 
-func (m *RelayMetrics) AnswerReadingFailed(context.Context, canonicalurl.CanonicalURL, error) {
-	m.answerReadingFailures.Inc()
+func (m *RelayMetrics) UpstreamResponseFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	failure requestrelay.UpstreamResponseFailure,
+	_ error,
+) {
+	m.upstreamFailures.WithLabelValues(string(failure)).Inc()
 }
 
-func (m *RelayMetrics) ReplyCutShort(context.Context, canonicalurl.CanonicalURL, error) {
-	m.cutShortReplies.Inc()
+func (m *RelayMetrics) ResponseLeftIncomplete(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	incompleteResponseCause requestrelay.IncompleteResponseCause,
+	_ error,
+) {
+	m.incompleteResponses.WithLabelValues(string(incompleteResponseCause)).Inc()
 }
 
-func (m *RelayMetrics) ClientLeft(context.Context, canonicalurl.CanonicalURL) {
-	m.departedClients.Inc()
+func (m *RelayMetrics) ClientClosedRequest(context.Context, canonicalurl.CanonicalURL) {
+	m.closedRequests.Inc()
 }
