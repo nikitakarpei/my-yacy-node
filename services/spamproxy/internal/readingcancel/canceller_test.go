@@ -1,4 +1,4 @@
-package readtimer_test
+package readingcancel_test
 
 import (
 	"io"
@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readtimer"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 )
 
 var now = time.Date(2026, 9, 29, 12, 0, 0, 0, time.UTC)
@@ -38,36 +38,36 @@ func (r *cancelRecord) cancel() { r.cancellations++ }
 func TestReadingPastTheDeadlineCancelsTheAnswer(t *testing.T) {
 	clock := &fakeClock{}
 	cancels := &cancelRecord{}
-	timer := readtimer.New(clock, cancels.cancel)
+	canceller := readingcancel.New(clock, cancels.cancel)
 
-	timer.EndReadingAt(now.Add(3 * time.Second))
+	canceller.CancelAt(now.Add(3 * time.Second))
 	clock.armedTimers[0].expire()
 
 	if clock.armedTimers[0].timeout != 3*time.Second || cancels.cancellations != 1 ||
-		!timer.Expired() {
-		t.Fatalf("timeout %v, cancellations %d, expired %v",
-			clock.armedTimers[0].timeout, cancels.cancellations, timer.Expired())
+		!canceller.Cancelled() {
+		t.Fatalf("timeout %v, cancellations %d, cancelled %v",
+			clock.armedTimers[0].timeout, cancels.cancellations, canceller.Cancelled())
 	}
 }
 
-func TestAStoppedTimerHasNotExpired(t *testing.T) {
+func TestAStoppedCancellerHasNotCancelled(t *testing.T) {
 	clock := &fakeClock{}
-	timer := readtimer.New(clock, (&cancelRecord{}).cancel)
+	canceller := readingcancel.New(clock, (&cancelRecord{}).cancel)
 
-	timer.EndReadingAt(now.Add(time.Second))
-	timer.Stop()
+	canceller.CancelAt(now.Add(time.Second))
+	canceller.Stop()
 
-	if !clock.armedTimers[0].stopped || timer.Expired() {
-		t.Fatalf("stopped %v, expired %v", clock.armedTimers[0].stopped, timer.Expired())
+	if !clock.armedTimers[0].stopped || canceller.Cancelled() {
+		t.Fatalf("stopped %v, cancelled %v", clock.armedTimers[0].stopped, canceller.Cancelled())
 	}
 }
 
 func TestEachReadWaitsAtMostTheIdleTimeoutAndOnlyWhileItReads(t *testing.T) {
 	clock := &fakeClock{}
-	timer := readtimer.New(clock, (&cancelRecord{}).cancel)
-	timer.EndReadingAt(now.Add(time.Second))
+	canceller := readingcancel.New(clock, (&cancelRecord{}).cancel)
+	canceller.CancelAt(now.Add(time.Second))
 
-	body, err := io.ReadAll(timer.IdleLimitedFrom(strings.NewReader("page"), 30*time.Second))
+	body, err := io.ReadAll(canceller.IdleLimitedFrom(strings.NewReader("page"), 30*time.Second))
 	if err != nil || string(body) != "page" {
 		t.Fatalf("body %q, error %v", body, err)
 	}

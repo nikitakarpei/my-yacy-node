@@ -27,7 +27,7 @@ type pageAssessor struct {
 	pageByteCeiling int
 }
 
-func (a pageAssessor) assessedPageFrom(
+func (a pageAssessor) assess(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	bodyPrefix []byte,
@@ -42,7 +42,7 @@ func (a pageAssessor) assessedPageFrom(
 	if !decoded {
 		return assessedPage{}, UndecodableBody
 	}
-	assessment, outcome := a.assessor.AssessmentFrom(
+	assessment, outcome := a.assessor.Assess(
 		ctx,
 		address,
 		body,

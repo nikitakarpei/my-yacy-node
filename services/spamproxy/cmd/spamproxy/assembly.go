@@ -46,7 +46,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 		return err
 	}
 	clock := wallclock.Clock{}
-	gate := assessmentgate.New(
+	gatedAssessor := assessmentgate.New(
 		pageassessment.NewPageAssessor(model),
 		runtime.GOMAXPROCS(0),
 		clock,
@@ -57,7 +57,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 	)
 	relayer := requestrelay.New(
 		egressTransportFor(cfg),
-		gate,
+		gatedAssessor,
 		requestrelay.Observers{
 			requestrelayobserversapplog.RelayLog{},
 			requestrelayobserversprometheus.New(registry),

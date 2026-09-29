@@ -159,7 +159,7 @@ type fakeAssessor struct {
 	during        func()
 }
 
-func (a *fakeAssessor) AssessmentFrom(
+func (a *fakeAssessor) Assess(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	body []byte,

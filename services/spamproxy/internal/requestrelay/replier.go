@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readtimer"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
 )
 
@@ -20,7 +20,7 @@ type replier struct {
 	clock            Clock
 	address          canonicalurl.CanonicalURL
 	requestArrivedAt time.Time
-	timer            *readtimer.Timer
+	canceller        *readingcancel.Canceller
 	relayIdleTimeout time.Duration
 }
 
@@ -44,7 +44,7 @@ func (c replier) sendHead(
 }
 
 func (c replier) failReading(ctx context.Context, expiryReason RefusalReason, cause error) {
-	if c.timer.Expired() {
+	if c.canceller.Cancelled() {
 		c.refuse(ctx, expiryReason)
 		return
 	}
@@ -77,7 +77,7 @@ func (c replier) sendPage(ctx context.Context, answer *http.Response, page asses
 }
 
 func (c replier) relayRest(ctx context.Context, answerBody io.Reader, bodyPrefix []byte) {
-	rest := c.timer.IdleLimitedFrom(answerBody, c.relayIdleTimeout)
+	rest := c.canceller.IdleLimitedFrom(answerBody, c.relayIdleTimeout)
 	if _, err := io.Copy(
 		c.replyWriter,
 		io.MultiReader(bytes.NewReader(bodyPrefix), rest),

@@ -9,7 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/contentencoding"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readtimer"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 )
 
 type answerRelayer struct {
@@ -21,7 +21,7 @@ type answerRelayer struct {
 	method          string
 	address         canonicalurl.CanonicalURL
 	headersDueAt    time.Time
-	timer           *readtimer.Timer
+	canceller       *readingcancel.Canceller
 	replier         replier
 }
 
@@ -64,7 +64,7 @@ func (r answerRelayer) relayPage(
 		r.replier.failReading(ctx, PageReadDeadline, readFailure)
 		return
 	}
-	page, refusal := r.pageAssessor.assessedPageFrom(
+	page, refusal := r.pageAssessor.assess(
 		ctx, r.address, bodyPrefix, answer.Header, r.headersDueAt,
 	)
 	r.readingSlots.release()
@@ -84,6 +84,6 @@ func (r answerRelayer) reserveReadingSlot(ctx context.Context, readingCtx contex
 
 func (r answerRelayer) bodyPrefixFrom(answerBody io.Reader) ([]byte, error) {
 	bodyPrefix, err := io.ReadAll(io.LimitReader(answerBody, int64(r.pageByteCeiling)))
-	r.timer.Stop()
+	r.canceller.Stop()
 	return bodyPrefix, err //nolint:wrapcheck // the relay reports the cause as the egress gave it
 }

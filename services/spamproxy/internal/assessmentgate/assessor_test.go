@@ -141,15 +141,15 @@ func (r *observerRecord) AssessmentPanicked(
 	r.panicValues = append(r.panicValues, panicValue)
 }
 
-func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfTheAssessor(t *testing.T) {
-	gate := assessmentgate.New(
+func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfThePageAssessor(t *testing.T) {
+	gatedAssessor := assessmentgate.New(
 		fixedAssessor{},
 		1,
 		newFakeClock(),
 		assessmentgate.Observers{&observerRecord{}},
 	)
 
-	got, outcome := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
+	got, outcome := gatedAssessor.Assess(t.Context(), address(t), nil, nil, deadline)
 
 	if outcome != assessmentgate.Assessed || got != assessment {
 		t.Fatalf("assessment = %+v, outcome %v", got, outcome)
@@ -159,8 +159,13 @@ func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfTheAssessor(t *testing.T)
 func TestAnAssessmentPastTheDeadlineIsGivenUp(t *testing.T) {
 	clock := newFakeClock()
 	assessor := newHeldAssessor()
-	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{&observerRecord{}})
-	results := assessmentsInBackground(t, gate)
+	gatedAssessor := assessmentgate.New(
+		assessor,
+		1,
+		clock,
+		assessmentgate.Observers{&observerRecord{}},
+	)
+	results := assessmentsInBackground(t, gatedAssessor)
 
 	<-assessor.started
 	(<-clock.expirations)()
@@ -174,12 +179,17 @@ func TestAnAssessmentPastTheDeadlineIsGivenUp(t *testing.T) {
 func TestAPageWaitingForAFreeSlotPastTheDeadlineMissesItsTurn(t *testing.T) {
 	clock := newFakeClock()
 	assessor := newHeldAssessor()
-	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{&observerRecord{}})
-	firstResults := assessmentsInBackground(t, gate)
+	gatedAssessor := assessmentgate.New(
+		assessor,
+		1,
+		clock,
+		assessmentgate.Observers{&observerRecord{}},
+	)
+	firstResults := assessmentsInBackground(t, gatedAssessor)
 	<-clock.expirations
 	<-assessor.started
 
-	waitingResults := assessmentsInBackground(t, gate)
+	waitingResults := assessmentsInBackground(t, gatedAssessor)
 	(<-clock.expirations)()
 
 	if got := <-waitingResults; got.outcome != assessmentgate.SlotWaitDeadline {
@@ -195,9 +205,9 @@ func TestTheTimeOfAnAssessmentIsReported(t *testing.T) {
 	clock := newFakeClock()
 	observers := &observerRecord{}
 	assessor := slowAssessor{clock: clock, duration: 30 * time.Millisecond}
-	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
+	gatedAssessor := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
 
-	gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
+	gatedAssessor.Assess(t.Context(), address(t), nil, nil, deadline)
 
 	if !slices.Equal(observers.assessmentDurations, []time.Duration{30 * time.Millisecond}) ||
 		!slices.Equal(observers.slotWaits, []time.Duration{0}) {
@@ -210,12 +220,12 @@ func TestTheSlotWaitOfAPageThatMissedItsTurnIsReported(t *testing.T) {
 	clock := newFakeClock()
 	observers := &observerRecord{}
 	assessor := newHeldAssessor()
-	gate := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
-	firstResults := assessmentsInBackground(t, gate)
+	gatedAssessor := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
+	firstResults := assessmentsInBackground(t, gatedAssessor)
 	<-clock.expirations
 	<-assessor.started
 
-	waitingResults := assessmentsInBackground(t, gate)
+	waitingResults := assessmentsInBackground(t, gatedAssessor)
 	expireWaiting := <-clock.expirations
 	clock.passTo(time.Second)
 	expireWaiting()
@@ -230,15 +240,15 @@ func TestTheSlotWaitOfAPageThatMissedItsTurnIsReported(t *testing.T) {
 
 func TestAPanickingAssessmentIsUnassessedAndReported(t *testing.T) {
 	panics := &observerRecord{}
-	gate := assessmentgate.New(
+	gatedAssessor := assessmentgate.New(
 		panickingAssessor{},
 		1,
 		newFakeClock(),
 		assessmentgate.Observers{panics},
 	)
 
-	_, outcome := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
-	_, outcomeAfterwards := gate.AssessmentFrom(t.Context(), address(t), nil, nil, deadline)
+	_, outcome := gatedAssessor.Assess(t.Context(), address(t), nil, nil, deadline)
+	_, outcomeAfterwards := gatedAssessor.Assess(t.Context(), address(t), nil, nil, deadline)
 
 	if outcome != assessmentgate.Panicked || outcomeAfterwards != assessmentgate.Panicked ||
 		len(panics.panicValues) != 2 {
@@ -246,12 +256,12 @@ func TestAPanickingAssessmentIsUnassessedAndReported(t *testing.T) {
 	}
 }
 
-func assessmentsInBackground(t *testing.T, gate *assessmentgate.Gate) <-chan result {
+func assessmentsInBackground(t *testing.T, gatedAssessor *assessmentgate.Assessor) <-chan result {
 	t.Helper()
 	results := make(chan result, 1)
 	pageAddress := address(t)
 	go func() {
-		got, outcome := gate.AssessmentFrom(context.Background(), pageAddress, nil, nil, deadline)
+		got, outcome := gatedAssessor.Assess(context.Background(), pageAddress, nil, nil, deadline)
 		results <- result{got, outcome}
 	}()
 	return results

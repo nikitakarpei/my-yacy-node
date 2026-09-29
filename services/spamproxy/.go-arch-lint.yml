@@ -17,8 +17,8 @@ components:
     in: internal/contentencoding/**
   relayedheaders:
     in: internal/relayedheaders/**
-  readtimer:
-    in: internal/readtimer/**
+  readingcancel:
+    in: internal/readingcancel/**
   assessmentgate:
     in: internal/assessmentgate/**
   egresstransportstunnel:
@@ -74,7 +74,7 @@ deps:
     mayDependOn:
       - assessmentgate
       - contentencoding
-      - readtimer
+      - readingcancel
       - relayedheaders
       - replydeadline
     canUse:

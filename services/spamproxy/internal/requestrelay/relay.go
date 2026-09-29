@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readtimer"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/replydeadline"
 )
@@ -21,7 +21,7 @@ type Egress interface {
 }
 
 type Assessor interface {
-	AssessmentFrom(
+	Assess(
 		ctx context.Context,
 		address canonicalurl.CanonicalURL,
 		body []byte,
@@ -94,28 +94,29 @@ func (r *Relayer) ReplyTo(
 	)
 	readingCtx, cancelReading := context.WithCancel(ctx)
 	defer cancelReading()
-	timer := readtimer.New(r.clock, cancelReading)
-	defer timer.Stop()
-	replier := r.replierFor(address, requestArrivedAt, timer, replyWriter)
+	canceller := readingcancel.New(r.clock, cancelReading)
+	defer canceller.Stop()
+	replier := r.replierFor(address, requestArrivedAt, canceller, replyWriter)
 	if !headersDueAt.After(requestArrivedAt) {
 		replier.refuse(ctx, WaitTooShort)
 		return
 	}
 	egressRequest := egressRequestFor(readingCtx, method, address, requestHeaders)
-	timer.EndReadingAt(headersDueAt)
+	canceller.CancelAt(headersDueAt)
 	answer, err := r.egress.RoundTrip(egressRequest)
 	if err != nil {
 		replier.failReading(ctx, PageReadDeadline, err)
 		return
 	}
 	defer func() { _ = answer.Body.Close() }()
-	r.answerRelayerFor(method, address, headersDueAt, timer, replier).relay(ctx, readingCtx, answer)
+	r.answerRelayerFor(method, address, headersDueAt, canceller, replier).
+		relay(ctx, readingCtx, answer)
 }
 
 func (r *Relayer) replierFor(
 	address canonicalurl.CanonicalURL,
 	requestArrivedAt time.Time,
-	timer *readtimer.Timer,
+	canceller *readingcancel.Canceller,
 	replyWriter ReplyWriter,
 ) replier {
 	return replier{
@@ -124,7 +125,7 @@ func (r *Relayer) replierFor(
 		clock:            r.clock,
 		address:          address,
 		requestArrivedAt: requestArrivedAt,
-		timer:            timer,
+		canceller:        canceller,
 		relayIdleTimeout: r.limits.RelayIdleTimeout,
 	}
 }
@@ -133,7 +134,7 @@ func (r *Relayer) answerRelayerFor(
 	method string,
 	address canonicalurl.CanonicalURL,
 	headersDueAt time.Time,
-	timer *readtimer.Timer,
+	canceller *readingcancel.Canceller,
 	replier replier,
 ) answerRelayer {
 	return answerRelayer{
@@ -145,7 +146,7 @@ func (r *Relayer) answerRelayerFor(
 		method:          method,
 		address:         address,
 		headersDueAt:    headersDueAt,
-		timer:           timer,
+		canceller:       canceller,
 		replier:         replier,
 	}
 }

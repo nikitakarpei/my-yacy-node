@@ -33,23 +33,23 @@ type Clock interface {
 	After(timeout time.Duration, expire func()) (stop func())
 }
 
-type Gate struct {
-	assessor        PageAssessor
+type Assessor struct {
+	pageAssessor    PageAssessor
 	assessmentSlots chan struct{}
 	clock           Clock
 	observers       Observers
 }
 
-func New(assessor PageAssessor, slotAmount int, clock Clock, observers Observers) *Gate {
-	return &Gate{
-		assessor:        assessor,
+func New(pageAssessor PageAssessor, slotAmount int, clock Clock, observers Observers) *Assessor {
+	return &Assessor{
+		pageAssessor:    pageAssessor,
 		assessmentSlots: make(chan struct{}, slotAmount),
 		clock:           clock,
 		observers:       observers,
 	}
 }
 
-func (g *Gate) AssessmentFrom(
+func (a *Assessor) Assess(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	body []byte,
@@ -57,13 +57,13 @@ func (g *Gate) AssessmentFrom(
 	deadline time.Time,
 ) (spamassessment.Assessment, Outcome) {
 	expired := make(chan struct{})
-	stop := g.clock.After(deadline.Sub(g.clock.Now()), func() { close(expired) })
+	stop := a.clock.After(deadline.Sub(a.clock.Now()), func() { close(expired) })
 	defer stop()
-	if !g.reserveSlot(ctx, address, expired) {
+	if !a.reserveSlot(ctx, address, expired) {
 		return spamassessment.Assessment{}, SlotWaitDeadline
 	}
 	assessments := make(chan spamassessment.Assessment, 1)
-	go g.assess(ctx, address, body, responseHeaders, assessments)
+	go a.assessInSlot(ctx, address, body, responseHeaders, assessments)
 	select {
 	case assessment, assessed := <-assessments:
 		if !assessed {
@@ -75,37 +75,37 @@ func (g *Gate) AssessmentFrom(
 	}
 }
 
-func (g *Gate) reserveSlot(
+func (a *Assessor) reserveSlot(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	expired <-chan struct{},
 ) bool {
-	slotWaitStarted := g.clock.Now()
-	defer func() { g.observers.SlotWaited(ctx, address, g.clock.Now().Sub(slotWaitStarted)) }()
+	slotWaitStarted := a.clock.Now()
+	defer func() { a.observers.SlotWaited(ctx, address, a.clock.Now().Sub(slotWaitStarted)) }()
 	select {
-	case g.assessmentSlots <- struct{}{}:
+	case a.assessmentSlots <- struct{}{}:
 		return true
 	case <-expired:
 		return false
 	}
 }
 
-func (g *Gate) assess(
+func (a *Assessor) assessInSlot(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
 	body []byte,
 	responseHeaders http.Header,
 	assessments chan<- spamassessment.Assessment,
 ) {
-	defer func() { <-g.assessmentSlots }()
+	defer func() { <-a.assessmentSlots }()
 	defer func() {
 		if panicValue := recover(); panicValue != nil {
-			g.observers.AssessmentPanicked(ctx, address, panicValue)
+			a.observers.AssessmentPanicked(ctx, address, panicValue)
 			close(assessments)
 		}
 	}()
-	assessmentStarted := g.clock.Now()
-	assessment := g.assessor.AssessmentFrom(address, body, responseHeaders)
-	g.observers.AssessmentFinished(ctx, address, g.clock.Now().Sub(assessmentStarted))
+	assessmentStarted := a.clock.Now()
+	assessment := a.pageAssessor.AssessmentFrom(address, body, responseHeaders)
+	a.observers.AssessmentFinished(ctx, address, a.clock.Now().Sub(assessmentStarted))
 	assessments <- assessment
 }
