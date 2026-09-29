@@ -61,7 +61,7 @@ func (s responseSender) passThrough(
 	s.observers.AssessmentSkipped(ctx, s.address, reason)
 	s.responseWriter.SendHeaders(
 		upstreamResponse.StatusCode,
-		relayedheaders.EndToEndHeadersOf(upstreamResponse.Header),
+		relayedheaders.ResponseHeadersFrom(upstreamResponse.Header),
 	)
 	s.relayRest(ctx, upstreamResponse.Body, nil)
 }

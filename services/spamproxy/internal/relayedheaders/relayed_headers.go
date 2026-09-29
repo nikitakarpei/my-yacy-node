@@ -15,7 +15,7 @@ const (
 	userAgentName      = "User-Agent"
 )
 
-var forwardedRequestHeaderNames = []string{userAgentName, "If-None-Match", "If-Modified-Since"}
+var relayedRequestHeaderNames = []string{userAgentName, "If-None-Match", "If-Modified-Since"}
 
 var hopByHopHeaderNames = []string{
 	"Connection",
@@ -29,29 +29,29 @@ var hopByHopHeaderNames = []string{
 	"Upgrade",
 }
 
-func ForwardedHeadersFrom(requestHeaders http.Header) http.Header {
-	forwardedHeaders := http.Header{userAgentName: nil}
-	for _, name := range forwardedRequestHeaderNames {
-		for _, value := range requestHeaders.Values(name) {
-			forwardedHeaders.Add(name, value)
+func RequestHeadersFrom(clientRequestHeaders http.Header) http.Header {
+	requestHeaders := http.Header{userAgentName: nil}
+	for _, name := range relayedRequestHeaderNames {
+		for _, value := range clientRequestHeaders.Values(name) {
+			requestHeaders.Add(name, value)
 		}
 	}
-	for _, value := range requestHeaders.Values(acceptEncodingName) {
-		forwardedHeaders.Add(acceptEncodingName, contentencoding.DecodableAcceptEncodingFrom(value))
+	for _, value := range clientRequestHeaders.Values(acceptEncodingName) {
+		requestHeaders.Add(acceptEncodingName, contentencoding.DecodableAcceptEncodingFrom(value))
 	}
-	return forwardedHeaders
+	return requestHeaders
 }
 
-func EndToEndHeadersOf(responseHeaders http.Header) http.Header {
-	endToEndHeaders := responseHeaders.Clone()
-	for _, value := range responseHeaders.Values("Connection") {
+func ResponseHeadersFrom(upstreamResponseHeaders http.Header) http.Header {
+	responseHeaders := upstreamResponseHeaders.Clone()
+	for _, value := range upstreamResponseHeaders.Values("Connection") {
 		for name := range strings.SplitSeq(value, ",") {
-			endToEndHeaders.Del(strings.TrimSpace(name))
+			responseHeaders.Del(strings.TrimSpace(name))
 		}
 	}
 	for _, name := range hopByHopHeaderNames {
-		endToEndHeaders.Del(name)
+		responseHeaders.Del(name)
 	}
-	endToEndHeaders.Del(spamassessmenthttpheader.Name)
-	return endToEndHeaders
+	responseHeaders.Del(spamassessmenthttpheader.Name)
+	return responseHeaders
 }

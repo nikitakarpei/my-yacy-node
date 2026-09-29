@@ -362,7 +362,7 @@ func TestAnHTMLPageCarriesTheVerdictAndItsBody(t *testing.T) {
 	}
 }
 
-func TestTheEgressIsAskedForTheAddressWithTheForwardedHeaders(t *testing.T) {
+func TestTheEgressIsAskedForTheAddressWithTheRelayedRequestHeaders(t *testing.T) {
 	fixture := newResponderFixture()
 
 	fixture.respondTo(

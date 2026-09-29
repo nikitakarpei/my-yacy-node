@@ -16,7 +16,7 @@ type assessedPage struct {
 }
 
 func (p assessedPage) headersFrom(upstreamResponseHeaders http.Header) http.Header {
-	headers := relayedheaders.EndToEndHeadersOf(upstreamResponseHeaders)
+	headers := relayedheaders.ResponseHeadersFrom(upstreamResponseHeaders)
 	if p.wasBodyWhole {
 		headers.Set("Content-Length", strconv.Itoa(len(p.bodyPrefix)))
 	}

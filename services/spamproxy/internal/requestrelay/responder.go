@@ -152,7 +152,7 @@ func upstreamRequestFor(
 	request := &http.Request{
 		Method: method,
 		URL:    address.WebAddress(),
-		Header: relayedheaders.ForwardedHeadersFrom(requestHeaders),
+		Header: relayedheaders.RequestHeadersFrom(requestHeaders),
 	}
 	return request.WithContext(ctx)
 }

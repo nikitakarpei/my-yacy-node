@@ -10,8 +10,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
 )
 
-func TestOnlyTheNamedRequestHeadersAreForwarded(t *testing.T) {
-	forwardedHeaders := relayedheaders.ForwardedHeadersFrom(http.Header{
+func TestOnlyTheNamedRequestHeadersAreRelayed(t *testing.T) {
+	requestHeaders := relayedheaders.RequestHeadersFrom(http.Header{
 		"User-Agent":        {"crawler"},
 		"Cookie":            {"session=1"},
 		"If-None-Match":     {`"v1"`},
@@ -25,13 +25,13 @@ func TestOnlyTheNamedRequestHeadersAreForwarded(t *testing.T) {
 		"If-Modified-Since": {"Tue, 29 Sep 2026 10:00:00 GMT"},
 		"Accept-Encoding":   {"gzip"},
 	}
-	if !reflect.DeepEqual(forwardedHeaders, want) {
-		t.Fatalf("forwarded headers = %v, want %v", forwardedHeaders, want)
+	if !reflect.DeepEqual(requestHeaders, want) {
+		t.Fatalf("request headers = %v, want %v", requestHeaders, want)
 	}
 }
 
 func TestHopByHopHeadersAndTheOriginVerdictAreNotRelayed(t *testing.T) {
-	endToEndHeaders := relayedheaders.EndToEndHeadersOf(http.Header{
+	responseHeaders := relayedheaders.ResponseHeadersFrom(http.Header{
 		"Content-Type":      {"text/html"},
 		"Connection":        {"close, X-Private"},
 		"X-Private":         {"1"},
@@ -42,8 +42,8 @@ func TestHopByHopHeadersAndTheOriginVerdictAreNotRelayed(t *testing.T) {
 	})
 
 	want := http.Header{"Content-Type": {"text/html"}, "Etag": {`"v1"`}}
-	if !reflect.DeepEqual(endToEndHeaders, want) {
-		t.Fatalf("end-to-end headers = %v, want %v", endToEndHeaders, want)
+	if !reflect.DeepEqual(responseHeaders, want) {
+		t.Fatalf("response headers = %v, want %v", responseHeaders, want)
 	}
 }
 
@@ -51,7 +51,7 @@ func TestARequestWithoutAUserAgentIsSentWithoutOne(t *testing.T) {
 	request := &http.Request{
 		Method: http.MethodGet,
 		URL:    &url.URL{Scheme: "http", Host: "site.example", Path: "/"},
-		Header: relayedheaders.ForwardedHeadersFrom(http.Header{}),
+		Header: relayedheaders.RequestHeadersFrom(http.Header{}),
 	}
 	var sentRequest strings.Builder
 
