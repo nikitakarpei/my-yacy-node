@@ -1,125 +1,163 @@
+// Package requestrelay relays each proxied request through the egress proxy, and
+// adds a spam verdict to each page.
 package requestrelay
 
 import (
-	"bytes"
 	"context"
 	"io"
 	"net/http"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/readingcancel"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/relayedheaders"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/responsedeadline"
 )
 
-const retryAfterSeconds = "1"
-
-type responder struct {
-	responseWriter   ResponseWriter
-	observers        Observers
-	address          canonicalurl.CanonicalURL
-	canceller        *readingcancel.Canceller
-	relayIdleTimeout time.Duration
+type Egress interface {
+	RoundTrip(request *http.Request) (*http.Response, error)
 }
 
-func (c responder) refuse(ctx context.Context, reason RefusalReason) {
-	c.observers.RequestRefused(ctx, c.address, reason)
-	headers := http.Header{"Content-Length": {"0"}}
-	if reason.isRetryable() {
-		headers.Set("Retry-After", retryAfterSeconds)
+type Assessor interface {
+	Assess(
+		ctx context.Context,
+		address canonicalurl.CanonicalURL,
+		body []byte,
+		responseHeaders http.Header,
+		deadline time.Time,
+	) (spamassessment.Assessment, assessmentgate.Outcome)
+}
+
+type Clock interface {
+	Now() time.Time
+	After(timeout time.Duration, expire func()) (stop func())
+}
+
+type ResponseWriter interface {
+	io.Writer
+	SendHeaders(status int, headers http.Header)
+	Abort()
+}
+
+type Limits struct {
+	PageByteCeiling       int
+	MaxPagesReadAtOnce    int
+	ResponseHeaderTimeout time.Duration
+	RelayIdleTimeout      time.Duration
+}
+
+type Responder struct {
+	egress       Egress
+	pageAssessor pageAssessor
+	observers    Observers
+	limits       Limits
+	clock        Clock
+	readingSlots readingSlots
+}
+
+func New(
+	egress Egress,
+	assessor Assessor,
+	observers Observers,
+	limits Limits,
+	clock Clock,
+) *Responder {
+	return &Responder{
+		egress: egress,
+		pageAssessor: pageAssessor{
+			assessor:        assessor,
+			observers:       observers,
+			clock:           clock,
+			pageByteCeiling: limits.PageByteCeiling,
+		},
+		observers:    observers,
+		limits:       limits,
+		clock:        clock,
+		readingSlots: make(readingSlots, limits.MaxPagesReadAtOnce),
 	}
-	c.responseWriter.SendHeaders(httpStatusesPerRefusal[reason], headers)
 }
 
-func (c responder) failReading(
+func (r *Responder) RespondTo(
 	ctx context.Context,
-	expiryReason RefusalReason,
-	failure UpstreamResponseFailure,
-	cause error,
+	method string,
+	address canonicalurl.CanonicalURL,
+	requestHeaders http.Header,
+	responseWriter ResponseWriter,
 ) {
-	if c.canceller.Cancelled() || ctx.Err() != nil {
-		c.endCancelledReading(ctx, expiryReason)
+	requestArrivedAt := r.clock.Now()
+	headersDueAt := responsedeadline.HeadersDueAtFrom(
+		requestArrivedAt,
+		requestHeaders.Values("Prefer"),
+		r.limits.ResponseHeaderTimeout,
+	)
+	readingCtx, cancelReading := context.WithCancel(ctx)
+	defer cancelReading()
+	canceller := readingcancel.New(r.clock, cancelReading)
+	defer canceller.Stop()
+	responseSender := r.responseSenderFor(address, canceller, responseWriter)
+	if !headersDueAt.After(requestArrivedAt) {
+		responseSender.refuse(ctx, WaitTooShort)
 		return
 	}
-	c.observers.UpstreamResponseFailed(ctx, c.address, failure, cause)
-	c.responseWriter.SendHeaders(http.StatusBadGateway, http.Header{"Content-Length": {"0"}})
-}
-
-func (c responder) endCancelledReading(ctx context.Context, expiryReason RefusalReason) {
-	if c.canceller.Cancelled() {
-		c.refuse(ctx, expiryReason)
+	upstreamRequest := upstreamRequestFor(readingCtx, method, address, requestHeaders)
+	canceller.CancelAt(headersDueAt)
+	upstreamResponse, err := r.egress.RoundTrip(upstreamRequest)
+	if err != nil {
+		responseSender.failReading(ctx, PageReadDeadline, NoResponse, err)
 		return
 	}
-	c.observers.ClientClosedRequest(ctx, c.address)
+	defer func() { _ = upstreamResponse.Body.Close() }()
+	r.upstreamResponseRelayerFor(method, address, headersDueAt, canceller, responseSender).
+		relay(ctx, readingCtx, upstreamResponse)
 }
 
-func (c responder) passThrough(
-	ctx context.Context,
-	reason SkipReason,
-	upstreamResponse *http.Response,
-) {
-	c.observers.AssessmentSkipped(ctx, c.address, reason)
-	c.responseWriter.SendHeaders(
-		upstreamResponse.StatusCode,
-		relayedheaders.EndToEndHeadersOf(upstreamResponse.Header),
-	)
-	c.relayRest(ctx, upstreamResponse.Body, nil)
-}
-
-func (c responder) sendPage(
-	ctx context.Context,
-	upstreamResponse *http.Response,
-	page assessedPage,
-) {
-	c.responseWriter.SendHeaders(
-		upstreamResponse.StatusCode,
-		page.headersFrom(upstreamResponse.Header),
-	)
-	c.relayRest(ctx, upstreamResponse.Body, page.bodyPrefix)
-}
-
-func (c responder) relayRest(
-	ctx context.Context,
-	upstreamResponseBody io.Reader,
-	bodyPrefix []byte,
-) {
-	rest := c.canceller.IdleLimitedFrom(upstreamResponseBody, c.relayIdleTimeout)
-	clientWrites := &clientWriter{responseWriter: c.responseWriter}
-	if _, err := io.Copy(
-		clientWrites,
-		io.MultiReader(bytes.NewReader(bodyPrefix), rest),
-	); err != nil {
-		c.observers.ResponseLeftIncomplete(
-			ctx,
-			c.address,
-			c.incompleteResponseCauseOf(ctx, clientWrites.writeFailed),
-			err,
-		)
-		c.responseWriter.Abort()
+func (r *Responder) responseSenderFor(
+	address canonicalurl.CanonicalURL,
+	canceller *readingcancel.Canceller,
+	responseWriter ResponseWriter,
+) responseSender {
+	return responseSender{
+		responseWriter:   responseWriter,
+		observers:        r.observers,
+		address:          address,
+		canceller:        canceller,
+		relayIdleTimeout: r.limits.RelayIdleTimeout,
 	}
 }
 
-func (c responder) incompleteResponseCauseOf(
-	ctx context.Context,
-	clientWriteFailed bool,
-) IncompleteResponseCause {
-	switch {
-	case clientWriteFailed || ctx.Err() != nil:
-		return ClientClosedRequest
-	case c.canceller.Cancelled():
-		return RelayIdleTimeout
-	default:
-		return BodyRestReadFailed
+func (r *Responder) upstreamResponseRelayerFor(
+	method string,
+	address canonicalurl.CanonicalURL,
+	headersDueAt time.Time,
+	canceller *readingcancel.Canceller,
+	responseSender responseSender,
+) upstreamResponseRelayer {
+	return upstreamResponseRelayer{
+		observers:       r.observers,
+		pageAssessor:    r.pageAssessor,
+		clock:           r.clock,
+		readingSlots:    r.readingSlots,
+		pageByteCeiling: r.limits.PageByteCeiling,
+		method:          method,
+		address:         address,
+		headersDueAt:    headersDueAt,
+		canceller:       canceller,
+		responseSender:  responseSender,
 	}
 }
 
-type clientWriter struct {
-	responseWriter ResponseWriter
-	writeFailed    bool
-}
-
-func (w *clientWriter) Write(chunk []byte) (int, error) {
-	written, err := w.responseWriter.Write(chunk)
-	w.writeFailed = err != nil
-	return written, err //nolint:wrapcheck // io.Copy hands the cause of the client to the relay
+func upstreamRequestFor(
+	ctx context.Context,
+	method string,
+	address canonicalurl.CanonicalURL,
+	requestHeaders http.Header,
+) *http.Request {
+	request := &http.Request{
+		Method: method,
+		URL:    address.WebAddress(),
+		Header: relayedheaders.ForwardedHeadersFrom(requestHeaders),
+	}
+	return request.WithContext(ctx)
 }

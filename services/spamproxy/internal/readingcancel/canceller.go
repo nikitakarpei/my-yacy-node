@@ -4,7 +4,6 @@ package readingcancel
 
 import (
 	"context"
-	"io"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -31,17 +30,6 @@ func (c *Canceller) CancelAt(deadline time.Time) {
 	c.cancelAfter(deadline.Sub(c.clock.Now()))
 }
 
-func (c *Canceller) IdleLimitedFrom(
-	upstreamResponseBody io.Reader,
-	idleTimeout time.Duration,
-) io.Reader {
-	return idleLimitedReader{
-		canceller:            c,
-		upstreamResponseBody: upstreamResponseBody,
-		idleTimeout:          idleTimeout,
-	}
-}
-
 func (c *Canceller) Cancelled() bool {
 	return c.wasCancelled.Load()
 }
@@ -62,17 +50,4 @@ func (c *Canceller) cancelAfter(timeout time.Duration) {
 func (c *Canceller) cancel() {
 	c.wasCancelled.Store(true)
 	c.cancelReading()
-}
-
-type idleLimitedReader struct {
-	canceller            *Canceller
-	upstreamResponseBody io.Reader
-	idleTimeout          time.Duration
-}
-
-func (r idleLimitedReader) Read(chunk []byte) (int, error) {
-	r.canceller.cancelAfter(r.idleTimeout)
-	defer r.canceller.Stop()
-	//nolint:wrapcheck // io.EOF reaches the caller of a reader unwrapped
-	return r.upstreamResponseBody.Read(chunk)
 }

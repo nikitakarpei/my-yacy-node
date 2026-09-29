@@ -280,7 +280,7 @@ func (r *observerRecord) ClientClosedRequest(context.Context, canonicalurl.Canon
 	r.closedRequests++
 }
 
-type relayFixture struct {
+type responderFixture struct {
 	egress    *fakeEgress
 	assessor  *fakeAssessor
 	clock     *fakeClock
@@ -288,8 +288,8 @@ type relayFixture struct {
 	limits    requestrelay.Limits
 }
 
-func newRelayFixture() *relayFixture {
-	return &relayFixture{
+func newResponderFixture() *responderFixture {
+	return &responderFixture{
 		egress:    &fakeEgress{upstreamResponse: htmlUpstreamResponseWith(pageBody)},
 		assessor:  &fakeAssessor{},
 		clock:     newFakeClock(),
@@ -298,7 +298,7 @@ func newRelayFixture() *relayFixture {
 	}
 }
 
-func (f *relayFixture) relay() *requestrelay.Relayer {
+func (f *responderFixture) responder() *requestrelay.Responder {
 	return requestrelay.New(
 		f.egress,
 		f.assessor,
@@ -308,27 +308,27 @@ func (f *relayFixture) relay() *requestrelay.Relayer {
 	)
 }
 
-func (f *relayFixture) respondTo(
+func (f *responderFixture) respondTo(
 	t *testing.T,
 	method string,
 	requestHeaders http.Header,
 ) *recordedResponse {
 	t.Helper()
 	response := &recordedResponse{}
-	f.relay().RespondTo(t.Context(), method, pageAddress(t), requestHeaders, response)
+	f.responder().RespondTo(t.Context(), method, pageAddress(t), requestHeaders, response)
 	return response
 }
 
-func (f *relayFixture) respondInBackgroundTo(
+func (f *responderFixture) respondInBackgroundTo(
 	t *testing.T,
-	relay *requestrelay.Relayer,
+	responder *requestrelay.Responder,
 ) <-chan *recordedResponse {
 	t.Helper()
 	responses := make(chan *recordedResponse, 1)
 	address := pageAddress(t)
 	go func() {
 		response := &recordedResponse{}
-		relay.RespondTo(context.Background(), http.MethodGet, address, http.Header{}, response)
+		responder.RespondTo(context.Background(), http.MethodGet, address, http.Header{}, response)
 		responses <- response
 	}()
 	return responses
@@ -344,7 +344,7 @@ func pageAddress(t *testing.T) canonicalurl.CanonicalURL {
 }
 
 func TestAnHTMLPageCarriesTheVerdictAndItsBody(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
@@ -363,7 +363,7 @@ func TestAnHTMLPageCarriesTheVerdictAndItsBody(t *testing.T) {
 }
 
 func TestTheEgressIsAskedForTheAddressWithTheForwardedHeaders(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 
 	fixture.respondTo(
 		t,
@@ -380,7 +380,7 @@ func TestTheEgressIsAskedForTheAddressWithTheForwardedHeaders(t *testing.T) {
 }
 
 func TestTheVerdictOfTheOriginIsReplaced(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.upstreamResponse.headers.Set("Spam-Assessment", "clean")
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
@@ -416,7 +416,7 @@ func TestAnUpstreamResponseWhoseAssessmentIsSkippedIsRelayedWithoutAVerdict(t *t
 	}
 	for reason, skippedResponse := range upstreamResponses {
 		t.Run(string(reason), func(t *testing.T) {
-			fixture := newRelayFixture()
+			fixture := newResponderFixture()
 			fixture.egress.upstreamResponse = skippedResponse.upstreamResponse
 
 			response := fixture.respondTo(t, skippedResponse.method, http.Header{})
@@ -438,7 +438,7 @@ func TestAnUpstreamResponseWhoseAssessmentIsSkippedIsRelayedWithoutAVerdict(t *t
 }
 
 func TestAGzipPageIsAssessedDecodedAndRelayedAsTheOriginSentIt(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	var encodedBody bytes.Buffer
 	writer := gzip.NewWriter(&encodedBody)
 	_, _ = writer.Write([]byte(pageBody))
@@ -464,7 +464,7 @@ func TestAPageThatCannotBeDecodedGivesBadGateway(t *testing.T) {
 		"gzip": requestrelay.UndecodableBody,
 	} {
 		t.Run(encoding, func(t *testing.T) {
-			fixture := newRelayFixture()
+			fixture := newResponderFixture()
 			fixture.egress.upstreamResponse = htmlUpstreamResponseWith("zipped")
 			fixture.egress.upstreamResponse.headers.Set("Content-Encoding", encoding)
 
@@ -478,7 +478,7 @@ func TestAPageThatCannotBeDecodedGivesBadGateway(t *testing.T) {
 }
 
 func TestAPageOverTheByteCeilingIsAssessedOnItsFirstBytesAndRelayedWhole(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	body := "<p>" + strings.Repeat("x", pageByteCeiling) + "</p>"
 	fixture.egress.upstreamResponse = htmlUpstreamResponseWith(body)
 	fixture.egress.upstreamResponse.headers.Set("Content-Length", "1007")
@@ -496,7 +496,7 @@ func TestAPageOverTheByteCeilingIsAssessedOnItsFirstBytesAndRelayedWhole(t *test
 }
 
 func TestAPageOverTheByteCeilingAssessedPastTheEndOfReadingIsRelayedWhole(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	body := "<p>" + strings.Repeat("x", pageByteCeiling) + "</p>"
 	fixture.egress.upstreamResponse = htmlUpstreamResponseWith(body)
 	fixture.egress.upstreamResponse.body = func(ctx context.Context) io.Reader {
@@ -512,7 +512,7 @@ func TestAPageOverTheByteCeilingAssessedPastTheEndOfReadingIsRelayedWhole(t *tes
 }
 
 func TestAWholePageOfUnknownLengthGetsItsLength(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
 
@@ -522,7 +522,7 @@ func TestAWholePageOfUnknownLengthGetsItsLength(t *testing.T) {
 }
 
 func TestAFailedEgressGivesBadGateway(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.failure = errEgressDown
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
@@ -534,9 +534,9 @@ func TestAFailedEgressGivesBadGateway(t *testing.T) {
 }
 
 func TestASilentEgressGivesGatewayTimeoutWhenReadingEnds(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.upstreamResponse.body = nil
-	responses := fixture.respondInBackgroundTo(t, fixture.relay())
+	responses := fixture.respondInBackgroundTo(t, fixture.responder())
 
 	(<-fixture.clock.expirations)()
 
@@ -546,9 +546,9 @@ func TestASilentEgressGivesGatewayTimeoutWhenReadingEnds(t *testing.T) {
 }
 
 func TestAPageWhoseBodyStallsGivesGatewayTimeoutWhenReadingEnds(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.upstreamResponse.body = func(ctx context.Context) io.Reader { return stallingBody{ctx} }
-	responses := fixture.respondInBackgroundTo(t, fixture.relay())
+	responses := fixture.respondInBackgroundTo(t, fixture.responder())
 
 	(<-fixture.clock.expirations)()
 
@@ -559,7 +559,7 @@ func TestAPageWhoseBodyStallsGivesGatewayTimeoutWhenReadingEnds(t *testing.T) {
 }
 
 func TestAPageWhoseBodyPrefixFailsToReadGivesBadGateway(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.upstreamResponse.body = func(context.Context) io.Reader {
 		return io.MultiReader(strings.NewReader("<p>short</p>"), failingBody{io.ErrUnexpectedEOF})
 	}
@@ -574,7 +574,7 @@ func TestAPageWhoseBodyPrefixFailsToReadGivesBadGateway(t *testing.T) {
 }
 
 func TestASkippedUpstreamResponseWhoseBodyFailsToReadIsLeftIncomplete(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.upstreamResponse = upstreamResponse{
 		status:  http.StatusOK,
 		headers: http.Header{"Content-Type": {"image/png"}},
@@ -594,13 +594,14 @@ func TestASkippedUpstreamResponseWhoseBodyFailsToReadIsLeftIncomplete(t *testing
 }
 
 func TestARequestThatTheClientClosesBeforeTheHeadersGetsNoResponse(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.upstreamResponse.body = nil
 	clientCtx, closeRequest := context.WithCancel(t.Context())
 	closeRequest()
 	response := &recordedResponse{}
 
-	fixture.relay().RespondTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, response)
+	fixture.responder().
+		RespondTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, response)
 
 	if response.status != 0 || fixture.observers.closedRequests != 1 ||
 		len(fixture.observers.upstreamFailures) != 0 {
@@ -610,7 +611,7 @@ func TestARequestThatTheClientClosesBeforeTheHeadersGetsNoResponse(t *testing.T)
 }
 
 func TestARequestThatTheClientClosesDuringTheBodyIsLeftIncomplete(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	clientCtx, closeRequest := context.WithCancel(t.Context())
 	fixture.egress.upstreamResponse = upstreamResponse{
 		status:  http.StatusOK,
@@ -622,7 +623,8 @@ func TestARequestThatTheClientClosesDuringTheBodyIsLeftIncomplete(t *testing.T) 
 	}
 	response := &recordedResponse{}
 
-	fixture.relay().RespondTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, response)
+	fixture.responder().
+		RespondTo(clientCtx, http.MethodGet, pageAddress(t), http.Header{}, response)
 
 	if !response.wasAborted || fixture.observers.closedRequests != 0 ||
 		!slices.Equal(fixture.observers.incompleteCauses,
@@ -633,10 +635,11 @@ func TestARequestThatTheClientClosesDuringTheBodyIsLeftIncomplete(t *testing.T) 
 }
 
 func TestAResponseThatTheClientStopsTakingIsLeftIncomplete(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	response := &recordedResponse{writeFailure: errors.New("broken pipe")}
 
-	fixture.relay().RespondTo(t.Context(), http.MethodGet, pageAddress(t), http.Header{}, response)
+	fixture.responder().
+		RespondTo(t.Context(), http.MethodGet, pageAddress(t), http.Header{}, response)
 
 	if !response.wasAborted || !slices.Equal(fixture.observers.incompleteCauses,
 		[]requestrelay.IncompleteResponseCause{requestrelay.ClientClosedRequest}) {
@@ -645,12 +648,12 @@ func TestAResponseThatTheClientStopsTakingIsLeftIncomplete(t *testing.T) {
 }
 
 func TestAPageWhoseRestStallsIsLeftIncompleteAfterTheIdleTimeout(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.limits.PageByteCeiling = 8
 	fixture.egress.upstreamResponse.body = func(ctx context.Context) io.Reader {
 		return io.MultiReader(strings.NewReader(pageBody), stallingBody{ctx})
 	}
-	responses := fixture.respondInBackgroundTo(t, fixture.relay())
+	responses := fixture.respondInBackgroundTo(t, fixture.responder())
 
 	<-fixture.clock.expirations
 	<-fixture.clock.expirations
@@ -665,14 +668,14 @@ func TestAPageWhoseRestStallsIsLeftIncompleteAfterTheIdleTimeout(t *testing.T) {
 }
 
 func TestAPageWaitingForAReadingSlotIsRelayedOnceTheSlotFrees(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.limits.MaxPagesReadAtOnce = 1
 	started, released := make(chan struct{}), make(chan struct{})
 	fixture.assessor.during = heldOnFirstAssessment(started, released)
-	relay := fixture.relay()
-	heldResponses := fixture.respondInBackgroundTo(t, relay)
+	responder := fixture.responder()
+	heldResponses := fixture.respondInBackgroundTo(t, responder)
 	<-started
-	waitingResponses := fixture.respondInBackgroundTo(t, relay)
+	waitingResponses := fixture.respondInBackgroundTo(t, responder)
 	<-fixture.clock.expirations
 	<-fixture.clock.expirations
 
@@ -688,14 +691,14 @@ func TestAPageWaitingForAReadingSlotIsRelayedOnceTheSlotFrees(t *testing.T) {
 }
 
 func TestAPageWithoutAReadingSlotWhenTheHeadersAreDueGivesServiceUnavailable(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.limits.MaxPagesReadAtOnce = 1
 	started, released := make(chan struct{}), make(chan struct{})
 	fixture.assessor.during = heldOnFirstAssessment(started, released)
-	relay := fixture.relay()
-	heldResponses := fixture.respondInBackgroundTo(t, relay)
+	responder := fixture.responder()
+	heldResponses := fixture.respondInBackgroundTo(t, responder)
 	<-started
-	waitingResponses := fixture.respondInBackgroundTo(t, relay)
+	waitingResponses := fixture.respondInBackgroundTo(t, responder)
 	<-fixture.clock.expirations
 
 	(<-fixture.clock.expirations)()
@@ -729,7 +732,7 @@ func heldOnFirstAssessment(started chan<- struct{}, released <-chan struct{}) fu
 }
 
 func TestAnUpstreamResponseThatStartsAfterTheHeadersAreDueGivesGatewayTimeout(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.egress.upstreamResponse.before = func() { fixture.clock.passTo(1100 * time.Millisecond) }
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
@@ -759,7 +762,7 @@ func TestAPageThatTheAssessorDidNotAssessIsRefused(t *testing.T) {
 		},
 	}
 	for outcome, refusal := range refusals {
-		fixture := newRelayFixture()
+		fixture := newResponderFixture()
 		fixture.assessor.outcome = outcome
 
 		response := fixture.respondTo(t, http.MethodGet, http.Header{})
@@ -773,7 +776,7 @@ func TestAPageThatTheAssessorDidNotAssessIsRefused(t *testing.T) {
 }
 
 func TestAPageAssessedPastTheResponseHeaderDeadlineGivesGatewayTimeout(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 	fixture.assessor.during = func() { fixture.clock.passTo(time.Second) }
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{})
@@ -791,7 +794,7 @@ func TestAPageAssessedPastTheResponseHeaderDeadlineGivesGatewayTimeout(t *testin
 }
 
 func TestAWaitPreferenceOfZeroGivesGatewayTimeoutWithoutAskingTheEgress(t *testing.T) {
-	fixture := newRelayFixture()
+	fixture := newResponderFixture()
 
 	response := fixture.respondTo(t, http.MethodGet, http.Header{"Prefer": {"wait=0"}})
 

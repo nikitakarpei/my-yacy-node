@@ -65,7 +65,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 			upstreamrequestobserversprometheus.New(registry),
 		},
 	)
-	relayer := requestrelay.New(
+	responder := requestrelay.New(
 		upstreamRequestSender,
 		gatedAssessor,
 		requestrelay.Observers{
@@ -82,7 +82,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 	)
 	proxyServer := &http.Server{
 		Addr:              cfg.ListenAddr,
-		Handler:           proxyintake.New(relayer, proxyintakeobserversapplog.IntakeLog{}),
+		Handler:           proxyintake.New(responder, proxyintakeobserversapplog.IntakeLog{}),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 	opsServer := &http.Server{

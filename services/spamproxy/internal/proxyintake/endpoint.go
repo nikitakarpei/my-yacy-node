@@ -1,5 +1,5 @@
 // Package proxyintake accepts forward-proxy requests for web pages and hands
-// them to the relayer.
+// them to the responder.
 package proxyintake
 
 import (
@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 )
 
-type Relayer interface {
+type Responder interface {
 	RespondTo(
 		ctx context.Context,
 		method string,
@@ -27,12 +27,12 @@ type Observer interface {
 }
 
 type Endpoint struct {
-	relayer  Relayer
-	observer Observer
+	responder Responder
+	observer  Observer
 }
 
-func New(relayer Relayer, observer Observer) *Endpoint {
-	return &Endpoint{relayer: relayer, observer: observer}
+func New(responder Responder, observer Observer) *Endpoint {
+	return &Endpoint{responder: responder, observer: observer}
 }
 
 func (e *Endpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +47,7 @@ func (e *Endpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	e.relayer.RespondTo(
+	e.responder.RespondTo(
 		r.Context(),
 		r.Method,
 		address,

@@ -16,7 +16,7 @@ const identityEncoding = "identity"
 
 type bodyDecoding func(encodedBody []byte, byteCeiling int) ([]byte, bool)
 
-type decoderOpening func(encodedBody io.Reader) (io.Reader, error)
+type decoderOpening func(encodedBodyReader io.Reader) (io.Reader, error)
 
 var bodyDecodings = map[string][]bodyDecoding{
 	identityEncoding: {identityBodyOf},
@@ -73,14 +73,14 @@ func decodingBy(openDecoder decoderOpening) bodyDecoding {
 	}
 }
 
-func gzipDecoderOf(encodedBody io.Reader) (io.Reader, error) {
-	return gzip.NewReader(encodedBody) //nolint:wrapcheck // the error only means undecodable
+func gzipDecoderOf(encodedBodyReader io.Reader) (io.Reader, error) {
+	return gzip.NewReader(encodedBodyReader) //nolint:wrapcheck // the error only means undecodable
 }
 
-func zlibDecoderOf(encodedBody io.Reader) (io.Reader, error) {
-	return zlib.NewReader(encodedBody) //nolint:wrapcheck // the error only means undecodable
+func zlibDecoderOf(encodedBodyReader io.Reader) (io.Reader, error) {
+	return zlib.NewReader(encodedBodyReader) //nolint:wrapcheck // the error only means undecodable
 }
 
-func rawDeflateDecoderOf(encodedBody io.Reader) (io.Reader, error) {
-	return flate.NewReader(encodedBody), nil
+func rawDeflateDecoderOf(encodedBodyReader io.Reader) (io.Reader, error) {
+	return flate.NewReader(encodedBodyReader), nil
 }
