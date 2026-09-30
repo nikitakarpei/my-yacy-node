@@ -30,14 +30,13 @@ func TestOnlyTheNamedRequestHeadersAreRelayed(t *testing.T) {
 	}
 }
 
-func TestHopByHopHeadersAndTheOriginVerdictAreNotRelayed(t *testing.T) {
+func TestHopByHopHeadersAreNotRelayed(t *testing.T) {
 	responseHeaders := relayedheaders.ResponseHeadersFrom(http.Header{
 		"Content-Type":      {"text/html"},
 		"Connection":        {"close, X-Private"},
 		"X-Private":         {"1"},
 		"Keep-Alive":        {"timeout=5"},
 		"Transfer-Encoding": {"chunked"},
-		"Spam-Assessment":   {"clean"},
 		"Etag":              {`"v1"`},
 	})
 

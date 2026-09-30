@@ -179,12 +179,12 @@
         },
         {
           "refId": "C",
-          "expr": "sum(clamp_min(spamproxy_refused_requests_total{instance=~\"$service_instance\"} - (spamproxy_refused_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "(sum(clamp_min(spamproxy_refused_pages_total{instance=~\"$service_instance\"} - (spamproxy_refused_pages_total{instance=~\"$service_instance\"} offset $__interval), 0)) or vector(0)) + (sum(clamp_min(spamproxy_deadline_refusals_total{instance=~\"$service_instance\"} - (spamproxy_deadline_refusals_total{instance=~\"$service_instance\"} offset $__interval), 0)) or vector(0))",
           "legendFormat": "refused by spamproxy"
         },
         {
           "refId": "D",
-          "expr": "sum(clamp_min(spamproxy_upstream_response_failures_total{instance=~\"$service_instance\"} - (spamproxy_upstream_response_failures_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "(sum(clamp_min(spamproxy_body_prefix_read_failures_total{instance=~\"$service_instance\"} - (spamproxy_body_prefix_read_failures_total{instance=~\"$service_instance\"} offset $__interval), 0)) or vector(0)) + (sum(clamp_min(spamproxy_upstream_request_failures_total{instance=~\"$service_instance\"} - (spamproxy_upstream_request_failures_total{instance=~\"$service_instance\"} offset $__interval), 0)) or vector(0))",
           "legendFormat": "upstream failure"
         },
         {
@@ -321,7 +321,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (clamp_min(spamproxy_refused_requests_total{instance=~\"$service_instance\"} - (spamproxy_refused_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (reason) (clamp_min(spamproxy_refused_pages_total{instance=~\"$service_instance\"} - (spamproxy_refused_pages_total{instance=~\"$service_instance\"} offset $__interval), 0)) or sum by (reason) (clamp_min(spamproxy_deadline_refusals_total{instance=~\"$service_instance\"} - (spamproxy_deadline_refusals_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{reason}}"
         }
       ]
@@ -370,7 +370,7 @@
         },
         {
           "refId": "B",
-          "expr": "sum(clamp_min(spamproxy_upstream_response_failures_total{instance=~\"$service_instance\", cause=\"body_read_failed\"} - (spamproxy_upstream_response_failures_total{instance=~\"$service_instance\", cause=\"body_read_failed\"} offset $__interval), 0))",
+          "expr": "sum(clamp_min(spamproxy_body_prefix_read_failures_total{instance=~\"$service_instance\"} - (spamproxy_body_prefix_read_failures_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "body_read_failed"
         }
       ]

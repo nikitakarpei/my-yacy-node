@@ -26,9 +26,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
 	requestrelayobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/applog"
 	requestrelayobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/upstreamrequest"
-	upstreamrequestobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/upstreamrequestobservers/applog"
-	upstreamrequestobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/upstreamrequestobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/deadlineenforcing"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/failurereporting"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/idlecancelling"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/verdictadding"
+	deadlineenforcingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/deadlineenforcing/applog"
+	deadlineenforcingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/deadlineenforcing/prometheus"
+	failurereportingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/failurereporting/applog"
+	failurereportingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/failurereporting/prometheus"
+	verdictaddingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/verdictadding/applog"
+	verdictaddingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/verdictadding/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
@@ -58,27 +65,43 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 			assessmentgateobserversprometheus.New(registry),
 		},
 	)
-	upstreamRequestSender := upstreamrequest.New(
+	failureReporter := failurereporting.New(
 		egressTransportFor(cfg),
-		upstreamrequest.Observers{
-			upstreamrequestobserversapplog.UpstreamRequestLog{},
-			upstreamrequestobserversprometheus.New(registry),
+		failurereporting.Observers{
+			failurereportingobserversapplog.FailureLog{},
+			failurereportingobserversprometheus.New(registry),
+		},
+	)
+	idleCanceller := idlecancelling.New(failureReporter, cfg.RelayIdleTimeout, clock)
+	verdictAdder := verdictadding.New(
+		idleCanceller,
+		assessmentRunner,
+		verdictadding.Limits{
+			PageByteCeiling:    cfg.PageByteCeiling,
+			MaxPagesReadAtOnce: cfg.MaxPagesReadAtOnce,
+		},
+		clock,
+		verdictadding.Observers{
+			verdictaddingobserversapplog.VerdictLog{},
+			verdictaddingobserversprometheus.New(registry),
+		},
+	)
+	deadlineEnforcer := deadlineenforcing.New(
+		verdictAdder,
+		clock,
+		deadlineenforcing.Observers{
+			deadlineenforcingobserversapplog.DeadlineLog{},
+			deadlineenforcingobserversprometheus.New(registry),
 		},
 	)
 	responder := requestrelay.New(
-		upstreamRequestSender,
-		assessmentRunner,
+		deadlineEnforcer,
+		cfg.ResponseHeaderTimeout,
+		clock,
 		requestrelay.Observers{
 			requestrelayobserversapplog.RelayLog{},
 			requestrelayobserversprometheus.New(registry),
 		},
-		requestrelay.Limits{
-			PageByteCeiling:       cfg.PageByteCeiling,
-			MaxPagesReadAtOnce:    cfg.MaxPagesReadAtOnce,
-			ResponseHeaderTimeout: cfg.ResponseHeaderTimeout,
-			RelayIdleTimeout:      cfg.RelayIdleTimeout,
-		},
-		clock,
 	)
 	proxyServer := &http.Server{
 		Addr:              cfg.ListenAddr,
@@ -103,7 +126,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 	return err
 }
 
-func egressTransportFor(cfg ServiceConfig) requestrelay.Egress {
+func egressTransportFor(cfg ServiceConfig) failurereporting.Egress {
 	if cfg.EgressProxyDialMode == DialModeAbsoluteURL {
 		return absoluteurl.New(cfg.EgressProxyURL)
 	}

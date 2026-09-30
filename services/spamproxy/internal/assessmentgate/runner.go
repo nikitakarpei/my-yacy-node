@@ -1,5 +1,5 @@
 // Package assessmentgate runs page assessments on a bounded number of
-// goroutines, and gives up on a page that misses its deadline.
+// goroutines, and gives up on a page when its round trip is cancelled.
 package assessmentgate
 
 import (
@@ -23,14 +23,13 @@ type Outcome int
 
 const (
 	Assessed Outcome = iota
-	SlotWaitDeadline
-	AssessmentDeadline
+	SlotWaitCancelled
+	AssessmentCancelled
 	Panicked
 )
 
 type Clock interface {
 	Now() time.Time
-	After(timeout time.Duration, expire func()) (stop func())
 }
 
 type Runner struct {
@@ -54,13 +53,9 @@ func (r *Runner) Assess(
 	address canonicalurl.CanonicalURL,
 	body []byte,
 	responseHeaders http.Header,
-	deadline time.Time,
 ) (spamassessment.Assessment, Outcome) {
-	expired := make(chan struct{})
-	stop := r.clock.After(deadline.Sub(r.clock.Now()), func() { close(expired) })
-	defer stop()
-	if !r.reserveSlot(ctx, address, expired) {
-		return spamassessment.Assessment{}, SlotWaitDeadline
+	if !r.reserveSlot(ctx, address) {
+		return spamassessment.Assessment{}, SlotWaitCancelled
 	}
 	assessments := make(chan spamassessment.Assessment, 1)
 	go r.assessInSlot(ctx, address, body, responseHeaders, assessments)
@@ -70,22 +65,21 @@ func (r *Runner) Assess(
 			return spamassessment.Assessment{}, Panicked
 		}
 		return assessment, Assessed
-	case <-expired:
-		return spamassessment.Assessment{}, AssessmentDeadline
+	case <-ctx.Done():
+		return spamassessment.Assessment{}, AssessmentCancelled
 	}
 }
 
 func (r *Runner) reserveSlot(
 	ctx context.Context,
 	address canonicalurl.CanonicalURL,
-	expired <-chan struct{},
 ) bool {
 	slotWaitStarted := r.clock.Now()
 	defer func() { r.observers.SlotWaited(ctx, address, r.clock.Now().Sub(slotWaitStarted)) }()
 	select {
 	case r.assessmentSlots <- struct{}{}:
 		return true
-	case <-expired:
+	case <-ctx.Done():
 		return false
 	}
 }

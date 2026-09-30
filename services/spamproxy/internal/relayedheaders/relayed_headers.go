@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strings"
 
-	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/contentencoding"
 )
 
@@ -52,6 +51,5 @@ func ResponseHeadersFrom(upstreamResponseHeaders http.Header) http.Header {
 	for _, name := range hopByHopHeaderNames {
 		responseHeaders.Del(name)
 	}
-	responseHeaders.Del(spamassessmenthttpheader.Name)
 	return responseHeaders
 }

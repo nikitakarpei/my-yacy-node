@@ -17,8 +17,10 @@ components:
     in: internal/contentencoding/**
   relayedheaders:
     in: internal/relayedheaders/**
-  readingcancel:
-    in: internal/readingcancel/**
+  roundtripcancel:
+    in: internal/roundtripcancel/**
+  proxiedrequest:
+    in: internal/proxiedrequest/**
   assessmentgate:
     in: internal/assessmentgate/**
   egresstransportstunnel:
@@ -27,6 +29,14 @@ components:
     in: internal/egresstransports/absoluteurl/**
   requestrelay:
     in: internal/requestrelay/**
+  verdictadding:
+    in: internal/roundtrippers/verdictadding/**
+  deadlineenforcing:
+    in: internal/roundtrippers/deadlineenforcing/**
+  idlecancelling:
+    in: internal/roundtrippers/idlecancelling/**
+  failurereporting:
+    in: internal/roundtrippers/failurereporting/**
   proxyintake:
     in: internal/proxyintake/**
   requestrelayobserversapplog:
@@ -39,12 +49,18 @@ components:
     in: internal/assessmentgateobservers/prometheus/**
   proxyintakeobserversapplog:
     in: internal/proxyintakeobservers/applog/**
-  upstreamrequest:
-    in: internal/upstreamrequest/**
-  upstreamrequestobserversapplog:
-    in: internal/upstreamrequestobservers/applog/**
-  upstreamrequestobserversprometheus:
-    in: internal/upstreamrequestobservers/prometheus/**
+  failurereportingobserversapplog:
+    in: internal/roundtrippersobservers/failurereporting/applog/**
+  failurereportingobserversprometheus:
+    in: internal/roundtrippersobservers/failurereporting/prometheus/**
+  verdictaddingobserversapplog:
+    in: internal/roundtrippersobservers/verdictadding/applog/**
+  verdictaddingobserversprometheus:
+    in: internal/roundtrippersobservers/verdictadding/prometheus/**
+  deadlineenforcingobserversapplog:
+    in: internal/roundtrippersobservers/deadlineenforcing/applog/**
+  deadlineenforcingobserversprometheus:
+    in: internal/roundtrippersobservers/deadlineenforcing/prometheus/**
   spamproxycmd:
     in: cmd/spamproxy/**
 
@@ -76,15 +92,35 @@ deps:
   assessmentgate:
     canUse:
       - canonicalurl
+  proxiedrequest:
+    canUse:
+      - canonicalurl
   requestrelay:
     mayDependOn:
-      - assessmentgate
-      - contentencoding
-      - readingcancel
+      - proxiedrequest
+      - roundtripcancel
       - relayedheaders
       - responsedeadline
     canUse:
       - canonicalurl
+  verdictadding:
+    mayDependOn:
+      - assessmentgate
+      - contentencoding
+      - proxiedrequest
+      - roundtripcancel
+      - relayedheaders
+    canUse:
+      - canonicalurl
+  deadlineenforcing:
+    mayDependOn:
+      - proxiedrequest
+      - roundtripcancel
+    canUse:
+      - canonicalurl
+  idlecancelling:
+    mayDependOn:
+      - roundtripcancel
   proxyintake:
     mayDependOn:
       - requestrelay
@@ -95,6 +131,28 @@ deps:
       - requestrelay
     canUse:
       - canonicalurl
+  verdictaddingobserversapplog:
+    mayDependOn:
+      - verdictadding
+    canUse:
+      - canonicalurl
+  verdictaddingobserversprometheus:
+    mayDependOn:
+      - verdictadding
+    canUse:
+      - canonicalurl
+      - prometheus
+  deadlineenforcingobserversapplog:
+    mayDependOn:
+      - deadlineenforcing
+    canUse:
+      - canonicalurl
+  deadlineenforcingobserversprometheus:
+    mayDependOn:
+      - deadlineenforcing
+    canUse:
+      - canonicalurl
+      - prometheus
   requestrelayobserversprometheus:
     mayDependOn:
       - requestrelay
@@ -108,12 +166,12 @@ deps:
     canUse:
       - canonicalurl
       - prometheus
-  upstreamrequestobserversapplog:
+  failurereportingobserversapplog:
     mayDependOn:
-      - upstreamrequest
-  upstreamrequestobserversprometheus:
+      - failurereporting
+  failurereportingobserversprometheus:
     mayDependOn:
-      - upstreamrequest
+      - failurereporting
     canUse:
       - prometheus
   spamproxycmd:

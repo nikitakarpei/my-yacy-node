@@ -15,7 +15,6 @@ import (
 
 var (
 	now        = time.Date(2026, 9, 29, 12, 0, 0, 0, time.UTC)
-	deadline   = now.Add(time.Second)
 	assessment = spamassessment.Assessment{Score: 0.9, Threshold: 0.8, ModelVersion: "2026-09"}
 )
 
@@ -25,24 +24,28 @@ type result struct {
 }
 
 type fakeClock struct {
-	mutex       sync.Mutex
-	now         time.Time
-	expirations chan func()
+	mutex            sync.Mutex
+	now              time.Time
+	passAfterReading time.Duration
 }
 
 func newFakeClock() *fakeClock {
-	return &fakeClock{now: now, expirations: make(chan func(), 4)}
+	return &fakeClock{now: now}
 }
 
 func (c *fakeClock) Now() time.Time {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
-	return c.now
+	reading := c.now
+	c.now = c.now.Add(c.passAfterReading)
+	c.passAfterReading = 0
+	return reading
 }
 
-func (c *fakeClock) After(_ time.Duration, expire func()) func() {
-	c.expirations <- expire
-	return func() {}
+func (c *fakeClock) passAfterNextReading(elapsed time.Duration) {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+	c.passAfterReading = elapsed
 }
 
 func (c *fakeClock) passTo(elapsed time.Duration) {
@@ -144,7 +147,7 @@ func (r *observerRecord) AssessmentPanicked(
 	r.panicValues = append(r.panicValues, panicValue)
 }
 
-func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfTheAssessor(t *testing.T) {
+func TestAnAssessmentIsTheAssessmentOfTheAssessor(t *testing.T) {
 	assessmentRunner := assessmentgate.New(
 		fixedAssessor{},
 		1,
@@ -152,50 +155,49 @@ func TestAnAssessmentWithinTheDeadlineIsTheAssessmentOfTheAssessor(t *testing.T)
 		assessmentgate.Observers{&observerRecord{}},
 	)
 
-	got, outcome := assessmentRunner.Assess(t.Context(), address(t), nil, nil, deadline)
+	got, outcome := assessmentRunner.Assess(t.Context(), address(t), nil, nil)
 
 	if outcome != assessmentgate.Assessed || got != assessment {
 		t.Fatalf("assessment = %+v, outcome %v", got, outcome)
 	}
 }
 
-func TestAnAssessmentPastTheDeadlineIsGivenUp(t *testing.T) {
-	clock := newFakeClock()
+func TestAnAssessmentWhoseRoundTripIsCancelledIsGivenUp(t *testing.T) {
 	assessor := newHeldAssessor()
 	assessmentRunner := assessmentgate.New(
 		assessor,
 		1,
-		clock,
+		newFakeClock(),
 		assessmentgate.Observers{&observerRecord{}},
 	)
-	results := assessmentsInBackground(t, assessmentRunner)
+	ctx, cancelRoundTrip := context.WithCancel(t.Context())
+	results := assessmentsInBackground(ctx, t, assessmentRunner)
 
 	<-assessor.started
-	(<-clock.expirations)()
+	cancelRoundTrip()
 
-	if got := <-results; got.outcome != assessmentgate.AssessmentDeadline {
+	if got := <-results; got.outcome != assessmentgate.AssessmentCancelled {
 		t.Fatalf("outcome %v, assessment %+v", got.outcome, got.assessment)
 	}
 	close(assessor.released)
 }
 
-func TestAPageWaitingForAFreeSlotPastTheDeadlineMissesItsTurn(t *testing.T) {
-	clock := newFakeClock()
+func TestAPageWhoseRoundTripIsCancelledWhileWaitingForAFreeSlotMissesItsTurn(t *testing.T) {
 	assessor := newHeldAssessor()
 	assessmentRunner := assessmentgate.New(
 		assessor,
 		1,
-		clock,
+		newFakeClock(),
 		assessmentgate.Observers{&observerRecord{}},
 	)
-	firstResults := assessmentsInBackground(t, assessmentRunner)
-	<-clock.expirations
+	firstResults := assessmentsInBackground(t.Context(), t, assessmentRunner)
 	<-assessor.started
+	ctx, cancelRoundTrip := context.WithCancel(t.Context())
+	cancelRoundTrip()
 
-	waitingResults := assessmentsInBackground(t, assessmentRunner)
-	(<-clock.expirations)()
+	waitingResults := assessmentsInBackground(ctx, t, assessmentRunner)
 
-	if got := <-waitingResults; got.outcome != assessmentgate.SlotWaitDeadline {
+	if got := <-waitingResults; got.outcome != assessmentgate.SlotWaitCancelled {
 		t.Fatalf("outcome %v, assessment %+v", got.outcome, got.assessment)
 	}
 	close(assessor.released)
@@ -210,7 +212,7 @@ func TestTheTimeAndPageSizeOfAnAssessmentAreReported(t *testing.T) {
 	assessor := slowAssessor{clock: clock, duration: 30 * time.Millisecond}
 	assessmentRunner := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
 
-	assessmentRunner.Assess(t.Context(), address(t), []byte("<p>page</p>"), nil, deadline)
+	assessmentRunner.Assess(t.Context(), address(t), []byte("<p>page</p>"), nil)
 
 	if !slices.Equal(observers.assessmentDurations, []time.Duration{30 * time.Millisecond}) ||
 		!slices.Equal(observers.pageSizes, []int{len("<p>page</p>")}) ||
@@ -225,15 +227,13 @@ func TestTheSlotWaitOfAPageThatMissedItsTurnIsReported(t *testing.T) {
 	observers := &observerRecord{}
 	assessor := newHeldAssessor()
 	assessmentRunner := assessmentgate.New(assessor, 1, clock, assessmentgate.Observers{observers})
-	firstResults := assessmentsInBackground(t, assessmentRunner)
-	<-clock.expirations
+	firstResults := assessmentsInBackground(t.Context(), t, assessmentRunner)
 	<-assessor.started
+	ctx, cancelRoundTrip := context.WithCancel(t.Context())
+	cancelRoundTrip()
+	clock.passAfterNextReading(time.Second)
 
-	waitingResults := assessmentsInBackground(t, assessmentRunner)
-	expireWaiting := <-clock.expirations
-	clock.passTo(time.Second)
-	expireWaiting()
-	<-waitingResults
+	assessmentRunner.Assess(ctx, address(t), nil, nil)
 	close(assessor.released)
 	<-firstResults
 
@@ -251,8 +251,8 @@ func TestAPanickingAssessmentIsUnassessedAndReported(t *testing.T) {
 		assessmentgate.Observers{panics},
 	)
 
-	_, outcome := assessmentRunner.Assess(t.Context(), address(t), nil, nil, deadline)
-	_, outcomeAfterwards := assessmentRunner.Assess(t.Context(), address(t), nil, nil, deadline)
+	_, outcome := assessmentRunner.Assess(t.Context(), address(t), nil, nil)
+	_, outcomeAfterwards := assessmentRunner.Assess(t.Context(), address(t), nil, nil)
 
 	if outcome != assessmentgate.Panicked || outcomeAfterwards != assessmentgate.Panicked ||
 		len(panics.panicValues) != 2 {
@@ -260,18 +260,16 @@ func TestAPanickingAssessmentIsUnassessedAndReported(t *testing.T) {
 	}
 }
 
-func assessmentsInBackground(t *testing.T, assessmentRunner *assessmentgate.Runner) <-chan result {
+func assessmentsInBackground(
+	ctx context.Context,
+	t *testing.T,
+	assessmentRunner *assessmentgate.Runner,
+) <-chan result {
 	t.Helper()
 	results := make(chan result, 1)
 	pageAddress := address(t)
 	go func() {
-		got, outcome := assessmentRunner.Assess(
-			context.Background(),
-			pageAddress,
-			nil,
-			nil,
-			deadline,
-		)
+		got, outcome := assessmentRunner.Assess(ctx, pageAddress, nil, nil)
 		results <- result{got, outcome}
 	}()
 	return results
