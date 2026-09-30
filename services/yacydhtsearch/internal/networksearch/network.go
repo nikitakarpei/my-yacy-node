@@ -189,6 +189,7 @@ func rankingOf(rankedDocuments []queryanswers.FoundDocument) searchresult.Rankin
 			Description:  rankedDocument.Snippet,
 			PublishedAt:  rankedDocument.PublishedAt,
 			ImageAddress: rankedDocument.FaviconAddress,
+			IsSpam:       rankedDocument.IsSpam(),
 		})
 	}
 

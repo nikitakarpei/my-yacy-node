@@ -41,6 +41,10 @@ func FoundDocumentOf(
 	}
 }
 
+func (f FoundDocument) IsSpam() bool {
+	return f.SpamVerdict == spamassessment.Spam
+}
+
 func metadataShownAmong(metadataReplicas []MetadataReplica) yacymodel.URLMetadata {
 	if len(metadataReplicas) == 0 {
 		return yacymodel.URLMetadata{}

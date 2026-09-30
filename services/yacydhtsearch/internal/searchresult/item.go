@@ -15,4 +15,5 @@ type Item struct {
 	Description  string
 	PublishedAt  yacymodel.Optional[time.Time]
 	ImageAddress string
+	IsSpam       bool
 }

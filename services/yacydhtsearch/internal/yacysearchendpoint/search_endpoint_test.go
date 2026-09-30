@@ -101,6 +101,25 @@ func TestTheEndpointAnswersInYaCysPublicSearchForm(t *testing.T) {
 	}
 }
 
+func TestTheTitleOfASpamItemStartsWithTheSpamMark(t *testing.T) {
+	t.Parallel()
+
+	rankings := &recordedRankings{ranking: searchresult.Ranking{Items: []searchresult.Item{
+		{Address: "https://spam.example/", Title: "Cheap pills", IsSpam: true},
+		{Address: "https://clean.example/", Title: "Weather"},
+	}}}
+
+	recorder := answerTo(
+		t,
+		yacysearchendpoint.New(rankings),
+		yacysearchendpoint.Path+"?query=berlin",
+	)
+
+	if got := titlesIn(t, recorder); !slices.Equal(got, []string{"[SPAM] Cheap pills", "Weather"}) {
+		t.Fatalf("titles = %q, want only the spam item marked", got)
+	}
+}
+
 func TestTheEndpointReadsTheQueryTheClientAskedFor(t *testing.T) {
 	t.Parallel()
 
@@ -176,6 +195,25 @@ func linksIn(t *testing.T, recorder *httptest.ResponseRecorder) []string {
 	}
 
 	return links
+}
+
+func titlesIn(t *testing.T, recorder *httptest.ResponseRecorder) []string {
+	t.Helper()
+
+	var page searchPage
+	if err := json.Unmarshal(recorder.Body.Bytes(), &page); err != nil {
+		t.Fatalf("parse answer: %v (body %q)", err, recorder.Body.String())
+	}
+	if len(page.Channels) != 1 {
+		t.Fatalf("answer = %+v, want one channel", page)
+	}
+
+	titles := make([]string, 0, len(page.Channels[0].Items))
+	for _, item := range page.Channels[0].Items {
+		titles = append(titles, item.Title)
+	}
+
+	return titles
 }
 
 func TestTheEndpointCutsThePageTheClientAskedForFromTheRanking(t *testing.T) {

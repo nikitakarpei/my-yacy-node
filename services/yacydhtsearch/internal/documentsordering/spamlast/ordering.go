@@ -5,7 +5,6 @@
 package spamlast
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
 )
 
@@ -33,7 +32,7 @@ func documentsWithSpamLast(
 	otherDocuments := make([]queryanswers.FoundDocument, 0, len(orderedDocuments))
 	var spamDocuments []queryanswers.FoundDocument
 	for _, orderedDocument := range orderedDocuments {
-		if orderedDocument.SpamVerdict == spamassessment.Spam {
+		if orderedDocument.IsSpam() {
 			spamDocuments = append(spamDocuments, orderedDocument)
 			continue
 		}
