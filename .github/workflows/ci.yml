@@ -97,6 +97,12 @@ jobs:
     uses: ./.github/workflows/build-webresearchmcp.yml
     secrets: inherit
 
+  build-spamproxy:
+    needs: [verify, e2e]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-spamproxy.yml
+    secrets: inherit
+
   build-smokescreen:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'

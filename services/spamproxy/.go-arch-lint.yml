@@ -1,0 +1,182 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - spamassessment
+
+components:
+  pageassessment:
+    in: internal/pageassessment/**
+  responsedeadline:
+    in: internal/responsedeadline/**
+  contentencoding:
+    in: internal/contentencoding/**
+  relayedheaders:
+    in: internal/relayedheaders/**
+  roundtripcancel:
+    in: internal/roundtripcancel/**
+  proxiedrequest:
+    in: internal/proxiedrequest/**
+  assessmentgate:
+    in: internal/assessmentgate/**
+  egresstransportstunnel:
+    in: internal/egresstransports/tunnel/**
+  egresstransportsabsoluteurl:
+    in: internal/egresstransports/absoluteurl/**
+  requestrelay:
+    in: internal/requestrelay/**
+  verdictadding:
+    in: internal/roundtrippers/verdictadding/**
+  deadlineenforcing:
+    in: internal/roundtrippers/deadlineenforcing/**
+  idlecancelling:
+    in: internal/roundtrippers/idlecancelling/**
+  failurereporting:
+    in: internal/roundtrippers/failurereporting/**
+  proxyintake:
+    in: internal/proxyintake/**
+  requestrelayobserversapplog:
+    in: internal/requestrelayobservers/applog/**
+  requestrelayobserversprometheus:
+    in: internal/requestrelayobservers/prometheus/**
+  assessmentgateobserversapplog:
+    in: internal/assessmentgateobservers/applog/**
+  assessmentgateobserversprometheus:
+    in: internal/assessmentgateobservers/prometheus/**
+  proxyintakeobserversapplog:
+    in: internal/proxyintakeobservers/applog/**
+  failurereportingobserversapplog:
+    in: internal/roundtrippersobservers/failurereporting/applog/**
+  failurereportingobserversprometheus:
+    in: internal/roundtrippersobservers/failurereporting/prometheus/**
+  verdictaddingobserversapplog:
+    in: internal/roundtrippersobservers/verdictadding/applog/**
+  verdictaddingobserversprometheus:
+    in: internal/roundtrippersobservers/verdictadding/prometheus/**
+  deadlineenforcingobserversapplog:
+    in: internal/roundtrippersobservers/deadlineenforcing/applog/**
+  deadlineenforcingobserversprometheus:
+    in: internal/roundtrippersobservers/deadlineenforcing/prometheus/**
+  spamproxycmd:
+    in: cmd/spamproxy/**
+
+vendors:
+  spamassessment:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/spamassessment
+      - github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  spammodel:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/spammodel
+      - github.com/nikitakarpei/yacy-rwi-node/spammodel/htmlreading
+      - github.com/nikitakarpei/yacy-rwi-node/spammodel/spamfeatures
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+
+deps:
+  pageassessment:
+    canUse:
+      - canonicalurl
+      - spammodel
+  relayedheaders:
+    mayDependOn:
+      - contentencoding
+  assessmentgate:
+    canUse:
+      - canonicalurl
+  proxiedrequest:
+    canUse:
+      - canonicalurl
+  requestrelay:
+    mayDependOn:
+      - proxiedrequest
+      - roundtripcancel
+      - relayedheaders
+      - responsedeadline
+    canUse:
+      - canonicalurl
+  verdictadding:
+    mayDependOn:
+      - assessmentgate
+      - contentencoding
+      - proxiedrequest
+      - roundtripcancel
+      - relayedheaders
+    canUse:
+      - canonicalurl
+  deadlineenforcing:
+    mayDependOn:
+      - proxiedrequest
+      - roundtripcancel
+    canUse:
+      - canonicalurl
+  idlecancelling:
+    mayDependOn:
+      - roundtripcancel
+  proxyintake:
+    mayDependOn:
+      - requestrelay
+    canUse:
+      - canonicalurl
+  requestrelayobserversapplog:
+    mayDependOn:
+      - requestrelay
+    canUse:
+      - canonicalurl
+  verdictaddingobserversapplog:
+    mayDependOn:
+      - verdictadding
+    canUse:
+      - canonicalurl
+  verdictaddingobserversprometheus:
+    mayDependOn:
+      - verdictadding
+    canUse:
+      - canonicalurl
+      - prometheus
+  deadlineenforcingobserversapplog:
+    mayDependOn:
+      - deadlineenforcing
+    canUse:
+      - canonicalurl
+  deadlineenforcingobserversprometheus:
+    mayDependOn:
+      - deadlineenforcing
+    canUse:
+      - canonicalurl
+      - prometheus
+  requestrelayobserversprometheus:
+    mayDependOn:
+      - requestrelay
+    canUse:
+      - canonicalurl
+      - prometheus
+  assessmentgateobserversapplog:
+    canUse:
+      - canonicalurl
+  assessmentgateobserversprometheus:
+    canUse:
+      - canonicalurl
+      - prometheus
+  failurereportingobserversapplog:
+    mayDependOn:
+      - failurereporting
+  failurereportingobserversprometheus:
+    mayDependOn:
+      - failurereporting
+    canUse:
+      - prometheus
+  spamproxycmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
