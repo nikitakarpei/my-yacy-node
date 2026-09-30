@@ -78,3 +78,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../yacy
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../../../libraries/canonicalurl
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../../../libraries/pagefetch
+
+replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../libraries/spamassessment

@@ -1,6 +1,10 @@
 package pagereading
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+)
 
 type PerformedPageReading struct {
 	AmountOfPagesToRead              int
@@ -13,6 +17,7 @@ type PerformedPageReading struct {
 	AmountOfPagesOfAnUnsupportedKind int
 	AmountOfPagesOutOfBudget         int
 	AmountOfPagesCutOff              int
+	AmountOfPagesReadPerSpamVerdict  map[spamassessment.Verdict]int
 	TimeSpent                        time.Duration
 	TimeSpentFetching                time.Duration
 	TimeSpentReading                 time.Duration
@@ -23,8 +28,9 @@ func performedPageReadingFrom(
 	timeSpent time.Duration,
 ) PerformedPageReading {
 	performed := PerformedPageReading{
-		AmountOfPagesToRead: len(pageReadResults),
-		TimeSpent:           timeSpent,
+		AmountOfPagesToRead:             len(pageReadResults),
+		AmountOfPagesReadPerSpamVerdict: map[spamassessment.Verdict]int{},
+		TimeSpent:                       timeSpent,
 	}
 	for _, pageReadResult := range pageReadResults {
 		performed.TimeSpentFetching += pageReadResult.timeSpentFetching
@@ -32,6 +38,7 @@ func performedPageReadingFrom(
 		switch pageReadResult.outcome {
 		case pageWasRead:
 			performed.AmountOfPagesRead++
+			performed.AmountOfPagesReadPerSpamVerdict[pageReadResult.spamVerdict]++
 		case pageWasUnreachable:
 			performed.AmountOfPagesUnreachable++
 		case pageWasRefused:

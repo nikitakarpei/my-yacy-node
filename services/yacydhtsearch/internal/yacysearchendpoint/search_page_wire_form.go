@@ -29,7 +29,10 @@ type searchItem struct {
 	Image       string `json:"image"`
 }
 
-const channelTitle = "YaCy Search Engine: DHT search"
+const (
+	channelTitle    = "YaCy Search Engine: DHT search"
+	spamTitlePrefix = "[SPAM] "
+)
 
 func searchPageFrom(page searchresult.Page) searchPage {
 	items := make([]searchItem, 0, len(page.Items))
@@ -53,10 +56,18 @@ func searchItemFrom(item searchresult.Item) searchItem {
 	}
 
 	return searchItem{
-		Title:       item.Title,
+		Title:       titleOf(item),
 		Link:        item.Address,
 		Description: item.Description,
 		PubDate:     published,
 		Image:       item.ImageAddress,
 	}
+}
+
+func titleOf(item searchresult.Item) string {
+	if item.IsSpam {
+		return spamTitlePrefix + item.Title
+	}
+
+	return item.Title
 }

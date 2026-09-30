@@ -129,6 +129,7 @@ func (n Network) Search(
 	)
 	answersWithReadPages := answers.
 		WithReadPages(readPages.PageContentsPerDocument).
+		WithSpamVerdicts(readPages.SpamVerdictPerDocument).
 		WithoutDocuments(readPages.WithdrawnDocuments)
 	rankedDocuments := documentsUpTo(
 		n.documentsOrdering.OrderedDocumentsOf(answersWithReadPages),
@@ -188,6 +189,7 @@ func rankingOf(rankedDocuments []queryanswers.FoundDocument) searchresult.Rankin
 			Description:  rankedDocument.Snippet,
 			PublishedAt:  rankedDocument.PublishedAt,
 			ImageAddress: rankedDocument.FaviconAddress,
+			IsSpam:       rankedDocument.IsSpam(),
 		})
 	}
 

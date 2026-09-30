@@ -15,6 +15,7 @@ var directivesWithAValue = map[string]struct{}{
 	"max-video-preview": {},
 }
 
+// TECHDEBT: naming — derivation: RefusalsOf names refusals parsed from header values as an attribute the values have.
 func RefusalsOf(robotsTagValues []string) robotsmeta.Refusals {
 	var refusals robotsmeta.Refusals
 	for _, robotsTagValue := range robotsTagValues {

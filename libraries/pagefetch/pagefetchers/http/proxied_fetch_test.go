@@ -292,6 +292,23 @@ func TestFetchForwardsXRobotsTag(t *testing.T) {
 	}
 }
 
+func TestFetchForwardsSpamAssessment(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Spam-Assessment", `spam;score=0.935;threshold=0.8;model="2026-09"`)
+		_, _ = w.Write([]byte("hi"))
+	})
+	defer closeFn()
+
+	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
+			pagefetch.PageVersion{})
+	if outcome.Page.SpamAssessmentValue != `spam;score=0.935;threshold=0.8;model="2026-09"` {
+		t.Fatalf("spam assessment not forwarded: %+v", outcome)
+	}
+}
+
 func TestFetchTransientOnProxyFailure(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).

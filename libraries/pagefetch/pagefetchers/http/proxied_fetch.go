@@ -14,6 +14,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 )
 
 const (
@@ -157,9 +158,10 @@ func (f *ProxiedFetch) fetched(
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			ContentType:     response.Header.Get(headerContentType),
-			Body:            body,
-			RobotsTagValues: response.Header.Values(headerXRobotsTag),
+			ContentType:         response.Header.Get(headerContentType),
+			Body:                body,
+			RobotsTagValues:     response.Header.Values(headerXRobotsTag),
+			SpamAssessmentValue: response.Header.Get(spamassessmenthttpheader.Name),
 		},
 		Version: pageVersionOf(response),
 	}

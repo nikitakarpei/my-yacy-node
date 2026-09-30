@@ -1,5 +1,5 @@
-// Package prometheus counts the pages one query read by outcome, and reports
-// how long the reading of those pages took.
+// Package prometheus counts the pages one query read by outcome and the pages
+// read by spam verdict, and reports how long the reading of those pages took.
 package prometheus
 
 import (
@@ -9,12 +9,14 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
+	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 )
 
 const (
 	labelOutcome                = "outcome"
 	labelActivity               = "activity"
+	labelSpamVerdict            = "spam_verdict"
 	activityFetching            = "fetching"
 	activityReading             = "reading"
 	outcomePageRead             = "read"
@@ -28,6 +30,12 @@ const (
 	outcomePageCutOff           = "cut off"
 )
 
+var spamVerdicts = []spamassessment.Verdict{
+	spamassessment.Unassessed,
+	spamassessment.Clean,
+	spamassessment.Spam,
+}
+
 type PageReadingMetrics struct {
 	pagesRead                  prometheusclient.Counter
 	pagesUnreachable           prometheusclient.Counter
@@ -38,6 +46,7 @@ type PageReadingMetrics struct {
 	pagesOfAnUnsupportedKind   prometheusclient.Counter
 	pagesOutOfBudget           prometheusclient.Counter
 	pagesCutOff                prometheusclient.Counter
+	pagesReadPerSpamVerdict    *prometheusclient.CounterVec
 	pageReadingDurationSeconds prometheusclient.Histogram
 	timeSpentFetchingSeconds   prometheusclient.Counter
 	timeSpentReadingSeconds    prometheusclient.Counter
@@ -62,7 +71,19 @@ func New(
 		Name: "yacydhtsearch_page_reading_time_spent_seconds_total",
 		Help: "Time the pages of all queries spent, by activity, in seconds.",
 	}, []string{labelActivity})
-	registry.MustRegister(pages, pageReadingDurationSeconds, timeSpentSeconds)
+	pagesReadPerSpamVerdict := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_page_reading_pages_read_total",
+		Help: "Pages one query read, by spam verdict.",
+	}, []string{labelSpamVerdict})
+	registry.MustRegister(
+		pages,
+		pageReadingDurationSeconds,
+		timeSpentSeconds,
+		pagesReadPerSpamVerdict,
+	)
+	for _, spamVerdict := range spamVerdicts {
+		pagesReadPerSpamVerdict.WithLabelValues(spamVerdict.String())
+	}
 
 	return &PageReadingMetrics{
 		pagesRead:                  pages.WithLabelValues(outcomePageRead),
@@ -74,6 +95,7 @@ func New(
 		pagesOfAnUnsupportedKind:   pages.WithLabelValues(outcomePageUnsupportedKind),
 		pagesOutOfBudget:           pages.WithLabelValues(outcomePageOutOfBudget),
 		pagesCutOff:                pages.WithLabelValues(outcomePageCutOff),
+		pagesReadPerSpamVerdict:    pagesReadPerSpamVerdict,
 		pageReadingDurationSeconds: pageReadingDurationSeconds,
 		timeSpentFetchingSeconds:   timeSpentSeconds.WithLabelValues(activityFetching),
 		timeSpentReadingSeconds:    timeSpentSeconds.WithLabelValues(activityReading),
@@ -96,4 +118,8 @@ func (m *PageReadingMetrics) PageReadingPerformed(
 	m.pagesOfAnUnsupportedKind.Add(float64(pageReading.AmountOfPagesOfAnUnsupportedKind))
 	m.pagesOutOfBudget.Add(float64(pageReading.AmountOfPagesOutOfBudget))
 	m.pagesCutOff.Add(float64(pageReading.AmountOfPagesCutOff))
+	for spamVerdict, amountOfPagesRead := range pageReading.AmountOfPagesReadPerSpamVerdict {
+		m.pagesReadPerSpamVerdict.WithLabelValues(spamVerdict.String()).
+			Add(float64(amountOfPagesRead))
+	}
 }

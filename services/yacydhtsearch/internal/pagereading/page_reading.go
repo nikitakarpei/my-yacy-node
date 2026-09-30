@@ -1,6 +1,7 @@
 // Package pagereading reads the pages of the documents one query puts first, all
-// at once inside one budget. It gives back the text and link counts of each page
-// it read, and withdraws the documents whose pages are gone or refuse indexing.
+// at once inside one budget. It gives back the text, link counts and spam verdict
+// of each page it read, and withdraws the documents whose pages are gone or refuse
+// indexing.
 package pagereading
 
 import (
@@ -15,7 +16,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/htmlmeta"
-	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/httpheader"
+	robotsmetahttpheader "github.com/nikitakarpei/yacy-rwi-node/robotsmeta/httpheader"
+	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -149,9 +151,12 @@ func (r Reading) readThePage(
 	}
 
 	return pageReadResult{
-		document:          pageToRead.Document,
-		outcome:           outcome,
-		pageContents:      pageContents,
+		document:     pageToRead.Document,
+		outcome:      outcome,
+		pageContents: pageContents,
+		spamVerdict: spamassessmenthttpheader.VerdictFrom(
+			landed.Outcome.Page.SpamAssessmentValue,
+		),
 		timeSpentFetching: timeSpentFetching,
 		timeSpentReading:  time.Since(readingStartedAt),
 	}
@@ -206,7 +211,7 @@ func (r Reading) pageContentsOfTheFetchedPage(
 }
 
 func robotsRefusalsOf(fetchedPage pagefetch.FetchedPage) robotsmeta.Refusals {
-	return httpheader.RefusalsOf(fetchedPage.RobotsTagValues).
+	return robotsmetahttpheader.RefusalsOf(fetchedPage.RobotsTagValues).
 		With(htmlmeta.RefusalsOf(fetchedPage.ContentType, fetchedPage.Body))
 }
 
