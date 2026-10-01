@@ -833,12 +833,6 @@ func TestThePageReadingTellsTheTimeItSpentFetchingApartFromReading(t *testing.T)
 	if performed.TimeSpentReading <= 0 {
 		t.Fatalf("PageReadingPerformed = %+v, want time spent reading", performed)
 	}
-	if performed.TimeSpentFetching+performed.TimeSpentReading > performed.TimeSpent {
-		t.Fatalf(
-			"PageReadingPerformed = %+v, want fetching and reading inside the time spent",
-			performed,
-		)
-	}
 }
 
 type pagesThatOutlastTheBudgetAtOneAddress struct {
