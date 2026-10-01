@@ -3,6 +3,8 @@ package pagereading
 import (
 	"math"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PageReadCutoff struct {
@@ -12,46 +14,59 @@ type PageReadCutoff struct {
 
 func (cutoff PageReadCutoff) pageReadResultsFrom(
 	clock Clock,
-	settledPages <-chan settledPage,
+	budgetEnded <-chan struct{},
+	settlingResults <-chan pageReadResult,
 	pagesWanted []PageToRead,
 ) []pageReadResult {
-	pageReadResults := make([]pageReadResult, len(pagesWanted))
-	settled := make([]bool, len(pagesWanted))
+	pageReadResults := make([]pageReadResult, 0, len(pagesWanted))
+	settledDocuments := make(map[yacymodel.URLHash]struct{}, len(pagesWanted))
 	amountOfPagesForTheGrace := int(
 		math.Ceil(float64(cutoff.PercentOfPages) / 100 * float64(len(pagesWanted))),
 	)
 	var graceEnded chan struct{}
 	stopGrace := func() {}
 	defer func() { stopGrace() }()
-	for amountOfSettledPages := 0; amountOfSettledPages < len(pagesWanted); {
+	for len(pageReadResults) < len(pagesWanted) {
 		select {
-		case page := <-settledPages:
-			pageReadResults[page.place] = page.pageReadResult
-			settled[page.place] = true
-			amountOfSettledPages++
-			if amountOfSettledPages == amountOfPagesForTheGrace {
+		case result := <-settlingResults:
+			pageReadResults = append(pageReadResults, result)
+			settledDocuments[result.document] = struct{}{}
+			if len(pageReadResults) == amountOfPagesForTheGrace {
 				graceEnded = make(chan struct{})
 				stopGrace = clock.After(cutoff.Grace, func() { close(graceEnded) })
 			}
 		case <-graceEnded:
-			return withPagesCutOff(pageReadResults, settled, pagesWanted)
+			return withUnsettledPagesAs(
+				pageWasCutOff,
+				pageReadResults,
+				settledDocuments,
+				pagesWanted,
+			)
+		case <-budgetEnded:
+			return withUnsettledPagesAs(
+				pageWasOutOfBudget,
+				pageReadResults,
+				settledDocuments,
+				pagesWanted,
+			)
 		}
 	}
 
 	return pageReadResults
 }
 
-func withPagesCutOff(
+func withUnsettledPagesAs(
+	outcome readOutcome,
 	pageReadResults []pageReadResult,
-	settled []bool,
+	settledDocuments map[yacymodel.URLHash]struct{},
 	pagesWanted []PageToRead,
 ) []pageReadResult {
-	for place, pageWanted := range pagesWanted {
-		if !settled[place] {
-			pageReadResults[place] = pageReadResult{
+	for _, pageWanted := range pagesWanted {
+		if _, settled := settledDocuments[pageWanted.Document]; !settled {
+			pageReadResults = append(pageReadResults, pageReadResult{
 				document: pageWanted.Document,
-				outcome:  pageWasCutOff,
-			}
+				outcome:  outcome,
+			})
 		}
 	}
 

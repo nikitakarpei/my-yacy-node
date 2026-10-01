@@ -356,17 +356,15 @@ func networkOrdering(
 
 type pagesThatNoOneReads struct{}
 
-func (pages pagesThatNoOneReads) Start(
-	_ context.Context,
-	_ []yacymodel.Hash,
-) networksearch.PageReadingRun {
+func (pages pagesThatNoOneReads) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
 	return pages
 }
 
-func (pagesThatNoOneReads) Read(_ []pagereading.PageToRead) {}
+func (pagesThatNoOneReads) Read(_ context.Context, _ []pagereading.PageToRead) {}
 
 func (pagesThatNoOneReads) ReadPagesAmong(
 	_ context.Context,
+	_ networksearch.PageReadingRun,
 	_ []pagereading.PageToRead,
 ) pagereading.ReadPages {
 	return pagereading.ReadPages{}
@@ -611,17 +609,15 @@ type pagesHoldingTheWordOfOneDocument struct {
 	hits    int
 }
 
-func (p pagesHoldingTheWordOfOneDocument) Start(
-	_ context.Context,
-	_ []yacymodel.Hash,
-) networksearch.PageReadingRun {
+func (p pagesHoldingTheWordOfOneDocument) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
 	return p
 }
 
-func (pagesHoldingTheWordOfOneDocument) Read(_ []pagereading.PageToRead) {}
+func (pagesHoldingTheWordOfOneDocument) Read(_ context.Context, _ []pagereading.PageToRead) {}
 
 func (p pagesHoldingTheWordOfOneDocument) ReadPagesAmong(
 	_ context.Context,
+	_ networksearch.PageReadingRun,
 	pagesWanted []pagereading.PageToRead,
 ) pagereading.ReadPages {
 	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
@@ -675,17 +671,15 @@ type pagesRecordingTheirAddresses struct {
 	addresses *[]string
 }
 
-func (p pagesRecordingTheirAddresses) Start(
-	_ context.Context,
-	_ []yacymodel.Hash,
-) networksearch.PageReadingRun {
+func (p pagesRecordingTheirAddresses) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
 	return p
 }
 
-func (pagesRecordingTheirAddresses) Read(_ []pagereading.PageToRead) {}
+func (pagesRecordingTheirAddresses) Read(_ context.Context, _ []pagereading.PageToRead) {}
 
 func (p pagesRecordingTheirAddresses) ReadPagesAmong(
 	_ context.Context,
+	_ networksearch.PageReadingRun,
 	pagesWanted []pagereading.PageToRead,
 ) pagereading.ReadPages {
 	for _, pageWanted := range pagesWanted {
@@ -747,17 +741,15 @@ type pagesOfOneDocumentWithdrawn struct {
 	address string
 }
 
-func (p pagesOfOneDocumentWithdrawn) Start(
-	_ context.Context,
-	_ []yacymodel.Hash,
-) networksearch.PageReadingRun {
+func (p pagesOfOneDocumentWithdrawn) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
 	return p
 }
 
-func (pagesOfOneDocumentWithdrawn) Read(_ []pagereading.PageToRead) {}
+func (pagesOfOneDocumentWithdrawn) Read(_ context.Context, _ []pagereading.PageToRead) {}
 
 func (p pagesOfOneDocumentWithdrawn) ReadPagesAmong(
 	_ context.Context,
+	_ networksearch.PageReadingRun,
 	pagesWanted []pagereading.PageToRead,
 ) pagereading.ReadPages {
 	withdrawnDocuments := map[yacymodel.URLHash]struct{}{}
@@ -823,17 +815,15 @@ type pagesRecordingTheBudgetTheyGet struct {
 	recorded *recordedBudgets
 }
 
-func (p pagesRecordingTheBudgetTheyGet) Start(
-	_ context.Context,
-	_ []yacymodel.Hash,
-) networksearch.PageReadingRun {
+func (p pagesRecordingTheBudgetTheyGet) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
 	return p
 }
 
-func (pagesRecordingTheBudgetTheyGet) Read(_ []pagereading.PageToRead) {}
+func (pagesRecordingTheBudgetTheyGet) Read(_ context.Context, _ []pagereading.PageToRead) {}
 
 func (p pagesRecordingTheBudgetTheyGet) ReadPagesAmong(
 	ctx context.Context,
+	_ networksearch.PageReadingRun,
 	_ []pagereading.PageToRead,
 ) pagereading.ReadPages {
 	p.recorded.pageReading = budgetLeftIn(ctx)

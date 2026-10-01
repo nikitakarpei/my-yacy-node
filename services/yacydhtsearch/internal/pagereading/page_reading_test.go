@@ -185,10 +185,9 @@ func readPagesFrom(
 ) pagereading.ReadPages {
 	t.Helper()
 
-	run := reading.Start(t.Context(), queryWords)
-	run.Read(pagesToRead)
+	run := reading.Start(queryWords)
 
-	return run.ReadPagesAmong(t.Context(), pagesToRead)
+	return reading.ReadPagesAmong(t.Context(), run, pagesToRead)
 }
 
 func readingOfThePages(
@@ -816,8 +815,9 @@ func TestThePageReadingTellsTheTimeItSpentFetchingApartFromReading(t *testing.T)
 		observer,
 	)
 
-	reading.Start(t.Context(), []yacymodel.Hash{yacymodel.WordHash("berlin")}).ReadPagesAmong(
+	reading.ReadPagesAmong(
 		t.Context(),
+		reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")}),
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
@@ -887,11 +887,11 @@ func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 		pagereading.PageReadCutoff{PercentOfPages: 50},
 		clock,
 	)
-	run := reading.Start(t.Context(), []yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.Read(pagesOfThreeDocuments(t)[:1])
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Read(t.Context(), pagesOfThreeDocuments(t)[:1])
 
 	readPages := make(chan pagereading.ReadPages, 1)
-	go func() { readPages <- run.ReadPagesAmong(t.Context(), pagesOfThreeDocuments(t)) }()
+	go func() { readPages <- reading.ReadPagesAmong(t.Context(), run, pagesOfThreeDocuments(t)) }()
 	expireTheGrace := <-clock.graces
 	expireTheGrace()
 	<-readPages
@@ -954,11 +954,15 @@ func TestAPageReadBeforeItIsWantedIsReadOnce(t *testing.T) {
 		&recordedPageReading{},
 	)
 	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
-	run := reading.Start(t.Context(), []yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.Read(pagesToRead)
-	run.Read(pagesToRead)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Read(t.Context(), pagesToRead)
+	run.Read(t.Context(), pagesToRead)
 
-	pageContentsPerDocument := run.ReadPagesAmong(t.Context(), pagesToRead).PageContentsPerDocument
+	pageContentsPerDocument := reading.ReadPagesAmong(
+		t.Context(),
+		run,
+		pagesToRead,
+	).PageContentsPerDocument
 
 	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if amountOfFetches.Load() != 1 {
@@ -971,11 +975,12 @@ func TestAPageReadButNeverWantedIsLeftOut(t *testing.T) {
 
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
-	run := reading.Start(t.Context(), []yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.Read(pagesOfThreeDocuments(t))
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Read(t.Context(), pagesOfThreeDocuments(t))
 
-	pageContentsPerDocument := run.ReadPagesAmong(
+	pageContentsPerDocument := reading.ReadPagesAmong(
 		t.Context(),
+		run,
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
 

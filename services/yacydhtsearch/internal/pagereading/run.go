@@ -3,22 +3,26 @@ package pagereading
 import (
 	"context"
 	"sync"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Run struct {
-	reading Reading
-	//nolint:containedctx // the run reads each page it starts under the context it started in
-	readingCtx   context.Context
-	stopReading  context.CancelFunc
-	queryWords   []yacymodel.Hash
-	mutex        sync.Mutex
-	startedPages map[yacymodel.URLHash]*startedPage
+	pageReadResultOf func(ctx context.Context, pageToRead PageToRead) pageReadResult
+	mutex            sync.Mutex
+	startedPages     map[yacymodel.URLHash]*startedPage
 }
 
-func (run *Run) Read(pagesToRead []PageToRead) {
+func newRun(
+	pageReadResultOf func(ctx context.Context, pageToRead PageToRead) pageReadResult,
+) *Run {
+	return &Run{
+		pageReadResultOf: pageReadResultOf,
+		startedPages:     map[yacymodel.URLHash]*startedPage{},
+	}
+}
+
+func (run *Run) Read(ctx context.Context, pagesToRead []PageToRead) {
 	run.mutex.Lock()
 	defer run.mutex.Unlock()
 	for _, pageToRead := range pagesToRead {
@@ -27,47 +31,20 @@ func (run *Run) Read(pagesToRead []PageToRead) {
 		}
 		page := &startedPage{settled: make(chan struct{})}
 		run.startedPages[pageToRead.Document] = page
-		go func() {
-			page.settleWith(
-				run.reading.pageReadResultOf(run.readingCtx, run.queryWords, pageToRead),
-			)
-		}()
+		go func() { page.settleWith(run.pageReadResultOf(ctx, pageToRead)) }()
 	}
 }
 
-func (run *Run) ReadPagesAmong(ctx context.Context, pagesWanted []PageToRead) ReadPages {
-	startedAt := time.Now()
-	run.Read(pagesWanted)
-	pageReadResults := run.reading.pageReadResultsWithinTheBudget(
-		ctx, run.stopReading, run.settledPagesAmong(pagesWanted), pagesWanted,
-	)
-	run.reading.reportPageReading(
-		ctx,
-		performedPageReadingFrom(
-			pageReadResults,
-			run.amountOfPagesUnwanted(pagesWanted),
-			time.Since(startedAt),
-		),
-	)
-
-	return readPagesFrom(pageReadResults)
-}
-
-func (run *Run) settledPagesAmong(pagesWanted []PageToRead) <-chan settledPage {
+func (run *Run) pageReadResultsAmong(pagesWanted []PageToRead) <-chan pageReadResult {
 	run.mutex.Lock()
 	defer run.mutex.Unlock()
-	settledPages := make(chan settledPage, len(pagesWanted))
-	for place, pageWanted := range pagesWanted {
+	pageReadResults := make(chan pageReadResult, len(pagesWanted))
+	for _, pageWanted := range pagesWanted {
 		page := run.startedPages[pageWanted.Document]
-		go func() {
-			settledPages <- settledPage{
-				place:          place,
-				pageReadResult: page.pageReadResultOnceSettled(),
-			}
-		}()
+		go func() { pageReadResults <- page.pageReadResultOnceSettled() }()
 	}
 
-	return settledPages
+	return pageReadResults
 }
 
 func (run *Run) amountOfPagesUnwanted(pagesWanted []PageToRead) int {

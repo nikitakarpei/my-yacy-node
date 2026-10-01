@@ -13,8 +13,16 @@ type networkSearchPageReading struct {
 }
 
 func (pageReading networkSearchPageReading) Start(
-	ctx context.Context,
 	queryWords []yacymodel.Hash,
 ) networksearch.PageReadingRun {
-	return pageReading.reading.Start(ctx, queryWords)
+	return pageReading.reading.Start(queryWords)
+}
+
+func (pageReading networkSearchPageReading) ReadPagesAmong(
+	ctx context.Context,
+	run networksearch.PageReadingRun,
+	pagesWanted []pagereading.PageToRead,
+) pagereading.ReadPages {
+	//nolint:forcetypeassert // every run this reading gets back is one its Start gave out
+	return pageReading.reading.ReadPagesAmong(ctx, run.(*pagereading.Run), pagesWanted)
 }

@@ -79,16 +79,10 @@ func New(
 	}
 }
 
-func (r Reading) Start(ctx context.Context, queryWords []yacymodel.Hash) *Run {
-	readingCtx, stopReading := context.WithCancel(ctx)
-
-	return &Run{
-		reading:      r,
-		readingCtx:   readingCtx,
-		stopReading:  stopReading,
-		queryWords:   queryWords,
-		startedPages: map[yacymodel.URLHash]*startedPage{},
-	}
+func (r Reading) Start(queryWords []yacymodel.Hash) *Run {
+	return newRun(func(ctx context.Context, pageToRead PageToRead) pageReadResult {
+		return r.pageReadResultOf(ctx, queryWords, pageToRead)
+	})
 }
 
 func (r Reading) pageReadResultOf(
@@ -225,18 +219,37 @@ func (r Reading) textOfTheExtractedDocument(
 	)
 }
 
+func (r Reading) ReadPagesAmong(
+	ctx context.Context,
+	run *Run,
+	pagesWanted []PageToRead,
+) ReadPages {
+	startedAt := time.Now()
+	run.Read(ctx, pagesWanted)
+	pageReadResults := r.pageReadResultsWithinTheBudget(
+		ctx, run.pageReadResultsAmong(pagesWanted), pagesWanted,
+	)
+	r.reportPageReading(
+		ctx,
+		performedPageReadingFrom(
+			pageReadResults,
+			run.amountOfPagesUnwanted(pagesWanted),
+			time.Since(startedAt),
+		),
+	)
+
+	return readPagesFrom(pageReadResults)
+}
+
 func (r Reading) pageReadResultsWithinTheBudget(
 	ctx context.Context,
-	stopReading context.CancelFunc,
-	settledPages <-chan settledPage,
+	settlingResults <-chan pageReadResult,
 	pagesWanted []PageToRead,
 ) []pageReadResult {
 	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
 	defer stopPageReadBudget()
-	defer stopReading()
-	context.AfterFunc(budgetedCtx, stopReading)
 
-	return r.cutoff.pageReadResultsFrom(r.clock, settledPages, pagesWanted)
+	return r.cutoff.pageReadResultsFrom(r.clock, budgetedCtx.Done(), settlingResults, pagesWanted)
 }
 
 func (r Reading) reportPageReading(ctx context.Context, pageReading PerformedPageReading) {
