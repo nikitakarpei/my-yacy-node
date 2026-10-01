@@ -51,9 +51,7 @@ type Clock interface {
 type Reading struct {
 	pageFetch            PageFetcher
 	formatDerivations    FormatDerivations
-	pageReadBudget       time.Duration
-	cutoff               PageReadCutoff
-	clock                Clock
+	waiting              pageReadWaiting
 	snippetLengthCeiling int
 	observer             PageReadingObserver
 }
@@ -71,18 +69,20 @@ func New(
 	return Reading{
 		pageFetch:            pageFetch,
 		formatDerivations:    formatDerivations,
-		pageReadBudget:       pageReadBudget,
-		cutoff:               cutoff,
-		clock:                clock,
+		waiting:              pageReadWaiting{budget: pageReadBudget, cutoff: cutoff, clock: clock},
 		snippetLengthCeiling: snippetLengthCeiling,
 		observer:             observer,
 	}
 }
 
 func (r Reading) Start(queryWords []yacymodel.Hash) *Run {
-	return newRun(func(ctx context.Context, pageToRead PageToRead) pageReadResult {
-		return r.pageReadResultOf(ctx, queryWords, pageToRead)
-	})
+	return newRun(
+		func(ctx context.Context, pageToRead PageToRead) pageReadResult {
+			return r.pageReadResultOf(ctx, queryWords, pageToRead)
+		},
+		r.waiting,
+		r.observer,
+	)
 }
 
 func (r Reading) pageReadResultOf(
@@ -217,41 +217,4 @@ func (r Reading) textOfTheExtractedDocument(
 	return r.formatDerivations.BodyIn(
 		ctx, documentextraction.FormatFullText, extractedDocument, pageURL,
 	)
-}
-
-func (r Reading) ReadPagesAmong(
-	ctx context.Context,
-	run *Run,
-	pagesWanted []PageToRead,
-) ReadPages {
-	startedAt := time.Now()
-	run.Read(ctx, pagesWanted)
-	pageReadResults := r.pageReadResultsWithinTheBudget(
-		ctx, run.pageReadResultsAmong(pagesWanted), pagesWanted,
-	)
-	r.reportPageReading(
-		ctx,
-		performedPageReadingFrom(
-			pageReadResults,
-			run.amountOfPagesUnwanted(pagesWanted),
-			time.Since(startedAt),
-		),
-	)
-
-	return readPagesFrom(pageReadResults)
-}
-
-func (r Reading) pageReadResultsWithinTheBudget(
-	ctx context.Context,
-	settlingResults <-chan pageReadResult,
-	pagesWanted []PageToRead,
-) []pageReadResult {
-	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
-	defer stopPageReadBudget()
-
-	return r.cutoff.pageReadResultsFrom(r.clock, budgetedCtx.Done(), settlingResults, pagesWanted)
-}
-
-func (r Reading) reportPageReading(ctx context.Context, pageReading PerformedPageReading) {
-	r.observer.PageReadingPerformed(ctx, pageReading)
 }

@@ -3,26 +3,33 @@ package pagereading
 import (
 	"context"
 	"sync"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Run struct {
 	pageReadResultOf func(ctx context.Context, pageToRead PageToRead) pageReadResult
+	waiting          pageReadWaiting
+	observer         PageReadingObserver
 	mutex            sync.Mutex
 	startedPages     map[yacymodel.URLHash]*startedPage
 }
 
 func newRun(
 	pageReadResultOf func(ctx context.Context, pageToRead PageToRead) pageReadResult,
+	waiting pageReadWaiting,
+	observer PageReadingObserver,
 ) *Run {
 	return &Run{
 		pageReadResultOf: pageReadResultOf,
+		waiting:          waiting,
+		observer:         observer,
 		startedPages:     map[yacymodel.URLHash]*startedPage{},
 	}
 }
 
-func (run *Run) Read(ctx context.Context, pagesToRead []PageToRead) {
+func (run *Run) StartReading(ctx context.Context, pagesToRead []PageToRead) {
 	run.mutex.Lock()
 	defer run.mutex.Unlock()
 	for _, pageToRead := range pagesToRead {
@@ -35,12 +42,37 @@ func (run *Run) Read(ctx context.Context, pagesToRead []PageToRead) {
 	}
 }
 
+func (run *Run) PagesReadAmong(ctx context.Context, pagesWanted []PageToRead) PagesRead {
+	startedAt := time.Now()
+	pageReadResults := run.waiting.pageReadResultsFrom(
+		ctx, run.pageReadResultsAmong(pagesWanted), pagesWanted,
+	)
+	run.reportPageReading(
+		ctx,
+		performedPageReadingFrom(
+			pageReadResults,
+			run.amountOfPagesUnwanted(pagesWanted),
+			time.Since(startedAt),
+		),
+	)
+
+	return pagesReadFrom(pageReadResults)
+}
+
 func (run *Run) pageReadResultsAmong(pagesWanted []PageToRead) <-chan pageReadResult {
 	run.mutex.Lock()
 	defer run.mutex.Unlock()
 	pageReadResults := make(chan pageReadResult, len(pagesWanted))
 	for _, pageWanted := range pagesWanted {
-		page := run.startedPages[pageWanted.Document]
+		page, started := run.startedPages[pageWanted.Document]
+		if !started {
+			pageReadResults <- pageReadResult{
+				document: pageWanted.Document,
+				outcome:  pageWasOutOfBudget,
+			}
+
+			continue
+		}
 		go func() { pageReadResults <- page.pageReadResultOnceSettled() }()
 	}
 
@@ -62,4 +94,8 @@ func (run *Run) amountOfPagesUnwanted(pagesWanted []PageToRead) int {
 	}
 
 	return amountOfPagesUnwanted
+}
+
+func (run *Run) reportPageReading(ctx context.Context, pageReading PerformedPageReading) {
+	run.observer.PageReadingPerformed(ctx, pageReading)
 }

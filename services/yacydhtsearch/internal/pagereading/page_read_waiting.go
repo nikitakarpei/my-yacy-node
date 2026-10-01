@@ -1,6 +1,7 @@
 package pagereading
 
 import (
+	"context"
 	"math"
 	"time"
 
@@ -12,16 +13,23 @@ type PageReadCutoff struct {
 	Grace          time.Duration
 }
 
-func (cutoff PageReadCutoff) pageReadResultsFrom(
-	clock Clock,
-	budgetEnded <-chan struct{},
+type pageReadWaiting struct {
+	budget time.Duration
+	cutoff PageReadCutoff
+	clock  Clock
+}
+
+func (waiting pageReadWaiting) pageReadResultsFrom(
+	ctx context.Context,
 	settlingResults <-chan pageReadResult,
 	pagesWanted []PageToRead,
 ) []pageReadResult {
+	budgetedCtx, stopBudget := context.WithTimeout(ctx, waiting.budget)
+	defer stopBudget()
 	pageReadResults := make([]pageReadResult, 0, len(pagesWanted))
 	settledDocuments := make(map[yacymodel.URLHash]struct{}, len(pagesWanted))
 	amountOfPagesForTheGrace := int(
-		math.Ceil(float64(cutoff.PercentOfPages) / 100 * float64(len(pagesWanted))),
+		math.Ceil(float64(waiting.cutoff.PercentOfPages) / 100 * float64(len(pagesWanted))),
 	)
 	var graceEnded chan struct{}
 	stopGrace := func() {}
@@ -33,7 +41,7 @@ func (cutoff PageReadCutoff) pageReadResultsFrom(
 			settledDocuments[result.document] = struct{}{}
 			if len(pageReadResults) == amountOfPagesForTheGrace {
 				graceEnded = make(chan struct{})
-				stopGrace = clock.After(cutoff.Grace, func() { close(graceEnded) })
+				stopGrace = waiting.clock.After(waiting.cutoff.Grace, func() { close(graceEnded) })
 			}
 		case <-graceEnded:
 			return withUnsettledPagesAs(
@@ -42,7 +50,7 @@ func (cutoff PageReadCutoff) pageReadResultsFrom(
 				settledDocuments,
 				pagesWanted,
 			)
-		case <-budgetEnded:
+		case <-budgetedCtx.Done():
 			return withUnsettledPagesAs(
 				pageWasOutOfBudget,
 				pageReadResults,

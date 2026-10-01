@@ -360,14 +360,13 @@ func (pages pagesThatNoOneReads) Start(_ []yacymodel.Hash) networksearch.PageRea
 	return pages
 }
 
-func (pagesThatNoOneReads) Read(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesThatNoOneReads) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (pagesThatNoOneReads) ReadPagesAmong(
+func (pagesThatNoOneReads) PagesReadAmong(
 	_ context.Context,
-	_ networksearch.PageReadingRun,
 	_ []pagereading.PageToRead,
-) pagereading.ReadPages {
-	return pagereading.ReadPages{}
+) pagereading.PagesRead {
+	return pagereading.PagesRead{}
 }
 
 func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
@@ -613,13 +612,16 @@ func (p pagesHoldingTheWordOfOneDocument) Start(_ []yacymodel.Hash) networksearc
 	return p
 }
 
-func (pagesHoldingTheWordOfOneDocument) Read(_ context.Context, _ []pagereading.PageToRead) {}
-
-func (p pagesHoldingTheWordOfOneDocument) ReadPagesAmong(
+func (pagesHoldingTheWordOfOneDocument) StartReading(
 	_ context.Context,
-	_ networksearch.PageReadingRun,
+	_ []pagereading.PageToRead,
+) {
+}
+
+func (p pagesHoldingTheWordOfOneDocument) PagesReadAmong(
+	_ context.Context,
 	pagesWanted []pagereading.PageToRead,
-) pagereading.ReadPages {
+) pagereading.PagesRead {
 	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
 	for _, pageWanted := range pagesWanted {
 		if pageWanted.Address != p.address {
@@ -631,7 +633,7 @@ func (p pagesHoldingTheWordOfOneDocument) ReadPagesAmong(
 		}
 	}
 
-	return pagereading.ReadPages{PageContentsPerDocument: pageContentsPerDocument}
+	return pagereading.PagesRead{PageContentsPerDocument: pageContentsPerDocument}
 }
 
 func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
@@ -675,18 +677,17 @@ func (p pagesRecordingTheirAddresses) Start(_ []yacymodel.Hash) networksearch.Pa
 	return p
 }
 
-func (pagesRecordingTheirAddresses) Read(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesRecordingTheirAddresses) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (p pagesRecordingTheirAddresses) ReadPagesAmong(
+func (p pagesRecordingTheirAddresses) PagesReadAmong(
 	_ context.Context,
-	_ networksearch.PageReadingRun,
 	pagesWanted []pagereading.PageToRead,
-) pagereading.ReadPages {
+) pagereading.PagesRead {
 	for _, pageWanted := range pagesWanted {
 		*p.addresses = append(*p.addresses, pageWanted.Address)
 	}
 
-	return pagereading.ReadPages{}
+	return pagereading.PagesRead{}
 }
 
 func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
@@ -745,13 +746,12 @@ func (p pagesOfOneDocumentWithdrawn) Start(_ []yacymodel.Hash) networksearch.Pag
 	return p
 }
 
-func (pagesOfOneDocumentWithdrawn) Read(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesOfOneDocumentWithdrawn) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (p pagesOfOneDocumentWithdrawn) ReadPagesAmong(
+func (p pagesOfOneDocumentWithdrawn) PagesReadAmong(
 	_ context.Context,
-	_ networksearch.PageReadingRun,
 	pagesWanted []pagereading.PageToRead,
-) pagereading.ReadPages {
+) pagereading.PagesRead {
 	withdrawnDocuments := map[yacymodel.URLHash]struct{}{}
 	for _, pageWanted := range pagesWanted {
 		if pageWanted.Address == p.address {
@@ -759,7 +759,7 @@ func (p pagesOfOneDocumentWithdrawn) ReadPagesAmong(
 		}
 	}
 
-	return pagereading.ReadPages{WithdrawnDocuments: withdrawnDocuments}
+	return pagereading.PagesRead{WithdrawnDocuments: withdrawnDocuments}
 }
 
 func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
@@ -819,16 +819,15 @@ func (p pagesRecordingTheBudgetTheyGet) Start(_ []yacymodel.Hash) networksearch.
 	return p
 }
 
-func (pagesRecordingTheBudgetTheyGet) Read(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesRecordingTheBudgetTheyGet) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (p pagesRecordingTheBudgetTheyGet) ReadPagesAmong(
+func (p pagesRecordingTheBudgetTheyGet) PagesReadAmong(
 	ctx context.Context,
-	_ networksearch.PageReadingRun,
 	_ []pagereading.PageToRead,
-) pagereading.ReadPages {
+) pagereading.PagesRead {
 	p.recorded.pageReading = budgetLeftIn(ctx)
 
-	return pagereading.ReadPages{}
+	return pagereading.PagesRead{}
 }
 
 func budgetLeftIn(ctx context.Context) time.Duration {
