@@ -31,6 +31,7 @@ func (PageReadingLog) PageReadingPerformed(
 		),
 		slog.Int("amountOfPagesOutOfBudget", pageReading.AmountOfPagesOutOfBudget),
 		slog.Int("amountOfPagesCutOff", pageReading.AmountOfPagesCutOff),
+		slog.Int("amountOfPagesUnwanted", pageReading.AmountOfPagesUnwanted),
 		slog.Int(
 			"amountOfPagesReadAssessedAsSpam",
 			pageReading.AmountOfPagesReadPerSpamVerdict[spamassessment.Spam],

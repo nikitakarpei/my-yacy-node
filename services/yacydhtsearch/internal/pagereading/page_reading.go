@@ -1,7 +1,7 @@
-// Package pagereading reads the pages of the documents one query puts first, all
-// at once inside one budget. It gives back the text, link counts and spam verdict
-// of each page it read, and withdraws the documents whose pages are gone or refuse
-// indexing.
+// Package pagereading reads the pages of the documents one query puts first. One
+// run per query starts each page once, at any time, and gives back, inside one
+// budget, the text, link counts and spam verdict of the pages it is asked for. It
+// withdraws the documents whose pages are gone or refuse indexing.
 package pagereading
 
 import (
@@ -44,21 +44,27 @@ type FormatDerivations interface {
 	) ([]byte, bool)
 }
 
+type Clock interface {
+	After(timeout time.Duration, expire func()) (stop func())
+}
+
 type Reading struct {
 	pageFetch            PageFetcher
 	formatDerivations    FormatDerivations
 	pageReadBudget       time.Duration
 	cutoff               PageReadCutoff
+	clock                Clock
 	snippetLengthCeiling int
 	observer             PageReadingObserver
 }
 
-//nolint:revive // argument-limit: the reading takes its fetch, formats, budget, cutoff, snippet ceiling and observer
+//nolint:revive // argument-limit: the reading takes its fetch, formats, budget, cutoff, clock, snippet ceiling and observer
 func New(
 	pageFetch PageFetcher,
 	formatDerivations FormatDerivations,
 	pageReadBudget time.Duration,
 	cutoff PageReadCutoff,
+	clock Clock,
 	snippetLengthCeiling int,
 	observer PageReadingObserver,
 ) Reading {
@@ -67,55 +73,25 @@ func New(
 		formatDerivations:    formatDerivations,
 		pageReadBudget:       pageReadBudget,
 		cutoff:               cutoff,
+		clock:                clock,
 		snippetLengthCeiling: snippetLengthCeiling,
 		observer:             observer,
 	}
 }
 
-func (r Reading) ReadEachPage(
-	ctx context.Context,
-	queryWords []yacymodel.Hash,
-	pagesToRead []PageToRead,
-) ReadPages {
-	startedAt := time.Now()
-	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
-	defer stopPageReadBudget()
-
-	pageReadResults := r.readEachPageAtOnce(budgetedCtx, queryWords, pagesToRead)
-	r.observer.PageReadingPerformed(
-		ctx,
-		performedPageReadingFrom(pageReadResults, time.Since(startedAt)),
-	)
-
-	return readPagesFrom(pageReadResults)
-}
-
-func (r Reading) readEachPageAtOnce(
-	ctx context.Context,
-	queryWords []yacymodel.Hash,
-	pagesToRead []PageToRead,
-) []pageReadResult {
+func (r Reading) Start(ctx context.Context, queryWords []yacymodel.Hash) *Run {
 	readingCtx, stopReading := context.WithCancel(ctx)
-	defer stopReading()
-	settledPages := make(chan settledPage, len(pagesToRead))
-	for place, pageToRead := range pagesToRead {
-		go func() {
-			settledPages <- settledPage{
-				place:          place,
-				pageReadResult: r.readThePage(readingCtx, queryWords, pageToRead),
-			}
-		}()
+
+	return &Run{
+		reading:      r,
+		readingCtx:   readingCtx,
+		stopReading:  stopReading,
+		queryWords:   queryWords,
+		startedPages: map[yacymodel.URLHash]*startedPage{},
 	}
-
-	return r.cutoff.pageReadResultsFrom(settledPages, pagesToRead)
 }
 
-type settledPage struct {
-	place          int
-	pageReadResult pageReadResult
-}
-
-func (r Reading) readThePage(
+func (r Reading) pageReadResultOf(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	pageToRead PageToRead,
@@ -247,4 +223,22 @@ func (r Reading) textOfTheExtractedDocument(
 	return r.formatDerivations.BodyIn(
 		ctx, documentextraction.FormatFullText, extractedDocument, pageURL,
 	)
+}
+
+func (r Reading) pageReadResultsWithinTheBudget(
+	ctx context.Context,
+	stopReading context.CancelFunc,
+	settledPages <-chan settledPage,
+	pagesWanted []PageToRead,
+) []pageReadResult {
+	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
+	defer stopPageReadBudget()
+	defer stopReading()
+	context.AfterFunc(budgetedCtx, stopReading)
+
+	return r.cutoff.pageReadResultsFrom(r.clock, settledPages, pagesWanted)
+}
+
+func (r Reading) reportPageReading(ctx context.Context, pageReading PerformedPageReading) {
+	r.observer.PageReadingPerformed(ctx, pageReading)
 }

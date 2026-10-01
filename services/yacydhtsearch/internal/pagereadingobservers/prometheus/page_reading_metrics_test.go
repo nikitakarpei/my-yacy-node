@@ -46,6 +46,7 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		AmountOfPagesOfAnUnsupportedKind: 1,
 		AmountOfPagesOutOfBudget:         1,
 		AmountOfPagesCutOff:              2,
+		AmountOfPagesUnwanted:            6,
 		AmountOfPagesReadPerSpamVerdict: map[spamassessment.Verdict]int{
 			spamassessment.Spam:       1,
 			spamassessment.Clean:      2,
@@ -67,6 +68,7 @@ func TestOnePageReadingPublishesThePagesByOutcomeAndHowLongItTook(t *testing.T) 
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 1`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 1`,
 		`yacydhtsearch_page_reading_pages_total{outcome="cut off"} 2`,
+		"yacydhtsearch_page_reading_pages_unwanted_total 6",
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="spam"} 1`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="clean"} 2`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="unassessed"} 1`,
@@ -97,6 +99,7 @@ func TestEveryOutcomeOfAPageIsPublishedBeforeTheFirstPageReading(t *testing.T) {
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="cut off"} 0`,
+		"yacydhtsearch_page_reading_pages_unwanted_total 0",
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="spam"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="clean"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="unassessed"} 0`,

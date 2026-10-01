@@ -38,11 +38,12 @@ type DocumentsOrdering interface {
 }
 
 type PageReading interface {
-	ReadEachPage(
-		ctx context.Context,
-		queryWords []yacymodel.Hash,
-		pagesToRead []pagereading.PageToRead,
-	) pagereading.ReadPages
+	Start(ctx context.Context, queryWords []yacymodel.Hash) PageReadingRun
+}
+
+type PageReadingRun interface {
+	Read(pagesToRead []pagereading.PageToRead)
+	ReadPagesAmong(ctx context.Context, pagesWanted []pagereading.PageToRead) pagereading.ReadPages
 }
 
 type NetworkSearchObserver interface {
@@ -124,9 +125,10 @@ func (n Network) Search(
 		n.pagesReadPerQuery,
 		n.pagesReadPerSite,
 	)
-	readPages := n.pageReading.ReadEachPage(
-		ctx, query.WordHashes(), pagesToReadOf(documentsToRead),
-	)
+	pagesToRead := pagesToReadOf(documentsToRead)
+	pageReadingRun := n.pageReading.Start(ctx, query.WordHashes())
+	pageReadingRun.Read(pagesToRead)
+	readPages := pageReadingRun.ReadPagesAmong(ctx, pagesToRead)
 	findingsWithReadPages := findings.
 		WithReadPages(readPages.PageContentsPerDocument).
 		WithSpamVerdicts(readPages.SpamVerdictPerDocument).
