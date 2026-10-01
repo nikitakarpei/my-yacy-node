@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -21,11 +21,11 @@ type namedSiteEntryScorer struct {
 	queryVocabulary queryVocabulary
 }
 
-func namedSiteEntryScorerFrom(statistics answersStatistics) namedSiteEntryScorer {
+func namedSiteEntryScorerFrom(statistics findingsStatistics) namedSiteEntryScorer {
 	return namedSiteEntryScorer{queryVocabulary: statistics.queryVocabulary}
 }
 
-func (scorer namedSiteEntryScorer) scoreOf(document queryanswers.FoundDocument) float64 {
+func (scorer namedSiteEntryScorer) scoreOf(document queryfindings.FoundDocument) float64 {
 	address, err := url.Parse(document.Address)
 	if err != nil {
 		return namedSiteEntryScoreOfMalformedAddress

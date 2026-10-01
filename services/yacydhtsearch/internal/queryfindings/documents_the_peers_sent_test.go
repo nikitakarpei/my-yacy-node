@@ -1,9 +1,9 @@
-package queryanswers_test
+package queryfindings_test
 
 import (
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -16,7 +16,7 @@ func metadataOfDocumentAt(t *testing.T, address string, title string) yacymodel.
 func TestDocumentsThePeersSentComeBackInOrderTheyWereSentIn(t *testing.T) {
 	t.Parallel()
 
-	documents := queryanswers.EmptyDocumentsThePeersSent()
+	documents := queryfindings.EmptyDocumentsThePeersSent()
 	documents.KeepMetadataThePeerSent(
 		metadataOfDocumentAt(t, "https://first.example/", "First"),
 		yacymodel.WordHash("a peer"),
@@ -41,7 +41,7 @@ func TestDocumentsThePeersSentComeBackInOrderTheyWereSentIn(t *testing.T) {
 func TestDocumentASecondPeerSentMetadataOfHoldsTwoMetadataReplicas(t *testing.T) {
 	t.Parallel()
 
-	documents := queryanswers.EmptyDocumentsThePeersSent()
+	documents := queryfindings.EmptyDocumentsThePeersSent()
 	documents.KeepMetadataThePeerSent(
 		metadataOfDocumentAt(t, "https://shared.example/", "As the first peer holds it"),
 		yacymodel.WordHash("the first peer"),
@@ -73,7 +73,7 @@ func TestDocumentASecondPeerSentMetadataOfHoldsTwoMetadataReplicas(t *testing.T)
 func TestPostingsOfDocumentComeBackOnThatDocumentAlone(t *testing.T) {
 	t.Parallel()
 
-	documents := queryanswers.EmptyDocumentsThePeersSent()
+	documents := queryfindings.EmptyDocumentsThePeersSent()
 	documents.KeepDocumentThePeerMatched(
 		yacymodel.WordHash("the first peer"),
 		yacymodel.WordHash(countedWord),
@@ -106,7 +106,7 @@ func TestPostingsOfDocumentComeBackOnThatDocumentAlone(t *testing.T) {
 func TestDocumentsNoPeerSentAnythingForComeBackAsNone(t *testing.T) {
 	t.Parallel()
 
-	foundDocuments := queryanswers.EmptyDocumentsThePeersSent().FoundDocuments()
+	foundDocuments := queryfindings.EmptyDocumentsThePeersSent().FoundDocuments()
 
 	if foundDocuments != nil {
 		t.Fatalf("the documents come back as %+v, want none", foundDocuments)

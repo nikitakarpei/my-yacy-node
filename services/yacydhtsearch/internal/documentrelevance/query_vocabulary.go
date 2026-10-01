@@ -1,7 +1,7 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -11,10 +11,10 @@ type queryVocabulary struct {
 	compoundWords []searchquery.CompoundWord
 }
 
-func queryVocabularyOf(answers queryanswers.AnsweredQuery) queryVocabulary {
+func queryVocabularyOf(findings queryfindings.Findings) queryVocabulary {
 	return queryVocabulary{
-		words:         answers.QueryWords,
-		compoundWords: answers.CompoundWords,
+		words:         findings.QueryWords,
+		compoundWords: findings.CompoundWords,
 	}
 }
 

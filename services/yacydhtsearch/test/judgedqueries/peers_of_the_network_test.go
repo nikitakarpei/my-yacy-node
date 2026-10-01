@@ -17,7 +17,7 @@ import (
 	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
@@ -115,7 +115,7 @@ type querySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		askablePeers []peerdirectory.AskablePeer,
-	) queryanswers.AnsweredQuery
+	) queryfindings.Findings
 }
 
 func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
@@ -199,7 +199,7 @@ func (spread spreadChoosingPeers) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	askablePeers []peerdirectory.AskablePeer,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	chosenPeersPerQueryWord := spread.peerChoice.ChosenPeersPerQueryWordFor(
 		ctx, query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling), askablePeers,
 	)

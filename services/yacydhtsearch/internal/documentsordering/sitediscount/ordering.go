@@ -12,7 +12,7 @@ import (
 	"math"
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -22,7 +22,7 @@ const (
 )
 
 type DocumentRelevance interface {
-	RelevancePerDocumentOf(answers queryanswers.AnsweredQuery) map[yacymodel.URLHash]float64
+	RelevancePerDocumentOf(findings queryfindings.Findings) map[yacymodel.URLHash]float64
 }
 
 type Ordering struct {
@@ -34,23 +34,23 @@ func New(documentRelevance DocumentRelevance) Ordering {
 }
 
 func (ordering Ordering) OrderedDocumentsOf(
-	answers queryanswers.AnsweredQuery,
-) []queryanswers.FoundDocument {
-	relevancePerDocument := ordering.documentRelevance.RelevancePerDocumentOf(answers)
+	findings queryfindings.Findings,
+) []queryfindings.FoundDocument {
+	relevancePerDocument := ordering.documentRelevance.RelevancePerDocumentOf(findings)
 
 	return documentsInFallingOrderOfDiscountedRelevance(
 		documentsInFallingOrderOfRelevance(
-			slices.Clone(answers.FoundDocuments), relevancePerDocument,
+			slices.Clone(findings.FoundDocuments), relevancePerDocument,
 		),
 		relevancePerDocument,
 	)
 }
 
 func documentsInFallingOrderOfRelevance(
-	foundDocuments []queryanswers.FoundDocument,
+	foundDocuments []queryfindings.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-) []queryanswers.FoundDocument {
-	slices.SortStableFunc(foundDocuments, func(one, other queryanswers.FoundDocument) int {
+) []queryfindings.FoundDocument {
+	slices.SortStableFunc(foundDocuments, func(one, other queryfindings.FoundDocument) int {
 		return cmp.Compare(
 			relevancePerDocument[other.Hash], relevancePerDocument[one.Hash],
 		)
@@ -60,9 +60,9 @@ func documentsInFallingOrderOfRelevance(
 }
 
 func documentsInFallingOrderOfDiscountedRelevance(
-	documentsOfFallingRelevance []queryanswers.FoundDocument,
+	documentsOfFallingRelevance []queryfindings.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-) []queryanswers.FoundDocument {
+) []queryfindings.FoundDocument {
 	positionsPerSite := positionsPerSiteOf(documentsOfFallingRelevance)
 	amountOfPlacedDocumentsPerSite := map[string]int{}
 	nextDocumentsOfEachSite := &nextDocumentsOfEachSite{}
@@ -76,7 +76,7 @@ func documentsInFallingOrderOfDiscountedRelevance(
 			),
 		})
 	}
-	placedDocuments := make([]queryanswers.FoundDocument, 0, len(documentsOfFallingRelevance))
+	placedDocuments := make([]queryfindings.FoundDocument, 0, len(documentsOfFallingRelevance))
 	for nextDocumentsOfEachSite.Len() > 0 {
 		placed, _ := heap.Pop(nextDocumentsOfEachSite).(nextDocumentOfSite)
 		placedDocuments = append(placedDocuments, documentsOfFallingRelevance[placed.position])
@@ -103,7 +103,7 @@ func documentsInFallingOrderOfDiscountedRelevance(
 	return placedDocuments
 }
 
-func positionsPerSiteOf(foundDocuments []queryanswers.FoundDocument) map[string][]int {
+func positionsPerSiteOf(foundDocuments []queryfindings.FoundDocument) map[string][]int {
 	positionsPerSite := map[string][]int{}
 	for position, foundDocument := range foundDocuments {
 		site := yacymodel.SiteOf(foundDocument.Address)
@@ -114,7 +114,7 @@ func positionsPerSiteOf(foundDocuments []queryanswers.FoundDocument) map[string]
 }
 
 func relevanceOf(
-	document queryanswers.FoundDocument,
+	document queryfindings.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
 ) float64 {
 	return max(relevancePerDocument[document.Hash], leastRelevanceTheDiscountTakesFrom)

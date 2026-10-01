@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
@@ -541,7 +541,7 @@ func settingsOfOnePartition() spreadSettings {
 func (settings spreadSettings) spread(
 	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	ctx := context.Background()
 	if settings.queryBudget > 0 {
 		var endQuery context.CancelFunc
@@ -578,10 +578,10 @@ func (settings spreadSettings) spread(
 	)
 }
 
-func answeredQueryFrom(
+func findingsFrom(
 	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	return settingsOfOnePartition().spread(network, observer)
 }
 
@@ -626,9 +626,9 @@ func documentHashOf(t *testing.T, address string) yacymodel.URLHash {
 	return hashes[0]
 }
 
-func foundDocumentsIn(answeredQuery queryanswers.AnsweredQuery) []yacymodel.URLHash {
-	foundDocuments := make([]yacymodel.URLHash, 0, len(answeredQuery.FoundDocuments))
-	for _, foundDocument := range answeredQuery.FoundDocuments {
+func foundDocumentsIn(findings queryfindings.Findings) []yacymodel.URLHash {
+	foundDocuments := make([]yacymodel.URLHash, 0, len(findings.FoundDocuments))
+	for _, foundDocument := range findings.FoundDocuments {
 		foundDocuments = append(foundDocuments, foundDocument.Hash)
 	}
 
@@ -675,7 +675,7 @@ func TestOnlyDocumentsThatEveryQueryWordCameBackForAreAskedAbout(t *testing.T) {
 		},
 	})
 
-	answeredQueryFrom(network, &recordedSpreads{})
+	findingsFrom(network, &recordedSpreads{})
 
 	wanted := documentHashesOf([]string{"https://shared.example/"})
 	if got := distinctDocumentsAskedMetadataFor(
@@ -702,7 +702,7 @@ func TestEachPeerIsAskedOnlyAboutTheDocumentsItHolds(t *testing.T) {
 		},
 	})
 
-	answeredQueryFrom(network, &recordedSpreads{})
+	findingsFrom(network, &recordedSpreads{})
 
 	for _, ask := range network.urlMetadataAsks {
 		held := network.documentsPerWordPerPeer[ask.Peer.Address][firstWord]
@@ -725,7 +725,7 @@ func TestAPeerHoldingOnlyOneQueryWordIsStillAskedAboutAJoinedDocument(t *testing
 		"second": {secondWord: {"https://shared.example/"}},
 	})
 
-	answeredQueryFrom(network, &recordedSpreads{})
+	findingsFrom(network, &recordedSpreads{})
 
 	if len(network.urlMetadataAsks) != 2 {
 		t.Fatalf(
@@ -752,7 +752,7 @@ func TestNoPeerIsAskedAboutADocumentWhenNoDocumentIsHeldForEveryWord(t *testing.
 		"second": {secondWord: {"https://only-second.example/"}},
 	})
 
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := findingsFrom(network, &recordedSpreads{}).FoundDocuments
 
 	if len(network.urlMetadataAsks) != 0 || len(foundDocuments) != 0 {
 		t.Fatalf(
@@ -809,7 +809,7 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 	network.silentPeers["never"] = struct{}{}
 	observer := &recordedSpreads{}
 
-	answeredQueryFrom(network, observer)
+	findingsFrom(network, observer)
 
 	if len(observer.performed) != 1 {
 		t.Fatalf("the observer saw %d spreads, want one", len(observer.performed))
@@ -838,7 +838,7 @@ func TestAQueryWordHeldByNoPeerIsReported(t *testing.T) {
 	})
 	observer := &recordedSpreads{}
 
-	answeredQueryFrom(network, observer)
+	findingsFrom(network, observer)
 
 	if observer.performed[0].DiscoveryRound.AmountOfQueryWordsHeldByNoPeer != 1 {
 		t.Fatalf(
@@ -858,7 +858,7 @@ func TestAPeerThatDoesNotAnswerHoldsNothingForTheJoin(t *testing.T) {
 	network.silentPeers["second"] = struct{}{}
 	observer := &recordedSpreads{}
 
-	answeredQueryFrom(network, observer)
+	findingsFrom(network, observer)
 
 	if len(network.urlMetadataAsks) != 0 {
 		t.Fatalf(
@@ -1084,7 +1084,7 @@ func TestAJoinedDocumentAPeerAlreadyAnsweredIsNotAskedMetadataFor(t *testing.T) 
 		"first": {firstWord: {answered}},
 	}
 
-	answeredQueryFrom(network, &recordedSpreads{})
+	findingsFrom(network, &recordedSpreads{})
 
 	wanted := documentHashesOf([]string{unanswered})
 	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); !slices.Equal(
@@ -1105,7 +1105,7 @@ func TestOnlyTheJoinedDocumentsAPeerAnsweredAreFound(t *testing.T) {
 		"first": {firstWord: {answered, "https://unjoined.example/"}},
 	}
 
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := findingsFrom(network, &recordedSpreads{}).FoundDocuments
 
 	wanted := documentHashOf(t, answered)
 	documents := map[yacymodel.URLHash]struct{}{}
@@ -1118,7 +1118,7 @@ func TestOnlyTheJoinedDocumentsAPeerAnsweredAreFound(t *testing.T) {
 	}
 }
 
-func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
+func TestTheFindingsCarryTheWordsOfTheQuery(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
@@ -1126,11 +1126,11 @@ func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
 		"first": {firstWord: {answered}, secondWord: {answered}},
 	})
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
+	findings := findingsFrom(network, &recordedSpreads{})
 
 	want := []yacymodel.Hash{yacymodel.WordHash(firstWord), yacymodel.WordHash(secondWord)}
-	if !slices.Equal(answers.QueryWords, want) {
-		t.Fatalf("the answers carry the query words %v, want %v", answers.QueryWords, want)
+	if !slices.Equal(findings.QueryWords, want) {
+		t.Fatalf("the findings carry the query words %v, want %v", findings.QueryWords, want)
 	}
 }
 
@@ -1146,8 +1146,8 @@ func TestAFoundDocumentIsCountedForTheWordThePeerWasAskedAbout(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-	foundDocuments := answers.FoundDocuments
+	findings := findingsFrom(network, &recordedSpreads{})
+	foundDocuments := findings.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
@@ -1172,8 +1172,8 @@ func TestTheCountsOfEachQueryWordComeTogetherOnTheJoinedDocument(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-	foundDocuments := answers.FoundDocuments
+	findings := findingsFrom(network, &recordedSpreads{})
+	foundDocuments := findings.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
@@ -1195,7 +1195,7 @@ func TestAJoinedDocumentNoPeerAnsweredIsFoundThroughItsMetadata(t *testing.T) {
 		"second": {firstWord: {joined}, secondWord: {joined}},
 	})
 
-	foundDocuments := answeredQueryFrom(network, &recordedSpreads{}).FoundDocuments
+	foundDocuments := findingsFrom(network, &recordedSpreads{}).FoundDocuments
 
 	if len(foundDocuments) != 1 || foundDocuments[0].Hash != documentHashOf(t, joined) {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
@@ -1216,7 +1216,7 @@ func TestTheLookupEndsOnceItsAnswersCoverEveryDocumentWithoutTheStuckPeer(t *tes
 	observer := &recordedSpreads{}
 
 	startedAt := time.Now()
-	answeredQueryFrom(network, observer)
+	findingsFrom(network, observer)
 	timeSpent := time.Since(startedAt)
 
 	performed := observer.performed[0].URLMetadataLookupRound
@@ -1311,11 +1311,11 @@ func lookupOver(
 	observer := &recordedSpreads{}
 
 	startedAt := time.Now()
-	answeredQuery := settings.spread(network, observer)
+	findings := settings.spread(network, observer)
 
 	return lookupWithACutoff{
 		performed:      observer.performed[0].URLMetadataLookupRound,
-		foundDocuments: foundDocumentsIn(answeredQuery),
+		foundDocuments: foundDocumentsIn(findings),
 		timeSpent:      time.Since(startedAt),
 	}
 }
@@ -1459,7 +1459,7 @@ func TestTheLookupEndsByCoverageWhenTheLastDocumentComesBeforeTheGraceEnds(t *te
 	}
 }
 
-func TestTheAnswersCarryTheDocumentsTheNetworkHoldsForEachQueryWord(t *testing.T) {
+func TestTheFindingsCarryTheDocumentsTheNetworkHoldsForEachQueryWord(t *testing.T) {
 	t.Parallel()
 
 	joined := []string{"https://joined.example/"}
@@ -1468,11 +1468,11 @@ func TestTheAnswersCarryTheDocumentsTheNetworkHoldsForEachQueryWord(t *testing.T
 	})
 	network.documentsHeldForEveryWord = 512
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
+	findings := findingsFrom(network, &recordedSpreads{})
 
 	want := documentsHeldForBothQueryWords(512)
-	if got := answers.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
-		t.Fatalf("the answers carry %v documents per query word, want %v", got, want)
+	if got := findings.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
+		t.Fatalf("the findings carry %v documents per query word, want %v", got, want)
 	}
 }
 
@@ -1486,11 +1486,11 @@ func TestAPeerThatCountsNoDocumentForAWordSaysNothingOfWhatTheNetworkHolds(t *te
 	network.documentsHeldForEveryWord = 512
 	network.peersCountingNoDocument = map[string]struct{}{"second": {}}
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
+	findings := findingsFrom(network, &recordedSpreads{})
 
 	want := documentsHeldForBothQueryWords(512)
-	if got := answers.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
-		t.Fatalf("the answers carry %v documents per query word, want %v", got, want)
+	if got := findings.DocumentsHeldPerQueryWord; !maps.Equal(got, want) {
+		t.Fatalf("the findings carry %v documents per query word, want %v", got, want)
 	}
 }
 
@@ -1505,7 +1505,7 @@ func TestEveryPartitionOfAQueryWordAddsWhatItsReplicasCounted(t *testing.T) {
 	)
 
 	if want := documentsHeldForBothQueryWords(110); !maps.Equal(got, want) {
-		t.Fatalf("the answers carry %v documents per query word, want %v", got, want)
+		t.Fatalf("the findings carry %v documents per query word, want %v", got, want)
 	}
 }
 
@@ -1520,7 +1520,7 @@ func TestAPartitionOfAnEvenAmountOfCountsTakesTheLowerMiddleOne(t *testing.T) {
 	)
 
 	if want := documentsHeldForBothQueryWords(10); !maps.Equal(got, want) {
-		t.Fatalf("the answers carry %v documents per query word, want %v", got, want)
+		t.Fatalf("the findings carry %v documents per query word, want %v", got, want)
 	}
 }
 
@@ -1535,7 +1535,7 @@ func TestAPartitionNoPeerCountedTakesTheMiddleOfThePartitionsThatWereCounted(t *
 	)
 
 	if want := documentsHeldForBothQueryWords(10 + 30 + 10); !maps.Equal(got, want) {
-		t.Fatalf("the answers carry %v documents per query word, want %v", got, want)
+		t.Fatalf("the findings carry %v documents per query word, want %v", got, want)
 	}
 }
 
@@ -1550,7 +1550,7 @@ func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
 	)
 
 	if len(got) != 0 {
-		t.Fatalf("the answers carry %v documents per query word, want none", got)
+		t.Fatalf("the findings carry %v documents per query word, want none", got)
 	}
 }
 
@@ -1701,8 +1701,8 @@ func TestAFoundDocumentCarriesTheAmountOfLinksThePostingReported(t *testing.T) {
 	}
 	network.countsAWordWithEachItem = true
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-	foundDocuments := answers.FoundDocuments
+	findings := findingsFrom(network, &recordedSpreads{})
+	foundDocuments := findings.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the one document the peer answered", foundDocuments)
@@ -1726,8 +1726,8 @@ func TestAJoinedDocumentFoundThroughItsMetadataAloneHoldsNoAmountOfLinks(t *test
 		"second": {firstWord: {joined}, secondWord: {joined}},
 	})
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
-	foundDocuments := answers.FoundDocuments
+	findings := findingsFrom(network, &recordedSpreads{})
+	foundDocuments := findings.FoundDocuments
 
 	if len(foundDocuments) != 1 {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
@@ -1747,13 +1747,13 @@ func TestADocumentInTheAbstractOfTheCompoundWordOfTwoWordsIsJoinedForBoth(t *tes
 		"second": {firstWord + secondWord: {compounded}},
 	})
 
-	answers := answeredQueryFrom(network, &recordedSpreads{})
+	findings := findingsFrom(network, &recordedSpreads{})
 
-	if len(answers.FoundDocuments) != 1 ||
-		answers.FoundDocuments[0].Hash != documentHashesOf([]string{compounded})[0] {
+	if len(findings.FoundDocuments) != 1 ||
+		findings.FoundDocuments[0].Hash != documentHashesOf([]string{compounded})[0] {
 		t.Fatalf(
 			"the spread found %+v, want the one document in the abstract of the compound word",
-			answers.FoundDocuments,
+			findings.FoundDocuments,
 		)
 	}
 }

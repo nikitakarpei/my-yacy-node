@@ -5,11 +5,11 @@
 package spamlast
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 type DocumentsOrdering interface {
-	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
+	OrderedDocumentsOf(findings queryfindings.Findings) []queryfindings.FoundDocument
 }
 
 type Ordering struct {
@@ -21,16 +21,16 @@ func New(documentsOrdering DocumentsOrdering) Ordering {
 }
 
 func (ordering Ordering) OrderedDocumentsOf(
-	answers queryanswers.AnsweredQuery,
-) []queryanswers.FoundDocument {
-	return documentsWithSpamLast(ordering.documentsOrdering.OrderedDocumentsOf(answers))
+	findings queryfindings.Findings,
+) []queryfindings.FoundDocument {
+	return documentsWithSpamLast(ordering.documentsOrdering.OrderedDocumentsOf(findings))
 }
 
 func documentsWithSpamLast(
-	orderedDocuments []queryanswers.FoundDocument,
-) []queryanswers.FoundDocument {
-	otherDocuments := make([]queryanswers.FoundDocument, 0, len(orderedDocuments))
-	var spamDocuments []queryanswers.FoundDocument
+	orderedDocuments []queryfindings.FoundDocument,
+) []queryfindings.FoundDocument {
+	otherDocuments := make([]queryfindings.FoundDocument, 0, len(orderedDocuments))
+	var spamDocuments []queryfindings.FoundDocument
 	for _, orderedDocument := range orderedDocuments {
 		if orderedDocument.IsSpam() {
 			spamDocuments = append(spamDocuments, orderedDocument)

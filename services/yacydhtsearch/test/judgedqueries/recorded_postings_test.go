@@ -3,7 +3,7 @@ package judgedqueries_test
 import (
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -14,7 +14,7 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 
 	metadata := yacymodel.URLMetadata{Address: weatherDocumentAddress}
 	firstHolder, secondHolder := yacymodel.WordHash("first"), yacymodel.WordHash("second")
-	answers := answersOfOneDocumentHolding(t, []queryanswers.PostingReplica{
+	findings := findingsOfOneDocumentHolding(t, []queryfindings.PostingReplica{
 		{
 			Holder: firstHolder,
 			Word:   yacymodel.WordHash("berlin"),
@@ -32,8 +32,8 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 		},
 	}, metadata)
 
-	readReplicas := answersWrittenAndReadBack(
-		t, answersAndPageContentsOf(answers, nil),
+	readReplicas := findingsWrittenAndReadBack(
+		t, findingsAndPageContentsOf(findings, nil),
 	).FoundDocuments[0].PostingReplicas
 
 	if len(readReplicas) != 2 || !readReplicas[0].Posting.WordHash.IsZero() ||
@@ -48,11 +48,11 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 	}
 }
 
-func answersOfOneDocumentHolding(
+func findingsOfOneDocumentHolding(
 	t *testing.T,
-	replicas []queryanswers.PostingReplica,
+	replicas []queryfindings.PostingReplica,
 	metadata yacymodel.URLMetadata,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	t.Helper()
 
 	hash, err := yacymodel.URLHashOf(metadata.Address)
@@ -61,9 +61,9 @@ func answersOfOneDocumentHolding(
 	}
 	metadata.Hash = hash
 
-	return queryanswers.AnsweredQuery{
-		FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
-			hash, []queryanswers.MetadataReplica{{Metadata: metadata}}, replicas,
+	return queryfindings.Findings{
+		FoundDocuments: []queryfindings.FoundDocument{queryfindings.FoundDocumentOf(
+			hash, []queryfindings.MetadataReplica{{Metadata: metadata}}, replicas,
 		)},
 	}
 }
@@ -94,7 +94,7 @@ func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseLanguage(de): %v", err)
 	}
-	answers := answersOfOneDocumentHolding(t, nil, yacymodel.URLMetadata{
+	findings := findingsOfOneDocumentHolding(t, nil, yacymodel.URLMetadata{
 		Address:       "https://example.org/wetter",
 		Author:        "A writer",
 		Tags:          []string{"weather", "berlin"},
@@ -105,8 +105,8 @@ func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {
 		ExternalLinks: 7,
 	})
 
-	readReplicas := answersWrittenAndReadBack(
-		t, answersAndPageContentsOf(answers, nil),
+	readReplicas := findingsWrittenAndReadBack(
+		t, findingsAndPageContentsOf(findings, nil),
 	).FoundDocuments[0].MetadataReplicas
 
 	if len(readReplicas) != 1 || readReplicas[0].Metadata.Author != "A writer" ||
@@ -133,7 +133,7 @@ type recordedPosting struct {
 }
 
 func recordedPostingsOf(
-	foundDocument queryanswers.FoundDocument,
+	foundDocument queryfindings.FoundDocument,
 ) []recordedPostingReplica {
 	postings := make([]recordedPostingReplica, 0, len(foundDocument.PostingReplicas))
 	for _, replica := range foundDocument.PostingReplicas {

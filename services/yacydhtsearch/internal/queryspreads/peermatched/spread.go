@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
@@ -29,7 +29,7 @@ func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	startedAt := time.Now()
 
 	asks := wordPartitionAsksFor(query, chosenPeersPerQueryWord)
@@ -47,5 +47,5 @@ func (spread Spread) SpreadOverPeers(
 		),
 	)
 
-	return answeredQueryFrom(settledAsks, query)
+	return findingsFrom(settledAsks, query)
 }

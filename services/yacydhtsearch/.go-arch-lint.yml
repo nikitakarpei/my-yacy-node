@@ -25,8 +25,8 @@ components:
     in: internal/stopwords/**
   searchresult:
     in: internal/searchresult/**
-  queryanswers:
-    in: internal/queryanswers/**
+  queryfindings:
+    in: internal/queryfindings/**
   pagecontents:
     in: internal/pagecontents/**
   documentrelevance:
@@ -238,27 +238,27 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - queryanswers
+      - queryfindings
       - searchquery
   documentsorderingrelevance:
     canUse:
       - yacymodel
     mayDependOn:
-      - queryanswers
+      - queryfindings
   documentsorderingsitediscount:
     canUse:
       - yacymodel
     mayDependOn:
-      - queryanswers
+      - queryfindings
   documentsorderingspamlast:
     canUse:
       - spamassessment
     mayDependOn:
-      - queryanswers
+      - queryfindings
   searchresult:
     canUse:
       - yacymodel
-  queryanswers:
+  queryfindings:
     canUse:
       - spamassessment
       - yacymodel
@@ -305,7 +305,7 @@ deps:
       - pagecontents
       - pagereading
       - peerchoice
-      - queryanswers
+      - queryfindings
       - peerdirectory
       - searchquery
       - searchresult
@@ -336,7 +336,7 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - queryanswers
+      - queryfindings
       - peerchoice
       - peerdirectory
       - searchquery
@@ -345,7 +345,7 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - queryanswers
+      - queryfindings
       - peerchoice
       - peerdirectory
       - peerasks
@@ -353,7 +353,7 @@ deps:
       - wordpartitionasks
   bywordcount:
     mayDependOn:
-      - queryanswers
+      - queryfindings
       - peerchoice
       - searchquery
   rankingcache:

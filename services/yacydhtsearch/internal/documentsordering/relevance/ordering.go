@@ -1,5 +1,5 @@
 // Package relevance orders the found documents by how well each document
-// answers the query, the most relevant document first. Documents of equal
+// findings the query, the most relevant document first. Documents of equal
 // relevance keep the order the spread found them in.
 package relevance
 
@@ -7,12 +7,12 @@ import (
 	"cmp"
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type DocumentRelevance interface {
-	RelevancePerDocumentOf(answers queryanswers.AnsweredQuery) map[yacymodel.URLHash]float64
+	RelevancePerDocumentOf(findings queryfindings.Findings) map[yacymodel.URLHash]float64
 }
 
 type Ordering struct {
@@ -24,19 +24,19 @@ func New(documentRelevance DocumentRelevance) Ordering {
 }
 
 func (ordering Ordering) OrderedDocumentsOf(
-	answers queryanswers.AnsweredQuery,
-) []queryanswers.FoundDocument {
+	findings queryfindings.Findings,
+) []queryfindings.FoundDocument {
 	return documentsInFallingOrderOfRelevance(
-		slices.Clone(answers.FoundDocuments),
-		ordering.documentRelevance.RelevancePerDocumentOf(answers),
+		slices.Clone(findings.FoundDocuments),
+		ordering.documentRelevance.RelevancePerDocumentOf(findings),
 	)
 }
 
 func documentsInFallingOrderOfRelevance(
-	foundDocuments []queryanswers.FoundDocument,
+	foundDocuments []queryfindings.FoundDocument,
 	relevancePerDocument map[yacymodel.URLHash]float64,
-) []queryanswers.FoundDocument {
-	slices.SortStableFunc(foundDocuments, func(one, other queryanswers.FoundDocument) int {
+) []queryfindings.FoundDocument {
+	slices.SortStableFunc(foundDocuments, func(one, other queryfindings.FoundDocument) int {
 		return cmp.Compare(
 			relevancePerDocument[other.Hash], relevancePerDocument[one.Hash],
 		)

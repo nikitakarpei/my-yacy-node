@@ -6,30 +6,30 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 type judgedQuery struct {
 	query           string
-	answers         queryanswers.AnsweredQuery
+	findings        queryfindings.Findings
 	gradedDocuments gradedDocuments
 }
 
 type judgedQueries []judgedQuery
 
 type documentsOrdering interface {
-	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
+	OrderedDocumentsOf(findings queryfindings.Findings) []queryfindings.FoundDocument
 }
 
 func judgedQueriesRecorded(t *testing.T) judgedQueries {
 	t.Helper()
 
 	judgmentsFiles := queryJudgmentsFiles(t)
-	answersFiles := recordedAnswersFiles(t)
-	if len(judgmentsFiles) != len(answersFiles) {
+	findingsFiles := recordedFindingsFiles(t)
+	if len(judgmentsFiles) != len(findingsFiles) {
 		t.Fatalf("%s judges %d queries, %s records %d queries",
 			queryJudgmentsDirectory, len(judgmentsFiles),
-			recordedAnswersDirectory, len(answersFiles))
+			recordedFindingsDirectory, len(findingsFiles))
 	}
 	var queries judgedQueries
 	for _, judgmentsFile := range judgmentsFiles {
@@ -38,10 +38,10 @@ func judgedQueriesRecorded(t *testing.T) judgedQueries {
 		if !gradedDocuments.holdARelevantDocument() {
 			continue
 		}
-		recorded := recordedAnswersAt(t, recordedAnswersFileOf(judgments.Query))
+		recorded := recordedFindingsAt(t, recordedFindingsFileOf(judgments.Query))
 		queries = append(queries, judgedQuery{
 			query:           recorded.Query,
-			answers:         recorded.answers(),
+			findings:        recorded.findings(),
 			gradedDocuments: gradedDocuments,
 		})
 	}
@@ -82,7 +82,7 @@ func (queries judgedQueries) orderedBy(ordering documentsOrdering) orderedQuerie
 	for _, judgedQuery := range queries {
 		ordered = append(ordered, orderedQuery{
 			judgedQuery:      judgedQuery,
-			orderedDocuments: ordering.OrderedDocumentsOf(judgedQuery.answers),
+			orderedDocuments: ordering.OrderedDocumentsOf(judgedQuery.findings),
 		})
 	}
 

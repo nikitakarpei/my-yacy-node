@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -88,7 +88,7 @@ func normalizedGainOf(t *testing.T, documentsInOrder ...documentInTheOrder) floa
 	t.Helper()
 
 	gradedPerHash := make(gradedDocuments, len(documentsInOrder))
-	orderedDocuments := make([]queryanswers.FoundDocument, 0, len(documentsInOrder))
+	orderedDocuments := make([]queryfindings.FoundDocument, 0, len(documentsInOrder))
 	for _, document := range documentsInOrder {
 		hash, err := yacymodel.URLHashOf(document.address)
 		if err != nil {
@@ -101,7 +101,7 @@ func normalizedGainOf(t *testing.T, documentsInOrder ...documentInTheOrder) floa
 			}
 		}
 		orderedDocuments = append(
-			orderedDocuments, queryanswers.FoundDocument{Hash: hash, Address: document.address},
+			orderedDocuments, queryfindings.FoundDocument{Hash: hash, Address: document.address},
 		)
 	}
 

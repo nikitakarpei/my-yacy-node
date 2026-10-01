@@ -1,7 +1,7 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -17,7 +17,7 @@ type textScorer struct {
 	averageAmountOfWords float64
 }
 
-func textScorerFrom(statistics answersStatistics) textScorer {
+func textScorerFrom(statistics findingsStatistics) textScorer {
 	return textScorer{
 		queryWordRarities:    statistics.queryWordRarities,
 		queryWords:           statistics.queryVocabulary.words,
@@ -25,7 +25,7 @@ func textScorerFrom(statistics answersStatistics) textScorer {
 	}
 }
 
-func (scorer textScorer) scoreOf(document queryanswers.FoundDocument) float64 {
+func (scorer textScorer) scoreOf(document queryfindings.FoundDocument) float64 {
 	textScore := 0.0
 	for _, word := range scorer.queryWords {
 		textScore += scorer.queryWordRarities.rarityShareOfWord(word) *
@@ -36,7 +36,7 @@ func (scorer textScorer) scoreOf(document queryanswers.FoundDocument) float64 {
 }
 
 func (scorer textScorer) saturatedHitsOfWordIn(
-	word yacymodel.Hash, document queryanswers.FoundDocument,
+	word yacymodel.Hash, document queryfindings.FoundDocument,
 ) float64 {
 	hitsOfWord := float64(document.Facts.HitsPerQueryWord[word])
 	saturationForDocumentLength := saturationOfHitsOfWord * (1 - weightOfDocumentLength +

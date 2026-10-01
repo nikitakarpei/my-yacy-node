@@ -1,24 +1,24 @@
 package peermatched
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
-func answeredQueryFrom(
+func findingsFrom(
 	settledAsks []wordpartitionasks.SettledAsk,
 	query searchquery.Query,
-) queryanswers.AnsweredQuery {
-	return queryanswers.AnsweredQuery{
+) queryfindings.Findings {
+	return queryfindings.Findings{
 		QueryWords:     query.WordHashes(),
 		CompoundWords:  query.CompoundWords,
 		FoundDocuments: foundDocumentsFrom(settledAsks),
 	}
 }
 
-func foundDocumentsFrom(settledAsks []wordpartitionasks.SettledAsk) []queryanswers.FoundDocument {
-	documentsThePeersSent := queryanswers.EmptyDocumentsThePeersSent()
+func foundDocumentsFrom(settledAsks []wordpartitionasks.SettledAsk) []queryfindings.FoundDocument {
+	documentsThePeersSent := queryfindings.EmptyDocumentsThePeersSent()
 	for _, settledAsk := range settledAsks {
 		for _, answer := range settledAsk.Answers {
 			for _, listedDocument := range answer.ListedDocuments {

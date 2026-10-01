@@ -5,25 +5,29 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 )
 
-func answersOfCompoundWords(
+func findingsOfCompoundWords(
 	queryWords []string,
 	foundDocuments []foundDocument,
 	documentsHeldPerWord map[string]int,
-) queryanswers.AnsweredQuery {
-	answers := answersHoldingDocumentsPerQueryWord(queryWords, foundDocuments, documentsHeldPerWord)
-	answers.CompoundWords = queryreading.QueryFrom(strings.Join(queryWords, " "), "").CompoundWords
+) queryfindings.Findings {
+	findings := findingsHoldingDocumentsPerQueryWord(
+		queryWords,
+		foundDocuments,
+		documentsHeldPerWord,
+	)
+	findings.CompoundWords = queryreading.QueryFrom(strings.Join(queryWords, " "), "").CompoundWords
 
-	return answers
+	return findings
 }
 
 func TestTitleThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundWords(
+	findings := findingsOfCompoundWords(
 		[]string{"arch", "wiki"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://beside.example/").
@@ -37,7 +41,7 @@ func TestTitleThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 	)
 
 	want := []string{"https://compound.example/", "https://beside.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -45,7 +49,7 @@ func TestTitleThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 func TestSiteNameThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundWords(
+	findings := findingsOfCompoundWords(
 		[]string{"self", "hosted"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://hosted.example/").matchingWords("self", "hosted"),
@@ -55,7 +59,7 @@ func TestSiteNameThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 	)
 
 	want := []string{"https://selfhosted.example/", "https://hosted.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -63,7 +67,7 @@ func TestSiteNameThatSpellsTwoAdjacentQueryWordsAsOneHoldsBoth(t *testing.T) {
 func TestTitleThatSpellsQueryWordsInTheOtherOrderAsOneHoldsNeither(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundWords(
+	findings := findingsOfCompoundWords(
 		[]string{"arch", "wiki"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://titled.example/").
@@ -77,7 +81,7 @@ func TestTitleThatSpellsQueryWordsInTheOtherOrderAsOneHoldsNeither(t *testing.T)
 	)
 
 	want := []string{"https://titled.example/", "https://reversed.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -85,7 +89,7 @@ func TestTitleThatSpellsQueryWordsInTheOtherOrderAsOneHoldsNeither(t *testing.T)
 func TestTitleThatHoldsTheWholeQueryOutweighsTwoTitlesOfHalfTheQueryEach(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfCompoundWords(
+	findings := findingsOfCompoundWords(
 		[]string{"linux", "kernel"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://half.example/").
@@ -100,8 +104,8 @@ func TestTitleThatHoldsTheWholeQueryOutweighsTwoTitlesOfHalfTheQueryEach(t *test
 		map[string]int{"linux": 100, "kernel": 100},
 	)
 
-	whole := relevanceOfDocumentAt(t, answers, "https://whole.example/")
-	half := relevanceOfDocumentAt(t, answers, "https://half.example/")
+	whole := relevanceOfDocumentAt(t, findings, "https://whole.example/")
+	half := relevanceOfDocumentAt(t, findings, "https://half.example/")
 	if whole < 2*half {
 		t.Fatalf("the whole title scores %.2f against %.2f, want at least twice", whole, half)
 	}

@@ -1,4 +1,4 @@
-package queryanswers
+package queryfindings
 
 import (
 	"time"

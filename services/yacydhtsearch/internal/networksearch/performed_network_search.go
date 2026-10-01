@@ -3,7 +3,7 @@ package networksearch
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 type PerformedNetworkSearch struct {
@@ -14,14 +14,14 @@ type PerformedNetworkSearch struct {
 }
 
 func performedNetworkSearchFrom(
-	answers queryanswers.AnsweredQuery,
-	rankedDocuments []queryanswers.FoundDocument,
+	findings queryfindings.Findings,
+	rankedDocuments []queryfindings.FoundDocument,
 	amountOfAskablePeers int,
 	timeSpent time.Duration,
 ) PerformedNetworkSearch {
 	return PerformedNetworkSearch{
 		AmountOfAskablePeers:   amountOfAskablePeers,
-		AmountOfFoundDocuments: len(answers.FoundDocuments),
+		AmountOfFoundDocuments: len(findings.FoundDocuments),
 		AmountOfItemsInRanking: len(rankedDocuments),
 		TimeSpent:              timeSpent,
 	}

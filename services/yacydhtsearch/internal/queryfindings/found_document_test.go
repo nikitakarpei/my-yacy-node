@@ -1,10 +1,10 @@
-package queryanswers_test
+package queryfindings_test
 
 import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -12,17 +12,17 @@ const countedWord = "berlin"
 
 func foundDocumentOfMetadata(
 	t *testing.T, metadata ...yacymodel.URLMetadata,
-) queryanswers.FoundDocument {
+) queryfindings.FoundDocument {
 	t.Helper()
 
-	metadataReplicas := make([]queryanswers.MetadataReplica, 0, len(metadata))
+	metadataReplicas := make([]queryfindings.MetadataReplica, 0, len(metadata))
 	for _, reported := range metadata {
-		metadataReplicas = append(metadataReplicas, queryanswers.MetadataReplica{
+		metadataReplicas = append(metadataReplicas, queryfindings.MetadataReplica{
 			Holder: yacymodel.WordHash("a holder"), Metadata: reported,
 		})
 	}
 
-	return queryanswers.FoundDocumentOf(
+	return queryfindings.FoundDocumentOf(
 		documentOf(t, "https://example.org/"),
 		metadataReplicas,
 		nil,
@@ -31,8 +31,8 @@ func foundDocumentOfMetadata(
 
 func replicaOfCountedWord(
 	hits int, localLinks int, externalLinks int,
-) queryanswers.PostingReplica {
-	return queryanswers.PostingReplica{
+) queryfindings.PostingReplica {
+	return queryfindings.PostingReplica{
 		Holder: yacymodel.WordHash("a holder"),
 		Word:   yacymodel.WordHash(countedWord),
 		Posting: yacymodel.RWIPosting{
@@ -45,11 +45,11 @@ func replicaOfCountedWord(
 }
 
 func factsOfDocumentOf(
-	t *testing.T, replicas ...queryanswers.PostingReplica,
-) queryanswers.DocumentFacts {
+	t *testing.T, replicas ...queryfindings.PostingReplica,
+) queryfindings.DocumentFacts {
 	t.Helper()
 
-	return queryanswers.FoundDocumentOf(
+	return queryfindings.FoundDocumentOf(
 		documentOf(t, "https://berlin.example/"), nil, replicas,
 	).Facts
 }

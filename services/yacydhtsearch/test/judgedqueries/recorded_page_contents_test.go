@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -16,11 +16,11 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 
 	document := hashOfWeatherDocument(t)
 	word := yacymodel.WordHash("berlin")
-	readAnswers := answersWrittenAndReadBack(t, answersAndPageContentsOf(
-		queryanswers.AnsweredQuery{
-			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
+	readFindings := findingsWrittenAndReadBack(t, findingsAndPageContentsOf(
+		queryfindings.Findings{
+			FoundDocuments: []queryfindings.FoundDocument{queryfindings.FoundDocumentOf(
 				document,
-				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
+				[]queryfindings.MetadataReplica{{Metadata: yacymodel.URLMetadata{
 					Hash:    document,
 					Address: weatherDocumentAddress,
 					Title:   "What a peer calls it",
@@ -41,16 +41,16 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 		},
 	))
 
-	facts := readAnswers.FoundDocuments[0].Facts
+	facts := readFindings.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 9 || facts.QueryPhraseHits.OrElse(0) != 4 ||
 		facts.AmountOfWords.OrElse(0) != 1200 || facts.AmountOfLinks.OrElse(0) != 19 {
 		t.Fatalf("the recorded document counts %+v, want what the read page counted", facts)
 	}
-	if readAnswers.FoundDocuments[0].Title != "Weather in Berlin" ||
-		readAnswers.FoundDocuments[0].Snippet != "Rain is falling over the whole city today." {
+	if readFindings.FoundDocuments[0].Title != "Weather in Berlin" ||
+		readFindings.FoundDocuments[0].Snippet != "Rain is falling over the whole city today." {
 		t.Fatalf(
 			"the recorded document shows %+v, want the title and the snippet of the read page",
-			readAnswers.FoundDocuments[0],
+			readFindings.FoundDocuments[0],
 		)
 	}
 }
@@ -60,16 +60,16 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 
 	document := hashOfWeatherDocument(t)
 	word := yacymodel.WordHash("berlin")
-	readAnswers := answersWrittenAndReadBack(t, answersAndPageContentsOf(
-		queryanswers.AnsweredQuery{
-			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
+	readFindings := findingsWrittenAndReadBack(t, findingsAndPageContentsOf(
+		queryfindings.Findings{
+			FoundDocuments: []queryfindings.FoundDocument{queryfindings.FoundDocumentOf(
 				document,
-				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
+				[]queryfindings.MetadataReplica{{Metadata: yacymodel.URLMetadata{
 					Hash:    document,
 					Address: weatherDocumentAddress,
 					Title:   "What a peer calls it",
 				}}},
-				[]queryanswers.PostingReplica{{
+				[]queryfindings.PostingReplica{{
 					Holder: yacymodel.WordHash("holder"),
 					Word:   word,
 					Posting: yacymodel.RWIPosting{
@@ -81,15 +81,15 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 		nil,
 	))
 
-	facts := readAnswers.FoundDocuments[0].Facts
+	facts := readFindings.FoundDocuments[0].Facts
 	if facts.HitsPerQueryWord[word] != 22 || facts.AmountOfLinks.OrElse(0) != 29 ||
 		facts.AmountOfWords.Present() || facts.QueryPhraseHits.Present() {
 		t.Fatalf("the recorded document counts %+v, want what the posting counted", facts)
 	}
-	if readAnswers.FoundDocuments[0].Title != "What a peer calls it" {
+	if readFindings.FoundDocuments[0].Title != "What a peer calls it" {
 		t.Fatalf(
 			"the recorded document shows the title %q, want the title the peer sent",
-			readAnswers.FoundDocuments[0].Title,
+			readFindings.FoundDocuments[0].Title,
 		)
 	}
 }
@@ -98,11 +98,11 @@ func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 	t.Parallel()
 
 	document := hashOfWeatherDocument(t)
-	recorded := recordedAnswersOf("berlin", answersAndPageContentsOf(
-		queryanswers.AnsweredQuery{
-			FoundDocuments: []queryanswers.FoundDocument{queryanswers.FoundDocumentOf(
+	recorded := recordedFindingsOf("berlin", findingsAndPageContentsOf(
+		queryfindings.Findings{
+			FoundDocuments: []queryfindings.FoundDocument{queryfindings.FoundDocumentOf(
 				document,
-				[]queryanswers.MetadataReplica{{Metadata: yacymodel.URLMetadata{
+				[]queryfindings.MetadataReplica{{Metadata: yacymodel.URLMetadata{
 					Hash:    document,
 					Address: weatherDocumentAddress,
 					Title:   "What a peer calls it",
@@ -114,21 +114,21 @@ func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 	))
 	recorded.RecordedAt = timeThePeersAnswered
 
-	readAgain := recorded.withPageContentsReadAgain(answersAndPageContentsOf(
-		recorded.answers(),
+	readAgain := recorded.withPageContentsReadAgain(findingsAndPageContentsOf(
+		recorded.findings(),
 		map[yacymodel.URLHash]pagecontents.PageContents{
 			document: {Title: "Weather in Berlin", AmountOfWords: 1200},
 		},
 	))
 
 	if !readAgain.RecordedAt.Equal(timeThePeersAnswered) {
-		t.Fatalf("the answers read again carry the time %s, want the time %s the peers answered",
+		t.Fatalf("the findings read again carry the time %s, want the time %s the peers answered",
 			readAgain.RecordedAt, timeThePeersAnswered)
 	}
 	metadataReadAgain, reported := readAgain.FoundDocuments[0].Metadata.Get()
 	if !reported || metadataReadAgain.Title != "What a peer calls it" ||
 		!readAgain.FoundDocuments[0].PageContents.Present() {
-		t.Fatalf("the answers read again show %+v, want the contents of the page read again",
+		t.Fatalf("the findings read again show %+v, want the contents of the page read again",
 			readAgain.FoundDocuments[0])
 	}
 }

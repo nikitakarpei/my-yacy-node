@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 )
 
@@ -227,30 +227,30 @@ type judgedQueryRecording struct {
 func (recording judgedQueryRecording) recordOne(t *testing.T, query string) {
 	t.Helper()
 
-	answers := recording.answersOf(t, query)
-	pages := recording.pagesReadFor(t, answers)
+	findings := recording.findingsOf(t, query)
+	pages := recording.pagesReadFor(t, findings)
 	writeStoredPagesOf(t, query, pages)
-	answersAndPageContents := answersAndPageContentsOf(
-		answers,
+	findingsAndPageContents := findingsAndPageContentsOf(
+		findings,
 		recording.extraction.pageContentsPerDocumentOf(
-			t.Context(), answers, pagePerAddressOf(pages),
+			t.Context(), findings, pagePerAddressOf(pages),
 		),
 	)
-	writeRecordedAnswersFile(
-		t, recordedAnswersFileOf(query), recordedAnswersOf(query, answersAndPageContents),
+	writeRecordedFindingsFile(
+		t, recordedFindingsFileOf(query), recordedFindingsOf(query, findingsAndPageContents),
 	)
-	judgments := writeJudgmentsOf(t, query, answersAndPageContents)
+	judgments := writeJudgmentsOf(t, query, findingsAndPageContents)
 	t.Logf("%q read the page of %d documents, judges %d, and waits for %d grades",
 		query,
-		len(answersAndPageContents.pageContentsPerDocument),
+		len(findingsAndPageContents.pageContentsPerDocument),
 		len(judgments.JudgedDocuments),
 		judgments.amountOfUngradedDocuments(),
 	)
 }
 
-func (recording judgedQueryRecording) answersOf(
+func (recording judgedQueryRecording) findingsOf(
 	t *testing.T, query string,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	t.Helper()
 
 	ctx, stopQueryBudget := context.WithTimeout(t.Context(), queryBudget)
@@ -262,11 +262,11 @@ func (recording judgedQueryRecording) answersOf(
 }
 
 func (recording judgedQueryRecording) pagesReadFor(
-	t *testing.T, answers queryanswers.AnsweredQuery,
+	t *testing.T, findings queryfindings.Findings,
 ) []storedPage {
 	t.Helper()
 
-	orderedDocuments := defaultRelevanceOrdering().OrderedDocumentsOf(answers)
+	orderedDocuments := defaultRelevanceOrdering().OrderedDocumentsOf(findings)
 
 	return recording.fetching.fetchedPagesOf(
 		t.Context(), orderedDocuments[:min(pagesReadPerQuery, len(orderedDocuments))],

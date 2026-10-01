@@ -1,6 +1,6 @@
 package documentrelevance
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 
 const (
 	averageAmountOfWordsWhenNoPageRead       = 0.0
@@ -13,7 +13,7 @@ type documentAverages struct {
 }
 
 func documentAveragesAmong(
-	documents []queryanswers.FoundDocument,
+	documents []queryfindings.FoundDocument,
 ) documentAverages {
 	return documentAverages{
 		averageAmountOfWords:       averageAmountOfWordsAmong(documents),
@@ -22,7 +22,7 @@ func documentAveragesAmong(
 }
 
 func averageAmountOfWordsAmong(
-	documents []queryanswers.FoundDocument,
+	documents []queryfindings.FoundDocument,
 ) float64 {
 	sumOfAmountsOfWords, amountOfCountedDocuments := 0, 0
 	for _, document := range documents {
@@ -41,7 +41,7 @@ func averageAmountOfWordsAmong(
 }
 
 func averageLinkSparsityPenaltyAmong(
-	documents []queryanswers.FoundDocument,
+	documents []queryfindings.FoundDocument,
 ) float64 {
 	sumOfPenalties, amountOfCountedDocuments := 0.0, 0
 	for _, document := range documents {

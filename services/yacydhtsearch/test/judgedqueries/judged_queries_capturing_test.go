@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 const (
@@ -19,15 +19,15 @@ func TestCaptureThePagesOfTheJudgedQueries(t *testing.T) {
 	}
 
 	fetching := pageFetchingWithin(capturingPagesBudget)
-	for _, answersFile := range recordedAnswersFiles(t) {
-		fetching.capturePagesOf(t, answersFile)
+	for _, findingsFile := range recordedFindingsFiles(t) {
+		fetching.capturePagesOf(t, findingsFile)
 	}
 }
 
-func (fetching pageFetching) capturePagesOf(t *testing.T, answersFile string) {
+func (fetching pageFetching) capturePagesOf(t *testing.T, findingsFile string) {
 	t.Helper()
 
-	recorded := recordedAnswersAt(t, answersFile)
+	recorded := recordedFindingsAt(t, findingsFile)
 	judgedDocuments := judgedDocumentsAmong(t, recorded)
 	pages := fetching.fetchedPagesOf(t.Context(), judgedDocuments)
 	writeStoredPagesOf(t, recorded.Query, pages)
@@ -36,14 +36,14 @@ func (fetching pageFetching) capturePagesOf(t *testing.T, answersFile string) {
 }
 
 func judgedDocumentsAmong(
-	t *testing.T, recorded recordedAnswers,
-) []queryanswers.FoundDocument {
+	t *testing.T, recorded recordedFindings,
+) []queryfindings.FoundDocument {
 	t.Helper()
 
 	judgedDocumentPerHash := queryJudgmentsAt(t, queryJudgmentsFileOf(recorded.Query)).
 		judgedDocumentPerHash()
-	foundDocuments := recorded.answers().FoundDocuments
-	judgedDocuments := make([]queryanswers.FoundDocument, 0, len(foundDocuments))
+	foundDocuments := recorded.findings().FoundDocuments
+	judgedDocuments := make([]queryfindings.FoundDocument, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
 		if _, judged := judgedDocumentPerHash[foundDocument.Hash]; !judged {
 			continue
