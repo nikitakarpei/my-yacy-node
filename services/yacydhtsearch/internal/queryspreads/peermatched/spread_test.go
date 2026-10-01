@@ -194,11 +194,26 @@ func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
 	query searchquery.Query,
 	askablePeers []peerdirectory.AskablePeer,
 ) queryfindings.Findings {
-	return s.spread.SpreadOverPeers(
+	return finalFindingsFrom(s.spread.SpreadOverPeers(
 		ctx,
 		query,
 		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.WordHashes(), askablePeers),
-	)
+	))
+}
+
+func finalFindingsFrom(findingsAsTheyGrow <-chan queryfindings.Findings) queryfindings.Findings {
+	snapshots := snapshotsFrom(findingsAsTheyGrow)
+
+	return snapshots[len(snapshots)-1]
+}
+
+func snapshotsFrom(findingsAsTheyGrow <-chan queryfindings.Findings) []queryfindings.Findings {
+	var snapshots []queryfindings.Findings
+	for findings := range findingsAsTheyGrow {
+		snapshots = append(snapshots, findings)
+	}
+
+	return snapshots
 }
 
 func TestEveryChosenPeerIsAskedToMatchTheQueryWordOnce(t *testing.T) {
@@ -340,13 +355,13 @@ func TestTheChosenPeersOfOnePartitionAreTheReplicasOfOneAskInTheirOrder(t *testi
 		{Peer: peerAt("first"), Partition: 0},
 	}
 
-	peermatched.New(network, &recordedSpreads{}).SpreadOverPeers(
+	finalFindingsFrom(peermatched.New(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.Query{Words: []string{"berlin"}},
 		peerchoice.ChosenPeersPerQueryWord{{
 			QueryWord: yacymodel.WordHash("berlin"), ChosenPeers: chosenPeers,
 		}},
-	)
+	))
 
 	wanted := [][]peerdirectory.AskablePeer{
 		{peerAt("second"), peerAt("first")},
@@ -386,5 +401,42 @@ func TestADocumentListedWithoutMetadataIsNotFound(t *testing.T) {
 		[]string{"https://matched.example/"},
 	) {
 		t.Fatalf("the spread found %v, want only the document listed with its metadata", got)
+	}
+}
+
+func TestTheSpreadSendsTheFindingsOfEachSettledAskAndThenTheFinalFindings(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string][]string{
+		"first":  {"https://first.example/"},
+		"second": {"https://second.example/"},
+	})
+
+	snapshots := snapshotsFrom(peermatched.New(network, &recordedSpreads{}).SpreadOverPeers(
+		context.Background(),
+		searchquery.Query{Words: []string{"berlin"}},
+		everyAskablePeer{}.ChosenPeersPerQueryWordFor(
+			context.Background(),
+			[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+			[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
+		),
+	))
+
+	if got, want := len(snapshots), len(network.asks)+1; got != want {
+		t.Fatalf("the spread sent %d snapshots, want one for each of %d asks and the final one",
+			got, len(network.asks))
+	}
+	for place := 1; place < len(snapshots); place++ {
+		previousAddresses := addressesOf(snapshots[place-1].FoundDocuments)
+		addresses := addressesOf(snapshots[place].FoundDocuments)
+		for _, address := range previousAddresses {
+			if !slices.Contains(addresses, address) {
+				t.Fatalf("snapshot %d found %v, want every document of the snapshot before it %v",
+					place, addresses, previousAddresses)
+			}
+		}
+	}
+	if got := addressesOf(snapshots[len(snapshots)-1].FoundDocuments); len(got) != 2 {
+		t.Fatalf("the final findings hold %v, want the documents of both peers", got)
 	}
 }

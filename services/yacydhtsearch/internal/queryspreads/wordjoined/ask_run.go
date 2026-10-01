@@ -14,6 +14,7 @@ type askRun struct {
 	holdersPerDocument       holdersPerDocument
 	askedWordPartitionKeys   map[wordPartitionKey]struct{}
 	settledWordPartitionKeys map[wordPartitionKey]struct{}
+	findingsSender           discoveryFindingsSender
 }
 
 type wordPartitionKey struct {
@@ -21,7 +22,11 @@ type wordPartitionKey struct {
 	partition uint
 }
 
-func startAskRun(ctx context.Context, replicaAsks ReplicaAsks) *askRun {
+func startAskRun(
+	ctx context.Context,
+	replicaAsks ReplicaAsks,
+	findingsSender discoveryFindingsSender,
+) *askRun {
 	run := replicaAsks.Start(ctx)
 
 	return &askRun{
@@ -30,6 +35,7 @@ func startAskRun(ctx context.Context, replicaAsks ReplicaAsks) *askRun {
 		holdersPerDocument:       holdersPerDocument{},
 		askedWordPartitionKeys:   map[wordPartitionKey]struct{}{},
 		settledWordPartitionKeys: map[wordPartitionKey]struct{}{},
+		findingsSender:           findingsSender,
 	}
 }
 
@@ -83,6 +89,7 @@ func (askRun *askRun) record(settledAsk wordpartitionasks.SettledAsk) {
 	askRun.settledAsks = append(askRun.settledAsks, settledAsk)
 	askRun.holdersPerDocument.addHoldersIn(settledAsk.Answers)
 	askRun.settledWordPartitionKeys[wordPartitionKeyOf(settledAsk.Ask)] = struct{}{}
+	askRun.findingsSender.sendFindingsOf(askRun.settledAsks)
 }
 
 func (askRun *askRun) finish() {

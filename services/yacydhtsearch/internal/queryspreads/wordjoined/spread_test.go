@@ -542,6 +542,15 @@ func (settings spreadSettings) spread(
 	network *peerNetwork,
 	observer wordjoined.WordJoinedSpreadObserver,
 ) queryfindings.Findings {
+	snapshots := settings.snapshotsOfTheSpread(network, observer)
+
+	return snapshots[len(snapshots)-1]
+}
+
+func (settings spreadSettings) snapshotsOfTheSpread(
+	network *peerNetwork,
+	observer wordjoined.WordJoinedSpreadObserver,
+) []queryfindings.Findings {
 	ctx := context.Background()
 	if settings.queryBudget > 0 {
 		var endQuery context.CancelFunc
@@ -554,7 +563,7 @@ func (settings spreadSettings) spread(
 		queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
 	}
 
-	return wordjoined.New(
+	return snapshotsFrom(wordjoined.New(
 		replicasOf(network),
 		network,
 		queryWordDocumentAmounts,
@@ -575,7 +584,16 @@ func (settings spreadSettings) spread(
 			query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling),
 			peersAt(settings.askablePeers),
 		),
-	)
+	))
+}
+
+func snapshotsFrom(findingsAsTheyGrow <-chan queryfindings.Findings) []queryfindings.Findings {
+	var snapshots []queryfindings.Findings
+	for findings := range findingsAsTheyGrow {
+		snapshots = append(snapshots, findings)
+	}
+
+	return snapshots
 }
 
 func findingsFrom(
@@ -1860,4 +1878,59 @@ func TestAWordNoPeerCountedIsNotRemembered(t *testing.T) {
 	)]; remembered {
 		t.Fatal("the spread remembered an amount for a word no peer counted")
 	}
+}
+
+func TestTheSpreadSendsFindingsAsTheDiscoveryAndTheLookupSettleAndThenTheFinalFindings(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	network := networkOf(map[string]map[string][]string{
+		"first": {
+			firstWord:  {"https://first.example/"},
+			secondWord: {"https://first.example/"},
+		},
+		"second": {
+			firstWord:  {"https://second.example/"},
+			secondWord: {"https://second.example/"},
+		},
+	})
+
+	snapshots := settingsOfOnePartition().snapshotsOfTheSpread(network, &recordedSpreads{})
+
+	amountOfDiscoverySnapshots := amountOfWordPartitionsAskedIn(network.searchDocumentsAsks)
+	if got, want := len(snapshots),
+		amountOfDiscoverySnapshots+len(network.urlMetadataAsks)+1; got != want {
+		t.Fatalf(
+			"the spread sent %d snapshots, want one for each of %d asks to discover, "+
+				"one for each of %d asks for metadata, and the final one",
+			got, amountOfDiscoverySnapshots, len(network.urlMetadataAsks),
+		)
+	}
+	for place, snapshot := range snapshots[:amountOfDiscoverySnapshots] {
+		if len(snapshot.FoundDocuments) != 0 {
+			t.Fatalf("discovery snapshot %d found %v, want none before the lookup",
+				place, foundDocumentsIn(snapshot))
+		}
+	}
+	for place, snapshot := range snapshots[amountOfDiscoverySnapshots : len(snapshots)-1] {
+		if got := len(snapshot.FoundDocuments); got != place+1 {
+			t.Fatalf("lookup snapshot %d found %d documents, want one more for each answer",
+				place, got)
+		}
+	}
+	finalFindings := snapshots[len(snapshots)-1]
+	if got, want := foundDocumentsIn(finalFindings),
+		foundDocumentsIn(snapshots[len(snapshots)-2]); !slices.Equal(got, want) {
+		t.Fatalf("the final findings found %v, want %v as the last answer left them", got, want)
+	}
+}
+
+func amountOfWordPartitionsAskedIn(asks []replicaAsk) int {
+	wordPartitions := map[string]struct{}{}
+	for _, ask := range asks {
+		wordPartitions[fmt.Sprintf("%s in %d", ask.Word, ask.Partition)] = struct{}{}
+	}
+
+	return len(wordPartitions)
 }

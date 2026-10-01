@@ -531,8 +531,18 @@ func (s spreadFinding) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
-) queryfindings.Findings {
-	return s.findings
+) <-chan queryfindings.Findings {
+	return closedChannelOf(s.findings)
+}
+
+func closedChannelOf(snapshots ...queryfindings.Findings) <-chan queryfindings.Findings {
+	findings := make(chan queryfindings.Findings, len(snapshots))
+	for _, snapshot := range snapshots {
+		findings <- snapshot
+	}
+	close(findings)
+
+	return findings
 }
 
 func findingsOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadFinding {
@@ -578,6 +588,43 @@ func documentOf(t *testing.T, address string) yacymodel.URLHash {
 func oneHitOfTheWord(word string) queryfindings.DocumentFacts {
 	return queryfindings.DocumentFacts{
 		HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
+	}
+}
+
+type spreadGrowingItsFindings struct {
+	snapshots []queryfindings.Findings
+}
+
+func (s spreadGrowingItsFindings) SpreadOverPeers(
+	_ context.Context,
+	_ searchquery.Query,
+	_ peerchoice.ChosenPeersPerQueryWord,
+) <-chan queryfindings.Findings {
+	return closedChannelOf(s.snapshots...)
+}
+
+func TestTheRankingHoldsTheFinalFindingsOfTheSpread(t *testing.T) {
+	t.Parallel()
+
+	earlier, final := "https://earlier.example/", "https://final.example/"
+	network := networkSearching(
+		t,
+		directoryAnsweringAt(t, peerHolding(t)),
+		&recordedQuery{},
+		spreadGrowingItsFindings{snapshots: []queryfindings.Findings{
+			{FoundDocuments: []queryfindings.FoundDocument{
+				{Hash: documentOf(t, earlier), Address: earlier},
+			}},
+			{FoundDocuments: []queryfindings.FoundDocument{
+				{Hash: documentOf(t, final), Address: final},
+			}},
+		}},
+	)
+
+	ranking, _ := network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
+
+	if len(ranking.Items) != 1 || ranking.Items[0].Address != final {
+		t.Fatalf("Search = %+v, want only the document of the final findings", ranking.Items)
 	}
 }
 
@@ -813,10 +860,10 @@ func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
-) queryfindings.Findings {
+) <-chan queryfindings.Findings {
 	s.recorded.spread = budgetLeftIn(ctx)
 
-	return s.findings
+	return closedChannelOf(s.findings)
 }
 
 type pagesRecordingTheBudgetTheyGet struct {

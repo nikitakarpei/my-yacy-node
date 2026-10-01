@@ -16,7 +16,7 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	) queryfindings.Findings
+	) <-chan queryfindings.Findings
 }
 
 type Spread struct {
@@ -32,7 +32,7 @@ func (s Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) queryfindings.Findings {
+) <-chan queryfindings.Findings {
 	if len(query.WordHashes()) < 2 {
 		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 	}

@@ -78,16 +78,43 @@ func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+) <-chan queryfindings.Findings {
+	findings := make(chan queryfindings.Findings)
+	go func() {
+		defer close(findings)
+		findings <- spread.findingsOver(
+			ctx,
+			query,
+			chosenPeersPerQueryWord,
+			discoveryFindingsSenderFor(findings, query, spread.partitions),
+		)
+	}()
+
+	return findings
+}
+
+func (spread Spread) findingsOver(
+	ctx context.Context,
+	query searchquery.Query,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+	discoveryFindingsSender discoveryFindingsSender,
 ) queryfindings.Findings {
 	startedAt := time.Now()
 
-	discoveryRound := spread.askToDiscover(ctx, query, chosenPeersPerQueryWord)
+	discoveryRound := spread.askToDiscover(
+		ctx,
+		query,
+		chosenPeersPerQueryWord,
+		discoveryFindingsSender,
+	)
 	spread.queryWordDocumentAmounts.Remember(
 		ctx,
 		discoveryRound.amountOfDocumentsHeldPerQueryWord(),
 	)
 	joinedDocuments := discoveryRound.joinedDocuments()
-	urlMetadataLookupRound := spread.askForURLMetadata(ctx, discoveryRound, joinedDocuments)
+	urlMetadataLookupRound := spread.askForURLMetadata(
+		ctx, discoveryRound, joinedDocuments, discoveryFindingsSender,
+	)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		discoveryRound,
@@ -97,7 +124,7 @@ func (spread Spread) SpreadOverPeers(
 	))
 
 	return findingsFrom(
-		query, discoveryRound, joinedDocuments, urlMetadataLookupRound,
+		query, discoveryRound, joinedDocuments, urlMetadataLookupRound.answeredAsks,
 	)
 }
 
@@ -105,6 +132,7 @@ func (spread Spread) askToDiscover(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+	discoveryFindingsSender discoveryFindingsSender,
 ) discoveryRound {
 	sampledPartition := spread.partitionToSample(uint(spread.partitions))
 	rememberedDocumentAmounts := spread.queryWordDocumentAmounts.DocumentAmountsOf(
@@ -115,7 +143,7 @@ func (spread Spread) askToDiscover(
 	defer endRound()
 
 	return discoveryOver(
-		startAskRun(roundContext, spread.replicaAsks),
+		startAskRun(roundContext, spread.replicaAsks, discoveryFindingsSender),
 		discoveryAsksFor(query, chosenPeersPerQueryWord),
 		query,
 		rememberedDocumentAmounts,
@@ -142,6 +170,7 @@ func (spread Spread) askForURLMetadata(
 	ctx context.Context,
 	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
+	discoveryFindingsSender discoveryFindingsSender,
 ) urlMetadataLookupRound {
 	documentsWithoutMetadata := documentsWithoutMetadataAmong(
 		joinedDocuments, discoveryRound.settledAsks.answers(),
@@ -156,7 +185,9 @@ func (spread Spread) askForURLMetadata(
 	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadataLookup)
 	defer endRound()
 	lookupContext, endLookup := context.WithCancel(roundContext)
-	lookupInFlight := urlMetadataLookupInFlightOf(asks)
+	lookupInFlight := urlMetadataLookupInFlightOf(
+		asks, discoveryFindingsSender.lookupFindingsSenderAfter(discoveryRound, joinedDocuments),
+	)
 	endedLookup := lookupInFlight.settleUntilEnded(
 		spread.peerAsks.AskForURLMetadata(lookupContext, asks),
 		spread.urlMetadataLookupCutoff,

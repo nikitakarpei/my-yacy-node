@@ -29,6 +29,23 @@ func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+) <-chan queryfindings.Findings {
+	findings := make(chan queryfindings.Findings)
+	go func() {
+		defer close(findings)
+		findings <- spread.findingsOver(
+			ctx, query, chosenPeersPerQueryWord, findingsSenderFor(findings, query),
+		)
+	}()
+
+	return findings
+}
+
+func (spread Spread) findingsOver(
+	ctx context.Context,
+	query searchquery.Query,
+	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+	findingsSender findingsSender,
 ) queryfindings.Findings {
 	startedAt := time.Now()
 
@@ -36,7 +53,7 @@ func (spread Spread) SpreadOverPeers(
 	run := spread.replicaAsks.Start(ctx)
 	run.Asks <- asks
 	close(run.Asks)
-	settledAsks := settledAsksFrom(run.SettledAsks)
+	settledAsks := findingsSender.sendFindingsAsEachAskSettles(run.SettledAsks)
 
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,

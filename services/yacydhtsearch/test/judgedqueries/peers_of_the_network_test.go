@@ -204,7 +204,18 @@ func (spread spreadChoosingPeers) SpreadOverPeers(
 		ctx, query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling), askablePeers,
 	)
 
-	return spread.byWordCount.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
+	return finalFindingsFrom(
+		spread.byWordCount.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord),
+	)
+}
+
+func finalFindingsFrom(findingsAsTheyGrow <-chan queryfindings.Findings) queryfindings.Findings {
+	var finalFindings queryfindings.Findings
+	for findings := range findingsAsTheyGrow {
+		finalFindings = findings
+	}
+
+	return finalFindings
 }
 
 type noRememberedQueryWordDocumentAmounts struct{}

@@ -19,10 +19,13 @@ func (c *countedSpread) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
-) queryfindings.Findings {
+) <-chan queryfindings.Findings {
 	c.searches++
+	findings := make(chan queryfindings.Findings, 1)
+	findings <- queryfindings.Findings{}
+	close(findings)
 
-	return queryfindings.Findings{}
+	return findings
 }
 
 func searchesOf(t *testing.T, spelledQuery string) (int, int) {

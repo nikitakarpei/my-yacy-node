@@ -30,7 +30,7 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	) queryfindings.Findings
+	) <-chan queryfindings.Findings
 }
 
 type DocumentsOrdering interface {
@@ -120,7 +120,9 @@ func (n Network) Search(
 		ctx, n.queryBudget, n.pageReadBudget,
 	)
 	defer endTheQuerySpread()
-	findings := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
+	findings := finalFindingsFrom(
+		n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord),
+	)
 	pagesWanted := pagesToReadAmong(
 		n.documentsOrdering.OrderedDocumentsOf(findings),
 		n.pagesReadPerQuery,
@@ -156,6 +158,17 @@ func contextWithinTheQuerySpreadBudget(
 	pageReadBudget time.Duration,
 ) (context.Context, context.CancelFunc) {
 	return context.WithTimeout(ctx, max(queryBudget-pageReadBudget, 0))
+}
+
+func finalFindingsFrom(
+	findingsAsTheyGrow <-chan queryfindings.Findings,
+) queryfindings.Findings {
+	var finalFindings queryfindings.Findings
+	for findings := range findingsAsTheyGrow {
+		finalFindings = findings
+	}
+
+	return finalFindings
 }
 
 func documentsUpTo(

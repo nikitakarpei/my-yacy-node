@@ -51,9 +51,13 @@ type urlMetadataLookupInFlight struct {
 	asksInFlightPerOpenDocument   map[yacymodel.URLHash]int
 	lookedUpDocumentsWithMetadata distinctDocuments
 	answeredAsks                  []peerasks.AnsweredURLMetadataAsk
+	findingsSender                lookupFindingsSender
 }
 
-func urlMetadataLookupInFlightOf(asks []peerasks.URLMetadataAsk) urlMetadataLookupInFlight {
+func urlMetadataLookupInFlightOf(
+	asks []peerasks.URLMetadataAsk,
+	findingsSender lookupFindingsSender,
+) urlMetadataLookupInFlight {
 	asksInFlightPerOpenDocument := map[yacymodel.URLHash]int{}
 	for _, ask := range asks {
 		for _, document := range ask.Documents {
@@ -65,6 +69,7 @@ func urlMetadataLookupInFlightOf(asks []peerasks.URLMetadataAsk) urlMetadataLook
 		amountOfLookedUpDocuments:     len(asksInFlightPerOpenDocument),
 		asksInFlightPerOpenDocument:   asksInFlightPerOpenDocument,
 		lookedUpDocumentsWithMetadata: distinctDocuments{},
+		findingsSender:                findingsSender,
 	}
 }
 
@@ -103,6 +108,7 @@ func (lookup *urlMetadataLookupInFlight) endedBy(
 func (lookup *urlMetadataLookupInFlight) settle(outcome peerasks.URLMetadataAskOutcome) {
 	if answeredAsk, answered := outcome.Answer.Get(); answered {
 		lookup.answeredAsks = append(lookup.answeredAsks, answeredAsk)
+		lookup.findingsSender.sendFindingsOf(lookup.answeredAsks)
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
 			lookup.settleWithMetadata(metadata.Hash)
 		}

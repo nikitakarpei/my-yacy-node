@@ -1,6 +1,7 @@
 package wordjoined
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
@@ -9,13 +10,13 @@ func findingsFrom(
 	query searchquery.Query,
 	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
-	urlMetadataLookupRound urlMetadataLookupRound,
+	answeredURLMetadataAsks []peerasks.AnsweredURLMetadataAsk,
 ) queryfindings.Findings {
 	return queryfindings.Findings{
 		QueryWords:    discoveryRound.queryWords,
 		CompoundWords: query.CompoundWords,
 		FoundDocuments: foundDocumentsFrom(
-			discoveryRound, joinedDocuments, urlMetadataLookupRound,
+			discoveryRound, joinedDocuments, answeredURLMetadataAsks,
 		),
 		DocumentsHeldPerQueryWord: discoveryRound.
 			amountOfDocumentsHeldPerQueryWord(),
@@ -25,7 +26,7 @@ func findingsFrom(
 func foundDocumentsFrom(
 	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
-	urlMetadataLookupRound urlMetadataLookupRound,
+	answeredURLMetadataAsks []peerasks.AnsweredURLMetadataAsk,
 ) []queryfindings.FoundDocument {
 	documentsThePeersSent := queryfindings.EmptyDocumentsThePeersSent()
 	for _, settledAsk := range discoveryRound.settledAsks {
@@ -44,7 +45,7 @@ func foundDocumentsFrom(
 			}
 		}
 	}
-	for _, answeredAsk := range urlMetadataLookupRound.answeredAsks {
+	for _, answeredAsk := range answeredURLMetadataAsks {
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
 			documentsThePeersSent.KeepMetadataThePeerSent(
 				metadata, answeredAsk.Ask.Peer.Hash,
