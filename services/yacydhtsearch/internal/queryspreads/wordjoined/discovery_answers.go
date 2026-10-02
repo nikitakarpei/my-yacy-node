@@ -13,7 +13,7 @@ type discoveryAnswers struct {
 	queryWords            []yacymodel.Hash
 	compoundWords         []searchquery.CompoundWord
 	partitions            yacymodel.DHTRingPartitions
-	wordsAcrossReplicas   map[yacymodel.Hash]queryWordAcrossReplicas
+	wordsAcrossReplicas   map[yacymodel.Hash]wordAcrossReplicas
 	holdersPerDocument    holdersPerDocument
 	queryWordsPerDocument queryWordsPerDocument
 	documentsThePeersSent *queryfindings.DocumentsThePeersSent
@@ -27,7 +27,7 @@ func discoveryAnswersFor(
 		queryWords:            query.WordHashes(),
 		compoundWords:         query.CompoundWords,
 		partitions:            partitions,
-		wordsAcrossReplicas:   map[yacymodel.Hash]queryWordAcrossReplicas{},
+		wordsAcrossReplicas:   map[yacymodel.Hash]wordAcrossReplicas{},
 		holdersPerDocument:    holdersPerDocument{},
 		queryWordsPerDocument: queryWordsPerDocument{},
 		documentsThePeersSent: queryfindings.EmptyDocumentsThePeersSent(),
@@ -38,25 +38,25 @@ func (answers *discoveryAnswers) add(settledAsk wordpartitionasks.SettledAsk) {
 	answers.wordsAcrossReplicas[settledAsk.Word] = answers.wordAcrossReplicasOf(settledAsk.Word).
 		withAnswersOf(settledAsk)
 	answers.holdersPerDocument.addHoldersIn(settledAsk.Answers)
-	answers.queryWordsPerDocument.creditListingsIn(
-		settledAsk.Answers, answers.queryWordsCreditedBy(settledAsk.Word),
+	answers.queryWordsPerDocument.addListingsIn(
+		settledAsk.Answers, answers.queryWordsOf(settledAsk.Word),
 	)
 	answers.keepTheDocumentsThePeersMatchedIn(settledAsk)
 }
 
-func (answers *discoveryAnswers) wordAcrossReplicasOf(word yacymodel.Hash) queryWordAcrossReplicas {
-	wordAcrossReplicas, answered := answers.wordsAcrossReplicas[word]
+func (answers *discoveryAnswers) wordAcrossReplicasOf(word yacymodel.Hash) wordAcrossReplicas {
+	answeredWord, answered := answers.wordsAcrossReplicas[word]
 	if !answered {
-		return queryWordAcrossReplicas{
-			word:                word,
+		return wordAcrossReplicas{
+			hash:                word,
 			answersPerPartition: make([][]wordpartitionasks.ReplicaAnswer, answers.partitions),
 		}
 	}
 
-	return wordAcrossReplicas
+	return answeredWord
 }
 
-func (answers *discoveryAnswers) queryWordsCreditedBy(word yacymodel.Hash) []yacymodel.Hash {
+func (answers *discoveryAnswers) queryWordsOf(word yacymodel.Hash) []yacymodel.Hash {
 	place := slices.IndexFunc(
 		answers.compoundWords,
 		func(compoundWord searchquery.CompoundWord) bool {
@@ -89,8 +89,8 @@ func (answers *discoveryAnswers) keepTheDocumentsThePeersMatchedIn(
 	}
 }
 
-func (answers *discoveryAnswers) queryWordsAcrossReplicas() []queryWordAcrossReplicas {
-	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(answers.queryWords))
+func (answers *discoveryAnswers) queryWordsAcrossReplicas() []wordAcrossReplicas {
+	queryWordsAcrossReplicas := make([]wordAcrossReplicas, 0, len(answers.queryWords))
 	for _, word := range answers.queryWords {
 		queryWordsAcrossReplicas = append(
 			queryWordsAcrossReplicas,
@@ -101,7 +101,7 @@ func (answers *discoveryAnswers) queryWordsAcrossReplicas() []queryWordAcrossRep
 	return queryWordsAcrossReplicas
 }
 
-func (answers *discoveryAnswers) queryWordsFewestDocumentsFirst() []queryWordAcrossReplicas {
+func (answers *discoveryAnswers) queryWordsFewestDocumentsFirst() []wordAcrossReplicas {
 	queryWordsAcrossReplicas := answers.queryWordsAcrossReplicas()
 	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
 
@@ -111,15 +111,15 @@ func (answers *discoveryAnswers) queryWordsFewestDocumentsFirst() []queryWordAcr
 func (answers *discoveryAnswers) compoundWordsAcrossReplicas() []compoundWordAcrossReplicas {
 	var compoundWordsAcrossReplicas []compoundWordAcrossReplicas
 	for _, compoundWord := range answers.compoundWords {
-		wordAcrossReplicas, answered := answers.wordsAcrossReplicas[compoundWord.Hash()]
+		answeredWord, answered := answers.wordsAcrossReplicas[compoundWord.Hash()]
 		if !answered {
 			continue
 		}
 		compoundWordsAcrossReplicas = append(
 			compoundWordsAcrossReplicas,
 			compoundWordAcrossReplicas{
-				CompoundWord:            compoundWord,
-				queryWordAcrossReplicas: wordAcrossReplicas,
+				CompoundWord:       compoundWord,
+				wordAcrossReplicas: answeredWord,
 			},
 		)
 	}
@@ -134,7 +134,7 @@ func (answers *discoveryAnswers) amountOfDocumentsHeldPerQueryWord() map[yacymod
 		if !counted {
 			continue
 		}
-		amountOfDocumentsHeldPerQueryWord[queryWord.word] = amountOfDocumentsHeld
+		amountOfDocumentsHeldPerQueryWord[queryWord.hash] = amountOfDocumentsHeld
 	}
 
 	return amountOfDocumentsHeldPerQueryWord

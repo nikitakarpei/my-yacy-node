@@ -7,7 +7,7 @@ import (
 
 type queryWordsPerDocument map[yacymodel.URLHash]map[yacymodel.Hash]struct{}
 
-func (queryWordsOfEachDocument queryWordsPerDocument) creditListingsIn(
+func (queryWordsOfEachDocument queryWordsPerDocument) addListingsIn(
 	answers []wordpartitionasks.ReplicaAnswer,
 	queryWords []yacymodel.Hash,
 ) {

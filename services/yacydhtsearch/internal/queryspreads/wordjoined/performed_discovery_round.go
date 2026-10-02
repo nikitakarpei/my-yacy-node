@@ -45,7 +45,7 @@ func performedDiscoveryRoundFrom(
 	}
 }
 
-func amountOfQueryWordsHeldByNoPeerAmong(queryWords []queryWordAcrossReplicas) int {
+func amountOfQueryWordsHeldByNoPeerAmong(queryWords []wordAcrossReplicas) int {
 	amount := 0
 	for _, queryWord := range queryWords {
 		if len(queryWord.documents()) > 0 {

@@ -8,7 +8,7 @@ import (
 
 type discoveryRound struct {
 	answers                        *discoveryAnswers
-	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
+	queryWordsFewestDocumentsFirst []wordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	sampledPartition               uint
 	amountOfQueryWordsWithASample  int
@@ -16,15 +16,15 @@ type discoveryRound struct {
 	otherWordAsksPerPartition      map[uint]OtherWordAsks
 }
 
-func (round discoveryRound) leadingQueryWord() queryWordAcrossReplicas {
+func (round discoveryRound) leadingQueryWord() wordAcrossReplicas {
 	chosenWord, chosen := round.chosenLeadingQueryWord.word.Get()
 	if !chosen {
 		return round.queryWordsFewestDocumentsFirst[0]
 	}
 	place := slices.IndexFunc(
 		round.queryWordsFewestDocumentsFirst,
-		func(queryWord queryWordAcrossReplicas) bool {
-			return queryWord.word == chosenWord
+		func(queryWord wordAcrossReplicas) bool {
+			return queryWord.hash == chosenWord
 		},
 	)
 

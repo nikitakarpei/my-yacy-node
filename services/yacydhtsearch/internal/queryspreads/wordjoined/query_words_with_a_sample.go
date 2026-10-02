@@ -4,7 +4,7 @@ import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 func rarestQueryWordIn(
 	sampledPartition uint,
-	queryWords []queryWordAcrossReplicas,
+	queryWords []wordAcrossReplicas,
 	partitions yacymodel.DHTRingPartitions,
 ) yacymodel.Optional[yacymodel.Hash] {
 	rarestQueryWord := yacymodel.None[yacymodel.Hash]()
@@ -15,7 +15,7 @@ func rarestQueryWordIn(
 		if !complete || rarestQueryWord.Present() && amountOfDocuments >= fewestDocuments {
 			continue
 		}
-		rarestQueryWord = yacymodel.Some(queryWord.word)
+		rarestQueryWord = yacymodel.Some(queryWord.hash)
 		fewestDocuments = amountOfDocuments
 	}
 
@@ -24,7 +24,7 @@ func rarestQueryWordIn(
 
 func amountOfQueryWordsWithASampleIn(
 	sampledPartition uint,
-	queryWords []queryWordAcrossReplicas,
+	queryWords []wordAcrossReplicas,
 	partitions yacymodel.DHTRingPartitions,
 ) int {
 	amountOfQueryWordsWithASample := 0
