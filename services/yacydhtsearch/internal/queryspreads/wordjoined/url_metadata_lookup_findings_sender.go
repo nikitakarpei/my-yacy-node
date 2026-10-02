@@ -15,22 +15,5 @@ type urlMetadataLookupFindingsSender struct {
 func (sender urlMetadataLookupFindingsSender) sendFindingsOf(
 	answeredAsks []peerasks.AnsweredURLMetadataAsk,
 ) {
-	sender.findings <- sender.findingsFrom(answeredAsks)
-}
-
-func (sender urlMetadataLookupFindingsSender) findingsFrom(
-	answeredAsks []peerasks.AnsweredURLMetadataAsk,
-) queryfindings.Findings {
-	documentsThePeersSent := sender.answers.joinedDocumentsThePeersSent()
-	for _, answeredAsk := range answeredAsks {
-		for _, metadata := range answeredAsk.MetadataOfEachDocument {
-			documentsThePeersSent.KeepMetadataThePeerSent(metadata, answeredAsk.Ask.Peer.Hash)
-		}
-	}
-
-	return findingsOf(
-		sender.query,
-		documentsThePeersSent.FoundDocuments(),
-		sender.answers.amountOfDocumentsHeldPerQueryWord(),
-	)
+	sender.findings <- findingsAfterURLMetadataLookup(sender.query, sender.answers, answeredAsks)
 }

@@ -106,12 +106,11 @@ func (spread Spread) findingsOver(
 	)
 	spread.queryWordDocumentAmounts.Remember(ctx, answers.amountOfDocumentsHeldPerQueryWord())
 	joinedDocuments := answers.joinedDocuments()
-	lookupFindingsSender := urlMetadataLookupFindingsSender{
-		findings: findings,
-		query:    query,
-		answers:  answers,
-	}
-	urlMetadataLookupRound := spread.askForURLMetadata(ctx, answers, lookupFindingsSender)
+	urlMetadataLookupRound := spread.askForURLMetadata(
+		ctx,
+		answers,
+		urlMetadataLookupFindingsSender{findings: findings, query: query, answers: answers},
+	)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		discoveryRound,
@@ -121,7 +120,7 @@ func (spread Spread) findingsOver(
 		time.Since(startedAt),
 	))
 
-	return lookupFindingsSender.findingsFrom(urlMetadataLookupRound.answeredAsks)
+	return findingsAfterURLMetadataLookup(query, answers, urlMetadataLookupRound.answeredAsks)
 }
 
 func (spread Spread) askToDiscover(
