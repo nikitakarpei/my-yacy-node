@@ -1,9 +1,9 @@
 // Package wordpartitionasks runs the asks of one query as one run. The consumer
 // sends asks to the run at any time and closes the asks when it has no more.
-// The run puts the ask of each word partition to its replicas in turn,
-// settles the ask as soon as enough replicas have searched for the word
+// The run puts the ask of each word partition to its holders in turn,
+// settles the ask as soon as enough holders have searched for the word
 // or listed documents for it, and sends each settled ask with the answers of
-// its replicas. The consumer reads the settled asks until they close.
+// its holders. The consumer reads the settled asks until they close.
 package wordpartitionasks
 
 import (
@@ -66,7 +66,7 @@ func (replicaAsks Asks) startTheHedgeTimer(
 	return replicaAsks.clock.After(replicaAsks.hedgeDelay.HedgeDelayOf(ctx, peer), hedgeDue)
 }
 
-func (replicaAsks Asks) askTheReplica(
+func (replicaAsks Asks) askTheHolder(
 	ctx context.Context,
 	ask Ask,
 	holder peerdirectory.AskablePeer,

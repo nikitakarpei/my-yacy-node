@@ -11,8 +11,8 @@ type wordPartition struct {
 	replicaAsks              Asks
 	chosenPeers              *chosenPeers
 	ask                      Ask
-	replicasLeft             []peerdirectory.AskablePeer
-	firstReplicas            []peerdirectory.AskablePeer
+	holdersLeft              []peerdirectory.AskablePeer
+	firstHolders             []peerdirectory.AskablePeer
 	calls                    []*replicaCall
 	hedgesDue                chan *replicaCall
 	callOutcomes             chan replicaCallOutcome
@@ -42,26 +42,26 @@ func wordPartitionOf(ask Ask, replicaAsks Asks, chosenPeers *chosenPeers) *wordP
 		replicaAsks:  replicaAsks,
 		chosenPeers:  chosenPeers,
 		ask:          ask,
-		replicasLeft: ask.ReplicasInOrder,
-		hedgesDue:    make(chan *replicaCall, len(ask.ReplicasInOrder)),
-		callOutcomes: make(chan replicaCallOutcome, len(ask.ReplicasInOrder)),
+		holdersLeft:  ask.HoldersInOrder,
+		hedgesDue:    make(chan *replicaCall, len(ask.HoldersInOrder)),
+		callOutcomes: make(chan replicaCallOutcome, len(ask.HoldersInOrder)),
 	}
 }
 
-func (partition *wordPartition) chooseTheFirstReplicas() {
+func (partition *wordPartition) chooseTheFirstHolders() {
 	for range partition.replicaAsks.amountOfReplicasCoveringAPartition {
-		holder, chosen := partition.chooseTheNextReplica()
+		holder, chosen := partition.chooseTheNextHolder()
 		if !chosen {
 			return
 		}
-		partition.firstReplicas = append(partition.firstReplicas, holder)
+		partition.firstHolders = append(partition.firstHolders, holder)
 	}
 }
 
-func (partition *wordPartition) chooseTheNextReplica() (peerdirectory.AskablePeer, bool) {
-	for !partition.noReplicaIsLeft() {
-		holder := partition.replicasLeft[0]
-		partition.replicasLeft = partition.replicasLeft[1:]
+func (partition *wordPartition) chooseTheNextHolder() (peerdirectory.AskablePeer, bool) {
+	for !partition.noHolderIsLeft() {
+		holder := partition.holdersLeft[0]
+		partition.holdersLeft = partition.holdersLeft[1:]
 		if partition.chosenPeers.choose(holder.Hash) {
 			return holder, true
 		}
@@ -70,15 +70,15 @@ func (partition *wordPartition) chooseTheNextReplica() (peerdirectory.AskablePee
 	return peerdirectory.AskablePeer{}, false
 }
 
-func (partition *wordPartition) noReplicaIsLeft() bool {
-	return len(partition.replicasLeft) == 0
+func (partition *wordPartition) noHolderIsLeft() bool {
+	return len(partition.holdersLeft) == 0
 }
 
 func (partition *wordPartition) askUntilSettled(ctx context.Context) {
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
-	for _, holder := range partition.firstReplicas {
+	for _, holder := range partition.firstHolders {
 		partition.putTheAsk(askingContext, holder, PutOnStart)
 	}
 	partition.settleWhenNothingIsLeftToAsk()
@@ -105,11 +105,11 @@ func (partition *wordPartition) putTheAsk(
 	)
 	partition.calls = append(partition.calls, call)
 	partition.amountOfCallsOutstanding++
-	go partition.callTheReplica(ctx, call)
+	go partition.callTheHolder(ctx, call)
 }
 
-func (partition *wordPartition) callTheReplica(ctx context.Context, call *replicaCall) {
-	answer, answered := partition.replicaAsks.askTheReplica(ctx, partition.ask, call.holder)
+func (partition *wordPartition) callTheHolder(ctx context.Context, call *replicaCall) {
+	answer, answered := partition.replicaAsks.askTheHolder(ctx, partition.ask, call.holder)
 	if !answered {
 		partition.callOutcomes <- replicaCallOutcome{call: call}
 
@@ -141,7 +141,7 @@ func amountOfDocumentsListedIn(answer ReplicaAnswer) int {
 
 func (partition *wordPartition) settleWhenNothingIsLeftToAsk() {
 	if !partition.isSettled() && partition.amountOfCallsOutstanding == 0 &&
-		partition.noReplicaIsLeft() {
+		partition.noHolderIsLeft() {
 		partition.settledBy = SettledByNoReplicaLeft
 	}
 }
@@ -170,11 +170,11 @@ func (partition *wordPartition) takeTheHedgeDue(ctx context.Context, call *repli
 	if call.ended {
 		return
 	}
-	partition.askTheNextReplica(ctx, PutOnHedgeDelay)
+	partition.askTheNextHolder(ctx, PutOnHedgeDelay)
 }
 
-func (partition *wordPartition) askTheNextReplica(ctx context.Context, putOn PutOn) {
-	holder, chosen := partition.chooseTheNextReplica()
+func (partition *wordPartition) askTheNextHolder(ctx context.Context, putOn PutOn) {
+	holder, chosen := partition.chooseTheNextHolder()
 	if !chosen {
 		return
 	}
@@ -187,7 +187,7 @@ func (partition *wordPartition) takeTheCallOutcome(
 ) {
 	partition.endTheCall(outcome)
 	partition.recordTheAnswer(outcome)
-	partition.askTheNextReplicaWhenNotCovering(ctx, outcome)
+	partition.askTheNextHolderWhenNotCovering(ctx, outcome)
 	partition.countTheCoveringAnswer(outcome)
 	partition.settleWhenNothingIsLeftToAsk()
 }
@@ -203,15 +203,15 @@ func (partition *wordPartition) recordTheAnswer(outcome replicaCallOutcome) {
 	}
 }
 
-func (partition *wordPartition) askTheNextReplicaWhenNotCovering(
+func (partition *wordPartition) askTheNextHolderWhenNotCovering(
 	ctx context.Context,
 	outcome replicaCallOutcome,
 ) {
 	switch {
 	case !outcome.answered:
-		partition.askTheNextReplica(ctx, PutOnFailure)
+		partition.askTheNextHolder(ctx, PutOnFailure)
 	case !outcome.coversThePartition:
-		partition.askTheNextReplica(ctx, PutOnEmptyAnswer)
+		partition.askTheNextHolder(ctx, PutOnEmptyAnswer)
 	}
 }
 

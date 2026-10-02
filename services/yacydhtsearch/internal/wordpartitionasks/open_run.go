@@ -71,7 +71,7 @@ func (run *openRun) takeTheAsks(ctx context.Context, asks []Ask, open bool) {
 	}
 	addedWordPartitions := run.wordPartitionsOf(asks)
 	for _, partition := range addedWordPartitions {
-		partition.chooseTheFirstReplicas()
+		partition.chooseTheFirstHolders()
 	}
 	for _, partition := range addedWordPartitions {
 		run.startAsking(ctx, partition)

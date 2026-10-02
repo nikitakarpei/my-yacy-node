@@ -53,8 +53,8 @@ func (network *peerNetwork) answerEachAsk(
 }
 
 func (network *peerNetwork) settledAskOf(ask wordpartitionasks.Ask) wordpartitionasks.SettledAsk {
-	answers := make([]wordpartitionasks.ReplicaAnswer, 0, len(ask.ReplicasInOrder))
-	for _, holder := range ask.ReplicasInOrder {
+	answers := make([]wordpartitionasks.ReplicaAnswer, 0, len(ask.HoldersInOrder))
+	for _, holder := range ask.HoldersInOrder {
 		answers = append(answers, wordpartitionasks.ReplicaAnswer{
 			Holder:          holder,
 			ListedDocuments: network.listedDocumentsOf(holder),
@@ -227,7 +227,7 @@ func TestEveryChosenPeerIsAskedToMatchTheQueryWordOnce(t *testing.T) {
 		t.Fatalf("%d asks were put, want one for each chosen peer", len(network.asks))
 	}
 	for _, ask := range network.asks {
-		if ask.Word != yacymodel.WordHash("berlin") || len(ask.ReplicasInOrder) != 1 {
+		if ask.Word != yacymodel.WordHash("berlin") || len(ask.HoldersInOrder) != 1 {
 			t.Fatalf("ask = %+v, want the query word to one replica", ask)
 		}
 	}
@@ -305,8 +305,8 @@ func TestEveryAskCarriesThePartitionOfTheChosenPeer(t *testing.T) {
 
 	partitionsAsked := map[string]uint{}
 	for _, ask := range network.asks {
-		for _, replica := range ask.ReplicasInOrder {
-			partitionsAsked[replica.Address] = ask.Partition
+		for _, holder := range ask.HoldersInOrder {
+			partitionsAsked[holder.Address] = ask.Partition
 		}
 	}
 	want := map[string]uint{"first": 0, "second": 1}
@@ -367,20 +367,20 @@ func TestTheChosenPeersOfOnePartitionAreTheReplicasOfOneAskInTheirOrder(t *testi
 		{peerAt("second"), peerAt("first")},
 		{peerAt("third")},
 	}
-	if got := replicasOfEachAsk(network.asks); !slices.EqualFunc(
+	if got := holdersOfEachAsk(network.asks); !slices.EqualFunc(
 		got, wanted, slices.Equal[[]peerdirectory.AskablePeer],
 	) {
-		t.Fatalf("the spread asked the replicas %v, want %v", got, wanted)
+		t.Fatalf("the spread asked the holders %v, want %v", got, wanted)
 	}
 }
 
-func replicasOfEachAsk(asks []wordpartitionasks.Ask) [][]peerdirectory.AskablePeer {
-	replicas := make([][]peerdirectory.AskablePeer, 0, len(asks))
+func holdersOfEachAsk(asks []wordpartitionasks.Ask) [][]peerdirectory.AskablePeer {
+	holders := make([][]peerdirectory.AskablePeer, 0, len(asks))
 	for _, ask := range asks {
-		replicas = append(replicas, ask.ReplicasInOrder)
+		holders = append(holders, ask.HoldersInOrder)
 	}
 
-	return replicas
+	return holders
 }
 
 func TestADocumentListedWithoutMetadataIsNotFound(t *testing.T) {

@@ -19,11 +19,11 @@ func discoveryAsksFor(
 	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
 		for _, chosenPeersOfPartition := range chosenPeersOfQueryWord.ChosenPeersPerPartition() {
 			asks = append(asks, wordpartitionasks.Ask{
-				Word:            chosenPeersOfQueryWord.QueryWord,
-				Partition:       chosenPeersOfPartition.Partition,
-				ReplicasInOrder: chosenPeersOfPartition.Peers,
-				ExcludedWords:   query.ExclusionHashes(),
-				Language:        query.Language,
+				Word:           chosenPeersOfQueryWord.QueryWord,
+				Partition:      chosenPeersOfPartition.Partition,
+				HoldersInOrder: chosenPeersOfPartition.Peers,
+				ExcludedWords:  query.ExclusionHashes(),
+				Language:       query.Language,
 			})
 		}
 	}

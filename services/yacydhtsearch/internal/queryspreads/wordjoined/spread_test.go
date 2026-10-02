@@ -130,9 +130,9 @@ func (run *runOfTheNetwork) answer(
 		}
 		run.wordPartitionsInTheRun[wordPartition] = struct{}{}
 		settledAsk := wordpartitionasks.SettledAsk{Ask: ask}
-		for _, replica := range ask.ReplicasInOrder {
+		for _, holder := range ask.HoldersInOrder {
 			answer, answered := network.answerOfTheReplica(
-				ctx, replicaAsk{Ask: ask, Peer: replica}, run.settledAsksRead,
+				ctx, replicaAsk{Ask: ask, Peer: holder}, run.settledAsksRead,
 			)
 			if !answered {
 				continue

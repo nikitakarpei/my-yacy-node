@@ -908,15 +908,15 @@ func asksForTheWord(
 	partition uint,
 	addresses ...string,
 ) []wordpartitionasks.Ask {
-	replicas := make([]peerdirectory.AskablePeer, 0, len(addresses))
+	holders := make([]peerdirectory.AskablePeer, 0, len(addresses))
 	for _, address := range addresses {
-		replicas = append(replicas, peerAt(address))
+		holders = append(holders, peerAt(address))
 	}
 
 	return []wordpartitionasks.Ask{{
-		Word:            yacymodel.WordHash(word),
-		Partition:       partition,
-		ReplicasInOrder: replicas,
+		Word:           yacymodel.WordHash(word),
+		Partition:      partition,
+		HoldersInOrder: holders,
 	}}
 }
 

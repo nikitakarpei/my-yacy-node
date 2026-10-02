@@ -22,7 +22,7 @@ func TestTheAskToTheReplicaCarriesTheWordPartitionAskAndTheWants(t *testing.T) {
 	ask := wordpartitionasks.Ask{
 		Word:             yacymodel.WordHash("berlin"),
 		Partition:        3,
-		ReplicasInOrder:  []peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
+		HoldersInOrder:   []peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 		ExcludedWords:    []yacymodel.Hash{yacymodel.WordHash("rain")},
 		Language:         "de",
 		DocumentsToMatch: []yacymodel.URLHash{documentAt(t, "https://a.example/")},
@@ -156,8 +156,8 @@ func replicaCallsOf(peers *peersOfTheTests) yacysearch.ReplicaCalls {
 
 func askForBerlin() wordpartitionasks.Ask {
 	return wordpartitionasks.Ask{
-		Word:            yacymodel.WordHash("berlin"),
-		ReplicasInOrder: []peerdirectory.AskablePeer{peerAt("first")},
+		Word:           yacymodel.WordHash("berlin"),
+		HoldersInOrder: []peerdirectory.AskablePeer{peerAt("first")},
 	}
 }
 

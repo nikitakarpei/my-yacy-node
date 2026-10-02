@@ -1,4 +1,4 @@
-// Package yacysearch puts the ask of a word partition to one replica through
+// Package yacysearch puts the ask of a word partition to one holder through
 // the YaCy search endpoint.
 package yacysearch
 
