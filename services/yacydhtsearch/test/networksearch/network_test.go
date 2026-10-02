@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"sync"
 	"testing"
+	"testing/synctest"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
@@ -1219,4 +1220,110 @@ type urlMetadataAskCeilingsAtTheMost int
 
 func (mostDocuments urlMetadataAskCeilingsAtTheMost) CeilingOf(context.Context, string) int {
 	return int(mostDocuments)
+}
+
+type spreadEndedByTheTest struct {
+	findingsAsTheyGrow chan queryfindings.Findings
+}
+
+func (s spreadEndedByTheTest) SpreadOverPeers(
+	_ context.Context,
+	_ searchquery.Query,
+	_ peerchoice.ChosenPeersPerQueryWord,
+) <-chan queryfindings.Findings {
+	return s.findingsAsTheyGrow
+}
+
+type readAheadHeldByTheTest struct {
+	readAheadEntered       chan struct{}
+	readAheadReleased      chan struct{}
+	mutex                  sync.Mutex
+	readAheadReturned      bool
+	finished               bool
+	finishedAfterReadAhead bool
+}
+
+func (r *readAheadHeldByTheTest) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+	return r
+}
+
+func (r *readAheadHeldByTheTest) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {
+	close(r.readAheadEntered)
+	<-r.readAheadReleased
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.readAheadReturned = true
+}
+
+func (*readAheadHeldByTheTest) Read(
+	_ context.Context,
+	_ []pagereading.PageToRead,
+) pagereading.PagesRead {
+	return pagereading.PagesRead{}
+}
+
+func (r *readAheadHeldByTheTest) Finish(_ context.Context) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.finished = true
+	r.finishedAfterReadAhead = r.readAheadReturned
+}
+
+func (r *readAheadHeldByTheTest) wasFinished() (bool, bool) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	return r.finished, r.finishedAfterReadAhead
+}
+
+func TestTheSearchFinishesThePageReadingRunOnlyAfterTheReadAheadReturns(t *testing.T) {
+	t.Parallel()
+
+	synctest.Test(t, func(t *testing.T) {
+		spread := spreadEndedByTheTest{findingsAsTheyGrow: make(chan queryfindings.Findings)}
+		pageReadingRun := &readAheadHeldByTheTest{
+			readAheadEntered:  make(chan struct{}),
+			readAheadReleased: make(chan struct{}),
+		}
+		network := networksearch.New(
+			directoryAnsweringAt(t, "http://10.0.0.1:8090"),
+			everyAskablePeer{},
+			spread,
+			pageReadingRun,
+			orderingInTheFoundOrder{},
+			queryBudget,
+			pageReadBudget,
+			pagesReadPerQuery,
+			pagesReadPerSite,
+			recordCeiling,
+			compoundWordsCeiling,
+			networksearch.NetworkSearchObservers{&recordedQuery{}},
+		)
+		searched := make(chan struct{})
+		go func() {
+			network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
+			close(searched)
+		}()
+		spread.findingsAsTheyGrow <- queryfindings.Findings{
+			FoundDocuments: []queryfindings.FoundDocument{
+				{Hash: documentOf(t, earlyAddress), Address: earlyAddress},
+			},
+		}
+		<-pageReadingRun.readAheadEntered
+		close(spread.findingsAsTheyGrow)
+		synctest.Wait()
+
+		if finished, _ := pageReadingRun.wasFinished(); finished {
+			t.Error("the run finished while the read ahead was still running")
+		}
+		close(pageReadingRun.readAheadReleased)
+		<-searched
+		if finished, finishedAfterReadAhead := pageReadingRun.wasFinished(); !finished ||
+			!finishedAfterReadAhead {
+			t.Fatalf(
+				"finished = %v, finished after the read ahead = %v, want both",
+				finished, finishedAfterReadAhead,
+			)
+		}
+	})
 }

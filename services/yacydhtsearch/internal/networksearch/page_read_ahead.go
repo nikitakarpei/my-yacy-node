@@ -12,6 +12,7 @@ type pageReadAhead struct {
 	pagesToReadFrom func(queryfindings.Findings) []pagereading.PageToRead
 	pageReadingRun  PageReadingRun
 	newerFindings   chan struct{}
+	readAheadsEnded chan struct{}
 	mutex           sync.Mutex
 	findings        queryfindings.Findings
 }
@@ -24,6 +25,7 @@ func newPageReadAhead(
 		pagesToReadFrom: pagesToReadFrom,
 		pageReadingRun:  pageReadingRun,
 		newerFindings:   make(chan struct{}, 1),
+		readAheadsEnded: make(chan struct{}),
 	}
 }
 
@@ -32,6 +34,7 @@ func (r *pageReadAhead) start(ctx context.Context) {
 }
 
 func (r *pageReadAhead) readAheadAsFindingsGrow(ctx context.Context) {
+	defer close(r.readAheadsEnded)
 	for range r.newerFindings {
 		r.readAheadOf(ctx, r.latestFindings())
 	}
@@ -60,4 +63,5 @@ func (r *pageReadAhead) findingsGrew(findings queryfindings.Findings) {
 
 func (r *pageReadAhead) stop() {
 	close(r.newerFindings)
+	<-r.readAheadsEnded
 }
