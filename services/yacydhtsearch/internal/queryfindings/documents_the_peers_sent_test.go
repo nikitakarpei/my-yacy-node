@@ -169,3 +169,18 @@ func TestMetadataKeptAmongTheChosenDocumentsLeavesTheDocumentsTheyCameFromAlone(
 		)
 	}
 }
+
+func TestDocumentsThePeersSentContainOnlyTheDocumentsAPeerSent(t *testing.T) {
+	t.Parallel()
+
+	documents := queryfindings.EmptyDocumentsThePeersSent()
+	documents.KeepMetadataThePeerSent(
+		metadataOfDocumentAt(t, "https://sent.example/", "Sent"),
+		yacymodel.WordHash("a peer"),
+	)
+
+	if !documents.Contains(documentOf(t, "https://sent.example/")) ||
+		documents.Contains(documentOf(t, "https://unsent.example/")) {
+		t.Fatal("the documents contain the wrong documents, want only the document a peer sent")
+	}
+}

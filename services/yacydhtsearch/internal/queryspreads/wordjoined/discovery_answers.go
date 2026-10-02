@@ -174,9 +174,12 @@ func (answers *discoveryAnswers) foundDocuments() []queryfindings.FoundDocument 
 }
 
 func (answers *discoveryAnswers) joinedDocumentsWithoutMetadata() distinctDocuments {
-	documentsWithoutMetadata := answers.joinedDocuments()
-	for _, foundDocument := range answers.foundDocuments() {
-		delete(documentsWithoutMetadata, foundDocument.Hash)
+	documentsWithoutMetadata := distinctDocuments{}
+	for document := range answers.joinedDocuments() {
+		if answers.documentsThePeersSent.Contains(document) {
+			continue
+		}
+		documentsWithoutMetadata.add(document)
 	}
 
 	return documentsWithoutMetadata

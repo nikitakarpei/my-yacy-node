@@ -50,6 +50,12 @@ func (documents *DocumentsThePeersSent) KeepDocumentThePeerMatched(
 	)
 }
 
+func (documents *DocumentsThePeersSent) Contains(document yacymodel.URLHash) bool {
+	_, sent := documents.metadataReplicasPerDocument[document]
+
+	return sent
+}
+
 func (documents *DocumentsThePeersSent) Among(
 	chosenDocuments map[yacymodel.URLHash]struct{},
 ) *DocumentsThePeersSent {
