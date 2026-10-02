@@ -869,7 +869,7 @@
     },
     {
       "id": 52,
-      "title": "Share of the query words with a sample",
+      "title": "Share of the query words counted from the replicas",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -899,16 +899,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "mean"
         }
       ],
-      "description": "A word has a sample when an answer in the random partition lists all the documents it counts."
+      "description": "A word is counted when an answer in the random partition lists all the documents it counts."
     },
     {
       "id": 58,
-      "title": "Share of word-by-word queries, by how the leading word was chosen",
-      "description": "Without a sample, every word is asked in all partitions.",
+      "title": "Share of word-by-word queries, by where the document amounts came from",
+      "description": "With none, every word is asked in all partitions.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -937,8 +937,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (leading_query_word_choice) (clamp_min(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} offset $__interval), 0)) / scalar(sum(clamp_min(yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spreads_total{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{leading_query_word_choice}}"
+          "expr": "sum by (source) (clamp_min(yacydhtsearch_word_joined_spread_document_amount_sources_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_document_amount_sources_total{instance=~\"$service_instance\"} offset $__interval), 0)) / scalar(sum(clamp_min(yacydhtsearch_word_joined_spread_document_amount_sources_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_document_amount_sources_total{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{source}}"
         }
       ]
     },
@@ -958,7 +958,7 @@
     {
       "id": 59,
       "title": "Partitions, by the documents to match there",
-      "description": "The documents to match are the documents the leading word and the compound words that contain it list in a partition. The other query words are asked only about them there, unless there are more than YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING. Only queries with a sample count.",
+      "description": "The documents to match are the documents the leading word and the compound words that contain it list in a partition. The other query words are asked only about them there, unless there are more than YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING. Only queries with a leading word count.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

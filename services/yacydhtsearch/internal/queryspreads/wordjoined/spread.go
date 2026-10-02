@@ -6,71 +6,50 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordholdings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordroles"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type ReplicaAsks interface {
-	Start(ctx context.Context) wordpartitionasks.Run
-}
-
-type PeerAsks interface {
-	AskForURLMetadata(
-		ctx context.Context,
-		asks []peerasks.URLMetadataAsk,
-	) <-chan peerasks.URLMetadataAskOutcome
-}
-
-type QueryWordDocumentAmounts interface {
-	DocumentAmountsOf(ctx context.Context, words []yacymodel.Hash) map[yacymodel.Hash]int
+type RememberedDocumentAmounts interface {
 	Remember(ctx context.Context, documentAmounts map[yacymodel.Hash]int)
 }
 
-type URLMetadataAskCeilings interface {
-	CeilingOf(ctx context.Context, address string) int
-}
-
 type Spread struct {
-	replicaAsks                 ReplicaAsks
-	peerAsks                    PeerAsks
-	queryWordDocumentAmounts    QueryWordDocumentAmounts
-	urlMetadataLookupCutoff     URLMetadataLookupCutoff
-	partitionToSample           func(amountOfPartitions uint) uint
-	urlMetadataAskCeilings      URLMetadataAskCeilings
-	documentsToMatchCeiling     int
-	partitions                  yacymodel.DHTRingPartitions
-	amountOfPeersHoldingOneWord int
-	observer                    WordJoinedSpreadObserver
+	wordPartitionAsks        wordasks.WordPartitionAsks
+	queryWordDocumentAmounts RememberedDocumentAmounts
+	leadingWord              leadingword.Finder
+	matchingWordAsker        matchingwords.Asker
+	urlMetadataAsker         urlmetadataasks.Asker
+	partitions               yacymodel.DHTRingPartitions
+	observer                 WordJoinedSpreadObserver
 }
 
-//nolint:revive // argument-limit: the spread takes its asks, word amounts, lookup cutoff, partition to sample, ask ceilings, documents to match ceiling, ring and observer
+//nolint:revive // argument-limit: the spread takes its word partition asks, word amounts, leading word, matching word asker, URL metadata asker, ring and observer
 func New(
-	replicaAsks ReplicaAsks,
-	peerAsks PeerAsks,
-	queryWordDocumentAmounts QueryWordDocumentAmounts,
-	urlMetadataLookupCutoff URLMetadataLookupCutoff,
-	partitionToSample func(amountOfPartitions uint) uint,
-	urlMetadataAskCeilings URLMetadataAskCeilings,
-	documentsToMatchCeiling int,
+	wordPartitionAsks wordasks.WordPartitionAsks,
+	queryWordDocumentAmounts RememberedDocumentAmounts,
+	leadingWord leadingword.Finder,
+	matchingWordAsker matchingwords.Asker,
+	urlMetadataAsker urlmetadataasks.Asker,
 	partitions yacymodel.DHTRingPartitions,
-	amountOfPeersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
-		replicaAsks:                 replicaAsks,
-		peerAsks:                    peerAsks,
-		queryWordDocumentAmounts:    queryWordDocumentAmounts,
-		urlMetadataLookupCutoff:     urlMetadataLookupCutoff,
-		partitionToSample:           partitionToSample,
-		urlMetadataAskCeilings:      urlMetadataAskCeilings,
-		documentsToMatchCeiling:     documentsToMatchCeiling,
-		partitions:                  partitions,
-		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
-		observer:                    observer,
+		wordPartitionAsks:        wordPartitionAsks,
+		queryWordDocumentAmounts: queryWordDocumentAmounts,
+		leadingWord:              leadingWord,
+		matchingWordAsker:        matchingWordAsker,
+		urlMetadataAsker:         urlMetadataAsker,
+		partitions:               partitions,
+		observer:                 observer,
 	}
 }
 
@@ -81,91 +60,53 @@ func (spread Spread) SpreadOverPeers(
 ) queryfindings.Findings {
 	startedAt := time.Now()
 
-	discoveryRound := spread.askToDiscover(ctx, query, chosenPeersPerQueryWord)
-	spread.queryWordDocumentAmounts.Remember(
-		ctx,
-		discoveryRound.amountOfDocumentsHeldPerQueryWord(),
+	wordAsksContext, endWordAsks := withinHalfOfTheTimeLeft(ctx)
+	defer endWordAsks()
+	run := wordasks.Start(
+		wordAsksContext,
+		spread.wordPartitionAsks,
+		query,
+		chosenPeersPerQueryWord,
+		spread.partitions,
 	)
-	joinedDocuments := discoveryRound.joinedDocuments()
-	urlMetadataLookupRound := spread.askForURLMetadata(ctx, discoveryRound, joinedDocuments)
+	lead := spread.leadingWord.FindFor(ctx, query, run)
+	roles := wordroles.From(lead, query)
+	run.AskEveryPartitionFor(roles.ListingWords)
+	matchingWordAsks := spread.matchingWordAsker.AskFor(roles, lead, run)
+	wordAnswers := run.Finish()
+
+	holdings := wordholdings.OfEachQueryWord(query, wordAnswers, spread.partitions)
+	spread.queryWordDocumentAmounts.Remember(
+		ctx, holdings.AmountOfDocumentsInAPartitionPerQueryWord(),
+	)
+	joinedDocuments := holdings.DocumentsOfEveryWord()
+	documentsWithoutMetadata := wordAnswers.DocumentsWithoutMetadataAmong(joinedDocuments)
+	holders := run.DocumentHolders()
+	urlMetadata := spread.urlMetadataAsker.AskFor(
+		ctx,
+		holders.MostHeldFirst(documentsWithoutMetadata),
+		wordAnswers.ReplicaAnswers(),
+	)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
-		discoveryRound,
+		wordAnswers,
+		holdings,
+		lead,
+		matchingWordAsks,
 		joinedDocuments,
-		urlMetadataLookupRound,
+		documentsWithoutMetadata,
+		urlMetadata,
 		time.Since(startedAt),
 	))
 
-	return findingsFrom(
-		query, discoveryRound, joinedDocuments, urlMetadataLookupRound,
-	)
+	return findingsFrom(query, wordAnswers, holdings, joinedDocuments, urlMetadata)
 }
 
-func (spread Spread) askToDiscover(
-	ctx context.Context,
-	query searchquery.Query,
-	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) discoveryRound {
-	sampledPartition := spread.partitionToSample(uint(spread.partitions))
-	rememberedDocumentAmounts := spread.queryWordDocumentAmounts.DocumentAmountsOf(
-		ctx,
-		query.WordHashes(),
-	)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheDiscovery)
-	defer endRound()
-
-	return discoveryOver(
-		startAskRun(roundContext, spread.replicaAsks),
-		discoveryAsksFor(query, chosenPeersPerQueryWord),
-		query,
-		rememberedDocumentAmounts,
-		spread.partitions,
-		spread.documentsToMatchCeiling,
-	).askTheQueryWords(sampledPartition)
-}
-
-const (
-	roundsLeftAtTheDiscovery         = 2
-	roundsLeftAtTheURLMetadataLookup = 1
-)
-
-func contextOfRound(ctx context.Context, roundsLeft int) (context.Context, context.CancelFunc) {
+func withinHalfOfTheTimeLeft(ctx context.Context) (context.Context, context.CancelFunc) {
 	deadline, bounded := ctx.Deadline()
 	if !bounded {
 		return ctx, func() {}
 	}
 
-	return context.WithTimeout(ctx, time.Until(deadline)/time.Duration(roundsLeft))
-}
-
-func (spread Spread) askForURLMetadata(
-	ctx context.Context,
-	discoveryRound discoveryRound,
-	joinedDocuments distinctDocuments,
-) urlMetadataLookupRound {
-	documentsWithoutMetadata := documentsWithoutMetadataAmong(
-		joinedDocuments, discoveryRound.settledAsks.answers(),
-	)
-	asks := urlMetadataAsksFor(
-		ctx,
-		discoveryRound.holdersPerDocument.mostHeldFirst(documentsWithoutMetadata),
-		discoveryRound.settledAsks.answers(),
-		spread.urlMetadataAskCeilings,
-		spread.amountOfPeersHoldingOneWord,
-	)
-	roundContext, endRound := contextOfRound(ctx, roundsLeftAtTheURLMetadataLookup)
-	defer endRound()
-	lookupContext, endLookup := context.WithCancel(roundContext)
-	lookupInFlight := urlMetadataLookupInFlightOf(asks)
-	endedLookup := lookupInFlight.settleUntilEnded(
-		spread.peerAsks.AskForURLMetadata(lookupContext, asks),
-		spread.urlMetadataLookupCutoff,
-	)
-	endLookup()
-
-	return urlMetadataLookupRound{
-		documentsWithoutMetadata: documentsWithoutMetadata,
-		asks:                     asks,
-		endedURLMetadataLookup:   endedLookup,
-	}
+	return context.WithTimeout(ctx, time.Until(deadline)/2)
 }

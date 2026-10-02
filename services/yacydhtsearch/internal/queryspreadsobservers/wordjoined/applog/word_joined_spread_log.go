@@ -7,6 +7,9 @@ import (
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordasks"
 )
 
 const msgWordJoinedSpreadPerformed = "word joined spread performed"
@@ -22,70 +25,72 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 		slog.LevelDebug,
 		msgWordJoinedSpreadPerformed,
 		slices.Concat(
-			attributesOfDiscoveryRound(spread.DiscoveryRound),
-			[]slog.Attr{slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments)},
-			attributesOfURLMetadataLookupRound(spread.URLMetadataLookupRound),
+			attributesOfQueryWords(spread),
+			attributesOfWordAsks(spread.WordAsks),
+			[]slog.Attr{
+				slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments),
+				slog.Int(
+					"amountOfJoinedDocumentsWithMetadata",
+					spread.AmountOfJoinedDocumentsWithMetadata,
+				),
+			},
+			attributesOfURLMetadataAsks(spread.URLMetadataAsks),
 			[]slog.Attr{slog.Duration("timeSpent", spread.TimeSpent)},
 		)...,
 	)
 }
 
-func attributesOfDiscoveryRound(
-	round wordjoined.PerformedDiscoveryRound,
-) []slog.Attr {
+func attributesOfQueryWords(spread wordjoined.PerformedWordJoinedSpread) []slog.Attr {
 	return []slog.Attr{
-		slog.Int("amountOfQueryWords", round.AmountOfQueryWords),
-		slog.Int("amountOfCompoundWords", round.AmountOfCompoundWords),
-		slog.Int("amountOfQueryWordsHeldByNoPeer", round.AmountOfQueryWordsHeldByNoPeer),
-		slog.Uint64("sampledPartition", uint64(round.SampledPartition)),
-		slog.Int("amountOfQueryWordsWithASample", round.AmountOfQueryWordsWithASample),
-		slog.Int("amountOfPeersWithANonEmptyAbstract", round.AmountOfPeersWithANonEmptyAbstract),
-		slog.String("leadingQueryWordChoice", string(round.LeadingQueryWordChoice)),
+		slog.Int("amountOfQueryWords", spread.AmountOfQueryWords),
+		slog.Int("amountOfCompoundWords", spread.AmountOfCompoundWords),
+		slog.Int("amountOfQueryWordsHeldByNoPeer", spread.AmountOfQueryWordsHeldByNoPeer),
 		slog.Int(
 			"amountOfDocumentsOfTheLeadingQueryWord",
-			round.AmountOfDocumentsOfTheLeadingQueryWord,
+			spread.AmountOfDocumentsOfTheLeadingWord,
 		),
 		slog.Any(
 			"amountOfPartitionsPerOtherWordAsks",
-			amountOfPartitionsPerOtherWordAsksFrom(round.OtherWordAsksPerPartition),
+			amountOfPartitionsPerKindIn(spread.MatchingWordAsksPerPartition),
+		),
+	}
+}
+
+func amountOfPartitionsPerKindIn(asksPerPartition matchingwords.AsksPerPartition) map[string]int {
+	amountOfPartitionsPerKind := map[string]int{}
+	for _, kind := range asksPerPartition {
+		amountOfPartitionsPerKind[string(kind)]++
+	}
+
+	return amountOfPartitionsPerKind
+}
+
+func attributesOfWordAsks(wordAsks wordasks.Performed) []slog.Attr {
+	return []slog.Attr{
+		slog.Int(
+			"amountOfPeersWithANonEmptyAbstract",
+			wordAsks.AmountOfPeersWithANonEmptyAbstract,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsAcrossAnswers",
-			round.AmountOfMatchedDocumentsAcrossAnswers,
+			wordAsks.AmountOfMatchedDocumentsAcrossAnswers,
 		),
 		slog.Int(
 			"amountOfMatchedDocumentsWithAPosting",
-			round.AmountOfMatchedDocumentsWithAPosting,
+			wordAsks.AmountOfMatchedDocumentsWithAPosting,
 		),
-		slog.Any("amountOfDocumentsHeldInEachAnswer", round.AmountOfDocumentsHeldInEachAnswer),
+		slog.Any("amountOfDocumentsHeldInEachAnswer", wordAsks.AmountOfDocumentsHeldInEachAnswer),
 	}
 }
 
-func amountOfPartitionsPerOtherWordAsksFrom(
-	otherWordAsksPerPartition map[uint]wordjoined.OtherWordAsks,
-) map[string]int {
-	amountOfPartitionsPerOtherWordAsks := map[string]int{}
-	for _, otherWordAsks := range otherWordAsksPerPartition {
-		amountOfPartitionsPerOtherWordAsks[string(otherWordAsks)]++
-	}
-
-	return amountOfPartitionsPerOtherWordAsks
-}
-
-func attributesOfURLMetadataLookupRound(
-	round wordjoined.PerformedURLMetadataLookupRound,
-) []slog.Attr {
+func attributesOfURLMetadataAsks(urlMetadataAsks urlmetadataasks.Performed) []slog.Attr {
 	return []slog.Attr{
-		slog.Int(
-			"amountOfJoinedDocumentsWithMetadata",
-			round.AmountOfJoinedDocumentsWithMetadata,
-		),
-		slog.Int("amountOfLookedUpDocuments", round.AmountOfLookedUpDocuments),
+		slog.Int("amountOfLookedUpDocuments", urlMetadataAsks.AmountOfAskedDocuments),
 		slog.Int(
 			"amountOfLookedUpDocumentsWithMetadata",
-			round.AmountOfLookedUpDocumentsWithMetadata,
+			urlMetadataAsks.AmountOfAskedDocumentsWithMetadata,
 		),
-		slog.String("urlMetadataLookupEndReason", string(round.EndReason)),
-		slog.Int("amountOfDocumentsCutOffDuringLookup", round.AmountOfDocumentsCutOffDuringLookup),
+		slog.String("urlMetadataLookupEndReason", string(urlMetadataAsks.EndReason)),
+		slog.Int("amountOfDocumentsCutOffDuringLookup", urlMetadataAsks.AmountOfDocumentsCutOff),
 	}
 }

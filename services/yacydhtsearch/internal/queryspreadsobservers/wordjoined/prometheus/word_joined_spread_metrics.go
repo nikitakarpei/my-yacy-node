@@ -12,18 +12,19 @@ import (
 )
 
 const (
-	amountOfRatioBuckets        = 11
-	ratioBucketWidth            = 0.1
-	labelJoin                   = "join"
-	joinFoundNoDocument         = "no document"
-	joinFoundDocuments          = "documents"
-	labelLeadingQueryWordChoice = "leading_query_word_choice"
+	amountOfRatioBuckets = 11
+	ratioBucketWidth     = 0.1
+	labelJoin            = "join"
+	joinFoundNoDocument  = "no document"
+	joinFoundDocuments   = "documents"
 )
 
 type WordJoinedSpreadMetrics struct {
-	joinsPerLeadingQueryWordChoice  map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins
-	discoveryRound                  discoveryRoundMetrics
-	urlMetadataLookupRound          urlMetadataLookupRoundMetrics
+	joinsThatFoundDocuments         prometheusclient.Counter
+	joinsThatFoundNoDocument        prometheusclient.Counter
+	queryWords                      queryWordMetrics
+	matchingWordAsks                matchingWordAskMetrics
+	urlMetadataAsks                 urlMetadataAskMetrics
 	wordJoinedSpreadDurationSeconds prometheusclient.Histogram
 }
 
@@ -33,25 +34,14 @@ func New(
 ) *WordJoinedSpreadMetrics {
 	wordJoinedSpreads := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spreads_total",
-		Help: "Word joined spreads, by whether the join found a document and by which " +
-			"query word led the join.",
-	}, []string{labelJoin, labelLeadingQueryWordChoice})
-	//exhaustive:enforce
-	joinsPerLeadingQueryWordChoice := map[wordjoined.LeadingQueryWordChoice]leadingQueryWordChoiceJoins{
-		wordjoined.RarestQueryWordWithASample: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestQueryWordWithASample,
-		),
-		wordjoined.RarestQueryWordWithoutASample: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestQueryWordWithoutASample,
-		),
-		wordjoined.RarestQueryWordRemembered: leadingQueryWordChoiceJoinsFrom(
-			wordJoinedSpreads, wordjoined.RarestQueryWordRemembered,
-		),
-	}
+		Help: "Word joined spreads, by whether the join found a document.",
+	}, []string{labelJoin})
 	metrics := &WordJoinedSpreadMetrics{
-		joinsPerLeadingQueryWordChoice: joinsPerLeadingQueryWordChoice,
-		discoveryRound:                 discoveryRoundMetricsRegisteredIn(registry),
-		urlMetadataLookupRound:         urlMetadataLookupRoundMetricsRegisteredIn(registry),
+		joinsThatFoundDocuments:  wordJoinedSpreads.WithLabelValues(joinFoundDocuments),
+		joinsThatFoundNoDocument: wordJoinedSpreads.WithLabelValues(joinFoundNoDocument),
+		queryWords:               queryWordMetricsRegisteredIn(registry),
+		matchingWordAsks:         matchingWordAskMetricsRegisteredIn(registry),
+		urlMetadataAsks:          urlMetadataAskMetricsRegisteredIn(registry),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
 				Name:    "yacydhtsearch_word_joined_spread_duration_seconds",
@@ -63,25 +53,6 @@ func New(
 	registry.MustRegister(wordJoinedSpreads, metrics.wordJoinedSpreadDurationSeconds)
 
 	return metrics
-}
-
-type leadingQueryWordChoiceJoins struct {
-	joinsThatFoundDocuments  prometheusclient.Counter
-	joinsThatFoundNoDocument prometheusclient.Counter
-}
-
-func leadingQueryWordChoiceJoinsFrom(
-	wordJoinedSpreads *prometheusclient.CounterVec,
-	leadingQueryWordChoice wordjoined.LeadingQueryWordChoice,
-) leadingQueryWordChoiceJoins {
-	return leadingQueryWordChoiceJoins{
-		joinsThatFoundDocuments: wordJoinedSpreads.WithLabelValues(
-			joinFoundDocuments, string(leadingQueryWordChoice),
-		),
-		joinsThatFoundNoDocument: wordJoinedSpreads.WithLabelValues(
-			joinFoundNoDocument, string(leadingQueryWordChoice),
-		),
-	}
 }
 
 func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
@@ -96,31 +67,20 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	m.discoveryRound.observeDiscoveryRound(
-		spread.DiscoveryRound,
-	)
-	m.urlMetadataLookupRound.observeURLMetadataLookupRound(
-		spread.URLMetadataLookupRound,
-		spread.AmountOfJoinedDocuments,
-	)
-	m.countJoin(
-		spread.DiscoveryRound.LeadingQueryWordChoice,
-		spread.AmountOfJoinedDocuments,
-	)
+	m.matchingWordAsks.observeMatchingWordAsks(spread.MatchingWordAsksPerPartition)
+	m.queryWords.observeQueryWords(spread)
+	m.urlMetadataAsks.observeURLMetadataAsks(spread)
+	m.countJoin(spread.AmountOfJoinedDocuments)
 	m.observeWordJoinedSpreadDuration(spread.TimeSpent)
 }
 
-func (m *WordJoinedSpreadMetrics) countJoin(
-	leadingQueryWordChoice wordjoined.LeadingQueryWordChoice,
-	amountOfJoinedDocuments int,
-) {
-	joinsOfTheLeadingQueryWordChoice := m.joinsPerLeadingQueryWordChoice[leadingQueryWordChoice]
+func (m *WordJoinedSpreadMetrics) countJoin(amountOfJoinedDocuments int) {
 	if amountOfJoinedDocuments == 0 {
-		joinsOfTheLeadingQueryWordChoice.joinsThatFoundNoDocument.Inc()
+		m.joinsThatFoundNoDocument.Inc()
 
 		return
 	}
-	joinsOfTheLeadingQueryWordChoice.joinsThatFoundDocuments.Inc()
+	m.joinsThatFoundDocuments.Inc()
 }
 
 func (m *WordJoinedSpreadMetrics) observeWordJoinedSpreadDuration(timeSpent time.Duration) {
