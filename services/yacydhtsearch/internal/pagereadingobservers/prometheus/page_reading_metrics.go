@@ -19,7 +19,7 @@ const (
 	labelActivity               = "activity"
 	labelSpamVerdict            = "spam_verdict"
 	labelRead                   = "read"
-	readAhead                   = "read ahead"
+	readAhead                   = "read_ahead"
 	readWanted                  = "read"
 	activityFetching            = "fetching"
 	activityReading             = "reading"

@@ -98,7 +98,7 @@ func TestEveryOutcomeOfAPageIsPublishedBeforeTheFirstPageReading(t *testing.T) {
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="cut off"} 0`,
 		"yacydhtsearch_page_reading_pages_unwanted_total 0",
-		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read ahead"} 0`,
+		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read_ahead"} 0`,
 		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="spam"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="clean"} 0`,
@@ -137,7 +137,7 @@ func TestPagesAskedAfterTheFinishArePublishedByRead(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read ahead"} 3`,
+		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read_ahead"} 3`,
 		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read"} 2`,
 	} {
 		if !strings.Contains(body, published) {
