@@ -170,11 +170,16 @@ func (clockThatNeverFires) After(_ time.Duration, _ func()) func() {
 }
 
 type clockTheTestFires struct {
-	graces chan func()
+	budgets chan func()
+	graces  chan func()
 }
 
-func (clock clockTheTestFires) After(_ time.Duration, expire func()) func() {
-	clock.graces <- expire
+func (clock clockTheTestFires) After(timeout time.Duration, expire func()) func() {
+	if timeout == pageReadBudget {
+		clock.budgets <- expire
+	} else {
+		clock.graces <- expire
+	}
 
 	return func() {}
 }
@@ -734,26 +739,19 @@ func TestAPageAtAnAddressThatIsNoWebAddressIsUnreachable(t *testing.T) {
 func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) {
 	t.Parallel()
 
-	formatDerivations, err := pageformats.New()
-	if err != nil {
-		t.Fatalf("pageformats.New(): %v", err)
-	}
 	observer := &recordedPageReading{}
-	reading := pagereading.New(
-		redirectfollowingfetch.New(pagesThatOutlastTheBudget{}, maxRedirectHops),
-		formatDerivations,
-		time.Millisecond,
-		cutoffNever,
-		clockThatNeverFires{},
-		snippetLengthCeiling,
-		pagereading.PageReadingObservers{observer},
-	)
+	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	reading := readingCutOffBy(t, pagesThatOutlastTheBudget{}, observer, cutoffNever, clock)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.StartReading(t.Context(), pagesToRead)
 
-	pageContentsPerDocument := pagesReadFrom(
-		t, reading,
-		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
-		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).PageContentsPerDocument
+	pagesRead := make(chan pagereading.PagesRead, 1)
+	go func() { pagesRead <- run.PagesReadAmong(t.Context(), pagesToRead) }()
+	expireTheBudget := <-clock.budgets
+	expireTheBudget()
+	pageContentsPerDocument := (<-pagesRead).PageContentsPerDocument
+	run.Finish(t.Context())
 
 	if len(pageContentsPerDocument) != 0 {
 		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
@@ -879,7 +877,7 @@ func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
-	clock := clockTheTestFires{graces: make(chan func(), 1)}
+	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
 	reading := readingCutOffBy(
 		t,
 		pagesThatOutlastTheBudgetAtTheArticle(t),
@@ -907,19 +905,32 @@ func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 	}
 }
 
-func TestAPageStillBeingReadIsOutOfBudgetWhenTheCutoffIsOff(t *testing.T) {
+func TestAPageStillBeingReadWhenTheBudgetEndsIsOutOfBudget(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
-	reading := readingOfThePages(t, pagesThatOutlastTheBudgetAtTheArticle(t), observer)
-
-	pagesReadFrom(
-		t, reading, []yacymodel.Hash{yacymodel.WordHash("berlin")}, pagesOfThreeDocuments(t),
+	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	reading := readingCutOffBy(
+		t,
+		pagesThatOutlastTheBudgetAtTheArticle(t),
+		observer,
+		pagereading.PageReadCutoff{PercentOfPages: 50},
+		clock,
 	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.StartReading(t.Context(), pagesOfThreeDocuments(t))
+
+	pagesRead := make(chan pagereading.PagesRead, 1)
+	go func() { pagesRead <- run.PagesReadAmong(t.Context(), pagesOfThreeDocuments(t)) }()
+	<-clock.graces
+	expireTheBudget := <-clock.budgets
+	expireTheBudget()
+	<-pagesRead
+	run.Finish(t.Context())
 
 	performed := observer.performed
 	if performed.AmountOfPagesRead != 2 || performed.AmountOfPagesOutOfBudget != 1 ||
-		performed.AmountOfPagesCutOff != 0 || performed.TimeSpent < pageReadBudget {
+		performed.AmountOfPagesCutOff != 0 {
 		t.Fatalf(
 			"PageReadingPerformed = %+v, want two pages read and the slow page out of budget",
 			performed,

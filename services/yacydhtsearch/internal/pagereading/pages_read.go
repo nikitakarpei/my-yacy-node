@@ -12,7 +12,7 @@ type PagesRead struct {
 	WithdrawnDocuments      map[yacymodel.URLHash]struct{}
 }
 
-func pagesReadFrom(pageReadResults []pageReadResult) PagesRead {
+func pagesReadFrom(pageReadResults pageReadResults) PagesRead {
 	pagesRead := PagesRead{
 		PageContentsPerDocument: make(
 			map[yacymodel.URLHash]pagecontents.PageContents, len(pageReadResults),

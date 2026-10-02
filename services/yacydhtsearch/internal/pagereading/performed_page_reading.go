@@ -25,7 +25,7 @@ type PerformedPageReading struct {
 }
 
 func performedPageReadingFrom(
-	pageReadResults []pageReadResult,
+	pageReadResults pageReadResults,
 	amountOfPagesUnwanted int,
 	timeSpent time.Duration,
 ) PerformedPageReading {

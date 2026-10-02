@@ -43,7 +43,7 @@ type Clock interface {
 
 type Reading struct {
 	pageReader pageReader
-	waiting    pageReadWaiting
+	deadlines  pageReadDeadlines
 	observer   PageReadingObserver
 }
 
@@ -63,11 +63,11 @@ func New(
 			formatDerivations:    formatDerivations,
 			snippetLengthCeiling: snippetLengthCeiling,
 		},
-		waiting:  pageReadWaiting{budget: pageReadBudget, cutoff: cutoff, clock: clock},
-		observer: observer,
+		deadlines: pageReadDeadlines{budget: pageReadBudget, cutoff: cutoff, clock: clock},
+		observer:  observer,
 	}
 }
 
 func (r Reading) Start(queryWords []yacymodel.Hash) *Run {
-	return newRun(r.pageReader, queryWords, r.waiting, r.observer)
+	return newRun(r.pageReader, queryWords, r.deadlines, r.observer)
 }

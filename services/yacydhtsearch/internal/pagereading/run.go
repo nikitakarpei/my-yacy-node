@@ -11,26 +11,26 @@ import (
 type Run struct {
 	pageReader               pageReader
 	queryWords               []yacymodel.Hash
-	waiting                  pageReadWaiting
+	deadlines                pageReadDeadlines
 	observer                 PageReadingObserver
 	mutex                    sync.Mutex
 	startedPages             map[yacymodel.URLHash]*startedPage
 	finished                 bool
 	pagesWanted              []PageToRead
-	pageReadResultsWaitedFor []pageReadResult
+	pageReadResultsWaitedFor pageReadResults
 	timeSpentWaiting         time.Duration
 }
 
 func newRun(
 	reader pageReader,
 	queryWords []yacymodel.Hash,
-	waiting pageReadWaiting,
+	deadlines pageReadDeadlines,
 	observer PageReadingObserver,
 ) *Run {
 	return &Run{
 		pageReader:   reader,
 		queryWords:   queryWords,
-		waiting:      waiting,
+		deadlines:    deadlines,
 		observer:     observer,
 		startedPages: map[yacymodel.URLHash]*startedPage{},
 	}
@@ -52,11 +52,9 @@ func (run *Run) StartReading(ctx context.Context, pagesToRead []PageToRead) {
 	}
 }
 
-func (run *Run) PagesReadAmong(ctx context.Context, pagesWanted []PageToRead) PagesRead {
+func (run *Run) PagesReadAmong(_ context.Context, pagesWanted []PageToRead) PagesRead {
 	startedAt := time.Now()
-	pageReadResults := run.waiting.pageReadResultsFrom(
-		ctx, run.pageReadResultsAmong(pagesWanted), pagesWanted,
-	)
+	pageReadResults := run.pageReadResultsFrom(run.pageReadResultsAmong(pagesWanted), pagesWanted)
 	run.recordWait(pagesWanted, pageReadResults, time.Since(startedAt))
 
 	return pagesReadFrom(pageReadResults)
@@ -82,9 +80,31 @@ func (run *Run) pageReadResultsAmong(pagesWanted []PageToRead) <-chan pageReadRe
 	return pageReadResults
 }
 
+func (run *Run) pageReadResultsFrom(
+	settlingResults <-chan pageReadResult,
+	pagesWanted []PageToRead,
+) pageReadResults {
+	deadline := run.deadlines.deadlineFor(len(pagesWanted))
+	defer deadline.stop()
+	pageReadResults := make(pageReadResults, 0, len(pagesWanted))
+	for len(pageReadResults) < len(pagesWanted) {
+		select {
+		case pageReadResult := <-settlingResults:
+			pageReadResults = append(pageReadResults, pageReadResult)
+			deadline.pageSettled()
+		case <-deadline.graceEnded():
+			return pageReadResults.withUnsettledPagesCutOff(pagesWanted)
+		case <-deadline.budgetEnded():
+			return pageReadResults.withUnsettledPagesOutOfBudget(pagesWanted)
+		}
+	}
+
+	return pageReadResults
+}
+
 func (run *Run) recordWait(
 	pagesWanted []PageToRead,
-	pageReadResults []pageReadResult,
+	pageReadResults pageReadResults,
 	timeSpentWaiting time.Duration,
 ) {
 	run.mutex.Lock()
