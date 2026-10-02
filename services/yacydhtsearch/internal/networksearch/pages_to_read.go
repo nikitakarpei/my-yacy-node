@@ -3,18 +3,19 @@ package networksearch
 import (
 	"net/url"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
-func documentsToReadAmong(
+func pagesToReadAmong(
 	orderedDocuments []queryfindings.FoundDocument,
 	pagesReadPerQuery int,
 	pagesReadPerSite int,
-) []queryfindings.FoundDocument {
-	documentsToRead := make([]queryfindings.FoundDocument, 0, pagesReadPerQuery)
+) []pagereading.PageToRead {
+	pagesToRead := make([]pagereading.PageToRead, 0, pagesReadPerQuery)
 	amountOfPagesPerSite := map[string]int{}
 	for _, document := range orderedDocuments {
-		if len(documentsToRead) >= pagesReadPerQuery {
+		if len(pagesToRead) >= pagesReadPerQuery {
 			break
 		}
 		site := siteOf(document.Address)
@@ -22,10 +23,13 @@ func documentsToReadAmong(
 			continue
 		}
 		amountOfPagesPerSite[site]++
-		documentsToRead = append(documentsToRead, document)
+		pagesToRead = append(pagesToRead, pagereading.PageToRead{
+			Document: document.Hash,
+			Address:  document.Address,
+		})
 	}
 
-	return documentsToRead
+	return pagesToRead
 }
 
 func siteOf(address string) string {

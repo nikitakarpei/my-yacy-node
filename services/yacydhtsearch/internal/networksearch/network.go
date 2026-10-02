@@ -121,12 +121,11 @@ func (n Network) Search(
 	)
 	defer endTheQuerySpread()
 	findings := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
-	documentsToRead := documentsToReadAmong(
+	pagesWanted := pagesToReadAmong(
 		n.documentsOrdering.OrderedDocumentsOf(findings),
 		n.pagesReadPerQuery,
 		n.pagesReadPerSite,
 	)
-	pagesWanted := pagesToReadOf(documentsToRead)
 	pageReadingRun := n.pageReading.Start(query.WordHashes())
 	pageReadingRun.StartReading(ctx, pagesWanted)
 	pagesRead := pageReadingRun.PagesReadAmong(ctx, pagesWanted)
@@ -169,18 +168,6 @@ func documentsUpTo(
 	}
 
 	return orderedDocuments[:min(ceiling, len(orderedDocuments))]
-}
-
-func pagesToReadOf(foundDocuments []queryfindings.FoundDocument) []pagereading.PageToRead {
-	pagesToRead := make([]pagereading.PageToRead, 0, len(foundDocuments))
-	for _, foundDocument := range foundDocuments {
-		pagesToRead = append(pagesToRead, pagereading.PageToRead{
-			Document: foundDocument.Hash,
-			Address:  foundDocument.Address,
-		})
-	}
-
-	return pagesToRead
 }
 
 func rankingOf(rankedDocuments []queryfindings.FoundDocument) searchresult.Ranking {
