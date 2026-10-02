@@ -1,6 +1,6 @@
 // Package prometheus counts the pages one query read by outcome, the pages read by
-// spam verdict and the pages it read but did not want, and reports how long the
-// query waited for the pages it wanted.
+// spam verdict, the pages it read but did not want and the pages asked after its
+// run finished, and reports how long the query waited for the pages it wanted.
 package prometheus
 
 import (
@@ -18,6 +18,9 @@ const (
 	labelOutcome                = "outcome"
 	labelActivity               = "activity"
 	labelSpamVerdict            = "spam_verdict"
+	labelRead                   = "read"
+	readAhead                   = "read ahead"
+	readWanted                  = "read"
 	activityFetching            = "fetching"
 	activityReading             = "reading"
 	outcomePageRead             = "read"
@@ -38,20 +41,22 @@ var spamVerdicts = []spamassessment.Verdict{
 }
 
 type PageReadingMetrics struct {
-	pagesRead                  prometheusclient.Counter
-	pagesUnreachable           prometheusclient.Counter
-	pagesRefused               prometheusclient.Counter
-	pagesGone                  prometheusclient.Counter
-	pagesRefusingIndexing      prometheusclient.Counter
-	pagesUnreadable            prometheusclient.Counter
-	pagesOfAnUnsupportedKind   prometheusclient.Counter
-	pagesOutOfBudget           prometheusclient.Counter
-	pagesCutOff                prometheusclient.Counter
-	pagesUnwanted              prometheusclient.Counter
-	pagesReadPerSpamVerdict    *prometheusclient.CounterVec
-	pageReadingDurationSeconds prometheusclient.Histogram
-	timeSpentFetchingSeconds   prometheusclient.Counter
-	timeSpentReadingSeconds    prometheusclient.Counter
+	pagesRead                    prometheusclient.Counter
+	pagesUnreachable             prometheusclient.Counter
+	pagesRefused                 prometheusclient.Counter
+	pagesGone                    prometheusclient.Counter
+	pagesRefusingIndexing        prometheusclient.Counter
+	pagesUnreadable              prometheusclient.Counter
+	pagesOfAnUnsupportedKind     prometheusclient.Counter
+	pagesOutOfBudget             prometheusclient.Counter
+	pagesCutOff                  prometheusclient.Counter
+	pagesUnwanted                prometheusclient.Counter
+	pagesReadAheadAfterTheFinish prometheusclient.Counter
+	pagesReadAfterTheFinish      prometheusclient.Counter
+	pagesReadPerSpamVerdict      *prometheusclient.CounterVec
+	pageReadingDurationSeconds   prometheusclient.Histogram
+	timeSpentFetchingSeconds     prometheusclient.Counter
+	timeSpentReadingSeconds      prometheusclient.Counter
 }
 
 func New(
@@ -81,9 +86,14 @@ func New(
 		Name: "yacydhtsearch_page_reading_pages_unwanted_total",
 		Help: "Pages one query started to read but did not want.",
 	})
+	pagesAfterTheFinish := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_page_reading_pages_after_the_finish_total",
+		Help: "Pages one query asked to read after its page reading run finished, by read.",
+	}, []string{labelRead})
 	registry.MustRegister(
 		pages,
 		pagesUnwanted,
+		pagesAfterTheFinish,
 		pageReadingDurationSeconds,
 		timeSpentSeconds,
 		pagesReadPerSpamVerdict,
@@ -93,20 +103,22 @@ func New(
 	}
 
 	return &PageReadingMetrics{
-		pagesRead:                  pages.WithLabelValues(outcomePageRead),
-		pagesUnreachable:           pages.WithLabelValues(outcomePageUnreachable),
-		pagesRefused:               pages.WithLabelValues(outcomePageRefused),
-		pagesGone:                  pages.WithLabelValues(outcomePageGone),
-		pagesRefusingIndexing:      pages.WithLabelValues(outcomePageRefusingIndexing),
-		pagesUnreadable:            pages.WithLabelValues(outcomePageUnreadable),
-		pagesOfAnUnsupportedKind:   pages.WithLabelValues(outcomePageUnsupportedKind),
-		pagesOutOfBudget:           pages.WithLabelValues(outcomePageOutOfBudget),
-		pagesCutOff:                pages.WithLabelValues(outcomePageCutOff),
-		pagesUnwanted:              pagesUnwanted,
-		pagesReadPerSpamVerdict:    pagesReadPerSpamVerdict,
-		pageReadingDurationSeconds: pageReadingDurationSeconds,
-		timeSpentFetchingSeconds:   timeSpentSeconds.WithLabelValues(activityFetching),
-		timeSpentReadingSeconds:    timeSpentSeconds.WithLabelValues(activityReading),
+		pagesRead:                    pages.WithLabelValues(outcomePageRead),
+		pagesUnreachable:             pages.WithLabelValues(outcomePageUnreachable),
+		pagesRefused:                 pages.WithLabelValues(outcomePageRefused),
+		pagesGone:                    pages.WithLabelValues(outcomePageGone),
+		pagesRefusingIndexing:        pages.WithLabelValues(outcomePageRefusingIndexing),
+		pagesUnreadable:              pages.WithLabelValues(outcomePageUnreadable),
+		pagesOfAnUnsupportedKind:     pages.WithLabelValues(outcomePageUnsupportedKind),
+		pagesOutOfBudget:             pages.WithLabelValues(outcomePageOutOfBudget),
+		pagesCutOff:                  pages.WithLabelValues(outcomePageCutOff),
+		pagesUnwanted:                pagesUnwanted,
+		pagesReadAheadAfterTheFinish: pagesAfterTheFinish.WithLabelValues(readAhead),
+		pagesReadAfterTheFinish:      pagesAfterTheFinish.WithLabelValues(readWanted),
+		pagesReadPerSpamVerdict:      pagesReadPerSpamVerdict,
+		pageReadingDurationSeconds:   pageReadingDurationSeconds,
+		timeSpentFetchingSeconds:     timeSpentSeconds.WithLabelValues(activityFetching),
+		timeSpentReadingSeconds:      timeSpentSeconds.WithLabelValues(activityReading),
 	}
 }
 
@@ -126,9 +138,26 @@ func (m *PageReadingMetrics) PageReadingPerformed(
 	m.pagesOfAnUnsupportedKind.Add(float64(pageReading.AmountOfPagesOfAnUnsupportedKind))
 	m.pagesOutOfBudget.Add(float64(pageReading.AmountOfPagesOutOfBudget))
 	m.pagesCutOff.Add(float64(pageReading.AmountOfPagesCutOff))
-	m.pagesUnwanted.Add(float64(pageReading.AmountOfPagesUnwanted))
 	for spamVerdict, amountOfPagesRead := range pageReading.AmountOfPagesReadPerSpamVerdict {
 		m.pagesReadPerSpamVerdict.WithLabelValues(spamVerdict.String()).
 			Add(float64(amountOfPagesRead))
 	}
+}
+
+func (m *PageReadingMetrics) PageReadingRunFinished(
+	_ context.Context,
+	run pagereading.FinishedPageReadingRun,
+) {
+	m.pagesUnwanted.Add(float64(run.AmountOfPagesUnwanted))
+}
+
+func (m *PageReadingMetrics) PagesReadAheadAfterTheFinish(
+	_ context.Context,
+	amountOfPagesToRead int,
+) {
+	m.pagesReadAheadAfterTheFinish.Add(float64(amountOfPagesToRead))
+}
+
+func (m *PageReadingMetrics) PagesReadAfterTheFinish(_ context.Context, amountOfPagesWanted int) {
+	m.pagesReadAfterTheFinish.Add(float64(amountOfPagesWanted))
 }

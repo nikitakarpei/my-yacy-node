@@ -17,7 +17,6 @@ type PerformedPageReading struct {
 	AmountOfPagesOfAnUnsupportedKind int
 	AmountOfPagesOutOfBudget         int
 	AmountOfPagesCutOff              int
-	AmountOfPagesUnwanted            int
 	AmountOfPagesReadPerSpamVerdict  map[spamassessment.Verdict]int
 	TimeSpent                        time.Duration
 	TimeSpentFetching                time.Duration
@@ -26,12 +25,10 @@ type PerformedPageReading struct {
 
 func performedPageReadingFrom(
 	pageReadResults pageReadResults,
-	amountOfPagesUnwanted int,
 	timeSpent time.Duration,
 ) PerformedPageReading {
 	performed := PerformedPageReading{
 		AmountOfPagesToRead:             len(pageReadResults),
-		AmountOfPagesUnwanted:           amountOfPagesUnwanted,
 		AmountOfPagesReadPerSpamVerdict: map[spamassessment.Verdict]int{},
 		TimeSpent:                       timeSpent,
 	}

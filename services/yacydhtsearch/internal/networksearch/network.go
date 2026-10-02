@@ -42,8 +42,8 @@ type PageReading interface {
 }
 
 type PageReadingRun interface {
-	StartReading(ctx context.Context, pagesToRead []pagereading.PageToRead)
-	PagesReadAmong(ctx context.Context, pagesWanted []pagereading.PageToRead) pagereading.PagesRead
+	ReadAhead(ctx context.Context, pagesToRead []pagereading.PageToRead)
+	Read(ctx context.Context, pagesWanted []pagereading.PageToRead) pagereading.PagesRead
 	Finish(ctx context.Context)
 }
 
@@ -127,8 +127,7 @@ func (n Network) Search(
 		n.pagesReadPerSite,
 	)
 	pageReadingRun := n.pageReading.Start(query.WordHashes())
-	pageReadingRun.StartReading(ctx, pagesWanted)
-	pagesRead := pageReadingRun.PagesReadAmong(ctx, pagesWanted)
+	pagesRead := pageReadingRun.Read(ctx, pagesWanted)
 	pageReadingRun.Finish(ctx)
 	findingsWithReadPages := findings.
 		WithReadPages(pagesRead.PageContentsPerDocument).

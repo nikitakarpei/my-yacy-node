@@ -149,8 +149,11 @@ func (documentsThatHoldNoReadableText) BodyIn(
 }
 
 type recordedPageReading struct {
-	performed pagereading.PerformedPageReading
-	reported  bool
+	performed                            pagereading.PerformedPageReading
+	reported                             bool
+	finishedRun                          pagereading.FinishedPageReadingRun
+	amountOfPagesReadAheadAfterTheFinish int
+	amountOfPagesReadAfterTheFinish      int
 }
 
 func (r *recordedPageReading) PageReadingPerformed(
@@ -159,6 +162,24 @@ func (r *recordedPageReading) PageReadingPerformed(
 ) {
 	r.performed = performed
 	r.reported = true
+}
+
+func (r *recordedPageReading) PageReadingRunFinished(
+	_ context.Context,
+	finishedRun pagereading.FinishedPageReadingRun,
+) {
+	r.finishedRun = finishedRun
+}
+
+func (r *recordedPageReading) PagesReadAheadAfterTheFinish(
+	_ context.Context,
+	amountOfPagesToRead int,
+) {
+	r.amountOfPagesReadAheadAfterTheFinish += amountOfPagesToRead
+}
+
+func (r *recordedPageReading) PagesReadAfterTheFinish(_ context.Context, amountOfPagesWanted int) {
+	r.amountOfPagesReadAfterTheFinish += amountOfPagesWanted
 }
 
 var cutoffNever = pagereading.PageReadCutoff{PercentOfPages: 100}
@@ -193,8 +214,7 @@ func pagesReadFrom(
 	t.Helper()
 
 	run := reading.Start(queryWords)
-	run.StartReading(t.Context(), pagesToRead)
-	pagesRead := run.PagesReadAmong(t.Context(), pagesToRead)
+	pagesRead := run.Read(t.Context(), pagesToRead)
 	run.Finish(t.Context())
 
 	return pagesRead
@@ -744,10 +764,9 @@ func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) 
 	reading := readingCutOffBy(t, pagesThatOutlastTheBudget{}, observer, cutoffNever, clock)
 	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.StartReading(t.Context(), pagesToRead)
 
 	pagesRead := make(chan pagereading.PagesRead, 1)
-	go func() { pagesRead <- run.PagesReadAmong(t.Context(), pagesToRead) }()
+	go func() { pagesRead <- run.Read(t.Context(), pagesToRead) }()
 	expireTheBudget := <-clock.budgets
 	expireTheBudget()
 	pageContentsPerDocument := (<-pagesRead).PageContentsPerDocument
@@ -886,10 +905,9 @@ func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 		clock,
 	)
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.StartReading(t.Context(), pagesOfThreeDocuments(t))
 
 	pagesRead := make(chan pagereading.PagesRead, 1)
-	go func() { pagesRead <- run.PagesReadAmong(t.Context(), pagesOfThreeDocuments(t)) }()
+	go func() { pagesRead <- run.Read(t.Context(), pagesOfThreeDocuments(t)) }()
 	expireTheGrace := <-clock.graces
 	expireTheGrace()
 	<-pagesRead
@@ -918,10 +936,9 @@ func TestAPageStillBeingReadWhenTheBudgetEndsIsOutOfBudget(t *testing.T) {
 		clock,
 	)
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.StartReading(t.Context(), pagesOfThreeDocuments(t))
 
 	pagesRead := make(chan pagereading.PagesRead, 1)
-	go func() { pagesRead <- run.PagesReadAmong(t.Context(), pagesOfThreeDocuments(t)) }()
+	go func() { pagesRead <- run.Read(t.Context(), pagesOfThreeDocuments(t)) }()
 	<-clock.graces
 	expireTheBudget := <-clock.budgets
 	expireTheBudget()
@@ -953,7 +970,7 @@ func (p pagesCountingTheirFetches) Fetch(
 	return p.pages.Fetch(ctx, pageURL, knownVersion)
 }
 
-func TestAPageReadBeforeItIsWantedIsReadOnce(t *testing.T) {
+func TestAPageReadAheadAndLaterWantedIsReadOnce(t *testing.T) {
 	t.Parallel()
 
 	amountOfFetches := &atomic.Int32{}
@@ -967,10 +984,10 @@ func TestAPageReadBeforeItIsWantedIsReadOnce(t *testing.T) {
 	)
 	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.StartReading(t.Context(), pagesToRead)
-	run.StartReading(t.Context(), pagesToRead)
+	run.ReadAhead(t.Context(), pagesToRead)
+	run.ReadAhead(t.Context(), pagesToRead)
 
-	pageContentsPerDocument := run.PagesReadAmong(t.Context(), pagesToRead).PageContentsPerDocument
+	pageContentsPerDocument := run.Read(t.Context(), pagesToRead).PageContentsPerDocument
 
 	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if amountOfFetches.Load() != 1 {
@@ -978,34 +995,71 @@ func TestAPageReadBeforeItIsWantedIsReadOnce(t *testing.T) {
 	}
 }
 
-func TestAPageReadButNeverWantedIsLeftOut(t *testing.T) {
+func TestAPageReadAheadButNeverWantedIsLeftOut(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.StartReading(t.Context(), pagesOfThreeDocuments(t))
+	run.ReadAhead(t.Context(), pagesOfThreeDocuments(t))
 
-	pageContentsPerDocument := run.PagesReadAmong(
+	pageContentsPerDocument := run.Read(
 		t.Context(),
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
-	run.Finish(t.Context())
 
 	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
-	if len(pageContentsPerDocument) != 1 {
-		t.Fatalf("the reading gives %+v, want only the page wanted", pageContentsPerDocument)
-	}
-	if observer.performed.AmountOfPagesToRead != 1 ||
-		observer.performed.AmountOfPagesUnwanted != 2 {
+	if len(pageContentsPerDocument) != 1 || observer.performed.AmountOfPagesToRead != 1 {
 		t.Fatalf(
-			"PageReadingPerformed = %+v, want one page to read and two unwanted",
-			observer.performed,
+			"the reading gives %+v and reports %+v, want only the page wanted",
+			pageContentsPerDocument, observer.performed,
 		)
 	}
 }
 
-func TestAPageWantedButNeverStartedIsOutOfBudgetUnread(t *testing.T) {
+func TestAReadStartsTheWantedPagesNeverReadAhead(t *testing.T) {
+	t.Parallel()
+
+	amountOfFetches := &atomic.Int32{}
+	reading := readingOfThePages(
+		t,
+		pagesCountingTheirFetches{
+			pages:           pagesHoldingTheDocuments(t),
+			amountOfFetches: amountOfFetches,
+		},
+		&recordedPageReading{},
+	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+
+	pageContentsPerDocument := run.Read(
+		t.Context(),
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	).PageContentsPerDocument
+
+	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
+	if amountOfFetches.Load() != 1 {
+		t.Fatalf("the page was fetched %d times, want once", amountOfFetches.Load())
+	}
+}
+
+func TestAReadReportsThePageReadingItPerformedBeforeTheFinish(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+
+	run.Read(
+		t.Context(),
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	)
+
+	if !observer.reported || observer.performed.AmountOfPagesRead != 1 {
+		t.Fatalf("PageReadingPerformed = %+v, want one page read", observer.performed)
+	}
+}
+
+func TestAFinishedRunReadsNoPageAhead(t *testing.T) {
 	t.Parallel()
 
 	amountOfFetches := &atomic.Int32{}
@@ -1019,86 +1073,64 @@ func TestAPageWantedButNeverStartedIsOutOfBudgetUnread(t *testing.T) {
 		observer,
 	)
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-
-	pageContentsPerDocument := run.PagesReadAmong(
-		t.Context(),
-		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).PageContentsPerDocument
 	run.Finish(t.Context())
 
-	if len(pageContentsPerDocument) != 0 || amountOfFetches.Load() != 0 {
+	run.ReadAhead(t.Context(), pagesOfThreeDocuments(t))
+
+	if observer.amountOfPagesReadAheadAfterTheFinish != 3 || amountOfFetches.Load() != 0 {
 		t.Fatalf(
-			"the reading gives %+v after %d fetches, want no page and no fetch",
-			pageContentsPerDocument, amountOfFetches.Load(),
+			"%d pages read ahead after the finish and %d fetches, want three and no fetch",
+			observer.amountOfPagesReadAheadAfterTheFinish, amountOfFetches.Load(),
 		)
 	}
-	if observer.performed.AmountOfPagesOutOfBudget != 1 {
-		t.Fatalf("PageReadingPerformed = %+v, want one page out of budget", observer.performed)
-	}
 }
 
-func TestTheRunReportsNothingBeforeItFinishes(t *testing.T) {
-	t.Parallel()
-
-	observer := &recordedPageReading{}
-	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
-	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
-	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.StartReading(t.Context(), pagesToRead)
-
-	run.PagesReadAmong(t.Context(), pagesToRead)
-
-	if observer.reported {
-		t.Fatalf("PageReadingPerformed = %+v, want no report before the finish", observer.performed)
-	}
-}
-
-func TestAFinishedRunStartsNoPage(t *testing.T) {
+func TestAFinishedRunReadsNoPage(t *testing.T) {
 	t.Parallel()
 
 	amountOfFetches := &atomic.Int32{}
+	observer := &recordedPageReading{}
 	reading := readingOfThePages(
 		t,
 		pagesCountingTheirFetches{
 			pages:           pagesHoldingTheDocuments(t),
 			amountOfFetches: amountOfFetches,
 		},
-		&recordedPageReading{},
+		observer,
 	)
-	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
 	run.Finish(t.Context())
-	run.StartReading(t.Context(), pagesToRead)
 
-	pageContentsPerDocument := run.PagesReadAmong(t.Context(), pagesToRead).PageContentsPerDocument
+	pageContentsPerDocument := run.Read(
+		t.Context(),
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	).PageContentsPerDocument
 
-	if len(pageContentsPerDocument) != 0 || amountOfFetches.Load() != 0 {
+	if len(pageContentsPerDocument) != 0 || amountOfFetches.Load() != 0 ||
+		observer.amountOfPagesReadAfterTheFinish != 1 {
 		t.Fatalf(
-			"the reading gives %+v after %d fetches, want no page and no fetch",
+			"the reading gives %+v after %d fetches with %d pages read after the finish, "+
+				"want no page, no fetch and one page read after the finish",
 			pageContentsPerDocument, amountOfFetches.Load(),
+			observer.amountOfPagesReadAfterTheFinish,
 		)
 	}
 }
 
-func TestAPageStartedAfterTheWaitIsUnwantedAtTheFinish(t *testing.T) {
+func TestTheFinishReportsThePagesReadAheadThatNoReadWanted(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
-	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	pagesWanted := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
-	run.StartReading(t.Context(), pagesToRead)
-	run.PagesReadAmong(t.Context(), pagesToRead)
-	run.StartReading(t.Context(), pagesOfThreeDocuments(t))
+	run.Read(t.Context(), pagesWanted)
+	run.ReadAhead(t.Context(), pagesOfThreeDocuments(t))
 
 	run.Finish(t.Context())
 
-	if observer.performed.AmountOfPagesToRead != 1 ||
-		observer.performed.AmountOfPagesUnwanted != 2 {
-		t.Fatalf(
-			"PageReadingPerformed = %+v, want one page to read and two unwanted",
-			observer.performed,
-		)
+	if observer.finishedRun.AmountOfPagesUnwanted != 2 {
+		t.Fatalf("PageReadingRunFinished = %+v, want two pages unwanted", observer.finishedRun)
 	}
 }
 

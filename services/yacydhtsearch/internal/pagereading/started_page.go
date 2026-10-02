@@ -1,6 +1,7 @@
 package pagereading
 
 type startedPage struct {
+	pageToRead     PageToRead
 	settled        chan struct{}
 	pageReadResult pageReadResult
 }

@@ -360,9 +360,9 @@ func (pages pagesThatNoOneReads) Start(_ []yacymodel.Hash) networksearch.PageRea
 	return pages
 }
 
-func (pagesThatNoOneReads) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesThatNoOneReads) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (pagesThatNoOneReads) PagesReadAmong(
+func (pagesThatNoOneReads) Read(
 	_ context.Context,
 	_ []pagereading.PageToRead,
 ) pagereading.PagesRead {
@@ -614,13 +614,13 @@ func (p pagesHoldingTheWordOfOneDocument) Start(_ []yacymodel.Hash) networksearc
 	return p
 }
 
-func (pagesHoldingTheWordOfOneDocument) StartReading(
+func (pagesHoldingTheWordOfOneDocument) ReadAhead(
 	_ context.Context,
 	_ []pagereading.PageToRead,
 ) {
 }
 
-func (p pagesHoldingTheWordOfOneDocument) PagesReadAmong(
+func (p pagesHoldingTheWordOfOneDocument) Read(
 	_ context.Context,
 	pagesWanted []pagereading.PageToRead,
 ) pagereading.PagesRead {
@@ -681,9 +681,9 @@ func (p pagesRecordingTheirAddresses) Start(_ []yacymodel.Hash) networksearch.Pa
 	return p
 }
 
-func (pagesRecordingTheirAddresses) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesRecordingTheirAddresses) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (p pagesRecordingTheirAddresses) PagesReadAmong(
+func (p pagesRecordingTheirAddresses) Read(
 	_ context.Context,
 	pagesWanted []pagereading.PageToRead,
 ) pagereading.PagesRead {
@@ -752,9 +752,9 @@ func (p pagesOfOneDocumentWithdrawn) Start(_ []yacymodel.Hash) networksearch.Pag
 	return p
 }
 
-func (pagesOfOneDocumentWithdrawn) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesOfOneDocumentWithdrawn) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (p pagesOfOneDocumentWithdrawn) PagesReadAmong(
+func (p pagesOfOneDocumentWithdrawn) Read(
 	_ context.Context,
 	pagesWanted []pagereading.PageToRead,
 ) pagereading.PagesRead {
@@ -827,9 +827,9 @@ func (p pagesRecordingTheBudgetTheyGet) Start(_ []yacymodel.Hash) networksearch.
 	return p
 }
 
-func (pagesRecordingTheBudgetTheyGet) StartReading(_ context.Context, _ []pagereading.PageToRead) {}
+func (pagesRecordingTheBudgetTheyGet) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
 
-func (p pagesRecordingTheBudgetTheyGet) PagesReadAmong(
+func (p pagesRecordingTheBudgetTheyGet) Read(
 	ctx context.Context,
 	_ []pagereading.PageToRead,
 ) pagereading.PagesRead {
