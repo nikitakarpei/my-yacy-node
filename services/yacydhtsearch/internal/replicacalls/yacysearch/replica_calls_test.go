@@ -103,7 +103,7 @@ func TestTheAnswerTellsTheReplicaTheAmountHeldAndTheSearch(t *testing.T) {
 
 	answer, answered := replicaCallsOf(peers).Put(t.Context(), askForBerlin(), peerAt("first"))
 
-	if !answered || answer.Replica != peerAt("first") ||
+	if !answered || answer.Holder != peerAt("first") ||
 		answer.AmountOfDocumentsHeld != yacymodel.Some(5) || !answer.Searched ||
 		len(answer.ListedDocuments) != 0 {
 		t.Fatalf(

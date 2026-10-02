@@ -166,7 +166,7 @@ func (network *peerNetwork) answerOfTheReplica(
 	}
 
 	return wordpartitionasks.ReplicaAnswer{
-		Replica: ask.Peer,
+		Holder: ask.Peer,
 		ListedDocuments: listedDocumentsFrom(
 			network.abstractFor(ask),
 			network.matchedDocumentsOf(network.namedAmong(

@@ -14,7 +14,7 @@ import (
 )
 
 type ReplicaCalls interface {
-	Put(ctx context.Context, ask Ask, replica peerdirectory.AskablePeer) (ReplicaAnswer, bool)
+	Put(ctx context.Context, ask Ask, holder peerdirectory.AskablePeer) (ReplicaAnswer, bool)
 }
 
 type HedgeDelay interface {
@@ -69,9 +69,9 @@ func (replicaAsks Asks) startTheHedgeTimer(
 func (replicaAsks Asks) askTheReplica(
 	ctx context.Context,
 	ask Ask,
-	replica peerdirectory.AskablePeer,
+	holder peerdirectory.AskablePeer,
 ) (ReplicaAnswer, bool) {
-	return replicaAsks.replicaCalls.Put(ctx, ask, replica)
+	return replicaAsks.replicaCalls.Put(ctx, ask, holder)
 }
 
 func (replicaAsks Asks) reportPerformed(ctx context.Context, performed PerformedReplicaAsks) {

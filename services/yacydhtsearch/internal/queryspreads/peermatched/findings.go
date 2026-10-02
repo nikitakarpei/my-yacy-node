@@ -27,7 +27,7 @@ func foundDocumentsFrom(settledAsks []wordpartitionasks.SettledAsk) []queryfindi
 					continue
 				}
 				documentsThePeersSent.KeepDocumentThePeerMatched(
-					answer.Replica.Hash,
+					answer.Holder.Hash,
 					settledAsk.Word,
 					metadata,
 					listedDocument.Posting,

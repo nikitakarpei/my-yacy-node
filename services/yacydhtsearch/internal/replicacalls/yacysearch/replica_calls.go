@@ -35,11 +35,11 @@ func New(peerCalls PeerCalls, wants Wants) ReplicaCalls {
 func (calls ReplicaCalls) Put(
 	ctx context.Context,
 	ask wordpartitionasks.Ask,
-	replica peerdirectory.AskablePeer,
+	holder peerdirectory.AskablePeer,
 ) (wordpartitionasks.ReplicaAnswer, bool) {
 	answeredAsks := calls.peerCalls.AskForSearchDocuments(
 		ctx,
-		[]peerasks.SearchDocumentsAsk{calls.searchDocumentsAskFor(ask, replica)},
+		[]peerasks.SearchDocumentsAsk{calls.searchDocumentsAskFor(ask, holder)},
 	)
 	if len(answeredAsks) == 0 {
 		return wordpartitionasks.ReplicaAnswer{}, false
@@ -50,10 +50,10 @@ func (calls ReplicaCalls) Put(
 
 func (calls ReplicaCalls) searchDocumentsAskFor(
 	ask wordpartitionasks.Ask,
-	replica peerdirectory.AskablePeer,
+	holder peerdirectory.AskablePeer,
 ) peerasks.SearchDocumentsAsk {
 	return peerasks.SearchDocumentsAsk{
-		Peer:                    replica,
+		Peer:                    holder,
 		Word:                    ask.Word,
 		ExcludedWords:           ask.ExcludedWords,
 		Language:                ask.Language,
@@ -67,7 +67,7 @@ func replicaAnswerFrom(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) wordpartitionasks.ReplicaAnswer {
 	return wordpartitionasks.ReplicaAnswer{
-		Replica:               answeredAsk.Ask.Peer,
+		Holder:                answeredAsk.Ask.Peer,
 		ListedDocuments:       listedDocumentsIn(answeredAsk),
 		AmountOfDocumentsHeld: answeredAsk.AmountOfDocumentsHeldForTheWord,
 		Searched:              answeredAsk.PeerSearched,

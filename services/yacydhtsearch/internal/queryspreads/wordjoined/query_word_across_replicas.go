@@ -4,12 +4,13 @@ import (
 	"cmp"
 	"slices"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type queryWordAcrossReplicas struct {
-	word                 yacymodel.Hash
-	replicasPerPartition [][]wordReplica
+	word                yacymodel.Hash
+	answersPerPartition [][]wordpartitionasks.ReplicaAnswer
 }
 
 func queryWordsFewestDocumentsFirstFrom(
@@ -44,20 +45,18 @@ func queryWordAcrossReplicasFrom(
 	settledAsks settledAsks,
 	partitions yacymodel.DHTRingPartitions,
 ) queryWordAcrossReplicas {
-	replicasPerPartition := make([][]wordReplica, partitions)
+	answersPerPartition := make([][]wordpartitionasks.ReplicaAnswer, partitions)
 	for _, settledAsk := range settledAsks {
 		if settledAsk.Word != word {
 			continue
 		}
-		for _, answer := range settledAsk.Answers {
-			replicasPerPartition[settledAsk.Partition] = append(
-				replicasPerPartition[settledAsk.Partition],
-				wordReplica{answer: answer},
-			)
-		}
+		answersPerPartition[settledAsk.Partition] = append(
+			answersPerPartition[settledAsk.Partition],
+			settledAsk.Answers...,
+		)
 	}
 
-	return queryWordAcrossReplicas{word: word, replicasPerPartition: replicasPerPartition}
+	return queryWordAcrossReplicas{word: word, answersPerPartition: answersPerPartition}
 }
 
 func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {
@@ -80,7 +79,7 @@ func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymo
 		return yacymodel.None[int]()
 	}
 
-	amountOfPartitionsWhereNoPeerCounted := len(queryWord.replicasPerPartition) -
+	amountOfPartitionsWhereNoPeerCounted := len(queryWord.answersPerPartition) -
 		len(amountsHeldInPartitionsWhereAPeerCounted)
 	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted *
 		lowerMedianOf(amountsHeldInPartitionsWhereAPeerCounted)
@@ -93,9 +92,9 @@ func (queryWord queryWordAcrossReplicas) estimatedAmountOfDocumentsHeld() yacymo
 
 // TECHDEBT: Naming — a name past four words names two facts: amountsOfDocumentsHeldInPartitionsWhereAPeerCounted.
 func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
-	amountsHeld := make([]int, 0, len(queryWord.replicasPerPartition))
-	for _, replicasOfPartition := range queryWord.replicasPerPartition {
-		countedAmounts := amountsOfDocumentsHeldCountedBy(replicasOfPartition)
+	amountsHeld := make([]int, 0, len(queryWord.answersPerPartition))
+	for _, answersOfPartition := range queryWord.answersPerPartition {
+		countedAmounts := amountsOfDocumentsHeldCountedBy(answersOfPartition)
 		if len(countedAmounts) == 0 {
 			continue
 		}
@@ -105,10 +104,10 @@ func (queryWord queryWordAcrossReplicas) amountsOfDocumentsHeldInPartitionsWhere
 	return amountsHeld
 }
 
-func amountsOfDocumentsHeldCountedBy(replicas []wordReplica) []int {
-	countedAmounts := make([]int, 0, len(replicas))
-	for _, replica := range replicas {
-		amountOfDocumentsHeld, counted := replica.answer.AmountOfDocumentsHeld.Get()
+func amountsOfDocumentsHeldCountedBy(answers []wordpartitionasks.ReplicaAnswer) []int {
+	countedAmounts := make([]int, 0, len(answers))
+	for _, answer := range answers {
+		amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeld.Get()
 		if !counted {
 			continue
 		}
@@ -126,9 +125,9 @@ func lowerMedianOf(amounts []int) int {
 
 func (queryWord queryWordAcrossReplicas) documents() distinctDocuments {
 	documents := distinctDocuments{}
-	for _, replicasOfPartition := range queryWord.replicasPerPartition {
-		for _, replica := range replicasOfPartition {
-			for _, listedDocument := range replica.answer.ListedDocuments {
+	for _, answersOfPartition := range queryWord.answersPerPartition {
+		for _, answer := range answersOfPartition {
+			for _, listedDocument := range answer.ListedDocuments {
 				documents.add(listedDocument.Hash)
 			}
 		}
@@ -143,12 +142,12 @@ func (queryWord queryWordAcrossReplicas) sampleIn(
 ) yacymodel.Optional[int] {
 	documentsInThePartition := distinctDocuments{}
 	complete := false
-	for _, replica := range queryWord.replicasPerPartition[partition] {
-		if !replica.hasACompleteAbstract() {
+	for _, answer := range queryWord.answersPerPartition[partition] {
+		if !answer.HasACompleteAbstract() {
 			continue
 		}
 		complete = true
-		for _, listedDocument := range replica.answer.ListedDocuments {
+		for _, listedDocument := range answer.ListedDocuments {
 			if partitions.PartitionOf(listedDocument.Hash) != partition {
 				continue
 			}

@@ -61,7 +61,7 @@ func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T)
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
-	if len(answers) != 1 || answers[0].Replica.Address != "berlin-one" {
+	if len(answers) != 1 || answers[0].Holder.Address != "berlin-one" {
 		t.Fatalf("the run = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one")
@@ -100,7 +100,7 @@ func TestAnEmptyAnswerOfAPeerThatSearchedSettlesTheWordPartition(t *testing.T) {
 		t.Context(), asksForTheWord("bananaphotos", 1, "bananaphotos-one", "bananaphotos-two"),
 	)
 
-	if len(answers) != 1 || answers[0].Replica.Address != "bananaphotos-one" {
+	if len(answers) != 1 || answers[0].Holder.Address != "bananaphotos-one" {
 		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "bananaphotos-one")
@@ -119,7 +119,7 @@ func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
-	if len(answers) != 1 || answers[0].Replica.Address != "berlin-two" {
+	if len(answers) != 1 || answers[0].Holder.Address != "berlin-two" {
 		t.Fatalf("the run = %+v, want the second replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
@@ -573,15 +573,15 @@ func (calls *replicaCallsOfTheTests) release(address string) {
 func (calls *replicaCallsOfTheTests) Put(
 	ctx context.Context,
 	_ wordpartitionasks.Ask,
-	replica peerdirectory.AskablePeer,
+	holder peerdirectory.AskablePeer,
 ) (wordpartitionasks.ReplicaAnswer, bool) {
-	script, answered := calls.answered(ctx, replica.Address)
+	script, answered := calls.answered(ctx, holder.Address)
 	if !answered {
 		return wordpartitionasks.ReplicaAnswer{}, false
 	}
 
 	return wordpartitionasks.ReplicaAnswer{
-		Replica:               replica,
+		Holder:                holder,
 		ListedDocuments:       make([]wordpartitionasks.ListedDocument, script.documentsListed),
 		AmountOfDocumentsHeld: script.documentsHeld,
 		Searched:              script.searched,
@@ -885,7 +885,7 @@ func wantAnswersIn(
 func addressesOf(answers []wordpartitionasks.ReplicaAnswer) []string {
 	addresses := make([]string, 0, len(answers))
 	for _, answer := range answers {
-		addresses = append(addresses, answer.Replica.Address)
+		addresses = append(addresses, answer.Holder.Address)
 	}
 
 	return addresses

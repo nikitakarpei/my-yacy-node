@@ -23,7 +23,7 @@ type wordPartition struct {
 }
 
 type replicaCall struct {
-	replica        peerdirectory.AskablePeer
+	holder         peerdirectory.AskablePeer
 	putOn          PutOn
 	ended          bool
 	stopHedgeTimer func()
@@ -50,20 +50,20 @@ func wordPartitionOf(ask Ask, replicaAsks Asks, chosenPeers *chosenPeers) *wordP
 
 func (partition *wordPartition) chooseTheFirstReplicas() {
 	for range partition.replicaAsks.amountOfReplicasCoveringAPartition {
-		replica, chosen := partition.chooseTheNextReplica()
+		holder, chosen := partition.chooseTheNextReplica()
 		if !chosen {
 			return
 		}
-		partition.firstReplicas = append(partition.firstReplicas, replica)
+		partition.firstReplicas = append(partition.firstReplicas, holder)
 	}
 }
 
 func (partition *wordPartition) chooseTheNextReplica() (peerdirectory.AskablePeer, bool) {
 	for !partition.noReplicaIsLeft() {
-		replica := partition.replicasLeft[0]
+		holder := partition.replicasLeft[0]
 		partition.replicasLeft = partition.replicasLeft[1:]
-		if partition.chosenPeers.choose(replica.Hash) {
-			return replica, true
+		if partition.chosenPeers.choose(holder.Hash) {
+			return holder, true
 		}
 	}
 
@@ -78,8 +78,8 @@ func (partition *wordPartition) askUntilSettled(ctx context.Context) {
 	askingContext, stopAsking := context.WithCancel(ctx)
 	defer stopAsking()
 
-	for _, replica := range partition.firstReplicas {
-		partition.putTheAsk(askingContext, replica, PutOnStart)
+	for _, holder := range partition.firstReplicas {
+		partition.putTheAsk(askingContext, holder, PutOnStart)
 	}
 	partition.settleWhenNothingIsLeftToAsk()
 	for !partition.isSettled() {
@@ -90,17 +90,17 @@ func (partition *wordPartition) askUntilSettled(ctx context.Context) {
 
 func (partition *wordPartition) putTheAsk(
 	ctx context.Context,
-	replica peerdirectory.AskablePeer,
+	holder peerdirectory.AskablePeer,
 	putOn PutOn,
 ) {
 	call := &replicaCall{
-		replica: replica,
-		putOn:   putOn,
-		answer:  yacymodel.None[ReplicaAnswer](),
+		holder: holder,
+		putOn:  putOn,
+		answer: yacymodel.None[ReplicaAnswer](),
 	}
 	call.stopHedgeTimer = partition.replicaAsks.startTheHedgeTimer(
 		ctx,
-		replica,
+		holder,
 		func() { partition.hedgesDue <- call },
 	)
 	partition.calls = append(partition.calls, call)
@@ -109,7 +109,7 @@ func (partition *wordPartition) putTheAsk(
 }
 
 func (partition *wordPartition) callTheReplica(ctx context.Context, call *replicaCall) {
-	answer, answered := partition.replicaAsks.askTheReplica(ctx, partition.ask, call.replica)
+	answer, answered := partition.replicaAsks.askTheReplica(ctx, partition.ask, call.holder)
 	if !answered {
 		partition.callOutcomes <- replicaCallOutcome{call: call}
 
@@ -174,11 +174,11 @@ func (partition *wordPartition) takeTheHedgeDue(ctx context.Context, call *repli
 }
 
 func (partition *wordPartition) askTheNextReplica(ctx context.Context, putOn PutOn) {
-	replica, chosen := partition.chooseTheNextReplica()
+	holder, chosen := partition.chooseTheNextReplica()
 	if !chosen {
 		return
 	}
-	partition.putTheAsk(ctx, replica, putOn)
+	partition.putTheAsk(ctx, holder, putOn)
 }
 
 func (partition *wordPartition) takeTheCallOutcome(

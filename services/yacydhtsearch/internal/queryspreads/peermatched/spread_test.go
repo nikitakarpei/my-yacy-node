@@ -54,10 +54,10 @@ func (network *peerNetwork) answerEachAsk(
 
 func (network *peerNetwork) settledAskOf(ask wordpartitionasks.Ask) wordpartitionasks.SettledAsk {
 	answers := make([]wordpartitionasks.ReplicaAnswer, 0, len(ask.ReplicasInOrder))
-	for _, replica := range ask.ReplicasInOrder {
+	for _, holder := range ask.ReplicasInOrder {
 		answers = append(answers, wordpartitionasks.ReplicaAnswer{
-			Replica:         replica,
-			ListedDocuments: network.listedDocumentsOf(replica),
+			Holder:          holder,
+			ListedDocuments: network.listedDocumentsOf(holder),
 		})
 	}
 

@@ -35,12 +35,12 @@ func peersWithTheirAbstractsFrom(
 	peers := make(peersWithTheirAbstracts, 0, len(answers))
 	placeOfPeer := map[yacymodel.Hash]int{}
 	for _, answer := range answers {
-		place, placed := placeOfPeer[answer.Replica.Hash]
+		place, placed := placeOfPeer[answer.Holder.Hash]
 		if !placed {
 			place = len(peers)
-			placeOfPeer[answer.Replica.Hash] = place
+			placeOfPeer[answer.Holder.Hash] = place
 			peers = append(peers, peerWithItsAbstracts{
-				askablePeer:             answer.Replica,
+				askablePeer:             answer.Holder,
 				documentsInItsAbstracts: distinctDocuments{},
 			})
 		}

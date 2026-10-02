@@ -63,7 +63,7 @@ func amountOfPeersWithANonEmptyAbstractAmong(answers []wordpartitionasks.Replica
 		if len(answer.ListedDocuments) == 0 {
 			continue
 		}
-		peers[answer.Replica] = struct{}{}
+		peers[answer.Holder] = struct{}{}
 	}
 
 	return len(peers)

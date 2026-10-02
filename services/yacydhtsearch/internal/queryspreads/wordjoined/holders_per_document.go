@@ -18,7 +18,7 @@ func (holders holdersPerDocument) addHoldersIn(answers []wordpartitionasks.Repli
 			if holders[listedDocument.Hash] == nil {
 				holders[listedDocument.Hash] = map[yacymodel.Hash]struct{}{}
 			}
-			holders[listedDocument.Hash][answer.Replica.Hash] = struct{}{}
+			holders[listedDocument.Hash][answer.Holder.Hash] = struct{}{}
 		}
 	}
 }
