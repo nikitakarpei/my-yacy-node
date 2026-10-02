@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -145,7 +145,7 @@ func peerAt(address string) peerdirectory.AskablePeer {
 func searchOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
-) []queryanswers.FoundDocument {
+) []queryfindings.FoundDocument {
 	return spreadOf(network, observer).SpreadOverPeers(
 		context.Background(),
 		searchquery.Query{Words: []string{"berlin"}},
@@ -155,13 +155,13 @@ func searchOf(
 
 func factsOfTheFirstDocumentFoundFor(
 	network *peerNetwork, query string,
-) queryanswers.DocumentFacts {
-	answers := answersOfTheQuery(network, query)
+) queryfindings.DocumentFacts {
+	findings := findingsOfTheQuery(network, query)
 
-	return answers.FoundDocuments[0].Facts
+	return findings.FoundDocuments[0].Facts
 }
 
-func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
+func addressesOf(foundDocuments []queryfindings.FoundDocument) []string {
 	addresses := make([]string, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
 		addresses = append(addresses, foundDocument.Address)
@@ -170,7 +170,7 @@ func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
 	return addresses
 }
 
-func answersOfTheQuery(network *peerNetwork, query string) queryanswers.AnsweredQuery {
+func findingsOfTheQuery(network *peerNetwork, query string) queryfindings.Findings {
 	return spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		queryreading.QueryFrom(query, ""),
@@ -193,7 +193,7 @@ func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	askablePeers []peerdirectory.AskablePeer,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	return s.spread.SpreadOverPeers(
 		ctx,
 		query,
@@ -251,16 +251,16 @@ func TestADocumentKeepsTheCountOfAPeerThatCountedItsWord(t *testing.T) {
 	}
 }
 
-func TestTheAnswersCarryTheWordsOfTheQuery(t *testing.T) {
+func TestTheFindingsCarryTheWordsOfTheQuery(t *testing.T) {
 	t.Parallel()
 
 	network := networkOf(map[string][]string{"first": {"https://a.example/"}})
 
-	answers := answersOfTheQuery(network, "berlin")
+	findings := findingsOfTheQuery(network, "berlin")
 
 	want := []yacymodel.Hash{yacymodel.WordHash("berlin")}
-	if !slices.Equal(answers.QueryWords, want) {
-		t.Fatalf("the answers carry the query words %v, want %v", answers.QueryWords, want)
+	if !slices.Equal(findings.QueryWords, want) {
+		t.Fatalf("the findings carry the query words %v, want %v", findings.QueryWords, want)
 	}
 }
 

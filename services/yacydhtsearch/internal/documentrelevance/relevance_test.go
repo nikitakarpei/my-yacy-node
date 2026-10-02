@@ -7,12 +7,12 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	amountOfRunsOfSameAnswers     = 50
+	amountOfRunsOfSameFindings    = 50
 	amountOfWordsOfLinkedDocument = 1000
 
 	hitsOfQueryWordInEveryUnreadDocument  = 3
@@ -21,7 +21,7 @@ const (
 	malformedAddress = "https://berlin weather.example/"
 )
 
-type foundDocument queryanswers.FoundDocument
+type foundDocument queryfindings.FoundDocument
 
 func foundDocumentAt(t *testing.T, address string) foundDocument {
 	t.Helper()
@@ -34,7 +34,7 @@ func foundDocumentAt(t *testing.T, address string) foundDocument {
 	return foundDocument{
 		Hash:    hash,
 		Address: address,
-		Facts:   queryanswers.DocumentFacts{HitsPerQueryWord: map[yacymodel.Hash]int{}},
+		Facts:   queryfindings.DocumentFacts{HitsPerQueryWord: map[yacymodel.Hash]int{}},
 	}
 }
 
@@ -85,12 +85,12 @@ func (document foundDocument) shownAtAddress(address string) foundDocument {
 func (document foundDocument) withHitsAPeerCounted(word string, hits int) foundDocument {
 	document.PostingReplicas = append(
 		slices.Clone(document.PostingReplicas),
-		queryanswers.PostingReplica{
+		queryfindings.PostingReplica{
 			Word:    yacymodel.WordHash(word),
 			Posting: yacymodel.RWIPosting{Hits: hits},
 		},
 	)
-	document.Facts = queryanswers.FoundDocumentOf(
+	document.Facts = queryfindings.FoundDocumentOf(
 		document.Hash,
 		nil,
 		document.PostingReplicas,
@@ -99,11 +99,11 @@ func (document foundDocument) withHitsAPeerCounted(word string, hits int) foundD
 	return document
 }
 
-func answersOf(
+func findingsOf(
 	queryWords []string,
 	foundDocuments []foundDocument,
-) queryanswers.AnsweredQuery {
-	return queryanswers.AnsweredQuery{
+) queryfindings.Findings {
+	return queryfindings.Findings{
 		QueryWords:     hashesOf(queryWords),
 		FoundDocuments: foundDocumentsOf(foundDocuments),
 	}
@@ -118,45 +118,45 @@ func hashesOf(queryWords []string) []yacymodel.Hash {
 	return hashes
 }
 
-func foundDocumentsOf(foundDocuments []foundDocument) []queryanswers.FoundDocument {
-	documents := make([]queryanswers.FoundDocument, 0, len(foundDocuments))
+func foundDocumentsOf(foundDocuments []foundDocument) []queryfindings.FoundDocument {
+	documents := make([]queryfindings.FoundDocument, 0, len(foundDocuments))
 	for _, document := range foundDocuments {
-		documents = append(documents, queryanswers.FoundDocument(document))
+		documents = append(documents, queryfindings.FoundDocument(document))
 	}
 
 	return documents
 }
 
-func answersHoldingDocumentsPerQueryWord(
+func findingsHoldingDocumentsPerQueryWord(
 	queryWords []string,
 	foundDocuments []foundDocument,
 	documentsHeldPerWord map[string]int,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	documentsHeldPerQueryWord := make(map[yacymodel.Hash]int, len(documentsHeldPerWord))
 	for word, documentsHeldForWord := range documentsHeldPerWord {
 		documentsHeldPerQueryWord[yacymodel.WordHash(word)] = documentsHeldForWord
 	}
 
-	return queryanswers.AnsweredQuery{
+	return queryfindings.Findings{
 		QueryWords:                hashesOf(queryWords),
 		FoundDocuments:            foundDocumentsOf(foundDocuments),
 		DocumentsHeldPerQueryWord: documentsHeldPerQueryWord,
 	}
 }
 
-func addressesInFallingOrderOfRelevance(answers queryanswers.AnsweredQuery) []string {
+func addressesInFallingOrderOfRelevance(findings queryfindings.Findings) []string {
 	return addressesInFallingOrderOfRelevanceBy(
-		documentrelevance.DefaultRelevanceWeights(), answers,
+		documentrelevance.DefaultRelevanceWeights(), findings,
 	)
 }
 
 func addressesInFallingOrderOfRelevanceBy(
-	relevanceWeights documentrelevance.RelevanceWeights, answers queryanswers.AnsweredQuery,
+	relevanceWeights documentrelevance.RelevanceWeights, findings queryfindings.Findings,
 ) []string {
 	relevancePerDocument := documentrelevance.RelevanceScorerWeighedBy(relevanceWeights).
-		RelevancePerDocumentOf(answers)
-	foundDocuments := slices.Clone(answers.FoundDocuments)
-	slices.SortStableFunc(foundDocuments, func(one, other queryanswers.FoundDocument) int {
+		RelevancePerDocumentOf(findings)
+	foundDocuments := slices.Clone(findings.FoundDocuments)
+	slices.SortStableFunc(foundDocuments, func(one, other queryfindings.FoundDocument) int {
 		return cmp.Compare(
 			relevancePerDocument[other.Hash], relevancePerDocument[one.Hash],
 		)
@@ -173,7 +173,7 @@ func addressesInFallingOrderOfRelevanceBy(
 func TestDocumentOfRarerQueryWordComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin", "kelondro"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://common.example/").withHitsOf("berlin", 1),
@@ -183,7 +183,7 @@ func TestDocumentOfRarerQueryWordComesFirst(t *testing.T) {
 	)
 
 	want := []string{"https://rare.example/", "https://common.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -191,7 +191,7 @@ func TestDocumentOfRarerQueryWordComesFirst(t *testing.T) {
 func TestEveryQueryWordWeighsSameWhenNoPeerCountedDocumentsForIt(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOf(
+	findings := findingsOf(
 		[]string{"berlin", "kelondro"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://a.example/").withHitsOf("berlin", 1),
@@ -200,7 +200,7 @@ func TestEveryQueryWordWeighsSameWhenNoPeerCountedDocumentsForIt(t *testing.T) {
 	)
 
 	want := []string{"https://a.example/", "https://b.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want the found order %v", got, want)
 	}
 }
@@ -208,7 +208,7 @@ func TestEveryQueryWordWeighsSameWhenNoPeerCountedDocumentsForIt(t *testing.T) {
 func TestWordNoPeerCountedDocumentsForWeighsAsMuchAsMostCommonCountedWord(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin", "kelondro"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://counted.example/").withHitsOf("berlin", 1),
@@ -218,7 +218,7 @@ func TestWordNoPeerCountedDocumentsForWeighsAsMuchAsMostCommonCountedWord(t *tes
 	)
 
 	want := []string{"https://counted.example/", "https://uncounted.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want the found order %v", got, want)
 	}
 }
@@ -226,7 +226,7 @@ func TestWordNoPeerCountedDocumentsForWeighsAsMuchAsMostCommonCountedWord(t *tes
 func TestDocumentWithMoreHitsOfSameWordComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://once.example/").withHitsOf("berlin", 1),
@@ -236,7 +236,7 @@ func TestDocumentWithMoreHitsOfSameWordComesFirst(t *testing.T) {
 	)
 
 	want := []string{"https://often.example/", "https://once.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -248,7 +248,7 @@ func TestEachFurtherHitOfSameWordAddsLessThanFirstHitOfAnotherWord(t *testing.T)
 	onceEachWord := foundDocumentAt(t, "https://two-words.example/").
 		withHitsOf("berlin", 1).
 		withHitsOf("weather", 1)
-	answers := answersOf(
+	findings := findingsOf(
 		[]string{"berlin", "weather"},
 		[]foundDocument{
 			twiceOneWord,
@@ -257,7 +257,7 @@ func TestEachFurtherHitOfSameWordAddsLessThanFirstHitOfAnotherWord(t *testing.T)
 	)
 
 	want := []string{"https://two-words.example/", "https://one-word.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -265,7 +265,7 @@ func TestEachFurtherHitOfSameWordAddsLessThanFirstHitOfAnotherWord(t *testing.T)
 func TestShorterDocumentOfSameHitsComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://long.example/").
@@ -279,13 +279,13 @@ func TestShorterDocumentOfSameHitsComesFirst(t *testing.T) {
 	)
 
 	want := []string{"https://short.example/", "https://long.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
 
 func relevanceOfDocumentAt(
-	t *testing.T, answers queryanswers.AnsweredQuery, address string,
+	t *testing.T, findings queryfindings.Findings, address string,
 ) float64 {
 	t.Helper()
 
@@ -295,21 +295,21 @@ func relevanceOfDocumentAt(
 	}
 
 	return documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()).
-		RelevancePerDocumentOf(answers)[hash]
+		RelevancePerDocumentOf(findings)[hash]
 }
 
 func TestDocumentOfHitOfEveryQueryWordHoldsSameRelevanceHoweverLongTheQueryIs(t *testing.T) {
 	t.Parallel()
 
 	const address = "https://a.example/"
-	relevanceUnderShortQuery := relevanceOfDocumentAt(t, answersHoldingDocumentsPerQueryWord(
+	relevanceUnderShortQuery := relevanceOfDocumentAt(t, findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, address).withHitsOf("berlin", 1),
 		},
 		map[string]int{"berlin": 100},
 	), address)
-	relevanceUnderLongQuery := relevanceOfDocumentAt(t, answersHoldingDocumentsPerQueryWord(
+	relevanceUnderLongQuery := relevanceOfDocumentAt(t, findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin", "weather", "today"},
 		[]foundDocument{
 			foundDocumentAt(t, address).
@@ -332,7 +332,7 @@ func TestDocumentOfHitOfEveryQueryWordHoldsSameRelevanceHoweverLongTheQueryIs(t 
 func TestDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin", "weather"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://one.example/").withHitsOf("berlin", 1),
@@ -344,7 +344,7 @@ func TestDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 	)
 
 	want := []string{"https://both.example/", "https://one.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -352,7 +352,7 @@ func TestDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 func TestDocumentWhoseHostHoldsTheOnlyQueryWordComesBeforeOneOfHitsOfThatWord(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://berlin.example/").withHitsOf("berlin", 0),
@@ -362,7 +362,7 @@ func TestDocumentWhoseHostHoldsTheOnlyQueryWordComesBeforeOneOfHitsOfThatWord(t 
 	)
 
 	want := []string{"https://berlin.example/", "https://weather.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -370,7 +370,7 @@ func TestDocumentWhoseHostHoldsTheOnlyQueryWordComesBeforeOneOfHitsOfThatWord(t 
 func TestUnreadDocumentWithoutHitComesAfterOneWithHit(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin", "weather"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://uncounted.example/").
@@ -381,7 +381,7 @@ func TestUnreadDocumentWithoutHitComesAfterOneWithHit(t *testing.T) {
 	)
 
 	want := []string{"https://counted.example/", "https://uncounted.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -389,7 +389,7 @@ func TestUnreadDocumentWithoutHitComesAfterOneWithHit(t *testing.T) {
 func TestDocumentWithoutTitleComesAfterOneAPeerPutBehindIt(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOf(
+	findings := findingsOf(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://untitled.example/").matchingWords("berlin"),
@@ -400,7 +400,7 @@ func TestDocumentWithoutTitleComesAfterOneAPeerPutBehindIt(t *testing.T) {
 	)
 
 	want := []string{"https://titled.example/", "https://untitled.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -408,7 +408,7 @@ func TestDocumentWithoutTitleComesAfterOneAPeerPutBehindIt(t *testing.T) {
 func TestDocumentWhoseTitleHoldsQueryWordComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://beside.example/").
@@ -422,7 +422,7 @@ func TestDocumentWhoseTitleHoldsQueryWordComesFirst(t *testing.T) {
 	)
 
 	want := []string{"https://titled.example/", "https://beside.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -430,7 +430,7 @@ func TestDocumentWhoseTitleHoldsQueryWordComesFirst(t *testing.T) {
 func TestDocumentWhoseTitleHoldsRarerQueryWordComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"emacs", "manual"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://beside.example/").
@@ -444,7 +444,7 @@ func TestDocumentWhoseTitleHoldsRarerQueryWordComesFirst(t *testing.T) {
 	)
 
 	want := []string{"https://titled.example/", "https://beside.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -452,7 +452,7 @@ func TestDocumentWhoseTitleHoldsRarerQueryWordComesFirst(t *testing.T) {
 func TestTitleThatOnlyHoldsLongerWordChangesNoOrder(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"tofu"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://beside.example/").
@@ -466,7 +466,7 @@ func TestTitleThatOnlyHoldsLongerWordChangesNoOrder(t *testing.T) {
 	)
 
 	want := []string{"https://beside.example/", "https://titled.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -474,7 +474,7 @@ func TestTitleThatOnlyHoldsLongerWordChangesNoOrder(t *testing.T) {
 func TestTitleIsReadPastItsPunctuation(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"opentofu"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://beside.example/").matchingWords("opentofu"),
@@ -486,7 +486,7 @@ func TestTitleIsReadPastItsPunctuation(t *testing.T) {
 	)
 
 	want := []string{"https://titled.example/", "https://beside.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -494,7 +494,7 @@ func TestTitleIsReadPastItsPunctuation(t *testing.T) {
 func TestDocumentWhoseTextHoldsQueryPhraseComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://apart.example/").
@@ -508,7 +508,7 @@ func TestDocumentWhoseTextHoldsQueryPhraseComesFirst(t *testing.T) {
 	)
 
 	want := []string{"https://phrased.example/", "https://apart.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -516,7 +516,7 @@ func TestDocumentWhoseTextHoldsQueryPhraseComesFirst(t *testing.T) {
 func TestEachFurtherQueryPhraseHitAddsLessThanFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://once.example/").
@@ -530,7 +530,7 @@ func TestEachFurtherQueryPhraseHitAddsLessThanFirst(t *testing.T) {
 	)
 
 	want := []string{"https://often.example/", "https://once.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -538,7 +538,7 @@ func TestEachFurtherQueryPhraseHitAddsLessThanFirst(t *testing.T) {
 func TestDocumentOfMalformedAddressKeepsPlaceItWasFoundAt(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://unreadable.example/").
@@ -550,15 +550,15 @@ func TestDocumentOfMalformedAddressKeepsPlaceItWasFoundAt(t *testing.T) {
 	)
 
 	want := []string{malformedAddress, "https://weather.example/city/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want the found order %v", got, want)
 	}
 }
 
-func TestSameAnswersComeBackInSameOrderEveryRun(t *testing.T) {
+func TestSameFindingsComeBackInSameOrderEveryRun(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin", "weather", "kelondro", "freeworld"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://a.example/").
@@ -580,9 +580,9 @@ func TestSameAnswersComeBackInSameOrderEveryRun(t *testing.T) {
 		map[string]int{"berlin": 100000, "weather": 7000, "kelondro": 13, "freeworld": 421},
 	)
 
-	want := addressesInFallingOrderOfRelevance(answers)
-	for run := range amountOfRunsOfSameAnswers {
-		if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	want := addressesInFallingOrderOfRelevance(findings)
+	for run := range amountOfRunsOfSameFindings {
+		if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 			t.Fatalf("run %d reads the relevance order %v, want %v", run, got, want)
 		}
 	}
@@ -591,7 +591,7 @@ func TestSameAnswersComeBackInSameOrderEveryRun(t *testing.T) {
 func TestTwoDocumentsOfSameCountedHitsHoldSameRelevance(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://a.example/").withHitsOf("berlin", 1),
@@ -603,7 +603,7 @@ func TestTwoDocumentsOfSameCountedHitsHoldSameRelevance(t *testing.T) {
 	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
 		documentrelevance.DefaultRelevanceWeights(),
 	)
-	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(findings)
 	relevanceOfDocuments := slices.Collect(maps.Values(relevancePerDocument))
 	if len(relevanceOfDocuments) != 2 ||
 		relevanceOfDocuments[0] != relevanceOfDocuments[1] {
@@ -617,7 +617,7 @@ func TestTwoDocumentsOfSameCountedHitsHoldSameRelevance(t *testing.T) {
 func TestEntryPageOfSiteTheQueryHoldsComesFirst(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"heise"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://www.heise.de/developer/kontakt/").matchingWords("heise"),
@@ -632,7 +632,7 @@ func TestEntryPageOfSiteTheQueryHoldsComesFirst(t *testing.T) {
 		"https://heise-academy.de/",
 		"https://www.heise.de/developer/kontakt/",
 	}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -640,7 +640,7 @@ func TestEntryPageOfSiteTheQueryHoldsComesFirst(t *testing.T) {
 func TestDocumentOfFewerLinksPerWordComesLast(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOf(
+	findings := findingsOf(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://sparse.example/").
@@ -655,7 +655,7 @@ func TestDocumentOfFewerLinksPerWordComesLast(t *testing.T) {
 	)
 
 	want := []string{"https://linked.example/", "https://sparse.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -663,7 +663,7 @@ func TestDocumentOfFewerLinksPerWordComesLast(t *testing.T) {
 func TestDocumentNoPeerSentLinkCountsForComesBetweenTheSparseAndTheLinked(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOf(
+	findings := findingsOf(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://sparse.example/").
@@ -685,7 +685,7 @@ func TestDocumentNoPeerSentLinkCountsForComesBetweenTheSparseAndTheLinked(t *tes
 		"https://unmeasured.example/",
 		"https://sparse.example/",
 	}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
@@ -693,7 +693,7 @@ func TestDocumentNoPeerSentLinkCountsForComesBetweenTheSparseAndTheLinked(t *tes
 func TestDocumentOfLinksEnoughKeepsRelevanceOfFurtherLinkedDocument(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOf(
+	findings := findingsOf(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://linked.example/").
@@ -710,9 +710,9 @@ func TestDocumentOfLinksEnoughKeepsRelevanceOfFurtherLinkedDocument(t *testing.T
 	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
 		documentrelevance.DefaultRelevanceWeights(),
 	)
-	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
-	linked := relevancePerDocument[answers.FoundDocuments[0].Hash]
-	furtherLinked := relevancePerDocument[answers.FoundDocuments[1].Hash]
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(findings)
+	linked := relevancePerDocument[findings.FoundDocuments[0].Hash]
+	furtherLinked := relevancePerDocument[findings.FoundDocuments[1].Hash]
 	if linked != furtherLinked {
 		t.Fatalf(
 			"the document of links enough reaches the relevance %.4f, want the %.4f of the "+
@@ -728,7 +728,7 @@ func TestUnreadDocumentKeepsRelevanceOfApartDocument(t *testing.T) {
 
 	unread := foundDocumentAt(t, "https://uncounted.example/").
 		withHitsOf("berlin", hitsOfQueryWordInEveryPhrasedDocument)
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			unread,
@@ -742,8 +742,8 @@ func TestUnreadDocumentKeepsRelevanceOfApartDocument(t *testing.T) {
 	relevanceScorer := documentrelevance.RelevanceScorerWeighedBy(
 		documentrelevance.DefaultRelevanceWeights(),
 	)
-	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(answers)
-	apart := relevancePerDocument[answers.FoundDocuments[1].Hash]
+	relevancePerDocument := relevanceScorer.RelevancePerDocumentOf(findings)
+	apart := relevancePerDocument[findings.FoundDocuments[1].Hash]
 	if unreadRelevance := relevancePerDocument[unread.Hash]; unreadRelevance < apart {
 		t.Fatalf(
 			"the unread document reaches the relevance %.4f, want no less than the %.4f of the "+
@@ -757,7 +757,7 @@ func TestUnreadDocumentKeepsRelevanceOfApartDocument(t *testing.T) {
 func TestUnreadDocumentComesAfterPhrasedOne(t *testing.T) {
 	t.Parallel()
 
-	answers := answersHoldingDocumentsPerQueryWord(
+	findings := findingsHoldingDocumentsPerQueryWord(
 		[]string{"berlin"},
 		[]foundDocument{
 			foundDocumentAt(t, "https://uncounted.example/").
@@ -770,12 +770,12 @@ func TestUnreadDocumentComesAfterPhrasedOne(t *testing.T) {
 	)
 
 	want := []string{"https://phrased.example/", "https://uncounted.example/"}
-	if got := addressesInFallingOrderOfRelevance(answers); !slices.Equal(got, want) {
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
 }
 
-func TestRelevanceOfReadDocumentHoldsHoweverManyUnreadDocumentsTheAnswersHold(t *testing.T) {
+func TestRelevanceOfReadDocumentHoldsHoweverManyUnreadDocumentsTheFindingsHold(t *testing.T) {
 	t.Parallel()
 
 	readDocuments := []foundDocument{
@@ -791,11 +791,11 @@ func TestRelevanceOfReadDocumentHoldsHoweverManyUnreadDocumentsTheAnswersHold(t 
 		documentrelevance.DefaultRelevanceWeights(),
 	)
 	amongReadDocuments := relevanceScorer.
-		RelevancePerDocumentOf(answersHoldingDocumentsPerQueryWord(
+		RelevancePerDocumentOf(findingsHoldingDocumentsPerQueryWord(
 			[]string{"berlin"}, readDocuments, documentsHeldPerWord,
 		))
 	amongUnreadDocumentsToo := relevanceScorer.
-		RelevancePerDocumentOf(answersHoldingDocumentsPerQueryWord(
+		RelevancePerDocumentOf(findingsHoldingDocumentsPerQueryWord(
 			[]string{"berlin"},
 			append(
 				slices.Clone(readDocuments),

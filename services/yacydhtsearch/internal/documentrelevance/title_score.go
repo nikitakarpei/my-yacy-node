@@ -1,6 +1,6 @@
 package documentrelevance
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 
 const (
 	titleScoreOfDocumentWithoutTitle    = -1.0
@@ -12,14 +12,14 @@ type titleScorer struct {
 	queryVocabulary   queryVocabulary
 }
 
-func titleScorerFrom(statistics answersStatistics) titleScorer {
+func titleScorerFrom(statistics findingsStatistics) titleScorer {
 	return titleScorer{
 		queryWordRarities: statistics.queryWordRarities,
 		queryVocabulary:   statistics.queryVocabulary,
 	}
 }
 
-func (scorer titleScorer) scoreOf(document queryanswers.FoundDocument) float64 {
+func (scorer titleScorer) scoreOf(document queryfindings.FoundDocument) float64 {
 	if document.Title == "" {
 		return titleScoreOfDocumentWithoutTitle
 	}

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
@@ -16,7 +16,7 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	) queryanswers.AnsweredQuery
+	) queryfindings.Findings
 }
 
 type Spread struct {
@@ -32,7 +32,7 @@ func (s Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	if len(query.WordHashes()) < 2 {
 		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
 	}

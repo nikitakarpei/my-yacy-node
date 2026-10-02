@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -30,11 +30,11 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	) queryanswers.AnsweredQuery
+	) queryfindings.Findings
 }
 
 type DocumentsOrdering interface {
-	OrderedDocumentsOf(answers queryanswers.AnsweredQuery) []queryanswers.FoundDocument
+	OrderedDocumentsOf(findings queryfindings.Findings) []queryfindings.FoundDocument
 }
 
 type PageReading interface {
@@ -118,27 +118,27 @@ func (n Network) Search(
 		ctx, n.queryBudget, n.pageReadBudget,
 	)
 	defer endTheQuerySpread()
-	answers := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
+	findings := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
 	documentsToRead := documentsToReadAmong(
-		n.documentsOrdering.OrderedDocumentsOf(answers),
+		n.documentsOrdering.OrderedDocumentsOf(findings),
 		n.pagesReadPerQuery,
 		n.pagesReadPerSite,
 	)
 	readPages := n.pageReading.ReadEachPage(
 		ctx, query.WordHashes(), pagesToReadOf(documentsToRead),
 	)
-	answersWithReadPages := answers.
+	findingsWithReadPages := findings.
 		WithReadPages(readPages.PageContentsPerDocument).
 		WithSpamVerdicts(readPages.SpamVerdictPerDocument).
 		WithoutDocuments(readPages.WithdrawnDocuments)
 	rankedDocuments := documentsUpTo(
-		n.documentsOrdering.OrderedDocumentsOf(answersWithReadPages),
+		n.documentsOrdering.OrderedDocumentsOf(findingsWithReadPages),
 		n.rankedItemsCeiling,
 	)
 	n.observer.NetworkSearchPerformed(
 		ctx,
 		performedNetworkSearchFrom(
-			answersWithReadPages,
+			findingsWithReadPages,
 			rankedDocuments,
 			len(askablePeers),
 			time.Since(startedAt),
@@ -157,9 +157,9 @@ func contextWithinTheQuerySpreadBudget(
 }
 
 func documentsUpTo(
-	orderedDocuments []queryanswers.FoundDocument,
+	orderedDocuments []queryfindings.FoundDocument,
 	ceiling int,
-) []queryanswers.FoundDocument {
+) []queryfindings.FoundDocument {
 	if ceiling <= 0 {
 		return nil
 	}
@@ -167,7 +167,7 @@ func documentsUpTo(
 	return orderedDocuments[:min(ceiling, len(orderedDocuments))]
 }
 
-func pagesToReadOf(foundDocuments []queryanswers.FoundDocument) []pagereading.PageToRead {
+func pagesToReadOf(foundDocuments []queryfindings.FoundDocument) []pagereading.PageToRead {
 	pagesToRead := make([]pagereading.PageToRead, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
 		pagesToRead = append(pagesToRead, pagereading.PageToRead{
@@ -179,7 +179,7 @@ func pagesToReadOf(foundDocuments []queryanswers.FoundDocument) []pagereading.Pa
 	return pagesToRead
 }
 
-func rankingOf(rankedDocuments []queryanswers.FoundDocument) searchresult.Ranking {
+func rankingOf(rankedDocuments []queryfindings.FoundDocument) searchresult.Ranking {
 	items := make([]searchresult.Item, 0, len(rankedDocuments))
 	for _, rankedDocument := range rankedDocuments {
 		items = append(items, searchresult.Item{

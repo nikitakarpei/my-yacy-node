@@ -3,7 +3,7 @@ package documentrelevance
 import (
 	"math"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,13 +15,13 @@ type queryWordRarities struct {
 	sumOfRarities         float64
 }
 
-func queryWordRaritiesFrom(answers queryanswers.AnsweredQuery) queryWordRarities {
-	rarityPerWord := rarityPerWordFrom(answers.DocumentsHeldPerQueryWord)
+func queryWordRaritiesFrom(findings queryfindings.Findings) queryWordRarities {
+	rarityPerWord := rarityPerWordFrom(findings.DocumentsHeldPerQueryWord)
 	rarities := queryWordRarities{
 		rarityPerWord:         rarityPerWord,
 		rarityOfUncountedWord: leastRarityAmong(rarityPerWord),
 	}
-	for _, word := range answers.QueryWords {
+	for _, word := range findings.QueryWords {
 		rarities.sumOfRarities += rarities.rarityOf(word)
 	}
 

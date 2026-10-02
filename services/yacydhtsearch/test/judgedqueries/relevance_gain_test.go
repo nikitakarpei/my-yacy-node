@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 const (
@@ -106,9 +106,9 @@ func reportGainPerQuery(t *testing.T, serviceOrder orderedQueries, gain gainPerO
 type foundOrder struct{}
 
 func (foundOrder) OrderedDocumentsOf(
-	answers queryanswers.AnsweredQuery,
-) []queryanswers.FoundDocument {
-	return answers.FoundDocuments
+	findings queryfindings.Findings,
+) []queryfindings.FoundDocument {
+	return findings.FoundDocuments
 }
 
 func reportMeanGainPerOrdering(t *testing.T, gainOverSeveralRelevantDocuments gainPerOrdering) {

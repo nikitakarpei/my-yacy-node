@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -31,12 +31,12 @@ type judgedDocument struct {
 }
 
 func writeJudgmentsOf(
-	t *testing.T, query string, answersAndPageContents answersAndPageContents,
+	t *testing.T, query string, findingsAndPageContents findingsAndPageContents,
 ) queryJudgments {
 	t.Helper()
 
 	judgments := queryJudgmentsOf(t, query).
-		withDocumentsToJudgeIn(answersAndPageContents.answers)
+		withDocumentsToJudgeIn(findingsAndPageContents.findings)
 	writeFixtureFile(t, queryJudgmentsFileOf(query), judgments)
 
 	return judgments
@@ -74,11 +74,11 @@ func queryJudgmentsFileOf(query string) string {
 }
 
 func (judgments queryJudgments) withDocumentsToJudgeIn(
-	answers queryanswers.AnsweredQuery,
+	findings queryfindings.Findings,
 ) queryJudgments {
 	judgedDocumentPerHash := judgments.judgedDocumentPerHash()
 
-	documentsToJudge := judgments.documentsToJudgeIn(answers)
+	documentsToJudge := judgments.documentsToJudgeIn(findings)
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
 	for _, documentToJudge := range documentsToJudge {
 		documentToJudge.Grade = judgedDocumentPerHash[documentToJudge.Hash].Grade
@@ -101,13 +101,13 @@ func (judgments queryJudgments) judgedDocumentPerHash() map[yacymodel.URLHash]ju
 }
 
 func (judgments queryJudgments) documentsToJudgeIn(
-	answers queryanswers.AnsweredQuery,
+	findings queryfindings.Findings,
 ) []judgedDocument {
-	documentsToJudge := hashesOf(theFirstOf(answers.FoundDocuments))
+	documentsToJudge := hashesOf(theFirstOf(findings.FoundDocuments))
 	maps.Copy(documentsToJudge, hashesOf(theFirstOf(
-		defaultServiceOrdering().OrderedDocumentsOf(answers),
+		defaultServiceOrdering().OrderedDocumentsOf(findings),
 	)))
-	for _, foundDocument := range answers.FoundDocuments {
+	for _, foundDocument := range findings.FoundDocuments {
 		if !foundDocument.Facts.AmountOfWords.Present() {
 			continue
 		}
@@ -121,7 +121,7 @@ func (judgments queryJudgments) documentsToJudgeIn(
 	}
 
 	judgedDocuments := make([]judgedDocument, 0, len(documentsToJudge))
-	for _, foundDocument := range answers.FoundDocuments {
+	for _, foundDocument := range findings.FoundDocuments {
 		if _, toJudge := documentsToJudge[foundDocument.Hash]; !toJudge {
 			continue
 		}
@@ -135,7 +135,7 @@ func (judgments queryJudgments) documentsToJudgeIn(
 	return judgedDocuments
 }
 
-func hashesOf(documents []queryanswers.FoundDocument) map[yacymodel.URLHash]struct{} {
+func hashesOf(documents []queryfindings.FoundDocument) map[yacymodel.URLHash]struct{} {
 	hashes := make(map[yacymodel.URLHash]struct{}, len(documents))
 	for _, document := range documents {
 		hashes[document.Hash] = struct{}{}

@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -78,7 +78,7 @@ func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	startedAt := time.Now()
 
 	discoveryRound := spread.askToDiscover(ctx, query, chosenPeersPerQueryWord)
@@ -96,7 +96,7 @@ func (spread Spread) SpreadOverPeers(
 		time.Since(startedAt),
 	))
 
-	return answeredQueryFrom(
+	return findingsFrom(
 		query, discoveryRound, joinedDocuments, urlMetadataLookupRound,
 	)
 }

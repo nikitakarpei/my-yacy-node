@@ -1,4 +1,4 @@
-package queryanswers_test
+package queryfindings_test
 
 import (
 	"slices"
@@ -11,11 +11,11 @@ import (
 func TestEachAssessedDocumentCarriesItsSpamVerdict(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfDocumentsAt(
+	findings := findingsOfDocumentsAt(
 		t, "https://spam.example/", "https://clean.example/", "https://unread.example/",
 	)
 
-	assessed := answers.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
+	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
 		documentOf(t, "https://spam.example/"):  spamassessment.Spam,
 		documentOf(t, "https://clean.example/"): spamassessment.Clean,
 	})
@@ -33,11 +33,11 @@ func TestEachAssessedDocumentCarriesItsSpamVerdict(t *testing.T) {
 func TestOnlyADocumentWhosePageIsCalledSpamIsSpam(t *testing.T) {
 	t.Parallel()
 
-	answers := answersOfDocumentsAt(
+	findings := findingsOfDocumentsAt(
 		t, "https://spam.example/", "https://clean.example/", "https://unread.example/",
 	)
 
-	assessed := answers.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
+	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
 		documentOf(t, "https://spam.example/"):  spamassessment.Spam,
 		documentOf(t, "https://clean.example/"): spamassessment.Clean,
 	})

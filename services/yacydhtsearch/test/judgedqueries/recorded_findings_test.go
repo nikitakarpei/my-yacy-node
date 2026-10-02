@@ -7,17 +7,17 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	recordedAnswersDirectory  = "testdata/answers"
-	recordedAnswersFileSuffix = ".json.gz"
+	recordedFindingsDirectory  = "testdata/findings"
+	recordedFindingsFileSuffix = ".json.gz"
 )
 
-type recordedAnswers struct {
+type recordedFindings struct {
 	Query                     string                  `json:"query"`
 	RecordedAt                time.Time               `json:"recordedAt"`
 	FoundDocuments            []recordedFoundDocument `json:"foundDocuments"`
@@ -31,29 +31,29 @@ type recordedFoundDocument struct {
 	PageContents yacymodel.Optional[recordedPageContents]  `json:"pageContents,omitempty"`
 }
 
-func recordedAnswersOf(
-	query string, answersAndPageContents answersAndPageContents,
-) recordedAnswers {
-	return recordedAnswers{
+func recordedFindingsOf(
+	query string, findingsAndPageContents findingsAndPageContents,
+) recordedFindings {
+	return recordedFindings{
 		Query:                     query,
 		RecordedAt:                time.Now().UTC().Truncate(time.Second),
-		FoundDocuments:            recordedFoundDocumentsFrom(answersAndPageContents),
-		DocumentsHeldPerQueryWord: answersAndPageContents.answers.DocumentsHeldPerQueryWord,
+		FoundDocuments:            recordedFoundDocumentsFrom(findingsAndPageContents),
+		DocumentsHeldPerQueryWord: findingsAndPageContents.findings.DocumentsHeldPerQueryWord,
 	}
 }
 
 func recordedFoundDocumentsFrom(
-	answersAndPageContents answersAndPageContents,
+	findingsAndPageContents findingsAndPageContents,
 ) []recordedFoundDocument {
-	answers := answersAndPageContents.answers
-	recordedFoundDocuments := make([]recordedFoundDocument, 0, len(answers.FoundDocuments))
-	for _, foundDocument := range answers.FoundDocuments {
+	findings := findingsAndPageContents.findings
+	recordedFoundDocuments := make([]recordedFoundDocument, 0, len(findings.FoundDocuments))
+	for _, foundDocument := range findings.FoundDocuments {
 		recordedFoundDocuments = append(recordedFoundDocuments, recordedFoundDocument{
 			Hash:     foundDocument.Hash,
 			Metadata: recordedMetadataOf(foundDocument),
 			Postings: recordedPostingsOf(foundDocument),
 			PageContents: recordedPageContentsFor(
-				foundDocument.Hash, answersAndPageContents.pageContentsPerDocument,
+				foundDocument.Hash, findingsAndPageContents.pageContentsPerDocument,
 			),
 		})
 	}
@@ -62,7 +62,7 @@ func recordedFoundDocumentsFrom(
 }
 
 func recordedMetadataOf(
-	foundDocument queryanswers.FoundDocument,
+	foundDocument queryfindings.FoundDocument,
 ) yacymodel.Optional[yacymodel.URLMetadata] {
 	if len(foundDocument.MetadataReplicas) == 0 {
 		return yacymodel.None[yacymodel.URLMetadata]()
@@ -71,20 +71,20 @@ func recordedMetadataOf(
 	return yacymodel.Some(foundDocument.MetadataReplicas[0].Metadata)
 }
 
-func (recorded recordedAnswers) withPageContentsReadAgain(
-	answersAndPageContents answersAndPageContents,
-) recordedAnswers {
-	readAgain := recordedAnswersOf(recorded.Query, answersAndPageContents)
+func (recorded recordedFindings) withPageContentsReadAgain(
+	findingsAndPageContents findingsAndPageContents,
+) recordedFindings {
+	readAgain := recordedFindingsOf(recorded.Query, findingsAndPageContents)
 	readAgain.RecordedAt = recorded.RecordedAt
 
 	return readAgain
 }
 
-func (recorded recordedAnswers) answers() queryanswers.AnsweredQuery {
-	foundDocuments := make([]queryanswers.FoundDocument, 0, len(recorded.FoundDocuments))
+func (recorded recordedFindings) findings() queryfindings.Findings {
+	foundDocuments := make([]queryfindings.FoundDocument, 0, len(recorded.FoundDocuments))
 	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
 	for _, recordedDocument := range recorded.FoundDocuments {
-		foundDocuments = append(foundDocuments, queryanswers.FoundDocumentOf(
+		foundDocuments = append(foundDocuments, queryfindings.FoundDocumentOf(
 			recordedDocument.Hash,
 			recordedDocument.metadataReplicas(),
 			recordedDocument.postingReplicas(),
@@ -96,7 +96,7 @@ func (recorded recordedAnswers) answers() queryanswers.AnsweredQuery {
 
 	query := queryreading.QueryFrom(recorded.Query, "")
 
-	return queryanswers.AnsweredQuery{
+	return queryfindings.Findings{
 		QueryWords:                query.WordHashes(),
 		CompoundWords:             query.CompoundWords,
 		FoundDocuments:            foundDocuments,
@@ -104,19 +104,19 @@ func (recorded recordedAnswers) answers() queryanswers.AnsweredQuery {
 	}.WithReadPages(pageContentsPerDocument)
 }
 
-func (recorded recordedFoundDocument) metadataReplicas() []queryanswers.MetadataReplica {
+func (recorded recordedFoundDocument) metadataReplicas() []queryfindings.MetadataReplica {
 	metadata, reported := recorded.Metadata.Get()
 	if !reported {
 		return nil
 	}
 
-	return []queryanswers.MetadataReplica{{Metadata: metadata}}
+	return []queryfindings.MetadataReplica{{Metadata: metadata}}
 }
 
-func (recorded recordedFoundDocument) postingReplicas() []queryanswers.PostingReplica {
-	postingReplicas := make([]queryanswers.PostingReplica, 0, len(recorded.Postings))
+func (recorded recordedFoundDocument) postingReplicas() []queryfindings.PostingReplica {
+	postingReplicas := make([]queryfindings.PostingReplica, 0, len(recorded.Postings))
 	for _, posting := range recorded.Postings {
-		postingReplicas = append(postingReplicas, queryanswers.PostingReplica{
+		postingReplicas = append(postingReplicas, queryfindings.PostingReplica{
 			Holder:  posting.Holder,
 			Word:    posting.Word,
 			Posting: posting.Posting.posting(),
@@ -126,33 +126,33 @@ func (recorded recordedFoundDocument) postingReplicas() []queryanswers.PostingRe
 	return postingReplicas
 }
 
-func recordedAnswersFiles(t *testing.T) []string {
+func recordedFindingsFiles(t *testing.T) []string {
 	t.Helper()
 
-	answersFiles, err := filepath.Glob(
-		filepath.Join(recordedAnswersDirectory, "*"+recordedAnswersFileSuffix),
+	findingsFiles, err := filepath.Glob(
+		filepath.Join(recordedFindingsDirectory, "*"+recordedFindingsFileSuffix),
 	)
 	if err != nil {
-		t.Fatalf("read %s: %v", recordedAnswersDirectory, err)
+		t.Fatalf("read %s: %v", recordedFindingsDirectory, err)
 	}
-	if len(answersFiles) == 0 {
-		t.Fatalf("no query is recorded in %s", recordedAnswersDirectory)
+	if len(findingsFiles) == 0 {
+		t.Fatalf("no query is recorded in %s", recordedFindingsDirectory)
 	}
 
-	return answersFiles
+	return findingsFiles
 }
 
-func recordedAnswersFileOf(query string) string {
+func recordedFindingsFileOf(query string) string {
 	return filepath.Join(
-		recordedAnswersDirectory,
-		queryInFileNames(query)+recordedAnswersFileSuffix,
+		recordedFindingsDirectory,
+		queryInFileNames(query)+recordedFindingsFileSuffix,
 	)
 }
 
-func recordedAnswersAt(t *testing.T, path string) recordedAnswers {
+func recordedFindingsAt(t *testing.T, path string) recordedFindings {
 	t.Helper()
 
-	var recorded recordedAnswers
+	var recorded recordedFindings
 	if err := json.Unmarshal(contentOfGzippedFixtureFile(t, path), &recorded); err != nil {
 		t.Fatalf("read %s: %v", path, err)
 	}
@@ -160,19 +160,19 @@ func recordedAnswersAt(t *testing.T, path string) recordedAnswers {
 	return recorded
 }
 
-func writeRecordedAnswersFile(t *testing.T, path string, recorded recordedAnswers) {
+func writeRecordedFindingsFile(t *testing.T, path string, recorded recordedFindings) {
 	t.Helper()
 
 	writeGzippedFixtureFile(t, path, append(indentedJSONOf(t, recorded), '\n'))
 }
 
-func answersWrittenAndReadBack(
-	t *testing.T, answersAndPageContents answersAndPageContents,
-) queryanswers.AnsweredQuery {
+func findingsWrittenAndReadBack(
+	t *testing.T, findingsAndPageContents findingsAndPageContents,
+) queryfindings.Findings {
 	t.Helper()
 
-	path := filepath.Join(t.TempDir(), "recorded"+recordedAnswersFileSuffix)
-	writeRecordedAnswersFile(t, path, recordedAnswersOf("berlin", answersAndPageContents))
+	path := filepath.Join(t.TempDir(), "recorded"+recordedFindingsFileSuffix)
+	writeRecordedFindingsFile(t, path, recordedFindingsOf("berlin", findingsAndPageContents))
 
-	return recordedAnswersAt(t, path).answers()
+	return recordedFindingsAt(t, path).findings()
 }

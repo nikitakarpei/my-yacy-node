@@ -1,10 +1,10 @@
-// Package queryanswers holds what a spread answered for one whole query: its
+// Package queryfindings holds what a spread found for one whole query: its
 // words, its compound words, the documents it found with what the peers sent
 // for each of them, and how many documents the peers hold per query word. The facts of a document
 // count its query words, its query phrases, its words and its links. A page the
 // service read replaces the facts, the snippet, the title and the address, and
 // gives the spam verdict.
-package queryanswers
+package queryfindings
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
@@ -13,59 +13,59 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type AnsweredQuery struct {
+type Findings struct {
 	QueryWords                []yacymodel.Hash
 	CompoundWords             []searchquery.CompoundWord
 	FoundDocuments            []FoundDocument
 	DocumentsHeldPerQueryWord map[yacymodel.Hash]int
 }
 
-func (a AnsweredQuery) WithReadPages(
+func (f Findings) WithReadPages(
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
-) AnsweredQuery {
+) Findings {
 	if len(pageContentsPerDocument) == 0 {
-		return a
+		return f
 	}
 
-	foundDocuments := make([]FoundDocument, 0, len(a.FoundDocuments))
-	for _, foundDocument := range a.FoundDocuments {
+	foundDocuments := make([]FoundDocument, 0, len(f.FoundDocuments))
+	for _, foundDocument := range f.FoundDocuments {
 		pageContents, read := pageContentsPerDocument[foundDocument.Hash]
 		if read {
 			foundDocument = foundDocument.withItsReadPage(pageContents)
 		}
 		foundDocuments = append(foundDocuments, foundDocument)
 	}
-	a.FoundDocuments = foundDocuments
+	f.FoundDocuments = foundDocuments
 
-	return a
+	return f
 }
 
-func (a AnsweredQuery) WithSpamVerdicts(
+func (f Findings) WithSpamVerdicts(
 	spamVerdictPerDocument map[yacymodel.URLHash]spamassessment.Verdict,
-) AnsweredQuery {
-	foundDocuments := make([]FoundDocument, 0, len(a.FoundDocuments))
-	for _, foundDocument := range a.FoundDocuments {
+) Findings {
+	foundDocuments := make([]FoundDocument, 0, len(f.FoundDocuments))
+	for _, foundDocument := range f.FoundDocuments {
 		foundDocument.SpamVerdict = spamVerdictPerDocument[foundDocument.Hash]
 		foundDocuments = append(foundDocuments, foundDocument)
 	}
-	a.FoundDocuments = foundDocuments
+	f.FoundDocuments = foundDocuments
 
-	return a
+	return f
 }
 
-func (a AnsweredQuery) WithoutDocuments(documents map[yacymodel.URLHash]struct{}) AnsweredQuery {
+func (f Findings) WithoutDocuments(documents map[yacymodel.URLHash]struct{}) Findings {
 	if len(documents) == 0 {
-		return a
+		return f
 	}
 
-	foundDocuments := make([]FoundDocument, 0, len(a.FoundDocuments))
-	for _, foundDocument := range a.FoundDocuments {
+	foundDocuments := make([]FoundDocument, 0, len(f.FoundDocuments))
+	for _, foundDocument := range f.FoundDocuments {
 		if _, left := documents[foundDocument.Hash]; left {
 			continue
 		}
 		foundDocuments = append(foundDocuments, foundDocument)
 	}
-	a.FoundDocuments = foundDocuments
+	f.FoundDocuments = foundDocuments
 
-	return a
+	return f
 }

@@ -1,7 +1,7 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -11,18 +11,18 @@ type linkSparsityPenalty struct {
 	averageLinkSparsityPenalty float64
 }
 
-func linkSparsityPenaltyFrom(statistics answersStatistics) linkSparsityPenalty {
+func linkSparsityPenaltyFrom(statistics findingsStatistics) linkSparsityPenalty {
 	return linkSparsityPenalty{
 		averageLinkSparsityPenalty: statistics.documentAverages.averageLinkSparsityPenalty,
 	}
 }
 
-func (penalty linkSparsityPenalty) penaltyOf(document queryanswers.FoundDocument) float64 {
+func (penalty linkSparsityPenalty) penaltyOf(document queryfindings.FoundDocument) float64 {
 	return countedLinkSparsityPenaltyOf(document).OrElse(penalty.averageLinkSparsityPenalty)
 }
 
 func countedLinkSparsityPenaltyOf(
-	document queryanswers.FoundDocument,
+	document queryfindings.FoundDocument,
 ) yacymodel.Optional[float64] {
 	amountOfLinks, linksCounted := document.Facts.AmountOfLinks.Get()
 	amountOfWords, wordsCounted := document.Facts.AmountOfWords.Get()

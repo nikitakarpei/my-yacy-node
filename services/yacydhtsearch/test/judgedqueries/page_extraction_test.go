@@ -9,23 +9,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const snippetLengthCeiling = 300
 
-type answersAndPageContents struct {
-	answers                 queryanswers.AnsweredQuery
+type findingsAndPageContents struct {
+	findings                queryfindings.Findings
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
 }
 
-func answersAndPageContentsOf(
-	answers queryanswers.AnsweredQuery,
+func findingsAndPageContentsOf(
+	findings queryfindings.Findings,
 	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
-) answersAndPageContents {
-	return answersAndPageContents{
-		answers:                 answers.WithReadPages(pageContentsPerDocument),
+) findingsAndPageContents {
+	return findingsAndPageContents{
+		findings:                findings.WithReadPages(pageContentsPerDocument),
 		pageContentsPerDocument: pageContentsPerDocument,
 	}
 }
@@ -47,11 +47,11 @@ func pageExtractionOfEveryFormat(t *testing.T) pageExtraction {
 
 func (extraction pageExtraction) pageContentsPerDocumentOf(
 	ctx context.Context,
-	answers queryanswers.AnsweredQuery,
+	findings queryfindings.Findings,
 	storedPagePerAddress map[string]storedPage,
 ) map[yacymodel.URLHash]pagecontents.PageContents {
 	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
-	for _, foundDocument := range answers.FoundDocuments {
+	for _, foundDocument := range findings.FoundDocuments {
 		page, stored := storedPagePerAddress[foundDocument.Address]
 		if !stored {
 			continue
@@ -64,7 +64,7 @@ func (extraction pageExtraction) pageContentsPerDocumentOf(
 			extractedPage.title,
 			extractedPage.text,
 			extractedPage.linkCounts,
-			answers.QueryWords,
+			findings.QueryWords,
 			snippetLengthCeiling,
 		)
 	}

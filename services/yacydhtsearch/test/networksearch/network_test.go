@@ -21,7 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
@@ -324,9 +324,9 @@ func networkSearching(
 type orderingInTheFoundOrder struct{}
 
 func (orderingInTheFoundOrder) OrderedDocumentsOf(
-	answers queryanswers.AnsweredQuery,
-) []queryanswers.FoundDocument {
-	return answers.FoundDocuments
+	findings queryfindings.Findings,
+) []queryfindings.FoundDocument {
+	return findings.FoundDocuments
 }
 
 func networkOrdering(
@@ -516,29 +516,29 @@ func TestADocumentOnePeerListsTwiceIsFoundOnce(t *testing.T) {
 	}
 }
 
-type spreadAnswering struct {
-	answers queryanswers.AnsweredQuery
+type spreadFinding struct {
+	findings queryfindings.Findings
 }
 
-func (s spreadAnswering) SpreadOverPeers(
+func (s spreadFinding) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
-) queryanswers.AnsweredQuery {
-	return s.answers
+) queryfindings.Findings {
+	return s.findings
 }
 
-func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadAnswering {
+func findingsOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadFinding {
 	t.Helper()
 
 	commonWordDocument := documentOf(t, commonWordAddress)
 	rareWordDocument := documentOf(t, rareWordAddress)
 
-	return spreadAnswering{answers: queryanswers.AnsweredQuery{
+	return spreadFinding{findings: queryfindings.Findings{
 		QueryWords: []yacymodel.Hash{
 			yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
 		},
-		FoundDocuments: []queryanswers.FoundDocument{
+		FoundDocuments: []queryfindings.FoundDocument{
 			{
 				Hash:    commonWordDocument,
 				Address: commonWordAddress,
@@ -568,8 +568,8 @@ func documentOf(t *testing.T, address string) yacymodel.URLHash {
 	return hash
 }
 
-func oneHitOfTheWord(word string) queryanswers.DocumentFacts {
-	return queryanswers.DocumentFacts{
+func oneHitOfTheWord(word string) queryfindings.DocumentFacts {
+	return queryfindings.DocumentFacts{
 		HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(word): 1},
 	}
 }
@@ -582,7 +582,7 @@ func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
 		t,
 		directoryAnsweringAt(t, peerHolding(t)),
 		&recordedQuery{},
-		answersOfTwoWords(t, common, rare),
+		findingsOfTwoWords(t, common, rare),
 		relevance.New(
 			documentrelevance.RelevanceScorerWeighedBy(
 				documentrelevance.DefaultRelevanceWeights(),
@@ -629,7 +629,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	network := networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
 		everyAskablePeer{},
-		answersOfTwoWords(t, common, rare),
+		findingsOfTwoWords(t, common, rare),
 		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
 		relevance.New(
 			documentrelevance.RelevanceScorerWeighedBy(
@@ -680,9 +680,9 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 		"https://spam.example/3",
 		"https://other.example/",
 	}
-	foundDocuments := make([]queryanswers.FoundDocument, 0, len(addresses))
+	foundDocuments := make([]queryfindings.FoundDocument, 0, len(addresses))
 	for _, address := range addresses {
-		foundDocuments = append(foundDocuments, queryanswers.FoundDocument{
+		foundDocuments = append(foundDocuments, queryfindings.FoundDocument{
 			Hash:    documentOf(t, address),
 			Address: address,
 			Facts:   oneHitOfTheWord("berlin"),
@@ -692,7 +692,7 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 	network := networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
 		everyAskablePeer{},
-		spreadAnswering{answers: queryanswers.AnsweredQuery{
+		spreadFinding{findings: queryfindings.Findings{
 			QueryWords:     []yacymodel.Hash{yacymodel.WordHash("berlin")},
 			FoundDocuments: foundDocuments,
 		}},
@@ -745,7 +745,7 @@ func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 	network := networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
 		everyAskablePeer{},
-		answersOfTwoWords(t, common, rare),
+		findingsOfTwoWords(t, common, rare),
 		pagesOfOneDocumentWithdrawn{address: common},
 		orderingInTheFoundOrder{},
 		queryBudget,
@@ -773,7 +773,7 @@ type recordedBudgets struct {
 }
 
 type spreadRecordingTheBudgetItGets struct {
-	answers  queryanswers.AnsweredQuery
+	findings queryfindings.Findings
 	recorded *recordedBudgets
 }
 
@@ -781,10 +781,10 @@ func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
-) queryanswers.AnsweredQuery {
+) queryfindings.Findings {
 	s.recorded.spread = budgetLeftIn(ctx)
 
-	return s.answers
+	return s.findings
 }
 
 type pagesRecordingTheBudgetTheyGet struct {
@@ -821,7 +821,7 @@ func networkRecordingItsBudgets(
 		directoryAnsweringAt(t, peerHolding(t)),
 		everyAskablePeer{},
 		spreadRecordingTheBudgetItGets{
-			answers:  answersOfTwoWords(t, "https://a.example/", "https://b.example/").answers,
+			findings: findingsOfTwoWords(t, "https://a.example/", "https://b.example/").findings,
 			recorded: recorded,
 		},
 		pagesRecordingTheBudgetTheyGet{recorded: recorded},

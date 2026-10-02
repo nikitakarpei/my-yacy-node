@@ -1,10 +1,10 @@
 package judgedqueries_test
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+import "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 
 type orderedQuery struct {
 	judgedQuery      judgedQuery
-	orderedDocuments []queryanswers.FoundDocument
+	orderedDocuments []queryfindings.FoundDocument
 }
 
 type orderedQueries []orderedQuery

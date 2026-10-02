@@ -5,7 +5,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -26,7 +26,7 @@ type gradedDocument struct {
 type gradedDocuments map[yacymodel.URLHash]gradedDocument
 
 func (documents gradedDocuments) normalizedGainOf(
-	orderedDocuments []queryanswers.FoundDocument,
+	orderedDocuments []queryfindings.FoundDocument,
 ) float64 {
 	idealGain := gainOf(documents.inTheIdealOrder())
 	if idealGain == 0 {
@@ -112,7 +112,7 @@ func (documents gradedDocuments) inFallingOrderOfGrade() []gradedDocument {
 }
 
 func (documents gradedDocuments) inTheOrderOf(
-	orderedDocuments []queryanswers.FoundDocument,
+	orderedDocuments []queryfindings.FoundDocument,
 ) []gradedDocument {
 	documentsInTheOrder := make([]gradedDocument, 0, len(orderedDocuments))
 	for _, orderedDocument := range orderedDocuments {
@@ -147,7 +147,7 @@ func (documents gradedDocuments) amountOfRelevantDocuments() int {
 }
 
 func (documents gradedDocuments) amountOfUngradedDocumentsAmong(
-	orderedDocuments []queryanswers.FoundDocument,
+	orderedDocuments []queryfindings.FoundDocument,
 ) int {
 	amountOfUngradedDocuments := 0
 	for _, orderedDocument := range orderedDocuments {
@@ -161,7 +161,7 @@ func (documents gradedDocuments) amountOfUngradedDocumentsAmong(
 }
 
 func (documents gradedDocuments) amountOfSpamDocumentsAmong(
-	orderedDocuments []queryanswers.FoundDocument,
+	orderedDocuments []queryfindings.FoundDocument,
 ) int {
 	amountOfSpamDocuments := 0
 	for _, orderedDocument := range orderedDocuments {

@@ -6,15 +6,15 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/spamlast"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 type foundOrdering struct{}
 
 func (foundOrdering) OrderedDocumentsOf(
-	answers queryanswers.AnsweredQuery,
-) []queryanswers.FoundDocument {
-	return slices.Clone(answers.FoundDocuments)
+	findings queryfindings.Findings,
+) []queryfindings.FoundDocument {
+	return slices.Clone(findings.FoundDocuments)
 }
 
 type assessedAddress struct {
@@ -22,19 +22,19 @@ type assessedAddress struct {
 	verdict spamassessment.Verdict
 }
 
-func answersOf(assessedAddresses ...assessedAddress) queryanswers.AnsweredQuery {
-	answers := queryanswers.AnsweredQuery{}
+func findingsOf(assessedAddresses ...assessedAddress) queryfindings.Findings {
+	findings := queryfindings.Findings{}
 	for _, assessed := range assessedAddresses {
-		answers.FoundDocuments = append(answers.FoundDocuments, queryanswers.FoundDocument{
+		findings.FoundDocuments = append(findings.FoundDocuments, queryfindings.FoundDocument{
 			Address:     assessed.address,
 			SpamVerdict: assessed.verdict,
 		})
 	}
 
-	return answers
+	return findings
 }
 
-func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
+func addressesOf(foundDocuments []queryfindings.FoundDocument) []string {
 	addresses := make([]string, 0, len(foundDocuments))
 	for _, foundDocument := range foundDocuments {
 		addresses = append(addresses, foundDocument.Address)
@@ -46,7 +46,7 @@ func addressesOf(foundDocuments []queryanswers.FoundDocument) []string {
 func TestSpamDocumentsComeAfterAllOthersInTheOrderOfTheOtherOrdering(t *testing.T) {
 	t.Parallel()
 
-	orderedDocuments := spamlast.New(foundOrdering{}).OrderedDocumentsOf(answersOf(
+	orderedDocuments := spamlast.New(foundOrdering{}).OrderedDocumentsOf(findingsOf(
 		assessedAddress{"https://first-spam.example/", spamassessment.Spam},
 		assessedAddress{"https://clean.example/", spamassessment.Clean},
 		assessedAddress{"https://second-spam.example/", spamassessment.Spam},

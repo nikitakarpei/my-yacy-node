@@ -1,17 +1,17 @@
 package wordjoined
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 )
 
-func answeredQueryFrom(
+func findingsFrom(
 	query searchquery.Query,
 	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
 	urlMetadataLookupRound urlMetadataLookupRound,
-) queryanswers.AnsweredQuery {
-	return queryanswers.AnsweredQuery{
+) queryfindings.Findings {
+	return queryfindings.Findings{
 		QueryWords:    discoveryRound.queryWords,
 		CompoundWords: query.CompoundWords,
 		FoundDocuments: foundDocumentsFrom(
@@ -26,8 +26,8 @@ func foundDocumentsFrom(
 	discoveryRound discoveryRound,
 	joinedDocuments distinctDocuments,
 	urlMetadataLookupRound urlMetadataLookupRound,
-) []queryanswers.FoundDocument {
-	documentsThePeersSent := queryanswers.EmptyDocumentsThePeersSent()
+) []queryfindings.FoundDocument {
+	documentsThePeersSent := queryfindings.EmptyDocumentsThePeersSent()
 	for _, settledAsk := range discoveryRound.settledAsks {
 		for _, answer := range settledAsk.Answers {
 			for _, listedDocument := range answer.ListedDocuments {

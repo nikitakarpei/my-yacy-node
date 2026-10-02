@@ -1,4 +1,4 @@
-package queryanswers
+package queryfindings
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 

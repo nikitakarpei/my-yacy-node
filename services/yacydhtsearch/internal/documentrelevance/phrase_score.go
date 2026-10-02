@@ -1,7 +1,7 @@
 package documentrelevance
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 const (
@@ -9,7 +9,7 @@ const (
 	phraseScoreOfUnreadDocument = 0.0
 )
 
-func phraseScoreOf(document queryanswers.FoundDocument) float64 {
+func phraseScoreOf(document queryfindings.FoundDocument) float64 {
 	queryPhraseHits, queryPhrasesCounted := document.Facts.QueryPhraseHits.Get()
 	if !queryPhrasesCounted {
 		return phraseScoreOfUnreadDocument

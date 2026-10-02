@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryanswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
 
 const (
@@ -37,7 +37,7 @@ func pageFetchingWithin(pagesBudget time.Duration) pageFetching {
 
 func (fetching pageFetching) fetchedPagesOf(
 	ctx context.Context,
-	foundDocuments []queryanswers.FoundDocument,
+	foundDocuments []queryfindings.FoundDocument,
 ) []storedPage {
 	budgetedCtx, stopPagesBudget := context.WithTimeout(ctx, fetching.pagesBudget)
 	defer stopPagesBudget()

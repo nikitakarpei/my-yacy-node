@@ -229,7 +229,7 @@ func TestWithoutASampleEveryWordIsAskedWholeInEveryPartition(t *testing.T) {
 	network.peersCountingNoDocument = map[string]struct{}{"first-in-0": {}, "second-in-0": {}}
 	observer := &recordedSpreads{}
 
-	answeredQuery := settingsOfTwoPartitions().spread(network, observer)
+	findings := settingsOfTwoPartitions().spread(network, observer)
 
 	if asksNamingDocuments := asksNamingDocumentsToMatchAmong(
 		network.searchDocumentsAsks,
@@ -251,7 +251,7 @@ func TestWithoutASampleEveryWordIsAskedWholeInEveryPartition(t *testing.T) {
 	wanted := documentsInTheirHashOrder(documentHashesOf(
 		append(documentsInPartitionZero[:1:1], documentsInPartitionOne[:2]...),
 	))
-	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+	if got := foundDocumentsIn(findings); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread found %v, want the documents both words hold %v", got, wanted)
 	}
 }
@@ -278,7 +278,7 @@ func TestTheOtherWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(t *
 	network, documentsToMatch := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
 	observer := &recordedSpreads{}
 
-	answeredQuery := settingsOfTwoPartitions().spread(network, observer)
+	findings := settingsOfTwoPartitions().spread(network, observer)
 
 	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsToMatch))
@@ -300,7 +300,7 @@ func TestTheOtherWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(t *
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
 	}
-	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+	if got := foundDocumentsIn(findings); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread found %v, want the documents to match both words hold %v", got, wanted)
 	}
 }
@@ -313,7 +313,7 @@ func TestAPartitionWithMoreDocumentsToMatchThanTheCeilingIsAskedWhole(t *testing
 	settings := settingsOfTwoPartitions()
 	settings.documentsToMatchCeiling = 1
 
-	answeredQuery := settings.spread(network, observer)
+	findings := settings.spread(network, observer)
 
 	if asksNamingDocuments := asksNamingDocumentsToMatchAmong(
 		network.searchDocumentsAsks,
@@ -325,7 +325,7 @@ func TestAPartitionWithMoreDocumentsToMatchThanTheCeilingIsAskedWhole(t *testing
 		t.Fatalf("the spread reported partition 1 as %q, want it over the ceiling", got)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsToMatch))
-	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+	if got := foundDocumentsIn(findings); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread found %v, want the documents to match both words hold %v", got, wanted)
 	}
 }
@@ -368,10 +368,10 @@ func TestAnAnswerThatIgnoresTheDocumentsToMatchJoinsOnlyTheDocumentsEveryWordHol
 	network.peersListingDocumentsTheAskDidNotName = map[string]struct{}{"second-in-1": {}}
 	observer := &recordedSpreads{}
 
-	answeredQuery := settingsOfTwoPartitions().spread(network, observer)
+	findings := settingsOfTwoPartitions().spread(network, observer)
 
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsToMatch))
-	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+	if got := foundDocumentsIn(findings); !slices.Equal(got, wanted) {
 		t.Fatalf(
 			"the spread found %v, want only the documents to match both words hold %v",
 			got,
@@ -420,7 +420,7 @@ func TestACompoundWordIsAskedInEveryPartitionOnlyWhenItHoldsTheLeadingWord(t *te
 	settings.askablePeers = []string{"in-0", "in-1"}
 	settings.choice = responsiblePeers{partitionOfEachPeer: map[string]uint{"in-0": 0, "in-1": 1}}
 
-	answeredQuery := settings.spread(network, &recordedSpreads{})
+	findings := settings.spread(network, &recordedSpreads{})
 
 	asksOfTheCompoundWithTheLead := asksOfTheWord(firstWord+secondWord, network.searchDocumentsAsks)
 	if got := partitionsAskedAmong(asksOfTheCompoundWithTheLead); !slices.Equal(
@@ -442,7 +442,7 @@ func TestACompoundWordIsAskedInEveryPartitionOnlyWhenItHoldsTheLeadingWord(t *te
 		)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsInPartitionOne))
-	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+	if got := foundDocumentsIn(findings); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread found %v, want the documents every word holds %v", got, wanted)
 	}
 }
@@ -481,10 +481,10 @@ func TestTheJoinHoldsTheDocumentsEveryWordHoldsWhenTheLeadingWordIsCompleteEvery
 
 	network, documentsEveryWordHolds, settings := networkOfSixteenPartitions(t)
 
-	answeredQuery := settings.spread(network, &recordedSpreads{})
+	findings := settings.spread(network, &recordedSpreads{})
 
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsEveryWordHolds))
-	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+	if got := foundDocumentsIn(findings); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread found %v, want the documents every word holds %v", got, wanted)
 	}
 }
@@ -547,7 +547,7 @@ func TestARememberedLeadingWordOverTheCeilingInEveryPartitionHasTheOtherWordsAsk
 	network, documentsToMatch := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
 	observer := &recordedSpreads{}
 
-	answeredQuery := settingsWithTheLeadingWordRemembered(4).spread(network, observer)
+	findings := settingsWithTheLeadingWordRemembered(4).spread(network, observer)
 
 	asksOfTheOtherWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
 	if got := settledWordPartitionsReadAtTheAsksOf(secondWord, network); !slices.Equal(
@@ -569,7 +569,7 @@ func TestARememberedLeadingWordOverTheCeilingInEveryPartitionHasTheOtherWordsAsk
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsToMatch))
-	if got := foundDocumentsIn(answeredQuery); !slices.Equal(got, wanted) {
+	if got := foundDocumentsIn(findings); !slices.Equal(got, wanted) {
 		t.Fatalf("the spread found %v, want the documents to match both words hold %v", got, wanted)
 	}
 }
