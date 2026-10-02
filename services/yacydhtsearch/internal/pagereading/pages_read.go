@@ -6,14 +6,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type ReadPages struct {
+type PagesRead struct {
 	PageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents
 	SpamVerdictPerDocument  map[yacymodel.URLHash]spamassessment.Verdict
 	WithdrawnDocuments      map[yacymodel.URLHash]struct{}
 }
 
-func readPagesFrom(pageReadResults []pageReadResult) ReadPages {
-	readPages := ReadPages{
+func pagesReadFrom(pageReadResults pageReadResults) PagesRead {
+	pagesRead := PagesRead{
 		PageContentsPerDocument: make(
 			map[yacymodel.URLHash]pagecontents.PageContents, len(pageReadResults),
 		),
@@ -25,13 +25,13 @@ func readPagesFrom(pageReadResults []pageReadResult) ReadPages {
 	for _, pageReadResult := range pageReadResults {
 		switch pageReadResult.outcome {
 		case pageWasRead:
-			readPages.PageContentsPerDocument[pageReadResult.document] = pageReadResult.pageContents
-			readPages.SpamVerdictPerDocument[pageReadResult.document] = pageReadResult.spamVerdict
+			pagesRead.PageContentsPerDocument[pageReadResult.document] = pageReadResult.pageContents
+			pagesRead.SpamVerdictPerDocument[pageReadResult.document] = pageReadResult.spamVerdict
 		case pageWasGone, pageRefusesIndexing:
-			readPages.WithdrawnDocuments[pageReadResult.document] = struct{}{}
+			pagesRead.WithdrawnDocuments[pageReadResult.document] = struct{}{}
 		default:
 		}
 	}
 
-	return readPages
+	return pagesRead
 }

@@ -356,13 +356,20 @@ func networkOrdering(
 
 type pagesThatNoOneReads struct{}
 
-func (pagesThatNoOneReads) ReadEachPage(
-	_ context.Context,
-	_ []yacymodel.Hash,
-	_ []pagereading.PageToRead,
-) pagereading.ReadPages {
-	return pagereading.ReadPages{}
+func (pages pagesThatNoOneReads) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+	return pages
 }
+
+func (pagesThatNoOneReads) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
+
+func (pagesThatNoOneReads) Read(
+	_ context.Context,
+	_ []pagereading.PageToRead,
+) pagereading.PagesRead {
+	return pagereading.PagesRead{}
+}
+
+func (pagesThatNoOneReads) Finish(_ context.Context) {}
 
 func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 	t.Parallel()
@@ -603,24 +610,35 @@ type pagesHoldingTheWordOfOneDocument struct {
 	hits    int
 }
 
-func (p pagesHoldingTheWordOfOneDocument) ReadEachPage(
+func (p pagesHoldingTheWordOfOneDocument) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+	return p
+}
+
+func (pagesHoldingTheWordOfOneDocument) ReadAhead(
 	_ context.Context,
-	_ []yacymodel.Hash,
-	pagesToRead []pagereading.PageToRead,
-) pagereading.ReadPages {
+	_ []pagereading.PageToRead,
+) {
+}
+
+func (p pagesHoldingTheWordOfOneDocument) Read(
+	_ context.Context,
+	pagesWanted []pagereading.PageToRead,
+) pagereading.PagesRead {
 	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
-	for _, pageToRead := range pagesToRead {
-		if pageToRead.Address != p.address {
+	for _, pageWanted := range pagesWanted {
+		if pageWanted.Address != p.address {
 			continue
 		}
-		pageContentsPerDocument[pageToRead.Document] = pagecontents.PageContents{
+		pageContentsPerDocument[pageWanted.Document] = pagecontents.PageContents{
 			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(p.word): p.hits},
 			AmountOfWords:    p.hits,
 		}
 	}
 
-	return pagereading.ReadPages{PageContentsPerDocument: pageContentsPerDocument}
+	return pagereading.PagesRead{PageContentsPerDocument: pageContentsPerDocument}
 }
+
+func (pagesHoldingTheWordOfOneDocument) Finish(_ context.Context) {}
 
 func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	t.Parallel()
@@ -659,17 +677,24 @@ type pagesRecordingTheirAddresses struct {
 	addresses *[]string
 }
 
-func (p pagesRecordingTheirAddresses) ReadEachPage(
+func (p pagesRecordingTheirAddresses) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+	return p
+}
+
+func (pagesRecordingTheirAddresses) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
+
+func (p pagesRecordingTheirAddresses) Read(
 	_ context.Context,
-	_ []yacymodel.Hash,
-	pagesToRead []pagereading.PageToRead,
-) pagereading.ReadPages {
-	for _, pageToRead := range pagesToRead {
-		*p.addresses = append(*p.addresses, pageToRead.Address)
+	pagesWanted []pagereading.PageToRead,
+) pagereading.PagesRead {
+	for _, pageWanted := range pagesWanted {
+		*p.addresses = append(*p.addresses, pageWanted.Address)
 	}
 
-	return pagereading.ReadPages{}
+	return pagereading.PagesRead{}
 }
+
+func (pagesRecordingTheirAddresses) Finish(_ context.Context) {}
 
 func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 	t.Parallel()
@@ -723,20 +748,27 @@ type pagesOfOneDocumentWithdrawn struct {
 	address string
 }
 
-func (p pagesOfOneDocumentWithdrawn) ReadEachPage(
+func (p pagesOfOneDocumentWithdrawn) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+	return p
+}
+
+func (pagesOfOneDocumentWithdrawn) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
+
+func (p pagesOfOneDocumentWithdrawn) Read(
 	_ context.Context,
-	_ []yacymodel.Hash,
-	pagesToRead []pagereading.PageToRead,
-) pagereading.ReadPages {
+	pagesWanted []pagereading.PageToRead,
+) pagereading.PagesRead {
 	withdrawnDocuments := map[yacymodel.URLHash]struct{}{}
-	for _, pageToRead := range pagesToRead {
-		if pageToRead.Address == p.address {
-			withdrawnDocuments[pageToRead.Document] = struct{}{}
+	for _, pageWanted := range pagesWanted {
+		if pageWanted.Address == p.address {
+			withdrawnDocuments[pageWanted.Document] = struct{}{}
 		}
 	}
 
-	return pagereading.ReadPages{WithdrawnDocuments: withdrawnDocuments}
+	return pagereading.PagesRead{WithdrawnDocuments: withdrawnDocuments}
 }
+
+func (pagesOfOneDocumentWithdrawn) Finish(_ context.Context) {}
 
 func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 	t.Parallel()
@@ -791,15 +823,22 @@ type pagesRecordingTheBudgetTheyGet struct {
 	recorded *recordedBudgets
 }
 
-func (p pagesRecordingTheBudgetTheyGet) ReadEachPage(
+func (p pagesRecordingTheBudgetTheyGet) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+	return p
+}
+
+func (pagesRecordingTheBudgetTheyGet) ReadAhead(_ context.Context, _ []pagereading.PageToRead) {}
+
+func (p pagesRecordingTheBudgetTheyGet) Read(
 	ctx context.Context,
-	_ []yacymodel.Hash,
 	_ []pagereading.PageToRead,
-) pagereading.ReadPages {
+) pagereading.PagesRead {
 	p.recorded.pageReading = budgetLeftIn(ctx)
 
-	return pagereading.ReadPages{}
+	return pagereading.PagesRead{}
 }
+
+func (pagesRecordingTheBudgetTheyGet) Finish(_ context.Context) {}
 
 func budgetLeftIn(ctx context.Context) time.Duration {
 	deadline, bounded := ctx.Deadline()

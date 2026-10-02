@@ -383,7 +383,7 @@ func pageReadingFor(
 		return nil, fmt.Errorf("page format derivations: %w", err)
 	}
 
-	return pagereading.New(
+	return networkSearchPageReading{reading: pagereading.New(
 		redirectfollowingfetch.New(
 			pagefetchershttp.New(
 				cfg.PageReadProxyURL,
@@ -397,12 +397,13 @@ func pageReadingFor(
 		formatDerivations,
 		cfg.PageReadBudget,
 		cfg.PageReadCutoff,
+		wallclock.Clock{},
 		cfg.SnippetLengthCeiling,
 		pagereading.PageReadingObservers{
 			pagereadingobserversapplog.PageReadingLog{},
 			pagereadingobserversprometheus.New(registry, cfg.PageReadBudget),
 		},
-	), nil
+	)}, nil
 }
 
 type peerPresence interface {

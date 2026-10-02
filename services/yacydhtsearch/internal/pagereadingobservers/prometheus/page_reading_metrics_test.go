@@ -97,9 +97,48 @@ func TestEveryOutcomeOfAPageIsPublishedBeforeTheFirstPageReading(t *testing.T) {
 		`yacydhtsearch_page_reading_pages_total{outcome="unsupported kind"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="cut off"} 0`,
+		"yacydhtsearch_page_reading_pages_unwanted_total 0",
+		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read_ahead"} 0`,
+		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="spam"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="clean"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="unassessed"} 0`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+}
+
+func TestOneFinishedRunPublishesThePagesItReadButDidNotWant(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := pagereadingobserversprometheus.New(registry, pageReadBudget)
+
+	metrics.PageReadingRunFinished(
+		t.Context(), pagereading.FinishedPageReadingRun{AmountOfPagesUnwanted: 6},
+	)
+
+	published := "yacydhtsearch_page_reading_pages_unwanted_total 6"
+	if body := publishedBy(t, registry); !strings.Contains(body, published) {
+		t.Fatalf("metrics do not carry %q:\n%s", published, body)
+	}
+}
+
+func TestPagesAskedAfterTheFinishArePublishedByRead(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := pagereadingobserversprometheus.New(registry, pageReadBudget)
+
+	metrics.PagesReadAheadAfterTheFinish(t.Context(), 3)
+	metrics.PagesReadAfterTheFinish(t.Context(), 2)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read_ahead"} 3`,
+		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read"} 2`,
 	} {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)

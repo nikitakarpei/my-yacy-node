@@ -3,6 +3,7 @@ package pagereading_test
 import (
 	"context"
 	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -148,7 +149,11 @@ func (documentsThatHoldNoReadableText) BodyIn(
 }
 
 type recordedPageReading struct {
-	performed pagereading.PerformedPageReading
+	performed                            pagereading.PerformedPageReading
+	reported                             bool
+	finishedRun                          pagereading.FinishedPageReadingRun
+	amountOfPagesReadAheadAfterTheFinish int
+	amountOfPagesReadAfterTheFinish      int
 }
 
 func (r *recordedPageReading) PageReadingPerformed(
@@ -156,9 +161,64 @@ func (r *recordedPageReading) PageReadingPerformed(
 	performed pagereading.PerformedPageReading,
 ) {
 	r.performed = performed
+	r.reported = true
+}
+
+func (r *recordedPageReading) PageReadingRunFinished(
+	_ context.Context,
+	finishedRun pagereading.FinishedPageReadingRun,
+) {
+	r.finishedRun = finishedRun
+}
+
+func (r *recordedPageReading) PagesReadAheadAfterTheFinish(
+	_ context.Context,
+	amountOfPagesToRead int,
+) {
+	r.amountOfPagesReadAheadAfterTheFinish += amountOfPagesToRead
+}
+
+func (r *recordedPageReading) PagesReadAfterTheFinish(_ context.Context, amountOfPagesWanted int) {
+	r.amountOfPagesReadAfterTheFinish += amountOfPagesWanted
 }
 
 var cutoffNever = pagereading.PageReadCutoff{PercentOfPages: 100}
+
+type clockThatNeverFires struct{}
+
+func (clockThatNeverFires) After(_ time.Duration, _ func()) func() {
+	return func() {}
+}
+
+type clockTheTestFires struct {
+	budgets chan func()
+	graces  chan func()
+}
+
+func (clock clockTheTestFires) After(timeout time.Duration, expire func()) func() {
+	if timeout == pageReadBudget {
+		clock.budgets <- expire
+	} else {
+		clock.graces <- expire
+	}
+
+	return func() {}
+}
+
+func pagesReadFrom(
+	t *testing.T,
+	reading pagereading.Reading,
+	queryWords []yacymodel.Hash,
+	pagesToRead []pagereading.PageToRead,
+) pagereading.PagesRead {
+	t.Helper()
+
+	run := reading.Start(queryWords)
+	pagesRead := run.Read(t.Context(), pagesToRead)
+	run.Finish(t.Context())
+
+	return pagesRead
+}
 
 func readingOfThePages(
 	t *testing.T,
@@ -167,7 +227,7 @@ func readingOfThePages(
 ) pagereading.Reading {
 	t.Helper()
 
-	return readingCutOffBy(t, pageFetch, observer, cutoffNever)
+	return readingCutOffBy(t, pageFetch, observer, cutoffNever, clockThatNeverFires{})
 }
 
 func readingCutOffBy(
@@ -175,6 +235,7 @@ func readingCutOffBy(
 	pageFetch pagefetch.Fetcher,
 	observer pagereading.PageReadingObserver,
 	cutoff pagereading.PageReadCutoff,
+	clock pagereading.Clock,
 ) pagereading.Reading {
 	t.Helper()
 
@@ -188,6 +249,7 @@ func readingCutOffBy(
 		formatDerivations,
 		pageReadBudget,
 		cutoff,
+		clock,
 		snippetLengthCeiling,
 		pagereading.PageReadingObservers{observer},
 	)
@@ -252,8 +314,8 @@ func TestThePageOfADocumentGivesTheHitsOfEachQueryWordInItsText(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin"), yacymodel.WordHash("wall")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -270,8 +332,8 @@ func TestThePageOfADocumentGivesItsTitle(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -295,8 +357,8 @@ func queryPhraseHitsOfTheAddressRead(
 		words = append(words, yacymodel.WordHash(queryWord))
 	}
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(), words, []pagereading.PageToRead{pageToReadOfTheAddress(t, address)},
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading, words, []pagereading.PageToRead{pageToReadOfTheAddress(t, address)},
 	).PageContentsPerDocument
 
 	return pageContentsOfTheAddressRead(t, pageContentsPerDocument, address).QueryPhraseHits
@@ -337,8 +399,8 @@ func TestOnlyTheWordsAReaderSeesInThePageAreRead(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{
 			yacymodel.WordHash("berlin"),
 			yacymodel.WordHash("div"),
@@ -370,8 +432,8 @@ func TestTheSnippetOfADocumentIsCutAtAWordBoundaryBeforeItsLengthCeiling(t *test
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("terraform")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheArticle)},
 	).PageContentsPerDocument
@@ -391,8 +453,8 @@ func TestOnlyTheArticleOfAPageIsReadWhenThePageHoldsOne(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{
 			yacymodel.WordHash("terraform"),
 			yacymodel.WordHash("navigation"),
@@ -427,12 +489,13 @@ func TestTheWholeTextOfAPageIsReadWhenItHoldsNoReadableText(t *testing.T) {
 		documentsThatHoldNoReadableText{},
 		pageReadBudget,
 		cutoffNever,
+		clockThatNeverFires{},
 		snippetLengthCeiling,
 		pagereading.PageReadingObservers{observer},
 	)
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -450,8 +513,8 @@ func TestAPageThatNoAddressHoldsIsRefused(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesHeldAtTheirAddress{}, observer)
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -484,15 +547,15 @@ func TestAPageTheSiteSaysIsGoneGivesItsDocumentAsWithdrawn(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesGone{}, observer)
 
-	readPages := reading.ReadEachPage(
-		t.Context(),
+	pagesRead := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	if _, withdrawn := readPages.WithdrawnDocuments[documentOfTheAddress(t, addressOfTheDocument)]; !withdrawn ||
-		len(readPages.PageContentsPerDocument) != 0 {
-		t.Fatalf("the reading gives %+v, want the document as withdrawn and no text", readPages)
+	if _, withdrawn := pagesRead.WithdrawnDocuments[documentOfTheAddress(t, addressOfTheDocument)]; !withdrawn ||
+		len(pagesRead.PageContentsPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want the document as withdrawn and no text", pagesRead)
 	}
 	if observer.performed.AmountOfPagesGone != 1 {
 		t.Fatalf("PageReadingPerformed = %+v, want one gone page", observer.performed)
@@ -539,18 +602,18 @@ func TestAPageThatRefusesIndexingGivesItsDocumentAsWithdrawn(t *testing.T) {
 			observer := &recordedPageReading{}
 			reading := readingOfThePages(t, pages, observer)
 
-			readPages := reading.ReadEachPage(
-				t.Context(),
+			pagesRead := pagesReadFrom(
+				t, reading,
 				[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 				[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 			)
 
 			document := documentOfTheAddress(t, addressOfTheDocument)
-			if _, withdrawn := readPages.WithdrawnDocuments[document]; !withdrawn ||
-				len(readPages.PageContentsPerDocument) != 0 {
+			if _, withdrawn := pagesRead.WithdrawnDocuments[document]; !withdrawn ||
+				len(pagesRead.PageContentsPerDocument) != 0 {
 				t.Fatalf(
 					"the reading gives %+v, want the document as withdrawn and no text",
-					readPages,
+					pagesRead,
 				)
 			}
 			if observer.performed.AmountOfPagesRefusingIndexing != 1 {
@@ -571,14 +634,14 @@ func TestAPageThatAllowsIndexingIsRead(t *testing.T) {
 		body:            pageOfBerlin,
 	}, &recordedPageReading{})
 
-	readPages := reading.ReadEachPage(
-		t.Context(),
+	pagesRead := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	if len(readPages.WithdrawnDocuments) != 0 || len(readPages.PageContentsPerDocument) != 1 {
-		t.Fatalf("the reading gives %+v, want the page read", readPages)
+	if len(pagesRead.WithdrawnDocuments) != 0 || len(pagesRead.PageContentsPerDocument) != 1 {
+		t.Fatalf("the reading gives %+v, want the page read", pagesRead)
 	}
 }
 
@@ -615,14 +678,14 @@ func TestAReadPageGivesTheSpamVerdictOfItsHeader(t *testing.T) {
 			observer := &recordedPageReading{}
 			reading := readingOfThePages(t, pagesAssessedForSpam{spamAssessmentValue}, observer)
 
-			readPages := reading.ReadEachPage(
-				t.Context(),
+			pagesRead := pagesReadFrom(
+				t, reading,
 				[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 				[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 			)
 
 			document := documentOfTheAddress(t, addressOfTheDocument)
-			if verdict := readPages.SpamVerdictPerDocument[document]; verdict != wantedVerdict {
+			if verdict := pagesRead.SpamVerdictPerDocument[document]; verdict != wantedVerdict {
 				t.Fatalf("the reading gives the verdict %v, want %v", verdict, wantedVerdict)
 			}
 			if observer.performed.AmountOfPagesReadPerSpamVerdict[wantedVerdict] != 1 {
@@ -640,14 +703,14 @@ func TestAPageTheSiteRefusesIsNotWithdrawn(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHeldAtTheirAddress{}, &recordedPageReading{})
 
-	readPages := reading.ReadEachPage(
-		t.Context(),
+	pagesRead := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	if len(readPages.WithdrawnDocuments) != 0 {
-		t.Fatalf("the reading gives %+v, want no withdrawn document", readPages)
+	if len(pagesRead.WithdrawnDocuments) != 0 {
+		t.Fatalf("the reading gives %+v, want no withdrawn document", pagesRead)
 	}
 }
 
@@ -657,8 +720,8 @@ func TestAPageTooLargeToFetchIsRefused(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesTooLargeToFetch{}, observer)
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -677,8 +740,8 @@ func TestAPageAtAnAddressThatIsNoWebAddressIsUnreachable(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
 
-	reading.ReadEachPage(
-		t.Context(),
+	pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{
 			{Document: documentOfTheAddress(t, addressOfTheDocument), Address: "berlin"},
@@ -696,25 +759,18 @@ func TestAPageAtAnAddressThatIsNoWebAddressIsUnreachable(t *testing.T) {
 func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) {
 	t.Parallel()
 
-	formatDerivations, err := pageformats.New()
-	if err != nil {
-		t.Fatalf("pageformats.New(): %v", err)
-	}
 	observer := &recordedPageReading{}
-	reading := pagereading.New(
-		redirectfollowingfetch.New(pagesThatOutlastTheBudget{}, maxRedirectHops),
-		formatDerivations,
-		time.Millisecond,
-		cutoffNever,
-		snippetLengthCeiling,
-		pagereading.PageReadingObservers{observer},
-	)
+	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	reading := readingCutOffBy(t, pagesThatOutlastTheBudget{}, observer, cutoffNever, clock)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
-		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
-		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
-	).PageContentsPerDocument
+	pagesRead := make(chan pagereading.PagesRead, 1)
+	go func() { pagesRead <- run.Read(t.Context(), pagesToRead) }()
+	expireTheBudget := <-clock.budgets
+	expireTheBudget()
+	pageContentsPerDocument := (<-pagesRead).PageContentsPerDocument
+	run.Finish(t.Context())
 
 	if len(pageContentsPerDocument) != 0 {
 		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
@@ -730,8 +786,8 @@ func TestAPageOfAnUnsupportedKindGivesNothingForItsDocument(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesOfAnUnsupportedKind{}, observer)
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -753,8 +809,8 @@ func TestAPageWhoseFetchDeadlinePassedIsOutOfBudget(t *testing.T) {
 	observer := &recordedPageReading{}
 	reading := readingOfThePages(t, pagesWhoseDeadlinePassed{}, observer)
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -781,8 +837,9 @@ func TestThePageReadingTellsTheTimeItSpentFetchingApartFromReading(t *testing.T)
 		observer,
 	)
 
-	reading.ReadEachPage(
-		t.Context(),
+	pagesReadFrom(
+		t,
+		reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
@@ -796,12 +853,6 @@ func TestThePageReadingTellsTheTimeItSpentFetchingApartFromReading(t *testing.T)
 	}
 	if performed.TimeSpentReading <= 0 {
 		t.Fatalf("PageReadingPerformed = %+v, want time spent reading", performed)
-	}
-	if performed.TimeSpentFetching+performed.TimeSpentReading > performed.TimeSpent {
-		t.Fatalf(
-			"PageReadingPerformed = %+v, want fetching and reading inside the time spent",
-			performed,
-		)
 	}
 }
 
@@ -822,65 +873,264 @@ func (p pagesThatOutlastTheBudgetAtOneAddress) Fetch(
 	return p.pages.Fetch(ctx, pageURL, knownVersion)
 }
 
-func performedReadingWithOnePageThatOutlastsTheBudget(
-	t *testing.T,
-	cutoff pagereading.PageReadCutoff,
-) pagereading.PerformedPageReading {
+func pagesOfThreeDocuments(t *testing.T) []pagereading.PageToRead {
 	t.Helper()
 
-	observer := &recordedPageReading{}
-	reading := readingCutOffBy(
-		t,
-		pagesThatOutlastTheBudgetAtOneAddress{
-			pages:       pagesHoldingTheDocuments(t),
-			slowAddress: addressOfTheArticle,
-		},
-		observer,
-		cutoff,
-	)
+	return []pagereading.PageToRead{
+		pageToReadOfTheAddress(t, addressOfTheDocument),
+		pageToReadOfTheAddress(t, addressOfTheLinkingDocument),
+		pageToReadOfTheAddress(t, addressOfTheArticle),
+	}
+}
 
-	reading.ReadEachPage(
-		t.Context(),
-		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
-		[]pagereading.PageToRead{
-			pageToReadOfTheAddress(t, addressOfTheDocument),
-			pageToReadOfTheAddress(t, addressOfTheLinkingDocument),
-			pageToReadOfTheAddress(t, addressOfTheArticle),
-		},
-	)
+func pagesThatOutlastTheBudgetAtTheArticle(t *testing.T) pagesThatOutlastTheBudgetAtOneAddress {
+	t.Helper()
 
-	return observer.performed
+	return pagesThatOutlastTheBudgetAtOneAddress{
+		pages:       pagesHoldingTheDocuments(t),
+		slowAddress: addressOfTheArticle,
+	}
 }
 
 func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 	t.Parallel()
 
-	performed := performedReadingWithOnePageThatOutlastsTheBudget(
+	observer := &recordedPageReading{}
+	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	reading := readingCutOffBy(
 		t,
-		pagereading.PageReadCutoff{PercentOfPages: 50, Grace: 10 * time.Millisecond},
+		pagesThatOutlastTheBudgetAtTheArticle(t),
+		observer,
+		pagereading.PageReadCutoff{PercentOfPages: 50},
+		clock,
 	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
 
+	pagesRead := make(chan pagereading.PagesRead, 1)
+	go func() { pagesRead <- run.Read(t.Context(), pagesOfThreeDocuments(t)) }()
+	expireTheGrace := <-clock.graces
+	expireTheGrace()
+	<-pagesRead
+	run.Finish(t.Context())
+
+	performed := observer.performed
 	if performed.AmountOfPagesRead != 2 || performed.AmountOfPagesCutOff != 1 ||
-		performed.AmountOfPagesOutOfBudget != 0 || performed.TimeSpent >= pageReadBudget/2 {
+		performed.AmountOfPagesOutOfBudget != 0 {
 		t.Fatalf(
-			"PageReadingPerformed = %+v, want two pages read and the slow page cut off "+
-				"well before the page read budget ends",
+			"PageReadingPerformed = %+v, want two pages read and the slow page cut off",
 			performed,
 		)
 	}
 }
 
-func TestAPageStillBeingReadIsOutOfBudgetWhenTheCutoffIsOff(t *testing.T) {
+func TestAPageStillBeingReadWhenTheBudgetEndsIsOutOfBudget(t *testing.T) {
 	t.Parallel()
 
-	performed := performedReadingWithOnePageThatOutlastsTheBudget(t, cutoffNever)
+	observer := &recordedPageReading{}
+	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	reading := readingCutOffBy(
+		t,
+		pagesThatOutlastTheBudgetAtTheArticle(t),
+		observer,
+		pagereading.PageReadCutoff{PercentOfPages: 50},
+		clock,
+	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
 
+	pagesRead := make(chan pagereading.PagesRead, 1)
+	go func() { pagesRead <- run.Read(t.Context(), pagesOfThreeDocuments(t)) }()
+	<-clock.graces
+	expireTheBudget := <-clock.budgets
+	expireTheBudget()
+	<-pagesRead
+	run.Finish(t.Context())
+
+	performed := observer.performed
 	if performed.AmountOfPagesRead != 2 || performed.AmountOfPagesOutOfBudget != 1 ||
-		performed.AmountOfPagesCutOff != 0 || performed.TimeSpent < pageReadBudget {
+		performed.AmountOfPagesCutOff != 0 {
 		t.Fatalf(
 			"PageReadingPerformed = %+v, want two pages read and the slow page out of budget",
 			performed,
 		)
+	}
+}
+
+type pagesCountingTheirFetches struct {
+	pages           pagesHeldAtTheirAddress
+	amountOfFetches *atomic.Int32
+}
+
+func (p pagesCountingTheirFetches) Fetch(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	p.amountOfFetches.Add(1)
+
+	return p.pages.Fetch(ctx, pageURL, knownVersion)
+}
+
+func TestAPageReadAheadAndLaterWantedIsReadOnce(t *testing.T) {
+	t.Parallel()
+
+	amountOfFetches := &atomic.Int32{}
+	reading := readingOfThePages(
+		t,
+		pagesCountingTheirFetches{
+			pages:           pagesHoldingTheDocuments(t),
+			amountOfFetches: amountOfFetches,
+		},
+		&recordedPageReading{},
+	)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.ReadAhead(t.Context(), pagesToRead)
+	run.ReadAhead(t.Context(), pagesToRead)
+
+	pageContentsPerDocument := run.Read(t.Context(), pagesToRead).PageContentsPerDocument
+
+	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
+	if amountOfFetches.Load() != 1 {
+		t.Fatalf("the page was fetched %d times, want once", amountOfFetches.Load())
+	}
+}
+
+func TestAPageReadAheadButNeverWantedIsLeftOut(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.ReadAhead(t.Context(), pagesOfThreeDocuments(t))
+
+	pageContentsPerDocument := run.Read(
+		t.Context(),
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	).PageContentsPerDocument
+
+	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
+	if len(pageContentsPerDocument) != 1 || observer.performed.AmountOfPagesToRead != 1 {
+		t.Fatalf(
+			"the reading gives %+v and reports %+v, want only the page wanted",
+			pageContentsPerDocument, observer.performed,
+		)
+	}
+}
+
+func TestAReadStartsTheWantedPagesNeverReadAhead(t *testing.T) {
+	t.Parallel()
+
+	amountOfFetches := &atomic.Int32{}
+	reading := readingOfThePages(
+		t,
+		pagesCountingTheirFetches{
+			pages:           pagesHoldingTheDocuments(t),
+			amountOfFetches: amountOfFetches,
+		},
+		&recordedPageReading{},
+	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+
+	pageContentsPerDocument := run.Read(
+		t.Context(),
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	).PageContentsPerDocument
+
+	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
+	if amountOfFetches.Load() != 1 {
+		t.Fatalf("the page was fetched %d times, want once", amountOfFetches.Load())
+	}
+}
+
+func TestAReadReportsThePageReadingItPerformedBeforeTheFinish(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+
+	run.Read(
+		t.Context(),
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	)
+
+	if !observer.reported || observer.performed.AmountOfPagesRead != 1 {
+		t.Fatalf("PageReadingPerformed = %+v, want one page read", observer.performed)
+	}
+}
+
+func TestAFinishedRunReadsNoPageAhead(t *testing.T) {
+	t.Parallel()
+
+	amountOfFetches := &atomic.Int32{}
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(
+		t,
+		pagesCountingTheirFetches{
+			pages:           pagesHoldingTheDocuments(t),
+			amountOfFetches: amountOfFetches,
+		},
+		observer,
+	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Finish(t.Context())
+
+	run.ReadAhead(t.Context(), pagesOfThreeDocuments(t))
+
+	if observer.amountOfPagesReadAheadAfterTheFinish != 3 || amountOfFetches.Load() != 0 {
+		t.Fatalf(
+			"%d pages read ahead after the finish and %d fetches, want three and no fetch",
+			observer.amountOfPagesReadAheadAfterTheFinish, amountOfFetches.Load(),
+		)
+	}
+}
+
+func TestAFinishedRunReadsNoPage(t *testing.T) {
+	t.Parallel()
+
+	amountOfFetches := &atomic.Int32{}
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(
+		t,
+		pagesCountingTheirFetches{
+			pages:           pagesHoldingTheDocuments(t),
+			amountOfFetches: amountOfFetches,
+		},
+		observer,
+	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Finish(t.Context())
+
+	pageContentsPerDocument := run.Read(
+		t.Context(),
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	).PageContentsPerDocument
+
+	if len(pageContentsPerDocument) != 0 || amountOfFetches.Load() != 0 ||
+		observer.amountOfPagesReadAfterTheFinish != 1 {
+		t.Fatalf(
+			"the reading gives %+v after %d fetches with %d pages read after the finish, "+
+				"want no page, no fetch and one page read after the finish",
+			pageContentsPerDocument, amountOfFetches.Load(),
+			observer.amountOfPagesReadAfterTheFinish,
+		)
+	}
+}
+
+func TestTheFinishReportsThePagesReadAheadThatNoReadWanted(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	pagesWanted := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Read(t.Context(), pagesWanted)
+	run.ReadAhead(t.Context(), pagesOfThreeDocuments(t))
+
+	run.Finish(t.Context())
+
+	if observer.finishedRun.AmountOfPagesUnwanted != 2 {
+		t.Fatalf("PageReadingRunFinished = %+v, want two pages unwanted", observer.finishedRun)
 	}
 }
 
@@ -928,8 +1178,8 @@ func TestAPageThatMovedIsReadAtTheAddressItMovedTo(t *testing.T) {
 	movedAddress := "https://old.example/berlin"
 	reading := readingOfThePages(t, pagesMovedFrom(t, movedAddress), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, movedAddress)},
 	).PageContentsPerDocument
@@ -948,8 +1198,8 @@ func TestAPageThatDidNotMoveGivesNoAddress(t *testing.T) {
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
@@ -966,8 +1216,8 @@ func TestThePageOfADocumentGivesTheLinksOfItsOwnSiteAndOfOtherSitesItHolds(t *te
 
 	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
-	pageContentsPerDocument := reading.ReadEachPage(
-		t.Context(),
+	pageContentsPerDocument := pagesReadFrom(
+		t, reading,
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheLinkingDocument)},
 	).PageContentsPerDocument

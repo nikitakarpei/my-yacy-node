@@ -1631,7 +1631,7 @@
     },
     {
       "id": 30,
-      "title": "How long reading all the pages of one query took",
+      "title": "How long one query waited for the pages it wanted",
       "description": "The page read budget bounds it.",
       "type": "timeseries",
       "datasource": {
@@ -1784,7 +1784,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 156
       },
@@ -1815,6 +1815,48 @@
           "refId": "A",
           "expr": "sum by (spam_verdict) (clamp_min(yacydhtsearch_page_reading_pages_read_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_read_total{instance=~\"$service_instance\"} offset $__interval), 0)) / ignoring(spam_verdict) group_left sum(clamp_min(yacydhtsearch_page_reading_pages_read_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_read_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{spam_verdict}}"
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "title": "Pages read but not wanted",
+      "description": "A query started to read these pages, but did not want them for its ranking.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 156
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "axisLabel": "per interval"
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacydhtsearch_page_reading_pages_unwanted_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_unwanted_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "unwanted"
         }
       ]
     },

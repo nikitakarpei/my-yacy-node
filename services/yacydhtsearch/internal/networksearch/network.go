@@ -38,11 +38,13 @@ type DocumentsOrdering interface {
 }
 
 type PageReading interface {
-	ReadEachPage(
-		ctx context.Context,
-		queryWords []yacymodel.Hash,
-		pagesToRead []pagereading.PageToRead,
-	) pagereading.ReadPages
+	Start(queryWords []yacymodel.Hash) PageReadingRun
+}
+
+type PageReadingRun interface {
+	ReadAhead(ctx context.Context, pagesToRead []pagereading.PageToRead)
+	Read(ctx context.Context, pagesWanted []pagereading.PageToRead) pagereading.PagesRead
+	Finish(ctx context.Context)
 }
 
 type NetworkSearchObserver interface {
@@ -119,18 +121,18 @@ func (n Network) Search(
 	)
 	defer endTheQuerySpread()
 	findings := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
-	documentsToRead := documentsToReadAmong(
+	pagesWanted := pagesToReadAmong(
 		n.documentsOrdering.OrderedDocumentsOf(findings),
 		n.pagesReadPerQuery,
 		n.pagesReadPerSite,
 	)
-	readPages := n.pageReading.ReadEachPage(
-		ctx, query.WordHashes(), pagesToReadOf(documentsToRead),
-	)
+	pageReadingRun := n.pageReading.Start(query.WordHashes())
+	pagesRead := pageReadingRun.Read(ctx, pagesWanted)
+	pageReadingRun.Finish(ctx)
 	findingsWithReadPages := findings.
-		WithReadPages(readPages.PageContentsPerDocument).
-		WithSpamVerdicts(readPages.SpamVerdictPerDocument).
-		WithoutDocuments(readPages.WithdrawnDocuments)
+		WithReadPages(pagesRead.PageContentsPerDocument).
+		WithSpamVerdicts(pagesRead.SpamVerdictPerDocument).
+		WithoutDocuments(pagesRead.WithdrawnDocuments)
 	rankedDocuments := documentsUpTo(
 		n.documentsOrdering.OrderedDocumentsOf(findingsWithReadPages),
 		n.rankedItemsCeiling,
@@ -165,18 +167,6 @@ func documentsUpTo(
 	}
 
 	return orderedDocuments[:min(ceiling, len(orderedDocuments))]
-}
-
-func pagesToReadOf(foundDocuments []queryfindings.FoundDocument) []pagereading.PageToRead {
-	pagesToRead := make([]pagereading.PageToRead, 0, len(foundDocuments))
-	for _, foundDocument := range foundDocuments {
-		pagesToRead = append(pagesToRead, pagereading.PageToRead{
-			Document: foundDocument.Hash,
-			Address:  foundDocument.Address,
-		})
-	}
-
-	return pagesToRead
 }
 
 func rankingOf(rankedDocuments []queryfindings.FoundDocument) searchresult.Ranking {
