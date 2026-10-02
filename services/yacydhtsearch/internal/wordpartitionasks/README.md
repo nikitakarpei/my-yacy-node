@@ -2,17 +2,18 @@
 
 ## Why this package exists
 
-A YaCy network stores each word partition on several peers, its replicas. A
-search used to ask every replica of every word partition at once and wait for
-the slowest one. With a hundred peer calls per search, the slowest call is
-almost always a slow one, so every search paid the tail latency of the network.
-The replicas hold the same postings, so most of those calls added nothing.
+A YaCy network stores each word partition on several peers. Each peer keeps a
+replica of the partition and is its holder. A search used to ask every holder
+of every word partition at once and wait for the slowest one. With a hundred
+peer calls per search, the slowest call is almost always a slow one, so every
+search paid the tail latency of the network. The replicas hold the same
+postings, so most of those calls added nothing.
 
-This package asks the replicas of one word partition in turn. The first `n`
+This package asks the holders of one word partition in turn. The first `n`
 covering answers cover the partition and the other calls are cancelled. An
-answer covers when it lists documents or when the peer searched. A replica
-that fails, or that answers without a search, is replaced at once. A replica
-that stays silent past a hedge delay gets a second replica asked beside it.
+answer covers when it lists documents or when the holder searched. A holder
+that fails, or that answers without a search, is replaced at once. A holder
+that stays silent past a hedge delay gets a second holder asked beside it.
 
 ## One run for one query
 
@@ -20,22 +21,22 @@ A query starts one run. The deadline of the run context is the deadline of
 the run. Send asks to the run at any time. Close the asks when you have no
 more asks to send.
 
-Send one ask for each word partition. An ask names the replicas of its word
+Send one ask for each word partition. An ask names the holders of its word
 partition in order. When a word partition is already in the run, the run
 ignores a later ask for it.
 
-A peer gets one ask at most in one run. A replica already asked for another
+A peer gets one ask at most in one run. A holder already asked for another
 word partition is skipped. This rule applies to all asks of the run, also to
 asks that you send later.
 
 ## Settled asks
 
 The run sends each ask as soon as it settles. An ask settles when enough
-replicas listed documents, when no replica is left, or at the deadline. It
-comes with the answers of its replicas. A replica that gave no answer is not
+holders listed documents, when no holder is left, or at the deadline. It
+comes with the answers of its holders. A holder that gave no answer is not
 in the answers.
 
-The answers of an ask come in the order of its replicas. The asks come in the
+The answers of an ask come in the order of its holders. The asks come in the
 order they settle.
 
 Read the settled asks until they close. They close when you closed the asks
@@ -45,14 +46,14 @@ run.
 ## Prior art
 
 - **Hedged requests** from Dean and Barroso, "The Tail at Scale" (2013). Send
-  the same request to a second replica after the first is slow, take the first
+  the same request to a second holder after the first is slow, take the first
   answer, cancel the rest. The hedge delay around the 95th percentile keeps
   the extra load small. This is the hedge rule here.
 - **Quorum reads** in Dynamo-style stores. A read is answered once `R` of `N`
-  replicas reply. `n` replicas covering a partition is the same knob, with
+  holders reply. `n` holders covering a partition is the same knob, with
   `n=1` as the fast path and `n` equal to the redundancy as the join of all
   replicas.
-- **Speculative retry** in Cassandra. A replica that has not answered within a
+- **Speculative retry** in Cassandra. A holder that has not answered within a
   latency percentile is backed up by another one. Cassandra derives the delay
   from observed latency, which is the later `hedgedelays/answerlatency` here.
 - **Retry on empty and on failure** as in gRPC and Envoy retry policies: a
