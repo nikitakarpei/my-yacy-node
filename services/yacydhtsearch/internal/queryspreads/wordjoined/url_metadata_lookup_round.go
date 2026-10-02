@@ -32,12 +32,12 @@ type urlMetadataLookupInFlight struct {
 	asksInFlightPerOpenDocument   map[yacymodel.URLHash]int
 	lookedUpDocumentsWithMetadata distinctDocuments
 	answeredAsks                  []peerasks.AnsweredURLMetadataAsk
-	findingsSender                lookupFindingsSender
+	findingsSender                urlMetadataLookupFindingsSender
 }
 
 func urlMetadataLookupInFlightOf(
 	asks []peerasks.URLMetadataAsk,
-	findingsSender lookupFindingsSender,
+	findingsSender urlMetadataLookupFindingsSender,
 ) urlMetadataLookupInFlight {
 	asksInFlightPerOpenDocument := map[yacymodel.URLHash]int{}
 	for _, ask := range asks {
