@@ -112,3 +112,60 @@ func TestDocumentsNoPeerSentAnythingForComeBackAsNone(t *testing.T) {
 		t.Fatalf("the documents come back as %+v, want none", foundDocuments)
 	}
 }
+
+func TestDocumentsAmongTheChosenKeepOnlyTheChosenOnesInOrderTheyWereSentIn(t *testing.T) {
+	t.Parallel()
+
+	documents := queryfindings.EmptyDocumentsThePeersSent()
+	for _, address := range []string{
+		"https://first.example/", "https://left-out.example/", "https://second.example/",
+	} {
+		documents.KeepMetadataThePeerSent(
+			metadataOfDocumentAt(t, address, "Sent"), yacymodel.WordHash("a peer"),
+		)
+	}
+
+	foundDocuments := documents.Among(map[yacymodel.URLHash]struct{}{
+		documentOf(t, "https://second.example/"): {},
+		documentOf(t, "https://first.example/"):  {},
+	}).FoundDocuments()
+
+	if len(foundDocuments) != 2 ||
+		foundDocuments[0].Address != "https://first.example/" ||
+		foundDocuments[1].Address != "https://second.example/" {
+		t.Fatalf(
+			"the chosen documents come back as %+v, want the first one and then the second one",
+			foundDocuments,
+		)
+	}
+}
+
+func TestMetadataKeptAmongTheChosenDocumentsLeavesTheDocumentsTheyCameFromAlone(t *testing.T) {
+	t.Parallel()
+
+	documents := queryfindings.EmptyDocumentsThePeersSent()
+	documents.KeepMetadataThePeerSent(
+		metadataOfDocumentAt(t, "https://shared.example/", "Shared"),
+		yacymodel.WordHash("the first peer"),
+	)
+	documentsAmongTheChosen := documents.Among(map[yacymodel.URLHash]struct{}{
+		documentOf(t, "https://shared.example/"): {},
+	})
+
+	documentsAmongTheChosen.KeepMetadataThePeerSent(
+		metadataOfDocumentAt(t, "https://shared.example/", "Shared"),
+		yacymodel.WordHash("the second peer"),
+	)
+	documentsAmongTheChosen.KeepMetadataThePeerSent(
+		metadataOfDocumentAt(t, "https://looked-up.example/", "Looked up"),
+		yacymodel.WordHash("the second peer"),
+	)
+
+	foundDocuments := documents.FoundDocuments()
+	if len(foundDocuments) != 1 || len(foundDocuments[0].MetadataReplicas) != 1 {
+		t.Fatalf(
+			"the documents come back as %+v, want the one document with its first metadata alone",
+			foundDocuments,
+		)
+	}
+}

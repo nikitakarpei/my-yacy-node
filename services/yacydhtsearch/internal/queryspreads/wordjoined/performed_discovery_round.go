@@ -23,10 +23,10 @@ type PerformedDiscoveryRound struct {
 func performedDiscoveryRoundFrom(
 	round discoveryRound,
 ) PerformedDiscoveryRound {
-	answers := round.settledAsks.answers()
+	answers := round.everyAnswer()
 
 	return PerformedDiscoveryRound{
-		AmountOfQueryWords:    len(round.queryWords),
+		AmountOfQueryWords:    len(round.queryWordsFewestDocumentsFirst),
 		AmountOfCompoundWords: len(round.compoundWords),
 		AmountOfQueryWordsHeldByNoPeer: amountOfQueryWordsHeldByNoPeerAmong(
 			round.queryWordsFewestDocumentsFirst,

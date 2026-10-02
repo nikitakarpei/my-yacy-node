@@ -3,15 +3,13 @@ package wordjoined
 import (
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
 type discoveryRound struct {
-	queryWords                     []yacymodel.Hash
-	settledAsks                    settledAsks
+	answers                        *discoveryAnswers
 	queryWordsFewestDocumentsFirst []queryWordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
-	holdersPerDocument             holdersPerDocument
 	sampledPartition               uint
 	amountOfQueryWordsWithASample  int
 	chosenLeadingQueryWord         chosenLeadingQueryWord
@@ -33,38 +31,6 @@ func (round discoveryRound) leadingQueryWord() queryWordAcrossReplicas {
 	return round.queryWordsFewestDocumentsFirst[place]
 }
 
-func (round discoveryRound) amountOfDocumentsHeldPerQueryWord() map[yacymodel.Hash]int {
-	amountOfDocumentsHeldPerQueryWord := make(
-		map[yacymodel.Hash]int, len(round.queryWordsFewestDocumentsFirst),
-	)
-	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
-		amountOfDocumentsHeld, counted := queryWord.estimatedAmountOfDocumentsHeld().Get()
-		if !counted {
-			continue
-		}
-		amountOfDocumentsHeldPerQueryWord[queryWord.word] = amountOfDocumentsHeld
-	}
-
-	return amountOfDocumentsHeldPerQueryWord
-}
-
-func (round discoveryRound) joinedDocuments() distinctDocuments {
-	return round.documentsPerQueryWord().documentsOfEveryQueryWord()
-}
-
-func (round discoveryRound) documentsPerQueryWord() documentsPerQueryWord {
-	documentsOfEachQueryWord := make(
-		documentsPerQueryWord,
-		len(round.queryWordsFewestDocumentsFirst),
-	)
-	for _, queryWord := range round.queryWordsFewestDocumentsFirst {
-		documentsOfEachQueryWord[queryWord.word] = queryWord.documents()
-	}
-	for _, compoundWord := range round.compoundWords {
-		for _, word := range compoundWord.PartHashes() {
-			documentsOfEachQueryWord.add(word, compoundWord.documents())
-		}
-	}
-
-	return documentsOfEachQueryWord
+func (round discoveryRound) everyAnswer() []wordpartitionasks.ReplicaAnswer {
+	return round.answers.everyAnswer()
 }

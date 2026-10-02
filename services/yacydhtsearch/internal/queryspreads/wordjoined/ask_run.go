@@ -10,10 +10,9 @@ import (
 type askRun struct {
 	asks                     chan<- []wordpartitionasks.Ask
 	settledAsksAsTheySettle  <-chan wordpartitionasks.SettledAsk
-	settledAsks              settledAsks
-	holdersPerDocument       holdersPerDocument
 	askedWordPartitionKeys   map[wordPartitionKey]struct{}
 	settledWordPartitionKeys map[wordPartitionKey]struct{}
+	answers                  *discoveryAnswers
 	findingsSender           discoveryFindingsSender
 }
 
@@ -25,6 +24,7 @@ type wordPartitionKey struct {
 func startAskRun(
 	ctx context.Context,
 	replicaAsks ReplicaAsks,
+	answers *discoveryAnswers,
 	findingsSender discoveryFindingsSender,
 ) *askRun {
 	run := replicaAsks.Start(ctx)
@@ -32,9 +32,9 @@ func startAskRun(
 	return &askRun{
 		asks:                     run.Asks,
 		settledAsksAsTheySettle:  run.SettledAsks,
-		holdersPerDocument:       holdersPerDocument{},
 		askedWordPartitionKeys:   map[wordPartitionKey]struct{}{},
 		settledWordPartitionKeys: map[wordPartitionKey]struct{}{},
+		answers:                  answers,
 		findingsSender:           findingsSender,
 	}
 }
@@ -86,10 +86,9 @@ func (askRun *askRun) readTheNextSettledAsk() {
 }
 
 func (askRun *askRun) record(settledAsk wordpartitionasks.SettledAsk) {
-	askRun.settledAsks = append(askRun.settledAsks, settledAsk)
-	askRun.holdersPerDocument.addHoldersIn(settledAsk.Answers)
+	askRun.answers.add(settledAsk)
 	askRun.settledWordPartitionKeys[wordPartitionKeyOf(settledAsk.Ask)] = struct{}{}
-	askRun.findingsSender.sendFindingsOf(askRun.settledAsks)
+	askRun.findingsSender.sendFindingsOf(askRun.answers)
 }
 
 func (askRun *askRun) finish() {

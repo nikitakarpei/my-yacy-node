@@ -9,6 +9,7 @@ import (
 
 type discovery struct {
 	askRun                    *askRun
+	answers                   *discoveryAnswers
 	asks                      discoveryAsks
 	query                     searchquery.Query
 	rememberedDocumentAmounts map[yacymodel.Hash]int
@@ -17,9 +18,10 @@ type discovery struct {
 	otherWordAsksPerPartition map[uint]OtherWordAsks
 }
 
-//nolint:revive // argument-limit: the discovery takes its run, asks, query, remembered document amounts, ring and ceiling
+//nolint:revive // argument-limit: the discovery takes its run, answers, asks, query, remembered document amounts, ring and ceiling
 func discoveryOver(
 	askRun *askRun,
+	answers *discoveryAnswers,
 	asks discoveryAsks,
 	query searchquery.Query,
 	rememberedDocumentAmounts map[yacymodel.Hash]int,
@@ -28,6 +30,7 @@ func discoveryOver(
 ) *discovery {
 	return &discovery{
 		askRun:                    askRun,
+		answers:                   answers,
 		asks:                      asks,
 		query:                     query,
 		rememberedDocumentAmounts: rememberedDocumentAmounts,
@@ -83,11 +86,7 @@ func (discovery *discovery) takeTheSampleIn(
 
 	return rarestQueryWordIn(
 		sampledPartition,
-		queryWordsAcrossReplicasFrom(
-			queryWords,
-			discovery.askRun.settledAsks,
-			discovery.partitions,
-		),
+		discovery.answers.queryWordsAcrossReplicas(),
 		discovery.partitions,
 	)
 }
@@ -204,42 +203,22 @@ func (discovery *discovery) documentsToMatchIn(
 	partition uint,
 	wordsOfTheDocumentsToMatch []yacymodel.Hash,
 ) []yacymodel.URLHash {
-	documentsToMatch := distinctDocuments{}
-	for _, settledAsk := range discovery.askRun.settledAsks {
-		if !slices.Contains(wordsOfTheDocumentsToMatch, settledAsk.Word) {
-			continue
-		}
-		for _, answer := range settledAsk.Answers {
-			for _, listedDocument := range answer.ListedDocuments {
-				if discovery.partitions.PartitionOf(listedDocument.Hash) != partition {
-					continue
-				}
-				documentsToMatch.add(listedDocument.Hash)
-			}
-		}
-	}
-
-	return discovery.askRun.holdersPerDocument.mostHeldFirst(documentsToMatch)
+	return discovery.answers.mostHeldFirst(
+		discovery.answers.documentsOfWordsIn(wordsOfTheDocumentsToMatch, partition),
+	)
 }
 
 func (discovery *discovery) roundFrom(
 	sampledPartition uint,
 	leadingQueryWord chosenLeadingQueryWord,
 ) discoveryRound {
-	settledAsks := discovery.askRun.settledAsks
-	queryWordsFewestDocumentsFirst := queryWordsFewestDocumentsFirstFrom(
-		discovery.query.WordHashes(), settledAsks, discovery.partitions,
-	)
+	queryWordsFewestDocumentsFirst := discovery.answers.queryWordsFewestDocumentsFirst()
 
 	return discoveryRound{
-		queryWords:                     discovery.query.WordHashes(),
-		settledAsks:                    settledAsks,
+		answers:                        discovery.answers,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirst,
-		compoundWords: compoundWordsAcrossReplicasFrom(
-			discovery.query.CompoundWords, settledAsks, discovery.partitions,
-		),
-		holdersPerDocument: discovery.askRun.holdersPerDocument,
-		sampledPartition:   sampledPartition,
+		compoundWords:                  discovery.answers.compoundWordsAcrossReplicas(),
+		sampledPartition:               sampledPartition,
 		amountOfQueryWordsWithASample: amountOfQueryWordsWithASampleIn(
 			sampledPartition, queryWordsFewestDocumentsFirst, discovery.partitions,
 		),

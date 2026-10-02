@@ -13,50 +13,16 @@ type queryWordAcrossReplicas struct {
 	answersPerPartition [][]wordpartitionasks.ReplicaAnswer
 }
 
-func queryWordsFewestDocumentsFirstFrom(
-	words []yacymodel.Hash,
-	settledAsks settledAsks,
-	partitions yacymodel.DHTRingPartitions,
-) []queryWordAcrossReplicas {
-	queryWordsAcrossReplicas := queryWordsAcrossReplicasFrom(words, settledAsks, partitions)
-	slices.SortStableFunc(queryWordsAcrossReplicas, fewestDocumentsFirst)
-
-	return queryWordsAcrossReplicas
-}
-
-func queryWordsAcrossReplicasFrom(
-	words []yacymodel.Hash,
-	settledAsks settledAsks,
-	partitions yacymodel.DHTRingPartitions,
-) []queryWordAcrossReplicas {
-	queryWordsAcrossReplicas := make([]queryWordAcrossReplicas, 0, len(words))
-	for _, word := range words {
-		queryWordsAcrossReplicas = append(
-			queryWordsAcrossReplicas,
-			queryWordAcrossReplicasFrom(word, settledAsks, partitions),
-		)
-	}
-
-	return queryWordsAcrossReplicas
-}
-
-func queryWordAcrossReplicasFrom(
-	word yacymodel.Hash,
-	settledAsks settledAsks,
-	partitions yacymodel.DHTRingPartitions,
+func (queryWord queryWordAcrossReplicas) withAnswersOf(
+	settledAsk wordpartitionasks.SettledAsk,
 ) queryWordAcrossReplicas {
-	answersPerPartition := make([][]wordpartitionasks.ReplicaAnswer, partitions)
-	for _, settledAsk := range settledAsks {
-		if settledAsk.Word != word {
-			continue
-		}
-		answersPerPartition[settledAsk.Partition] = append(
-			answersPerPartition[settledAsk.Partition],
-			settledAsk.Answers...,
-		)
-	}
+	answersPerPartition := slices.Clone(queryWord.answersPerPartition)
+	answersPerPartition[settledAsk.Partition] = append(
+		slices.Clip(answersPerPartition[settledAsk.Partition]),
+		settledAsk.Answers...,
+	)
 
-	return queryWordAcrossReplicas{word: word, answersPerPartition: answersPerPartition}
+	return queryWordAcrossReplicas{word: queryWord.word, answersPerPartition: answersPerPartition}
 }
 
 func fewestDocumentsFirst(first, second queryWordAcrossReplicas) int {
@@ -159,4 +125,13 @@ func (queryWord queryWordAcrossReplicas) sampleIn(
 	}
 
 	return yacymodel.Some(len(documentsInThePartition))
+}
+
+func (queryWord queryWordAcrossReplicas) everyAnswer() []wordpartitionasks.ReplicaAnswer {
+	var everyAnswer []wordpartitionasks.ReplicaAnswer
+	for _, answersOfPartition := range queryWord.answersPerPartition {
+		everyAnswer = append(everyAnswer, answersOfPartition...)
+	}
+
+	return everyAnswer
 }

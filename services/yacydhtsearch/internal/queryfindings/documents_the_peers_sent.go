@@ -1,6 +1,10 @@
 package queryfindings
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+import (
+	"slices"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
 
 type DocumentsThePeersSent struct {
 	documentsInFoundOrder       []yacymodel.URLHash
@@ -44,6 +48,28 @@ func (documents *DocumentsThePeersSent) KeepDocumentThePeerMatched(
 		documents.postingReplicasPerDocument[metadata.Hash],
 		PostingReplica{Holder: peer, Word: word, Posting: sentPosting},
 	)
+}
+
+func (documents *DocumentsThePeersSent) Among(
+	chosenDocuments map[yacymodel.URLHash]struct{},
+) *DocumentsThePeersSent {
+	documentsAmongTheChosen := EmptyDocumentsThePeersSent()
+	for _, document := range documents.documentsInFoundOrder {
+		if _, chosen := chosenDocuments[document]; !chosen {
+			continue
+		}
+		documentsAmongTheChosen.documentsInFoundOrder = append(
+			documentsAmongTheChosen.documentsInFoundOrder, document,
+		)
+		documentsAmongTheChosen.metadataReplicasPerDocument[document] = slices.Clone(
+			documents.metadataReplicasPerDocument[document],
+		)
+		documentsAmongTheChosen.postingReplicasPerDocument[document] = slices.Clone(
+			documents.postingReplicasPerDocument[document],
+		)
+	}
+
+	return documentsAmongTheChosen
 }
 
 func (documents *DocumentsThePeersSent) FoundDocuments() []FoundDocument {

@@ -4,70 +4,57 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type discoveryFindingsSender struct {
-	findings   chan<- queryfindings.Findings
-	query      searchquery.Query
-	partitions yacymodel.DHTRingPartitions
+	findings chan<- queryfindings.Findings
+	query    searchquery.Query
 }
 
 func discoveryFindingsSenderFor(
 	findings chan<- queryfindings.Findings,
 	query searchquery.Query,
-	partitions yacymodel.DHTRingPartitions,
 ) discoveryFindingsSender {
-	return discoveryFindingsSender{findings: findings, query: query, partitions: partitions}
+	return discoveryFindingsSender{findings: findings, query: query}
 }
 
-func (sender discoveryFindingsSender) sendFindingsOf(settledAsks settledAsks) {
-	discoveryRound := discoveryRoundSoFarFrom(settledAsks, sender.query, sender.partitions)
-	sender.findings <- findingsFrom(
-		sender.query, discoveryRound, discoveryRound.joinedDocuments(), nil,
+func (sender discoveryFindingsSender) sendFindingsOf(answers *discoveryAnswers) {
+	sender.findings <- findingsOf(
+		sender.query, answers.foundDocuments(), answers.amountOfDocumentsHeldPerQueryWord(),
 	)
 }
 
-func discoveryRoundSoFarFrom(
-	settledAsks settledAsks,
-	query searchquery.Query,
-	partitions yacymodel.DHTRingPartitions,
-) discoveryRound {
-	return discoveryRound{
-		queryWords:  query.WordHashes(),
-		settledAsks: settledAsks,
-		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirstFrom(
-			query.WordHashes(), settledAsks, partitions,
-		),
-		compoundWords: compoundWordsAcrossReplicasFrom(
-			query.CompoundWords, settledAsks, partitions,
-		),
-	}
-}
-
 func (sender discoveryFindingsSender) lookupFindingsSenderAfter(
-	discoveryRound discoveryRound,
-	joinedDocuments distinctDocuments,
+	answers *discoveryAnswers,
 ) lookupFindingsSender {
-	return lookupFindingsSender{
-		findings:        sender.findings,
-		query:           sender.query,
-		discoveryRound:  discoveryRound,
-		joinedDocuments: joinedDocuments,
-	}
+	return lookupFindingsSender{findings: sender.findings, query: sender.query, answers: answers}
 }
 
 type lookupFindingsSender struct {
-	findings        chan<- queryfindings.Findings
-	query           searchquery.Query
-	discoveryRound  discoveryRound
-	joinedDocuments distinctDocuments
+	findings chan<- queryfindings.Findings
+	query    searchquery.Query
+	answers  *discoveryAnswers
 }
 
 func (sender lookupFindingsSender) sendFindingsOf(
 	answeredAsks []peerasks.AnsweredURLMetadataAsk,
 ) {
-	sender.findings <- findingsFrom(
-		sender.query, sender.discoveryRound, sender.joinedDocuments, answeredAsks,
+	sender.findings <- sender.findingsFrom(answeredAsks)
+}
+
+func (sender lookupFindingsSender) findingsFrom(
+	answeredAsks []peerasks.AnsweredURLMetadataAsk,
+) queryfindings.Findings {
+	documentsThePeersSent := sender.answers.joinedDocumentsThePeersSent()
+	for _, answeredAsk := range answeredAsks {
+		for _, metadata := range answeredAsk.MetadataOfEachDocument {
+			documentsThePeersSent.KeepMetadataThePeerSent(metadata, answeredAsk.Ask.Peer.Hash)
+		}
+	}
+
+	return findingsOf(
+		sender.query,
+		documentsThePeersSent.FoundDocuments(),
+		sender.answers.amountOfDocumentsHeldPerQueryWord(),
 	)
 }
