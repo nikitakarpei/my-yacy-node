@@ -9,36 +9,46 @@ import (
 )
 
 type Run struct {
-	pageReadResultOf func(ctx context.Context, pageToRead PageToRead) pageReadResult
-	waiting          pageReadWaiting
-	observer         PageReadingObserver
-	mutex            sync.Mutex
-	startedPages     map[yacymodel.URLHash]*startedPage
+	pageReader               pageReader
+	queryWords               []yacymodel.Hash
+	waiting                  pageReadWaiting
+	observer                 PageReadingObserver
+	mutex                    sync.Mutex
+	startedPages             map[yacymodel.URLHash]*startedPage
+	finished                 bool
+	pagesWanted              []PageToRead
+	pageReadResultsWaitedFor []pageReadResult
+	timeSpentWaiting         time.Duration
 }
 
 func newRun(
-	pageReadResultOf func(ctx context.Context, pageToRead PageToRead) pageReadResult,
+	reader pageReader,
+	queryWords []yacymodel.Hash,
 	waiting pageReadWaiting,
 	observer PageReadingObserver,
 ) *Run {
 	return &Run{
-		pageReadResultOf: pageReadResultOf,
-		waiting:          waiting,
-		observer:         observer,
-		startedPages:     map[yacymodel.URLHash]*startedPage{},
+		pageReader:   reader,
+		queryWords:   queryWords,
+		waiting:      waiting,
+		observer:     observer,
+		startedPages: map[yacymodel.URLHash]*startedPage{},
 	}
 }
 
 func (run *Run) StartReading(ctx context.Context, pagesToRead []PageToRead) {
 	run.mutex.Lock()
 	defer run.mutex.Unlock()
+	if run.finished {
+		return
+	}
 	for _, pageToRead := range pagesToRead {
 		if _, started := run.startedPages[pageToRead.Document]; started {
 			continue
 		}
 		page := &startedPage{settled: make(chan struct{})}
 		run.startedPages[pageToRead.Document] = page
-		go func() { page.settleWith(run.pageReadResultOf(ctx, pageToRead)) }()
+		go func() { page.settleWith(run.pageReader.read(ctx, run.queryWords, pageToRead)) }()
 	}
 }
 
@@ -47,14 +57,7 @@ func (run *Run) PagesReadAmong(ctx context.Context, pagesWanted []PageToRead) Pa
 	pageReadResults := run.waiting.pageReadResultsFrom(
 		ctx, run.pageReadResultsAmong(pagesWanted), pagesWanted,
 	)
-	run.reportPageReading(
-		ctx,
-		performedPageReadingFrom(
-			pageReadResults,
-			run.amountOfPagesUnwanted(pagesWanted),
-			time.Since(startedAt),
-		),
-	)
+	run.recordWait(pagesWanted, pageReadResults, time.Since(startedAt))
 
 	return pagesReadFrom(pageReadResults)
 }
@@ -79,11 +82,43 @@ func (run *Run) pageReadResultsAmong(pagesWanted []PageToRead) <-chan pageReadRe
 	return pageReadResults
 }
 
-func (run *Run) amountOfPagesUnwanted(pagesWanted []PageToRead) int {
+func (run *Run) recordWait(
+	pagesWanted []PageToRead,
+	pageReadResults []pageReadResult,
+	timeSpentWaiting time.Duration,
+) {
 	run.mutex.Lock()
 	defer run.mutex.Unlock()
-	documentsWanted := make(map[yacymodel.URLHash]struct{}, len(pagesWanted))
-	for _, pageWanted := range pagesWanted {
+	run.pagesWanted = pagesWanted
+	run.pageReadResultsWaitedFor = pageReadResults
+	run.timeSpentWaiting = timeSpentWaiting
+}
+
+func (run *Run) Finish(ctx context.Context) {
+	run.stopStarting()
+	run.reportPageReading(ctx, run.performedPageReading())
+}
+
+func (run *Run) stopStarting() {
+	run.mutex.Lock()
+	defer run.mutex.Unlock()
+	run.finished = true
+}
+
+func (run *Run) performedPageReading() PerformedPageReading {
+	run.mutex.Lock()
+	defer run.mutex.Unlock()
+
+	return performedPageReadingFrom(
+		run.pageReadResultsWaitedFor,
+		run.amountOfPagesUnwanted(),
+		run.timeSpentWaiting,
+	)
+}
+
+func (run *Run) amountOfPagesUnwanted() int {
+	documentsWanted := make(map[yacymodel.URLHash]struct{}, len(run.pagesWanted))
+	for _, pageWanted := range run.pagesWanted {
 		documentsWanted[pageWanted.Document] = struct{}{}
 	}
 	amountOfPagesUnwanted := 0

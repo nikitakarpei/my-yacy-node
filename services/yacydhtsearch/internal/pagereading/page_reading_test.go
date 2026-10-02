@@ -150,6 +150,7 @@ func (documentsThatHoldNoReadableText) BodyIn(
 
 type recordedPageReading struct {
 	performed pagereading.PerformedPageReading
+	reported  bool
 }
 
 func (r *recordedPageReading) PageReadingPerformed(
@@ -157,6 +158,7 @@ func (r *recordedPageReading) PageReadingPerformed(
 	performed pagereading.PerformedPageReading,
 ) {
 	r.performed = performed
+	r.reported = true
 }
 
 var cutoffNever = pagereading.PageReadCutoff{PercentOfPages: 100}
@@ -187,8 +189,10 @@ func pagesReadFrom(
 
 	run := reading.Start(queryWords)
 	run.StartReading(t.Context(), pagesToRead)
+	pagesRead := run.PagesReadAmong(t.Context(), pagesToRead)
+	run.Finish(t.Context())
 
-	return run.PagesReadAmong(t.Context(), pagesToRead)
+	return pagesRead
 }
 
 func readingOfThePages(
@@ -891,6 +895,7 @@ func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 	expireTheGrace := <-clock.graces
 	expireTheGrace()
 	<-pagesRead
+	run.Finish(t.Context())
 
 	performed := observer.performed
 	if performed.AmountOfPagesRead != 2 || performed.AmountOfPagesCutOff != 1 ||
@@ -974,6 +979,7 @@ func TestAPageReadButNeverWantedIsLeftOut(t *testing.T) {
 		t.Context(),
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
+	run.Finish(t.Context())
 
 	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
 	if len(pageContentsPerDocument) != 1 {
@@ -1007,6 +1013,7 @@ func TestAPageWantedButNeverStartedIsOutOfBudgetUnread(t *testing.T) {
 		t.Context(),
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	).PageContentsPerDocument
+	run.Finish(t.Context())
 
 	if len(pageContentsPerDocument) != 0 || amountOfFetches.Load() != 0 {
 		t.Fatalf(
@@ -1016,6 +1023,71 @@ func TestAPageWantedButNeverStartedIsOutOfBudgetUnread(t *testing.T) {
 	}
 	if observer.performed.AmountOfPagesOutOfBudget != 1 {
 		t.Fatalf("PageReadingPerformed = %+v, want one page out of budget", observer.performed)
+	}
+}
+
+func TestTheRunReportsNothingBeforeItFinishes(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.StartReading(t.Context(), pagesToRead)
+
+	run.PagesReadAmong(t.Context(), pagesToRead)
+
+	if observer.reported {
+		t.Fatalf("PageReadingPerformed = %+v, want no report before the finish", observer.performed)
+	}
+}
+
+func TestAFinishedRunStartsNoPage(t *testing.T) {
+	t.Parallel()
+
+	amountOfFetches := &atomic.Int32{}
+	reading := readingOfThePages(
+		t,
+		pagesCountingTheirFetches{
+			pages:           pagesHoldingTheDocuments(t),
+			amountOfFetches: amountOfFetches,
+		},
+		&recordedPageReading{},
+	)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Finish(t.Context())
+	run.StartReading(t.Context(), pagesToRead)
+
+	pageContentsPerDocument := run.PagesReadAmong(t.Context(), pagesToRead).PageContentsPerDocument
+
+	if len(pageContentsPerDocument) != 0 || amountOfFetches.Load() != 0 {
+		t.Fatalf(
+			"the reading gives %+v after %d fetches, want no page and no fetch",
+			pageContentsPerDocument, amountOfFetches.Load(),
+		)
+	}
+}
+
+func TestAPageStartedAfterTheWaitIsUnwantedAtTheFinish(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.StartReading(t.Context(), pagesToRead)
+	run.PagesReadAmong(t.Context(), pagesToRead)
+	run.StartReading(t.Context(), pagesOfThreeDocuments(t))
+
+	run.Finish(t.Context())
+
+	if observer.performed.AmountOfPagesToRead != 1 ||
+		observer.performed.AmountOfPagesUnwanted != 2 {
+		t.Fatalf(
+			"PageReadingPerformed = %+v, want one page to read and two unwanted",
+			observer.performed,
+		)
 	}
 }
 

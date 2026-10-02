@@ -369,6 +369,8 @@ func (pagesThatNoOneReads) PagesReadAmong(
 	return pagereading.PagesRead{}
 }
 
+func (pagesThatNoOneReads) Finish(_ context.Context) {}
+
 func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 	t.Parallel()
 
@@ -636,6 +638,8 @@ func (p pagesHoldingTheWordOfOneDocument) PagesReadAmong(
 	return pagereading.PagesRead{PageContentsPerDocument: pageContentsPerDocument}
 }
 
+func (pagesHoldingTheWordOfOneDocument) Finish(_ context.Context) {}
+
 func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	t.Parallel()
 
@@ -689,6 +693,8 @@ func (p pagesRecordingTheirAddresses) PagesReadAmong(
 
 	return pagereading.PagesRead{}
 }
+
+func (pagesRecordingTheirAddresses) Finish(_ context.Context) {}
 
 func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 	t.Parallel()
@@ -762,6 +768,8 @@ func (p pagesOfOneDocumentWithdrawn) PagesReadAmong(
 	return pagereading.PagesRead{WithdrawnDocuments: withdrawnDocuments}
 }
 
+func (pagesOfOneDocumentWithdrawn) Finish(_ context.Context) {}
+
 func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 	t.Parallel()
 
@@ -829,6 +837,8 @@ func (p pagesRecordingTheBudgetTheyGet) PagesReadAmong(
 
 	return pagereading.PagesRead{}
 }
+
+func (pagesRecordingTheBudgetTheyGet) Finish(_ context.Context) {}
 
 func budgetLeftIn(ctx context.Context) time.Duration {
 	deadline, bounded := ctx.Deadline()
