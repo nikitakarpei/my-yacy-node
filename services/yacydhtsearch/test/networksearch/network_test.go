@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"slices"
 	"strconv"
+	"sync"
 	"testing"
 	"time"
 
@@ -625,6 +626,161 @@ func TestTheRankingHoldsTheFinalFindingsOfTheSpread(t *testing.T) {
 
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != final {
 		t.Fatalf("Search = %+v, want only the document of the final findings", ranking.Items)
+	}
+}
+
+type spreadWaitingForAPageReadPerSnapshot struct {
+	snapshots []queryfindings.Findings
+	pageReads <-chan struct{}
+}
+
+func (s spreadWaitingForAPageReadPerSnapshot) SpreadOverPeers(
+	ctx context.Context,
+	_ searchquery.Query,
+	_ peerchoice.ChosenPeersPerQueryWord,
+) <-chan queryfindings.Findings {
+	findingsAsTheyGrow := make(chan queryfindings.Findings)
+	go func() {
+		defer close(findingsAsTheyGrow)
+		for _, snapshot := range s.snapshots {
+			findingsAsTheyGrow <- snapshot
+			select {
+			case <-s.pageReads:
+			case <-ctx.Done():
+			}
+		}
+	}()
+
+	return findingsAsTheyGrow
+}
+
+type recordedPageReads struct {
+	mutex                  sync.Mutex
+	pageReads              chan struct{}
+	addressesOfEachRead    [][]string
+	addressesOfPagesWanted []string
+}
+
+func (r *recordedPageReads) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+	return r
+}
+
+func (r *recordedPageReads) ReadAhead(_ context.Context, pagesToRead []pagereading.PageToRead) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.addressesOfEachRead = append(r.addressesOfEachRead, addressesOf(pagesToRead))
+	r.pageReads <- struct{}{}
+}
+
+func (r *recordedPageReads) Read(
+	_ context.Context,
+	pagesWanted []pagereading.PageToRead,
+) pagereading.PagesRead {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+	r.addressesOfPagesWanted = addressesOf(pagesWanted)
+
+	return pagereading.PagesRead{}
+}
+
+func (*recordedPageReads) Finish(_ context.Context) {}
+
+func (r *recordedPageReads) addressesReadSoFar() [][]string {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	return slices.Clone(r.addressesOfEachRead)
+}
+
+func addressesOf(pages []pagereading.PageToRead) []string {
+	addresses := make([]string, 0, len(pages))
+	for _, page := range pages {
+		addresses = append(addresses, page.Address)
+	}
+
+	return addresses
+}
+
+const (
+	earlyAddress = "https://early.example/"
+	laterAddress = "https://later.example/"
+	finalAddress = "https://final.example/"
+)
+
+func pageReadsOfASearchWhoseFindingsChange(t *testing.T) *recordedPageReads {
+	t.Helper()
+
+	addresses := []string{earlyAddress, laterAddress, finalAddress}
+	snapshots := make([]queryfindings.Findings, 0, len(addresses))
+	for _, address := range addresses {
+		snapshots = append(snapshots, queryfindings.Findings{
+			FoundDocuments: []queryfindings.FoundDocument{
+				{Hash: documentOf(t, address), Address: address},
+			},
+		})
+	}
+	pageReads := &recordedPageReads{pageReads: make(chan struct{}, len(snapshots))}
+	network := networksearch.New(
+		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
+		spreadWaitingForAPageReadPerSnapshot{
+			snapshots: snapshots,
+			pageReads: pageReads.pageReads,
+		},
+		pageReads,
+		orderingInTheFoundOrder{},
+		queryBudget,
+		pageReadBudget,
+		pagesReadPerQuery,
+		pagesReadPerSite,
+		recordCeiling,
+		compoundWordsCeiling,
+		networksearch.NetworkSearchObservers{&recordedQuery{}},
+	)
+
+	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
+
+	return pageReads
+}
+
+func TestAPageOfTheEarlyFindingsIsReadBeforeTheSpreadEnds(t *testing.T) {
+	t.Parallel()
+
+	addressesOfEachRead := pageReadsOfASearchWhoseFindingsChange(t).addressesReadSoFar()
+
+	if len(addressesOfEachRead) == 0 ||
+		!slices.Equal(addressesOfEachRead[0], []string{earlyAddress}) {
+		t.Fatalf(
+			"the reads are %v, want the page of the early findings read first",
+			addressesOfEachRead,
+		)
+	}
+}
+
+func TestAPageOnlyTheLaterFindingsHoldIsReadAfterTheFirstRead(t *testing.T) {
+	t.Parallel()
+
+	addressesOfEachRead := pageReadsOfASearchWhoseFindingsChange(t).addressesReadSoFar()
+
+	if len(addressesOfEachRead) < 2 ||
+		!slices.Equal(addressesOfEachRead[1], []string{laterAddress}) {
+		t.Fatalf(
+			"the reads are %v, want the page of the later findings read second",
+			addressesOfEachRead,
+		)
+	}
+}
+
+func TestThePagesWantedAreThoseOfTheFinalFindings(t *testing.T) {
+	t.Parallel()
+
+	pageReads := pageReadsOfASearchWhoseFindingsChange(t)
+
+	if !slices.Equal(pageReads.addressesOfPagesWanted, []string{finalAddress}) {
+		t.Fatalf(
+			"the pages wanted are %v, want only the page of the final findings",
+			pageReads.addressesOfPagesWanted,
+		)
 	}
 }
 

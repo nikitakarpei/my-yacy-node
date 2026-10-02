@@ -1,7 +1,8 @@
 // Package networksearch ranks what the peers of the network hold for one query,
 // within one query budget. It asks the peers that hold the words of the query,
-// puts what they answered in order, reads the pages of the documents it puts first,
-// and carries back the documents up to the ceiling as the ranking the client reads.
+// reads ahead the pages of what they found as it grows, puts it in order, reads
+// the pages of the documents it puts first, and carries back the documents up to
+// the ceiling as the ranking the client reads.
 package networksearch
 
 import (
@@ -120,15 +121,18 @@ func (n Network) Search(
 		ctx, n.queryBudget, n.pageReadBudget,
 	)
 	defer endTheQuerySpread()
-	findings := finalFindingsFrom(
-		n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord),
-	)
-	pagesWanted := pagesToReadAmong(
-		n.documentsOrdering.OrderedDocumentsOf(findings),
-		n.pagesReadPerQuery,
-		n.pagesReadPerSite,
-	)
 	pageReadingRun := n.pageReading.Start(query.WordHashes())
+	readAhead := newPageReadAhead(n.pagesToReadFrom, pageReadingRun)
+	readAhead.start(ctx)
+	findingsAsTheyGrow := n.querySpread.SpreadOverPeers(
+		querySpreadContext, query, chosenPeersPerQueryWord,
+	)
+	var findings queryfindings.Findings
+	for findings = range findingsAsTheyGrow {
+		readAhead.findingsGrew(findings)
+	}
+	readAhead.stop()
+	pagesWanted := n.pagesToReadFrom(findings)
 	pagesRead := pageReadingRun.Read(ctx, pagesWanted)
 	pageReadingRun.Finish(ctx)
 	findingsWithReadPages := findings.
@@ -160,15 +164,12 @@ func contextWithinTheQuerySpreadBudget(
 	return context.WithTimeout(ctx, max(queryBudget-pageReadBudget, 0))
 }
 
-func finalFindingsFrom(
-	findingsAsTheyGrow <-chan queryfindings.Findings,
-) queryfindings.Findings {
-	var finalFindings queryfindings.Findings
-	for findings := range findingsAsTheyGrow {
-		finalFindings = findings
-	}
-
-	return finalFindings
+func (n Network) pagesToReadFrom(findings queryfindings.Findings) []pagereading.PageToRead {
+	return pagesToReadAmong(
+		n.documentsOrdering.OrderedDocumentsOf(findings),
+		n.pagesReadPerQuery,
+		n.pagesReadPerSite,
+	)
 }
 
 func documentsUpTo(
