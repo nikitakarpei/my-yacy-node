@@ -115,6 +115,7 @@ func (spread Spread) findingsOver(
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		discoveryRound,
+		answers.everyAnswer(),
 		joinedDocuments,
 		urlMetadataLookupRound,
 		time.Since(startedAt),

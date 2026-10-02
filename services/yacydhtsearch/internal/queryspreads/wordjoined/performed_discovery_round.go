@@ -22,9 +22,8 @@ type PerformedDiscoveryRound struct {
 
 func performedDiscoveryRoundFrom(
 	round discoveryRound,
+	answers []wordpartitionasks.ReplicaAnswer,
 ) PerformedDiscoveryRound {
-	answers := round.everyAnswer()
-
 	return PerformedDiscoveryRound{
 		AmountOfQueryWords:    len(round.queryWordsFewestDocumentsFirst),
 		AmountOfCompoundWords: len(round.compoundWords),

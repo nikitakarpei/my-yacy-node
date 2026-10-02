@@ -215,7 +215,6 @@ func (discovery *discovery) roundFrom(
 	queryWordsFewestDocumentsFirst := discovery.answers.queryWordsFewestDocumentsFirst()
 
 	return discoveryRound{
-		answers:                        discovery.answers,
 		queryWordsFewestDocumentsFirst: queryWordsFewestDocumentsFirst,
 		compoundWords:                  discovery.answers.compoundWordsAcrossReplicas(),
 		sampledPartition:               sampledPartition,

@@ -1,13 +1,8 @@
 package wordjoined
 
-import (
-	"slices"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
-)
+import "slices"
 
 type discoveryRound struct {
-	answers                        *discoveryAnswers
 	queryWordsFewestDocumentsFirst []wordAcrossReplicas
 	compoundWords                  []compoundWordAcrossReplicas
 	sampledPartition               uint
@@ -29,8 +24,4 @@ func (round discoveryRound) leadingQueryWord() wordAcrossReplicas {
 	)
 
 	return round.queryWordsFewestDocumentsFirst[place]
-}
-
-func (round discoveryRound) everyAnswer() []wordpartitionasks.ReplicaAnswer {
-	return round.answers.everyAnswer()
 }
