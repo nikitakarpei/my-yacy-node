@@ -201,7 +201,7 @@ func TestOnlyTheDocumentsEveryQueryWordHoldsAreJoined(t *testing.T) {
 		settledAsk(secondWord, 0, countedAnswer(2, documents[0], documents[2])),
 	}
 
-	got := wordholdings.OfEachQueryWord(query, settledAsks, 1).DocumentsOfEveryWord()
+	got := wordholdings.OfEachQueryWord(query, settledAsks, 1).DocumentsWithEveryWord()
 
 	if want := (yacymodel.URLHashes{documents[0]: {}}); !maps.Equal(got, want) {
 		t.Fatalf("the join holds %v, want %v", got, want)
@@ -219,7 +219,7 @@ func TestADocumentInTheAbstractOfTheCompoundWordIsJoinedForBothItsParts(t *testi
 
 	holdings := wordholdings.OfEachQueryWord(query, settledAsks, 1)
 
-	if got, want := holdings.DocumentsOfEveryWord(), (yacymodel.URLHashes{documents[1]: {}}); !maps.Equal(
+	if got, want := holdings.DocumentsWithEveryWord(), (yacymodel.URLHashes{documents[1]: {}}); !maps.Equal(
 		got,
 		want,
 	) {

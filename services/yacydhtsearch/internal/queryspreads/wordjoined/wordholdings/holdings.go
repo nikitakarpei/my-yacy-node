@@ -28,8 +28,8 @@ func OfEachQueryWord(
 	}
 }
 
-func (holdings Holdings) DocumentsOfEveryWord() yacymodel.URLHashes {
-	return holdings.documentsPerQueryWord().documentsOfEveryQueryWord()
+func (holdings Holdings) DocumentsWithEveryWord() yacymodel.URLHashes {
+	return holdings.documentsPerQueryWord().documentsWithEveryQueryWord()
 }
 
 func (holdings Holdings) documentsPerQueryWord() documentsPerQueryWord {

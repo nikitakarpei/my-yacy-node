@@ -6,12 +6,8 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordroles"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -30,107 +26,89 @@ var (
 	}
 )
 
-type askOfTheRun struct {
+type askOfTheReplicas struct {
 	partition        int
 	words            []yacymodel.Hash
 	documentsToMatch []yacymodel.URLHash
 	waitsBefore      int
 }
 
-type runOfTheReplicas struct {
+type wordAsksOfTheReplicas struct {
 	waitsUntilEachPartitionSettles map[uint]int
 	documentsListedInEachPartition map[uint][]yacymodel.URLHash
 	askedPartitions                map[uint]struct{}
-	holders                        documentholders.Holders
 	waits                          int
-	asks                           []askOfTheRun
+	asks                           []askOfTheReplicas
 }
 
-func runWhere(
+func wordAsksWhere(
 	waitsUntilEachPartitionSettles map[uint]int,
 	documentsListedInEachPartition map[uint][]yacymodel.URLHash,
-) *runOfTheReplicas {
-	return &runOfTheReplicas{
+) *wordAsksOfTheReplicas {
+	return &wordAsksOfTheReplicas{
 		waitsUntilEachPartitionSettles: waitsUntilEachPartitionSettles,
 		documentsListedInEachPartition: documentsListedInEachPartition,
 		askedPartitions:                map[uint]struct{}{},
-		holders:                        documentholders.Holders{},
 	}
 }
 
-func (run *runOfTheReplicas) PartitionSettledFor(partition uint, _ []yacymodel.Hash) bool {
-	return run.waits >= run.waitsUntilEachPartitionSettles[partition]
+func (wordAsks *wordAsksOfTheReplicas) PartitionSettledFor(
+	partition uint,
+	_ []yacymodel.Hash,
+) bool {
+	return wordAsks.waits >= wordAsks.waitsUntilEachPartitionSettles[partition]
 }
 
-func (run *runOfTheReplicas) PartitionAskedFor(partition uint, _ []yacymodel.Hash) bool {
-	_, asked := run.askedPartitions[partition]
+func (wordAsks *wordAsksOfTheReplicas) PartitionAskedFor(partition uint, _ []yacymodel.Hash) bool {
+	_, asked := wordAsks.askedPartitions[partition]
 
 	return asked
 }
 
-func (run *runOfTheReplicas) WaitUntilAnyPartitionSettles() {
-	run.waits++
+func (wordAsks *wordAsksOfTheReplicas) WaitUntilAnyPartitionSettles() {
+	wordAsks.waits++
 }
 
-func (run *runOfTheReplicas) DocumentsListedIn(
+func (wordAsks *wordAsksOfTheReplicas) DocumentsListedIn(
 	partition uint,
 	_ []yacymodel.Hash,
 ) yacymodel.URLHashes {
 	documents := yacymodel.URLHashes{}
-	documents.AddEach(run.documentsListedInEachPartition[partition])
+	documents.AddEach(wordAsks.documentsListedInEachPartition[partition])
 
 	return documents
 }
 
-func (run *runOfTheReplicas) DocumentHolders() documentholders.Holders {
-	return run.holders
-}
-
-func (run *runOfTheReplicas) AskEveryPartitionFor(words []yacymodel.Hash) {
+func (wordAsks *wordAsksOfTheReplicas) AskEveryPartitionFor(words []yacymodel.Hash) {
 	for partition := range uint(twoPartitionsOfTheRing) {
-		run.askedPartitions[partition] = struct{}{}
+		wordAsks.askedPartitions[partition] = struct{}{}
 	}
-	run.asks = append(run.asks, askOfTheRun{
-		partition: everyPartition, words: words, waitsBefore: run.waits,
+	wordAsks.asks = append(wordAsks.asks, askOfTheReplicas{
+		partition: everyPartition, words: words, waitsBefore: wordAsks.waits,
 	})
 }
 
-func (run *runOfTheReplicas) AskPartitionFor(partition uint, words []yacymodel.Hash) {
-	run.AskPartitionForWordsAmong(partition, words, nil)
+func (wordAsks *wordAsksOfTheReplicas) AskPartitionFor(partition uint, words []yacymodel.Hash) {
+	wordAsks.AskPartitionForWordsAmong(partition, words, nil)
 }
 
-func (run *runOfTheReplicas) AskPartitionForWordsAmong(
+func (wordAsks *wordAsksOfTheReplicas) AskPartitionForWordsAmong(
 	partition uint,
 	words []yacymodel.Hash,
 	documentsToMatch []yacymodel.URLHash,
 ) {
-	run.askedPartitions[partition] = struct{}{}
-	run.asks = append(run.asks, askOfTheRun{
+	wordAsks.askedPartitions[partition] = struct{}{}
+	wordAsks.asks = append(wordAsks.asks, askOfTheReplicas{
 		partition:        int(partition),
 		words:            words,
 		documentsToMatch: documentsToMatch,
-		waitsBefore:      run.waits,
+		waitsBefore:      wordAsks.waits,
 	})
 }
 
-func (run *runOfTheReplicas) holdBy(peerAddress string, documents ...yacymodel.URLHash) {
-	answer := wordpartitionasks.ReplicaAnswer{
-		Replica: peerdirectory.AskablePeer{
-			Hash:    yacymodel.WordHash(peerAddress),
-			Address: peerAddress,
-		},
-	}
-	for _, document := range documents {
-		answer.ListedDocuments = append(
-			answer.ListedDocuments, wordpartitionasks.ListedDocument{Hash: document},
-		)
-	}
-	run.holders.AddHoldersIn([]wordpartitionasks.ReplicaAnswer{answer})
-}
-
-func (run *runOfTheReplicas) waitsBeforeEachAsk() []int {
-	waitsBeforeEachAsk := make([]int, 0, len(run.asks))
-	for _, ask := range run.asks {
+func (wordAsks *wordAsksOfTheReplicas) waitsBeforeEachAsk() []int {
+	waitsBeforeEachAsk := make([]int, 0, len(wordAsks.asks))
+	for _, ask := range wordAsks.asks {
 		waitsBeforeEachAsk = append(waitsBeforeEachAsk, ask.waitsBefore)
 	}
 
@@ -156,91 +134,80 @@ func asker() matchingwords.Asker {
 	return matchingwords.New(twoPartitionsOfTheRing, documentsToMatchCeiling)
 }
 
-func leadingWordWithoutAnAmount() leadingword.Lead {
-	return leadingword.Lead{
-		Word:                          yacymodel.Some(leadingWord),
-		AmountOfDocumentsInAPartition: yacymodel.None[int](),
-	}
-}
-
-func leadingWordWith(amountOfDocumentsInAPartition int) leadingword.Lead {
-	return leadingword.Lead{
-		Word:                          yacymodel.Some(leadingWord),
-		AmountOfDocumentsInAPartition: yacymodel.Some(amountOfDocumentsInAPartition),
-	}
+func noAmountOfDocumentsToMatch() yacymodel.Optional[int] {
+	return yacymodel.None[int]()
 }
 
 func TestEachPartitionIsAskedByWhatItsDocumentsToMatchAllow(t *testing.T) {
 	t.Parallel()
 
 	documentsToMatch := documentsOf(t, 1)
-	run := runWhere(
+	wordAsks := wordAsksWhere(
 		map[uint]int{0: 1, 1: 2},
 		map[uint][]yacymodel.URLHash{1: documentsToMatch},
 	)
 
-	got := asker().AskFor(roles, leadingWordWithoutAnAmount(), run)
+	got := asker().AskInEachPartition(roles, noAmountOfDocumentsToMatch(), wordAsks)
 
-	want := matchingwords.AsksPerPartition{
+	want := matchingwords.KindPerPartition{
 		0: matchingwords.Skipped,
 		1: matchingwords.NamingTheDocumentsToMatch,
 	}
 	if !maps.Equal(got, want) {
 		t.Fatalf("the matching words were asked %v, want %v", got, want)
 	}
-	if len(run.asks) != 1 || run.asks[0].partition != 1 ||
-		!slices.Equal(run.asks[0].documentsToMatch, documentsToMatch) {
+	if len(wordAsks.asks) != 1 || wordAsks.asks[0].partition != 1 ||
+		!slices.Equal(wordAsks.asks[0].documentsToMatch, documentsToMatch) {
 		t.Fatalf(
 			"the asker asked %v, want one ask in partition 1 naming %v",
-			run.asks, documentsToMatch,
+			wordAsks.asks, documentsToMatch,
 		)
 	}
 }
 
-func TestTheDocumentsToMatchAreNamedMostHeldFirst(t *testing.T) {
+func TestTheDocumentsToMatchAreNamedInHashOrder(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsOf(t, 2)
-	run := runWhere(map[uint]int{}, map[uint][]yacymodel.URLHash{1: documents})
-	run.holdBy("first", documents...)
-	run.holdBy("second", documents[1])
+	listed := []yacymodel.URLHash{documents[1], documents[0]}
+	wordAsks := wordAsksWhere(map[uint]int{}, map[uint][]yacymodel.URLHash{1: listed})
 
-	asker().AskFor(roles, leadingWordWithoutAnAmount(), run)
+	asker().AskInEachPartition(roles, noAmountOfDocumentsToMatch(), wordAsks)
 
-	want := []yacymodel.URLHash{documents[1], documents[0]}
-	if len(run.asks) != 1 || !slices.Equal(run.asks[0].documentsToMatch, want) {
-		t.Fatalf("the asker asked %v, want one ask naming %v", run.asks, want)
+	want := yacymodel.URLHashes{documents[0]: {}, documents[1]: {}}.InHashOrder()
+	if len(wordAsks.asks) != 1 || !slices.Equal(wordAsks.asks[0].documentsToMatch, want) {
+		t.Fatalf("the asker asked %v, want one ask naming %v", wordAsks.asks, want)
 	}
 }
 
 func TestAPartitionWithMoreDocumentsToMatchThanTheCeilingIsAskedWhole(t *testing.T) {
 	t.Parallel()
 
-	run := runWhere(
+	wordAsks := wordAsksWhere(
 		map[uint]int{},
 		map[uint][]yacymodel.URLHash{0: documentsOf(t, 3), 1: documentsOf(t, 1)},
 	)
 
-	got := asker().AskFor(roles, leadingWordWithoutAnAmount(), run)
+	got := asker().AskInEachPartition(roles, noAmountOfDocumentsToMatch(), wordAsks)
 
-	want := matchingwords.AsksPerPartition{
+	want := matchingwords.KindPerPartition{
 		0: matchingwords.OverTheCeiling,
 		1: matchingwords.NamingTheDocumentsToMatch,
 	}
-	if !maps.Equal(got, want) || len(run.asks[0].documentsToMatch) != 0 {
-		t.Fatalf("the matching words were asked %v by %v, want %v", got, run.asks, want)
+	if !maps.Equal(got, want) || len(wordAsks.asks[0].documentsToMatch) != 0 {
+		t.Fatalf("the matching words were asked %v by %v, want %v", got, wordAsks.asks, want)
 	}
 }
 
 func TestAPartitionWhoseMatchingWordsWereAskedAlreadyRecordsNoKind(t *testing.T) {
 	t.Parallel()
 
-	run := runWhere(map[uint]int{}, map[uint][]yacymodel.URLHash{1: documentsOf(t, 1)})
-	run.AskPartitionFor(0, roles.MatchingWords)
+	wordAsks := wordAsksWhere(map[uint]int{}, map[uint][]yacymodel.URLHash{1: documentsOf(t, 1)})
+	wordAsks.AskPartitionFor(0, roles.MatchingWords)
 
-	got := asker().AskFor(roles, leadingWordWithoutAnAmount(), run)
+	got := asker().AskInEachPartition(roles, noAmountOfDocumentsToMatch(), wordAsks)
 
-	if want := (matchingwords.AsksPerPartition{1: matchingwords.NamingTheDocumentsToMatch}); !maps.Equal(
+	if want := (matchingwords.KindPerPartition{1: matchingwords.NamingTheDocumentsToMatch}); !maps.Equal(
 		got,
 		want,
 	) {
@@ -253,19 +220,20 @@ func TestALeadingWordOverTheCeilingHasTheMatchingWordsAskedAtTheStart(
 ) {
 	t.Parallel()
 
-	run := runWhere(map[uint]int{0: 1, 1: 1}, map[uint][]yacymodel.URLHash{})
+	wordAsks := wordAsksWhere(map[uint]int{0: 1, 1: 1}, map[uint][]yacymodel.URLHash{})
 
-	got := asker().AskFor(roles, leadingWordWith(3), run)
+	got := asker().AskInEachPartition(roles, yacymodel.Some(3), wordAsks)
 
-	want := matchingwords.AsksPerPartition{
+	want := matchingwords.KindPerPartition{
 		0: matchingwords.PredictedOverTheCeiling,
 		1: matchingwords.PredictedOverTheCeiling,
 	}
-	if !maps.Equal(got, want) || len(run.asks) != 1 || run.asks[0].partition != everyPartition ||
-		run.asks[0].waitsBefore != 0 {
+	if !maps.Equal(got, want) || len(wordAsks.asks) != 1 ||
+		wordAsks.asks[0].partition != everyPartition ||
+		wordAsks.asks[0].waitsBefore != 0 {
 		t.Fatalf(
 			"the matching words were asked %v by %v, want %v in every partition before any wait",
-			got, run.asks, want,
+			got, wordAsks.asks, want,
 		)
 	}
 }
@@ -275,14 +243,17 @@ func TestALeadingWordAtTheCeilingHasTheMatchingWordsWaitForThePartition(
 ) {
 	t.Parallel()
 
-	run := runWhere(map[uint]int{0: 1, 1: 1}, map[uint][]yacymodel.URLHash{1: documentsOf(t, 1)})
+	wordAsks := wordAsksWhere(
+		map[uint]int{0: 1, 1: 1},
+		map[uint][]yacymodel.URLHash{1: documentsOf(t, 1)},
+	)
 
-	asker().AskFor(roles, leadingWordWith(2), run)
+	asker().AskInEachPartition(roles, yacymodel.Some(2), wordAsks)
 
-	if !slices.Equal(run.waitsBeforeEachAsk(), []int{1}) {
+	if !slices.Equal(wordAsks.waitsBeforeEachAsk(), []int{1}) {
 		t.Fatalf(
 			"the matching words were asked after %v waits, want one ask after its partition settled",
-			run.waitsBeforeEachAsk(),
+			wordAsks.waitsBeforeEachAsk(),
 		)
 	}
 }

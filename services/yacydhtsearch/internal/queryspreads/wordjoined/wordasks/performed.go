@@ -13,7 +13,7 @@ type Performed struct {
 }
 
 func PerformedFrom(wordAnswers Answers) Performed {
-	answers := wordAnswers.ReplicaAnswers()
+	answers := wordAnswers.replicaAnswers()
 
 	return Performed{
 		AmountOfPeersWithANonEmptyAbstract:    amountOfPeersWithANonEmptyAbstractAmong(answers),

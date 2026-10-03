@@ -227,7 +227,7 @@ func TestAPartitionSettlesAfterTheRunWaitedForItsAsk(t *testing.T) {
 	}
 }
 
-func TestTheRunHoldsTheDocumentsListedInAPartitionAndTheirHolders(t *testing.T) {
+func TestTheAnswersKnowTheHoldersOfTheListedDocuments(t *testing.T) {
 	t.Parallel()
 
 	inPartitionZero := documentsIn(t, 0, 2)
@@ -244,9 +244,9 @@ func TestTheRunHoldsTheDocumentsListedInAPartitionAndTheirHolders(t *testing.T) 
 	run.WaitUntilPartitionSettledFor(0, wordsOf(firstWord))
 	run.WaitUntilPartitionSettledFor(1, wordsOf(firstWord))
 
-	holders := run.DocumentHolders()
-	got := holders.MostHeldFirst(run.DocumentsListedIn(0, wordsOf(firstWord)))
-	run.Finish()
+	documentsInPartitionZero := run.DocumentsListedIn(0, wordsOf(firstWord))
+	holders := run.Finish().DocumentHolders()
+	got := holders.MostHeldFirst(documentsInPartitionZero)
 
 	if want := []yacymodel.URLHash{inPartitionZero[1], inPartitionZero[0]}; !slices.Equal(
 		got, want,
@@ -291,7 +291,11 @@ func TestTheAnswersKeepWhatTheReplicasCarried(t *testing.T) {
 	if got := answers.DocumentsThePeersMatched(); !reflect.DeepEqual(got, wantedMatched) {
 		t.Fatalf("the peers matched %v, want %v", got, wantedMatched)
 	}
-	if got := len(answers.ReplicaAnswers()); got != 3 {
+	amountOfReplicaAnswers := 0
+	for _, settledAsk := range answers {
+		amountOfReplicaAnswers += len(settledAsk.Answers)
+	}
+	if got := amountOfReplicaAnswers; got != 3 {
 		t.Fatalf("the answers hold %d replica answers, want 3", got)
 	}
 	performed := wordasks.PerformedFrom(answers)

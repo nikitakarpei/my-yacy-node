@@ -1,6 +1,7 @@
 package documentholders_test
 
 import (
+	"maps"
 	"slices"
 	"testing"
 
@@ -42,7 +43,7 @@ func TestTheDocumentMorePeersHoldComesFirst(t *testing.T) {
 
 	heldByOne := documentHashOf(t, "https://held-by-one.example/")
 	heldByTwo := documentHashOf(t, "https://held-by-two.example/")
-	holders := documentholders.Holders{}
+	holders := documentholders.NoHolders()
 
 	holders.AddHoldersIn([]wordpartitionasks.ReplicaAnswer{
 		answerOf("first", heldByOne, heldByTwo),
@@ -61,7 +62,7 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 
 	first := documentHashOf(t, "https://first.example/")
 	second := documentHashOf(t, "https://second.example/")
-	holders := documentholders.Holders{}
+	holders := documentholders.NoHolders()
 
 	holders.AddHoldersIn([]wordpartitionasks.ReplicaAnswer{answerOf("peer", first, second)})
 
@@ -72,5 +73,43 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 	}
 	if !slices.Equal(got, want) {
 		t.Fatalf("the holders ordered %v, want %v", got, want)
+	}
+}
+
+func TestThePeersWithTheirDocumentsComeInTheOrderOfTheirHashes(t *testing.T) {
+	t.Parallel()
+
+	first := documentHashOf(t, "https://first.example/")
+	second := documentHashOf(t, "https://second.example/")
+	holders := documentholders.NoHolders()
+
+	holders.AddHoldersIn([]wordpartitionasks.ReplicaAnswer{
+		answerOf("zulu", first),
+		answerOf("alpha", second),
+		answerOf("zulu", second),
+	})
+
+	got := holders.PeersWithTheirDocuments()
+	wantPeers := []string{"zulu", "alpha"}
+	if yacymodel.WordHash("alpha").String() < yacymodel.WordHash("zulu").String() {
+		wantPeers = []string{"alpha", "zulu"}
+	}
+	wantDocuments := map[string]yacymodel.URLHashes{
+		"zulu":  {first: {}, second: {}},
+		"alpha": {second: {}},
+	}
+	if len(got) != len(wantPeers) {
+		t.Fatalf("the holders hold %v, want the peers %v", got, wantPeers)
+	}
+	for place, peer := range got {
+		if peer.Peer.Address != wantPeers[place] ||
+			!maps.Equal(peer.Documents, wantDocuments[peer.Peer.Address]) {
+			t.Fatalf(
+				"the holders hold %v, want the peers %v with %v",
+				got,
+				wantPeers,
+				wantDocuments,
+			)
+		}
 	}
 }

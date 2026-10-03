@@ -43,9 +43,9 @@ func matchingWordAskMetricsRegisteredIn(
 }
 
 func (m matchingWordAskMetrics) observeMatchingWordAsks(
-	asksPerPartition matchingwords.AsksPerPartition,
+	kindPerPartition matchingwords.KindPerPartition,
 ) {
-	for _, kind := range asksPerPartition {
+	for _, kind := range kindPerPartition {
 		m.partitionsPerKind[kind].Inc()
 	}
 }

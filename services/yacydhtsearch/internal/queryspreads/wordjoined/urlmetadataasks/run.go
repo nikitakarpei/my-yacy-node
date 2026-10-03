@@ -29,7 +29,7 @@ func runOf(asks []peerasks.URLMetadataAsk) *run {
 	}
 }
 
-func (asks *run) settleUntilEnded(
+func (run *run) waitUntilEnded(
 	outcomesAsTheySettle <-chan peerasks.URLMetadataAskOutcome,
 	cutoff Cutoff,
 	clock Clock,
@@ -42,70 +42,70 @@ func (asks *run) settleUntilEnded(
 		select {
 		case outcome, open := <-outcomesAsTheySettle:
 			if !open {
-				return asks.endedBy(EndedByEveryAskSettled)
+				return run.endedBy(EndedByEveryAskSettled)
 			}
-			asks.settle(outcome)
-			if asks.covered() {
-				return asks.endedBy(EndedByCoverage)
+			run.settle(outcome)
+			if run.covered() {
+				return run.endedBy(EndedByCoverage)
 			}
-			if !graceStarted && cutoff.reachedBy(asks.settledShare()) {
+			if !graceStarted && cutoff.reachedBy(run.settledShare()) {
 				graceStarted = true
 				stopGrace = clock.After(cutoff.Grace, func() { close(graceEnded) })
 			}
 		case <-graceEnded:
-			return asks.cutOff()
+			return run.cutOff()
 		}
 	}
 }
 
-func (asks *run) endedBy(endReason EndReason) Answers {
-	return Answers{asks: asks.asks, answeredAsks: asks.answeredAsks, endReason: endReason}
+func (run *run) endedBy(endReason EndReason) Answers {
+	return Answers{asks: run.asks, answeredAsks: run.answeredAsks, endReason: endReason}
 }
 
-func (asks *run) settle(outcome peerasks.URLMetadataAskOutcome) {
+func (run *run) settle(outcome peerasks.URLMetadataAskOutcome) {
 	if answeredAsk, answered := outcome.Answer.Get(); answered {
-		asks.answeredAsks = append(asks.answeredAsks, answeredAsk)
+		run.answeredAsks = append(run.answeredAsks, answeredAsk)
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
-			asks.settleWithMetadata(metadata.Hash)
+			run.settleWithMetadata(metadata.Hash)
 		}
 	}
 	for _, document := range outcome.Ask.Documents {
-		asks.settleOneAskNaming(document)
+		run.settleOneAskNaming(document)
 	}
 }
 
-func (asks *run) settleWithMetadata(document yacymodel.URLHash) {
-	if _, open := asks.asksInFlightPerOpenDocument[document]; !open {
+func (run *run) settleWithMetadata(document yacymodel.URLHash) {
+	if _, open := run.asksInFlightPerOpenDocument[document]; !open {
 		return
 	}
-	delete(asks.asksInFlightPerOpenDocument, document)
-	asks.askedDocumentsWithMetadata.Add(document)
+	delete(run.asksInFlightPerOpenDocument, document)
+	run.askedDocumentsWithMetadata.Add(document)
 }
 
-func (asks *run) settleOneAskNaming(document yacymodel.URLHash) {
-	if _, open := asks.asksInFlightPerOpenDocument[document]; !open {
+func (run *run) settleOneAskNaming(document yacymodel.URLHash) {
+	if _, open := run.asksInFlightPerOpenDocument[document]; !open {
 		return
 	}
-	asks.asksInFlightPerOpenDocument[document]--
-	if asks.asksInFlightPerOpenDocument[document] == 0 {
-		delete(asks.asksInFlightPerOpenDocument, document)
+	run.asksInFlightPerOpenDocument[document]--
+	if run.asksInFlightPerOpenDocument[document] == 0 {
+		delete(run.asksInFlightPerOpenDocument, document)
 	}
 }
 
-func (asks *run) covered() bool {
-	return len(asks.askedDocumentsWithMetadata) == asks.amountOfAskedDocuments
+func (run *run) covered() bool {
+	return len(run.askedDocumentsWithMetadata) == run.amountOfAskedDocuments
 }
 
-func (asks *run) settledShare() float64 {
-	return float64(asks.amountOfAskedDocuments-len(asks.asksInFlightPerOpenDocument)) /
-		float64(asks.amountOfAskedDocuments)
+func (run *run) settledShare() float64 {
+	return float64(run.amountOfAskedDocuments-len(run.asksInFlightPerOpenDocument)) /
+		float64(run.amountOfAskedDocuments)
 }
 
-func (asks *run) cutOff() Answers {
+func (run *run) cutOff() Answers {
 	return Answers{
-		asks:                    asks.asks,
-		answeredAsks:            asks.answeredAsks,
+		asks:                    run.asks,
+		answeredAsks:            run.answeredAsks,
 		endReason:               EndedByCutoff,
-		amountOfDocumentsCutOff: len(asks.asksInFlightPerOpenDocument),
+		amountOfDocumentsCutOff: len(run.asksInFlightPerOpenDocument),
 	}
 }

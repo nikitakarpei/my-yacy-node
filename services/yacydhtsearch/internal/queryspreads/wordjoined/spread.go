@@ -72,27 +72,25 @@ func (spread Spread) SpreadOverPeers(
 	lead := spread.leadingWord.FindFor(ctx, query, run)
 	roles := wordroles.From(lead, query)
 	run.AskEveryPartitionFor(roles.ListingWords)
-	matchingWordAsks := spread.matchingWordAsker.AskFor(roles, lead, run)
+	matchingWordAskKinds := spread.matchingWordAsker.AskInEachPartition(
+		roles, lead.AmountOfDocumentsInAPartition, run,
+	)
 	wordAnswers := run.Finish()
 
 	holdings := wordholdings.OfEachQueryWord(query, wordAnswers, spread.partitions)
 	spread.queryWordDocumentAmounts.Remember(
 		ctx, holdings.AmountOfDocumentsInAPartitionPerQueryWord(),
 	)
-	joinedDocuments := holdings.DocumentsOfEveryWord()
+	joinedDocuments := holdings.DocumentsWithEveryWord()
 	documentsWithoutMetadata := wordAnswers.DocumentsWithoutMetadataAmong(joinedDocuments)
-	holders := run.DocumentHolders()
-	urlMetadata := spread.urlMetadataAsker.AskFor(
-		ctx,
-		holders.MostHeldFirst(documentsWithoutMetadata),
-		wordAnswers.ReplicaAnswers(),
-	)
+	holders := wordAnswers.DocumentHolders()
+	urlMetadata := spread.urlMetadataAsker.AskFor(ctx, documentsWithoutMetadata, holders)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		wordAnswers,
 		holdings,
 		lead,
-		matchingWordAsks,
+		matchingWordAskKinds,
 		joinedDocuments,
 		documentsWithoutMetadata,
 		urlMetadata,

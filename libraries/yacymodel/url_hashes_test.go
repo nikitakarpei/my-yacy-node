@@ -26,3 +26,15 @@ func TestURLHashesDoNotContainAHashNeverAdded(t *testing.T) {
 		t.Fatal("the hashes contain a hash never added")
 	}
 }
+
+func TestURLHashesInHashOrderComeSortedByTheirHashes(t *testing.T) {
+	first := hashOfAddress(t, "https://first.example/")
+	second := hashOfAddress(t, "https://second.example/")
+	hashes := yacymodel.URLHashes{first: {}, second: {}}
+
+	got := hashes.InHashOrder()
+
+	if len(got) != 2 || got[0].String() > got[1].String() {
+		t.Fatalf("the hashes in hash order are %v, want them sorted by hash", got)
+	}
+}

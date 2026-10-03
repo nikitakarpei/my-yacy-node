@@ -8,18 +8,18 @@ import (
 
 type documentsPerQueryWord map[yacymodel.Hash]yacymodel.URLHashes
 
-func (documentsOfEachQueryWord documentsPerQueryWord) documentsOfEveryQueryWord() yacymodel.URLHashes {
-	documentsOfEveryQueryWord := yacymodel.URLHashes{}
+func (documentsOfEachQueryWord documentsPerQueryWord) documentsWithEveryQueryWord() yacymodel.URLHashes {
+	documentsWithEveryQueryWord := yacymodel.URLHashes{}
 	for _, documentsOfOneQueryWord := range documentsOfEachQueryWord {
 		for document := range documentsOfOneQueryWord {
 			if !documentsOfEachQueryWord.containForEveryQueryWord(document) {
 				continue
 			}
-			documentsOfEveryQueryWord.Add(document)
+			documentsWithEveryQueryWord.Add(document)
 		}
 	}
 
-	return documentsOfEveryQueryWord
+	return documentsWithEveryQueryWord
 }
 
 func (documentsOfEachQueryWord documentsPerQueryWord) containForEveryQueryWord(

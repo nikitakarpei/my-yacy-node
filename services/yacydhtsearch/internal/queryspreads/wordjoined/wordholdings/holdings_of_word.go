@@ -11,7 +11,7 @@ import (
 type holdingsOfWord struct {
 	word                yacymodel.Hash
 	partitions          yacymodel.DHTRingPartitions
-	answersPerPartition [][]wordpartitionasks.ReplicaAnswer
+	answersPerPartition []answersOfPartition
 }
 
 func holdingsOfEachWordFrom(
@@ -34,7 +34,7 @@ func holdingsOfWordFrom(
 	settledAsks []wordpartitionasks.SettledAsk,
 	partitions yacymodel.DHTRingPartitions,
 ) holdingsOfWord {
-	answersPerPartition := make([][]wordpartitionasks.ReplicaAnswer, partitions)
+	answersPerPartition := make([]answersOfPartition, partitions)
 	for _, settledAsk := range settledAsks {
 		if settledAsk.Word != word {
 			continue
@@ -65,46 +65,43 @@ func (holdings holdingsOfWord) documents() yacymodel.URLHashes {
 }
 
 func (holdings holdingsOfWord) estimatedAmountOfDocumentsHeld() yacymodel.Optional[int] {
-	amountsHeldInPartitionsWhereAPeerCounted := holdings.amountsOfDocumentsHeldInPartitionsWhereAPeerCounted()
-	if len(amountsHeldInPartitionsWhereAPeerCounted) == 0 {
+	countedAmounts := holdings.countedAmounts()
+	if len(countedAmounts) == 0 {
 		return yacymodel.None[int]()
 	}
 
-	amountOfPartitionsWhereNoPeerCounted := len(holdings.answersPerPartition) -
-		len(amountsHeldInPartitionsWhereAPeerCounted)
-	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted *
-		lowerMedianOf(amountsHeldInPartitionsWhereAPeerCounted)
-	for _, amountHeld := range amountsHeldInPartitionsWhereAPeerCounted {
-		sumOfAmountsHeld += amountHeld
+	amountOfPartitionsWhereNoPeerCounted := len(holdings.answersPerPartition) - len(countedAmounts)
+	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted * lowerMedianOf(countedAmounts)
+	for _, countedAmount := range countedAmounts {
+		sumOfAmountsHeld += countedAmount
 	}
 
 	return yacymodel.Some(sumOfAmountsHeld)
 }
 
 func (holdings holdingsOfWord) amountOfDocumentsInAPartition() yacymodel.Optional[int] {
-	amountsHeldInPartitionsWhereAPeerCounted := holdings.amountsOfDocumentsHeldInPartitionsWhereAPeerCounted()
-	if len(amountsHeldInPartitionsWhereAPeerCounted) == 0 {
+	countedAmounts := holdings.countedAmounts()
+	if len(countedAmounts) == 0 {
 		return yacymodel.None[int]()
 	}
 
-	return yacymodel.Some(lowerMedianOf(amountsHeldInPartitionsWhereAPeerCounted))
+	return yacymodel.Some(lowerMedianOf(countedAmounts))
 }
 
-// TECHDEBT: Naming — a name past four words names two facts: amountsOfDocumentsHeldInPartitionsWhereAPeerCounted.
-func (holdings holdingsOfWord) amountsOfDocumentsHeldInPartitionsWhereAPeerCounted() []int {
-	amountsHeld := make([]int, 0, len(holdings.answersPerPartition))
-	for _, answersOfPartition := range holdings.answersPerPartition {
-		countedAmounts := amountsOfDocumentsHeldCountedIn(answersOfPartition)
-		if len(countedAmounts) == 0 {
-			continue
+func (holdings holdingsOfWord) countedAmounts() []int {
+	countedAmounts := make([]int, 0, len(holdings.answersPerPartition))
+	for _, answers := range holdings.answersPerPartition {
+		if countedAmount, counted := answers.countedAmount().Get(); counted {
+			countedAmounts = append(countedAmounts, countedAmount)
 		}
-		amountsHeld = append(amountsHeld, lowerMedianOf(countedAmounts))
 	}
 
-	return amountsHeld
+	return countedAmounts
 }
 
-func amountsOfDocumentsHeldCountedIn(answers []wordpartitionasks.ReplicaAnswer) []int {
+type answersOfPartition []wordpartitionasks.ReplicaAnswer
+
+func (answers answersOfPartition) countedAmount() yacymodel.Optional[int] {
 	countedAmounts := make([]int, 0, len(answers))
 	for _, answer := range answers {
 		amountOfDocumentsHeld, counted := answer.AmountOfDocumentsHeld.Get()
@@ -113,8 +110,11 @@ func amountsOfDocumentsHeldCountedIn(answers []wordpartitionasks.ReplicaAnswer) 
 		}
 		countedAmounts = append(countedAmounts, amountOfDocumentsHeld)
 	}
+	if len(countedAmounts) == 0 {
+		return yacymodel.None[int]()
+	}
 
-	return countedAmounts
+	return yacymodel.Some(lowerMedianOf(countedAmounts))
 }
 
 func lowerMedianOf(amounts []int) int {

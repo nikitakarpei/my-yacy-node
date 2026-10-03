@@ -17,7 +17,7 @@ type PerformedWordJoinedSpread struct {
 	AmountOfCompoundWords               int
 	AmountOfQueryWordsHeldByNoPeer      int
 	AmountOfDocumentsOfTheLeadingWord   int
-	MatchingWordAsksPerPartition        matchingwords.AsksPerPartition
+	MatchingWordAskKindPerPartition     matchingwords.KindPerPartition
 	AmountOfJoinedDocuments             int
 	AmountOfJoinedDocumentsWithMetadata int
 	URLMetadataAsks                     urlmetadataasks.Performed
@@ -29,7 +29,7 @@ func performedWordJoinedSpreadFrom(
 	wordAnswers wordasks.Answers,
 	holdings wordholdings.Holdings,
 	lead leadingword.Lead,
-	matchingWordAsksPerPartition matchingwords.AsksPerPartition,
+	matchingWordAskKindPerPartition matchingwords.KindPerPartition,
 	joinedDocuments yacymodel.URLHashes,
 	documentsWithoutMetadata yacymodel.URLHashes,
 	urlMetadata urlmetadataasks.Answers,
@@ -43,7 +43,7 @@ func performedWordJoinedSpreadFrom(
 		AmountOfDocumentsOfTheLeadingWord: len(
 			holdings.DocumentsOfTheLeadingWord(lead.Word),
 		),
-		MatchingWordAsksPerPartition:        matchingWordAsksPerPartition,
+		MatchingWordAskKindPerPartition:     matchingWordAskKindPerPartition,
 		AmountOfJoinedDocuments:             len(joinedDocuments),
 		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) - len(documentsWithoutMetadata),
 		URLMetadataAsks:                     urlmetadataasks.PerformedFrom(urlMetadata),

@@ -27,6 +27,7 @@ func NewFromReplicas(
 	return FromReplicas{partitions: partitions, partitionToAsk: partitionToAsk, observer: observer}
 }
 
+// TECHDEBT: Single source of truth — the amount of documents in a partition has two rules: complete abstracts here, reported counts in wordholdings.
 func (fromReplicas FromReplicas) AmountsInAPartitionFor(
 	ctx context.Context,
 	query searchquery.Query,

@@ -42,7 +42,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		AmountOfQueryWords:                4,
 		AmountOfQueryWordsHeldByNoPeer:    1,
 		AmountOfDocumentsOfTheLeadingWord: 12,
-		MatchingWordAsksPerPartition: matchingwords.AsksPerPartition{
+		MatchingWordAskKindPerPartition: matchingwords.KindPerPartition{
 			0: matchingwords.NamingTheDocumentsToMatch,
 			1: matchingwords.Skipped,
 			2: matchingwords.NamingTheDocumentsToMatch,

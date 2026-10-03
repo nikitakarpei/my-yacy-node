@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -53,14 +53,14 @@ func New(
 
 func (asker Asker) AskFor(
 	ctx context.Context,
-	documentsMostHeldFirst []yacymodel.URLHash,
-	answers []wordpartitionasks.ReplicaAnswer,
+	documentsWithoutMetadata yacymodel.URLHashes,
+	holders documentholders.Holders,
 ) Answers {
-	asks := asker.asksFor(ctx, documentsMostHeldFirst, answers)
+	asks := asker.asksFor(ctx, holders.MostHeldFirst(documentsWithoutMetadata), holders)
 	asksContext, endAsks := context.WithCancel(ctx)
 	defer endAsks()
 
-	return runOf(asks).settleUntilEnded(
+	return runOf(asks).waitUntilEnded(
 		asker.peerAsks.AskForURLMetadata(asksContext, asks),
 		asker.cutoff,
 		asker.clock,
@@ -70,12 +70,10 @@ func (asker Asker) AskFor(
 func (asker Asker) asksFor(
 	ctx context.Context,
 	documentsMostHeldFirst []yacymodel.URLHash,
-	answers []wordpartitionasks.ReplicaAnswer,
+	holders documentholders.Holders,
 ) []peerasks.URLMetadataAsk {
-	asksOfEachPeer := peersWithTheirAbstractsFrom(answers).asksFor(
-		ctx,
-		documentsMostHeldFirst,
-		asker.ceilings,
+	asksOfEachPeer := asker.asksOfEachPeerAmong(
+		ctx, holders.PeersWithTheirDocuments(), documentsMostHeldFirst,
 	)
 
 	return asksCoveringMostDocuments(asksOfEachPeer, asker.amountOfPeersHoldingOneWord)

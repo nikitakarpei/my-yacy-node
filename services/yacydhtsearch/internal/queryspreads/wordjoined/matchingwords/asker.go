@@ -5,18 +5,15 @@ package matchingwords
 import (
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordroles"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type Run interface {
+type WordAsks interface {
 	PartitionSettledFor(partition uint, words []yacymodel.Hash) bool
 	PartitionAskedFor(partition uint, words []yacymodel.Hash) bool
 	WaitUntilAnyPartitionSettles()
 	DocumentsListedIn(partition uint, words []yacymodel.Hash) yacymodel.URLHashes
-	DocumentHolders() documentholders.Holders
 	AskEveryPartitionFor(words []yacymodel.Hash)
 	AskPartitionFor(partition uint, words []yacymodel.Hash)
 	AskPartitionForWordsAmong(
@@ -35,34 +32,35 @@ func New(partitions yacymodel.DHTRingPartitions, documentsToMatchCeiling int) As
 	return Asker{partitions: partitions, documentsToMatchCeiling: documentsToMatchCeiling}
 }
 
-func (asker Asker) AskFor(roles wordroles.Roles, lead leadingword.Lead, run Run) AsksPerPartition {
-	if asker.predictsOverTheCeiling(lead, roles.MatchingWords) {
-		return asker.askEveryPartitionFor(roles.MatchingWords, run)
+func (asker Asker) AskInEachPartition(
+	roles wordroles.Roles,
+	amountOfDocumentsToMatchInAPartition yacymodel.Optional[int],
+	wordAsks WordAsks,
+) KindPerPartition {
+	if asker.predictsOverTheCeiling(amountOfDocumentsToMatchInAPartition, roles.MatchingWords) {
+		return asker.askEveryPartitionNow(roles, wordAsks)
 	}
 
-	return asker.askAsEachPartitionSettles(roles, run)
+	return asker.askEachPartitionAsItSettles(roles, wordAsks)
 }
 
 func (asker Asker) predictsOverTheCeiling(
-	lead leadingword.Lead,
+	amountOfDocumentsToMatchInAPartition yacymodel.Optional[int],
 	matchingWords []yacymodel.Hash,
 ) bool {
-	amountOfDocuments, counted := lead.AmountOfDocumentsInAPartition.Get()
+	amountOfDocuments, counted := amountOfDocumentsToMatchInAPartition.Get()
 
 	return counted && len(matchingWords) > 0 && amountOfDocuments > asker.documentsToMatchCeiling
 }
 
-func (asker Asker) askEveryPartitionFor(
-	matchingWords []yacymodel.Hash,
-	run Run,
-) AsksPerPartition {
-	run.AskEveryPartitionFor(matchingWords)
-	asksPerPartition := AsksPerPartition{}
+func (asker Asker) askEveryPartitionNow(roles wordroles.Roles, wordAsks WordAsks) KindPerPartition {
+	wordAsks.AskEveryPartitionFor(roles.MatchingWords)
+	kindPerPartition := KindPerPartition{}
 	for _, partition := range asker.partitionsOfTheRing() {
-		asksPerPartition[partition] = PredictedOverTheCeiling
+		kindPerPartition[partition] = PredictedOverTheCeiling
 	}
 
-	return asksPerPartition
+	return kindPerPartition
 }
 
 func (asker Asker) partitionsOfTheRing() []uint {
@@ -74,28 +72,36 @@ func (asker Asker) partitionsOfTheRing() []uint {
 	return partitionsOfTheRing
 }
 
-func (asker Asker) askAsEachPartitionSettles(roles wordroles.Roles, run Run) AsksPerPartition {
-	asksPerPartition := AsksPerPartition{}
-	partitionsLeft := asker.partitionsOfTheRing()
+func (asker Asker) askEachPartitionAsItSettles(
+	roles wordroles.Roles,
+	wordAsks WordAsks,
+) KindPerPartition {
+	kindPerPartition := KindPerPartition{}
+	partitionsLeft := partitionsLeft(asker.partitionsOfTheRing())
 	for {
-		settledPartitions := partitionsSettledAmong(partitionsLeft, roles.ListingWords, run)
+		settledPartitions := partitionsLeft.settledFor(roles.ListingWords, wordAsks)
 		for _, partition := range settledPartitions {
-			if kind, asked := asker.askIn(partition, roles, run).Get(); asked {
-				asksPerPartition[partition] = kind
+			if kind, asked := asker.askIn(partition, roles, wordAsks).Get(); asked {
+				kindPerPartition[partition] = kind
 			}
 		}
-		partitionsLeft = partitionsWithout(partitionsLeft, settledPartitions)
+		partitionsLeft = partitionsLeft.without(settledPartitions)
 		if len(partitionsLeft) == 0 {
-			return asksPerPartition
+			return kindPerPartition
 		}
-		run.WaitUntilAnyPartitionSettles()
+		wordAsks.WaitUntilAnyPartitionSettles()
 	}
 }
 
-func partitionsSettledAmong(partitions []uint, listingWords []yacymodel.Hash, run Run) []uint {
+type partitionsLeft []uint
+
+func (partitions partitionsLeft) settledFor(
+	listingWords []yacymodel.Hash,
+	wordAsks WordAsks,
+) []uint {
 	var settledPartitions []uint
 	for _, partition := range partitions {
-		if run.PartitionSettledFor(partition, listingWords) {
+		if wordAsks.PartitionSettledFor(partition, listingWords) {
 			settledPartitions = append(settledPartitions, partition)
 		}
 	}
@@ -103,26 +109,32 @@ func partitionsSettledAmong(partitions []uint, listingWords []yacymodel.Hash, ru
 	return settledPartitions
 }
 
+func (partitions partitionsLeft) without(settledPartitions []uint) partitionsLeft {
+	return slices.DeleteFunc(partitions, func(partition uint) bool {
+		return slices.Contains(settledPartitions, partition)
+	})
+}
+
 func (asker Asker) askIn(
 	partition uint,
 	roles wordroles.Roles,
-	run Run,
+	wordAsks WordAsks,
 ) yacymodel.Optional[Kind] {
-	if run.PartitionAskedFor(partition, roles.MatchingWords) {
+	if wordAsks.PartitionAskedFor(partition, roles.MatchingWords) {
 		return yacymodel.None[Kind]()
 	}
-	holders := run.DocumentHolders()
-	documentsToMatchMostHeldFirst := holders.MostHeldFirst(
-		run.DocumentsListedIn(partition, roles.ListingWords),
-	)
-	kind := kindFrom(documentsToMatchMostHeldFirst, asker.documentsToMatchCeiling)
-	kind.askIn(partition, roles.MatchingWords, documentsToMatchMostHeldFirst, run)
+	documentsListed := wordAsks.DocumentsListedIn(partition, roles.ListingWords)
+	documentsToMatch := documentsListed.InHashOrder()
+	switch {
+	case len(documentsToMatch) == 0:
+		return yacymodel.Some(Skipped)
+	case len(documentsToMatch) > asker.documentsToMatchCeiling:
+		wordAsks.AskPartitionFor(partition, roles.MatchingWords)
 
-	return yacymodel.Some(kind)
-}
+		return yacymodel.Some(OverTheCeiling)
+	default:
+		wordAsks.AskPartitionForWordsAmong(partition, roles.MatchingWords, documentsToMatch)
 
-func partitionsWithout(partitions []uint, partitionsLeftOut []uint) []uint {
-	return slices.DeleteFunc(partitions, func(partition uint) bool {
-		return slices.Contains(partitionsLeftOut, partition)
-	})
+		return yacymodel.Some(NamingTheDocumentsToMatch)
+	}
 }

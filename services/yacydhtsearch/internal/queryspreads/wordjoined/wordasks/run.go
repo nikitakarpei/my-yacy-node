@@ -5,7 +5,6 @@ import (
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -21,7 +20,6 @@ type Run struct {
 	asksToPut                chan<- []wordpartitionasks.Ask
 	settledAsksAsTheySettle  <-chan wordpartitionasks.SettledAsk
 	answers                  Answers
-	documentHolders          documentholders.Holders
 	askedWordPartitionKeys   map[wordPartitionKey]struct{}
 	settledWordPartitionKeys map[wordPartitionKey]struct{}
 }
@@ -45,7 +43,6 @@ func Start(
 		partitions:               partitions,
 		asksToPut:                startedRun.Asks,
 		settledAsksAsTheySettle:  startedRun.SettledAsks,
-		documentHolders:          documentholders.Holders{},
 		askedWordPartitionKeys:   map[wordPartitionKey]struct{}{},
 		settledWordPartitionKeys: map[wordPartitionKey]struct{}{},
 	}
@@ -122,7 +119,6 @@ func (run *Run) readTheNextSettledAsk() {
 
 func (run *Run) record(settledAsk wordpartitionasks.SettledAsk) {
 	run.answers = append(run.answers, settledAsk)
-	run.documentHolders.AddHoldersIn(settledAsk.Answers)
 	run.settledWordPartitionKeys[wordPartitionKeyOf(settledAsk.Ask)] = struct{}{}
 }
 
@@ -158,10 +154,6 @@ func (run *Run) DocumentsListedIn(
 	}
 
 	return documents
-}
-
-func (run *Run) DocumentHolders() documentholders.Holders {
-	return run.documentHolders
 }
 
 func (run *Run) Finish() Answers {

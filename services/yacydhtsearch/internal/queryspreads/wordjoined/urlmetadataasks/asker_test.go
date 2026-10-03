@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -178,19 +179,19 @@ func (asked askedPeers) settledFor(
 	ctx context.Context,
 	answers []wordpartitionasks.ReplicaAnswer,
 ) urlmetadataasks.Performed {
+	holders := documentholders.NoHolders()
+	holders.AddHoldersIn(answers)
+
 	return urlmetadataasks.PerformedFrom(urlmetadataasks.New(
 		asked.peers, asked.ceilings, asked.cutoff, asked.clock, asked.holdingOne,
-	).AskFor(ctx, documentsAcross(answers), answers))
+	).AskFor(ctx, documentsAcross(answers), holders))
 }
 
-func documentsAcross(answers []wordpartitionasks.ReplicaAnswer) []yacymodel.URLHash {
-	var documents []yacymodel.URLHash
+func documentsAcross(answers []wordpartitionasks.ReplicaAnswer) yacymodel.URLHashes {
+	documents := yacymodel.URLHashes{}
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
-			if slices.Contains(documents, listedDocument.Hash) {
-				continue
-			}
-			documents = append(documents, listedDocument.Hash)
+			documents.Add(listedDocument.Hash)
 		}
 	}
 

@@ -11,19 +11,16 @@ import (
 )
 
 const (
-	amountOfRatioBuckets = 11
-	ratioBucketWidth     = 0.1
-	labelSource          = "source"
-	sourceCache          = "cache"
-	sourceReplicas       = "replicas"
-	sourceNone           = "none"
+	labelSource    = "source"
+	sourceCache    = "cache"
+	sourceReplicas = "replicas"
+	sourceNone     = "none"
 )
 
 type DocumentAmountsMetrics struct {
-	amountsFromCache                   prometheusclient.Counter
-	amountsFromReplicas                prometheusclient.Counter
-	amountsFromNoSource                prometheusclient.Counter
-	queryWordsCountedFromReplicasRatio prometheusclient.Histogram
+	amountsFromCache    prometheusclient.Counter
+	amountsFromReplicas prometheusclient.Counter
+	amountsFromNoSource prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *DocumentAmountsMetrics {
@@ -36,16 +33,8 @@ func New(registry prometheusclient.Registerer) *DocumentAmountsMetrics {
 		amountsFromCache:    sources.WithLabelValues(sourceCache),
 		amountsFromReplicas: sources.WithLabelValues(sourceReplicas),
 		amountsFromNoSource: sources.WithLabelValues(sourceNone),
-		queryWordsCountedFromReplicasRatio: prometheusclient.NewHistogram(
-			prometheusclient.HistogramOpts{
-				Name: "yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio",
-				Help: "Share of query words with a complete abstract in the partition " +
-					"asked for the document amounts.",
-				Buckets: prometheusclient.LinearBuckets(0, ratioBucketWidth, amountOfRatioBuckets),
-			},
-		),
 	}
-	registry.MustRegister(sources, metrics.queryWordsCountedFromReplicasRatio)
+	registry.MustRegister(sources)
 
 	return metrics
 }
@@ -63,11 +52,6 @@ func (m *DocumentAmountsMetrics) AmountsCountedFromReplicas(
 	_ context.Context,
 	performed documentamounts.PerformedFromReplicas,
 ) {
-	if performed.AmountOfQueryWords > 0 {
-		m.queryWordsCountedFromReplicasRatio.Observe(
-			float64(performed.AmountOfQueryWordsCounted) / float64(performed.AmountOfQueryWords),
-		)
-	}
 	if performed.AmountOfQueryWordsCounted == 0 {
 		m.amountsFromNoSource.Inc()
 

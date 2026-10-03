@@ -67,7 +67,7 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	m.matchingWordAsks.observeMatchingWordAsks(spread.MatchingWordAsksPerPartition)
+	m.matchingWordAsks.observeMatchingWordAsks(spread.MatchingWordAskKindPerPartition)
 	m.queryWords.observeQueryWords(spread)
 	m.urlMetadataAsks.observeURLMetadataAsks(spread)
 	m.countJoin(spread.AmountOfJoinedDocuments)

@@ -418,8 +418,6 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
-      - wordjoineddocumentholders
-      - wordjoinedleadingword
       - wordjoinedwordroles
   wordjoinedurlmetadataasks:
     canUse:
@@ -428,6 +426,7 @@ deps:
       - peerasks
       - peerdirectory
       - wordpartitionasks
+      - wordjoineddocumentholders
   bywordcount:
     mayDependOn:
       - queryfindings

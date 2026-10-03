@@ -51,14 +51,14 @@ func attributesOfQueryWords(spread wordjoined.PerformedWordJoinedSpread) []slog.
 		),
 		slog.Any(
 			"amountOfPartitionsPerOtherWordAsks",
-			amountOfPartitionsPerKindIn(spread.MatchingWordAsksPerPartition),
+			amountOfPartitionsPerKindIn(spread.MatchingWordAskKindPerPartition),
 		),
 	}
 }
 
-func amountOfPartitionsPerKindIn(asksPerPartition matchingwords.AsksPerPartition) map[string]int {
+func amountOfPartitionsPerKindIn(kindPerPartition matchingwords.KindPerPartition) map[string]int {
 	amountOfPartitionsPerKind := map[string]int{}
-	for _, kind := range asksPerPartition {
+	for _, kind := range kindPerPartition {
 		amountOfPartitionsPerKind[string(kind)]++
 	}
 

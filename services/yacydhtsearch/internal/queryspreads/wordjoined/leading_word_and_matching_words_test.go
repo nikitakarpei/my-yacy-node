@@ -215,7 +215,7 @@ func TestWithoutACountedWordEveryWordIsAskedWholeInEveryPartition(t *testing.T) 
 			network.searchDocumentsAsks,
 		)
 	}
-	if performed := observer.performed[0]; len(performed.MatchingWordAsksPerPartition) != 0 {
+	if performed := observer.performed[0]; len(performed.MatchingWordAskKindPerPartition) != 0 {
 		t.Fatalf("the spread reported %+v, want no other word asks per partition", performed)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(
@@ -262,10 +262,10 @@ func TestTheMatchingWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(
 			wanted,
 		)
 	}
-	wantedAsks := matchingwords.AsksPerPartition{
+	wantedAsks := matchingwords.KindPerPartition{
 		1: matchingwords.NamingTheDocumentsToMatch,
 	}
-	if got := observer.performed[0].MatchingWordAsksPerPartition; !maps.Equal(
+	if got := observer.performed[0].MatchingWordAskKindPerPartition; !maps.Equal(
 		got, wantedAsks,
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
@@ -290,7 +290,7 @@ func TestAPartitionWithMoreDocumentsToMatchThanTheCeilingIsAskedWhole(t *testing
 	); len(asksNamingDocuments) != 0 {
 		t.Fatalf("the spread put %v, want no ask naming documents to match", asksNamingDocuments)
 	}
-	if got := observer.performed[0].MatchingWordAsksPerPartition[1]; got !=
+	if got := observer.performed[0].MatchingWordAskKindPerPartition[1]; got !=
 		matchingwords.OverTheCeiling {
 		t.Fatalf("the spread reported partition 1 as %q, want it over the ceiling", got)
 	}
@@ -320,7 +320,7 @@ func TestAPartitionWhereTheLeadingWordIsPartialIsAskedForTheDocumentsItListed(t 
 			asksNamingDocuments, documentsToMatch[:1],
 		)
 	}
-	if got := observer.performed[0].MatchingWordAsksPerPartition[1]; got !=
+	if got := observer.performed[0].MatchingWordAskKindPerPartition[1]; got !=
 		matchingwords.NamingTheDocumentsToMatch {
 		t.Fatalf(
 			"the spread reported partition 1 as %q, want its other word asks naming the documents to match",
@@ -529,11 +529,11 @@ func TestACachedLeadingWordOverTheCeilingInEveryPartitionHasTheMatchingWordsAske
 			asksOfTheMatchingWord, got,
 		)
 	}
-	wantedAsks := matchingwords.AsksPerPartition{
+	wantedAsks := matchingwords.KindPerPartition{
 		0: matchingwords.PredictedOverTheCeiling,
 		1: matchingwords.PredictedOverTheCeiling,
 	}
-	if got := observer.performed[0].MatchingWordAsksPerPartition; !maps.Equal(
+	if got := observer.performed[0].MatchingWordAskKindPerPartition; !maps.Equal(
 		got, wantedAsks,
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
@@ -577,11 +577,11 @@ func TestALeadingWordCountedFromTheReplicasOverTheCeilingHasTheMatchingWordsAske
 
 	settings.spread(network, observer)
 
-	wantedAsks := matchingwords.AsksPerPartition{
+	wantedAsks := matchingwords.KindPerPartition{
 		0: matchingwords.PredictedOverTheCeiling,
 		1: matchingwords.PredictedOverTheCeiling,
 	}
-	if got := observer.performed[0].MatchingWordAsksPerPartition; !maps.Equal(
+	if got := observer.performed[0].MatchingWordAskKindPerPartition; !maps.Equal(
 		got, wantedAsks,
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)

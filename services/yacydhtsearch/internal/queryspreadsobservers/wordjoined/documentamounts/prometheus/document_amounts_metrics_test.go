@@ -90,7 +90,6 @@ func TestAmountsCountedFromReplicasPublishTheShareOfQueryWordsCounted(t *testing
 	})
 
 	assertPublished(t, registry,
-		"yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio_sum 0.25",
 		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="replicas"} 1`,
 	)
 }
@@ -106,23 +105,7 @@ func TestReplicasThatCountedNoQueryWordCountForNoSource(t *testing.T) {
 	})
 
 	assertPublished(t, registry,
-		"yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio_sum 0",
 		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="none"} 1`,
 		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="replicas"} 0`,
-	)
-}
-
-func TestAQueryWithoutWordsPublishesNoShareOfQueryWordsCounted(t *testing.T) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := documentamountsprometheus.New(registry)
-
-	metrics.AmountsCountedFromReplicas(
-		t.Context(), documentamounts.PerformedFromReplicas{},
-	)
-
-	assertPublished(t, registry,
-		"yacydhtsearch_word_joined_spread_query_words_counted_from_replicas_ratio_count 0",
 	)
 }
