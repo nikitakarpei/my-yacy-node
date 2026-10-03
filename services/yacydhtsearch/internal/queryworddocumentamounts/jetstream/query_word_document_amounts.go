@@ -1,5 +1,5 @@
-// Package jetstream remembers in a NATS key-value bucket how many documents
-// the peers hold for each query word, so that every service instance leads
+// Package jetstream remembers in a NATS key-value bucket the amount of documents
+// in one partition for each query word, so that every service instance leads
 // with the rarest word from the same amounts.
 package jetstream
 

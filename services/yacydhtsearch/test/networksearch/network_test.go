@@ -25,6 +25,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
@@ -255,14 +259,19 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 
 	return wordjoined.New(
 		replicaAsks(t),
-		peerCalls(t),
 		noRememberedQueryWordDocumentAmounts{},
-		wordjoined.URLMetadataLookupCutoff{},
-		rand.UintN,
-		urlMetadataAskCeilingsAtTheMost(recordCeiling),
-		documentsToMatchCeiling,
+		leadingword.New(documentamounts.NewFromReplicas(
+			ringPartitions(t), rand.UintN, documentamounts.FromReplicasObservers{},
+		)),
+		matchingwords.New(ringPartitions(t), documentsToMatchCeiling),
+		urlmetadataasks.New(
+			peerCalls(t),
+			urlMetadataAskCeilingsAtTheMost(recordCeiling),
+			urlmetadataasks.Cutoff{},
+			wallclock.Clock{},
+			yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
+		),
 		ringPartitions(t),
-		yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
 		wordjoined.WordJoinedSpreadObservers{},
 	)
 }
@@ -1002,13 +1011,6 @@ func TestAQueryOfTwoWordsCarriesBackWhatAReplicaListsForTheirCompoundWord(t *tes
 }
 
 type noRememberedQueryWordDocumentAmounts struct{}
-
-func (noRememberedQueryWordDocumentAmounts) DocumentAmountsOf(
-	context.Context,
-	[]yacymodel.Hash,
-) map[yacymodel.Hash]int {
-	return nil
-}
 
 func (noRememberedQueryWordDocumentAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}
 

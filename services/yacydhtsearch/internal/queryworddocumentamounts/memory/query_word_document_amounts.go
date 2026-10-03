@@ -1,5 +1,5 @@
-// Package memory remembers in this process how many documents the peers hold
-// for each query word, for as long as its lifetime allows and for as many words
+// Package memory remembers in this process the amount of documents in one
+// partition for each query word, for as long as its lifetime allows and for as many words
 // as its capacity allows.
 package memory
 

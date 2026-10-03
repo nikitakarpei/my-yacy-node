@@ -70,7 +70,23 @@ components:
   peermatched:
     in: internal/queryspreads/peermatched/**
   wordjoined:
-    in: internal/queryspreads/wordjoined/**
+    in: internal/queryspreads/wordjoined
+  wordjoineddocumentholders:
+    in: internal/queryspreads/wordjoined/documentholders/**
+  wordjoinedwordholdings:
+    in: internal/queryspreads/wordjoined/wordholdings/**
+  wordjoinedwordasks:
+    in: internal/queryspreads/wordjoined/wordasks/**
+  wordjoinedleadingword:
+    in: internal/queryspreads/wordjoined/leadingword/**
+  wordjoineddocumentamounts:
+    in: internal/queryspreads/wordjoined/documentamounts/**
+  wordjoinedwordroles:
+    in: internal/queryspreads/wordjoined/wordroles/**
+  wordjoinedmatchingwords:
+    in: internal/queryspreads/wordjoined/matchingwords/**
+  wordjoinedurlmetadataasks:
+    in: internal/queryspreads/wordjoined/urlmetadataasks/**
   bywordcount:
     in: internal/queryspreads/bywordcount/**
   rankingcache:
@@ -127,6 +143,10 @@ components:
     in: internal/queryspreadsobservers/wordjoined/applog/**
   queryspreadsobserverswordjoinedprometheus:
     in: internal/queryspreadsobservers/wordjoined/prometheus/**
+  queryspreadsobserverswordjoineddocumentamountsapplog:
+    in: internal/queryspreadsobservers/wordjoined/documentamounts/applog/**
+  queryspreadsobserverswordjoineddocumentamountsprometheus:
+    in: internal/queryspreadsobservers/wordjoined/documentamounts/prometheus/**
   peercallobserversapplog:
     in: internal/peercallobservers/applog/**
   peercallobserversprometheus:
@@ -347,10 +367,66 @@ deps:
     mayDependOn:
       - queryfindings
       - peerchoice
-      - peerdirectory
-      - peerasks
+      - searchquery
+      - wordjoineddocumentholders
+      - wordjoinedwordasks
+      - wordjoinedwordholdings
+      - wordjoinedleadingword
+      - wordjoinedwordroles
+      - wordjoinedmatchingwords
+      - wordjoinedurlmetadataasks
+  wordjoineddocumentholders:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - wordpartitionasks
+  wordjoinedwordholdings:
+    canUse:
+      - yacymodel
+    mayDependOn:
       - searchquery
       - wordpartitionasks
+  wordjoinedwordasks:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerchoice
+      - peerdirectory
+      - searchquery
+      - wordpartitionasks
+      - wordjoineddocumentholders
+  wordjoinedleadingword:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - searchquery
+      - wordpartitionasks
+  wordjoineddocumentamounts:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - searchquery
+      - wordjoinedleadingword
+      - wordjoinedwordholdings
+  wordjoinedwordroles:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - searchquery
+      - wordjoinedleadingword
+  wordjoinedmatchingwords:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - wordjoinedwordroles
+  wordjoinedurlmetadataasks:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerasks
+      - peerdirectory
+      - wordpartitionasks
+      - wordjoineddocumentholders
   bywordcount:
     mayDependOn:
       - queryfindings
@@ -478,12 +554,25 @@ deps:
   queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
+      - wordjoinedwordasks
+      - wordjoinedmatchingwords
+      - wordjoinedurlmetadataasks
   queryspreadsobserverswordjoinedprometheus:
     canUse:
       - prometheus
       - budgetbuckets
     mayDependOn:
       - wordjoined
+      - wordjoinedmatchingwords
+      - wordjoinedurlmetadataasks
+  queryspreadsobserverswordjoineddocumentamountsapplog:
+    mayDependOn:
+      - wordjoineddocumentamounts
+  queryspreadsobserverswordjoineddocumentamountsprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - wordjoineddocumentamounts
   peercallobserversapplog:
     mayDependOn:
       - peerasks
