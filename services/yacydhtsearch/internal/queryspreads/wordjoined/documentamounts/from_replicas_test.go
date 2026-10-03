@@ -29,29 +29,32 @@ type replicaAnswerOfTheNetwork struct {
 	amountCounted int
 }
 
-type inquiryOfTheNetwork struct {
+type documentAsksOfTheNetwork struct {
 	answerOfEachWord    map[string]replicaAnswerOfTheNetwork
 	partitionsAsked     []uint
 	partitionsWaitedFor []uint
 }
 
-func (inquiry *inquiryOfTheNetwork) WhichDocumentsHaveIn(partition uint, _ []yacymodel.Hash) {
-	inquiry.partitionsAsked = append(inquiry.partitionsAsked, partition)
-}
-
-func (inquiry *inquiryOfTheNetwork) WaitUntilPartitionSettledFor(
+func (documentAsks *documentAsksOfTheNetwork) WhichDocumentsHaveIn(
 	partition uint,
 	_ []yacymodel.Hash,
 ) {
-	inquiry.partitionsWaitedFor = append(inquiry.partitionsWaitedFor, partition)
+	documentAsks.partitionsAsked = append(documentAsks.partitionsAsked, partition)
 }
 
-func (inquiry *inquiryOfTheNetwork) SettledIn(
+func (documentAsks *documentAsksOfTheNetwork) WaitUntilPartitionSettledFor(
+	partition uint,
+	_ []yacymodel.Hash,
+) {
+	documentAsks.partitionsWaitedFor = append(documentAsks.partitionsWaitedFor, partition)
+}
+
+func (documentAsks *documentAsksOfTheNetwork) SettledIn(
 	partition uint,
 	words []yacymodel.Hash,
 ) documentasks.Answers {
 	var settledAsks []wordpartitionasks.SettledAsk
-	for spelledWord, answer := range inquiry.answerOfEachWord {
+	for spelledWord, answer := range documentAsks.answerOfEachWord {
 		if !slices.Contains(words, yacymodel.WordHash(spelledWord)) {
 			continue
 		}
@@ -115,21 +118,27 @@ func amountOfEachWord(amounts map[string]int) map[yacymodel.Hash]int {
 func TestEachWordIsCountedInThePartitionAskedAndWaitedFor(t *testing.T) {
 	t.Parallel()
 
-	inquiry := &inquiryOfTheNetwork{answerOfEachWord: map[string]replicaAnswerOfTheNetwork{
-		firstWord:  {amountListed: 3, amountCounted: 3},
-		secondWord: {amountListed: 1, amountCounted: 1},
-	}}
+	documentAsks := &documentAsksOfTheNetwork{
+		answerOfEachWord: map[string]replicaAnswerOfTheNetwork{
+			firstWord:  {amountListed: 3, amountCounted: 3},
+			secondWord: {amountListed: 1, amountCounted: 1},
+		},
+	}
 
 	amounts := amountsFromReplicas(&countsFromReplicas{}).
-		AmountsInAPartitionFor(t.Context(), query, inquiry)
+		AmountsInAPartitionFor(t.Context(), query, documentAsks)
 
 	want := amountOfEachWord(map[string]int{firstWord: 3, secondWord: 1})
 	if !maps.Equal(amounts, want) ||
-		!slices.Equal(inquiry.partitionsAsked, []uint{askedPartition}) ||
-		!slices.Equal(inquiry.partitionsWaitedFor, []uint{askedPartition}) {
+		!slices.Equal(documentAsks.partitionsAsked, []uint{askedPartition}) ||
+		!slices.Equal(documentAsks.partitionsWaitedFor, []uint{askedPartition}) {
 		t.Fatalf(
 			"the replicas counted %v after asking %v and waiting for %v, want %v in partition %d",
-			amounts, inquiry.partitionsAsked, inquiry.partitionsWaitedFor, want, askedPartition,
+			amounts,
+			documentAsks.partitionsAsked,
+			documentAsks.partitionsWaitedFor,
+			want,
+			askedPartition,
 		)
 	}
 }
@@ -137,13 +146,15 @@ func TestEachWordIsCountedInThePartitionAskedAndWaitedFor(t *testing.T) {
 func TestOnlyAWordWithACompleteAbstractIsCounted(t *testing.T) {
 	t.Parallel()
 
-	inquiry := &inquiryOfTheNetwork{answerOfEachWord: map[string]replicaAnswerOfTheNetwork{
-		firstWord:  {amountListed: 1, amountCounted: 4},
-		secondWord: {amountListed: 2, amountCounted: 2},
-	}}
+	documentAsks := &documentAsksOfTheNetwork{
+		answerOfEachWord: map[string]replicaAnswerOfTheNetwork{
+			firstWord:  {amountListed: 1, amountCounted: 4},
+			secondWord: {amountListed: 2, amountCounted: 2},
+		},
+	}
 	counts := &countsFromReplicas{}
 
-	amounts := amountsFromReplicas(counts).AmountsInAPartitionFor(t.Context(), query, inquiry)
+	amounts := amountsFromReplicas(counts).AmountsInAPartitionFor(t.Context(), query, documentAsks)
 
 	if want := amountOfEachWord(map[string]int{secondWord: 2}); !maps.Equal(amounts, want) {
 		t.Fatalf(
@@ -163,7 +174,7 @@ func TestWithoutAnAnswerNoWordIsCounted(t *testing.T) {
 	t.Parallel()
 
 	amounts := amountsFromReplicas(&countsFromReplicas{}).
-		AmountsInAPartitionFor(t.Context(), query, &inquiryOfTheNetwork{})
+		AmountsInAPartitionFor(t.Context(), query, &documentAsksOfTheNetwork{})
 
 	if len(amounts) != 0 {
 		t.Fatalf("the replicas counted %v, want no word where no replica answered", amounts)

@@ -22,7 +22,7 @@ type amountsInAPartition map[string]int
 func (amounts amountsInAPartition) AmountsInAPartitionFor(
 	context.Context,
 	searchquery.Query,
-	leadingword.Inquiry,
+	leadingword.DocumentAsks,
 ) map[yacymodel.Hash]int {
 	amountOfEachWord := make(map[yacymodel.Hash]int, len(amounts))
 	for spelledWord, amount := range amounts {

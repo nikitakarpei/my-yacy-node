@@ -12,7 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type Inquiry interface {
+type DocumentAsks interface {
 	WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash)
 	WaitUntilPartitionSettledFor(partition uint, words []yacymodel.Hash)
 	SettledIn(partition uint, words []yacymodel.Hash) documentasks.Answers
@@ -22,7 +22,7 @@ type DocumentAmounts interface {
 	AmountsInAPartitionFor(
 		ctx context.Context,
 		query searchquery.Query,
-		inquiry Inquiry,
+		documentAsks DocumentAsks,
 	) map[yacymodel.Hash]int
 }
 
@@ -42,11 +42,11 @@ func New(documentAmounts DocumentAmounts) Finder {
 func (finder Finder) FindFor(
 	ctx context.Context,
 	query searchquery.Query,
-	inquiry Inquiry,
+	documentAsks DocumentAsks,
 ) yacymodel.Optional[Lead] {
 	return rarestAmong(
 		query.WordHashes(),
-		finder.documentAmounts.AmountsInAPartitionFor(ctx, query, inquiry),
+		finder.documentAmounts.AmountsInAPartitionFor(ctx, query, documentAsks),
 	)
 }
 

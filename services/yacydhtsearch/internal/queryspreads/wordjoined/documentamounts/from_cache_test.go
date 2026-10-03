@@ -36,7 +36,7 @@ type uncachedAmounts struct {
 func (uncached *uncachedAmounts) AmountsInAPartitionFor(
 	context.Context,
 	searchquery.Query,
-	leadingword.Inquiry,
+	leadingword.DocumentAsks,
 ) map[yacymodel.Hash]int {
 	uncached.amountOfCalls++
 

@@ -31,13 +31,13 @@ func NewFromReplicas(
 func (fromReplicas FromReplicas) AmountsInAPartitionFor(
 	ctx context.Context,
 	query searchquery.Query,
-	inquiry leadingword.Inquiry,
+	documentAsks leadingword.DocumentAsks,
 ) map[yacymodel.Hash]int {
 	askedPartition := fromReplicas.partitionToAsk(uint(fromReplicas.partitions))
-	inquiry.WhichDocumentsHaveIn(askedPartition, query.WordHashes())
-	inquiry.WaitUntilPartitionSettledFor(askedPartition, query.WordHashes())
+	documentAsks.WhichDocumentsHaveIn(askedPartition, query.WordHashes())
+	documentAsks.WaitUntilPartitionSettledFor(askedPartition, query.WordHashes())
 	documentsPerWord := documentsperword.From(
-		query, inquiry.SettledIn(askedPartition, query.WordHashes()),
+		query, documentAsks.SettledIn(askedPartition, query.WordHashes()),
 	)
 	countedAmounts := amountsListedIn(documentsPerWord.CompleteAbstractsIn(askedPartition))
 	fromReplicas.observer.AmountsCountedFromReplicas(ctx, PerformedFromReplicas{
