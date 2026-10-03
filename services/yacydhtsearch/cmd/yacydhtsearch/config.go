@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -149,7 +149,7 @@ type ServiceConfig struct {
 	URLMetadataAskDocumentsCeiling   int
 	URLMetadataAskDocumentsFloor     int
 	URLMetadataAskTargetTime         time.Duration
-	URLMetadataLookupCutoff          urlmetadataasks.Cutoff
+	URLMetadataLookupCutoff          wordjoined.URLMetadataLookupCutoff
 	RankedItemsCeiling               int
 	NATSURL                          string
 	RankingCacheCapacity             int
@@ -263,7 +263,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
 		URLMetadataAskDocumentsFloor:   counts.urlMetadataAskDocumentsFloor,
 		URLMetadataAskTargetTime:       durations.urlMetadataAskTargetTime,
-		URLMetadataLookupCutoff: urlmetadataasks.Cutoff{
+		URLMetadataLookupCutoff: wordjoined.URLMetadataLookupCutoff{
 			PercentOfDocuments: counts.urlMetadataLookupCutoffPercent,
 			Grace:              durations.urlMetadataLookupCutoffGrace,
 		},

@@ -11,9 +11,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordasks"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
 )
 
@@ -36,31 +33,34 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		WordAsks: wordasks.Performed{
-			AmountOfPeersWithANonEmptyAbstract: 4,
+		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
+			AmountOfQueryWords:                     4,
+			AmountOfQueryWordsHeldByNoPeer:         1,
+			AmountOfQueryWordsWithASample:          2,
+			AmountOfPeersWithANonEmptyAbstract:     4,
+			LeadingQueryWordChoice:                 wordjoined.RarestQueryWordWithASample,
+			AmountOfDocumentsOfTheLeadingQueryWord: 12,
+			OtherWordAsksPerPartition: map[uint]wordjoined.OtherWordAsks{
+				0: wordjoined.OtherWordAsksNamingTheDocumentsToMatch,
+				1: wordjoined.OtherWordAsksSkipped,
+				2: wordjoined.OtherWordAsksNamingTheDocumentsToMatch,
+				3: wordjoined.OtherWordAsksOverTheCeiling,
+			},
 		},
-		AmountOfQueryWords:                4,
-		AmountOfQueryWordsHeldByNoPeer:    1,
-		AmountOfDocumentsOfTheLeadingWord: 12,
-		MatchingWordAskKindPerPartition: matchingwords.KindPerPartition{
-			0: matchingwords.NamingTheDocumentsToMatch,
-			1: matchingwords.Skipped,
-			2: matchingwords.NamingTheDocumentsToMatch,
-			3: matchingwords.OverTheCeiling,
-		},
-		AmountOfJoinedDocuments:             10,
-		AmountOfJoinedDocumentsWithMetadata: 2,
-		URLMetadataAsks: urlmetadataasks.Performed{
-			AmountOfAskedDocuments:             4,
-			AmountOfAskedDocumentsWithMetadata: 3,
-			EndReason:                          urlmetadataasks.EndedByCoverage,
+		AmountOfJoinedDocuments: 10,
+		URLMetadataLookupRound: wordjoined.PerformedURLMetadataLookupRound{
+			AmountOfJoinedDocumentsWithMetadata:   2,
+			AmountOfLookedUpDocuments:             4,
+			AmountOfLookedUpDocumentsWithMetadata: 3,
+			EndReason:                             wordjoined.URLMetadataLookupEndedByCoverage,
 		},
 		TimeSpent: 250 * time.Millisecond,
 	})
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="documents"} 1`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word with a sample"} 1`,
+		"yacydhtsearch_word_joined_spread_query_words_with_a_sample_ratio_sum 0.5",
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming the documents to match"} 2`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="skipped, no documents to match"} 1`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 1`,
@@ -85,11 +85,15 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="documents"} 0`,
-		`yacydhtsearch_word_joined_spreads_total{join="no document"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word with a sample"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word with a sample"} 0`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming the documents to match"} 0`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="skipped, no documents to match"} 0`,
 		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, no sample"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, no sample"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, remembered"} 0`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, remembered"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="coverage"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="cut off"} 0`,
@@ -107,11 +111,11 @@ func TestALookupThatWasCutOffIsCountedByItsCutoff(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	spread := spreadJoiningDocuments(4)
-	spread.URLMetadataAsks = urlmetadataasks.Performed{
-		AmountOfAskedDocuments:             4,
-		AmountOfAskedDocumentsWithMetadata: 3,
-		EndReason:                          urlmetadataasks.EndedByCutoff,
-		AmountOfDocumentsCutOff:            1,
+	spread.URLMetadataLookupRound = wordjoined.PerformedURLMetadataLookupRound{
+		AmountOfLookedUpDocuments:             4,
+		AmountOfLookedUpDocumentsWithMetadata: 3,
+		EndReason:                             wordjoined.URLMetadataLookupEndedByCutoff,
+		AmountOfDocumentsCutOffDuringLookup:   1,
 	}
 	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 
@@ -131,11 +135,11 @@ func TestEachSentURLMetadataAskIsCountedByItsSize(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	spread := spreadJoiningDocuments(425)
-	spread.URLMetadataAsks = urlmetadataasks.Performed{
-		AmountOfAskedDocuments:             425,
-		AmountOfAskedDocumentsWithMetadata: 425,
-		EndReason:                          urlmetadataasks.EndedByCoverage,
-		AmountOfDocumentsPerAsk:            []int{25, 400},
+	spread.URLMetadataLookupRound = wordjoined.PerformedURLMetadataLookupRound{
+		AmountOfLookedUpDocuments:             425,
+		AmountOfLookedUpDocumentsWithMetadata: 425,
+		EndReason:                             wordjoined.URLMetadataLookupEndedByCoverage,
+		AmountOfDocumentsPerAsk:               []int{25, 400},
 	}
 	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 
@@ -153,7 +157,12 @@ func TestEachSentURLMetadataAskIsCountedByItsSize(t *testing.T) {
 }
 
 func spreadOfQueryWords(amountOfQueryWords int) wordjoined.PerformedWordJoinedSpread {
-	return wordjoined.PerformedWordJoinedSpread{AmountOfQueryWords: amountOfQueryWords}
+	return wordjoined.PerformedWordJoinedSpread{
+		DiscoveryRound: wordjoined.PerformedDiscoveryRound{
+			AmountOfQueryWords:     amountOfQueryWords,
+			LeadingQueryWordChoice: wordjoined.RarestQueryWordWithoutASample,
+		},
+	}
 }
 
 func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
@@ -166,7 +175,7 @@ func TestASpreadNoDocumentHeldAllQueryWordsForIsCountedApart(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		`yacydhtsearch_word_joined_spreads_total{join="no document"} 1`,
+		`yacydhtsearch_word_joined_spreads_total{join="no document",leading_query_word_choice="rarest word, no sample"} 1`,
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count 0",
 	} {
 		if !strings.Contains(body, published) {
@@ -184,7 +193,7 @@ func TestASpreadWhoseDocumentsAllCarriedMetadataPublishesNoShareDroppedBeforeLoo
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	spread := spreadJoiningDocuments(4)
-	spread.AmountOfJoinedDocumentsWithMetadata = 4
+	spread.URLMetadataLookupRound.AmountOfJoinedDocumentsWithMetadata = 4
 	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 
 	body := publishedBy(t, registry)
@@ -227,7 +236,7 @@ func TestALookupThatAskedNoPeerIsNotCountedByWhatEndedIt(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	spread := spreadJoiningDocuments(4)
-	spread.URLMetadataAsks.EndReason = urlmetadataasks.EndedByEveryAskSettled
+	spread.URLMetadataLookupRound.EndReason = wordjoined.URLMetadataLookupEndedByEveryAskSettled
 	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 
 	body := publishedBy(t, registry)
@@ -236,5 +245,24 @@ func TestALookupThatAskedNoPeerIsNotCountedByWhatEndedIt(t *testing.T) {
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 	) {
 		t.Fatalf("metrics count a lookup that asked no peer:\n%s", body)
+	}
+}
+
+func TestASpreadLedByARememberedWordIsCountedApart(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
+
+	spread := spreadJoiningDocuments(1)
+	spread.DiscoveryRound.LeadingQueryWordChoice = wordjoined.RarestQueryWordRemembered
+	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
+
+	body := publishedBy(t, registry)
+	if !strings.Contains(
+		body,
+		`yacydhtsearch_word_joined_spreads_total{join="documents",leading_query_word_choice="rarest word, remembered"} 1`,
+	) {
+		t.Fatalf("metrics do not count the spread led by a remembered word:\n%s", body)
 	}
 }

@@ -21,10 +21,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastreliable"
@@ -165,19 +161,14 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		byWordCount: bywordcount.New(
 			wordjoined.New(
 				everyReplicaOfTheWordJoinedSpread,
+				calledPeers,
 				noRememberedQueryWordDocumentAmounts{},
-				leadingword.New(documentamounts.NewFromReplicas(
-					partitions, rand.UintN, documentamounts.FromReplicasObservers{},
-				)),
-				matchingwords.New(partitions, documentsToMatchCeiling),
-				urlmetadataasks.New(
-					calledPeers,
-					urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
-					urlmetadataasks.Cutoff{},
-					wallclock.Clock{},
-					yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
-				),
+				wordjoined.URLMetadataLookupCutoff{},
+				rand.UintN,
+				urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
+				documentsToMatchCeiling,
 				partitions,
+				yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 				wordjoined.WordJoinedSpreadObservers{},
 			),
 			peermatched.New(
@@ -217,6 +208,13 @@ func (spread spreadChoosingPeers) SpreadOverPeers(
 }
 
 type noRememberedQueryWordDocumentAmounts struct{}
+
+func (noRememberedQueryWordDocumentAmounts) DocumentAmountsOf(
+	context.Context,
+	[]yacymodel.Hash,
+) map[yacymodel.Hash]int {
+	return nil
+}
 
 func (noRememberedQueryWordDocumentAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}
 

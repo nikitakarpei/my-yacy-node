@@ -50,30 +50,30 @@ type Run struct {
 	SettledAsks <-chan SettledAsk
 }
 
-func (asks Asks) Start(ctx context.Context) Run {
-	sentAsks := make(chan []Ask)
+func (replicaAsks Asks) Start(ctx context.Context) Run {
+	asks := make(chan []Ask)
 	settledAsks := make(chan SettledAsk)
-	go openRunOf(asks, sentAsks, settledAsks).askUntilOver(ctx)
+	go openRunOf(replicaAsks, asks, settledAsks).askUntilOver(ctx)
 
-	return Run{Asks: sentAsks, SettledAsks: settledAsks}
+	return Run{Asks: asks, SettledAsks: settledAsks}
 }
 
-func (asks Asks) startTheHedgeTimer(
+func (replicaAsks Asks) startTheHedgeTimer(
 	ctx context.Context,
 	peer peerdirectory.AskablePeer,
 	hedgeDue func(),
 ) (stop func()) {
-	return asks.clock.After(asks.hedgeDelay.HedgeDelayOf(ctx, peer), hedgeDue)
+	return replicaAsks.clock.After(replicaAsks.hedgeDelay.HedgeDelayOf(ctx, peer), hedgeDue)
 }
 
-func (asks Asks) askTheReplica(
+func (replicaAsks Asks) askTheReplica(
 	ctx context.Context,
 	ask Ask,
 	replica peerdirectory.AskablePeer,
 ) (ReplicaAnswer, bool) {
-	return asks.replicaCalls.Put(ctx, ask, replica)
+	return replicaAsks.replicaCalls.Put(ctx, ask, replica)
 }
 
-func (asks Asks) reportPerformed(ctx context.Context, performed PerformedReplicaAsks) {
-	asks.observer.ReplicaAsksPerformed(ctx, performed)
+func (replicaAsks Asks) reportPerformed(ctx context.Context, performed PerformedReplicaAsks) {
+	replicaAsks.observer.ReplicaAsksPerformed(ctx, performed)
 }

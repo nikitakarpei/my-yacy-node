@@ -64,15 +64,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	queryspreadsobserverspeermatchedapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/peermatched/applog"
 	queryspreadsobserverspeermatchedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/peermatched/prometheus"
 	queryspreadsobserverswordjoinedapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/applog"
-	queryspreadsobserverswordjoineddocumentamountsapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentamounts/applog"
-	queryspreadsobserverswordjoineddocumentamountsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentamounts/prometheus"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
 	queryworddocumentamountsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/jetstream"
 	queryworddocumentamountsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/memory"
@@ -100,7 +94,7 @@ const (
 	shutdownLimit                      = 15 * time.Second
 	rankingBucket                      = "yacydhtsearch-rankings"
 	rankingByteCeiling                 = 32 * 1024
-	queryWordDocumentAmountsBucket     = "yacydhtsearch-query-word-document-amounts-in-a-partition"
+	queryWordDocumentAmountsBucket     = "yacydhtsearch-query-word-document-amounts"
 	queryWordDocumentAmountByteCeiling = 64
 	probeAnswerHistoryStream           = "yacydhtsearch-probe-answer-history"
 	peerPresenceBucket                 = "yacydhtsearch-peer-presence"
@@ -274,8 +268,8 @@ func RunService(
 func querySpreadFor(
 	cfg ServiceConfig,
 	peers peercallwire.Wire,
-	queryWordDocumentAmounts queryWordDocumentAmounts,
-	urlMetadataAskCeilings urlmetadataasks.Ceilings,
+	queryWordDocumentAmounts wordjoined.QueryWordDocumentAmounts,
+	urlMetadataAskCeilings wordjoined.URLMetadataAskCeilings,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
 	hedgeDelay := hedgedelaysconstant.New(cfg.HedgeDelay)
@@ -307,17 +301,14 @@ func querySpreadFor(
 	return bywordcount.New(
 		wordjoined.New(
 			wordJoinedReplicaAsks,
+			peers,
 			queryWordDocumentAmounts,
-			leadingword.New(documentAmountsFor(cfg, queryWordDocumentAmounts, registry)),
-			matchingwords.New(cfg.Partitions, cfg.DocumentsToMatchCeiling),
-			urlmetadataasks.New(
-				peers,
-				urlMetadataAskCeilings,
-				cfg.URLMetadataLookupCutoff,
-				wallclock.Clock{},
-				yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
-			),
+			cfg.URLMetadataLookupCutoff,
+			rand.UintN,
+			urlMetadataAskCeilings,
+			cfg.DocumentsToMatchCeiling,
 			cfg.Partitions,
+			yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
 			wordjoined.WordJoinedSpreadObservers{
 				queryspreadsobserverswordjoinedapplog.WordJoinedSpreadLog{},
 				queryspreadsobserverswordjoinedprometheus.New(registry, cfg.QueryBudget),
@@ -333,40 +324,11 @@ func querySpreadFor(
 	)
 }
 
-func documentAmountsFor(
-	cfg ServiceConfig,
-	queryWordDocumentAmounts queryWordDocumentAmounts,
-	registry *prometheus.Registry,
-) documentamounts.FromCache {
-	documentAmountsMetrics := queryspreadsobserverswordjoineddocumentamountsprometheus.New(registry)
-
-	return documentamounts.NewFromCache(
-		queryWordDocumentAmounts,
-		documentamounts.NewFromReplicas(
-			cfg.Partitions,
-			rand.UintN,
-			documentamounts.FromReplicasObservers{
-				queryspreadsobserverswordjoineddocumentamountsapplog.DocumentAmountsLog{},
-				documentAmountsMetrics,
-			},
-		),
-		documentamounts.FromCacheObservers{
-			queryspreadsobserverswordjoineddocumentamountsapplog.DocumentAmountsLog{},
-			documentAmountsMetrics,
-		},
-	)
-}
-
-type queryWordDocumentAmounts interface {
-	documentamounts.CachedDocumentAmounts
-	wordjoined.RememberedDocumentAmounts
-}
-
 func queryWordDocumentAmountsFor(
 	ctx context.Context,
 	cfg ServiceConfig,
 	metrics *queryworddocumentamountsobserversjetstreamprometheus.QueryWordDocumentAmountsMetrics,
-) (queryWordDocumentAmounts, error) {
+) (wordjoined.QueryWordDocumentAmounts, error) {
 	if cfg.NATSURL == "" {
 		return queryworddocumentamountsmemory.New(
 			cfg.QueryWordDocumentAmountsCapacity, cfg.QueryWordDocumentAmountLifetime,

@@ -2,47 +2,54 @@ package wordjoined
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordholdings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func findingsFrom(
 	query searchquery.Query,
-	wordAnswers wordasks.Answers,
-	holdings wordholdings.Holdings,
-	joinedDocuments yacymodel.URLHashes,
-	urlMetadata urlmetadataasks.Answers,
+	discoveryRound discoveryRound,
+	joinedDocuments distinctDocuments,
+	urlMetadataLookupRound urlMetadataLookupRound,
 ) queryfindings.Findings {
 	return queryfindings.Findings{
-		QueryWords:                query.WordHashes(),
-		CompoundWords:             query.CompoundWords,
-		FoundDocuments:            foundDocumentsFrom(wordAnswers, joinedDocuments, urlMetadata),
-		DocumentsHeldPerQueryWord: holdings.AmountOfDocumentsHeldPerQueryWord(),
+		QueryWords:    discoveryRound.queryWords,
+		CompoundWords: query.CompoundWords,
+		FoundDocuments: foundDocumentsFrom(
+			discoveryRound, joinedDocuments, urlMetadataLookupRound,
+		),
+		DocumentsHeldPerQueryWord: discoveryRound.
+			amountOfDocumentsHeldPerQueryWord(),
 	}
 }
 
 func foundDocumentsFrom(
-	wordAnswers wordasks.Answers,
-	joinedDocuments yacymodel.URLHashes,
-	urlMetadata urlmetadataasks.Answers,
+	discoveryRound discoveryRound,
+	joinedDocuments distinctDocuments,
+	urlMetadataLookupRound urlMetadataLookupRound,
 ) []queryfindings.FoundDocument {
 	documentsThePeersSent := queryfindings.EmptyDocumentsThePeersSent()
-	for _, matchedDocument := range wordAnswers.DocumentsThePeersMatched() {
-		if !joinedDocuments.Contains(matchedDocument.Document) {
-			continue
+	for _, settledAsk := range discoveryRound.settledAsks {
+		for _, answer := range settledAsk.Answers {
+			for _, listedDocument := range answer.ListedDocuments {
+				metadata, matched := listedDocument.Metadata.Get()
+				if !matched || !joinedDocuments.contains(listedDocument.Hash) {
+					continue
+				}
+				documentsThePeersSent.KeepDocumentThePeerMatched(
+					answer.Replica.Hash,
+					settledAsk.Word,
+					metadata,
+					listedDocument.Posting,
+				)
+			}
 		}
-		documentsThePeersSent.KeepDocumentThePeerMatched(
-			matchedDocument.Replica,
-			matchedDocument.Word,
-			matchedDocument.Metadata,
-			matchedDocument.Posting,
-		)
 	}
-	for _, sentMetadata := range urlMetadata.MetadataThePeersSent() {
-		documentsThePeersSent.KeepMetadataThePeerSent(sentMetadata.Metadata, sentMetadata.Peer)
+	for _, answeredAsk := range urlMetadataLookupRound.answeredAsks {
+		for _, metadata := range answeredAsk.MetadataOfEachDocument {
+			documentsThePeersSent.KeepMetadataThePeerSent(
+				metadata, answeredAsk.Ask.Peer.Hash,
+			)
+		}
 	}
 
 	return documentsThePeersSent.FoundDocuments()

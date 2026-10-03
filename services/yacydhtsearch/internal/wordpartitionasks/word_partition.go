@@ -8,7 +8,7 @@ import (
 )
 
 type wordPartition struct {
-	asks                     Asks
+	replicaAsks              Asks
 	chosenPeers              *chosenPeers
 	ask                      Ask
 	replicasLeft             []peerdirectory.AskablePeer
@@ -37,9 +37,9 @@ type replicaCallOutcome struct {
 	answer             ReplicaAnswer
 }
 
-func wordPartitionOf(ask Ask, asks Asks, chosenPeers *chosenPeers) *wordPartition {
+func wordPartitionOf(ask Ask, replicaAsks Asks, chosenPeers *chosenPeers) *wordPartition {
 	return &wordPartition{
-		asks:         asks,
+		replicaAsks:  replicaAsks,
 		chosenPeers:  chosenPeers,
 		ask:          ask,
 		replicasLeft: ask.ReplicasInOrder,
@@ -49,7 +49,7 @@ func wordPartitionOf(ask Ask, asks Asks, chosenPeers *chosenPeers) *wordPartitio
 }
 
 func (partition *wordPartition) chooseTheFirstReplicas() {
-	for range partition.asks.amountOfReplicasCoveringAPartition {
+	for range partition.replicaAsks.amountOfReplicasCoveringAPartition {
 		replica, chosen := partition.chooseTheNextReplica()
 		if !chosen {
 			return
@@ -98,7 +98,7 @@ func (partition *wordPartition) putTheAsk(
 		putOn:   putOn,
 		answer:  yacymodel.None[ReplicaAnswer](),
 	}
-	call.stopHedgeTimer = partition.asks.startTheHedgeTimer(
+	call.stopHedgeTimer = partition.replicaAsks.startTheHedgeTimer(
 		ctx,
 		replica,
 		func() { partition.hedgesDue <- call },
@@ -109,7 +109,7 @@ func (partition *wordPartition) putTheAsk(
 }
 
 func (partition *wordPartition) callTheReplica(ctx context.Context, call *replicaCall) {
-	answer, answered := partition.asks.askTheReplica(ctx, partition.ask, call.replica)
+	answer, answered := partition.replicaAsks.askTheReplica(ctx, partition.ask, call.replica)
 	if !answered {
 		partition.callOutcomes <- replicaCallOutcome{call: call}
 
@@ -221,7 +221,7 @@ func (partition *wordPartition) countTheCoveringAnswer(outcome replicaCallOutcom
 	}
 	partition.amountOfCoveringAnswers++
 	if partition.amountOfCoveringAnswers ==
-		partition.asks.amountOfReplicasCoveringAPartition {
+		partition.replicaAsks.amountOfReplicasCoveringAPartition {
 		partition.settledBy = SettledByCoverage
 		partition.coveringAskPutOn = outcome.call.putOn
 	}
