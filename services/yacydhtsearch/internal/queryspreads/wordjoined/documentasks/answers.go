@@ -38,13 +38,8 @@ func (answers Answers) DocumentsWithoutMetadataAmong(
 	return documentsWithoutMetadata
 }
 
-func (answers Answers) DocumentHolders() documentholders.Holders {
-	holders := documentholders.NoHolders()
-	for _, settledAsk := range answers.SettledAsks {
-		holders.AddHoldersIn(settledAsk.Answers)
-	}
-
-	return holders
+func (answers Answers) HoldersOf(documents yacymodel.URLHashes) documentholders.Holders {
+	return documentholders.HoldersOf(documents, answers.replicaAnswers())
 }
 
 type ListedDocumentWithMetadata struct {

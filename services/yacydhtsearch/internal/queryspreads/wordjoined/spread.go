@@ -74,12 +74,8 @@ func (spread Spread) SpreadOverPeers(
 	spread.queryWordDocumentAmounts.Remember(ctx, documentsPerWord.AmountInAPartitionPerQueryWord())
 	joinedDocuments := documentsPerWord.WithEveryWord()
 	documentsWithoutMetadata := documentAnswers.DocumentsWithoutMetadataAmong(joinedDocuments)
-	documentHolders := documentAnswers.DocumentHolders()
-	urlMetadataAnswers := spread.urlMetadataAsker.AskFor(
-		ctx,
-		documentsWithoutMetadata,
-		documentHolders,
-	)
+	holdersOfDocumentsWithoutMetadata := documentAnswers.HoldersOf(documentsWithoutMetadata)
+	urlMetadataAnswers := spread.urlMetadataAsker.AskFor(ctx, holdersOfDocumentsWithoutMetadata)
 
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		documentAnswers,

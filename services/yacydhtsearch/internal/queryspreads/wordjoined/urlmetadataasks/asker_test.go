@@ -179,12 +179,11 @@ func (asked askedPeers) settledFor(
 	ctx context.Context,
 	answers []wordpartitionasks.ReplicaAnswer,
 ) urlmetadataasks.Performed {
-	holders := documentholders.NoHolders()
-	holders.AddHoldersIn(answers)
+	holders := documentholders.HoldersOf(documentsAcross(answers), answers)
 
 	return urlmetadataasks.PerformedFrom(urlmetadataasks.New(
 		asked.peers, asked.ceilings, asked.cutoff, asked.clock, asked.holdingOne,
-	).AskFor(ctx, documentsAcross(answers), holders))
+	).AskFor(ctx, holders))
 }
 
 func documentsAcross(answers []wordpartitionasks.ReplicaAnswer) yacymodel.URLHashes {

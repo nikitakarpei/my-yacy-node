@@ -47,7 +47,7 @@ func (asker Asker) Begin(
 
 	return &Inquiry{
 		ctx:                     ctx,
-		chosenReplicas:          chosenReplicasFor(query, chosenPeersPerQueryWord),
+		chosenPeers:             chosenPeersFor(query, chosenPeersPerQueryWord),
 		partitions:              asker.partitions,
 		documentsToMatchCeiling: asker.documentsToMatchCeiling,
 		observer:                asker.observer,

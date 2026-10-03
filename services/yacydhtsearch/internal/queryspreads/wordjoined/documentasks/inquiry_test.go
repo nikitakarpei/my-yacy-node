@@ -412,8 +412,8 @@ func TestTheAnswersKnowTheHoldersOfTheListedDocuments(t *testing.T) {
 	)
 	inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord))
 
-	holders := inquiry.Finish().DocumentHolders()
-	got := holders.MostHeldFirst(yacymodel.URLHashes{documents[0]: {}, documents[1]: {}})
+	holders := inquiry.Finish().HoldersOf(yacymodel.URLHashes{documents[0]: {}, documents[1]: {}})
+	got := holders.MostHeldFirst()
 
 	if want := []yacymodel.URLHash{documents[1], documents[0]}; !slices.Equal(got, want) {
 		t.Fatalf("the documents most held first are %v, want %v", got, want)

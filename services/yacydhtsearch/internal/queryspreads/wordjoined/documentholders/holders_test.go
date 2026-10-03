@@ -43,15 +43,16 @@ func TestTheDocumentMorePeersHoldComesFirst(t *testing.T) {
 
 	heldByOne := documentHashOf(t, "https://held-by-one.example/")
 	heldByTwo := documentHashOf(t, "https://held-by-two.example/")
-	holders := documentholders.NoHolders()
+	holders := documentholders.HoldersOf(
+		yacymodel.URLHashes{heldByOne: {}, heldByTwo: {}},
+		[]wordpartitionasks.ReplicaAnswer{
+			answerOf("first", heldByOne, heldByTwo),
+			answerOf("second", heldByTwo),
+			answerOf("second", heldByTwo),
+		},
+	)
 
-	holders.AddHoldersIn([]wordpartitionasks.ReplicaAnswer{
-		answerOf("first", heldByOne, heldByTwo),
-		answerOf("second", heldByTwo),
-		answerOf("second", heldByTwo),
-	})
-
-	got := holders.MostHeldFirst(yacymodel.URLHashes{heldByOne: {}, heldByTwo: {}})
+	got := holders.MostHeldFirst()
 	if want := []yacymodel.URLHash{heldByTwo, heldByOne}; !slices.Equal(got, want) {
 		t.Fatalf("the holders ordered %v, want %v", got, want)
 	}
@@ -62,11 +63,12 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 
 	first := documentHashOf(t, "https://first.example/")
 	second := documentHashOf(t, "https://second.example/")
-	holders := documentholders.NoHolders()
+	holders := documentholders.HoldersOf(
+		yacymodel.URLHashes{first: {}, second: {}},
+		[]wordpartitionasks.ReplicaAnswer{answerOf("peer", first, second)},
+	)
 
-	holders.AddHoldersIn([]wordpartitionasks.ReplicaAnswer{answerOf("peer", first, second)})
-
-	got := holders.MostHeldFirst(yacymodel.URLHashes{first: {}, second: {}})
+	got := holders.MostHeldFirst()
 	want := []yacymodel.URLHash{first, second}
 	if second.String() < first.String() {
 		want = []yacymodel.URLHash{second, first}
@@ -81,13 +83,14 @@ func TestThePeersWithTheirDocumentsComeInTheOrderOfTheirHashes(t *testing.T) {
 
 	first := documentHashOf(t, "https://first.example/")
 	second := documentHashOf(t, "https://second.example/")
-	holders := documentholders.NoHolders()
-
-	holders.AddHoldersIn([]wordpartitionasks.ReplicaAnswer{
-		answerOf("zulu", first),
-		answerOf("alpha", second),
-		answerOf("zulu", second),
-	})
+	holders := documentholders.HoldersOf(
+		yacymodel.URLHashes{first: {}, second: {}},
+		[]wordpartitionasks.ReplicaAnswer{
+			answerOf("zulu", first),
+			answerOf("alpha", second),
+			answerOf("zulu", second),
+		},
+	)
 
 	got := holders.PeersWithTheirDocuments()
 	wantPeers := []string{"zulu", "alpha"}

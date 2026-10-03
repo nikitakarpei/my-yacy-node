@@ -10,7 +10,7 @@ import (
 
 type Inquiry struct {
 	ctx                     context.Context
-	chosenReplicas          chosenReplicas
+	chosenPeers             chosenPeers
 	partitions              yacymodel.DHTRingPartitions
 	documentsToMatchCeiling int
 	observer                DocumentAsksObserver
@@ -28,7 +28,7 @@ const (
 )
 
 func (inquiry *Inquiry) WhichDocumentsHave(words []yacymodel.Hash) {
-	inquiry.send(inquiry.chosenReplicas.asksOfEveryPartitionFor(words, inquiry.partitions))
+	inquiry.send(inquiry.chosenPeers.asksOfEveryPartitionFor(words, inquiry.partitions))
 }
 
 func (inquiry *Inquiry) send(asks []wordpartitionasks.Ask) {
@@ -53,7 +53,7 @@ func wordPartitionKeyOf(ask wordpartitionasks.Ask) wordPartitionKey {
 }
 
 func (inquiry *Inquiry) WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash) {
-	inquiry.send(inquiry.chosenReplicas.asksOf(words, partition))
+	inquiry.send(inquiry.chosenPeers.asksOf(words, partition))
 }
 
 func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(
@@ -129,7 +129,7 @@ func (inquiry *Inquiry) askIn(
 	these []yacymodel.Hash,
 	those []yacymodel.Hash,
 ) yacymodel.Optional[Kind] {
-	asksOfThose := inquiry.chosenReplicas.asksOf(those, partition)
+	asksOfThose := inquiry.chosenPeers.asksOf(those, partition)
 	if !slices.ContainsFunc(asksOfThose, func(ask wordpartitionasks.Ask) bool {
 		return !inquiry.sent(ask)
 	}) {

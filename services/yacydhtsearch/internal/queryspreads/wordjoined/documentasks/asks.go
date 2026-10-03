@@ -13,50 +13,50 @@ type wordPartitionKey struct {
 	partition uint
 }
 
-type chosenReplicas struct {
-	query                    searchquery.Query
-	replicasPerWordPartition map[wordPartitionKey][]peerdirectory.AskablePeer
+type chosenPeers struct {
+	query                 searchquery.Query
+	peersPerWordPartition map[wordPartitionKey][]peerdirectory.AskablePeer
 }
 
-func chosenReplicasFor(
+func chosenPeersFor(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-) chosenReplicas {
-	replicasPerWordPartition := map[wordPartitionKey][]peerdirectory.AskablePeer{}
+) chosenPeers {
+	peersPerWordPartition := map[wordPartitionKey][]peerdirectory.AskablePeer{}
 	for _, chosenPeersOfQueryWord := range chosenPeersPerQueryWord {
 		for _, chosenPeersOfPartition := range chosenPeersOfQueryWord.ChosenPeersPerPartition() {
 			key := wordPartitionKey{
 				word:      chosenPeersOfQueryWord.QueryWord,
 				partition: chosenPeersOfPartition.Partition,
 			}
-			replicasPerWordPartition[key] = chosenPeersOfPartition.Peers
+			peersPerWordPartition[key] = chosenPeersOfPartition.Peers
 		}
 	}
 
-	return chosenReplicas{query: query, replicasPerWordPartition: replicasPerWordPartition}
+	return chosenPeers{query: query, peersPerWordPartition: peersPerWordPartition}
 }
 
-func (replicas chosenReplicas) asksOfEveryPartitionFor(
+func (peers chosenPeers) asksOfEveryPartitionFor(
 	words []yacymodel.Hash,
 	partitions yacymodel.DHTRingPartitions,
 ) []wordpartitionasks.Ask {
 	asks := make([]wordpartitionasks.Ask, 0, len(words)*int(partitions))
 	for _, word := range words {
 		for partition := range uint(partitions) {
-			asks = append(asks, replicas.asksOf([]yacymodel.Hash{word}, partition)...)
+			asks = append(asks, peers.asksOf([]yacymodel.Hash{word}, partition)...)
 		}
 	}
 
 	return asks
 }
 
-func (replicas chosenReplicas) asksOf(
+func (peers chosenPeers) asksOf(
 	words []yacymodel.Hash,
 	partition uint,
 ) []wordpartitionasks.Ask {
 	var asks []wordpartitionasks.Ask
 	for _, word := range words {
-		replicasInOrder, chosen := replicas.replicasPerWordPartition[wordPartitionKey{
+		peersInOrder, chosen := peers.peersPerWordPartition[wordPartitionKey{
 			word: word, partition: partition,
 		}]
 		if !chosen {
@@ -65,9 +65,9 @@ func (replicas chosenReplicas) asksOf(
 		asks = append(asks, wordpartitionasks.Ask{
 			Word:            word,
 			Partition:       partition,
-			ReplicasInOrder: replicasInOrder,
-			ExcludedWords:   replicas.query.ExclusionHashes(),
-			Language:        replicas.query.Language,
+			ReplicasInOrder: peersInOrder,
+			ExcludedWords:   peers.query.ExclusionHashes(),
+			Language:        peers.query.Language,
 		})
 	}
 

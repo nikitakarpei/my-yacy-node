@@ -53,10 +53,9 @@ func New(
 
 func (asker Asker) AskFor(
 	ctx context.Context,
-	documentsWithoutMetadata yacymodel.URLHashes,
 	holders documentholders.Holders,
 ) Answers {
-	asks := asker.asksFor(ctx, holders.MostHeldFirst(documentsWithoutMetadata), holders)
+	asks := asker.asksFor(ctx, holders)
 	asksContext, endAsks := context.WithCancel(ctx)
 	defer endAsks()
 
@@ -69,11 +68,10 @@ func (asker Asker) AskFor(
 
 func (asker Asker) asksFor(
 	ctx context.Context,
-	documentsMostHeldFirst []yacymodel.URLHash,
 	holders documentholders.Holders,
 ) []peerasks.URLMetadataAsk {
 	asksOfEachPeer := asker.asksOfEachPeerAmong(
-		ctx, holders.PeersWithTheirDocuments(), documentsMostHeldFirst,
+		ctx, holders.PeersWithTheirDocuments(), holders.MostHeldFirst(),
 	)
 
 	return asksCoveringMostDocuments(asksOfEachPeer, asker.amountOfPeersHoldingOneWord)

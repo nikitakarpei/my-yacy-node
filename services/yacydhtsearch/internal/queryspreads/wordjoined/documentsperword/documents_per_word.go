@@ -27,24 +27,21 @@ func From(query searchquery.Query, documentAnswers documentasks.Answers) Documen
 }
 
 func (documentsPerWord DocumentsPerWord) WithEveryWord() yacymodel.URLHashes {
-	return documentsPerWord.documentsCountingForEachQueryWord().documentsWithEveryQueryWord()
+	return documentsPerWord.documentsOfEachQueryWord().documentsWithEveryQueryWord()
 }
 
-func (documentsPerWord DocumentsPerWord) documentsCountingForEachQueryWord() documentsCountingForQueryWord {
-	documentsOfEachQueryWord := make(
-		documentsCountingForQueryWord,
-		len(documentsPerWord.queryWords),
-	)
+func (documentsPerWord DocumentsPerWord) documentsOfEachQueryWord() documentsOfEachQueryWord {
+	documentsOfWords := make(documentsOfEachQueryWord, len(documentsPerWord.queryWords))
 	for _, queryWord := range documentsPerWord.queryWords {
-		documentsOfEachQueryWord[queryWord.word] = queryWord.documents()
+		documentsOfWords[queryWord.word] = queryWord.documents()
 	}
 	for _, compoundWord := range documentsPerWord.compoundWords {
 		for _, word := range compoundWord.PartHashes() {
-			documentsOfEachQueryWord.add(word, compoundWord.documents())
+			documentsOfWords.add(word, compoundWord.documents())
 		}
 	}
 
-	return documentsOfEachQueryWord
+	return documentsOfWords
 }
 
 func (documentsPerWord DocumentsPerWord) AmountHeldPerQueryWord() map[yacymodel.Hash]int {
