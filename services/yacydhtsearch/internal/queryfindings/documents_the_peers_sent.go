@@ -29,7 +29,7 @@ func (documents *DocumentsThePeersSent) KeepMetadataThePeerSent(
 	)
 }
 
-func (documents *DocumentsThePeersSent) KeepDocumentThePeerMatched(
+func (documents *DocumentsThePeersSent) KeepDocumentThePeerListed(
 	peer yacymodel.Hash,
 	word yacymodel.Hash,
 	metadata yacymodel.URLMetadata,

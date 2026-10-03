@@ -82,6 +82,23 @@ func TestTheHashesOfWordsAndCompoundWordsHoldTheWordsThenTheCompoundWordsUpToThe
 	}
 }
 
+func TestTheHashesOfWordsAndCompoundWordsHoldTheWordsThenEveryCompoundWord(t *testing.T) {
+	t.Parallel()
+
+	query := searchquery.Query{
+		Words: []string{"open", "street", "map"},
+		CompoundWords: []searchquery.CompoundWord{
+			{Word: "openstreet", Parts: []string{"open", "street"}},
+			{Word: "streetmap", Parts: []string{"street", "map"}},
+		},
+	}
+
+	want := hashesOf("open", "street", "map", "openstreet", "streetmap")
+	if got := query.HashesOfWordsAndCompoundWords(); !slices.Equal(got, want) {
+		t.Fatalf("HashesOfWordsAndCompoundWords = %v, want %v", got, want)
+	}
+}
+
 func hashesOf(words ...string) []yacymodel.Hash {
 	hashes := make([]yacymodel.Hash, 0, len(words))
 	for _, word := range words {

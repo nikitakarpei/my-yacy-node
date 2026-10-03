@@ -1,4 +1,4 @@
-package wordasks
+package documentasks
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -6,20 +6,20 @@ import (
 )
 
 type Performed struct {
-	AmountOfPeersWithANonEmptyAbstract    int
-	AmountOfMatchedDocumentsAcrossAnswers int
-	AmountOfMatchedDocumentsWithAPosting  int
-	AmountOfDocumentsHeldInEachAnswer     []int
+	AmountOfPeersWithANonEmptyAbstract  int
+	AmountOfListedDocumentsWithMetadata int
+	AmountOfListedDocumentsWithAPosting int
+	AmountOfDocumentsHeldInEachAnswer   []int
 }
 
-func PerformedFrom(wordAnswers Answers) Performed {
-	answers := wordAnswers.replicaAnswers()
+func PerformedFrom(documentAnswers Answers) Performed {
+	answers := documentAnswers.replicaAnswers()
 
 	return Performed{
-		AmountOfPeersWithANonEmptyAbstract:    amountOfPeersWithANonEmptyAbstractAmong(answers),
-		AmountOfMatchedDocumentsAcrossAnswers: amountOfMatchedDocumentsAmong(answers),
-		AmountOfMatchedDocumentsWithAPosting:  amountOfMatchedDocumentsWithAPostingAmong(answers),
-		AmountOfDocumentsHeldInEachAnswer:     amountOfDocumentsHeldInEachAmong(answers),
+		AmountOfPeersWithANonEmptyAbstract:  amountOfPeersWithANonEmptyAbstractAmong(answers),
+		AmountOfListedDocumentsWithMetadata: amountOfListedDocumentsWithMetadataAmong(answers),
+		AmountOfListedDocumentsWithAPosting: amountOfListedDocumentsWithAPostingAmong(answers),
+		AmountOfDocumentsHeldInEachAnswer:   amountOfDocumentsHeldPerAnswer(answers),
 	}
 }
 
@@ -35,7 +35,7 @@ func amountOfPeersWithANonEmptyAbstractAmong(answers []wordpartitionasks.Replica
 	return len(peers)
 }
 
-func amountOfMatchedDocumentsAmong(answers []wordpartitionasks.ReplicaAnswer) int {
+func amountOfListedDocumentsWithMetadataAmong(answers []wordpartitionasks.ReplicaAnswer) int {
 	amount := 0
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
@@ -49,7 +49,7 @@ func amountOfMatchedDocumentsAmong(answers []wordpartitionasks.ReplicaAnswer) in
 	return amount
 }
 
-func amountOfMatchedDocumentsWithAPostingAmong(answers []wordpartitionasks.ReplicaAnswer) int {
+func amountOfListedDocumentsWithAPostingAmong(answers []wordpartitionasks.ReplicaAnswer) int {
 	amount := 0
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
@@ -63,7 +63,7 @@ func amountOfMatchedDocumentsWithAPostingAmong(answers []wordpartitionasks.Repli
 	return amount
 }
 
-func amountOfDocumentsHeldInEachAmong(answers []wordpartitionasks.ReplicaAnswer) []int {
+func amountOfDocumentsHeldPerAnswer(answers []wordpartitionasks.ReplicaAnswer) []int {
 	amountOfDocumentsHeldInEachAnswer := make([]int, 0, len(answers))
 	for _, answer := range answers {
 		amountOfDocumentsHeldForTheWord, counted := answer.AmountOfDocumentsHeld.Get()

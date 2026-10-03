@@ -1,4 +1,4 @@
-package wordasks
+package documentasks
 
 import (
 	"maps"
@@ -8,11 +8,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type Answers []wordpartitionasks.SettledAsk
+type Answers struct {
+	SettledAsks []wordpartitionasks.SettledAsk
+	Partitions  yacymodel.DHTRingPartitions
+}
 
 func (answers Answers) replicaAnswers() []wordpartitionasks.ReplicaAnswer {
 	var replicaAnswers []wordpartitionasks.ReplicaAnswer
-	for _, settledAsk := range answers {
+	for _, settledAsk := range answers.SettledAsks {
 		replicaAnswers = append(replicaAnswers, settledAsk.Answers...)
 	}
 
@@ -35,16 +38,11 @@ func (answers Answers) DocumentsWithoutMetadataAmong(
 	return documentsWithoutMetadata
 }
 
-func (answers Answers) DocumentHolders() documentholders.Holders {
-	holders := documentholders.NoHolders()
-	for _, settledAsk := range answers {
-		holders.AddHoldersIn(settledAsk.Answers)
-	}
-
-	return holders
+func (answers Answers) HoldersOf(documents yacymodel.URLHashes) documentholders.Holders {
+	return documentholders.HoldersOf(documents, answers.replicaAnswers())
 }
 
-type MatchedDocument struct {
+type ListedDocumentWithMetadata struct {
 	Replica  yacymodel.Hash
 	Word     yacymodel.Hash
 	Document yacymodel.URLHash
@@ -52,25 +50,28 @@ type MatchedDocument struct {
 	Posting  yacymodel.Optional[yacymodel.RWIPosting]
 }
 
-func (answers Answers) DocumentsThePeersMatched() []MatchedDocument {
-	var matchedDocuments []MatchedDocument
-	for _, settledAsk := range answers {
+func (answers Answers) ListedDocumentsWithMetadata() []ListedDocumentWithMetadata {
+	var listedDocumentsWithMetadata []ListedDocumentWithMetadata
+	for _, settledAsk := range answers.SettledAsks {
 		for _, answer := range settledAsk.Answers {
 			for _, listedDocument := range answer.ListedDocuments {
-				metadata, matched := listedDocument.Metadata.Get()
-				if !matched {
+				metadata, sent := listedDocument.Metadata.Get()
+				if !sent {
 					continue
 				}
-				matchedDocuments = append(matchedDocuments, MatchedDocument{
-					Replica:  answer.Replica.Hash,
-					Word:     settledAsk.Word,
-					Document: listedDocument.Hash,
-					Metadata: metadata,
-					Posting:  listedDocument.Posting,
-				})
+				listedDocumentsWithMetadata = append(
+					listedDocumentsWithMetadata,
+					ListedDocumentWithMetadata{
+						Replica:  answer.Replica.Hash,
+						Word:     settledAsk.Word,
+						Document: listedDocument.Hash,
+						Metadata: metadata,
+						Posting:  listedDocument.Posting,
+					},
+				)
 			}
 		}
 	}
 
-	return matchedDocuments
+	return listedDocumentsWithMetadata
 }

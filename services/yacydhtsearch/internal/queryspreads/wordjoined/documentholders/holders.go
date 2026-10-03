@@ -24,23 +24,35 @@ type PeerWithItsDocuments struct {
 	Documents yacymodel.URLHashes
 }
 
-func NoHolders() Holders {
-	return Holders{
+func HoldersOf(
+	documents yacymodel.URLHashes,
+	answers []wordpartitionasks.ReplicaAnswer,
+) Holders {
+	holders := Holders{
 		holdersPerDocument:          map[yacymodel.URLHash]map[yacymodel.Hash]struct{}{},
 		peerWithItsDocumentsPerPeer: map[yacymodel.Hash]PeerWithItsDocuments{},
 	}
+	for _, answer := range answers {
+		holders.addHoldersIn(answer, documents)
+	}
+
+	return holders
 }
 
-func (holders Holders) AddHoldersIn(answers []wordpartitionasks.ReplicaAnswer) {
-	for _, answer := range answers {
-		peer := holders.peerWithItsDocumentsFor(answer.Replica)
-		for _, listedDocument := range answer.ListedDocuments {
-			if holders.holdersPerDocument[listedDocument.Hash] == nil {
-				holders.holdersPerDocument[listedDocument.Hash] = map[yacymodel.Hash]struct{}{}
-			}
-			holders.holdersPerDocument[listedDocument.Hash][answer.Replica.Hash] = struct{}{}
-			peer.Documents.Add(listedDocument.Hash)
+func (holders Holders) addHoldersIn(
+	answer wordpartitionasks.ReplicaAnswer,
+	documents yacymodel.URLHashes,
+) {
+	for _, listedDocument := range answer.ListedDocuments {
+		if !documents.Contains(listedDocument.Hash) {
+			continue
 		}
+		peer := holders.peerWithItsDocumentsFor(answer.Replica)
+		if holders.holdersPerDocument[listedDocument.Hash] == nil {
+			holders.holdersPerDocument[listedDocument.Hash] = map[yacymodel.Hash]struct{}{}
+		}
+		holders.holdersPerDocument[listedDocument.Hash][answer.Replica.Hash] = struct{}{}
+		peer.Documents.Add(listedDocument.Hash)
 	}
 }
 
@@ -56,9 +68,9 @@ func (holders Holders) peerWithItsDocumentsFor(
 	return peer
 }
 
-func (holders Holders) MostHeldFirst(documents yacymodel.URLHashes) []yacymodel.URLHash {
+func (holders Holders) MostHeldFirst() []yacymodel.URLHash {
 	return slices.SortedFunc(
-		maps.Keys(documents),
+		maps.Keys(holders.holdersPerDocument),
 		func(first, second yacymodel.URLHash) int {
 			amountOfHoldersOfFirst := len(holders.holdersPerDocument[first])
 			amountOfHoldersOfSecond := len(holders.holdersPerDocument[second])

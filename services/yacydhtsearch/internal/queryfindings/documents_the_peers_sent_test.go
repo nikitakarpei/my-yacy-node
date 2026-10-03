@@ -74,13 +74,13 @@ func TestPostingsOfDocumentComeBackOnThatDocumentAlone(t *testing.T) {
 	t.Parallel()
 
 	documents := queryfindings.EmptyDocumentsThePeersSent()
-	documents.KeepDocumentThePeerMatched(
+	documents.KeepDocumentThePeerListed(
 		yacymodel.WordHash("the first peer"),
 		yacymodel.WordHash(countedWord),
 		metadataOfDocumentAt(t, "https://counted.example/", "Counted"),
 		yacymodel.Some(yacymodel.RWIPosting{Hits: 7}),
 	)
-	documents.KeepDocumentThePeerMatched(
+	documents.KeepDocumentThePeerListed(
 		yacymodel.WordHash("the first peer"),
 		yacymodel.WordHash(countedWord),
 		metadataOfDocumentAt(t, "https://uncounted.example/", "Uncounted"),

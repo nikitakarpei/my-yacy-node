@@ -17,8 +17,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -167,7 +167,7 @@ func (network *peerNetwork) answerOfTheReplica(
 		Replica: ask.Peer,
 		ListedDocuments: listedDocumentsFrom(
 			network.abstractFor(ask),
-			network.matchedDocumentsOf(network.namedAmong(
+			network.documentsWithMetadataOf(network.namedAmong(
 				ask,
 				documentsPerWordOf(network.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
 			)),
@@ -179,25 +179,25 @@ func (network *peerNetwork) answerOfTheReplica(
 
 func listedDocumentsFrom(
 	abstract []yacymodel.URLHash,
-	matchedDocuments []wordpartitionasks.ListedDocument,
+	documentsWithMetadata []wordpartitionasks.ListedDocument,
 ) []wordpartitionasks.ListedDocument {
 	listedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(abstract))
 	for _, document := range abstract {
 		listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocument{Hash: document})
 	}
-	for _, matchedDocument := range matchedDocuments {
+	for _, documentWithMetadata := range documentsWithMetadata {
 		place := slices.IndexFunc(
 			listedDocuments,
 			func(listedDocument wordpartitionasks.ListedDocument) bool {
-				return listedDocument.Hash == matchedDocument.Hash
+				return listedDocument.Hash == documentWithMetadata.Hash
 			},
 		)
 		if place < 0 {
-			listedDocuments = append(listedDocuments, matchedDocument)
+			listedDocuments = append(listedDocuments, documentWithMetadata)
 
 			continue
 		}
-		listedDocuments[place] = matchedDocument
+		listedDocuments[place] = documentWithMetadata
 	}
 
 	return listedDocuments
@@ -254,26 +254,26 @@ func (network *peerNetwork) namedAmong(
 	return namedDocuments
 }
 
-func (network *peerNetwork) matchedDocumentsOf(
+func (network *peerNetwork) documentsWithMetadataOf(
 	documents []yacymodel.URLHash,
 ) []wordpartitionasks.ListedDocument {
-	matchedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(documents))
+	documentsWithMetadata := make([]wordpartitionasks.ListedDocument, 0, len(documents))
 	for _, document := range documents {
-		matchedDocument := wordpartitionasks.ListedDocument{
+		documentWithMetadata := wordpartitionasks.ListedDocument{
 			Hash:     document,
 			Metadata: yacymodel.Some(yacymodel.URLMetadata{Hash: document}),
 		}
 		if network.countsAWordWithEachItem {
-			matchedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
+			documentWithMetadata.Posting = yacymodel.Some(yacymodel.RWIPosting{
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,
 			})
 		}
-		matchedDocuments = append(matchedDocuments, matchedDocument)
+		documentsWithMetadata = append(documentsWithMetadata, documentWithMetadata)
 	}
 
-	return matchedDocuments
+	return documentsWithMetadata
 }
 
 func (network *peerNetwork) documentsCountedBy(
@@ -430,7 +430,8 @@ func peerAt(address string) peerdirectory.AskablePeer {
 }
 
 type recordedSpreads struct {
-	performed []wordjoined.PerformedWordJoinedSpread
+	performed            []wordjoined.PerformedWordJoinedSpread
+	decisionPerPartition map[uint]documentasks.DocumentsToMatchDecision
 }
 
 func (recorded *recordedSpreads) WordJoinedSpreadPerformed(
@@ -438,6 +439,16 @@ func (recorded *recordedSpreads) WordJoinedSpreadPerformed(
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
 	recorded.performed = append(recorded.performed, spread)
+}
+
+func (recorded *recordedSpreads) AskedAmongTheDocuments(
+	_ context.Context,
+	decisionPerPartition documentasks.DocumentsToMatchDecisionPerPartition,
+) {
+	if recorded.decisionPerPartition == nil {
+		recorded.decisionPerPartition = map[uint]documentasks.DocumentsToMatchDecision{}
+	}
+	maps.Copy(recorded.decisionPerPartition, decisionPerPartition)
 }
 
 type spreadSettings struct {
@@ -522,7 +533,7 @@ func settingsOfOnePartition() spreadSettings {
 
 func (settings spreadSettings) spread(
 	network *peerNetwork,
-	observer wordjoined.WordJoinedSpreadObserver,
+	observer *recordedSpreads,
 ) queryfindings.Findings {
 	ctx := context.Background()
 	if settings.queryBudget > 0 {
@@ -537,7 +548,9 @@ func (settings spreadSettings) spread(
 	}
 
 	return wordjoined.New(
-		replicasOf(network),
+		documentasks.New(
+			replicasOf(network), settings.partitions, settings.documentsToMatchCeiling, observer,
+		),
 		queryWordDocumentAmounts,
 		leadingword.New(documentamounts.NewFromCache(
 			queryWordDocumentAmounts,
@@ -548,7 +561,6 @@ func (settings spreadSettings) spread(
 			),
 			documentamounts.FromCacheObservers{},
 		)),
-		matchingwords.New(settings.partitions, settings.documentsToMatchCeiling),
 		urlmetadataasks.New(
 			network,
 			urlMetadataAskCeilingsOfThePeers{
@@ -559,7 +571,6 @@ func (settings spreadSettings) spread(
 			clockThatNeverFires{},
 			settings.peersHoldingOneWord,
 		),
-		settings.partitions,
 		observer,
 	).SpreadOverPeers(
 		ctx,
@@ -573,7 +584,7 @@ func (settings spreadSettings) spread(
 
 func findingsFrom(
 	network *peerNetwork,
-	observer wordjoined.WordJoinedSpreadObserver,
+	observer *recordedSpreads,
 ) queryfindings.Findings {
 	return settingsOfOnePartition().spread(network, observer)
 }
@@ -581,7 +592,7 @@ func findingsFrom(
 func spreadOver(
 	choice responsiblePeers,
 	network *peerNetwork,
-	observer wordjoined.WordJoinedSpreadObserver,
+	observer *recordedSpreads,
 ) {
 	settings := settingsOfOnePartition()
 	settings.choice = choice
@@ -1257,21 +1268,21 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	}}, network, observer)
 
 	performed := observer.performed[0]
-	wordAsks := performed.WordAsks
+	documentAsks := performed.DocumentAsks
 	if performed.AmountOfJoinedDocumentsWithMetadata != 1 ||
-		wordAsks.AmountOfMatchedDocumentsAcrossAnswers != 2 ||
-		wordAsks.AmountOfMatchedDocumentsWithAPosting != 2 {
+		documentAsks.AmountOfListedDocumentsWithMetadata != 2 ||
+		documentAsks.AmountOfListedDocumentsWithAPosting != 2 {
 		t.Fatalf(
 			"the spread reported %+v, want the joined document answered once and two counts",
 			performed,
 		)
 	}
 	if !slices.Equal(
-		wordAsks.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
+		documentAsks.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
 	) {
 		t.Fatalf(
 			"the spread reported %v documents held per query word, want 512 for each answer",
-			wordAsks.AmountOfDocumentsHeldInEachAnswer,
+			documentAsks.AmountOfDocumentsHeldInEachAnswer,
 		)
 	}
 }
@@ -1425,13 +1436,13 @@ func TestAQueryWhoseWordsAllHaveACachedAmountLeadsWithTheRarestCachedWord(t *tes
 
 	settings.spread(network, &recordedSpreads{})
 
-	asksOfTheMatchingWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
-	if got := asksNamingDocumentsToMatchAmong(asksOfTheMatchingWord); len(got) !=
-		len(asksOfTheMatchingWord) || !slices.Equal(partitionsAskedAmong(got), []uint{0, 1}) {
+	asksOfTheOtherWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
+	if got := asksNamingDocumentsToMatchAmong(asksOfTheOtherWord); len(got) !=
+		len(asksOfTheOtherWord) || !slices.Equal(partitionsAskedAmong(got), []uint{0, 1}) {
 		t.Fatalf(
-			"the spread asked the matching word %v, want it asked for the documents to match "+
+			"the spread asked the other word %v, want it asked for the documents to match "+
 				"in every partition and never whole",
-			asksOfTheMatchingWord,
+			asksOfTheOtherWord,
 		)
 	}
 	if got := asksNamingDocumentsToMatchAmong(
