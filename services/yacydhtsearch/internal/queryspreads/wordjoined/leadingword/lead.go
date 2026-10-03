@@ -13,9 +13,7 @@ import (
 )
 
 type DocumentAsks interface {
-	WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash)
-	WaitUntilPartitionSettledFor(partition uint, words []yacymodel.Hash)
-	SettledIn(partition uint, words []yacymodel.Hash) documentasks.Answers
+	WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash) documentasks.Answers
 }
 
 type DocumentAmounts interface {

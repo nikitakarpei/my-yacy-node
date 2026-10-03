@@ -14,65 +14,124 @@ type Inquiry struct {
 	partitions              yacymodel.DHTRingPartitions
 	documentsToMatchCeiling int
 	observer                DocumentAsksObserver
-	asksToPut               chan<- []wordpartitionasks.Ask
-	settledAsksAsTheySettle <-chan wordpartitionasks.SettledAsk
-	stateOfEachSentAsk      map[wordPartitionKey]askState
-	settledAsks             []wordpartitionasks.SettledAsk
+	run                     wordpartitionasks.Run
+	sentAsks                *sentAsks
+	expectedInAPartition    map[yacymodel.Hash]int
 }
 
-type askState int
+func (inquiry *Inquiry) WhichDocumentsHave(words []yacymodel.Hash) Answers {
+	inquiry.askEveryPartitionFor(words)
+	inquiry.waitUntilNonePendingFor(words)
 
-const (
-	open askState = iota
-	settled
-)
+	return inquiry.sentAsks.settledFor(words)
+}
 
-func (inquiry *Inquiry) WhichDocumentsHave(words []yacymodel.Hash) {
+func (inquiry *Inquiry) askEveryPartitionFor(words []yacymodel.Hash) {
 	inquiry.send(inquiry.chosenPeers.asksOfEveryPartitionFor(words, inquiry.partitions))
 }
 
 func (inquiry *Inquiry) send(asks []wordpartitionasks.Ask) {
-	asksNotSent := slices.DeleteFunc(asks, inquiry.sent)
-	if len(asksNotSent) == 0 {
+	asksToSend := slices.DeleteFunc(asks, inquiry.sentAsks.contain)
+	if len(asksToSend) == 0 {
 		return
 	}
-	for _, ask := range asksNotSent {
-		inquiry.stateOfEachSentAsk[wordPartitionKeyOf(ask)] = open
+	inquiry.sentAsks.add(asksToSend)
+	inquiry.run.Asks <- asksToSend
+}
+
+func (inquiry *Inquiry) waitUntilNonePendingFor(words []yacymodel.Hash) {
+	for !inquiry.sentAsks.nonePendingFor(words) {
+		inquiry.readTheNextSettledAsk()
 	}
-	inquiry.asksToPut <- asksNotSent
 }
 
-func (inquiry *Inquiry) sent(ask wordpartitionasks.Ask) bool {
-	_, sent := inquiry.stateOfEachSentAsk[wordPartitionKeyOf(ask)]
-
-	return sent
+func (inquiry *Inquiry) readTheNextSettledAsk() {
+	inquiry.sentAsks.settle(<-inquiry.run.SettledAsks)
 }
 
-func wordPartitionKeyOf(ask wordpartitionasks.Ask) wordPartitionKey {
-	return wordPartitionKey{word: ask.Word, partition: ask.Partition}
-}
-
-func (inquiry *Inquiry) WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash) {
+func (inquiry *Inquiry) WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash) Answers {
 	inquiry.send(inquiry.chosenPeers.asksOf(words, partition))
+	inquiry.waitUntilNonePendingIn(partition, words)
+
+	return inquiry.sentAsks.settledIn(partition, words)
 }
 
-func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(
-	these []yacymodel.Hash,
-	those []yacymodel.Hash,
-	amountOfTheseInAPartition int,
-) {
-	if len(those) > 0 && amountOfTheseInAPartition > inquiry.documentsToMatchCeiling {
-		inquiry.askEveryPartitionNow(those)
-
-		return
+func (inquiry *Inquiry) waitUntilNonePendingIn(partition uint, words []yacymodel.Hash) {
+	for !inquiry.sentAsks.nonePendingIn(partition, words) {
+		inquiry.readTheNextSettledAsk()
 	}
-	inquiry.askEachPartitionAsItSettles(these, those)
 }
 
-func (inquiry *Inquiry) askEveryPartitionNow(those []yacymodel.Hash) {
-	inquiry.WhichDocumentsHave(those)
-	for _, partition := range inquiry.partitionsOfTheRing() {
-		inquiry.observer.AskedPartitionFor(inquiry.ctx, partition, PredictedOverTheCeiling)
+func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(these, those []yacymodel.Hash) Answers {
+	inquiry.askEveryPartitionFor(these)
+	if len(those) > 0 {
+		inquiry.observer.AskedAmongTheDocuments(
+			inquiry.ctx, inquiry.askAmongTheDocumentsHaving(these, those),
+		)
+	}
+	wordsAsked := slices.Concat(these, those)
+	inquiry.waitUntilNonePendingFor(wordsAsked)
+
+	return inquiry.sentAsks.settledFor(wordsAsked)
+}
+
+func (inquiry *Inquiry) askAmongTheDocumentsHaving(
+	these, those []yacymodel.Hash,
+) DocumentsToMatchDecisionPerPartition {
+	if inquiry.expectedOverTheCeiling(these) {
+		inquiry.askEveryPartitionFor(those)
+
+		return inquiry.everyPartition(NamedNonePredictedOverTheCeiling)
+	}
+	decisionPerPartition := DocumentsToMatchDecisionPerPartition{}
+	inquiry.asEachPartitionListsDocumentsHaving(
+		these,
+		func(partition uint, listedDocuments yacymodel.URLHashes) {
+			decided := inquiry.askWhetherTheyAlsoHave(partition, listedDocuments, those)
+			if decision, asked := decided.Get(); asked {
+				decisionPerPartition[partition] = decision
+			}
+		},
+	)
+
+	return decisionPerPartition
+}
+
+func (inquiry *Inquiry) expectedOverTheCeiling(words []yacymodel.Hash) bool {
+	for _, word := range words {
+		if inquiry.expectedInAPartition[word] > inquiry.documentsToMatchCeiling {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (inquiry *Inquiry) everyPartition(
+	decision DocumentsToMatchDecision,
+) DocumentsToMatchDecisionPerPartition {
+	decisionPerPartition := DocumentsToMatchDecisionPerPartition{}
+	for partition := range uint(inquiry.partitions) {
+		decisionPerPartition[partition] = decision
+	}
+
+	return decisionPerPartition
+}
+
+func (inquiry *Inquiry) asEachPartitionListsDocumentsHaving(
+	words []yacymodel.Hash,
+	then func(partition uint, listedDocuments yacymodel.URLHashes),
+) {
+	partitionsLeft := inquiry.partitionsOfTheRing()
+	for len(partitionsLeft) > 0 {
+		listingPartitions := inquiry.partitionsThatListedDocumentsHaving(words, partitionsLeft)
+		for _, partition := range listingPartitions {
+			then(partition, inquiry.sentAsks.documentsListedIn(partition, words))
+		}
+		partitionsLeft = partitionsWithout(partitionsLeft, listingPartitions)
+		if len(partitionsLeft) > 0 {
+			inquiry.readTheNextSettledAsk()
+		}
 	}
 }
 
@@ -85,125 +144,57 @@ func (inquiry *Inquiry) partitionsOfTheRing() []uint {
 	return partitionsOfTheRing
 }
 
-func (inquiry *Inquiry) askEachPartitionAsItSettles(these, those []yacymodel.Hash) {
-	partitionsLeftToAsk := partitionsLeft(inquiry.partitionsOfTheRing())
-	for {
-		settledPartitions := inquiry.settledFor(these, partitionsLeftToAsk)
-		for _, partition := range settledPartitions {
-			if kind, asked := inquiry.askIn(partition, these, those).Get(); asked {
-				inquiry.observer.AskedPartitionFor(inquiry.ctx, partition, kind)
-			}
-		}
-		partitionsLeftToAsk = partitionsLeftToAsk.without(settledPartitions)
-		if len(partitionsLeftToAsk) == 0 {
-			return
-		}
-		inquiry.readTheNextSettledAsk()
-	}
-}
-
-func (inquiry *Inquiry) settledFor(words []yacymodel.Hash, partitions partitionsLeft) []uint {
-	var settledPartitions []uint
+func (inquiry *Inquiry) partitionsThatListedDocumentsHaving(
+	words []yacymodel.Hash,
+	partitions []uint,
+) []uint {
+	var listingPartitions []uint
 	for _, partition := range partitions {
-		if inquiry.partitionSettledFor(partition, words) {
-			settledPartitions = append(settledPartitions, partition)
+		if inquiry.sentAsks.nonePendingIn(partition, words) {
+			listingPartitions = append(listingPartitions, partition)
 		}
 	}
 
-	return settledPartitions
+	return listingPartitions
 }
 
-func (inquiry *Inquiry) partitionSettledFor(partition uint, words []yacymodel.Hash) bool {
-	for _, word := range words {
-		state, sent := inquiry.stateOfEachSentAsk[wordPartitionKey{word: word, partition: partition}]
-		if sent && state == open {
-			return false
-		}
-	}
-
-	return true
+func partitionsWithout(partitions []uint, excludedPartitions []uint) []uint {
+	return slices.DeleteFunc(partitions, func(partition uint) bool {
+		return slices.Contains(excludedPartitions, partition)
+	})
 }
 
-func (inquiry *Inquiry) askIn(
+func (inquiry *Inquiry) askWhetherTheyAlsoHave(
 	partition uint,
-	these []yacymodel.Hash,
-	those []yacymodel.Hash,
-) yacymodel.Optional[Kind] {
-	asksOfThose := inquiry.chosenPeers.asksOf(those, partition)
-	if !slices.ContainsFunc(asksOfThose, func(ask wordpartitionasks.Ask) bool {
-		return !inquiry.sent(ask)
-	}) {
-		return yacymodel.None[Kind]()
+	listedDocuments yacymodel.URLHashes,
+	words []yacymodel.Hash,
+) yacymodel.Optional[DocumentsToMatchDecision] {
+	asks := inquiry.chosenPeers.asksOf(words, partition)
+	if inquiry.sentAsks.containEvery(asks) {
+		return yacymodel.None[DocumentsToMatchDecision]()
 	}
-	documentsToMatch := inquiry.documentsListedIn(partition, these).InHashOrder()
+	documentsToMatch := listedDocuments.InHashOrder()
 	switch {
 	case len(documentsToMatch) == 0:
-		return yacymodel.Some(Skipped)
+		return yacymodel.Some(NoDocumentsToMatch)
 	case len(documentsToMatch) > inquiry.documentsToMatchCeiling:
-		inquiry.send(asksOfThose)
+		inquiry.send(asks)
 
-		return yacymodel.Some(OverTheCeiling)
+		return yacymodel.Some(NamedNoneOverTheCeiling)
 	default:
-		inquiry.send(withDocumentsToMatch(asksOfThose, documentsToMatch))
+		inquiry.send(namingTheDocumentsToMatch(asks, documentsToMatch))
 
-		return yacymodel.Some(NamingTheDocumentsToMatch)
+		return yacymodel.Some(NamedTheDocumentsToMatch)
 	}
 }
 
-func (inquiry *Inquiry) documentsListedIn(
-	partition uint,
-	words []yacymodel.Hash,
-) yacymodel.URLHashes {
-	documents := yacymodel.URLHashes{}
-	for _, settledAsk := range inquiry.settledAsks {
-		if !slices.Contains(words, settledAsk.Word) {
-			continue
-		}
-		for _, answer := range settledAsk.Answers {
-			for _, listedDocument := range answer.ListedDocuments {
-				if inquiry.partitions.PartitionOf(listedDocument.Hash) != partition {
-					continue
-				}
-				documents.Add(listedDocument.Hash)
-			}
-		}
+func (inquiry *Inquiry) ExpectInAPartition(word yacymodel.Hash, amountOfDocuments int) {
+	inquiry.expectedInAPartition[word] = amountOfDocuments
+}
+
+func (inquiry *Inquiry) End() {
+	close(inquiry.run.Asks)
+	for settledAsk := range inquiry.run.SettledAsks {
+		inquiry.sentAsks.settle(settledAsk)
 	}
-
-	return documents
-}
-
-func (inquiry *Inquiry) readTheNextSettledAsk() {
-	inquiry.record(<-inquiry.settledAsksAsTheySettle)
-}
-
-func (inquiry *Inquiry) record(settledAsk wordpartitionasks.SettledAsk) {
-	inquiry.settledAsks = append(inquiry.settledAsks, settledAsk)
-	inquiry.stateOfEachSentAsk[wordPartitionKeyOf(settledAsk.Ask)] = settled
-}
-
-func (inquiry *Inquiry) WaitUntilPartitionSettledFor(partition uint, words []yacymodel.Hash) {
-	for !inquiry.partitionSettledFor(partition, words) {
-		inquiry.readTheNextSettledAsk()
-	}
-}
-
-func (inquiry *Inquiry) SettledIn(partition uint, words []yacymodel.Hash) Answers {
-	return Answers{
-		SettledAsks: slices.DeleteFunc(
-			slices.Clone(inquiry.settledAsks),
-			func(settledAsk wordpartitionasks.SettledAsk) bool {
-				return settledAsk.Partition != partition || !slices.Contains(words, settledAsk.Word)
-			},
-		),
-		Partitions: inquiry.partitions,
-	}
-}
-
-func (inquiry *Inquiry) Finish() Answers {
-	close(inquiry.asksToPut)
-	for settledAsk := range inquiry.settledAsksAsTheySettle {
-		inquiry.record(settledAsk)
-	}
-
-	return Answers{SettledAsks: inquiry.settledAsks, Partitions: inquiry.partitions}
 }

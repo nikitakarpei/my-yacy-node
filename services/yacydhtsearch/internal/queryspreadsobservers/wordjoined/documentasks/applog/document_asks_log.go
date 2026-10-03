@@ -1,5 +1,5 @@
-// Package applog reports to the service log how each partition of a word joined
-// spread was asked for the other words.
+// Package applog reports to the service log how the partitions of a word joined
+// spread were asked for the other words.
 package applog
 
 import (
@@ -9,17 +9,20 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 )
 
-const msgAskedPartitionForTheOtherWords = "partition asked for the other words"
+const msgPartitionsAskedForTheOtherWords = "partitions asked for the other words"
 
 type DocumentAsksLog struct{}
 
-func (DocumentAsksLog) AskedPartitionFor(
+func (DocumentAsksLog) AskedAmongTheDocuments(
 	ctx context.Context,
-	partition uint,
-	kind documentasks.Kind,
+	decisionPerPartition documentasks.DocumentsToMatchDecisionPerPartition,
 ) {
-	slog.DebugContext(ctx, msgAskedPartitionForTheOtherWords,
-		slog.Uint64("partition", uint64(partition)),
-		slog.String("otherWordAsks", string(kind)),
+	slog.DebugContext(
+		ctx,
+		msgPartitionsAskedForTheOtherWords,
+		slog.Any(
+			"amountOfPartitionsPerOtherWordAsks",
+			decisionPerPartition.AmountOfPartitionsPerDecision(),
+		),
 	)
 }

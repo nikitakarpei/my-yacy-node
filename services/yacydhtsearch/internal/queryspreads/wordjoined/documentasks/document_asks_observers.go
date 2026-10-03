@@ -3,17 +3,19 @@ package documentasks
 import "context"
 
 type DocumentAsksObserver interface {
-	AskedPartitionFor(ctx context.Context, partition uint, kind Kind)
+	AskedAmongTheDocuments(
+		ctx context.Context,
+		decisionPerPartition DocumentsToMatchDecisionPerPartition,
+	)
 }
 
 type DocumentAsksObservers []DocumentAsksObserver
 
-func (observers DocumentAsksObservers) AskedPartitionFor(
+func (observers DocumentAsksObservers) AskedAmongTheDocuments(
 	ctx context.Context,
-	partition uint,
-	kind Kind,
+	decisionPerPartition DocumentsToMatchDecisionPerPartition,
 ) {
 	for _, observer := range observers {
-		observer.AskedPartitionFor(ctx, partition, kind)
+		observer.AskedAmongTheDocuments(ctx, decisionPerPartition)
 	}
 }

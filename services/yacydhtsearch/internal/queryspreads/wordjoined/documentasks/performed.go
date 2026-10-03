@@ -19,7 +19,7 @@ func PerformedFrom(documentAnswers Answers) Performed {
 		AmountOfPeersWithANonEmptyAbstract:  amountOfPeersWithANonEmptyAbstractAmong(answers),
 		AmountOfListedDocumentsWithMetadata: amountOfListedDocumentsWithMetadataAmong(answers),
 		AmountOfListedDocumentsWithAPosting: amountOfListedDocumentsWithAPostingAmong(answers),
-		AmountOfDocumentsHeldInEachAnswer:   amountOfDocumentsHeldInEachAmong(answers),
+		AmountOfDocumentsHeldInEachAnswer:   amountOfDocumentsHeldPerAnswer(answers),
 	}
 }
 
@@ -63,7 +63,7 @@ func amountOfListedDocumentsWithAPostingAmong(answers []wordpartitionasks.Replic
 	return amount
 }
 
-func amountOfDocumentsHeldInEachAmong(answers []wordpartitionasks.ReplicaAnswer) []int {
+func amountOfDocumentsHeldPerAnswer(answers []wordpartitionasks.ReplicaAnswer) []int {
 	amountOfDocumentsHeldInEachAnswer := make([]int, 0, len(answers))
 	for _, answer := range answers {
 		amountOfDocumentsHeldForTheWord, counted := answer.AmountOfDocumentsHeld.Get()

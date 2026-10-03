@@ -51,10 +51,12 @@ func TestEachAskedPartitionIsCountedByItsKind(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := documentasksprometheus.New(registry)
 
-	metrics.AskedPartitionFor(t.Context(), 0, documentasks.NamingTheDocumentsToMatch)
-	metrics.AskedPartitionFor(t.Context(), 1, documentasks.Skipped)
-	metrics.AskedPartitionFor(t.Context(), 2, documentasks.NamingTheDocumentsToMatch)
-	metrics.AskedPartitionFor(t.Context(), 3, documentasks.OverTheCeiling)
+	metrics.AskedAmongTheDocuments(t.Context(), documentasks.DocumentsToMatchDecisionPerPartition{
+		0: documentasks.NamedTheDocumentsToMatch,
+		1: documentasks.NoDocumentsToMatch,
+		2: documentasks.NamedTheDocumentsToMatch,
+		3: documentasks.NamedNoneOverTheCeiling,
+	})
 
 	assertPublished(
 		t,

@@ -30,29 +30,15 @@ type replicaAnswerOfTheNetwork struct {
 }
 
 type documentAsksOfTheNetwork struct {
-	answerOfEachWord    map[string]replicaAnswerOfTheNetwork
-	partitionsAsked     []uint
-	partitionsWaitedFor []uint
+	answerOfEachWord map[string]replicaAnswerOfTheNetwork
+	partitionsAsked  []uint
 }
 
 func (documentAsks *documentAsksOfTheNetwork) WhichDocumentsHaveIn(
 	partition uint,
-	_ []yacymodel.Hash,
-) {
-	documentAsks.partitionsAsked = append(documentAsks.partitionsAsked, partition)
-}
-
-func (documentAsks *documentAsksOfTheNetwork) WaitUntilPartitionSettledFor(
-	partition uint,
-	_ []yacymodel.Hash,
-) {
-	documentAsks.partitionsWaitedFor = append(documentAsks.partitionsWaitedFor, partition)
-}
-
-func (documentAsks *documentAsksOfTheNetwork) SettledIn(
-	partition uint,
 	words []yacymodel.Hash,
 ) documentasks.Answers {
+	documentAsks.partitionsAsked = append(documentAsks.partitionsAsked, partition)
 	var settledAsks []wordpartitionasks.SettledAsk
 	for spelledWord, answer := range documentAsks.answerOfEachWord {
 		if !slices.Contains(words, yacymodel.WordHash(spelledWord)) {
@@ -115,7 +101,7 @@ func amountOfEachWord(amounts map[string]int) map[yacymodel.Hash]int {
 	return amountsPerWord
 }
 
-func TestEachWordIsCountedInThePartitionAskedAndWaitedFor(t *testing.T) {
+func TestEachWordIsCountedInThePartitionAsked(t *testing.T) {
 	t.Parallel()
 
 	documentAsks := &documentAsksOfTheNetwork{
@@ -130,13 +116,11 @@ func TestEachWordIsCountedInThePartitionAskedAndWaitedFor(t *testing.T) {
 
 	want := amountOfEachWord(map[string]int{firstWord: 3, secondWord: 1})
 	if !maps.Equal(amounts, want) ||
-		!slices.Equal(documentAsks.partitionsAsked, []uint{askedPartition}) ||
-		!slices.Equal(documentAsks.partitionsWaitedFor, []uint{askedPartition}) {
+		!slices.Equal(documentAsks.partitionsAsked, []uint{askedPartition}) {
 		t.Fatalf(
-			"the replicas counted %v after asking %v and waiting for %v, want %v in partition %d",
+			"the replicas counted %v after asking %v, want %v in partition %d",
 			amounts,
 			documentAsks.partitionsAsked,
-			documentAsks.partitionsWaitedFor,
 			want,
 			askedPartition,
 		)

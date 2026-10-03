@@ -22,26 +22,26 @@ type RememberedDocumentAmounts interface {
 }
 
 type Spread struct {
-	documentsAsker           documentasks.Asker
-	queryWordDocumentAmounts RememberedDocumentAmounts
-	leadingWordFinder        leadingword.Finder
-	urlMetadataAsker         urlmetadataasks.Asker
-	observer                 WordJoinedSpreadObserver
+	documentsAsker       documentasks.Asker
+	documentAmountsCache RememberedDocumentAmounts
+	leadingWordFinder    leadingword.Finder
+	urlMetadataAsker     urlmetadataasks.Asker
+	observer             WordJoinedSpreadObserver
 }
 
 func New(
 	documentsAsker documentasks.Asker,
-	queryWordDocumentAmounts RememberedDocumentAmounts,
+	documentAmountsCache RememberedDocumentAmounts,
 	leadingWordFinder leadingword.Finder,
 	urlMetadataAsker urlmetadataasks.Asker,
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
-		documentsAsker:           documentsAsker,
-		queryWordDocumentAmounts: queryWordDocumentAmounts,
-		leadingWordFinder:        leadingWordFinder,
-		urlMetadataAsker:         urlMetadataAsker,
-		observer:                 observer,
+		documentsAsker:       documentsAsker,
+		documentAmountsCache: documentAmountsCache,
+		leadingWordFinder:    leadingWordFinder,
+		urlMetadataAsker:     urlMetadataAsker,
+		observer:             observer,
 	}
 }
 
@@ -55,32 +55,32 @@ func (spread Spread) SpreadOverPeers(
 	inquiryContext, endInquiry := withinHalfOfTheTimeLeft(ctx)
 	defer endInquiry()
 	inquiry := spread.documentsAsker.Begin(inquiryContext, query, chosenPeersPerQueryWord)
+	defer inquiry.End()
 
-	lead := spread.leadingWordFinder.FindFor(ctx, query, inquiry)
-	if chosenLead, chosen := lead.Get(); !chosen {
-		inquiry.WhichDocumentsHave(query.HashesOfWordsAndCompoundWords())
-	} else {
-		roles := wordroles.Around(chosenLead, query)
-		inquiry.WhichDocumentsHave(roles.LeadAndItsCompoundWords)
-		inquiry.WhichDocumentsHavingTheseAlsoHave(
+	var documentAnswers documentasks.Answers
+	leadingWord := spread.leadingWordFinder.FindFor(ctx, query, inquiry)
+	if lead, found := leadingWord.Get(); found {
+		roles := wordroles.Around(lead, query)
+		inquiry.ExpectInAPartition(lead.Word, lead.AmountOfDocumentsInAPartition)
+		documentAnswers = inquiry.WhichDocumentsHavingTheseAlsoHave(
 			roles.LeadAndItsCompoundWords,
 			roles.OtherWords,
-			chosenLead.AmountOfDocumentsInAPartition,
 		)
+	} else {
+		documentAnswers = inquiry.WhichDocumentsHave(query.HashesOfWordsAndCompoundWords())
 	}
-	documentAnswers := inquiry.Finish()
 
 	documentsPerWord := documentsperword.From(query, documentAnswers)
-	spread.queryWordDocumentAmounts.Remember(ctx, documentsPerWord.AmountInAPartitionPerQueryWord())
 	joinedDocuments := documentsPerWord.WithEveryWord()
 	documentsWithoutMetadata := documentAnswers.DocumentsWithoutMetadataAmong(joinedDocuments)
 	holdersOfDocumentsWithoutMetadata := documentAnswers.HoldersOf(documentsWithoutMetadata)
 	urlMetadataAnswers := spread.urlMetadataAsker.AskFor(ctx, holdersOfDocumentsWithoutMetadata)
 
+	spread.documentAmountsCache.Remember(ctx, documentsPerWord.AmountInAPartitionPerQueryWord())
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
 		documentAnswers,
 		documentsPerWord,
-		lead,
+		leadingWord,
 		joinedDocuments,
 		documentsWithoutMetadata,
 		urlMetadataAnswers,

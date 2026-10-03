@@ -13,7 +13,7 @@ import (
 const labelOtherWordAsks = "other_word_asks"
 
 type DocumentAsksMetrics struct {
-	partitionsPerKind map[documentasks.Kind]prometheusclient.Counter
+	partitionsPerDecision map[documentasks.DocumentsToMatchDecision]prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *DocumentAsksMetrics {
@@ -24,18 +24,18 @@ func New(registry prometheusclient.Registerer) *DocumentAsksMetrics {
 	}, []string{labelOtherWordAsks})
 	metrics := &DocumentAsksMetrics{
 		//exhaustive:enforce
-		partitionsPerKind: map[documentasks.Kind]prometheusclient.Counter{
-			documentasks.NamingTheDocumentsToMatch: otherWordAskPartitions.WithLabelValues(
-				string(documentasks.NamingTheDocumentsToMatch),
+		partitionsPerDecision: map[documentasks.DocumentsToMatchDecision]prometheusclient.Counter{
+			documentasks.NamedTheDocumentsToMatch: otherWordAskPartitions.WithLabelValues(
+				string(documentasks.NamedTheDocumentsToMatch),
 			),
-			documentasks.OverTheCeiling: otherWordAskPartitions.WithLabelValues(
-				string(documentasks.OverTheCeiling),
+			documentasks.NamedNoneOverTheCeiling: otherWordAskPartitions.WithLabelValues(
+				string(documentasks.NamedNoneOverTheCeiling),
 			),
-			documentasks.Skipped: otherWordAskPartitions.WithLabelValues(
-				string(documentasks.Skipped),
+			documentasks.NoDocumentsToMatch: otherWordAskPartitions.WithLabelValues(
+				string(documentasks.NoDocumentsToMatch),
 			),
-			documentasks.PredictedOverTheCeiling: otherWordAskPartitions.WithLabelValues(
-				string(documentasks.PredictedOverTheCeiling),
+			documentasks.NamedNonePredictedOverTheCeiling: otherWordAskPartitions.WithLabelValues(
+				string(documentasks.NamedNonePredictedOverTheCeiling),
 			),
 		},
 	}
@@ -44,10 +44,11 @@ func New(registry prometheusclient.Registerer) *DocumentAsksMetrics {
 	return metrics
 }
 
-func (m *DocumentAsksMetrics) AskedPartitionFor(
+func (m *DocumentAsksMetrics) AskedAmongTheDocuments(
 	_ context.Context,
-	_ uint,
-	kind documentasks.Kind,
+	decisionPerPartition documentasks.DocumentsToMatchDecisionPerPartition,
 ) {
-	m.partitionsPerKind[kind].Inc()
+	for decision, amountOfPartitions := range decisionPerPartition.AmountOfPartitionsPerDecision() {
+		m.partitionsPerDecision[decision].Add(float64(amountOfPartitions))
+	}
 }

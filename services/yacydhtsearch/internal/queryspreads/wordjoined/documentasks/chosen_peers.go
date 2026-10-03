@@ -8,11 +8,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type wordPartitionKey struct {
-	word      yacymodel.Hash
-	partition uint
-}
-
 type chosenPeers struct {
 	query                 searchquery.Query
 	peersPerWordPartition map[wordPartitionKey][]peerdirectory.AskablePeer
@@ -43,46 +38,53 @@ func (peers chosenPeers) asksOfEveryPartitionFor(
 	asks := make([]wordpartitionasks.Ask, 0, len(words)*int(partitions))
 	for _, word := range words {
 		for partition := range uint(partitions) {
-			asks = append(asks, peers.asksOf([]yacymodel.Hash{word}, partition)...)
+			if ask, chosen := peers.askOf(word, partition).Get(); chosen {
+				asks = append(asks, ask)
+			}
 		}
 	}
 
 	return asks
 }
 
-func (peers chosenPeers) asksOf(
-	words []yacymodel.Hash,
-	partition uint,
-) []wordpartitionasks.Ask {
+func (peers chosenPeers) asksOf(words []yacymodel.Hash, partition uint) []wordpartitionasks.Ask {
 	var asks []wordpartitionasks.Ask
 	for _, word := range words {
-		peersInOrder, chosen := peers.peersPerWordPartition[wordPartitionKey{
-			word: word, partition: partition,
-		}]
-		if !chosen {
-			continue
+		if ask, chosen := peers.askOf(word, partition).Get(); chosen {
+			asks = append(asks, ask)
 		}
-		asks = append(asks, wordpartitionasks.Ask{
-			Word:            word,
-			Partition:       partition,
-			ReplicasInOrder: peersInOrder,
-			ExcludedWords:   peers.query.ExclusionHashes(),
-			Language:        peers.query.Language,
-		})
 	}
 
 	return asks
 }
 
-func withDocumentsToMatch(
+func (peers chosenPeers) askOf(
+	word yacymodel.Hash,
+	partition uint,
+) yacymodel.Optional[wordpartitionasks.Ask] {
+	peersInOrder, chosen := peers.peersPerWordPartition[wordPartitionKey{word: word, partition: partition}]
+	if !chosen {
+		return yacymodel.None[wordpartitionasks.Ask]()
+	}
+
+	return yacymodel.Some(wordpartitionasks.Ask{
+		Word:            word,
+		Partition:       partition,
+		ReplicasInOrder: peersInOrder,
+		ExcludedWords:   peers.query.ExclusionHashes(),
+		Language:        peers.query.Language,
+	})
+}
+
+func namingTheDocumentsToMatch(
 	asks []wordpartitionasks.Ask,
 	documentsToMatch []yacymodel.URLHash,
 ) []wordpartitionasks.Ask {
-	asksForTheDocuments := make([]wordpartitionasks.Ask, 0, len(asks))
+	asksNamingTheDocuments := make([]wordpartitionasks.Ask, 0, len(asks))
 	for _, ask := range asks {
 		ask.DocumentsToMatch = documentsToMatch
-		asksForTheDocuments = append(asksForTheDocuments, ask)
+		asksNamingTheDocuments = append(asksNamingTheDocuments, ask)
 	}
 
-	return asksForTheDocuments
+	return asksNamingTheDocuments
 }

@@ -430,8 +430,8 @@ func peerAt(address string) peerdirectory.AskablePeer {
 }
 
 type recordedSpreads struct {
-	performed           []wordjoined.PerformedWordJoinedSpread
-	askKindPerPartition map[uint]documentasks.Kind
+	performed            []wordjoined.PerformedWordJoinedSpread
+	decisionPerPartition map[uint]documentasks.DocumentsToMatchDecision
 }
 
 func (recorded *recordedSpreads) WordJoinedSpreadPerformed(
@@ -441,15 +441,14 @@ func (recorded *recordedSpreads) WordJoinedSpreadPerformed(
 	recorded.performed = append(recorded.performed, spread)
 }
 
-func (recorded *recordedSpreads) AskedPartitionFor(
+func (recorded *recordedSpreads) AskedAmongTheDocuments(
 	_ context.Context,
-	partition uint,
-	kind documentasks.Kind,
+	decisionPerPartition documentasks.DocumentsToMatchDecisionPerPartition,
 ) {
-	if recorded.askKindPerPartition == nil {
-		recorded.askKindPerPartition = map[uint]documentasks.Kind{}
+	if recorded.decisionPerPartition == nil {
+		recorded.decisionPerPartition = map[uint]documentasks.DocumentsToMatchDecision{}
 	}
-	recorded.askKindPerPartition[partition] = kind
+	maps.Copy(recorded.decisionPerPartition, decisionPerPartition)
 }
 
 type spreadSettings struct {

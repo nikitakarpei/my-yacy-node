@@ -1,7 +1,9 @@
 // Package documentasks asks the partitions which documents have which words, for
 // one query. The asking done for one query is its inquiry: from the first
-// question until Finish, with the answers collected along the way. One question
-// is one call on the inquiry and may expand into many asks over the wire.
+// question until End. One question is one call on the inquiry, answered when it
+// returns, and it may expand into many asks over the wire. Which
+// documents having some words also have others is asked partition by partition,
+// naming the documents the first words listed there, unless too many to name.
 package documentasks
 
 import (
@@ -43,16 +45,14 @@ func (asker Asker) Begin(
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
 ) *Inquiry {
-	startedRun := asker.wordPartitionAsks.Start(ctx)
-
 	return &Inquiry{
 		ctx:                     ctx,
 		chosenPeers:             chosenPeersFor(query, chosenPeersPerQueryWord),
 		partitions:              asker.partitions,
 		documentsToMatchCeiling: asker.documentsToMatchCeiling,
 		observer:                asker.observer,
-		asksToPut:               startedRun.Asks,
-		settledAsksAsTheySettle: startedRun.SettledAsks,
-		stateOfEachSentAsk:      map[wordPartitionKey]askState{},
+		run:                     asker.wordPartitionAsks.Start(ctx),
+		sentAsks:                noAsksSentYet(asker.partitions),
+		expectedInAPartition:    map[yacymodel.Hash]int{},
 	}
 }
