@@ -46,14 +46,13 @@ func (asker Asker) Begin(
 	startedRun := asker.wordPartitionAsks.Start(ctx)
 
 	return &Inquiry{
-		ctx:                      ctx,
-		plannedAsks:              asksFor(query, chosenPeersPerQueryWord),
-		partitions:               asker.partitions,
-		documentsToMatchCeiling:  asker.documentsToMatchCeiling,
-		observer:                 asker.observer,
-		asksToPut:                startedRun.Asks,
-		settledAsksAsTheySettle:  startedRun.SettledAsks,
-		askedWordPartitionKeys:   map[wordPartitionKey]struct{}{},
-		settledWordPartitionKeys: map[wordPartitionKey]struct{}{},
+		ctx:                     ctx,
+		chosenReplicas:          chosenReplicasFor(query, chosenPeersPerQueryWord),
+		partitions:              asker.partitions,
+		documentsToMatchCeiling: asker.documentsToMatchCeiling,
+		observer:                asker.observer,
+		asksToPut:               startedRun.Asks,
+		settledAsksAsTheySettle: startedRun.SettledAsks,
+		stateOfEachSentAsk:      map[wordPartitionKey]askState{},
 	}
 }

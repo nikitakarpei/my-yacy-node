@@ -9,42 +9,43 @@ import (
 )
 
 type Inquiry struct {
-	ctx                      context.Context
-	plannedAsks              asks
-	partitions               yacymodel.DHTRingPartitions
-	documentsToMatchCeiling  int
-	observer                 DocumentAsksObserver
-	asksToPut                chan<- []wordpartitionasks.Ask
-	settledAsksAsTheySettle  <-chan wordpartitionasks.SettledAsk
-	settledAsks              []wordpartitionasks.SettledAsk
-	askedWordPartitionKeys   map[wordPartitionKey]struct{}
-	settledWordPartitionKeys map[wordPartitionKey]struct{}
+	ctx                     context.Context
+	chosenReplicas          chosenReplicas
+	partitions              yacymodel.DHTRingPartitions
+	documentsToMatchCeiling int
+	observer                DocumentAsksObserver
+	asksToPut               chan<- []wordpartitionasks.Ask
+	settledAsksAsTheySettle <-chan wordpartitionasks.SettledAsk
+	stateOfEachSentAsk      map[wordPartitionKey]askState
+	settledAsks             []wordpartitionasks.SettledAsk
 }
 
-type wordPartitionKey struct {
-	word      yacymodel.Hash
-	partition uint
-}
+type askState int
+
+const (
+	open askState = iota
+	settled
+)
 
 func (inquiry *Inquiry) WhichDocumentsHave(words []yacymodel.Hash) {
-	inquiry.put(inquiry.plannedAsks.ofWords(words))
+	inquiry.send(inquiry.chosenReplicas.asksOfEveryPartitionFor(words, inquiry.partitions))
 }
 
-func (inquiry *Inquiry) put(asksOfTheWords asks) {
-	asksNotAsked := slices.DeleteFunc(slices.Clone(asksOfTheWords), inquiry.asked)
-	if len(asksNotAsked) == 0 {
+func (inquiry *Inquiry) send(asks []wordpartitionasks.Ask) {
+	asksNotSent := slices.DeleteFunc(asks, inquiry.sent)
+	if len(asksNotSent) == 0 {
 		return
 	}
-	for _, ask := range asksNotAsked {
-		inquiry.askedWordPartitionKeys[wordPartitionKeyOf(ask)] = struct{}{}
+	for _, ask := range asksNotSent {
+		inquiry.stateOfEachSentAsk[wordPartitionKeyOf(ask)] = open
 	}
-	inquiry.asksToPut <- asksNotAsked
+	inquiry.asksToPut <- asksNotSent
 }
 
-func (inquiry *Inquiry) asked(ask wordpartitionasks.Ask) bool {
-	_, asked := inquiry.askedWordPartitionKeys[wordPartitionKeyOf(ask)]
+func (inquiry *Inquiry) sent(ask wordpartitionasks.Ask) bool {
+	_, sent := inquiry.stateOfEachSentAsk[wordPartitionKeyOf(ask)]
 
-	return asked
+	return sent
 }
 
 func wordPartitionKeyOf(ask wordpartitionasks.Ask) wordPartitionKey {
@@ -52,7 +53,7 @@ func wordPartitionKeyOf(ask wordpartitionasks.Ask) wordPartitionKey {
 }
 
 func (inquiry *Inquiry) WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash) {
-	inquiry.put(inquiry.plannedAsks.ofWordsIn(words, partition))
+	inquiry.send(inquiry.chosenReplicas.asksOf(words, partition))
 }
 
 func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(
@@ -113,13 +114,14 @@ func (inquiry *Inquiry) settledFor(words []yacymodel.Hash, partitions partitions
 }
 
 func (inquiry *Inquiry) partitionSettledFor(partition uint, words []yacymodel.Hash) bool {
-	return !slices.ContainsFunc(inquiry.plannedAsks.ofWordsIn(words, partition), func(
-		ask wordpartitionasks.Ask,
-	) bool {
-		_, settled := inquiry.settledWordPartitionKeys[wordPartitionKeyOf(ask)]
+	for _, word := range words {
+		state, sent := inquiry.stateOfEachSentAsk[wordPartitionKey{word: word, partition: partition}]
+		if sent && state == open {
+			return false
+		}
+	}
 
-		return !settled
-	})
+	return true
 }
 
 func (inquiry *Inquiry) askIn(
@@ -127,7 +129,10 @@ func (inquiry *Inquiry) askIn(
 	these []yacymodel.Hash,
 	those []yacymodel.Hash,
 ) yacymodel.Optional[Kind] {
-	if inquiry.partitionAskedFor(partition, those) {
+	asksOfThose := inquiry.chosenReplicas.asksOf(those, partition)
+	if !slices.ContainsFunc(asksOfThose, func(ask wordpartitionasks.Ask) bool {
+		return !inquiry.sent(ask)
+	}) {
 		return yacymodel.None[Kind]()
 	}
 	documentsToMatch := inquiry.documentsListedIn(partition, these).InHashOrder()
@@ -135,24 +140,14 @@ func (inquiry *Inquiry) askIn(
 	case len(documentsToMatch) == 0:
 		return yacymodel.Some(Skipped)
 	case len(documentsToMatch) > inquiry.documentsToMatchCeiling:
-		inquiry.WhichDocumentsHaveIn(partition, those)
+		inquiry.send(asksOfThose)
 
 		return yacymodel.Some(OverTheCeiling)
 	default:
-		inquiry.put(
-			inquiry.plannedAsks.ofWordsIn(those, partition).forDocumentsToMatch(documentsToMatch),
-		)
+		inquiry.send(withDocumentsToMatch(asksOfThose, documentsToMatch))
 
 		return yacymodel.Some(NamingTheDocumentsToMatch)
 	}
-}
-
-func (inquiry *Inquiry) partitionAskedFor(partition uint, words []yacymodel.Hash) bool {
-	return !slices.ContainsFunc(inquiry.plannedAsks.ofWordsIn(words, partition), func(
-		ask wordpartitionasks.Ask,
-	) bool {
-		return !inquiry.asked(ask)
-	})
 }
 
 func (inquiry *Inquiry) documentsListedIn(
@@ -183,7 +178,7 @@ func (inquiry *Inquiry) readTheNextSettledAsk() {
 
 func (inquiry *Inquiry) record(settledAsk wordpartitionasks.SettledAsk) {
 	inquiry.settledAsks = append(inquiry.settledAsks, settledAsk)
-	inquiry.settledWordPartitionKeys[wordPartitionKeyOf(settledAsk.Ask)] = struct{}{}
+	inquiry.stateOfEachSentAsk[wordPartitionKeyOf(settledAsk.Ask)] = settled
 }
 
 func (inquiry *Inquiry) WaitUntilPartitionSettledFor(partition uint, words []yacymodel.Hash) {
