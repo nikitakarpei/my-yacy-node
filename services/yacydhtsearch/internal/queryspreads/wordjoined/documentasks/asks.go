@@ -1,6 +1,4 @@
-// Package wordasks plans the asks for the words of one query, puts them to
-// the replicas as one run, and keeps the answers as they settle.
-package wordasks
+package documentasks
 
 import (
 	"slices"

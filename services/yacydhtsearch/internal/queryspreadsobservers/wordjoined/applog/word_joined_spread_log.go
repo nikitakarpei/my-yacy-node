@@ -7,9 +7,8 @@ import (
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordasks"
 )
 
 const msgWordJoinedSpreadPerformed = "word joined spread performed"
@@ -26,7 +25,7 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 		msgWordJoinedSpreadPerformed,
 		slices.Concat(
 			attributesOfQueryWords(spread),
-			attributesOfWordAsks(spread.WordAsks),
+			attributesOfDocumentAsks(spread.DocumentAsks),
 			[]slog.Attr{
 				slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments),
 				slog.Int(
@@ -49,37 +48,27 @@ func attributesOfQueryWords(spread wordjoined.PerformedWordJoinedSpread) []slog.
 			"amountOfDocumentsOfTheLeadingQueryWord",
 			spread.AmountOfDocumentsOfTheLeadingWord,
 		),
-		slog.Any(
-			"amountOfPartitionsPerOtherWordAsks",
-			amountOfPartitionsPerKindIn(spread.MatchingWordAskKindPerPartition),
-		),
 	}
 }
 
-func amountOfPartitionsPerKindIn(kindPerPartition matchingwords.KindPerPartition) map[string]int {
-	amountOfPartitionsPerKind := map[string]int{}
-	for _, kind := range kindPerPartition {
-		amountOfPartitionsPerKind[string(kind)]++
-	}
-
-	return amountOfPartitionsPerKind
-}
-
-func attributesOfWordAsks(wordAsks wordasks.Performed) []slog.Attr {
+func attributesOfDocumentAsks(documentAsks documentasks.Performed) []slog.Attr {
 	return []slog.Attr{
 		slog.Int(
 			"amountOfPeersWithANonEmptyAbstract",
-			wordAsks.AmountOfPeersWithANonEmptyAbstract,
+			documentAsks.AmountOfPeersWithANonEmptyAbstract,
 		),
 		slog.Int(
-			"amountOfMatchedDocumentsAcrossAnswers",
-			wordAsks.AmountOfMatchedDocumentsAcrossAnswers,
+			"amountOfListedDocumentsWithMetadata",
+			documentAsks.AmountOfListedDocumentsWithMetadata,
 		),
 		slog.Int(
-			"amountOfMatchedDocumentsWithAPosting",
-			wordAsks.AmountOfMatchedDocumentsWithAPosting,
+			"amountOfListedDocumentsWithAPosting",
+			documentAsks.AmountOfListedDocumentsWithAPosting,
 		),
-		slog.Any("amountOfDocumentsHeldInEachAnswer", wordAsks.AmountOfDocumentsHeldInEachAnswer),
+		slog.Any(
+			"amountOfDocumentsHeldInEachAnswer",
+			documentAsks.AmountOfDocumentsHeldInEachAnswer,
+		),
 	}
 }
 

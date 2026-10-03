@@ -1,4 +1,4 @@
-package wordholdings
+package documentsperword
 
 import (
 	"maps"
@@ -6,9 +6,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type documentsPerQueryWord map[yacymodel.Hash]yacymodel.URLHashes
+type documentsCountingForQueryWord map[yacymodel.Hash]yacymodel.URLHashes
 
-func (documentsOfEachQueryWord documentsPerQueryWord) documentsWithEveryQueryWord() yacymodel.URLHashes {
+func (documentsOfEachQueryWord documentsCountingForQueryWord) documentsWithEveryQueryWord() yacymodel.URLHashes {
 	documentsWithEveryQueryWord := yacymodel.URLHashes{}
 	for _, documentsOfOneQueryWord := range documentsOfEachQueryWord {
 		for document := range documentsOfOneQueryWord {
@@ -22,7 +22,7 @@ func (documentsOfEachQueryWord documentsPerQueryWord) documentsWithEveryQueryWor
 	return documentsWithEveryQueryWord
 }
 
-func (documentsOfEachQueryWord documentsPerQueryWord) containForEveryQueryWord(
+func (documentsOfEachQueryWord documentsCountingForQueryWord) containForEveryQueryWord(
 	document yacymodel.URLHash,
 ) bool {
 	for _, documentsOfOneQueryWord := range documentsOfEachQueryWord {
@@ -34,7 +34,7 @@ func (documentsOfEachQueryWord documentsPerQueryWord) containForEveryQueryWord(
 	return true
 }
 
-func (documentsOfEachQueryWord documentsPerQueryWord) add(
+func (documentsOfEachQueryWord documentsCountingForQueryWord) add(
 	word yacymodel.Hash,
 	documents yacymodel.URLHashes,
 ) {

@@ -11,9 +11,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordasks"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
 )
 
@@ -36,18 +35,12 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		WordAsks: wordasks.Performed{
+		DocumentAsks: documentasks.Performed{
 			AmountOfPeersWithANonEmptyAbstract: 4,
 		},
-		AmountOfQueryWords:                4,
-		AmountOfQueryWordsHeldByNoPeer:    1,
-		AmountOfDocumentsOfTheLeadingWord: 12,
-		MatchingWordAskKindPerPartition: matchingwords.KindPerPartition{
-			0: matchingwords.NamingTheDocumentsToMatch,
-			1: matchingwords.Skipped,
-			2: matchingwords.NamingTheDocumentsToMatch,
-			3: matchingwords.OverTheCeiling,
-		},
+		AmountOfQueryWords:                  4,
+		AmountOfQueryWordsHeldByNoPeer:      1,
+		AmountOfDocumentsOfTheLeadingWord:   12,
 		AmountOfJoinedDocuments:             10,
 		AmountOfJoinedDocumentsWithMetadata: 2,
 		URLMetadataAsks: urlmetadataasks.Performed{
@@ -61,9 +54,6 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	body := publishedBy(t, registry)
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents"} 1`,
-		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming the documents to match"} 2`,
-		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="skipped, no documents to match"} 1`,
-		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 1`,
 		"yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum 0.5",
 		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum 0.25",
@@ -87,9 +77,6 @@ func TestEveryKindOfWordJoinedSpreadIsPublishedBeforeTheFirstSpread(t *testing.T
 	for _, published := range []string{
 		`yacydhtsearch_word_joined_spreads_total{join="documents"} 0`,
 		`yacydhtsearch_word_joined_spreads_total{join="no document"} 0`,
-		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming the documents to match"} 0`,
-		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="skipped, no documents to match"} 0`,
-		`yacydhtsearch_word_joined_spread_other_word_ask_partitions_total{other_word_asks="naming none, over the ceiling"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="coverage"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="cut off"} 0`,

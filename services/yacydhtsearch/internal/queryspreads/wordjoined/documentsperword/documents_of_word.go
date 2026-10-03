@@ -1,4 +1,4 @@
-package wordholdings
+package documentsperword
 
 import (
 	"cmp"
@@ -8,32 +8,32 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type holdingsOfWord struct {
+type documentsOfWord struct {
 	word                yacymodel.Hash
 	partitions          yacymodel.DHTRingPartitions
 	answersPerPartition []answersOfPartition
 }
 
-func holdingsOfEachWordFrom(
+func documentsOfEachWordFrom(
 	words []yacymodel.Hash,
 	settledAsks []wordpartitionasks.SettledAsk,
 	partitions yacymodel.DHTRingPartitions,
-) []holdingsOfWord {
-	holdingsOfEachWord := make([]holdingsOfWord, 0, len(words))
+) []documentsOfWord {
+	documentsOfEachWord := make([]documentsOfWord, 0, len(words))
 	for _, word := range words {
-		holdingsOfEachWord = append(
-			holdingsOfEachWord, holdingsOfWordFrom(word, settledAsks, partitions),
+		documentsOfEachWord = append(
+			documentsOfEachWord, documentsOfWordFrom(word, settledAsks, partitions),
 		)
 	}
 
-	return holdingsOfEachWord
+	return documentsOfEachWord
 }
 
-func holdingsOfWordFrom(
+func documentsOfWordFrom(
 	word yacymodel.Hash,
 	settledAsks []wordpartitionasks.SettledAsk,
 	partitions yacymodel.DHTRingPartitions,
-) holdingsOfWord {
+) documentsOfWord {
 	answersPerPartition := make([]answersOfPartition, partitions)
 	for _, settledAsk := range settledAsks {
 		if settledAsk.Word != word {
@@ -44,16 +44,16 @@ func holdingsOfWordFrom(
 		)
 	}
 
-	return holdingsOfWord{
+	return documentsOfWord{
 		word:                word,
 		partitions:          partitions,
 		answersPerPartition: answersPerPartition,
 	}
 }
 
-func (holdings holdingsOfWord) documents() yacymodel.URLHashes {
+func (wordDocuments documentsOfWord) documents() yacymodel.URLHashes {
 	documents := yacymodel.URLHashes{}
-	for _, answersOfPartition := range holdings.answersPerPartition {
+	for _, answersOfPartition := range wordDocuments.answersPerPartition {
 		for _, answer := range answersOfPartition {
 			for _, listedDocument := range answer.ListedDocuments {
 				documents.Add(listedDocument.Hash)
@@ -64,13 +64,17 @@ func (holdings holdingsOfWord) documents() yacymodel.URLHashes {
 	return documents
 }
 
-func (holdings holdingsOfWord) estimatedAmountOfDocumentsHeld() yacymodel.Optional[int] {
-	countedAmounts := holdings.countedAmounts()
+func (wordDocuments documentsOfWord) estimatedAmountOfDocumentsHeld() yacymodel.Optional[int] {
+	countedAmounts := wordDocuments.countedAmounts()
 	if len(countedAmounts) == 0 {
 		return yacymodel.None[int]()
 	}
 
-	amountOfPartitionsWhereNoPeerCounted := len(holdings.answersPerPartition) - len(countedAmounts)
+	amountOfPartitionsWhereNoPeerCounted := len(
+		wordDocuments.answersPerPartition,
+	) - len(
+		countedAmounts,
+	)
 	sumOfAmountsHeld := amountOfPartitionsWhereNoPeerCounted * lowerMedianOf(countedAmounts)
 	for _, countedAmount := range countedAmounts {
 		sumOfAmountsHeld += countedAmount
@@ -79,8 +83,8 @@ func (holdings holdingsOfWord) estimatedAmountOfDocumentsHeld() yacymodel.Option
 	return yacymodel.Some(sumOfAmountsHeld)
 }
 
-func (holdings holdingsOfWord) amountOfDocumentsInAPartition() yacymodel.Optional[int] {
-	countedAmounts := holdings.countedAmounts()
+func (wordDocuments documentsOfWord) amountOfDocumentsInAPartition() yacymodel.Optional[int] {
+	countedAmounts := wordDocuments.countedAmounts()
 	if len(countedAmounts) == 0 {
 		return yacymodel.None[int]()
 	}
@@ -88,9 +92,9 @@ func (holdings holdingsOfWord) amountOfDocumentsInAPartition() yacymodel.Optiona
 	return yacymodel.Some(lowerMedianOf(countedAmounts))
 }
 
-func (holdings holdingsOfWord) countedAmounts() []int {
-	countedAmounts := make([]int, 0, len(holdings.answersPerPartition))
-	for _, answers := range holdings.answersPerPartition {
+func (wordDocuments documentsOfWord) countedAmounts() []int {
+	countedAmounts := make([]int, 0, len(wordDocuments.answersPerPartition))
+	for _, answers := range wordDocuments.answersPerPartition {
 		if countedAmount, counted := answers.countedAmount().Get(); counted {
 			countedAmounts = append(countedAmounts, countedAmount)
 		}
@@ -123,18 +127,18 @@ func lowerMedianOf(amounts []int) int {
 	return sortedAmounts[(len(sortedAmounts)-1)/2]
 }
 
-func (holdings holdingsOfWord) completeAbstractIn(
+func (wordDocuments documentsOfWord) completeAbstractIn(
 	partition uint,
 ) yacymodel.Optional[yacymodel.URLHashes] {
 	documentsInThePartition := yacymodel.URLHashes{}
 	complete := false
-	for _, answer := range holdings.answersPerPartition[partition] {
+	for _, answer := range wordDocuments.answersPerPartition[partition] {
 		if !abstractIsComplete(answer) {
 			continue
 		}
 		complete = true
 		for _, listedDocument := range answer.ListedDocuments {
-			if holdings.partitions.PartitionOf(listedDocument.Hash) != partition {
+			if wordDocuments.partitions.PartitionOf(listedDocument.Hash) != partition {
 				continue
 			}
 			documentsInThePartition.Add(listedDocument.Hash)
@@ -156,7 +160,7 @@ func abstractIsComplete(answer wordpartitionasks.ReplicaAnswer) bool {
 	return amountOfDocumentsHeld <= len(answer.ListedDocuments)
 }
 
-func fewestDocumentsFirst(first, second holdingsOfWord) int {
+func fewestDocumentsFirst(first, second documentsOfWord) int {
 	documentsOfTheFirst, countedForTheFirst := first.estimatedAmountOfDocumentsHeld().Get()
 	documentsOfTheSecond, countedForTheSecond := second.estimatedAmountOfDocumentsHeld().Get()
 	if countedForTheFirst != countedForTheSecond {

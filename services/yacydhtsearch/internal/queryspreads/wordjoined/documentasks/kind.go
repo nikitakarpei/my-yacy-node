@@ -1,6 +1,4 @@
-package matchingwords
-
-type KindPerPartition map[uint]Kind
+package documentasks
 
 type Kind string
 

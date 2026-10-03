@@ -6,7 +6,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -215,8 +215,11 @@ func TestWithoutACountedWordEveryWordIsAskedWholeInEveryPartition(t *testing.T) 
 			network.searchDocumentsAsks,
 		)
 	}
-	if performed := observer.performed[0]; len(performed.MatchingWordAskKindPerPartition) != 0 {
-		t.Fatalf("the spread reported %+v, want no other word asks per partition", performed)
+	if len(observer.askKindPerPartition) != 0 {
+		t.Fatalf(
+			"the spread reported %v, want no other word asks per partition",
+			observer.askKindPerPartition,
+		)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(
 		append(documentsInPartitionZero[:1:1], documentsInPartitionOne[:2]...),
@@ -242,7 +245,7 @@ func networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(
 	return network, documentsInPartitionOne[:2]
 }
 
-func TestTheMatchingWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(t *testing.T) {
+func TestTheOtherWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(t *testing.T) {
 	t.Parallel()
 
 	network, documentsToMatch := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
@@ -262,10 +265,10 @@ func TestTheMatchingWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(
 			wanted,
 		)
 	}
-	wantedAsks := matchingwords.KindPerPartition{
-		1: matchingwords.NamingTheDocumentsToMatch,
+	wantedAsks := map[uint]documentasks.Kind{
+		1: documentasks.NamingTheDocumentsToMatch,
 	}
-	if got := observer.performed[0].MatchingWordAskKindPerPartition; !maps.Equal(
+	if got := observer.askKindPerPartition; !maps.Equal(
 		got, wantedAsks,
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
@@ -290,8 +293,8 @@ func TestAPartitionWithMoreDocumentsToMatchThanTheCeilingIsAskedWhole(t *testing
 	); len(asksNamingDocuments) != 0 {
 		t.Fatalf("the spread put %v, want no ask naming documents to match", asksNamingDocuments)
 	}
-	if got := observer.performed[0].MatchingWordAskKindPerPartition[1]; got !=
-		matchingwords.OverTheCeiling {
+	if got := observer.askKindPerPartition[1]; got !=
+		documentasks.OverTheCeiling {
 		t.Fatalf("the spread reported partition 1 as %q, want it over the ceiling", got)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsToMatch))
@@ -320,8 +323,8 @@ func TestAPartitionWhereTheLeadingWordIsPartialIsAskedForTheDocumentsItListed(t 
 			asksNamingDocuments, documentsToMatch[:1],
 		)
 	}
-	if got := observer.performed[0].MatchingWordAskKindPerPartition[1]; got !=
-		matchingwords.NamingTheDocumentsToMatch {
+	if got := observer.askKindPerPartition[1]; got !=
+		documentasks.NamingTheDocumentsToMatch {
 		t.Fatalf(
 			"the spread reported partition 1 as %q, want its other word asks naming the documents to match",
 			got,
@@ -474,13 +477,13 @@ func TestTheSpreadAsksEveryWordPartitionAtMostOnce(t *testing.T) {
 			amountOfAsks,
 		)
 	}
-	if partitionsOfTheMatchingWord := partitionsAskedAmong(
+	if partitionsOfTheOtherWord := partitionsAskedAmong(
 		asksOfTheWord(secondWord, network.searchDocumentsAsks),
-	); len(partitionsOfTheMatchingWord) != sixteenPartitionsOfTheRing/2 {
+	); len(partitionsOfTheOtherWord) != sixteenPartitionsOfTheRing/2 {
 		t.Fatalf(
-			"the spread asked the matching word in the partitions %v, want only the partitions "+
+			"the spread asked the other word in the partitions %v, want only the partitions "+
 				"with documents to match",
-			partitionsOfTheMatchingWord,
+			partitionsOfTheOtherWord,
 		)
 	}
 }
@@ -509,7 +512,7 @@ func settingsWithTheLeadingWordCached(cachedAmountOfTheLeadingWord int) spreadSe
 	return settings
 }
 
-func TestACachedLeadingWordOverTheCeilingInEveryPartitionHasTheMatchingWordsAskedAtTheStart(
+func TestACachedLeadingWordOverTheCeilingInEveryPartitionHasTheOtherWordsAskedAtTheStart(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -519,21 +522,21 @@ func TestACachedLeadingWordOverTheCeilingInEveryPartitionHasTheMatchingWordsAske
 
 	findings := settingsWithTheLeadingWordCached(2).spread(network, observer)
 
-	asksOfTheMatchingWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
+	asksOfTheOtherWord := asksOfTheWord(secondWord, network.searchDocumentsAsks)
 	if got := settledWordPartitionsReadAtTheAsksOf(secondWord, network); !slices.Equal(
 		got, []int{0, 0},
-	) || len(asksNamingDocumentsToMatchAmong(asksOfTheMatchingWord)) != 0 {
+	) || len(asksNamingDocumentsToMatchAmong(asksOfTheOtherWord)) != 0 {
 		t.Fatalf(
-			"the spread put %v after %v settled word partitions, want the matching word asked "+
+			"the spread put %v after %v settled word partitions, want the other word asked "+
 				"whole in both partitions before any partition settled",
-			asksOfTheMatchingWord, got,
+			asksOfTheOtherWord, got,
 		)
 	}
-	wantedAsks := matchingwords.KindPerPartition{
-		0: matchingwords.PredictedOverTheCeiling,
-		1: matchingwords.PredictedOverTheCeiling,
+	wantedAsks := map[uint]documentasks.Kind{
+		0: documentasks.PredictedOverTheCeiling,
+		1: documentasks.PredictedOverTheCeiling,
 	}
-	if got := observer.performed[0].MatchingWordAskKindPerPartition; !maps.Equal(
+	if got := observer.askKindPerPartition; !maps.Equal(
 		got, wantedAsks,
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
@@ -544,7 +547,7 @@ func TestACachedLeadingWordOverTheCeilingInEveryPartitionHasTheMatchingWordsAske
 	}
 }
 
-func TestACachedLeadingWordAtTheCeilingInEveryPartitionHasTheMatchingWordsWaitForThePartition(
+func TestACachedLeadingWordAtTheCeilingInEveryPartitionHasTheOtherWordsWaitForThePartition(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -556,14 +559,14 @@ func TestACachedLeadingWordAtTheCeilingInEveryPartitionHasTheMatchingWordsWaitFo
 	if got := settledWordPartitionsReadAtTheAsksOf(secondWord, network); len(got) != 1 ||
 		got[0] == 0 {
 		t.Fatalf(
-			"the spread asked the matching word after %v settled word partitions, want one ask "+
+			"the spread asked the other word after %v settled word partitions, want one ask "+
 				"after its partition settled",
 			got,
 		)
 	}
 }
 
-func TestALeadingWordCountedFromTheReplicasOverTheCeilingHasTheMatchingWordsAskedAtTheStart(
+func TestALeadingWordCountedFromTheReplicasOverTheCeilingHasTheOtherWordsAskedAtTheStart(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -577,11 +580,11 @@ func TestALeadingWordCountedFromTheReplicasOverTheCeilingHasTheMatchingWordsAske
 
 	settings.spread(network, observer)
 
-	wantedAsks := matchingwords.KindPerPartition{
-		0: matchingwords.PredictedOverTheCeiling,
-		1: matchingwords.PredictedOverTheCeiling,
+	wantedAsks := map[uint]documentasks.Kind{
+		0: documentasks.PredictedOverTheCeiling,
+		1: documentasks.PredictedOverTheCeiling,
 	}
-	if got := observer.performed[0].MatchingWordAskKindPerPartition; !maps.Equal(
+	if got := observer.askKindPerPartition; !maps.Equal(
 		got, wantedAsks,
 	) {
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)

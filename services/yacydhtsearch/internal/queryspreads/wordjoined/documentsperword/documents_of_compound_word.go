@@ -1,4 +1,4 @@
-package wordholdings
+package documentsperword
 
 import (
 	"slices"
@@ -8,17 +8,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type holdingsOfCompoundWord struct {
+type documentsOfCompoundWord struct {
 	searchquery.CompoundWord
-	holdingsOfWord
+	documentsOfWord
 }
 
-func holdingsOfEachCompoundWordFrom(
+func documentsOfEachCompoundWordFrom(
 	compoundWords []searchquery.CompoundWord,
 	settledAsks []wordpartitionasks.SettledAsk,
 	partitions yacymodel.DHTRingPartitions,
-) []holdingsOfCompoundWord {
-	var holdingsOfEachCompoundWord []holdingsOfCompoundWord
+) []documentsOfCompoundWord {
+	var documentsOfEachCompoundWord []documentsOfCompoundWord
 	for _, compoundWord := range compoundWords {
 		if !slices.ContainsFunc(
 			settledAsks,
@@ -28,11 +28,11 @@ func holdingsOfEachCompoundWordFrom(
 		) {
 			continue
 		}
-		holdingsOfEachCompoundWord = append(
-			holdingsOfEachCompoundWord,
-			holdingsOfCompoundWord{
+		documentsOfEachCompoundWord = append(
+			documentsOfEachCompoundWord,
+			documentsOfCompoundWord{
 				CompoundWord: compoundWord,
-				holdingsOfWord: holdingsOfWordFrom(
+				documentsOfWord: documentsOfWordFrom(
 					compoundWord.Hash(),
 					settledAsks,
 					partitions,
@@ -41,5 +41,5 @@ func holdingsOfEachCompoundWordFrom(
 		)
 	}
 
-	return holdingsOfEachCompoundWord
+	return documentsOfEachCompoundWord
 }

@@ -16,7 +16,7 @@ type DocumentAmounts interface {
 	AmountsInAPartitionFor(
 		ctx context.Context,
 		query searchquery.Query,
-		run leadingword.WordAsks,
+		inquiry leadingword.Inquiry,
 	) map[yacymodel.Hash]int
 }
 
@@ -41,7 +41,7 @@ func NewFromCache(
 func (fromCache FromCache) AmountsInAPartitionFor(
 	ctx context.Context,
 	query searchquery.Query,
-	run leadingword.WordAsks,
+	inquiry leadingword.Inquiry,
 ) map[yacymodel.Hash]int {
 	amountsInAPartition := fromCache.cachedAmounts.DocumentAmountsOf(ctx, query.WordHashes())
 	allQueryWordsCached := len(amountsInAPartition) == len(query.WordHashes())
@@ -51,7 +51,7 @@ func (fromCache FromCache) AmountsInAPartitionFor(
 		AllQueryWordsCached:      allQueryWordsCached,
 	})
 	if !allQueryWordsCached {
-		return fromCache.uncachedAmounts.AmountsInAPartitionFor(ctx, query, run)
+		return fromCache.uncachedAmounts.AmountsInAPartitionFor(ctx, query, inquiry)
 	}
 
 	return amountsInAPartition
