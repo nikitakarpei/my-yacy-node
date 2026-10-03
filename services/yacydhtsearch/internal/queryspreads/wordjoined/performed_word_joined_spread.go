@@ -3,21 +3,19 @@ package wordjoined
 import (
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentsperword"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordholdings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedWordJoinedSpread struct {
-	WordAsks                            wordasks.Performed
+	DocumentAsks                        documentasks.Performed
 	AmountOfQueryWords                  int
 	AmountOfCompoundWords               int
 	AmountOfQueryWordsHeldByNoPeer      int
 	AmountOfDocumentsOfTheLeadingWord   int
-	MatchingWordAskKindPerPartition     matchingwords.KindPerPartition
 	AmountOfJoinedDocuments             int
 	AmountOfJoinedDocumentsWithMetadata int
 	URLMetadataAsks                     urlmetadataasks.Performed
@@ -26,27 +24,32 @@ type PerformedWordJoinedSpread struct {
 
 //nolint:revive // argument-limit: the report takes each part the spread performed
 func performedWordJoinedSpreadFrom(
-	wordAnswers wordasks.Answers,
-	holdings wordholdings.Holdings,
-	lead leadingword.Lead,
-	matchingWordAskKindPerPartition matchingwords.KindPerPartition,
+	documentAnswers documentasks.Answers,
+	documentsPerWord documentsperword.DocumentsPerWord,
+	lead yacymodel.Optional[leadingword.Lead],
 	joinedDocuments yacymodel.URLHashes,
 	documentsWithoutMetadata yacymodel.URLHashes,
-	urlMetadata urlmetadataasks.Answers,
+	urlMetadataAnswers urlmetadataasks.Answers,
 	timeSpent time.Duration,
 ) PerformedWordJoinedSpread {
 	return PerformedWordJoinedSpread{
-		WordAsks:                       wordasks.PerformedFrom(wordAnswers),
-		AmountOfQueryWords:             holdings.AmountOfQueryWords(),
-		AmountOfCompoundWords:          holdings.AmountOfCompoundWords(),
-		AmountOfQueryWordsHeldByNoPeer: holdings.AmountOfQueryWordsHeldByNoPeer(),
-		AmountOfDocumentsOfTheLeadingWord: len(
-			holdings.DocumentsOfTheLeadingWord(lead.Word),
-		),
-		MatchingWordAskKindPerPartition:     matchingWordAskKindPerPartition,
+		DocumentAsks:                        documentasks.PerformedFrom(documentAnswers),
+		AmountOfQueryWords:                  documentsPerWord.AmountOfQueryWords(),
+		AmountOfCompoundWords:               documentsPerWord.AmountOfCompoundWords(),
+		AmountOfQueryWordsHeldByNoPeer:      documentsPerWord.AmountOfQueryWordsHeldByNoPeer(),
+		AmountOfDocumentsOfTheLeadingWord:   len(documentsPerWord.OfTheLeadingWord(wordOf(lead))),
 		AmountOfJoinedDocuments:             len(joinedDocuments),
 		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) - len(documentsWithoutMetadata),
-		URLMetadataAsks:                     urlmetadataasks.PerformedFrom(urlMetadata),
+		URLMetadataAsks:                     urlmetadataasks.PerformedFrom(urlMetadataAnswers),
 		TimeSpent:                           timeSpent,
 	}
+}
+
+func wordOf(lead yacymodel.Optional[leadingword.Lead]) yacymodel.Optional[yacymodel.Hash] {
+	chosenLead, chosen := lead.Get()
+	if !chosen {
+		return yacymodel.None[yacymodel.Hash]()
+	}
+
+	return yacymodel.Some(chosenLead.Word)
 }

@@ -16,47 +16,31 @@ const (
 	thirdWord  = "rain"
 )
 
-func TestACompoundWordHoldingTheLeadingWordIsAListingWord(t *testing.T) {
+func TestACompoundWordHoldingTheLeadIsACompoundWordOfTheLead(t *testing.T) {
 	t.Parallel()
 
 	query := queryreading.QueryFrom(firstWord+" "+secondWord+" "+thirdWord, "")
-	lead := leadingword.Lead{Word: yacymodel.Some(yacymodel.WordHash(firstWord))}
+	lead := leadingword.Lead{Word: yacymodel.WordHash(firstWord)}
 
-	roles := wordroles.From(lead, query)
+	roles := wordroles.Around(lead, query)
 
-	wantedListingWords := []yacymodel.Hash{
+	wantedLeadAndItsCompoundWords := []yacymodel.Hash{
 		yacymodel.WordHash(firstWord),
 		yacymodel.WordHash(firstWord + secondWord),
 		yacymodel.WordHash(firstWord + secondWord + thirdWord),
 	}
-	wantedMatchingWords := []yacymodel.Hash{
+	wantedOtherWords := []yacymodel.Hash{
 		yacymodel.WordHash(secondWord),
 		yacymodel.WordHash(thirdWord),
 		yacymodel.WordHash(secondWord + thirdWord),
 	}
-	if !slices.Equal(roles.ListingWords, wantedListingWords) ||
-		!slices.Equal(roles.MatchingWords, wantedMatchingWords) {
+	if !slices.Equal(roles.LeadAndItsCompoundWords, wantedLeadAndItsCompoundWords) ||
+		!slices.Equal(roles.OtherWords, wantedOtherWords) {
 		t.Fatalf(
-			"the roles are %+v, want %v as listing words and %v as matching words",
-			roles, wantedListingWords, wantedMatchingWords,
+			"the roles are %+v, want %v as the lead and its compound words and %v as the other words",
+			roles,
+			wantedLeadAndItsCompoundWords,
+			wantedOtherWords,
 		)
-	}
-}
-
-func TestWithoutALeadEveryWordIsAListingWord(t *testing.T) {
-	t.Parallel()
-
-	roles := wordroles.From(
-		leadingword.Lead{},
-		queryreading.QueryFrom(firstWord+" "+secondWord, ""),
-	)
-
-	want := []yacymodel.Hash{
-		yacymodel.WordHash(firstWord),
-		yacymodel.WordHash(secondWord),
-		yacymodel.WordHash(firstWord + secondWord),
-	}
-	if !slices.Equal(roles.ListingWords, want) || len(roles.MatchingWords) != 0 {
-		t.Fatalf("the roles are %+v, want every word asked whole", roles)
 	}
 }

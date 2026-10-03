@@ -36,6 +36,10 @@ func (q Query) WordHashes() []yacymodel.Hash {
 	return hashesOf(q.Words)
 }
 
+func (q Query) HashesOfWordsAndCompoundWords() []yacymodel.Hash {
+	return q.HashesOfWordsAndCompoundWordsUpTo(len(q.CompoundWords))
+}
+
 func (q Query) HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling int) []yacymodel.Hash {
 	hashes := q.WordHashes()
 	for _, compound := range q.CompoundWords[:min(max(compoundWordsCeiling, 0), len(q.CompoundWords))] {

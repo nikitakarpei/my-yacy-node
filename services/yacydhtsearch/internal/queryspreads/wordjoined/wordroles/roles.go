@@ -1,6 +1,6 @@
-// Package wordroles splits the words of a query around its lead. Listing words
-// are asked whole and their answers list the documents to match; matching
-// words are asked only among those documents.
+// Package wordroles splits the words of a query around its lead: the lead and
+// its compound words, which list the documents to match, and the other words,
+// which are matched against those documents.
 package wordroles
 
 import (
@@ -12,43 +12,28 @@ import (
 )
 
 type Roles struct {
-	ListingWords  []yacymodel.Hash
-	MatchingWords []yacymodel.Hash
+	LeadAndItsCompoundWords []yacymodel.Hash
+	OtherWords              []yacymodel.Hash
 }
 
-func From(lead leadingword.Lead, query searchquery.Query) Roles {
-	leadingWord, led := lead.Word.Get()
-	if !led {
-		return Roles{ListingWords: wordsAndCompoundWordsOf(query)}
-	}
-
-	return rolesAround(leadingWord, query)
-}
-
-func wordsAndCompoundWordsOf(query searchquery.Query) []yacymodel.Hash {
-	words := slices.Clone(query.WordHashes())
-	for _, compoundWord := range query.CompoundWords {
-		words = append(words, compoundWord.Hash())
-	}
-
-	return words
-}
-
-func rolesAround(leadingWord yacymodel.Hash, query searchquery.Query) Roles {
-	roles := Roles{ListingWords: []yacymodel.Hash{leadingWord}}
+func Around(lead leadingword.Lead, query searchquery.Query) Roles {
+	roles := Roles{LeadAndItsCompoundWords: []yacymodel.Hash{lead.Word}}
 	for _, queryWord := range query.WordHashes() {
-		if queryWord == leadingWord {
+		if queryWord == lead.Word {
 			continue
 		}
-		roles.MatchingWords = append(roles.MatchingWords, queryWord)
+		roles.OtherWords = append(roles.OtherWords, queryWord)
 	}
 	for _, compoundWord := range query.CompoundWords {
-		if slices.Contains(compoundWord.PartHashes(), leadingWord) {
-			roles.ListingWords = append(roles.ListingWords, compoundWord.Hash())
+		if slices.Contains(compoundWord.PartHashes(), lead.Word) {
+			roles.LeadAndItsCompoundWords = append(
+				roles.LeadAndItsCompoundWords,
+				compoundWord.Hash(),
+			)
 
 			continue
 		}
-		roles.MatchingWords = append(roles.MatchingWords, compoundWord.Hash())
+		roles.OtherWords = append(roles.OtherWords, compoundWord.Hash())
 	}
 
 	return roles

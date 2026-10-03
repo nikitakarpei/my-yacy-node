@@ -65,14 +65,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	queryspreadsobserverspeermatchedapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/peermatched/applog"
 	queryspreadsobserverspeermatchedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/peermatched/prometheus"
 	queryspreadsobserverswordjoinedapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/applog"
 	queryspreadsobserverswordjoineddocumentamountsapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentamounts/applog"
 	queryspreadsobserverswordjoineddocumentamountsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentamounts/prometheus"
+	queryspreadsobserverswordjoineddocumentasksapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentasks/applog"
+	queryspreadsobserverswordjoineddocumentasksprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentasks/prometheus"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
 	queryworddocumentamountsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/jetstream"
 	queryworddocumentamountsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/memory"
@@ -306,10 +308,17 @@ func querySpreadFor(
 
 	return bywordcount.New(
 		wordjoined.New(
-			wordJoinedReplicaAsks,
+			documentasks.New(
+				wordJoinedReplicaAsks,
+				cfg.Partitions,
+				cfg.DocumentsToMatchCeiling,
+				documentasks.DocumentAsksObservers{
+					queryspreadsobserverswordjoineddocumentasksapplog.DocumentAsksLog{},
+					queryspreadsobserverswordjoineddocumentasksprometheus.New(registry),
+				},
+			),
 			queryWordDocumentAmounts,
 			leadingword.New(documentAmountsFor(cfg, queryWordDocumentAmounts, registry)),
-			matchingwords.New(cfg.Partitions, cfg.DocumentsToMatchCeiling),
 			urlmetadataasks.New(
 				peers,
 				urlMetadataAskCeilings,
@@ -317,7 +326,6 @@ func querySpreadFor(
 				wallclock.Clock{},
 				yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
 			),
-			cfg.Partitions,
 			wordjoined.WordJoinedSpreadObservers{
 				queryspreadsobserverswordjoinedapplog.WordJoinedSpreadLog{},
 				queryspreadsobserverswordjoinedprometheus.New(registry, cfg.QueryBudget),

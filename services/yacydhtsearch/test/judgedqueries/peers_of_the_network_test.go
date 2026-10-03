@@ -22,8 +22,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/matchingwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	replicacallsyacysearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -164,12 +164,16 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		),
 		byWordCount: bywordcount.New(
 			wordjoined.New(
-				everyReplicaOfTheWordJoinedSpread,
+				documentasks.New(
+					everyReplicaOfTheWordJoinedSpread,
+					partitions,
+					documentsToMatchCeiling,
+					documentasks.DocumentAsksObservers{},
+				),
 				noRememberedQueryWordDocumentAmounts{},
 				leadingword.New(documentamounts.NewFromReplicas(
 					partitions, rand.UintN, documentamounts.FromReplicasObservers{},
 				)),
-				matchingwords.New(partitions, documentsToMatchCeiling),
 				urlmetadataasks.New(
 					calledPeers,
 					urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
@@ -177,7 +181,6 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 					wallclock.Clock{},
 					yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
 				),
-				partitions,
 				wordjoined.WordJoinedSpreadObservers{},
 			),
 			peermatched.New(

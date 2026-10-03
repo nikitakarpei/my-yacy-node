@@ -23,7 +23,6 @@ type WordJoinedSpreadMetrics struct {
 	joinsThatFoundDocuments         prometheusclient.Counter
 	joinsThatFoundNoDocument        prometheusclient.Counter
 	queryWords                      queryWordMetrics
-	matchingWordAsks                matchingWordAskMetrics
 	urlMetadataAsks                 urlMetadataAskMetrics
 	wordJoinedSpreadDurationSeconds prometheusclient.Histogram
 }
@@ -40,7 +39,6 @@ func New(
 		joinsThatFoundDocuments:  wordJoinedSpreads.WithLabelValues(joinFoundDocuments),
 		joinsThatFoundNoDocument: wordJoinedSpreads.WithLabelValues(joinFoundNoDocument),
 		queryWords:               queryWordMetricsRegisteredIn(registry),
-		matchingWordAsks:         matchingWordAskMetricsRegisteredIn(registry),
 		urlMetadataAsks:          urlMetadataAskMetricsRegisteredIn(registry),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
@@ -67,7 +65,6 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
-	m.matchingWordAsks.observeMatchingWordAsks(spread.MatchingWordAskKindPerPartition)
 	m.queryWords.observeQueryWords(spread)
 	m.urlMetadataAsks.observeURLMetadataAsks(spread)
 	m.countJoin(spread.AmountOfJoinedDocuments)
