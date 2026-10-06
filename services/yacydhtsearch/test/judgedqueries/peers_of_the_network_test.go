@@ -179,8 +179,9 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 					urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
 					urlmetadataasks.Cutoff{},
 					wallclock.Clock{},
-					yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy),
+					networkRedundancy,
 				),
+				partitions,
 				wordjoined.WordJoinedSpreadObservers{},
 			),
 			peermatched.New(

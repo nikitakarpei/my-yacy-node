@@ -34,10 +34,11 @@ func (fromReplicas FromReplicas) AmountsInAPartitionFor(
 	documentAsks leadingword.DocumentAsks,
 ) map[yacymodel.Hash]int {
 	askedPartition := fromReplicas.partitionToAsk(uint(fromReplicas.partitions))
-	documentsPerWord := documentsperword.From(
-		query, documentAsks.WhichDocumentsHaveIn(askedPartition, query.WordHashes()),
+	answered := documentAsks.WhichDocumentsHaveIn(askedPartition, query.WordHashes())
+	countedAmounts := amountsListedIn(
+		documentsperword.From(query, answered, fromReplicas.partitions).
+			CompleteAbstractsIn(askedPartition),
 	)
-	countedAmounts := amountsListedIn(documentsPerWord.CompleteAbstractsIn(askedPartition))
 	fromReplicas.observer.AmountsCountedFromReplicas(ctx, PerformedFromReplicas{
 		Partition:                 askedPartition,
 		AmountOfQueryWords:        len(query.WordHashes()),

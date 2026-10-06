@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentsperword"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
@@ -24,24 +25,25 @@ type PerformedWordJoinedSpread struct {
 
 //nolint:revive // argument-limit: the report takes each part the spread performed
 func performedWordJoinedSpreadFrom(
-	documentAnswers documentasks.Answers,
+	answered []documentasks.AnsweredWordPartition,
+	holders documentholders.Holders,
 	documentsPerWord documentsperword.DocumentsPerWord,
 	lead yacymodel.Optional[leadingword.Lead],
 	joinedDocuments yacymodel.URLHashes,
-	documentsWithoutMetadata yacymodel.URLHashes,
 	urlMetadataAnswers urlmetadataasks.Answers,
 	timeSpent time.Duration,
 ) PerformedWordJoinedSpread {
 	return PerformedWordJoinedSpread{
-		DocumentAsks:                        documentasks.PerformedFrom(documentAnswers),
-		AmountOfQueryWords:                  documentsPerWord.AmountOfQueryWords(),
-		AmountOfCompoundWords:               documentsPerWord.AmountOfCompoundWords(),
-		AmountOfQueryWordsHeldByNoPeer:      documentsPerWord.AmountOfQueryWordsHeldByNoPeer(),
-		AmountOfDocumentsOfTheLeadingWord:   len(documentsPerWord.OfTheLeadingWord(wordOf(lead))),
-		AmountOfJoinedDocuments:             len(joinedDocuments),
-		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) - len(documentsWithoutMetadata),
-		URLMetadataAsks:                     urlmetadataasks.PerformedFrom(urlMetadataAnswers),
-		TimeSpent:                           timeSpent,
+		DocumentAsks:                      documentasks.PerformedFrom(answered),
+		AmountOfQueryWords:                documentsPerWord.AmountOfQueryWords(),
+		AmountOfCompoundWords:             documentsPerWord.AmountOfCompoundWords(),
+		AmountOfQueryWordsHeldByNoPeer:    documentsPerWord.AmountOfQueryWordsHeldByNoPeer(),
+		AmountOfDocumentsOfTheLeadingWord: len(documentsPerWord.OfTheLeadingWord(wordOf(lead))),
+		AmountOfJoinedDocuments:           len(joinedDocuments),
+		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) -
+			len(holders.WithoutMetadataAmong(joinedDocuments)),
+		URLMetadataAsks: urlmetadataasks.PerformedFrom(urlMetadataAnswers),
+		TimeSpent:       timeSpent,
 	}
 }
 

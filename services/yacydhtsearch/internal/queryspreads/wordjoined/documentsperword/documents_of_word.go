@@ -4,6 +4,7 @@ import (
 	"cmp"
 	"slices"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -16,13 +17,13 @@ type documentsOfWord struct {
 
 func documentsOfEachWordFrom(
 	words []yacymodel.Hash,
-	settledAsks []wordpartitionasks.SettledAsk,
+	answeredWordPartitions []documentasks.AnsweredWordPartition,
 	partitions yacymodel.DHTRingPartitions,
 ) []documentsOfWord {
 	documentsOfEachWord := make([]documentsOfWord, 0, len(words))
 	for _, word := range words {
 		documentsOfEachWord = append(
-			documentsOfEachWord, documentsOfWordFrom(word, settledAsks, partitions),
+			documentsOfEachWord, documentsOfWordFrom(word, answeredWordPartitions, partitions),
 		)
 	}
 
@@ -31,16 +32,16 @@ func documentsOfEachWordFrom(
 
 func documentsOfWordFrom(
 	word yacymodel.Hash,
-	settledAsks []wordpartitionasks.SettledAsk,
+	answeredWordPartitions []documentasks.AnsweredWordPartition,
 	partitions yacymodel.DHTRingPartitions,
 ) documentsOfWord {
 	answersPerPartition := make([]answersOfPartition, partitions)
-	for _, settledAsk := range settledAsks {
-		if settledAsk.Word != word {
+	for _, answered := range answeredWordPartitions {
+		if answered.Word != word {
 			continue
 		}
-		answersPerPartition[settledAsk.Partition] = append(
-			answersPerPartition[settledAsk.Partition], settledAsk.Answers...,
+		answersPerPartition[answered.Partition] = append(
+			answersPerPartition[answered.Partition], answered.Answers...,
 		)
 	}
 

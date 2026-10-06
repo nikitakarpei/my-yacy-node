@@ -1,9 +1,8 @@
 // Package documentasks asks the partitions which documents have which words, for
-// one query. The asking done for one query is its inquiry: from the first
-// question until End. One question is one call on the inquiry, answered when it
-// returns, and it may expand into many asks over the wire. Which
-// documents having some words also have others is asked partition by partition,
-// naming the documents the first words listed there, unless too many to name.
+// one query, from the first question of its inquiry until End, which returns all
+// it was answered. A question returns once its words are answered, and the answers
+// of each ask go to the inquirer as the ask settles. Which documents have words in
+// one partition answers with what its replicas listed, whenever they were asked.
 package documentasks
 
 import (
@@ -17,6 +16,26 @@ import (
 
 type WordPartitionAsks interface {
 	Start(ctx context.Context) wordpartitionasks.Run
+}
+
+type Inquirer interface {
+	WordPartitionAnswered(
+		word yacymodel.Hash,
+		partition uint,
+		answers []wordpartitionasks.ReplicaAnswer,
+	)
+}
+
+type Inquirers []Inquirer
+
+func (inquirers Inquirers) WordPartitionAnswered(
+	word yacymodel.Hash,
+	partition uint,
+	answers []wordpartitionasks.ReplicaAnswer,
+) {
+	for _, inquirer := range inquirers {
+		inquirer.WordPartitionAnswered(word, partition, answers)
+	}
 }
 
 type Asker struct {
@@ -44,6 +63,7 @@ func (asker Asker) Begin(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+	inquirer Inquirer,
 ) *Inquiry {
 	return &Inquiry{
 		ctx:                     ctx,
@@ -51,6 +71,7 @@ func (asker Asker) Begin(
 		partitions:              asker.partitions,
 		documentsToMatchCeiling: asker.documentsToMatchCeiling,
 		observer:                asker.observer,
+		inquirer:                inquirer,
 		run:                     asker.wordPartitionAsks.Start(ctx),
 		sentAsks:                noAsksSentYet(asker.partitions),
 		expectedInAPartition:    map[yacymodel.Hash]int{},

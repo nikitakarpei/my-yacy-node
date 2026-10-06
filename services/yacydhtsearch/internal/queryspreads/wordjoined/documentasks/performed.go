@@ -12,8 +12,8 @@ type Performed struct {
 	AmountOfDocumentsHeldInEachAnswer   []int
 }
 
-func PerformedFrom(documentAnswers Answers) Performed {
-	answers := documentAnswers.replicaAnswers()
+func PerformedFrom(answered []AnsweredWordPartition) Performed {
+	answers := replicaAnswersIn(answered)
 
 	return Performed{
 		AmountOfPeersWithANonEmptyAbstract:  amountOfPeersWithANonEmptyAbstractAmong(answers),
@@ -21,6 +21,15 @@ func PerformedFrom(documentAnswers Answers) Performed {
 		AmountOfListedDocumentsWithAPosting: amountOfListedDocumentsWithAPostingAmong(answers),
 		AmountOfDocumentsHeldInEachAnswer:   amountOfDocumentsHeldPerAnswer(answers),
 	}
+}
+
+func replicaAnswersIn(answered []AnsweredWordPartition) []wordpartitionasks.ReplicaAnswer {
+	var answers []wordpartitionasks.ReplicaAnswer
+	for _, answeredWordPartition := range answered {
+		answers = append(answers, answeredWordPartition.Answers...)
+	}
+
+	return answers
 }
 
 func amountOfPeersWithANonEmptyAbstractAmong(answers []wordpartitionasks.ReplicaAnswer) int {

@@ -273,8 +273,9 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 			urlMetadataAskCeilingsAtTheMost(recordCeiling),
 			urlmetadataasks.Cutoff{},
 			wallclock.Clock{},
-			yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
+			networkRedundancy,
 		),
+		ringPartitions(t),
 		wordjoined.WordJoinedSpreadObservers{},
 	)
 }

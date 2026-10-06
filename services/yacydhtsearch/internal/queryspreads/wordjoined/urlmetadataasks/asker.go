@@ -1,6 +1,7 @@
-// Package urlmetadataasks asks the peers that listed the joined documents for
-// their URL metadata, and ends once the answers cover them, every ask
-// settled, or the cutoff passed.
+// Package urlmetadataasks looks up the URL metadata of the joined documents of
+// one query. Its lookup asks the peers that listed the documents as soon as they
+// join. From End on, the lookup ends once the answers cover the documents, every
+// ask settled, or the cutoff passed.
 package urlmetadataasks
 
 import (
@@ -8,8 +9,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PeerAsks interface {
@@ -28,11 +27,10 @@ type Clock interface {
 }
 
 type Asker struct {
-	peerAsks                    PeerAsks
-	ceilings                    Ceilings
-	cutoff                      Cutoff
-	clock                       Clock
-	amountOfPeersHoldingOneWord int
+	peerAsks  PeerAsks
+	askLimits askLimits
+	cutoff    Cutoff
+	clock     Clock
 }
 
 func New(
@@ -40,93 +38,29 @@ func New(
 	ceilings Ceilings,
 	cutoff Cutoff,
 	clock Clock,
-	amountOfPeersHoldingOneWord int,
+	networkRedundancy int,
 ) Asker {
 	return Asker{
-		peerAsks:                    peerAsks,
-		ceilings:                    ceilings,
-		cutoff:                      cutoff,
-		clock:                       clock,
-		amountOfPeersHoldingOneWord: amountOfPeersHoldingOneWord,
+		peerAsks:  peerAsks,
+		askLimits: askLimits{ceilings: ceilings, networkRedundancy: networkRedundancy},
+		cutoff:    cutoff,
+		clock:     clock,
 	}
 }
 
-func (asker Asker) AskFor(
-	ctx context.Context,
-	holders documentholders.Holders,
-) Answers {
-	asks := asker.asksFor(ctx, holders)
-	asksContext, endAsks := context.WithCancel(ctx)
-	defer endAsks()
+func (asker Asker) Begin(ctx context.Context) *Lookup {
+	asksContext, cancelAsks := context.WithCancel(ctx)
 
-	return runOf(asks).waitUntilEnded(
-		asker.peerAsks.AskForURLMetadata(asksContext, asks),
-		asker.cutoff,
-		asker.clock,
-	)
-}
-
-func (asker Asker) asksFor(
-	ctx context.Context,
-	holders documentholders.Holders,
-) []peerasks.URLMetadataAsk {
-	asksOfEachPeer := asker.asksOfEachPeerAmong(
-		ctx, holders.PeersWithTheirDocuments(), holders.MostHeldFirst(),
-	)
-
-	return asksCoveringMostDocuments(asksOfEachPeer, asker.amountOfPeersHoldingOneWord)
-}
-
-func asksCoveringMostDocuments(
-	asks []peerasks.URLMetadataAsk,
-	amountOfPeersHoldingOneWord int,
-) []peerasks.URLMetadataAsk {
-	if len(asks) <= amountOfPeersHoldingOneWord {
-		return asks
+	return &Lookup{
+		peerAsks:    asker.peerAsks,
+		askLimits:   asker.askLimits,
+		cutoff:      asker.cutoff,
+		clock:       asker.clock,
+		asksContext: asksContext,
+		cancelAsks:  cancelAsks,
+		run:         noAsksPutYet(),
+		outcomes:    make(chan peerasks.URLMetadataAskOutcome),
+		settledPuts: make(chan struct{}),
+		ended:       make(chan struct{}),
 	}
-
-	coveringAsks := make([]peerasks.URLMetadataAsk, 0, amountOfPeersHoldingOneWord)
-	coveredDocuments := yacymodel.URLHashes{}
-	for len(coveringAsks) < amountOfPeersHoldingOneWord {
-		place, found := placeOfMostCoveringAskAmong(asks, coveredDocuments)
-		if !found {
-			break
-		}
-		coveringAsks = append(coveringAsks, asks[place])
-		coveredDocuments.AddEach(asks[place].Documents)
-	}
-
-	return coveringAsks
-}
-
-func placeOfMostCoveringAskAmong(
-	asks []peerasks.URLMetadataAsk,
-	coveredDocuments yacymodel.URLHashes,
-) (int, bool) {
-	placeOfMostCoveringAsk := 0
-	mostUncoveredDocuments := 0
-	for place, ask := range asks {
-		amountOfUncoveredDocuments := amountOfDocumentsNotCovered(ask.Documents, coveredDocuments)
-		if amountOfUncoveredDocuments > mostUncoveredDocuments {
-			placeOfMostCoveringAsk = place
-			mostUncoveredDocuments = amountOfUncoveredDocuments
-		}
-	}
-
-	return placeOfMostCoveringAsk, mostUncoveredDocuments > 0
-}
-
-func amountOfDocumentsNotCovered(
-	documents []yacymodel.URLHash,
-	coveredDocuments yacymodel.URLHashes,
-) int {
-	amount := 0
-	for _, document := range documents {
-		if coveredDocuments.Contains(document) {
-			continue
-		}
-		amount++
-	}
-
-	return amount
 }

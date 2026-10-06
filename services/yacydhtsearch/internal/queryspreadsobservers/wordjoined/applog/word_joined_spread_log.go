@@ -73,13 +73,20 @@ func attributesOfDocumentAsks(documentAsks documentasks.Performed) []slog.Attr {
 }
 
 func attributesOfURLMetadataAsks(urlMetadataAsks urlmetadataasks.Performed) []slog.Attr {
-	return []slog.Attr{
-		slog.Int("amountOfLookedUpDocuments", urlMetadataAsks.AmountOfAskedDocuments),
+	attributes := []slog.Attr{
+		slog.Int("amountOfLookedUpDocuments", urlMetadataAsks.AmountOfLookedUpDocuments),
 		slog.Int(
 			"amountOfLookedUpDocumentsWithMetadata",
-			urlMetadataAsks.AmountOfAskedDocumentsWithMetadata,
+			urlMetadataAsks.AmountOfLookedUpDocumentsWithMetadata,
 		),
 		slog.String("urlMetadataLookupEndReason", string(urlMetadataAsks.EndReason)),
 		slog.Int("amountOfDocumentsCutOffDuringLookup", urlMetadataAsks.AmountOfDocumentsCutOff),
 	}
+	if timeToFirstAsk, asked := urlMetadataAsks.TimeToFirstAsk.Get(); asked {
+		attributes = append(
+			attributes, slog.Duration("timeToFirstUrlMetadataAsk", timeToFirstAsk),
+		)
+	}
+
+	return attributes
 }

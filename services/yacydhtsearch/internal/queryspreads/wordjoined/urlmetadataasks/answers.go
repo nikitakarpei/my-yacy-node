@@ -1,6 +1,8 @@
 package urlmetadataasks
 
 import (
+	"time"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -10,6 +12,7 @@ type Answers struct {
 	answeredAsks            []peerasks.AnsweredURLMetadataAsk
 	endReason               EndReason
 	amountOfDocumentsCutOff int
+	timeToFirstAsk          yacymodel.Optional[time.Duration]
 }
 
 type EndReason string

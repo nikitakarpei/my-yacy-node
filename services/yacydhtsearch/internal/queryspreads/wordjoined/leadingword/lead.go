@@ -13,7 +13,10 @@ import (
 )
 
 type DocumentAsks interface {
-	WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash) documentasks.Answers
+	WhichDocumentsHaveIn(
+		partition uint,
+		words []yacymodel.Hash,
+	) []documentasks.AnsweredWordPartition
 }
 
 type DocumentAmounts interface {

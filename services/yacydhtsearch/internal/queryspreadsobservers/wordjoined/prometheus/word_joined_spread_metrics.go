@@ -39,7 +39,7 @@ func New(
 		joinsThatFoundDocuments:  wordJoinedSpreads.WithLabelValues(joinFoundDocuments),
 		joinsThatFoundNoDocument: wordJoinedSpreads.WithLabelValues(joinFoundNoDocument),
 		queryWords:               queryWordMetricsRegisteredIn(registry),
-		urlMetadataAsks:          urlMetadataAskMetricsRegisteredIn(registry),
+		urlMetadataAsks:          urlMetadataAskMetricsRegisteredIn(registry, queryBudget),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
 				Name:    "yacydhtsearch_word_joined_spread_duration_seconds",

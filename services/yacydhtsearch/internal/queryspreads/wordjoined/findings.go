@@ -11,7 +11,7 @@ import (
 
 func findingsFrom(
 	query searchquery.Query,
-	documentAnswers documentasks.Answers,
+	answered []documentasks.AnsweredWordPartition,
 	documentsPerWord documentsperword.DocumentsPerWord,
 	joinedDocuments yacymodel.URLHashes,
 	urlMetadataAnswers urlmetadataasks.Answers,
@@ -20,7 +20,7 @@ func findingsFrom(
 		QueryWords:    query.WordHashes(),
 		CompoundWords: query.CompoundWords,
 		FoundDocuments: foundDocumentsFrom(
-			documentAnswers,
+			answered,
 			joinedDocuments,
 			urlMetadataAnswers,
 		),
@@ -29,20 +29,14 @@ func findingsFrom(
 }
 
 func foundDocumentsFrom(
-	documentAnswers documentasks.Answers,
+	answered []documentasks.AnsweredWordPartition,
 	joinedDocuments yacymodel.URLHashes,
 	urlMetadataAnswers urlmetadataasks.Answers,
 ) []queryfindings.FoundDocument {
 	documentsThePeersSent := queryfindings.EmptyDocumentsThePeersSent()
-	for _, listedDocumentWithMetadata := range documentAnswers.ListedDocumentsWithMetadata() {
-		if !joinedDocuments.Contains(listedDocumentWithMetadata.Document) {
-			continue
-		}
-		documentsThePeersSent.KeepDocumentThePeerListed(
-			listedDocumentWithMetadata.Replica,
-			listedDocumentWithMetadata.Word,
-			listedDocumentWithMetadata.Metadata,
-			listedDocumentWithMetadata.Posting,
+	for _, answeredWordPartition := range answered {
+		keepTheJoinedDocumentsListedWithMetadataIn(
+			documentsThePeersSent, answeredWordPartition, joinedDocuments,
 		)
 	}
 	for _, sentMetadata := range urlMetadataAnswers.MetadataThePeersSent() {
@@ -50,4 +44,22 @@ func foundDocumentsFrom(
 	}
 
 	return documentsThePeersSent.FoundDocuments()
+}
+
+func keepTheJoinedDocumentsListedWithMetadataIn(
+	documentsThePeersSent *queryfindings.DocumentsThePeersSent,
+	answeredWordPartition documentasks.AnsweredWordPartition,
+	joinedDocuments yacymodel.URLHashes,
+) {
+	for _, answer := range answeredWordPartition.Answers {
+		for _, listedDocument := range answer.ListedDocuments {
+			metadata, sent := listedDocument.Metadata.Get()
+			if !sent || !joinedDocuments.Contains(listedDocument.Hash) {
+				continue
+			}
+			documentsThePeersSent.KeepDocumentThePeerListed(
+				answer.Replica.Hash, answeredWordPartition.Word, metadata, listedDocument.Posting,
+			)
+		}
+	}
 }

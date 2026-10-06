@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
@@ -44,9 +45,10 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		AmountOfJoinedDocuments:             10,
 		AmountOfJoinedDocumentsWithMetadata: 2,
 		URLMetadataAsks: urlmetadataasks.Performed{
-			AmountOfAskedDocuments:             4,
-			AmountOfAskedDocumentsWithMetadata: 3,
-			EndReason:                          urlmetadataasks.EndedByCoverage,
+			AmountOfLookedUpDocuments:             4,
+			AmountOfLookedUpDocumentsWithMetadata: 3,
+			EndReason:                             urlmetadataasks.EndedByCoverage,
+			TimeToFirstAsk:                        yacymodel.Some(100 * time.Millisecond),
 		},
 		TimeSpent: 250 * time.Millisecond,
 	})
@@ -58,6 +60,7 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 		"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_unheld_query_words_ratio_sum 0.25",
 		"yacydhtsearch_word_joined_spread_duration_seconds_sum 0.25",
+		"yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds_sum 0.1",
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="coverage"} 1`,
 		`yacydhtsearch_word_joined_spread_url_metadata_lookups_total{ended_by="every ask settled"} 0`,
 	} {
@@ -95,10 +98,10 @@ func TestALookupThatWasCutOffIsCountedByItsCutoff(t *testing.T) {
 
 	spread := spreadJoiningDocuments(4)
 	spread.URLMetadataAsks = urlmetadataasks.Performed{
-		AmountOfAskedDocuments:             4,
-		AmountOfAskedDocumentsWithMetadata: 3,
-		EndReason:                          urlmetadataasks.EndedByCutoff,
-		AmountOfDocumentsCutOff:            1,
+		AmountOfLookedUpDocuments:             4,
+		AmountOfLookedUpDocumentsWithMetadata: 3,
+		EndReason:                             urlmetadataasks.EndedByCutoff,
+		AmountOfDocumentsCutOff:               1,
 	}
 	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 
@@ -119,10 +122,10 @@ func TestEachSentURLMetadataAskIsCountedByItsSize(t *testing.T) {
 
 	spread := spreadJoiningDocuments(425)
 	spread.URLMetadataAsks = urlmetadataasks.Performed{
-		AmountOfAskedDocuments:             425,
-		AmountOfAskedDocumentsWithMetadata: 425,
-		EndReason:                          urlmetadataasks.EndedByCoverage,
-		AmountOfDocumentsPerAsk:            []int{25, 400},
+		AmountOfLookedUpDocuments:             425,
+		AmountOfLookedUpDocumentsWithMetadata: 425,
+		EndReason:                             urlmetadataasks.EndedByCoverage,
+		AmountOfDocumentsPerAsk:               []int{25, 400},
 	}
 	metrics.WordJoinedSpreadPerformed(t.Context(), spread)
 

@@ -83,11 +83,18 @@ func documentsInPartition(
 	return documents
 }
 
-func answersOver(
-	settledAsks []wordpartitionasks.SettledAsk,
+func documentsPerWordFrom(
 	partitions yacymodel.DHTRingPartitions,
-) documentasks.Answers {
-	return documentasks.Answers{SettledAsks: settledAsks, Partitions: partitions}
+	settledAsks []wordpartitionasks.SettledAsk,
+) documentsperword.DocumentsPerWord {
+	answered := make([]documentasks.AnsweredWordPartition, 0, len(settledAsks))
+	for _, settledAsk := range settledAsks {
+		answered = append(answered, documentasks.AnsweredWordPartition{
+			Word: settledAsk.Word, Partition: settledAsk.Partition, Answers: settledAsk.Answers,
+		})
+	}
+
+	return documentsperword.From(query, answered, partitions)
 }
 
 func heldForBothWords(amountHeld int) map[yacymodel.Hash]int {
@@ -112,7 +119,7 @@ func TestEveryPartitionOfAQueryWordAddsWhatItsReplicasCounted(t *testing.T) {
 		asksOfBothWords(1, countedAnswer(10)),
 	)
 
-	got := documentsperword.From(query, answersOver(settledAsks, twoPartitionsOfTheRing)).
+	got := documentsPerWordFrom(twoPartitionsOfTheRing, settledAsks).
 		AmountHeldPerQueryWord()
 
 	if want := heldForBothWords(110); !maps.Equal(got, want) {
@@ -125,7 +132,7 @@ func TestAPartitionOfAnEvenAmountOfCountsTakesTheLowerMiddleOne(t *testing.T) {
 
 	settledAsks := asksOfBothWords(0, countedAnswer(10), countedAnswer(20))
 
-	got := documentsperword.From(query, answersOver(settledAsks, 1)).AmountHeldPerQueryWord()
+	got := documentsPerWordFrom(1, settledAsks).AmountHeldPerQueryWord()
 
 	if want := heldForBothWords(10); !maps.Equal(got, want) {
 		t.Fatalf("the documents per word estimate %v, want %v", got, want)
@@ -141,7 +148,7 @@ func TestAPartitionNoPeerCountedTakesTheMiddleOfThePartitionsThatWereCounted(t *
 		asksOfBothWords(2, replicaAnswer{}),
 	)
 
-	got := documentsperword.From(query, answersOver(settledAsks, 3)).AmountHeldPerQueryWord()
+	got := documentsPerWordFrom(3, settledAsks).AmountHeldPerQueryWord()
 
 	if want := heldForBothWords(10 + 30 + 10); !maps.Equal(got, want) {
 		t.Fatalf("the documents per word estimate %v, want %v", got, want)
@@ -156,7 +163,7 @@ func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
 		asksOfBothWords(1, replicaAnswer{}),
 	)
 
-	got := documentsperword.From(query, answersOver(settledAsks, twoPartitionsOfTheRing)).
+	got := documentsPerWordFrom(twoPartitionsOfTheRing, settledAsks).
 		AmountHeldPerQueryWord()
 
 	if len(got) != 0 {
@@ -174,7 +181,7 @@ func TestTheAmountInAPartitionIsTheMiddleOfThePartitionsThatWereCounted(t *testi
 		asksOfBothWords(3, replicaAnswer{}),
 	)
 
-	got := documentsperword.From(query, answersOver(settledAsks, 4)).
+	got := documentsPerWordFrom(4, settledAsks).
 		AmountInAPartitionPerQueryWord()
 
 	if want := heldForBothWords(20); !maps.Equal(got, want) {
@@ -190,7 +197,7 @@ func TestAQueryWordNoPeerCountedHasNoAmountInAPartition(t *testing.T) {
 		settledAsk(secondWord, 0, countedAnswer(10)),
 	}
 
-	got := documentsperword.From(query, answersOver(settledAsks, twoPartitionsOfTheRing)).
+	got := documentsPerWordFrom(twoPartitionsOfTheRing, settledAsks).
 		AmountInAPartitionPerQueryWord()
 
 	if want := (map[yacymodel.Hash]int{yacymodel.WordHash(secondWord): 10}); !maps.Equal(
@@ -200,23 +207,7 @@ func TestAQueryWordNoPeerCountedHasNoAmountInAPartition(t *testing.T) {
 	}
 }
 
-func TestOnlyTheDocumentsEveryQueryWordHoldsAreJoined(t *testing.T) {
-	t.Parallel()
-
-	documents := documentsInPartition(t, 1, 0, 3)
-	settledAsks := []wordpartitionasks.SettledAsk{
-		settledAsk(firstWord, 0, countedAnswer(2, documents[0], documents[1])),
-		settledAsk(secondWord, 0, countedAnswer(2, documents[0], documents[2])),
-	}
-
-	got := documentsperword.From(query, answersOver(settledAsks, 1)).WithEveryWord()
-
-	if want := (yacymodel.URLHashes{documents[0]: {}}); !maps.Equal(got, want) {
-		t.Fatalf("the join holds %v, want %v", got, want)
-	}
-}
-
-func TestADocumentInTheAbstractOfTheCompoundWordIsJoinedForBothItsParts(t *testing.T) {
+func TestAnAnsweredCompoundWordIsCountedApartFromTheQueryWords(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsInPartition(t, 1, 0, 2)
@@ -225,14 +216,8 @@ func TestADocumentInTheAbstractOfTheCompoundWordIsJoinedForBothItsParts(t *testi
 		settledAsk(firstWord+secondWord, 0, countedAnswer(1, documents[1])),
 	}
 
-	documentsPerWord := documentsperword.From(query, answersOver(settledAsks, 1))
+	documentsPerWord := documentsPerWordFrom(1, settledAsks)
 
-	if got, want := documentsPerWord.WithEveryWord(), (yacymodel.URLHashes{documents[1]: {}}); !maps.Equal(
-		got,
-		want,
-	) {
-		t.Fatalf("the join holds %v, want the document of the compound word %v", got, want)
-	}
 	if documentsPerWord.AmountOfCompoundWords() != 1 ||
 		documentsPerWord.AmountOfQueryWords() != 2 ||
 		documentsPerWord.AmountOfQueryWordsHeldByNoPeer() != 1 {
@@ -271,7 +256,7 @@ func TestACompleteAbstractHoldsOnlyTheDocumentsOfItsPartition(t *testing.T) {
 		settledAsk(secondWord, 0, countedAnswer(2, inPartitionZero...)),
 	}
 
-	got := documentsperword.From(query, answersOver(settledAsks, twoPartitionsOfTheRing)).
+	got := documentsPerWordFrom(twoPartitionsOfTheRing, settledAsks).
 		CompleteAbstractsIn(0)
 
 	want := map[yacymodel.Hash]int{
@@ -292,7 +277,7 @@ func TestAnAnswerThatListsLessThanItCountsIsNoCompleteAbstract(t *testing.T) {
 		settledAsk(secondWord, 0, countedAnswer(3, documents...)),
 	}
 
-	got := documentsperword.From(query, answersOver(settledAsks, 1)).CompleteAbstractsIn(0)
+	got := documentsPerWordFrom(1, settledAsks).CompleteAbstractsIn(0)
 
 	if want := map[yacymodel.Hash]int{yacymodel.WordHash(secondWord): 3}; !maps.Equal(
 		amountOfDocumentsInEach(got), want,
@@ -309,7 +294,7 @@ func TestAWordAPeerSearchedAndHoldsNothingForHasAnEmptyCompleteAbstract(t *testi
 		settledAsk(secondWord, 0, replicaAnswer{}),
 	}
 
-	got := documentsperword.From(query, answersOver(settledAsks, 1)).CompleteAbstractsIn(0)
+	got := documentsPerWordFrom(1, settledAsks).CompleteAbstractsIn(0)
 
 	if want := map[yacymodel.Hash]int{yacymodel.WordHash(firstWord): 0}; !maps.Equal(
 		amountOfDocumentsInEach(got), want,
@@ -326,7 +311,7 @@ func TestWithoutAChosenWordTheWordWithFewestDocumentsLeads(t *testing.T) {
 		settledAsk(firstWord, 0, countedAnswer(3, documents...)),
 		settledAsk(secondWord, 0, countedAnswer(1, documents[0])),
 	}
-	documentsPerWord := documentsperword.From(query, answersOver(settledAsks, 1))
+	documentsPerWord := documentsPerWordFrom(1, settledAsks)
 
 	if got := documentsPerWord.OfTheLeadingWord(yacymodel.None[yacymodel.Hash]()); len(got) != 1 {
 		t.Fatalf("the leading word holds %v, want the one document of the rarer word", got)

@@ -1,33 +1,37 @@
 package urlmetadataasks
 
 import (
+	"time"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Performed struct {
-	AmountOfAskedDocuments             int
-	AmountOfAskedDocumentsWithMetadata int
-	EndReason                          EndReason
-	AmountOfDocumentsCutOff            int
-	AmountOfDocumentsPerAsk            []int
+	AmountOfLookedUpDocuments             int
+	AmountOfLookedUpDocumentsWithMetadata int
+	EndReason                             EndReason
+	AmountOfDocumentsCutOff               int
+	AmountOfDocumentsPerAsk               []int
+	TimeToFirstAsk                        yacymodel.Optional[time.Duration]
 }
 
 func PerformedFrom(urlMetadata Answers) Performed {
-	askedDocuments := askedDocumentsAcross(urlMetadata.asks)
+	lookedUpDocuments := lookedUpDocumentsAcross(urlMetadata.asks)
 
 	return Performed{
-		AmountOfAskedDocuments: len(askedDocuments),
-		AmountOfAskedDocumentsWithMetadata: amountOfDocumentsWithMetadataAmong(
-			askedDocuments, urlMetadata.answeredAsks,
+		AmountOfLookedUpDocuments: len(lookedUpDocuments),
+		AmountOfLookedUpDocumentsWithMetadata: amountOfDocumentsWithMetadataAmong(
+			lookedUpDocuments, urlMetadata.answeredAsks,
 		),
 		EndReason:               urlMetadata.endReason,
 		AmountOfDocumentsCutOff: urlMetadata.amountOfDocumentsCutOff,
 		AmountOfDocumentsPerAsk: amountOfDocumentsPerAskIn(urlMetadata.asks),
+		TimeToFirstAsk:          urlMetadata.timeToFirstAsk,
 	}
 }
 
-func askedDocumentsAcross(asks []peerasks.URLMetadataAsk) yacymodel.URLHashes {
+func lookedUpDocumentsAcross(asks []peerasks.URLMetadataAsk) yacymodel.URLHashes {
 	documents := yacymodel.URLHashes{}
 	for _, ask := range asks {
 		documents.AddEach(ask.Documents)
@@ -37,13 +41,13 @@ func askedDocumentsAcross(asks []peerasks.URLMetadataAsk) yacymodel.URLHashes {
 }
 
 func amountOfDocumentsWithMetadataAmong(
-	askedDocuments yacymodel.URLHashes,
+	lookedUpDocuments yacymodel.URLHashes,
 	answeredAsks []peerasks.AnsweredURLMetadataAsk,
 ) int {
 	documentsWithMetadata := yacymodel.URLHashes{}
 	for _, answeredAsk := range answeredAsks {
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
-			if askedDocuments.Contains(metadata.Hash) {
+			if lookedUpDocuments.Contains(metadata.Hash) {
 				documentsWithMetadata.Add(metadata.Hash)
 			}
 		}

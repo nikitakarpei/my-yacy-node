@@ -1,5 +1,6 @@
-// Package documentsperword holds, for each query word, the documents and counts
-// the partitions answered with, and the documents every query word has.
+// Package documentsperword tells, for each query word, what its word partitions
+// answered: the amount of documents held, the amount in a partition, the
+// complete abstracts of a partition, and the documents of the leading word.
 package documentsperword
 
 import (
@@ -11,37 +12,41 @@ import (
 )
 
 type DocumentsPerWord struct {
-	queryWords    []documentsOfWord
-	compoundWords []documentsOfCompoundWord
+	queryWords            []documentsOfWord
+	answeredCompoundWords []searchquery.CompoundWord
 }
 
-func From(query searchquery.Query, documentAnswers documentasks.Answers) DocumentsPerWord {
+func From(
+	query searchquery.Query,
+	answeredWordPartitions []documentasks.AnsweredWordPartition,
+	partitions yacymodel.DHTRingPartitions,
+) DocumentsPerWord {
 	return DocumentsPerWord{
-		queryWords: documentsOfEachWordFrom(
-			query.WordHashes(), documentAnswers.SettledAsks, documentAnswers.Partitions,
-		),
-		compoundWords: documentsOfEachCompoundWordFrom(
-			query.CompoundWords, documentAnswers.SettledAsks, documentAnswers.Partitions,
+		queryWords: documentsOfEachWordFrom(query.WordHashes(), answeredWordPartitions, partitions),
+		answeredCompoundWords: compoundWordsAnsweredAmong(
+			query.CompoundWords, answeredWordPartitions,
 		),
 	}
 }
 
-func (documentsPerWord DocumentsPerWord) WithEveryWord() yacymodel.URLHashes {
-	return documentsPerWord.documentsOfEachQueryWord().documentsWithEveryQueryWord()
-}
-
-func (documentsPerWord DocumentsPerWord) documentsOfEachQueryWord() documentsOfEachQueryWord {
-	documentsOfWords := make(documentsOfEachQueryWord, len(documentsPerWord.queryWords))
-	for _, queryWord := range documentsPerWord.queryWords {
-		documentsOfWords[queryWord.word] = queryWord.documents()
-	}
-	for _, compoundWord := range documentsPerWord.compoundWords {
-		for _, word := range compoundWord.PartHashes() {
-			documentsOfWords.add(word, compoundWord.documents())
+func compoundWordsAnsweredAmong(
+	compoundWords []searchquery.CompoundWord,
+	answeredWordPartitions []documentasks.AnsweredWordPartition,
+) []searchquery.CompoundWord {
+	var answeredCompoundWords []searchquery.CompoundWord
+	for _, compoundWord := range compoundWords {
+		if !slices.ContainsFunc(
+			answeredWordPartitions,
+			func(answered documentasks.AnsweredWordPartition) bool {
+				return answered.Word == compoundWord.Hash()
+			},
+		) {
+			continue
 		}
+		answeredCompoundWords = append(answeredCompoundWords, compoundWord)
 	}
 
-	return documentsOfWords
+	return answeredCompoundWords
 }
 
 func (documentsPerWord DocumentsPerWord) AmountHeldPerQueryWord() map[yacymodel.Hash]int {
@@ -114,7 +119,7 @@ func (documentsPerWord DocumentsPerWord) AmountOfQueryWords() int {
 }
 
 func (documentsPerWord DocumentsPerWord) AmountOfCompoundWords() int {
-	return len(documentsPerWord.compoundWords)
+	return len(documentsPerWord.answeredCompoundWords)
 }
 
 func (documentsPerWord DocumentsPerWord) AmountOfQueryWordsHeldByNoPeer() int {

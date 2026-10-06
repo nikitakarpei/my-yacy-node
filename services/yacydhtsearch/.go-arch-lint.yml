@@ -73,6 +73,8 @@ components:
     in: internal/queryspreads/wordjoined
   wordjoineddocumentholders:
     in: internal/queryspreads/wordjoined/documentholders/**
+  wordjoineddocumentjoin:
+    in: internal/queryspreads/wordjoined/documentjoin/**
   wordjoineddocumentsperword:
     in: internal/queryspreads/wordjoined/documentsperword/**
   wordjoineddocumentasks:
@@ -370,7 +372,10 @@ deps:
       - queryfindings
       - peerchoice
       - searchquery
+      - wordpartitionasks
+      - wordjoineddocumentholders
       - wordjoineddocumentasks
+      - wordjoineddocumentjoin
       - wordjoineddocumentsperword
       - wordjoinedleadingword
       - wordjoinedwordroles
@@ -380,6 +385,11 @@ deps:
       - yacymodel
     mayDependOn:
       - wordpartitionasks
+  wordjoineddocumentjoin:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - searchquery
   wordjoineddocumentsperword:
     canUse:
       - yacymodel
@@ -395,7 +405,6 @@ deps:
       - peerdirectory
       - searchquery
       - wordpartitionasks
-      - wordjoineddocumentholders
   wordjoinedleadingword:
     canUse:
       - yacymodel
@@ -408,7 +417,6 @@ deps:
     mayDependOn:
       - searchquery
       - wordjoinedleadingword
-      - wordjoineddocumentasks
       - wordjoineddocumentsperword
   wordjoinedwordroles:
     canUse:

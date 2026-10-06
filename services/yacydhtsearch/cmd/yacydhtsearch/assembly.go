@@ -324,8 +324,9 @@ func querySpreadFor(
 				urlMetadataAskCeilings,
 				cfg.URLMetadataLookupCutoff,
 				wallclock.Clock{},
-				yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy),
+				cfg.NetworkRedundancy,
 			),
+			cfg.Partitions,
 			wordjoined.WordJoinedSpreadObservers{
 				queryspreadsobserverswordjoinedapplog.WordJoinedSpreadLog{},
 				queryspreadsobserverswordjoinedprometheus.New(registry, cfg.QueryBudget),

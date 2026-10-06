@@ -1,8 +1,11 @@
 package prometheus
 
 import (
+	"time"
+
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 )
@@ -14,10 +17,12 @@ type urlMetadataAskMetrics struct {
 	joinedDocumentsDroppedBeforeMetadataLookupRatio prometheusclient.Histogram
 	lookedUpDocumentsWithoutMetadataRatio           prometheusclient.Histogram
 	urlMetadataAskDocuments                         prometheusclient.Histogram
+	timeToFirstURLMetadataAskSeconds                prometheusclient.Histogram
 }
 
 func urlMetadataAskMetricsRegisteredIn(
 	registry prometheusclient.Registerer,
+	queryBudget time.Duration,
 ) urlMetadataAskMetrics {
 	urlMetadataLookups := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spread_url_metadata_lookups_total",
@@ -51,12 +56,21 @@ func urlMetadataAskMetricsRegisteredIn(
 			Help:    "Documents one URL metadata ask names, per ask sent.",
 			Buckets: []float64{25, 50, 100, 200, 400, 700, 1000},
 		}),
+		timeToFirstURLMetadataAskSeconds: prometheusclient.NewHistogram(
+			prometheusclient.HistogramOpts{
+				Name: "yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds",
+				Help: "Time from the start of a word joined spread to its first URL metadata ask, " +
+					"in seconds.",
+				Buckets: budgetbuckets.DurationBucketsFor(queryBudget),
+			},
+		),
 	}
 	registry.MustRegister(
 		urlMetadataLookups,
 		metrics.joinedDocumentsDroppedBeforeMetadataLookupRatio,
 		metrics.lookedUpDocumentsWithoutMetadataRatio,
 		metrics.urlMetadataAskDocuments,
+		metrics.timeToFirstURLMetadataAskSeconds,
 	)
 
 	return metrics
@@ -70,21 +84,28 @@ func (m urlMetadataAskMetrics) observeURLMetadataAsks(
 		spread.AmountOfJoinedDocumentsWithMetadata
 	if amountOfJoinedDocumentsWithoutMetadata > 0 {
 		m.joinedDocumentsDroppedBeforeMetadataLookupRatio.Observe(
-			float64(amountOfJoinedDocumentsWithoutMetadata-urlMetadataAsks.AmountOfAskedDocuments) /
-				float64(amountOfJoinedDocumentsWithoutMetadata),
+			float64(
+				amountOfJoinedDocumentsWithoutMetadata-urlMetadataAsks.AmountOfLookedUpDocuments,
+			) /
+				float64(
+					amountOfJoinedDocumentsWithoutMetadata,
+				),
 		)
 	}
-	if urlMetadataAsks.AmountOfAskedDocuments == 0 {
+	if urlMetadataAsks.AmountOfLookedUpDocuments == 0 {
 		return
 	}
 	m.urlMetadataLookupsPerEndReason[urlMetadataAsks.EndReason].Inc()
 	m.lookedUpDocumentsWithoutMetadataRatio.Observe(
 		float64(
-			urlMetadataAsks.AmountOfAskedDocuments-urlMetadataAsks.AmountOfAskedDocumentsWithMetadata,
+			urlMetadataAsks.AmountOfLookedUpDocuments-urlMetadataAsks.AmountOfLookedUpDocumentsWithMetadata,
 		) /
-			float64(urlMetadataAsks.AmountOfAskedDocuments),
+			float64(urlMetadataAsks.AmountOfLookedUpDocuments),
 	)
 	for _, amountOfDocuments := range urlMetadataAsks.AmountOfDocumentsPerAsk {
 		m.urlMetadataAskDocuments.Observe(float64(amountOfDocuments))
+	}
+	if timeToFirstAsk, asked := urlMetadataAsks.TimeToFirstAsk.Get(); asked {
+		m.timeToFirstURLMetadataAskSeconds.Observe(timeToFirstAsk.Seconds())
 	}
 }
