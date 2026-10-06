@@ -31,30 +31,36 @@ func newRun(
 }
 
 func (run *Run) ReadAhead(ctx context.Context, pagesToRead []PageToRead) {
-	pagesToStart, open := run.startedPages.add(pagesToRead)
+	pagesToStart, open := run.startedPages.addAhead(ctx, pagesToRead)
 	if !open {
 		run.observer.PagesReadAheadAfterTheFinish(ctx, len(pagesToRead))
 
 		return
 	}
-	run.startReading(ctx, pagesToStart)
+	run.startReading(pagesToStart)
 }
 
-func (run *Run) startReading(ctx context.Context, pagesToStart []*startedPage) {
+func (run *Run) Abandon(pagesToAbandon []PageToRead) {
+	run.startedPages.abandon(pagesToAbandon)
+}
+
+func (run *Run) startReading(pagesToStart []*startedPage) {
 	for _, page := range pagesToStart {
-		go func() { page.settleWith(run.pageReader.read(ctx, run.queryWords, page.pageToRead)) }()
+		go func() {
+			page.settleWith(run.pageReader.read(page.readContext, run.queryWords, page.pageToRead))
+		}()
 	}
 }
 
 func (run *Run) Read(ctx context.Context, pagesWanted []PageToRead) PagesRead {
 	startedAt := time.Now()
-	pagesToStart, open := run.startedPages.add(pagesWanted)
+	pagesToStart, open := run.startedPages.addWanted(ctx, pagesWanted)
 	if !open {
 		run.observer.PagesReadAfterTheFinish(ctx, len(pagesWanted))
 
 		return PagesRead{}
 	}
-	run.startReading(ctx, pagesToStart)
+	run.startReading(pagesToStart)
 	deadline := run.deadlines.deadlineFor(len(pagesWanted))
 	defer deadline.stop()
 	settlingResults := run.startedPages.want(pagesWanted)
@@ -89,6 +95,6 @@ func awaitPageReadResults(
 
 func (run *Run) Finish(ctx context.Context) {
 	run.observer.PageReadingRunFinished(
-		ctx, FinishedPageReadingRun{AmountOfPagesUnwanted: run.startedPages.finish()},
+		ctx, run.startedPages.finish(),
 	)
 }

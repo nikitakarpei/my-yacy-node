@@ -69,8 +69,8 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 	if cfg.ServeProfiler {
 		t.Fatal("ServeProfiler = true, want the profiler off by default")
 	}
-	if cfg.PagesReadPerSite != main.DefaultPagesReadPerSite {
-		t.Fatalf("pages read per site = %d, want the default", cfg.PagesReadPerSite)
+	if cfg.PagesReadPerSiteCeiling != main.DefaultPagesReadPerSiteCeiling {
+		t.Fatalf("pages read per site ceiling = %d, want the default", cfg.PagesReadPerSiteCeiling)
 	}
 	if cfg.PageReadCutoff.PercentOfPages != main.DefaultPageReadCutoffPercent ||
 		cfg.PageReadCutoff.Grace != main.DefaultPageReadCutoffGrace {
@@ -138,7 +138,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvReplicasCoveringAPartition] = "2"
 	environment[main.EnvHedgeDelay] = "250ms"
 	environment[main.EnvServeProfiler] = "true"
-	environment[main.EnvPagesReadPerSite] = "5"
+	environment[main.EnvPagesReadPerSiteCeiling] = "5"
 	environment[main.EnvPageReadCutoffPercent] = "80"
 	environment[main.EnvPageReadCutoffGrace] = "400ms"
 	environment[main.EnvURLMetadataLookupCutoffPercent] = "75"
@@ -161,7 +161,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.URLMetadataAskDocumentsFloor != 16 ||
 		cfg.URLMetadataAskTargetTime != 1500*time.Millisecond ||
 		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond ||
-		!cfg.ServeProfiler || cfg.PagesReadPerSite != 5 ||
+		!cfg.ServeProfiler || cfg.PagesReadPerSiteCeiling != 5 ||
 		cfg.PageReadCutoff.PercentOfPages != 80 ||
 		cfg.PageReadCutoff.Grace != 400*time.Millisecond ||
 		cfg.URLMetadataLookupCutoff.PercentOfDocuments != 75 ||

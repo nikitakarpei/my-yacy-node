@@ -56,8 +56,8 @@ const (
 	EnvRankingLifetime                  = "YACYDHTSEARCH_RANKING_LIFETIME"
 	EnvQueryWordDocumentAmountLifetime  = "YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNT_LIFETIME"
 	EnvQueryWordDocumentAmountsCapacity = "YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNTS_CAPACITY"
-	EnvPagesReadPerQuery                = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
-	EnvPagesReadPerSite                 = "YACYDHTSEARCH_PAGES_READ_PER_SITE"
+	EnvPagesReadPerQueryCeiling         = "YACYDHTSEARCH_PAGES_READ_PER_QUERY_CEILING"
+	EnvPagesReadPerSiteCeiling          = "YACYDHTSEARCH_PAGES_READ_PER_SITE_CEILING"
 	EnvCompoundWordsCeiling             = "YACYDHTSEARCH_COMPOUND_WORDS_CEILING"
 	EnvPageReadBudget                   = "YACYDHTSEARCH_PAGE_READ_BUDGET"
 	EnvPageReadCutoffPercent            = "YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT"
@@ -101,8 +101,8 @@ const (
 	DefaultRankingLifetime                  = 2 * time.Minute
 	DefaultQueryWordDocumentAmountLifetime  = 6 * time.Hour
 	DefaultQueryWordDocumentAmountsCapacity = 100000
-	DefaultPagesReadPerQuery                = 50
-	DefaultPagesReadPerSite                 = 3
+	DefaultPagesReadPerQueryCeiling         = 50
+	DefaultPagesReadPerSiteCeiling          = 3
 	DefaultPageReadBudget                   = 3 * time.Second
 	DefaultPageReadCutoffPercent            = 90
 	DefaultPageReadCutoffGrace              = 250 * time.Millisecond
@@ -157,14 +157,14 @@ type ServiceConfig struct {
 	QueryWordDocumentAmountLifetime  time.Duration
 	QueryWordDocumentAmountsCapacity int
 
-	PagesReadPerQuery       int
-	PagesReadPerSite        int
-	CompoundWordsCeiling    int
-	PageReadBudget          time.Duration
-	PageReadCutoff          pagereading.PageReadCutoff
-	PageByteCeiling         int64
-	PageReadMaxRedirectHops int
-	SnippetLengthCeiling    int
+	PagesReadPerQueryCeiling int
+	PagesReadPerSiteCeiling  int
+	CompoundWordsCeiling     int
+	PageReadBudget           time.Duration
+	PageReadCutoff           pagereading.PageReadCutoff
+	PageByteCeiling          int64
+	PageReadMaxRedirectHops  int
+	SnippetLengthCeiling     int
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -274,10 +274,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		QueryWordDocumentAmountLifetime:  durations.queryWordDocumentAmountLifetime,
 		QueryWordDocumentAmountsCapacity: counts.queryWordDocumentAmountsCapacity,
 
-		PagesReadPerQuery:    counts.pagesReadPerQuery,
-		PagesReadPerSite:     counts.pagesReadPerSite,
-		CompoundWordsCeiling: counts.compoundWordsCeiling,
-		PageReadBudget:       durations.pageReadBudget,
+		PagesReadPerQueryCeiling: counts.pagesReadPerQueryCeiling,
+		PagesReadPerSiteCeiling:  counts.pagesReadPerSiteCeiling,
+		CompoundWordsCeiling:     counts.compoundWordsCeiling,
+		PageReadBudget:           durations.pageReadBudget,
 		PageReadCutoff: pagereading.PageReadCutoff{
 			PercentOfPages: counts.pageReadCutoffPercent,
 			Grace:          durations.pageReadCutoffGrace,
@@ -375,8 +375,8 @@ type configuredCounts struct {
 	rankedItemsCeiling               int
 	rankingCacheCapacity             int
 	queryWordDocumentAmountsCapacity int
-	pagesReadPerQuery                int
-	pagesReadPerSite                 int
+	pagesReadPerQueryCeiling         int
+	pagesReadPerSiteCeiling          int
 	compoundWordsCeiling             int
 	pageReadMaxRedirectHops          int
 	pageReadCutoffPercent            int
@@ -403,8 +403,8 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 		{EnvQueryWordDocumentAmountsCapacity, DefaultQueryWordDocumentAmountsCapacity, &counts.queryWordDocumentAmountsCapacity},
-		{EnvPagesReadPerQuery, DefaultPagesReadPerQuery, &counts.pagesReadPerQuery},
-		{EnvPagesReadPerSite, DefaultPagesReadPerSite, &counts.pagesReadPerSite},
+		{EnvPagesReadPerQueryCeiling, DefaultPagesReadPerQueryCeiling, &counts.pagesReadPerQueryCeiling},
+		{EnvPagesReadPerSiteCeiling, DefaultPagesReadPerSiteCeiling, &counts.pagesReadPerSiteCeiling},
 		{EnvCompoundWordsCeiling, DefaultCompoundWordsCeiling, &counts.compoundWordsCeiling},
 		{EnvPageReadMaxRedirectHops, DefaultPageReadMaxRedirectHops, &counts.pageReadMaxRedirectHops},
 		{EnvPageReadCutoffPercent, DefaultPageReadCutoffPercent, &counts.pageReadCutoffPercent},

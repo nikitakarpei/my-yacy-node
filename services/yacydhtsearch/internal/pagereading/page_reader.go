@@ -50,6 +50,13 @@ func (reader pageReader) read(
 		}
 	}
 
+	if ctx.Err() != nil {
+		return pageReadResult{
+			document:          pageToRead.Document,
+			outcome:           pageWasOutOfBudget,
+			timeSpentFetching: timeSpentFetching,
+		}
+	}
 	readingStartedAt := time.Now()
 	pageContents, outcome := reader.pageContentsOfTheFetchedPage(
 		ctx, queryWords, landed.Outcome.Page, landed.URL,

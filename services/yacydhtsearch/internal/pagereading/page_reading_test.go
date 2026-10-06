@@ -1233,3 +1233,101 @@ func TestThePageOfADocumentGivesTheLinksOfItsOwnSiteAndOfOtherSitesItHolds(t *te
 		)
 	}
 }
+
+type pagesHeldUntilReleased struct {
+	pages              pagesHeldAtTheirAddress
+	released           <-chan struct{}
+	addressesAbandoned chan<- string
+}
+
+func (p pagesHeldUntilReleased) Fetch(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	select {
+	case <-p.released:
+	case <-ctx.Done():
+		p.addressesAbandoned <- pageURL.String()
+	}
+
+	return p.pages.Fetch(ctx, pageURL, knownVersion)
+}
+
+func TestAnAbandonedPageReadAheadStopsAndIsCounted(t *testing.T) {
+	t.Parallel()
+
+	addressesAbandoned := make(chan string, len(pagesOfThreeDocuments(t)))
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(
+		t,
+		pagesHeldUntilReleased{
+			pages:              pagesHoldingTheDocuments(t),
+			released:           make(chan struct{}),
+			addressesAbandoned: addressesAbandoned,
+		},
+		observer,
+	)
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	pageOfTheLinkingDocument := pageToReadOfTheAddress(t, addressOfTheLinkingDocument)
+	run.ReadAhead(t.Context(), []pagereading.PageToRead{
+		pageToReadOfTheAddress(t, addressOfTheDocument), pageOfTheLinkingDocument,
+	})
+
+	run.Abandon([]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)})
+
+	if addressAbandoned := <-addressesAbandoned; addressAbandoned != addressOfTheDocument {
+		t.Fatalf("the page at %s was abandoned, want %s", addressAbandoned, addressOfTheDocument)
+	}
+	run.Finish(t.Context())
+	if observer.finishedRun.AmountOfPagesAbandoned != 1 ||
+		observer.finishedRun.AmountOfPagesUnwanted != 1 {
+		t.Fatalf(
+			"PageReadingRunFinished = %+v, want one page abandoned and one unwanted",
+			observer.finishedRun,
+		)
+	}
+}
+
+func TestAnAbandonedPageThatIsWantedLaterIsReadAgain(t *testing.T) {
+	t.Parallel()
+
+	released := make(chan struct{})
+	addressesAbandoned := make(chan string, 1)
+	reading := readingOfThePages(
+		t,
+		pagesHeldUntilReleased{
+			pages:              pagesHoldingTheDocuments(t),
+			released:           released,
+			addressesAbandoned: addressesAbandoned,
+		},
+		&recordedPageReading{},
+	)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.ReadAhead(t.Context(), pagesToRead)
+	run.Abandon(pagesToRead)
+	<-addressesAbandoned
+	close(released)
+
+	pageContentsPerDocument := run.Read(t.Context(), pagesToRead).PageContentsPerDocument
+
+	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
+}
+
+func TestAPageAReadWantsIsNotAbandoned(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	pagesWanted := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Read(t.Context(), pagesWanted)
+
+	run.Abandon(pagesOfThreeDocuments(t))
+
+	run.Finish(t.Context())
+	if observer.finishedRun.AmountOfPagesAbandoned != 0 {
+		t.Fatalf("PageReadingRunFinished = %+v, want no page abandoned", observer.finishedRun)
+	}
+}

@@ -37,19 +37,19 @@ import (
 )
 
 const (
-	networkName           = "freeworld"
-	responseLimit         = 1 << 20
-	peerCallsInFlight     = 48
-	urlMetadataCallBudget = 3 * time.Second
-	searchCallBudget      = 3 * time.Second
-	queryBudget           = 5 * time.Second
-	pageReadBudget        = 3 * time.Second
-	peerResults           = 10
-	directoryLimit        = 64
-	recordCeiling         = 50
-	compoundWordsCeiling  = 4
-	pagesReadPerQuery     = 50
-	pagesReadPerSite      = pagesReadPerQuery
+	networkName              = "freeworld"
+	responseLimit            = 1 << 20
+	peerCallsInFlight        = 48
+	urlMetadataCallBudget    = 3 * time.Second
+	searchCallBudget         = 3 * time.Second
+	queryBudget              = 5 * time.Second
+	pageReadBudget           = 3 * time.Second
+	peerResults              = 10
+	directoryLimit           = 64
+	recordCeiling            = 50
+	compoundWordsCeiling     = 4
+	pagesReadPerQueryCeiling = 50
+	pagesReadPerSiteCeiling  = pagesReadPerQueryCeiling
 
 	networkRedundancy          = 2
 	replicasCoveringAPartition = networkRedundancy
@@ -360,8 +360,8 @@ func networkOrdering(
 		documentsOrdering,
 		queryBudget,
 		pageReadBudget,
-		pagesReadPerQuery,
-		pagesReadPerSite,
+		pagesReadPerQueryCeiling,
+		pagesReadPerSiteCeiling,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{observer},
@@ -671,8 +671,8 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 		),
 		queryBudget,
 		pageReadBudget,
-		pagesReadPerQuery,
-		pagesReadPerSite,
+		pagesReadPerQueryCeiling,
+		pagesReadPerSiteCeiling,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
@@ -740,7 +740,7 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 		orderingInTheFoundOrder{},
 		queryBudget,
 		pageReadBudget,
-		pagesReadPerQuery,
+		pagesReadPerQueryCeiling,
 		2,
 		recordCeiling,
 		compoundWordsCeiling,
@@ -797,8 +797,8 @@ func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 		orderingInTheFoundOrder{},
 		queryBudget,
 		pageReadBudget,
-		pagesReadPerQuery,
-		pagesReadPerSite,
+		pagesReadPerQueryCeiling,
+		pagesReadPerSiteCeiling,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
@@ -883,8 +883,8 @@ func networkRecordingItsBudgets(
 		orderingInTheFoundOrder{},
 		queryBudget,
 		pageReadBudgetOfTheQuery,
-		pagesReadPerQuery,
-		pagesReadPerSite,
+		pagesReadPerQueryCeiling,
+		pagesReadPerSiteCeiling,
 		recordCeiling,
 		compoundWordsCeiling,
 		networksearch.NetworkSearchObservers{&recordedQuery{}},
@@ -1026,3 +1026,13 @@ type urlMetadataAskCeilingsAtTheMost int
 func (mostDocuments urlMetadataAskCeilingsAtTheMost) CeilingOf(context.Context, string) int {
 	return int(mostDocuments)
 }
+
+func (pagesThatNoOneReads) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesHoldingTheWordOfOneDocument) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesRecordingTheirAddresses) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesOfOneDocumentWithdrawn) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesRecordingTheBudgetTheyGet) Abandon(_ []pagereading.PageToRead) {}

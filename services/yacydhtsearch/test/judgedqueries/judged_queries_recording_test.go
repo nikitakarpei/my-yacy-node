@@ -14,8 +14,8 @@ import (
 const (
 	recordingSwitch = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
 
-	pagesReadPerQuery    = 50
-	recordingPagesBudget = 10 * time.Second
+	pagesReadPerQueryCeiling = 50
+	recordingPagesBudget     = 10 * time.Second
 )
 
 var recordedQueries = []string{
@@ -269,6 +269,6 @@ func (recording judgedQueryRecording) pagesReadFor(
 	orderedDocuments := defaultRelevanceOrdering().OrderedDocumentsOf(findings)
 
 	return recording.fetching.fetchedPagesOf(
-		t.Context(), orderedDocuments[:min(pagesReadPerQuery, len(orderedDocuments))],
+		t.Context(), orderedDocuments[:min(pagesReadPerQueryCeiling, len(orderedDocuments))],
 	)
 }

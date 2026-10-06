@@ -1,5 +1,6 @@
 package pagereading
 
 type FinishedPageReadingRun struct {
-	AmountOfPagesUnwanted int
+	AmountOfPagesUnwanted  int
+	AmountOfPagesAbandoned int
 }
