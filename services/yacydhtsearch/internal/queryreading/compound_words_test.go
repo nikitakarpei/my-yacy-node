@@ -6,12 +6,13 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestTheCompoundWordsOfAQueryJoinItsSpokenNeighboursInPairsThenTriples(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("open street map", "")
+	query := queryreading.QueryFrom("open street map", yacymodel.Language{})
 
 	want := []searchquery.CompoundWord{
 		{Word: "openstreet", Parts: []string{"open", "street"}},
@@ -26,7 +27,7 @@ func TestTheCompoundWordsOfAQueryJoinItsSpokenNeighboursInPairsThenTriples(t *te
 func TestADroppedStopwordBreaksACompoundWord(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("yacy peer to peer search", "en")
+	query := queryreading.QueryFrom("yacy peer to peer search", english(t))
 
 	want := []searchquery.CompoundWord{
 		{Word: "yacypeer", Parts: []string{"yacy", "peer"}},
@@ -40,7 +41,12 @@ func TestADroppedStopwordBreaksACompoundWord(t *testing.T) {
 func TestAQueryOfOneWordHasNoCompoundWord(t *testing.T) {
 	t.Parallel()
 
-	if compounds := queryreading.QueryFrom("berlin", "").CompoundWords; len(compounds) != 0 {
+	if compounds := queryreading.QueryFrom(
+		"berlin",
+		yacymodel.Language{},
+	).CompoundWords; len(
+		compounds,
+	) != 0 {
 		t.Fatalf("CompoundWords = %v, want none", compounds)
 	}
 }

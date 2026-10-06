@@ -134,8 +134,24 @@ func TestTheEndpointReadsTheQueryTheClientAskedFor(t *testing.T) {
 	if len(rankings.query.Words) != 1 || rankings.query.Words[0] != "berlin" {
 		t.Fatalf("Words = %v, want berlin", rankings.query.Words)
 	}
-	if rankings.query.Language != "lang_de" {
-		t.Fatalf("Language = %q, want lang_de", rankings.query.Language)
+	if rankings.query.Language.String() != "de" {
+		t.Fatalf("Language = %q, want de", rankings.query.Language)
+	}
+}
+
+func TestALanguageRestrictionNamingNoLanguageLeavesTheQueryWithoutOne(t *testing.T) {
+	t.Parallel()
+
+	rankings := &recordedRankings{}
+
+	answerTo(
+		t,
+		yacysearchendpoint.New(rankings),
+		yacysearchendpoint.Path+"?query=berlin&lr=lang_german",
+	)
+
+	if !rankings.query.Language.IsZero() {
+		t.Fatalf("Language = %q, want none", rankings.query.Language)
 	}
 }
 

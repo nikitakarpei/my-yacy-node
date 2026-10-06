@@ -24,7 +24,7 @@ func TestTheAskToTheReplicaCarriesTheWordPartitionAskAndTheWants(t *testing.T) {
 		Partition:        3,
 		ReplicasInOrder:  []peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 		ExcludedWords:    []yacymodel.Hash{yacymodel.WordHash("rain")},
-		Language:         "de",
+		Language:         languageFrom(t, "de"),
 		DocumentsToMatch: []yacymodel.URLHash{documentAt(t, "https://a.example/")},
 	}
 
@@ -176,4 +176,15 @@ func documentAt(t *testing.T, address string) yacymodel.URLHash {
 	}
 
 	return document
+}
+
+func languageFrom(t *testing.T, code string) yacymodel.Language {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(code)
+	if err != nil {
+		t.Fatalf("ParseLanguage(%s): %v", code, err)
+	}
+
+	return language
 }

@@ -17,7 +17,7 @@ const (
 	twoPartitionsOfTheRing = 2
 )
 
-var query = queryreading.QueryFrom(firstWord+" "+secondWord, "")
+var query = queryreading.QueryFrom(firstWord+" "+secondWord, yacymodel.Language{})
 
 type cachedAmountsInAPartition map[yacymodel.Hash]int
 

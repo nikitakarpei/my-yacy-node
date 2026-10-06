@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func findingsOfCompoundWords(
@@ -19,7 +20,10 @@ func findingsOfCompoundWords(
 		foundDocuments,
 		documentsHeldPerWord,
 	)
-	findings.CompoundWords = queryreading.QueryFrom(strings.Join(queryWords, " "), "").CompoundWords
+	findings.CompoundWords = queryreading.QueryFrom(
+		strings.Join(queryWords, " "),
+		yacymodel.Language{},
+	).CompoundWords
 
 	return findings
 }

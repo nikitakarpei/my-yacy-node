@@ -430,7 +430,7 @@ func TestASearchDocumentsAskCarriesTheQueryAndTheNetworkTheServiceSearches(t *te
 	query := searchquery.Query{
 		Words:      []string{"berlin"},
 		Exclusions: []string{"rain"},
-		Language:   "de",
+		Language:   languageFrom(t, "de"),
 	}
 
 	matchedDocumentsOf(t, &recordedOutcome{}, peerasks.SearchDocumentsAsk{
@@ -1346,4 +1346,15 @@ func TestASearchCallWithoutAHeadersTimeoutIsNotTimedOnItsHeaders(t *testing.T) {
 			len(clock.started),
 		)
 	}
+}
+
+func languageFrom(t *testing.T, code string) yacymodel.Language {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(code)
+	if err != nil {
+		t.Fatalf("ParseLanguage(%s): %v", code, err)
+	}
+
+	return language
 }

@@ -15,7 +15,7 @@ const (
 	secondWord = "weather"
 )
 
-var query = queryreading.QueryFrom(firstWord+" "+secondWord, "")
+var query = queryreading.QueryFrom(firstWord+" "+secondWord, yacymodel.Language{})
 
 type amountsInAPartition map[string]int
 

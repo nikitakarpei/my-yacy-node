@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type countedSpread struct {
@@ -32,7 +33,7 @@ func searchesOf(t *testing.T, spelledQuery string) (int, int) {
 	wordJoinedSpread, peerMatchedSpread := &countedSpread{}, &countedSpread{}
 	bywordcount.New(wordJoinedSpread, peerMatchedSpread).SpreadOverPeers(
 		t.Context(),
-		queryreading.QueryFrom(spelledQuery, ""),
+		queryreading.QueryFrom(spelledQuery, yacymodel.Language{}),
 		nil,
 		nil,
 	)

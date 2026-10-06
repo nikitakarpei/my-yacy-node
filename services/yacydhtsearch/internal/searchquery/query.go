@@ -13,7 +13,7 @@ type Query struct {
 	Words         []string
 	CompoundWords []CompoundWord
 	Exclusions    []string
-	Language      string
+	Language      yacymodel.Language
 }
 
 func (q Query) String() string {
@@ -25,8 +25,8 @@ func (q Query) String() string {
 	for _, exclusion := range q.Exclusions {
 		spelled = append(spelled, "-"+exclusion)
 	}
-	if q.Language != "" {
-		spelled = append(spelled, "lr:"+q.Language)
+	if !q.Language.IsZero() {
+		spelled = append(spelled, "lr:"+q.Language.String())
 	}
 
 	return strings.Join(spelled, " ")

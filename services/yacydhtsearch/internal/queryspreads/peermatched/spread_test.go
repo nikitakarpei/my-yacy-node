@@ -185,7 +185,7 @@ func addressesOf(foundDocuments []queryfindings.FoundDocument) []string {
 func findingsOfTheQuery(network *peerNetwork, query string) queryfindings.Findings {
 	return spreadOf(network, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
-		queryreading.QueryFrom(query, ""),
+		queryreading.QueryFrom(query, yacymodel.Language{}),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 	)
 }

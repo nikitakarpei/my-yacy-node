@@ -131,7 +131,7 @@ func TestASearchReadsThePagesOfTheFindingsAheadAsTheyGrow(t *testing.T) {
 	pages := newPagesRecordingWhatIsReadAhead()
 	network := networkReadingFrom(t, pages, findingsOfTheAddress(t, grownAddress))
 
-	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
+	network.Search(t.Context(), queryreading.QueryFrom("berlin", yacymodel.Language{}))
 
 	if readAhead, _ := pages.readAheadAndAbandoned(); !slices.Equal(
 		readAhead,
@@ -151,7 +151,7 @@ func TestASearchAbandonsAPageReadAheadThatTheGrownFindingsLeaveOut(t *testing.T)
 		findingsOfTheAddress(t, grownLaterAddress),
 	)
 
-	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
+	network.Search(t.Context(), queryreading.QueryFrom("berlin", yacymodel.Language{}))
 
 	if _, abandoned := pages.readAheadAndAbandoned(); !slices.Equal(
 		abandoned,
