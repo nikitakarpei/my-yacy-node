@@ -31,28 +31,29 @@ const (
 	urlMetadataAskDocumentsCeiling  = 10
 	documentsOneURLMetadataAskNames = 1
 	documentsToMatchCeiling         = 10
-	peersHoldingOneWord             = 24
+	networkRedundancy               = 3
 	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
 )
 
 type peerNetwork struct {
-	mutex                                 sync.Mutex
-	documentsPerWordPerPeer               map[string]map[string][]string
-	answeredItemsPerWordPerPeer           map[string]map[string][]string
-	countsAWordWithEachItem               bool
-	documentsHeldForEveryWord             int
-	documentsHeldByEachPeer               map[string]int
-	documentsPerAnswerOfEachPeer          map[string]int
-	peersCountingNoDocument               map[string]struct{}
-	peersThatSearched                     map[string]struct{}
-	searchDocumentsAsks                   []replicaAsk
-	settledWordPartitionsReadAtEachAsk    []int
-	urlMetadataAsks                       []peerasks.URLMetadataAsk
-	silentPeers                           map[string]struct{}
-	peersListingDocumentsTheAskDidNotName map[string]struct{}
-	timeLeftAtEachCallInTheirOrder        []time.Duration
+	mutex                                         sync.Mutex
+	documentsPerWordPerPeer                       map[string]map[string][]string
+	answeredItemsPerWordPerPeer                   map[string]map[string][]string
+	countsAWordWithEachItem                       bool
+	documentsHeldForEveryWord                     int
+	documentsHeldByEachPeer                       map[string]int
+	documentsPerAnswerOfEachPeer                  map[string]int
+	peersCountingNoDocument                       map[string]struct{}
+	peersThatSearched                             map[string]struct{}
+	searchDocumentsAsks                           []replicaAsk
+	settledWordPartitionsRead                     int
+	settledWordPartitionsReadAtEachAsk            []int
+	urlMetadataAsks                               []peerasks.URLMetadataAsk
+	settledWordPartitionsReadAtEachURLMetadataPut []int
+	silentPeers                                   map[string]struct{}
+	peersListingDocumentsTheAskDidNotName         map[string]struct{}
 }
 
 func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetwork {
@@ -73,16 +74,15 @@ func replicasOf(network *peerNetwork) replicasOfTheNetwork {
 	return replicasOfTheNetwork{network: network}
 }
 
-func (replicas replicasOfTheNetwork) Start(ctx context.Context) wordpartitionasks.Run {
+func (replicas replicasOfTheNetwork) Start(_ context.Context) wordpartitionasks.Run {
 	asks := make(chan []wordpartitionasks.Ask)
 	settledAsks := make(chan wordpartitionasks.SettledAsk)
-	go replicas.answerEachWordPartition(ctx, asks, settledAsks)
+	go replicas.answerEachWordPartition(asks, settledAsks)
 
 	return wordpartitionasks.Run{Asks: asks, SettledAsks: settledAsks}
 }
 
 func (replicas replicasOfTheNetwork) answerEachWordPartition(
-	ctx context.Context,
 	asks <-chan []wordpartitionasks.Ask,
 	settledAsks chan<- wordpartitionasks.SettledAsk,
 ) {
@@ -102,10 +102,10 @@ func (replicas replicasOfTheNetwork) answerEachWordPartition(
 
 				continue
 			}
-			run.answer(ctx, replicas.network, addedAsks)
+			run.answer(replicas.network, addedAsks)
 		case reader <- nextSettledAsk:
 			run.settledAsksUnread = run.settledAsksUnread[1:]
-			run.settledAsksRead++
+			replicas.network.readOneSettledWordPartition()
 		}
 	}
 }
@@ -113,11 +113,16 @@ func (replicas replicasOfTheNetwork) answerEachWordPartition(
 type runOfTheNetwork struct {
 	wordPartitionsInTheRun map[string]struct{}
 	settledAsksUnread      []wordpartitionasks.SettledAsk
-	settledAsksRead        int
+}
+
+func (network *peerNetwork) readOneSettledWordPartition() {
+	network.mutex.Lock()
+	defer network.mutex.Unlock()
+
+	network.settledWordPartitionsRead++
 }
 
 func (run *runOfTheNetwork) answer(
-	ctx context.Context,
 	network *peerNetwork,
 	asks []wordpartitionasks.Ask,
 ) {
@@ -129,9 +134,7 @@ func (run *runOfTheNetwork) answer(
 		run.wordPartitionsInTheRun[wordPartition] = struct{}{}
 		settledAsk := wordpartitionasks.SettledAsk{Ask: ask}
 		for _, replica := range ask.ReplicasInOrder {
-			answer, answered := network.answerOfTheReplica(
-				ctx, replicaAsk{Ask: ask, Peer: replica}, run.settledAsksRead,
-			)
+			answer, answered := network.answerOfTheReplica(replicaAsk{Ask: ask, Peer: replica})
 			if !answered {
 				continue
 			}
@@ -147,18 +150,15 @@ type replicaAsk struct {
 }
 
 func (network *peerNetwork) answerOfTheReplica(
-	ctx context.Context,
 	ask replicaAsk,
-	settledAsksRead int,
 ) (wordpartitionasks.ReplicaAnswer, bool) {
 	network.mutex.Lock()
 	defer network.mutex.Unlock()
 
 	network.searchDocumentsAsks = append(network.searchDocumentsAsks, ask)
 	network.settledWordPartitionsReadAtEachAsk = append(
-		network.settledWordPartitionsReadAtEachAsk, settledAsksRead,
+		network.settledWordPartitionsReadAtEachAsk, network.settledWordPartitionsRead,
 	)
-	network.recordTimeLeftIn(ctx)
 	if _, silent := network.silentPeers[ask.Peer.Address]; silent {
 		return wordpartitionasks.ReplicaAnswer{}, false
 	}
@@ -209,18 +209,6 @@ func (network *peerNetwork) searchedBy(address string) bool {
 	return searched
 }
 
-func (network *peerNetwork) recordTimeLeftIn(ctx context.Context) {
-	deadline, bounded := ctx.Deadline()
-	if !bounded {
-		network.timeLeftAtEachCallInTheirOrder = append(network.timeLeftAtEachCallInTheirOrder, 0)
-
-		return
-	}
-	network.timeLeftAtEachCallInTheirOrder = append(
-		network.timeLeftAtEachCallInTheirOrder, time.Until(deadline),
-	)
-}
-
 func (network *peerNetwork) abstractFor(ask replicaAsk) []yacymodel.URLHash {
 	documents := documentsPerWordOf(network.documentsPerWordPerPeer, ask.Peer.Address, ask.Word)
 	if len(ask.DocumentsToMatch) > 0 {
@@ -265,6 +253,7 @@ func (network *peerNetwork) documentsWithMetadataOf(
 		}
 		if network.countsAWordWithEachItem {
 			documentWithMetadata.Posting = yacymodel.Some(yacymodel.RWIPosting{
+				URLHash:       document,
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,
@@ -319,7 +308,9 @@ func (network *peerNetwork) AskForURLMetadata(
 	defer network.mutex.Unlock()
 
 	network.urlMetadataAsks = append(network.urlMetadataAsks, asks...)
-	network.recordTimeLeftIn(ctx)
+	network.settledWordPartitionsReadAtEachURLMetadataPut = append(
+		network.settledWordPartitionsReadAtEachURLMetadataPut, network.settledWordPartitionsRead,
+	)
 
 	outcomesAsTheySettle := make(chan peerasks.URLMetadataAskOutcome, len(asks))
 	for _, ask := range asks {
@@ -432,6 +423,22 @@ func peerAt(address string) peerdirectory.AskablePeer {
 type recordedSpreads struct {
 	performed            []wordjoined.PerformedWordJoinedSpread
 	decisionPerPartition map[uint]documentasks.DocumentsToMatchDecision
+	documentAsks         []documentasks.Performed
+	urlMetadataLookups   []urlmetadataasks.Performed
+}
+
+func (recorded *recordedSpreads) DocumentAsksPerformed(
+	_ context.Context,
+	performed documentasks.Performed,
+) {
+	recorded.documentAsks = append(recorded.documentAsks, performed)
+}
+
+func (recorded *recordedSpreads) URLMetadataLookupPerformed(
+	_ context.Context,
+	performed urlmetadataasks.Performed,
+) {
+	recorded.urlMetadataLookups = append(recorded.urlMetadataLookups, performed)
 }
 
 func (recorded *recordedSpreads) WordJoinedSpreadPerformed(
@@ -460,9 +467,20 @@ type spreadSettings struct {
 	documentsToMatchCeiling         int
 	urlMetadataAskDocumentsCeiling  int
 	urlMetadataAskCeilingOfEachPeer map[string]int
-	peersHoldingOneWord             int
-	queryBudget                     time.Duration
+	networkRedundancy               int
 	queryWordDocumentAmounts        *rememberedQueryWordDocumentAmounts
+	growth                          *grownFindings
+}
+
+type grownFindings struct {
+	mutex         sync.Mutex
+	findingsSoFar []queryfindings.Findings
+}
+
+func (grown *grownFindings) FindingsGrew(findings queryfindings.Findings) {
+	grown.mutex.Lock()
+	defer grown.mutex.Unlock()
+	grown.findingsSoFar = append(grown.findingsSoFar, findings)
 }
 
 type rememberedQueryWordDocumentAmounts struct {
@@ -527,7 +545,7 @@ func settingsOfOnePartition() spreadSettings {
 		partitions:                     onePartitionOfTheRing,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
-		peersHoldingOneWord:            peersHoldingOneWord,
+		networkRedundancy:              networkRedundancy,
 	}
 }
 
@@ -536,15 +554,14 @@ func (settings spreadSettings) spread(
 	observer *recordedSpreads,
 ) queryfindings.Findings {
 	ctx := context.Background()
-	if settings.queryBudget > 0 {
-		var endQuery context.CancelFunc
-		ctx, endQuery = context.WithTimeout(ctx, settings.queryBudget)
-		defer endQuery()
-	}
 	query := queryreading.QueryFrom(settings.query, "")
 	queryWordDocumentAmounts := settings.queryWordDocumentAmounts
 	if queryWordDocumentAmounts == nil {
 		queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
+	}
+	growth := settings.growth
+	if growth == nil {
+		growth = &grownFindings{}
 	}
 
 	return wordjoined.New(
@@ -569,8 +586,10 @@ func (settings spreadSettings) spread(
 			},
 			urlmetadataasks.Cutoff{},
 			clockThatNeverFires{},
-			settings.peersHoldingOneWord,
+			settings.networkRedundancy,
+			observer,
 		),
+		settings.partitions,
 		observer,
 	).SpreadOverPeers(
 		ctx,
@@ -579,6 +598,7 @@ func (settings spreadSettings) spread(
 			query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling),
 			peersAt(settings.askablePeers),
 		),
+		growth,
 	)
 }
 
@@ -597,6 +617,14 @@ func spreadOver(
 	settings := settingsOfOnePartition()
 	settings.choice = choice
 	settings.spread(network, observer)
+}
+
+func findingsGrownOver(network *peerNetwork) ([]queryfindings.Findings, queryfindings.Findings) {
+	settings := settingsOfOnePartition()
+	settings.growth = &grownFindings{}
+	findings := settings.spread(network, &recordedSpreads{})
+
+	return settings.growth.findingsSoFar, findings
 }
 
 func distinctDocumentsAskedMetadataFor(asks []peerasks.URLMetadataAsk) []yacymodel.URLHash {
@@ -637,34 +665,6 @@ func foundDocumentsIn(findings queryfindings.Findings) []yacymodel.URLHash {
 	}
 
 	return documentsInTheirHashOrder(foundDocuments)
-}
-
-func TestTheWordAsksKeepHalfTheTimeTheQueryHasLeft(t *testing.T) {
-	t.Parallel()
-
-	const queryBudget = 3 * time.Second
-
-	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: {"https://shared.example/"}},
-		"second": {secondWord: {"https://shared.example/"}},
-	})
-	settings := settingsOfOnePartition()
-	settings.queryBudget = queryBudget
-
-	settings.spread(network, &recordedSpreads{})
-
-	timeLeftAtTheFirstCall := network.timeLeftAtEachCallInTheirOrder[0]
-	if timeLeftAtTheFirstCall < queryBudget/2-queryBudget/10 ||
-		timeLeftAtTheFirstCall > queryBudget/2+queryBudget/10 {
-		t.Fatalf(
-			"the word asks kept %s of the %s the query has, want a half",
-			timeLeftAtTheFirstCall,
-			queryBudget,
-		)
-	}
-	if len(network.urlMetadataAsks) == 0 {
-		t.Fatal("the spread asked no peer for metadata, want the joined document looked up")
-	}
 }
 
 func TestOnlyDocumentsThatEveryQueryWordCameBackForAreAskedAbout(t *testing.T) {
@@ -825,10 +825,11 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 			performed)
 	}
 	if performed.AmountOfQueryWordsHeldByNoPeer != 0 ||
-		performed.URLMetadataAsks.AmountOfAskedDocumentsWithMetadata != 1 {
+		observer.urlMetadataLookups[0].AmountOfLookedUpDocumentsWithMetadata != 1 {
 		t.Fatalf(
-			"the spread reported %+v, want every word held and the joined document back",
-			performed,
+			"the spread reported %+v and the lookup %+v, want every word held and the "+
+				"joined document back",
+			performed, observer.urlMetadataLookups,
 		)
 	}
 }
@@ -1010,7 +1011,7 @@ func documentsEachPeerIsAskedMetadataFor(
 	return documentsOfEachPeer
 }
 
-func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *testing.T) {
+func TestTheSpreadReportsTheWholeJoinAndTheLookupTheDocumentsItAskedMetadataFor(t *testing.T) {
 	t.Parallel()
 
 	joined := []string{"https://first.example/", "https://second.example/"}
@@ -1024,25 +1025,27 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	settings.spread(network, observer)
 
 	performed := observer.performed[0]
-	if performed.AmountOfJoinedDocuments != 2 ||
-		performed.URLMetadataAsks.AmountOfAskedDocuments != 1 {
+	lookup := observer.urlMetadataLookups[0]
+	if performed.AmountOfJoinedDocuments != 2 || lookup.AmountOfLookedUpDocuments != 1 ||
+		lookup.AmountOfDocumentsNotAsked != 1 {
 		t.Fatalf(
-			"the spread reported %+v, want two joined documents and one asked metadata for",
-			performed,
+			"the spread reported %+v and the lookup %+v, want two joined documents, one "+
+				"asked metadata for and one never asked about",
+			performed, lookup,
 		)
 	}
-	if performed.URLMetadataAsks.AmountOfAskedDocumentsWithMetadata != 1 {
+	if lookup.AmountOfLookedUpDocumentsWithMetadata != 1 {
 		t.Fatalf(
-			"the spread reported %d documents back, want the one it asked metadata for",
-			performed.URLMetadataAsks.AmountOfAskedDocumentsWithMetadata,
+			"the lookup reported %d documents back, want the one it asked metadata for",
+			lookup.AmountOfLookedUpDocumentsWithMetadata,
 		)
 	}
 }
 
-func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
+func TestNoMorePeersAreAskedForTheMetadataOfOneJoinThanTheNetworkRedundancy(t *testing.T) {
 	t.Parallel()
 
-	const peersOfOneWord = 2
+	const redundancyOfTheNetwork = 2
 
 	bothDocuments := []string{"https://first.example/", "https://second.example/"}
 	firstDocument, secondDocument := bothDocuments[:1], bothDocuments[1:]
@@ -1055,14 +1058,14 @@ func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 
 	settings := settingsOfOnePartition()
 	settings.askablePeers = []string{"first", "second", "third", "fourth"}
-	settings.peersHoldingOneWord = peersOfOneWord
+	settings.networkRedundancy = redundancyOfTheNetwork
 	settings.spread(network, &recordedSpreads{})
 
-	if len(network.urlMetadataAsks) != peersOfOneWord {
+	if len(network.urlMetadataAsks) != redundancyOfTheNetwork {
 		t.Fatalf(
 			"%d peers were asked for metadata, want %d",
 			len(network.urlMetadataAsks),
-			peersOfOneWord,
+			redundancyOfTheNetwork,
 		)
 	}
 	wanted := documentHashesOf(bothDocuments)
@@ -1206,6 +1209,77 @@ func TestAJoinedDocumentNoPeerAnsweredIsFoundThroughItsMetadata(t *testing.T) {
 	}
 }
 
+func TestTheFindingsGrowWithEachDocumentFoundBeforeTheSpreadReturnsThemAll(t *testing.T) {
+	t.Parallel()
+
+	answered := []string{"https://answered.example/", "https://also-answered.example/"}
+	network := networkOf(map[string]map[string][]string{
+		"first": {firstWord: answered, secondWord: answered},
+	})
+	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: answered},
+	}
+
+	findingsSoFar, findings := findingsGrownOver(network)
+
+	if len(findingsSoFar) == 0 {
+		t.Fatalf("the findings never grew, want them to grow as the documents %v are found",
+			answered)
+	}
+	lastFindingsSoFar := findingsSoFar[len(findingsSoFar)-1]
+	if !slices.Equal(foundDocumentsIn(lastFindingsSoFar), foundDocumentsIn(findings)) ||
+		len(findings.FoundDocuments) != len(answered) ||
+		!slices.Equal(lastFindingsSoFar.QueryWords, findings.QueryWords) {
+		t.Fatalf(
+			"the findings grew to %v and the spread returned %v, want both to hold the "+
+				"documents %v",
+			foundDocumentsIn(lastFindingsSoFar), foundDocumentsIn(findings), answered,
+		)
+	}
+}
+
+func TestTheFindingsGrowWhenTheMetadataOfAJoinedDocumentArrives(t *testing.T) {
+	t.Parallel()
+
+	joined := "https://joined.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {joined}, secondWord: {joined}},
+		"second": {firstWord: {joined}, secondWord: {joined}},
+	})
+
+	findingsSoFar, _ := findingsGrownOver(network)
+
+	if len(findingsSoFar) != 1 ||
+		!slices.Equal(
+			foundDocumentsIn(findingsSoFar[0]),
+			[]yacymodel.URLHash{documentHashOf(t, joined)},
+		) {
+		t.Fatalf("the findings grew %d times, want them to grow once to the joined document",
+			len(findingsSoFar))
+	}
+}
+
+func TestTheFindingsDoNotGrowWhenNoDocumentIsJoined(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string]map[string][]string{
+		"first": {
+			firstWord:  {"https://first-word.example/"},
+			secondWord: {"https://second-word.example/"},
+		},
+	})
+	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: {"https://first-word.example/"}},
+	}
+
+	findingsSoFar, _ := findingsGrownOver(network)
+
+	if len(findingsSoFar) != 0 {
+		t.Fatalf("the findings grew %d times, want no growth without a joined document",
+			len(findingsSoFar))
+	}
+}
+
 func TestTheFindingsCarryTheDocumentsTheNetworkHoldsForEachQueryWord(t *testing.T) {
 	t.Parallel()
 
@@ -1248,7 +1322,7 @@ func documentsHeldForBothQueryWords(documentsHeld int) map[yacymodel.Hash]int {
 	}
 }
 
-func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testing.T) {
+func TestTheDocumentAsksReportWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
@@ -1268,20 +1342,21 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	}}, network, observer)
 
 	performed := observer.performed[0]
-	documentAsks := performed.DocumentAsks
+	documentAsks := observer.documentAsks[0]
 	if performed.AmountOfJoinedDocumentsWithMetadata != 1 ||
 		documentAsks.AmountOfListedDocumentsWithMetadata != 2 ||
 		documentAsks.AmountOfListedDocumentsWithAPosting != 2 {
 		t.Fatalf(
-			"the spread reported %+v, want the joined document answered once and two counts",
-			performed,
+			"the spread reported %+v and the document asks %+v, want the joined document "+
+				"answered once and two counts",
+			performed, documentAsks,
 		)
 	}
 	if !slices.Equal(
 		documentAsks.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
 	) {
 		t.Fatalf(
-			"the spread reported %v documents held per query word, want 512 for each answer",
+			"the document asks reported %v documents held per query word, want 512 for each answer",
 			documentAsks.AmountOfDocumentsHeldInEachAnswer,
 		)
 	}

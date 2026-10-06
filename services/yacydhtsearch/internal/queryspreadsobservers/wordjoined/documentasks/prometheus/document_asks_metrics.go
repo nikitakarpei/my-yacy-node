@@ -52,3 +52,5 @@ func (m *DocumentAsksMetrics) AskedAmongTheDocuments(
 		m.partitionsPerDecision[decision].Add(float64(amountOfPartitions))
 	}
 }
+
+func (*DocumentAsksMetrics) DocumentAsksPerformed(context.Context, documentasks.Performed) {}

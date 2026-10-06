@@ -590,3 +590,40 @@ func TestALeadingWordCountedFromTheReplicasOverTheCeilingHasTheOtherWordsAskedAt
 		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
 	}
 }
+
+func TestTheDocumentsJoinedInOnePartitionAreLookedUpBeforeTheOtherPartitionSettles(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 2)
+	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 2)
+	network := networkOf(map[string]map[string][]string{
+		"first-in-0":  {firstWord: documentsInPartitionZero},
+		"first-in-1":  {firstWord: documentsInPartitionOne},
+		"second-in-0": {secondWord: documentsInPartitionZero},
+		"second-in-1": {secondWord: documentsInPartitionOne},
+	})
+
+	settingsOfTwoPartitions().spread(network, &recordedSpreads{})
+
+	amountOfWordAsksInPartitionZero := len(slices.DeleteFunc(
+		slices.Clone(network.searchDocumentsAsks),
+		func(ask replicaAsk) bool { return ask.Partition != 0 },
+	))
+	readAtEachPut := network.settledWordPartitionsReadAtEachURLMetadataPut
+	if len(readAtEachPut) != twoPartitionsOfTheRing ||
+		readAtEachPut[0] > amountOfWordAsksInPartitionZero {
+		t.Fatalf(
+			"the spread put URL metadata asks after %v settled word partitions, want the asks "+
+				"of partition 0 put before the word asks of partition 1 settled",
+			readAtEachPut,
+		)
+	}
+	wanted := documentsInTheirHashOrder(documentHashesOf(documentsInPartitionZero))
+	if got := documentsInTheirHashOrder(network.urlMetadataAsks[0].Documents); !slices.Equal(
+		got, wanted,
+	) {
+		t.Fatalf("the first URL metadata ask names %v, want the documents of partition 0", got)
+	}
+}

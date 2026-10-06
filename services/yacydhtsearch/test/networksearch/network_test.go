@@ -273,8 +273,10 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 			urlMetadataAskCeilingsAtTheMost(recordCeiling),
 			urlmetadataasks.Cutoff{},
 			wallclock.Clock{},
-			yacymodel.PeersHoldingOneWordOf(ringPartitions(t), networkRedundancy),
+			networkRedundancy,
+			urlmetadataasks.URLMetadataLookupObservers{},
 		),
+		ringPartitions(t),
 		wordjoined.WordJoinedSpreadObservers{},
 	)
 }
@@ -543,6 +545,7 @@ func (s spreadFinding) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
+	_ queryfindings.Growth,
 ) queryfindings.Findings {
 	return s.findings
 }
@@ -825,6 +828,7 @@ func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
+	_ queryfindings.Growth,
 ) queryfindings.Findings {
 	s.recorded.spread = budgetLeftIn(ctx)
 

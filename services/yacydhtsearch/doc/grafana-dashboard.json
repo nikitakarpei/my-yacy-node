@@ -977,7 +977,7 @@
     },
     {
       "id": 20,
-      "title": "Share of the joined documents dropped before their URL metadata was looked up",
+      "title": "Share of the documents a URL metadata lookup was handed but never asked any peer about",
       "description": "One peer call asks about at most YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING documents.",
       "type": "timeseries",
       "datasource": {
@@ -1008,13 +1008,13 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_sum{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_sum{instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "mean"
         },
         {
           "refId": "B",
-          "expr": "1 - sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_joined_documents_dropped_before_metadata_lookup_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "queries that dropped any"
+          "expr": "1 - sum(clamp_min(yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_bucket{le=\"0\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "lookups that skipped any"
         }
       ]
     },

@@ -4,26 +4,27 @@ import (
 	"context"
 	"slices"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Inquiry struct {
 	ctx                     context.Context
+	compoundWords           []searchquery.CompoundWord
 	chosenPeers             chosenPeers
 	partitions              yacymodel.DHTRingPartitions
 	documentsToMatchCeiling int
 	observer                DocumentAsksObserver
+	inquirer                Inquirer
 	run                     wordpartitionasks.Run
 	sentAsks                *sentAsks
 	expectedInAPartition    map[yacymodel.Hash]int
 }
 
-func (inquiry *Inquiry) WhichDocumentsHave(words []yacymodel.Hash) Answers {
+func (inquiry *Inquiry) WhichDocumentsHave(words []yacymodel.Hash) {
 	inquiry.askEveryPartitionFor(words)
 	inquiry.waitUntilNonePendingFor(words)
-
-	return inquiry.sentAsks.settledFor(words)
 }
 
 func (inquiry *Inquiry) askEveryPartitionFor(words []yacymodel.Hash) {
@@ -46,14 +47,24 @@ func (inquiry *Inquiry) waitUntilNonePendingFor(words []yacymodel.Hash) {
 }
 
 func (inquiry *Inquiry) readTheNextSettledAsk() {
-	inquiry.sentAsks.settle(<-inquiry.run.SettledAsks)
+	inquiry.settle(<-inquiry.run.SettledAsks)
 }
 
-func (inquiry *Inquiry) WhichDocumentsHaveIn(partition uint, words []yacymodel.Hash) Answers {
+func (inquiry *Inquiry) settle(settledAsk wordpartitionasks.SettledAsk) {
+	inquiry.sentAsks.settle(settledAsk)
+	inquiry.inquirer.WordPartitionAnswered(
+		settledAsk.Word, settledAsk.Partition, settledAsk.Answers,
+	)
+}
+
+func (inquiry *Inquiry) WhichDocumentsHaveIn(
+	partition uint,
+	words []yacymodel.Hash,
+) []wordpartitionasks.SettledAsk {
 	inquiry.send(inquiry.chosenPeers.asksOf(words, partition))
 	inquiry.waitUntilNonePendingIn(partition, words)
 
-	return inquiry.sentAsks.settledIn(partition, words)
+	return inquiry.sentAsks.answersOf(partition, words)
 }
 
 func (inquiry *Inquiry) waitUntilNonePendingIn(partition uint, words []yacymodel.Hash) {
@@ -62,17 +73,14 @@ func (inquiry *Inquiry) waitUntilNonePendingIn(partition uint, words []yacymodel
 	}
 }
 
-func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(these, those []yacymodel.Hash) Answers {
+func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(these, those []yacymodel.Hash) {
 	inquiry.askEveryPartitionFor(these)
 	if len(those) > 0 {
 		inquiry.observer.AskedAmongTheDocuments(
 			inquiry.ctx, inquiry.askAmongTheDocumentsHaving(these, those),
 		)
 	}
-	wordsAsked := slices.Concat(these, those)
-	inquiry.waitUntilNonePendingFor(wordsAsked)
-
-	return inquiry.sentAsks.settledFor(wordsAsked)
+	inquiry.waitUntilNonePendingFor(slices.Concat(these, those))
 }
 
 func (inquiry *Inquiry) askAmongTheDocumentsHaving(
@@ -195,6 +203,9 @@ func (inquiry *Inquiry) ExpectInAPartition(word yacymodel.Hash, amountOfDocument
 func (inquiry *Inquiry) End() {
 	close(inquiry.run.Asks)
 	for settledAsk := range inquiry.run.SettledAsks {
-		inquiry.sentAsks.settle(settledAsk)
+		inquiry.settle(settledAsk)
 	}
+	inquiry.observer.DocumentAsksPerformed(
+		inquiry.ctx, performedFrom(inquiry.sentAsks.answered, inquiry.compoundWords),
+	)
 }

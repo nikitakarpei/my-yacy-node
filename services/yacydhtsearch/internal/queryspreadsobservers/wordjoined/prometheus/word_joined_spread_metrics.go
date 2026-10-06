@@ -12,18 +12,15 @@ import (
 )
 
 const (
-	amountOfRatioBuckets = 11
-	ratioBucketWidth     = 0.1
-	labelJoin            = "join"
-	joinFoundNoDocument  = "no document"
-	joinFoundDocuments   = "documents"
+	labelJoin           = "join"
+	joinFoundNoDocument = "no document"
+	joinFoundDocuments  = "documents"
 )
 
 type WordJoinedSpreadMetrics struct {
 	joinsThatFoundDocuments         prometheusclient.Counter
 	joinsThatFoundNoDocument        prometheusclient.Counter
 	queryWords                      queryWordMetrics
-	urlMetadataAsks                 urlMetadataAskMetrics
 	wordJoinedSpreadDurationSeconds prometheusclient.Histogram
 }
 
@@ -39,7 +36,6 @@ func New(
 		joinsThatFoundDocuments:  wordJoinedSpreads.WithLabelValues(joinFoundDocuments),
 		joinsThatFoundNoDocument: wordJoinedSpreads.WithLabelValues(joinFoundNoDocument),
 		queryWords:               queryWordMetricsRegisteredIn(registry),
-		urlMetadataAsks:          urlMetadataAskMetricsRegisteredIn(registry),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
 				Name:    "yacydhtsearch_word_joined_spread_duration_seconds",
@@ -53,20 +49,11 @@ func New(
 	return metrics
 }
 
-func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
-	return prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-		Name:    name,
-		Help:    help,
-		Buckets: prometheusclient.LinearBuckets(0, ratioBucketWidth, amountOfRatioBuckets),
-	})
-}
-
 func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	_ context.Context,
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
 	m.queryWords.observeQueryWords(spread)
-	m.urlMetadataAsks.observeURLMetadataAsks(spread)
 	m.countJoin(spread.AmountOfJoinedDocuments)
 	m.observeWordJoinedSpreadDuration(spread.TimeSpent)
 }

@@ -84,6 +84,7 @@ func (network *peerNetwork) listedDocumentsOf(
 		}
 		if countsAWord {
 			listedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
+				URLHash:       hash,
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,
@@ -198,6 +199,7 @@ func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
 		ctx,
 		query,
 		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.WordHashes(), askablePeers),
+		nil,
 	)
 }
 
@@ -346,6 +348,7 @@ func TestTheChosenPeersOfOnePartitionAreTheReplicasOfOneAskInTheirOrder(t *testi
 		peerchoice.ChosenPeersPerQueryWord{{
 			QueryWord: yacymodel.WordHash("berlin"), ChosenPeers: chosenPeers,
 		}},
+		nil,
 	)
 
 	wanted := [][]peerdirectory.AskablePeer{

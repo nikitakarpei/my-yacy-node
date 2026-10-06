@@ -16,6 +16,7 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+		growth queryfindings.Growth,
 	) queryfindings.Findings
 }
 
@@ -32,10 +33,11 @@ func (s Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+	growth queryfindings.Growth,
 ) queryfindings.Findings {
 	if len(query.WordHashes()) < 2 {
-		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
+		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord, growth)
 	}
 
-	return s.wordJoinedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
+	return s.wordJoinedSpread.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord, growth)
 }

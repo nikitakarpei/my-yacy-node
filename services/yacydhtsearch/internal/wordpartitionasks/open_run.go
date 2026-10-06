@@ -63,6 +63,7 @@ func (run *openRun) takeTheNextEvent(ctx context.Context) {
 	}
 }
 
+// TECHDEBT: Vocabulary — a boolean parameter selects the rule: open picks between closing the asks and adding them.
 func (run *openRun) takeTheAsks(ctx context.Context, asks []Ask, open bool) {
 	if !open {
 		run.asks = nil

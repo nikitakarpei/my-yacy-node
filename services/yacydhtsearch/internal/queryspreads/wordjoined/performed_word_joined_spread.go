@@ -3,53 +3,44 @@ package wordjoined
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentsperword"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedWordJoinedSpread struct {
-	DocumentAsks                        documentasks.Performed
 	AmountOfQueryWords                  int
-	AmountOfCompoundWords               int
 	AmountOfQueryWordsHeldByNoPeer      int
-	AmountOfDocumentsOfTheLeadingWord   int
+	AmountOfDocumentsOfTheLeadingWord   yacymodel.Optional[int]
 	AmountOfJoinedDocuments             int
 	AmountOfJoinedDocumentsWithMetadata int
-	URLMetadataAsks                     urlmetadataasks.Performed
 	TimeSpent                           time.Duration
 }
 
-//nolint:revive // argument-limit: the report takes each part the spread performed
+//nolint:revive // argument-limit: the report reads each unit of the spread it describes
 func performedWordJoinedSpreadFrom(
-	documentAnswers documentasks.Answers,
-	documentsPerWord documentsperword.DocumentsPerWord,
+	query searchquery.Query,
+	holders documentholders.Holders,
+	measurement *documentamounts.Measurement,
 	lead yacymodel.Optional[leadingword.Lead],
 	joinedDocuments yacymodel.URLHashes,
-	documentsWithoutMetadata yacymodel.URLHashes,
-	urlMetadataAnswers urlmetadataasks.Answers,
 	timeSpent time.Duration,
 ) PerformedWordJoinedSpread {
-	return PerformedWordJoinedSpread{
-		DocumentAsks:                        documentasks.PerformedFrom(documentAnswers),
-		AmountOfQueryWords:                  documentsPerWord.AmountOfQueryWords(),
-		AmountOfCompoundWords:               documentsPerWord.AmountOfCompoundWords(),
-		AmountOfQueryWordsHeldByNoPeer:      documentsPerWord.AmountOfQueryWordsHeldByNoPeer(),
-		AmountOfDocumentsOfTheLeadingWord:   len(documentsPerWord.OfTheLeadingWord(wordOf(lead))),
-		AmountOfJoinedDocuments:             len(joinedDocuments),
-		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) - len(documentsWithoutMetadata),
-		URLMetadataAsks:                     urlmetadataasks.PerformedFrom(urlMetadataAnswers),
-		TimeSpent:                           timeSpent,
+	performed := PerformedWordJoinedSpread{
+		AmountOfQueryWords:             len(query.WordHashes()),
+		AmountOfQueryWordsHeldByNoPeer: measurement.AmountOfQueryWordsHeldByNoPeer(),
+		AmountOfJoinedDocuments:        len(joinedDocuments),
+		AmountOfJoinedDocumentsWithMetadata: len(joinedDocuments) -
+			len(holders.WithoutMetadataAmong(joinedDocuments)),
+		TimeSpent: timeSpent,
 	}
-}
-
-func wordOf(lead yacymodel.Optional[leadingword.Lead]) yacymodel.Optional[yacymodel.Hash] {
-	chosenLead, chosen := lead.Get()
-	if !chosen {
-		return yacymodel.None[yacymodel.Hash]()
+	if chosenLead, led := lead.Get(); led {
+		performed.AmountOfDocumentsOfTheLeadingWord = yacymodel.Some(
+			measurement.AmountListedOf(chosenLead.Word),
+		)
 	}
 
-	return yacymodel.Some(chosenLead.Word)
+	return performed
 }

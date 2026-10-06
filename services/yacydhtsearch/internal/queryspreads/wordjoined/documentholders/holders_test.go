@@ -38,19 +38,33 @@ func answerOf(peerAddress string, documents ...yacymodel.URLHash) wordpartitiona
 	return answer
 }
 
+func holdersAnswered(answers ...wordpartitionasks.ReplicaAnswer) documentholders.Holders {
+	holders := documentholders.NoneYet()
+	holders.WordPartitionAnswered(yacymodel.WordHash("berlin"), 0, answers)
+
+	return holders
+}
+
+func withMetadataOnTheFirstDocument(
+	answer wordpartitionasks.ReplicaAnswer,
+) wordpartitionasks.ReplicaAnswer {
+	answer.ListedDocuments[0].Metadata = yacymodel.Some(
+		yacymodel.URLMetadata{Hash: answer.ListedDocuments[0].Hash},
+	)
+
+	return answer
+}
+
 func TestTheDocumentMorePeersHoldComesFirst(t *testing.T) {
 	t.Parallel()
 
 	heldByOne := documentHashOf(t, "https://held-by-one.example/")
 	heldByTwo := documentHashOf(t, "https://held-by-two.example/")
-	holders := documentholders.HoldersOf(
-		yacymodel.URLHashes{heldByOne: {}, heldByTwo: {}},
-		[]wordpartitionasks.ReplicaAnswer{
-			answerOf("first", heldByOne, heldByTwo),
-			answerOf("second", heldByTwo),
-			answerOf("second", heldByTwo),
-		},
-	)
+	holders := holdersAnswered(
+		answerOf("first", heldByOne, heldByTwo),
+		answerOf("second", heldByTwo),
+		answerOf("second", heldByTwo),
+	).HoldersOf(yacymodel.URLHashes{heldByOne: {}, heldByTwo: {}})
 
 	got := holders.MostHeldFirst()
 	if want := []yacymodel.URLHash{heldByTwo, heldByOne}; !slices.Equal(got, want) {
@@ -63,10 +77,8 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 
 	first := documentHashOf(t, "https://first.example/")
 	second := documentHashOf(t, "https://second.example/")
-	holders := documentholders.HoldersOf(
-		yacymodel.URLHashes{first: {}, second: {}},
-		[]wordpartitionasks.ReplicaAnswer{answerOf("peer", first, second)},
-	)
+	holders := holdersAnswered(answerOf("peer", first, second)).
+		HoldersOf(yacymodel.URLHashes{first: {}, second: {}})
 
 	got := holders.MostHeldFirst()
 	want := []yacymodel.URLHash{first, second}
@@ -83,14 +95,11 @@ func TestThePeersWithTheirDocumentsComeInTheOrderOfTheirHashes(t *testing.T) {
 
 	first := documentHashOf(t, "https://first.example/")
 	second := documentHashOf(t, "https://second.example/")
-	holders := documentholders.HoldersOf(
-		yacymodel.URLHashes{first: {}, second: {}},
-		[]wordpartitionasks.ReplicaAnswer{
-			answerOf("zulu", first),
-			answerOf("alpha", second),
-			answerOf("zulu", second),
-		},
-	)
+	holders := holdersAnswered(
+		answerOf("zulu", first),
+		answerOf("alpha", second),
+		answerOf("zulu", second),
+	).HoldersOf(yacymodel.URLHashes{first: {}, second: {}})
 
 	got := holders.PeersWithTheirDocuments()
 	wantPeers := []string{"zulu", "alpha"}
@@ -114,5 +123,43 @@ func TestThePeersWithTheirDocumentsComeInTheOrderOfTheirHashes(t *testing.T) {
 				wantDocuments,
 			)
 		}
+	}
+}
+
+func TestTheHoldersOfSomeDocumentsHoldOnlyThoseThePeersListed(t *testing.T) {
+	t.Parallel()
+
+	listed := documentHashOf(t, "https://listed.example/")
+	unlisted := documentHashOf(t, "https://unlisted.example/")
+	other := documentHashOf(t, "https://other.example/")
+	holders := holdersAnswered(answerOf("first", listed, other), answerOf("second", listed)).
+		HoldersOf(yacymodel.URLHashes{listed: {}, unlisted: {}})
+
+	got := holders.PeersWithTheirDocuments()
+	want := map[string]yacymodel.URLHashes{"first": {listed: {}}, "second": {listed: {}}}
+	if len(got) != len(want) {
+		t.Fatalf("the holders hold %v, want %v", got, want)
+	}
+	for _, peer := range got {
+		if !maps.Equal(peer.Documents, want[peer.Peer.Address]) {
+			t.Fatalf("the holders hold %v, want %v", got, want)
+		}
+	}
+}
+
+func TestOnlyADocumentNoAnswerCarriedMetadataForIsWithoutMetadata(t *testing.T) {
+	t.Parallel()
+
+	withMetadata := documentHashOf(t, "https://with-metadata.example/")
+	withoutMetadata := documentHashOf(t, "https://without-metadata.example/")
+	holders := holdersAnswered(
+		withMetadataOnTheFirstDocument(answerOf("first", withMetadata, withoutMetadata)),
+		answerOf("second", withMetadata),
+	)
+
+	got := holders.WithoutMetadataAmong(yacymodel.URLHashes{withMetadata: {}, withoutMetadata: {}})
+
+	if want := (yacymodel.URLHashes{withoutMetadata: {}}); !maps.Equal(got, want) {
+		t.Fatalf("the documents without metadata are %v, want %v", got, want)
 	}
 }

@@ -30,6 +30,7 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+		growth queryfindings.Growth,
 	) queryfindings.Findings
 }
 
@@ -120,7 +121,9 @@ func (n Network) Search(
 		ctx, n.queryBudget, n.pageReadBudget,
 	)
 	defer endTheQuerySpread()
-	findings := n.querySpread.SpreadOverPeers(querySpreadContext, query, chosenPeersPerQueryWord)
+	findings := n.querySpread.SpreadOverPeers(
+		querySpreadContext, query, chosenPeersPerQueryWord, unreadGrowth{},
+	)
 	pagesWanted := pagesToReadAmong(
 		n.documentsOrdering.OrderedDocumentsOf(findings),
 		n.pagesReadPerQuery,

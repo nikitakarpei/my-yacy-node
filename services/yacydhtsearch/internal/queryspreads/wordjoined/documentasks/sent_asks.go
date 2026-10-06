@@ -11,7 +11,8 @@ type sentAsks struct {
 	partitions yacymodel.DHTRingPartitions
 	sent       map[wordPartitionKey]struct{}
 	pending    map[wordPartitionKey]struct{}
-	settled    []wordpartitionasks.SettledAsk
+	answered   []wordpartitionasks.SettledAsk
+	answeredAt map[wordPartitionKey]int
 }
 
 func noAsksSentYet(partitions yacymodel.DHTRingPartitions) *sentAsks {
@@ -19,6 +20,7 @@ func noAsksSentYet(partitions yacymodel.DHTRingPartitions) *sentAsks {
 		partitions: partitions,
 		sent:       map[wordPartitionKey]struct{}{},
 		pending:    map[wordPartitionKey]struct{}{},
+		answeredAt: map[wordPartitionKey]int{},
 	}
 }
 
@@ -42,8 +44,25 @@ func (asks *sentAsks) containEvery(candidates []wordpartitionasks.Ask) bool {
 }
 
 func (asks *sentAsks) settle(settledAsk wordpartitionasks.SettledAsk) {
-	asks.settled = append(asks.settled, settledAsk)
 	delete(asks.pending, wordPartitionKeyOf(settledAsk.Ask))
+	asks.answeredAt[wordPartitionKeyOf(settledAsk.Ask)] = len(asks.answered)
+	asks.answered = append(asks.answered, settledAsk)
+}
+
+func (asks *sentAsks) answersOf(
+	partition uint,
+	words []yacymodel.Hash,
+) []wordpartitionasks.SettledAsk {
+	var answered []wordpartitionasks.SettledAsk
+	for _, word := range words {
+		place, settled := asks.answeredAt[wordPartitionKey{word: word, partition: partition}]
+		if !settled {
+			continue
+		}
+		answered = append(answered, asks.answered[place])
+	}
+
+	return answered
 }
 
 func (asks *sentAsks) nonePendingFor(words []yacymodel.Hash) bool {
@@ -71,41 +90,18 @@ func (asks *sentAsks) documentsListedIn(
 	words []yacymodel.Hash,
 ) yacymodel.URLHashes {
 	documents := yacymodel.URLHashes{}
-	for _, settledAsk := range asks.settled {
-		if !slices.Contains(words, settledAsk.Word) {
+	for _, answered := range asks.answered {
+		if !slices.Contains(words, answered.Word) {
 			continue
 		}
-		for _, answer := range settledAsk.Answers {
+		for _, answer := range answered.Answers {
 			for _, listedDocument := range answer.ListedDocuments {
-				if asks.partitions.PartitionOf(listedDocument.Hash) != partition {
-					continue
+				if asks.partitions.PartitionOf(listedDocument.Hash) == partition {
+					documents.Add(listedDocument.Hash)
 				}
-				documents.Add(listedDocument.Hash)
 			}
 		}
 	}
 
 	return documents
-}
-
-func (asks *sentAsks) settledFor(words []yacymodel.Hash) Answers {
-	return asks.settledWhere(func(settledAsk wordpartitionasks.SettledAsk) bool {
-		return slices.Contains(words, settledAsk.Word)
-	})
-}
-
-func (asks *sentAsks) settledIn(partition uint, words []yacymodel.Hash) Answers {
-	return asks.settledWhere(func(settledAsk wordpartitionasks.SettledAsk) bool {
-		return settledAsk.Partition == partition && slices.Contains(words, settledAsk.Word)
-	})
-}
-
-func (asks *sentAsks) settledWhere(keep func(wordpartitionasks.SettledAsk) bool) Answers {
-	return Answers{
-		SettledAsks: slices.DeleteFunc(
-			slices.Clone(asks.settled),
-			func(settledAsk wordpartitionasks.SettledAsk) bool { return !keep(settledAsk) },
-		),
-		Partitions: asks.partitions,
-	}
 }

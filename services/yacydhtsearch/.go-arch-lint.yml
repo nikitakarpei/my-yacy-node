@@ -73,8 +73,8 @@ components:
     in: internal/queryspreads/wordjoined
   wordjoineddocumentholders:
     in: internal/queryspreads/wordjoined/documentholders/**
-  wordjoineddocumentsperword:
-    in: internal/queryspreads/wordjoined/documentsperword/**
+  wordjoineddocumentjoin:
+    in: internal/queryspreads/wordjoined/documentjoin/**
   wordjoineddocumentasks:
     in: internal/queryspreads/wordjoined/documentasks/**
   wordjoinedleadingword:
@@ -147,6 +147,12 @@ components:
     in: internal/queryspreadsobservers/wordjoined/documentasks/prometheus/**
   queryspreadsobserverswordjoineddocumentamountsapplog:
     in: internal/queryspreadsobservers/wordjoined/documentamounts/applog/**
+  queryspreadsobserverswordjoinedurlmetadataasksapplog:
+    in: internal/queryspreadsobservers/wordjoined/urlmetadataasks/applog/**
+  queryspreadsobserverswordjoinedurlmetadataasksprometheus:
+    in: internal/queryspreadsobservers/wordjoined/urlmetadataasks/prometheus/**
+  ratiobuckets:
+    in: internal/ratiobuckets/**
   queryspreadsobserverswordjoineddocumentamountsprometheus:
     in: internal/queryspreadsobservers/wordjoined/documentamounts/prometheus/**
   peercallobserversapplog:
@@ -370,8 +376,11 @@ deps:
       - queryfindings
       - peerchoice
       - searchquery
+      - wordpartitionasks
+      - wordjoineddocumentholders
       - wordjoineddocumentasks
-      - wordjoineddocumentsperword
+      - wordjoineddocumentjoin
+      - wordjoineddocumentamounts
       - wordjoinedleadingword
       - wordjoinedwordroles
       - wordjoinedurlmetadataasks
@@ -380,13 +389,11 @@ deps:
       - yacymodel
     mayDependOn:
       - wordpartitionasks
-  wordjoineddocumentsperword:
+  wordjoineddocumentjoin:
     canUse:
       - yacymodel
     mayDependOn:
       - searchquery
-      - wordpartitionasks
-      - wordjoineddocumentasks
   wordjoineddocumentasks:
     canUse:
       - yacymodel
@@ -395,21 +402,19 @@ deps:
       - peerdirectory
       - searchquery
       - wordpartitionasks
-      - wordjoineddocumentholders
   wordjoinedleadingword:
     canUse:
       - yacymodel
     mayDependOn:
       - searchquery
-      - wordjoineddocumentasks
+      - wordpartitionasks
   wordjoineddocumentamounts:
     canUse:
       - yacymodel
     mayDependOn:
       - searchquery
+      - wordpartitionasks
       - wordjoinedleadingword
-      - wordjoineddocumentasks
-      - wordjoineddocumentsperword
   wordjoinedwordroles:
     canUse:
       - yacymodel
@@ -551,16 +556,13 @@ deps:
   queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
-      - wordjoineddocumentasks
-      - wordjoinedurlmetadataasks
   queryspreadsobserverswordjoinedprometheus:
     canUse:
       - prometheus
       - budgetbuckets
     mayDependOn:
       - wordjoined
-      - wordjoineddocumentasks
-      - wordjoinedurlmetadataasks
+      - ratiobuckets
   queryspreadsobserverswordjoineddocumentasksapplog:
     mayDependOn:
       - wordjoineddocumentasks
@@ -577,6 +579,16 @@ deps:
       - prometheus
     mayDependOn:
       - wordjoineddocumentamounts
+  queryspreadsobserverswordjoinedurlmetadataasksapplog:
+    mayDependOn:
+      - wordjoinedurlmetadataasks
+  queryspreadsobserverswordjoinedurlmetadataasksprometheus:
+    canUse:
+      - prometheus
+      - budgetbuckets
+    mayDependOn:
+      - wordjoinedurlmetadataasks
+      - ratiobuckets
   peercallobserversapplog:
     mayDependOn:
       - peerasks

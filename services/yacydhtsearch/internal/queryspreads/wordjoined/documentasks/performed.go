@@ -1,7 +1,10 @@
 package documentasks
 
 import (
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
@@ -10,17 +13,34 @@ type Performed struct {
 	AmountOfListedDocumentsWithMetadata int
 	AmountOfListedDocumentsWithAPosting int
 	AmountOfDocumentsHeldInEachAnswer   []int
+	AmountOfCompoundWordsAnswered       int
 }
 
-func PerformedFrom(documentAnswers Answers) Performed {
-	answers := documentAnswers.replicaAnswers()
+func performedFrom(
+	answered []wordpartitionasks.SettledAsk,
+	compoundWords []searchquery.CompoundWord,
+) Performed {
+	answers := replicaAnswersIn(answered)
 
 	return Performed{
 		AmountOfPeersWithANonEmptyAbstract:  amountOfPeersWithANonEmptyAbstractAmong(answers),
 		AmountOfListedDocumentsWithMetadata: amountOfListedDocumentsWithMetadataAmong(answers),
 		AmountOfListedDocumentsWithAPosting: amountOfListedDocumentsWithAPostingAmong(answers),
 		AmountOfDocumentsHeldInEachAnswer:   amountOfDocumentsHeldPerAnswer(answers),
+		AmountOfCompoundWordsAnswered: amountOfCompoundWordsAnsweredAmong(
+			compoundWords,
+			answered,
+		),
 	}
+}
+
+func replicaAnswersIn(answered []wordpartitionasks.SettledAsk) []wordpartitionasks.ReplicaAnswer {
+	var answers []wordpartitionasks.ReplicaAnswer
+	for _, settledAsk := range answered {
+		answers = append(answers, settledAsk.Answers...)
+	}
+
+	return answers
 }
 
 func amountOfPeersWithANonEmptyAbstractAmong(answers []wordpartitionasks.ReplicaAnswer) int {
@@ -76,4 +96,20 @@ func amountOfDocumentsHeldPerAnswer(answers []wordpartitionasks.ReplicaAnswer) [
 	}
 
 	return amountOfDocumentsHeldInEachAnswer
+}
+
+func amountOfCompoundWordsAnsweredAmong(
+	compoundWords []searchquery.CompoundWord,
+	answered []wordpartitionasks.SettledAsk,
+) int {
+	amount := 0
+	for _, compoundWord := range compoundWords {
+		if slices.ContainsFunc(answered, func(settledAsk wordpartitionasks.SettledAsk) bool {
+			return settledAsk.Word == compoundWord.Hash()
+		}) {
+			amount++
+		}
+	}
+
+	return amount
 }

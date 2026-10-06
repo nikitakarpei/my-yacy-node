@@ -121,6 +121,25 @@ func (asked *askedPartitions) AskedAmongTheDocuments(
 	maps.Copy(asked.decisionPerPartition, decisionPerPartition)
 }
 
+func (*askedPartitions) DocumentAsksPerformed(context.Context, documentasks.Performed) {}
+
+type documentAsksReports struct {
+	performed []documentasks.Performed
+}
+
+func (*documentAsksReports) AskedAmongTheDocuments(
+	context.Context,
+	documentasks.DocumentsToMatchDecisionPerPartition,
+) {
+}
+
+func (reports *documentAsksReports) DocumentAsksPerformed(
+	_ context.Context,
+	performed documentasks.Performed,
+) {
+	reports.performed = append(reports.performed, performed)
+}
+
 func documentsIn(t *testing.T, partition uint, amount int) []yacymodel.URLHash {
 	t.Helper()
 
@@ -170,18 +189,65 @@ func chosenPeersInBothPartitions() peerchoice.ChosenPeersPerQueryWord {
 	return peerchoice.ChosenPeersPerQueryWord{
 		{QueryWord: yacymodel.WordHash(firstWord), ChosenPeers: chosenPeers},
 		{QueryWord: yacymodel.WordHash(secondWord), ChosenPeers: chosenPeers},
+		{QueryWord: query.CompoundWords[0].Hash(), ChosenPeers: chosenPeers},
 	}
+}
+
+type answeredWordPartition struct {
+	word      yacymodel.Hash
+	partition uint
+	answers   []wordpartitionasks.ReplicaAnswer
+}
+
+type wordPartitionsAnsweredInTurn struct {
+	answered []answeredWordPartition
+}
+
+func (inquirer *wordPartitionsAnsweredInTurn) WordPartitionAnswered(
+	word yacymodel.Hash,
+	partition uint,
+	answers []wordpartitionasks.ReplicaAnswer,
+) {
+	inquirer.answered = append(
+		inquirer.answered,
+		answeredWordPartition{word: word, partition: partition, answers: answers},
+	)
+}
+
+func (inquirer *wordPartitionsAnsweredInTurn) wordPartitions() []string {
+	wordPartitions := make([]string, 0, len(inquirer.answered))
+	for _, answered := range inquirer.answered {
+		wordPartitions = append(wordPartitions, wordPartitionOf(answered.word, answered.partition))
+	}
+
+	return wordPartitions
+}
+
+func wordPartitionOf(word yacymodel.Hash, partition uint) string {
+	return fmt.Sprintf("%s in %d", word, partition)
+}
+
+func wordPartitionsOf(spelledWord string, partitions ...uint) []string {
+	wordPartitions := make([]string, 0, len(partitions))
+	for _, partition := range partitions {
+		wordPartitions = append(
+			wordPartitions, wordPartitionOf(yacymodel.WordHash(spelledWord), partition),
+		)
+	}
+
+	return wordPartitions
 }
 
 func inquiryOver(
 	t *testing.T,
 	replicas replicasOfTheNetwork,
 	observer documentasks.DocumentAsksObserver,
+	inquirer documentasks.Inquirer,
 ) *documentasks.Inquiry {
 	t.Helper()
 
 	return documentasks.New(replicas, twoPartitionsOfTheRing, documentsToMatchCeiling, observer).
-		Begin(t.Context(), query, chosenPeersInBothPartitions())
+		Begin(t.Context(), query, chosenPeersInBothPartitions(), inquirer)
 }
 
 func wordsOf(spelledWords ...string) []yacymodel.Hash {
@@ -203,7 +269,7 @@ func askedFirstThenSecondAmongIt(
 	asked := &askedPartitions{
 		decisionPerPartition: map[uint]documentasks.DocumentsToMatchDecision{},
 	}
-	inquiry := inquiryOver(t, replicas, asked)
+	inquiry := inquiryOver(t, replicas, asked, &wordPartitionsAnsweredInTurn{})
 	inquiry.ExpectInAPartition(yacymodel.WordHash(firstWord), amountOfTheFirstInAPartition)
 	inquiry.WhichDocumentsHavingTheseAlsoHave(wordsOf(firstWord), wordsOf(secondWord))
 	inquiry.End()
@@ -211,45 +277,164 @@ func askedFirstThenSecondAmongIt(
 	return asked.decisionPerPartition
 }
 
+func TestEveryInquirerIsToldEachAnsweredWordPartition(t *testing.T) {
+	t.Parallel()
+
+	first, second := &wordPartitionsAnsweredInTurn{}, &wordPartitionsAnsweredInTurn{}
+	inquiry := inquiryOver(
+		t,
+		firstWordListing(),
+		documentasks.DocumentAsksObservers{},
+		documentasks.Inquirers{first, second},
+	)
+
+	inquiry.WhichDocumentsHave(wordsOf(firstWord))
+	inquiry.End()
+
+	if len(first.wordPartitions()) == 0 ||
+		!reflect.DeepEqual(first.wordPartitions(), second.wordPartitions()) {
+		t.Fatalf(
+			"the inquirers were told %v and %v, want both told every answered word partition",
+			first.wordPartitions(), second.wordPartitions(),
+		)
+	}
+}
+
 func TestEveryPartitionOfAWordIsAskedWithTheLanguageAndExclusionsOfTheQuery(t *testing.T) {
 	t.Parallel()
 
-	inquiry := inquiryOver(t, replicasAnswering(nil), documentasks.DocumentAsksObservers{})
-	answers := inquiry.WhichDocumentsHave(wordsOf(firstWord))
+	replicas := replicasAnswering(nil)
+	inquiry := inquiryOver(
+		t, replicas, documentasks.DocumentAsksObservers{}, &wordPartitionsAnsweredInTurn{},
+	)
+	inquiry.WhichDocumentsHave(wordsOf(firstWord))
 
 	inquiry.End()
 
-	partitionsAsked := make([]uint, 0, len(answers.SettledAsks))
-	for _, settledAsk := range answers.SettledAsks {
-		if settledAsk.Word != yacymodel.WordHash(firstWord) || settledAsk.Language != "de" ||
-			!slices.Equal(settledAsk.ExcludedWords, query.ExclusionHashes()) ||
-			len(settledAsk.ReplicasInOrder) != 1 {
-			t.Fatalf(
-				"the ask is %+v, want the word, its language and its exclusions",
-				settledAsk.Ask,
-			)
+	asksOfTheWord := replicas.asksOf(firstWord)
+	partitionsAsked := make([]uint, 0, len(asksOfTheWord))
+	for _, ask := range asksOfTheWord {
+		if ask.Language != "de" || !slices.Equal(ask.ExcludedWords, query.ExclusionHashes()) ||
+			len(ask.ReplicasInOrder) != 1 {
+			t.Fatalf("the ask is %+v, want the word, its language and its exclusions", ask)
 		}
-		partitionsAsked = append(partitionsAsked, settledAsk.Partition)
+		partitionsAsked = append(partitionsAsked, ask.Partition)
 	}
 	if !slices.Equal(slices.Sorted(slices.Values(partitionsAsked)), []uint{0, 1}) {
 		t.Fatalf("the inquiry asked partitions %v, want both", partitionsAsked)
 	}
 }
 
-func TestTheSettledAsksInAPartitionHoldOnlyThoseOfItsWords(t *testing.T) {
+func TestWhichDocumentsHaveInAnswersWithWhatThePartitionListedWheneverAsked(t *testing.T) {
 	t.Parallel()
 
-	inquiry := inquiryOver(t, replicasAnswering(nil), documentasks.DocumentAsksObservers{})
-	inquiry.WhichDocumentsHaveIn(1, wordsOf(secondWord))
+	documents := documentsIn(t, 1, 2)
+	inquiry := inquiryOver(
+		t, firstWordListing(documents...), documentasks.DocumentAsksObservers{},
+		&wordPartitionsAnsweredInTurn{},
+	)
 
-	settledAsks := inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord)).SettledAsks
+	answeredFirst := inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord, secondWord))
+	answeredAgain := inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord))
 	inquiry.End()
 
-	if len(settledAsks) != 1 || settledAsks[0].Word != yacymodel.WordHash(firstWord) ||
-		settledAsks[0].Partition != 1 {
+	want := []answeredWordPartition{{
+		word:      yacymodel.WordHash(firstWord),
+		partition: 1,
+		answers:   []wordpartitionasks.ReplicaAnswer{answerOf("first", documents...)},
+	}, {
+		word:      yacymodel.WordHash(secondWord),
+		partition: 1,
+	}}
+	if !reflect.DeepEqual(answeredWordPartitionsOf(answeredFirst), want) ||
+		!reflect.DeepEqual(answeredWordPartitionsOf(answeredAgain), want[:1]) {
 		t.Fatalf(
-			"the settled asks are %v, want the one ask of the first word in partition 1",
-			settledAsks,
+			"the question answered %v then %v, want %v then %v",
+			answeredFirst, answeredAgain, want, want[:1],
+		)
+	}
+}
+
+func answeredWordPartitionsOf(settledAsks []wordpartitionasks.SettledAsk) []answeredWordPartition {
+	answered := make([]answeredWordPartition, 0, len(settledAsks))
+	for _, settledAsk := range settledAsks {
+		answered = append(answered, answeredWordPartition{
+			word: settledAsk.Word, partition: settledAsk.Partition, answers: settledAsk.Answers,
+		})
+	}
+
+	return answered
+}
+
+func TestEverySettledAskReachesTheInquirerOnceWithItsWordAndPartition(t *testing.T) {
+	t.Parallel()
+
+	inquirer := &wordPartitionsAnsweredInTurn{}
+	inquiry := inquiryOver(
+		t,
+		replicasAnswering(nil),
+		documentasks.DocumentAsksObservers{},
+		inquirer,
+	)
+	inquiry.WhichDocumentsHaveIn(1, wordsOf(secondWord))
+	inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord))
+	inquiry.WhichDocumentsHave(wordsOf(firstWord))
+
+	inquiry.End()
+
+	want := slices.Concat(wordPartitionsOf(secondWord, 1), wordPartitionsOf(firstWord, 1, 0))
+	if got := inquirer.wordPartitions(); !slices.Equal(got, want) {
+		t.Fatalf("the inquirer got %v, want %v", got, want)
+	}
+}
+
+func TestTheAsksOfAQuestionReachTheInquirerBeforeItReturns(t *testing.T) {
+	t.Parallel()
+
+	documents := documentsIn(t, 1, 1)
+	inquirer := &wordPartitionsAnsweredInTurn{}
+	inquiry := inquiryOver(
+		t, firstWordListing(documents...), documentasks.DocumentAsksObservers{}, inquirer,
+	)
+
+	inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord, secondWord))
+	answeredBeforeTheEnd := inquirer.wordPartitions()
+	inquiry.End()
+
+	want := slices.Concat(wordPartitionsOf(firstWord, 1), wordPartitionsOf(secondWord, 1))
+	if !slices.Equal(answeredBeforeTheEnd, want) ||
+		!reflect.DeepEqual(inquirer.answered[0].answers, []wordpartitionasks.ReplicaAnswer{
+			answerOf("first", documents...),
+		}) {
+		t.Fatalf(
+			"the inquirer got %v before the end, first %v, want %v with the listed documents",
+			answeredBeforeTheEnd, inquirer.answered, want,
+		)
+	}
+}
+
+func TestEveryAskOfAQuestionAmongTheDocumentsReachesTheInquirerBeforeItReturns(t *testing.T) {
+	t.Parallel()
+
+	inquirer := &wordPartitionsAnsweredInTurn{}
+	inquiry := inquiryOver(
+		t,
+		firstWordListing(documentsIn(t, 1, 1)...),
+		&askedPartitions{decisionPerPartition: map[uint]documentasks.DocumentsToMatchDecision{}},
+		inquirer,
+	)
+
+	inquiry.WhichDocumentsHavingTheseAlsoHave(wordsOf(firstWord), wordsOf(secondWord))
+	answeredBeforeTheEnd := slices.Sorted(slices.Values(inquirer.wordPartitions()))
+	inquiry.End()
+
+	want := slices.Sorted(slices.Values(
+		slices.Concat(wordPartitionsOf(firstWord, 0, 1), wordPartitionsOf(secondWord, 1)),
+	))
+	if !slices.Equal(answeredBeforeTheEnd, want) || len(inquirer.answered) != len(want) {
+		t.Fatalf(
+			"the inquirer got %v before the end and %d in all, want %v once each",
+			answeredBeforeTheEnd, len(inquirer.answered), want,
 		)
 	}
 }
@@ -258,7 +443,9 @@ func TestAWordPartitionIsAskedOnce(t *testing.T) {
 	t.Parallel()
 
 	replicas := replicasAnswering(nil)
-	inquiry := inquiryOver(t, replicas, documentasks.DocumentAsksObservers{})
+	inquiry := inquiryOver(
+		t, replicas, documentasks.DocumentAsksObservers{}, &wordPartitionsAnsweredInTurn{},
+	)
 	inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord))
 	inquiry.WhichDocumentsHave(wordsOf(firstWord))
 
@@ -344,7 +531,9 @@ func TestAPartitionWhoseWordsToAskWereAskedAlreadyReportsNoKind(t *testing.T) {
 	asked := &askedPartitions{
 		decisionPerPartition: map[uint]documentasks.DocumentsToMatchDecision{},
 	}
-	inquiry := inquiryOver(t, firstWordListing(documentsIn(t, 1, 1)...), asked)
+	inquiry := inquiryOver(
+		t, firstWordListing(documentsIn(t, 1, 1)...), asked, &wordPartitionsAnsweredInTurn{},
+	)
 	inquiry.WhichDocumentsHaveIn(0, wordsOf(secondWord))
 
 	inquiry.WhichDocumentsHavingTheseAlsoHave(wordsOf(firstWord), wordsOf(secondWord))
@@ -395,32 +584,7 @@ func TestDocumentsAtTheCeilingInAPartitionHaveTheWordsToAskWaitForThePartition(t
 	}
 }
 
-func TestTheAnswersKnowTheHoldersOfTheListedDocuments(t *testing.T) {
-	t.Parallel()
-
-	documents := documentsIn(t, 0, 2)
-	inquiry := inquiryOver(
-		t,
-		replicasAnswering(map[yacymodel.Hash][]wordpartitionasks.ReplicaAnswer{
-			yacymodel.WordHash(firstWord): {
-				answerOf("first", documents[0], documents[1]),
-				answerOf("second", documents[1]),
-			},
-		}),
-		documentasks.DocumentAsksObservers{},
-	)
-	answers := inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord))
-	inquiry.End()
-
-	holders := answers.HoldersOf(yacymodel.URLHashes{documents[0]: {}, documents[1]: {}})
-	got := holders.MostHeldFirst()
-
-	if want := []yacymodel.URLHash{documents[1], documents[0]}; !slices.Equal(got, want) {
-		t.Fatalf("the documents most held first are %v, want %v", got, want)
-	}
-}
-
-func TestTheAnswersKeepWhatTheReplicasCarried(t *testing.T) {
+func TestTheInquiryReportsWhatTheReplicasCarriedOnceItEnds(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsIn(t, 0, 2)
@@ -430,41 +594,49 @@ func TestTheAnswersKeepWhatTheReplicasCarried(t *testing.T) {
 	})
 	withMetadata.ListedDocuments[0].Posting = yacymodel.Some(yacymodel.RWIPosting{Hits: 1})
 	withMetadata.AmountOfDocumentsHeld = yacymodel.Some(512)
+	reports := &documentAsksReports{}
 	inquiry := inquiryOver(
 		t,
 		replicasAnswering(map[yacymodel.Hash][]wordpartitionasks.ReplicaAnswer{
 			yacymodel.WordHash(firstWord):  {withMetadata},
 			yacymodel.WordHash(secondWord): {answerOf("second", documents[1]), answerOf("third")},
 		}),
-		documentasks.DocumentAsksObservers{},
+		reports,
+		&wordPartitionsAnsweredInTurn{},
 	)
-	answers := inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord, secondWord))
+	inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord, secondWord))
+	amountOfReportsBeforeTheEnd := len(reports.performed)
 	inquiry.End()
 
-	joined := yacymodel.URLHashes{documents[0]: {}, documents[1]: {}}
-	if got, want := answers.DocumentsWithoutMetadataAmong(joined), (yacymodel.URLHashes{
-		documents[1]: {},
-	}); !maps.Equal(got, want) {
-		t.Fatalf("the documents without metadata are %v, want %v", got, want)
-	}
-	wantedListed := []documentasks.ListedDocumentWithMetadata{{
-		Replica:  yacymodel.WordHash("first"),
-		Word:     yacymodel.WordHash(firstWord),
-		Document: documents[0],
-		Metadata: yacymodel.URLMetadata{Hash: documents[0]},
-		Posting:  yacymodel.Some(yacymodel.RWIPosting{Hits: 1}),
-	}}
-	if got := answers.ListedDocumentsWithMetadata(); !reflect.DeepEqual(got, wantedListed) {
-		t.Fatalf("the peers listed with metadata %v, want %v", got, wantedListed)
-	}
-	performed := documentasks.PerformedFrom(answers)
-	want := documentasks.Performed{
+	want := []documentasks.Performed{{
 		AmountOfPeersWithANonEmptyAbstract:  2,
 		AmountOfListedDocumentsWithMetadata: 1,
 		AmountOfListedDocumentsWithAPosting: 1,
 		AmountOfDocumentsHeldInEachAnswer:   []int{512},
+	}}
+	if amountOfReportsBeforeTheEnd != 0 || !reflect.DeepEqual(reports.performed, want) {
+		t.Fatalf(
+			"the document asks reported %d times before the end and %+v in all, "+
+				"want one report at the end: %+v",
+			amountOfReportsBeforeTheEnd, reports.performed, want,
+		)
 	}
-	if !reflect.DeepEqual(performed, want) {
-		t.Fatalf("the document asks reported %+v, want %+v", performed, want)
+}
+
+func TestTheReportCountsTheCompoundWordsThePartitionsAnswered(t *testing.T) {
+	t.Parallel()
+
+	reports := &documentAsksReports{}
+	inquiry := inquiryOver(
+		t, replicasAnswering(nil), reports, &wordPartitionsAnsweredInTurn{},
+	)
+	inquiry.WhichDocumentsHave(query.HashesOfWordsAndCompoundWords())
+	inquiry.End()
+
+	if len(reports.performed) != 1 || reports.performed[0].AmountOfCompoundWordsAnswered != 1 {
+		t.Fatalf(
+			"the document asks reported %+v for the compound words %v, want the one answered",
+			reports.performed, query.CompoundWords,
+		)
 	}
 }

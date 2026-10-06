@@ -19,6 +19,7 @@ func (c *countedSpread) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
+	_ queryfindings.Growth,
 ) queryfindings.Findings {
 	c.searches++
 
@@ -32,6 +33,7 @@ func searchesOf(t *testing.T, spelledQuery string) (int, int) {
 	bywordcount.New(wordJoinedSpread, peerMatchedSpread).SpreadOverPeers(
 		t.Context(),
 		queryreading.QueryFrom(spelledQuery, ""),
+		nil,
 		nil,
 	)
 
