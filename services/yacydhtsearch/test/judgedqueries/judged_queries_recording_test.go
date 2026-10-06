@@ -27,6 +27,9 @@ type recordedQuery struct {
 var recordedQueries = []recordedQuery{
 	{"wikipedia", ""},
 	{"debian", "en"},
+	{"linux", "en"},
+	{"ubuntu", "en"},
+	{"windows", "en"},
 	{"kubernetes", "en"},
 	{"bundestag", "de"},
 	{"rust", "en"},

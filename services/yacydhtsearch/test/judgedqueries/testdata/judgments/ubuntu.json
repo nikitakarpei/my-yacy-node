@@ -1,0 +1,353 @@
+{
+  "query": "ubuntu",
+  "judgedDocuments": [
+    {
+      "hash": "rMzp1C0y3gkg",
+      "address": "https://hide.me/en/software/ubuntu-touch",
+      "title": "hide.me VPN for Ubuntu Touch | hide.me",
+      "grade": 0
+    },
+    {
+      "hash": "uIHtDL5pU9HY",
+      "address": "http://security.ubuntu.com/ubuntu/",
+      "title": "Index of /ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "voiAEvKqlBA4",
+      "address": "https://www.phoronix.com/news/Ubuntu-26.10-Snapshot-3",
+      "title": "Ubuntu 26.10 Snapshot 3 Monthly ISOs Released For Testing - Phoronix",
+      "grade": 1
+    },
+    {
+      "hash": "J51_0WLafmQx",
+      "address": "https://launchpad.net/ubuntu/stonking/arm64/inkscape-dbgsym",
+      "title": "inkscape-dbgsym : arm64 : Stonking (26.10) : Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "Oz9rLWLafmQx",
+      "address": "https://launchpad.net/ubuntu/mantic/riscv64/openmw-dbgsym",
+      "title": "openmw-dbgsym : riscv64 : Mantic (23.10) : Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "WETbSWLafmQx",
+      "address": "https://launchpad.net/ubuntu/noble/ppc64el/openmw-dbgsym",
+      "title": "openmw-dbgsym : ppc64el : Noble (24.04) : Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "X2nkRNUfxD0g",
+      "address": "https://www.omgubuntu.co.uk/2026/09/ubuntu-amd64v3-iso-downloads",
+      "title": "Ubuntu 26.10 daily ISOs now include Amd64-v3 installer",
+      "grade": 1
+    },
+    {
+      "hash": "b4jhsYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-8662-1",
+      "title": "USN-8662-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "E1ZP1wn-yhj5",
+      "address": "https://www.infoworld.com/article/2246362/review-ubuntu-server-16-04-lts-shines-2.html",
+      "title": "Review: Ubuntu Server 16.04 LTS shines | InfoWorld",
+      "grade": 1
+    },
+    {
+      "hash": "U4YKNfp3Az7Y",
+      "address": "http://archive.ubuntu.com/ubuntu/",
+      "title": "Index of /ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "sg24vYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-8819-1",
+      "title": "USN-8819-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "LQ1wRsYlAY74",
+      "address": "https://ubuntu.com/community",
+      "title": "The Ubuntu Community | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "wn_6SesX4qR4",
+      "address": "https://discourse.ubuntu.com/",
+      "title": "Ubuntu Discourse",
+      "grade": 1
+    },
+    {
+      "hash": "uzgz3YYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-6453-2",
+      "title": "USN-6453-2: X.Org X Server vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "vGsCxsYlAY74",
+      "address": "https://ubuntu.com/pricing",
+      "title": "Pricing | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "vTnLvYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-3339-1",
+      "title": "USN-3339-1: OpenVPN vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "vl6R9YYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7249-1",
+      "title": "USN-7249-1: libvpx vulnerability | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "-ozW55umREV4",
+      "address": "https://packages.ubuntu.com/",
+      "title": "Ubuntu – Ubuntu Packages Search",
+      "grade": 0
+    },
+    {
+      "hash": "hxdmWl-q2Yhg",
+      "address": "https://www.ubuntu.de/",
+      "title": "Circus Ubuntu - UBUNTU - der Circus",
+      "grade": 0
+    },
+    {
+      "hash": "yp2I-MYlAY74",
+      "address": "https://ubuntu.com/download/desktop",
+      "title": "Download Ubuntu Desktop | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "167C0lZ_jeix",
+      "address": "https://www.ubuntu-touch.io/",
+      "title": "Ubuntu Touch • Linux mobile OS that gives you pure freedom",
+      "grade": 0
+    },
+    {
+      "hash": "mENlgRKoTfD4",
+      "address": "https://releases.ubuntu.com/",
+      "title": "Ubuntu Releases",
+      "grade": 1
+    },
+    {
+      "hash": "UBNlzsYlAY74",
+      "address": "https://ubuntu.com/navigation",
+      "title": "Navigation | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "ASJT9yYlAY74",
+      "address": "https://ubuntu.com/tutorials/install-ubuntu-desktop",
+      "title": "Install Ubuntu Desktop | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "XiqORSYlAY74",
+      "address": "https://ubuntu.com/internet-of-things/contact-us?product=appstore",
+      "title": "Contact us | Ubuntu for the Internet of Things | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "-0AP6MYlAY74",
+      "address": "https://ubuntu.com/download/wsl",
+      "title": "Get Ubuntu on WSL | Download | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "eMdORYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-8808-1",
+      "title": "USN-8808-1: SQL parse vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "-aecTG2Jr6eY",
+      "address": "http://cloud-images.ubuntu.com/",
+      "title": "Ubuntu Cloud Images - the official Ubuntu images for public clouds, Openstack, KVM and LXD",
+      "grade": 0
+    },
+    {
+      "hash": "5lmTTYYlAY74",
+      "address": "https://ubuntu.com/security/cves",
+      "title": "CVEs | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "LFahzsYlAY74",
+      "address": "https://ubuntu.com/tutorials",
+      "title": "Tutorials | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "OhXR9YYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7795-1",
+      "title": "USN-7795-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "Mjh4aYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7683-1",
+      "title": "USN-7683-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "Ms-SiYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-6605-1",
+      "title": "USN-6605-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "PUfK9YYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-8112-1",
+      "title": "USN-8112-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "6nZV-gYlAY74",
+      "address": "https://ubuntu.com/server/docs/",
+      "title": "Ubuntu Server documentation",
+      "grade": 1
+    },
+    {
+      "hash": "4YtRDojt0zP4",
+      "address": "https://design.ubuntu.com/",
+      "title": "Ubuntu Design",
+      "grade": 0
+    },
+    {
+      "hash": "RmSf5YYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7428-1",
+      "title": "USN-7428-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "RpMlc5YlAY74",
+      "address": "https://ubuntu.com/18-04/gcp",
+      "title": "Ubuntu 18.04 LTS (Bionic Beaver) | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "TVUpYYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-8679-1",
+      "title": "USN-8679-1: Vim vulnerability | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "TiIKRYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7165-1",
+      "title": "USN-7165-1: Spring Framework vulnerability | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "T0kSzYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7553-1",
+      "title": "USN-7553-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "07gBGYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7754-1",
+      "title": "USN-7754-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "xBmQesYlAY74",
+      "address": "https://ubuntu.com/workshop",
+      "title": "Composable, fast, and secure dev environments | Workshop | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "wLC_nYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-5062-1",
+      "title": "USN-5062-1: Linux kernel vulnerability | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "ytV71sYlAY74",
+      "address": "https://ubuntu.com/community/circles",
+      "title": "Ubuntu Circles | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "yxmFAYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7774-1",
+      "title": "USN-7774-1: Linux kernel vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "yP4XsenQajO4",
+      "address": "https://cn.ubuntu.com/desktop",
+      "title": "Ubuntu桌面系统 | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "98j5cYYlAY74",
+      "address": "https://ubuntu.com/security/CVE-2021-47360",
+      "title": "CVE-2021-47360 | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "kWrZP-VgGFi4",
+      "address": "https://help.ubuntu.com/",
+      "title": "Official Ubuntu Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "kh05NsYlAY74",
+      "address": "https://ubuntu.com/download",
+      "title": "Get Ubuntu | Download | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "kBFBHYYlAY74",
+      "address": "https://ubuntu.com/security/CVE-2022-28388",
+      "title": "CVE-2022-28388 | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "k9X8SYYlAY74",
+      "address": "https://ubuntu.com/security/notices?release=focal",
+      "title": "Security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "msQ9mYYlAY74",
+      "address": "https://ubuntu.com/security/oval",
+      "title": "Ubuntu Oval | Security | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "nJmgVYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-7728-1",
+      "title": "USN-7728-1: ImageMagick vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "F2-7rYYlAY74",
+      "address": "https://ubuntu.com/security/notices/USN-8820-1",
+      "title": "USN-8820-1: curl vulnerabilities | Ubuntu security notices | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "Bx5NPwYlAY74",
+      "address": "https://ubuntu.com/desktop/developers",
+      "title": "Desktop for developers | Ubuntu",
+      "grade": 1
+    },
+    {
+      "hash": "D88X35MKxvs4",
+      "address": "https://cloud-images.ubuntu.com/",
+      "title": "Ubuntu Cloud Images - the official Ubuntu images for public clouds, Openstack, KVM and LXD",
+      "grade": 0
+    },
+    {
+      "hash": "DzbMqenQajO4",
+      "address": "https://cn.ubuntu.com/download",
+      "title": "Ubuntu系统下载 | Ubuntu",
+      "grade": 1
+    }
+  ]
+}

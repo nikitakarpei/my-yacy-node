@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const derivingSwitch = "YACYDHTSEARCH_DERIVE_JUDGED_QUERIES"
@@ -30,7 +29,7 @@ func (extraction pageExtraction) deriveJudgedQueryFrom(t *testing.T, findingsFil
 		findings,
 		extraction.pageContentsPerDocumentOf(
 			t.Context(),
-			queryreading.QueryFrom(recorded.Query, yacymodel.Language{}).Words,
+			queryreading.QueryFrom(recorded.Query, recorded.Language).Words,
 			findings,
 			storedPagePerAddressOf(t, recorded.Query),
 		),
