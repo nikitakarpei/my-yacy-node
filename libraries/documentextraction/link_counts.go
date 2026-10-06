@@ -9,6 +9,7 @@ import (
 
 const msgBaseHrefUnresolved = "base href unresolved, using page url"
 
+// TECHDEBT: Naming: the local map seen carries no noun
 func distinctLinksFrom(
 	hrefs []string,
 	baseURL canonicalurl.CanonicalURL,

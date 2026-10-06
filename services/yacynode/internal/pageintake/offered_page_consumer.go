@@ -113,7 +113,7 @@ func (c *OfferedPageConsumer) fullTextOf(
 	document documentextraction.Document,
 	landedURL canonicalurl.CanonicalURL,
 ) ([]byte, bool) {
-	return c.formatDerivations.BodyIn(
+	return c.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatFullText, document, landedURL,
 	)
 }

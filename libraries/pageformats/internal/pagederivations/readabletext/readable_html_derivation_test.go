@@ -1,12 +1,34 @@
 package readabletext_test
 
 import (
+	"strings"
 	"testing"
+
+	"golang.org/x/net/html"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readabletext"
 )
+
+func htmlBodyOf(t *testing.T, page string) htmltree.Body {
+	t.Helper()
+	root, err := html.Parse(strings.NewReader(page))
+	if err != nil {
+		t.Fatalf("parse: %v", err)
+	}
+	return htmltree.New(root)
+}
+
+func bytesOf(t *testing.T, body documentextraction.Body) string {
+	t.Helper()
+	bodyBytes, err := body.Bytes()
+	if err != nil {
+		t.Fatalf("bytes: %v", err)
+	}
+	return string(bodyBytes)
+}
 
 func TestReadableHTMLDerivationDeclaresReadableHTMLToReadableText(t *testing.T) {
 	derivation := readabletext.FromReadableHTML()
@@ -22,12 +44,12 @@ func TestReadableHTMLDerivationFlattensMarkup(t *testing.T) {
 	body, derived, err := readabletext.FromReadableHTML().BodyFrom(
 		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
-		[]byte(`<p>first</p><p>second</p>`),
+		htmlBodyOf(t, `<p>first</p><p>second</p>`),
 	)
 	if err != nil || !derived {
 		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
-	if string(body) != "first\nsecond" {
-		t.Fatalf("markup not flattened: %q", body)
+	if readableText := bytesOf(t, body); readableText != "first\nsecond" {
+		t.Fatalf("markup not flattened: %q", readableText)
 	}
 }

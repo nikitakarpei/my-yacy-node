@@ -8,6 +8,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/bodies/text"
 )
 
 type ReadableHTMLDerivation struct{}
@@ -27,11 +29,11 @@ func (ReadableHTMLDerivation) TargetFormat() documentextraction.Format {
 func (ReadableHTMLDerivation) BodyFrom(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	body []byte,
-) ([]byte, bool, error) {
-	markdown, err := htmltomarkdown.ConvertString(string(body))
+	source documentextraction.Body,
+) (documentextraction.Body, bool, error) {
+	markdown, err := htmltomarkdown.ConvertNode(source.(htmltree.Body).CopiedTree())
 	if err != nil {
 		return nil, false, fmt.Errorf("convert html to markdown: %w", err)
 	}
-	return []byte(markdown), true, nil
+	return text.New(markdown), true, nil
 }

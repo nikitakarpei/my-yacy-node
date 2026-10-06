@@ -1,4 +1,6 @@
 // Package documentextraction turns a fetched body into the document it holds.
+// The document keeps its body in the shape its extractor reads and gives the
+// bytes of that body on request.
 package documentextraction
 
 import (
@@ -18,7 +20,7 @@ var ErrUnsupportedMediaType = errors.New("unsupported media type")
 
 func DocumentFrom(
 	ctx context.Context,
-	body []byte,
+	fetchedBody []byte,
 	contentType string,
 	pageURL canonicalurl.CanonicalURL,
 ) (Document, error) {
@@ -27,13 +29,14 @@ func DocumentFrom(
 	if !extractable {
 		return Document{}, ErrUnsupportedMediaType
 	}
-	document, err := extractor.DocumentFrom(ctx, body, contentType, pageURL)
+	document, err := extractor.DocumentFrom(ctx, fetchedBody, contentType, pageURL)
 	if err != nil {
 		return Document{}, fmt.Errorf("extract %s: %w", media, err)
 	}
 	return document, nil
 }
 
+// TECHDEBT: Naming — derivation: mediaType returns the media type of a content type but carries no preposition to its source
 func mediaType(ctx context.Context, contentType string) string {
 	media, _, err := mime.ParseMediaType(contentType)
 	if err != nil {

@@ -5,6 +5,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/bodies/text"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/htmlflattening"
 )
 
@@ -25,11 +27,8 @@ func (ReadableHTMLDerivation) TargetFormat() documentextraction.Format {
 func (ReadableHTMLDerivation) BodyFrom(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	body []byte,
-) ([]byte, bool, error) {
-	text, err := htmlflattening.Flatten(body)
-	if err != nil {
-		return nil, false, err
-	}
-	return []byte(text), true, nil
+	source documentextraction.Body,
+) (documentextraction.Body, bool, error) {
+	readableText := htmlflattening.Flatten(source.(htmltree.Body).CopiedTree())
+	return text.New([]byte(readableText)), true, nil
 }

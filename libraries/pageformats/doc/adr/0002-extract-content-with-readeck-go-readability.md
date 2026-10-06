@@ -9,17 +9,21 @@ Accepted
 ## Context
 
 A page's postings should reflect its main content, not its boilerplate. We need a
-Readability.js-equivalent extractor for text, title, and language.
+Readability.js-equivalent extractor that finds the main article of a page.
 
 ## Decision
 
-We use `codeberg.org/readeck/go-readability/v2` (pinned in `go.mod`) as the sole source of page
-text, title, and language, via `FromDocument` on the already-parsed tree. There is no fallback
-extraction path: a page readability cannot extract is disposed as `unextractable` rather than
-indexed from raw markup. Language absent from the article stays empty.
+We use `codeberg.org/readeck/go-readability/v2` (pinned in `go.mod`) to find the main article
+of a page. The `readablehtml` derivation calls `ParseAndMutate` on its own copy of the parsed
+tree, thus the tree that the document holds does not change. The article tree is the
+readable-html body.
 
 ## Consequences
 
-The corpus reflects main content, keeping boilerplate out of postings. Pages that are not
-article-shaped are intentionally dropped, which callers must expect. The extractor is confined
-to the `htmlpage` edge.
+Readable text and markdown come from the article, which keeps boilerplate out of postings. When
+readability finds no article text, readable text comes from the full text of the page, and
+markdown comes from the whole document. The extractor is confined to the `readablehtml`
+derivation.
+
+Readability renames elements and adds elements without an atom. The derivation sets the atom of
+each such html element from its tag name, so the article tree reads like a parsed tree.

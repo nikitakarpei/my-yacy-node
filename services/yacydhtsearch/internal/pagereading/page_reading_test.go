@@ -135,7 +135,7 @@ func (pagesTooLargeToFetch) Fetch(
 
 type documentsThatHoldNoReadableText struct{}
 
-func (documentsThatHoldNoReadableText) BodyIn(
+func (documentsThatHoldNoReadableText) BytesIn(
 	_ context.Context,
 	format documentextraction.Format,
 	_ documentextraction.Document,

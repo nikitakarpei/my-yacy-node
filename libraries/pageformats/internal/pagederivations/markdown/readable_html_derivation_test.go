@@ -23,14 +23,14 @@ func TestDeriveConvertsStructureToMarkdown(t *testing.T) {
 	body, derived, err := markdown.FromReadableHTML().BodyFrom(
 		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
-		[]byte(
+		htmlBodyOf(t,
 			`<h1>Title</h1><p>A <b>bold</b> word and a <a href="http://e.example/x">link</a>.</p>`,
 		),
 	)
 	if err != nil || !derived {
 		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
-	markdown := string(body)
+	markdown := bytesOf(t, body)
 	if !strings.Contains(markdown, "# Title") {
 		t.Fatalf("heading not converted: %q", markdown)
 	}

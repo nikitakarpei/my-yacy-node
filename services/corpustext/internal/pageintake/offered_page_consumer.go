@@ -75,7 +75,7 @@ func (c *OfferedPageConsumer) takeIn(
 		c.pageIntakeObserver.NoDocumentExtracted(ctx, page.LandedURL, err)
 		return c.reject(ctx, message, page.PageURL)
 	}
-	text, derived := c.formatDerivations.BodyIn(
+	text, derived := c.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatReadableText, document, page.LandedURL,
 	)
 	if !derived {

@@ -4,16 +4,22 @@ import (
 	"strings"
 	"testing"
 
+	"golang.org/x/net/html"
+
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/htmlflattening"
 )
 
-func TestFlattenStripsMarkup(t *testing.T) {
-	text, err := htmlflattening.Flatten(
-		[]byte(`<article><h1>Title</h1><p>The quick <b>brown</b> fox.</p></article>`),
-	)
+func flattened(t *testing.T, page string) string {
+	t.Helper()
+	root, err := html.Parse(strings.NewReader(page))
 	if err != nil {
-		t.Fatalf("flatten: %v", err)
+		t.Fatalf("parse: %v", err)
 	}
+	return htmlflattening.Flatten(root)
+}
+
+func TestFlattenStripsMarkup(t *testing.T) {
+	text := flattened(t, `<article><h1>Title</h1><p>The quick <b>brown</b> fox.</p></article>`)
 	if strings.Contains(text, "<") {
 		t.Fatalf("markup survived: %q", text)
 	}
@@ -23,54 +29,35 @@ func TestFlattenStripsMarkup(t *testing.T) {
 }
 
 func TestFlattenSeparatesBlockElements(t *testing.T) {
-	text, err := htmlflattening.Flatten([]byte(`<p>first</p><p>second</p>`))
-	if err != nil {
-		t.Fatalf("flatten: %v", err)
-	}
-	if text != "first\nsecond" {
+	if text := flattened(t, `<p>first</p><p>second</p>`); text != "first\nsecond" {
 		t.Fatalf("blocks not separated: %q", text)
 	}
 }
 
 func TestFlattenSeparatesTheTitleFromTheBody(t *testing.T) {
-	text, err := htmlflattening.Flatten(
-		[]byte(`<html><head><title>Hi</title></head><body><p>alpha beta</p></body></html>`),
+	text := flattened(
+		t,
+		`<html><head><title>Hi</title></head><body><p>alpha beta</p></body></html>`,
 	)
-	if err != nil {
-		t.Fatalf("flatten: %v", err)
-	}
 	if text != "Hi\nalpha beta" {
 		t.Fatalf("title runs into the body text: %q", text)
 	}
 }
 
 func TestFlattenKeepsInlineMarkupFromSplittingAWord(t *testing.T) {
-	text, err := htmlflattening.Flatten([]byte(`<p>hyper<em>text</em></p>`))
-	if err != nil {
-		t.Fatalf("flatten: %v", err)
-	}
-	if text != "hypertext" {
+	if text := flattened(t, `<p>hyper<em>text</em></p>`); text != "hypertext" {
 		t.Fatalf("inline markup split the word: %q", text)
 	}
 }
 
 func TestFlattenCollapsesWhitespaceWithinBlock(t *testing.T) {
-	text, err := htmlflattening.Flatten([]byte("<p>The   quick\n  brown\nfox.</p>"))
-	if err != nil {
-		t.Fatalf("flatten: %v", err)
-	}
-	if text != "The quick brown fox." {
+	if text := flattened(t, "<p>The   quick\n  brown\nfox.</p>"); text != "The quick brown fox." {
 		t.Fatalf("whitespace not collapsed within block: %q", text)
 	}
 }
 
 func TestFlattenDropsScriptAndStyle(t *testing.T) {
-	text, err := htmlflattening.Flatten(
-		[]byte(`<p>keep</p><script>var drop = 1</script><style>.drop{}</style>`),
-	)
-	if err != nil {
-		t.Fatalf("flatten: %v", err)
-	}
+	text := flattened(t, `<p>keep</p><script>var drop = 1</script><style>.drop{}</style>`)
 	if strings.Contains(text, "drop") {
 		t.Fatalf("script or style content survived: %q", text)
 	}

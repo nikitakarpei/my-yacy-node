@@ -24,7 +24,7 @@ func (FullTextDerivation) TargetFormat() documentextraction.Format {
 func (FullTextDerivation) BodyFrom(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	body []byte,
-) ([]byte, bool, error) {
-	return body, true, nil
+	source documentextraction.Body,
+) (documentextraction.Body, bool, error) {
+	return source, true, nil
 }
