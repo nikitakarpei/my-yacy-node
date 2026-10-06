@@ -10,13 +10,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/ratiobuckets"
 )
 
-const (
-	labelEndedBy         = "ended_by"
-	amountOfRatioBuckets = 11
-	ratioBucketWidth     = 0.1
-)
+const labelEndedBy = "ended_by"
 
 type URLMetadataLookupMetrics struct {
 	lookupsPerEndReason                   map[urlmetadataasks.EndReason]prometheusclient.Counter
@@ -83,7 +80,7 @@ func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
 	return prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 		Name:    name,
 		Help:    help,
-		Buckets: prometheusclient.LinearBuckets(0, ratioBucketWidth, amountOfRatioBuckets),
+		Buckets: ratiobuckets.Tenths(),
 	})
 }
 

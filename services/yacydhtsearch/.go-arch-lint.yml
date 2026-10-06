@@ -153,6 +153,8 @@ components:
     in: internal/queryspreadsobservers/wordjoined/urlmetadataasks/applog/**
   queryspreadsobserverswordjoinedurlmetadataasksprometheus:
     in: internal/queryspreadsobservers/wordjoined/urlmetadataasks/prometheus/**
+  ratiobuckets:
+    in: internal/ratiobuckets/**
   queryspreadsobserverswordjoineddocumentamountsprometheus:
     in: internal/queryspreadsobservers/wordjoined/documentamounts/prometheus/**
   peercallobserversapplog:
@@ -569,6 +571,7 @@ deps:
       - budgetbuckets
     mayDependOn:
       - wordjoined
+      - ratiobuckets
   queryspreadsobserverswordjoineddocumentasksapplog:
     mayDependOn:
       - wordjoineddocumentasks
@@ -594,6 +597,7 @@ deps:
       - budgetbuckets
     mayDependOn:
       - wordjoinedurlmetadataasks
+      - ratiobuckets
   peercallobserversapplog:
     mayDependOn:
       - peerasks

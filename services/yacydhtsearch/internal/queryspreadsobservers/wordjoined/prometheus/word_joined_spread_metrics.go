@@ -9,14 +9,13 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/ratiobuckets"
 )
 
 const (
-	amountOfRatioBuckets = 11
-	ratioBucketWidth     = 0.1
-	labelJoin            = "join"
-	joinFoundNoDocument  = "no document"
-	joinFoundDocuments   = "documents"
+	labelJoin           = "join"
+	joinFoundNoDocument = "no document"
+	joinFoundDocuments  = "documents"
 )
 
 type WordJoinedSpreadMetrics struct {
@@ -55,7 +54,7 @@ func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
 	return prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 		Name:    name,
 		Help:    help,
-		Buckets: prometheusclient.LinearBuckets(0, ratioBucketWidth, amountOfRatioBuckets),
+		Buckets: ratiobuckets.Tenths(),
 	})
 }
 
