@@ -2,7 +2,6 @@ package judgedqueries_test
 
 import (
 	"context"
-	"math/rand/v2"
 	"net/http"
 	"testing"
 	"time"
@@ -171,8 +170,8 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 					documentasks.DocumentAsksObservers{},
 				),
 				noRememberedQueryWordDocumentAmounts{},
-				leadingword.New(documentamounts.NewFromReplicas(
-					partitions, rand.UintN, documentamounts.FromReplicasObservers{},
+				leadingword.New(documentamounts.NewFromCache(
+					noRememberedQueryWordDocumentAmounts{}, documentamounts.FromCacheObservers{},
 				)),
 				urlmetadataasks.New(
 					calledPeers,
@@ -226,6 +225,13 @@ type unreadGrowth struct{}
 func (unreadGrowth) FindingsGrew(queryfindings.Findings) {}
 
 type noRememberedQueryWordDocumentAmounts struct{}
+
+func (noRememberedQueryWordDocumentAmounts) DocumentAmountsOf(
+	context.Context,
+	[]yacymodel.Hash,
+) map[yacymodel.Hash]int {
+	return nil
+}
 
 func (noRememberedQueryWordDocumentAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}
 

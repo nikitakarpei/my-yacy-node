@@ -9,23 +9,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
 )
 
-const (
-	msgAmountsCountedFromReplicas = "document amounts counted from replicas"
-	msgAmountsReadFromCache       = "document amounts read from cache"
-)
+const msgAmountsReadFromCache = "document amounts read from cache"
 
 type DocumentAmountsLog struct{}
-
-func (DocumentAmountsLog) AmountsCountedFromReplicas(
-	ctx context.Context,
-	performed documentamounts.PerformedFromReplicas,
-) {
-	slog.DebugContext(ctx, msgAmountsCountedFromReplicas,
-		slog.Uint64("partition", uint64(performed.Partition)),
-		slog.Int("amountOfQueryWords", performed.AmountOfQueryWords),
-		slog.Int("amountOfQueryWordsCounted", performed.AmountOfQueryWordsCounted),
-	)
-}
 
 func (DocumentAmountsLog) AmountsReadFromCache(
 	ctx context.Context,

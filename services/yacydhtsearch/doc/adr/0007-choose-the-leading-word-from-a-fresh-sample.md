@@ -4,7 +4,8 @@ Date: 2026-09-23
 
 ## Status
 
-Accepted
+Accepted. Step 1 is superseded by
+[ADR 9](0009-choose-the-leading-word-only-from-remembered-amounts.md).
 
 ## Context
 

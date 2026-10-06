@@ -1,6 +1,7 @@
 package documentamounts_test
 
 import (
+	"fmt"
 	"maps"
 	"testing"
 
@@ -53,6 +54,35 @@ func measurementOf(
 
 func counted(amountHeld int) wordpartitionasks.ReplicaAnswer {
 	return answerCounting(amountHeld)
+}
+
+func distinctDocuments(t *testing.T, amount int) []yacymodel.URLHash {
+	t.Helper()
+
+	documents := make([]yacymodel.URLHash, 0, amount)
+	for place := range amount {
+		document, err := yacymodel.URLHashOf(fmt.Sprintf("https://document-%d.example/", place))
+		if err != nil {
+			t.Fatalf("hash a document address: %v", err)
+		}
+		documents = append(documents, document)
+	}
+
+	return documents
+}
+
+func answerCounting(
+	amountHeld int,
+	documents ...yacymodel.URLHash,
+) wordpartitionasks.ReplicaAnswer {
+	answer := wordpartitionasks.ReplicaAnswer{AmountOfDocumentsHeld: yacymodel.Some(amountHeld)}
+	for _, document := range documents {
+		answer.ListedDocuments = append(
+			answer.ListedDocuments, wordpartitionasks.ListedDocument{Hash: document},
+		)
+	}
+
+	return answer
 }
 
 func heldForBothWords(amountHeld int) map[yacymodel.Hash]int {
@@ -149,7 +179,7 @@ func TestAQueryWordNoPeerCountedHasNoAmountInAPartition(t *testing.T) {
 func TestAnAnsweredCompoundWordIsNoQueryWord(t *testing.T) {
 	t.Parallel()
 
-	documents := documentsIn(0, 2)
+	documents := distinctDocuments(t, 2)
 	measurement := measurementOf(1, []answeredWordPartition{
 		answeredFor(firstWord, 0, answerCounting(1, documents[0])),
 		answeredFor(firstWord+secondWord, 0, answerCounting(1, documents[1])),
@@ -166,7 +196,7 @@ func TestAnAnsweredCompoundWordIsNoQueryWord(t *testing.T) {
 func TestTheAmountListedOfAQueryWordCountsEachDocumentItsReplicasListedOnce(t *testing.T) {
 	t.Parallel()
 
-	documents := documentsIn(0, 3)
+	documents := distinctDocuments(t, 3)
 	measurement := measurementOf(2, []answeredWordPartition{
 		answeredFor(firstWord, 0, answerCounting(3, documents...)),
 		answeredFor(firstWord, 1, answerCounting(1, documents[0])),

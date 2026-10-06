@@ -22,7 +22,6 @@ type amountsInAPartition map[string]int
 func (amounts amountsInAPartition) AmountsInAPartitionFor(
 	context.Context,
 	searchquery.Query,
-	leadingword.DocumentAsks,
 ) map[yacymodel.Hash]int {
 	amountOfEachWord := make(map[yacymodel.Hash]int, len(amounts))
 	for spelledWord, amount := range amounts {
@@ -35,7 +34,7 @@ func (amounts amountsInAPartition) AmountsInAPartitionFor(
 func leadFrom(t *testing.T, amounts amountsInAPartition) yacymodel.Optional[leadingword.Lead] {
 	t.Helper()
 
-	return leadingword.New(amounts).FindFor(t.Context(), query, nil)
+	return leadingword.New(amounts).FindFor(t.Context(), query)
 }
 
 func TestTheWordWithTheFewestDocumentsLeadsWithItsAmount(t *testing.T) {

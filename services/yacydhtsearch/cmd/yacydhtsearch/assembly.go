@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"math/rand/v2"
 	"net/http"
 	"net/http/pprof"
 	"time"
@@ -320,7 +319,7 @@ func querySpreadFor(
 				},
 			),
 			queryWordDocumentAmounts,
-			leadingword.New(documentAmountsFor(cfg, queryWordDocumentAmounts, registry)),
+			leadingword.New(documentAmountsFor(queryWordDocumentAmounts, registry)),
 			urlmetadataasks.New(
 				peers,
 				urlMetadataAskCeilings,
@@ -351,7 +350,6 @@ func querySpreadFor(
 }
 
 func documentAmountsFor(
-	cfg ServiceConfig,
 	queryWordDocumentAmounts queryWordDocumentAmounts,
 	registry *prometheus.Registry,
 ) documentamounts.FromCache {
@@ -359,14 +357,6 @@ func documentAmountsFor(
 
 	return documentamounts.NewFromCache(
 		queryWordDocumentAmounts,
-		documentamounts.NewFromReplicas(
-			cfg.Partitions,
-			rand.UintN,
-			documentamounts.FromReplicasObservers{
-				queryspreadsobserverswordjoineddocumentamountsapplog.DocumentAmountsLog{},
-				documentAmountsMetrics,
-			},
-		),
 		documentamounts.FromCacheObservers{
 			queryspreadsobserverswordjoineddocumentamountsapplog.DocumentAmountsLog{},
 			documentAmountsMetrics,

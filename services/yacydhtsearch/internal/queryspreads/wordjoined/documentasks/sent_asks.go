@@ -12,7 +12,6 @@ type sentAsks struct {
 	sent       map[wordPartitionKey]struct{}
 	pending    map[wordPartitionKey]struct{}
 	answered   []wordpartitionasks.SettledAsk
-	answeredAt map[wordPartitionKey]int
 }
 
 func noAsksSentYet(partitions yacymodel.DHTRingPartitions) *sentAsks {
@@ -20,7 +19,6 @@ func noAsksSentYet(partitions yacymodel.DHTRingPartitions) *sentAsks {
 		partitions: partitions,
 		sent:       map[wordPartitionKey]struct{}{},
 		pending:    map[wordPartitionKey]struct{}{},
-		answeredAt: map[wordPartitionKey]int{},
 	}
 }
 
@@ -37,32 +35,9 @@ func (asks *sentAsks) contain(ask wordpartitionasks.Ask) bool {
 	return sent
 }
 
-func (asks *sentAsks) containEvery(candidates []wordpartitionasks.Ask) bool {
-	return !slices.ContainsFunc(candidates, func(ask wordpartitionasks.Ask) bool {
-		return !asks.contain(ask)
-	})
-}
-
 func (asks *sentAsks) settle(settledAsk wordpartitionasks.SettledAsk) {
 	delete(asks.pending, wordPartitionKeyOf(settledAsk.Ask))
-	asks.answeredAt[wordPartitionKeyOf(settledAsk.Ask)] = len(asks.answered)
 	asks.answered = append(asks.answered, settledAsk)
-}
-
-func (asks *sentAsks) answersOf(
-	partition uint,
-	words []yacymodel.Hash,
-) []wordpartitionasks.SettledAsk {
-	var answered []wordpartitionasks.SettledAsk
-	for _, word := range words {
-		place, settled := asks.answeredAt[wordPartitionKey{word: word, partition: partition}]
-		if !settled {
-			continue
-		}
-		answered = append(answered, asks.answered[place])
-	}
-
-	return answered
 }
 
 func (asks *sentAsks) nonePendingFor(words []yacymodel.Hash) bool {

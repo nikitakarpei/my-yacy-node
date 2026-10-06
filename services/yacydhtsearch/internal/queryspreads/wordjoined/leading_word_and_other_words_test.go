@@ -51,6 +51,15 @@ func settingsOfTwoPartitions() spreadSettings {
 	return settings
 }
 
+func settingsOfTwoPartitionsLedByTheFirstWord() spreadSettings {
+	settings := settingsOfTwoPartitions()
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(
+		map[string]int{firstWord: 2, secondWord: 3},
+	)
+
+	return settings
+}
+
 func asksOfTheWord(
 	spelledWord string,
 	asks []replicaAsk,
@@ -87,108 +96,6 @@ func asksNamingDocumentsToMatchAmong(
 	}
 
 	return asksNamingDocuments
-}
-
-func TestTheRarestWordCountedFromTheReplicasLeads(t *testing.T) {
-	t.Parallel()
-
-	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
-	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 3)
-	network := networkOf(map[string]map[string][]string{
-		"first-in-0":  {firstWord: documentsInPartitionZero},
-		"first-in-1":  {firstWord: documentsInPartitionOne},
-		"second-in-0": {secondWord: documentsInPartitionZero[:1]},
-		"second-in-1": {secondWord: documentsInPartitionOne},
-	})
-
-	settingsOfTwoPartitions().spread(network, &recordedSpreads{})
-
-	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
-	if len(asksNamingDocuments) != 1 ||
-		asksNamingDocuments[0].Word != yacymodel.WordHash(firstWord) {
-		t.Fatalf(
-			"the spread put %v with documents to match, want one ask of the more common word",
-			asksNamingDocuments,
-		)
-	}
-}
-
-func TestOnlyTheDocumentsOfTheCountedPartitionCountForTheLead(t *testing.T) {
-	t.Parallel()
-
-	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 2)
-	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 4)
-	network := networkOf(map[string]map[string][]string{
-		"first-in-0": {
-			firstWord: append(documentsInPartitionZero[:1:1], documentsInPartitionOne...),
-		},
-		"first-in-1":  {firstWord: documentsInPartitionOne},
-		"second-in-0": {secondWord: documentsInPartitionZero},
-		"second-in-1": {secondWord: documentsInPartitionOne},
-	})
-
-	settingsOfTwoPartitions().spread(network, &recordedSpreads{})
-
-	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
-	if len(asksNamingDocuments) != 1 ||
-		asksNamingDocuments[0].Word != yacymodel.WordHash(secondWord) {
-		t.Fatalf(
-			"the spread put %v with documents to match, want the word with fewer documents "+
-				"in the counted partition to lead",
-			asksNamingDocuments,
-		)
-	}
-}
-
-func TestAWordWithoutACompleteAbstractCannotLead(t *testing.T) {
-	t.Parallel()
-
-	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
-	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 3)
-	network := networkOf(map[string]map[string][]string{
-		"first-in-0":  {firstWord: documentsInPartitionZero[:1]},
-		"first-in-1":  {firstWord: documentsInPartitionOne},
-		"second-in-0": {secondWord: documentsInPartitionZero},
-		"second-in-1": {secondWord: documentsInPartitionOne},
-	})
-	network.documentsPerAnswerOfEachPeer = map[string]int{"first-in-0": 0}
-
-	settingsOfTwoPartitions().spread(network, &recordedSpreads{})
-
-	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
-	if len(asksNamingDocuments) != 1 ||
-		asksNamingDocuments[0].Word != yacymodel.WordHash(firstWord) {
-		t.Fatalf(
-			"the spread put %v with documents to match, want the word without a complete "+
-				"abstract asked for the documents to match of the word with one",
-			asksNamingDocuments,
-		)
-	}
-}
-
-func TestAWordAPeerSearchedAndHoldsNothingForIsCountedWithNoDocuments(t *testing.T) {
-	t.Parallel()
-
-	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
-	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 3)
-	network := networkOf(map[string]map[string][]string{
-		"first-in-1":  {firstWord: documentsInPartitionOne},
-		"second-in-0": {secondWord: documentsInPartitionZero},
-		"second-in-1": {secondWord: documentsInPartitionOne},
-	})
-	network.peersCountingNoDocument = map[string]struct{}{"first-in-0": {}}
-	network.peersThatSearched = map[string]struct{}{"first-in-0": {}}
-
-	settingsOfTwoPartitions().spread(network, &recordedSpreads{})
-
-	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
-	if len(asksNamingDocuments) != 1 ||
-		asksNamingDocuments[0].Word != yacymodel.WordHash(secondWord) {
-		t.Fatalf(
-			"the spread put %v with documents to match, want the word with no documents leading",
-			asksNamingDocuments,
-		)
-	}
 }
 
 func TestWithoutACountedWordEveryWordIsAskedWholeInEveryPartition(t *testing.T) {
@@ -251,7 +158,7 @@ func TestTheOtherWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(t *
 	network, documentsToMatch := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
 	observer := &recordedSpreads{}
 
-	findings := settingsOfTwoPartitions().spread(network, observer)
+	findings := settingsOfTwoPartitionsLedByTheFirstWord().spread(network, observer)
 
 	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsToMatch))
@@ -266,6 +173,7 @@ func TestTheOtherWordsAreAskedOnlyInPartitionsWithDocumentsToMatchAndForThem(t *
 		)
 	}
 	wantedAsks := map[uint]documentasks.DocumentsToMatchDecision{
+		0: documentasks.NoDocumentsToMatch,
 		1: documentasks.NamedTheDocumentsToMatch,
 	}
 	if got := observer.decisionPerPartition; !maps.Equal(
@@ -283,8 +191,7 @@ func TestAPartitionWithMoreDocumentsToMatchThanTheCeilingIsAskedWhole(t *testing
 
 	network, documentsToMatch := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
 	observer := &recordedSpreads{}
-	settings := settingsOfTwoPartitions()
-	settings.documentsToMatchCeiling = 1
+	settings := settingsWithTheLeadingWordCached(1)
 
 	findings := settings.spread(network, observer)
 
@@ -310,7 +217,7 @@ func TestAPartitionWhereTheLeadingWordIsPartialIsAskedForTheDocumentsItListed(t 
 	network.documentsPerAnswerOfEachPeer = map[string]int{"first-in-1": 1}
 	observer := &recordedSpreads{}
 
-	settingsOfTwoPartitions().spread(network, observer)
+	settingsOfTwoPartitionsLedByTheFirstWord().spread(network, observer)
 
 	asksNamingDocuments := asksNamingDocumentsToMatchAmong(network.searchDocumentsAsks)
 	if len(asksNamingDocuments) != 1 ||
@@ -392,6 +299,9 @@ func TestACompoundWordIsAskedInEveryPartitionOnlyWhenItHoldsTheLeadingWord(t *te
 	settings.partitions = twoPartitionsOfTheRing
 	settings.askablePeers = []string{"in-0", "in-1"}
 	settings.choice = responsiblePeers{partitionOfEachPeer: map[string]uint{"in-0": 0, "in-1": 1}}
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(
+		map[string]int{firstWord: 2, secondWord: 3, thirdWord: 3},
+	)
 
 	findings := settings.spread(network, &recordedSpreads{})
 
@@ -440,7 +350,9 @@ func networkOfSixteenPartitions(t *testing.T) (*peerNetwork, []string, spreadSet
 	}
 	settings := settingsOfOnePartition()
 	settings.partitions = sixteenPartitionsOfTheRing
-	settings.countedPartition = 4
+	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(
+		map[string]int{firstWord: 2, secondWord: 3},
+	)
 	settings.askablePeers = addresses
 	settings.choice = responsiblePeers{partitionOfEachPeer: partitionOfEachPeer}
 
@@ -566,31 +478,6 @@ func TestACachedLeadingWordAtTheCeilingInEveryPartitionHasTheOtherWordsWaitForTh
 	}
 }
 
-func TestALeadingWordCountedFromTheReplicasOverTheCeilingHasTheOtherWordsAskedAtTheStart(
-	t *testing.T,
-) {
-	t.Parallel()
-
-	network, _ := networkWhereTheLeadingWordHoldsDocumentsOnlyInPartitionOne(t)
-	settings := settingsOfTwoPartitions()
-	settings.documentsToMatchCeiling = 1
-	settings.countedPartition = 1
-	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{firstWord: 100})
-	observer := &recordedSpreads{}
-
-	settings.spread(network, observer)
-
-	wantedAsks := map[uint]documentasks.DocumentsToMatchDecision{
-		0: documentasks.NamedNonePredictedOverTheCeiling,
-		1: documentasks.NamedNonePredictedOverTheCeiling,
-	}
-	if got := observer.decisionPerPartition; !maps.Equal(
-		got, wantedAsks,
-	) {
-		t.Fatalf("the spread reported %v, want %v", got, wantedAsks)
-	}
-}
-
 func TestTheDocumentsJoinedInOnePartitionAreLookedUpBeforeTheOtherPartitionSettles(
 	t *testing.T,
 ) {
@@ -605,19 +492,15 @@ func TestTheDocumentsJoinedInOnePartitionAreLookedUpBeforeTheOtherPartitionSettl
 		"second-in-1": {secondWord: documentsInPartitionOne},
 	})
 
-	settingsOfTwoPartitions().spread(network, &recordedSpreads{})
+	settingsOfTwoPartitionsLedByTheFirstWord().spread(network, &recordedSpreads{})
 
-	amountOfWordAsksInPartitionZero := len(slices.DeleteFunc(
-		slices.Clone(network.searchDocumentsAsks),
-		func(ask replicaAsk) bool { return ask.Partition != 0 },
-	))
 	readAtEachPut := network.settledWordPartitionsReadAtEachURLMetadataPut
 	if len(readAtEachPut) != twoPartitionsOfTheRing ||
-		readAtEachPut[0] > amountOfWordAsksInPartitionZero {
+		readAtEachPut[0] >= len(network.searchDocumentsAsks) {
 		t.Fatalf(
-			"the spread put URL metadata asks after %v settled word partitions, want the asks "+
-				"of partition 0 put before the word asks of partition 1 settled",
-			readAtEachPut,
+			"the spread put URL metadata asks after %v of %d settled word partitions, want the "+
+				"asks of partition 0 put before every word partition settled",
+			readAtEachPut, len(network.searchDocumentsAsks),
 		)
 	}
 	wanted := documentsInTheirHashOrder(documentHashesOf(documentsInPartitionZero))

@@ -2,7 +2,6 @@ package networksearch_test
 
 import (
 	"context"
-	"math/rand/v2"
 	"net/http"
 	"net/http/httptest"
 	"slices"
@@ -265,8 +264,8 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 			documentasks.DocumentAsksObservers{},
 		),
 		noRememberedQueryWordDocumentAmounts{},
-		leadingword.New(documentamounts.NewFromReplicas(
-			ringPartitions(t), rand.UintN, documentamounts.FromReplicasObservers{},
+		leadingword.New(documentamounts.NewFromCache(
+			noRememberedQueryWordDocumentAmounts{}, documentamounts.FromCacheObservers{},
 		)),
 		urlmetadataasks.New(
 			peerCalls(t),
@@ -1018,6 +1017,13 @@ func TestAQueryOfTwoWordsCarriesBackWhatAReplicaListsForTheirCompoundWord(t *tes
 }
 
 type noRememberedQueryWordDocumentAmounts struct{}
+
+func (noRememberedQueryWordDocumentAmounts) DocumentAmountsOf(
+	context.Context,
+	[]yacymodel.Hash,
+) map[yacymodel.Hash]int {
+	return nil
+}
 
 func (noRememberedQueryWordDocumentAmounts) Remember(context.Context, map[yacymodel.Hash]int) {}
 
