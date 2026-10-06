@@ -22,8 +22,8 @@ func foundDocumentsFrom(settledAsks []wordpartitionasks.SettledAsk) []queryfindi
 	for _, settledAsk := range settledAsks {
 		for _, answer := range settledAsk.Answers {
 			for _, listedDocument := range answer.ListedDocuments {
-				metadata, matched := listedDocument.Metadata.Get()
-				if !matched {
+				metadata, sent := listedDocument.Metadata.Get()
+				if !sent {
 					continue
 				}
 				documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{

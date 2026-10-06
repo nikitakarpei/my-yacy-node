@@ -26,8 +26,8 @@ func (found documentsTheSpreadFound) WordPartitionAnswered(
 ) {
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
-			metadata, described := listedDocument.Metadata.Get()
-			if !described {
+			metadata, sent := listedDocument.Metadata.Get()
+			if !sent {
 				continue
 			}
 			found.documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
