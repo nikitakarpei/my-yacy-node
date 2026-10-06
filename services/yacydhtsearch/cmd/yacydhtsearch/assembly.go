@@ -201,7 +201,6 @@ func RunService(
 			),
 		),
 		cfg.QueryBudget,
-		cfg.PageReadBudget,
 		cfg.PagesReadPerQueryCeiling,
 		cfg.PagesReadPerSiteCeiling,
 		cfg.RankedItemsCeiling,
