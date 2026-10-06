@@ -1,8 +1,8 @@
 // Package pagereading reads the pages of the documents one query puts first. One
 // run per query starts each page once, at any time until it finishes, abandons the
-// pages read ahead it is told to give up, and gives back, inside one budget, the
-// text, link counts and spam verdict of the pages it is asked for. It withdraws
-// the documents whose pages are gone or refuse indexing.
+// pages read ahead it is told to give up, and ends each page read at its budget.
+// It gives back the text, link counts and spam verdict of the pages it is asked
+// for, and withdraws the documents whose pages are gone or refuse indexing.
 package pagereading
 
 import (
@@ -44,6 +44,7 @@ type Clock interface {
 
 type Reading struct {
 	pageReader pageReader
+	budget     pageReadBudget
 	deadlines  pageReadDeadlines
 	observer   PageReadingObserver
 }
@@ -52,7 +53,7 @@ type Reading struct {
 func New(
 	pageFetch PageFetcher,
 	formatDerivations FormatDerivations,
-	pageReadBudget time.Duration,
+	budgetOfAPageRead time.Duration,
 	cutoff PageReadCutoff,
 	clock Clock,
 	snippetLengthCeiling int,
@@ -64,11 +65,12 @@ func New(
 			formatDerivations:    formatDerivations,
 			snippetLengthCeiling: snippetLengthCeiling,
 		},
-		deadlines: pageReadDeadlines{budget: pageReadBudget, cutoff: cutoff, clock: clock},
+		budget:    pageReadBudget{duration: budgetOfAPageRead, clock: clock},
+		deadlines: pageReadDeadlines{cutoff: cutoff, clock: clock},
 		observer:  observer,
 	}
 }
 
 func (r Reading) Start(queryWords []string) *Run {
-	return newRun(r.pageReader, queryWords, r.deadlines, r.observer)
+	return newRun(r.pageReader, queryWords, r.budget, r.deadlines, r.observer)
 }

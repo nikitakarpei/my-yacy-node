@@ -891,7 +891,10 @@ func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
-	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	clock := clockTheTestFires{
+		budgets: make(chan func(), len(pagesOfThreeDocuments(t))),
+		graces:  make(chan func(), 1),
+	}
 	reading := readingCutOffBy(
 		t,
 		pagesThatOutlastTheBudgetAtTheArticle(t),
@@ -918,11 +921,14 @@ func TestAPageStillBeingReadAfterTheGraceIsCutOff(t *testing.T) {
 	}
 }
 
-func TestAPageStillBeingReadWhenTheBudgetEndsIsOutOfBudget(t *testing.T) {
+func TestAPageStillBeingReadWhenItsBudgetEndsIsOutOfBudget(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
-	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	clock := clockTheTestFires{
+		budgets: make(chan func(), len(pagesOfThreeDocuments(t))),
+		graces:  make(chan func(), 1),
+	}
 	reading := readingCutOffBy(
 		t,
 		pagesThatOutlastTheBudgetAtTheArticle(t),
@@ -935,8 +941,10 @@ func TestAPageStillBeingReadWhenTheBudgetEndsIsOutOfBudget(t *testing.T) {
 	pagesRead := make(chan pagereading.PagesRead, 1)
 	go func() { pagesRead <- run.Read(t.Context(), pagesOfThreeDocuments(t)) }()
 	<-clock.graces
-	expireTheBudget := <-clock.budgets
-	expireTheBudget()
+	for range pagesOfThreeDocuments(t) {
+		expireTheBudget := <-clock.budgets
+		expireTheBudget()
+	}
 	<-pagesRead
 	run.Finish(t.Context())
 
@@ -947,6 +955,29 @@ func TestAPageStillBeingReadWhenTheBudgetEndsIsOutOfBudget(t *testing.T) {
 			"PageReadingPerformed = %+v, want two pages read and the slow page out of budget",
 			performed,
 		)
+	}
+}
+
+func TestAPageReadAheadWhoseBudgetEndedIsOutOfBudgetWhenWanted(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	clock := clockTheTestFires{budgets: make(chan func(), 1), graces: make(chan func(), 1)}
+	reading := readingCutOffBy(t, pagesThatOutlastTheBudget{}, observer, cutoffNever, clock)
+	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]string{"berlin"})
+	run.ReadAhead(t.Context(), pagesToRead)
+	expireTheBudget := <-clock.budgets
+	expireTheBudget()
+
+	pageContentsPerDocument := run.Read(t.Context(), pagesToRead).PageContentsPerDocument
+	run.Finish(t.Context())
+
+	if len(pageContentsPerDocument) != 0 {
+		t.Fatalf("the reading gives %+v, want nothing for the document", pageContentsPerDocument)
+	}
+	if observer.performed.AmountOfPagesOutOfBudget != 1 {
+		t.Fatalf("PageReadingPerformed = %+v, want one page out of budget", observer.performed)
 	}
 }
 

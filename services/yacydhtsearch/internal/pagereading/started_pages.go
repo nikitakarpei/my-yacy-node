@@ -44,7 +44,7 @@ func (pages *startedPages) abandon(pagesToAbandon []PageToRead) {
 		if !started || wanted || page.isSettled() {
 			continue
 		}
-		page.abandon()
+		page.stopReading()
 		delete(pages.pagePerDocument, pageToAbandon.Document)
 		pages.amountOfPagesAbandoned++
 	}

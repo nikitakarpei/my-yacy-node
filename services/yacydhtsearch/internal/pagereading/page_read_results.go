@@ -29,16 +29,3 @@ func (results pageReadResults) pagesUnsettledAmong(pagesWanted []PageToRead) []P
 
 	return pagesUnsettled
 }
-
-func (results pageReadResults) withUnsettledPagesOutOfBudget(
-	pagesWanted []PageToRead,
-) pageReadResults {
-	for _, unsettledPage := range results.pagesUnsettledAmong(pagesWanted) {
-		results = append(results, pageReadResult{
-			document: unsettledPage.Document,
-			outcome:  pageWasOutOfBudget,
-		})
-	}
-
-	return results
-}
