@@ -44,15 +44,21 @@ func New(
 				string(urlmetadataasks.EndedByCutoff),
 			),
 		},
-		documentsNotAskedRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio",
-			"Share of the documents a URL metadata lookup was handed but never asked any "+
-				"peer about.",
+		documentsNotAskedRatio: prometheusclient.NewHistogram(
+			prometheusclient.HistogramOpts{
+				Name: "yacydhtsearch_word_joined_spread_url_metadata_lookup_documents_not_asked_ratio",
+				Help: "Share of the documents a URL metadata lookup was handed but never asked " +
+					"any peer about.",
+				Buckets: ratiobuckets.Tenths(),
+			},
 		),
-		lookedUpDocumentsWithoutMetadataRatio: ratioHistogramNamed(
-			"yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio",
-			"Share of the documents the spread looked metadata up for that no peer sent "+
-				"metadata for.",
+		lookedUpDocumentsWithoutMetadataRatio: prometheusclient.NewHistogram(
+			prometheusclient.HistogramOpts{
+				Name: "yacydhtsearch_word_joined_spread_looked_up_documents_without_metadata_ratio",
+				Help: "Share of the documents the spread looked metadata up for that no peer " +
+					"sent metadata for.",
+				Buckets: ratiobuckets.Tenths(),
+			},
 		),
 		askDocuments: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_word_joined_spread_url_metadata_ask_documents",
@@ -74,14 +80,6 @@ func New(
 	)
 
 	return metrics
-}
-
-func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
-	return prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-		Name:    name,
-		Help:    help,
-		Buckets: ratiobuckets.Tenths(),
-	})
 }
 
 func (m *URLMetadataLookupMetrics) URLMetadataLookupPerformed(

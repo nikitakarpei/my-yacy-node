@@ -9,7 +9,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/ratiobuckets"
 )
 
 const (
@@ -48,14 +47,6 @@ func New(
 	registry.MustRegister(wordJoinedSpreads, metrics.wordJoinedSpreadDurationSeconds)
 
 	return metrics
-}
-
-func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
-	return prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-		Name:    name,
-		Help:    help,
-		Buckets: ratiobuckets.Tenths(),
-	})
 }
 
 func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
