@@ -44,7 +44,6 @@ func TestEverySourceIsPublishedBeforeTheFirstAmounts(t *testing.T) {
 
 	assertPublished(t, registry,
 		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="cache"} 0`,
-		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="replicas"} 0`,
 		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="none"} 0`,
 	)
 }
@@ -64,7 +63,7 @@ func TestAmountsWithEveryQueryWordCachedCountForTheCache(t *testing.T) {
 	)
 }
 
-func TestAmountsWithAQueryWordUncachedDoNotCountForTheCache(t *testing.T) {
+func TestAmountsWithAQueryWordUncachedCountForNoSource(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
@@ -75,37 +74,7 @@ func TestAmountsWithAQueryWordUncachedDoNotCountForTheCache(t *testing.T) {
 	})
 
 	assertPublished(t, registry,
-		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="cache"} 0`,
-	)
-}
-
-func TestAmountsCountedFromReplicasPublishTheShareOfQueryWordsCounted(t *testing.T) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := documentamountsprometheus.New(registry)
-
-	metrics.AmountsCountedFromReplicas(t.Context(), documentamounts.PerformedFromReplicas{
-		AmountOfQueryWords: 4, AmountOfQueryWordsCounted: 1,
-	})
-
-	assertPublished(t, registry,
-		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="replicas"} 1`,
-	)
-}
-
-func TestReplicasThatCountedNoQueryWordCountForNoSource(t *testing.T) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := documentamountsprometheus.New(registry)
-
-	metrics.AmountsCountedFromReplicas(t.Context(), documentamounts.PerformedFromReplicas{
-		AmountOfQueryWords: 2,
-	})
-
-	assertPublished(t, registry,
 		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="none"} 1`,
-		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="replicas"} 0`,
+		`yacydhtsearch_word_joined_spread_document_amount_sources_total{source="cache"} 0`,
 	)
 }

@@ -325,47 +325,6 @@ func TestEveryPartitionOfAWordIsAskedWithTheLanguageAndExclusionsOfTheQuery(t *t
 	}
 }
 
-func TestWhichDocumentsHaveInAnswersWithWhatThePartitionListedWheneverAsked(t *testing.T) {
-	t.Parallel()
-
-	documents := documentsIn(t, 1, 2)
-	inquiry := inquiryOver(
-		t, firstWordListing(documents...), documentasks.DocumentAsksObservers{},
-		&wordPartitionsAnsweredInTurn{},
-	)
-
-	answeredFirst := inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord, secondWord))
-	answeredAgain := inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord))
-	inquiry.End()
-
-	want := []answeredWordPartition{{
-		word:      yacymodel.WordHash(firstWord),
-		partition: 1,
-		answers:   []wordpartitionasks.ReplicaAnswer{answerOf("first", documents...)},
-	}, {
-		word:      yacymodel.WordHash(secondWord),
-		partition: 1,
-	}}
-	if !reflect.DeepEqual(answeredWordPartitionsOf(answeredFirst), want) ||
-		!reflect.DeepEqual(answeredWordPartitionsOf(answeredAgain), want[:1]) {
-		t.Fatalf(
-			"the question answered %v then %v, want %v then %v",
-			answeredFirst, answeredAgain, want, want[:1],
-		)
-	}
-}
-
-func answeredWordPartitionsOf(settledAsks []wordpartitionasks.SettledAsk) []answeredWordPartition {
-	answered := make([]answeredWordPartition, 0, len(settledAsks))
-	for _, settledAsk := range settledAsks {
-		answered = append(answered, answeredWordPartition{
-			word: settledAsk.Word, partition: settledAsk.Partition, answers: settledAsk.Answers,
-		})
-	}
-
-	return answered
-}
-
 func TestEverySettledAskReachesTheInquirerOnceWithItsWordAndPartition(t *testing.T) {
 	t.Parallel()
 
@@ -376,14 +335,15 @@ func TestEverySettledAskReachesTheInquirerOnceWithItsWordAndPartition(t *testing
 		documentasks.DocumentAsksObservers{},
 		inquirer,
 	)
-	inquiry.WhichDocumentsHaveIn(1, wordsOf(secondWord))
-	inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord))
-	inquiry.WhichDocumentsHave(wordsOf(firstWord))
+	inquiry.WhichDocumentsHave(wordsOf(secondWord))
+	inquiry.WhichDocumentsHave(wordsOf(firstWord, secondWord))
 
 	inquiry.End()
 
-	want := slices.Concat(wordPartitionsOf(secondWord, 1), wordPartitionsOf(firstWord, 1, 0))
-	if got := inquirer.wordPartitions(); !slices.Equal(got, want) {
+	want := slices.Sorted(slices.Values(
+		slices.Concat(wordPartitionsOf(secondWord, 0, 1), wordPartitionsOf(firstWord, 0, 1)),
+	))
+	if got := slices.Sorted(slices.Values(inquirer.wordPartitions())); !slices.Equal(got, want) {
 		t.Fatalf("the inquirer got %v, want %v", got, want)
 	}
 }
@@ -397,19 +357,15 @@ func TestTheAsksOfAQuestionReachTheInquirerBeforeItReturns(t *testing.T) {
 		t, firstWordListing(documents...), documentasks.DocumentAsksObservers{}, inquirer,
 	)
 
-	inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord, secondWord))
-	answeredBeforeTheEnd := inquirer.wordPartitions()
+	inquiry.WhichDocumentsHave(wordsOf(firstWord, secondWord))
+	answeredBeforeTheEnd := slices.Sorted(slices.Values(inquirer.wordPartitions()))
 	inquiry.End()
 
-	want := slices.Concat(wordPartitionsOf(firstWord, 1), wordPartitionsOf(secondWord, 1))
-	if !slices.Equal(answeredBeforeTheEnd, want) ||
-		!reflect.DeepEqual(inquirer.answered[0].answers, []wordpartitionasks.ReplicaAnswer{
-			answerOf("first", documents...),
-		}) {
-		t.Fatalf(
-			"the inquirer got %v before the end, first %v, want %v with the listed documents",
-			answeredBeforeTheEnd, inquirer.answered, want,
-		)
+	want := slices.Sorted(slices.Values(
+		slices.Concat(wordPartitionsOf(firstWord, 0, 1), wordPartitionsOf(secondWord, 0, 1)),
+	))
+	if !slices.Equal(answeredBeforeTheEnd, want) {
+		t.Fatalf("the inquirer got %v before the end, want %v", answeredBeforeTheEnd, want)
 	}
 }
 
@@ -446,7 +402,7 @@ func TestAWordPartitionIsAskedOnce(t *testing.T) {
 	inquiry := inquiryOver(
 		t, replicas, documentasks.DocumentAsksObservers{}, &wordPartitionsAnsweredInTurn{},
 	)
-	inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord))
+	inquiry.WhichDocumentsHave(wordsOf(firstWord))
 	inquiry.WhichDocumentsHave(wordsOf(firstWord))
 
 	inquiry.End()
@@ -455,11 +411,8 @@ func TestAWordPartitionIsAskedOnce(t *testing.T) {
 	for _, ask := range *replicas.asksInTheOrderTheyWerePut {
 		partitionsAsked = append(partitionsAsked, ask.Partition)
 	}
-	if !slices.Equal(partitionsAsked, []uint{0, 1}) {
-		t.Fatalf(
-			"the inquiry asked partitions %v, want partition 0 then partition 1",
-			partitionsAsked,
-		)
+	if !slices.Equal(slices.Sorted(slices.Values(partitionsAsked)), []uint{0, 1}) {
+		t.Fatalf("the inquiry asked partitions %v, want each partition once", partitionsAsked)
 	}
 }
 
@@ -525,28 +478,6 @@ func TestAPartitionWithMoreDocumentsToMatchThanTheCeilingIsAskedWhole(t *testing
 	}
 }
 
-func TestAPartitionWhoseWordsToAskWereAskedAlreadyReportsNoKind(t *testing.T) {
-	t.Parallel()
-
-	asked := &askedPartitions{
-		decisionPerPartition: map[uint]documentasks.DocumentsToMatchDecision{},
-	}
-	inquiry := inquiryOver(
-		t, firstWordListing(documentsIn(t, 1, 1)...), asked, &wordPartitionsAnsweredInTurn{},
-	)
-	inquiry.WhichDocumentsHaveIn(0, wordsOf(secondWord))
-
-	inquiry.WhichDocumentsHavingTheseAlsoHave(wordsOf(firstWord), wordsOf(secondWord))
-	inquiry.End()
-
-	if want := (map[uint]documentasks.DocumentsToMatchDecision{1: documentasks.NamedTheDocumentsToMatch}); !maps.Equal(
-		asked.decisionPerPartition,
-		want,
-	) {
-		t.Fatalf("the partitions were asked %v, want %v", asked.decisionPerPartition, want)
-	}
-}
-
 func TestDocumentsOverTheCeilingInAPartitionHaveTheWordsToAskAskedAtTheStart(t *testing.T) {
 	t.Parallel()
 
@@ -604,15 +535,15 @@ func TestTheInquiryReportsWhatTheReplicasCarriedOnceItEnds(t *testing.T) {
 		reports,
 		&wordPartitionsAnsweredInTurn{},
 	)
-	inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord, secondWord))
+	inquiry.WhichDocumentsHave(wordsOf(firstWord, secondWord))
 	amountOfReportsBeforeTheEnd := len(reports.performed)
 	inquiry.End()
 
 	want := []documentasks.Performed{{
 		AmountOfPeersWithANonEmptyAbstract:  2,
-		AmountOfListedDocumentsWithMetadata: 1,
-		AmountOfListedDocumentsWithAPosting: 1,
-		AmountOfDocumentsHeldInEachAnswer:   []int{512},
+		AmountOfListedDocumentsWithMetadata: twoPartitionsOfTheRing,
+		AmountOfListedDocumentsWithAPosting: twoPartitionsOfTheRing,
+		AmountOfDocumentsHeldInEachAnswer:   []int{512, 512},
 	}}
 	if amountOfReportsBeforeTheEnd != 0 || !reflect.DeepEqual(reports.performed, want) {
 		t.Fatalf(

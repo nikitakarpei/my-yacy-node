@@ -57,22 +57,6 @@ func (inquiry *Inquiry) settle(settledAsk wordpartitionasks.SettledAsk) {
 	)
 }
 
-func (inquiry *Inquiry) WhichDocumentsHaveIn(
-	partition uint,
-	words []yacymodel.Hash,
-) []wordpartitionasks.SettledAsk {
-	inquiry.send(inquiry.chosenPeers.asksOf(words, partition))
-	inquiry.waitUntilNonePendingIn(partition, words)
-
-	return inquiry.sentAsks.answersOf(partition, words)
-}
-
-func (inquiry *Inquiry) waitUntilNonePendingIn(partition uint, words []yacymodel.Hash) {
-	for !inquiry.sentAsks.nonePendingIn(partition, words) {
-		inquiry.readTheNextSettledAsk()
-	}
-}
-
 func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(these, those []yacymodel.Hash) {
 	inquiry.askEveryPartitionFor(these)
 	if len(those) > 0 {
@@ -95,10 +79,9 @@ func (inquiry *Inquiry) askAmongTheDocumentsHaving(
 	inquiry.asEachPartitionListsDocumentsHaving(
 		these,
 		func(partition uint, listedDocuments yacymodel.URLHashes) {
-			decided := inquiry.askWhetherTheyAlsoHave(partition, listedDocuments, those)
-			if decision, asked := decided.Get(); asked {
-				decisionPerPartition[partition] = decision
-			}
+			decisionPerPartition[partition] = inquiry.askWhetherTheyAlsoHave(
+				partition, listedDocuments, those,
+			)
 		},
 	)
 
@@ -176,23 +159,20 @@ func (inquiry *Inquiry) askWhetherTheyAlsoHave(
 	partition uint,
 	listedDocuments yacymodel.URLHashes,
 	words []yacymodel.Hash,
-) yacymodel.Optional[DocumentsToMatchDecision] {
+) DocumentsToMatchDecision {
 	asks := inquiry.chosenPeers.asksOf(words, partition)
-	if inquiry.sentAsks.containEvery(asks) {
-		return yacymodel.None[DocumentsToMatchDecision]()
-	}
 	documentsToMatch := listedDocuments.InHashOrder()
 	switch {
 	case len(documentsToMatch) == 0:
-		return yacymodel.Some(NoDocumentsToMatch)
+		return NoDocumentsToMatch
 	case len(documentsToMatch) > inquiry.documentsToMatchCeiling:
 		inquiry.send(asks)
 
-		return yacymodel.Some(NamedNoneOverTheCeiling)
+		return NamedNoneOverTheCeiling
 	default:
 		inquiry.send(namingTheDocumentsToMatch(asks, documentsToMatch))
 
-		return yacymodel.Some(NamedTheDocumentsToMatch)
+		return NamedTheDocumentsToMatch
 	}
 }
 

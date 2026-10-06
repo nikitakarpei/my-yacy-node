@@ -463,7 +463,6 @@ type spreadSettings struct {
 	choice                          responsiblePeers
 	askablePeers                    []string
 	partitions                      yacymodel.DHTRingPartitions
-	countedPartition                uint
 	documentsToMatchCeiling         int
 	urlMetadataAskDocumentsCeiling  int
 	urlMetadataAskCeilingOfEachPeer map[string]int
@@ -570,13 +569,7 @@ func (settings spreadSettings) spread(
 		),
 		queryWordDocumentAmounts,
 		leadingword.New(documentamounts.NewFromCache(
-			queryWordDocumentAmounts,
-			documentamounts.NewFromReplicas(
-				settings.partitions,
-				func(uint) uint { return settings.countedPartition },
-				documentamounts.FromReplicasObservers{},
-			),
-			documentamounts.FromCacheObservers{},
+			queryWordDocumentAmounts, documentamounts.FromCacheObservers{},
 		)),
 		urlmetadataasks.New(
 			network,
@@ -1527,7 +1520,7 @@ func TestAQueryWhoseWordsAllHaveACachedAmountLeadsWithTheRarestCachedWord(t *tes
 	}
 }
 
-func TestAQueryWithAWordWithoutACachedAmountLeadsWithTheRarestCountedWord(t *testing.T) {
+func TestAQueryWithAWordWithoutACachedAmountAsksEveryWordWholeInEveryPartition(t *testing.T) {
 	t.Parallel()
 
 	network := networkWhereTheSecondWordLeadsInPartitionZero(t)
@@ -1536,10 +1529,15 @@ func TestAQueryWithAWordWithoutACachedAmountLeadsWithTheRarestCountedWord(t *tes
 
 	settings.spread(network, &recordedSpreads{})
 
-	if got := asksNamingDocumentsToMatchAmong(
-		asksOfTheWord(secondWord, network.searchDocumentsAsks),
-	); len(got) != 0 {
-		t.Fatalf("the spread asked %v naming documents, want the rarest counted word leading", got)
+	for _, spelledWord := range []string{firstWord, secondWord} {
+		asksOfTheWord := asksOfTheWord(spelledWord, network.searchDocumentsAsks)
+		if len(asksNamingDocumentsToMatchAmong(asksOfTheWord)) != 0 ||
+			!slices.Equal(partitionsAskedAmong(asksOfTheWord), []uint{0, 1}) {
+			t.Fatalf(
+				"the spread asked %q %v, want it asked whole in every partition",
+				spelledWord, asksOfTheWord,
+			)
+		}
 	}
 }
 

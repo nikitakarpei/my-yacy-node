@@ -11,15 +11,13 @@ import (
 )
 
 const (
-	labelSource    = "source"
-	sourceCache    = "cache"
-	sourceReplicas = "replicas"
-	sourceNone     = "none"
+	labelSource = "source"
+	sourceCache = "cache"
+	sourceNone  = "none"
 )
 
 type DocumentAmountsMetrics struct {
 	amountsFromCache    prometheusclient.Counter
-	amountsFromReplicas prometheusclient.Counter
 	amountsFromNoSource prometheusclient.Counter
 }
 
@@ -27,11 +25,10 @@ func New(registry prometheusclient.Registerer) *DocumentAmountsMetrics {
 	sources := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_word_joined_spread_document_amount_sources_total",
 		Help: "Document amounts of the query words, by where they came from; " +
-			"none when the replicas counted no query word.",
+			"none when a query word had no remembered amount.",
 	}, []string{labelSource})
 	metrics := &DocumentAmountsMetrics{
 		amountsFromCache:    sources.WithLabelValues(sourceCache),
-		amountsFromReplicas: sources.WithLabelValues(sourceReplicas),
 		amountsFromNoSource: sources.WithLabelValues(sourceNone),
 	}
 	registry.MustRegister(sources)
@@ -43,19 +40,10 @@ func (m *DocumentAmountsMetrics) AmountsReadFromCache(
 	_ context.Context,
 	performed documentamounts.PerformedFromCache,
 ) {
-	if performed.AllQueryWordsCached {
-		m.amountsFromCache.Inc()
-	}
-}
-
-func (m *DocumentAmountsMetrics) AmountsCountedFromReplicas(
-	_ context.Context,
-	performed documentamounts.PerformedFromReplicas,
-) {
-	if performed.AmountOfQueryWordsCounted == 0 {
+	if !performed.AllQueryWordsCached {
 		m.amountsFromNoSource.Inc()
 
 		return
 	}
-	m.amountsFromReplicas.Inc()
+	m.amountsFromCache.Inc()
 }

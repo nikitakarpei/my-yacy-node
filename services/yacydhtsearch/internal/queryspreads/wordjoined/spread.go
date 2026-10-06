@@ -73,7 +73,7 @@ func (spread Spread) SpreadOverPeers(
 		documentasks.Inquirers{holders, measurement, found, joinOfListedDocuments{documentsJoiner}},
 	)
 
-	leadingWord := spread.leadingWordFinder.FindFor(ctx, query, documentInquiry)
+	leadingWord := spread.leadingWordFinder.FindFor(ctx, query)
 	if lead, led := leadingWord.Get(); led {
 		roles := wordroles.Around(lead, query)
 		documentInquiry.ExpectInAPartition(lead.Word, lead.AmountOfDocumentsInAPartition)

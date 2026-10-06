@@ -1,30 +1,18 @@
 // Package leadingword finds the lead of a query: the query word with the fewest
 // documents in a partition, whose documents the other query words must match.
 // Its document amounts give the amount of documents of each query word in one
-// partition of the ring; a query has no lead when no word was counted.
+// partition of the ring; a query has no lead when no word has an amount.
 package leadingword
 
 import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type DocumentAsks interface {
-	WhichDocumentsHaveIn(
-		partition uint,
-		words []yacymodel.Hash,
-	) []wordpartitionasks.SettledAsk
-}
-
 type DocumentAmounts interface {
-	AmountsInAPartitionFor(
-		ctx context.Context,
-		query searchquery.Query,
-		documentAsks DocumentAsks,
-	) map[yacymodel.Hash]int
+	AmountsInAPartitionFor(ctx context.Context, query searchquery.Query) map[yacymodel.Hash]int
 }
 
 type Lead struct {
@@ -43,11 +31,10 @@ func New(documentAmounts DocumentAmounts) Finder {
 func (finder Finder) FindFor(
 	ctx context.Context,
 	query searchquery.Query,
-	documentAsks DocumentAsks,
 ) yacymodel.Optional[Lead] {
 	return rarestAmong(
 		query.WordHashes(),
-		finder.documentAmounts.AmountsInAPartitionFor(ctx, query, documentAsks),
+		finder.documentAmounts.AmountsInAPartitionFor(ctx, query),
 	)
 }
 
