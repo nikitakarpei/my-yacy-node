@@ -41,5 +41,5 @@ func amountOfPeersThatMatchedNothing(settledAsks []wordpartitionasks.SettledAsk)
 }
 
 func isMatched(listedDocument wordpartitionasks.ListedDocument) bool {
-	return listedDocument.Metadata.Present()
+	return listedDocument.Metadata().Present()
 }

@@ -59,7 +59,7 @@ func amountOfListedDocumentsWithMetadataAmong(answers []wordpartitionasks.Replic
 	amount := 0
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
-			if !listedDocument.Metadata.Present() {
+			if !listedDocument.Metadata().Present() {
 				continue
 			}
 			amount++
@@ -73,7 +73,7 @@ func amountOfListedDocumentsWithAPostingAmong(answers []wordpartitionasks.Replic
 	amount := 0
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
-			if !listedDocument.Posting.Present() {
+			if !listedDocument.Posting().Present() {
 				continue
 			}
 			amount++

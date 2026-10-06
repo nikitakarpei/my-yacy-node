@@ -47,14 +47,14 @@ func (found *documentsTheSpreadFound) WordPartitionAnswered(
 	defer found.mutex.Unlock()
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
-			metadata, sent := listedDocument.Metadata.Get()
+			metadata, sent := listedDocument.Metadata().Get()
 			if !sent {
 				continue
 			}
 			found.keepMetadataReplica(queryfindings.MetadataReplica{
 				Holder: answer.Replica.Hash, Metadata: metadata,
 			})
-			if posting, sent := listedDocument.Posting.Get(); sent {
+			if posting, sent := listedDocument.Posting().Get(); sent {
 				found.documentsThePeersSent.KeepPostingReplica(queryfindings.PostingReplica{
 					Holder: answer.Replica.Hash, Word: word, Posting: posting,
 				})

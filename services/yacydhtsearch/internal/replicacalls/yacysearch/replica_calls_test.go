@@ -64,12 +64,14 @@ func TestAMatchedDocumentMergesOntoTheAbstractEntryOfItsHash(t *testing.T) {
 
 	wanted := []wordpartitionasks.ListedDocument{
 		{Hash: onlyListed},
-		{
-			Hash:     inBoth,
-			Metadata: yacymodel.Some(yacymodel.URLMetadata{Hash: inBoth}),
-			Posting:  yacymodel.Some(posting),
-		},
-		{Hash: onlyMatched, Metadata: yacymodel.Some(yacymodel.URLMetadata{Hash: onlyMatched})},
+		wordpartitionasks.ListedDocumentFrom(
+			yacymodel.URLMetadata{Hash: inBoth},
+			yacymodel.Some(posting),
+		),
+		wordpartitionasks.ListedDocumentFrom(
+			yacymodel.URLMetadata{Hash: onlyMatched},
+			yacymodel.None[yacymodel.RWIPosting](),
+		),
 	}
 	if !reflect.DeepEqual(answer.ListedDocuments, wanted) {
 		t.Fatalf("the replica listed %+v, want %+v", answer.ListedDocuments, wanted)

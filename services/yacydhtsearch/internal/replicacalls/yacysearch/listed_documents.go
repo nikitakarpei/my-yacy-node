@@ -9,7 +9,11 @@ import (
 func listedDocumentsIn(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) []wordpartitionasks.ListedDocument {
-	listed := listedDocumentsByHash{placeOfEachDocument: map[yacymodel.URLHash]int{}}
+	amountOfDocumentsSent := len(answeredAsk.Abstract) + len(answeredAsk.MatchedDocuments)
+	listed := listedDocumentsByHash{
+		documents:           make([]wordpartitionasks.ListedDocument, 0, amountOfDocumentsSent),
+		placeOfEachDocument: make(map[yacymodel.URLHash]int, amountOfDocumentsSent),
+	}
 	for _, document := range answeredAsk.Abstract {
 		listed.placeOf(document)
 	}
@@ -39,6 +43,8 @@ func (listed *listedDocumentsByHash) placeOf(document yacymodel.URLHash) int {
 
 func (listed *listedDocumentsByHash) describe(matchedDocument peerasks.MatchedDocument) {
 	place := listed.placeOf(matchedDocument.Metadata.Hash)
-	listed.documents[place].Metadata = yacymodel.Some(matchedDocument.Metadata)
-	listed.documents[place].Posting = matchedDocument.Posting
+	listed.documents[place] = wordpartitionasks.ListedDocumentFrom(
+		matchedDocument.Metadata,
+		matchedDocument.Posting,
+	)
 }

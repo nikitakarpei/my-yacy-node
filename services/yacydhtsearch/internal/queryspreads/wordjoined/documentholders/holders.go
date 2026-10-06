@@ -16,7 +16,7 @@ import (
 )
 
 type Holders struct {
-	peersPerDocument      map[yacymodel.URLHash]map[yacymodel.Hash]peerdirectory.AskablePeer
+	peersPerDocument      map[yacymodel.URLHash][]peerdirectory.AskablePeer
 	documentsWithMetadata yacymodel.URLHashes
 }
 
@@ -27,7 +27,7 @@ type PeerWithItsDocuments struct {
 
 func NoneYet() Holders {
 	return Holders{
-		peersPerDocument:      map[yacymodel.URLHash]map[yacymodel.Hash]peerdirectory.AskablePeer{},
+		peersPerDocument:      map[yacymodel.URLHash][]peerdirectory.AskablePeer{},
 		documentsWithMetadata: yacymodel.URLHashes{},
 	}
 }
@@ -48,11 +48,13 @@ func (holders Holders) keep(
 	replica peerdirectory.AskablePeer,
 	listedDocument wordpartitionasks.ListedDocument,
 ) {
-	if holders.peersPerDocument[listedDocument.Hash] == nil {
-		holders.peersPerDocument[listedDocument.Hash] = map[yacymodel.Hash]peerdirectory.AskablePeer{}
+	peers := holders.peersPerDocument[listedDocument.Hash]
+	if !slices.ContainsFunc(peers, func(peer peerdirectory.AskablePeer) bool {
+		return peer.Hash == replica.Hash
+	}) {
+		holders.peersPerDocument[listedDocument.Hash] = append(peers, replica)
 	}
-	holders.peersPerDocument[listedDocument.Hash][replica.Hash] = replica
-	if listedDocument.Metadata.Present() {
+	if listedDocument.Metadata().Present() {
 		holders.documentsWithMetadata.Add(listedDocument.Hash)
 	}
 }
@@ -64,7 +66,7 @@ func (holders Holders) HoldersOf(documents yacymodel.URLHashes) Holders {
 		if !listed {
 			continue
 		}
-		holdersOfTheDocuments.peersPerDocument[document] = maps.Clone(peers)
+		holdersOfTheDocuments.peersPerDocument[document] = slices.Clone(peers)
 	}
 
 	return holdersOfTheDocuments

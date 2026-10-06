@@ -76,21 +76,24 @@ func (network *peerNetwork) listedDocumentsOf(
 		if err != nil {
 			continue
 		}
-		listedDocument := wordpartitionasks.ListedDocument{Hash: hash}
-		if !listsOnlyHashes {
-			listedDocument.Metadata = yacymodel.Some(
-				yacymodel.URLMetadata{Hash: hash, Address: address},
-			)
+		if listsOnlyHashes {
+			listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocument{Hash: hash})
+
+			continue
 		}
+		posting := yacymodel.None[yacymodel.RWIPosting]()
 		if countsAWord {
-			listedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
+			posting = yacymodel.Some(yacymodel.RWIPosting{
 				URLHash:       hash,
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,
 			})
 		}
-		listedDocuments = append(listedDocuments, listedDocument)
+		listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocumentFrom(
+			yacymodel.URLMetadata{Hash: hash, Address: address},
+			posting,
+		))
 	}
 
 	return listedDocuments

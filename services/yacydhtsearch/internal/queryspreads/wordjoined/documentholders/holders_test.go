@@ -48,8 +48,9 @@ func holdersAnswered(answers ...wordpartitionasks.ReplicaAnswer) documentholders
 func withMetadataOnTheFirstDocument(
 	answer wordpartitionasks.ReplicaAnswer,
 ) wordpartitionasks.ReplicaAnswer {
-	answer.ListedDocuments[0].Metadata = yacymodel.Some(
+	answer.ListedDocuments[0] = wordpartitionasks.ListedDocumentFrom(
 		yacymodel.URLMetadata{Hash: answer.ListedDocuments[0].Hash},
+		yacymodel.None[yacymodel.RWIPosting](),
 	)
 
 	return answer

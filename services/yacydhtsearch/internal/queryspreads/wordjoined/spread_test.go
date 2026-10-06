@@ -247,19 +247,19 @@ func (network *peerNetwork) documentsWithMetadataOf(
 ) []wordpartitionasks.ListedDocument {
 	documentsWithMetadata := make([]wordpartitionasks.ListedDocument, 0, len(documents))
 	for _, document := range documents {
-		documentWithMetadata := wordpartitionasks.ListedDocument{
-			Hash:     document,
-			Metadata: yacymodel.Some(yacymodel.URLMetadata{Hash: document}),
-		}
+		posting := yacymodel.None[yacymodel.RWIPosting]()
 		if network.countsAWordWithEachItem {
-			documentWithMetadata.Posting = yacymodel.Some(yacymodel.RWIPosting{
+			posting = yacymodel.Some(yacymodel.RWIPosting{
 				URLHash:       document,
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,
 			})
 		}
-		documentsWithMetadata = append(documentsWithMetadata, documentWithMetadata)
+		documentsWithMetadata = append(documentsWithMetadata, wordpartitionasks.ListedDocumentFrom(
+			yacymodel.URLMetadata{Hash: document},
+			posting,
+		))
 	}
 
 	return documentsWithMetadata

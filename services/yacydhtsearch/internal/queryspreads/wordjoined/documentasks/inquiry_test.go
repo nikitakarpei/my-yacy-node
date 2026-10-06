@@ -589,10 +589,10 @@ func TestTheInquiryReportsWhatTheReplicasCarriedOnceItEnds(t *testing.T) {
 
 	documents := documentsIn(t, 0, 2)
 	withMetadata := answerOf("first", documents...)
-	withMetadata.ListedDocuments[0].Metadata = yacymodel.Some(yacymodel.URLMetadata{
-		Hash: documents[0],
-	})
-	withMetadata.ListedDocuments[0].Posting = yacymodel.Some(yacymodel.RWIPosting{Hits: 1})
+	withMetadata.ListedDocuments[0] = wordpartitionasks.ListedDocumentFrom(
+		yacymodel.URLMetadata{Hash: documents[0]},
+		yacymodel.Some(yacymodel.RWIPosting{Hits: 1}),
+	)
 	withMetadata.AmountOfDocumentsHeld = yacymodel.Some(512)
 	reports := &documentAsksReports{}
 	inquiry := inquiryOver(
