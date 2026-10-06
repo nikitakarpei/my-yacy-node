@@ -637,6 +637,44 @@ func TestEntryPageOfSiteTheQueryHoldsComesFirst(t *testing.T) {
 	}
 }
 
+func TestSiteWhoseRegistrableDomainHoldsTheQueryComesBeforeOneWhoseSubdomainAloneHoldsIt(
+	t *testing.T,
+) {
+	t.Parallel()
+
+	findings := findingsHoldingDocumentsPerQueryWord(
+		[]string{"linux"},
+		[]foundDocument{
+			foundDocumentAt(t, "https://linux.buzzing.example/").matchingWords("linux"),
+			foundDocumentAt(t, "https://linux-buzzing.example/").matchingWords("linux"),
+		},
+		map[string]int{"linux": 100},
+	)
+
+	want := []string{"https://linux-buzzing.example/", "https://linux.buzzing.example/"}
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestSiteOfAHostingSuffixIsNamedByTheDomainBelowItsPublicSuffix(t *testing.T) {
+	t.Parallel()
+
+	findings := findingsHoldingDocumentsPerQueryWord(
+		[]string{"debian"},
+		[]foundDocument{
+			foundDocumentAt(t, "https://debian.neuro.example/").matchingWords("debian"),
+			foundDocumentAt(t, "https://neuro.debian.net/").matchingWords("debian"),
+		},
+		map[string]int{"debian": 100},
+	)
+
+	want := []string{"https://neuro.debian.net/", "https://debian.neuro.example/"}
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
 func TestDocumentOfFewerLinksPerWordComesLast(t *testing.T) {
 	t.Parallel()
 
