@@ -370,7 +370,7 @@ func networkOrdering(
 
 type pagesThatNoOneReads struct{}
 
-func (pages pagesThatNoOneReads) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+func (pages pagesThatNoOneReads) Start(_ []string) networksearch.PageReadingRun {
 	return pages
 }
 
@@ -625,7 +625,7 @@ type pagesHoldingTheWordOfOneDocument struct {
 	hits    int
 }
 
-func (p pagesHoldingTheWordOfOneDocument) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+func (p pagesHoldingTheWordOfOneDocument) Start(_ []string) networksearch.PageReadingRun {
 	return p
 }
 
@@ -692,7 +692,7 @@ type pagesRecordingTheirAddresses struct {
 	addresses *[]string
 }
 
-func (p pagesRecordingTheirAddresses) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+func (p pagesRecordingTheirAddresses) Start(_ []string) networksearch.PageReadingRun {
 	return p
 }
 
@@ -763,7 +763,7 @@ type pagesOfOneDocumentWithdrawn struct {
 	address string
 }
 
-func (p pagesOfOneDocumentWithdrawn) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+func (p pagesOfOneDocumentWithdrawn) Start(_ []string) networksearch.PageReadingRun {
 	return p
 }
 
@@ -839,7 +839,7 @@ type pagesRecordingTheBudgetTheyGet struct {
 	recorded *recordedBudgets
 }
 
-func (p pagesRecordingTheBudgetTheyGet) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+func (p pagesRecordingTheBudgetTheyGet) Start(_ []string) networksearch.PageReadingRun {
 	return p
 }
 

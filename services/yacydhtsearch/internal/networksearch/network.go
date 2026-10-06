@@ -39,7 +39,7 @@ type DocumentsOrdering interface {
 }
 
 type PageReading interface {
-	Start(queryWords []yacymodel.Hash) PageReadingRun
+	Start(queryWords []string) PageReadingRun
 }
 
 type PageReadingRun interface {
@@ -122,7 +122,7 @@ func (n Network) Search(
 		ctx, n.queryBudget, n.pageReadBudget,
 	)
 	defer endTheQuerySpread()
-	pageReadingRun := n.pageReading.Start(query.WordHashes())
+	pageReadingRun := n.pageReading.Start(query.Words)
 	prefetcher := n.prefetcherFor(pageReadingRun)
 	prefetcher.Start(ctx)
 	findings := n.querySpread.SpreadOverPeers(

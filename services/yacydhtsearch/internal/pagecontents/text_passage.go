@@ -5,8 +5,6 @@ import (
 	"unicode/utf8"
 
 	"github.com/clipperhouse/uax29/v2/sentences"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type passage struct {
@@ -17,7 +15,7 @@ type passage struct {
 }
 
 func bestPassageForTheQueryWords(
-	queryWords []yacymodel.Hash,
+	queryWords []string,
 	pageText string,
 	lengthCeiling int,
 ) passage {
@@ -36,26 +34,27 @@ func bestPassageForTheQueryWords(
 
 func passageTextsIn(pageText string, lengthCeiling int) iter.Seq[string] {
 	return func(yield func(string) bool) {
-		passageText := ""
+		passageStart, passageEnd, amountOfPassageRunes := 0, 0, 0
 		sentencesOfThePage := sentences.FromString(pageText)
 		for sentencesOfThePage.Next() {
-			sentence := sentencesOfThePage.Value()
-			if passageText != "" &&
-				utf8.RuneCountInString(passageText+sentence) > lengthCeiling {
-				if !yield(passageText) {
+			amountOfSentenceRunes := utf8.RuneCountInString(sentencesOfThePage.Value())
+			if passageEnd > passageStart &&
+				amountOfPassageRunes+amountOfSentenceRunes > lengthCeiling {
+				if !yield(pageText[passageStart:passageEnd]) {
 					return
 				}
-				passageText = ""
+				passageStart, amountOfPassageRunes = passageEnd, 0
 			}
-			passageText += sentence
+			passageEnd = sentencesOfThePage.End()
+			amountOfPassageRunes += amountOfSentenceRunes
 		}
-		if passageText != "" {
-			yield(passageText)
+		if passageEnd > passageStart {
+			yield(pageText[passageStart:passageEnd])
 		}
 	}
 }
 
-func passageOf(passageText string, queryWords []yacymodel.Hash) passage {
+func passageOf(passageText string, queryWords []string) passage {
 	counts := textCountsOf(passageText, queryWords)
 	readPassage := passage{
 		text:            passageText,

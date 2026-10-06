@@ -68,7 +68,7 @@ func (measurement *Measurement) AmountOfQueryWordsHeldByNoPeer() int {
 	defer measurement.mutex.Unlock()
 	amount := 0
 	for _, answers := range measurement.answersPerQueryWord {
-		if len(answers.documents()) == 0 {
+		if !answers.listAnyDocument() {
 			amount++
 		}
 	}

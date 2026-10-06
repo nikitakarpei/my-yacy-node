@@ -3,13 +3,11 @@ package pagereading
 import (
 	"context"
 	"time"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Run struct {
 	pageReader   pageReader
-	queryWords   []yacymodel.Hash
+	queryWords   []string
 	deadlines    pageReadDeadlines
 	observer     PageReadingObserver
 	startedPages *startedPages
@@ -17,7 +15,7 @@ type Run struct {
 
 func newRun(
 	reader pageReader,
-	queryWords []yacymodel.Hash,
+	queryWords []string,
 	deadlines pageReadDeadlines,
 	observer PageReadingObserver,
 ) *Run {

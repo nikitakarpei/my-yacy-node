@@ -27,7 +27,7 @@ func PageContentsFrom(
 	pageTitle string,
 	pageText string,
 	linkCounts LinkCounts,
-	queryWords []yacymodel.Hash,
+	queryWords []string,
 	snippetLengthCeiling int,
 ) PageContents {
 	counts := textCountsOf(pageText, queryWords)
@@ -35,7 +35,7 @@ func PageContentsFrom(
 
 	return PageContents{
 		Title:            strings.Join(strings.Fields(pageTitle), " "),
-		HitsPerQueryWord: counts.hitsPerQueryWord,
+		HitsPerQueryWord: counts.hitsPerWordHash(),
 		QueryPhraseHits:  phrases.hitsIn(pageTitle) + phrases.hitsIn(pageText),
 		AmountOfWords:    counts.amountOfWords,
 		Snippet:          snippetOf(pageText, queryWords, snippetLengthCeiling),

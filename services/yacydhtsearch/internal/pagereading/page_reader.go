@@ -14,7 +14,6 @@ import (
 	robotsmetahttpheader "github.com/nikitakarpei/yacy-rwi-node/robotsmeta/httpheader"
 	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type pageReader struct {
@@ -25,7 +24,7 @@ type pageReader struct {
 
 func (reader pageReader) read(
 	ctx context.Context,
-	queryWords []yacymodel.Hash,
+	queryWords []string,
 	pageToRead PageToRead,
 ) pageReadResult {
 	pageURL, err := canonicalurl.CanonicalURLOf(pageToRead.Address)
@@ -98,7 +97,7 @@ func readOutcomeFromAFetchStatus(status pagefetch.FetchStatus) readOutcome {
 
 func (reader pageReader) pageContentsOfTheFetchedPage(
 	ctx context.Context,
-	queryWords []yacymodel.Hash,
+	queryWords []string,
 	fetchedPage pagefetch.FetchedPage,
 	pageURL canonicalurl.CanonicalURL,
 ) (pagecontents.PageContents, readOutcome) {

@@ -233,7 +233,7 @@ func (recording judgedQueryRecording) recordOne(t *testing.T, query string) {
 	findingsAndPageContents := findingsAndPageContentsOf(
 		findings,
 		recording.extraction.pageContentsPerDocumentOf(
-			t.Context(), findings, pagePerAddressOf(pages),
+			t.Context(), queryreading.QueryFrom(query, "").Words, findings, pagePerAddressOf(pages),
 		),
 	)
 	writeRecordedFindingsFile(

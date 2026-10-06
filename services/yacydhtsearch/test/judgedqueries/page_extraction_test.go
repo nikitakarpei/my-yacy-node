@@ -47,6 +47,7 @@ func pageExtractionOfEveryFormat(t *testing.T) pageExtraction {
 
 func (extraction pageExtraction) pageContentsPerDocumentOf(
 	ctx context.Context,
+	queryWords []string,
 	findings queryfindings.Findings,
 	storedPagePerAddress map[string]storedPage,
 ) map[yacymodel.URLHash]pagecontents.PageContents {
@@ -64,7 +65,7 @@ func (extraction pageExtraction) pageContentsPerDocumentOf(
 			extractedPage.title,
 			extractedPage.text,
 			extractedPage.linkCounts,
-			findings.QueryWords,
+			queryWords,
 			snippetLengthCeiling,
 		)
 	}

@@ -3,8 +3,6 @@ package pagecontents
 import (
 	"strings"
 	"unicode"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -12,7 +10,7 @@ const (
 	noWordBoundaryInTheText  = -1
 )
 
-func snippetOf(pageText string, queryWords []yacymodel.Hash, lengthCeiling int) string {
+func snippetOf(pageText string, queryWords []string, lengthCeiling int) string {
 	bestPassage := bestPassageForTheQueryWords(queryWords, pageText, lengthCeiling)
 
 	return textCutAtAWordBoundary(strings.TrimSpace(bestPassage.text), lengthCeiling)

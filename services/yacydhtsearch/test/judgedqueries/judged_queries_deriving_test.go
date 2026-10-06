@@ -3,6 +3,8 @@ package judgedqueries_test
 import (
 	"os"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 )
 
 const derivingSwitch = "YACYDHTSEARCH_DERIVE_JUDGED_QUERIES"
@@ -26,7 +28,10 @@ func (extraction pageExtraction) deriveJudgedQueryFrom(t *testing.T, findingsFil
 	findingsAndPageContents := findingsAndPageContentsOf(
 		findings,
 		extraction.pageContentsPerDocumentOf(
-			t.Context(), findings, storedPagePerAddressOf(t, recorded.Query),
+			t.Context(),
+			queryreading.QueryFrom(recorded.Query, "").Words,
+			findings,
+			storedPagePerAddressOf(t, recorded.Query),
 		),
 	)
 	writeRecordedFindingsFile(
