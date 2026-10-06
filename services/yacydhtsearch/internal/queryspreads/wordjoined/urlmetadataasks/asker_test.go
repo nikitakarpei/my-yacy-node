@@ -25,16 +25,19 @@ const (
 var cutoffAtNinetyPercent = urlmetadataasks.Cutoff{PercentOfDocuments: 90, Grace: grace}
 
 type peersOfTheNetwork struct {
-	stuckPeers   map[string]struct{}
-	failingPeers map[string]struct{}
-	asks         []peerasks.URLMetadataAsk
-	asksContext  context.Context
+	stuckPeers          map[string]struct{}
+	failingPeers        map[string]struct{}
+	latePeers           map[string]struct{}
+	lateAnswersReleased <-chan struct{}
+	asks                []peerasks.URLMetadataAsk
+	asksContext         context.Context
 }
 
 func peersWhere(stuckPeers []string, failingPeers []string) *peersOfTheNetwork {
 	peers := &peersOfTheNetwork{
 		stuckPeers:   map[string]struct{}{},
 		failingPeers: map[string]struct{}{},
+		latePeers:    map[string]struct{}{},
 	}
 	for _, address := range stuckPeers {
 		peers.stuckPeers[address] = struct{}{}
@@ -54,25 +57,52 @@ func (peers *peersOfTheNetwork) AskForURLMetadata(
 	peers.asksContext = ctx
 	outcomesAsTheySettle := make(chan peerasks.URLMetadataAskOutcome, len(asks))
 	anyStuck := false
+	lateAsks := make([]peerasks.URLMetadataAsk, 0, len(asks))
 	for _, ask := range asks {
 		if _, stuck := peers.stuckPeers[ask.Peer.Address]; stuck {
 			anyStuck = true
 
 			continue
 		}
+		if _, late := peers.latePeers[ask.Peer.Address]; late {
+			lateAsks = append(lateAsks, ask)
+
+			continue
+		}
 		outcomesAsTheySettle <- peers.outcomeOf(ask)
 	}
-	if !anyStuck {
+	if !anyStuck && len(lateAsks) == 0 {
 		close(outcomesAsTheySettle)
 
 		return outcomesAsTheySettle
 	}
 	go func() {
-		<-ctx.Done()
+		peers.answerLate(ctx, lateAsks, outcomesAsTheySettle)
+		if anyStuck {
+			<-ctx.Done()
+		}
 		close(outcomesAsTheySettle)
 	}()
 
 	return outcomesAsTheySettle
+}
+
+func (peers *peersOfTheNetwork) answerLate(
+	ctx context.Context,
+	lateAsks []peerasks.URLMetadataAsk,
+	outcomesAsTheySettle chan<- peerasks.URLMetadataAskOutcome,
+) {
+	if len(lateAsks) == 0 {
+		return
+	}
+	select {
+	case <-peers.lateAnswersReleased:
+	case <-ctx.Done():
+		return
+	}
+	for _, ask := range lateAsks {
+		outcomesAsTheySettle <- peers.outcomeOf(ask)
+	}
 }
 
 func (peers *peersOfTheNetwork) outcomeOf(
@@ -112,10 +142,14 @@ func (ceilings ceilingsOfThePeers) CeilingOf(_ context.Context, address string) 
 type graceClock struct {
 	firesAtOnce   bool
 	gracesStarted int
+	graceStarts   func()
 }
 
 func (clock *graceClock) After(_ time.Duration, expire func()) func() {
 	clock.gracesStarted++
+	if clock.graceStarts != nil {
+		clock.graceStarts()
+	}
 	if clock.firesAtOnce {
 		expire()
 	}
@@ -400,8 +434,13 @@ func TestTheAsksEndByCoverageWhenTheLastDocumentComesBeforeTheGraceEnds(t *testi
 
 	fastDocuments := documentsOf(t, "fast", 9)
 	slowDocument := documentsOf(t, "slow", 1)
-	asked := askedPeersOf(peersWhere([]string{"stuck"}, nil))
+	peers := peersWhere([]string{"stuck"}, nil)
+	graceStarted := make(chan struct{})
+	peers.latePeers["slow"] = struct{}{}
+	peers.lateAnswersReleased = graceStarted
+	asked := askedPeersOf(peers)
 	asked.cutoff = cutoffAtNinetyPercent
+	asked.clock.graceStarts = func() { close(graceStarted) }
 
 	performed := asked.settledFor(t.Context(), answersOf(
 		peerAbstract{address: "fast", documents: fastDocuments},
