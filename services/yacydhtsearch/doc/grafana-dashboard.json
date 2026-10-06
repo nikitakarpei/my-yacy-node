@@ -1783,7 +1783,7 @@
     {
       "id": 72,
       "title": "Pages read but not wanted",
-      "description": "A query started to read these pages, but did not want them for its ranking.",
+      "description": "A query started to read these pages ahead, but did not want them for its ranking: unwanted pages were read to the end, abandoned pages were given up when they left the pages to read.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1819,6 +1819,11 @@
           "refId": "A",
           "expr": "sum(clamp_min(yacydhtsearch_page_reading_pages_unwanted_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_unwanted_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "unwanted"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(clamp_min(yacydhtsearch_page_reading_pages_abandoned_total{instance=~\"$service_instance\"} - (yacydhtsearch_page_reading_pages_abandoned_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "abandoned"
         }
       ]
     },

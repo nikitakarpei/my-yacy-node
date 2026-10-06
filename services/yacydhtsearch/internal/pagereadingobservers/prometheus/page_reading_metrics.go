@@ -51,6 +51,7 @@ type PageReadingMetrics struct {
 	pagesOutOfBudget             prometheusclient.Counter
 	pagesCutOff                  prometheusclient.Counter
 	pagesUnwanted                prometheusclient.Counter
+	pagesAbandoned               prometheusclient.Counter
 	pagesReadAheadAfterTheFinish prometheusclient.Counter
 	pagesReadAfterTheFinish      prometheusclient.Counter
 	pagesReadPerSpamVerdict      *prometheusclient.CounterVec
@@ -86,6 +87,10 @@ func New(
 		Name: "yacydhtsearch_page_reading_pages_unwanted_total",
 		Help: "Pages one query started to read but did not want.",
 	})
+	pagesAbandoned := prometheusclient.NewCounter(prometheusclient.CounterOpts{
+		Name: "yacydhtsearch_page_reading_pages_abandoned_total",
+		Help: "Pages one query read ahead and gave up before they were read.",
+	})
 	pagesAfterTheFinish := prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_page_reading_pages_after_the_finish_total",
 		Help: "Pages one query asked to read after its page reading run finished, by read.",
@@ -93,6 +98,7 @@ func New(
 	registry.MustRegister(
 		pages,
 		pagesUnwanted,
+		pagesAbandoned,
 		pagesAfterTheFinish,
 		pageReadingDurationSeconds,
 		timeSpentSeconds,
@@ -113,6 +119,7 @@ func New(
 		pagesOutOfBudget:             pages.WithLabelValues(outcomePageOutOfBudget),
 		pagesCutOff:                  pages.WithLabelValues(outcomePageCutOff),
 		pagesUnwanted:                pagesUnwanted,
+		pagesAbandoned:               pagesAbandoned,
 		pagesReadAheadAfterTheFinish: pagesAfterTheFinish.WithLabelValues(readAhead),
 		pagesReadAfterTheFinish:      pagesAfterTheFinish.WithLabelValues(readWanted),
 		pagesReadPerSpamVerdict:      pagesReadPerSpamVerdict,
@@ -149,6 +156,7 @@ func (m *PageReadingMetrics) PageReadingRunFinished(
 	run pagereading.FinishedPageReadingRun,
 ) {
 	m.pagesUnwanted.Add(float64(run.AmountOfPagesUnwanted))
+	m.pagesAbandoned.Add(float64(run.AmountOfPagesAbandoned))
 }
 
 func (m *PageReadingMetrics) PagesReadAheadAfterTheFinish(

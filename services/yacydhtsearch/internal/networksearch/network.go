@@ -121,15 +121,17 @@ func (n Network) Search(
 		ctx, n.queryBudget, n.pageReadBudget,
 	)
 	defer endTheQuerySpread()
+	pageReadingRun := n.pageReading.Start(query.WordHashes())
+	prefetcher := n.prefetcherStartedFor(ctx, pageReadingRun)
 	findings := n.querySpread.SpreadOverPeers(
-		querySpreadContext, query, chosenPeersPerQueryWord, unreadGrowth{},
+		querySpreadContext, query, chosenPeersPerQueryWord, prefetcher,
 	)
+	prefetcher.Stop()
 	pagesWanted := pagesToReadAmong(
 		n.documentsOrdering.OrderedDocumentsOf(findings),
 		n.pagesReadPerQuery,
 		n.pagesReadPerSite,
 	)
-	pageReadingRun := n.pageReading.Start(query.WordHashes())
 	pagesRead := pageReadingRun.Read(ctx, pagesWanted)
 	pageReadingRun.Finish(ctx)
 	findingsWithReadPages := findings.

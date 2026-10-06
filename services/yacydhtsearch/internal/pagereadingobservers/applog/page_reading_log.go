@@ -60,6 +60,7 @@ func (PageReadingLog) PageReadingRunFinished(
 ) {
 	slog.DebugContext(ctx, msgPageReadingRunFinished,
 		slog.Int("amountOfPagesUnwanted", run.AmountOfPagesUnwanted),
+		slog.Int("amountOfPagesAbandoned", run.AmountOfPagesAbandoned),
 	)
 }
 

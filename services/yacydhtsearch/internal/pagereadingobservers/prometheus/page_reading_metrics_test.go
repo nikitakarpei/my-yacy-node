@@ -98,6 +98,7 @@ func TestEveryOutcomeOfAPageIsPublishedBeforeTheFirstPageReading(t *testing.T) {
 		`yacydhtsearch_page_reading_pages_total{outcome="out of budget"} 0`,
 		`yacydhtsearch_page_reading_pages_total{outcome="cut off"} 0`,
 		"yacydhtsearch_page_reading_pages_unwanted_total 0",
+		"yacydhtsearch_page_reading_pages_abandoned_total 0",
 		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read_ahead"} 0`,
 		`yacydhtsearch_page_reading_pages_after_the_finish_total{read="read"} 0`,
 		`yacydhtsearch_page_reading_pages_read_total{spam_verdict="spam"} 0`,
@@ -121,6 +122,22 @@ func TestOneFinishedRunPublishesThePagesItReadButDidNotWant(t *testing.T) {
 	)
 
 	published := "yacydhtsearch_page_reading_pages_unwanted_total 6"
+	if body := publishedBy(t, registry); !strings.Contains(body, published) {
+		t.Fatalf("metrics do not carry %q:\n%s", published, body)
+	}
+}
+
+func TestOneFinishedRunPublishesThePagesItAbandoned(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := pagereadingobserversprometheus.New(registry, pageReadBudget)
+
+	metrics.PageReadingRunFinished(
+		t.Context(), pagereading.FinishedPageReadingRun{AmountOfPagesAbandoned: 4},
+	)
+
+	published := "yacydhtsearch_page_reading_pages_abandoned_total 4"
 	if body := publishedBy(t, registry); !strings.Contains(body, published) {
 		t.Fatalf("metrics do not carry %q:\n%s", published, body)
 	}
