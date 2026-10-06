@@ -45,7 +45,8 @@ const (
 	peerCallsInFlight              = 48
 	urlMetadataCallBudget          = 5 * time.Second
 	searchCallBudget               = 5 * time.Second
-	peerItemsCeiling               = 10
+	wordJoinedPeerItemsCeiling     = 1
+	peerMatchedPeerItemsCeiling    = 10
 	compoundWordsCeiling           = 4
 	urlMetadataAskDocumentsCeiling = 1000
 	documentsToMatchCeiling        = 1000
@@ -138,19 +139,21 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		peercallwire.PeerCallObservers{},
 	)
 	hedgeDelay := hedgedelaysconstant.New(searchCallBudget)
-	wants := replicacallsyacysearch.Wants{
-		Abstract:                true,
-		MatchedDocumentsCeiling: yacymodel.Some(peerItemsCeiling),
-	}
 	everyReplicaOfTheWordJoinedSpread := wordpartitionasks.New(
-		replicacallsyacysearch.New(calledPeers, wants),
+		replicacallsyacysearch.New(calledPeers, replicacallsyacysearch.Wants{
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(wordJoinedPeerItemsCeiling),
+		}),
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
 		wordpartitionasks.ReplicaAsksObservers{},
 	)
 	everyReplicaOfThePeerMatchedSpread := wordpartitionasks.New(
-		replicacallsyacysearch.New(calledPeers, wants),
+		replicacallsyacysearch.New(calledPeers, replicacallsyacysearch.Wants{
+			Abstract:                true,
+			MatchedDocumentsCeiling: yacymodel.Some(peerMatchedPeerItemsCeiling),
+		}),
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,

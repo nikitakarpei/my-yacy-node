@@ -289,7 +289,7 @@ func querySpreadFor(
 	wordJoinedReplicaAsks := wordpartitionasks.New(
 		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{
 			Abstract:                true,
-			MatchedDocumentsCeiling: yacymodel.Some(cfg.PeerItemsCeiling),
+			MatchedDocumentsCeiling: yacymodel.Some(cfg.WordJoinedPeerItemsCeiling),
 		}),
 		hedgeDelay,
 		wallclock.Clock{},
@@ -299,7 +299,7 @@ func querySpreadFor(
 	peerMatchedReplicaAsks := wordpartitionasks.New(
 		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{
 			Abstract:                true,
-			MatchedDocumentsCeiling: yacymodel.Some(cfg.PeerItemsCeiling),
+			MatchedDocumentsCeiling: yacymodel.Some(cfg.PeerMatchedPeerItemsCeiling),
 		}),
 		hedgeDelay,
 		wallclock.Clock{},

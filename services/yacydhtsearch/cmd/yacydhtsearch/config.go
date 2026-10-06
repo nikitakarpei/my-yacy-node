@@ -45,7 +45,8 @@ const (
 	EnvSnapshotInterval                 = "YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL"
 	EnvPartitionExponent                = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvMaxResponseBytes                 = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
-	EnvPeerItemsCeiling                 = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
+	EnvWordJoinedPeerItemsCeiling       = "YACYDHTSEARCH_WORD_JOINED_PEER_ITEMS_CEILING"
+	EnvPeerMatchedPeerItemsCeiling      = "YACYDHTSEARCH_PEER_MATCHED_PEER_ITEMS_CEILING"
 	EnvDocumentsToMatchCeiling          = "YACYDHTSEARCH_DOCUMENTS_TO_MATCH_CEILING"
 	EnvURLMetadataAskDocumentsCeiling   = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING"
 	EnvURLMetadataAskDocumentsFloor     = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_FLOOR"
@@ -90,7 +91,8 @@ const (
 	DefaultSnapshotInterval                 = 10 * time.Minute
 	DefaultPartitionExponent                = 4
 	DefaultMaxResponseBytes                 = 4 * 1024 * 1024
-	DefaultPeerItemsCeiling                 = 10
+	DefaultWordJoinedPeerItemsCeiling       = 1
+	DefaultPeerMatchedPeerItemsCeiling      = 10
 	DefaultDocumentsToMatchCeiling          = 1000
 	DefaultURLMetadataAskDocumentsCeiling   = 1000
 	DefaultURLMetadataAskDocumentsFloor     = 25
@@ -144,7 +146,8 @@ type ServiceConfig struct {
 	SnapshotInterval                 time.Duration
 	Partitions                       yacymodel.DHTRingPartitions
 	MaxResponseBytes                 int64
-	PeerItemsCeiling                 int
+	WordJoinedPeerItemsCeiling       int
+	PeerMatchedPeerItemsCeiling      int
 	DocumentsToMatchCeiling          int
 	URLMetadataAskDocumentsCeiling   int
 	URLMetadataAskDocumentsFloor     int
@@ -258,7 +261,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		SnapshotInterval:               durations.snapshotInterval,
 		Partitions:                     partitions,
 		MaxResponseBytes:               maxResponseBytes,
-		PeerItemsCeiling:               counts.peerItemsCeiling,
+		WordJoinedPeerItemsCeiling:     counts.wordJoinedPeerItemsCeiling,
+		PeerMatchedPeerItemsCeiling:    counts.peerMatchedPeerItemsCeiling,
 		DocumentsToMatchCeiling:        counts.documentsToMatchCeiling,
 		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
 		URLMetadataAskDocumentsFloor:   counts.urlMetadataAskDocumentsFloor,
@@ -368,7 +372,8 @@ type configuredCounts struct {
 	peerCallsInFlight                int
 	probesInFlight                   int
 	directoryCapacity                int
-	peerItemsCeiling                 int
+	wordJoinedPeerItemsCeiling       int
+	peerMatchedPeerItemsCeiling      int
 	documentsToMatchCeiling          int
 	urlMetadataAskDocumentsCeiling   int
 	urlMetadataAskDocumentsFloor     int
@@ -396,7 +401,8 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvPeerCallsInFlight, DefaultPeerCallsInFlight, &counts.peerCallsInFlight},
 		{EnvProbesInFlight, DefaultProbesInFlight, &counts.probesInFlight},
 		{EnvDirectoryCapacity, DefaultDirectoryCapacity, &counts.directoryCapacity},
-		{EnvPeerItemsCeiling, DefaultPeerItemsCeiling, &counts.peerItemsCeiling},
+		{EnvWordJoinedPeerItemsCeiling, DefaultWordJoinedPeerItemsCeiling, &counts.wordJoinedPeerItemsCeiling},
+		{EnvPeerMatchedPeerItemsCeiling, DefaultPeerMatchedPeerItemsCeiling, &counts.peerMatchedPeerItemsCeiling},
 		{EnvDocumentsToMatchCeiling, DefaultDocumentsToMatchCeiling, &counts.documentsToMatchCeiling},
 		{EnvURLMetadataAskDocumentsCeiling, DefaultURLMetadataAskDocumentsCeiling, &counts.urlMetadataAskDocumentsCeiling},
 		{EnvURLMetadataAskDocumentsFloor, DefaultURLMetadataAskDocumentsFloor, &counts.urlMetadataAskDocumentsFloor},
