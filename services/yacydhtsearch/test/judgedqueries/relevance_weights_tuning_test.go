@@ -198,8 +198,7 @@ func reportRelevanceWeightsTunedOnEachHalf(t *testing.T, queries judgedQueries) 
 func halvesOf(queries judgedQueries) [2]judgedQueries {
 	queriesInTheRecordedOrder := slices.Clone(queries)
 	slices.SortFunc(queriesInTheRecordedOrder, func(one, other judgedQuery) int {
-		return slices.Index(recordedQueries, one.query) -
-			slices.Index(recordedQueries, other.query)
+		return placeInTheRecordedOrderOf(one.query) - placeInTheRecordedOrderOf(other.query)
 	})
 
 	var halves [2]judgedQueries
@@ -209,4 +208,10 @@ func halvesOf(queries judgedQueries) [2]judgedQueries {
 	}
 
 	return halves
+}
+
+func placeInTheRecordedOrderOf(query string) int {
+	return slices.IndexFunc(recordedQueries, func(recorded recordedQuery) bool {
+		return recorded.text == query
+	})
 }

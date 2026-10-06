@@ -98,7 +98,7 @@ func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 	t.Parallel()
 
 	document := hashOfWeatherDocument(t)
-	recorded := recordedFindingsOf("berlin", findingsAndPageContentsOf(
+	recorded := recordedFindingsOf("berlin", yacymodel.Language{}, findingsAndPageContentsOf(
 		queryfindings.Findings{
 			FoundDocuments: []queryfindings.FoundDocument{queryfindings.FoundDocumentOf(
 				document,

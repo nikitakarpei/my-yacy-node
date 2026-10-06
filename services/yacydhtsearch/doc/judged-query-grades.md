@@ -24,11 +24,12 @@ Never change a grade or a spam mark that a person gave.
 
 ## The language of the query
 
-When the query is prose, only a page in the language of the query gets the
-grade `2`. A page in a different language gets at most the grade `1`.
+When the query has a language, only a page in that language gets the grade
+`2`. A page in a different language gets at most the grade `1`. This is also
+true when the query is the name of a person, a site or a product.
 
-When the query is the name of a person, a site or a product, the language of
-the page does not change the grade.
+When the query has no language, the language of the page does not change the
+grade.
 
 ## The spam mark
 

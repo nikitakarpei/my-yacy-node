@@ -35,6 +35,8 @@ commit a change to them in the submodule first.
 The recorder asks the live freeworld network and reads the pages of the first
 fifty documents from the web. It needs egress and writes every file again. A
 `-run` pattern that ends in the file name of one query records only that query.
+Each query has the language a client gives in the `lr` field, or none for all
+languages. The recorder asks the peers in it, and the findings file keeps it.
 
 ```sh
 YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test -timeout 40m -v \
