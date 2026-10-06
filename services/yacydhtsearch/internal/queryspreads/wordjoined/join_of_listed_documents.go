@@ -6,16 +6,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type listingForTheJoiner struct {
+type joinOfListedDocuments struct {
 	documentsJoiner *documentjoin.Joiner
 }
 
-func (listing listingForTheJoiner) WordPartitionAnswered(
+func (join joinOfListedDocuments) WordPartitionAnswered(
 	word yacymodel.Hash,
 	_ uint,
 	answers []wordpartitionasks.ReplicaAnswer,
 ) {
-	listing.documentsJoiner.ListUnder(word, documentsListedIn(answers))
+	join.documentsJoiner.ListUnder(word, documentsListedIn(answers))
 }
 
 func documentsListedIn(answers []wordpartitionasks.ReplicaAnswer) yacymodel.URLHashes {

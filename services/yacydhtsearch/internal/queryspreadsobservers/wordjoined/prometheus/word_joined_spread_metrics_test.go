@@ -35,7 +35,6 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
 		AmountOfQueryWords:                  4,
 		AmountOfQueryWordsHeldByNoPeer:      1,
-		AmountOfDocumentsOfTheLeadingWord:   12,
 		AmountOfJoinedDocuments:             10,
 		AmountOfJoinedDocumentsWithMetadata: 2,
 		TimeSpent:                           250 * time.Millisecond,

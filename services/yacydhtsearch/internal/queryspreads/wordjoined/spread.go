@@ -8,10 +8,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentjoin"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentsperword"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/leadingword"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/wordroles"
@@ -58,17 +58,19 @@ func (spread Spread) SpreadOverPeers(
 ) queryfindings.Findings {
 	startedAt := time.Now()
 	holders := documentholders.NoneYet()
-	urlMetadataLookup := spread.urlMetadataAsker.Begin(ctx)
+	measurement := documentamounts.NoneMeasuredYet(query, spread.partitions)
+	found := noDocumentsFoundYet()
+	urlMetadataLookup := spread.urlMetadataAsker.Begin(ctx, found)
 	documentsJoiner := documentjoin.JoinerOf(query, documentjoin.JoinObservers{
 		urlMetadataLookupOfJoinedDocuments{holders, urlMetadataLookup},
 	})
 	documentInquiry := spread.documentsAsker.Begin(
 		ctx, query, chosenPeersPerQueryWord,
-		documentasks.Inquirers{holders, listingForTheJoiner{documentsJoiner}},
+		documentasks.Inquirers{holders, measurement, found, joinOfListedDocuments{documentsJoiner}},
 	)
 
 	leadingWord := spread.leadingWordFinder.FindFor(ctx, query, documentInquiry)
-	if lead, found := leadingWord.Get(); found {
+	if lead, led := leadingWord.Get(); led {
 		roles := wordroles.Around(lead, query)
 		documentInquiry.ExpectInAPartition(lead.Word, lead.AmountOfDocumentsInAPartition)
 		documentInquiry.WhichDocumentsHavingTheseAlsoHave(
@@ -78,22 +80,14 @@ func (spread Spread) SpreadOverPeers(
 	} else {
 		documentInquiry.WhichDocumentsHave(query.HashesOfWordsAndCompoundWords())
 	}
-	answered := documentInquiry.End()
-	urlMetadataAnswers := urlMetadataLookup.End()
-
-	documentsPerWord := documentsperword.From(query, answered, spread.partitions)
+	documentInquiry.End()
+	urlMetadataLookup.End()
 	joinedDocuments := documentsJoiner.JoinedDocuments()
 
-	spread.documentAmountsCache.Remember(ctx, documentsPerWord.AmountInAPartitionPerQueryWord())
+	spread.documentAmountsCache.Remember(ctx, measurement.InAPartitionPerQueryWord())
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
-		holders, documentsPerWord, leadingWord, joinedDocuments, time.Since(startedAt),
+		query, holders, measurement, leadingWord, joinedDocuments, time.Since(startedAt),
 	))
 
-	return findingsFrom(
-		query,
-		answered,
-		documentsPerWord,
-		joinedDocuments,
-		urlMetadataAnswers,
-	)
+	return found.findingsFor(query, joinedDocuments, measurement.HeldPerQueryWord())
 }

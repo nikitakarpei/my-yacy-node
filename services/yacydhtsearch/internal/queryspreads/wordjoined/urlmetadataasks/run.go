@@ -14,7 +14,6 @@ type run struct {
 	lookedUpDocuments             yacymodel.URLHashes
 	asksInFlightPerOpenDocument   map[yacymodel.URLHash]int
 	lookedUpDocumentsWithMetadata yacymodel.URLHashes
-	answeredAsks                  []peerasks.AnsweredURLMetadataAsk
 	givenDocuments                yacymodel.URLHashes
 	endReason                     EndReason
 	amountOfDocumentsCutOff       int
@@ -70,7 +69,6 @@ func (run *run) covered() bool {
 
 func (run *run) settle(outcome peerasks.URLMetadataAskOutcome) {
 	if answeredAsk, answered := outcome.Answer.Get(); answered {
-		run.answeredAsks = append(run.answeredAsks, answeredAsk)
 		for _, metadata := range answeredAsk.MetadataOfEachDocument {
 			run.settleWithMetadata(metadata.Hash)
 		}
@@ -106,10 +104,6 @@ func (run *run) settledShare() float64 {
 func (run *run) cutOff() {
 	run.endReason = EndedByCutoff
 	run.amountOfDocumentsCutOff = len(run.asksInFlightPerOpenDocument)
-}
-
-func (run *run) answers() Answers {
-	return Answers{answeredAsks: run.answeredAsks}
 }
 
 func (run *run) performed() Performed {

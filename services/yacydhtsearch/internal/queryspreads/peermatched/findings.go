@@ -26,12 +26,14 @@ func foundDocumentsFrom(settledAsks []wordpartitionasks.SettledAsk) []queryfindi
 				if !matched {
 					continue
 				}
-				documentsThePeersSent.KeepDocumentThePeerListed(
-					answer.Replica.Hash,
-					settledAsk.Word,
-					metadata,
-					listedDocument.Posting,
-				)
+				documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
+					Holder: answer.Replica.Hash, Metadata: metadata,
+				})
+				if posting, sent := listedDocument.Posting.Get(); sent {
+					documentsThePeersSent.KeepPostingReplica(queryfindings.PostingReplica{
+						Holder: answer.Replica.Hash, Word: settledAsk.Word, Posting: posting,
+					})
+				}
 			}
 		}
 	}

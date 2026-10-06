@@ -36,13 +36,16 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 }
 
 func attributesOfQueryWords(spread wordjoined.PerformedWordJoinedSpread) []slog.Attr {
-	return []slog.Attr{
+	attributes := []slog.Attr{
 		slog.Int("amountOfQueryWords", spread.AmountOfQueryWords),
-		slog.Int("amountOfCompoundWords", spread.AmountOfCompoundWords),
 		slog.Int("amountOfQueryWordsHeldByNoPeer", spread.AmountOfQueryWordsHeldByNoPeer),
-		slog.Int(
-			"amountOfDocumentsOfTheLeadingQueryWord",
-			spread.AmountOfDocumentsOfTheLeadingWord,
-		),
 	}
+	if amountOfDocuments, led := spread.AmountOfDocumentsOfTheLeadingWord.Get(); led {
+		attributes = append(
+			attributes,
+			slog.Int("amountOfDocumentsOfTheLeadingQueryWord", amountOfDocuments),
+		)
+	}
+
+	return attributes
 }

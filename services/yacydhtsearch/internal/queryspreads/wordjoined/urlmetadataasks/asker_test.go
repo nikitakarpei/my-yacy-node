@@ -174,6 +174,17 @@ func (reports *lookupReports) URLMetadataLookupPerformed(
 	reports.performed = append(reports.performed, performed)
 }
 
+type metadataThePeersSent struct {
+	metadataPerPeer map[yacymodel.Hash][]yacymodel.URLMetadata
+}
+
+func (sent *metadataThePeersSent) PeerSentURLMetadata(
+	peer yacymodel.Hash,
+	metadataOfEachDocument []yacymodel.URLMetadata,
+) {
+	sent.metadataPerPeer[peer] = append(sent.metadataPerPeer[peer], metadataOfEachDocument...)
+}
+
 type askedPeers struct {
 	peers             *peersOfTheNetwork
 	ceilings          ceilingsOfThePeers
@@ -181,6 +192,7 @@ type askedPeers struct {
 	clock             *graceClock
 	networkRedundancy int
 	reports           *lookupReports
+	sentMetadata      *metadataThePeersSent
 }
 
 func askedPeersOf(peers *peersOfTheNetwork) askedPeers {
@@ -189,6 +201,9 @@ func askedPeersOf(peers *peersOfTheNetwork) askedPeers {
 		clock:             &graceClock{},
 		networkRedundancy: networkRedundancy,
 		reports:           &lookupReports{},
+		sentMetadata: &metadataThePeersSent{
+			metadataPerPeer: map[yacymodel.Hash][]yacymodel.URLMetadata{},
+		},
 	}
 }
 
@@ -200,7 +215,7 @@ func (asked askedPeers) lookupBegunIn(ctx context.Context) *urlmetadataasks.Look
 		asked.clock,
 		asked.networkRedundancy,
 		asked.reports,
-	).Begin(ctx)
+	).Begin(ctx, asked.sentMetadata)
 }
 
 func (asked askedPeers) settledFor(
@@ -622,7 +637,7 @@ func TestTheReportCountsTheDocumentsTheLookupWasGivenButNeverAskedAbout(t *testi
 	}
 }
 
-func TestTheLookupReportsOnceItEndsAndAnswersWithTheMetadataThePeersSent(t *testing.T) {
+func TestTheLookupHandsOnWhatEachPeerSentAndReportsOnceItEnds(t *testing.T) {
 	t.Parallel()
 
 	joined := documentsOf(t, "joined", 2)
@@ -631,15 +646,16 @@ func TestTheLookupReportsOnceItEndsAndAnswersWithTheMetadataThePeersSent(t *test
 
 	lookup.AskFor(holdersIn(answersOf(peerAbstract{address: "first", documents: joined})))
 	amountOfReportsBeforeTheEnd := len(asked.reports.performed)
-	answers := lookup.End()
+	lookup.End()
 
+	sentByTheFirst := asked.sentMetadata.metadataPerPeer[yacymodel.WordHash("first")]
 	if amountOfReportsBeforeTheEnd != 0 || len(asked.reports.performed) != 1 ||
-		len(answers.MetadataThePeersSent()) != len(joined) {
+		len(sentByTheFirst) != len(joined) {
 		t.Fatalf(
-			"the lookup reported %d times before the end and %v in all and answered %v, "+
-				"want one report at the end and the metadata of %d documents",
+			"the lookup reported %d times before the end and %v in all and handed on %v, "+
+				"want one report at the end and the metadata of %d documents from the first peer",
 			amountOfReportsBeforeTheEnd, asked.reports.performed,
-			answers.MetadataThePeersSent(), len(joined),
+			asked.sentMetadata.metadataPerPeer, len(joined),
 		)
 	}
 }

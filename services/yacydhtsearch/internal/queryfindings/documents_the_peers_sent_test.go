@@ -17,14 +17,14 @@ func TestDocumentsThePeersSentComeBackInOrderTheyWereSentIn(t *testing.T) {
 	t.Parallel()
 
 	documents := queryfindings.EmptyDocumentsThePeersSent()
-	documents.KeepMetadataThePeerSent(
-		metadataOfDocumentAt(t, "https://first.example/", "First"),
-		yacymodel.WordHash("a peer"),
-	)
-	documents.KeepMetadataThePeerSent(
-		metadataOfDocumentAt(t, "https://second.example/", "Second"),
-		yacymodel.WordHash("another peer"),
-	)
+	documents.KeepMetadataReplica(queryfindings.MetadataReplica{
+		Holder:   yacymodel.WordHash("a peer"),
+		Metadata: metadataOfDocumentAt(t, "https://first.example/", "First"),
+	})
+	documents.KeepMetadataReplica(queryfindings.MetadataReplica{
+		Holder:   yacymodel.WordHash("another peer"),
+		Metadata: metadataOfDocumentAt(t, "https://second.example/", "Second"),
+	})
 
 	foundDocuments := documents.FoundDocuments()
 
@@ -42,14 +42,14 @@ func TestDocumentASecondPeerSentMetadataOfHoldsTwoMetadataReplicas(t *testing.T)
 	t.Parallel()
 
 	documents := queryfindings.EmptyDocumentsThePeersSent()
-	documents.KeepMetadataThePeerSent(
-		metadataOfDocumentAt(t, "https://shared.example/", "As the first peer holds it"),
-		yacymodel.WordHash("the first peer"),
-	)
-	documents.KeepMetadataThePeerSent(
-		metadataOfDocumentAt(t, "https://shared.example/", "As the second peer holds it"),
-		yacymodel.WordHash("the second peer"),
-	)
+	documents.KeepMetadataReplica(queryfindings.MetadataReplica{
+		Holder:   yacymodel.WordHash("the first peer"),
+		Metadata: metadataOfDocumentAt(t, "https://shared.example/", "As the first peer holds it"),
+	})
+	documents.KeepMetadataReplica(queryfindings.MetadataReplica{
+		Holder:   yacymodel.WordHash("the second peer"),
+		Metadata: metadataOfDocumentAt(t, "https://shared.example/", "As the second peer holds it"),
+	})
 
 	foundDocuments := documents.FoundDocuments()
 
@@ -74,18 +74,19 @@ func TestPostingsOfDocumentComeBackOnThatDocumentAlone(t *testing.T) {
 	t.Parallel()
 
 	documents := queryfindings.EmptyDocumentsThePeersSent()
-	documents.KeepDocumentThePeerListed(
-		yacymodel.WordHash("the first peer"),
-		yacymodel.WordHash(countedWord),
-		metadataOfDocumentAt(t, "https://counted.example/", "Counted"),
-		yacymodel.Some(yacymodel.RWIPosting{Hits: 7}),
-	)
-	documents.KeepDocumentThePeerListed(
-		yacymodel.WordHash("the first peer"),
-		yacymodel.WordHash(countedWord),
-		metadataOfDocumentAt(t, "https://uncounted.example/", "Uncounted"),
-		yacymodel.None[yacymodel.RWIPosting](),
-	)
+	countedMetadata := metadataOfDocumentAt(t, "https://counted.example/", "Counted")
+	documents.KeepMetadataReplica(queryfindings.MetadataReplica{
+		Holder: yacymodel.WordHash("the first peer"), Metadata: countedMetadata,
+	})
+	documents.KeepPostingReplica(queryfindings.PostingReplica{
+		Holder:  yacymodel.WordHash("the first peer"),
+		Word:    yacymodel.WordHash(countedWord),
+		Posting: yacymodel.RWIPosting{URLHash: countedMetadata.Hash, Hits: 7},
+	})
+	documents.KeepMetadataReplica(queryfindings.MetadataReplica{
+		Holder:   yacymodel.WordHash("the first peer"),
+		Metadata: metadataOfDocumentAt(t, "https://uncounted.example/", "Uncounted"),
+	})
 
 	foundDocuments := documents.FoundDocuments()
 

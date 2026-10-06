@@ -1,7 +1,8 @@
 // Package urlmetadataasks looks up the URL metadata of the joined documents of
 // one query. Its lookup asks the peers that listed the documents as soon as they
-// join. From End on, the lookup ends once the answers cover the documents, every
-// ask settled, or the cutoff passed, and reports how it performed to its observer.
+// join. From End on, it hands each answer to its recipient, ends once the answers
+// cover the documents, every ask settled, or the cutoff passed, and reports how it
+// performed to its observer.
 package urlmetadataasks
 
 import (
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PeerAsks interface {
@@ -20,6 +22,10 @@ type PeerAsks interface {
 
 type Ceilings interface {
 	CeilingOf(ctx context.Context, address string) int
+}
+
+type Recipient interface {
+	PeerSentURLMetadata(peer yacymodel.Hash, metadataOfEachDocument []yacymodel.URLMetadata)
 }
 
 type Clock interface {
@@ -52,7 +58,7 @@ func New(
 	}
 }
 
-func (asker Asker) Begin(ctx context.Context) *Lookup {
+func (asker Asker) Begin(ctx context.Context, recipient Recipient) *Lookup {
 	asksContext, cancelAsks := context.WithCancel(ctx)
 
 	return &Lookup{
@@ -62,6 +68,7 @@ func (asker Asker) Begin(ctx context.Context) *Lookup {
 		cutoff:      asker.cutoff,
 		clock:       asker.clock,
 		observer:    asker.observer,
+		recipient:   recipient,
 		asksContext: asksContext,
 		cancelAsks:  cancelAsks,
 		run:         noAsksPutYet(),

@@ -84,6 +84,7 @@ func (network *peerNetwork) listedDocumentsOf(
 		}
 		if countsAWord {
 			listedDocument.Posting = yacymodel.Some(yacymodel.RWIPosting{
+				URLHash:       hash,
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,

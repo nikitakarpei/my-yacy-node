@@ -1,8 +1,8 @@
 // Package documentasks asks the partitions which documents have which words, for
-// one query, from the first question of its inquiry until End, which returns all
-// it was answered. A question returns once its words are answered, and the answers
-// of each ask go to the inquirer as the ask settles. Which documents have words in
-// one partition answers with what its replicas listed, whenever they were asked.
+// one query, from the first question of its inquiry until End, which reports how it
+// performed. A question returns once its words are answered, and each settled ask
+// goes to the inquirer. Which documents have words in one partition answers with
+// what its replicas listed, whenever they were asked.
 package documentasks
 
 import (
@@ -67,6 +67,7 @@ func (asker Asker) Begin(
 ) *Inquiry {
 	return &Inquiry{
 		ctx:                     ctx,
+		compoundWords:           query.CompoundWords,
 		chosenPeers:             chosenPeersFor(query, chosenPeersPerQueryWord),
 		partitions:              asker.partitions,
 		documentsToMatchCeiling: asker.documentsToMatchCeiling,

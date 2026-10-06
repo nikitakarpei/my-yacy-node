@@ -1,65 +1,78 @@
 package wordjoined
 
 import (
+	"slices"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentsperword"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func findingsFrom(
-	query searchquery.Query,
-	answered []documentasks.AnsweredWordPartition,
-	documentsPerWord documentsperword.DocumentsPerWord,
-	joinedDocuments yacymodel.URLHashes,
-	urlMetadataAnswers urlmetadataasks.Answers,
-) queryfindings.Findings {
-	return queryfindings.Findings{
-		QueryWords:    query.WordHashes(),
-		CompoundWords: query.CompoundWords,
-		FoundDocuments: foundDocumentsFrom(
-			answered,
-			joinedDocuments,
-			urlMetadataAnswers,
-		),
-		DocumentsHeldPerQueryWord: documentsPerWord.AmountHeldPerQueryWord(),
+type documentsTheSpreadFound struct {
+	documentsThePeersSent *queryfindings.DocumentsThePeersSent
+}
+
+func noDocumentsFoundYet() documentsTheSpreadFound {
+	return documentsTheSpreadFound{
+		documentsThePeersSent: queryfindings.EmptyDocumentsThePeersSent(),
 	}
 }
 
-func foundDocumentsFrom(
-	answered []documentasks.AnsweredWordPartition,
-	joinedDocuments yacymodel.URLHashes,
-	urlMetadataAnswers urlmetadataasks.Answers,
-) []queryfindings.FoundDocument {
-	documentsThePeersSent := queryfindings.EmptyDocumentsThePeersSent()
-	for _, answeredWordPartition := range answered {
-		keepTheJoinedDocumentsListedWithMetadataIn(
-			documentsThePeersSent, answeredWordPartition, joinedDocuments,
-		)
-	}
-	for _, sentMetadata := range urlMetadataAnswers.MetadataThePeersSent() {
-		documentsThePeersSent.KeepMetadataThePeerSent(sentMetadata.Metadata, sentMetadata.Peer)
-	}
-
-	return documentsThePeersSent.FoundDocuments()
-}
-
-func keepTheJoinedDocumentsListedWithMetadataIn(
-	documentsThePeersSent *queryfindings.DocumentsThePeersSent,
-	answeredWordPartition documentasks.AnsweredWordPartition,
-	joinedDocuments yacymodel.URLHashes,
+func (found documentsTheSpreadFound) WordPartitionAnswered(
+	word yacymodel.Hash,
+	_ uint,
+	answers []wordpartitionasks.ReplicaAnswer,
 ) {
-	for _, answer := range answeredWordPartition.Answers {
+	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
-			metadata, sent := listedDocument.Metadata.Get()
-			if !sent || !joinedDocuments.Contains(listedDocument.Hash) {
+			metadata, described := listedDocument.Metadata.Get()
+			if !described {
 				continue
 			}
-			documentsThePeersSent.KeepDocumentThePeerListed(
-				answer.Replica.Hash, answeredWordPartition.Word, metadata, listedDocument.Posting,
-			)
+			found.documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
+				Holder: answer.Replica.Hash, Metadata: metadata,
+			})
+			if posting, sent := listedDocument.Posting.Get(); sent {
+				found.documentsThePeersSent.KeepPostingReplica(queryfindings.PostingReplica{
+					Holder: answer.Replica.Hash, Word: word, Posting: posting,
+				})
+			}
 		}
 	}
+}
+
+func (found documentsTheSpreadFound) PeerSentURLMetadata(
+	peer yacymodel.Hash,
+	metadataOfEachDocument []yacymodel.URLMetadata,
+) {
+	for _, metadata := range metadataOfEachDocument {
+		found.documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
+			Holder: peer, Metadata: metadata,
+		})
+	}
+}
+
+func (found documentsTheSpreadFound) findingsFor(
+	query searchquery.Query,
+	joinedDocuments yacymodel.URLHashes,
+	documentsHeldPerQueryWord map[yacymodel.Hash]int,
+) queryfindings.Findings {
+	return queryfindings.Findings{
+		QueryWords:                query.WordHashes(),
+		CompoundWords:             query.CompoundWords,
+		FoundDocuments:            found.among(joinedDocuments),
+		DocumentsHeldPerQueryWord: documentsHeldPerQueryWord,
+	}
+}
+
+func (found documentsTheSpreadFound) among(
+	joinedDocuments yacymodel.URLHashes,
+) []queryfindings.FoundDocument {
+	return slices.DeleteFunc(
+		found.documentsThePeersSent.FoundDocuments(),
+		func(foundDocument queryfindings.FoundDocument) bool {
+			return !joinedDocuments.Contains(foundDocument.Hash)
+		},
+	)
 }

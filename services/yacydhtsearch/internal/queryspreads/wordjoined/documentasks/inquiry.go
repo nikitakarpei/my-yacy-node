@@ -4,12 +4,14 @@ import (
 	"context"
 	"slices"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Inquiry struct {
 	ctx                     context.Context
+	compoundWords           []searchquery.CompoundWord
 	chosenPeers             chosenPeers
 	partitions              yacymodel.DHTRingPartitions
 	documentsToMatchCeiling int
@@ -55,16 +57,10 @@ func (inquiry *Inquiry) settle(settledAsk wordpartitionasks.SettledAsk) {
 	)
 }
 
-type AnsweredWordPartition struct {
-	Word      yacymodel.Hash
-	Partition uint
-	Answers   []wordpartitionasks.ReplicaAnswer
-}
-
 func (inquiry *Inquiry) WhichDocumentsHaveIn(
 	partition uint,
 	words []yacymodel.Hash,
-) []AnsweredWordPartition {
+) []wordpartitionasks.SettledAsk {
 	inquiry.send(inquiry.chosenPeers.asksOf(words, partition))
 	inquiry.waitUntilNonePendingIn(partition, words)
 
@@ -204,12 +200,12 @@ func (inquiry *Inquiry) ExpectInAPartition(word yacymodel.Hash, amountOfDocument
 	inquiry.expectedInAPartition[word] = amountOfDocuments
 }
 
-func (inquiry *Inquiry) End() []AnsweredWordPartition {
+func (inquiry *Inquiry) End() {
 	close(inquiry.run.Asks)
 	for settledAsk := range inquiry.run.SettledAsks {
 		inquiry.settle(settledAsk)
 	}
-	inquiry.observer.DocumentAsksPerformed(inquiry.ctx, performedFrom(inquiry.sentAsks.answered))
-
-	return inquiry.sentAsks.answered
+	inquiry.observer.DocumentAsksPerformed(
+		inquiry.ctx, performedFrom(inquiry.sentAsks.answered, inquiry.compoundWords),
+	)
 }

@@ -7,8 +7,8 @@ package leadingword
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -16,7 +16,7 @@ type DocumentAsks interface {
 	WhichDocumentsHaveIn(
 		partition uint,
 		words []yacymodel.Hash,
-	) []documentasks.AnsweredWordPartition
+	) []wordpartitionasks.SettledAsk
 }
 
 type DocumentAmounts interface {

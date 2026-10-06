@@ -15,3 +15,11 @@ type Performed struct {
 	AmountOfDocumentsPerAsk               []int
 	TimeToFirstAsk                        yacymodel.Optional[time.Duration]
 }
+
+type EndReason string
+
+const (
+	EndedByCoverage        EndReason = "coverage"
+	EndedByEveryAskSettled EndReason = "every ask settled"
+	EndedByCutoff          EndReason = "cut off"
+)

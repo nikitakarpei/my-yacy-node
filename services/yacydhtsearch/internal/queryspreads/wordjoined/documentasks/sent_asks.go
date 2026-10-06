@@ -11,7 +11,7 @@ type sentAsks struct {
 	partitions yacymodel.DHTRingPartitions
 	sent       map[wordPartitionKey]struct{}
 	pending    map[wordPartitionKey]struct{}
-	answered   []AnsweredWordPartition
+	answered   []wordpartitionasks.SettledAsk
 	answeredAt map[wordPartitionKey]int
 }
 
@@ -46,13 +46,14 @@ func (asks *sentAsks) containEvery(candidates []wordpartitionasks.Ask) bool {
 func (asks *sentAsks) settle(settledAsk wordpartitionasks.SettledAsk) {
 	delete(asks.pending, wordPartitionKeyOf(settledAsk.Ask))
 	asks.answeredAt[wordPartitionKeyOf(settledAsk.Ask)] = len(asks.answered)
-	asks.answered = append(asks.answered, AnsweredWordPartition{
-		Word: settledAsk.Word, Partition: settledAsk.Partition, Answers: settledAsk.Answers,
-	})
+	asks.answered = append(asks.answered, settledAsk)
 }
 
-func (asks *sentAsks) answersOf(partition uint, words []yacymodel.Hash) []AnsweredWordPartition {
-	var answered []AnsweredWordPartition
+func (asks *sentAsks) answersOf(
+	partition uint,
+	words []yacymodel.Hash,
+) []wordpartitionasks.SettledAsk {
+	var answered []wordpartitionasks.SettledAsk
 	for _, word := range words {
 		place, settled := asks.answeredAt[wordPartitionKey{word: word, partition: partition}]
 		if !settled {

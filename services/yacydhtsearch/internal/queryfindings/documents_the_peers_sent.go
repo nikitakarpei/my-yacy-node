@@ -15,34 +15,20 @@ func EmptyDocumentsThePeersSent() *DocumentsThePeersSent {
 	}
 }
 
-func (documents *DocumentsThePeersSent) KeepMetadataThePeerSent(
-	metadata yacymodel.URLMetadata,
-	peer yacymodel.Hash,
-) {
-	document := metadata.Hash
+func (documents *DocumentsThePeersSent) KeepMetadataReplica(replica MetadataReplica) {
+	document := replica.Metadata.Hash
 	if _, alreadyFound := documents.metadataReplicasPerDocument[document]; !alreadyFound {
 		documents.documentsInFoundOrder = append(documents.documentsInFoundOrder, document)
 	}
 	documents.metadataReplicasPerDocument[document] = append(
-		documents.metadataReplicasPerDocument[document],
-		MetadataReplica{Holder: peer, Metadata: metadata},
+		documents.metadataReplicasPerDocument[document], replica,
 	)
 }
 
-func (documents *DocumentsThePeersSent) KeepDocumentThePeerListed(
-	peer yacymodel.Hash,
-	word yacymodel.Hash,
-	metadata yacymodel.URLMetadata,
-	posting yacymodel.Optional[yacymodel.RWIPosting],
-) {
-	documents.KeepMetadataThePeerSent(metadata, peer)
-	sentPosting, sent := posting.Get()
-	if !sent {
-		return
-	}
-	documents.postingReplicasPerDocument[metadata.Hash] = append(
-		documents.postingReplicasPerDocument[metadata.Hash],
-		PostingReplica{Holder: peer, Word: word, Posting: sentPosting},
+func (documents *DocumentsThePeersSent) KeepPostingReplica(replica PostingReplica) {
+	document := replica.Posting.URLHash
+	documents.postingReplicasPerDocument[document] = append(
+		documents.postingReplicasPerDocument[document], replica,
 	)
 }
 

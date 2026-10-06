@@ -54,5 +54,6 @@ func (DocumentAsksLog) DocumentAsksPerformed(
 			"amountOfDocumentsHeldInEachAnswer",
 			performed.AmountOfDocumentsHeldInEachAnswer,
 		),
+		slog.Int("amountOfCompoundWordsAnswered", performed.AmountOfCompoundWordsAnswered),
 	)
 }

@@ -14,6 +14,7 @@ type Lookup struct {
 	cutoff                Cutoff
 	clock                 Clock
 	observer              URLMetadataLookupObserver
+	recipient             Recipient
 	asksContext           context.Context
 	cancelAsks            context.CancelFunc
 	run                   *run
@@ -52,12 +53,10 @@ func (lookup *Lookup) forward(outcomesOfThePut <-chan peerasks.URLMetadataAskOut
 	}
 }
 
-func (lookup *Lookup) End() Answers {
+func (lookup *Lookup) End() {
 	lookup.waitUntilEnded()
 	lookup.stopAsking()
 	lookup.observer.URLMetadataLookupPerformed(lookup.ctx, lookup.run.performed())
-
-	return lookup.run.answers()
 }
 
 func (lookup *Lookup) waitUntilEnded() {
@@ -78,7 +77,7 @@ func (lookup *Lookup) waitUntilEnded() {
 		}
 		select {
 		case outcome := <-lookup.outcomes:
-			lookup.run.settle(outcome)
+			lookup.settle(outcome)
 			if !graceStarted && lookup.cutoff.reachedBy(lookup.run.settledShare()) {
 				graceStarted = true
 				stopGrace = lookup.clock.After(lookup.cutoff.Grace, func() { close(graceEnded) })
@@ -90,6 +89,15 @@ func (lookup *Lookup) waitUntilEnded() {
 
 			return
 		}
+	}
+}
+
+func (lookup *Lookup) settle(outcome peerasks.URLMetadataAskOutcome) {
+	lookup.run.settle(outcome)
+	if answeredAsk, answered := outcome.Answer.Get(); answered {
+		lookup.recipient.PeerSentURLMetadata(
+			answeredAsk.Ask.Peer.Hash, answeredAsk.MetadataOfEachDocument,
+		)
 	}
 }
 

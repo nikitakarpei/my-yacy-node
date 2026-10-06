@@ -189,6 +189,7 @@ func chosenPeersInBothPartitions() peerchoice.ChosenPeersPerQueryWord {
 	return peerchoice.ChosenPeersPerQueryWord{
 		{QueryWord: yacymodel.WordHash(firstWord), ChosenPeers: chosenPeers},
 		{QueryWord: yacymodel.WordHash(secondWord), ChosenPeers: chosenPeers},
+		{QueryWord: query.CompoundWords[0].Hash(), ChosenPeers: chosenPeers},
 	}
 }
 
@@ -337,20 +338,32 @@ func TestWhichDocumentsHaveInAnswersWithWhatThePartitionListedWheneverAsked(t *t
 	answeredAgain := inquiry.WhichDocumentsHaveIn(1, wordsOf(firstWord))
 	inquiry.End()
 
-	want := []documentasks.AnsweredWordPartition{{
-		Word:      yacymodel.WordHash(firstWord),
-		Partition: 1,
-		Answers:   []wordpartitionasks.ReplicaAnswer{answerOf("first", documents...)},
+	want := []answeredWordPartition{{
+		word:      yacymodel.WordHash(firstWord),
+		partition: 1,
+		answers:   []wordpartitionasks.ReplicaAnswer{answerOf("first", documents...)},
 	}, {
-		Word:      yacymodel.WordHash(secondWord),
-		Partition: 1,
+		word:      yacymodel.WordHash(secondWord),
+		partition: 1,
 	}}
-	if !reflect.DeepEqual(answeredFirst, want) || !reflect.DeepEqual(answeredAgain, want[:1]) {
+	if !reflect.DeepEqual(answeredWordPartitionsOf(answeredFirst), want) ||
+		!reflect.DeepEqual(answeredWordPartitionsOf(answeredAgain), want[:1]) {
 		t.Fatalf(
 			"the question answered %v then %v, want %v then %v",
 			answeredFirst, answeredAgain, want, want[:1],
 		)
 	}
+}
+
+func answeredWordPartitionsOf(settledAsks []wordpartitionasks.SettledAsk) []answeredWordPartition {
+	answered := make([]answeredWordPartition, 0, len(settledAsks))
+	for _, settledAsk := range settledAsks {
+		answered = append(answered, answeredWordPartition{
+			word: settledAsk.Word, partition: settledAsk.Partition, answers: settledAsk.Answers,
+		})
+	}
+
+	return answered
 }
 
 func TestEverySettledAskReachesTheInquirerOnceWithItsWordAndPartition(t *testing.T) {
@@ -606,6 +619,24 @@ func TestTheInquiryReportsWhatTheReplicasCarriedOnceItEnds(t *testing.T) {
 			"the document asks reported %d times before the end and %+v in all, "+
 				"want one report at the end: %+v",
 			amountOfReportsBeforeTheEnd, reports.performed, want,
+		)
+	}
+}
+
+func TestTheReportCountsTheCompoundWordsThePartitionsAnswered(t *testing.T) {
+	t.Parallel()
+
+	reports := &documentAsksReports{}
+	inquiry := inquiryOver(
+		t, replicasAnswering(nil), reports, &wordPartitionsAnsweredInTurn{},
+	)
+	inquiry.WhichDocumentsHave(query.HashesOfWordsAndCompoundWords())
+	inquiry.End()
+
+	if len(reports.performed) != 1 || reports.performed[0].AmountOfCompoundWordsAnswered != 1 {
+		t.Fatalf(
+			"the document asks reported %+v for the compound words %v, want the one answered",
+			reports.performed, query.CompoundWords,
 		)
 	}
 }

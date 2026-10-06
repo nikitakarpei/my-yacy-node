@@ -9,7 +9,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentamounts"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -19,40 +18,38 @@ const (
 	secondWord             = "weather"
 	twoPartitionsOfTheRing = 2
 	askedPartition         = 1
+	otherPartition         = 0
 )
 
 var query = queryreading.QueryFrom(firstWord+" "+secondWord, "")
 
 type documentAsksOfTheNetwork struct {
-	amountInTheCompleteAbstractOfEachWord map[string]int
-	partitionsAsked                       []uint
+	answerOfEachWord map[string]wordpartitionasks.ReplicaAnswer
+	partitionsAsked  []uint
 }
 
 func documentAsksAnswering(
-	amountInTheCompleteAbstractOfEachWord map[string]int,
+	answerOfEachWord map[string]wordpartitionasks.ReplicaAnswer,
 ) *documentAsksOfTheNetwork {
-	return &documentAsksOfTheNetwork{
-		amountInTheCompleteAbstractOfEachWord: amountInTheCompleteAbstractOfEachWord,
-	}
+	return &documentAsksOfTheNetwork{answerOfEachWord: answerOfEachWord}
 }
 
 func (documentAsks *documentAsksOfTheNetwork) WhichDocumentsHaveIn(
 	partition uint,
 	words []yacymodel.Hash,
-) []documentasks.AnsweredWordPartition {
+) []wordpartitionasks.SettledAsk {
 	documentAsks.partitionsAsked = append(documentAsks.partitionsAsked, partition)
-	var answered []documentasks.AnsweredWordPartition
-	for spelledWord, amount := range documentAsks.amountInTheCompleteAbstractOfEachWord {
+	var answered []wordpartitionasks.SettledAsk
+	for spelledWord, answer := range documentAsks.answerOfEachWord {
 		if !slices.Contains(words, yacymodel.WordHash(spelledWord)) {
 			continue
 		}
-		answered = append(answered, documentasks.AnsweredWordPartition{
-			Word:      yacymodel.WordHash(spelledWord),
-			Partition: partition,
-			Answers: []wordpartitionasks.ReplicaAnswer{{
-				ListedDocuments:       documentsIn(partition, amount),
-				AmountOfDocumentsHeld: yacymodel.Some(amount),
-			}},
+		answered = append(answered, wordpartitionasks.SettledAsk{
+			Ask: wordpartitionasks.Ask{
+				Word:      yacymodel.WordHash(spelledWord),
+				Partition: partition,
+			},
+			Answers: []wordpartitionasks.ReplicaAnswer{answer},
 		})
 	}
 
@@ -68,15 +65,33 @@ func (documentAsks *documentAsksOfTheNetwork) amountsCountedFromReplicas(
 	return amountsFromReplicas(observer).AmountsInAPartitionFor(t.Context(), query, documentAsks)
 }
 
-func documentsIn(partition uint, amount int) []wordpartitionasks.ListedDocument {
+func answerCounting(
+	amountHeld int,
+	documents ...yacymodel.URLHash,
+) wordpartitionasks.ReplicaAnswer {
+	answer := wordpartitionasks.ReplicaAnswer{AmountOfDocumentsHeld: yacymodel.Some(amountHeld)}
+	for _, document := range documents {
+		answer.ListedDocuments = append(
+			answer.ListedDocuments, wordpartitionasks.ListedDocument{Hash: document},
+		)
+	}
+
+	return answer
+}
+
+func completeAbstractIn(partition uint, amount int) wordpartitionasks.ReplicaAnswer {
+	return answerCounting(amount, documentsIn(partition, amount)...)
+}
+
+func documentsIn(partition uint, amount int) []yacymodel.URLHash {
 	partitions := yacymodel.DHTRingPartitions(twoPartitionsOfTheRing)
-	documents := make([]wordpartitionasks.ListedDocument, 0, amount)
+	documents := make([]yacymodel.URLHash, 0, amount)
 	for place := 0; len(documents) < amount; place++ {
 		document, err := yacymodel.URLHashOf(fmt.Sprintf("https://document-%d.example/", place))
 		if err != nil || partitions.PartitionOf(document) != partition {
 			continue
 		}
-		documents = append(documents, wordpartitionasks.ListedDocument{Hash: document})
+		documents = append(documents, document)
 	}
 
 	return documents
@@ -115,7 +130,10 @@ func amountOfEachWord(amounts map[string]int) map[yacymodel.Hash]int {
 func TestEachWordIsCountedInThePartitionAsked(t *testing.T) {
 	t.Parallel()
 
-	documentAsks := documentAsksAnswering(map[string]int{firstWord: 3, secondWord: 1})
+	documentAsks := documentAsksAnswering(map[string]wordpartitionasks.ReplicaAnswer{
+		firstWord:  completeAbstractIn(askedPartition, 3),
+		secondWord: completeAbstractIn(askedPartition, 1),
+	})
 
 	amounts := documentAsks.amountsCountedFromReplicas(t, &countsFromReplicas{})
 
@@ -135,7 +153,9 @@ func TestEachWordIsCountedInThePartitionAsked(t *testing.T) {
 func TestOnlyAWordWithACompleteAbstractIsCounted(t *testing.T) {
 	t.Parallel()
 
-	documentAsks := documentAsksAnswering(map[string]int{secondWord: 2})
+	documentAsks := documentAsksAnswering(map[string]wordpartitionasks.ReplicaAnswer{
+		secondWord: completeAbstractIn(askedPartition, 2),
+	})
 	counts := &countsFromReplicas{}
 
 	amounts := documentAsks.amountsCountedFromReplicas(t, counts)
@@ -161,5 +181,51 @@ func TestWithoutACompleteAbstractNoWordIsCounted(t *testing.T) {
 
 	if len(amounts) != 0 {
 		t.Fatalf("the replicas counted %v, want no word without a complete abstract", amounts)
+	}
+}
+
+func TestACompleteAbstractCountsOnlyTheDocumentsOfThePartitionAsked(t *testing.T) {
+	t.Parallel()
+
+	listed := slices.Concat(documentsIn(askedPartition, 1), documentsIn(otherPartition, 4))
+	documentAsks := documentAsksAnswering(map[string]wordpartitionasks.ReplicaAnswer{
+		firstWord: answerCounting(len(listed), listed...),
+	})
+
+	amounts := documentAsks.amountsCountedFromReplicas(t, &countsFromReplicas{})
+
+	if want := amountOfEachWord(map[string]int{firstWord: 1}); !maps.Equal(amounts, want) {
+		t.Fatalf("the replicas counted %v, want only the document of the partition asked", amounts)
+	}
+}
+
+func TestAnAnswerThatListsLessThanItCountsIsNoCompleteAbstract(t *testing.T) {
+	t.Parallel()
+
+	documents := documentsIn(askedPartition, 3)
+	documentAsks := documentAsksAnswering(map[string]wordpartitionasks.ReplicaAnswer{
+		firstWord:  answerCounting(3, documents[0]),
+		secondWord: answerCounting(3, documents...),
+	})
+
+	amounts := documentAsks.amountsCountedFromReplicas(t, &countsFromReplicas{})
+
+	if want := amountOfEachWord(map[string]int{secondWord: 3}); !maps.Equal(amounts, want) {
+		t.Fatalf("the replicas counted %v, want only the second word with 3", amounts)
+	}
+}
+
+func TestAWordAPeerSearchedAndHoldsNothingForIsCountedWithNoDocument(t *testing.T) {
+	t.Parallel()
+
+	documentAsks := documentAsksAnswering(map[string]wordpartitionasks.ReplicaAnswer{
+		firstWord:  {Searched: true},
+		secondWord: {},
+	})
+
+	amounts := documentAsks.amountsCountedFromReplicas(t, &countsFromReplicas{})
+
+	if want := amountOfEachWord(map[string]int{firstWord: 0}); !maps.Equal(amounts, want) {
+		t.Fatalf("the replicas counted %v, want only the first word with none", amounts)
 	}
 }

@@ -253,6 +253,7 @@ func (network *peerNetwork) documentsWithMetadataOf(
 		}
 		if network.countsAWordWithEachItem {
 			documentWithMetadata.Posting = yacymodel.Some(yacymodel.RWIPosting{
+				URLHash:       document,
 				Hits:          3,
 				LocalLinks:    12,
 				ExternalLinks: 7,
