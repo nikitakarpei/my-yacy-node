@@ -1,8 +1,8 @@
 // Package urlmetadataasks looks up the URL metadata of the joined documents of
 // one query. Its lookup asks the peers that listed the documents as soon as they
-// join. From End on, it hands each answer to its recipient, ends once the answers
-// cover the documents, every ask settled, or the cutoff passed, and reports how it
-// performed to its observer.
+// join and hands each answer to its recipient as it arrives. From End on, it ends
+// once the answers cover the documents, every ask settled, or the cutoff passed,
+// and reports how it performed to its observer.
 package urlmetadataasks
 
 import (
@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -60,20 +61,25 @@ func New(
 
 func (asker Asker) Begin(ctx context.Context, recipient Recipient) *Lookup {
 	asksContext, cancelAsks := context.WithCancel(ctx)
-
-	return &Lookup{
-		ctx:         ctx,
-		peerAsks:    asker.peerAsks,
-		askLimits:   asker.askLimits,
-		cutoff:      asker.cutoff,
-		clock:       asker.clock,
-		observer:    asker.observer,
-		recipient:   recipient,
-		asksContext: asksContext,
-		cancelAsks:  cancelAsks,
-		run:         noAsksPutYet(),
-		outcomes:    make(chan peerasks.URLMetadataAskOutcome),
-		settledPuts: make(chan struct{}),
-		ended:       make(chan struct{}),
+	lookup := &Lookup{
+		ctx:          ctx,
+		peerAsks:     asker.peerAsks,
+		askLimits:    asker.askLimits,
+		cutoff:       asker.cutoff,
+		clock:        asker.clock,
+		observer:     asker.observer,
+		recipient:    recipient,
+		asksContext:  asksContext,
+		cancelAsks:   cancelAsks,
+		run:          noAsksPutYet(),
+		holdersToAsk: make(chan documentholders.Holders),
+		holdersAsked: make(chan struct{}),
+		outcomes:     make(chan peerasks.URLMetadataAskOutcome),
+		settledPuts:  make(chan struct{}),
+		endAsked:     make(chan struct{}),
+		ended:        make(chan struct{}),
 	}
+	go lookup.settleUntilEnded()
+
+	return lookup
 }

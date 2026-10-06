@@ -18,13 +18,49 @@ type Lookup struct {
 	asksContext           context.Context
 	cancelAsks            context.CancelFunc
 	run                   *run
+	holdersToAsk          chan documentholders.Holders
+	holdersAsked          chan struct{}
 	outcomes              chan peerasks.URLMetadataAskOutcome
 	settledPuts           chan struct{}
+	endAsked              chan struct{}
 	ended                 chan struct{}
 	amountOfUnsettledPuts int
 }
 
 func (lookup *Lookup) AskFor(holders documentholders.Holders) {
+	lookup.holdersToAsk <- holders
+	<-lookup.holdersAsked
+}
+
+func (lookup *Lookup) End() {
+	close(lookup.endAsked)
+	<-lookup.ended
+	lookup.observer.URLMetadataLookupPerformed(lookup.ctx, lookup.run.performed())
+}
+
+func (lookup *Lookup) settleUntilEnded() {
+	lookup.settleUntilEndAsked()
+	lookup.waitUntilEnded()
+	lookup.stopAsking()
+}
+
+func (lookup *Lookup) settleUntilEndAsked() {
+	for {
+		select {
+		case holders := <-lookup.holdersToAsk:
+			lookup.ask(holders)
+			lookup.holdersAsked <- struct{}{}
+		case outcome := <-lookup.outcomes:
+			lookup.settle(outcome)
+		case <-lookup.settledPuts:
+			lookup.amountOfUnsettledPuts--
+		case <-lookup.endAsked:
+			return
+		}
+	}
+}
+
+func (lookup *Lookup) ask(holders documentholders.Holders) {
 	lookup.run.give(holders.MostHeldFirst())
 	asks := lookup.askLimits.asksFor(lookup.asksContext, holders)
 	if len(asks) == 0 {
@@ -53,10 +89,13 @@ func (lookup *Lookup) forward(outcomesOfThePut <-chan peerasks.URLMetadataAskOut
 	}
 }
 
-func (lookup *Lookup) End() {
-	lookup.waitUntilEnded()
-	lookup.stopAsking()
-	lookup.observer.URLMetadataLookupPerformed(lookup.ctx, lookup.run.performed())
+func (lookup *Lookup) settle(outcome peerasks.URLMetadataAskOutcome) {
+	lookup.run.settle(outcome)
+	if answeredAsk, answered := outcome.Answer.Get(); answered {
+		lookup.recipient.PeerSentURLMetadata(
+			answeredAsk.Ask.Peer.Hash, answeredAsk.MetadataOfEachDocument,
+		)
+	}
 }
 
 func (lookup *Lookup) waitUntilEnded() {
@@ -75,13 +114,13 @@ func (lookup *Lookup) waitUntilEnded() {
 
 			return
 		}
+		if !graceStarted && lookup.cutoff.reachedBy(lookup.run.settledShare()) {
+			graceStarted = true
+			stopGrace = lookup.clock.After(lookup.cutoff.Grace, func() { close(graceEnded) })
+		}
 		select {
 		case outcome := <-lookup.outcomes:
 			lookup.settle(outcome)
-			if !graceStarted && lookup.cutoff.reachedBy(lookup.run.settledShare()) {
-				graceStarted = true
-				stopGrace = lookup.clock.After(lookup.cutoff.Grace, func() { close(graceEnded) })
-			}
 		case <-lookup.settledPuts:
 			lookup.amountOfUnsettledPuts--
 		case <-graceEnded:
@@ -89,15 +128,6 @@ func (lookup *Lookup) waitUntilEnded() {
 
 			return
 		}
-	}
-}
-
-func (lookup *Lookup) settle(outcome peerasks.URLMetadataAskOutcome) {
-	lookup.run.settle(outcome)
-	if answeredAsk, answered := outcome.Answer.Get(); answered {
-		lookup.recipient.PeerSentURLMetadata(
-			answeredAsk.Ask.Peer.Hash, answeredAsk.MetadataOfEachDocument,
-		)
 	}
 }
 

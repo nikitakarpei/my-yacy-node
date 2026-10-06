@@ -174,8 +174,11 @@ func (reports *lookupReports) URLMetadataLookupPerformed(
 	reports.performed = append(reports.performed, performed)
 }
 
+const amountOfArrivalsAFakeHolds = 64
+
 type metadataThePeersSent struct {
 	metadataPerPeer map[yacymodel.Hash][]yacymodel.URLMetadata
+	arrivals        chan struct{}
 }
 
 func (sent *metadataThePeersSent) PeerSentURLMetadata(
@@ -183,6 +186,7 @@ func (sent *metadataThePeersSent) PeerSentURLMetadata(
 	metadataOfEachDocument []yacymodel.URLMetadata,
 ) {
 	sent.metadataPerPeer[peer] = append(sent.metadataPerPeer[peer], metadataOfEachDocument...)
+	sent.arrivals <- struct{}{}
 }
 
 type askedPeers struct {
@@ -203,6 +207,7 @@ func askedPeersOf(peers *peersOfTheNetwork) askedPeers {
 		reports:           &lookupReports{},
 		sentMetadata: &metadataThePeersSent{
 			metadataPerPeer: map[yacymodel.Hash][]yacymodel.URLMetadata{},
+			arrivals:        make(chan struct{}, amountOfArrivalsAFakeHolds),
 		},
 	}
 }
@@ -637,7 +642,7 @@ func TestTheReportCountsTheDocumentsTheLookupWasGivenButNeverAskedAbout(t *testi
 	}
 }
 
-func TestTheLookupHandsOnWhatEachPeerSentAndReportsOnceItEnds(t *testing.T) {
+func TestTheLookupHandsOnWhatEachPeerSentAsItArrivesAndReportsOnceItEnds(t *testing.T) {
 	t.Parallel()
 
 	joined := documentsOf(t, "joined", 2)
@@ -645,17 +650,51 @@ func TestTheLookupHandsOnWhatEachPeerSentAndReportsOnceItEnds(t *testing.T) {
 	lookup := asked.lookupBegunIn(t.Context())
 
 	lookup.AskFor(holdersIn(answersOf(peerAbstract{address: "first", documents: joined})))
+	<-asked.sentMetadata.arrivals
+	sentByTheFirstBeforeTheEnd := len(
+		asked.sentMetadata.metadataPerPeer[yacymodel.WordHash("first")],
+	)
 	amountOfReportsBeforeTheEnd := len(asked.reports.performed)
 	lookup.End()
 
-	sentByTheFirst := asked.sentMetadata.metadataPerPeer[yacymodel.WordHash("first")]
-	if amountOfReportsBeforeTheEnd != 0 || len(asked.reports.performed) != 1 ||
-		len(sentByTheFirst) != len(joined) {
+	if sentByTheFirstBeforeTheEnd != len(joined) || amountOfReportsBeforeTheEnd != 0 ||
+		len(asked.reports.performed) != 1 {
 		t.Fatalf(
-			"the lookup reported %d times before the end and %v in all and handed on %v, "+
-				"want one report at the end and the metadata of %d documents from the first peer",
-			amountOfReportsBeforeTheEnd, asked.reports.performed,
-			asked.sentMetadata.metadataPerPeer, len(joined),
+			"the lookup handed on %d documents and reported %d times before the end and "+
+				"%v in all, want the metadata of %d documents from the first peer before "+
+				"the end and one report at the end",
+			sentByTheFirstBeforeTheEnd, amountOfReportsBeforeTheEnd,
+			asked.reports.performed, len(joined),
+		)
+	}
+}
+
+func TestTheGraceStartsAtTheEndWhenMostDocumentsSettledBeforeIt(t *testing.T) {
+	t.Parallel()
+
+	asked := askedPeersOf(peersWhere([]string{"stuck"}, nil))
+	asked.cutoff = cutoffAtNinetyPercent
+	asked.clock.firesAtOnce = true
+	lookup := asked.lookupBegunIn(t.Context())
+
+	lookup.AskFor(holdersIn(answersOf(
+		peerAbstract{address: "fast", documents: documentsOf(t, "fast", 9)},
+	)))
+	lookup.AskFor(holdersIn(answersOf(
+		peerAbstract{address: "stuck", documents: documentsOf(t, "stuck", 1)},
+	)))
+	<-asked.sentMetadata.arrivals
+	gracesStartedBeforeTheEnd := asked.clock.gracesStarted
+	lookup.End()
+	performed := asked.reports.performed[0]
+
+	if gracesStartedBeforeTheEnd != 0 || asked.clock.gracesStarted != 1 ||
+		performed.EndReason != urlmetadataasks.EndedByCutoff ||
+		performed.AmountOfDocumentsCutOff != 1 {
+		t.Fatalf(
+			"%d graces started before the end and %d in all, and the lookup reported %+v, "+
+				"want one grace started at the end and the document of the stuck peer cut off",
+			gracesStartedBeforeTheEnd, asked.clock.gracesStarted, performed,
 		)
 	}
 }
