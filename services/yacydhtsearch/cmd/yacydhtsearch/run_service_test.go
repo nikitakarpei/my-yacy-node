@@ -72,12 +72,12 @@ func serviceConfigOnReservedPorts(t *testing.T) yacydhtsearch.ServiceConfig {
 		URLMetadataAskDocumentsFloor:   25,
 		URLMetadataAskTargetTime:       time.Second,
 
-		PagesReadPerQuery:       10,
-		PagesReadPerSite:        10,
-		PageReadBudget:          time.Second,
-		PageByteCeiling:         1024,
-		PageReadMaxRedirectHops: 3,
-		SnippetLengthCeiling:    300,
+		PagesReadPerQueryCeiling: 10,
+		PagesReadPerSiteCeiling:  10,
+		PageReadBudget:           time.Second,
+		PageByteCeiling:          1024,
+		PageReadMaxRedirectHops:  3,
+		SnippetLengthCeiling:     300,
 	}
 }
 

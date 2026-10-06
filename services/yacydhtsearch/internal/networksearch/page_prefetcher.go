@@ -9,25 +9,25 @@ import (
 )
 
 type pagePrefetcher struct {
-	documentsOrdering DocumentsOrdering
-	pageReadingRun    PageReadingRun
-	pagesReadPerQuery int
-	pagesReadPerSite  int
-	latestFindings    chan queryfindings.Findings
-	pagesReadAhead    []pagereading.PageToRead
-	stopAsked         chan struct{}
-	stopped           chan struct{}
+	documentsOrdering        DocumentsOrdering
+	pageReadingRun           PageReadingRun
+	pagesReadPerQueryCeiling int
+	pagesReadPerSiteCeiling  int
+	latestFindings           chan queryfindings.Findings
+	pagesReadAhead           []pagereading.PageToRead
+	stopAsked                chan struct{}
+	stopped                  chan struct{}
 }
 
 func (n Network) prefetcherFor(pageReadingRun PageReadingRun) *pagePrefetcher {
 	return &pagePrefetcher{
-		documentsOrdering: n.documentsOrdering,
-		pageReadingRun:    pageReadingRun,
-		pagesReadPerQuery: n.pagesReadPerQuery,
-		pagesReadPerSite:  n.pagesReadPerSite,
-		latestFindings:    make(chan queryfindings.Findings, 1),
-		stopAsked:         make(chan struct{}),
-		stopped:           make(chan struct{}),
+		documentsOrdering:        n.documentsOrdering,
+		pageReadingRun:           pageReadingRun,
+		pagesReadPerQueryCeiling: n.pagesReadPerQueryCeiling,
+		pagesReadPerSiteCeiling:  n.pagesReadPerSiteCeiling,
+		latestFindings:           make(chan queryfindings.Findings, 1),
+		stopAsked:                make(chan struct{}),
+		stopped:                  make(chan struct{}),
 	}
 }
 
@@ -66,8 +66,8 @@ func (prefetcher *pagePrefetcher) readAheadThePagesOf(
 ) {
 	pagesToRead := pagesToReadAmong(
 		prefetcher.documentsOrdering.OrderedDocumentsOf(findings),
-		prefetcher.pagesReadPerQuery,
-		prefetcher.pagesReadPerSite,
+		prefetcher.pagesReadPerQueryCeiling,
+		prefetcher.pagesReadPerSiteCeiling,
 	)
 	prefetcher.pageReadingRun.Abandon(pagesLeftOutOf(pagesToRead, prefetcher.pagesReadAhead))
 	prefetcher.pageReadingRun.ReadAhead(ctx, pagesToRead)

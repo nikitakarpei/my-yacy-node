@@ -203,8 +203,8 @@ func RunService(
 		),
 		cfg.QueryBudget,
 		cfg.PageReadBudget,
-		cfg.PagesReadPerQuery,
-		cfg.PagesReadPerSite,
+		cfg.PagesReadPerQueryCeiling,
+		cfg.PagesReadPerSiteCeiling,
 		cfg.RankedItemsCeiling,
 		cfg.CompoundWordsCeiling,
 		networksearch.NetworkSearchObservers{

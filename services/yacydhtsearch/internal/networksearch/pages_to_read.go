@@ -9,17 +9,17 @@ import (
 
 func pagesToReadAmong(
 	orderedDocuments []queryfindings.FoundDocument,
-	pagesReadPerQuery int,
-	pagesReadPerSite int,
+	pagesReadPerQueryCeiling int,
+	pagesReadPerSiteCeiling int,
 ) []pagereading.PageToRead {
-	pagesToRead := make([]pagereading.PageToRead, 0, pagesReadPerQuery)
+	pagesToRead := make([]pagereading.PageToRead, 0, pagesReadPerQueryCeiling)
 	amountOfPagesPerSite := map[string]int{}
 	for _, document := range orderedDocuments {
-		if len(pagesToRead) >= pagesReadPerQuery {
+		if len(pagesToRead) >= pagesReadPerQueryCeiling {
 			break
 		}
 		site := siteOf(document.Address)
-		if amountOfPagesPerSite[site] >= pagesReadPerSite {
+		if amountOfPagesPerSite[site] >= pagesReadPerSiteCeiling {
 			continue
 		}
 		amountOfPagesPerSite[site]++

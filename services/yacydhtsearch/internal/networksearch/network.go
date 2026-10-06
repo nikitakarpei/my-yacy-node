@@ -55,18 +55,18 @@ type NetworkSearchObserver interface {
 }
 
 type Network struct {
-	peerDirectory        *peerdirectory.Directory
-	peerChoice           PeerChoice
-	querySpread          QuerySpread
-	pageReading          PageReading
-	documentsOrdering    DocumentsOrdering
-	queryBudget          time.Duration
-	pageReadBudget       time.Duration
-	pagesReadPerQuery    int
-	pagesReadPerSite     int
-	rankedItemsCeiling   int
-	compoundWordsCeiling int
-	observer             NetworkSearchObserver
+	peerDirectory            *peerdirectory.Directory
+	peerChoice               PeerChoice
+	querySpread              QuerySpread
+	pageReading              PageReading
+	documentsOrdering        DocumentsOrdering
+	queryBudget              time.Duration
+	pageReadBudget           time.Duration
+	pagesReadPerQueryCeiling int
+	pagesReadPerSiteCeiling  int
+	rankedItemsCeiling       int
+	compoundWordsCeiling     int
+	observer                 NetworkSearchObserver
 }
 
 //nolint:revive // argument-limit: what one network search holds for every query
@@ -78,25 +78,25 @@ func New(
 	documentsOrdering DocumentsOrdering,
 	queryBudget time.Duration,
 	pageReadBudget time.Duration,
-	pagesReadPerQuery int,
-	pagesReadPerSite int,
+	pagesReadPerQueryCeiling int,
+	pagesReadPerSiteCeiling int,
 	rankedItemsCeiling int,
 	compoundWordsCeiling int,
 	observer NetworkSearchObserver,
 ) Network {
 	return Network{
-		peerDirectory:        peerDirectory,
-		peerChoice:           peerChoice,
-		querySpread:          querySpread,
-		pageReading:          pageReading,
-		documentsOrdering:    documentsOrdering,
-		queryBudget:          queryBudget,
-		pageReadBudget:       pageReadBudget,
-		pagesReadPerQuery:    pagesReadPerQuery,
-		pagesReadPerSite:     pagesReadPerSite,
-		rankedItemsCeiling:   rankedItemsCeiling,
-		compoundWordsCeiling: compoundWordsCeiling,
-		observer:             observer,
+		peerDirectory:            peerDirectory,
+		peerChoice:               peerChoice,
+		querySpread:              querySpread,
+		pageReading:              pageReading,
+		documentsOrdering:        documentsOrdering,
+		queryBudget:              queryBudget,
+		pageReadBudget:           pageReadBudget,
+		pagesReadPerQueryCeiling: pagesReadPerQueryCeiling,
+		pagesReadPerSiteCeiling:  pagesReadPerSiteCeiling,
+		rankedItemsCeiling:       rankedItemsCeiling,
+		compoundWordsCeiling:     compoundWordsCeiling,
+		observer:                 observer,
 	}
 }
 
@@ -131,8 +131,8 @@ func (n Network) Search(
 	prefetcher.Stop()
 	pagesWanted := pagesToReadAmong(
 		n.documentsOrdering.OrderedDocumentsOf(findings),
-		n.pagesReadPerQuery,
-		n.pagesReadPerSite,
+		n.pagesReadPerQueryCeiling,
+		n.pagesReadPerSiteCeiling,
 	)
 	pagesRead := pageReadingRun.Read(ctx, pagesWanted)
 	pageReadingRun.Finish(ctx)
