@@ -66,7 +66,8 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_QUERY_BUDGET` | `10s` | Time one client query may take, end to end. |
-| `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
+| `YACYDHTSEARCH_WORD_JOINED_PEER_ITEMS_CEILING` | `1` | Items this service asks one peer for in a query of more than one word. |
+| `YACYDHTSEARCH_PEER_MATCHED_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for in a query of one word. |
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY_CEILING` | `50` | Pages one query reads, taken from the results it puts first. |
 | `YACYDHTSEARCH_PAGES_READ_PER_SITE_CEILING` | `3` | Most pages of one site that one query reads. The query takes the next results in place of the others. |
 | `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. |
