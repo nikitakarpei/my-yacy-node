@@ -49,6 +49,18 @@ func (answers answersOfWord) amountInAPartition() yacymodel.Optional[int] {
 	return yacymodel.Some(lowerMedianOf(countedAmounts))
 }
 
+func (answers answersOfWord) listAnyDocument() bool {
+	for _, answersOfThePartition := range answers {
+		for _, answer := range answersOfThePartition {
+			if len(answer.ListedDocuments) > 0 {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 func (answers answersOfWord) documents() yacymodel.URLHashes {
 	documents := yacymodel.URLHashes{}
 	for _, answersOfThePartition := range answers {
