@@ -86,8 +86,7 @@ func (spread Spread) SpreadOverPeers(
 
 	spread.documentAmountsCache.Remember(ctx, documentsPerWord.AmountInAPartitionPerQueryWord())
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
-		answered, holders, documentsPerWord, leadingWord, joinedDocuments, urlMetadataAnswers,
-		time.Since(startedAt),
+		holders, documentsPerWord, leadingWord, joinedDocuments, time.Since(startedAt),
 	))
 
 	return findingsFrom(

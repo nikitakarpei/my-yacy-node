@@ -149,6 +149,10 @@ components:
     in: internal/queryspreadsobservers/wordjoined/documentasks/prometheus/**
   queryspreadsobserverswordjoineddocumentamountsapplog:
     in: internal/queryspreadsobservers/wordjoined/documentamounts/applog/**
+  queryspreadsobserverswordjoinedurlmetadataasksapplog:
+    in: internal/queryspreadsobservers/wordjoined/urlmetadataasks/applog/**
+  queryspreadsobserverswordjoinedurlmetadataasksprometheus:
+    in: internal/queryspreadsobservers/wordjoined/urlmetadataasks/prometheus/**
   queryspreadsobserverswordjoineddocumentamountsprometheus:
     in: internal/queryspreadsobservers/wordjoined/documentamounts/prometheus/**
   peercallobserversapplog:
@@ -559,16 +563,12 @@ deps:
   queryspreadsobserverswordjoinedapplog:
     mayDependOn:
       - wordjoined
-      - wordjoineddocumentasks
-      - wordjoinedurlmetadataasks
   queryspreadsobserverswordjoinedprometheus:
     canUse:
       - prometheus
       - budgetbuckets
     mayDependOn:
       - wordjoined
-      - wordjoineddocumentasks
-      - wordjoinedurlmetadataasks
   queryspreadsobserverswordjoineddocumentasksapplog:
     mayDependOn:
       - wordjoineddocumentasks
@@ -585,6 +585,15 @@ deps:
       - prometheus
     mayDependOn:
       - wordjoineddocumentamounts
+  queryspreadsobserverswordjoinedurlmetadataasksapplog:
+    mayDependOn:
+      - wordjoinedurlmetadataasks
+  queryspreadsobserverswordjoinedurlmetadataasksprometheus:
+    canUse:
+      - prometheus
+      - budgetbuckets
+    mayDependOn:
+      - wordjoinedurlmetadataasks
   peercallobserversapplog:
     mayDependOn:
       - peerasks

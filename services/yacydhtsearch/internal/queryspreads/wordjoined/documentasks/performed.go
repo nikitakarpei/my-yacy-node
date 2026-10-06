@@ -12,7 +12,7 @@ type Performed struct {
 	AmountOfDocumentsHeldInEachAnswer   []int
 }
 
-func PerformedFrom(answered []AnsweredWordPartition) Performed {
+func performedFrom(answered []AnsweredWordPartition) Performed {
 	answers := replicaAnswersIn(answered)
 
 	return Performed{

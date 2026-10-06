@@ -121,6 +121,25 @@ func (asked *askedPartitions) AskedAmongTheDocuments(
 	maps.Copy(asked.decisionPerPartition, decisionPerPartition)
 }
 
+func (*askedPartitions) DocumentAsksPerformed(context.Context, documentasks.Performed) {}
+
+type documentAsksReports struct {
+	performed []documentasks.Performed
+}
+
+func (*documentAsksReports) AskedAmongTheDocuments(
+	context.Context,
+	documentasks.DocumentsToMatchDecisionPerPartition,
+) {
+}
+
+func (reports *documentAsksReports) DocumentAsksPerformed(
+	_ context.Context,
+	performed documentasks.Performed,
+) {
+	reports.performed = append(reports.performed, performed)
+}
+
 func documentsIn(t *testing.T, partition uint, amount int) []yacymodel.URLHash {
 	t.Helper()
 
@@ -552,7 +571,7 @@ func TestDocumentsAtTheCeilingInAPartitionHaveTheWordsToAskWaitForThePartition(t
 	}
 }
 
-func TestTheInquirerGetsWhatTheReplicasCarried(t *testing.T) {
+func TestTheInquiryReportsWhatTheReplicasCarriedOnceItEnds(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsIn(t, 0, 2)
@@ -562,26 +581,31 @@ func TestTheInquirerGetsWhatTheReplicasCarried(t *testing.T) {
 	})
 	withMetadata.ListedDocuments[0].Posting = yacymodel.Some(yacymodel.RWIPosting{Hits: 1})
 	withMetadata.AmountOfDocumentsHeld = yacymodel.Some(512)
-	inquirer := &wordPartitionsAnsweredInTurn{}
+	reports := &documentAsksReports{}
 	inquiry := inquiryOver(
 		t,
 		replicasAnswering(map[yacymodel.Hash][]wordpartitionasks.ReplicaAnswer{
 			yacymodel.WordHash(firstWord):  {withMetadata},
 			yacymodel.WordHash(secondWord): {answerOf("second", documents[1]), answerOf("third")},
 		}),
-		documentasks.DocumentAsksObservers{},
-		inquirer,
+		reports,
+		&wordPartitionsAnsweredInTurn{},
 	)
 	inquiry.WhichDocumentsHaveIn(0, wordsOf(firstWord, secondWord))
+	amountOfReportsBeforeTheEnd := len(reports.performed)
+	inquiry.End()
 
-	performed := documentasks.PerformedFrom(inquiry.End())
-	want := documentasks.Performed{
+	want := []documentasks.Performed{{
 		AmountOfPeersWithANonEmptyAbstract:  2,
 		AmountOfListedDocumentsWithMetadata: 1,
 		AmountOfListedDocumentsWithAPosting: 1,
 		AmountOfDocumentsHeldInEachAnswer:   []int{512},
-	}
-	if !reflect.DeepEqual(performed, want) {
-		t.Fatalf("the document asks reported %+v, want %+v", performed, want)
+	}}
+	if amountOfReportsBeforeTheEnd != 0 || !reflect.DeepEqual(reports.performed, want) {
+		t.Fatalf(
+			"the document asks reported %d times before the end and %+v in all, "+
+				"want one report at the end: %+v",
+			amountOfReportsBeforeTheEnd, reports.performed, want,
+		)
 	}
 }

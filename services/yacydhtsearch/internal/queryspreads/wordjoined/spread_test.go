@@ -422,6 +422,22 @@ func peerAt(address string) peerdirectory.AskablePeer {
 type recordedSpreads struct {
 	performed            []wordjoined.PerformedWordJoinedSpread
 	decisionPerPartition map[uint]documentasks.DocumentsToMatchDecision
+	documentAsks         []documentasks.Performed
+	urlMetadataLookups   []urlmetadataasks.Performed
+}
+
+func (recorded *recordedSpreads) DocumentAsksPerformed(
+	_ context.Context,
+	performed documentasks.Performed,
+) {
+	recorded.documentAsks = append(recorded.documentAsks, performed)
+}
+
+func (recorded *recordedSpreads) URLMetadataLookupPerformed(
+	_ context.Context,
+	performed urlmetadataasks.Performed,
+) {
+	recorded.urlMetadataLookups = append(recorded.urlMetadataLookups, performed)
 }
 
 func (recorded *recordedSpreads) WordJoinedSpreadPerformed(
@@ -554,6 +570,7 @@ func (settings spreadSettings) spread(
 			urlmetadataasks.Cutoff{},
 			clockThatNeverFires{},
 			settings.networkRedundancy,
+			observer,
 		),
 		settings.partitions,
 		observer,
@@ -782,10 +799,11 @@ func TestTheSpreadReportsWhatEveryQueryWordWasHeldFor(t *testing.T) {
 			performed)
 	}
 	if performed.AmountOfQueryWordsHeldByNoPeer != 0 ||
-		performed.URLMetadataAsks.AmountOfLookedUpDocumentsWithMetadata != 1 {
+		observer.urlMetadataLookups[0].AmountOfLookedUpDocumentsWithMetadata != 1 {
 		t.Fatalf(
-			"the spread reported %+v, want every word held and the joined document back",
-			performed,
+			"the spread reported %+v and the lookup %+v, want every word held and the "+
+				"joined document back",
+			performed, observer.urlMetadataLookups,
 		)
 	}
 }
@@ -967,7 +985,7 @@ func documentsEachPeerIsAskedMetadataFor(
 	return documentsOfEachPeer
 }
 
-func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *testing.T) {
+func TestTheSpreadReportsTheWholeJoinAndTheLookupTheDocumentsItAskedMetadataFor(t *testing.T) {
 	t.Parallel()
 
 	joined := []string{"https://first.example/", "https://second.example/"}
@@ -981,17 +999,19 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	settings.spread(network, observer)
 
 	performed := observer.performed[0]
-	if performed.AmountOfJoinedDocuments != 2 ||
-		performed.URLMetadataAsks.AmountOfLookedUpDocuments != 1 {
+	lookup := observer.urlMetadataLookups[0]
+	if performed.AmountOfJoinedDocuments != 2 || lookup.AmountOfLookedUpDocuments != 1 ||
+		lookup.AmountOfDocumentsNotAsked != 1 {
 		t.Fatalf(
-			"the spread reported %+v, want two joined documents and one asked metadata for",
-			performed,
+			"the spread reported %+v and the lookup %+v, want two joined documents, one "+
+				"asked metadata for and one never asked about",
+			performed, lookup,
 		)
 	}
-	if performed.URLMetadataAsks.AmountOfLookedUpDocumentsWithMetadata != 1 {
+	if lookup.AmountOfLookedUpDocumentsWithMetadata != 1 {
 		t.Fatalf(
-			"the spread reported %d documents back, want the one it asked metadata for",
-			performed.URLMetadataAsks.AmountOfLookedUpDocumentsWithMetadata,
+			"the lookup reported %d documents back, want the one it asked metadata for",
+			lookup.AmountOfLookedUpDocumentsWithMetadata,
 		)
 	}
 }
@@ -1205,7 +1225,7 @@ func documentsHeldForBothQueryWords(documentsHeld int) map[yacymodel.Hash]int {
 	}
 }
 
-func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testing.T) {
+func TestTheDocumentAsksReportWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testing.T) {
 	t.Parallel()
 
 	answered := "https://answered.example/"
@@ -1225,20 +1245,21 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	}}, network, observer)
 
 	performed := observer.performed[0]
-	documentAsks := performed.DocumentAsks
+	documentAsks := observer.documentAsks[0]
 	if performed.AmountOfJoinedDocumentsWithMetadata != 1 ||
 		documentAsks.AmountOfListedDocumentsWithMetadata != 2 ||
 		documentAsks.AmountOfListedDocumentsWithAPosting != 2 {
 		t.Fatalf(
-			"the spread reported %+v, want the joined document answered once and two counts",
-			performed,
+			"the spread reported %+v and the document asks %+v, want the joined document "+
+				"answered once and two counts",
+			performed, documentAsks,
 		)
 	}
 	if !slices.Equal(
 		documentAsks.AmountOfDocumentsHeldInEachAnswer, []int{512, 512},
 	) {
 		t.Fatalf(
-			"the spread reported %v documents held per query word, want 512 for each answer",
+			"the document asks reported %v documents held per query word, want 512 for each answer",
 			documentAsks.AmountOfDocumentsHeldInEachAnswer,
 		)
 	}

@@ -163,21 +163,43 @@ func documentsOf(t *testing.T, site string, amountOfDocuments int) []yacymodel.U
 	return documents
 }
 
+type lookupReports struct {
+	performed []urlmetadataasks.Performed
+}
+
+func (reports *lookupReports) URLMetadataLookupPerformed(
+	_ context.Context,
+	performed urlmetadataasks.Performed,
+) {
+	reports.performed = append(reports.performed, performed)
+}
+
 type askedPeers struct {
 	peers             *peersOfTheNetwork
 	ceilings          ceilingsOfThePeers
 	cutoff            urlmetadataasks.Cutoff
 	clock             *graceClock
 	networkRedundancy int
+	reports           *lookupReports
 }
 
 func askedPeersOf(peers *peersOfTheNetwork) askedPeers {
-	return askedPeers{peers: peers, clock: &graceClock{}, networkRedundancy: networkRedundancy}
+	return askedPeers{
+		peers:             peers,
+		clock:             &graceClock{},
+		networkRedundancy: networkRedundancy,
+		reports:           &lookupReports{},
+	}
 }
 
 func (asked askedPeers) lookupBegunIn(ctx context.Context) *urlmetadataasks.Lookup {
 	return urlmetadataasks.New(
-		asked.peers, asked.ceilings, asked.cutoff, asked.clock, asked.networkRedundancy,
+		asked.peers,
+		asked.ceilings,
+		asked.cutoff,
+		asked.clock,
+		asked.networkRedundancy,
+		asked.reports,
 	).Begin(ctx)
 }
 
@@ -189,8 +211,9 @@ func (asked askedPeers) settledFor(
 	for _, answers := range answersOfEachJoin {
 		lookup.AskFor(holdersIn(answers))
 	}
+	lookup.End()
 
-	return urlmetadataasks.PerformedFrom(lookup.End())
+	return asked.reports.performed[0]
 }
 
 func holdersIn(answers []wordpartitionasks.ReplicaAnswer) documentholders.Holders {
@@ -450,13 +473,15 @@ func TestTheAsksArePutAsSoonAsTheLookupIsAskedWithoutWaitingForTheEnd(t *testing
 	t.Parallel()
 
 	peers := peersWhere(nil, nil)
-	lookup := askedPeersOf(peers).lookupBegunIn(t.Context())
+	asked := askedPeersOf(peers)
+	lookup := asked.lookupBegunIn(t.Context())
 
 	lookup.AskFor(holdersIn(answersOf(
 		peerAbstract{address: "first", documents: documentsOf(t, "joined", 1)},
 	)))
 	amountOfAsksPutBeforeTheEnd := len(peers.asks)
-	performed := urlmetadataasks.PerformedFrom(lookup.End())
+	lookup.End()
+	performed := asked.reports.performed[0]
 
 	if amountOfAsksPutBeforeTheEnd != 1 || !performed.TimeToFirstAsk.Present() {
 		t.Fatalf(
@@ -575,6 +600,46 @@ func TestNoMorePeersAreAskedForTheDocumentsOfOneJoinThanTheNetworkRedundancy(t *
 		t.Fatalf(
 			"the peers were asked %v for %d documents, want one ask for each join covering both",
 			peers.asks, performed.AmountOfLookedUpDocuments,
+		)
+	}
+}
+
+func TestTheReportCountsTheDocumentsTheLookupWasGivenButNeverAskedAbout(t *testing.T) {
+	t.Parallel()
+
+	asked := askedPeersOf(peersWhere(nil, nil))
+	asked.ceilings = ceilingsOfThePeers{ceilingOfEachPeer: map[string]int{"first": 1}}
+
+	performed := asked.settledFor(t.Context(), answersOf(
+		peerAbstract{address: "first", documents: documentsOf(t, "joined", 3)},
+	))
+
+	if performed.AmountOfDocumentsNotAsked != 2 || performed.AmountOfLookedUpDocuments != 1 {
+		t.Fatalf(
+			"the lookup reported %+v, want one document asked about and two never asked about",
+			performed,
+		)
+	}
+}
+
+func TestTheLookupReportsOnceItEndsAndAnswersWithTheMetadataThePeersSent(t *testing.T) {
+	t.Parallel()
+
+	joined := documentsOf(t, "joined", 2)
+	asked := askedPeersOf(peersWhere(nil, nil))
+	lookup := asked.lookupBegunIn(t.Context())
+
+	lookup.AskFor(holdersIn(answersOf(peerAbstract{address: "first", documents: joined})))
+	amountOfReportsBeforeTheEnd := len(asked.reports.performed)
+	answers := lookup.End()
+
+	if amountOfReportsBeforeTheEnd != 0 || len(asked.reports.performed) != 1 ||
+		len(answers.MetadataThePeersSent()) != len(joined) {
+		t.Fatalf(
+			"the lookup reported %d times before the end and %v in all and answered %v, "+
+				"want one report at the end and the metadata of %d documents",
+			amountOfReportsBeforeTheEnd, asked.reports.performed,
+			answers.MetadataThePeersSent(), len(joined),
 		)
 	}
 }

@@ -274,6 +274,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 			urlmetadataasks.Cutoff{},
 			wallclock.Clock{},
 			networkRedundancy,
+			urlmetadataasks.URLMetadataLookupObservers{},
 		),
 		ringPartitions(t),
 		wordjoined.WordJoinedSpreadObservers{},

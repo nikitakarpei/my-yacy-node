@@ -180,6 +180,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 					urlmetadataasks.Cutoff{},
 					wallclock.Clock{},
 					networkRedundancy,
+					urlmetadataasks.URLMetadataLookupObservers{},
 				),
 				partitions,
 				wordjoined.WordJoinedSpreadObservers{},

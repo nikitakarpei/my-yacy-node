@@ -23,7 +23,6 @@ type WordJoinedSpreadMetrics struct {
 	joinsThatFoundDocuments         prometheusclient.Counter
 	joinsThatFoundNoDocument        prometheusclient.Counter
 	queryWords                      queryWordMetrics
-	urlMetadataAsks                 urlMetadataAskMetrics
 	wordJoinedSpreadDurationSeconds prometheusclient.Histogram
 }
 
@@ -39,7 +38,6 @@ func New(
 		joinsThatFoundDocuments:  wordJoinedSpreads.WithLabelValues(joinFoundDocuments),
 		joinsThatFoundNoDocument: wordJoinedSpreads.WithLabelValues(joinFoundNoDocument),
 		queryWords:               queryWordMetricsRegisteredIn(registry),
-		urlMetadataAsks:          urlMetadataAskMetricsRegisteredIn(registry, queryBudget),
 		wordJoinedSpreadDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
 				Name:    "yacydhtsearch_word_joined_spread_duration_seconds",
@@ -66,7 +64,6 @@ func (m *WordJoinedSpreadMetrics) WordJoinedSpreadPerformed(
 	spread wordjoined.PerformedWordJoinedSpread,
 ) {
 	m.queryWords.observeQueryWords(spread)
-	m.urlMetadataAsks.observeURLMetadataAsks(spread)
 	m.countJoin(spread.AmountOfJoinedDocuments)
 	m.observeWordJoinedSpreadDuration(spread.TimeSpent)
 }

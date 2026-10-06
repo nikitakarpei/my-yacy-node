@@ -15,6 +15,9 @@ type run struct {
 	asksInFlightPerOpenDocument   map[yacymodel.URLHash]int
 	lookedUpDocumentsWithMetadata yacymodel.URLHashes
 	answeredAsks                  []peerasks.AnsweredURLMetadataAsk
+	givenDocuments                yacymodel.URLHashes
+	endReason                     EndReason
+	amountOfDocumentsCutOff       int
 }
 
 func noAsksPutYet() *run {
@@ -23,7 +26,12 @@ func noAsksPutYet() *run {
 		lookedUpDocuments:             yacymodel.URLHashes{},
 		asksInFlightPerOpenDocument:   map[yacymodel.URLHash]int{},
 		lookedUpDocumentsWithMetadata: yacymodel.URLHashes{},
+		givenDocuments:                yacymodel.URLHashes{},
 	}
+}
+
+func (run *run) give(documents []yacymodel.URLHash) {
+	run.givenDocuments.AddEach(documents)
 }
 
 func (run *run) add(asks []peerasks.URLMetadataAsk) {
@@ -52,13 +60,8 @@ func (run *run) openTheDocumentsOf(asks []peerasks.URLMetadataAsk) {
 	}
 }
 
-func (run *run) endedBy(endReason EndReason) Answers {
-	return Answers{
-		asks:           run.asks,
-		answeredAsks:   run.answeredAsks,
-		endReason:      endReason,
-		timeToFirstAsk: run.timeToFirstAsk,
-	}
+func (run *run) endBy(endReason EndReason) {
+	run.endReason = endReason
 }
 
 func (run *run) covered() bool {
@@ -100,12 +103,32 @@ func (run *run) settledShare() float64 {
 		float64(len(run.lookedUpDocuments))
 }
 
-func (run *run) cutOff() Answers {
-	return Answers{
-		asks:                    run.asks,
-		answeredAsks:            run.answeredAsks,
-		endReason:               EndedByCutoff,
-		amountOfDocumentsCutOff: len(run.asksInFlightPerOpenDocument),
-		timeToFirstAsk:          run.timeToFirstAsk,
+func (run *run) cutOff() {
+	run.endReason = EndedByCutoff
+	run.amountOfDocumentsCutOff = len(run.asksInFlightPerOpenDocument)
+}
+
+func (run *run) answers() Answers {
+	return Answers{answeredAsks: run.answeredAsks}
+}
+
+func (run *run) performed() Performed {
+	return Performed{
+		AmountOfLookedUpDocuments:             len(run.lookedUpDocuments),
+		AmountOfLookedUpDocumentsWithMetadata: len(run.lookedUpDocumentsWithMetadata),
+		AmountOfDocumentsNotAsked:             len(run.givenDocuments) - len(run.lookedUpDocuments),
+		EndReason:                             run.endReason,
+		AmountOfDocumentsCutOff:               run.amountOfDocumentsCutOff,
+		AmountOfDocumentsPerAsk:               amountOfDocumentsPerAskIn(run.asks),
+		TimeToFirstAsk:                        run.timeToFirstAsk,
 	}
+}
+
+func amountOfDocumentsPerAskIn(asks []peerasks.URLMetadataAsk) []int {
+	amountOfDocumentsPerAsk := make([]int, 0, len(asks))
+	for _, ask := range asks {
+		amountOfDocumentsPerAsk = append(amountOfDocumentsPerAsk, len(ask.Documents))
+	}
+
+	return amountOfDocumentsPerAsk
 }

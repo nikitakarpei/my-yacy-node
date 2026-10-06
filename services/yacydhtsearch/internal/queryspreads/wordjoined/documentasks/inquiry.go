@@ -209,6 +209,7 @@ func (inquiry *Inquiry) End() []AnsweredWordPartition {
 	for settledAsk := range inquiry.run.SettledAsks {
 		inquiry.settle(settledAsk)
 	}
+	inquiry.observer.DocumentAsksPerformed(inquiry.ctx, performedFrom(inquiry.sentAsks.answered))
 
 	return inquiry.sentAsks.answered
 }

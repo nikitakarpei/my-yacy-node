@@ -8,10 +8,12 @@ import (
 )
 
 type Lookup struct {
+	ctx                   context.Context
 	peerAsks              PeerAsks
 	askLimits             askLimits
 	cutoff                Cutoff
 	clock                 Clock
+	observer              URLMetadataLookupObserver
 	asksContext           context.Context
 	cancelAsks            context.CancelFunc
 	run                   *run
@@ -22,6 +24,7 @@ type Lookup struct {
 }
 
 func (lookup *Lookup) AskFor(holders documentholders.Holders) {
+	lookup.run.give(holders.MostHeldFirst())
 	asks := lookup.askLimits.asksFor(lookup.asksContext, holders)
 	if len(asks) == 0 {
 		return
@@ -50,23 +53,28 @@ func (lookup *Lookup) forward(outcomesOfThePut <-chan peerasks.URLMetadataAskOut
 }
 
 func (lookup *Lookup) End() Answers {
-	answers := lookup.answersOnceEnded()
+	lookup.waitUntilEnded()
 	lookup.stopAsking()
+	lookup.observer.URLMetadataLookupPerformed(lookup.ctx, lookup.run.performed())
 
-	return answers
+	return lookup.run.answers()
 }
 
-func (lookup *Lookup) answersOnceEnded() Answers {
+func (lookup *Lookup) waitUntilEnded() {
 	graceEnded := make(chan struct{})
 	stopGrace := func() {}
 	defer func() { stopGrace() }()
 	graceStarted := false
 	for {
 		if lookup.amountOfUnsettledPuts == 0 {
-			return lookup.run.endedBy(EndedByEveryAskSettled)
+			lookup.run.endBy(EndedByEveryAskSettled)
+
+			return
 		}
 		if lookup.run.covered() {
-			return lookup.run.endedBy(EndedByCoverage)
+			lookup.run.endBy(EndedByCoverage)
+
+			return
 		}
 		select {
 		case outcome := <-lookup.outcomes:
@@ -78,7 +86,9 @@ func (lookup *Lookup) answersOnceEnded() Answers {
 		case <-lookup.settledPuts:
 			lookup.amountOfUnsettledPuts--
 		case <-graceEnded:
-			return lookup.run.cutOff()
+			lookup.run.cutOff()
+
+			return
 		}
 	}
 }

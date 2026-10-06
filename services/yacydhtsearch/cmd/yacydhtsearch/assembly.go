@@ -76,6 +76,8 @@ import (
 	queryspreadsobserverswordjoineddocumentasksapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentasks/applog"
 	queryspreadsobserverswordjoineddocumentasksprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/documentasks/prometheus"
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
+	queryspreadsobserverswordjoinedurlmetadataasksapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/urlmetadataasks/applog"
+	queryspreadsobserverswordjoinedurlmetadataasksprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/urlmetadataasks/prometheus"
 	queryworddocumentamountsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/jetstream"
 	queryworddocumentamountsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/memory"
 	queryworddocumentamountsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/applog"
@@ -325,6 +327,12 @@ func querySpreadFor(
 				cfg.URLMetadataLookupCutoff,
 				wallclock.Clock{},
 				cfg.NetworkRedundancy,
+				urlmetadataasks.URLMetadataLookupObservers{
+					queryspreadsobserverswordjoinedurlmetadataasksapplog.URLMetadataLookupLog{},
+					queryspreadsobserverswordjoinedurlmetadataasksprometheus.New(
+						registry, cfg.QueryBudget,
+					),
+				},
 			),
 			cfg.Partitions,
 			wordjoined.WordJoinedSpreadObservers{
