@@ -5,8 +5,6 @@ import (
 	"unicode/utf8"
 
 	"github.com/clipperhouse/uax29/v2/sentences"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type passage struct {
@@ -17,7 +15,7 @@ type passage struct {
 }
 
 func bestPassageForTheQueryWords(
-	queryWords []yacymodel.Hash,
+	queryWords []string,
 	pageText string,
 	lengthCeiling int,
 ) passage {
@@ -56,7 +54,7 @@ func passageTextsIn(pageText string, lengthCeiling int) iter.Seq[string] {
 	}
 }
 
-func passageOf(passageText string, queryWords []yacymodel.Hash) passage {
+func passageOf(passageText string, queryWords []string) passage {
 	counts := textCountsOf(passageText, queryWords)
 	readPassage := passage{
 		text:            passageText,

@@ -50,7 +50,7 @@ func newPagesRecordingWhatIsReadAhead() *pagesRecordingWhatIsReadAhead {
 	return &pagesRecordingWhatIsReadAhead{readAhead: make(chan struct{})}
 }
 
-func (p *pagesRecordingWhatIsReadAhead) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
+func (p *pagesRecordingWhatIsReadAhead) Start(_ []string) networksearch.PageReadingRun {
 	return p
 }
 

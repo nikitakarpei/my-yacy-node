@@ -3,13 +3,13 @@ package pagecontents
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type queryPhrase struct {
-	firstWord  yacymodel.Hash
-	secondWord yacymodel.Hash
+	firstWord  string
+	secondWord string
 }
 
 type queryPhrases map[queryPhrase]struct{}
 
-func queryPhrasesOf(queryWords []yacymodel.Hash) queryPhrases {
+func queryPhrasesOf(queryWords []string) queryPhrases {
 	phrases := queryPhrases{}
 	for place := range len(queryWords) - 1 {
 		phrases[queryPhrase{
@@ -27,9 +27,8 @@ func queryPhrasesOf(queryWords []yacymodel.Hash) queryPhrases {
 
 func (phrases queryPhrases) hitsIn(text string) int {
 	hits := 0
-	var wordBefore yacymodel.Hash
-	for _, spelledWord := range yacymodel.PlacedWordsIn(text) {
-		word := yacymodel.WordHash(spelledWord)
+	wordBefore := ""
+	for _, word := range yacymodel.PlacedWordsIn(text) {
 		if _, askedFor := phrases[queryPhrase{firstWord: wordBefore, secondWord: word}]; askedFor {
 			hits++
 		}

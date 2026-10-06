@@ -69,6 +69,6 @@ func New(
 	}
 }
 
-func (r Reading) Start(queryWords []yacymodel.Hash) *Run {
+func (r Reading) Start(queryWords []string) *Run {
 	return newRun(r.pageReader, queryWords, r.deadlines, r.observer)
 }
