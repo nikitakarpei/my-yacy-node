@@ -29,6 +29,7 @@ func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
+	_ queryfindings.Growth,
 ) queryfindings.Findings {
 	startedAt := time.Now()
 

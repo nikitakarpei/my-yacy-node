@@ -469,6 +469,18 @@ type spreadSettings struct {
 	urlMetadataAskCeilingOfEachPeer map[string]int
 	networkRedundancy               int
 	queryWordDocumentAmounts        *rememberedQueryWordDocumentAmounts
+	growth                          *grownFindings
+}
+
+type grownFindings struct {
+	mutex         sync.Mutex
+	findingsSoFar []queryfindings.Findings
+}
+
+func (grown *grownFindings) FindingsGrew(findings queryfindings.Findings) {
+	grown.mutex.Lock()
+	defer grown.mutex.Unlock()
+	grown.findingsSoFar = append(grown.findingsSoFar, findings)
 }
 
 type rememberedQueryWordDocumentAmounts struct {
@@ -547,6 +559,10 @@ func (settings spreadSettings) spread(
 	if queryWordDocumentAmounts == nil {
 		queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
 	}
+	growth := settings.growth
+	if growth == nil {
+		growth = &grownFindings{}
+	}
 
 	return wordjoined.New(
 		documentasks.New(
@@ -582,6 +598,7 @@ func (settings spreadSettings) spread(
 			query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling),
 			peersAt(settings.askablePeers),
 		),
+		growth,
 	)
 }
 
@@ -600,6 +617,14 @@ func spreadOver(
 	settings := settingsOfOnePartition()
 	settings.choice = choice
 	settings.spread(network, observer)
+}
+
+func findingsGrownOver(network *peerNetwork) ([]queryfindings.Findings, queryfindings.Findings) {
+	settings := settingsOfOnePartition()
+	settings.growth = &grownFindings{}
+	findings := settings.spread(network, &recordedSpreads{})
+
+	return settings.growth.findingsSoFar, findings
 }
 
 func distinctDocumentsAskedMetadataFor(asks []peerasks.URLMetadataAsk) []yacymodel.URLHash {
@@ -1181,6 +1206,77 @@ func TestAJoinedDocumentNoPeerAnsweredIsFoundThroughItsMetadata(t *testing.T) {
 
 	if len(foundDocuments) != 1 || foundDocuments[0].Hash != documentHashOf(t, joined) {
 		t.Fatalf("the spread found %v, want the joined document once", foundDocuments)
+	}
+}
+
+func TestTheFindingsGrowWithEachDocumentFoundBeforeTheSpreadReturnsThemAll(t *testing.T) {
+	t.Parallel()
+
+	answered := []string{"https://answered.example/", "https://also-answered.example/"}
+	network := networkOf(map[string]map[string][]string{
+		"first": {firstWord: answered, secondWord: answered},
+	})
+	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: answered},
+	}
+
+	findingsSoFar, findings := findingsGrownOver(network)
+
+	if len(findingsSoFar) == 0 {
+		t.Fatalf("the findings never grew, want them to grow as the documents %v are found",
+			answered)
+	}
+	lastFindingsSoFar := findingsSoFar[len(findingsSoFar)-1]
+	if !slices.Equal(foundDocumentsIn(lastFindingsSoFar), foundDocumentsIn(findings)) ||
+		len(findings.FoundDocuments) != len(answered) ||
+		!slices.Equal(lastFindingsSoFar.QueryWords, findings.QueryWords) {
+		t.Fatalf(
+			"the findings grew to %v and the spread returned %v, want both to hold the "+
+				"documents %v",
+			foundDocumentsIn(lastFindingsSoFar), foundDocumentsIn(findings), answered,
+		)
+	}
+}
+
+func TestTheFindingsGrowWhenTheMetadataOfAJoinedDocumentArrives(t *testing.T) {
+	t.Parallel()
+
+	joined := "https://joined.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first":  {firstWord: {joined}, secondWord: {joined}},
+		"second": {firstWord: {joined}, secondWord: {joined}},
+	})
+
+	findingsSoFar, _ := findingsGrownOver(network)
+
+	if len(findingsSoFar) != 1 ||
+		!slices.Equal(
+			foundDocumentsIn(findingsSoFar[0]),
+			[]yacymodel.URLHash{documentHashOf(t, joined)},
+		) {
+		t.Fatalf("the findings grew %d times, want them to grow once to the joined document",
+			len(findingsSoFar))
+	}
+}
+
+func TestTheFindingsDoNotGrowWhenNoDocumentIsJoined(t *testing.T) {
+	t.Parallel()
+
+	network := networkOf(map[string]map[string][]string{
+		"first": {
+			firstWord:  {"https://first-word.example/"},
+			secondWord: {"https://second-word.example/"},
+		},
+	})
+	network.answeredItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: {"https://first-word.example/"}},
+	}
+
+	findingsSoFar, _ := findingsGrownOver(network)
+
+	if len(findingsSoFar) != 0 {
+		t.Fatalf("the findings grew %d times, want no growth without a joined document",
+			len(findingsSoFar))
 	}
 }
 

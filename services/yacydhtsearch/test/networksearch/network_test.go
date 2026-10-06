@@ -545,6 +545,7 @@ func (s spreadFinding) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
+	_ queryfindings.Growth,
 ) queryfindings.Findings {
 	return s.findings
 }
@@ -827,6 +828,7 @@ func (s spreadRecordingTheBudgetItGets) SpreadOverPeers(
 	ctx context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
+	_ queryfindings.Growth,
 ) queryfindings.Findings {
 	s.recorded.spread = budgetLeftIn(ctx)
 

@@ -1,12 +1,15 @@
 package documentamounts
 
 import (
+	"sync"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Measurement struct {
+	mutex               sync.Mutex
 	queryWords          []yacymodel.Hash
 	answersPerQueryWord map[yacymodel.Hash]answersOfWord
 }
@@ -25,6 +28,8 @@ func (measurement *Measurement) WordPartitionAnswered(
 	partition uint,
 	answers []wordpartitionasks.ReplicaAnswer,
 ) {
+	measurement.mutex.Lock()
+	defer measurement.mutex.Unlock()
 	answersOfTheWord, queryWord := measurement.answersPerQueryWord[word]
 	if !queryWord {
 		return
@@ -33,6 +38,8 @@ func (measurement *Measurement) WordPartitionAnswered(
 }
 
 func (measurement *Measurement) HeldPerQueryWord() map[yacymodel.Hash]int {
+	measurement.mutex.Lock()
+	defer measurement.mutex.Unlock()
 	amountHeldPerQueryWord := make(map[yacymodel.Hash]int, len(measurement.queryWords))
 	for word, answers := range measurement.answersPerQueryWord {
 		if amountHeld, counted := answers.estimatedAmountHeld().Get(); counted {
@@ -44,6 +51,8 @@ func (measurement *Measurement) HeldPerQueryWord() map[yacymodel.Hash]int {
 }
 
 func (measurement *Measurement) InAPartitionPerQueryWord() map[yacymodel.Hash]int {
+	measurement.mutex.Lock()
+	defer measurement.mutex.Unlock()
 	amountInAPartitionPerQueryWord := make(map[yacymodel.Hash]int, len(measurement.queryWords))
 	for word, answers := range measurement.answersPerQueryWord {
 		if amountInAPartition, counted := answers.amountInAPartition().Get(); counted {
@@ -55,6 +64,8 @@ func (measurement *Measurement) InAPartitionPerQueryWord() map[yacymodel.Hash]in
 }
 
 func (measurement *Measurement) AmountOfQueryWordsHeldByNoPeer() int {
+	measurement.mutex.Lock()
+	defer measurement.mutex.Unlock()
 	amount := 0
 	for _, answers := range measurement.answersPerQueryWord {
 		if len(answers.documents()) == 0 {
@@ -66,5 +77,7 @@ func (measurement *Measurement) AmountOfQueryWordsHeldByNoPeer() int {
 }
 
 func (measurement *Measurement) AmountListedOf(word yacymodel.Hash) int {
+	measurement.mutex.Lock()
+	defer measurement.mutex.Unlock()
 	return len(measurement.answersPerQueryWord[word].documents())
 }

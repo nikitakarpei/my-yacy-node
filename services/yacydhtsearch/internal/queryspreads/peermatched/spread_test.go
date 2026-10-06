@@ -199,6 +199,7 @@ func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
 		ctx,
 		query,
 		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.WordHashes(), askablePeers),
+		nil,
 	)
 }
 
@@ -347,6 +348,7 @@ func TestTheChosenPeersOfOnePartitionAreTheReplicasOfOneAskInTheirOrder(t *testi
 		peerchoice.ChosenPeersPerQueryWord{{
 			QueryWord: yacymodel.WordHash("berlin"), ChosenPeers: chosenPeers,
 		}},
+		nil,
 	)
 
 	wanted := [][]peerdirectory.AskablePeer{

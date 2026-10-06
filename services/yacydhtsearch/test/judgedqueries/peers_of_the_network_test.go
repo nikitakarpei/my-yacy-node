@@ -218,8 +218,12 @@ func (spread spreadChoosingPeers) SpreadOverPeers(
 		ctx, query.HashesOfWordsAndCompoundWordsUpTo(compoundWordsCeiling), askablePeers,
 	)
 
-	return spread.byWordCount.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord)
+	return spread.byWordCount.SpreadOverPeers(ctx, query, chosenPeersPerQueryWord, unreadGrowth{})
 }
+
+type unreadGrowth struct{}
+
+func (unreadGrowth) FindingsGrew(queryfindings.Findings) {}
 
 type noRememberedQueryWordDocumentAmounts struct{}
 
