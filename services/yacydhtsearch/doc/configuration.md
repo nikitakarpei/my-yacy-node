@@ -70,7 +70,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | `YACYDHTSEARCH_PEER_MATCHED_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for in a query of one word. |
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY_CEILING` | `50` | Pages one query reads, taken from the results it puts first. |
 | `YACYDHTSEARCH_PAGES_READ_PER_SITE_CEILING` | `3` | Most pages of one site that one query reads. The query takes the next results in place of the others. |
-| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the query keeps for its pages. The peer calls get the rest of the query budget. |
+| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time one page read may take once it starts, with all its redirects. |
 | `YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT` | `90` | Percent of the pages of a query that must have an outcome before the grace starts. `100` turns the cutoff off. |
 | `YACYDHTSEARCH_PAGE_READ_CUTOFF_GRACE` | `250ms` | Time the query waits for its other pages after the grace starts. |
 | `YACYDHTSEARCH_URL_METADATA_LOOKUP_CUTOFF_PERCENT` | `90` | Percent of the documents that a query looks up URL metadata for that must have metadata or no open peer call before the grace starts. `100` turns the cutoff off. |

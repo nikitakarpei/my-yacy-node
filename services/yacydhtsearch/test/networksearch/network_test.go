@@ -42,7 +42,6 @@ const (
 	urlMetadataCallBudget    = 3 * time.Second
 	searchCallBudget         = 3 * time.Second
 	queryBudget              = 5 * time.Second
-	pageReadBudget           = 3 * time.Second
 	peerResults              = 10
 	directoryLimit           = 64
 	recordCeiling            = 50
@@ -358,7 +357,6 @@ func networkOrdering(
 		pagesThatNoOneReads{},
 		documentsOrdering,
 		queryBudget,
-		pageReadBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
 		recordCeiling,
@@ -669,7 +667,6 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 			),
 		),
 		queryBudget,
-		pageReadBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
 		recordCeiling,
@@ -738,7 +735,6 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 		pagesRecordingTheirAddresses{addresses: &addressesRead},
 		orderingInTheFoundOrder{},
 		queryBudget,
-		pageReadBudget,
 		pagesReadPerQueryCeiling,
 		2,
 		recordCeiling,
@@ -795,7 +791,6 @@ func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 		pagesOfOneDocumentWithdrawn{address: common},
 		orderingInTheFoundOrder{},
 		queryBudget,
-		pageReadBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
 		recordCeiling,
@@ -867,7 +862,6 @@ func budgetLeftIn(ctx context.Context) time.Duration {
 func networkRecordingItsBudgets(
 	t *testing.T,
 	recorded *recordedBudgets,
-	pageReadBudgetOfTheQuery time.Duration,
 ) networksearch.Network {
 	t.Helper()
 
@@ -881,7 +875,6 @@ func networkRecordingItsBudgets(
 		pagesRecordingTheBudgetTheyGet{recorded: recorded},
 		orderingInTheFoundOrder{},
 		queryBudget,
-		pageReadBudgetOfTheQuery,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
 		recordCeiling,
@@ -892,40 +885,16 @@ func networkRecordingItsBudgets(
 
 const budgetReadingTolerance = 500 * time.Millisecond
 
-func TestTheQuerySpreadLeavesThePageReadBudgetToThePages(t *testing.T) {
+func TestTheQuerySpreadAndThePagesShareTheWholeQueryBudget(t *testing.T) {
 	t.Parallel()
 
 	recorded := &recordedBudgets{}
-	network := networkRecordingItsBudgets(t, recorded, pageReadBudget)
+	network := networkRecordingItsBudgets(t, recorded)
 
 	network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
 
-	spreadBudget := queryBudget - pageReadBudget
-	if recorded.spread > spreadBudget ||
-		recorded.spread < spreadBudget-budgetReadingTolerance {
-		t.Fatalf(
-			"the spread got %v, want the query budget less the page read budget of %v",
-			recorded.spread, spreadBudget,
-		)
-	}
-	if recorded.pageReading < pageReadBudget {
-		t.Fatalf(
-			"the pages got %v, want the page read budget of %v",
-			recorded.pageReading, pageReadBudget,
-		)
-	}
-}
-
-func TestAPageReadBudgetOfTheWholeQueryLeavesTheQuerySpreadNothing(t *testing.T) {
-	t.Parallel()
-
-	recorded := &recordedBudgets{}
-	network := networkRecordingItsBudgets(t, recorded, queryBudget)
-
-	network.Search(t.Context(), queryreading.QueryFrom("berlin kelondro", ""))
-
-	if recorded.spread > 0 {
-		t.Fatalf("the spread got %v, want nothing left for it", recorded.spread)
+	if recorded.spread < queryBudget-budgetReadingTolerance {
+		t.Fatalf("the spread got %v, want the query budget of %v", recorded.spread, queryBudget)
 	}
 	if recorded.pageReading < queryBudget-budgetReadingTolerance {
 		t.Fatalf(

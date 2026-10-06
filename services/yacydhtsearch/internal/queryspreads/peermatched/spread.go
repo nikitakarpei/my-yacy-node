@@ -1,5 +1,6 @@
 // Package peermatched collects the documents each peer matched for a query of
-// one word.
+// one word. Each time a settled ask adds documents it hands its findings so far
+// to the growth.
 package peermatched
 
 import (
@@ -29,7 +30,7 @@ func (spread Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	chosenPeersPerQueryWord peerchoice.ChosenPeersPerQueryWord,
-	_ queryfindings.Growth,
+	growth queryfindings.Growth,
 ) queryfindings.Findings {
 	startedAt := time.Now()
 
@@ -37,16 +38,17 @@ func (spread Spread) SpreadOverPeers(
 	run := spread.replicaAsks.Start(ctx)
 	run.Asks <- asks
 	close(run.Asks)
-	settledAsks := settledAsksFrom(run.SettledAsks)
+	settledAsks := noSettledAsksYet(query, growth)
+	settledAsks.keepAsTheySettle(run.SettledAsks)
 
 	spread.observer.PeerMatchedSpreadPerformed(
 		ctx,
 		performedPeerMatchedSpreadFrom(
 			query.WordHashes(),
-			settledAsks,
+			settledAsks.amountOfPeersThatMatchedNothing(),
 			time.Since(startedAt),
 		),
 	)
 
-	return findingsFrom(settledAsks, query)
+	return settledAsks.findings()
 }

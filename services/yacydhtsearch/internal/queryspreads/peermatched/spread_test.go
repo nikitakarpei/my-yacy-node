@@ -142,6 +142,14 @@ func (r *recordedSpreads) PeerMatchedSpreadPerformed(
 	r.performed = append(r.performed, spread)
 }
 
+type recordedGrowth struct {
+	findingsGrown []queryfindings.Findings
+}
+
+func (r *recordedGrowth) FindingsGrew(findings queryfindings.Findings) {
+	r.findingsGrown = append(r.findingsGrown, findings)
+}
+
 func peerAt(address string) peerdirectory.AskablePeer {
 	return peerdirectory.AskablePeer{Hash: yacymodel.WordHash(address), Address: address}
 }
@@ -186,11 +194,23 @@ func spreadOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
 ) spreadChoosingEveryAskablePeer {
-	return spreadChoosingEveryAskablePeer{spread: peermatched.New(network, observer)}
+	return spreadGrowingInto(network, observer, &recordedGrowth{})
+}
+
+func spreadGrowingInto(
+	network *peerNetwork,
+	observer peermatched.PeerMatchedSpreadObserver,
+	growth queryfindings.Growth,
+) spreadChoosingEveryAskablePeer {
+	return spreadChoosingEveryAskablePeer{
+		spread: peermatched.New(network, observer),
+		growth: growth,
+	}
 }
 
 type spreadChoosingEveryAskablePeer struct {
 	spread peermatched.Spread
+	growth queryfindings.Growth
 }
 
 func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
@@ -202,7 +222,7 @@ func (s spreadChoosingEveryAskablePeer) SpreadOverPeers(
 		ctx,
 		query,
 		everyAskablePeer{}.ChosenPeersPerQueryWordFor(ctx, query.WordHashes(), askablePeers),
-		nil,
+		s.growth,
 	)
 }
 
@@ -351,7 +371,7 @@ func TestTheChosenPeersOfOnePartitionAreTheReplicasOfOneAskInTheirOrder(t *testi
 		peerchoice.ChosenPeersPerQueryWord{{
 			QueryWord: yacymodel.WordHash("berlin"), ChosenPeers: chosenPeers,
 		}},
-		nil,
+		&recordedGrowth{},
 	)
 
 	wanted := [][]peerdirectory.AskablePeer{
@@ -392,5 +412,46 @@ func TestADocumentListedWithoutMetadataIsNotFound(t *testing.T) {
 		[]string{"https://matched.example/"},
 	) {
 		t.Fatalf("the spread found %v, want only the document listed with its metadata", got)
+	}
+}
+
+func findingsGrownWhileTheSpreadOf(network *peerNetwork) []queryfindings.Findings {
+	growth := &recordedGrowth{}
+	spreadGrowingInto(network, &recordedSpreads{}, growth).SpreadOverPeers(
+		context.Background(),
+		searchquery.Query{Words: []string{"berlin"}},
+		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
+	)
+
+	return growth.findingsGrown
+}
+
+func TestEachSettledAskThatAddsDocumentsGrowsTheFindings(t *testing.T) {
+	t.Parallel()
+
+	findingsGrown := findingsGrownWhileTheSpreadOf(networkOf(map[string][]string{
+		"first":  {"https://a.example/"},
+		"second": {"https://b.example/"},
+	}))
+
+	amountsOfFoundDocuments := make([]int, 0, len(findingsGrown))
+	for _, findings := range findingsGrown {
+		amountsOfFoundDocuments = append(amountsOfFoundDocuments, len(findings.FoundDocuments))
+	}
+	if want := []int{1, 2}; !slices.Equal(amountsOfFoundDocuments, want) {
+		t.Fatalf("the findings grew to %v documents, want %v", amountsOfFoundDocuments, want)
+	}
+}
+
+func TestASettledAskThatAddsNoDocumentLeavesTheFindingsAsTheyAre(t *testing.T) {
+	t.Parallel()
+
+	findingsGrown := findingsGrownWhileTheSpreadOf(networkOf(map[string][]string{
+		"first":  {"https://shared.example/"},
+		"second": {"https://shared.example/"},
+	}))
+
+	if len(findingsGrown) != 1 {
+		t.Fatalf("the findings grew %d times, want once", len(findingsGrown))
 	}
 }

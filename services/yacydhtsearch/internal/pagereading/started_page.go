@@ -4,19 +4,19 @@ import "context"
 
 type startedPage struct {
 	pageToRead     PageToRead
-	readContext    context.Context //nolint:containedctx // the read of one page ends when the page is abandoned
-	abandon        context.CancelFunc
+	readContext    context.Context //nolint:containedctx // the read of one page ends at its budget or when the page is abandoned
+	stopReading    context.CancelFunc
 	settled        chan struct{}
 	pageReadResult pageReadResult
 }
 
 func startedPageOf(ctx context.Context, pageToRead PageToRead) *startedPage {
-	readContext, abandon := context.WithCancel(ctx)
+	readContext, stopReading := context.WithCancel(ctx)
 
 	return &startedPage{
 		pageToRead:  pageToRead,
 		readContext: readContext,
-		abandon:     abandon,
+		stopReading: stopReading,
 		settled:     make(chan struct{}),
 	}
 }

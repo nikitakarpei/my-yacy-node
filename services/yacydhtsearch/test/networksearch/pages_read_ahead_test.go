@@ -117,7 +117,6 @@ func networkReadingFrom(
 		pages,
 		orderingInTheFoundOrder{},
 		queryBudget,
-		pageReadBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
 		recordCeiling,

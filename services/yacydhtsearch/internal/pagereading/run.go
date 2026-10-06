@@ -8,6 +8,7 @@ import (
 type Run struct {
 	pageReader   pageReader
 	queryWords   []string
+	budget       pageReadBudget
 	deadlines    pageReadDeadlines
 	observer     PageReadingObserver
 	startedPages *startedPages
@@ -16,12 +17,14 @@ type Run struct {
 func newRun(
 	reader pageReader,
 	queryWords []string,
+	budget pageReadBudget,
 	deadlines pageReadDeadlines,
 	observer PageReadingObserver,
 ) *Run {
 	return &Run{
 		pageReader:   reader,
 		queryWords:   queryWords,
+		budget:       budget,
 		deadlines:    deadlines,
 		observer:     observer,
 		startedPages: noStartedPages(),
@@ -45,6 +48,8 @@ func (run *Run) Abandon(pagesToAbandon []PageToRead) {
 func (run *Run) startReading(pagesToStart []*startedPage) {
 	for _, page := range pagesToStart {
 		go func() {
+			stopBudget := run.budget.startFor(page)
+			defer stopBudget()
 			page.settleWith(run.pageReader.read(page.readContext, run.queryWords, page.pageToRead))
 		}()
 	}
@@ -83,8 +88,6 @@ func awaitPageReadResults(
 			deadline.pageSettled()
 		case <-deadline.graceEnded():
 			return pageReadResults.withUnsettledPagesCutOff(pagesWanted)
-		case <-deadline.budgetEnded():
-			return pageReadResults.withUnsettledPagesOutOfBudget(pagesWanted)
 		}
 	}
 

@@ -61,7 +61,6 @@ type Network struct {
 	pageReading              PageReading
 	documentsOrdering        DocumentsOrdering
 	queryBudget              time.Duration
-	pageReadBudget           time.Duration
 	pagesReadPerQueryCeiling int
 	pagesReadPerSiteCeiling  int
 	rankedItemsCeiling       int
@@ -77,7 +76,6 @@ func New(
 	pageReading PageReading,
 	documentsOrdering DocumentsOrdering,
 	queryBudget time.Duration,
-	pageReadBudget time.Duration,
 	pagesReadPerQueryCeiling int,
 	pagesReadPerSiteCeiling int,
 	rankedItemsCeiling int,
@@ -91,7 +89,6 @@ func New(
 		pageReading:              pageReading,
 		documentsOrdering:        documentsOrdering,
 		queryBudget:              queryBudget,
-		pageReadBudget:           pageReadBudget,
 		pagesReadPerQueryCeiling: pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling:  pagesReadPerSiteCeiling,
 		rankedItemsCeiling:       rankedItemsCeiling,
@@ -118,15 +115,11 @@ func (n Network) Search(
 	chosenPeersPerQueryWord := n.peerChoice.ChosenPeersPerQueryWordFor(
 		ctx, query.HashesOfWordsAndCompoundWordsUpTo(n.compoundWordsCeiling), askablePeers,
 	)
-	querySpreadContext, endTheQuerySpread := contextWithinTheQuerySpreadBudget(
-		ctx, n.queryBudget, n.pageReadBudget,
-	)
-	defer endTheQuerySpread()
 	pageReadingRun := n.pageReading.Start(query.Words)
 	prefetcher := n.prefetcherFor(pageReadingRun)
 	prefetcher.Start(ctx)
 	findings := n.querySpread.SpreadOverPeers(
-		querySpreadContext, query, chosenPeersPerQueryWord, prefetcher,
+		ctx, query, chosenPeersPerQueryWord, prefetcher,
 	)
 	prefetcher.Stop()
 	pagesWanted := pagesToReadAmong(
@@ -155,14 +148,6 @@ func (n Network) Search(
 	)
 
 	return rankingOf(rankedDocuments), true
-}
-
-func contextWithinTheQuerySpreadBudget(
-	ctx context.Context,
-	queryBudget time.Duration,
-	pageReadBudget time.Duration,
-) (context.Context, context.CancelFunc) {
-	return context.WithTimeout(ctx, max(queryBudget-pageReadBudget, 0))
 }
 
 func documentsUpTo(
