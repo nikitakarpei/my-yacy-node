@@ -44,6 +44,7 @@ type PageReading interface {
 
 type PageReadingRun interface {
 	ReadAhead(ctx context.Context, pagesToRead []pagereading.PageToRead)
+	Abandon(pagesToAbandon []pagereading.PageToRead)
 	Read(ctx context.Context, pagesWanted []pagereading.PageToRead) pagereading.PagesRead
 	Finish(ctx context.Context)
 }
@@ -122,7 +123,8 @@ func (n Network) Search(
 	)
 	defer endTheQuerySpread()
 	pageReadingRun := n.pageReading.Start(query.WordHashes())
-	prefetcher := n.prefetcherStartedFor(ctx, pageReadingRun)
+	prefetcher := n.prefetcherFor(pageReadingRun)
+	prefetcher.Start(ctx)
 	findings := n.querySpread.SpreadOverPeers(
 		querySpreadContext, query, chosenPeersPerQueryWord, prefetcher,
 	)

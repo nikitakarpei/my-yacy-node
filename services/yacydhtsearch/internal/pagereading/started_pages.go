@@ -31,24 +31,21 @@ func (pages *startedPages) addAhead(
 	if pages.finished {
 		return nil, false
 	}
-	pages.abandonThoseLeftOut(pagesToRead)
 
 	return pages.pagesNewlyStarted(ctx, pagesToRead), true
 }
 
-func (pages *startedPages) abandonThoseLeftOut(pagesToRead []PageToRead) {
-	documentsToRead := make(map[yacymodel.URLHash]struct{}, len(pagesToRead))
-	for _, pageToRead := range pagesToRead {
-		documentsToRead[pageToRead.Document] = struct{}{}
-	}
-	for document, page := range pages.pagePerDocument {
-		_, toRead := documentsToRead[document]
-		_, wanted := pages.documentsWanted[document]
-		if toRead || wanted || page.isSettled() {
+func (pages *startedPages) abandon(pagesToAbandon []PageToRead) {
+	pages.mutex.Lock()
+	defer pages.mutex.Unlock()
+	for _, pageToAbandon := range pagesToAbandon {
+		page, started := pages.pagePerDocument[pageToAbandon.Document]
+		_, wanted := pages.documentsWanted[pageToAbandon.Document]
+		if !started || wanted || page.isSettled() {
 			continue
 		}
 		page.abandon()
-		delete(pages.pagePerDocument, document)
+		delete(pages.pagePerDocument, pageToAbandon.Document)
 		pages.amountOfPagesAbandoned++
 	}
 }

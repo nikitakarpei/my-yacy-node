@@ -15,34 +15,39 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const grownAddress = "https://grown.example/"
+const (
+	grownAddress      = "https://grown.example/"
+	grownLaterAddress = "https://grown.example/later"
+)
 
-type spreadGrowingOnce struct {
-	grown     queryfindings.Findings
-	readAhead <-chan struct{}
+type spreadGrowingInTurn struct {
+	findingsInTurn []queryfindings.Findings
+	readAhead      <-chan struct{}
 }
 
-func (s spreadGrowingOnce) SpreadOverPeers(
+func (s spreadGrowingInTurn) SpreadOverPeers(
 	_ context.Context,
 	_ searchquery.Query,
 	_ peerchoice.ChosenPeersPerQueryWord,
 	growth queryfindings.Growth,
 ) queryfindings.Findings {
-	growth.FindingsGrew(s.grown)
-	<-s.readAhead
+	for _, findings := range s.findingsInTurn {
+		growth.FindingsGrew(findings)
+		<-s.readAhead
+	}
 
-	return s.grown
+	return s.findingsInTurn[len(s.findingsInTurn)-1]
 }
 
 type pagesRecordingWhatIsReadAhead struct {
-	mutex            sync.Mutex
-	addressesAhead   []string
-	firstReadAhead   chan struct{}
-	firstReadAheadOK sync.Once
+	mutex              sync.Mutex
+	addressesAhead     []string
+	addressesAbandoned []string
+	readAhead          chan struct{}
 }
 
 func newPagesRecordingWhatIsReadAhead() *pagesRecordingWhatIsReadAhead {
-	return &pagesRecordingWhatIsReadAhead{firstReadAhead: make(chan struct{})}
+	return &pagesRecordingWhatIsReadAhead{readAhead: make(chan struct{})}
 }
 
 func (p *pagesRecordingWhatIsReadAhead) Start(_ []yacymodel.Hash) networksearch.PageReadingRun {
@@ -58,7 +63,15 @@ func (p *pagesRecordingWhatIsReadAhead) ReadAhead(
 		p.addressesAhead = append(p.addressesAhead, page.Address)
 	}
 	p.mutex.Unlock()
-	p.firstReadAheadOK.Do(func() { close(p.firstReadAhead) })
+	p.readAhead <- struct{}{}
+}
+
+func (p *pagesRecordingWhatIsReadAhead) Abandon(pagesToAbandon []pagereading.PageToRead) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+	for _, page := range pagesToAbandon {
+		p.addressesAbandoned = append(p.addressesAbandoned, page.Address)
+	}
 }
 
 func (*pagesRecordingWhatIsReadAhead) Read(
@@ -70,33 +83,37 @@ func (*pagesRecordingWhatIsReadAhead) Read(
 
 func (*pagesRecordingWhatIsReadAhead) Finish(_ context.Context) {}
 
-func (p *pagesRecordingWhatIsReadAhead) readAhead() []string {
+func (p *pagesRecordingWhatIsReadAhead) readAheadAndAbandoned() ([]string, []string) {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	return slices.Clone(p.addressesAhead)
+	return slices.Clone(p.addressesAhead), slices.Clone(p.addressesAbandoned)
+}
+
+func findingsOfTheAddress(t *testing.T, address string) queryfindings.Findings {
+	t.Helper()
+
+	return queryfindings.Findings{
+		QueryWords: []yacymodel.Hash{yacymodel.WordHash("berlin")},
+		FoundDocuments: []queryfindings.FoundDocument{{
+			Hash:    documentOf(t, address),
+			Address: address,
+			Facts:   oneHitOfTheWord("berlin"),
+		}},
+	}
 }
 
 func networkReadingFrom(
 	t *testing.T,
 	pages *pagesRecordingWhatIsReadAhead,
+	findingsInTurn ...queryfindings.Findings,
 ) networksearch.Network {
 	t.Helper()
 
 	return networksearch.New(
 		directoryAnsweringAt(t, peerHolding(t)),
 		everyAskablePeer{},
-		spreadGrowingOnce{
-			grown: queryfindings.Findings{
-				QueryWords: []yacymodel.Hash{yacymodel.WordHash("berlin")},
-				FoundDocuments: []queryfindings.FoundDocument{{
-					Hash:    documentOf(t, grownAddress),
-					Address: grownAddress,
-					Facts:   oneHitOfTheWord("berlin"),
-				}},
-			},
-			readAhead: pages.firstReadAhead,
-		},
+		spreadGrowingInTurn{findingsInTurn: findingsInTurn, readAhead: pages.readAhead},
 		pages,
 		orderingInTheFoundOrder{},
 		queryBudget,
@@ -109,15 +126,38 @@ func networkReadingFrom(
 	)
 }
 
-func TestASearchReadingPagesAheadReadsThePagesOfTheFindingsAsTheyGrow(t *testing.T) {
+func TestASearchReadsThePagesOfTheFindingsAheadAsTheyGrow(t *testing.T) {
 	t.Parallel()
 
 	pages := newPagesRecordingWhatIsReadAhead()
-	network := networkReadingFrom(t, pages)
+	network := networkReadingFrom(t, pages, findingsOfTheAddress(t, grownAddress))
 
 	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
 
-	if got := pages.readAhead(); !slices.Equal(got, []string{grownAddress}) {
-		t.Fatalf("the pages read ahead are %v, want the page of the grown findings", got)
+	if readAhead, _ := pages.readAheadAndAbandoned(); !slices.Equal(
+		readAhead,
+		[]string{grownAddress},
+	) {
+		t.Fatalf("the pages read ahead are %v, want the page of the grown findings", readAhead)
+	}
+}
+
+func TestASearchAbandonsAPageReadAheadThatTheGrownFindingsLeaveOut(t *testing.T) {
+	t.Parallel()
+
+	pages := newPagesRecordingWhatIsReadAhead()
+	network := networkReadingFrom(
+		t, pages,
+		findingsOfTheAddress(t, grownAddress),
+		findingsOfTheAddress(t, grownLaterAddress),
+	)
+
+	network.Search(t.Context(), queryreading.QueryFrom("berlin", ""))
+
+	if _, abandoned := pages.readAheadAndAbandoned(); !slices.Equal(
+		abandoned,
+		[]string{grownAddress},
+	) {
+		t.Fatalf("the pages abandoned are %v, want the page the findings left out", abandoned)
 	}
 }

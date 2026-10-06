@@ -40,6 +40,10 @@ func (run *Run) ReadAhead(ctx context.Context, pagesToRead []PageToRead) {
 	run.startReading(pagesToStart)
 }
 
+func (run *Run) Abandon(pagesToAbandon []PageToRead) {
+	run.startedPages.abandon(pagesToAbandon)
+}
+
 func (run *Run) startReading(pagesToStart []*startedPage) {
 	for _, page := range pagesToStart {
 		go func() {

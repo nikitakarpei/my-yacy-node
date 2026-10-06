@@ -3,7 +3,9 @@ package networksearch
 import (
 	"context"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type pagePrefetcher struct {
@@ -12,15 +14,13 @@ type pagePrefetcher struct {
 	pagesReadPerQuery int
 	pagesReadPerSite  int
 	latestFindings    chan queryfindings.Findings
+	pagesReadAhead    []pagereading.PageToRead
 	stopAsked         chan struct{}
 	stopped           chan struct{}
 }
 
-func (n Network) prefetcherStartedFor(
-	ctx context.Context,
-	pageReadingRun PageReadingRun,
-) *pagePrefetcher {
-	prefetcher := &pagePrefetcher{
+func (n Network) prefetcherFor(pageReadingRun PageReadingRun) *pagePrefetcher {
+	return &pagePrefetcher{
 		documentsOrdering: n.documentsOrdering,
 		pageReadingRun:    pageReadingRun,
 		pagesReadPerQuery: n.pagesReadPerQuery,
@@ -29,9 +29,10 @@ func (n Network) prefetcherStartedFor(
 		stopAsked:         make(chan struct{}),
 		stopped:           make(chan struct{}),
 	}
-	go prefetcher.readAheadUntilStopped(ctx)
+}
 
-	return prefetcher
+func (prefetcher *pagePrefetcher) Start(ctx context.Context) {
+	go prefetcher.readAheadUntilStopped(ctx)
 }
 
 func (prefetcher *pagePrefetcher) FindingsGrew(findings queryfindings.Findings) {
@@ -63,9 +64,30 @@ func (prefetcher *pagePrefetcher) readAheadThePagesOf(
 	ctx context.Context,
 	findings queryfindings.Findings,
 ) {
-	prefetcher.pageReadingRun.ReadAhead(ctx, pagesToReadAmong(
+	pagesToRead := pagesToReadAmong(
 		prefetcher.documentsOrdering.OrderedDocumentsOf(findings),
 		prefetcher.pagesReadPerQuery,
 		prefetcher.pagesReadPerSite,
-	))
+	)
+	prefetcher.pageReadingRun.Abandon(pagesLeftOutOf(pagesToRead, prefetcher.pagesReadAhead))
+	prefetcher.pageReadingRun.ReadAhead(ctx, pagesToRead)
+	prefetcher.pagesReadAhead = pagesToRead
+}
+
+func pagesLeftOutOf(
+	pagesToRead []pagereading.PageToRead,
+	pagesReadAhead []pagereading.PageToRead,
+) []pagereading.PageToRead {
+	documentsToRead := make(map[yacymodel.URLHash]struct{}, len(pagesToRead))
+	for _, pageToRead := range pagesToRead {
+		documentsToRead[pageToRead.Document] = struct{}{}
+	}
+	pagesLeftOut := make([]pagereading.PageToRead, 0, len(pagesReadAhead))
+	for _, pageReadAhead := range pagesReadAhead {
+		if _, toRead := documentsToRead[pageReadAhead.Document]; !toRead {
+			pagesLeftOut = append(pagesLeftOut, pageReadAhead)
+		}
+	}
+
+	return pagesLeftOut
 }

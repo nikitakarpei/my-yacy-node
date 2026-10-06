@@ -1254,7 +1254,7 @@ func (p pagesHeldUntilReleased) Fetch(
 	return p.pages.Fetch(ctx, pageURL, knownVersion)
 }
 
-func TestAPageReadAheadThatLeavesThePagesToReadAheadIsAbandoned(t *testing.T) {
+func TestAnAbandonedPageReadAheadStopsAndIsCounted(t *testing.T) {
 	t.Parallel()
 
 	addressesAbandoned := make(chan string, len(pagesOfThreeDocuments(t)))
@@ -1274,7 +1274,7 @@ func TestAPageReadAheadThatLeavesThePagesToReadAheadIsAbandoned(t *testing.T) {
 		pageToReadOfTheAddress(t, addressOfTheDocument), pageOfTheLinkingDocument,
 	})
 
-	run.ReadAhead(t.Context(), []pagereading.PageToRead{pageOfTheLinkingDocument})
+	run.Abandon([]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)})
 
 	if addressAbandoned := <-addressesAbandoned; addressAbandoned != addressOfTheDocument {
 		t.Fatalf("the page at %s was abandoned, want %s", addressAbandoned, addressOfTheDocument)
@@ -1306,11 +1306,28 @@ func TestAnAbandonedPageThatIsWantedLaterIsReadAgain(t *testing.T) {
 	pagesToRead := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
 	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
 	run.ReadAhead(t.Context(), pagesToRead)
-	run.ReadAhead(t.Context(), nil)
+	run.Abandon(pagesToRead)
 	<-addressesAbandoned
 	close(released)
 
 	pageContentsPerDocument := run.Read(t.Context(), pagesToRead).PageContentsPerDocument
 
 	pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheDocument)
+}
+
+func TestAPageAReadWantsIsNotAbandoned(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
+	pagesWanted := []pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)}
+	run := reading.Start([]yacymodel.Hash{yacymodel.WordHash("berlin")})
+	run.Read(t.Context(), pagesWanted)
+
+	run.Abandon(pagesOfThreeDocuments(t))
+
+	run.Finish(t.Context())
+	if observer.finishedRun.AmountOfPagesAbandoned != 0 {
+		t.Fatalf("PageReadingRunFinished = %+v, want no page abandoned", observer.finishedRun)
+	}
 }

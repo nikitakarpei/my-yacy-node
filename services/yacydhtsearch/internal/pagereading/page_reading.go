@@ -1,8 +1,8 @@
 // Package pagereading reads the pages of the documents one query puts first. One
-// run per query starts each page once, at any time until it finishes, abandons a
-// page read ahead that leaves the pages to read ahead, and gives back, inside one
-// budget, the text, link counts and spam verdict of the pages it is asked for. It
-// withdraws the documents whose pages are gone or refuse indexing.
+// run per query starts each page once, at any time until it finishes, abandons the
+// pages read ahead it is told to give up, and gives back, inside one budget, the
+// text, link counts and spam verdict of the pages it is asked for. It withdraws
+// the documents whose pages are gone or refuse indexing.
 package pagereading
 
 import (

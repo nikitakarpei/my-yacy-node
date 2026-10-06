@@ -1026,3 +1026,13 @@ type urlMetadataAskCeilingsAtTheMost int
 func (mostDocuments urlMetadataAskCeilingsAtTheMost) CeilingOf(context.Context, string) int {
 	return int(mostDocuments)
 }
+
+func (pagesThatNoOneReads) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesHoldingTheWordOfOneDocument) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesRecordingTheirAddresses) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesOfOneDocumentWithdrawn) Abandon(_ []pagereading.PageToRead) {}
+
+func (pagesRecordingTheBudgetTheyGet) Abandon(_ []pagereading.PageToRead) {}
