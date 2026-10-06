@@ -2,6 +2,7 @@ package wordjoined
 
 import (
 	"slices"
+	"sync"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -10,11 +11,13 @@ import (
 )
 
 type documentsTheSpreadFound struct {
+	mutex                 *sync.Mutex
 	documentsThePeersSent *queryfindings.DocumentsThePeersSent
 }
 
 func noDocumentsFoundYet() documentsTheSpreadFound {
 	return documentsTheSpreadFound{
+		mutex:                 &sync.Mutex{},
 		documentsThePeersSent: queryfindings.EmptyDocumentsThePeersSent(),
 	}
 }
@@ -24,6 +27,8 @@ func (found documentsTheSpreadFound) WordPartitionAnswered(
 	_ uint,
 	answers []wordpartitionasks.ReplicaAnswer,
 ) {
+	found.mutex.Lock()
+	defer found.mutex.Unlock()
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
 			metadata, sent := listedDocument.Metadata.Get()
@@ -46,6 +51,8 @@ func (found documentsTheSpreadFound) PeerSentURLMetadata(
 	peer yacymodel.Hash,
 	metadataOfEachDocument []yacymodel.URLMetadata,
 ) {
+	found.mutex.Lock()
+	defer found.mutex.Unlock()
 	for _, metadata := range metadataOfEachDocument {
 		found.documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
 			Holder: peer, Metadata: metadata,
@@ -69,6 +76,9 @@ func (found documentsTheSpreadFound) findingsFor(
 func (found documentsTheSpreadFound) among(
 	joinedDocuments yacymodel.URLHashes,
 ) []queryfindings.FoundDocument {
+	found.mutex.Lock()
+	defer found.mutex.Unlock()
+
 	return slices.DeleteFunc(
 		found.documentsThePeersSent.FoundDocuments(),
 		func(foundDocument queryfindings.FoundDocument) bool {
