@@ -9,7 +9,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/derivationreach"
 )
 
-const msgDerivationFailed = "format derivation failed, the next derivation is tried"
+const (
+	msgDerivationFailed = "format derivation failed, the next derivation is tried"
+	msgFormatUnrendered = "format body unrendered, the format is not derived"
+)
 
 type FormatDerivationCatalog struct {
 	byTargetFormat map[documentextraction.Format][]formatDerivation
@@ -44,17 +47,30 @@ func derivationsByTargetFormat(
 	return byTargetFormat
 }
 
-func (c FormatDerivationCatalog) BodyIn(
+func (c FormatDerivationCatalog) BytesIn(
 	ctx context.Context,
 	format documentextraction.Format,
 	document documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) ([]byte, bool) {
+	body, derived := c.bodyIn(ctx, format, document, pageURL)
+	if !derived {
+		return nil, false
+	}
+	return bytesOf(ctx, format, body)
+}
+
+func (c FormatDerivationCatalog) bodyIn(
+	ctx context.Context,
+	format documentextraction.Format,
+	document documentextraction.Document,
+	pageURL canonicalurl.CanonicalURL,
+) (documentextraction.Body, bool) {
 	if format == document.Format {
 		return document.Body, true
 	}
 	for _, derivation := range c.byTargetFormat[format] {
-		sourceBody, sourceDerived := c.BodyIn(
+		sourceBody, sourceDerived := c.bodyIn(
 			ctx, derivation.SourceFormat(), document, pageURL,
 		)
 		if !sourceDerived {
@@ -73,8 +89,8 @@ func bodyDerivedBy(
 	ctx context.Context,
 	derivation formatDerivation,
 	pageURL canonicalurl.CanonicalURL,
-	sourceBody []byte,
-) ([]byte, bool) {
+	sourceBody documentextraction.Body,
+) (documentextraction.Body, bool) {
 	body, derived, err := derivation.BodyFrom(ctx, pageURL, sourceBody)
 	if err != nil {
 		slog.WarnContext(ctx, msgDerivationFailed,
@@ -85,4 +101,20 @@ func bodyDerivedBy(
 		return nil, false
 	}
 	return body, derived
+}
+
+func bytesOf(
+	ctx context.Context,
+	format documentextraction.Format,
+	body documentextraction.Body,
+) ([]byte, bool) {
+	bodyBytes, err := body.Bytes()
+	if err != nil {
+		slog.WarnContext(ctx, msgFormatUnrendered,
+			slog.String("format", string(format)),
+			slog.Any("error", err),
+		)
+		return nil, false
+	}
+	return bodyBytes, true
 }

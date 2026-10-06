@@ -1,16 +1,17 @@
 package readablehtml
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"strings"
 
 	readability "codeberg.org/readeck/go-readability/v2"
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
 )
 
 type DocumentHTMLDerivation struct{}
@@ -30,24 +31,20 @@ func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
 func (DocumentHTMLDerivation) BodyFrom(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
-	body []byte,
-) ([]byte, bool, error) {
-	root, err := html.Parse(bytes.NewReader(body))
-	if err != nil {
-		return nil, false, fmt.Errorf("parse html: %w", err)
-	}
-	article, err := readability.FromDocument(root, pageURL.WebAddress())
+	source documentextraction.Body,
+) (documentextraction.Body, bool, error) {
+	parser := readability.NewParser()
+	article, err := parser.ParseAndMutate(
+		source.(htmltree.Body).CopiedTree(), pageURL.WebAddress(),
+	)
 	if err != nil {
 		return nil, false, fmt.Errorf("extract the readable article: %w", err)
 	}
 	if !hasReadableText(article.Node) {
 		return nil, false, nil
 	}
-	markup, err := markupOf(article)
-	if err != nil {
-		return nil, false, err
-	}
-	return markup, true, nil
+	alignAtomsWithTagNames(article.Node)
+	return htmltree.New(article.Node), true, nil
 }
 
 func hasReadableText(node *html.Node) bool {
@@ -65,10 +62,11 @@ func hasReadableText(node *html.Node) bool {
 	return false
 }
 
-func markupOf(article readability.Article) ([]byte, error) {
-	var markup bytes.Buffer
-	if err := article.RenderHTML(&markup); err != nil {
-		return nil, fmt.Errorf("render the readable html: %w", err)
+func alignAtomsWithTagNames(node *html.Node) {
+	if node.Type == html.ElementNode && node.Namespace == "" {
+		node.DataAtom = atom.Lookup([]byte(node.Data))
 	}
-	return markup.Bytes(), nil
+	for child := node.FirstChild; child != nil; child = child.NextSibling {
+		alignAtomsWithTagNames(child)
+	}
 }

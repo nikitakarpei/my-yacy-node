@@ -35,11 +35,12 @@ func TestExtractArticle(t *testing.T) {
 	if doc.Format != documentextraction.FormatDocumentHTML {
 		t.Fatalf("format = %q, want document-html", doc.Format)
 	}
-	if !strings.Contains(string(doc.Body), "quick brown fox") {
-		t.Fatalf("body missing article content: %q", doc.Body)
+	body := bytesOf(t, doc.Body)
+	if !strings.Contains(body, "quick brown fox") {
+		t.Fatalf("body missing article content: %q", body)
 	}
-	if !strings.Contains(string(doc.Body), "<p") {
-		t.Fatalf("body should keep article markup: %q", doc.Body)
+	if !strings.Contains(body, "<p") {
+		t.Fatalf("body should keep article markup: %q", body)
 	}
 	if doc.Language != "en" {
 		t.Fatalf("language = %q, want en", doc.Language)
@@ -59,9 +60,36 @@ func TestExtractYieldsWholeDocument(t *testing.T) {
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
 	}
-	body := string(doc.Body)
+	body := bytesOf(t, doc.Body)
 	if !strings.Contains(body, "<title>Sample Article</title>") {
 		t.Fatalf("whole document should retain head markup: %q", body)
+	}
+}
+
+func bytesOf(t *testing.T, body documentextraction.Body) string {
+	t.Helper()
+	bodyBytes, err := body.Bytes()
+	if err != nil {
+		t.Fatalf("bytes: %v", err)
+	}
+	return string(bodyBytes)
+}
+
+func TestAPageWithAVoidElementHoldingChildrenInSVGExtracts(t *testing.T) {
+	page := `<!DOCTYPE html><html><head><title>Drawing</title></head>` +
+		`<body><p>` + longText + `</p><svg><source>x</source></svg></body></html>`
+
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		[]byte(page),
+		"text/html",
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
+	)
+	if err != nil {
+		t.Fatalf("DocumentFrom: %v", err)
+	}
+	if doc.Title != "Drawing" {
+		t.Fatalf("title = %q", doc.Title)
 	}
 }
 

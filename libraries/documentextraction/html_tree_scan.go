@@ -50,6 +50,7 @@ func (scan *treeScan) inspect(node *html.Node) {
 	}
 }
 
+// TECHDEBT: Naming — derivation: textContent returns the text of a node but carries no preposition to its source
 func textContent(node *html.Node) string {
 	var builder strings.Builder
 	for child := node.FirstChild; child != nil; child = child.NextSibling {
@@ -60,6 +61,7 @@ func textContent(node *html.Node) string {
 	return builder.String()
 }
 
+// TECHDEBT: Naming — derivation: attribute returns a value of a node but carries no preposition to its source
 func attribute(node *html.Node, key string) (string, bool) {
 	for _, attr := range node.Attr {
 		if strings.EqualFold(attr.Key, key) {

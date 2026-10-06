@@ -106,13 +106,13 @@ func (extraction pageExtraction) textOf(
 	document documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) string {
-	readableText, readableTextDerived := extraction.formatDerivations.BodyIn(
+	readableText, readableTextDerived := extraction.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatReadableText, document, pageURL,
 	)
 	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
 		return string(readableText)
 	}
-	fullText, fullTextDerived := extraction.formatDerivations.BodyIn(
+	fullText, fullTextDerived := extraction.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatFullText, document, pageURL,
 	)
 	if !fullTextDerived {

@@ -24,11 +24,16 @@ components:
     in: internal/htmlflattening/**
   derivationreach:
     in: internal/derivationreach/**
+  text:
+    in: internal/bodies/text/**
 
 vendors:
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
+  htmltree:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -54,16 +59,26 @@ deps:
   pagederivationsfulltext:
     mayDependOn:
       - htmlflattening
+      - text
+    canUse:
+      - htmltree
   pagederivationsmarkdown:
+    mayDependOn:
+      - text
     canUse:
       - htmltomarkdown
+      - htmltree
   pagederivationsreadablehtml:
     canUse:
+      - htmltree
       - readability
       - xnet
   pagederivationsreadabletext:
     mayDependOn:
       - htmlflattening
+      - text
+    canUse:
+      - htmltree
   htmlflattening:
     canUse:
       - xnet

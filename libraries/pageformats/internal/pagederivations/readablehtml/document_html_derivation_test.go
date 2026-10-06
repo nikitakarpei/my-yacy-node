@@ -4,8 +4,11 @@ import (
 	"strings"
 	"testing"
 
+	"golang.org/x/net/html"
+
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readablehtml"
 )
 
@@ -16,6 +19,24 @@ const document = `<!DOCTYPE html><html lang="en"><head><title>Sample Article</ti
 <body><nav>navigation menu links elsewhere</nav>
 <article><h1>Sample Article</h1><p>` + longText + `</p><p>` + longText + `</p></article>
 </body></html>`
+
+func htmlBodyOf(t *testing.T, page string) htmltree.Body {
+	t.Helper()
+	root, err := html.Parse(strings.NewReader(page))
+	if err != nil {
+		t.Fatalf("parse: %v", err)
+	}
+	return htmltree.New(root)
+}
+
+func bytesOf(t *testing.T, body documentextraction.Body) string {
+	t.Helper()
+	bodyBytes, err := body.Bytes()
+	if err != nil {
+		t.Fatalf("bytes: %v", err)
+	}
+	return string(bodyBytes)
+}
 
 func TestDeriveDeclaresDocumentHTMLToReadableHTML(t *testing.T) {
 	derivation := readablehtml.FromDocumentHTML()
@@ -30,12 +51,12 @@ func TestDeriveDeclaresDocumentHTMLToReadableHTML(t *testing.T) {
 func TestDeriveExtractsMainArticle(t *testing.T) {
 	body, derived, err := readablehtml.FromDocumentHTML().BodyFrom(
 		t.Context(),
-		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"), []byte(document),
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"), htmlBodyOf(t, document),
 	)
 	if err != nil || !derived {
 		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
-	readable := string(body)
+	readable := bytesOf(t, body)
 	if !strings.Contains(readable, "quick brown fox") {
 		t.Fatalf("main content dropped: %q", readable)
 	}
@@ -48,7 +69,7 @@ func TestAPageWithNoArticleDerivesNothing(t *testing.T) {
 	_, derived, err := readablehtml.FromDocumentHTML().BodyFrom(
 		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
-		[]byte("<html><body></body></html>"),
+		htmlBodyOf(t, "<html><body></body></html>"),
 	)
 	if err != nil {
 		t.Fatalf("an empty page is not a failure, got %v", err)

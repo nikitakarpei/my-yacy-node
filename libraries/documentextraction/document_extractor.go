@@ -9,7 +9,7 @@ import (
 type documentExtractor interface {
 	DocumentFrom(
 		ctx context.Context,
-		body []byte,
+		fetchedBody []byte,
 		contentType string,
 		pageURL canonicalurl.CanonicalURL,
 	) (Document, error)

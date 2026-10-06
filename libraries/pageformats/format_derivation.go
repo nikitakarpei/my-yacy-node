@@ -13,6 +13,6 @@ type formatDerivation interface {
 	BodyFrom(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
-		sourceBody []byte,
-	) ([]byte, bool, error)
+		source documentextraction.Body,
+	) (documentextraction.Body, bool, error)
 }

@@ -1,24 +1,18 @@
-// Package htmlflattening removes the markup from an html body and keeps its
+// Package htmlflattening removes the markup from an html tree and keeps its
 // text, with one line for each block element.
 package htmlflattening
 
 import (
-	"bytes"
-	"fmt"
 	"strings"
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 )
 
-func Flatten(body []byte) (string, error) {
-	root, err := html.Parse(bytes.NewReader(body))
-	if err != nil {
-		return "", fmt.Errorf("parse html: %w", err)
-	}
+func Flatten(root *html.Node) string {
 	var text strings.Builder
 	writeText(&text, root)
-	return collapseWhitespace(text.String()), nil
+	return collapseWhitespace(text.String())
 }
 
 func writeText(text *strings.Builder, node *html.Node) {
@@ -58,11 +52,11 @@ func keepsTextJoined(name atom.Atom) bool {
 
 func collapseWhitespace(text string) string {
 	lines := strings.Split(text, "\n")
-	kept := make([]string, 0, len(lines))
+	keptLines := make([]string, 0, len(lines))
 	for _, line := range lines {
 		if fields := strings.Fields(line); len(fields) > 0 {
-			kept = append(kept, strings.Join(fields, " "))
+			keptLines = append(keptLines, strings.Join(fields, " "))
 		}
 	}
-	return strings.Join(kept, "\n")
+	return strings.Join(keptLines, "\n")
 }

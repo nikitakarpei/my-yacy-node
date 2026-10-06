@@ -8,6 +8,8 @@ allow:
 components:
   documentextraction:
     in: .
+  htmltree:
+    in: bodies/htmltree/**
 
 vendors:
   canonicalurl:
@@ -20,8 +22,13 @@ vendors:
 
 deps:
   documentextraction:
+    mayDependOn:
+      - htmltree
     canUse:
       - canonicalurl
+      - xnet
+  htmltree:
+    canUse:
       - xnet
 
 excludeFiles:

@@ -30,7 +30,7 @@ type PageFetcher interface {
 }
 
 type FormatDerivations interface {
-	BodyIn(
+	BytesIn(
 		ctx context.Context,
 		format documentextraction.Format,
 		extractedDocument documentextraction.Document,

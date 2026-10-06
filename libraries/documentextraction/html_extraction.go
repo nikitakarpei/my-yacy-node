@@ -10,6 +10,7 @@ import (
 	"golang.org/x/net/html/charset"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
 )
 
 const (
@@ -33,11 +34,11 @@ func (htmlExtraction) EmittedFormat() Format {
 
 func (htmlExtraction) DocumentFrom(
 	ctx context.Context,
-	body []byte,
+	fetchedBody []byte,
 	contentType string,
 	pageURL canonicalurl.CanonicalURL,
 ) (Document, error) {
-	decoded, err := charset.NewReader(bytes.NewReader(body), contentType)
+	decoded, err := charset.NewReader(bytes.NewReader(fetchedBody), contentType)
 	if err != nil {
 		return Document{}, fmt.Errorf("decode charset: %w", err)
 	}
@@ -47,19 +48,13 @@ func (htmlExtraction) DocumentFrom(
 	}
 
 	scan := scanTree(root)
-
-	var document bytes.Buffer
-	if err := html.Render(&document, root); err != nil {
-		return Document{}, fmt.Errorf("render html: %w", err)
-	}
-
 	baseURL := baseURLOf(ctx, pageURL, scan.baseHref)
 	links := distinctLinksFrom(scan.hrefs, baseURL)
 	baseHost := baseURL.Hostname()
 
 	return Document{
 		Title:         scan.title,
-		Body:          document.Bytes(),
+		Body:          htmltree.New(root),
 		Format:        FormatDocumentHTML,
 		Language:      twoLetterLanguage(scan.language),
 		LocalLinks:    localLinksOf(links, baseHost),
@@ -67,6 +62,7 @@ func (htmlExtraction) DocumentFrom(
 	}, nil
 }
 
+// TECHDEBT: Naming — derivation: twoLetterLanguage returns a value derived from a language tag but carries no preposition to its source
 func twoLetterLanguage(language string) string {
 	primary := strings.ToLower(strings.TrimSpace(language))
 	if dash := strings.IndexByte(primary, '-'); dash >= 0 {

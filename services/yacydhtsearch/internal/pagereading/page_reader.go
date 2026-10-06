@@ -151,14 +151,14 @@ func (reader pageReader) textOfTheExtractedDocument(
 	extractedDocument documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) ([]byte, bool) {
-	readableText, readableTextDerived := reader.formatDerivations.BodyIn(
+	readableText, readableTextDerived := reader.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatReadableText, extractedDocument, pageURL,
 	)
 	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
 		return readableText, true
 	}
 
-	return reader.formatDerivations.BodyIn(
+	return reader.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatFullText, extractedDocument, pageURL,
 	)
 }

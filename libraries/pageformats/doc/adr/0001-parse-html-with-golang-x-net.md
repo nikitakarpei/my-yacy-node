@@ -15,10 +15,12 @@ charset sniffer.
 ## Decision
 
 We use `golang.org/x/net/html` for parsing and `golang.org/x/net/html/charset` for decoding
-(Content-Type, BOM, and meta-charset sniffing), pinned in `go.mod`. These vendors are confined
-to the `htmlpage` edge.
+(Content-Type, BOM, and meta-charset sniffing), pinned in `go.mod`. `documentextraction` decodes
+and parses the fetched body once. Its `htmltree` body holds the parsed tree and gives a copy of
+the tree to each derivation that reads html.
 
 ## Consequences
 
-HTML handling lives at one edge. The charset package pulls `golang.org/x/text` for the
-encoding tables.
+The `golang.org/x/net/html` node type is part of the `htmltree` API, thus it reaches each
+derivation that reads html. The charset package pulls `golang.org/x/text` for the encoding
+tables.

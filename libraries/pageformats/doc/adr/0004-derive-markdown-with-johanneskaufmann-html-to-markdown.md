@@ -4,7 +4,8 @@ Date: 2026-07-14
 
 ## Status
 
-Accepted
+Superseded by [ADR 6](0006-convert-the-parsed-html-tree-to-markdown.md) — the converter reads
+a copy of the parsed tree through `ConvertNode`. The choice of the converter stands.
 
 ## Context
 

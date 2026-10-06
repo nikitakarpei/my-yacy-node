@@ -72,7 +72,7 @@ func (c *OfferedPageConsumer) takeIn(
 		c.pageIntakeObserver.NoDocumentExtracted(ctx, page.LandedURL, err)
 		return c.reject(ctx, message, page.PageURL)
 	}
-	markdown, derived := c.formatDerivations.BodyIn(
+	markdown, derived := c.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatMarkdown, document, page.LandedURL,
 	)
 	if !derived {
