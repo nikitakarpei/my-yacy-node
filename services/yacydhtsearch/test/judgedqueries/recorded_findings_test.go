@@ -19,6 +19,7 @@ const (
 
 type recordedFindings struct {
 	Query                     string                  `json:"query"`
+	Language                  yacymodel.Language      `json:"language,omitzero"`
 	RecordedAt                time.Time               `json:"recordedAt"`
 	FoundDocuments            []recordedFoundDocument `json:"foundDocuments"`
 	DocumentsHeldPerQueryWord map[yacymodel.Hash]int  `json:"documentsHeldPerQueryWord"`
@@ -32,10 +33,11 @@ type recordedFoundDocument struct {
 }
 
 func recordedFindingsOf(
-	query string, findingsAndPageContents findingsAndPageContents,
+	query string, language yacymodel.Language, findingsAndPageContents findingsAndPageContents,
 ) recordedFindings {
 	return recordedFindings{
 		Query:                     query,
+		Language:                  language,
 		RecordedAt:                time.Now().UTC().Truncate(time.Second),
 		FoundDocuments:            recordedFoundDocumentsFrom(findingsAndPageContents),
 		DocumentsHeldPerQueryWord: findingsAndPageContents.findings.DocumentsHeldPerQueryWord,
@@ -74,7 +76,7 @@ func recordedMetadataOf(
 func (recorded recordedFindings) withPageContentsReadAgain(
 	findingsAndPageContents findingsAndPageContents,
 ) recordedFindings {
-	readAgain := recordedFindingsOf(recorded.Query, findingsAndPageContents)
+	readAgain := recordedFindingsOf(recorded.Query, recorded.Language, findingsAndPageContents)
 	readAgain.RecordedAt = recorded.RecordedAt
 
 	return readAgain
@@ -94,7 +96,7 @@ func (recorded recordedFindings) findings() queryfindings.Findings {
 		}
 	}
 
-	query := queryreading.QueryFrom(recorded.Query, yacymodel.Language{})
+	query := queryreading.QueryFrom(recorded.Query, recorded.Language)
 
 	return queryfindings.Findings{
 		QueryWords:                query.WordHashes(),
@@ -172,7 +174,11 @@ func findingsWrittenAndReadBack(
 	t.Helper()
 
 	path := filepath.Join(t.TempDir(), "recorded"+recordedFindingsFileSuffix)
-	writeRecordedFindingsFile(t, path, recordedFindingsOf("berlin", findingsAndPageContents))
+	writeRecordedFindingsFile(
+		t,
+		path,
+		recordedFindingsOf("berlin", yacymodel.Language{}, findingsAndPageContents),
+	)
 
 	return recordedFindingsAt(t, path).findings()
 }

@@ -1,0 +1,251 @@
+{
+  "query": "linux",
+  "judgedDocuments": [
+    {
+      "hash": "dro--h3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Linux_Mint",
+      "title": "Linux Mint - Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "u_W-KQ4Qown6",
+      "address": "https://www.tutorialspoint.com/unix/what-is-linux.htm",
+      "title": "What is Linux?",
+      "grade": 1
+    },
+    {
+      "hash": "jmJ6Qs6JlDf5",
+      "address": "https://wallpapers.com/linux",
+      "title": "[400+] Linux Wallpapers | Wallpapers.com",
+      "grade": 0
+    },
+    {
+      "hash": "7EPQPsBGIES4",
+      "address": "https://twitter.com/Linux_Mint",
+      "title": "",
+      "grade": 0
+    },
+    {
+      "hash": "5JonKlPN-Az4",
+      "address": "https://www.hellotux.com/linux_mint",
+      "title": "Linux Mint T-Shirts, Polo Shirts and sweatshirts - HELLOTUX",
+      "grade": 0
+    },
+    {
+      "hash": "WaVbCUS6MKD4",
+      "address": "https://github.com/inputsh/awesome-linux",
+      "title": "GitHub - inputsh/awesome-linux: :penguin: A list of awesome projects and resources that make Linux even more awesome. :penguin: · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "T6Kd8_UfxD0g",
+      "address": "https://www.omgubuntu.co.uk/tag/linux-mint",
+      "title": "Linux Mint news, updates and guides - OMG! Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "vwys_TdIfum4",
+      "address": "https://www.runoob.com/linux/linux-tutorial.html",
+      "title": "Linux 教程 | 菜鸟教程",
+      "grade": 1
+    },
+    {
+      "hash": "GJtOd6g7yvNw",
+      "address": "https://handwiki.org/wiki/Software:Linux_Mint",
+      "title": "Software:Linux Mint - HandWiki",
+      "grade": 0
+    },
+    {
+      "hash": "AliO_lgZw-b4",
+      "address": "https://www.unixmen.com/linux-mint-history-development/",
+      "title": "Linux Mint History and Development | Unixmen",
+      "grade": 0
+    },
+    {
+      "hash": "v6a3CsHeKVKg",
+      "address": "https://linux.hr/",
+      "title": "HULK - Hrvatska Udruga Linux Korisnika",
+      "grade": 1
+    },
+    {
+      "hash": "tZFWAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Alpine_Linux",
+      "title": "Alpine Linux - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "-H_UVa9moDe4",
+      "address": "https://www.linux.com/author/abringaze/",
+      "title": "Linux Editorial Staff, Author at Linux.com",
+      "grade": 0
+    },
+    {
+      "hash": "-ta5TWay0_I4",
+      "address": "https://manjaro-linux.softonic.com/",
+      "title": "Manjaro Linux - Descargar",
+      "grade": 0
+    },
+    {
+      "hash": "7BnJQsEQ4K8h",
+      "address": "https://kevinboone.me/Linux-groupindex.html",
+      "title": "Kevin Boone: Linux",
+      "grade": 0
+    },
+    {
+      "hash": "4n5gc137aaK4",
+      "address": "https://elixir.bootlin.com/linux/v4.3-rc4/source/MAINTAINERS",
+      "title": "MAINTAINERS - Linux source code v4.3-rc4 - Bootlin Elixir Cross Referencer",
+      "grade": 0
+    },
+    {
+      "hash": "PkiD5ijaS4z4",
+      "address": "https://linux-ref.utils.com/",
+      "title": "Linux Command Reference - Browse Essential Linux Commands - utils.com",
+      "grade": 1
+    },
+    {
+      "hash": "IUwtyWgLkTyg",
+      "address": "https://manjaro-linux.softonic.pl/",
+      "title": "Manjaro Linux - Download",
+      "grade": 0
+    },
+    {
+      "hash": "PF7qG6g7yvNw",
+      "address": "https://handwiki.org/wiki/Software:Miracle_Linux",
+      "title": "Software:Miracle Linux - HandWiki",
+      "grade": 0
+    },
+    {
+      "hash": "4spiAIkLwUIo",
+      "address": "https://linux.alapi.cn/contributors.html",
+      "title": "搜索 命令，Linux 搜索 命令详解：最专业的Linux命令大全，命令搜索引擎，内容包含Linux命令手册、详解、学习，值得收藏的Linux命令速查手册。 - Linux 命令搜索引擎",
+      "grade": 0
+    },
+    {
+      "hash": "4gr5jqNKpOCw",
+      "address": "https://linux.slashdot.org/story/23/08/12/1835204/should-there-be-an-official-version-of-linux",
+      "title": "Should There Be an 'Official' Version of Linux? - Slashdot",
+      "grade": 1
+    },
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "N280urS6MKD4",
+      "address": "https://github.com/xairy/linux-kernel-exploitation",
+      "title": "GitHub - xairy/linux-kernel-exploitation: A collection of links related to Linux kernel security and exploitation · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "iZQlmyfAodxw",
+      "address": "https://docs.freebsd.org/en/articles/linux-emulation/",
+      "title": "Linux® emulation in FreeBSD | FreeBSD Documentation Portal",
+      "grade": 0
+    },
+    {
+      "hash": "iV-_RWmFsoRo",
+      "address": "https://manjaro-linux.softonic.kr/",
+      "title": "Manjaro Linux - 다운로드",
+      "grade": 0
+    },
+    {
+      "hash": "jM4vHIwFYBoi",
+      "address": "https://linux.vooreenbeginner.nl/sitemap/",
+      "title": "Sitemap: Linux voor een beginner",
+      "grade": 0
+    },
+    {
+      "hash": "CeUcFl9moDe4",
+      "address": "https://www.linux.com/",
+      "title": "Linux.com - News For Open Source Professionals",
+      "grade": 1
+    },
+    {
+      "hash": "B9Mg7lLc30Qw",
+      "address": "https://www.coursera.org/courses?query=linux",
+      "title": "Best Linux Courses \u0026 Certificates [2026] | Coursera",
+      "grade": 0
+    },
+    {
+      "hash": "AU3ozeMcq6Ew",
+      "address": "https://web.archive.org/web/20131216042618/https:/www.facebook.com/TheLinuxFoundation",
+      "title": "The Linux Foundation | Facebook",
+      "grade": 0
+    },
+    {
+      "hash": "oBs0ws4dIvbx",
+      "address": "https://linuxblog.io/best-linux-distro/",
+      "title": "Best Linux Distro (2026)",
+      "grade": 1
+    },
+    {
+      "hash": "XclUUI83NRK5",
+      "address": "https://linux.developpez.com/",
+      "title": "Linux : Forum, Cours, tutoriels, programmation, système, Linux, BSD, Unix...",
+      "grade": 1
+    },
+    {
+      "hash": "egSQeIEWO0Nw",
+      "address": "https://linux.kde.org/es/",
+      "title": "KDE Linux",
+      "grade": 0
+    },
+    {
+      "hash": "W53qC8rQkUVw",
+      "address": "https://repology.org/project/linux/cves?version=lts",
+      "title": "linux vulnerabilities - Repology",
+      "grade": 0
+    },
+    {
+      "hash": "1oBtSl8eoF54",
+      "address": "https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/",
+      "title": "How to Clear RAM Cache and Memory in Linux [Safe Methods]",
+      "grade": 0
+    },
+    {
+      "hash": "2e9TwlSCNQa4",
+      "address": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/migration-process",
+      "title": "Red Hat Enterprise Linux migration process",
+      "grade": 0
+    },
+    {
+      "hash": "2WC3F7KqlBA4",
+      "address": "https://www.phoronix.com/search/Linux+6.6",
+      "title": "Linux 6.6 - Phoronix",
+      "grade": 0
+    },
+    {
+      "hash": "3wSRMIPr9lG4",
+      "address": "https://linux.dogexorg.com/",
+      "title": "Linux命令搜索引擎 命令，Linux Linux命令搜索引擎 命令详解：最专业的Linux命令大全，内容包含Linux命令手册、详解、学习，值得收藏的Linux命令速查手册。 - Linux 命令搜索引擎",
+      "grade": 1
+    },
+    {
+      "hash": "1wvv2l9moDe4",
+      "address": "https://www.linux.com/thelinuxfoundation/",
+      "title": "The Linux Foundation Archives - Linux.com",
+      "grade": 0
+    },
+    {
+      "hash": "IVpfsI9kdUHw",
+      "address": "https://linux.buzzing.cc/",
+      "title": "Linux - 用中文浏览 Linux Reddit 小组最新提交",
+      "grade": 0
+    },
+    {
+      "hash": "x2NciIEWO0Nw",
+      "address": "https://linux.kde.org/docs/",
+      "title": "KDE Linux Documentation - KDE Linux",
+      "grade": 0
+    },
+    {
+      "hash": "JiO-gsBOEz84",
+      "address": "https://losst.pro/nachnite-izuchat-linux-pryamo-sejchas",
+      "title": "Начните изучать Linux прямо сейчас! - Losst",
+      "grade": 0
+    }
+  ]
+}

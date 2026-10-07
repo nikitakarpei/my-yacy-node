@@ -4,6 +4,8 @@ import (
 	"net/url"
 	"strings"
 
+	"golang.org/x/net/publicsuffix"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -13,6 +15,9 @@ const (
 
 	namedSiteEntryScoreOfMalformedAddress = 0.0
 	namedSiteEntryScoreOfOtherSite        = 0.0
+
+	scoreShareOfSiteNamedByItsRegistrableDomain = 1.0
+	scoreShareOfSiteNamedByASubdomainAlone      = 0.2
 
 	amountOfStepsToSiteEntry = 1
 )
@@ -44,7 +49,8 @@ func (scorer namedSiteEntryScorer) scoreOf(document queryfindings.FoundDocument)
 	amountOfStepsToDocument := amountOfStepsToSiteEntry +
 		amountOfPathSegmentsOf(address.Path)
 
-	return shareOfSiteNameTheQueryHolds * shareOfQueryTheSiteNameHolds /
+	return scorer.scoreShareOfSiteAt(address.Hostname()) *
+		shareOfSiteNameTheQueryHolds * shareOfQueryTheSiteNameHolds /
 		float64(amountOfStepsToDocument)
 }
 
@@ -67,4 +73,28 @@ func amountOfPathSegmentsOf(path string) int {
 	}
 
 	return amountOfPathSegments
+}
+
+func (scorer namedSiteEntryScorer) scoreShareOfSiteAt(host string) float64 {
+	if len(scorer.queryVocabulary.wordsIn(registrableNameOf(host))) == 0 {
+		return scoreShareOfSiteNamedByASubdomainAlone
+	}
+
+	return scoreShareOfSiteNamedByItsRegistrableDomain
+}
+
+func registrableNameOf(host string) string {
+	underPublicSuffix, _ := strings.CutSuffix(host, "."+icannPublicSuffixOf(host))
+
+	return underPublicSuffix[strings.LastIndex(underPublicSuffix, ".")+1:]
+}
+
+func icannPublicSuffixOf(host string) string {
+	publicSuffix, icann := publicsuffix.PublicSuffix(host)
+	for !icann && strings.Contains(publicSuffix, ".") {
+		_, parentSuffix, _ := strings.Cut(publicSuffix, ".")
+		publicSuffix, icann = publicsuffix.PublicSuffix(parentSuffix)
+	}
+
+	return publicSuffix
 }

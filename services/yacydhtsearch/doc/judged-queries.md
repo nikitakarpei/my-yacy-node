@@ -1,8 +1,8 @@
 # Judged queries
 
 The judged query set measures how well the ordering of the service puts the
-documents that answer a query first. It holds 120 queries: of one word, of two,
-of three or more, navigational, in other languages, and queries no peer answers.
+documents that answer a query first. It holds queries of one word, of two, of
+three or more, navigational, in other languages, and queries no peer answers.
 Each query has three files in `test/judgedqueries/testdata/`, named by the query
 words in lower case and joined by `-`: `findings/`, `judgments/`, `pages/`.
 `judged-query-grades.md` gives the grades, the language rule and the spam mark.
@@ -35,6 +35,8 @@ commit a change to them in the submodule first.
 The recorder asks the live freeworld network and reads the pages of the first
 fifty documents from the web. It needs egress and writes every file again. A
 `-run` pattern that ends in the file name of one query records only that query.
+Each query has the language a client gives in the `lr` field, or none for all
+languages. The recorder asks the peers in it, and the findings file keeps it.
 
 ```sh
 YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test -timeout 40m -v \
