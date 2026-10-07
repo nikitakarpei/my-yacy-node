@@ -30,6 +30,7 @@ var recordedQueries = []recordedQuery{
 	{"linux", "en"},
 	{"ubuntu", "en"},
 	{"windows", "en"},
+	{"fdroid", "en"},
 	{"kubernetes", "en"},
 	{"bundestag", "de"},
 	{"rust", "en"},

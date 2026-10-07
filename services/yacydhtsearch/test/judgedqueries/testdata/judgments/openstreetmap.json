@@ -438,6 +438,24 @@
       "address": "https://www.openstreetmap.org/node/6634517426",
       "title": "Node: 6634517426 | OpenStreetMap",
       "grade": 0
+    },
+    {
+      "hash": "-4SB659_tWB0",
+      "address": "https://aerial.openstreetmap.org.za/?lon=2.39149\u0026lat=48.859107\u0026zoom=15",
+      "title": "OpenStreetMap - NGI - Aerial Imagery",
+      "grade": 0
+    },
+    {
+      "hash": "ergJcV7h-FJy",
+      "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=-34.539211\u0026lon=-44.1589",
+      "title": "OpenStreetMap - The Australian Geographic Reference Image",
+      "grade": 0
+    },
+    {
+      "hash": "RotR4lVv_Vw0",
+      "address": "https://topo.openstreetmap.org.za/?lon=112.2361\u0026lat=30.3244\u0026zoom=11",
+      "title": "OpenStreetMap - NGI - Topographic Series",
+      "grade": 0
     }
   ]
 }

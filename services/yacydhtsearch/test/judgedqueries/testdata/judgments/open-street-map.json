@@ -613,6 +613,18 @@
       "address": "https://corbettreport.com/bill-melinda-gates-an-open-source-investigation/",
       "title": "Bill \u0026 Melinda Gates: An Open Source Investigation | The Corbett Report",
       "grade": 0
+    },
+    {
+      "hash": "ergJcV7h-FJy",
+      "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=-34.539211\u0026lon=-44.1589",
+      "title": "OpenStreetMap - The Australian Geographic Reference Image",
+      "grade": 0
+    },
+    {
+      "hash": "Nqz_ZbYMEouy",
+      "address": "https://supporting.openstreetmap.org/",
+      "title": "OpenStreetMap Foundation – Supporting the work of the OpenStreetMap project",
+      "grade": 1
     }
   ]
 }

@@ -59,7 +59,7 @@
       "hash": "Esx50zS6MKD4",
       "address": "https://github.com/topics/bsd",
       "title": "bsd · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "8856zsuNWVxw",
@@ -71,13 +71,13 @@
       "hash": "iVhC8zS6MKD4",
       "address": "https://github.com/topics/apple-silicon",
       "title": "apple-silicon · GitHub Topics · GitHub",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "vK69shBCurR4",
       "address": "https://cbmonzon.com/2021/03/03/comienzo-competicion/",
       "title": "COMIENZO COMPETICION",
-      "grade": null
+      "grade": 0
     },
     {
       "hash": "PNI_usKD8I1w",
@@ -509,6 +509,12 @@
       "hash": "IXMefAT9hatx",
       "address": "https://freesoftwareresistance.neocities.org/",
       "title": "free software resistance",
+      "grade": 0
+    },
+    {
+      "hash": "H5L-bjbCa2Ow",
+      "address": "https://man.freebsd.org/cgi/man.cgi?query=sysctl\u0026sektion=8\u0026format=html",
+      "title": "sysctl(8) - FreeBSD 15.1-RELEASE and Ports.quarterly Manual Pages",
       "grade": 0
     }
   ]

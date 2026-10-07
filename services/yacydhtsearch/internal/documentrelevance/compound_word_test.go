@@ -114,3 +114,43 @@ func TestTitleThatHoldsTheWholeQueryOutweighsTwoTitlesOfHalfTheQueryEach(t *test
 		t.Fatalf("the whole title scores %.2f against %.2f, want at least twice", whole, half)
 	}
 }
+
+func TestTitleThatSpellsAQueryWordWithAHyphenHoldsIt(t *testing.T) {
+	t.Parallel()
+
+	findings := findingsHoldingDocumentsPerQueryWord(
+		[]string{"fdroid"},
+		[]foundDocument{
+			foundDocumentAt(t, "https://beside.example/").
+				matchingWords("fdroid").
+				withTitle("Android apps"),
+			foundDocumentAt(t, "https://hyphenated.example/").
+				matchingWords("fdroid").
+				withTitle("F-Droid gets a new client"),
+		},
+		map[string]int{"fdroid": 100},
+	)
+
+	want := []string{"https://hyphenated.example/", "https://beside.example/"}
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestSiteNameThatSpellsAQueryWordWithAHyphenHoldsIt(t *testing.T) {
+	t.Parallel()
+
+	findings := findingsHoldingDocumentsPerQueryWord(
+		[]string{"fdroid"},
+		[]foundDocument{
+			foundDocumentAt(t, "https://droid.example/").matchingWords("fdroid"),
+			foundDocumentAt(t, "https://f-droid.example/").matchingWords("fdroid"),
+		},
+		map[string]int{"fdroid": 100},
+	)
+
+	want := []string{"https://f-droid.example/", "https://droid.example/"}
+	if got := addressesInFallingOrderOfRelevance(findings); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
