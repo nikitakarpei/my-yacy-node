@@ -59,7 +59,7 @@
       "hash": "Esx50zS6MKD4",
       "address": "https://github.com/topics/bsd",
       "title": "bsd · GitHub Topics · GitHub",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "8856zsuNWVxw",
@@ -71,13 +71,13 @@
       "hash": "iVhC8zS6MKD4",
       "address": "https://github.com/topics/apple-silicon",
       "title": "apple-silicon · GitHub Topics · GitHub",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "vK69shBCurR4",
       "address": "https://cbmonzon.com/2021/03/03/comienzo-competicion/",
       "title": "COMIENZO COMPETICION",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "PNI_usKD8I1w",
@@ -203,7 +203,7 @@
       "hash": "6e9S81avlROw",
       "address": "https://www.hk.freebsd.org/",
       "title": "The FreeBSD Project",
-      "grade": 1
+      "grade": null
     },
     {
       "hash": "ywU_TyHzph0w",
@@ -311,7 +311,7 @@
       "hash": "Bqd3IRghbs4w",
       "address": "https://directory.fsf.org/wiki/Free_Software_Directory:Free_software_replacements",
       "title": "Free Software Directory:Free software replacements - Free Software Directory",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "OPLsoyHzph0w",
@@ -503,7 +503,7 @@
       "hash": "-KsPLRghbs4w",
       "address": "https://directory.fsf.org/wiki/Main_Page",
       "title": "Free Software Directory",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "IXMefAT9hatx",

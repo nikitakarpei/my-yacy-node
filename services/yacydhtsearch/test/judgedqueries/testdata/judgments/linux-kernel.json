@@ -401,7 +401,7 @@
       "hash": "O7HXYdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Linux-Kernel",
       "title": "Linux (Kernel) – Wikipedia",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "eaGhAlpcc_2y",
@@ -437,7 +437,7 @@
       "hash": "omgCZMZ5FD3x",
       "address": "https://bugs.launchpad.net/kernel-sru-workflow/promote-to-updates/+bug/2154040",
       "title": "Bug #2154040 “noble/linux-vmware-6.17: 6.17.0-1003.3 -proposed t...” : Series promote-to-updates : Bugs : Kernel SRU Workflow",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "vYInm_XKQKtw",
@@ -467,7 +467,7 @@
       "hash": "Ckmv4yRO6Xx4",
       "address": "https://docs.redhat.com/en/documentation/Red_Hat_Enterprise_Linux/6/html-single/Installation_Guide/index",
       "title": "Installation Guide | Red Hat Enterprise Linux | 6 | Red Hat Documentation",
-      "grade": 0
+      "grade": null
     }
   ]
 }

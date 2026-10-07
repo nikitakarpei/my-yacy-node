@@ -155,7 +155,7 @@
       "hash": "tRFhdxCtKNbh",
       "address": "https://wiki.archlinux.de/title/Arch_User_Repository",
       "title": "Arch User Repository – wiki.archlinux.de",
-      "grade": 1
+      "grade": null
     },
     {
       "hash": "h0hX0xw7vvo5",
@@ -191,7 +191,7 @@
       "hash": "tkjftsqO4EOy",
       "address": "https://linux-hardware.org/",
       "title": "Linux Hardware Database",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "5B8rQ3H8M7Hx",
@@ -203,7 +203,7 @@
       "hash": "VQt9kRVlacDh",
       "address": "https://pkgstats.archlinux.de/compare/packages",
       "title": "pkgstats.archlinux.de",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "ihYzZeSLKN4x",
@@ -269,7 +269,7 @@
       "hash": "ux7vtzb5tWPh",
       "address": "https://planet.archlinux.de/",
       "title": "planet.archlinux.de",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "2fH_6eSLKN4x",

@@ -168,7 +168,7 @@
       "hash": "Q1F19sQgFy_y",
       "address": "https://os.openstreetmap.org/?zoom=15\u0026lat=30.336389\u0026lon=112.241389\u0026layers=B0",
       "title": "OpenStreetMap - Ordnance Survey OpenData - Street View",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "YbSrAlybg-vy",
@@ -198,7 +198,7 @@
       "hash": "ejG23V7h-FJy",
       "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=-4.616667\u0026lon=55.45",
       "title": "OpenStreetMap - The Australian Geographic Reference Image",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "nIc3Nlybg-vy",

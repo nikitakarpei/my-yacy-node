@@ -17,7 +17,7 @@
       "hash": "A2EmXsBs3ry4",
       "address": "https://foxutech.com/what-happens-when-kubernetes-pod-cpu-memory-run-high/",
       "title": "What Happens When Kubernetes Pod CPU \u0026 Memory Run High - FoxuTech",
-      "grade": 1
+      "grade": null
     },
     {
       "hash": "BUw3tyHotJDk",
@@ -107,7 +107,7 @@
       "hash": "5BSi0enQajO4",
       "address": "https://cn.ubuntu.com/kubernetes",
       "title": "适用于多云运营的企业级 Kubernetes | Ubuntu",
-      "grade": 1
+      "grade": null
     },
     {
       "hash": "_oFzMGS6MKD4",
@@ -293,7 +293,7 @@
       "hash": "_7CLFWQ2YKr4",
       "address": "https://grafana.com/solutions/kubernetes/kubernetes-monitoring-introduction/",
       "title": "Kubernetes monitoring introduction",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "_vIWyKf4Pib5",

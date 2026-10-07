@@ -16,11 +16,27 @@ Grade a document from the stored page text, the title and the address.
 - `0` — the page has nothing to do with the query, only shares a word with it,
   lists many subjects as a tag page does, or is spam, even on the subject.
 
-A document with no stored page text gets at most the grade `1`. A page that
-names its subject in one or two lines, and gives no more, gets the grade `1`.
-Few documents of a pool reach `2`.
+A page that names its subject in one or two lines, and gives no more, gets the
+grade `1`. Few documents of a pool reach `2`.
 
 Never change a grade or a spam mark that a person gave.
+
+## A document without stored page text
+
+When the capture cannot fetch a page for a passing reason, such as a timeout,
+a connection error, or the answer `429` or `5xx`, the document keeps the grade
+`null` until a capture stores its page.
+
+When the capture gets the answer `404` or `410`, the page is gone, and the
+document gets the grade `0`.
+
+When the site refuses the capture, such as with the answer `401`, `403` or
+another `4xx`, or with a bot challenge, an error page or a consent wall in place
+of the page, grade the document from a copy that a browser or a web archive
+took. Use the copy that is nearest to the recording. Give at most the grade `1`
+when that copy is more than one year older or newer than the recording. When
+there is no such copy, grade the document from its title, its address and the
+snippet of the peers, and give at most the grade `1`.
 
 ## The language of the query
 

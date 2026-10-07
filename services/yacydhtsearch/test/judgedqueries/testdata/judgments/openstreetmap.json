@@ -35,7 +35,7 @@
       "hash": "CGNLtxgcGDHy",
       "address": "https://blog.openstreetmap.org/2024/03/12/call-to-action-help-us-grow-and-diversify-osmf-membership/?lang=zh-hant",
       "title": "Help Us Grow and Diversify OSMF Membership Worldwide | OpenStreetMap Blog",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "B3WY3SPCpqc4",
@@ -47,19 +47,19 @@
       "hash": "D8UKBYwz4Liw",
       "address": "https://osmcal.org/event/2573/",
       "title": "OpenStreetMap Midwest Meetup | OpenStreetMap Calendar",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "C0_Z-Sofqllg",
       "address": "https://blog.rasc.ch/2026/04/graphhopper.html",
       "title": "GraphHopper, routing engine for OpenStreetMap data",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "CaGN77AG7JRY",
       "address": "http://10779/rmit.31287256",
       "title": "Internationally Validated Open Access Indicators of Large Public Urban Green Space for Healthy and Sustainable Cities",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "1mo1Mlybg-vy",
@@ -83,7 +83,7 @@
       "hash": "JKjaD59_tWB0",
       "address": "https://aerial.openstreetmap.org.za/?lon=179.216667\u0026lat=-8.516667\u0026zoom=8",
       "title": "OpenStreetMap - NGI - Aerial Imagery",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "oB81blybg-vy",
@@ -107,7 +107,7 @@
       "hash": "JG8w4lVv_Vw0",
       "address": "https://topo.openstreetmap.org.za/?lon=-0.801389\u0026lat=8.520833\u0026zoom=5",
       "title": "OpenStreetMap - NGI - Topographic Series",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "xM7wolybg-vy",
@@ -149,7 +149,7 @@
       "hash": "Q1F19sQgFy_y",
       "address": "https://os.openstreetmap.org/?zoom=15\u0026lat=30.336389\u0026lon=112.241389\u0026layers=B0",
       "title": "OpenStreetMap - Ordnance Survey OpenData - Street View",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "YbSrAlybg-vy",
@@ -167,7 +167,7 @@
       "hash": "ejG23V7h-FJy",
       "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=-4.616667\u0026lon=55.45",
       "title": "OpenStreetMap - The Australian Geographic Reference Image",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "f_pUglybg-vy",
@@ -425,7 +425,7 @@
       "hash": "FqdTBlybg-vy",
       "address": "https://www.openstreetmap.org/?mlat=80.82\u0026mlon=-66.483333\u0026zoom=15",
       "title": "OpenStreetMap",
-      "grade": 1
+      "grade": 2
     },
     {
       "hash": "_76yj8ybg-vy",

@@ -20,12 +20,12 @@ const (
 	warcTargetAddressField      = "WARC-Target-URI"
 	warcRecordDateField         = "WARC-Date"
 	warcRecordIdentityField     = "WARC-Record-ID"
+	warcCaptureAgentField       = "WARC-Capture-Agent"
 	warcBlockTypeField          = "Content-Type"
 	warcBlockLengthField        = "Content-Length"
 	warcResponseRecordType      = "response"
 	warcResponseBlockType       = "application/http;msgtype=response"
 	warcRecordEnd               = "\r\n\r\n"
-	httpResponseStatusLine      = "HTTP/1.1 200 OK"
 	httpContentTypeField        = "Content-Type"
 	httpContentLengthField      = "Content-Length"
 	httpResponseHeaderEnd       = "\r\n\r\n"
@@ -49,14 +49,20 @@ func warcResponseRecordOf(t *testing.T, page storedPage) []byte {
 	block := httpResponseBlockOf(page)
 	var record bytes.Buffer
 	record.WriteString(warcVersionLine + "\r\n")
-	for _, field := range [][2]string{
+	fields := [][2]string{
 		{warcRecordTypeField, warcResponseRecordType},
 		{warcTargetAddressField, page.address},
-		{warcRecordDateField, time.Now().UTC().Format(time.RFC3339)},
+		{warcRecordDateField, captureInstantOf(page).Format(time.RFC3339)},
 		{warcRecordIdentityField, warcRecordIdentity(t)},
-		{warcBlockTypeField, warcResponseBlockType},
-		{warcBlockLengthField, strconv.Itoa(len(block))},
-	} {
+	}
+	if page.capturedBy != "" {
+		fields = append(fields, [2]string{warcCaptureAgentField, page.capturedBy})
+	}
+	fields = append(fields,
+		[2]string{warcBlockTypeField, warcResponseBlockType},
+		[2]string{warcBlockLengthField, strconv.Itoa(len(block))},
+	)
+	for _, field := range fields {
 		fmt.Fprintf(&record, "%s: %s\r\n", field[0], field[1])
 	}
 	record.WriteString("\r\n")
@@ -66,9 +72,25 @@ func warcResponseRecordOf(t *testing.T, page storedPage) []byte {
 	return record.Bytes()
 }
 
+func captureInstantOf(page storedPage) time.Time {
+	if page.capturedAt.IsZero() {
+		return time.Now().UTC()
+	}
+
+	return page.capturedAt.UTC()
+}
+
+func statusOf(page storedPage) int {
+	if page.status == 0 {
+		return http.StatusOK
+	}
+
+	return page.status
+}
+
 func httpResponseBlockOf(page storedPage) []byte {
 	var block bytes.Buffer
-	block.WriteString(httpResponseStatusLine + "\r\n")
+	fmt.Fprintf(&block, "HTTP/1.1 %d %s\r\n", statusOf(page), http.StatusText(statusOf(page)))
 	fmt.Fprintf(&block, "%s: %s\r\n", httpContentTypeField, page.contentType)
 	fmt.Fprintf(&block, "%s: %d", httpContentLengthField, len(page.body))
 	block.WriteString(httpResponseHeaderEnd)
@@ -181,9 +203,14 @@ func pageOf(t *testing.T, record warcRecord) storedPage {
 		t.Fatalf("read a warc response record: %v", err)
 	}
 
+	capturedAt, _ := time.Parse(time.RFC3339, record.fields.Get(warcRecordDateField))
+
 	return storedPage{
 		address:     record.fields.Get(warcTargetAddressField),
 		contentType: response.Header.Get(httpContentTypeField),
 		body:        body,
+		capturedAt:  capturedAt,
+		capturedBy:  record.fields.Get(warcCaptureAgentField),
+		status:      response.StatusCode,
 	}
 }
