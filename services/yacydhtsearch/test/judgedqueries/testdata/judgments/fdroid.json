@@ -1,0 +1,317 @@
+{
+  "query": "fdroid",
+  "judgedDocuments": [
+    {
+      "hash": "Do-7Wd6w8kG4",
+      "address": "https://f-droid.en.uptodown.com/android",
+      "title": "F-Droid for Android - Download the APK from Uptodown",
+      "grade": 1
+    },
+    {
+      "hash": "A3qxZvS6MKD4",
+      "address": "https://github.com/pokerth/pokerth",
+      "title": "GitHub - pokerth/pokerth: PokerTH is a poker game written in C++/Qt. · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "5PEFFzS6MKD4",
+      "address": "https://github.com/topics/bluetooth-low-energy",
+      "title": "bluetooth-low-energy · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "qk_TfIaZ4vUy",
+      "address": "https://www.journalduhacker.net/t/g%C3%A9omatique",
+      "title": "géomatique | Journal du hacker",
+      "grade": 0
+    },
+    {
+      "hash": "zapufobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Talk:Wikimedia_Apps/FAQ/Android",
+      "title": "Talk:Wikimedia Apps/FAQ/Android - MediaWiki",
+      "grade": 0
+    },
+    {
+      "hash": "lv3lasbzeiyw",
+      "address": "https://lichess.org/app",
+      "title": "Lichess Mobile App • lichess.org",
+      "grade": 0
+    },
+    {
+      "hash": "S73HPqnwBep4",
+      "address": "https://piefed.0x0c.link/",
+      "title": "PieFed - Explore Anything, Discuss Everything.",
+      "grade": 0
+    },
+    {
+      "hash": "oIpZ3LzXF58w",
+      "address": "https://searx.fmhy.net/stats?engine=fdroid",
+      "title": "SearXNG",
+      "grade": 0
+    },
+    {
+      "hash": "pe651LzXF58w",
+      "address": "https://searx.fmhy.net/stats",
+      "title": "SearXNG",
+      "grade": 0
+    },
+    {
+      "hash": "y57XtSS6MKD4",
+      "address": "https://github.com/flareteam/flare-engine",
+      "title": "GitHub - flareteam/flare-engine: Free/Libre Action Roleplaying Engine (engine only) · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "duCa-52pZDPw",
+      "address": "https://f-droid.org/packages/org.fdroid.fdroid/",
+      "title": "F-Droid | F-Droid - Free and Open Source Android App Repository",
+      "grade": 2
+    },
+    {
+      "hash": "6WNZdGKlvN85",
+      "address": "https://arstechnica.com/civis/threads/f-droid-gets-its-biggest-update-in-a-decade-with-new-ui-and-smoother-app-installs.1514935/",
+      "title": "F-Droid gets its biggest update in a decade with new UI and smoother app installs | Ars OpenForum",
+      "grade": 1
+    },
+    {
+      "hash": "qNg4asS6MKD4",
+      "address": "https://github.com/privacyguides",
+      "title": "Privacy Guides · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "-b5yw4_rJw_4",
+      "address": "https://gitlab.com/fdroid/fdroidclient/-/work_items/35",
+      "title": "if a repo is not accessible, try one of the official mirrors (#35) · Issues · F-Droid / Client · GitLab",
+      "grade": 1
+    },
+    {
+      "hash": "vo-bZC2pZDPw",
+      "address": "https://f-droid.org/en/2026/09/11/twif.html",
+      "title": "Routing you to FLOSS | F-Droid - Free and Open Source Android App Repository",
+      "grade": 1
+    },
+    {
+      "hash": "dulpV4_rJw_4",
+      "address": "https://gitlab.com/fdroid/fdroidserver/blob/dfbe114af3c4cef15ce3aa5e979d9f4684f2acbc/tests/check-fdroid-apk",
+      "title": "tests/check-fdroid-apk · dfbe114af3c4cef15ce3aa5e979d9f4684f2acbc · F-Droid / fdroidserver · GitLab",
+      "grade": 0
+    },
+    {
+      "hash": "apptfG2pZDPw",
+      "address": "https://f-droid.org/cs/docs/All_our_APIs/",
+      "title": "Všechna naše API | F-Droid – Bezplatný a otevřený repozitář aplikací pro Android",
+      "grade": 1
+    },
+    {
+      "hash": "pf251C2pZDPw",
+      "address": "https://f-droid.org/en/docs/Reproducible_Builds/",
+      "title": "Reproducible Builds | F-Droid - Free and Open Source Android App Repository",
+      "grade": 1
+    },
+    {
+      "hash": "tXvtBG2pZDPw",
+      "address": "https://f-droid.org/cs/about/",
+      "title": "O projektu | F-Droid – Bezplatný a otevřený repozitář aplikací pro Android",
+      "grade": 1
+    },
+    {
+      "hash": "c2k1yOS6MKD4",
+      "address": "https://github.com/EFForg/apkeep",
+      "title": "GitHub - EFForg/apkeep: A command-line tool for downloading APK files from various sources · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "dQHWoUJGVX84",
+      "address": "https://tuta.com/blog/open-source-email-fdroid",
+      "title": "Tuta Mail is available on F-Droid so you can break free from Big Tech tracking! | Tuta",
+      "grade": 1
+    },
+    {
+      "hash": "VIT-9IjJl4A4",
+      "address": "https://a-photo-manager.en.uptodown.com/android",
+      "title": "A Photo Manager for Android - Download the APK from Uptodown",
+      "grade": 0
+    },
+    {
+      "hash": "Ao37zTprPen4",
+      "address": "https://simplex.chat/es/fdroid/",
+      "title": "SimpleX Chat - Get the app via F-Droid",
+      "grade": 1
+    },
+    {
+      "hash": "EGQZu22pZDPw",
+      "address": "https://f-droid.org/docs/Release_Channels_and_Signing_Keys/",
+      "title": "Release Channels and Signing Keys | F-Droid - Free and Open Source Android App Repository",
+      "grade": 1
+    },
+    {
+      "hash": "Jpobb52pZDPw",
+      "address": "https://f-droid.org/packages/net.slions.fulguris.full.fdroid/",
+      "title": "Fulguris Web Browser | F-Droid - Free and Open Source Android App Repository",
+      "grade": 0
+    },
+    {
+      "hash": "Kojy_k2pZDPw",
+      "address": "https://f-droid.org/repo/proton.android.pass.fdroid_13600000.log.gz",
+      "title": "proton.android.pass.fdroid_13600000.log.gz",
+      "grade": 0
+    },
+    {
+      "hash": "Lhfp452pZDPw",
+      "address": "https://f-droid.org/packages/org.mozilla.fennec_fdroid/",
+      "title": "Fennec F-Droid | F-Droid - Free and Open Source Android App Repository",
+      "grade": 0
+    },
+    {
+      "hash": "Ltr0D52pZDPw",
+      "address": "https://f-droid.org/packages/io.simplelogin.android.fdroid/",
+      "title": "SimpleLogin | Anti-spam | F-Droid - Free and Open Source Android App Repository",
+      "grade": 0
+    },
+    {
+      "hash": "aEY7yC2pZDPw",
+      "address": "https://f-droid.org/en/packages/org.mozilla.fennec_fdroid/",
+      "title": "Fennec F-Droid | F-Droid - Free and Open Source Android App Repository",
+      "grade": 0
+    },
+    {
+      "hash": "bTjdVC2pZDPw",
+      "address": "https://f-droid.org/en/docs/Importing_Applications/",
+      "title": "Importing Applications | F-Droid - Free and Open Source Android App Repository",
+      "grade": 1
+    },
+    {
+      "hash": "jdwtuC2pZDPw",
+      "address": "https://f-droid.org/en/packages/app.flicky/",
+      "title": "Flicky | F-Droid - Free and Open Source Android App Repository",
+      "grade": 1
+    },
+    {
+      "hash": "aprxHC2pZDPw",
+      "address": "https://f-droid.org/en/2026/03/28/how-to-include-repos-in-rom.html",
+      "title": "How to pre-add repositories to F-Droid in Android ROMs (Important changes in 2.0) | F-Droid - Free and Open Source Android App Repository",
+      "grade": 1
+    },
+    {
+      "hash": "rQh_P8x3pvag",
+      "address": "https://apt.izzysoft.de/fdroid/index.php/list/page/1?limit=50",
+      "title": "IzzyOnDroid F-Droid Repository",
+      "grade": 1
+    },
+    {
+      "hash": "tkteQ8x3pvag",
+      "address": "https://apt.izzysoft.de/fdroid/repo/app.zxtune.fdroid_51114.apk",
+      "title": "app.zxtune.fdroid_51114.apk",
+      "grade": 0
+    },
+    {
+      "hash": "ywQWqk2pZDPw",
+      "address": "https://f-droid.org/repo/xyz.malkki.neostumbler.fdroid_48_src.tar.gz",
+      "title": "xyz.malkki.neostumbler.fdroid_48_src.tar.gz",
+      "grade": 0
+    },
+    {
+      "hash": "pF-G14ABzxiw",
+      "address": "https://verification.f-droid.org/org.fdroid.fdroid.json",
+      "title": "org.fdroid.fdroid.json",
+      "grade": 0
+    },
+    {
+      "hash": "UNXMn1Gi-qPw",
+      "address": "https://forum.f-droid.org/t/proper-fdroid-filters-similar-apps-and-suggestions/30179",
+      "title": "Proper Fdroid filters, similar apps and suggestions - Tips \u0026 Tricks - F-Droid Forum",
+      "grade": 1
+    },
+    {
+      "hash": "ug18x1Gi-qPw",
+      "address": "https://forum.f-droid.org/t/please-update-date-of-fdroid/25175",
+      "title": "Please update date of FDroid - website - F-Droid Forum",
+      "grade": 1
+    },
+    {
+      "hash": "FYc86KS6MKD4",
+      "address": "https://github.com/PanderMusubi/fdroid/blob/main/README.md",
+      "title": "fdroid/README.md at main · PanderMusubi/fdroid · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "6LXplBS6MKD4",
+      "address": "https://github.com/f-droid/fdroid-website",
+      "title": "GitHub - f-droid/fdroid-website: mirror of https://gitlab.com/fdroid/fdroid-website · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "J1afEa_rJw_4",
+      "address": "https://gitlab.com/explore/projects/topics/fdroid",
+      "title": "fdroid · Topics · GitLab",
+      "grade": 0
+    },
+    {
+      "hash": "UbnuF52pZDPw",
+      "address": "https://f-droid.org/packages/app.comaps.fdroid/",
+      "title": "CoMaps - Hike, Bike, Drive Offline with Privacy | F-Droid - Free and Open Source Android App Repository",
+      "grade": 0
+    },
+    {
+      "hash": "XiQRes6DVrVg",
+      "address": "https://njh.eu/s2",
+      "title": "LineageOS on Samsung Galaxy S II",
+      "grade": 0
+    },
+    {
+      "hash": "Cuau84ABzxiw",
+      "address": "https://verification.f-droid.org/app.pachli_25.apk.diffoscope.html",
+      "title": "/usr/bin/diffoscope --exclude-command .*apksigner verify.* --max-report-size 12345678 --max-diff-block-lines 128 --html unsigned/app.pachli_25.apk.diffoscope.html --text unsigned/app.pachli_25.apk.diffoscope.txt /home/fdroid/fdroiddata/tmp/app.pachli_25.apk /home/fdroid/fdroiddata/tmp/sigcp_app.pachli_25.apk",
+      "grade": 0
+    },
+    {
+      "hash": "OLFn74ABzxiw",
+      "address": "https://verification.f-droid.org/de.nulide.findmydevice_31.apk.diffoscope.html",
+      "title": "/usr/bin/diffoscope --max-report-size 12345678 --max-diff-block-lines 128 --html unsigned/de.nulide.findmydevice_31.apk.diffoscope.html --text unsigned/de.nulide.findmydevice_31.apk.diffoscope.txt /home/fdroid/fdroiddata/tmp/de.nulide.findmydevice_31.apk /home/fdroid/fdroiddata/tmp/sigcp_de.nulide.findmydevice_31.apk",
+      "grade": 0
+    },
+    {
+      "hash": "P87le4ABzxiw",
+      "address": "https://verification.f-droid.org/me.ash.reader_26.apk.diffoscope.html",
+      "title": "/usr/bin/diffoscope --max-report-size 12345678 --max-diff-block-lines 128 --html unsigned/me.ash.reader_26.apk.diffoscope.html --text unsigned/me.ash.reader_26.apk.diffoscope.txt /home/fdroid/fdroiddata/tmp/me.ash.reader_26.apk /home/fdroid/fdroiddata/tmp/sigcp_me.ash.reader_26.apk",
+      "grade": 0
+    },
+    {
+      "hash": "QsDjz4ABzxiw",
+      "address": "https://verification.f-droid.org/net.taler.wallet.fdroid_32.apk.diffoscope.html",
+      "title": "/usr/bin/diffoscope --max-report-size 12345678 --max-diff-block-lines 128 --html unsigned/net.taler.wallet.fdroid_32.apk.diffoscope.html --text unsigned/net.taler.wallet.fdroid_32.apk.diffoscope.txt /home/fdroid/fdroiddata/tmp/net.taler.wallet.fdroid_32.apk /home/fdroid/fdroiddata/tmp/sigcp_net.taler.wallet.fdroid_32.apk",
+      "grade": 0
+    },
+    {
+      "hash": "TMkC34ABzxiw",
+      "address": "https://verification.f-droid.org/com.flipperdevices.app_1828.apk.diffoscope.html",
+      "title": "/usr/bin/diffoscope --max-report-size 12345678 --max-diff-block-lines 128 --html unsigned/com.flipperdevices.app_1828.apk.diffoscope.html --text unsigned/com.flipperdevices.app_1828.apk.diffoscope.txt /home/fdroid/fdroiddata/tmp/com.flipperdevices.app_1828.apk /home/fdroid/fdroiddata/tmp/sigcp_com.flipperdevices.app_1828.apk",
+      "grade": 0
+    },
+    {
+      "hash": "Wt_DL4ABzxiw",
+      "address": "https://verification.f-droid.org/cc.sovellus.vrcaa_200100.apk.diffoscope.html",
+      "title": "/usr/bin/diffoscope --max-report-size 12345678 --max-diff-block-lines 128 --html unsigned/cc.sovellus.vrcaa_200100.apk.diffoscope.html --text unsigned/cc.sovellus.vrcaa_200100.apk.diffoscope.txt /home/fdroid/fdroiddata/tmp/cc.sovellus.vrcaa_200100.apk /home/fdroid/fdroiddata/tmp/sigcp_cc.sovellus.vrcaa_200100.apk",
+      "grade": 0
+    },
+    {
+      "hash": "zy_HM4ABzxiw",
+      "address": "https://verification.f-droid.org/me.zhanghai.android.untracker_7.apk.diffoscope.html",
+      "title": "/usr/bin/diffoscope --exclude-command .*apksigner verify.* --max-report-size 12345678 --max-diff-block-lines 128 --html unsigned/me.zhanghai.android.untracker_7.apk.diffoscope.html --text unsigned/me.zhanghai.android.untracker_7.apk.diffoscope.txt /home/fdroid/fdroiddata/tmp/me.zhanghai.android.untracker_7.apk /home/fdroid/fdroiddata/tmp/sigcp_me.zhanghai.android.untracker_7.apk",
+      "grade": 0
+    },
+    {
+      "hash": "CKYhEiWb3wRx",
+      "address": "https://fdroidstatus.org/builds/log/net.taler.wallet.fdroid/544",
+      "title": "log: net.taler.wallet.fdroid:544 - F-Droid Monitor",
+      "grade": 0
+    },
+    {
+      "hash": "xxNsZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_Android_applications",
+      "title": "List of free and open-source Android applications - Wikipedia",
+      "grade": 0
+    }
+  ]
+}

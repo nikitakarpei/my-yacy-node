@@ -1,6 +1,9 @@
 package documentrelevance
 
 import (
+	"strings"
+	"unicode"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -58,6 +61,31 @@ func hashesOfWordsIn(text string) map[yacymodel.Hash]struct{} {
 	for _, spelledWord := range spelledWords {
 		words[yacymodel.WordHash(spelledWord)] = struct{}{}
 	}
+	for _, joinedWord := range wordsJoinedAtHyphensIn(text) {
+		words[yacymodel.WordHash(joinedWord)] = struct{}{}
+	}
 
 	return words
+}
+
+const hyphen = '-'
+
+func wordsJoinedAtHyphensIn(text string) []string {
+	var joinedWords []string
+	for hyphenatedWord := range strings.FieldsFuncSeq(text, isNeitherLetterNorDigitNorHyphen) {
+		parts := strings.FieldsFunc(hyphenatedWord, isHyphen)
+		for place := 1; place < len(parts); place++ {
+			joinedWords = append(joinedWords, strings.ToLower(parts[place-1]+parts[place]))
+		}
+	}
+
+	return joinedWords
+}
+
+func isNeitherLetterNorDigitNorHyphen(character rune) bool {
+	return !unicode.IsLetter(character) && !unicode.IsDigit(character) && !isHyphen(character)
+}
+
+func isHyphen(character rune) bool {
+	return character == hyphen
 }

@@ -415,6 +415,24 @@
       "address": "https://developer.apple.com/games/",
       "title": "Games - Apple Developer",
       "grade": 1
+    },
+    {
+      "hash": "Hqidv1sNgbb4",
+      "address": "https://music.apple.com/lt/new",
+      "title": "‎Apple Music - Web Player",
+      "grade": 0
+    },
+    {
+      "hash": "Zo-TDNzkM934",
+      "address": "https://discussionskorea.apple.com/community/music",
+      "title": "음악 - Apple 커뮤니티",
+      "grade": 1
+    },
+    {
+      "hash": "wsuuA44Lp0o4",
+      "address": "https://discussions.apple.com/community/watch",
+      "title": "Apple Watch - Apple Community",
+      "grade": 1
     }
   ]
 }
