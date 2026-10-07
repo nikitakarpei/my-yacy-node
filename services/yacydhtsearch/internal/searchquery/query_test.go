@@ -14,11 +14,11 @@ func TestTheSpellingOfAQuerySpellsItsWordsExclusionsAndLanguage(t *testing.T) {
 	query := searchquery.Query{
 		Words:      []string{"reset", "router"},
 		Exclusions: []string{"windows"},
-		Language:   "lang_en",
+		Language:   languageFrom(t, "en"),
 	}
 
-	if query.String() != "reset router -windows lr:lang_en" {
-		t.Fatalf("String = %q, want reset router -windows lr:lang_en", query.String())
+	if query.String() != "reset router -windows lr:en" {
+		t.Fatalf("String = %q, want reset router -windows lr:en", query.String())
 	}
 }
 
@@ -106,4 +106,15 @@ func hashesOf(words ...string) []yacymodel.Hash {
 	}
 
 	return hashes
+}
+
+func languageFrom(t *testing.T, code string) yacymodel.Language {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(code)
+	if err != nil {
+		t.Fatalf("ParseLanguage(%s): %v", code, err)
+	}
+
+	return language
 }

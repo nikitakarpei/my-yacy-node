@@ -7,10 +7,12 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -20,6 +22,8 @@ const (
 	fieldStartRecord    = "startRecord"
 	fieldMaximumRecords = "maximumRecords"
 	fieldLanguage       = "lr"
+
+	languagePrefix = "lang_"
 
 	defaultMaximumRecords = 10
 )
@@ -64,7 +68,18 @@ func (e SearchEndpoint) pageFor(ctx context.Context, form url.Values) searchresu
 }
 
 func queryOf(form url.Values) searchquery.Query {
-	return queryreading.QueryFrom(form.Get(fieldQuery), form.Get(fieldLanguage))
+	return queryreading.QueryFrom(form.Get(fieldQuery), languageOf(form))
+}
+
+func languageOf(form url.Values) yacymodel.Language {
+	language, err := yacymodel.ParseLanguage(
+		strings.TrimPrefix(form.Get(fieldLanguage), languagePrefix),
+	)
+	if err != nil {
+		return yacymodel.Language{}
+	}
+
+	return language
 }
 
 func startRecordOf(form url.Values) int {

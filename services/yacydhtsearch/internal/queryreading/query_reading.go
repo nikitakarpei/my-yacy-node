@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func QueryFrom(text, language string) searchquery.Query {
+func QueryFrom(text string, language yacymodel.Language) searchquery.Query {
 	tokens := tokensOf(text)
 	var words, exclusions []string
 	for _, token := range tokens {

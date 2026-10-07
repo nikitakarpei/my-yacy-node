@@ -19,7 +19,7 @@ const (
 func TestACompoundWordHoldingTheLeadIsACompoundWordOfTheLead(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom(firstWord+" "+secondWord+" "+thirdWord, "")
+	query := queryreading.QueryFrom(firstWord+" "+secondWord+" "+thirdWord, yacymodel.Language{})
 	lead := leadingword.Lead{Word: yacymodel.WordHash(firstWord)}
 
 	roles := wordroles.Around(lead, query)

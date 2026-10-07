@@ -178,7 +178,16 @@ func firstWordListing(documents ...yacymodel.URLHash) replicasOfTheNetwork {
 	})
 }
 
-var query = queryreading.QueryFrom(firstWord+" "+secondWord+" -rain", "de")
+var query = queryreading.QueryFrom(firstWord+" "+secondWord+" -rain", languageFrom("de"))
+
+func languageFrom(code string) yacymodel.Language {
+	language, err := yacymodel.ParseLanguage(code)
+	if err != nil {
+		panic(err)
+	}
+
+	return language
+}
 
 func chosenPeersInBothPartitions() peerchoice.ChosenPeersPerQueryWord {
 	chosenPeers := []peerchoice.ChosenPeer{
@@ -314,7 +323,8 @@ func TestEveryPartitionOfAWordIsAskedWithTheLanguageAndExclusionsOfTheQuery(t *t
 	asksOfTheWord := replicas.asksOf(firstWord)
 	partitionsAsked := make([]uint, 0, len(asksOfTheWord))
 	for _, ask := range asksOfTheWord {
-		if ask.Language != "de" || !slices.Equal(ask.ExcludedWords, query.ExclusionHashes()) ||
+		if ask.Language.String() != "de" ||
+			!slices.Equal(ask.ExcludedWords, query.ExclusionHashes()) ||
 			len(ask.ReplicasInOrder) != 1 {
 			t.Fatalf("the ask is %+v, want the word, its language and its exclusions", ask)
 		}

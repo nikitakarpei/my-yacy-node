@@ -109,7 +109,7 @@ func matchedDocumentsOf(response yacyproto.SearchResponse) []peerasks.MatchedDoc
 func (w Wire) requestFor(
 	ctx context.Context,
 	excludedWords []yacymodel.Hash,
-	language string,
+	language yacymodel.Language,
 ) yacyproto.SearchRequest {
 	return yacyproto.SearchRequest{
 		NetworkName: w.searchedNetwork.Name,
@@ -117,7 +117,7 @@ func (w Wire) requestFor(
 		Time:        grantedAnswerTimeOf(ctx),
 		Partitions:  int(w.searchedNetwork.RingPartitions),
 		ContentDom:  yacyproto.ContentDomainText,
-		Language:    language,
+		Language:    language.String(),
 	}
 }
 

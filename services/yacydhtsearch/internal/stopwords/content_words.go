@@ -6,9 +6,11 @@ package stopwords
 import (
 	_ "embed"
 	"strings"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func ContentWordsOf(words []string, language string) []string {
+func ContentWordsOf(words []string, language yacymodel.Language) []string {
 	stopwordsOfTheQuery := stopwordsOfTheLanguageOf(words, language)
 	contentWords := make([]string, 0, len(words))
 	for _, word := range words {
@@ -24,17 +26,13 @@ func ContentWordsOf(words []string, language string) []string {
 	return contentWords
 }
 
-func stopwordsOfTheLanguageOf(words []string, language string) map[string]struct{} {
-	stopwordsOfTheSpokenLanguage, listed := stopwordsPerLanguage[languageCodeIn(language)]
+func stopwordsOfTheLanguageOf(words []string, language yacymodel.Language) map[string]struct{} {
+	stopwordsOfTheSpokenLanguage, listed := stopwordsPerLanguage[language.String()]
 	if listed {
 		return stopwordsOfTheSpokenLanguage
 	}
 
 	return stopwordsPerLanguage[theOneLanguageCoveringMostWordsIn(words)]
-}
-
-func languageCodeIn(language string) string {
-	return strings.TrimPrefix(strings.ToLower(language), "lang_")
 }
 
 func theOneLanguageCoveringMostWordsIn(words []string) string {

@@ -94,7 +94,7 @@ func (recorded recordedFindings) findings() queryfindings.Findings {
 		}
 	}
 
-	query := queryreading.QueryFrom(recorded.Query, "")
+	query := queryreading.QueryFrom(recorded.Query, yacymodel.Language{})
 
 	return queryfindings.Findings{
 		QueryWords:                query.WordHashes(),

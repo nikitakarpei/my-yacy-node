@@ -553,7 +553,7 @@ func (settings spreadSettings) spread(
 	observer *recordedSpreads,
 ) queryfindings.Findings {
 	ctx := context.Background()
-	query := queryreading.QueryFrom(settings.query, "")
+	query := queryreading.QueryFrom(settings.query, yacymodel.Language{})
 	queryWordDocumentAmounts := settings.queryWordDocumentAmounts
 	if queryWordDocumentAmounts == nil {
 		queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})

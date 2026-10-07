@@ -11,7 +11,7 @@ type SearchDocumentsAsk struct {
 	Peer                    peerdirectory.AskablePeer
 	Word                    yacymodel.Hash
 	ExcludedWords           []yacymodel.Hash
-	Language                string
+	Language                yacymodel.Language
 	DocumentsToMatch        []yacymodel.URLHash
 	Abstract                bool
 	MatchedDocumentsCeiling yacymodel.Optional[int]

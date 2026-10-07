@@ -5,12 +5,13 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestQueryFromKeepsEachSpokenWordOnce(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom(`Berlin  "Weather" berlin +forecast`, "")
+	query := queryreading.QueryFrom(`Berlin  "Weather" berlin +forecast`, yacymodel.Language{})
 
 	if !slices.Equal(query.Words, []string{"berlin", "weather", "forecast"}) {
 		t.Fatalf("Words = %v, want berlin weather forecast", query.Words)
@@ -20,7 +21,7 @@ func TestQueryFromKeepsEachSpokenWordOnce(t *testing.T) {
 func TestQueryFromPutsAMinusWordUnderExclusions(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("berlin -rain", "")
+	query := queryreading.QueryFrom("berlin -rain", yacymodel.Language{})
 
 	if !slices.Equal(query.Words, []string{"berlin"}) {
 		t.Fatalf("Words = %v, want berlin", query.Words)
@@ -33,7 +34,7 @@ func TestQueryFromPutsAMinusWordUnderExclusions(t *testing.T) {
 func TestQueryFromDropsAWordTooShortForAnIndex(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("berlin 1", "")
+	query := queryreading.QueryFrom("berlin 1", yacymodel.Language{})
 
 	if !slices.Equal(query.Words, []string{"berlin"}) {
 		t.Fatalf("Words = %v, want berlin alone", query.Words)
@@ -43,7 +44,7 @@ func TestQueryFromDropsAWordTooShortForAnIndex(t *testing.T) {
 func TestQueryFromDropsAWordTooShortForAnIndexWhenItStandsAlone(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("1", "")
+	query := queryreading.QueryFrom("1", yacymodel.Language{})
 
 	if len(query.Words) != 0 {
 		t.Fatalf("Words = %v, want no word", query.Words)
@@ -53,7 +54,7 @@ func TestQueryFromDropsAWordTooShortForAnIndexWhenItStandsAlone(t *testing.T) {
 func TestQueryFromDropsAnExclusionTooShortForAnIndex(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("berlin -a", "")
+	query := queryreading.QueryFrom("berlin -a", yacymodel.Language{})
 
 	if len(query.Exclusions) != 0 {
 		t.Fatalf("Exclusions = %v, want no exclusion", query.Exclusions)
@@ -63,7 +64,7 @@ func TestQueryFromDropsAnExclusionTooShortForAnIndex(t *testing.T) {
 func TestQueryFromReadsNothingOutOfPunctuationAlone(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom(`- "" +`, "")
+	query := queryreading.QueryFrom(`- "" +`, yacymodel.Language{})
 
 	if len(query.Words) != 0 || len(query.Exclusions) != 0 {
 		t.Fatalf("QueryFrom = %+v, want no words and no exclusions", query)
@@ -73,7 +74,7 @@ func TestQueryFromReadsNothingOutOfPunctuationAlone(t *testing.T) {
 func TestQueryFromLeavesTheStopwordsOfTheQueryLanguageOut(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("how do i reset my router", "")
+	query := queryreading.QueryFrom("how do i reset my router", yacymodel.Language{})
 
 	if !slices.Equal(query.Words, []string{"reset", "router"}) {
 		t.Fatalf("Words = %v, want reset router", query.Words)
@@ -83,7 +84,7 @@ func TestQueryFromLeavesTheStopwordsOfTheQueryLanguageOut(t *testing.T) {
 func TestQueryFromKeepsAStopwordAmongTheExclusions(t *testing.T) {
 	t.Parallel()
 
-	query := queryreading.QueryFrom("how to install debian -the", "")
+	query := queryreading.QueryFrom("how to install debian -the", yacymodel.Language{})
 
 	if !slices.Equal(query.Words, []string{"install", "debian"}) {
 		t.Fatalf("Words = %v, want install debian", query.Words)
@@ -96,8 +97,8 @@ func TestQueryFromKeepsAStopwordAmongTheExclusions(t *testing.T) {
 func TestAQueryThatAsksForACompoundWordIsSpelledApartFromOneThatDoesNot(t *testing.T) {
 	t.Parallel()
 
-	joined := queryreading.QueryFrom("state art", "en")
-	broken := queryreading.QueryFrom("state of the art", "en")
+	joined := queryreading.QueryFrom("state art", english(t))
+	broken := queryreading.QueryFrom("state of the art", english(t))
 
 	if joined.String() == broken.String() {
 		t.Fatalf("both queries are spelled %q, want different spellings", joined.String())
@@ -107,10 +108,21 @@ func TestAQueryThatAsksForACompoundWordIsSpelledApartFromOneThatDoesNot(t *testi
 func TestQueriesThatDifferOnlyInTheirStopwordsAreSpelledAlike(t *testing.T) {
 	t.Parallel()
 
-	shorter := queryreading.QueryFrom("reset router", "en")
-	longer := queryreading.QueryFrom("how do i reset router", "en")
+	shorter := queryreading.QueryFrom("reset router", english(t))
+	longer := queryreading.QueryFrom("how do i reset router", english(t))
 
 	if shorter.String() != longer.String() {
 		t.Fatalf("spellings %q and %q, want one spelling", shorter.String(), longer.String())
 	}
+}
+
+func english(t *testing.T) yacymodel.Language {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage("en")
+	if err != nil {
+		t.Fatalf("ParseLanguage(en): %v", err)
+	}
+
+	return language
 }

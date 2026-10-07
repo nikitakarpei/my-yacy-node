@@ -15,7 +15,7 @@ const (
 	secondWord = "weather"
 )
 
-var query = queryreading.QueryFrom(firstWord+" "+secondWord, "")
+var query = queryreading.QueryFrom(firstWord+" "+secondWord, yacymodel.Language{})
 
 func documentHashOf(t *testing.T, address string) yacymodel.URLHash {
 	t.Helper()

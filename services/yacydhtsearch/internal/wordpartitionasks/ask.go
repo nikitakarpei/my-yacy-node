@@ -10,6 +10,6 @@ type Ask struct {
 	Partition        uint
 	ReplicasInOrder  []peerdirectory.AskablePeer
 	ExcludedWords    []yacymodel.Hash
-	Language         string
+	Language         yacymodel.Language
 	DocumentsToMatch []yacymodel.URLHash
 }

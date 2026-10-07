@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -233,7 +234,10 @@ func (recording judgedQueryRecording) recordOne(t *testing.T, query string) {
 	findingsAndPageContents := findingsAndPageContentsOf(
 		findings,
 		recording.extraction.pageContentsPerDocumentOf(
-			t.Context(), queryreading.QueryFrom(query, "").Words, findings, pagePerAddressOf(pages),
+			t.Context(),
+			queryreading.QueryFrom(query, yacymodel.Language{}).Words,
+			findings,
+			pagePerAddressOf(pages),
 		),
 	)
 	writeRecordedFindingsFile(
@@ -257,7 +261,9 @@ func (recording judgedQueryRecording) findingsOf(
 	defer stopQueryBudget()
 
 	return recording.spread.SpreadOverPeers(
-		ctx, queryreading.QueryFrom(query, ""), recording.directory.AskablePeers(ctx),
+		ctx,
+		queryreading.QueryFrom(query, yacymodel.Language{}),
+		recording.directory.AskablePeers(ctx),
 	)
 }
 
