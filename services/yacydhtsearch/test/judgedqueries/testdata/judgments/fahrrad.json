@@ -197,7 +197,7 @@
       "hash": "eK01_XDOAHJg",
       "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-beste-akku-luftpumpe-fuer-fahrrad-und-auto-im-test/74ev0yt?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
       "title": "Top 10: Die beste Akku-Luftpumpe für Fahrrad \u0026 Auto im Test | Heise online bestenlisten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "GX5_0lezMa1j",
@@ -227,7 +227,7 @@
       "hash": "15aRPhQCzJQg",
       "address": "https://www.chip.de/downloads/Bikemap-Fahrrad-Navi-GPS-Android-App_144195848.html",
       "title": "Bikemap: Fahrrad Navi \u0026 GPS - Android App - Download - CHIP",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "OtLRfAbQpWqg",
@@ -335,13 +335,13 @@
       "hash": "5ASkPXDOAHJg",
       "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-besten-gps-tracker-fuer-fahrrad-auto-und-co-im-test/1gmyf1g",
       "title": "Top 10: Die besten GPS-Tracker für Fahrrad, Auto und Co. im Test | Heise online bestenlisten",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "Ewd0MWIlozhQ",
       "address": "http://www.faqs.org/faqs/de-rec-fahrrad-faq/part5/",
       "title": "de.rec.fahrrad FAQ part 5",
-      "grade": 1
+      "grade": null
     }
   ]
 }

@@ -5,13 +5,13 @@
       "hash": "_0kH419YjHYw",
       "address": "https://forum.yunohost.org/t/debian-trixie-13-yunohost-is-not-yet-compatible/37960",
       "title": "Debian Trixie (13): YunoHost is not yet compatible! - Announcements - YunoHost Forum",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "zviPwZBP-b24",
       "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
       "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "R7L27l1nrxbw",
@@ -29,19 +29,19 @@
       "hash": "q03Sr2QlA5B4",
       "address": "https://miniflux.app/docs/debian.html",
       "title": "Debian Installation",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "eKmk8ZFFVuw4",
       "address": "https://www.passbolt.com/ce/debian",
       "title": "Install Community Edition on Debian: Passbolt Install Guide",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "yp2SBE9Ojva4",
       "address": "https://docs.docker.com/engine/install/debian/",
       "title": "Debian | Docker Docs",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "OYZdJl1nrxbw",
@@ -65,7 +65,7 @@
       "hash": "LqHn3YWmW0sw",
       "address": "https://debian.griffo.io/",
       "title": "debian.griffo.io - Latest Debian \u0026 Ubuntu Packages for Modern Development Tools | Zig, Ghostty, TigerBeetle, lazygit, yazi \u0026 More",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "K6tD-09oEcsw",
@@ -107,7 +107,7 @@
       "hash": "T2EF52bypRQw",
       "address": "https://forgejo.org/docs/latest/user/packages/debian/",
       "title": "Debian Package Registry | Forgejo – Beyond coding. We forge.",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "T_1-q31nrxbw",

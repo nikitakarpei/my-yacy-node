@@ -17,7 +17,7 @@
       "hash": "yo3ShsDjTWw4",
       "address": "https://unitechy.com/aakash-tablet/",
       "title": "Aakash Tablet – Apurva Chaudhary",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "ufLF96D5hRt5",
@@ -30,13 +30,15 @@
       "hash": "RiGQqslpxshp",
       "address": "https://fastpanda.in/what-happens-if-you-walk-on-freshly-grouted-tiles/",
       "title": "What Happens If You Walk on Freshly Grouted Tiles? - Fast Panda",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "DId5ylIyBQBi",
       "address": "https://www.smartstoremobile.fr/un-smartphone-reconditionne-a-neuf-cest-quoi/",
       "title": "Un smartphone «reconditionné à neuf», c’est quoi ? - SMART STORE MOBILE",
-      "grade": 0
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "E-JRGlqatQFw",
@@ -80,7 +82,7 @@
       "hash": "JMvZgvPAQJIo",
       "address": "https://primoz.com.sg/product/white-detergent-7/",
       "title": "White Detergent – Primoz",
-      "grade": 0
+      "grade": null
     },
     {
       "hash": "yFFFa7hh1jd5",

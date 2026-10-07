@@ -65,7 +65,8 @@
       "hash": "op6r4sNweQAy",
       "address": "https://steamunlocked.org/rust-free-download/",
       "title": "Rust Free Download (v2321 \u0026 Multiplayer) » SteamUnlocked",
-      "grade": 1
+      "grade": 0,
+      "spam": true
     },
     {
       "hash": "QggaZoDZNRCx",
@@ -173,7 +174,7 @@
       "hash": "tA8cOeWRy054",
       "address": "https://developer.mescius.com/blogs/how-to-use-javascript-reporting-tool-in-your-rust-web-application",
       "title": "How to Use a JavaScript Reporting Tool in Your Rust Web Application",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "0C2s66g7yvNw",

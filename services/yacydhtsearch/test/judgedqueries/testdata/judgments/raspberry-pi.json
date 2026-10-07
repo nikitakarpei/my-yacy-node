@@ -29,7 +29,7 @@
       "hash": "X87TgMYLAaI5",
       "address": "https://www.tomshardware.com/raspberry-pi/raspberry-pi-projects",
       "title": "Raspberry Pi Project Tutorials, Tips and Advice | Tom's Hardware",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "W_gvG7UiwNow",
@@ -53,7 +53,7 @@
       "hash": "WyMX255AYdfg",
       "address": "https://botland.com.pl/1660-wyswietlacze-do-raspberry-pi-5",
       "title": "Wyświetlacze do Raspberry Pi 5 Sklep Botland",
-      "grade": 1
+      "grade": 0
     },
     {
       "hash": "XzaCfkSPT3ug",
@@ -311,7 +311,7 @@
       "hash": "hWXeAdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Raspberry_Pi",
       "title": "Raspberry Pi – Wikipedia",
-      "grade": 2
+      "grade": 1
     },
     {
       "hash": "OePQFluwPzox",
@@ -323,7 +323,7 @@
       "hash": "g9DI2Kf4Pib5",
       "address": "https://code.visualstudio.com/docs/setup/raspberry-pi",
       "title": "Visual Studio Code on Raspberry Pi",
-      "grade": 1
+      "grade": 0
     }
   ]
 }

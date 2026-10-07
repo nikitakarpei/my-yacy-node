@@ -83,7 +83,7 @@
       "hash": "-ta5TWay0_I4",
       "address": "https://manjaro-linux.softonic.com/",
       "title": "Manjaro Linux - Descargar",
-      "grade": 0
+      "grade": 1
     },
     {
       "hash": "7BnJQsEQ4K8h",
@@ -107,7 +107,7 @@
       "hash": "IUwtyWgLkTyg",
       "address": "https://manjaro-linux.softonic.pl/",
       "title": "Manjaro Linux - Download",
-      "grade": 0
+      "grade": 1
     },
     {
       "hash": "PF7qG6g7yvNw",
@@ -149,7 +149,7 @@
       "hash": "iV-_RWmFsoRo",
       "address": "https://manjaro-linux.softonic.kr/",
       "title": "Manjaro Linux - 다운로드",
-      "grade": 0
+      "grade": 1
     },
     {
       "hash": "jM4vHIwFYBoi",
@@ -221,7 +221,7 @@
       "hash": "3wSRMIPr9lG4",
       "address": "https://linux.dogexorg.com/",
       "title": "Linux命令搜索引擎 命令，Linux Linux命令搜索引擎 命令详解：最专业的Linux命令大全，内容包含Linux命令手册、详解、学习，值得收藏的Linux命令速查手册。 - Linux 命令搜索引擎",
-      "grade": 1
+      "grade": null
     },
     {
       "hash": "1wvv2l9moDe4",

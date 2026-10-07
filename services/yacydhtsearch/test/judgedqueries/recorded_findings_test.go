@@ -26,10 +26,11 @@ type recordedFindings struct {
 }
 
 type recordedFoundDocument struct {
-	Hash         yacymodel.URLHash                         `json:"hash"`
-	Metadata     yacymodel.Optional[yacymodel.URLMetadata] `json:"metadata,omitempty"`
-	Postings     []recordedPostingReplica                  `json:"postings,omitempty"`
-	PageContents yacymodel.Optional[recordedPageContents]  `json:"pageContents,omitempty"`
+	Hash           yacymodel.URLHash                         `json:"hash"`
+	Metadata       yacymodel.Optional[yacymodel.URLMetadata] `json:"metadata,omitempty"`
+	Postings       []recordedPostingReplica                  `json:"postings,omitempty"`
+	PageContents   yacymodel.Optional[recordedPageContents]  `json:"pageContents,omitempty"`
+	CaptureFailure captureFailure                            `json:"captureFailure,omitempty"`
 }
 
 func recordedFindingsOf(
@@ -79,21 +80,43 @@ func (recorded recordedFindings) withPageContentsReadAgain(
 	readAgain := recordedFindingsOf(recorded.Query, recorded.Language, findingsAndPageContents)
 	readAgain.RecordedAt = recorded.RecordedAt
 
-	return readAgain
+	return readAgain.withCaptureFailures(recorded.captureFailurePerDocument())
+}
+
+func (recorded recordedFindings) withCaptureFailures(
+	captureFailurePerDocument map[yacymodel.URLHash]captureFailure,
+) recordedFindings {
+	foundDocuments := make([]recordedFoundDocument, 0, len(recorded.FoundDocuments))
+	for _, foundDocument := range recorded.FoundDocuments {
+		if failure, captured := captureFailurePerDocument[foundDocument.Hash]; captured {
+			foundDocument.CaptureFailure = failure
+		}
+		foundDocuments = append(foundDocuments, foundDocument)
+	}
+	recorded.FoundDocuments = foundDocuments
+
+	return recorded
+}
+
+func (recorded recordedFindings) captureFailurePerDocument() map[yacymodel.URLHash]captureFailure {
+	captureFailurePerDocument := map[yacymodel.URLHash]captureFailure{}
+	for _, foundDocument := range recorded.FoundDocuments {
+		if foundDocument.CaptureFailure != "" {
+			captureFailurePerDocument[foundDocument.Hash] = foundDocument.CaptureFailure
+		}
+	}
+
+	return captureFailurePerDocument
 }
 
 func (recorded recordedFindings) findings() queryfindings.Findings {
 	foundDocuments := make([]queryfindings.FoundDocument, 0, len(recorded.FoundDocuments))
-	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
 	for _, recordedDocument := range recorded.FoundDocuments {
 		foundDocuments = append(foundDocuments, queryfindings.FoundDocumentOf(
 			recordedDocument.Hash,
 			recordedDocument.metadataReplicas(),
 			recordedDocument.postingReplicas(),
 		))
-		if pageContents, read := recordedDocument.PageContents.Get(); read {
-			pageContentsPerDocument[recordedDocument.Hash] = pageContents.pageContents()
-		}
 	}
 
 	query := queryreading.QueryFrom(recorded.Query, recorded.Language)
@@ -103,7 +126,18 @@ func (recorded recordedFindings) findings() queryfindings.Findings {
 		CompoundWords:             query.CompoundWords,
 		FoundDocuments:            foundDocuments,
 		DocumentsHeldPerQueryWord: recorded.DocumentsHeldPerQueryWord,
-	}.WithReadPages(pageContentsPerDocument)
+	}.WithReadPages(recorded.pageContentsPerDocument())
+}
+
+func (recorded recordedFindings) pageContentsPerDocument() map[yacymodel.URLHash]pagecontents.PageContents {
+	pageContentsPerDocument := map[yacymodel.URLHash]pagecontents.PageContents{}
+	for _, recordedDocument := range recorded.FoundDocuments {
+		if pageContents, read := recordedDocument.PageContents.Get(); read {
+			pageContentsPerDocument[recordedDocument.Hash] = pageContents.pageContents()
+		}
+	}
+
+	return pageContentsPerDocument
 }
 
 func (recorded recordedFoundDocument) metadataReplicas() []queryfindings.MetadataReplica {

@@ -27,10 +27,7 @@ zero. The gate logs the spam documents in each first ten.
 Run each step from `services/yacydhtsearch`. The steps come in this order: a
 recording gives the findings, a capture gives the pages, and the derivation
 gives the contents of the pages to the findings and the judgments.
-
-The `pages/` directory is a git submodule, and the gate does not read it. Run
-`git submodule update --init` before a step writes or reads the pages, and
-commit a change to them in the submodule first.
+`judged-query-pages.md` tells where the pages are and how to capture them.
 
 The recorder asks the live freeworld network and reads the pages of the first
 fifty documents from the web. It needs egress and writes every file again. A
@@ -41,14 +38,6 @@ languages. The recorder asks the peers in it, and the findings file keeps it.
 ```sh
 YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test -timeout 40m -v \
     -run TestRecordWhatThePeersAnswerForTheJudgedQueries ./test/judgedqueries/
-```
-
-The capture reads from the web the page of each document a judgments file
-names, and writes the pages file of every query again. It needs egress.
-
-```sh
-YACYDHTSEARCH_CAPTURE_JUDGED_QUERY_PAGES=1 go test -timeout 40m -v \
-    -run TestCaptureThePagesOfTheJudgedQueries ./test/judgedqueries/
 ```
 
 The derivation writes from the stored page the title, the snippet, the hits,

@@ -2,8 +2,12 @@ package judgedqueries_test
 
 import (
 	"bytes"
+	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestThePagesOfAWARCReadBackWhatWasWrittenIntoIt(t *testing.T) {
@@ -42,6 +46,58 @@ func TestThePagesOfAWARCReadBackWhatWasWrittenIntoIt(t *testing.T) {
 				len(writtenPages[place].body),
 			)
 		}
+	}
+}
+
+func TestPagesAppendedToAPagesFileReadBackAfterTheEarlierOnesThatStayAsTheyWere(t *testing.T) {
+	t.Parallel()
+
+	path := filepath.Join(t.TempDir(), "query"+storedPagesFileSuffix)
+	earlierPage := storedPage{
+		address: "https://example.org/earlier", contentType: "text/html", body: []byte("earlier"),
+	}
+	appendedPage := storedPage{
+		address: "https://example.org/appended", contentType: "text/html", body: []byte("appended"),
+	}
+	writeZstandardFixtureFile(t, path, warcOf(t, []storedPage{earlierPage}))
+	earlierFile, err := os.ReadFile(path) //nolint:gosec // a path of the test's own directory
+	if err != nil {
+		t.Fatalf("read %s: %v", path, err)
+	}
+
+	appendZstandardFrameTo(t, path, warcOf(t, []storedPage{appendedPage}))
+
+	appendedFile, err := os.ReadFile(path) //nolint:gosec // a path of the test's own directory
+	if err != nil {
+		t.Fatalf("read %s: %v", path, err)
+	}
+	if !bytes.HasPrefix(appendedFile, earlierFile) {
+		t.Fatalf("the pages file no longer starts with the bytes it held before the append")
+	}
+	readPages := pagesOfWARC(t, contentOfZstandardFixtureFile(t, path))
+	if len(readPages) != 2 || readPages[0].address != earlierPage.address ||
+		readPages[1].address != appendedPage.address ||
+		!bytes.Equal(readPages[1].body, appendedPage.body) {
+		t.Fatalf("the pages file holds %+v, want the earlier page and then the appended one",
+			readPages)
+	}
+}
+
+func TestAPageOfAWARCReadsBackWhenAndByWhatItWasCapturedAndItsStatus(t *testing.T) {
+	t.Parallel()
+
+	capturedAt := time.Date(2026, 10, 7, 12, 30, 0, 0, time.UTC)
+	writtenPage := storedPage{
+		address: "https://example.org/refused", contentType: "text/html", body: []byte("page"),
+		capturedAt: capturedAt, capturedBy: "4play Firefox/152.0", status: http.StatusNotFound,
+	}
+
+	readPages := pagesOfWARC(t, warcOf(t, []storedPage{writtenPage}))
+
+	if len(readPages) != 1 || !readPages[0].capturedAt.Equal(capturedAt) ||
+		readPages[0].capturedBy != writtenPage.capturedBy || readPages[0].status != http.StatusNotFound {
+		t.Fatalf("the warc holds %+v, want the page captured at %v by %q with the status 404",
+			readPages, capturedAt, writtenPage.capturedBy)
 	}
 }
 

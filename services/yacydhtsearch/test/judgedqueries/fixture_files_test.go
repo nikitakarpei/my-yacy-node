@@ -89,6 +89,18 @@ func writeZstandardFixtureFile(t *testing.T, path string, content []byte) {
 	if err := os.MkdirAll(filepath.Dir(path), fixtureDirPermissions); err != nil {
 		t.Fatalf("write %s: %v", path, err)
 	}
+	if err := os.WriteFile(
+		path,
+		zstandardFrameOf(t, path, content),
+		fixtureFilePermissions,
+	); err != nil {
+		t.Fatalf("write %s: %v", path, err)
+	}
+}
+
+func zstandardFrameOf(t *testing.T, path string, content []byte) []byte {
+	t.Helper()
+
 	var compressed bytes.Buffer
 	compressing, err := zstd.NewWriter(
 		&compressed, zstd.WithEncoderLevel(zstd.SpeedBestCompression),
@@ -102,8 +114,24 @@ func writeZstandardFixtureFile(t *testing.T, path string, content []byte) {
 	if err := compressing.Close(); err != nil {
 		t.Fatalf("write %s: %v", path, err)
 	}
-	if err := os.WriteFile(path, compressed.Bytes(), fixtureFilePermissions); err != nil {
-		t.Fatalf("write %s: %v", path, err)
+
+	return compressed.Bytes()
+}
+
+func appendZstandardFrameTo(t *testing.T, path string, content []byte) {
+	t.Helper()
+
+	fixtureFile, err := os.OpenFile( //nolint:gosec // a fixture path of this test directory
+		path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, fixtureFilePermissions,
+	)
+	if err != nil {
+		t.Fatalf("append to %s: %v", path, err)
+	}
+	if _, err := fixtureFile.Write(zstandardFrameOf(t, path, content)); err != nil {
+		t.Fatalf("append to %s: %v", path, err)
+	}
+	if err := fixtureFile.Close(); err != nil {
+		t.Fatalf("append to %s: %v", path, err)
 	}
 }
 
