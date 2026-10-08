@@ -27,7 +27,14 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 
 	egressproxy.Start(t, ctx, network.Name)
 
-	yacyContainer, yacyURL := yacypeer.Start(t, ctx, probe, network.Name, transferYaCyAlias)
+	yacyContainer, yacyURL := yacypeer.Start(
+		t,
+		ctx,
+		probe,
+		network.Name,
+		transferYaCyAlias,
+		yacypeer.DHTDistributionOverrides()...,
+	)
 
 	yacyHash := peerclient.ResolveHash(t, ctx, probe, yacyURL)
 
@@ -67,7 +74,18 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 		90*time.Second,
 	)
 
-	received := pollwait.For(180*time.Second, func() bool {
+	waitFleetReceivesRWIs(t, ctx, probe, fleet, 180*time.Second)
+}
+
+func waitFleetReceivesRWIs(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	fleet []nodepeer.Peer,
+	timeout time.Duration,
+) {
+	t.Helper()
+	received := pollwait.For(timeout, func() bool {
 		for _, node := range fleet {
 			rwiCount, rwiOK := peerclient.QueryCount(
 				ctx,

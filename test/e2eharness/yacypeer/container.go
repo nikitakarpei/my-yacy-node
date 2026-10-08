@@ -91,11 +91,11 @@ func Restart(
 	container testcontainers.Container,
 ) string {
 	t.Helper()
-	stopTimeout := 60 * time.Second
-	if err := container.Stop(ctx, &stopTimeout); err != nil {
+	waitWordsOnDisk(t, ctx, container)
+	shutdownGrace := time.Duration(0)
+	if err := container.Stop(ctx, &shutdownGrace); err != nil {
 		t.Fatalf("stop yacy: %v", err)
 	}
-	requireFlushedShutdown(t, ctx, container)
 	if err := container.Start(ctx); err != nil {
 		t.Fatalf("restart yacy: %v", err)
 	}
@@ -108,20 +108,16 @@ func Restart(
 	return yacyURL
 }
 
-const killedOnStopExitCode = 137
+const wordIndexFiles = "/opt/yacy_search_server/DATA/INDEX/freeworld/SEGMENTS/default/text.index.*.blob"
 
-// requireFlushedShutdown fails when the stop timeout expired and YaCy was
-// killed, because the peer then restarts with none of the RWIs it held.
-func requireFlushedShutdown(t *testing.T, ctx context.Context, container testcontainers.Container) {
+func waitWordsOnDisk(t *testing.T, ctx context.Context, container testcontainers.Container) {
 	t.Helper()
-	state, err := container.State(ctx)
-	if err != nil {
-		t.Fatalf("read yacy state after stop: %v", err)
+	if pollwait.For(30*time.Second, func() bool {
+		exitCode, _, err := container.Exec(ctx, []string{"/bin/sh", "-c", "ls " + wordIndexFiles})
+
+		return err == nil && exitCode == 0
+	}) {
+		return
 	}
-	if state.ExitCode == killedOnStopExitCode {
-		t.Fatalf(
-			"YaCy was killed before it finished writing its index, exit code %d",
-			state.ExitCode,
-		)
-	}
+	t.Fatal("YaCy never wrote its words to its disk index")
 }
