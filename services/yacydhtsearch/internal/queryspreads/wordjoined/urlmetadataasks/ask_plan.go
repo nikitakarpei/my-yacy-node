@@ -38,12 +38,22 @@ func (plan *askPlan) holdersChosenAmong(
 		holders,
 		func(holder peerdirectory.AskablePeer) bool { return plan.spaceOfEachPeer[holder.Hash] == 0 },
 	)
-	slices.SortFunc(holdersWithSpace, plan.mostSpaceFirst)
+	slices.SortFunc(holdersWithSpace, plan.plannedThenMostSpaceFirst)
 
 	return holdersWithSpace[:min(plan.asksPerDocument, len(holdersWithSpace))]
 }
 
-func (plan *askPlan) mostSpaceFirst(first, second peerdirectory.AskablePeer) int {
+func (plan *askPlan) plannedThenMostSpaceFirst(first, second peerdirectory.AskablePeer) int {
+	_, firstPlanned := plan.plannedAskOfEachPeer[first.Hash]
+	_, secondPlanned := plan.plannedAskOfEachPeer[second.Hash]
+	if firstPlanned != secondPlanned {
+		if firstPlanned {
+			return -1
+		}
+
+		return 1
+	}
+
 	return cmp.Or(
 		cmp.Compare(plan.spaceOfEachPeer[second.Hash], plan.spaceOfEachPeer[first.Hash]),
 		strings.Compare(first.Hash.String(), second.Hash.String()),

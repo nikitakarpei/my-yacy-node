@@ -533,6 +533,30 @@ func TestADocumentIsAskedFromTheHolderWithTheHigherCeiling(t *testing.T) {
 	}
 }
 
+func TestAJoinGivesADocumentToAHolderItAlreadyAsks(t *testing.T) {
+	t.Parallel()
+
+	documents := documentsOf(t, "joined", 6)
+	peers := peersWhere(nil, nil)
+	asked := askedPeersOf(peers)
+	asked.asksPerDocument = 1
+
+	asked.settledFor(t.Context(), answersOf(
+		peerAbstract{address: "first", documents: documents[:2]},
+		peerAbstract{address: "second", documents: documents[1:4]},
+		peerAbstract{address: "third", documents: documents[2:]},
+	))
+
+	askedAddresses := make([]string, 0, len(peers.asks))
+	for _, ask := range peers.asks {
+		askedAddresses = append(askedAddresses, ask.Peer.Address)
+	}
+	slices.Sort(askedAddresses)
+	if want := []string{"first", "third"}; !slices.Equal(askedAddresses, want) {
+		t.Fatalf("the peers were asked %v, want only the asks of %v", peers.asks, want)
+	}
+}
+
 func TestEveryPeerHoldingADocumentNoOtherPeerHoldsIsAsked(t *testing.T) {
 	t.Parallel()
 
