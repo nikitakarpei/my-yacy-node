@@ -63,7 +63,7 @@ func New(
 		askDocuments: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_word_joined_spread_url_metadata_ask_documents",
 			Help:    "Documents one URL metadata ask names, per ask sent.",
-			Buckets: []float64{25, 50, 100, 200, 400, 700, 1000},
+			Buckets: []float64{1, 2, 5, 10, 25, 50, 100, 200, 400, 700, 1000},
 		}),
 		timeToFirstAskSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds",
