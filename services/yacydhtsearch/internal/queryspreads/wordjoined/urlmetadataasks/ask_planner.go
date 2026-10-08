@@ -20,7 +20,6 @@ func (planner askPlanner) asksFor(
 ) []peerasks.URLMetadataAsk {
 	plan := askPlanFrom(
 		planner.ceilingOfEachPeerAmong(ctx, holders.Peers()),
-		holders.AmountOfDocumentsOfEachPeer(),
 		planner.asksPerDocument,
 	)
 	for _, document := range holders.LeastHeldFirst() {

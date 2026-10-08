@@ -61,7 +61,7 @@ func (lookup *Lookup) settleUntilEndAsked() {
 }
 
 func (lookup *Lookup) ask(holders documentholders.Holders) {
-	lookup.run.give(holders.MostHeldFirst())
+	lookup.run.give(holders.LeastHeldFirst())
 	asks := lookup.askPlanner.asksFor(lookup.asksContext, holders)
 	if len(asks) == 0 {
 		return

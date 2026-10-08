@@ -79,26 +79,19 @@ func (holders Holders) WithoutMetadataAmong(documents yacymodel.URLHashes) yacym
 	return documentsWithoutMetadata
 }
 
-func (holders Holders) MostHeldFirst() []yacymodel.URLHash {
+func (holders Holders) LeastHeldFirst() []yacymodel.URLHash {
 	return slices.SortedFunc(
 		maps.Keys(holders.peersPerDocument),
 		func(first, second yacymodel.URLHash) int {
 			amountOfHoldersOfFirst := len(holders.peersPerDocument[first])
 			amountOfHoldersOfSecond := len(holders.peersPerDocument[second])
 			if amountOfHoldersOfFirst != amountOfHoldersOfSecond {
-				return cmp.Compare(amountOfHoldersOfSecond, amountOfHoldersOfFirst)
+				return cmp.Compare(amountOfHoldersOfFirst, amountOfHoldersOfSecond)
 			}
 
 			return strings.Compare(first.String(), second.String())
 		},
 	)
-}
-
-func (holders Holders) LeastHeldFirst() []yacymodel.URLHash {
-	documentsLeastHeldFirst := holders.MostHeldFirst()
-	slices.Reverse(documentsLeastHeldFirst)
-
-	return documentsLeastHeldFirst
 }
 
 func (holders Holders) PeersHolding(document yacymodel.URLHash) []peerdirectory.AskablePeer {
@@ -114,15 +107,4 @@ func (holders Holders) Peers() []peerdirectory.AskablePeer {
 	}
 
 	return slices.Collect(maps.Values(peerOfEachHash))
-}
-
-func (holders Holders) AmountOfDocumentsOfEachPeer() map[yacymodel.Hash]int {
-	amountOfDocumentsOfEachPeer := map[yacymodel.Hash]int{}
-	for _, peersOfTheDocument := range holders.peersPerDocument {
-		for _, peer := range peersOfTheDocument {
-			amountOfDocumentsOfEachPeer[peer.Hash]++
-		}
-	}
-
-	return amountOfDocumentsOfEachPeer
 }
