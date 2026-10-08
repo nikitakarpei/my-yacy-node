@@ -215,6 +215,7 @@ E2E_CONTAINER_CLI := $(shell command -v docker >/dev/null 2>&1 && echo docker ||
 E2E_RUNTIME_DIR := $(or $(XDG_RUNTIME_DIR),/run/user/$(shell id -u))
 E2E_DOCKER_HOST := $(or $(DOCKER_HOST),unix://$(E2E_RUNTIME_DIR)/podman/podman.sock)
 E2E_DOCKER_ENV := DOCKER_HOST=$(E2E_DOCKER_HOST) TESTCONTAINERS_RYUK_DISABLED=true
+E2E_SEARXNG_ENV := SEARXNG_IMAGE=$(shell cat plugins/searxng/supported-image)
 
 # Modules that build a docker image for e2e testing, and the tag each produces.
 E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown visitcrawl renderproxy webarchivescrape webresearchmcp pagescrape yacydhtsearch
@@ -289,7 +290,7 @@ define e2e_suite_rule
 .PHONY: e2e-$(1)
 e2e-$(1): $$(TOOLS_STAMP) $$(call e2e_suite_image_targets,$(1))
 	@echo "==> e2e-$(1)"; \
-	if ! out=$$$$(cd $$(or $$(E2E_SUITE_DIR_$(1)),$$(E2E_PATH_$(1))/test/e2e) && GOWORK=off $$(E2E_DOCKER_ENV) $$(call e2e_suite_image_env,$(1)) \
+	if ! out=$$$$(cd $$(or $$(E2E_SUITE_DIR_$(1)),$$(E2E_PATH_$(1))/test/e2e) && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_SEARXNG_ENV) $$(call e2e_suite_image_env,$(1)) \
 		$$(GO) test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./... 2>&1); then \
 		echo "==> e2e-$(1) FAILED"; echo "$$$$out"; exit 1; \
 	fi

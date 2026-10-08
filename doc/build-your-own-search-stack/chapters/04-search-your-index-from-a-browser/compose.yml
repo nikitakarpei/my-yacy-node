@@ -1,3 +1,5 @@
+x-searxng-image: &searxng-image ghcr.io/nikitakarpei/my-yacy-node/searxng:latest
+
 services:
   smokescreen:
     image: ghcr.io/nikitakarpei/my-yacy-node/smokescreen:latest
@@ -80,10 +82,10 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   searxng-engines-seed:
-    image: docker.io/searxng/searxng:2026.7.5-a6438586a
-    entrypoint: ["true"]
+    image: *searxng-image
+    entrypoint: ["sh", "-c", "rm -rf /engines/* && cp -a /usr/local/searxng/searx/engines/. /engines/"]
     volumes:
-      - searxng-engines:/usr/local/searxng/searx/engines
+      - searxng-engines:/engines
 
   searxng-crawled-text-search-init:
     image: ghcr.io/nikitakarpei/my-yacy-node/searxng-crawled-text-search:latest
@@ -95,7 +97,7 @@ services:
       - searxng-engines:/engines
 
   searxng:
-    image: docker.io/searxng/searxng:2026.7.5-a6438586a
+    image: *searxng-image
     restart: unless-stopped
     depends_on:
       searxng-crawled-text-search-init:
