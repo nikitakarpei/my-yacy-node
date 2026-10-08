@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/renderproxy
+  IMAGE_NAME: ${{ github.repository }}/renderproxy
 
 jobs:
   build-and-sign:

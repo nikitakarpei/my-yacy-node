@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/visitcrawl
+  IMAGE_NAME: ${{ github.repository }}/visitcrawl
 
 jobs:
   build-and-sign:

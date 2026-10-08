@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/webresearchmcp
+  IMAGE_NAME: ${{ github.repository }}/webresearchmcp
 
 jobs:
   build-and-sign:

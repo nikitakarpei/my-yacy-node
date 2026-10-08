@@ -1,6 +1,6 @@
 services:
   smokescreen:
-    image: ghcr.io/nikitakarpei/smokescreen:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/smokescreen:latest
     restart: unless-stopped
     command: ["--listen-ip", "0.0.0.0"]
 
@@ -13,7 +13,7 @@ services:
       - nats-data:/data
 
   pagescrape:
-    image: ghcr.io/nikitakarpei/pagescrape:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/pagescrape:latest
     restart: unless-stopped
     depends_on:
       nats:
@@ -46,7 +46,7 @@ services:
     entrypoint: ["sh", "/relay-crawled-pages-as-scrape-requests.sh"]
 
   yacycrawler:
-    image: ghcr.io/nikitakarpei/yacycrawler:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacycrawler:latest
     restart: unless-stopped
     depends_on:
       pagescrape:
@@ -59,7 +59,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   yacy-rwi-node:
-    image: ghcr.io/nikitakarpei/yacynode:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest
     restart: unless-stopped
     depends_on:
       pagescrape:
@@ -89,7 +89,7 @@ services:
       - yacy-data:/data
 
   yacydhtsearch:
-    image: ghcr.io/nikitakarpei/yacydhtsearch:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacydhtsearch:latest
     restart: unless-stopped
     depends_on:
       smokescreen:

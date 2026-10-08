@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/corpusmarkdown
+  IMAGE_NAME: ${{ github.repository }}/corpusmarkdown
 
 jobs:
   build-and-sign:

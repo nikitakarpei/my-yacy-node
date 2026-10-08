@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/yacydhtsearch
+  IMAGE_NAME: ${{ github.repository }}/yacydhtsearch
 
 jobs:
   build-and-sign:
