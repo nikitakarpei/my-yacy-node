@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/localhostrunagent
+  IMAGE_NAME: ${{ github.repository }}/localhostrunagent
 
 jobs:
   build-and-sign:

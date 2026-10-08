@@ -9,12 +9,12 @@ x-yacy-seedlist-urls: &yacy-seedlist-urls >-
 
 services:
   smokescreen:
-    image: ghcr.io/nikitakarpei/smokescreen:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/smokescreen:latest
     restart: unless-stopped
     command: ["--listen-ip", "0.0.0.0"]
 
   yacy-rwi-node:
-    image: ghcr.io/nikitakarpei/yacynode:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest
     restart: unless-stopped
     depends_on:
       smokescreen:
@@ -34,7 +34,7 @@ services:
       - yacy-data:/data
 
   yacydhtsearch:
-    image: ghcr.io/nikitakarpei/yacydhtsearch:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacydhtsearch:latest
     restart: unless-stopped
     depends_on:
       smokescreen:

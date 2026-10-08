@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/corpustext
+  IMAGE_NAME: ${{ github.repository }}/corpustext
 
 jobs:
   build-and-sign:

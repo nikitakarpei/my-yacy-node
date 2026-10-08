@@ -1,11 +1,11 @@
 services:
   smokescreen:
-    image: ghcr.io/nikitakarpei/smokescreen:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/smokescreen:latest
     restart: unless-stopped
     command: ["--listen-ip", "0.0.0.0"]
 
   localhostrunagent:
-    image: ghcr.io/nikitakarpei/localhostrunagent:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/localhostrunagent:latest
     restart: unless-stopped
     read_only: true
     cap_drop:
@@ -30,7 +30,7 @@ services:
         ipv4_address: 172.29.94.10
 
   yacy-rwi-node:
-    image: ghcr.io/nikitakarpei/yacynode:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest
     restart: unless-stopped
     depends_on:
       localhostrunagent:

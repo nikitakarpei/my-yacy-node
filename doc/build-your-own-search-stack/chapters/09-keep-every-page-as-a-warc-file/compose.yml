@@ -1,6 +1,6 @@
 services:
   warcprox:
-    image: ghcr.io/nikitakarpei/warcprox:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/warcprox:latest
     restart: unless-stopped
     command:
       - "--address=0.0.0.0"
@@ -22,7 +22,7 @@ services:
       archive:
 
   warcprox-trust:
-    image: ghcr.io/nikitakarpei/warcprox:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/warcprox:latest
     depends_on:
       - warcprox
     volumes:
@@ -36,7 +36,7 @@ services:
         sed -n '/BEGIN CERTIFICATE/,/END CERTIFICATE/p' /ca/warcprox-ca.pem >> /trust/ca-certificates.crt
 
   smokescreen:
-    image: ghcr.io/nikitakarpei/smokescreen:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/smokescreen:latest
     restart: unless-stopped
     depends_on:
       - warcprox
@@ -73,7 +73,7 @@ services:
         ipv4_address: 10.99.1.11
 
   webarchivescrape:
-    image: ghcr.io/nikitakarpei/webarchivescrape:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/webarchivescrape:latest
     profiles:
       - console
     depends_on:
@@ -96,7 +96,7 @@ services:
       - nats-data:/data
 
   pagescrape:
-    image: ghcr.io/nikitakarpei/pagescrape:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/pagescrape:latest
     restart: unless-stopped
     depends_on:
       nats:
@@ -139,7 +139,7 @@ services:
       - "--obey-robots"
 
   renderproxy:
-    image: ghcr.io/nikitakarpei/renderproxy:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/renderproxy:latest
     restart: unless-stopped
     depends_on:
       - lightpanda
@@ -174,7 +174,7 @@ services:
     entrypoint: ["sh", "/relay-crawled-pages-as-scrape-requests.sh"]
 
   yacycrawler:
-    image: ghcr.io/nikitakarpei/yacycrawler:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacycrawler:latest
     restart: unless-stopped
     depends_on:
       pagescrape:
@@ -194,7 +194,7 @@ services:
       - manticore-data:/var/lib/manticore
 
   corpustext:
-    image: ghcr.io/nikitakarpei/corpustext:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/corpustext:latest
     restart: unless-stopped
     depends_on:
       pagescrape:
@@ -215,7 +215,7 @@ services:
       - searxng-engines:/usr/local/searxng/searx/engines
 
   searxng-crawled-text-search-init:
-    image: ghcr.io/nikitakarpei/searxng-crawled-text-search:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/searxng-crawled-text-search:latest
     depends_on:
       searxng-engines-seed:
         condition: service_completed_successfully
@@ -224,7 +224,7 @@ services:
       - searxng-engines:/engines
 
   visitcrawl:
-    image: ghcr.io/nikitakarpei/visitcrawl:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/visitcrawl:latest
     restart: unless-stopped
     depends_on:
       - nats
@@ -237,7 +237,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   searxng-result-router-init:
-    image: ghcr.io/nikitakarpei/searxng-result-router:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/searxng-result-router:latest
     command: ["/payload/result_link_router.py", "/plugins/result_link_router.py"]
     volumes:
       - searxng-plugins:/plugins
@@ -280,7 +280,7 @@ services:
       - caddy-config:/config
 
   yacy-rwi-node:
-    image: ghcr.io/nikitakarpei/yacynode:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest
     restart: unless-stopped
     depends_on:
       pagescrape:
@@ -312,7 +312,7 @@ services:
       - yacy-data:/data
 
   yacydhtsearch:
-    image: ghcr.io/nikitakarpei/yacydhtsearch:latest
+    image: ghcr.io/nikitakarpei/my-yacy-node/yacydhtsearch:latest
     restart: unless-stopped
     depends_on:
       smokescreen:
