@@ -250,7 +250,7 @@ func networkOver(
 func peerMatchedSpread(t *testing.T) peermatched.Spread {
 	t.Helper()
 
-	return peermatched.New(replicaAsks(t), peermatched.PeerMatchedSpreadObservers{})
+	return peermatched.New(wordPartitionAsks(t), peermatched.PeerMatchedSpreadObservers{})
 }
 
 func wordJoinedSpread(t *testing.T) wordjoined.Spread {
@@ -258,7 +258,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 
 	return wordjoined.New(
 		documentasks.New(
-			replicaAsks(t),
+			wordPartitionAsks(t),
 			ringPartitions(t),
 			documentsToMatchCeiling,
 			documentasks.DocumentAsksObservers{},
@@ -280,7 +280,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	)
 }
 
-func replicaAsks(t *testing.T) wordpartitionasks.Asks {
+func wordPartitionAsks(t *testing.T) wordpartitionasks.Asks {
 	t.Helper()
 
 	return wordpartitionasks.New(
@@ -291,7 +291,7 @@ func replicaAsks(t *testing.T) wordpartitionasks.Asks {
 		hedgedelaysconstant.New(hedgeDelay),
 		wallclock.Clock{},
 		replicasCoveringAPartition,
-		wordpartitionasks.ReplicaAsksObservers{},
+		wordpartitionasks.WordPartitionAsksObservers{},
 	)
 }
 

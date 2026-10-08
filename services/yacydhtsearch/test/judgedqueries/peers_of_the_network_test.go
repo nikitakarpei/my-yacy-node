@@ -148,7 +148,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
-		wordpartitionasks.ReplicaAsksObservers{},
+		wordpartitionasks.WordPartitionAsksObservers{},
 	)
 	everyReplicaOfThePeerMatchedSpread := wordpartitionasks.New(
 		replicacallsyacysearch.New(calledPeers, replicacallsyacysearch.Wants{
@@ -158,7 +158,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
-		wordpartitionasks.ReplicaAsksObservers{},
+		wordpartitionasks.WordPartitionAsksObservers{},
 	)
 
 	return spreadChoosingPeers{

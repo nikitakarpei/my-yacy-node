@@ -1,5 +1,5 @@
-// Package applog reports to the service log what the replica asks of one spread
-// put to the replicas of each word partition.
+// Package applog reports to the service log what the word partition asks of one
+// query put to the replicas of each word partition.
 package applog
 
 import (
@@ -9,35 +9,35 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
-const msgReplicaAsksPerformed = "replica asks performed"
+const msgWordPartitionAsksPerformed = "word partition asks performed"
 
-type ReplicaAsksLog struct{}
+type WordPartitionAsksLog struct{}
 
-func (ReplicaAsksLog) ReplicaAsksPerformed(
+func (WordPartitionAsksLog) WordPartitionAsksPerformed(
 	ctx context.Context,
-	replicaAsks wordpartitionasks.PerformedReplicaAsks,
+	wordPartitionAsks wordpartitionasks.PerformedWordPartitionAsks,
 ) {
 	slog.LogAttrs(
 		ctx,
 		slog.LevelDebug,
-		msgReplicaAsksPerformed,
-		slog.String("endedBy", string(replicaAsks.EndedBy)),
-		slog.Duration("timeSpent", replicaAsks.TimeSpent),
+		msgWordPartitionAsksPerformed,
+		slog.String("endedBy", string(wordPartitionAsks.EndedBy)),
+		slog.Duration("timeSpent", wordPartitionAsks.TimeSpent),
 		slog.Any(
 			"amountOfWordPartitionsPerSettledBy",
-			amountOfWordPartitionsPerSettledBy(replicaAsks.WordPartitions),
+			amountOfWordPartitionsPerSettledBy(wordPartitionAsks.WordPartitions),
 		),
 		slog.Any(
 			"amountOfWordPartitionsCoveredPerAskPutOn",
-			amountOfWordPartitionsCoveredPerAskPutOn(replicaAsks.WordPartitions),
+			amountOfWordPartitionsCoveredPerAskPutOn(wordPartitionAsks.WordPartitions),
 		),
 		slog.Any(
 			"amountOfReplicaAsksPerPutOn",
-			amountOfReplicaAsksPerPutOn(replicaAsks.WordPartitions),
+			amountOfReplicaAsksPerPutOn(wordPartitionAsks.WordPartitions),
 		),
 		slog.Int(
 			"amountOfDocumentsListedAcrossWordPartitions",
-			amountOfDocumentsListedAcrossWordPartitions(replicaAsks.WordPartitions),
+			amountOfDocumentsListedAcrossWordPartitions(wordPartitionAsks.WordPartitions),
 		),
 	)
 }

@@ -1453,7 +1453,7 @@
     },
     {
       "id": 60,
-      "title": "Replica asks during a search",
+      "title": "Word partition asks during a search",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -1466,8 +1466,8 @@
     },
     {
       "id": 61,
-      "title": "How long the replica asks ended by coverage took",
-      "description": "From the first ask until every word partition is covered.",
+      "title": "How long the word partition asks of a query took, when no word partition hit the deadline",
+      "description": "Until every word partition settled.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1504,19 +1504,19 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p90"
         }
       ]
     },
     {
       "id": 69,
-      "title": "Share of replica asks ended by the deadline",
+      "title": "Share of queries where a word partition hit the deadline",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1546,7 +1546,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacydhtsearch_replica_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_replica_asks_duration_seconds_count{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "ended by the deadline"
         }
       ]

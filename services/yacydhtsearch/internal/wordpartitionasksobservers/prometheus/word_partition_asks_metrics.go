@@ -1,7 +1,7 @@
-// Package prometheus reports as metrics how long the replica asks of one spread
-// took, what settled each word partition and what put the ask that covered it,
-// what put each ask to a replica, and how many documents a settled word
-// partition listed.
+// Package prometheus reports as metrics how long the word partition asks of one
+// query took, what settled each word partition and what put the ask that
+// covered it, what put each ask to a replica, and how many documents a settled
+// word partition listed.
 package prometheus
 
 import (
@@ -23,21 +23,21 @@ const (
 	amountOfDocumentsListedBuckets = 11
 )
 
-type ReplicaAsksMetrics struct {
-	replicaAsksDurationSecondsPerEndedBy map[wordpartitionasks.EndedBy]prometheusclient.Observer
-	wordPartitionsPerSettledBy           map[wordpartitionasks.SettledBy]map[wordpartitionasks.PutOn]prometheusclient.Counter
-	replicaAsksPerPutOn                  map[wordpartitionasks.PutOn]prometheusclient.Counter
-	wordPartitionDocumentsListed         prometheusclient.Histogram
+type WordPartitionAsksMetrics struct {
+	wordPartitionAsksDurationSecondsPerEndedBy map[wordpartitionasks.EndedBy]prometheusclient.Observer
+	wordPartitionsPerSettledBy                 map[wordpartitionasks.SettledBy]map[wordpartitionasks.PutOn]prometheusclient.Counter
+	replicaAsksPerPutOn                        map[wordpartitionasks.PutOn]prometheusclient.Counter
+	wordPartitionDocumentsListed               prometheusclient.Histogram
 }
 
 func New(
 	registry prometheusclient.Registerer,
 	queryBudget time.Duration,
-) *ReplicaAsksMetrics {
-	replicaAsksDurationSeconds := prometheusclient.NewHistogramVec(
+) *WordPartitionAsksMetrics {
+	wordPartitionAsksDurationSeconds := prometheusclient.NewHistogramVec(
 		prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_replica_asks_duration_seconds",
-			Help:    "Time the replica asks of one spread call took, by what ended them.",
+			Name:    "yacydhtsearch_word_partition_asks_duration_seconds",
+			Help:    "Time the word partition asks of one query took, by what ended them.",
 			Buckets: budgetbuckets.DurationBucketsFor(queryBudget),
 		},
 		[]string{labelEndedBy},
@@ -61,12 +61,12 @@ func New(
 		},
 	)
 	registry.MustRegister(
-		replicaAsksDurationSeconds, wordPartitions, replicaAsks, wordPartitionDocumentsListed,
+		wordPartitionAsksDurationSeconds, wordPartitions, replicaAsks, wordPartitionDocumentsListed,
 	)
 
-	return &ReplicaAsksMetrics{
-		replicaAsksDurationSecondsPerEndedBy: replicaAsksDurationSecondsPerEndedByFrom(
-			replicaAsksDurationSeconds,
+	return &WordPartitionAsksMetrics{
+		wordPartitionAsksDurationSecondsPerEndedBy: wordPartitionAsksDurationSecondsPerEndedByFrom(
+			wordPartitionAsksDurationSeconds,
 		),
 		wordPartitionsPerSettledBy:   wordPartitionsPerSettledByFrom(wordPartitions),
 		replicaAsksPerPutOn:          replicaAsksPerPutOnFrom(replicaAsks),
@@ -81,15 +81,15 @@ func bucketsFromNoneTo(ceiling float64, amountOfBuckets int) []float64 {
 	)
 }
 
-func replicaAsksDurationSecondsPerEndedByFrom(
-	replicaAsksDurationSeconds *prometheusclient.HistogramVec,
+func wordPartitionAsksDurationSecondsPerEndedByFrom(
+	wordPartitionAsksDurationSeconds *prometheusclient.HistogramVec,
 ) map[wordpartitionasks.EndedBy]prometheusclient.Observer {
 	//exhaustive:enforce
 	return map[wordpartitionasks.EndedBy]prometheusclient.Observer{
-		wordpartitionasks.EndedByCoverage: replicaAsksDurationSeconds.WithLabelValues(
-			string(wordpartitionasks.EndedByCoverage),
+		wordpartitionasks.EndedByEveryWordPartitionSettled: wordPartitionAsksDurationSeconds.WithLabelValues(
+			string(wordpartitionasks.EndedByEveryWordPartitionSettled),
 		),
-		wordpartitionasks.EndedByDeadline: replicaAsksDurationSeconds.WithLabelValues(
+		wordpartitionasks.EndedByDeadline: wordPartitionAsksDurationSeconds.WithLabelValues(
 			string(wordpartitionasks.EndedByDeadline),
 		),
 	}
@@ -151,19 +151,19 @@ func replicaAsksPerPutOnFrom(
 	}
 }
 
-func (m *ReplicaAsksMetrics) ReplicaAsksPerformed(
+func (m *WordPartitionAsksMetrics) WordPartitionAsksPerformed(
 	_ context.Context,
-	replicaAsks wordpartitionasks.PerformedReplicaAsks,
+	wordPartitionAsks wordpartitionasks.PerformedWordPartitionAsks,
 ) {
-	m.replicaAsksDurationSecondsPerEndedBy[replicaAsks.EndedBy].Observe(
-		replicaAsks.TimeSpent.Seconds(),
+	m.wordPartitionAsksDurationSecondsPerEndedBy[wordPartitionAsks.EndedBy].Observe(
+		wordPartitionAsks.TimeSpent.Seconds(),
 	)
-	for _, wordPartition := range replicaAsks.WordPartitions {
+	for _, wordPartition := range wordPartitionAsks.WordPartitions {
 		m.countWordPartition(wordPartition)
 	}
 }
 
-func (m *ReplicaAsksMetrics) countWordPartition(
+func (m *WordPartitionAsksMetrics) countWordPartition(
 	wordPartition wordpartitionasks.PerformedWordPartition,
 ) {
 	m.wordPartitionsPerSettledBy[wordPartition.SettledBy][wordPartition.CoveringAskPutOn].Inc()

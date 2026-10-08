@@ -281,11 +281,11 @@ func querySpreadFor(
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
 	hedgeDelay := hedgedelaysconstant.New(cfg.HedgeDelay)
-	replicaAsksObservers := wordpartitionasks.ReplicaAsksObservers{
-		wordpartitionasksobserversapplog.ReplicaAsksLog{},
+	wordPartitionAsksObservers := wordpartitionasks.WordPartitionAsksObservers{
+		wordpartitionasksobserversapplog.WordPartitionAsksLog{},
 		wordpartitionasksobserversprometheus.New(registry, cfg.QueryBudget),
 	}
-	wordJoinedReplicaAsks := wordpartitionasks.New(
+	wordJoinedWordPartitionAsks := wordpartitionasks.New(
 		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{
 			Abstract:                true,
 			MatchedDocumentsCeiling: yacymodel.Some(cfg.WordJoinedPeerItemsCeiling),
@@ -293,9 +293,9 @@ func querySpreadFor(
 		hedgeDelay,
 		wallclock.Clock{},
 		cfg.ReplicasCoveringAPartition,
-		replicaAsksObservers,
+		wordPartitionAsksObservers,
 	)
-	peerMatchedReplicaAsks := wordpartitionasks.New(
+	peerMatchedWordPartitionAsks := wordpartitionasks.New(
 		replicacallsyacysearch.New(peers, replicacallsyacysearch.Wants{
 			Abstract:                true,
 			MatchedDocumentsCeiling: yacymodel.Some(cfg.PeerMatchedPeerItemsCeiling),
@@ -303,13 +303,13 @@ func querySpreadFor(
 		hedgeDelay,
 		wallclock.Clock{},
 		cfg.ReplicasCoveringAPartition,
-		replicaAsksObservers,
+		wordPartitionAsksObservers,
 	)
 
 	return bywordcount.New(
 		wordjoined.New(
 			documentasks.New(
-				wordJoinedReplicaAsks,
+				wordJoinedWordPartitionAsks,
 				cfg.Partitions,
 				cfg.DocumentsToMatchCeiling,
 				documentasks.DocumentAsksObservers{
@@ -339,7 +339,7 @@ func querySpreadFor(
 			},
 		),
 		peermatched.New(
-			peerMatchedReplicaAsks,
+			peerMatchedWordPartitionAsks,
 			peermatched.PeerMatchedSpreadObservers{
 				queryspreadsobserverspeermatchedapplog.PeerMatchedSpreadLog{},
 				queryspreadsobserverspeermatchedprometheus.New(registry, cfg.QueryBudget),
