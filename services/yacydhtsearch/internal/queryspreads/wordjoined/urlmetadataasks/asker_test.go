@@ -17,9 +17,9 @@ import (
 )
 
 const (
-	askCeiling        = 20
-	networkRedundancy = 3
-	grace             = time.Minute
+	askCeiling      = 20
+	asksPerDocument = 2
+	grace           = time.Minute
 )
 
 var cutoffAtNinetyPercent = urlmetadataasks.Cutoff{PercentOfDocuments: 90, Grace: grace}
@@ -224,21 +224,21 @@ func (sent *metadataThePeersSent) PeerSentURLMetadata(
 }
 
 type askedPeers struct {
-	peers             *peersOfTheNetwork
-	ceilings          ceilingsOfThePeers
-	cutoff            urlmetadataasks.Cutoff
-	clock             *graceClock
-	networkRedundancy int
-	reports           *lookupReports
-	sentMetadata      *metadataThePeersSent
+	peers           *peersOfTheNetwork
+	ceilings        ceilingsOfThePeers
+	cutoff          urlmetadataasks.Cutoff
+	clock           *graceClock
+	asksPerDocument int
+	reports         *lookupReports
+	sentMetadata    *metadataThePeersSent
 }
 
 func askedPeersOf(peers *peersOfTheNetwork) askedPeers {
 	return askedPeers{
-		peers:             peers,
-		clock:             &graceClock{},
-		networkRedundancy: networkRedundancy,
-		reports:           &lookupReports{},
+		peers:           peers,
+		clock:           &graceClock{},
+		asksPerDocument: asksPerDocument,
+		reports:         &lookupReports{},
 		sentMetadata: &metadataThePeersSent{
 			metadataPerPeer: map[yacymodel.Hash][]yacymodel.URLMetadata{},
 			arrivals:        make(chan struct{}, amountOfArrivalsAFakeHolds),
@@ -252,7 +252,7 @@ func (asked askedPeers) lookupBegunIn(ctx context.Context) *urlmetadataasks.Look
 		asked.ceilings,
 		asked.cutoff,
 		asked.clock,
-		asked.networkRedundancy,
+		asked.asksPerDocument,
 		asked.reports,
 	).Begin(ctx, asked.sentMetadata)
 }
@@ -482,13 +482,13 @@ func TestAPeerTheCeilingLimitsIsAskedForTheLeastHeldDocuments(t *testing.T) {
 	}
 }
 
-func TestNoMorePeersAreAskedThanTheNetworkRedundancyAndTheyCoverEveryDocument(t *testing.T) {
+func TestTheFewestPeersNamingEachDocumentOnceAreAsked(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsOf(t, "joined", 2)
 	peers := peersWhere(nil, nil)
 	asked := askedPeersOf(peers)
-	asked.networkRedundancy = 2
+	asked.asksPerDocument = 1
 
 	asked.settledFor(t.Context(), answersOf(
 		peerAbstract{address: "first", documents: documents[:1]},
@@ -509,6 +509,42 @@ func TestNoMorePeersAreAskedThanTheNetworkRedundancyAndTheyCoverEveryDocument(t 
 	})
 	if len(peers.asks) != 2 || !slices.Equal(askedDocuments, documents) {
 		t.Fatalf("the peers were asked %v, want two asks covering %v", peers.asks, documents)
+	}
+}
+
+func TestNoDocumentIsAskedFromMorePeersThanTheAsksPerDocument(t *testing.T) {
+	t.Parallel()
+
+	documents := documentsOf(t, "joined", 1)
+	peers := peersWhere(nil, nil)
+
+	askedPeersOf(peers).settledFor(t.Context(), answersOf(
+		peerAbstract{address: "first", documents: documents},
+		peerAbstract{address: "second", documents: documents},
+		peerAbstract{address: "third", documents: documents},
+	))
+
+	if len(peers.asks) != asksPerDocument {
+		t.Fatalf("the peers were asked %v, want %d asks", peers.asks, asksPerDocument)
+	}
+}
+
+func TestEveryPeerHoldingADocumentNoOtherPeerHoldsIsAsked(t *testing.T) {
+	t.Parallel()
+
+	documents := documentsOf(t, "joined", 4)
+	peers := peersWhere(nil, nil)
+	asked := askedPeersOf(peers)
+
+	performed := asked.settledFor(t.Context(), answersOf(
+		peerAbstract{address: "first", documents: documents[:1]},
+		peerAbstract{address: "second", documents: documents[1:2]},
+		peerAbstract{address: "third", documents: documents[2:3]},
+		peerAbstract{address: "fourth", documents: documents[3:]},
+	))
+
+	if len(peers.asks) != 4 || performed.AmountOfDocumentsNotAsked != 0 {
+		t.Fatalf("the peers were asked %v, want four asks with no document left out", peers.asks)
 	}
 }
 
@@ -635,13 +671,13 @@ func TestTheAsksOfSeveralJoinsAreCutOffAGraceAfterMostOfTheirDocumentsSettled(t 
 	}
 }
 
-func TestNoMorePeersAreAskedForTheDocumentsOfOneJoinThanTheNetworkRedundancy(t *testing.T) {
+func TestEachJoinAsksTheFewestPeersNamingEachOfItsDocumentsOnce(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsOf(t, "joined", 2)
 	peers := peersWhere(nil, nil)
 	asked := askedPeersOf(peers)
-	asked.networkRedundancy = 1
+	asked.asksPerDocument = 1
 
 	performed := asked.settledFor(
 		t.Context(),

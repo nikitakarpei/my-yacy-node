@@ -10,8 +10,8 @@ import (
 )
 
 type askLimits struct {
-	ceilings          Ceilings
-	networkRedundancy int
+	ceilings        Ceilings
+	asksPerDocument int
 }
 
 func (limits askLimits) asksFor(
@@ -22,7 +22,7 @@ func (limits askLimits) asksFor(
 		ctx, holders.PeersWithTheirDocuments(), holders.MostHeldFirst(),
 	)
 
-	return asksCoveringMostDocuments(asksOfEachPeer, limits.networkRedundancy)
+	return limits.coveringAsksAmong(asksOfEachPeer)
 }
 
 func (limits askLimits) asksOfEachPeerAmong(
@@ -85,36 +85,41 @@ func chosenDocumentsAmong(
 	return heldDocumentsLeastHeldFirst[:askCeiling]
 }
 
-func asksCoveringMostDocuments(
+func (limits askLimits) coveringAsksAmong(
 	asks []peerasks.URLMetadataAsk,
-	networkRedundancy int,
 ) []peerasks.URLMetadataAsk {
-	if len(asks) <= networkRedundancy {
-		return asks
-	}
-
-	coveringAsks := make([]peerasks.URLMetadataAsk, 0, networkRedundancy)
-	coveredDocuments := yacymodel.URLHashes{}
-	for len(coveringAsks) < networkRedundancy {
-		place, found := placeOfMostCoveringAskAmong(asks, coveredDocuments)
+	chosenPlaces := map[int]struct{}{}
+	asksNamingEachDocument := map[yacymodel.URLHash]int{}
+	for {
+		place, found := limits.placeOfMostCoveringAskAmong(
+			asks,
+			chosenPlaces,
+			asksNamingEachDocument,
+		)
 		if !found {
-			break
+			return asksAt(asks, chosenPlaces)
 		}
-		coveringAsks = append(coveringAsks, asks[place])
-		coveredDocuments.AddEach(asks[place].Documents)
+		chosenPlaces[place] = struct{}{}
+		for _, document := range asks[place].Documents {
+			asksNamingEachDocument[document]++
+		}
 	}
-
-	return coveringAsks
 }
 
-func placeOfMostCoveringAskAmong(
+func (limits askLimits) placeOfMostCoveringAskAmong(
 	asks []peerasks.URLMetadataAsk,
-	coveredDocuments yacymodel.URLHashes,
+	chosenPlaces map[int]struct{},
+	asksNamingEachDocument map[yacymodel.URLHash]int,
 ) (int, bool) {
 	placeOfMostCoveringAsk := 0
 	mostUncoveredDocuments := 0
 	for place, ask := range asks {
-		amountOfUncoveredDocuments := amountOfDocumentsNotCovered(ask.Documents, coveredDocuments)
+		if _, chosen := chosenPlaces[place]; chosen {
+			continue
+		}
+		amountOfUncoveredDocuments := limits.amountOfDocumentsNotCovered(
+			ask.Documents, asksNamingEachDocument,
+		)
 		if amountOfUncoveredDocuments > mostUncoveredDocuments {
 			placeOfMostCoveringAsk = place
 			mostUncoveredDocuments = amountOfUncoveredDocuments
@@ -124,17 +129,29 @@ func placeOfMostCoveringAskAmong(
 	return placeOfMostCoveringAsk, mostUncoveredDocuments > 0
 }
 
-func amountOfDocumentsNotCovered(
+func (limits askLimits) amountOfDocumentsNotCovered(
 	documents []yacymodel.URLHash,
-	coveredDocuments yacymodel.URLHashes,
+	asksNamingEachDocument map[yacymodel.URLHash]int,
 ) int {
 	amount := 0
 	for _, document := range documents {
-		if coveredDocuments.Contains(document) {
+		if asksNamingEachDocument[document] >= limits.asksPerDocument {
 			continue
 		}
 		amount++
 	}
 
 	return amount
+}
+
+func asksAt(asks []peerasks.URLMetadataAsk, places map[int]struct{}) []peerasks.URLMetadataAsk {
+	asksAtThePlaces := make([]peerasks.URLMetadataAsk, 0, len(places))
+	for place, ask := range asks {
+		if _, kept := places[place]; !kept {
+			continue
+		}
+		asksAtThePlaces = append(asksAtThePlaces, ask)
+	}
+
+	return asksAtThePlaces
 }

@@ -324,7 +324,7 @@ func querySpreadFor(
 				urlMetadataAskCeilings,
 				cfg.URLMetadataLookupCutoff,
 				wallclock.Clock{},
-				cfg.NetworkRedundancy,
+				cfg.URLMetadataAsksPerDocument,
 				urlmetadataasks.URLMetadataLookupObservers{
 					queryspreadsobserverswordjoinedurlmetadataasksapplog.URLMetadataLookupLog{},
 					queryspreadsobserverswordjoinedurlmetadataasksprometheus.New(

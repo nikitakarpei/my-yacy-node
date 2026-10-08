@@ -36,18 +36,19 @@ import (
 )
 
 const (
-	networkName              = "freeworld"
-	responseLimit            = 1 << 20
-	peerCallsInFlight        = 48
-	urlMetadataCallBudget    = 3 * time.Second
-	searchCallBudget         = 3 * time.Second
-	queryBudget              = 5 * time.Second
-	peerResults              = 10
-	directoryLimit           = 64
-	recordCeiling            = 50
-	compoundWordsCeiling     = 4
-	pagesReadPerQueryCeiling = 50
-	pagesReadPerSiteCeiling  = pagesReadPerQueryCeiling
+	urlMetadataAsksPerDocument = 2
+	networkName                = "freeworld"
+	responseLimit              = 1 << 20
+	peerCallsInFlight          = 48
+	urlMetadataCallBudget      = 3 * time.Second
+	searchCallBudget           = 3 * time.Second
+	queryBudget                = 5 * time.Second
+	peerResults                = 10
+	directoryLimit             = 64
+	recordCeiling              = 50
+	compoundWordsCeiling       = 4
+	pagesReadPerQueryCeiling   = 50
+	pagesReadPerSiteCeiling    = pagesReadPerQueryCeiling
 
 	networkRedundancy          = 2
 	replicasCoveringAPartition = networkRedundancy
@@ -271,7 +272,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 			urlMetadataAskCeilingsAtTheMost(recordCeiling),
 			urlmetadataasks.Cutoff{},
 			wallclock.Clock{},
-			networkRedundancy,
+			urlMetadataAsksPerDocument,
 			urlmetadataasks.URLMetadataLookupObservers{},
 		),
 		ringPartitions(t),

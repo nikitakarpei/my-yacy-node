@@ -51,6 +51,7 @@ const (
 	EnvURLMetadataAskDocumentsCeiling   = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_CEILING"
 	EnvURLMetadataAskDocumentsFloor     = "YACYDHTSEARCH_URL_METADATA_ASK_DOCUMENTS_FLOOR"
 	EnvURLMetadataAskTargetTime         = "YACYDHTSEARCH_URL_METADATA_ASK_TARGET_TIME"
+	EnvURLMetadataAsksPerDocument       = "YACYDHTSEARCH_URL_METADATA_ASKS_PER_DOCUMENT"
 	EnvRankedItemsCeiling               = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL                          = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity             = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
@@ -97,6 +98,7 @@ const (
 	DefaultURLMetadataAskDocumentsCeiling   = 1000
 	DefaultURLMetadataAskDocumentsFloor     = 25
 	DefaultURLMetadataAskTargetTime         = time.Second
+	DefaultURLMetadataAsksPerDocument       = 2
 	DefaultRankedItemsCeiling               = 50
 	DefaultCompoundWordsCeiling             = 4
 	DefaultRankingCacheCapacity             = 1024
@@ -151,6 +153,7 @@ type ServiceConfig struct {
 	DocumentsToMatchCeiling          int
 	URLMetadataAskDocumentsCeiling   int
 	URLMetadataAskDocumentsFloor     int
+	URLMetadataAsksPerDocument       int
 	URLMetadataAskTargetTime         time.Duration
 	URLMetadataLookupCutoff          urlmetadataasks.Cutoff
 	RankedItemsCeiling               int
@@ -266,6 +269,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		DocumentsToMatchCeiling:        counts.documentsToMatchCeiling,
 		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
 		URLMetadataAskDocumentsFloor:   counts.urlMetadataAskDocumentsFloor,
+		URLMetadataAsksPerDocument:     counts.urlMetadataAsksPerDocument,
 		URLMetadataAskTargetTime:       durations.urlMetadataAskTargetTime,
 		URLMetadataLookupCutoff: urlmetadataasks.Cutoff{
 			PercentOfDocuments: counts.urlMetadataLookupCutoffPercent,
@@ -377,6 +381,7 @@ type configuredCounts struct {
 	documentsToMatchCeiling          int
 	urlMetadataAskDocumentsCeiling   int
 	urlMetadataAskDocumentsFloor     int
+	urlMetadataAsksPerDocument       int
 	rankedItemsCeiling               int
 	rankingCacheCapacity             int
 	queryWordDocumentAmountsCapacity int
@@ -406,6 +411,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvDocumentsToMatchCeiling, DefaultDocumentsToMatchCeiling, &counts.documentsToMatchCeiling},
 		{EnvURLMetadataAskDocumentsCeiling, DefaultURLMetadataAskDocumentsCeiling, &counts.urlMetadataAskDocumentsCeiling},
 		{EnvURLMetadataAskDocumentsFloor, DefaultURLMetadataAskDocumentsFloor, &counts.urlMetadataAskDocumentsFloor},
+		{EnvURLMetadataAsksPerDocument, DefaultURLMetadataAsksPerDocument, &counts.urlMetadataAsksPerDocument},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 		{EnvQueryWordDocumentAmountsCapacity, DefaultQueryWordDocumentAmountsCapacity, &counts.queryWordDocumentAmountsCapacity},

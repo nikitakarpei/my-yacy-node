@@ -29,9 +29,9 @@ const (
 	secondWord                      = "weather"
 	thirdWord                       = "rain"
 	urlMetadataAskDocumentsCeiling  = 10
+	urlMetadataAsksPerDocument      = 2
 	documentsOneURLMetadataAskNames = 1
 	documentsToMatchCeiling         = 10
-	networkRedundancy               = 3
 	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
@@ -465,8 +465,8 @@ type spreadSettings struct {
 	partitions                      yacymodel.DHTRingPartitions
 	documentsToMatchCeiling         int
 	urlMetadataAskDocumentsCeiling  int
+	urlMetadataAsksPerDocument      int
 	urlMetadataAskCeilingOfEachPeer map[string]int
-	networkRedundancy               int
 	queryWordDocumentAmounts        *rememberedQueryWordDocumentAmounts
 	growth                          *grownFindings
 }
@@ -544,7 +544,7 @@ func settingsOfOnePartition() spreadSettings {
 		partitions:                     onePartitionOfTheRing,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
-		networkRedundancy:              networkRedundancy,
+		urlMetadataAsksPerDocument:     urlMetadataAsksPerDocument,
 	}
 }
 
@@ -579,7 +579,7 @@ func (settings spreadSettings) spread(
 			},
 			urlmetadataasks.Cutoff{},
 			clockThatNeverFires{},
-			settings.networkRedundancy,
+			settings.urlMetadataAsksPerDocument,
 			observer,
 		),
 		settings.partitions,
@@ -1035,10 +1035,10 @@ func TestTheSpreadReportsTheWholeJoinAndTheLookupTheDocumentsItAskedMetadataFor(
 	}
 }
 
-func TestNoMorePeersAreAskedForTheMetadataOfOneJoinThanTheNetworkRedundancy(t *testing.T) {
+func TestTheMetadataOfOneJoinIsAskedFromTheFewestPeersNamingEachDocumentOnce(t *testing.T) {
 	t.Parallel()
 
-	const redundancyOfTheNetwork = 2
+	const amountOfCoveringPeers = 2
 
 	bothDocuments := []string{"https://first.example/", "https://second.example/"}
 	firstDocument, secondDocument := bothDocuments[:1], bothDocuments[1:]
@@ -1051,14 +1051,14 @@ func TestNoMorePeersAreAskedForTheMetadataOfOneJoinThanTheNetworkRedundancy(t *t
 
 	settings := settingsOfOnePartition()
 	settings.askablePeers = []string{"first", "second", "third", "fourth"}
-	settings.networkRedundancy = redundancyOfTheNetwork
+	settings.urlMetadataAsksPerDocument = 1
 	settings.spread(network, &recordedSpreads{})
 
-	if len(network.urlMetadataAsks) != redundancyOfTheNetwork {
+	if len(network.urlMetadataAsks) != amountOfCoveringPeers {
 		t.Fatalf(
 			"%d peers were asked for metadata, want %d",
 			len(network.urlMetadataAsks),
-			redundancyOfTheNetwork,
+			amountOfCoveringPeers,
 		)
 	}
 	wanted := documentHashesOf(bothDocuments)

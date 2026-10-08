@@ -33,6 +33,7 @@ import (
 )
 
 const (
+	urlMetadataAsksPerDocument     = 2
 	networkName                    = "freeworld"
 	partitionExponent              = 4
 	maxResponseBytes               = 4 * 1024 * 1024
@@ -181,7 +182,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 					urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
 					urlmetadataasks.Cutoff{},
 					wallclock.Clock{},
-					networkRedundancy,
+					urlMetadataAsksPerDocument,
 					urlmetadataasks.URLMetadataLookupObservers{},
 				),
 				partitions,

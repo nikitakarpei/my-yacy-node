@@ -47,12 +47,12 @@ func New(
 	ceilings Ceilings,
 	cutoff Cutoff,
 	clock Clock,
-	networkRedundancy int,
+	asksPerDocument int,
 	observer URLMetadataLookupObserver,
 ) Asker {
 	return Asker{
 		peerAsks:  peerAsks,
-		askLimits: askLimits{ceilings: ceilings, networkRedundancy: networkRedundancy},
+		askLimits: askLimits{ceilings: ceilings, asksPerDocument: asksPerDocument},
 		cutoff:    cutoff,
 		clock:     clock,
 		observer:  observer,
