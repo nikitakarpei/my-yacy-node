@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 env:
   SUPPORTED_IMAGE_FILE: plugins/searxng/supported-image
@@ -18,8 +19,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-        with:
-          token: ${{ secrets.SEARXNG_TRACKER_TOKEN }}
 
       - name: Find newest SearXNG image
         id: newest
@@ -36,7 +35,7 @@ jobs:
       - name: Open or update the version bump pull request
         if: steps.newest.outputs.tag != steps.newest.outputs.supported_tag
         env:
-          GH_TOKEN: ${{ secrets.SEARXNG_TRACKER_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           NEWEST_TAG: ${{ steps.newest.outputs.tag }}
           NEWEST_IMAGE: ${{ steps.newest.outputs.image }}
           SUPPORTED_TAG: ${{ steps.newest.outputs.supported_tag }}
