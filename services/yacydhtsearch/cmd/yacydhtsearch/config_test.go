@@ -100,8 +100,12 @@ func TestTheURLMetadataAskSizingFallsBackToItsDefaults(t *testing.T) {
 	if cfg.URLMetadataAskDocumentsFloor != main.DefaultURLMetadataAskDocumentsFloor ||
 		cfg.URLMetadataAskTargetTime != main.DefaultURLMetadataAskTargetTime ||
 		cfg.URLMetadataAsksPerDocument != main.DefaultURLMetadataAsksPerDocument {
-		t.Fatalf("URL metadata ask documents floor = %d and target time = %v, want the defaults",
-			cfg.URLMetadataAskDocumentsFloor, cfg.URLMetadataAskTargetTime)
+		t.Fatalf(
+			"URL metadata ask documents floor = %d, target time = %v and asks per document = %d, want the defaults",
+			cfg.URLMetadataAskDocumentsFloor,
+			cfg.URLMetadataAskTargetTime,
+			cfg.URLMetadataAsksPerDocument,
+		)
 	}
 }
 

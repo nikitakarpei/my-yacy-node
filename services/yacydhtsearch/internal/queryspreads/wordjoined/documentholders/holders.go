@@ -1,7 +1,7 @@
 // Package documentholders keeps which peers listed each document in their
 // answers and which documents came with metadata. The holders of some documents
-// tell which documents each peer listed and order the documents by how many
-// peers hold them.
+// name the peers that hold them and order the documents by how many peers hold
+// them.
 package documentholders
 
 import (
@@ -18,11 +18,6 @@ import (
 type Holders struct {
 	peersPerDocument      map[yacymodel.URLHash][]peerdirectory.AskablePeer
 	documentsWithMetadata yacymodel.URLHashes
-}
-
-type PeerWithItsDocuments struct {
-	Peer      peerdirectory.AskablePeer
-	Documents yacymodel.URLHashes
 }
 
 func NoneYet() Holders {
@@ -99,26 +94,35 @@ func (holders Holders) MostHeldFirst() []yacymodel.URLHash {
 	)
 }
 
-func (holders Holders) PeersWithTheirDocuments() []PeerWithItsDocuments {
-	peerWithItsDocumentsPerPeer := map[yacymodel.Hash]PeerWithItsDocuments{}
-	for document, peers := range holders.peersPerDocument {
-		for _, peer := range peers {
-			peerWithItsDocuments, known := peerWithItsDocumentsPerPeer[peer.Hash]
-			if !known {
-				peerWithItsDocuments = PeerWithItsDocuments{
-					Peer:      peer,
-					Documents: yacymodel.URLHashes{},
-				}
-				peerWithItsDocumentsPerPeer[peer.Hash] = peerWithItsDocuments
-			}
-			peerWithItsDocuments.Documents.Add(document)
+func (holders Holders) LeastHeldFirst() []yacymodel.URLHash {
+	documentsLeastHeldFirst := holders.MostHeldFirst()
+	slices.Reverse(documentsLeastHeldFirst)
+
+	return documentsLeastHeldFirst
+}
+
+func (holders Holders) PeersHolding(document yacymodel.URLHash) []peerdirectory.AskablePeer {
+	return slices.Clone(holders.peersPerDocument[document])
+}
+
+func (holders Holders) Peers() []peerdirectory.AskablePeer {
+	peerOfEachHash := map[yacymodel.Hash]peerdirectory.AskablePeer{}
+	for _, peersOfTheDocument := range holders.peersPerDocument {
+		for _, peer := range peersOfTheDocument {
+			peerOfEachHash[peer.Hash] = peer
 		}
 	}
 
-	return slices.SortedFunc(
-		maps.Values(peerWithItsDocumentsPerPeer),
-		func(first, second PeerWithItsDocuments) int {
-			return strings.Compare(first.Peer.Hash.String(), second.Peer.Hash.String())
-		},
-	)
+	return slices.Collect(maps.Values(peerOfEachHash))
+}
+
+func (holders Holders) AmountOfDocumentsOfEachPeer() map[yacymodel.Hash]int {
+	amountOfDocumentsOfEachPeer := map[yacymodel.Hash]int{}
+	for _, peersOfTheDocument := range holders.peersPerDocument {
+		for _, peer := range peersOfTheDocument {
+			amountOfDocumentsOfEachPeer[peer.Hash]++
+		}
+	}
+
+	return amountOfDocumentsOfEachPeer
 }

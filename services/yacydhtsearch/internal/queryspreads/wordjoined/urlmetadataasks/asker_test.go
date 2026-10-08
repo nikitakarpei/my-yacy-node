@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"slices"
-	"strings"
 	"testing"
 	"time"
 
@@ -482,50 +481,106 @@ func TestAPeerTheCeilingLimitsIsAskedForTheLeastHeldDocuments(t *testing.T) {
 	}
 }
 
-func TestTheFewestPeersNamingEachDocumentOnceAreAsked(t *testing.T) {
+func TestEachDocumentIsAskedFromAsManyPeersAsTheAsksPerDocument(t *testing.T) {
+	t.Parallel()
+
+	documents := documentsOf(t, "joined", 3)
+	peers := peersWhere(nil, nil)
+
+	askedPeersOf(peers).settledFor(t.Context(), answersOf(
+		peerAbstract{address: "first", documents: documents[:2]},
+		peerAbstract{address: "second", documents: documents[1:]},
+		peerAbstract{address: "third", documents: []yacymodel.URLHash{documents[0], documents[2]}},
+		peerAbstract{address: "fourth", documents: documents},
+	))
+
+	asksNamingEachDocument := map[yacymodel.URLHash]int{}
+	for _, ask := range peers.asks {
+		for _, document := range ask.Documents {
+			asksNamingEachDocument[document]++
+		}
+	}
+	for _, document := range documents {
+		if asksNamingEachDocument[document] != asksPerDocument {
+			t.Fatalf(
+				"the peers were asked %v, want each document in %d asks",
+				peers.asks,
+				asksPerDocument,
+			)
+		}
+	}
+}
+
+func TestAHolderAskedForOneDocumentIsAskedForTheOtherItHolds(t *testing.T) {
+	t.Parallel()
+
+	documents := documentsOf(t, "joined", 4)
+	heldByOne, heldByTwo, heldByThree := documents[:1], documents[1:2], documents[2:]
+	peers := peersWhere(nil, nil)
+	asked := askedPeersOf(peers)
+	asked.asksPerDocument = 1
+
+	asked.settledFor(t.Context(), answersOf(
+		peerAbstract{address: "first", documents: append(slices.Clone(heldByOne), heldByTwo...)},
+		peerAbstract{address: "second", documents: append(slices.Clone(heldByTwo), heldByThree...)},
+		peerAbstract{address: "third", documents: heldByThree},
+		peerAbstract{address: "fourth", documents: heldByThree},
+	))
+
+	got := map[string][]yacymodel.URLHash{}
+	for _, ask := range peers.asks {
+		got[ask.Peer.Address] = ask.Documents
+	}
+	if !slices.Contains(got["first"], heldByTwo[0]) {
+		t.Fatalf(
+			"the peers were asked for %v, want the first peer asked for both of its documents",
+			got,
+		)
+	}
+}
+
+func TestTheHolderOfMoreDocumentsIsAskedBeforeTheHolderWithTheHigherCeiling(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsOf(t, "joined", 2)
 	peers := peersWhere(nil, nil)
 	asked := askedPeersOf(peers)
 	asked.asksPerDocument = 1
+	asked.ceilings = ceilingsOfThePeers{ceilingOfEachPeer: map[string]int{"first": askCeiling / 2}}
 
 	asked.settledFor(t.Context(), answersOf(
-		peerAbstract{address: "first", documents: documents[:1]},
+		peerAbstract{address: "first", documents: documents},
 		peerAbstract{address: "second", documents: documents[:1]},
 		peerAbstract{address: "third", documents: documents[1:]},
-		peerAbstract{address: "fourth", documents: documents[1:]},
 	))
 
-	var askedDocuments []yacymodel.URLHash
-	for _, ask := range peers.asks {
-		askedDocuments = append(askedDocuments, ask.Documents...)
-	}
-	slices.SortFunc(askedDocuments, func(first, second yacymodel.URLHash) int {
-		return strings.Compare(first.String(), second.String())
-	})
-	slices.SortFunc(documents, func(first, second yacymodel.URLHash) int {
-		return strings.Compare(first.String(), second.String())
-	})
-	if len(peers.asks) != 2 || !slices.Equal(askedDocuments, documents) {
-		t.Fatalf("the peers were asked %v, want two asks covering %v", peers.asks, documents)
+	if len(peers.asks) != 1 || peers.asks[0].Peer.Address != "first" {
+		t.Fatalf(
+			"the peers were asked %v, want one ask of the holder of both documents",
+			peers.asks,
+		)
 	}
 }
 
-func TestNoDocumentIsAskedFromMorePeersThanTheAsksPerDocument(t *testing.T) {
+func TestADocumentIsAskedFromTheHolderWithTheHigherCeiling(t *testing.T) {
 	t.Parallel()
 
-	documents := documentsOf(t, "joined", 1)
+	document := documentsOf(t, "joined", 1)
 	peers := peersWhere(nil, nil)
+	asked := askedPeersOf(peers)
+	asked.asksPerDocument = 1
+	asked.ceilings = ceilingsOfThePeers{ceilingOfEachPeer: map[string]int{"first": askCeiling / 2}}
 
-	askedPeersOf(peers).settledFor(t.Context(), answersOf(
-		peerAbstract{address: "first", documents: documents},
-		peerAbstract{address: "second", documents: documents},
-		peerAbstract{address: "third", documents: documents},
+	asked.settledFor(t.Context(), answersOf(
+		peerAbstract{address: "first", documents: document},
+		peerAbstract{address: "second", documents: document},
 	))
 
-	if len(peers.asks) != asksPerDocument {
-		t.Fatalf("the peers were asked %v, want %d asks", peers.asks, asksPerDocument)
+	if len(peers.asks) != 1 || peers.asks[0].Peer.Address != "second" {
+		t.Fatalf(
+			"the peers were asked %v, want one ask of the peer with the higher ceiling",
+			peers.asks,
+		)
 	}
 }
 
@@ -671,7 +726,7 @@ func TestTheAsksOfSeveralJoinsAreCutOffAGraceAfterMostOfTheirDocumentsSettled(t 
 	}
 }
 
-func TestEachJoinAsksTheFewestPeersNamingEachOfItsDocumentsOnce(t *testing.T) {
+func TestEachJoinAsksOneHolderOfEachOfItsDocuments(t *testing.T) {
 	t.Parallel()
 
 	documents := documentsOf(t, "joined", 2)
@@ -693,7 +748,7 @@ func TestEachJoinAsksTheFewestPeersNamingEachOfItsDocumentsOnce(t *testing.T) {
 
 	if len(peers.asks) != 2 || performed.AmountOfLookedUpDocuments != 2 {
 		t.Fatalf(
-			"the peers were asked %v for %d documents, want one ask for each join covering both",
+			"the peers were asked %v for %d documents, want one ask for each join naming both",
 			peers.asks, performed.AmountOfLookedUpDocuments,
 		)
 	}

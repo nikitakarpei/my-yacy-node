@@ -1035,10 +1035,8 @@ func TestTheSpreadReportsTheWholeJoinAndTheLookupTheDocumentsItAskedMetadataFor(
 	}
 }
 
-func TestTheMetadataOfOneJoinIsAskedFromTheFewestPeersNamingEachDocumentOnce(t *testing.T) {
+func TestOneAskPerDocumentAsksOneHolderOfEachJoinedDocument(t *testing.T) {
 	t.Parallel()
-
-	const amountOfCoveringPeers = 2
 
 	bothDocuments := []string{"https://first.example/", "https://second.example/"}
 	firstDocument, secondDocument := bothDocuments[:1], bothDocuments[1:]
@@ -1054,11 +1052,12 @@ func TestTheMetadataOfOneJoinIsAskedFromTheFewestPeersNamingEachDocumentOnce(t *
 	settings.urlMetadataAsksPerDocument = 1
 	settings.spread(network, &recordedSpreads{})
 
-	if len(network.urlMetadataAsks) != amountOfCoveringPeers {
+	amountOfAskedPeers := len(bothDocuments)
+	if len(network.urlMetadataAsks) != amountOfAskedPeers {
 		t.Fatalf(
 			"%d peers were asked for metadata, want %d",
 			len(network.urlMetadataAsks),
-			amountOfCoveringPeers,
+			amountOfAskedPeers,
 		)
 	}
 	wanted := documentHashesOf(bothDocuments)

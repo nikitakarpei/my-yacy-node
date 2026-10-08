@@ -34,11 +34,11 @@ type Clock interface {
 }
 
 type Asker struct {
-	peerAsks  PeerAsks
-	askLimits askLimits
-	cutoff    Cutoff
-	clock     Clock
-	observer  URLMetadataLookupObserver
+	peerAsks   PeerAsks
+	askPlanner askPlanner
+	cutoff     Cutoff
+	clock      Clock
+	observer   URLMetadataLookupObserver
 }
 
 //nolint:revive // argument-limit: the asker takes each port it asks through and each setting
@@ -51,11 +51,11 @@ func New(
 	observer URLMetadataLookupObserver,
 ) Asker {
 	return Asker{
-		peerAsks:  peerAsks,
-		askLimits: askLimits{ceilings: ceilings, asksPerDocument: asksPerDocument},
-		cutoff:    cutoff,
-		clock:     clock,
-		observer:  observer,
+		peerAsks:   peerAsks,
+		askPlanner: askPlanner{ceilings: ceilings, asksPerDocument: asksPerDocument},
+		cutoff:     cutoff,
+		clock:      clock,
+		observer:   observer,
 	}
 }
 
@@ -64,7 +64,7 @@ func (asker Asker) Begin(ctx context.Context, recipient Recipient) *Lookup {
 	lookup := &Lookup{
 		ctx:          ctx,
 		peerAsks:     asker.peerAsks,
-		askLimits:    asker.askLimits,
+		askPlanner:   asker.askPlanner,
 		cutoff:       asker.cutoff,
 		clock:        asker.clock,
 		observer:     asker.observer,

@@ -153,8 +153,8 @@ type ServiceConfig struct {
 	DocumentsToMatchCeiling          int
 	URLMetadataAskDocumentsCeiling   int
 	URLMetadataAskDocumentsFloor     int
-	URLMetadataAsksPerDocument       int
 	URLMetadataAskTargetTime         time.Duration
+	URLMetadataAsksPerDocument       int
 	URLMetadataLookupCutoff          urlmetadataasks.Cutoff
 	RankedItemsCeiling               int
 	NATSURL                          string
@@ -269,8 +269,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		DocumentsToMatchCeiling:        counts.documentsToMatchCeiling,
 		URLMetadataAskDocumentsCeiling: counts.urlMetadataAskDocumentsCeiling,
 		URLMetadataAskDocumentsFloor:   counts.urlMetadataAskDocumentsFloor,
-		URLMetadataAsksPerDocument:     counts.urlMetadataAsksPerDocument,
 		URLMetadataAskTargetTime:       durations.urlMetadataAskTargetTime,
+		URLMetadataAsksPerDocument:     counts.urlMetadataAsksPerDocument,
 		URLMetadataLookupCutoff: urlmetadataasks.Cutoff{
 			PercentOfDocuments: counts.urlMetadataLookupCutoffPercent,
 			Grace:              durations.urlMetadataLookupCutoffGrace,
