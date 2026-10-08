@@ -13,17 +13,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 )
 
-type ReplicaAsks interface {
+type WordPartitionAsks interface {
 	Start(ctx context.Context) wordpartitionasks.Run
 }
 
 type Spread struct {
-	replicaAsks ReplicaAsks
-	observer    PeerMatchedSpreadObserver
+	wordPartitionAsks WordPartitionAsks
+	observer          PeerMatchedSpreadObserver
 }
 
-func New(replicaAsks ReplicaAsks, observer PeerMatchedSpreadObserver) Spread {
-	return Spread{replicaAsks: replicaAsks, observer: observer}
+func New(wordPartitionAsks WordPartitionAsks, observer PeerMatchedSpreadObserver) Spread {
+	return Spread{wordPartitionAsks: wordPartitionAsks, observer: observer}
 }
 
 func (spread Spread) SpreadOverPeers(
@@ -35,7 +35,7 @@ func (spread Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	asks := wordPartitionAsksFor(query, chosenPeersPerQueryWord)
-	run := spread.replicaAsks.Start(ctx)
+	run := spread.wordPartitionAsks.Start(ctx)
 	run.Asks <- asks
 	close(run.Asks)
 	settledAsks := noSettledAsksYet(query, growth)

@@ -29,9 +29,9 @@ const (
 	secondWord                      = "weather"
 	thirdWord                       = "rain"
 	urlMetadataAskDocumentsCeiling  = 10
+	urlMetadataAsksPerDocument      = 2
 	documentsOneURLMetadataAskNames = 1
 	documentsToMatchCeiling         = 10
-	networkRedundancy               = 3
 	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
 	twoPartitionsOfTheRing          = 2
@@ -466,7 +466,6 @@ type spreadSettings struct {
 	documentsToMatchCeiling         int
 	urlMetadataAskDocumentsCeiling  int
 	urlMetadataAskCeilingOfEachPeer map[string]int
-	networkRedundancy               int
 	queryWordDocumentAmounts        *rememberedQueryWordDocumentAmounts
 	growth                          *grownFindings
 }
@@ -544,7 +543,6 @@ func settingsOfOnePartition() spreadSettings {
 		partitions:                     onePartitionOfTheRing,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
-		networkRedundancy:              networkRedundancy,
 	}
 }
 
@@ -579,7 +577,7 @@ func (settings spreadSettings) spread(
 			},
 			urlmetadataasks.Cutoff{},
 			clockThatNeverFires{},
-			settings.networkRedundancy,
+			urlMetadataAsksPerDocument,
 			observer,
 		),
 		settings.partitions,
@@ -1032,42 +1030,6 @@ func TestTheSpreadReportsTheWholeJoinAndTheLookupTheDocumentsItAskedMetadataFor(
 			"the lookup reported %d documents back, want the one it asked metadata for",
 			lookup.AmountOfLookedUpDocumentsWithMetadata,
 		)
-	}
-}
-
-func TestNoMorePeersAreAskedForTheMetadataOfOneJoinThanTheNetworkRedundancy(t *testing.T) {
-	t.Parallel()
-
-	const redundancyOfTheNetwork = 2
-
-	bothDocuments := []string{"https://first.example/", "https://second.example/"}
-	firstDocument, secondDocument := bothDocuments[:1], bothDocuments[1:]
-	network := networkOf(map[string]map[string][]string{
-		"first":  {firstWord: firstDocument, secondWord: firstDocument},
-		"second": {firstWord: secondDocument, secondWord: secondDocument},
-		"third":  {firstWord: firstDocument, secondWord: firstDocument},
-		"fourth": {firstWord: secondDocument, secondWord: secondDocument},
-	})
-
-	settings := settingsOfOnePartition()
-	settings.askablePeers = []string{"first", "second", "third", "fourth"}
-	settings.networkRedundancy = redundancyOfTheNetwork
-	settings.spread(network, &recordedSpreads{})
-
-	if len(network.urlMetadataAsks) != redundancyOfTheNetwork {
-		t.Fatalf(
-			"%d peers were asked for metadata, want %d",
-			len(network.urlMetadataAsks),
-			redundancyOfTheNetwork,
-		)
-	}
-	wanted := documentHashesOf(bothDocuments)
-	got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks)
-	slices.SortFunc(wanted, func(first, second yacymodel.URLHash) int {
-		return strings.Compare(first.String(), second.String())
-	})
-	if !slices.Equal(got, wanted) {
-		t.Fatalf("asked about %v, want every joined document %v", got, wanted)
 	}
 }
 

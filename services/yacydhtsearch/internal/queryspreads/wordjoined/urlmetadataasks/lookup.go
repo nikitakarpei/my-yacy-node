@@ -10,7 +10,7 @@ import (
 type Lookup struct {
 	ctx                   context.Context
 	peerAsks              PeerAsks
-	askLimits             askLimits
+	askPlanner            askPlanner
 	cutoff                Cutoff
 	clock                 Clock
 	observer              URLMetadataLookupObserver
@@ -61,8 +61,8 @@ func (lookup *Lookup) settleUntilEndAsked() {
 }
 
 func (lookup *Lookup) ask(holders documentholders.Holders) {
-	lookup.run.give(holders.MostHeldFirst())
-	asks := lookup.askLimits.asksFor(lookup.asksContext, holders)
+	lookup.run.give(holders.LeastHeldFirst())
+	asks := lookup.askPlanner.asksFor(lookup.asksContext, holders)
 	if len(asks) == 0 {
 		return
 	}

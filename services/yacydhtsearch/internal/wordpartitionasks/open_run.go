@@ -6,7 +6,7 @@ import (
 )
 
 type openRun struct {
-	replicaAsks                     Asks
+	wordPartitionAsks               Asks
 	startedAt                       time.Time
 	asks                            <-chan []Ask
 	settledAsks                     chan<- SettledAsk
@@ -24,12 +24,12 @@ type wordPartitionKey struct {
 }
 
 func openRunOf(
-	replicaAsks Asks,
+	wordPartitionAsks Asks,
 	asks <-chan []Ask,
 	settledAsks chan<- SettledAsk,
 ) *openRun {
 	return &openRun{
-		replicaAsks:         replicaAsks,
+		wordPartitionAsks:   wordPartitionAsks,
 		startedAt:           time.Now(),
 		asks:                asks,
 		settledAsks:         settledAsks,
@@ -43,7 +43,7 @@ func (run *openRun) askUntilOver(ctx context.Context) {
 	for !run.isOver() {
 		run.takeTheNextEvent(ctx)
 	}
-	run.replicaAsks.reportPerformed(ctx, run.performedReplicaAsks())
+	run.wordPartitionAsks.reportPerformed(ctx, run.performedWordPartitionAsks())
 	close(run.settledAsks)
 }
 
@@ -89,7 +89,7 @@ func (run *openRun) wordPartitionsOf(asks []Ask) []*wordPartition {
 		run.wordPartitionKeys[key] = struct{}{}
 		addedWordPartitions = append(
 			addedWordPartitions,
-			wordPartitionOf(ask, run.replicaAsks, run.chosenPeers),
+			wordPartitionOf(ask, run.wordPartitionAsks, run.chosenPeers),
 		)
 	}
 	run.wordPartitions = append(run.wordPartitions, addedWordPartitions...)
@@ -130,7 +130,7 @@ func (run *openRun) nextSettledAsk() SettledAsk {
 	return run.settledAsksUnread[0]
 }
 
-func (run *openRun) performedReplicaAsks() PerformedReplicaAsks {
+func (run *openRun) performedWordPartitionAsks() PerformedWordPartitionAsks {
 	performedWordPartitions := make([]PerformedWordPartition, 0, len(run.wordPartitions))
 	for _, partition := range run.wordPartitions {
 		performedWordPartitions = append(
@@ -139,7 +139,7 @@ func (run *openRun) performedReplicaAsks() PerformedReplicaAsks {
 		)
 	}
 
-	return PerformedReplicaAsks{
+	return PerformedWordPartitionAsks{
 		EndedBy:        run.endedBy(),
 		TimeSpent:      time.Since(run.startedAt),
 		WordPartitions: performedWordPartitions,
@@ -153,5 +153,5 @@ func (run *openRun) endedBy() EndedBy {
 		}
 	}
 
-	return EndedByCoverage
+	return EndedByEveryWordPartitionSettled
 }

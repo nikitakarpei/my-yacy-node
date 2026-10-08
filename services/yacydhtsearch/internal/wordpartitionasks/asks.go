@@ -26,7 +26,7 @@ type Asks struct {
 	hedgeDelay                         HedgeDelay
 	clock                              Clock
 	amountOfReplicasCoveringAPartition int
-	observer                           ReplicaAsksObserver
+	observer                           WordPartitionAsksObserver
 }
 
 func New(
@@ -34,7 +34,7 @@ func New(
 	hedgeDelay HedgeDelay,
 	clock Clock,
 	amountOfReplicasCoveringAPartition int,
-	observer ReplicaAsksObserver,
+	observer WordPartitionAsksObserver,
 ) Asks {
 	return Asks{
 		replicaCalls:                       replicaCalls,
@@ -74,6 +74,6 @@ func (asks Asks) askTheReplica(
 	return asks.replicaCalls.Put(ctx, ask, replica)
 }
 
-func (asks Asks) reportPerformed(ctx context.Context, performed PerformedReplicaAsks) {
-	asks.observer.ReplicaAsksPerformed(ctx, performed)
+func (asks Asks) reportPerformed(ctx context.Context, performed PerformedWordPartitionAsks) {
+	asks.observer.WordPartitionAsksPerformed(ctx, performed)
 }

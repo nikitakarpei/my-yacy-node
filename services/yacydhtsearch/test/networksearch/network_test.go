@@ -36,18 +36,19 @@ import (
 )
 
 const (
-	networkName              = "freeworld"
-	responseLimit            = 1 << 20
-	peerCallsInFlight        = 48
-	urlMetadataCallBudget    = 3 * time.Second
-	searchCallBudget         = 3 * time.Second
-	queryBudget              = 5 * time.Second
-	peerResults              = 10
-	directoryLimit           = 64
-	recordCeiling            = 50
-	compoundWordsCeiling     = 4
-	pagesReadPerQueryCeiling = 50
-	pagesReadPerSiteCeiling  = pagesReadPerQueryCeiling
+	urlMetadataAsksPerDocument = 2
+	networkName                = "freeworld"
+	responseLimit              = 1 << 20
+	peerCallsInFlight          = 48
+	urlMetadataCallBudget      = 3 * time.Second
+	searchCallBudget           = 3 * time.Second
+	queryBudget                = 5 * time.Second
+	peerResults                = 10
+	directoryLimit             = 64
+	recordCeiling              = 50
+	compoundWordsCeiling       = 4
+	pagesReadPerQueryCeiling   = 50
+	pagesReadPerSiteCeiling    = pagesReadPerQueryCeiling
 
 	networkRedundancy          = 2
 	replicasCoveringAPartition = networkRedundancy
@@ -249,7 +250,7 @@ func networkOver(
 func peerMatchedSpread(t *testing.T) peermatched.Spread {
 	t.Helper()
 
-	return peermatched.New(replicaAsks(t), peermatched.PeerMatchedSpreadObservers{})
+	return peermatched.New(wordPartitionAsks(t), peermatched.PeerMatchedSpreadObservers{})
 }
 
 func wordJoinedSpread(t *testing.T) wordjoined.Spread {
@@ -257,7 +258,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 
 	return wordjoined.New(
 		documentasks.New(
-			replicaAsks(t),
+			wordPartitionAsks(t),
 			ringPartitions(t),
 			documentsToMatchCeiling,
 			documentasks.DocumentAsksObservers{},
@@ -271,7 +272,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 			urlMetadataAskCeilingsAtTheMost(recordCeiling),
 			urlmetadataasks.Cutoff{},
 			wallclock.Clock{},
-			networkRedundancy,
+			urlMetadataAsksPerDocument,
 			urlmetadataasks.URLMetadataLookupObservers{},
 		),
 		ringPartitions(t),
@@ -279,7 +280,7 @@ func wordJoinedSpread(t *testing.T) wordjoined.Spread {
 	)
 }
 
-func replicaAsks(t *testing.T) wordpartitionasks.Asks {
+func wordPartitionAsks(t *testing.T) wordpartitionasks.Asks {
 	t.Helper()
 
 	return wordpartitionasks.New(
@@ -290,7 +291,7 @@ func replicaAsks(t *testing.T) wordpartitionasks.Asks {
 		hedgedelaysconstant.New(hedgeDelay),
 		wallclock.Clock{},
 		replicasCoveringAPartition,
-		wordpartitionasks.ReplicaAsksObservers{},
+		wordpartitionasks.WordPartitionAsksObservers{},
 	)
 }
 

@@ -38,15 +38,15 @@ func requirePublished(t *testing.T, body string, published []string) {
 	}
 }
 
-func TestEveryLabelValueOfTheReplicaAsksStartsAtZero(t *testing.T) {
+func TestEveryLabelValueOfTheWordPartitionAsksStartsAtZero(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_duration_seconds_count{ended_by="coverage"} 0`,
-		`yacydhtsearch_replica_asks_duration_seconds_count{ended_by="deadline"} 0`,
+		`yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by="every word partition settled"} 0`,
+		`yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by="deadline"} 0`,
 		`yacydhtsearch_word_partitions_total{covering_ask_put_on="start",settled_by="coverage"} 0`,
 		`yacydhtsearch_word_partitions_total{covering_ask_put_on="hedge delay",settled_by="coverage"} 0`,
 		`yacydhtsearch_word_partitions_total{covering_ask_put_on="empty answer",settled_by="coverage"} 0`,
@@ -61,9 +61,9 @@ func TestEveryLabelValueOfTheReplicaAsksStartsAtZero(t *testing.T) {
 	})
 }
 
-func performedReplicaAsks() wordpartitionasks.PerformedReplicaAsks {
-	return wordpartitionasks.PerformedReplicaAsks{
-		EndedBy:   wordpartitionasks.EndedByCoverage,
+func performedWordPartitionAsks() wordpartitionasks.PerformedWordPartitionAsks {
+	return wordpartitionasks.PerformedWordPartitionAsks{
+		EndedBy:   wordpartitionasks.EndedByEveryWordPartitionSettled,
 		TimeSpent: 250 * time.Millisecond,
 		WordPartitions: []wordpartitionasks.PerformedWordPartition{
 			{
@@ -99,7 +99,7 @@ func TestEveryWordPartitionIsCountedUnderWhatSettledIt(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
-	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
+	metrics.WordPartitionAsksPerformed(t.Context(), performedWordPartitionAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
 		`yacydhtsearch_word_partitions_total{covering_ask_put_on="start",settled_by="coverage"} 1`,
@@ -117,7 +117,7 @@ func TestEveryReplicaAskIsCountedUnderWhatPutIt(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
-	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
+	metrics.WordPartitionAsksPerformed(t.Context(), performedWordPartitionAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
 		`yacydhtsearch_replica_asks_total{put_on="start"} 3`,
@@ -133,7 +133,7 @@ func TestTheDocumentsOfEverySettledWordPartitionAreMeasured(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
-	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
+	metrics.WordPartitionAsksPerformed(t.Context(), performedWordPartitionAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
 		`yacydhtsearch_word_partition_documents_listed_count 3`,
@@ -141,17 +141,17 @@ func TestTheDocumentsOfEverySettledWordPartitionAreMeasured(t *testing.T) {
 	})
 }
 
-func TestTheTimeTheReplicaAsksSpentIsMeasuredUnderWhatEndedThem(t *testing.T) {
+func TestTheTimeTheWordPartitionAsksSpentIsMeasuredUnderWhatEndedThem(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := wordpartitionasksobserversprometheus.New(registry, queryBudget)
 
-	metrics.ReplicaAsksPerformed(t.Context(), performedReplicaAsks())
+	metrics.WordPartitionAsksPerformed(t.Context(), performedWordPartitionAsks())
 
 	requirePublished(t, publishedBy(t, registry), []string{
-		`yacydhtsearch_replica_asks_duration_seconds_count{ended_by="coverage"} 1`,
-		`yacydhtsearch_replica_asks_duration_seconds_sum{ended_by="coverage"} 0.25`,
-		`yacydhtsearch_replica_asks_duration_seconds_count{ended_by="deadline"} 0`,
+		`yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by="every word partition settled"} 1`,
+		`yacydhtsearch_word_partition_asks_duration_seconds_sum{ended_by="every word partition settled"} 0.25`,
+		`yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by="deadline"} 0`,
 	})
 }

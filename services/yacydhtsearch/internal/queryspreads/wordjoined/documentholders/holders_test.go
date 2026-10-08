@@ -56,19 +56,19 @@ func withMetadataOnTheFirstDocument(
 	return answer
 }
 
-func TestTheDocumentMorePeersHoldComesFirst(t *testing.T) {
+func TestTheDocumentFewerPeersHoldComesFirst(t *testing.T) {
 	t.Parallel()
 
 	heldByOne := documentHashOf(t, "https://held-by-one.example/")
 	heldByTwo := documentHashOf(t, "https://held-by-two.example/")
 	holders := holdersAnswered(
-		answerOf("first", heldByOne, heldByTwo),
+		answerOf("first", heldByTwo, heldByOne),
 		answerOf("second", heldByTwo),
 		answerOf("second", heldByTwo),
 	).HoldersOf(yacymodel.URLHashes{heldByOne: {}, heldByTwo: {}})
 
-	got := holders.MostHeldFirst()
-	if want := []yacymodel.URLHash{heldByTwo, heldByOne}; !slices.Equal(got, want) {
+	got := holders.LeastHeldFirst()
+	if want := []yacymodel.URLHash{heldByOne, heldByTwo}; !slices.Equal(got, want) {
 		t.Fatalf("the holders ordered %v, want %v", got, want)
 	}
 }
@@ -81,7 +81,7 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 	holders := holdersAnswered(answerOf("peer", first, second)).
 		HoldersOf(yacymodel.URLHashes{first: {}, second: {}})
 
-	got := holders.MostHeldFirst()
+	got := holders.LeastHeldFirst()
 	want := []yacymodel.URLHash{first, second}
 	if second.String() < first.String() {
 		want = []yacymodel.URLHash{second, first}
@@ -91,60 +91,48 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 	}
 }
 
-func TestThePeersWithTheirDocumentsComeInTheOrderOfTheirHashes(t *testing.T) {
+func TestThePeersHoldingADocumentAreThePeersThatListedIt(t *testing.T) {
 	t.Parallel()
 
-	first := documentHashOf(t, "https://first.example/")
-	second := documentHashOf(t, "https://second.example/")
+	listed := documentHashOf(t, "https://listed.example/")
+	other := documentHashOf(t, "https://other.example/")
 	holders := holdersAnswered(
-		answerOf("zulu", first),
-		answerOf("alpha", second),
-		answerOf("zulu", second),
-	).HoldersOf(yacymodel.URLHashes{first: {}, second: {}})
+		answerOf("first", listed),
+		answerOf("second", other),
+		answerOf("third", listed, other),
+	)
 
-	got := holders.PeersWithTheirDocuments()
-	wantPeers := []string{"zulu", "alpha"}
-	if yacymodel.WordHash("alpha").String() < yacymodel.WordHash("zulu").String() {
-		wantPeers = []string{"alpha", "zulu"}
-	}
-	wantDocuments := map[string]yacymodel.URLHashes{
-		"zulu":  {first: {}, second: {}},
-		"alpha": {second: {}},
-	}
-	if len(got) != len(wantPeers) {
-		t.Fatalf("the holders hold %v, want the peers %v", got, wantPeers)
-	}
-	for place, peer := range got {
-		if peer.Peer.Address != wantPeers[place] ||
-			!maps.Equal(peer.Documents, wantDocuments[peer.Peer.Address]) {
-			t.Fatalf(
-				"the holders hold %v, want the peers %v with %v",
-				got,
-				wantPeers,
-				wantDocuments,
-			)
-		}
+	got := sortedAddressesOf(holders.PeersHolding(listed))
+	if want := []string{"first", "third"}; !slices.Equal(got, want) {
+		t.Fatalf("the peers holding the document are %v, want %v", got, want)
 	}
 }
 
-func TestTheHoldersOfSomeDocumentsHoldOnlyThoseThePeersListed(t *testing.T) {
+func sortedAddressesOf(peers []peerdirectory.AskablePeer) []string {
+	addresses := make([]string, 0, len(peers))
+	for _, peer := range peers {
+		addresses = append(addresses, peer.Address)
+	}
+	slices.Sort(addresses)
+
+	return addresses
+}
+
+func TestThePeersOfSomeDocumentsAreThePeersThatListedOneOfThem(t *testing.T) {
 	t.Parallel()
 
 	listed := documentHashOf(t, "https://listed.example/")
 	unlisted := documentHashOf(t, "https://unlisted.example/")
 	other := documentHashOf(t, "https://other.example/")
-	holders := holdersAnswered(answerOf("first", listed, other), answerOf("second", listed)).
-		HoldersOf(yacymodel.URLHashes{listed: {}, unlisted: {}})
+	holders := holdersAnswered(
+		answerOf("first", listed, other),
+		answerOf("second", listed),
+		answerOf("third", other),
+	).HoldersOf(yacymodel.URLHashes{listed: {}, unlisted: {}})
 
-	got := holders.PeersWithTheirDocuments()
-	want := map[string]yacymodel.URLHashes{"first": {listed: {}}, "second": {listed: {}}}
-	if len(got) != len(want) {
-		t.Fatalf("the holders hold %v, want %v", got, want)
-	}
-	for _, peer := range got {
-		if !maps.Equal(peer.Documents, want[peer.Peer.Address]) {
-			t.Fatalf("the holders hold %v, want %v", got, want)
-		}
+	got := sortedAddressesOf(holders.Peers())
+	if want := []string{"first", "second"}; !slices.Equal(got, want) {
+		t.Fatalf("the peers of the documents are %v, want %v", got, want)
 	}
 }
 

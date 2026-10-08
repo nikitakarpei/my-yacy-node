@@ -47,7 +47,7 @@ func TestTheFirstReplicasOfEveryWordPartitionAreAskedAndNoMore(t *testing.T) {
 		wordpartitionasks.PutOnStart,
 		wordpartitionasks.PutOnStart,
 	)
-	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByCoverage)
+	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByEveryWordPartitionSettled)
 }
 
 func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T) {
@@ -520,7 +520,7 @@ func TestARunWithoutAsksIsOverOnceTheAsksClose(t *testing.T) {
 	wantTheRunOver(t, run)
 
 	asking.observer.wantSettledBy(t)
-	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByCoverage)
+	asking.observer.wantEndedBy(t, wordpartitionasks.EndedByEveryWordPartitionSettled)
 }
 
 type scriptedReplicaCall struct {
@@ -708,24 +708,24 @@ func (clock *clockTheTestFires) wantTimersStopped(t *testing.T, amountOfTimers i
 	}
 }
 
-type recordedReplicaAsks struct {
+type recordedWordPartitionAsks struct {
 	mutex           sync.Mutex
 	amountOfReports int
-	performed       wordpartitionasks.PerformedReplicaAsks
+	performed       wordpartitionasks.PerformedWordPartitionAsks
 }
 
-func (recorded *recordedReplicaAsks) ReplicaAsksPerformed(
+func (recorded *recordedWordPartitionAsks) WordPartitionAsksPerformed(
 	_ context.Context,
-	replicaAsks wordpartitionasks.PerformedReplicaAsks,
+	wordPartitionAsks wordpartitionasks.PerformedWordPartitionAsks,
 ) {
 	recorded.mutex.Lock()
 	defer recorded.mutex.Unlock()
 
 	recorded.amountOfReports++
-	recorded.performed = replicaAsks
+	recorded.performed = wordPartitionAsks
 }
 
-func (recorded *recordedReplicaAsks) wantSettledBy(
+func (recorded *recordedWordPartitionAsks) wantSettledBy(
 	t *testing.T,
 	settledBy ...wordpartitionasks.SettledBy,
 ) {
@@ -740,7 +740,7 @@ func (recorded *recordedReplicaAsks) wantSettledBy(
 	}
 }
 
-func (recorded *recordedReplicaAsks) wantCoveringAskPutOn(
+func (recorded *recordedWordPartitionAsks) wantCoveringAskPutOn(
 	t *testing.T,
 	putOn ...wordpartitionasks.PutOn,
 ) {
@@ -755,7 +755,10 @@ func (recorded *recordedReplicaAsks) wantCoveringAskPutOn(
 	}
 }
 
-func (recorded *recordedReplicaAsks) wantPutOn(t *testing.T, putOn ...wordpartitionasks.PutOn) {
+func (recorded *recordedWordPartitionAsks) wantPutOn(
+	t *testing.T,
+	putOn ...wordpartitionasks.PutOn,
+) {
 	t.Helper()
 	putOnReported := recorded.wordPartitions(t)[0].AsksPutOn
 	if !slices.Equal(putOnReported, putOn) {
@@ -763,7 +766,10 @@ func (recorded *recordedReplicaAsks) wantPutOn(t *testing.T, putOn ...wordpartit
 	}
 }
 
-func (recorded *recordedReplicaAsks) wantAmountOfDocumentsListed(t *testing.T, amounts ...int) {
+func (recorded *recordedWordPartitionAsks) wantAmountOfDocumentsListed(
+	t *testing.T,
+	amounts ...int,
+) {
 	t.Helper()
 	wordPartitions := recorded.wordPartitions(t)
 	for place, amount := range amounts {
@@ -776,20 +782,30 @@ func (recorded *recordedReplicaAsks) wantAmountOfDocumentsListed(t *testing.T, a
 	}
 }
 
-func (recorded *recordedReplicaAsks) wantEndedBy(t *testing.T, endedBy wordpartitionasks.EndedBy) {
+func (recorded *recordedWordPartitionAsks) wantEndedBy(
+	t *testing.T,
+	endedBy wordpartitionasks.EndedBy,
+) {
 	t.Helper()
 	recorded.mutex.Lock()
 	defer recorded.mutex.Unlock()
 
 	if recorded.performed.EndedBy != endedBy {
-		t.Fatalf("the replica asks ended by %q, want %q", recorded.performed.EndedBy, endedBy)
+		t.Fatalf(
+			"the word partition asks ended by %q, want %q",
+			recorded.performed.EndedBy,
+			endedBy,
+		)
 	}
 	if recorded.performed.TimeSpent <= 0 {
-		t.Fatalf("the replica asks spent %v, want the time they took", recorded.performed.TimeSpent)
+		t.Fatalf(
+			"the word partition asks spent %v, want the time they took",
+			recorded.performed.TimeSpent,
+		)
 	}
 }
 
-func (recorded *recordedReplicaAsks) wordPartitions(
+func (recorded *recordedWordPartitionAsks) wordPartitions(
 	t *testing.T,
 ) []wordpartitionasks.PerformedWordPartition {
 	t.Helper()
@@ -815,7 +831,7 @@ func (hedgeDelay hedgeDelayOfTheTestsPeers) HedgeDelayOf(
 type askingUnderTest struct {
 	calls    *replicaCallsOfTheTests
 	clock    *clockTheTestFires
-	observer *recordedReplicaAsks
+	observer *recordedWordPartitionAsks
 	asks     wordpartitionasks.Asks
 }
 
@@ -828,7 +844,7 @@ func askingOfTheTests(
 
 	calls := replicaCallsOf(t, scripts)
 	clock := newClockTheTestFires()
-	observer := &recordedReplicaAsks{}
+	observer := &recordedWordPartitionAsks{}
 
 	return askingUnderTest{
 		calls:    calls,

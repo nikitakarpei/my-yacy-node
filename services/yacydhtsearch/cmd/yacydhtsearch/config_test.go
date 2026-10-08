@@ -98,9 +98,14 @@ func TestTheURLMetadataAskSizingFallsBackToItsDefaults(t *testing.T) {
 		t.Fatalf("load service config: %v", err)
 	}
 	if cfg.URLMetadataAskDocumentsFloor != main.DefaultURLMetadataAskDocumentsFloor ||
-		cfg.URLMetadataAskTargetTime != main.DefaultURLMetadataAskTargetTime {
-		t.Fatalf("URL metadata ask documents floor = %d and target time = %v, want the defaults",
-			cfg.URLMetadataAskDocumentsFloor, cfg.URLMetadataAskTargetTime)
+		cfg.URLMetadataAskTargetTime != main.DefaultURLMetadataAskTargetTime ||
+		cfg.URLMetadataAsksPerDocument != main.DefaultURLMetadataAsksPerDocument {
+		t.Fatalf(
+			"URL metadata ask documents floor = %d, target time = %v and asks per document = %d, want the defaults",
+			cfg.URLMetadataAskDocumentsFloor,
+			cfg.URLMetadataAskTargetTime,
+			cfg.URLMetadataAsksPerDocument,
+		)
 	}
 }
 
@@ -135,6 +140,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvURLMetadataAskDocumentsCeiling] = "128"
 	environment[main.EnvURLMetadataAskDocumentsFloor] = "16"
 	environment[main.EnvURLMetadataAskTargetTime] = "1500ms"
+	environment[main.EnvURLMetadataAsksPerDocument] = "4"
 	environment[main.EnvReplicasCoveringAPartition] = "2"
 	environment[main.EnvHedgeDelay] = "250ms"
 	environment[main.EnvServeProfiler] = "true"
@@ -160,6 +166,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.URLMetadataAskDocumentsCeiling != 128 ||
 		cfg.URLMetadataAskDocumentsFloor != 16 ||
 		cfg.URLMetadataAskTargetTime != 1500*time.Millisecond ||
+		cfg.URLMetadataAsksPerDocument != 4 ||
 		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond ||
 		!cfg.ServeProfiler || cfg.PagesReadPerSiteCeiling != 5 ||
 		cfg.PageReadCutoff.PercentOfPages != 80 ||

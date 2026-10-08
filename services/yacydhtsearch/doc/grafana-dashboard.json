@@ -868,6 +868,50 @@
       "panels": []
     },
     {
+      "id": 73,
+      "title": "Remembered document amount failures, by action",
+      "description": "A failure makes a query ask all its words at once.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 71
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            },
+            "axisLabel": "per interval"
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (action) (clamp_min(yacydhtsearch_query_word_document_amounts_failures_total{instance=~\"$service_instance\"} - (yacydhtsearch_query_word_document_amounts_failures_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{action}}"
+        }
+      ]
+    },
+    {
       "id": 58,
       "title": "Share of word-by-word queries, by where the document amounts came from",
       "description": "With none, every word is asked in all partitions.",
@@ -885,6 +929,13 @@
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
           "min": 0,
           "max": 1
         },
@@ -1070,7 +1121,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 8,
         "x": 0,
         "y": 97
       },
@@ -1101,6 +1152,101 @@
           "refId": "A",
           "expr": "sum by (ended_by) (clamp_min(yacydhtsearch_word_joined_spread_url_metadata_lookups_total{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_url_metadata_lookups_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{ended_by}}"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "title": "Documents per URL metadata call",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 97
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_url_metadata_ask_documents_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_url_metadata_ask_documents_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_url_metadata_ask_documents_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_url_metadata_ask_documents_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "title": "Time to the first URL metadata call",
+      "description": "From the start of the query.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 97
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p90"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_spread_time_to_first_url_metadata_ask_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "p99"
         }
       ]
     },
@@ -1307,7 +1453,7 @@
     },
     {
       "id": 60,
-      "title": "Replica asks during a search",
+      "title": "Word partition asks during a search",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -1320,8 +1466,8 @@
     },
     {
       "id": 61,
-      "title": "How long the replica asks ended by coverage took",
-      "description": "From the first ask until every word partition is covered.",
+      "title": "How long the word partition asks of a query took, when no word partition hit the deadline",
+      "description": "Until every word partition settled.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1358,19 +1504,19 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_bucket{ended_by=\"coverage\", instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_bucket{ended_by=\"every word partition settled\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p90"
         }
       ]
     },
     {
       "id": 69,
-      "title": "Share of replica asks ended by the deadline",
+      "title": "Share of queries where a word partition hit the deadline",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1400,7 +1546,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacydhtsearch_replica_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_replica_asks_duration_seconds_count{instance=~\"$service_instance\"} - (yacydhtsearch_replica_asks_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum(clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_count{ended_by=\"deadline\", instance=~\"$service_instance\"} offset $__interval), 0)) / sum(clamp_min(yacydhtsearch_word_partition_asks_duration_seconds_count{instance=~\"$service_instance\"} - (yacydhtsearch_word_partition_asks_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "ended by the deadline"
         }
       ]
@@ -1801,7 +1947,10 @@
           "custom": {
             "drawStyle": "bars",
             "fillOpacity": 70,
-            "axisLabel": "per interval"
+            "axisLabel": "per interval",
+            "stacking": {
+              "mode": "normal"
+            }
           },
           "min": 0
         },

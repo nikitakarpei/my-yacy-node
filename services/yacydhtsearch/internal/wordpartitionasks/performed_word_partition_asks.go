@@ -2,7 +2,7 @@ package wordpartitionasks
 
 import "time"
 
-type PerformedReplicaAsks struct {
+type PerformedWordPartitionAsks struct {
 	EndedBy        EndedBy
 	TimeSpent      time.Duration
 	WordPartitions []PerformedWordPartition
@@ -18,8 +18,8 @@ type PerformedWordPartition struct {
 type EndedBy string
 
 const (
-	EndedByCoverage EndedBy = "coverage"
-	EndedByDeadline EndedBy = "deadline"
+	EndedByEveryWordPartitionSettled EndedBy = "every word partition settled"
+	EndedByDeadline                  EndedBy = "deadline"
 )
 
 type SettledBy string

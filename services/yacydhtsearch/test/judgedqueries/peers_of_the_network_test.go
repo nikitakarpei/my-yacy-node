@@ -33,6 +33,7 @@ import (
 )
 
 const (
+	urlMetadataAsksPerDocument     = 2
 	networkName                    = "freeworld"
 	partitionExponent              = 4
 	maxResponseBytes               = 4 * 1024 * 1024
@@ -147,7 +148,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
-		wordpartitionasks.ReplicaAsksObservers{},
+		wordpartitionasks.WordPartitionAsksObservers{},
 	)
 	everyReplicaOfThePeerMatchedSpread := wordpartitionasks.New(
 		replicacallsyacysearch.New(calledPeers, replicacallsyacysearch.Wants{
@@ -157,7 +158,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 		hedgeDelay,
 		wallclock.Clock{},
 		networkRedundancy,
-		wordpartitionasks.ReplicaAsksObservers{},
+		wordpartitionasks.WordPartitionAsksObservers{},
 	)
 
 	return spreadChoosingPeers{
@@ -181,7 +182,7 @@ func (peers peersOfTheNetwork) querySpread(t *testing.T) querySpread {
 					urlMetadataAskCeilingsAtTheMost(urlMetadataAskDocumentsCeiling),
 					urlmetadataasks.Cutoff{},
 					wallclock.Clock{},
-					networkRedundancy,
+					urlMetadataAsksPerDocument,
 					urlmetadataasks.URLMetadataLookupObservers{},
 				),
 				partitions,
