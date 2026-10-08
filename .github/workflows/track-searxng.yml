@@ -1,0 +1,57 @@
+name: track-searxng
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SUPPORTED_IMAGE_FILE: plugins/searxng/supported-image
+  BUMP_BRANCH: searxng-version-bump
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.SEARXNG_TRACKER_TOKEN }}
+
+      - name: Find newest SearXNG image
+        id: newest
+        run: |
+          newest="$(curl -fsS 'https://hub.docker.com/v2/repositories/searxng/searxng/tags?page_size=100&ordering=last_updated' |
+            jq -r '[.results[] | select(.name | test("^[0-9]{4}\\.[0-9]+\\.[0-9]+-[0-9a-f]+$"))][0] | "\(.name) \(.digest)"')"
+          read -r tag digest <<< "${newest}"
+          supported="$(cat "${SUPPORTED_IMAGE_FILE}")"
+          supported_reference="${supported%@*}"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "image=docker.io/searxng/searxng:${tag}@${digest}" >> "$GITHUB_OUTPUT"
+          echo "supported_tag=${supported_reference##*:}" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the version bump pull request
+        if: steps.newest.outputs.tag != steps.newest.outputs.supported_tag
+        env:
+          GH_TOKEN: ${{ secrets.SEARXNG_TRACKER_TOKEN }}
+          NEWEST_TAG: ${{ steps.newest.outputs.tag }}
+          NEWEST_IMAGE: ${{ steps.newest.outputs.image }}
+          SUPPORTED_TAG: ${{ steps.newest.outputs.supported_tag }}
+        run: |
+          title="Support SearXNG ${NEWEST_TAG}"
+          body="SearXNG ${SUPPORTED_TAG} → ${NEWEST_TAG}: https://github.com/searxng/searxng/compare/${SUPPORTED_TAG##*-}...${NEWEST_TAG##*-}"
+          echo "${NEWEST_IMAGE}" > "${SUPPORTED_IMAGE_FILE}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "${BUMP_BRANCH}"
+          git add "${SUPPORTED_IMAGE_FILE}"
+          git commit -m "${title}"
+          git push --force origin "${BUMP_BRANCH}"
+          if gh pr view "${BUMP_BRANCH}" --json state -q .state | grep -qx OPEN; then
+            gh pr edit "${BUMP_BRANCH}" --title "${title}" --body "${body}"
+          else
+            gh pr create --base main --head "${BUMP_BRANCH}" --title "${title}" --body "${body}"
+          fi

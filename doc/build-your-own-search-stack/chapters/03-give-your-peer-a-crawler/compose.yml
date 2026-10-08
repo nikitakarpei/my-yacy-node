@@ -101,7 +101,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   searxng:
-    image: docker.io/searxng/searxng:2026.7.5-a6438586a
+    image: ghcr.io/nikitakarpei/my-yacy-node/searxng:latest
     restart: unless-stopped
     depends_on:
       yacydhtsearch:

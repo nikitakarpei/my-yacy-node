@@ -1,4 +1,4 @@
-x-searxng-image: &searxng-image docker.io/searxng/searxng:2026.7.5-a6438586a
+x-searxng-image: &searxng-image ghcr.io/nikitakarpei/my-yacy-node/searxng:latest
 
 services:
   smokescreen:

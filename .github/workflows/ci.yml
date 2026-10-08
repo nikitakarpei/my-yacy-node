@@ -67,6 +67,12 @@ jobs:
     uses: ./.github/workflows/build-searxng-result-router.yml
     secrets: inherit
 
+  publish-supported-searxng:
+    needs: [build-searxng-crawled-text-search, build-searxng-result-router]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/publish-supported-searxng.yml
+    secrets: inherit
+
   build-renderproxy:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
