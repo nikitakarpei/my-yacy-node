@@ -8,7 +8,7 @@ import (
 )
 
 type postingAmounts struct {
-	amountPerWord *vault.Collection[yacymodel.Hash, int]
+	amountPerWord *vault.Amounts[yacymodel.Hash]
 }
 
 func openPostingAmounts(v *vault.Vault) (*postingAmounts, error) {
@@ -24,7 +24,7 @@ func (a *postingAmounts) AmountOfPostingsOf(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 ) (int, error) {
-	amountOfPostings, _, err := a.amountPerWord.Get(tx, word)
+	amountOfPostings, err := a.amountPerWord.Get(tx, word)
 	if err != nil {
 		return 0, fmt.Errorf("read posting amount: %w", err)
 	}
@@ -33,39 +33,16 @@ func (a *postingAmounts) AmountOfPostingsOf(
 }
 
 func (a *postingAmounts) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	return a.raiseAmountOfPostingsOf(tx, posting.WordHash)
-}
-
-func (a *postingAmounts) raiseAmountOfPostingsOf(tx *vault.Txn, word yacymodel.Hash) error {
-	amountOfPostings, err := a.AmountOfPostingsOf(tx, word)
-	if err != nil {
-		return err
-	}
-	if _, err := a.amountPerWord.Put(tx, word, amountOfPostings+1); err != nil {
-		return fmt.Errorf("record posting amount: %w", err)
+	if err := a.amountPerWord.Raise(tx, posting.WordHash, 1); err != nil {
+		return fmt.Errorf("raise posting amount: %w", err)
 	}
 
 	return nil
 }
 
 func (a *postingAmounts) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	return a.lowerAmountOfPostingsOf(tx, posting.WordHash)
-}
-
-func (a *postingAmounts) lowerAmountOfPostingsOf(tx *vault.Txn, word yacymodel.Hash) error {
-	amountOfPostings, err := a.AmountOfPostingsOf(tx, word)
-	if err != nil {
-		return err
-	}
-	if amountOfPostings <= 1 {
-		if _, err := a.amountPerWord.Delete(tx, word); err != nil {
-			return fmt.Errorf("drop posting amount: %w", err)
-		}
-
-		return nil
-	}
-	if _, err := a.amountPerWord.Put(tx, word, amountOfPostings-1); err != nil {
-		return fmt.Errorf("record posting amount: %w", err)
+	if err := a.amountPerWord.Lower(tx, posting.WordHash, 1); err != nil {
+		return fmt.Errorf("lower posting amount: %w", err)
 	}
 
 	return nil
