@@ -52,7 +52,7 @@ func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing
 func openRosterVault(t testing.TB, storagePath string) *vault.Vault {
 	t.Helper()
 
-	engine, err := pebblevault.OpenEngine(storagePath, 0, pebblevault.MachineLimits{}, nil)
+	engine, err := pebblevault.OpenEngine(storagePath, 0, pebblevault.MachineLimits{}, nil, nil)
 	if err != nil {
 		t.Fatalf("pebblevault.OpenEngine: %v", err)
 	}

@@ -11,7 +11,7 @@ import (
 type pebbleRecords struct {
 	entries storedEntries
 	tally   storedBucketTally
-	staged  *pebble.Batch
+	changes *pebble.Batch
 }
 
 func (b pebbleRecords) Get(key []byte) ([]byte, error) {
@@ -23,7 +23,7 @@ func (b pebbleRecords) Put(key []byte, record []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := b.staged.Set(
+	if err := b.changes.Set(
 		b.entries.region.absoluteKeyFrom(key),
 		record,
 		pebble.NoSync,
@@ -45,7 +45,7 @@ func (b pebbleRecords) Delete(key []byte) ([]byte, error) {
 	if deletedRecord == nil {
 		return nil, nil
 	}
-	if err := b.staged.Delete(b.entries.region.absoluteKeyFrom(key), pebble.NoSync); err != nil {
+	if err := b.changes.Delete(b.entries.region.absoluteKeyFrom(key), pebble.NoSync); err != nil {
 		return nil, fmt.Errorf("delete: %w", err)
 	}
 	if err := b.tally.adjustBy(-1, -int64(len(key)+len(deletedRecord))); err != nil {

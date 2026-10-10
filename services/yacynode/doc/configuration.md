@@ -46,6 +46,7 @@ Every peer publishes a seed that says who it is and where to reach it.
 | `YACY_PEBBLE_MEMTABLE_SIZE` | `8MB` | Memory a write buffer holds before the engine writes it to disk. The engine takes twice this value out of the block cache. Keep it below a quarter of `YACY_PEBBLE_BLOCK_CACHE`. |
 | `YACY_PEBBLE_COMPACTION_CONCURRENCY` | `1` | How many compactions run at the same time. |
 | `YACY_PEBBLE_OPEN_FILE_LIMIT` | `1000` | How many table files the engine keeps open. |
+| `YACY_PEBBLE_WRITE_CONCURRENCY` | `4` | How many write transactions run at the same time. |
 | `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for their URL metadata. When the escrow holds this many, the node refuses transfers with unknown URLs until held postings expire. A transfer that starts below this number is held whole. |
 
 ## Page offer intake

@@ -1,7 +1,8 @@
-// Package pebblevault is the Pebble implementation of the vault Engine. It owns
-// the log-structured database directory and is the single holder of the database
-// handle; no caller receives the raw handle and no Pebble type appears on its
-// exported surface.
+// Package pebblevault is the Pebble implementation of the vault Engine. It owns the
+// database directory and is the single holder of its handle; no Pebble type appears on its
+// exported surface. Writes run at the same time; a write that read a key another
+// write committed after it began runs again, and holds other commits once it
+// conflicts too often.
 package pebblevault
 
 import (
@@ -11,7 +12,6 @@ import (
 	"io"
 	"log/slog"
 	"os"
-	"sync"
 
 	"github.com/cockroachdb/pebble/v2"
 	"github.com/cockroachdb/pebble/v2/bloom"
@@ -20,15 +20,19 @@ import (
 )
 
 const (
-	bloomFilterBitsPerKey    = 10
-	amountsAtZeroKeptMessage = "amounts at zero kept until their next change"
+	bloomFilterBitsPerKey         = 10
+	conflictsBeforeExclusiveWrite = 3
+	amountsAtZeroKeptMessage      = "amounts at zero kept until their next change"
 )
 
 type Engine struct {
 	db         *pebble.DB
 	quotaBytes int64
 	limits     MachineLimits
-	writing    sync.Mutex
+	writeSlots chan struct{}
+	commitTurn chan struct{}
+	history    *writeTransactionsHistory
+	conflicts  WriteConflictObserver
 }
 
 type MachineLimits struct {
@@ -36,6 +40,7 @@ type MachineLimits struct {
 	MemtableBytes         int64
 	CompactionConcurrency int
 	OpenFileLimit         int
+	WriteConcurrency      int
 }
 
 func OpenEngine(
@@ -43,6 +48,7 @@ func OpenEngine(
 	quotaBytes int64,
 	limits MachineLimits,
 	stalls WriteStallObserver,
+	conflicts WriteConflictObserver,
 ) (*Engine, error) {
 	if err := os.MkdirAll(path, 0o750); err != nil {
 		return nil, fmt.Errorf("create storage directory: %w", err)
@@ -51,7 +57,7 @@ func OpenEngine(
 	options := optionsWithin(limits)
 	options.EventListener = writeStallListenerFor(stalls)
 	options.EnsureDefaults()
-	imposed := machineLimitsOf(options)
+	imposed := machineLimitsOf(options, limits.WriteConcurrency)
 
 	if options.Cache != nil {
 		defer options.Cache.Unref()
@@ -62,7 +68,15 @@ func OpenEngine(
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
 
-	return &Engine{db: db, quotaBytes: quotaBytes, limits: imposed}, nil
+	return &Engine{
+		db:         db,
+		quotaBytes: quotaBytes,
+		limits:     imposed,
+		writeSlots: make(chan struct{}, imposed.WriteConcurrency),
+		commitTurn: make(chan struct{}, 1),
+		history:    newWriteTransactionsHistory(),
+		conflicts:  writeConflictObserverOrSilent(conflicts),
+	}, nil
 }
 
 func optionsWithin(limits MachineLimits) *pebble.Options {
@@ -105,7 +119,7 @@ func writeStallListenerFor(observer WriteStallObserver) *pebble.EventListener {
 	}
 }
 
-func machineLimitsOf(options *pebble.Options) MachineLimits {
+func machineLimitsOf(options *pebble.Options, writeConcurrency int) MachineLimits {
 	blockCacheBytes := options.CacheSize
 	if options.Cache != nil {
 		blockCacheBytes = options.Cache.MaxSize()
@@ -117,6 +131,7 @@ func machineLimitsOf(options *pebble.Options) MachineLimits {
 		MemtableBytes:         signed(options.MemTableSize),
 		CompactionConcurrency: compactionConcurrency,
 		OpenFileLimit:         options.MaxOpenFiles,
+		WriteConcurrency:      max(writeConcurrency, 1),
 	}
 }
 
@@ -129,45 +144,122 @@ func (e *Engine) ProvisionAmountsBucket(_ vault.Name) error {
 }
 
 func (e *Engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	e.writing.Lock()
-	defer e.writing.Unlock()
+	e.takeWriteSlot()
+	defer e.freeWriteSlot()
 
 	if err := ctx.Err(); err != nil {
 		return fmt.Errorf("context: %w", err)
 	}
 
-	staged := e.db.NewIndexedBatch()
-	lowered := &loweredAmounts{}
-
-	if err := fn(pebbleTxn{reader: staged, staged: staged, lowered: lowered}); err != nil {
-		return errors.Join(err, release(staged))
+	for range conflictsBeforeExclusiveWrite {
+		conflicted, err := e.updateOptimistically(ctx, fn)
+		if err != nil || !conflicted {
+			return err
+		}
 	}
-	if err := errors.Join(
-		commitFailureOf(staged.Commit(pebble.Sync)),
-		release(staged),
-	); err != nil {
+
+	return e.updateExclusively(ctx, fn)
+}
+
+func (e *Engine) takeWriteSlot() { e.writeSlots <- struct{}{} }
+
+func (e *Engine) freeWriteSlot() { <-e.writeSlots }
+
+func (e *Engine) updateOptimistically(
+	ctx context.Context,
+	fn func(vault.EngineTxn) error,
+) (bool, error) {
+	begunAfter := e.history.transactionBegan()
+	defer e.history.transactionEnded(begunAfter)
+
+	write, err := e.stage(fn)
+	if err != nil {
+		return false, err
+	}
+
+	e.holdCommits()
+	defer e.resumeCommits()
+
+	if key, conflicted := e.history.keyWrittenAfter(begunAfter, write.footprint); conflicted {
+		reportWriteConflicted(ctx, e.conflicts, key)
+
+		return true, release(write.changes)
+	}
+
+	return false, e.commit(ctx, write)
+}
+
+type stagedWrite struct {
+	changes        *pebble.Batch
+	writtenKeys    sortedKeys
+	loweredAmounts *amountKeys
+	footprint      *readFootprint
+}
+
+func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
+	write := stagedWrite{
+		changes:        e.db.NewIndexedBatch(),
+		loweredAmounts: &amountKeys{},
+		footprint:      newReadFootprint(),
+	}
+	if err := fn(pebbleTxn{
+		reader:         write.changes,
+		changes:        write.changes,
+		loweredAmounts: write.loweredAmounts,
+		footprint:      write.footprint,
+	}); err != nil {
+		return stagedWrite{}, errors.Join(err, release(write.changes))
+	}
+	writtenKeys, err := writtenKeysOf(write.changes)
+	if err != nil {
+		return stagedWrite{}, errors.Join(err, release(write.changes))
+	}
+	write.writtenKeys = writtenKeys
+
+	return write, nil
+}
+
+func (e *Engine) holdCommits() { e.commitTurn <- struct{}{} }
+
+func (e *Engine) resumeCommits() { <-e.commitTurn }
+
+func (e *Engine) commit(ctx context.Context, write stagedWrite) error {
+	err := errors.Join(e.commitRecorded(write), release(write.changes))
+	if err != nil {
 		return err
 	}
-	e.deleteAmountsAtZero(ctx, lowered)
+	e.deleteAmountsAtZero(ctx, write.loweredAmounts)
 
 	return nil
 }
 
-func (e *Engine) deleteAmountsAtZero(ctx context.Context, lowered *loweredAmounts) {
-	atZero, err := amountsAtZeroAmong(e.db, lowered)
-	if err == nil && len(atZero) > 0 {
-		err = e.commitDeletesOf(atZero)
+func (e *Engine) commitRecorded(write stagedWrite) error {
+	if err := write.changes.Commit(pebble.Sync); err != nil {
+		return commitFailureOf(err)
+	}
+	e.history.transactionCommitted(write.writtenKeys)
+
+	return nil
+}
+
+func (e *Engine) deleteAmountsAtZero(ctx context.Context, loweredAmounts *amountKeys) {
+	amountsAtZero, err := amountsAtZeroAmong(e.db, loweredAmounts)
+	if err == nil && len(amountsAtZero) > 0 {
+		err = e.commitDeletesOf(amountsAtZero)
 	}
 	if err != nil {
 		slog.WarnContext(ctx, amountsAtZeroKeptMessage, slog.Any("error", err))
 	}
 }
 
-func amountsAtZeroAmong(committed pebble.Reader, lowered *loweredAmounts) ([][]byte, error) {
-	stored := storedEntries{reader: committed}
-	var atZero [][]byte
-	for _, key := range lowered.keys {
-		raw, err := stored.valueAt(key)
+func amountsAtZeroAmong(
+	committedState pebble.Reader,
+	loweredAmounts *amountKeys,
+) ([][]byte, error) {
+	amountEntries := storedEntries{reader: committedState}
+	var amountsAtZero [][]byte
+	for _, key := range loweredAmounts.keys {
+		raw, err := amountEntries.valueAt(key)
 		if err != nil {
 			return nil, err
 		}
@@ -179,11 +271,11 @@ func amountsAtZeroAmong(committed pebble.Reader, lowered *loweredAmounts) ([][]b
 			return nil, err
 		}
 		if amount == 0 {
-			atZero = append(atZero, key)
+			amountsAtZero = append(amountsAtZero, key)
 		}
 	}
 
-	return atZero, nil
+	return amountsAtZero, nil
 }
 
 func (e *Engine) commitDeletesOf(keys [][]byte) error {
@@ -195,6 +287,22 @@ func (e *Engine) commitDeletesOf(keys [][]byte) error {
 	}
 
 	return errors.Join(deletes.Commit(pebble.NoSync), release(deletes))
+}
+
+func (e *Engine) updateExclusively(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	e.holdCommits()
+	defer e.resumeCommits()
+
+	begunAfter := e.history.transactionBegan()
+	defer e.history.transactionEnded(begunAfter)
+
+	reportExclusiveWrite(ctx, e.conflicts)
+	write, err := e.stage(fn)
+	if err != nil {
+		return err
+	}
+
+	return e.commit(ctx, write)
 }
 
 func commitFailureOf(err error) error {
@@ -221,13 +329,13 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 		return fmt.Errorf("context: %w", err)
 	}
 
-	committed := e.db.NewSnapshot()
+	snapshot := e.db.NewSnapshot()
 
-	if err := fn(pebbleTxn{reader: committed, lowered: &loweredAmounts{}}); err != nil {
-		return errors.Join(fmt.Errorf("read storage: %w", err), release(committed))
+	if err := fn(pebbleTxn{reader: snapshot, loweredAmounts: &amountKeys{}}); err != nil {
+		return errors.Join(fmt.Errorf("read storage: %w", err), release(snapshot))
 	}
 
-	return release(committed)
+	return release(snapshot)
 }
 
 func (e *Engine) Close() error {
@@ -251,7 +359,7 @@ func (e *Engine) UsedBytes(ctx context.Context) (int64, error) {
 		return 0, fmt.Errorf("context: %w", err)
 	}
 
-	held, err := heldBytesOf(e.db)
+	heldBytes, err := heldBytesOf(e.db)
 	if err != nil {
 		return 0, err
 	}
@@ -260,5 +368,5 @@ func (e *Engine) UsedBytes(ctx context.Context) (int64, error) {
 		return 0, fmt.Errorf("estimate amount bytes: %w", err)
 	}
 
-	return held + signed(estimatedAmountsBytes), nil
+	return heldBytes + signed(estimatedAmountsBytes), nil
 }

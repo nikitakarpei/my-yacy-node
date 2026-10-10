@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 )
 
 type recordingObserver struct {
@@ -368,6 +369,21 @@ func TestRecordCountsByBucketIsNotAReadInFlight(t *testing.T) {
 		t.Errorf(
 			"reads began = %d, want 0: a metrics scrape is not a read",
 			observer.readsBegan,
+		)
+	}
+}
+
+func TestWriteThatTheEngineRepeatsReportsOneBegin(t *testing.T) {
+	v, observer := openObserved(t, vaultenginetest.EngineRepeatingWrites(newDoubleEngine()))
+
+	if err := v.Update(context.Background(), func(*vault.Txn) error { return nil }); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if observer.begins != 1 {
+		t.Errorf(
+			"begins = %d, want 1 even though the engine ran the closure twice",
+			observer.begins,
 		)
 	}
 }

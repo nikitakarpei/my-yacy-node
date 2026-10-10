@@ -1,6 +1,7 @@
 package pebblevault
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 
@@ -10,12 +11,16 @@ import (
 )
 
 type storedEntries struct {
-	region keyspaceRegion
-	reader pebble.Reader
+	region    keyspaceRegion
+	reader    pebble.Reader
+	footprint *readFootprint
 }
 
 func (e storedEntries) valueAt(key []byte) ([]byte, error) {
-	value, valueHandle, err := e.reader.Get(e.region.absoluteKeyFrom(key))
+	absoluteKey := e.region.absoluteKeyFrom(key)
+	e.footprint.addKey(absoluteKey)
+
+	value, valueHandle, err := e.reader.Get(absoluteKey)
 	if errors.Is(err, pebble.ErrNotFound) {
 		return nil, nil
 	}
@@ -23,10 +28,10 @@ func (e storedEntries) valueAt(key []byte) ([]byte, error) {
 		return nil, fmt.Errorf("read: %w", err)
 	}
 
-	held := make([]byte, len(value))
-	copy(held, value)
+	heldValue := make([]byte, len(value))
+	copy(heldValue, value)
 
-	return held, release(valueHandle)
+	return heldValue, release(valueHandle)
 }
 
 func (e storedEntries) visit(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
@@ -40,23 +45,35 @@ func (e storedEntries) visit(keys vault.KeyRange, fn func(key, value []byte) (bo
 		return fmt.Errorf("scan: %w", err)
 	}
 
-	return errors.Join(visitFound(found, e.region, fn), release(found))
+	stoppedAt, err := visitFound(found, e.region, fn)
+	e.footprint.addRange(firstIncluded, scanEndOf(stoppedAt, firstExcluded))
+
+	return errors.Join(err, release(found))
 }
 
 func visitFound(
 	found *pebble.Iterator,
 	region keyspaceRegion,
 	fn func(key, value []byte) (bool, error),
-) error {
+) (stoppedAt []byte, err error) {
 	for found.First(); found.Valid(); found.Next() {
 		keep, err := fn(region.relativeKeyFrom(found.Key()), found.Value())
-		if err != nil {
-			return err
-		}
-		if !keep {
-			return nil
+		if err != nil || !keep {
+			return found.Key(), err
 		}
 	}
 
-	return nil
+	return nil, nil
+}
+
+func scanEndOf(stoppedAt, firstExcluded []byte) []byte {
+	if stoppedAt == nil {
+		return firstExcluded
+	}
+
+	return firstKeyAfter(stoppedAt)
+}
+
+func firstKeyAfter(key []byte) []byte {
+	return append(bytes.Clone(key), 0)
 }

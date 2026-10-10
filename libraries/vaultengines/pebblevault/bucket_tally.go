@@ -30,11 +30,12 @@ type storedBucketTally struct {
 func storedBucketTallyFor(
 	bucket vault.Name,
 	reader pebble.Reader,
-	staged *pebble.Batch,
+	footprint *readFootprint,
+	changes *pebble.Batch,
 ) storedBucketTally {
 	return storedBucketTally{
-		recordCounts: tallyAmountsWithin(recordCountsRegion, reader, staged),
-		heldBytes:    tallyAmountsWithin(heldBytesRegion, reader, staged),
+		recordCounts: tallyAmountsWithin(recordCountsRegion, reader, footprint, changes),
+		heldBytes:    tallyAmountsWithin(heldBytesRegion, reader, footprint, changes),
 		tallyKey:     []byte(bucket),
 	}
 }
@@ -42,12 +43,13 @@ func storedBucketTallyFor(
 func tallyAmountsWithin(
 	region keyspaceRegion,
 	reader pebble.Reader,
-	staged *pebble.Batch,
+	footprint *readFootprint,
+	changes *pebble.Batch,
 ) pebbleAmounts {
 	return pebbleAmounts{
-		entries: storedEntries{region: region, reader: reader},
-		staged:  staged,
-		lowered: &loweredAmounts{},
+		entries:        storedEntries{region: region, reader: reader, footprint: footprint},
+		changes:        changes,
+		loweredAmounts: &amountKeys{},
 	}
 }
 
@@ -77,17 +79,21 @@ func (t storedBucketTally) adjustBy(recordsDelta int, heldBytesDelta int64) erro
 	return nil
 }
 
-func heldBytesOf(reader pebble.Reader) (int64, error) {
-	var held int64
+func tallyBucketFrom(tallyKey []byte) vault.Name {
+	return vault.Name(tallyKey[len(recordCountsRegion.prefix):])
+}
 
-	err := tallyAmountsWithin(heldBytesRegion, reader, nil).Scan(
+func heldBytesOf(reader pebble.Reader) (int64, error) {
+	var heldBytes int64
+
+	err := tallyAmountsWithin(heldBytesRegion, reader, nil, nil).Scan(
 		vault.EveryKey(),
 		func(_ []byte, bytes int) (bool, error) {
-			held += int64(bytes)
+			heldBytes += int64(bytes)
 
 			return true, nil
 		},
 	)
 
-	return held, err
+	return heldBytes, err
 }

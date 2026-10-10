@@ -16,6 +16,7 @@ func TestQuotaAndUsedBytes(t *testing.T) {
 		4096,
 		testLimits,
 		nil,
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)

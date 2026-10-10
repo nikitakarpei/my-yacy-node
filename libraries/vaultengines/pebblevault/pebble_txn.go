@@ -7,25 +7,30 @@ import (
 )
 
 type pebbleTxn struct {
-	reader  pebble.Reader
-	staged  *pebble.Batch
-	lowered *loweredAmounts
+	reader         pebble.Reader
+	changes        *pebble.Batch
+	loweredAmounts *amountKeys
+	footprint      *readFootprint
 }
 
-func (t pebbleTxn) Writable() bool { return t.staged != nil }
+func (t pebbleTxn) Writable() bool { return t.changes != nil }
 
 func (t pebbleTxn) Records(name vault.Name) vault.EngineRecords {
 	return pebbleRecords{
-		entries: storedEntries{region: recordsRegionOf(name), reader: t.reader},
-		tally:   storedBucketTallyFor(name, t.reader, t.staged),
-		staged:  t.staged,
+		entries: t.entriesWithin(recordsRegionOf(name)),
+		tally:   storedBucketTallyFor(name, t.reader, t.footprint, t.changes),
+		changes: t.changes,
 	}
 }
 
 func (t pebbleTxn) Amounts(name vault.Name) vault.EngineAmounts {
 	return pebbleAmounts{
-		entries: storedEntries{region: amountsRegionOf(name), reader: t.reader},
-		staged:  t.staged,
-		lowered: t.lowered,
+		entries:        t.entriesWithin(amountsRegionOf(name)),
+		changes:        t.changes,
+		loweredAmounts: t.loweredAmounts,
 	}
+}
+
+func (t pebbleTxn) entriesWithin(region keyspaceRegion) storedEntries {
+	return storedEntries{region: region, reader: t.reader, footprint: t.footprint}
 }

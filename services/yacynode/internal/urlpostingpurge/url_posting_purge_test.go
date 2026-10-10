@@ -20,6 +20,7 @@ type recordedPurges struct {
 }
 
 func (r *recordedPurges) ObservePostingsPurgedWithURL(
+	_ *vault.Txn,
 	url yacymodel.URLHash,
 	amountOfPostings int,
 ) {

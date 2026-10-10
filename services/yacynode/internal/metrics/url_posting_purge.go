@@ -3,6 +3,7 @@ package metrics
 import (
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 )
@@ -22,10 +23,11 @@ func NewURLPostingPurgeMetrics(registry prometheus.Registerer) *URLPostingPurgeM
 }
 
 func (m *URLPostingPurgeMetrics) ObservePostingsPurgedWithURL(
+	tx *vault.Txn,
 	_ yacymodel.URLHash,
 	amountOfPostings int,
 ) {
-	m.postings.Add(float64(amountOfPostings))
+	tx.RunAfterCommit(func() { m.postings.Add(float64(amountOfPostings)) })
 }
 
 var _ urlpostingpurge.Observer = (*URLPostingPurgeMetrics)(nil)

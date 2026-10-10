@@ -33,6 +33,8 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 
 	var timeline *writeTimeline
 
+	var beginReported bool
+
 	var closureFailure error
 
 	var calledWriteOperation bool
@@ -41,7 +43,10 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 
 	engineFailure := v.engine.Update(ctx, func(etx EngineTxn) error {
 		timeline = newWriteTimeline()
-		v.observer.ObserveWriteBegan(timeline.openedAt.Sub(beganAt))
+		if !beginReported {
+			v.observer.ObserveWriteBegan(timeline.openedAt.Sub(beganAt))
+			beginReported = true
+		}
 
 		tx := &Txn{etx: etx}
 		closureFailure = fn(tx)

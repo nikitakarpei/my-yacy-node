@@ -9,9 +9,9 @@ import (
 )
 
 type pebbleAmounts struct {
-	entries storedEntries
-	staged  *pebble.Batch
-	lowered *loweredAmounts
+	entries        storedEntries
+	changes        *pebble.Batch
+	loweredAmounts *amountKeys
 }
 
 func (a pebbleAmounts) Get(key []byte) (int, error) {
@@ -38,7 +38,7 @@ func (a pebbleAmounts) Raise(key []byte, by uint) error {
 }
 
 func (a pebbleAmounts) stageChange(key []byte, change int64) error {
-	if err := a.staged.Merge(
+	if err := a.changes.Merge(
 		a.entries.region.absoluteKeyFrom(key),
 		encodedAmount(change),
 		pebble.NoSync,
@@ -54,7 +54,7 @@ func (a pebbleAmounts) Lower(key []byte, by uint) error {
 	if err := a.stageChange(key, -int64(by)); err != nil {
 		return err
 	}
-	a.lowered.note(a.entries.region.absoluteKeyFrom(key))
+	a.loweredAmounts.add(a.entries.region.absoluteKeyFrom(key))
 
 	return nil
 }
@@ -73,10 +73,10 @@ func (a pebbleAmounts) Scan(
 	})
 }
 
-type loweredAmounts struct {
+type amountKeys struct {
 	keys [][]byte
 }
 
-func (l *loweredAmounts) note(key []byte) {
-	l.keys = append(l.keys, key)
+func (k *amountKeys) add(key []byte) {
+	k.keys = append(k.keys, key)
 }

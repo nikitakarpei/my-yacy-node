@@ -253,7 +253,7 @@ const quotaFarAboveUsage = 1 << 20
 
 type discardedPurges struct{}
 
-func (discardedPurges) ObservePostingsPurgedWithURL(yacymodel.URLHash, int) {}
+func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
 
 type indexedPage struct {
 	vault   *vault.Vault

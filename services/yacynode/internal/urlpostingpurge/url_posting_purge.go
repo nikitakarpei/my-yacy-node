@@ -39,7 +39,7 @@ func (p URLPostingPurge) URLPurged(tx *vault.Txn, url yacymodel.URLHash) error {
 			amountOfPostings++
 		}
 	}
-	p.observer.ObservePostingsPurgedWithURL(url, amountOfPostings)
+	p.observer.ObservePostingsPurgedWithURL(tx, url, amountOfPostings)
 
 	return nil
 }
