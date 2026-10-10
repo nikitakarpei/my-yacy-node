@@ -8,7 +8,7 @@ import (
 )
 
 type ringOccupancy struct {
-	occupancyPerSector *vault.Collection[yacymodel.DHTRingSector, int]
+	occupancyPerSector *vault.Amounts[yacymodel.DHTRingSector]
 	partitions         yacymodel.DHTRingPartitions
 }
 
@@ -47,19 +47,8 @@ func (o *ringOccupancy) PostingStored(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
 ) error {
-	return o.raiseOccupancyByOnePosting(tx, o.dhtRingSectorOf(posting))
-}
-
-func (o *ringOccupancy) raiseOccupancyByOnePosting(
-	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
-) error {
-	amountOfPostings, err := o.occupancyOfDHTRingSector(tx, sector)
-	if err != nil {
-		return err
-	}
-	if _, err := o.occupancyPerSector.Put(tx, sector, amountOfPostings+1); err != nil {
-		return fmt.Errorf("record ring occupancy of sector: %w", err)
+	if err := o.occupancyPerSector.Raise(tx, o.dhtRingSectorOf(posting), 1); err != nil {
+		return fmt.Errorf("raise ring occupancy of sector: %w", err)
 	}
 
 	return nil
@@ -69,41 +58,11 @@ func (o *ringOccupancy) PostingPurged(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
 ) error {
-	return o.lowerOccupancyByOnePosting(tx, o.dhtRingSectorOf(posting))
-}
-
-func (o *ringOccupancy) lowerOccupancyByOnePosting(
-	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
-) error {
-	amountOfPostings, err := o.occupancyOfDHTRingSector(tx, sector)
-	if err != nil {
-		return err
-	}
-	if amountOfPostings <= 1 {
-		if _, err := o.occupancyPerSector.Delete(tx, sector); err != nil {
-			return fmt.Errorf("drop ring occupancy of sector: %w", err)
-		}
-
-		return nil
-	}
-	if _, err := o.occupancyPerSector.Put(tx, sector, amountOfPostings-1); err != nil {
-		return fmt.Errorf("record ring occupancy of sector: %w", err)
+	if err := o.occupancyPerSector.Lower(tx, o.dhtRingSectorOf(posting), 1); err != nil {
+		return fmt.Errorf("lower ring occupancy of sector: %w", err)
 	}
 
 	return nil
-}
-
-func (o *ringOccupancy) occupancyOfDHTRingSector(
-	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
-) (int, error) {
-	amountOfPostings, _, err := o.occupancyPerSector.Get(tx, sector)
-	if err != nil {
-		return 0, fmt.Errorf("read ring occupancy of sector: %w", err)
-	}
-
-	return amountOfPostings, nil
 }
 
 func (o *ringOccupancy) dhtRingSectorOf(
