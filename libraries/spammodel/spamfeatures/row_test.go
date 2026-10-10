@@ -111,15 +111,19 @@ func TestTheLinksFamilyReadsOutboundDomainsAndLocalRedirectPaths(t *testing.T) {
 	})
 }
 
-func TestTheHeadersFamilyReadsOriginHeaderNamesProductsAndGenerators(t *testing.T) {
+func TestTheHeadersFamilyReadsHeaderNamesProxiesKeepProductsAndGenerators(t *testing.T) {
 	row := spamfeatures.RowFrom(htmlreading.Reading{
 		Address: canonicalURLFor(t, "https://site.example/"),
 		HTML:    `<meta name="generator" content="WordPress 6.1">`,
 	}, http.Header{
-		"Age":          {"3"},
-		"Server":       {"Apache/2.4 (Debian)"},
-		"X-Powered-By": {" "},
-		"Content-Type": {"text/html"},
+		"Age":              {"3"},
+		"Cache-Status":     {"squid;hit"},
+		"Connection":       {"keep-alive"},
+		"Set-Cookie":       {"session=1"},
+		"Content-Encoding": {"gzip"},
+		"Server":           {"Apache/2.4 (Debian)"},
+		"X-Powered-By":     {" "},
+		"Content-Type":     {"text/html"},
 	})
 
 	assertFamily(t, row, spamfeatures.Headers, []string{

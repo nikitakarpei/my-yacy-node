@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/htmlreading"
 )
 
-const RecipeVersion = 5
+const RecipeVersion = 6
 
 const (
 	textReadRunes   = 2500
