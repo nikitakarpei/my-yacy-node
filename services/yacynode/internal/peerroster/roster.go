@@ -50,25 +50,15 @@ type roster struct {
 }
 
 func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
-	known := 0
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		if err := r.discoverEach(tx, seeds); err != nil {
-			return err
-		}
-		if err := r.evictOverflow(tx); err != nil {
-			return err
-		}
-		count, err := r.peerCount(tx)
-		known = count
-
-		return err
+		return r.discoverEach(tx, seeds)
 	}); err != nil {
 		slog.WarnContext(ctx, "peer discovery discarded", slog.Any("error", err))
 
 		return
 	}
 
-	r.observer.ObserveKnownPeers(known)
+	r.keepWithinCapacity(ctx)
 }
 
 func (r *roster) discoverEach(tx *vault.Txn, seeds []yacymodel.Seed) error {
@@ -109,18 +99,49 @@ func (r *roster) discoverOne(
 	return nil
 }
 
-func (r *roster) evictOverflow(tx *vault.Txn) error {
-	victims, err := r.stalestBeyondCapacity(tx)
-	if err != nil {
-		return err
-	}
-	for _, hash := range victims {
-		if _, err := r.peers.Delete(tx, hash); err != nil {
-			return fmt.Errorf("delete peer %s: %w", hash, err)
+func (r *roster) keepWithinCapacity(ctx context.Context) {
+	known, err := r.knownPeerCount(ctx)
+	if err == nil && known > r.reservoirCap {
+		err = r.evictOverflow(ctx)
+		if err == nil {
+			known, err = r.knownPeerCount(ctx)
 		}
 	}
+	if err != nil {
+		slog.WarnContext(ctx, "peer roster kept above its capacity", slog.Any("error", err))
 
-	return nil
+		return
+	}
+
+	r.observer.ObserveKnownPeers(known)
+}
+
+func (r *roster) knownPeerCount(ctx context.Context) (int, error) {
+	known := 0
+	err := r.vault.View(ctx, func(tx *vault.Txn) error {
+		count, err := r.peerCount(tx)
+		known = count
+
+		return err
+	})
+
+	return known, err
+}
+
+func (r *roster) evictOverflow(ctx context.Context) error {
+	return r.vault.Update(ctx, func(tx *vault.Txn) error {
+		victims, err := r.stalestBeyondCapacity(tx)
+		if err != nil {
+			return err
+		}
+		for _, hash := range victims {
+			if _, err := r.peers.Delete(tx, hash); err != nil {
+				return fmt.Errorf("delete peer %s: %w", hash, err)
+			}
+		}
+
+		return nil
+	})
 }
 
 func (r *roster) stalestBeyondCapacity(tx *vault.Txn) ([]yacymodel.Hash, error) {
@@ -239,18 +260,8 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 		return
 	}
 	confirmedAt := r.now()
-	known := 0
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		if err := r.recordReachable(tx, seed.Hash, networkAddress, confirmedAt); err != nil {
-			return err
-		}
-		if err := r.evictOverflow(tx); err != nil {
-			return err
-		}
-		count, err := r.peerCount(tx)
-		known = count
-
-		return err
+		return r.recordReachable(tx, seed.Hash, networkAddress, confirmedAt)
 	}); err != nil {
 		slog.WarnContext(
 			ctx,
@@ -274,7 +285,7 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 		)
 	}
 
-	r.observer.ObserveKnownPeers(known)
+	r.keepWithinCapacity(ctx)
 	r.observer.ObserveReachablePeers(r.reachablePeerCount())
 }
 
