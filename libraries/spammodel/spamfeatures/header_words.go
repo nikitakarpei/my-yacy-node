@@ -11,9 +11,11 @@ import (
 const headerValueReadRunes = 30
 
 var (
-	cacheHeaders = map[string]bool{
+	headersProxiesChange = map[string]bool{
 		"cache-control": true, "pragma": true, "expires": true, "age": true, "via": true,
-		"x-cache": true, "x-cache-lookup": true,
+		"x-cache": true, "x-cache-lookup": true, "cache-status": true,
+		"connection": true, "keep-alive": true, "transfer-encoding": true, "upgrade": true,
+		"content-length": true, "content-encoding": true, "set-cookie": true,
 	}
 	headersWithValueRead = map[string]bool{
 		"server":       true,
@@ -37,7 +39,7 @@ func headerWordsOf(responseHeaders http.Header, lowercaseMarkup string) []string
 }
 
 func fieldWordsOf(lowercaseName string, values []string) []string {
-	if cacheHeaders[lowercaseName] {
+	if headersProxiesChange[lowercaseName] {
 		return nil
 	}
 	var words []string

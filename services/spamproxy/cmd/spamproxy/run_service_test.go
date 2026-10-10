@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"net"
 	"net/http"
@@ -19,6 +20,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/safetensorsmodel"
+	"github.com/nikitakarpei/yacy-rwi-node/spammodel/spamfeatures"
 	spamproxy "github.com/nikitakarpei/yacy-rwi-node/spamproxy/cmd/spamproxy"
 )
 
@@ -48,7 +50,8 @@ func TestTheServiceServesTheVerdictsOfItsModelFile(t *testing.T) {
 
 func TestTheServiceDoesNotStartWithAModelFileOfAnotherRecipe(t *testing.T) {
 	modelFile := bytes.Replace(safetensorsmodel.SafetensorsFrom(spamModel()),
-		[]byte(`"recipeVersion":"5"`), []byte(`"recipeVersion":"6"`), 1)
+		fmt.Appendf(nil, `"recipeVersion":"%d"`, spamfeatures.RecipeVersion),
+		fmt.Appendf(nil, `"recipeVersion":"%d"`, spamfeatures.RecipeVersion+1), 1)
 	cfg := serviceConfigFor(t, "http://127.0.0.1:1", modelFile)
 
 	err := spamproxy.RunService(t.Context(), cfg, prometheus.NewRegistry())

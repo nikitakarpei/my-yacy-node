@@ -3,7 +3,9 @@ package safetensorsmodel_test
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -54,15 +56,21 @@ func TestTheHeaderIsAlignedToEightBytes(t *testing.T) {
 }
 
 func TestAModelOfAnotherRecipeIsRefused(t *testing.T) {
+	otherRecipeVersion := spamfeatures.RecipeVersion + 1
 	file := bytes.Replace(safetensorsmodel.SafetensorsFrom(trainedModel()),
-		[]byte(`"recipeVersion":"5"`), []byte(`"recipeVersion":"6"`), 1)
+		fmt.Appendf(nil, `"recipeVersion":"%d"`, spamfeatures.RecipeVersion),
+		fmt.Appendf(nil, `"recipeVersion":"%d"`, otherRecipeVersion), 1)
 
 	_, err := safetensorsmodel.ModelFrom(file)
 
 	var mismatch safetensorsmodel.RecipeVersionMismatchError
-	if !errors.As(err, &mismatch) || mismatch.RecipeVersion != 6 ||
-		!strings.Contains(err.Error(), "6") {
-		t.Errorf("ModelFrom error = %v, want a mismatch of recipe version 6", err)
+	if !errors.As(err, &mismatch) || mismatch.RecipeVersion != otherRecipeVersion ||
+		!strings.Contains(err.Error(), strconv.Itoa(otherRecipeVersion)) {
+		t.Errorf(
+			"ModelFrom error = %v, want a mismatch of recipe version %d",
+			err,
+			otherRecipeVersion,
+		)
 	}
 }
 
