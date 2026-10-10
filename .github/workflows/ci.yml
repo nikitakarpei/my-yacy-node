@@ -109,6 +109,12 @@ jobs:
     uses: ./.github/workflows/build-spamproxy.yml
     secrets: inherit
 
+  build-impersonateproxy:
+    needs: [verify, e2e]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-impersonateproxy.yml
+    secrets: inherit
+
   build-smokescreen:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'

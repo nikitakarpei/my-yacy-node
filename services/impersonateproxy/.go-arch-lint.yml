@@ -1,0 +1,63 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  chromenavigation:
+    in: internal/chromenavigation/**
+  egressproxytest:
+    in: internal/egressproxytest/**
+  proxyintake:
+    in: internal/proxyintake/**
+  pagefetcherstlsclient:
+    in: internal/pagefetchers/tlsclient/**
+  proxyintakeobserversapplog:
+    in: internal/proxyintakeobservers/applog/**
+  proxyintakeobserversprometheus:
+    in: internal/proxyintakeobservers/prometheus/**
+  tlsclientobserversapplog:
+    in: internal/pagefetchersobservers/tlsclient/applog/**
+  tlsclientobserversprometheus:
+    in: internal/pagefetchersobservers/tlsclient/prometheus/**
+  impersonateproxycmd:
+    in: cmd/impersonateproxy/**
+
+vendors:
+  tlsclient:
+    in:
+      - github.com/bogdanfinn/tls-client
+      - github.com/bogdanfinn/tls-client/**
+      - github.com/bogdanfinn/fhttp
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+
+deps:
+  proxyintake:
+    mayDependOn:
+      - chromenavigation
+  pagefetcherstlsclient:
+    mayDependOn:
+      - chromenavigation
+    canUse:
+      - tlsclient
+  proxyintakeobserversapplog:
+    mayDependOn:
+      - proxyintake
+  proxyintakeobserversprometheus:
+    mayDependOn:
+      - proxyintake
+    canUse:
+      - prometheus
+  tlsclientobserversprometheus:
+    canUse:
+      - prometheus
+  impersonateproxycmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
