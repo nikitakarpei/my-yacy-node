@@ -18,7 +18,7 @@ func (v *Vault) RegisterCollection[K, V any](
 	keys KeyLayout[K],
 	values ValueCodec[V],
 ) (*Collection[K, V], error) {
-	if err := v.provision(bucket); err != nil {
+	if err := v.provisionRecordsBucket(bucket); err != nil {
 		return nil, err
 	}
 
@@ -28,7 +28,7 @@ func (v *Vault) RegisterCollection[K, V any](
 func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	var zero V
 
-	record, err := tx.etx.Bucket(c.name).Get(c.keys.Encode(key).Bytes())
+	record, err := tx.etx.Records(c.name).Get(c.keys.Encode(key).Bytes())
 	if err != nil {
 		return zero, false, fmt.Errorf("read %s: %w", c.name, err)
 	}
@@ -84,7 +84,7 @@ func (c *Collection[K, V]) storeRecord(
 		return nil, fmt.Errorf("encode %s: %w", c.name, err)
 	}
 
-	replacedRecord, err = tx.etx.Bucket(c.name).Put(
+	replacedRecord, err = tx.etx.Records(c.name).Put(
 		c.keys.Encode(key).Bytes(),
 		recordFrom(payload),
 	)
@@ -133,7 +133,7 @@ func (c *Collection[K, V]) deleteRecord(tx *Txn, key K) (deletedRecord []byte, e
 	}
 	tx.calledWriteOperation = true
 
-	deletedRecord, err = tx.etx.Bucket(c.name).Delete(c.keys.Encode(key).Bytes())
+	deletedRecord, err = tx.etx.Records(c.name).Delete(c.keys.Encode(key).Bytes())
 	if err != nil {
 		return nil, fmt.Errorf("delete %s: %w", c.name, err)
 	}
@@ -168,7 +168,7 @@ func (c *Collection[K, V]) Scan(
 	keys KeyRange,
 	fn func(K, V) (bool, error),
 ) error {
-	if err := tx.etx.Bucket(c.name).Scan(keys, func(key, record []byte) (bool, error) {
+	if err := tx.etx.Records(c.name).Scan(keys, func(key, record []byte) (bool, error) {
 		decodedKey, err := c.keys.Decode(key)
 		if err != nil {
 			return false, fmt.Errorf("decode %s key: %w", c.name, err)
@@ -191,7 +191,7 @@ func (c *Collection[K, V]) Len(tx *Txn) (int, error) {
 }
 
 func lengthOf(tx *Txn, bucket Name) (int, error) {
-	length, err := tx.etx.Bucket(bucket).Len()
+	length, err := tx.etx.Records(bucket).Len()
 	if err != nil {
 		return 0, fmt.Errorf("length of %s: %w", bucket, err)
 	}

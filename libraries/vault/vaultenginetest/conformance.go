@@ -1,7 +1,8 @@
 // Package vaultenginetest holds the storage-contract suite every vault Engine driver
 // runs against itself. A driver passes its own opener to RunConformance and the
 // suite exercises the guarantees a backend must honour: durable round trips,
-// bounded scans, transaction atomicity, bucket isolation, and byte accounting.
+// bounded scans, transaction atomicity, bucket isolation, byte accounting, and
+// amounts that add up without a read.
 // Engine-independent behaviour the port enforces lives with the port's own
 // tests, not here.
 package vaultenginetest
@@ -64,6 +65,7 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 		"RepeatedWriteSeesTheSameStoredState",
 		func(t *testing.T) { repeatedWriteSeesTheSameStoredState(t, open) },
 	)
+	runAmountConformance(t, open)
 }
 
 func openVault(
@@ -381,7 +383,7 @@ func scannedKeys(
 
 	var visited []string
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
-		return etx.Bucket(boundedScanBucket).Scan(keys, func(key, _ []byte) (bool, error) {
+		return etx.Records(boundedScanBucket).Scan(keys, func(key, _ []byte) (bool, error) {
 			decoded, err := stringKeyLayout.Decode(key)
 			if err != nil {
 				return false, err
@@ -400,11 +402,11 @@ func scannedKeys(
 func storeBoundedScanKeys(t *testing.T, engine vault.Engine) {
 	t.Helper()
 
-	if err := engine.Provision(boundedScanBucket); err != nil {
-		t.Fatalf("Provision: %v", err)
+	if err := engine.ProvisionRecordsBucket(boundedScanBucket); err != nil {
+		t.Fatalf("ProvisionRecordsBucket: %v", err)
 	}
 	if err := engine.Update(context.Background(), func(etx vault.EngineTxn) error {
-		bucket := etx.Bucket(boundedScanBucket)
+		bucket := etx.Records(boundedScanBucket)
 		for _, key := range boundedScanKeys {
 			if _, err := bucket.Put(stringKeyParts.Key(key).Bytes(), []byte(key)); err != nil {
 				return wrapTest(err)
@@ -423,7 +425,7 @@ func boundedScanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, err
 
 	var visited []string
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
-		return etx.Bucket(boundedScanBucket).Scan(
+		return etx.Records(boundedScanBucket).Scan(
 			vault.EveryKey(),
 			func(key, _ []byte) (bool, error) {
 				decoded, err := stringKeyLayout.Decode(key)
@@ -492,11 +494,11 @@ func scanEntriesLastUntilTheClosureReturns(t *testing.T, open func(int64) (vault
 	storeScannedEntries(t, engine)
 
 	if err := engine.View(ctx, func(tx vault.EngineTxn) error {
-		return tx.Bucket(scannedBucket).Scan(
+		return tx.Records(scannedBucket).Scan(
 			vault.EveryKey(),
 			func(key, value []byte) (bool, error) {
 				entered, valueEntered := string(key), string(value)
-				if _, err := tx.Bucket(scannedBucket).Get([]byte("c")); err != nil {
+				if _, err := tx.Records(scannedBucket).Get([]byte("c")); err != nil {
 					return false, wrapTest(err)
 				}
 				if string(key) != entered || string(value) != valueEntered {
@@ -517,11 +519,11 @@ func scanEntriesLastUntilTheClosureReturns(t *testing.T, open func(int64) (vault
 func storeScannedEntries(t *testing.T, engine vault.Engine) {
 	t.Helper()
 
-	if err := engine.Provision(scannedBucket); err != nil {
-		t.Fatalf("Provision: %v", err)
+	if err := engine.ProvisionRecordsBucket(scannedBucket); err != nil {
+		t.Fatalf("ProvisionRecordsBucket: %v", err)
 	}
 	if err := engine.Update(context.Background(), func(tx vault.EngineTxn) error {
-		scanned := tx.Bucket(scannedBucket)
+		scanned := tx.Records(scannedBucket)
 		for _, key := range []string{"a", "b", "c"} {
 			if _, err := scanned.Put([]byte(key), []byte(key+"-value")); err != nil {
 				return wrapTest(err)
@@ -536,8 +538,8 @@ func storeScannedEntries(t *testing.T, engine vault.Engine) {
 
 func doneContextSkipsTheClosure(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openEngine(t, open, 4096)
-	if err := engine.Provision(scannedBucket); err != nil {
-		t.Fatalf("Provision: %v", err)
+	if err := engine.ProvisionRecordsBucket(scannedBucket); err != nil {
+		t.Fatalf("ProvisionRecordsBucket: %v", err)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())

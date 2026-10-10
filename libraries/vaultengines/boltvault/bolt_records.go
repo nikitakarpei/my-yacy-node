@@ -9,17 +9,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-type boltBucket struct {
+type boltRecords struct {
 	name    vault.Name
 	entries *bolt.Bucket
 	lengths *bolt.Bucket
 }
 
-func (b boltBucket) Get(key []byte) ([]byte, error) {
+func (b boltRecords) Get(key []byte) ([]byte, error) {
 	return b.entries.Get(key), nil
 }
 
-func (b boltBucket) Put(key []byte, record []byte) ([]byte, error) {
+func (b boltRecords) Put(key []byte, record []byte) ([]byte, error) {
 	replacedRecord := bytes.Clone(b.entries.Get(key))
 	if err := b.entries.Put(key, record); err != nil {
 		return nil, fmt.Errorf("store: %w", err)
@@ -31,7 +31,7 @@ func (b boltBucket) Put(key []byte, record []byte) ([]byte, error) {
 	return nil, adjustLength(b.lengths, b.name, 1)
 }
 
-func (b boltBucket) Delete(key []byte) ([]byte, error) {
+func (b boltRecords) Delete(key []byte) ([]byte, error) {
 	deletedRecord := bytes.Clone(b.entries.Get(key))
 	if deletedRecord == nil {
 		return nil, nil
@@ -46,11 +46,11 @@ func (b boltBucket) Delete(key []byte) ([]byte, error) {
 	return deletedRecord, nil
 }
 
-func (b boltBucket) Len() (int, error) {
+func (b boltRecords) Len() (int, error) {
 	return lengthOf(b.lengths, b.name)
 }
 
-func (b boltBucket) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
+func (b boltRecords) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
 	firstIncluded, firstExcluded := keys.Bounds()
 
 	cursor := b.entries.Cursor()

@@ -1,35 +1,30 @@
 package pebblevault
 
 import (
-	"errors"
-	"fmt"
-
 	"github.com/cockroachdb/pebble/v2"
 
-	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-var tallyRegion = keyspaceRegion{prefix: []byte{tallyRegionPrefix}}
+const (
+	recordCountsPrefix byte = 1
+	heldBytesPrefix    byte = 2
+)
 
-var errBadBucketTally = errors.New("bad bucket tally")
+var (
+	recordCountsRegion = keyspaceRegion{prefix: []byte{tallyRegionPrefix, recordCountsPrefix}}
+	heldBytesRegion    = keyspaceRegion{prefix: []byte{tallyRegionPrefix, heldBytesPrefix}}
+)
 
 type bucketTally struct {
-	entries int
-	bytes   int64
-}
-
-func (t bucketTally) adjustedBy(entriesDelta int, bytesDelta int64) bucketTally {
-	return bucketTally{
-		entries: t.entries + entriesDelta,
-		bytes:   t.bytes + bytesDelta,
-	}
+	records   int
+	heldBytes int64
 }
 
 type storedBucketTally struct {
-	tallies storedEntries
-	bucket  vault.Name
-	staged  *pebble.Batch
+	recordCounts pebbleAmounts
+	heldBytes    pebbleAmounts
+	tallyKey     []byte
 }
 
 func storedBucketTallyFor(
@@ -38,77 +33,61 @@ func storedBucketTallyFor(
 	staged *pebble.Batch,
 ) storedBucketTally {
 	return storedBucketTally{
-		tallies: bucketTalliesIn(reader),
-		bucket:  bucket,
-		staged:  staged,
+		recordCounts: tallyAmountsWithin(recordCountsRegion, reader, staged),
+		heldBytes:    tallyAmountsWithin(heldBytesRegion, reader, staged),
+		tallyKey:     []byte(bucket),
 	}
 }
 
-func bucketTalliesIn(reader pebble.Reader) storedEntries {
-	return storedEntries{region: tallyRegion, reader: reader}
+func tallyAmountsWithin(
+	region keyspaceRegion,
+	reader pebble.Reader,
+	staged *pebble.Batch,
+) pebbleAmounts {
+	return pebbleAmounts{
+		entries: storedEntries{region: region, reader: reader},
+		staged:  staged,
+		lowered: &loweredAmounts{},
+	}
 }
 
 func (t storedBucketTally) value() (bucketTally, error) {
-	raw, err := t.tallies.valueAt([]byte(t.bucket))
+	records, err := t.recordCounts.Get(t.tallyKey)
+	if err != nil {
+		return bucketTally{}, err
+	}
+	heldBytes, err := t.heldBytes.Get(t.tallyKey)
 	if err != nil {
 		return bucketTally{}, err
 	}
 
-	return decodedBucketTally(raw)
+	return bucketTally{records: records, heldBytes: int64(heldBytes)}, nil
 }
 
-func decodedBucketTally(raw []byte) (bucketTally, error) {
-	stored := storedfields.ReaderOf(raw, errBadBucketTally)
-	tally := bucketTally{
-		entries: stored.Count("bucket entries"),
-		bytes:   stored.Varint("bucket bytes"),
+func (t storedBucketTally) adjustBy(recordsDelta int, heldBytesDelta int64) error {
+	if recordsDelta != 0 {
+		if err := t.recordCounts.stageChange(t.tallyKey, int64(recordsDelta)); err != nil {
+			return err
+		}
 	}
-	if err := stored.Err(); err != nil {
-		return bucketTally{}, err
-	}
-
-	return tally, nil
-}
-
-func (t storedBucketTally) adjustBy(entriesDelta int, bytesDelta int64) error {
-	current, err := t.value()
-	if err != nil {
-		return err
-	}
-
-	if err := t.staged.Set(
-		t.tallies.region.absoluteKeyFrom([]byte(t.bucket)),
-		encodedBucketTally(current.adjustedBy(entriesDelta, bytesDelta)),
-		pebble.NoSync,
-	); err != nil {
-		return fmt.Errorf("store bucket tally: %w", err)
+	if heldBytesDelta != 0 {
+		return t.heldBytes.stageChange(t.tallyKey, heldBytesDelta)
 	}
 
 	return nil
 }
 
-func encodedBucketTally(tally bucketTally) []byte {
-	var stored storedfields.Writer
-	stored.Count(max(tally.entries, 0))
-	stored.Varint(max(tally.bytes, 0))
-
-	return stored.Record()
-}
-
-func heldBytesOf(tallies storedEntries) (int64, error) {
+func heldBytesOf(reader pebble.Reader) (int64, error) {
 	var held int64
 
-	if err := tallies.visit(vault.EveryKey(), func(_, value []byte) (bool, error) {
-		tally, err := decodedBucketTally(value)
-		if err != nil {
-			return false, err
-		}
-		held += tally.bytes
+	err := tallyAmountsWithin(heldBytesRegion, reader, nil).Scan(
+		vault.EveryKey(),
+		func(_ []byte, bytes int) (bool, error) {
+			held += int64(bytes)
 
-		return true, nil
-	}); err != nil {
-		return 0, err
-	}
+			return true, nil
+		},
+	)
 
-	return held, nil
+	return held, err
 }

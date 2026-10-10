@@ -41,8 +41,6 @@ replace github.com/nikitakarpei/yacy-rwi-node/vault => ../../vault
 
 require (
 	github.com/cockroachdb/pebble/v2 v2.1.7
-	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../storedfields

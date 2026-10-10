@@ -167,7 +167,7 @@ func storeWords(t *testing.T, engine *pebblevault.Engine, batch, words int) {
 
 	value := bytes.Repeat([]byte("a"), 1024)
 	if err := engine.Update(context.Background(), func(tx vault.EngineTxn) error {
-		bucket := tx.Bucket(vault.Name("words"))
+		bucket := tx.Records(vault.Name("words"))
 		for word := range words {
 			key := strconv.Itoa(batch) + "-" + strconv.Itoa(word)
 			if _, err := bucket.Put([]byte(key), value); err != nil {

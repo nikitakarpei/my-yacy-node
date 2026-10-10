@@ -13,10 +13,14 @@ type boltTxn struct {
 
 func (t boltTxn) Writable() bool { return t.writable }
 
-func (t boltTxn) Bucket(name vault.Name) vault.EngineBucket {
-	return boltBucket{
+func (t boltTxn) Records(name vault.Name) vault.EngineRecords {
+	return boltRecords{
 		name:    name,
 		entries: t.tx.Bucket([]byte(name)),
 		lengths: t.tx.Bucket([]byte(lengthBucket)),
 	}
+}
+
+func (t boltTxn) Amounts(name vault.Name) vault.EngineAmounts {
+	return boltAmounts{entries: t.tx.Bucket([]byte(name))}
 }

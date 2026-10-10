@@ -2809,7 +2809,7 @@
     },
     {
       "id": 25,
-      "title": "Entries, by collection",
+      "title": "Records, by bucket",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2837,8 +2837,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "yacynode_vault_collection_entries{instance=~\"$service_instance\"}",
-          "legendFormat": "{{collection}}"
+          "expr": "yacynode_vault_bucket_records{instance=~\"$service_instance\"}",
+          "legendFormat": "{{bucket}}"
         }
       ],
       "interval": "$window"

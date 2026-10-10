@@ -136,13 +136,13 @@ func TestOpenRefusesAStoragePathThatIsADirectory(t *testing.T) {
 }
 
 func TestProvisionRefusesACollectionWithNoName(t *testing.T) {
-	if err := openEngine(t).Provision(""); err == nil {
+	if err := openEngine(t).ProvisionRecordsBucket(""); err == nil {
 		t.Fatal("Provision of an unnamed collection succeeded, want error")
 	}
 }
 
 func TestProvisionRefusesTheReservedLengthCollection(t *testing.T) {
-	if err := openEngine(t).Provision("__lengths__"); err == nil {
+	if err := openEngine(t).ProvisionRecordsBucket("__lengths__"); err == nil {
 		t.Fatal("Provision of the reserved collection succeeded, want error")
 	}
 }

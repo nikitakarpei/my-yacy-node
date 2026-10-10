@@ -154,7 +154,7 @@ func TestOpsEndpointPublishesWhatStorageHolds(t *testing.T) {
 	defer node.stop()
 
 	published := node.metrics(t)
-	for _, gauge := range []string{"yacynode_vault_quota_bytes", "yacynode_vault_used_bytes", "yacynode_vault_collection"} {
+	for _, gauge := range []string{"yacynode_vault_quota_bytes", "yacynode_vault_used_bytes", "yacynode_vault_bucket_records"} {
 		if !strings.Contains(published, gauge) {
 			t.Errorf("metrics do not carry %s", gauge)
 		}

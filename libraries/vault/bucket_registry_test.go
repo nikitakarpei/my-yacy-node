@@ -38,7 +38,7 @@ func TestRegisterRejectsClosedVault(t *testing.T) {
 	}
 }
 
-func TestEntriesByCollectionReportsRegisteredLengths(t *testing.T) {
+func TestRecordCountsByBucketReportsRegisteredLengths(t *testing.T) {
 	v, err := openDouble()
 	if err != nil {
 		t.Fatalf("openDouble: %v", err)
@@ -74,9 +74,9 @@ func TestEntriesByCollectionReportsRegisteredLengths(t *testing.T) {
 		t.Fatalf("Update: %v", err)
 	}
 
-	entries, err := v.EntriesByCollection(ctx)
+	entries, err := v.RecordCountsByBucket(ctx)
 	if err != nil {
-		t.Fatalf("EntriesByCollection: %v", err)
+		t.Fatalf("RecordCountsByBucket: %v", err)
 	}
 
 	want := map[vault.Name]int{"words": 3, "urls": 0}

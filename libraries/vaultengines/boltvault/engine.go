@@ -91,12 +91,16 @@ func release(handle io.Closer) error {
 
 var errReservedBucket = errors.New("bucket name reserved for storage internals")
 
-func (e *engine) Provision(name vault.Name) error {
+func (e *engine) ProvisionRecordsBucket(name vault.Name) error {
 	if name == lengthBucket {
 		return fmt.Errorf("provision bucket %s: %w", name, errReservedBucket)
 	}
 
 	return e.createBucket(name)
+}
+
+func (e *engine) ProvisionAmountsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
 }
 
 func (e *engine) createBucket(name vault.Name) error {
