@@ -74,7 +74,7 @@ const (
 
 const (
 	evictionTargetFraction  = 0.9
-	evictionURLsPerBatch    = 256
+	evictionURLsPerBatch    = 16
 	evictionBatchesPerSweep = 64
 )
 
