@@ -2,6 +2,7 @@ package htmlreading_test
 
 import (
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -63,6 +64,17 @@ func TestAReadingKeepsItsAddressAndBodySize(t *testing.T) {
 	if reading.Address != canonicalURLFor(t, "https://site.example/dir/page") ||
 		reading.BodyBytes != len(readablePage) {
 		t.Fatalf("address %v, body bytes %d", reading.Address, reading.BodyBytes)
+	}
+}
+
+func TestAReadingOfAPageTooDeepToParseKeepsOnlyItsHTMLAndSize(t *testing.T) {
+	deepPage := strings.Repeat("<div>", 600) + `<a href="offer.html">offer</a>`
+
+	reading := readingFrom(t, "text/html", deepPage)
+
+	if reading.HTML != deepPage || reading.BodyBytes != len(deepPage) ||
+		reading.VisibleText != "" || len(reading.WebLinks) != 0 {
+		t.Fatalf("reading %+v", reading)
 	}
 }
 
