@@ -16,6 +16,8 @@ func TestCanonicalURLOf(t *testing.T) {
 		"http://example.com/a/#frag": "http://example.com/a/",
 		"http://example.com:8080/x":  "http://example.com:8080/x",
 		"http://example.com/a/b/":    "http://example.com/a/b/",
+		"http://[2600:DB8::1]:8903/": "http://[2600:db8::1]:8903/",
+		"http://[2600:db8::1]:80/a":  "http://[2600:db8::1]/a",
 	}
 	for input, want := range cases {
 		got, err := canonicalurl.CanonicalURLOf(input)

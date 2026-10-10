@@ -45,7 +45,10 @@ func htmlFrom(contentType string, body []byte) string {
 }
 
 func treeOf(pageHTML string) *html.Node {
-	root, _ := html.Parse(strings.NewReader(pageHTML))
+	root, err := html.Parse(strings.NewReader(pageHTML))
+	if err != nil {
+		return &html.Node{Type: html.DocumentNode}
+	}
 	return root
 }
 
