@@ -304,6 +304,22 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 	}
 }
 
+func TestReceiveHoldsAWholeTransferThatStartsBelowTheEscrowCapacity(t *testing.T) {
+	h := openHarness(t, 0, 1)
+
+	held := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w2", "u2")}
+	receipt, err := h.receiver.Receive(context.Background(), held)
+	if err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+	if receipt.Busy {
+		t.Fatalf("receipt = %+v, want the transfer taken", receipt)
+	}
+	if got := h.heldCount(t); got != len(held) {
+		t.Fatalf("held count = %d, want all %d received", got, len(held))
+	}
+}
+
 func TestReceiveBusyWithMorePostingsThanTheCap(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	h.storeMetadata(t, "u1")
