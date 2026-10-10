@@ -3,7 +3,8 @@
 // for each of them, and how many documents the peers hold per query word. The facts of a document
 // count its query words, its query phrases, its words and its links. A page the
 // service read replaces the facts, the snippet, the title and the address, and
-// gives the spam verdict.
+// gives the spam verdict. The findings can keep only the documents whose page
+// the service read.
 package queryfindings
 
 import (
@@ -34,6 +35,22 @@ func (f Findings) WithReadPages(
 			foundDocument = foundDocument.withItsReadPage(pageContents)
 		}
 		foundDocuments = append(foundDocuments, foundDocument)
+	}
+	f.FoundDocuments = foundDocuments
+
+	return f
+}
+
+func (f Findings) WithOnlyReadPages(
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
+) Findings {
+	foundDocuments := make([]FoundDocument, 0, len(pageContentsPerDocument))
+	for _, foundDocument := range f.FoundDocuments {
+		pageContents, read := pageContentsPerDocument[foundDocument.Hash]
+		if !read {
+			continue
+		}
+		foundDocuments = append(foundDocuments, foundDocument.withItsReadPage(pageContents))
 	}
 	f.FoundDocuments = foundDocuments
 

@@ -19,6 +19,18 @@ func minimalEnvironment() map[string]string {
 	}
 }
 
+func TestAServiceConfigShowsUnreadResultsByDefault(t *testing.T) {
+	t.Parallel()
+
+	cfg, err := main.LoadServiceConfig(environmentOf(minimalEnvironment()))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.HideUnreadResults {
+		t.Fatal("HideUnreadResults = true, want the unread results shown by default")
+	}
+}
+
 func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 	t.Parallel()
 
@@ -144,6 +156,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvReplicasCoveringAPartition] = "2"
 	environment[main.EnvHedgeDelay] = "250ms"
 	environment[main.EnvServeProfiler] = "true"
+	environment[main.EnvHideUnreadResults] = "true"
 	environment[main.EnvPagesReadPerSiteCeiling] = "5"
 	environment[main.EnvPageReadCutoffPercent] = "80"
 	environment[main.EnvPageReadCutoffGrace] = "400ms"
@@ -168,7 +181,7 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 		cfg.URLMetadataAskTargetTime != 1500*time.Millisecond ||
 		cfg.URLMetadataAsksPerDocument != 4 ||
 		cfg.ReplicasCoveringAPartition != 2 || cfg.HedgeDelay != 250*time.Millisecond ||
-		!cfg.ServeProfiler || cfg.PagesReadPerSiteCeiling != 5 ||
+		!cfg.ServeProfiler || !cfg.HideUnreadResults || cfg.PagesReadPerSiteCeiling != 5 ||
 		cfg.PageReadCutoff.PercentOfPages != 80 ||
 		cfg.PageReadCutoff.Grace != 400*time.Millisecond ||
 		cfg.URLMetadataLookupCutoff.PercentOfDocuments != 75 ||
