@@ -2,6 +2,7 @@ package distributioncycle
 
 import (
 	"context"
+	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -47,11 +48,13 @@ func offerDuePostings(
 	answers OfferAnswers,
 	offers []postingoffer.PostingOffer,
 ) offerRound {
+	toPeers := peerOffers(offers)
+	offerAnswers := sendOffers(ctx, transfers, toPeers)
 	pauses := make(requestedPauses)
 
 	var acceptances []peerAcceptance
-	for _, offer := range peerOffers(offers) {
-		postingsAcceptedByPeer := sendOffer(ctx, transfers, answers, offer, pauses)
+	for index, offer := range toPeers {
+		postingsAcceptedByPeer := recordAnswer(answers, offer, offerAnswers[index], pauses)
 		if len(postingsAcceptedByPeer) == 0 {
 			continue
 		}
@@ -87,14 +90,29 @@ func peerOffers(offers []postingoffer.PostingOffer) []peerOffer {
 	return toPeers
 }
 
-func sendOffer(
+func sendOffers(
 	ctx context.Context,
 	transfers *postingtransfer.PostingTransfers,
+	toPeers []peerOffer,
+) []postingtransfer.OfferAnswer {
+	offerAnswers := make([]postingtransfer.OfferAnswer, len(toPeers))
+	var sends sync.WaitGroup
+	for index, offer := range toPeers {
+		sends.Go(func() {
+			offerAnswers[index] = transfers.Send(ctx, offer.peer, offer.postings)
+		})
+	}
+	sends.Wait()
+
+	return offerAnswers
+}
+
+func recordAnswer(
 	answers OfferAnswers,
 	offer peerOffer,
+	answer postingtransfer.OfferAnswer,
 	pauses requestedPauses,
 ) []yacymodel.RWIPosting {
-	answer := transfers.Send(ctx, offer.peer, offer.postings)
 	if answer.Accepted {
 		answers.OfferAccepted(offer.peer.Hash)
 	} else {

@@ -12,6 +12,7 @@ const (
 	EnvDistributionRedundancy            = "YACY_DISTRIBUTION_REDUNDANCY"
 	EnvDistributionPartitionExponent     = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
 	EnvDistributionPostingsPerBatch      = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
+	EnvDistributionBatchConcurrency      = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
 	EnvDistributionCycleInterval         = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
 	EnvDistributionDrainBudget           = "YACY_DISTRIBUTION_DRAIN_BUDGET"
 	EnvDistributionLongestOfferInterval  = "YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL"
@@ -25,6 +26,7 @@ const (
 	DefaultDistributionRedundancy            = 3
 	DefaultDistributionPartitionExponent     = 4
 	DefaultDistributionPostingsPerBatch      = 1000
+	DefaultDistributionBatchConcurrency      = 2
 	DefaultDistributionCycleInterval         = time.Minute
 	DefaultDistributionDrainBudget           = time.Minute
 	DefaultDistributionLongestOfferInterval  = 24 * time.Hour
@@ -40,6 +42,7 @@ type DistributionConfig struct {
 	Redundancy           int
 	PartitionExponent    uint
 	PostingsPerBatch     int
+	BatchConcurrency     int
 	CycleInterval        time.Duration
 	DrainBudget          time.Duration
 	OfferInterval        OfferIntervalConfig
@@ -78,6 +81,13 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 
 	postingsPerBatch, err := envconfig.PositiveInt(
 		getenv, EnvDistributionPostingsPerBatch, DefaultDistributionPostingsPerBatch,
+	)
+	if err != nil {
+		return DistributionConfig{}, err
+	}
+
+	batchConcurrency, err := envconfig.PositiveInt(
+		getenv, EnvDistributionBatchConcurrency, DefaultDistributionBatchConcurrency,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -129,6 +139,7 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		Redundancy:           redundancy,
 		PartitionExponent:    uint(partitionExponent),
 		PostingsPerBatch:     postingsPerBatch,
+		BatchConcurrency:     batchConcurrency,
 		CycleInterval:        cycleInterval,
 		DrainBudget:          drainBudget,
 		OfferInterval:        offerInterval,

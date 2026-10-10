@@ -382,6 +382,7 @@ func assembleNode(
 					Longest:  config.Distribution.OfferInterval.Longest,
 				},
 				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
+				BatchConcurrency:  config.Distribution.BatchConcurrency,
 				CycleInterval:     config.Distribution.CycleInterval,
 				DrainBudget:       config.Distribution.DrainBudget,
 				MinReachablePeers: config.Distribution.MinReachablePeers,

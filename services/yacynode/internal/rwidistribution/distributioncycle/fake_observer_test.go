@@ -1,6 +1,7 @@
 package distributioncycle_test
 
 import (
+	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
@@ -11,6 +12,7 @@ const cycleEndBuffer = 16
 const shortfall = string(postingofferschedule.OfferOrderShortfall)
 
 type fakeObserver struct {
+	guard                 sync.Mutex
 	offers                map[string]int
 	postingsOffered       map[string]int
 	urlMetadataDeliveries map[string]int
@@ -43,28 +45,46 @@ func newFakeObserver() *fakeObserver {
 }
 
 func (f *fakeObserver) ObservePostingOffer(outcome string, postings int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.offers[outcome]++
 	f.postingsOffered[outcome] += postings
 }
 
 func (f *fakeObserver) ObserveURLMetadataDelivery(outcome string, urls int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.urlMetadataDeliveries[outcome]++
 	f.urlsDelivered[outcome] += urls
 }
 
 func (f *fakeObserver) ObserveURLsUnknownToUs(urls int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.urlsUnknownToUs += urls
 }
 
 func (f *fakeObserver) ObservePostingsGone(gone int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.gone = gone
 }
 
 func (f *fakeObserver) ObserveScheduledPostings(order string, postings int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.scheduledPostings[order] = postings
 }
 
 func (f *fakeObserver) ObserveLongestOfferLateness(order string, lateness time.Duration) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.longestOfferLateness[order] = lateness
 }
 
@@ -78,29 +98,47 @@ func (f *fakeObserver) sumOfScheduledPostings() int {
 }
 
 func (f *fakeObserver) ObserveStaleReplicasDropped(dropped int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.staleReplicasDropped += dropped
 }
 
 func (f *fakeObserver) ObservePostingsHandedOff(handedOff int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.postingsHandedOff += handedOff
 }
 
 func (f *fakeObserver) ObserveCycleSkipped(reason string) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.cyclesSkipped[reason]++
 	f.cycleEnds <- struct{}{}
 }
 
 func (f *fakeObserver) ObserveCycleCompleted() {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.cyclesCompleted++
 	f.cycleEnds <- struct{}{}
 }
 
 func (f *fakeObserver) ObserveBatchAborted(reason string) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.batchesAborted[reason]++
 }
 
 func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector([]int) {}
 
 func (f *fakeObserver) ObserveReplicaRingFractions(ringFractions []float64) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.replicaRingFractions = append(f.replicaRingFractions, ringFractions...)
 }

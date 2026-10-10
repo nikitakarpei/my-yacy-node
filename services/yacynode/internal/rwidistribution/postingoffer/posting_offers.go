@@ -79,8 +79,9 @@ func New(
 	}
 }
 
-func (o *PostingOffers) DueNow(
+func (o *PostingOffers) DueNowIn(
 	ctx context.Context,
+	sector yacymodel.DHTRingSector,
 	limit int,
 	reachablePeers []yacymodel.Seed,
 ) ([]PostingOffer, []postingidentity.Identity, error) {
@@ -94,7 +95,7 @@ func (o *PostingOffers) DueNow(
 		gonePostings []postingidentity.Identity
 	)
 	err := o.vault.View(ctx, func(tx *vault.Txn) error {
-		duePostings, err := o.schedule.DuePostings(tx, limit)
+		duePostings, err := o.schedule.DuePostingsIn(tx, sector, limit)
 		if err != nil {
 			return err
 		}

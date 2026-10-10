@@ -63,10 +63,21 @@ func (h postingRecordsHarness) duePostings(t *testing.T) []postingidentity.Ident
 
 	var due []postingidentity.Identity
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		var err error
-		due, err = h.schedule.DuePostings(tx, 10)
+		var visitedSectors []yacymodel.DHTRingSector
+		for len(due) < 10 {
+			sector, found, err := h.schedule.EarliestDueSectorOutside(tx, visitedSectors)
+			if err != nil || !found {
+				return err
+			}
+			inSector, err := h.schedule.DuePostingsIn(tx, sector, 10-len(due))
+			if err != nil {
+				return err
+			}
+			due = append(due, inSector...)
+			visitedSectors = append(visitedSectors, sector)
+		}
 
-		return err
+		return nil
 	}); err != nil {
 		t.Fatalf("DuePostings: %v", err)
 	}

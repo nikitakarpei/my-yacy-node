@@ -72,6 +72,7 @@ The node can offer its stored postings to the peers the DHT makes responsible fo
 | `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must hold a posting before it counts as distributed. This node is one of them when the DHT makes it responsible. |
 | `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
 | `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | How many due postings to offer in one batch. A cycle offers batch after batch until no posting is due. |
+| `YACY_DISTRIBUTION_BATCH_CONCURRENCY` | `2` | How many batches a cycle offers at the same time. Each batch takes the due postings of one ring sector that no other batch holds. |
 | `YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE` | `50` | How many URL metadata records travel in one transfer to a peer. |
 | `YACY_DISTRIBUTION_CYCLE_INTERVAL` | `1m` | How often a cycle starts (e.g. `30s`, `1m`, `10m`). |
 | `YACY_DISTRIBUTION_DRAIN_BUDGET` | `1m` | How long one cycle offers batches before it stops and waits for the next cycle. |

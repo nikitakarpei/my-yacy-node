@@ -19,31 +19,29 @@ func TestABatchTakesTheSectorOfTheEarliestDuePostingFirst(t *testing.T) {
 	assertWordsInOrder(t, due, earliest, sameSector)
 }
 
-func TestABatchWalksOnFromTheLastSectorToTheFirst(t *testing.T) {
+func TestABatchTakesTheDuePostingsOfItsSectorOnly(t *testing.T) {
 	schedule := openSchedule(t, testStart)
-	lastSector := wordIn(yacymodel.MaxDHTRingSector)
-	middleSector := wordIn(10)
-	firstSector := wordIn(0)
-	schedule.storeInTurn(t, lastSector, middleSector, firstSector)
+	sectorWords, nextSector := wordsIn(5, 2), wordIn(6)
+	schedule.storeInTurn(t, sectorWords[0], nextSector, sectorWords[1])
 
-	due := schedule.duePostings(t, 2)
+	due := schedule.duePostingsIn(t, 5, 10)
 
-	assertWordsInOrder(t, due, lastSector, firstSector)
+	assertWordsInOrder(t, due, sectorWords...)
 }
 
-func TestRefreshesFillTheBatchFromTheSectorWhereItStarts(t *testing.T) {
+func TestRefreshesFillTheBatchOfTheirSector(t *testing.T) {
 	schedule := openSchedule(t, testStart)
-	refreshBefore, refreshAfter := wordIn(3), wordIn(21)
-	schedule.storeInTurn(t, refreshBefore, refreshAfter)
-	schedule.meetRedundancy(t, refreshBefore, urlHash("u1"))
-	schedule.meetRedundancy(t, refreshAfter, urlHash("u1"))
+	sectorWords, nextSector := wordsIn(20, 2), wordIn(21)
+	refresh, shortfallWord := sectorWords[0], sectorWords[1]
+	schedule.storeInTurn(t, refresh, nextSector)
+	schedule.meetRedundancy(t, refresh, urlHash("u1"))
+	schedule.meetRedundancy(t, nextSector, urlHash("u1"))
 	schedule.clock = testStart.Add(2 * testInterval.Longest)
-	shortfallWord := wordIn(20)
 	schedule.store(t, shortfallWord, urlHash("u1"))
 
-	due := schedule.duePostings(t, 2)
+	due := schedule.duePostingsIn(t, 20, 10)
 
-	assertWordsInOrder(t, due, shortfallWord, refreshAfter)
+	assertWordsInOrder(t, due, shortfallWord, refresh)
 }
 
 func TestABatchStartsAtTheEarliestRefreshWhileNoShortfallIsDue(t *testing.T) {
@@ -59,6 +57,17 @@ func TestABatchStartsAtTheEarliestRefreshWhileNoShortfallIsDue(t *testing.T) {
 	due := schedule.duePostings(t, 1)
 
 	assertWordsInOrder(t, due, earlierRefresh)
+}
+
+func TestTheEarliestDueSectorSkipsTheSectorsOfBatchesInFlight(t *testing.T) {
+	schedule := openSchedule(t, testStart)
+	schedule.storeInTurn(t, wordIn(4), wordIn(6), wordIn(5))
+
+	sector := schedule.earliestDueSectorOutside(t, []yacymodel.DHTRingSector{4})
+
+	if sector != 6 {
+		t.Fatalf("sector = %d, want 6, the earliest due outside sector 4", sector)
+	}
 }
 
 func TestAPostingIsClearedFromItsSectorAfterThePartitionsChange(t *testing.T) {

@@ -165,12 +165,48 @@ func (h postingOfferHarness) dueNow(
 ) ([]postingoffer.PostingOffer, []postingidentity.Identity) {
 	t.Helper()
 
-	offers, gonePostings, err := h.postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("DueNow: %v", err)
+	var (
+		offers         []postingoffer.PostingOffer
+		gonePostings   []postingidentity.Identity
+		visitedSectors []yacymodel.DHTRingSector
+	)
+	for {
+		sector, found := h.earliestDueSectorOutside(t, visitedSectors)
+		if !found {
+			return offers, gonePostings
+		}
+		sectorOffers, sectorGonePostings, err := h.postingOffers.DueNowIn(
+			context.Background(), sector, 10, peers,
+		)
+		if err != nil {
+			t.Fatalf("DueNowIn: %v", err)
+		}
+		offers = append(offers, sectorOffers...)
+		gonePostings = append(gonePostings, sectorGonePostings...)
+		visitedSectors = append(visitedSectors, sector)
+	}
+}
+
+func (h postingOfferHarness) earliestDueSectorOutside(
+	t *testing.T,
+	visitedSectors []yacymodel.DHTRingSector,
+) (yacymodel.DHTRingSector, bool) {
+	t.Helper()
+
+	var (
+		sector yacymodel.DHTRingSector
+		found  bool
+	)
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		sector, found, err = h.schedule.EarliestDueSectorOutside(tx, visitedSectors)
+
+		return err
+	}); err != nil {
+		t.Fatalf("EarliestDueSectorOutside: %v", err)
 	}
 
-	return offers, gonePostings
+	return sector, found
 }
 
 func (h postingOfferHarness) dueOffer(

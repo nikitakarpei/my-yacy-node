@@ -408,6 +408,23 @@ func TestCycleCountsPostingGoneFromIndex(t *testing.T) {
 	}
 }
 
+func TestCycleForgetsAPostingGoneFromIndex(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.runCycle(t)
+
+	if due := h.duePostings(t, 10); len(due) != 0 {
+		t.Fatalf("due = %v, want the gone posting forgotten", due)
+	}
+}
+
 func TestCycleCountsUnreadPostingOffer(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")

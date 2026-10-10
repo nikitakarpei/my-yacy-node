@@ -1,11 +1,14 @@
 // Package distributioncycle runs one distribution pass: it asks postingoffer
 // which peers are missing a replica of each due posting, offers the posting
-// to them, and writes down what happened.
+// to them, and writes down what happened. Several batches run at once, each in
+// a ring sector no other batch in flight holds, and a batch offers to all its
+// peers at once.
 package distributioncycle
 
 import (
 	"context"
 	"log/slog"
+	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -44,6 +47,7 @@ type PostingHandoff interface {
 type Config struct {
 	OfferInterval     postingofferinterval.Bounds
 	PostingsPerBatch  int
+	BatchConcurrency  int
 	CycleInterval     time.Duration
 	DrainBudget       time.Duration
 	MinReachablePeers int
@@ -61,6 +65,7 @@ type Cycle struct {
 	now             func() time.Time
 	cycleObserver   CycleObserver
 	dhtRingObserver DHTRingObserver
+	sectorsInFlight *sectorsInFlight
 	config          Config
 }
 
@@ -91,6 +96,7 @@ func New(
 		now:             now,
 		cycleObserver:   cycleObserver,
 		dhtRingObserver: dhtRingObserver,
+		sectorsInFlight: newSectorsInFlight(),
 		config:          config,
 	}
 }
@@ -146,34 +152,76 @@ func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int
 func (c *Cycle) drainDuePostings(ctx context.Context, peers []yacymodel.Seed) {
 	drainEndsAt := c.now().Add(c.config.DrainBudget)
 
-	for {
-		duePostings, batchOffered := c.offerDueBatch(ctx, peers)
-		if !batchOffered || duePostings < c.config.PostingsPerBatch {
-			return
-		}
+	var drains sync.WaitGroup
+	for range c.config.BatchConcurrency {
+		drains.Go(func() { c.offerBatchesUntil(ctx, peers, drainEndsAt) })
+	}
+	drains.Wait()
+}
+
+func (c *Cycle) offerBatchesUntil(
+	ctx context.Context,
+	peers []yacymodel.Seed,
+	drainEndsAt time.Time,
+) {
+	for c.offerDueBatch(ctx, peers) {
 		if ctx.Err() != nil || !c.now().Before(drainEndsAt) {
 			return
 		}
 	}
 }
 
-func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) (int, bool) {
-	offers, gonePostings, err := c.postingOffers.DueNow(ctx, c.config.PostingsPerBatch, peers)
+func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool {
+	sector, found, err := c.claimEarliestDueSector(ctx)
 	if err != nil {
 		c.reportDuePostingsUnread(ctx, err)
 
-		return 0, false
+		return false
+	}
+	if !found {
+		return false
+	}
+	defer c.sectorsInFlight.release(sector)
+
+	offers, gonePostings, err := c.postingOffers.DueNowIn(
+		ctx, sector, c.config.PostingsPerBatch, peers,
+	)
+	if err != nil {
+		c.reportDuePostingsUnread(ctx, err)
+
+		return false
 	}
 	c.reportPostingsGone(ctx, gonePostings)
 
 	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
-	if err := c.commitBatch(ctx, offers, round); err != nil {
+	if err := c.commitBatch(ctx, offers, gonePostings, round); err != nil {
 		c.reportBatchUnwritten(ctx, err)
 
-		return 0, false
+		return false
 	}
 
-	return len(offers) + len(gonePostings), true
+	return true
+}
+
+func (c *Cycle) claimEarliestDueSector(
+	ctx context.Context,
+) (yacymodel.DHTRingSector, bool, error) {
+	return c.sectorsInFlight.claimFree(
+		func(sectorsInFlight []yacymodel.DHTRingSector) (yacymodel.DHTRingSector, bool, error) {
+			var (
+				sector yacymodel.DHTRingSector
+				found  bool
+			)
+			err := c.vault.View(ctx, func(tx *vault.Txn) error {
+				var err error
+				sector, found, err = c.schedule.EarliestDueSectorOutside(tx, sectorsInFlight)
+
+				return err
+			})
+
+			return sector, found, err
+		},
+	)
 }
 
 func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
@@ -196,6 +244,7 @@ func (c *Cycle) reportPostingsGone(
 func (c *Cycle) commitBatch(
 	ctx context.Context,
 	offers []postingoffer.PostingOffer,
+	gonePostings []postingidentity.Identity,
 	round offerRound,
 ) error {
 	var (
@@ -216,6 +265,10 @@ func (c *Cycle) commitBatch(
 		if handedOffPostings, err = c.handoff.HandOffPostingsHeldByCloserPeers(
 			ctx, tx, offeredPostings(offers),
 		); err != nil {
+			return err
+		}
+
+		if err = c.forgetGonePostings(tx, gonePostings); err != nil {
 			return err
 		}
 
@@ -295,6 +348,23 @@ func offeredPostings(offers []postingoffer.PostingOffer) []yacymodel.RWIPosting 
 	}
 
 	return postings
+}
+
+func (c *Cycle) forgetGonePostings(
+	tx *vault.Txn,
+	gonePostings []postingidentity.Identity,
+) error {
+	for _, identity := range gonePostings {
+		gonePosting := yacymodel.RWIPosting{WordHash: identity.Word, URLHash: identity.URL}
+		if err := c.schedule.PostingPurged(tx, gonePosting); err != nil {
+			return err
+		}
+		if err := c.replicas.PostingPurged(tx, gonePosting); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (c *Cycle) setNextOffers(
