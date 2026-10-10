@@ -19,6 +19,7 @@ type PostingReceiver interface {
 }
 
 type PostingHolder interface {
+	AtCapacity(ctx context.Context) (bool, error)
 	Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error
 }
 

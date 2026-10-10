@@ -8,10 +8,11 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
+
+var errEscrowFull = errors.New("escrow holds as many postings as it can")
 
 type postingAdmission struct {
 	vault    *vault.Vault
@@ -44,6 +45,11 @@ func (a postingAdmission) Receive(
 		return a.busyReceipt(), nil
 	}
 
+	escrowFull, err := a.escrow.AtCapacity(ctx)
+	if err != nil {
+		return Receipt{}, fmt.Errorf("check escrow capacity: %w", err)
+	}
+
 	referenced := urlHashesOf(postings)
 
 	var unknown []yacymodel.URLHash
@@ -52,6 +58,9 @@ func (a postingAdmission) Receive(
 		missing, err := a.urls.MissingURLs(tx, referenced)
 		if err != nil {
 			return fmt.Errorf("missing urls: %w", err)
+		}
+		if escrowFull && len(missing) > 0 {
+			return errEscrowFull
 		}
 		if err := a.routeEach(ctx, tx, postings, awaitedURLsOf(missing)); err != nil {
 			return err
@@ -65,7 +74,7 @@ func (a postingAdmission) Receive(
 
 		return a.busyReceipt(), nil
 	}
-	if errors.Is(err, rwiescrow.ErrEscrowFull) {
+	if errors.Is(err, errEscrowFull) {
 		a.observer.ObserveRefused(RefusalEscrowFull, len(postings))
 
 		return a.busyReceipt(), nil

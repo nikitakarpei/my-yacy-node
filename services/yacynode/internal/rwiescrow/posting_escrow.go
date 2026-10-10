@@ -50,14 +50,6 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 		); err != nil {
 			return fmt.Errorf("drop stale posting hold: %w", err)
 		}
-	} else {
-		full, err := e.atCapacity(tx)
-		if err != nil {
-			return err
-		}
-		if full {
-			return ErrEscrowFull
-		}
 	}
 
 	if _, err := e.escrowed.Put(tx, identity, escrowedPosting{
@@ -74,15 +66,6 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 	}
 
 	return nil
-}
-
-func (e *PostingEscrow) atCapacity(tx *vault.Txn) (bool, error) {
-	length, err := e.escrowed.Len(tx)
-	if err != nil {
-		return false, fmt.Errorf("read escrowed posting length: %w", err)
-	}
-
-	return length >= e.capacity, nil
 }
 
 func (e *PostingEscrow) URLStored(
@@ -142,6 +125,21 @@ func (e *PostingEscrow) Expire(
 	}
 
 	return expired, nil
+}
+
+func (e *PostingEscrow) AtCapacity(ctx context.Context) (bool, error) {
+	var count int
+	err := e.vault.View(ctx, func(tx *vault.Txn) error {
+		held, err := e.Count(tx)
+		count = held
+
+		return err
+	})
+	if err != nil {
+		return false, err
+	}
+
+	return count >= e.capacity, nil
 }
 
 func (e *PostingEscrow) Count(tx *vault.Txn) (int, error) {

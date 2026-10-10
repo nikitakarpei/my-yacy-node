@@ -6,7 +6,6 @@ package rwiescrow
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -18,8 +17,6 @@ var (
 	_ urlmeta.URLMetadataObserver = (*PostingEscrow)(nil)
 	_ PostingExpiry               = (*PostingEscrow)(nil)
 )
-
-var ErrEscrowFull = errors.New("escrow holds as many postings as it can")
 
 type HoldObserver interface {
 	ObserveHeld(tx *vault.Txn, postings int)

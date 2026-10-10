@@ -2,7 +2,6 @@ package rwiescrow_test
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/url"
 	"testing"
@@ -150,6 +149,17 @@ func (h *harness) escrowedCount(t *testing.T) int {
 	}
 
 	return count
+}
+
+func (h *harness) atCapacity(t *testing.T) bool {
+	t.Helper()
+
+	full, err := h.escrow.AtCapacity(context.Background())
+	if err != nil {
+		t.Fatalf("AtCapacity: %v", err)
+	}
+
+	return full
 }
 
 func urlHash(seed string) yacymodel.URLHash {
@@ -323,25 +333,32 @@ func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 
 const cappedCapacity = 3
 
-func TestHoldReportsTheEscrowIsFullAtCapacity(t *testing.T) {
+func TestEscrowIsAtCapacityOnceItHoldsTheCapacity(t *testing.T) {
 	h := openCappedHarness(t, cappedCapacity)
 	if got := h.escrow.Capacity(); got != cappedCapacity {
 		t.Fatalf("capacity = %d, want the configured %d", got, cappedCapacity)
 	}
 	admitted := postingsNumbering(cappedCapacity)
-	h.hold(t, admitted...)
-
-	if err := h.holding(posting("w1", "beyond")); !errors.Is(err, rwiescrow.ErrEscrowFull) {
-		t.Fatalf("Hold at the capacity = %v, want ErrEscrowFull", err)
-	}
-	if got := h.escrowedCount(t); got != cappedCapacity {
-		t.Fatalf("escrowed count = %d, want %d at the capacity", got, cappedCapacity)
+	h.hold(t, admitted[:cappedCapacity-1]...)
+	if h.atCapacity(t) {
+		t.Fatalf("escrow below its capacity reports it is at capacity")
 	}
 
-	h.clock = h.clock.Add(holdFor / 2)
+	h.hold(t, admitted[cappedCapacity-1])
 
-	if err := h.holding(admitted[0]); err != nil {
-		t.Fatalf("re-hold at the capacity = %v, want it to pass", err)
+	if !h.atCapacity(t) {
+		t.Fatalf("escrow at its capacity reports room")
+	}
+}
+
+func TestHoldKeepsAPostingBeyondTheCapacity(t *testing.T) {
+	h := openCappedHarness(t, cappedCapacity)
+	h.hold(t, postingsNumbering(cappedCapacity)...)
+
+	h.hold(t, posting("w1", "beyond"))
+
+	if got := h.escrowedCount(t); got != cappedCapacity+1 {
+		t.Fatalf("escrowed count = %d, want %d past the capacity", got, cappedCapacity+1)
 	}
 }
 
