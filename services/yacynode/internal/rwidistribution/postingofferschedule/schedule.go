@@ -180,24 +180,21 @@ func (s *Schedule) SetNextOfferAfterRedundancyMet(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
 	bounds postingofferinterval.Bounds,
-) error {
+) (bool, error) {
 	previousPlace, found, err := s.placeOf(tx, identity)
-	if err != nil {
-		return err
-	}
-	if !found {
-		return nil
+	if err != nil || !found {
+		return false, err
 	}
 
 	if err := s.forgetOfferInterval(tx, identity); err != nil {
-		return err
+		return false, err
 	}
 	if err := s.dropPlace(tx, identity, previousPlace); err != nil {
-		return err
+		return false, err
 	}
 	nextDueAt := bounds.NextOfferDueFrom(previousPlace.DueAt, s.now())
 
-	return s.placeAt(tx, s.refreshOrder, identity, nextDueAt)
+	return true, s.placeAt(tx, s.refreshOrder, identity, nextDueAt)
 }
 
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
@@ -205,41 +202,29 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	identity postingidentity.Identity,
 	bounds postingofferinterval.Bounds,
 	requestedPause time.Duration,
-) error {
+) (bool, error) {
 	previousPlace, found, err := s.placeOf(tx, identity)
-	if err != nil {
-		return err
-	}
-	if !found {
-		return nil
+	if err != nil || !found {
+		return false, err
 	}
 
 	previousInterval, _, err := s.offerIntervals.Get(tx, identity)
 	if err != nil {
-		return fmt.Errorf("read offer interval: %w", err)
+		return false, fmt.Errorf("read offer interval: %w", err)
 	}
 	if _, err := s.offerIntervals.Put(
 		tx,
 		identity,
 		bounds.WidenedFrom(previousInterval),
 	); err != nil {
-		return fmt.Errorf("record offer interval: %w", err)
+		return false, fmt.Errorf("record offer interval: %w", err)
 	}
 	if err := s.dropPlace(tx, identity, previousPlace); err != nil {
-		return err
+		return false, err
 	}
 	pause := bounds.PauseFrom(previousInterval, requestedPause)
 
-	return s.placeAt(tx, s.shortfallOrder, identity, s.now().Add(pause))
-}
-
-func (s *Schedule) IsScheduled(
-	tx *vault.Txn,
-	identity postingidentity.Identity,
-) (bool, error) {
-	_, found, err := s.placeOf(tx, identity)
-
-	return found, err
+	return true, s.placeAt(tx, s.shortfallOrder, identity, s.now().Add(pause))
 }
 
 func (s *Schedule) DuePostingsIn(

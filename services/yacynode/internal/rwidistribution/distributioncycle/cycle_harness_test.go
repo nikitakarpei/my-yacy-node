@@ -112,7 +112,6 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.redundancy,
 	)
 	handoff := postinghandoff.New(
-		replicas,
 		postings,
 		opts.reachability,
 		postinghandoff.Config{
@@ -264,7 +263,7 @@ func openCycleVault(
 	if err != nil {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}
-	replicas, err := postingreplicas.Open(v, schedule)
+	replicas, err := postingreplicas.Open(v)
 	if err != nil {
 		t.Fatalf("postingreplicas.Open: %v", err)
 	}
@@ -465,9 +464,23 @@ func recordAccepted(
 	t.Helper()
 
 	if err := h.v.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.replicas.RecordAccepted(tx, peer, postings)
+		for _, posting := range postings {
+			identity := postingidentity.IdentityOf(posting)
+			recordedHolders, err := h.replicas.HoldersOf(tx, identity)
+			if err != nil {
+				return err
+			}
+			change := postingreplicas.HolderChange{AcceptingPeers: []yacymodel.Hash{peer}}
+			if err := h.replicas.RecordHolders(
+				tx, identity, recordedHolders, change.HoldersFrom(recordedHolders),
+			); err != nil {
+				return err
+			}
+		}
+
+		return nil
 	}); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
+		t.Fatalf("RecordHolders: %v", err)
 	}
 }
 

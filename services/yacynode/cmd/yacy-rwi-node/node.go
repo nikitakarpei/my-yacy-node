@@ -326,7 +326,6 @@ func assembleNode(
 		var handoff distributioncycle.PostingHandoff = postinghandoff.KeepEveryPosting{}
 		if config.Distribution.HandoffEnabled {
 			handoff = postinghandoff.New(
-				postingReplicas,
 				postingPurger,
 				peerRoster,
 				postinghandoff.Config{

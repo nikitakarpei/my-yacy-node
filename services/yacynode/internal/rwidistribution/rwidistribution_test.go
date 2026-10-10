@@ -141,7 +141,9 @@ func TestAChangedPostingDropsTheReplicaLedgerAndIsDueAgain(t *testing.T) {
 		return harness.records.PostingStored(tx, posting)
 	})
 	harness.update(t, func(tx *vault.Txn) error {
-		return harness.replicas.RecordAccepted(tx, peer, []yacymodel.RWIPosting{posting})
+		return harness.replicas.RecordHolders(
+			tx, postingidentity.IdentityOf(posting), nil, []yacymodel.Hash{peer},
+		)
 	})
 
 	harness.update(t, func(tx *vault.Txn) error {
@@ -170,8 +172,8 @@ func TestPostingPurgedFansOutToScheduleAndReplicas(t *testing.T) {
 		return harness.records.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 	})
 	harness.update(t, func(tx *vault.Txn) error {
-		return harness.replicas.RecordAccepted(
-			tx, peer, []yacymodel.RWIPosting{{WordHash: word, URLHash: url}},
+		return harness.replicas.RecordHolders(
+			tx, postingidentity.Identity{Word: word, URL: url}, nil, []yacymodel.Hash{peer},
 		)
 	})
 
