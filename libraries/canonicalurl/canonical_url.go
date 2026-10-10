@@ -3,6 +3,7 @@ package canonicalurl
 import (
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/url"
 	"strings"
 )
@@ -98,10 +99,7 @@ func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
 	}
 
 	parsed.Scheme = scheme
-	parsed.Host = hostname
-	if port != "" {
-		parsed.Host = hostname + ":" + port
-	}
+	parsed.Host = hostOf(hostname, port)
 	parsed.Fragment = ""
 	setEscapedPath(parsed, cleanedPathOf(parsed.EscapedPath()))
 
@@ -111,6 +109,16 @@ func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
 		directory: directoryOf(parsed),
 		hasQuery:  parsed.RawQuery != "",
 	}, nil
+}
+
+func hostOf(hostname, port string) string {
+	if port != "" {
+		return net.JoinHostPort(hostname, port)
+	}
+	if strings.Contains(hostname, ":") {
+		return "[" + hostname + "]"
+	}
+	return hostname
 }
 
 func directoryOf(parsed *url.URL) string {
