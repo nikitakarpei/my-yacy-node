@@ -116,6 +116,7 @@ func networkReadingFrom(
 		spreadGrowingInTurn{findingsInTurn: findingsInTurn, readAhead: pages.readAhead},
 		pages,
 		orderingInTheFoundOrder{},
+		false,
 		queryBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,

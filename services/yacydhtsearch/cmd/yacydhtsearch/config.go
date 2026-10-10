@@ -69,10 +69,12 @@ const (
 	EnvPageByteCeiling                  = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
 	EnvPageReadMaxRedirectHops          = "YACYDHTSEARCH_PAGE_READ_MAX_REDIRECT_HOPS"
 	EnvSnippetLengthCeiling             = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
+	EnvHideUnreadResults                = "YACYDHTSEARCH_HIDE_UNREAD_RESULTS"
 
 	DefaultListenAddr                       = ":8080"
 	DefaultOpsAddr                          = ":9090"
 	DefaultServeProfiler                    = false
+	DefaultHideUnreadResults                = false
 	DefaultQueryBudget                      = 10 * time.Second
 	DefaultNetworkRedundancy                = 3
 	DefaultHedgeDelay                       = 500 * time.Millisecond
@@ -171,6 +173,7 @@ type ServiceConfig struct {
 	PageByteCeiling          int64
 	PageReadMaxRedirectHops  int
 	SnippetLengthCeiling     int
+	HideUnreadResults        bool
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -226,6 +229,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		return ServiceConfig{}, err
 	}
 	serveProfiler, err := envconfig.Bool(getenv, EnvServeProfiler, DefaultServeProfiler)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+	hideUnreadResults, err := envconfig.Bool(getenv, EnvHideUnreadResults, DefaultHideUnreadResults)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -293,6 +300,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PageByteCeiling:         pageByteCeiling,
 		PageReadMaxRedirectHops: counts.pageReadMaxRedirectHops,
 		SnippetLengthCeiling:    counts.snippetLengthCeiling,
+		HideUnreadResults:       hideUnreadResults,
 	}, nil
 }
 

@@ -357,6 +357,7 @@ func networkOrdering(
 		querySpread,
 		pagesThatNoOneReads{},
 		documentsOrdering,
+		false,
 		queryBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
@@ -685,6 +686,7 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 				documentrelevance.DefaultRelevanceWeights(),
 			),
 		),
+		false,
 		queryBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
@@ -701,6 +703,38 @@ func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
 	if len(ranking.Items) != 2 || ranking.Items[0].Address != common {
 		t.Fatalf(
 			"the ranking reads %+v, want the document whose page holds the rarer word first",
+			ranking.Items,
+		)
+	}
+}
+
+func TestHidingUnreadResultsRanksOnlyTheDocumentWhosePageWasRead(t *testing.T) {
+	t.Parallel()
+
+	common, rare := "https://common.example/", "https://rare.example/"
+	network := networksearch.New(
+		directoryAnsweringAt(t, peerHolding(t)),
+		everyAskablePeer{},
+		findingsOfTwoWords(t, common, rare),
+		pagesHoldingTheWordOfOneDocument{address: rare, word: "kelondro", hits: 5},
+		orderingInTheFoundOrder{},
+		true,
+		queryBudget,
+		pagesReadPerQueryCeiling,
+		pagesReadPerSiteCeiling,
+		recordCeiling,
+		compoundWordsCeiling,
+		networksearch.NetworkSearchObservers{&recordedQuery{}},
+	)
+
+	ranking, _ := network.Search(
+		t.Context(),
+		queryreading.QueryFrom("berlin kelondro", yacymodel.Language{}),
+	)
+
+	if len(ranking.Items) != 1 || ranking.Items[0].Address != rare {
+		t.Fatalf(
+			"the ranking reads %+v, want only the document whose page was read",
 			ranking.Items,
 		)
 	}
@@ -756,6 +790,7 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 		}},
 		pagesRecordingTheirAddresses{addresses: &addressesRead},
 		orderingInTheFoundOrder{},
+		false,
 		queryBudget,
 		pagesReadPerQueryCeiling,
 		2,
@@ -812,6 +847,7 @@ func TestADocumentWhosePageIsWithdrawnLeavesTheRanking(t *testing.T) {
 		findingsOfTwoWords(t, common, rare),
 		pagesOfOneDocumentWithdrawn{address: common},
 		orderingInTheFoundOrder{},
+		false,
 		queryBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
@@ -899,6 +935,7 @@ func networkRecordingItsBudgets(
 		},
 		pagesRecordingTheBudgetTheyGet{recorded: recorded},
 		orderingInTheFoundOrder{},
+		false,
 		queryBudget,
 		pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling,
