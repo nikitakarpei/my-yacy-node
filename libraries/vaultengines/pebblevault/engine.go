@@ -13,9 +13,12 @@ import (
 	"sync"
 
 	"github.com/cockroachdb/pebble/v2"
+	"github.com/cockroachdb/pebble/v2/bloom"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
+
+const bloomFilterBitsPerKey = 10
 
 type Engine struct {
 	db         *pebble.DB
@@ -63,6 +66,7 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 		MemTableSize: uint64(max(limits.MemtableBytes, 0)),
 		MaxOpenFiles: limits.OpenFileLimit,
 	}
+	addBloomFiltersAboveTheBottomLevel(options)
 	if limits.BlockCacheBytes > 0 {
 		options.Cache = pebble.NewCache(limits.BlockCacheBytes)
 	}
@@ -73,6 +77,14 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 	}
 
 	return options
+}
+
+func addBloomFiltersAboveTheBottomLevel(options *pebble.Options) {
+	bottomLevel := len(options.Levels) - 1
+	for level := range bottomLevel {
+		options.Levels[level].FilterPolicy = bloom.FilterPolicy(bloomFilterBitsPerKey)
+	}
+	options.Levels[bottomLevel].FilterPolicy = pebble.NoFilterPolicy
 }
 
 func writeStallListenerFor(observer WriteStallObserver) *pebble.EventListener {

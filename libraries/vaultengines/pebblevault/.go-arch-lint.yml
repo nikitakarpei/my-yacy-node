@@ -17,7 +17,9 @@ vendors:
   storedfields:
     in: github.com/nikitakarpei/yacy-rwi-node/storedfields
   pebble:
-    in: github.com/cockroachdb/pebble/v2
+    in:
+      - github.com/cockroachdb/pebble/v2
+      - github.com/cockroachdb/pebble/v2/bloom
 
 deps:
   pebblevault:
