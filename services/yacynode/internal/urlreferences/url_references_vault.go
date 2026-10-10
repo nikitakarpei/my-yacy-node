@@ -43,4 +43,12 @@ func everyWordReferencing(url yacymodel.URLHash) vault.KeyRange {
 	return wordByURLKeyParts.KeysWithFirst(url)
 }
 
+func wordsAfter(purged wordByURL) vault.KeyRange {
+	return wordByURLKeyParts.KeysWithFirstAfterSecond(purged.url, purged.word)
+}
+
+func wordsBefore(purged wordByURL) vault.KeyRange {
+	return wordByURLKeyParts.KeysWithFirstBeforeSecond(purged.url, purged.word)
+}
+
 var referencedURLKeyLayout = vault.SingleKey(hashkeypart.URLHash).KeyLayout()
