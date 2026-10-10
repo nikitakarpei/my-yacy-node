@@ -89,6 +89,8 @@ func (o *PostingOffers) DueNowIn(
 	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
 		yacymodel.SeedsPerDHTRingSector(acceptingPeers),
 	)
+	acceptingPeerRing := yacymodel.SeedRingFrom(acceptingPeers)
+	eligiblePeerRing := yacymodel.SeedRingFrom(o.eligibility.EligiblePeers(acceptingPeers))
 
 	var (
 		offers       []PostingOffer
@@ -106,7 +108,7 @@ func (o *PostingOffers) DueNowIn(
 
 		dueOffers := make([]PostingOffer, 0, len(postings))
 		for _, posting := range postings {
-			offer, err := o.offerFor(ctx, tx, posting, acceptingPeers)
+			offer, err := o.offerFor(ctx, tx, posting, acceptingPeerRing, eligiblePeerRing)
 			if err != nil {
 				return err
 			}
@@ -168,7 +170,8 @@ func (o *PostingOffers) offerFor(
 	ctx context.Context,
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
-	acceptingPeers []yacymodel.Seed,
+	acceptingPeers yacymodel.SeedRing,
+	eligiblePeers yacymodel.SeedRing,
 ) (PostingOffer, error) {
 	identity := postingidentity.IdentityOf(posting)
 	recordedHolders, err := o.replicas.HoldersOf(tx, identity)
@@ -184,7 +187,7 @@ func (o *PostingOffers) offerFor(
 		return refreshOfferFor(posting, acceptingPeers, holders, window), nil
 	}
 
-	return o.replicaOfferFor(posting, acceptingPeers, holders, window), nil
+	return replicaOfferFor(posting, eligiblePeers, holders, window), nil
 }
 
 func (o *PostingOffers) replicaHoldersFrom(
@@ -213,32 +216,31 @@ func (o *PostingOffers) replicaHoldersFrom(
 
 func refreshOfferFor(
 	posting yacymodel.RWIPosting,
-	acceptingPeers []yacymodel.Seed,
+	acceptingPeers yacymodel.SeedRing,
 	holders replicaHolders,
 	window replicaWindow,
 ) PostingOffer {
 	return PostingOffer{
 		Posting:         posting,
 		PostingPosition: window.position,
-		Peers:           holders.peersHoldingReplica(acceptingPeers),
+		Peers:           holders.peersHoldingReplica(acceptingPeers.Seeds()),
 		StaleHolders:    slices.Concat(holders.expired, holders.outsideWindow),
 	}
 }
 
-func (o *PostingOffers) replicaOfferFor(
+func replicaOfferFor(
 	posting yacymodel.RWIPosting,
-	acceptingPeers []yacymodel.Seed,
+	eligiblePeers yacymodel.SeedRing,
 	holders replicaHolders,
 	window replicaWindow,
 ) PostingOffer {
 	missingReplicas := window.requiredReplicas - len(holders.insideWindow)
-	eligiblePeers := o.eligibility.EligiblePeers(acceptingPeers)
 
 	return PostingOffer{
 		Posting:         posting,
 		PostingPosition: window.position,
-		Peers: yacymodel.SeedsClosestToDHTRingPosition(
-			holders.peersMissingReplica(eligiblePeers), window.position, missingReplicas,
+		Peers: holders.closestPeersMissingReplica(
+			eligiblePeers, window.position, missingReplicas,
 		),
 		AcceptancesNeeded: missingReplicas,
 		StaleHolders:      holders.expired,

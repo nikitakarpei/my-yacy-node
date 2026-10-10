@@ -12,21 +12,19 @@ type replicaWindow struct {
 
 func replicaWindowFor(
 	position yacymodel.DHTRingPosition,
-	acceptingPeers []yacymodel.Seed,
+	acceptingPeers yacymodel.SeedRing,
 	self yacymodel.Hash,
 	redundancy int,
 ) replicaWindow {
+	closest := acceptingPeers.SeedsClosestTo(position, redundancy)
 	requiredReplicas := redundancy
-	if len(
-		yacymodel.SeedsCloserToDHTRingPositionThanPeer(acceptingPeers, self, position),
-	) < redundancy {
+	if len(closest) < redundancy ||
+		!yacymodel.CloserToDHTRingPosition(closest[redundancy-1].Hash, self, position) {
 		requiredReplicas = redundancy - 1
 	}
 
 	return replicaWindow{
-		closest: yacymodel.SeedsClosestToDHTRingPosition(
-			acceptingPeers, position, requiredReplicas,
-		),
+		closest:          closest[:min(requiredReplicas, len(closest))],
 		position:         position,
 		requiredReplicas: requiredReplicas,
 	}

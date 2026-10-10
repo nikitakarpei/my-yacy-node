@@ -24,57 +24,6 @@ func TestDistanceToIsZeroAtTheSamePosition(t *testing.T) {
 	}
 }
 
-func TestSeedsClosestToDHTRingPositionOrdersByRingDistance(t *testing.T) {
-	near := yacymodel.WordHash("near")
-	far := yacymodel.WordHash("far")
-
-	position := yacymodel.DHTRingPositionOf(near)
-
-	closest := yacymodel.SeedsClosestToDHTRingPosition(
-		[]yacymodel.Seed{seedAt(far), seedAt(near)}, position, 2,
-	)
-	if len(closest) != 2 || closest[0].Hash != near {
-		t.Fatalf("closest = %v, want the seed at the position first", closest)
-	}
-}
-
-func TestSeedsClosestToDHTRingPositionCapsToWant(t *testing.T) {
-	near := yacymodel.WordHash("near")
-	far := yacymodel.WordHash("far")
-
-	position := yacymodel.DHTRingPositionOf(near)
-
-	closest := yacymodel.SeedsClosestToDHTRingPosition(
-		[]yacymodel.Seed{seedAt(far), seedAt(near)}, position, 1,
-	)
-	if len(closest) != 1 || closest[0].Hash != near {
-		t.Fatalf("closest = %v, want only the nearest seed", closest)
-	}
-}
-
-func TestSeedsClosestToDHTRingPositionWithoutWantSelectsNothing(t *testing.T) {
-	closest := yacymodel.SeedsClosestToDHTRingPosition(
-		[]yacymodel.Seed{seedAt(yacymodel.WordHash("near"))}, 0, 0,
-	)
-	if len(closest) != 0 {
-		t.Fatalf("closest = %v, want nothing when no seed is wanted", closest)
-	}
-}
-
-func TestSeedsCloserToDHTRingPositionThanPeerKeepsOnlyTheCloserSeeds(t *testing.T) {
-	near := yacymodel.WordHash("near")
-	far := yacymodel.WordHash("far")
-
-	position := yacymodel.DHTRingPositionOf(near)
-
-	closer := yacymodel.SeedsCloserToDHTRingPositionThanPeer(
-		[]yacymodel.Seed{seedAt(far), seedAt(near)}, far, position,
-	)
-	if len(closer) != 1 || closer[0].Hash != near {
-		t.Fatalf("closer = %v, want only the seed closer than the peer", closer)
-	}
-}
-
 func TestFractionOfDHTRingIsZeroAtTheSamePosition(t *testing.T) {
 	near := yacymodel.WordHash("near")
 	far := yacymodel.WordHash("far")

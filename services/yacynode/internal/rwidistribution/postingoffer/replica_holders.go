@@ -23,17 +23,24 @@ func (h replicaHolders) peersHoldingReplica(peers []yacymodel.Seed) []yacymodel.
 	return holdingPeers
 }
 
-func (h replicaHolders) peersMissingReplica(peers []yacymodel.Seed) []yacymodel.Seed {
+func (h replicaHolders) closestPeersMissingReplica(
+	peers yacymodel.SeedRing,
+	position yacymodel.DHTRingPosition,
+	want int,
+) []yacymodel.Seed {
 	unexpiredHolders := h.unexpiredHolders()
 
-	missingPeers := make([]yacymodel.Seed, 0, len(peers))
-	for _, seed := range peers {
+	closestPeers := make([]yacymodel.Seed, 0, want)
+	for seed := range peers.SeedsClockwiseFrom(position) {
+		if len(closestPeers) == want {
+			break
+		}
 		if !slices.Contains(unexpiredHolders, seed.Hash) {
-			missingPeers = append(missingPeers, seed)
+			closestPeers = append(closestPeers, seed)
 		}
 	}
 
-	return missingPeers
+	return closestPeers
 }
 
 func (h replicaHolders) unexpiredHolders() []yacymodel.Hash {
