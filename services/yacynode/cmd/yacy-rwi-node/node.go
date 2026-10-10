@@ -135,7 +135,7 @@ func assembleNode(
 	}
 
 	metrics.NewVaultCapacityMetrics(registry, vault)
-	metrics.NewVaultCollectionMetrics(registry, vault)
+	metrics.NewVaultBucketRecordMetrics(registry, vault)
 
 	urlMetadataStaleness, err := urlmetastaleness.Open(vault)
 	if err != nil {

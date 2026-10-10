@@ -39,7 +39,7 @@ docker compose run --rm crawl-console pub yacy.crawl.orders \
     "URLMustMatch":".*","MaxPagesPerHost":50}}'
 
 curl -fsS localhost:9090/metrics \
-  | grep 'vault_collection_entries{collection="rwi"}'
+  | grep 'vault_bucket_records{bucket="rwi"}'
 ```
 
 A nonzero value confirms that the node stored reverse word index postings from

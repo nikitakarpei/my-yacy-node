@@ -1,27 +1,33 @@
 package memoryvault
 
 import (
+	"maps"
 	"sort"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 type memTxn struct {
-	buckets  map[vault.Name]map[string][]byte
+	records  map[vault.Name]map[string][]byte
+	amounts  map[vault.Name]map[string]int
 	writable bool
 }
 
 func (t memTxn) Writable() bool { return t.writable }
 
-func (t memTxn) Bucket(name vault.Name) vault.EngineBucket {
-	return memBucket{entries: t.buckets[name]}
+func (t memTxn) Records(name vault.Name) vault.EngineRecords {
+	return memRecords{entries: t.records[name]}
 }
 
-type memBucket struct {
+func (t memTxn) Amounts(name vault.Name) vault.EngineAmounts {
+	return memAmounts{entries: t.amounts[name]}
+}
+
+type memRecords struct {
 	entries map[string][]byte
 }
 
-func (b memBucket) Get(key []byte) ([]byte, error) {
+func (b memRecords) Get(key []byte) ([]byte, error) {
 	value, ok := b.entries[string(key)]
 	if !ok {
 		return nil, nil
@@ -30,14 +36,14 @@ func (b memBucket) Get(key []byte) ([]byte, error) {
 	return value, nil
 }
 
-func (b memBucket) Put(key []byte, record []byte) ([]byte, error) {
+func (b memRecords) Put(key []byte, record []byte) ([]byte, error) {
 	replacedRecord := b.entries[string(key)]
 	b.entries[string(key)] = copyValue(record)
 
 	return replacedRecord, nil
 }
 
-func (b memBucket) Delete(key []byte) ([]byte, error) {
+func (b memRecords) Delete(key []byte) ([]byte, error) {
 	deletedRecord, found := b.entries[string(key)]
 	if !found {
 		return nil, nil
@@ -47,11 +53,11 @@ func (b memBucket) Delete(key []byte) ([]byte, error) {
 	return deletedRecord, nil
 }
 
-func (b memBucket) Len() (int, error) {
+func (b memRecords) Len() (int, error) {
 	return len(b.entries), nil
 }
 
-func (b memBucket) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
+func (b memRecords) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
 	for _, key := range orderedKeysOf(b.entries, keys) {
 		keep, err := fn([]byte(key), b.entries[key])
 		if err != nil {
@@ -87,7 +93,7 @@ func isWithinBounds(key string, firstIncluded, firstExcluded []byte) bool {
 	return firstExcluded == nil || key < string(firstExcluded)
 }
 
-func snapshot(source map[vault.Name]map[string][]byte) map[vault.Name]map[string][]byte {
+func snapshotOfRecords(source map[vault.Name]map[string][]byte) map[vault.Name]map[string][]byte {
 	copied := make(map[vault.Name]map[string][]byte, len(source))
 	for name, bucket := range source {
 		entries := make(map[string][]byte, len(bucket))
@@ -95,6 +101,15 @@ func snapshot(source map[vault.Name]map[string][]byte) map[vault.Name]map[string
 			entries[key] = copyValue(value)
 		}
 		copied[name] = entries
+	}
+
+	return copied
+}
+
+func snapshotOfAmounts(source map[vault.Name]map[string]int) map[vault.Name]map[string]int {
+	copied := make(map[vault.Name]map[string]int, len(source))
+	for name, amounts := range source {
+		copied[name] = maps.Clone(amounts)
 	}
 
 	return copied

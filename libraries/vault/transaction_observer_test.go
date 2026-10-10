@@ -79,7 +79,7 @@ type commitRefusingEngine struct {
 }
 
 func (e *commitRefusingEngine) Update(_ context.Context, fn func(vault.EngineTxn) error) error {
-	if err := fn(doubleTxn{buckets: e.buckets, writable: true}); err != nil {
+	if err := fn(doubleTxn{records: e.records, writable: true}); err != nil {
 		return err
 	}
 
@@ -357,11 +357,11 @@ func TestUsedBytesIsNotAReadInFlight(t *testing.T) {
 	}
 }
 
-func TestEntriesByCollectionIsNotAReadInFlight(t *testing.T) {
+func TestRecordCountsByBucketIsNotAReadInFlight(t *testing.T) {
 	v, observer := openObserved(t, newDoubleEngine())
 
-	if _, err := v.EntriesByCollection(context.Background()); err != nil {
-		t.Fatalf("EntriesByCollection: %v", err)
+	if _, err := v.RecordCountsByBucket(context.Background()); err != nil {
+		t.Fatalf("RecordCountsByBucket: %v", err)
 	}
 
 	if observer.readsBegan != 0 {

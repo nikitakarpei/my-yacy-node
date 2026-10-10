@@ -1,17 +1,8 @@
-// Package vault lends each caller a transactionally-scoped, codec-typed
-// collection over its own ordered byte buckets. It defines the storage seam: an
-// Engine driver contract that a storage medium implements, and the
-// Collection/Txn surface a caller speaks. It encodes each key so that the byte
-// order of the key equals the domain order of its parts. No storage-medium type
-// appears on its exported surface.
-//
-// An Engine keeps a write transaction whole against concurrent writers, and
-// reports a UsedBytes that a delete lowers by the next call. Each Engine counts
-// those bytes in its own unit, comparable only against its own QuotaBytes.
-// Because an Engine can call a closure more than one time, a closure reads what
-// it decides on inside its own transaction. A key and a value that a scan gives
-// a closure stay usable until that closure returns. An Engine that gets a
-// context which is already done reports an error and does not call the closure.
+// Package vault lends callers typed, transactional views over named buckets.
+// A records bucket holds one record per key and backs a Collection or a Set.
+// An amounts bucket holds one number per key that writers raise and lower
+// without reading it. An Engine stores the buckets, keeps each write whole and
+// can run its closure again, and counts the bytes used against its quota.
 package vault
 
 import (
@@ -32,7 +23,7 @@ type Vault struct {
 	engine     Engine
 	observer   TransactionObserver
 	mu         sync.Mutex
-	registered map[Name]struct{}
+	registered map[Name]bucketKind
 }
 
 func New(engine Engine, observer TransactionObserver) (*Vault, error) {
@@ -45,7 +36,7 @@ func New(engine Engine, observer TransactionObserver) (*Vault, error) {
 	return &Vault{
 		engine:     engine,
 		observer:   observer,
-		registered: map[Name]struct{}{},
+		registered: map[Name]bucketKind{},
 	}, nil
 }
 

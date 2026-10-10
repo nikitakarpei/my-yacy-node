@@ -3,18 +3,23 @@ package vault_test
 import (
 	"context"
 	"fmt"
+	"maps"
 	"sort"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 type doubleEngine struct {
-	buckets    map[vault.Name]map[string][]byte
+	records    map[vault.Name]map[string][]byte
+	amounts    map[vault.Name]map[string]int
 	quotaBytes int64
 }
 
 func newDoubleEngine() *doubleEngine {
-	return &doubleEngine{buckets: map[vault.Name]map[string][]byte{}}
+	return &doubleEngine{
+		records: map[vault.Name]map[string][]byte{},
+		amounts: map[vault.Name]map[string]int{},
+	}
 }
 
 func openDouble() (*vault.Vault, error) {
@@ -26,9 +31,17 @@ func openDouble() (*vault.Vault, error) {
 	return v, nil
 }
 
-func (e *doubleEngine) Provision(name vault.Name) error {
-	if _, ok := e.buckets[name]; !ok {
-		e.buckets[name] = map[string][]byte{}
+func (e *doubleEngine) ProvisionRecordsBucket(name vault.Name) error {
+	if _, ok := e.records[name]; !ok {
+		e.records[name] = map[string][]byte{}
+	}
+
+	return nil
+}
+
+func (e *doubleEngine) ProvisionAmountsBucket(name vault.Name) error {
+	if _, ok := e.amounts[name]; !ok {
+		e.amounts[name] = map[string]int{}
 	}
 
 	return nil
@@ -39,11 +52,16 @@ func (e *doubleEngine) Update(ctx context.Context, fn func(vault.EngineTxn) erro
 		return fmt.Errorf("context: %w", err)
 	}
 
-	staged := snapshotBuckets(e.buckets)
-	if err := fn(doubleTxn{buckets: staged, writable: true}); err != nil {
+	staged := doubleTxn{
+		records:  snapshotOfRecords(e.records),
+		amounts:  snapshotOfAmounts(e.amounts),
+		writable: true,
+	}
+	if err := fn(staged); err != nil {
 		return err
 	}
-	e.buckets = staged
+	e.records = staged.records
+	e.amounts = staged.amounts
 
 	return nil
 }
@@ -53,11 +71,11 @@ func (e *doubleEngine) View(ctx context.Context, fn func(vault.EngineTxn) error)
 		return fmt.Errorf("context: %w", err)
 	}
 
-	return fn(doubleTxn{buckets: e.buckets, writable: false})
+	return fn(doubleTxn{records: e.records, amounts: e.amounts, writable: false})
 }
 
 func (e *doubleEngine) Close() error {
-	e.buckets = nil
+	e.records = nil
 
 	return nil
 }
@@ -70,7 +88,7 @@ func (e *doubleEngine) UsedBytes(ctx context.Context) (int64, error) {
 	}
 
 	var used int64
-	for _, bucket := range e.buckets {
+	for _, bucket := range e.records {
 		for key, value := range bucket {
 			used += int64(len(key) + len(value))
 		}
@@ -80,14 +98,65 @@ func (e *doubleEngine) UsedBytes(ctx context.Context) (int64, error) {
 }
 
 type doubleTxn struct {
-	buckets  map[vault.Name]map[string][]byte
+	records  map[vault.Name]map[string][]byte
+	amounts  map[vault.Name]map[string]int
 	writable bool
 }
 
 func (t doubleTxn) Writable() bool { return t.writable }
 
-func (t doubleTxn) Bucket(name vault.Name) vault.EngineBucket {
-	return doubleBucket{entries: t.buckets[name]}
+func (t doubleTxn) Records(name vault.Name) vault.EngineRecords {
+	return doubleBucket{entries: t.records[name]}
+}
+
+func (t doubleTxn) Amounts(name vault.Name) vault.EngineAmounts {
+	return doubleAmounts{entries: t.amounts[name]}
+}
+
+type doubleAmounts struct {
+	entries map[string]int
+}
+
+func (a doubleAmounts) Get(key []byte) (int, error) {
+	return a.entries[string(key)], nil
+}
+
+func (a doubleAmounts) Raise(key []byte, by uint) error {
+	a.entries[string(key)] += int(by)
+
+	return nil
+}
+
+func (a doubleAmounts) Lower(key []byte, by uint) error {
+	a.entries[string(key)] -= int(by)
+	if a.entries[string(key)] <= 0 {
+		delete(a.entries, string(key))
+	}
+
+	return nil
+}
+
+func (a doubleAmounts) Scan(
+	keys vault.KeyRange,
+	fn func(key []byte, amount int) (bool, error),
+) error {
+	ordered := make([]string, 0, len(a.entries))
+	firstIncluded, firstExcluded := keys.Bounds()
+	for key := range a.entries {
+		if isWithinBounds(key, firstIncluded, firstExcluded) {
+			ordered = append(ordered, key)
+		}
+	}
+	sort.Strings(ordered)
+
+	for _, key := range ordered {
+		keep, err := fn([]byte(key), a.entries[key])
+		if err != nil || !keep {
+			return err
+		}
+	}
+
+	return nil
 }
 
 type doubleBucket struct {
@@ -163,7 +232,7 @@ func isWithinBounds(key string, firstIncluded, firstExcluded []byte) bool {
 	return firstExcluded == nil || key < string(firstExcluded)
 }
 
-func snapshotBuckets(
+func snapshotOfRecords(
 	source map[vault.Name]map[string][]byte,
 ) map[vault.Name]map[string][]byte {
 	staged := make(map[vault.Name]map[string][]byte, len(source))
@@ -178,6 +247,15 @@ func snapshotBuckets(
 	return staged
 }
 
+func snapshotOfAmounts(source map[vault.Name]map[string]int) map[vault.Name]map[string]int {
+	staged := make(map[vault.Name]map[string]int, len(source))
+	for name, amounts := range source {
+		staged[name] = maps.Clone(amounts)
+	}
+
+	return staged
+}
+
 func copyBytes(value []byte) []byte {
 	out := make([]byte, len(value))
 	copy(out, value)
@@ -186,8 +264,8 @@ func copyBytes(value []byte) []byte {
 }
 
 func (e *doubleEngine) plant(bucket vault.Name, key, record []byte) {
-	if _, ok := e.buckets[bucket]; !ok {
-		e.buckets[bucket] = map[string][]byte{}
+	if _, ok := e.records[bucket]; !ok {
+		e.records[bucket] = map[string][]byte{}
 	}
-	e.buckets[bucket][string(key)] = record
+	e.records[bucket][string(key)] = record
 }

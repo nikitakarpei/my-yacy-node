@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"os"
 	"sync"
 
@@ -18,7 +19,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-const bloomFilterBitsPerKey = 10
+const (
+	bloomFilterBitsPerKey    = 10
+	amountsAtZeroKeptMessage = "amounts at zero kept until their next change"
+)
 
 type Engine struct {
 	db         *pebble.DB
@@ -65,6 +69,7 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 	options := &pebble.Options{
 		MemTableSize: uint64(max(limits.MemtableBytes, 0)),
 		MaxOpenFiles: limits.OpenFileLimit,
+		Merger:       amountMerger,
 	}
 	addBloomFiltersAboveTheBottomLevel(options)
 	if limits.BlockCacheBytes > 0 {
@@ -115,7 +120,11 @@ func machineLimitsOf(options *pebble.Options) MachineLimits {
 	}
 }
 
-func (e *Engine) Provision(_ vault.Name) error {
+func (e *Engine) ProvisionRecordsBucket(_ vault.Name) error {
+	return nil
+}
+
+func (e *Engine) ProvisionAmountsBucket(_ vault.Name) error {
 	return nil
 }
 
@@ -128,12 +137,64 @@ func (e *Engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) err
 	}
 
 	staged := e.db.NewIndexedBatch()
+	lowered := &loweredAmounts{}
 
-	if err := fn(pebbleTxn{reader: staged, staged: staged}); err != nil {
+	if err := fn(pebbleTxn{reader: staged, staged: staged, lowered: lowered}); err != nil {
 		return errors.Join(err, release(staged))
 	}
+	if err := errors.Join(
+		commitFailureOf(staged.Commit(pebble.Sync)),
+		release(staged),
+	); err != nil {
+		return err
+	}
+	e.deleteAmountsAtZero(ctx, lowered)
 
-	return errors.Join(commitFailureOf(staged.Commit(pebble.Sync)), release(staged))
+	return nil
+}
+
+func (e *Engine) deleteAmountsAtZero(ctx context.Context, lowered *loweredAmounts) {
+	atZero, err := amountsAtZeroAmong(e.db, lowered)
+	if err == nil && len(atZero) > 0 {
+		err = e.commitDeletesOf(atZero)
+	}
+	if err != nil {
+		slog.WarnContext(ctx, amountsAtZeroKeptMessage, slog.Any("error", err))
+	}
+}
+
+func amountsAtZeroAmong(committed pebble.Reader, lowered *loweredAmounts) ([][]byte, error) {
+	stored := storedEntries{reader: committed}
+	var atZero [][]byte
+	for _, key := range lowered.keys {
+		raw, err := stored.valueAt(key)
+		if err != nil {
+			return nil, err
+		}
+		if raw == nil {
+			continue
+		}
+		amount, err := countFrom(raw)
+		if err != nil {
+			return nil, err
+		}
+		if amount == 0 {
+			atZero = append(atZero, key)
+		}
+	}
+
+	return atZero, nil
+}
+
+func (e *Engine) commitDeletesOf(keys [][]byte) error {
+	deletes := e.db.NewBatch()
+	for _, key := range keys {
+		if err := deletes.Delete(key, pebble.NoSync); err != nil {
+			return errors.Join(fmt.Errorf("delete amount at zero: %w", err), release(deletes))
+		}
+	}
+
+	return errors.Join(deletes.Commit(pebble.NoSync), release(deletes))
 }
 
 func commitFailureOf(err error) error {
@@ -162,7 +223,7 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 
 	committed := e.db.NewSnapshot()
 
-	if err := fn(pebbleTxn{reader: committed}); err != nil {
+	if err := fn(pebbleTxn{reader: committed, lowered: &loweredAmounts{}}); err != nil {
 		return errors.Join(fmt.Errorf("read storage: %w", err), release(committed))
 	}
 
@@ -190,5 +251,14 @@ func (e *Engine) UsedBytes(ctx context.Context) (int64, error) {
 		return 0, fmt.Errorf("context: %w", err)
 	}
 
-	return heldBytesOf(bucketTalliesIn(e.db))
+	held, err := heldBytesOf(e.db)
+	if err != nil {
+		return 0, err
+	}
+	estimatedAmountsBytes, err := e.db.EstimateDiskUsage(amountsRegion.boundsFor(vault.EveryKey()))
+	if err != nil {
+		return 0, fmt.Errorf("estimate amount bytes: %w", err)
+	}
+
+	return held + signed(estimatedAmountsBytes), nil
 }

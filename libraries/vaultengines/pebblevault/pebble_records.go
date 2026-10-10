@@ -8,17 +8,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-type pebbleBucket struct {
+type pebbleRecords struct {
 	entries storedEntries
 	tally   storedBucketTally
 	staged  *pebble.Batch
 }
 
-func (b pebbleBucket) Get(key []byte) ([]byte, error) {
+func (b pebbleRecords) Get(key []byte) ([]byte, error) {
 	return b.entries.valueAt(key)
 }
 
-func (b pebbleBucket) Put(key []byte, record []byte) ([]byte, error) {
+func (b pebbleRecords) Put(key []byte, record []byte) ([]byte, error) {
 	replacedRecord, err := b.entries.valueAt(key)
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func (b pebbleBucket) Put(key []byte, record []byte) ([]byte, error) {
 	return replacedRecord, b.tally.adjustBy(0, int64(len(record)-len(replacedRecord)))
 }
 
-func (b pebbleBucket) Delete(key []byte) ([]byte, error) {
+func (b pebbleRecords) Delete(key []byte) ([]byte, error) {
 	deletedRecord, err := b.entries.valueAt(key)
 	if err != nil {
 		return nil, err
@@ -55,12 +55,12 @@ func (b pebbleBucket) Delete(key []byte) ([]byte, error) {
 	return deletedRecord, nil
 }
 
-func (b pebbleBucket) Len() (int, error) {
+func (b pebbleRecords) Len() (int, error) {
 	tally, err := b.tally.value()
 
-	return tally.entries, err
+	return tally.records, err
 }
 
-func (b pebbleBucket) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
+func (b pebbleRecords) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
 	return b.entries.visit(keys, fn)
 }

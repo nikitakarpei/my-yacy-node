@@ -7,18 +7,29 @@ import (
 )
 
 const (
-	bucketRegionPrefix byte = 1
-	tallyRegionPrefix  byte = 2
+	recordsRegionPrefix byte = 1
+	tallyRegionPrefix   byte = 2
+	amountsRegionPrefix byte = 3
 )
 
 type keyspaceRegion struct {
 	prefix []byte
 }
 
-func bucketRegionOf(bucket vault.Name) keyspaceRegion {
-	prefix := binary.AppendUvarint([]byte{bucketRegionPrefix}, uint64(len(bucket)))
+var amountsRegion = keyspaceRegion{prefix: []byte{amountsRegionPrefix}}
+
+func recordsRegionOf(bucket vault.Name) keyspaceRegion {
+	return namedRegionWithin(recordsRegionPrefix, bucket)
+}
+
+func namedRegionWithin(regionPrefix byte, bucket vault.Name) keyspaceRegion {
+	prefix := binary.AppendUvarint([]byte{regionPrefix}, uint64(len(bucket)))
 
 	return keyspaceRegion{prefix: append(prefix, bucket...)}
+}
+
+func amountsRegionOf(bucket vault.Name) keyspaceRegion {
+	return namedRegionWithin(amountsRegionPrefix, bucket)
 }
 
 func (r keyspaceRegion) absoluteKeyFrom(relativeKey []byte) []byte {
