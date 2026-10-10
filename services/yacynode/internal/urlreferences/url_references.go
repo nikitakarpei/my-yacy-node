@@ -39,16 +39,20 @@ func (r *urlReferences) PostingStored(tx *vault.Txn, posting yacymodel.RWIPostin
 }
 
 func (r *urlReferences) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	reference := wordByURL{url: posting.URLHash, word: posting.WordHash}
-	if _, err := r.words.Remove(tx, reference); err != nil {
+	purged := wordByURL{url: posting.URLHash, word: posting.WordHash}
+	wasRemoved, err := r.words.Remove(tx, purged)
+	if err != nil {
 		return fmt.Errorf("drop word by url: %w", err)
 	}
+	if !wasRemoved {
+		return nil
+	}
 
-	remaining, err := r.WordsReferencing(tx, posting.URLHash)
+	hasOtherWords, err := r.urlHasOtherWords(tx, purged)
 	if err != nil {
 		return err
 	}
-	if len(remaining) > 0 {
+	if hasOtherWords {
 		return nil
 	}
 	if _, err := r.referenced.Remove(tx, posting.URLHash); err != nil {
@@ -56,6 +60,29 @@ func (r *urlReferences) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPostin
 	}
 
 	return nil
+}
+
+func (r *urlReferences) urlHasOtherWords(tx *vault.Txn, purged wordByURL) (bool, error) {
+	hasWordsAfter, err := r.hasWordWithin(tx, wordsAfter(purged))
+	if err != nil || hasWordsAfter {
+		return hasWordsAfter, err
+	}
+
+	return r.hasWordWithin(tx, wordsBefore(purged))
+}
+
+func (r *urlReferences) hasWordWithin(tx *vault.Txn, wordRange vault.KeyRange) (bool, error) {
+	found := false
+	err := r.words.Scan(tx, wordRange, func(wordByURL) (bool, error) {
+		found = true
+
+		return false, nil
+	})
+	if err != nil {
+		return false, fmt.Errorf("scan words by url: %w", err)
+	}
+
+	return found, nil
 }
 
 func (r *urlReferences) WordsReferencing(

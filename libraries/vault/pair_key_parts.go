@@ -32,6 +32,14 @@ func (parts PairKeyParts[A, B]) KeysBeforeFirst(first A) KeyRange {
 	return parts.first.keysBefore(first)
 }
 
+func (parts PairKeyParts[A, B]) KeysWithFirstBeforeSecond(first A, second B) KeyRange {
+	return parts.second.keysBefore(second).withPrefix(parts.first.encodingOf(first))
+}
+
+func (parts PairKeyParts[A, B]) KeysWithFirstAfterSecond(first A, second B) KeyRange {
+	return parts.second.keysAfter(second).withPrefix(parts.first.encodingOf(first))
+}
+
 func (parts PairKeyParts[A, B]) PartsOf(storedKey []byte) (A, B, error) {
 	firstTargets, firstValue := parts.first.holder()
 	secondTargets, secondValue := parts.second.holder()

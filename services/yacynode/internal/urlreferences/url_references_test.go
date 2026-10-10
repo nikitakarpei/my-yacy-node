@@ -117,6 +117,40 @@ func TestPurgedPostingForgetsURLWhenLastWordGoes(t *testing.T) {
 	}
 }
 
+func TestPurgedPostingsKeepURLUntilItsLastWordGoesInEveryOrder(t *testing.T) {
+	words := []yacymodel.Hash{
+		yacymodel.WordHash("w1"), yacymodel.WordHash("w2"), yacymodel.WordHash("w3"),
+	}
+	for _, purgeOrder := range [][]int{
+		{0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {1, 2, 0}, {2, 0, 1}, {2, 1, 0},
+	} {
+		t.Run(fmt.Sprint(purgeOrder), func(t *testing.T) {
+			vault, index := openReferences(t)
+			url := urlHash("u1")
+			for _, word := range words {
+				store(t, vault, index, word, url)
+			}
+
+			for purged, position := range purgeOrder {
+				purge(t, vault, index, words[position], url)
+
+				want := 1
+				if purged == len(purgeOrder)-1 {
+					want = 0
+				}
+				if count := referencedURLCount(t, vault, index); count != want {
+					t.Fatalf(
+						"ReferencedURLCount after %d purges = %d, want %d",
+						purged+1,
+						count,
+						want,
+					)
+				}
+			}
+		})
+	}
+}
+
 func TestPurgedUnknownPostingIsHarmless(t *testing.T) {
 	vault, index := openReferences(t)
 

@@ -45,6 +45,59 @@ func TestPairKeyRangesOfTheFirstPositionSplitAtThatFirst(t *testing.T) {
 	}
 }
 
+func TestPairKeyRangesBesideASecondHoldOnlyKeysOfThatFirst(t *testing.T) {
+	for _, directed := range []struct {
+		direction string
+		parts     vault.PairKeyParts[string, int64]
+	}{
+		{"Ascending", vault.PairKey(vault.TextKeyPart, vault.IntegerKeyPart)},
+		{"Descending", vault.PairKey(vault.TextKeyPart, vault.IntegerKeyPartDescending)},
+	} {
+		t.Run(directed.direction, func(t *testing.T) {
+			firsts, seconds := orderedTexts(), orderedIntegers()
+			firstBound, secondBound := firsts[len(firsts)/2], seconds[len(seconds)/2]
+			keysBefore := directed.parts.KeysWithFirstBeforeSecond(firstBound, secondBound)
+			keysAfter := directed.parts.KeysWithFirstAfterSecond(firstBound, secondBound)
+
+			for _, first := range firsts {
+				for _, second := range seconds {
+					key := directed.parts.Key(first, second).Bytes()
+
+					assertRangeAnswers(
+						t,
+						keysBefore,
+						key,
+						first == firstBound && second < secondBound,
+					)
+					assertRangeAnswers(
+						t,
+						keysAfter,
+						key,
+						first == firstBound && second > secondBound,
+					)
+				}
+			}
+		})
+	}
+}
+
+func TestPairKeyRangesBesideATextSecondHoldOnlyKeysOfThatFirst(t *testing.T) {
+	parts := vault.PairKey(vault.TextKeyPart, vault.TextKeyPart)
+	texts := orderedTexts()
+	firstBound, secondBound := texts[len(texts)/2], texts[len(texts)/2]
+	keysBefore := parts.KeysWithFirstBeforeSecond(firstBound, secondBound)
+	keysAfter := parts.KeysWithFirstAfterSecond(firstBound, secondBound)
+
+	for _, first := range texts {
+		for _, second := range texts {
+			key := parts.Key(first, second).Bytes()
+
+			assertRangeAnswers(t, keysBefore, key, first == firstBound && second < secondBound)
+			assertRangeAnswers(t, keysAfter, key, first == firstBound && second > secondBound)
+		}
+	}
+}
+
 func TestPairKeysSortByFirstThenSecond(t *testing.T) {
 	parts := vault.PairKey(vault.TextKeyPart, vault.IntegerKeyPart)
 

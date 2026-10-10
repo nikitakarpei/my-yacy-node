@@ -48,6 +48,16 @@ func (part KeyPart[A]) keysBefore(value A) KeyRange {
 	return KeyRange{firstExcluded: encoding}
 }
 
+func (part KeyPart[A]) keysAfter(value A) KeyRange {
+	encoding := part.encodingOf(value)
+
+	if part.descending {
+		return KeyRange{firstExcluded: encoding}
+	}
+
+	return KeyRange{firstIncluded: successorOf(encoding)}
+}
+
 func (part KeyPart[A]) encodingOf(value A) []byte {
 	return keyOf(part.items(value)).encoded
 }
