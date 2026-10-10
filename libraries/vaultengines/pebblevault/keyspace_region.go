@@ -7,6 +7,7 @@ import (
 )
 
 const (
+	regionPrefixLength       = 1
 	recordsRegionPrefix byte = 1
 	tallyRegionPrefix   byte = 2
 	amountsRegionPrefix byte = 3
@@ -26,6 +27,15 @@ func namedRegionWithin(regionPrefix byte, bucket vault.Name) keyspaceRegion {
 	prefix := binary.AppendUvarint([]byte{regionPrefix}, uint64(len(bucket)))
 
 	return keyspaceRegion{prefix: append(prefix, bucket...)}
+}
+
+func bucketNameFrom(namedRegionKey []byte) vault.Name {
+	nameLength, lengthBytes := binary.Uvarint(namedRegionKey[regionPrefixLength:])
+	nameStart := regionPrefixLength + lengthBytes
+	//nolint:gosec // G115: a bucket name is far shorter than MaxInt.
+	nameEnd := nameStart + int(nameLength)
+
+	return vault.Name(namedRegionKey[nameStart:nameEnd])
 }
 
 func amountsRegionOf(bucket vault.Name) keyspaceRegion {

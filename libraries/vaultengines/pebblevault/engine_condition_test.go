@@ -149,7 +149,7 @@ func TestConditionReportsTheSnapshotAReadHoldsOpen(t *testing.T) {
 func openEngine(t *testing.T, limits pebblevault.MachineLimits) *pebblevault.Engine {
 	t.Helper()
 
-	engine, err := pebblevault.OpenEngine(filepath.Join(t.TempDir(), "node"), 0, limits, nil)
+	engine, err := pebblevault.OpenEngine(filepath.Join(t.TempDir(), "node"), 0, limits, nil, nil)
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}

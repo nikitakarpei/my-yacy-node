@@ -26,7 +26,7 @@ var errAdmissionRefused = errors.New("admission refused")
 
 type discardedPurges struct{}
 
-func (discardedPurges) ObservePostingsPurgedWithURL(yacymodel.URLHash, int) {}
+func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
 
 type refusedAdmitter struct {
 	admitter rwipostings.PostingAdmitter

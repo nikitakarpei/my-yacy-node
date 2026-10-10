@@ -54,8 +54,10 @@ func run() error {
 			MemtableBytes:         config.Storage.MemtableByte,
 			CompactionConcurrency: config.Storage.CompactionConcurrency,
 			OpenFileLimit:         config.Storage.OpenFileLimit,
+			WriteConcurrency:      config.Storage.WriteConcurrency,
 		},
 		metrics.NewPebbleWriteStallMetrics(registry),
+		metrics.NewPebbleWriteConflictMetrics(registry),
 	)
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)

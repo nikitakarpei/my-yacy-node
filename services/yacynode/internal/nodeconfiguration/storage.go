@@ -13,6 +13,7 @@ const (
 	EnvPebbleMemtableSize          = "YACY_PEBBLE_MEMTABLE_SIZE"
 	EnvPebbleCompactionConcurrency = "YACY_PEBBLE_COMPACTION_CONCURRENCY"
 	EnvPebbleOpenFileLimit         = "YACY_PEBBLE_OPEN_FILE_LIMIT"
+	EnvPebbleWriteConcurrency      = "YACY_PEBBLE_WRITE_CONCURRENCY"
 
 	DefaultDataDir                     = "./data"
 	DefaultQuota                       = "1GB"
@@ -20,6 +21,7 @@ const (
 	DefaultPebbleMemtableSize          = "8MB"
 	DefaultPebbleCompactionConcurrency = 1
 	DefaultPebbleOpenFileLimit         = 1000
+	DefaultPebbleWriteConcurrency      = 4
 
 	StorageDirectoryName = "node"
 )
@@ -31,6 +33,7 @@ type StorageConfig struct {
 	MemtableByte          int64
 	CompactionConcurrency int
 	OpenFileLimit         int
+	WriteConcurrency      int
 }
 
 func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
@@ -67,6 +70,15 @@ func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
 		return StorageConfig{}, err
 	}
 
+	writeConcurrency, err := envconfig.PositiveInt(
+		getenv,
+		EnvPebbleWriteConcurrency,
+		DefaultPebbleWriteConcurrency,
+	)
+	if err != nil {
+		return StorageConfig{}, err
+	}
+
 	dataDir := envconfig.String(getenv, EnvDataDir, DefaultDataDir)
 
 	return StorageConfig{
@@ -76,5 +88,6 @@ func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
 		MemtableByte:          memtable,
 		CompactionConcurrency: compactionConcurrency,
 		OpenFileLimit:         openFileLimit,
+		WriteConcurrency:      writeConcurrency,
 	}, nil
 }

@@ -57,6 +57,9 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.Storage.CompactionConcurrency != nodeconfiguration.DefaultPebbleCompactionConcurrency {
 		t.Errorf("CompactionConcurrency = %d, want default", config.Storage.CompactionConcurrency)
 	}
+	if config.Storage.WriteConcurrency != nodeconfiguration.DefaultPebbleWriteConcurrency {
+		t.Errorf("WriteConcurrency = %d, want default", config.Storage.WriteConcurrency)
+	}
 	if config.Storage.OpenFileLimit != nodeconfiguration.DefaultPebbleOpenFileLimit {
 		t.Errorf("OpenFileLimit = %d, want default", config.Storage.OpenFileLimit)
 	}
@@ -123,6 +126,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvPebbleMemtableSize:          "2MB",
 		nodeconfiguration.EnvPebbleCompactionConcurrency: "3",
 		nodeconfiguration.EnvPebbleOpenFileLimit:         "128",
+		nodeconfiguration.EnvPebbleWriteConcurrency:      "6",
 		nodeconfiguration.EnvTrustedProxies:              "10.0.0.0/8",
 		nodeconfiguration.EnvSeedlistURLs:                " http://a , http://b ,",
 		nodeconfiguration.EnvAnnounceInterval:            "30s",
@@ -153,6 +157,9 @@ func TestLoadReadsOverrides(t *testing.T) {
 	}
 	if config.Storage.CompactionConcurrency != 3 {
 		t.Errorf("CompactionConcurrency = %d, want 3", config.Storage.CompactionConcurrency)
+	}
+	if config.Storage.WriteConcurrency != 6 {
+		t.Errorf("WriteConcurrency = %d, want 6", config.Storage.WriteConcurrency)
 	}
 	if config.Storage.OpenFileLimit != 128 {
 		t.Errorf("OpenFileLimit = %d, want 128", config.Storage.OpenFileLimit)
@@ -274,6 +281,11 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
 		nodeconfiguration.EnvPeerName:                    "n",
 		nodeconfiguration.EnvPebbleCompactionConcurrency: "0",
+	},
+	"bad write concurrency": {
+		nodeconfiguration.EnvInitialPeerHash:        "0123456789AB",
+		nodeconfiguration.EnvPeerName:               "n",
+		nodeconfiguration.EnvPebbleWriteConcurrency: "0",
 	},
 	"bad open file limit": {
 		nodeconfiguration.EnvInitialPeerHash:     "0123456789AB",

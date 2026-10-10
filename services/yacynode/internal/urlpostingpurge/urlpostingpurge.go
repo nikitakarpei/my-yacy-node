@@ -4,13 +4,14 @@
 package urlpostingpurge
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
 type Observer interface {
-	ObservePostingsPurgedWithURL(url yacymodel.URLHash, amountOfPostings int)
+	ObservePostingsPurgedWithURL(tx *vault.Txn, url yacymodel.URLHash, amountOfPostings int)
 }
 
 func New(

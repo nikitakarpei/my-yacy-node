@@ -12,7 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 )
 
-var testLimits = pebblevault.MachineLimits{BlockCacheBytes: 8 << 20}
+var testLimits = pebblevault.MachineLimits{BlockCacheBytes: 8 << 20, WriteConcurrency: 2}
 
 var stringKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
@@ -37,7 +37,7 @@ func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 func vaultAt(t *testing.T, path string, quotaBytes int64) *vault.Vault {
 	t.Helper()
 
-	engine, err := pebblevault.OpenEngine(path, quotaBytes, testLimits, nil)
+	engine, err := pebblevault.OpenEngine(path, quotaBytes, testLimits, nil, nil)
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
@@ -66,7 +66,7 @@ func registerWords(t *testing.T, store *vault.Vault) *vault.Collection[string, s
 
 func TestConformance(t *testing.T) {
 	vaultenginetest.RunConformance(t, func(quotaBytes int64) (vault.Engine, error) {
-		opened, err := pebblevault.OpenEngine(t.TempDir()+"/node", quotaBytes, testLimits, nil)
+		opened, err := pebblevault.OpenEngine(t.TempDir()+"/node", quotaBytes, testLimits, nil, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -126,6 +126,7 @@ func TestOpenRefusesAStoragePathUnderAFile(t *testing.T) {
 		0,
 		testLimits,
 		nil,
+		nil,
 	); err == nil {
 		t.Fatal("OpenEngine under a file succeeded, want error")
 	}
@@ -135,7 +136,7 @@ func TestOpenRefusesAStoragePathAnotherProcessHolds(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "node")
 	openVaultAt(t, path)
 
-	if _, err := pebblevault.OpenEngine(path, 0, testLimits, nil); err == nil {
+	if _, err := pebblevault.OpenEngine(path, 0, testLimits, nil, nil); err == nil {
 		t.Fatal("OpenEngine on a held directory succeeded, want error")
 	}
 }
@@ -143,7 +144,7 @@ func TestOpenRefusesAStoragePathAnotherProcessHolds(t *testing.T) {
 func openVaultAt(t *testing.T, path string) {
 	t.Helper()
 
-	holder, err := pebblevault.OpenEngine(path, 0, testLimits, nil)
+	holder, err := pebblevault.OpenEngine(path, 0, testLimits, nil, nil)
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
@@ -172,6 +173,7 @@ func TestOpenRefusesAMemtableTheEngineCannotAddress(t *testing.T) {
 		filepath.Join(t.TempDir(), "node"),
 		0,
 		pebblevault.MachineLimits{MemtableBytes: 1 << 32},
+		nil,
 		nil,
 	); err == nil {
 		t.Fatal("OpenEngine with an unaddressable memtable succeeded, want error")
