@@ -200,6 +200,7 @@ func RunService(
 				),
 			),
 		),
+		cfg.HideUnreadResults,
 		cfg.QueryBudget,
 		cfg.PagesReadPerQueryCeiling,
 		cfg.PagesReadPerSiteCeiling,

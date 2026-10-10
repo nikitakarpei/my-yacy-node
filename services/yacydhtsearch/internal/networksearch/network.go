@@ -1,13 +1,15 @@
 // Package networksearch ranks what the peers of the network hold for one query,
 // within one query budget. It asks the peers that hold the words of the query,
 // puts what they answered in order, reads the pages of the documents it puts first,
-// and carries back the documents up to the ceiling as the ranking the client reads.
+// can leave out each document whose page it did not read, and carries back the
+// documents up to the ceiling as the ranking the client reads.
 package networksearch
 
 import (
 	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -60,6 +62,7 @@ type Network struct {
 	querySpread              QuerySpread
 	pageReading              PageReading
 	documentsOrdering        DocumentsOrdering
+	hideUnreadResults        bool
 	queryBudget              time.Duration
 	pagesReadPerQueryCeiling int
 	pagesReadPerSiteCeiling  int
@@ -75,6 +78,7 @@ func New(
 	querySpread QuerySpread,
 	pageReading PageReading,
 	documentsOrdering DocumentsOrdering,
+	hideUnreadResults bool,
 	queryBudget time.Duration,
 	pagesReadPerQueryCeiling int,
 	pagesReadPerSiteCeiling int,
@@ -88,6 +92,7 @@ func New(
 		querySpread:              querySpread,
 		pageReading:              pageReading,
 		documentsOrdering:        documentsOrdering,
+		hideUnreadResults:        hideUnreadResults,
 		queryBudget:              queryBudget,
 		pagesReadPerQueryCeiling: pagesReadPerQueryCeiling,
 		pagesReadPerSiteCeiling:  pagesReadPerSiteCeiling,
@@ -129,18 +134,17 @@ func (n Network) Search(
 	)
 	pagesRead := pageReadingRun.Read(ctx, pagesWanted)
 	pageReadingRun.Finish(ctx)
-	findingsWithReadPages := findings.
-		WithReadPages(pagesRead.PageContentsPerDocument).
+	readFindings := n.findingsWithReadPagesFrom(findings, pagesRead.PageContentsPerDocument).
 		WithSpamVerdicts(pagesRead.SpamVerdictPerDocument).
 		WithoutDocuments(pagesRead.WithdrawnDocuments)
 	rankedDocuments := documentsUpTo(
-		n.documentsOrdering.OrderedDocumentsOf(findingsWithReadPages),
+		n.documentsOrdering.OrderedDocumentsOf(readFindings),
 		n.rankedItemsCeiling,
 	)
 	n.observer.NetworkSearchPerformed(
 		ctx,
 		performedNetworkSearchFrom(
-			findingsWithReadPages,
+			readFindings,
 			rankedDocuments,
 			len(askablePeers),
 			time.Since(startedAt),
@@ -148,6 +152,17 @@ func (n Network) Search(
 	)
 
 	return rankingOf(rankedDocuments), true
+}
+
+func (n Network) findingsWithReadPagesFrom(
+	findings queryfindings.Findings,
+	pageContentsPerDocument map[yacymodel.URLHash]pagecontents.PageContents,
+) queryfindings.Findings {
+	if n.hideUnreadResults {
+		return findings.WithOnlyReadPages(pageContentsPerDocument)
+	}
+
+	return findings.WithReadPages(pageContentsPerDocument)
 }
 
 func documentsUpTo(

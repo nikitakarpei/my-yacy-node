@@ -73,6 +73,7 @@ With `YACYDHTSEARCH_NATS_URL` set, all instances keep the probe answers and the 
 | `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time one page read may take once it starts, with all its redirects. |
 | `YACYDHTSEARCH_PAGE_READ_CUTOFF_PERCENT` | `90` | Percent of the pages of a query that must have an outcome before the grace starts. `100` turns the cutoff off. |
 | `YACYDHTSEARCH_PAGE_READ_CUTOFF_GRACE` | `250ms` | Time the query waits for its other pages after the grace starts. |
+| `YACYDHTSEARCH_HIDE_UNREAD_RESULTS` | `false` | `true` hides each result whose page the query did not read. |
 | `YACYDHTSEARCH_URL_METADATA_LOOKUP_CUTOFF_PERCENT` | `90` | Percent of the documents that a query looks up URL metadata for that must have metadata or no open peer call before the grace starts. `100` turns the cutoff off. |
 | `YACYDHTSEARCH_URL_METADATA_LOOKUP_CUTOFF_GRACE` | `250ms` | Time the query waits for the URL metadata of its other documents after the grace starts. |
 | `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `4194304` | Most bytes read from one page. |
