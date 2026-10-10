@@ -169,18 +169,12 @@ func (h *cycleHarness) duePostings(t *testing.T, limit int) []postingidentity.Id
 
 	var due []postingidentity.Identity
 	if err := h.v.View(context.Background(), func(tx *vault.Txn) error {
-		var visitedSectors []yacymodel.DHTRingSector
-		for len(due) < limit {
-			sector, found, err := h.schedule.EarliestDueSectorOutside(tx, visitedSectors)
-			if err != nil || !found {
-				return err
-			}
+		for sector := range yacymodel.DHTRingSectorCount {
 			inSector, err := h.schedule.DuePostingsIn(tx, sector, limit-len(due))
 			if err != nil {
 				return err
 			}
 			due = append(due, inSector...)
-			visitedSectors = append(visitedSectors, sector)
 		}
 
 		return nil

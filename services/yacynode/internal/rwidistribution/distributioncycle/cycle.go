@@ -1,8 +1,8 @@
 // Package distributioncycle runs one distribution pass: it asks postingoffer
 // which peers are missing a replica of each due posting, offers the posting
-// to them, and writes down what happened. Several batches run at once, each in
-// a ring sector no other batch in flight holds, and a batch offers to all its
-// peers at once.
+// to them, and writes down what happened. Batches take the ring sectors in
+// turn, several at once, each in a sector no other batch in flight holds; a
+// batch offers to all its peers at once.
 package distributioncycle
 
 import (
@@ -65,7 +65,7 @@ type Cycle struct {
 	now             func() time.Time
 	cycleObserver   CycleObserver
 	dhtRingObserver DHTRingObserver
-	sectorsInFlight *sectorsInFlight
+	sectorTurns     *sectorTurns
 	config          Config
 }
 
@@ -96,7 +96,7 @@ func New(
 		now:             now,
 		cycleObserver:   cycleObserver,
 		dhtRingObserver: dhtRingObserver,
-		sectorsInFlight: newSectorsInFlight(),
+		sectorTurns:     &sectorTurns{},
 		config:          config,
 	}
 }
@@ -151,6 +151,7 @@ func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int
 
 func (c *Cycle) drainDuePostings(ctx context.Context, peers []yacymodel.Seed) {
 	drainEndsAt := c.now().Add(c.config.DrainBudget)
+	c.sectorTurns.forgetDrainedSectors()
 
 	var drains sync.WaitGroup
 	for range c.config.BatchConcurrency {
@@ -172,16 +173,11 @@ func (c *Cycle) offerBatchesUntil(
 }
 
 func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool {
-	sector, found, err := c.claimEarliestDueSector(ctx)
-	if err != nil {
-		c.reportDuePostingsUnread(ctx, err)
-
-		return false
-	}
+	sector, found := c.sectorTurns.claimNext()
 	if !found {
 		return false
 	}
-	defer c.sectorsInFlight.release(sector)
+	defer c.sectorTurns.release(sector)
 
 	offers, gonePostings, err := c.postingOffers.DueNowIn(
 		ctx, sector, c.config.PostingsPerBatch, peers,
@@ -191,6 +187,27 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 
 		return false
 	}
+	amountOfDuePostings := len(offers) + len(gonePostings)
+	if amountOfDuePostings < c.config.PostingsPerBatch {
+		c.sectorTurns.markDrained(sector)
+	}
+	if amountOfDuePostings == 0 {
+		return true
+	}
+
+	return c.offerBatch(ctx, offers, gonePostings)
+}
+
+func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
+	slog.ErrorContext(ctx, "due postings not read", slog.Any("error", err))
+	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
+}
+
+func (c *Cycle) offerBatch(
+	ctx context.Context,
+	offers []postingoffer.PostingOffer,
+	gonePostings []postingidentity.Identity,
+) bool {
 	c.reportPostingsGone(ctx, gonePostings)
 
 	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
@@ -201,32 +218,6 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 	}
 
 	return true
-}
-
-func (c *Cycle) claimEarliestDueSector(
-	ctx context.Context,
-) (yacymodel.DHTRingSector, bool, error) {
-	return c.sectorsInFlight.claimFree(
-		func(sectorsInFlight []yacymodel.DHTRingSector) (yacymodel.DHTRingSector, bool, error) {
-			var (
-				sector yacymodel.DHTRingSector
-				found  bool
-			)
-			err := c.vault.View(ctx, func(tx *vault.Txn) error {
-				var err error
-				sector, found, err = c.schedule.EarliestDueSectorOutside(tx, sectorsInFlight)
-
-				return err
-			})
-
-			return sector, found, err
-		},
-	)
-}
-
-func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
-	slog.ErrorContext(ctx, "due postings not read", slog.Any("error", err))
-	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
 }
 
 func (c *Cycle) reportPostingsGone(

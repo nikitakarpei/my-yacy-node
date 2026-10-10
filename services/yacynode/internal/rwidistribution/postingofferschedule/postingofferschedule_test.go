@@ -204,18 +204,12 @@ func (h *scheduleHarness) duePostings(t *testing.T, limit int) []postingidentity
 
 	var due []postingidentity.Identity
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		var visitedSectors []yacymodel.DHTRingSector
-		for len(due) < limit {
-			sector, found, err := h.schedule.EarliestDueSectorOutside(tx, visitedSectors)
-			if err != nil || !found {
-				return err
-			}
+		for sector := range yacymodel.DHTRingSectorCount {
 			inSector, err := h.schedule.DuePostingsIn(tx, sector, limit-len(due))
 			if err != nil {
 				return err
 			}
 			due = append(due, inSector...)
-			visitedSectors = append(visitedSectors, sector)
 		}
 
 		return nil
@@ -224,31 +218,6 @@ func (h *scheduleHarness) duePostings(t *testing.T, limit int) []postingidentity
 	}
 
 	return due
-}
-
-func (h *scheduleHarness) earliestDueSectorOutside(
-	t *testing.T,
-	sectorsInFlight []yacymodel.DHTRingSector,
-) yacymodel.DHTRingSector {
-	t.Helper()
-
-	var (
-		sector yacymodel.DHTRingSector
-		found  bool
-	)
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		var err error
-		sector, found, err = h.schedule.EarliestDueSectorOutside(tx, sectorsInFlight)
-
-		return err
-	}); err != nil {
-		t.Fatalf("EarliestDueSectorOutside: %v", err)
-	}
-	if !found {
-		t.Fatalf("no sector due outside %v", sectorsInFlight)
-	}
-
-	return sector
 }
 
 func (h *scheduleHarness) duePostingsIn(

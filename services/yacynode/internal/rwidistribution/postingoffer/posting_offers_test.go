@@ -166,15 +166,10 @@ func (h postingOfferHarness) dueNow(
 	t.Helper()
 
 	var (
-		offers         []postingoffer.PostingOffer
-		gonePostings   []postingidentity.Identity
-		visitedSectors []yacymodel.DHTRingSector
+		offers       []postingoffer.PostingOffer
+		gonePostings []postingidentity.Identity
 	)
-	for {
-		sector, found := h.earliestDueSectorOutside(t, visitedSectors)
-		if !found {
-			return offers, gonePostings
-		}
+	for sector := range yacymodel.DHTRingSectorCount {
 		sectorOffers, sectorGonePostings, err := h.postingOffers.DueNowIn(
 			context.Background(), sector, 10, peers,
 		)
@@ -183,30 +178,9 @@ func (h postingOfferHarness) dueNow(
 		}
 		offers = append(offers, sectorOffers...)
 		gonePostings = append(gonePostings, sectorGonePostings...)
-		visitedSectors = append(visitedSectors, sector)
-	}
-}
-
-func (h postingOfferHarness) earliestDueSectorOutside(
-	t *testing.T,
-	visitedSectors []yacymodel.DHTRingSector,
-) (yacymodel.DHTRingSector, bool) {
-	t.Helper()
-
-	var (
-		sector yacymodel.DHTRingSector
-		found  bool
-	)
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		var err error
-		sector, found, err = h.schedule.EarliestDueSectorOutside(tx, visitedSectors)
-
-		return err
-	}); err != nil {
-		t.Fatalf("EarliestDueSectorOutside: %v", err)
 	}
 
-	return sector, found
+	return offers, gonePostings
 }
 
 func (h postingOfferHarness) dueOffer(
@@ -744,8 +718,11 @@ func TestDueReportsAcceptingPeersPerRingSector(t *testing.T) {
 	harness.storePosting(t, word, url)
 	harness.dueNow(t, peers)
 
-	if len(observer.peersPerSector) != 1 {
-		t.Fatalf("reports = %d, want one report per DueNow", len(observer.peersPerSector))
+	if len(observer.peersPerSector) != int(yacymodel.DHTRingSectorCount) {
+		t.Fatalf(
+			"reports = %d, want one report per DueNowIn, one for each sector",
+			len(observer.peersPerSector),
+		)
 	}
 	perSector := observer.peersPerSector[0]
 	if len(perSector) != int(yacymodel.MaxDHTRingSector)+1 {

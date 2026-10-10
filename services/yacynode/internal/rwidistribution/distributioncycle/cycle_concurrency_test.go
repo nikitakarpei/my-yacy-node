@@ -38,7 +38,10 @@ func TestCycleOffersABatchToAllItsPeersAtTheSameTime(t *testing.T) {
 func TestCycleOffersBatchesOfDifferentSectorsAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		peer := yacymodel.WordHash("peer")
-		sectorPostings := append(postingsInSector(1), postingsInSector(40)...)
+		sectorPostings := append(
+			postingsInSector(1, postingsPerBatch),
+			postingsInSector(40, postingsPerBatch)...,
+		)
 		h := openCycle(t, &clock{at: time.Unix(1000, 0)}, cycleOptions{
 			postings:         postingsByKey(sectorPostings),
 			roster:           fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
@@ -63,7 +66,10 @@ func TestCycleOffersBatchesOfDifferentSectorsAtTheSameTime(t *testing.T) {
 func TestCycleReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		peer := yacymodel.WordHash("peer")
-		sectorPostings := append(postingsInSector(1), postingsInSector(40)...)
+		sectorPostings := append(
+			postingsInSector(1, postingsPerBatch),
+			postingsInSector(40, postingsPerBatch)...,
+		)
 		h := openCycle(t, &clock{at: time.Unix(1000, 0)}, cycleOptions{
 			postings:         postingsByKey(sectorPostings),
 			roster:           fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
@@ -84,14 +90,17 @@ func TestCycleReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
 	})
 }
 
-func postingsInSector(sector yacymodel.DHTRingSector) []yacymodel.RWIPosting {
+func postingsInSector(
+	sector yacymodel.DHTRingSector,
+	amountOfPostings int,
+) []yacymodel.RWIPosting {
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
 	if err != nil {
 		panic(err)
 	}
 
 	var postings []yacymodel.RWIPosting
-	for attempt := 0; len(postings) < postingsPerBatch; attempt++ {
+	for attempt := 0; len(postings) < amountOfPostings; attempt++ {
 		name := fmt.Sprintf("sector%d-%d", sector, attempt)
 		posting := fakePosting(yacymodel.WordHash(name), urlHash(name))
 		position := yacymodel.DHTRingPositionOfPosting(posting, partitions)

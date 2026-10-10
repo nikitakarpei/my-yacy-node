@@ -1,14 +1,12 @@
 // Package postingofferschedule tracks when each stored posting is next due for
 // a distribution offer. A posting that misses its redundancy comes back after
 // the offer interval this package stores for it, and before the postings that
-// only refresh their holders. A batch takes the due postings of one ring
-// sector, so it goes to few peers; the next sector is the free one that holds
-// the earliest due posting.
+// only refresh their holders. The due postings are read one ring sector at a
+// time, so a batch goes to few peers.
 package postingofferschedule
 
 import (
 	"fmt"
-	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -244,64 +242,6 @@ func (s *Schedule) IsScheduled(
 	return found, err
 }
 
-func (s *Schedule) EarliestDueSectorOutside(
-	tx *vault.Txn,
-	sectorsInFlight []yacymodel.DHTRingSector,
-) (yacymodel.DHTRingSector, bool, error) {
-	for _, order := range []*vault.Set[scheduledPostingOffer]{s.shortfallOrder, s.refreshOrder} {
-		earliestOffer, found, err := earliestOfferOutside(tx, order, sectorsInFlight)
-		if err != nil {
-			return 0, false, err
-		}
-		if found && !earliestOffer.Place.DueAt.After(s.now()) {
-			return earliestOffer.Place.Sector, true, nil
-		}
-	}
-
-	return 0, false, nil
-}
-
-func earliestOfferOutside(
-	tx *vault.Txn,
-	order *vault.Set[scheduledPostingOffer],
-	sectorsInFlight []yacymodel.DHTRingSector,
-) (scheduledPostingOffer, bool, error) {
-	var (
-		earliestOffer scheduledPostingOffer
-		found         bool
-	)
-	for _, sector := range freeDHTRingSectorsOutside(sectorsInFlight) {
-		if err := order.Scan(
-			tx,
-			everyOfferInSector(sector),
-			func(scheduledOffer scheduledPostingOffer) (bool, error) {
-				if !found || scheduledOffer.Place.DueAt.Before(earliestOffer.Place.DueAt) {
-					earliestOffer, found = scheduledOffer, true
-				}
-
-				return false, nil
-			},
-		); err != nil {
-			return scheduledPostingOffer{}, false, fmt.Errorf("select earliest offer due: %w", err)
-		}
-	}
-
-	return earliestOffer, found, nil
-}
-
-func freeDHTRingSectorsOutside(
-	sectorsInFlight []yacymodel.DHTRingSector,
-) []yacymodel.DHTRingSector {
-	freeSectors := make([]yacymodel.DHTRingSector, 0, yacymodel.DHTRingSectorCount)
-	for sector := range yacymodel.DHTRingSectorCount {
-		if !slices.Contains(sectorsInFlight, sector) {
-			freeSectors = append(freeSectors, sector)
-		}
-	}
-
-	return freeSectors
-}
-
 func (s *Schedule) DuePostingsIn(
 	tx *vault.Txn,
 	sector yacymodel.DHTRingSector,
@@ -381,7 +321,7 @@ func (s *Schedule) longestOfferLatenessOf(
 	tx *vault.Txn,
 	order *vault.Set[scheduledPostingOffer],
 ) (time.Duration, error) {
-	earliestOffer, found, err := earliestOfferOutside(tx, order, nil)
+	earliestOffer, found, err := earliestOfferOf(tx, order)
 	if err != nil {
 		return 0, err
 	}
@@ -390,6 +330,33 @@ func (s *Schedule) longestOfferLatenessOf(
 	}
 
 	return max(s.now().Sub(earliestOffer.Place.DueAt), 0), nil
+}
+
+func earliestOfferOf(
+	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
+) (scheduledPostingOffer, bool, error) {
+	var (
+		earliestOffer scheduledPostingOffer
+		found         bool
+	)
+	for sector := range yacymodel.DHTRingSectorCount {
+		if err := order.Scan(
+			tx,
+			everyOfferInSector(sector),
+			func(scheduledOffer scheduledPostingOffer) (bool, error) {
+				if !found || scheduledOffer.Place.DueAt.Before(earliestOffer.Place.DueAt) {
+					earliestOffer, found = scheduledOffer, true
+				}
+
+				return false, nil
+			},
+		); err != nil {
+			return scheduledPostingOffer{}, false, fmt.Errorf("select earliest offer due: %w", err)
+		}
+	}
+
+	return earliestOffer, found, nil
 }
 
 var _ rwipostings.PostingObserver = (*Schedule)(nil)
