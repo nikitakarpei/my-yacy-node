@@ -1,6 +1,7 @@
 package postingoffer
 
 import (
+	"iter"
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -12,9 +13,9 @@ type replicaHolders struct {
 	expired       []yacymodel.Hash
 }
 
-func (h replicaHolders) peersHoldingReplica(peers []yacymodel.Seed) []yacymodel.Seed {
+func (h replicaHolders) peersHoldingReplica(peers iter.Seq[yacymodel.Seed]) []yacymodel.Seed {
 	holdingPeers := make([]yacymodel.Seed, 0, len(h.insideWindow))
-	for _, seed := range peers {
+	for seed := range peers {
 		if slices.Contains(h.insideWindow, seed.Hash) {
 			holdingPeers = append(holdingPeers, seed)
 		}

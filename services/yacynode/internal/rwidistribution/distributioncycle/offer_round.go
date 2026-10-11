@@ -21,50 +21,29 @@ type peerOffer struct {
 	postings []yacymodel.RWIPosting
 }
 
-type peerAcceptance struct {
-	holder   yacymodel.Hash
-	postings []yacymodel.RWIPosting
+type postingAnswers struct {
+	acceptingPeers []yacymodel.Hash
+	requestedPause time.Duration
 }
 
-type requestedPauses map[postingidentity.Identity]time.Duration
-
-func (p requestedPauses) record(postings []yacymodel.RWIPosting, pause time.Duration) {
-	for _, posting := range postings {
-		identity := postingidentity.IdentityOf(posting)
-		if pause > p[identity] {
-			p[identity] = pause
-		}
-	}
-}
-
-type offerRound struct {
-	acceptances []peerAcceptance
-	pauses      requestedPauses
-}
+type offerRound map[postingidentity.Identity]postingAnswers
 
 func offerDuePostings(
 	ctx context.Context,
-	transfers *postingtransfer.PostingTransfers,
+	transfers PostingTransfers,
 	answers OfferAnswers,
 	offers []postingoffer.PostingOffer,
 ) offerRound {
 	offersPerPeer := peerOffersFrom(offers)
 	offerAnswers := sendOffers(ctx, transfers, offersPerPeer)
-	pauses := make(requestedPauses)
 
-	var acceptances []peerAcceptance
+	round := make(offerRound, len(offers))
 	for index, offer := range offersPerPeer {
-		postingsAcceptedByPeer := recordAnswer(answers, offer, offerAnswers[index], pauses)
-		if len(postingsAcceptedByPeer) == 0 {
-			continue
-		}
-		acceptances = append(
-			acceptances,
-			peerAcceptance{holder: offer.peer.Hash, postings: postingsAcceptedByPeer},
-		)
+		reportAnswerTo(answers, offer, offerAnswers[index])
+		round.record(offer, offerAnswers[index])
 	}
 
-	return offerRound{acceptances: acceptances, pauses: pauses}
+	return round
 }
 
 func peerOffersFrom(offers []postingoffer.PostingOffer) []peerOffer {
@@ -92,7 +71,7 @@ func peerOffersFrom(offers []postingoffer.PostingOffer) []peerOffer {
 
 func sendOffers(
 	ctx context.Context,
-	transfers *postingtransfer.PostingTransfers,
+	transfers PostingTransfers,
 	offersPerPeer []peerOffer,
 ) []postingtransfer.OfferAnswer {
 	offerAnswers := make([]postingtransfer.OfferAnswer, len(offersPerPeer))
@@ -107,18 +86,28 @@ func sendOffers(
 	return offerAnswers
 }
 
-func recordAnswer(
-	answers OfferAnswers,
-	offer peerOffer,
-	answer postingtransfer.OfferAnswer,
-	pauses requestedPauses,
-) []yacymodel.RWIPosting {
+func reportAnswerTo(answers OfferAnswers, offer peerOffer, answer postingtransfer.OfferAnswer) {
 	if answer.Accepted {
 		answers.OfferAccepted(offer.peer.Hash)
 	} else {
 		answers.OfferDeclined(offer.peer.Hash, answer.RequestedPause)
 	}
-	pauses.record(offer.postings, answer.RequestedPause)
+}
 
-	return answer.AcceptedPostings
+func (r offerRound) record(offer peerOffer, answer postingtransfer.OfferAnswer) {
+	for _, posting := range offer.postings {
+		identity := postingidentity.IdentityOf(posting)
+		answersOfPosting := r[identity]
+		answersOfPosting.requestedPause = max(
+			answersOfPosting.requestedPause,
+			answer.RequestedPause,
+		)
+		r[identity] = answersOfPosting
+	}
+	for _, posting := range answer.AcceptedPostings {
+		identity := postingidentity.IdentityOf(posting)
+		answersOfPosting := r[identity]
+		answersOfPosting.acceptingPeers = append(answersOfPosting.acceptingPeers, offer.peer.Hash)
+		r[identity] = answersOfPosting
+	}
 }

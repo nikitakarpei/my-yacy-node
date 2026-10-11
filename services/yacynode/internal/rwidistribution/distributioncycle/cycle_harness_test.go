@@ -11,7 +11,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
@@ -20,7 +19,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
 
 const (
@@ -37,28 +35,23 @@ type cycleOptions struct {
 	redundancy        int
 	self              yacymodel.Hash
 	cooldown          time.Duration
-	urls              fakeURLDirectory
-	metadataOutcome   urlmetadatacourier.Outcome
 	minReachablePeers int
 	drainBudget       time.Duration
 	batchConcurrency  int
 }
 
 type cycleHarness struct {
-	v               *vault.Vault
-	clk             *clock
-	postings        *fakePostingIndex
-	schedule        *postingofferschedule.Schedule
-	replicas        *postingreplicas.Replicas
-	offers          *postingoffer.PostingOffers
-	eligibility     *replicaeligibility.Peers
-	courier         *fakeCourier
-	metadataCourier *fakeURLMetadataCourier
-	urls            fakeURLDirectory
-	observer        *fakeObserver
-	transfers       *postingtransfer.PostingTransfers
-	offerInterval   postingofferinterval.Bounds
-	cycle           *distributioncycle.Cycle
+	v             *vault.Vault
+	clk           *clock
+	postings      *fakePostingIndex
+	schedule      *postingofferschedule.Schedule
+	replicas      *postingreplicas.Replicas
+	offers        *postingoffer.PostingOffers
+	eligibility   *replicaeligibility.Peers
+	observer      *fakeObserver
+	transfers     *fakeTransfers
+	offerInterval postingofferinterval.Bounds
+	cycle         *distributioncycle.Cycle
 }
 
 func withCycleDefaults(opts cycleOptions) cycleOptions {
@@ -77,9 +70,6 @@ func withCycleDefaults(opts cycleOptions) cycleOptions {
 	if opts.batchConcurrency == 0 {
 		opts.batchConcurrency = 1
 	}
-	if opts.metadataOutcome == "" {
-		opts.metadataOutcome = urlmetadatacourier.Accepted
-	}
 
 	return opts
 }
@@ -94,7 +84,8 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
-	v, schedule, replicas := openCycleVault(t, partitions, clk.now, observer)
+	offerInterval := postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour}
+	v, schedule, replicas := openCycleVault(t, partitions, offerInterval, clk.now, observer)
 
 	eligibility := replicaeligibility.New(opts.cooldown, clk.now)
 	postings := &fakePostingIndex{postings: opts.postings, unread: opts.postingsErr}
@@ -107,22 +98,22 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.reachability,
 		eligibility,
 		observer,
-		partitions,
-		opts.self,
-		opts.redundancy,
-	)
-	handoff := postinghandoff.New(
-		postings,
-		opts.reachability,
-		postinghandoff.Config{
+		postingoffer.Config{
 			Partitions: partitions,
 			Self:       opts.self,
 			Redundancy: opts.redundancy,
 		},
 	)
+	handoff := postinghandoff.New(
+		postings,
+		opts.reachability,
+		postinghandoff.Config{
+			Self:       opts.self,
+			Redundancy: opts.redundancy,
+		},
+	)
 
-	courier, metadataCourier, transfers := openTransfers(v, opts, observer)
-	offerInterval := postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour}
+	transfers := &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)}
 	cycle := distributioncycle.New(
 		v,
 		offers,
@@ -136,7 +127,6 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		observer,
 		observer,
 		distributioncycle.Config{
-			OfferInterval:     offerInterval,
 			PostingsPerBatch:  postingsPerBatch,
 			BatchConcurrency:  opts.batchConcurrency,
 			CycleInterval:     time.Minute,
@@ -146,20 +136,17 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	)
 
 	return &cycleHarness{
-		v:               v,
-		clk:             clk,
-		postings:        postings,
-		schedule:        schedule,
-		replicas:        replicas,
-		offers:          offers,
-		eligibility:     eligibility,
-		courier:         courier,
-		metadataCourier: metadataCourier,
-		urls:            opts.urls,
-		observer:        observer,
-		transfers:       transfers,
-		offerInterval:   offerInterval,
-		cycle:           cycle,
+		v:             v,
+		clk:           clk,
+		postings:      postings,
+		schedule:      schedule,
+		replicas:      replicas,
+		offers:        offers,
+		eligibility:   eligibility,
+		observer:      observer,
+		transfers:     transfers,
+		offerInterval: offerInterval,
+		cycle:         cycle,
 	}
 }
 
@@ -205,21 +192,6 @@ func (h *cycleHarness) runCycle(t *testing.T) {
 	<-stopped
 }
 
-func openTransfers(
-	v *vault.Vault,
-	opts cycleOptions,
-	observer *fakeObserver,
-) (*fakeCourier, *fakeURLMetadataCourier, *postingtransfer.PostingTransfers) {
-	courier := &fakeCourier{receipts: make(map[yacymodel.Hash]postingcourier.Receipt)}
-	metadataCourier := &fakeURLMetadataCourier{
-		receipt: urlmetadatacourier.Receipt{Outcome: opts.metadataOutcome},
-	}
-
-	return courier, metadataCourier, postingtransfer.New(
-		v, courier, metadataCourier, opts.urls, observer,
-	)
-}
-
 func purgeBookkeeping(
 	schedule *postingofferschedule.Schedule,
 	replicas *postingreplicas.Replicas,
@@ -237,6 +209,7 @@ func purgeBookkeeping(
 func openCycleVault(
 	t *testing.T,
 	partitions yacymodel.DHTRingPartitions,
+	offerInterval postingofferinterval.Bounds,
 	now func() time.Time,
 	observer postingofferschedule.Observer,
 ) (
@@ -259,7 +232,7 @@ func openCycleVault(
 		}
 	})
 
-	schedule, err := postingofferschedule.Open(v, partitions, now, observer)
+	schedule, err := postingofferschedule.Open(v, partitions, offerInterval, now, observer)
 	if err != nil {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}
@@ -278,8 +251,6 @@ type fakePostingIndex struct {
 	purged   func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
 	onRead   func()
 }
-
-func (f *fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
 
 func (f *fakePostingIndex) PurgePosting(
 	tx *vault.Txn,
@@ -322,15 +293,6 @@ func (f *fakePostingIndex) PostingOf(
 	return entry, found, nil
 }
 
-func (f *fakePostingIndex) ScanWord(
-	context.Context,
-	*vault.Txn,
-	yacymodel.Hash,
-	func(yacymodel.RWIPosting) (bool, error),
-) error {
-	return nil
-}
-
 type fakeRoster struct {
 	reachable         []yacymodel.Seed
 	recentlyReachable map[yacymodel.Hash]struct{}
@@ -361,83 +323,45 @@ type offeredCall struct {
 	Postings []yacymodel.RWIPosting
 }
 
-type fakeCourier struct {
-	guard    sync.Mutex
-	receipts map[yacymodel.Hash]postingcourier.Receipt
-	offered  []offeredCall
-	onOffer  func()
+type fakeAnswer struct {
+	accepted       bool
+	requestedPause time.Duration
 }
 
-func (f *fakeCourier) Offer(
+var (
+	acceptedAnswer = fakeAnswer{accepted: true}
+	declinedAnswer = fakeAnswer{}
+)
+
+type fakeTransfers struct {
+	guard   sync.Mutex
+	answers map[yacymodel.Hash]fakeAnswer
+	offered []offeredCall
+	onOffer func()
+}
+
+func (f *fakeTransfers) Send(
 	_ context.Context,
-	_ string,
-	recipient yacymodel.Seed,
-	postings []yacymodel.RWIPosting,
-) postingcourier.Receipt {
+	peer yacymodel.Seed,
+	offeredPostings []yacymodel.RWIPosting,
+) postingtransfer.OfferAnswer {
 	f.guard.Lock()
-	f.offered = append(f.offered, offeredCall{Peer: recipient, Postings: postings})
-	receipt := f.receipts[recipient.Hash]
+	f.offered = append(f.offered, offeredCall{Peer: peer, Postings: offeredPostings})
+	answer := f.answers[peer.Hash]
 	f.guard.Unlock()
 	if f.onOffer != nil {
 		f.onOffer()
 	}
-
-	return receipt
-}
-
-type fakeURLMetadataCourier struct {
-	guard     sync.Mutex
-	receipt   urlmetadatacourier.Receipt
-	delivered []yacymodel.URLMetadata
-}
-
-func (f *fakeURLMetadataCourier) Deliver(
-	_ context.Context,
-	_ string,
-	_ yacymodel.Hash,
-	metadata []yacymodel.URLMetadata,
-) urlmetadatacourier.Receipt {
-	f.guard.Lock()
-	defer f.guard.Unlock()
-
-	f.delivered = append(f.delivered, metadata...)
-
-	return f.receipt
-}
-
-type fakeURLDirectory struct {
-	metadata map[yacymodel.URLHash]yacymodel.URLMetadata
-}
-
-func (f fakeURLDirectory) MetadataPerHash(
-	_ *vault.Txn,
-	hashes []yacymodel.URLHash,
-) (map[yacymodel.URLHash]yacymodel.URLMetadata, error) {
-	found := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(hashes))
-	for _, hash := range hashes {
-		if entry, ok := f.metadata[hash]; ok {
-			found[hash] = entry
-		}
+	if !answer.accepted {
+		return postingtransfer.OfferAnswer{RequestedPause: answer.requestedPause}
 	}
 
-	return found, nil
-}
-
-func (f fakeURLDirectory) MissingURLs(
-	_ *vault.Txn,
-	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	missing := make([]yacymodel.URLHash, 0, len(hashes))
-	for _, hash := range hashes {
-		if _, ok := f.metadata[hash]; !ok {
-			missing = append(missing, hash)
-		}
+	return postingtransfer.OfferAnswer{
+		Accepted:         true,
+		AcceptedPostings: offeredPostings,
+		RequestedPause:   answer.requestedPause,
 	}
-
-	return missing, nil
 }
-
-func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 func store(
 	t *testing.T,

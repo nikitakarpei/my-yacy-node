@@ -35,7 +35,7 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
-func courierEndpoint(t testing.TB, server *httptest.Server) string {
+func courierSeed(t testing.TB, server *httptest.Server) yacymodel.Seed {
 	t.Helper()
 
 	parsed, err := url.Parse(server.URL)
@@ -55,16 +55,11 @@ func courierEndpoint(t testing.TB, server *httptest.Server) string {
 		t.Fatalf("parse port: %v", err)
 	}
 
-	endpoint, ok := yacymodel.Seed{
+	return yacymodel.Seed{
 		Hash:           courierHash("peer"),
 		PrimaryAddress: yacymodel.Some(parsedHost),
 		Port:           yacymodel.Some(port),
-	}.NetworkAddress()
-	if !ok {
-		t.Fatalf("courier seed has no network address")
 	}
-
-	return endpoint.String()
 }
 
 func urlResponder(resp yacyproto.TransferURLResponse) *httptest.Server {
@@ -97,7 +92,7 @@ func TestDeliverReportsAcceptedOnOK(t *testing.T) {
 	courier := openURLMetadataCourierHarness(t, server)
 
 	receipt := courier.Deliver(
-		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
+		context.Background(), courierSeed(t, server), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
@@ -115,7 +110,7 @@ func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 	courier := openURLMetadataCourierHarness(t, server)
 
 	receipt := courier.Deliver(
-		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
+		context.Background(), courierSeed(t, server), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
@@ -132,7 +127,7 @@ func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
 	courier := openURLMetadataCourierHarness(t, server)
 
 	receipt := courier.Deliver(
-		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
+		context.Background(), courierSeed(t, server), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Deferred {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Deferred)
@@ -146,7 +141,7 @@ func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
 	courier := openURLMetadataCourierHarness(t, server)
 
 	receipt := courier.Deliver(
-		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
+		context.Background(), courierSeed(t, server), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Refused {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Refused)
@@ -162,9 +157,23 @@ func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
 	courier := openURLMetadataCourierHarness(t, server)
 
 	receipt := courier.Deliver(
-		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
+		context.Background(), courierSeed(t, server), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Unreachable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unreachable)
+	}
+}
+
+func TestDeliverReportsUnaddressablePeer(t *testing.T) {
+	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
+	defer server.Close()
+
+	courier := openURLMetadataCourierHarness(t, server)
+
+	receipt := courier.Deliver(
+		context.Background(), yacymodel.Seed{Hash: courierHash("peer")}, singleURLMetadata(),
+	)
+	if receipt.Outcome != urlmetadatacourier.Unaddressable {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unaddressable)
 	}
 }

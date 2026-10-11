@@ -67,17 +67,6 @@ func courierSeed(t testing.TB, server *httptest.Server) yacymodel.Seed {
 	}
 }
 
-func courierEndpoint(t testing.TB, server *httptest.Server) string {
-	t.Helper()
-
-	endpoint, ok := courierSeed(t, server).NetworkAddress()
-	if !ok {
-		t.Fatalf("courier seed has no network address")
-	}
-
-	return endpoint.String()
-}
-
 func openCourierHarness(t *testing.T, server *httptest.Server) postingcourier.Courier {
 	t.Helper()
 
@@ -106,7 +95,6 @@ func TestOfferReportsAcceptedOnOK(t *testing.T) {
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierEndpoint(t, server),
 		courierSeed(t, server),
 		singlePosting(),
 	)
@@ -128,7 +116,6 @@ func TestOfferReturnsUnknownURLsWithoutActingOnThem(t *testing.T) {
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierEndpoint(t, server),
 		courierSeed(t, server),
 		singlePosting(),
 	)
@@ -151,7 +138,6 @@ func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierEndpoint(t, server),
 		courierSeed(t, server),
 		singlePosting(),
 	)
@@ -171,7 +157,6 @@ func TestOfferReportsOverloadedPeer(t *testing.T) {
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierEndpoint(t, server),
 		courierSeed(t, server),
 		singlePosting(),
 	)
@@ -188,7 +173,6 @@ func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierEndpoint(t, server),
 		courierSeed(t, server),
 		singlePosting(),
 	)
@@ -207,11 +191,26 @@ func TestOfferReportsUnreachablePeerOnTransportFailure(t *testing.T) {
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierEndpoint(t, server),
 		courierSeed(t, server),
 		singlePosting(),
 	)
 	if receipt.Outcome != postingcourier.Unreachable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Unreachable)
+	}
+}
+
+func TestOfferReportsUnaddressablePeer(t *testing.T) {
+	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	defer server.Close()
+
+	courier := openCourierHarness(t, server)
+
+	receipt := courier.Offer(
+		context.Background(),
+		yacymodel.Seed{Hash: courierHash("peer")},
+		singlePosting(),
+	)
+	if receipt.Outcome != postingcourier.Unaddressable {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Unaddressable)
 	}
 }

@@ -87,6 +87,7 @@ func (h *scheduleHarness) reopenWith(t *testing.T, partitions yacymodel.DHTRingP
 	schedule, err := postingofferschedule.Open(
 		v,
 		partitions,
+		testInterval,
 		func() time.Time { return h.clock },
 		h.observed,
 	)
@@ -146,7 +147,6 @@ func (h *scheduleHarness) pauseOffer(
 		wasRescheduled, err = h.schedule.SetNextOfferAfterRedundancyMissed(
 			tx,
 			postingidentity.Identity{Word: word, URL: url},
-			testInterval,
 			requestedPause,
 		)
 
@@ -171,7 +171,6 @@ func (h *scheduleHarness) meetRedundancy(
 		wasRescheduled, err = h.schedule.SetNextOfferAfterRedundancyMet(
 			tx,
 			postingidentity.Identity{Word: word, URL: url},
-			testInterval,
 		)
 
 		return err

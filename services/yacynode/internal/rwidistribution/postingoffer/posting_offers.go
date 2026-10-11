@@ -6,6 +6,7 @@ package postingoffer
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -13,7 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 const replicaLedgerUnread = "read replica ledger: %w"
@@ -30,6 +30,14 @@ type Observer interface {
 	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
 }
 
+type PostingIndex interface {
+	PostingOf(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		url yacymodel.URLHash,
+	) (yacymodel.RWIPosting, bool, error)
+}
+
 type Reachability interface {
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
@@ -39,31 +47,33 @@ type ReplicaEligibility interface {
 	EligiblePeers(peers []yacymodel.Seed) []yacymodel.Seed
 }
 
+type Config struct {
+	Partitions yacymodel.DHTRingPartitions
+	Self       yacymodel.Hash
+	Redundancy int
+}
+
 type PostingOffers struct {
 	vault        *vault.Vault
 	schedule     *postingofferschedule.Schedule
 	replicas     *postingreplicas.Replicas
-	postings     rwipostings.PostingIndex
+	postings     PostingIndex
 	reachability Reachability
 	eligibility  ReplicaEligibility
 	observer     Observer
-	partitions   yacymodel.DHTRingPartitions
-	self         yacymodel.Hash
-	redundancy   int
+	config       Config
 }
 
-//nolint:revive // argument-limit: ten explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators and the config
 func New(
 	v *vault.Vault,
 	schedule *postingofferschedule.Schedule,
 	replicas *postingreplicas.Replicas,
-	postings rwipostings.PostingIndex,
+	postings PostingIndex,
 	reachability Reachability,
 	eligibility ReplicaEligibility,
 	observer Observer,
-	partitions yacymodel.DHTRingPartitions,
-	self yacymodel.Hash,
-	redundancy int,
+	config Config,
 ) *PostingOffers {
 	return &PostingOffers{
 		vault:        v,
@@ -73,80 +83,14 @@ func New(
 		reachability: reachability,
 		eligibility:  eligibility,
 		observer:     observer,
-		partitions:   partitions,
-		self:         self,
-		redundancy:   redundancy,
+		config:       config,
 	}
 }
 
-func (o *PostingOffers) DueNowIn(
-	ctx context.Context,
-	sector yacymodel.DHTRingSector,
-	limit int,
-	reachablePeers []yacymodel.Seed,
-) ([]PostingOffer, []postingidentity.Identity, error) {
-	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
+func (o *PostingOffers) ReportPeersAcceptingRemoteIndex(reachablePeers []yacymodel.Seed) {
 	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
-		yacymodel.SeedsPerDHTRingSector(acceptingPeers),
+		yacymodel.SeedsPerDHTRingSector(peersAcceptingRemoteIndex(reachablePeers)),
 	)
-	acceptingPeerRing := yacymodel.SeedRingFrom(acceptingPeers)
-	eligiblePeerRing := yacymodel.SeedRingFrom(o.eligibility.EligiblePeers(acceptingPeers))
-
-	var (
-		offers       []PostingOffer
-		gonePostings []postingidentity.Identity
-	)
-	err := o.vault.View(ctx, func(tx *vault.Txn) error {
-		duePostings, err := o.schedule.DuePostingsIn(tx, sector, limit)
-		if err != nil {
-			return err
-		}
-		postings, gone, err := o.storedPostings(tx, duePostings)
-		if err != nil {
-			return err
-		}
-
-		dueOffers := make([]PostingOffer, 0, len(postings))
-		for _, posting := range postings {
-			offer, err := o.offerFor(ctx, tx, posting, acceptingPeerRing, eligiblePeerRing)
-			if err != nil {
-				return err
-			}
-			dueOffers = append(dueOffers, offer)
-		}
-		offers, gonePostings = dueOffers, gone
-
-		return nil
-	})
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return offers, gonePostings, nil
-}
-
-func (o *PostingOffers) storedPostings(
-	tx *vault.Txn,
-	duePostings []postingidentity.Identity,
-) ([]yacymodel.RWIPosting, []postingidentity.Identity, error) {
-	var (
-		postings     []yacymodel.RWIPosting
-		gonePostings []postingidentity.Identity
-	)
-	for _, identity := range duePostings {
-		posting, found, err := o.postings.PostingOf(tx, identity.Word, identity.URL)
-		if err != nil {
-			return nil, nil, fmt.Errorf("read posting: %w", err)
-		}
-		if !found {
-			gonePostings = append(gonePostings, identity)
-
-			continue
-		}
-		postings = append(postings, posting)
-	}
-
-	return postings, gonePostings, nil
 }
 
 func peersAcceptingRemoteIndex(peers []yacymodel.Seed) []yacymodel.Seed {
@@ -166,6 +110,69 @@ func acceptsRemoteIndex(seed yacymodel.Seed) bool {
 	return capabilitiesKnown && capabilities.AcceptRemoteIndex
 }
 
+func (o *PostingOffers) DueNowIn(
+	ctx context.Context,
+	sector yacymodel.DHTRingSector,
+	limit int,
+	reachablePeers []yacymodel.Seed,
+) ([]PostingOffer, error) {
+	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
+	acceptingPeerRing := yacymodel.SeedRingFrom(acceptingPeers)
+	eligiblePeerRing := yacymodel.SeedRingFrom(o.eligibility.EligiblePeers(acceptingPeers))
+
+	var offers []PostingOffer
+	err := o.vault.View(ctx, func(tx *vault.Txn) error {
+		duePostings, err := o.schedule.DuePostingsIn(tx, sector, limit)
+		if err != nil {
+			return err
+		}
+		postings, err := o.storedPostings(ctx, tx, duePostings)
+		if err != nil {
+			return err
+		}
+
+		offers = make([]PostingOffer, 0, len(postings))
+		for _, posting := range postings {
+			offer, err := o.offerFor(ctx, tx, posting, acceptingPeerRing, eligiblePeerRing)
+			if err != nil {
+				return err
+			}
+			offers = append(offers, offer)
+		}
+
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return offers, nil
+}
+
+func (o *PostingOffers) storedPostings(
+	ctx context.Context,
+	tx *vault.Txn,
+	duePostings []postingidentity.Identity,
+) ([]yacymodel.RWIPosting, error) {
+	postings := make([]yacymodel.RWIPosting, 0, len(duePostings))
+	for _, identity := range duePostings {
+		posting, found, err := o.postings.PostingOf(tx, identity.Word, identity.URL)
+		if err != nil {
+			return nil, fmt.Errorf("read posting: %w", err)
+		}
+		if !found {
+			slog.WarnContext(ctx, "due posting missing from the index",
+				slog.String("word", identity.Word.String()),
+				slog.String("url", identity.URL.String()))
+
+			continue
+		}
+		postings = append(postings, posting)
+	}
+
+	return postings, nil
+}
+
 func (o *PostingOffers) offerFor(
 	ctx context.Context,
 	tx *vault.Txn,
@@ -179,8 +186,8 @@ func (o *PostingOffers) offerFor(
 		return PostingOffer{}, fmt.Errorf(replicaLedgerUnread, err)
 	}
 
-	position := yacymodel.DHTRingPositionOfPosting(posting, o.partitions)
-	window := replicaWindowFor(position, acceptingPeers, o.self, o.redundancy)
+	position := yacymodel.DHTRingPositionOfPosting(posting, o.config.Partitions)
+	window := replicaWindowFor(position, acceptingPeers, o.config.Self, o.config.Redundancy)
 	holders := o.replicaHoldersFrom(ctx, recordedHolders, window)
 
 	if len(holders.insideWindow) >= window.requiredReplicas {
@@ -223,8 +230,10 @@ func refreshOfferFor(
 	return PostingOffer{
 		Posting:         posting,
 		PostingPosition: window.position,
-		Peers:           holders.peersHoldingReplica(acceptingPeers.Seeds()),
-		StaleHolders:    slices.Concat(holders.expired, holders.outsideWindow),
+		Peers: holders.peersHoldingReplica(
+			acceptingPeers.SeedsClockwiseFrom(window.position),
+		),
+		StaleHolders: slices.Concat(holders.expired, holders.outsideWindow),
 	}
 }
 

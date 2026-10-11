@@ -27,7 +27,6 @@ type fakePostingCourier struct {
 
 func (f fakePostingCourier) Offer(
 	context.Context,
-	string,
 	yacymodel.Seed,
 	[]yacymodel.RWIPosting,
 ) postingcourier.Receipt {
@@ -41,8 +40,7 @@ type fakeURLMetadataCourier struct {
 
 func (f *fakeURLMetadataCourier) Deliver(
 	_ context.Context,
-	_ string,
-	_ yacymodel.Hash,
+	_ yacymodel.Seed,
 	metadata []yacymodel.URLMetadata,
 ) urlmetadatacourier.Receipt {
 	f.delivered = append(f.delivered, metadata...)
@@ -72,22 +70,6 @@ func (f fakeURLDirectory) MetadataPerHash(
 
 	return found, nil
 }
-
-func (f fakeURLDirectory) MissingURLs(
-	_ *vault.Txn,
-	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	missing := make([]yacymodel.URLHash, 0, len(hashes))
-	for _, hash := range hashes {
-		if _, ok := f.metadata[hash]; !ok {
-			missing = append(missing, hash)
-		}
-	}
-
-	return missing, nil
-}
-
-func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 type fakeObserver struct {
 	offers                map[string]int
@@ -120,67 +102,12 @@ func (f *fakeObserver) ObserveURLsUnknownToUs(urls int) {
 	f.urlsUnknownToUs += urls
 }
 
-var reachableHost = func() yacymodel.Host {
-	host, err := yacymodel.ParseHost("127.0.0.1")
-	if err != nil {
-		panic(err)
-	}
-
-	return host
-}()
-
-var reachablePort = func() yacymodel.Port {
-	port, err := yacymodel.ParsePort("8090")
-	if err != nil {
-		panic(err)
-	}
-
-	return port
-}()
-
 func seed(hash yacymodel.Hash) yacymodel.Seed {
-	return yacymodel.Seed{
-		Hash:           hash,
-		PrimaryAddress: yacymodel.Some(reachableHost),
-		Port:           yacymodel.Some(reachablePort),
-		Capabilities:   yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
-	}
+	return yacymodel.Seed{Hash: hash}
 }
 
 func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
-}
-
-func unaddressableSeed(hash yacymodel.Hash) yacymodel.Seed {
-	return yacymodel.Seed{
-		Hash:         hash,
-		Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
-	}
-}
-
-func TestSendReportsUnaddressablePeer(t *testing.T) {
-	peer := yacymodel.WordHash("peer")
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	observer := newFakeObserver()
-	postingTransfers := postingtransfer.New(
-		openVault(t), fakePostingCourier{}, &fakeURLMetadataCourier{}, fakeURLDirectory{}, observer,
-	)
-
-	answer := postingTransfers.Send(
-		context.Background(),
-		unaddressableSeed(peer),
-		[]yacymodel.RWIPosting{fakePosting(word, url)},
-	)
-
-	if answer.Accepted {
-		t.Fatalf("Accepted = true, want false for an unaddressable peer")
-	}
-	if observer.postingsOffered[string(postingcourier.Unaddressable)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for outcome %q",
-			observer.postingsOffered, postingcourier.Unaddressable,
-		)
-	}
 }
 
 func TestSendAcceptsPostingsWithNoUnknownURLs(t *testing.T) {

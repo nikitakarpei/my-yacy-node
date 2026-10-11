@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
@@ -58,6 +59,7 @@ func openPostingOffers(t *testing.T, options postingOfferOptions) postingOfferHa
 	schedule, err := postingofferschedule.Open(
 		v,
 		partitions,
+		postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour},
 		frozenNow,
 		discardedScheduleObservations{},
 	)
@@ -83,9 +85,11 @@ func openPostingOffers(t *testing.T, options postingOfferOptions) postingOfferHa
 			options.reachability,
 			eligibility,
 			options.observer,
-			partitions,
-			options.self,
-			options.redundancy,
+			postingoffer.Config{
+				Partitions: partitions,
+				Self:       options.self,
+				Redundancy: options.redundancy,
+			},
 		),
 	}
 }
@@ -176,25 +180,21 @@ func (h postingOfferHarness) holdersOf(
 func (h postingOfferHarness) dueNow(
 	t *testing.T,
 	peers []yacymodel.Seed,
-) ([]postingoffer.PostingOffer, []postingidentity.Identity) {
+) []postingoffer.PostingOffer {
 	t.Helper()
 
-	var (
-		offers       []postingoffer.PostingOffer
-		gonePostings []postingidentity.Identity
-	)
+	var offers []postingoffer.PostingOffer
 	for sector := range yacymodel.DHTRingSectorCount {
-		sectorOffers, sectorGonePostings, err := h.postingOffers.DueNowIn(
+		sectorOffers, err := h.postingOffers.DueNowIn(
 			context.Background(), sector, 10, peers,
 		)
 		if err != nil {
 			t.Fatalf("DueNowIn: %v", err)
 		}
 		offers = append(offers, sectorOffers...)
-		gonePostings = append(gonePostings, sectorGonePostings...)
 	}
 
-	return offers, gonePostings
+	return offers
 }
 
 func (h postingOfferHarness) dueOffer(
@@ -203,7 +203,7 @@ func (h postingOfferHarness) dueOffer(
 ) postingoffer.PostingOffer {
 	t.Helper()
 
-	offers, _ := h.dueNow(t, peers)
+	offers := h.dueNow(t, peers)
 	if len(offers) != 1 {
 		t.Fatalf("offers = %+v, want a single posting", offers)
 	}
@@ -221,8 +221,6 @@ type fakePostingIndex struct {
 	postings map[yacymodel.Hash]yacymodel.RWIPosting
 }
 
-func (f fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
-
 func (f fakePostingIndex) PostingOf(
 	_ *vault.Txn,
 	word yacymodel.Hash,
@@ -231,15 +229,6 @@ func (f fakePostingIndex) PostingOf(
 	entry, found := f.postings[fakePostingKey(word, url)]
 
 	return entry, found, nil
-}
-
-func (f fakePostingIndex) ScanWord(
-	context.Context,
-	*vault.Txn,
-	yacymodel.Hash,
-	func(yacymodel.RWIPosting) (bool, error),
-) error {
-	return nil
 }
 
 func fakePostingKey(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.Hash {
@@ -362,9 +351,9 @@ func TestDueReportsMissingReplicaForDuePosting(t *testing.T) {
 
 	harness.storePosting(t, word, url)
 
-	offers, gonePostings := harness.dueNow(t, peers)
-	if len(offers) != 1 || len(gonePostings) != 0 {
-		t.Fatalf("offers = %+v, want a single posting and no gone entries", offers)
+	offers := harness.dueNow(t, peers)
+	if len(offers) != 1 {
+		t.Fatalf("offers = %+v, want a single posting", offers)
 	}
 	missing := offers[0]
 	if missing.AcceptancesNeeded != 1 || len(missing.Peers) != 1 ||
@@ -476,15 +465,14 @@ func TestDueNarrowsTheLedgerWindowWhenThisNodeIsResponsible(t *testing.T) {
 	}
 }
 
-func TestDueCollectsGoneForRemovedPosting(t *testing.T) {
+func TestDueSkipsAPostingMissingFromTheIndex(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	harness := openPostingOffers(t, postingOfferOptions{})
 
 	harness.storePosting(t, word, url)
 
-	offers, gonePostings := harness.dueNow(t, peerSeeds("peer"))
-	if len(offers) != 0 || len(gonePostings) != 1 || gonePostings[0].Word != word {
-		t.Fatalf("offers = %+v, want a single gone entry for %v", offers, word)
+	if offers := harness.dueNow(t, peerSeeds("peer")); len(offers) != 0 {
+		t.Fatalf("offers = %+v, want none for a posting missing from the index", offers)
 	}
 }
 
@@ -717,26 +705,18 @@ func TestDueDropsUnreachableHolderBelowRedundancy(t *testing.T) {
 	}
 }
 
-func TestDueReportsAcceptingPeersPerRingSector(t *testing.T) {
-	word, url := yacymodel.WordHash("w1"), urlHash()
+func TestReportCountsAcceptingPeersPerRingSector(t *testing.T) {
 	observer := &recordedRingSectorObservations{}
-	harness := openPostingOffers(t, postingOfferOptions{
-		postings: storedPostings(fakePosting(word, url)),
-		observer: observer,
-	})
+	harness := openPostingOffers(t, postingOfferOptions{observer: observer})
 	peers := []yacymodel.Seed{
 		seed(yacymodel.WordHash("peer")),
 		indexDecliningSeed(yacymodel.WordHash("declining")),
 	}
 
-	harness.storePosting(t, word, url)
-	harness.dueNow(t, peers)
+	harness.postingOffers.ReportPeersAcceptingRemoteIndex(peers)
 
-	if len(observer.peersPerSector) != int(yacymodel.DHTRingSectorCount) {
-		t.Fatalf(
-			"reports = %d, want one report per DueNowIn, one for each sector",
-			len(observer.peersPerSector),
-		)
+	if len(observer.peersPerSector) != 1 {
+		t.Fatalf("reports = %d, want one", len(observer.peersPerSector))
 	}
 	perSector := observer.peersPerSector[0]
 	if len(perSector) != int(yacymodel.MaxDHTRingSector)+1 {

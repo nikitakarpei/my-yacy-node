@@ -173,6 +173,10 @@ func assembleNode(
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
 		vault,
 		dhtRingPartitions,
+		postingofferinterval.Bounds{
+			Shortest: config.Distribution.OfferInterval.Shortest,
+			Longest:  config.Distribution.OfferInterval.Longest,
+		},
 		now,
 		distributionObserver,
 	)
@@ -329,7 +333,6 @@ func assembleNode(
 				postingPurger,
 				peerRoster,
 				postinghandoff.Config{
-					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,
 					Redundancy: config.Distribution.Redundancy,
 				},
@@ -349,9 +352,11 @@ func assembleNode(
 				peerRoster,
 				replicaEligibility,
 				dhtRingObserver,
-				dhtRingPartitions,
-				identity.Hash,
-				config.Distribution.Redundancy,
+				postingoffer.Config{
+					Partitions: dhtRingPartitions,
+					Self:       identity.Hash,
+					Redundancy: config.Distribution.Redundancy,
+				},
 			),
 			handoff,
 			postingtransfer.New(
@@ -376,10 +381,6 @@ func assembleNode(
 			distributionObserver,
 			dhtRingObserver,
 			distributioncycle.Config{
-				OfferInterval: postingofferinterval.Bounds{
-					Shortest: config.Distribution.OfferInterval.Shortest,
-					Longest:  config.Distribution.OfferInterval.Longest,
-				},
 				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
 				BatchConcurrency:  config.Distribution.BatchConcurrency,
 				CycleInterval:     config.Distribution.CycleInterval,

@@ -25,8 +25,6 @@ func SeedRingFrom(seeds []Seed) SeedRing {
 	return SeedRing{seeds: ordered, positions: positions}
 }
 
-func (r SeedRing) Seeds() []Seed { return r.seeds }
-
 func (r SeedRing) SeedsClosestTo(position DHTRingPosition, want int) []Seed {
 	closest := make([]Seed, 0, min(max(want, 0), len(r.seeds)))
 	for seed := range r.SeedsClockwiseFrom(position) {

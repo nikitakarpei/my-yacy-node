@@ -44,6 +44,7 @@ type Schedule struct {
 	offerPlaces    *vault.Collection[postingidentity.Identity, offerPlace]
 	offerIntervals *vault.Collection[postingidentity.Identity, time.Duration]
 	partitions     yacymodel.DHTRingPartitions
+	bounds         postingofferinterval.Bounds
 	now            func() time.Time
 	observer       Observer
 }
@@ -51,6 +52,7 @@ type Schedule struct {
 func Open(
 	v *vault.Vault,
 	partitions yacymodel.DHTRingPartitions,
+	bounds postingofferinterval.Bounds,
 	now func() time.Time,
 	observer Observer,
 ) (*Schedule, error) {
@@ -77,6 +79,7 @@ func Open(
 		offerPlaces:    offerPlaces,
 		offerIntervals: offerIntervals,
 		partitions:     partitions,
+		bounds:         bounds,
 		now:            now,
 		observer:       observer,
 	}, nil
@@ -179,7 +182,6 @@ func (s *Schedule) forgetOfferInterval(tx *vault.Txn, identity postingidentity.I
 func (s *Schedule) SetNextOfferAfterRedundancyMet(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
-	bounds postingofferinterval.Bounds,
 ) (bool, error) {
 	previousPlace, found, err := s.placeOf(tx, identity)
 	if err != nil || !found {
@@ -192,7 +194,7 @@ func (s *Schedule) SetNextOfferAfterRedundancyMet(
 	if err := s.dropPlace(tx, identity, previousPlace); err != nil {
 		return false, err
 	}
-	nextDueAt := bounds.NextOfferDueFrom(previousPlace.DueAt, s.now())
+	nextDueAt := s.bounds.NextOfferDueFrom(previousPlace.DueAt, s.now())
 
 	return true, s.placeAt(tx, s.refreshOrder, identity, nextDueAt)
 }
@@ -200,7 +202,6 @@ func (s *Schedule) SetNextOfferAfterRedundancyMet(
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
-	bounds postingofferinterval.Bounds,
 	requestedPause time.Duration,
 ) (bool, error) {
 	previousPlace, found, err := s.placeOf(tx, identity)
@@ -215,14 +216,14 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	if _, err := s.offerIntervals.Put(
 		tx,
 		identity,
-		bounds.WidenedFrom(previousInterval),
+		s.bounds.WidenedFrom(previousInterval),
 	); err != nil {
 		return false, fmt.Errorf("record offer interval: %w", err)
 	}
 	if err := s.dropPlace(tx, identity, previousPlace); err != nil {
 		return false, err
 	}
-	pause := bounds.PauseFrom(previousInterval, requestedPause)
+	pause := s.bounds.PauseFrom(previousInterval, requestedPause)
 
 	return true, s.placeAt(tx, s.shortfallOrder, identity, s.now().Add(pause))
 }

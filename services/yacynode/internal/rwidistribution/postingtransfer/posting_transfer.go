@@ -14,8 +14,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
+
+type URLDirectory interface {
+	MetadataPerHash(
+		tx *vault.Txn,
+		hashes []yacymodel.URLHash,
+	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
+}
 
 type Observer interface {
 	ObservePostingOffer(outcome string, postings int)
@@ -33,7 +39,7 @@ type PostingTransfers struct {
 	vault    *vault.Vault
 	postings postingcourier.Courier
 	metadata urlmetadatacourier.Courier
-	urls     urlmeta.URLDirectory
+	urls     URLDirectory
 	observer Observer
 }
 
@@ -41,7 +47,7 @@ func New(
 	v *vault.Vault,
 	postings postingcourier.Courier,
 	metadata urlmetadatacourier.Courier,
-	urls urlmeta.URLDirectory,
+	urls URLDirectory,
 	observer Observer,
 ) *PostingTransfers {
 	return &PostingTransfers{
@@ -58,31 +64,14 @@ func (t *PostingTransfers) Send(
 	peer yacymodel.Seed,
 	offeredPostings []yacymodel.RWIPosting,
 ) OfferAnswer {
-	endpoint, ok := peer.NetworkAddress()
-	if !ok {
-		slog.WarnContext(
-			ctx,
-			"posting offer not sent to peer without network address",
-			slog.String("peer", peer.Hash.String()),
-		)
-		t.observer.ObservePostingOffer(string(postingcourier.Unaddressable), len(offeredPostings))
-
-		return OfferAnswer{}
-	}
-
-	receipt := t.postings.Offer(ctx, endpoint.String(), peer, offeredPostings)
+	receipt := t.postings.Offer(ctx, peer, offeredPostings)
 	t.observer.ObservePostingOffer(string(receipt.Outcome), len(offeredPostings))
 
 	if receipt.Outcome != postingcourier.Accepted {
 		return OfferAnswer{RequestedPause: receipt.RequestedPause}
 	}
 
-	undeliveredURLs := t.deliverURLMetadata(
-		ctx,
-		endpoint.String(),
-		peer,
-		receipt.URLsUnknownToPeer,
-	)
+	undeliveredURLs := t.deliverURLMetadata(ctx, peer, receipt.URLsUnknownToPeer)
 
 	return OfferAnswer{
 		Accepted:         true,
@@ -93,7 +82,6 @@ func (t *PostingTransfers) Send(
 
 func (t *PostingTransfers) deliverURLMetadata(
 	ctx context.Context,
-	endpoint string,
 	peer yacymodel.Seed,
 	urlsUnknownToPeer []yacymodel.URLHash,
 ) []yacymodel.URLHash {
@@ -126,7 +114,7 @@ func (t *PostingTransfers) deliverURLMetadata(
 		return urlsUnknownToUs
 	}
 
-	delivery := t.metadata.Deliver(ctx, endpoint, peer.Hash, metadata)
+	delivery := t.metadata.Deliver(ctx, peer, metadata)
 	t.observer.ObserveURLMetadataDelivery(string(delivery.Outcome), len(metadata))
 
 	if delivery.Outcome != urlmetadatacourier.Accepted {

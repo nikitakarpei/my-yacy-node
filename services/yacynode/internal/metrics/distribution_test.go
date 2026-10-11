@@ -88,17 +88,13 @@ yacynode_rwidistribution_urls_delivered_total{result="deferred"} 1
 	}
 }
 
-func TestDistributionCountsPostingsGoneAndStaleReplicasDropped(t *testing.T) {
+func TestDistributionCountsStaleReplicasDropped(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObservePostingsGone(1)
 	observer.ObserveStaleReplicasDropped(2)
 
 	expected := `
-# HELP yacynode_rwidistribution_postings_gone_total Due postings missing from the index when the cycle read them.
-# TYPE yacynode_rwidistribution_postings_gone_total counter
-yacynode_rwidistribution_postings_gone_total 1
 # HELP yacynode_rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.
 # TYPE yacynode_rwidistribution_stale_replicas_dropped_total counter
 yacynode_rwidistribution_stale_replicas_dropped_total 2
@@ -106,7 +102,6 @@ yacynode_rwidistribution_stale_replicas_dropped_total 2
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_postings_gone_total",
 		"yacynode_rwidistribution_stale_replicas_dropped_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)

@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -17,6 +18,7 @@ import (
 func Open(
 	v *vault.Vault,
 	partitions yacymodel.DHTRingPartitions,
+	bounds postingofferinterval.Bounds,
 	now func() time.Time,
 	observer postingofferschedule.Observer,
 ) (
@@ -25,7 +27,7 @@ func Open(
 	rwipostings.PostingObserver,
 	error,
 ) {
-	schedule, err := postingofferschedule.Open(v, partitions, now, observer)
+	schedule, err := postingofferschedule.Open(v, partitions, bounds, now, observer)
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("open offer schedule: %w", err)
 	}

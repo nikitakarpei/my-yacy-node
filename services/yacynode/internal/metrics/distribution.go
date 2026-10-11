@@ -18,7 +18,6 @@ type DistributionMetrics struct {
 	urlMetadataDeliveries *prometheus.CounterVec
 	urlsDelivered         *prometheus.CounterVec
 	urlsUnknownToUs       prometheus.Counter
-	postingsGone          prometheus.Counter
 	scheduledPostings     *prometheus.GaugeVec
 	longestOfferLateness  *prometheus.GaugeVec
 	staleReplicasDropped  prometheus.Counter
@@ -60,10 +59,6 @@ func distributionMetrics() *DistributionMetrics {
 		urlsUnknownToUs: counterFor(
 			"yacynode_rwidistribution_urls_unknown_to_us_total",
 			"URLs a peer asked for whose metadata this node does not hold, so no delivery carried them.",
-		),
-		postingsGone: counterFor(
-			"yacynode_rwidistribution_postings_gone_total",
-			"Due postings missing from the index when the cycle read them.",
 		),
 		scheduledPostings: gaugePerLabelFor(
 			"yacynode_rwidistribution_scheduled_postings",
@@ -107,7 +102,6 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlMetadataDeliveries,
 		d.urlsDelivered,
 		d.urlsUnknownToUs,
-		d.postingsGone,
 		d.scheduledPostings,
 		d.longestOfferLateness,
 		d.staleReplicasDropped,
@@ -142,10 +136,6 @@ func (d *DistributionMetrics) ObserveURLMetadataDelivery(outcome string, urls in
 
 func (d *DistributionMetrics) ObserveURLsUnknownToUs(urls int) {
 	d.urlsUnknownToUs.Add(float64(urls))
-}
-
-func (d *DistributionMetrics) ObservePostingsGone(gone int) {
-	d.postingsGone.Add(float64(gone))
 }
 
 func (d *DistributionMetrics) ObserveScheduledPostings(order string, postings int) {

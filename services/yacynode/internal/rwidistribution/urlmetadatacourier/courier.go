@@ -19,8 +19,7 @@ type Receipt struct {
 type Courier interface {
 	Deliver(
 		ctx context.Context,
-		endpoint string,
-		peer yacymodel.Hash,
+		recipient yacymodel.Seed,
 		metadata []yacymodel.URLMetadata,
 	) Receipt
 }
@@ -41,10 +40,22 @@ func New(
 
 func (c httpCourier) Deliver(
 	ctx context.Context,
-	endpoint string,
-	peer yacymodel.Hash,
+	recipient yacymodel.Seed,
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
+	peer := recipient.Hash
+	address, addressable := recipient.NetworkAddress()
+	if !addressable {
+		slog.WarnContext(
+			ctx,
+			"url metadata not delivered to peer without network address",
+			slog.String("peer", peer.String()),
+		)
+
+		return Receipt{Outcome: Unaddressable}
+	}
+	endpoint := address.String()
+
 	req := yacyproto.TransferURLRequest{
 		NetworkName: c.networkName,
 		Iam:         c.self,

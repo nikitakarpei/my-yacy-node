@@ -52,13 +52,6 @@ func TestSeedRingWalksNothingWithoutSeeds(t *testing.T) {
 	}
 }
 
-func TestSeedRingHoldsEverySeed(t *testing.T) {
-	seeds := seedsAtPositions(10, 40)
-	ring := yacymodel.SeedRingFrom(seedsInOrder(seeds, 1, 0))
-
-	assertSeedsInOrder(t, ring.Seeds(), seeds)
-}
-
 func seedsAtPositions(percents ...uint64) []yacymodel.Seed {
 	seeds := make([]yacymodel.Seed, 0, len(percents))
 	for _, percent := range percents {

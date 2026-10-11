@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 )
 
 const callMeetingWait = time.Second
@@ -25,7 +24,7 @@ func TestCycleOffersABatchToAllItsPeersAtTheSameTime(t *testing.T) {
 			redundancy: 2,
 		})
 		meeting := newCallMeeting(2)
-		h.courier.onOffer = meeting.arrive
+		h.transfers.onOffer = meeting.arrive
 
 		store(t, h.v, h.schedule, word, url)
 
@@ -48,9 +47,9 @@ func TestCycleOffersBatchesOfDifferentSectorsAtTheSameTime(t *testing.T) {
 			redundancy:       2,
 			batchConcurrency: 2,
 		})
-		h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+		h.transfers.answers[peer] = acceptedAnswer
 		meeting := newCallMeeting(2)
-		h.courier.onOffer = meeting.arrive
+		h.transfers.onOffer = meeting.arrive
 
 		for _, posting := range sectorPostings {
 			store(t, h.v, h.schedule, posting.WordHash, posting.URLHash)
@@ -59,7 +58,7 @@ func TestCycleOffersBatchesOfDifferentSectorsAtTheSameTime(t *testing.T) {
 		h.runCycle(t)
 
 		meeting.assertMet(t)
-		assertEachPostingOfferedOnce(t, h.courier.offered, sectorPostings)
+		assertEachPostingOfferedOnce(t, h.transfers.offered, sectorPostings)
 	})
 }
 
@@ -76,7 +75,7 @@ func TestCycleReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
 			redundancy:       2,
 			batchConcurrency: 2,
 		})
-		h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+		h.transfers.answers[peer] = acceptedAnswer
 		meeting := newCallMeeting(2)
 		h.postings.onRead = meeting.arrive
 

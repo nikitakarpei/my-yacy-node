@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
@@ -41,12 +40,20 @@ type PostingHandoff interface {
 		ctx context.Context,
 		tx *vault.Txn,
 		posting yacymodel.RWIPosting,
+		position yacymodel.DHTRingPosition,
 		holders []yacymodel.Hash,
 	) (bool, error)
 }
 
+type PostingTransfers interface {
+	Send(
+		ctx context.Context,
+		peer yacymodel.Seed,
+		offeredPostings []yacymodel.RWIPosting,
+	) postingtransfer.OfferAnswer
+}
+
 type Config struct {
-	OfferInterval     postingofferinterval.Bounds
 	PostingsPerBatch  int
 	BatchConcurrency  int
 	CycleInterval     time.Duration
@@ -58,7 +65,7 @@ type Cycle struct {
 	vault           *vault.Vault
 	postingOffers   *postingoffer.PostingOffers
 	handoff         PostingHandoff
-	transfers       *postingtransfer.PostingTransfers
+	transfers       PostingTransfers
 	answers         OfferAnswers
 	replicas        *postingreplicas.Replicas
 	schedule        *postingofferschedule.Schedule
@@ -75,7 +82,7 @@ func New(
 	v *vault.Vault,
 	postingOffers *postingoffer.PostingOffers,
 	handoff PostingHandoff,
-	transfers *postingtransfer.PostingTransfers,
+	transfers PostingTransfers,
 	answers OfferAnswers,
 	replicas *postingreplicas.Replicas,
 	schedule *postingofferschedule.Schedule,
@@ -128,6 +135,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 		return
 	}
 
+	c.postingOffers.ReportPeersAcceptingRemoteIndex(peers)
 	c.drainDuePostings(ctx, peers)
 	c.cycleObserver.ObserveCycleCompleted()
 }
@@ -180,7 +188,7 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 	}
 	defer c.sectorTurns.release(sector)
 
-	offers, gonePostings, err := c.postingOffers.DueNowIn(
+	offers, err := c.postingOffers.DueNowIn(
 		ctx, sector, c.config.PostingsPerBatch, peers,
 	)
 	if err != nil {
@@ -188,17 +196,15 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 
 		return false
 	}
-	amountOfDuePostings := len(offers) + len(gonePostings)
-	if amountOfDuePostings < c.config.PostingsPerBatch {
+	if len(offers) < c.config.PostingsPerBatch {
 		c.sectorTurns.markDrained(sector)
 	}
-	if amountOfDuePostings == 0 {
+	if len(offers) == 0 {
 		return true
 	}
-	c.reportPostingsGone(ctx, gonePostings)
 
 	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
-	if err := c.commitBatch(ctx, offers, gonePostings, round); err != nil {
+	if err := c.commitBatch(ctx, offers, round); err != nil {
 		c.reportBatchUnwritten(ctx, err)
 
 		return false
@@ -212,68 +218,35 @@ func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
 	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
 }
 
-func (c *Cycle) reportPostingsGone(
-	ctx context.Context,
-	gonePostings []postingidentity.Identity,
-) {
-	c.cycleObserver.ObservePostingsGone(len(gonePostings))
-	for _, identity := range gonePostings {
-		slog.DebugContext(ctx, "due posting gone from index",
-			slog.String("word", identity.Word.String()),
-			slog.String("url", identity.URL.String()))
-	}
-}
-
 func (c *Cycle) commitBatch(
 	ctx context.Context,
 	offers []postingoffer.PostingOffer,
-	gonePostings []postingidentity.Identity,
 	round offerRound,
 ) error {
 	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
-		acceptingPeers := acceptingPeersByPosting(round.acceptances)
 		for _, offer := range offers {
-			identity := postingidentity.IdentityOf(offer.Posting)
-			if err := c.recordOfferOutcome(
-				ctx, tx, offer, acceptingPeers[identity], round.pauses[identity],
-			); err != nil {
+			answers := round[postingidentity.IdentityOf(offer.Posting)]
+			if err := c.recordOfferOutcome(ctx, tx, offer, answers); err != nil {
 				return err
 			}
 		}
 
-		return c.forgetGonePostings(tx, gonePostings)
+		return nil
 	})
 	if err != nil {
 		return err
 	}
 
-	c.dhtRingObserver.ObserveReplicaRingFractions(
-		replicaRingFractionsOf(offers, round.acceptances),
-	)
+	c.dhtRingObserver.ObserveReplicaRingFractions(replicaRingFractionsOf(offers, round))
 
 	return nil
-}
-
-func acceptingPeersByPosting(
-	acceptances []peerAcceptance,
-) map[postingidentity.Identity][]yacymodel.Hash {
-	byPosting := make(map[postingidentity.Identity][]yacymodel.Hash)
-	for _, acceptance := range acceptances {
-		for _, posting := range acceptance.postings {
-			identity := postingidentity.IdentityOf(posting)
-			byPosting[identity] = append(byPosting[identity], acceptance.holder)
-		}
-	}
-
-	return byPosting
 }
 
 func (c *Cycle) recordOfferOutcome(
 	ctx context.Context,
 	tx *vault.Txn,
 	offer postingoffer.PostingOffer,
-	acceptingPeers []yacymodel.Hash,
-	requestedPause time.Duration,
+	answers postingAnswers,
 ) error {
 	identity := postingidentity.IdentityOf(offer.Posting)
 	recordedHolders, err := c.replicas.HoldersOf(tx, identity)
@@ -282,26 +255,29 @@ func (c *Cycle) recordOfferOutcome(
 	}
 	change := postingreplicas.HolderChange{
 		StaleHolders:   offer.StaleHolders,
-		AcceptingPeers: acceptingPeers,
+		AcceptingPeers: answers.acceptingPeers,
 	}
 	holders := change.HoldersFrom(recordedHolders)
+	droppedReplicas := change.AmountOfStaleHoldersIn(recordedHolders)
 
-	wasHandedOff, err := c.handoff.HandOffIfHeldByCloserPeers(ctx, tx, offer.Posting, holders)
+	wasHandedOff, err := c.handoff.HandOffIfHeldByCloserPeers(
+		ctx, tx, offer.Posting, offer.PostingPosition, holders,
+	)
 	if err != nil {
 		return err
 	}
 	if wasHandedOff {
-		c.observeStaleReplicasDropped(tx, change.AmountOfStaleHoldersIn(recordedHolders))
+		c.observeStaleReplicasDropped(tx, droppedReplicas)
 		c.observePostingHandedOff(tx)
 
 		return nil
 	}
 
-	wasRescheduled, err := c.setNextOffer(tx, offer, acceptingPeers, requestedPause)
+	wasRescheduled, err := c.setNextOffer(tx, identity, offer.AcceptancesNeeded, answers)
 	if err != nil || !wasRescheduled {
 		return err
 	}
-	c.observeStaleReplicasDropped(tx, change.AmountOfStaleHoldersIn(recordedHolders))
+	c.observeStaleReplicasDropped(tx, droppedReplicas)
 
 	return c.replicas.RecordHolders(tx, identity, recordedHolders, holders)
 }
@@ -316,62 +292,28 @@ func (c *Cycle) observePostingHandedOff(tx *vault.Txn) {
 
 func (c *Cycle) setNextOffer(
 	tx *vault.Txn,
-	offer postingoffer.PostingOffer,
-	acceptingPeers []yacymodel.Hash,
-	requestedPause time.Duration,
+	identity postingidentity.Identity,
+	acceptancesNeeded int,
+	answers postingAnswers,
 ) (bool, error) {
-	identity := postingidentity.IdentityOf(offer.Posting)
-	if len(acceptingPeers) >= offer.AcceptancesNeeded {
-		return c.schedule.SetNextOfferAfterRedundancyMet(tx, identity, c.config.OfferInterval)
+	if len(answers.acceptingPeers) >= acceptancesNeeded {
+		return c.schedule.SetNextOfferAfterRedundancyMet(tx, identity)
 	}
 
-	return c.schedule.SetNextOfferAfterRedundancyMissed(
-		tx, identity, c.config.OfferInterval, requestedPause,
-	)
+	return c.schedule.SetNextOfferAfterRedundancyMissed(tx, identity, answers.requestedPause)
 }
 
-func replicaRingFractionsOf(
-	offers []postingoffer.PostingOffer,
-	acceptances []peerAcceptance,
-) []float64 {
-	offerByPosting := make(map[postingidentity.Identity]postingoffer.PostingOffer, len(offers))
-	for _, offer := range offers {
-		identity := postingidentity.IdentityOf(offer.Posting)
-		offerByPosting[identity] = offer
-	}
-
+func replicaRingFractionsOf(offers []postingoffer.PostingOffer, round offerRound) []float64 {
 	var ringFractions []float64
-	for _, acceptance := range acceptances {
-		for _, posting := range acceptance.postings {
-			identity := postingidentity.IdentityOf(posting)
-			offer, offered := offerByPosting[identity]
-			if !offered {
-				continue
-			}
+	for _, offer := range offers {
+		for _, peer := range round[postingidentity.IdentityOf(offer.Posting)].acceptingPeers {
 			ringFractions = append(ringFractions, offer.PostingPosition.DistanceTo(
-				yacymodel.DHTRingPositionOf(acceptance.holder),
+				yacymodel.DHTRingPositionOf(peer),
 			).FractionOfDHTRing())
 		}
 	}
 
 	return ringFractions
-}
-
-func (c *Cycle) forgetGonePostings(
-	tx *vault.Txn,
-	gonePostings []postingidentity.Identity,
-) error {
-	for _, identity := range gonePostings {
-		gonePosting := yacymodel.RWIPosting{WordHash: identity.Word, URLHash: identity.URL}
-		if err := c.schedule.PostingPurged(tx, gonePosting); err != nil {
-			return err
-		}
-		if err := c.replicas.PostingPurged(tx, gonePosting); err != nil {
-			return err
-		}
-	}
-
-	return nil
 }
 
 func (c *Cycle) reportBatchUnwritten(ctx context.Context, err error) {
