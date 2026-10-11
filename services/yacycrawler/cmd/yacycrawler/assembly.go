@@ -111,12 +111,12 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	crawledPageBacklog, err := openCrawledPageBacklog(ctx, js, cfg, registry)
+	crawledPageAdmission, err := openCrawledPageAdmission(ctx, js, cfg, registry)
 	if err != nil {
 		return err
 	}
 	visits, err := buildPageVisitConsumer(
-		ctx, js, cfg, crawledPageBacklog, pendingPageVisitObservers, pageFetchObservers,
+		ctx, js, cfg, crawledPageAdmission, pendingPageVisitObservers, pageFetchObservers,
 		htmlPageReading, crawledPageObservers, pageVisitRecordObservers,
 	)
 	if err != nil {
@@ -271,7 +271,7 @@ func acceptedOrders(
 	return acceptedordersjetstream.New(bucket), nil
 }
 
-func openCrawledPageBacklog(
+func openCrawledPageAdmission(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
@@ -290,7 +290,7 @@ func buildPageVisitConsumer(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-	crawledPageBacklog *consumerbacklog.Admission,
+	crawledPageAdmission *consumerbacklog.Admission,
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
@@ -332,7 +332,7 @@ func buildPageVisitConsumer(
 		orders,
 		pageVisitor,
 		pendingPageVisitObserver,
-		crawledPageBacklog,
+		crawledPageAdmission,
 		cfg.FetchConcurrency,
 	), nil
 }
