@@ -135,6 +135,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 		return
 	}
 
+	c.postingOffers.ReportPeersAcceptingRemoteIndex(peers)
 	c.drainDuePostings(ctx, peers)
 	c.cycleObserver.ObserveCycleCompleted()
 }

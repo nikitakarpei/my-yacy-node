@@ -705,26 +705,18 @@ func TestDueDropsUnreachableHolderBelowRedundancy(t *testing.T) {
 	}
 }
 
-func TestDueReportsAcceptingPeersPerRingSector(t *testing.T) {
-	word, url := yacymodel.WordHash("w1"), urlHash()
+func TestReportCountsAcceptingPeersPerRingSector(t *testing.T) {
 	observer := &recordedRingSectorObservations{}
-	harness := openPostingOffers(t, postingOfferOptions{
-		postings: storedPostings(fakePosting(word, url)),
-		observer: observer,
-	})
+	harness := openPostingOffers(t, postingOfferOptions{observer: observer})
 	peers := []yacymodel.Seed{
 		seed(yacymodel.WordHash("peer")),
 		indexDecliningSeed(yacymodel.WordHash("declining")),
 	}
 
-	harness.storePosting(t, word, url)
-	harness.dueNow(t, peers)
+	harness.postingOffers.ReportPeersAcceptingRemoteIndex(peers)
 
-	if len(observer.peersPerSector) != int(yacymodel.DHTRingSectorCount) {
-		t.Fatalf(
-			"reports = %d, want one report per DueNowIn, one for each sector",
-			len(observer.peersPerSector),
-		)
+	if len(observer.peersPerSector) != 1 {
+		t.Fatalf("reports = %d, want one", len(observer.peersPerSector))
 	}
 	perSector := observer.peersPerSector[0]
 	if len(perSector) != int(yacymodel.MaxDHTRingSector)+1 {

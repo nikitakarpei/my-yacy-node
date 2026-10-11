@@ -87,6 +87,29 @@ func New(
 	}
 }
 
+func (o *PostingOffers) ReportPeersAcceptingRemoteIndex(reachablePeers []yacymodel.Seed) {
+	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
+		yacymodel.SeedsPerDHTRingSector(peersAcceptingRemoteIndex(reachablePeers)),
+	)
+}
+
+func peersAcceptingRemoteIndex(peers []yacymodel.Seed) []yacymodel.Seed {
+	acceptingPeers := make([]yacymodel.Seed, 0, len(peers))
+	for _, seed := range peers {
+		if acceptsRemoteIndex(seed) {
+			acceptingPeers = append(acceptingPeers, seed)
+		}
+	}
+
+	return acceptingPeers
+}
+
+func acceptsRemoteIndex(seed yacymodel.Seed) bool {
+	capabilities, capabilitiesKnown := seed.Capabilities.Get()
+
+	return capabilitiesKnown && capabilities.AcceptRemoteIndex
+}
+
 func (o *PostingOffers) DueNowIn(
 	ctx context.Context,
 	sector yacymodel.DHTRingSector,
@@ -94,9 +117,6 @@ func (o *PostingOffers) DueNowIn(
 	reachablePeers []yacymodel.Seed,
 ) ([]PostingOffer, error) {
 	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
-	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
-		yacymodel.SeedsPerDHTRingSector(acceptingPeers),
-	)
 	acceptingPeerRing := yacymodel.SeedRingFrom(acceptingPeers)
 	eligiblePeerRing := yacymodel.SeedRingFrom(o.eligibility.EligiblePeers(acceptingPeers))
 
@@ -151,23 +171,6 @@ func (o *PostingOffers) storedPostings(
 	}
 
 	return postings, nil
-}
-
-func peersAcceptingRemoteIndex(peers []yacymodel.Seed) []yacymodel.Seed {
-	acceptingPeers := make([]yacymodel.Seed, 0, len(peers))
-	for _, seed := range peers {
-		if acceptsRemoteIndex(seed) {
-			acceptingPeers = append(acceptingPeers, seed)
-		}
-	}
-
-	return acceptingPeers
-}
-
-func acceptsRemoteIndex(seed yacymodel.Seed) bool {
-	capabilities, capabilitiesKnown := seed.Capabilities.Get()
-
-	return capabilitiesKnown && capabilities.AcceptRemoteIndex
 }
 
 func (o *PostingOffers) offerFor(
