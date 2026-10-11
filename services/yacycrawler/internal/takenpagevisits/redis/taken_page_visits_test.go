@@ -15,7 +15,7 @@ import (
 
 const (
 	orderID   = "o1"
-	taker     = "yacy.crawl.frontier YACY_CRAWL_FRONTIER/1"
+	taker     = "YACY_CRAWL_FRONTIER/1"
 	retention = time.Hour
 )
 

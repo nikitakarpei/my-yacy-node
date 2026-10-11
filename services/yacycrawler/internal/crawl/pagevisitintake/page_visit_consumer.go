@@ -48,19 +48,19 @@ type AcceptedOrders interface {
 }
 
 type PageVisitConsumer struct {
-	source           pullintake.MessageSource
-	takenPageVisits  TakenPageVisits
-	allowances       PageVisitAllowances
-	orders           AcceptedOrders
-	pageVisitor      pagevisit.PageVisitor
-	observer         PendingPageVisitObserver
-	admission        pullintake.Admission
-	fetchConcurrency int
+	pendingPageVisits pullintake.PendingMessages
+	takenPageVisits   TakenPageVisits
+	allowances        PageVisitAllowances
+	orders            AcceptedOrders
+	pageVisitor       pagevisit.PageVisitor
+	observer          PendingPageVisitObserver
+	admission         pullintake.Admission
+	fetchConcurrency  int
 }
 
 //nolint:revive // a consumer names every collaborator it visits a page with
 func NewPageVisitConsumer(
-	source pullintake.MessageSource,
+	pendingPageVisits pullintake.PendingMessages,
 	takenPageVisits TakenPageVisits,
 	allowances PageVisitAllowances,
 	orders AcceptedOrders,
@@ -70,19 +70,21 @@ func NewPageVisitConsumer(
 	fetchConcurrency int,
 ) *PageVisitConsumer {
 	return &PageVisitConsumer{
-		source:           source,
-		takenPageVisits:  takenPageVisits,
-		allowances:       allowances,
-		orders:           orders,
-		pageVisitor:      pageVisitor,
-		observer:         observer,
-		admission:        admission,
-		fetchConcurrency: fetchConcurrency,
+		pendingPageVisits: pendingPageVisits,
+		takenPageVisits:   takenPageVisits,
+		allowances:        allowances,
+		orders:            orders,
+		pageVisitor:       pageVisitor,
+		observer:          observer,
+		admission:         admission,
+		fetchConcurrency:  fetchConcurrency,
 	}
 }
 
 func (c *PageVisitConsumer) Run(ctx context.Context) error {
-	return pullintake.RunAdmittedBy(ctx, c.source, c.fetchConcurrency, c.admission, c.payPageVisit)
+	return pullintake.RunAdmittedBy(
+		ctx, c.pendingPageVisits, c.fetchConcurrency, c.admission, c.payPageVisit,
+	)
 }
 
 func (c *PageVisitConsumer) payPageVisit(

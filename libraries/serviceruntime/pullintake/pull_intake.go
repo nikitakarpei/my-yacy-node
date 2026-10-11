@@ -1,24 +1,23 @@
-// Package pullintake runs bounded-concurrency intake from a JetStream pull
-// consumer, halting on the first fatal message error and draining in-flight
-// work before it returns. It pulls the next message only when a worker is free
-// and its admission lets it, so it never holds a message it cannot work on.
+// Package pullintake runs bounded-concurrency intake from a source of pending
+// messages, such as a JetStream pull consumer, halting on the first fatal message
+// error and draining in-flight work before it returns. It takes the next message
+// only when a worker is free and its admission lets it, so it never holds a
+// message it cannot work on.
 package pullintake
 
 import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/jetstream"
 	"golang.org/x/sync/errgroup"
 )
 
 var errAdmissionEnded = errors.New("admission ended")
 
-type MessageSource interface {
-	Next(...jetstream.FetchOpt) (jetstream.Msg, error)
+type PendingMessages interface {
+	Next(ctx context.Context) (PendingMessage, error)
 }
 
 type Process func(ctx context.Context, message PendingMessage) error
@@ -27,13 +26,18 @@ type Admission interface {
 	AwaitAdmission(ctx context.Context) error
 }
 
-func Run(ctx context.Context, source MessageSource, messageConcurrency int, process Process) error {
-	return RunAdmittedBy(ctx, source, messageConcurrency, everyMessageAdmitted{}, process)
+func Run(
+	ctx context.Context,
+	messages PendingMessages,
+	messageConcurrency int,
+	process Process,
+) error {
+	return RunAdmittedBy(ctx, messages, messageConcurrency, everyMessageAdmitted{}, process)
 }
 
 func RunAdmittedBy(
 	ctx context.Context,
-	source MessageSource,
+	messages PendingMessages,
 	messageConcurrency int,
 	admission Admission,
 	process Process,
@@ -41,23 +45,23 @@ func RunAdmittedBy(
 	group, groupCtx := errgroup.WithContext(ctx)
 	busyWorkers := make(chan struct{}, messageConcurrency)
 	for {
-		message, err := nextAdmittedMessage(groupCtx, source, busyWorkers, admission)
+		message, err := nextAdmittedMessage(groupCtx, messages, busyWorkers, admission)
 		if err != nil {
 			return endOfIntake(ctx, group.Wait(), err)
 		}
 		group.Go(func() error {
 			defer func() { <-busyWorkers }()
-			return process(ctx, pendingMessage{message: message})
+			return process(ctx, message)
 		})
 	}
 }
 
 func nextAdmittedMessage(
 	ctx context.Context,
-	source MessageSource,
+	messages PendingMessages,
 	busyWorkers chan<- struct{},
 	admission Admission,
-) (jetstream.Msg, error) {
+) (PendingMessage, error) {
 	select {
 	case busyWorkers <- struct{}{}:
 	case <-ctx.Done():
@@ -66,28 +70,11 @@ func nextAdmittedMessage(
 	if err := admission.AwaitAdmission(ctx); err != nil {
 		return nil, fmt.Errorf("%w: %w", errAdmissionEnded, err)
 	}
-	return nextMessage(ctx, source)
-}
-
-func nextMessage(ctx context.Context, source MessageSource) (jetstream.Msg, error) {
-	for {
-		message, err := source.Next(jetstream.FetchContext(contextWithoutDeadline{ctx}))
-		if errors.Is(err, nats.ErrTimeout) || errors.Is(err, jetstream.ErrNoHeartbeat) {
-			continue
-		}
-		if err != nil {
-			return nil, fmt.Errorf("next message: %w", err)
-		}
-		return message, nil
+	message, err := messages.Next(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("next message: %w", err)
 	}
-}
-
-type contextWithoutDeadline struct {
-	context.Context
-}
-
-func (contextWithoutDeadline) Deadline() (time.Time, bool) {
-	return time.Time{}, false
+	return message, nil
 }
 
 func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
