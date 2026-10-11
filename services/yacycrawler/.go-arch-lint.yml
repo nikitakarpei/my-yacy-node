@@ -26,6 +26,8 @@ components:
     in: internal/crawl/pagevisitintake/**
   pagevisit:
     in: internal/crawl/pagevisit/**
+  observedfetch:
+    in: internal/crawl/observedfetch/**
   pagehtml:
     in: internal/crawl/pagehtml/**
   linkdiscovery:
@@ -34,10 +36,10 @@ components:
     in: internal/crawl/pagehtmlreading/**
   pagevisitallowance:
     in: internal/crawl/pagevisitallowance/**
-  visitedpagesnorecords:
-    in: internal/visitedpages/norecords/**
-  visitedpagesjetstream:
-    in: internal/visitedpages/jetstream/**
+  pagevisitrecordsnorecords:
+    in: internal/pagevisitrecords/norecords/**
+  pagevisitrecordsjetstream:
+    in: internal/pagevisitrecords/jetstream/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
   acceptedordersjetstream:
@@ -168,12 +170,17 @@ deps:
       - canonicalurl
   pagevisit:
     mayDependOn:
+      - acceptedorder
       - disposal
       - pagehtmlreading
+      - pendingpagevisit
     canUse:
       - canonicalurl
       - pagefetch
-      - robotsmeta
+  observedfetch:
+    canUse:
+      - canonicalurl
+      - pagefetch
   pagehtmlreading:
     mayDependOn:
       - pagehtml
@@ -189,12 +196,12 @@ deps:
       - retrydelay
     canUse:
       - canonicalurl
-  visitedpagesnorecords:
+  pagevisitrecordsnorecords:
     mayDependOn:
       - pagevisit
     canUse:
       - pagefetch
-  visitedpagesjetstream:
+  pagevisitrecordsjetstream:
     mayDependOn:
       - pagevisit
       - jetstreamrecord

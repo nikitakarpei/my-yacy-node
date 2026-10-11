@@ -59,7 +59,7 @@ a more capable host than an always-on node.
   delivery with acknowledgment and redelivery, with no change to crawl logic.
 * The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no
   change to crawl logic.
-* The visited pages SHALL sit behind a narrow interface; the default keeps none, so the
+* The page visit records SHALL sit behind a narrow interface; the default keeps none, so the
   recrawl rule holds every page due.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
@@ -74,3 +74,5 @@ a more capable host than an always-on node.
   consumer to fetch it; restrict publish rights on the crawled-page stream to the crawler.
 * Each consumer fetches the page again for itself, so the origin serves it once per
   interested consumer and each consumer can see a different page than the crawler saw.
+* A durable crawled-page consumer that no one reads stops the crawl until an operator
+  removes it.

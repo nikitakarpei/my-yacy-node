@@ -11,6 +11,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
@@ -109,31 +110,6 @@ func (o *fakeAcceptedOrders) OrderOf(
 	})
 }
 
-type fakePendingVisits struct {
-	mu        sync.Mutex
-	published []pendingpagevisit.PendingPageVisit
-	err       error
-}
-
-func (v *fakePendingVisits) Publish(
-	_ context.Context,
-	visit pendingpagevisit.PendingPageVisit,
-) error {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-	if v.err != nil {
-		return v.err
-	}
-	v.published = append(v.published, visit)
-	return nil
-}
-
-func (v *fakePendingVisits) visits() []pendingpagevisit.PendingPageVisit {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-	return append([]pendingpagevisit.PendingPageVisit(nil), v.published...)
-}
-
 type fakePageVisitor struct {
 	mu       sync.Mutex
 	outcomes []pagevisit.PageVisitOutcome
@@ -141,11 +117,13 @@ type fakePageVisitor struct {
 }
 
 func (f *fakePageVisitor) VisitPage(
-	_ context.Context, url canonicalurl.CanonicalURL,
+	_ context.Context,
+	_ acceptedorder.AcceptedOrder,
+	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) pagevisit.PageVisitOutcome {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	f.visited = append(f.visited, url.String())
+	f.visited = append(f.visited, pendingPageVisit.URL.String())
 	if len(f.outcomes) == 0 {
 		return pagevisit.PageVisitOutcome{Conclusion: pagevisit.PageVisitTerminal}
 	}
@@ -252,11 +230,22 @@ func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 	return &pullintaketest.Message{Body: data, Sequence: sequence}
 }
 
+type everyVisitAdmitted struct{}
+
+func (everyVisitAdmitted) AwaitAdmission(context.Context) error {
+	return nil
+}
+
+type noVisitAdmitted struct{}
+
+func (noVisitAdmitted) AwaitAdmission(context.Context) error {
+	return errors.New("the crawled pages are not read")
+}
+
 type crawlWorker struct {
 	pageVisits  *fakeTakenPageVisits
 	allowances  *fakeAllowances
 	orders      *fakeAcceptedOrders
-	frontier    *fakePendingVisits
 	pageVisitor *fakePageVisitor
 	observer    *recordingObserver
 }
@@ -266,7 +255,6 @@ func newWorker() *crawlWorker {
 		pageVisits:  newTakenPageVisits(),
 		allowances:  newAllowances(),
 		orders:      &fakeAcceptedOrders{profile: wideProfile()},
-		frontier:    &fakePendingVisits{},
 		pageVisitor: &fakePageVisitor{},
 		observer:    newObserver(),
 	}
@@ -274,14 +262,23 @@ func newWorker() *crawlWorker {
 
 func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
 	t.Helper()
+	return w.consumeAdmittedBy(t, everyVisitAdmitted{}, messages...)
+}
+
+func (w *crawlWorker) consumeAdmittedBy(
+	t *testing.T,
+	admission pullintake.Admission,
+	messages ...jetstream.Msg,
+) error {
+	t.Helper()
 	return pagevisitintake.NewPageVisitConsumer(
 		pullintaketest.MessageSourceOf(messages...),
 		w.pageVisits,
 		w.allowances,
 		w.orders,
-		w.frontier,
 		w.pageVisitor,
 		w.observer,
+		admission,
 		1,
 	).Run(context.Background())
 }
@@ -328,87 +325,6 @@ func TestARedeliveredMessageResumesItsOwnClaim(t *testing.T) {
 
 	if worker.pageVisitor.pageVisitCount() != 2 {
 		t.Fatal("a redelivery should visit the claim it left behind")
-	}
-}
-
-func TestDiscoveredURLsTheProfileAdmitsGoBackOnTheFrontier(t *testing.T) {
-	worker := newWorker()
-	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion: pagevisit.PageVisitTerminal,
-		DiscoveredURLs: []canonicalurl.CanonicalURL{
-			canonicalurltest.CanonicalURLOf(t, "http://host/next"),
-		},
-	}}
-
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	published := worker.frontier.visits()
-	if len(published) != 1 {
-		t.Fatalf("published %d urls, want 1", len(published))
-	}
-	if published[0].Depth != 1 || published[0].OrderID != orderID {
-		t.Fatalf("published %+v, want the order at depth one", published[0])
-	}
-}
-
-func TestARedirectTargetTheProfileAdmitsGoesOnTheFrontierAtTheSameDepth(t *testing.T) {
-	worker := newWorker()
-	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion:     pagevisit.PageVisitTerminal,
-		RedirectTarget: canonicalurltest.CanonicalURLOf(t, "http://host/moved"),
-	}}
-
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	published := worker.frontier.visits()
-	if len(published) != 1 {
-		t.Fatalf("published %d urls, want 1", len(published))
-	}
-	if published[0].Depth != 0 || published[0].OrderID != orderID {
-		t.Fatalf("published %+v, want the order at the depth it was visited", published[0])
-	}
-	if published[0].URL != canonicalurltest.CanonicalURLOf(t, "http://host/moved") {
-		t.Fatalf("published %q, want the redirect target", published[0].URL)
-	}
-}
-
-func TestARedirectTargetBeyondTheProfileStaysOff(t *testing.T) {
-	worker := newWorker()
-	worker.orders.profile.URLMustNotMatch = "/moved"
-	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion:     pagevisit.PageVisitTerminal,
-		RedirectTarget: canonicalurltest.CanonicalURLOf(t, "http://host/moved"),
-	}}
-
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if len(worker.frontier.visits()) != 0 {
-		t.Fatal("a redirect target beyond the profile should not be published")
-	}
-}
-
-func TestDiscoveredURLsBeyondTheProfileStayOff(t *testing.T) {
-	worker := newWorker()
-	worker.orders.profile.MaxDepth = 0
-	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion: pagevisit.PageVisitTerminal,
-		DiscoveredURLs: []canonicalurl.CanonicalURL{
-			canonicalurltest.CanonicalURLOf(t, "http://host/next"),
-		},
-	}}
-
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if len(worker.frontier.visits()) != 0 {
-		t.Fatal("a url beyond the profile depth should not be published")
 	}
 }
 
@@ -467,6 +383,42 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 
 	if message.HeldBackFor() != time.Second {
 		t.Fatalf("held back for %v, want the first backoff", message.HeldBackFor())
+	}
+}
+
+func TestAReturnedVisitComesBackWithoutSpendingAnAttempt(t *testing.T) {
+	worker := newWorker()
+	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
+		Conclusion:  pagevisit.PageVisitReturned,
+		ReturnCause: errors.New("stream down"),
+	}}
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
+		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+	if worker.allowances.retries != 0 {
+		t.Fatalf("attempts spent = %d, want none", worker.allowances.retries)
+	}
+}
+
+func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorSettled(t *testing.T) {
+	worker := newWorker()
+	message := visitMessage(t, 1)
+
+	if err := worker.consumeAdmittedBy(t, noVisitAdmitted{}, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if worker.pageVisitor.pageVisitCount() != 0 {
+		t.Fatal("a held back visit was visited")
+	}
+	if got := message.Settlements(); len(got) != 0 {
+		t.Fatalf("message settled %v, want it untouched", got)
 	}
 }
 
@@ -601,25 +553,5 @@ func TestTheDisposalTheVisitReportsIsObserved(t *testing.T) {
 
 	if worker.observer.disposed[disposal.FetchRejected] != 1 {
 		t.Fatalf("observer disposed %v, want fetch rejected", worker.observer.disposed)
-	}
-}
-
-func TestDiscoveredURLsThatDoNotPublishReturnTheMessage(t *testing.T) {
-	worker := newWorker()
-	worker.frontier.err = errors.New("stream down")
-	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion: pagevisit.PageVisitTerminal,
-		DiscoveredURLs: []canonicalurl.CanonicalURL{
-			canonicalurltest.CanonicalURLOf(t, "http://host/next"),
-		},
-	}}
-	message := visitMessage(t, 1)
-
-	if err := worker.consume(t, message); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }

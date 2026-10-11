@@ -1,5 +1,6 @@
 // Package pagehtmlreading reads a fetched page as HTML: the refusals it states,
-// and the URLs it links to when it does not refuse link discovery.
+// and the URLs it links to when it does not refuse link discovery. A refused link
+// discovery goes to the observer.
 package pagehtmlreading
 
 import (
@@ -39,15 +40,21 @@ type Reading struct {
 }
 
 type HTMLPageReading struct {
-	htmlParser    HTMLParser
-	linkDiscovery LinkDiscovery
+	htmlParser                 HTMLParser
+	linkDiscovery              LinkDiscovery
+	refusalEnforcementObserver RefusalEnforcementObserver
 }
 
 func NewHTMLPageReading(
 	htmlParser HTMLParser,
 	linkDiscovery LinkDiscovery,
+	refusalEnforcementObserver RefusalEnforcementObserver,
 ) *HTMLPageReading {
-	return &HTMLPageReading{htmlParser: htmlParser, linkDiscovery: linkDiscovery}
+	return &HTMLPageReading{
+		htmlParser:                 htmlParser,
+		linkDiscovery:              linkDiscovery,
+		refusalEnforcementObserver: refusalEnforcementObserver,
+	}
 }
 
 func (reading *HTMLPageReading) ReadingOfPage(
@@ -79,6 +86,7 @@ func (reading *HTMLPageReading) discoveredURLsFrom(
 	refusals robotsmeta.Refusals,
 ) []canonicalurl.CanonicalURL {
 	if refusals.RefusesLinkDiscovery {
+		reading.refusalEnforcementObserver.LinkDiscoveryRefusalEnforced(ctx, pageURL)
 		return nil
 	}
 	return reading.linkDiscovery.LinkedURLsFrom(ctx, elementTree, pageURL)

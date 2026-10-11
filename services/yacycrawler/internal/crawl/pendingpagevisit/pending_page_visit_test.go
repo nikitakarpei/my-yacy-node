@@ -33,3 +33,35 @@ func TestUnmarshalPendingVisitRejectsRubbish(t *testing.T) {
 		t.Fatal("a truncated message should not decode")
 	}
 }
+
+func TestALinkedPageVisitGoesOneLevelDeeperInTheSameOrder(t *testing.T) {
+	visit := pendingpagevisit.PendingPageVisit{
+		OrderID: "o1",
+		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
+		Depth:   3,
+	}
+	link := canonicalurltest.CanonicalURLOf(t, "http://host/next")
+
+	linked := visit.LinkedPageVisitTo(link)
+
+	want := pendingpagevisit.PendingPageVisit{OrderID: "o1", URL: link, Depth: 4}
+	if linked != want {
+		t.Fatalf("linked %+v, want %+v", linked, want)
+	}
+}
+
+func TestARedirectedPageVisitKeepsTheDepthInTheSameOrder(t *testing.T) {
+	visit := pendingpagevisit.PendingPageVisit{
+		OrderID: "o1",
+		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
+		Depth:   3,
+	}
+	redirectTarget := canonicalurltest.CanonicalURLOf(t, "http://host/moved")
+
+	redirected := visit.RedirectedPageVisitTo(redirectTarget)
+
+	want := pendingpagevisit.PendingPageVisit{OrderID: "o1", URL: redirectTarget, Depth: 3}
+	if redirected != want {
+		t.Fatalf("redirected %+v, want %+v", redirected, want)
+	}
+}

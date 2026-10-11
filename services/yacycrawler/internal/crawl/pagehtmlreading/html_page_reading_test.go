@@ -34,10 +34,28 @@ func pageHolding(t *testing.T, markup string) pagefetch.FetchedPage {
 	}
 }
 
+type countingRefusalEnforcementObserver struct {
+	linkDiscoveryRefusalsEnforced int
+}
+
+func (o *countingRefusalEnforcementObserver) LinkDiscoveryRefusalEnforced(
+	context.Context,
+	canonicalurl.CanonicalURL,
+) {
+	o.linkDiscoveryRefusalsEnforced++
+}
+
 func htmlPageReading() *pagehtmlreading.HTMLPageReading {
+	return htmlPageReadingObservedBy(&countingRefusalEnforcementObserver{})
+}
+
+func htmlPageReadingObservedBy(
+	refusalEnforcementObserver pagehtmlreading.RefusalEnforcementObserver,
+) *pagehtmlreading.HTMLPageReading {
 	return pagehtmlreading.NewHTMLPageReading(
 		pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
 		linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
+		refusalEnforcementObserver,
 	)
 }
 
@@ -70,6 +88,7 @@ func TestReadingOfPageKeepsHTMLReadingFailuresDistinct(t *testing.T) {
 			reading := pagehtmlreading.NewHTMLPageReading(
 				failingHTMLParser{err: readingError},
 				linkDiscoveryWithoutLinks{},
+				&countingRefusalEnforcementObserver{},
 			)
 
 			_, err := reading.ReadingOfPage(
@@ -112,6 +131,24 @@ func TestReadingOfPageReportsNoLinksWhenThePageRefusesLinkDiscovery(t *testing.T
 
 	if len(reading.DiscoveredURLs) != 0 {
 		t.Fatalf("nofollow suppresses linked urls, got %v", reading.DiscoveredURLs)
+	}
+}
+
+func TestReadingOfPageReportsTheLinkDiscoveryRefusalItEnforced(t *testing.T) {
+	observer := &countingRefusalEnforcementObserver{}
+
+	_, err := htmlPageReadingObservedBy(observer).ReadingOfPage(
+		t.Context(), pageURL(t), pageHolding(t, pageRefusingLinkDiscovery),
+	)
+	if err != nil {
+		t.Fatalf("ReadingOfPage: %v", err)
+	}
+
+	if observer.linkDiscoveryRefusalsEnforced != 1 {
+		t.Fatalf(
+			"link discovery refusals enforced = %d, want 1",
+			observer.linkDiscoveryRefusalsEnforced,
+		)
 	}
 }
 

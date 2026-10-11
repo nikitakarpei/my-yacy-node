@@ -1,6 +1,6 @@
 // Package jetstream publishes every page the crawler read, on the subject the page's own
-// indexing statement selects. A page that never leaves goes to the observer; the caller
-// learns nothing and visits the next page.
+// indexing statement selects. A page that does not leave goes to the observer, and the
+// caller learns that it did not leave.
 package jetstream
 
 import (
@@ -27,15 +27,15 @@ func New(
 func (p *CrawledPagePublisher) PublishIndexablePage(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) {
-	p.publish(ctx, pageURL, indexablePagePublication)
+) bool {
+	return p.publish(ctx, pageURL, indexablePagePublication)
 }
 
 func (p *CrawledPagePublisher) PublishIndexingRefusedPage(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) {
-	p.publish(ctx, pageURL, indexingRefusedPagePublication)
+) bool {
+	return p.publish(ctx, pageURL, indexingRefusedPagePublication)
 }
 
 type crawledPagePublication struct {
@@ -58,17 +58,18 @@ func (p *CrawledPagePublisher) publish(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	publication crawledPagePublication,
-) {
+) bool {
 	data, err := yacycrawlcontract.MarshalCrawledPage(
 		yacycrawlcontract.CrawledPage{PageURL: pageURL},
 	)
 	if err != nil {
 		p.observer.CrawledPageEncodingFailed(ctx, pageURL, publication.indexing, err)
-		return
+		return false
 	}
 	if _, err := p.stream.Publish(ctx, publication.subject, data); err != nil {
 		p.observer.CrawledPagePublishingFailed(ctx, pageURL, publication.indexing, err)
-		return
+		return false
 	}
 	p.observer.CrawledPagePublished(ctx, pageURL, publication.indexing)
+	return true
 }

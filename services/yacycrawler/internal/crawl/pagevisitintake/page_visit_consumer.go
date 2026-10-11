@@ -1,6 +1,6 @@
 // Package pagevisitintake pays one pending page visit per delivered message: it claims
-// the URL for that message, visits it, and puts the URLs it discovers back on
-// the frontier.
+// the URL for that message, has the page visited, and settles the message by what the
+// visit concluded. It takes the next message only when its admission lets it.
 package pagevisitintake
 
 import (
@@ -47,18 +47,14 @@ type AcceptedOrders interface {
 	OrderOf(ctx context.Context, orderID string) (acceptedorder.AcceptedOrder, error)
 }
 
-type PendingPageVisits interface {
-	Publish(ctx context.Context, pageVisit pendingpagevisit.PendingPageVisit) error
-}
-
 type PageVisitConsumer struct {
 	source           pullintake.MessageSource
 	takenPageVisits  TakenPageVisits
 	allowances       PageVisitAllowances
 	orders           AcceptedOrders
-	frontier         PendingPageVisits
 	pageVisitor      pagevisit.PageVisitor
 	observer         PendingPageVisitObserver
+	admission        pullintake.Admission
 	fetchConcurrency int
 }
 
@@ -68,9 +64,9 @@ func NewPageVisitConsumer(
 	takenPageVisits TakenPageVisits,
 	allowances PageVisitAllowances,
 	orders AcceptedOrders,
-	frontier PendingPageVisits,
 	pageVisitor pagevisit.PageVisitor,
 	observer PendingPageVisitObserver,
+	admission pullintake.Admission,
 	fetchConcurrency int,
 ) *PageVisitConsumer {
 	return &PageVisitConsumer{
@@ -78,15 +74,15 @@ func NewPageVisitConsumer(
 		takenPageVisits:  takenPageVisits,
 		allowances:       allowances,
 		orders:           orders,
-		frontier:         frontier,
 		pageVisitor:      pageVisitor,
 		observer:         observer,
+		admission:        admission,
 		fetchConcurrency: fetchConcurrency,
 	}
 }
 
 func (c *PageVisitConsumer) Run(ctx context.Context) error {
-	return pullintake.Run(ctx, c.source, c.fetchConcurrency, c.payPageVisit)
+	return pullintake.RunAdmittedBy(ctx, c.source, c.fetchConcurrency, c.admission, c.payPageVisit)
 }
 
 func (c *PageVisitConsumer) payPageVisit(
@@ -105,8 +101,8 @@ func (c *PageVisitConsumer) payPageVisit(
 	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
 		return nil
 	}
-	outcome := c.pageVisitor.VisitPage(ctx, pendingPageVisit.URL)
-	c.carryOutConclusion(ctx, message, order, pendingPageVisit, outcome)
+	outcome := c.pageVisitor.VisitPage(ctx, order, pendingPageVisit)
+	c.carryOutConclusion(ctx, message, pendingPageVisit, outcome)
 	return nil
 }
 
@@ -190,7 +186,6 @@ func (c *PageVisitConsumer) dropExhaustedPageVisit(
 func (c *PageVisitConsumer) carryOutConclusion(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 	outcome pagevisit.PageVisitOutcome,
 ) {
@@ -199,8 +194,10 @@ func (c *PageVisitConsumer) carryOutConclusion(
 		c.deferPageVisit(ctx, message, pendingPageVisit, outcome.DeferFor)
 	case pagevisit.PageVisitRetryable:
 		c.retryPageVisit(ctx, message, pendingPageVisit)
+	case pagevisit.PageVisitReturned:
+		c.returnPageVisit(ctx, message, pendingPageVisit, outcome.ReturnCause)
 	case pagevisit.PageVisitTerminal:
-		c.completePageVisit(ctx, message, order, pendingPageVisit, outcome)
+		c.completePageVisit(ctx, message, pendingPageVisit, outcome.Disposal)
 	}
 }
 
@@ -234,72 +231,12 @@ func (c *PageVisitConsumer) retryPageVisit(
 func (c *PageVisitConsumer) completePageVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	outcome pagevisit.PageVisitOutcome,
+	reason disposal.Reason,
 ) {
-	if outcome.Disposal.DisposedThePage() {
-		c.observer.PendingPageVisitDisposedPage(ctx, pendingPageVisit, outcome.Disposal)
-	}
-	if err := c.putDiscoveredURLsOnFrontier(
-		ctx,
-		order,
-		pendingPageVisit,
-		outcome.DiscoveredURLs,
-	); err != nil {
-		c.returnPageVisit(ctx, message, pendingPageVisit, err)
-		return
-	}
-	if err := c.putRedirectTargetOnFrontier(
-		ctx,
-		order,
-		pendingPageVisit,
-		outcome.RedirectTarget,
-	); err != nil {
-		c.returnPageVisit(ctx, message, pendingPageVisit, err)
-		return
+	if reason.DisposedThePage() {
+		c.observer.PendingPageVisitDisposedPage(ctx, pendingPageVisit, reason)
 	}
 	message.Acknowledge(ctx)
 	c.observer.PendingPageVisitCompleted(ctx, pendingPageVisit)
-}
-
-func (c *PageVisitConsumer) putRedirectTargetOnFrontier(
-	ctx context.Context,
-	order acceptedorder.AcceptedOrder,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	redirectTarget canonicalurl.CanonicalURL,
-) error {
-	if redirectTarget.String() == "" {
-		return nil
-	}
-	if !order.Admits(redirectTarget, pendingPageVisit.Depth) {
-		return nil
-	}
-	return c.frontier.Publish(ctx, pendingpagevisit.PendingPageVisit{
-		OrderID: pendingPageVisit.OrderID,
-		URL:     redirectTarget,
-		Depth:   pendingPageVisit.Depth,
-	})
-}
-
-func (c *PageVisitConsumer) putDiscoveredURLsOnFrontier(
-	ctx context.Context,
-	order acceptedorder.AcceptedOrder,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	discoveredURLs []canonicalurl.CanonicalURL,
-) error {
-	depth := pendingPageVisit.Depth + 1
-	for _, url := range discoveredURLs {
-		if !order.Admits(url, depth) {
-			continue
-		}
-		if err := c.frontier.Publish(ctx, pendingpagevisit.PendingPageVisit{
-			OrderID: pendingPageVisit.OrderID,
-			URL:     url,
-			Depth:   depth,
-		}); err != nil {
-			return err
-		}
-	}
-	return nil
 }

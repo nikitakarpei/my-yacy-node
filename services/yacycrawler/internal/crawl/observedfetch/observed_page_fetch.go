@@ -1,4 +1,6 @@
-package pagevisit
+// Package observedfetch reports every page fetch to its observer with how long it took,
+// and turns a fetch that ends in an error into a failed fetch.
+package observedfetch
 
 import (
 	"context"
@@ -8,29 +10,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
-type PageFetcher interface {
-	Fetch(
-		ctx context.Context,
-		pageURL canonicalurl.CanonicalURL,
-		knownVersion pagefetch.PageVersion,
-	) pagefetch.FetchOutcome
-}
-
-type ObservedPageFetcher struct {
+type ObservedPageFetch struct {
 	inner    pagefetch.Fetcher
 	clock    Clock
 	observer PageFetchObserver
 }
 
-func NewObservedPageFetcher(
+func New(
 	inner pagefetch.Fetcher,
 	clock Clock,
 	observer PageFetchObserver,
-) *ObservedPageFetcher {
-	return &ObservedPageFetcher{inner: inner, clock: clock, observer: observer}
+) *ObservedPageFetch {
+	return &ObservedPageFetch{inner: inner, clock: clock, observer: observer}
 }
 
-func (f *ObservedPageFetcher) Fetch(
+func (f *ObservedPageFetch) Fetch(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	knownVersion pagefetch.PageVersion,
@@ -46,7 +40,7 @@ func (f *ObservedPageFetcher) Fetch(
 	return fetchOutcome
 }
 
-func (f *ObservedPageFetcher) observeUnfinishedFetch(
+func (f *ObservedPageFetch) observeUnfinishedFetch(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	fetchDuration time.Duration,
@@ -59,7 +53,7 @@ func (f *ObservedPageFetcher) observeUnfinishedFetch(
 	f.observer.PageFetchFailed(ctx, pageURL, fetchDuration, cause)
 }
 
-func (f *ObservedPageFetcher) observeFetchOutcome(
+func (f *ObservedPageFetch) observeFetchOutcome(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	fetchDuration time.Duration,

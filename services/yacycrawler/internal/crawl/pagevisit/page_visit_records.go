@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
-type VisitedPages interface {
+type PageVisitRecords interface {
 	LastPageVisitOf(
 		ctx context.Context,
 		canonicalURL canonicalurl.CanonicalURL,

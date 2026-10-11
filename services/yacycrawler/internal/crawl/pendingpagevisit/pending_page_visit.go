@@ -1,6 +1,7 @@
 // Package pendingpagevisit names one URL a crawl order still owes a page visit, and the
 // frontier stream that carries it from the worker that found it to the worker
-// that pays it.
+// that pays it. A page links to visits one level deeper, and redirects to a visit at
+// its own depth.
 package pendingpagevisit
 
 import (
@@ -19,6 +20,18 @@ type PendingPageVisit struct {
 	OrderID string                    `json:"OrderID"`
 	URL     canonicalurl.CanonicalURL `json:"URL"`
 	Depth   int                       `json:"Depth"`
+}
+
+func (pageVisit PendingPageVisit) LinkedPageVisitTo(
+	url canonicalurl.CanonicalURL,
+) PendingPageVisit {
+	return PendingPageVisit{OrderID: pageVisit.OrderID, URL: url, Depth: pageVisit.Depth + 1}
+}
+
+func (pageVisit PendingPageVisit) RedirectedPageVisitTo(
+	redirectTarget canonicalurl.CanonicalURL,
+) PendingPageVisit {
+	return PendingPageVisit{OrderID: pageVisit.OrderID, URL: redirectTarget, Depth: pageVisit.Depth}
 }
 
 func MarshalPendingPageVisit(pageVisit PendingPageVisit) ([]byte, error) {
