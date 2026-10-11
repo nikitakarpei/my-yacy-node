@@ -259,7 +259,11 @@
           "custom": {
             "fillOpacity": 10,
             "drawStyle": "line",
-            "showPoints": "auto"
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
           }
         }
       },
@@ -346,7 +350,11 @@
           "custom": {
             "fillOpacity": 10,
             "drawStyle": "line",
-            "showPoints": "auto"
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
           }
         }
       },
@@ -385,7 +393,11 @@
           "custom": {
             "fillOpacity": 10,
             "drawStyle": "line",
-            "showPoints": "auto"
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
           }
         }
       },
@@ -436,7 +448,11 @@
           "custom": {
             "fillOpacity": 10,
             "drawStyle": "line",
-            "showPoints": "auto"
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
           }
         }
       },
@@ -670,7 +686,11 @@
           "custom": {
             "fillOpacity": 10,
             "drawStyle": "line",
-            "showPoints": "auto"
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
           }
         }
       },
@@ -760,7 +780,11 @@
           "custom": {
             "fillOpacity": 10,
             "drawStyle": "line",
-            "showPoints": "auto"
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
           }
         }
       },
