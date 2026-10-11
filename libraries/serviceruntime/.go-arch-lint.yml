@@ -28,6 +28,8 @@ components:
     in: pullintake
   pullintaketest:
     in: pullintake/pullintaketest/**
+  consumerbacklog:
+    in: pullintake/admissions/consumerbacklog/**
   jetstreamconnect:
     in: jetstreamconnect/**
   foregroundprocess:
@@ -73,6 +75,10 @@ deps:
   pullintaketest:
     canUse:
       - nats
+  consumerbacklog:
+    canUse:
+      - nats
+      - prometheus
   jetstreamconnect:
     canUse:
       - nats

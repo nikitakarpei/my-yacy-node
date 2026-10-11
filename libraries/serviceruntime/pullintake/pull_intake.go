@@ -1,50 +1,108 @@
 // Package pullintake runs bounded-concurrency intake from a JetStream pull
-// iterator, halting on the first fatal message error and draining in-flight
-// work before it returns.
+// consumer, halting on the first fatal message error and draining in-flight
+// work before it returns. It pulls the next message only when a worker is free
+// and its admission lets it, so it never holds a message it cannot work on.
 package pullintake
 
 import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"golang.org/x/sync/errgroup"
 )
 
+var errAdmissionEnded = errors.New("admission ended")
+
 type MessageSource interface {
-	Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesContext, error)
+	Next(...jetstream.FetchOpt) (jetstream.Msg, error)
 }
 
 type Process func(ctx context.Context, message PendingMessage) error
 
+type Admission interface {
+	AwaitAdmission(ctx context.Context) error
+}
+
 func Run(ctx context.Context, source MessageSource, messageConcurrency int, process Process) error {
-	iter, err := source.Messages()
-	if err != nil {
-		return fmt.Errorf("open message iterator: %w", err)
-	}
-	defer iter.Stop()
+	return RunAdmittedBy(ctx, source, messageConcurrency, everyMessageAdmitted{}, process)
+}
 
+func RunAdmittedBy(
+	ctx context.Context,
+	source MessageSource,
+	messageConcurrency int,
+	admission Admission,
+	process Process,
+) error {
 	group, groupCtx := errgroup.WithContext(ctx)
-	group.SetLimit(messageConcurrency)
-	go stopIteratorOnCancel(groupCtx, iter)
-
+	busyWorkers := make(chan struct{}, messageConcurrency)
 	for {
-		msg, err := iter.Next()
+		message, err := nextAdmittedMessage(groupCtx, source, busyWorkers, admission)
 		if err != nil {
-			if waitErr := group.Wait(); waitErr != nil {
-				return waitErr
-			}
-			if errors.Is(err, jetstream.ErrMsgIteratorClosed) || ctx.Err() != nil {
-				return nil
-			}
-			return fmt.Errorf("next message: %w", err)
+			return endOfIntake(ctx, group.Wait(), err)
 		}
-		group.Go(func() error { return process(ctx, pendingMessage{message: msg}) })
+		group.Go(func() error {
+			defer func() { <-busyWorkers }()
+			return process(ctx, pendingMessage{message: message})
+		})
 	}
 }
 
-func stopIteratorOnCancel(ctx context.Context, iter jetstream.MessagesContext) {
-	<-ctx.Done()
-	iter.Stop()
+func nextAdmittedMessage(
+	ctx context.Context,
+	source MessageSource,
+	busyWorkers chan<- struct{},
+	admission Admission,
+) (jetstream.Msg, error) {
+	select {
+	case busyWorkers <- struct{}{}:
+	case <-ctx.Done():
+		return nil, fmt.Errorf("await a free worker: %w", ctx.Err())
+	}
+	if err := admission.AwaitAdmission(ctx); err != nil {
+		return nil, fmt.Errorf("%w: %w", errAdmissionEnded, err)
+	}
+	return nextMessage(ctx, source)
+}
+
+func nextMessage(ctx context.Context, source MessageSource) (jetstream.Msg, error) {
+	for {
+		message, err := source.Next(jetstream.FetchContext(contextWithoutDeadline{ctx}))
+		if errors.Is(err, nats.ErrTimeout) || errors.Is(err, jetstream.ErrNoHeartbeat) {
+			continue
+		}
+		if err != nil {
+			return nil, fmt.Errorf("next message: %w", err)
+		}
+		return message, nil
+	}
+}
+
+type contextWithoutDeadline struct {
+	context.Context
+}
+
+func (contextWithoutDeadline) Deadline() (time.Time, bool) {
+	return time.Time{}, false
+}
+
+func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
+	if processErr != nil {
+		return processErr
+	}
+	if ctx.Err() != nil || errors.Is(intakeErr, errAdmissionEnded) ||
+		errors.Is(intakeErr, nats.ErrConnectionClosed) {
+		return nil //nolint:nilerr // an ended context, admission or connection ends intake cleanly
+	}
+	return intakeErr
+}
+
+type everyMessageAdmitted struct{}
+
+func (everyMessageAdmitted) AwaitAdmission(context.Context) error {
+	return nil
 }

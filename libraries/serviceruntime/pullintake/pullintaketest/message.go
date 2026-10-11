@@ -25,6 +25,7 @@ type Message struct {
 	Body          []byte
 	Stream        string
 	Sequence      uint64
+	Arrival       time.Time
 	MetadataError error
 
 	mu          sync.Mutex
@@ -56,8 +57,9 @@ func (m *Message) Metadata() (*jetstream.MsgMetadata, error) {
 		return nil, m.MetadataError
 	}
 	return &jetstream.MsgMetadata{
-		Stream:   m.Stream,
-		Sequence: jetstream.SequencePair{Stream: m.Sequence},
+		Stream:    m.Stream,
+		Sequence:  jetstream.SequencePair{Stream: m.Sequence},
+		Timestamp: m.Arrival,
 	}, nil
 }
 
