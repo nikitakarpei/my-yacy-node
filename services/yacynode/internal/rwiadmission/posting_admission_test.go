@@ -35,6 +35,12 @@ func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, pos
 	r.postings[reason] += postings
 }
 
+type stopwordThe struct{}
+
+func (stopwordThe) Contains(word yacymodel.Hash, language yacymodel.Language) bool {
+	return word == yacymodel.WordHash("the") && language == yacymodel.LanguageOfUndeclaredDocument
+}
+
 type harness struct {
 	vault    *vault.Vault
 	index    rwipostings.PostingIndex
@@ -84,6 +90,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 			urlDirectory,
 			admitter,
 			escrow,
+			stopwordThe{},
 			rwiadmission.Config{PostingCap: postingCap, Pause: busyPause, Observer: refusals},
 		),
 		refusals: refusals,
@@ -187,6 +194,29 @@ func TestKnownURLPostingJoinsIndex(t *testing.T) {
 	}
 	if got := h.heldCount(t); got != 0 {
 		t.Fatalf("held count = %d, want 0", got)
+	}
+}
+
+func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.storeMetadata(t, "u1")
+	known := posting("the", "u1")
+	unknown := posting("the", "u2")
+
+	receipt, err := h.receiver.Receive(
+		context.Background(), []yacymodel.RWIPosting{known, unknown},
+	)
+	if err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+	if h.indexed(t, known) {
+		t.Fatal("stopword posting for a known url reached the index")
+	}
+	if got := h.heldCount(t); got != 0 {
+		t.Fatalf("held count = %d, want the stopword posting dropped", got)
+	}
+	if len(receipt.UnknownURL) != 0 {
+		t.Fatalf("UnknownURL = %v, want none: only a stopword names u2", receipt.UnknownURL)
 	}
 }
 

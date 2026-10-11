@@ -15,11 +15,12 @@ import (
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
 
 type postingAdmission struct {
-	vault    *vault.Vault
-	urls     urlmeta.URLDirectory
-	admitter rwipostings.PostingAdmitter
-	escrow   PostingHolder
-	observer RefusalObserver
+	vault     *vault.Vault
+	urls      urlmeta.URLDirectory
+	admitter  rwipostings.PostingAdmitter
+	escrow    PostingHolder
+	stopwords Stopwords
+	observer  RefusalObserver
 
 	postingCap int
 	pause      time.Duration
@@ -50,7 +51,8 @@ func (a postingAdmission) Receive(
 		return Receipt{}, fmt.Errorf("check escrow capacity: %w", err)
 	}
 
-	referenced := urlHashesOf(postings)
+	contentPostings := a.contentPostingsOf(postings)
+	referenced := urlHashesOf(contentPostings)
 
 	var unknown []yacymodel.URLHash
 
@@ -62,7 +64,7 @@ func (a postingAdmission) Receive(
 		if escrowFull && len(missing) > 0 {
 			return errEscrowFull
 		}
-		if err := a.routeEach(ctx, tx, postings, awaitedURLsOf(missing)); err != nil {
+		if err := a.routeEach(ctx, tx, contentPostings, awaitedURLsOf(missing)); err != nil {
 			return err
 		}
 		unknown = missing
@@ -88,6 +90,20 @@ func (a postingAdmission) Receive(
 
 func (a postingAdmission) busyReceipt() Receipt {
 	return Receipt{Busy: true, Pause: a.pause}
+}
+
+func (a postingAdmission) contentPostingsOf(
+	postings []yacymodel.RWIPosting,
+) []yacymodel.RWIPosting {
+	contentPostings := make([]yacymodel.RWIPosting, 0, len(postings))
+	for _, posting := range postings {
+		if a.stopwords.Contains(posting.WordHash, posting.Language) {
+			continue
+		}
+		contentPostings = append(contentPostings, posting)
+	}
+
+	return contentPostings
 }
 
 func urlHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
