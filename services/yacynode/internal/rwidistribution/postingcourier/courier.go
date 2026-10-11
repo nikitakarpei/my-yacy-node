@@ -22,7 +22,6 @@ type Receipt struct {
 type Courier interface {
 	Offer(
 		ctx context.Context,
-		endpoint string,
 		recipient yacymodel.Seed,
 		postings []yacymodel.RWIPosting,
 	) Receipt
@@ -44,10 +43,21 @@ func New(
 
 func (c httpCourier) Offer(
 	ctx context.Context,
-	endpoint string,
 	recipient yacymodel.Seed,
 	postings []yacymodel.RWIPosting,
 ) Receipt {
+	address, addressable := recipient.NetworkAddress()
+	if !addressable {
+		slog.WarnContext(
+			ctx,
+			"posting offer not sent to peer without network address",
+			slog.String("peer", recipient.Hash.String()),
+		)
+
+		return Receipt{Outcome: Unaddressable}
+	}
+	endpoint := address.String()
+
 	resp, err := c.postTransferRWI(ctx, endpoint, recipient, postings)
 	if err != nil {
 		slog.WarnContext(

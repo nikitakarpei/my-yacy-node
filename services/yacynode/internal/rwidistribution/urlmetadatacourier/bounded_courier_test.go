@@ -15,8 +15,7 @@ type scriptedURLMetadataCourier struct {
 
 func (c *scriptedURLMetadataCourier) Deliver(
 	_ context.Context,
-	_ string,
-	_ yacymodel.Hash,
+	_ yacymodel.Seed,
 	metadata []yacymodel.URLMetadata,
 ) urlmetadatacourier.Receipt {
 	call := len(c.calls)
@@ -42,7 +41,7 @@ func TestBoundedDeliverEmptyInputSendsNoBatches(t *testing.T) {
 	inner := &scriptedURLMetadataCourier{}
 	courier := urlmetadatacourier.NewBounded(inner, 2)
 
-	receipt := courier.Deliver(context.Background(), "peer:8090", courierHash("peer"), nil)
+	receipt := courier.Deliver(context.Background(), yacymodel.Seed{Hash: courierHash("peer")}, nil)
 
 	if receipt.Outcome != urlmetadatacourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
@@ -60,8 +59,7 @@ func TestBoundedDeliverInputSmallerThanBatchSizeSendsOneBatch(t *testing.T) {
 
 	receipt := courier.Deliver(
 		context.Background(),
-		"peer:8090",
-		courierHash("peer"),
+		yacymodel.Seed{Hash: courierHash("peer")},
 		metadataRows(10),
 	)
 
@@ -85,8 +83,7 @@ func TestBoundedDeliverSplitsIntoBatches(t *testing.T) {
 
 	receipt := courier.Deliver(
 		context.Background(),
-		"peer:8090",
-		courierHash("peer"),
+		yacymodel.Seed{Hash: courierHash("peer")},
 		metadataRows(5),
 	)
 
@@ -118,8 +115,7 @@ func TestBoundedDeliverAccumulatesRejectedURLsAcrossBatches(t *testing.T) {
 
 	receipt := courier.Deliver(
 		context.Background(),
-		"peer:8090",
-		courierHash("peer"),
+		yacymodel.Seed{Hash: courierHash("peer")},
 		metadataRows(4),
 	)
 
@@ -151,8 +147,7 @@ func TestBoundedDeliverStopsAfterFirstFailedBatch(t *testing.T) {
 
 			receipt := courier.Deliver(
 				context.Background(),
-				"peer:8090",
-				courierHash("peer"),
+				yacymodel.Seed{Hash: courierHash("peer")},
 				metadataRows(6),
 			)
 

@@ -18,8 +18,7 @@ func NewBounded(inner Courier, batchSize int) Courier {
 
 func (c boundedCourier) Deliver(
 	ctx context.Context,
-	endpoint string,
-	peer yacymodel.Hash,
+	recipient yacymodel.Seed,
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
 	if len(metadata) == 0 {
@@ -30,14 +29,13 @@ func (c boundedCourier) Deliver(
 	for start := 0; start < len(metadata); start += c.batchSize {
 		end := min(start+c.batchSize, len(metadata))
 
-		receipt := c.inner.Deliver(ctx, endpoint, peer, metadata[start:end])
+		receipt := c.inner.Deliver(ctx, recipient, metadata[start:end])
 		if receipt.Outcome != Accepted {
 			if skipped := len(metadata) - end; skipped > 0 {
 				slog.WarnContext(
 					ctx,
 					"url metadata batch delivery aborted after batch failure",
-					slog.String("peer", peer.String()),
-					slog.String("endpoint", endpoint),
+					slog.String("peer", recipient.Hash.String()),
 					slog.String("outcome", string(receipt.Outcome)),
 					slog.Int("deliveredUrls", start),
 					slog.Int("skippedUrls", skipped),
