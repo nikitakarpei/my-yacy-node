@@ -129,7 +129,7 @@ func TestAValueThatIsNotAnAmountIsReportedAndIsAMiss(t *testing.T) {
 	failures := &recordedFailures{}
 	berlin := yacymodel.WordHash("berlin")
 	if err := server.Set(
-		"yacydhtsearch:query-word-document-amounts:"+berlin.String(),
+		"query-word-document-amounts:"+berlin.String(),
 		"many",
 	); err != nil {
 		t.Fatalf("set: %v", err)

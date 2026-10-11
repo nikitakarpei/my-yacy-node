@@ -21,7 +21,7 @@ type CachedRankingsObserver interface {
 	RankingStoreFailed(ctx context.Context, query searchquery.Query, err error)
 }
 
-const keyPrefix = "yacydhtsearch:rankings:"
+const keyPrefix = "rankings:"
 
 type CachedRankings struct {
 	client   redis.UniversalClient

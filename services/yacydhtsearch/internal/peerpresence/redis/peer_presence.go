@@ -22,7 +22,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const snapshotsKey = "yacydhtsearch:peer-presence"
+const snapshotsKey = "peer-presence"
 
 type snapshottedPeer struct {
 	presenceaccrual.ObservedPeer
