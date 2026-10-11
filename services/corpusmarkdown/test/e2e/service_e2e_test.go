@@ -9,7 +9,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
@@ -43,37 +42,18 @@ func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 
 	publishCrawlOrder(t, ctx, js, originURL)
 
-	store := awaitPageMarkdownBucket(t, ctx, js)
-	objectName := pagemarkdownstore.ObjectNameOf(
-		canonicalurltest.CanonicalURLOf(t, originCanonicalURL),
-	)
-
-	var stored []byte
+	client := markdowncorpusclienttest.New(t, recallAddress)
+	var recalled pagemarkdownstore.RecalledPage
 	found := pollwait.For(storageDeadline, func() bool {
-		markdown, err := store.GetBytes(ctx, objectName)
-		if err != nil {
-			return false
-		}
-		stored = markdown
-		return true
+		page, statusCode := client.RecallPage(ctx, originCanonicalURL)
+		recalled = page
+		return statusCode == http.StatusOK
 	})
 	if !found {
-		t.Fatalf("markdown object %q not stored within %s", objectName, storageDeadline)
+		t.Fatalf("markdown of %q not recalled within %s", originCanonicalURL, storageDeadline)
 	}
-	if len(stored) == 0 {
-		t.Fatal("stored markdown is empty")
-	}
-	if !strings.Contains(string(stored), originBody) {
-		t.Errorf("stored markdown = %q, want it to contain %q", stored, originBody)
-	}
-
-	recalled, statusCode := markdowncorpusclienttest.New(t, recallAddress).
-		RecallPage(ctx, originCanonicalURL)
-	if statusCode != http.StatusOK {
-		t.Fatalf("recall page status = %d, want %d", statusCode, http.StatusOK)
-	}
-	if recalled.Markdown != string(stored) {
-		t.Errorf("recalled markdown = %q, want the stored %q", recalled.Markdown, stored)
+	if !strings.Contains(recalled.Markdown, originBody) {
+		t.Errorf("recalled markdown = %q, want it to contain %q", recalled.Markdown, originBody)
 	}
 	if recalled.CanonicalURL != originCanonicalURL {
 		t.Errorf("recalled canonicalUrl = %q, want %q", recalled.CanonicalURL, originCanonicalURL)

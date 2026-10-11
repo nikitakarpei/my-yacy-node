@@ -13,14 +13,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
-	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
 	ordersSubject              = "yacy.crawl.orders"
 	ordersStreamAppearanceWait = 60 * time.Second
-	bucketAppearanceWait       = 60 * time.Second
 )
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
@@ -72,25 +70,4 @@ func publishCrawlOrder(
 	if _, err := js.Publish(ctx, ordersSubject, data); err != nil {
 		t.Fatalf("publish order: %v", err)
 	}
-}
-
-func awaitPageMarkdownBucket(
-	t *testing.T,
-	ctx context.Context,
-	js jetstream.JetStream,
-) jetstream.ObjectStore {
-	t.Helper()
-	var store jetstream.ObjectStore
-	appeared := pollwait.For(bucketAppearanceWait, func() bool {
-		opened, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
-		if err != nil {
-			return false
-		}
-		store = opened
-		return true
-	})
-	if !appeared {
-		t.Fatalf("page markdown bucket did not appear within %s", bucketAppearanceWait)
-	}
-	return store
 }

@@ -15,8 +15,8 @@ components:
     in: internal/pageintakeobservers/prometheus/**
   pageintakeobserversapplog:
     in: internal/pageintakeobservers/applog/**
-  pagemarkdowncorporajetstream:
-    in: internal/pagemarkdowncorpora/jetstream/**
+  pagemarkdowncorporas3:
+    in: internal/pagemarkdowncorpora/s3/**
   markdownrecall:
     in: internal/markdownrecall/**
   markdownrecallreceivershttp:
@@ -58,6 +58,11 @@ vendors:
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
+  s3:
+    in:
+      - github.com/aws/aws-sdk-go-v2/aws
+      - github.com/aws/aws-sdk-go-v2/service/s3
+      - github.com/aws/aws-sdk-go-v2/service/s3/types
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -75,14 +80,12 @@ deps:
       - pageformats
       - serviceruntime
       - documentextraction
-  pagemarkdowncorporajetstream:
+  pagemarkdowncorporas3:
     mayDependOn:
       - markdownrecall
     canUse:
       - pagemarkdownstore
-      - yacycrawlcontract
-      - pagescrapecontract
-      - nats
+      - s3
   intakereceiptsnats:
     canUse:
       - pagescrapecontract

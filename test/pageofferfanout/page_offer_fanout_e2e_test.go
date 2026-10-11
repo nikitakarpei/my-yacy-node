@@ -23,13 +23,13 @@ func TestEveryCorpusAbsorbsTheSameOfferedPageEndToEnd(t *testing.T) {
 	egressproxy.Start(t, ctx, network.Name)
 	pagescrapeservice.Start(t, ctx, network.Name)
 	manticoreURL := startManticore(t, ctx, network.Name)
-	startCorpusMarkdown(t, ctx, network.Name)
+	recallAddress := startCorpusMarkdown(t, ctx, network.Name)
 	startCorpusText(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
 	publishScrapeRequest(t, ctx, js, originURL)
 
-	markdown := absorbedMarkdownOf(t, ctx, js, originURL)
+	markdown := absorbedMarkdownOf(t, ctx, recallAddress, originURL)
 	if !strings.Contains(markdown, originBody) {
 		t.Errorf("absorbed markdown = %q, want it to contain %q", markdown, originBody)
 	}

@@ -10,7 +10,8 @@ Accepted
 
 The crawler keeps state for each order and each URL it meets. In NATS JetStream key-value
 buckets, every key is a subject that the broker holds in memory, so broker memory grows with
-the crawl. Crawler instances must share this state, so an embedded store does not fit.
+the crawl. This makes the stack harder to run on hardware with little memory. Crawler
+instances must share this state, so an embedded store does not fit.
 
 ## Decision
 
