@@ -23,16 +23,16 @@
 
 ## Ranking cache
 
-Without a state server each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking and share the query word document amounts. A state server that does not answer stops the service from starting.
+Without a Redis address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking and share the query word document amounts. An address that does not answer stops the service from starting.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_RANKING_LIFETIME` | `2m` | Time one ranking answers a repeated query. |
 | `YACYDHTSEARCH_RANKED_ITEMS_CEILING` | `50` | Most items one ranking holds. A client cannot get more than this. |
-| `YACYDHTSEARCH_RANKING_CACHE_CAPACITY` | `1024` | Most rankings an instance without a state server keeps at one time. |
+| `YACYDHTSEARCH_RANKING_CACHE_CAPACITY` | `1024` | Most rankings an instance without a Redis address keeps at one time. |
 | `YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNT_LIFETIME` | `6h` | Time the service remembers the amount of documents in one partition for a query word. When all words of a query have a remembered document amount, the query asks the leading word first. Otherwise it asks every word in all partitions at once. |
-| `YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNTS_CAPACITY` | `100000` | Most query words whose document amount an instance without a state server remembers. |
-| `YACYDHTSEARCH_STATE_REDIS_URL` | in-memory | Redis-protocol server, as `redis://[user:password@]host:port[/db]`, that keeps the rankings, the query word document amounts, the probe answers and the peer presence for every instance. |
+| `YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNTS_CAPACITY` | `100000` | Most query words whose document amount an instance without a Redis address remembers. |
+| `YACYDHTSEARCH_STATE_REDIS_URL` | in-memory | Redis address, as `redis://[user:password@]host:port[/db]`, that keeps the rankings, the query word document amounts, the probe answers and the peer presence for every instance. |
 
 ## Peer directory
 
@@ -51,13 +51,13 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 Peer reliability grows with the time a peer stays reachable at one address, and falls as its last answer gets older. A search asks the reliable peers first. A full directory drops its least reliable peers first.
 
-With `YACYDHTSEARCH_STATE_REDIS_URL` set, all instances keep the probe answers and the peer presence on the state server and share them. Without it, an instance keeps peer presence only while it runs.
+With `YACYDHTSEARCH_STATE_REDIS_URL` set, all instances keep the probe answers and the peer presence in Redis and share them. Without it, an instance keeps peer presence only while it runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PEER_PRESENCE_CONTINUITY_LIMIT` | `15m` | Most presence one probe answer can add. |
-| `YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time the state server keeps one probe answer. If all instances stop for longer, they lose some presence. |
-| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence to the state server. A longer time makes the start slower. |
+| `YACYDHTSEARCH_PROBE_ANSWER_HISTORY_KEPT_FOR` | `24h` | Time Redis keeps one probe answer. If all instances stop for longer, they lose some presence. |
+| `YACYDHTSEARCH_PEER_PRESENCE_SNAPSHOT_INTERVAL` | `10m` | Time between writes of the peer presence to Redis. A longer time makes the start slower. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_MATURATION_DURATION` | `168h` | Presence a peer must earn for the highest reliability. More presence adds no more. |
 | `YACYDHTSEARCH_PEER_RELIABILITY_STALENESS_HORIZON` | `6h` | Time after the last answer of a peer at which its reliability becomes zero. |
 

@@ -377,7 +377,7 @@ func TestInstancesShareStateThroughTheStateServerTheyAreGiven(t *testing.T) {
 		t.Fatalf("load service config: %v", err)
 	}
 	if cfg.StateRedis == nil || cfg.StateRedis.Addr != "kvrocks:6666" {
-		t.Fatalf("state server = %+v, want kvrocks:6666", cfg.StateRedis)
+		t.Fatalf("Redis address = %+v, want kvrocks:6666", cfg.StateRedis)
 	}
 }
 
@@ -389,7 +389,7 @@ func TestEachInstanceKeepsItsOwnStateWithoutAStateServer(t *testing.T) {
 		t.Fatalf("load service config: %v", err)
 	}
 	if cfg.StateRedis != nil {
-		t.Fatalf("state server = %+v, want none", cfg.StateRedis)
+		t.Fatalf("Redis address = %+v, want none", cfg.StateRedis)
 	}
 }
 
@@ -400,6 +400,6 @@ func TestTheServiceRefusesAStateServerAddressThatIsNotRedis(t *testing.T) {
 	environment[main.EnvStateRedisURL] = "http://kvrocks:6666"
 
 	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
-		t.Fatal("LoadServiceConfig accepted a state server address that is not redis://")
+		t.Fatal("LoadServiceConfig accepted a Redis address that is not redis://")
 	}
 }
