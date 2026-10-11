@@ -272,7 +272,7 @@ func (w *crawlWorker) consumeAdmittedBy(
 ) error {
 	t.Helper()
 	return pagevisitintake.NewPageVisitConsumer(
-		pullintaketest.MessageSourceOf(messages...),
+		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(messages...)),
 		w.pageVisits,
 		w.allowances,
 		w.orders,

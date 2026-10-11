@@ -50,8 +50,10 @@ a more capable host than an always-on node.
   delivery.
 * Each published page SHALL be addressed by its canonical URL, so a re-run of that URL
   replaces its prior publication downstream rather than duplicating it.
-* The service SHALL keep its frontier in the broker, not in memory, so run size never
-  inflates an instance; it SHALL cap the buffers and fetched-body sizes it does hold.
+* The service SHALL keep accepted orders, its frontier and page visit state on a
+  Redis-protocol server, never in memory, so run size never inflates an instance.
+* The service SHALL NOT start when its Redis-protocol server does not answer.
+* The service SHALL cap the buffers and fetched-body sizes it holds.
 * The service SHALL bound every outbound fetch with an explicit deadline.
 * The core SHALL keep no state of its own; anything remembered lives behind an interface
   it consults. A run survives the restart of any instance, and of all of them.
@@ -61,15 +63,12 @@ a more capable host than an always-on node.
   change to crawl logic.
 * The page visit records SHALL sit behind a narrow interface; the default keeps none, so the
   recrawl rule holds every page due.
-* The service SHALL keep accepted orders and page visit state on a Redis-protocol server,
-  and SHALL NOT start when that server does not answer.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
 ## Known Limitations
 
-* Target-safety (internal-host targeting, DNS rebinding), per-host crawl politeness,
-  robots obedience, and page rendering all depend entirely on the configured proxy's
-  policy; the service adds none of them.
+* Target safety, per-host politeness, robots obedience, and page rendering depend entirely
+  on the configured proxy; the service adds none of them.
 * A proxy that rewrites fetch responses must preserve the refusal and wait signals the
   service honors, or the service cannot act on them.
 * A crawled page names a URL anyone with broker publish rights can inject, sending every
