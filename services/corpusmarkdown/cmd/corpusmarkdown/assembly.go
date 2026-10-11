@@ -20,13 +20,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/prometheus"
-	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
+	pagemarkdowncorporas3 "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/s3"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
 const (
@@ -40,19 +40,14 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return err
 	}
 	defer pageOfferConnection.Close()
-	pageMarkdownJetStream, pageMarkdownConnection, err := jetstreamconnect.Open(
-		cfg.PageMarkdownNATSURL,
-	)
-	if err != nil {
-		return err
-	}
-	defer pageMarkdownConnection.Close()
 
 	consumer, err := pageOfferConsumerFor(ctx, pageOfferJetStream, cfg)
 	if err != nil {
 		return err
 	}
-	markdownCorpus, err := pagemarkdowncorporajetstream.OpenCorpus(ctx, pageMarkdownJetStream)
+	markdownCorpus, err := pagemarkdowncorporas3.OpenCorpus(
+		ctx, cfg.PageMarkdownObjectStore, cfg.PageMarkdownBucket, wallclock.Clock{},
+	)
 	if err != nil {
 		return err
 	}
@@ -103,7 +98,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
 		slog.String("listen", cfg.ListenAddr),
-		slog.String("bucket", pagemarkdownstore.BucketName),
+		slog.String("bucket", cfg.PageMarkdownBucket),
 		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, shutdownLimit,

@@ -4,14 +4,12 @@ package e2e
 
 import (
 	"context"
+	"net/http"
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
-
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
-	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/markdowncorpusclienttest"
 )
 
 const absorptionDeadline = 90 * time.Second
@@ -19,37 +17,19 @@ const absorptionDeadline = 90 * time.Second
 func absorbedMarkdownOf(
 	t *testing.T,
 	ctx context.Context,
-	js jetstream.JetStream,
+	recallAddress string,
 	pageURL string,
 ) string {
 	t.Helper()
-	objectName := pagemarkdownstore.ObjectNameOf(canonicalurltest.CanonicalURLOf(t, pageURL))
-
-	var store jetstream.ObjectStore
-	opened := pollwait.For(absorptionDeadline, func() bool {
-		found, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
-		if err != nil {
-			return false
-		}
-		store = found
-		return true
-	})
-	if !opened {
-		t.Fatalf("corpusmarkdown never opened the %s bucket within %s",
-			pagemarkdownstore.BucketName, absorptionDeadline)
-	}
-
-	var markdown []byte
+	client := markdowncorpusclienttest.New(t, recallAddress)
+	var markdown string
 	stored := pollwait.For(absorptionDeadline, func() bool {
-		found, err := store.GetBytes(ctx, objectName)
-		if err != nil {
-			return false
-		}
-		markdown = found
-		return true
+		recalled, statusCode := client.RecallPage(ctx, pageURL)
+		markdown = recalled.Markdown
+		return statusCode == http.StatusOK
 	})
 	if !stored {
-		t.Fatalf("corpusmarkdown never stored %q within %s", objectName, absorptionDeadline)
+		t.Fatalf("corpusmarkdown never stored %q within %s", pageURL, absorptionDeadline)
 	}
-	return string(markdown)
+	return markdown
 }

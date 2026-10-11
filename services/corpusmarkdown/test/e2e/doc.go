@@ -1,9 +1,8 @@
 // Package e2e runs the end-to-end markdown-storage test against containers.
 //
 // It starts NATS JetStream, a static origin page, an egress proxy, yacycrawler,
-// and corpusmarkdown on a hermetic Docker network, then drives the crawler over
-// NATS from the host and reads the stored markdown back from the JetStream
-// Object Store by its URL-addressed name.
+// Garage, and corpusmarkdown on a hermetic Docker network, then drives the crawler
+// over NATS from the host and recalls the stored markdown by its URL.
 //
 // The test is guarded by the e2e build tag and needs a working Docker daemon.
 // Run it with `make e2e`. It is not part of the `make verify` quality gate.

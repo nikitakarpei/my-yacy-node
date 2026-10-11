@@ -10,6 +10,7 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/garage"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -22,6 +23,7 @@ const (
 
 func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) string {
 	t.Helper()
+	garage.Start(t, ctx, networkName)
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
@@ -31,9 +33,11 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 			ExposedPorts:   []string{corpusMarkdownPort},
 			WaitingFor:     wait.ForListeningPort(corpusMarkdownPort),
 			Env: map[string]string{
-				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
-				"PAGE_MARKDOWN_NATS_URL":     natsjetstream.NetworkURL(),
-				"LOG_LEVEL":                  "debug",
+				"SCRAPE_PAGE_OFFER_NATS_URL":         natsjetstream.NetworkURL(),
+				"PAGE_MARKDOWN_S3_ENDPOINT":          garage.NetworkURL(),
+				"PAGE_MARKDOWN_S3_ACCESS_KEY_ID":     garage.AccessKeyID,
+				"PAGE_MARKDOWN_S3_SECRET_ACCESS_KEY": garage.SecretAccessKey,
+				"LOG_LEVEL":                          "debug",
 			},
 		},
 	})

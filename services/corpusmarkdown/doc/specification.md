@@ -16,7 +16,7 @@ ask for one URL.
 * Deciding which pages to store: the crawler decides which pages it reaches.
 * Judging a page again: an offered page is already admitted, so this service applies no
   scope, robots, or indexing rule of its own.
-* Storing markdown anywhere other than the operator's own object store.
+* Storing markdown anywhere other than the operator's own S3-compatible object store.
 
 ## Functional Requirements
 
@@ -24,6 +24,7 @@ ask for one URL.
 * For each offered page, the service SHALL derive markdown from the document it holds.
 * The service SHALL store the derived markdown under an object name derived solely from the
   offered page's canonical URL.
+* The service SHALL create its bucket when the bucket does not exist.
 * Storing a page whose canonical URL is already stored SHALL overwrite it, so the store
   holds one current copy per URL.
 * An offered page from which no markdown derives SHALL leave the store unchanged.
@@ -43,8 +44,6 @@ ask for one URL.
 
 * The service SHALL keep memory bounded independently of corpus size, capping how many pages
   it takes in and stores concurrently.
-* The service SHALL keep the markdown compressed on disk, without a change to the bytes
-  a reader gets.
 * The service SHALL persist no state of its own: the markdown of record lives in the object
   store and any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later start it
@@ -62,6 +61,7 @@ ask for one URL.
 * While the object store is down, unstored markdown waits on the broker. If the outage lasts
   longer than the broker keeps the message, the broker drops it and the page's markdown is lost
   until the next recrawl.
+* The service stores the markdown as it is. Compression on disk depends on the object store.
 * A receipt is not kept. A listener that is away when the service sends one never learns it.
 * If canonicalization changes, a page's canonical URL changes with it; with no migration here,
   its old and new objects both persist until an operator intervenes.

@@ -2,15 +2,20 @@ package main_test
 
 import (
 	"context"
+	"io"
+	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
 
+	"github.com/johannesboyne/gofakes3"
+	"github.com/johannesboyne/gofakes3/backend/s3mem"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	corpusmarkdown "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/cmd/corpusmarkdown"
+	pagemarkdowncorporas3 "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/s3"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -22,13 +27,25 @@ const (
 
 	storedDeadline  = 5 * time.Second
 	storedPollPause = 50 * time.Millisecond
-	storedReadLimit = 500 * time.Millisecond
 )
 
-func serviceConfig(pageOfferNATSURL, pageMarkdownNATSURL string) corpusmarkdown.ServiceConfig {
+func objectStoreServer(t *testing.T, objects *s3mem.Backend) string {
+	t.Helper()
+	server := httptest.NewServer(gofakes3.New(objects).Server())
+	t.Cleanup(server.Close)
+	return server.URL
+}
+
+func serviceConfig(pageOfferNATSURL, objectStoreURL string) corpusmarkdown.ServiceConfig {
 	return corpusmarkdown.ServiceConfig{
-		PageOfferNATSURL:           pageOfferNATSURL,
-		PageMarkdownNATSURL:        pageMarkdownNATSURL,
+		PageOfferNATSURL: pageOfferNATSURL,
+		PageMarkdownObjectStore: pagemarkdowncorporas3.ObjectStore{
+			Endpoint:        objectStoreURL,
+			Region:          corpusmarkdown.DefaultPageMarkdownS3Region,
+			AccessKeyID:     "corpus",
+			SecretAccessKey: "corpus-secret",
+		},
+		PageMarkdownBucket:         corpusmarkdown.DefaultPageMarkdownBucket,
 		PageOfferDurable:           corpusmarkdown.DefaultPageOfferDurable,
 		PageOfferIntakeConcurrency: corpusmarkdown.DefaultPageOfferIntakeConcurrency,
 		ListenAddr:                 "127.0.0.1:0",
@@ -38,24 +55,22 @@ func serviceConfig(pageOfferNATSURL, pageMarkdownNATSURL string) corpusmarkdown.
 
 func TestRunServiceStoresTheMarkdownOfAnOfferedPage(t *testing.T) {
 	pageOfferNATSURL := natstestserver.Start(t)
-	pageMarkdownNATSURL := natstestserver.Start(t)
-	cfg := serviceConfig(pageOfferNATSURL, pageMarkdownNATSURL)
+	objects := s3mem.New()
+	cfg := serviceConfig(pageOfferNATSURL, objectStoreServer(t, objects))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	pageOfferJetStream := natstestserver.ConnectJetStream(t, pageOfferNATSURL)
-	pageMarkdownJetStream := natstestserver.ConnectJetStream(t, pageMarkdownNATSURL)
 	createScrapePageOffersStream(t, pageOfferJetStream)
 	keptPages := subscribeToKeptPages(t, pageOfferNATSURL)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg) }()
 
-	store := waitForPageMarkdownBucket(ctx, t, pageMarkdownJetStream)
 	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
 	publishOfferedPage(ctx, t, pageOfferJetStream)
-	waitForStored(t, ctx, store,
+	waitForStored(t, objects, cfg.PageMarkdownBucket,
 		pagemarkdownstore.ObjectNameOf(canonicalurltest.CanonicalURLOf(t, offeredPageURL)),
 		"words here",
 	)
@@ -70,25 +85,6 @@ func TestRunServiceStoresTheMarkdownOfAnOfferedPage(t *testing.T) {
 	case <-time.After(10 * time.Second):
 		t.Fatal("service did not shut down after cancel")
 	}
-}
-
-func waitForPageMarkdownBucket(
-	ctx context.Context,
-	t *testing.T,
-	js jetstream.JetStream,
-) jetstream.ObjectStore {
-	t.Helper()
-	deadline := time.Now().Add(storedDeadline)
-	for time.Now().Before(deadline) {
-		store, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
-		if err == nil {
-			return store
-		}
-		time.Sleep(storedPollPause)
-	}
-	t.Fatalf("the service never created the %q bucket", pagemarkdownstore.BucketName)
-
-	return nil
 }
 
 func waitForPageOfferDurable(
@@ -164,14 +160,13 @@ func waitForKeptPageReceipt(t *testing.T, keptPages chan *nats.Msg) {
 
 func waitForStored(
 	t *testing.T,
-	ctx context.Context,
-	store jetstream.ObjectStore,
-	name, want string,
+	objects *s3mem.Backend,
+	bucket, name, want string,
 ) {
 	t.Helper()
 	deadline := time.Now().Add(storedDeadline)
 	for time.Now().Before(deadline) {
-		if storedMarkdownCarries(ctx, store, name, want) {
+		if storedMarkdownCarries(objects, bucket, name, want) {
 			return
 		}
 		time.Sleep(storedPollPause)
@@ -179,21 +174,20 @@ func waitForStored(
 	t.Fatalf("markdown object %q never carried %q", name, want)
 }
 
-func storedMarkdownCarries(
-	ctx context.Context,
-	store jetstream.ObjectStore,
-	name, want string,
-) bool {
-	readCtx, cancel := context.WithTimeout(ctx, storedReadLimit)
-	defer cancel()
-	stored, err := store.GetBytes(readCtx, name)
+func storedMarkdownCarries(objects *s3mem.Backend, bucket, name, want string) bool {
+	object, err := objects.GetObject(bucket, name, nil)
+	if err != nil {
+		return false
+	}
+	defer func() { _ = object.Contents.Close() }()
+	stored, err := io.ReadAll(object.Contents)
 
 	return err == nil && strings.Contains(string(stored), want)
 }
 
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	pageOfferNATSURL := natstestserver.Start(t)
-	cfg := serviceConfig(pageOfferNATSURL, natstestserver.Start(t))
+	cfg := serviceConfig(pageOfferNATSURL, objectStoreServer(t, s3mem.New()))
 	cfg.OpsAddr = "127.0.0.1:99999"
 	createScrapePageOffersStream(t, natstestserver.ConnectJetStream(t, pageOfferNATSURL))
 
@@ -203,7 +197,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 }
 
 func TestRunServiceFailsWhenPageOffersStreamMissing(t *testing.T) {
-	cfg := serviceConfig(natstestserver.Start(t), natstestserver.Start(t))
+	cfg := serviceConfig(natstestserver.Start(t), objectStoreServer(t, s3mem.New()))
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when the page offers stream is not provisioned")
@@ -211,20 +205,20 @@ func TestRunServiceFailsWhenPageOffersStreamMissing(t *testing.T) {
 }
 
 func TestRunServiceFailsWhenPageOfferNATSUnreachable(t *testing.T) {
-	cfg := serviceConfig("nats://127.0.0.1:1", natstestserver.Start(t))
+	cfg := serviceConfig("nats://127.0.0.1:1", objectStoreServer(t, s3mem.New()))
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when the page offer nats is unreachable")
 	}
 }
 
-func TestRunServiceFailsWhenPageMarkdownNATSUnreachable(t *testing.T) {
+func TestRunServiceFailsWhenPageMarkdownObjectStoreUnreachable(t *testing.T) {
 	pageOfferNATSURL := natstestserver.Start(t)
-	cfg := serviceConfig(pageOfferNATSURL, "nats://127.0.0.1:1")
+	cfg := serviceConfig(pageOfferNATSURL, "http://127.0.0.1:1")
 	createScrapePageOffersStream(t, natstestserver.ConnectJetStream(t, pageOfferNATSURL))
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when the page markdown nats is unreachable")
+		t.Fatal("expected error when the page markdown object store is unreachable")
 	}
 }
 

@@ -9,7 +9,9 @@ Accepted
 ## Context
 
 Instances share rankings, query word document amounts, probe answers and peer presence.
-NATS JetStream carries streams only, and the service should depend on one shared server.
+In NATS JetStream key-value buckets, every key is a subject that the broker holds in memory,
+so broker memory grows with the queries and words the service meets. This makes the stack
+harder to run on hardware with little memory.
 
 ## Decision
 

@@ -1,6 +1,6 @@
 # 1. Store page markdown in the NATS JetStream Object Store
 
-Status: accepted
+Status: superseded by [ADR 4](0004-store-page-markdown-in-an-s3-compatible-object-store.md)
 
 ## Context
 
