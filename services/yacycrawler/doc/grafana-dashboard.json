@@ -286,7 +286,7 @@
     {
       "id": 32,
       "title": "Page visits dropped, by reason",
-      "description": "Pages the crawler stopped trying to visit: another instance took them, they were not due for a recrawl, or a limit on pages per host, deferrals or attempts ran out.",
+      "description": "Pages the crawler stopped trying to visit.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -325,7 +325,7 @@
     {
       "id": 107,
       "title": "Page visits completed, by result",
-      "description": "How each visited page ended: published, redirected, or why it published no page.",
+      "description": "Pages the crawler visited, by how the visit ended.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
