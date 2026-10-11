@@ -108,12 +108,12 @@ func RunService(
 	if err := ensureNATSState(ctx, js, cfg); err != nil {
 		return err
 	}
-	crawlState, err := openCrawlState(ctx, cfg)
+	redisClient, err := openRedisClient(ctx, cfg)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = crawlState.Close() }()
-	orders, err := buildOrderConsumer(ctx, js, crawlState, cfg, crawlOrderObservers)
+	defer func() { _ = redisClient.Close() }()
+	orders, err := buildOrderConsumer(ctx, js, redisClient, cfg, crawlOrderObservers)
 	if err != nil {
 		return err
 	}
@@ -124,7 +124,7 @@ func RunService(
 	visits, err := buildPageVisitConsumer(
 		ctx,
 		js,
-		crawlState,
+		redisClient,
 		cfg,
 		crawledPageAdmission,
 		pendingPageVisitObservers,
@@ -208,19 +208,19 @@ func ensureCrawledPagesStream(
 	return nil
 }
 
-func openCrawlState(ctx context.Context, cfg ServiceConfig) (*redis.Client, error) {
-	crawlState := redis.NewClient(cfg.CrawlStateRedis)
-	if err := crawlState.Ping(ctx).Err(); err != nil {
-		_ = crawlState.Close()
+func openRedisClient(ctx context.Context, cfg ServiceConfig) (*redis.Client, error) {
+	redisClient := redis.NewClient(cfg.CrawlStateRedis)
+	if err := redisClient.Ping(ctx).Err(); err != nil {
+		_ = redisClient.Close()
 		return nil, fmt.Errorf("reach the crawl state server: %w", err)
 	}
-	return crawlState, nil
+	return redisClient, nil
 }
 
 func buildOrderConsumer(
 	ctx context.Context,
 	js jetstream.JetStream,
-	crawlState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
 	observer orderintake.CrawlOrderObserver,
 ) (*orderintake.OrderConsumer, error) {
@@ -230,7 +230,7 @@ func buildOrderConsumer(
 	}
 	return orderintake.NewOrderConsumer(
 		consumer,
-		acceptedordersredis.New(crawlState, cfg.AcceptedOrderRetention()),
+		acceptedordersredis.New(redisClient, cfg.AcceptedOrderRetention()),
 		pendingpagevisitsjetstream.New(js),
 		observer,
 		cfg.OrderIntakeConcurrency(),
@@ -273,7 +273,7 @@ func openCrawledPageAdmission(
 func buildPageVisitConsumer(
 	ctx context.Context,
 	js jetstream.JetStream,
-	crawlState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
 	crawledPageAdmission *consumerbacklog.Admission,
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
@@ -288,7 +288,7 @@ func buildPageVisitConsumer(
 	}
 	pageVisitor := buildPageVisitor(
 		js,
-		crawlState,
+		redisClient,
 		cfg,
 		pageFetchObserver,
 		htmlPageReading,
@@ -297,9 +297,9 @@ func buildPageVisitConsumer(
 	)
 	return pagevisitintake.NewPageVisitConsumer(
 		consumer,
-		takenpagevisitsredis.New(crawlState, cfg.TakenPageVisitRetention()),
-		pageVisitAllowances(crawlState, cfg),
-		acceptedordersredis.New(crawlState, cfg.AcceptedOrderRetention()),
+		takenpagevisitsredis.New(redisClient, cfg.TakenPageVisitRetention()),
+		pageVisitAllowances(redisClient, cfg),
+		acceptedordersredis.New(redisClient, cfg.AcceptedOrderRetention()),
 		pageVisitor,
 		pendingPageVisitObserver,
 		crawledPageAdmission,
@@ -326,18 +326,18 @@ func visitsConsumer(
 }
 
 func pageVisitAllowances(
-	crawlState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
 ) *pagevisitallowance.Allowances {
 	return pagevisitallowance.New(
-		pagevisitlimitsredis.New(crawlState, cfg.PageVisitLimitRetention(), cfg.MaxPerURL()),
+		pagevisitlimitsredis.New(redisClient, cfg.PageVisitLimitRetention(), cfg.MaxPerURL()),
 		cfg.FetchRetryBounds(),
 	)
 }
 
 func buildPageVisitor(
 	js jetstream.JetStream,
-	crawlState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
@@ -354,7 +354,7 @@ func buildPageVisitor(
 	return pagevisit.New(
 		observedfetch.New(fetch, wallclock.Clock{}, pageFetchObserver),
 		dueaftergrace.New(wallclock.Clock{}, cfg.RecrawlGrace),
-		pageVisitRecordsOf(crawlState, cfg, pageVisitRecordObserver),
+		pageVisitRecordsOf(redisClient, cfg, pageVisitRecordObserver),
 		htmlPageReading,
 		crawledpagesjetstream.New(js, crawledPageObserver),
 		pendingpagevisitsjetstream.New(js),
@@ -362,7 +362,7 @@ func buildPageVisitor(
 }
 
 func pageVisitRecordsOf(
-	crawlState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
 	observer pagevisitrecordsredis.PageVisitRecordObserver,
 ) pagevisit.PageVisitRecords {
@@ -370,6 +370,6 @@ func pageVisitRecordsOf(
 		return norecords.PageVisitRecords{}
 	}
 	return pagevisitrecordsredis.New(
-		crawlState, cfg.PageVisitRetention(), wallclock.Clock{}, observer,
+		redisClient, cfg.PageVisitRetention(), wallclock.Clock{}, observer,
 	)
 }
